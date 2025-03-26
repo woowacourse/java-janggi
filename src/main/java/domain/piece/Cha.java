@@ -1,19 +1,15 @@
 package domain.piece;
 
-import static domain.board.Direction.DOWN;
-import static domain.board.Direction.LEFT;
-import static domain.board.Direction.RIGHT;
-import static domain.board.Direction.UP;
-
 import domain.board.Board;
 import domain.board.Direction;
 import domain.board.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cha implements Piece {
 
-    private static final List<Direction> CHA_MOVABLE_DIRECTIONS = List.of(UP, RIGHT, DOWN, LEFT);
+    private static final List<Direction> CHA_MOVABLE_DIRECTIONS = Direction.BASIC_DIRECTIONS;
 
     private final Team team;
 

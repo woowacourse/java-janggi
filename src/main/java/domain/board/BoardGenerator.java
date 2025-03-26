@@ -28,15 +28,18 @@ public class BoardGenerator {
     public Board generateBoard(final SangMaOrderCommand hanSangMaOrderCommand,
                                final SangMaOrderCommand choSangMaOrderCommand) {
         Map<Point, Node> nodeByPoint = initializeNodesAndEdges();
-        Map<Node, Piece> pieceByNode = initializePiecePosition(nodeByPoint,
-                hanSangMaOrderCommand,
-                choSangMaOrderCommand);
+        Map<Node, Piece> pieceByNode = initializePiecePosition(nodeByPoint, hanSangMaOrderCommand, choSangMaOrderCommand);
         return new Board(pieceByNode, nodeByPoint);
     }
 
     public Map<Point, Node> initializeNodesAndEdges() {
         Map<Point, Node> nodeByPoint = new HashMap<>();
+        createNodes(nodeByPoint);
+        createEdgesByNode(nodeByPoint);
+        return nodeByPoint;
+    }
 
+    private void createNodes(Map<Point, Node> nodeByPoint) {
         for (int row = START_ROW_INDEX; row <= END_ROW_INDEX; row++) {
             for (int column = START_COLUMN_INDEX; column <= END_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
@@ -44,23 +47,23 @@ public class BoardGenerator {
                 nodeByPoint.put(point, currentNode);
             }
         }
+    }
 
+    private void createEdgesByNode(Map<Point, Node> nodeByPoint) {
         for (int row = START_ROW_INDEX; row <= END_ROW_INDEX; row++) {
             for (int column = START_COLUMN_INDEX; column <= END_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
                 Node currentNode = nodeByPoint.get(point);
-                currentNode.addAllEdges(createEdges(row, column, nodeByPoint));
+                currentNode.addAllEdges(createEdges(point, nodeByPoint));
             }
         }
-
-        return nodeByPoint;
     }
 
-    private List<Edge> createEdges(final int row, final int column, final Map<Point, Node> nodeByPoint) {
+    private List<Edge> createEdges(final Point point, final Map<Point, Node> nodeByPoint) {
         List<Edge> edges = new ArrayList<>();
-        for (Direction direction : List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT)) {
-            int nextRow = row + direction.deltaRow();
-            int nextColumn = column + direction.deltaColumn();
+        for (Direction direction : Direction.BASIC_DIRECTIONS) {
+            int nextRow = point.row() + direction.deltaRow();
+            int nextColumn = point.column() + direction.deltaColumn();
             if (Point.isInvalidRange(nextRow, nextColumn)) {
                 continue;
             }
@@ -68,7 +71,40 @@ public class BoardGenerator {
             Edge edge = new Edge(nextNode, direction);
             edges.add(edge);
         }
+        addPalaceEdges(point, nodeByPoint, edges);
         return edges;
+    }
+
+    private void addPalaceEdges(Point point, Map<Point, Node> nodeByPoint, List<Edge> edges) {
+        if (point.equals(Point.of(2, 5)) || point.equals(Point.of(9, 5))) {
+            for (Direction direction : Direction.DIAGONAL_DIRECTIONS) {
+                addDiagonal(point, nodeByPoint, edges, direction);
+            }
+        }
+
+        if (point.equals(Point.of(1, 4)) || point.equals(Point.of(8, 4))) {
+            addDiagonal(point, nodeByPoint, edges, Direction.DOWN_RIGHT);
+        }
+
+        if (point.equals(Point.of(1, 6)) || point.equals(Point.of(8, 6))) {
+            addDiagonal(point, nodeByPoint, edges, Direction.DOWN_LEFT);
+        }
+
+        if (point.equals(Point.of(3, 4)) || point.equals(Point.of(10, 4))) {
+            addDiagonal(point, nodeByPoint, edges, Direction.UP_RIGHT);
+        }
+
+        if (point.equals(Point.of(3, 6)) || point.equals(Point.of(10, 6))) {
+            addDiagonal(point, nodeByPoint, edges, Direction.UP_LEFT);
+        }
+    }
+
+    private void addDiagonal(Point point, Map<Point, Node> nodeByPoint, List<Edge> edges, Direction direction) {
+        int nextRow = point.row() + direction.deltaRow();
+        int nextColumn = point.column() + direction.deltaColumn();
+        Node nextNode = nodeByPoint.get(Point.of(nextRow, nextColumn));
+        Edge edge = new Edge(nextNode, direction);
+        edges.add(edge);
     }
 
     public Map<Node, Piece> initializePiecePosition(final Map<Point, Node> nodeByPoint,

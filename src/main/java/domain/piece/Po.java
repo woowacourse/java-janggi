@@ -1,13 +1,9 @@
 package domain.piece;
 
-import static domain.board.Direction.DOWN;
-import static domain.board.Direction.LEFT;
-import static domain.board.Direction.RIGHT;
-import static domain.board.Direction.UP;
-
 import domain.board.Board;
 import domain.board.Direction;
 import domain.board.Node;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +18,7 @@ public class Po implements Piece {
     @Override
     public List<Node> findMovableNodes(final Node sourceNode, final Board board) {
         List<Node> candidates = new ArrayList<>();
-        for (Direction direction : List.of(UP, RIGHT, DOWN, LEFT)) {
+        for (Direction direction : Direction.BASIC_DIRECTIONS) {
             findHurdle(sourceNode, direction, board, candidates);
         }
         return candidates;
