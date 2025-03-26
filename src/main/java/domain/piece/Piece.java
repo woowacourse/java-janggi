@@ -13,10 +13,18 @@ public abstract class Piece {
     }
 
     public boolean canMove(final Point source, final Point destination, final PieceVisibleBoard board) {
-        return findMovablePoints(source, board).contains(destination);
+        List<Point> candidates = findMovablePoints(source, board);
+        if (isOnlyMovableInPalace()) {
+            candidates = candidates.stream()
+                    .filter(Point::isInPalace)
+                    .toList();
+        }
+        return candidates.contains(destination);
     }
 
     protected abstract List<Point> findMovablePoints(Point point, PieceVisibleBoard board);
+
+    public abstract boolean isOnlyMovableInPalace();
 
     public Team team() {
         return team;

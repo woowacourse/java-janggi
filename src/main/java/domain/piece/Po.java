@@ -67,6 +67,11 @@ public class Po extends Piece {
     }
 
     @Override
+    public boolean isOnlyMovableInPalace() {
+        return false;
+    }
+
+    @Override
     public PieceType type() {
         return PieceType.PO;
     }

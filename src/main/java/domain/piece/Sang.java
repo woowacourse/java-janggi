@@ -45,6 +45,11 @@ public class Sang extends ObstacleSensitivePiece {
     }
 
     @Override
+    public boolean isOnlyMovableInPalace() {
+        return false;
+    }
+
+    @Override
     public PieceType type() {
         return PieceType.SANG;
     }

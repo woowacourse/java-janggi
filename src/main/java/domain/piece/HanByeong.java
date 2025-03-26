@@ -21,6 +21,11 @@ public class HanByeong extends SlidingPiece {
     }
 
     @Override
+    public boolean isOnlyMovableInPalace() {
+        return false;
+    }
+
+    @Override
     public int maxStep() {
         return 1;
     }

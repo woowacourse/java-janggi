@@ -16,6 +16,11 @@ public class Sa extends SlidingPiece {
     }
 
     @Override
+    public boolean isOnlyMovableInPalace() {
+        return true;
+    }
+
+    @Override
     public int maxStep() {
         return 1;
     }

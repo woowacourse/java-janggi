@@ -16,6 +16,11 @@ public class Cha extends SlidingPiece {
     }
 
     @Override
+    public boolean isOnlyMovableInPalace() {
+        return false;
+    }
+
+    @Override
     public int maxStep() {
         return 10;
     }
