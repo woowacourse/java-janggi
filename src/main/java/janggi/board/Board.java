@@ -6,7 +6,6 @@ import janggi.piece.Empty;
 import janggi.piece.Piece;
 import janggi.position.Movement;
 import janggi.position.Position;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ public class Board {
 
     public static final int COLUMN = 9;
     public static final int ROW = 10;
-    private static final Camp FIRST_TURN = Camp.CHO;
     private static final Map<Camp, Position> PALACE_POSITIONS = Map.of(
             Camp.CHO, new Position(4, 1),
             Camp.HAN, new Position(4, 8)
@@ -25,19 +23,9 @@ public class Board {
     private final Map<Position, Piece> cells;
     private Camp currentCamp;
 
-    public Board() {
-        this.cells = initializeCells();
-        this.currentCamp = FIRST_TURN;
-    }
-
-    private Map<Position, Piece> initializeCells() {
-        Map<Position, Piece> board = new HashMap<>();
-        for (int i = 0; i < COLUMN; i++) {
-            for (int j = 0; j < ROW; j++) {
-                board.put(new Position(i, j), Empty.INSTANCE);
-            }
-        }
-        return board;
+    public Board(Map<Position, Piece> cells, Camp currentCamp) {
+        this.cells = cells;
+        this.currentCamp = currentCamp;
     }
 
     public void placePiece(Position position, Piece piece) {

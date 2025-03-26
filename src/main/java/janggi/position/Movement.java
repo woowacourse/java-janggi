@@ -37,9 +37,9 @@ public record Movement(Position origin, Position target) {
 
     private Set<Position> findHorizontalRoute() {
         Set<Position> route = new HashSet<>();
-        int start = Math.min(origin.x(), target.x()) + 1;
+        int start = Math.min(origin.x(), target.x());
         int end = Math.max(origin.x(), target.x());
-        for (int i = start; i < end; i++) {
+        for (int i = start + 1; i < end; i++) {
             route.add(new Position(i, origin.y()));
         }
         return route;
@@ -47,9 +47,9 @@ public record Movement(Position origin, Position target) {
 
     private Set<Position> findVerticalRoute() {
         Set<Position> route = new HashSet<>();
-        int start = Math.min(origin.y(), target.y()) + 1;
+        int start = Math.min(origin.y(), target.y());
         int end = Math.max(origin.y(), target.y());
-        for (int i = start; i < end; i++) {
+        for (int i = start + 1; i < end; i++) {
             route.add(new Position(origin.x(), i));
         }
         return route;

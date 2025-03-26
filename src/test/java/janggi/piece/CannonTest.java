@@ -2,16 +2,25 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.BoardFactory;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
 import janggi.position.Movement;
 import janggi.position.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class CannonTest {
+
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        board = BoardFactory.emptyBoard(Camp.CHO);
+    }
 
     @DisplayName("포는 수평 혹은 수직으로 움직이지 않은 경우 예외가 발생한다.")
     @ParameterizedTest
@@ -23,7 +32,6 @@ class CannonTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Cannon(camp, board);
 
         Position origin = new Position(3, 3);
@@ -49,7 +57,6 @@ class CannonTest {
     })
     void validateMoveTest(Camp camp, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Cannon(camp, board);
 
         Position origin = new Position(3, 3);
@@ -71,7 +78,6 @@ class CannonTest {
     @Test
     void shouldThrowException_WhenCatchOtherCannon() {
         // given
-        Board board = new Board();
         Piece choPiece = new Cannon(Camp.CHO, board);
         Piece hanPiece = new Cannon(Camp.HAN, board);
 
@@ -85,7 +91,6 @@ class CannonTest {
     @Test
     void shouldThrowException_WhenJumpOverZeroPiece() {
         // given
-        Board board = new Board();
         Piece piece = new Cannon(Camp.CHO, board);
 
         Position origin = new Position(1, 1);
@@ -104,7 +109,6 @@ class CannonTest {
     @Test
     void shouldThrowException_WhenJumpOverTwoPiece() {
         // given
-        Board board = new Board();
         Piece piece = new Cannon(Camp.CHO, board);
 
         Position origin = new Position(1, 1);
@@ -125,7 +129,6 @@ class CannonTest {
     @Test
     void shouldThrowException_WhenCannonJumpOverCannon() {
         // given
-        Board board = new Board();
         Piece piece = new Cannon(Camp.CHO, board);
 
         Position origin = new Position(1, 1);

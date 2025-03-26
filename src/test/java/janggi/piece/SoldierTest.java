@@ -2,16 +2,25 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.BoardFactory;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
 import janggi.position.Movement;
 import janggi.position.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class SoldierTest {
+
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        board = BoardFactory.emptyBoard(Camp.CHO);
+    }
 
     @DisplayName("군인이 뒤로 움직일 경우 예외가 발생한다.")
     @ParameterizedTest
@@ -21,7 +30,6 @@ class SoldierTest {
     })
     void shouldThrowException_WhenBackwardMove(Camp camp, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Soldier(camp, board);
 
         Position origin = new Position(0, 1);
@@ -46,7 +54,6 @@ class SoldierTest {
     })
     void validMoveTest(Camp camp, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Soldier(camp, board);
 
         Position origin = new Position(1, 1);
@@ -66,7 +73,6 @@ class SoldierTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Soldier(camp, board);
 
         Position origin = new Position(1, 1);
@@ -83,7 +89,6 @@ class SoldierTest {
     @Test
     void shouldThrowException_WhenCatchSameCamp() {
         // given
-        Board board = new Board();
         Piece piece = new Soldier(Camp.HAN, board);
         Piece otherPiece = new Soldier(Camp.HAN, board);
 

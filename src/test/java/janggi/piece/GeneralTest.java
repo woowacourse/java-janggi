@@ -2,15 +2,24 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.BoardFactory;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
 import janggi.position.Movement;
 import janggi.position.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class GeneralTest {
+
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        board = BoardFactory.emptyBoard(Camp.CHO);
+    }
 
     @DisplayName("궁은 궁성 안에서 이동하지 않을 경우 예외가 발생한다.")
     @ParameterizedTest
@@ -20,7 +29,6 @@ class GeneralTest {
     })
     void shouldThrowException_WhenInvalidPalace(Camp camp, int originX, int originY, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new General(camp, board);
 
         Position origin = new Position(originX, originY);
@@ -46,7 +54,6 @@ class GeneralTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int originX, int originY, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new General(camp, board);
 
         Position origin = new Position(originX, originY);

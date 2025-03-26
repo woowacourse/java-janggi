@@ -2,15 +2,24 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.BoardFactory;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
 import janggi.position.Movement;
 import janggi.position.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class ElephantTest {
+
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        board = BoardFactory.emptyBoard(Camp.CHO);
+    }
 
     @DisplayName("상은 직선으로 한 칸, 대각선으로 두 칸 움직이지 않은 경우 예외가 발생한다.")
     @ParameterizedTest
@@ -23,7 +32,6 @@ class ElephantTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Elephant(camp, board);
 
         Position origin = new Position(5, 5);
@@ -50,7 +58,6 @@ class ElephantTest {
     })
     void validateMoveTest(Camp camp, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Elephant(camp, board);
 
         Position origin = new Position(5, 5);
@@ -72,7 +79,6 @@ class ElephantTest {
     })
     void shouldThrowException_WhenLinearBlocked(Camp camp, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Elephant(camp, board);
 
         Position origin = new Position(5, 5);
@@ -100,7 +106,6 @@ class ElephantTest {
     })
     void shouldThrowException_WhenDiagonalBlocked(Camp camp, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Elephant(camp, board);
 
         Position origin = new Position(5, 5);

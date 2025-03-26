@@ -1,7 +1,7 @@
 package janggi.controller;
 
 import janggi.board.Board;
-import janggi.board.BoardGenerator;
+import janggi.board.InitialBoardGenerator;
 import janggi.exception.ErrorException;
 import janggi.piece.Camp;
 import janggi.position.Movement;
@@ -32,9 +32,10 @@ public class JanggiGame {
     }
 
     private void startGame() {
-        Board board = BoardGenerator.generate();
         GameStatus gameStatus = new GameStatus();
         Camp currentTurn = FIRST_TURN;
+        InitialBoardGenerator initialBoardGenerator = new InitialBoardGenerator();
+        Board board = initialBoardGenerator.generate(currentTurn);
 
         while (gameStatus.isPlaying()) {
             outputView.displayBoard(board.getCells());
@@ -55,11 +56,11 @@ public class JanggiGame {
             gameStatus.stopPlaying();
         }
         if (command == Command.MOVE) {
-            processGame(inputView.readMovement(baseCamp), baseCamp, board);
+            processGame(inputView.readMovement(baseCamp), board);
         }
     }
 
-    private void processGame(List<List<Integer>> input, Camp baseCamp, Board board) {
+    private void processGame(List<List<Integer>> input, Board board) {
         Position origin = parsePositionOf(input.getFirst());
         Position target = parsePositionOf(input.getLast());
         Movement movement = new Movement(origin, target);

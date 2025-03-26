@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.BoardFactory;
 import janggi.exception.ErrorException;
 import janggi.piece.Camp;
 import janggi.piece.Piece;
@@ -22,14 +23,13 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board();
+        board = BoardFactory.emptyBoard(Camp.CHO);
     }
 
     @DisplayName("특정 좌표에 기물을 둘 수 있다.")
     @Test
     void placePieceTest() {
         // given
-        Board board = new Board();
         Piece piece = new Soldier(Camp.CHO, board);
 
         Position position = new Position(1, 1);
@@ -49,7 +49,6 @@ class BoardTest {
     })
     void shouldThrowException_WhenInvalidPosition(int x, int y) {
         // given
-        Board board = new Board();
         Piece piece = new Soldier(Camp.CHO, board);
 
         Position position = new Position(x, y);
@@ -64,7 +63,6 @@ class BoardTest {
     @Test
     void moveTest() {
         // given
-        Board board = new Board();
         Piece piece = new Soldier(Camp.CHO, board);
 
         Position origin = new Position(0, 3);
@@ -85,7 +83,6 @@ class BoardTest {
     @Test
     void shouldThrowException_WhenInvalidMove() {
         // given
-        Board board = new Board();
         Piece piece = new Soldier(Camp.CHO, board);
 
         Position origin = new Position(0, 3);
@@ -104,8 +101,6 @@ class BoardTest {
     @Test
     void shouldThrowException_WhenNotFoundPiece() {
         // given
-        Board board = new Board();
-
         Position origin = new Position(0, 3);
         Position target = new Position(0, 4);
         Movement movement = new Movement(origin, target);
@@ -120,7 +115,6 @@ class BoardTest {
     @Test
     void shouldThrowException_WhenCatchSameCampPiece() {
         // given
-        Board board = new Board();
         Piece originPiece = new Soldier(Camp.CHO, board);
         Piece targetPiece = new Soldier(Camp.CHO, board);
 
@@ -141,7 +135,6 @@ class BoardTest {
     @Test
     void moveCatchTest() {
         // given
-        Board board = new Board();
         Piece originPiece = new Soldier(Camp.CHO, board);
         Piece targetPiece = new Soldier(Camp.HAN, board);
 
@@ -167,7 +160,6 @@ class BoardTest {
     @Test
     void shouldThrowException_WhenMoveSamePosition() {
         // given
-        Board board = new Board();
         Piece piece = new Soldier(Camp.CHO, board);
 
         Position origin = new Position(1, 1);
@@ -185,7 +177,6 @@ class BoardTest {
     @Test
     void shouldThrowException_WhenSelectOppositeCampPiece() {
         // given
-        Board board = new Board();
         Piece piece = new Soldier(Camp.HAN, board);
 
         Position origin = new Position(1, 1);

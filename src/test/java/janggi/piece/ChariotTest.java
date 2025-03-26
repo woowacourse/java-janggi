@@ -2,16 +2,25 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.BoardFactory;
 import janggi.board.Board;
 import janggi.exception.ErrorException;
 import janggi.position.Movement;
 import janggi.position.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class ChariotTest {
+
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        board = BoardFactory.emptyBoard(Camp.CHO);
+    }
 
     @DisplayName("차는 상하좌우로 움직이지 않은 경우 예외가 발생한다.")
     @ParameterizedTest
@@ -23,7 +32,6 @@ class ChariotTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Chariot(camp, board);
 
         Position origin = new Position(3, 3);
@@ -46,7 +54,6 @@ class ChariotTest {
     })
     void validateMoveTest(Camp camp, int targetX, int targetY) {
         // given
-        Board board = new Board();
         Piece piece = new Chariot(camp, board);
 
         Position origin = new Position(3, 3);
@@ -62,7 +69,6 @@ class ChariotTest {
     @Test
     void shouldThrowException_WhenBlocked() {
         // given
-        Board board = new Board();
         Piece piece = new Chariot(Camp.CHO, board);
 
         Position origin = new Position(3, 3);
