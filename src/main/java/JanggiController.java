@@ -36,9 +36,7 @@ public class JanggiController {
 
                 Map<JanggiPosition, Piece> board = game.move(beforePosition, afterPosition);
 
-                if (!game.isEnd()) {
-                    OutputView.printJanggiBoard(board);
-                }
+                OutputView.printJanggiBoard(board);
 
                 validInput = true;
             } catch (IllegalArgumentException e) {

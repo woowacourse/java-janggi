@@ -24,7 +24,7 @@ public class Run extends Start {
         player.change();
 
         if (janggiBoard.isGeneralDead(state)) {
-            return new End();
+            return new End(getBoard());
         }
 
         return new Run(janggiBoard, player);
