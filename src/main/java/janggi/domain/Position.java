@@ -7,6 +7,8 @@ public final class Position {
 
     private static final Predicate<Integer> X_MOVEABLE = x -> x >= 0 && x < 9;
     private static final Predicate<Integer> Y_MOVEABLE = y -> y >= 0 && y < 10;
+    private static final Predicate<Integer> IS_PALACE_X = x -> 3 <= x && x <= 5;
+    private static final Predicate<Integer> IS_PALACE_Y = y -> (0 <= y && y <= 2) || (7 <= y && y <= 9);
 
     private final int x;
     private final int y;
@@ -45,6 +47,10 @@ public final class Position {
 
     public int getY() {
         return y;
+    }
+
+    public boolean isPalace() {
+        return IS_PALACE_X.test(x) && IS_PALACE_Y.test(y);
     }
 
     @Override

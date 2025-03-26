@@ -1,11 +1,11 @@
 package janggi.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 @ReplaceUnderBar
 public class PositionTest {
@@ -39,5 +39,19 @@ public class PositionTest {
         Position position = new Position(1, y);
 
         assertThat(position.hasSameY(new Position(3, comparer))).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"3,0, true", "3,1, true", "3,2, true",
+        "4,0, true", "4,1, true", "4,2, true",
+        "5,0, true", "5,1, true", "5,2, true",
+        "3,7, true", "3,8, true", "3,9, true",
+        "4,7, true", "4,8, true", "4,9, true",
+        "5,7, true", "5,8, true", "5,9, true",
+        "2,1, false", "6,1, false", "4,3, false",
+        "3,6, false", "5,6, false", "6,7, false"})
+    void 궁성_좌표인지_확인한다(int x , int y , boolean isPalace) {
+        Position position = new Position(x, y);
+        assertThat(position.isPalace()).isEqualTo(isPalace);
     }
 }

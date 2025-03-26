@@ -46,7 +46,7 @@ public class OutputView {
             return String.format(BLACK + "ㅁ" + EXIT);
         }
 
-        String color = piece.getSide() == Side.CHO ? RED : BLUE;
+        String color = piece.getSide() == Side.CHO ? BLUE : RED;
 
         if (piece.getClass() == Cannon.class) {
             return String.format(color + "포" + EXIT);
