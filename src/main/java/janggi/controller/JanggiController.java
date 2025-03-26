@@ -34,7 +34,6 @@ public class JanggiController {
 
         while (!board.isEnd()) {
             outputView.outputBoard(board.getBoard());
-            outputView.outputScore(board.getCurrentCountry(), board.getCurrentTeamScore());
             final CommandType type = inputView.inputCommand(board.getCurrentCountry());
             switch (type) {
                 case MOVE -> {
@@ -49,7 +48,9 @@ public class JanggiController {
         }
 
         final Country winner = board.getWinner();
-        outputView.outputWinner(winner);
+        final int winnerScore = board.getWinnerScore();
+        final int looserScore = board.getLooserScore();
+        outputView.outputWinner(winner, winnerScore, looserScore);
     }
 
     private Board initializeBoard() {

@@ -73,21 +73,30 @@ public final class Board {
         return team1.isEnd() || team2.isEnd();
     }
 
-    public Country getWinner() {
-        if (team1.isEnd()) return team2.getCountry();
-        return team1.getCountry();
-    }
-
     public Country getCurrentCountry() {
         return getCurrentTeam().getCountry();
-    }
-
-    public int getCurrentTeamScore() {
-        return getCurrentTeam().getScore();
     }
 
     private Team getCurrentTeam() {
         if (isTeam1Turn) return team1;
         return team2;
+    }
+
+    public Country getWinner() {
+        if (team1.isEnd()) return team2.getCountry();
+        if (team2.isEnd()) return team1.getCountry();
+        throw new IllegalStateException();
+    }
+
+    public int getWinnerScore() {
+        if (team1.isEnd()) return team2.getScore();
+        if (team2.isEnd()) return team1.getScore();
+        throw new IllegalStateException();
+    }
+
+    public int getLooserScore() {
+        if (team1.isEnd()) return team1.getScore();
+        if (team2.isEnd()) return team2.getScore();
+        throw new IllegalStateException();
     }
 }

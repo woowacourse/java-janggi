@@ -87,12 +87,7 @@ public class OutputView {
         return COUNTRY_COLORS.get(country) + piece.getPieceType().name() + RESET;
     }
 
-    public void outputWinner(final Country winner) {
-        System.out.println(winner.name() + "승리!!");
-    }
-
-    public void outputScore(final Country currentCountry, final int score) {
-        final String countryName = COUNTRY_NAMES.get(currentCountry);
-        System.out.printf("%s 점수 : %d\n", countryName, score);
+    public void outputWinner(final Country winner, final int winnerScore, final int looserScore) {
+        System.out.printf("%s 승리!! ( %d : %d )\n", winner.name(), winnerScore, looserScore);
     }
 }
