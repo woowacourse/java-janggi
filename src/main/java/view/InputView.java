@@ -34,8 +34,15 @@ public class InputView {
                 2. 머무르기
                 3. 한 수 물러주기
                 4. 점수 확인
-                """, currentDynasty.getName());
+                """, getDynastyName(currentDynasty));
         return Integer.parseInt(scanner.nextLine());
+    }
+
+    private String getDynastyName(Dynasty currentDynasty) {
+        if(currentDynasty == Dynasty.CHO) {
+            return "초나라";
+        }
+        return "한나라";
     }
 
     public List<Dot> readPieceMovement() {
