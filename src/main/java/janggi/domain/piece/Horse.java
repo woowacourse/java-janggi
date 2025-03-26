@@ -60,7 +60,7 @@ public class Horse extends Piece {
                                                               final Position afterPosition) {
         return board -> {
             Validator.validateNoSameTeamPieceAt(team, board, afterPosition);
-            Validator.validateNoObstaclesOnPath(board, beforePosition, afterPosition,
+            Validator.validateNoObstaclesOnPath(board, beforePosition,
                     HorsePathMovement.findPathMovements(beforePosition, afterPosition));
         };
     }

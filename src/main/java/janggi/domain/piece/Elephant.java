@@ -54,7 +54,7 @@ public class Elephant extends Piece {
                                                               final Position afterPosition) {
         return board -> {
             Validator.validateNoSameTeamPieceAt(team, board, afterPosition);
-            Validator.validateNoObstaclesOnPath(board, beforePosition, afterPosition,
+            Validator.validateNoObstaclesOnPath(board, beforePosition,
                     ElephantPathMovement.findPathMovements(beforePosition, afterPosition));
         };
     }

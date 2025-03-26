@@ -108,7 +108,7 @@ final public class Validator {
     }
 
     public static void validateNoObstaclesOnPath(final Map<Position, Piece> board, final Position beforePosition,
-                                                 final Position afterPosition, final List<Movement> pathMovements) {
+                                                 final List<Movement> pathMovements) {
         boolean hasObstacle = pathMovements.stream()
                 .map(routeDistance -> beforePosition.plus(routeDistance.x(), routeDistance.y()))
                 .anyMatch(position -> !board.get(position).isNone());
