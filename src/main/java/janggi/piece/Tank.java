@@ -13,9 +13,7 @@ public class Tank extends Piece {
 
     @Override
     public List<Position> calculatePath(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        validateMovingRule(differenceX, differenceY);
+        validateMovingRule(start, end);
         return findPath(start, end);
     }
 
@@ -43,7 +41,11 @@ public class Tank extends Piece {
         return Direction.DOWN;
     }
 
-    private void validateMovingRule(final int differenceX, final int differenceY) {
+    private void validateMovingRule(final Position start, final Position end) {
+        int differenceX = end.x() - start.x();
+        int differenceY = end.y() - start.y();
+        // NOTE: 가로 또는 세로 방향으로만 이동하는지 검증한다.
+        // 가로만 이동하는 경우,                           세로만 이동하는 경우.
         if ((differenceX == 0 && differenceY != 0) || (differenceX != 0 && differenceY == 0)) {
             return;
         }
