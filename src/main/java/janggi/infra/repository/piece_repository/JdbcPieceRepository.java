@@ -83,7 +83,7 @@ public class JdbcPieceRepository implements PieceRepository {
                 final PositionRank rank = convertToRank(rankString);
                 final Country country = convertToCountry(countryString);
 
-                pieces.get(country).add(PieceFactory.create(type, country, new Position(file, rank)));
+                pieces.get(country).add(PieceFactory.create(type, new Position(file, rank)));
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);

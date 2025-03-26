@@ -68,13 +68,14 @@ public record Path(
         return pathPositions.getLast();
     }
 
-    public List<Path> subPaths() {
+    public List<Path> subPathAndReverse() {
         List<Path> subPaths = new ArrayList<>();
         int size = pathPositions.size();
 
         for (int start = 0; start < size - 1; start++) {
             for (int end = start + 1; end < size; end++) {
                 subPaths.add(new Path(pathPositions.subList(start, end + 1)));
+                subPaths.add(new Path(pathPositions.subList(start, end + 1).reversed()));
             }
         }
         return subPaths;

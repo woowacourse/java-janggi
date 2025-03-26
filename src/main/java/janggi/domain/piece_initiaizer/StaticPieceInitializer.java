@@ -36,13 +36,13 @@ public final class StaticPieceInitializer implements PieceInitializer {
         }
 
         insertIntoMap(board,
-                PieceFactory.createCha(country, new Position(PositionFile.FILE_1, PositionRank.of(1, country))),
-                PieceFactory.createCha(country, new Position(PositionFile.FILE_9, PositionRank.of(1, country))),
-                PieceFactory.createPo(country, new Position(PositionFile.FILE_2, PositionRank.of(3, country))),
-                PieceFactory.createPo(country, new Position(PositionFile.FILE_8, PositionRank.of(3, country))),
-                PieceFactory.createSa(country, new Position(PositionFile.FILE_4, PositionRank.of(1, country))),
-                PieceFactory.createSa(country, new Position(PositionFile.FILE_6, PositionRank.of(1, country))),
-                PieceFactory.createJang(country, new Position(PositionFile.FILE_5, PositionRank.of(2, country)))
+                PieceFactory.createCha(new Position(PositionFile.FILE_1, PositionRank.of(1, country))),
+                PieceFactory.createCha(new Position(PositionFile.FILE_9, PositionRank.of(1, country))),
+                PieceFactory.createPo(new Position(PositionFile.FILE_2, PositionRank.of(3, country))),
+                PieceFactory.createPo(new Position(PositionFile.FILE_8, PositionRank.of(3, country))),
+                PieceFactory.createSa(new Position(PositionFile.FILE_4, PositionRank.of(1, country))),
+                PieceFactory.createSa(new Position(PositionFile.FILE_6, PositionRank.of(1, country))),
+                PieceFactory.createJang(new Position(PositionFile.FILE_5, PositionRank.of(2, country)))
 
         );
 

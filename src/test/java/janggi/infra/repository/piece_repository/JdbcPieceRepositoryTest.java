@@ -28,9 +28,9 @@ class JdbcPieceRepositoryTest {
         runWithPieceRepository((repository) -> {
             // given
             final List<Piece> pieces = List.of(
-                    PieceFactory.create(PieceType.포, Country.CHO, POSITION_5_5),
-                    PieceFactory.create(PieceType.장, Country.CHO, POSITION_3_3),
-                    PieceFactory.create(PieceType.졸, Country.CHO, POSITION_2_2)
+                    PieceFactory.create(PieceType.포, POSITION_5_5),
+                    PieceFactory.create(PieceType.장, POSITION_3_3),
+                    PieceFactory.create(PieceType.졸, POSITION_2_2)
             );
 
             // expected
@@ -44,13 +44,13 @@ class JdbcPieceRepositoryTest {
         runWithPieceRepository((repository) -> {
             // given
             repository.saveAllPieces(5, Country.CHO, List.of(
-                    PieceFactory.create(PieceType.포, Country.CHO, POSITION_5_5),
-                    PieceFactory.create(PieceType.장, Country.CHO, POSITION_3_3),
-                    PieceFactory.create(PieceType.졸, Country.CHO, POSITION_2_2)
+                    PieceFactory.create(PieceType.포, POSITION_5_5),
+                    PieceFactory.create(PieceType.장, POSITION_3_3),
+                    PieceFactory.create(PieceType.졸, POSITION_2_2)
             ));
             repository.saveAllPieces(5, Country.HAN, List.of(
-                    PieceFactory.create(PieceType.상, Country.HAN, POSITION_7_7),
-                    PieceFactory.create(PieceType.마, Country.HAN, POSITION_8_8)
+                    PieceFactory.create(PieceType.상, POSITION_7_7),
+                    PieceFactory.create(PieceType.마, POSITION_8_8)
             ));
 
             // when

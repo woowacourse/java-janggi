@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Country;
 import janggi.domain.gung.Gung;
 import janggi.domain.path.path_filter.*;
 import janggi.domain.path.path_provider.CrossPathProvider;
@@ -13,14 +12,14 @@ import java.util.List;
 
 public class PieceFactory {
 
-    public static Piece create(final PieceType pieceType, final Country country, final Position position) {
+    public static Piece create(final PieceType pieceType, final Position position) {
         return switch (pieceType) {
-            case 차 -> createCha(country, position);
+            case 차 -> createCha(position);
             case 마 -> createMa(position);
             case 상 -> createSang(position);
-            case 사 -> createSa(country, position);
-            case 장 -> createJang(country, position);
-            case 포 -> createPo(country, position);
+            case 사 -> createSa(position);
+            case 장 -> createJang(position);
+            case 포 -> createPo(position);
             case 졸 -> createJol(position);
             case 병 -> createByeong(position);
         };
@@ -44,8 +43,8 @@ public class PieceFactory {
         );
     }
 
-    public static Piece createJang(final Country country, final Position position) {
-        final Gung gung = Gung.of(country);
+    public static Piece createJang(final Position position) {
+        final Gung gung = new Gung();
         return new Piece(
                 PieceType.장,
                 List.of(new CrossOneStepPathProvider(), new GungOneStepPathProvider(gung)),
@@ -54,8 +53,8 @@ public class PieceFactory {
         );
     }
 
-    public static Piece createSa(final Country country, final Position position) {
-        final Gung gung = Gung.of(country);
+    public static Piece createSa(final Position position) {
+        final Gung gung = new Gung();
         return new Piece(
                 PieceType.사,
                 List.of(new CrossOneStepPathProvider(), new GungOneStepPathProvider(gung)),
@@ -64,8 +63,8 @@ public class PieceFactory {
         );
     }
 
-    public static Piece createCha(final Country country, final Position position) {
-        final Gung gung = Gung.of(country);
+    public static Piece createCha(final Position position) {
+        final Gung gung = new Gung();
         return new Piece(
                 PieceType.차,
                 List.of(new CrossPathProvider(), new GungPathProvider(gung)),
@@ -74,8 +73,8 @@ public class PieceFactory {
         );
     }
 
-    public static Piece createPo(final Country country, final Position position) {
-        final Gung gung = Gung.of(country);
+    public static Piece createPo(final Position position) {
+        final Gung gung = new Gung();
         return new Piece(
                 PieceType.포,
                 List.of(new CrossPathProvider(), new GungPathProvider(gung)),
@@ -85,7 +84,7 @@ public class PieceFactory {
     }
 
     public static Piece createJol(final Position position) {
-        final Gung gung = Gung.of(Country.HAN);
+        final Gung gung = new Gung();
         return new Piece(
                 PieceType.졸,
                 List.of(new UpLeftRightPathProvider(), new GungOneStepPathProvider(gung)),
@@ -95,7 +94,7 @@ public class PieceFactory {
     }
 
     public static Piece createByeong(final Position position) {
-        final Gung gung = Gung.of(Country.CHO);
+        final Gung gung = new Gung();
         return new Piece(
                 PieceType.병,
                 List.of(new DownLeftRightPathProvider(), new GungOneStepPathProvider(gung)),

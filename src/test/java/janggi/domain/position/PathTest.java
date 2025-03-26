@@ -172,13 +172,16 @@ class PathTest extends BaseTest {
         ));
 
         // when
-        final List<Path> result = path.subPaths();
+        final List<Path> result = path.subPathAndReverse();
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
                 new Path(List.of(new Position(FILE_5, RANK_1), new Position(FILE_5, RANK_2), new Position(FILE_5, RANK_3))),
+                new Path(List.of(new Position(FILE_5, RANK_3), new Position(FILE_5, RANK_2), new Position(FILE_5, RANK_1))),
                 new Path(List.of(new Position(FILE_5, RANK_1), new Position(FILE_5, RANK_2))),
-                new Path(List.of(new Position(FILE_5, RANK_2), new Position(FILE_5, RANK_3)))
+                new Path(List.of(new Position(FILE_5, RANK_2), new Position(FILE_5, RANK_1))),
+                new Path(List.of(new Position(FILE_5, RANK_2), new Position(FILE_5, RANK_3))),
+                new Path(List.of(new Position(FILE_5, RANK_3), new Position(FILE_5, RANK_2)))
         );
     }
 }
