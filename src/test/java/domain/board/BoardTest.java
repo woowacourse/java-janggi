@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.piece.ChoByeong;
+import domain.piece.Cha;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Po;
@@ -25,7 +25,7 @@ class BoardTest {
             Point point = Point.of(1, 1);
 
             Map<Point, Piece> pieceByPoint = new HashMap<>();
-            pieceByPoint.put(point, new ChoByeong(Team.CHO));
+            pieceByPoint.put(point, new Cha(Team.CHO));
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
@@ -41,7 +41,7 @@ class BoardTest {
             Point point = Point.of(1, 1);
 
             Map<Point, Piece> pieceByPoint = new HashMap<>();
-            pieceByPoint.put(point, new ChoByeong(Team.CHO));
+            pieceByPoint.put(point, new Cha(Team.CHO));
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             Point otherPoint = Point.of(5, 5);
@@ -58,7 +58,7 @@ class BoardTest {
             // given
             Point point = Point.of(1, 1);
             Map<Point, Piece> pieceByPoint = new HashMap<>();
-            pieceByPoint.put(point, new ChoByeong(Team.CHO));
+            pieceByPoint.put(point, new Cha(Team.CHO));
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
@@ -76,7 +76,7 @@ class BoardTest {
             Point point = Point.of(1, 1);
 
             Map<Point, Piece> pieceByPoint = new HashMap<>();
-            pieceByPoint.put(point, new ChoByeong(team));
+            pieceByPoint.put(point, new Cha(team));
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
@@ -93,7 +93,7 @@ class BoardTest {
             Point point = Point.of(1, 1);
 
             Map<Point, Piece> pieceByPoint = new HashMap<>();
-            pieceByPoint.put(point, new ChoByeong(team.inverse()));
+            pieceByPoint.put(point, new Cha(team.inverse()));
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
@@ -130,7 +130,7 @@ class BoardTest {
             Point point = Point.of(1, 1);
 
             Map<Point, Piece> pieceByPoint = new HashMap<>();
-            pieceByPoint.put(point, new ChoByeong(team.inverse()));
+            pieceByPoint.put(point, new Cha(team.inverse()));
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when

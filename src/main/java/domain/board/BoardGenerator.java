@@ -45,11 +45,11 @@ public class BoardGenerator {
     private void initializeHanPieces(final List<Point> sangMaPoints,
                                      final SangMaOrderCommand sangMaOrderCommand,
                                      final Map<Point, Piece> pieceByPoint) {
-        pieceByPoint.put(Point.of(4, 1), new HanByeong(Team.HAN));
-        pieceByPoint.put(Point.of(4, 3), new HanByeong(Team.HAN));
-        pieceByPoint.put(Point.of(4, 5), new HanByeong(Team.HAN));
-        pieceByPoint.put(Point.of(4, 7), new HanByeong(Team.HAN));
-        pieceByPoint.put(Point.of(4, 9), new HanByeong(Team.HAN));
+        pieceByPoint.put(Point.of(4, 1), new HanByeong());
+        pieceByPoint.put(Point.of(4, 3), new HanByeong());
+        pieceByPoint.put(Point.of(4, 5), new HanByeong());
+        pieceByPoint.put(Point.of(4, 7), new HanByeong());
+        pieceByPoint.put(Point.of(4, 9), new HanByeong());
 
         pieceByPoint.put(Point.of(3, 2), new Po(Team.HAN));
         pieceByPoint.put(Point.of(3, 8), new Po(Team.HAN));
@@ -69,11 +69,11 @@ public class BoardGenerator {
     private void initializeChoPieces(final List<Point> sangMaPoints,
                                      final SangMaOrderCommand sangMaOrderCommand,
                                      final Map<Point, Piece> pieceByPoint) {
-        pieceByPoint.put(Point.of(7, 1), new ChoByeong(Team.CHO));
-        pieceByPoint.put(Point.of(7, 3), new ChoByeong(Team.CHO));
-        pieceByPoint.put(Point.of(7, 5), new ChoByeong(Team.CHO));
-        pieceByPoint.put(Point.of(7, 7), new ChoByeong(Team.CHO));
-        pieceByPoint.put(Point.of(7, 9), new ChoByeong(Team.CHO));
+        pieceByPoint.put(Point.of(7, 1), new ChoByeong());
+        pieceByPoint.put(Point.of(7, 3), new ChoByeong());
+        pieceByPoint.put(Point.of(7, 5), new ChoByeong());
+        pieceByPoint.put(Point.of(7, 7), new ChoByeong());
+        pieceByPoint.put(Point.of(7, 9), new ChoByeong());
 
         pieceByPoint.put(Point.of(8, 2), new Po(Team.CHO));
         pieceByPoint.put(Point.of(8, 8), new Po(Team.CHO));

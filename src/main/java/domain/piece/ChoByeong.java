@@ -11,8 +11,8 @@ import java.util.List;
 
 public class ChoByeong extends SlidingPiece {
 
-    public ChoByeong(Team team) {
-        super(team);
+    public ChoByeong() {
+        super(Team.CHO);
     }
 
     @Override

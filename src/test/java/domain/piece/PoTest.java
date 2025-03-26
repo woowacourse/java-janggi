@@ -71,7 +71,7 @@ class PoTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(poPoint, po);
-        pieceByNode.put(hurdlePoint, new ChoByeong(poTeam));
+        pieceByNode.put(hurdlePoint, new Cha(poTeam));
         pieceByNode.put(destinationPoint, new Po(poTeam));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
@@ -93,7 +93,7 @@ class PoTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(poPoint, po);
-        pieceByNode.put(hurdlePoint, new ChoByeong(poTeam));
+        pieceByNode.put(hurdlePoint, new Cha(poTeam));
         pieceByNode.put(destinationPoint, new Po(poTeam.inverse()));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
@@ -116,9 +116,9 @@ class PoTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(poPoint, po);
-        pieceByNode.put(hurdlePoint, new ChoByeong(poTeam));
-        pieceByNode.put(hurdlePoint2, new ChoByeong(poTeam));
-        pieceByNode.put(destinationPoint, new ChoByeong(poTeam.inverse()));
+        pieceByNode.put(hurdlePoint, new Cha(poTeam));
+        pieceByNode.put(hurdlePoint2, new Cha(poTeam));
+        pieceByNode.put(destinationPoint, new Cha(poTeam.inverse()));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
@@ -139,7 +139,7 @@ class PoTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(poPoint, po);
-        pieceByNode.put(hurdlePoint, new ChoByeong(poTeam));
+        pieceByNode.put(hurdlePoint, new Cha(poTeam));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when
@@ -160,8 +160,8 @@ class PoTest {
 
         Map<Point, Piece> pieceByNode = new HashMap<>();
         pieceByNode.put(poPoint, po);
-        pieceByNode.put(hurdlePoint, new ChoByeong(poTeam));
-        pieceByNode.put(destinationPoint, new ChoByeong(poTeam.inverse()));
+        pieceByNode.put(hurdlePoint, new Cha(poTeam));
+        pieceByNode.put(destinationPoint, new Cha(poTeam.inverse()));
         Board board = BoardFixture.createTestBoard(pieceByNode);
 
         // when

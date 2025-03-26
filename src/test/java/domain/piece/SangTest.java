@@ -29,7 +29,7 @@ class SangTest {
 
         Map<Point, Piece> pieceByPoint = new HashMap<>();
         pieceByPoint.put(sangPoint, sang);
-        pieceByPoint.put(obstaclePoint, new ChoByeong(sangTeam));
+        pieceByPoint.put(obstaclePoint, new Cha(sangTeam));
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
@@ -50,7 +50,7 @@ class SangTest {
 
         Map<Point, Piece> pieceByPoint = new HashMap<>();
         pieceByPoint.put(sangPoint, sang);
-        pieceByPoint.put(obstaclePoint, new ChoByeong(sangTeam));
+        pieceByPoint.put(obstaclePoint, new Cha(sangTeam));
         Board board = BoardFixture.createTestBoard(pieceByPoint);
 
         // when
