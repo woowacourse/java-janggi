@@ -54,7 +54,7 @@ public class PositionTest {
     */
     @Test
     @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
-    void canJumpTest(){
+    void canJumpTest_1(){
         // given
         Piece cannon = new Cannon(HAN, D1);
         Piece palace = new Palace(HAN, E1);
@@ -62,5 +62,40 @@ public class PositionTest {
 
         // when - then
         assertThat(D1.canJump(EAST, board)).isTrue();
+    }
+
+    /*
+    0 ＿ ＿ ＿
+    1 포 ＿ ＿
+    2 ＿ ＿ ＿
+    3 d e f
+    */
+    @Test
+    @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
+    void canJumpTest_2(){
+        // given
+        Piece cannon = new Cannon(HAN, D1);
+        Board board = new Board(Set.of(cannon));
+
+        // when - then
+        assertThat(D1.canJump(EAST, board)).isFalse();
+    }
+
+    /*
+    0 ＿ ＿ ＿
+    1 포 포 *
+    2 ＿ ＿ ＿
+    3 d e f
+    */
+    @Test
+    @DisplayName("포는 포를 넘을 수 없다.")
+    void canJumpTest_3(){
+        // given
+        Piece cannon1 = new Cannon(HAN, D1);
+        Piece cannon2 = new Cannon(HAN, E1);
+        Board board = new Board(Set.of(cannon1, cannon2));
+
+        // when - then
+        assertThat(D1.canJump(EAST, board)).isFalse();
     }
 }
