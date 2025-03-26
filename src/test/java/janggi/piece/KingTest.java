@@ -124,8 +124,7 @@ public class KingTest {
         King king = new King(Team.CHO, new Position(new Row(9), new Column(5)));
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(9), new Column(6))));
         Position arrivedPosition = new Position(new Row(9), new Column(6));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> king.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -136,8 +135,7 @@ public class KingTest {
         King king = new King(Team.CHO, new Position(new Row(10), new Column(5)));
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(9), new Column(6))));
         Position arrivedPosition = new Position(new Row(11), new Column(5));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> king.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 }

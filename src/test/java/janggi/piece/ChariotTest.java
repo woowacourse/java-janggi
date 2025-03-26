@@ -85,8 +85,7 @@ public class ChariotTest {
         Chariot chariot = new Chariot(Team.CHO, new Position(new Row(7), new Column(6)));
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(new Row(3), new Column(7))));
         Position arrivedPosition = new Position(new Row(7), new Column(11));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> chariot.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -97,8 +96,7 @@ public class ChariotTest {
         Chariot chariot = new Chariot(Team.CHO, new Position(new Row(7), new Column(6)));
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(new Row(7), new Column(3))));
         Position arrivedPosition = new Position(new Row(7), new Column(1));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> chariot.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 

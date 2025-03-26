@@ -71,8 +71,7 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Team.CHO, new Position(new Row(7), new Column(3)));
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(4))));
         Position arrivedPosition = new Position(new Row(8), new Column(3));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> soldier.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -83,8 +82,7 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Team.HAN, new Position(new Row(4), new Column(3)));
         List<Piece> positioningPiece = List.of(new Soldier(Team.HAN, new Position(new Row(4), new Column(4))));
         Position arrivedPosition = new Position(new Row(3), new Column(3));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> soldier.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -95,8 +93,7 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Team.CHO, new Position(new Row(7), new Column(3)));
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
         Position arrivedPosition = new Position(new Row(7), new Column(2));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> soldier.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -107,8 +104,7 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Team.CHO, new Position(new Row(10), new Column(3)));
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
         Position arrivedPosition = new Position(new Row(11), new Column(3));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> soldier.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -124,8 +124,7 @@ public class HorseTest {
         Horse horse = new Horse(Team.CHO, new Position(new Row(9), new Column(3)));
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(new Row(2), new Column(5))));
         Position arrivedPosition = new Position(new Row(11), new Column(2));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> horse.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -136,8 +135,7 @@ public class HorseTest {
         Horse horse = new Horse(Team.CHO, new Position(new Row(7), new Column(3)));
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(new Row(6), new Column(3))));
         Position arrivedPosition = new Position(new Row(5), new Column(2));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> horse.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 }

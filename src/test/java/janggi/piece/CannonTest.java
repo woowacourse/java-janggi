@@ -72,8 +72,7 @@ public class CannonTest {
         Cannon cannon = new Cannon(Team.CHO, new Position(new Row(7), new Column(6)));
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(new Row(7), new Column(7))));
         Position arrivedPosition = new Position(new Row(7), new Column(11));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> cannon.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -84,8 +83,7 @@ public class CannonTest {
         Cannon cannon = new Cannon(Team.CHO, new Position(new Row(7), new Column(6)));
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(new Row(1), new Column(7))));
         Position arrivedPosition = new Position(new Row(7), new Column(1));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> cannon.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -99,8 +97,7 @@ public class CannonTest {
                 new Soldier(Team.CHO, new Position(new Row(7), new Column(4)))
         );
         Position arrivedPosition = new Position(new Row(7), new Column(1));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> cannon.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -114,8 +111,7 @@ public class CannonTest {
                 new Cannon(Team.CHO, new Position(new Row(7), new Column(4)))
         );
         Position arrivedPosition = new Position(new Row(7), new Column(1));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> cannon.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 

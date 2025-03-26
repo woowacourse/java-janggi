@@ -125,8 +125,7 @@ public class ElephantTest {
         Elephant elephant = new Elephant(Team.CHO, new Position(new Row(8), new Column(4)));
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(new Row(2), new Column(5))));
         Position arrivedPosition = new Position(new Row(11), new Column(2));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> elephant.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -137,8 +136,7 @@ public class ElephantTest {
         Elephant elephant = new Elephant(Team.CHO, new Position(new Row(7), new Column(4)));
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(new Row(9), new Column(3))));
         Position arrivedPosition = new Position(new Row(10), new Column(2));
-        //when
-        //then
+        //when & then
         assertThatThrownBy(() -> elephant.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 }
