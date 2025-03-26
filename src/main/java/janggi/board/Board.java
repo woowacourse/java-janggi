@@ -23,18 +23,18 @@ public class Board {
     }
 
     private void validatePoint(Point point) {
-        if (!point.isXWithin(0, COLUMN) || !point.isYWithin(0, ROW)) {
+        if (!point.isXBetween(0, COLUMN) || !point.isYBetween(0, ROW)) {
             throw new IllegalArgumentException(String.format("기물의 위치는 %d x %d 영역을 벗어날 수 없습니다.", COLUMN, ROW));
         }
     }
 
     public void move(Point from, Point to) {
         validateMoveRequest(from, to);
-        Piece fromPiece = peek(from);
-        validateMovable(from, to, fromPiece);
-        validatePath(from, to, fromPiece);
-        validateCatchable(to, fromPiece);
-        executeMove(from, to, fromPiece);
+        Piece movingPiece = peek(from);
+        validateMovable(movingPiece, from, to);
+        validateRoute(movingPiece, from, to);
+        validateCatchable(movingPiece, to);
+        executeMove(movingPiece, from, to);
     }
 
     private void validateMoveRequest(Point from, Point to) {
@@ -52,29 +52,29 @@ public class Board {
         return placedPieces.get(point);
     }
 
-    private void validateMovable(Point from, Point to, Piece fromPiece) {
-        fromPiece.validateMove(from, to);
+    private void validateMovable(Piece movingPiece, Point from, Point to) {
+        movingPiece.validateMove(from, to);
     }
 
-    private void validatePath(Point from, Point to, Piece fromPiece) {
-        Set<Point> route = fromPiece.findRoute(from, to);
-        Set<Piece> piecesByPoint = getPiecesByPoint(route);
-        fromPiece.validatePathObstacles(piecesByPoint);
+    private void validateRoute(Piece movingPiece, Point from, Point to) {
+        Set<Point> route = movingPiece.findRoute(from, to);
+        Set<Piece> piecesByPoint = findPiecesByPoint(route);
+        movingPiece.validateRouteObstacles(piecesByPoint);
     }
 
-    private void validateCatchable(Point to, Piece fromPiece) {
+    private void validateCatchable(Piece movingPiece, Point to) {
         if (placedPieces.containsKey(to)) {
-            Piece toPiece = peek(to);
-            fromPiece.validateCatch(toPiece);
+            Piece targetPiece = peek(to);
+            movingPiece.validateCatch(targetPiece);
         }
     }
 
-    private void executeMove(Point from, Point to, Piece fromPiece) {
+    private void executeMove(Piece movingPiece, Point from, Point to) {
         placedPieces.remove(from);
-        placedPieces.put(to, fromPiece);
+        placedPieces.put(to, movingPiece);
     }
 
-    private Set<Piece> getPiecesByPoint(Set<Point> route) {
+    private Set<Piece> findPiecesByPoint(Set<Point> route) {
         Set<Piece> pieces = new HashSet<>();
         for (Point point : route) {
             Piece piece = peek(point);

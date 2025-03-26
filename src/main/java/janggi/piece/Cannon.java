@@ -14,18 +14,18 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
-        validateLinearMove(fromPoint, toPoint);
+    public void validateMove(Point from, Point to) {
+        validateLinearMove(from, to);
     }
 
-    private void validateLinearMove(Point fromPoint, Point toPoint) {
-        if (!fromPoint.isHorizontallyAlignedWith(toPoint) && !fromPoint.isVerticallyAlignedWith(toPoint)) {
+    private void validateLinearMove(Point from, Point to) {
+        if (!from.isHorizontallyAlignedWith(to) && !from.isVerticallyAlignedWith(to)) {
             throw new IllegalArgumentException("포는 수평 혹은 수직으로만 움직여야 합니다.");
         }
     }
 
     @Override
-    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+    public void validateRouteObstacles(Set<Piece> piecesOnRoute) {
         validatePieceCount(piecesOnRoute);
         validateNotJumpOverCannon(piecesOnRoute);
     }
@@ -48,17 +48,17 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        if (fromPoint.isHorizontallyAlignedWith(toPoint)) {
-            return fromPoint.findHorizontalPointsBetween(toPoint);
+    public Set<Point> findRoute(Point from, Point to) {
+        if (from.isHorizontallyAlignedWith(to)) {
+            return from.findHorizontalPointsBetween(to);
         }
-        return fromPoint.findVerticalPointsBetween(toPoint);
+        return from.findVerticalPointsBetween(to);
     }
 
     @Override
-    public void validateCatch(Piece otherPiece) {
-        super.validateCatch(otherPiece);
-        if (getPieceSymbol() == otherPiece.getPieceSymbol()) {
+    public void validateCatch(Piece targetPiece) {
+        super.validateCatch(targetPiece);
+        if (getPieceSymbol() == targetPiece.getPieceSymbol()) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }

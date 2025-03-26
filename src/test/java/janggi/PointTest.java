@@ -67,9 +67,9 @@ class PointTest {
         Point point = new Point(0, 4);
 
         // when & then
-        assertThat(point.isXWithin(0, 5))
+        assertThat(point.isXBetween(0, 5))
                 .isTrue();
-        assertThat(point.isYWithin(0, 5))
+        assertThat(point.isYBetween(0, 5))
                 .isTrue();
     }
 
@@ -86,9 +86,9 @@ class PointTest {
         Point point = new Point(x, y);
 
         // when & then
-        assertThat(point.isXWithin(0, 5))
+        assertThat(point.isXBetween(0, 5))
                 .isFalse();
-        assertThat(point.isYWithin(0, 5))
+        assertThat(point.isYBetween(0, 5))
                 .isFalse();
     }
 
@@ -140,7 +140,7 @@ class PointTest {
         Point toPoint = new Point(5, 0);
 
         // when
-        Point horizontalPoint = fromPoint.getNextHorizontalPointToward(toPoint);
+        Point horizontalPoint = fromPoint.nextHorizontalPointTo(toPoint);
 
         // then
         assertThat(horizontalPoint)
@@ -155,7 +155,7 @@ class PointTest {
         Point toPoint = new Point(5, -2);
 
         // when
-        Point verticalPoint = fromPoint.getNextVerticalPointToward(toPoint);
+        Point verticalPoint = fromPoint.nextVerticalPointTo(toPoint);
 
         // then
         assertThat(verticalPoint)
@@ -171,12 +171,12 @@ class PointTest {
 
         // when && then
         assertThatCode(() -> {
-            fromPoint.getNextHorizontalPointToward(toPoint);
+            fromPoint.nextHorizontalPointTo(toPoint);
         })
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("x좌표가 같습니다.");
         assertThatCode(() -> {
-            fromPoint.getNextVerticalPointToward(toPoint);
+            fromPoint.nextVerticalPointTo(toPoint);
         })
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("y좌표가 같습니다.");
@@ -190,7 +190,7 @@ class PointTest {
         Point toPoint = new Point(4, 4);
 
         // when
-        Point centerPoint = fromPoint.getCenterPointWith(toPoint);
+        Point centerPoint = fromPoint.midPointBetween(toPoint);
 
         // then
         assertThat(centerPoint)

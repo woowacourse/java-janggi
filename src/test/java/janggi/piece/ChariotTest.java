@@ -59,7 +59,7 @@ class ChariotTest {
         Set<Piece> piecesOnRoute = Set.of(new Soldier(Camp.CHU));
 
         // when & then
-        assertThatCode(() -> chariot.validatePathObstacles(piecesOnRoute))
+        assertThatCode(() -> chariot.validateRouteObstacles(piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("차는 기물을 넘어 이동할 수 없습니다.");
     }

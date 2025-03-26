@@ -65,7 +65,7 @@ class HorseTest {
         Set<Piece> piecesOnRoute = Set.of(new Soldier(Camp.CHU));
 
         // when & then
-        assertThatCode(() -> horse.validatePathObstacles(piecesOnRoute))
+        assertThatCode(() -> horse.validateRouteObstacles(piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("마는 기물을 넘어서 이동할 수 없습니다.");
     }

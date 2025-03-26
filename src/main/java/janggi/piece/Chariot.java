@@ -12,29 +12,29 @@ public final class Chariot extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
-        validateLinearMove(fromPoint, toPoint);
+    public void validateMove(Point from, Point to) {
+        validateLinearMove(from, to);
     }
 
-    private void validateLinearMove(Point fromPoint, Point toPoint) {
-        if (!fromPoint.isHorizontallyAlignedWith(toPoint) && !fromPoint.isVerticallyAlignedWith(toPoint)) {
+    private void validateLinearMove(Point from, Point to) {
+        if (!from.isHorizontallyAlignedWith(to) && !from.isVerticallyAlignedWith(to)) {
             throw new IllegalArgumentException("차는 수평 혹은 수직으로만 움직여야 합니다.");
         }
     }
 
     @Override
-    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+    public void validateRouteObstacles(Set<Piece> piecesOnRoute) {
         if (!piecesOnRoute.isEmpty()) {
             throw new IllegalArgumentException("차는 기물을 넘어 이동할 수 없습니다.");
         }
     }
 
     @Override
-    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        if (fromPoint.isHorizontallyAlignedWith(toPoint)) {
-            return fromPoint.findHorizontalPointsBetween(toPoint);
+    public Set<Point> findRoute(Point from, Point to) {
+        if (from.isHorizontallyAlignedWith(to)) {
+            return from.findHorizontalPointsBetween(to);
         }
-        return fromPoint.findVerticalPointsBetween(toPoint);
+        return from.findVerticalPointsBetween(to);
     }
 
     @Override

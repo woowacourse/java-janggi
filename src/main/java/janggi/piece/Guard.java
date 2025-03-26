@@ -12,16 +12,16 @@ public final class Guard extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
+    public void validateMove(Point from, Point to) {
     }
 
     @Override
-    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+    public void validateRouteObstacles(Set<Piece> piecesOnRoute) {
 
     }
 
     @Override
-    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+    public Set<Point> findRoute(Point from, Point to) {
         return Set.of();
     }
 

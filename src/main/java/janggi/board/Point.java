@@ -14,83 +14,83 @@ public final class Point {
         this.y = y;
     }
 
-    public boolean isHorizontallyAlignedWith(Point otherPoint) {
-        return this.y == otherPoint.y;
+    public boolean isHorizontallyAlignedWith(Point other) {
+        return this.y == other.y;
     }
 
-    public boolean isVerticallyAlignedWith(Point otherPoint) {
-        return this.x == otherPoint.x;
+    public boolean isVerticallyAlignedWith(Point other) {
+        return this.x == other.x;
     }
 
-    public int getXDistanceFrom(Point otherPoint) {
-        return Math.abs(this.x - otherPoint.x);
+    public int xDistanceTo(Point other) {
+        return Math.abs(this.x - other.x);
     }
 
-    public int getYDistanceFrom(Point otherPoint) {
-        return Math.abs(this.y - otherPoint.y);
+    public int yDistanceTo(Point other) {
+        return Math.abs(this.y - other.y);
     }
 
-    public boolean isXWithin(int minInclusive, int maxExclusive) {
-        return isWithinRange(this.x, minInclusive, maxExclusive);
+    public boolean isXBetween(int startX, int endX) {
+        return isInHalfOpenRange(this.x, startX, endX);
     }
 
-    public boolean isYWithin(int minInclusive, int maxExclusive) {
-        return isWithinRange(this.y, minInclusive, maxExclusive);
+    public boolean isYBetween(int startY, int endY) {
+        return isInHalfOpenRange(this.y, startY, endY);
     }
 
-    private boolean isWithinRange(int value, int minInclusive, int maxExclusive) {
-        return minInclusive <= value && value < maxExclusive;
+    private boolean isInHalfOpenRange(int value, int startRange, int endRange) {
+        return startRange <= value && value < endRange;
     }
 
     public boolean isYGreaterThan(Point other) {
         return this.y > other.y;
     }
 
-    public Set<Point> findHorizontalPointsBetween(Point target) {
+    public Set<Point> findHorizontalPointsBetween(Point to) {
         Set<Point> horizontalPoints = new HashSet<>();
-        Point next = this.getNextHorizontalPointToward(target);
+        Point next = this.nextHorizontalPointTo(to);
 
-        while (!next.equals(target)) {
+        while (!next.equals(to)) {
             horizontalPoints.add(next);
-            next = next.getNextHorizontalPointToward(target);
+            next = next.nextHorizontalPointTo(to);
         }
 
         return horizontalPoints;
     }
 
-    public Set<Point> findVerticalPointsBetween(Point target) {
+    public Set<Point> findVerticalPointsBetween(Point to) {
         Set<Point> verticalPoints = new HashSet<>();
-        Point next = this.getNextVerticalPointToward(target);
+        Point next = this.nextVerticalPointTo(to);
 
-        while (!next.equals(target)) {
+        while (!next.equals(to)) {
             verticalPoints.add(next);
-            next = next.getNextVerticalPointToward(target);
+            next = next.nextVerticalPointTo(to);
         }
 
         return verticalPoints;
     }
 
-    public Point getNextHorizontalPointToward(Point other) {
-        if (this.x == other.x) {
+    public Point nextHorizontalPointTo(Point to) {
+        if (this.x == to.x) {
             throw new IllegalArgumentException("x좌표가 같습니다.");
         }
-        if (this.x < other.x) {
+        if (this.x < to.x) {
             return new Point(this.x + 1, this.y);
         }
         return new Point(this.x - 1, this.y);
     }
 
-    public Point getNextVerticalPointToward(Point other) {
-        if (this.y == other.y) {
+    public Point nextVerticalPointTo(Point to) {
+        if (this.y == to.y) {
             throw new IllegalArgumentException("y좌표가 같습니다.");
         }
-        if (this.y < other.y) {
+        if (this.y < to.y) {
             return new Point(this.x, this.y + 1);
         }
         return new Point(this.x, this.y - 1);
     }
 
-    public Point getCenterPointWith(Point other) {
+    public Point midPointBetween(Point other) {
         return new Point((this.x + other.x) / 2, (this.y + other.y) / 2);
     }
 

@@ -17,25 +17,25 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
-        validateElephantMove(fromPoint, toPoint);
+    public void validateMove(Point from, Point to) {
+        validateElephantMove(from, to);
     }
 
-    private void validateElephantMove(Point fromPoint, Point toPoint) {
-        if (!isElephantMove(fromPoint, toPoint)) {
+    private void validateElephantMove(Point from, Point to) {
+        if (!isElephantMove(from, to)) {
             throw new IllegalArgumentException("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
         }
     }
 
-    private boolean isElephantMove(Point fromPoint, Point toPoint) {
-        int xDistance = fromPoint.getXDistanceFrom(toPoint);
-        int yDistance = fromPoint.getYDistanceFrom(toPoint);
+    private boolean isElephantMove(Point from, Point to) {
+        int xDistance = from.xDistanceTo(to);
+        int yDistance = from.yDistanceTo(to);
         return (xDistance == DIAGONAL_STEP && yDistance == ELEPHANT_MOVE_DISTANCE)
                 || (xDistance == ELEPHANT_MOVE_DISTANCE && yDistance == DIAGONAL_STEP);
     }
 
     @Override
-    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+    public void validateRouteObstacles(Set<Piece> piecesOnRoute) {
         if (!piecesOnRoute.isEmpty()) {
             throw new IllegalArgumentException("상은 기물을 넘어서 이동할 수 없습니다.");
         }
@@ -50,17 +50,17 @@ public final class Elephant extends Piece {
 
     private Point getFirstStepPoint(Point from, Point to) {
         if (isElephantMovingHorizontally(from, to)) {
-            return from.getNextHorizontalPointToward(to);
+            return from.nextHorizontalPointTo(to);
         }
-        return from.getNextVerticalPointToward(to);
+        return from.nextVerticalPointTo(to);
     }
 
-    private Point getSecondStepPoint(Point firstStep, Point destination) {
-        return firstStep.getCenterPointWith(destination);
+    private Point getSecondStepPoint(Point firstStep, Point to) {
+        return firstStep.midPointBetween(to);
     }
 
     private boolean isElephantMovingHorizontally(Point from, Point to) {
-        return from.getXDistanceFrom(to) == ELEPHANT_MOVE_DISTANCE;
+        return from.xDistanceTo(to) == ELEPHANT_MOVE_DISTANCE;
     }
 
     private Set<Point> buildRoute(Point firstStep, Point secondStep) {

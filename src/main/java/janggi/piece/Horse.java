@@ -16,40 +16,40 @@ public final class Horse extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
-        validateHorseMove(fromPoint, toPoint);
+    public void validateMove(Point from, Point to) {
+        validateHorseMove(from, to);
     }
 
-    private void validateHorseMove(Point fromPoint, Point toPoint) {
-        if (!isHorseMove(fromPoint, toPoint)) {
+    private void validateHorseMove(Point from, Point to) {
+        if (!isHorseMove(from, to)) {
             throw new IllegalArgumentException("마는 직선으로 한 칸, 대각선으로 한 칸 움직여야 합니다.");
         }
     }
 
-    private boolean isHorseMove(Point fromPoint, Point toPoint) {
-        int xDistance = fromPoint.getXDistanceFrom(toPoint);
-        int yDistance = fromPoint.getYDistanceFrom(toPoint);
+    private boolean isHorseMove(Point from, Point to) {
+        int xDistance = from.xDistanceTo(to);
+        int yDistance = from.yDistanceTo(to);
         return (xDistance == HORSE_MOVE_DISTANCE && yDistance == DIAGONAL_STEP)
                 || (xDistance == DIAGONAL_STEP && yDistance == HORSE_MOVE_DISTANCE);
     }
 
     @Override
-    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+    public void validateRouteObstacles(Set<Piece> piecesOnRoute) {
         if (!piecesOnRoute.isEmpty()) {
             throw new IllegalArgumentException("마는 기물을 넘어서 이동할 수 없습니다.");
         }
     }
 
     @Override
-    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        if (isHorseMovingHorizontally(fromPoint, toPoint)) {
-            return Set.of(fromPoint.getNextHorizontalPointToward(toPoint));
+    public Set<Point> findRoute(Point from, Point to) {
+        if (isHorseMovingHorizontally(from, to)) {
+            return Set.of(from.nextHorizontalPointTo(to));
         }
-        return Set.of(fromPoint.getNextVerticalPointToward(toPoint));
+        return Set.of(from.nextVerticalPointTo(to));
     }
 
-    private boolean isHorseMovingHorizontally(Point fromPoint, Point toPoint) {
-        return fromPoint.getXDistanceFrom(toPoint) == HORSE_MOVE_DISTANCE;
+    private boolean isHorseMovingHorizontally(Point from, Point to) {
+        return from.xDistanceTo(to) == HORSE_MOVE_DISTANCE;
     }
 
     @Override

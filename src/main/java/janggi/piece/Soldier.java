@@ -14,44 +14,44 @@ public final class Soldier extends Piece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
+    public void validateMove(Point from, Point to) {
         if (isJol()) {
-            validateJolMove(fromPoint, toPoint);
+            validateJolMove(from, to);
             return;
         }
-        validateByeongMove(fromPoint, toPoint);
+        validateByeongMove(from, to);
     }
 
-    private void validateJolMove(Point fromPoint, Point toPoint) {
-        if (fromPoint.isYGreaterThan(toPoint)) {
+    private void validateJolMove(Point from, Point to) {
+        if (from.isYGreaterThan(to)) {
             throw new IllegalArgumentException("졸은 뒤로 갈 수 없습니다.");
         }
-        if (!isSoldierMove(fromPoint, toPoint)) {
+        if (!isSoldierMove(from, to)) {
             throw new IllegalArgumentException("졸은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
         }
     }
 
-    private void validateByeongMove(Point fromPoint, Point toPoint) {
-        if (toPoint.isYGreaterThan(fromPoint)) {
+    private void validateByeongMove(Point from, Point to) {
+        if (to.isYGreaterThan(from)) {
             throw new IllegalArgumentException("병은 뒤로 갈 수 없습니다.");
         }
-        if (!isSoldierMove(fromPoint, toPoint)) {
+        if (!isSoldierMove(from, to)) {
             throw new IllegalArgumentException("병은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
         }
     }
 
     private boolean isSoldierMove(Point from, Point to) {
-        int moveDistance = from.getXDistanceFrom(to) + from.getYDistanceFrom(to);
+        int moveDistance = from.xDistanceTo(to) + from.yDistanceTo(to);
         return moveDistance == SOLDIER_MOVE_DISTANCE;
     }
 
     @Override
-    public void validatePathObstacles(Set<Piece> piecesOnRoute) {
+    public void validateRouteObstacles(Set<Piece> piecesOnRoute) {
 
     }
 
     @Override
-    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+    public Set<Point> findRoute(Point from, Point to) {
         return Set.of();
     }
 

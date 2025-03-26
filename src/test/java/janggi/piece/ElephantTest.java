@@ -65,7 +65,7 @@ class ElephantTest {
         Set<Piece> piecesOnRoute = Set.of(new Soldier(Camp.CHU));
 
         // when & then
-        assertThatCode(() -> elephant.validatePathObstacles(piecesOnRoute))
+        assertThatCode(() -> elephant.validateRouteObstacles(piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("상은 기물을 넘어서 이동할 수 없습니다.");
     }

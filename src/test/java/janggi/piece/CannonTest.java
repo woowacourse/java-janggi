@@ -72,7 +72,7 @@ class CannonTest {
         Set<Piece> piecesOnRoute = Set.of();
 
         // when & then
-        assertThatCode(() -> cannon.validatePathObstacles(piecesOnRoute))
+        assertThatCode(() -> cannon.validateRouteObstacles(piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 0");
     }
@@ -85,7 +85,7 @@ class CannonTest {
         Set<Piece> piecesOnRoute = Set.of(new Soldier(Camp.CHU), new Soldier(Camp.CHU));
 
         // when & then
-        assertThatCode(() -> cannon.validatePathObstacles(piecesOnRoute))
+        assertThatCode(() -> cannon.validateRouteObstacles(piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 2");
     }
@@ -98,7 +98,7 @@ class CannonTest {
         Set<Piece> piecesOnRoute = Set.of(new Cannon(Camp.CHU));
 
         // when & then
-        assertThatCode(() -> cannon.validatePathObstacles(piecesOnRoute))
+        assertThatCode(() -> cannon.validateRouteObstacles(piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 넘을 수 없습니다.");
     }

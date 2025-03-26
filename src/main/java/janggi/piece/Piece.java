@@ -13,11 +13,11 @@ public abstract class Piece {
         this.camp = camp;
     }
 
-    public abstract void validateMove(Point fromPoint, Point toPoint);
+    public abstract void validateMove(Point from, Point to);
 
-    public abstract void validatePathObstacles(Set<Piece> piecesOnRoute);
+    public abstract void validateRouteObstacles(Set<Piece> piecesOnRoute);
 
-    public abstract Set<Point> findRoute(Point fromPoint, Point toPoint);
+    public abstract Set<Point> findRoute(Point from, Point to);
 
     public abstract PieceSymbol getPieceSymbol();
 
@@ -25,8 +25,8 @@ public abstract class Piece {
         return camp.isChu();
     }
 
-    public void validateCatch(Piece otherPiece) {
-        if (this.camp == otherPiece.camp) {
+    public void validateCatch(Piece targetPiece) {
+        if (this.camp == targetPiece.camp) {
             throw new IllegalArgumentException("같은 진영의 기물을 잡을 수 없습니다.");
         }
     }
