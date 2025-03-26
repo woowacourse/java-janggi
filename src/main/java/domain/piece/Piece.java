@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.MoveInfos;
 import domain.direction.Directions;
 import domain.spatial.Position;
 import java.util.List;
@@ -20,6 +21,8 @@ public abstract class Piece {
     public abstract boolean isKing();
 
     public abstract boolean isCannon();
+
+    public abstract void validateMove(final MoveInfos moveInfos);
 
     public abstract void validateMoveByPathPieceCount(final int pathPieceCount);
 
