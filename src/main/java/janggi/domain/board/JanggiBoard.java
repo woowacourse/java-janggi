@@ -4,9 +4,10 @@ import janggi.domain.Dynasty;
 import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
+import janggi.domain.piece.ChuSoldier;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
-import janggi.domain.piece.Soldier;
+import janggi.domain.piece.HanSoldier;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,11 +24,11 @@ public class JanggiBoard {
             put(new Point(2, 5), new BoardPiece(new General(), Dynasty.HAN));
             put(new Point(3, 2), new BoardPiece(new Cannon(), Dynasty.HAN));
             put(new Point(3, 8), new BoardPiece(new Cannon(), Dynasty.HAN));
-            put(new Point(4, 1), new BoardPiece(new Soldier(), Dynasty.HAN));
-            put(new Point(4, 3), new BoardPiece(new Soldier(), Dynasty.HAN));
-            put(new Point(4, 5), new BoardPiece(new Soldier(), Dynasty.HAN));
-            put(new Point(4, 7), new BoardPiece(new Soldier(), Dynasty.HAN));
-            put(new Point(4, 9), new BoardPiece(new Soldier(), Dynasty.HAN));
+            put(new Point(4, 1), new BoardPiece(new HanSoldier(), Dynasty.HAN));
+            put(new Point(4, 3), new BoardPiece(new HanSoldier(), Dynasty.HAN));
+            put(new Point(4, 5), new BoardPiece(new HanSoldier(), Dynasty.HAN));
+            put(new Point(4, 7), new BoardPiece(new HanSoldier(), Dynasty.HAN));
+            put(new Point(4, 9), new BoardPiece(new HanSoldier(), Dynasty.HAN));
 
             put(new Point(10, 1), new BoardPiece(new Chariot(), Dynasty.CHU));
             put(new Point(10, 4), new BoardPiece(new Guard(), Dynasty.CHU));
@@ -36,11 +37,11 @@ public class JanggiBoard {
             put(new Point(9, 5), new BoardPiece(new General(), Dynasty.CHU));
             put(new Point(8, 2), new BoardPiece(new Cannon(), Dynasty.CHU));
             put(new Point(8, 8), new BoardPiece(new Cannon(), Dynasty.CHU));
-            put(new Point(7, 1), new BoardPiece(new Soldier(), Dynasty.CHU));
-            put(new Point(7, 3), new BoardPiece(new Soldier(), Dynasty.CHU));
-            put(new Point(7, 5), new BoardPiece(new Soldier(), Dynasty.CHU));
-            put(new Point(7, 7), new BoardPiece(new Soldier(), Dynasty.CHU));
-            put(new Point(7, 9), new BoardPiece(new Soldier(), Dynasty.CHU));
+            put(new Point(7, 1), new BoardPiece(new ChuSoldier(), Dynasty.CHU));
+            put(new Point(7, 3), new BoardPiece(new ChuSoldier(), Dynasty.CHU));
+            put(new Point(7, 5), new BoardPiece(new ChuSoldier(), Dynasty.CHU));
+            put(new Point(7, 7), new BoardPiece(new ChuSoldier(), Dynasty.CHU));
+            put(new Point(7, 9), new BoardPiece(new ChuSoldier(), Dynasty.CHU));
         }
     };
 

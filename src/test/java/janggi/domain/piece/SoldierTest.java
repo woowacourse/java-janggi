@@ -24,7 +24,7 @@ public class SoldierTest {
     void isMovable_Han(int x1, int y1, int x2, int y2) {
         //givenR
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
-        Soldier soldier = new Soldier();
+        Soldier soldier = new HanSoldier();
 
         //when
         boolean result = soldier.isMovable(janggiBoard, Dynasty.HAN, new Point(x1, y1), new Point(x2, y2));
@@ -43,7 +43,7 @@ public class SoldierTest {
     void isMovable_Chu(int x1, int y1, int x2, int y2) {
         //givenR
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
-        Soldier soldier = new Soldier();
+        Soldier soldier = new ChuSoldier();
 
         //when
         boolean result = soldier.isMovable(janggiBoard, Dynasty.CHU, new Point(x1, y1), new Point(x2, y2));
@@ -57,7 +57,7 @@ public class SoldierTest {
     void isNotMovable_WhenImpossibleEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
-        Piece soldier = new Soldier();
+        Piece soldier = new ChuSoldier();
 
         // when
         boolean isMovable = soldier.isMovable(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(2, 2));
@@ -72,9 +72,9 @@ public class SoldierTest {
     void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(1, 2), new BoardPiece(new Soldier(), Dynasty.CHU)
+                new Point(1, 2), new BoardPiece(new ChuSoldier(), Dynasty.CHU)
         ));
-        Piece soldier = new Soldier();
+        Piece soldier = new ChuSoldier();
 
         // when
         boolean isMovable = soldier.isMovable(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(1, 2));

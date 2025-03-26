@@ -5,12 +5,13 @@ import janggi.domain.board.Point;
 import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
+import janggi.domain.piece.ChuSoldier;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
+import janggi.domain.piece.HanSoldier;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Soldier;
 import janggi.domain.player.Player;
 import java.util.Map;
 import java.util.Scanner;
@@ -30,7 +31,8 @@ public class JanggiBoardView {
             new Cannon(), "포",
             new Horse(), "마",
             new Elephant(), "상",
-            new Soldier(), "졸"
+            new ChuSoldier(), "졸",
+            new HanSoldier(), "병"
     );
     private static final Map<String, Integer> VERTICAL_INPUT_MAP = Map.of(
             "ㄱ", 1,

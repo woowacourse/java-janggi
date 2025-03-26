@@ -6,8 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.domain.Dynasty;
 import janggi.domain.piece.BoardPiece;
 import janggi.domain.piece.Cannon;
+import janggi.domain.piece.ChuSoldier;
 import janggi.domain.piece.General;
-import janggi.domain.piece.Soldier;
+import janggi.domain.piece.HanSoldier;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -82,8 +83,8 @@ public class JanggiBoardTest {
     void move() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(3, 3), new BoardPiece(new Soldier(), Dynasty.HAN),
-                new Point(4, 3), new BoardPiece(new Soldier(), Dynasty.CHU)
+                new Point(3, 3), new BoardPiece(new HanSoldier(), Dynasty.HAN),
+                new Point(4, 3), new BoardPiece(new ChuSoldier(), Dynasty.CHU)
         ));
 
         //when
@@ -91,7 +92,7 @@ public class JanggiBoardTest {
 
         //then
         assertThat(janggiBoard).isEqualTo(new JanggiBoard(Map.of(
-                new Point(4, 3), new BoardPiece(new Soldier(), Dynasty.HAN)
+                new Point(4, 3), new BoardPiece(new HanSoldier(), Dynasty.HAN)
         )));
     }
 
@@ -112,7 +113,7 @@ public class JanggiBoardTest {
     void move_whenOtherDynastyPiece() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(4, 3), new BoardPiece(new Soldier(), Dynasty.CHU)
+                new Point(4, 3), new BoardPiece(new ChuSoldier(), Dynasty.CHU)
         ));
 
         //when
@@ -126,8 +127,8 @@ public class JanggiBoardTest {
     void move_whenEndIsSameDynasty() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(3, 4), new BoardPiece(new Soldier(), Dynasty.HAN),
-                new Point(4, 3), new BoardPiece(new Soldier(), Dynasty.HAN)
+                new Point(3, 4), new BoardPiece(new HanSoldier(), Dynasty.HAN),
+                new Point(4, 3), new BoardPiece(new HanSoldier(), Dynasty.HAN)
         ));
 
         //when

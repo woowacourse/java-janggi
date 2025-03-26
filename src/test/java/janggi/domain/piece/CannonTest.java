@@ -17,7 +17,7 @@ class CannonTest {
     void moveCannonTest() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(4, 4), new BoardPiece(new Soldier(), Dynasty.HAN)
+                new Point(4, 4), new BoardPiece(new HanSoldier(), Dynasty.HAN)
         ));
         Cannon cannon = new Cannon();
 
@@ -33,8 +33,8 @@ class CannonTest {
     void moveCannonTest_WhenTwoPieceInPath() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(4, 4), new BoardPiece(new Soldier(), Dynasty.HAN),
-                new Point(4, 6), new BoardPiece(new Soldier(), Dynasty.HAN)
+                new Point(4, 4), new BoardPiece(new HanSoldier(), Dynasty.HAN),
+                new Point(4, 6), new BoardPiece(new HanSoldier(), Dynasty.HAN)
         ));
         Cannon cannon = new Cannon();
 

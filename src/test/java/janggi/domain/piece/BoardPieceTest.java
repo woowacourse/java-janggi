@@ -19,7 +19,7 @@ class BoardPieceTest {
     @Test
     void moveTest() {
         // given
-        BoardPiece boardPiece = new BoardPiece(new Soldier(), Dynasty.HAN);
+        BoardPiece boardPiece = new BoardPiece(new HanSoldier(), Dynasty.HAN);
         Point start = new Point(1, 1);
         Point end = new Point(2, 1);
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
@@ -38,7 +38,7 @@ class BoardPieceTest {
     @Test
     void moveFailTest_WhenIsNotMovable() {
         // given
-        BoardPiece boardPiece = new BoardPiece(new Soldier(), Dynasty.HAN);
+        BoardPiece boardPiece = new BoardPiece(new HanSoldier(), Dynasty.HAN);
         Point start = new Point(1, 1);
         Point end = new Point(2, 5);
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
