@@ -117,16 +117,22 @@ public class Board {
         int obstacleCount = 0;
         for (final Offset offset : movementRule) {
             currentBoardPosition = currentBoardPosition.calculatePosition(offset);
-            if (currentBoardPosition.equals(destinationBoardPosition)) {
-                break;
-            }
-
-            if (pieces.containsKey(currentBoardPosition)) {
-                obstacleCount++;
-            }
+            obstacleCount += isObstacle(currentBoardPosition, destinationBoardPosition);
         }
 
         return obstacleCount;
+    }
+
+    private int isObstacle(
+        final BoardPosition currentBoardPosition,
+        final BoardPosition destinationBoardPosition
+    ) {
+        if (!currentBoardPosition.equals(destinationBoardPosition) &&
+            pieces.containsKey(currentBoardPosition)) {
+            return 1;
+        }
+
+        return 0;
     }
 
     private void validateCannonMovementRule(
@@ -136,12 +142,15 @@ public class Board {
         BoardPosition currentBoardPosition = targetBoardPosition;
         for (final Offset offset : movementRule) {
             currentBoardPosition = currentBoardPosition.calculatePosition(offset);
+            validateCannonOverCannon(currentBoardPosition);
+        }
+    }
 
-            if (pieces.containsKey(currentBoardPosition)
-                && pieces.get(currentBoardPosition)
-                .getPieceType() == PieceType.CANNON) {
-                throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
-            }
+    private void validateCannonOverCannon(final BoardPosition currentBoardPosition) {
+        if (pieces.containsKey(currentBoardPosition)
+            && pieces.get(currentBoardPosition)
+            .getPieceType() == PieceType.CANNON) {
+            throw new IllegalArgumentException("포는 포를 넘거나 잡을 수 없습니다.");
         }
     }
 
