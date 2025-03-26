@@ -17,7 +17,7 @@ public record Vector(
     private void validateRange(final int moveRow, final int moveColumn) {
         if (moveRow > MAX_MOVE_ROW || moveColumn > MAX_MOVE_COLUMN || moveRow < MIN_MOVE_ROW
                 || moveColumn < MIN_MOVE_COLUMN) {
-            throw new IllegalArgumentException("[ERROR] 이동 방향의 수치는 -1, 0, 1만 가능합니다.");
+            throw new IllegalArgumentException("이동 방향의 수치는 -1, 0, 1만 가능합니다.");
         }
     }
 }

@@ -27,7 +27,7 @@ public record Position(
 
     private void validateRange(final int row, final int column) {
         if (!isWithinRange(row, column)) {
-            throw new IllegalArgumentException("[ERROR] 좌표 입력은 9X10 보드 이내만 가능합니다.");
+            throw new IllegalArgumentException("좌표 입력은 9X10 보드 이내만 가능합니다.");
         }
     }
 

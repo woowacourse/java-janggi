@@ -32,7 +32,7 @@ public enum PieceView {
         PieceView pieceView = Arrays.stream(values())
                 .filter(element -> element.aClass == piece.getClass())
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("표기할 수 없는 기물입니다."));
 
         return pieceView.name;
     }

@@ -27,7 +27,7 @@ public class Chariot extends Piece {
 
     private void validateMove(final MoveInfos moveInfos) {
         if (moveInfos.countPiecesInIntermediatePath() != PIECES_TO_PASS) {
-            throw new IllegalArgumentException("[ERROR] 차는 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
+            throw new IllegalArgumentException("차는 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
         }
     }
 }

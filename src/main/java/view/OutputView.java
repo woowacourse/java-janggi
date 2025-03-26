@@ -46,6 +46,10 @@ public class OutputView {
         System.out.println("우승자 : " + winner.team().getName());
     }
 
+    public void printErrorMessage(final String message) {
+        System.out.println("[ERROR] : " + message);
+    }
+
     private List<ArrayList<String>> createDefaultBoard() {
         List<ArrayList<String>> result = Stream.generate(() -> new ArrayList<String>())
                 .limit(10)

@@ -16,7 +16,7 @@ public class Directions {
         Direction direction = directions.stream()
                 .filter(element -> element.canReach(start, target))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 좌표입니다. 다시 확인해주세요."));
 
         return direction.createPath(start, target);
     }

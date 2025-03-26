@@ -23,6 +23,6 @@ class ChariotTest {
         // when & then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
-                .withMessage("[ERROR] 차는 중간에 기물이 0개여야 합니다.");
+                .withMessage("차는 중간에 기물이 0개여야 합니다.");
     }
 }

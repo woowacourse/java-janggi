@@ -14,9 +14,9 @@ public record Board(
         Pieces playerPieces = playerPiecesMap.get(player);
         Pieces opponentPieces = getOppositePieces(player);
 
-        validatePlayerPieceCapture(targetPosition, playerPieces);
-
         List<Position> paths = playerPieces.getPiecePaths(startPosition, targetPosition);
+
+        validatePlayerPieceCapture(targetPosition, playerPieces);
         MoveInfos moveInfos = createMoveInfos(paths);
 
         playerPieces.movePiece(startPosition, targetPosition, moveInfos);
@@ -35,7 +35,7 @@ public record Board(
         return playerPiecesMap.keySet().stream()
                 .filter(player -> playerPiecesMap.get(player).existKing())
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new RuntimeException("서버에 문제가 발생했습니다. - 우승자 플레이어가 없습니다."));
     }
 
     private Pieces getOppositePieces(final Player player) {
@@ -43,14 +43,14 @@ public record Board(
                 .stream()
                 .filter(opposite -> !opposite.equals(player))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new RuntimeException("서버에 문제가 발생했습니다. - 상대 플레이어가 없습니다."));
 
         return playerPiecesMap.get(oppositePlayer);
     }
 
     private static void validatePlayerPieceCapture(final Position targetPosition, final Pieces playerPieces) {
         if (playerPieces.existByPosition(targetPosition)) {
-            throw new IllegalArgumentException("[ERROR] 도착 위치에 아군의 기물이 존재해 이동할 수 없습니다.");
+            throw new IllegalArgumentException("도착 위치에 아군의 기물이 존재해 이동할 수 없습니다.");
         }
     }
 

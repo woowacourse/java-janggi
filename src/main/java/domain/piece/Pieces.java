@@ -54,6 +54,6 @@ public record Pieces(
         return pieces.stream()
                 .filter(element -> element.getPosition().equals(position))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("찾을 수 없는 좌표입니다."));
     }
 }

@@ -25,7 +25,7 @@ class CannonTest {
         // when & then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
-                .withMessage("[ERROR] 포는 중간에 기물이 1개여야 합니다.");
+                .withMessage("포는 중간에 기물이 1개여야 합니다.");
     }
 
     private static Stream<Arguments> 포는_경로에_기물이_1개가_아닌_경우_예외가_발생한다() {
@@ -47,7 +47,7 @@ class CannonTest {
         // when & then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
-                .withMessage("[ERROR] 포는 상대 포를 잡을 수 없습니다.");
+                .withMessage("포는 상대 포를 잡을 수 없습니다.");
     }
 
     @Test
@@ -65,6 +65,6 @@ class CannonTest {
         // when & then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
-                .withMessage("[ERROR] 포는 다른 포를 지나칠 수 없습니다.");
+                .withMessage("포는 다른 포를 지나칠 수 없습니다.");
     }
 }

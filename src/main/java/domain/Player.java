@@ -5,6 +5,6 @@ public record Player(
 ) {
 
     public boolean isHanTeam() {
-        return team.equals(Team.HAN);
+        return team == Team.HAN;
     }
 }

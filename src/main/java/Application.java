@@ -7,11 +7,15 @@ public class Application {
         OutputView outputView = new OutputView();
         InputView inputView = new InputView(new Scanner(System.in));
 
-        KoreaChess koreaChess = new KoreaChess(
-                outputView,
-                inputView
-        );
+        try {
+            KoreaChess koreaChess = new KoreaChess(
+                    outputView,
+                    inputView
+            );
 
-        koreaChess.run();
+            koreaChess.run();
+        } catch (Exception e) {
+            outputView.printErrorMessage(e.getMessage());
+        }
     }
 }

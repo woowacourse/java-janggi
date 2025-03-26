@@ -20,7 +20,7 @@ public enum SettingUp {
         SettingUp setting = Arrays.stream(values())
                 .filter(settingType -> settingType.command == command)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 올바른 커맨드 입력이 아닙니다."));
+                .orElseThrow(() -> new IllegalArgumentException("올바른 커맨드 입력이 아닙니다."));
 
         return setting.strategy;
     }
