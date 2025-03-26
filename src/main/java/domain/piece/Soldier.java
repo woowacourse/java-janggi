@@ -18,7 +18,8 @@ public class Soldier extends AbstractPiece {
     }
 
     @Override
-    public boolean isMovable(final Distance distance) {
+    public boolean isMovable(final Point fromPoint, final Point toPoint) {
+        final Distance distance = fromPoint.generateDistance(toPoint);
         if (Team.GREEN == team && distance.x() == 0 && distance.y() == 1) {
             return true;
         }

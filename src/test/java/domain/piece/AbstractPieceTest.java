@@ -2,7 +2,6 @@ package domain.piece;
 
 import domain.Score;
 import domain.Team;
-import domain.position.Distance;
 import domain.position.Point;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
@@ -22,7 +21,7 @@ class AbstractPieceTest {
         }
 
         @Override
-        public boolean isMovable(final Distance distance) {
+        public boolean isMovable(final Point fromPoint, final Point toPoint) {
             return false;
         }
 

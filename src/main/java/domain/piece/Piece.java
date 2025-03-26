@@ -1,11 +1,10 @@
 package domain.piece;
 
-import domain.position.Distance;
 import domain.position.Point;
 import java.util.List;
 
 public interface Piece {
-    boolean isMovable(final Distance distance);
+    boolean isMovable(final Point fromPoint, final Point toPoint);
 
     boolean isGreenTeam();
 

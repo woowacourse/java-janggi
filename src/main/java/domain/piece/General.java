@@ -18,7 +18,8 @@ public class General extends AbstractPiece {
     }
 
     @Override
-    public boolean isMovable(final Distance distance) {
+    public boolean isMovable(final Point fromPoint, final Point toPoint) {
+        final Distance distance = fromPoint.generateDistance(toPoint);
         final int absoluteX = Math.abs(distance.x());
         final int absoluteY = Math.abs(distance.y());
         if (absoluteX == 1 && absoluteY == 0) {

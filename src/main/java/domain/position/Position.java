@@ -40,7 +40,7 @@ public final class Position {
     }
 
     public boolean isMovableTo(final Point other) {
-        return piece.isMovable(point.calculateDistance(other));
+        return piece.isMovable(point, other);
     }
 
     public List<Point> calculatePossiblePoint(final Point toPoint) {
