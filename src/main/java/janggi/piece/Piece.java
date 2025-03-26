@@ -11,7 +11,7 @@ public abstract class Piece {
         this.color = color;
     }
 
-    public boolean isSameSide(final Piece other) {
+    public boolean isSameColor(final Piece other) {
         return this.color == other.color;
     }
 

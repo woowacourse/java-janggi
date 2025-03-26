@@ -2,15 +2,21 @@ package janggi.piece;
 
 import janggi.position.Position;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Pieces {
+    private final Map<Position, Piece> pieces;
 
-    public static Map<Position, Piece> init() {
-        Map<Position, Piece> board = new HashMap<>();
-        board.putAll(createRedSidePieces());
-        board.putAll(createBlueSidePieces());
-        return board;
+    public Pieces(final Map<Position, Piece> board) {
+        this.pieces = new HashMap<>(board);
+    }
+
+    public static Pieces init() {
+        Map<Position, Piece> pieces = new HashMap<>();
+        pieces.putAll(createRedSidePieces());
+        pieces.putAll(createBlueSidePieces());
+        return new Pieces(pieces);
     }
 
     private static Map<Position, Piece> createRedSidePieces() {
@@ -62,4 +68,69 @@ public class Pieces {
         board.put(new Position(9, 7), new Soldier(Color.BLUE));
         return board;
     }
+
+    public Piece getPieceByPosition(final Position position) {
+        try {
+            return pieces.get(position);
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("선택된 좌표에 말이 없습니다.");
+        }
+    }
+
+    public boolean containsPiece(final Position position) {
+        return pieces.containsKey(position);
+    }
+
+    public boolean containsPiece(final List<Position> positions) {
+        return positions.stream()
+                .anyMatch(pieces::containsKey);
+    }
+
+    // NOTE: 앞으로 진격하라는 의미.
+    // 현재는 도착지에 적이 있다면 죽입니다.
+    // 코드를 수정시 주석을 지워주세요.
+    public void moveForward(final Position start, final Position end) {
+        Piece startPositionPiece = getPieceByPosition(start);
+
+        // NOTE: 컬렉션을 직접 사용하고 있습니다.
+        // 검증이 필요하다면 메서드를 만들어 사용해주세요.
+        pieces.remove(start);
+        pieces.put(end, startPositionPiece);
+    }
+
+    public boolean isSameColorPiece(final Position start, final Position end) {
+        if (!pieces.containsKey(start) || !pieces.containsKey(end)) {
+            return false;
+        }
+        Piece startPiece = pieces.get(start);
+        Piece endPiece = pieces.get(end);
+        return startPiece.isSameColor(endPiece);
+    }
+
+    public Map<Position, Piece> getPieces() {
+        return pieces;
+    }
+
+    public boolean isEachCannonPiece(final Position start, final Position end) {
+        if (!pieces.containsKey(start) || !pieces.containsKey(end)) {
+            return false;
+        }
+        Piece startPiece = pieces.get(start);
+        Piece endPiece = pieces.get(end);
+        // NOTE: instanceOf를 사용하지 않는 방안 알아보기
+        return startPiece instanceof Cannon && endPiece instanceof Cannon;
+    }
+
+    public long countPieceOnPath(final List<Position> path) {
+        return path.stream()
+                .filter(pieces::containsKey)
+                .count();
+    }
+
+    public boolean isCannonPieceOnPath(final List<Position> path) {
+        return path.stream()
+                .anyMatch(position -> pieces.containsKey(position) &&
+                        pieces.get(position) instanceof Cannon);
+    }
+
 }

@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import janggi.piece.Cannon;
 import janggi.piece.Color;
 import janggi.piece.Piece;
+import janggi.piece.Pieces;
 import janggi.piece.Soldier;
 import janggi.piece.Tank;
 import janggi.position.Position;
@@ -29,7 +30,7 @@ public class BoardTest {
         @DisplayName("보드가 초기화 되면 32개의 기물을 가지고 있다.")
         void create32PiecesWhenStart() {
             // when
-            Board board = Board.init();
+            Board board = new Board();
 
             // then
             int expected = 32;
@@ -41,7 +42,7 @@ public class BoardTest {
         @CsvSource(value = {"RED", "BLUE"})
         void createEachSide16PiecesWhenStart(Color color) {
             // when
-            Board board = Board.init();
+            Board board = new Board();
 
             // then
             List<Piece> pieces = board.getBoard()
@@ -65,10 +66,10 @@ public class BoardTest {
         void sholudThrowExceptionWhenCurrentPieceAndDestinationPieceIsSameSide() {
             // given
             Board board = new Board(
-                    Map.of(
+                    new Pieces(Map.of(
                             new Position(1, 1), new Tank(Color.RED),
                             new Position(2, 1), new Soldier(Color.RED)
-                    )
+                    ))
             );
             Position start = new Position(1, 1);
             Position end = new Position(2, 1);
@@ -84,9 +85,9 @@ public class BoardTest {
             // given
             Piece piece = new Tank(Color.RED);
             Board board = new Board(
-                    Map.of(
+                    new Pieces(Map.of(
                             new Position(1, 1), piece
-                    )
+                    ))
             );
             Position start = new Position(1, 1);
             Position end = new Position(2, 1);
@@ -107,9 +108,9 @@ public class BoardTest {
             // given
             Piece piece = new Tank(Color.RED);
             Board board = new Board(
-                    Map.of(
+                    new Pieces(Map.of(
                             new Position(1, 1), piece
-                    )
+                    ))
             );
             Position start = new Position(1, 1);
             Position end = new Position(2, 2);
@@ -127,10 +128,10 @@ public class BoardTest {
             // given
             Piece piece = new Tank(Color.RED);
             Board board = new Board(
-                    Map.of(
+                    new Pieces(Map.of(
                             new Position(1, 1), piece,
                             new Position(3, 1), new Soldier(Color.RED)
-                    )
+                    ))
             );
             Position start = new Position(1, 1);
             Position end = new Position(5, 1);
@@ -148,11 +149,11 @@ public class BoardTest {
             // given
             Piece piece = new Cannon(Color.RED);
             Board board = new Board(
-                    Map.of(
+                    new Pieces(Map.of(
                             new Position(1, 1), piece,
                             new Position(3, 1), new Soldier(Color.RED),
                             new Position(4, 1), new Soldier(Color.RED)
-                    )
+                    ))
             );
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
@@ -170,10 +171,10 @@ public class BoardTest {
             // given
             Piece piece = new Cannon(Color.RED);
             Board board = new Board(
-                    Map.of(
+                    new Pieces(Map.of(
                             new Position(1, 1), piece,
                             new Position(3, 1), new Soldier(Color.RED)
-                    )
+                    ))
             );
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
@@ -191,10 +192,10 @@ public class BoardTest {
             // given
             Piece piece = new Cannon(Color.RED);
             Board board = new Board(
-                    Map.of(
+                    new Pieces(Map.of(
                             new Position(1, 1), piece,
                             new Position(3, 1), new Cannon(Color.RED)
-                    )
+                    ))
             );
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
@@ -212,9 +213,9 @@ public class BoardTest {
             // given
             Piece piece = new Cannon(Color.RED);
             Board board = new Board(
-                    Map.of(
+                    new Pieces(Map.of(
                             new Position(1, 1), piece
-                    )
+                    ))
             );
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
@@ -232,11 +233,11 @@ public class BoardTest {
             // given
             Piece piece = new Cannon(Color.RED);
             Board board = new Board(
-                    Map.of(
+                    new Pieces(Map.of(
                             new Position(1, 1), piece,
                             new Position(3, 1), new Soldier(Color.RED),
                             new Position(6, 1), new Cannon(Color.BLUE)
-                    )
+                    ))
             );
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
