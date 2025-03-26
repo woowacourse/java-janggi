@@ -37,7 +37,7 @@ public class Application {
 
         }
 
-        outputView.printResult(hanPlayer.isKingDie());
+        outputView.printResult(hanPlayer.isJanggunDie());
     }
 }
 

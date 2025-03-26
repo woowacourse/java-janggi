@@ -29,7 +29,7 @@ class PlayersTest {
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
 
         //when - then
-        assertThat(players.isKingDie()).isTrue();
+        assertThat(players.isJanggunDie()).isTrue();
     }
 
     @Test
@@ -41,7 +41,7 @@ class PlayersTest {
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
 
         //when - then
-        assertThat(players.isKingDie()).isFalse();
+        assertThat(players.isJanggunDie()).isFalse();
     }
 
     @Test
@@ -53,7 +53,7 @@ class PlayersTest {
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
 
         //when - then
-        assertThat(players.isKingDie()).isTrue();
+        assertThat(players.isJanggunDie()).isTrue();
     }
 
     @Test

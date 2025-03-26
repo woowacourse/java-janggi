@@ -72,10 +72,10 @@ class JolTest {
 
     @Test
     @DisplayName("왕인지 물어보는 테스트")
-    void isKingTest() {
+    void isJanggunTest() {
         Jol jol = new Jol(new Position(5, 5));
 
-        assertThat(jol.isKing()).isFalse();
+        assertThat(jol.isJanggun()).isFalse();
     }
 
     @Test

@@ -13,9 +13,9 @@ public class Players {
         this.players = new HashMap<>(players);
     }
 
-    public Boolean isKingDie() {
+    public Boolean isJanggunDie() {
         return players.values().stream()
-                .anyMatch(Player::isKingDie);
+                .anyMatch(Player::isJanggunDie);
     }
 
     public void capturePiece(final Nation attackNation, final Position presentPosition, final Position destination) {

@@ -50,7 +50,7 @@ public class Cha extends Piece {
     }
 
     @Override
-    public boolean isKing() {
+    public boolean isJanggun() {
         return false;
     }
 

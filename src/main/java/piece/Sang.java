@@ -72,7 +72,7 @@ public class Sang extends Piece {
     }
 
     @Override
-    public boolean isKing() {
+    public boolean isJanggun() {
         return false;
     }
 

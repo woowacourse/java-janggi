@@ -1,7 +1,6 @@
 package player;
 
 import java.util.ArrayList;
-import piece.Janggun;
 import piece.Piece;
 import java.util.List;
 import pieceProperty.Position;
@@ -22,9 +21,9 @@ public class Pieces {
                 .ifPresent(pieces::remove);
     }
 
-    public boolean hasKing() {
+    public boolean hasJanggun() {
         return pieces.stream()
-                .noneMatch(Piece::isKing);
+                .noneMatch(Piece::isJanggun);
     }
 
     public void validateAllyPieceAtStart(final Position presentPosition) {

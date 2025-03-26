@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static pieceProperty.PieceType.JANGGUN;
 
-import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -79,10 +78,10 @@ class JanggunTest {
 
     @Test
     @DisplayName("왕인지 물어보는 테스트")
-    void isKingTest() {
+    void isJanggunTest() {
         Janggun janggun = new Janggun(new Position(5, 5));
 
-        assertThat(janggun.isKing()).isTrue();
+        assertThat(janggun.isJanggun()).isTrue();
     }
 
     @Test

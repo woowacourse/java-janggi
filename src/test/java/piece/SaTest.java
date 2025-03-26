@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static pieceProperty.PieceType.SA;
 
-import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -79,10 +78,10 @@ class SaTest {
 
     @Test
     @DisplayName("왕인지 물어보는 테스트")
-    void isKingTest() {
+    void isJanggunTest() {
         Sa sa  = new Sa(new Position(5, 5));
 
-        assertThat(sa.isKing()).isFalse();
+        assertThat(sa.isJanggun()).isFalse();
     }
 
     @Test

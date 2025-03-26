@@ -27,25 +27,25 @@ class PiecesTest {
 
     @Test
     @DisplayName("왕이 죽었는지 확인하는 테스트")
-    void hasKing() {
+    void hasJanggun() {
         //given
         Jol jol = new Jol(new Position(5, 5));
         Pieces pieces = new Pieces(List.of(jol));
 
         //when - then
-        assertThat(pieces.hasKing()).isTrue();
+        assertThat(pieces.hasJanggun()).isTrue();
     }
 
     @Test
     @DisplayName("왕이 죽었는지 확인하는 테스트 (왕 생존)")
-    void hasKingTest() {
+    void hasJanggunTest() {
         //given
         Jol jol = new Jol(new Position(5, 5));
         Janggun janggun = new Janggun(new Position(6, 4));
         Pieces pieces = new Pieces(List.of(jol, janggun));
 
         //when - then
-        assertThat(pieces.hasKing()).isFalse();
+        assertThat(pieces.hasJanggun()).isFalse();
     }
 
     @Test

@@ -3,8 +3,6 @@ package player;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static player.Nation.CHO;
-import static player.Nation.HAN;
 
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -26,13 +24,13 @@ class PlayerTest {
 
     @Test
     @DisplayName("왕이 죽었는지 판단 테스트")
-    void isKingDieTest() {
+    void isJanggunDieTest() {
         //given
         Pieces pieces = new Pieces(List.of(new Jol(new Position(5, 5))));
         Player player = new Player(pieces);
 
         //when - then
-        assertThat(player.isKingDie()).isTrue();
+        assertThat(player.isJanggunDie()).isTrue();
     }
 
     @Test
@@ -43,7 +41,7 @@ class PlayerTest {
         Player player = new Player(pieces);
 
         //when - then
-        assertThat(player.isKingDie()).isFalse();
+        assertThat(player.isJanggunDie()).isFalse();
     }
 
     @Test

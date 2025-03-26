@@ -27,7 +27,7 @@ public class Byeong extends Piece {
     }
 
     @Override
-    public boolean isKing() {
+    public boolean isJanggun() {
         return false;
     }
 

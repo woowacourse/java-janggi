@@ -27,7 +27,7 @@ public class Janggun extends Piece {
     }
 
     @Override
-    public boolean isKing() {
+    public boolean isJanggun() {
         return true;
     }
 

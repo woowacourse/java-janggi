@@ -13,7 +13,7 @@ public class JanggiGameState {
     }
 
     public boolean isGameOver() {
-        return players.isKingDie();
+        return players.isJanggunDie();
     }
 
     public void movePiece(final Position presentPosition, final Position destination) {

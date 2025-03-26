@@ -73,10 +73,10 @@ class ByeongTest {
 
     @Test
     @DisplayName("왕인지 물어보는 테스트")
-    void isKingTest() {
+    void isJanggunTest() {
         Byeong byeong = new Byeong(new Position(5, 5));
 
-        assertThat(byeong.isKing()).isFalse();
+        assertThat(byeong.isJanggun()).isFalse();
     }
 
     @Test

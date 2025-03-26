@@ -35,7 +35,7 @@ public abstract class Piece {
 
     public abstract Positions makeRoute(final Position position);
 
-    public abstract boolean isKing();
+    public abstract boolean isJanggun();
 
     public abstract boolean isPo();
 

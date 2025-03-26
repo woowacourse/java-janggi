@@ -4,12 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static pieceProperty.PieceType.CHA;
 
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 
@@ -69,10 +65,10 @@ class ChaTest {
 
     @Test
     @DisplayName("왕인지 물어보는 테스트")
-    void isKingTest() {
+    void isJanggunTest() {
         Cha cha = new Cha(new Position(5, 5));
 
-        assertThat(cha.isKing()).isFalse();
+        assertThat(cha.isJanggun()).isFalse();
     }
 
     @Test

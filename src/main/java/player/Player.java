@@ -38,8 +38,8 @@ public class Player {
         pieces.removePiece(destination);
     }
 
-    public boolean isKingDie() {
-        return pieces.hasKing();
+    public boolean isJanggunDie() {
+        return pieces.hasJanggun();
     }
 
     public Pieces getPieces() {
