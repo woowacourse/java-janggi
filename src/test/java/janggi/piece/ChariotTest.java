@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.board.Point;
@@ -14,7 +15,7 @@ class ChariotTest {
 
     @DisplayName("차는 상하좌우로 움직이지 않은 경우 예외가 발생한다.")
     @ParameterizedTest
-    @CsvSource({"2,2", "4,2", "2,4", "4,4"})
+    @CsvSource({"2, 2", "4, 2", "2, 4", "4, 4"})
     void shouldThrowException_WhenInvalidMove(int toX, int toY) {
         // given
         Chariot chariot = new Chariot(Camp.HAN);
@@ -29,7 +30,7 @@ class ChariotTest {
 
     @DisplayName("차는 상하좌우 무제한으로 움직일 수 있다.")
     @ParameterizedTest
-    @CsvSource({"3,0", "3,5", "0,3", "5,3"})
+    @CsvSource({"3, 0", "3, 5", "0, 3", "5, 3"})
     void validateMoveTest(int toX, int toY) {
         // given
         Chariot chariot = new Chariot(Camp.HAN);
@@ -65,5 +66,18 @@ class ChariotTest {
         assertThatCode(() -> chariot.validateSelect(camp))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("다른 진영의 기물을 선택할 수 없습니다.");
+    }
+
+    @DisplayName("출발 좌표부터 도착 좌표까지의 경로를 찾는다.")
+    @Test
+    void findRouteTest() {
+        // given
+        Piece chariot = new Chariot(Camp.CHU);
+        Point from = new Point(5, 5);
+        Point to = new Point(5, 9);
+
+        // when & then
+        assertThat(chariot.findRoute(from, to))
+                .containsExactlyInAnyOrder(new Point(5, 6), new Point(5, 7), new Point(5, 8));
     }
 }

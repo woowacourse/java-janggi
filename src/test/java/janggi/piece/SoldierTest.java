@@ -28,7 +28,7 @@ class SoldierTest {
 
     @DisplayName("군인은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.")
     @ParameterizedTest
-    @CsvSource({"HAN, 0, 1", "HAN, 2, 1", "HAN, 1, 0", "CHU, 0, 1", "CHU, 2, 1", "CHU, 1, 2",})
+    @CsvSource({"HAN, 0, 1", "HAN, 2, 1", "HAN, 1, 0", "CHU, 0, 1", "CHU, 2, 1", "CHU, 1, 2"})
     void validMoveTest(Camp camp, int toX, int toY) {
         // given
         Soldier soldier = new Soldier(camp);

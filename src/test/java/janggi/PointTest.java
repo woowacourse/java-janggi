@@ -70,7 +70,7 @@ class PointTest {
     @DisplayName("좌표가 시작값 이상, 끝값 미만 범위를 벗어나면 false를 리턴한다.")
     @ParameterizedTest
     @CsvSource({"6,-2", "5,5", "-2,6", "-1,5"})
-    void outOfRangeTeset(int x, int y) {
+    void outOfRangeTest(int x, int y) {
         // given
         Point point = new Point(x, y);
 
@@ -153,9 +153,9 @@ class PointTest {
                 .hasMessage("y좌표가 같습니다.");
     }
 
-    @DisplayName("두 좌표의 중간 좌표를 찾는다.")
+    @DisplayName("짝수 좌표에 대한 중간 좌표를 찾는다.")
     @Test
-    void findCenterPointTest() {
+    void findCenterPointWithEvenCoordinatesTest() {
         // given
         Point from = new Point(0, 0);
         Point to = new Point(4, 4);
@@ -165,5 +165,19 @@ class PointTest {
 
         // then
         assertThat(centerPoint).isEqualTo(new Point(2, 2));
+    }
+
+    @DisplayName("홀수 좌표에 대한 중간 좌표를 찾는다.")
+    @Test
+    void findCenterPointWithOddCoordinatesTest() {
+        // given
+        Point from = new Point(1, 1);
+        Point to = new Point(4, 6);
+
+        // when
+        Point centerPoint = from.midPointBetween(to);
+
+        // then
+        assertThat(centerPoint).isEqualTo(new Point(2, 3));
     }
 }

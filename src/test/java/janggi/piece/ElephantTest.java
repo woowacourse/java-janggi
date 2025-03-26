@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.board.Point;
@@ -14,7 +15,7 @@ class ElephantTest {
 
     @DisplayName("상은 직선으로 한 칸, 대각선으로 두 칸 움직이지 않은 경우 예외가 발생한다.")
     @ParameterizedTest
-    @CsvSource({"5,7", "7,5", "3,5", "7,7", "5,5", "8,6"})
+    @CsvSource({"5, 7", "7, 5", "3, 5", "7, 7", "5, 5", "8, 6"})
     void shouldThrowException_WhenInvalidMove(int toX, int toY) {
         // given
         Elephant elephant = new Elephant(Camp.HAN);
@@ -29,7 +30,7 @@ class ElephantTest {
 
     @DisplayName("상은 직선으로 한 칸, 대각선으로 두 칸 움직일 수 있다.")
     @ParameterizedTest
-    @CsvSource({"7,8", "8,7", "7,2", "2,7", "8,3", "3,8", "3,2", "2,3,"})
+    @CsvSource({"7, 8", "8, 7", "7, 2", "2, 7", "8, 3", "3, 8", "3, 2", "2, 3"})
     void validateMoveTest(int toX, int toY) {
         // given
         Elephant elephant = new Elephant(Camp.HAN);
@@ -52,5 +53,19 @@ class ElephantTest {
         assertThatCode(() -> elephant.validateRouteObstacles(piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("상은 기물을 넘어서 이동할 수 없습니다.");
+    }
+
+
+    @DisplayName("출발 좌표부터 도착 좌표까지의 경로를 찾는다.")
+    @Test
+    void findRouteTest() {
+        // given
+        Piece elephant = new Elephant(Camp.CHU);
+        Point from = new Point(5, 5);
+        Point to = new Point(7, 8);
+
+        // when & then
+        assertThat(elephant.findRoute(from, to))
+                .containsExactlyInAnyOrder(new Point(5, 6), new Point(6, 7));
     }
 }

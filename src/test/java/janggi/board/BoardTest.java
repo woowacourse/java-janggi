@@ -29,7 +29,7 @@ class BoardTest {
 
     @DisplayName("영역 밖으로 기물을 둘 때 예외가 발생한다.")
     @ParameterizedTest
-    @CsvSource({"9,11", "9,0", "10,10", "0,10"})
+    @CsvSource({"9, 11", "9, 0", "10, 10", "0, 10"})
     void shouldThrowException_WhenInvalidPoint(int x, int y) {
         // given
         Board board = new Board();
