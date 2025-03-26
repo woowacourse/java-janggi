@@ -8,7 +8,7 @@ import java.util.Map;
 public class TestBoardGenerator {
 
     public static Board generateEmpty() {
-        return new Board(Map.of());
+        return new Board(Map.of(), 0);
     }
 
     public static Board generateBoardWithOnePiece(
@@ -17,7 +17,7 @@ public class TestBoardGenerator {
         Map<Position, Piece> board = Map.of(
                 position, piece
         );
-        return new Board(board);
+        return new Board(board, 0);
     }
 
     public static Board generateBoardWithTwoPiece(
@@ -28,6 +28,6 @@ public class TestBoardGenerator {
                 position1, piece1,
                 position2, piece2
         );
-        return new Board(board);
+        return new Board(board, 0);
     }
 }

@@ -24,7 +24,7 @@ class BoardTest {
         // given
         final Position start = new Position(Row.EIGHT, Column.ZERO);
         final Position end = new Position(Row.SEVEN, Column.ZERO);
-        final Board board = BoardGenerator.generate(SetupOption.INNER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.INNER_SETUP);
         // when
         // then
         assertThatThrownBy(() -> board.move(start, end))
@@ -36,7 +36,7 @@ class BoardTest {
     @Test
     void testCannotFindRule() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.INNER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.INNER_SETUP);
         final Position start = new Position(Row.SIX, Column.ZERO);
         final Position end = new Position(Row.SEVEN, Column.ZERO);
         // when
@@ -50,7 +50,7 @@ class BoardTest {
     @Test
     void testMoveSoldier() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.INNER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.INNER_SETUP);
         final Position start = new Position(Row.SIX, Column.ZERO);
         final Position end = new Position(Row.FIVE, Column.ZERO);
         // when

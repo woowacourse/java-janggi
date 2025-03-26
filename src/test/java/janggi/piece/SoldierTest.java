@@ -18,7 +18,7 @@ class SoldierTest {
     @Test
     void testCannotMove() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.INNER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.INNER_SETUP);
         final Position start = new Position(Row.EIGHT, Column.ZERO);
         final Position end = new Position(Row.SIX, Column.ZERO);
         final Soldier soldier = Soldier.of(Team.HAN);
@@ -47,7 +47,7 @@ class SoldierTest {
     @Test
     void testCanMove() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.INNER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.INNER_SETUP);
         final Position start = new Position(Row.NINE, Column.ZERO);
         final Position end = new Position(Row.EIGHT, Column.ZERO);
         final Soldier soldier = Soldier.of(Team.CHO);

@@ -18,7 +18,7 @@ class GuardTest {
     @Test
     void testCannotMove() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.INNER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.INNER_SETUP);
         final Position start = new Position(Row.EIGHT, Column.ZERO);
         final Position end = new Position(Row.SIX, Column.ZERO);
         final Guard guard = Guard.of(Team.HAN);
@@ -47,7 +47,7 @@ class GuardTest {
     @Test
     void testCanMove() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.INNER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.INNER_SETUP);
         final Position start = new Position(Row.NINE, Column.THREE);
         final Position end = new Position(Row.EIGHT, Column.THREE);
         final Guard guard = Guard.of(Team.CHO);

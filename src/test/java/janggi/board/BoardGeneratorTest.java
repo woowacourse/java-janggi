@@ -96,7 +96,7 @@ class BoardGeneratorTest {
                 new Position(Row.ZERO, Column.FIVE), Soldier.of(Team.HAN),
                 new Position(Row.ZERO, Column.SIX), Horse.of(Team.HAN),
                 new Position(Row.ZERO, Column.SEVEN), Chariot.of(Team.HAN)
-        ));
+        ), 0);
         // when
         final ScoreBoard scoreBoard = board.calculateScoreBoard();
         // then
@@ -125,7 +125,7 @@ class BoardGeneratorTest {
                 new Position(Row.ZERO, Column.TWO), Elephant.of(Team.CHO),
                 new Position(Row.ZERO, Column.FOUR), General.of(Team.CHO),
                 new Position(Row.ZERO, Column.FIVE), General.of(Team.HAN)
-        ));
+        ), 0);
         // when
         // then
         assertThat(board.findWinner()).isEqualTo(Team.CHO);
@@ -140,7 +140,7 @@ class BoardGeneratorTest {
                 new Position(Row.ZERO, Column.FOUR), General.of(Team.CHO),
                 new Position(Row.ZERO, Column.FIVE), Chariot.of(Team.HAN),
                 new Position(Row.ZERO, Column.SEVEN), Chariot.of(Team.HAN)
-        ));
+        ), 0);
         // when
         // then
         assertThat(board.findWinner()).isEqualTo(Team.CHO);
