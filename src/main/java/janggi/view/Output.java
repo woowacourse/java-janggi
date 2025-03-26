@@ -32,8 +32,8 @@ public class Output {
         }
 
         for (Piece piece : positioningPieces) {
-            int row = piece.getPosition().getRow();
-            int column = piece.getPosition().getColumn();
+            int row = piece.getPosition().row();
+            int column = piece.getPosition().column();
             String color = piece.getTeam().equals(Team.CHO) ? CHO_BLUE : HAN_RED;
             Map.Entry<PieceType,String> findEntry = pieceView.entrySet().stream()
                     .filter(entry -> entry.getKey() == piece.getpieceType())

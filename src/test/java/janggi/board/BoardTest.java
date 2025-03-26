@@ -3,9 +3,7 @@ package janggi.board;
 import janggi.piece.Chariot;
 import janggi.piece.Piece;
 import janggi.piece.PieceGenerator;
-import janggi.position.Column;
 import janggi.position.Position;
-import janggi.position.Row;
 import janggi.team.Team;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -22,8 +20,8 @@ public class BoardTest {
     void boardAttackTest() {
         //given
         Board board = new Board(pieceGenerator.generateInitialPieces(TableOption.EHHE, TableOption.HEEH));
-        Position startPosition = new Position(new Row(10), new Column(1));
-        Position arrivedPosition = new Position(new Row(8), new Column(1));
+        Position startPosition = new Position(10, 1);
+        Position arrivedPosition = new Position(8, 1);
         //when
         board.attack(Team.CHO, startPosition, arrivedPosition);
         List<Piece> positionedPieces = board.getPositionedPieces();
@@ -32,7 +30,7 @@ public class BoardTest {
                 .findFirst()
                 .orElseThrow();
         //then
-        Assertions.assertThat(findPiece).isEqualTo(new Chariot(Team.CHO,new Position(new Row(8), new Column(1))));
+        Assertions.assertThat(findPiece).isEqualTo(new Chariot(Team.CHO,new Position(8, 1)));
     }
 
     @Test
@@ -40,8 +38,8 @@ public class BoardTest {
     void checkTurnTest() {
         //given
         Board board = new Board(pieceGenerator.generateInitialPieces(TableOption.EHHE, TableOption.HEEH));
-        Position startPosition = new Position(new Row(10), new Column(1));
-        Position arrivedPosition = new Position(new Row(8), new Column(1));
+        Position startPosition = new Position(10, 1);
+        Position arrivedPosition = new Position(8, 1);
         //when & then
         Assertions.assertThatThrownBy(() -> board.attack(Team.HAN, startPosition, arrivedPosition))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -52,8 +50,8 @@ public class BoardTest {
     void notExistsPieceTest() {
         //given
         Board board = new Board(pieceGenerator.generateInitialPieces(TableOption.EHHE, TableOption.HEEH));
-        Position startPosition = new Position(new Row(9), new Column(1));
-        Position arrivedPosition = new Position(new Row(8), new Column(1));
+        Position startPosition = new Position(9, 1);
+        Position arrivedPosition = new Position(8,1);
         //when & then
         Assertions.assertThatThrownBy(() -> board.attack(Team.CHO, startPosition, arrivedPosition));
     }

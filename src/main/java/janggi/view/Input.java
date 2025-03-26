@@ -1,9 +1,7 @@
 package janggi.view;
 
 import janggi.board.TableOption;
-import janggi.position.Column;
 import janggi.position.Position;
-import janggi.position.Row;
 import janggi.team.Team;
 
 import java.util.Map;
@@ -48,6 +46,6 @@ public class Input {
     private Position convertToPosition(String[] splitInputPosition) {
         int row = Integer.parseInt(splitInputPosition[0]);
         int column = Integer.parseInt(splitInputPosition[1]);
-        return new Position(new Row(row), new Column(column));
+        return new Position(row, column);
     }
 }

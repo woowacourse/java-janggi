@@ -53,10 +53,10 @@ public class Cannon implements Piece {
         List<Position> pathPositions = new ArrayList<>();
         int arrivedValue = 0;
         if (position.isHorizontalFromPosition(arrivedPosition)) {
-            arrivedValue = Math.abs(position.getColumn() - arrivedPosition.getColumn());
+            arrivedValue = position.calculateColumnDistance(arrivedPosition);
         }
         if (position.isVerticalFromPosition(arrivedPosition)) {
-            arrivedValue = Math.abs(position.getRow() - arrivedPosition.getRow());
+            arrivedValue = position.calculateRowDistance(arrivedPosition);
         }
         for (int i = 0; i < arrivedValue; i++) {
             Position pathPosition = position;

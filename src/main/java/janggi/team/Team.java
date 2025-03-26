@@ -2,17 +2,16 @@ package janggi.team;
 
 import janggi.board.TableOption;
 import janggi.piece.Piece;
-import janggi.position.Row;
 
 import java.util.List;
 
 public enum Team {
-    CHO(new Row(10)),
-    HAN(new Row(1));
+    CHO(10),
+    HAN(1);
 
-    private final Row StartingRow;
+    private final int StartingRow;
 
-    Team(Row row) {
+    Team(int row) {
         this.StartingRow = row;
     }
 

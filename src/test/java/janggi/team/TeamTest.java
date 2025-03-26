@@ -4,9 +4,7 @@ import janggi.board.TableOption;
 import janggi.piece.Elephant;
 import janggi.piece.Horse;
 import janggi.piece.Piece;
-import janggi.position.Column;
 import janggi.position.Position;
-import janggi.position.Row;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,40 +32,40 @@ public class TeamTest {
                         Team.CHO,
                         TableOption.EHHE,
                         List.of(
-                                new Elephant(Team.CHO, new Position(new Row(10), new Column(2))),
-                                new Horse(Team.CHO, new Position(new Row(10), new Column(3))),
-                                new Horse(Team.CHO, new Position(new Row(10), new Column(7))),
-                                new Elephant(Team.CHO, new Position(new Row(10), new Column(8)))
+                                new Elephant(Team.CHO, new Position(10, 2)),
+                                new Horse(Team.CHO, new Position(10, 3)),
+                                new Horse(Team.CHO, new Position(10, 7)),
+                                new Elephant(Team.CHO, new Position(10, 8))
                         )
                 ),
                 Arguments.arguments(
                         Team.CHO,
                         TableOption.EHEH,
                         List.of(
-                                new Elephant(Team.CHO, new Position(new Row(10), new Column(2))),
-                                new Horse(Team.CHO, new Position(new Row(10), new Column(3))),
-                                new Elephant(Team.CHO, new Position(new Row(10), new Column(7))),
-                                new Horse(Team.CHO, new Position(new Row(10), new Column(8)))
+                                new Elephant(Team.CHO, new Position(10, 2)),
+                                new Horse(Team.CHO, new Position(10, 3)),
+                                new Elephant(Team.CHO, new Position(10, 7)),
+                                new Horse(Team.CHO, new Position(10, 8))
                         )
                 ),
                 Arguments.arguments(
                         Team.CHO,
                         TableOption.HEEH,
                         List.of(
-                                new Horse(Team.CHO, new Position(new Row(10), new Column(2))),
-                                new Elephant(Team.CHO, new Position(new Row(10), new Column(3))),
-                                new Elephant(Team.CHO, new Position(new Row(10), new Column(7))),
-                                new Horse(Team.CHO, new Position(new Row(10), new Column(8)))
+                                new Horse(Team.CHO, new Position(10, 2)),
+                                new Elephant(Team.CHO, new Position(10, 3)),
+                                new Elephant(Team.CHO, new Position(10, 7)),
+                                new Horse(Team.CHO, new Position(10, 8))
                         )
                 ),
                 Arguments.arguments(
                         Team.CHO,
                         TableOption.HEHE,
                         List.of(
-                                new Horse(Team.CHO, new Position(new Row(10), new Column(2))),
-                                new Elephant(Team.CHO, new Position(new Row(10), new Column(3))),
-                                new Horse(Team.CHO, new Position(new Row(10), new Column(7))),
-                                new Elephant(Team.CHO, new Position(new Row(10), new Column(8))
+                                new Horse(Team.CHO, new Position(10, 2)),
+                                new Elephant(Team.CHO, new Position(10, 3)),
+                                new Horse(Team.CHO, new Position(10, 7)),
+                                new Elephant(Team.CHO, new Position(10, 8)
                                 )
                         )
                 ),
@@ -75,40 +73,40 @@ public class TeamTest {
                         Team.HAN,
                         TableOption.EHHE,
                         List.of(
-                                new Elephant(Team.HAN, new Position(new Row(1), new Column(2))),
-                                new Horse(Team.HAN, new Position(new Row(1), new Column(3))),
-                                new Horse(Team.HAN, new Position(new Row(1), new Column(7))),
-                                new Elephant(Team.HAN, new Position(new Row(1), new Column(8)))
+                                new Elephant(Team.HAN, new Position(1, 2)),
+                                new Horse(Team.HAN, new Position(1, 3)),
+                                new Horse(Team.HAN, new Position(1, 7)),
+                                new Elephant(Team.HAN, new Position(1, 8))
                         )
                 ),
                 Arguments.arguments(
                         Team.HAN,
                         TableOption.EHEH,
                         List.of(
-                                new Elephant(Team.HAN, new Position(new Row(1), new Column(2))),
-                                new Horse(Team.HAN, new Position(new Row(1), new Column(3))),
-                                new Elephant(Team.HAN, new Position(new Row(1), new Column(7))),
-                                new Horse(Team.HAN, new Position(new Row(1), new Column(8)))
+                                new Elephant(Team.HAN, new Position(1, 2)),
+                                new Horse(Team.HAN, new Position(1, 3)),
+                                new Elephant(Team.HAN, new Position(1, 7)),
+                                new Horse(Team.HAN, new Position(1, 8))
                         )
                 ),
                 Arguments.arguments(
                         Team.HAN,
                         TableOption.HEEH,
                         List.of(
-                                new Horse(Team.HAN, new Position(new Row(1), new Column(2))),
-                                new Elephant(Team.HAN, new Position(new Row(1), new Column(3))),
-                                new Elephant(Team.HAN, new Position(new Row(1), new Column(7))),
-                                new Horse(Team.HAN, new Position(new Row(1), new Column(8)))
+                                new Horse(Team.HAN, new Position(1, 2)),
+                                new Elephant(Team.HAN, new Position(1, 3)),
+                                new Elephant(Team.HAN, new Position(1, 7)),
+                                new Horse(Team.HAN, new Position(1, 8))
                         )
                 ),
                 Arguments.arguments(
                         Team.HAN,
                         TableOption.HEHE,
                         List.of(
-                                new Horse(Team.HAN, new Position(new Row(1), new Column(2))),
-                                new Elephant(Team.HAN, new Position(new Row(1), new Column(3))),
-                                new Horse(Team.HAN, new Position(new Row(1), new Column(7))),
-                                new Elephant(Team.HAN, new Position(new Row(1), new Column(8)))
+                                new Horse(Team.HAN, new Position(1, 2)),
+                                new Elephant(Team.HAN, new Position(1, 3)),
+                                new Horse(Team.HAN, new Position(1, 7)),
+                                new Elephant(Team.HAN, new Position(1, 8))
                         )
                 )
         );

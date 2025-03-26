@@ -54,10 +54,10 @@ public class Chariot implements Piece {
         List<Position> pathPositions = new ArrayList<>();
         int arrivedValue = 0;
         if (position.isHorizontalFromPosition(arrivedPosition)) {
-            arrivedValue = Math.abs(position.getColumn() - arrivedPosition.getColumn());
+            arrivedValue = Math.abs(position.calculateColumnDistance(arrivedPosition));
         }
         if (position.isVerticalFromPosition(arrivedPosition)) {
-            arrivedValue = Math.abs(position.getRow() - arrivedPosition.getRow());
+            arrivedValue = Math.abs(position.calculateRowDistance(arrivedPosition));
         }
         for (int i = 0; i < arrivedValue; i++) {
             Position pathPosition = position;

@@ -1,8 +1,6 @@
 package janggi.piece;
 
-import janggi.position.Column;
 import janggi.position.Position;
-import janggi.position.Row;
 import janggi.team.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,113 +15,113 @@ public class KingTest {
     @DisplayName("왕 전진 테스트")
     void kingForwardTest() {
         //given
-        King king = new King(Team.CHO, new Position(new Row(9), new Column(5)));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
-        Position arrivedPosition = new Position(new Row(8), new Column(5));
+        King king = new King(Team.CHO, new Position(9, 5));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
+        Position arrivedPosition = new Position(8, 5);
         //when
         king.move(arrivedPosition, positioningPiece);
         //then
-        assertThat(king.matchesPosition(new Position(new Row(8), new Column(5)))).isTrue();
+        assertThat(king.matchesPosition(new Position(8, 5))).isTrue();
     }
 
     @Test
     @DisplayName("왕 후진 테스트")
     void kingBackTest() {
         //given
-        King king = new King(Team.CHO, new Position(new Row(9), new Column(5)));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
-        Position arrivedPosition = new Position(new Row(10), new Column(5));
+        King king = new King(Team.CHO, new Position(9, 5));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
+        Position arrivedPosition = new Position(10, 5);
         //when
         king.move(arrivedPosition, positioningPiece);
         //then
-        assertThat(king.matchesPosition(new Position(new Row(10), new Column(5)))).isTrue();
+        assertThat(king.matchesPosition(new Position(10, 5))).isTrue();
     }
 
     @Test
     @DisplayName("왕 오른쪽 이동 테스트")
     void kingRightStepTest() {
         //given
-        King king = new King(Team.CHO, new Position(new Row(9), new Column(5)));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
-        Position arrivedPosition = new Position(new Row(9), new Column(6));
+        King king = new King(Team.CHO, new Position(9, 5));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
+        Position arrivedPosition = new Position(9, 6);
         //when
         king.move(arrivedPosition, positioningPiece);
         //then
-        assertThat(king.matchesPosition(new Position(new Row(9), new Column(6)))).isTrue();
+        assertThat(king.matchesPosition(new Position(9, 6))).isTrue();
     }
 
     @Test
     @DisplayName("왕 왼쪽 이동 테스트")
     void kingLeftStepTest() {
         //given
-        King king = new King(Team.CHO, new Position(new Row(9), new Column(5)));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
-        Position arrivedPosition = new Position(new Row(9), new Column(4));
+        King king = new King(Team.CHO, new Position(9, 5));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
+        Position arrivedPosition = new Position(9, 4);
         //when
         king.move(arrivedPosition, positioningPiece);
         //then
-        assertThat(king.matchesPosition(new Position(new Row(9), new Column(4)))).isTrue();
+        assertThat(king.matchesPosition(new Position(9, 4))).isTrue();
     }
 
     @Test
     @DisplayName("왕 오른쪽 위 이동 테스트")
     void kingRightUpStepTest() {
         //given
-        King king = new King(Team.CHO, new Position(new Row(9), new Column(5)));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
-        Position arrivedPosition = new Position(new Row(8), new Column(6));
+        King king = new King(Team.CHO, new Position(9, 5));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
+        Position arrivedPosition = new Position(8, 6);
         //when
         king.move(arrivedPosition, positioningPiece);
         //then
-        assertThat(king.matchesPosition(new Position(new Row(8), new Column(6)))).isTrue();
+        assertThat(king.matchesPosition(new Position(8, 6))).isTrue();
     }
 
     @Test
     @DisplayName("왕 오른쪽 아래 이동 테스트")
     void kingRightDownStepTest() {
         //given
-        King king = new King(Team.CHO, new Position(new Row(9), new Column(5)));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
-        Position arrivedPosition = new Position(new Row(10), new Column(6));
+        King king = new King(Team.CHO, new Position(9, 5));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
+        Position arrivedPosition = new Position(10, 6);
         //when
         king.move(arrivedPosition, positioningPiece);
         //then
-        assertThat(king.matchesPosition(new Position(new Row(10), new Column(6)))).isTrue();
+        assertThat(king.matchesPosition(new Position(10, 6))).isTrue();
     }
 
     @Test
     @DisplayName("왕 왼쪽 위 이동 테스트")
     void kingLeftUpStepTest() {
         //given
-        King king = new King(Team.CHO, new Position(new Row(9), new Column(5)));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
-        Position arrivedPosition = new Position(new Row(8), new Column(4));
+        King king = new King(Team.CHO, new Position(9, 5));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
+        Position arrivedPosition = new Position(8, 4);
         //when
         king.move(arrivedPosition, positioningPiece);
         //then
-        assertThat(king.matchesPosition(new Position(new Row(8), new Column(4)))).isTrue();
+        assertThat(king.matchesPosition(new Position(8, 4))).isTrue();
     }
 
     @Test
     @DisplayName("왕 왼쪽 아래 이동 테스트")
     void kingLeftDownStepTest() {
         //given
-        King king = new King(Team.CHO, new Position(new Row(9), new Column(5)));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(7), new Column(2))));
-        Position arrivedPosition = new Position(new Row(10), new Column(4));
+        King king = new King(Team.CHO, new Position(9, 5));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
+        Position arrivedPosition = new Position(10, 4);
         //when
         king.move(arrivedPosition, positioningPiece);
         //then
-        assertThat(king.matchesPosition(new Position(new Row(10), new Column(4)))).isTrue();
+        assertThat(king.matchesPosition(new Position(10, 4))).isTrue();
     }
 
     @Test
     @DisplayName("왕 전진 위치에 아군 존재시 이동 불가 예외 발생 테스트")
     void kingStepExceptionTest() {
         //given
-        King king = new King(Team.CHO, new Position(new Row(9), new Column(5)));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(9), new Column(6))));
-        Position arrivedPosition = new Position(new Row(9), new Column(6));
+        King king = new King(Team.CHO, new Position(9, 5));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(9, 6)));
+        Position arrivedPosition = new Position(9, 6);
         //when & then
         assertThatThrownBy(() -> king.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
@@ -132,9 +130,9 @@ public class KingTest {
     @DisplayName("왕 장기판 밖으로 이동 시 예외 발생 테스트")
     void outOfBoardExceptionTest() {
         //given
-        King king = new King(Team.CHO, new Position(new Row(10), new Column(5)));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(new Row(9), new Column(6))));
-        Position arrivedPosition = new Position(new Row(11), new Column(5));
+        King king = new King(Team.CHO, new Position(10, 5));
+        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(9, 6)));
+        Position arrivedPosition = new Position(11, 5);
         //when & then
         assertThatThrownBy(() -> king.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }

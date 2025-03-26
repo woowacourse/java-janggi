@@ -1,21 +1,26 @@
 package janggi.position;
 
-public record Position(Row row, Column column) {
+public record Position(int row, int column) {
+
+    private static final int ROW_MIN = 1;
+    private static final int ROW_MAX = 10;
+    private static final int COLUMN_MIN = 1;
+    private static final int COLUMN_MAX = 9;
 
     public Position move(int rowMovement, int columnMovement) {
-        return new Position(row.move(rowMovement), column.move(columnMovement));
+        return new Position(row + rowMovement, column + columnMovement);
     }
 
     public boolean isSameRow(Position position) {
-        return position.row.equals(row);
+        return position.row == row;
     }
 
     public boolean isSameColumn(Position position) {
-        return position.column.equals(column);
+        return position.column == column;
     }
 
     public boolean isOutOfBoards() {
-        return row().isOutOfBounds() || column().isOutOfBounds();
+        return  (row < ROW_MIN || row > ROW_MAX) || (column < COLUMN_MIN || column > COLUMN_MAX);
     }
 
     public boolean isVerticalFromPosition(Position position) {
@@ -26,12 +31,11 @@ public record Position(Row row, Column column) {
         return isSameRow(position);
     }
 
-    public int getRow() {
-        return row.value();
+    public int calculateRowDistance(Position position) {
+        return Math.abs(position.row - row);
     }
 
-    public int getColumn() {
-        return column.value();
+    public int calculateColumnDistance(Position position) {
+        return Math.abs(position.column - column);
     }
-
 }

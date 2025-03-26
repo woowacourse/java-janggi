@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
@@ -17,10 +18,10 @@ public class PositionTest {
     @DisplayName("row,column에 따른 position 생성 확인")
     void positionCreateTest() {
         //given
-        Position position = new Position(new Row(2), new Column(3));
+        Position position = new Position(2, 3);
         //when
-        int expectedX = position.getRow();
-        int expectedY = position.getColumn();
+        int expectedX = position.row();
+        int expectedY = position.column();
         //then
         assertAll(
                 () -> assertThat(expectedX).isEqualTo(2),
@@ -38,10 +39,10 @@ public class PositionTest {
     static Stream<Arguments> makeOutOfBoardTrueTestData() {
         return Stream.of(
         Arguments.arguments(
-        new Position(new Row(11), new Column(10))
+        new Position(11, 10)
                 ),
         Arguments.arguments(
-        new Position(new Row(0), new Column(0))
+        new Position(0, 0)
                 )
         );
     }
@@ -56,10 +57,34 @@ public class PositionTest {
     static Stream<Arguments> makeOutOfBoardFalseTestData() {
         return Stream.of(
                 Arguments.arguments(
-                        new Position(new Row(10), new Column(9))
+                        new Position(10, 9)
                 ),
                 Arguments.arguments(
-                        new Position(new Row(1), new Column(1))
+                        new Position(1, 1)
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("makeOutOfBoundsTestData")
+    @DisplayName("영역 밖의 값을 가지면 True")
+    void outOfBoundsTrueTest(Position position) {
+        Assertions.assertThat(position.isOutOfBoards()).isTrue();
+    }
+
+    static Stream<Arguments> makeOutOfBoundsTestData() {
+        return Stream.of(
+                Arguments.arguments(
+                        new Position(0,1)
+                ),
+                Arguments.arguments(
+                        new Position(1,0)
+                ),
+                Arguments.arguments(
+                        new Position(10,10)
+                ),
+                Arguments.arguments(
+                        new Position(11,9)
                 )
         );
     }

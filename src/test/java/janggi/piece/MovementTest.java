@@ -1,8 +1,6 @@
 package janggi.piece;
 
-import janggi.position.Column;
 import janggi.position.Position;
-import janggi.position.Row;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,7 +19,7 @@ public class MovementTest {
 
         //when
         List<Position> arrivedPositions = movements.stream()
-                .map(movement -> movement.move(new Position(new Row(1), new Column(1))))
+                .map(movement -> movement.move(new Position(1, 1)))
                 .toList();
         //then
         Assertions.assertThat(arrivedPositions).containsAll(expected);
@@ -37,10 +35,10 @@ public class MovementTest {
                                 Movement.LEFT
                         ),
                         List.of(
-                                new Position(new Row(2), new Column(1)),
-                                new Position(new Row(0), new Column(1)),
-                                new Position(new Row(1), new Column(2)),
-                                new Position(new Row(1), new Column(0))
+                                new Position(2, 1),
+                                new Position(0, 1),
+                                new Position(1, 2),
+                                new Position(1, 0)
                         )
                 ),
                 Arguments.arguments(
@@ -51,10 +49,10 @@ public class MovementTest {
                                 Movement.LEFT_DOWN
                         ),
                         List.of(
-                                new Position(new Row(2), new Column(2)),
-                                new Position(new Row(2), new Column(0)),
-                                new Position(new Row(0), new Column(2)),
-                                new Position(new Row(0), new Column(0))
+                                new Position(2, 2),
+                                new Position(2, 0),
+                                new Position(0, 2),
+                                new Position(0, 0)
                         )
                 )
         );
