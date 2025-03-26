@@ -10,10 +10,6 @@ public enum Team {
         this.value = value;
     }
 
-    public boolean isMyTurn(Team team) {
-        return this.equals(team);
-    }
-
     public Team change() {
         if (this == RED) {
             return GREEN;

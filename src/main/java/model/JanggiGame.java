@@ -44,10 +44,7 @@ public class JanggiGame {
 
     private void validateTurnAndChange(Position departure) {
         Piece piece = pieces.findPieceBy(departure);
-        Team team = piece.getTeam();
-        if (team.isMyTurn(turn)) {
-            throw new IllegalArgumentException("본인 팀의 턴이 아닙니다.");
-        }
+        piece.checkOfTurn(turn);
         turn = turn.change();
     }
 

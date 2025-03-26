@@ -12,6 +12,13 @@ public abstract class Piece{
         this.team = team;
     }
 
+    public void checkOfTurn(Team turn) {
+        if (this.team.equals(turn)) {
+            return;
+        }
+        throw new IllegalArgumentException("본인 팀의 턴이 아닙니다.");
+    }
+
     public abstract List<Position> calculateAllDirection(Position departure, Position arrival);
 
     public abstract boolean isCannon();
