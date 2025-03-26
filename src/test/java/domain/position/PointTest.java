@@ -25,7 +25,7 @@ class PointTest {
     @CsvSource({
             "-1,-1", "10,11", "9,0", "야,뭐", "y,n"
     })
-    void 올바르지_않은_좌료를_입력_받으면_false_반환(final String x, final String y) {
+    void 올바르지_않은_좌표를_입력_받으면_예외_발생(final String x, final String y) {
         // given
         // when
         // then
