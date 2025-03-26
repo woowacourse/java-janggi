@@ -41,7 +41,9 @@ public class OutputView {
         return "한나라";
     }
 
-    public static void printScore() {
-        System.out.println("점수계산");
+    public static void printScore(int choScore, int hanScore) {
+        System.out.println("\n최종 점수");
+        System.out.printf("초나라 : %d점\n", choScore);
+        System.out.printf("한나라 : %d점\n", hanScore);
     }
 }

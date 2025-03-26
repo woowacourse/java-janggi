@@ -81,4 +81,8 @@ public abstract class Piece {
     public void validateMove(List<Piece> hurdlePieces) {
         state.validateMove(hurdlePieces);
     }
+
+    public int getScore() {
+        return score;
+    }
 }

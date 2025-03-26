@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.Empty;
 import domain.piece.Piece;
+import domain.piece.Side;
 import domain.piece.state.PieceState;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,8 @@ import java.util.Map;
 public class JanggiBoard {
 
     private final Map<JanggiPosition, Piece> janggiBoard;
+    private int choScore = 0;
+    private int hanScore = 0;
 
     public JanggiBoard(Map<JanggiPosition, Piece> janggiBoard) {
         this.janggiBoard = janggiBoard;
@@ -58,6 +61,7 @@ public class JanggiBoard {
     private void changeState(Piece piece, Piece targetPiece) {
         piece.updateState();
         piece.capture(targetPiece);
+        updateScore(piece, targetPiece);
     }
 
     private void changePosition(JanggiPosition beforePosition, JanggiPosition afterPosition) {
@@ -69,5 +73,18 @@ public class JanggiBoard {
 
     public boolean isGeneralDead(PieceState targetPiece) {
         return targetPiece.isGeneral();
+    }
+
+    private void updateScore(Piece piece, Piece targetPiece) {
+        if (piece.getSide().equals(Side.CHO)) {
+            choScore = choScore + targetPiece.getScore();
+        }
+        if (piece.getSide().equals(Side.HAN)) {
+            hanScore = hanScore + targetPiece.getScore();
+        }
+    }
+
+    public Score getScore() {
+        return new Score(choScore, hanScore);
     }
 }

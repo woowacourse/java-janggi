@@ -2,6 +2,7 @@ package domain.game;
 
 import domain.JanggiBoard;
 import domain.JanggiPosition;
+import domain.Score;
 import domain.piece.Piece;
 import domain.piece.state.PieceState;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class Run extends Start {
         player.change();
 
         if (janggiBoard.isGeneralDead(state)) {
-            return new End(getBoard(), player);
+            return new End(getBoard(), getScoreWhenFinish());
         }
 
         return new Run(janggiBoard, player);
@@ -35,6 +36,10 @@ public class Run extends Start {
         if (!player.isMyPiece(piece)) {
             throw new IllegalArgumentException("자신의 기물만 움직일 수 있습니다.");
         }
+    }
+
+    private Score getScoreWhenFinish() {
+        return janggiBoard.getScore();
     }
 
     @Override

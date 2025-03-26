@@ -23,6 +23,7 @@ public class Captured implements PieceState {
         throw new UnsupportedOperationException("이미 잡힌 기물입니다.");
     }
 
+
     @Override
     public PieceState updateState() {
         throw new UnsupportedOperationException("이미 잡힌 기물입니다.");
