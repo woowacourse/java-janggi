@@ -2,6 +2,7 @@ package domain;
 
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
+import domain.piece.category.Guard;
 import domain.piece.category.King;
 import domain.spatial.Position;
 import java.util.LinkedHashMap;
@@ -35,6 +36,37 @@ class MoveInfoTest {
         return Stream.of(
                 Arguments.of(null, true),
                 Arguments.of(new King(new Position(1, 2), PieceDirection.KING.get()), false)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void 이동_기물과_도착지_기물이_같은지_판단한다(Piece startPiece, Piece targetPiece, boolean excepted) {
+        // given
+        Map<Position, Piece> pathPieces = new LinkedHashMap<>();
+        pathPieces.put(new Position(1, 2), null);
+        pathPieces.put(new Position(2, 2), null);
+        pathPieces.put(new Position(3, 2), targetPiece);
+
+        // when
+        boolean result = pathPieces.isSameTargetPiece(startPiece);
+
+        // then
+        assertThat(result).isEqualTo(excepted);
+    }
+
+    private static Stream<Arguments> 이동_기물과_도착지_기물이_같은지_판단한다() {
+        return Stream.of(
+                Arguments.of(
+                        new King(new Position(1, 2), PieceDirection.KING.get()),
+                        new King(new Position(3, 2), PieceDirection.KING.get()),
+                        true
+                ),
+                Arguments.of(
+                        new King(new Position(1, 2), PieceDirection.KING.get()),
+                        new Guard(new Position(1, 2), PieceDirection.GUARD.get()),
+                        false
+                )
         );
     }
 }
