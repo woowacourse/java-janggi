@@ -1,5 +1,7 @@
 package janggi.view;
 
+import janggi.Player;
+import janggi.Turn;
 import janggi.board.Position;
 import janggi.piece.Cannon;
 import janggi.piece.Elephant;
@@ -15,12 +17,16 @@ public class OutputView {
 
     private static final String ERROR_PREFIX = "[ERROR] ";
 
-    public void printBoard(Map<Position, Piece> board) {
+    public void printTurn(final Turn turn) {
+        System.out.printf("%s 차례입니다.%n", turn.side());
+    }
+
+    public void printBoard(final Map<Position, Piece> board) {
         String[][] boardOutput = initBoardOutput(board);
         printBoardOutput(boardOutput);
     }
 
-    private static void printBoardOutput(String[][] boardOutput) {
+    private static void printBoardOutput(final String[][] boardOutput) {
         for (int i = 9; i >= 0; i--) {
             for (String[] strings : boardOutput) {
                 System.out.printf("%s\t", strings[i]);
@@ -31,7 +37,7 @@ public class OutputView {
         System.out.println("1\t2\t3\t4\t5\t6\t7\t8\t9");
     }
 
-    private static String[][] initBoardOutput(Map<Position, Piece> board) {
+    private static String[][] initBoardOutput(final Map<Position, Piece> board) {
         String[][] boardOutput = new String[9][10];
         for (int i = 0; i < boardOutput.length; i++) {
             for (int j = 0; j < boardOutput[i].length; j++) {
@@ -48,8 +54,21 @@ public class OutputView {
         return boardOutput;
     }
 
-    public void printErrorMessage(Exception e) {
+    public void printErrorMessage(final Exception e) {
         System.out.println(ERROR_PREFIX + e.getMessage());
+    }
+
+    public void printScore(final Player redPlayer, final Player bluePlayer) {
+        System.out.println("점수 집계");
+        System.out.printf("레드팀: %.1f, 블루팀: %.1f%n", redPlayer.getScore(), bluePlayer.getScore());
+    }
+
+    public void printResult(final Player redPlayer, final Player bluePlayer) {
+        if (redPlayer.getScore() > bluePlayer.getScore()) {
+            System.out.println("레드팀 승리");
+            return;
+        }
+        System.out.println("블루팀 승리");
     }
 
     enum PieceOutput {
@@ -70,7 +89,7 @@ public class OutputView {
             this.output = output;
         }
 
-        private static String getPieceOutputByPieceAndSide(Piece piece) {
+        private static String getPieceOutputByPieceAndSide(final Piece piece) {
             String text = getPieceOutputByPiece(piece);
             if (piece.getSide() == Side.RED) {
                 return RED_SIDE_COLOR + text + COLOR_EXIT;
@@ -78,7 +97,7 @@ public class OutputView {
             return BLUE_SIDE_COLOR + text + COLOR_EXIT;
         }
 
-        private static String getPieceOutputByPiece(Piece piece) {
+        private static String getPieceOutputByPiece(final Piece piece) {
             if (piece instanceof Cannon) {
                 return CANNON.output;
             }
