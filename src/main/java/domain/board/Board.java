@@ -143,7 +143,7 @@ public class Board {
     public Point getPointMovedByPath(final Point point, final Path path) {
         validatePoint(point);
         Node node = pointNodeMapper.getNodeByPoint(point);
-        return pointNodeMapper.getPointByNode(node.moveByPath(path));
+        return pointNodeMapper.getPointByNode(node.getNodeMovedByPath(path));
     }
 
     private void validatePoint(final Point point) {
