@@ -1,14 +1,12 @@
 package janggi.domain.piece.gererator;
 
-import static janggi.domain.piece.gererator.KnightElephantSetting.KNIGHT_ELEPHANT_KNIGHT_ELEPHANT;
-
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.movement.dynamic.CannonMovementStrategy;
 import janggi.domain.piece.movement.dynamic.PawnMovementStrategy;
 import janggi.domain.piece.movement.dynamic.RookMovementStrategy;
-import janggi.domain.piece.movement.fixed.ElephantMovementStrategy;
 import janggi.domain.piece.movement.fixed.GuardMovementStrategy;
 import janggi.domain.piece.movement.fixed.KingMovementStrategy;
 import java.util.ArrayList;
@@ -17,11 +15,21 @@ import java.util.List;
 public class DefaultHanPieceGenerator implements HanPieceGenerator {
 
     private static final Side SIDE = Side.HAN;
+    private static final List<Position> KNIGHT_ELEPHANT_POSITIONS;
+
+    static {
+        KNIGHT_ELEPHANT_POSITIONS = List.of(
+            new Position(1, 0),
+            new Position(2, 0),
+            new Position(6, 0),
+            new Position(7, 0)
+        );
+    }
 
     @Override
     public List<Piece> generate(KnightElephantSetting knightElephantSetting) {
         List<Piece> pieces = new ArrayList<>(generateDefaultPieces());
-        pieces.addAll(generateKnightElephants(knightElephantSetting));
+        pieces.addAll(knightElephantSetting.make(SIDE, KNIGHT_ELEPHANT_POSITIONS));
         return pieces;
     }
 
@@ -43,56 +51,6 @@ public class DefaultHanPieceGenerator implements HanPieceGenerator {
             new Piece(PieceType.GUARD, new GuardMovementStrategy(), SIDE, 5, 0),
 
             new Piece(PieceType.KING, new KingMovementStrategy(), SIDE, 4, 1)
-        );
-    }
-
-    private List<Piece> generateKnightElephants(KnightElephantSetting knightElephantSetting) {
-
-        if (knightElephantSetting == KNIGHT_ELEPHANT_KNIGHT_ELEPHANT) {
-            return generateKnightElephantKnightElephant();
-        }
-        if (knightElephantSetting == KnightElephantSetting.KNIGHT_ELEPHANT_ELEPHANT_KNIGHT) {
-            return generateKnightElephantElephantKnight();
-        }
-        if (knightElephantSetting == KnightElephantSetting.ELEPHANT_KNIGHT_KNIGHT_ELEPHANT) {
-            return generateElephantKnightKnightElephant();
-        }
-        return generateElephantKnightElephantKnight();
-    }
-
-    private List<Piece> generateKnightElephantKnightElephant() {
-        return List.of(
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 1, 0),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 2, 0),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 6, 0),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 7, 0)
-        );
-    }
-
-    private List<Piece> generateKnightElephantElephantKnight() {
-        return List.of(
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 1, 0),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 2, 0),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 6, 0),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 7, 0)
-        );
-    }
-
-    private List<Piece> generateElephantKnightKnightElephant() {
-        return List.of(
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 1, 0),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 2, 0),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 6, 0),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 7, 0)
-        );
-    }
-
-    private List<Piece> generateElephantKnightElephantKnight() {
-        return List.of(
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 1, 0),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 2, 0),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 6, 0),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 7, 0)
         );
     }
 }
