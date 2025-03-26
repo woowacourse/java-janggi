@@ -40,7 +40,7 @@ public class ResultView {
                 }
                 Piece piece = pieces.get(currentPosition);
                 Team team = piece.getTeam();
-                sb.append(convertColor(team, piece.getPieceType().getTitle(team)));
+                sb.append(convertColor(team, PieceTitle.getTitleFromTypeAndTeam(piece.getPieceType(), team)));
             }
             System.out.println(sb);
             if (y != 10) {
