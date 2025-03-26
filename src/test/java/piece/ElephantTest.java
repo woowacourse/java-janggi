@@ -30,8 +30,10 @@ class ElephantTest {
     void 상이_움직일_수_있는_위치들을_계산한다() {
         Board board = new Board(List.of());
         Piece piece = new Elephant(initPosition, Team.BLUE);
-        board.putPiece(new Chariot(new Position(1, 2), Team.RED));
-        board.putPiece(new Chariot(new Position(6, 3), Team.RED));
+        board.putPieces(List.of(
+                new Chariot(new Position(1, 2), Team.RED),
+                new Chariot(new Position(6, 3), Team.RED))
+        );
 
         Set<Position> positions = piece.getMovablePositions(board);
 

@@ -22,7 +22,7 @@ class BoardTest {
         Position position = new Position(1, 1);
         Piece piece = new Chariot(position, Team.BLUE);
 
-        board.putPiece(piece);
+        board.putPieces(List.of(piece));
 
         assertThat(board.findPieceByPosition(position)).isEqualTo(new Chariot(position, Team.BLUE));
     }
@@ -55,8 +55,7 @@ class BoardTest {
     void 위치를_알려주면_해당_위치의_기물을_장기판에서_제거한다() {
         Board board = new Board(List.of());
         Position position = new Position(1, 1);
-        Piece piece = new Chariot(position, Team.BLUE);
-        board.putPiece(piece);
+        board.putPieces(List.of(new Chariot(position, Team.BLUE)));
 
         board.remove(position);
 
@@ -68,7 +67,7 @@ class BoardTest {
         Board board = new Board(List.of());
         Position position = new Position(1, 1);
         Piece piece = new Chariot(position, Team.BLUE);
-        board.putPiece(piece);
+        board.putPieces(List.of(piece));
 
         assertThat(board.isExists(position)).isTrue();
     }
@@ -81,8 +80,7 @@ class BoardTest {
         Board board = new Board(List.of());
         Team blue = Team.BLUE;
         Chariot piece = new Chariot(new Position(1, 1), team);
-        board.putPiece(piece);
-        board.putPiece(new Chariot(new Position(2, 1), team));
+        board.putPieces(List.of(piece, new Chariot(new Position(2, 1), team)));
 
         assertThat(board.isSameTeamPosition(blue, new Position(2, 1))).isEqualTo(expected);
     }
@@ -91,7 +89,8 @@ class BoardTest {
     void 장기판에서_특정_위치의_기물을_찾는다() {
         Board board = new Board(List.of());
         Piece piece = new Chariot(new Position(2, 1), Team.BLUE);
-        board.putPiece(piece);
+        board.putPieces(List.of(piece));
+
         assertThat(board.findPieceByPosition(new Position(2, 1))).isEqualTo(piece);
     }
 
@@ -99,7 +98,8 @@ class BoardTest {
     void 장기판에서_특정_위치의_기물을_찾지_못한다() {
         Board board = new Board(List.of());
         Piece piece = new Chariot(new Position(2, 1), Team.BLUE);
-        board.putPiece(piece);
+        board.putPieces(List.of(piece));
+
         assertThatThrownBy(() -> board.findPieceByPosition(new Position(2, 2)))
                 .isInstanceOf(IllegalArgumentException.class);
     }

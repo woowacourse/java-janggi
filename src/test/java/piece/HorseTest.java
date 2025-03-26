@@ -30,9 +30,11 @@ class HorseTest {
     void 마가_움직일_수_있는_위치들을_계산한다() {
         Board board = new Board(List.of());
         Piece piece = new Horse(initPosition, Team.BLUE);
-        board.putPiece(new Chariot(new Position(3, 4), Team.BLUE));
-        board.putPiece(new Chariot(new Position(6, 3), Team.BLUE));
-        board.putPiece(new Chariot(new Position(5, 6), Team.RED));
+        board.putPieces(List.of(
+                new Chariot(new Position(3, 4), Team.BLUE),
+                new Chariot(new Position(6, 3), Team.BLUE),
+                new Chariot(new Position(5, 6), Team.RED)
+        ));
 
         Set<Position> positions = piece.getMovablePositions(board);
 

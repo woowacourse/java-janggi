@@ -29,19 +29,20 @@ class ChariotTest {
         Board board = new Board(List.of());
         Piece chariot = new Chariot(new Position(4, 4), Team.BLUE);
 
-        board.putPiece(new Chariot(new Position(2, 4), Team.BLUE));
-        board.putPiece(new Chariot(new Position(5, 4), Team.BLUE));
-        board.putPiece(new Chariot(new Position(4, 7), Team.RED));
+        board.putPieces(List.of(new Chariot(new Position(2, 4), Team.BLUE),
+                new Chariot(new Position(5, 4), Team.BLUE),
+                new Chariot(new Position(4, 7), Team.RED)
+        ));
 
         Set<Position> position = chariot.getMovablePositions(board);
         assertThat(position).containsExactlyInAnyOrder(
-                new Position(3,4),
-                new Position(4,3),
-                new Position(4,2),
-                new Position(4,1),
-                new Position(4,5),
-                new Position(4,6),
-                new Position(4,7)
+                new Position(3, 4),
+                new Position(4, 3),
+                new Position(4, 2),
+                new Position(4, 1),
+                new Position(4, 5),
+                new Position(4, 6),
+                new Position(4, 7)
         );
 
     }

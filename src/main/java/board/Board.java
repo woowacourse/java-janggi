@@ -1,6 +1,7 @@
 package board;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import game.Turn;
@@ -21,11 +22,7 @@ public class Board {
     }
 
     public void putPieces(final List<Piece> pieces) {
-        pieces.forEach(this::putPiece);
-    }
-
-    public void putPiece(final Piece piece) {
-        pieces.add(piece);
+        this.pieces.addAll(pieces);
     }
 
     public void isValidTurn(final Position startPosition, final Turn turn) {
@@ -70,7 +67,7 @@ public class Board {
     }
 
     public List<Piece> getPieces() {
-        return pieces;
+        return Collections.unmodifiableList(pieces);
     }
 
 }

@@ -17,8 +17,10 @@ class GuardTest {
     void 사의_이동할_수_있는_위치를_계산한다() {
         Board board = new Board(List.of());
         Piece piece = new Guard(initPosition, Team.RED);
-        board.putPiece(new Soldier(new Position(4, 4), Team.BLUE));
-        board.putPiece(new Soldier(new Position(3, 3), Team.RED));
+        board.putPieces(List.of(
+                new Soldier(new Position(3, 3), Team.RED),
+                new Soldier(new Position(4, 4), Team.BLUE)
+        ));
 
         assertThat(piece.getMovablePositions(board)).containsExactlyInAnyOrder(
                 new Position(4, 4),

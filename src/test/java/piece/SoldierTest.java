@@ -17,8 +17,10 @@ class SoldierTest {
     void 한나라_졸의_이동할_수_있는_위치를_계산한다() {
         Board board = new Board(List.of());
         Piece piece = new Soldier(initPosition, Team.RED);
-        board.putPiece(new Soldier(new Position(4, 4), Team.BLUE));
-        board.putPiece(new Soldier(new Position(5, 3), Team.RED));
+        board.putPieces(List.of(
+                new Soldier(new Position(4, 4), Team.BLUE),
+                new Soldier(new Position(5, 3), Team.RED)
+        ));
 
         assertThat(piece.getMovablePositions(board)).containsExactlyInAnyOrder(
                 new Position(4, 4),
@@ -30,8 +32,10 @@ class SoldierTest {
     void 초나라_졸의_이동할_수_있는_위치를_계산한다() {
         Board board = new Board(List.of());
         Piece piece = new Soldier(initPosition, Team.BLUE);
-        board.putPiece(new Soldier(new Position(4, 4), Team.RED));
-        board.putPiece(new Soldier(new Position(5, 3), Team.RED));
+        board.putPieces(List.of(
+                new Soldier(new Position(4, 4), Team.RED),
+                new Soldier(new Position(5, 3), Team.RED)
+        ));
 
         assertThat(piece.getMovablePositions(board)).containsExactlyInAnyOrder(
                 new Position(4, 4),

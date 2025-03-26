@@ -19,7 +19,7 @@ class PieceTest {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
         Piece piece = new Chariot(position, Team.BLUE);
-        board.putPiece(piece);
+        board.putPieces(List.of(piece));
 
         Position destination = new Position(2, 1);
         piece.move(destination, board);
@@ -35,8 +35,7 @@ class PieceTest {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
         Piece piece = new Chariot(position, Team.BLUE);
-        board.putPiece(piece);
-        board.putPiece(new Chariot(new Position(row, column), Team.RED));
+        board.putPieces(List.of(piece, new Chariot(new Position(row, column), Team.RED)));
 
         Position destination = new Position(targetRow, targetColumn);
         piece.move(destination, board);
@@ -54,7 +53,7 @@ class PieceTest {
         Board board = new Board(List.of());
         Piece piece = new Chariot(position, Team.BLUE);
         Position destination = new Position(row, column);
-        board.putPiece(new Chariot(destination, Team.BLUE));
+        board.putPieces(List.of(new Chariot(destination, Team.BLUE)));
 
         assertThatThrownBy(() -> piece.move(new Position(targetRow, targetColumn), board))
                 .isInstanceOf(IllegalArgumentException.class);
