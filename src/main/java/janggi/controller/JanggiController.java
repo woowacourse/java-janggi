@@ -27,14 +27,14 @@ public class JanggiController {
         while (true) {
             Team nowTeam = turn.next();
             outputView.printBoard(board);
-            String pieceMovement = inputView.getPieceMovement(nowTeam);
+            String pieceMovement = inputView.readPieceMovement(nowTeam);
             movePieceByPieceMovement(nowTeam, pieceMovement, board);
         }
     }
 
     private Board getInitializedBoardByInput() {
-        String blueHorseSide = inputView.getBlueHorsePosition();
-        String redHorseSide = inputView.getRedHorsePosition();
+        String blueHorseSide = inputView.readHorsePosition(Team.BLUE);
+        String redHorseSide = inputView.readHorsePosition(Team.RED);
         return BoardFactory.getInitializedBoard(
                 getPositionSide(InputConverter.extractLeftHorseSide(blueHorseSide)),
                 getPositionSide(InputConverter.extractRightHorseSide(blueHorseSide)),
