@@ -13,7 +13,7 @@ public enum Country {
         this.name = name;
     }
 
-    public static boolean isSameContry(Piece curr, Piece target) {
+    public static boolean isSameCountry(Piece curr, Piece target) {
         return curr.getCountry() == target.getCountry();
     }
 

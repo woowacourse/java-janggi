@@ -27,6 +27,12 @@ public class JanggiBoard {
         throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
     }
 
+    public int getScoreSum(Country country) {
+        return board.entrySet().stream()
+                .filter(coodinateEntrySet -> coodinateEntrySet.getValue().getCountry() == country)
+                .map(coordinateEntry -> coordinateEntry.getValue().getScore()).reduce(0, (a, b) -> a + b);
+    }
+
     public boolean isChoGungAlive() {
         return board.containsValue(new Gung(Country.CHO));
     }
