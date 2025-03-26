@@ -96,7 +96,6 @@ public class JanggiBoard {
     public boolean checkKingIsDead() {
         long kingCount = board.values().stream()
                 .filter(Piece::isKing).count();
-        System.out.println(kingCount);
         return kingCount == 1;
     }
 }
