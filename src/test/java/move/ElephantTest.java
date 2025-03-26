@@ -4,15 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import direction.Point;
 import fixture.GreenPieceFixture;
-import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Piece;
+import piece.Elephant;
 import piece.Pieces;
 import team.Team;
 
-class ElephantMovementTest {
+class ElephantTest {
 
     private final Pieces pieces = new Pieces(GreenPieceFixture.pieces);
 
@@ -22,13 +21,14 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, -1);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant("e", from);
 
         //when
-        Point result = elephantMovement.move(pieces, from, to);
+        elephant.move(pieces, to);
 
         //then
-        assertThat(result).isEqualTo(to);
+        assertThat(elephant).extracting("current")
+                .isEqualTo(to);
     }
 
     @Test
@@ -37,13 +37,14 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, -1);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant("e", from);
 
         //when
-        Point result = elephantMovement.move(pieces, from, to);
+        elephant.move(pieces, to);
 
         //then
-        assertThat(result).isEqualTo(to);
+        assertThat(elephant).extracting("current")
+                .isEqualTo(to);
     }
 
     @Test
@@ -52,13 +53,14 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(-1, 0);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant("e", from);
 
         //when
-        Point result = elephantMovement.move(pieces, from, to);
+        elephant.move(pieces, to);
 
         //then
-        assertThat(result).isEqualTo(to);
+        assertThat(elephant).extracting("current")
+                .isEqualTo(to);
     }
 
     @Test
@@ -67,13 +69,14 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(-1, 4);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant("e", from);
 
         //when
-        Point result = elephantMovement.move(pieces, from, to);
+        elephant.move(pieces, to);
 
         //then
-        assertThat(result).isEqualTo(to);
+        assertThat(elephant).extracting("current")
+                .isEqualTo(to);
     }
 
     @Test
@@ -82,13 +85,14 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 5);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant("e", from);
 
         //when
-        Point result = elephantMovement.move(pieces, from, to);
+        elephant.move(pieces, to);
 
         //then
-        assertThat(result).isEqualTo(to);
+        assertThat(elephant).extracting("current")
+                .isEqualTo(to);
     }
 
     @Test
@@ -97,13 +101,14 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 5);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant("e", from);
 
         //when
-        Point result = elephantMovement.move(pieces, from, to);
+        elephant.move(pieces, to);
 
         //then
-        assertThat(result).isEqualTo(to);
+        assertThat(elephant).extracting("current")
+                .isEqualTo(to);
     }
 
     @Test
@@ -112,13 +117,14 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(5, 0);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant("e", from);
 
         //when
-        Point result = elephantMovement.move(pieces, from, to);
+        elephant.move(pieces, to);
 
         //then
-        assertThat(result).isEqualTo(to);
+        assertThat(elephant).extracting("current")
+                .isEqualTo(to);
     }
 
     @Test
@@ -127,13 +133,14 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(5, 4);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant("e", from);
 
         //when
-        Point result = elephantMovement.move(pieces, from, to);
+        elephant.move(pieces, to);
 
         //then
-        assertThat(result).isEqualTo(to);
+        assertThat(elephant).extracting("current")
+                .isEqualTo(to);
     }
 
     @Test
@@ -142,11 +149,11 @@ class ElephantMovementTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(8, 3);
-        ElephantMovement elephantMovement = new ElephantMovement(Team.GREEN.direction());
+        Elephant elephant = new Elephant("e", from);
 
         //when
         //then
-        Assertions.assertThatThrownBy(() -> elephantMovement.move(pieces, from, to))
+        Assertions.assertThatThrownBy(() -> elephant.move(pieces, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

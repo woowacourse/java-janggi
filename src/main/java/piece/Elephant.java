@@ -37,7 +37,7 @@ public class Elephant implements Piece {
             validateIsExistPieceInPoint(pieces, nextPoint);
         }
 
-        current = new Point(destination.column(), destination.row());
+        current = current.move(destinationMovement);
     }
 
     private Movement getDestinationMovement(Point destination) {
@@ -55,5 +55,10 @@ public class Elephant implements Piece {
         if (pieces.isExistPieceIn(nextPoint)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
+    }
+
+    @Override
+    public boolean isSamePoint(Point point) {
+        return current.equals(point);
     }
 }
