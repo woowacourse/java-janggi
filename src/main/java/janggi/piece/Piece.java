@@ -33,7 +33,7 @@ public abstract class Piece {
     }
 
     public void move(Position position) {
-        this.position = this.position.update(position);
+        this.position = new Position(position.x(), position.y());
     }
 
     public boolean matchPosition(Position position) {

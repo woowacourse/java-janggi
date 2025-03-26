@@ -15,7 +15,7 @@ public class BoardSetupTest {
     @DisplayName("정상: 보드 설정에 따른 기물 모음을 생성")
     @Test
     void ofBoardSetup() {
-        List<Piece> pieces = BoardSetup.of(TeamName.HAN, "EHEH").getPieces();
+        List<Piece> pieces = BoardSetup.of(List.of("한", "EHEH")).getPieces();
 
         assertThat(pieces).containsExactly(
                 new Elephant(TeamName.HAN, new Position(1, 9)),
@@ -29,7 +29,7 @@ public class BoardSetupTest {
     @Test
     void validateBoardSetup() {
 
-        assertThatThrownBy(() -> BoardSetup.of(TeamName.HAN, "KGKG"))
+        assertThatThrownBy(() -> BoardSetup.of(List.of("초", "KGKG")))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -78,14 +78,19 @@ public enum BoardSetup {
         this.pieces = pieces;
     }
 
-    public static BoardSetup of(TeamName teamName, String option) {
+    public static BoardSetup of(List<String> option) {
         return Arrays.stream(BoardSetup.values())
-                .filter(value -> value.teamName == teamName && value.option.equalsIgnoreCase(option))
+                .filter(value -> value.teamName.getName().equals(option.getFirst()))
+                .filter(value -> value.option.equalsIgnoreCase(option.getLast()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_OPTION));
     }
 
     public List<Piece> getPieces() {
         return pieces;
+    }
+
+    public TeamName getTeamName() {
+        return teamName;
     }
 }

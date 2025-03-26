@@ -1,8 +1,10 @@
 package janggi.view;
 
+import janggi.board.Position;
 import janggi.team.TeamName;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Supplier;
 
@@ -17,8 +19,11 @@ public class Input {
     private static final String PATTERN_GAME_CONTINUE = "(?i)^[YN]$";
 
     private static final String DELIMITER = "-";
-    private static final String INVALID_PATTERN = "입력 패턴이 올바르지 않습니다.";
+    private static final String REGEX_PATTERN = "[\\[\\]]";
+    private static final String DELIMITER_COMMA = ",";
 
+    private static final String INVALID_PATTERN = "입력 패턴이 올바르지 않습니다.";
+    
     private final Scanner scanner = new Scanner(System.in);
 
     private <T> T repeatInput(Supplier<T> supplier) {
@@ -35,12 +40,12 @@ public class Input {
         System.out.println("[ERROR] " + message);
     }
 
-    public String readPositionOption(TeamName teamName) {
+    public List<String> readPositionOption(TeamName teamName) {
         System.out.println();
         System.out.printf("%s의 상차림을 선택해주세요.%n", formatTeamColor(teamName) + teamName.getName() + RESET);
         System.out.println(" 선택 옵션 > " + SAMPLE_GREEN + "EHEH: 상마상마 | HEHE: 마상마상 | HEEH: 마상상마 | EHHE: 상마마상" + RESET);
         System.out.println(" ex) EHEH");
-        return scanner.nextLine();
+        return List.of(teamName.getName(), scanner.nextLine());
     }
 
     private String formatTeamColor(TeamName teamName) {
@@ -58,13 +63,17 @@ public class Input {
         return scanner.nextLine();
     }
 
-    public List<String> readPieceStartPoint() {
+    public Map<String, Position> readPieceStartPoint() {
         System.out.println();
         System.out.println("움직일 기물 이름과 출발 좌표를 입력해주세요.");
         System.out.println(" 선택 옵션 > " + SAMPLE_GREEN + "K: 왕 | G: 사 | E: 상 | H: 마 | P: 포 | C: 차 | S: 졸병" + RESET);
         System.out.println(" ex) E-[1, 0]");
         String pieceStartPointInfo = repeatInput(() -> validatePatternStartPoint(scanner.nextLine()));
-        return Arrays.asList(pieceStartPointInfo.split(DELIMITER));
+
+        List<String> startPointInfos = Arrays.asList(pieceStartPointInfo.split(DELIMITER));
+        String pieceName = startPointInfos.getFirst();
+        Position pieceStartPoint = parsePosition(startPointInfos.getLast());
+        return Map.of(pieceName, pieceStartPoint);
     }
 
     private String validatePatternStartPoint(String pattern) {
@@ -74,12 +83,14 @@ public class Input {
         return pattern;
     }
 
-    public String readPieceDestination() {
+    public Position readPieceDestination() {
         System.out.println();
         System.out.println("선택한 기물의 도착 좌표를 입력해주세요.");
         System.out.println(" 선택 옵션 > " + SAMPLE_GREEN + "x: 0 ~ 8, y: 0 ~ 9" + RESET);
-        System.out.println(" ex) [3, 3]"); //도착 좌표가 도달할 수 있는 곳인지 검증 필요
-        return repeatInput(() -> validatePatternDestination(scanner.nextLine()));
+        System.out.println(" ex) [3, 3]");
+
+        String pieceDestination = repeatInput(() -> validatePatternDestination(scanner.nextLine()));
+        return parsePosition(pieceDestination);
     }
 
     private String validatePatternDestination(String pattern) {
@@ -102,5 +113,13 @@ public class Input {
             throw new IllegalArgumentException(INVALID_PATTERN);
         }
         return pattern;
+    }
+
+    private Position parsePosition(String coordinates) {
+        List<Integer> pieceCoordinates = Arrays.stream(coordinates.replaceAll(REGEX_PATTERN, "").split(DELIMITER_COMMA))
+                .map(String::trim)
+                .map(Integer::parseInt)
+                .toList();
+        return new Position(pieceCoordinates.getFirst(), pieceCoordinates.getLast());
     }
 }

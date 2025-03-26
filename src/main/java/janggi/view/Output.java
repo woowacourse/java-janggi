@@ -2,8 +2,6 @@ package janggi.view;
 
 import janggi.piece.Piece;
 import janggi.team.Team;
-import janggi.team.TeamCho;
-import janggi.team.TeamHan;
 import janggi.team.TeamName;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,7 +13,7 @@ public class Output {
     private static final String HAN_RED = "\u001B[31m";
     private static final String CHO_BLUE = "\u001B[34m";
 
-    public void printBoard(TeamHan teamHan, TeamCho teamCho) {
+    public void printBoard(Team teamHan, Team teamCho) {
         List<Piece> allPieces = sortBoardPieces(teamHan, teamCho);
         String[][] board = formatBoard();
         setupPieces(allPieces, board);
@@ -74,7 +72,7 @@ public class Output {
         }
     }
 
-    public void printTeamScore(TeamHan teamHan, TeamCho teamCho) {
+    public void printTeamScore(Team teamHan, Team teamCho) {
         System.out.println();
         System.out.println("현재 각 팀의 점수는 다음과 같습니다");
         System.out.println(CHO_BLUE + "초팀 점수: " + teamCho.getTeamScore() + RESET);
