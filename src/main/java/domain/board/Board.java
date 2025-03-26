@@ -59,7 +59,7 @@ public class Board {
                         Collectors.reducing(new Score(0), Piece::getScore, Score::plus))
                 );
 
-        scores.computeIfPresent(Team.GREEN, (team, score) -> score.plus(new Score(0.5f)));
+        scores.computeIfPresent(Team.GREEN, (team, score) -> score.plus(new Score(1.5f)));
 
         return scores;
     }
