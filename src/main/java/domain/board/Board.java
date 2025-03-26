@@ -58,11 +58,11 @@ public final class Board {
     }
 
     private void checkInRangeOnBoard(final Point start, final Point arrival) {
-        final boolean isInvalidStartPoint = start.isInRange(BOARD_ROW_MAX, BOARD_COLUMN_MAX);
-        final boolean isInvalidArrivalPoint = arrival.isInRange(BOARD_ROW_MAX, BOARD_COLUMN_MAX);
-        if (!(isInvalidStartPoint && isInvalidArrivalPoint)) {
+        final boolean isStartPointInRange = start.isInRange(BOARD_ROW_MAX, BOARD_COLUMN_MAX);
+        final boolean isArrivalPointInRange = arrival.isInRange(BOARD_ROW_MAX, BOARD_COLUMN_MAX);
+        if (!(isStartPointInRange && isArrivalPointInRange)) {
             throw new JanggiGameRuleWarningException(
-                    "보드의 범위 바깥입니다. 출발점 유효: " + isInvalidStartPoint + ", 도착점 유효: " + isInvalidArrivalPoint);
+                    "보드의 범위 바깥입니다. 출발점 유효: " + isStartPointInRange + ", 도착점 유효: " + isArrivalPointInRange);
         }
     }
 
