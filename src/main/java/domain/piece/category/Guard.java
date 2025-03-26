@@ -8,7 +8,6 @@ import domain.spatial.Position;
 public class Guard extends Piece {
 
     private static final PieceCategory CATEGORY = PieceCategory.GUARD;
-    private static final int PIECES_TO_PASS = 0;
 
     public Guard(final Position position, final Directions directions) {
         super(position, directions);
@@ -21,13 +20,6 @@ public class Guard extends Piece {
 
     @Override
     public Guard move(final Position position, final MoveInfos moveInfos) {
-        validateMove(moveInfos);
         return new Guard(position, directions);
-    }
-
-    private void validateMove(final MoveInfos moveInfos) {
-        if (moveInfos.countPiecesInPath() != PIECES_TO_PASS) {
-            throw new IllegalArgumentException("[ERROR] 사는 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
-        }
     }
 }
