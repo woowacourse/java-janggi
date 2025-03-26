@@ -29,6 +29,11 @@ public class Guard implements Piece {
         return false;
     }
 
+    @Override
+    public String getNickname() {
+        return nickname;
+    }
+
     private Movement getDestinationMovement(Point destination) {
         for (Movement destinationMovement : PATH) {
             Point predictDestination = current.move(destinationMovement);
