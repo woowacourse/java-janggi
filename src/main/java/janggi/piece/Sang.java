@@ -28,6 +28,7 @@ public class Sang extends Piece {
         if (!isAble) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
         }
+        enemy.beAttackedAt(destination);
         return new Sang(destination);
     }
 
