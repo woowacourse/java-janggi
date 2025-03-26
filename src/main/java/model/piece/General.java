@@ -2,7 +2,6 @@ package model.piece;
 
 import static model.Movement.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import model.Movement;
 import model.Team;
@@ -31,31 +30,18 @@ public class General extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        List<Position> temporaryPosition = new ArrayList<>();
-        calculatePositionOfMovement(departure, temporaryPosition);
-        return findArrivalDirection(arrival, temporaryPosition);
-    }
-
-    private void calculatePositionOfMovement(Position departure, List<Position> temporaryPosition) {
-        for (Movement movement : movements) {
-            addMoveByDeparture(departure, temporaryPosition, movement);
+        List<Position> arrivedDirection = findDirectionOfArrival(departure, arrival);
+        if (arrivedDirection.isEmpty()) {
+            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
+        return arrivedDirection;
     }
 
-    private void addMoveByDeparture(Position departure, List<Position> temporaryPosition,
-        Movement movement) {
-        if (!departure.canMove(movement)) {
-            return;
-        }
-        temporaryPosition.add(departure.move(movement));
-    }
-
-    private List<Position> findArrivalDirection(Position arrival,
-        List<Position> temporaryPosition) {
-        return temporaryPosition.stream()
-            .filter(position -> position.equals(arrival))
-            .findFirst()
-            .map(List::of)
-            .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
+    private List<Position> findDirectionOfArrival(Position departure, Position arrival){
+        return movements.stream()
+            .filter(departure::canMove)
+            .filter(movement -> departure.move(movement).equals(arrival))
+            .map(departure::move)
+            .toList();
     }
 }
