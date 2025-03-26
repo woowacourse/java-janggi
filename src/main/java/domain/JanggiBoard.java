@@ -47,4 +47,16 @@ public class JanggiBoard {
         board.put(to, piece);
         board.remove(from);
     }
+
+    public boolean isCastleCoordinate(JanggiCoordinate coordinate) {
+        return isChoCastleCoordinate(coordinate) || isHanCastleCoordinate(coordinate);
+    }
+
+    private boolean isChoCastleCoordinate(JanggiCoordinate coordinate) {
+        return ((coordinate.row() >= 8 && coordinate.row() <= 10) && (coordinate.col() >= 4 && coordinate.col() <= 6));
+    }
+
+    private boolean isHanCastleCoordinate(JanggiCoordinate coordinate) {
+        return ((coordinate.row() >= 1 && coordinate.row() <= 3) && (coordinate.col() >= 4 && coordinate.col() <= 6));
+    }
 }

@@ -63,6 +63,76 @@ class JanggiBoardTest {
                     () -> assertThat(janggiBoard.isOccupied(to)).isTrue()
             );
         }
+
+        @DisplayName("좌표가 궁성 내부인지 판별한다")
+        @ParameterizedTest
+        @MethodSource("innerCastleArguments")
+        void isInnerCastle(JanggiCoordinate coordinate) {
+            JanggiBoard board = new JanggiBoard(new HashMap<>());
+
+            boolean isCastleCoordinate = board.isCastleCoordinate(coordinate);
+
+            assertThat(isCastleCoordinate).isTrue();
+        }
+
+        private static Stream<Arguments> innerCastleArguments() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(1, 4)),
+                    Arguments.arguments(new JanggiCoordinate(1, 5)),
+                    Arguments.arguments(new JanggiCoordinate(1, 6)),
+                    Arguments.arguments(new JanggiCoordinate(2, 4)),
+                    Arguments.arguments(new JanggiCoordinate(2, 5)),
+                    Arguments.arguments(new JanggiCoordinate(2, 6)),
+                    Arguments.arguments(new JanggiCoordinate(3, 4)),
+                    Arguments.arguments(new JanggiCoordinate(3, 5)),
+                    Arguments.arguments(new JanggiCoordinate(3, 6)),
+
+                    Arguments.arguments(new JanggiCoordinate(8, 4)),
+                    Arguments.arguments(new JanggiCoordinate(8, 5)),
+                    Arguments.arguments(new JanggiCoordinate(8, 6)),
+                    Arguments.arguments(new JanggiCoordinate(9, 4)),
+                    Arguments.arguments(new JanggiCoordinate(9, 5)),
+                    Arguments.arguments(new JanggiCoordinate(9, 6)),
+                    Arguments.arguments(new JanggiCoordinate(10, 4)),
+                    Arguments.arguments(new JanggiCoordinate(10, 5)),
+                    Arguments.arguments(new JanggiCoordinate(10, 6))
+            );
+        }
+
+        @DisplayName("궁성 내부 좌표가 아닌 경우를 판별한다")
+        @ParameterizedTest
+        @MethodSource("outerCastleArguments")
+        void isOuterCastle(JanggiCoordinate coordinate) {
+            JanggiBoard board = new JanggiBoard(new HashMap<>());
+
+            boolean isCastleCoordinate = board.isCastleCoordinate(coordinate);
+
+            assertThat(isCastleCoordinate).isFalse();
+        }
+
+        private static Stream<Arguments> outerCastleArguments() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(4, 4)),
+                    Arguments.arguments(new JanggiCoordinate(4, 5)),
+                    Arguments.arguments(new JanggiCoordinate(4, 6)),
+                    Arguments.arguments(new JanggiCoordinate(4, 4)),
+                    Arguments.arguments(new JanggiCoordinate(5, 5)),
+                    Arguments.arguments(new JanggiCoordinate(5, 6)),
+                    Arguments.arguments(new JanggiCoordinate(6, 4)),
+                    Arguments.arguments(new JanggiCoordinate(6, 5)),
+                    Arguments.arguments(new JanggiCoordinate(6, 6)),
+
+                    Arguments.arguments(new JanggiCoordinate(8, 1)),
+                    Arguments.arguments(new JanggiCoordinate(8, 2)),
+                    Arguments.arguments(new JanggiCoordinate(8, 3)),
+                    Arguments.arguments(new JanggiCoordinate(5, 1)),
+                    Arguments.arguments(new JanggiCoordinate(2, 2)),
+                    Arguments.arguments(new JanggiCoordinate(10, 10)),
+                    Arguments.arguments(new JanggiCoordinate(10, 7)),
+                    Arguments.arguments(new JanggiCoordinate(10, 8)),
+                    Arguments.arguments(new JanggiCoordinate(10, 9))
+            );
+        }
     }
 
     @Nested
