@@ -6,7 +6,8 @@ import java.util.List;
 
 public class Pawn extends Piece {
 
-    private final List<Move> moves = List.of(Move.FRONT, Move.BACK, Move.RIGHT, Move.LEFT);
+    private final List<Move> blueTeamMoves = List.of(Move.FRONT, Move.RIGHT, Move.LEFT);
+    private final List<Move> redTeamMoves = List.of(Move.BACK, Move.RIGHT, Move.LEFT);
 
     public Pawn(Team team) {
         super(team);
@@ -14,6 +15,13 @@ public class Pawn extends Piece {
 
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
+        if (this.team == Team.BLUE) {
+            return determinePath(startPosition, targetPosition, blueTeamMoves);
+        }
+        return determinePath(startPosition, targetPosition, redTeamMoves);
+    }
+
+    private List<Position> determinePath(Position startPosition, Position targetPosition, List<Move> moves) {
         for (Move move : moves) {
             if (!startPosition.canMovePosition(move)) {
                 continue;
