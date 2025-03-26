@@ -7,13 +7,16 @@ import java.util.Map;
 
 public class End implements GameState {
     private final Map<JanggiPosition, Piece> finalBoard;
+    private final Player lastPlayer;
 
     public End() {
         this.finalBoard = new HashMap<>();
+        this.lastPlayer = null;
     }
 
-    public End(Map<JanggiPosition, Piece> finalBoard) {
+    public End(Map<JanggiPosition, Piece> finalBoard, Player lastPlayer) {
         this.finalBoard = finalBoard;
+        this.lastPlayer = lastPlayer;
     }
 
     @Override
