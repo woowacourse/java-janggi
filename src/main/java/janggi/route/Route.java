@@ -24,6 +24,18 @@ public final class Route {
         return target.canMoveLast(directions.getLast(), board);
     }
 
+    public boolean isPossibleRouteForCannon(Position source, Board board) {
+        Position target = source;
+        for (int directionCount = 0; directionCount < directions.size() - 1; directionCount++) {
+            if (!target.canMove(directions.get(directionCount), board)) {
+                return false;
+            }
+            target = target.move(directions.get(directionCount));
+        }
+
+        return target.canMoveLastForCannon(directions.getLast(), board);
+    }
+
     public boolean canJump(Position source, Board board) {
         Position target = source;
         for (Direction direction : directions) {
@@ -45,7 +57,6 @@ public final class Route {
     public List<Direction> route() {
         return directions;
     }
-
 
 }
 

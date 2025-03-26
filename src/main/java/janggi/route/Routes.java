@@ -150,7 +150,7 @@ public final class Routes {
                     Position jump = source.move(straight);
 
                     Route straight2 = route;
-                    while (straight2.isPossibleRoute(jump, board)) {
+                    while (straight2.isPossibleRouteForCannon(jump, board)) {
                         target.add(jump.move(straight2));
                         straight2 = straight2.add(route);
                     }

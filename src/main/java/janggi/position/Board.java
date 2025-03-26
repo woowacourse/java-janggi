@@ -47,6 +47,11 @@ public final class Board {
         return (piece.type() == PieceType.BLANK) || piece.isDifferentTeam(currentTeam);
     }
 
+    public boolean canMoveLastForCannon(Position position) {
+        Piece piece = get(position);
+        return (piece.type() != PieceType.CANNON) && piece.isDifferentTeam(currentTeam);
+    }
+
     public void validateTeam(Team team) {
         if(team != currentTeam){
             throw new IllegalArgumentException("[ERROR] 같은 팀 기물만 움직일 수 있습니다.");
@@ -75,4 +80,5 @@ public final class Board {
     public Team nextTurn() {
         return Team.next(currentTeam);
     }
+
 }

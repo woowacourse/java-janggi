@@ -27,6 +27,13 @@ public final class Position {
         return false;
     }
 
+    public boolean canMoveLastForCannon(Direction direction, Board board) {
+        if (column.canMove(direction.column()) && row.canMove(direction.row())) {
+            return board.canMoveLastForCannon(new Position(column.move(direction.column()), row.move(direction.row())));
+        }
+        return false;
+    }
+
     public boolean canJump(Direction direction, Board board) {
         if (column.canMove(direction.column()) && row.canMove(direction.row())) { // 1칸 뒤로 이동 가능.
             Position target = new Position(column.move(direction.column()), row.move(direction.row()));
@@ -73,8 +80,4 @@ public final class Position {
         return Objects.hash(column, row);
     }
 
-    public void print() {
-        System.out.print("row = " + row);
-        System.out.println("    column = " + column);
-    }
 }
