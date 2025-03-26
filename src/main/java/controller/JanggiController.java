@@ -47,7 +47,7 @@ public class JanggiController {
             }
         }
 
-        outputView.printWinnerTeam(janggi.findWinnerTeam());
+        outputView.printWinnerTeam(janggiManager.findWinnerTeam(janggi));
     }
 
     private void printJanggiProcess(final Janggi janggi) {

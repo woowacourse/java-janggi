@@ -1,72 +1,48 @@
 package dao;
 
-import static dao.DatabaseConfig.DATABASE;
-import static dao.DatabaseConfig.OPTION;
-import static dao.DatabaseConfig.PASSWORD;
-import static dao.DatabaseConfig.SERVER;
-import static dao.DatabaseConfig.USERNAME;
-
 import domain.Team;
 import domain.board.BoardPosition;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 public class PiecePositionDao {
 
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public void addAll(final Map<BoardPosition, Piece> board) {
+    public void addAll(
+            final Connection connection,
+            final Map<BoardPosition, Piece> board
+    ) {
         final var query = "INSERT INTO piece_position (position_x, position_y, piece, team) VALUES (?, ?, ?, ?)";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            connection.setAutoCommit(false);
 
-            try {
-                connection.setAutoCommit(false);
+            for (final Entry<BoardPosition, Piece> entry : board.entrySet()) {
 
-                for (final Entry<BoardPosition, Piece> entry : board.entrySet()) {
+                final BoardPosition position = entry.getKey();
+                final Team team = entry.getValue().getTeam();
+                final PieceType pieceType = entry.getValue().getPieceType();
 
-                    final BoardPosition position = entry.getKey();
-                    final Team team = entry.getValue().getTeam();
-                    final PieceType pieceType = entry.getValue().getPieceType();
+                preparedStatement.setInt(1, position.x());
+                preparedStatement.setInt(2, position.y());
+                preparedStatement.setString(3, pieceType.name());
+                preparedStatement.setString(4, team.name());
 
-                    preparedStatement.setInt(1, position.x());
-                    preparedStatement.setInt(2, position.y());
-                    preparedStatement.setString(3, pieceType.name());
-                    preparedStatement.setString(4, team.name());
-
-                    preparedStatement.addBatch();
-                }
-
-                preparedStatement.executeBatch();
-                connection.commit();
-            } catch (Exception e) {
-                connection.rollback();
+                preparedStatement.addBatch();
             }
+
+            preparedStatement.executeBatch();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Map<BoardPosition, Piece> findAll() {
+    public Map<BoardPosition, Piece> findAll(final Connection connection) {
         final var query = "SELECT * FROM piece_position";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var preparedStatement = connection.prepareStatement(query)) {
 
             final var resultSet = preparedStatement.executeQuery();
             final Map<BoardPosition, Piece> piecePositions = new HashMap<>();
@@ -85,6 +61,36 @@ public class PiecePositionDao {
             }
             return piecePositions;
         } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteByBoardPosition(
+            final Connection connection,
+            final BoardPosition boardPosition
+    ) {
+        final var query = "DELETE FROM piece_position WHERE position_x = ? AND position_y = ?";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, boardPosition.x());
+            preparedStatement.setInt(2, boardPosition.y());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateByBoardPosition(
+            final Connection connection,
+            final BoardPosition selectPosition,
+            final BoardPosition destinationPosition) {
+        final var query = "UPDATE piece_position SET position_x = ?, position_y = ? WHERE position_x = ? AND position_y = ?";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, destinationPosition.x());
+            preparedStatement.setInt(2, destinationPosition.y());
+            preparedStatement.setInt(3, selectPosition.x());
+            preparedStatement.setInt(4, selectPosition.y());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
