@@ -7,6 +7,7 @@ import janggi.piece.Type;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import janggi.score.ScoreBoard;
 import java.util.Map;
 
 public final class BoardView {
@@ -70,12 +71,21 @@ public final class BoardView {
 
     public void displayTurn(final Board board) {
         final Team team = board.getTurn();
-        if (TEAM_NOTATION_KOREAN.get(team).equals("한")) {
-            System.out.println(String.format(COLOR_RED + "%s" + COLOR_END + PLAY_TURN_FORMAT,
-                    TEAM_NOTATION_KOREAN.get(team)));
+        final String teamName = TEAM_NOTATION_KOREAN.get(team);
+        if (teamName.equals("한")) {
+            System.out.println(
+                    String.format(COLOR_RED + "%s" + COLOR_END + PLAY_TURN_FORMAT, teamName));
             return;
         }
         System.out.println(
-                String.format(COLOR_BLUE + "%s" + COLOR_END + PLAY_TURN_FORMAT, TEAM_NOTATION_KOREAN.get(team)));
+                String.format(COLOR_BLUE + "%s" + COLOR_END + PLAY_TURN_FORMAT, teamName));
+    }
+
+    public void displayScore(final ScoreBoard scoreBoard) {
+        System.out.println();
+        System.out.println("===== 점수판 =====");
+        System.out.println(String.format(COLOR_RED + "한" + COLOR_END + " : %.1f점", scoreBoard.getScore(Team.HAN)));
+        System.out.println(String.format(COLOR_BLUE + "초" + COLOR_END + " : %.1f점", scoreBoard.getScore(Team.CHO)));
+        System.out.println();
     }
 }

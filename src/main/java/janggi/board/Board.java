@@ -4,6 +4,8 @@ import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.piece.Type;
 import janggi.position.Position;
+import janggi.score.Score;
+import janggi.score.ScoreBoard;
 import janggi.turn.ChoTurn;
 import janggi.turn.Turn;
 import java.util.HashMap;
@@ -55,6 +57,16 @@ public final class Board {
 
     public Team getTurn() {
         return turn.getTeam();
+    }
+
+    public ScoreBoard calculateScoreBoard() {
+        final ScoreBoard scoreBoard = new ScoreBoard();
+        for (Piece piece : board.values()) {
+            final Team team = piece.getTeam();
+            final Score score = Type.getScore(piece.getType());
+            scoreBoard.add(team, score);
+        }
+        return scoreBoard;
     }
 
     private void validateStartPosition(final Position start) {

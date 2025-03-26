@@ -28,6 +28,7 @@ public class Application {
         final SetupOption setupOption = readSetupOption();
         final Board board = BoardGenerator.generate(setupOption);
         boardView.displayGame(board);
+        boardView.displayScore(board.calculateScoreBoard());
         boardView.displayTurn(board);
         Command command = Command.STOP;
         do {
@@ -69,6 +70,7 @@ public class Application {
         try {
             board.move(start, end);
             boardView.displayGame(board);
+            boardView.displayScore(board.calculateScoreBoard());
             boardView.displayTurn(board);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
