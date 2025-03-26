@@ -9,7 +9,7 @@ import board.Position;
 public class Chariot extends Piece {
 
     public Chariot(final Team team) {
-        super(team);
+        super(team, PieceType.CHARIOT);
     }
 
     @Override
@@ -20,6 +20,11 @@ public class Chariot extends Piece {
                         addMovablePositionsInDirection(position, direction, board, movablePositions)
                 );
         return movablePositions;
+    }
+
+    @Override
+    public PieceType getType() {
+        return this.pieceType;
     }
 
     private void addMovablePositionsInDirection(final Position position, final Direction direction, final Board board,
@@ -36,11 +41,6 @@ public class Chariot extends Piece {
                 break;
             }
         }
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "차";
     }
 
 }

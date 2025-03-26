@@ -24,7 +24,7 @@ public class Horse extends Piece {
     private static final int MOVEMENT_TOTAL_STEP = 2;
 
     public Horse(final Team team) {
-        super(team);
+        super(team, PieceType.HORSE);
     }
 
     @Override
@@ -36,6 +36,11 @@ public class Horse extends Piece {
         }
         addMovablePosition(board, movablePositions, beforeLastStepPositions);
         return movablePositions;
+    }
+
+    @Override
+    public PieceType getType() {
+        return this.pieceType;
     }
 
     private Map<Movement, Position> moveBeforeLastStep(final Position position, final Board board) {
@@ -70,11 +75,6 @@ public class Horse extends Piece {
             }
             movablePositions.add(movableFinalPosition);
         }
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "마";
     }
 
 }

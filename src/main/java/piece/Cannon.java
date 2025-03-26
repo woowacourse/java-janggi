@@ -11,7 +11,7 @@ import board.Position;
 public class Cannon extends Piece {
 
     public Cannon(final Team team) {
-        super(team);
+        super(team, PieceType.CANNON);
     }
 
     @Override
@@ -26,6 +26,11 @@ public class Cannon extends Piece {
             addMovablePosition(board, direction, movablePosition, movablePositions);
         }
         return movablePositions;
+    }
+
+    @Override
+    public PieceType getType() {
+        return this.pieceType;
     }
 
     private Map<Direction, Position> findHurdlePositions(final Position position, final Board board) {
@@ -69,11 +74,6 @@ public class Cannon extends Piece {
                 break;
             }
         }
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "포";
     }
 
 }

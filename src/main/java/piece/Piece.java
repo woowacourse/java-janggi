@@ -9,14 +9,16 @@ import board.Position;
 public abstract class Piece {
 
     protected final Team team;
+    protected final PieceType pieceType;
 
-    protected Piece(final Team team) {
+    protected Piece(final Team team, final PieceType pieceType) {
         this.team = team;
+        this.pieceType = pieceType;
     }
 
     protected abstract Set<Position> getMovablePositions(final Position position, final Board board);
 
-    public abstract String getDisplayName();
+    public abstract PieceType getType();
 
     public boolean isSameTeam(final Team team) {
         return this.team == team;

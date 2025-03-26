@@ -9,7 +9,7 @@ import board.Position;
 public class Soldier extends Piece {
 
     public Soldier(final Team team) {
-        super(team);
+        super(team, PieceType.SOLDIER);
     }
 
     @Override
@@ -22,8 +22,8 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public String getDisplayName() {
-        return "졸";
+    public PieceType getType() {
+        return this.pieceType;
     }
 
     private Direction getUnmovableDirection() {

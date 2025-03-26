@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import game.Turn;
-import piece.Cannon;
 import piece.Piece;
+import piece.PieceType;
 import piece.Team;
 
 public class Board {
@@ -50,7 +50,10 @@ public class Board {
     }
 
     public boolean isCannonPosition(final Position position) {
-        return pieces.get(position) instanceof Cannon;
+        if (!pieces.containsKey(position)) {
+            return false;
+        }
+        return pieces.get(position).getType() == PieceType.CANNON;
     }
 
     public Piece findPieceByPosition(final Position position) {

@@ -25,7 +25,7 @@ public class Elephant extends Piece {
     private static final int MOVEMENT_TOTAL_STEP = 3;
 
     public Elephant(final Team team) {
-        super(team);
+        super(team, PieceType.ELEPHANT);
     }
 
     @Override
@@ -37,6 +37,11 @@ public class Elephant extends Piece {
         }
         addMovablePosition(board, movablePositions, beforeLastStepPositions);
         return movablePositions;
+    }
+
+    @Override
+    public PieceType getType() {
+        return this.pieceType;
     }
 
     private Map<Movement, Position> moveBeforeLastStep(final Position position, final Board board) {
@@ -73,11 +78,6 @@ public class Elephant extends Piece {
             }
             movablePositions.add(movableFinalPosition);
         }
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "상";
     }
 
 }

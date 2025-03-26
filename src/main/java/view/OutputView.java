@@ -37,7 +37,7 @@ public class OutputView {
     private String getCellContent(final Board board, final Position position) {
         if (board.isExists(position)) {
             Piece piece = board.findPieceByPosition(position);
-            return convertContentColor(piece.getTeam(), piece.getDisplayName());
+            return convertContentColor(piece.getTeam(), piece.getType().getName());
         }
         return BLANK_CELL;
     }

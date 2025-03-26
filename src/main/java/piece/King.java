@@ -9,7 +9,7 @@ import board.Position;
 public class King extends Piece {
 
     public King(final Team team) {
-        super(team);
+        super(team, PieceType.KING);
     }
 
     @Override
@@ -21,8 +21,8 @@ public class King extends Piece {
     }
 
     @Override
-    public String getDisplayName() {
-        return "궁";
+    public PieceType getType() {
+        return this.pieceType;
     }
 
     private boolean isMovable(final Position position, final Board board) {
