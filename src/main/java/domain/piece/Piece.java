@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.MoveInfos;
 import domain.direction.Directions;
+import domain.piece.category.PieceCategory;
 import domain.spatial.Position;
 import java.util.List;
 import java.util.Objects;
@@ -16,18 +17,16 @@ public abstract class Piece {
         this.directions = directions;
     }
 
-    public abstract Piece updatePosition(final Position position);
+    public abstract PieceCategory getCategory();
 
-    public abstract boolean isKing();
+    public abstract Piece move(final Position position, final MoveInfos moveInfos);
 
-    public abstract boolean isCannon();
+    public boolean isKing() {
+        return false;
+    }
 
-    public abstract void validateMove(final MoveInfos moveInfos);
-
-    public abstract void validateMoveByPathPieceCount(final int pathPieceCount);
-
-    public List<Position> getPath(final Position targetPosition) {
-        return directions.getPath(position, targetPosition);
+    public List<Position> getPaths(final Position targetPosition) {
+        return directions.getPaths(position, targetPosition);
     }
 
     public boolean isSamePosition(final Position position) {

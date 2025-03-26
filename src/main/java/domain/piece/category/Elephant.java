@@ -7,6 +7,7 @@ import domain.spatial.Position;
 
 public class Elephant extends Piece {
 
+    private static final PieceCategory CATEGORY = PieceCategory.ELEPHANT;
     private static final int PIECES_TO_PASS = 0;
 
     public Elephant(final Position position, final Directions directions) {
@@ -14,30 +15,18 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public Elephant updatePosition(final Position position) {
+    public PieceCategory getCategory() {
+        return CATEGORY;
+    }
+
+    @Override
+    public Elephant move(final Position position, final MoveInfos moveInfos) {
+        validateMove(moveInfos);
         return new Elephant(position, directions);
     }
 
-    @Override
-    public boolean isKing() {
-        return false;
-    }
-
-    @Override
-    public boolean isCannon() {
-        return false;
-    }
-
-    @Override
-    public void validateMove(final MoveInfos moveInfos) {
+    private void validateMove(final MoveInfos moveInfos) {
         if (moveInfos.countPiecesInPath() != PIECES_TO_PASS) {
-            throw new IllegalArgumentException("[ERROR] 상은 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
-        }
-    }
-
-    @Override
-    public void validateMoveByPathPieceCount(final int pathPieceCount) {
-        if (pathPieceCount != PIECES_TO_PASS) {
             throw new IllegalArgumentException("[ERROR] 상은 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
         }
     }
