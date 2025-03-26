@@ -9,9 +9,9 @@ class TurnTest {
 
     @Test
     @DisplayName("짝수 턴은 초나라의 차례, 홀수 턴은 한나라의 차례다")
-    void canProcessgetCurrentTeamTurn() {
+    void getCurrentTeamTurn() {
         // given
-        Turn turn = Turn.create(1);
+        Turn turn = Turn.start(); // 1
 
         // when
         Team oddTurn1 = turn.getCurrentTeam(); // 1

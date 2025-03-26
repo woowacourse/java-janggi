@@ -8,8 +8,8 @@ public class Turn {
         this.accumulatedCount = accumulatedCount;
     }
 
-    public static Turn create(int initialValue) {
-        return new Turn(initialValue);
+    public static Turn start() {
+        return new Turn(1);
     }
 
     public Team getCurrentTeam() {

@@ -21,6 +21,7 @@ public class Janggi {
 
         Turn turn = Turn.create(1);
         Board board = Board.from(players.getBothPieces());
+        Turn turn = Turn.start();
 
         while (true) {
             outputView.displayBoard(board);
