@@ -68,6 +68,10 @@ public final class Position {
         return getYDistance(destination) == getXDistance(destination);
     }
 
+    public boolean isPalaceFrontCorner() {
+        return isPalaceCorner() && (y == PALACE_TOP_Y_START || y == PALACE_BOTTOM_Y_END);
+    }
+
     @Override
     public String toString() {
         return "Position{" +

@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ReplaceUnderBar
 public class PawnTest {
@@ -218,5 +220,27 @@ public class PawnTest {
     @MethodSource("앞과_양옆외에는_이동할_수_없다_테스트_케이스")
     void 앞과_양옆외에는_이동할_수_없다(Pawn pawn, int x, int y) {
         assertThat(pawn.isMoveablePosition(new Position(x, y))).isFalse();
+    }
+
+    @Test
+    void 졸은_궁성_내에서_대각선_이동할_수_있다() {
+        Pawn hanPawn = new Pawn(Side.HAN, 3, 7);
+        Pawn choPawn = new Pawn(Side.CHO, 5, 2);
+
+        assertAll(
+            () -> assertThat(hanPawn.isMoveablePosition(new Position(4, 8))).isTrue(),
+            () -> assertThat(choPawn.isMoveablePosition(new Position(4, 1))).isTrue()
+        );
+    }
+
+    @Test
+    void 졸은_궁성_안이라도_후진_대각선_이동은_할_수_없다() {
+        Pawn hanPawn = new Pawn(Side.HAN, 3, 9);
+        Pawn choPawn = new Pawn(Side.CHO, 5, 0);
+
+        assertAll(
+            () -> assertThat(hanPawn.isMoveablePosition(new Position(4, 8))).isFalse(),
+            () -> assertThat(choPawn.isMoveablePosition(new Position(4, 1))).isFalse()
+        );
     }
 }
