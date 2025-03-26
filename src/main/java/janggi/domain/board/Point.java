@@ -27,7 +27,7 @@ public record Point(int x, int y) {
     }
 
     public boolean isOutOfBoundary() {
-        return x > MAXIMUM_ROW || x < MINIMUM_ROW || y > MAXIMUM_COLUMN || y < MINIMUM_COLUMN;
+        return isOutOfBoundary(x, y);
     }
 
     private boolean isOutOfBoundary(int x, int y) {
