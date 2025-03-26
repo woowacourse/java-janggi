@@ -7,14 +7,22 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.Turn;
 import janggi.piece.Cannon;
+import janggi.piece.Elephant;
+import janggi.piece.Guard;
+import janggi.piece.Horse;
+import janggi.piece.King;
 import janggi.piece.Piece;
 import janggi.piece.Side;
 import janggi.piece.Soldier;
 import janggi.piece.Tank;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class BoardTest {
 
@@ -268,6 +276,46 @@ public class BoardTest {
             assertAll(
                     () -> assertThat(board.getBoard().get(end)).isEqualTo(piece),
                     () -> assertThat(board.getBoard().get(start)).isNull()
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("말 점수 테스트")
+    class PieceScoreTest {
+
+        @DisplayName("잡은 말의 점수를 반환한다.")
+        @ParameterizedTest
+        @MethodSource("targetPieces")
+        void returnScoreByTargetPiece(Piece targetPiece) {
+            // given
+            Piece piece = new Tank(Side.RED);
+            Board board = new Board(
+                    Map.of(
+                            new Position(1, 1), piece,
+                            new Position(1, 2), targetPiece
+                    )
+            );
+            Position start = new Position(1, 1);
+            Position end = new Position(1, 2);
+            Turn turn = new Turn(Side.RED);
+
+            // when
+            int score = board.move(start, end, turn);
+
+            // then
+            assertThat(score).isEqualTo(targetPiece.getScore());
+        }
+
+        private static Stream<Arguments> targetPieces() {
+            return Stream.of(
+                    Arguments.of(new Cannon(Side.BLUE)),
+                    Arguments.of(new Elephant(Side.BLUE)),
+                    Arguments.of(new Guard(Side.BLUE)),
+                    Arguments.of(new Horse(Side.BLUE)),
+                    Arguments.of(new King(Side.BLUE)),
+                    Arguments.of(new Soldier(Side.BLUE)),
+                    Arguments.of(new Tank(Side.BLUE))
             );
         }
     }

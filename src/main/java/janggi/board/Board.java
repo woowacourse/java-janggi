@@ -14,7 +14,7 @@ public class Board {
         this.board = new HashMap<>(board);
     }
 
-    public void move(final Position start, final Position end, final Turn turn) {
+    public int move(final Position start, final Position end, final Turn turn) {
         validatePieceOnStartPosition(start);
         Piece pickedPiece = board.get(start);
         validatePickedPieceBySide(pickedPiece, turn);
@@ -22,8 +22,9 @@ public class Board {
 
         if (pickedPiece.canMove(start, end, board)) {
             board.remove(start);
+            int score = computeScoreIfExistsTargetPiece(end);
             board.put(end, pickedPiece);
-            return;
+            return score;
         }
 
         throw new IllegalArgumentException("이동할 수 없습니다.");
@@ -54,6 +55,14 @@ public class Board {
             return;
         }
         throw new IllegalArgumentException("본인 팀 말을 선택해주세요.");
+    }
+
+    private int computeScoreIfExistsTargetPiece(Position end) {
+        int score = 0;
+        if (board.containsKey(end)) {
+            score = board.get(end).getScore();
+        }
+        return score;
     }
 
     public Map<Position, Piece> getBoard() {
