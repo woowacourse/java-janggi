@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MovePolicyForNormal implements MovePolicy {
+public class RoutePolicyForNormal implements RoutePolicy {
     public Set<Route> getPossibleRoutes(Piece piece, List<Piece> pieces) {
         return piece.calculateRoutes().stream()
                 .filter(route -> isValidNormalRoute(route, piece, pieces))

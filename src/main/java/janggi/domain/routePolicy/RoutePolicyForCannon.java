@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MovePolicyForCannon implements MovePolicy {
+public class RoutePolicyForCannon implements RoutePolicy {
     private static final int REQUIRED_JUMP_PIECES_FOR_CANNON = 1;
 
     @Override

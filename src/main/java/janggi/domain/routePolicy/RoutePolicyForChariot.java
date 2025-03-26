@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MovePolicyForChariot implements MovePolicy {
+public class RoutePolicyForChariot implements RoutePolicy {
     @Override
     public Set<Route> getPossibleRoutes(Piece piece, List<Piece> pieces) {
         return piece.calculateRoutes().stream()

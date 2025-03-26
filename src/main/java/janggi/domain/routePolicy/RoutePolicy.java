@@ -5,8 +5,6 @@ import janggi.domain.position.Route;
 import java.util.List;
 import java.util.Set;
 
-public interface MovePolicy {
-
+public interface RoutePolicy {
     Set<Route> getPossibleRoutes(Piece piece, List<Piece> pieces);
-
 }
