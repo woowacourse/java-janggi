@@ -23,9 +23,9 @@ public class GeneralPathTest {
 
     @ParameterizedTest
     @MethodSource("provideGeneralPath")
-    void General의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPostion, List<Pattern> path) {
+    void General의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> Generalpath = piece.findMovablePath(_NINE_FIVE, afterPostion);
+        List<Pattern> Generalpath = piece.findMovablePath(_NINE_FIVE, afterPosition);
 
         // when & then
         Assertions.assertThat(Generalpath)

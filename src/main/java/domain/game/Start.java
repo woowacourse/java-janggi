@@ -4,6 +4,7 @@ import domain.JanggiBoard;
 import domain.JanggiBoardFactory;
 import domain.JanggiPosition;
 import domain.piece.Piece;
+import domain.piece.Side;
 import java.util.Map;
 
 public class Start implements GameState {
@@ -11,7 +12,7 @@ public class Start implements GameState {
 
     @Override
     public GameState start() {
-        return new Run(janggiBoard, new Player());
+        return new Run(janggiBoard, new Player(Side.CHO));
     }
 
     @Override
