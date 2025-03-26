@@ -27,6 +27,10 @@ public abstract class Piece {
         return type;
     }
 
+    public Integer getPoint() {
+        return type.getPoint();
+    }
+
     public abstract List<Dot> getRoute(Dot origin, Dot destination);
 
     public abstract void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece);
