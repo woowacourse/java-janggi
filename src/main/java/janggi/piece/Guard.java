@@ -30,11 +30,6 @@ public final class Guard extends Piece {
     }
 
     @Override
-    protected boolean isValidDestination(final Position end, final Board board) {
-        return !board.isPresentSameTeam(team, end);
-    }
-
-    @Override
     public Type getType() {
         return Type.GUARD;
     }

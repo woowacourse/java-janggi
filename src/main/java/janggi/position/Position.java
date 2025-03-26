@@ -31,6 +31,14 @@ public final class Position {
         return column.getValue();
     }
 
+    public boolean isPalace() {
+        return row.isPalace() && column.isPalace();
+    }
+
+    public boolean isCenterOfPalace() {
+        return column.getValue() == 4 && (row.getValue() == 1 || row.getValue() == 8);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -43,13 +51,5 @@ public final class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
-    }
-
-    public boolean isPalace() {
-        return row.isPalace() && column.isPalace();
-    }
-
-    public boolean isCenterOfPalace() {
-        return column.getValue() == 4 && (row.getValue() == 1 || row.getValue() == 8);
     }
 }
