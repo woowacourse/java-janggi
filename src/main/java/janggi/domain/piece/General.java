@@ -6,18 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 public class General extends PathMovingPiece {
-    private static final Position INITIAL_POSITIONS_BLUE = new Position(9, 5);
-    private static final Position INITIAL_POSITIONS_RED = new Position(2, 5);
+
 
     public General(final Position position, final Team team) {
         super("궁", position, team);
-    }
-
-    public static List<Piece> createWithInitialPositions(final Team team) {
-        if (team.equals(Team.BLUE)) {
-            return List.of(new General(INITIAL_POSITIONS_BLUE, team));
-        }
-        return List.of(new General(INITIAL_POSITIONS_RED, team));
     }
 
     @Override
