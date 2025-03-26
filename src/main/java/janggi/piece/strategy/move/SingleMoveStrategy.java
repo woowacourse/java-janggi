@@ -13,6 +13,6 @@ public class SingleMoveStrategy implements MoveStrategy {
         if (Distance.of(departure, destination).getTotal() == SINGLE_STEP) {
             return;
         }
-        throw new IllegalArgumentException(exceptionMessage);
+        throw new IllegalArgumentException(EXCEPTION_MESSAGE);
     }
 }

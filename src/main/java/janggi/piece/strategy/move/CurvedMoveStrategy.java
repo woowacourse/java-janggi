@@ -29,6 +29,6 @@ public class CurvedMoveStrategy implements MoveStrategy {
         if (distance.getStraight() == straightMovement && distance.getDiagonal() == diagonalMovement) {
             return;
         }
-        throw new IllegalArgumentException(exceptionMessage);
+        throw new IllegalArgumentException(EXCEPTION_MESSAGE);
     }
 }

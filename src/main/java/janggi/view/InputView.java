@@ -15,8 +15,15 @@ public class InputView {
         String move = scanner.nextLine();
 
         String[] departureAndDestination = move.trim().split(" ");
+        if (departureAndDestination.length != 2) {
+            throw new IllegalArgumentException("이동 명령은 출발 위치와 목적지 위치로 구성되어야 합니다. 예: '1,1 2,1'");
+        }
+
         String[] departurePosition = departureAndDestination[0].split(",");
         String[] destinationPosition = departureAndDestination[1].split(",");
+        if (departurePosition.length != 2 || destinationPosition.length != 2) {
+            throw new IllegalArgumentException("위치는 행과 열로 구성되어야 합니다. 예: '1,1'");
+        }
 
         return MoveCommand.of(
                 departurePosition[0],

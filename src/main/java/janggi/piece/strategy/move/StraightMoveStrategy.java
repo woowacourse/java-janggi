@@ -11,6 +11,6 @@ public class StraightMoveStrategy implements MoveStrategy {
         if (Distance.of(departure, destination).isStraight()) {
             return;
         }
-        throw new IllegalArgumentException(exceptionMessage);
+        throw new IllegalArgumentException(EXCEPTION_MESSAGE);
     }
 }

@@ -17,11 +17,11 @@ public class RouteTest {
         Position destination = Position.of(4, 3);
 
         //when
-        List<Position> expected = Route.of(departure, destination).calculate();
+        List<Position> actual = Route.of(departure, destination).calculate();
 
         //then
-        List<Position> actual = List.of(Position.of(2, 3), Position.of(3, 3));
-        assertThat(expected).containsExactlyElementsOf(actual);
+        List<Position> expected = List.of(Position.of(2, 3), Position.of(3, 3));
+        assertThat(actual).containsExactlyElementsOf(expected);
     }
 
     @Test
@@ -32,11 +32,11 @@ public class RouteTest {
         Position destination = Position.of(1, 3);
 
         //when
-        List<Position> expected = Route.of(departure, destination).calculate();
+        List<Position> actual = Route.of(departure, destination).calculate();
 
         //then
-        List<Position> actual = List.of(Position.of(3, 3), Position.of(2, 3));
-        assertThat(expected).containsExactlyElementsOf(actual);
+        List<Position> expected = List.of(Position.of(3, 3), Position.of(2, 3));
+        assertThat(actual).containsExactlyElementsOf(expected);
     }
 
     @Test
@@ -47,11 +47,11 @@ public class RouteTest {
         Position destination = Position.of(3, 4);
 
         //when
-        List<Position> expected = Route.of(departure, destination).calculate();
+        List<Position> actual = Route.of(departure, destination).calculate();
 
         //then
-        List<Position> actual = List.of(Position.of(3, 2), Position.of(3, 3));
-        assertThat(expected).containsExactlyElementsOf(actual);
+        List<Position> expected = List.of(Position.of(3, 2), Position.of(3, 3));
+        assertThat(actual).containsExactlyElementsOf(expected);
     }
 
     @Test
@@ -62,11 +62,11 @@ public class RouteTest {
         Position destination = Position.of(3, 1);
 
         //when
-        List<Position> expected = Route.of(departure, destination).calculate();
+        List<Position> actual = Route.of(departure, destination).calculate();
 
         //then
-        List<Position> actual = List.of(Position.of(3, 3), Position.of(3, 2));
-        assertThat(expected).containsExactlyElementsOf(actual);
+        List<Position> expected = List.of(Position.of(3, 3), Position.of(3, 2));
+        assertThat(actual).containsExactlyElementsOf(expected);
     }
 
     @Test
@@ -77,11 +77,11 @@ public class RouteTest {
         Position destination = Position.of(4, 3);
 
         //when
-        List<Position> expected = Route.of(departure, destination).calculate();
+        List<Position> actual = Route.of(departure, destination).calculate();
 
         //then
-        List<Position> actual = List.of(Position.of(2, 1), Position.of(3, 2));
-        assertThat(expected).containsExactlyElementsOf(actual);
+        List<Position> expected = List.of(Position.of(2, 1), Position.of(3, 2));
+        assertThat(actual).containsExactlyElementsOf(expected);
     }
 
     @Test
@@ -92,11 +92,11 @@ public class RouteTest {
         Position destination = Position.of(1, 1);
 
         //when
-        List<Position> expected = Route.of(departure, destination).calculate();
+        List<Position> actual = Route.of(departure, destination).calculate();
 
         //then
-        List<Position> actual = List.of(Position.of(3, 3), Position.of(2, 2));
-        assertThat(expected).containsExactlyElementsOf(actual);
+        List<Position> expected = List.of(Position.of(3, 3), Position.of(2, 2));
+        assertThat(actual).containsExactlyElementsOf(expected);
     }
 
     @Test
@@ -107,11 +107,11 @@ public class RouteTest {
         Position destination = Position.of(7, 1);
 
         //when
-        List<Position> expected = Route.of(departure, destination).calculate();
+        List<Position> actual = Route.of(departure, destination).calculate();
 
         //then
-        List<Position> actual = List.of(Position.of(5, 3), Position.of(6, 2));
-        assertThat(expected).containsExactlyElementsOf(actual);
+        List<Position> expected = List.of(Position.of(5, 3), Position.of(6, 2));
+        assertThat(actual).containsExactlyElementsOf(expected);
     }
 
     @Test
@@ -122,10 +122,10 @@ public class RouteTest {
         Position destination = Position.of(7, 5);
 
         //when
-        List<Position> expected = Route.of(departure, destination).calculate();
+        List<Position> actual = Route.of(departure, destination).calculate();
 
         //then
-        List<Position> actual = List.of(Position.of(5, 3), Position.of(6, 4));
-        assertThat(expected).containsExactlyElementsOf(actual);
+        List<Position> expected = List.of(Position.of(5, 3), Position.of(6, 4));
+        assertThat(actual).containsExactlyElementsOf(expected);
     }
 }
