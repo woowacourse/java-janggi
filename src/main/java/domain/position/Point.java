@@ -27,7 +27,7 @@ public class Point {
 
     private static void validateRange(final int point, final int maxPoint) {
         if (point < 0 || point > maxPoint) {
-            throw new IllegalArgumentException("X축은 0부터 8까지, Y축은 0부터 9까지 입력 가능합니다.");
+            throw new IllegalArgumentException("X축은 0부터 8까지, Y축은 0부터 9까지만 가능합니다.");
         }
     }
 
@@ -35,7 +35,7 @@ public class Point {
         try {
             return Integer.parseInt(x);
         } catch (final NumberFormatException e) {
-            throw new IllegalArgumentException("좌표는 (숫자,숫자) 형식으로 입력해주세요.");
+            throw new IllegalArgumentException("좌표값은 숫자만 가능합니다.");
         }
     }
 
