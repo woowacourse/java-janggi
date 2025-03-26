@@ -42,12 +42,12 @@ public class JanggiBoardGenerator implements BoardGenerator {
         board.put(new Position(8, 8), new Cannon(Team.BLUE));
         board.put(new Position(9, 5), new King(Team.BLUE));
         board.put(new Position(10, 1), new Chariot(Team.BLUE));
-        board.put(new Position(10, 2), new Elephant(Team.BLUE));
-        board.put(new Position(10, 3), new Horse(Team.BLUE));
+        board.put(new Position(10, 2), new Horse(Team.BLUE));
+        board.put(new Position(10, 3), new Elephant(Team.BLUE));
         board.put(new Position(10, 4), new Guard(Team.BLUE));
         board.put(new Position(10, 6), new Guard(Team.BLUE));
-        board.put(new Position(10, 7), new Horse(Team.BLUE));
-        board.put(new Position(10, 8), new Elephant(Team.BLUE));
+        board.put(new Position(10, 7), new Elephant(Team.BLUE));
+        board.put(new Position(10, 8), new Horse(Team.BLUE));
         board.put(new Position(10, 9), new Chariot(Team.BLUE));
         return board;
     }
