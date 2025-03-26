@@ -58,12 +58,10 @@ public final class Board {
         }
     }
 
-
     public boolean hasPieceWithoutCannon(Position target) {
         PieceType type = get(target).type();
         return type != PieceType.BLANK && type != PieceType.CANNON;
     }
-
 
     public Map<Position, Piece> pieceOfPosition() {
         return pieceOfPosition;
@@ -81,4 +79,33 @@ public final class Board {
         return Team.next(currentTeam);
     }
 
+    public Board move(Position source, Position destination) {
+        Piece piece = get(source);
+        Set<Piece> pieces = toSet();
+        Set<Position> positions = piece.possibleRoutes(this);
+
+        validateCanMovePosition(destination, positions);
+
+        movePiece(destination, pieces, piece);
+        catchPiece(destination, piece, pieces);
+
+        return new Board(pieces, nextTurn());
+    }
+
+    private void movePiece(Position destination, Set<Piece> pieces, Piece piece) {
+        pieces.remove(piece);
+        pieces.add(piece.move(currentTeam, destination));
+    }
+
+    private void catchPiece(Position destination, Piece piece, Set<Piece> pieces) {
+        if (piece.isDifferentTeam(get(destination).team())) {
+            pieces.remove(get(destination));
+        }
+    }
+
+    private void validateCanMovePosition(Position destination, Set<Position> positions) {
+        if(!positions.contains(destination)){
+            throw new IllegalArgumentException("[ERROR] 잘못된 좌표입니다.");
+        }
+    }
 }

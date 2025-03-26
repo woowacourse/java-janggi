@@ -39,22 +39,7 @@ public class Application {
     }
 
     public Board move(Position source, Position destination, Board board) {
-        Piece piece = board.get(source);
-        Set<Piece> pieces = board.toSet();
-
-        Set<Position> positions = piece.possibleRoutes(board);
-        if (positions.contains(destination)) {
-            pieces.remove(piece);
-            pieces.add(piece.move(board.currentTeam(), destination));
-        }else{
-            throw new IllegalArgumentException("[ERROR] 잘못된 좌표입니다.");
-        }
-
-        if (piece.isDifferentTeam(board.get(destination).team())) {
-            pieces.remove(board.get(destination));
-        }
-
-        return new Board(pieces, board.nextTurn());
+        return board.move(source, destination);
     }
 
     public Board process(Supplier<Board> action) {
