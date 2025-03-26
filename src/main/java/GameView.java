@@ -1,4 +1,5 @@
 import java.util.Map;
+import java.util.Optional;
 import java.util.Scanner;
 import piece.Piece;
 import piece.initiate.TableSetting;
@@ -93,14 +94,34 @@ public class GameView {
     }
 
     public TableSetting inputTableSetting(Team team) {
-        System.out.printf(TABLE_SETTING_FORMATTER, teamStringMapper.get(team));
-        String input = scanner.nextLine();
+        Optional<TableSetting> tableSetting = Optional.empty();
+        while (tableSetting.isEmpty()) {
+            System.out.printf(TABLE_SETTING_FORMATTER, teamStringMapper.get(team));
+            String input = scanner.nextLine();
+            tableSetting = inputTableSetting(input);
+        }
+        return tableSetting.get();
+    }
+
+    private Optional<TableSetting> inputTableSetting(String input) {
         try {
             int selectTableSetting = Integer.parseInt(input);
-            return tableSettingMapper.get(selectTableSetting);
+            return tableSettingMapping(selectTableSetting);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(NOT_NUMBER);
+            printError(NOT_NUMBER);
+            return Optional.empty();
+        } catch (IllegalArgumentException e) {
+            printError(e.getMessage());
+            return Optional.empty();
         }
+    }
+
+    private Optional<TableSetting> tableSettingMapping(int selectTableSetting) {
+        TableSetting tableSetting = tableSettingMapper.get(selectTableSetting);
+        if (tableSetting == null) {
+            throw new IllegalArgumentException("유효하지 않은 상차림입니다.");
+        }
+        return Optional.of(tableSetting);
     }
 
     public void printError(String message) {
