@@ -12,9 +12,4 @@ public record Column(int value) {
     public boolean isOutOfBounds() {
         return value < COLUMN_MIN || value > COLUMN_MAX;
     }
-
-    @Override
-    public String toString() {
-        return value + "";
-    }
 }
