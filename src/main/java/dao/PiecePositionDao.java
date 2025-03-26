@@ -12,6 +12,15 @@ import java.util.Map.Entry;
 
 public class PiecePositionDao {
 
+    public void deleteAll(final Connection connection) {
+        final var query = "DELETE FROM piece_position WHERE TRUE";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void addAll(
             final Connection connection,
             final Map<BoardPosition, Piece> board
@@ -35,6 +44,8 @@ public class PiecePositionDao {
             }
 
             preparedStatement.executeBatch();
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
