@@ -10,6 +10,18 @@ public record Position(int x, int y) {
         validatePosition(x, y);
     }
 
+    public boolean isPalace() {
+        return isXInPalace() && isYInPalace();
+    }
+
+    private boolean isXInPalace() {
+        return x >= 3 && x <= 5;
+    }
+
+    private boolean isYInPalace() {
+        return (y >= 0 && y <= 2) || (y >= 7 && y <= 9);
+    }
+
     private void validatePosition(final int x, final int y) {
         if (isInvalidPosition(x, y)) {
             throw new IllegalArgumentException("보드를 벗어났습니다.");
