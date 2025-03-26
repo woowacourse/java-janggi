@@ -234,4 +234,25 @@ public class BoardTest {
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
+
+    @Nested
+    @DisplayName("보드의 상태 검증")
+    class Is {
+
+        @DisplayName("장군들이 모두 살아있는가?")
+        @Test
+        void isAliveAllGenerals() {
+            // given
+            final Map<Position, Piece> janggiBoard = Map.of(
+                    new Position(1, 1), new General(Country.HAN)
+            );
+            final Board board = new Board(janggiBoard);
+
+            // when
+            final boolean actual = board.isAliveAllGenerals();
+
+            // then
+            assertThat(actual).isFalse();
+        }
+    }
 }

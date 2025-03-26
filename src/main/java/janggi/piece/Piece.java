@@ -22,6 +22,10 @@ public abstract class Piece {
 
     public abstract boolean isCannon();
 
+    public boolean isGeneral(){
+        return false;
+    }
+
     public boolean equalsTeamType(final Country country) {
         return this.country == country;
     }

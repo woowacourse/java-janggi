@@ -20,4 +20,10 @@ public class General extends Piece{
     public boolean isCannon() {
         return false;
     }
+
+    @Override
+    public boolean isGeneral(){
+        return true;
+    }
+
 }

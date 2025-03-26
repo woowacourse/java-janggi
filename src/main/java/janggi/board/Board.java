@@ -1,13 +1,15 @@
 package janggi.board;
 
 import janggi.coordinate.Position;
+import janggi.piece.Country;
+import janggi.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import janggi.piece.Piece;
-import janggi.piece.Country;
 
 public class Board implements VisibleBoard{
+
+    private static final int ALL_GENERAL_COUNT = 2;
 
     private final Map<Position, Piece> janggiBoard;
 
@@ -55,6 +57,12 @@ public class Board implements VisibleBoard{
     @Override
     public boolean existPieceByPosition(final Position position) {
         return janggiBoard.containsKey(position);
+    }
+
+    public boolean isAliveAllGenerals() {
+        return janggiBoard.values().stream()
+                .filter(Piece::isGeneral)
+                .count() == ALL_GENERAL_COUNT;
     }
 
     @Override
