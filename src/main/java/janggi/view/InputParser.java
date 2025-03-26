@@ -40,7 +40,7 @@ public class InputParser {
         try {
             int column = Integer.parseInt(position[INDEX_AS_COLUMN]);
             int row = Integer.parseInt(position[INDEX_AS_ROW]);
-            return new Position(Column.getColumn(column), Row.getRow(row));
+            return new Position(Column.valueOf(column), Row.valueOf(row));
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 숫자 좌표만 입력 가능합니다.");
         }

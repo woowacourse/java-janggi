@@ -23,7 +23,7 @@ public enum Column {
         this.value = value;
     }
 
-    public static Column getColumn(int value) {
+    public static Column valueOf(int value) {
         return Arrays.stream(values())
                 .filter(column -> column.value == value)
                 .findAny()
@@ -46,14 +46,14 @@ public enum Column {
 
     public Column up() {
         if (canUp()) {
-            return getColumn(value + 1);
+            return valueOf(value + 1);
         }
         throw new PositionOutOfBoardBoundsException("[ERROR] 더 이상 열을 증가할 수 없습니다.");
     }
 
     public Column down() {
         if (canDown()) {
-            return getColumn(value - 1);
+            return valueOf(value - 1);
         }
         throw new PositionOutOfBoardBoundsException("[ERROR] 더 이상 열을 감소할 수 없습니다.");
     }

@@ -1,6 +1,5 @@
 package janggi.board.position;
 
-import static janggi.board.position.Column.SIZE;
 import static janggi.board.position.Column.EIGHT;
 import static janggi.board.position.Column.ZERO;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +17,7 @@ class ColumnTest {
     @ParameterizedTest
     void getColumn(int value, Column expected) {
         // when
-        Column result = Column.getColumn(value);
+        Column result = Column.valueOf(value);
 
         // then
         assertThat(result).isEqualTo(expected);
@@ -29,7 +28,7 @@ class ColumnTest {
     void should_ThrowException_WhenValueIsInvalid(int value) {
         // when
         // then
-        assertThatThrownBy(() -> Column.getColumn(value))
+        assertThatThrownBy(() -> Column.valueOf(value))
                 .isInstanceOf(PositionOutOfBoardBoundsException.class)
                 .hasMessage("[ERROR] 올바르지 않은 열입니다.");
     }

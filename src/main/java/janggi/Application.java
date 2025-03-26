@@ -1,11 +1,10 @@
 package janggi;
 
-import static janggi.board.position.Column.getColumn;
-import static janggi.board.position.Row.getRow;
-
 import janggi.board.Board;
 import janggi.board.GameOverException;
+import janggi.board.position.Column;
 import janggi.board.position.Position;
+import janggi.board.position.Row;
 import janggi.piece.Canon;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;
@@ -65,53 +64,53 @@ public class Application {
 
     private static void initializeRedTeam(Map<Position, Piece> board) {
         Team team = Team.RED;
-        board.put(new Position(getColumn(0), getRow(6)), new Soldier(team));
-        board.put(new Position(getColumn(2), getRow(6)), new Soldier(team));
-        board.put(new Position(getColumn(4), getRow(6)), new Soldier(team));
-        board.put(new Position(getColumn(6), getRow(6)), new Soldier(team));
-        board.put(new Position(getColumn(8), getRow(6)), new Soldier(team));
+        board.put(new Position(Column.valueOf(0), Row.valueOf(6)), new Soldier(team));
+        board.put(new Position(Column.valueOf(2), Row.valueOf(6)), new Soldier(team));
+        board.put(new Position(Column.valueOf(4), Row.valueOf(6)), new Soldier(team));
+        board.put(new Position(Column.valueOf(6), Row.valueOf(6)), new Soldier(team));
+        board.put(new Position(Column.valueOf(8), Row.valueOf(6)), new Soldier(team));
 
-        board.put(new Position(getColumn(1), getRow(7)), new Canon(team));
-        board.put(new Position(getColumn(7), getRow(7)), new Canon(team));
+        board.put(new Position(Column.valueOf(1), Row.valueOf(7)), new Canon(team));
+        board.put(new Position(Column.valueOf(7), Row.valueOf(7)), new Canon(team));
 
-        board.put(new Position(getColumn(4), getRow(8)), new General(team));
+        board.put(new Position(Column.valueOf(4), Row.valueOf(8)), new General(team));
 
-        board.put(new Position(getColumn(0), getRow(9)), new Chariot(team));
-        board.put(new Position(getColumn(8), getRow(9)), new Chariot(team));
+        board.put(new Position(Column.valueOf(0), Row.valueOf(9)), new Chariot(team));
+        board.put(new Position(Column.valueOf(8), Row.valueOf(9)), new Chariot(team));
 
-        board.put(new Position(getColumn(1), getRow(9)), new Elephant(team));
-        board.put(new Position(getColumn(6), getRow(9)), new Elephant(team));
+        board.put(new Position(Column.valueOf(1), Row.valueOf(9)), new Elephant(team));
+        board.put(new Position(Column.valueOf(6), Row.valueOf(9)), new Elephant(team));
 
-        board.put(new Position(getColumn(2), getRow(9)), new Horse(team));
-        board.put(new Position(getColumn(7), getRow(9)), new Horse(team));
+        board.put(new Position(Column.valueOf(2), Row.valueOf(9)), new Horse(team));
+        board.put(new Position(Column.valueOf(7), Row.valueOf(9)), new Horse(team));
 
-        board.put(new Position(getColumn(3), getRow(9)), new Guard(team));
-        board.put(new Position(getColumn(5), getRow(9)), new Guard(team));
+        board.put(new Position(Column.valueOf(3), Row.valueOf(9)), new Guard(team));
+        board.put(new Position(Column.valueOf(5), Row.valueOf(9)), new Guard(team));
     }
 
     private static void initializeGreenTeam(Map<Position, Piece> board) {
         Team team = Team.GREEN;
-        board.put(new Position(getColumn(0), getRow(3)), new Soldier(team));
-        board.put(new Position(getColumn(2), getRow(3)), new Soldier(team));
-        board.put(new Position(getColumn(4), getRow(3)), new Soldier(team));
-        board.put(new Position(getColumn(6), getRow(3)), new Soldier(team));
-        board.put(new Position(getColumn(8), getRow(3)), new Soldier(team));
+        board.put(new Position(Column.valueOf(0), Row.valueOf(3)), new Soldier(team));
+        board.put(new Position(Column.valueOf(2), Row.valueOf(3)), new Soldier(team));
+        board.put(new Position(Column.valueOf(4), Row.valueOf(3)), new Soldier(team));
+        board.put(new Position(Column.valueOf(6), Row.valueOf(3)), new Soldier(team));
+        board.put(new Position(Column.valueOf(8), Row.valueOf(3)), new Soldier(team));
 
-        board.put(new Position(getColumn(1), getRow(2)), new Canon(team));
-        board.put(new Position(getColumn(7), getRow(2)), new Canon(team));
+        board.put(new Position(Column.valueOf(1), Row.valueOf(2)), new Canon(team));
+        board.put(new Position(Column.valueOf(7), Row.valueOf(2)), new Canon(team));
 
-        board.put(new Position(getColumn(4), getRow(1)), new General(team));
+        board.put(new Position(Column.valueOf(4), Row.valueOf(1)), new General(team));
 
-        board.put(new Position(getColumn(0), getRow(0)), new Chariot(team));
-        board.put(new Position(getColumn(8), getRow(0)), new Chariot(team));
+        board.put(new Position(Column.valueOf(0), Row.valueOf(0)), new Chariot(team));
+        board.put(new Position(Column.valueOf(8), Row.valueOf(0)), new Chariot(team));
 
-        board.put(new Position(getColumn(1), getRow(0)), new Elephant(team));
-        board.put(new Position(getColumn(6), getRow(0)), new Elephant(team));
+        board.put(new Position(Column.valueOf(1), Row.valueOf(0)), new Elephant(team));
+        board.put(new Position(Column.valueOf(6), Row.valueOf(0)), new Elephant(team));
 
-        board.put(new Position(getColumn(2), getRow(0)), new Horse(team));
-        board.put(new Position(getColumn(7), getRow(0)), new Horse(team));
+        board.put(new Position(Column.valueOf(2), Row.valueOf(0)), new Horse(team));
+        board.put(new Position(Column.valueOf(7), Row.valueOf(0)), new Horse(team));
 
-        board.put(new Position(getColumn(3), getRow(0)), new Guard(team));
-        board.put(new Position(getColumn(5), getRow(0)), new Guard(team));
+        board.put(new Position(Column.valueOf(3), Row.valueOf(0)), new Guard(team));
+        board.put(new Position(Column.valueOf(5), Row.valueOf(0)), new Guard(team));
     }
 }

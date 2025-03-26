@@ -1,7 +1,6 @@
 package janggi.board.position;
 
 import static janggi.board.position.Row.NINE;
-import static janggi.board.position.Row.SIZE;
 import static janggi.board.position.Row.ZERO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -16,9 +15,9 @@ class RowTest {
     @CsvSource(value = {"0:ZERO", "1:ONE", "2:TWO", "3:THREE", "4:FOUR", "5:FIVE", "6:SIX", "7:SEVEN", "8:EIGHT",
             "9:NINE"}, delimiterString = ":")
     @ParameterizedTest
-    void getRow(int value, Row expected) {
+    void valueOf(int value, Row expected) {
         // when
-        Row result = Row.getRow(value);
+        Row result = Row.valueOf(value);
 
         // then
         assertThat(result).isEqualTo(expected);
@@ -29,7 +28,7 @@ class RowTest {
     void should_ThrowException_WhenValueIsInvalid(int value) {
         // when
         // then
-        assertThatThrownBy(() -> Row.getRow(value))
+        assertThatThrownBy(() -> Row.valueOf(value))
                 .isInstanceOf(PositionOutOfBoardBoundsException.class)
                 .hasMessage("[ERROR] 올바르지 않은 행입니다.");
     }

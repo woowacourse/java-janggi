@@ -7,8 +7,8 @@ import java.util.function.Predicate;
 public class PossibleMovements {
     private final List<Movements> possibleMovements;
 
-    public PossibleMovements(List<Movements> sss) {
-        this.possibleMovements = sss;
+    public PossibleMovements(List<Movements> possibleMovements) {
+        this.possibleMovements = possibleMovements;
     }
 
     public Path calculatePath(Position start, Position goal) {

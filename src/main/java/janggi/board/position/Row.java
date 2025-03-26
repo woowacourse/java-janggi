@@ -24,7 +24,7 @@ public enum Row {
         this.value = value;
     }
 
-    public static Row getRow(int value) {
+    public static Row valueOf(int value) {
         return Arrays.stream(values())
                 .filter(row -> row.value == value)
                 .findAny()
@@ -47,14 +47,14 @@ public enum Row {
 
     public Row up() {
         if (canUp()) {
-            return getRow(value + 1);
+            return valueOf(value + 1);
         }
         throw new PositionOutOfBoardBoundsException("[ERROR] 더 이상 행을 증가할 수 없습니다.");
     }
 
     public Row down() {
         if (canDown()) {
-            return getRow(value - 1);
+            return valueOf(value - 1);
         }
         throw new PositionOutOfBoardBoundsException("[ERROR] 더 이상 행을 감소할 수 없습니다.");
     }
