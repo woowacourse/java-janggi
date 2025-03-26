@@ -48,16 +48,13 @@ public class Movements {
         path.add(start);
         Position position = start;
         Movement movement = movements.getFirst();
-        while(true) {
+        while (!position.equals(goal)) {
             boolean canNotMove = movement.canNotMove(position);
             if (canNotMove) {
                 return null;
             }
             position = movement.movePosition(position);
             path.add(position);
-            if (position.equals(goal)) {
-                break;
-            }
         }
         return new Path(path);
     }
