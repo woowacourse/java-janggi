@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggiGame.Dot;
-import janggiGame.piece.oneMovePiece.Advisor;
+import janggiGame.piece.oneMovePiece.King;
 import janggiGame.piece.straightMovePiece.Chariot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ class KingTest {
         // given
         Dot origin = Dot.getInstanceBy(1, 1);
         Dot destination = Dot.getInstanceBy(1, 0);
-        Advisor king = new Advisor(Dynasty.HAN);
+        King king = new King(Dynasty.HAN);
 
         // when
         List<Dot> actual = king.getRoute(origin, destination);
@@ -34,7 +34,7 @@ class KingTest {
     void kingJudgeMovable3() {
         // given
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
-        Advisor king = new Advisor(Dynasty.HAN);
+        King king = new King(Dynasty.HAN);
 
         // when // then
         assertThatCode(() -> king.validateMove(routesWithPiece, new Chariot(Dynasty.HAN)))

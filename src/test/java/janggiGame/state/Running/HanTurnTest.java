@@ -20,10 +20,10 @@ class HanTurnTest {
         // given
         Dot origin = Dot.getInstanceBy(0, 0);
         Dot destination = Dot.getInstanceBy(0, 1);
-        State choTurn = new HanTurn(Map.of(origin, new Chariot(Dynasty.HAN)), false);
+        State hanTurn = new HanTurn(Map.of(origin, new Chariot(Dynasty.HAN)), false);
 
         // when
-        State actual = choTurn.takeTurn(origin, destination);
+        State actual = hanTurn.takeTurn(origin, destination);
 
         // then
         assertThat(actual).isInstanceOf(ChoTurn.class);
@@ -34,10 +34,10 @@ class HanTurnTest {
     void hanToDraw() {
         // given
         Dot origin = Dot.getInstanceBy(0, 0);
-        State choTurn = new HanTurn(Map.of(origin, new Chariot(Dynasty.HAN)), true);
+        State hanTurn = new HanTurn(Map.of(origin, new Chariot(Dynasty.HAN)), true);
 
         // when
-        State actual = choTurn.skipTurn();
+        State actual = hanTurn.skipTurn();
 
         // then
         assertThat(actual).isInstanceOf(Draw.class);
@@ -58,7 +58,7 @@ class HanTurnTest {
         assertThat(actual).isInstanceOf(HanWin.class);
     }
 
-    @DisplayName("HanTurn에서 현재 왕조를 조회하면 초나라가 반환된다")
+    @DisplayName("HanTurn에서 현재 왕조를 조회하면 한나라가 반환된다")
     @Test
     void getCurrentDynasty() {
         // given

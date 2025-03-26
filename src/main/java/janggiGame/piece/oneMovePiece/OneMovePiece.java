@@ -25,7 +25,7 @@ public abstract class OneMovePiece extends Piece {
     @Override
     protected void validateRoute(int dx, int dy) {
         if (Math.abs(dx) + Math.abs(dy) != 1) {
-            throw new UnsupportedOperationException("[ERROR] 장이 이동할 수 있는 목적지가 아닙니다.");
+            throw new UnsupportedOperationException("[ERROR] 이동할 수 있는 목적지가 아닙니다.");
         }
     }
 
