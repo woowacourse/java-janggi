@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Horse implements Piece {
 
-    private static final List<List<Movement>> movements = List.of(
+    private static final List<List<Movement>> MOVEMENTS = List.of(
             List.of(Movement.UP, Movement.RIGHT_UP),
             List.of(Movement.UP, Movement.LEFT_UP),
             List.of(Movement.LEFT, Movement.LEFT_UP),
@@ -38,7 +38,7 @@ public class Horse implements Piece {
     }
 
     private List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        return movements.stream()
+        return MOVEMENTS.stream()
                 .filter(movements -> !arrivedPosition.isOutOfBoards() && step(movements).equals(arrivedPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));

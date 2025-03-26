@@ -11,7 +11,8 @@ import java.util.Objects;
 public class Chariot implements Piece {
 
     private static final int POSSIBLE_MOVEMENT_COUNT = 10;
-    private static final List<List<Movement>> movements = List.of(
+
+    private static final List<List<Movement>> MOVEMENTS = List.of(
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.UP),
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.DOWN),
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.RIGHT),
@@ -36,7 +37,7 @@ public class Chariot implements Piece {
     }
 
     private List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        return movements.stream()
+        return MOVEMENTS.stream()
                 .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement, arrivedPosition).equals(arrivedPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));

@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Guard implements Piece {
 
-    private static final List<Movement> movements = List.of(
+    private static final List<Movement> MOVEMENTS = List.of(
             Movement.UP,
             Movement.DOWN,
             Movement.RIGHT,
@@ -35,7 +35,7 @@ public class Guard implements Piece {
     }
 
     private Movement findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        return movements.stream()
+        return MOVEMENTS.stream()
                 .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement).equals(arrivedPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));

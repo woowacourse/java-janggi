@@ -10,14 +10,14 @@ import java.util.Scanner;
 import static janggi.board.TableOption.*;
 
 public class Input {
-    private static final Map<String,TableOption> tableOptions = Map.of(
+    private static final Map<String,TableOption> TABLE_OPTIONS = Map.of(
             "상마상마",EHEH,
             "마상마상",HEHE,
             "마상상마",HEEH,
             "상마마상",EHHE
     );
     
-    private static final Map<Team, String> teams = Map.of(
+    private static final Map<Team, String> TEAMS = Map.of(
             Team.CHO,"초",
             Team.HAN,"한"
     );
@@ -27,9 +27,9 @@ public class Input {
     public TableOption readTableOption(Team team) {
         TableOption tableOption;
         do {
-            System.out.printf("%s의 상차림을 선택해주세요. [입력 예시 : 상마상마, 마상마상, 마상상마, 상마마상]%n", teams.get(team));
+            System.out.printf("%s의 상차림을 선택해주세요. [입력 예시 : 상마상마, 마상마상, 마상상마, 상마마상]%n", TEAMS.get(team));
             String inputTableOption = scanner.nextLine();
-            tableOption = tableOptions.get(inputTableOption);
+            tableOption = TABLE_OPTIONS.get(inputTableOption);
         } while(tableOption == null);
         return tableOption;
     }
