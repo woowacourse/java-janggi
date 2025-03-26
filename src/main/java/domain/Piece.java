@@ -39,6 +39,10 @@ public class Piece {
         return pieceType.getName();
     }
 
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
     public final Team getTeam() {
         return team;
     }
