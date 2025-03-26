@@ -91,4 +91,20 @@ class ByeongTest {
         Assertions.assertThat(movedByeong.getPosition()).isEqualTo(destination);
     }
 
+    @DisplayName("적 장기말이 목적지에 있을 때, 잡아서 없애버린다.")
+    @Test
+    void test5() {
+        //given
+        Byeong byeong = Byeong.from(STANDARD);
+        JanggiPosition destination = new JanggiPosition(4,5);
+        Byeong enemyByeong = Byeong.from(destination);
+        Pieces enemyPieces = new Pieces(List.of(enemyByeong));
+
+        //when
+        Byeong movedByeong = byeong.move(destination, enemyPieces, new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
+    }
+
 }
