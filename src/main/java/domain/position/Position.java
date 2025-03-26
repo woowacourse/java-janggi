@@ -23,12 +23,16 @@ public final class Position {
         return this.point.equals(other);
     }
 
-    public boolean isSamePieceType(final Position other) {
-        return this.piece.type() == other.piece.type();
-    }
-
     public boolean isSamePieceType(final PieceType otherPieceType) {
         return this.piece.type() == otherPieceType;
+    }
+
+    private boolean isDifferentPieceType(final Position other) {
+        return this.piece.type() != other.piece.type();
+    }
+
+    private boolean isDifferentPieceType(final PieceType otherPieceType) {
+        return this.piece.type() != otherPieceType;
     }
 
     public boolean isGreenTeam() {
@@ -41,6 +45,28 @@ public final class Position {
 
     public List<Point> calculatePossiblePoint(final Point toPoint) {
         return piece.calculatePossiblePoint(this.point, toPoint);
+    }
+
+    public boolean canPassOverPiece(
+            final Position middlePosition,
+            final Position toPosition,
+            final PieceType pieceType
+    ) {
+        if (canPassOverPieceWith(middlePosition, pieceType)) {
+            return isDifferentPieceType(toPosition);
+        }
+        return false;
+    }
+
+    public boolean canPassOverPiece(final Position middlePosition, final PieceType pieceType) {
+        return canPassOverPieceWith(middlePosition, pieceType);
+    }
+
+    private boolean canPassOverPieceWith(final Position middlePosition, final PieceType pieceType) {
+        if (isDifferentPieceType(pieceType)) {
+            return false;
+        }
+        return isDifferentPieceType(middlePosition);
     }
 
     public Position getNextPosition(final Point toPoint) {
@@ -63,26 +89,5 @@ public final class Position {
     @Override
     public int hashCode() {
         return Objects.hashCode(point);
-    }
-
-    public boolean canPassOverPiece(
-            final Position middlePosition,
-            final Position toPosition,
-            final PieceType pieceType
-    ) {
-        if (!isSamePieceType(pieceType)) {
-            return false;
-        }
-        if (isSamePieceType(middlePosition)) {
-            return false;
-        }
-        return !isSamePieceType(toPosition);
-    }
-
-    public boolean canPassOverPiece(final Position middlePosition, final PieceType pieceType) {
-        if (!isSamePieceType(pieceType)) {
-            return false;
-        }
-        return !isSamePieceType(middlePosition);
     }
 }
