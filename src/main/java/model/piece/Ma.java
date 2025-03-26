@@ -10,7 +10,7 @@ public class Ma extends Piece {
 
     public Ma(Team team) {
         super(team);
-        pieceName = PieceName.MA;
+        pieceInfo = PieceInfo.MA;
     }
 
     @Override

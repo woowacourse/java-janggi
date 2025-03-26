@@ -3,13 +3,13 @@ package model.piece.goongsungpiece;
 import java.util.Map;
 import model.Team;
 import model.piece.Piece;
-import model.piece.PieceName;
+import model.piece.PieceInfo;
 
 public class Cha extends GoongsungAdvantagePiece {
 
     public Cha(Team team) {
         super(team);
-        pieceName = PieceName.CHA;
+        pieceInfo = PieceInfo.CHA;
     }
 
     @Override

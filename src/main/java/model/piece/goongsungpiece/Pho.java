@@ -4,13 +4,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import model.Team;
 import model.piece.Piece;
-import model.piece.PieceName;
+import model.piece.PieceInfo;
 
 public class Pho extends GoongsungAdvantagePiece {
 
     public Pho(Team team) {
         super(team);
-        pieceName = PieceName.PHO;
+        pieceInfo = PieceInfo.PHO;
     }
 
     @Override

@@ -9,7 +9,7 @@ import model.Team;
 public class Sang extends Piece {
     public Sang(Team team) {
         super(team);
-        pieceName = PieceName.SANG;
+        pieceInfo = PieceInfo.SANG;
     }
 
     @Override

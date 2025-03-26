@@ -7,7 +7,7 @@ import model.Team;
 
 public abstract class Piece implements Hierarchy {
     protected Team team;
-    protected PieceName pieceName;
+    protected PieceInfo pieceInfo;
 
     public Piece(Team team) {
         this.team = team;
@@ -42,7 +42,7 @@ public abstract class Piece implements Hierarchy {
 
     public abstract boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot);
 
-    public PieceName getPieceName() {
-        return pieceName;
+    public PieceInfo getPieceName() {
+        return pieceInfo;
     }
 }

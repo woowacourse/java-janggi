@@ -7,13 +7,13 @@ import model.Path;
 import model.Point;
 import model.Team;
 import model.piece.Piece;
-import model.piece.PieceName;
+import model.piece.PieceInfo;
 
 public class Byeong extends Piece {
 
     public Byeong(Team team) {
         super(team);
-        pieceName = PieceName.BYEONG;
+        pieceInfo = PieceInfo.BYEONG;
     }
 
     @Override

@@ -1,13 +1,13 @@
 package model.piece.goongsungpiece;
 
 import model.Team;
-import model.piece.PieceName;
+import model.piece.PieceInfo;
 
 public class Jang extends GoongsungConstrainedPiece {
 
     public Jang(Team team) {
         super(team);
-        pieceName = PieceName.JANG;
+        pieceInfo = PieceInfo.JANG;
     }
 
     @Override
