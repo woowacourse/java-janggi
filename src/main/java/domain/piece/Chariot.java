@@ -30,19 +30,19 @@ public class Chariot extends Piece {
             throw new IllegalArgumentException("이 위치로는 움직일 수 없습니다.");
         }
         if (rowDiff < 0) {
-            return getPositions(startPosition, Move.BACK, Math.abs(rowDiff));
+            return determinePath(startPosition, Move.BACK, Math.abs(rowDiff));
         }
         if (rowDiff > 0) {
-            return getPositions(startPosition, Move.FRONT, rowDiff);
+            return determinePath(startPosition, Move.FRONT, rowDiff);
         }
         if (columnDiff < 0) {
-            return getPositions(startPosition, Move.RIGHT, Math.abs(columnDiff));
+            return determinePath(startPosition, Move.RIGHT, Math.abs(columnDiff));
         }
-        return getPositions(startPosition, Move.LEFT, columnDiff);
+        return determinePath(startPosition, Move.LEFT, columnDiff);
     }
 
 
-    private List<Position> getPositions(Position startPosition, Move moveDirection, int steps) {
+    private List<Position> determinePath(Position startPosition, Move moveDirection, int steps) {
         List<Position> path = new ArrayList<>();
         Position currentPosition = startPosition;
 
