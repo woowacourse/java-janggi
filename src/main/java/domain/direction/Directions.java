@@ -12,7 +12,7 @@ public class Directions {
         this.directions = directions;
     }
 
-    public List<Position> getPath(final Position start, final Position target) {
+    public List<Position> getPaths(final Position start, final Position target) {
         Direction direction = directions.stream()
                 .filter(element -> element.canReach(start, target))
                 .findFirst()

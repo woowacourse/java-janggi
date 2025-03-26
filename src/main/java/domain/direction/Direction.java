@@ -41,6 +41,9 @@ public class Direction {
     private boolean canReachWithoutRepeat(final Position start, final Position target) {
         Position current = start;
         for (Vector vector : direction) {
+            if (!current.isMoveValid(vector)) {
+                continue;
+            }
             current = current.moveBy(vector);
         }
         return current.equals(target);

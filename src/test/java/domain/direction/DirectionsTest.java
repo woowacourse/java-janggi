@@ -1,11 +1,11 @@
 package domain.direction;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.spatial.Position;
 import domain.spatial.Vector;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class DirectionsTest {
 
@@ -21,7 +21,7 @@ class DirectionsTest {
         Directions directions = new Directions(directionElements);
 
         // when
-        List<Position> result = directions.getPath(start, target);
+        List<Position> result = directions.getPaths(start, target);
 
         // then
         assertThat(result).containsAll(expected);
@@ -39,7 +39,7 @@ class DirectionsTest {
         Directions directions = new Directions(directionElements);
 
         // when
-        List<Position> result = directions.getPath(start, target);
+        List<Position> result = directions.getPaths(start, target);
 
         // then
         assertThat(result).containsAll(expected);
