@@ -72,4 +72,19 @@ class PlayersTest {
         assertThat(secondPlayer).isEqualTo(players.getPlayer(Team.CHO));
     }
 
+    @Test
+    @DisplayName("보드를 생성할 수 있다")
+    void createBoard() {
+        // given
+        Players players = Players.create(Turn.start());
+
+        Board board = Board.from(players.getBothPieces());
+
+        // when
+        Board boardByPlayers = players.createBoard();
+
+        // then
+        assertThat(boardByPlayers.getPositionToPiece())
+                .isEqualTo(board.getPositionToPiece());
+    }
 }
