@@ -18,7 +18,7 @@ class SaTest {
             "-1, 0",
             "0, -1"
     })
-    void 궁은_상하좌우로_이동할_수_있다(int movedRow, int movedColumn) {
+    void 사는_상하좌우로_이동할_수_있다(int movedRow, int movedColumn) {
         //given
         Sa sa = new Sa(Team.CHO);
         int row = 4;
@@ -34,7 +34,7 @@ class SaTest {
     }
 
     @Test
-    void 궁은_두_칸_이동할_수_없다() {
+    void 사는_두_칸_이동할_수_없다() {
         // given
         Sa sa = new Sa(Team.HAN);
         Position src = new Position(4, 1);

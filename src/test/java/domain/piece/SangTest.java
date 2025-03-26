@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class SangTest {
 
     @Test
-    void 사가_왼쪽_왼쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
+    void 상이_왼쪽_왼쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
         Sang sang = new Sang(Team.HAN);
         Position src = new Position(4, 4);
@@ -26,7 +26,7 @@ class SangTest {
     }
 
     @Test
-    void 사가_왼쪽_왼쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
+    void 상이_왼쪽_왼쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
         Sang sang = new Sang(Team.HAN);
         Position src = new Position(4, 4);
@@ -41,7 +41,7 @@ class SangTest {
     }
 
     @Test
-    void 사가_위_왼쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
+    void 상이_위_왼쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
         Sang sang = new Sang(Team.HAN);
         Position src = new Position(4, 4);
@@ -56,7 +56,7 @@ class SangTest {
     }
 
     @Test
-    void 사가_위_오른쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
+    void 상이_위_오른쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
         Sang sang = new Sang(Team.HAN);
         Position src = new Position(4, 4);
@@ -71,7 +71,7 @@ class SangTest {
     }
 
     @Test
-    void 사가_오른쪽_오른쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
+    void 상이_오른쪽_오른쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
         Sang sang = new Sang(Team.HAN);
         Position src = new Position(4, 4);
@@ -86,7 +86,7 @@ class SangTest {
     }
 
     @Test
-    void 사가_오른쪽_오른쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
+    void 상이_오른쪽_오른쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
         Sang sang = new Sang(Team.HAN);
         Position src = new Position(4, 4);
@@ -101,7 +101,7 @@ class SangTest {
     }
 
     @Test
-    void 사가_아래_오른쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
+    void 상이_아래_오른쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
         Sang sang = new Sang(Team.HAN);
         Position src = new Position(4, 4);
@@ -116,7 +116,7 @@ class SangTest {
     }
 
     @Test
-    void 사가_아래_왼쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
+    void 상이_아래_왼쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
         Sang sang = new Sang(Team.HAN);
         Position src = new Position(4, 4);
@@ -141,16 +141,16 @@ class SangTest {
             "-1, 0",
             "0, -1"
     })
-    void 사로_한_칸_이동할_경우_예외를_발생시킨다(int movedRow, int movedColumn) {
+    void 상으로_한_칸_이동할_경우_예외를_발생시킨다(int movedRow, int movedColumn) {
         // given
-        Ma ma = new Ma(Team.HAN);
+        Sang sang = new Sang(Team.HAN);
         int row = 4;
         int column = 4;
         Position src = new Position(row, column);
         Position dest = new Position(row + movedRow, column + movedColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> ma.calculatePath(src, dest))
+        Assertions.assertThatThrownBy(() -> sang.calculatePath(src, dest))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로 이동할 수 없습니다.");
     }
@@ -166,16 +166,16 @@ class SangTest {
             "-2, 0",
             "0, -2"
     })
-    void 사로_두_칸_이동할_경우_예외를_발생시킨다(int movedRow, int movedColumn) {
+    void 상으로_두_칸_이동할_경우_예외를_발생시킨다(int movedRow, int movedColumn) {
         // given
-        Ma ma = new Ma(Team.HAN);
+        Sang sang = new Sang(Team.HAN);
         int row = 4;
         int column = 4;
         Position src = new Position(row, column);
         Position dest = new Position(row + movedRow, column + movedColumn);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> ma.calculatePath(src, dest))
+        Assertions.assertThatThrownBy(() -> sang.calculatePath(src, dest))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로 이동할 수 없습니다.");
     }
