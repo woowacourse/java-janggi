@@ -9,7 +9,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public void captureIfNotMySide(Piece piece) {
+    public void capture(Piece piece) {
         if (piece.getPieceSymbol().equals(PieceSymbol.CANNON)) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }

@@ -14,7 +14,7 @@ public class PieceTest {
         Piece otherPiece = new Elephant(Side.HAN);
 
         // when
-        piece.captureIfNotMySide(otherPiece);
+        piece.capture(otherPiece);
 
         // then
         assertThat(piece.getState())

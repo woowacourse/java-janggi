@@ -34,10 +34,17 @@ public abstract class Piece {
         return this.side == otherSide;
     }
 
-    public void captureIfNotMySide(Piece piece) {
-        if (piece.side == this.side) {
-            return;
+    public void capture(Piece targetPiece) {
+        if (canCapture(targetPiece)) {
+            targetPiece.beCaptured();
         }
+    }
+
+    public boolean canCapture(Piece targetPiece) {
+        return !targetPiece.isEmpty();
+    }
+
+    public void beCaptured() {
         this.state = state.captured();
     }
 

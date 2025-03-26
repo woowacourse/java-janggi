@@ -22,18 +22,11 @@ public class JanggiBoard {
         Piece piece = getPieceFrom(beforePosition);
         Piece targetPiece = getPieceFrom(afterPosition);
 
-        validateEmptyPiece(piece);
         validateDestinationPiece(piece, targetPiece);
         validateMovePattern(piece, beforePosition, afterPosition);
 
         changeState(piece, targetPiece);
         changePosition(beforePosition, afterPosition);
-    }
-
-    private void validateEmptyPiece(Piece piece) {
-        if (piece.isEmpty()) {
-            throw new IllegalArgumentException("기물이 없어서 이동할 수 없습니다.");
-        }
     }
 
     private void validateDestinationPiece(Piece piece, Piece targetPiece) {
@@ -46,6 +39,7 @@ public class JanggiBoard {
         List<JanggiPosition> positions = piece.getPositionsFromPatterns(beforePosition, afterPosition);
         List<Piece> hurdlePieces = getPiecesFrom(positions);
         piece.validateMove(hurdlePieces);
+
     }
 
     private List<Piece> getPiecesFrom(List<JanggiPosition> positions) {
@@ -65,10 +59,7 @@ public class JanggiBoard {
 
     private void changeState(Piece piece, Piece targetPiece) {
         piece.updateState();
-
-        if (!targetPiece.isEmpty()) {
-            targetPiece.captureIfNotMySide(piece);
-        }
+        piece.capture(targetPiece);
     }
 
     private void changePosition(JanggiPosition beforePosition, JanggiPosition afterPosition) {
