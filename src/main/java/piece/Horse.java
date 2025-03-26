@@ -37,13 +37,17 @@ public class Horse implements Piece {
         Movement destinationMovement = getDestinationMovement(destination);
         List<Movement> movements = MOVEMENT_PATH.get(destinationMovement);
 
-        Point nextPoint = new Point(current.column(), current.row());
         for (Movement pathMovement : movements) {
-            nextPoint = nextPoint.move(pathMovement);
+            Point nextPoint = current.move(pathMovement);
             validateIsExistPieceInPoint(pieces, nextPoint);
         }
 
         current = current.move(destinationMovement);
+    }
+
+    @Override
+    public String getNickname() {
+        return nickname;
     }
 
     private Movement getDestinationMovement(Point destination) {

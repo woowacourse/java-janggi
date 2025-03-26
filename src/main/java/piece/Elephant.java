@@ -31,9 +31,8 @@ public class Elephant implements Piece {
         Movement destinationMovement = getDestinationMovement(destination);
         List<Movement> movements = MOVEMENT_PATH.get(destinationMovement);
 
-        Point nextPoint = new Point(current.column(), current.row());
         for (Movement pathMovement : movements) {
-            nextPoint = nextPoint.move(pathMovement);
+            Point nextPoint = current.move(pathMovement);
             validateIsExistPieceInPoint(pieces, nextPoint);
         }
 
@@ -60,5 +59,9 @@ public class Elephant implements Piece {
     @Override
     public boolean isSamePoint(Point point) {
         return current.equals(point);
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 }
