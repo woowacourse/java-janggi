@@ -19,6 +19,10 @@ public class Players {
         return new Players(cho, han);
     }
 
+    public Board createBoard() {
+        return Board.from(getBothPieces());
+    }
+
     public Pieces getBothPieces() {
         return cho.getPieces().addAll(han.getPieces());
     }

@@ -19,9 +19,8 @@ public class Janggi {
     public void play() {
         Players players = Players.create();
 
-        Turn turn = Turn.create(1);
-        Board board = Board.from(players.getBothPieces());
         Turn turn = Turn.start();
+        Board board = players.createBoard();
 
         while (true) {
             outputView.displayBoard(board);
