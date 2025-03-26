@@ -2,17 +2,6 @@ package domain;
 
 public record JanggiCoordinate(int row, int col) {
 
-    public int distanceTo(JanggiCoordinate to) {
-        int rowDst = Math.abs(this.row() - to.row());
-        int colDst = Math.abs(this.col() - to.col());
-
-        return square(rowDst) + square(colDst);
-    }
-
-    private int square(int n) {
-        return (int) Math.pow(n, 2);
-    }
-
     public JanggiCoordinate moveUp() {
         return new JanggiCoordinate(this.row - 1, this.col);
     }
@@ -56,6 +45,17 @@ public record JanggiCoordinate(int row, int col) {
             return moveLeft();
         }
         return moveDown();
+    }
+
+    public int distanceTo(JanggiCoordinate to) {
+        int rowDst = Math.abs(this.row() - to.row());
+        int colDst = Math.abs(this.col() - to.col());
+
+        return square(rowDst) + square(colDst);
+    }
+
+    private int square(int n) {
+        return (int) Math.pow(n, 2);
     }
 
     @Override
