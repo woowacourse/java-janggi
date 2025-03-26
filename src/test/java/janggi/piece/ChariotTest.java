@@ -55,4 +55,22 @@ class ChariotTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동 경로 중 특정 위치에 다른 기물이 있어 해당 기물을 목적지로 이동할 수 없습니다.");
     }
+
+    @CsvSource(value = {"5:5", "3:6", "3:3", "5:3"}, delimiterString = ":")
+    @ParameterizedTest
+    void 차의_이동이_상하좌우_일직선이_아닌경우_예외가_발생한다(int column, int row) {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = new Position(4, 4);
+        Position goal = createPosition(column, row);
+        Chariot piece = new Chariot(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(initialBoard);
+
+        // when && then
+        assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
+                .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessage("[ERROR] 차는 상하좌우 일직선으로만 이동 가능합니다.");
+    }
 }

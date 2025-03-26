@@ -42,7 +42,7 @@ public abstract class Piece {
         }
     }
 
-    private void validateNonOurArmyAtGoal(Map<Position, Piece> board, Position goal, Team attackerTeam) {
+    protected void validateNonOurArmyAtGoal(Map<Position, Piece> board, Position goal, Team attackerTeam) {
         // 목적지에 아군이 존재하면 예외 발생
         Piece target = board.get(goal);
         if (target != null && target.isSameTeam(attackerTeam)) {

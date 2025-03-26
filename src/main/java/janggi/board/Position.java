@@ -35,6 +35,14 @@ public class Position {
         return new Position(column + columnDistance, row + rowDistance);
     }
 
+    public boolean equalColumn(Position other) {
+        return this.column == other.column;
+    }
+
+    public boolean equalRow(Position other) {
+        return this.row == other.row;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) return false;
