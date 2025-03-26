@@ -2,8 +2,8 @@ package domain.board.maSangStrategy;
 
 import domain.Coordinate;
 import domain.Team;
-import domain.piece.Piece;
-import domain.piece.PieceType;
+import domain.Piece;
+import domain.PieceType;
 import java.util.List;
 import java.util.Set;
 

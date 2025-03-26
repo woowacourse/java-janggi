@@ -1,5 +1,6 @@
 package domain;
 
+import domain.movement.MoveUnit;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -28,15 +29,15 @@ public record Coordinate(int x, int y) {
         validateYCoordinate(y);
     }
 
-    public boolean canMove(MoveVector moveVector) {
-        int newX = this.x + moveVector.deltaX();
-        int newY = this.y + moveVector.deltaY();
+    public boolean canMove(MoveUnit moveUnit) {
+        int newX = this.x + moveUnit.deltaX();
+        int newY = this.y + moveUnit.deltaY();
         return !isInvalidX(newX) && !isInvalidY(newY);
     }
 
-    public Coordinate move(MoveVector moveVector) {
-        int newX = this.x + moveVector.deltaX();
-        int newY = this.y + moveVector.deltaY();
+    public Coordinate move(MoveUnit moveUnit) {
+        int newX = this.x + moveUnit.deltaX();
+        int newY = this.y + moveUnit.deltaY();
 
         return new Coordinate(newX, newY);
     }
@@ -48,10 +49,6 @@ public record Coordinate(int x, int y) {
 
     public Set<Coordinate> findCastleConnections() {
         return CASTLE_DIAGONAL_CONNECTIONS.getOrDefault(this, Collections.emptySet());
-    }
-
-    public MoveVector computeMovementTo(Coordinate destination) {
-        return new MoveVector(destination.x - this.x, destination.y - this.y);
     }
 
     private boolean isInvalidX(int x) {

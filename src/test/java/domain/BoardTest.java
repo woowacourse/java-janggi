@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.board.Board;
 import domain.board.PieceSearcher;
-import domain.piece.Piece;
-import domain.piece.PieceType;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;

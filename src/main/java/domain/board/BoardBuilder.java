@@ -1,16 +1,16 @@
 package domain.board;
 
-import static domain.piece.PieceType.BYEONG;
-import static domain.piece.PieceType.CHA;
-import static domain.piece.PieceType.GOONG;
-import static domain.piece.PieceType.JOL;
-import static domain.piece.PieceType.PO;
-import static domain.piece.PieceType.SA;
+import static domain.PieceType.BYEONG;
+import static domain.PieceType.CHA;
+import static domain.PieceType.GOONG;
+import static domain.PieceType.JOL;
+import static domain.PieceType.PO;
+import static domain.PieceType.SA;
 
 import domain.Coordinate;
 import domain.Team;
 import domain.board.maSangStrategy.MaSangStrategy;
-import domain.piece.Piece;
+import domain.Piece;
 import java.util.HashSet;
 import java.util.Set;
 

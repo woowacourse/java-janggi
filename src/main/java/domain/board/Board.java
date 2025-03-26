@@ -3,7 +3,7 @@ package domain.board;
 import static java.util.function.Function.identity;
 
 import domain.Coordinate;
-import domain.piece.Piece;
+import domain.Piece;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;

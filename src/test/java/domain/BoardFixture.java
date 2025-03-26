@@ -1,8 +1,6 @@
 package domain;
 
 import domain.board.Board;
-import domain.piece.Piece;
-import domain.piece.PieceType;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;

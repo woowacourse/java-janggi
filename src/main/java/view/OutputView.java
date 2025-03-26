@@ -2,15 +2,7 @@ package view;
 
 import domain.Coordinate;
 import domain.Team;
-import domain.piece.noPathMovement.ByeongMovement;
-import domain.piece.pathMovement.ChaMovement;
-import domain.piece.noPathMovement.GoongMovement;
-import domain.piece.noPathMovement.JolMovement;
-import domain.piece.pathMovement.MaMovement;
-import domain.piece.Piece;
-import domain.piece.pathMovement.PoMovement;
-import domain.piece.noPathMovement.SaMovement;
-import domain.piece.pathMovement.SangMovement;
+import domain.Piece;
 import java.util.Map;
 import java.util.Optional;
 
