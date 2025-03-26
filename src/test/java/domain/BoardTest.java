@@ -45,7 +45,7 @@ class BoardTest {
         // given
         final Board board = BoardFactory.create();
         final Point point = Point.newInstance(0, 0);
-        final Position expectedPosition = new Position(point,
+        final Position expectedPosition = Position.newInstance(point,
                 PieceFactory.createGreenTeam(Chariot::new));
 
         // when
@@ -249,7 +249,7 @@ class BoardTest {
 
         // given
         final Board board = new Board(
-                List.of(new Position(Point.newInstance(4, 1), PieceFactory.createGreenTeam(General::new))));
+                List.of(Position.newInstance(Point.newInstance(4, 1), PieceFactory.createGreenTeam(General::new))));
 
         // when
         // then
@@ -261,7 +261,7 @@ class BoardTest {
 
         // given
         final Board board = new Board(
-                List.of(new Position(Point.newInstance(4, 1), PieceFactory.createGreenTeam(General::new))));
+                List.of(Position.newInstance(Point.newInstance(4, 1), PieceFactory.createGreenTeam(General::new))));
 
         // when
         final Team winTeam = board.determineWinTeam();
@@ -275,7 +275,7 @@ class BoardTest {
 
         // given
         final Board board = new Board(
-                List.of(new Position(Point.newInstance(4, 1), PieceFactory.createRedTeam(General::new))));
+                List.of(Position.newInstance(Point.newInstance(4, 1), PieceFactory.createRedTeam(General::new))));
 
         // when
         final Team winTeam = board.determineWinTeam();

@@ -5,14 +5,18 @@ import domain.piece.PieceType;
 import java.util.List;
 import java.util.Objects;
 
-public class Position {
+public final class Position {
 
     private final Point point;
     private final Piece piece;
 
-    public Position(final Point point, final Piece piece) {
+    private Position(final Point point, final Piece piece) {
         this.point = point;
         this.piece = piece;
+    }
+
+    public static Position newInstance(final Point point, final Piece piece) {
+        return new Position(point, piece);
     }
 
     public boolean isSame(final Point other) {

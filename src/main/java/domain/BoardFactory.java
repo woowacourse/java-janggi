@@ -46,7 +46,7 @@ public final class BoardFactory {
         final List<Position> positions = new ArrayList<>();
 
         for (final Point initialPoint : initialPoints) {
-            final Position position = new Position(initialPoint, piece);
+            final Position position = Position.newInstance(initialPoint, piece);
             positions.add(position);
         }
         return positions;
