@@ -18,14 +18,20 @@ public final class Board {
         this.locations = new HashMap<>(locations);
     }
 
-    public void movePiece(
+    public boolean canMovePiece(
             final Point start,
             final Point arrival,
             final Team team
     ) {
         final Piece piece = getCheckedPieceCanMoveOnStartPoint(start, arrival, team);
         checkPieceCanMoveOnRoute(start, arrival, piece);
-        movePieceLocation(start, arrival, piece);
+        final Piece pieceAtArrival = locations.get(arrival);
+        return canContinueWhenPieceRemove(pieceAtArrival);
+    }
+
+    public void movePieceOnLocations(final Point start, final Point arrival) {
+        final Piece piece = locations.remove(start);
+        locations.put(arrival, piece);
     }
 
     public Map<Point, Piece> getLocations() {
@@ -78,9 +84,10 @@ public final class Board {
         }
     }
 
-    private void movePieceLocation(final Point start, final Point arrival, final Piece piece) {
-        locations.put(arrival, piece);
-        locations.remove(start);
+    private boolean canContinueWhenPieceRemove(final Piece pieceAtArrival) {
+        return Optional.ofNullable(pieceAtArrival)
+                .map(Piece::canContinueWhenPieceRemove)
+                .orElse(true);
     }
 
     private PiecesOnRoute getAllPiecesOnRoute(final List<Point> pointsOnRoute) {

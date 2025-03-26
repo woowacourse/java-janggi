@@ -28,7 +28,7 @@ public final class BoardTest {
             Point arrivalpoint = new Point(5, 0);
 
             // when
-            assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.CHO))
+            assertThatThrownBy(() -> board.canMovePiece(startPoint, arrivalpoint, Team.CHO))
                     .isInstanceOf(JanggiGameRuleWarningException.class)
                     .hasMessageContaining("해당 경로로 이동할 수 없습니다.");
         }
@@ -46,7 +46,7 @@ public final class BoardTest {
             Point arrivalpoint = new Point(1, 1);
 
             // when
-            assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.HAN))
+            assertThatThrownBy(() -> board.canMovePiece(startPoint, arrivalpoint, Team.HAN))
                     .isInstanceOf(JanggiGameRuleWarningException.class)
                     .hasMessageContaining("아군 기물만 움직일 수 있습니다.");
         }
@@ -63,7 +63,7 @@ public final class BoardTest {
             Point arrivalpoint = new Point(1, 1);
 
             // when & then
-            assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.HAN))
+            assertThatThrownBy(() -> board.canMovePiece(startPoint, arrivalpoint, Team.HAN))
                     .isInstanceOf(JanggiGameRuleWarningException.class)
                     .hasMessageContaining("출발점에 이동할 기물이 없습니다.");
         }

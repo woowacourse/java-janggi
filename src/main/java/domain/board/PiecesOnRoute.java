@@ -26,8 +26,6 @@ public record PiecesOnRoute(List<Piece> pieces) {
     }
 
     public boolean canNotJumpOverFirstPiece() {
-        return pieces.stream().findFirst()
-                .map(Piece::canNotJumpOver)
-                .orElse(false);
+        return pieces.stream().anyMatch(p -> p != null && p.canNotJumpOver());
     }
 }

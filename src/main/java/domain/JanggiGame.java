@@ -32,8 +32,12 @@ public final class JanggiGame {
         return board.getLocations();
     }
 
-    public void move(final Point start, final Point arrival) {
-        board.movePiece(start, arrival, getTeamOnCurrentTurn());
+    public boolean canMove(final Point start, final Point arrival) {
+        final Team currentTeam = getTeamOnCurrentTurn();
+        return board.canMovePiece(start, arrival, currentTeam);
+    }
+
+    public void switchTurn() {
         players.forEach(Player::switchTurn);
     }
 
@@ -43,5 +47,9 @@ public final class JanggiGame {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("플레이어 정보에 오류가 발생했습니다."));
         return currentPlayer.getTeam();
+    }
+
+    public void movePieceOnBoard(final Point start, final Point arrival) {
+        board.movePieceOnLocations(start, arrival);
     }
 }

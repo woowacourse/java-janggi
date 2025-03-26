@@ -32,11 +32,6 @@ public final class General implements Piece {
     }
 
     @Override
-    public boolean canNotJumpOver() {
-        return false;
-    }
-
-    @Override
     public List<Point> getRoutePoints(final Point start, final Point arrival) {
         throw new JanggiGameRuleWarningException("궁은 이동할 수 없습니다.");
     }
@@ -44,5 +39,10 @@ public final class General implements Piece {
     @Override
     public String getName() {
         return GENERAL.getNameForTeam(team);
+    }
+
+    @Override
+    public boolean canContinueWhenPieceRemove() {
+        return false;
     }
 }

@@ -13,9 +13,15 @@ public interface Piece {
 
     boolean isMovableOnRoute(PiecesOnRoute piecesOnRoute);
 
-    boolean canNotJumpOver();
-
     List<Point> getRoutePoints(Point start, Point arrival);
 
     String getName();
+
+    default boolean canNotJumpOver() {
+        return false;
+    }
+
+    default boolean canContinueWhenPieceRemove() {
+        return true;
+    }
 }

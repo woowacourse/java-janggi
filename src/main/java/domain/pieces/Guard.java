@@ -32,11 +32,6 @@ public final class Guard implements Piece {
     }
 
     @Override
-    public boolean canNotJumpOver() {
-        return false;
-    }
-
-    @Override
     public List<Point> getRoutePoints(final Point start, final Point arrival) {
         throw new JanggiGameRuleWarningException("신하는 이동할 수 없습니다.");
     }

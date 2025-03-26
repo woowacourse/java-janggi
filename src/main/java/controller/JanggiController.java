@@ -20,12 +20,30 @@ public final class JanggiController {
     }
 
     public void run() {
-        outputView.printTurnGuide();
-        final JanggiGame game = handleInput(this::setupGame);
+        final JanggiGame game = initialJanggiGame();
         outputView.printBoard(game.getBoard());
+        playJanggi(game);
+    }
+
+    private void playJanggi(final JanggiGame game) {
         while (true) {
-            processMove(game);
+            final Team currentTeam = game.getTeamOnCurrentTurn();
+            final MovementRequestDto moveRequest = inputView.readMovementRequest(currentTeam);
+            final Point start = moveRequest.getStart();
+            final Point arrival = moveRequest.getArrival();
+            if (!canProcessMove(start, arrival, game)) {
+                outputView.printWinner(currentTeam);
+                break;
+            }
+            game.movePieceOnBoard(start, arrival);
+            game.switchTurn();
+            outputView.printBoard(game.getBoard());
         }
+    }
+
+    private JanggiGame initialJanggiGame() {
+        outputView.printTurnGuide();
+        return handleInput(this::setupGame);
     }
 
     private JanggiGame setupGame() {
@@ -37,16 +55,12 @@ public final class JanggiController {
         return JanggiGame.setup(elephantLocatorByTeam);
     }
 
-    private void processMove(final JanggiGame game) {
-        final Team currentTeam = game.getTeamOnCurrentTurn();
+    private boolean canProcessMove(final Point start, final Point arrival, final JanggiGame game) {
         try {
-            final MovementRequestDto movementRequest = inputView.readMovementRequest(currentTeam.toString());
-            final Point start = movementRequest.getStartPoint();
-            final Point arrival = movementRequest.getArrivalPoint();
-            game.move(start, arrival);
-            outputView.printBoard(game.getBoard());
+            return game.canMove(start, arrival);
         } catch (JanggiGameRuleWarningException e) {
             outputView.printError(e.getMessage());
+            return true;
         }
     }
 

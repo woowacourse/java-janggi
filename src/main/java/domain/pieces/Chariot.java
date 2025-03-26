@@ -39,11 +39,6 @@ public final class Chariot implements Piece {
     }
 
     @Override
-    public boolean canNotJumpOver() {
-        return false;
-    }
-
-    @Override
     public List<Point> getRoutePoints(final Point start, final Point arrival) {
         return movement.calculatePointsOnRoute(start, arrival);
     }

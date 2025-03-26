@@ -1,5 +1,6 @@
 package view;
 
+import domain.Team;
 import domain.board.Point;
 import domain.pieces.Piece;
 import java.util.List;
@@ -32,6 +33,10 @@ public final class OutputView {
         System.out.println(boardToString(locations));
     }
 
+    public void printWinner(final Team currentTeam) {
+        System.out.println(currentTeam.toString() + "가 승리했습니다!");
+    }
+
     private String boardToString(final Map<Point, Piece> locations) {
         final StringBuilder builder = new StringBuilder();
         writeColumnGuideLine(builder);
@@ -41,8 +46,7 @@ public final class OutputView {
             addPieceName(locations, row, builder);
             builder.append(NEW_LINE);
         }
-        builder.append(NEW_LINE)
-                .append("초나라는 한글, 한나라는 한자로 표시됩니다.");
+        builder.append(NEW_LINE).append("초나라는 한글, 한나라는 한자로 표시됩니다.");
         return builder.toString();
     }
 
@@ -75,4 +79,5 @@ public final class OutputView {
             builder.append(SPACE);
         }
     }
+
 }

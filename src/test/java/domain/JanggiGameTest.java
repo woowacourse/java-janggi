@@ -26,8 +26,23 @@ public final class JanggiGameTest {
     }
 
     @Test
+    @DisplayName("시작점과 도착점을 입력할 경우, 기물을 움직일 수 있는 지 반환한다.")
+    void test_canMovePieceOnBoard() {
+        //given
+        final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
+        given.put(Team.CHO, 1);
+        given.put(Team.HAN, 1);
+        final JanggiGame janggiGame = JanggiGame.setup(given);
+        final Point start = new Point(0, 0);
+        final Point arrival = new Point(2, 0);
+
+        //when&then
+        assertThat(janggiGame.canMove(start, arrival)).isTrue();
+    }
+
+    @Test
     @DisplayName("시작점과 도착점을 입력할 경우, 기물을 움직일 수 있다.")
-    void test_move() {
+    void test_movePieceOnBoard() {
         //given
         final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
         given.put(Team.CHO, 1);
@@ -38,26 +53,24 @@ public final class JanggiGameTest {
         final Point arrival = new Point(2, 0);
 
         //when
-        janggiGame.move(start, arrival);
-
+        janggiGame.movePieceOnBoard(start, arrival);
         //then
         final Map<Point, Piece> movedBoard = janggiGame.getBoard();
         assertThat(movedBoard.get(arrival)).isEqualTo(givenBoard.get(start));
     }
 
     @Test
-    @DisplayName("기물을 움직일 경우, 플레이어 턴이 교체된다.(초나라 선공)")
-    void test_() {
+    @DisplayName("플레이어 턴이 교체한다.(초나라 선공)")
+    void test_switchTurn() {
         //given
         final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
         given.put(Team.CHO, 1);
         given.put(Team.HAN, 1);
         final JanggiGame janggiGame = JanggiGame.setup(given);
-        final Map<Point, Piece> givenBoard = janggiGame.getBoard();
         final Team startTurn = janggiGame.getTeamOnCurrentTurn();
 
         //when
-        janggiGame.move(new Point(0, 0), new Point(2, 0));
+        janggiGame.switchTurn();
         final Team nextTurn = janggiGame.getTeamOnCurrentTurn();
 
         //then
