@@ -1,5 +1,6 @@
 package domain;
 
+import domain.piece.Gung;
 import domain.piece.Piece;
 
 import java.util.Map;
@@ -8,7 +9,6 @@ public class JanggiBoard {
     public static final int ROW_SIZE = 10;
     public static final int COL_SIZE = 9;
     public static final int BOUNDARY_START = 1;
-
 
     private final Map<JanggiCoordinate, Piece> board;
 
@@ -25,6 +25,14 @@ public class JanggiBoard {
             return board.get(coordinate);
         }
         throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
+    }
+
+    public boolean isChoGungAlive() {
+        return board.containsValue(new Gung(Country.CHO));
+    }
+
+    public boolean isHanGungAlive() {
+        return board.containsValue(new Gung(Country.HAN));
     }
 
     public void movePiece(JanggiCoordinate from, JanggiCoordinate to) {

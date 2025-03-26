@@ -3,15 +3,17 @@ package domain.board;
 import domain.Country;
 import domain.JanggiBoard;
 import domain.JanggiCoordinate;
-import domain.piece.Ma;
-import domain.piece.Pho;
-import domain.piece.Piece;
+import domain.piece.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -59,6 +61,29 @@ class JanggiBoardTest {
                     () -> assertDoesNotThrow(() -> janggiBoard.movePiece(from, to)),
                     () -> assertThat(janggiBoard.isOccupied(from)).isFalse(),
                     () -> assertThat(janggiBoard.isOccupied(to)).isTrue()
+            );
+        }
+    }
+
+    @Nested
+    class PieceFindTest {
+
+        @DisplayName("보드에 궁이 존재하는지 판별한다")
+        @ParameterizedTest
+        @MethodSource("gungArguments")
+        void containsGungTest(Piece piece, boolean ans) {
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            map.put(new JanggiCoordinate(5, 5), piece);
+            JanggiBoard janggiBoard = new JanggiBoard(map);
+
+            assertThat(janggiBoard.isChoGungAlive()).isEqualTo(ans);
+        }
+
+        private static Stream<Arguments> gungArguments() {
+            return Stream.of(
+                    Arguments.arguments(new Cha(Country.CHO), false),
+                    Arguments.arguments(new Gung(Country.CHO), true),
+                    Arguments.arguments(new Gung(Country.HAN), false)
             );
         }
     }
