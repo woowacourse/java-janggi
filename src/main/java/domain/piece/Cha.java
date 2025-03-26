@@ -5,11 +5,12 @@ import domain.board.Direction;
 import domain.board.Node;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Cha implements Piece {
 
-    private static final List<Direction> CHA_MOVABLE_DIRECTIONS = Direction.BASIC_DIRECTIONS;
+    private static final List<Direction> CHA_MOVABLE_DIRECTIONS = Arrays.stream(Direction.values()).toList();
 
     private final Team team;
 

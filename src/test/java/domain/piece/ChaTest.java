@@ -9,6 +9,11 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -188,6 +193,31 @@ class ChaTest {
             assertThatCode(() -> cha.validateMove(sourceNode, destinationNode, board))
                     .doesNotThrowAnyException();
         }
+
+        @ParameterizedTest(name = "{index} : {2}")
+        @MethodSource("getDiagonalPoints")
+        void 차는_궁성_내에서_대각선으로_직진할_수_있다(Point chaPoint, Point destinationPoint, String testName) {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Piece cha = new Cha(Team.CHO);
+
+            Node sourceNode = board.findNodeByPoint(chaPoint);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        static Stream<Arguments> getDiagonalPoints() {
+            return Stream.of(
+                    Arguments.of(Point.of(10, 6), Point.of(8, 4), "왼쪽 위"),
+                    Arguments.of(Point.of(10, 4), Point.of(8, 6), "오른쪽 위"),
+                    Arguments.of(Point.of(8, 6), Point.of(10, 4), "왼쪽 아래"),
+                    Arguments.of(Point.of(8, 4), Point.of(10, 6), "오른쪽 아래")
+            );
+        }
     }
 
 
@@ -277,6 +307,31 @@ class ChaTest {
             // when & then
             assertThatThrownBy(() -> cha.validateMove(sourceNode, destinationNode, board))
                     .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @ParameterizedTest(name = "{index} : {2}")
+        @MethodSource("getDiagonalPoints")
+        void 차는_궁성_밖에서_대각선으로_직진할_수_없다(Point chaPoint, Point destinationPoint, String testName) {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Piece cha = new Cha(Team.CHO);
+
+            Node sourceNode = board.findNodeByPoint(chaPoint);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatThrownBy(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        static Stream<Arguments> getDiagonalPoints() {
+            return Stream.of(
+                    Arguments.of(Point.of(10, 9), Point.of(1, 1), "왼쪽 위"),
+                    Arguments.of(Point.of(10, 1), Point.of(1, 9), "오른쪽 위"),
+                    Arguments.of(Point.of(1, 1), Point.of(10, 9), "왼쪽 아래"),
+                    Arguments.of(Point.of(1, 9), Point.of(10, 1), "오른쪽 아래")
+            );
         }
     }
 }
