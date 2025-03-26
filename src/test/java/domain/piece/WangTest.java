@@ -9,6 +9,11 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -50,18 +55,17 @@ class WangTest {
                     .doesNotThrowAnyException();
         }
 
-        @Test
-        void 왕은_궁성_내에서_위로_직진할_수_있다() {
+        @ParameterizedTest(name = "{index} : {1}")
+        @MethodSource("getBasicPoints")
+        void 왕은_궁성_내에서_상하좌우로_직진할_수_있다(Point destinationPoint, String testName) {
             // given
             Board board = BoardFixture.createEmptyBoard();
 
-            Team wangTeam = Team.CHO;
-            Piece wang = new Wang(wangTeam);
+            Piece wang = new Wang(Team.CHO);
 
             Point wangPoint = Point.of(9, 5);
             Node sourceNode = board.findNodeByPoint(wangPoint);
 
-            Point destinationPoint = Point.of(8, 5);
             Node destinationNode = board.findNodeByPoint(destinationPoint);
 
             // when & then
@@ -69,18 +73,26 @@ class WangTest {
                     .doesNotThrowAnyException();
         }
 
-        @Test
-        void 왕은_궁성_내에서_아래로_직진할_수_있다() {
+        static Stream<Arguments> getBasicPoints() {
+            return Stream.of(
+                    Arguments.of(Point.of(8, 5), "위"),
+                    Arguments.of(Point.of(10, 5), "아래"),
+                    Arguments.of(Point.of(9, 4), "왼쪽"),
+                    Arguments.of(Point.of(9, 6), "오른쪽")
+            );
+        }
+
+        @ParameterizedTest(name = "{index} : {1}")
+        @MethodSource("getDiagonalPoints")
+        void 왕은_궁성_내에서_대각선으로_직진할_수_있다(Point destinationPoint, String testName) {
             // given
             Board board = BoardFixture.createEmptyBoard();
 
-            Team wangTeam = Team.CHO;
-            Piece wang = new Wang(wangTeam);
+            Piece wang = new Wang(Team.CHO);
 
             Point wangPoint = Point.of(9, 5);
             Node sourceNode = board.findNodeByPoint(wangPoint);
 
-            Point destinationPoint = Point.of(10, 5);
             Node destinationNode = board.findNodeByPoint(destinationPoint);
 
             // when & then
@@ -88,118 +100,13 @@ class WangTest {
                     .doesNotThrowAnyException();
         }
 
-        @Test
-        void 왕은_궁성_내에서_왼쪽으로_직진할_수_있다() {
-            // given
-            Board board = BoardFixture.createEmptyBoard();
-
-            Team wangTeam = Team.CHO;
-            Piece wang = new Wang(wangTeam);
-
-            Point wangPoint = Point.of(9, 5);
-            Node sourceNode = board.findNodeByPoint(wangPoint);
-
-            Point destinationPoint = Point.of(9, 4);
-            Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-            // when & then
-            assertThatCode(() -> wang.validateMove(sourceNode, destinationNode, board))
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        void 왕은_궁성_내에서_오른쪽으로_직진할_수_있다() {
-            // given
-            Board board = BoardFixture.createEmptyBoard();
-
-            Team wangTeam = Team.CHO;
-            Piece wang = new Wang(wangTeam);
-
-            Point wangPoint = Point.of(9, 5);
-            Node sourceNode = board.findNodeByPoint(wangPoint);
-
-            Point destinationPoint = Point.of(9, 6);
-            Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-            // when & then
-            assertThatCode(() -> wang.validateMove(sourceNode, destinationNode, board))
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        void 왕은_궁성_내에서_왼쪽_위로_이동할_수_있다() {
-            // given
-            Board board = BoardFixture.createEmptyBoard();
-
-            Team wangTeam = Team.CHO;
-            Piece wang = new Wang(wangTeam);
-
-            Point wangPoint = Point.of(9, 5);
-            Node sourceNode = board.findNodeByPoint(wangPoint);
-
-            Point destinationPoint = Point.of(8, 4);
-            Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-            // when & then
-            assertThatCode(() -> wang.validateMove(sourceNode, destinationNode, board))
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        void 왕은_궁성_내에서_오른쪽_위로_이동할_수_있다() {
-            // given
-            Board board = BoardFixture.createEmptyBoard();
-
-            Team wangTeam = Team.CHO;
-            Piece wang = new Wang(wangTeam);
-
-            Point wangPoint = Point.of(9, 5);
-            Node sourceNode = board.findNodeByPoint(wangPoint);
-
-            Point destinationPoint = Point.of(8, 6);
-            Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-            // when & then
-            assertThatCode(() -> wang.validateMove(sourceNode, destinationNode, board))
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        void 왕은_궁성_내에서_왼쪽_아래로_이동할_수_있다() {
-            // given
-            Board board = BoardFixture.createEmptyBoard();
-
-            Team wangTeam = Team.CHO;
-            Piece wang = new Wang(wangTeam);
-
-            Point wangPoint = Point.of(9, 5);
-            Node sourceNode = board.findNodeByPoint(wangPoint);
-
-            Point destinationPoint = Point.of(10, 4);
-            Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-            // when & then
-            assertThatCode(() -> wang.validateMove(sourceNode, destinationNode, board))
-                    .doesNotThrowAnyException();
-        }
-
-        @Test
-        void 왕은_궁성_내에서_오른쪽_아래로_이동할_수_있다() {
-            // given
-            Board board = BoardFixture.createEmptyBoard();
-
-            Team wangTeam = Team.CHO;
-            Piece wang = new Wang(wangTeam);
-
-            Point wangPoint = Point.of(9, 5);
-            Node sourceNode = board.findNodeByPoint(wangPoint);
-
-            Point destinationPoint = Point.of(10, 6);
-            Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-            // when & then
-            assertThatCode(() -> wang.validateMove(sourceNode, destinationNode, board))
-                    .doesNotThrowAnyException();
+        static Stream<Arguments> getDiagonalPoints() {
+            return Stream.of(
+                    Arguments.of(Point.of(8, 4), "왼쪽 위"),
+                    Arguments.of(Point.of(8, 6), "오른쪽 위"),
+                    Arguments.of(Point.of(10, 4), "왼쪽 아래"),
+                    Arguments.of(Point.of(10, 6), "오른쪽 아래")
+            );
         }
     }
 
