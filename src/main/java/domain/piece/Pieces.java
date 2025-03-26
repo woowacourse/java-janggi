@@ -1,5 +1,7 @@
 package domain.piece;
 
+import domain.MoveInfos;
+import domain.piece.category.PieceCategory;
 import domain.spatial.Position;
 import java.util.List;
 
@@ -9,37 +11,28 @@ public record Pieces(
 
     public List<Position> getPiecePaths(final Position startPosition, final Position targetPosition) {
         Piece piece = findByPosition(startPosition);
-        return piece.getPath(targetPosition);
+        return piece.getPaths(targetPosition);
     }
 
-    public int countPiecesInPositions(final List<Position> positions) {
-        return (int) positions.stream()
-                .filter(position ->
-                        pieces.stream().anyMatch(piece -> piece.isSamePosition(position)))
-                .count();
-    }
-
-    public boolean existByPosition(final Position position) {
-        return pieces.stream()
-                .anyMatch(piece -> piece.isSamePosition(position));
-    }
-
-    public void validateMovePath(final Position startPosition, final int pathPieceCount) {
-        Piece piece = findByPosition(startPosition);
-        piece.validateMoveByPathPieceCount(pathPieceCount);
-    }
-
-    public boolean isCannonByPosition(final Position position) {
+    public PieceCategory getCategoryAtPosition(final Position position) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
-                .anyMatch(Piece::isCannon);
+                .map(Piece::getCategory)
+                .findFirst()
+                .orElse(PieceCategory.NONE);
     }
 
-    public void updatePosition(final Position startPosition, final Position updatePosition) {
-        Piece piece = findByPosition(startPosition);
+    public void movePiece(final Position startPosition, final Position targetPosition, final MoveInfos moveInfos) {
+        Piece pieceToMove = findByPosition(startPosition);
+        Piece movedPiece = pieceToMove.move(targetPosition, moveInfos);
 
-        pieces.remove(piece);
-        pieces.add(piece.updatePosition(updatePosition));
+        pieces.remove(pieceToMove);
+        pieces.add(movedPiece);
+    }
+
+    public boolean existKing() {
+        return pieces.stream()
+                .anyMatch(Piece::isKing);
     }
 
     public void removePieceIfExists(final Position targetPosition) {
@@ -48,9 +41,9 @@ public record Pieces(
         }
     }
 
-    public boolean existKing() {
+    public boolean existByPosition(final Position position) {
         return pieces.stream()
-                .anyMatch(Piece::isKing);
+                .anyMatch(piece -> piece.isSamePosition(position));
     }
 
     private void deleteByPosition(final Position position) {
