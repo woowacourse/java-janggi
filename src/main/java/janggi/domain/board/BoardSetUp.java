@@ -43,14 +43,6 @@ public enum BoardSetUp {
         this.pieceSetUpOrder = pieceSetUpOrder;
     }
 
-    private int getXPointByDynasty(Dynasty dynasty) {
-        int xPoint = 10;
-        if (dynasty == Dynasty.HAN) {
-            xPoint = 1;
-        }
-        return xPoint;
-    }
-
     public Map<Point, BoardPiece> getDynastySetUp(Dynasty dynasty) {
         int xPoint = getXPointByDynasty(dynasty);
         Map<Point, BoardPiece> setup = new HashMap<>();
@@ -59,5 +51,13 @@ public enum BoardSetUp {
             setup.put(new Point(xPoint, Y_POINTS.get(i)), new BoardPiece(piece, dynasty));
         }
         return setup;
+    }
+
+    private int getXPointByDynasty(Dynasty dynasty) {
+        int xPoint = 10;
+        if (dynasty == Dynasty.HAN) {
+            xPoint = 1;
+        }
+        return xPoint;
     }
 }

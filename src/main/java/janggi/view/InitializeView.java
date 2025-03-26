@@ -20,24 +20,11 @@ public class InitializeView {
 
     public BoardSetUp readBoardSetUp(Player player) {
         System.out.println("\n" + player.getNickname() + "의 상차림을 선택해 주세요.");
-        printBoardSetUpGuide();
+        for (String boardSetUpLabel : BoardSetUpMenu.getSetUpGuide()) {
+            System.out.println(boardSetUpLabel);
+        }
         String menu = readLine();
-        return switch (menu) {
-            case "1" -> BoardSetUp.RIGHT_ELEPHANT;
-            case "2" -> BoardSetUp.LEFT_ELEPHANT;
-            case "3" -> BoardSetUp.OUTER_ELEPHANT;
-            case "4" -> BoardSetUp.INNER_ELEPHANT;
-            default -> throw new IllegalArgumentException("잘못된 입력입니다.");
-        };
-    }
-
-    private void printBoardSetUpGuide() {
-        System.out.print("""
-                1. 마상마상
-                2. 상마상마
-                3. 상마마상
-                4. 마상상마
-                """);
+        return BoardSetUpMenu.getBoardSetUp(menu);
     }
 
     private String readLine() {
