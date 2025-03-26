@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import domain.direction.PieceDirection;
+import domain.direction.PieceDirections;
 import domain.game.Board;
 import domain.game.SetUp;
 import domain.piece.Piece;
@@ -27,13 +27,13 @@ class BoardTest {
         Position startPosition = Position.of(1, 4);
         Position targetPosition = Position.of(1, 5);
 
-        Piece expected = new Soldier(Position.of(1, 5), PieceDirection.HAN_SOLDIER.get());
+        Piece expected = new Soldier(Position.of(1, 5), PieceDirections.HAN_SOLDIER.get());
 
         Player han = new Player("한", Team.HAN);
         Player cho = new Player("초", Team.CHO);
 
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
-        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
+        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -58,7 +58,7 @@ class BoardTest {
         Player cho = new Player("초", Team.CHO);
 
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
-        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
+        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -83,10 +83,10 @@ class BoardTest {
         Player cho = new Player("초", Team.CHO);
 
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
-        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
+        List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
 
-        hanPieces.add(new Soldier(Position.of(5, 3), PieceDirection.HAN_SOLDIER.get()));
-        hanPieces.add(new Soldier(Position.of(6, 3), PieceDirection.HAN_SOLDIER.get()));
+        hanPieces.add(new Soldier(Position.of(5, 3), PieceDirections.HAN_SOLDIER.get()));
+        hanPieces.add(new Soldier(Position.of(6, 3), PieceDirections.HAN_SOLDIER.get()));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -117,7 +117,7 @@ class BoardTest {
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
         List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
 
-        hanPieces.add(new Soldier(Position.of(2, 5), PieceDirection.HAN_SOLDIER.get()));
+        hanPieces.add(new Soldier(Position.of(2, 5), PieceDirections.HAN_SOLDIER.get()));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -181,7 +181,7 @@ class BoardTest {
         // then
         assertAll(() -> {
             assertThat(choPieces).hasSize(15);
-            assertThat(choPieces).doesNotContain(new Soldier(Position.of(1, 7), PieceDirection.CHO_SOLDIER.get()));
+            assertThat(choPieces).doesNotContain(new Soldier(Position.of(1, 7), PieceDirections.CHO_SOLDIER.get()));
         });
     }
 

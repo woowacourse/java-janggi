@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.direction.PieceDirection;
+import domain.direction.PieceDirections;
 import domain.game.SetUp;
 import domain.piece.category.Cannon;
 import domain.piece.category.Chariot;
@@ -53,35 +53,35 @@ public class PieceInitializer {
     }
 
     private static void addGeneral(final Function<Position, Position> teamSide, final List<Piece> pieces) {
-        pieces.add(new General(teamSide.apply(HAN_GENERAL_POSITION), PieceDirection.GENERAL.get()));
+        pieces.add(new General(teamSide.apply(HAN_GENERAL_POSITION), PieceDirections.GENERAL.get()));
     }
 
     private static void addChariots(final Function<Position, Position> teamSide, final List<Piece> pieces) {
-        pieces.add(new Chariot(teamSide.apply(HAN_CHARIOT_POSITION), PieceDirection.CHARIOT.get()));
-        pieces.add(new Chariot(teamSide.apply(HAN_CHARIOT_POSITION.flipLeftRight()), PieceDirection.CHARIOT.get()));
+        pieces.add(new Chariot(teamSide.apply(HAN_CHARIOT_POSITION), PieceDirections.CHARIOT.get()));
+        pieces.add(new Chariot(teamSide.apply(HAN_CHARIOT_POSITION.flipLeftRight()), PieceDirections.CHARIOT.get()));
     }
 
     private static void addCannons(final Function<Position, Position> teamSide, final List<Piece> pieces) {
-        pieces.add(new Cannon(teamSide.apply(HAN_CANNON_POSITION), PieceDirection.CANNON.get()));
-        pieces.add(new Cannon(teamSide.apply(HAN_CANNON_POSITION.flipLeftRight()), PieceDirection.CANNON.get()));
+        pieces.add(new Cannon(teamSide.apply(HAN_CANNON_POSITION), PieceDirections.CANNON.get()));
+        pieces.add(new Cannon(teamSide.apply(HAN_CANNON_POSITION.flipLeftRight()), PieceDirections.CANNON.get()));
     }
 
     private static void addGuards(final Function<Position, Position> teamSide, final List<Piece> pieces) {
-        pieces.add(new Guard(teamSide.apply(HAN_GUARD_POSITION), PieceDirection.GUARD.get()));
-        pieces.add(new Guard(teamSide.apply(HAN_GUARD_POSITION.flipLeftRight()), PieceDirection.GUARD.get()));
+        pieces.add(new Guard(teamSide.apply(HAN_GUARD_POSITION), PieceDirections.GUARD.get()));
+        pieces.add(new Guard(teamSide.apply(HAN_GUARD_POSITION.flipLeftRight()), PieceDirections.GUARD.get()));
     }
 
     private static void addSoldiers(final Function<Position, Position> teamSide, final List<Piece> pieces,
                                     final Team team) {
         if (team == Team.HAN) {
-            createSoldiers(teamSide, pieces, PieceDirection.HAN_SOLDIER);
+            createSoldiers(teamSide, pieces, PieceDirections.HAN_SOLDIER);
             return;
         }
-        createSoldiers(teamSide, pieces, PieceDirection.CHO_SOLDIER);
+        createSoldiers(teamSide, pieces, PieceDirections.CHO_SOLDIER);
     }
 
     private static void createSoldiers(Function<Position, Position> teamSide, List<Piece> pieces,
-                                       PieceDirection directions) {
+                                       PieceDirections directions) {
         for (int step = 0; step < 10; step += 2) {
             pieces.add(
                     new Soldier(teamSide.apply(HAN_SOLDIER_POSITION.moveRow(step)),

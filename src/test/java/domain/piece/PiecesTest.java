@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.direction.Directions;
-import domain.direction.PieceDirection;
+import domain.direction.PieceDirections;
 import domain.piece.category.Cannon;
 import domain.piece.category.General;
 import domain.piece.category.Horse;
@@ -117,7 +117,7 @@ class PiecesTest {
     void 왕이_존재하는지_판단하다() {
         // given
         Pieces pieces = new Pieces(new ArrayList<>());
-        Pieces piecesInKing = new Pieces(List.of(new General(Position.of(5, 2), PieceDirection.GENERAL.get())));
+        Pieces piecesInKing = new Pieces(List.of(new General(Position.of(5, 2), PieceDirections.GENERAL.get())));
 
         // when & then
         assertThat(pieces.existGeneral()).isFalse();
@@ -130,7 +130,7 @@ class PiecesTest {
         Position position1 = Position.of(2, 3);
         Position position2 = Position.of(3, 3);
 
-        Pieces pieces = new Pieces(List.of(new Cannon(Position.of(2, 3), PieceDirection.CANNON.get())));
+        Pieces pieces = new Pieces(List.of(new Cannon(Position.of(2, 3), PieceDirections.CANNON.get())));
 
         // when & then
         pieces.isCannonByPosition(position1);

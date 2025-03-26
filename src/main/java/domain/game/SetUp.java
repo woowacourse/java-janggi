@@ -1,6 +1,6 @@
 package domain.game;
 
-import domain.direction.PieceDirection;
+import domain.direction.PieceDirections;
 import domain.piece.Piece;
 import domain.piece.Position;
 import domain.piece.category.Elephant;
@@ -77,11 +77,11 @@ public enum SetUp {
     private List<Piece> getPieces(Function<Position, Position> teamSide, Position hanHorsePosition,
                                   Position hanElephantPosition) {
         List<Piece> pieces = new ArrayList<>();
-        pieces.add(new Horse(teamSide.apply(this.hanHorsePosition), PieceDirection.HORSE.get()));
-        pieces.add(new Horse(teamSide.apply(hanHorsePosition), PieceDirection.HORSE.get()));
-        pieces.add(new Elephant(teamSide.apply(this.hanElephantPosition), PieceDirection.ELEPHANT.get()));
+        pieces.add(new Horse(teamSide.apply(this.hanHorsePosition), PieceDirections.HORSE.get()));
+        pieces.add(new Horse(teamSide.apply(hanHorsePosition), PieceDirections.HORSE.get()));
+        pieces.add(new Elephant(teamSide.apply(this.hanElephantPosition), PieceDirections.ELEPHANT.get()));
         pieces.add(new Elephant(teamSide.apply(hanElephantPosition),
-                PieceDirection.ELEPHANT.get()));
+                PieceDirections.ELEPHANT.get()));
         return pieces;
     }
 }

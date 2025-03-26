@@ -1,5 +1,7 @@
 package domain.direction;
 
+import java.util.List;
+
 public enum Vector {
 
     UP(0, -1),
@@ -18,6 +20,14 @@ public enum Vector {
     Vector(int row, int column) {
         this.row = row;
         this.column = column;
+    }
+
+    public static List<Vector> getUpDownRightLeft() {
+        return List.of(UP, DOWN, LEFT, RIGHT);
+    }
+
+    public static List<Vector> getDiagonals() {
+        return List.of(UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT);
     }
 
     public int row() {
