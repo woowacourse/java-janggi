@@ -1,6 +1,9 @@
-package model;
+package model.piece;
 
 import java.util.Set;
+import model.OccupiedPositions;
+import model.PieceIdentity;
+import model.Position;
 
 public abstract class Piece {
     private final PieceIdentity pieceIdentity;

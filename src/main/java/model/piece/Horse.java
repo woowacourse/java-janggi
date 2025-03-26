@@ -1,8 +1,15 @@
-package model;
+package model.piece;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import model.Color;
+import model.Direction;
+import model.OccupiedPositions;
+import model.Path;
+import model.PieceIdentity;
+import model.PieceType;
+import model.Position;
 
 public class Horse extends Piece {
 

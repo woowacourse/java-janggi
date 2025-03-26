@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
 import java.util.Set;
+import model.piece.Horse;
+import model.piece.Piece;
 import org.junit.jupiter.api.Test;
 
 class HorseTest {

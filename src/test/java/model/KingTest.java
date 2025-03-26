@@ -2,9 +2,10 @@ package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.awt.Point;
 import java.util.Map;
 import java.util.Set;
+import model.piece.King;
+import model.piece.Piece;
 import org.junit.jupiter.api.Test;
 
 class KingTest {

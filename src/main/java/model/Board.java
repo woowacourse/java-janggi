@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import model.piece.Piece;
 
 public class Board {
     private final Map<Position, Piece> pieces = new HashMap<>();
