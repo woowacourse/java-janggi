@@ -33,7 +33,8 @@ public class Application {
         Command command = Command.STOP;
         do {
             command = executeCommand(command, board);
-        } while (!command.equals(Command.STOP));
+        } while (!command.equals(Command.STOP) && !board.isGeneralDead());
+        boardView.displayEnd(board);
     }
 
     private SetupOption readSetupOption() {
@@ -71,7 +72,9 @@ public class Application {
             board.move(start, end);
             boardView.displayGame(board);
             boardView.displayScore(board.calculateScoreBoard());
-            boardView.displayTurn(board);
+            if (!board.isGeneralDead()) {
+                boardView.displayTurn(board);
+            }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }

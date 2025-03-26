@@ -27,4 +27,11 @@ public final class ScoreBoard {
         }
         return hanScore.getScore();
     }
+
+    public Team getWinner() {
+        if (choScore.isBiggerThan(hanScore)) {
+            return Team.CHO;
+        }
+        return Team.HAN;
+    }
 }

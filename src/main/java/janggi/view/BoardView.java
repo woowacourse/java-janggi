@@ -22,14 +22,19 @@ public final class BoardView {
             Type.SOLDIER, "병"
     );
     private static final Map<Team, String> TEAM_NOTATION_KOREAN = Map.of(
-            Team.CHO, "초 ",
-            Team.HAN, "한 "
+            Team.CHO, "초",
+            Team.HAN, "한"
     );
     private static final String PLAY_TURN_FORMAT = "의 차례입니다.";
     private static final String COLOR_YELLOW = "\u001B[33m";
     private static final String COLOR_RED = "\u001B[31m";
     private static final String COLOR_BLUE = "\u001B[34m";
     private static final String COLOR_END = "\u001B[0m";
+    private static final String HEADER_SCOREBOARD = "===== 점수판 =====";
+    private static final String SCORE_FORMAT = " : %.1f점";
+    private static final String HEADER_END = "게임을 종료합니다.";
+    private static final String WINNER_FORMAT_FRONT = "승자는 ";
+    private static final String WINNER_FORMAT_END = "입니다!";
 
     public void displayGame(final Board board) {
         System.out.println();
@@ -37,6 +42,7 @@ public final class BoardView {
         for (Row row : Row.values()) {
             displayRow(board, row);
         }
+        System.out.println();
     }
 
     private void displayRow(final Board board, final Row row) {
@@ -73,19 +79,32 @@ public final class BoardView {
         final Team team = board.getTurn();
         final String teamName = TEAM_NOTATION_KOREAN.get(team);
         if (teamName.equals("한")) {
-            System.out.println(
-                    String.format(COLOR_RED + "%s" + COLOR_END + PLAY_TURN_FORMAT, teamName));
+            System.out.println(COLOR_RED + teamName + COLOR_END + PLAY_TURN_FORMAT);
             return;
         }
-        System.out.println(
-                String.format(COLOR_BLUE + "%s" + COLOR_END + PLAY_TURN_FORMAT, teamName));
+        System.out.println(COLOR_BLUE + teamName + COLOR_END + PLAY_TURN_FORMAT);
     }
 
     public void displayScore(final ScoreBoard scoreBoard) {
+        System.out.println(HEADER_SCOREBOARD);
+        System.out.println(String.format(COLOR_RED + "한" + COLOR_END + SCORE_FORMAT, scoreBoard.getScore(Team.HAN)));
+        System.out.println(String.format(COLOR_BLUE + "초" + COLOR_END + SCORE_FORMAT, scoreBoard.getScore(Team.CHO)));
         System.out.println();
-        System.out.println("===== 점수판 =====");
-        System.out.println(String.format(COLOR_RED + "한" + COLOR_END + " : %.1f점", scoreBoard.getScore(Team.HAN)));
-        System.out.println(String.format(COLOR_BLUE + "초" + COLOR_END + " : %.1f점", scoreBoard.getScore(Team.CHO)));
+    }
+
+    public void displayEnd(final Board board) {
+        final Team winner = board.findWinner();
         System.out.println();
+        System.out.println(HEADER_END);
+        if (winner == Team.HAN) {
+            System.out.println(
+                    String.format(WINNER_FORMAT_FRONT + COLOR_RED + "%s" + COLOR_END + WINNER_FORMAT_END,
+                            TEAM_NOTATION_KOREAN.get(winner)));
+            return;
+        }
+        System.out.println(
+                String.format(WINNER_FORMAT_FRONT + COLOR_BLUE + "%s" + COLOR_END + WINNER_FORMAT_END,
+                        TEAM_NOTATION_KOREAN.get(winner)));
+
     }
 }

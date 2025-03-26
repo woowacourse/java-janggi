@@ -69,6 +69,26 @@ public final class Board {
         return scoreBoard;
     }
 
+    public boolean isGeneralDead() {
+        int generalCount = (int) board.values().stream()
+                .filter(piece -> piece.getType() == Type.GENERAL)
+                .count();
+        return generalCount == 1;
+    }
+
+
+    public Team findWinner() {
+        if (isGeneralDead()) {
+            return board.values().stream()
+                    .filter(piece -> piece.getType() == Type.GENERAL)
+                    .map(Piece::getTeam)
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalStateException("[ERROR] 로직이 잘못됐습니다."));
+        }
+        return calculateScoreBoard().getWinner();
+    }
+
+
     private void validateStartPosition(final Position start) {
         if (!board.containsKey(start)) {
             throw new IllegalArgumentException(
