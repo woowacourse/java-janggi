@@ -25,4 +25,8 @@ public record Point(int column, int row) {
     public Point move(Movement movement) {
         return new Point(column + movement.getColumn(), row + movement.getRow());
     }
+
+    public int moveCount(Point point) {
+        return Math.abs(point.row) + Math.abs(point.column);
+    }
 }

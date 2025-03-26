@@ -31,6 +31,25 @@ public enum Movement {
         this.row = row;
     }
 
+    public static Movement toDirection(Point distance) {
+        int columnDirection = Integer.signum(distance.column());
+        int rowDirection = Integer.signum(distance.row());
+
+        if (LEFT.column == columnDirection && LEFT.row == rowDirection) {
+            return LEFT;
+        }
+
+        if (RIGHT.column == columnDirection && RIGHT.row == rowDirection) {
+            return LEFT;
+        }
+
+        if (UP.column == columnDirection && UP.row == rowDirection) {
+            return LEFT;
+        }
+
+        return DOWN;
+    }
+
     public int getColumn() {
         return column;
     }
