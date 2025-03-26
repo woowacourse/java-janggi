@@ -18,11 +18,11 @@ public record Point(int row, int column) {
     }
 
     private boolean isInRangeOnRow(int maxRow) {
-        return row >= 0 && row <= maxRow;
+        return row >= 0 && row < maxRow;
     }
 
     private boolean isInRangeOnColumn(int maxColumn) {
-        return column >= 0 && row <= maxColumn;
+        return column >= 0 && column < maxColumn;
     }
 
 
