@@ -1,11 +1,8 @@
 package domain;
 
-import java.util.EnumSet;
-
 public enum Team {
     CHO(true, 0, "초나라"),
-    HAN(false, 9, "한나라"),
-    NONE(false, -1, "");
+    HAN(false, 9, "한나라");
 
     private final boolean isFirst;
     private final int initialRow;
@@ -29,10 +26,6 @@ public enum Team {
 
     public boolean isFirst() {
         return isFirst;
-    }
-
-    public static EnumSet<Team> getActualTeams() {
-        return EnumSet.complementOf(EnumSet.of(Team.NONE));
     }
 
     public int getInitialRow() {

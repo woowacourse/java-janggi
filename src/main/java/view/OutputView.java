@@ -1,9 +1,7 @@
 package view;
 
-import domain.Team;
 import domain.board.Point;
 import domain.pieces.Piece;
-import domain.pieces.PieceNames;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -59,7 +57,7 @@ public final class OutputView {
             final Point point = new Point(row, column);
             Optional.ofNullable(locations.get(point)).ifPresentOrElse(
                     piece -> builder.append(piece.getName()),
-                    () -> builder.append(PieceNames.EMPTY.getNameForTeam(Team.NONE))
+                    () -> builder.append("―")
             );
             builder.append(" ");
             addBoardLinefeed(builder, column);
