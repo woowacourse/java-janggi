@@ -1,8 +1,8 @@
 package janggi.domain.piece.movement.dynamic;
 
-import janggi.domain.piece.pieces.PiecesView;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
+import janggi.domain.piece.pieces.PiecesView;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -35,20 +35,20 @@ public class RookMovementStrategy extends DynamicMovementStrategy {
     }
 
     private Set<Position> findAllVerticalMovablePositions(Position origin, Position destination) {
-        int start = Math.min(origin.getY(), destination.getY()) + 1;
-        int end = Math.max(origin.getY(), destination.getY());
+        int start = Math.min(origin.y(), destination.y()) + 1;
+        int end = Math.max(origin.y(), destination.y());
 
         return IntStream.rangeClosed(start, end)
-            .mapToObj(y -> new Position(origin.getX(), y))
+            .mapToObj(y -> new Position(origin.x(), y))
             .collect(Collectors.toSet());
     }
 
     private Set<Position> findAllHorizontalMovablePositions(Position origin, Position destination) {
-        int start = Math.min(origin.getX(), destination.getX()) + 1;
-        int end = Math.max(origin.getX(), destination.getX());
+        int start = Math.min(origin.x(), destination.x()) + 1;
+        int end = Math.max(origin.x(), destination.x());
 
         return IntStream.rangeClosed(start, end)
-            .mapToObj(x -> new Position(x, origin.getY()))
+            .mapToObj(x -> new Position(x, origin.y()))
             .collect(Collectors.toSet());
     }
 

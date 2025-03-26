@@ -1,21 +1,14 @@
 package janggi.domain.piece;
 
-import java.util.Objects;
-
-public final class Position {
+public record Position(int x, int y) {
 
     private static final int X_MIN_VALUE = 0;
     private static final int X_MAX_VALUE = 8;
     private static final int Y_MIN_VALUE = 0;
     private static final int Y_MAX_VALUE = 9;
 
-    private final int x;
-    private final int y;
-
-    public Position(int x, int y) {
+    public Position {
         validate(x, y);
-        this.x = x;
-        this.y = y;
     }
 
     private void validate(int x, int y) {
@@ -43,14 +36,6 @@ public final class Position {
         return Math.abs(destination.y - y);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     @Override
     public String toString() {
         return "Position{" +
@@ -61,14 +46,10 @@ public final class Position {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Position position)) {
+        if (!(o instanceof Position(int x1, int y1))) {
             return false;
         }
-        return x == position.x && y == position.y;
+        return x == x1 && y == y1;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
 }

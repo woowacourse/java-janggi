@@ -24,26 +24,26 @@ class PieceTest {
     @ParameterizedTest
     @EnumSource(value = Side.class)
     void 진영을_가진다(Side side) {
-        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, side, DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY());
+        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, side, DEFAULT_POSITION.x(), DEFAULT_POSITION.y());
         assertThat(piece.getSide()).isEqualTo(side);
     }
 
     @Test
     void 위치를_가진다() {
-        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, DEFAULT_POSITION.getX(),
-            DEFAULT_POSITION.getY());
+        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, DEFAULT_POSITION.x(),
+            DEFAULT_POSITION.y());
         assertThat(piece.getPosition()).isEqualTo(new Position(1, 2));
     }
 
     @Test
     void 움직일_수_없는_위치로_움직일_수_없다() {
-        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, DEFAULT_POSITION.getX(),
-            DEFAULT_POSITION.getY());
+        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, DEFAULT_POSITION.x(),
+            DEFAULT_POSITION.y());
         MOVEMENT_STRATEGY.setIsMoveable(false);
 
         assertThatIllegalArgumentException()
             .isThrownBy(
-                () -> piece.move(new Pieces(Map.of()), DEFAULT_POSITION.getX() + 1, DEFAULT_POSITION.getY() + 1))
+                () -> piece.move(new Pieces(Map.of()), DEFAULT_POSITION.x() + 1, DEFAULT_POSITION.y() + 1))
             .withMessage("해당 위치로 이동할 수 없습니다.");
     }
 

@@ -1,8 +1,8 @@
 package janggi.domain.piece.movement.dynamic;
 
-import janggi.domain.piece.pieces.PiecesView;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
+import janggi.domain.piece.pieces.PiecesView;
 import java.util.Set;
 
 public class PawnMovementStrategy extends DynamicMovementStrategy {
@@ -15,9 +15,9 @@ public class PawnMovementStrategy extends DynamicMovementStrategy {
             return destination.getXDistance(origin) == MOVABLE_DISTANCE;
         }
         if (side == Side.HAN) {
-            return destination.getY() == origin.getY() + MOVABLE_DISTANCE;
+            return destination.y() == origin.y() + MOVABLE_DISTANCE;
         }
-        return destination.getY() == origin.getY() - MOVABLE_DISTANCE;
+        return destination.y() == origin.y() - MOVABLE_DISTANCE;
     }
 
     @Override
@@ -38,8 +38,8 @@ public class PawnMovementStrategy extends DynamicMovementStrategy {
     }
 
     private Set<Position> findAllVerticalMovablePositions(Side side, Position origin) {
-        int x = origin.getX();
-        int y = origin.getY();
+        int x = origin.x();
+        int y = origin.y();
         if (side == Side.HAN) {
             return Set.of(new Position(x, y + MOVABLE_DISTANCE));
         }

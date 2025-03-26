@@ -1,10 +1,10 @@
 package janggi.domain.piece.movement.dynamic;
 
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.pieces.Pieces;
-import janggi.domain.piece.pieces.PiecesView;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
+import janggi.domain.piece.pieces.Pieces;
+import janggi.domain.piece.pieces.PiecesView;
 import java.util.stream.IntStream;
 
 public class CannonMovementStrategy extends DynamicMovementStrategy {
@@ -34,24 +34,24 @@ public class CannonMovementStrategy extends DynamicMovementStrategy {
     }
 
     private PiecesView getPiecesOnHorizontalPath(PiecesView existingPieces, Position origin, Position destination) {
-        int startX = Math.min(origin.getX(), destination.getX()) + 1;
-        int endX = Math.max(origin.getX(), destination.getX());
+        int startX = Math.min(origin.x(), destination.x()) + 1;
+        int endX = Math.max(origin.x(), destination.x());
 
         return Pieces.fromPieceViews(
             IntStream.range(startX, endX)
-                .mapToObj(x -> new Position(x, origin.getY()))
+                .mapToObj(x -> new Position(x, origin.y()))
                 .flatMap(position -> existingPieces.findByPosition(position).stream())
                 .toList()
         );
     }
 
     private PiecesView getPiecesOnVerticalPath(PiecesView existingPieces, Position origin, Position destination) {
-        int startY = Math.min(origin.getY(), destination.getY()) + 1;
-        int endY = Math.max(origin.getY(), destination.getY());
+        int startY = Math.min(origin.y(), destination.y()) + 1;
+        int endY = Math.max(origin.y(), destination.y());
 
         return Pieces.fromPieceViews(
             IntStream.range(startY, endY)
-                .mapToObj(y -> new Position(origin.getX(), y))
+                .mapToObj(y -> new Position(origin.x(), y))
                 .flatMap(position -> existingPieces.findByPosition(position).stream())
                 .toList()
         );

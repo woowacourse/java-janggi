@@ -23,8 +23,8 @@ enum Direction {
     }
 
     static Direction get(Position origin, Position destination) {
-        int xOffset = Integer.compare(destination.getX(), origin.getX());
-        int yOffset = Integer.compare(destination.getY(), origin.getY());
+        int xOffset = Integer.compare(destination.x(), origin.x());
+        int yOffset = Integer.compare(destination.y(), origin.y());
 
         for (Direction direction : values()) {
             if (direction.x == xOffset && direction.y == yOffset) {
