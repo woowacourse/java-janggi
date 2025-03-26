@@ -24,6 +24,17 @@ public final class Route {
         return target.canMoveLast(directions.getLast(), board);
     }
 
+    public boolean canJump(Position source, Board board) {
+        Position target = source;
+        for (int directionCount = 0; directionCount < directions.size() - 1; directionCount++) {
+            if (target.canJump(directions.get(directionCount), board)) { // 1칸뒤에 포가 아닌 기물이 있어야 함. 2칸뒤로 이동할 수 있어야 함.
+                return true;
+            }
+            target = target.move(directions.get(directionCount));
+        }
+        return false;
+    }
+
     public Route add(Route route) {
         return new Route(Stream.concat(directions.stream(), route.directions.stream()).toList());
     }
@@ -31,6 +42,8 @@ public final class Route {
     public List<Direction> route() {
         return directions;
     }
+
+
 }
 
 

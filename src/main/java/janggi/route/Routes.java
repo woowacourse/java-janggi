@@ -141,6 +141,18 @@ public final class Routes {
     }
 
     public Set<Position> possibleJumpingRoutes(Position source, Board board) {
-        return null; //todo: 포 이동 구현
+        Set<Position> target = new HashSet<>();
+        for (Route route : routes) {
+            Route straight = route;
+            while(straight.canJump(source, board)){ // t/f
+                source.move(straight);
+
+                while(straight.isPossibleRoute(source, board)){
+                    target.add(source.move(straight));
+                    straight = straight.add(route);
+                }
+            }
+        }
+        return target;
     }
 }

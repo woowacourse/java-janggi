@@ -53,14 +53,12 @@ public final class Board {
         }
     }
 
-    public boolean isCannon(Position target) {
-        System.out.println("get(target).type() = " + get(target).type());
-        return get(target).type() == PieceType.CANNON;
+
+    public boolean hasPieceWithoutCannon(Position target) {
+        PieceType type = get(target).type();
+        return type != PieceType.BLANK && type != PieceType.CANNON;
     }
 
-    public boolean hasPiece(Position target) {
-        return get(target).type() != PieceType.BLANK;
-    }
 
     public Map<Position, Piece> pieceOfPosition() {
         return pieceOfPosition;
