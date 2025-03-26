@@ -1,8 +1,11 @@
 package janggi.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.position.Position;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +70,7 @@ class CannonTest {
         // Given
         final Cannon startCannon = new Cannon(Team.CHO, new Position(8, 1));
         final Soldier soldier = new Soldier(Team.CHO, new Position(7, 1));
-        Position arrivalPosition = new Position(6, 1);
+        final Position arrivalPosition = new Position(6, 1);
         final Cannon arrivalCannon = new Cannon(Team.CHO, arrivalPosition);
 
         // When & Then

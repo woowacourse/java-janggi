@@ -26,7 +26,7 @@ public class Cannon extends IterablePiece {
 
     @Override
     protected void validatePath(final Pieces pieces, final Path path) {
-        if (computeCountExistPieceExceptLast(path, pieces) != 1) {
+        if (computeCountExistPieceExceptLastPosition(path, pieces) != 1) {
             throw new IllegalArgumentException("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
         }
         if (hasCannon(path, pieces)) {
@@ -39,9 +39,11 @@ public class Cannon extends IterablePiece {
         return MOVEMENTS;
     }
 
-    private int computeCountExistPieceExceptLast(final Path path, final Pieces pieces) {
+    private int computeCountExistPieceExceptLastPosition(final Path path, final Pieces pieces) {
         final List<Position> positions = new ArrayList<>(path.getPositions());
-        positions.removeLast();
+        if (!positions.isEmpty()) {
+            positions.removeLast();
+        }
 
         return (int) positions.stream()
                 .filter(pieces::hasPiece)
