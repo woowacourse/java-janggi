@@ -27,6 +27,7 @@ public class Po extends Piece {
         if (!ableToMove(destination, enemy, allies)) {
             throw new IllegalArgumentException("[ERROR] 이동이 불가능합니다.");
         }
+        enemy.beAttackedAt(destination);
         return new Po(destination);
     }
 
@@ -50,7 +51,15 @@ public class Po extends Piece {
             return false;
         }
 
-        return alliesInPath.size() + enemyInPath.size() == 1;
+        if (enemy.isNotBlockedBy(destination) && alliesInPath.size() + enemyInPath.size() > 1) {
+            return false;
+        }
+
+        if (!enemy.isNotBlockedBy(destination) && alliesInPath.size() + enemyInPath.size() > 2) {
+            return false;
+        }
+
+        return alliesInPath.size() + enemyInPath.size() == 1 || alliesInPath.size() + enemyInPath.size() == 2;
     }
 
     private boolean isValidMove(JanggiPosition destination) {

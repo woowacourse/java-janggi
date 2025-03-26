@@ -7,6 +7,7 @@ import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
 import java.util.stream.Stream;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -187,5 +188,23 @@ class PoTest {
         assertThatThrownBy(() -> po.move(destination, new Pieces(List.of()), new Pieces(List.of())))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
+    }
+
+    @DisplayName("적 장기말이 목적지에 있을 때, 잡아서 없애버린다.")
+    @Test
+    void test9() {
+        //given
+        Po po = Po.from(STANDARD);
+        JanggiPosition destination = new JanggiPosition(4,2);
+        JanggiPosition alliesPosition = new JanggiPosition(4,3);
+        Jol alliesJol = Jol.from(alliesPosition);
+        Jol enemyJol = Jol.from(destination);
+        Pieces enemyPieces = new Pieces(List.of(enemyJol));
+
+        //when
+        Po movedPo = po.move(destination, enemyPieces, new Pieces(List.of(alliesJol)));
+
+        //then
+        Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
     }
 }
