@@ -16,7 +16,7 @@ public class EndlessMovePath implements MovePath {
     @Override
     public boolean canMove(Point from, Point to) {
         Point curr = from;
-        while (!curr.isSamePosition(to) && curr.canMove(direction)) {
+        while (!curr.equals(to) && curr.canMove(direction)) {
             curr = curr.move(direction);
         }
         return curr.equals(to);
@@ -33,7 +33,7 @@ public class EndlessMovePath implements MovePath {
     private List<Point> createMovePoints(Point from, Point to) {
         List<Point> points = new ArrayList<>();
         Point curr = from;
-        while (!curr.isOutOfBoundary() && !curr.isSamePosition(to)) {
+        while (!curr.isOutOfBoundary() && !curr.equals(to)) {
             curr = curr.move(direction);
             points.add(curr);
         }

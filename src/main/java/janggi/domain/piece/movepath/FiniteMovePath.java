@@ -22,7 +22,7 @@ public class FiniteMovePath implements MovePath {
         for (Direction direction : directions) {
             curr = curr.move(direction);
         }
-        return curr.isSamePosition(to);
+        return curr.equals(to);
     }
 
     @Override

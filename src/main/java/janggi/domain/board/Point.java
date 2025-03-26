@@ -16,10 +16,6 @@ public record Point(int x, int y) {
         return new Point(x + direction.getX(), y + direction.getY());
     }
 
-    public boolean isSamePosition(Point point) {
-        return this.x == point.x && y == point.y;
-    }
-
     public boolean canMove(Direction direction) {
         int nextX = x + direction.getX();
         int nextY = y + direction.getY();
