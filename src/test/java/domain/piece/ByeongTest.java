@@ -7,253 +7,224 @@ import fixture.BoardFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("병 테스트")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class ByeongTest {
 
-    @Test
-    void 병은_병_타입이다() {
-        // given
-        Piece piece = new Byeong(Team.CHO);
-        // when & then
-        assertThat(piece.type()).isEqualTo(PieceType.BYEONG);
+    @Nested
+    @DisplayName("예외가 발생하지 않는 테스트")
+    class Success {
+
+        @Test
+        void 병은_병_타입이다() {
+            // given
+            Piece piece = new Byeong(Team.CHO);
+
+            // when & then
+            assertThat(piece.type()).isEqualTo(PieceType.BYEONG);
+        }
+
+        @Test
+        void 초나라_병은_왼쪽_빈칸으로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team byeongTeam = Team.CHO;
+            Piece byeong = new Byeong(byeongTeam);
+
+            Point byeongPoint = Point.of(9, 5);
+            Node sourceNode = board.findNodeByPoint(byeongPoint);
+
+            Point destinationPoint = Point.of(9, 4);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> byeong.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 초나라_병은_위쪽_빈칸으로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team byeongTeam = Team.CHO;
+            Piece byeong = new Byeong(byeongTeam);
+
+            Point byeongPoint = Point.of(9, 5);
+            Node sourceNode = board.findNodeByPoint(byeongPoint);
+
+            Point destinationPoint = Point.of(8, 5);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> byeong.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 초나라_병은_오른쪽_빈칸으로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team byeongTeam = Team.CHO;
+            Piece byeong = new Byeong(byeongTeam);
+
+            Point byeongPoint = Point.of(9, 5);
+            Node sourceNode = board.findNodeByPoint(byeongPoint);
+
+            Point destinationPoint = Point.of(9, 6);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> byeong.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 한나라_병은_왼쪽_빈칸으로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team byeongTeam = Team.HAN;
+            Piece byeong = new Byeong(byeongTeam);
+
+            Point byeongPoint = Point.of(3, 5);
+            Node sourceNode = board.findNodeByPoint(byeongPoint);
+
+            Point destinationPoint = Point.of(3, 4);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> byeong.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 한나라_병은_아래쪽_빈칸으로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team byeongTeam = Team.HAN;
+            Piece byeong = new Byeong(byeongTeam);
+
+            Point byeongPoint = Point.of(3, 5);
+            Node sourceNode = board.findNodeByPoint(byeongPoint);
+
+            Point destinationPoint = Point.of(4, 5);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> byeong.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 한나라_병은_오른쪽_빈칸으로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team byeongTeam = Team.HAN;
+            Piece byeong = new Byeong(byeongTeam);
+
+            Point byeongPoint = Point.of(3, 5);
+            Node sourceNode = board.findNodeByPoint(byeongPoint);
+
+            Point destinationPoint = Point.of(3, 6);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> byeong.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 병은_적_기물이_있는_위치로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team byeongTeam = Team.CHO;
+            Piece byeong = new Byeong(byeongTeam);
+
+            Point byeongPoint = Point.of(9, 5);
+            Node sourceNode = board.findNodeByPoint(byeongPoint);
+
+            Point destinationPoint = Point.of(9, 4);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            board.putPiece(destinationNode, new Byeong(byeongTeam.inverse()));
+
+            // when & then
+            assertThatCode(() -> byeong.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
     }
 
-    @Test
-    void 초나라_병은_왼쪽_빈칸으로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.CHO;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(9, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 초나라_병은_위쪽_빈칸으로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.CHO;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(8, 5);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 초나라_병은_오른쪽_빈칸으로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.CHO;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(9, 6);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 초나라_병은_아래쪽으로_갈_수_없다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.CHO;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(10, 5);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isFalse();
-    }
-
-    @Test
-    void 한나라_병은_왼쪽_빈칸으로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.HAN;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(3, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(3, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 한나라_병은_아래쪽_빈칸으로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.HAN;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(3, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(4, 5);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 한나라_병은_오른쪽_빈칸으로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.HAN;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(3, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(3, 6);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 한나라_병은_위쪽으로_갈_수_없다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.HAN;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(3, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(2, 5);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isFalse();
-    }
-
-    @Test
-    void 병은_적_기물이_있는_위치로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.CHO;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(9, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        board.putPiece(destinationNode, new Byeong(byeongTeam.inverse()));
-
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 병은_빈칸이_있는_위치로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.CHO;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(9, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 병은_본인_팀의_기물이_있는_위치로_갈_수_없다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team byeongTeam = Team.CHO;
-        Piece byeong = new Byeong(byeongTeam);
-
-        Point byeongPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(byeongPoint);
-
-        Point destinationPoint = Point.of(9, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        board.putPiece(destinationNode, new Byeong(byeongTeam));
-        // when
-        final boolean actual = byeong.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isFalse();
+    @Nested
+    @DisplayName("에외가 발생하는 테스트")
+    class Fail {
+        @Test
+        void 초나라_병은_아래쪽으로_갈_수_없다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team byeongTeam = Team.CHO;
+            Piece byeong = new Byeong(byeongTeam);
+
+            Point byeongPoint = Point.of(9, 5);
+            Node sourceNode = board.findNodeByPoint(byeongPoint);
+
+            Point destinationPoint = Point.of(10, 5);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatThrownBy(() -> byeong.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        void 한나라_병은_위쪽으로_갈_수_없다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team byeongTeam = Team.HAN;
+            Piece byeong = new Byeong(byeongTeam);
+
+            Point byeongPoint = Point.of(3, 5);
+            Node sourceNode = board.findNodeByPoint(byeongPoint);
+
+            Point destinationPoint = Point.of(2, 5);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatThrownBy(() -> byeong.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        @Test
+        void 병은_본인_팀의_기물이_있는_위치로_갈_수_없다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team byeongTeam = Team.CHO;
+            Piece byeong = new Byeong(byeongTeam);
+
+            Point byeongPoint = Point.of(9, 5);
+            Node sourceNode = board.findNodeByPoint(byeongPoint);
+
+            Point destinationPoint = Point.of(9, 4);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            board.putPiece(destinationNode, new Byeong(byeongTeam));
+
+            // when & then
+            assertThatThrownBy(() -> byeong.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 }

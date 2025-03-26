@@ -42,9 +42,7 @@ public class Board {
 
     public void movePiece(final Node sourceNode, final Node destinationNode, final Board board) {
         Piece sourcePiece = findPieceByNode(sourceNode);
-        if (!sourcePiece.canMove(sourceNode, destinationNode, board)) {
-            throw new IllegalArgumentException(sourceNode + " -> " + destinationNode + " [ERROR] 이동할 수 없는 경로입니다.");
-        }
+        sourcePiece.validateMove(sourceNode, destinationNode, board);
         putPiece(destinationNode, sourcePiece);
         removePieceByNode(sourceNode);
     }

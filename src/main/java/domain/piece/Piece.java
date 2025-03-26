@@ -7,7 +7,13 @@ import java.util.List;
 
 public interface Piece {
 
-    default boolean canMove(final Node source, final Node destination, final Board board) {
+    default void validateMove(final Node source, final Node destination, final Board board) {
+        if (!canMove(source, destination, board)) {
+            throw new IllegalArgumentException(source + " -> " + destination + " [ERROR] 이동할 수 없는 경로입니다.");
+        }
+    }
+
+    private boolean canMove(final Node source, final Node destination, final Board board) {
         return isDifferentNode(source, destination) && containsInCandidates(source, destination, board);
     }
 

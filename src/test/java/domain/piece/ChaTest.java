@@ -7,287 +7,276 @@ import fixture.BoardFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("차 테스트")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class ChaTest {
 
-    @Test
-    void 차는_차_타입이다() {
-        // given
-        Piece piece = new Cha(Team.CHO);
-        // when & then
-        assertThat(piece.type()).isEqualTo(PieceType.CHA);
+    @Nested
+    @DisplayName("예외가 발생하지 않는 테스트")
+    class Success {
+
+        @Test
+        void 차는_차_타입이다() {
+            // given
+            Piece piece = new Cha(Team.CHO);
+
+            // when & then
+            assertThat(piece.type()).isEqualTo(PieceType.CHA);
+        }
+
+        @Test
+        void 차는_위쪽에_있는_적_기물의_위치로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
+
+            Point chaPoint = Point.of(10, 1);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
+
+            Point destinationPoint = Point.of(1, 1);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
+
+            // when & then
+            assertThatCode(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 차는_위쪽에_있는_빈칸으로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
+
+            Point chaPoint = Point.of(10, 1);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
+
+            Point destinationPoint = Point.of(1, 1);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 차는_오른쪽에_있는_적_기물의_위치로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
+
+            Point chaPoint = Point.of(10, 1);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
+
+            Point destinationPoint = Point.of(10, 9);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
+
+            // when & then
+            assertThatCode(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 차는_오른쪽에_있는_빈칸으로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
+
+            Point chaPoint = Point.of(10, 1);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
+
+            Point destinationPoint = Point.of(10, 9);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 차는_아래쪽에_있는_적_기물의_위치로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
+
+            Point chaPoint = Point.of(1, 1);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
+
+            Point destinationPoint = Point.of(10, 1);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
+
+            // when & then
+            assertThatCode(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 차는_아래쪽에_있는_빈칸으로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
+
+            Point chaPoint = Point.of(1, 1);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
+
+            Point destinationPoint = Point.of(10, 1);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 차는_왼쪽에_있는_적_기물의_위치로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
+
+            Point chaPoint = Point.of(10, 9);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
+
+            Point destinationPoint = Point.of(10, 1);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
+
+            // when & then
+            assertThatCode(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 차는_왼쪽에_있는_빈칸으로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
+
+            Point chaPoint = Point.of(10, 9);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
+
+            Point destinationPoint = Point.of(10, 1);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
     }
 
-    @Test
-    void 차는_위쪽에_있는_적_기물의_위치로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
 
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
+    @Nested
+    @DisplayName("에외가 발생하는 테스트")
+    class Fail {
 
-        Point chaPoint = Point.of(10, 1);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
+        @Test
+        void 차는_위쪽에_있는_본인_팀_기물의_위치로_갈_수_없다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
 
-        Point destinationPoint = Point.of(1, 1);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
 
-        board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
+            Point chaPoint = Point.of(10, 1);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
 
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
+            Point destinationPoint = Point.of(1, 1);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
 
-        // then
-        assertThat(actual).isTrue();
-    }
+            board.putPiece(destinationNode, new Cha(chaTeam));
 
-    @Test
-    void 차는_위쪽에_있는_본인_팀_기물의_위치로_갈_수_없다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
+            // when & then
+            assertThatThrownBy(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
 
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
+        @Test
+        void 차는_오른쪽에_있는_본인_팀_기물의_위치로_갈_수_없다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
 
-        Point chaPoint = Point.of(10, 1);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
 
-        Point destinationPoint = Point.of(1, 1);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
+            Point chaPoint = Point.of(10, 1);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
 
-        board.putPiece(destinationNode, new Cha(chaTeam));
+            Point destinationPoint = Point.of(10, 9);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
 
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
+            board.putPiece(destinationNode, new Cha(chaTeam));
 
-        // then
-        assertThat(actual).isFalse();
-    }
+            // when & then
+            assertThatThrownBy(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
 
-    @Test
-    void 차는_위쪽에_있는_빈칸으로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
+        @Test
+        void 차는_아래쪽에_있는_본인_팀_기물의_위치로_갈_수_없다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
 
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
 
-        Point chaPoint = Point.of(10, 1);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
+            Point chaPoint = Point.of(1, 1);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
 
-        Point destinationPoint = Point.of(1, 1);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
+            Point destinationPoint = Point.of(10, 1);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
 
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
+            board.putPiece(destinationNode, new Cha(chaTeam));
 
-        // then
-        assertThat(actual).isTrue();
-    }
+            // when & then
+            assertThatThrownBy(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
 
-    @Test
-    void 차는_오른쪽에_있는_적_기물의_위치로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
+        @Test
+        void 차는_왼쪽에_있는_본인_팀_기물의_위치로_갈_수_없다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
 
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
+            Team chaTeam = Team.CHO;
+            Piece cha = new Cha(chaTeam);
 
-        Point chaPoint = Point.of(10, 1);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
+            Point chaPoint = Point.of(10, 9);
+            Node sourceNode = board.findNodeByPoint(chaPoint);
 
-        Point destinationPoint = Point.of(10, 9);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
+            Point destinationPoint = Point.of(10, 1);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
 
-        board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
+            board.putPiece(destinationNode, new Cha(chaTeam));
 
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 차는_오른쪽에_있는_본인_팀_기물의_위치로_갈_수_없다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
-
-        Point chaPoint = Point.of(10, 1);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
-
-        Point destinationPoint = Point.of(10, 9);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        board.putPiece(destinationNode, new Cha(chaTeam));
-
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isFalse();
-    }
-
-    @Test
-    void 차는_오른쪽에_있는_빈칸으로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
-
-        Point chaPoint = Point.of(10, 1);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
-
-        Point destinationPoint = Point.of(10, 9);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 차는_아래쪽에_있는_적_기물의_위치로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
-
-        Point chaPoint = Point.of(1, 1);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
-
-        Point destinationPoint = Point.of(10, 1);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
-
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 차는_아래쪽에_있는_본인_팀_기물의_위치로_갈_수_없다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
-
-        Point chaPoint = Point.of(1, 1);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
-
-        Point destinationPoint = Point.of(10, 1);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        board.putPiece(destinationNode, new Cha(chaTeam));
-
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isFalse();
-    }
-
-    @Test
-    void 차는_아래쪽에_있는_빈칸으로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
-
-        Point chaPoint = Point.of(1, 1);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
-
-        Point destinationPoint = Point.of(10, 1);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 차는_왼쪽에_있는_적_기물의_위치로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
-
-        Point chaPoint = Point.of(10, 9);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
-
-        Point destinationPoint = Point.of(10, 1);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        board.putPiece(destinationNode, new Cha(chaTeam.inverse()));
-
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 차는_왼쪽에_있는_본인_팀_기물의_위치로_갈_수_없다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
-
-        Point chaPoint = Point.of(10, 9);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
-
-        Point destinationPoint = Point.of(10, 1);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        board.putPiece(destinationNode, new Cha(chaTeam));
-
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isFalse();
-    }
-
-    @Test
-    void 차는_왼쪽에_있는_빈칸으로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team chaTeam = Team.CHO;
-        Piece cha = new Cha(chaTeam);
-
-        Point chaPoint = Point.of(10, 9);
-        Node sourceNode = board.findNodeByPoint(chaPoint);
-
-        Point destinationPoint = Point.of(10, 1);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = cha.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
+            // when & then
+            assertThatThrownBy(() -> cha.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 }

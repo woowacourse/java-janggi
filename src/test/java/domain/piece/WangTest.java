@@ -7,85 +7,92 @@ import fixture.BoardFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("왕 테스트")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class WangTest {
 
-    @Test
-    void 왕은_왕_타입이다() {
-        // given
-        Piece piece = new Wang(Team.CHO);
-        // when & then
-        assertThat(piece.type()).isEqualTo(PieceType.WANG);
+    @Nested
+    @DisplayName("예외가 발생하지 않는 테스트")
+    class Success {
+
+        @Test
+        void 왕은_왕_타입이다() {
+            // given
+            Piece piece = new Wang(Team.CHO);
+
+            // when & then
+            assertThat(piece.type()).isEqualTo(PieceType.WANG);
+        }
+
+        @Test
+        void 왕은_적_기물이_있는_위치로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team wangTeam = Team.CHO;
+            Piece wang = new Wang(wangTeam);
+
+            Point wangPoint = Point.of(9, 5);
+            Node sourceNode = board.findNodeByPoint(wangPoint);
+
+            Point destinationPoint = Point.of(9, 4);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            board.putPiece(destinationNode, new Byeong(wangTeam.inverse()));
+
+            // when & then
+            assertThatCode(() -> wang.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 왕은_빈칸이_있는_위치로_갈_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team wangTeam = Team.CHO;
+            Piece wang = new Wang(wangTeam);
+
+            Point wangPoint = Point.of(9, 5);
+            Node sourceNode = board.findNodeByPoint(wangPoint);
+
+            Point destinationPoint = Point.of(9, 4);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> wang.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
     }
 
-    @Test
-    void 왕은_적_기물이_있는_위치로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
+    @Nested
+    @DisplayName("예외가 발생하는 테스트")
+    class Fail {
 
-        Team wangTeam = Team.CHO;
-        Piece wang = new Wang(wangTeam);
+        @Test
+        void 왕은_본인_팀의_기물이_있는_위치로_갈_수_없다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
 
-        Point wangPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(wangPoint);
+            Team wangTeam = Team.CHO;
+            Piece wang = new Wang(wangTeam);
 
-        Point destinationPoint = Point.of(9, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
+            Point wangPoint = Point.of(9, 5);
+            Node sourceNode = board.findNodeByPoint(wangPoint);
 
-        board.putPiece(destinationNode, new Byeong(wangTeam.inverse()));
+            Point destinationPoint = Point.of(9, 4);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
 
-        // when
-        final boolean actual = wang.canMove(sourceNode, destinationNode, board);
+            board.putPiece(destinationNode, new Byeong(wangTeam));
 
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 왕은_빈칸이_있는_위치로_갈_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team wangTeam = Team.CHO;
-        Piece wang = new Wang(wangTeam);
-
-        Point wangPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(wangPoint);
-
-        Point destinationPoint = Point.of(9, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = wang.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 왕은_본인_팀의_기물이_있는_위치로_갈_수_없다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team wangTeam = Team.CHO;
-        Piece wang = new Wang(wangTeam);
-
-        Point wangPoint = Point.of(9, 5);
-        Node sourceNode = board.findNodeByPoint(wangPoint);
-
-        Point destinationPoint = Point.of(9, 4);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        board.putPiece(destinationNode, new Byeong(wangTeam));
-        // when
-        final boolean actual = wang.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isFalse();
+            // when & then
+            assertThatThrownBy(() -> wang.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 }

@@ -7,112 +7,116 @@ import fixture.BoardFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("마 테스트")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class MaTest {
 
-    @Test
-    void 마는_마_타입이다() {
-        // given
-        Piece piece = new Ma(Team.CHO);
-        // when & then
-        assertThat(piece.type()).isEqualTo(PieceType.MA);
+    @Nested
+    @DisplayName("예외가 발생하지 않는 테스트")
+    class Success {
+
+        @Test
+        void 마는_마_타입이다() {
+            // given
+            Piece piece = new Ma(Team.CHO);
+
+            // when & then
+            assertThat(piece.type()).isEqualTo(PieceType.MA);
+        }
+
+        @Test
+        void 마는_도착_지점이_빈칸이면_이동할_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team maTeam = Team.CHO;
+            Piece ma = new Ma(maTeam);
+
+            Point maPoint = Point.of(4, 5);
+            Node sourceNode = board.findNodeByPoint(maPoint);
+
+            // 위 위 오른쪽
+            Point destinationPoint = Point.of(2, 6);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+
+            // when & then
+            assertThatCode(() -> ma.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
+
+        @Test
+        void 마는_도착_지점에_상대_팀_기물이_있으면_이동할_수_있다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
+
+            Team maTeam = Team.CHO;
+            Piece ma = new Ma(maTeam);
+
+            Point maPoint = Point.of(4, 5);
+            Node sourceNode = board.findNodeByPoint(maPoint);
+
+            // 위 위 오른쪽
+            Point destinationPoint = Point.of(2, 6);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+            board.putPiece(destinationNode, new Cha(maTeam.inverse()));
+
+            // when & then
+            assertThatCode(() -> ma.validateMove(sourceNode, destinationNode, board))
+                    .doesNotThrowAnyException();
+        }
     }
 
-    @Test
-    void 마는_장애물에_막혀있으면_이동할_수_없다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
+    @Nested
+    @DisplayName("에외가 발생하는 테스트")
+    class Fail {
 
-        Team maTeam = Team.CHO;
-        Piece ma = new Ma(maTeam);
+        @Test
+        void 마는_장애물에_막혀있으면_이동할_수_없다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
 
-        Point maPoint = Point.of(4, 5);
-        Node sourceNode = board.findNodeByPoint(maPoint);
+            Team maTeam = Team.CHO;
+            Piece ma = new Ma(maTeam);
 
-        // 위 위 오른쪽
-        Point destinationPoint = Point.of(2, 6);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-        Point obstaclePoint = Point.of(3, 5);
-        Node obstacleNode = board.findNodeByPoint(obstaclePoint);
-        board.putPiece(obstacleNode, new Cha(maTeam));
+            Point maPoint = Point.of(4, 5);
+            Node sourceNode = board.findNodeByPoint(maPoint);
 
-        // when
-        final boolean actual = ma.canMove(sourceNode, destinationNode, board);
+            // 위 위 오른쪽
+            Point destinationPoint = Point.of(2, 6);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+            Point obstaclePoint = Point.of(3, 5);
+            Node obstacleNode = board.findNodeByPoint(obstaclePoint);
+            board.putPiece(obstacleNode, new Cha(maTeam));
 
-        // then
-        assertThat(actual).isFalse();
-    }
+            // when & then
+            assertThatThrownBy(() -> ma.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
 
-    @Test
-    void 마는_도착_지점에_본인_팀_기물이_있으면_이동할_수_없다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
+        @Test
+        void 마는_도착_지점에_본인_팀_기물이_있으면_이동할_수_없다() {
+            // given
+            Board board = BoardFixture.createEmptyBoard();
 
-        Team maTeam = Team.CHO;
-        Piece ma = new Ma(maTeam);
+            Team maTeam = Team.CHO;
+            Piece ma = new Ma(maTeam);
 
-        Point maPoint = Point.of(4, 5);
-        Node sourceNode = board.findNodeByPoint(maPoint);
+            Point maPoint = Point.of(4, 5);
+            Node sourceNode = board.findNodeByPoint(maPoint);
 
-        // 위 위 오른쪽
-        Point destinationPoint = Point.of(2, 6);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-        board.putPiece(destinationNode, new Cha(maTeam));
+            // 위 위 오른쪽
+            Point destinationPoint = Point.of(2, 6);
+            Node destinationNode = board.findNodeByPoint(destinationPoint);
+            board.putPiece(destinationNode, new Cha(maTeam));
 
-        // when
-        final boolean actual = ma.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isFalse();
-    }
-
-    @Test
-    void 마는_도착_지점이_빈칸이면_이동할_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team maTeam = Team.CHO;
-        Piece ma = new Ma(maTeam);
-
-        Point maPoint = Point.of(4, 5);
-        Node sourceNode = board.findNodeByPoint(maPoint);
-
-        // 위 위 오른쪽
-        Point destinationPoint = Point.of(2, 6);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-
-        // when
-        final boolean actual = ma.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    @Test
-    void 마는_도착_지점에_상대_팀_기물이_있으면_이동할_수_있다() {
-        // given
-        Board board = BoardFixture.createEmptyBoard();
-
-        Team maTeam = Team.CHO;
-        Piece ma = new Ma(maTeam);
-
-        Point maPoint = Point.of(4, 5);
-        Node sourceNode = board.findNodeByPoint(maPoint);
-
-        // 위 위 오른쪽
-        Point destinationPoint = Point.of(2, 6);
-        Node destinationNode = board.findNodeByPoint(destinationPoint);
-        board.putPiece(destinationNode, new Cha(maTeam.inverse()));
-
-        // when
-        final boolean actual = ma.canMove(sourceNode, destinationNode, board);
-
-        // then
-        assertThat(actual).isTrue();
+            // when & then
+            assertThatThrownBy(() -> ma.validateMove(sourceNode, destinationNode, board))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 }
