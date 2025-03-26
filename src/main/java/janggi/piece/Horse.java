@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.Color;
 import janggi.position.Position;
 import java.util.List;
 

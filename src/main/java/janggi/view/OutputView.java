@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.Color;
 import janggi.piece.Cannon;
+import janggi.piece.Color;
 import janggi.piece.Elephant;
 import janggi.piece.Guard;
 import janggi.piece.Horse;

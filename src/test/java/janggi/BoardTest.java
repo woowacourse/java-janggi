@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.piece.Cannon;
+import janggi.piece.Color;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
 import janggi.piece.Tank;
