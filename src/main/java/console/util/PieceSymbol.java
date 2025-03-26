@@ -13,7 +13,7 @@ public enum PieceSymbol {
     PAO("포", PieceType.CANNON),
     PAWN("병", PieceType.PAWN),
 
-    EMPTY("＿", null);;
+    EMPTY("＿", PieceType.BLANK);;
 
     private final String name;
     private final PieceType type;

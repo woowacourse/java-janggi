@@ -5,6 +5,7 @@ import console.util.PieceSymbol;
 import console.util.TeamSymbol;
 import janggi.piece.Piece;
 import janggi.piece.Team;
+import janggi.piece.normalPiece.Blank;
 import janggi.position.Board;
 import janggi.position.Column;
 import janggi.position.Position;
@@ -21,17 +22,17 @@ public class Output {
         Map<Position, Piece> onPosition = board.pieceOfPosition();
         for (Row row : Row.values()) {
             System.out.print(row.ordinal() + " ");
-            for (Column column : Column.values()) {
-                Piece piece = onPosition.get(new Position(column, row));
-                if (piece != null) {
-                    System.out.print(Color.apply(piece.team(), PieceSymbol.from(piece) + " "));
-                } else {
-                    System.out.print("＿ ");
-                }
-            }
-            System.out.println();
+            displayColumn(row, onPosition);
         }
         System.out.println("  A  B C  D E  F G  H I ");
+    }
+
+    private static void displayColumn(Row row, Map<Position, Piece> onPosition) {
+        for (Column column : Column.values()) {
+            Piece piece = onPosition.getOrDefault(new Position(column, row), new Blank(new Position(column, row)));
+            System.out.print(Color.apply(piece.team(), PieceSymbol.from(piece) + " "));
+        }
+        System.out.println();
     }
 
     public void displayTurn(Board board) {
