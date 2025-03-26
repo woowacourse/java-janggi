@@ -10,11 +10,11 @@ import model.position.Position;
 public class Chariot extends Piece {
 
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
-    private final MovableNavigator movableNavigator;
+    private final UnLimitedBasicMoveNavigator unLimitedBasicMoveNavigator;
 
     public Chariot(Team team) {
         super(team);
-        movableNavigator = new UnLimitedCrossNavigator();
+        this.unLimitedBasicMoveNavigator = new UnLimitedBasicMoveNavigator();
     }
 
     @Override
@@ -32,6 +32,6 @@ public class Chariot extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        return movableNavigator.find(departure, arrival, movements);
+        return unLimitedBasicMoveNavigator.find(departure, arrival, movements);
     }
 }

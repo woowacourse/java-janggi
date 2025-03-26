@@ -8,9 +8,8 @@ import model.position.Position;
  * Byeong, Jol, General, Guard가 사용한다.
  * 한 칸씩 움직이는 기물들이 사용한다.
  */
-public class LimitedCrossNavigator implements MovableNavigator {
+public class LimitedBasicMoveNavigator {
 
-    @Override
     public List<Position> find(Position departure, Position arrival, List<Movement> movements) {
         List<Position> arrivedDirection = findDirectionOfArrival(departure, arrival, movements);
         if (arrivedDirection.isEmpty()) {

@@ -10,12 +10,11 @@ import model.position.Position;
 public class Byeong extends Piece {
 
     private final List<Movement> movements = List.of(DOWN, LEFT, RIGHT);
-    private final MovableNavigator movableNavigator;
+    private final LimitedBasicMoveNavigator limitedBasicMoveNavigator;
 
     public Byeong() {
-
         super(Team.RED);
-        movableNavigator = new LimitedCrossNavigator();
+        this.limitedBasicMoveNavigator = new LimitedBasicMoveNavigator();
     }
 
     @Override
@@ -30,6 +29,6 @@ public class Byeong extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        return movableNavigator.find(departure, arrival, movements);
+        return limitedBasicMoveNavigator.find(departure, arrival, movements);
     }
 }

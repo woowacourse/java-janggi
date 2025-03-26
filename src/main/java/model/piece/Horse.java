@@ -14,9 +14,11 @@ public class Horse extends Piece {
         List.of(DOWN, DOWN_AND_DIAGONAL_DOWN_LEFT), List.of(DOWN, DOWN_AND_DIAGONAL_DOWN_RIGHT),
         List.of(LEFT, LEFT_AND_DIAGONAL_DOWN_LEFT), List.of(LEFT, LEFT_AND_DIAGONAL_UP_LEFT),
         List.of(RIGHT, RIGHT_AND_DIAGONAL_DOWN_RIGHT), List.of(RIGHT, RIGHT_AND_DIAGONAL_UP_RIGHT));
+    private final JumpMoveNavigator jumpMoveNavigator;
 
     public Horse(Team team) {
         super(team);
+        this.jumpMoveNavigator = new JumpMoveNavigator();
     }
 
     @Override
@@ -34,21 +36,6 @@ public class Horse extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        List<Movement> canArriveMovements = findCanArriveMovements(departure, arrival);
-        return findDirectionOfArrival(departure, canArriveMovements);
-    }
-
-    private List<Position> findDirectionOfArrival(Position departure, List<Movement> canArriveMovements) {
-        return canArriveMovements.stream()
-            .map(departure::move)
-            .toList();
-    }
-
-    private List<Movement> findCanArriveMovements(Position departure, Position arrival) {
-        return movements.stream()
-            .filter(movement -> departure.canMove(movement.getLast()))
-            .filter(movement -> departure.move(movement.getLast()).equals(arrival))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
+        return jumpMoveNavigator.find(departure, arrival, movements);
     }
 }

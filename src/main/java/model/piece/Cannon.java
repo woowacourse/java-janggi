@@ -10,11 +10,11 @@ import model.position.Position;
 public class Cannon extends Piece {
 
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
-    private final MovableNavigator navigator;
+    private final UnLimitedBasicMoveNavigator unLimitedBasicMoveNavigator;
 
     public Cannon(Team team) {
         super(team);
-        navigator = new UnLimitedCrossNavigator();
+        this.unLimitedBasicMoveNavigator = new UnLimitedBasicMoveNavigator();
     }
 
     @Override
@@ -32,6 +32,6 @@ public class Cannon extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        return navigator.find(departure, arrival, movements);
+        return unLimitedBasicMoveNavigator.find(departure, arrival, movements);
     }
 }

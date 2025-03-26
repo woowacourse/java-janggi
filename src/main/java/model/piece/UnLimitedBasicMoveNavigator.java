@@ -5,9 +5,8 @@ import java.util.List;
 import model.Movement;
 import model.position.Position;
 
-public class UnLimitedCrossNavigator implements MovableNavigator{
+public class UnLimitedBasicMoveNavigator {
 
-    @Override
     public List<Position> find(Position departure, Position arrival, List<Movement> movements) {
         return movements.stream()
             .map(movement -> findDirectionByMovement(departure, arrival, movement))

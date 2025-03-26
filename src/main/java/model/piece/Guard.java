@@ -10,11 +10,11 @@ import model.position.Position;
 public class Guard extends Piece {
 
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
-    private final MovableNavigator movableNavigator;
+    private final LimitedBasicMoveNavigator limitedBasicMoveNavigator;
 
     public Guard(Team team) {
         super(team);
-        movableNavigator = new LimitedCrossNavigator();
+        this.limitedBasicMoveNavigator = new LimitedBasicMoveNavigator();
     }
 
     @Override
@@ -32,6 +32,6 @@ public class Guard extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        return movableNavigator.find(departure, arrival, movements);
+        return limitedBasicMoveNavigator.find(departure, arrival, movements);
     }
 }
