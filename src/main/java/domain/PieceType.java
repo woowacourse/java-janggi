@@ -2,22 +2,12 @@ package domain;
 
 public enum PieceType {
 
-    WANG("왕"),
-    SA("사"),
-    CHA("차"),
-    SANG("상"),
-    MA("마"),
-    PO("포"),
-    BYEONG("병"),
+    WANG,
+    SA,
+    CHA,
+    SANG,
+    MA,
+    PO,
+    BYEONG,
     ;
-
-    private final String title;
-
-    PieceType(final String title) {
-        this.title = title;
-    }
-
-    public String title() {
-        return title;
-    }
 }

@@ -2,15 +2,9 @@ package domain;
 
 public enum Team {
 
-    CHO("초"),
-    HAN("한"),
+    CHO,
+    HAN,
     ;
-
-    private final String title;
-
-    Team(String title) {
-        this.title = title;
-    }
 
     public Team inverse() {
         if (this == CHO) {
@@ -18,9 +12,5 @@ public enum Team {
         }
 
         return CHO;
-    }
-
-    public String title() {
-        return title;
     }
 }

@@ -24,7 +24,7 @@ public class InputView {
                     2. 상마마상
                     3. 마상상마
                     4. 마상마상
-                    >\s""", team.title());
+                    >\s""", team);
             String input = scanner.nextLine();
             return SangMaOrderCommand.from(input);
         });
@@ -48,7 +48,7 @@ public class InputView {
             System.out.printf("""
                     %n현재 턴: %s나라
                     이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: 7,1 7,2)
-                    >\s""", team.title());
+                    >\s""", teamToString(team));
             String input = scanner.nextLine();
 
             List<String> parsed = Arrays.stream(input.split(" ", -1)).toList();
@@ -64,6 +64,13 @@ public class InputView {
 
             return new MoveCommand(sourcePoint, destinationPoint);
         });
+    }
+
+    private static String teamToString(Team team) {
+        return switch (team) {
+            case CHO -> "초";
+            case HAN -> "한";
+        };
     }
 
     private static void validateSize(List<String> point) {

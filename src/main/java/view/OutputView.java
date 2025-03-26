@@ -5,9 +5,10 @@ import static domain.point.Point.MAX_ROW_INDEX;
 import static domain.point.Point.MIN_COLUMN_INDEX;
 import static domain.point.Point.MIN_ROW_INDEX;
 
+import domain.PieceType;
+import domain.Team;
 import domain.board.Board;
 import domain.piece.Piece;
-import domain.Team;
 import domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class OutputView {
     }
 
     public static void printBoard(Board board) {
-        Map<Point, Piece> pieceByPoint = board.getPiece();
+        Map<Point, Piece> pieceByPoint = board.getPieces();
 
         List<List<String>> boardString = new ArrayList<>();
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
@@ -39,7 +40,7 @@ public class OutputView {
                     continue;
                 }
                 Piece piece = pieceByPoint.get(point);
-                rowString.add(paintByTeam(piece.team(), piece.type().title()));
+                rowString.add(paintByTeam(piece.team(), piece.type()));
             }
         }
 
@@ -48,23 +49,21 @@ public class OutputView {
             System.out.println(String.join(TAB, rowString));
         }
 
-        List<String> lastRowString = new ArrayList<>();
-        lastRowString.add("");
-        lastRowString.add("|");
+        List<String> lastRowString = new ArrayList<>(List.of("", "|"));
         IntStream.range(MIN_COLUMN_INDEX, MAX_COLUMN_INDEX + 1)
                 .forEach(column -> lastRowString.add(String.format("%02d", column)));
         System.out.println(String.join(TAB, lastRowString));
     }
 
-    private static String paintByTeam(Team team, String pieceName) {
+    private static String paintByTeam(Team team, PieceType pieceType) {
         if (team == Team.CHO) {
-            return Painter.paintGreen(pieceName);
+            return Painter.paintGreen(pieceTypeToString(pieceType));
         }
-        return Painter.paintRed(pieceName);
+        return Painter.paintRed(pieceTypeToString(pieceType));
     }
 
     public static void printTurn(Team team) {
-        System.out.printf("%n이번 턴은 %s나라입니다.", team.title());
+        System.out.printf("%n이번 턴은 %s나라입니다.", teamToString(team));
     }
 
     public static void printCannotMove(Point source, Point destination) {
@@ -82,10 +81,29 @@ public class OutputView {
     }
 
     public static void printMatchResult(Team winTeam) {
-        System.out.printf("%n%s나라의 승리입니다.", winTeam.title());
+        System.out.printf("%n%s나라의 승리입니다.", teamToString(winTeam));
     }
 
     public static void printEmpty(Point point) {
         System.out.printf("%n(%d,%d)에 기물이 없습니다.", point.row(), point.column());
+    }
+
+    private static String teamToString(Team team) {
+        return switch (team) {
+            case CHO -> "초";
+            case HAN -> "한";
+        };
+    }
+
+    private static String pieceTypeToString(PieceType pieceType) {
+        return switch (pieceType) {
+            case WANG -> "왕";
+            case SA -> "사";
+            case CHA -> "차";
+            case MA -> "마";
+            case SANG -> "상";
+            case PO -> "포";
+            case BYEONG -> "병";
+        };
     }
 }
