@@ -27,7 +27,7 @@ public class JanggiBoard {
         throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
     }
 
-    public int getScoreSum(Country country) {
+    public int getPieceScoreSum(Country country) {
         return board.values().stream()
                 .filter(piece -> piece.getCountry() == country)
                 .mapToInt(Piece::getScore)
