@@ -133,4 +133,20 @@ public class MaTest {
         Assertions.assertThat(movedMa.getPosition()).isEqualTo(hurdle);
     }
 
+    @DisplayName("적 장기말이 목적지에 있을 때, 잡아서 없애버린다.")
+    @Test
+    void test8() {
+        //given
+        Ma ma = Ma.from(STANDARD);
+        JanggiPosition destination = new JanggiPosition(5,2);
+        Jol enemyJol = Jol.from(destination);
+        Pieces enemyPieces = new Pieces(List.of(enemyJol));
+
+        //when
+        Ma movedMa = ma.move(destination, enemyPieces, new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
+    }
+
 }
