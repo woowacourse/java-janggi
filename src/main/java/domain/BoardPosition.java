@@ -5,6 +5,7 @@ public record BoardPosition(
     int y
 ) {
 
+    public static final int COORDINATE_PARTS_COUNT = 2;
     public static final int MIN_X = 0;
     public static final int MAX_X = 8;
     public static final int MIN_Y = 0;
