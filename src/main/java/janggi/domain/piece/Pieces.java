@@ -5,9 +5,9 @@ import janggi.domain.SetupType;
 import janggi.domain.Team;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Pieces {
 
@@ -15,6 +15,12 @@ public class Pieces {
     private static final int GENERAL_ROW = 2;
     private static final int CANNON_ROW = 3;
     private static final int SOLDIER_ROW = 4;
+
+    private static final int GENERAL_COLUMN = 5;
+    private static final List<Integer> SOLDIER_COLUMN = List.of(1, 3, 5, 7, 9);
+    private static final List<Integer> GUARD_COLUMN = List.of(3, 5);
+    private static final List<Integer> CHARIOT_COLUMN = List.of(1, 9);
+    private static final List<Integer> CANNON_COLUMN = List.of(2, 8);
 
     private final Map<Position, Piece> pieces;
 
@@ -41,29 +47,29 @@ public class Pieces {
     }
 
     private void createGeneral(final Team team) {
-        pieces.put(Position.of(team.decideRow(GENERAL_ROW), 5), new General(team));
+        pieces.put(Position.of(team.decideRow(GENERAL_ROW), GENERAL_ROW), new General(team));
     }
 
     private void createGuard(final Team team) {
-        pieces.putAll(Stream.of(4, 6)
+        pieces.putAll(GUARD_COLUMN.stream()
                 .collect(Collectors.toMap(column -> Position.of(team.decideRow(BACK_ROW), column),
                         column -> new Guard(team))));
     }
 
     private void createSoldier(final Team team) {
-        pieces.putAll(Stream.of(1, 3, 5, 7, 9)
+        pieces.putAll(SOLDIER_COLUMN.stream()
                 .collect(Collectors.toMap(column -> Position.of(team.decideRow(SOLDIER_ROW), column),
                         column -> new Soldier(team))));
     }
 
     private void createChariot(final Team team) {
-        pieces.putAll(Stream.of(1, 9)
+        pieces.putAll(CHARIOT_COLUMN.stream()
                 .collect(Collectors.toMap(column -> Position.of(team.decideRow(BACK_ROW), column),
                         column -> new Chariot(team))));
     }
 
     private void createCannon(final Team team) {
-        pieces.putAll(Stream.of(2, 8)
+        pieces.putAll(CANNON_COLUMN.stream()
                 .collect(Collectors.toMap(column -> Position.of(team.decideRow(CANNON_ROW), column),
                         column -> new Cannon(team))));
     }
