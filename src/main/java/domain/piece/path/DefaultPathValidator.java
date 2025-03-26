@@ -10,7 +10,7 @@ public class DefaultPathValidator implements PathValidator {
     public void validatePath(Piece piece, Position to, List<Position> intermediatePositions,
                              Map<Position, Piece> alivePieces) {
         if (hasBlockedPieces(intermediatePositions, alivePieces) || isTeamAtPosition(piece, to, alivePieces)) {
-            throw new IllegalArgumentException("지정한 포지션으로 이동할 수 없습니다.");
+            throw new IllegalArgumentException("해당 좌표로 이동시킬 수 없습니다.");
         }
     }
 

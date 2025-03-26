@@ -17,7 +17,7 @@ public class FixedPatternPathFinder implements PathFinder {
         return movements.stream()
                 .filter(movement -> movement.isValidMove(from, to))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("지정한 포지션으로 이동할 수 없습니다."))
+                .orElseThrow(() -> new IllegalArgumentException("해당 좌표로 이동시킬 수 없습니다."))
                 .findIntermediatePositions(from, to);
     }
 }

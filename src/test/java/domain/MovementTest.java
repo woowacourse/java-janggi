@@ -1,8 +1,10 @@
 package domain;
 
+import static fixtures.PositionFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import fixtures.PositionFixture;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,8 +16,8 @@ class MovementTest {
     void canMovePositionTest() {
         List<Direction> directions = List.of(Direction.UP, Direction.RIGHT_UP, Direction.RIGHT);
         Movement movement = new Movement(directions);
-        Position startPosition = Position.of(0, 0);
-        Position endPosition = Position.of(2, 2);
+        Position startPosition = A0;
+        Position endPosition = C2;
 
         boolean result = movement.isValidMove(startPosition, endPosition);
 
@@ -27,8 +29,8 @@ class MovementTest {
     void canMovePositionTest2() {
         List<Direction> directions = List.of(Direction.DOWN, Direction.RIGHT_UP, Direction.RIGHT);
         Movement movement = new Movement(directions);
-        Position startPosition = Position.of(0, 0);
-        Position endPosition = Position.of(1, 2);
+        Position startPosition = A0;
+        Position endPosition = C1;
 
         boolean result = movement.isValidMove(startPosition, endPosition);
 
@@ -40,12 +42,12 @@ class MovementTest {
     void getMiddlePosition() {
         List<Direction> directions = List.of(Direction.UP, Direction.RIGHT_UP, Direction.RIGHT);
         Movement movement = new Movement(directions);
-        Position startPosition = Position.of(0, 0);
-        Position endPosition = Position.of(2, 2);
+        Position startPosition = A0;
+        Position endPosition = C2;
 
         List<Position> positions = movement.findIntermediatePositions(startPosition, endPosition);
 
-        assertThat(positions).containsExactly(Position.of(1, 0), Position.of(2, 1));
+        assertThat(positions).containsExactly(A1,B2 );
     }
 
     @Test
@@ -53,8 +55,8 @@ class MovementTest {
     void getMiddlePositionException() {
         List<Direction> directions = List.of(Direction.UP, Direction.RIGHT_UP, Direction.RIGHT);
         Movement movement = new Movement(directions);
-        Position startPosition = Position.of(0, 0);
-        Position endPosition = Position.of(2, 3);
+        Position startPosition = A0;
+        Position endPosition = D2;
 
         assertThatThrownBy(() -> movement.findIntermediatePositions(startPosition, endPosition))
                 .isInstanceOf(IllegalArgumentException.class)

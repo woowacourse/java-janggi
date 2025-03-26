@@ -1,10 +1,15 @@
 package domain;
 
+import static fixtures.PositionFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Piece;
 import domain.piece.Soldier;
+import fixtures.PositionFixture;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,111 +19,114 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SoldierTest {
 
-    static Stream<Arguments> canMoveSoldierWhenCho() {
+    static Stream<Arguments> canMoveSoldierWhenCho_Success() {
         return Stream.of(
-                Arguments.of(Position.of(1, 0), true),
-                Arguments.of(Position.of(2, 1), true),
-                Arguments.of(Position.of(1, 2), true),
-                Arguments.of(Position.of(0, 1), false),
-                Arguments.of(Position.of(2, 2), false),
-                Arguments.of(Position.of(0, 2), false),
-                Arguments.of(Position.of(0, 0), false),
-                Arguments.of(Position.of(2, 0), false)
+                Arguments.of(A1),
+                Arguments.of(B2),
+                Arguments.of(C1)
         );
     }
 
-    static Stream<Arguments> canMoveSoldierWhenHan() {
+    static Stream<Arguments> canMoveSoldierWhenCho_Fail() {
         return Stream.of(
-                Arguments.of(Position.of(1, 0), true),
-                Arguments.of(Position.of(2, 1), false),
-                Arguments.of(Position.of(1, 2), true),
-                Arguments.of(Position.of(0, 1), true),
-                Arguments.of(Position.of(2, 2), false),
-                Arguments.of(Position.of(0, 2), false),
-                Arguments.of(Position.of(0, 0), false),
-                Arguments.of(Position.of(2, 0), false)
+                Arguments.of(B0),
+                Arguments.of(C2),
+                Arguments.of(C0),
+                Arguments.of(A0),
+                Arguments.of(A2)
         );
     }
 
-    @Test
-    @DisplayName("말을 움직였을 때 해당 위치로 정확히 움직였는지 확인한다.")
-    void movePieceTest() {
-        // given
-        Position currentPosition = Position.of(0, 0);
-        Position movePosition = Position.of(1, 1);
-        Piece solider = new Soldier(currentPosition, TeamType.CHO);
+    static Stream<Arguments> canMoveSoldierWhenHan_Success() {
+        return Stream.of(
+                Arguments.of(A1),
+                Arguments.of(C1),
+                Arguments.of(B0)
+        );
+    }
 
-        // when
-//        solider.moveTo(movePosition);
-//
-//        // then
-//        Position position = solider.getPosition();
-//        assertThat(position).isEqualTo(movePosition);
+    static Stream<Arguments> canMoveSoldierWhenHan_Fail() {
+        return Stream.of(
+                Arguments.of(B2),
+                Arguments.of(C2),
+                Arguments.of(C0),
+                Arguments.of(A0),
+                Arguments.of(A2)
+        );
     }
 
     @ParameterizedTest
     @MethodSource
     @DisplayName("주위 칸이 비어있을 때 정상적으로 이동할 수 있다")
-    void canMoveSoldierWhenCho(Position movePosition, boolean expected) {
-        // given
-        Position currentPosition = Position.of(1, 1);
-        Piece solider = new Soldier(currentPosition, TeamType.CHO);
+    void canMoveSoldierWhenCho_Success(Position movePosition) {
+        Position currentPosition = B1;
+        Piece solider = new Soldier(TeamType.CHO);
 
-        // when
-        boolean actual = solider.canMove(movePosition, List.of());
+        assertThatNoException()
+                .isThrownBy(() -> solider.validateCanMove(currentPosition, movePosition, Map.of()));
+    }
 
-        // then
-        assertThat(actual).isEqualTo(expected);
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("갈 수 없는 지역이면 예외가 발생한다.")
+    void canMoveSoldierWhenCho_Fail(Position movePosition) {
+        Position currentPosition = B1;
+        Piece solider = new Soldier(TeamType.CHO);
+
+        assertThatThrownBy(() -> solider.validateCanMove(currentPosition, movePosition, Map.of()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
 
     @ParameterizedTest
     @MethodSource
     @DisplayName("주위 칸이 비어있을 때 정상적으로 이동할 수 있다")
-    void canMoveSoldierWhenHan(Position movePosition, boolean expected) {
-        // given
-        Position currentPosition = Position.of(1, 1);
-        Piece solider = new Soldier(currentPosition, TeamType.HAN);
+    void canMoveSoldierWhenHan_Success(Position movePosition) {
+        Position currentPosition = B1;
+        Piece solider = new Soldier(TeamType.HAN);
 
-        // when
-        boolean actual = solider.canMove(movePosition, List.of(solider));
+        assertThatNoException()
+                .isThrownBy(() -> solider.validateCanMove(currentPosition, movePosition, Map.of()));
+    }
 
-        // then
-        assertThat(actual).isEqualTo(expected);
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("주위 칸이 비어있을 때 정상적으로 이동할 수 있다")
+    void canMoveSoldierWhenHan_Fail(Position movePosition) {
+        Position currentPosition = B1;
+        Piece solider = new Soldier(TeamType.HAN);
+
+        assertThatThrownBy(() -> solider.validateCanMove(currentPosition, movePosition, Map.of()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
 
     @Test
     @DisplayName("도착 칸에 아군이 있으면 이동할 수 없다.")
     void canMoveSoldier2() {
-        // given
-        Position movePosition = Position.of(2, 1);
-        Position position = Position.of(2, 1);
-        Piece solider1 = new Soldier(position, TeamType.CHO);
+        Position movePosition = B2;
+        Position position = B2;
+        Piece solider1 = new Soldier(TeamType.CHO);
 
-        Position currentPosition = Position.of(1, 1);
-        Piece solider2 = new Soldier(currentPosition, TeamType.CHO);
+        Position currentPosition = B1;
+        Piece solider2 = new Soldier(TeamType.CHO);
 
-        // when
-        boolean actual = solider2.canMove(movePosition, List.of(solider1, solider2));
-
-        // then
-        assertThat(actual).isFalse();
+        assertThatThrownBy(() -> solider2.validateCanMove(currentPosition, movePosition, Map.of(position,solider1)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
 
     @Test
     @DisplayName("도착 칸에 적이 있으면 이동할 수 있다.")
     void canMoveSoldier3() {
-        // given
-        Position movePosition = Position.of(3, 1);
-        Position position = Position.of(2, 1);
-        Piece solider1 = new Soldier(position, TeamType.CHO);
+        Position movePosition = B3;
+        Position position = B2;
+        Piece solider1 = new Soldier(TeamType.CHO);
 
-        Position currentPosition = Position.of(3, 1);
-        Piece solider2 = new Soldier(currentPosition, TeamType.HAN);
+        Position currentPosition = B3;
+        Piece solider2 = new Soldier(TeamType.HAN);
 
-        // when
-        boolean actual = solider1.canMove(movePosition, List.of(solider1, solider2));
-
-        // then
-        assertThat(actual).isTrue();
+        assertThatNoException()
+                .isThrownBy(() -> solider1.validateCanMove(position, movePosition, Map.of(currentPosition,solider2)));
     }
 }

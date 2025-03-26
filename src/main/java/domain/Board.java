@@ -58,7 +58,7 @@ public class Board {
                 .filter(piece -> piece.isSameType(PieceType.KING))
                 .toList();
         if (aliveKings.size() != 1) {
-            throw new IllegalArgumentException("아직 게임이 끝나지 않았습니다.");
+            throw new IllegalStateException("아직 게임이 끝나지 않았습니다.");
         }
         return aliveKings.get(0);
     }
