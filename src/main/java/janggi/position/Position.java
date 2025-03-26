@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Position {
 
-    private static final int BOARD_ROW_SIZE = 9;
-    private static final int BOARD_COL_SIZE = 8;
+    private static final int BOARD_ROW_SIZE = 10;
+    private static final int BOARD_COL_SIZE = 9;
 
     private final int row;
     private final int col;
@@ -25,7 +25,7 @@ public class Position {
     }
 
     private void validateOutOfBound(final int row, final int col) {
-        if (row > BOARD_ROW_SIZE || col > BOARD_COL_SIZE) {
+        if ((row < 0 || row >= BOARD_ROW_SIZE) || (col < 0 || col >= BOARD_COL_SIZE)) {
             throw new IllegalArgumentException("[ERROR] 장기판은 10 x 9 입니다. 범위를 초과하였습니다.");
         }
     }

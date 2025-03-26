@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class PositionTest {
 
@@ -19,13 +21,13 @@ class PositionTest {
         assertThat(position.getCol()).isEqualTo(5);
     }
 
-    @DisplayName("장기판의 범위를 초과하면 예외를 발생한다.")
-    @Test
-    void validateOutOfBound() {
-        //when - then
-        assertThatThrownBy(() -> new Position(11, 9))
+    @DisplayName("장기판의 범위를 초과하면 예외가 발생한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"10:9", "-1:-1"}, delimiter = ':')
+    void validateOutOfBound(final int row, final int col) {
+        //when // then
+        assertThatThrownBy(() -> new Position(row, col))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
-
 }
