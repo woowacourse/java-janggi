@@ -1,6 +1,7 @@
 package janggi.domain.piece.movement.fixed;
 
-import janggi.domain.piece.Pieces;
+import janggi.domain.piece.pieces.Pieces;
+import janggi.domain.piece.pieces.PiecesView;
 import janggi.domain.piece.Position;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class GuardMovementStrategy extends FixedMovementStrategy {
     }
 
     @Override
-    public Pieces getAllPiecesOnPath(Pieces map, Position origin, Position destination) {
+    public PiecesView getAllPiecesOnPath(PiecesView map, Position origin, Position destination) {
         return new Pieces(Map.of());
     }
 }

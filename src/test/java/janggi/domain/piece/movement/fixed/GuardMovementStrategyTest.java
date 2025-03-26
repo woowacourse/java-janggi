@@ -3,7 +3,7 @@ package janggi.domain.piece.movement.fixed;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.ReplaceUnderBar;
-import janggi.domain.piece.Pieces;
+import janggi.domain.piece.pieces.Pieces;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +15,6 @@ class GuardMovementStrategyTest {
         GuardMovementStrategy guardMovementStrategy = new GuardMovementStrategy();
 
         assertThat(guardMovementStrategy.isLegalDestination(null, null)).isFalse();
-        assertThat(guardMovementStrategy.getAllPiecesOnPath(new Pieces(Map.of()), null, null).getValues()).isEmpty();
+        assertThat(guardMovementStrategy.getAllPiecesOnPath(new Pieces(Map.of()), null, null).isEmpty()).isTrue();
     }
 }

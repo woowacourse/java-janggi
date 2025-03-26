@@ -5,7 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Pieces;
+import janggi.domain.piece.pieces.Pieces;
+import janggi.domain.piece.pieces.PiecesView;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import java.util.Arrays;
@@ -145,8 +146,7 @@ class KnightMovementStrategyTest {
 
     @ParameterizedTest
     @MethodSource("목적지까지의_경로_상_위치한_모든_기물을_반환한다_테스트_케이스")
-    void 목적지까지의_경로_상_위치한_모든_기물을_반환한다(Pieces map, Position origin, Position destination, Pieces expected) {
-        assertThat(KNIGHT_MOVEMENT_STRATEGY.getAllPiecesOnPath(map, origin, destination)
-            .getValues()).containsExactlyInAnyOrderEntriesOf(expected.getValues());
+    void 목적지까지의_경로_상_위치한_모든_기물을_반환한다(PiecesView map, Position origin, Position destination, PiecesView expected) {
+        assertThat(KNIGHT_MOVEMENT_STRATEGY.getAllPiecesOnPath(map, origin, destination)).isEqualTo(expected);
     }
 }

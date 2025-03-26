@@ -1,6 +1,6 @@
 package janggi.domain.piece.movement.dynamic;
 
-import janggi.domain.piece.Pieces;
+import janggi.domain.piece.pieces.PiecesView;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import java.util.Set;
@@ -18,8 +18,8 @@ public class RookMovementStrategy extends DynamicMovementStrategy {
     }
 
     @Override
-    public boolean isLegalPath(Pieces existingPieces, Side side, Position origin, Position destination) {
-        Pieces onPathPieces = existingPieces.getPiecesOnPath(findPathsToDestination(origin, destination));
+    public boolean isLegalPath(PiecesView existingPieces, Side side, Position origin, Position destination) {
+        PiecesView onPathPieces = existingPieces.getPiecesOnPath(findPathsToDestination(origin, destination));
 
         if (!onPathPieces.isEmpty()) {
             return onPathPieces.hasOnlyOnePiece() && onPathPieces.isEnemyOnDestination(side, destination);

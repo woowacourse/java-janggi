@@ -2,7 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Pieces;
+import janggi.domain.piece.pieces.Pieces;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.gererator.ChoPieceGenerator;
 import janggi.domain.piece.gererator.HanPieceGenerator;
@@ -44,7 +44,7 @@ public class JanggiBoard {
     }
 
     public Pieces getPlacedPieces() {
-        return placedPieces;
+        return placedPieces.clone();
     }
 
     public boolean isEnd() {

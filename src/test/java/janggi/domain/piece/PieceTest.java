@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.piece.movement.MovementStrategy;
+import janggi.domain.piece.pieces.Pieces;
+import janggi.domain.piece.pieces.PiecesView;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -62,7 +64,7 @@ class PieceTest {
         }
 
         @Override
-        public boolean isMoveable(Pieces map, Position origin, Side side, Position destination) {
+        public boolean isMoveable(PiecesView map, Position origin, Side side, Position destination) {
             return isMoveable;
         }
 

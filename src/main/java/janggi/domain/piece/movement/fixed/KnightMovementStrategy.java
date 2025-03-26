@@ -1,6 +1,6 @@
 package janggi.domain.piece.movement.fixed;
 
-import janggi.domain.piece.Pieces;
+import janggi.domain.piece.pieces.PiecesView;
 import janggi.domain.piece.Position;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +24,7 @@ public class KnightMovementStrategy extends FixedMovementStrategy {
     }
 
     @Override
-    public Pieces getAllPiecesOnPath(Pieces map, Position origin, Position destination) {
+    public PiecesView getAllPiecesOnPath(PiecesView map, Position origin, Position destination) {
         return map.getPiecesOnPath(findPathsToDestination(origin, destination));
     }
 

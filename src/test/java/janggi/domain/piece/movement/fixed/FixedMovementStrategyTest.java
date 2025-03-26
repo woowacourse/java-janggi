@@ -5,7 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Pieces;
+import janggi.domain.piece.pieces.Pieces;
+import janggi.domain.piece.pieces.PiecesView;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import java.util.Arrays;
@@ -115,7 +116,7 @@ class FixedMovementStrategyTest {
     private static final class RawFixedMovementStrategy extends FixedMovementStrategy {
 
         private boolean isLegalDestination = true;
-        private Pieces allPiecesOnPath = new Pieces(Map.of());
+        private PiecesView allPiecesOnPath = new Pieces(Map.of());
 
         public void setIsLegalDestination(boolean legalDestination) {
             isLegalDestination = legalDestination;
@@ -131,7 +132,7 @@ class FixedMovementStrategyTest {
         }
 
         @Override
-        public Pieces getAllPiecesOnPath(Pieces map, Position origin, Position destination) {
+        public PiecesView getAllPiecesOnPath(PiecesView map, Position origin, Position destination) {
             return allPiecesOnPath;
         }
     }
