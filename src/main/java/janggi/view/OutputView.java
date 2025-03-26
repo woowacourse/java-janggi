@@ -1,7 +1,6 @@
 package janggi.view;
 
-import janggi.position.Position;
-import janggi.Side;
+import janggi.Color;
 import janggi.piece.Cannon;
 import janggi.piece.Elephant;
 import janggi.piece.Guard;
@@ -9,6 +8,7 @@ import janggi.piece.Horse;
 import janggi.piece.King;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
+import janggi.position.Position;
 import java.util.Map;
 
 public class OutputView {
@@ -53,7 +53,7 @@ public class OutputView {
         }
 
         private static String getPieceOutputByPieceAndSide(Piece piece) {
-            if (piece.getSide() == Side.RED) {
+            if (piece.getSide() == Color.RED) {
                 return getPieceOutputByPiece(piece);
             }
             return getPieceOutputByPiece(piece).toLowerCase();

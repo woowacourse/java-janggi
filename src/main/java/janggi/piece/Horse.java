@@ -1,13 +1,13 @@
 package janggi.piece;
 
+import janggi.Color;
 import janggi.position.Position;
-import janggi.Side;
 import java.util.List;
 
 public class Horse extends Piece {
 
-    public Horse(final Side side) {
-        super(side);
+    public Horse(final Color color) {
+        super(color);
     }
 
     @Override

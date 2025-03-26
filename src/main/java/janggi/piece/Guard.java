@@ -1,13 +1,13 @@
 package janggi.piece;
 
+import janggi.Color;
 import janggi.position.Position;
-import janggi.Side;
 import java.util.List;
 
 public class Guard extends Piece {
 
-    public Guard(final Side side) {
-        super(side);
+    public Guard(final Color color) {
+        super(color);
     }
 
     @Override

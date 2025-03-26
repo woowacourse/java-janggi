@@ -1,14 +1,14 @@
 package janggi.piece;
 
+import janggi.Color;
 import janggi.position.Position;
-import janggi.Side;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class Tank extends Piece {
 
-    public Tank(final Side side) {
-        super(side);
+    public Tank(final Color color) {
+        super(color);
     }
 
     @Override

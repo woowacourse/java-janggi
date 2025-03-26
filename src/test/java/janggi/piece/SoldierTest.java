@@ -3,8 +3,8 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.Color;
 import janggi.position.Position;
-import janggi.Side;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,7 +21,7 @@ class SoldierTest {
     })
     void shouldReturnPathWhenBlueSide(int destX, int destY) {
         // given
-        Soldier soldier = new Soldier(Side.BLUE);
+        Soldier soldier = new Soldier(Color.BLUE);
         Position start = new Position(5, 5);
         Position end = new Position(destX, destY);
 
@@ -41,7 +41,7 @@ class SoldierTest {
     })
     void shouldReturnPathWhenRedSide(int destX, int destY) {
         // given
-        Soldier soldier = new Soldier(Side.RED);
+        Soldier soldier = new Soldier(Color.RED);
         Position start = new Position(5, 5);
         Position end = new Position(destX, destY);
 
@@ -63,7 +63,7 @@ class SoldierTest {
     })
     void shouldThrowExceptionWhenBlueSide(int destX, int destY) {
         // given
-        Soldier soldier = new Soldier(Side.BLUE);
+        Soldier soldier = new Soldier(Color.BLUE);
         Position start = new Position(5, 5);
         Position end = new Position(destX, destY);
 
@@ -83,7 +83,7 @@ class SoldierTest {
     })
     void shouldThrowExceptionWhenRedSide(int destX, int destY) {
         // given
-        Soldier soldier = new Soldier(Side.RED);
+        Soldier soldier = new Soldier(Color.RED);
         Position start = new Position(5, 5);
         Position end = new Position(destX, destY);
 

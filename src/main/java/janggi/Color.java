@@ -1,6 +1,6 @@
 package janggi;
 
-public enum Side {
+public enum Color {
     RED,
     BLUE;
 }

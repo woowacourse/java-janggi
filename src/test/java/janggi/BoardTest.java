@@ -38,7 +38,7 @@ public class BoardTest {
         @ParameterizedTest
         @DisplayName("보드가 초기화 되면 2개의 진영이 16개의 기물을 가지고 있다.")
         @CsvSource(value = {"RED", "BLUE"})
-        void createEachSide16PiecesWhenStart(Side side) {
+        void createEachSide16PiecesWhenStart(Color color) {
             // when
             Board board = Board.init();
 
@@ -48,7 +48,7 @@ public class BoardTest {
                     .stream()
                     .toList();
             List<Piece> piecesOfSide = pieces.stream()
-                    .filter(piece -> piece.getSide() == side)
+                    .filter(piece -> piece.getSide() == color)
                     .toList();
             int expected = 16;
             assertThat(piecesOfSide).hasSize(expected);
@@ -65,8 +65,8 @@ public class BoardTest {
             // given
             Board board = new Board(
                     Map.of(
-                            new Position(1, 1), new Tank(Side.RED),
-                            new Position(2, 1), new Soldier(Side.RED)
+                            new Position(1, 1), new Tank(Color.RED),
+                            new Position(2, 1), new Soldier(Color.RED)
                     )
             );
             Position start = new Position(1, 1);
@@ -81,7 +81,7 @@ public class BoardTest {
         @DisplayName("시작점과 도착점이 주어졌을 때, 말을 이동시킨다.")
         void movePieceWithStartEndPosition() {
             // given
-            Piece piece = new Tank(Side.RED);
+            Piece piece = new Tank(Color.RED);
             Board board = new Board(
                     Map.of(
                             new Position(1, 1), piece
@@ -104,7 +104,7 @@ public class BoardTest {
         @DisplayName("말의 이동 규칙과 맞지 않는다면 예외를 던진다.")
         void shouldThrowExceptionWhenUnfollowingRule() {
             // given
-            Piece piece = new Tank(Side.RED);
+            Piece piece = new Tank(Color.RED);
             Board board = new Board(
                     Map.of(
                             new Position(1, 1), piece
@@ -124,11 +124,11 @@ public class BoardTest {
         @DisplayName("말의 경로에 다른 말이 존재한다면 예외를 던진다.")
         void shouldThrowExceptionWhenExistsPieceOnPath() {
             // given
-            Piece piece = new Tank(Side.RED);
+            Piece piece = new Tank(Color.RED);
             Board board = new Board(
                     Map.of(
                             new Position(1, 1), piece,
-                            new Position(3, 1), new Soldier(Side.RED)
+                            new Position(3, 1), new Soldier(Color.RED)
                     )
             );
             Position start = new Position(1, 1);
@@ -145,12 +145,12 @@ public class BoardTest {
         @DisplayName("포의 경로 상 말이 2개 이상인 경우 예외를 던진다.")
         void shouldThrowExceptionWhenExistsOverTwoPieceOnCannonPath() {
             // given
-            Piece piece = new Cannon(Side.RED);
+            Piece piece = new Cannon(Color.RED);
             Board board = new Board(
                     Map.of(
                             new Position(1, 1), piece,
-                            new Position(3, 1), new Soldier(Side.RED),
-                            new Position(4, 1), new Soldier(Side.RED)
+                            new Position(3, 1), new Soldier(Color.RED),
+                            new Position(4, 1), new Soldier(Color.RED)
                     )
             );
             Position start = new Position(1, 1);
@@ -167,11 +167,11 @@ public class BoardTest {
         @DisplayName("포의 경로 상 말이 1개인 경우 예외를 던지지 않는다.")
         void shouldThrowExceptionWhenExistsOnePieceOnCannonPath() {
             // given
-            Piece piece = new Cannon(Side.RED);
+            Piece piece = new Cannon(Color.RED);
             Board board = new Board(
                     Map.of(
                             new Position(1, 1), piece,
-                            new Position(3, 1), new Soldier(Side.RED)
+                            new Position(3, 1), new Soldier(Color.RED)
                     )
             );
             Position start = new Position(1, 1);
@@ -188,11 +188,11 @@ public class BoardTest {
         @DisplayName("포의 경로 상 포가 존재하는 경우 예외를 던진다.")
         void shouldThrowExceptionWhenExistsCannonOnCannonPath() {
             // given
-            Piece piece = new Cannon(Side.RED);
+            Piece piece = new Cannon(Color.RED);
             Board board = new Board(
                     Map.of(
                             new Position(1, 1), piece,
-                            new Position(3, 1), new Cannon(Side.RED)
+                            new Position(3, 1), new Cannon(Color.RED)
                     )
             );
             Position start = new Position(1, 1);
@@ -209,7 +209,7 @@ public class BoardTest {
         @DisplayName("포의 경로 상에 말이 존재하지 않는 경우 예외를 던진다.")
         void shouldThrowExceptionWhenEmptyOnCannonPath() {
             // given
-            Piece piece = new Cannon(Side.RED);
+            Piece piece = new Cannon(Color.RED);
             Board board = new Board(
                     Map.of(
                             new Position(1, 1), piece
@@ -229,12 +229,12 @@ public class BoardTest {
         @DisplayName("포의 도착지의 말이 포인 경우 예외를 던진다.")
         void shouldThrowExceptionWhenExistsCannonOnCannonEndPosition() {
             // given
-            Piece piece = new Cannon(Side.RED);
+            Piece piece = new Cannon(Color.RED);
             Board board = new Board(
                     Map.of(
                             new Position(1, 1), piece,
-                            new Position(3, 1), new Soldier(Side.RED),
-                            new Position(6, 1), new Cannon(Side.BLUE)
+                            new Position(3, 1), new Soldier(Color.RED),
+                            new Position(6, 1), new Cannon(Color.BLUE)
                     )
             );
             Position start = new Position(1, 1);

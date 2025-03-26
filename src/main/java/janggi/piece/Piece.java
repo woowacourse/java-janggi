@@ -1,23 +1,23 @@
 package janggi.piece;
 
+import janggi.Color;
 import janggi.position.Position;
-import janggi.Side;
 import java.util.List;
 
 public abstract class Piece {
 
-    protected final Side side;
+    protected final Color color;
 
-    public Piece(final Side side) {
-        this.side = side;
+    public Piece(final Color color) {
+        this.color = color;
     }
 
     public boolean isSameSide(final Piece other) {
-        return this.side == other.side;
+        return this.color == other.color;
     }
 
-    public Side getSide() {
-        return side;
+    public Color getSide() {
+        return color;
     }
 
     public abstract List<Position> calculatePath(final Position start, final Position end);

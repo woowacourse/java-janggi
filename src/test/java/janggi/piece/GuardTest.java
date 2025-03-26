@@ -3,8 +3,8 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.Color;
 import janggi.position.Position;
-import janggi.Side;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,7 +22,7 @@ public class GuardTest {
     })
     void shouldReturnTrueWhenValidateMovingRule(int destX, int destY) {
         // given
-        Guard guard = new Guard(Side.RED);
+        Guard guard = new Guard(Color.RED);
         Position start = new Position(5, 5);
         Position end = new Position(destX, destY);
 
@@ -47,7 +47,7 @@ public class GuardTest {
     })
     void shouldReturnTrueWhenUnfollowMovingRule(int destX, int destY) {
         // given
-        Guard guard = new Guard(Side.RED);
+        Guard guard = new Guard(Color.RED);
         Position start = new Position(5, 5);
         Position end = new Position(destX, destY);
 

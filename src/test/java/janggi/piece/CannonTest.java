@@ -3,8 +3,8 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.Color;
 import janggi.position.Position;
-import janggi.Side;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,7 @@ class CannonTest {
     @MethodSource("pathArguments")
     void shouldReturnFalseWhenRouteExists(Position end, List<Position> expectedPath) {
         // given
-        Cannon cannon = new Cannon(Side.RED);
+        Cannon cannon = new Cannon(Color.RED);
         Position start = new Position(5, 5);
 
         // when
@@ -40,7 +40,7 @@ class CannonTest {
     })
     void shouldReturnTrueWhenUnfollowMovingRule(int destX, int destY) {
         // given
-        Cannon cannon = new Cannon(Side.RED);
+        Cannon cannon = new Cannon(Color.RED);
         Position start = new Position(5, 5);
         Position end = new Position(destX, destY);
 
