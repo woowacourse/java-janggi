@@ -1,5 +1,8 @@
 package janggi.service;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
+
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
 import janggi.domain.Team;
@@ -8,8 +11,6 @@ import janggi.repository.Repository;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class GameService {
 
@@ -65,7 +66,10 @@ public class GameService {
 
     public Map<Team, Double> scoreTeams() {
         return Arrays.stream(Team.values())
-            .collect(Collectors.toMap(Function.identity(), board::sumScore));
+            .collect(toMap(
+                identity(),
+                team -> board.sumScore(team) + team.getBonusScore()
+            ));
     }
 
     private void checkDepartureIsMyPiece(Team team, final Board board, final Coordinate departure) {

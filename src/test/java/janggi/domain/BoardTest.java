@@ -14,6 +14,45 @@ import org.junit.jupiter.api.Test;
 
 public class BoardTest {
 
+    @Test
+    @DisplayName("각 팀의 점수를 합산할 수 있다.")
+    void test1() {
+        //given
+        Board board = new BoardFixture()
+            .addPiece(1, 1, PieceType.CHA, Team.HAN) // 차 13점
+            .addPiece(2, 1, PieceType.SANG, Team.CHO) // 상 3점
+            .addPiece(3, 10, PieceType.MA, Team.CHO) // 초팀 마 5점
+            .build();
+
+        //when
+        final var hanTeamScore = board.sumScore(Team.HAN);
+        final var choTeamScore = board.sumScore(Team.CHO);
+
+        //then
+        assertAll(
+            () -> assertThat(hanTeamScore).isEqualTo(13),
+            () -> assertThat(choTeamScore).isEqualTo(8)
+        );
+    }
+
+
+    @Test
+    @DisplayName("궁이 잡혔는 지 알 수 있다.")
+    void test2() {
+        //given
+        Board board = new BoardFixture()
+            .addPiece(5, 2, PieceType.GOONG, Team.HAN)  // ....궁. <-한팀 궁
+            .addPiece(5, 3, PieceType.CHA, Team.CHO)    // ....차. <-초팀 차
+            .addPiece(5, 9, PieceType.GOONG, Team.CHO)  // ......
+            .build();
+
+        //when
+        board.move(new Coordinate(5, 3), new Coordinate(5, 2));
+
+        //then
+        assertThat(board.isAnyGoongDead()).isTrue();
+    }
+
     @Nested
     @DisplayName("기물의 움직임 테스트")
     class MoveTest {

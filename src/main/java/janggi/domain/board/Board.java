@@ -83,12 +83,11 @@ public class Board implements PieceSearcher {
     }
 
     public double sumScore(final Team team) {
-        double sum = pieces.stream()
+        return pieces.stream()
             .filter(p -> p.isTeam(team))
             .map(Piece::getType)
             .mapToDouble(PieceType::getScore)
             .sum();
-        return sum + team.getBonusScore();
     }
 
     public boolean isAnyGoongDead() {

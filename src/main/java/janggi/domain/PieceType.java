@@ -13,7 +13,7 @@ public enum PieceType {
     CHA("차", 13, new ChaMovement()),
     MA("마", 5, new MaMovement()),
     PO("포", 7, new PoMovement()),
-    SANG("상", 5, new SangMovement());
+    SANG("상", 3, new SangMovement());
 
     private final String name;
     private final int score;
