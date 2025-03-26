@@ -5,10 +5,11 @@ import static janggi.domain.piece.movement.Movement.LEFT;
 import static janggi.domain.piece.movement.Movement.RIGHT;
 import static janggi.domain.piece.movement.Movement.UP;
 
+import janggi.domain.piece.Position;
 import java.util.Arrays;
 import java.util.List;
 
-public enum ElephantMovement {
+public enum ElephantPathMovement {
     UP_LEFT(
             new Movement(-3, -2),
             List.of(
@@ -68,24 +69,21 @@ public enum ElephantMovement {
     private final Movement destinationMovement;
     private final List<Movement> pathMovements;
 
-    ElephantMovement(final Movement destinationMovement, final List<Movement> pathMovements) {
+    ElephantPathMovement(final Movement destinationMovement, final List<Movement> pathMovements) {
         this.destinationMovement = destinationMovement;
         this.pathMovements = pathMovements;
     }
 
-    public static List<Movement> findPathMovements(final int x, final int y) {
-        return find(x, y).getPathMovements();
+    public static List<Movement> findPathMovements(final Position beforePosition, final Position afterPosition) {
+        return find(afterPosition.x() - beforePosition.x(),
+                afterPosition.y() - beforePosition.y()).pathMovements;
     }
 
-    private static ElephantMovement find(final int x, final int y) {
-        Movement relativeMovementToMove = new Movement(x, y);
-        return Arrays.stream(ElephantMovement.values())
-                .filter(horseDirection -> horseDirection.destinationMovement.equals(relativeMovementToMove))
+    private static ElephantPathMovement find(final int x, final int y) {
+        Movement movement = new Movement(x, y);
+        return Arrays.stream(ElephantPathMovement.values())
+                .filter(horseDirection -> horseDirection.destinationMovement.equals(movement))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("불가능한 이동입니다."));
-    }
-
-    private List<Movement> getPathMovements() {
-        return pathMovements;
     }
 }

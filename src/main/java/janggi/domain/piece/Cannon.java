@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.piece.movement.Movement;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -21,63 +20,11 @@ public class Cannon extends Piece {
     public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
                                                               final Position afterPosition) {
         return board -> {
-            validateNoSameTeamPieceAt(board, afterPosition);
-            validateStraightMovement(beforePosition, afterPosition);
-            validateDestinationNotCannon(board, afterPosition);
-            validateSingleJumpOverPiece(board, beforePosition, afterPosition);
+            Validator.validateNoSameTeamPieceAt(team, board, afterPosition);
+            Validator.validateStraightMovement(beforePosition, afterPosition);
+            Validator.validateDestinationNotCannon(board, afterPosition);
+            Validator.validateSingleJumpOverPiece(board, beforePosition, afterPosition);
         };
-    }
-
-    private void validateStraightMovement(final Position beforePosition, final Position afterPosition) {
-        if (!isStraightMovement(beforePosition, afterPosition)) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
-        }
-    }
-
-    private boolean isStraightMovement(final Position beforePosition, final Position afterPosition) {
-        return afterPosition.x() == beforePosition.x() || afterPosition.y() == beforePosition.y();
-    }
-
-    private void validateDestinationNotCannon(final Map<Position, Piece> board, final Position afterPosition) {
-        if (board.get(afterPosition).isCannon()) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
-        }
-    }
-
-    private void validateSingleJumpOverPiece(
-            final Map<Position, Piece> board,
-            final Position beforePosition,
-            final Position afterPosition) {
-        Movement nextMovement = Movement.findUnitMovement(
-                afterPosition.x() - beforePosition.x(),
-                afterPosition.y() - beforePosition.y()
-        );
-
-        int obstaclesCount = 0;
-
-        Position currentPosition = beforePosition.plus(nextMovement.x(), nextMovement.y());
-        while (!currentPosition.equals(afterPosition)) {
-            validateNoCannonOnPath(board, currentPosition);
-            if (!board.get(currentPosition).isNone()) {
-                obstaclesCount++;
-            }
-
-            if (obstaclesCount > 1) {
-                throw new IllegalArgumentException("불가능한 이동입니다");
-            }
-
-            currentPosition = currentPosition.plus(nextMovement.x(), nextMovement.y());
-        }
-
-        if (obstaclesCount != 1) {
-            throw new IllegalArgumentException("불가능한 이동입니다");
-        }
-    }
-
-    private void validateNoCannonOnPath(final Map<Position, Piece> pieces, final Position position) {
-        if (pieces.get(position).isCannon()) {
-            throw new IllegalArgumentException("불가능한 이동입니다");
-        }
     }
 
     @Override

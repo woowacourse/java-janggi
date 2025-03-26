@@ -5,62 +5,61 @@ import static janggi.domain.piece.movement.Movement.LEFT;
 import static janggi.domain.piece.movement.Movement.RIGHT;
 import static janggi.domain.piece.movement.Movement.UP;
 
+import janggi.domain.piece.Position;
 import java.util.Arrays;
+import java.util.List;
 
-public enum HorseMovement {
+public enum HorsePathMovement {
     UP_LEFT(
             new Movement(-2, -1),
-            UP
+            List.of(UP)
     ),
     UP_RIGHT(
             new Movement(-2, 1),
-            UP
+            List.of(UP)
     ),
     DOWN_LEFT(
             new Movement(2, -1),
-            DOWN
+            List.of(DOWN)
     ),
     DOWN_RIGHT(
             new Movement(2, 1),
-            DOWN
+            List.of(DOWN)
     ),
     LEFT_DOWN(
             new Movement(1, -2),
-            LEFT
+            List.of(LEFT)
     ),
     LEFT_UP(
             new Movement(-1, -2),
-            LEFT
+            List.of(LEFT)
     ),
     RIGHT_DOWN(
             new Movement(1, 2),
-            RIGHT
+            List.of(RIGHT)
     ),
     RIGHT_UP(
             new Movement(-1, 2),
-            UP
+            List.of(UP)
     );
     private final Movement destinationMovement;
-    private final Movement pathMovement;
+    private final List<Movement> pathMovements;
 
-    HorseMovement(final Movement destinationMovement, final Movement pathMovement) {
+    HorsePathMovement(final Movement destinationMovement, final List<Movement> pathMovements) {
         this.destinationMovement = destinationMovement;
-        this.pathMovement = pathMovement;
+        this.pathMovements = pathMovements;
     }
 
-    public static Movement findPathMovement(final int x, final int y) {
-        return find(x, y).getPathMovement();
+    public static List<Movement> findPathMovements(final Position beforePosition, final Position afterPosition) {
+        return find(afterPosition.x() - beforePosition.x(),
+                afterPosition.y() - beforePosition.y()).pathMovements;
     }
 
-    private static HorseMovement find(final int x, final int y) {
+    private static HorsePathMovement find(final int x, final int y) {
         Movement movement = new Movement(x, y);
-        return Arrays.stream(HorseMovement.values())
-                .filter(horseMovement -> horseMovement.destinationMovement.equals(movement))
+        return Arrays.stream(HorsePathMovement.values())
+                .filter(horsePathMovement -> horsePathMovement.destinationMovement.equals(movement))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("불가능한 이동입니다."));
-    }
-
-    private Movement getPathMovement() {
-        return pathMovement;
     }
 }

@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.piece.movement.ElephantMovement;
-import janggi.domain.piece.movement.Movement;
+import janggi.domain.piece.movement.ElephantPathMovement;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -28,44 +27,35 @@ public class Elephant extends Piece {
         super("상", team);
     }
 
-    public static List<Position> getInitialPositions(final Team team, final HorseSide leftHorsePosition, final HorseSide rightHorsePosition) {
-        return team.equals(Team.BLUE)
-                ? getBlueInitialPositions(leftHorsePosition, rightHorsePosition)
-                : getRedInitialPositions(leftHorsePosition, rightHorsePosition);
+    public static List<Position> getInitialPositions(final Team team, final HorseSide leftHorsePosition,
+                                                     final HorseSide rightHorsePosition) {
+        if (team.equals(Team.BLUE)) {
+            return getBlueInitialPositions(leftHorsePosition, rightHorsePosition);
+        }
+        return getRedInitialPositions(leftHorsePosition, rightHorsePosition);
     }
 
-    private static List<Position> getBlueInitialPositions(final HorseSide leftHorsePosition, final HorseSide rightHorsePosition) {
+    private static List<Position> getBlueInitialPositions(final HorseSide leftHorsePosition,
+                                                          final HorseSide rightHorsePosition) {
         return List.of(
                 INITIAL_POSITIONS_BLUE_LEFT.get(leftHorsePosition.value()),
                 INITIAL_POSITIONS_BLUE_RIGHT.get(rightHorsePosition.value()));
     }
 
-    private static List<Position> getRedInitialPositions(final HorseSide leftHorsePosition, final HorseSide rightHorsePosition) {
+    private static List<Position> getRedInitialPositions(final HorseSide leftHorsePosition,
+                                                         final HorseSide rightHorsePosition) {
         return List.of(
                 INITIAL_POSITIONS_RED_LEFT.get(leftHorsePosition.value()),
                 INITIAL_POSITIONS_RED_RIGHT.get(rightHorsePosition.value()));
     }
 
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
+    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
+                                                              final Position afterPosition) {
         return board -> {
-            validateNoSameTeamPieceAt(board, afterPosition);
-            validateNoObstaclesOnPath(board, beforePosition, afterPosition);
+            Validator.validateNoSameTeamPieceAt(team, board, afterPosition);
+            Validator.validateNoObstaclesOnPath(board, beforePosition, afterPosition,
+                    ElephantPathMovement.findPathMovements(beforePosition, afterPosition));
         };
-    }
-
-    private void validateNoObstaclesOnPath(final Map<Position, Piece> board, final Position beforePosition, final Position afterPosition) {
-        List<Movement> pathMovements = ElephantMovement.findPathMovements(
-                afterPosition.x() - beforePosition.x(),
-                afterPosition.y() - beforePosition.y()
-        );
-
-        boolean hasObstacle = pathMovements.stream()
-                .map(routeDistance -> beforePosition.plus(routeDistance.x(), routeDistance.y()))
-                .anyMatch(position -> !board.get(position).isNone());
-
-        if (hasObstacle) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
-        }
     }
 }
