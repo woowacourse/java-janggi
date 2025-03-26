@@ -32,13 +32,6 @@ public record Path(
         return new Path(new ArrayList<>(positions));
     }
 
-    public boolean isBlockedWith(final List<Position> blockedPositions) {
-        if (blockedPositions.isEmpty()) return false;
-
-        return pathPositions.subList(0, pathPositions.size() - 1).stream()
-                .anyMatch(blockedPositions::contains);
-    }
-
     public List<Piece> getBlockedPiece(final List<Piece> pieces) {
         if (pieces.isEmpty()) return List.of();
 
@@ -47,13 +40,24 @@ public record Path(
                 .toList();
     }
 
-    public boolean isEndWith(final List<Position> positions) {
-        if (positions.isEmpty()) return false;
-        return positions.contains(finalPosition());
+    public int getMoveCount() {
+        return pathPositions.size() - 1;
+    }
+
+    public boolean isBlockedWith(final List<Position> blockedPositions) {
+        if (blockedPositions.isEmpty()) return false;
+
+        return pathPositions.subList(0, pathPositions.size() - 1).stream()
+                .anyMatch(blockedPositions::contains);
     }
 
     public boolean isStartWith(final Position position) {
         return pathPositions.getFirst().equals(position);
+    }
+
+    public boolean isEndWith(final List<Position> positions) {
+        if (positions.isEmpty()) return false;
+        return positions.contains(finalPosition());
     }
 
     public boolean isSuperPathOf(final Path path) {

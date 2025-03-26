@@ -18,7 +18,7 @@ public class GungOneStepPathProvider implements PathProvider {
     @Override
     public Set<Path> get(final Position position) {
         return gung.getAllPathsFrom(position).stream()
-                .filter(path -> path.pathPositions().size() == 2)
+                .filter(path -> path.getMoveCount() == 1)
                 .collect(Collectors.toSet());
     }
 }
