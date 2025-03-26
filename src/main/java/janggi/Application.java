@@ -9,7 +9,6 @@ import janggi.util.CommandParser;
 import janggi.view.BoardView;
 import janggi.view.InputView;
 import janggi.view.SetupOption;
-import janggi.view.WelcomeView;
 import java.util.List;
 
 public class Application {
@@ -23,18 +22,21 @@ public class Application {
     }
 
     private void run() {
-        final WelcomeView welcomeView = new WelcomeView();
-        welcomeView.display();
+        boardView.displaySetupOption();
         final SetupOption setupOption = readSetupOption();
         final Board board = BoardGenerator.generate(setupOption);
-        boardView.displayGame(board);
-        boardView.displayScore(board.calculateScoreBoard());
-        boardView.displayTurn(board);
+        displayInitialBoard(board);
         Command command = Command.STOP;
         do {
             command = executeCommand(command, board);
         } while (!command.equals(Command.STOP) && !board.isGeneralDead());
         boardView.displayEnd(board);
+    }
+
+    private void displayInitialBoard(final Board board) {
+        boardView.displayGame(board);
+        boardView.displayScore(board.calculateScoreBoard());
+        boardView.displayTurn(board);
     }
 
     private SetupOption readSetupOption() {
