@@ -2,6 +2,7 @@ package model;
 
 import janggi.model.Direction;
 import janggi.model.Path;
+import janggi.model.PathDirections;
 import janggi.model.Position;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
@@ -11,7 +12,8 @@ class PathTest {
 
     @Test
     void 목적지와_이동_경로를_계산한다() {
-        Path path = new Path(new Position(5, 5), List.of(Direction.TOP, Direction.LEFT_TOP));
+        PathDirections pathDirections = new PathDirections(List.of(Direction.TOP, Direction.LEFT_TOP));
+        Path path =pathDirections.convertPath(new Position(5, 5));
 
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(path.getDestinationPosition()).isEqualTo(new Position(3, 4));

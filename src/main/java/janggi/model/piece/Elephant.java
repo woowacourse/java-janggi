@@ -4,6 +4,7 @@ import janggi.model.Color;
 import janggi.model.Direction;
 import janggi.model.OccupiedPositions;
 import janggi.model.Path;
+import janggi.model.PathDirections;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
@@ -21,17 +22,21 @@ public class Elephant extends Piece {
     public Set<Position> calculateMovablePositions(Position startPosition, OccupiedPositions occupiedPositions) {
         return elephantDirections().stream()
                 .filter(startPosition::canMove)
-                .map(directions -> new Path(startPosition, directions))
+                .map(pathDirections -> pathDirections.convertPath(startPosition))
                 .filter(path -> occupiedPositions.isCornerEmpty(path.getCornerPositions()))
                 .map(Path::getDestinationPosition)
                 .filter(destination -> destinationIsNotSameColor(destination, occupiedPositions))
                 .collect(Collectors.toSet());
     }
 
-    private static List<List<Direction>> elephantDirections() {
+    private static List<PathDirections> elephantDirections() {
         return Direction.getStraightDirection().stream()
                 .flatMap(straightDirection -> straightDirection.nextCrossDirection().stream()
-                        .map(crossDirection -> List.of(straightDirection, crossDirection, crossDirection))
+                        .map(crossDirection -> new PathDirections(List.of(
+                                straightDirection,
+                                crossDirection,
+                                crossDirection
+                        )))
                 ).toList();
     }
 

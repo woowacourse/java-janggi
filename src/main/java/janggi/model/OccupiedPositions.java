@@ -22,12 +22,7 @@ public class OccupiedPositions {
     }
 
     public boolean isCornerEmpty(List<Position> positions) {
-        for (Position position : positions) {
-            if (this.positions.containsKey(position)) {
-                return false;
-            }
-        }
-        return true;
+        return positions.stream().noneMatch(this.positions::containsKey);
     }
 
     public boolean existSameColor(Position position, Color color) {

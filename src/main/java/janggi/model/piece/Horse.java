@@ -3,6 +3,7 @@ package janggi.model.piece;
 import janggi.model.Color;
 import janggi.model.Direction;
 import janggi.model.OccupiedPositions;
+import janggi.model.PathDirections;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
@@ -21,21 +22,21 @@ public class Horse extends Piece {
     public Set<Position> calculateMovablePositions(Position startPosition, OccupiedPositions occupiedPositions) {
         return horseDirections().stream()
                 .filter(startPosition::canMove)
-                .map(directions -> new Path(startPosition, directions))
+                .map(pathDirections -> pathDirections.convertPath(startPosition))
                 .filter(path -> occupiedPositions.isCornerEmpty(path.getCornerPositions()))
                 .map(Path::getDestinationPosition)
-                .filter(destination -> !destinationIsSameColor(destination, occupiedPositions))
+                .filter(destination -> destinationIsNotSameColor(destination, occupiedPositions))
                 .collect(Collectors.toSet());
     }
 
-    private static List<List<Direction>> horseDirections() {
+    private static List<PathDirections> horseDirections() {
         return Direction.getStraightDirection().stream()
                 .flatMap(straightDirection -> straightDirection.nextCrossDirection().stream()
-                        .map(crossDirection -> List.of(straightDirection, crossDirection))
+                        .map(crossDirection -> new PathDirections(List.of(straightDirection, crossDirection)))
                 ).toList();
     }
 
-    private boolean destinationIsSameColor(Position destination, OccupiedPositions occupiedPositions) {
-        return occupiedPositions.existSameColor(destination, identity().getColor());
+    private boolean destinationIsNotSameColor(Position destination, OccupiedPositions occupiedPositions) {
+        return !occupiedPositions.existSameColor(destination, identity().getColor());
     }
 }

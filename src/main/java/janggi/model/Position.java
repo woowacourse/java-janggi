@@ -1,7 +1,5 @@
 package janggi.model;
 
-import java.util.List;
-
 public record Position(int row, int column) {
 
     public static final int MIN_ROW = 1;
@@ -19,9 +17,9 @@ public record Position(int row, int column) {
         return !isInValidPosition(row + direction.deltaRow(), column + direction.deltaColumn());
     }
 
-    public boolean canMove(final List<Direction> directions) {
-        int deltaRow = row + directions.stream().mapToInt(Direction::deltaRow).sum();
-        int deltaColumn = column + directions.stream().mapToInt(Direction::deltaColumn).sum();
+    public boolean canMove(final PathDirections pathDirections) {
+        int deltaRow = row + pathDirections.calculateTotalDeltaRow();
+        int deltaColumn = column + pathDirections.calculateTotalDeltaColumn();
         return !isInValidPosition(deltaRow, deltaColumn);
     }
 

@@ -1,5 +1,6 @@
-package janggi.model;
+package janggi.view;
 
+import janggi.model.Position;
 import java.util.List;
 
 public class Parser {

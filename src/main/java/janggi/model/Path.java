@@ -1,23 +1,14 @@
 package janggi.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Path {
     private final Position destinationPosition;
     private final List<Position> cornerPositions;
 
-    public Path(Position startPosition, List<Direction> directions) {
-        validateMovableDestinationPosition(startPosition, directions);
-        List<Position> positions = new ArrayList<>();
-        Position currentPosition = startPosition;
-        for (Direction direction : directions) {
-            currentPosition = currentPosition.move(direction);
-            positions.add(currentPosition);
-        }
-        destinationPosition = positions.getLast();
-        positions.removeLast();
-        cornerPositions = positions;
+    public Path(Position destinationPosition, List<Position> cornerPositions) {
+        this.destinationPosition = destinationPosition;
+        this.cornerPositions = cornerPositions;
     }
 
     public Position getDestinationPosition() {
@@ -27,11 +18,4 @@ public class Path {
     public List<Position> getCornerPositions() {
         return cornerPositions;
     }
-
-    private void validateMovableDestinationPosition(Position startPosition, List<Direction> directions) {
-        if (!startPosition.canMove(directions)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-    }
-
 }

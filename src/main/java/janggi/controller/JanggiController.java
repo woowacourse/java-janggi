@@ -2,7 +2,7 @@ package janggi.controller;
 
 import janggi.model.Board;
 import janggi.model.BoardInitializer;
-import janggi.model.Parser;
+import janggi.view.Parser;
 import janggi.model.Position;
 import janggi.model.Turn;
 import janggi.view.InputView;
