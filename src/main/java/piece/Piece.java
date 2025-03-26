@@ -50,15 +50,15 @@ public class Piece {
         return team;
     }
 
-    public JanggiPosition getPosition() {
+    public JanggiPosition position() {
         return position;
     }
 
-    public PieceType getType() {
+    public PieceType type() {
         return moveBehavior.getPieceType();
     }
 
-    public PieceScore getPieceScore() {
+    public PieceScore pieceScore() {
         return moveBehavior.getPieceScore();
     }
 

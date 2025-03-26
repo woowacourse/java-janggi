@@ -30,7 +30,7 @@ public class Pieces {
         pieces.remove(deadPiece);
     }
 
-    public Pieces add(Pieces otherPieces) {
+    public Pieces combine(Pieces otherPieces) {
         List<Piece> resultPieces = new ArrayList<>(otherPieces.getPieces());
         resultPieces.addAll(pieces);
         return new Pieces(resultPieces);
@@ -50,7 +50,7 @@ public class Pieces {
 
         Map<JanggiPosition, Piece> positionPieces = allPieces.stream()
                 .filter(piece -> !piece.equals(movePiece))
-                .collect(Collectors.toMap(Piece::getPosition, piece -> piece));
+                .collect(Collectors.toMap(Piece::position, piece -> piece));
 
         return findPiecesOnRouteIncludeOtherTeam(positionPieces, route);
     }

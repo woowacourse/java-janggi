@@ -26,7 +26,7 @@ class PlayerPiecesTest {
         PlayerPieces playerPieces = new PlayerPieces(teamPieces);
         Pieces allPieces = playerPieces.allPieces();
         Assertions.assertThat(allPieces.getPieces())
-                .containsExactlyInAnyOrderElementsOf(bluePieces.add(redPieces).getPieces());
+                .containsExactlyInAnyOrderElementsOf(bluePieces.combine(redPieces).getPieces());
     }
 
     @Test

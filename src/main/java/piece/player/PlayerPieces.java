@@ -44,7 +44,7 @@ public class PlayerPieces {
     }
 
     public void placePhase(Team team, JanggiPosition selectPiecePosition, JanggiPosition wantedMovePosition) {
-        Pieces moveTeamPieces = moveTeamPieces(team);
+        Pieces moveTeamPieces = playerPieces(team);
         Piece movePiece = move(moveTeamPieces, selectPiecePosition, wantedMovePosition);
 
         Pieces otherPieces = otherTeamPieces(team);
@@ -57,7 +57,7 @@ public class PlayerPieces {
         return movePieces.move(selectPiecePosition, wantedMovePosition, allPieces);
     }
 
-    private Pieces moveTeamPieces(Team team) {
+    private Pieces playerPieces(Team team) {
         if (team == Team.BLUE) {
             return blueTeamPieces;
         }
@@ -66,7 +66,7 @@ public class PlayerPieces {
 
     private Pieces otherTeamPieces(Team team) {
         Team opposite = team.opposite();
-        return moveTeamPieces(opposite);
+        return playerPieces(opposite);
     }
 
     public Map<Team, Integer> getPlayerScores() {
