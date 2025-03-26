@@ -4,7 +4,7 @@ import janggi.Board;
 import janggi.coordinate.Position;
 import janggi.coordinate.Route;
 
-public class RequiredBlockCountStrategy implements BlockStrategy {
+public class RequiredBlockCountStrategy {
 
     private final int requireBlockCount;
 
@@ -12,13 +12,13 @@ public class RequiredBlockCountStrategy implements BlockStrategy {
         this.requireBlockCount = requireBlockCount;
     }
 
-    public static BlockStrategy common() {
+    public static RequiredBlockCountStrategy common() {
         return new RequiredBlockCountStrategy(0);
     }
 
     public void validate(final Board board, final Position departure, final Position destination) {
         if (countPieceInRoute(board, departure, destination) != requireBlockCount) {
-            throw new IllegalArgumentException(exceptionMessage);
+            throw new IllegalArgumentException("이동 경로에 기물 갯수가 조건에 맞지 않습니다.");
         }
     }
 

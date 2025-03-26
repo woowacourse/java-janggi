@@ -5,7 +5,6 @@ import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Route;
-import janggi.piece.strategy.block.BlockStrategy;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
 import janggi.piece.strategy.move.MoveStrategy;
 import janggi.piece.strategy.move.StraightMoveStrategy;
@@ -19,7 +18,7 @@ public class Cannon extends Piece {
     private Cannon(final Position position,
                    final Team team,
                    final MoveStrategy moveStrategy,
-                   final BlockStrategy blockStrategy) {
+                   final RequiredBlockCountStrategy blockStrategy) {
         super(position, team, moveStrategy, blockStrategy);
     }
 

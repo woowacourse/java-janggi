@@ -21,7 +21,7 @@ class RequiredBlockCountStrategyTest {
     @DisplayName("common()은 0개의 기물이 있어야 하는 블로킹 전략을 반환한다")
     void commonReturnsZeroBlockStrategy() {
         // given
-        BlockStrategy strategy = RequiredBlockCountStrategy.common();
+        RequiredBlockCountStrategy strategy = RequiredBlockCountStrategy.common();
         Board board = Board.from(Pieces.empty());
 
         // when
@@ -43,7 +43,7 @@ class RequiredBlockCountStrategyTest {
                 PieceFixture.createPiece(1, 3, PieceType.SOLDIER, Team.HAN)
         );
         Board board = Board.from(Pieces.empty().addAll(pieces));
-        BlockStrategy strategy = new RequiredBlockCountStrategy(2);
+        RequiredBlockCountStrategy strategy = new RequiredBlockCountStrategy(2);
 
         // when
         // then
@@ -63,7 +63,7 @@ class RequiredBlockCountStrategyTest {
                 PieceFixture.createPiece(1, 2, PieceType.SOLDIER, Team.HAN)
         );
         Board board = Board.from(Pieces.empty().addAll(pieces));
-        BlockStrategy strategy = new RequiredBlockCountStrategy(2);
+        RequiredBlockCountStrategy strategy = new RequiredBlockCountStrategy(2);
 
         // when
         // then

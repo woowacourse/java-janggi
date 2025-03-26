@@ -3,14 +3,13 @@ package janggi.piece;
 import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
-import janggi.piece.strategy.block.BlockStrategy;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
 import janggi.piece.strategy.move.MoveStrategy;
 import janggi.piece.strategy.move.SingleMoveStrategy;
 
 public class General extends Piece {
 
-    public General(final Position position, final Team team, final MoveStrategy moveStrategy, final BlockStrategy blockStrategy) {
+    public General(final Position position, final Team team, final MoveStrategy moveStrategy, final RequiredBlockCountStrategy blockStrategy) {
         super(position, team, moveStrategy, blockStrategy);
     }
 

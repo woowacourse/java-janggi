@@ -5,7 +5,6 @@ import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
-import janggi.piece.strategy.block.BlockStrategy;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
 import janggi.piece.strategy.move.MoveStrategy;
 import janggi.piece.strategy.move.SingleMoveStrategy;
@@ -14,7 +13,7 @@ import java.util.List;
 
 public class Soldier extends Piece {
 
-    public Soldier(final Position position, final Team team, final MoveStrategy moveStrategy, final BlockStrategy blockStrategy) {
+    public Soldier(final Position position, final Team team, final MoveStrategy moveStrategy, final RequiredBlockCountStrategy blockStrategy) {
         super(position, team, moveStrategy, blockStrategy);
     }
 

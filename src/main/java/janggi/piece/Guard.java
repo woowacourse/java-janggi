@@ -3,7 +3,6 @@ package janggi.piece;
 import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
-import janggi.piece.strategy.block.BlockStrategy;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
 import janggi.piece.strategy.move.MoveStrategy;
 import janggi.piece.strategy.move.SingleMoveStrategy;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class Guard extends Piece {
 
-    public Guard(final Position position, final Team team, final MoveStrategy moveStrategy, final BlockStrategy blockStrategy) {
+    public Guard(final Position position, final Team team, final MoveStrategy moveStrategy, final RequiredBlockCountStrategy blockStrategy) {
         super(position, team, moveStrategy, blockStrategy);
     }
 

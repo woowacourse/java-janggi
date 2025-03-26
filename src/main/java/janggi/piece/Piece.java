@@ -4,7 +4,7 @@ import janggi.Board;
 import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
-import janggi.piece.strategy.block.BlockStrategy;
+import janggi.piece.strategy.block.RequiredBlockCountStrategy;
 import janggi.piece.strategy.move.MoveStrategy;
 
 public abstract class Piece {
@@ -12,9 +12,9 @@ public abstract class Piece {
     protected final Position position;
     protected final Team team;
     protected final MoveStrategy moveStrategy;
-    protected final BlockStrategy blockStrategy;
+    protected final RequiredBlockCountStrategy blockStrategy;
 
-    public Piece(final Position position, final Team team, final MoveStrategy moveStrategy, final BlockStrategy blockStrategy) {
+    public Piece(final Position position, final Team team, final MoveStrategy moveStrategy, final RequiredBlockCountStrategy blockStrategy) {
         this.position = position;
         this.team = team;
         this.moveStrategy = moveStrategy;
