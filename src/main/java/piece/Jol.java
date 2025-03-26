@@ -1,8 +1,5 @@
 package piece;
 
-import static pieceProperty.Movement.calculateLeftMovement;
-import static pieceProperty.Movement.calculateRightMovement;
-import static pieceProperty.Movement.calculateUpMovement;
 import static pieceProperty.PieceType.JOL;
 
 import java.util.List;
@@ -45,9 +42,9 @@ public class Jol extends Piece {
     }
 
     private boolean isInvalidJolMove(final Position destination) {
-        return !calculateUpMovement(getPosition()).equals(destination)
-                && !calculateLeftMovement(getPosition()).equals(destination)
-                && !calculateRightMovement(getPosition()).equals(destination);
+        return !getPosition().calculateUpMovement().equals(destination)
+                && !getPosition().calculateLeftMovement().equals(destination)
+                && !getPosition().calculateRightMovement().equals(destination);
     }
 
 }

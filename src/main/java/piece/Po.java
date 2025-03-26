@@ -1,9 +1,5 @@
 package piece;
 
-import static pieceProperty.Movement.isDownward;
-import static pieceProperty.Movement.isLeftward;
-import static pieceProperty.Movement.isRightward;
-import static pieceProperty.Movement.isUpward;
 import static pieceProperty.PieceType.PO;
 
 import java.util.List;
@@ -27,19 +23,19 @@ public class Po extends Piece {
         int presentCol = getBoardPosition().getCol();
         int presentRow = getBoardPosition().getRow();
 
-        if (isLeftward(dRow, dCol)) {
+        if (getPosition().isLeftward(dRow, dCol)) {
             addLeftwardRoute(dCol, route, presentRow, presentCol);
         }
 
-        if (isRightward(dRow, dCol)) {
+        if (getPosition().isRightward(dRow, dCol)) {
             addRightwardRoute(dCol, route, presentRow, presentCol);
         }
 
-        if (isUpward(dRow, dCol)) {
+        if (getPosition().isUpward(dRow, dCol)) {
             addUpwardRoute(dRow, route, presentRow, presentCol);
         }
 
-        if (isDownward(dRow, dCol)) {
+        if (getPosition().isDownward(dRow, dCol)) {
             addDownwardRoute(dRow, route, presentRow, presentCol);
         }
 
