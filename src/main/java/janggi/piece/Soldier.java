@@ -11,6 +11,10 @@ public class Soldier extends Piece {
 
     @Override
     public boolean canMove(final Position start, final Position end, final Map<Position, Piece> board) {
+        if (start.isMoveDiagonalInPalace(end)) {
+            return start.isOneStep(end) && isValidDirection(start, end);
+        }
+
         return isValidMovingRule(start, end) && isValidDirection(start, end);
     }
 
@@ -30,11 +34,11 @@ public class Soldier extends Piece {
                 || (side == Side.BLUE && isValidBlueSideDirection(start, end));
     }
 
-    private boolean isValidRedSideDirection(Position start, Position end) {
+    private boolean isValidRedSideDirection(final Position start, final Position end) {
         return start.isDown(end) || start.isHorizontalMove(end);
     }
 
-    private boolean isValidBlueSideDirection(Position start, Position end) {
+    private boolean isValidBlueSideDirection(final Position start, final Position end) {
         return start.isUp(end) || start.isHorizontalMove(end);
     }
 }
