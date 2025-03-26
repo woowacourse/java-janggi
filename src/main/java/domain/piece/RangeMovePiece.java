@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
+import domain.move.Move;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +26,10 @@ public class RangeMovePiece extends Piece {
         Move move;
         if (isVerticalMove(rowDiff)) {
             move = rowDiff < 0 ? Move.BACK : Move.FRONT;
-            return determinePath(startPosition, move, rowDiff);
+            return determinePath(startPosition, move, Math.abs(rowDiff));
         }
         move = columnDiff < 0 ? Move.RIGHT : Move.LEFT;
-        return determinePath(startPosition, move, columnDiff);
+        return determinePath(startPosition, move, Math.abs(columnDiff));
     }
 
     private void validateSamePosition(int rowDiff, int columnDiff) {

@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
+import domain.move.Moves;
 import java.util.List;
 
 public abstract class FixedMovePiece extends Piece {

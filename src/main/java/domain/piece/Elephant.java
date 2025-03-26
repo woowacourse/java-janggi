@@ -1,6 +1,8 @@
 package domain.piece;
 
 import domain.Team;
+import domain.move.Move;
+import domain.move.Moves;
 import java.util.List;
 
 public class Elephant extends FixedMovePiece {

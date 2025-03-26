@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
+import domain.move.Move;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

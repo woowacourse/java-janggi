@@ -1,4 +1,4 @@
-package domain.piece;
+package domain.move;
 
 import domain.Position;
 import java.util.ArrayList;
