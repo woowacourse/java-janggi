@@ -15,7 +15,6 @@ public enum Team {
         this.StartingRow = row;
     }
 
-    // TODO 테스트 작성
     public List<Piece> generateTableSetPieces(TableOption option) {
         return option.generateTableSetPieces(this, StartingRow);
     }
