@@ -38,7 +38,7 @@ public class OutputView {
     private static void printPieceInPosition(final Pieces pieces, final Point point) {
         if (pieces.isExistPieceIn(point)) {
             Piece findPiece = pieces.findByPoint(point);
-            System.out.print(findPiece.getName());
+            System.out.print(findPiece.getNickname());
             return;
         }
 
