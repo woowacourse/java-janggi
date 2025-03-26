@@ -17,9 +17,8 @@ public class Janggi {
     }
 
     public void play() {
-        Players players = Players.create();
-
         Turn turn = Turn.start();
+        Players players = Players.create(turn);
         Board board = players.createBoard();
 
         while (true) {
@@ -27,7 +26,7 @@ public class Janggi {
             outputView.displayScore(players);
 
             try {
-                Player player = players.getPlayer(turn.getCurrentTeam());
+                Player player = players.getCurrentPlayer();
                 MoveCommand moveCommand = inputView.inputMoveCommand(player);
 
                 board.movePiece(
