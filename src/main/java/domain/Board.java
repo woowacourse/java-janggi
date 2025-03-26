@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class Board {
 
+    private static final double HAN_BONUS_SCORE = 1.5;
     private static final int GAME_RUNNING_KING_COUNT = 2;
     private final Map<Position, Piece> pieces;
 
@@ -61,11 +62,16 @@ public class Board {
         Map<TeamType, Double> teamScores = new EnumMap<>(TeamType.class);
 
         for (TeamType team : TeamType.values()) {
-            double score = calculateScoreByTeam(team);
-            teamScores.put(team, score);
+            teamScores.put(team, calculateScoreByTeam(team));
         }
 
+        addHanBonusScore(teamScores);
+
         return teamScores;
+    }
+
+    private static void addHanBonusScore(Map<TeamType, Double> teamScores) {
+        teamScores.put(TeamType.HAN, teamScores.get(TeamType.HAN) + HAN_BONUS_SCORE);
     }
 
     private void changePosition(Position from, Position to, Piece foundPiece) {
@@ -101,4 +107,6 @@ public class Board {
                 .reduce(Double::sum)
                 .orElse(0.0);
     }
+
+
 }

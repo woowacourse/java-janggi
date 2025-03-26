@@ -166,7 +166,7 @@ class BoardTest {
         Map<TeamType, Double> scores = board.calculateTeamScore();
 
         // then
-        Map<TeamType, Double> expected = Map.of(TeamType.HAN, 12.0, TeamType.CHO, 7.0);
+        Map<TeamType, Double> expected = Map.of(TeamType.HAN, 13.5, TeamType.CHO, 7.0);
         assertThat(scores).containsExactlyInAnyOrderEntriesOf(expected);
     }
 }
