@@ -10,7 +10,7 @@ import piece.position.JanggiPosition;
 class PlayerScoresTest {
 
     @Test
-    void 죽은피스로_점수를_계산할_수_있다() {
+    void 죽은피스로_점수를_계산하고_플레이어_단위로_가져올_수_있다() {
         PlayerScores playerScores = new PlayerScores();
         Piece bluePiece = new Piece(new JanggiPosition(0, 0), new JolMoveBehavior(), Team.BLUE);
         playerScores.add(bluePiece);
@@ -21,4 +21,3 @@ class PlayerScoresTest {
         );
     }
 }
-
