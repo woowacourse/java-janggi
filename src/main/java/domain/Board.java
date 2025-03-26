@@ -59,15 +59,9 @@ public final class Board {
                 .orElseThrow();
     }
 
-    public boolean hasPieceAt(final Point point) {
-        return positions.stream()
-                .anyMatch(position -> position.isSame(point));
-    }
-
     public void move(final Position prevPosition, final Point newPoint, final Runnable runner) {
         if (!hasPieceAt(newPoint)) {
-            positions.remove(prevPosition);
-            positions.add(prevPosition.getNextPosition(newPoint));
+            movePiece(prevPosition, newPoint);
             return;
         }
 
@@ -78,14 +72,23 @@ public final class Board {
         throw new IllegalArgumentException("해당 위치에 같은 팀 말이 있습니다.");
     }
 
+    public boolean hasPieceAt(final Point point) {
+        return positions.stream()
+                .anyMatch(position -> position.isSame(point));
+    }
+
+    private void movePiece(final Position prevPosition, final Point newPoint) {
+        positions.remove(prevPosition);
+        positions.add(prevPosition.getNextPosition(newPoint));
+    }
+
     private boolean isAnotherTeam(final Position prevPosition, final Point newPoint) {
         return prevPosition.isGreenTeam() != findPositionBy(newPoint).isGreenTeam();
     }
 
     private void captureOtherTeamPiece(final Point newPoint, final Position prevPosition, final Runnable runner) {
         positions.remove(findPositionBy(newPoint));
-        positions.remove(prevPosition);
-        positions.add(prevPosition.getNextPosition(newPoint));
+        movePiece(prevPosition, newPoint);
         runner.run();
     }
 
