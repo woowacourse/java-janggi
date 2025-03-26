@@ -5,6 +5,7 @@ import janggi.domain.Team;
 import janggi.domain.position.Position;
 import janggi.domain.position.RawPosition;
 import janggi.domain.position.RawRoute;
+import janggi.domain.routePolicy.RoutePolicyForCannon;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Set;
 public class Cannon extends Piece {
 
     public Cannon(final Position position, final Team team) {
-        super(position, team);
+        super(position, team, new RoutePolicyForCannon());
         this.pieceType = PieceType.CANNON;
     }
 

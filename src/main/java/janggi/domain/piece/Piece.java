@@ -5,6 +5,7 @@ import janggi.domain.position.Position;
 import janggi.domain.position.RawPosition;
 import janggi.domain.position.RawRoute;
 import janggi.domain.position.Route;
+import janggi.domain.routePolicy.RoutePolicy;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,13 +16,19 @@ public abstract class Piece {
     protected final Team team;
     protected Position position;
     protected PieceType pieceType;
+    protected RoutePolicy movePolicy;
 
-    public Piece(final Position position, final Team team) {
-        this.position = position;
+    public Piece(Position position, Team team, RoutePolicy movePolicy) {
         this.team = team;
+        this.position = position;
+        this.movePolicy = movePolicy;
     }
 
     protected abstract Set<RawRoute> calculateRawRoutes();
+
+    public RoutePolicy getMovePolicy() {
+        return movePolicy;
+    }
 
     public boolean isSameType(PieceType pieceType) {
         return this.pieceType == pieceType;

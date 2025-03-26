@@ -4,13 +4,14 @@ import janggi.domain.Team;
 import janggi.domain.position.Position;
 import janggi.domain.position.RawPosition;
 import janggi.domain.position.RawRoute;
+import janggi.domain.routePolicy.RoutePolicyForNormal;
 import java.util.List;
 import java.util.Set;
 
 public class Elephant extends Piece {
 
     public Elephant(final Position position, final Team team) {
-        super(position, team);
+        super(position, team, new RoutePolicyForNormal());
         this.pieceType = PieceType.ELEPHANT;
     }
 
