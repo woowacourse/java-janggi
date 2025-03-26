@@ -23,13 +23,10 @@ public class TableOptionTest {
     @MethodSource("setTablePositions")
     @DisplayName("상차림 옵션에 해당하는 상,마 생성 확인")
     void tableOptionTest(Team team, TableOption tableOption, List<Piece> expectedPieces) {
-        //given
-        //when
-        List<Piece> pieces = team.locatePiece(tableOption);
+        //given & when
+        List<Piece> pieces = team.generateTableSetPieces(tableOption);
         //then
-        for (Piece piece : pieces) {
-            assertThat(expectedPieces).contains(piece);
-        }
+        assertThat(pieces).containsAll(expectedPieces);
     }
 
     static Stream<Arguments> setTablePositions() {

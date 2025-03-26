@@ -14,7 +14,7 @@ public class PieceGenerator {
     public List<Piece> generateInitialPieces(TableOption hanTableOption, TableOption choTableOption) {
         List<Piece> allPieces = new ArrayList<>();
 
-        List<Piece> hanTableSettings = Team.HAN.locatePiece(hanTableOption);
+        List<Piece> hanTableSettings = Team.HAN.generateTableSetPieces(hanTableOption);
 
         List<Piece> hanInitialBoardSetting = List.of(
                 new Chariot(Team.HAN, new Position(new Row(1), new Column(1))), new Chariot(Team.HAN, new Position(new Row(1), new Column(9))),
@@ -28,7 +28,7 @@ public class PieceGenerator {
                 new King(Team.HAN, new Position(new Row(2), new Column(5)))
         );
 
-        List<Piece> choTableSettings = Team.CHO.locatePiece(choTableOption);
+        List<Piece> choTableSettings = Team.CHO.generateTableSetPieces(choTableOption);
 
         List<Piece> choInitialBoardSetting = List.of(
                 new Chariot(Team.CHO, new Position(new Row(10), new Column(1))), new Chariot(Team.CHO, new Position(new Row(10), new Column(9))),

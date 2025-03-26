@@ -42,7 +42,6 @@ public class Input {
         String[] splitInput = scanner.nextLine().split(" ");
         Position startPosition = convertToPosition(splitInput[0].split(","));
         Position arrivedPosition = convertToPosition(splitInput[1].split(","));
-
         return Map.entry(startPosition, arrivedPosition);
     }
 
