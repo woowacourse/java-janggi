@@ -26,15 +26,15 @@ class GuardTest {
         void findMovementRuleInNormalMovement() {
             // given
             Guard guard = new Guard(Team.RED);
-            BoardPosition before = new BoardPosition(0, 0);
-            BoardPosition after = new BoardPosition(1, 0);
+            BoardPosition before = new BoardPosition(3, 1);
+            BoardPosition after = new BoardPosition(3, 2);
 
             // when
             List<Offset> route = guard.findMovementRule(before, after);
 
             // then
             assertThat(route).containsExactly(
-                    new Offset(1, 0)
+                    new Offset(0, 1)
             );
         }
 

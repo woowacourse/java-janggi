@@ -77,7 +77,7 @@ public class ChariotTest {
     @Nested
     class InvalidCases {
 
-        @DisplayName("차를 수직이나 수평으로 이동하지 않으면 예외가 발생한다.")
+        @DisplayName("차를 보드판의 선을 따라 이동한 것이 아니라면 예외를 발생시킨다.")
         @ParameterizedTest
         @MethodSource("provideInvalidBeforeAndAfterPosition")
         void validateOffset(BoardPosition before, BoardPosition after) {
@@ -94,7 +94,7 @@ public class ChariotTest {
             return Stream.of(
                     Arguments.of(new BoardPosition(0, 0), new BoardPosition(5, 3)),
                     Arguments.of(new BoardPosition(5, 5), new BoardPosition(4, 3)),
-                    Arguments.of(new BoardPosition(3, 2), new BoardPosition(5, 0))
+                    Arguments.of(new BoardPosition(3, 2), new BoardPosition(5, 1))
             );
         }
     }
