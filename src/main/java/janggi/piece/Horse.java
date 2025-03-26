@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Score;
 import janggi.board.Position;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ public class Horse extends Piece {
     private static final int HORSE_SCORE = 5;
 
     public Horse(final Side side) {
-        super(side, HORSE_SCORE);
+        super(side, new Score(HORSE_SCORE));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Score;
 import janggi.board.Position;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ public class Elephant extends Piece {
     private static final int ELEPHANT_SCORE = 3;
 
     public Elephant(final Side side) {
-        super(side, ELEPHANT_SCORE);
+        super(side, new Score(ELEPHANT_SCORE));
     }
 
     @Override

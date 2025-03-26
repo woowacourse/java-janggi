@@ -2,13 +2,31 @@ package janggi;
 
 import janggi.piece.Side;
 
-public record Turn(Side side) {
+public class Turn {
+
+    private Side side;
+
+    public Turn(final Side side) {
+        this.side = side;
+    }
 
     public static Turn firstTurn() {
         return new Turn(Side.BLUE);
     }
 
-    public Turn nextTurn() {
-        return new Turn(this.side.opposite());
+    public void nextTurn() {
+        this.side = this.side.opposite();
+    }
+
+    public boolean isBlueTurn() {
+        return this.side == Side.BLUE;
+    }
+
+    public boolean isRedTurn() {
+        return this.side == Side.RED;
+    }
+
+    public Side getSide() {
+        return side;
     }
 }

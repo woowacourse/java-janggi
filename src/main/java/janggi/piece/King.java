@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Score;
 import janggi.board.Position;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ public class King extends Piece {
     private static final int KING_SCORE = 100;
 
     public King(final Side side) {
-        super(side, KING_SCORE);
+        super(side, new Score(KING_SCORE));
     }
 
     @Override

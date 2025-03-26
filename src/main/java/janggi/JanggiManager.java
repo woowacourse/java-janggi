@@ -1,8 +1,7 @@
 package janggi;
 
-import janggi.board.Board;
+import janggi.board.BoardFactory;
 import janggi.board.Position;
-import janggi.piece.Side;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -10,24 +9,23 @@ public class JanggiManager {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final Board board;
-    private final Player redPlayer;
-    private final Player bluePlayer;
-    private Turn turn;
+    private final JanggiGame janggiGame;
 
-    public JanggiManager(final Board board, final InputView inputView, final OutputView outputView) {
+    public JanggiManager(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.board = board;
-        this.redPlayer = Player.createRedSidePlayer();
-        this.bluePlayer = Player.createBlueSidePlayer();
-        this.turn = Turn.firstTurn();
+        this.janggiGame = new JanggiGame(
+                BoardFactory.initBoard(),
+                Score.initRedSideScore(),
+                Score.initBlueSideScore(),
+                Turn.firstTurn()
+        );
     }
 
     public void play() {
         displayGameStatus();
-        while (continueGame()) {
-            outputView.printTurn(turn);
+        while (janggiGame.continueGame()) {
+            outputView.printTurn(janggiGame.getTurn());
             String inputStartPosition = inputView.readStartPosition();
             if (inputStartPosition.equals("Q")) {
                 break;
@@ -36,30 +34,19 @@ public class JanggiManager {
             movePiece(inputStartPosition, inputEndPosition);
             displayGameStatus();
         }
-        outputView.printResult(redPlayer, bluePlayer);
-    }
-
-    private boolean continueGame() {
-        return !redPlayer.isEnd() && !bluePlayer.isEnd();
+        outputView.printResult(janggiGame.getRedScore(), janggiGame.getBlueScore());
     }
 
     private void displayGameStatus() {
-        outputView.printBoard(board.getBoard());
-        outputView.printScore(redPlayer, bluePlayer);
+        outputView.printBoard(janggiGame.getBoard());
+        outputView.printScore(janggiGame.getRedScore(), janggiGame.getBlueScore());
     }
 
     private void movePiece(final String inputStartPosition, final String inputEndPosition) {
         handleException(() -> {
             Position start = parsePosition(inputStartPosition);
             Position end = parsePosition(inputEndPosition);
-            int score = board.move(start, end, turn);
-            if (turn.side() == Side.BLUE) {
-                bluePlayer.minusScore(score);
-            }
-            if (turn.side() == Side.RED) {
-                redPlayer.minusScore(score);
-            }
-            this.turn = turn.nextTurn();
+            janggiGame.movePiece(start, end);
         });
     }
 

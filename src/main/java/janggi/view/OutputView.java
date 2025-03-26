@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.Player;
+import janggi.Score;
 import janggi.Turn;
 import janggi.board.Position;
 import janggi.piece.Cannon;
@@ -18,7 +18,7 @@ public class OutputView {
     private static final String ERROR_PREFIX = "[ERROR] ";
 
     public void printTurn(final Turn turn) {
-        System.out.printf("%s 차례입니다.%n", turn.side());
+        System.out.printf("%s 차례입니다.%n", turn.getSide());
     }
 
     public void printBoard(final Map<Position, Piece> board) {
@@ -58,13 +58,13 @@ public class OutputView {
         System.out.println(ERROR_PREFIX + e.getMessage());
     }
 
-    public void printScore(final Player redPlayer, final Player bluePlayer) {
+    public void printScore(final Score redScore, final Score blueScore) {
         System.out.println("점수 집계");
-        System.out.printf("레드팀: %.1f, 블루팀: %.1f%n", redPlayer.getScore(), bluePlayer.getScore());
+        System.out.printf("레드팀: %.1f, 블루팀: %.1f%n", redScore.getValue(), blueScore.getValue());
     }
 
-    public void printResult(final Player redPlayer, final Player bluePlayer) {
-        if (redPlayer.getScore() > bluePlayer.getScore()) {
+    public void printResult(final Score redScore, final Score blueScore) {
+        if (redScore.getValue() > blueScore.getValue()) {
             System.out.println("레드팀 승리");
             return;
         }

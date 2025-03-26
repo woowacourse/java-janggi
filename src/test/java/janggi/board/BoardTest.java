@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.Score;
 import janggi.Turn;
 import janggi.piece.Cannon;
 import janggi.piece.Elephant;
@@ -301,7 +302,7 @@ public class BoardTest {
             Turn turn = new Turn(Side.RED);
 
             // when
-            int score = board.move(start, end, turn);
+            Score score = board.move(start, end, turn);
 
             // then
             assertThat(score).isEqualTo(targetPiece.getScore());

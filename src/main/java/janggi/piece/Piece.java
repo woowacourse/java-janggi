@@ -1,14 +1,15 @@
 package janggi.piece;
 
+import janggi.Score;
 import janggi.board.Position;
 import java.util.Map;
 
 public abstract class Piece {
 
     protected final Side side;
-    protected final int score;
+    protected final Score score;
 
-    public Piece(final Side side, int score) {
+    public Piece(final Side side, final Score score) {
         this.side = side;
         this.score = score;
     }
@@ -25,7 +26,7 @@ public abstract class Piece {
         return side;
     }
 
-    public int getScore() {
+    public Score getScore() {
         return score;
     }
 

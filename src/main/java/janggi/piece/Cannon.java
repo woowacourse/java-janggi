@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Score;
 import janggi.board.Position;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ public class Cannon extends Piece {
     private static final int CANNON_SCORE = 7;
 
     public Cannon(final Side side) {
-        super(side, CANNON_SCORE);
+        super(side, new Score(CANNON_SCORE));
     }
 
     @Override

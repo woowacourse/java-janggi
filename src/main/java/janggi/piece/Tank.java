@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Score;
 import janggi.board.Position;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,7 @@ public class Tank extends Piece {
     private static final int TANK_SCORE = 7;
 
     public Tank(final Side side) {
-        super(side, TANK_SCORE);
+        super(side, new Score(TANK_SCORE));
     }
 
     @Override
