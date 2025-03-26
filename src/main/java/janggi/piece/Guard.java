@@ -1,7 +1,7 @@
 package janggi.piece;
 
 public class Guard extends Piece {
-    private static final String NAME = "사";
+    private static final PieceType TYPE = PieceType.GUARD;
 
     public Guard(Team team) {
         super(team);
@@ -9,11 +9,11 @@ public class Guard extends Piece {
 
     @Override
     protected String getName() {
-        return NAME;
+        return TYPE.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == PieceType.GUARD;
+        return pieceType == TYPE;
     }
 }

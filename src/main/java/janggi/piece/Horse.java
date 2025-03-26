@@ -1,7 +1,8 @@
 package janggi.piece;
 
 public class Horse extends Piece {
-    private static final String NAME = "마";
+    private static final PieceType TYPE = PieceType.HORSE;
+
 
     public Horse(Team team) {
         super(team);
@@ -9,11 +10,11 @@ public class Horse extends Piece {
 
     @Override
     protected String getName() {
-        return NAME;
+        return TYPE.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == PieceType.HORSE;
+        return pieceType == TYPE;
     }
 }

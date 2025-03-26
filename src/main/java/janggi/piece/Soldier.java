@@ -5,7 +5,7 @@ import janggi.board.Position;
 import java.util.List;
 
 public class Soldier extends Piece {
-    private static final String NAME = "병";
+    private static final PieceType TYPE = PieceType.SOLDIER;
 
     public Soldier(Team team) {
         super(team);
@@ -38,11 +38,11 @@ public class Soldier extends Piece {
 
     @Override
     protected String getName() {
-        return NAME;
+        return TYPE.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == PieceType.SOLDIER;
+        return pieceType == TYPE;
     }
 }

@@ -1,7 +1,7 @@
 package janggi.piece;
 
 public class Chariot extends Piece {
-    private static final String NAME = "차";
+    private static final PieceType TYPE = PieceType.CHARIOT;
 
     public Chariot(Team team) {
         super(team);
@@ -9,11 +9,11 @@ public class Chariot extends Piece {
 
     @Override
     protected String getName() {
-        return NAME;
+        return TYPE.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == PieceType.CHARIOT;
+        return pieceType == TYPE;
     }
 }

@@ -1,7 +1,8 @@
 package janggi.piece;
 
 public class General extends Piece {
-    private static final String NAME = "장";
+    private static final PieceType TYPE = PieceType.GENERAL;
+
 
     public General(Team team) {
         super(team);
@@ -9,11 +10,11 @@ public class General extends Piece {
 
     @Override
     protected String getName() {
-        return NAME;
+        return TYPE.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == PieceType.GENERAL;
+        return pieceType == TYPE;
     }
 }

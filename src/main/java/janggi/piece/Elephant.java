@@ -1,7 +1,7 @@
 package janggi.piece;
 
 public class Elephant extends Piece {
-    private static final String NAME = "상";
+    private static final PieceType TYPE = PieceType.ELEPHANT;
 
     public Elephant(Team team) {
         super(team);
@@ -9,11 +9,11 @@ public class Elephant extends Piece {
 
     @Override
     protected String getName() {
-        return NAME;
+        return TYPE.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == PieceType.ELEPHANT;
+        return pieceType == TYPE;
     }
 }

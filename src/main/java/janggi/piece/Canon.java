@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Canon extends Piece {
-    protected static final String NAME = "포";
+    protected static final PieceType TYPE = PieceType.CANNON;
 
     public Canon(Team team) {
         super(team);
@@ -46,11 +46,11 @@ public class Canon extends Piece {
 
     @Override
     protected String getName() {
-        return NAME;
+        return TYPE.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == PieceType.CANNON;
+        return pieceType == TYPE;
     }
 }
