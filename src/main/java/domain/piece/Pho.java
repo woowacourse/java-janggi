@@ -28,7 +28,7 @@ public class Pho extends Piece {
 
                 if (!isJumped) {
                     if (board.hasPiece(next)) {
-                        if (board.isPho(next)) {
+                        if (board.findPieceTypeByCoordinate(next) == PieceType.PHO) {
                             break;
                         }
                         isJumped = true;
@@ -50,9 +50,9 @@ public class Pho extends Piece {
     }
 
     private void canCapture(Board board, Coordinate next, List<Coordinate> availablePositions) {
-        if (!board.isMyTeam(country, next) && !board.isPho(next)) {
+        if (!board.isMyTeam(country, next) && board.findPieceTypeByCoordinate(next) != PieceType.PHO) {
             availablePositions.add(next);
         }
     }
-    
+
 }

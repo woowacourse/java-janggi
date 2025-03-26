@@ -67,10 +67,6 @@ public final class Board {
         return hasPiece(to) && country == findPieceByCoordinate(to).getCountry();
     }
 
-    public boolean isPho(Coordinate phoCoordinate) {
-        return findPieceByCoordinate(phoCoordinate).getType() == PieceType.PHO;
-    }
-
     public Country findCountryByCoordinate(Coordinate currCoordinate) {
         return findPieceByCoordinate(currCoordinate).getCountry();
     }
