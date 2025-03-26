@@ -7,9 +7,9 @@ import java.util.List;
 
 public enum BoardSetUpMenu {
     INNER_ELEPHANT_MENU(BoardSetUp.INNER_ELEPHANT, "1", "마상마상"),
-    OUTER_ELEPHANT_MENU(BoardSetUp.OUTER_ELEPHANT, "2", "상마상마"),
-    RIGHT_ELEPHANT_MENU(BoardSetUp.RIGHT_ELEPHANT, "3", "마상상마"),
-    LEFT_ELEPHANT_MENU(BoardSetUp.LEFT_ELEPHANT, "4", "마상상마");
+    OUTER_ELEPHANT_MENU(BoardSetUp.OUTER_ELEPHANT, "2", "상마마상"),
+    RIGHT_ELEPHANT_MENU(BoardSetUp.RIGHT_ELEPHANT, "3", "마상마상"),
+    LEFT_ELEPHANT_MENU(BoardSetUp.LEFT_ELEPHANT, "4", "상마상마");
 
     private final BoardSetUp boardSetUp;
     private final String menuOption;

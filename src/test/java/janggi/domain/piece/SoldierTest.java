@@ -27,7 +27,7 @@ public class SoldierTest {
         Soldier soldier = new HanSoldier();
 
         //when
-        boolean result = soldier.isMovable(janggiBoard, Dynasty.HAN, new Point(x1, y1), new Point(x2, y2));
+        boolean result = soldier.isMovable(janggiBoard, new Point(x1, y1), new Point(x2, y2));
 
         //then
         assertThat(result).isTrue();
@@ -46,7 +46,7 @@ public class SoldierTest {
         Soldier soldier = new ChuSoldier();
 
         //when
-        boolean result = soldier.isMovable(janggiBoard, Dynasty.CHU, new Point(x1, y1), new Point(x2, y2));
+        boolean result = soldier.isMovable(janggiBoard, new Point(x1, y1), new Point(x2, y2));
 
         //then
         assertThat(result).isTrue();
@@ -60,7 +60,7 @@ public class SoldierTest {
         Piece soldier = new ChuSoldier();
 
         // when
-        boolean isMovable = soldier.isMovable(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(2, 2));
+        boolean isMovable = soldier.isMovable(janggiBoard, new Point(1, 1), new Point(2, 2));
 
         // then
         assertThat(isMovable)
@@ -77,7 +77,7 @@ public class SoldierTest {
         Piece soldier = new ChuSoldier();
 
         // when
-        boolean isMovable = soldier.isMovable(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(1, 2));
+        boolean isMovable = soldier.isMovable(janggiBoard, new Point(1, 1), new Point(1, 2));
 
         // then
         assertThat(isMovable)

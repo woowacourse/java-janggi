@@ -28,7 +28,7 @@ class ChariotTest {
         Piece chariot = new Chariot();
 
         // when
-        boolean isMovable = chariot.isMovable(janggiBoard, Dynasty.HAN, new Point(x1, y1), new Point(x2, y2));
+        boolean isMovable = chariot.isMovable(janggiBoard, new Point(x1, y1), new Point(x2, y2));
 
         // then
         assertThat(isMovable).isTrue();
@@ -42,7 +42,7 @@ class ChariotTest {
         Piece chariot = new Chariot();
 
         // when
-        boolean isMovable = chariot.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 2));
+        boolean isMovable = chariot.isMovable(janggiBoard, new Point(1, 1), new Point(2, 2));
 
         // then
         assertThat(isMovable)
@@ -59,7 +59,7 @@ class ChariotTest {
         Piece chariot = new Chariot();
 
         // when
-        boolean isMovable = chariot.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(1, 4));
+        boolean isMovable = chariot.isMovable(janggiBoard, new Point(1, 1), new Point(1, 4));
 
         // then
         assertThat(isMovable)
@@ -76,7 +76,7 @@ class ChariotTest {
         Piece chariot = new Chariot();
 
         // when
-        boolean isMovable = chariot.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(1, 4));
+        boolean isMovable = chariot.isMovable(janggiBoard, new Point(1, 1), new Point(1, 4));
 
         // then
         assertThat(isMovable)

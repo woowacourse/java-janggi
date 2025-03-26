@@ -22,7 +22,7 @@ class CannonTest {
         Cannon cannon = new Cannon();
 
         //when
-        boolean movable = cannon.isMovable(janggiBoard, Dynasty.HAN, new Point(4, 1), new Point(4, 9));
+        boolean movable = cannon.isMovable(janggiBoard, new Point(4, 1), new Point(4, 9));
 
         //then
         assertThat(movable).isTrue();
@@ -39,7 +39,7 @@ class CannonTest {
         Cannon cannon = new Cannon();
 
         //when
-        boolean movable = cannon.isMovable(janggiBoard, Dynasty.HAN, new Point(4, 1), new Point(4, 9));
+        boolean movable = cannon.isMovable(janggiBoard, new Point(4, 1), new Point(4, 9));
 
         //then
         assertThat(movable).isFalse();
@@ -55,7 +55,7 @@ class CannonTest {
         Cannon cannon = new Cannon();
 
         //when
-        boolean movable = cannon.isMovable(janggiBoard, Dynasty.HAN, new Point(4, 1), new Point(4, 9));
+        boolean movable = cannon.isMovable(janggiBoard, new Point(4, 1), new Point(4, 9));
 
         //then
         assertThat(movable).isFalse();
@@ -71,7 +71,7 @@ class CannonTest {
         Cannon cannon = new Cannon();
 
         //when
-        boolean movable = cannon.isMovable(janggiBoard, Dynasty.HAN, new Point(4, 1), new Point(4, 9));
+        boolean movable = cannon.isMovable(janggiBoard, new Point(4, 1), new Point(4, 9));
 
         //then
         assertThat(movable).isFalse();
@@ -85,7 +85,7 @@ class CannonTest {
         Cannon cannon = new Cannon();
 
         // when
-        boolean isMovable = cannon.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 2));
+        boolean isMovable = cannon.isMovable(janggiBoard, new Point(1, 1), new Point(2, 2));
 
         // then
         assertThat(isMovable)
@@ -103,7 +103,7 @@ class CannonTest {
         Cannon cannon = new Cannon();
 
         // when
-        boolean isMovable = cannon.isMovable(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(1, 8));
+        boolean isMovable = cannon.isMovable(janggiBoard, new Point(1, 1), new Point(1, 8));
 
         // then
         assertThat(isMovable)

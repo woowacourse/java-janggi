@@ -20,7 +20,7 @@ class ElephantTest {
         Piece elephant = new Elephant();
 
         // when
-        boolean isMovable = elephant.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(4, 3));
+        boolean isMovable = elephant.isMovable(janggiBoard, new Point(1, 1), new Point(4, 3));
 
         // then
         assertThat(isMovable).isTrue();
@@ -34,7 +34,7 @@ class ElephantTest {
         Piece elephant = new Elephant();
 
         // when
-        boolean isMovable = elephant.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(4, 2));
+        boolean isMovable = elephant.isMovable(janggiBoard, new Point(1, 1), new Point(4, 2));
 
         // then
         assertThat(isMovable)
@@ -51,7 +51,7 @@ class ElephantTest {
         Piece elephant = new Elephant();
 
         // when
-        boolean isMovable = elephant.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(4, 3));
+        boolean isMovable = elephant.isMovable(janggiBoard, new Point(1, 1), new Point(4, 3));
 
         // then
         assertThat(isMovable)
@@ -68,7 +68,7 @@ class ElephantTest {
         Elephant elephant = new Elephant();
 
         // when
-        boolean isMovable = elephant.isMovable(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(4, 3));
+        boolean isMovable = elephant.isMovable(janggiBoard, new Point(1, 1), new Point(4, 3));
 
         // then
         assertThat(isMovable)

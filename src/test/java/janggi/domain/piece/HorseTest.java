@@ -20,7 +20,7 @@ class HorseTest {
         Piece horse = new Horse();
 
         // when
-        boolean isMovable = horse.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 3));
+        boolean isMovable = horse.isMovable(janggiBoard, new Point(1, 1), new Point(2, 3));
 
         // then
         assertThat(isMovable).isTrue();
@@ -34,7 +34,7 @@ class HorseTest {
         Piece horse = new Horse();
 
         // when
-        boolean isMovable = horse.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 2));
+        boolean isMovable = horse.isMovable(janggiBoard, new Point(1, 1), new Point(2, 2));
 
         // then
         assertThat(isMovable)
@@ -51,7 +51,7 @@ class HorseTest {
         Piece horse = new Horse();
 
         // when
-        boolean isMovable = horse.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 3));
+        boolean isMovable = horse.isMovable(janggiBoard, new Point(1, 1), new Point(2, 3));
 
         // then
         assertThat(isMovable)
@@ -68,7 +68,7 @@ class HorseTest {
         Piece horse = new Horse();
 
         // when
-        boolean isMovable = horse.isMovable(janggiBoard, Dynasty.HAN, new Point(1, 1), new Point(2, 3));
+        boolean isMovable = horse.isMovable(janggiBoard, new Point(1, 1), new Point(2, 3));
 
         // then
         assertThat(isMovable)

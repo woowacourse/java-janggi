@@ -1,13 +1,13 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.Point;
-import janggi.domain.piece.moveStrategy.FixedRangeMoveStrategy;
+import janggi.domain.board.Direction;
 import janggi.domain.piece.moveStrategy.MoveStrategy;
+import java.util.List;
+import java.util.Set;
 
-public abstract class Soldier implements Piece {
+public abstract class Soldier extends PieceAbstractInterface {
 
-    protected final MoveStrategy moveStrategy = new FixedRangeMoveStrategy();
-
-    public abstract boolean isMovable(JanggiBoard janggiBoard, Point start, Point end);
+    public Soldier(Set<List<Direction>> paths, MoveStrategy moveStrategy) {
+        super(paths, moveStrategy);
+    }
 }
