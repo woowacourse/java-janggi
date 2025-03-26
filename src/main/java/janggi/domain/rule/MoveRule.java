@@ -19,8 +19,8 @@ public class MoveRule {
         this.blockStrategy = blockStrategy;
     }
 
-    public void validateMoveIsAllowed(final Position departure, final Position destination, final Movement movement) {
-        moveStrategy.validateCorrectRule(departure, destination, movement);
+    public void validateMoveIsAllowed(final Position departure, final Position destination) {
+        moveStrategy.validateCorrectRule(departure, destination);
     }
 
     public void validateRouteIsNotBlocked(final Placement placement, final Route route) {

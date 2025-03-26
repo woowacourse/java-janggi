@@ -2,11 +2,14 @@ package janggi.domain.rule;
 
 import java.util.List;
 
-public class Movement {
+public enum Movement {
+    STRAIGHT_DIAGONAL(List.of(1, 2)),
+    STRAIGHT_DIAGONAL_DIAGONAL(List.of(2, 3)),
+    ;
 
     private final List<Integer> distances;
 
-    public Movement(final List<Integer> distances) {
+    Movement(final List<Integer> distances) {
         validateSize(distances);
         this.distances = distances;
     }

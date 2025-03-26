@@ -22,8 +22,9 @@ class JanggiGameTest {
         //given
         Player redPlayer = new Player("flint", Team.RED);
         Player greenPlayer = new Player("abc", Team.GREEN);
-        Board board = new Board(new HashMap<>(Map.of(Position.of(1, 1), new General(Team.GREEN),
-                Position.of(2, 2), new General(Team.RED),
+        Board board = new Board(new HashMap<>(Map.of(Position.of(8, 5), new General(Team.GREEN),
+                Position.of(4, 4), new Soldier(Team.GREEN),
+                Position.of(2, 5), new General(Team.RED),
                 Position.of(3, 3), new Soldier(Team.RED))));
         JanggiGame janggiGame = new JanggiGame(board, redPlayer, greenPlayer);
 
@@ -34,11 +35,11 @@ class JanggiGameTest {
             assertThat(janggiGame.getCurrentPlayer())
                     .usingRecursiveComparison()
                     .isEqualTo(greenPlayer);
-            assertDoesNotThrow(() -> janggiGame.moveByPlayer(Position.of(1, 1), Position.of(1, 2)));
+            assertDoesNotThrow(() -> janggiGame.moveByPlayer(Position.of(8, 5), Position.of(8, 4)));
             assertThat(janggiGame.getCurrentPlayer())
                     .usingRecursiveComparison()
                     .isEqualTo(redPlayer);
-            assertDoesNotThrow(() -> janggiGame.moveByPlayer(Position.of(2, 2), Position.of(2, 3)));
+            assertDoesNotThrow(() -> janggiGame.moveByPlayer(Position.of(2, 5), Position.of(2, 4)));
             assertThat(janggiGame.getCurrentPlayer())
                     .usingRecursiveComparison()
                     .isEqualTo(greenPlayer);

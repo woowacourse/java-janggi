@@ -79,4 +79,8 @@ public class Route {
     List<Position> getPositions() {
         return Collections.unmodifiableList(positions);
     }
+
+    public boolean hasOnlyCenterOfPalace(Palace palace) {
+        return positions.size() == 1 && palace.isCenterOfPalace(positions.getFirst());
+    }
 }

@@ -3,9 +3,9 @@ package janggi.domain.piece;
 import janggi.domain.Placement;
 import janggi.domain.Position;
 import janggi.domain.Route;
+import janggi.domain.Score;
 import janggi.domain.Team;
 import janggi.domain.rule.MoveRule;
-import janggi.domain.rule.Movement;
 
 public abstract class Piece {
 
@@ -21,11 +21,8 @@ public abstract class Piece {
 
     public abstract void checkCanMove(final Placement placement, final Position departure, final Position destination);
 
-    protected void validateMove(final Placement placement,
-                                final Position departure,
-                                final Position destination,
-                                final Movement movement) {
-        moveRule.validateMoveIsAllowed(departure, destination, movement);
+    protected void validateMove(final Placement placement, final Position departure, final Position destination) {
+        moveRule.validateMoveIsAllowed(departure, destination);
         moveRule.validateRouteIsNotBlocked(placement, Route.of(departure, destination));
     }
 
@@ -47,5 +44,9 @@ public abstract class Piece {
 
     public boolean isSameType(PieceType pieceType) {
         return this.pieceType == pieceType;
+    }
+
+    public Score getScore() {
+        return pieceType.getScore();
     }
 }
