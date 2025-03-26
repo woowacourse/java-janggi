@@ -2,8 +2,10 @@ package janggi.domain;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
+import janggi.domain.position.Route;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Pieces {
 
@@ -11,6 +13,10 @@ public class Pieces {
 
     public Pieces(final List<Piece> pieces) {
         this.pieces = new ArrayList<>(pieces);
+    }
+
+    public Set<Route> classifyPossibleRoutes(Piece piece) {
+        return piece.getMovePolicy().getPossibleRoutes(piece, pieces);
     }
 
     public Piece findPieceByPositionAndTeam(Position position, Team team) {

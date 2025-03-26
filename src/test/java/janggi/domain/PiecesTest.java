@@ -33,7 +33,7 @@ class PiecesTest {
         Pieces pieces = new Pieces(List.of(horse, soldier1, soldier2, soldier3));
 
         // when
-        Set<Route> possibleRoutes = pieces.getPossibleRoutes(horse);
+        Set<Route> possibleRoutes = pieces.classifyPossibleRoutes(horse);
         Routes routes = new Routes(possibleRoutes);
 
         Set<Position> answers = Set.of(
@@ -61,7 +61,7 @@ class PiecesTest {
         Pieces pieces = new Pieces(List.of(chariot, soldier1, soldier2, soldier3, soldier4));
 
         // when
-        Set<Route> possibleRoutes = pieces.getPossibleRoutesForChariot(chariot);
+        Set<Route> possibleRoutes = pieces.classifyPossibleRoutes(chariot);
 
         // then
         assertThat(possibleRoutes.size()).isEqualTo(7);
@@ -82,7 +82,7 @@ class PiecesTest {
         Pieces pieces = new Pieces(List.of(cannon, soldier1, cannon1, soldier3, cannon2, soldier2));
 
         // when
-        Set<Route> possibleRoutes = pieces.getPossibleRoutesForCannon(cannon);
+        Set<Route> possibleRoutes = pieces.classifyPossibleRoutes(cannon);
 
         // then
         assertThat(possibleRoutes.size()).isEqualTo(6);
