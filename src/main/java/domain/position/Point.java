@@ -2,7 +2,7 @@ package domain.position;
 
 import java.util.Objects;
 
-public class Point {
+public final class Point {
     private static final int MAX_X = 8;
     private static final int MAX_Y = 9;
     private final int x;
