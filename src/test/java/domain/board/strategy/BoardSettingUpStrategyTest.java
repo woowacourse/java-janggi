@@ -23,23 +23,15 @@ public class BoardSettingUpStrategyTest {
         assertThat(strategy).isInstanceOf(BoardSettingUpStrategy.class);
     }
 
-    @DisplayName("한나라 장기판을 마상마상으로 세팅한다.")
+    @DisplayName("장기판을 마상마상으로 세팅한다.")
     @Test
     void hanMaSangMaSangTest() {
-        Board board = new Board();
-        board.setUpHan(SettingUp.MA_SANG_MA_SANG);
+        Board board = new Board(new MaSangMaSang(), new MaSangMaSang());
 
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 8)).getType()).isEqualTo(PieceType.MA);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 7)).getType()).isEqualTo(PieceType.SANG);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 3)).getType()).isEqualTo(PieceType.MA);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 2)).getType()).isEqualTo(PieceType.SANG);
-    }
-
-    @DisplayName("초나라 장기판을 마상마상으로 세팅한다.")
-    @Test
-    void choMaSangMaSangTest() {
-        Board board = new Board();
-        board.setUpCho(SettingUp.MA_SANG_MA_SANG);
 
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 2)).getType()).isEqualTo(PieceType.MA);
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 3)).getType()).isEqualTo(PieceType.SANG);
@@ -47,23 +39,15 @@ public class BoardSettingUpStrategyTest {
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 8)).getType()).isEqualTo(PieceType.SANG);
     }
 
-    @DisplayName("한나라 장기판을 마상상마로 세팅한다.")
+    @DisplayName("장기판을 마상상마로 세팅한다.")
     @Test
     void hanMaSangSangMaTest() {
-        Board board = new Board();
-        board.setUpHan(SettingUp.MA_SANG_SANG_MA);
+        Board board = new Board(new MaSangSangMa(), new MaSangSangMa());
 
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 8)).getType()).isEqualTo(PieceType.MA);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 7)).getType()).isEqualTo(PieceType.SANG);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 3)).getType()).isEqualTo(PieceType.SANG);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 2)).getType()).isEqualTo(PieceType.MA);
-    }
-
-    @DisplayName("초나라 장기판을 마상상마로 세팅한다.")
-    @Test
-    void choMaSangSangMaTest() {
-        Board board = new Board();
-        board.setUpCho(SettingUp.MA_SANG_SANG_MA);
 
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 2)).getType()).isEqualTo(PieceType.MA);
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 3)).getType()).isEqualTo(PieceType.SANG);
@@ -71,23 +55,15 @@ public class BoardSettingUpStrategyTest {
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 8)).getType()).isEqualTo(PieceType.MA);
     }
 
-    @DisplayName("한나라 장기판을 상마마상로 세팅한다.")
+    @DisplayName("장기판을 상마마상로 세팅한다.")
     @Test
     void hanSangMaMaSangTest() {
-        Board board = new Board();
-        board.setUpHan(SettingUp.SANG_MA_MA_SANG);
+        Board board = new Board(new SangMaMaSang(), new SangMaMaSang());
 
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 8)).getType()).isEqualTo(PieceType.SANG);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 7)).getType()).isEqualTo(PieceType.MA);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 3)).getType()).isEqualTo(PieceType.MA);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 2)).getType()).isEqualTo(PieceType.SANG);
-    }
-
-    @DisplayName("초나라 장기판을 상마마상로 세팅한다.")
-    @Test
-    void choSangMaMaSangTest() {
-        Board board = new Board();
-        board.setUpCho(SettingUp.SANG_MA_MA_SANG);
 
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 2)).getType()).isEqualTo(PieceType.SANG);
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 3)).getType()).isEqualTo(PieceType.MA);
@@ -95,27 +71,20 @@ public class BoardSettingUpStrategyTest {
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 8)).getType()).isEqualTo(PieceType.SANG);
     }
 
-    @DisplayName("한나라 장기판을 상마상마로 세팅한다.")
+    @DisplayName("장기판을 상마상마로 세팅한다.")
     @Test
     void hanSangMaSangMaTest() {
-        Board board = new Board();
-        board.setUpHan(SettingUp.SANG_MA_SANG_MA);
+        Board board = new Board(new SangMaSangMa(), new SangMaSangMa());
 
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 8)).getType()).isEqualTo(PieceType.SANG);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 7)).getType()).isEqualTo(PieceType.MA);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 3)).getType()).isEqualTo(PieceType.SANG);
         assertThat(board.findPieceByCoordinate(new Coordinate(1, 2)).getType()).isEqualTo(PieceType.MA);
-    }
-
-    @DisplayName("초나라 장기판을 상마상마로 세팅한다.")
-    @Test
-    void choSangMaSangMaTest() {
-        Board board = new Board();
-        board.setUpCho(SettingUp.SANG_MA_SANG_MA);
 
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 2)).getType()).isEqualTo(PieceType.SANG);
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 3)).getType()).isEqualTo(PieceType.MA);
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 7)).getType()).isEqualTo(PieceType.SANG);
         assertThat(board.findPieceByCoordinate(new Coordinate(10, 8)).getType()).isEqualTo(PieceType.MA);
     }
+
 }

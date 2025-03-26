@@ -26,17 +26,12 @@ public class JanggiGame {
     }
 
     private Board settingUp() {
-        Board board = new Board();
+        String settingUpHan = retryUntilValid(() -> inputView.readSettingUp(Country.HAN));
+        String settingUpCho = retryUntilValid(() -> inputView.readSettingUp(Country.CHO));
 
-        SettingUp settingUpHan = retryUntilValid(() -> inputView.readSettingUp(currentCountry));
-        board.setUpHan(settingUpHan);
-
-        nextTurn();
-
-        SettingUp settingUpCho = retryUntilValid(() -> inputView.readSettingUp(currentCountry));
-        board.setUpCho(settingUpCho);
-
-        return board;
+        return new Board(
+                SettingUp.of(settingUpHan).getStrategy(),
+                SettingUp.of(settingUpCho).getStrategy());
     }
 
     private void movePiece(Board board) {
