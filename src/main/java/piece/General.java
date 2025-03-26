@@ -15,7 +15,7 @@ public class General {
     public List<Position> getPathForMoving(Position fromPosition, Position toPosition) {
         return pieceMovements.stream()
                 .map(route -> fromPosition.findMoveablePositions(route))
-                .filter(path -> path.contains(toPosition))
+                .filter(path -> !path.isEmpty() && path.getLast().equals(toPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
     }
