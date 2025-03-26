@@ -1,15 +1,13 @@
 package janggi.team;
 
-import janggi.board.BoardSetup;
 import janggi.board.Position;
 import janggi.palace.Palace;
 import janggi.palace.PalaceArea;
 import janggi.piece.Piece;
 import janggi.piece.PieceStatus;
-import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Team {
+public class Team {
 
     private static final String INVALID_PIECE_NAME = "이동할 말을 찾을 수 없습니다.";
     private static final String PIECE_NOT_FOUND = "해당 위치에 해당 말이 존재하지 않습니다.";
@@ -24,14 +22,14 @@ public abstract class Team {
     private static final int VALUE_ZERO = 0;
 
     protected List<Piece> pieces;
-    protected TeamScore teamScore;
     protected Palace palace;
+    protected TeamScore teamScore;
 
-    Team() {
-        this.pieces = new ArrayList<>();
+    Team(List<Piece> pieces, Palace palace) {
+        this.pieces = pieces;
+        this.palace = palace;
+        this.teamScore = new TeamScore();
     }
-
-    protected abstract List<Piece> initBoard(BoardSetup boardSetup);
 
     public void validatePieceMovement(String pieceName, Position currentPosition, Position destination) {
         PalaceArea palaceArea = isInPalaceArea(currentPosition);
