@@ -103,3 +103,44 @@
 - [x] 한은 후선이기 때문에 1.5점 받고 시작한다.
 - [x] 각 기물이 있으면 해당 점수를 획득한다.
 - [x] 게임이 종료되면 장이 죽었는지 확인하고 두 장 모두 살아있으면 점수를 기반으로 승리를 계산한다.
+
+## DB 설계
+
+```aiignore
+create table janggi.team (
+    id int primary key auto_increment,
+    name VARCHAR(255) not null
+);
+
+create table janggi.position (
+    id int primary key auto_increment,
+    `row` int not null,
+    `column` int not null
+);
+
+create table janggi.piece (
+    id int primary key auto_increment,
+    team_id int not null,
+    foreign key (team_id) references team(id)
+);
+
+create table janggi.game (
+    id int primary key auto_increment,
+    setup_option int not null,
+    winning_team int,
+    finished tinyint(1) default 0 not null,
+    foreign key (winning_team) references team(id)
+);
+
+create table janggi.moveHistory (
+    id int primary key auto_increment,
+    game_id int not null,
+    piece_id int not null,
+    start_row int not null,
+    start_column int not null,
+    end_row int not null,
+    end_column int not null,
+    foreign key (piece_id) references piece(id)
+);
+
+```

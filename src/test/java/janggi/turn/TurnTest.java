@@ -18,7 +18,7 @@ class TurnTest {
     @Test
     void testInitialTurn() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.LEFT_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.LEFT_SETUP);
         // when
 
         // then
@@ -29,7 +29,7 @@ class TurnTest {
     @Test
     void testNextTurn() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.LEFT_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.LEFT_SETUP);
         // when
         board.move(
                 new Position(Row.NINE, Column.ZERO),

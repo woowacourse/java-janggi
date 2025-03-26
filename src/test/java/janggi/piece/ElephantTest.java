@@ -18,7 +18,7 @@ class ElephantTest {
     @Test
     void testCannotMove() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.INNER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.INNER_SETUP);
         final Position start = new Position(Row.EIGHT, Column.ZERO);
         final Position end = new Position(Row.SIX, Column.ZERO);
         final Elephant elephant = Elephant.of(Team.CHO);
@@ -47,7 +47,7 @@ class ElephantTest {
     @Test
     void testCanMove() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.OUTER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.OUTER_SETUP);
         final Position start = new Position(Row.NINE, Column.ONE);
         final Position end = new Position(Row.SIX, Column.THREE);
         final Elephant elephant = Elephant.of(Team.CHO);

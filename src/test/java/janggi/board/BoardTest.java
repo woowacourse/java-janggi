@@ -81,7 +81,7 @@ class BoardTest {
     @Test
     void testMoveOtherPiece() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.RIGHT_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.RIGHT_SETUP);
         final Position start = new Position(Row.ZERO, Column.ZERO);
         final Position end = new Position(Row.ONE, Column.ZERO);
         // when

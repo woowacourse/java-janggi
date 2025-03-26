@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 public enum SetupOption {
 
+    EXIST_SETUP("0"),
     INNER_SETUP("1"),
     OUTER_SETUP("2"),
     RIGHT_SETUP("3"),

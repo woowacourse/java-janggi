@@ -1,5 +1,7 @@
 package janggi.board;
 
+import janggi.dao.JanggiDao;
+import janggi.dto.MoveDto;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;
@@ -16,46 +18,93 @@ import janggi.view.SetupOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public final class BoardGenerator {
 
-    private static final Map<SetupOption, Supplier<Board>> SETUP_MENU = Map.of(
-            SetupOption.INNER_SETUP, BoardGenerator::generateInnerSetup,
-            SetupOption.OUTER_SETUP, BoardGenerator::generateOuterSetup,
-            SetupOption.RIGHT_SETUP, BoardGenerator::generateRightSetup,
-            SetupOption.LEFT_SETUP, BoardGenerator::generateLeftSetup
-    );
+    public static Board generate(final SetupOption setupOption, final JanggiDao janggiDao) {
+        switch (setupOption) {
+            case EXIST_SETUP:
+                return generateExistSetup(janggiDao);
+            case INNER_SETUP:
+                return generateInnerSetup();
+            case OUTER_SETUP:
+                return generateOuterSetup();
+            case RIGHT_SETUP:
+                return generateRightSetup();
+            case LEFT_SETUP:
+                return generateLeftSetup();
+            default:
+                throw new IllegalStateException("[ERROR] 프로그램 로직이 잘못됐습니다.");
+        }
+    }
 
-    public static Board generate(SetupOption setupOption) {
-        return SETUP_MENU.get(setupOption).get();
+    private static Board generateExistSetup(final JanggiDao janggiDao) {
+        if (janggiDao.existNotFinishedGame()) {
+            final int notFinishedGameId = janggiDao.findNotFinishedGameId();
+            final int notFinishedGameSetup = janggiDao.findNotFinishedGameSetup();
+            final List<MoveDto> moveDtos = janggiDao.selectAllHistory(notFinishedGameId);
+            final SetupOption setupOption = SetupOption.of(String.valueOf(notFinishedGameSetup));
+            return moveByHistory(setupOption, moveDtos);
+        }
+        throw new IllegalArgumentException("[ERROR] 끝나지 않은 이전 게임 기록이 없습니다.");
+    }
+
+    private static Board moveByHistory(final SetupOption setupOption, final List<MoveDto> moveDtos) {
+        final Board board = generateOriginalSetup(setupOption);
+        for (MoveDto moveDto : moveDtos) {
+            board.move(moveDto.getStartPosition(), moveDto.getEndPosition());
+        }
+        return board;
+    }
+
+    public static Board generateOriginalSetup(final SetupOption setupOption) {
+        switch (setupOption) {
+            case INNER_SETUP:
+                return generateInnerSetup();
+            case OUTER_SETUP:
+                return generateOuterSetup();
+            case RIGHT_SETUP:
+                return generateRightSetup();
+            case LEFT_SETUP:
+                return generateLeftSetup();
+            default:
+                throw new IllegalStateException("[ERROR] 프로그램 로직이 잘못됐습니다.");
+        }
     }
 
     private static Board generateInnerSetup() {
         return generateSetup(
                 List.of(Horse.of(Team.HAN), Elephant.of(Team.HAN), Elephant.of(Team.HAN), Horse.of(Team.HAN),
-                        Horse.of(Team.CHO), Elephant.of(Team.CHO), Elephant.of(Team.CHO), Horse.of(Team.CHO)));
+                        Horse.of(Team.CHO), Elephant.of(Team.CHO), Elephant.of(Team.CHO), Horse.of(Team.CHO)),
+                1
+        );
     }
 
     private static Board generateOuterSetup() {
         return generateSetup(
                 List.of(Elephant.of(Team.HAN), Horse.of(Team.HAN), Horse.of(Team.HAN), Elephant.of(Team.HAN),
-                        Elephant.of(Team.CHO), Horse.of(Team.CHO), Horse.of(Team.CHO), Elephant.of(Team.CHO)));
+                        Elephant.of(Team.CHO), Horse.of(Team.CHO), Horse.of(Team.CHO), Elephant.of(Team.CHO)),
+                2
+        );
     }
 
     private static Board generateRightSetup() {
         return generateSetup(
                 List.of(Elephant.of(Team.HAN), Horse.of(Team.HAN), Elephant.of(Team.HAN), Horse.of(Team.HAN),
-                        Elephant.of(Team.CHO), Horse.of(Team.CHO), Elephant.of(Team.CHO), Horse.of(Team.CHO)));
+                        Elephant.of(Team.CHO), Horse.of(Team.CHO), Elephant.of(Team.CHO), Horse.of(Team.CHO)),
+                3
+        );
     }
 
     private static Board generateLeftSetup() {
         return generateSetup(
                 List.of(Horse.of(Team.HAN), Elephant.of(Team.HAN), Horse.of(Team.HAN), Elephant.of(Team.HAN),
-                        Horse.of(Team.CHO), Elephant.of(Team.CHO), Horse.of(Team.CHO), Elephant.of(Team.CHO)));
+                        Horse.of(Team.CHO), Elephant.of(Team.CHO), Horse.of(Team.CHO), Elephant.of(Team.CHO)),
+                4
+        );
     }
 
-    private static Board generateSetup(final List<? extends Piece> pieces) {
+    private static Board generateSetup(final List<? extends Piece> pieces, final int setupOption) {
         Map<Position, Piece> board = generateGeneralMap();
         board.put(new Position(Row.ZERO, Column.ONE), pieces.get(0));
         board.put(new Position(Row.ZERO, Column.TWO), pieces.get(1));
@@ -65,7 +114,7 @@ public final class BoardGenerator {
         board.put(new Position(Row.NINE, Column.TWO), pieces.get(5));
         board.put(new Position(Row.NINE, Column.SIX), pieces.get(6));
         board.put(new Position(Row.NINE, Column.SEVEN), pieces.get(7));
-        return new Board(board);
+        return new Board(board, setupOption);
     }
 
     private static Map<Position, Piece> generateGeneralMap() {

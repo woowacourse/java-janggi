@@ -28,7 +28,7 @@ class BoardGeneratorTest {
     @Test
     void testInnerSetup() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.INNER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.INNER_SETUP);
         // when
         final Piece piece1 = board.getPiece(new Position(Row.ZERO, Column.TWO));
         final Piece piece2 = board.getPiece(new Position(Row.ZERO, Column.SIX));
@@ -43,7 +43,7 @@ class BoardGeneratorTest {
     @Test
     void testOuterSetup() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.OUTER_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.OUTER_SETUP);
         // when
         final Piece piece1 = board.getPiece(new Position(Row.ZERO, Column.ONE));
         final Piece piece2 = board.getPiece(new Position(Row.ZERO, Column.SEVEN));
@@ -58,7 +58,7 @@ class BoardGeneratorTest {
     @Test
     void testLeftSetup() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.LEFT_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.LEFT_SETUP);
         // when
         final Piece piece1 = board.getPiece(new Position(Row.ZERO, Column.TWO));
         final Piece piece2 = board.getPiece(new Position(Row.ZERO, Column.SEVEN));
@@ -73,7 +73,7 @@ class BoardGeneratorTest {
     @Test
     void testRightSetup() {
         // given
-        final Board board = BoardGenerator.generate(SetupOption.RIGHT_SETUP);
+        final Board board = BoardGenerator.generateOriginalSetup(SetupOption.RIGHT_SETUP);
         // when
         final Piece piece1 = board.getPiece(new Position(Row.ZERO, Column.ONE));
         final Piece piece2 = board.getPiece(new Position(Row.ZERO, Column.SIX));

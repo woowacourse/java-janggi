@@ -13,6 +13,10 @@ public final class Position {
         this.column = column;
     }
 
+    public static Position of(final String row, final String column) {
+        return new Position(Row.of(Integer.parseInt(row)), Column.of(Integer.parseInt(column)));
+    }
+
     public MoveVector calculateVectorDiff(final Position another) {
         final int rowDiff = row.getValue() - another.getRowValue();
         final int columnDiff = column.getValue() - another.getColumnValue();

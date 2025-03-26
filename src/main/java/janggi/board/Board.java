@@ -15,10 +15,12 @@ public final class Board {
 
     private final Map<Position, Piece> board;
     private Turn turn;
+    private final int setupOption;
 
-    public Board(final Map<Position, Piece> board) {
+    public Board(final Map<Position, Piece> board, final int setupOption) {
         this.board = new HashMap<>(board);
         this.turn = new ChoTurn();
+        this.setupOption = setupOption;
     }
 
     public void move(final Position start, final Position end) {
@@ -87,7 +89,6 @@ public final class Board {
         return calculateScoreBoard().getWinner();
     }
 
-
     private void validateStartPosition(final Position start) {
         if (!board.containsKey(start)) {
             throw new IllegalArgumentException(
@@ -107,5 +108,9 @@ public final class Board {
             throw new IllegalArgumentException(
                     String.format("[ERROR] %d%d 위치로 이동할 수 없습니다.", end.getRowValue(), end.getColumnValue()));
         }
+    }
+
+    public int getSetupOption() {
+        return setupOption;
     }
 }
