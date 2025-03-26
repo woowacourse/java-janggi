@@ -6,7 +6,7 @@ import janggi.domain.piece.Piece;
 import java.util.List;
 import java.util.Set;
 
-public class LastPositionAllyPathFilter implements PathFilter {
+public final class LastPositionAllyPathFilter implements PathFilter {
 
     @Override
     public void filter(final Piece piece, final Set<Path> paths, final List<Piece> allyPieces, final List<Piece> enemyPieces) {

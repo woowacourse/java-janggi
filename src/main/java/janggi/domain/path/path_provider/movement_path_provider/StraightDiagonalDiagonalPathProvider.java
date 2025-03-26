@@ -4,7 +4,7 @@ import janggi.domain.position.Movement;
 
 import java.util.Set;
 
-public class StraightDiagonalDiagonalPathProvider extends MovementPathProvider {
+public final class StraightDiagonalDiagonalPathProvider extends MovementPathProvider {
 
     private static final Set<Movement> MOVEMENTS = Set.of(
             Movement.UP_UPLEFT_UPLEFT,

@@ -7,7 +7,7 @@ import janggi.domain.piece.Piece;
 import java.util.List;
 import java.util.Set;
 
-public class InGungPathFilter implements PathFilter {
+public final class InGungPathFilter implements PathFilter {
 
     private final Gung gung;
 

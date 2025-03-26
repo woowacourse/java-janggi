@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class BlockPathFilter implements PathFilter {
+public final class BlockPathFilter implements PathFilter {
 
     @Override
     public void filter(final Piece piece, final Set<Path> paths, final List<Piece> allyPieces, final List<Piece> enemyPieces) {

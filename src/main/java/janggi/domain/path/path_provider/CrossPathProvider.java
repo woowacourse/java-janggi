@@ -6,7 +6,7 @@ import janggi.domain.position.Position;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CrossPathProvider implements PathProvider {
+public final class CrossPathProvider implements PathProvider {
 
     @Override
     public Set<Path> get(final Position position) {

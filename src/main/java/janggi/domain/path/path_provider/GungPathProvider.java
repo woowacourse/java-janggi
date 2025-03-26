@@ -6,7 +6,7 @@ import janggi.domain.position.Position;
 
 import java.util.Set;
 
-public class GungPathProvider implements PathProvider {
+public final class GungPathProvider implements PathProvider {
 
     private final Gung gung;
 

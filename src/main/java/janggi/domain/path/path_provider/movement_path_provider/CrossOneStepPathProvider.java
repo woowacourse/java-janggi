@@ -4,7 +4,7 @@ import janggi.domain.position.Movement;
 
 import java.util.Set;
 
-public class CrossOneStepPathProvider extends MovementPathProvider {
+public final class CrossOneStepPathProvider extends MovementPathProvider {
 
     private static final Set<Movement> MOVEMENTS = Set.of(
             Movement.UP,

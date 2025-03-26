@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class BlockSameTypePathFilter implements PathFilter {
+public final class BlockSameTypePathFilter implements PathFilter {
 
     @Override
     public void filter(final Piece piece, final Set<Path> paths, final List<Piece> allyPieces, final List<Piece> enemyPieces) {

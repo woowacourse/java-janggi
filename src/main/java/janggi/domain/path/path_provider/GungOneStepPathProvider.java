@@ -7,7 +7,7 @@ import janggi.domain.position.Position;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class GungOneStepPathProvider implements PathProvider {
+public final class GungOneStepPathProvider implements PathProvider {
 
     private final Gung gung;
 

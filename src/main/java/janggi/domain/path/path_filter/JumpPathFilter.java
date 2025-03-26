@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class JumpPathFilter implements PathFilter {
+public final class JumpPathFilter implements PathFilter {
 
     private final int jumpCount;
 

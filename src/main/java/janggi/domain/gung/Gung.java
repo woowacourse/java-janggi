@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import static janggi.domain.position.PositionFile.*;
 import static janggi.domain.position.PositionRank.*;
 
-public class Gung {
+public final class Gung {
 
     private static final Set<Path> PATHS = initializePaths();
     private static final PositionFile MIN_FILE = FILE_4;

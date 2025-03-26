@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Piece {
+public final class Piece {
 
     private final PieceType pieceType;
     private final List<PathProvider> pathProviders;

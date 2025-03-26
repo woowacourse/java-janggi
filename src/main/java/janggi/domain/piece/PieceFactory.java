@@ -10,7 +10,7 @@ import janggi.domain.position.Position;
 
 import java.util.List;
 
-public class PieceFactory {
+public final class PieceFactory {
 
     public static Piece create(final PieceType pieceType, final Position position) {
         return switch (pieceType) {
