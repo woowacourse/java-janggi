@@ -9,9 +9,11 @@ import janggi.position.Position;
 import janggi.position.Row;
 import janggi.score.ScoreBoard;
 import java.util.Map;
+import java.util.Scanner;
 
 public final class BoardView {
 
+    private final Scanner scanner = new Scanner(System.in);
     private static final Map<Type, String> PIECE_NOTATION_KOREAN = Map.of(
             Type.GENERAL, "장",
             Type.CHARIOT, "차",
@@ -35,6 +37,10 @@ public final class BoardView {
     private static final String HEADER_END = "게임을 종료합니다.";
     private static final String WINNER_FORMAT_FRONT = "승자는 ";
     private static final String WINNER_FORMAT_END = "입니다!";
+
+    public String read() {
+        return scanner.nextLine();
+    }
 
     public void displaySetupOption() {
         System.out.println("게임을 시작합니다.");

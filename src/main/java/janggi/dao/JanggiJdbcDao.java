@@ -65,10 +65,11 @@ public class JanggiJdbcDao implements JanggiDao {
     }
 
     @Override
-    public int findNotFinishedGameSetup() {
-        final String notFinishedGameQuery = "SELECT * FROM game WHERE finished=0";
+    public int findGameSetup(final int gameId) {
+        final String notFinishedGameQuery = "SELECT * FROM game WHERE id=?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
+            preparedStatement.setInt(1, gameId);
             final ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("setup_option");

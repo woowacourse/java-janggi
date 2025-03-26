@@ -9,18 +9,16 @@ import janggi.position.Position;
 import janggi.position.Row;
 import janggi.util.CommandParser;
 import janggi.view.BoardView;
-import janggi.view.InputView;
 import janggi.view.SetupOption;
 import java.util.List;
 
 public class JanggiGame {
 
-    private final InputView inputView;
     private final BoardView boardView;
     private final JanggiDao janggiDao;
+    private int gameId;
 
     public JanggiGame(final JanggiDao janggiDao) {
-        this.inputView = new InputView();
         this.boardView = new BoardView();
         this.janggiDao = janggiDao;
     }
@@ -30,11 +28,12 @@ public class JanggiGame {
         displayInitialBoard(board);
         Command command = Command.STOP;
         janggiDao.saveInitialGame(board.getSetupOption());
+        this.gameId = janggiDao.findNotFinishedGameId();
         do {
             command = executeCommand(command, board);
         } while (!command.equals(Command.STOP) && !board.isGeneralDead());
         if (board.isGeneralDead()) {
-            janggiDao.setGameFinished(janggiDao.findNotFinishedGameId());
+            janggiDao.setGameFinished(gameId);
         }
         boardView.displayEnd(board);
     }
@@ -49,7 +48,7 @@ public class JanggiGame {
         try {
             boardView.displaySetupOption();
             final SetupOption setupOption = readSetupOption();
-            return BoardGenerator.generate(setupOption, janggiDao);
+            return BoardGenerator.generate(setupOption, janggiDao, gameId);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return generateBoard();
@@ -58,7 +57,7 @@ public class JanggiGame {
 
     private SetupOption readSetupOption() {
         try {
-            return SetupOption.of(inputView.read());
+            return SetupOption.of(boardView.read());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return readSetupOption();
@@ -66,7 +65,7 @@ public class JanggiGame {
     }
 
     private Command executeCommand(Command command, final Board board) {
-        final String input = inputView.read();
+        final String input = boardView.read();
         try {
             command = Command.of(input);
             moveUntilStop(command, board, input);

@@ -21,10 +21,10 @@ import java.util.Map;
 
 public final class BoardGenerator {
 
-    public static Board generate(final SetupOption setupOption, final JanggiDao janggiDao) {
+    public static Board generate(final SetupOption setupOption, final JanggiDao janggiDao, final int gameId) {
         switch (setupOption) {
             case EXIST_SETUP:
-                return generateExistSetup(janggiDao);
+                return generateExistSetup(janggiDao, gameId);
             case INNER_SETUP:
                 return generateInnerSetup();
             case OUTER_SETUP:
@@ -38,11 +38,10 @@ public final class BoardGenerator {
         }
     }
 
-    private static Board generateExistSetup(final JanggiDao janggiDao) {
+    private static Board generateExistSetup(final JanggiDao janggiDao, final int gameId) {
         if (janggiDao.existNotFinishedGame()) {
-            final int notFinishedGameId = janggiDao.findNotFinishedGameId();
-            final int notFinishedGameSetup = janggiDao.findNotFinishedGameSetup();
-            final List<MoveDto> moveDtos = janggiDao.selectAllHistory(notFinishedGameId);
+            final int notFinishedGameSetup = janggiDao.findGameSetup(gameId);
+            final List<MoveDto> moveDtos = janggiDao.selectAllHistory(gameId);
             final SetupOption setupOption = SetupOption.of(String.valueOf(notFinishedGameSetup));
             return moveByHistory(setupOption, moveDtos);
         }
