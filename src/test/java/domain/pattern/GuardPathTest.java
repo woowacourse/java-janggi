@@ -22,17 +22,17 @@ public class GuardPathTest {
     Piece piece = new Guard(Side.CHO);
 
     @ParameterizedTest
-    @MethodSource("provide사Path")
+    @MethodSource("provideGuardPath")
     void 사의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> GuardPath = piece.findMovablePath(_NINE_FIVE, afterPosition);
+        List<Pattern> guardPath = piece.findMovablePath(_NINE_FIVE, afterPosition);
 
         // then
-        Assertions.assertThat(GuardPath)
+        Assertions.assertThat(guardPath)
                 .isEqualTo(path);
     }
 
-    static Stream<Arguments> provide사Path() {
+    static Stream<Arguments> provideGuardPath() {
         Path pathOfGuard = new GuardPath();
         return Stream.of(
                 Arguments.of(_EIGHT_FIVE, pathOfGuard.getPatterns(Direction.UP)),

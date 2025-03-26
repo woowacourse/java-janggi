@@ -21,7 +21,7 @@ public class ChariotPathTest {
     Piece piece = new Chariot(Side.CHO);
 
     @ParameterizedTest
-    @MethodSource("provide차Path")
+    @MethodSource("provideChariotPath")
     void 차의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
         List<Pattern> chariotPath = piece.findMovablePath(_ZERO_ONE, afterPosition);
@@ -30,7 +30,7 @@ public class ChariotPathTest {
         Assertions.assertThat(chariotPath).containsAll(path);
     }
 
-    static Stream<Arguments> provide차Path() {
+    static Stream<Arguments> provideChariotPath() {
         Path pathOfChariot = new ChariotPath();
         return Stream.of(
                 Arguments.of(_FIVE_ONE,

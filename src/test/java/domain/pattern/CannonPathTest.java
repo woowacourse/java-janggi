@@ -21,7 +21,7 @@ public class CannonPathTest {
     Piece piece = new Cannon(Side.CHO);
 
     @ParameterizedTest
-    @MethodSource("provide포Path")
+    @MethodSource("provideCannonPath")
     void 포의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
         List<Pattern> cannonPath = piece.findMovablePath(_ZERO_ONE, afterPosition);
@@ -30,7 +30,7 @@ public class CannonPathTest {
         Assertions.assertThat(cannonPath).isEqualTo(path);
     }
 
-    static Stream<Arguments> provide포Path() {
+    static Stream<Arguments> provideCannonPath() {
         Path pathOfCannon = new CannonPath();
         return Stream.of(
                 Arguments.of(_FIVE_ONE,

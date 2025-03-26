@@ -25,10 +25,10 @@ public class GeneralPathTest {
     @MethodSource("provideGeneralPath")
     void General의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> Generalpath = piece.findMovablePath(_NINE_FIVE, afterPosition);
+        List<Pattern> generalPath = piece.findMovablePath(_NINE_FIVE, afterPosition);
 
         // then
-        Assertions.assertThat(Generalpath)
+        Assertions.assertThat(generalPath)
                 .isEqualTo(path);
     }
 

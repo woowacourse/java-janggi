@@ -27,7 +27,7 @@ public class ElephantPathTest {
     Piece piece = new Elephant(Side.CHO);
 
     @ParameterizedTest
-    @MethodSource("provide상Path")
+    @MethodSource("provideElephantPath")
     void 상의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
         List<Pattern> elephantPath = piece.findMovablePath(_SIX_FIVE, afterPosition);
@@ -37,7 +37,7 @@ public class ElephantPathTest {
                 .isEqualTo(path);
     }
 
-    static Stream<Arguments> provide상Path() {
+    static Stream<Arguments> provideElephantPath() {
         Path pathOfElephant = new ElephantPath();
         return Stream.of(
                 Arguments.of(_FOUR_EIGHT, pathOfElephant.getPatterns(Direction.RIGHT_UP)),

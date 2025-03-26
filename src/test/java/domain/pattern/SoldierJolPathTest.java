@@ -22,17 +22,17 @@ public class SoldierJolPathTest {
     Piece piece = new Soldier(Side.CHO);
 
     @ParameterizedTest
-    @MethodSource("provide졸Path")
+    @MethodSource("provideJolPath")
     void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> jolpath = piece.findMovablePath(_SEVEN_FIVE, afterPosition);
+        List<Pattern> jolPath = piece.findMovablePath(_SEVEN_FIVE, afterPosition);
 
         // then
-        Assertions.assertThat(jolpath)
+        Assertions.assertThat(jolPath)
                 .isEqualTo(path);
     }
 
-    static Stream<Arguments> provide졸Path() {
+    static Stream<Arguments> provideJolPath() {
         Path pathOfJol = new SoldierJolPath();
         return Stream.of(
                 Arguments.of(_SIX_FIVE, pathOfJol.getPatterns(Direction.UP)),
