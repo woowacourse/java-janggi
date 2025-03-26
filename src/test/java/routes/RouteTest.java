@@ -1,29 +1,26 @@
 package routes;
 
-import static janggi.route.Direction.EAST;
-import static janggi.route.Direction.SOUTH;
-import static janggi.route.Direction.SOUTH_WEST;
-import static org.assertj.core.api.Assertions.assertThat;
 import static janggi.piece.Team.HAN;
+import static janggi.route.Direction.EAST;
+import static janggi.route.Direction.NORTH;
+import static janggi.route.Direction.SOUTH;
+import static org.assertj.core.api.Assertions.assertThat;
 import static position.PositionFixtures.D0;
 import static position.PositionFixtures.D1;
-import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
-import static janggi.route.Direction.NORTH;
 import static position.PositionFixtures.E4;
 import static position.PositionFixtures.E5;
-import static position.PositionFixtures.E6;
 import static position.PositionFixtures.F1;
 
+import janggi.piece.Piece;
 import janggi.piece.jumpingPiece.Cannon;
+import janggi.piece.normalPiece.Palace;
+import janggi.position.Board;
+import janggi.route.Route;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import janggi.piece.normalPiece.Palace;
-import janggi.piece.Piece;
-import janggi.position.Board;
-import janggi.route.Route;
 
 public class RouteTest {
 
@@ -72,7 +69,7 @@ public class RouteTest {
     */
     @Test
     @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
-    void canJumpTest_1(){
+    void canJumpTest_1() {
         // given
         Piece cannon = new Cannon(HAN, D1);
         Piece palace = new Palace(HAN, E1);
@@ -91,7 +88,7 @@ public class RouteTest {
     */
     @Test
     @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
-    void canJumpTest_2(){
+    void canJumpTest_2() {
         // given
         Piece cannon = new Cannon(HAN, D1);
         Piece palace = new Palace(HAN, F1);
@@ -110,7 +107,7 @@ public class RouteTest {
     */
     @Test
     @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
-    void canJumpTest_3(){
+    void canJumpTest_3() {
         // given
         Piece cannon = new Cannon(HAN, D1);
         Piece palace = new Palace(HAN, F1);
@@ -129,7 +126,7 @@ public class RouteTest {
     */
     @Test
     @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
-    void canJumpTest_4(){
+    void canJumpTest_4() {
         // given
         Piece cannon = new Cannon(HAN, D0);
         Board board = new Board(Set.of(cannon));

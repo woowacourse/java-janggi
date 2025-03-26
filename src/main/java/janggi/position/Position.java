@@ -1,8 +1,8 @@
 package janggi.position;
 
+import janggi.route.Direction;
 import janggi.route.Route;
 import java.util.Objects;
-import janggi.route.Direction;
 
 public final class Position {
     private final Column column;
@@ -37,7 +37,8 @@ public final class Position {
     public boolean canJump(Direction direction, Board board) {
         if (column.canMove(direction.column()) && row.canMove(direction.row())) { // 1칸 뒤로 이동 가능.
             Position target = new Position(column.move(direction.column()), row.move(direction.row()));
-            return (board.hasPieceWithoutCannon(target) && target.canMove(direction, board)); // 1칸뒤에 포가 아닌 기물이 있어야 함. 2칸뒤로 이동할 수 있어야 함.
+            return (board.hasPieceWithoutCannon(target) && target.canMove(direction,
+                    board)); // 1칸뒤에 포가 아닌 기물이 있어야 함. 2칸뒤로 이동할 수 있어야 함.
         }
         return false;
     }
@@ -45,7 +46,7 @@ public final class Position {
     public boolean canMove(Route route, Board board) {
         Position target = this;
         for (Direction direction : route.route()) {
-            if(!target.canMove(direction, board)){
+            if (!target.canMove(direction, board)) {
                 return false;
             }
             target = target.move(direction);

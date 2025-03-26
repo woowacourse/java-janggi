@@ -6,7 +6,7 @@ import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.route.Routes;
 
-public class Elephant extends NormalPiece{
+public class Elephant extends NormalPiece {
 
     public Elephant(Team team, Position position) {
         super(team, position, Routes.ofElephant());
@@ -19,6 +19,6 @@ public class Elephant extends NormalPiece{
 
     @Override
     public Piece move(Team team, Position destination) {
-        return new Elephant(team,destination);
+        return new Elephant(team, destination);
     }
 }

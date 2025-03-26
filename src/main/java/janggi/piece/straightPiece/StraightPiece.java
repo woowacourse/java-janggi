@@ -1,11 +1,11 @@
 package janggi.piece.straightPiece;
 
-import java.util.Set;
 import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.position.Board;
 import janggi.position.Position;
 import janggi.route.Routes;
+import java.util.Set;
 
 public abstract class StraightPiece extends Piece {
 

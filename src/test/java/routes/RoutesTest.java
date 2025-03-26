@@ -1,21 +1,21 @@
 package routes;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static janggi.piece.Team.HAN;
+import static org.assertj.core.api.Assertions.assertThat;
 import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 import static position.PositionFixtures.E2;
 import static position.PositionFixtures.F1;
 
-import java.util.Set;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import janggi.piece.normalPiece.Palace;
 import janggi.piece.Piece;
+import janggi.piece.normalPiece.Palace;
 import janggi.position.Board;
 import janggi.position.Position;
 import janggi.route.Routes;
+import java.util.Set;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 public class RoutesTest {
 

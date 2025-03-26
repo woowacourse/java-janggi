@@ -6,7 +6,7 @@ import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.route.Routes;
 
-public class Soldier extends NormalPiece{
+public class Soldier extends NormalPiece {
 
     public Soldier(Team team, Position position) {
         super(team, position, Routes.ofSoldier());

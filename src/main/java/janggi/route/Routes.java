@@ -13,25 +13,25 @@ import static janggi.route.Direction.WEST;
 import static janggi.route.Direction.WEST_NORTH;
 import static janggi.route.Direction.WEST_SOUTH;
 
+import janggi.position.Board;
+import janggi.position.Position;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import janggi.position.Board;
-import janggi.position.Position;
 
 public final class Routes {
     private final Set<Route> routes;
 
-    public static Routes ofPalace(){
+    public static Routes ofPalace() {
         return new Routes(Set.of(
-            new Route(List.of(EAST)),
-            new Route(List.of(WEST)),
-            new Route(List.of(SOUTH)),
-            new Route(List.of(NORTH))
+                new Route(List.of(EAST)),
+                new Route(List.of(WEST)),
+                new Route(List.of(SOUTH)),
+                new Route(List.of(NORTH))
         ));
     }
 
-    public static Routes ofSoldier(){
+    public static Routes ofSoldier() {
         return new Routes(Set.of(
                 new Route(List.of(EAST)),
                 new Route(List.of(WEST)),
@@ -56,7 +56,7 @@ public final class Routes {
         ));
     }
 
-    public static Routes ofElephant(){
+    public static Routes ofElephant() {
         return new Routes(Set.of(
                 new Route(List.of(EAST, EAST_NORTH, EAST_NORTH)),
                 new Route(List.of(EAST, EAST_SOUTH, EAST_SOUTH)),
@@ -88,7 +88,7 @@ public final class Routes {
         ));
     }
 
-    public static Routes ofBlank(){
+    public static Routes ofBlank() {
         return new Routes(Set.of());
     }
 
@@ -121,7 +121,7 @@ public final class Routes {
     public Set<Position> possibleRoutes(Position source, Board board) {
         Set<Position> target = new HashSet<>();
         for (Route route : routes) {
-            if(route.isPossibleRoute(source, board)){
+            if (route.isPossibleRoute(source, board)) {
                 target.add(source.move(route));
             }
         }
@@ -132,7 +132,7 @@ public final class Routes {
         Set<Position> target = new HashSet<>();
         for (Route route : routes) {
             Route straight = route;
-            while(straight.isPossibleRoute(source, board)){
+            while (straight.isPossibleRoute(source, board)) {
                 target.add(source.move(straight));
                 straight = straight.add(route);
             }
@@ -145,8 +145,8 @@ public final class Routes {
         for (Route route : routes) {
 
             Route straight = route;
-            while(true){
-                if(straight.canJump(source, board)){
+            while (true) {
+                if (straight.canJump(source, board)) {
                     Position jump = source.move(straight);
 
                     Route straight2 = route;
@@ -155,7 +155,9 @@ public final class Routes {
                         straight2 = straight2.add(route);
                     }
                 }
-                if(!source.canMove(straight, board))break;
+                if (!source.canMove(straight, board)) {
+                    break;
+                }
                 straight = straight.add(route);
             }
         }

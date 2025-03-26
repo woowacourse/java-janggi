@@ -3,13 +3,13 @@ package console;
 import console.util.Color;
 import console.util.PieceSymbol;
 import console.util.TeamSymbol;
-import java.util.Map;
 import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.position.Board;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import java.util.Map;
 
 public class Output {
 
@@ -23,10 +23,9 @@ public class Output {
             System.out.print(row.ordinal() + " ");
             for (Column column : Column.values()) {
                 Piece piece = onPosition.get(new Position(column, row));
-                if(piece!=null){
+                if (piece != null) {
                     System.out.print(Color.apply(piece.team(), PieceSymbol.from(piece) + " "));
-                }
-                else{
+                } else {
                     System.out.print("＿ ");
                 }
             }

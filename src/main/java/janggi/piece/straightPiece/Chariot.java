@@ -6,7 +6,7 @@ import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.route.Routes;
 
-public class Chariot extends StraightPiece{
+public class Chariot extends StraightPiece {
 
     public Chariot(Team team, Position position) {
         super(team, position, Routes.ofChariot());

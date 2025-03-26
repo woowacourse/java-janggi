@@ -1,9 +1,9 @@
 package janggi.piece;
 
-import java.util.Set;
 import janggi.position.Board;
 import janggi.position.Position;
 import janggi.route.Routes;
+import java.util.Set;
 
 public abstract class Piece {
     protected final Team team;
@@ -16,13 +16,9 @@ public abstract class Piece {
         this.routes = routes;
     }
 
-    public abstract Set<Position> possibleRoutes(Board board);
-
     protected void validateTeamOfPiece(Board board) {
         board.validateTeam(team);
     }
-
-    public abstract PieceType type();
 
     public Position position() {
         return position;
@@ -36,5 +32,9 @@ public abstract class Piece {
         return team != currentTeam;
     }
 
+    public abstract Set<Position> possibleRoutes(Board board);
+
     public abstract Piece move(Team team, Position destination);
+
+    public abstract PieceType type();
 }

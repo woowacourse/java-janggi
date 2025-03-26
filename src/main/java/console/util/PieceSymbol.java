@@ -1,8 +1,8 @@
 package console.util;
 
-import java.util.Arrays;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
+import java.util.Arrays;
 
 public enum PieceSymbol {
     PALACE("궁", PieceType.PALACE),
@@ -13,8 +13,7 @@ public enum PieceSymbol {
     PAO("포", PieceType.CANNON),
     PAWN("병", PieceType.PAWN),
 
-    EMPTY("＿", null);
-    ;
+    EMPTY("＿", null);;
 
     private final String name;
     private final PieceType type;

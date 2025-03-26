@@ -1,7 +1,7 @@
 package console.util;
 
-import java.util.Arrays;
 import janggi.piece.Team;
+import java.util.Arrays;
 
 public enum TeamSymbol {
     CHO("초나라"),

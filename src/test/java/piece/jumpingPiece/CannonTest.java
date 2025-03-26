@@ -1,8 +1,8 @@
 package piece.jumpingPiece;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static janggi.piece.Team.CHO;
 import static janggi.piece.Team.HAN;
+import static org.assertj.core.api.Assertions.assertThat;
 import static position.PositionFixtures.A5;
 import static position.PositionFixtures.E2;
 import static position.PositionFixtures.E5;
@@ -22,16 +22,16 @@ import static position.PositionFixtures.H8;
 import static position.PositionFixtures.H9;
 import static position.PositionFixtures.I5;
 
+import janggi.piece.Piece;
 import janggi.piece.jumpingPiece.Cannon;
 import janggi.piece.normalPiece.Elephant;
+import janggi.piece.normalPiece.Horse;
 import janggi.piece.straightPiece.Chariot;
+import janggi.position.Board;
+import janggi.position.Position;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import janggi.piece.Piece;
-import janggi.piece.normalPiece.Horse;
-import janggi.position.Board;
-import janggi.position.Position;
 
 public class CannonTest {
 

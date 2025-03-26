@@ -2,10 +2,8 @@ import console.Console;
 import console.Input;
 import console.Output;
 import console.util.PositionConverter;
-import janggi.piece.Piece;
 import janggi.position.Board;
 import janggi.position.Position;
-import java.util.Set;
 import java.util.function.Supplier;
 
 public class Application {

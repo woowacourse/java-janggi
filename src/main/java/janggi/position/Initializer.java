@@ -1,7 +1,37 @@
 package janggi.position;
 
-import static janggi.position.InitPositions.*;
-
+import static janggi.position.InitPositions.A0;
+import static janggi.position.InitPositions.A3;
+import static janggi.position.InitPositions.A6;
+import static janggi.position.InitPositions.A9;
+import static janggi.position.InitPositions.B0;
+import static janggi.position.InitPositions.B2;
+import static janggi.position.InitPositions.B7;
+import static janggi.position.InitPositions.B9;
+import static janggi.position.InitPositions.C0;
+import static janggi.position.InitPositions.C3;
+import static janggi.position.InitPositions.C6;
+import static janggi.position.InitPositions.C9;
+import static janggi.position.InitPositions.D0;
+import static janggi.position.InitPositions.D9;
+import static janggi.position.InitPositions.E1;
+import static janggi.position.InitPositions.E3;
+import static janggi.position.InitPositions.E6;
+import static janggi.position.InitPositions.E8;
+import static janggi.position.InitPositions.F0;
+import static janggi.position.InitPositions.F9;
+import static janggi.position.InitPositions.G0;
+import static janggi.position.InitPositions.G3;
+import static janggi.position.InitPositions.G6;
+import static janggi.position.InitPositions.G9;
+import static janggi.position.InitPositions.H0;
+import static janggi.position.InitPositions.H2;
+import static janggi.position.InitPositions.H7;
+import static janggi.position.InitPositions.H9;
+import static janggi.position.InitPositions.I0;
+import static janggi.position.InitPositions.I3;
+import static janggi.position.InitPositions.I6;
+import static janggi.position.InitPositions.I9;
 
 import janggi.piece.Piece;
 import janggi.piece.Team;

@@ -1,8 +1,8 @@
 package piece.straightPiece;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static janggi.piece.Team.CHO;
 import static janggi.piece.Team.HAN;
+import static org.assertj.core.api.Assertions.assertThat;
 import static position.PositionFixtures.A9;
 import static position.PositionFixtures.B5;
 import static position.PositionFixtures.B9;
@@ -36,15 +36,15 @@ import static position.PositionFixtures.I7;
 import static position.PositionFixtures.I8;
 import static position.PositionFixtures.I9;
 
-import janggi.piece.straightPiece.Chariot;
-import java.util.Set;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import janggi.piece.Piece;
 import janggi.piece.normalPiece.HanPawn;
 import janggi.piece.normalPiece.Horse;
+import janggi.piece.straightPiece.Chariot;
 import janggi.position.Board;
 import janggi.position.Position;
+import java.util.Set;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 public class ChariotTest {
 

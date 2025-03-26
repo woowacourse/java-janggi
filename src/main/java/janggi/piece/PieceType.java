@@ -8,6 +8,5 @@ public enum PieceType {
     ELEPHANT,
     SOLDIER,
     PAWN,
-    BLANK
-    ;
+    BLANK;
 }

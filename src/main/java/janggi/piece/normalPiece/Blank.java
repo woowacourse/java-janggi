@@ -6,7 +6,7 @@ import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.route.Routes;
 
-public class Blank extends NormalPiece{
+public class Blank extends NormalPiece {
 
     public Blank(Position position) {
         super(Team.BLANK, position, Routes.ofBlank());

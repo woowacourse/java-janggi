@@ -6,8 +6,12 @@ public enum Team {
     BLANK;
 
     public static Team next(Team currentTeam) {
-        if(currentTeam==CHO)return HAN;
-        if(currentTeam==HAN)return CHO;
+        if (currentTeam == CHO) {
+            return HAN;
+        }
+        if (currentTeam == HAN) {
+            return CHO;
+        }
         return BLANK;
     }
 }

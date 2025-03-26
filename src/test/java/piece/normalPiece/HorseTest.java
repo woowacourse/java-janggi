@@ -1,8 +1,8 @@
 package piece.normalPiece;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static janggi.piece.Team.CHO;
 import static janggi.piece.Team.HAN;
+import static org.assertj.core.api.Assertions.assertThat;
 import static position.PositionFixtures.A1;
 import static position.PositionFixtures.A3;
 import static position.PositionFixtures.B0;
@@ -14,14 +14,14 @@ import static position.PositionFixtures.D4;
 import static position.PositionFixtures.E1;
 import static position.PositionFixtures.E3;
 
+import janggi.piece.Piece;
 import janggi.piece.normalPiece.Horse;
 import janggi.piece.normalPiece.Palace;
+import janggi.position.Board;
+import janggi.position.Position;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import janggi.piece.Piece;
-import janggi.position.Board;
-import janggi.position.Position;
 
 public class HorseTest {
 

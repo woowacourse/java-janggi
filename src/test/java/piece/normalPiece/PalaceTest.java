@@ -1,7 +1,7 @@
 package piece.normalPiece;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static janggi.piece.Team.HAN;
+import static org.assertj.core.api.Assertions.assertThat;
 import static position.PositionFixtures.D0;
 import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E0;
@@ -13,14 +13,14 @@ import static position.PositionFixtures.H0;
 import static position.PositionFixtures.I0;
 import static position.PositionFixtures.I1;
 
+import janggi.piece.Piece;
 import janggi.piece.normalPiece.Palace;
 import janggi.piece.normalPiece.Soldier;
+import janggi.position.Board;
+import janggi.position.Position;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import janggi.piece.Piece;
-import janggi.position.Board;
-import janggi.position.Position;
 
 public class PalaceTest {
 

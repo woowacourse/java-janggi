@@ -1,26 +1,26 @@
 package console.util;
 
-import java.util.HashMap;
-import java.util.Map;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PositionConverter {
     private Map<Character, Row> convertRow = new HashMap<>();
     private Map<Character, Column> convertColumn = new HashMap<>();
 
     {
-        convertRow.put('0',Row.ZERO);
-        convertRow.put('1',Row.ONE);
-        convertRow.put('2',Row.TWO);
-        convertRow.put('3',Row.THREE);
-        convertRow.put('4',Row.FOUR);
-        convertRow.put('5',Row.FIVE);
-        convertRow.put('6',Row.SIX);
-        convertRow.put('7',Row.SEVEN);
-        convertRow.put('8',Row.EIGHT);
-        convertRow.put('9',Row.NINE);
+        convertRow.put('0', Row.ZERO);
+        convertRow.put('1', Row.ONE);
+        convertRow.put('2', Row.TWO);
+        convertRow.put('3', Row.THREE);
+        convertRow.put('4', Row.FOUR);
+        convertRow.put('5', Row.FIVE);
+        convertRow.put('6', Row.SIX);
+        convertRow.put('7', Row.SEVEN);
+        convertRow.put('8', Row.EIGHT);
+        convertRow.put('9', Row.NINE);
     }
 
     {
@@ -47,8 +47,8 @@ public class PositionConverter {
         convertColumn.put('I', Column.I);
     }
 
-    public Position convert(String input){
-        try{
+    public Position convert(String input) {
+        try {
             return new Position(convertColumn.get(input.charAt(0)), convertRow.get(input.charAt(1)));
         } catch (StringIndexOutOfBoundsException e) {
             throw new IllegalArgumentException("[ERROR] 잘못된 입력 형식입니다.");
