@@ -15,7 +15,7 @@ class ConnectionProviderTest {
 
         @DisplayName("장기 데이터베이스 연결 테스트")
         @Test
-        public void connection() {
+        void connection() {
             try (final Connection connection = ConnectionProvider.getConnection()) {
                 assertThat(connection).isNotNull();
             } catch (SQLException e) {

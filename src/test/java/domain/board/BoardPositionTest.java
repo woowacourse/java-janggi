@@ -21,7 +21,7 @@ class BoardPositionTest {
         @DisplayName("궁성 영역 내부인지 확인한다.")
         @ParameterizedTest
         @MethodSource("providePalaceAreaPositions")
-        public void isPalaceArea(BoardPosition palacePosition) {
+        void isPalaceArea(BoardPosition palacePosition) {
             // when & then
             assertAll(
                     () -> assertThat(palacePosition.isPalaceArea()).isTrue(),
@@ -44,7 +44,7 @@ class BoardPositionTest {
 
         @DisplayName("위치에서 오프셋을 더한다.")
         @Test
-        public void plus() {
+        void plus() {
             // given
             BoardPosition position = new BoardPosition(0, 0);
             Offset offset = new Offset(2, 3);
