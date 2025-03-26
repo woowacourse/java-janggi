@@ -6,6 +6,10 @@ public enum Team {
     CHO,
     ;
 
+    public static Team getFirstTurnTeam() {
+        return CHO;
+    }
+
     public Team oppsite() {
         if (this.equals(HAN)) {
             return CHO;
