@@ -22,10 +22,15 @@ public class Board {
 
     public void movePiece(Position start, Position goal, Team team) {
         Piece attacker = board.get(start);
+        validateMove(start, goal, team, attacker);
+        Piece target = move(start, goal);
+        validateGeneralTarget(target);
+    }
+
+    private void validateMove(Position start, Position goal, Team team, Piece attacker) {
         isExistPieceAtPosition(start);
         validateAttackTurn(team, attacker);
         attacker.validateMovable(board, start, goal);
-        validateGeneralTarget(start, goal);
     }
 
     private void isExistPieceAtPosition(Position start) {
@@ -44,8 +49,7 @@ public class Board {
         return board.containsKey(position);
     }
 
-    private void validateGeneralTarget(Position start, Position goal) {
-        Piece target = move(start, goal);
+    private void validateGeneralTarget(Piece target) {
         if (target != null && target.isSameType(PieceType.GENERAL)) {
             throw new GameOverException();
         }
