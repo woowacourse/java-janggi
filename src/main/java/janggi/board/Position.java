@@ -4,6 +4,11 @@ import java.util.Objects;
 
 public class Position {
 
+    private static final int MIN_COLUMN = 0;
+    private static final int MAX_COLUMN = 8;
+    private static final int MIN_ROW = 0;
+    private static final int MAX_ROW = 9;
+
     private final int column;
     private final int row;
 
@@ -56,13 +61,13 @@ public class Position {
     }
 
     private void validateColumnRange(int column) {
-        if (column < 0 || column > 8) {
+        if (column < MIN_COLUMN || column > MAX_COLUMN) {
             throw new IllegalArgumentException("[ERROR] 좌표의 Column이 제한 범위를 벗어났습니다.");
         }
     }
 
     private void validateRowRange(int row) {
-        if (row < 0 || row > 9) {
+        if (row < MIN_ROW || row > MAX_ROW) {
             throw new IllegalArgumentException("[ERROR] 좌표의 Column이 제한 범위를 벗어났습니다.");
         }
     }
