@@ -21,7 +21,11 @@ class BoardTest {
 
         board.putPiece(position, chariot);
         board.putPiece(new Position(5, 4), new Chariot(Color.RED));
-        board.move(position, new Position(4, 5), turn.getCurrentTurn());
+        board.move(
+                position,
+                new Position(4, 5),
+                Color.RED
+        );
 
         OccupiedPositions occupiedPositions = board.generateOccupiedPositions();
 
@@ -33,8 +37,11 @@ class BoardTest {
     void 기물이_존재하지_않는_위치를_움직이려_하면_예외가_발생한다() {
         Board board = new Board();
 
-        assertThatThrownBy(() -> board.move(new Position(1, 1), new Position(1, 4), turn.getCurrentTurn()))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> board.move(
+                new Position(1, 1),
+                new Position(1, 4),
+                Color.BLUE
+        )).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -47,6 +54,10 @@ class BoardTest {
         board.putPiece(position, chariot);
         board.putPiece(new Position(5, 4), new Chariot(Color.RED));
 
-        assertThatThrownBy(() -> board.move(position, new Position(5, 4), turn.getCurrentTurn()));
+        assertThatThrownBy(() -> board.move(
+                position,
+                new Position(5, 4),
+                Color.RED
+        ));
     }
 }

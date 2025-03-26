@@ -8,15 +8,10 @@ public class Path {
     private final List<Position> cornerPositions;
 
     public Path(Position startPosition, List<Direction> directions) {
-        if (!startPosition.canMove(directions)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
+        validateMovableDestinationPosition(startPosition, directions);
         List<Position> positions = new ArrayList<>();
         Position currentPosition = startPosition;
         for (Direction direction : directions) {
-            if (!currentPosition.canMove(direction)) {
-                continue;
-            }
             currentPosition = currentPosition.move(direction);
             positions.add(currentPosition);
         }
@@ -32,4 +27,11 @@ public class Path {
     public List<Position> getCornerPositions() {
         return cornerPositions;
     }
+
+    private void validateMovableDestinationPosition(Position startPosition, List<Direction> directions) {
+        if (!startPosition.canMove(directions)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
+    }
+
 }

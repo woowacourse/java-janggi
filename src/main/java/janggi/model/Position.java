@@ -20,14 +20,9 @@ public record Position(int row, int column) {
     }
 
     public boolean canMove(final List<Direction> directions) {
-        Position currPosition = this;
-        for (Direction direction : directions) {
-            if (!currPosition.canMove(direction)) {
-                return false;
-            }
-            currPosition = currPosition.move(direction);
-        }
-        return true;
+        int deltaRow = row + directions.stream().mapToInt(Direction::deltaRow).sum();
+        int deltaColumn = column + directions.stream().mapToInt(Direction::deltaColumn).sum();
+        return !isInValidPosition(deltaRow, deltaColumn);
     }
 
     public Position move(final Direction direction) {
