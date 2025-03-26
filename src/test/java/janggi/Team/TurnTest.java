@@ -1,7 +1,6 @@
 package janggi.Team;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 class TurnTest {
@@ -27,19 +26,5 @@ class TurnTest {
         // Then
         Assertions.assertThat(turn.getCurrentTeam())
                 .isEqualTo(Team.HAN);
-    }
-
-    @Test
-    void 현재_순서인_팀을_반환하고_다음_순서로_넘긴다() {
-        // Given
-        final Turn turn = new Turn();
-
-        // When & Then
-        SoftAssertions.assertSoftly(softAssertions -> {
-            softAssertions.assertThat(turn.getAndTurnOver())
-                    .isEqualTo(Team.CHO);
-            softAssertions.assertThat(turn.getCurrentTeam())
-                    .isEqualTo(Team.HAN);
-        });
     }
 }

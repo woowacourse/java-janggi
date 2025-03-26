@@ -20,12 +20,6 @@ public class Turn {
         orders.offer(currentTeam);
     }
 
-    public Team getAndTurnOver() {
-        final Team team = orders.poll();
-        orders.offer(team);
-        return team;
-    }
-
     public Deque<Team> getOrders() {
         return orders;
     }

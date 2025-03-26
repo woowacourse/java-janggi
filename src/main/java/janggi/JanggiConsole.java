@@ -20,26 +20,32 @@ public class JanggiConsole {
     }
 
     public void start() {
-        final BoardFactory boardFactory = new BoardFactory();
-        final Turn turn = new Turn();
+        JanggiGame janggiGame = createInitialGame();
 
-        resultView.printSetting();
-        SangSetting choSangSetting = ExceptionHandler.repeat(() -> SangSetting.selectSetting((
-                inputView.readElephantSetting(turn.getAndTurnOver()))));
-        SangSetting hanSangSetting = ExceptionHandler.repeat(() -> SangSetting.selectSetting((
-                inputView.readElephantSetting(turn.getAndTurnOver()))));
-        final Board board = boardFactory.makeBoard(choSangSetting, hanSangSetting);
+        resultView.printBoard(janggiGame.getPieces());
 
-        resultView.printBoard(board.getPieces());
-
-        while (board.hasEachKing()) {
-            final Team currentTeam = turn.getCurrentTeam();
+        while (janggiGame.canContinueGame()) {
+            final Team currentTeam = janggiGame.getCurrentTeam();
             resultView.printOrder(currentTeam);
-            ExceptionHandler.retry(() -> board.move(inputView.readMovingPosition(), currentTeam));
-            resultView.printBoard(board.getPieces());
-            turn.turnOver();
+            ExceptionHandler.retry(() -> janggiGame.move(inputView.readMovingPosition()));
+            resultView.printBoard(janggiGame.getPieces());
         }
 
-        resultView.printJanggiResult(board.findWinningTeam());
+        resultView.printJanggiResult(janggiGame.getWinningTeam());
+    }
+
+    private JanggiGame createInitialGame() {
+        final BoardFactory boardFactory = new BoardFactory();
+
+        resultView.printSetting();
+
+        SangSetting choSangSetting = ExceptionHandler.repeat(() -> SangSetting.selectSetting((
+                inputView.readElephantSetting(Team.CHO))));
+        SangSetting hanSangSetting = ExceptionHandler.repeat(() -> SangSetting.selectSetting((
+                inputView.readElephantSetting(Team.HAN))));
+        final Turn turn = new Turn();
+        final Board board = boardFactory.makeBoard(choSangSetting, hanSangSetting);
+
+        return new JanggiGame(board, turn);
     }
 }
