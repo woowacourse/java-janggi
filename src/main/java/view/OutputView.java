@@ -35,7 +35,7 @@ public class OutputView {
         System.out.println("===== 장기판 상태 =====");
         System.out.println("   1 2 3 4 5 6 7 8 9");
         List<ArrayList<String>> defaultBoard = createDefaultBoard();
-        updateDefaultBoard(board.board(), defaultBoard);
+        updateDefaultBoard(board.playerPiecesMap(), defaultBoard);
         printBoardDetails(defaultBoard);
         System.out.println("=====================");
         System.out.println();

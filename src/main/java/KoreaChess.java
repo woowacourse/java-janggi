@@ -61,7 +61,7 @@ public class KoreaChess {
     private void processTurn(final Player player, final Board board) {
         Position movingHanPosition = parseToPosition(inputView.readMovingPiecePosition(player));
         Position targetHanPosition = parseToPosition(inputView.readTargetPiecePosition());
-        board.moveAndCaptureByTargetPosition(player, movingHanPosition, targetHanPosition);
+        board.moveAndCapture(player, movingHanPosition, targetHanPosition);
         outputView.printBoard(board);
     }
 
