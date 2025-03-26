@@ -4,9 +4,12 @@ package model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import model.piece.Byeong;
 import model.piece.Cannon;
 import model.piece.Chariot;
+import model.piece.General;
 import model.piece.Horse;
+import model.piece.Jol;
 import model.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -225,6 +228,142 @@ class PiecesTest {
                 pieces.move(departure1, arrival1); // 이전 이동
                 Position departure = new Position(1, 3);
                 Position arrival = new Position(3, 6);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("Geneal의 움직임을 테스트 한다")
+        class GeneralMove {
+            @Test
+            @DisplayName("움직이려는 경로에 장애물이 있을 경우, 예외가 발생해야 한다.")
+            void general_move_but_other_piece_exist_then_throw_exception() {
+                //given
+                Position departure1 = new Position(1, 4);
+                Position arrival1 = new Position(2, 4);
+                pieces.move(departure1, arrival1);
+
+                Position departure = new Position(2, 5);
+                Position arrival = new Position(2, 4);
+
+                //when
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+
+            @Test
+            @DisplayName("움직이려는 경로에 장애물이 없을 경우, 움직일 수 있어야 한다.")
+            void general_successful_move() {
+                //give
+                Position departure = new Position(2, 5);
+                Position arrival = new Position(2, 4);
+
+                //when
+                pieces.move(departure, arrival);
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(General.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("Byeong의 움직임을 테스트 한다")
+        class ByeongMove {
+            @Test
+            @DisplayName("Byeong은 이동 위치에 상대방 기물이 있다면, 제거 후 움직일 수 있어야 한다.")
+            void byeong_move() {
+                //given
+                Position departure1 = new Position(4, 5);
+                Position arrival1 = new Position(5, 5);
+                pieces.move(departure1, arrival1);
+                Position departure2 = new Position(5, 5);
+                Position arrival2 = new Position(6, 5);
+                pieces.move(departure2, arrival2);
+
+                Position departure = new Position(6, 5);
+                Position arrival = new Position(7, 5);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Byeong.class);
+            }
+
+            @Test
+            @DisplayName("움직이려는 경로에 같은 팀 기물이 있다면, 예외가 발생해야 한다")
+            void byeong_move_but_other_piece_of_same_team_then_throw_exception() {
+                //give
+                Position departure1 = new Position(4, 3);
+                Position arrival1 = new Position(4, 2);
+                pieces.move(departure1, arrival1);
+
+                Position departure = new Position(4, 2);
+                Position arrival = new Position(4, 1);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("Jol 움직임을 테스트 한다")
+        class JolMove {
+
+            @Test
+            @DisplayName("Jol은 이동 위치에 상대방 기물이 있다면, 제거 후 움직일 수 있어야 한다.")
+            void jol_move() {
+                //given
+                Position departure1 = new Position(7, 5);
+                Position arrival1 = new Position(6, 5);
+                pieces.move(departure1, arrival1);
+                Position departure2 = new Position(6, 5);
+                Position arrival2 = new Position(5, 5);
+                pieces.move(departure2, arrival2);
+
+                Position departure = new Position(5, 5);
+                Position arrival = new Position(4, 5);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Jol.class);
+            }
+
+            @Test
+            @DisplayName("움직이려는 경로에 같은 팀 기물이 있다면, 예외가 발생해야 한다")
+            void jol_move_but_other_piece_of_same_team_then_throw_exception() {
+                //give
+                Position departure1 = new Position(7, 3);
+                Position arrival1 = new Position(7, 2);
+                pieces.move(departure1, arrival1);
+
+                Position departure = new Position(7, 2);
+                Position arrival = new Position(7, 1);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("Guard 움직임을 테스트 한다")
+        class GuardMove {
+
+            @Test
+            @DisplayName("움직이려는 경로에 같은 팀 기물이 있다면, 예외가 발생해야 한다")
+            void jol_move_but_other_piece_of_same_team_then_throw_exception() {
+                //give
+                Position departure1 = new Position(10, 4);
+                Position arrival1 = new Position(9, 4);
+                pieces.move(departure1, arrival1);
+
+                Position departure = new Position(9, 4);
+                Position arrival = new Position(9, 5);
 
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
