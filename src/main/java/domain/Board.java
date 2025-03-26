@@ -3,14 +3,15 @@ package domain;
 import domain.piece.PieceType;
 import domain.position.Point;
 import domain.position.Position;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+public final class Board {
 
     private final List<Position> positions;
 
     public Board(final List<Position> positions) {
-        this.positions = positions;
+        this.positions = new ArrayList<>(positions);
     }
 
     public int countPieces() {
