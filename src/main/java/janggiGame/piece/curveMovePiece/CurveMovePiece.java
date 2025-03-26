@@ -1,11 +1,13 @@
 package janggiGame.piece.curveMovePiece;
 
 import janggiGame.board.Dot;
-
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 public abstract class CurveMovePiece extends Piece {

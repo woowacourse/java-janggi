@@ -1,7 +1,6 @@
 package janggiGame.piece.straightMovePiece;
 
 import janggiGame.board.Dot;
-
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;

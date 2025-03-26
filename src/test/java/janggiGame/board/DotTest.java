@@ -1,9 +1,10 @@
 package janggiGame.board;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 class DotTest {
     @DisplayName("x와 y 좌표를 가지고 있는 점을 생성한다.")

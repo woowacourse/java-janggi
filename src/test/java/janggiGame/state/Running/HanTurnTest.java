@@ -1,14 +1,12 @@
 package janggiGame.state.Running;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import janggiGame.board.Board;
 import janggiGame.board.Dot;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.oneMovePiece.King;
 import janggiGame.piece.straightMovePiece.Chariot;
-import janggiGame.state.Finished.ChoWin;
 import janggiGame.state.Finished.Draw;
 import janggiGame.state.Finished.HanWin;
 import janggiGame.state.State;

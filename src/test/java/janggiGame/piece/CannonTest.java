@@ -1,18 +1,17 @@
 package janggiGame.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 import janggiGame.board.Board;
 import janggiGame.board.Dot;
 import janggiGame.piece.straightMovePiece.Cannon;
 import janggiGame.piece.straightMovePiece.Chariot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 class CannonTest {
     @DisplayName("포는 목적지로 가는 경로를 구할 수 있다.")

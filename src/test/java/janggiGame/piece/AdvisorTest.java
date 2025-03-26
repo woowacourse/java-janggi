@@ -1,18 +1,19 @@
 package janggiGame.piece;
 
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 import janggiGame.board.Board;
 import janggiGame.board.Dot;
 import janggiGame.piece.oneMovePiece.Advisor;
 import janggiGame.piece.straightMovePiece.Chariot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 class AdvisorTest {
     @DisplayName("사의 목적지로 가는 경로는 항상 비어있다.")

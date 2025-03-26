@@ -1,9 +1,10 @@
 package janggiGame.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
 class DynastyTest {
     @DisplayName("나라는 한나라(Han)와 초나라(Cho)로 나뉜다.")

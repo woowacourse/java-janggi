@@ -2,7 +2,6 @@ package janggiGame;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.jupiter.api.Assertions.*;
 
 import fixture.JanggiGameFixture;
 import janggiGame.board.Board;
@@ -34,7 +33,7 @@ class JanggiGameTest {
         JanggiGame janggiGame = JanggiGameFixture.getRunningJanggiGame();
 
         // when // then
-        assertThatCode(() -> janggiGame.undoTurn())
+        assertThatCode(janggiGame::undoTurn)
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageStartingWith("[ERROR]");
 

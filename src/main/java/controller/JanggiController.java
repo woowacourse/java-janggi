@@ -8,7 +8,6 @@ import janggiGame.state.GameResult;
 import janggiGame.state.GameScore;
 import view.InputView;
 import view.OutputView;
-
 import java.util.List;
 import java.util.Map;
 
