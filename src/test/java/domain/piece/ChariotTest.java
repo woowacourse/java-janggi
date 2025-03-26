@@ -5,38 +5,63 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.Position;
 import domain.Team;
 import java.util.List;
-import org.assertj.core.api.SoftAssertions;
+import java.util.stream.Stream;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class ChariotTest {
 
-    @DisplayName("차의 이동 경로를 계산할 수 있다")
-    @Test
-    void test1() {
+    @DisplayName("차의 상하좌우 경로를 계산할 수 있다")
+    @ParameterizedTest
+    @MethodSource("providePositions")
+    void test1(Position startPosition, Position targetPosition, List<Position> expected) {
+        // given
         Chariot chariot = new Chariot(Team.RED);
 
-        List<Position> path1 = chariot.calculatePath(new Position(1, 1), new Position(1, 4));
-        List<Position> path2 = chariot.calculatePath(new Position(1, 1), new Position(4, 1));
-        List<Position> path3 = chariot.calculatePath(new Position(6, 1), new Position(3, 1));
-        List<Position> expected1 = List.of(new Position(1, 2), new Position(1, 3));
-        List<Position> expected2 = List.of(new Position(2, 1), new Position(3, 1));
-        List<Position> expected3 = List.of(new Position(5, 1), new Position(4, 1));
+        // when
+        List<Position> moves = chariot.calculatePath(startPosition, targetPosition);
 
-        SoftAssertions.assertSoftly(softAssertions -> {
-            softAssertions.assertThat(path1).isEqualTo(expected1);
-            softAssertions.assertThat(path2).isEqualTo(expected2);
-            softAssertions.assertThat(path3).isEqualTo(expected3);
+        // then
+        Assertions.assertThat(moves).isEqualTo(expected);
+    }
 
-        });
+    static Stream<Arguments> providePositions() {
+        return Stream.of(
+                Arguments.of(
+                        new Position(3, 2),
+                        new Position(6, 2),
+                        List.of(new Position(4, 2), new Position(5, 2))
+                ),
+                Arguments.of(
+                        new Position(6, 2),
+                        new Position(3, 2),
+                        List.of(new Position(5, 2), new Position(4, 2))
+                ),
+                Arguments.of(
+                        new Position(3, 2),
+                        new Position(3, 5),
+                        List.of(new Position(3, 3), new Position(3, 4))
+                ),
+                Arguments.of(
+                        new Position(3, 8),
+                        new Position(3, 5),
+                        List.of(new Position(3, 7), new Position(3, 6))
+                )
+        );
     }
 
 
     @DisplayName("차로 이동할 수 없는 위치인 경우 예외를 발생시킨다")
     @Test
     void test2() {
+        //given
         Chariot chariot = new Chariot(Team.RED);
 
+        // when & then
         assertThatThrownBy(() -> chariot.calculatePath(new Position(1, 1), new Position(2, 2)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로는 움직일 수 없습니다.");
