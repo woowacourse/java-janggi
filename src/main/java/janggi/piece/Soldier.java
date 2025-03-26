@@ -7,6 +7,7 @@ import janggi.position.Position;
 
 public final class Soldier extends Piece {
 
+    private static final int MOVE_DISTANCE = 1;
     private final Board board;
 
     public Soldier(Camp camp, Board board) {
@@ -30,7 +31,7 @@ public final class Soldier extends Piece {
     }
 
     private void validateSoldierMove(Position origin, Position target) {
-        if (Math.abs(target.y() - origin.y() + origin.x() - target.x()) != 1) {
+        if (Math.abs(target.y() - origin.y() + origin.x() - target.x()) != MOVE_DISTANCE) {
             throw new ErrorException("군인은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
         }
     }

@@ -9,6 +9,11 @@ import java.util.Set;
 
 public final class Elephant extends Piece {
 
+    private static final int LONG_MOVE_DISTANCE = 3;
+    private static final int SHORT_MOVE_DISTANCE = 2;
+    private static final int STEP = 1;
+    private static final int DENOMINATOR = 2;
+
     private final Board board;
 
     public Elephant(Camp camp, Board board) {
@@ -29,7 +34,8 @@ public final class Elephant extends Piece {
     }
 
     private boolean isElephantMove(int xDistance, int yDistance) {
-        return (xDistance == 2 && yDistance == 3) || (xDistance == 3 && yDistance == 2);
+        return (xDistance == LONG_MOVE_DISTANCE && yDistance == SHORT_MOVE_DISTANCE) || (
+                xDistance == SHORT_MOVE_DISTANCE && yDistance == LONG_MOVE_DISTANCE);
     }
 
     private void validateObstacleOnRoute(Movement movement) {
@@ -48,7 +54,7 @@ public final class Elephant extends Piece {
     }
 
     private boolean isNextPositionOnHorizontal(Movement movement) {
-        return movement.calculateXDistance() == 3;
+        return movement.calculateXDistance() == LONG_MOVE_DISTANCE;
     }
 
     private Set<Position> findHorizontalRoute(Movement movement, Set<Position> route) {
@@ -67,21 +73,21 @@ public final class Elephant extends Piece {
 
     private Position getNextHorizontalPosition(Position origin, Position target) {
         if (origin.x() < target.x()) {
-            return new Position(origin.x() + 1, origin.y());
+            return new Position(origin.x() + STEP, origin.y());
         }
-        return new Position(origin.x() - 1, origin.y());
+        return new Position(origin.x() - STEP, origin.y());
     }
 
     private Position getNextVerticalPosition(Position origin, Position target) {
         if (origin.y() < target.y()) {
-            return new Position(origin.x(), origin.y() + 1);
+            return new Position(origin.x(), origin.y() + STEP);
         }
-        return new Position(origin.x(), origin.y() - 1);
+        return new Position(origin.x(), origin.y() - STEP);
     }
 
     private Position findSecondPosition(Position target, Position firstPosition) {
-        return new Position((firstPosition.x() + target.x()) / 2,
-                (firstPosition.y() + target.y()) / 2);
+        return new Position((firstPosition.x() + target.x()) / DENOMINATOR,
+                (firstPosition.y() + target.y()) / DENOMINATOR);
     }
 
     @Override

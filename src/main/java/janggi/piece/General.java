@@ -6,6 +6,8 @@ import janggi.position.Movement;
 
 public final class General extends Piece {
 
+    private final static int MOVE_DISTANCE = 1;
+
     private final Board board;
 
     public General(Camp camp, Board board) {
@@ -22,7 +24,7 @@ public final class General extends Piece {
     }
 
     private boolean isGeneralMove(int xDistance, int yDistance) {
-        return xDistance == 1 || yDistance == 1;
+        return xDistance == MOVE_DISTANCE || yDistance == MOVE_DISTANCE;
     }
 
     @Override

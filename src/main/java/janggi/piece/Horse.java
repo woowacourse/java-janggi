@@ -8,6 +8,10 @@ import java.util.Set;
 
 public final class Horse extends Piece {
 
+    private static final int LONG_MOVE_DISTANCE = 2;
+    private static final int SHORT_MOVE_DISTANCE = 1;
+    private static final int STEP = 1;
+
     private final Board board;
 
     public Horse(Camp camp, Board board) {
@@ -28,7 +32,8 @@ public final class Horse extends Piece {
     }
 
     private boolean isHorseMove(int xDistance, int yDistance) {
-        return (xDistance == 2 && yDistance == 1) || (xDistance == 1 && yDistance == 2);
+        return (xDistance == LONG_MOVE_DISTANCE && yDistance == SHORT_MOVE_DISTANCE) || (
+                xDistance == SHORT_MOVE_DISTANCE && yDistance == LONG_MOVE_DISTANCE);
     }
 
     private void validateObstacleOnRoute(Movement movement) {
@@ -46,21 +51,21 @@ public final class Horse extends Piece {
     }
 
     private boolean isNextPositionOnHorizontal(Movement movement) {
-        return movement.calculateXDistance() == 2;
+        return movement.calculateXDistance() == LONG_MOVE_DISTANCE;
     }
 
     private Position getNextHorizontalPosition(Position origin, Position target) {
         if (origin.x() < target.x()) {
-            return new Position(origin.x() + 1, origin.y());
+            return new Position(origin.x() + STEP, origin.y());
         }
-        return new Position(origin.x() - 1, origin.y());
+        return new Position(origin.x() - STEP, origin.y());
     }
 
     private Position getNextVerticalPosition(Position origin, Position target) {
         if (origin.y() < target.y()) {
-            return new Position(origin.x(), origin.y() + 1);
+            return new Position(origin.x(), origin.y() + STEP);
         }
-        return new Position(origin.x(), origin.y() - 1);
+        return new Position(origin.x(), origin.y() - STEP);
     }
 
     @Override
