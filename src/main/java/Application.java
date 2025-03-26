@@ -1,41 +1,29 @@
+import controller.JanggiController;
 import janggiGame.JanggiGame;
-import janggiGame.arrangement.ArrangementOption;
-import janggiGame.board.Dot;
-import janggiGame.piece.Dynasty;
-import java.util.List;
 import view.InputView;
 import view.OutputView;
 
 public class Application {
-
     public static void main(String[] args) {
-        JanggiGame janggiGame = new JanggiGame();
-
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
-        Dynasty[] dynasties = Dynasty.values();
-        int turn = 0;
+        JanggiGame janggiGame = new JanggiGame();
+        JanggiController controller = new JanggiController(janggiGame, inputView, outputView);
 
-        int option = inputView.readHanArrangement();
-        janggiGame.arrangeHanPieces(ArrangementOption.findBy(option).getArrangementStrategy());
+        controller.arrangePieces();
 
-        option = inputView.readChoArrangement();
-        janggiGame.arrangeChoPieces(ArrangementOption.findBy(option).getArrangementStrategy());
-
-        while (true) {
-            outputView.printBoard(janggiGame.getPieces());
+        while (!janggiGame.isFinished()) {
             try {
-                Dynasty currentDynasty = dynasties[turn % 2];
+                outputView.printBoard(janggiGame.getPieces());
 
-                List<Dot> movement = inputView.readPieceMovement(currentDynasty);
+                int option = inputView.getTurnOption(janggiGame.getCurrentDynasty());
+                controller.selectOption(option);
 
-                janggiGame.processTurn(currentDynasty, movement.getFirst(), movement.getLast());
-
-                turn++;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
-    }
 
+        controller.printGameResult();
+    }
 }
