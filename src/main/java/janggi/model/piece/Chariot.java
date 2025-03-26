@@ -6,7 +6,10 @@ import janggi.model.OccupiedPositions;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,16 +28,29 @@ public class Chariot extends Piece {
     }
 
     private Set<Position> calculateMovableOneSide(Direction direction, Position start, OccupiedPositions occupied) {
-        Set<Position> movablePositions = new HashSet<>();
-        Position currentPosition = start;
-        while (currentPosition.canMove(direction) && isNotCurrentExist(start, occupied, currentPosition)) {
-            Position nextPosition = currentPosition.move(direction);
-            if (!occupied.existSameColor(nextPosition, identity().getColor())) {
-                movablePositions.add(nextPosition);
+        List<Position> positionsInDirection = getPositionsInDirection(direction, start);
+        return findFirstPiece(positionsInDirection, occupied).map(huddle -> {
+            int huddleIndex = positionsInDirection.indexOf(huddle);
+            Set<Position> movablePositions = new HashSet<>(positionsInDirection.subList(0, huddleIndex));
+            if (!occupied.existSameColor(huddle, identity().getColor())) {
+                movablePositions.add(huddle);
             }
-            currentPosition = nextPosition;
+            return movablePositions;
+        }).orElseGet(() -> new HashSet<>(positionsInDirection));
+    }
+
+    private List<Position> getPositionsInDirection(Direction direction, Position start) {
+        List<Position> positions = new ArrayList<>();
+        Position currentPosition = start;
+        while (currentPosition.canMove(direction)) {
+            currentPosition = currentPosition.move(direction);
+            positions.add(currentPosition);
         }
-        return movablePositions;
+        return positions;
+    }
+
+    private Optional<Position> findFirstPiece(List<Position> positions, OccupiedPositions occupied) {
+        return positions.stream().filter(occupied::existPosition).findFirst();
     }
 
     private boolean isCastleRule(Position start, Position destination) {
@@ -46,9 +62,5 @@ public class Chariot extends Piece {
 
     private boolean isMovablePosition(Position start, Position destination) {
         return !(start.isDestinationCross(destination) && !destination.isInCastle());
-    }
-
-    private boolean isNotCurrentExist(Position start, OccupiedPositions occupied, Position current) {
-        return !(current != start && occupied.existPosition(current));
     }
 }

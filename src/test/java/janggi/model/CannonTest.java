@@ -19,7 +19,7 @@ class CannonTest {
     Position position = new Position(8, 2);
 
     @Test
-    void 차가_움직일_수_있는_위치들을_반환한다() {
+    void 포가_움직일_수_있는_위치들을_반환한다() {
         Piece piece = new Cannon(Color.RED);
 
         OccupiedPositions occupiedPositions = new OccupiedPositions(Map.of(
