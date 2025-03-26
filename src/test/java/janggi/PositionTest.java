@@ -37,8 +37,8 @@ public class PositionTest {
         assertAll(
                 () -> assertThat(up).isEqualTo(new Position(5, 4)),
                 () -> assertThat(down).isEqualTo(new Position(5, 6)),
-                () -> assertThat(left).isEqualTo(new Position(6, 5)),
-                () -> assertThat(right).isEqualTo(new Position(4, 5))
+                () -> assertThat(left).isEqualTo(new Position(4, 5)),
+                () -> assertThat(right).isEqualTo(new Position(6, 5))
         );
     }
 }
