@@ -49,10 +49,7 @@ public class Po implements Piece {
     private void findCandidates(Node currentNode,
                                 final Direction direction, final Board board,
                                 final List<Node> candidates) {
-        while (true) {
-            if (!currentNode.hasEdgeByDirection(direction)) {
-                break;
-            }
+        while (currentNode.hasEdgeByDirection(direction)) {
             Node nextNode = currentNode.findNextNodeByDirection(direction);
             if (board.hasPieceTypeByNode(nextNode, type())
                     || (board.existsPieceByNode(nextNode) && board.hasPieceTeamByNode(nextNode, this.team))) {

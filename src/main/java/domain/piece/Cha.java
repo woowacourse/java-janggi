@@ -38,10 +38,7 @@ public class Cha implements Piece {
             candidates.add(currentNode);
         }
 
-        while (true) {
-            if (!currentNode.hasEdgeByDirection(direction)) {
-                break;
-            }
+        while (currentNode.hasEdgeByDirection(direction)) {
             Node nextNode = currentNode.findNextNodeByDirection(direction);
             if (board.hasPieceTeamByNode(nextNode, this.team)) {
                 break;
