@@ -37,7 +37,7 @@ public class HorseTest {
     }
 
     @ParameterizedTest
-    @DisplayName("말의 이동 규칙이 어긋나면 예외를 발생한다.")
+    @DisplayName("마의 이동 규칙이 어긋나면 예외를 발생한다.")
     @CsvSource(value = {
             "5, 5",
             "5, 6",

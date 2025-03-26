@@ -30,7 +30,7 @@ class TankTest {
     }
 
     @ParameterizedTest
-    @DisplayName("말의 이동 규칙이 어긋나면 예외를 발생한다.")
+    @DisplayName("차의 이동 규칙이 어긋나면 예외를 발생한다.")
     @CsvSource(value = {
             "6, 6",
             "4, 6",

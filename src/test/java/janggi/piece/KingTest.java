@@ -33,7 +33,7 @@ class KingTest {
     }
 
     @ParameterizedTest
-    @DisplayName("말의 이동 규칙이 어긋나면 예외를 발생한다.")
+    @DisplayName("왕의 이동 규칙이 어긋나면 예외를 발생한다.")
     @CsvSource(value = {
             "3, 5",
             "7, 5",
