@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Country;
 import janggi.domain.position.Position;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,7 +18,7 @@ class JangTest {
     @MethodSource("provideValidPositions")
     void 장은_궁의_길을_따라_움직인다(final Position startPosition, final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.장, startPosition);
+        final Piece piece = PieceFactory.createJang(Country.CHO, startPosition);
 
         // expected
         assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
@@ -28,7 +29,7 @@ class JangTest {
     @MethodSource("provideValidPositions")
     void 거꾸로도_갈_수_있다(final Position newPosition, final Position startPosition) {
         // given
-        final Piece piece = new Piece(PieceType.장, startPosition);
+        final Piece piece = PieceFactory.createJang(Country.CHO, startPosition);
 
         // expected
         assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
@@ -39,7 +40,7 @@ class JangTest {
     @MethodSource("provideInvalidPositions")
     void 그_외의_길을_따라_움직일_수_없다(final Position startPosition, final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.장, startPosition);
+        final Piece piece = PieceFactory.createJang(Country.CHO, startPosition);
 
         // expected
         assertThatThrownBy(() -> piece.move(newPosition, List.of(), List.of()))

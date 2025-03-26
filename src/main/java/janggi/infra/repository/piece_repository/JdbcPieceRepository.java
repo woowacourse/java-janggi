@@ -2,6 +2,7 @@ package janggi.infra.repository.piece_repository;
 
 import janggi.domain.Country;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceFactory;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.position.PositionFile;
@@ -82,7 +83,7 @@ public class JdbcPieceRepository implements PieceRepository {
                 final PositionRank rank = convertToRank(rankString);
                 final Country country = convertToCountry(countryString);
 
-                pieces.get(country).add(new Piece(type, new Position(file, rank)));
+                pieces.get(country).add(PieceFactory.create(type, country, new Position(file, rank)));
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);

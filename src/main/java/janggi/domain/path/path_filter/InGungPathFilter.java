@@ -1,8 +1,8 @@
 package janggi.domain.path.path_filter;
 
-import janggi.domain.piece.Gung;
-import janggi.domain.piece.Piece;
+import janggi.domain.gung.Gung;
 import janggi.domain.path.Path;
+import janggi.domain.piece.Piece;
 
 import java.util.List;
 import java.util.Set;

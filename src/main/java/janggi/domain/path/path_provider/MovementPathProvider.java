@@ -1,7 +1,7 @@
 package janggi.domain.path.path_provider;
 
-import janggi.domain.position.Movement;
 import janggi.domain.path.Path;
+import janggi.domain.position.Movement;
 import janggi.domain.position.Position;
 
 import java.util.HashSet;

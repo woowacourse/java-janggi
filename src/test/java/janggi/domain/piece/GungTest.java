@@ -1,5 +1,7 @@
 package janggi.domain.piece;
 
+import janggi.domain.Country;
+import janggi.domain.gung.Gung;
 import janggi.domain.path.Path;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +16,7 @@ class GungTest {
     @Test
     void 궁은_해당_위치에서_시작하는_모든_일직선_Path를_반환할_수_있다() {
         // given
-        final Gung gung = new Gung();
+        final Gung gung = Gung.of(Country.CHO);
 
         // when
         final Set<Path> result = gung.getAllPathsFrom(POSITION_6_1);

@@ -1,7 +1,7 @@
 package janggi.domain.path.path_filter;
 
-import janggi.domain.piece.Piece;
 import janggi.domain.path.Path;
+import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package janggi.domain.path.path_provider;
 
-import janggi.domain.piece.Gung;
+import janggi.domain.gung.Gung;
 import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 

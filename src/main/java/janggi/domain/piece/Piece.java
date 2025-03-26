@@ -1,8 +1,8 @@
 package janggi.domain.piece;
 
+import janggi.domain.path.Path;
 import janggi.domain.path.path_filter.PathFilter;
 import janggi.domain.path.path_provider.PathProvider;
-import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 
 import java.util.HashSet;
@@ -12,19 +12,24 @@ import java.util.Set;
 public class Piece {
 
     private final PieceType pieceType;
+    private final List<PathProvider> pathProviders;
+    private final List<PathFilter> pathFilters;
+
     private Position position;
 
-    public Piece(final PieceType pieceType, final Position position) {
+    public Piece(final PieceType pieceType, final List<PathProvider> pathProviders, final List<PathFilter> pathFilters, final Position position) {
         this.pieceType = pieceType;
+        this.pathProviders = pathProviders;
+        this.pathFilters = pathFilters;
         this.position = position;
     }
 
     public void move(final Position newPosition, final List<Piece> allyPieces, final List<Piece> enemyPieces) {
         final Set<Path> paths = new HashSet<>();
-        for (final PathProvider pathProvider : pieceType.pathProviders) {
+        for (final PathProvider pathProvider : pathProviders) {
             paths.addAll(pathProvider.get(position));
         }
-        for (final PathFilter pathFilter : pieceType.pathFilters) {
+        for (final PathFilter pathFilter : pathFilters) {
             pathFilter.filter(this, paths, allyPieces, enemyPieces);
         }
 

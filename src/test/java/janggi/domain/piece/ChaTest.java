@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Country;
 import janggi.domain.position.Position;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,7 +19,7 @@ class ChaTest {
     @MethodSource("provideValidPositions")
     void 차는_십자로_움직인다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.차, POSITION_5_5);
+        final Piece piece = PieceFactory.createCha(Country.CHO, POSITION_5_5);
 
         // expected
         assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
@@ -29,7 +30,7 @@ class ChaTest {
     @MethodSource("provideInvalidPositions")
     void 그_외의_위치로는_이동할_수_없다(final Position invalidPosition) {
         // given
-        final Piece piece = new Piece(PieceType.차, POSITION_5_5);
+        final Piece piece = PieceFactory.createCha(Country.CHO, POSITION_5_5);
 
         // expected
         assertThatThrownBy(() -> piece.move(invalidPosition, List.of(), List.of()))
@@ -40,14 +41,14 @@ class ChaTest {
     @MethodSource("provideValidPositions")
     void 중간에_기물로_가로막힌다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.차, POSITION_5_5);
+        final Piece piece = PieceFactory.createCha(Country.CHO, POSITION_5_5);
 
         // expected
         assertThatThrownBy(() -> piece.move(newPosition, List.of(
-                new Piece(PieceType.졸, POSITION_4_5),
-                new Piece(PieceType.졸, POSITION_6_5),
-                new Piece(PieceType.졸, POSITION_5_4),
-                new Piece(PieceType.졸, POSITION_5_6)
+                PieceFactory.createJol(POSITION_4_5),
+                PieceFactory.createJol(POSITION_6_5),
+                PieceFactory.createJol(POSITION_5_4),
+                PieceFactory.createJol(POSITION_5_6)
         ), List.of())).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -55,17 +56,17 @@ class ChaTest {
     @MethodSource("provideValidPositions")
     void 마지막에_적_기물이_있으면_먹는다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.차, POSITION_5_5);
+        final Piece piece = PieceFactory.createCha(Country.CHO, POSITION_5_5);
 
         // expected
-        assertThatCode(() -> piece.move(newPosition, List.of(), List.of(new Piece(PieceType.졸, newPosition))))
+        assertThatCode(() -> piece.move(newPosition, List.of(), List.of(PieceFactory.createJol(newPosition))))
                 .doesNotThrowAnyException();
     }
 
     @Test
     void 궁에서_대각선으로_움직일_수_있다() {
         // given
-        final Piece piece = new Piece(PieceType.차, POSITION_6_1);
+        final Piece piece = PieceFactory.createCha(Country.CHO, POSITION_6_1);
 
         // expected
         assertThatCode(() -> piece.move(POSITION_4_3, List.of(), List.of()))
