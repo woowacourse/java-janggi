@@ -17,7 +17,9 @@ public class Soldier extends NonIterablePiece {
             new Movement(LEFT)
     );
     private static final List<Movement> HAN_MOVEMENTS = List.of(
-            new Movement(DOWN), new Movement(RIGHT), new Movement(LEFT)
+            new Movement(DOWN),
+            new Movement(RIGHT),
+            new Movement(LEFT)
     );
 
     public Soldier(final Team team, final Position currentPosition) {
