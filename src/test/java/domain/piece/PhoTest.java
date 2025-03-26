@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 
 public class PhoTest {
 
-    @DisplayName("포의 이동 가능한 경로를 검사한다")
+    @DisplayName("포의 이동 가능한 경로를 검사한다. "
+            + "이동 가능 경로: 상,하,좌,우 방향으로 기물 하나를 넘어서 이동한다.")
     @Test
     void phoTest() {
         Pho pho = new Pho(Country.HAN);

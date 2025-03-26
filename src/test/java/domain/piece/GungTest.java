@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 
 public class GungTest {
 
-    @DisplayName("궁의 이동 가능한 경로를 검사한다")
+    @DisplayName("궁의 이동 가능한 경로를 검사한다."
+            + "이동 가능 경로: (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)")
     @Test
     void gungTest() {
         Gung gung = new Gung(Country.HAN);

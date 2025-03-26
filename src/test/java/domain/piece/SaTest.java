@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 
 public class SaTest {
 
-    @DisplayName("사의 이동 가능한 경로를 검사한다")
+    @DisplayName("사의 이동 가능한 경로를 검사한다. "
+            + "이동 가능 경로: (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1)")
     @Test
     void saTest() {
         Sa sa = new Sa(Country.HAN);

@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 
 public class ChaTest {
 
-    @DisplayName("차의 이동 가능한 경로를 검사한다")
+    @DisplayName("차의 이동 가능한 경로를 검사한다. "
+            + "이동 가능 경로: 상,하,좌,우 방향으로 기물을 만나거나, 장기판 끝까지 이동한다.")
     @Test
     void chaAvailableMovePosition() {
         Cha cha = new Cha(Country.HAN);

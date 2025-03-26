@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 
 public class ByeongTest {
 
-    @DisplayName("한나라 병의 이동 가능한 경로를 검사한다")
+    @DisplayName("한나라 병의 이동 가능한 경로를 검사한다. "
+            + "이동 가능 경로: (1, 0), (0, 1), (0, -1)")
     @Test
     void byeongTest() {
         Byeong byeong = new Byeong(Country.HAN);
@@ -29,7 +30,8 @@ public class ByeongTest {
         assertThat(availableMovePositions).containsExactlyInAnyOrderElementsOf(expected);
     }
 
-    @DisplayName("초나라 병의 이동 가능한 경로를 검사한다")
+    @DisplayName("초나라 병의 이동 가능한 경로를 검사한다. "
+            + "이동 가능 경로: (-1, 0), (0, 1), (0, -1)")
     @Test
     void byeongTest2() {
         Byeong byeong = new Byeong(Country.CHO);
