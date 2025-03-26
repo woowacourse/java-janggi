@@ -1,7 +1,7 @@
 package janggi.piece;
 
 public class Chariot extends Piece {
-    protected static final String NAME = "차";
+    private static final String NAME = "차";
 
     public Chariot(Team team) {
         super(team);
