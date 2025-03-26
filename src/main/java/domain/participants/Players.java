@@ -1,4 +1,6 @@
-package domain;
+package domain.participants;
+
+import domain.piece.TeamType;
 
 public class Players {
     private final Player choPlayer;

@@ -1,13 +1,24 @@
 package domain;
 
+import static fixtures.PositionFixture.B0;
+import static fixtures.PositionFixture.B1;
+import static fixtures.PositionFixture.C0;
+import static fixtures.PositionFixture.C1;
+import static fixtures.PositionFixture.C3;
+import static fixtures.PositionFixture.D4;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.participants.Player;
+import domain.participants.Players;
+import domain.participants.Usernames;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Piece;
 import domain.piece.Soldier;
-import java.util.List;
+import domain.piece.TeamType;
+import domain.position.Position;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,13 +32,13 @@ class JanggiGameTest {
         Usernames usernames = new Usernames("a", "b");
         String startUsername = "a";
         Players players = Players.createFrom(usernames, startUsername);
-        List<Piece> pieces = List.of(
-                new Horse(Position.of(1, 1), TeamType.CHO),
-                new Soldier(Position.of(1, 2), TeamType.HAN),
-                new Soldier(Position.of(0, 1), TeamType.CHO),
-                new Horse(Position.of(0, 2), TeamType.HAN),
-                new King(Position.of(4, 3), TeamType.CHO),
-                new King(Position.of(3, 2), TeamType.HAN)
+        Map<Position, Piece> pieces = Map.of(
+                B1, new Horse(TeamType.CHO),
+                C1, new Soldier(TeamType.HAN),
+                B0, new Soldier(TeamType.CHO),
+                C0, new Horse(TeamType.HAN),
+                D4, new King(TeamType.CHO),
+                C3, new King(TeamType.HAN)
         );
         janggiGame = new JanggiGame(players, pieces);
     }
@@ -43,8 +54,8 @@ class JanggiGameTest {
     @Test
     @DisplayName("승자를 반환한다.")
     void findWinner() {
-        Position startPosition = Position.of(1, 1);
-        Position endPosition = Position.of(3, 2);
+        Position startPosition = B1;
+        Position endPosition = C3;
 
         janggiGame.movePiece(startPosition, endPosition, TeamType.CHO);
 

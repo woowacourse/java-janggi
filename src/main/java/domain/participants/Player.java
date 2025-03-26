@@ -1,5 +1,6 @@
-package domain;
+package domain.participants;
 
+import domain.piece.TeamType;
 import java.util.Objects;
 
 public class Player {

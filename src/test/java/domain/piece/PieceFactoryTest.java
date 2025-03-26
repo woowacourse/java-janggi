@@ -1,9 +1,10 @@
 package domain.piece;
 
+import domain.position.Position;
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.piece.strategy.LeftElephantStrategy;
 import domain.piece.strategy.RightElephantStrategy;
-import java.util.List;
+import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class PieceFactoryTest {
         PieceFactory pieceFactory = new PieceFactory();
         HorseElephantSetupStrategy first = new RightElephantStrategy();
         HorseElephantSetupStrategy second = new LeftElephantStrategy();
-        List<Piece> allPieces = pieceFactory.createAllPieces(first, second);
+        Map<Position, Piece> allPieces = pieceFactory.createAllPieces(first, second);
         Assertions.assertThat(allPieces).hasSize(32);
     }
 }

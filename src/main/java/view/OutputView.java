@@ -1,12 +1,12 @@
 package view;
 
-import domain.Column;
-import domain.Player;
-import domain.Position;
-import domain.Row;
-import domain.TeamType;
+import domain.position.Column;
+import domain.participants.Player;
+import domain.position.Position;
+import domain.position.Row;
+import domain.piece.TeamType;
 import domain.piece.Piece;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,21 +14,21 @@ import java.util.stream.IntStream;
 
 public class OutputView {
 
-    public void printBoard(List<Piece> pieces) {
+    public void printBoard(Map<Position, Piece> alivePiecesInfo) {
         printColumnsInfo();
-        printBoardInfo(pieces);
+        printBoardInfo(alivePiecesInfo);
     }
 
     public void printWinner(Player player) {
         System.out.printf("%s가 승리했습니다!\n", player.getName());
     }
 
-    private void printBoardInfo(List<Piece> pieces) {
+    private void printBoardInfo(Map<Position, Piece> alivePiecesInfo) {
         for (int row = Row.MAX_ROW; row >= Row.MIN_ROW; row--) {
             printRowInfo(row);
             for (int col = Column.MIN_COLUMN; col <= Column.MAX_COLUMN; col++) {
                 Position position = Position.of(row, col);
-                Optional<Piece> findPiece = getFindPiece(pieces, position);
+                Optional<Piece> findPiece = getFindPiece(alivePiecesInfo, position);
                 printPositionState(findPiece.orElse(null));
             }
             System.out.println();
@@ -40,17 +40,16 @@ public class OutputView {
         System.out.printf("%2d  ", row);
     }
 
-    private Optional<Piece> getFindPiece(List<Piece> pieces, Position position) {
-        return pieces.stream().filter(piece -> piece.hasSamePosition(position))
-                .findAny();
+    private Optional<Piece> getFindPiece(Map<Position, Piece> alivePiecesInfo, Position position) {
+        return Optional.ofNullable(alivePiecesInfo.getOrDefault(position, null));
     }
 
-    private void printPositionState(Piece findPiece) {
-        if (findPiece == null) {
+    private void printPositionState(Piece piece) {
+        if (piece == null) {
             System.out.print("- ");
             return;
         }
-        System.out.print(getDescription(findPiece) + " ");
+        System.out.print(getDescription(piece) + " ");
     }
 
     private void printColumnsInfo() {

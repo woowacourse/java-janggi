@@ -1,7 +1,7 @@
 package view;
 
-import domain.Player;
-import domain.Position;
+import domain.participants.Player;
+import domain.position.Position;
 import java.util.Scanner;
 import util.PositionConvertor;
 

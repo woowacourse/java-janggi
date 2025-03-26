@@ -1,10 +1,12 @@
 package domain.piece;
 
+import static fixtures.PositionFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Position;
-import domain.TeamType;
-import java.util.List;
+import domain.position.Position;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,67 +15,74 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class KingTest {
-    static Stream<Arguments> canMoveKing1() {
+    static Stream<Arguments> canMoveKing_Success() {
         return Stream.of(
-                Arguments.of(Position.of(1, 0), true),
-                Arguments.of(Position.of(2, 1), true),
-                Arguments.of(Position.of(1, 2), true),
-                Arguments.of(Position.of(0, 1), true),
-                Arguments.of(Position.of(2, 2), false),
-                Arguments.of(Position.of(0, 2), false),
-                Arguments.of(Position.of(0, 0), false),
-                Arguments.of(Position.of(2, 0), false)
+                Arguments.of(A1),
+                Arguments.of(B2),
+                Arguments.of(C1),
+                Arguments.of(B0)
+        );
+    }
+
+    static Stream<Arguments> canMoveKing_Fail() {
+        return Stream.of(
+                Arguments.of(C2),
+                Arguments.of(C0),
+                Arguments.of(A0),
+                Arguments.of(A2)
         );
     }
 
     @ParameterizedTest
     @MethodSource
     @DisplayName("주위 칸이 비어있을 때 정상적으로 이동할 수 있다")
-    void canMoveKing1(Position movePosition, boolean expected) {
-        // given
-        Position currentPosition = Position.of(1, 1);
-        Piece king = new King(currentPosition, TeamType.CHO);
+    void canMoveKing_Success(Position movePosition) {
+        Position currentPosition = B1;
+        Piece king = new King(TeamType.CHO);
 
-        // when
-        boolean actual = king.canMove(movePosition, List.of());
+        assertThatNoException()
+                .isThrownBy(() -> king.validateCanMove(currentPosition, movePosition, Map.of()));
+    }
 
-        // then
-        assertThat(actual).isEqualTo(expected);
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("주위 칸이 비어있을 때 정상적으로 이동할 수 있다")
+    void canMoveKing_Fail(Position movePosition) {
+        Position currentPosition = B1;
+        Piece king = new King(TeamType.CHO);
+
+        assertThatThrownBy(() -> king.validateCanMove(currentPosition, movePosition, Map.of()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
 
     @Test
     @DisplayName("도착 칸에 아군이 있으면 이동할 수 없다.")
     void canMoveKing2() {
         // given
-        Position movePosition = Position.of(2, 1);
-        Position position = Position.of(2, 1);
-        Piece king = new King(position, TeamType.CHO);
+        Position movePosition = B1;
+        Position startPosition = B2;
+        Piece king = new King(TeamType.CHO);
 
-        Position currentPosition = Position.of(1, 1);
-        Piece solider = new Soldier(currentPosition, TeamType.CHO);
+        Position otherPosition = B1;
+        Piece solider = new Soldier(TeamType.CHO);
 
-        // when
-        boolean actual = king.canMove(movePosition, List.of(king, solider));
-
-        // then
-        assertThat(actual).isFalse();
+        assertThatThrownBy(() -> king.validateCanMove(startPosition, movePosition, Map.of(otherPosition,solider)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
 
     @Test
     @DisplayName("도착 칸에 적이 있으면 이동할 수 있다.")
     void canMoveKing3() {
-        // given
-        Position movePosition = Position.of(3, 1);
-        Position position = Position.of(2, 1);
-        Piece king = new King(position, TeamType.CHO);
+        Position movePosition =B3;
+        Position startPosition = B2;
+        Piece king = new King(TeamType.CHO);
 
-        Position currentPosition = Position.of(3, 1);
-        Piece solider = new Soldier(currentPosition, TeamType.HAN);
+        Position otherPosition = B3;
+        Piece solider = new Soldier(TeamType.HAN);
 
-        // when
-        boolean actual = king.canMove(movePosition, List.of(king, solider));
-
-        // then
-        assertThat(actual).isTrue();
+        assertThatNoException()
+                .isThrownBy(() -> king.validateCanMove(startPosition, movePosition, Map.of(otherPosition,solider)));
     }
 }
