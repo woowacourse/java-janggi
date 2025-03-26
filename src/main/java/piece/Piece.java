@@ -2,11 +2,24 @@ package piece;
 
 import direction.Point;
 
-public interface Piece {
+public abstract class Piece {
 
-    void move(Pieces pieces, Point destination);
+    protected final String nickname;
+    protected Point current;
 
-    boolean isSamePoint(Point point);
+    public Piece(String nickname, Point current) {
+        this.nickname = nickname;
+        this.current = current;
+    }
 
-    String getNickname();
+    public abstract void move(Pieces pieces, Point destination);
+
+    public boolean isSamePoint(Point point) {
+        return current.equals(point);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        return object != null && getClass() == object.getClass();
+    }
 }

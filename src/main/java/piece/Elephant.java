@@ -5,7 +5,7 @@ import direction.Point;
 import java.util.List;
 import java.util.Map;
 
-public class Elephant implements Piece {
+public class Elephant extends Piece {
 
     private static final Map<Movement, List<Movement>> MOVEMENT_PATH = Map.of(
             Movement.LEFT_LEFT_LEFT_UP_UP, List.of(Movement.LEFT, Movement.LEFT_LEFT_UP),
@@ -18,12 +18,8 @@ public class Elephant implements Piece {
             Movement.UP_UP_UP_RIGHT_RIGHT, List.of(Movement.UP, Movement.UP_UP_RIGHT)
     );
 
-    private final String nickname;
-    private Point current;
-
     public Elephant(String nickname, Point current) {
-        this.nickname = nickname;
-        this.current = current;
+        super(nickname, current);
     }
 
     @Override
@@ -54,14 +50,5 @@ public class Elephant implements Piece {
         if (pieces.isExistPieceIn(nextPoint)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
-    }
-
-    @Override
-    public boolean isSamePoint(Point point) {
-        return current.equals(point);
-    }
-
-    public String getNickname() {
-        return nickname;
     }
 }

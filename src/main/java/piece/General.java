@@ -4,16 +4,12 @@ import direction.Movement;
 import direction.Point;
 import java.util.List;
 
-public class General implements Piece  {
+public class General extends Piece  {
 
     private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP, Movement.DOWN);
 
-    private final String nickname;
-    private Point current;
-
     public General(String nickname, Point current) {
-        this.nickname = nickname;
-        this.current = current;
+        super(nickname, current);
     }
 
     @Override
@@ -22,16 +18,6 @@ public class General implements Piece  {
         validateIsExistPieceInPoint(pieces, current.move(destinationMovement));
 
         current = current.move(destinationMovement);
-    }
-
-    @Override
-    public boolean isSamePoint(Point point) {
-        return false;
-    }
-
-    @Override
-    public String getNickname() {
-        return nickname;
     }
 
     private Movement getDestinationMovement(Point destination) {

@@ -11,7 +11,7 @@ import direction.Point;
 import java.util.List;
 import java.util.Map;
 
-public class Horse implements Piece {
+public class Horse extends Piece {
 
     private static final Map<Movement, List<Movement>> MOVEMENT_PATH = Map.of(
             Movement.UP_UP_LEFT, List.of(UP),
@@ -24,12 +24,8 @@ public class Horse implements Piece {
             Movement.LEFT_LEFT_DOWN, List.of(LEFT)
     );
 
-    private final String nickname;
-    private Point current;
-
-    public Horse(final String nickname, final Point current) {
-        this.nickname = nickname;
-        this.current = current;
+    public Horse(String nickname, Point current) {
+        super(nickname, current);
     }
 
     @Override
@@ -43,11 +39,6 @@ public class Horse implements Piece {
         }
 
         current = current.move(destinationMovement);
-    }
-
-    @Override
-    public String getNickname() {
-        return nickname;
     }
 
     private Movement getDestinationMovement(Point destination) {
@@ -65,10 +56,5 @@ public class Horse implements Piece {
         if (pieces.isExistPieceIn(nextPoint)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
-    }
-
-    @Override
-    public boolean isSamePoint(Point point) {
-        return current.equals(point);
     }
 }
