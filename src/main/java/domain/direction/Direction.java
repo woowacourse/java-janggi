@@ -57,7 +57,7 @@ public class Direction {
             path = path.moveBy(direction.getFirst());
             paths.add(path);
         }
-        return paths.subList(0, paths.size() - 1);
+        return paths.subList(0, paths.size());
     }
 
     private List<Position> createPathWithoutRepeat(final Position start) {
@@ -65,9 +65,9 @@ public class Direction {
 
         Position path = start;
         for (Vector vector : direction) {
-            paths.add(path);
             path = path.moveBy(vector);
+            paths.add(path);
         }
-        return paths.subList(1, paths.size());
+        return paths.subList(0, paths.size());
     }
 }
