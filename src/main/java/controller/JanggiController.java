@@ -28,7 +28,7 @@ public class JanggiController {
     }
 
     public void run() {
-        final Janggi janggi = janggiManager.loadOrCreateJanggi();
+        Janggi janggi = janggiManager.loadOrCreateJanggi();
 
         while (!janggiManager.isGameFinish(janggi)) {
             printJanggiProcess(janggi);
@@ -37,7 +37,7 @@ public class JanggiController {
                 final BoardPosition selectBoardPosition = createSelectBoardPosition();
                 final BoardPosition destinationBoardPosition = createDestinationBoardPosition();
 
-                janggiManager.processTurn(
+                janggi = janggiManager.processTurn(
                         janggi,
                         selectBoardPosition,
                         destinationBoardPosition

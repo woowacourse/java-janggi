@@ -18,12 +18,20 @@ public class JanggiManager {
         this.piecePositionDao = piecePositionDao;
     }
 
-    public void processTurn(
+    public Janggi processTurn(
             final Janggi janggi,
             final BoardPosition selectPosition,
             final BoardPosition destinationPosition
     ) {
+        final Janggi janggiSnapshot = janggi.takeSnapshot();
 
+        try {
+            janggi.processTurn(selectPosition, destinationPosition);
+            piecePositionDao.processTurnTransaction(selectPosition, destinationPosition);
+            return janggi;
+        } catch (Exception e) {
+            return janggiSnapshot;
+        }
     }
 
     public Janggi loadOrCreateJanggi() {

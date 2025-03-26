@@ -49,6 +49,13 @@ public class Janggi {
                 .getTeam();
     }
 
+    public Janggi takeSnapshot() {
+        return new Janggi(
+                new Board(board.getPieces()),
+                new Turn(turn.currentTeam())
+        );
+    }
+
     private void validateNotNull(
             final Board board,
             final Turn turn
