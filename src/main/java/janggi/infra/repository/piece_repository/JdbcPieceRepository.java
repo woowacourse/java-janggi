@@ -74,8 +74,8 @@ public class JdbcPieceRepository implements PieceRepository {
 
             while (result.next()) {
                 final String pieceTypeString = result.getString("piece_type");
-                final int rankString = result.getInt("position_rank");
                 final int fileString = result.getInt("position_file");
+                final int rankString = result.getInt("position_rank");
                 final String countryString = result.getString("country");
 
                 final PieceType type = convertToPieceType(pieceTypeString);
@@ -139,16 +139,16 @@ public class JdbcPieceRepository implements PieceRepository {
         return piece.getPieceType();
     }
 
-    private PositionRank convertToRank(final int rankValue) {
-        return Arrays.stream(PositionRank.values())
-                .filter(rank -> rank.ordinal() == rankValue)
+    private PositionFile convertToFile(final int fileValue) {
+        return Arrays.stream(PositionFile.values())
+                .filter(file -> file.ordinal() == fileValue)
                 .findFirst()
                 .orElseThrow();
     }
 
-    private PositionFile convertToFile(final int fileValue) {
-        return Arrays.stream(PositionFile.values())
-                .filter(file -> file.ordinal() == fileValue)
+    private PositionRank convertToRank(final int rankValue) {
+        return Arrays.stream(PositionRank.values())
+                .filter(rank -> rank.ordinal() == rankValue)
                 .findFirst()
                 .orElseThrow();
     }

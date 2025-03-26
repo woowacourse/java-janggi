@@ -41,7 +41,7 @@ public class JanggiController {
             }
             if (type == CommandType.SAVE) {
                 saveGame(board);
-                break;
+                return;
             }
         }
 

@@ -9,8 +9,8 @@ DROP TABLE IF EXISTS piece;
 CREATE TABLE piece (
     game_number INT NOT NULL,
     piece_type VARCHAR(10) NOT NULL,
-    position_rank INT NOT NULL,
     position_file INT NOT NULL,
+    position_rank INT NOT NULL,
     country VARCHAR(10) NOT NULL
 );
 
