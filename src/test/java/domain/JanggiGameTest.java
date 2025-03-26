@@ -38,8 +38,8 @@ class JanggiGameTest {
     void findWinnerException() {
         // when & then
         assertThatThrownBy(() -> janggiGame.findWinner())
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("게임이 종료되지 않아 우승을 판별할 수 없습니다.");
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("현재 게임이 진행중입니다. 우승자를 판별할 수 없습니다.");
     }
 
     @Test
@@ -49,7 +49,7 @@ class JanggiGameTest {
         Position startPosition = Position.of(1, 1);
         Position endPosition = Position.of(3, 2);
 
-        janggiGame.movePiece(startPosition, endPosition, TeamType.CHO);
+        janggiGame.movePiece(startPosition, endPosition);
 
         // when
         Player winner = janggiGame.findWinner();
