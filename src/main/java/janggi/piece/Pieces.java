@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.position.Position;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -78,6 +79,6 @@ public class Pieces {
     }
 
     public Set<Piece> getPieces() {
-        return pieces;
+        return Collections.unmodifiableSet(pieces);
     }
 }
