@@ -9,7 +9,14 @@ public class RequiredBlockCountStrategy {
     private final int requireBlockCount;
 
     public RequiredBlockCountStrategy(final int requireBlockCount) {
+        validateNegativeValue(requireBlockCount);
         this.requireBlockCount = requireBlockCount;
+    }
+
+    private static void validateNegativeValue(final int requireBlockCount) {
+        if (requireBlockCount < 0) {
+            throw new IllegalArgumentException("요구되는 블록 수는 음수가 될 수 없습니다.");
+        }
     }
 
     public static RequiredBlockCountStrategy common() {
