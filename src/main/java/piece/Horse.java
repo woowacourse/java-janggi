@@ -8,10 +8,8 @@ import static direction.Movement.UP;
 
 import direction.Movement;
 import direction.Point;
-import java.lang.module.ModuleFinder;
 import java.util.List;
 import java.util.Map;
-import move.MovementRule;
 
 public class Horse implements Piece {
 

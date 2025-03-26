@@ -3,7 +3,6 @@ package piece;
 import direction.Movement;
 import direction.Point;
 import java.util.List;
-import move.MovementRule;
 
 public class Guard implements Piece {
 
