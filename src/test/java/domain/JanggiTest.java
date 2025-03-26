@@ -7,7 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import domain.board.Board;
 import domain.board.BoardPosition;
 import domain.board.InitialBoardFixture;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
 import domain.piece.General;
+import domain.piece.Guard;
+import domain.piece.Horse;
 import domain.piece.Zzu;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -50,6 +55,29 @@ class JanggiTest {
 
             // then
             assertThat(janggi.getCurrentTeam()).isEqualTo(Team.RED);
+        }
+
+        @DisplayName("원하는 팀의 점수를 알려준다.")
+        @Test
+        void findScore() {
+            // given
+            Board board = new Board(Map.of(
+                    new BoardPosition(0, 0), new General(Team.RED),
+                    new BoardPosition(0, 1), new Chariot(Team.RED),
+                    new BoardPosition(0, 2), new Horse(Team.RED),
+                    new BoardPosition(0, 3), new Zzu(Team.RED),
+                    new BoardPosition(1, 0), new General(Team.GREEN),
+                    new BoardPosition(1, 1), new Elephant(Team.GREEN),
+                    new BoardPosition(1, 2), new Guard(Team.GREEN),
+                    new BoardPosition(1, 3), new Cannon(Team.GREEN)
+            ));
+            Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
+
+            // when & then
+            assertAll(
+                    () -> assertThat(janggi.findScore(Team.RED)).isEqualTo(new Score(20)),
+                    () -> assertThat(janggi.findScore(Team.GREEN)).isEqualTo(new Score(13.5f))
+            );
         }
 
         @DisplayName("게임이 종료되었는지 확인한다.")

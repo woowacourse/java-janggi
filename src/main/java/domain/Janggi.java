@@ -32,6 +32,10 @@ public class Janggi {
         turn.change();
     }
 
+    public Score findScore(final Team team) {
+        return board.calculateScore().get(team);
+    }
+
     public boolean isGameFinish() {
         return board.findAliveGenerals().size() == 1;
     }
