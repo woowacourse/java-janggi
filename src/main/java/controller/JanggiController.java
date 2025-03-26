@@ -6,40 +6,57 @@ import domain.board.BoardPosition;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
+import manager.JanggiManager;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
 
+    private final JanggiManager janggiManager;
+
     private final InputView inputView;
     private final OutputView outputView;
 
     public JanggiController(
+            final JanggiManager janggiManager,
             final InputView inputView,
             final OutputView outputView
     ) {
+        this.janggiManager = janggiManager;
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
     public void run() {
-        final Janggi janggi = Janggi.initialize();
-        while (!janggi.isGameFinish()) {
-            outputView.printScore(janggi.findScore(Team.RED), janggi.findScore(Team.GREEN));
-            outputView.printCurrentTurn(janggi.getCurrentTeam());
-            outputView.printBoard(janggi.getPieces());
+        final Janggi janggi = janggiManager.loadOrCreateJanggi();
+
+        while (!janggiManager.isGameFinish(janggi)) {
+            printJanggiProcess(janggi);
 
             try {
                 final BoardPosition selectBoardPosition = createSelectBoardPosition();
                 final BoardPosition destinationBoardPosition = createDestinationBoardPosition();
 
-                janggi.processTurn(selectBoardPosition, destinationBoardPosition);
+                janggiManager.processTurn(
+                        janggi,
+                        selectBoardPosition,
+                        destinationBoardPosition
+                );
             } catch (IllegalArgumentException e) {
                 outputView.printInputExceptionMessage(e);
             }
         }
 
         outputView.printWinnerTeam(janggi.findWinnerTeam());
+    }
+
+    private void printJanggiProcess(final Janggi janggi) {
+        outputView.printScore(
+                janggiManager.findScore(janggi, Team.RED),
+                janggiManager.findScore(janggi, Team.GREEN)
+        );
+        outputView.printCurrentTurn(janggiManager.getCurrentTeam(janggi));
+        outputView.printBoard(janggiManager.getPieces(janggi));
     }
 
     private BoardPosition createSelectBoardPosition() {
