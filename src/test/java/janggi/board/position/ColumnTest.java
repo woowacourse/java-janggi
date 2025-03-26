@@ -15,7 +15,7 @@ class ColumnTest {
     @CsvSource(value = {"0:ZERO", "1:ONE", "2:TWO", "3:THREE", "4:FOUR", "5:FIVE", "6:SIX", "7:SEVEN", "8:EIGHT"},
             delimiterString = ":")
     @ParameterizedTest
-    void getColumn(int value, Column expected) {
+    void valueOf(int value, Column expected) {
         // when
         Column result = Column.valueOf(value);
 

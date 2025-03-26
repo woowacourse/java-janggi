@@ -58,10 +58,6 @@ public enum Column {
         throw new PositionOutOfBoardBoundsException("[ERROR] 더 이상 열을 감소할 수 없습니다.");
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public int subtract(Column column) {
         return value - column.value;
     }

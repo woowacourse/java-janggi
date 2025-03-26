@@ -43,10 +43,6 @@ public class Board {
         return board.get(position) != null;
     }
 
-    public boolean isPieceNotExists(Position position) {
-        return !isPieceExists(position);
-    }
-
     public boolean isSameTeamExists(Position position, Team team) {
         Piece piece = board.get(position);
         return piece != null && piece.isSameTeam(team);
@@ -56,14 +52,6 @@ public class Board {
         Piece piece = board.get(position);
         if (piece != null) {
             return piece.isCanon();
-        }
-        return false;
-    }
-
-    public boolean isGeneralExists(Position position) {
-        Piece piece = board.get(position);
-        if (piece != null) {
-            return piece.isGeneral();
         }
         return false;
     }
