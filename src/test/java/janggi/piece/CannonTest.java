@@ -32,6 +32,53 @@ class CannonTest {
     }
 
     @Test
+    void 포는_경로상에_두개_이상의_기물이_존재하는_경우_움직일_수_없다() {
+        // Given
+        final Cannon cannon = new Cannon(Team.CHO, new Position(8, 1));
+        final Soldier soldier = new Soldier(Team.CHO, new Position(7, 1));
+        final Guard guard = new Guard(Team.CHO, new Position(6, 1));
+
+        final Position arrivalPosition = new Position(5, 1);
+
+        // When & Then
+        assertThatThrownBy(() -> cannon.checkMovement(arrivalPosition, Team.CHO, new Pieces(Set.of(
+                cannon, soldier, guard))))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 오직 하나의 기물만 뛰어넘을 수 있습니다.");
+    }
+
+    @Test
+    void 포는_포를_뛰어넘을_수_없다() {
+        // Given
+        final Cannon cannon = new Cannon(Team.CHO, new Position(8, 1));
+        final Cannon middleCannon = new Cannon(Team.CHO, new Position(7, 1));
+
+        final Position arrivalPosition = new Position(5, 1);
+
+        // When & Then
+        assertThatThrownBy(() -> cannon.checkMovement(arrivalPosition, Team.CHO, new Pieces(Set.of(
+                cannon, middleCannon))))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 포는 포끼리 뛰어넘거나 잡을 수 없습니다.");
+    }
+
+    @Test
+    void 포는_포를_잡을_수_없다() {
+        // Given
+        final Cannon startCannon = new Cannon(Team.CHO, new Position(8, 1));
+        final Soldier soldier = new Soldier(Team.CHO, new Position(7, 1));
+        Position arrivalPosition = new Position(6, 1);
+        final Cannon arrivalCannon = new Cannon(Team.CHO, arrivalPosition);
+
+        // When & Then
+        assertThatThrownBy(() -> startCannon.checkMovement(arrivalPosition, Team.CHO, new Pieces(Set.of(
+                startCannon, soldier, arrivalCannon))))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 포는 포끼리 뛰어넘거나 잡을 수 없습니다.");
+    }
+
+
+    @Test
     void 포는_한_번에_여러_방향으로_움직일_수_없다() {
         // Given
         final Position currentPosition = new Position(3, 3);
