@@ -24,4 +24,20 @@ class PlayerTest {
             assertThat(player.getTeam()).isEqualTo(team);
         });
     }
+
+    @Test
+    @DisplayName("플레이어는 점수를 더할 수 있다")
+    void addScore() {
+        //given
+        int scoreValue = 20;
+        Player player = new Player("flint", Team.RED, scoreValue);
+
+        //when
+        int addValue = 10;
+        Score score = new Score(addValue);
+        player.addScore(score);
+
+        //then
+        assertThat(player.getScore()).isEqualTo(new Score(scoreValue + addValue));
+    }
 }

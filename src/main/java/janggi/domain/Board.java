@@ -26,8 +26,15 @@ public class Board {
         validateDestinationIsEnemy(destination, targetPiece.getTeam());
         Placement placement = new Placement(this, departure, destination);
         targetPiece.checkCanMove(placement, departure, destination);
+        removeEnemyPiece(player, destination);
         positionToPiece.remove(departure);
         updateBoard(destination, targetPiece);
+    }
+
+    private void removeEnemyPiece(final Player player, final Position destination) {
+        if (exists(destination)) {
+            player.addScore(getPiece(destination).getScore());
+        }
     }
 
     private void validateSamePosition(final Position departure, final Position destination) {

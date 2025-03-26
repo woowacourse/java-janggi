@@ -3,6 +3,7 @@ package janggi.view;
 import janggi.domain.GameStatus;
 import janggi.domain.Player;
 import janggi.domain.Position;
+import janggi.domain.Score;
 import janggi.domain.piece.Piece;
 import java.util.Map;
 
@@ -41,5 +42,10 @@ public class OutputView {
 
     public void printEndMessage() {
         System.out.println("게임을 종료합니다.");
+    }
+
+    public void printScore(final Score redScore, final Score greenScore) {
+        System.out.println("현재 점수");
+        System.out.printf("초: %d 점, 한: %d 점%n", greenScore.value(), redScore.value());
     }
 }

@@ -32,6 +32,7 @@ public class JanggiController {
         String command;
         do {
             printCurrentGame(janggiGame);
+            printCurrentScore(janggiGame);
             command = inputView.readCommand();
             runCommand(janggiGame, command);
         } while (!"end".equals(command) && janggiGame.isContinue());
@@ -70,6 +71,10 @@ public class JanggiController {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void printCurrentScore(final JanggiGame janggiGame) {
+        outputView.printScore(janggiGame.getScore(Team.RED), janggiGame.getScore(Team.GREEN));
     }
 
     private void movePiece(JanggiGame janggiGame) {

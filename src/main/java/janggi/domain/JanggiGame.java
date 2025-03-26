@@ -59,6 +59,13 @@ public class JanggiGame {
         return greenPlayer;
     }
 
+    public Score getScore(Team team) {
+        if (team.isRed()) {
+            return redPlayer.getScore();
+        }
+        return greenPlayer.getScore();
+    }
+
     public GameStatus getGameStatus() {
         return gameStatus;
     }
