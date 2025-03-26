@@ -14,41 +14,30 @@ class CannonTest {
 
     @DisplayName("포는 수평 혹은 수직으로 움직이지 않은 경우 예외가 발생한다.")
     @ParameterizedTest
-    @CsvSource({
-            "HAN,2,2",
-            "HAN,4,2",
-            "HAN,2,4",
-            "HAN,4,4",
-    })
-    void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
+    @CsvSource({"2,2", "4,2", "2,4", "4,4"})
+    void shouldThrowException_WhenInvalidMove(int toX, int toY) {
         // given
-        Cannon cannon = new Cannon(camp);
-        Point fromPoint = new Point(3, 3);
-        Point toPoint = new Point(toX, toY);
+        Cannon cannon = new Cannon(Camp.HAN);
+        Point from = new Point(3, 3);
+        Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> cannon.validateMove(from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 수평 혹은 수직으로만 움직여야 합니다.");
     }
 
     @DisplayName("포는 수평 혹은 수직으로 움직일 수 있다.")
     @ParameterizedTest
-    @CsvSource({
-            "HAN,3,0",
-            "HAN,3,5",
-            "HAN,0,3",
-            "HAN,5,3",
-    })
-    void validateMoveTest(Camp camp, int toX, int toY) {
+    @CsvSource({"3,0", "3,5", "0,3", "5,3"})
+    void validateMoveTest(int toX, int toY) {
         // given
-        Cannon cannon = new Cannon(camp);
-        Point fromPoint = new Point(3, 3);
-        Point toPoint = new Point(toX, toY);
+        Cannon cannon = new Cannon(Camp.HAN);
+        Point from = new Point(3, 3);
+        Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
-                .doesNotThrowAnyException();
+        assertThatCode(() -> cannon.validateMove(from, to)).doesNotThrowAnyException();
     }
 
     @DisplayName("포는 다른 포를 잡을 경우 예외가 발생한다.")
