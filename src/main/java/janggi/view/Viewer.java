@@ -1,12 +1,12 @@
 package janggi.view;
 
 import janggi.common.ErrorMessage;
-import janggi.common.PieceName;
-import janggi.domain.Board;
+import janggi.domain.PieceName;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
@@ -25,13 +25,13 @@ public class Viewer {
         System.out.println(Formatter.formatMessageWithHeader(ERROR_HEADER, e.getMessage()));
     }
 
-    public void printBoard(Board board) {
+    public void printBoard(Map<Position, Piece> pieces) {
         StringJoiner enterJoiner = new StringJoiner(LINE_SEPARATOR).add(formatFirstRowOfBoard());
         for (int row = 1; row <= 10; row++) {
             StringJoiner lineJoiner = new StringJoiner(BLANK);
             for (int column = 1; column <= 9; column++) {
                 Position position = Position.of(row, column);
-                lineJoiner.add(getPieceName(board, position));
+                lineJoiner.add(getPieceName(pieces, position));
             }
 
             lineJoiner.add(Formatter.formatFullWidthNumber(row));
@@ -41,9 +41,9 @@ public class Viewer {
         System.out.println(enterJoiner);
     }
 
-    private String getPieceName(Board board, Position position) {
-        if (board.hasPiece(position)) {
-            Piece piece = board.getPiece(position);
+    private String getPieceName(Map<Position, Piece> pieces, Position position) {
+        if (pieces.containsKey(position)) {
+            Piece piece = pieces.get(position);
             return PieceName.findName(piece);
         }
         return "＿";

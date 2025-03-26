@@ -1,8 +1,7 @@
 package janggi.manager;
 
-import janggi.domain.Board;
 import janggi.domain.Position;
-import janggi.domain.Side;
+import janggi.domain.Round;
 import janggi.dto.PositionDto;
 import janggi.util.RecoveryUtil;
 import janggi.view.Viewer;
@@ -10,38 +9,33 @@ import janggi.view.Viewer;
 public class JanggiGame {
 
     private final Viewer viewer;
+    private final Round round;
 
-    public JanggiGame(Viewer viewer) {
+    public JanggiGame(Viewer viewer, Round round) {
         this.viewer = viewer;
+        this.round = round;
     }
 
-    public void start(Board board) {
-        Side turn = Side.CHO;
+    public void start() {
+        repeatGameTurns();
 
-        turn = repeatGameTurns(board, turn);
-
-        viewer.winner(turn);
+        viewer.winner(round.getCurrentTurn());
     }
 
-    private Side repeatGameTurns(Board board, Side turn) {
-        while (board.hasGeneral()) {
-            viewer.printBoard(board);
-            viewer.printTurnInfo(turn);
+    private void repeatGameTurns() {
+        while (round.hasGeneral()) {
+            viewer.printBoard(round.getCurrentPieces());
+            viewer.printTurnInfo(round.getCurrentTurn());
 
-            Side currentTurn = turn;
-
-            RecoveryUtil.executeWithRetry(() -> commenceTurn(board, currentTurn));
-
-            turn = turn.reverse();
+            RecoveryUtil.executeWithRetry(this::commenceTurn);
         }
-        return turn;
     }
 
-    private void commenceTurn(Board board, Side turn) {
+    private void commenceTurn() {
         Position selectedPosition = getSelectedPosition();
         Position targetPosition = getTargetPosition();
 
-        board.makeMove(turn, selectedPosition, targetPosition);
+        round.commence(selectedPosition, targetPosition);
     }
 
     private Position getSelectedPosition() {

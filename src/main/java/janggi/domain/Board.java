@@ -57,20 +57,20 @@ public class Board {
     private void movePiece(Position selectedPosition, Position targetPosition) {
         Piece selectedPiece = getPiece(selectedPosition);
 
-        if (!selectedPiece.canMove(Collections.unmodifiableMap(pieces), selectedPosition, targetPosition)) {
+        if (!selectedPiece.canMove(getPieces(), selectedPosition, targetPosition)) {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_PIECE.getMessage());
         }
 
         updatePosition(selectedPosition, targetPosition, selectedPiece);
     }
 
+    public Map<Position, Piece> getPieces() {
+        return Collections.unmodifiableMap(pieces);
+    }
+
     private void updatePosition(Position selectedPosition, Position targetPosition, Piece selectedPiece) {
         pieces.remove(selectedPosition);
         pieces.put(targetPosition, selectedPiece);
-    }
-
-    public boolean hasPiece(Position position) {
-        return pieces.containsKey(position);
     }
 
     public boolean hasGeneral() {
