@@ -27,7 +27,7 @@ public class SoldierByeongPathTest {
         // when
         List<Pattern> ByeongPath = piece.findMovablePath(_SEVEN_FIVE, afterPosition);
 
-        // when & then
+        // then
         Assertions.assertThat(ByeongPath)
                 .isEqualTo(path);
     }

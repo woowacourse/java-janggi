@@ -27,7 +27,7 @@ public class SoldierJolPathTest {
         // when
         List<Pattern> jolpath = piece.findMovablePath(_SEVEN_FIVE, afterPosition);
 
-        // when & then
+        // then
         Assertions.assertThat(jolpath)
                 .isEqualTo(path);
     }

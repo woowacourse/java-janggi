@@ -32,7 +32,7 @@ public class ElephantPathTest {
         // when
         List<Pattern> elephantPath = piece.findMovablePath(_SIX_FIVE, afterPosition);
 
-        // when & then
+        // then
         Assertions.assertThat(elephantPath)
                 .isEqualTo(path);
     }

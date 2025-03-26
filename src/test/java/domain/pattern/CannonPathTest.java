@@ -26,8 +26,8 @@ public class CannonPathTest {
         // when
         List<Pattern> cannonPath = piece.findMovablePath(_ZERO_ONE, afterPosition);
 
-        // when & then
-        Assertions.assertThat(cannonPath).containsAll(path);
+        // then
+        Assertions.assertThat(cannonPath).isEqualTo(path);
     }
 
     static Stream<Arguments> provide포Path() {

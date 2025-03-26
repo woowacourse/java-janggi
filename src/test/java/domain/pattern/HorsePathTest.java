@@ -32,7 +32,7 @@ public class HorsePathTest {
         // when
         List<Pattern> horsePath = piece.findMovablePath(_SIX_FOUR, afterPosition);
 
-        // when & then
+        // then
         Assertions.assertThat(horsePath)
                 .isEqualTo(path);
     }

@@ -27,7 +27,7 @@ public class GuardPathTest {
         // when
         List<Pattern> GuardPath = piece.findMovablePath(_NINE_FIVE, afterPosition);
 
-        // when & then
+        // then
         Assertions.assertThat(GuardPath)
                 .isEqualTo(path);
     }

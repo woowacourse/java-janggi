@@ -26,7 +26,7 @@ public class ChariotPathTest {
         // when
         List<Pattern> chariotPath = piece.findMovablePath(_ZERO_ONE, afterPosition);
 
-        // when & then
+        // then
         Assertions.assertThat(chariotPath).containsAll(path);
     }
 

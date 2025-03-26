@@ -27,7 +27,7 @@ public class GeneralPathTest {
         // when
         List<Pattern> Generalpath = piece.findMovablePath(_NINE_FIVE, afterPosition);
 
-        // when & then
+        // then
         Assertions.assertThat(Generalpath)
                 .isEqualTo(path);
     }
