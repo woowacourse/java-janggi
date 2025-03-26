@@ -1,5 +1,6 @@
 package controller;
 
+import domain.Country;
 import domain.JanggiCoordinate;
 import domain.JanggiGame;
 import domain.PieceInitializer;
@@ -32,5 +33,7 @@ public class JanggiController {
         }
 
         outputView.printWinner(game.getWinner());
+        outputView.printScore(Country.CHO, game.getCountryScore(Country.CHO));
+        outputView.printScore(Country.HAN, game.getCountryScore(Country.HAN));
     }
 }

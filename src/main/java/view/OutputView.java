@@ -50,6 +50,19 @@ public class OutputView {
         }
     }
 
+    public void printError(String message) {
+        System.out.println(message);
+    }
+
+    public void printWinner(Country winner) {
+        System.out.println("승자는 " + winner.getName() + " 입니다.");
+    }
+
+    public void printScore(Country country, double countryScore) {
+        String stringScore = scoreFormater(countryScore);
+        System.out.println(country.getName() + "의 점수는 : " + stringScore + " 입니다.");
+    }
+
     private String getColorBy(Piece piece) {
         if (piece.getCountry() == Country.CHO) {
             return GREEN + piece.getPieceType().getName();
@@ -57,11 +70,10 @@ public class OutputView {
         return RED + piece.getPieceType().getName();
     }
 
-    public void printError(String message) {
-        System.out.println(message);
-    }
-
-    public void printWinner(Country winner) {
-        System.out.println("승자는 " + winner.getName() + " 입니다.");
+    private String scoreFormater(double score) {
+        if (score % 1 == 0) {
+            return String.valueOf((int) score);
+        }
+        return String.valueOf(score);
     }
 }
