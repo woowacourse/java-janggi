@@ -1,7 +1,6 @@
 package domain;
 
 import domain.piece.category.PieceCategory;
-import domain.spatial.Position;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,7 +18,7 @@ class MoveInfosTest {
     void 경로에_기물의_갯수를_반환한다(PieceCategory pathPieceCategory, int excepted) {
         // given
         List<MoveInfo> moveInfoElements = new ArrayList<>();
-        moveInfoElements.add(new MoveInfo(new Position(1, 2), pathPieceCategory));
+        moveInfoElements.add(new MoveInfo(pathPieceCategory));
 
         MoveInfos moveInfos = new MoveInfos(moveInfoElements);
 
@@ -38,8 +37,8 @@ class MoveInfosTest {
     void 이동_기물과_도착지_기물이_같은지_판단한다(PieceCategory startPiece, PieceCategory targetPiece, boolean excepted) {
         // given
         List<MoveInfo> moveInfoElements = new ArrayList<>();
-        moveInfoElements.add(new MoveInfo(new Position(1, 2), PieceCategory.NONE));
-        moveInfoElements.add(new MoveInfo(new Position(2, 2), targetPiece));
+        moveInfoElements.add(new MoveInfo(PieceCategory.NONE));
+        moveInfoElements.add(new MoveInfo(targetPiece));
 
         MoveInfos moveInfos = new MoveInfos(moveInfoElements);
 
@@ -58,9 +57,9 @@ class MoveInfosTest {
     void 이동_기물과_같은_기물이_경로에_있는지_판단한다(PieceCategory pathPiece, PieceCategory movePiece, boolean excepted) {
         // given
         List<MoveInfo> moveInfoElements = new ArrayList<>();
-        moveInfoElements.add(new MoveInfo(new Position(1, 2), PieceCategory.NONE));
-        moveInfoElements.add(new MoveInfo(new Position(2, 2), pathPiece));
-        moveInfoElements.add(new MoveInfo(new Position(3, 2), PieceCategory.NONE));
+        moveInfoElements.add(new MoveInfo(PieceCategory.NONE));
+        moveInfoElements.add(new MoveInfo(pathPiece));
+        moveInfoElements.add(new MoveInfo(PieceCategory.NONE));
 
         MoveInfos moveInfos = new MoveInfos(moveInfoElements);
 
