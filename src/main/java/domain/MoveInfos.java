@@ -11,8 +11,9 @@ public class MoveInfos {
         this.moveInfos = moveInfos;
     }
 
-    public int countPiecesInPath() {
-        return (int) moveInfos.stream()
+    public int countPiecesInIntermediatePath() {
+        List<MoveInfo> intermediatePaths = moveInfos.subList(0, moveInfos.size() - 1);
+        return (int) intermediatePaths.stream()
                 .filter(MoveInfo::hasPieceInPath)
                 .count();
     }

@@ -24,7 +24,7 @@ class MoveInfosTest {
         MoveInfos moveInfos = new MoveInfos(moveInfoElements);
 
         // when
-        int result = moveInfos.countPiecesInPath();
+        int result = moveInfos.countPiecesInIntermediatePath();
 
         // then
         assertThat(result).isEqualTo(excepted);

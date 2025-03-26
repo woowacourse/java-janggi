@@ -15,6 +15,10 @@ public record Board(
         Pieces playerPieces = board.get(player);
         Pieces opponentPieces = getOppositePieces(player);
 
+        if (playerPieces.existByPosition(targetPosition)) {
+            throw new IllegalArgumentException("[ERROR] 도착 위치에 아군의 기물이 존재해 이동할 수 없습니다.");
+        }
+
         List<Pieces> allPieces = getAllPieces();
         List<Position> paths = playerPieces.getPiecePaths(startPosition, targetPosition);
         List<MoveInfo> moveInfoElements = paths.stream()

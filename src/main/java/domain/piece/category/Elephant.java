@@ -26,7 +26,7 @@ public class Elephant extends Piece {
     }
 
     private void validateMove(final MoveInfos moveInfos) {
-        if (moveInfos.countPiecesInPath() != PIECES_TO_PASS) {
+        if (moveInfos.countPiecesInIntermediatePath() != PIECES_TO_PASS) {
             throw new IllegalArgumentException("[ERROR] 상은 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
         }
     }
