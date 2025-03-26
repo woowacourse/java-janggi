@@ -6,15 +6,11 @@ import static domain.board.Point.MIN_COLUMN_INDEX;
 import static domain.board.Point.MIN_ROW_INDEX;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PathFinderFactory {
-
-    private static final Point HAN_WANG_POINT = Point.of(2, 5);
-    private static final Point CHO_WANG_POINT = Point.of(9, 5);
 
     public PathFinder createDefaultPathFinder() {
         Map<Point, Node> nodeByPoint = new HashMap<>();
@@ -36,6 +32,12 @@ public class PathFinderFactory {
     }
 
     private void createAllEdges(Map<Point, Node> nodeByPoint) {
+        final Point HAN_WANG_POINT = Point.of(2, 5);
+        final Point CHO_WANG_POINT = Point.of(9, 5);
+
+        createDiagonalEdges(HAN_WANG_POINT, nodeByPoint);
+        createDiagonalEdges(CHO_WANG_POINT, nodeByPoint);
+
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
             for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
@@ -47,9 +49,9 @@ public class PathFinderFactory {
 
     private List<Edge> createEdgesByPoint(final Point point,
                                           final Map<Point, Node> nodeByPoint) {
+
         List<Edge> edges = new ArrayList<>();
-        List<Direction> directions = getDirectionsByPoint(point);
-        for (Direction direction : directions) {
+        for (Direction direction : Direction.VERTICALS) {
             int nextRow = point.row() + direction.deltaRow();
             int nextColumn = point.column() + direction.deltaColumn();
             if (!isInRange(nextRow, nextColumn)) {
@@ -61,11 +63,18 @@ public class PathFinderFactory {
         return edges;
     }
 
-    private List<Direction> getDirectionsByPoint(Point point) {
-        if (point.equals(HAN_WANG_POINT) || point.equals(CHO_WANG_POINT)) {
-            return Arrays.stream(Direction.values()).toList();
+    private void createDiagonalEdges(Point point, Map<Point, Node> nodeByPoint) {
+        Node node = nodeByPoint.get(point);
+        for (Direction direction : Direction.DIAGONALS) {
+            int nextRow = point.row() + direction.deltaRow();
+            int nextColumn = point.column() + direction.deltaColumn();
+            if (!isInRange(nextRow, nextColumn)) {
+                continue;
+            }
+            Node nextNode = nodeByPoint.get(Point.of(nextRow, nextColumn));
+            node.addAllEdges(List.of(new Edge(nextNode, direction)));
+            nextNode.addAllEdges(List.of(new Edge(node, direction.inverse())));
         }
-        return Direction.VERTICALS;
     }
 
     private boolean isInRange(final int row, final int column) {

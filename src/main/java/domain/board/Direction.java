@@ -15,6 +15,7 @@ public enum Direction {
     ;
 
     public static final List<Direction> VERTICALS = List.of(UP, DOWN, LEFT, RIGHT);
+    public static final List<Direction> DIAGONALS = List.of(UP_RIGHT, DOWN_RIGHT, DOWN_LEFT, UP_LEFT);
 
     private final int deltaRow;
     private final int deltaColumn;
@@ -30,5 +31,33 @@ public enum Direction {
 
     public int deltaColumn() {
         return deltaColumn;
+    }
+
+    public Direction inverse() {
+        if (this == UP) {
+            return DOWN;
+        }
+        if (this == UP_RIGHT) {
+            return DOWN_LEFT;
+        }
+        if (this == RIGHT) {
+            return LEFT;
+        }
+        if (this == DOWN_RIGHT) {
+            return UP_LEFT;
+        }
+        if (this == DOWN) {
+            return UP;
+        }
+        if (this == DOWN_LEFT) {
+            return UP_RIGHT;
+        }
+        if (this == LEFT) {
+            return RIGHT;
+        }
+        if (this == UP_LEFT) {
+            return DOWN_RIGHT;
+        }
+        throw new IllegalStateException("도달 할 수 없는 상태입니다.");
     }
 }
