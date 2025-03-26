@@ -8,6 +8,7 @@ import view.InputView;
 import view.OutputView;
 
 public class JanggiGame {
+
     private static final String RANGE_EXCEED = "[ERROR] 범위를 넘어설 수 없습니다.";
     private static final int HORIZONTAL_START = 1;
     private static final int HORIZONTAL_END = 9;

@@ -43,7 +43,7 @@ public class Horse extends Piece {
     }
 
     private void validateAvailableDestination(Point from, Point to) {
-        if(getPaths(from, to).isEmpty()) {
+        if (getPaths(from, to).isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }

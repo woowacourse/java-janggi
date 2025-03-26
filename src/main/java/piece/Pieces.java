@@ -35,7 +35,7 @@ public class Pieces {
     }
 
     public void validateNotContainPiece(Point point) {
-        if(isContainPiece(point)) {
+        if (isContainPiece(point)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
     }

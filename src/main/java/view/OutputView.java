@@ -7,6 +7,7 @@ import piece.Piece;
 import piece.Pieces;
 
 public class OutputView {
+
     public static void displayBoard(MemoryGameBoard gameBoard) {
         Pieces pieces = gameBoard.findAllPieces();
 

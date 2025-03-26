@@ -27,6 +27,7 @@ public abstract class Piece {
     }
 
     public abstract void validateDestination(Point to);
+
     public abstract void checkPaths(Pieces allPieces, Point to);
 
     public void move(Point to) {
@@ -38,7 +39,7 @@ public abstract class Piece {
         List<Point> paths = new ArrayList<>();
         Point current = new Point(from.x(), from.y());
         current = current.apply(direction);
-        while(!current.equals(to)) {
+        while (!current.equals(to)) {
             paths.add(current);
             current = current.apply(direction);
         }
@@ -46,7 +47,7 @@ public abstract class Piece {
     }
 
     protected void validateStraightDestination(Point from, Point to) {
-        if(from.x() != to.x() && from.y() != to.y()) {
+        if (from.x() != to.x() && from.y() != to.y()) {
             throw new IllegalArgumentException("[ERROR] 직선 이동만 가능합니다.");
         }
     }

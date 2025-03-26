@@ -4,6 +4,7 @@ import java.util.Scanner;
 import direction.Point;
 
 public class InputView {
+
     public static Point requestMoveStartPosition() {
         System.out.println("움직일 말을 알려주세요.");
         Scanner scanner = new Scanner(System.in);

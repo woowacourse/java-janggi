@@ -16,7 +16,7 @@ public class Cannon extends Piece {
     }
 
     public void checkPaths(Pieces allPieces, Point to) {
-        if(calculateCannonPieceCountInPaths(allPieces, currentPosition, to) >= 1) {
+        if (calculateCannonPieceCountInPaths(allPieces, currentPosition, to) >= 1) {
             throw new IllegalArgumentException("[ERROR] 포가 존재하여 움직일 수 없습니다.");
         }
         if (calculateNotCannonPieceCountInPaths(allPieces, currentPosition, to) != 1) {

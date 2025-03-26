@@ -32,7 +32,7 @@ public enum Direction {
     public int getY() {
         return column;
     }
-    
+
     private static Direction findBy(int compareRow, int compareColumn) {
         return Arrays.stream(Direction.values())
                 .filter(direction -> direction.row == compareRow && direction.column == compareColumn)
