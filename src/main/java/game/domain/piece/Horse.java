@@ -29,7 +29,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public void validateMovable(BoardLocation current, BoardLocation destination) {
+    public void validateArrival(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
         if (!DIRECTIONS.containsKey(boardVector)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
@@ -47,7 +47,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public void validateArrival(List<Piece> pathPiece) {
+    public void validateMovePath(List<Piece> pathPiece) {
         if (!pathPiece.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }

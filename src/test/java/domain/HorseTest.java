@@ -29,7 +29,7 @@ public class HorseTest {
 
         // when & then
         assertThatCode(
-                () -> horse.validateMovable(current, destination)
+                () -> horse.validateArrival(current, destination)
         ).doesNotThrowAnyException();
     }
 
@@ -42,7 +42,7 @@ public class HorseTest {
 
         // when & then
         assertThatThrownBy(() -> {
-            horse.validateMovable(current, destination);
+            horse.validateArrival(current, destination);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -68,7 +68,7 @@ public class HorseTest {
         Piece piece = new Horse(Team.DEFAULT);
         // when & then
         assertThatThrownBy(() -> {
-            piece.validateArrival(pathPiece);
+            piece.validateMovePath(pathPiece);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -81,7 +81,7 @@ public class HorseTest {
 
         // when & then
         assertThatCode(
-                () -> piece.validateArrival(pathPiece)
+                () -> piece.validateMovePath(pathPiece)
         ).doesNotThrowAnyException();
     }
 

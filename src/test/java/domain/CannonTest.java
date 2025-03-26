@@ -28,7 +28,7 @@ public class CannonTest {
         Piece cannon = new Cannon(DEFAULT);
         // when & then
         assertThatCode(
-                () -> cannon.validateMovable(current, destination)
+                () -> cannon.validateArrival(current, destination)
         ).doesNotThrowAnyException();
     }
 
@@ -42,7 +42,7 @@ public class CannonTest {
         Piece cannon = new Cannon(DEFAULT);
         // when & then
         assertThatThrownBy(() -> {
-            cannon.validateMovable(current, destination);
+            cannon.validateArrival(current, destination);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -69,7 +69,7 @@ public class CannonTest {
         Piece cannon = new Cannon(DEFAULT);
 
         assertThatThrownBy(() -> {
-            cannon.validateArrival(pieces);
+            cannon.validateMovePath(pieces);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -82,7 +82,7 @@ public class CannonTest {
 
         // when & then
         assertThatThrownBy(() -> {
-            cannon.validateArrival(pieces);
+            cannon.validateMovePath(pieces);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -95,7 +95,7 @@ public class CannonTest {
 
         // when & then
         assertThatThrownBy(() -> {
-            cannon.validateArrival(pieces);
+            cannon.validateMovePath(pieces);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -108,7 +108,7 @@ public class CannonTest {
 
         // when & then
         assertThatCode(
-                () -> cannon.validateArrival(pieces)
+                () -> cannon.validateMovePath(pieces)
         ).doesNotThrowAnyException();
     }
 

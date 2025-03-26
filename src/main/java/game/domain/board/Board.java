@@ -1,12 +1,10 @@
 package game.domain.board;
 
 import static game.domain.piece.Team.CHO;
-import static game.domain.piece.Team.DEFAULT;
 import static game.domain.piece.Team.HAN;
 
 import game.domain.piece.Cannon;
 import game.domain.piece.Chariot;
-import game.domain.piece.DefaultPiece;
 import game.domain.piece.King;
 import game.domain.piece.Pawn;
 import game.domain.piece.Piece;
@@ -14,6 +12,7 @@ import game.domain.piece.Scholar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board {
 
@@ -30,11 +29,8 @@ public class Board {
         throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 없습니다.");
     }
 
-    public Piece getByLocationOrDefault(BoardLocation current) {
-        if (pieces.containsKey(current)) {
-            return pieces.get(current);
-        }
-        return new DefaultPiece(DEFAULT);
+    public Optional<Piece> findByLocation(BoardLocation current) {
+        return Optional.ofNullable(pieces.get(current));
     }
 
     public void occupy(BoardLocation current, BoardLocation destination) {

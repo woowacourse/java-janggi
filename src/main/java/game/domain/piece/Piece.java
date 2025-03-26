@@ -1,6 +1,8 @@
 package game.domain.piece;
 
 import game.domain.board.BoardLocation;
+import game.domain.board.PieceExtractor;
+import game.domain.board.PieceFinder;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,11 +14,20 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public abstract void validateMovable(BoardLocation current, BoardLocation target);
+    public void validateMovable(BoardLocation current, BoardLocation destination, PieceExtractor pieceExtractor, PieceFinder pieceFinder) {
+        validateArrival(current, destination);
+        List<BoardLocation> allPath = createAllPath(current, destination);
+        List<Piece> pathPiece = pieceExtractor.extract(allPath);
+        validateMovePath(pathPiece);
+        pieceFinder.findByLocation(destination)
+                .ifPresent(this::validateKillable);
+    }
+
+    public abstract void validateArrival(BoardLocation current, BoardLocation target);
 
     public abstract List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target);
 
-    public abstract void validateArrival(List<Piece> pathPiece);
+    public abstract void validateMovePath(List<Piece> pathPiece);
 
     protected abstract void validateKillable(Piece destinationPiece);
 

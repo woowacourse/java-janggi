@@ -11,7 +11,7 @@ public class King extends Piece {
     }
 
     @Override
-    public void validateMovable(BoardLocation current, BoardLocation destination) {
+    public void validateArrival(BoardLocation current, BoardLocation destination) {
         //TODO 2단계 궁성 단계에서 처리하도록 하기
     }
 
@@ -21,7 +21,7 @@ public class King extends Piece {
     }
 
     @Override
-    public void validateArrival(List<Piece> pathPiece) {
+    public void validateMovePath(List<Piece> pathPiece) {
         //TODO 2단계 궁성 단계에서 처리하도록 하기
     }
 

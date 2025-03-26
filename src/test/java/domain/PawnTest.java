@@ -26,7 +26,7 @@ public class PawnTest {
         Pawn choPawn = new Pawn(Team.CHO);
         // when & then
         assertThatCode(
-                () -> choPawn.validateMovable(current, destination)
+                () -> choPawn.validateArrival(current, destination)
         ).doesNotThrowAnyException();
     }
 
@@ -40,7 +40,7 @@ public class PawnTest {
         Pawn choPawn = new Pawn(Team.CHO);
         // when & then
         assertThatThrownBy(() -> {
-            choPawn.validateMovable(current, destination);
+            choPawn.validateArrival(current, destination);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -54,7 +54,7 @@ public class PawnTest {
         Pawn choPawn = new Pawn(Team.CHO);
         // when & then
         assertThatThrownBy(() -> {
-            choPawn.validateMovable(current, destination);
+            choPawn.validateArrival(current, destination);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -84,7 +84,7 @@ public class PawnTest {
 
         // when & then
         assertThatCode(
-                () -> hanPawn.validateMovable(current, destination)
+                () -> hanPawn.validateArrival(current, destination)
         ).doesNotThrowAnyException();
     }
 
@@ -99,7 +99,7 @@ public class PawnTest {
 
         // when & then
         assertThatThrownBy(() -> {
-            hanPawn.validateMovable(current, destination);
+            hanPawn.validateArrival(current, destination);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -114,7 +114,7 @@ public class PawnTest {
 
         // when & then
         assertThatThrownBy(() -> {
-            hanPawn.validateMovable(current, destination);
+            hanPawn.validateArrival(current, destination);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -142,7 +142,7 @@ public class PawnTest {
 
         // when & then
         assertThatThrownBy(() -> {
-            piece.validateArrival(pathPiece);
+            piece.validateMovePath(pathPiece);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -155,7 +155,7 @@ public class PawnTest {
 
         // when & then
         assertThatCode(
-                () -> piece.validateArrival(pathPiece)
+                () -> piece.validateMovePath(pathPiece)
         ).doesNotThrowAnyException();
     }
 

@@ -1,12 +1,13 @@
 package game;
 
-import game.domain.board.BoardLocation;
-import game.domain.piece.Team;
 import game.domain.board.Board;
+import game.domain.board.BoardLocation;
+import game.domain.board.PieceExtractor;
+import game.domain.board.PieceFinder;
 import game.domain.piece.Piece;
-import java.util.List;
-import java.util.Map;
+import game.domain.piece.Team;
 import game.view.ConsoleView;
+import java.util.Map;
 
 public class JanggiGame {
 
@@ -43,15 +44,13 @@ public class JanggiGame {
         BoardLocation destination = consoleView.requestDestination();
 
         Piece piece = board.getByLocationOrThrow(current);
-
         piece.validateEqualTeam(team);
-        piece.validateMovable(current, destination);
-        List<BoardLocation> allPath = piece.createAllPath(current, destination);
-        List<Piece> pathPiece = board.extractPathPiece(allPath);
-        piece.validateArrival(pathPiece);
 
-        Piece destinationPiece = board.getByLocationOrDefault(destination);
-        piece.validateOccupiable(destinationPiece);
+        PieceExtractor pieceExtractor = board::extractPathPiece;
+        PieceFinder pieceFinder = board::findByLocation;
+
+        piece.validateMovable(current, destination, pieceExtractor, pieceFinder);
+
         board.occupy(current, destination);
     }
 }

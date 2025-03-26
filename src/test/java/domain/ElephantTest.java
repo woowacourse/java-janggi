@@ -28,7 +28,7 @@ public class ElephantTest {
         BoardLocation destination = new BoardLocation(3, 4);
 
         assertThatCode(
-                () -> elephant.validateMovable(current, destination)
+                () -> elephant.validateArrival(current, destination)
         ).doesNotThrowAnyException();
 
     }
@@ -42,7 +42,7 @@ public class ElephantTest {
 
         // when & then
         assertThatThrownBy(() -> {
-            elephant.validateMovable(current, destination);
+            elephant.validateArrival(current, destination);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -68,7 +68,7 @@ public class ElephantTest {
         Piece piece = new Elephant(Team.DEFAULT);
         // when & then
         assertThatThrownBy(() -> {
-            piece.validateArrival(pathPiece);
+            piece.validateMovePath(pathPiece);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -81,7 +81,7 @@ public class ElephantTest {
 
         // when & then
         assertThatCode(
-                () -> piece.validateArrival(pathPiece)
+                () -> piece.validateMovePath(pathPiece)
         ).doesNotThrowAnyException();
     }
 

@@ -10,7 +10,7 @@ public class DefaultPiece extends Piece {
     }
 
     @Override
-    public void validateMovable(BoardLocation current, BoardLocation target) {
+    public void validateArrival(BoardLocation current, BoardLocation target) {
         throw new IllegalStateException("[ERROR] 실행할 수 없습니다.");
     }
 
@@ -20,7 +20,7 @@ public class DefaultPiece extends Piece {
     }
 
     @Override
-    public void validateArrival(List<Piece> pathPiece) {
+    public void validateMovePath(List<Piece> pathPiece) {
         throw new IllegalStateException("[ERROR] 실행할 수 없습니다.");
     }
 

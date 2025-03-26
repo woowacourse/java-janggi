@@ -31,7 +31,7 @@ class ChariotTest {
         Piece cannon = new Cannon(DEFAULT);
         // when & then
         assertThatCode(
-                () -> cannon.validateMovable(current, destination)
+                () -> cannon.validateArrival(current, destination)
         ).doesNotThrowAnyException();
     }
 
@@ -45,7 +45,7 @@ class ChariotTest {
         Piece cannon = new Cannon(DEFAULT);
         // when & then
         assertThatThrownBy(() -> {
-            cannon.validateMovable(current, destination);
+            cannon.validateArrival(current, destination);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -72,7 +72,7 @@ class ChariotTest {
 
         // when & then
         assertThatThrownBy(() -> {
-            piece.validateArrival(pathPiece);
+            piece.validateMovePath(pathPiece);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -85,7 +85,7 @@ class ChariotTest {
 
         // when & then
         assertThatCode(
-                () -> piece.validateArrival(pathPiece)
+                () -> piece.validateMovePath(pathPiece)
         ).doesNotThrowAnyException();
     }
 
