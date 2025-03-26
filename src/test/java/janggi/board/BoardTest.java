@@ -1,7 +1,7 @@
 package janggi.board;
 
+import janggi.board.strategy.NormalPlaceStrategy;
 import janggi.exception.GameOverException;
-import janggi.fixture.BoardFixture;
 import janggi.piece.Chariot;
 import janggi.piece.General;
 import janggi.piece.Piece;
@@ -20,7 +20,7 @@ class BoardTest {
     @Test
     void 출발_지점에_기물이_존재하지_않으면_예외를_발생한다() {
         // given
-        Board board = BoardFixture.createBasicBoard();
+        Board board = new Board(new NormalPlaceStrategy());
         Position start = new Position(0, 1);
         Position goal = new Position(0, 2);
 
@@ -33,7 +33,7 @@ class BoardTest {
     @Test
     void 출발_지점에_기물이_존재하면_예외가_발생하지_않는다() {
         // given
-        Board board = BoardFixture.createBasicBoard();
+        Board board = new Board(new NormalPlaceStrategy());
         Position start = new Position(0, 0);
         Position goal = new Position(0, 2);
 
@@ -44,7 +44,7 @@ class BoardTest {
 
     @Test
     void 목적지에_같은_진영의_기물이_있는_경우_예외가_발생한다() {
-        Board board = BoardFixture.createBasicBoard();
+        Board board = new Board(new NormalPlaceStrategy());
         Position start = new Position(2, 0);
         Position goal = new Position(1, 2);
 
@@ -56,7 +56,7 @@ class BoardTest {
 
     @Test
     void 목적지에_같은_진영의_기물이_없는_경우_정상_작동한다() {
-        Board board = BoardFixture.createBasicBoard();
+        Board board = new Board(new NormalPlaceStrategy());
         Position start = new Position(2, 0);
         Position goal = new Position(3, 2);
 
@@ -67,7 +67,7 @@ class BoardTest {
 
     @Test
     void 다른_진영의_기물을_움직일_경우_예외를_발생한다() {
-        Board board = BoardFixture.createBasicBoard();
+        Board board = new Board(new NormalPlaceStrategy());
         Position start = new Position(0, 0);
         Position goal = new Position(0, 1);
 
@@ -86,7 +86,7 @@ class BoardTest {
 
         initialBoard.put(redGeneralPosition, new General(Team.RED));
         initialBoard.put(greenChariotPosition, new Chariot(Team.GREEN));
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when && then
         assertThatThrownBy(() -> board.movePiece(greenChariotPosition, redGeneralPosition, Team.GREEN))

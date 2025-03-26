@@ -26,7 +26,7 @@ class CanonTest {
 
         initialBoard.put(start, piece);
         initialBoard.put(createPosition(4,4), new Canon(Team.GREEN));
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when && then
         Assertions.assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
@@ -45,7 +45,7 @@ class CanonTest {
         initialBoard.put(start, piece);
         initialBoard.put(createPosition(4,4), new Soldier(Team.GREEN));
         initialBoard.put(createPosition(4,5), new Soldier(Team.GREEN));
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when && then
         Assertions.assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
@@ -62,7 +62,7 @@ class CanonTest {
         Canon piece = new Canon(Team.GREEN);
 
         initialBoard.put(start, piece);
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when && then
         Assertions.assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
@@ -81,7 +81,7 @@ class CanonTest {
         initialBoard.put(start, piece);
         initialBoard.put(createPosition(4,4), new Soldier(Team.GREEN));
         initialBoard.put(createPosition(4,6), new Canon(Team.RED));
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when && then
         Assertions.assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
@@ -103,7 +103,7 @@ class CanonTest {
         initialBoard.put(new Position(4,3), new Soldier(Team.GREEN));
         initialBoard.put(new Position(3,4), new Soldier(Team.GREEN));
         initialBoard.put(new Position(5,4), new Soldier(Team.GREEN));
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when
         board.movePiece(start, goal, Team.GREEN);

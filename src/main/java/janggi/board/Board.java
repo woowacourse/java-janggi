@@ -1,12 +1,12 @@
 package janggi.board;
 
+import janggi.board.strategy.PlaceStrategy;
 import janggi.exception.GameOverException;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
@@ -16,8 +16,8 @@ public class Board {
 
     private final Map<Position, Piece> board;
 
-    public Board(Map<Position, Piece> board) {
-        this.board = new HashMap<>(board);
+    public Board(PlaceStrategy placeStrategy) {
+        this.board = placeStrategy.initialize();
     }
 
     public void movePiece(Position start, Position goal, Team team) {

@@ -24,7 +24,7 @@ class GuardTest {
         Chariot piece = new Chariot(Team.GREEN);
 
         initialBoard.put(start, piece);
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when
         board.movePiece(start, goal, Team.GREEN);

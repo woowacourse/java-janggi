@@ -25,7 +25,7 @@ class SoldierTest {
         Soldier piece = new Soldier(team);
 
         initialBoard.put(start, piece);
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when
         board.movePiece(start, goal, team);
@@ -46,7 +46,7 @@ class SoldierTest {
         Soldier piece = new Soldier(team);
 
         initialBoard.put(start, piece);
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when && then
         assertThatThrownBy(() -> board.movePiece(start, goal, team))

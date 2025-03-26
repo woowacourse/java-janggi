@@ -27,7 +27,7 @@ class ChariotTest {
         Chariot piece = new Chariot(Team.GREEN);
 
         initialBoard.put(start, piece);
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when
         board.movePiece(start, goal, Team.GREEN);
@@ -48,7 +48,7 @@ class ChariotTest {
 
         initialBoard.put(start, piece);
         initialBoard.put(createPosition(4,6), new Chariot(Team.GREEN));
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // then
         assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
@@ -66,7 +66,7 @@ class ChariotTest {
         Chariot piece = new Chariot(Team.GREEN);
 
         initialBoard.put(start, piece);
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when && then
         assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))

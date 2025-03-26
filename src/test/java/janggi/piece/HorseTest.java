@@ -26,7 +26,7 @@ class HorseTest {
         Horse piece = new Horse(Team.GREEN);
 
         initialBoard.put(start, piece);
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // when
         board.movePiece(start, goal, Team.GREEN);
@@ -47,12 +47,30 @@ class HorseTest {
 
         initialBoard.put(start, piece);
         initialBoard.put(createPosition(4,5), new Soldier(Team.GREEN));
-        Board board = new Board(initialBoard);
+        Board board = new Board(() -> initialBoard);
 
         // then
         assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동 경로 중 특정 위치에 다른 기물이 있어 해당 기물을 목적지로 이동할 수 없습니다.");
     }
+
+//    @CsvSource(value = {"5:6", "3:6", "2:3", "2:5", "3:2", "5:2", "6:5", "6:3"}, delimiterString = ":")
+//    @ParameterizedTest
+//    void 마의_이동_규칙을_벗어나_움직일_경우_예외를_발생한다(int column, int row) {
+//        // given
+//        Map<Position, Piece> initialBoard = new HashMap<>();
+//        Position start = new Position(4, 4);
+//        Position goal = createPosition(column, row);
+//        Horse piece = new Horse(Team.GREEN);
+//
+//        initialBoard.put(start, piece);
+//        Board board = new Board(initialBoard);
+//
+//        // when && then
+//        assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
+//                .isInstanceOf(IllegalArgumentException.class)
+//                .hasMessage("[ERROR] 마의 이동 규칙에 어긋나는 움직임입니다.");
+//    }
 
 }
