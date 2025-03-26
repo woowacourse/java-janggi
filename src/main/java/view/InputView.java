@@ -7,6 +7,8 @@ import java.util.Scanner;
 public class InputView {
 
     private static final String POSITION_DELIMITER = ",";
+    private static final int ROW_INDEX = 0;
+    private static final int COLUMN_INDEX = 1;
 
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -20,7 +22,7 @@ public class InputView {
     public List<Integer> inputDestinationPosition() {
         System.out.println("이동할 위치를 입력하세요. (예시: 1,1)");
         final String input = readInput();
-        
+
         return validateAndParse(validateAndSplit(input));
     }
 
@@ -41,8 +43,8 @@ public class InputView {
 
     private List<Integer> validateAndParse(final String[] parts) {
         try {
-            final int x = Integer.parseInt(parts[0].trim());
-            final int y = Integer.parseInt(parts[1].trim());
+            final int x = Integer.parseInt(parts[ROW_INDEX].trim());
+            final int y = Integer.parseInt(parts[COLUMN_INDEX].trim());
 
             return List.of(x, y);
         } catch (NumberFormatException e) {

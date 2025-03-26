@@ -46,7 +46,7 @@ public class OutputView {
 
     private void printColumnHeader() {
         System.out.print("  ");
-        for (int j = 0; j < 9; j++) {
+        for (int j = BoardPosition.MIN_Y; j < BoardPosition.MAX_Y; j++) {
             System.out.print(" " + j + " ");
         }
         System.out.println();
