@@ -10,26 +10,26 @@ public class Captured implements PieceState {
 
     @Override
     public List<Pattern> findMovablePath(Path path, JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        throw new UnsupportedOperationException("잡힌 기물입니다.");
+        throw new UnsupportedOperationException("이미 잡힌 기물입니다.");
     }
 
     @Override
     public void validateMove(List<Piece> hurdlePieces) {
-        throw new UnsupportedOperationException("잡힌 기물입니다.");
+        throw new UnsupportedOperationException("이미 잡힌 기물입니다.");
     }
 
     @Override
     public PieceState captured() {
-        throw new UnsupportedOperationException("잡힌 기물입니다.");
+        throw new UnsupportedOperationException("이미 잡힌 기물입니다.");
     }
 
     @Override
     public PieceState updateState() {
-        throw new UnsupportedOperationException("잡힌 기물입니다.");
+        throw new UnsupportedOperationException("이미 잡힌 기물입니다.");
     }
 
     @Override
     public boolean isGeneral() {
-        throw new UnsupportedOperationException("잡힌 기물입니다.");
+        throw new UnsupportedOperationException("이미 잡힌 기물입니다.");
     }
 }
