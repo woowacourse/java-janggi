@@ -27,22 +27,35 @@ public class JanggiBoard {
 
     public void move(Dynasty dynasty, Point from, Point to) {
         Piece piece = pieces.get(from);
-        if (piece == null) {
-            throw new IllegalArgumentException("시작 위치에 기물이 존재하지 않습니다.");
-        }
-        if (!piece.isDynasty(dynasty)) {
-            throw new IllegalArgumentException("자신의 나라 기물만 움직일 수 있습니다.");
-        }
+        validateExistPiece(piece);
+        validateMovablePiece(dynasty, piece);
+
         List<Point> movePath = piece.movePath(from, to);
-        if (!piece.canMove(toPiecesOnPath(movePath))) {
-            throw new IllegalArgumentException("해당 위치로 움직일 수 없습니다.");
-        }
+        validateCanMoveByPath(piece, movePath);
         pieces.remove(from);
         pieces.put(to, piece);
     }
 
     private Piece findPiece(Point point) {
         return pieces.getOrDefault(point, new EmptyPiece());
+    }
+
+    private void validateExistPiece(Piece piece) {
+        if (piece == null) {
+            throw new IllegalArgumentException("시작 위치에 기물이 존재하지 않습니다.");
+        }
+    }
+
+    private void validateMovablePiece(Dynasty dynasty, Piece piece) {
+        if (!piece.isDynasty(dynasty)) {
+            throw new IllegalArgumentException("자신의 나라 기물만 움직일 수 있습니다.");
+        }
+    }
+
+    private void validateCanMoveByPath(Piece piece, List<Point> movePath) {
+        if (!piece.canMove(toPiecesOnPath(movePath))) {
+            throw new IllegalArgumentException("해당 위치로 움직일 수 없습니다.");
+        }
     }
 
     private PiecesOnPath toPiecesOnPath(List<Point> movePath) {
