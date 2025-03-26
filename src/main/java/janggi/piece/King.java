@@ -11,15 +11,13 @@ public class King extends Piece {
 
     @Override
     public List<Position> calculatePath(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        validateMovingRule(differenceX, differenceY);
+        validateMovingRule(start, end);
         return List.of();
     }
 
-    private void validateMovingRule(final int differenceX, final int differenceY) {
-        int absDifferenceX = Math.abs(differenceX);
-        int absDifferenceY = Math.abs(differenceY);
+    private void validateMovingRule(final Position start, final Position end) {
+        int absDifferenceX = start.calculateAbsoluteDifferenceX(end);
+        int absDifferenceY = start.calculateAbsoluteDifferenceY(end);
         if ((absDifferenceX == 1 && absDifferenceY == 0)
                 || (absDifferenceX == 0 && absDifferenceY == 1)) {
             return;
