@@ -53,7 +53,7 @@ public class PositionTest {
     3 d e f
     */
     @Test
-    @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
+    @DisplayName("바로 다음 위치의 기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
     void canJumpTest_1(){
         // given
         Piece cannon = new Cannon(HAN, D1);
@@ -71,7 +71,7 @@ public class PositionTest {
     3 d e f
     */
     @Test
-    @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
+    @DisplayName("바로 다음 위치의 기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
     void canJumpTest_2(){
         // given
         Piece cannon = new Cannon(HAN, D1);

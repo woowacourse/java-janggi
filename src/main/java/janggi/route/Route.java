@@ -26,11 +26,11 @@ public final class Route {
 
     public boolean canJump(Position source, Board board) {
         Position target = source;
-        for (int directionCount = 0; directionCount < directions.size() - 1; directionCount++) {
-            if (target.canJump(directions.get(directionCount), board)) { // 1칸뒤에 포가 아닌 기물이 있어야 함. 2칸뒤로 이동할 수 있어야 함.
+        for (Direction direction : directions) {
+            if (target.canJump(direction, board)) { // 1칸뒤에 포가 아닌 기물이 있어야 함. 2칸뒤로 이동할 수 있어야 함.
                 return true;
             }
-            target = target.move(directions.get(directionCount));
+            target = target.move(direction);
         }
         return false;
     }

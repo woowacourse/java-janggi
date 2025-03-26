@@ -4,10 +4,12 @@ import static janggi.route.Direction.EAST;
 import static janggi.route.Direction.SOUTH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static janggi.piece.Team.HAN;
+import static position.PositionFixtures.D0;
 import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 import static janggi.route.Direction.NORTH;
+import static position.PositionFixtures.F1;
 
 import janggi.piece.jumpingPiece.Cannon;
 import java.util.List;
@@ -47,7 +49,7 @@ public class RouteTest {
     */
     @Test
     @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
-    void canJumpTest(){
+    void canJumpTest_1(){
         // given
         Piece cannon = new Cannon(HAN, D1);
         Piece palace = new Palace(HAN, E1);
@@ -56,6 +58,62 @@ public class RouteTest {
 
         // when - then
         assertThat(route.canJump(D1, board)).isTrue();
+    }
+
+    /*
+    0 ＿ ＿ ＿ ＿
+    1 포 ＿ 궁 *
+    2 ＿ ＿ ＿ ＿
+    3 d e  f g
+    */
+    @Test
+    @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
+    void canJumpTest_2(){
+        // given
+        Piece cannon = new Cannon(HAN, D1);
+        Piece palace = new Palace(HAN, F1);
+        Board board = new Board(Set.of(cannon, palace));
+        Route route = new Route(List.of(EAST, EAST, EAST));
+
+        // when - then
+        assertThat(route.canJump(D1, board)).isTrue();
+    }
+
+    /*
+    0 궁 ＿ ＿
+    1 포 ＿ ＿
+    2 ＿ ＿ ＿
+    3 d e f
+    */
+    @Test
+    @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
+    void canJumpTest_3(){
+        // given
+        Piece cannon = new Cannon(HAN, D1);
+        Piece palace = new Palace(HAN, F1);
+        Board board = new Board(Set.of(cannon, palace));
+        Route route = new Route(List.of(NORTH, NORTH));
+
+        // when - then
+        assertThat(route.canJump(D1, board)).isFalse();
+    }
+
+    /*
+    0 포 ＿ ＿
+    1 ＿ ＿ ＿
+    2 ＿ ＿ ＿
+    3 d e f
+    */
+    @Test
+    @DisplayName("기물을 뛰어넘는 것이 가능한지 검사할 수 있다.")
+    void canJumpTest_4(){
+        // given
+        Piece cannon = new Cannon(HAN, D0);
+        Board board = new Board(Set.of(cannon));
+        Route route = new Route(List.of(NORTH, NORTH));
+
+        // when - then
+        assertThat(route.canJump(D1, board)).isFalse();
     }
 
 }
