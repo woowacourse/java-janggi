@@ -20,7 +20,11 @@ class KingTest {
         board.putPiece(new Solider(new Position(5, 3), Team.BLUE));
         board.putPiece(new Solider(new Position(4, 2), Team.RED));
 
-        assertThat(piece.getMovablePositions(board)).hasSize(3);
+        assertThat(piece.getMovablePositions(board)).containsExactlyInAnyOrder(
+                new Position(5,3),
+                new Position(5,1),
+                new Position(6,2)
+        );
     }
 
 }
