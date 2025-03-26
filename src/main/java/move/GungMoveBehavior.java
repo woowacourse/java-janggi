@@ -26,6 +26,9 @@ public class GungMoveBehavior extends JanggiMoveBehavior {
     @Override
     public List<JanggiPosition> calculateLegalRoute(JanggiPosition startPosition, JanggiPosition endPosition,
                                                     Team team) {
+        if (startPosition.equals(endPosition)) {
+            return List.of(startPosition);
+        }
         if (!isInsideGungsungCase(startPosition, endPosition)) {
             throw new InvalidMovePosition();
         }
