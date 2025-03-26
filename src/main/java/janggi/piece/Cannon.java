@@ -11,7 +11,7 @@ import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cannon extends Piece {
+public class Cannon extends IterablePiece {
 
     private static final List<Movement> MOVEMENTS = List.of(
             new Movement(UP),

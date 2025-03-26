@@ -10,11 +10,10 @@ import static janggi.piece.direction.Direction.UP_LEFT;
 import static janggi.piece.direction.Direction.UP_RIGHT;
 
 import janggi.piece.direction.Movement;
-import janggi.position.Path;
 import janggi.position.Position;
 import java.util.List;
 
-public class Horse extends Piece {
+public class Horse extends NonIterablePiece {
 
     private static final List<Movement> MOVEMENTS = List.of(
             new Movement(DOWN, DOWN_RIGHT),
@@ -29,13 +28,6 @@ public class Horse extends Piece {
 
     public Horse(final Team team, final Position currentPosition) {
         super(team, currentPosition);
-    }
-
-    @Override
-    protected void validatePath(final Pieces pieces, final Path path) {
-        if (hasPieceInMiddle(path, pieces)) {
-            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
-        }
     }
 
     @Override

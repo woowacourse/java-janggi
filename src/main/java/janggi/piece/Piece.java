@@ -26,7 +26,7 @@ public abstract class Piece {
 
         final PieceType pieceType = getPieceType();
         final Movement movement = findMovement(pieceType, differenceForY, differenceForX);
-        final Path path = Path.from(pieceType, movement, currentPosition, arrivalPosition);
+        final Path path = makePath(movement, currentPosition, arrivalPosition);
         validatePath(pieces, path);
     }
 
@@ -40,6 +40,12 @@ public abstract class Piece {
 
     public void updatePosition(final Position arrivalPosition) {
         currentPosition = arrivalPosition;
+    }
+
+    protected void validatePath(final Pieces pieces, final Path path) {
+        if (hasPieceInMiddle(path, pieces)) {
+            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
+        }
     }
 
     protected final void validateSamePosition(final Position arrivalPosition) {
@@ -75,7 +81,8 @@ public abstract class Piece {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 적절한 움직임이 아닙니다."));
     }
 
-    protected abstract void validatePath(Pieces pieces, Path path);
+    protected abstract Path makePath(Movement movement, Position startPosition,
+                                     Position arrivalPosition);
 
     protected abstract List<Movement> getMovements();
 
