@@ -41,9 +41,9 @@ public class Board {
     }
 
     public void movePiece(final Player player, final Position departure, final Position destination) {
-        Piece allyPiece = getPiece(departure);
-        validatePieceOwner(allyPiece, player);
-        Piece movedPiece = allyPiece.move(this, destination);
+        Piece selectedPiece = getPiece(departure);
+        validatePieceOwner(selectedPiece, player);
+        Piece movedPiece = selectedPiece.move(this, destination);
 
         updateScore(player, destination);
         updateBoard(departure, destination, movedPiece);
