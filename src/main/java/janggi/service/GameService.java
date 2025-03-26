@@ -1,4 +1,4 @@
-package janggi;
+package janggi.service;
 
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
@@ -41,6 +41,11 @@ public class GameService {
 
     public boolean isGameOver() {
         return playingTurn.isEnded() || board.isAnyGoongDead();
+    }
+
+    public void clearGame() {
+        repository.clear();
+        repository.updateTurn(new PlayingTurn());
     }
 
     public Team higherScoreTeam() {

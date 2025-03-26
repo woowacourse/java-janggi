@@ -1,6 +1,6 @@
 package janggi.repository;
 
-import janggi.PlayingTurn;
+import janggi.service.PlayingTurn;
 import janggi.dao.PieceDao;
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;

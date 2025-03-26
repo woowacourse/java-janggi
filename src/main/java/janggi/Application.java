@@ -1,7 +1,10 @@
 package janggi;
 
+import janggi.controller.BoardInitializeController;
+import janggi.controller.GameController;
 import janggi.dao.PieceDao;
 import janggi.domain.board.Board;
+import janggi.service.GameService;
 import janggi.view.ConfigurationView;
 import java.util.Scanner;
 import janggi.repository.DockerRepository;
@@ -19,12 +22,18 @@ public class Application {
         OutputView outputView = new OutputView();
         Repository repository = decideRepository();
 
-        BoardInitializer boardInitializer = new BoardInitializer(new BoardInitiliazeView(new Scanner(System.in)), repository);
-        Board board = boardInitializer.initializeBoard();
+        Board board = initializeBoard(repository);
 
         GameService gameService = new GameService(board, repository);
         GameController controller = new GameController(inputView, outputView, gameService);
         controller.play();
+    }
+
+    private static Board initializeBoard(final Repository repository) {
+        BoardInitiliazeView boardInitiliazeView = new BoardInitiliazeView(new Scanner(System.in));
+
+        BoardInitializeController boardInitializeController = new BoardInitializeController(boardInitiliazeView, repository);
+        return boardInitializeController.initializeBoard();
     }
 
     private static Repository decideRepository() {

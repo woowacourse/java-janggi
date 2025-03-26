@@ -1,6 +1,6 @@
 package janggi.repository;
 
-import janggi.PlayingTurn;
+import janggi.service.PlayingTurn;
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
 import java.util.HashMap;

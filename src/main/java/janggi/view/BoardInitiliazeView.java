@@ -41,7 +41,8 @@ public class BoardInitiliazeView {
     }
 
     public int readTableSetting(Team team) {
-        System.out.printf("%s 나라의 상차림을 선택해 주세요.", ViewTools.applyColor(TEAM_COLORS.get(team), TEAM_NAMES.get(team)));
+        System.out.printf("%s 나라의 상차림을 선택해 주세요.",
+            ViewTools.applyColor(TEAM_COLORS.get(team), TEAM_NAMES.get(team)));
         System.out.println();
         System.out.println("1. 마상상마");
         System.out.println("2. 마상마상");

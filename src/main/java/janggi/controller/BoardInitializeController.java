@@ -1,4 +1,4 @@
-package janggi;
+package janggi.controller;
 
 import janggi.domain.Piece;
 import janggi.domain.Team;
@@ -9,12 +9,13 @@ import janggi.domain.board.maSangStrategy.MaSangSangMa;
 import janggi.domain.board.maSangStrategy.MaSangStrategy;
 import janggi.domain.board.maSangStrategy.SangMaMaSang;
 import janggi.domain.board.maSangStrategy.SangMaSangMa;
+import janggi.repository.Repository;
+import janggi.service.PlayingTurn;
+import janggi.view.BoardInitiliazeView;
 import java.util.Map;
 import java.util.Set;
-import janggi.repository.Repository;
-import janggi.view.BoardInitiliazeView;
 
-public class BoardInitializer {
+public class BoardInitializeController {
 
     private final Map<Integer, MaSangStrategy> boardCreateStrategy = Map.of(
         1, new MaSangSangMa(),
@@ -26,7 +27,7 @@ public class BoardInitializer {
     private final BoardInitiliazeView boardInitiliazeView;
     private final Repository repository;
 
-    public BoardInitializer(
+    public BoardInitializeController(
         final BoardInitiliazeView view,
         final Repository repository
     ) {

@@ -1,6 +1,7 @@
-package janggi;
+package janggi.controller;
 
 import janggi.domain.Team;
+import janggi.service.GameService;
 import janggi.view.InputView;
 import janggi.view.InputView.UserInput;
 import janggi.view.OutputView;
@@ -32,6 +33,7 @@ public class GameController {
 
             service.movePiece(userInput.departure, userInput.arrival);
             if (service.isGameOver()) {
+                service.clearGame();
                 gameOver();
                 return false;
             }
