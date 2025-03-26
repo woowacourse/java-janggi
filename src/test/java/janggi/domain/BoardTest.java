@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.piece.HorseSide;
 import janggi.domain.piece.None;
@@ -23,5 +24,16 @@ class BoardTest {
 
         assertThat(board.getPieceByPosition(beforePosition)).isInstanceOf(None.class);
         assertThat(board.getPieceByPosition(afterPosition)).isInstanceOf(Soldier.class);
+    }
+
+    @DisplayName("기물 별 이동 조건을 만족하지 않는 경우 예외를 발생시킨다.")
+    @Test
+    void movePieceException() {
+        Board board = BoardFactory.getInitializedBoard(HorseSide.LEFT, HorseSide.LEFT,
+                HorseSide.LEFT, HorseSide.LEFT);
+        Position beforePosition = new Position(7, 1);
+        Position afterPosition = new Position(5, 1);
+
+        assertThatThrownBy(() -> board.movePiece(beforePosition, afterPosition));
     }
 }
