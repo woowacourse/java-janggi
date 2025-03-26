@@ -11,6 +11,7 @@ import static direction.Direction.UP_RIGHT_DIAGONAL;
 
 import direction.Direction;
 import direction.Point;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class Elephant extends Piece {
 
     public List<Direction> getPaths(Point from, Point to) {
         Point distance = to.minus(from);
-        return pathInfo.getOrDefault(distance, List.of());
+        return pathInfo.getOrDefault(distance, Collections.emptyList());
     }
 
     private void validateAvailableDestination(Point from, Point to) {
