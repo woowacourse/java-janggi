@@ -1,6 +1,8 @@
 package piece;
 
+import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import board.Board;
@@ -14,43 +16,64 @@ public class Cannon extends Piece {
 
     @Override
     protected Set<Position> getMovablePositions(final Board board) {
-        Set<Position> positions = new HashSet<>();
-        Direction.getStraightDirection().forEach(direction -> goOneSide(
-                position.moveByDirection(direction),
-                direction,
-                false,
-                positions,
-                board
-        ));
-        return positions;
+        Map<Direction, Position> hurdlePositions = findHurdlePositions(board);
+        if (hurdlePositions.isEmpty()) {
+            throw new IllegalArgumentException("움직일 수 없습니다.");
+        }
+        Set<Position> movablePositions = new HashSet<>();
+        for (Direction direction : hurdlePositions.keySet()) {
+            Position movablePosition = hurdlePositions.get(direction);
+            addMovablePosition(board, direction, movablePosition, movablePositions);
+        }
+        return movablePositions;
+    }
+
+    private Map<Direction, Position> findHurdlePositions(final Board board) {
+        Map<Direction, Position> hurdlePositions = new EnumMap<>(Direction.class);
+        for (Direction straightDirection : Direction.getStraightDirection()) {
+            addHurdlePosition(board, straightDirection, hurdlePositions);
+        }
+        return hurdlePositions;
+    }
+
+    private void addHurdlePosition(final Board board, final Direction straightDirection,
+                                   final Map<Direction, Position> hurdlePositions
+    ) {
+        Position movePosition = position;
+        while (true) {
+            movePosition = movePosition.moveByDirection(straightDirection);
+            if (movePosition.isInValidPosition() || board.isCannonPosition(movePosition)) {
+                break;
+            }
+            if (board.isExists(movePosition)) {
+                hurdlePositions.put(straightDirection, movePosition);
+                break;
+            }
+        }
+    }
+
+    private void addMovablePosition(final Board board, final Direction direction,
+                                    final Position hurdlePosition, final Set<Position> movablePositions
+    ) {
+        Position movablePosition = hurdlePosition;
+        while (true) {
+            movablePosition = movablePosition.moveByDirection(direction);
+            if (movablePosition.isInValidPosition()) {
+                break;
+            }
+            if (board.isSameTeamPosition(team, movablePosition) || board.isCannonPosition(movablePosition)) {
+                break;
+            }
+            movablePositions.add(movablePosition);
+            if (board.isExists(movablePosition)) {
+                break;
+            }
+        }
     }
 
     @Override
     public String getDisplayName() {
         return "포";
-    }
-
-    private void goOneSide(Position position, Direction direction, boolean hasHuddle, Set<Position> positions,
-                           final Board board) {
-        if (exitCondition(position, hasHuddle, board)) {
-            return;
-        }
-        if (!hasHuddle) {
-            goOneSide(position.moveByDirection(direction), direction, board.isExists(position), positions, board);
-            return;
-        }
-        if (!board.isExists(position)) {
-            goOneSide(position.moveByDirection(direction), direction, true, positions, board);
-        }
-        positions.add(position);
-    }
-
-    private boolean exitCondition(Position position, boolean hasHuddle, final Board board) {
-        return (
-                position.isInValidPosition() ||
-                        board.isCannonAt(position) ||
-                        (board.isSameTeamPosition(this.team, position) && hasHuddle)
-        );
     }
 
 }

@@ -56,7 +56,7 @@ public class Board {
         pieces.removeIf(piece -> piece.isSamePosition(position));
     }
 
-    public boolean isCannonAt(final Position position) {
+    public boolean isCannonPosition(final Position position) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
                 .anyMatch(Cannon.class::isInstance);
