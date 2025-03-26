@@ -19,7 +19,7 @@ public enum Command {
         return Arrays.stream(Command.values())
                 .filter(command -> command.input.equals(input))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException(input + ": 존재하지 명령어입니다."));
+                .orElseThrow(() -> new IllegalArgumentException(input + ": 존재하지 않는 명령어입니다."));
     }
 
     public boolean isMove() {
