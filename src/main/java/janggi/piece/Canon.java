@@ -37,6 +37,13 @@ public class Canon extends Piece {
         }
     }
 
+    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
+        Piece other = board.get(goal);
+        if (other != null && other.isSameType(PieceType.CANNON)) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
+        }
+    }
+
     @Override
     protected String getName() {
         return NAME;
@@ -45,12 +52,5 @@ public class Canon extends Piece {
     @Override
     public boolean isSameType(PieceType pieceType) {
         return pieceType == PieceType.CANNON;
-    }
-
-    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
-        Piece other = board.get(goal);
-        if (other != null && other.isSameType(PieceType.CANNON)) {
-            throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
-        }
     }
 }
