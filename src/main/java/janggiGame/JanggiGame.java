@@ -30,8 +30,27 @@ public class JanggiGame {
         currentState = currentState.skipTurn();
     }
 
-    public void arrangeChoPieces(ArrangementStrategy strategy) {
-        pieces.putAll(strategy.arrangeCho(Dynasty.CHO));
+    public boolean isFinished() {
+        return currentState.isFinished();
+    }
+
+    public GameResult getGameResult() {
+        return currentState.getGameResult();
+    }
+
+    public GameScore getGameScore() {
+        return currentState.getGameScore();
+    }
+
+    public void undoTurn() {
+        validateHistory();
+        currentState = history.pop();
+    }
+
+    private void validateHistory() {
+        if(history.isEmpty()) {
+            throw new IllegalStateException("[ERROR] 무를 수 있는 턴이 없습니다.");
+        }
     }
 
     public Map<Dot, Piece> getPieces() {
