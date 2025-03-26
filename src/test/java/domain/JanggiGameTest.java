@@ -125,7 +125,7 @@ class JanggiGameTest {
             JanggiCoordinate choCoordinate = new JanggiCoordinate(3, 5);
             map.put(choCoordinate, choPiece);
 
-            Piece hanPiece = new Gung(Country.HAN);
+            Piece hanPiece = new Cha(Country.HAN);
             JanggiCoordinate hanCoordinate = new JanggiCoordinate(3, 3);
             map.put(hanCoordinate, hanPiece);
 
@@ -156,11 +156,11 @@ class JanggiGameTest {
             Map<JanggiCoordinate, Piece> map = new HashMap<>();
 
             Piece choPiece = new Gung(Country.CHO);
-            JanggiCoordinate choCoordinate = new JanggiCoordinate(3, 4);
+            JanggiCoordinate choCoordinate = new JanggiCoordinate(2, 5);
             map.put(choCoordinate, choPiece);
 
             Piece hanPiece = new Gung(Country.HAN);
-            JanggiCoordinate hanCoordinate = new JanggiCoordinate(3, 3);
+            JanggiCoordinate hanCoordinate = new JanggiCoordinate(1, 4);
             map.put(hanCoordinate, hanPiece);
 
             JanggiGame janggiGame = new JanggiGame(map);

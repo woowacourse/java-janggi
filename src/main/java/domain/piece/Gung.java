@@ -7,7 +7,7 @@ import domain.PieceType;
 
 import java.util.function.Predicate;
 
-public class Gung extends Piece implements DistanceMove {
+public class Gung extends Piece implements DistanceMove, CastlePieceMove {
     private static final int GUNG_REACHABLE_DISTANCE = 2;
     private static final Predicate<Integer> isReachAble = (dist) -> dist <= GUNG_REACHABLE_DISTANCE;
 
@@ -18,5 +18,6 @@ public class Gung extends Piece implements DistanceMove {
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         validateReachableDistanceCoordinate(from, to, isReachAble);
+        validateCastlePieceMove(board, from, to);
     }
 }

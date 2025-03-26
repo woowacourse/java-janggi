@@ -28,8 +28,8 @@ class GungTest {
             Piece maOurTeam = new Ma(Country.HAN);
             Map<JanggiCoordinate, Piece> map = new HashMap<>();
 
-            JanggiCoordinate myGung = new JanggiCoordinate(5, 5);
-            JanggiCoordinate ourMa = new JanggiCoordinate(4, 5);
+            JanggiCoordinate myGung = new JanggiCoordinate(2, 5);
+            JanggiCoordinate ourMa = new JanggiCoordinate(3, 4);
 
             map.put(myGung, gung);
             map.put(ourMa, maOurTeam);
@@ -47,8 +47,8 @@ class GungTest {
             Piece maEnemy = new Ma(Country.CHO);
             Map<JanggiCoordinate, Piece> map = new HashMap<>();
 
-            JanggiCoordinate myGung = new JanggiCoordinate(5, 5);
-            JanggiCoordinate enemyMa = new JanggiCoordinate(4, 4);
+            JanggiCoordinate myGung = new JanggiCoordinate(2, 5);
+            JanggiCoordinate enemyMa = new JanggiCoordinate(3, 4);
 
             map.put(myGung, gung);
             map.put(enemyMa, maEnemy);
@@ -64,7 +64,7 @@ class GungTest {
         void validateReachableCoordinate(JanggiCoordinate coordinate) {
             Piece piece = new Gung(Country.HAN);
             Map<JanggiCoordinate, Piece> map = new HashMap<>();
-            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(5, 5);
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(2, 5);
             map.put(pieceCoordinate, piece);
 
             JanggiBoard board = new JanggiBoard(map);
@@ -74,14 +74,14 @@ class GungTest {
 
         private static Stream<Arguments> reachableArguments() {
             return Stream.of(
-                    Arguments.arguments(new JanggiCoordinate(4, 5)),
-                    Arguments.arguments(new JanggiCoordinate(4, 6)),
-                    Arguments.arguments(new JanggiCoordinate(5, 6)),
-                    Arguments.arguments(new JanggiCoordinate(6, 6)),
-                    Arguments.arguments(new JanggiCoordinate(6, 5)),
-                    Arguments.arguments(new JanggiCoordinate(6, 4)),
-                    Arguments.arguments(new JanggiCoordinate(5, 4)),
-                    Arguments.arguments(new JanggiCoordinate(4, 4))
+                    Arguments.arguments(new JanggiCoordinate(1, 4)),
+                    Arguments.arguments(new JanggiCoordinate(1, 5)),
+                    Arguments.arguments(new JanggiCoordinate(1, 6)),
+                    Arguments.arguments(new JanggiCoordinate(2, 4)),
+                    Arguments.arguments(new JanggiCoordinate(2, 6)),
+                    Arguments.arguments(new JanggiCoordinate(3, 4)),
+                    Arguments.arguments(new JanggiCoordinate(3, 5)),
+                    Arguments.arguments(new JanggiCoordinate(3, 6))
             );
         }
 
@@ -91,7 +91,7 @@ class GungTest {
         void validateUnreachableCoordinate(JanggiCoordinate coordinate) {
             Piece piece = new Gung(Country.HAN);
             Map<JanggiCoordinate, Piece> map = new HashMap<>();
-            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(5, 5);
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(1, 4);
             map.put(pieceCoordinate, piece);
 
             JanggiBoard board = new JanggiBoard(map);
@@ -102,9 +102,32 @@ class GungTest {
 
         private static Stream<Arguments> unreachableArguments() {
             return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(3, 4)),
                     Arguments.arguments(new JanggiCoordinate(3, 5)),
-                    Arguments.arguments(new JanggiCoordinate(4, 3)),
-                    Arguments.arguments(new JanggiCoordinate(5, 3))
+                    Arguments.arguments(new JanggiCoordinate(2, 6))
+            );
+        }
+
+        @DisplayName("해당 기물은 궁성 밖을 나갈 수 없다.")
+        @ParameterizedTest
+        @MethodSource("outerCastleArguments")
+        void outerCastleTest(JanggiCoordinate coordinate) {
+            Piece piece = new Gung(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(1, 4);
+            map.put(pieceCoordinate, piece);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, coordinate))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        private static Stream<Arguments> outerCastleArguments() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(3, 4)),
+                    Arguments.arguments(new JanggiCoordinate(3, 5)),
+                    Arguments.arguments(new JanggiCoordinate(3, 6))
             );
         }
     }
