@@ -5,6 +5,8 @@ import domain.piece.Piece;
 import java.util.Map;
 
 public class JanggiGame {
+    private static final double DUM_SCORE = 1.5;
+
     private final JanggiBoard board;
     private Country currTurn;
 
@@ -31,8 +33,11 @@ public class JanggiGame {
         return Country.CHO;
     }
 
-    public int getCountryScore(Country country) {
-        return board.getScoreSum(country);
+    public double getCountryScore(Country country) {
+        if (country == Country.HAN) {
+            return board.getPieceScoreSum(country) + DUM_SCORE;
+        }
+        return board.getPieceScoreSum(country);
     }
 
     private void validatePieceMove(Piece piece, JanggiCoordinate from, JanggiCoordinate to) {
