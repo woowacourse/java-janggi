@@ -1,7 +1,6 @@
 package domain.pattern;
 
 import static domain.Fixtures._EIGHT_FIVE;
-import static domain.Fixtures._EIGHT_FOUR;
 import static domain.Fixtures._NINE_FIVE;
 import static domain.Fixtures._NINE_FOUR;
 import static domain.Fixtures._NINE_SIX;
@@ -45,7 +44,7 @@ public class GuardPathTest {
     @Test
     void 사의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findMovablePath(_NINE_FIVE, _EIGHT_FOUR))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(_EIGHT_FIVE, _NINE_SIX))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

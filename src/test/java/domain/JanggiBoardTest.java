@@ -73,7 +73,7 @@ public class JanggiBoardTest {
     @Test
     void _9_10_보드판을_생성할_수_있다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // then
         assertThat(janggiBoard.getJanggiBoard().size())
@@ -84,7 +84,7 @@ public class JanggiBoardTest {
     @MethodSource("providePlaceAndPiece")
     void 장기_기물의_초기_위치를_저장한다(JanggiPosition position, Piece piece) {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when & then
         assertThat(janggiBoard.getPieceFrom(position)).isInstanceOf(piece.getClass());
@@ -130,7 +130,7 @@ public class JanggiBoardTest {
     @Test
     void 기물을_이동하며_마주치는_장애물을_확인할_수_있다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when & then
         assertThatThrownBy(() -> janggiBoard.move(_ZERO_ONE, _SIX_ONE))
@@ -142,7 +142,7 @@ public class JanggiBoardTest {
         @Test
         void General을_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
             janggiBoard.move(_NINE_FIVE, _EIGHT_FIVE);
@@ -154,7 +154,7 @@ public class JanggiBoardTest {
         @Test
         void Horse를_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
             janggiBoard.move(_ZERO_TWO, _EIGHT_THREE);
@@ -166,7 +166,7 @@ public class JanggiBoardTest {
         @Test
         void 사를_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
             janggiBoard.move(_ZERO_FOUR, _NINE_FOUR);
@@ -178,7 +178,7 @@ public class JanggiBoardTest {
         @Test
         void 상을_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
             janggiBoard.move(_SEVEN_FIVE, _SIX_FIVE);
@@ -191,7 +191,7 @@ public class JanggiBoardTest {
         @Test
         void 졸을_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
             janggiBoard.move(_SEVEN_ONE, _SIX_ONE);
@@ -203,7 +203,7 @@ public class JanggiBoardTest {
         @Test
         void 병을_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
             janggiBoard.move(_FOUR_ONE, _FIVE_ONE);
@@ -215,7 +215,7 @@ public class JanggiBoardTest {
         @Test
         void 차를_이동시킬_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
             janggiBoard.move(_SEVEN_NINE, _SEVEN_EIGHT);
@@ -229,7 +229,7 @@ public class JanggiBoardTest {
         void 차를_오른쪽으로_이동시킬_수_있다() {
             // given
 
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
             janggiBoard.move(_ZERO_TWO, _EIGHT_THREE);
 
             // when
@@ -242,7 +242,7 @@ public class JanggiBoardTest {
         @Test
         void 포는_기물을_하나_뛰어넘어서_이동할_수_있다() {
             // given
-            JanggiBoard janggiBoard = new JanggiBoard();
+            JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
             janggiBoard.move(_FOUR_THREE, _FOUR_FOUR);
@@ -259,7 +259,7 @@ public class JanggiBoardTest {
     @Test
     void 포는_포를_뛰어넘을_수_없다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when & then
         assertThatThrownBy(() -> janggiBoard.move(_EIGHT_EIGHT, _TWO_EIGHT))
@@ -269,7 +269,7 @@ public class JanggiBoardTest {
     @Test
     void 포는_기물을_두_개_이상_뛰어넘을_수_없다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when
         janggiBoard.move(_NINE_FIVE, _EIGHT_FIVE);
@@ -283,7 +283,7 @@ public class JanggiBoardTest {
     @Test
     void 기물은_다른_기물을_잡아서_잡힌_기물의_상태를_바꿀_수_있다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when
         janggiBoard.move(_SEVEN_SEVEN, _SIX_SEVEN);
@@ -299,7 +299,7 @@ public class JanggiBoardTest {
     @Test
     void 포는_포를_잡을_수_없다() {
         // given
-        JanggiBoard janggiBoard = new JanggiBoard();
+        JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when
         janggiBoard.move(_SEVEN_THREE, _SEVEN_TWO);

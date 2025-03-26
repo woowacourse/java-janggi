@@ -1,12 +1,13 @@
 package domain.game;
 
 import domain.JanggiBoard;
+import domain.JanggiBoardFactory;
 import domain.JanggiPosition;
 import domain.piece.Piece;
 import java.util.Map;
 
 public class Start implements GameState {
-    JanggiBoard janggiBoard = new JanggiBoard();
+    JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
     @Override
     public GameState start() {
@@ -24,7 +25,7 @@ public class Start implements GameState {
     }
 
     @Override
-    public Boolean isEnd() {
+    public boolean isEnd() {
         return false;
     }
 

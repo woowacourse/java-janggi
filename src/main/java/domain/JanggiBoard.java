@@ -3,7 +3,6 @@ package domain;
 import domain.piece.Empty;
 import domain.piece.Piece;
 import domain.piece.state.PieceState;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +10,8 @@ public class JanggiBoard {
 
     private final Map<JanggiPosition, Piece> janggiBoard;
 
-    public JanggiBoard() {
-        this.janggiBoard = JanggiBoardFactory.createJanggiBoard();
+    public JanggiBoard(Map<JanggiPosition, Piece> janggiBoard) {
+        this.janggiBoard = janggiBoard;
     }
 
     public Map<JanggiPosition, Piece> getJanggiBoard() {
@@ -50,14 +49,10 @@ public class JanggiBoard {
     }
 
     private List<Piece> getPiecesFrom(List<JanggiPosition> positions) {
-        List<Piece> pieces = new ArrayList<>();
-        for (JanggiPosition position : positions) {
-            Piece piece = getPieceFrom(position);
-            if (!piece.isEmpty()) {
-                pieces.add(piece);
-            }
-        }
-        return pieces;
+        return positions.stream()
+                .map(this::getPieceFrom)
+                .filter(p -> !p.isEmpty())
+                .toList();
     }
 
     public Piece getPieceFrom(JanggiPosition position) {

@@ -11,7 +11,7 @@ public interface GameState {
 
     GameState end();
 
-    Boolean isEnd();
+    boolean isEnd();
 
     Map<JanggiPosition, Piece> getBoard();
 
