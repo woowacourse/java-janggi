@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 public class Sang extends Piece implements DistanceMove {
 
     private static final int SANG_REACHABLE_DISTANCE = 13;
+    private static final int SANG_DIRECTION_DISTANCE = 3;
     private static final Predicate<Integer> isReachAble = (dist) -> dist == SANG_REACHABLE_DISTANCE;
 
     public Sang(Country country) {
@@ -19,25 +20,14 @@ public class Sang extends Piece implements DistanceMove {
     }
 
     private void validateDoesNotHasObstacle(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        Direction moveDirection = getDirection(from, to);
-        JanggiCoordinate next = from.move(moveDirection);
+        Direction moveDirection = getDirection(from, to, SANG_DIRECTION_DISTANCE);
+        Direction moveDiagonalDirection = getDiagonalDirection(from, to);
 
-        if (board.isOccupied(next)) {
+        JanggiCoordinate firstRoute = from.move(moveDirection);
+
+        if (board.isOccupied(firstRoute) && board.isOccupied(firstRoute.move(moveDiagonalDirection))) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 있어 해당 위치로 이동할 수 없습니다.");
         }
-    }
-
-    private Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (from.moveRightUp().moveRightUp().moveUp().equals(to) || from.moveRightUp().moveRightUp().moveRight().equals(to)) {
-            return Direction.RIGHT_UP;
-        }
-        if (from.moveRightDown().moveRightDown().moveRight().equals(to) || from.moveRightDown().moveRightDown().moveDown().equals(to)) {
-            return Direction.RIGHT_DOWN;
-        }
-        if (from.moveLeftUp().moveLeftUp().moveUp().equals(to) || from.moveLeftUp().moveLeftUp().moveLeft().equals(to)) {
-            return Direction.LEFT_UP;
-        }
-        return Direction.LEFT_DOWN;
     }
 
     @Override
