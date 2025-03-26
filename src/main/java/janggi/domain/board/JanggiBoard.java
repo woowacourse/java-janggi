@@ -53,12 +53,12 @@ public class JanggiBoard {
     }
 
     private void validateCanMoveByPath(Piece piece, List<Point> movePath) {
-        if (!piece.canMove(toPiecesOnPath(movePath))) {
+        if (!piece.canMove(findPiecesOnPath(movePath))) {
             throw new IllegalArgumentException("해당 위치로 움직일 수 없습니다.");
         }
     }
 
-    private PiecesOnPath toPiecesOnPath(List<Point> movePath) {
+    private PiecesOnPath findPiecesOnPath(List<Point> movePath) {
         List<Piece> piecesOnPth = movePath.stream()
                 .map(this::findPiece)
                 .toList();
