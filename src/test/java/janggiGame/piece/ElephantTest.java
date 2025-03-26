@@ -3,8 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.board.Board;
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.curveMovePiece.Elephant;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,11 +32,11 @@ class ElephantTest {
 
     public static Stream<Arguments> provideElephantOriginAndDestinationAndExpected() {
         return Stream.of(
-                Arguments.of(Board.findBy(5, 6), Board.findBy(7, 9), List.of(Board.findBy(5, 7), Board.findBy(6, 8))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(3, 9), List.of(Board.findBy(5, 7), Board.findBy(4, 8))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(8, 8), List.of(Board.findBy(6, 6), Board.findBy(7, 7))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(8, 4), List.of(Board.findBy(6, 6), Board.findBy(7, 5))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(3, 3), List.of(Board.findBy(5, 5), Board.findBy(4, 4)))
+                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(7, 9), List.of(Dot.getInstanceBy(5, 7), Dot.getInstanceBy(6, 8))),
+                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(3, 9), List.of(Dot.getInstanceBy(5, 7), Dot.getInstanceBy(4, 8))),
+                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(8, 8), List.of(Dot.getInstanceBy(6, 6), Dot.getInstanceBy(7, 7))),
+                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(8, 4), List.of(Dot.getInstanceBy(6, 6), Dot.getInstanceBy(7, 5))),
+                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(3, 3), List.of(Dot.getInstanceBy(5, 5), Dot.getInstanceBy(4, 4)))
 
         );
     }
@@ -46,8 +45,8 @@ class ElephantTest {
     @Test
     void elephantCannotGetRoute() {
         // given
-        Dot origin = Board.findBy(1, 1);
-        Dot destination = Board.findBy(3, 3);
+        Dot origin = Dot.getInstanceBy(1, 1);
+        Dot destination = Dot.getInstanceBy(3, 3);
         Elephant elephant = new Elephant(Dynasty.HAN);
 
         // when // then
@@ -64,8 +63,8 @@ class ElephantTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        routesWithPiece.put(Board.findBy(5, 7), null);
-        routesWithPiece.put(Board.findBy(6, 8), null);
+        routesWithPiece.put(Dot.getInstanceBy(5, 7), null);
+        routesWithPiece.put(Dot.getInstanceBy(6, 8), null);
 
         // when // then
         assertThatCode(() -> elephant.validateMove(routesWithPiece, null))
@@ -79,8 +78,8 @@ class ElephantTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
-        routesWithPiece.put(Board.findBy(5, 7), null);
-        routesWithPiece.put(Board.findBy(6, 8), new Elephant(Dynasty.HAN));
+        routesWithPiece.put(Dot.getInstanceBy(5, 7), null);
+        routesWithPiece.put(Dot.getInstanceBy(6, 8), new Elephant(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> elephant.validateMove(routesWithPiece, null))

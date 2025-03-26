@@ -5,8 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import fixture.JanggiGameFixture;
 import janggiGame.JanggiGame;
-import janggiGame.board.Board;
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.state.GameScore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,8 +17,8 @@ class RunningTest {
         // given
         JanggiGame janggiGame = JanggiGameFixture.getRunningJanggiGame();
 
-        Dot origin = Board.findBy(0, 2);
-        Dot destination = Board.findBy(1, 4);
+        Dot origin = Dot.getInstanceBy(0, 2);
+        Dot destination = Dot.getInstanceBy(1, 4);
 
         // when // then
         assertThatCode(() -> janggiGame.takeTurn(origin, destination))
@@ -33,8 +32,8 @@ class RunningTest {
         // given
         JanggiGame janggiGame = JanggiGameFixture.getRunningJanggiGame();
 
-        Dot origin = Board.findBy(0, 9);
-        Dot destination = Board.findBy(0, 8);
+        Dot origin = Dot.getInstanceBy(0, 9);
+        Dot destination = Dot.getInstanceBy(0, 8);
 
         // when // then
         assertThatCode(() -> janggiGame.takeTurn(origin, destination))
@@ -48,8 +47,8 @@ class RunningTest {
         // given
         JanggiGame janggiGame = JanggiGameFixture.getRunningJanggiGame();
 
-        Dot origin = Board.findBy(0, 0);
-        Dot destination = Board.findBy(0, 1);
+        Dot origin = Dot.getInstanceBy(0, 0);
+        Dot destination = Dot.getInstanceBy(0, 1);
 
         janggiGame.takeTurn(origin, destination);
         // when

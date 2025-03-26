@@ -1,7 +1,6 @@
 package view;
 
-import janggiGame.board.Board;
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.Dynasty;
 import java.util.List;
 import java.util.Scanner;
@@ -57,8 +56,8 @@ public class InputView {
         int destinationX = Integer.parseInt(destinationXY[0].trim());
         int destinationY = Integer.parseInt(destinationXY[1].trim());
 
-        Dot origin = Board.findBy(originX, originY);
-        Dot destination = Board.findBy(destinationX, destinationY);
+        Dot origin = Dot.getInstanceBy(originX, originY);
+        Dot destination = Dot.getInstanceBy(destinationX, destinationY);
 
         return List.of(origin, destination);
     }

@@ -1,7 +1,6 @@
 package janggiGame.arrangement;
 
-import janggiGame.board.Board;
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import java.util.HashMap;
@@ -12,7 +11,7 @@ public abstract class ArrangementStrategy {
             Map<Dot, Piece> oppositeResult = arrangeCho(dynasty);
             Map<Dot, Piece> result = new HashMap<>();
             oppositeResult.keySet()
-                    .forEach(dot -> result.put(Board.getReverse(dot), oppositeResult.get(dot)));
+                    .forEach(dot -> result.put(dot.getReverse(), oppositeResult.get(dot)));
             return result;
         }
 

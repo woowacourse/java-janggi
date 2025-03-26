@@ -3,7 +3,7 @@ package controller;
 import janggiGame.JanggiGame;
 import janggiGame.arrangement.ArrangementOption;
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.state.GameResult;
 import janggiGame.state.GameScore;
 import view.InputView;

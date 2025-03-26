@@ -1,7 +1,6 @@
 package janggiGame.arrangement;
 
-import janggiGame.board.Board;
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.oneMovePiece.Advisor;
 import janggiGame.piece.straightMovePiece.Cannon;
 import janggiGame.piece.straightMovePiece.Chariot;
@@ -19,26 +18,26 @@ public class RightElephantStrategy extends ArrangementStrategy {
     public Map<Dot, Piece> arrangeCho(Dynasty dynasty) {
         Map<Dot, Piece> result = new HashMap<>();
 
-        result.put(Board.findBy(0, 0), new Chariot(dynasty));
-        result.put(Board.findBy(1, 0), new Horse(dynasty));
-        result.put(Board.findBy(2, 0), new Elephant(dynasty));
-        result.put(Board.findBy(3, 0), new Advisor(dynasty));
+        result.put(Dot.getInstanceBy(0, 0), new Chariot(dynasty));
+        result.put(Dot.getInstanceBy(1, 0), new Horse(dynasty));
+        result.put(Dot.getInstanceBy(2, 0), new Elephant(dynasty));
+        result.put(Dot.getInstanceBy(3, 0), new Advisor(dynasty));
 
-        result.put(Board.findBy(5, 0), new Advisor(dynasty));
-        result.put(Board.findBy(6, 0), new Horse(dynasty));
-        result.put(Board.findBy(7, 0), new Elephant(dynasty));
-        result.put(Board.findBy(8, 0), new Chariot(dynasty));
+        result.put(Dot.getInstanceBy(5, 0), new Advisor(dynasty));
+        result.put(Dot.getInstanceBy(6, 0), new Horse(dynasty));
+        result.put(Dot.getInstanceBy(7, 0), new Elephant(dynasty));
+        result.put(Dot.getInstanceBy(8, 0), new Chariot(dynasty));
 
-        result.put(Board.findBy(4, 1), new King(dynasty));
+        result.put(Dot.getInstanceBy(4, 1), new King(dynasty));
 
-        result.put(Board.findBy(1, 2), new Cannon(dynasty));
-        result.put(Board.findBy(7, 2), new Cannon(dynasty));
+        result.put(Dot.getInstanceBy(1, 2), new Cannon(dynasty));
+        result.put(Dot.getInstanceBy(7, 2), new Cannon(dynasty));
 
-        result.put(Board.findBy(0, 3), new Pawn(dynasty));
-        result.put(Board.findBy(2, 3), new Pawn(dynasty));
-        result.put(Board.findBy(4, 3), new Pawn(dynasty));
-        result.put(Board.findBy(6, 3), new Pawn(dynasty));
-        result.put(Board.findBy(8, 3), new Pawn(dynasty));
+        result.put(Dot.getInstanceBy(0, 3), new Pawn(dynasty));
+        result.put(Dot.getInstanceBy(2, 3), new Pawn(dynasty));
+        result.put(Dot.getInstanceBy(4, 3), new Pawn(dynasty));
+        result.put(Dot.getInstanceBy(6, 3), new Pawn(dynasty));
+        result.put(Dot.getInstanceBy(8, 3), new Pawn(dynasty));
 
         return result;
     }

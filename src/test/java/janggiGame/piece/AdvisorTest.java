@@ -4,8 +4,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.board.Board;
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.oneMovePiece.Advisor;
 import janggiGame.piece.straightMovePiece.Chariot;
 import org.junit.jupiter.api.DisplayName;
@@ -20,8 +19,8 @@ class AdvisorTest {
     @Test
     void advisorCanGetRoute() {
         // given
-        Dot origin = Board.findBy(1, 1);
-        Dot destination = Board.findBy(1, 0);
+        Dot origin = Dot.getInstanceBy(1, 1);
+        Dot destination = Dot.getInstanceBy(1, 0);
         Advisor advisor = new Advisor(Dynasty.HAN);
 
         // when

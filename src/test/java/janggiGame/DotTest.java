@@ -1,4 +1,4 @@
-package janggiGame.board;
+package janggiGame;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -11,7 +11,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class BoardTest {
+
+class DotTest {
+
     @DisplayName("x 좌표가 0부터 8까지의 범위를 가진다")
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8})
@@ -20,7 +22,7 @@ class BoardTest {
         int y = 2;
 
         // when // then
-        assertThatCode(() -> Board.findBy(x, y))
+        assertThatCode(() -> Dot.getInstanceBy(x, y))
                 .doesNotThrowAnyException();
     }
 
@@ -32,7 +34,7 @@ class BoardTest {
         int x = 2;
 
         // when // then
-        assertThatCode(() -> Board.findBy(x, y))
+        assertThatCode(() -> Dot.getInstanceBy(x, y))
                 .doesNotThrowAnyException();
     }
 
@@ -42,7 +44,7 @@ class BoardTest {
     void validateDotRange(int x, int y) {
 
         // when // then
-        assertThatCode(() -> Board.findBy(x, y))
+        assertThatCode(() -> Dot.getInstanceBy(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -59,8 +61,8 @@ class BoardTest {
     @Test
     void createDotsCache() {
         // given
-        Dot dotA = Board.findBy(1, 1);
-        Dot dotB = Board.findBy(1, 1);
+        Dot dotA = Dot.getInstanceBy(1, 1);
+        Dot dotB = Dot.getInstanceBy(1, 1);
 
         // when
         boolean actual = dotA == dotB;

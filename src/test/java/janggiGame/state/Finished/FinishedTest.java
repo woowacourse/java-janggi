@@ -3,9 +3,9 @@ package janggiGame.state.Finished;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggiGame.Dot;
 import janggiGame.arrangement.InnerElephantStrategy;
 import janggiGame.arrangement.OuterElephantStrategy;
-import janggiGame.board.Board;
 import janggiGame.state.GameResult;
 import janggiGame.state.State;
 import java.util.stream.Stream;
@@ -67,7 +67,7 @@ class FinishedTest {
         State finished = new Draw();
 
         return Stream.of(
-                Arguments.of((ThrowingCallable) () -> finished.takeTurn(Board.findBy(1, 1), Board.findBy(2, 2))),
+                Arguments.of((ThrowingCallable) () -> finished.takeTurn(Dot.getInstanceBy(1, 1), Dot.getInstanceBy(2, 2))),
                 Arguments.of((ThrowingCallable) finished::skipTurn),
                 Arguments.of((ThrowingCallable) () -> finished.arrangePieces(new OuterElephantStrategy(), new InnerElephantStrategy())),
                 Arguments.of((ThrowingCallable) finished::getGameScore),

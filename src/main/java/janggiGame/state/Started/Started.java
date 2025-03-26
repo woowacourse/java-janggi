@@ -1,7 +1,7 @@
 package janggiGame.state.Started;
 
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.state.GameResult;

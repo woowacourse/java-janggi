@@ -3,8 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.board.Board;
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.curveMovePiece.Horse;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,11 +32,11 @@ class HorseTest {
 
     public static Stream<Arguments> provideHorseOriginAndDestinationAndExpected() {
         return Stream.of(
-                Arguments.of(Board.findBy(5, 6), Board.findBy(6, 8), List.of(Board.findBy(5, 7))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(4, 8), List.of(Board.findBy(5, 7))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(7, 7), List.of(Board.findBy(6, 6))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(7, 5), List.of(Board.findBy(6, 6))),
-                Arguments.of(Board.findBy(5, 6), Board.findBy(4, 4), List.of(Board.findBy(5, 5)))
+                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(6, 8), List.of(Dot.getInstanceBy(5, 7))),
+                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(4, 8), List.of(Dot.getInstanceBy(5, 7))),
+                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(7, 7), List.of(Dot.getInstanceBy(6, 6))),
+                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(7, 5), List.of(Dot.getInstanceBy(6, 6))),
+                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(4, 4), List.of(Dot.getInstanceBy(5, 5)))
         );
     }
 
@@ -45,8 +44,8 @@ class HorseTest {
     @Test
     void horseCannotGetRoute() {
         // given
-        Dot origin = Board.findBy(1, 1);
-        Dot destination = Board.findBy(3, 3);
+        Dot origin = Dot.getInstanceBy(1, 1);
+        Dot destination = Dot.getInstanceBy(3, 3);
         Horse horse = new Horse(Dynasty.HAN);
 
         // when // then
@@ -62,7 +61,7 @@ class HorseTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Board.findBy(5, 7), null);
+        routesWithPiece.put(Dot.getInstanceBy(5, 7), null);
 
         // when // then
         assertThatCode(() -> horse.validateMove(routesWithPiece, null))
@@ -76,7 +75,7 @@ class HorseTest {
         Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Board.findBy(6, 8), new Horse(Dynasty.HAN));
+        routesWithPiece.put(Dot.getInstanceBy(6, 8), new Horse(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> horse.validateMove(routesWithPiece, null))

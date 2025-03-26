@@ -3,8 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.board.Board;
-import janggiGame.board.Dot;
+import janggiGame.Dot;
 import janggiGame.piece.oneMovePiece.Pawn;
 import janggiGame.piece.straightMovePiece.Chariot;
 import java.util.LinkedHashMap;
@@ -22,8 +21,8 @@ class PawnTest {
     @Test
     void pawnCanGetRoute() {
         // given
-        Dot origin = Board.findBy(1, 1);
-        Dot destination = Board.findBy(1, 0);
+        Dot origin = Dot.getInstanceBy(1, 1);
+        Dot destination = Dot.getInstanceBy(1, 0);
         Pawn pawn = new Pawn(Dynasty.HAN);
 
         // when
@@ -45,8 +44,8 @@ class PawnTest {
 
     public static Stream<Arguments> providePawnAndOriginAndDestination() {
         return Stream.of(
-                Arguments.of(new Pawn(Dynasty.HAN), Board.findBy(0, 5), Board.findBy(0, 6)),
-                Arguments.of(new Pawn(Dynasty.CHO), Board.findBy(0, 3), Board.findBy(0, 2))
+                Arguments.of(new Pawn(Dynasty.HAN), Dot.getInstanceBy(0, 5), Dot.getInstanceBy(0, 6)),
+                Arguments.of(new Pawn(Dynasty.CHO), Dot.getInstanceBy(0, 3), Dot.getInstanceBy(0, 2))
         );
     }
 
