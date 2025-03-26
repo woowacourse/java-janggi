@@ -11,10 +11,10 @@ import model.position.Position;
 public class Horse extends Piece {
 
     private final List<List<Movement>> movements = List.of(
-        List.of(UP, UP_UP_LEFT), List.of(UP, UP_UP_RIGHT),
-        List.of(DOWN, DOWN_DOWN_LEFT), List.of(DOWN, DOWN_DOWN_RIGHT),
-        List.of(LEFT, LEFT_DOWN_LEFT), List.of(LEFT, LEFT_UP_LEFT),
-        List.of(RIGHT, RIGHT_DOWN_RIGHT), List.of(RIGHT, RIGHT_UP_RIGHT));
+        List.of(UP, UP_AND_DIAGONAL_UP_LEFT), List.of(UP, UP_AND_DIAGONAL_UP_RIGHT),
+        List.of(DOWN, DOWN_AND_DIAGONAL_DOWN_LEFT), List.of(DOWN, DOWN_AND_DIAGONAL_DOWN_RIGHT),
+        List.of(LEFT, LEFT_AND_DIAGONAL_DOWN_LEFT), List.of(LEFT, LEFT_AND_DIAGONAL_UP_LEFT),
+        List.of(RIGHT, RIGHT_AND_DIAGONAL_DOWN_RIGHT), List.of(RIGHT, RIGHT_AND_DIAGONAL_UP_RIGHT));
 
     public Horse(Team team) {
         super(team);

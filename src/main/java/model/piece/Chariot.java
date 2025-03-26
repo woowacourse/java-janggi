@@ -1,8 +1,6 @@
 package model.piece;
 
-import static model.Movement.DOWN;
-import static model.Movement.LEFT;
-import static model.Movement.RIGHT;
+import static model.Movement.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +11,7 @@ import model.position.Position;
 
 public class Chariot extends Piece {
 
-    private final List<Movement> movements = List.of(Movement.UP, DOWN, LEFT, RIGHT);
+    private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
 
     public Chariot(Team team) {
         super(team);
