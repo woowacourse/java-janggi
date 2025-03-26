@@ -17,27 +17,42 @@ public record Position(int x, int y) {
         }
     }
 
-    public Position up(final int changeValue) {
-        return new Position(x, y + changeValue);
-    }
-
-    public Position down(final int changeValue) {
-        return new Position(x, y - changeValue);
-    }
-
-    public Position left(final int changeValue) {
-        return new Position(x - changeValue, y);
-    }
-
-    public Position right(final int changeValue) {
-        return new Position(x + changeValue, y);
-    }
-
     public Position offset(int offsetX, int offsetY) {
         return new Position(x + offsetX, y + offsetY);
     }
 
     public Position move(final Direction direction) {
         return new Position(x + direction.x(), y + direction.y());
+    }
+
+    public Direction calculateDirection(final Position end) {
+        int differenceX = calculateDifferenceX(end);
+        int differenceY = calculateDifferenceY(end);
+        if (differenceX < 0) {
+            return Direction.RIGHT;
+        }
+        if (differenceX > 0) {
+            return Direction.LEFT;
+        }
+        if (differenceY < 0) {
+            return Direction.UP;
+        }
+        return Direction.DOWN;
+    }
+
+    public int calculateAbsoluteDifferenceX(final Position end) {
+        return Math.abs(end.x() - x);
+    }
+
+    public int calculateAbsoluteDifferenceY(final Position end) {
+        return Math.abs(end.y() - y);
+    }
+
+    public int calculateDifferenceX(final Position end) {
+        return end.x() - x;
+    }
+
+    public int calculateDifferenceY(final Position end) {
+        return end.y() - y;
     }
 }

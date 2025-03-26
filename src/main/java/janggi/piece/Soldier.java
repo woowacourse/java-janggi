@@ -18,8 +18,8 @@ public class Soldier extends Piece {
     }
 
     private void validateMovingRule(final Position start, final Position end) {
-        int absDifferenceX = Math.abs(end.x() - start.x());
-        int absDifferenceY = Math.abs(end.y() - start.y());
+        int absDifferenceX = start.calculateAbsoluteDifferenceX(end);
+        int absDifferenceY = start.calculateAbsoluteDifferenceY(end);
         if ((absDifferenceX == 1 && absDifferenceY == 0)
                 || (absDifferenceX == 0 && absDifferenceY == 1)) {
             return;
@@ -28,24 +28,10 @@ public class Soldier extends Piece {
     }
 
     private void validateDirection(final Position start, final Position end) {
-        final Direction direction = calculateDirection(start, end);
+        final Direction direction = start.calculateDirection(end);
         if (color.isReverseFrontVerticalDirection(direction)) {
             throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
         }
     }
 
-    private Direction calculateDirection(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        if (differenceX < 0) {
-            return Direction.RIGHT;
-        }
-        if (differenceX > 0) {
-            return Direction.LEFT;
-        }
-        if (differenceY < 0) {
-            return Direction.UP;
-        }
-        return Direction.DOWN;
-    }
 }
