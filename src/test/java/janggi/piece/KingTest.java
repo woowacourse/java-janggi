@@ -21,7 +21,7 @@ class KingTest {
     })
     void shouldReturnTrueWhenValidateMovingRule(int destX, int destY) {
         // given
-        Guard horse = new Guard(Color.RED);
+        Piece horse = new King(Color.RED);
         Position start = new Position(5, 5);
         Position end = new Position(destX, destY);
 
@@ -46,7 +46,7 @@ class KingTest {
     })
     void shouldReturnTrueWhenUnfollowMovingRule(int destX, int destY) {
         // given
-        Guard guard = new Guard(Color.RED);
+        Piece guard = new King(Color.RED);
         Position start = new Position(5, 5);
         Position end = new Position(destX, destY);
 
