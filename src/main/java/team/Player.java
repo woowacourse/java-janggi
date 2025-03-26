@@ -17,9 +17,16 @@ public class Player {
 
     public void move(Pieces allPieces, Point start, Point end) {
         validateExistMyPieceOnDestination(end);
+        validateExistPieceOnSelectPoint(allPieces, start);
 
         Piece piece = pieces.findByPoint(start);
         piece.move(allPieces, end);
+    }
+
+    private void validateExistPieceOnSelectPoint(Pieces allPieces, Point start) {
+        if (!allPieces.isExistPieceIn(start)) {
+            throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
+        }
     }
 
     private void validateExistMyPieceOnDestination(Point end) {
