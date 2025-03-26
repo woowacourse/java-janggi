@@ -17,14 +17,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ChaTest {
 
-    @DisplayName("차은 위치 정보를 가진다,")
+    @DisplayName("차는 자신의 팀과 위치를 가진다.")
     @Test
     void chaBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
         //when
-        final Cha cha = new Cha(new PieceProfile("차", Team.HAN), position);
+        final Cha cha = new Cha(Team.HAN, position);
 
         //then
         assertThat(cha.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -34,7 +34,7 @@ class ChaTest {
     @Test
     void nonIsMove() {
         //given
-        final Cha cha = new Cha(new PieceProfile("차", Team.HAN), new Position(0, 0));
+        final Cha cha = new Cha(Team.HAN, new Position(0, 0));
 
         //when //then
         assertThatThrownBy(() -> cha.isMove(new Position(1, 1)))
@@ -47,7 +47,7 @@ class ChaTest {
     @MethodSource("chaIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Cha cha = new Cha(new PieceProfile("차", Team.HAN), new Position(0, 0));
+        final Cha cha = new Cha(Team.HAN, new Position(0, 0));
 
         //when
         final boolean actual = cha.isMove(position);
@@ -69,7 +69,7 @@ class ChaTest {
         @DisplayName("수직으로 아래로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteVerticalDown() {
-            final Cha cha = new Cha(new PieceProfile("차", Team.HAN), new Position(0, 0));
+            final Cha cha = new Cha(Team.HAN, new Position(0, 0));
             final Position futurePosition = new Position(5, 0);
 
             final List<Position> actual = cha.makeRoute(futurePosition);
@@ -85,7 +85,7 @@ class ChaTest {
         @DisplayName("수직으로 위로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteVerticalUp() {
-            final Cha cha = new Cha(new PieceProfile("차", Team.HAN), new Position(5, 0));
+            final Cha cha = new Cha(Team.HAN, new Position(5, 0));
             final Position futurePosition = new Position(0, 0);
 
             final List<Position> actual = cha.makeRoute(futurePosition);
@@ -101,7 +101,7 @@ class ChaTest {
         @DisplayName("수평으로 오른쪽으로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteHorizontalRight() {
-            final Cha cha = new Cha(new PieceProfile("차", Team.HAN), new Position(0, 0));
+            final Cha cha = new Cha(Team.HAN, new Position(0, 0));
             final Position futurePosition = new Position(0, 5);
 
             final List<Position> actual = cha.makeRoute(futurePosition);
@@ -117,7 +117,7 @@ class ChaTest {
         @DisplayName("수평으로 왼쪽으로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteHorizontalLeft() {
-            final Cha cha = new Cha(new PieceProfile("차", Team.HAN), new Position(0, 5));
+            final Cha cha = new Cha(Team.HAN, new Position(0, 5));
             final Position futurePosition = new Position(0, 0);
 
             final List<Position> actual = cha.makeRoute(futurePosition);
@@ -134,10 +134,10 @@ class ChaTest {
         @Test
         void hasObstacle() {
             //given
-            final Cha cha = new Cha(new PieceProfile("차", Team.HAN), new Position(5, 5));
+            final Cha cha = new Cha(Team.HAN, new Position(5, 5));
 
             final Map<Position, Piece> board = Map.of(
-                    new Position(6, 5), new Byeong(new PieceProfile("병", Team.HAN), new Position(6, 5))
+                    new Position(6, 5), new Byeong(Team.HAN, new Position(6, 5))
             );
 
             final Position futurePosition = new Position(7, 5);
@@ -152,10 +152,10 @@ class ChaTest {
         @Test
         void nonObstacle() {
             //given
-            final Cha cha = new Cha(new PieceProfile("차", Team.HAN), new Position(5, 5));
+            final Cha cha = new Cha(Team.HAN, new Position(5, 5));
 
             final Map<Position, Piece> board = Map.of(
-                    new Position(7, 5), new Byeong(new PieceProfile("병", Team.HAN), new Position(7, 5))
+                    new Position(7, 5), new Byeong(Team.HAN, new Position(7, 5))
             );
 
             final Position futurePosition = new Position(6, 5);

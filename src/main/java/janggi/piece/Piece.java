@@ -68,14 +68,14 @@ public abstract class Piece {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final Piece that = (Piece) o;
-        return Objects.equals(getName(), that.getName()) && Objects.equals(getBoardPosition(),
-                that.getBoardPosition());
+        final Piece piece = (Piece) o;
+        return Objects.equals(getPieceProfile(), piece.getPieceProfile()) && Objects.equals(
+                getPosition(), piece.getPosition());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getBoardPosition());
+        return Objects.hash(getPieceProfile(), getPosition());
     }
 
     public Position getBoardPosition() {
@@ -86,8 +86,13 @@ public abstract class Piece {
         return pieceProfile;
     }
 
-    public String getName() {
-        return pieceProfile.getName();
+    public Position getPosition() {
+        return position;
     }
 
+    public String getType() {
+        return pieceProfile.getPieceType().getValue();
+    }
+
+    protected abstract boolean isPo();
 }

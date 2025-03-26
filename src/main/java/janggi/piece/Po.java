@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class Po extends Piece {
 
-    public Po(final PieceProfile pieceProfile, final Position position) {
-        super(pieceProfile, position);
+    public Po(final Team team, final Position position) {
+        super(new PieceProfile(PieceType.PO, team), position);
     }
 
     @Override
@@ -21,7 +21,8 @@ public class Po extends Piece {
         int obstacleCount = 0;
 
         for (final Position position : moveRoute) {
-            if (janggiBoard.containsKey(position) && janggiBoard.get(position).getName().equals("포")) {
+            final Piece piece = janggiBoard.get(position);
+            if (janggiBoard.containsKey(position) && piece.isPo()) {
                 throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 포가 존재합니다. 포는 포를 넘을 수 없습니다.");
             }
 
@@ -117,5 +118,10 @@ public class Po extends Piece {
             return true;
         }
         throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
+    }
+
+    @Override
+    protected boolean isPo() {
+        return true;
     }
 }

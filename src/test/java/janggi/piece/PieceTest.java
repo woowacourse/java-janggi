@@ -15,8 +15,8 @@ class PieceTest {
     @Test
     void sameNation() {
         //given
-        final Piece piece = new StubPiece(new PieceProfile(" testPiece", Team.HAN), new Position(0, 0));
-        final Piece other = new StubPiece(new PieceProfile(" testPiece", Team.HAN), new Position(1, 0));
+        final Piece piece = new StubPiece(Team.HAN, new Position(0, 0));
+        final Piece other = new StubPiece(Team.HAN, new Position(1, 0));
 
         //when //then
         assertThatThrownBy(() -> piece.validateTeam(other))
@@ -28,8 +28,8 @@ class PieceTest {
     @Test
     void nonSameTeam() {
         //given
-        final Piece piece = new StubPiece(new PieceProfile(" testPiece", Team.HAN), new Position(0, 0));
-        final Piece other = new StubPiece(new PieceProfile(" testPiece", Team.CHO), new Position(1, 0));
+        final Piece piece = new StubPiece(Team.HAN, new Position(0, 0));
+        final Piece other = new StubPiece(Team.CHO, new Position(1, 0));
 
         //when //then
         assertThatThrownBy(() -> piece.validateTeam(other.getPieceProfile().getNation()))
@@ -41,7 +41,7 @@ class PieceTest {
     @Test
     void updatePosition() {
         //given
-        final Piece piece = new StubPiece(new PieceProfile(" testPiece", Team.HAN), new Position(0, 0));
+        final Piece piece = new StubPiece(Team.HAN, new Position(0, 0));
 
         final Position position = new Position(1, 1);
 
@@ -49,13 +49,13 @@ class PieceTest {
         piece.updatePiecePositionBy(position);
 
         //then
-        assertThat(piece).isEqualTo(new StubPiece(new PieceProfile(" testPiece", Team.HAN), new Position(1, 1)));
+        assertThat(piece).isEqualTo(new StubPiece(Team.HAN, new Position(1, 1)));
     }
 
     static class StubPiece extends Piece {
 
-        protected StubPiece(final PieceProfile pieceProfile, final Position position) {
-            super(pieceProfile, position);
+        protected StubPiece(final Team team, final Position position) {
+            super(new PieceProfile(null, team), position);
         }
 
         @Override
@@ -71,6 +71,10 @@ class PieceTest {
         public boolean isMove(final Position position) {
             return false;
         }
-    }
 
+        @Override
+        protected boolean isPo() {
+            return false;
+        }
+    }
 }

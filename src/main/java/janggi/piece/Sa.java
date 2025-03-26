@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class Sa extends Piece {
 
-    public Sa(final PieceProfile pieceProfile, final Position position) {
-        super(pieceProfile, position);
+    public Sa(final Team team, final Position position) {
+        super(new PieceProfile(PieceType.SA, team), position);
     }
 
     @Override
@@ -39,6 +39,11 @@ public class Sa extends Piece {
         }
 
         throw new IllegalArgumentException("[ERROR] 사가 움직일 수 없는 위치 입니다.");
+    }
+
+    @Override
+    protected boolean isPo() {
+        return false;
     }
 
 }

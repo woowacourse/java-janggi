@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class Janggun extends Piece {
 
-    public Janggun(final PieceProfile pieceProfile, final Position position) {
-        super(pieceProfile, position);
+    public Janggun(final Team team, final Position position) {
+        super(new PieceProfile(PieceType.JANGGUN, team), position);
     }
 
     @Override
@@ -39,6 +39,11 @@ public class Janggun extends Piece {
         }
 
         throw new IllegalArgumentException("[ERROR] 왕이 움직일 수 없는 위치 입니다.");
+    }
+
+    @Override
+    protected boolean isPo() {
+        return false;
     }
 
 }

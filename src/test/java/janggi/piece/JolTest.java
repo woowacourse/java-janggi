@@ -14,14 +14,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class JolTest {
 
-    @DisplayName("졸은 이름과 위치 정보를 가진다,")
+    @DisplayName("졸은 자신의 팀과 위치를 가진다.")
     @Test
     void jolBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
         //when
-        final Jol jol = new Jol(new PieceProfile("졸", Team.HAN), position);
+        final Jol jol = new Jol(Team.HAN, position);
 
         //then
         assertThat(jol.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -32,7 +32,7 @@ class JolTest {
     @MethodSource("jolNonIsMovePositionProvider")
     void nonIsMove(final Position position) {
         //given
-        final Jol jol = new Jol(new PieceProfile("졸", Team.HAN), new Position(5, 5));
+        final Jol jol = new Jol(Team.HAN, new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> jol.isMove(position))
@@ -45,7 +45,7 @@ class JolTest {
     @MethodSource("jolIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Jol jol = new Jol(new PieceProfile("졸", Team.HAN), new Position(5, 5));
+        final Jol jol = new Jol(Team.HAN, new Position(5, 5));
 
         //when
         final boolean actual = jol.isMove(position);
@@ -58,7 +58,7 @@ class JolTest {
     @Test
     void makeRoute() {
         //given
-        final Jol jol = new Jol(new PieceProfile("졸", Team.HAN), new Position(5, 5));
+        final Jol jol = new Jol(Team.HAN, new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when

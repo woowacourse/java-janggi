@@ -7,15 +7,15 @@ import org.junit.jupiter.api.Test;
 
 class PieceProfileTest {
 
-    @DisplayName("기물은 이름과 국가를 가진다.")
+    @DisplayName("기물은 타입과 국가를 가진다.")
     @Test
     void profile() {
         //given
-        final String name = "차";
+        final PieceType pieceType = PieceType.PO;
         final Team team = Team.CHO;
 
         //when //then
-        assertThatCode(() -> new PieceProfile(name, team))
+        assertThatCode(() -> new PieceProfile(pieceType, team))
                 .doesNotThrowAnyException();
     }
 

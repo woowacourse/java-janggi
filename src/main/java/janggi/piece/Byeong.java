@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class Byeong extends Piece {
 
-    public Byeong(final PieceProfile pieceProfile, final Position position) {
-        super(pieceProfile, position);
+    public Byeong(final Team team, final Position position) {
+        super(new PieceProfile(PieceType.BYEONG, team), position);
     }
 
     @Override
@@ -39,5 +39,10 @@ public class Byeong extends Piece {
         }
 
         throw new IllegalArgumentException("[ERROR] 병이 움직일 수 없는 위치 입니다.");
+    }
+
+    @Override
+    protected boolean isPo() {
+        return false;
     }
 }

@@ -46,14 +46,14 @@ public class OutputView {
     }
 
     private String getColoredPieceName(final Piece piece) {
-        final String name = piece.getName();
+        final String typeName = piece.getType();
         if (piece.isChoNation()) {
-            return GREEN_COLOR_CODE + name + EXIT_CODE;
+            return GREEN_COLOR_CODE + typeName + EXIT_CODE;
         }
         if (piece.isHanNation()) {
-            return RED_COLOR_CODE + name + EXIT_CODE;
+            return RED_COLOR_CODE + typeName + EXIT_CODE;
         }
-        return name;
+        return typeName;
     }
 
     private void setBoardLabels() {

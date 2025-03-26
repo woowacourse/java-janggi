@@ -16,14 +16,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class PoTest {
 
-    @DisplayName("포는 위치 정보를 가진다,")
+    @DisplayName("포는 자신의 팀과 위치를 가진다.")
     @Test
     void poBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
         //when
-        final Po po = new Po(new PieceProfile("포", Team.HAN), position);
+        final Po po = new Po(Team.HAN, position);
 
         //then
         assertThat(po.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -33,7 +33,7 @@ class PoTest {
     @Test
     void nonIsMove() {
         //given
-        final Po po = new Po(new PieceProfile("포", Team.HAN), new Position(0, 0));
+        final Po po = new Po(Team.HAN, new Position(0, 0));
 
         //when //then
         assertThatThrownBy(() -> po.isMove(new Position(1, 1)))
@@ -46,7 +46,7 @@ class PoTest {
     @MethodSource("poIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Po po = new Po(new PieceProfile("포", Team.HAN), new Position(0, 0));
+        final Po po = new Po(Team.HAN, new Position(0, 0));
 
         //when
         final boolean actual = po.isMove(position);
@@ -62,7 +62,7 @@ class PoTest {
         @DisplayName("수직으로 아래로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteVerticalDown() {
-            final Po po = new Po(new PieceProfile("포", Team.HAN), new Position(0, 0));
+            final Po po = new Po(Team.HAN, new Position(0, 0));
             final Position futurePosition = new Position(5, 0);
 
             final List<Position> actual = po.makeRoute(futurePosition);
@@ -78,7 +78,7 @@ class PoTest {
         @DisplayName("수직으로 위로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteVerticalUp() {
-            final Po po = new Po(new PieceProfile("포", Team.HAN), new Position(5, 0));
+            final Po po = new Po(Team.HAN, new Position(5, 0));
             final Position futurePosition = new Position(0, 0);
 
             final List<Position> actual = po.makeRoute(futurePosition);
@@ -94,7 +94,7 @@ class PoTest {
         @DisplayName("수평으로 오른쪽으로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteHorizontalRight() {
-            final Po po = new Po(new PieceProfile("포", Team.HAN), new Position(0, 0));
+            final Po po = new Po(Team.HAN, new Position(0, 0));
             final Position futurePosition = new Position(0, 5);
 
             final List<Position> actual = po.makeRoute(futurePosition);
@@ -110,7 +110,7 @@ class PoTest {
         @DisplayName("수평으로 왼쪽으로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteHorizontalLeft() {
-            final Po po = new Po(new PieceProfile("포", Team.HAN), new Position(0, 5));
+            final Po po = new Po(Team.HAN, new Position(0, 5));
             final Position futurePosition = new Position(0, 0);
 
             final List<Position> actual = po.makeRoute(futurePosition);
@@ -134,8 +134,8 @@ class PoTest {
         void poMovingVertical() {
             //given
             final List<Piece> pieces = List.of(
-                    new Po(new PieceProfile("포", Team.HAN), new Position(3, 2)),
-                    new Byeong(new PieceProfile("병", Team.HAN), new Position(4, 2))
+                    new Po(Team.HAN, new Position(3, 2)),
+                    new Byeong(Team.HAN, new Position(4, 2))
             );
 
             final Board board = new Board(pieces);
@@ -148,7 +148,7 @@ class PoTest {
 
             //then
             final Piece actual = board.getJanggiBoard().get(futurePosition);
-            assertThat(actual).isEqualTo(new Po(new PieceProfile("포", Team.HAN),
+            assertThat(actual).isEqualTo(new Po(Team.HAN,
                     new Position(5, 2)));
         }
 
@@ -157,8 +157,8 @@ class PoTest {
         void poMovingHorizontal() {
             //given
             final List<Piece> pieces = List.of(
-                    new Po(new PieceProfile("포", Team.HAN), new Position(3, 2)),
-                    new Byeong(new PieceProfile("병", Team.HAN), new Position(4, 2))
+                    new Po(Team.HAN, new Position(3, 2)),
+                    new Byeong(Team.HAN, new Position(4, 2))
             );
 
             final Board board = new Board(pieces);
@@ -171,7 +171,7 @@ class PoTest {
 
             //then
             final Piece actual = board.getJanggiBoard().get(futurePosition);
-            assertThat(actual).isEqualTo(new Po(new PieceProfile("포", Team.HAN),
+            assertThat(actual).isEqualTo(new Po(Team.HAN,
                     new Position(5, 2)));
         }
 
@@ -187,7 +187,7 @@ class PoTest {
         void poNotMovingVerticalInFrontNothing() {
             //given
             final List<Piece> pieces = List.of(
-                    new Po(new PieceProfile("포", Team.HAN), new Position(3, 2))
+                    new Po(Team.HAN, new Position(3, 2))
             );
 
             final Board board = new Board(pieces);
@@ -206,7 +206,7 @@ class PoTest {
         void poNotMovingHorizontalInFrontNothing() {
             //given
             final List<Piece> pieces = List.of(
-                    new Po(new PieceProfile("포", Team.HAN), new Position(3, 2))
+                    new Po(Team.HAN, new Position(3, 2))
             );
 
             final Board board = new Board(pieces);
@@ -226,8 +226,8 @@ class PoTest {
 
             //given
             final List<Piece> pieces = List.of(
-                    new Po(new PieceProfile("포", Team.HAN), new Position(3, 2)),
-                    new Po(new PieceProfile("포", Team.HAN), new Position(4, 2))
+                    new Po(Team.HAN, new Position(3, 2)),
+                    new Po(Team.HAN, new Position(4, 2))
             );
 
             final Board board = new Board(pieces);
@@ -246,8 +246,8 @@ class PoTest {
         void notPoMovingHorizontalInFrontPo() {
             //given
             final List<Piece> pieces = List.of(
-                    new Po(new PieceProfile("포", Team.HAN), new Position(2, 3)),
-                    new Po(new PieceProfile("포", Team.HAN), new Position(2, 4))
+                    new Po(Team.HAN, new Position(2, 3)),
+                    new Po(Team.HAN, new Position(2, 4))
             );
 
             final Board board = new Board(pieces);
@@ -265,9 +265,9 @@ class PoTest {
         @Test
         void notFoMovingHorizontalInFrontTwoPiece() {
             final List<Piece> pieces = List.of(
-                    new Po(new PieceProfile("포", Team.HAN), new Position(3, 2)),
-                    new Jol(new PieceProfile("졸", Team.HAN), new Position(3, 3)),
-                    new Byeong(new PieceProfile("병", Team.HAN), new Position(3, 4))
+                    new Po(Team.HAN, new Position(3, 2)),
+                    new Jol(Team.HAN, new Position(3, 3)),
+                    new Byeong(Team.HAN, new Position(3, 4))
             );
 
             final Board board = new Board(pieces);
@@ -285,9 +285,9 @@ class PoTest {
         @Test
         void notFoMovingVerticalInFrontTwoPiece() {
             final List<Piece> pieces = List.of(
-                    new Po(new PieceProfile("포", Team.HAN), new Position(2, 3)),
-                    new Jol(new PieceProfile("졸", Team.HAN), new Position(3, 3)),
-                    new Byeong(new PieceProfile("병", Team.HAN), new Position(4, 3))
+                    new Po(Team.HAN, new Position(2, 3)),
+                    new Jol(Team.HAN, new Position(3, 3)),
+                    new Byeong(Team.HAN, new Position(4, 3))
             );
 
             final Board board = new Board(pieces);

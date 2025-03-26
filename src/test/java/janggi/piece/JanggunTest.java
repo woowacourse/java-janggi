@@ -14,14 +14,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class JanggunTest {
 
-    @DisplayName("왕은 위치 정보를 가진다,")
+    @DisplayName("왕은 자신의 팀과 위치를 가진다.")
     @Test
     void janggunBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
         //when
-        final Janggun janggun = new Janggun(new PieceProfile("왕", Team.HAN), position);
+        final Janggun janggun = new Janggun(Team.HAN, position);
 
         //then
         assertThat(janggun.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -32,7 +32,7 @@ class JanggunTest {
     @MethodSource("JanggunNonIsMovePositionProvider")
     void isMoveValidate(final Position position) {
         //given
-        final Janggun janggun = new Janggun(new PieceProfile("왕", Team.HAN), new Position(5, 5));
+        final Janggun janggun = new Janggun(Team.HAN, new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> janggun.isMove(position))
@@ -45,7 +45,7 @@ class JanggunTest {
     @MethodSource("janggunIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Janggun janggun = new Janggun(new PieceProfile("왕", Team.HAN), new Position(5, 5));
+        final Janggun janggun = new Janggun(Team.HAN, new Position(5, 5));
 
         //when
         final boolean actual = janggun.isMove(position);
@@ -58,7 +58,7 @@ class JanggunTest {
     @Test
     void makeRoute() {
         //given
-        final Janggun janggun = new Janggun(new PieceProfile("왕", Team.HAN), new Position(5, 5));
+        final Janggun janggun = new Janggun(Team.HAN, new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when

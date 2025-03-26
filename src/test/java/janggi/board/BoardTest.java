@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Piece;
-import janggi.piece.PieceProfile;
 import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
@@ -34,7 +33,7 @@ class BoardTest {
     void emptyPieceByPosition() {
         //given
         final List<Piece> pieces = List.of(
-                new Byeong(new PieceProfile("병", Team.HAN), new Position(3, 2))
+                new Byeong(Team.HAN, new Position(3, 2))
         );
 
         final Board board = new Board(pieces);
@@ -52,8 +51,8 @@ class BoardTest {
     void exceptionObstacle() {
         //given
         final List<Piece> pieces = List.of(
-                new Cha(new PieceProfile("차", Team.HAN), new Position(4, 2)),
-                new Byeong(new PieceProfile("병", Team.HAN), new Position(7, 2))
+                new Cha(Team.HAN, new Position(4, 2)),
+                new Byeong(Team.HAN, new Position(7, 2))
         );
 
         final Position presentPosition = new Position(4, 2);
@@ -72,7 +71,7 @@ class BoardTest {
     void pieceMove() {
         //given
         final List<Piece> pieces = List.of(
-                new Byeong(new PieceProfile("병", Team.HAN), new Position(3, 2))
+                new Byeong(Team.HAN, new Position(3, 2))
         );
 
         final Board board = new Board(pieces);
@@ -85,7 +84,7 @@ class BoardTest {
 
         //then
         final Piece actual = board.getJanggiBoard().get(futurePosition);
-        assertThat(actual).isEqualTo(new Byeong(new PieceProfile("병", Team.HAN),
+        assertThat(actual).isEqualTo(new Byeong(Team.HAN,
                 new Position(4, 2)));
     }
 

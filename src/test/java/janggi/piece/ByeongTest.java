@@ -14,14 +14,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ByeongTest {
 
-    @DisplayName("병은 이름과 위치를 가진다.")
+    @DisplayName("병은 자신의 팀과 위치를 가진다.")
     @Test
     void byenogBoardPosition() {
         //given
         final Position position = new Position(0, 0);
 
         //when
-        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), position);
+        final Byeong byeong = new Byeong(Team.HAN, position);
 
         //then
         assertThat(byeong.getBoardPosition().getCol()).isEqualTo(0);
@@ -33,7 +33,7 @@ class ByeongTest {
     @MethodSource("byeongNonIsMovePositionProvider")
     void nonIsMove(final Position position) {
         //given
-        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(Team.HAN, new Position(5, 5));
 
         //when
         assertThatThrownBy(() -> byeong.isMove(position))
@@ -54,7 +54,7 @@ class ByeongTest {
     @MethodSource("byeongIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(Team.HAN, new Position(5, 5));
 
         //when
         final boolean actual = byeong.isMove(position);
@@ -75,7 +75,7 @@ class ByeongTest {
     @Test
     void makeRoute() {
         //given
-        final Byeong byeong = new Byeong(new PieceProfile("병", Team.HAN), new Position(5, 5));
+        final Byeong byeong = new Byeong(Team.HAN, new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when

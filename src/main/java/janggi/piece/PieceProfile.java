@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class PieceProfile {
 
-    private final String name;
+    private final PieceType pieceType;
     private final Team team;
 
-    public PieceProfile(final String name, final Team team) {
-        this.name = name;
+    public PieceProfile(final PieceType pieceType, final Team team) {
+        this.pieceType = pieceType;
         this.team = team;
     }
 
@@ -20,8 +20,8 @@ public class PieceProfile {
         return Team.isHan(this.team);
     }
 
-    public String getName() {
-        return name;
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     public Team getNation() {
@@ -34,11 +34,11 @@ public class PieceProfile {
             return false;
         }
         final PieceProfile that = (PieceProfile) o;
-        return Objects.equals(getName(), that.getName()) && getNation() == that.getNation();
+        return getPieceType() == that.getPieceType() && team == that.team;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getNation());
+        return Objects.hash(getPieceType(), team);
     }
 }

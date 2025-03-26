@@ -14,14 +14,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SaTest {
 
-    @DisplayName("사는 위치 정보를 가진다,")
+    @DisplayName("사는 자신의 팀과 위치를 가진다.")
     @Test
     void saBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
         //when
-        final Sa sa = new Sa(new PieceProfile("사", Team.HAN), position);
+        final Sa sa = new Sa(Team.HAN, position);
 
         //then
         assertThat(sa.getBoardPosition()).isEqualTo(new Position(4, 5));
@@ -32,7 +32,7 @@ class SaTest {
     @MethodSource("saNonIsMovePositionProvider")
     void isMoveValidate(final Position position) {
         //given
-        final Sa sa = new Sa(new PieceProfile("사", Team.HAN), new Position(5, 5));
+        final Sa sa = new Sa(Team.HAN, new Position(5, 5));
 
         //when //then
         assertThatThrownBy(() -> sa.isMove(position))
@@ -45,7 +45,7 @@ class SaTest {
     @MethodSource("saIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Sa sa = new Sa(new PieceProfile("사", Team.HAN), new Position(5, 5));
+        final Sa sa = new Sa(Team.HAN, new Position(5, 5));
 
         //when
         final boolean actual = sa.isMove(position);
@@ -58,7 +58,7 @@ class SaTest {
     @Test
     void makeRoute() {
         //given
-        final Sa sa = new Sa(new PieceProfile("사", Team.HAN), new Position(5, 5));
+        final Sa sa = new Sa(Team.HAN, new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when

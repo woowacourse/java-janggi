@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class Cha extends Piece {
 
-    public Cha(final PieceProfile pieceProfile, final Position position) {
-        super(pieceProfile, position);
+    public Cha(final Team team, final Position position) {
+        super(new PieceProfile(PieceType.CHA, team), position);
     }
 
     @Override
@@ -102,6 +102,11 @@ public class Cha extends Piece {
         }
 
         throw new IllegalArgumentException("[ERROR] 차가 움직일 수 없는 위치 입니다.");
+    }
+
+    @Override
+    protected boolean isPo() {
+        return false;
     }
 
 }
