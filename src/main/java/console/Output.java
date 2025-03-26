@@ -48,4 +48,8 @@ public class Output {
         System.out.println(e.getMessage() + " 다시 입력해주세요.");
     }
 
+    public void end(Team winnerTeam) {
+        String winner = Color.apply(winnerTeam, TeamSymbol.from(winnerTeam));
+        System.out.printf("%n%s가 승리했습니다. 게임을 종료합니다.%n", winner);
+    }
 }

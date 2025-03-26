@@ -1,5 +1,6 @@
 package console;
 
+import janggi.piece.Team;
 import janggi.position.Board;
 
 public class Console {
@@ -31,7 +32,8 @@ public class Console {
         output.displayTurn(board);
     }
 
-//    public void result(TeamDto winner) {
-//        output.result(winner);
-//    }
+    public void end(Team winner) {
+        output.end(winner);
+    }
+
 }

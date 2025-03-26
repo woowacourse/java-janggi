@@ -101,6 +101,22 @@ public final class Board {
         }
     }
 
+    public boolean catchPalace() {
+        final long count = toSet().stream()
+                .filter(piece -> piece.type() == PieceType.PALACE)
+                .count();
+
+        return count == 1;
+    }
+
+    public Team findWinner() {
+        return toSet().stream()
+                .filter(piece -> piece.type() == PieceType.PALACE)
+                .map(Piece::team)
+                .findAny()
+                .orElseThrow(IllegalStateException::new);
+    }
+
     public Map<Position, Piece> pieceOfPosition() {
         return pieceOfPosition;
     }

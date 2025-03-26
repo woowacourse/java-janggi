@@ -19,13 +19,16 @@ public class Application {
 
         console.startGame();
 
-        while (true) {
+        do {
             console.display(board);
             console.displayTurn(board);
 
             Board boardForTurn = board;
             board = process(() -> takeTurn(boardForTurn));
-        }
+
+        } while (!board.catchPalace());
+
+        console.end(board.findWinner());
     }
 
     public Board takeTurn(Board board) {
