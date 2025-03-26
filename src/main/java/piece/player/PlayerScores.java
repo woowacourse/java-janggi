@@ -11,7 +11,7 @@ public class PlayerScores {
 
     public void addScore(Piece deadPiece) {
         Team team = deadPiece.team();
-        PieceScore deadPieceScore = deadPiece.getPieceScore();
+        PieceScore deadPieceScore = deadPiece.pieceScore();
         if (team == Team.BLUE) {
             redScore += deadPieceScore.getPoint();
             return;

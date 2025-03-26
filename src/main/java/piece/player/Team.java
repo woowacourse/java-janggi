@@ -1,5 +1,6 @@
 package piece.player;
 
+import java.util.Arrays;
 import java.util.List;
 
 public enum Team {
@@ -13,6 +14,13 @@ public enum Team {
 
     public static List<Team> playableTeams() {
         return List.of(Team.BLUE, Team.RED);
+    }
+
+    public static Team from(String teamName) {
+        return Arrays.stream(Team.values())
+                .filter((currentTeam) -> currentTeam.name().equals(teamName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(NOT_SUPPORTED_TEAM));
     }
 
     public Team opposite() {

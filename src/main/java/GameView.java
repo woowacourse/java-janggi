@@ -30,7 +30,7 @@ public class GameView {
         this.scanner = new Scanner(System.in);
     }
 
-    public void printTurn(Team team) {
+    public void printPlayer(Team team) {
         System.out.printf("%s 차례입니다.%n", teamStringMapper.get(team));
     }
 
@@ -53,7 +53,7 @@ public class GameView {
             return EMPTY_PIECE;
         }
         Piece piece = positionPieceMap.get(position);
-        String type = piece.getType().getType();
+        String type = piece.type().getType();
         if (piece.isSameTeam(Team.BLUE)) {
             return String.format(BLUE_COLOR_FORMAT, type);
         }
@@ -134,5 +134,9 @@ public class GameView {
 
     public void printPlayerScore(Team team, int score) {
         System.out.printf(PLAYER_SCORE_FORMAT, teamStringMapper.get(team), score);
+    }
+
+    public void printTurn(int turn) {
+        System.out.printf("%d 번째 수입니다 ", turn);
     }
 }

@@ -1,6 +1,7 @@
 package piece.initiate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,20 +50,33 @@ public class InitiateJanggiTeamPieces {
             )
     );
 
-    private final Map<Team, Pieces> initiatePieces = new HashMap<>();
+    private final Map<Team, Pieces> initiatePieces;
 
     public InitiateJanggiTeamPieces() {
         this(TableSetting.defaultOption());
     }
-
 
     public InitiateJanggiTeamPieces(Map<Team, TableSetting> teamTableSetting) {
         Team blueTeam = Team.BLUE;
         Team redTeam = Team.RED;
         List<Piece> bluePieces = addAllTeamPieces(teamTableSetting, blueTeam);
         List<Piece> redPieces = addAllTeamPieces(teamTableSetting, redTeam);
+        this.initiatePieces = new HashMap<>();
         initiatePieces.put(blueTeam, new Pieces(bluePieces));
         initiatePieces.put(redTeam, new Pieces(redPieces));
+    }
+
+    public InitiateJanggiTeamPieces(Pieces pieces) {
+        Map<Team, List<Piece>> teamPieces = new HashMap<>(
+                Map.of(Team.BLUE, new ArrayList<>(), Team.RED, new ArrayList<>()));
+        for (Piece piece : pieces.getPieces()) {
+            Team team = piece.team();
+            List<Piece> teamPiecesList = teamPieces.get(piece.team());
+            teamPiecesList.add(piece);
+            teamPieces.put(team, teamPiecesList);
+        }
+        this.initiatePieces = Map.of(Team.BLUE, new Pieces(teamPieces.get(Team.BLUE)), Team.RED,
+                new Pieces(teamPieces.get(Team.RED)));
     }
 
     private List<Piece> addAllTeamPieces(Map<Team, TableSetting> teamTableSetting, Team team) {
@@ -74,7 +88,7 @@ public class InitiateJanggiTeamPieces {
     }
 
     public Map<Team, Pieces> janggiInitiatePieces() {
-        return initiatePieces;
+        return Collections.unmodifiableMap(initiatePieces);
     }
 }
 

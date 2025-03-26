@@ -58,6 +58,14 @@ public class JanggiPosition {
         return GungsungPosition.isPositionDiagonalGungPosition(this);
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
