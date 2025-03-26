@@ -4,6 +4,7 @@ import janggi.board.Board;
 import janggi.board.BoardGenerator;
 import janggi.exception.ErrorException;
 import janggi.piece.Camp;
+import janggi.position.Movement;
 import janggi.position.Position;
 import janggi.view.Command;
 import janggi.view.InputView;
@@ -36,7 +37,7 @@ public class JanggiGame {
         Camp currentTurn = FIRST_TURN;
 
         while (gameStatus.isPlaying()) {
-            outputView.displayBoard(board.getPlacedPieces());
+            outputView.displayBoard(board.getCells());
             requestPlayGameUntilEnd(currentTurn, board, gameStatus);
             currentTurn = currentTurn.switchTurn();
         }
@@ -58,17 +59,18 @@ public class JanggiGame {
         }
     }
 
-    private void processGame(List<String> input, Camp baseCamp, Board board) {
-        Position from = new Position(input.getFirst());
-        Position to = new Position(input.getLast());
-        validateSelectedPiece(board, from, baseCamp);
-        board.move(from, to);
+    private void processGame(List<List<Integer>> input, Camp baseCamp, Board board) {
+        Position origin = parsePositionOf(input.getFirst());
+        Position target = parsePositionOf(input.getLast());
+        Movement movement = new Movement(origin, target);
+        board.move(movement);
     }
 
-    private void validateSelectedPiece(Board board, Position from, Camp baseCamp) {
-        board.validateSelectedPiece(from, baseCamp);
+    private Position parsePositionOf(List<Integer> input) {
+        return new Position(input.getFirst(), input.getLast());
     }
 
+    // 재입력 받는 로직
     private void repeatUntilSuccess(Runnable runner) {
         boolean success = false;
         while (!success) {

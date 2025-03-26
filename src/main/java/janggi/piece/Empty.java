@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.position.Position;
+import janggi.position.Movement;
 
 public class Empty extends Piece {
 
@@ -11,7 +11,7 @@ public class Empty extends Piece {
     }
 
     @Override
-    public void validateMove(Position fromPosition, Position toPosition) {
+    public void validateMove(Movement movement) {
     }
 
     @Override

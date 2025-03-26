@@ -28,7 +28,7 @@ class PositionTest {
         Position otherPosition = new Position(2, 0);
 
         // when & then
-        assertThat(position.isHorizontal(otherPosition))
+        assertThat(position.isHorizontalTo(otherPosition))
                 .isTrue();
     }
 
@@ -40,7 +40,7 @@ class PositionTest {
         Position otherPosition = new Position(0, 2);
 
         // when & then
-        assertThat(position.isVertical(otherPosition))
+        assertThat(position.isVerticalTo(otherPosition))
                 .isTrue();
     }
 

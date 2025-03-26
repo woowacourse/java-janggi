@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.board.Board;
 import janggi.exception.ErrorException;
+import janggi.position.Movement;
 import janggi.position.Position;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,13 +17,13 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public void validateMove(Position fromPosition, Position toPosition) {
-        validateElephantMove(fromPosition, toPosition);
-        validateObstacleOnRoute(fromPosition, toPosition);
+    public void validateMove(Movement movement) {
+        validateElephantMove(movement);
+        validateObstacleOnRoute(movement);
     }
 
-    private void validateElephantMove(Position fromPosition, Position toPosition) {
-        if (!isElephantMove(fromPosition.calculateXDistance(toPosition), fromPosition.calculateYDistance(toPosition))) {
+    private void validateElephantMove(Movement movement) {
+        if (!isElephantMove(movement.calculateXDistance(), movement.calculateYDistance())) {
             throw new ErrorException("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
         }
     }
@@ -31,56 +32,56 @@ public final class Elephant extends Piece {
         return (xDistance == 2 && yDistance == 3) || (xDistance == 3 && yDistance == 2);
     }
 
-    private void validateObstacleOnRoute(Position fromPosition, Position toPosition) {
-        Set<Piece> pieces = board.getPiecesByPosition(findRoute(fromPosition, toPosition));
+    private void validateObstacleOnRoute(Movement movement) {
+        Set<Piece> pieces = board.getPiecesByPosition(findRoute(movement));
         if (!pieces.isEmpty()) {
             throw new ErrorException("상은 기물을 넘어서 이동할 수 없습니다.");
         }
     }
 
-    private Set<Position> findRoute(Position fromPosition, Position toPosition) {
+    private Set<Position> findRoute(Movement movement) {
         Set<Position> route = new HashSet<>();
-        if (isNextPositionOnHorizontal(fromPosition, toPosition)) {
-            return findHorizontalRoute(fromPosition, toPosition, route);
+        if (isNextPositionOnHorizontal(movement)) {
+            return findHorizontalRoute(movement, route);
         }
-        return findVerticalRoute(fromPosition, toPosition, route);
+        return findVerticalRoute(movement, route);
     }
 
-    private boolean isNextPositionOnHorizontal(Position fromPosition, Position toPosition) {
-        return fromPosition.calculateXDistance(toPosition) == 3;
+    private boolean isNextPositionOnHorizontal(Movement movement) {
+        return movement.calculateXDistance() == 3;
     }
 
-    private Set<Position> findHorizontalRoute(Position fromPosition, Position toPosition, Set<Position> route) {
-        Position firstPosition = getNextHorizontalPosition(fromPosition, toPosition);
+    private Set<Position> findHorizontalRoute(Movement movement, Set<Position> route) {
+        Position firstPosition = getNextHorizontalPosition(movement.origin(), movement.target());
         route.add(firstPosition);
-        route.add(findSecondPosition(toPosition, firstPosition));
+        route.add(findSecondPosition(movement.target(), firstPosition));
         return route;
     }
 
-    private Set<Position> findVerticalRoute(Position fromPosition, Position toPosition, Set<Position> route) {
-        Position firstPosition = getNextVerticalPosition(fromPosition, toPosition);
+    private Set<Position> findVerticalRoute(Movement movement, Set<Position> route) {
+        Position firstPosition = getNextVerticalPosition(movement.origin(), movement.target());
         route.add(firstPosition);
-        route.add(findSecondPosition(toPosition, firstPosition));
+        route.add(findSecondPosition(movement.target(), firstPosition));
         return route;
     }
 
-    private Position getNextHorizontalPosition(Position fromPosition, Position toPosition) {
-        if (fromPosition.getX() < toPosition.getX()) {
-            return new Position(fromPosition.getX() + 1, fromPosition.getY());
+    private Position getNextHorizontalPosition(Position origin, Position target) {
+        if (origin.x() < target.x()) {
+            return new Position(origin.x() + 1, origin.y());
         }
-        return new Position(fromPosition.getX() - 1, fromPosition.getY());
+        return new Position(origin.x() - 1, origin.y());
     }
 
-    private Position getNextVerticalPosition(Position fromPosition, Position toPosition) {
-        if (fromPosition.getY() < toPosition.getY()) {
-            return new Position(fromPosition.getX(), fromPosition.getY() + 1);
+    private Position getNextVerticalPosition(Position origin, Position target) {
+        if (origin.y() < target.y()) {
+            return new Position(origin.x(), origin.y() + 1);
         }
-        return new Position(fromPosition.getX(), fromPosition.getY() - 1);
+        return new Position(origin.x(), origin.y() - 1);
     }
 
-    private Position findSecondPosition(Position toPosition, Position firstPosition) {
-        return new Position((firstPosition.getX() + toPosition.getX()) / 2,
-                (firstPosition.getY() + toPosition.getY()) / 2);
+    private Position findSecondPosition(Position target, Position firstPosition) {
+        return new Position((firstPosition.x() + target.x()) / 2,
+                (firstPosition.y() + target.y()) / 2);
     }
 
     @Override

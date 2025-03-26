@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.board.Board;
 import janggi.exception.ErrorException;
+import janggi.position.Movement;
 import janggi.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,15 +21,17 @@ class ChariotTest {
             "HAN,2,4",
             "HAN,4,4",
     })
-    void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
+    void shouldThrowException_WhenInvalidMove(Camp camp, int targetX, int targetY) {
         // given
         Board board = new Board();
-        Chariot chariot = new Chariot(camp, board);
-        Position fromPosition = new Position(3, 3);
-        Position toPosition = new Position(toX, toY);
+        Piece piece = new Chariot(camp, board);
+
+        Position origin = new Position(3, 3);
+        Position target = new Position(targetX, targetY);
+        Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> chariot.validateMove(fromPosition, toPosition))
+        assertThatCode(() -> piece.validateMove(movement))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("차는 수평 혹은 수직으로만 움직여야 합니다.");
     }
@@ -41,15 +44,17 @@ class ChariotTest {
             "HAN,0,3",
             "HAN,5,3",
     })
-    void validateMoveTest(Camp camp, int toX, int toY) {
+    void validateMoveTest(Camp camp, int targetX, int targetY) {
         // given
         Board board = new Board();
-        Chariot chariot = new Chariot(camp, board);
-        Position fromPosition = new Position(3, 3);
-        Position toPosition = new Position(toX, toY);
+        Piece piece = new Chariot(camp, board);
+
+        Position origin = new Position(3, 3);
+        Position target = new Position(targetX, targetY);
+        Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> chariot.validateMove(fromPosition, toPosition))
+        assertThatCode(() -> piece.validateMove(movement))
                 .doesNotThrowAnyException();
     }
 
@@ -58,32 +63,18 @@ class ChariotTest {
     void shouldThrowException_WhenBlocked() {
         // given
         Board board = new Board();
+        Piece piece = new Chariot(Camp.CHO, board);
+
+        Position origin = new Position(3, 3);
+        Position target = new Position(3, 7);
+        Movement movement = new Movement(origin, target);
+
+        board.placePiece(origin, piece);
         board.placePiece(new Position(3, 5), new Soldier(Camp.CHO, board));
-        Chariot chariot = new Chariot(Camp.CHO, board);
-        Position fromPosition = new Position(3, 3);
-        board.placePiece(fromPosition, chariot);
-        Position toPosition = new Position(3, 7);
 
         // when & then
-        assertThatCode(() -> chariot.validateMove(fromPosition, toPosition))
+        assertThatCode(() -> piece.validateMove(movement))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("차는 기물을 넘어 이동할 수 없습니다.");
-    }
-
-    @DisplayName("특정 진영이 선택할 수 없는 경우 예외가 발생한다.")
-    @ParameterizedTest
-    @CsvSource({
-            "CHO, HAN",
-            "HAN, CHO",
-    })
-    void shouldThrowException_WhenSelectOtherCampPiece(Camp camp, Camp otherCamp) {
-        // given
-        Board board = new Board();
-        Chariot chariot = new Chariot(otherCamp, board);
-
-        // when & then
-        assertThatCode(() -> chariot.validateSelect(camp))
-                .isInstanceOf(ErrorException.class)
-                .hasMessageContaining("다른 진영의 기물을 선택할 수 없습니다.");
     }
 }

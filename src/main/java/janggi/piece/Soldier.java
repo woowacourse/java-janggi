@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.board.Board;
 import janggi.exception.ErrorException;
+import janggi.position.Movement;
 import janggi.position.Position;
 
 public final class Soldier extends Piece {
@@ -14,29 +15,23 @@ public final class Soldier extends Piece {
     }
 
     @Override
-    public void validateMove(Position fromPosition, Position toPosition) {
-        if (isStart()) {
-            validateJolMove(fromPosition, toPosition);
-            return;
+    public void validateMove(Movement movement) {
+        if (checkBackwardMove(movement.origin(), movement.target())) {
+            throw new ErrorException("군인은 뒤로 갈 수 없습니다.");
         }
-        validateByeongMove(fromPosition, toPosition);
+        validateSoldierMove(movement.origin(), movement.target());
     }
 
-    private void validateJolMove(Position fromPosition, Position toPosition) {
-        if (toPosition.getY() < fromPosition.getY()) {
-            throw new ErrorException("졸은 뒤로 갈 수 없습니다.");
+    private boolean checkBackwardMove(Position origin, Position target) {
+        if (getCamp().isBottom()) {
+            return target.y() < origin.y();
         }
-        if (Math.abs(toPosition.getY() - fromPosition.getY() + fromPosition.getX() - toPosition.getX()) != 1) {
-            throw new ErrorException("졸은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
-        }
+        return origin.y() < target.y();
     }
 
-    private void validateByeongMove(Position fromPosition, Position toPosition) {
-        if (fromPosition.getY() < toPosition.getY()) {
-            throw new ErrorException("병은 뒤로 갈 수 없습니다.");
-        }
-        if (Math.abs(toPosition.getY() - fromPosition.getY() + fromPosition.getX() - toPosition.getX()) != 1) {
-            throw new ErrorException("병은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
+    private void validateSoldierMove(Position origin, Position target) {
+        if (Math.abs(target.y() - origin.y() + origin.x() - target.x()) != 1) {
+            throw new ErrorException("군인은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
         }
     }
 

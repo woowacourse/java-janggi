@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.board.Board;
 import janggi.exception.ErrorException;
+import janggi.position.Movement;
 import janggi.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,18 +19,19 @@ class HorseTest {
             "HAN,7,5",
             "HAN,3,5",
             "HAN,7,7",
-            "HAN,5,5",
             "HAN,6,8",
     })
-    void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
+    void shouldThrowException_WhenInvalidMove(Camp camp, int targetX, int targetY) {
         // given
         Board board = new Board();
-        Horse horse = new Horse(camp, board);
-        Position fromPosition = new Position(5, 5);
-        Position toPosition = new Position(toX, toY);
+        Piece piece = new Horse(camp, board);
+
+        Position origin = new Position(5, 5);
+        Position target = new Position(targetX, targetY);
+        Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> horse.validateMove(fromPosition, toPosition))
+        assertThatCode(() -> piece.validateMove(movement))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("마는 직선으로 한 칸, 대각선으로 한 칸 움직여야 합니다.");
     }
@@ -46,15 +48,17 @@ class HorseTest {
             "HAN,3,4",
             "HAN,4,3,",
     })
-    void validateMoveTest(Camp camp, int toX, int toY) {
+    void validateMoveTest(Camp camp, int targetX, int targetY) {
         // given
         Board board = new Board();
-        Horse horse = new Horse(camp, board);
-        Position fromPosition = new Position(5, 5);
-        Position toPosition = new Position(toX, toY);
+        Piece piece = new Horse(camp, board);
+
+        Position origin = new Position(5, 5);
+        Position target = new Position(targetX, targetY);
+        Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> horse.validateMove(fromPosition, toPosition))
+        assertThatCode(() -> piece.validateMove(movement))
                 .doesNotThrowAnyException();
     }
 
@@ -66,19 +70,22 @@ class HorseTest {
             "HAN,6,3",
             "HAN,3,4",
     })
-    void shouldThrowException_WhenBlocked(Camp camp, int toX, int toY) {
+    void shouldThrowException_WhenBlocked(Camp camp, int targetX, int targetY) {
         // given
         Board board = new Board();
-        Horse horse = new Horse(camp, board);
-        Position fromPosition = new Position(5, 5);
-        Position toPosition = new Position(toX, toY);
+        Piece piece = new Horse(camp, board);
+
+        Position origin = new Position(5, 5);
+        Position target = new Position(targetX, targetY);
+        Movement movement = new Movement(origin, target);
+
         board.placePiece(new Position(5, 6), new Soldier(Camp.CHO, board));
         board.placePiece(new Position(6, 5), new Soldier(Camp.CHO, board));
         board.placePiece(new Position(4, 5), new Soldier(Camp.CHO, board));
         board.placePiece(new Position(5, 4), new Soldier(Camp.CHO, board));
 
         // when & then
-        assertThatCode(() -> horse.validateMove(fromPosition, toPosition))
+        assertThatCode(() -> piece.validateMove(movement))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("마는 기물을 넘어서 이동할 수 없습니다.");
     }

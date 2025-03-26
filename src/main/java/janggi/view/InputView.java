@@ -2,6 +2,7 @@ package janggi.view;
 
 import janggi.exception.ErrorException;
 import janggi.piece.Camp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -37,7 +38,7 @@ public class InputView {
         return stringBuilder.toString();
     }
 
-    public List<String> readMovement(Camp camp) {
+    public List<List<Integer>> readMovement(Camp camp) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(System.lineSeparator())
                 .append(String.format("[%s의 차례입니다.]", camp.getName()))
@@ -59,14 +60,36 @@ public class InputView {
         }
     }
 
-    private List<String> parseMovement(String response) {
+    private List<List<Integer>> parseMovement(String response) {
+        List<String> positions = getPositionsOf(response);
+        List<List<Integer>> movement = new ArrayList<>();
+        for (String xy : positions) {
+            movement.add(parsePositionOf(xy));
+        }
+        return movement;
+    }
+
+    private List<String> getPositionsOf(String response) {
         String[] split = response.split(MOVEMENT_DELIMITER, -1);
         if (split.length != MOVEMENT_LENGTH) {
             throw new ErrorException("출발 좌표와 도착 좌표, 2개의 좌표를 입력해야 합니다.");
         }
-        return Arrays.stream(split)
-                .map(String::trim)
-                .toList();
+        return Arrays.stream(split).map(String::trim).toList();
+    }
+
+    private List<Integer> parsePositionOf(String xy) {
+        List<Integer> position = new ArrayList<>();
+        if (xy.length() != 2) {
+            throw new ErrorException("좌표는 x, y만 입력 가능합니다.");
+        }
+        try {
+            String[] split = xy.split("", -1);
+            position.add(Integer.parseInt(split[0]));
+            position.add(Integer.parseInt(split[1]));
+        } catch (NumberFormatException e) {
+            throw new ErrorException("좌표는 숫자만 입력 가능합니다.");
+        }
+        return position;
     }
 
     private String prompt(String message) {

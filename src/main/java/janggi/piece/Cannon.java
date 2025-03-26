@@ -2,8 +2,8 @@ package janggi.piece;
 
 import janggi.board.Board;
 import janggi.exception.ErrorException;
+import janggi.position.Movement;
 import janggi.position.Position;
-import java.util.HashSet;
 import java.util.Set;
 
 public final class Cannon extends Piece {
@@ -18,19 +18,19 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public void validateMove(Position fromPosition, Position toPosition) {
-        validateLinearMove(fromPosition, toPosition);
-        validateJumpOverOnePiece(fromPosition, toPosition);
+    public void validateMove(Movement movement) {
+        validateLinearMove(movement);
+        validateJumpOverOnePiece(movement);
     }
 
-    private void validateLinearMove(Position fromPosition, Position toPosition) {
-        if (!fromPosition.isHorizontal(toPosition) && !fromPosition.isVertical(toPosition)) {
+    private void validateLinearMove(Movement movement) {
+        if (!movement.isHorizontal() && !movement.isVertical()) {
             throw new ErrorException("포는 수평 혹은 수직으로만 움직여야 합니다.");
         }
     }
 
-    private void validateJumpOverOnePiece(Position fromPosition, Position toPosition) {
-        Set<Piece> pieces = board.getPiecesByPosition(findRoute(fromPosition, toPosition));
+    private void validateJumpOverOnePiece(Movement movement) {
+        Set<Piece> pieces = board.getPiecesByPosition(findRoute(movement));
         validatePieceCount(pieces);
         validateNotJumpOverCannon(pieces);
     }
@@ -52,32 +52,8 @@ public final class Cannon extends Piece {
                 .anyMatch(piece -> piece.getPieceSymbol() == this.getPieceSymbol());
     }
 
-    private Set<Position> findRoute(Position fromPosition, Position toPosition) {
-        boolean isHorizontal = fromPosition.isHorizontal(toPosition);
-        if (isHorizontal) {
-            return findHorizontalRoute(fromPosition.getY(), fromPosition.getX(), toPosition.getX());
-        }
-        return findVerticalRoute(fromPosition.getX(), fromPosition.getY(), toPosition.getY());
-    }
-
-    private Set<Position> findHorizontalRoute(int fixedY, int fromX, int toX) {
-        Set<Position> route = new HashSet<>();
-        int start = Math.min(fromX, toX) + 1;
-        int end = Math.max(fromX, toX);
-        for (int i = start; i < end; i++) {
-            route.add(new Position(i, fixedY));
-        }
-        return route;
-    }
-
-    private Set<Position> findVerticalRoute(int fixedX, int fromY, int toY) {
-        Set<Position> route = new HashSet<>();
-        int start = Math.min(fromY, toY) + 1;
-        int end = Math.max(fromY, toY);
-        for (int i = start; i < end; i++) {
-            route.add(new Position(fixedX, i));
-        }
-        return route;
+    private Set<Position> findRoute(Movement movement) {
+        return movement.findRoute();
     }
 
     @Override

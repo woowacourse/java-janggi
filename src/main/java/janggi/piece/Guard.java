@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.board.Board;
 import janggi.exception.ErrorException;
-import janggi.position.Position;
+import janggi.position.Movement;
 
 public final class Guard extends Piece {
 
@@ -14,9 +14,9 @@ public final class Guard extends Piece {
     }
 
     @Override
-    public void validateMove(Position fromPosition, Position toPosition) {
-        board.validateCampPalace(toPosition, getCamp());
-        if (!isGuardMove(toPosition.getX(), fromPosition.getY())) {
+    public void validateMove(Movement movement) {
+        board.validateCampPalace(movement.target(), getCamp());
+        if (!isGuardMove(movement.calculateXDistance(), movement.calculateYDistance())) {
             throw new ErrorException("사는 상하좌우 또는 대각선으로 한 칸 움직여야 합니다.");
         }
     }

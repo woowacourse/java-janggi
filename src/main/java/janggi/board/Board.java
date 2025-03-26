@@ -4,6 +4,7 @@ import janggi.exception.ErrorException;
 import janggi.piece.Camp;
 import janggi.piece.Empty;
 import janggi.piece.Piece;
+import janggi.position.Movement;
 import janggi.position.Position;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,19 +16,21 @@ public class Board {
 
     public static final int COLUMN = 9;
     public static final int ROW = 10;
-
+    private static final Camp FIRST_TURN = Camp.CHO;
     private static final Map<Camp, Position> PALACE_POSITIONS = Map.of(
             Camp.CHO, new Position(4, 1),
             Camp.HAN, new Position(4, 8)
     );
 
-    private final Map<Position, Piece> placedPieces;
+    private final Map<Position, Piece> cells;
+    private Camp currentCamp;
 
     public Board() {
-        this.placedPieces = initializeBoard();
+        this.cells = initializeCells();
+        this.currentCamp = FIRST_TURN;
     }
 
-    private Map<Position, Piece> initializeBoard() {
+    private Map<Position, Piece> initializeCells() {
         Map<Position, Piece> board = new HashMap<>();
         for (int i = 0; i < COLUMN; i++) {
             for (int j = 0; j < ROW; j++) {
@@ -39,47 +42,80 @@ public class Board {
 
     public void placePiece(Position position, Piece piece) {
         validatePosition(position);
-        placedPieces.put(position, piece);
+        cells.put(position, piece);
     }
 
     private void validatePosition(Position position) {
-        if (position.getX() < 0 || COLUMN <= position.getX() || position.getY() < 0 || ROW <= position.getY()) {
-            throw new ErrorException("기물의 위치는 9 x 10 영역을 벗어날 수 없습니다.");
+        if (position.x() < 0 || COLUMN <= position.x() || position.y() < 0 || ROW <= position.y()) {
+            throw new ErrorException("기물은 9x10 크기의 보드 내에서만 이동 가능합니다.");
         }
     }
 
-    public Piece peek(Position position) {
-        Piece piece = placedPieces.get(position);
+    public void move(Movement movement) {
+        validateBorder(movement);
+        validateTurn(movement);
+        validateMove(movement);
+        updateBoard(movement);
+        currentCamp = currentCamp.switchTurn();
+    }
+
+    private void validateBorder(Movement movement) {
+        Position origin = movement.origin();
+        Position target = movement.target();
+        validatePosition(origin);
+        validatePosition(target);
+    }
+
+    private void validateTurn(Movement movement) {
+        Piece originPiece = getOriginPiece(movement);
+        if (originPiece.isOppositeCampTo(currentCamp)) {
+            throw new ErrorException("현재 턴에 해당하지 않는 진영의 기물을 선택할 수 없습니다.");
+        }
+    }
+
+    private void validateMove(Movement movement) {
+        Piece originPiece = getOriginPiece(movement);
+        Piece targetPiece = getTargetPiece(movement);
+        originPiece.validateCatch(targetPiece);
+        originPiece.validateMove(movement);
+
+    }
+
+    private void updateBoard(Movement movement) {
+        cells.put(movement.target(), getOriginPiece(movement));
+        cells.put(movement.origin(), Empty.INSTANCE);
+    }
+
+    private Piece getOriginPiece(Movement movement) {
+        Position position = movement.origin();
+        Piece piece = getPieceByPosition(position);
         if (piece.isEmpty()) {
-            throw new ErrorException("해당 위치에서 기물을 찾을 수 없습니다.");
+            throw new ErrorException("해당 위치에 기물이 존재하지 않습니다.");
         }
         return piece;
     }
 
-    public void move(Position from, Position to) {
-        validateMoveRequest(from, to);
-        Piece fromPiece = peek(from);
-        fromPiece.validateMove(from, to);
-        Piece toPiece = placedPieces.get(to);
-        if (!toPiece.isEmpty()) {
-            fromPiece.validateCatch(toPiece);
-        }
-        placedPieces.put(from, Empty.INSTANCE);
-        placedPieces.put(to, fromPiece);
+    private Piece getTargetPiece(Movement movement) {
+        Position position = movement.target();
+        return getPieceByPosition(position);
     }
 
-    private void validateMoveRequest(Position from, Position to) {
-        if (from.equals(to)) {
-            throw new ErrorException("같은 위치로 이동할 수 없습니다.");
+    private Piece getPieceByPosition(Position position) {
+        return cells.get(position);
+    }
+
+    public void validateCampPalace(Position piecePosition, Camp baseCamp) {
+        Position palaceCenter = PALACE_POSITIONS.get(baseCamp);
+        List<Position> surroundingPositions = findPalacePositions(palaceCenter.x(), palaceCenter.y());
+        if (!surroundingPositions.contains(piecePosition)) {
+            throw new ErrorException("궁성 안에서 이동해야 합니다.");
         }
-        validatePosition(from);
-        validatePosition(to);
     }
 
     public Set<Piece> getPiecesByPosition(Set<Position> route) {
         Set<Piece> pieces = new HashSet<>();
         for (Position position : route) {
-            Piece piece = placedPieces.get(position);
+            Piece piece = cells.get(position);
             if (!piece.isEmpty()) {
                 pieces.add(piece);
             }
@@ -87,22 +123,8 @@ public class Board {
         return pieces;
     }
 
-    public Map<Position, Piece> getPlacedPieces() {
-        return placedPieces;
-    }
-
-    public void validateSelectedPiece(Position position, Camp baseCamp) {
-        Piece piece = placedPieces.get(position);
-        piece.validateSelect(baseCamp);
-    }
-
-    public void validateCampPalace(Position piecePosition, Camp baseCamp) {
-        Position palaceCenter = PALACE_POSITIONS.get(baseCamp);
-        List<Position> surroundingPositions = findPalacePositions(palaceCenter.getX(), palaceCenter.getY());
-        if (!surroundingPositions.contains(piecePosition)) {
-            throw new ErrorException("궁성 안에서 이동해야 합니다.");
-
-        }
+    public Map<Position, Piece> getCells() {
+        return cells;
     }
 
     private List<Position> findPalacePositions(int centerX, int centerY) {
