@@ -3,6 +3,7 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,8 +36,27 @@ public final class PlayerTest {
 
             // when&then
             assertAll(
-                    () -> assertThat(han.isFirstAttack()).isFalse(),
-                    () -> assertThat(cho.isFirstAttack()).isTrue()
+                    () -> assertThat(han.isTurn()).isFalse(),
+                    () -> assertThat(cho.isTurn()).isTrue()
+            );
+
+        }
+
+        @Test
+        @DisplayName("턴을 일괄적으로 교체할 수 있다.")
+        void test_switchTurn() {
+            // given
+            final Player han = new Player(Team.HAN);
+            final Player cho = new Player(Team.CHO);
+            final List<Player> players = List.of(han, cho);
+
+            // when
+            players.forEach(Player::switchTurn);
+
+            // then
+            assertAll(
+                    () -> assertThat(han.isTurn()).isTrue(),
+                    () -> assertThat(cho.isTurn()).isFalse()
             );
 
         }

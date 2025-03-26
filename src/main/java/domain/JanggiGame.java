@@ -14,7 +14,6 @@ public final class JanggiGame {
     private final Board board;
     private final List<Player> players;
 
-    private boolean isFirstPlayerTurn = true;
 
     public JanggiGame(final Board board, final List<Player> players) {
         this.board = board;
@@ -35,18 +34,14 @@ public final class JanggiGame {
 
     public void move(final Point start, final Point arrival) {
         board.movePiece(start, arrival, getTeamOnCurrentTurn());
-        passTurnForFirstPlayer();
+        players.forEach(Player::switchTurn);
     }
 
     public Team getTeamOnCurrentTurn() {
         final Player currentPlayer = players.stream()
-                .filter(player -> player.isFirstAttack() == isFirstPlayerTurn)
+                .filter(Player::isTurn)
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new RuntimeException("플레이어 정보에 오류가 발생했습니다."));
         return currentPlayer.getTeam();
-    }
-
-    private void passTurnForFirstPlayer() {
-        isFirstPlayerTurn = !isFirstPlayerTurn;
     }
 }
