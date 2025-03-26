@@ -25,7 +25,9 @@ public class Soldier extends LimitMovable {
         return List.of(
                 createRoute(position, Direction.LEFT),
                 createRoute(position, Direction.UP),
-                createRoute(position, Direction.RIGHT)
+                createRoute(position, Direction.RIGHT),
+                createRoute(position, Direction.LEFT_UP),
+                createRoute(position, Direction.RIGHT_UP)
         );
     }
 
@@ -33,7 +35,9 @@ public class Soldier extends LimitMovable {
         return List.of(
                 createRoute(position, Direction.LEFT),
                 createRoute(position, Direction.DOWN),
-                createRoute(position, Direction.RIGHT)
+                createRoute(position, Direction.RIGHT),
+                createRoute(position, Direction.LEFT_DOWN),
+                createRoute(position, Direction.RIGHT_DOWN)
         );
     }
 

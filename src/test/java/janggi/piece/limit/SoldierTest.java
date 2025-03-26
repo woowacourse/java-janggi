@@ -23,7 +23,9 @@ class SoldierTest {
         assertThat(candidatePositions).extracting(Route::getLastPosition)
                 .contains(new Position(1, 6),
                         new Position(-1, 6),
-                        new Position(0, 5));
+                        new Position(0, 5),
+                        new Position(1, 5),
+                        new Position(-1, 5));
     }
 
     @Test
@@ -36,6 +38,8 @@ class SoldierTest {
         assertThat(candidatePositions).extracting(Route::getLastPosition)
                 .contains(new Position(1, 3),
                         new Position(-1, 3),
-                        new Position(0, 4));
+                        new Position(0, 4),
+                        new Position(-1, 4),
+                        new Position(1, 4));
     }
 }
