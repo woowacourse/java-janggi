@@ -11,37 +11,44 @@ public class Elephant extends Piece {
 
     @Override
     public List<Position> calculatePath(final Position start, final Position end) {
-        int differenceX = end.x() - start.x();
-        int differenceY = end.y() - start.y();
-        validateMovingRule(differenceX, differenceY);
-        Position firstStep = calculateFirstDirection(start, differenceX, differenceY);
-        Position secondStep = calculateSecondDirection(start, differenceX, differenceY);
-        return List.of(firstStep, secondStep);
+        validateMovingRule(start, end);
+        return findPath(start, end);
     }
 
-    private Position calculateFirstDirection(final Position start, final int differenceX, final int differenceY) {
-        return start.offset(reduceByAmount(differenceX, 2), reduceByAmount(differenceY, 2));
-    }
-
-    private Position calculateSecondDirection(final Position start, final int differenceX, final int differenceY) {
-        return start.offset(reduceByAmount(differenceX, 1), reduceByAmount(differenceY, 1));
-    }
-
-    private int reduceByAmount(final int value, final int amount) {
-        boolean isNegative = value < 0;
-        int absValue = Math.abs(value) - amount;
-        if (isNegative) {
-            return absValue * -1;
-        }
-        return absValue;
-    }
-
-    private void validateMovingRule(final int differenceX, final int differenceY) {
-        int absDifferenceX = Math.abs(differenceX);
-        int absDifferenceY = Math.abs(differenceY);
-        if ((absDifferenceX == 3 && absDifferenceY == 2) || (absDifferenceX == 2 && absDifferenceY == 3)) {
+    private void validateMovingRule(final Position start, final Position end) {
+        int absDifferenceX = start.calculateAbsoluteDifferenceX(end);
+        int absDifferenceY = start.calculateAbsoluteDifferenceY(end);
+        if ((absDifferenceX == 3 && absDifferenceY == 2)
+                || (absDifferenceX == 2 && absDifferenceY == 3)) {
             return;
         }
         throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
+    }
+
+    private List<Position> findPath(final Position start, final Position end) {
+        Position firstStep = calculateFirstPathPosition(start, end);
+        Position secondStep = calculateSecondPathPosition(start, end);
+        return List.of(firstStep, secondStep);
+    }
+
+    private Position calculateFirstPathPosition(final Position start, final Position end) {
+        int differenceX = start.calculateDifferenceX(end);
+        int differenceY = start.calculateDifferenceY(end);
+        return start.offset(reduceValueTowardZero(differenceX, 2), reduceValueTowardZero(differenceY, 2));
+    }
+
+    private Position calculateSecondPathPosition(final Position start, final Position end) {
+        int differenceX = start.calculateDifferenceX(end);
+        int differenceY = start.calculateDifferenceY(end);
+        return start.offset(reduceValueTowardZero(differenceX, 1), reduceValueTowardZero(differenceY, 1));
+    }
+
+    private int reduceValueTowardZero(final int value, final int reduceAmount) {
+        boolean isNegative = value < 0;
+        int reducedAbsoluteValue = Math.abs(value) - reduceAmount;
+        if (isNegative) {
+            return reducedAbsoluteValue * -1;
+        }
+        return reducedAbsoluteValue;
     }
 }
