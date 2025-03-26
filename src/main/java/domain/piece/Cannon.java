@@ -1,7 +1,6 @@
 package domain.piece;
 
-import domain.Direction;
-import domain.TeamType;
+import domain.position.Direction;
 import domain.piece.path.CannonPathValidator;
 import domain.piece.path.DynamicPatternPathFinder;
 import java.util.List;

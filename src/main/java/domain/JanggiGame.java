@@ -1,6 +1,10 @@
 package domain;
 
+import domain.participants.Player;
+import domain.participants.Players;
 import domain.piece.Piece;
+import domain.piece.TeamType;
+import domain.position.Position;
 import java.util.Map;
 
 public class JanggiGame {

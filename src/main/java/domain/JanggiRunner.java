@@ -1,8 +1,13 @@
 package domain;
 
+import domain.participants.Player;
+import domain.participants.Players;
+import domain.participants.Usernames;
 import domain.piece.Piece;
 import domain.piece.PieceFactory;
+import domain.piece.TeamType;
 import domain.piece.strategy.HorseElephantSetupStrategy;
+import domain.position.Position;
 import java.util.Map;
 import view.InputView;
 import view.OutputView;

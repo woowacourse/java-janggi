@@ -1,10 +1,9 @@
 package domain.piece;
 
-import domain.Position;
+import domain.position.Position;
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.piece.strategy.LeftElephantStrategy;
 import domain.piece.strategy.RightElephantStrategy;
-import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -7,8 +7,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Piece;
 import domain.piece.Soldier;
-import fixtures.PositionFixture;
-import java.util.List;
+import domain.piece.TeamType;
+import domain.position.Position;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;

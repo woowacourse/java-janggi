@@ -1,6 +1,6 @@
 package util;
 
-import domain.Position;
+import domain.position.Position;
 
 public class PositionConvertor {
     private static final String REGEX = "^[a-z]\\d$";

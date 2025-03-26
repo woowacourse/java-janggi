@@ -1,7 +1,6 @@
 package domain.piece;
 
-import domain.Position;
-import domain.TeamType;
+import domain.position.Position;
 import domain.piece.path.PathFinder;
 import domain.piece.path.PathValidator;
 import java.util.List;

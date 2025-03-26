@@ -1,7 +1,7 @@
 package domain.piece.path;
 
-import domain.Movement;
-import domain.Position;
+import domain.position.Movement;
+import domain.position.Position;
 import java.util.List;
 
 public class FixedPatternPathFinder implements PathFinder {

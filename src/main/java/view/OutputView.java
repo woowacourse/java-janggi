@@ -1,10 +1,10 @@
 package view;
 
-import domain.Column;
-import domain.Player;
-import domain.Position;
-import domain.Row;
-import domain.TeamType;
+import domain.position.Column;
+import domain.participants.Player;
+import domain.position.Position;
+import domain.position.Row;
+import domain.piece.TeamType;
 import domain.piece.Piece;
 import java.util.Map;
 import java.util.Objects;

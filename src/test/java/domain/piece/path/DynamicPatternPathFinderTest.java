@@ -6,8 +6,8 @@ import static fixtures.PositionFixture.D5;
 import static fixtures.PositionFixture.D6;
 import static fixtures.PositionFixture.H0;
 
-import domain.Direction;
-import domain.Position;
+import domain.position.Direction;
+import domain.position.Position;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

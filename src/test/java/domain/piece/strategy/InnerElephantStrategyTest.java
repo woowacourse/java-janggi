@@ -3,15 +3,13 @@ package domain.piece.strategy;
 import static fixtures.PositionFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Position;
-import domain.TeamType;
+import domain.position.Position;
+import domain.piece.TeamType;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import fixtures.PositionFixture;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

@@ -2,19 +2,13 @@ package domain.piece.path;
 
 import static fixtures.PositionFixture.*;
 import static fixtures.PositionFixture.D3;
-import static fixtures.PositionFixture.D4;
-import static fixtures.PositionFixture.D5;
-import static fixtures.PositionFixture.D6;
 import static fixtures.PositionFixture.H0;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
-import domain.Direction;
-import domain.Movement;
-import domain.Position;
-import fixtures.PositionFixture;
+import domain.position.Direction;
+import domain.position.Movement;
+import domain.position.Position;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

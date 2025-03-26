@@ -2,6 +2,8 @@ package domain;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import domain.piece.TeamType;
+import domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

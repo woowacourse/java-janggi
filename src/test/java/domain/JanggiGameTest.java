@@ -9,11 +9,15 @@ import static fixtures.PositionFixture.D4;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.participants.Player;
+import domain.participants.Players;
+import domain.participants.Usernames;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Piece;
 import domain.piece.Soldier;
-import java.util.List;
+import domain.piece.TeamType;
+import domain.position.Position;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

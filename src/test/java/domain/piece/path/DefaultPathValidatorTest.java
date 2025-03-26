@@ -5,11 +5,9 @@ import static fixtures.PositionFixture.E7;
 import static fixtures.PositionFixture.E8;
 import static fixtures.PositionFixture.E9;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
-import domain.Position;
-import domain.TeamType;
-import domain.piece.Cannon;
+import domain.position.Position;
+import domain.piece.TeamType;
 import domain.piece.Elephant;
 import domain.piece.Horse;
 import domain.piece.Piece;

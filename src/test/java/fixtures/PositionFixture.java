@@ -1,6 +1,6 @@
 package fixtures;
 
-import domain.Position;
+import domain.position.Position;
 
 public class PositionFixture {
 

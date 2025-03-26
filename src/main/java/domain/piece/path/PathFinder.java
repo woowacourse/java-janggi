@@ -1,6 +1,6 @@
 package domain.piece.path;
 
-import domain.Position;
+import domain.position.Position;
 import java.util.List;
 
 public interface PathFinder {

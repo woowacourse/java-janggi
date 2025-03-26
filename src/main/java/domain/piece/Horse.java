@@ -1,8 +1,7 @@
 package domain.piece;
 
-import domain.Direction;
-import domain.Movement;
-import domain.TeamType;
+import domain.position.Direction;
+import domain.position.Movement;
 import domain.piece.path.DefaultPathValidator;
 import domain.piece.path.FixedPatternPathFinder;
 import java.util.List;

@@ -1,6 +1,6 @@
 package domain.piece.path;
 
-import domain.Position;
+import domain.position.Position;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.List;

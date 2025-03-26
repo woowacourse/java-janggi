@@ -1,7 +1,7 @@
 package domain.piece.strategy;
 
-import domain.Position;
-import domain.TeamType;
+import domain.position.Position;
+import domain.piece.TeamType;
 import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
