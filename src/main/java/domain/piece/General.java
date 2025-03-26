@@ -8,4 +8,9 @@ public class General extends Piece {
     public General(Side side) {
         super(0, side, new GeneralPath(), new MovedGeneral(side));
     }
+
+    @Override
+    public PieceSymbol getPieceSymbol() {
+        return PieceSymbol.GENERAL;
+    }
 }

@@ -3,15 +3,8 @@ package view;
 import domain.JanggiPosition;
 import domain.game.Player;
 import domain.piece.Piece;
+import domain.piece.PieceSymbol;
 import domain.piece.Side;
-import domain.piece.state.MovedCannon;
-import domain.piece.state.MovedChariot;
-import domain.piece.state.MovedElephant;
-import domain.piece.state.MovedGeneral;
-import domain.piece.state.MovedGuard;
-import domain.piece.state.MovedHorse;
-import domain.piece.state.MovedSoldierByeong;
-import domain.piece.state.MovedSoldierJol;
 import java.util.Map;
 
 public class OutputView {
@@ -41,31 +34,10 @@ public class OutputView {
     }
 
     private static String changePiece(Piece piece) {
-        if (piece.getState() instanceof MovedCannon) {
-            return "p";
+        if (piece == null) {
+            return PieceSymbol.EMPTY.getSymbol();
         }
-        if (piece.getState() instanceof MovedChariot) {
-            return "c";
-        }
-        if (piece.getState() instanceof MovedElephant) {
-            return "e";
-        }
-        if (piece.getState() instanceof MovedGeneral) {
-            return "k";
-        }
-        if (piece.getState() instanceof MovedGuard) {
-            return "s";
-        }
-        if (piece.getState() instanceof MovedHorse) {
-            return "h";
-        }
-        if (piece.getState() instanceof MovedSoldierByeong) {
-            return "b";
-        }
-        if (piece.getState() instanceof MovedSoldierJol) {
-            return "j";
-        }
-        return " ";
+        return piece.getPieceSymbol().getSymbol();
     }
 
     public static void printPlayerTurn(Player player) {

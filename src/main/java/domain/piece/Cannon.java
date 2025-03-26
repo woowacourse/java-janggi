@@ -10,8 +10,13 @@ public class Cannon extends Piece {
 
     @Override
     public void captureIfNotMySide(Piece piece) {
-        if (piece.getState() instanceof MovedCannon) {
+        if (piece.getPieceSymbol().equals(PieceSymbol.CANNON)) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
+    }
+
+    @Override
+    public PieceSymbol getPieceSymbol() {
+        return PieceSymbol.CANNON;
     }
 }

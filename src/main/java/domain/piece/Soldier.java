@@ -14,4 +14,12 @@ public class Soldier extends Piece {
             state = new MovedSoldierByeong();
         }
     }
+
+    @Override
+    public PieceSymbol getPieceSymbol() {
+        if (side == Side.HAN) {
+            return PieceSymbol.SOLDIER_BYEONG;
+        }
+        return PieceSymbol.SOLDIER_JOL;
+    }
 }

@@ -20,6 +20,8 @@ public abstract class Piece {
         this.state = state;
     }
 
+    public abstract PieceSymbol getPieceSymbol();
+
     public List<Pattern> findMovablePath(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         return state.findMovablePath(path, beforePosition, afterPosition);
     }

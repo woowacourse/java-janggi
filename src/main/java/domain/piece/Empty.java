@@ -18,4 +18,9 @@ public class Empty extends Piece {
     public boolean isEmpty() {
         return true;
     }
+
+    @Override
+    public PieceSymbol getPieceSymbol() {
+        return PieceSymbol.EMPTY;
+    }
 }

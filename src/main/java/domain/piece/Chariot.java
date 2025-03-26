@@ -7,4 +7,9 @@ public class Chariot extends Piece {
     public Chariot(Side side) {
         super(13, side, new ChariotPath(), new MovedChariot());
     }
+
+    @Override
+    public PieceSymbol getPieceSymbol() {
+        return PieceSymbol.CHARIOT;
+    }
 }

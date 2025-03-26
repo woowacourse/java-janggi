@@ -8,4 +8,9 @@ public class Horse extends Piece {
     public Horse(Side side) {
         super(5, side, new HorsePath(), new MovedHorse());
     }
+
+    @Override
+    public PieceSymbol getPieceSymbol() {
+        return PieceSymbol.HORSE;
+    }
 }
