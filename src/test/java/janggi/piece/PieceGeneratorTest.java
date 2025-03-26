@@ -14,22 +14,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 public class PieceGeneratorTest {
     @ParameterizedTest
     @MethodSource("makeInitialPieceTestData")
     @DisplayName("초기 기물이 올바르게 생성되는지 확인")
-    void pieceGeneratorTest(List<Piece> hanPieces, List<Piece> choPieces) {
-        //given
-
-        //when
-        List<Piece> pieces = new PieceGenerator().generateInitialPieces( TableOption.HEEH, TableOption.EHHE);
+    void pieceGeneratorTest(List<Piece> hanPieces) {
+        //given & when
+        List<Piece> pieces = new PieceGenerator().generateInitialPieces(TableOption.HEEH, TableOption.EHHE);
         //then
-        assertAll(
-                () -> Assertions.assertThat(pieces).containsAll(hanPieces),
-                () -> Assertions.assertThat(pieces).containsAll(choPieces)
-        );
+        Assertions.assertThat(pieces).containsAll(hanPieces);
     }
 
     static Stream<Arguments> makeInitialPieceTestData() {
@@ -48,7 +41,9 @@ public class PieceGeneratorTest {
                                 new Soldier(Team.HAN, new Position(new Row(4), new Column(9))),
                                 new Guard(Team.HAN, new Position(new Row(1), new Column(4))), new Guard(Team.HAN, new Position(new Row(1), new Column(6))),
                                 new King(Team.HAN, new Position(new Row(2), new Column(5)))
-                        ),
+                        )
+                ),
+                Arguments.arguments(
                         // 초 - 상마마상
                         List.of(
                                 new Chariot(Team.CHO, new Position(new Row(10), new Column(1))), new Chariot(Team.CHO, new Position(new Row(10), new Column(9))),
