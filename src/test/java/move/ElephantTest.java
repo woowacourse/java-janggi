@@ -26,7 +26,7 @@ class ElephantTest {
         //when
 
         //then
-        assertThatCode(() -> elephant.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -41,7 +41,7 @@ class ElephantTest {
         //when
 
         //then
-        assertThatCode(() -> elephant.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -56,7 +56,7 @@ class ElephantTest {
         //when
 
         //then
-        assertThatCode(() -> elephant.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -71,7 +71,7 @@ class ElephantTest {
         //when
 
         //then
-        assertThatCode(() -> elephant.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -86,7 +86,7 @@ class ElephantTest {
         //when
 
         //then
-        assertThatCode(() -> elephant.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -101,7 +101,7 @@ class ElephantTest {
         //when
 
         //then
-        assertThatCode(() -> elephant.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -116,7 +116,7 @@ class ElephantTest {
         //when
 
         //then
-        assertThatCode(() -> elephant.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -131,7 +131,7 @@ class ElephantTest {
         //when
 
         //then
-        assertThatCode(() -> elephant.validateDestination(from, to))
+        assertThatCode(() -> elephant.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -146,7 +146,7 @@ class ElephantTest {
         //when
 
         //then
-        assertThatThrownBy(() -> elephant.validateDestination(from, to))
+        assertThatThrownBy(() -> elephant.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -163,7 +163,7 @@ class ElephantTest {
 
         //when
         //then
-        assertThatThrownBy(() -> elephant.checkPaths(pieces, from, to))
+        assertThatThrownBy(() -> elephant.checkPaths(pieces, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

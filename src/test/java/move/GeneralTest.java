@@ -24,7 +24,7 @@ public class GeneralTest {
         //when
 
         //then
-        assertThatCode(() -> general.validateDestination(from, to))
+        assertThatCode(() -> general.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -41,7 +41,7 @@ public class GeneralTest {
         //when
 
         //then
-        assertThatThrownBy(() -> general.validateDestination(from, to))
+        assertThatThrownBy(() -> general.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -58,7 +58,7 @@ public class GeneralTest {
         //when
 
         //then
-        assertThatCode(() -> general.validateDestination(from, to))
+        assertThatCode(() -> general.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -75,7 +75,7 @@ public class GeneralTest {
         //when
 
         //then
-        assertThatThrownBy(() -> general.validateDestination(from, to))
+        assertThatThrownBy(() -> general.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -92,7 +92,7 @@ public class GeneralTest {
         //when
 
         //then
-        assertThatCode(() -> general.validateDestination(from, to))
+        assertThatCode(() -> general.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -109,7 +109,7 @@ public class GeneralTest {
         //when
 
         //then
-        assertThatThrownBy(() -> general.validateDestination(from, to))
+        assertThatThrownBy(() -> general.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -126,7 +126,7 @@ public class GeneralTest {
         //when
 
         //then
-        assertThatCode(() -> general.validateDestination(from, to))
+        assertThatCode(() -> general.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -143,7 +143,7 @@ public class GeneralTest {
         //when
 
         //then
-        assertThatThrownBy(() -> general.validateDestination(from, to))
+        assertThatThrownBy(() -> general.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

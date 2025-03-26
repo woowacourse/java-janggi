@@ -32,14 +32,14 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public void validateDestination(Point from, Point to) {
-        validateAvailableDestination(from, to);
+    public void validateDestination(Point to) {
+        validateAvailableDestination(currentPosition, to);
     }
 
     @Override
-    public void checkPaths(Pieces allPieces, Point from, Point to) {
-        Point checkPoint = new Point(from.x(), from.y());
-        validateExistPieceInPath(allPieces, getPaths(from, to), checkPoint);
+    public void checkPaths(Pieces allPieces, Point to) {
+        Point checkPoint = new Point(currentPosition.x(), currentPosition.y());
+        validateExistPieceInPath(allPieces, getPaths(currentPosition, to), checkPoint);
     }
 
     public List<Direction> getPaths(Point from, Point to) {

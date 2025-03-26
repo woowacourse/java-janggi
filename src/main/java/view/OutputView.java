@@ -1,13 +1,13 @@
 package view;
 
-import board.GameBoard;
+import board.MemoryGameBoard;
 import direction.Point;
 import java.util.Optional;
 import piece.Piece;
 import piece.Pieces;
 
 public class OutputView {
-    public static void displayBoard(GameBoard gameBoard) {
+    public static void displayBoard(MemoryGameBoard gameBoard) {
         Pieces pieces = gameBoard.findAllPieces();
 
         System.out.println();

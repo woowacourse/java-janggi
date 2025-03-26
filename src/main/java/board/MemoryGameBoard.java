@@ -19,7 +19,7 @@ import piece.Pieces;
 import team.Player;
 import team.Team;
 
-public class MemoryGameBoard implements GameBoard {
+public class MemoryGameBoard {
 
     private final List<Player> players;
 
@@ -79,7 +79,6 @@ public class MemoryGameBoard implements GameBoard {
         ));
     }
 
-    @Override
     public Player findPlayer(Team team) {
         return players.stream()
                 .filter(player -> player.isTeam(team))
@@ -87,7 +86,6 @@ public class MemoryGameBoard implements GameBoard {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 팀이 존재하지 않습니다."));
     }
 
-    @Override
     public Pieces findAllPieces() {
         List<Piece> pieces = new ArrayList<>();
 

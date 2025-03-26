@@ -1,6 +1,6 @@
 package game;
 
-import board.GameBoard;
+import board.MemoryGameBoard;
 import direction.Point;
 import team.Player;
 import team.Team;
@@ -14,9 +14,9 @@ public class JanggiGame {
     private static final int VERTICAL_START = 1;
     private static final int VERTICAL_END = 10;
 
-    private final GameBoard gameBoard;
+    private final MemoryGameBoard gameBoard;
 
-    public JanggiGame(GameBoard gameBoard) {
+    public JanggiGame(MemoryGameBoard gameBoard) {
         this.gameBoard = gameBoard;
     }
 

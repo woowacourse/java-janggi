@@ -26,7 +26,7 @@ class CannonTest {
         //when
 
         //then
-        assertThatCode(() -> cannon.validateDestination(from, to))
+        assertThatCode(() -> cannon.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -41,7 +41,7 @@ class CannonTest {
         //when
 
         //then
-        assertThatCode(() -> cannon.validateDestination(from, to))
+        assertThatCode(() -> cannon.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -55,7 +55,7 @@ class CannonTest {
 
         //when
         //then
-        assertThatThrownBy(() -> cannon.validateDestination(from, to))
+        assertThatThrownBy(() -> cannon.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -69,7 +69,7 @@ class CannonTest {
 
         //when
         //then
-        assertThatThrownBy(() -> cannon.validateDestination(from, to))
+        assertThatThrownBy(() -> cannon.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -86,7 +86,7 @@ class CannonTest {
 
         //when
         //then
-        assertThatCode(() -> cannon.checkPaths(pieces, from, to))
+        assertThatCode(() -> cannon.checkPaths(pieces, to))
                 .doesNotThrowAnyException();
     }
 
@@ -104,7 +104,7 @@ class CannonTest {
 
         //when
         //then
-        assertThatThrownBy(() -> cannon.checkPaths(pieces, from, to))
+        assertThatThrownBy(() -> cannon.checkPaths(pieces, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -121,7 +121,7 @@ class CannonTest {
 
         //when
         //then
-        assertThatThrownBy(() -> cannon.checkPaths(pieces, from, to))
+        assertThatThrownBy(() -> cannon.checkPaths(pieces, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -9,13 +9,13 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public void validateDestination(Point from, Point to) {
-        validateStraightDestination(from, to);
-        validateNotSamePosition(from, to);
+    public void validateDestination(Point to) {
+        validateStraightDestination(currentPosition, to);
+        validateNotSamePosition(currentPosition, to);
     }
 
     @Override
-    public void checkPaths(Pieces pieces, Point from, Point to) {
-        findStraightPaths(from, to).forEach(pieces::validateNotContainPiece);
+    public void checkPaths(Pieces pieces, Point to) {
+        findStraightPaths(currentPosition, to).forEach(pieces::validateNotContainPiece);
     }
 }

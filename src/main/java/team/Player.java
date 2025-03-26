@@ -33,8 +33,8 @@ public class Player {
 
     public void play(Pieces allPieces, Point start, Point end) {
         Piece piece = getPieceByPoint(start);
-        piece.validateDestination(start, end);
-        piece.checkPaths(allPieces, start, end);
+        piece.validateDestination(end);
+        piece.checkPaths(allPieces, end);
         piece.move(end);
     }
 

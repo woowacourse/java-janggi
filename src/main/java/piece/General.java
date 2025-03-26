@@ -9,14 +9,15 @@ public class General extends Piece {
     }
 
     @Override
-    public void validateDestination(Point from, Point to) {
-        if (from.x() + 1 < to.x() || from.x() - 1 > to.x() || from.y() + 1 < to.y() || from.y() - 1 > to.y()) {
+    public void validateDestination(Point to) {
+        if (currentPosition.x() + 1 < to.x() || currentPosition.x() - 1 > to.x()
+                || currentPosition.y() + 1 < to.y() || currentPosition.y() - 1 > to.y()) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }
 
     @Override
-    public void checkPaths(Pieces allPieces, Point from, Point to) {
+    public void checkPaths(Pieces allPieces, Point to) {
 
     }
 }

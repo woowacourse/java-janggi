@@ -7,7 +7,7 @@ import java.util.List;
 
 public abstract class Piece {
     private final String name; // enum -> outputFormatter
-    private Point currentPosition;
+    protected Point currentPosition;
 
     public Piece(String name, Point currentPosition) {
         this.name = name;
@@ -26,8 +26,8 @@ public abstract class Piece {
         return currentPosition.equals(targetPoint);
     }
 
-    public abstract void validateDestination(Point from, Point to);
-    public abstract void checkPaths(Pieces allPieces, Point from, Point to);
+    public abstract void validateDestination(Point to);
+    public abstract void checkPaths(Pieces allPieces, Point to);
 
     public void move(Point to) {
         currentPosition = to;

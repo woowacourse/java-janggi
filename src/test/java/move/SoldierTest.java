@@ -26,7 +26,7 @@ class SoldierTest {
         //when
 
         //then
-        assertThatCode(() -> soldier.validateDestination(from, to))
+        assertThatCode(() -> soldier.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -43,7 +43,7 @@ class SoldierTest {
         //when
 
         //then
-        assertThatThrownBy(() -> soldier.validateDestination(from, to))
+        assertThatThrownBy(() -> soldier.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -60,7 +60,7 @@ class SoldierTest {
         //when
 
         //then
-        assertThatThrownBy(() -> soldier.validateDestination(from, to))
+        assertThatThrownBy(() -> soldier.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -77,7 +77,7 @@ class SoldierTest {
         //when
 
         //then
-        assertThatCode(() -> soldier.validateDestination(from, to))
+        assertThatCode(() -> soldier.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -94,7 +94,7 @@ class SoldierTest {
         //when
 
         //then
-        assertThatThrownBy(() -> soldier.validateDestination(from, to))
+        assertThatThrownBy(() -> soldier.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -111,7 +111,7 @@ class SoldierTest {
         //when
 
         //then
-        assertThatCode(() -> soldier.validateDestination(from, to))
+        assertThatCode(() -> soldier.validateDestination(to))
                 .doesNotThrowAnyException();
     }
 
@@ -128,7 +128,7 @@ class SoldierTest {
         //when
 
         //then
-        assertThatThrownBy(() -> soldier.validateDestination(from, to))
+        assertThatThrownBy(() -> soldier.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
