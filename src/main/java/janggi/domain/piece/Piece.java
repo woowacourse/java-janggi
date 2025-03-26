@@ -12,24 +12,20 @@ import java.util.Set;
 public final class Piece {
 
     private final PieceType pieceType;
-    private final List<PathProvider> pathProviders;
-    private final List<PathFilter> pathFilters;
 
     private Position position;
 
-    public Piece(final PieceType pieceType, final List<PathProvider> pathProviders, final List<PathFilter> pathFilters, final Position position) {
+    public Piece(final PieceType pieceType, final Position position) {
         this.pieceType = pieceType;
-        this.pathProviders = pathProviders;
-        this.pathFilters = pathFilters;
         this.position = position;
     }
 
     public void move(final Position newPosition, final List<Piece> allyPieces, final List<Piece> enemyPieces) {
         final Set<Path> paths = new HashSet<>();
-        for (final PathProvider pathProvider : pathProviders) {
+        for (final PathProvider pathProvider : pieceType.pathProviders) {
             paths.addAll(pathProvider.get(position));
         }
-        for (final PathFilter pathFilter : pathFilters) {
+        for (final PathFilter pathFilter : pieceType.pathFilters) {
             pathFilter.filter(this, paths, allyPieces, enemyPieces);
         }
 

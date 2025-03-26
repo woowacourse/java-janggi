@@ -1,4 +1,4 @@
-package janggi.domain.piece;
+package janggi.domain;
 
 import janggi.domain.gung.Gung;
 import janggi.domain.path.Path;

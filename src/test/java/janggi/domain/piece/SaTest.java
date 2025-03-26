@@ -18,7 +18,7 @@ class SaTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 사는_궁의_길을_따라_움직인다(final Position startPosition, final Position newPosition) {
         // given
-        final Piece piece = PieceFactory.createSa(startPosition);
+        final Piece piece = new Piece(PieceType.사, startPosition);
 
         // expected
         assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
@@ -29,7 +29,7 @@ class SaTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 거꾸로도_갈_수_있다(final Position newPosition, final Position startPosition) {
         // given
-        final Piece piece = PieceFactory.createSa(startPosition);
+        final Piece piece = new Piece(PieceType.사, startPosition);
 
         // expected
         assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
@@ -40,7 +40,7 @@ class SaTest extends BaseTest {
     @MethodSource("provideInvalidPositions")
     void 그_외의_길을_따라_움직일_수_없다(final Position startPosition, final Position newPosition) {
         // given
-        final Piece piece = PieceFactory.createSa(startPosition);
+        final Piece piece = new Piece(PieceType.사, startPosition);
 
         // expected
         assertThatThrownBy(() -> piece.move(newPosition, List.of(), List.of()))
