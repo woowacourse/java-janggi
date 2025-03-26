@@ -11,21 +11,18 @@ public class Chariot extends StraightMovingPiece {
     }
 
     @Override
-    protected Movement findDirection(Position positionToMove) {
-        return null;
-    }
-
-    @Override
     protected boolean checkPieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
         Position currentPosition = getPosition();
-        while (currentPosition.isNotEndPoint() || currentPosition.equals(positionToMove)) {
+        while (currentPosition.isNotEndPoint() && !currentPosition.equals(positionToMove)) {
+            currentPosition = currentPosition.plus(direction.getX(), direction.getY());
             if (pieces.get(currentPosition).isNotNone()) {
                 throw new IllegalArgumentException("불가능한 이동입니다");
             }
-            currentPosition = currentPosition.plus(direction.getX(), direction.getY());
         }
         return true;
     }
+
+
 
     @Override
     public Piece from(Position position) {

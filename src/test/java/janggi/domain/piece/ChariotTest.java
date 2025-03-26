@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.HashMap;
 import java.util.Map;
 
+import janggi.domain.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,5 +58,13 @@ class ChariotTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-
+    @DisplayName("차가 궁성 안에 있는 경우 간선을 타고 이동할 수 있다")
+    @Test
+    void testPalace() {
+        Chariot chariot = new Chariot(new Position(8, 4), Team.BLUE);
+        pieces.put(chariot.getPosition(), chariot);
+        Board board = new Board(pieces);
+        board.movePiece(chariot.getPosition(), new Position(10, 6));
+        assertThat(board.getPieceByPosition(new Position(10, 6))).isInstanceOf(Chariot.class);
+    }
 }
