@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class PhoTest {
@@ -40,10 +39,8 @@ class PhoTest {
 
             JanggiBoard board = new JanggiBoard(map);
 
-            assertAll(
-                    () -> assertThatThrownBy(() -> piece.validateMove(board, myPiece, ourMa))
-                            .isInstanceOf(IllegalArgumentException.class)
-            );
+            assertThatThrownBy(() -> piece.validateMove(board, myPiece, ourMa))
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @DisplayName("기물은 적군 기물만 잡을 수 있다.")

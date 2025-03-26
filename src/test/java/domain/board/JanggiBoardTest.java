@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class JanggiBoardTest {
@@ -54,9 +55,11 @@ class JanggiBoardTest {
             map.put(from, piece);
             JanggiBoard janggiBoard = new JanggiBoard(map);
 
-            assertDoesNotThrow(() -> janggiBoard.movePiece(from, to));
-            assertThat(janggiBoard.isOccupied(from)).isFalse();
-            assertThat(janggiBoard.isOccupied(to)).isTrue();
+            assertAll(
+                    () -> assertDoesNotThrow(() -> janggiBoard.movePiece(from, to)),
+                    () -> assertThat(janggiBoard.isOccupied(from)).isFalse(),
+                    () -> assertThat(janggiBoard.isOccupied(to)).isTrue()
+            );
         }
     }
 }
