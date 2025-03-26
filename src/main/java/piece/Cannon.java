@@ -40,10 +40,3 @@ public class Cannon extends Piece {
                 .count();
     }
 }
-
-/*
-지금 추상 클래스? => currentPosition 을 자식에서 사용하고 있음
-Piece -> move()를 하는 건 동일
-경로만 다를 뿐, 경로를 각자 자식 클래스에서 반환해줌
-중간에 비슷한 거 중간다리가 반환해줄 수도
-*/
