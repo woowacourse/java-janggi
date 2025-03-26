@@ -13,11 +13,11 @@ public class MoveInfo {
         this.pieceCategory = pieceCategory;
     }
 
-    public boolean isPieceInPath() {
+    public boolean hasPieceInPath() {
         return pieceCategory != PieceCategory.NONE;
     }
 
-    public boolean isSameCategory(final PieceCategory otherPieceCategory) {
+    public boolean isSamePieceCategory(final PieceCategory otherPieceCategory) {
         return this.pieceCategory == otherPieceCategory;
     }
 }

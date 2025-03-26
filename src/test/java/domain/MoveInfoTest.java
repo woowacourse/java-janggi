@@ -19,7 +19,7 @@ public class MoveInfoTest {
         MoveInfo moveInfo = new MoveInfo(new Position(1, 2), pieceCategory);
 
         // when
-        boolean result = moveInfo.isPieceInPath();
+        boolean result = moveInfo.hasPieceInPath();
 
         // then
         assertThat(result)
@@ -36,7 +36,7 @@ public class MoveInfoTest {
         MoveInfo moveInfo = new MoveInfo(new Position(1, 2), pieceCategory);
 
         // when
-        boolean result = moveInfo.isSameCategory(otherPieceCategory);
+        boolean result = moveInfo.isSamePieceCategory(otherPieceCategory);
 
         // then
         assertThat(result)
