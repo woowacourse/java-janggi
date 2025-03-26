@@ -22,4 +22,8 @@ public abstract class Piece {
     public boolean equals(Object object) {
         return object != null && getClass() == object.getClass();
     }
+
+    public String getNickname() {
+        return nickname;
+    }
 }

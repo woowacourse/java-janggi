@@ -4,14 +4,14 @@ import static team.Team.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import move.ChariotMovement;
-import move.GeneralMovement;
-import move.ElephantMovement;
-import move.GuardMovement;
-import move.HorseMovement;
+import piece.Chariot;
+import piece.General;
+import piece.Elephant;
+import piece.Guard;
+import piece.Horse;
 import direction.Point;
-import move.SoldierMovement;
-import move.CannonMovement;
+import piece.Soldier;
+import piece.Cannon;
 import piece.Piece;
 import piece.Pieces;
 import team.Player;
@@ -23,8 +23,8 @@ public class MemoryGameBoard implements GameBoard {
 
     public MemoryGameBoard() {
         this.players = new ArrayList<>(List.of(
-                new Player(makeGreenPieces(), GREEN),
-                new Player(makeRedPieces(), RED)
+                new Player(makeGreenPieces(), CHO),
+                new Player(makeRedPieces(), HAN)
         ));
     }
 
@@ -43,48 +43,50 @@ public class MemoryGameBoard implements GameBoard {
 
     private List<Piece> makeRedSoldiers() {
         return List.of(
-                new Piece("S", new Point(1, 4), new SoldierMovement(RED.direction())),
-                new Piece("S", new Point(3, 4), new SoldierMovement(RED.direction())),
-                new Piece("S", new Point(5, 4), new SoldierMovement(RED.direction())),
-                new Piece("S", new Point(7, 4), new SoldierMovement(RED.direction())),
-                new Piece("S", new Point(9, 4), new SoldierMovement(RED.direction())));
+                new Soldier("S", new Point(1, 4), HAN),
+                new Soldier("S", new Point(3, 4), HAN),
+                new Soldier("S", new Point(5, 4), HAN),
+                new Soldier("S", new Point(7, 4), HAN),
+                new Soldier("S", new Point(9, 4), HAN)
+        );
     }
 
     private List<Piece> makeRedCannons() {
         return List.of(
-                new Piece("N", new Point(2, 3), new CannonMovement()),
-                new Piece("N", new Point(8, 3), new CannonMovement()));
+                new Cannon("N", new Point(2, 3)),
+                new Cannon("N", new Point(8, 3))
+        );
     }
 
     private Piece makeRedGeneral() {
-        return new Piece("G", new Point(5, 2), new GeneralMovement());
+        return new General("G", new Point(5, 2));
     }
 
     private List<Piece> makeRedGuards() {
         return List.of(
-                new Piece("R", new Point(4, 1), new GuardMovement()),
-                new Piece("R", new Point(6, 1), new GuardMovement())
+                new Guard("R", new Point(4, 1)),
+                new Guard("R", new Point(6, 1))
         );
     }
 
     private List<Piece> makeRedHorses() {
         return List.of(
-                new Piece("H", new Point(2, 1), new HorseMovement(RED.direction())),
-                new Piece("H", new Point(8, 1), new HorseMovement(RED.direction()))
+                new Horse("H", new Point(2, 1)),
+                new Horse("H", new Point(8, 1))
         );
     }
 
     private List<Piece> makeRedElephants() {
         return List.of(
-                new Piece("E", new Point(3, 1), new ElephantMovement(RED.direction())),
-                new Piece("E", new Point(7, 1), new ElephantMovement(RED.direction()))
+                new Elephant("E", new Point(3, 1)),
+                new Elephant("E", new Point(7, 1))
         );
     }
 
     private List<Piece> makeRedChariots() {
         return List.of(
-                new Piece("C", new Point(1, 1), new ChariotMovement()),
-                new Piece("C", new Point(9, 1), new ChariotMovement())
+                new Chariot("C", new Point(1, 1)),
+                new Chariot("C", new Point(9, 1))
         );
     }
 
@@ -104,52 +106,52 @@ public class MemoryGameBoard implements GameBoard {
 
     private List<Piece> makeGreenChariots() {
         return List.of(
-                new Piece("c", new Point(1, 10), new ChariotMovement()),
-                new Piece("c", new Point(9, 10), new ChariotMovement())
+                new Chariot("c", new Point(1, 10)),
+                new Chariot("c", new Point(9, 10))
         );
     }
 
     private List<Piece> makeGreenElephants() {
         return List.of(
-                new Piece("e", new Point(2, 10), new ElephantMovement(GREEN.direction())),
-                new Piece("e", new Point(7, 10), new ElephantMovement(GREEN.direction()))
+                new Elephant("e", new Point(2, 10)),
+                new Elephant("e", new Point(7, 10))
         );
     }
 
     private List<Piece> makeGreenHorses() {
         return List.of(
-                new Piece("h", new Point(3, 10), new HorseMovement(GREEN.direction())),
-                new Piece("h", new Point(8, 10), new HorseMovement(GREEN.direction()))
+                new Horse("h", new Point(3, 10)),
+                new Horse("h", new Point(8, 10))
         );
     }
 
     private List<Piece> makeGreenGuards() {
         return List.of(
-                new Piece("r", new Point(4, 10), new GuardMovement()),
-                new Piece("r", new Point(6, 10), new GuardMovement())
+                new Guard("r", new Point(4, 10)),
+                new Guard("r", new Point(6, 10))
         );
     }
 
     private List<Piece> makeGreenGeneral() {
         return List.of(
-                new Piece("g", new Point(5, 9), new GeneralMovement())
+                new General("g", new Point(5, 9))
         );
     }
 
     private List<Piece> makeGreenCannons() {
         return List.of(
-                new Piece("n", new Point(2, 8), new CannonMovement()),
-                new Piece("n", new Point(8, 8), new CannonMovement())
+                new Cannon("n", new Point(2, 8)),
+                new Cannon("n", new Point(8, 8))
         );
     }
 
     private List<Piece> makeGreenSoldiers() {
         return List.of(
-                new Piece("s", new Point(1, 7), new SoldierMovement(GREEN.direction())),
-                new Piece("s", new Point(3, 7), new SoldierMovement(GREEN.direction())),
-                new Piece("s", new Point(5, 7), new SoldierMovement(GREEN.direction())),
-                new Piece("s", new Point(7, 7), new SoldierMovement(GREEN.direction())),
-                new Piece("s", new Point(9, 7), new SoldierMovement(GREEN.direction()))
+                new Soldier("s", new Point(1, 7), CHO),
+                new Soldier("s", new Point(3, 7), CHO),
+                new Soldier("s", new Point(5, 7), CHO),
+                new Soldier("s", new Point(7, 7), CHO),
+                new Soldier("s", new Point(9, 7), CHO)
         );
     }
 
