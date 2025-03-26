@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.board.Board;
 import domain.board.Direction;
+import domain.board.PieceVisibleBoard;
 import domain.board.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public abstract class SlidingPiece extends Piece {
     }
 
     @Override
-    public List<Point> findMovablePoints(final Point point, final Board board) {
+    public List<Point> findMovablePoints(final Point point, final PieceVisibleBoard board) {
         List<Point> candidates = new ArrayList<>();
         for (Direction direction : movableDirections()) {
             candidates.addAll(findCandidatesByDirection(point, direction, board));
@@ -22,7 +22,7 @@ public abstract class SlidingPiece extends Piece {
     }
 
     private List<Point> findCandidatesByDirection(final Point point, final Direction direction,
-                                                  final Board board) {
+                                                  final PieceVisibleBoard board) {
         List<Point> candidates = new ArrayList<>();
         Point currentPoint = point;
         for (int stepLeft = maxStep(); stepLeft > 0 && board.existsNextPoint(currentPoint, direction); stepLeft--) {

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Board {
+public class Board implements PieceVisibleBoard {
 
     private static final double HAN_HANDICAP_SCORE = 1.5;
 

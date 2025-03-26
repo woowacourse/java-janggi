@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.board.Board;
 import domain.board.Direction;
+import domain.board.PieceVisibleBoard;
 import domain.board.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ public class Po extends Piece {
     }
 
     @Override
-    public List<Point> findMovablePoints(final Point source, final Board board) {
+    public List<Point> findMovablePoints(final Point source, final PieceVisibleBoard board) {
         List<Point> candidates = new ArrayList<>();
         movableDirections().stream()
                 .filter(direction -> existsHurdle(source, direction, board))
@@ -25,7 +25,7 @@ public class Po extends Piece {
         return candidates;
     }
 
-    private boolean existsHurdle(final Point currentPoint, final Direction direction, final Board board) {
+    private boolean existsHurdle(final Point currentPoint, final Direction direction, final PieceVisibleBoard board) {
         if (!board.existsNextPoint(currentPoint, direction)) {
             return false;
         }
@@ -36,7 +36,7 @@ public class Po extends Piece {
         return existsHurdle(nextPoint, direction, board);
     }
 
-    private Point findHurdle(final Point currentPoint, final Direction direction, final Board board) {
+    private Point findHurdle(final Point currentPoint, final Direction direction, final PieceVisibleBoard board) {
         if (!board.existsNextPoint(currentPoint, direction)) {
             throw new IllegalArgumentException("이동할 경로가 없습니다.");
         }
@@ -47,7 +47,7 @@ public class Po extends Piece {
         return findHurdle(nextPoint, direction, board);
     }
 
-    private void findCandidates(final Point currentPoint, final Direction direction, final Board board,
+    private void findCandidates(final Point currentPoint, final Direction direction, final PieceVisibleBoard board,
                                 final List<Point> candidates) {
         if (!board.existsNextPoint(currentPoint, direction)) {
             return;
