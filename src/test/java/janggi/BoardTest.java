@@ -93,7 +93,7 @@ class BoardTest {
 
     @Test
     @DisplayName("올바른 위치로 기물을 움직여서 상대의 기물을 잡는다면, 점수가 올라간다")
-    void canAddScoreWhenCatchEnemy() {
+    void canAddScoreWhenCaptureEnemy() {
         // given
         Board board = Board.from(Pieces.empty().addAll(
                 List.of(PieceFixture.createPiece(1, 1, PieceType.SOLDIER, Team.CHO),
@@ -103,14 +103,14 @@ class BoardTest {
 
         // when
         Player me = Player.from(Team.CHO);
-        Score scoreBeforeCatch = me.getScore();
+        Score scoreBeforeCapture = me.getScore();
         board.movePiece(me, Position.of(1, 1), enemyPosition);
 
         // then
-        Score scoreAfterCatch = me.getScore();
+        Score scoreAfterCapture = me.getScore();
 
-        assertThat(scoreBeforeCatch).isEqualTo(new Score(0));
-        assertThat(scoreAfterCatch).isEqualTo(Score.soldier());
+        assertThat(scoreBeforeCapture).isEqualTo(new Score(0));
+        assertThat(scoreAfterCapture).isEqualTo(Score.soldier());
     }
 
     @Test

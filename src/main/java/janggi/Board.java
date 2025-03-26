@@ -58,7 +58,8 @@ public class Board {
 
     private void updateScore(final Player player, final Position destination) {
         if (isExists(destination)) {
-            Score score = positionToPiece.remove(destination).die();
+            Piece capturedPiece = positionToPiece.get(destination);
+            Score score = capturedPiece.die(this.positionToPiece::remove);
             player.addScore(score);
         }
     }

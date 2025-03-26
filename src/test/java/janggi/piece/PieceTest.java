@@ -1,10 +1,12 @@
 package janggi.piece;
 
 import janggi.Board;
+import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class PieceTest {
 
@@ -87,5 +89,23 @@ class PieceTest {
         assertThatCode(() -> piece.move(board, movedPosition))
                 .doesNotThrowAnyException();
 
+    }
+
+    @Test
+    @DisplayName("자신이 죽을 때, 보드에서 자신의 위치를 제거하고, 자신의 타입에 맞는 점수를 반환한다")
+    void dieShouldCallRemoverAndReturnCorrectScore() {
+        // given
+        Position position = Position.of(2, 5);
+        Piece piece = Guard.of(position, Team.CHO);
+        List<Position> removedPositions = new ArrayList<>();
+
+        // when
+        Score score = piece.die(removedPositions::add);
+
+        // then
+        assertAll(() -> {
+            assertThat(removedPositions).containsExactly(position);
+            assertThat(score).isEqualTo(Score.guard());
+        });
     }
 }

@@ -7,6 +7,8 @@ import janggi.coordinate.Position;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
 import janggi.piece.strategy.move.MoveStrategy;
 
+import java.util.function.Consumer;
+
 public abstract class Piece {
 
     protected final Position position;
@@ -26,7 +28,10 @@ public abstract class Piece {
         return createPiece(destination);
     }
 
-    public abstract Score die();
+    public Score die(Consumer<Position> remover) {
+        remover.accept(this.position);
+        return getType().score();
+    }
 
     public abstract PieceType getType();
 

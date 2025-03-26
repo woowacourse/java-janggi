@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
@@ -26,11 +25,6 @@ public class Guard extends Piece {
         return defaultColumns.stream()
                 .map(defaultColumn -> Guard.of(Position.of(defaultRow, defaultColumn), team))
                 .toList();
-    }
-
-    @Override
-    public Score die() {
-        return Score.guard();
     }
 
     @Override

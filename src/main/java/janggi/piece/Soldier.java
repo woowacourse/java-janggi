@@ -1,7 +1,6 @@
 package janggi.piece;
 
 import janggi.Board;
-import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
@@ -28,11 +27,6 @@ public class Soldier extends Piece {
         return defaultColumns.stream()
                 .map(defaultColumn -> Soldier.of(Position.of(defaultRow, defaultColumn), team))
                 .toList();
-    }
-
-    @Override
-    public Score die() {
-        return Score.soldier();
     }
 
     @Override

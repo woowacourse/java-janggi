@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
@@ -22,12 +21,6 @@ public class General extends Piece {
         int defaultColumn = 5;
 
         return General.of(Position.of(defaultRow, defaultColumn), team);
-    }
-
-    @Override
-    public Score die() {
-        // 점수 많이 주고 게임 끝내기 가능
-        return Score.general();
     }
 
     @Override

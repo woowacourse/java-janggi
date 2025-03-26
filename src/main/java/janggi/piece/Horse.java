@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
@@ -29,11 +28,6 @@ public class Horse extends Piece {
         return defaultColumns.stream()
                 .map(defaultColumn -> Horse.of(Position.of(defaultRow, defaultColumn), team))
                 .toList();
-    }
-
-    @Override
-    public Score die() {
-        return Score.horse();
     }
 
     @Override

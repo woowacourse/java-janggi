@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.Score;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
@@ -26,11 +25,6 @@ public class Chariot extends Piece {
         return defaultColumns.stream()
                 .map(defaultColumn -> Chariot.of(Position.of(defaultRow, defaultColumn), team))
                 .toList();
-    }
-
-    @Override
-    public Score die() {
-        return Score.chariot();
     }
 
     @Override
