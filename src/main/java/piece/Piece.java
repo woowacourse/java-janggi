@@ -38,10 +38,6 @@ public abstract class Piece {
         this.position = destination;
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
     public Team getTeam() {
         return team;
     }
@@ -54,12 +50,12 @@ public abstract class Piece {
         if (!(o instanceof Piece piece)) {
             return false;
         }
-        return Objects.equals(getPosition(), piece.getPosition());
+        return Objects.equals(position, piece.position) && getTeam() == piece.getTeam();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getPosition());
+        return Objects.hash(position, getTeam());
     }
 
     @Override

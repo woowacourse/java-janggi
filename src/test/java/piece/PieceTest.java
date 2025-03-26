@@ -15,34 +15,16 @@ import board.Position;
 class PieceTest {
 
     @Test
-    void 기물은_위치를_가지고_있어야_한다() {
-        Position position = new Position(1, 1);
-        Board board = new Board(List.of());
-        Piece piece = new Chariot(position, Team.BLUE);
-
-        assertThat(piece.getPosition()).isEqualTo(new Position(1, 1));
-    }
-
-    @Test
-    void 기물은_팀_정보를_가지고_있어야_한다() {
-        Position position = new Position(1, 1);
-        Board board = new Board(List.of());
-        Piece piece = new Chariot(position, Team.BLUE);
-
-        assertThat(piece.getTeam()).isEqualTo(Team.BLUE);
-    }
-
-    @Test
     void 기물을_움직일_수_있다() {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
         Piece piece = new Chariot(position, Team.BLUE);
         board.putPiece(piece);
 
-        Position nextPosition = new Position(2, 1);
-        piece.move(nextPosition, board);
+        Position destination = new Position(2, 1);
+        piece.move(destination, board);
 
-        assertThat(piece.getPosition()).isEqualTo(nextPosition);
+        assertThat(board.findPieceByPosition(destination)).isEqualTo(piece);
     }
 
     @CsvSource(value = {
@@ -56,11 +38,11 @@ class PieceTest {
         board.putPiece(piece);
         board.putPiece(new Chariot(new Position(row, column), Team.RED));
 
-        Position nextPosition = new Position(targetRow, targetColumn);
-        piece.move(nextPosition, board);
+        Position destination = new Position(targetRow, targetColumn);
+        piece.move(destination, board);
 
-        assertThat(piece.getPosition()).isEqualTo(nextPosition);
-        assertThat(board.getPieces()).hasSize(1);
+        assertThat(board.findPieceByPosition(destination)).isEqualTo(piece);
+        assertThat(board.isSameTeamPosition(Team.BLUE, destination)).isTrue();
     }
 
     @CsvSource(value = {
@@ -71,8 +53,8 @@ class PieceTest {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
         Piece piece = new Chariot(position, Team.BLUE);
-        Position nextPosition = new Position(row, column);
-        board.putPiece(new Chariot(nextPosition, Team.BLUE));
+        Position destination = new Position(row, column);
+        board.putPiece(new Chariot(destination, Team.BLUE));
 
         assertThatThrownBy(() -> piece.move(new Position(targetRow, targetColumn), board))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -86,9 +68,9 @@ class PieceTest {
         Position position = new Position(1, 1);
         Board board = new Board(List.of());
         Piece piece = new Chariot(position, Team.BLUE);
-        Position nextPosition = new Position(row, column);
+        Position destination = new Position(row, column);
 
-        assertThatThrownBy(() -> piece.move(nextPosition, board))
+        assertThatThrownBy(() -> piece.move(destination, board))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

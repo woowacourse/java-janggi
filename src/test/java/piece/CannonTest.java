@@ -30,13 +30,13 @@ class CannonTest {
     void 포가_움직일_수_있는_위치들을_계산한다() {
         Board board = new Board(List.of());
         Piece piece = new Cannon(initPosition, Team.BLUE);
-        board.putPiece(new Solider(new Position(1, 4), Team.BLUE));
-        board.putPiece(new Solider(new Position(3, 4), Team.BLUE));
-        board.putPiece(new Solider(new Position(5, 6), Team.BLUE));
+        board.putPiece(new Soldier(new Position(1, 4), Team.BLUE));
+        board.putPiece(new Soldier(new Position(3, 4), Team.BLUE));
+        board.putPiece(new Soldier(new Position(5, 6), Team.BLUE));
         board.putPiece(new Cannon(new Position(5, 9), Team.RED));
         board.putPiece(new Cannon(new Position(7, 4), Team.RED));
-        board.putPiece(new Solider(new Position(5, 3), Team.BLUE));
-        board.putPiece(new Solider(new Position(5, 1), Team.RED));
+        board.putPiece(new Soldier(new Position(5, 3), Team.BLUE));
+        board.putPiece(new Soldier(new Position(5, 1), Team.RED));
 
         Set<Position> positions = piece.getMovablePositions(board);
 

@@ -11,7 +11,7 @@ import piece.Elephant;
 import piece.Guard;
 import piece.Horse;
 import piece.King;
-import piece.Solider;
+import piece.Soldier;
 import piece.Team;
 
 public class BoardInitializer {
@@ -75,7 +75,7 @@ public class BoardInitializer {
     private void putSoldiers(final Team team, final Board board) {
         board.putPieces(IntStream.range(1, 10)
                 .filter(BoardInitializer::isSoldierColumn)
-                .mapToObj(column -> new Solider(
+                .mapToObj(column -> new Soldier(
                         new Position(calculateRow(team, 3), column), team)
                 ).collect(Collectors.toUnmodifiableList()));
     }

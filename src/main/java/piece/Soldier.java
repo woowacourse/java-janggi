@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 import board.Board;
 import board.Position;
 
-public class Solider extends Piece {
+public class Soldier extends Piece {
 
-    public Solider(final Position position, final Team team) {
+    public Soldier(final Position position, final Team team) {
         super(position, team);
     }
 
