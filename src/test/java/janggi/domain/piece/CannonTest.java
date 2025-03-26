@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,7 @@ class CannonTest {
         Soldier otherSoldier2 = new Soldier(new Position(1, 1), Team.BLUE);
         pieces.put(otherSoldier1.getPosition(), otherSoldier1);
         pieces.put(otherSoldier2.getPosition(), otherSoldier2);
-        Cannon movedHorse = cannon.move(pieces, positionToMove);
+        Piece movedHorse = cannon.move(pieces, positionToMove);
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
     }
 
@@ -42,7 +43,7 @@ class CannonTest {
     @CsvSource(value = {"7,7", "4,4", "6,5"})
     @ParameterizedTest
     void move2(int x, int y) {
-        Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
+        Piece cannon = new Cannon(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> cannon.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -65,8 +66,9 @@ class CannonTest {
         Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
         Soldier otherSoldier = new Soldier(new Position(3, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
+        Board board = new Board(pieces);
         assertThatThrownBy(() ->
-                cannon.move(pieces, otherSoldier.getPosition()))
+                board.movePiece(cannon.getPosition(), otherSoldier.getPosition()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -102,7 +104,7 @@ class CannonTest {
         pieces.put(soldier3.getPosition(), soldier3);
         pieces.put(soldier4.getPosition(), soldier4);
 
-        Cannon movedHorse = cannon.move(pieces, positionToMove);
+        Piece movedHorse = cannon.move(pieces, positionToMove);
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
     }
 }

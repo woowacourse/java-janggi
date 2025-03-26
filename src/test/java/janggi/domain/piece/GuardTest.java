@@ -27,9 +27,9 @@ class GuardTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        Guard guard = new Guard(new Position(5, 5), Team.BLUE);
-        Position positionToMove = new Position(5, 6);
-        Guard movedGuard = guard.move(pieces, positionToMove);
+        Guard guard = new Guard(new Position(8, 4), Team.BLUE);
+        Position positionToMove = new Position(9, 4);
+        Piece movedGuard = guard.move(pieces, positionToMove);
         assertThat(movedGuard.getPosition()).isEqualTo(positionToMove);
     }
 

@@ -29,7 +29,7 @@ class ElephantTest {
     void move() {
         Elephant elephant = new Elephant(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(2, 3);
-        Elephant movedHorse = elephant.move(pieces, positionToMove);
+        Piece movedHorse = elephant.move(pieces, positionToMove);
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
     }
 
@@ -80,7 +80,7 @@ class ElephantTest {
     void move6(int x, int y) {
         Elephant elephant = new Elephant(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
-        Elephant movedHorse = elephant.move(pieces, positionToMove);
+        Piece movedHorse = elephant.move(pieces, positionToMove);
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
     }
 }

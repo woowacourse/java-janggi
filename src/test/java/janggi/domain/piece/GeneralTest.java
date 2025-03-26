@@ -26,10 +26,9 @@ class GeneralTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        General general = new General(new Position(5, 5), Team.BLUE);
-        Position positionToMove = new Position(5, 6);
-
-        General movedGeneral = general.move(pieces, positionToMove);
+        Piece general = new General(new Position(9, 5), Team.BLUE);
+        Position positionToMove = new Position(8, 5);
+        Piece movedGeneral = general.move(pieces, positionToMove);
 
         assertThat(movedGeneral.getPosition()).isEqualTo(positionToMove);
     }

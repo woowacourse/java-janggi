@@ -28,10 +28,10 @@ class SoldierTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        Soldier soldier = new Soldier(new Position(5, 5), Team.BLUE);
-        Position positionToMove = new Position(5, 6);
+        Soldier soldier = new Soldier(new Position(10, 4), Team.BLUE);
+        Position positionToMove = new Position(9, 4);
 
-        Soldier movedSoldier = soldier.move(pieces, positionToMove);
+        Piece movedSoldier = soldier.move(pieces, positionToMove);
 
         assertThat(movedSoldier.getPosition()).isEqualTo(positionToMove);
     }

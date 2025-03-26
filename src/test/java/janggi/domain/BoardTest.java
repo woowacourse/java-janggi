@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.piece.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,9 +34,10 @@ class BoardTest {
         Position beforePosition = new Position(7, 1);
         Position afterPosition = new Position(6, 1);
         board.movePiece(beforePosition, afterPosition);
-
-        assertThat(board.getPieceByPosition(beforePosition)).isInstanceOf(None.class);
-        assertThat(board.getPieceByPosition(afterPosition)).isInstanceOf(Soldier.class);
+        Assertions.assertAll(
+                () -> assertThat(board.getPieceByPosition(beforePosition)).isInstanceOf(None.class),
+                () -> assertThat(board.getPieceByPosition(afterPosition)).isInstanceOf(Soldier.class)
+        );
     }
 
     @DisplayName("차의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")

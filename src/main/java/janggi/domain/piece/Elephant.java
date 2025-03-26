@@ -1,11 +1,13 @@
 package janggi.domain.piece;
 
-import janggi.domain.piece.movement.ElephantMovement;
+import janggi.domain.piece.movement.Movement;
+
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Elephant extends Piece {
+public class Elephant extends PathMovingPiece {
     private static final List<Position> INITIAL_POSITIONS_BLUE_LEFT = List.of(
             new Position(10, 3),
             new Position(10, 2)
@@ -21,6 +23,17 @@ public class Elephant extends Piece {
     private static final List<Position> INITIAL_POSITIONS_RED_RIGHT = List.of(
             new Position(1, 8),
             new Position(1, 7)
+    );
+
+    private static final List<List<Movement>> movements = List.of(
+            List.of(Movement.UP, Movement.TOP_LEFT, Movement.TOP_LEFT),
+            List.of(Movement.UP, Movement.TOP_RIGHT, Movement.TOP_RIGHT),
+            List.of(Movement.LEFT, Movement.TOP_LEFT, Movement.TOP_LEFT),
+            List.of(Movement.LEFT, Movement.BOTTOM_LEFT, Movement.BOTTOM_LEFT),
+            List.of(Movement.DOWN, Movement.BOTTOM_LEFT, Movement.BOTTOM_LEFT),
+            List.of(Movement.DOWN, Movement.BOTTOM_RIGHT, Movement.BOTTOM_RIGHT),
+            List.of(Movement.RIGHT, Movement.TOP_RIGHT, Movement.TOP_RIGHT),
+            List.of(Movement.RIGHT, Movement.BOTTOM_RIGHT, Movement.BOTTOM_RIGHT)
     );
 
     public Elephant(final Position position, final Team team) {
@@ -57,23 +70,35 @@ public class Elephant extends Piece {
         return elephants;
     }
 
-    public Elephant move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        validateNothingBetweenPositionToMove(pieces, positionToMove);
-        return new Elephant(positionToMove, team);
+    @Override
+    protected boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
+        return pieceInPositionToMove.isNone();
     }
 
-    private void validateNothingBetweenPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        ElephantMovement elephantMovement = ElephantMovement.getDirection(
-                positionToMove.x() - getPosition().x(),
-                positionToMove.y() - getPosition().y()
-        );
-
-        boolean hasPieceOnRoutes = elephantMovement.getRouteDistances().stream()
-                .map(routeDistance -> getPosition().plus(routeDistance.x(), routeDistance.y()))
-                .anyMatch(position -> pieces.get(position).isNotNone());
-
-        if (hasPieceOnRoutes) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
+    @Override
+    protected List<Movement> findMovements(Position positionToMove) {
+        for(List<Movement> checkingMovements : movements) {
+            if(canReachPositionToMove(checkingMovements, positionToMove)) {
+                return checkingMovements;
+            }
         }
+        throw new IllegalArgumentException("불가능한 이동입니다");
+    }
+
+    private boolean canReachPositionToMove(List<Movement> checkingMovements, Position positionToMove) {
+        Position currentPosition = getPosition();
+        for(Movement movement : checkingMovements) {
+            currentPosition = currentPosition.plus(movement.getX(), movement.getY());
+            System.out.println(currentPosition);
+            if(currentPosition.equals(positionToMove)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Piece from(Position position) {
+        return new Elephant(position, team);
     }
 }

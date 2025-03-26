@@ -33,5 +33,14 @@ public abstract class Piece {
         return !isNone();
     }
 
-    public abstract Piece move(final Map<Position, Piece> pieces, final Position positionToMove);
+    public Piece move(final Map<Position, Piece> pieces, final Position positionToMove) {
+        if(canMoveTo(pieces, positionToMove)) {
+            return from(positionToMove);
+        }
+        throw new IllegalArgumentException("불가능한 이동입니다");
+    }
+
+    public abstract boolean canMoveTo(Map<Position, Piece> pieces, Position positionToMove);
+
+    public abstract Piece from(Position position);
 }

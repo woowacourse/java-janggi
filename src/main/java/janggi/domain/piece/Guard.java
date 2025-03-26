@@ -1,10 +1,12 @@
 package janggi.domain.piece;
 
+import janggi.domain.piece.movement.Movement;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Guard extends Piece {
+public class Guard extends PathMovingPiece {
     private static final List<Position> INITIAL_POSITIONS_BLUE = List.of(new Position(10, 4), new Position(10, 6));
     private static final List<Position> INITIAL_POSITIONS_RED = List.of(new Position(1, 4), new Position(1, 6));
 
@@ -24,18 +26,22 @@ public class Guard extends Piece {
         return guards;
     }
 
-    public Guard move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        validateIsPositionMovable(positionToMove);
-        return new Guard(positionToMove, team);
+    @Override
+    protected List<Movement> findMovements(Position positionToMove) {
+        return List.of(Movement.getDiagonal(
+                positionToMove.x() - getPosition().x(),
+                positionToMove.y() - getPosition().y()
+        ));
     }
 
-    private void validateIsPositionMovable(final Position value) {
-        if (checkIsPositionNotMovable(value)) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
-        }
+    @Override
+    protected boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
+        return pieceInPositionToMove.isNone() &&
+                checkingPosition.isPalace();
     }
 
-    private boolean checkIsPositionNotMovable(final Position value) {
-        return Math.abs(value.x() - getPosition().x()) + Math.abs(value.y() - getPosition().y()) != 1;
+    @Override
+    public Piece from(Position position) {
+        return new Guard(position, team);
     }
 }

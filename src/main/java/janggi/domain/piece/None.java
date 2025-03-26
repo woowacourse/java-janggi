@@ -13,6 +13,17 @@ public class None extends Piece {
     }
 
     @Override
+    public boolean canMoveTo(Map<Position, Piece> pieces, Position positionToMove) {
+        throw new IllegalArgumentException("빈칸은 움직일 수 없습니다.");
+
+    }
+
+    @Override
+    public Piece from(Position position) {
+        throw new IllegalArgumentException("빈칸은 움직일 수 없습니다.");
+    }
+
+    @Override
     public boolean isNone() {
         return true;
     }

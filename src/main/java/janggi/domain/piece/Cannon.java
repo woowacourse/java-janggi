@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Cannon extends Piece {
+public class Cannon extends StraightMovingPiece {
     private static final List<Position> INITIAL_POSITIONS_BLUE = List.of(
             new Position(8, 2),
             new Position(8, 8));
@@ -29,53 +29,23 @@ public class Cannon extends Piece {
         return cannons;
     }
 
-    public Cannon move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        validateIsPositionMovable(positionToMove);
-        validateNotCannonInPositionToMove(pieces, positionToMove);
-        validateOneNotCannonBetweenPositionToMove(pieces, positionToMove);
-        return new Cannon(positionToMove, team);
-    }
-
-    private void validateIsPositionMovable(final Position value) {
-        if (checkIsPositionNotDiagonal(value)) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
-        }
-    }
-
-    private void validateNotCannonInPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        if (pieces.get(positionToMove) instanceof Cannon) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
-        }
-    }
-
-    private void validateOneNotCannonBetweenPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        Movement movement = Movement.getDistance(
-                positionToMove.x() - getPosition().x(),
-                positionToMove.y() - getPosition().y()
-        );
+    @Override
+    protected boolean checkPieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
+        Position currentPosition = getPosition();
         int count = 0;
-        for (Position position = getPosition().plus(movement.x(), movement.y());
-             !position.equals(positionToMove);
-             position = position.plus(movement.x(), movement.y())
-        ) {
-            isCannonOnMovement(pieces, position);
-            if (pieces.get(position).isNotNone()) {
-                count++;
+        while(currentPosition.isNotEndPoint() || currentPosition.equals(positionToMove)) {
+            currentPosition = currentPosition.plus(direction.getX(), direction.getY());
+            if(pieces.get(currentPosition).isNotNone()) {
+                count ++;
+            }
+            if(pieces.get(currentPosition) instanceof Cannon) {
+                return false;
             }
         }
-
-        if (count != 1) {
-            throw new IllegalArgumentException("불가능한 이동입니다");
-        }
+        return count == 1;
     }
-
-    private void isCannonOnMovement(final Map<Position, Piece> pieces, final Position position) {
-        if (pieces.get(position) instanceof Cannon) {
-            throw new IllegalArgumentException("불가능한 이동입니다");
-        }
-    }
-
-    private boolean checkIsPositionNotDiagonal(final Position value) {
-        return Math.abs(value.x() - getPosition().x()) != 0 && Math.abs(value.y() - getPosition().y()) != 0;
+    @Override
+    public Piece from(Position position) {
+        return new Cannon(position, getTeam());
     }
 }

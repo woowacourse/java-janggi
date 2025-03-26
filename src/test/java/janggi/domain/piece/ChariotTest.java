@@ -32,7 +32,7 @@ class ChariotTest {
         Position positionToMove = new Position(5, 9);
         Soldier soldier = new Soldier(new Position(1, 1), Team.BLUE);
         pieces.put(soldier.getPosition(), soldier);
-        Chariot movedChariot = chariot.move(pieces, positionToMove);
+        Piece movedChariot = chariot.move(pieces, positionToMove);
         assertThat(movedChariot.getPosition()).isEqualTo(positionToMove);
     }
 

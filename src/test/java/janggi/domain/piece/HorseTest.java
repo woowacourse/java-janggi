@@ -29,7 +29,7 @@ class HorseTest {
     void move() {
         Horse horse = new Horse(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(3, 4);
-        Horse movedHorse = horse.move(pieces, positionToMove);
+        Piece movedHorse = horse.move(pieces, positionToMove);
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
     }
 
@@ -80,7 +80,7 @@ class HorseTest {
     void move6(int x, int y) {
         Horse horse = new Horse(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
-        Horse movedHorse = horse.move(pieces, positionToMove);
+        Piece movedHorse = horse.move(pieces, positionToMove);
         assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
     }
 }

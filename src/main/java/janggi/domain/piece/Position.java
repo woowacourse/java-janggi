@@ -18,4 +18,21 @@ public record Position(int x, int y) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다");
         }
     }
+
+    public boolean isPalace() {
+        return (x >= 8 && x <= 10 || x >= 1 && x <= 3) &&
+                y >= 4 && y <= 6;
+    }
+
+    public boolean isNotPalace() {
+        return !isPalace();
+    }
+
+    public boolean isEndPoint() {
+        return x == 1 || x == 10 || y == 1 || y == 9;
+    }
+
+    public boolean isNotEndPoint() {
+        return !isEndPoint();
+    }
 }

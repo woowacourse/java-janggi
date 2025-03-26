@@ -1,9 +1,11 @@
 package janggi.domain.piece;
 
+import janggi.domain.piece.movement.Movement;
+
 import java.util.List;
 import java.util.Map;
 
-public class General extends Piece {
+public class General extends PathMovingPiece {
     private static final Position INITIAL_POSITIONS_BLUE = new Position(9, 5);
     private static final Position INITIAL_POSITIONS_RED = new Position(2, 5);
 
@@ -18,18 +20,22 @@ public class General extends Piece {
         return List.of(new General(INITIAL_POSITIONS_RED, team));
     }
 
-    public General move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        validateIsPositionMovable(positionToMove);
-        return new General(positionToMove, team);
+    @Override
+    protected List<Movement> findMovements(Position positionToMove) {
+        return List.of(Movement.getDiagonal(
+                positionToMove.x() - getPosition().x(),
+                positionToMove.y() - getPosition().y()
+        ));
     }
 
-    private void validateIsPositionMovable(final Position value) {
-        if (checkIsPositionNotMovable(value)) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
-        }
+    @Override
+    protected boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
+        return pieceInPositionToMove.isNone() &&
+                checkingPosition.isPalace();
     }
 
-    private boolean checkIsPositionNotMovable(final Position value) {
-        return Math.abs(value.x() - getPosition().x()) + Math.abs(value.y() - getPosition().y()) != 1;
+    @Override
+    public Piece from(Position position) {
+        return new General(position, team);
     }
 }

@@ -1,30 +1,52 @@
 package janggi.domain.piece.movement;
 
-public record Movement(
-        int x, int y
-) {
-    public static final Movement UP = new Movement(-1, 0);
-    public static final Movement DOWN = new Movement(1, 0);
-    public static final Movement LEFT = new Movement(0, -1);
-    public static final Movement RIGHT = new Movement(0, 1);
+public enum Movement {
+    UP(-1, 0),
+    DOWN(1, 0),
+    LEFT(0, -1),
+    RIGHT(0, 1),
+    TOP_LEFT(UP.x, LEFT.y),
+    TOP_RIGHT(UP.x, RIGHT.y),
+    BOTTOM_LEFT(DOWN.x, LEFT.y),
+    BOTTOM_RIGHT(DOWN.x, RIGHT.y),
+    TOP_LEFT_TOP_LEFT(UP.x * 2, LEFT.y * 2),
+    TOP_RIGHT_TOP_RIGHT(UP.x * 2, RIGHT.y * 2),
+    BOTTOM_LEFT_BOTTOM_LEFT(DOWN.x * 2, LEFT.y * 2),
+    BOTTOM_RIGHT_BOTTOM_RIGHT(DOWN.x * 2, RIGHT.y * 2);
 
-    public Movement plus(Movement other) {
-        return new Movement(x + other.x, y + other.y());
+    private final int x;
+    private final int y;
+
+    Movement(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public static Movement getDistance(int relativeX, int relativeY) {
-        if (relativeX < 0) {
-            return UP;
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public static Movement getDiagonal(int x, int y) {
+        if(x == 0) {
+            if(y > 0) {
+                return LEFT;
+            }
+            if(y < 0) {
+                return RIGHT;
+            }
         }
-        if (relativeX > 0) {
-            return DOWN;
+        if(y == 0) {
+            if(x > 0) {
+                return DOWN;
+            }
+            if(x < 0) {
+                return UP;
+            }
         }
-        if (relativeY < 0) {
-            return LEFT;
-        }
-        if (relativeY > 0) {
-            return RIGHT;
-        }
-        throw new IllegalArgumentException("대각선으로는 이동할 수 없습니다");
+        throw new IllegalArgumentException("수직 이동이 아닙니다");
     }
 }

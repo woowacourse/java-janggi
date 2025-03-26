@@ -1,12 +1,13 @@
 package janggi.domain.piece;
 
 import janggi.domain.piece.movement.Movement;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Chariot extends Piece {
-    private static final List<Position> INITIAL_POSITIONS_BLUE = List.of(
+public class Chariot extends StraightMovingPiece {
+        private static final List<Position> INITIAL_POSITIONS_BLUE = List.of(
             new Position(10, 1),
             new Position(10, 9));
     private static final List<Position> INITIAL_POSITIONS_RED = List.of(
@@ -29,33 +30,20 @@ public class Chariot extends Piece {
         return chariots;
     }
 
-    public Chariot move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        validateIsPositionMovable(positionToMove);
-        validateNothingBetweenPositionToMove(pieces, positionToMove);
-        return new Chariot(positionToMove, team);
-    }
-
-    private void validateIsPositionMovable(final Position value) {
-        if (checkIsPositionNotDiagonal(value)) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
-        }
-    }
-
-    private void validateNothingBetweenPositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
-        Movement movement = Movement.getDistance(
-                positionToMove.x() - getPosition().x(),
-                positionToMove.y() - getPosition().y()
-        );
-
-        for (Position position = getPosition().plus(movement.x(), movement.y()); !position.equals(positionToMove); position = position.plus(
-                movement.x(), movement.y())) {
-            if (pieces.get(position).isNotNone()) {
+    @Override
+    protected boolean checkPieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
+        Position currentPosition = getPosition();
+        while (currentPosition.isNotEndPoint() || currentPosition.equals(positionToMove)) {
+            if (pieces.get(currentPosition).isNotNone()) {
                 throw new IllegalArgumentException("불가능한 이동입니다");
             }
+            currentPosition = currentPosition.plus(direction.getX(), direction.getY());
         }
+        return true;
     }
 
-    private boolean checkIsPositionNotDiagonal(final Position value) {
-        return Math.abs(value.x() - getPosition().x()) != 0 && Math.abs(value.y() - getPosition().y()) != 0;
+    @Override
+    public Piece from(Position position) {
+        return new Chariot(position, getTeam());
     }
 }

@@ -1,10 +1,12 @@
 package janggi.domain.piece;
 
+import janggi.domain.piece.movement.Movement;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Soldier extends Piece {
+public class Soldier extends PathMovingPiece {
     private static final List<Position> INITIAL_POSITIONS_BLUE = List.of(
             new Position(7, 1),
             new Position(7, 3),
@@ -36,25 +38,36 @@ public class Soldier extends Piece {
         return soldiers;
     }
 
-    public Soldier move(final Map<Position, Piece> pieces, final Position positionToMove) {
-        validateIsPositionMovable(positionToMove);
-        return new Soldier(positionToMove, team);
+    @Override
+    protected List<Movement> findMovements(Position positionToMove) {
+        return List.of(Movement.getDiagonal(
+                positionToMove.x() - getPosition().x(),
+                positionToMove.y() - getPosition().y()
+        ));
     }
 
-    private void validateIsPositionMovable(final Position value) {
-        if (checkIsDirectionNotMovable(value) || checkIsPositionNotMovable(value)) {
-            throw new IllegalArgumentException("불가능한 이동입니다.");
+    @Override
+    protected boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
+        System.out.println(checkingPosition + " " + getPosition());
+        Movement movement = Movement.getDiagonal(
+                checkingPosition.x() - getPosition().x(),
+                checkingPosition.y() - getPosition().y()
+        );
+        if(team == Team.BLUE) {
+            if(movement.getX() > 0) {
+                return false;
+            }
         }
-    }
-
-    private boolean checkIsDirectionNotMovable(final Position value) {
-        if (team == Team.BLUE) {
-            return value.x() - getPosition().x() > 0;
+        if(team == Team.RED) {
+            if(movement.getX() < 0) {
+                return false;
+            }
         }
-        return value.x() - getPosition().x() < 0;
+        return pieceInPositionToMove.isNone();
     }
 
-    private boolean checkIsPositionNotMovable(final Position value) {
-        return Math.abs(value.x() - getPosition().x()) + Math.abs(value.y() - getPosition().y()) != 1;
+    @Override
+    public Piece from(Position position) {
+        return new Soldier(position, team);
     }
 }
