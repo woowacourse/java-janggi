@@ -1,6 +1,7 @@
 import domain.JanggiPosition;
 import domain.game.JanggiGame;
 import domain.piece.Piece;
+import java.util.List;
 import java.util.Map;
 import view.InputView;
 import view.OutputView;
@@ -27,13 +28,9 @@ public class JanggiController {
         while (!validInput) {
             try {
                 OutputView.printCurrentPlayerTurn(game.getPlayer());
-                String[] positions = InputView.inputPositionsWithBlank();
-                JanggiPosition beforePosition = new JanggiPosition(Character.getNumericValue(positions[0].charAt(0)),
-                        Character.getNumericValue(positions[0].charAt(1)));
-                JanggiPosition afterPosition = new JanggiPosition(Character.getNumericValue(positions[1].charAt(0)),
-                        Character.getNumericValue(positions[1].charAt(1)));
+                List<JanggiPosition> positions = InputView.inputPositionsWithBlank();
 
-                Map<JanggiPosition, Piece> board = game.move(beforePosition, afterPosition);
+                Map<JanggiPosition, Piece> board = game.move(positions.get(0), positions.get(1));
 
                 OutputView.printJanggiBoard(board);
 

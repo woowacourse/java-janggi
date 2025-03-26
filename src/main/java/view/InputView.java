@@ -1,5 +1,8 @@
 package view;
 
+import domain.JanggiPosition;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
@@ -7,12 +10,22 @@ public class InputView {
     private static final int BOARD_HEIGHT = 10;
     private static final int BOARD_WIDTH = 10;
 
-    public static String[] inputPositionsWithBlank() {
+    public static List<JanggiPosition> inputPositionsWithBlank() {
         String string = scanner.nextLine();
         validateWithBlank(string);
         String[] positions = string.split(" ");
         validatePositionsRange(positions);
-        return positions;
+
+        JanggiPosition beforePosition = new JanggiPosition(Character.getNumericValue(positions[0].charAt(0)),
+                Character.getNumericValue(positions[0].charAt(1)));
+        JanggiPosition afterPosition = new JanggiPosition(Character.getNumericValue(positions[1].charAt(0)),
+                Character.getNumericValue(positions[1].charAt(1)));
+
+        List<JanggiPosition> janggiPositions = new ArrayList<>();
+        janggiPositions.add(beforePosition);
+        janggiPositions.add(afterPosition);
+
+        return janggiPositions;
     }
 
     private static void validateWithBlank(String string) {
