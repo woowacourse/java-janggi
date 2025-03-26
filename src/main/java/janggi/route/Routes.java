@@ -143,14 +143,20 @@ public final class Routes {
     public Set<Position> possibleJumpingRoutes(Position source, Board board) {
         Set<Position> target = new HashSet<>();
         for (Route route : routes) {
-            Route straight = route;
-            while(straight.canJump(source, board)){ // t/f
-                source.move(straight);
 
-                while(straight.isPossibleRoute(source, board)){
-                    target.add(source.move(straight));
-                    straight = straight.add(route);
+            Route straight = route;
+            while(true){
+                if(straight.canJump(source, board)){
+                    Position jump = source.move(straight);
+
+                    Route straight2 = route;
+                    while (straight2.isPossibleRoute(jump, board)) {
+                        target.add(jump.move(straight2));
+                        straight2 = straight2.add(route);
+                    }
                 }
+                if(!source.canMove(straight, board))break;
+                straight = straight.add(route);
             }
         }
         return target;

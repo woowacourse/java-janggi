@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static janggi.piece.Team.CHO;
 import static janggi.piece.Team.HAN;
 import static position.PositionFixtures.H0;
+import static position.PositionFixtures.H1;
 import static position.PositionFixtures.H2;
 import static position.PositionFixtures.H3;
 import static position.PositionFixtures.H4;
@@ -54,6 +55,34 @@ public class CannonTest {
 
     /*
     0  ＿ ＿ ＿ ＿ ＿ ＿ ＿ 포 ＿
+    1  ＿ ＿ ＿ ＿ ＿ ＿ ＿ 마 ＿
+    2  ＿ ＿ ＿ ＿ ＿ ＿ ＿ * ＿
+    3  ＿ ＿ ＿ ＿ ＿ ＿ ＿ * ＿
+    4  ＿ ＿ ＿ ＿ ＿ ＿ ＿ * ＿
+    5  ＿ ＿ ＿ ＿ ＿ ＿ ＿ * ＿
+    6  ＿ ＿ ＿ ＿ ＿ ＿ ＿ * ＿
+    7  ＿ ＿ ＿ ＿ ＿ ＿ ＿ * ＿
+    8  ＿ ＿ ＿ ＿ ＿ ＿ ＿ * ＿
+    9  ＿ ＿ ＿ ＿ ＿ ＿ ＿ * ＿
+       a  b c  d e f g  h i
+    */
+    @Test
+    @DisplayName("포의 이동 가능한 경로를 모두 표시할 수 있다.")
+    void possibleRoutesTest_2() {
+        // given
+        Piece cannon = new Cannon(HAN, H0);
+        Piece horse = new Horse(HAN, H1);
+        Board board = new Board(HAN, Set.of(cannon, horse));
+
+        // when
+        Set<Position> positions = cannon.possibleRoutes(board);
+
+        // then
+        assertThat(positions).containsOnly(H2, H3, H4, H5, H6, H7, H8, H9);
+    }
+
+    /*
+    0  ＿ ＿ ＿ ＿ ＿ ＿ ＿ 포 ＿
     1  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
     2  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
     3  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
@@ -67,7 +96,7 @@ public class CannonTest {
     */
     @Test
     @DisplayName("포는 포를 넘을 수 없다.")
-    void possibleRoutesTest_2() {
+    void possibleRoutesTest_3() {
         // given
         Piece cannon1 = new Cannon(HAN, H0);
         Piece cannon2 = new Cannon(CHO, H4);
@@ -95,7 +124,7 @@ public class CannonTest {
     */
     @Test
     @DisplayName("포는 포를 잡을 수 없다.")
-    void possibleRoutesTest_3() {
+    void possibleRoutesTest_4() {
         // given
         Piece cannon1 = new Cannon(HAN, H0);
         Piece horse = new Horse(HAN, H2);

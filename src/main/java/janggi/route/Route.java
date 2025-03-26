@@ -30,6 +30,9 @@ public final class Route {
             if (target.canJump(direction, board)) { // 1칸뒤에 포가 아닌 기물이 있어야 함. 2칸뒤로 이동할 수 있어야 함.
                 return true;
             }
+            if(!target.canMove(direction, board)){
+                return false;
+            }
             target = target.move(direction);
         }
         return false;

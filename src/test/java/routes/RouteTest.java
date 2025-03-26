@@ -10,6 +10,8 @@ import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 import static janggi.route.Direction.NORTH;
+import static position.PositionFixtures.E4;
+import static position.PositionFixtures.E5;
 import static position.PositionFixtures.E6;
 import static position.PositionFixtures.F1;
 
@@ -54,12 +56,12 @@ public class RouteTest {
     @DisplayName("해당 경로로 이동하는 것이 가능한지 검사할 수 있다.")
     void isPossibleRouteTest_2() {
         // given
-        Piece palace = new Palace(HAN, E6);
+        Piece palace = new Palace(HAN, E5);
         Board board = new Board(Set.of(palace));
-        Route route = new Route(List.of(NORTH, NORTH, NORTH, NORTH));
+        Route route = new Route(List.of(NORTH, NORTH, NORTH, NORTH, NORTH, NORTH));
 
         // when - then
-        assertThat(route.isPossibleRoute(E6, board)).isFalse();
+        assertThat(route.isPossibleRoute(E4, board)).isFalse();
     }
 
     /*
