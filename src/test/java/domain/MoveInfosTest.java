@@ -15,7 +15,7 @@ class MoveInfosTest {
             "NONE, 0",
             "CANNON, 1"
     })
-    void 경로에_기물의_갯수를_반환한다(PieceCategory pathPieceCategory, int excepted) {
+    void 경로에_기물의_갯수를_반환한다(PieceCategory pathPieceCategory, int expected) {
         // given
         List<MoveInfo> moveInfoElements = new ArrayList<>();
         moveInfoElements.add(new MoveInfo(pathPieceCategory));
@@ -27,7 +27,7 @@ class MoveInfosTest {
         int result = moveInfos.countPiecesInIntermediatePath();
 
         // then
-        assertThat(result).isEqualTo(excepted);
+        assertThat(result).isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -35,7 +35,7 @@ class MoveInfosTest {
             "KING, KING, true",
             "KING, SOLDIER, false"
     })
-    void 이동_기물과_도착지_기물이_같은지_판단한다(PieceCategory startPiece, PieceCategory targetPiece, boolean excepted) {
+    void 이동_기물과_도착지_기물이_같은지_판단한다(PieceCategory startPiece, PieceCategory targetPiece, boolean expected) {
         // given
         List<MoveInfo> moveInfoElements = new ArrayList<>();
         moveInfoElements.add(new MoveInfo(PieceCategory.NONE));
@@ -47,7 +47,7 @@ class MoveInfosTest {
         boolean result = moveInfos.isSameAsTargetPiece(startPiece);
 
         // then
-        assertThat(result).isEqualTo(excepted);
+        assertThat(result).isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -55,7 +55,7 @@ class MoveInfosTest {
             "KING, KING, true",
             "KING, SOLDIER, false"
     })
-    void 이동_기물과_같은_기물이_경로에_있는지_판단한다(PieceCategory pathPiece, PieceCategory movePiece, boolean excepted) {
+    void 이동_기물과_같은_기물이_경로에_있는지_판단한다(PieceCategory pathPiece, PieceCategory movePiece, boolean expected) {
         // given
         List<MoveInfo> moveInfoElements = new ArrayList<>();
         moveInfoElements.add(new MoveInfo(PieceCategory.NONE));
@@ -68,6 +68,6 @@ class MoveInfosTest {
         boolean result = moveInfos.hasSamePieceCategoryInPath(movePiece);
 
         // then
-        assertThat(result).isEqualTo(excepted);
+        assertThat(result).isEqualTo(expected);
     }
 }

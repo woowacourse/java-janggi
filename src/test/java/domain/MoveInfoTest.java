@@ -13,7 +13,7 @@ public class MoveInfoTest {
             "CANNON, true",
             "NONE, false"
     })
-    void 기물이_존재하는지_판단한다(PieceCategory pieceCategory, boolean excepted) {
+    void 기물이_존재하는지_판단한다(PieceCategory pieceCategory, boolean expected) {
         // given
         MoveInfo moveInfo = new MoveInfo(pieceCategory);
 
@@ -22,7 +22,7 @@ public class MoveInfoTest {
 
         // then
         assertThat(result)
-                .isEqualTo(excepted);
+                .isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -30,7 +30,7 @@ public class MoveInfoTest {
             "CANNON, CANNON, true",
             "NONE, CANNON, false"
     })
-    void 같은_기물인지_판단한다(PieceCategory pieceCategory, PieceCategory otherPieceCategory, boolean excepted) {
+    void 같은_기물인지_판단한다(PieceCategory pieceCategory, PieceCategory otherPieceCategory, boolean expected) {
         // given
         MoveInfo moveInfo = new MoveInfo(pieceCategory);
 
@@ -39,6 +39,6 @@ public class MoveInfoTest {
 
         // then
         assertThat(result)
-                .isEqualTo(excepted);
+                .isEqualTo(expected);
     }
 }
