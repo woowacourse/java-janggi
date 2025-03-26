@@ -6,6 +6,7 @@ import janggi.dao.PieceDao;
 import janggi.domain.board.Board;
 import janggi.service.GameService;
 import janggi.view.ConfigurationView;
+import java.sql.SQLException;
 import java.util.Scanner;
 import janggi.repository.DockerRepository;
 import janggi.repository.Repository;
@@ -38,11 +39,14 @@ public class Application {
 
     private static Repository decideRepository() {
         final var pieceDao = new PieceDao();
-        if (pieceDao.getConnection() == null) {
-            ConfigurationView.printConnectionFailed();
-            return new MemoryRepository();
-        }
+        try {
+            if (pieceDao.getConnection() != null) {
+                return new DockerRepository(pieceDao);
+            }
 
-        return new DockerRepository(pieceDao);
+        } catch (RuntimeException e) {
+            ConfigurationView.printConnectionFailed();
+        }
+        return new MemoryRepository();
     }
 }
