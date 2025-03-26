@@ -14,6 +14,7 @@ public class Canon extends Piece {
 
     @Override
     public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
+        validateStraightMove(start, goal);
         validatePath(board, start, goal);
         validatePieceOnGoal(board, goal);
     }
@@ -34,6 +35,12 @@ public class Canon extends Piece {
         }
         if (pieceCount != 1) {
             throw new IllegalArgumentException("[ERROR] 포는 다른 기물 1개를 넘어가야 합니다.");
+        }
+    }
+
+    private void validateStraightMove(Position start, Position goal) {
+        if (!start.equalColumn(goal) && !start.equalRow(goal)) {
+            throw new IllegalArgumentException("[ERROR] 포는 상하좌우 일직선으로만 이동 가능합니다.");
         }
     }
 
