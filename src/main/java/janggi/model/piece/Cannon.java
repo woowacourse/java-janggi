@@ -17,40 +17,46 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public Set<Position> calculateMovablePositions(Position startPosition, OccupiedPositions occupiedPositions) {
-        return Direction.getStraightDirection().stream().flatMap(straightDirection -> calculateMovableOneSide(
-                startPosition,
-                occupiedPositions,
-                straightDirection
-        ).stream()).collect(Collectors.toSet());
+    public Set<Position> calculateMovablePositions(Position start, OccupiedPositions occupied) {
+        return Direction.allDirections().stream()
+                .flatMap(direction -> calculateMovableOneSide(direction, start, occupied).stream())
+                .filter(destination -> isCastleRule(start, destination))
+                .collect(Collectors.toSet());
     }
 
-    private Set<Position> calculateMovableOneSide(
-            Position startPosition,
-            OccupiedPositions occupiedPositions,
-            Direction straightDirection
-    ) {
+    private Set<Position> calculateMovableOneSide(Direction direction, Position start, OccupiedPositions occupied) {
         Set<Position> movablePositions = new HashSet<>();
-        Position currentPosition = startPosition;
+        Position currentPosition = start;
         boolean visitedHuddle = false;
-        while (currentPosition.canMove(straightDirection)) {
-            Position nextPosition = currentPosition.move(straightDirection);
-            if (!visitedHuddle && occupiedPositions.existPosition(nextPosition)) {
-                if (occupiedPositions.getPieceIdentity(nextPosition).getPieceType() == PieceType.CANNON) {
+        while (currentPosition.canMove(direction)) {
+            Position nextPosition = currentPosition.move(direction);
+            if (!visitedHuddle && occupied.existPosition(nextPosition)) {
+                if (occupied.getPieceIdentity(nextPosition).getPieceType() == PieceType.CANNON) {
                     break;
                 }
                 visitedHuddle = true;
                 currentPosition = nextPosition;
                 continue;
             }
-            if (visitedHuddle && !occupiedPositions.existSameColor(nextPosition, identity().getColor())) {
+            if (visitedHuddle && !occupied.existSameColor(nextPosition, identity().getColor())) {
                 movablePositions.add(nextPosition);
             }
-            if (visitedHuddle && occupiedPositions.existPosition(nextPosition)) {
+            if (visitedHuddle && occupied.existPosition(nextPosition)) {
                 break;
             }
             currentPosition = nextPosition;
         }
         return movablePositions;
+    }
+
+    private boolean isCastleRule(Position start, Position destination) {
+        if (start.isInCastle()) {
+            return isMovablePosition(start, destination);
+        }
+        return !start.isDestinationCross(destination);
+    }
+
+    private boolean isMovablePosition(Position start, Position destination) {
+        return !(start.isDestinationCross(destination) && !destination.isInCastle());
     }
 }

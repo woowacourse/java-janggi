@@ -1,4 +1,4 @@
-package model;
+package janggi.model;
 
 import janggi.model.Color;
 import janggi.model.OccupiedPositions;

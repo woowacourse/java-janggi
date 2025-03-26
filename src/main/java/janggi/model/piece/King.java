@@ -1,12 +1,11 @@
 package janggi.model.piece;
 
+import janggi.model.CastleArea;
 import janggi.model.Color;
-import janggi.model.Direction;
 import janggi.model.OccupiedPositions;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,15 +16,15 @@ public class King extends Piece {
     }
 
     @Override
-    public Set<Position> calculateMovablePositions(Position startPosition, OccupiedPositions occupiedPositions) {
-        return Arrays.stream(Direction.values())
-                .filter(startPosition::canMove)
-                .map(startPosition::move)
-                .filter(destination -> destinationIsNotSameColor(occupiedPositions, destination))
+    public Set<Position> calculateMovablePositions(Position start, OccupiedPositions occupied) {
+        return CastleArea.calculateMovableDirections(start).stream()
+                .filter(start::canMove)
+                .map(start::move)
+                .filter(destination -> destinationIsNotSameColor(occupied, destination))
                 .collect(Collectors.toSet());
     }
 
-    private boolean destinationIsNotSameColor(OccupiedPositions occupiedPositions, Position destination) {
-        return !occupiedPositions.existSameColor(destination, identity().getColor());
+    private boolean destinationIsNotSameColor(OccupiedPositions occupied, Position destination) {
+        return !occupied.existSameColor(destination, identity().getColor());
     }
 }

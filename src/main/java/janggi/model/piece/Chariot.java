@@ -17,24 +17,19 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public Set<Position> calculateMovablePositions(Position startPosition, OccupiedPositions occupiedPositions) {
-        return Direction.getStraightDirection().stream().flatMap(straightDirection -> calculateMovableOneSide(
-                straightDirection,
-                startPosition,
-                occupiedPositions
-        ).stream()).collect(Collectors.toSet());
+    public Set<Position> calculateMovablePositions(Position start, OccupiedPositions occupied) {
+        return Direction.allDirections().stream()
+                .flatMap(direction -> calculateMovableOneSide(direction, start, occupied).stream())
+                .filter(destination -> isCastleRule(start, destination))
+                .collect(Collectors.toSet());
     }
 
-    public Set<Position> calculateMovableOneSide(
-            Direction direction,
-            Position startPosition,
-            OccupiedPositions occupiedPositions
-    ) {
+    private Set<Position> calculateMovableOneSide(Direction direction, Position start, OccupiedPositions occupied) {
         Set<Position> movablePositions = new HashSet<>();
-        Position currentPosition = startPosition;
-        while (currentPosition.canMove(direction) && isNotCurrentExist(startPosition, occupiedPositions, currentPosition)) {
+        Position currentPosition = start;
+        while (currentPosition.canMove(direction) && isNotCurrentExist(start, occupied, currentPosition)) {
             Position nextPosition = currentPosition.move(direction);
-            if (!occupiedPositions.existSameColor(nextPosition, identity().getColor())) {
+            if (!occupied.existSameColor(nextPosition, identity().getColor())) {
                 movablePositions.add(nextPosition);
             }
             currentPosition = nextPosition;
@@ -42,11 +37,18 @@ public class Chariot extends Piece {
         return movablePositions;
     }
 
-    private static boolean isNotCurrentExist(
-            Position startPosition,
-            OccupiedPositions occupiedPositions,
-            Position currentPosition
-    ) {
-        return !(currentPosition != startPosition && occupiedPositions.existPosition(currentPosition));
+    private boolean isCastleRule(Position start, Position destination) {
+        if (start.isInCastle()) {
+            return isMovablePosition(start, destination);
+        }
+        return !start.isDestinationCross(destination);
+    }
+
+    private boolean isMovablePosition(Position start, Position destination) {
+        return !(start.isDestinationCross(destination) && !destination.isInCastle());
+    }
+
+    private boolean isNotCurrentExist(Position start, OccupiedPositions occupied, Position current) {
+        return !(current != start && occupied.existPosition(current));
     }
 }

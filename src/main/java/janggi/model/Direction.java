@@ -30,6 +30,10 @@ public enum Direction {
         return deltaColumn;
     }
 
+    public boolean isCrossDirection() {
+        return Math.abs(deltaRow) + Math.abs(deltaColumn) == 2;
+    }
+
     public static List<Direction> getStraightDirection() {
         return Arrays.stream(values())
                 .filter(direction -> direction.deltaRow() == 0 || direction.deltaColumn() == 0)
@@ -49,11 +53,15 @@ public enum Direction {
                 .toList();
     }
 
-    public static Direction calculateBackDirection(Color color) {
+    public static List<Direction> allDirections() {
+        return Arrays.stream(values()).toList();
+    }
+
+    public static List<Direction> calculateBackDirection(Color color) {
         if (color == Color.BLUE) {
-            return BOTTOM;
+            return List.of(BOTTOM, LEFT_BOTTOM, RIGHT_BOTTOM);
         }
-        return TOP;
+        return List.of(TOP, LEFT_TOP, RIGHT_TOP);
     }
 
     private boolean isSameStraightDirection(Direction direction) {

@@ -1,4 +1,4 @@
-package model;
+package janggi.model;
 
 import janggi.model.Direction;
 import janggi.model.Path;

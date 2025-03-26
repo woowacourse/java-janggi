@@ -19,13 +19,13 @@ public class Horse extends Piece {
     }
 
     @Override
-    public Set<Position> calculateMovablePositions(Position startPosition, OccupiedPositions occupiedPositions) {
+    public Set<Position> calculateMovablePositions(Position start, OccupiedPositions occupied) {
         return horseDirections().stream()
-                .filter(startPosition::canMove)
-                .map(pathDirections -> pathDirections.convertPath(startPosition))
-                .filter(path -> occupiedPositions.isCornerEmpty(path.getCornerPositions()))
+                .filter(start::canMove)
+                .map(pathDirections -> pathDirections.convertPath(start))
+                .filter(path -> occupied.isCornerEmpty(path.getCornerPositions()))
                 .map(Path::getDestinationPosition)
-                .filter(destination -> destinationIsNotSameColor(destination, occupiedPositions))
+                .filter(destination -> destinationIsNotSameColor(destination, occupied))
                 .collect(Collectors.toSet());
     }
 
@@ -36,7 +36,7 @@ public class Horse extends Piece {
                 ).toList();
     }
 
-    private boolean destinationIsNotSameColor(Position destination, OccupiedPositions occupiedPositions) {
-        return !occupiedPositions.existSameColor(destination, identity().getColor());
+    private boolean destinationIsNotSameColor(Position destination, OccupiedPositions occupied) {
+        return !occupied.existSameColor(destination, identity().getColor());
     }
 }

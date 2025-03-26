@@ -18,30 +18,30 @@ public class Board {
         pieces.put(destination, piece);
     }
 
-    private static void validateSameTeam(Color currentTurn, Piece piece) {
-        if (piece.identity().getColor() != currentTurn) {
-            throw new IllegalArgumentException("움직일 수 없는 기물입니다.");
-        }
-    }
-
-    public void validateExistPiecePosition(Position departure) {
-        if (!pieces.containsKey(departure)) {
-            throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
-        }
-    }
-    
-    public void validateMovablePosition(Position destination, Set<Position> movablePositions) {
-        if (!movablePositions.contains(destination)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
-        }
-    }
-
     public OccupiedPositions generateOccupiedPositions() {
         return new OccupiedPositions(convertOccupiedMap());
     }
 
     public void  putPiece(Position position, Piece piece) {
         pieces.put(position, piece);
+    }
+
+    private static void validateSameTeam(Color currentTurn, Piece piece) {
+        if (piece.identity().getColor() != currentTurn) {
+            throw new IllegalArgumentException("움직일 수 없는 기물입니다.");
+        }
+    }
+
+    private void validateExistPiecePosition(Position departure) {
+        if (!pieces.containsKey(departure)) {
+            throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
+        }
+    }
+
+    private void validateMovablePosition(Position destination, Set<Position> movablePositions) {
+        if (!movablePositions.contains(destination)) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
+        }
     }
 
     private Map<Position, PieceIdentity> convertOccupiedMap() {

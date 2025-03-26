@@ -1,13 +1,16 @@
 package janggi.model.piece;
 
+import janggi.model.CastleArea;
 import janggi.model.Color;
 import janggi.model.Direction;
 import janggi.model.OccupiedPositions;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Soldier extends Piece {
 
@@ -16,20 +19,30 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public Set<Position> calculateMovablePositions(Position startPosition, OccupiedPositions occupiedPositions) {
-        return Direction.getStraightDirection().stream()
+    public Set<Position> calculateMovablePositions(Position start, OccupiedPositions occupied) {
+        return Stream.concat(
+                        Direction.getStraightDirection().stream(),
+                        calculateCastleCrossDirection(start).stream()
+                )
                 .filter(this::isNotBack)
-                .filter(startPosition::canMove)
-                .map(startPosition::move)
-                .filter(destination -> destinationIsNotSameColor(occupiedPositions, destination))
+                .filter(start::canMove)
+                .map(start::move)
+                .filter(destination -> destinationIsNotSameColor(occupied, destination))
                 .collect(Collectors.toSet());
     }
 
-    private boolean isNotBack(Direction direction) {
-        return direction != Direction.calculateBackDirection(identity().getColor());
+    private List<Direction> calculateCastleCrossDirection(Position start) {
+        if (!start.isInCastle()) {
+            return List.of();
+        }
+        return CastleArea.fromByPosition(start).filterCrossDirection();
     }
 
-    private boolean destinationIsNotSameColor(OccupiedPositions occupiedPositions, Position destination) {
-        return !occupiedPositions.existSameColor(destination, identity().getColor());
+    private boolean isNotBack(Direction direction) {
+        return !Direction.calculateBackDirection(identity().getColor()).contains(direction);
+    }
+
+    private boolean destinationIsNotSameColor(OccupiedPositions occupied, Position destination) {
+        return !occupied.existSameColor(destination, identity().getColor());
     }
 }

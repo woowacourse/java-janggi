@@ -16,8 +16,5 @@ public abstract class Piece {
         return pieceIdentity;
     }
 
-    public abstract Set<Position> calculateMovablePositions(
-            Position startPosition,
-            OccupiedPositions occupiedPositions
-    );
+    public abstract Set<Position> calculateMovablePositions(Position start, OccupiedPositions occupied);
 }

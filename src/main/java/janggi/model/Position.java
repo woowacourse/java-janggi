@@ -1,5 +1,7 @@
 package janggi.model;
 
+import java.util.Arrays;
+
 public record Position(int row, int column) {
 
     public static final int MIN_ROW = 1;
@@ -21,6 +23,14 @@ public record Position(int row, int column) {
         int deltaRow = row + pathDirections.calculateTotalDeltaRow();
         int deltaColumn = column + pathDirections.calculateTotalDeltaColumn();
         return !isInValidPosition(deltaRow, deltaColumn);
+    }
+
+    public boolean isDestinationCross(Position destinationPosition) {
+        return row() != destinationPosition.row() && column() != destinationPosition.column();
+    }
+
+    public boolean isInCastle() {
+        return Arrays.stream(CastleArea.values()).anyMatch(castleArea -> castleArea.getPosition().equals(this));
     }
 
     public Position move(final Direction direction) {
