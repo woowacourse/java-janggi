@@ -29,7 +29,7 @@ public class Elephant extends Piece {
     );
 
     public Elephant(final Team team) {
-        super(PieceType.ELEPHANT, team);
+        super(team);
     }
 
     @Override
@@ -42,5 +42,10 @@ public class Elephant extends Piece {
     @Override
     protected List<Movement> getMovements() {
         return MOVEMENTS;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.ELEPHANT;
     }
 }

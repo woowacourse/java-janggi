@@ -21,7 +21,7 @@ public class Guard extends Piece {
     );
 
     public Guard(final Team team) {
-        super(PieceType.GUARD, team);
+        super(team);
     }
 
     @Override
@@ -34,5 +34,10 @@ public class Guard extends Piece {
     @Override
     protected List<Movement> getMovements() {
         return MOVEMENTS;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.GUARD;
     }
 }

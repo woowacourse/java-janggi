@@ -21,7 +21,7 @@ public class King extends Piece {
     );
 
     public King(final Team team) {
-        super(PieceType.KING, team);
+        super(team);
     }
 
     @Override
@@ -34,5 +34,10 @@ public class King extends Piece {
     @Override
     protected List<Movement> getMovements() {
         return MOVEMENTS;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.KING;
     }
 }

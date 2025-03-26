@@ -9,27 +9,22 @@ import java.util.Map;
 
 public abstract class Piece {
 
-    private final PieceType pieceType;
     private final Team team;
 
-    public Piece(final PieceType pieceType, final Team team) {
-        this.pieceType = pieceType;
+    public Piece(final Team team) {
         this.team = team;
     }
 
     public final Path makePath(final Position currentPosition, final Position arrivalPosition,
-                         final Map<Position, Piece> pieces) {
+                               final Map<Position, Piece> pieces) {
         final int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         final int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 
+        final PieceType pieceType = getPieceType();
         final Movement movement = findMovement(pieceType, differenceForY, differenceForX);
         final Path path = Path.from(pieceType, movement, currentPosition, arrivalPosition);
         validatePath(pieces, path);
         return path;
-    }
-
-    public final boolean matchPieceType(final PieceType pieceType) {
-        return this.pieceType == pieceType;
     }
 
     public final boolean isSameTeam(final Team givenTeam) {
@@ -67,8 +62,10 @@ public abstract class Piece {
 
     protected abstract List<Movement> getMovements();
 
-    public final PieceType getPieceType() {
-        return pieceType;
+    public abstract PieceType getPieceType();
+
+    public final boolean matchPieceType(final PieceType givenPieceType) {
+        return getPieceType() == givenPieceType;
     }
 
     public final Team getTeam() {

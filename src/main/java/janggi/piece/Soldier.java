@@ -23,7 +23,7 @@ public class Soldier extends Piece {
     );
 
     public Soldier(final Team team) {
-        super(PieceType.SOLDIER, team);
+        super(team);
     }
 
     @Override
@@ -39,5 +39,10 @@ public class Soldier extends Piece {
             return CHO_MOVEMENTS;
         }
         return HAN_MOVEMENTS;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.SOLDIER;
     }
 }

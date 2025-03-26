@@ -22,7 +22,7 @@ public class Cannon extends Piece {
     );
 
     public Cannon(final Team team) {
-        super(PieceType.CANNON, team);
+        super(team);
     }
 
     @Override
@@ -38,6 +38,11 @@ public class Cannon extends Piece {
     @Override
     protected List<Movement> getMovements() {
         return MOVEMENTS;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.CANNON;
     }
 
     private int computeCountExistPieceExceptLast(final Path path, final Map<Position, Piece> pieces) {
