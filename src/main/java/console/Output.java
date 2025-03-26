@@ -39,11 +39,6 @@ public class Output {
         System.out.printf("%n%s의 차례입니다.%n%n", Color.apply(currentTeam, TeamSymbol.from(currentTeam)));
     }
 
-//    public void result(TeamDto winnerTeamDto) {
-//        String winner = Color.apply(winnerTeamDto, winnerTeamDto.getDisplayName());
-//        System.out.printf("%n%s가 승리했습니다. 게임을 종료합니다.%n", winner);
-//    }
-
     public void retry(Exception e) {
         System.out.println(e.getMessage() + " 다시 입력해주세요.");
     }
