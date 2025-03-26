@@ -15,8 +15,8 @@ public class Elephant extends Piece {
 
     @Override
     public void validateMovement(Position currentPosition, Position destination, PalaceArea palaceArea) {
-        int offsetX = Math.abs(currentPosition.x() - destination.x());
-        int offsetY = Math.abs(currentPosition.y() - destination.y());
+        int offsetX = currentPosition.distanceX(destination);
+        int offsetY = currentPosition.distanceY(destination);
 
         boolean isValidMove = offsetX == OFFSET_TWO && offsetY == OFFSET_THREE
                 || offsetX == OFFSET_THREE && offsetY == OFFSET_TWO;

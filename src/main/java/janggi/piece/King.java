@@ -15,8 +15,8 @@ public class King extends Piece {
 
     @Override
     public void validateMovement(Position currentPosition, Position destination, PalaceArea palaceArea) {
-        int offsetX = Math.abs(currentPosition.x() - destination.x());
-        int offsetY = Math.abs(currentPosition.y() - destination.y());
+        int offsetX = currentPosition.distanceX(destination);
+        int offsetY = currentPosition.distanceY(destination);
 
         boolean isValidMove = true;
         if (palaceArea == PalaceArea.OUTSIDE) {

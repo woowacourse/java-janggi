@@ -80,7 +80,7 @@ public enum BoardSetup {
 
     public static BoardSetup of(List<String> option) {
         return Arrays.stream(BoardSetup.values())
-                .filter(value -> value.teamName.getName().equals(option.getFirst()))
+                .filter(value -> value.teamName.matchTeamName(option.getFirst()))
                 .filter(value -> value.option.equalsIgnoreCase(option.getLast()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_OPTION));

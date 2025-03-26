@@ -10,6 +10,10 @@ public enum TeamName {
         this.name = name;
     }
 
+    public boolean matchTeamName(String name) {
+        return this.name.equals(name);
+    }
+
     public String getName() {
         return this.name;
     }
