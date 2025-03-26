@@ -22,7 +22,7 @@ public class RookMovementStrategy extends DynamicMovementStrategy {
         Pieces onPathPieces = existingPieces.getPiecesOnPath(findPathsToDestination(origin, destination));
 
         if (!onPathPieces.isEmpty()) {
-            return onPathPieces.isEnemyOnDestination(side, destination);
+            return onPathPieces.hasOnlyOnePiece() && onPathPieces.isEnemyOnDestination(side, destination);
         }
         return true;
     }

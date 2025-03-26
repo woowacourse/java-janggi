@@ -38,13 +38,13 @@ class RookMovementStrategyTest {
     private static Stream<Arguments> 이동하고자_하는_경로에_다른_기물이_존재하면_이동할_수_없다_테스트_케이스() {
         return Stream.of(
             Arguments.of(
-                makePieces(createAllyRook(1, 5)),
+                makePieces(createAllyRook(1, 5), createAllyRook(1, 7)),
                 ALLY_SIDE,
                 new Position(1, 2),
                 new Position(1, 7)
             ),
             Arguments.of(
-                makePieces(createAllyRook(4, 2)),
+                makePieces(createAllyRook(4, 2), createAllyRook(6, 2)),
                 ALLY_SIDE,
                 new Position(1, 2),
                 new Position(6, 2)

@@ -38,6 +38,10 @@ public class Pieces {
         );
     }
 
+    public boolean hasOnlyOnePiece() {
+        return size() == 1;
+    }
+
     public Pieces getMapWithoutPosition(int x, int y) {
         Pieces map = new Pieces(this);
         map.removeByPosition(x, y);
