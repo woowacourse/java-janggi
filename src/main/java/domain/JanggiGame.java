@@ -2,6 +2,7 @@ package domain;
 
 import domain.board.Board;
 import domain.piece.Piece;
+import domain.piece.character.Team;
 import domain.point.Point;
 import java.util.Map;
 

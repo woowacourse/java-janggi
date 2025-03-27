@@ -6,8 +6,8 @@ import static domain.point.Direction.UP;
 import static domain.point.Direction.UP_LEFT;
 import static domain.point.Direction.UP_RIGHT;
 
-import domain.PieceType;
-import domain.Team;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
 import domain.point.Direction;
 import java.util.List;
 

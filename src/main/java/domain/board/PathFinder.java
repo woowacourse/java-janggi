@@ -1,5 +1,9 @@
-package domain.point;
+package domain.board;
 
+import domain.point.Direction;
+import domain.point.Node;
+import domain.point.Path;
+import domain.point.Point;
 import java.util.Map;
 import java.util.stream.Collectors;
 

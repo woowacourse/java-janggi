@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.PieceType;
-import domain.Team;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
 import domain.board.PieceVisibleBoard;
 import domain.point.Point;
 import java.util.List;

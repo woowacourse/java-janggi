@@ -5,8 +5,8 @@ import static domain.point.Point.MAX_ROW_INDEX;
 import static domain.point.Point.MIN_COLUMN_INDEX;
 import static domain.point.Point.MIN_ROW_INDEX;
 
-import domain.PieceType;
-import domain.Team;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
 import domain.piece.Piece;
 import domain.point.Point;
 import java.util.ArrayList;

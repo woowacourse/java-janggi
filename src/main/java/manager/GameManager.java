@@ -1,7 +1,7 @@
 package manager;
 
 import domain.JanggiGame;
-import domain.Team;
+import domain.piece.character.Team;
 import domain.board.Board;
 import domain.board.BoardGenerator;
 import util.ErrorHandler;

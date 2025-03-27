@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.Team;
+import domain.piece.character.Team;
 import domain.point.Direction;
 import domain.point.Path;
 import domain.point.Point;

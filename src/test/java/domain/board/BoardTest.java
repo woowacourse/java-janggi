@@ -2,9 +2,9 @@ package domain.board;
 
 import domain.piece.Cha;
 import domain.piece.Piece;
-import domain.PieceType;
+import domain.piece.character.PieceType;
 import domain.piece.Po;
-import domain.Team;
+import domain.piece.character.Team;
 import domain.point.Point;
 import fixture.BoardFixture;
 import java.util.HashMap;

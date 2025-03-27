@@ -2,9 +2,9 @@ package fixture;
 
 import domain.board.Board;
 import domain.board.BoardGenerator;
+import domain.board.PathFinder;
+import domain.board.PathFinderFactory;
 import domain.piece.Piece;
-import domain.point.PathFinder;
-import domain.point.PathFinderFactory;
 import domain.point.Point;
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package domain;
+package domain.piece.character;
 
 public enum Team {
 

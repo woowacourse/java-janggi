@@ -1,11 +1,10 @@
 package domain.board;
 
-import domain.PieceType;
-import domain.Team;
 import domain.piece.Piece;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
 import domain.point.Direction;
 import domain.point.Path;
-import domain.point.PathFinder;
 import domain.point.Point;
 import java.util.List;
 import java.util.Map;

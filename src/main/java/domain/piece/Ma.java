@@ -13,8 +13,8 @@ import static domain.point.Path.UP_PATH;
 import static domain.point.Path.UP_UP_LEFT_PATH;
 import static domain.point.Path.UP_UP_RIGHT_PATH;
 
-import domain.PieceType;
-import domain.Team;
+import domain.piece.character.PieceType;
+import domain.piece.character.Team;
 import domain.point.Movement;
 import java.util.List;
 

@@ -1,10 +1,14 @@
-package domain.point;
+package domain.board;
 
 import static domain.point.Point.MAX_COLUMN_INDEX;
 import static domain.point.Point.MAX_ROW_INDEX;
 import static domain.point.Point.MIN_COLUMN_INDEX;
 import static domain.point.Point.MIN_ROW_INDEX;
 
+import domain.point.Direction;
+import domain.point.Edge;
+import domain.point.Node;
+import domain.point.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

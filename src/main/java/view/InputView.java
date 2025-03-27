@@ -1,6 +1,6 @@
 package view;
 
-import domain.Team;
+import domain.piece.character.Team;
 import domain.point.Point;
 import java.util.Arrays;
 import java.util.List;
