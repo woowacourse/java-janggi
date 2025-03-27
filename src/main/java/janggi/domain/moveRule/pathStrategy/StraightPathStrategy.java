@@ -16,8 +16,8 @@ public class StraightPathStrategy implements PathStrategy {
 
     @Override
     public boolean isValidMovement(PiecePath path, TeamColor teamColor) {
-        if (path.isInPalacePath() && path.isDiagonal() && path.hasPalaceCenter()) {
-            return true;
+        if (path.isDiagonal()) {
+            return path.isPalaceDiagonalLine();
         }
         return path.isStraight();
     }

@@ -20,10 +20,6 @@ public class PiecePath {
         return Math.abs(rowDifference()) == Math.abs(columnDifference());
     }
 
-    public boolean isInPalacePath() {
-        return source.inPalace() && destination.inPalace();
-    }
-
     public int rowDifference() {
         return destination.rowValue() - source.rowValue();
     }
@@ -78,7 +74,15 @@ public class PiecePath {
         return 0;
     }
 
-    public boolean hasPalaceCenter() {
+    public boolean isInPalacePath() {
+        return source.inPalace() && destination.inPalace();
+    }
+
+    public boolean isPalaceDiagonalLine() {
+        return isInPalacePath() && isDiagonal() && hasPalaceCenter();
+    }
+
+    private boolean hasPalaceCenter() {
         List<Position> allPathPosition = new ArrayList<>(getBetweenPositions());
         allPathPosition.add(source);
         allPathPosition.add(destination);

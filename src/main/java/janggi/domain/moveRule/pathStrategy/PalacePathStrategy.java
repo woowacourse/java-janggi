@@ -30,11 +30,8 @@ public class PalacePathStrategy implements PathStrategy {
 
     @Override
     public boolean isValidMovement(PiecePath path, TeamColor teamColor) {
-        if (!path.isInPalacePath()) {
-            return false;
-        }
-        if(path.isDiagonal() && !path.hasPalaceCenter()) {
-            return false;
+        if (path.isDiagonal()) {
+            return path.isPalaceDiagonalLine();
         }
         return IN_PALACE_POSSIBLE_MOVEMENT.stream()
                 .anyMatch(path::canReachToDestination);
