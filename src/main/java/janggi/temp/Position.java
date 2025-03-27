@@ -4,7 +4,19 @@ import java.util.List;
 
 public record Position(Column column, Row row) {
 
-    private static final List<Position> palacePositions = List.of(
+    /*
+     * 한의 궁성 (column, row)
+     * (3, 0) (4, 0) (5, 0)
+     * (3, 1) (4, 1) (5, 1)
+     * (3, 2) (4, 2) (5, 2)
+     *
+     * 초의 궁성 (column, row)
+     * (3, 7) (4, 7) (5, 7)
+     * (3, 8) (4, 8) (5, 8)
+     * (3, 9) (4, 9) (5, 9)
+     */
+
+    private static final List<Position> palace = List.of(
             new Position(Column.THREE, Row.ZERO),
             new Position(Column.FOUR, Row.ZERO),
             new Position(Column.FIVE, Row.ZERO),
@@ -25,9 +37,15 @@ public record Position(Column column, Row row) {
             new Position(Column.FIVE, Row.NINE)
     );
 
-    public boolean isPalace() {
-        return palacePositions.contains(this);
-    }
+    private static final List<Position> palaceSide = List.of(
+            new Position(Column.FOUR, Row.ZERO),
+            new Position(Column.THREE, Row.ONE),
+            new Position(Column.FIVE, Row.ONE),
+            new Position(Column.FOUR, Row.TWO),
+            new Position(Column.FOUR, Row.SEVEN),
+            new Position(Column.THREE, Row.EIGHT),
+            new Position(Column.FOUR, Row.NINE)
+    );
 
     public Position move(final Movement movement) {
         final Column targetColumn = column.move(movement.getColumnValue());
@@ -39,5 +57,13 @@ public record Position(Column column, Row row) {
         final boolean canMoveColumn = column.canMove(movement.getColumnValue());
         final boolean canMoveRow = row.canMove(movement.getRowValue());
         return canMoveColumn && canMoveRow;
+    }
+
+    public boolean isPalace() {
+        return palace.contains(this);
+    }
+
+    public boolean isPalaceSide() {
+        return palaceSide.contains(this);
     }
 }

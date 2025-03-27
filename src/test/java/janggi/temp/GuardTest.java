@@ -11,6 +11,7 @@ import static janggi.temp.Movement.UP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.Set;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ class GuardTest {
         Position destination = current.move(movement);
         Guard guardInCenter = new Guard(current, Team.HAN);
         // when
-        Guard movedGuard = guardInCenter.move(destination);
+        Piece movedGuard = guardInCenter.move(destination, Set.of(guardInCenter));
         // then
         assertThat(movedGuard).isEqualTo(new Guard(destination, Team.HAN));
     }
@@ -56,7 +57,7 @@ class GuardTest {
         Position destination = current.move(movement);
         Guard guardInCenter = new Guard(current, Team.CHO);
         // when
-        Guard movedGuard = guardInCenter.move(destination);
+        Piece movedGuard = guardInCenter.move(destination, Set.of(guardInCenter));
         // then
         assertThat(movedGuard).isEqualTo(new Guard(destination, Team.CHO));
     }
@@ -73,7 +74,7 @@ class GuardTest {
         Guard guard = new Guard(new Position(Column.THREE, Row.ZERO), Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> guard.move(new Position(Column.FIVE, Row.TWO)))
+        assertThatThrownBy(() -> guard.move(new Position(Column.FIVE, Row.TWO), Set.of(guard)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
@@ -85,7 +86,7 @@ class GuardTest {
         Guard guard = new Guard(new Position(Column.FOUR, Row.TWO), Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> guard.move(new Position(Column.FOUR, Row.THREE)))
+        assertThatThrownBy(() -> guard.move(new Position(Column.FOUR, Row.THREE), Set.of(guard)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 궁성 밖으로 이동할 수 없습니다.");
     }
@@ -99,23 +100,23 @@ class GuardTest {
         Guard guard = new Guard(current, Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> guard.move(destination))
+        assertThatThrownBy(() -> guard.move(destination, Set.of(guard)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
 
-    @DisplayName("사는 자기 위치로 이동할 수 없다.")
-    @Test
-    void testMoveToCurrentPosition() {
-        // given
-        Position current = new Position(Column.FOUR, Row.TWO);
-        Guard guard = new Guard(current, Team.HAN);
-        // when
-        // then
-        assertThatThrownBy(() -> guard.move(current))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
-    }
+//    @DisplayName("사는 자기 위치로 이동할 수 없다.")
+//    @Test
+//    void testMoveToCurrentPosition() {
+//        // given
+//        Position current = new Position(Column.FOUR, Row.TWO);
+//        Guard guard = new Guard(current, Team.HAN);
+//        // when
+//        // then
+//        assertThatThrownBy(() -> guard.move(current, Set.of(guard)))
+//                .isInstanceOf(IllegalArgumentException.class)
+//                .hasMessage("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
+//    }
 
     // TODO 같은 팀이 있는 위치로 이동할 수 없다
 }

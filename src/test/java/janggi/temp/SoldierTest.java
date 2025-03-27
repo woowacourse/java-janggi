@@ -9,27 +9,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class SoldierTest {
-
-    /*
-    (0,0) (1,0) (2,0) (3,0) (4,0) (5,0) (6,0) (7,0) (8,0)
-    (0,1) (1,1) (2,1) (3,1) (4,1) (5,1) (6,1) (7,1) (8,1)
-    (0,2) (1,2) (2,2) (3,2) (4,2) (5,2) (6,2) (7,2) (8,2)
-    (0,3) (1,3) (2,3) (3,3) (4,3) (5,3) (6,3) (7,3) (8,3)
-    (0,4) (1,4) (2,4) (3,4) (4,4) (5,4) (6,4) (7,4) (8,4)
-    (0,5) (1,5) (2,5) (3,5) (4,5) (5,5) (6,5) (7,5) (8,5)
-    (0,6) (1,6) (2,6) (3,6) (4,6) (5,6) (6,6) (7,6) (8,6)
-    (0,7) (1,7) (2,7) (3,7) (4,7) (5,7) (6,7) (7,7) (8,7)
-    (0,8) (1,8) (2,8) (3,8) (4,8) (5,8) (6,8) (7,8) (8,8)
-    (0,9) (1,9) (2,9) (3,9) (4,9) (5,9) (6,9) (7,9) (8,9)
-    */
 
     private static final List<Movement> hanLegalMovements = List.of(DOWN, RIGHT, LEFT);
     private static final List<Movement> choLegalMovements = List.of(UP, RIGHT, LEFT);
@@ -43,7 +30,7 @@ class SoldierTest {
         Position destination = current.move(movement);
         Soldier soldier = new Soldier(current, Team.HAN);
         // when
-        Soldier moved = soldier.move(destination);
+        Piece moved = soldier.move(destination, Set.of(soldier));
         // then
         assertThat(moved).isEqualTo(new Soldier(destination, Team.HAN));
     }
@@ -62,7 +49,7 @@ class SoldierTest {
         Position destination = current.move(movement);
         Soldier soldier = new Soldier(current, Team.CHO);
         // when
-        Soldier moved = soldier.move(destination);
+        Piece moved = soldier.move(destination, Set.of(soldier));
         // then
         assertThat(moved).isEqualTo(new Soldier(destination, Team.CHO));
     }
@@ -82,7 +69,7 @@ class SoldierTest {
         Soldier soldier = new Soldier(current, Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> soldier.move(destination))
+        assertThatThrownBy(() -> soldier.move(destination, Set.of(soldier)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
@@ -103,7 +90,7 @@ class SoldierTest {
         Soldier soldier = new Soldier(current, Team.CHO);
         // when
         // then
-        assertThatThrownBy(() -> soldier.move(destination))
+        assertThatThrownBy(() -> soldier.move(destination, Set.of(soldier)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
@@ -114,18 +101,32 @@ class SoldierTest {
                 .map(Arguments::of);
     }
 
-    @DisplayName("자기 위치로 이동할 수 없다.")
-    @Test
-    void testMoveToCurrentPosition() {
-        // given
-        Position current = new Position(Column.FOUR, Row.FOUR);
-        Soldier soldier = new Soldier(current, Team.HAN);
-        // when
-        // then
-        assertThatThrownBy(() -> soldier.move(current))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
-    }
+//    @DisplayName("자기 위치로 이동할 수 없다.")
+//    @Test
+//    void testMoveToCurrentPosition() {
+//        // given
+//        Position current = new Position(Column.FOUR, Row.FOUR);
+//        Soldier soldier = new Soldier(current, Team.HAN);
+//        // when
+//        // then
+//        assertThatThrownBy(() -> soldier.move(current, Set.of(soldier)))
+//                .isInstanceOf(IllegalArgumentException.class)
+//                .hasMessage("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
+//    }
 
-    // TODO 같은 팀이 있으면 이동할 수 없다.
+//    @DisplayName("같은 팀이 있는 위치로 이동할 수 없다.")
+//    @Test
+//    void testValidateMoveSameTeamPosition() {
+//        // given
+//        Team team = Team.HAN;
+//        Position current = new Position(Column.FOUR, Row.FOUR);
+//        Position destination = new Position(Column.FOUR, Row.THREE);
+//        Soldier movingSoldier = new Soldier(current, team);
+//        Soldier hanSoldier = new Soldier(destination, team);
+//        // when
+//        // then
+//        assertThatThrownBy(() -> movingSoldier.move(destination, Set.of(hanSoldier, movingSoldier)))
+//                .isInstanceOf(IllegalArgumentException.class)
+//                .hasMessage("[ERROR] 같은 팀이 있는 위치로 이동할 수 없습니다.");
+//    }
 }

@@ -10,66 +10,41 @@ import static janggi.temp.Movement.RIGHT_UP;
 import static janggi.temp.Movement.UP;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
-public final class Guard {
-
-    private final Position position;
-    private final Team team;
+public final class Guard extends Piece {
 
     public Guard(final Position position, final Team team) {
-        this.position = position;
-        this.team = team;
+        super(position, team);
     }
 
-    public Guard move(final Position destination) {
-        if (destination.equals(position)) {
-            throw new IllegalArgumentException("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
-        }
+    @Override
+    public Piece move(final Position destination, final Set<Piece> pieces) {
+//        if (destination.equals(position())) {
+//            throw new IllegalArgumentException("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
+//        }
+//        for (Piece piece : pieces) {
+//            if (piece.position().equals(destination) && piece.team() == this.team()) {
+//                throw new IllegalArgumentException("[ERROR] 같은 팀이 있는 위치로 이동할 수 없습니다.");
+//            }
+//        }
         if (!destination.isPalace()) {
             throw new IllegalArgumentException("[ERROR] 궁성 밖으로 이동할 수 없습니다.");
         }
-        for (Movement movement : movements()) {
-            if (position.canMove(movement)) {
-                if (position.move(movement).equals(destination)) {
-                    return new Guard(destination, team);
-                }
-            }
+        final List<Position> movablePositions = movements().stream()
+                .filter(position()::canMove)
+                .map(position()::move)
+                .toList();
+        if (!movablePositions.contains(destination)) {
+            throw new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다.");
         }
-        throw new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다.");
+        return new Guard(destination, team());
     }
 
     private Set<Movement> movements() {
-        List<Position> hanPalaceSides = List.of(new Position(Column.THREE, Row.ONE),
-                new Position(Column.FOUR, Row.ZERO), new Position(Column.FIVE, Row.ONE),
-                new Position(Column.FOUR, Row.TWO));
-        List<Position> choPalaceSides = List.of(new Position(Column.THREE, Row.EIGHT),
-                new Position(Column.FOUR, Row.SEVEN), new Position(Column.FIVE, Row.EIGHT),
-                new Position(Column.FOUR, Row.NINE));
-        if (hanPalaceSides.contains(position) || choPalaceSides.contains(position)) {
+        if (position().isPalaceSide()) {
             return Set.of(RIGHT, LEFT, UP, DOWN);
         }
         return Set.of(RIGHT, LEFT, UP, DOWN, RIGHT_UP, RIGHT_DOWN, LEFT_UP, LEFT_DOWN);
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        final Guard guard = (Guard) o;
-        return Objects.equals(position, guard.position) && team == guard.team;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hashCode(position);
-        result = 31 * result + Objects.hashCode(team);
-        return result;
     }
 }

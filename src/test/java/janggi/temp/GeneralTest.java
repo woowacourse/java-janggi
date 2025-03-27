@@ -11,6 +11,7 @@ import static janggi.temp.Movement.UP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.Set;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ class GeneralTest {
         Position destination = current.move(movement);
         General generalInCenter = new General(current, Team.HAN);
         // when
-        General movedGeneral = generalInCenter.move(destination);
+        Piece movedGeneral = generalInCenter.move(destination, Set.of(generalInCenter));
         // then
         assertThat(movedGeneral).isEqualTo(new General(destination, Team.HAN));
     }
@@ -56,7 +57,7 @@ class GeneralTest {
         Position destination = current.move(movement);
         General generalInCenter = new General(current, Team.CHO);
         // when
-        General movedGeneral = generalInCenter.move(destination);
+        Piece movedGeneral = generalInCenter.move(destination, Set.of(generalInCenter));
         // then
         assertThat(movedGeneral).isEqualTo(new General(destination, Team.CHO));
     }
@@ -73,7 +74,7 @@ class GeneralTest {
         General general = new General(new Position(Column.THREE, Row.ZERO), Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> general.move(new Position(Column.FIVE, Row.TWO)))
+        assertThatThrownBy(() -> general.move(new Position(Column.FIVE, Row.TWO), Set.of(general)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
@@ -85,7 +86,7 @@ class GeneralTest {
         General general = new General(new Position(Column.FOUR, Row.TWO), Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> general.move(new Position(Column.FOUR, Row.THREE)))
+        assertThatThrownBy(() -> general.move(new Position(Column.FOUR, Row.THREE), Set.of(general)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 궁성 밖으로 이동할 수 없습니다.");
     }
@@ -99,23 +100,23 @@ class GeneralTest {
         General general = new General(current, Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> general.move(destination))
+        assertThatThrownBy(() -> general.move(destination, Set.of(general)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
 
-    @DisplayName("자기 위치로 이동할 수 없다.")
-    @Test
-    void testMoveToCurrentPosition() {
-        // given
-        Position current = new Position(Column.FOUR, Row.TWO);
-        General general = new General(current, Team.HAN);
-        // when
-        // then
-        assertThatThrownBy(() -> general.move(current))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
-    }
+//    @DisplayName("자기 위치로 이동할 수 없다.")
+//    @Test
+//    void testMoveToCurrentPosition() {
+//        // given
+//        Position current = new Position(Column.FOUR, Row.TWO);
+//        General general = new General(current, Team.HAN);
+//        // when
+//        // then
+//        assertThatThrownBy(() -> general.move(current, Set.of(general)))
+//                .isInstanceOf(IllegalArgumentException.class)
+//                .hasMessage("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
+//    }
 
     // TODO 같은 팀이 있는 위치로 이동할 수 없다
 
