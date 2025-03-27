@@ -1,14 +1,14 @@
-package janggi.domain.moveRule.routeValidator;
+package janggi.domain.moveRule.moveStrategy;
 
 import janggi.domain.piece.Piece;
 import java.util.List;
 
-public class CannonRouteValidator implements RouteValidator {
-    private static final CannonRouteValidator INSTANCE = new CannonRouteValidator();
+public class CannonMoveStrategy implements moveStrategy {
+    private static final CannonMoveStrategy INSTANCE = new CannonMoveStrategy();
 
-    private CannonRouteValidator() {}
+    private CannonMoveStrategy() {}
 
-    public static CannonRouteValidator getInstance() {
+    public static CannonMoveStrategy getInstance() {
         return INSTANCE;
     }
 

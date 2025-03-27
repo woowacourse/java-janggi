@@ -1,4 +1,4 @@
-package janggi.domain.moveRule.moveStrategy;
+package janggi.domain.moveRule.pathStrategy;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.PiecePath;
@@ -6,13 +6,13 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.TeamColor;
 import java.util.List;
 
-public class HorseMoveStrategy implements MoveStrategy {
-    private static final MoveStrategy INSTANCE = new HorseMoveStrategy();
+public class HorsePathStrategy implements PathStrategy {
+    private static final PathStrategy INSTANCE = new HorsePathStrategy();
 
-    private HorseMoveStrategy() {
+    private HorsePathStrategy() {
     }
 
-    public static MoveStrategy getInstance() {
+    public static PathStrategy getInstance() {
         return INSTANCE;
     }
 

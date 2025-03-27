@@ -1,4 +1,4 @@
-package janggi.domain.moveRule.moveStrategy;
+package janggi.domain.moveRule.pathStrategy;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.PiecePath;
@@ -6,12 +6,12 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.TeamColor;
 import java.util.List;
 
-public class ElephantMoveStrategy implements MoveStrategy {
-    private final static MoveStrategy INSTANCE = new ElephantMoveStrategy();
+public class ElephantPathStrategy implements PathStrategy {
+    private final static PathStrategy INSTANCE = new ElephantPathStrategy();
 
-    private ElephantMoveStrategy() {}
+    private ElephantPathStrategy() {}
 
-    public static MoveStrategy getInstance() {
+    public static PathStrategy getInstance() {
         return INSTANCE;
     }
 

@@ -1,16 +1,16 @@
-package janggi.domain.moveRule.moveStrategy;
+package janggi.domain.moveRule.pathStrategy;
 
 import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 import janggi.domain.piece.TeamColor;
 import java.util.List;
 
-public class StraightMoveStrategy implements MoveStrategy {
-    private static final MoveStrategy INSTANCE = new StraightMoveStrategy();
+public class StraightPathStrategy implements PathStrategy {
+    private static final PathStrategy INSTANCE = new StraightPathStrategy();
 
-    private StraightMoveStrategy() {}
+    private StraightPathStrategy() {}
 
-    public static MoveStrategy getInstance() {
+    public static PathStrategy getInstance() {
         return INSTANCE;
     }
 

@@ -1,4 +1,4 @@
-package janggi.domain.moveRule.moveStrategy;
+package janggi.domain.moveRule.pathStrategy;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.PiecePath;
@@ -6,16 +6,16 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.TeamColor;
 import java.util.List;
 
-public class PalaceMoveStrategy implements MoveStrategy {
-    private static final MoveStrategy INSTANCE = new PalaceMoveStrategy();
+public class PalacePathStrategy implements PathStrategy {
+    private static final PathStrategy INSTANCE = new PalacePathStrategy();
 
     private static final List<Direction> IN_PALACE_DIRECTION =
             List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT,
                     Direction.DOWN_LEFT, Direction.DOWN_RIGHT, Direction.UP_LEFT, Direction.UP_RIGHT);
 
-    private PalaceMoveStrategy() {}
+    private PalacePathStrategy() {}
 
-    public static MoveStrategy getInstance() {
+    public static PathStrategy getInstance() {
         return INSTANCE;
     }
 

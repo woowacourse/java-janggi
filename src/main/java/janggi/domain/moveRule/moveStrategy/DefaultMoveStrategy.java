@@ -1,14 +1,14 @@
-package janggi.domain.moveRule.routeValidator;
+package janggi.domain.moveRule.moveStrategy;
 
 import janggi.domain.piece.Piece;
 import java.util.List;
 
-public class DefaultRouteValidator implements RouteValidator {
-    private static final DefaultRouteValidator INSTANCE = new DefaultRouteValidator();
+public class DefaultMoveStrategy implements moveStrategy {
+    private static final DefaultMoveStrategy INSTANCE = new DefaultMoveStrategy();
 
-    private DefaultRouteValidator() {}
+    private DefaultMoveStrategy() {}
 
-    public static DefaultRouteValidator getInstance() {
+    public static DefaultMoveStrategy getInstance() {
         return INSTANCE;
     }
 

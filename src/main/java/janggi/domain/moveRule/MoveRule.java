@@ -2,30 +2,30 @@ package janggi.domain.moveRule;
 
 import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
-import janggi.domain.moveRule.moveStrategy.MoveStrategy;
-import janggi.domain.moveRule.routeValidator.RouteValidator;
+import janggi.domain.moveRule.pathStrategy.PathStrategy;
+import janggi.domain.moveRule.moveStrategy.moveStrategy;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.TeamColor;
 import java.util.List;
 
 public class MoveRule {
-    private final MoveStrategy moveStrategy;
-    private final RouteValidator routeValidator;
+    private final PathStrategy pathStrategy;
+    private final moveStrategy moveStrategy;
 
-    public MoveRule(MoveStrategy moveStrategy, RouteValidator routeValidator) {
+    public MoveRule(PathStrategy pathStrategy, moveStrategy moveStrategy) {
+        this.pathStrategy = pathStrategy;
         this.moveStrategy = moveStrategy;
-        this.routeValidator = routeValidator;
     }
 
     public boolean verifyMovement(PiecePath path, TeamColor teamColor) {
-        return moveStrategy.isValidMovement(path, teamColor);
+        return pathStrategy.isValidMovement(path, teamColor);
     }
 
     public List<Position> findAllRoute(PiecePath path) {
-        return moveStrategy.findAllRoute(path);
+        return pathStrategy.findAllRoute(path);
     }
 
     public boolean verifyRoute(Piece piece, Piece destinationPiece, List<Piece> allPiecesOnRoute) {
-        return routeValidator.canMoveAlongRoute(piece, destinationPiece, allPiecesOnRoute);
+        return moveStrategy.canMoveAlongRoute(piece, destinationPiece, allPiecesOnRoute);
     }
 }
