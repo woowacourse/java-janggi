@@ -21,16 +21,16 @@ public class Chariot extends AbstractPiece {
             return searchPalacePossiblePoint(fromPoint, toPoint);
         }
         if (direction.isRight()) {
-            return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxX(), toPoint, Point::right);
+            return searchPossiblePoint(fromPoint, direction.horizontalDistance(), Point::right);
         }
         if (direction.isLeft()) {
-            return searchPossiblePoint(fromPoint, fromPoint.distanceToMinX(), toPoint, Point::left);
+            return searchPossiblePoint(fromPoint, direction.horizontalDistance(), Point::left);
         }
         if (direction.isUp()) {
-            return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxY(), toPoint, Point::up);
+            return searchPossiblePoint(fromPoint, direction.verticalDistance(), Point::up);
         }
         if (direction.isDown()) {
-            return searchPossiblePoint(fromPoint, fromPoint.distanceToMinY(), toPoint, Point::down);
+            return searchPossiblePoint(fromPoint, direction.verticalDistance(), Point::down);
         }
         throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다.");
     }
@@ -66,18 +66,13 @@ public class Chariot extends AbstractPiece {
 
     private List<Point> searchPossiblePoint(
             final Point fromPoint,
-            final int bordEdge,
-            final Point toPoint,
+            final int count,
             final UnaryOperator<Point> directionOperator
-
     ) {
         final List<Point> possiblePoint = new ArrayList<>();
         Point target = fromPoint;
-        for (int i = 0; i < bordEdge; i++) {
+        for (int i = 1; i < count; i++) {
             target = directionOperator.apply(target);
-            if (target.equals(toPoint)) {
-                break;
-            }
             possiblePoint.add(target);
         }
         return possiblePoint;
