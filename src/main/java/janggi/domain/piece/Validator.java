@@ -22,49 +22,55 @@ final public class Validator {
         }
     }
 
-    public static void validateSingleJumpOverPiece(
+    public static void validateCannonJumpRule(
             final Map<Position, Piece> board,
             final Position beforePosition,
             final Position afterPosition) {
-        Movement nextMovement = Movement.findUnitMovement(
+
+        int obstaclesCount = countObstaclesOnPath(board, beforePosition, afterPosition);
+
+        if (obstaclesCount != 1) {
+            throw new IllegalArgumentException("포는 반드시 하나의 장애물을 넘어야 합니다.");
+        }
+    }
+
+    private static int countObstaclesOnPath(
+            final Map<Position, Piece> board,
+            final Position beforePosition,
+            final Position afterPosition) {
+
+        Movement nextMovement = Movement.findStraightUnitMovement(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()
         );
 
         int obstaclesCount = 0;
-
         Position currentPosition = beforePosition.plus(nextMovement.x(), nextMovement.y());
+
         while (!currentPosition.equals(afterPosition)) {
             validateNoCannonOnPath(board, currentPosition);
+
             if (!board.get(currentPosition).isNone()) {
                 obstaclesCount++;
             }
-
-            if (obstaclesCount > 1) {
-                throw new IllegalArgumentException("불가능한 이동입니다");
-            }
-
             currentPosition = currentPosition.plus(nextMovement.x(), nextMovement.y());
         }
-
-        if (obstaclesCount != 1) {
-            throw new IllegalArgumentException("불가능한 이동입니다");
-        }
+        return obstaclesCount;
     }
 
-    public static void validateNoCannonOnPath(final Map<Position, Piece> pieces, final Position position) {
+    private static void validateNoCannonOnPath(final Map<Position, Piece> pieces, final Position position) {
         if (pieces.get(position).isCannon()) {
             throw new IllegalArgumentException("불가능한 이동입니다");
         }
     }
 
-    public static void validateMovementDirection(final Team team, final Position beforePosition,
-                                                 final Position afterPosition) {
+    public static void validateNotMovingTowardsOwnSide(final Team team, final Position beforePosition,
+                                                       final Position afterPosition) {
         if (team == Team.BLUE && afterPosition.x() - beforePosition.x() > 0) {
-            throw new IllegalArgumentException("파란팀 졸은 뒤로 이동할 수 없습니다.");
+            throw new IllegalArgumentException("청팀: 아래 방향으로 이동할 수 없는 기물입니다.");
         }
         if (team == Team.RED && afterPosition.x() - beforePosition.x() < 0) {
-            throw new IllegalArgumentException("빨간팀 졸은 뒤로 이동할 수 없습니다.");
+            throw new IllegalArgumentException("홍팀: 윗 방향으로 이동할 수 없는 기물입니다.");
         }
     }
 
@@ -74,7 +80,7 @@ final public class Validator {
         }
     }
 
-    public static boolean isSingleStepMovement(final Position beforePosition, final Position afterPosition) {
+    private static boolean isSingleStepMovement(final Position beforePosition, final Position afterPosition) {
         return Math.abs(afterPosition.x() - beforePosition.x()) + Math.abs(afterPosition.y() - beforePosition.y()) == 1;
     }
 
@@ -93,7 +99,7 @@ final public class Validator {
             final Position beforePosition,
             final Position afterPosition
     ) {
-        Movement nextMovement = Movement.findUnitMovement(
+        Movement nextMovement = Movement.findStraightUnitMovement(
                 afterPosition.x() - beforePosition.x(),
                 afterPosition.y() - beforePosition.y()
         );

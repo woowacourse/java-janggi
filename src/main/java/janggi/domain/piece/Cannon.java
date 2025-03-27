@@ -23,7 +23,7 @@ public class Cannon extends Piece {
             Validator.validateNoSameTeamPieceAt(team, board, afterPosition);
             Validator.validateStraightMovement(beforePosition, afterPosition);
             Validator.validateDestinationNotCannon(board, afterPosition);
-            Validator.validateSingleJumpOverPiece(board, beforePosition, afterPosition);
+            Validator.validateCannonJumpRule(board, beforePosition, afterPosition);
         };
     }
 

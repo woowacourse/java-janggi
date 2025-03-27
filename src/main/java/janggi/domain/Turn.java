@@ -14,15 +14,15 @@ public class Turn {
     }
 
     public Team next() {
-        switchTeam(turn);
+        switchTurn();
         return turn;
     }
 
-    private void switchTeam(final Team currentTurn) {
-        if (currentTurn == Team.RED) {
+    private void switchTurn() {
+        if (turn == Team.RED) {
             turn = Team.BLUE;
         }
-        if (currentTurn == Team.BLUE) {
+        if (turn == Team.BLUE) {
             turn = Team.RED;
         }
     }

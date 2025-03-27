@@ -12,7 +12,10 @@ public record Movement(
         return new Movement(x + other.x, y + other.y());
     }
 
-    public static Movement findUnitMovement(final int x, final int y) {
+    public static Movement findStraightUnitMovement(final int x, final int y) {
+        if (x != 0 && y != 0) {
+            throw new IllegalArgumentException("대각선으로는 이동할 수 없습니다.");
+        }
         if (x < 0) {
             return UP;
         }
@@ -25,6 +28,6 @@ public record Movement(
         if (y > 0) {
             return RIGHT;
         }
-        throw new IllegalArgumentException("원래 위치로 이동할 수 없습니다.");
+        throw new IllegalStateException("원래 위치로 이동할 수 없습니다.");
     }
 }

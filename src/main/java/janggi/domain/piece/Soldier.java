@@ -30,7 +30,7 @@ public class Soldier extends Piece {
             final Position afterPosition) {
         return board -> {
             Validator.validateNoSameTeamPieceAt(team, board, afterPosition);
-            Validator.validateMovementDirection(team, beforePosition, afterPosition);
+            Validator.validateNotMovingTowardsOwnSide(team, beforePosition, afterPosition);
             Validator.validateSingleStepMovement(beforePosition, afterPosition);
         };
     }

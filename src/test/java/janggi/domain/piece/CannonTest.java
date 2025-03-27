@@ -30,8 +30,9 @@ class CannonTest {
     void move() {
         Cannon cannon = new Cannon(Team.BLUE);
         Position betweenPosition = new Position(3, 5);
-        board.put(betweenPosition, new Soldier(Team.RED));
         Position afterPosition = new Position(2, 5);
+
+        board.put(betweenPosition, new Soldier(Team.RED));
 
         assertThatCode(() ->
                 cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
@@ -56,6 +57,7 @@ class CannonTest {
         Cannon cannon = new Cannon(Team.BLUE);
         Position afterPosition = new Position(2, 5);
         Position betweenPosition = new Position(3, 5);
+
         board.put(betweenPosition, new Cannon(Team.BLUE));
 
         assertThatThrownBy(() ->
@@ -70,6 +72,7 @@ class CannonTest {
         Position afterPosition = new Position(2, 5);
         Position betweenPosition = new Position(3, 5);
         Position betweenPosition2 = new Position(4, 5);
+
         board.put(betweenPosition, new Soldier(Team.BLUE));
         board.put(betweenPosition2, new Soldier(Team.BLUE));
 
@@ -82,7 +85,10 @@ class CannonTest {
     @Test
     void move4() {
         Cannon cannon = new Cannon(Team.BLUE);
-        Position afterPosition = new Position(2, 3);
+        Position afterPosition = new Position(2, 5);
+        Position betweenPosition = new Position(3, 5);
+
+        board.put(betweenPosition, new Soldier(Team.BLUE));
         board.put(afterPosition, new Soldier(Team.BLUE));
 
         assertThatThrownBy(() ->
