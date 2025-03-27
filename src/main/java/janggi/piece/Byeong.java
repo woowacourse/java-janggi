@@ -34,13 +34,16 @@ public class Byeong extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
-        List<JanggiPosition> pathPositions = FourDirection.from(destination, getPosition());
+        if (janggiPosition.isPositionInCastle()) {
+
+        }
+        List<JanggiPosition> pathPositions = FourDirection.from(destination, janggiPosition);
         return isValidMove(pathPositions) && allyPieces.isNotBlockedBy(destination);
     }
 
     private boolean isValidMove(List<JanggiPosition> pathPositions) {
-        int currentX = getPosition().x();
-        int currentY = getPosition().y();
+        int currentX = janggiPosition.x();
+        int currentY = janggiPosition.y();
         int destX = pathPositions.getLast().x();
         int destY = pathPositions.getLast().y();
 

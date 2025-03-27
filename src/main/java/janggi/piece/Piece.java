@@ -4,8 +4,8 @@ import janggi.value.JanggiPosition;
 
 public abstract class Piece {
 
-    private final PieceType pieceType;
-    private final JanggiPosition janggiPosition;
+    protected final PieceType pieceType;
+    protected final JanggiPosition janggiPosition;
 
     protected Piece(final PieceType pieceType, final JanggiPosition janggiPosition) {
         this.pieceType = pieceType;

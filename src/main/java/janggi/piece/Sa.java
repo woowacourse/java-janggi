@@ -34,7 +34,7 @@ public class Sa extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
-        List<JanggiPosition> pathPositions = FourDirection.from(destination, getPosition());
+        List<JanggiPosition> pathPositions = FourDirection.from(destination, janggiPosition);
         return isValidMove(pathPositions) && allyPieces.isNotBlockedBy(destination);
     }
 

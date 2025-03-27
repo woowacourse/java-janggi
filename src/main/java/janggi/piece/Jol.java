@@ -34,13 +34,13 @@ public class Jol extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
-        List<JanggiPosition> pathPositions = FourDirection.from(destination, getPosition());
+        List<JanggiPosition> pathPositions = FourDirection.from(destination, janggiPosition);
         return isValidMove(pathPositions) && allyPieces.isNotBlockedBy(destination);
     }
 
     private boolean isValidMove(List<JanggiPosition> pathPositions) {
-        int currentX = getPosition().x();
-        int currentY = getPosition().y();
+        int currentX = janggiPosition.x();
+        int currentY = janggiPosition.y();
         int destX = pathPositions.getLast().x();
         int destY = pathPositions.getLast().y();
 

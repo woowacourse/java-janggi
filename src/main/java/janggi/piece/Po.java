@@ -42,7 +42,7 @@ public class Po extends Piece {
             return false;
         }
         // 현재 위치와 목적지 사이의 경로 계산
-        List<JanggiPosition> pathPositions = FourDirection.from(destination, getPosition());
+        List<JanggiPosition> pathPositions = FourDirection.from(destination, janggiPosition);
 
         List<Piece> alliesInPath = allies.searchPiecesInPath(pathPositions);
         List<Piece> enemyInPath = enemy.searchPiecesInPath(pathPositions);
@@ -63,10 +63,10 @@ public class Po extends Piece {
     }
 
     private boolean isValidMove(JanggiPosition destination) {
-        return getPosition().x() == destination.x() || getPosition().y() == destination.y();
+        return janggiPosition.x() == destination.x() || janggiPosition.y() == destination.y();
     }
 
     private boolean isPoInPath(List<Piece> pieces) {
-        return pieces.stream().anyMatch(piece -> piece.getPieceType() == getPieceType());
+        return pieces.stream().anyMatch(piece -> piece.pieceType == pieceType);
     }
 }

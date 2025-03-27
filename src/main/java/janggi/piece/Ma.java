@@ -34,10 +34,10 @@ public class Ma extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemy, Pieces allies) {
-        DiagonalDirection diagonalDirection = DiagonalDirection.of(getPosition(), destination);
+        DiagonalDirection diagonalDirection = DiagonalDirection.of(janggiPosition, destination);
 
-        if (enemy.isPieceExistInRoute(diagonalDirection, getPosition()) ||
-                allies.isPieceExistInRoute(diagonalDirection, getPosition())) {
+        if (enemy.isPieceExistInRoute(diagonalDirection, janggiPosition) ||
+                allies.isPieceExistInRoute(diagonalDirection, janggiPosition)) {
             return false;
         }
         return allies.isNotBlockedBy(destination);

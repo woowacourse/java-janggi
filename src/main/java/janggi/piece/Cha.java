@@ -37,7 +37,7 @@ public class Cha extends Piece {
         if (!isValidMove(destination)) {
             return false;
         }
-        List<JanggiPosition> pathPositions = FourDirection.from(destination, getPosition());
+        List<JanggiPosition> pathPositions = FourDirection.from(destination, janggiPosition);
         if (!enemyPieces.isNotBlockedBy(destination)) {
             // 목적지에 적이 있는 경우, 경로 상에 아군이 없어야 함
             return allyPieces.isPathBlockedBy(pathPositions);
@@ -47,6 +47,6 @@ public class Cha extends Piece {
     }
 
     private boolean isValidMove(JanggiPosition destination) {
-        return getPosition().x() == destination.x() || getPosition().y() == destination.y();
+        return janggiPosition.x() == destination.x() || janggiPosition.y() == destination.y();
     }
 }

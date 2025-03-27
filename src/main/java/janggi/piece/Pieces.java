@@ -24,40 +24,40 @@ public class Pieces {
     }
 
     private Piece findTargetPiece(final JanggiPosition targetPieceJanggiPosition) {
-        return pieces.stream().filter(piece -> piece.getPosition().equals(targetPieceJanggiPosition))
+        return pieces.stream().filter(piece -> piece.janggiPosition.equals(targetPieceJanggiPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다."));
     }
 
     public boolean isNotBlockedBy(final JanggiPosition destination) {
         return pieces.stream()
-                .noneMatch(piece -> piece.getPosition().equals(destination));
+                .noneMatch(piece -> piece.janggiPosition.equals(destination));
     }
 
     public boolean isPathBlockedBy(final List<JanggiPosition> pathPositions) {
         return pathPositions.stream()
                 .noneMatch(position -> pieces.stream()
-                        .anyMatch(piece -> piece.getPosition().equals(position)));
+                        .anyMatch(piece -> piece.janggiPosition.equals(position)));
     }
 
     public boolean isPieceExistInRoute(final DiagonalDirection diagonalDirection, final JanggiPosition position) {
         return pieces.stream()
-                .anyMatch(piece -> diagonalDirection.isRoute(position, piece.getPosition()));
+                .anyMatch(piece -> diagonalDirection.isRoute(position, piece.janggiPosition));
     }
 
     public List<Piece> searchPiecesInPath(final List<JanggiPosition> pathPositions) {
         return pieces.stream()
-                .filter(piece -> pathPositions.contains(piece.getPosition()))
+                .filter(piece -> pathPositions.contains(piece.janggiPosition))
                 .toList();
     }
 
     public void beAttackedAt(final JanggiPosition destination) {
-        pieces.removeIf(piece -> piece.getPosition().equals(destination));
+        pieces.removeIf(piece -> piece.janggiPosition.equals(destination));
     }
 
     public boolean isPieceAlive(final String name) {
         boolean alive = pieces.stream()
-                .noneMatch(piece -> piece.getPieceType().getName()
+                .noneMatch(piece -> piece.pieceType.getName()
                         .equals(name));
 
         return pieces.isEmpty() || alive;
@@ -65,7 +65,7 @@ public class Pieces {
 
     public int calculateTotalScore() {
         return pieces.stream()
-                .mapToInt(piece -> piece.getPieceType().getScore())
+                .mapToInt(piece -> piece.pieceType.getScore())
                 .sum();
     }
 
