@@ -19,8 +19,8 @@ public abstract class Piece {
 
     public void validateMovable(Board board, Position start, Position goal) {
         Piece attacker = board.getPiece(start);
-        validatePath(board, start, goal);
         validateNonOurArmyAtGoal(board, goal, attacker.getTeam());
+        validatePath(board, start, goal);
     }
 
     public Team getTeam() {

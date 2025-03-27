@@ -22,7 +22,7 @@ class GuardTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = new Position(4, 4);
         Position goal = createPosition(column, row);
-        Chariot piece = new Chariot(Team.GREEN);
+        Guard piece = new Guard(Team.GREEN);
 
         initialBoard.put(start, piece);
         Board board = new Board(() -> initialBoard);

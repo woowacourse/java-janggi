@@ -54,14 +54,14 @@ class SoldierTest {
                 .hasMessage("[ERROR] 병의 이동 규칙에 어긋나는 움직임입니다.");
     }
 
-    @CsvSource(value = {"4:5", "3:4", "5:4", "4:3"}, delimiterString = ":")
+    @CsvSource(value = {"4:5", "3:4", "5:4"}, delimiterString = ":")
     @ParameterizedTest
     void 목적지에_같은_진영의_기물이_있을_경우_예외를_발생한다(int column, int row) {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 4);
         Position goal = createPosition(column, row);
-        Guard piece = new Guard(Team.GREEN);
+        Soldier piece = new Soldier(Team.GREEN);
 
         initialBoard.put(start, piece);
         initialBoard.put(createPosition(column,row), new Soldier(Team.GREEN));
