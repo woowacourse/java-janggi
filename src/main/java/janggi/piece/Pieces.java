@@ -70,11 +70,11 @@ public class Pieces {
     }
 
     public Piece getPieceByPosition(final Position position) {
-        try {
-            return pieces.get(position);
-        } catch (NullPointerException e) {
+        Piece findPiece = pieces.get(position);
+        if (findPiece == null) {
             throw new IllegalArgumentException("선택된 좌표에 말이 없습니다.");
         }
+        return findPiece;
     }
 
     public boolean containsPiece(final Position position) {
