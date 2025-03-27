@@ -12,7 +12,7 @@ public class Guard extends Piece {
             List.of(Movement.LEFT),
             List.of(Movement.RIGHT));
 
-    protected Guard(final PieceType pieceType, final Country country) {
+    public Guard(final Country country) {
         super(PieceType.GUARD, country);
     }
 

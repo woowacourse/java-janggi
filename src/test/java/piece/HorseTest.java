@@ -25,7 +25,7 @@ public class HorseTest {
     @Test
     void 말은_시작지와_목적지에_따른_이동경로를_반환한다() {
         // given
-        Horse horse = new Horse();
+        Horse horse = new Horse(Country.Cho);
 
         // then
         assertThatCode(() -> horse.getPathForMoving(E5, D7)).doesNotThrowAnyException();
@@ -50,7 +50,7 @@ public class HorseTest {
     @Test
     void 말은_정해진_루트가_아니면_이동할_수_없다() {
         // given
-        Horse horse = new Horse();
+        Horse horse = new Horse(Country.Cho);
 
         // then
         assertThatThrownBy(() -> horse.getPathForMoving(E5, E6))

@@ -16,7 +16,7 @@ public class Horse extends Piece {
             List.of(Movement.RIGHT, Movement.UP_RIGHT_RIGHT),
             List.of(Movement.RIGHT, Movement.DOWN_RIGHT_RIGHT));
 
-    protected Horse(final PieceType pieceType, final Country country) {
+    public Horse(final Country country) {
         super(PieceType.HORSE, country);
     }
 

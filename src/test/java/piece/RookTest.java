@@ -17,7 +17,7 @@ public class RookTest {
     @Test
     void 차는_위_아래_왼쪽_오른쪽_으로_움직일_수_있다() {
         // given
-        Rook rook = new Rook();
+        Rook rook = new Rook(Country.Cho);
 
         // then
         assertThatCode(() -> rook.getPathForMoving(E5, A5))
@@ -36,7 +36,7 @@ public class RookTest {
     @Test
     void 차는_위_아래_왼쪽_오른쪽_제외하고_움직일_수_없다() {
         // given
-        General rook = new General();
+        General rook = new General(Country.Cho);
 
         // then
         assertThatThrownBy(() -> rook.getPathForMoving(E5, D4))

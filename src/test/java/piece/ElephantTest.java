@@ -18,7 +18,7 @@ public class ElephantTest {
     @Test
     void 상은_시작지와_목적지에_따른_이동경로를_반환한다() {
         // given
-        Elephant elephant = new Elephant();
+        Elephant elephant = new Elephant(Country.Cho);
 
         // then
         assertThatCode(() -> elephant.getPathForMoving(E5, C8)).doesNotThrowAnyException();
@@ -32,7 +32,7 @@ public class ElephantTest {
     @Test
     void 상은_정해진_루트가_아니면_이동할_수_없다() {
         // given
-        Elephant elephant = new Elephant();
+        Elephant elephant = new Elephant(Country.Cho);
 
         // then
         assertThatThrownBy(() -> elephant.getPathForMoving(E5, D5))

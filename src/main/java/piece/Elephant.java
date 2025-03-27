@@ -17,7 +17,7 @@ public class Elephant extends Piece {
             List.of(Movement.LEFT, Movement.DOWN_LEFT_LEFT, Movement.DOWN_DOWN_LEFT_LEFT_LEFT)
     );
 
-    protected Elephant(final PieceType pieceType, final Country country) {
+    public Elephant(final Country country) {
         super(PieceType.ELEPHANT, country);
     }
 

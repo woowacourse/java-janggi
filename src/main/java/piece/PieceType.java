@@ -5,6 +5,7 @@ public enum PieceType {
     GUARD,
     ELEPHANT,
     HORSE,
-    Rook,
+    ROOK,
     SOLDIER,
+    CANNON
 }

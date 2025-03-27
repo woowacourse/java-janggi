@@ -16,7 +16,7 @@ public class GuardTest {
     @Test
     void 사는_위_아래_왼쪽_오른쪽_으로_움직일_수_있다() {
         // given
-        Guard guard = new Guard();
+        Guard guard = new Guard(Country.Cho);
 
         // then
         assertThatCode(() -> guard.getPathForMoving(A1, A2))
@@ -35,7 +35,7 @@ public class GuardTest {
     @Test
     void 사는_위_아래_왼쪽_오른쪽_제외하고_움직일_수_없다() {
         // given
-        Guard guard = new Guard();
+        Guard guard = new Guard(Country.Cho);
 
         // then
         assertThatThrownBy(() -> guard.getPathForMoving(A1, A3))

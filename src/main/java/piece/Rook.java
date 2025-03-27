@@ -5,8 +5,8 @@ import position.Position;
 
 public class Rook extends Piece {
 
-    protected Rook(final PieceType pieceType, final Country country) {
-        super(PieceType.Rook, country);
+    public Rook(final Country country) {
+        super(PieceType.ROOK, country);
     }
 
     public List<Position> getPathForMoving(Position fromPosition, Position toPosition) {

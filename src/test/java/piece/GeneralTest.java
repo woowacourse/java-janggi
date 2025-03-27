@@ -16,7 +16,7 @@ public class GeneralTest {
     @Test
     void 장군은_위_아래_왼쪽_오른쪽_으로_움직일_수_있다() {
         // given
-        General general = new General();
+        General general = new General(Country.Cho);
 
         // then
         assertThatCode(() -> general.getPathForMoving(A1, A2))
@@ -35,7 +35,7 @@ public class GeneralTest {
     @Test
     void 장군은_위_아래_왼쪽_오른쪽_제외하고_움직일_수_없다() {
         // given
-        General general = new General();
+        General general = new General(Country.Cho);
 
         // then
         assertThatThrownBy(() -> general.getPathForMoving(A1, A3))

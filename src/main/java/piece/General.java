@@ -12,7 +12,7 @@ public class General extends Piece {
             List.of(Movement.LEFT),
             List.of(Movement.RIGHT));
 
-    protected General(final PieceType pieceType, final Country country) {
+    public General(final Country country) {
         super(PieceType.GENERAL, country);
     }
 
