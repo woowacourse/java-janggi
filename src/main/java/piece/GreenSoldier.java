@@ -1,20 +1,53 @@
 package piece;
 
-import static direction.Direction.LEFT;
-import static direction.Direction.RIGHT;
-import static direction.Direction.UP;
+import static location.Direction.LEFT;
+import static location.Direction.RIGHT;
+import static location.Direction.UP;
 
-import direction.Direction;
-import direction.Point;
+import location.Direction;
+import location.Position;
 import java.util.List;
+import store.Pieces;
 
-public class GreenSoldier extends Soldier {
+public class GreenSoldier implements Piece {
+    private static final List<Direction> GREEN_SOLDIER_PATH_INFO = List.of(LEFT, RIGHT, UP);
 
-    public GreenSoldier(String name, Point point) {
-        super(name, point);
+    private final Position currentPosition;
+
+    public GreenSoldier(Position currentPosition) {
+        this.currentPosition = currentPosition;
     }
 
-    public List<Direction> getPaths() {
-        return List.of(LEFT, RIGHT, UP);
+    @Override
+    public void validateDestination(Position destination) {
+        GREEN_SOLDIER_PATH_INFO.stream()
+                .filter(direction -> currentPosition.apply(direction).equals(destination))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다."));
+    }
+
+    @Override
+    public void validatePaths(Pieces pieces, Position destination) {
+
+    }
+
+    @Override
+    public Piece move(Position destination) {
+        return new GreenSoldier(destination);
+    }
+
+    @Override
+    public boolean isPlacedAt(Position targetPosition) {
+        return currentPosition.equals(targetPosition);
+    }
+
+    @Override
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.SOLIDER;
     }
 }

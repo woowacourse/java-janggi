@@ -1,23 +1,19 @@
 package game;
 
-import board.MemoryGameBoard;
-import direction.Point;
-import team.Player;
-import team.Team;
+import piece.Piece;
+import store.Board;
+import location.Position;
+import location.PathUtility;
+import store.Pieces;
+import store.Player;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiGame {
 
-    private static final String RANGE_EXCEED = "[ERROR] 범위를 넘어설 수 없습니다.";
-    private static final int HORIZONTAL_START = 1;
-    private static final int HORIZONTAL_END = 9;
-    private static final int VERTICAL_START = 1;
-    private static final int VERTICAL_END = 10;
+    private final Board gameBoard;
 
-    private final MemoryGameBoard gameBoard;
-
-    public JanggiGame(MemoryGameBoard gameBoard) {
+    public JanggiGame(Board gameBoard) {
         this.gameBoard = gameBoard;
     }
 
@@ -27,40 +23,39 @@ public class JanggiGame {
 
     public void run() {
         for (Team team : Team.values()) {
-            Player currentPlayer = gameBoard.findPlayer(team);
+            Player currentPlayer = gameBoard.findPlayerBy(team);
 
-            Point start = requestMovementStartPosition(currentPlayer);
-            Point end = requestMovementEndPosition();
+            Position start = requestMovementStartPosition(currentPlayer);
+            Position end = InputView.requestMovementEndPosition();
 
-            currentPlayer.validateAlreadyPlayerPieceInPosition(end);
+            currentPlayer.validateAlreadyPlayerPieceInDestination(end);
+            PathUtility.checkNotSameStartWithEnd(start, end);
 
-            currentPlayer.play(gameBoard.findAllPieces(), start, end);
+            move(currentPlayer, start, end);
             OutputView.displayBoard(gameBoard);
         }
     }
 
-    private Point requestMovementStartPosition(Player player) {
+    private Position requestMovementStartPosition(Player player) {
         while (true) {
-            Point start = InputView.requestMoveStartPosition();
-            validateBoardRange(start);
+            Position start = InputView.requestMoveStartPosition();
 
-            if (player.isContainPiece(start)) {
+            if (player.isContainedPiece(start)) {
                 return start;
             }
             OutputView.displayWrongPoint();
         }
     }
 
-    private Point requestMovementEndPosition() {
-        Point end = InputView.requestMovementEndPosition();
-        validateBoardRange(end);
-        return end;
-    }
+    public void move(Player currentPlayer, Position start, Position end) {
+        Pieces allPieces = gameBoard.findAllPieces();
+        Piece piece = currentPlayer.getPieceByPoint(start);
 
-    public void validateBoardRange(Point point) {
-        if (point.y() < VERTICAL_START || point.y() > VERTICAL_END ||
-                point.x() < HORIZONTAL_START || point.x() > HORIZONTAL_END) {
-            throw new IllegalArgumentException(RANGE_EXCEED);
-        }
+        piece.validateDestination(end);
+        piece.validatePaths(allPieces, end);
+        Piece movedPiece = piece.move(end);
+
+        currentPlayer.delete(piece);
+        currentPlayer.add(movedPiece);
     }
 }

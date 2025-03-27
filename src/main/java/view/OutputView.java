@@ -1,26 +1,46 @@
 package view;
 
-import board.MemoryGameBoard;
-import direction.Point;
-import java.util.Optional;
+import game.Team;
+import java.util.List;
+import location.Position;
 import piece.Piece;
-import piece.Pieces;
+import piece.PieceType;
+import store.Board;
+import store.Player;
 
 public class OutputView {
 
-    public static void displayBoard(MemoryGameBoard gameBoard) {
-        Pieces pieces = gameBoard.findAllPieces();
+    public static void displayBoard(Board gameBoard) {
+        Player greenPlayer = gameBoard.findPlayerBy(Team.GREEN);
+        List<Piece> greenPieces = greenPlayer.getPieces();
+
+        Player redPlayer = gameBoard.findPlayerBy(Team.RED);
+        List<Piece> redPieces = redPlayer.getPieces();
+
+        String[][] pieceName = new String[11][10];
+
+        for (int i = 1; i <= 10; i++) {
+            for (int j = 1; j <= 9; j++) {
+                pieceName[i][j] = ".";
+            }
+        }
+
+        for(Piece piece : greenPieces) {
+            PieceType pieceType = piece.getPieceType();
+            Position position = piece.getCurrentPosition();
+            pieceName[position.y()][position.x()] = OutputFormatter.getGreenPiecePrintFormatBy(pieceType);
+        }
+
+        for(Piece piece : redPieces) {
+            PieceType pieceType = piece.getPieceType();
+            Position position = piece.getCurrentPosition();
+            pieceName[position.y()][position.x()] = OutputFormatter.getRedPiecePrintFormatBy(pieceType);
+        }
 
         System.out.println();
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 9; j++) {
-                Point point = new Point(j, i);
-                Optional<Piece> findPiece = pieces.findByPoint(point);
-                if (findPiece.isEmpty()) {
-                    System.out.print(".");
-                    continue;
-                }
-                System.out.print(findPiece.get().getName());
+                System.out.print(pieceName[i][j]);
             }
             System.out.println(" " + i);
         }
@@ -29,6 +49,6 @@ public class OutputView {
     }
 
     public static void displayWrongPoint() {
-        System.out.println("본인의 기물이 아닙니다. 다시 선택해 주세요.");
+        System.out.println("자신의 기물이 위치한 좌표를 선택해주세요.");
     }
 }

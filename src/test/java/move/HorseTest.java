@@ -3,25 +3,23 @@ package move;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import direction.Point;
+import location.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Guard;
 import piece.Horse;
-import piece.Pieces;
+import store.Pieces;
 
 class HorseTest {
-
-    String GREEN_HORSE_EXPRESSION = "h";
 
     @Test
     @DisplayName("위쪽 1칸, 왼쪽 대각선 1칸으로 이동할 수 있다.")
     void test1() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(1, 0);
-        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
+        Position from = new Position(3, 3);
+        Position to = new Position(2, 1);
+        Horse horse = new Horse(from);
 
         //when
 
@@ -34,9 +32,9 @@ class HorseTest {
     @DisplayName("위쪽 1칸, 오른쪽 대각선 1칸으로 이동할 수 있다.")
     void test2() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(3, 0);
-        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
+        Position from = new Position(3, 3);
+        Position to = new Position(4, 1);
+        Horse horse = new Horse(from);
 
         //when
 
@@ -49,9 +47,9 @@ class HorseTest {
     @DisplayName("왼쪽 1칸, 위쪽 대각선 1칸으로 이동할 수 있다.")
     void test3() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(0, 1);
-        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
+        Position from = new Position(3, 3);
+        Position to = new Position(1, 2);
+        Horse horse = new Horse(from);
 
         //when
 
@@ -64,9 +62,9 @@ class HorseTest {
     @DisplayName("왼쪽 1칸, 아래쪽 대각선 1칸으로 이동할 수 있다.")
     void test4() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(0, 3);
-        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
+        Position from = new Position(3, 3);
+        Position to = new Position(1, 4);
+        Horse horse = new Horse(from);
 
         //when
 
@@ -79,9 +77,9 @@ class HorseTest {
     @DisplayName("아래쪽 1칸, 왼쪽 대각선 1칸으로 이동할 수 있다.")
     void test5() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(1, 4);
-        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
+        Position from = new Position(2, 2);
+        Position to = new Position(1, 4);
+        Horse horse = new Horse(from);
 
         //when
 
@@ -94,9 +92,9 @@ class HorseTest {
     @DisplayName("아래쪽 1칸, 오른쪽 대각선 1칸으로 이동할 수 있다.")
     void test6() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(3, 4);
-        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
+        Position from = new Position(2, 2);
+        Position to = new Position(3, 4);
+        Horse horse = new Horse(from);
 
         //when
 
@@ -109,9 +107,9 @@ class HorseTest {
     @DisplayName("오른쪽 1칸, 위쪽 대각선 1칸으로 이동할 수 있다.")
     void test7() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(4, 1);
-        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
+        Position from = new Position(2, 2);
+        Position to = new Position(4, 1);
+        Horse horse = new Horse(from);
 
         //when
 
@@ -124,9 +122,9 @@ class HorseTest {
     @DisplayName("오른쪽 1칸, 아래쪽 대각선 1칸으로 이동할 수 있다.")
     void test8() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(4, 3);
-        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
+        Position from = new Position(2, 2);
+        Position to = new Position(4, 3);
+        Horse horse = new Horse(from);
 
         //when
 
@@ -139,9 +137,9 @@ class HorseTest {
     @DisplayName("직선 1칸, 대각선 1칸을 제외하고 움직일 수 없다.")
     void test9() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(6, 3);
-        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
+        Position from = new Position(2, 2);
+        Position to = new Position(6, 3);
+        Horse horse = new Horse(from);
 
         //when
 
@@ -154,16 +152,16 @@ class HorseTest {
     @DisplayName("경로에 기물이 있을 시 이동할 수 없다.")
     void test13() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(4, 3);
-        Horse horse = new Horse(GREEN_HORSE_EXPRESSION, from);
+        Position from = new Position(2, 2);
+        Position to = new Position(4, 3);
+        Horse horse = new Horse(from);
         Pieces pieces = new Pieces(List.of(
                 horse,
-                new Guard(GREEN_HORSE_EXPRESSION, new Point(3, 2))));
+                new Guard(new Position(3, 2))));
 
         //when
         //then
-        assertThatThrownBy(() -> horse.checkPaths(pieces, to))
+        assertThatThrownBy(() -> horse.validatePaths(pieces, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

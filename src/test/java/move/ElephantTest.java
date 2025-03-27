@@ -3,25 +3,23 @@ package move;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import direction.Point;
+import location.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Elephant;
 import piece.Guard;
-import piece.Pieces;
+import store.Pieces;
 
 class ElephantTest {
-
-    String GREEN_ELEPHANT_EXPRESSION = "e";
 
     @Test
     @DisplayName("위쪽 1칸, 왼쪽 대각선 2칸으로 이동할 수 있다.")
     void test1() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(0, -1);
-        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
+        Position from = new Position(5, 5);
+        Position to = new Position(3, 2);
+        Elephant elephant = new Elephant(from);
 
         //when
 
@@ -34,9 +32,9 @@ class ElephantTest {
     @DisplayName("위쪽 1칸, 오른쪽 대각선 2칸으로 이동할 수 있다.")
     void test2() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(4, -1);
-        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
+        Position from = new Position(4, 4);
+        Position to = new Position(6, 1);
+        Elephant elephant = new Elephant(from);
 
         //when
 
@@ -49,9 +47,9 @@ class ElephantTest {
     @DisplayName("왼쪽 1칸, 위쪽 대각선 2칸으로 이동할 수 있다.")
     void test3() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(-1, 0);
-        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
+        Position from = new Position(5, 5);
+        Position to = new Position(2, 3);
+        Elephant elephant = new Elephant(from);
 
         //when
 
@@ -64,9 +62,9 @@ class ElephantTest {
     @DisplayName("왼쪽 1칸, 아래쪽 대각선 2칸으로 이동할 수 있다.")
     void test4() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(-1, 4);
-        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
+        Position from = new Position(5, 5);
+        Position to = new Position(2, 7);
+        Elephant elephant = new Elephant(from);
 
         //when
 
@@ -79,9 +77,9 @@ class ElephantTest {
     @DisplayName("아래쪽 1칸, 왼쪽 대각선 2칸으로 이동할 수 있다.")
     void test5() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(0, 5);
-        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
+        Position from = new Position(5, 5);
+        Position to = new Position(3, 8);
+        Elephant elephant = new Elephant(from);
 
         //when
 
@@ -94,9 +92,9 @@ class ElephantTest {
     @DisplayName("아래쪽 1칸, 오른쪽 대각선 2칸으로 이동할 수 있다.")
     void test6() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(4, 5);
-        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
+        Position from = new Position(2, 2);
+        Position to = new Position(4, 5);
+        Elephant elephant = new Elephant(from);
 
         //when
 
@@ -109,9 +107,9 @@ class ElephantTest {
     @DisplayName("오른쪽 1칸, 위쪽 대각선 2칸으로 이동할 수 있다.")
     void test7() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(5, 0);
-        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
+        Position from = new Position(5, 5);
+        Position to = new Position(8, 3);
+        Elephant elephant = new Elephant(from);
 
         //when
 
@@ -124,9 +122,9 @@ class ElephantTest {
     @DisplayName("오른쪽 1칸, 아래쪽 대각선 2칸으로 이동할 수 있다.")
     void test8() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(5, 4);
-        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
+        Position from = new Position(2, 2);
+        Position to = new Position(5, 4);
+        Elephant elephant = new Elephant(from);
 
         //when
 
@@ -139,9 +137,9 @@ class ElephantTest {
     @DisplayName("직선 1칸, 대각선 2칸을 제외하고 움직일 수 없다.")
     void test9() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(8, 3);
-        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
+        Position from = new Position(2, 2);
+        Position to = new Position(8, 3);
+        Elephant elephant = new Elephant(from);
 
         //when
 
@@ -154,16 +152,16 @@ class ElephantTest {
     @DisplayName("경로에 기물이 있을 시 이동할 수 없다.")
     void test13() {
         //given
-        Point from = new Point(2, 2);
-        Point to = new Point(5, 4);
-        Elephant elephant = new Elephant(GREEN_ELEPHANT_EXPRESSION, from);
+        Position from = new Position(2, 2);
+        Position to = new Position(5, 4);
+        Elephant elephant = new Elephant(from);
         Pieces pieces = new Pieces(List.of(
                 elephant,
-                new Guard("r", new Point(3, 2))));
+                new Guard(new Position(3, 2))));
 
         //when
         //then
-        assertThatThrownBy(() -> elephant.checkPaths(pieces, to))
+        assertThatThrownBy(() -> elephant.validatePaths(pieces, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

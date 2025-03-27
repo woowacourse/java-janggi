@@ -1,42 +1,67 @@
 package piece;
 
-import direction.Point;
+import location.PathUtility;
+import location.Position;
+import java.util.List;
+import store.Pieces;
 
-public class Cannon extends Piece {
-    private static final String CANNON_EXPRESSION = "n";
+public class Cannon implements Piece {
+    private final Position currentPosition;
 
-    public Cannon(String name, Point point) {
-        super(name, point);
+    public Cannon(Position currentPosition) {
+        this.currentPosition = currentPosition;
     }
 
     @Override
-    public void validateDestination(Point to) {
-        validateStraightDestination(currentPosition, to);
-        validateNotSamePosition(currentPosition, to);
+    public void validateDestination(Position destination) {
+        PathUtility.checkStraightMovement(currentPosition, destination);
     }
 
-    public void checkPaths(Pieces allPieces, Point to) {
-        if (calculateCannonPieceCountInPaths(allPieces, currentPosition, to) >= 1) {
-            throw new IllegalArgumentException("[ERROR] 포가 존재하여 움직일 수 없습니다.");
-        }
-        if (calculateNotCannonPieceCountInPaths(allPieces, currentPosition, to) != 1) {
-            throw new IllegalArgumentException("[ERROR] 포는 포를 제외한 하나의 기물을 넘어야 합니다.");
+    @Override
+    public void validatePaths(Pieces pieces, Position destination) {
+        int notCannonCount = calculateNotCannonCountInPaths(pieces, destination);
+        int cannonCount = calculateCannonCountInPaths(pieces, destination);
+
+        if (notCannonCount != 1 || cannonCount > 0) {
+            throw new IllegalArgumentException("[ERROR] 반드시 포가 아닌 기물 하나를 넘어야 합니다.");
         }
     }
 
-    private int calculateNotCannonPieceCountInPaths(Pieces pieces, Point from, Point to) {
-        return (int) findStraightPaths(from, to).stream()
-                .filter(pieces::isContainPiece)
-                .map(pieces::getByPoint)
-                .filter(piece -> !piece.isSameType(CANNON_EXPRESSION))
+    @Override
+    public Piece move(Position destination) {
+        return new Cannon(destination);
+    }
+
+    @Override
+    public boolean isPlacedAt(Position targetPosition) {
+        return currentPosition.equals(targetPosition);
+    }
+
+    @Override
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.CANNON;
+    }
+
+    private int calculateNotCannonCountInPaths(Pieces pieces, Position destination) {
+        List<Position> paths = PathUtility.calculateStraightPaths(currentPosition, destination);
+        return (int) paths.stream()
+                .filter(pieces::isContainedPieceAtPosition)
+                .map(pieces::getByPosition)
+                .filter(PieceType::isNotCannon)
                 .count();
     }
 
-    private int calculateCannonPieceCountInPaths(Pieces pieces, Point from, Point to) {
-        return (int) findStraightPaths(from, to).stream()
-                .filter(pieces::isContainPiece)
-                .map(pieces::getByPoint)
-                .filter(piece -> piece.isSameType(CANNON_EXPRESSION))
+    private int calculateCannonCountInPaths(Pieces pieces, Position destination) {
+        List<Position> paths = PathUtility.calculateStraightPaths(currentPosition, destination);
+        return (int) paths.stream()
+                .filter(pieces::isContainedPieceAtPosition)
+                .map(pieces::getByPosition)
+                .filter(PieceType::isCannon)
                 .count();
     }
 }

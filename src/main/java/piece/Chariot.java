@@ -1,21 +1,45 @@
 package piece;
 
-import direction.Point;
+import location.PathUtility;
+import location.Position;
+import java.util.List;
+import store.Pieces;
 
-public class Chariot extends Piece {
+public class Chariot implements Piece {
+    private final Position currentPosition;
 
-    public Chariot(String name, Point point) {
-        super(name, point);
+    public Chariot( Position currentPosition) {
+        this.currentPosition = currentPosition;
     }
 
     @Override
-    public void validateDestination(Point to) {
-        validateStraightDestination(currentPosition, to);
-        validateNotSamePosition(currentPosition, to);
+    public void validateDestination(Position destination) {
+        PathUtility.checkStraightMovement(currentPosition, destination);
     }
 
     @Override
-    public void checkPaths(Pieces pieces, Point to) {
-        findStraightPaths(currentPosition, to).forEach(pieces::validateNotContainPiece);
+    public void validatePaths(Pieces pieces, Position destination) {
+        List<Position> paths = PathUtility.calculateStraightPaths(currentPosition, destination);
+        paths.forEach(pieces::checkNotExistedPieceInPosition);
+    }
+
+    @Override
+    public Piece move(Position destination) {
+        return new Chariot(destination);
+    }
+
+    @Override
+    public boolean isPlacedAt(Position targetPosition) {
+        return currentPosition.equals(targetPosition);
+    }
+
+    @Override
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.CHARIOT;
     }
 }

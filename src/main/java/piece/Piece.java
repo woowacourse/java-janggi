@@ -1,64 +1,18 @@
 package piece;
 
-import direction.Direction;
-import direction.Point;
-import java.util.ArrayList;
-import java.util.List;
+import location.Position;
+import store.Pieces;
 
-public abstract class Piece {
-    private final String name; // enum -> outputFormatter
-    protected Point currentPosition;
+public interface Piece {
+    void validateDestination(Position destination);
 
-    public Piece(String name, Point currentPosition) {
-        this.name = name;
-        this.currentPosition = currentPosition;
-    }
+    void validatePaths(Pieces pieces, Position destination);
 
-    protected Piece(String name) {
-        this.name = name;
-    }
+    Piece move(Position destination);
 
-    public String getName() {
-        return name;
-    }
+    boolean isPlacedAt(Position targetPosition);
 
-    public boolean isEqualPositionWith(Point targetPoint) {
-        return currentPosition.equals(targetPoint);
-    }
+    Position getCurrentPosition();
 
-    public abstract void validateDestination(Point to);
-
-    public abstract void checkPaths(Pieces allPieces, Point to);
-
-    public void move(Point to) {
-        currentPosition = to;
-    }
-
-    protected List<Point> findStraightPaths(Point from, Point to) {
-        Direction direction = Direction.find(from, to);
-        List<Point> paths = new ArrayList<>();
-        Point current = new Point(from.x(), from.y());
-        current = current.apply(direction);
-        while (!current.equals(to)) {
-            paths.add(current);
-            current = current.apply(direction);
-        }
-        return paths;
-    }
-
-    protected void validateStraightDestination(Point from, Point to) {
-        if (from.x() != to.x() && from.y() != to.y()) {
-            throw new IllegalArgumentException("[ERROR] 직선 이동만 가능합니다.");
-        }
-    }
-
-    protected void validateNotSamePosition(Point from, Point to) {
-        if (from.equals(to)) {
-            throw new IllegalArgumentException("[ERROR] 출발지와 목적지는 달라야 합니다.");
-        }
-    }
-
-    protected boolean isSameType(String otherName) {
-        return name.equalsIgnoreCase(otherName);
-    }
+    PieceType getPieceType();
 }

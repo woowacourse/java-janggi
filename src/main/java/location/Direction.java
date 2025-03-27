@@ -1,4 +1,4 @@
-package direction;
+package location;
 
 import java.util.Arrays;
 
@@ -20,9 +20,10 @@ public enum Direction {
         this.column = column;
     }
 
-    public static Direction find(Point from, Point to) {
-        Point distance = to.minus(from);
-        return Direction.findBy(Integer.signum(distance.x()), Integer.signum(distance.y()));
+    public static Direction find(Position from, Position to) {
+        return Direction.findBy(
+                Integer.signum(to.x() - from.x()),
+                Integer.signum(to.y() - from.y()));
     }
 
     public int getX() {

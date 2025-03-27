@@ -1,23 +1,43 @@
 package piece;
 
-import direction.Point;
+import location.PathUtility;
+import location.Position;
+import store.Pieces;
 
-public class Guard extends Piece {
+public class Guard implements Piece{
+    private final Position currentPosition;
 
-    public Guard(String name, Point point) {
-        super(name, point);
+    public Guard(Position currentPosition) {
+        this.currentPosition = currentPosition;
     }
 
     @Override
-    public void validateDestination(Point to) {
-        if (currentPosition.x() + 1 < to.x() || currentPosition.x() - 1 > to.x()
-                || currentPosition.y() + 1 < to.y() || currentPosition.y() - 1 > to.y()) {
-            throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
-        }
+    public void validateDestination(Position destination) {
+        PathUtility.checkStraightOneMovement(currentPosition, destination);
     }
 
     @Override
-    public void checkPaths(Pieces allPieces, Point to) {
+    public void validatePaths(Pieces pieces, Position destination) {
 
+    }
+
+    @Override
+    public Piece move(Position destination) {
+        return new Guard(destination);
+    }
+
+    @Override
+    public boolean isPlacedAt(Position targetPosition) {
+        return currentPosition.equals(targetPosition);
+    }
+
+    @Override
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.GUARD;
     }
 }
