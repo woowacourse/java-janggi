@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 import model.Position;
 import model.Team;
 import model.piece.Piece;
-import model.piece.normal.Palace;
 import model.piece.normal.Pawn;
+import model.piece.palace.King;
 
 class BoardTest {
 
@@ -27,7 +27,7 @@ class BoardTest {
     @Test
     @DisplayName("장기판 밖으로 나갈 경우 예외를 반환한다.")
     void outOfBoardMoveTest() {
-        Piece p = new Palace(0, 0, Team.CHO);
+        Piece p = new King(0, 0, Team.CHO);
         Board board = new Board(List.of(p));
         assertThatThrownBy(() -> board.movePiece(new Position(0,0), new Position(0, -1), Team.CHO))
             .isInstanceOf(IllegalArgumentException.class)
@@ -37,7 +37,7 @@ class BoardTest {
     @Test
     @DisplayName("도착 칸에 다른 팀의 기물이 존재할 경우 해당 기물을 잡는다.")
     void takePieceTest() {
-        Piece p = new Palace(5, 4, Team.CHO);
+        Piece p = new King(5, 4, Team.CHO);
         Board board = new Board(List.of(new Pawn(5, 5, Team.HAN), p));
         board.movePiece(p.getPosition(), new Position(5, 5), Team.CHO);
         assertThat(board.get(new Position(5, 5))).isEqualTo(p);
@@ -46,7 +46,7 @@ class BoardTest {
     @Test
     @DisplayName("왕이 잡히면 게임이 종료된다.")
     void gameOverTest() {
-        Board board = new Board(List.of(new Palace(6, 5, Team.CHO)));
+        Board board = new Board(List.of(new King(6, 5, Team.CHO)));
         assertThat(board.getWinnerIfGameOver()).isEqualTo(Team.CHO);
     }
 }

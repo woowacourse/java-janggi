@@ -8,9 +8,9 @@ import model.Position;
 import model.Team;
 
 public abstract class Piece {
-    private final Team team;
 
     protected Position position;
+    protected final Team team;
     protected final List<Route> routes = new ArrayList<>();
 
     protected Piece(int x, int y, Team team) {

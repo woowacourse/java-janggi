@@ -1,4 +1,4 @@
-package model.piece.normal;
+package model.piece.palace;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import model.Position;
 import model.Team;
 import model.piece.PieceType;
 
-public class Soldier extends NormalPiece {
+public class Soldier extends PalacePiece {
 
     public Soldier(int x, int y, Team team) {
         super(x, y, team);

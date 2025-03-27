@@ -1,4 +1,4 @@
-package model.piece.normal;
+package model.piece.palace;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import model.Position;
 import model.Team;
 import model.piece.PieceType;
 
-public class Palace extends NormalPiece {
+public class King extends PalacePiece {
 
-    public Palace(int x, int y, Team team) {
+    public King(int x, int y, Team team) {
         super(x, y, team);
         routes.addAll(List.of(
             new Route(List.of(new Position(-1, 0))),

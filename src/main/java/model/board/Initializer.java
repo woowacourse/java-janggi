@@ -7,9 +7,9 @@ import model.Team;
 import model.piece.Chariot;
 import model.piece.Pao;
 import model.piece.Piece;
-import model.piece.normal.Palace;
 import model.piece.normal.Pawn;
-import model.piece.normal.Soldier;
+import model.piece.palace.King;
+import model.piece.palace.Soldier;
 
 abstract class Initializer {
 
@@ -35,7 +35,7 @@ abstract class Initializer {
 
     private List<Piece> generatePalace(Team team) {
         List<Piece> pieces = new ArrayList<>();
-        pieces.add(new Palace(team.onBaseX(4), team.onBaseY(1), team));
+        pieces.add(new King(team.onBaseX(4), team.onBaseY(1), team));
         return pieces;
     }
 

@@ -13,9 +13,9 @@ import model.Team;
 import model.board.Board;
 import model.piece.normal.Elephant;
 import model.piece.normal.Horse;
-import model.piece.normal.Palace;
 import model.piece.normal.Pawn;
-import model.piece.normal.Soldier;
+import model.piece.palace.King;
+import model.piece.palace.Soldier;
 
 class PieceTest {
 
@@ -24,7 +24,7 @@ class PieceTest {
     @Test
     @DisplayName("궁은 적절한 이동이 가능하다")
     void palaceMoveTest() {
-        Piece p = new Palace(5, 5, Team.CHO);
+        Piece p = new King(5, 5, Team.CHO);
         p.move(board, Team.CHO, new Position(1, 0));
         assertThat(p.getPosition().x()).isEqualTo(6);
         assertThat(p.getPosition().y()).isEqualTo(5);
@@ -33,7 +33,7 @@ class PieceTest {
     @Test
     @DisplayName("궁의 이동 범위를 벗어나면 예외를 반환한다")
     void palaceMoveExceptionTest() {
-        Piece p = new Palace(5, 5, Team.CHO);
+        Piece p = new King(5, 5, Team.CHO);
         assertThatThrownBy(() -> p.move(board, Team.CHO, new Position(2, 0)))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
@@ -51,7 +51,7 @@ class PieceTest {
     @Test
     @DisplayName("차의 이동 범위를 벗어나면 예외를 반환한다")
     void chariotMoveExceptionTest() {
-        Piece p = new Palace(5, 5, Team.CHO);
+        Piece p = new King(5, 5, Team.CHO);
         assertThatThrownBy(() -> p.move(board, Team.CHO, new Position(2, 2)))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
