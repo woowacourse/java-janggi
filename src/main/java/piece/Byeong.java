@@ -16,21 +16,22 @@ import team.Team;
 
 public class Byeong extends Piece {
 
-    public Byeong(Team team) {
-        super(team);
-        if (team == Team.CHO) {
-            throw new IllegalArgumentException("병은 초나라에서 사용할 수 없습니다.");
-        }
+    private static final List<MoveVector> MOVABLE_VECTORS = List.of(
+            DOWN,
+            RIGHT,
+            LEFT
+    );
+
+    public Byeong() {
+        super(Team.HAN);
     }
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return Stream.<List<MoveVector>>of(
-                        List.of(DOWN),
-                        List.of(RIGHT),
-                        List.of(LEFT)
+        return Stream.concat(
+                        MOVABLE_VECTORS.stream().map(departure::moveBy),
+                        departure.moveByDiagonalOneInCastle().stream()
                 )
-                .map(departure::moveBy)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
