@@ -16,10 +16,12 @@ import org.junit.jupiter.api.Test;
 
 class CannonTest {
 
-    private static Set<Route> allRoutes;
+    private Set<Route> allRoutes;
+    private Piece cannon;
 
     @BeforeEach
     void setUp() {
+        cannon = new Cannon(new Position(4, 4), RED);
         allRoutes = new HashSet<>();
 
         allRoutes.add(new Route(List.of(
@@ -94,7 +96,6 @@ class CannonTest {
     void calculateIndependentRoutesTest() {
 
         // given
-        final Piece cannon = new Cannon(new Position(4, 4), RED);
         final Set<Route> cannonRoutes = cannon.calculateIndependentRoutes();
 
         // when
@@ -121,5 +122,127 @@ class CannonTest {
 
         // then
         assertThat(cannonRoutes.size()).isEqualTo(2);
+    }
+
+    @DisplayName("포 기물의 경로는 목적지를 제외하고 경로에 하나의 기물이 있어야한다.")
+    @Test
+    void cannonsRouteHasToOnePieceTest() {
+
+        // given
+        final Route route = new Route(List.of(
+                new Position(6, 4),
+                new Position(7, 4),
+                new Position(8, 4)
+        ));
+        final Piece soldier = new Soldier(new Position(7, 4), RED);
+        final List<Piece> otherPieces = List.of(soldier);
+
+        // when
+        final boolean result = cannon.isValidRoute(route, otherPieces);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @DisplayName("포 기물은 같은 팀 기물을 공격하지 못한다.")
+    @Test
+    void cannonCanNotAttackSameTeamTest() {
+
+        // given
+        final Route route = new Route(List.of(
+                new Position(6, 4),
+                new Position(7, 4),
+                new Position(8, 4)
+        ));
+        final Piece soldier1 = new Soldier(new Position(7, 4), RED);
+        final Piece soldier2 = new Soldier(new Position(8, 4), RED);
+        final List<Piece> otherPieces = List.of(soldier1, soldier2);
+
+        // when
+        final boolean result = cannon.isValidRoute(route, otherPieces);
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @DisplayName("포 기물의 경로는 목적지를 제외하고 경로에 하나의 기물이 있어야한다.")
+    @Test
+    void cannonsRouteHasOnePieceTest() {
+
+        // given
+        final Route route = new Route(List.of(
+                new Position(6, 4),
+                new Position(7, 4),
+                new Position(8, 4)
+        ));
+        final Piece soldier = new Soldier(new Position(7, 4), RED);
+        final List<Piece> otherPieces = List.of(soldier);
+
+        // when
+        final boolean result = cannon.isValidRoute(route, otherPieces);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @DisplayName("포 기물의 경로는 다른 기물이 없을 시 이동이 불가능하다.")
+    @Test
+    void cannonsRouteDoesHavePieceTest() {
+
+        // given
+        final Route route = new Route(List.of(
+                new Position(6, 4),
+                new Position(7, 4),
+                new Position(8, 4)
+        ));
+        final List<Piece> otherPieces = List.of();
+
+        // when
+        final boolean result = cannon.isValidRoute(route, otherPieces);
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @DisplayName("포 기물은 포 기물을 공격하지 못한다.")
+    @Test
+    void cannonCanNotAttackCannonTest() {
+
+        // given
+        final Route route = new Route(List.of(
+                new Position(6, 4),
+                new Position(7, 4),
+                new Position(8, 4)
+        ));
+        final Piece soldier = new Soldier(new Position(7, 4), RED);
+        final Piece otherCannon = new Cannon(new Position(8, 4), BLUE);
+        final List<Piece> otherPieces = List.of(soldier, otherCannon);
+
+        // when
+        final boolean result = cannon.isValidRoute(route, otherPieces);
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @DisplayName("포 기물은 포 기물을 넘지 못한다.")
+    @Test
+    void cannonCanNotJumpOtherCannonTest() {
+
+        // given
+        final Route route = new Route(List.of(
+                new Position(6, 4),
+                new Position(7, 4),
+                new Position(8, 4)
+        ));
+        final Piece soldier = new Soldier(new Position(8, 4), BLUE);
+        final Piece otherCannon = new Cannon(new Position(7, 4), BLUE);
+        final List<Piece> otherPieces = List.of(soldier, otherCannon);
+
+        // when
+        final boolean result = cannon.isValidRoute(route, otherPieces);
+
+        // then
+        assertThat(result).isFalse();
     }
 }

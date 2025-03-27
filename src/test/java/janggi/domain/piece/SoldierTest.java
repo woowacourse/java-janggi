@@ -10,6 +10,7 @@ import janggi.domain.piece.direction.Route;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,19 +18,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class SoldierTest {
 
-    @DisplayName("졸 기물이 올바른 루트를 계산하는지 확인한다.")
-    @Test
-    void moveTest() {
+    private Piece soldier;
 
-        // given
-        final Piece soldier = new Soldier(new Position(1, 1), RED);
-        final Position newPosition = new Position(2, 2);
-
-        // when
-        soldier.move(newPosition);
-
-        // then
-        assertThat(soldier.isSamePosition(newPosition)).isTrue();
+    @BeforeEach
+    void setUp() {
+        soldier = new Soldier(new Position(1, 1), RED);
     }
 
     @DisplayName("졸이 올바른 루트를 계산하는지 확인한다.")
@@ -37,8 +30,7 @@ class SoldierTest {
     void calculateIndependentRoutesTest() {
 
         // given
-        final Piece solider = new Soldier(new Position(1, 1), RED);
-        final Set<Route> soliderRoutes = solider.calculateIndependentRoutes();
+        final Set<Route> soldierRoutes = soldier.calculateIndependentRoutes();
 
         final Route route1 = new Route(List.of(new Position(0, 1)));
         final Route route2 = new Route(List.of(new Position(2, 1)));
@@ -48,7 +40,7 @@ class SoldierTest {
         final Set<Route> expected = Set.of(route2, route1, route3);
 
         // then
-        assertThat(soliderRoutes).isEqualTo(expected);
+        assertThat(soldierRoutes).isEqualTo(expected);
     }
 
     @DisplayName("같은 팀이면 true를 반환한다.")
@@ -70,17 +62,68 @@ class SoldierTest {
     void isValidRouteTest() {
 
         // given
-        final Piece soldier = new Soldier(new Position(4, 4), RED);
         final List<Piece> otherPieces = new ArrayList<>();
-        otherPieces.add(new Soldier(new Position(4, 5), RED));
-        otherPieces.add(new Soldier(new Position(3, 4), RED));
-        otherPieces.add(new Soldier(new Position(4, 3), BLUE));
-        otherPieces.add(new Soldier(new Position(5, 4), BLUE));
+        otherPieces.add(new Soldier(new Position(1, 0), RED));
+        otherPieces.add(new Soldier(new Position(0, 1), RED));
+        otherPieces.add(new Soldier(new Position(2, 0), BLUE));
 
         // when
         final Set<Route> soldierRoutes = soldier.getPossibleRoutes(otherPieces);
 
         // then
-        assertThat(soldierRoutes.size()).isEqualTo(2);
+        assertThat(soldierRoutes.size()).isEqualTo(1);
+    }
+
+    @DisplayName("졸 기물은 다른 팀을 공격할 수 있다.")
+    @Test
+    void soldierCanAttackOtherTeamTest() {
+
+        // given
+        final Route route = new Route(List.of(
+                new Position(2, 1)
+        ));
+        final Piece otherSoldier = new Soldier(new Position(2, 1), BLUE);
+        final List<Piece> otherPieces = List.of(otherSoldier);
+
+        // when
+        final boolean result = soldier.isValidRoute(route, otherPieces);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @DisplayName("졸 기물은 같은 팀을 공격할 수 없다.")
+    @Test
+    void soldierCanNotAttackSameTeamTest() {
+
+        // given
+        final Route route = new Route(List.of(
+                new Position(1, 0)
+        ));
+        final Piece soldier = new Soldier(new Position(1, 0), RED);
+        final List<Piece> otherPieces = List.of(soldier);
+
+        // when
+        final boolean result = soldier.isValidRoute(route, otherPieces);
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @DisplayName("졸 기물은 경로 도착지에 말이 없으면 갈 수 있다.")
+    @Test
+    void soldierCanMoveIfRouteInPieceTest() {
+
+        // given
+        final Route route = new Route(List.of(
+                new Position(1, 0)
+        ));
+        final List<Piece> otherPieces = List.of();
+
+        // when
+        final boolean result = soldier.isValidRoute(route, otherPieces);
+
+        // then
+        assertThat(result).isTrue();
     }
 }
