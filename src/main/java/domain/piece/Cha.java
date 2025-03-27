@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.*;
 
-public class Cha extends Piece implements LinearMove, InDiagonalCastleMove {
+public class Cha extends Piece implements LinearMove, CastleDiagonalMove {
 
     public Cha(Country country) {
         super(country, PieceType.CHA);
@@ -12,6 +12,7 @@ public class Cha extends Piece implements LinearMove, InDiagonalCastleMove {
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         if (!from.isSameRow(to) && !from.isSameCol(to)) {
             validateCastleDiagonalMove(board, from, to);
+            validateDiagonalReachAble(board, from, to);
             return;
         }
         validateLinearMove(board, from, to);
@@ -44,7 +45,6 @@ public class Cha extends Piece implements LinearMove, InDiagonalCastleMove {
         if (from.distanceTo(to) != 2 && from.distanceTo(to) != 8) {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없습니다.");
         }
-        validateDiagonalReachAble(board, from, to);
     }
 
     @Override
