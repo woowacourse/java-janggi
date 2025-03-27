@@ -1,6 +1,6 @@
 package domain.direction;
 
-import domain.path.JanggiPath;
+import domain.path.Path;
 import domain.position.JanggiPosition;
 
 import java.util.ArrayList;
@@ -24,14 +24,14 @@ public class JanggiDirections {
         return true;
     }
 
-    public JanggiPath getPathFrom(JanggiPosition currentPosition) {
+    public Path getPathFrom(JanggiPosition currentPosition) {
         List<JanggiPosition> positions = new ArrayList<>();
         for (Direction direction : directions) {
             validatePosition(currentPosition, direction);
             currentPosition = currentPosition.move(direction);
             positions.add(currentPosition);
         }
-        return new JanggiPath(positions);
+        return new Path(positions);
     }
 
     private void validatePosition(JanggiPosition currentPosition, Direction direction) {

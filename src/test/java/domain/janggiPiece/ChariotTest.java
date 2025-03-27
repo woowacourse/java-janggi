@@ -1,6 +1,6 @@
 package domain.janggiPiece;
 
-import domain.path.JanggiPath;
+import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.type.JanggiTeam;
 import org.junit.jupiter.api.DisplayName;
@@ -18,26 +18,26 @@ class ChariotTest {
     void test1() {
         //given
         JanggiPosition chariotPosition = JanggiPosition.of(5, 3);
-        final List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        final List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(4, 3),
                         JanggiPosition.of(3, 3),
                         JanggiPosition.of(2, 3),
                         JanggiPosition.of(1, 3),
                         JanggiPosition.of(0, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(5, 2),
                         JanggiPosition.of(5, 1),
                         JanggiPosition.of(5, 0)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(6, 3),
                         JanggiPosition.of(7, 3),
                         JanggiPosition.of(8, 3),
                         JanggiPosition.of(9, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(5, 4),
                         JanggiPosition.of(5, 5),
                         JanggiPosition.of(5, 6),
@@ -47,7 +47,7 @@ class ChariotTest {
         );
 
         //when
-        final List<JanggiPath> destinations = chariot.getCoordinatePaths(chariotPosition);
+        final List<Path> destinations = chariot.getCoordinatePaths(chariotPosition);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
@@ -58,12 +58,12 @@ class ChariotTest {
     void test2() {
         //given
         JanggiPosition chariotPosition = JanggiPosition.of(0, 3);
-        final List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        final List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(1, 4),
                         JanggiPosition.of(2, 5)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(1, 3),
                         JanggiPosition.of(2, 3),
                         JanggiPosition.of(3, 3),
@@ -74,12 +74,12 @@ class ChariotTest {
                         JanggiPosition.of(8, 3),
                         JanggiPosition.of(9, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(0, 2),
                         JanggiPosition.of(0, 1),
                         JanggiPosition.of(0, 0)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(0, 4),
                         JanggiPosition.of(0, 5),
                         JanggiPosition.of(0, 6),
@@ -89,7 +89,7 @@ class ChariotTest {
         );
 
         //when
-        final List<JanggiPath> destinations = chariot.getCoordinatePaths(chariotPosition);
+        final List<Path> destinations = chariot.getCoordinatePaths(chariotPosition);
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);

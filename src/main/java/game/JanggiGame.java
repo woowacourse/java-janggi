@@ -1,11 +1,11 @@
 package game;
 
-import domain.Board;
-import domain.chessPiece.ChessPiece;
-import domain.position.ChessPiecePositions;
-import domain.position.ChessPosition;
-import domain.position.InitialChessPiecePositionsGenerator;
-import domain.type.ChessTeam;
+import domain.JanggiBoard;
+import domain.janggiPiece.JanggiPiece;
+import domain.position.JanggiPiecePositions;
+import domain.position.JanggiPosition;
+import domain.position.generator.InitJanggiPiecePositionsGenerator;
+import domain.type.JanggiTeam;
 import view.InputView;
 import view.OutputView;
 
@@ -13,17 +13,17 @@ import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
-    private final Board board;
-    private ChessTeam currentTeam;
+    private final JanggiBoard board;
+    private JanggiTeam currentTeam;
     private final InputView inputView;
     private final OutputView outputView;
 
     public JanggiGame(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        ChessPiecePositions positions = new ChessPiecePositions(new InitialChessPiecePositionsGenerator());
-        this.board = new Board(positions);
-        this.currentTeam = ChessTeam.firstTurn();
+        JanggiPiecePositions positions = new JanggiPiecePositions(new InitJanggiPiecePositionsGenerator());
+        this.board = new JanggiBoard(positions);
+        this.currentTeam = JanggiTeam.firstTurn();
     }
 
     public void run() {
@@ -31,9 +31,9 @@ public class JanggiGame {
             try {
                 showBoard();
                 showCurrentTeam();
-                ChessPosition startPosition = getStartPosition();
+                JanggiPosition startPosition = getStartPosition();
                 showAvailableDestinations(startPosition);
-                ChessPosition destinationPosition = getDestinationPosition(startPosition);
+                JanggiPosition destinationPosition = getDestinationPosition(startPosition);
                 board.move(currentTeam, startPosition, destinationPosition);
                 switchTeam();
             } catch (IllegalArgumentException e) {
@@ -43,7 +43,7 @@ public class JanggiGame {
     }
 
     private void showBoard() {
-        Map<ChessPosition, ChessPiece> boardPositions = board.getPositions();
+        Map<JanggiPosition, JanggiPiece> boardPositions = board.getPositions();
         outputView.printBoard(boardPositions);
     }
 
@@ -53,20 +53,20 @@ public class JanggiGame {
 
     private void switchTeam() {
         switch (currentTeam) {
-            case RED -> currentTeam = ChessTeam.BLUE;
-            case BLUE -> currentTeam = ChessTeam.RED;
+            case RED -> currentTeam = JanggiTeam.BLUE;
+            case BLUE -> currentTeam = JanggiTeam.RED;
         }
     }
 
-    private ChessPosition getStartPosition() {
+    private JanggiPosition getStartPosition() {
         while (true) {
-            ChessPosition targetPosition = inputView.readStartPosition();
+            JanggiPosition targetPosition = inputView.readStartPosition();
             if (!board.isExistPieceAt(targetPosition)) {
                 outputView.printNotExistPieceAt(targetPosition);
                 continue;
             }
             board.validateTeam(currentTeam, targetPosition);
-            List<ChessPosition> availableDestinations = board.getAvailableDestination(targetPosition);
+            List<JanggiPosition> availableDestinations = board.getAvailableDestination(targetPosition);
             if (!availableDestinations.isEmpty()) {
                 return targetPosition;
             }
@@ -74,15 +74,15 @@ public class JanggiGame {
         }
     }
 
-    private void showAvailableDestinations(ChessPosition startPosition) {
-        List<ChessPosition> availableDestinations = board.getAvailableDestination(startPosition);
+    private void showAvailableDestinations(JanggiPosition startPosition) {
+        List<JanggiPosition> availableDestinations = board.getAvailableDestination(startPosition);
         outputView.printAvailableDestinations(availableDestinations);
     }
 
-    private ChessPosition getDestinationPosition(ChessPosition startPosition) {
+    private JanggiPosition getDestinationPosition(JanggiPosition startPosition) {
         while (true) {
-            ChessPosition destinationPosition = inputView.readDestinationPosition();
-            List<ChessPosition> availableDestinations = board.getAvailableDestination(startPosition);
+            JanggiPosition destinationPosition = inputView.readDestinationPosition();
+            List<JanggiPosition> availableDestinations = board.getAvailableDestination(startPosition);
             if (availableDestinations.contains(destinationPosition)) {
                 return destinationPosition;
             }

@@ -1,6 +1,5 @@
 package domain.janggiPiece;
 
-import domain.path.JanggiPath;
 import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.type.JanggiTeam;
@@ -19,43 +18,43 @@ class HorseTest {
     void test1() {
         //given
         JanggiPosition horsePosition = JanggiPosition.of(4, 4);
-        final List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        final List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(3, 4),
                         JanggiPosition.of(2, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(3, 4),
                         JanggiPosition.of(2, 5)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(4, 3),
                         JanggiPosition.of(3, 2)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(4, 3),
                         JanggiPosition.of(5, 2)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(5, 4),
                         JanggiPosition.of(6, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(5, 4),
                         JanggiPosition.of(6, 5)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(4, 5),
                         JanggiPosition.of(3, 6)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(4, 5),
                         JanggiPosition.of(5, 6)
                 ))
         );
 
         //when
-        final List<JanggiPath> paths = horse.getCoordinatePaths(horsePosition);
+        final List<Path> paths = horse.getCoordinatePaths(horsePosition);
 
         //then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
@@ -66,43 +65,43 @@ class HorseTest {
     void test2() {
         //given
         JanggiPosition horsePosition = JanggiPosition.of(2, 3);
-        final List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        final List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(1, 3),
                         JanggiPosition.of(0, 2)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(1, 3),
                         JanggiPosition.of(0, 4)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(2, 4),
                         JanggiPosition.of(1, 5)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(2, 4),
                         JanggiPosition.of(3, 5)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(2, 2),
                         JanggiPosition.of(1, 1)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(2, 2),
                         JanggiPosition.of(3, 1)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(3, 3),
                         JanggiPosition.of(4, 2)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(3, 3),
                         JanggiPosition.of(4, 4)
                 ))
         );
 
         //when
-        final List<JanggiPath> paths = horse.getCoordinatePaths(horsePosition);
+        final List<Path> paths = horse.getCoordinatePaths(horsePosition);
 
         //then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);

@@ -1,7 +1,7 @@
 package domain.janggiPiece;
 
 import domain.direction.Direction;
-import domain.path.JanggiPath;
+import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.type.JanggiTeam;
 
@@ -14,13 +14,13 @@ public abstract class SlidingJanggiPiece extends JanggiChessPiece {
     }
 
     @Override
-    public final List<JanggiPath> getCoordinatePaths(JanggiPosition startPosition) {
-        final List<JanggiPath> paths = new ArrayList<>();
+    public final List<Path> getCoordinatePaths(JanggiPosition startPosition) {
+        final List<Path> paths = new ArrayList<>();
         // 궁성 내부에 존재하면, 대각선 방향에 대해서는 궁성 내에서만 움직일 수 있다.
         for (Direction direction : startPosition.getLinkedRoadDirections()) {
             List<JanggiPosition> boundaryPositions = getBoundaryPositions(startPosition, direction);
             if (!boundaryPositions.isEmpty()) {
-                paths.add(new JanggiPath(boundaryPositions));
+                paths.add(new Path(boundaryPositions));
             }
         }
         return paths;

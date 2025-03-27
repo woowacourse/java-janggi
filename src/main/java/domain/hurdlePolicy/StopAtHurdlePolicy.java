@@ -1,31 +1,31 @@
 package domain.hurdlePolicy;
 
-import domain.chessPiece.ChessPiece;
+import domain.janggiPiece.JanggiPiece;
 import domain.path.Path;
-import domain.position.ChessPiecePositions;
-import domain.position.ChessPosition;
-import domain.type.ChessTeam;
+import domain.position.JanggiPiecePositions;
+import domain.position.JanggiPosition;
+import domain.type.JanggiTeam;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StopAtHurdlePolicy implements HurdlePolicy {
     @Override
-    public List<ChessPosition> pickDestinations(ChessTeam team, List<Path> coordinates, ChessPiecePositions positions) {
-        List<ChessPosition> destinations = new ArrayList<>();
+    public List<JanggiPosition> pickDestinations(JanggiTeam team, List<Path> coordinates, JanggiPiecePositions positions) {
+        List<JanggiPosition> destinations = new ArrayList<>();
         for (Path path : coordinates) {
-             destinations.addAll(getAvailablePosition(team, positions, path));
+            destinations.addAll(getAvailablePosition(team, positions, path));
         }
         return destinations;
     }
 
-    private List<ChessPosition> getAvailablePosition(
-            final ChessTeam team,
-            final ChessPiecePositions positions,
+    private List<JanggiPosition> getAvailablePosition(
+            final JanggiTeam team,
+            final JanggiPiecePositions positions,
             final Path path
     ) {
-        final List<ChessPosition> chessPositions = new ArrayList<>();
-        for (ChessPosition targetPosition : path.getPath()) {
+        final List<JanggiPosition> chessPositions = new ArrayList<>();
+        for (JanggiPosition targetPosition : path.getPath()) {
             if (canMove(team, targetPosition, positions)) {
                 chessPositions.add(targetPosition);
             }
@@ -36,11 +36,11 @@ public class StopAtHurdlePolicy implements HurdlePolicy {
         return chessPositions;
     }
 
-    private boolean canMove(ChessTeam team, ChessPosition targetPosition, ChessPiecePositions positions) {
+    private boolean canMove(JanggiTeam team, JanggiPosition targetPosition, JanggiPiecePositions positions) {
         if (!positions.existChessPieceByPosition(targetPosition)) {
             return true;
         }
-        ChessPiece targetPiece = positions.getChessPieceByPosition(targetPosition);
+        JanggiPiece targetPiece = positions.getJanggiPieceByPosition(targetPosition);
         return targetPiece.getTeam() != team;
     }
 }

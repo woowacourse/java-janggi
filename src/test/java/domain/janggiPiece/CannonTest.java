@@ -1,6 +1,6 @@
 package domain.janggiPiece;
 
-import domain.path.JanggiPath;
+import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.type.JanggiTeam;
 import org.junit.jupiter.api.DisplayName;
@@ -18,27 +18,27 @@ class CannonTest {
     void startAtNormalPosition() {
         //given
         JanggiPosition startPosition = JanggiPosition.of(5, 4);
-        final List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        final List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(4, 4),
                         JanggiPosition.of(3, 4),
                         JanggiPosition.of(2, 4),
                         JanggiPosition.of(1, 4),
                         JanggiPosition.of(0, 4)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(5, 3),
                         JanggiPosition.of(5, 2),
                         JanggiPosition.of(5, 1),
                         JanggiPosition.of(5, 0)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(5, 5),
                         JanggiPosition.of(5, 6),
                         JanggiPosition.of(5, 7),
                         JanggiPosition.of(5, 8)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(6, 4),
                         JanggiPosition.of(7, 4),
                         JanggiPosition.of(8, 4),
@@ -47,7 +47,7 @@ class CannonTest {
         );
 
         //when
-        final List<JanggiPath> paths = cannon.getCoordinatePaths(startPosition);
+        final List<Path> paths = cannon.getCoordinatePaths(startPosition);
 
         //then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
@@ -58,27 +58,27 @@ class CannonTest {
     void ignoreCastleDiagonal() {
         // given
         JanggiPosition startPosition = JanggiPosition.of(5, 3);
-        final List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        final List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(4, 3),
                         JanggiPosition.of(3, 3),
                         JanggiPosition.of(2, 3),
                         JanggiPosition.of(1, 3),
                         JanggiPosition.of(0, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(5, 2),
                         JanggiPosition.of(5, 1),
                         JanggiPosition.of(5, 0)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(5, 4),
                         JanggiPosition.of(5, 5),
                         JanggiPosition.of(5, 6),
                         JanggiPosition.of(5, 7),
                         JanggiPosition.of(5, 8)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(6, 3),
                         JanggiPosition.of(7, 3),
                         JanggiPosition.of(8, 3),
@@ -87,7 +87,7 @@ class CannonTest {
         );
 
         //when
-        final List<JanggiPath> paths = cannon.getCoordinatePaths(startPosition);
+        final List<Path> paths = cannon.getCoordinatePaths(startPosition);
 
         //then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
@@ -98,24 +98,24 @@ class CannonTest {
     void startAtCastleInCorner() {
         // given
         JanggiPosition startPosition = JanggiPosition.of(2, 3);
-        final List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        final List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(1, 3),
                         JanggiPosition.of(0, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(2, 2),
                         JanggiPosition.of(2, 1),
                         JanggiPosition.of(2, 0)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(2, 4),
                         JanggiPosition.of(2, 5),
                         JanggiPosition.of(2, 6),
                         JanggiPosition.of(2, 7),
                         JanggiPosition.of(2, 8)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(3, 3),
                         JanggiPosition.of(4, 3),
                         JanggiPosition.of(5, 3),
@@ -124,14 +124,14 @@ class CannonTest {
                         JanggiPosition.of(8, 3),
                         JanggiPosition.of(9, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(1, 4),
                         JanggiPosition.of(0, 5)
                 ))
         );
 
         //when
-        final List<JanggiPath> paths = cannon.getCoordinatePaths(startPosition);
+        final List<Path> paths = cannon.getCoordinatePaths(startPosition);
 
         //then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
@@ -142,20 +142,20 @@ class CannonTest {
     void startAtCastleOutCorner() {
         // given
         JanggiPosition startPosition = JanggiPosition.of(0, 3);
-        final List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        final List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(0, 2),
                         JanggiPosition.of(0, 1),
                         JanggiPosition.of(0, 0)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(0, 4),
                         JanggiPosition.of(0, 5),
                         JanggiPosition.of(0, 6),
                         JanggiPosition.of(0, 7),
                         JanggiPosition.of(0, 8)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(1, 3),
                         JanggiPosition.of(2, 3),
                         JanggiPosition.of(3, 3),
@@ -166,14 +166,14 @@ class CannonTest {
                         JanggiPosition.of(8, 3),
                         JanggiPosition.of(9, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(1, 4),
                         JanggiPosition.of(2, 5)
                 ))
         );
 
         //when
-        final List<JanggiPath> paths = cannon.getCoordinatePaths(startPosition);
+        final List<Path> paths = cannon.getCoordinatePaths(startPosition);
 
         //then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
@@ -184,35 +184,35 @@ class CannonTest {
     void startAtMiddleOfCastle() {
         // given
         JanggiPosition startPosition = JanggiPosition.of(1, 4);
-        final List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        final List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(0, 4)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(0, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(0, 5)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(2, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(2, 5)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(1, 3),
                         JanggiPosition.of(1, 2),
                         JanggiPosition.of(1, 1),
                         JanggiPosition.of(1, 0)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(1, 5),
                         JanggiPosition.of(1, 6),
                         JanggiPosition.of(1, 7),
                         JanggiPosition.of(1, 8)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(2, 4),
                         JanggiPosition.of(3, 4),
                         JanggiPosition.of(4, 4),
@@ -225,7 +225,7 @@ class CannonTest {
         );
 
         //when
-        final List<JanggiPath> paths = cannon.getCoordinatePaths(startPosition);
+        final List<Path> paths = cannon.getCoordinatePaths(startPosition);
 
         //then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
@@ -236,20 +236,20 @@ class CannonTest {
     void startAtCastleNotCorner() {
         // given
         JanggiPosition startPosition = JanggiPosition.of(7, 4);
-        final List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        final List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(7, 3),
                         JanggiPosition.of(7, 2),
                         JanggiPosition.of(7, 1),
                         JanggiPosition.of(7, 0)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(7, 5),
                         JanggiPosition.of(7, 6),
                         JanggiPosition.of(7, 7),
                         JanggiPosition.of(7, 8)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(6, 4),
                         JanggiPosition.of(5, 4),
                         JanggiPosition.of(4, 4),
@@ -258,14 +258,14 @@ class CannonTest {
                         JanggiPosition.of(1, 4),
                         JanggiPosition.of(0, 4)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(8, 4),
                         JanggiPosition.of(9, 4)
                 ))
         );
 
         //when
-        final List<JanggiPath> paths = cannon.getCoordinatePaths(startPosition);
+        final List<Path> paths = cannon.getCoordinatePaths(startPosition);
 
         //then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);

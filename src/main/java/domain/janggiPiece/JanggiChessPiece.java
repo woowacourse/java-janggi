@@ -1,11 +1,10 @@
 package domain.janggiPiece;
 
 import domain.hurdlePolicy.HurdlePolicy;
-import domain.path.JanggiPath;
+import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.score.Score;
 import domain.type.JanggiTeam;
-import domain.path.Path;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public abstract class JanggiChessPiece implements JanggiPiece {
     }
 
     @Override
-    abstract public List<JanggiPath> getCoordinatePaths(JanggiPosition startPosition);
+    abstract public List<Path> getCoordinatePaths(JanggiPosition startPosition);
 
     @Override
     abstract public HurdlePolicy getHurdlePolicy();

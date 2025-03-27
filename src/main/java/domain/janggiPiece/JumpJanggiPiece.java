@@ -1,7 +1,7 @@
 package domain.janggiPiece;
 
 import domain.direction.JanggiDirections;
-import domain.path.JanggiPath;
+import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.type.JanggiTeam;
 
@@ -17,8 +17,8 @@ public abstract class JumpJanggiPiece extends JanggiChessPiece {
     }
 
     @Override
-    public final List<JanggiPath> getCoordinatePaths(JanggiPosition startPosition) {
-        List<JanggiPath> result = new ArrayList<>();
+    public final List<Path> getCoordinatePaths(JanggiPosition startPosition) {
+        List<Path> result = new ArrayList<>();
         for (JanggiDirections direction : directions) {
             if (direction.canApplyFrom(startPosition)) {
                 result.add(direction.getPathFrom(startPosition));

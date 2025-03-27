@@ -1,6 +1,5 @@
 package domain.janggiPiece;
 
-import domain.path.JanggiPath;
 import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.type.JanggiTeam;
@@ -23,20 +22,20 @@ public class PawnTest {
         // given
         JanggiPosition startPosition = JanggiPosition.of(3, 4);
         Pawn redPawn = new Pawn(JanggiTeam.RED);
-        List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(4, 4)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(3, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(3, 5)
                 ))
         );
 
         // when
-        List<JanggiPath> paths = redPawn.getCoordinatePaths(startPosition);
+        List<Path> paths = redPawn.getCoordinatePaths(startPosition);
 
         // then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
@@ -48,20 +47,20 @@ public class PawnTest {
         // given
         JanggiPosition startPosition = JanggiPosition.of(6, 4);
         Pawn bluePawn = new Pawn(JanggiTeam.BLUE);
-        List<JanggiPath> expected = List.of(
-                new JanggiPath(List.of(
+        List<Path> expected = List.of(
+                new Path(List.of(
                         JanggiPosition.of(5, 4)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(6, 3)
                 )),
-                new JanggiPath(List.of(
+                new Path(List.of(
                         JanggiPosition.of(6, 5)
                 ))
         );
 
         // when
-        List<JanggiPath> paths = bluePawn.getCoordinatePaths(startPosition);
+        List<Path> paths = bluePawn.getCoordinatePaths(startPosition);
 
         // then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
@@ -70,12 +69,12 @@ public class PawnTest {
     @DisplayName("한나라 - 궁성 내부에서 연결된 모든 길 중에서 전진하는 방향으로 모두 움직일 수 있다.")
     @ParameterizedTest(name = "{0}")
     @MethodSource
-    void redInCastlePosition(String desc, JanggiPosition startPosition, List<JanggiPath> expected) {
+    void redInCastlePosition(String desc, JanggiPosition startPosition, List<Path> expected) {
         // given
         Pawn redPawn = new Pawn(JanggiTeam.RED);
 
         // when
-        List<JanggiPath> paths = redPawn.getCoordinatePaths(startPosition);
+        List<Path> paths = redPawn.getCoordinatePaths(startPosition);
 
         // then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
@@ -87,16 +86,16 @@ public class PawnTest {
                         "궁성의 왼쪽 상단 모서리에서 출발하는 경우",
                         JanggiPosition.of(7, 3),
                         List.of(
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(7, 2)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(7, 4)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(8, 3)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(8, 4)
                                 ))
                         )
@@ -105,19 +104,19 @@ public class PawnTest {
                         "궁성의 중앙에서 출발하는 경우",
                         JanggiPosition.of(8, 4),
                         List.of(
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(8, 3)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(8, 5)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(9, 3)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(9, 4)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(9, 5)
                                 ))
                         )
@@ -126,10 +125,10 @@ public class PawnTest {
                         "궁성의 오른쪽 하단 모서리에서 출발하는 경우",
                         JanggiPosition.of(9, 5),
                         List.of(
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(9, 6)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(9, 4)
                                 ))
                         )
@@ -140,12 +139,12 @@ public class PawnTest {
     @DisplayName("초나라 - 궁성 내부에서 연결된 모든 길 중에서 전진하는 방향으로 모두 움직일 수 있다.")
     @ParameterizedTest(name = "{0}")
     @MethodSource
-    void blueInCastlePosition(String desc, JanggiPosition startPosition, List<JanggiPath> expected) {
+    void blueInCastlePosition(String desc, JanggiPosition startPosition, List<Path> expected) {
         // given
         Pawn redPawn = new Pawn(JanggiTeam.BLUE);
 
         // when
-        List<JanggiPath> paths = redPawn.getCoordinatePaths(startPosition);
+        List<Path> paths = redPawn.getCoordinatePaths(startPosition);
 
         // then
         assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
@@ -157,10 +156,10 @@ public class PawnTest {
                         "궁성의 왼쪽 상단 모서리에서 출발하는 경우",
                         JanggiPosition.of(0, 3),
                         List.of(
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(0, 2)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(0, 4)
                                 ))
                         )
@@ -169,19 +168,19 @@ public class PawnTest {
                         "궁성의 중앙에서 출발하는 경우",
                         JanggiPosition.of(1, 4),
                         List.of(
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(1, 3)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(1, 5)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(0, 3)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(0, 4)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(0, 5)
                                 ))
                         )
@@ -190,16 +189,16 @@ public class PawnTest {
                         "궁성의 오른쪽 하단 모서리에서 출발하는 경우",
                         JanggiPosition.of(2, 5),
                         List.of(
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(1, 4)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(2, 4)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(1, 5)
                                 )),
-                                new JanggiPath(List.of(
+                                new Path(List.of(
                                         JanggiPosition.of(2, 6)
                                 ))
                         )

@@ -1,6 +1,6 @@
 package domain.direction;
 
-import domain.path.JanggiPath;
+import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.position.NormalPosition;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +56,7 @@ class JanggiDirectionsTest {
     void correctPath(JanggiPosition startPosition, JanggiDirections directions, List<JanggiPosition> expected) {
         // given
         // when
-        JanggiPath path = directions.getPathFrom(startPosition);
+        Path path = directions.getPathFrom(startPosition);
 
         // then
         List<JanggiPosition> positions = path.getPath();

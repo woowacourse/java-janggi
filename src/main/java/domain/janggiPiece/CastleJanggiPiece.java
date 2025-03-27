@@ -1,7 +1,7 @@
 package domain.janggiPiece;
 
 import domain.direction.Direction;
-import domain.path.JanggiPath;
+import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.type.JanggiTeam;
 
@@ -14,12 +14,12 @@ public abstract class CastleJanggiPiece extends JanggiChessPiece {
     }
 
     @Override
-    public List<JanggiPath> getCoordinatePaths(JanggiPosition startPosition) {
-        List<JanggiPath> result = new ArrayList<>();
+    public List<Path> getCoordinatePaths(JanggiPosition startPosition) {
+        List<Path> result = new ArrayList<>();
         for (Direction direction : startPosition.getLinkedRoadDirections()) {
             JanggiPosition nextPosition = startPosition.move(direction);
             if (nextPosition.isCastle()) {
-                result.add(new JanggiPath(List.of(nextPosition)));
+                result.add(new Path(List.of(nextPosition)));
             }
         }
         return result;

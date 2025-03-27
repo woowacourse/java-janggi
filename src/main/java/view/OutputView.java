@@ -1,9 +1,9 @@
 package view;
 
-import domain.chessPiece.ChessPiece;
-import domain.position.ChessPosition;
-import domain.type.ChessPieceType;
-import domain.type.ChessTeam;
+import domain.janggiPiece.JanggiPiece;
+import domain.position.JanggiPosition;
+import domain.type.JanggiPieceType;
+import domain.type.JanggiTeam;
 
 import java.util.List;
 import java.util.Map;
@@ -24,23 +24,23 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printBoard(Map<ChessPosition, ChessPiece> boardPositions) {
+    public void printBoard(Map<JanggiPosition, JanggiPiece> boardPositions) {
         printGridValue(" ");
-        for (int col = ChessPosition.MIN_COL; col <= ChessPosition.MAX_COL; ++col) {
+        for (int col = JanggiPosition.MIN_COL; col <= JanggiPosition.MAX_COL; ++col) {
             printGridValue(String.valueOf(col));
         }
         printNewLine();
-        for (int row = ChessPosition.MIN_ROW; row <= ChessPosition.MAX_ROW; ++row) {
+        for (int row = JanggiPosition.MIN_ROW; row <= JanggiPosition.MAX_ROW; ++row) {
             printGridValue(String.valueOf(row));
-            for (int col = ChessPosition.MIN_COL; col <= ChessPosition.MAX_COL; ++col) {
-                printChessPiece(new ChessPosition(row, col), boardPositions);
+            for (int col = JanggiPosition.MIN_COL; col <= JanggiPosition.MAX_COL; ++col) {
+                printChessPiece(JanggiPosition.of(row, col), boardPositions);
             }
             printNewLine();
         }
         printNewLine();
     }
 
-    public void printCurrentTeam(ChessTeam currentTeam) {
+    public void printCurrentTeam(JanggiTeam currentTeam) {
         String color = getTeamColor(currentTeam);
         System.out.print(color);
         System.out.printf("%s의 차례입니다.", getTeamText(currentTeam));
@@ -48,9 +48,9 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printNotExistPieceAt(ChessPosition position) {
+    public void printNotExistPieceAt(JanggiPosition position) {
         System.out.print(YELLOW);
-        System.out.printf("(%d, %d) 위치에는 기물이 존재하지 않습니다.\n", position.row(), position.column());
+        System.out.printf("(%d, %d) 위치에는 기물이 존재하지 않습니다.\n", position.getRow(), position.getCol());
         System.out.print(EXIT);
         printNewLine();
     }
@@ -62,7 +62,7 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printAvailableDestinations(List<ChessPosition> destinations) {
+    public void printAvailableDestinations(List<JanggiPosition> destinations) {
         printNewLine();
         System.out.print(GREEN);
         System.out.println("해당 기물이 이동 가능한 위치는 다음과 같습니다.");
@@ -74,7 +74,7 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printInvalidDestination(ChessPosition destinationPosition) {
+    public void printInvalidDestination(JanggiPosition destinationPosition) {
         printNewLine();
         System.out.print(YELLOW);
         System.out.printf("%s 는 이동할 수 없는 위치입니다. 이동 가능한 위치 중에서 선택해주세요.\n", getFormattedPosition(destinationPosition));
@@ -82,24 +82,39 @@ public class OutputView {
         printNewLine();
     }
 
-    private String getFormattedPosition(ChessPosition position) {
-        return String.format("(%d, %d)", position.row(), position.column());
+    private String getFormattedPosition(JanggiPosition position) {
+        return String.format("(%d, %d)", position.getRow(), position.getCol());
     }
 
     private void printGridValue(String value) {
-        System.out.printf("%-3s", value);
+        // 한글이 아닌 경우 전각으로 변환
+        String fullWidthValue = toFullWidth(value);
+        System.out.printf("%-3s", fullWidthValue); // 전각은 2칸 차지하므로 너비 약간 조정
     }
 
-    private void printChessPiece(ChessPosition currentPosition, Map<ChessPosition, ChessPiece> boardPositions) {
+    private String toFullWidth(String s) {
+        StringBuilder result = new StringBuilder();
+        for (char ch : s.toCharArray()) {
+            // 숫자/알파벳/기호 -> 전각 변환
+            if (ch >= 0x21 && ch <= 0x7E) {
+                result.append((char)(ch - 0x20 + 0xFF00));
+            } else {
+                result.append(ch);
+            }
+        }
+        return result.toString();
+    }
+
+    private void printChessPiece(JanggiPosition currentPosition, Map<JanggiPosition, JanggiPiece> boardPositions) {
         if (!boardPositions.containsKey(currentPosition)) {
-            printGridValue("＿");
+            printGridValue("ㅡ");
             return;
         }
-        ChessPiece piece = boardPositions.get(currentPosition);
+        JanggiPiece piece = boardPositions.get(currentPosition);
         printPiece(piece);
     }
 
-    private void printPiece(ChessPiece piece) {
+    private void printPiece(JanggiPiece piece) {
         String symbol = getPieceSymbol(piece.getChessPieceType());
         String color = getTeamColor(piece.getTeam());
         System.out.print(color);
@@ -107,14 +122,14 @@ public class OutputView {
         System.out.print(EXIT);
     }
 
-    private String getTeamColor(ChessTeam team) {
+    private String getTeamColor(JanggiTeam team) {
         return switch (team) {
             case BLUE -> BLUE;
             case RED -> RED;
         };
     }
 
-    private String getPieceSymbol(ChessPieceType type) {
+    private String getPieceSymbol(JanggiPieceType type) {
         return switch (type) {
             case KING -> "왕";
             case PAWN -> "졸";
@@ -130,7 +145,7 @@ public class OutputView {
         System.out.println();
     }
 
-    private String getTeamText(ChessTeam team) {
+    private String getTeamText(JanggiTeam team) {
         return switch (team) {
             case RED -> "한나라";
             case BLUE -> "초나라";
