@@ -1,14 +1,7 @@
 package piece;
 
-import static coordinate.Direction.DOWN;
-import static coordinate.Direction.LEFT;
-import static coordinate.Direction.RIGHT;
-import static coordinate.Direction.UP;
-
 import board.Board;
 import coordinate.Coordinate;
-import coordinate.MoveVector;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,14 +16,16 @@ public class Sa extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return Stream.<List<MoveVector>>of(
-                        List.of(UP),
-                        List.of(DOWN),
-                        List.of(RIGHT),
-                        List.of(LEFT)
+        if (!departure.isInCastle()) {
+            throw new IllegalStateException("궁성 기물은 궁성 좌표 안에만 존재할 수 있습니다.");
+        }
+
+        return Stream.concat(
+                        departure.moveByCrossOne().stream(),
+                        departure.moveByDiagonalOneInCastle().stream()
                 )
-                .map(departure::moveBy)
                 .filter(Objects::nonNull)
+                .filter(Coordinate::isInCastle)
                 .collect(Collectors.toSet());
     }
 
