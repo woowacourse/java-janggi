@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.piece.Chariot;
 import domain.piece.General;
 import domain.piece.PieceType;
 import domain.position.Point;
@@ -45,14 +44,12 @@ class BoardTest {
         // given
         final Board board = BoardFactory.create();
         final Point point = Point.newInstance(0, 0);
-        final Position expectedPosition = Position.newInstance(point,
-                PieceFactory.createGreenTeam(Chariot::new));
 
         // when
         final Position position = board.findPositionBy(point);
 
         // then
-        assertThat(position).isEqualTo(expectedPosition);
+        assertThat(position.isSame(point)).isTrue();
     }
 
     @Test

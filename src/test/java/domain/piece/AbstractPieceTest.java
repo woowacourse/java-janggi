@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.Score;
 import domain.Team;
 import domain.position.Point;
 import java.util.List;
@@ -13,7 +12,7 @@ class AbstractPieceTest {
     class FakePiece extends AbstractPiece {
 
         public FakePiece(final Team team) {
-            super(team, Score.CHARIOT);
+            super(team);
         }
 
         @Override
