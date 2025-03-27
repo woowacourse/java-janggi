@@ -270,6 +270,55 @@ class PiecesTest {
                 pieces.move(departure, arrival);
                 assertThat(pieces.findPieceBy(arrival)).isInstanceOf(General.class);
             }
+
+            @Test
+            @DisplayName("General이 궁성을 나가려고 한다면, 예외가 발생해야 한다.")
+            void when_general_arrival_out_of_castle_then_throw_exception() {
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new General(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.ONE, Row.FOUR);
+                Position arrival =  new Position(Column.ONE, Row.THREE);
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("해당 기물은 궁성 밖으로 이동할 수 없습니다.");
+            }
+
+            @Test
+            @DisplayName("General이 대각 움직임이 가능한 위치라면, 대각선으로 움직일 수 있어야 한다. - 1, 4")
+            void when_general_can_move_diagonal_1_4() {
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new General(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.ONE, Row.FOUR);
+                Position arrival =  new Position(Column.TWO, Row.FIVE);
+                pieces.move(departure, arrival);
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(General.class);
+            }
+
+            @Test
+            @DisplayName("General이 대각 움직임이 가능한 위치라면, 대각선으로 움직일 수 있어야 한다. - 2, 5")
+            void when_general_can_move_diagonal_2_5() {
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new General(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.TWO, Row.FIVE);
+                Position arrival =  new Position(Column.ONE, Row.FOUR);
+                pieces.move(departure, arrival);
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(General.class);
+            }
+
+            @Test
+            @DisplayName("General이 대각 불가능한 위치에서 대각 움직임을 요구한다면, 예외를 발생시켜야 한다.")
+            void when_general_cannot_move_diagonal_then_throw_exception() {
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.TWO, Row.FOUR), new General(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.TWO, Row.FOUR);
+                Position arrival =  new Position(Column.ONE, Row.FIVE);
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
         }
 
         @Nested
