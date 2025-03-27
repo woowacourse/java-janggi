@@ -1,9 +1,12 @@
 package janggi.view;
 
+import janggi.direction.PieceMovement;
 import janggi.piece.Piece;
 import janggi.piece.Pieces;
 import janggi.piece.Team;
 import janggi.position.Position;
+import java.util.List;
+import java.util.Map;
 
 public class ResultView {
 
@@ -17,7 +20,22 @@ public class ResultView {
             %s나라의 승리입니다!""";
     private static final String TITLE_ORDER = "%s나라의 순서입니다.";
 
-    public void printBoard(final Pieces pieces) {
+    private static final String BLUE_CODE = "\u001B[34m";
+    private static final String RED_CODE = "\u001B[31m";
+    private static final String EXIT_CODE = "\u001B[0m";
+
+    private static final Map<PieceMovement, List<String>> PIECE_TYPE_KOREAN = Map.of(
+            PieceMovement.KING, List.of("漢", "楚"),
+            PieceMovement.GUARD, List.of("士"),
+            PieceMovement.HORSE, List.of("馬"),
+            PieceMovement.ELEPHANT, List.of("象"),
+            PieceMovement.CHARIOT, List.of("車"),
+            PieceMovement.CANNON, List.of("包"),
+            PieceMovement.CHO_SOLDIER, List.of("卒"),
+            PieceMovement.HAN_SOLDIER, List.of("兵")
+    );
+
+    public void printBoard(final Pieces choPieces, final Pieces hanPieces) {
         System.out.printf(HEADER);
         for (int y = 1; y <= 10; y++) {
             // TODO: 리스트로 스트링 넣고 팀에 따라 색깔 조합 + 한자 받아오기
@@ -30,12 +48,11 @@ public class ResultView {
                 if (x == 5) {
                     sb.append(BLANK);
                 }
-                if (!pieces.hasPiece(currentPosition)) {
+                if (!hanPieces.hasPiece(currentPosition) && !choPieces.hasPiece(currentPosition)) {
                     sb.append(BLANK);
                     continue;
                 }
-                final Piece piece = pieces.findPieceByPosition(currentPosition);
-                sb.append(piece.getPieceType().getValue(piece.getTeam()));
+                sb.append(makeTeamMessage(hanPieces, choPieces, currentPosition));
             }
             System.out.println(sb);
             if (y != 10) {
@@ -44,11 +61,28 @@ public class ResultView {
         }
     }
 
+    public String makeTeamMessage(final Pieces hanPieces, final Pieces choPieces, final Position currentPosition) {
+        if (hanPieces.hasPiece(currentPosition)) {
+            final Piece piece = hanPieces.findPieceByPosition(currentPosition);
+            return getValue(piece.getPieceMovement(), Team.HAN);
+        }
+        final Piece piece = choPieces.findPieceByPosition(currentPosition);
+        return getValue(piece.getPieceMovement(), Team.CHO);
+    }
+
     public void printOrder(final Team team) {
         System.out.printf(LINE + TITLE_ORDER + LINE, team.getTitle());
     }
 
     public void printJanggiResult(final Team team) {
         System.out.printf(LINE + TITLE_RESULT, team.getTitle());
+    }
+
+    public String getValue(final PieceMovement pieceMovement, final Team team) {
+        final List<String> values = PIECE_TYPE_KOREAN.get(pieceMovement);
+        if (team == Team.HAN) {
+            return RED_CODE + values.getFirst() + EXIT_CODE;
+        }
+        return BLUE_CODE + values.getLast() + EXIT_CODE;
     }
 }

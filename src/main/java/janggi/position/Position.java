@@ -1,6 +1,6 @@
 package janggi.position;
 
-import janggi.piece.direction.Direction;
+import janggi.direction.Direction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

@@ -1,8 +1,9 @@
-package janggi.piece.direction;
+package janggi.direction;
 
+import janggi.position.Path;
+import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Movement {
@@ -15,6 +16,22 @@ public class Movement {
 
     public Movement(final Direction... givenDirections) {
         this(Arrays.asList(givenDirections));
+    }
+
+    public Path makePath(final Position startPosition, final Position arrivalPosition) {
+        final List<Position> path = new ArrayList<>();
+        Position currentPosition = new Position(startPosition);
+
+        for (final Direction direction : directions) {
+            currentPosition = currentPosition.move(direction);
+            path.add(currentPosition);
+        }
+
+        while (!currentPosition.equals(arrivalPosition)) {
+            currentPosition = currentPosition.move(directions.getFirst());
+            path.add(currentPosition);
+        }
+        return new Path(path);
     }
 
     public boolean isSameMovement(final int dy, final int dx) {
@@ -33,13 +50,5 @@ public class Movement {
         return directions.stream()
                 .mapToInt(Direction::getY)
                 .sum();
-    }
-
-    public Direction getFirstDirection() {
-        return directions.getFirst();
-    }
-
-    public List<Direction> getDirections() {
-        return Collections.unmodifiableList(directions);
     }
 }

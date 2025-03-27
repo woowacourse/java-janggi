@@ -11,6 +11,13 @@ public enum Team {
         this.title = title;
     }
 
+    public Team getOppositeTeam() {
+        if (this == HAN) {
+            return CHO;
+        }
+        return HAN;
+    }
+
     public String getTitle() {
         return title;
     }

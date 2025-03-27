@@ -1,4 +1,4 @@
-package janggi.piece.direction;
+package janggi.direction;
 
 public enum Direction {
 

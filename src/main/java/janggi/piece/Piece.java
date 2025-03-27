@@ -1,96 +1,42 @@
 package janggi.piece;
 
-import janggi.piece.direction.Movement;
-import janggi.position.Path;
+import janggi.direction.PieceMovement;
 import janggi.position.Position;
-import java.util.ArrayList;
-import java.util.List;
+import janggi.strategy.MoveStrategy;
+import java.util.Set;
 
-public abstract class Piece {
+public class Piece {
 
-    private final Team team;
-    private Position currentPosition;
+    private final MoveStrategy moveStrategy;
+    private Position position;
 
-    public Piece(final Team team, final Position currentPosition) {
-        this.team = team;
-        this.currentPosition = currentPosition;
-    }
-
-    public final void checkMovement(final Position arrivalPosition, final Team currentTeam,
-                                    final Pieces pieces) {
-        validateSamePosition(arrivalPosition);
-        validateOwnPiece(currentTeam);
-
-        final int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
-        final int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
-
-        final Movement movement = findMovement(differenceForY, differenceForX);
-        final Path path = makePath(movement, currentPosition, arrivalPosition);
-        validatePath(pieces, path);
+    public Piece(final MoveStrategy moveStrategy, final Position position) {
+        this.moveStrategy = moveStrategy;
+        this.position = position;
     }
 
     public boolean isSamePosition(final Position givenPosition) {
-        return currentPosition.equals(givenPosition);
-    }
-
-    public final boolean isSameTeam(final Team givenTeam) {
-        return team.equals(givenTeam);
+        return position.equals(givenPosition);
     }
 
     public void updatePosition(final Position arrivalPosition) {
-        currentPosition = arrivalPosition;
+        position = arrivalPosition;
     }
 
-    protected void validatePath(final Pieces pieces, final Path path) {
-        if (hasPieceInMiddle(path, pieces)) {
-            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재하여 이동할 수 없습니다.");
-        }
+    public void validateMovement(final Position currentPosition, final Position arrivalPosition,
+                                 final Set<Piece> pieces) {
+        moveStrategy.validatePath(currentPosition, arrivalPosition, pieces);
     }
 
-    protected final void validateSamePosition(final Position arrivalPosition) {
-        if (currentPosition.equals(arrivalPosition)) {
-            throw new IllegalArgumentException("[ERROR] 같은 위치로는 이동할 수 없습니다.");
-        }
+    public boolean matchPieceMovement(final PieceMovement givenPieceMovement) {
+        return getPieceMovement() == givenPieceMovement;
     }
 
-    protected final int calculateUnit(final int difference) {
-        if (difference == 0) {
-            return difference;
-        }
-        return difference / Math.abs(difference);
+    public Position getPosition() {
+        return position;
     }
 
-    protected final boolean hasPieceInMiddle(final Path path, final Pieces pieces) {
-        final List<Position> positions = new ArrayList<>(path.getPositions());
-        positions.removeLast();
-        return positions.stream()
-                .anyMatch(pieces::hasPiece);
+    public PieceMovement getPieceMovement() {
+        return moveStrategy.getPieceMovement();
     }
-
-    protected Movement findMovement(final int y, final int x) {
-        return getMovements().stream()
-                .filter(movement -> movement.isSameMovement(y, x))
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 적절한 움직임이 아닙니다."));
-    }
-
-    protected abstract Path makePath(Movement movement, Position startPosition, Position arrivalPosition);
-
-    protected abstract List<Movement> getMovements();
-
-    private void validateOwnPiece(final Team currentTeam) {
-        if (!isSameTeam(currentTeam)) {
-            throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다.");
-        }
-    }
-
-    public final boolean matchPieceType(final PieceType givenPieceType) {
-        return getPieceType() == givenPieceType;
-    }
-
-    public final Team getTeam() {
-        return team;
-    }
-
-    public abstract PieceType getPieceType();
 }

@@ -12,14 +12,13 @@ public enum PieceType {
     CHARIOT("車"),
     CANNON("包"),
     JOL("卒"),
-    SOLDIER("卒"),
     BYEONG("兵");
 
     private static final Set<PieceType> ITERABLE_PIECE = Set.of(CANNON, CHARIOT);
 
-    private static final String BLUE_CODE = "\u001B[34m";
-    private static final String RED_CODE = "\u001B[31m";
-    private static final String EXIT_CODE = "\u001B[0m";
+//    private static final String BLUE_CODE = "\u001B[34m";
+//    private static final String RED_CODE = "\u001B[31m";
+//    private static final String EXIT_CODE = "\u001B[0m";
 
     private final List<String> values;
 
@@ -31,12 +30,12 @@ public enum PieceType {
         this.values = List.of(value);
     }
 
-    public String getValue(Team team) {
-        if (team == Team.HAN) {
-            return RED_CODE + values.getFirst() + EXIT_CODE;
-        }
-        return BLUE_CODE + values.getLast() + EXIT_CODE;
-    }
+//    public String getValue(Team team) {
+//        if (team == Team.HAN) {
+//            return RED_CODE + values.getFirst() + EXIT_CODE;
+//        }
+//        return BLUE_CODE + values.getLast() + EXIT_CODE;
+//    }
 
     public boolean isIterable() {
         return ITERABLE_PIECE.contains(this);
