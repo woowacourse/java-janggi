@@ -9,14 +9,14 @@ import piece.initiate.TableSetting;
 import piece.player.PlayerPieces;
 import piece.player.Team;
 import piece.position.JanggiPosition;
+import save.JanggiConnection;
 import save.JanggiSaveService;
-import save.MySQLConnection;
 
 public class KoreanChessApplication {
 
     private static final int PLAYER_SIZE = 2;
     private static final Map<Integer, Team> turnTable;
-    private static final JanggiSaveService janggiSaveService = new JanggiSaveService(new MySQLConnection());
+    private static final JanggiSaveService janggiSaveService = new JanggiSaveService(new JanggiConnection());
 
     static {
         turnTable = Map.of(0, Team.RED, 1, Team.BLUE);

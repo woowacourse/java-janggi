@@ -13,9 +13,9 @@ public class JanggiSaveService {
     private final JanggiTurnDao janggiTurnDao;
     private final JanggiPieceDao janggiPieceDao;
 
-    public JanggiSaveService(MySQLConnection mySQLConnection) {
-        janggiTurnDao = new JanggiTurnDao(mySQLConnection);
-        janggiPieceDao = new JanggiPieceDao(mySQLConnection);
+    public JanggiSaveService(MySQLConnection mySQConnection) {
+        janggiTurnDao = new JanggiTurnDao(mySQConnection);
+        janggiPieceDao = new JanggiPieceDao(mySQConnection);
     }
 
     public void saveJanggi(PlayerPieces playerPieces, int turn, Team team) {
@@ -23,16 +23,11 @@ public class JanggiSaveService {
         Map<Team, Integer> playerScores = playerPieces.getPlayerScores();
         int score = playerScores.get(team);
 
-        deletePreviousJanggiState(team, turn);
         janggiTurnDao.addTurnScore(team, turn, score);
 
         for (Piece piece : pieces.getPieces()) {
             janggiPieceDao.savePiece(piece, turn);
         }
-    }
-
-    private void deletePreviousJanggiState(Team team, int turn) {
-        janggiPieceDao.deletePreviousTurnScore(team, turn);
     }
 
     public Pieces loadPieces() {

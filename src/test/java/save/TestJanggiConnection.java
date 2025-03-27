@@ -14,7 +14,6 @@ public class TestJanggiConnection implements MySQLConnection {
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
 
     public TestJanggiConnection() {
-        System.out.println("잉김링");
         createDatabaseIfNotExists();
     }
 

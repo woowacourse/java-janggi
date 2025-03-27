@@ -11,11 +11,11 @@ import piece.position.JanggiPosition;
 public class JanggiPieceDao {
 
     private static final String CANNOT_CREATE_TABLE = "테이블을 생성하는데 실패하였습니다";
-    
+
     private final MySQLConnection connection;
 
-    public JanggiPieceDao(MySQLConnection mySQLConnection) {
-        this.connection = mySQLConnection;
+    public JanggiPieceDao(MySQLConnection mySQConnection) {
+        this.connection = mySQConnection;
         initiateTable();
     }
 
@@ -91,19 +91,6 @@ public class JanggiPieceDao {
         final var query = "DELETE FROM piece";
         try (final var connection = this.connection.getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
-            final var resultSet = preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    public void deletePreviousTurnScore(Team team, int turn) {
-        final var query = "DELETE FROM piece WHERE janggi_turn_fk = (SELECT id from janggi_turn WHERE team = ? and turn = ?)";
-        try (final var connection = this.connection.getConnection()) {
-            final var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, team.name());
-            preparedStatement.setInt(2, turn);
             final var resultSet = preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);

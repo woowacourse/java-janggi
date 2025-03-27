@@ -54,3 +54,4 @@ public class JolMoveBehavior extends JanggiMoveBehavior {
         return calculateLegalRoute(startPosition, endPosition, teamCanMoveDirection.get(team));
     }
 }
+

@@ -37,7 +37,6 @@ class SangMoveBehaviorTest {
                 new Piece(new JanggiPosition(1, 1), new JolMoveBehavior(), Team.BLUE)
         ));
 
-        // when, then
         Assertions.assertThatIllegalArgumentException()
                 .isThrownBy(() -> moveBehavior.moveOnRoute(destination, onRoutePieces, Team.BLUE));
     }
@@ -48,7 +47,6 @@ class SangMoveBehaviorTest {
         JanggiPosition destination = new JanggiPosition(2, 3);
         Pieces onRoutePieces = new Pieces(List.of());
 
-        // when, then
         Assertions.assertThat(moveBehavior.moveOnRoute(destination, onRoutePieces, Team.BLUE)).isEqualTo(destination);
     }
 }
