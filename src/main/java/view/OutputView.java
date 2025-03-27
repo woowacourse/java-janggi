@@ -21,7 +21,7 @@ public class OutputView {
             }
             for (int col = 1; col <= MAX_COL; col++) {
                 if (col == 1) {
-                    builder.append(row);
+                    convertRowEdgeValue(row, builder);
                 }
                 Coordinate coordinate = new Coordinate(row, col);
                 if (board.isBlankCoordinate(coordinate)) {
@@ -41,6 +41,14 @@ public class OutputView {
             builder.append('\n');
         }
         System.out.println(builder);
+    }
+
+    private static void convertRowEdgeValue(int row, StringBuilder builder) {
+        if (row == 10) {
+            builder.append(0);
+        } else {
+            builder.append(row);
+        }
     }
 
     public void printEndGame(boolean isChoGungDead, boolean isHanGungDead) {
