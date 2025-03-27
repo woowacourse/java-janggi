@@ -98,7 +98,8 @@ public class PiecePositionDao {
     public void updateByBoardPosition(
             final Connection connection,
             final BoardPosition selectPosition,
-            final BoardPosition destinationPosition) {
+            final BoardPosition destinationPosition
+    ) {
         final var query = "UPDATE piece_position SET position_x = ?, position_y = ? WHERE position_x = ? AND position_y = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, destinationPosition.x());
