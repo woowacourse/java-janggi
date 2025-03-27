@@ -6,12 +6,29 @@ import java.util.Set;
 
 public final class Point {
 
+    private static final int COORDINATES_COUNT = 2;
+    public static final int X_COORDINATE_INDEX = 0;
+    public static final int Y_COORDINATE_INDEX = 1;
+
     private final int x;
     private final int y;
 
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Point(String value) {
+        if (value.length() != COORDINATES_COUNT) {
+            throw new IllegalArgumentException("잘못된 좌표 입력입니다.");
+        }
+        try {
+            String[] coordinates = value.split("", -1);
+            this.x = Integer.parseInt(coordinates[X_COORDINATE_INDEX].trim());
+            this.y = Integer.parseInt(coordinates[Y_COORDINATE_INDEX].trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("숫자만 입력 가능합니다.");
+        }
     }
 
     public boolean isHorizontallyAlignedWith(Point other) {
