@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 @ReplaceUnderBar
 class VectorTest {
 
-    private static Stream<Arguments> Postion에_벡터를_적용한다_테스트_케이스() {
+    private static Stream<Arguments> Position에_벡터를_적용한다_테스트_케이스() {
         return Stream.of(
             Arguments.of(new Vector(1, 1), new Position(1, 1), new Position(3, 3), new Position(2, 2)),
             Arguments.of(new Vector(1, 0), new Position(1, 1), new Position(3, 1), new Position(2, 1)),
@@ -30,7 +30,7 @@ class VectorTest {
     }
 
     @ParameterizedTest
-    @MethodSource("Postion에_벡터를_적용한다_테스트_케이스")
+    @MethodSource("Position에_벡터를_적용한다_테스트_케이스")
     void Position에_벡터를_적용한다(Vector vector, Position position, Position destination, Position expected) {
 
         assertThat(vector.apply(position, destination)).isEqualTo(expected);
