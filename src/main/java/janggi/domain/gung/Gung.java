@@ -5,12 +5,14 @@ import janggi.domain.position.Position;
 import janggi.domain.position.PositionFile;
 import janggi.domain.position.PositionRank;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static janggi.domain.position.PositionFile.*;
+import static janggi.domain.position.PositionFile.FILE_4;
+import static janggi.domain.position.PositionFile.FILE_6;
 import static janggi.domain.position.PositionRank.*;
 
 public final class Gung {
@@ -50,42 +52,43 @@ public final class Gung {
     }
 
     private static Set<Path> initializePaths() {
-        Set<Path> paths = new HashSet<>();
+        final Set<Path> paths = new HashSet<>();
+        final Set<Path> defaultGungPaths = getDefaultGungPaths();
 
-        List<PositionRank[]> rankRanges = List.of(
-                new PositionRank[]{RANK_1, RANK_2, RANK_3},
-                new PositionRank[]{RANK_8, RANK_9, RANK_10}
-        );
-        PositionFile[] files = {FILE_4, FILE_5, FILE_6};
+        defaultGungPaths.stream()
+                .map(defaultPath -> defaultPath.parallelMove(3, 0))
+                .forEach(paths::add);
+        defaultGungPaths.stream()
+                .map(defaultPath -> defaultPath.parallelMove(3, 7))
+                .forEach(paths::add);
 
-        for (PositionRank[] ranks : rankRanges) {
-            for (PositionRank rank : ranks) {
-                paths.addAll(new Path(List.of(
-                        new Position(FILE_4, rank),
-                        new Position(FILE_5, rank),
-                        new Position(FILE_6, rank)
-                )).subPathAndReverse());
+        return paths;
+    }
+
+    /**
+     * 랭크 1~3, 파일 1~3 기준으로 궁의 모든 길을 만드는 메서드입니다.
+     * @return 기본 궁의 모든 길
+     */
+    private static Set<Path> getDefaultGungPaths() {
+        final Set<Path> paths = new HashSet<>();
+
+        final List<Position> diagonalPositions = new ArrayList<>();
+        final List<Position> reverseDiagonalPositions = new ArrayList<>();
+        for (int i = 1; i <= 3; i++) {
+            final List<Position> verticalPositions = new ArrayList<>();
+            final List<Position> horizontalPositions = new ArrayList<>();
+            for (int j = 1; j <= 3; j++) {
+                verticalPositions.add(new Position(PositionFile.findByAmount(i), PositionRank.findByAmount(j)));
+                horizontalPositions.add(new Position(PositionFile.findByAmount(j), PositionRank.findByAmount(i)));
             }
+            paths.addAll(new Path(verticalPositions).subPathAndReverse());
+            paths.addAll(new Path(horizontalPositions).subPathAndReverse());
 
-            for (PositionFile file : files) {
-                paths.addAll(new Path(List.of(
-                        new Position(file, ranks[0]),
-                        new Position(file, ranks[1]),
-                        new Position(file, ranks[2])
-                )).subPathAndReverse());
-            }
-
-            paths.addAll(new Path(List.of(
-                    new Position(FILE_4, ranks[0]),
-                    new Position(FILE_5, ranks[1]),
-                    new Position(FILE_6, ranks[2])
-            )).subPathAndReverse());
-            paths.addAll(new Path(List.of(
-                    new Position(FILE_6, ranks[0]),
-                    new Position(FILE_5, ranks[1]),
-                    new Position(FILE_4, ranks[2])
-            )).subPathAndReverse());
+            diagonalPositions.add(new Position(PositionFile.findByAmount(i), PositionRank.findByAmount(i)));
+            reverseDiagonalPositions.add(new Position(PositionFile.findByAmount(i), PositionRank.findByAmount(4 - i)));
         }
+        paths.addAll(new Path(diagonalPositions).subPathAndReverse());
+        paths.addAll(new Path(reverseDiagonalPositions).subPathAndReverse());
 
         return paths;
     }

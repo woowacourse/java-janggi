@@ -184,4 +184,22 @@ class PathTest extends BaseTest {
                 new Path(List.of(new Position(FILE_5, RANK_3), new Position(FILE_5, RANK_2)))
         );
     }
+
+    @Test
+    void 평행이동_한다() {
+        // given
+        final Path path = new Path(List.of(
+                new Position(FILE_5, RANK_1),
+                new Position(FILE_5, RANK_2),
+                new Position(FILE_5, RANK_3)
+        ));
+
+        // when
+        final Path result = path.parallelMove(3, 3);
+
+        // then
+        assertThat(result).isEqualTo(new Path(List.of(
+                new Position(FILE_8, RANK_4), new Position(FILE_8, RANK_5), new Position(FILE_8, RANK_6)
+        )));
+    }
 }

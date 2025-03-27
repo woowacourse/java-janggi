@@ -80,4 +80,19 @@ public record Path(
         }
         return subPaths;
     }
+
+    public Path parallelMove(final int fileAmount, final int rankAmount) {
+        final boolean isValidToMove = this.pathPositions.stream()
+                .allMatch(position -> position.isValidToAdd(fileAmount, rankAmount));
+
+        if (!isValidToMove) {
+            throw new IllegalArgumentException();
+        }
+
+        final List<Position> positions = this.pathPositions.stream()
+                .map(position -> position.add(fileAmount, rankAmount))
+                .toList();
+
+        return new Path(positions);
+    }
 }
