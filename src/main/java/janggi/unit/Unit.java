@@ -28,6 +28,10 @@ public class Unit {
         return this.position.equals(position);
     }
 
+    public void move(Position position) {
+        this.position = position;
+    }
+
     public UnitType getType() {
         return this.unitRule.getType();
     }
@@ -38,10 +42,6 @@ public class Unit {
 
     public Position getPosition() {
         return this.position;
-    }
-
-    public void move(Position position) {
-        this.position = position;
     }
 
     @Override
