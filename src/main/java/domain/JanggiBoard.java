@@ -27,6 +27,10 @@ public class JanggiBoard {
         board.put(targetPosition, selectedPiece);
     }
 
+    public int calculateTeamScore(Team team) {
+        return board.values().stream().filter(piece -> piece.isTeam(team)).mapToInt(Piece::getScore).sum();
+    }
+
     public Piece findSelectedPiece(Position startPosition) {
         return findPiece(startPosition)
                 .orElseThrow(() -> new IllegalArgumentException("기물이 존재하지 않는 위치입니다."));

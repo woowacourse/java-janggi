@@ -18,6 +18,7 @@ public class Sang extends FixedMovePiece {
             Moves.create(Move.LEFT, Move.FRONT_LEFT, Move.FRONT_LEFT),
             Moves.create(Move.LEFT, Move.BACK_LEFT, Move.BACK_LEFT)
     );
+    public static final int SCORE = 3;
 
     public Sang(Team team) {
         super(team);
@@ -26,5 +27,10 @@ public class Sang extends FixedMovePiece {
     @Override
     protected List<Moves> getMovesOptions(Position startPosition) {
         return movesOptions;
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 }

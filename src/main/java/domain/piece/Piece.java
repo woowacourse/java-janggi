@@ -14,6 +14,8 @@ public abstract class Piece {
 
     public abstract List<Position> calculatePath(Position startPosition, Position targetPosition);
 
+    public abstract int getScore();
+
     public Team getTeam() {
         return team;
     }

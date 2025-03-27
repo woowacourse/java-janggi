@@ -2,7 +2,6 @@ package controller;
 
 import domain.JanggiGame;
 import domain.boardgenerator.JanggiBoardGenerator;
-import java.util.List;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -21,9 +20,13 @@ public class JanggiController {
         JanggiGame game = new JanggiGame(new JanggiBoardGenerator());
         outputView.printJanggiBoard(game);
         while (!game.isEnd()) {
-            Command command = retry(() -> Command.find(inputView.readCommand(game.getThisTurnPlayer())));
-            if (command == Command.NO) {
+            Command command = retry(() -> Command.find(inputView.readCommand(game.getThisTurnTeam())));
+            if (command == Command.QUIT) {
                 break;
+            }
+            if (command == Command.SCORE) {
+                outputView.printScore(game.calculateScore());
+                continue;
             }
             retry(() -> game.move(inputView.readMovePiecePosition(), inputView.readTargetPosition()));
             outputView.printJanggiBoard(game);

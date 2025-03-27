@@ -1,7 +1,6 @@
 package view;
 
 import domain.Team;
-import domain.player.Player;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -34,8 +33,8 @@ public class InputView {
         return List.of(row, column);
     }
 
-    public String readCommand(Player player) {
-        System.out.printf("%s의 차례입니다. 게임을 계속하려면 y, 종료하려면 n을 입력하시오.%n", convertToCountry(player.getTeam()));
+    public String readCommand(Team team) {
+        System.out.printf("%s의 차례입니다. 게임을 계속하려면 go, 종료하려면 q, 점수를 확인하려면 s를 입력하시오.%n", convertToCountry(team));
         return scanner.nextLine();
     }
 

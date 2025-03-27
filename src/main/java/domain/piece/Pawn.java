@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Pawn extends FixedMovePiece {
 
+    public static final int SCORE = 2;
     private final List<Moves> movesOptions;
 
     public Pawn(Team team) {
@@ -53,5 +54,10 @@ public class Pawn extends FixedMovePiece {
         }
 
         return moves;
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 }

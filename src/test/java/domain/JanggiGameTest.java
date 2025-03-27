@@ -5,8 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Cha;
 import domain.piece.Gung;
+import domain.piece.Ma;
+import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.Po;
+import domain.piece.Sang;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,5 +101,25 @@ public class JanggiGameTest {
 
         // then
         assertThat(actual).isTrue();
+    }
+
+    @Test
+    void 모든팀의_점수을_계산할_수_있다() {
+        // given
+        Map<Position, Piece> board = new HashMap<>();
+        board.put(new Position(1, 1), new Pawn(Team.CHO));
+        board.put(new Position(1, 2), new Ma(Team.CHO));
+        board.put(new Position(1, 3), new Sang(Team.CHO));
+        board.put(new Position(2, 1), new Pawn(Team.HAN));
+        board.put(new Position(2, 2), new Gung(Team.HAN));
+        board.put(new Position(2, 3), new Sang(Team.HAN));
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(board));
+
+        // when
+        Map<Team, Double> teamDoubleMap = game.calculateScore();
+
+        // then
+        Map<Team, Double> expected = Map.of(Team.CHO, 10.0, Team.HAN, 6.5);
+        assertThat(teamDoubleMap).isEqualTo(expected);
     }
 }

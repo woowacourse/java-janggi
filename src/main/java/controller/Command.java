@@ -4,8 +4,9 @@ import java.util.Arrays;
 
 public enum Command {
 
-    YES("y"),
-    NO("n");
+    GO("go"),
+    QUIT("q"),
+    SCORE("s");
 
     private final String value;
 

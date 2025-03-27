@@ -4,7 +4,7 @@ import domain.JanggiGame;
 import domain.Position;
 import domain.Team;
 import domain.piece.Piece;
-import java.util.List;
+import java.text.DecimalFormat;
 import java.util.Map;
 
 public class OutputView {
@@ -14,11 +14,6 @@ public class OutputView {
     public static final String white = "\u001B[37m";
 
     public static final String exit = "\u001B[0m";
-
-    public void printGameInfo(List<String> playerNames, JanggiGame janggiGame) {
-        System.out.printf("%n%s: 초나라%n%s: 한나라%n", playerNames.getFirst(), playerNames.getLast());
-        printJanggiBoard(janggiGame);
-    }
 
     public void printJanggiBoard(JanggiGame game) {
         Map<Position, Piece> board = game.getBoardState();
@@ -79,6 +74,20 @@ public class OutputView {
 
     public void printErrorMessage(Exception exception) {
         System.out.printf("[ERROR] %s%n", exception.getMessage());
+    }
+
+    public void printScore(Map<Team, Double> scores) {
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        System.out.printf("%s %s점%n", convertToCountry(Team.CHO), df.format(scores.get(Team.CHO)));
+        System.out.printf("%s %s점%n", convertToCountry(Team.HAN), df.format(scores.get(Team.HAN)));
+    }
+
+    private String convertToCountry(Team team) {
+        return switch (team) {
+            case Team.HAN -> "한나라";
+            case Team.CHO -> "초나라";
+        };
     }
 
     public void printGameEnd() {

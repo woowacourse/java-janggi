@@ -16,6 +16,8 @@ public class Gung extends FixedMovePiece {
             Moves.create(Move.LEFT)
     ));
 
+    private static final int SCORE = 0;
+
     public Gung(Team team) {
         super(team);
     }
@@ -26,6 +28,11 @@ public class Gung extends FixedMovePiece {
         addMove(startPosition, moves);
 
         return moves.stream().filter(option -> option.isPossibleInPalace(startPosition)).toList();
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 
     private static void addMove(Position startPosition, List<Moves> moves) {

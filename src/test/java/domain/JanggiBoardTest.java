@@ -5,9 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Cha;
 import domain.piece.Gung;
+import domain.piece.Ma;
 import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.Po;
+import domain.piece.Sang;
 import java.util.HashMap;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
@@ -250,5 +252,26 @@ public class JanggiBoardTest {
         assertThatThrownBy(() -> janggiBoard.findSelectedPiece(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물이 존재하지 않는 위치입니다.");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "CHO, 10",
+            "HAN, 5"
+    })
+    void 특정팀의_기물의_점수합을_계산할_수_있다(Team team, int score) {
+        Map<Position, Piece> board = new HashMap<>();
+        board.put(new Position(1, 1), new Pawn(Team.CHO));
+        board.put(new Position(1, 2), new Ma(Team.CHO));
+        board.put(new Position(1, 3), new Sang(Team.CHO));
+        board.put(new Position(2, 1), new Pawn(Team.HAN));
+        board.put(new Position(2, 2), new Gung(Team.HAN));
+        board.put(new Position(2, 3), new Sang(Team.HAN));
+
+        JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
+
+        int scoreSum = janggiBoard.calculateTeamScore(team);
+
+        assertThat(scoreSum).isEqualTo(score);
     }
 }

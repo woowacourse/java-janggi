@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Ma extends FixedMovePiece {
 
+    private static final int SCORE = 5;
+
     private static final List<Moves> movesOptions = List.of(
             Moves.create(Move.FRONT, Move.FRONT_LEFT),
             Moves.create(Move.FRONT, Move.FRONT_RIGHT),
@@ -26,5 +28,10 @@ public class Ma extends FixedMovePiece {
     @Override
     protected List<Moves> getMovesOptions(Position startPosition) {
         return movesOptions;
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 }

@@ -15,6 +15,7 @@ public class Sa extends FixedMovePiece {
             Moves.create(Move.RIGHT),
             Moves.create(Move.LEFT)
     );
+    public static final int SCORE = 3;
 
     public Sa(Team team) {
         super(team);
@@ -26,6 +27,11 @@ public class Sa extends FixedMovePiece {
         addMove(startPosition, moves);
 
         return moves.stream().filter(option -> option.isPossibleInPalace(startPosition)).toList();
+    }
+
+    @Override
+    public int getScore() {
+        return SCORE;
     }
 
     private static void addMove(Position startPosition, List<Moves> moves) {
