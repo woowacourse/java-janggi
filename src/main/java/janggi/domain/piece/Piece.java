@@ -1,9 +1,13 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
+import janggi.domain.piece.direction.Direction;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,7 +21,17 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public abstract Set<Route> calculateIndependentRoutes();
+    public Set<Route> calculateIndependentRoutes() {
+        return getMoveStrategy().stream()
+                .map(this::calculateRoute)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+    }
+
+    protected List<List<Direction>> getMoveStrategy() {
+        return new ArrayList<>();
+    }
 
     public Set<Route> getPossibleRoutes(final List<Piece> otherPieces) {
         return calculateIndependentRoutes().stream()
@@ -42,6 +56,33 @@ public abstract class Piece {
         }
         return piecesInRoute.stream()
                 .allMatch(piece -> route.isDestination(piece) && isEnemy(piece));
+    }
+
+    protected Route calculateRoute(final List<Direction> move) {
+        final List<Position> positions = new ArrayList<>();
+        Position currentPosition = position;
+        for (final Direction direction : move) {
+            if (!currentPosition.canMove(direction)) {
+                return null;
+            }
+            currentPosition = currentPosition.move(direction);
+            positions.add(currentPosition);
+        }
+        return new Route(positions);
+    }
+
+    protected Set<Route> generateRoutesInDirection(final Direction direction) {
+        final Set<Route> directionalRoutes = new HashSet<>();
+
+        Position currentPosition = position;
+        final List<Position> positions = new ArrayList<>();
+        while (currentPosition.canMove(direction)) {
+            final Position nextPosition = currentPosition.move(direction);
+            positions.add(nextPosition);
+            directionalRoutes.add(new Route(new ArrayList<>(positions)));
+            currentPosition = nextPosition;
+        }
+        return directionalRoutes;
     }
 
     public void move(final Position position) {

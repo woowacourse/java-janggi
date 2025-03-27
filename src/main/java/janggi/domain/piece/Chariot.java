@@ -4,9 +4,7 @@ import janggi.domain.Team;
 import janggi.domain.piece.direction.Direction;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Chariot extends Piece {
@@ -23,19 +21,5 @@ public class Chariot extends Piece {
             rawRoutes.addAll(generateRoutesInDirection(direction));
         }
         return rawRoutes;
-    }
-
-    private Set<Route> generateRoutesInDirection(final Direction direction) {
-        final Set<Route> directionalRoutes = new HashSet<>();
-
-        Position currentPosition = position;
-        final List<Position> positions = new ArrayList<>();
-        while (currentPosition.canMove(direction)) {
-            final Position nextPosition = currentPosition.move(direction);
-            positions.add(nextPosition);
-            directionalRoutes.add(new Route(new ArrayList<>(positions)));
-            currentPosition = nextPosition;
-        }
-        return directionalRoutes;
     }
 }
