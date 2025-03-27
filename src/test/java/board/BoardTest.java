@@ -29,13 +29,27 @@ public class BoardTest {
 
             // when & then
             assertThatThrownBy(() -> board.move(new Coordinate(5, 5), new Coordinate(5, 6)))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(IllegalStateException.class)
                     .hasMessage("해당 좌표에는 기물이 없습니다.");
         }
 
         @Test
-        @DisplayName("도착 좌표에 같은 팀 기물이 있으면 예외가 발생한다.")
+        @DisplayName("기물이 이동할 수 없는 움직임이면 예외가 발생한다.")
         void test2() {
+            // given
+            Board board = new BoardFixture()
+                    .addPiece(5, 5, new Jol())
+                    .build();
+
+            // when & then
+            assertThatThrownBy(() -> board.move(new Coordinate(5, 5), new Coordinate(9, 9)))
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessage("해당 기물이 이동할 수 없는 좌표입니다.");
+        }
+
+        @Test
+        @DisplayName("도착 좌표에 같은 팀 기물이 있으면 예외가 발생한다.")
+        void test3() {
             // given
             Board board = new BoardFixture()
                     .addPiece(5, 5, new Cha(Team.HAN))
@@ -44,18 +58,18 @@ public class BoardTest {
 
             // when & then
             assertThatThrownBy(() -> board.move(new Coordinate(5, 5), new Coordinate(5, 6)))
-                    .isInstanceOf(IllegalArgumentException.class)
+                    .isInstanceOf(IllegalStateException.class)
                     .hasMessage("도착 좌표에 같은 팀 말이 있습니다.");
         }
 
         @Test
         @DisplayName("도착 좌표에 다른 팀 기물이 있고 정상적으로 이동됐을 경우, 출발 좌표는 비어있고 도착 좌표의 기물을 대체한다.")
-        void test3() {
+        void test4() {
             // given
             Cha cha = new Cha(Team.HAN);
             Board board = new BoardFixture()
                     .addPiece(5, 5, cha)
-                    .addPiece(5, 6, new Jol(Team.CHO))
+                    .addPiece(5, 6, new Jol())
                     .build();
             Coordinate departure = new Coordinate(5, 5);
             Coordinate arrival = new Coordinate(5, 6);
@@ -72,7 +86,7 @@ public class BoardTest {
 
         @Test
         @DisplayName("도착 좌표에 다른 팀 기물이 없고 정상적으로 이동됐을 경우, 출발 좌표는 비어있고 도착 좌표에 이동한 기물이 위치한다.")
-        void test4() {
+        void test5() {
             // given
             Cha cha = new Cha(Team.HAN);
             Board board = new BoardFixture()

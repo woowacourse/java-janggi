@@ -27,13 +27,13 @@ public class Board {
         Piece piece = getPiece(departure);
 
         if (piece == null) {
-            throw new IllegalArgumentException("해당 좌표에는 기물이 없습니다.");
+            throw new IllegalStateException("해당 좌표에는 기물이 없습니다.");
         }
         if (!piece.canMove(this, departure, arrival)) {
-            throw new IllegalArgumentException("해당 기물이 이동할 수 없는 좌표입니다.");
+            throw new IllegalStateException("해당 기물이 이동할 수 없는 좌표입니다.");
         }
         if (hasPiece(arrival) && getPiece(arrival).isSameTeam(piece)) {
-            throw new IllegalArgumentException("도착 좌표에 같은 팀 말이 있습니다.");
+            throw new IllegalStateException("도착 좌표에 같은 팀 말이 있습니다.");
         }
 
         movePiece(piece, departure, arrival);
@@ -52,7 +52,7 @@ public class Board {
         pieces.put(arrival, piece);
     }
 
-    public Map<Coordinate, Piece> getPieces() {
+    public Map<Coordinate, Piece> getUnmodifiablePieces() {
         return Collections.unmodifiableMap(pieces);
     }
 }
