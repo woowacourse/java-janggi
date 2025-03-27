@@ -19,7 +19,6 @@ public enum DefaultUnitPosition {
     private final List<Integer> xPositions;
     private final Supplier<UnitRule> rule;
 
-
     DefaultUnitPosition(int hanY, int choY, List<Integer> xPositions, Supplier<UnitRule> rule) {
         this.hanY = hanY;
         this.choY = choY;
