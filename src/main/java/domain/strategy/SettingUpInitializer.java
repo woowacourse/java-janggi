@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class SettingUpInitializer {
 
-    public abstract Pieces initPieces(final Player player);
+    public abstract Pieces initPieces(final Player current);
 
     protected List<Piece> initHanBasicPieces() {
         List<Piece> pieces = new ArrayList<>();

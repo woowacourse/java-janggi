@@ -18,13 +18,13 @@ public class MoveInfos {
                 .count();
     }
 
-    public boolean isSameAsTargetPiece(final PieceCategory startPiece) {
-        MoveInfo lastMove = moveInfos.getLast();
-        return lastMove.isSamePieceCategory(startPiece);
+    public boolean isSameAsTargetPiece(final PieceCategory start) {
+        MoveInfo target = moveInfos.getLast();
+        return target.isSamePieceCategory(start);
     }
 
-    public boolean hasSamePieceCategoryInPath(final PieceCategory pieceCategory) {
+    public boolean hasSamePieceCategoryInPath(final PieceCategory category) {
         return moveInfos.stream()
-                .anyMatch(moveInfo -> moveInfo.isSamePieceCategory(pieceCategory));
+                .anyMatch(moveInfo -> moveInfo.isSamePieceCategory(category));
     }
 }

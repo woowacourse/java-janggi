@@ -14,7 +14,7 @@ public class MoveInfo {
         return pieceCategory != PieceCategory.NONE;
     }
 
-    public boolean isSamePieceCategory(final PieceCategory otherPieceCategory) {
-        return this.pieceCategory == otherPieceCategory;
+    public boolean isSamePieceCategory(final PieceCategory other) {
+        return this.pieceCategory == other;
     }
 }

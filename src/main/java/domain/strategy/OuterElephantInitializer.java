@@ -12,8 +12,8 @@ import java.util.List;
 public class OuterElephantInitializer extends SettingUpInitializer {
 
     @Override
-    public Pieces initPieces(final Player player) {
-        if (player.isHanTeam()) {
+    public Pieces initPieces(final Player current) {
+        if (current.isHanTeam()) {
             return initHanPieces();
         }
         return initChoPieces();
