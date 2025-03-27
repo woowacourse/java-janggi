@@ -23,5 +23,4 @@ public class HorsePathStrategy extends FixedPathStrategy {
     public static PathStrategy getInstance() {
         return INSTANCE;
     }
-
 }
