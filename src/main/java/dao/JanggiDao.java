@@ -13,14 +13,28 @@ public class JanggiDao {
 
             final var resultSet = preparedStatement.executeQuery();
 
-            final Team team = Team.from(resultSet.getString("turn"));
+            final String rawTurn = resultSet.getString("turn");
+            if (rawTurn == null) {
+                return null;
+            }
+            final Team team = Team.from(rawTurn);
             return new Turn(team);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateAnyTeam(
+    public void saveTurn(final Connection connection, final Team team) {
+        final var query = "INSERT INTO janggi (turn) VALUES (?)";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, team.getTitle());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateAnyTurn(
             final Connection connection,
             final Team changedTeam
     ) {

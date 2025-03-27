@@ -1,4 +1,5 @@
 import controller.JanggiController;
+import dao.JanggiDao;
 import dao.PiecePositionDao;
 import manager.JanggiManager;
 import view.InputView;
@@ -11,7 +12,8 @@ public class Application {
         OutputView outputView = new OutputView();
 
         PiecePositionDao piecePositionDao = new PiecePositionDao();
-        JanggiManager janggiManager = new JanggiManager(piecePositionDao);
+        JanggiDao janggiDao = new JanggiDao();
+        JanggiManager janggiManager = new JanggiManager(piecePositionDao, janggiDao);
         JanggiController janggiController = new JanggiController(janggiManager, inputView, outputView);
 
         janggiController.run();

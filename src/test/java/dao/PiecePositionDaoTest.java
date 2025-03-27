@@ -36,6 +36,7 @@ class PiecePositionDaoTest {
 
     @AfterEach
     void close() throws SQLException {
+        piecePositionDao.deleteAll(connection);
         connection.close();
     }
 

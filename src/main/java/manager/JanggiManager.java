@@ -1,6 +1,7 @@
 package manager;
 
 import dao.ConnectionProvider;
+import dao.JanggiDao;
 import dao.PiecePositionDao;
 import domain.Janggi;
 import domain.Score;
@@ -16,9 +17,14 @@ import java.util.Map;
 public class JanggiManager {
 
     private final PiecePositionDao piecePositionDao;
+    private final JanggiDao janggiDao;
 
-    public JanggiManager(final PiecePositionDao piecePositionDao) {
+    public JanggiManager(
+            final PiecePositionDao piecePositionDao,
+            final JanggiDao janggiDao
+    ) {
         this.piecePositionDao = piecePositionDao;
+        this.janggiDao = janggiDao;
     }
 
     public Janggi processTurn(
@@ -38,7 +44,7 @@ public class JanggiManager {
                     selectPosition,
                     destinationPosition
             );
-            // TODO : JanggiGameDao에 해당 게임 턴 업데이트
+            janggiDao.updateAnyTurn(connection, getCurrentTeam(janggi));
             connection.commit();
             connection.setAutoCommit(true);
             return janggi;
@@ -55,20 +61,15 @@ public class JanggiManager {
 
     public Janggi loadOrCreateJanggi() {
         final Connection connection = ConnectionProvider.getConnection();
-        final Map<BoardPosition, Piece> pieces = piecePositionDao.findAll(connection);
-        // TODO : JanggiGameDao에 튜플이 존재한다면으로 변경
-        if (pieces.isEmpty()) {
+        final Turn turn = janggiDao.findAnyTurn(connection);
+        if (turn == null) {
             final Janggi initaialJanggi = Janggi.initialize();
-            // TODO : JanggiGame 저장
             piecePositionDao.addAll(connection, initaialJanggi.getPieces());
+            janggiDao.saveTurn(connection, getCurrentTeam(initaialJanggi));
             return initaialJanggi;
         }
-
-        return new Janggi(
-                new Board(pieces),
-                // TODO : JanggiGameDao에서 현재 턴을 조회하여 장기 객체 생성하도록 변경
-                new Turn(Team.GREEN)
-        );
+        final Map<BoardPosition, Piece> pieces = piecePositionDao.findAll(connection);
+        return new Janggi(new Board(pieces), turn);
     }
 
     public Score findScore(
