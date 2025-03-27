@@ -30,7 +30,7 @@ public enum Movement {
     DOWN_DOWN_LEFT_LEFT_LEFT(new Coordinate(2, -3)),
     UP_UP_LEFT_LEFT_LEFT(new Coordinate(-2, -3)),
     UP_UP_UP_LEFT_LEFT(new Coordinate(-3, -2));
-    
+
     private final Coordinate direction;
 
     Movement(Coordinate direction) {
@@ -41,4 +41,7 @@ public enum Movement {
         return direction;
     }
 
+    public boolean isDiagonal() {
+        return this == UP_RIGHT || this == DOWN_RIGHT || this == DOWN_LEFT || this == UP_LEFT;
+    }
 }
