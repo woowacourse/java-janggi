@@ -14,15 +14,15 @@ import view.SangMaOrderCommand;
 
 public class JanggiController {
 
-    public void startGame() {
+    public void run() {
         OutputView.printStart();
         Board board = createJanggiBoard();
 
         Turn turn = new Turn();
-        runGame(board, turn);
+        start(board, turn);
     }
 
-    private void runGame(Board board, Turn turn) {
+    private void start(Board board, Turn turn) {
         while (true) {
             OutputView.printBoard(board);
             OutputView.printScore(board.calculateTotalScoreOfPiecesByTeam(new ScoreCalculator()));
