@@ -19,11 +19,11 @@ public enum Movement {
         this.rowValue = rowValue;
     }
 
-    public int getColumnValue() {
+    public int columnValue() {
         return columnValue;
     }
 
-    public int getRowValue() {
+    public int rowValue() {
         return rowValue;
     }
 }

@@ -48,14 +48,26 @@ public record Position(Column column, Row row) {
     );
 
     public Position move(final Movement movement) {
-        final Column targetColumn = column.move(movement.getColumnValue());
-        final Row targetRow = row.move(movement.getRowValue());
+        final Column targetColumn = column.move(movement.columnValue());
+        final Row targetRow = row.move(movement.rowValue());
+        return new Position(targetColumn, targetRow);
+    }
+
+    public Position move(final HorseMovement movement) {
+        final Column targetColumn = column.move(movement.columnValue());
+        final Row targetRow = row.move(movement.rowValue());
         return new Position(targetColumn, targetRow);
     }
 
     public boolean canMove(final Movement movement) {
-        final boolean canMoveColumn = column.canMove(movement.getColumnValue());
-        final boolean canMoveRow = row.canMove(movement.getRowValue());
+        final boolean canMoveColumn = column.canMove(movement.columnValue());
+        final boolean canMoveRow = row.canMove(movement.rowValue());
+        return canMoveColumn && canMoveRow;
+    }
+
+    public boolean canMove(final HorseMovement movement) {
+        final boolean canMoveColumn = column.canMove(movement.columnValue());
+        final boolean canMoveRow = row.canMove(movement.rowValue());
         return canMoveColumn && canMoveRow;
     }
 
