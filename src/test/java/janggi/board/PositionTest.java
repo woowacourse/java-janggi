@@ -45,12 +45,4 @@ class PositionTest {
 
         assertThat(position.isInPalace()).isFalse();
     }
-
-    @Test
-    @DisplayName("궁성의 4개의 꼭지점에 속한 포지션인지 반환 테스트")
-    void test5() {
-        Position position = new Position(3, 2);
-
-        assertThat(position.isPalaceCorner()).isTrue();
-    }
 }

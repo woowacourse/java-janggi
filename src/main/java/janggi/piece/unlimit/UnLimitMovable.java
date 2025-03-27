@@ -36,7 +36,7 @@ public abstract class UnLimitMovable implements Piece {
                     createCandidateDirections(position, Direction.LEFT),
                     createCandidateDirections(position, Direction.RIGHT)));
 
-        if(position.isPalaceCorner()) { //TODO: isPalaceCorner가 필요한지?
+        if(position.isInPalace()) {
             movableDirections.addAll(computeCandidateDirectionsInPalace(position));
         }
         movableDirections.removeIf(route -> route.getPositions().isEmpty());

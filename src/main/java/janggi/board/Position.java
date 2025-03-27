@@ -38,16 +38,6 @@ public class Position {
         return PALACE_POSITIONS.contains(this);
     }
 
-    public boolean isPalaceCorner() {
-        List<Position> palaceCornerPositions = new ArrayList<>(
-                Arrays.asList(new Position(3, 0), new Position(5, 0),
-                        new Position(3, 2), new Position(5, 2),
-                        new Position(3, 9), new Position(5, 9),
-                        new Position(3, 7), new Position(5, 7))
-        );
-        return palaceCornerPositions.contains(this);
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {
