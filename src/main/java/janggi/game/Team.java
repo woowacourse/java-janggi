@@ -26,7 +26,7 @@ public enum Team {
     }
 
     public boolean headsBack(Direction direction) {
-        return direction == this.forward.reverse();
+        return direction == this.forward.getReversed();
     }
 
     public int calculateRowForwarding(int times) {

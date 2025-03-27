@@ -35,7 +35,7 @@ public class Ma extends Movable {
         if (isDistanceOverflow(targetPoint)) {
             return false;
         }
-        List<Direction> directions = Direction.oneCardinalAndRepeatingDiagonalFrom(
+        List<Direction> directions = Direction.toInitialCardinalThenDiagonalFrom(
                 point, targetPoint, 1
         );
         return isRouteHaveNoHurdle(targetPoint, hurdles, directions);

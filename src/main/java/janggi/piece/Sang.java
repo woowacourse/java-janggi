@@ -35,7 +35,7 @@ public class Sang extends Movable {
         if (isDistanceOverFlow(targetPoint)) {
             return false;
         }
-        List<Direction> directions = Direction.oneCardinalAndRepeatingDiagonalFrom(
+        List<Direction> directions = Direction.toInitialCardinalThenDiagonalFrom(
                 point, targetPoint, 2
         );
         return isRouteHaveNoHurdle(targetPoint, hurdles, directions);

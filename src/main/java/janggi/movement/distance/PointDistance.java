@@ -17,6 +17,7 @@ public class PointDistance {
     }
 
     public boolean notMatches(double distance) {
-        return this.distance != distance;
+        final double EPSILON = 1e-9;
+        return Math.abs(this.distance - distance) > EPSILON;
     }
 }

@@ -25,7 +25,7 @@ public class Cha extends Movable {
 
     @Override
     public boolean canMove(Point targetPoint, Hurdles hurdles) {
-        Direction direction = Direction.cardinalFrom(point, targetPoint);
+        Direction direction = Direction.toCardinalFrom(point, targetPoint);
         return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
     }
 

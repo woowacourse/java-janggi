@@ -29,7 +29,7 @@ public class Byeong extends Movable {
         if (isDistanceOverFlow(targetPoint)) {
             return false;
         }
-        Direction direction = Direction.cardinalFrom(point, targetPoint);
+        Direction direction = Direction.toCardinalFrom(point, targetPoint);
         if (movesDown(direction)) {
             return false;
         }

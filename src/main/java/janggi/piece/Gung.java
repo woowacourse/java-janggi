@@ -27,7 +27,7 @@ public class Gung extends Movable {
         if (isDistanceOverFlow(targetPoint)) {
             return false;
         }
-        Direction direction = Direction.cardinalOrDiagonalFrom(point, targetPoint);
+        Direction direction = Direction.toCardinalOrDiagonalFrom(point, targetPoint);
         return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
     }
 

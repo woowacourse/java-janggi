@@ -14,6 +14,7 @@ public enum Direction {
     NORTH_EAST(-1, 1),
     SOUTH_WEST(1, -1),
     SOUTH_EAST(1, 1),
+    REST(0, 0),
     ;
 
     private final int rowOffset;
@@ -24,72 +25,34 @@ public enum Direction {
         this.columnOffset = columnOffset;
     }
 
-    public static Direction cardinalFrom(Point startPoint, Point targetPoint) {
-        if (startPoint.isSameRow(targetPoint)) {
-            if (startPoint.isColumnBiggerThan(targetPoint)) {
-                return WEST;
-            }
-            if (startPoint.isColumnLessThan(targetPoint)) {
-                return EAST;
-            }
-
+    public static Direction toCardinalFrom(Point startPoint, Point targetPoint) {
+        Direction direction = findCardinalDirection(startPoint, targetPoint);
+        if (direction == REST) {
+            throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
         }
-        if (startPoint.isSameColumn(targetPoint)) {
-            if (startPoint.isRowBiggerThan(targetPoint)) {
-                return NORTH;
-            }
-            if (startPoint.isRowLessThan(targetPoint)) {
-                return SOUTH;
-            }
-        }
-        throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
+        return direction;
     }
 
-    public static Direction cardinalOrDiagonalFrom(Point startPoint, Point targetPoint) {
-        if (startPoint.isSameRow(targetPoint)) {
-            if (startPoint.isColumnBiggerThan(targetPoint)) {
-                return WEST;
-            }
-            if (startPoint.isColumnLessThan(targetPoint)) {
-                return EAST;
-            }
-
+    public static Direction toCardinalOrDiagonalFrom(Point startPoint, Point targetPoint) {
+        Direction cardinalDirection = findCardinalDirection(startPoint, targetPoint);
+        if (cardinalDirection != REST) {
+            return cardinalDirection;
         }
-        if (startPoint.isSameColumn(targetPoint)) {
-            if (startPoint.isRowBiggerThan(targetPoint)) {
-                return NORTH;
-            }
-            if (startPoint.isRowLessThan(targetPoint)) {
-                return SOUTH;
-            }
+        Direction diagonalDirection = findDiagonalDirection(startPoint, targetPoint);
+        if (diagonalDirection == REST) {
+            throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
         }
-        if (startPoint.isRowBiggerThan(targetPoint)) {
-            if (startPoint.isColumnBiggerThan(targetPoint)) {
-                return NORTH_WEST;
-            }
-            if (startPoint.isColumnLessThan(targetPoint)) {
-                return NORTH_EAST;
-            }
-        }
-        if (startPoint.isRowLessThan(targetPoint)) {
-            if (startPoint.isColumnBiggerThan(targetPoint)) {
-                return SOUTH_WEST;
-            }
-            if (startPoint.isColumnLessThan(targetPoint)) {
-                return SOUTH_EAST;
-            }
-        }
-        throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
+        return diagonalDirection;
     }
 
-    public static List<Direction> oneCardinalAndRepeatingDiagonalFrom(Point startPoint, Point targetPoint, int repeatCount
+    public static List<Direction> toInitialCardinalThenDiagonalFrom(Point startPoint, Point targetPoint, int repeatCount
     ) {
-        Direction firstDirection = findFirstDirection(startPoint, targetPoint);
-        Direction repeatingDirection = findSecondDirection(startPoint, targetPoint);
-        return doRouting(repeatCount, firstDirection, repeatingDirection);
+        Direction firstDirection = findInitialCardinalDirection(startPoint, targetPoint);
+        Direction repeatingDirection = findRepeatingDiagonalDirection(startPoint, targetPoint);
+        return buildDirectionalPath(repeatCount, firstDirection, repeatingDirection);
     }
 
-    private static Direction findFirstDirection(Point startPoint, Point targetPoint) {
+    private static Direction findInitialCardinalDirection(Point startPoint, Point targetPoint) {
         int rowGap = startPoint.row() - targetPoint.row();
         int columnGap = startPoint.column() - targetPoint.column();
         if (rowGap > columnGap) {
@@ -97,12 +60,12 @@ public enum Direction {
                 return NORTH;
             }
             if (startPoint.isRowLessThan(targetPoint)) {
-                return  SOUTH;
+                return SOUTH;
             }
         }
         if (rowGap < columnGap) {
             if (startPoint.isColumnBiggerThan(targetPoint)) {
-                return  WEST;
+                return WEST;
             }
             if (startPoint.isColumnLessThan(targetPoint)) {
                 return EAST;
@@ -111,27 +74,15 @@ public enum Direction {
         throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
     }
 
-    private static Direction findSecondDirection(Point startPoint, Point targetPoint) {
-        if (startPoint.isRowBiggerThan(targetPoint)) {
-            if (startPoint.isColumnBiggerThan(targetPoint)) {
-                return NORTH_WEST;
-            }
-            if (startPoint.isColumnLessThan(targetPoint)) {
-                return NORTH_EAST;
-            }
+    private static Direction findRepeatingDiagonalDirection(Point startPoint, Point targetPoint) {
+        Direction diagonalDirection = findDiagonalDirection(startPoint, targetPoint);
+        if (diagonalDirection == REST) {
+            throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
         }
-        if (startPoint.isRowLessThan(targetPoint)) {
-            if (startPoint.isColumnBiggerThan(targetPoint)) {
-                return SOUTH_WEST;
-            }
-            if (startPoint.isColumnLessThan(targetPoint)) {
-                return SOUTH_EAST;
-            }
-        }
-        throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
+        return diagonalDirection;
     }
 
-    private static List<Direction> doRouting(int repeatCount, Direction firstDirection, Direction repeatingDirection) {
+    private static List<Direction> buildDirectionalPath(int repeatCount, Direction firstDirection, Direction repeatingDirection) {
         List<Direction> directions = new ArrayList<>();
         directions.add(firstDirection);
         for (int i = 0; i < repeatCount; i++) {
@@ -140,7 +91,47 @@ public enum Direction {
         return directions;
     }
 
-    public Direction reverse() {
+    private static Direction findDiagonalDirection(Point startPoint, Point targetPoint) {
+        if (startPoint.isRowBiggerThan(targetPoint)) {
+            if (startPoint.isColumnBiggerThan(targetPoint)) {
+                return NORTH_WEST;
+            }
+            if (startPoint.isColumnLessThan(targetPoint)) {
+                return NORTH_EAST;
+            }
+        }
+        if (startPoint.isRowLessThan(targetPoint)) {
+            if (startPoint.isColumnBiggerThan(targetPoint)) {
+                return SOUTH_WEST;
+            }
+            if (startPoint.isColumnLessThan(targetPoint)) {
+                return SOUTH_EAST;
+            }
+        }
+        return REST;
+    }
+
+    private static Direction findCardinalDirection(Point startPoint, Point targetPoint) {
+        if (startPoint.isSameRow(targetPoint)) {
+            if (startPoint.isColumnBiggerThan(targetPoint)) {
+                return WEST;
+            }
+            if (startPoint.isColumnLessThan(targetPoint)) {
+                return EAST;
+            }
+        }
+        if (startPoint.isSameColumn(targetPoint)) {
+            if (startPoint.isRowBiggerThan(targetPoint)) {
+                return NORTH;
+            }
+            if (startPoint.isRowLessThan(targetPoint)) {
+                return SOUTH;
+            }
+        }
+        return REST;
+    }
+
+    public Direction getReversed() {
         return Arrays.stream(Direction.values())
                 .filter(direction ->
                         direction.rowOffset == -this.rowOffset
