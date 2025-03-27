@@ -16,21 +16,22 @@ import team.Team;
 
 public class Jol extends Piece {
 
-    public Jol(Team team) {
-        super(team);
-        if (team == Team.HAN) {
-            throw new IllegalArgumentException("졸은 한나라에서 사용할 수 없습니다.");
-        }
+    private static final List<MoveVector> MOVABLE_VECTORS = List.of(
+            UP,
+            RIGHT,
+            LEFT
+    );
+
+    public Jol() {
+        super(Team.CHO);
     }
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return Stream.<List<MoveVector>>of(
-                        List.of(UP),
-                        List.of(RIGHT),
-                        List.of(LEFT)
+        return Stream.concat(
+                        MOVABLE_VECTORS.stream().map(departure::moveBy),
+                        departure.moveByDiagonalOneInCastle().stream()
                 )
-                .map(departure::moveBy)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }

@@ -1,7 +1,6 @@
 package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import board.Board;
 import board.BoardFixture;
@@ -15,22 +14,6 @@ import team.Team;
 class JolTest {
 
     @Nested
-    @DisplayName("졸의 생성 테스트")
-    class ConstructorTest {
-
-        @Test
-        @DisplayName("졸은 한나라에서 사용할 수 없다.")
-        void test1() {
-            // given
-
-            // when & then
-            assertThatThrownBy(() -> new Jol(Team.HAN))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("졸은 한나라에서 사용할 수 없습니다.");
-        }
-    }
-
-    @Nested
     @DisplayName("이동 가능한 후보를 반환하는 테스트")
     class MovableCandidatesTest {
 
@@ -38,7 +21,7 @@ class JolTest {
         @DisplayName("졸의 출발 좌표가 (5,5)일 때 이동 가능한 좌표 후보 3개를 반환한다.")
         void test1() {
             // given
-            Jol jol = new Jol(Team.CHO);
+            Jol jol = new Jol();
 
             // when
             Set<Coordinate> movableCandidates = jol.findMovableCandidates(new Coordinate(5, 5));
@@ -55,7 +38,7 @@ class JolTest {
         @DisplayName("졸의 출발 좌표가 (1,7)일 때 보드판을 벗어난 좌표는 후보에서 제외한다.")
         void test2() {
             // given
-            Jol jol = new Jol(Team.CHO);
+            Jol jol = new Jol();
 
             // when
             Set<Coordinate> movableCandidates = jol.findMovableCandidates(new Coordinate(1, 7));
@@ -64,6 +47,24 @@ class JolTest {
             assertThat(movableCandidates).containsOnly(
                     new Coordinate(2, 7),
                     new Coordinate(1, 6)
+            );
+        }
+
+        @Test
+        @DisplayName("졸의 좌표가 (4,3)으로 궁성으로 진입했을 때 대각선 좌표까지 후보에 포함한다.")
+        void test3() {
+            // given
+            Jol jol = new Jol();
+
+            // when
+            Set<Coordinate> movableCandidates = jol.findMovableCandidates(new Coordinate(4, 3));
+
+            // then
+            assertThat(movableCandidates).containsOnly(
+                    new Coordinate(3, 3),
+                    new Coordinate(5, 3),
+                    new Coordinate(4, 2),
+                    new Coordinate(5, 2)
             );
         }
     }
@@ -76,7 +77,7 @@ class JolTest {
         @DisplayName("졸은 장애물을 고려하지 않아도 된다.")
         void test1() {
             // given
-            Jol jol = new Jol(Team.CHO);
+            Jol jol = new Jol();
             Board board = new BoardFixture()
                     .addPiece(4, 5, new Sang(Team.CHO))
                     .addPiece(6, 5, new Sang(Team.CHO))
@@ -99,7 +100,7 @@ class JolTest {
         @DisplayName("졸은 경로가 없다.")
         void test1() {
             // given
-            Jol jol = new Jol(Team.CHO);
+            Jol jol = new Jol();
 
             // when
             Set<Coordinate> paths = jol.findPaths(new Coordinate(5, 5), new Coordinate(5, 6));
