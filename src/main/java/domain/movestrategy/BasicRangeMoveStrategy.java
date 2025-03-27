@@ -1,16 +1,11 @@
-package domain.piece;
+package domain.movestrategy;
 
 import domain.Position;
-import domain.Team;
 import domain.move.Move;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RangeMovePiece extends Piece {
-
-    public RangeMovePiece(Team team) {
-        super(team);
-    }
+public class BasicRangeMoveStrategy implements RangeMoveStrategy {
 
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
@@ -55,13 +50,4 @@ public class RangeMovePiece extends Piece {
         return path;
     }
 
-    @Override
-    public boolean isCanon() {
-        return false;
-    }
-
-    @Override
-    public boolean isKing() {
-        return false;
-    }
 }
