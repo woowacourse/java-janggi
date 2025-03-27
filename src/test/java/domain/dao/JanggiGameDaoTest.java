@@ -8,14 +8,12 @@ import domain.janggiboard.customstrategy.LeftBoardArrangementStrategy;
 import domain.janggiboard.customstrategy.OuterBoardArrangementStrategy;
 import domain.janggiboard.customstrategy.RightBoardArrangementStrategy;
 import domain.piece.JanggiSide;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.TestDatabaseConnector;
 
 class JanggiGameDaoTest {
 
-    JanggiGameDao gameDao = new JanggiGameDao(new TestDatabaseConnector());
+    JanggiGameDao gameDao = new FakeJanggiGameDao();
 
     @BeforeEach
     void initializeGame() {
@@ -42,6 +40,11 @@ class JanggiGameDaoTest {
                 () -> assertThat(gameDao.findHanStrategyById(gameId))
                     .isInstanceOf(RightBoardArrangementStrategy.class)
         );
+    }
 
+    @Test
+    void 진행중인_장기_게임이_없을_수도_있다() {
+        // when & then
+        assertThat(gameDao.getGame()).isEqualTo("-1");
     }
 }

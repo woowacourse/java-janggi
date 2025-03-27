@@ -1,8 +1,8 @@
 package service;
 
-import domain.dao.JanggiGameDao;
-import domain.dao.JanggiPositionDao;
-import domain.dao.MoveHistoryDao;
+import domain.dao.JdbcJanggiGameDao;
+import domain.dao.JdbcJanggiPositionDao;
+import domain.dao.JdbcMoveHistoryDao;
 import domain.janggiboard.customstrategy.BoardArrangementStrategy;
 import domain.position.JanggiPosition;
 import java.util.ArrayList;
@@ -11,15 +11,15 @@ import util.ProductionDatabaseConnector;
 
 public class JanggiService {
 
-    private final JanggiGameDao gameDao;
-    private final JanggiPositionDao positionDao;
-    private final MoveHistoryDao historyDao;
+    private final JdbcJanggiGameDao gameDao;
+    private final JdbcJanggiPositionDao positionDao;
+    private final JdbcMoveHistoryDao historyDao;
 
     public JanggiService() {
         ProductionDatabaseConnector connector = new ProductionDatabaseConnector();
-        this.gameDao = new JanggiGameDao(connector);
-        this.positionDao = new JanggiPositionDao(connector);
-        this.historyDao = new MoveHistoryDao(connector);
+        this.gameDao = new JdbcJanggiGameDao(connector);
+        this.positionDao = new JdbcJanggiPositionDao(connector);
+        this.historyDao = new JdbcMoveHistoryDao(connector);
     }
 
     public void startGame(BoardArrangementStrategy strategyOfCho, BoardArrangementStrategy strategyOfHan) {

@@ -9,13 +9,12 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.TestDatabaseConnector;
 
 public class MoveHistoryDaoTest {
 
-    MoveHistoryDao historyDao = new MoveHistoryDao(new TestDatabaseConnector());
-    JanggiGameDao gameDao = new JanggiGameDao(new TestDatabaseConnector());
-    JanggiPositionDao positionDao = new JanggiPositionDao(new TestDatabaseConnector());
+    MoveHistoryDao historyDao = new FakeMoveHistoryDao();
+    JanggiGameDao gameDao = new FakeJanggiGameDao();
+    JanggiPositionDao positionDao = new FakeJanggiPositionDao();
 
     @BeforeEach
     void initializeDatabase() {

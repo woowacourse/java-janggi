@@ -6,11 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import domain.position.JanggiPosition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.TestDatabaseConnector;
 
 class JanggiPositionDaoTest {
 
-    JanggiPositionDao positionDao = new JanggiPositionDao(new TestDatabaseConnector());
+    JanggiPositionDao positionDao = new FakeJanggiPositionDao();
 
     @BeforeEach
     void initializeDatabase() {
