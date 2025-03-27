@@ -4,8 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.factory.BoardFactory;
+import domain.pieces.Cannon;
 import domain.pieces.Chariot;
 import domain.pieces.Piece;
+import domain.pieces.Soldier;
 import domain.player.TeamType;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
@@ -74,24 +76,68 @@ public final class BoardTest {
         }
     }
 
-    @Test
-    @DisplayName("궁궐 내부에서 움직일 때, 말이 움직임이 변한다.")
-    void test_checkPieceCanDifferentMoveInRangeOfPalace() {
-        //given
-        final Point startOutOfPalace = new Point(3, 6);
-        final Point arrivalOutOfPalace = new Point(5, 8);
-        final Map<Point, Piece> locations = new HashMap<>();
-        final TeamType teamType = TeamType.CHO;
-        locations.put(startOutOfPalace, new Chariot(teamType));
+    @Nested
+    @DisplayName("궁궐 내부에서의 이동일 경우, 이동 검증 방식이 변경된다.")
+    class TestCanDifferentMoveInPalace {
+        @Test
+        @DisplayName("포의 경우")
+        void test_forCannon() {
+            //given
+            final Point centerOfPalace = new Point(1, 4);
+            final Map<Point, Piece> locations = new HashMap<>();
+            final TeamType teamType = TeamType.CHO;
+            locations.put(centerOfPalace, new Chariot(teamType));
 
-        final Point start = new Point(0, 3);
-        final Point arrival = new Point(2, 5);
-        locations.put(start, new Chariot(teamType));
-        final Board board = new Board(locations);
+            final Point start = new Point(0, 3);
+            final Point arrival = new Point(2, 5);
+            final Point arrivalOutOfPalace = new Point(3, 6);
+            locations.put(start, new Cannon(teamType));
+            final Board board = new Board(locations);
 
-        //when&then
-        assertThatThrownBy(() -> board.canMovePiece(startOutOfPalace, arrivalOutOfPalace, teamType)).isInstanceOf(
-                JanggiGameRuleWarningException.class).hasMessageContaining("해당 기물이 도착할 수 없는 위치입니다.");
-        assertThat(board.canMovePiece(start, arrival, teamType)).isTrue();
+            //when&then
+            assertThat(board.canMovePiece(start, arrival, teamType)).isTrue();
+            assertThatThrownBy(() -> board.canMovePiece(start, arrivalOutOfPalace, teamType))
+                    .isInstanceOf(JanggiGameRuleWarningException.class)
+                    .hasMessageContaining("해당 기물이 도착할 수 없는 위치입니다.");
+
+        }
+
+        @Test
+        @DisplayName("차의 경우")
+        void test_forChariot() {
+            //given
+            final Map<Point, Piece> locations = new HashMap<>();
+            final TeamType teamType = TeamType.CHO;
+            final Point start = new Point(0, 3);
+            final Point arrival = new Point(2, 5);
+            final Point arrivalOutOfPalace = new Point(3, 6);
+            locations.put(start, new Chariot(teamType));
+            final Board board = new Board(locations);
+
+            //when&then
+            assertThat(board.canMovePiece(start, arrival, teamType)).isTrue();
+            assertThatThrownBy(() -> board.canMovePiece(start, arrivalOutOfPalace, teamType))
+                    .isInstanceOf(JanggiGameRuleWarningException.class)
+                    .hasMessageContaining("해당 기물이 도착할 수 없는 위치입니다.");
+        }
+
+        @Test
+        @DisplayName("졸의 경우")
+        void test_forSoldier() {
+            //given
+            final Map<Point, Piece> locations = new HashMap<>();
+            final TeamType teamType = TeamType.CHO;
+            final Point start = new Point(0, 3);
+            final Point arrival = new Point(1, 4);
+            final Point arrivalOutOfPalace = new Point(1, 2);
+            locations.put(start, new Soldier(teamType));
+            final Board board = new Board(locations);
+
+            //when&then
+            assertThat(board.canMovePiece(start, arrival, teamType)).isTrue();
+            assertThatThrownBy(() -> board.canMovePiece(start, arrivalOutOfPalace, teamType))
+                    .isInstanceOf(JanggiGameRuleWarningException.class)
+                    .hasMessageContaining("해당 기물이 도착할 수 없는 위치입니다.");
+        }
     }
 }
