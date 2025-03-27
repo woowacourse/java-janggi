@@ -81,6 +81,77 @@ class PiecesTest {
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
                     .isInstanceOf(IllegalArgumentException.class);
             }
+
+            @Test
+            @DisplayName("차가 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 8, 4 (한 칸)")
+            void when_chariot_inside_castle_can_move_diagonal_in_8_4_only_one() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Chariot(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.FOUR);
+                Position arrival =  new Position(Column.NINE, Row.FIVE);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Chariot.class);
+            }
+
+            @Test
+            @DisplayName("차가 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 8, 4 (두 칸)")
+            void when_chariot_inside_castle_can_move_diagonal_in_8_4_two_step() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Chariot(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.FOUR);
+                Position arrival =  new Position(Column.TEN, Row.SIX);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Chariot.class);
+            }
+
+            @Test
+            @DisplayName("차가 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 8,6 (한 칸)")
+            void when_chariot_inside_castle_can_move_diagonal_in_8_6_only_one() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Chariot(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.SIX);
+                Position arrival =  new Position(Column.NINE, Row.FIVE);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Chariot.class);
+            }
+
+            @Test
+            @DisplayName("차가 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 8,6 (두 칸)")
+            void when_chariot_inside_castle_can_move_diagonal_in_8_6_two_step() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Chariot(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.SIX);
+                Position arrival =  new Position(Column.TEN, Row.FOUR);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Chariot.class);
+            }
+            /***
+             * 리버스도 테스트 코드 적기 + 모든 경로에 대해서 검증 추가해보기
+             */
         }
 
         @Nested
