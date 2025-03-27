@@ -21,7 +21,7 @@ public class Cannon extends UnLimitMovable {
         boolean isJumped = false;
         for (Position position : positions) {
             Piece positionPiece = board.get(position);
-            if (position.isOutOfRange() || positionPiece.isCannon()) {
+            if (!position.isInBoardRange() || positionPiece.isCannon()) {
                 break;
             }
             if (!isJumped && positionPiece.isOccupied()) {

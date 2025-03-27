@@ -6,6 +6,7 @@ import janggi.move.Route;
 import janggi.piece.Piece;
 import janggi.piece.Side;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -18,18 +19,9 @@ public abstract class UnLimitMovable implements Piece {
         this.side = side;
     }
 
-    public List<Route> computeCandidatePositions(final Position position) {
-        Route upRoute = createRoute(position, Direction.UP);
-        Route downRoute = createRoute(position, Direction.DOWN);
-        Route leftRoute = createRoute(position, Direction.LEFT);
-        Route rightRoute = createRoute(position, Direction.RIGHT);
-
-        return List.of(rightRoute, leftRoute, upRoute, downRoute);
-    }
-
     @Override
     public List<Position> computeReachableDestinations(final Position position, final Map<Position, Piece> board) {
-        List<Route> candidateRoutes = computeCandidatePositions(position);
+        List<Route> candidateRoutes = computeCandidateDirections(position);
         List<Position> reachableDestinations = new ArrayList<>();
         for (Route route : candidateRoutes) {
             List<Position> positions = route.getPositions();
@@ -38,14 +30,52 @@ public abstract class UnLimitMovable implements Piece {
         return reachableDestinations;
     }
 
+    public List<Route> computeCandidateDirections(final Position position) {
+        List<Route> movableDirections = new ArrayList<>(Arrays.asList(createCandidateDirections(position, Direction.UP),
+                    createCandidateDirections(position, Direction.DOWN),
+                    createCandidateDirections(position, Direction.LEFT),
+                    createCandidateDirections(position, Direction.RIGHT)));
+
+        if(position.isPalaceCorner()) { //TODO: isPalaceCorner가 필요한지?
+            movableDirections.addAll(computeCandidateDirectionsInPalace(position));
+        }
+        movableDirections.removeIf(route -> route.getPositions().isEmpty());
+        return movableDirections;
+    }
+
     protected abstract List<Position> addValidDestination(final List<Position> positions, final Map<Position, Piece> board);
 
-    private Route createRoute(final Position position, final Direction direction) {
+    private Route createCandidateDirections(final Position position, final Direction direction) {
         Route route = new Route(position);
 
         for (int i = 0; i < MOVE_LIMIT; i++) {
             Position lastPosition = route.getLastPosition();
-            route.addRoute(lastPosition.move(direction));
+            Position movedPosition = lastPosition.move(direction);
+
+            if (movedPosition.isInBoardRange()) {
+                route.addRoute(lastPosition.move(direction));
+            }
+        }
+        route.deleteFirstPosition();
+        return route;
+    }
+
+    private List<Route> computeCandidateDirectionsInPalace(final Position position) {
+        return new ArrayList<>(Arrays.asList(createPalaceRoute(position, Direction.LEFT_UP),
+                createPalaceRoute(position, Direction.LEFT_DOWN),
+                createPalaceRoute(position, Direction.RIGHT_UP),
+                createPalaceRoute(position, Direction.RIGHT_DOWN)));
+    }
+
+    private Route createPalaceRoute(final Position position, final Direction direction) {
+        Route route = new Route(position);
+
+        for (int i = 0; i < MOVE_LIMIT; i++) {
+            Position lastPosition = route.getLastPosition();
+            Position movedPosition = lastPosition.move(direction);
+            if (movedPosition.isInPalace()) {
+                route.addRoute(movedPosition);
+            }
         }
         route.deleteFirstPosition();
         return route;
