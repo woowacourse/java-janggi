@@ -35,7 +35,7 @@ class PlayerTest {
         //when
         int addValue = 10;
         Score score = new Score(addValue);
-        player.addScore(score);
+        player.subtractScore(score);
 
         //then
         assertThat(player.getScore()).isEqualTo(new Score(scoreValue + addValue));

@@ -1,8 +1,8 @@
 package janggi.domain;
 
-public record Score(int value) {
+public record Score(double value) {
 
-    public Score add(Score score) {
-        return new Score(this.value + score.value);
+    public Score subtract(Score score) {
+        return new Score(this.value - score.value);
     }
 }

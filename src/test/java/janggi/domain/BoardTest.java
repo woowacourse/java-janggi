@@ -101,6 +101,7 @@ class BoardTest {
     void cannotMoveEnemyPiece() {
         //given
         Player redPlayer = new Player("flint", Team.RED);
+        Player greenPlayer = new Player("abc", Team.GREEN);
 
         //when
         Board board = new Board(Map.of(Position.of(1, 1), new General(Team.RED),
@@ -108,7 +109,8 @@ class BoardTest {
                 Position.of(2, 2), new Soldier(Team.GREEN)));
 
         //then
-        Assertions.assertThatThrownBy(() -> board.movePiece(redPlayer, Position.of(1, 2), Position.of(1, 3)))
+        Assertions.assertThatThrownBy(
+                        () -> board.movePiece(redPlayer, greenPlayer, Position.of(1, 2), Position.of(1, 3)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("적의 기물을 선택할 수 없습니다.");
     }
@@ -135,7 +137,8 @@ class BoardTest {
                                                    int rowDirection,
                                                    int columnDirection) {
         // given
-        Player player = new Player("flint", Team.RED);
+        Player redPlayer = new Player("flint", Team.RED);
+        Player greenPlayer = new Player("abc", Team.GREEN);
         Board board = new Board(Map.of(position, piece, allyPosition, allyPiece));
 
         Position movedPosition = position.adjust(rowDirection, columnDirection);
@@ -143,7 +146,7 @@ class BoardTest {
         // when
         // then
         assertThatThrownBy(
-                () -> board.movePiece(player, position, movedPosition))
+                () -> board.movePiece(redPlayer, greenPlayer, position, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("목적지에 아군이 존재합니다.");
     }
@@ -153,7 +156,8 @@ class BoardTest {
     void cannotMoveWhenExistAllyPieceInDestination() {
         // given
         Team team = Team.RED;
-        Player player = new Player("flint", team);
+        Player redPlayer = new Player("flint", Team.RED);
+        Player greenPlayer = new Player("abc", Team.GREEN);
         Position position = Position.of(1, 1);
         Piece piece = new Cannon(team);
         Position otherPosition = Position.of(2, 1);
@@ -166,7 +170,7 @@ class BoardTest {
 
         // when
         // then
-        assertThatThrownBy(() -> board.movePiece(player, position, movedPosition))
+        assertThatThrownBy(() -> board.movePiece(redPlayer, greenPlayer, position, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("목적지에 아군이 존재합니다.");
     }
@@ -176,14 +180,15 @@ class BoardTest {
     void throwExceptionWhenSamePosition() {
         // given
         Team team = Team.RED;
-        Player player = new Player("flint", team);
+        Player redPlayer = new Player("flint", Team.RED);
+        Player greenPlayer = new Player("abc", Team.GREEN);
         Position position = Position.of(5, 5);
         Piece piece = new Soldier(team);
         Board board = new Board(Map.of(position, piece));
 
         // when
         // then
-        assertThatThrownBy(() -> board.movePiece(player, position, position))
+        assertThatThrownBy(() -> board.movePiece(redPlayer, greenPlayer, position, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("현재 위치와 이동할 위치와 같은 위치입니다");
     }

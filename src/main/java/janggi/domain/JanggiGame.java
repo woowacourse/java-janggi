@@ -21,10 +21,10 @@ public class JanggiGame {
 
     public void moveByPlayer(final Position departure, final Position destination) {
         if (turn.isRed()) {
-            board.movePiece(redPlayer, departure, destination);
+            board.movePiece(redPlayer, greenPlayer, departure, destination);
         }
         if (turn.isGreen()) {
-            board.movePiece(greenPlayer, departure, destination);
+            board.movePiece(greenPlayer, redPlayer, departure, destination);
         }
         checkWinCondition();
         changeTurn(this.turn);

@@ -15,11 +15,11 @@ public class Player {
     public Player(final String name, final Team team) {
         this.name = name;
         this.team = team;
-        this.score = new Score(0);
+        this.score = new Score(team.getInitScore());
     }
 
-    public void addScore(Score score) {
-        this.score = this.score.add(score);
+    public void subtractScore(Score score) {
+        this.score = this.score.subtract(score);
     }
 
     public String getName() {

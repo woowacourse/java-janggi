@@ -46,6 +46,6 @@ public class OutputView {
 
     public void printScore(final Score redScore, final Score greenScore) {
         System.out.println("현재 점수");
-        System.out.printf("초: %d 점, 한: %d 점%n", greenScore.value(), redScore.value());
+        System.out.printf("초: %.1f 점, 한: %.1f 점%n", greenScore.value(), redScore.value());
     }
 }
