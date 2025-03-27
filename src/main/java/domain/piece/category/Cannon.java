@@ -26,14 +26,24 @@ public class Cannon extends Piece {
     }
 
     private void validateMove(final MoveInfos moveInfos) {
+        validateIntermediatePieceCount(moveInfos);
+        validateTargetPieceIsCannon(moveInfos);
+        validateCannonInIntermediatePath(moveInfos);
+    }
+
+    private void validateIntermediatePieceCount(final MoveInfos moveInfos) {
         if (moveInfos.countPiecesInIntermediatePath() != PIECES_TO_PASS) {
             throw new IllegalArgumentException("포는 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
         }
+    }
 
+    private void validateTargetPieceIsCannon(final MoveInfos moveInfos) {
         if (moveInfos.isSameAsTargetPiece(CATEGORY)) {
             throw new IllegalArgumentException("포는 상대 포를 잡을 수 없습니다.");
         }
+    }
 
+    private void validateCannonInIntermediatePath(final MoveInfos moveInfos) {
         if (moveInfos.hasSamePieceCategoryInPath(CATEGORY)) {
             throw new IllegalArgumentException("포는 다른 포를 지나칠 수 없습니다.");
         }
