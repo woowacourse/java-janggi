@@ -88,7 +88,8 @@ public record Board(
     private void catchOppositePieceIfExistsTargetPosition(final Player player, final Position targetPosition) {
         Pieces oppositePieces = getOppositePieces(player);
         if (oppositePieces.existByPosition(targetPosition)) {
-            oppositePieces.deleteByPosition(targetPosition);
+            int score = oppositePieces.catchByPosition(targetPosition);
+            player.addScore(score);
         }
     }
 

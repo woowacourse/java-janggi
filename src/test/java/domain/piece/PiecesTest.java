@@ -7,6 +7,7 @@ import domain.direction.Directions;
 import domain.direction.PieceDirections;
 import domain.piece.category.Cannon;
 import domain.piece.category.General;
+import domain.piece.category.Guard;
 import domain.piece.category.Horse;
 import domain.piece.category.Soldier;
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ class PiecesTest {
     @Test
     void 좌표의_기물을_삭제한다() {
         // given
-        Piece piece = new General(Position.of(2, 5), new Directions(List.of()));
+        Piece piece = new Guard(Position.of(2, 5), new Directions(List.of()));
         Position position = Position.of(2, 5);
 
         List<Piece> pieceElements = new ArrayList<>();
@@ -107,10 +108,13 @@ class PiecesTest {
         Pieces pieces = new Pieces(pieceElements);
 
         // when
-        pieces.deleteByPosition(position);
+        int pieceScore = pieces.catchByPosition(position);
 
         // then
-        assertThat(pieceElements).doesNotContain(piece);
+        assertAll(() -> {
+            assertThat(pieceElements).doesNotContain(piece);
+            assertThat(pieceScore).isEqualTo(PieceType.GUARD.getScore());
+        });
     }
 
     @Test

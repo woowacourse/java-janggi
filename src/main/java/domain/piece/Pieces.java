@@ -28,8 +28,10 @@ public record Pieces(List<Piece> pieces) {
                 .anyMatch(piece -> piece.isSamePosition(position));
     }
 
-    public void deleteByPosition(final Position position) {
-        pieces.remove(findByPosition(position));
+    public int catchByPosition(final Position position) {
+        Piece catchedPiece = findByPosition(position);
+        pieces.remove(catchedPiece);
+        return catchedPiece.getScore();
     }
 
     public boolean existGeneral() {
