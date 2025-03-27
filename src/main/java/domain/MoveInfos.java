@@ -12,10 +12,11 @@ public class MoveInfos {
     }
 
     public int countPiecesInIntermediatePath() {
+        if (moveInfos.size() <= 1) { // 마지막 경로는 도착 지점
+            return 0;
+        }
         List<MoveInfo> intermediatePaths = moveInfos.subList(0, moveInfos.size() - 1);
-        return (int) intermediatePaths.stream()
-                .filter(MoveInfo::hasPieceInPath)
-                .count();
+        return (int) intermediatePaths.stream().filter(MoveInfo::hasPieceInPath).count();
     }
 
     public boolean isSameAsTargetPiece(final PieceCategory start) {
@@ -24,7 +25,6 @@ public class MoveInfos {
     }
 
     public boolean hasSamePieceCategoryInPath(final PieceCategory category) {
-        return moveInfos.stream()
-                .anyMatch(moveInfo -> moveInfo.isSamePieceCategory(category));
+        return moveInfos.stream().anyMatch(moveInfo -> moveInfo.isSamePieceCategory(category));
     }
 }
