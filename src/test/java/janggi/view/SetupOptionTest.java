@@ -41,6 +41,6 @@ class SetupOptionTest {
     void testSetupOptionException() {
         assertThatThrownBy(() -> SetupOption.of("5"))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 1~4의 숫자만 입력할 수 있습니다.");
+                .hasMessage("[ERROR] 0~4의 숫자만 입력할 수 있습니다.");
     }
 }
