@@ -3,23 +3,21 @@ package domain.board;
 import java.util.Arrays;
 
 public enum Column {
-    ONE(1, false),
-    TWO(2, false),
-    THREE(3, false),
-    FOUR(4, true),
-    FIVE(5, true),
-    SIX(6, true),
-    SEVEN(7, false),
-    EIGHT(8, false),
-    NINE(9, false),
+    ONE(1),
+    TWO(2),
+    THREE(3),
+    FOUR(4),
+    FIVE(5),
+    SIX(6),
+    SEVEN(7),
+    EIGHT(8),
+    NINE(9),
     ;
 
     private final int value;
-    private final boolean isPalaceExist;
 
-    Column(int value, boolean isPalaceExist) {
+    Column(int value) {
         this.value = value;
-        this.isPalaceExist = isPalaceExist;
     }
 
     public static Column from(int value) {
@@ -31,9 +29,5 @@ public enum Column {
 
     public int getValue() {
         return value;
-    }
-
-    public boolean isPalaceExist() {
-        return isPalaceExist;
     }
 }
