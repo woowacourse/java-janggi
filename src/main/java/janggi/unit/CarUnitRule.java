@@ -1,7 +1,7 @@
-package domain.unit;
+package janggi.unit;
 
-import domain.position.Position;
-import domain.position.Route;
+import janggi.position.Position;
+import janggi.position.Route;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

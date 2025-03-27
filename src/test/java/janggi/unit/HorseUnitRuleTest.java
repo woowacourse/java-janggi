@@ -1,7 +1,7 @@
-package domain.unit;
+package janggi.unit;
 
-import domain.position.Position;
-import domain.position.Route;
+import janggi.position.Position;
+import janggi.position.Route;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,21 +1,21 @@
-package domain.unit;
+package janggi.unit;
 
-import domain.position.Position;
-import domain.position.Route;
+import janggi.position.Position;
+import janggi.position.Route;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class CarUnitRuleTest {
+class BombUnitRuleTest {
     @Test
-    @DisplayName("차는 수평/수직으로만 움직일 수 있다")
+    @DisplayName("포는 수평/수직으로만 움직일 수 있고 한칸 이상 이동해야 한다")
     void test1() {
         // given
-        CarUnitRule carUnitRule = new CarUnitRule();
+        BombUnitRule bombUnitRule = new BombUnitRule();
 
         // when
-        List<Route> routes = carUnitRule.calculateAllRoute(new Position(0, 0));
+        List<Route> routes = bombUnitRule.calculateAllRoute(new Position(0, 0));
 
         // then
         Assertions.assertThat(routes).isNotEmpty();
@@ -37,7 +37,6 @@ class CarUnitRuleTest {
                 Route.of(List.of(
                         new Position(1, 0), new Position(2, 0), new Position(3, 0))),
                 Route.of(List.of(new Position(1, 0), new Position(2, 0))),
-                Route.of(List.of(new Position(1, 0))),
                 Route.of(List.of(
                         new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
                         new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
@@ -59,7 +58,6 @@ class CarUnitRuleTest {
                 Route.of(List.of(
                         new Position(0, 1), new Position(0, 2), new Position(0, 3))),
                 Route.of(List.of(
-                        new Position(0, 1), new Position(0, 2))),
-                Route.of(List.of(new Position(0, 1))));
+                        new Position(0, 1), new Position(0, 2))));
     }
 }

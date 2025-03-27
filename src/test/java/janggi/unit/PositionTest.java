@@ -1,6 +1,6 @@
-package domain.unit;
+package janggi.unit;
 
-import domain.position.Position;
+import janggi.position.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

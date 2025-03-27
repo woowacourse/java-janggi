@@ -1,4 +1,4 @@
-package domain.position;
+package janggi.position;
 
 public class Point {
     private final int x;

@@ -1,4 +1,4 @@
-package domain.unit;
+package janggi.unit;
 
 import java.util.List;
 
