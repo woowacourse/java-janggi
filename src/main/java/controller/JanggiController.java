@@ -1,6 +1,7 @@
 package controller;
 
 import domain.janggiboard.JanggiBoard;
+import domain.janggiboard.JanggiBoardBasicInitializer;
 import domain.janggiboard.customstrategy.BoardArrangementStrategy;
 import domain.position.JanggiPosition;
 import domain.piece.JanggiSide;
@@ -32,17 +33,21 @@ public class JanggiController {
         outputView.printBoard(board.getBoard());
         JanggiSide nowTurn = JANGGI_GAME_STARTING_SIDE;
 
+        processJanggiGame(board, nowTurn);
+
+        printResult(nowTurn, board);
+        janggiService.finishGame();
+    }
+
+    private void processJanggiGame(JanggiBoard board, JanggiSide nowTurn) {
         while (true) {
             processMovePiece(board, nowTurn);
             outputView.printBoard(board.getBoard());
-            if (janggiService.isGameEnd(board, nowTurn)) {
+            if (board.isOppositeKingCaptured(nowTurn)) {
                 break;
             }
             nowTurn = nowTurn.getOppositeSide();
         }
-
-        printResult(nowTurn, board);
-        janggiService.finishGame();
     }
 
     private JanggiBoard setJanggiBoard() {
@@ -58,23 +63,44 @@ public class JanggiController {
                 OutputView::printErrorMessage
         );
         if (continueSelection == GameContinueOption.Y) {
-            return janggiService.loadPreviousGameBoard();
+            return loadPreviousGameBoard();
         }
         return createNewBoard();
+    }
+
+    private JanggiBoard loadPreviousGameBoard() {
+        BoardArrangementStrategy strategyOfCho = janggiService.getChoStrategy();
+        BoardArrangementStrategy strategyOfHan = janggiService.getHanStrategy();
+        JanggiBoard board = new JanggiBoard(new JanggiBoardBasicInitializer(strategyOfCho, strategyOfHan));
+
+        List<List<JanggiPosition>> histories = janggiService.getHistories();
+        for (List<JanggiPosition> history : histories) {
+            JanggiPosition origin = history.get(0);
+            JanggiPosition destination = history.get(1);
+            board.movePiece(origin, destination);
+        }
+        return board;
     }
 
     private JanggiBoard createNewBoard() {
         BoardArrangementStrategy strategyOfCho = InputProcessor.repeatUntilNormalInput(() -> inputView.getBoardArrangementInput(JanggiSide.CHO), OutputView::printErrorMessage);
         BoardArrangementStrategy strategyOfHan = InputProcessor.repeatUntilNormalInput(() -> inputView.getBoardArrangementInput(JanggiSide.HAN), OutputView::printErrorMessage);
         outputView.printInitBoardMessage();
-        return janggiService.createJanggiBoard(strategyOfCho, strategyOfHan);
+        janggiService.startGame(strategyOfCho, strategyOfHan);
+        return new JanggiBoard(new JanggiBoardBasicInitializer(strategyOfCho, strategyOfHan));
     }
 
     private void processMovePiece(JanggiBoard board, JanggiSide side) {
         InputProcessor.repeatUntilNormalInput(() -> {
             outputView.printTurnMessage(side);
             List<JanggiPosition> originAndDestination = inputView.getMovePieceInput();
-            janggiService.movePiece(board, originAndDestination, side);
+            JanggiPosition origin = originAndDestination.get(0);
+            JanggiPosition destination = originAndDestination.get(1);
+            if (!board.isSameTeam(origin, side)) {
+                throw new IllegalArgumentException("차례에 맞는 말을 선택하세요.");
+            }
+            board.movePiece(origin, destination);
+            janggiService.addHistory(origin, destination);
         } , OutputView::printErrorMessage);
     }
 
