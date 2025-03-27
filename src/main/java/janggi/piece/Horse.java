@@ -29,30 +29,19 @@ public class Horse implements Piece {
     }
 
     @Override
-    public void move(Position arrivedPosition, List<Piece> positioningPiece) {
+    public void attack(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        checkAlreadyOccupiedPosition(arrivedPosition, positioningPiece);
-        List<Position> pathPositions = extractPathPositions(availableMovement, arrivedPosition);
-        checkObstacleOfPath(pathPositions, positioningPiece);
         position = step(availableMovement);
     }
 
-    private List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
+    public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
         return MOVEMENTS.stream()
                 .filter(movements -> !arrivedPosition.isOutOfBoards() && step(movements).equals(arrivedPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }
 
-    private void checkAlreadyOccupiedPosition(Position arrivedPosition, List<Piece> positioningPiece) {
-        for (Piece piece : positioningPiece) {
-            if (piece.matchesPosition(arrivedPosition) && piece.isSameTeam(this.team)) {
-                throw new IllegalArgumentException("도착 위치에 아군 기물이 존재합니다");
-            }
-        }
-    }
-
-    private List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
+    public List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
         List<Position> pathPositions = new ArrayList<>();
         for (int i = 0; i < availableMovements.size(); i++) {
             Position pathPosition = position;
@@ -65,14 +54,6 @@ public class Horse implements Piece {
         return pathPositions.stream()
                 .filter(position -> !position.equals(arrivedPosition))
                 .toList();
-    }
-
-    private void checkObstacleOfPath(List<Position> pathPositions, List<Piece> positioningPiece) {
-        boolean isObstacle = positioningPiece.stream()
-                .anyMatch(piece -> piece.isObstacle(pathPositions));
-        if (isObstacle) {
-            throw new IllegalArgumentException("이동할 수 없는 경로입니다");
-        }
     }
 
     private Position step(List<Movement> movements) {
@@ -90,7 +71,7 @@ public class Horse implements Piece {
     }
 
     @Override
-    public boolean canNotJumpOver() {
+    public boolean canNotJumpingOver() {
         return false;
     }
 

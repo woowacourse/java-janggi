@@ -19,7 +19,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(8, 5);
         //when
-        king.move(arrivedPosition, positioningPiece);
+        king.attack(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(8, 5))).isTrue();
     }
@@ -32,7 +32,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(10, 5);
         //when
-        king.move(arrivedPosition, positioningPiece);
+        king.attack(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(10, 5))).isTrue();
     }
@@ -45,7 +45,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(9, 6);
         //when
-        king.move(arrivedPosition, positioningPiece);
+        king.attack(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(9, 6))).isTrue();
     }
@@ -58,7 +58,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(9, 4);
         //when
-        king.move(arrivedPosition, positioningPiece);
+        king.attack(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(9, 4))).isTrue();
     }
@@ -71,7 +71,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(8, 6);
         //when
-        king.move(arrivedPosition, positioningPiece);
+        king.attack(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(8, 6))).isTrue();
     }
@@ -84,7 +84,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(10, 6);
         //when
-        king.move(arrivedPosition, positioningPiece);
+        king.attack(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(10, 6))).isTrue();
     }
@@ -97,7 +97,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(8, 4);
         //when
-        king.move(arrivedPosition, positioningPiece);
+        king.attack(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(8, 4))).isTrue();
     }
@@ -110,20 +110,9 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(10, 4);
         //when
-        king.move(arrivedPosition, positioningPiece);
+        king.attack(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(10, 4))).isTrue();
-    }
-
-    @Test
-    @DisplayName("왕 전진 위치에 아군 존재시 이동 불가 예외 발생 테스트")
-    void kingStepExceptionTest() {
-        //given
-        King king = new King(Team.CHO, new Position(9, 5));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(9, 6)));
-        Position arrivedPosition = new Position(9, 6);
-        //when & then
-        assertThatThrownBy(() -> king.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -134,6 +123,6 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(9, 6)));
         Position arrivedPosition = new Position(11, 5);
         //when & then
-        assertThatThrownBy(() -> king.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> king.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 }

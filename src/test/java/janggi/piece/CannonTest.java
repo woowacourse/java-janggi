@@ -19,7 +19,7 @@ public class CannonTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(5, 3)));
         Position arrivedPosition = new Position(3, 3);
         //when
-        cannon.move(arrivedPosition, positioningPiece);
+        cannon.attack(arrivedPosition);
         //then
         assertThat(cannon.matchesPosition(new Position(3, 3))).isTrue();
     }
@@ -32,7 +32,7 @@ public class CannonTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(8, 3)));
         Position arrivedPosition = new Position(9, 3);
         //when
-        cannon.move(arrivedPosition, positioningPiece);
+        cannon.attack(arrivedPosition);
         //then
         assertThat(cannon.matchesPosition(new Position(9, 3))).isTrue();
     }
@@ -45,7 +45,7 @@ public class CannonTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(7, 4)));
         Position arrivedPosition = new Position(7, 5);
         //when
-        cannon.move(arrivedPosition, positioningPiece);
+        cannon.attack(arrivedPosition);
         //then
         assertThat(cannon.matchesPosition(new Position(7, 5))).isTrue();
     }
@@ -58,7 +58,7 @@ public class CannonTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(7, 1);
         //when
-        cannon.move(arrivedPosition, positioningPiece);
+        cannon.attack(arrivedPosition);
         //then
         assertThat(cannon.matchesPosition(new Position(7, 1))).isTrue();
     }
@@ -71,46 +71,6 @@ public class CannonTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(7, 7)));
         Position arrivedPosition = new Position(7, 11);
         //when & then
-        assertThatThrownBy(() -> cannon.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> cannon.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
-
-    @Test
-    @DisplayName("포 이동 경로에 장애물이 없는 경우 예외 발생")
-    void isObstacleExceptionTest() {
-        //given
-        Cannon cannon = new Cannon(Team.CHO, new Position(7, 6));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(1, 7)));
-        Position arrivedPosition = new Position(7, 1);
-        //when & then
-        assertThatThrownBy(() -> cannon.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("포 이동 경로에 장애물이 두개 있는 경우 예외 발생")
-    void isMultiObstacleExceptionTest() {
-        //given
-        Cannon cannon = new Cannon(Team.CHO, new Position(7, 6));
-        List<Piece> positioningPiece = List.of(
-                new Soldier(Team.CHO, new Position(7, 5)),
-                new Soldier(Team.CHO, new Position(7, 4))
-        );
-        Position arrivedPosition = new Position(7, 1);
-        //when & then
-        assertThatThrownBy(() -> cannon.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
-    }
-
-
-    @Test
-    @DisplayName("포 이동 경로에 장애물이 넘을 수 없는 대상(포)인 경우 예외 발생")
-    void canNorJumpExceptionTest() {
-        //given
-        Cannon cannon = new Cannon(Team.CHO, new Position(7, 6));
-        List<Piece> positioningPiece = List.of(
-                new Cannon(Team.CHO, new Position(7, 4))
-        );
-        Position arrivedPosition = new Position(7, 1);
-        //when & then
-        assertThatThrownBy(() -> cannon.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
-    }
-
 }

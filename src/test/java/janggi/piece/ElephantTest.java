@@ -20,7 +20,7 @@ public class ElephantTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(4, 6);
         //when
-        elephant.move(arrivedPosition, positioningPiece);
+        elephant.attack(arrivedPosition);
         //then
         assertThat(elephant.matchesPosition(new Position(4, 6))).isTrue();
     }
@@ -33,7 +33,7 @@ public class ElephantTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(4, 2);
         //when
-        elephant.move(arrivedPosition, positioningPiece);
+        elephant.attack(arrivedPosition);
         //then
         assertThat(elephant.matchesPosition(new Position(4, 2))).isTrue();
     }
@@ -46,7 +46,7 @@ public class ElephantTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(5, 1);
         //when
-        elephant.move(arrivedPosition, positioningPiece);
+        elephant.attack(arrivedPosition);
         //then
         assertThat(elephant.matchesPosition(new Position(5, 1))).isTrue();
     }
@@ -59,7 +59,7 @@ public class ElephantTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(9, 1);
         //when
-        elephant.move(arrivedPosition, positioningPiece);
+        elephant.attack(arrivedPosition);
         //then
         assertThat(elephant.matchesPosition(new Position(9, 1))).isTrue();
     }
@@ -72,7 +72,7 @@ public class ElephantTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(5, 7);
         //when
-        elephant.move(arrivedPosition, positioningPiece);
+        elephant.attack(arrivedPosition);
         //then
         assertThat(elephant.matchesPosition(new Position(5, 7))).isTrue();
     }
@@ -85,7 +85,7 @@ public class ElephantTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(9, 7);
         //when
-        elephant.move(arrivedPosition, positioningPiece);
+        elephant.attack(arrivedPosition);
         //then
         assertThat(elephant.matchesPosition(new Position(9, 7))).isTrue();
     }
@@ -98,7 +98,7 @@ public class ElephantTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(10, 6);
         //when
-        elephant.move(arrivedPosition, positioningPiece);
+        elephant.attack(arrivedPosition);
         //then
         assertThat(elephant.matchesPosition(new Position(10, 6))).isTrue();
     }
@@ -111,7 +111,7 @@ public class ElephantTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(10, 2);
         //when
-        elephant.move(arrivedPosition, positioningPiece);
+        elephant.attack(arrivedPosition);
         //then
         assertThat(elephant.matchesPosition(new Position(10, 2))).isTrue();
     }
@@ -124,17 +124,6 @@ public class ElephantTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(11, 2);
         //when & then
-        assertThatThrownBy(() -> elephant.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("상 이동 경로에 장애물이 있는 경우 이동 불가 예외 발생")
-    void isObstacleExceptionTest() {
-        //given
-        Elephant elephant = new Elephant(Team.CHO, new Position(7, 4));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(9, 3)));
-        Position arrivedPosition = new Position(10, 2);
-        //when & then
-        assertThatThrownBy(() -> elephant.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> elephant.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 }

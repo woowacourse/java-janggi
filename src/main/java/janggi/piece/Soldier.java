@@ -10,7 +10,7 @@ public class Soldier implements Piece {
 
     private final Team team;
     private Position position;
-    private final List<Movement> movements;
+    private final List<List<Movement>> movements;
 
     public Soldier(Team team, Position position) {
         this.team = team;
@@ -18,45 +18,45 @@ public class Soldier implements Piece {
         this.movements = choiceMovementsByTeam(team);
     }
 
-    private List<Movement> choiceMovementsByTeam(Team team) {
+    private List<List<Movement>> choiceMovementsByTeam(Team team) {
         if (team == Team.CHO) {
             return List.of(
-                    Movement.UP,
-                    Movement.RIGHT,
-                    Movement.LEFT
+                    List.of(Movement.UP),
+                    List.of(Movement.RIGHT),
+                    List.of(Movement.LEFT)
             );
         }
         return List.of(
-                Movement.DOWN,
-                Movement.RIGHT,
-                Movement.LEFT
+                List.of(Movement.DOWN),
+                List.of(Movement.RIGHT),
+                List.of(Movement.LEFT)
         );
     }
 
     @Override
-    public void move(Position arrivedPosition, List<Piece> positioningPiece) {
-        Movement availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        checkAlreadyOccupiedPosition(arrivedPosition, positioningPiece);
+    public void attack(Position arrivedPosition) {
+        List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
         position = step(availableMovement);
     }
 
-    private Movement findAvailableMovementByArrivedPosition(Position arrivedPosition) {
+    public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
         return movements.stream()
                 .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement).equals(arrivedPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }
 
-    private void checkAlreadyOccupiedPosition(Position arrivedPosition, List<Piece> positioningPiece) {
-        for (Piece piece : positioningPiece) {
-            if (piece.matchesPosition(arrivedPosition) && piece.isSameTeam(this.team)) {
-                throw new IllegalArgumentException("도착 위치에 아군 기물이 존재합니다");
-            }
-        }
+    @Override
+    public List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
+        return List.of();
     }
 
-    private Position step(Movement movement) {
-        return movement.move(position);
+    private Position step(List<Movement> movements) {
+        Position reachablePosition = position;
+        for (Movement movement : movements) {
+            reachablePosition = movement.move(reachablePosition);
+        }
+        return reachablePosition;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Soldier implements Piece {
     }
 
     @Override
-    public boolean canNotJumpOver() {
+    public boolean canNotJumpingOver() {
         return false;
     }
 

@@ -6,7 +6,11 @@ import janggi.team.Team;
 import java.util.List;
 
 public interface Piece {
-    void move(Position arrivedPosition, List<Piece> positioningPiece);
+    void attack(Position arrivedPosition);
+
+    List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition);
+
+    List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition);
 
     boolean isSameTeam(Team team);
 
@@ -14,7 +18,7 @@ public interface Piece {
 
     boolean isObstacle(List<Position> pathPositions);
 
-    boolean canNotJumpOver();
+    boolean canNotJumpingOver();
 
     Position getPosition();
 

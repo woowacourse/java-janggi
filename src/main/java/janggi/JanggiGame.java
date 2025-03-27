@@ -20,12 +20,12 @@ public class JanggiGame {
 
         Team turn = Team.CHO;
         Board board = new Board(initialPieces);
-        output.printBoard(board.getPositionedPieces());
+        output.printBoard(board.getLocatedPieces());
         while (true) {
             try {
                 Map.Entry<Position, Position> moveableInfo = input.readMoveablePiece();
-                board.attack(turn, moveableInfo.getKey(), moveableInfo.getValue());
-                output.printBoard(board.getPositionedPieces());
+                board.move(turn, moveableInfo.getKey(), moveableInfo.getValue());
+                output.printBoard(board.getLocatedPieces());
                 turn = changeTurn(turn);
             } catch (Exception e) {
                 System.out.println(e.getMessage());

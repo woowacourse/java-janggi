@@ -19,7 +19,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(5, 4);
         //when
-        horse.move(arrivedPosition, positioningPiece);
+        horse.attack(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(5, 4))).isTrue();
     }
@@ -32,7 +32,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(5, 2);
         //when
-        horse.move(arrivedPosition, positioningPiece);
+        horse.attack(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(5, 2))).isTrue();
     }
@@ -45,7 +45,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(6, 1);
         //when
-        horse.move(arrivedPosition, positioningPiece);
+        horse.attack(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(6, 1))).isTrue();
     }
@@ -58,7 +58,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(8, 1);
         //when
-        horse.move(arrivedPosition, positioningPiece);
+        horse.attack(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(8, 1))).isTrue();
     }
@@ -71,7 +71,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(6, 5);
         //when
-        horse.move(arrivedPosition, positioningPiece);
+        horse.attack(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(6, 5))).isTrue();
     }
@@ -84,7 +84,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(8, 5);
         //when
-        horse.move(arrivedPosition, positioningPiece);
+        horse.attack(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(8, 5))).isTrue();
     }
@@ -97,7 +97,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(9, 4);
         //when
-        horse.move(arrivedPosition, positioningPiece);
+        horse.attack(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(9, 4))).isTrue();
     }
@@ -110,7 +110,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(9, 2);
         //when
-        horse.move(arrivedPosition, positioningPiece);
+        horse.attack(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(9, 2))).isTrue();
     }
@@ -123,17 +123,6 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(11, 2);
         //when & then
-        assertThatThrownBy(() -> horse.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    @DisplayName("마 이동 경로에 장애물이 있는 경우 이동 불가 예외 발생")
-    void isObstacleExceptionTest() {
-        //given
-        Horse horse = new Horse(Team.CHO, new Position(7, 3));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(6, 3)));
-        Position arrivedPosition = new Position(5, 2);
-        //when & then
-        assertThatThrownBy(() -> horse.move(arrivedPosition, positioningPiece)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> horse.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 }
