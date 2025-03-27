@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.Coordinate;
+import domain.piece.AvailablePaths;
 import domain.piece.Country;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -26,8 +27,9 @@ public final class Board {
     public void movePiece(Coordinate from, Coordinate to) {
         Piece piece = findPieceByCoordinate(from);
 
-        List<Coordinate> availables = piece.availableMovePositions(from, this);
-        validateMoveCoordinate(to, availables);
+        List<Coordinate> coordinates = piece.availableMovePositions(from, this);
+        AvailablePaths availablePaths = new AvailablePaths(coordinates);
+        availablePaths.canMove(to);
 
         board.put(to, piece);
         board.remove(from);
@@ -41,12 +43,6 @@ public final class Board {
     public PieceType findPieceTypeByCoordinate(Coordinate coordinate) {
         validatePieceCoordinate(coordinate);
         return board.get(coordinate).getType();
-    }
-
-    private void validateMoveCoordinate(Coordinate newCoordinate, List<Coordinate> coordinates) {
-        if (!coordinates.contains(newCoordinate)) {
-            throw new IllegalArgumentException("[ERROR] 이동 불가능한 위치입니다.");
-        }
     }
 
     private void validatePieceCoordinate(Coordinate coordinate) {

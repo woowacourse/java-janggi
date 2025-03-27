@@ -30,13 +30,6 @@ public class JanggiGame {
         }
     }
 
-    private void showScore(Board board) {
-        int hanScore = board.calculateHanScore();
-        int choScore = board.calculateChoScore();
-
-        outputView.printScore(hanScore, choScore);
-    }
-
     private Board settingUp() {
         BoardSettingUpStrategy hanSettingUpStrategy = retryUntilValid(() -> {
             String settingUp = inputView.readSettingUp(Country.HAN);
@@ -79,6 +72,13 @@ public class JanggiGame {
             return true;
         }
         return false;
+    }
+
+    private void showScore(Board board) {
+        int hanScore = board.calculateHanScore();
+        int choScore = board.calculateChoScore();
+
+        outputView.printScore(hanScore, choScore);
     }
 
     private void nextTurn() {
