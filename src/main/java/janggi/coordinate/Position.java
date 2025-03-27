@@ -48,25 +48,35 @@ public record Position(int x, int y) {
         return new Position(this.x + x, this.y + y);
     }
 
-    public List<Position> calculateBetweenPositions(final Position destPosition) {
-        if (!isSameLine(destPosition)) {
+    public List<Position> calculateBetweenPositions(final Position destination) {
+        if (!isSameLine(destination)) {
             return Collections.emptyList();
         }
+
+        final List<Position> betweenPositions = makePositionsToDestination(destination);
+        removeSourceAndDestination(betweenPositions);
+
+        return betweenPositions;
+    }
+
+    private List<Position> makePositionsToDestination(final Position destination) {
         final List<Position> betweenPositions = new ArrayList<>();
-        final int minX = Math.min(x, destPosition.x);
-        final int minY = Math.min(y, destPosition.y);
-        final int maxX = Math.max(x, destPosition.x);
-        final int maxY = Math.max(y, destPosition.y);
+        final int minX = Math.min(x, destination.x);
+        final int minY = Math.min(y, destination.y);
+        final int maxX = Math.max(x, destination.x);
+        final int maxY = Math.max(y, destination.y);
 
         for (int i = minX; i <= maxX; i++) {
             for (int j = minY; j <= maxY; j++) {
                 betweenPositions.add(new Position(i, j));
             }
         }
+        return betweenPositions;
+    }
+
+    private static void removeSourceAndDestination(final List<Position> betweenPositions) {
         betweenPositions.removeFirst();
         betweenPositions.removeLast();
-
-        return betweenPositions;
     }
 
 }
