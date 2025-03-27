@@ -29,7 +29,6 @@ class CannonTest {
         );
     }
 
-
     @Test
     void 포의_목적지에_같은팀이_있으면_이동불가() {
         Piece piece = new Cannon(PieceColor.RED);
@@ -90,6 +89,30 @@ class CannonTest {
         List<Piece> piecesOnRoute = List.of(new Elephant(PieceColor.BLUE));
 
         boolean canMove = piece.canMove(cannon, piecesOnRoute);
+        assertThat(canMove).isFalse();
+    }
+
+    @Test
+    void 포는_궁성_내부에서_대각으로_이동가능() {
+        Piece piece = new Cannon(PieceColor.RED);
+        Position source = new Position(Row.ONE, Column.FOUR);
+        Position destination = new Position(Row.THREE, Column.SIX);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = piece.isValidMovement(movePath);
+
+        assertThat(canMove).isTrue();
+    }
+
+    @Test
+    void 포는_궁성_외부에서_대각으로_이동불가능() {
+        Piece piece = new Cannon(PieceColor.RED);
+        Position source = new Position(Row.ONE, Column.ONE);
+        Position destination = new Position(Row.THREE, Column.THREE);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = piece.isValidMovement(movePath);
+
         assertThat(canMove).isFalse();
     }
 }

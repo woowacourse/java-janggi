@@ -111,4 +111,28 @@ class ChariotTest {
         boolean canMove = chariot.canMove(elephant, piecesOnRoute);
         assertThat(canMove).isTrue();
     }
+
+    @Test
+    void 차는_궁성_내부에서_대각으로_이동가능() {
+        Piece piece = new Chariot(PieceColor.RED);
+        Position source = new Position(Row.ONE, Column.FOUR);
+        Position destination = new Position(Row.THREE, Column.SIX);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = piece.isValidMovement(movePath);
+
+        assertThat(canMove).isTrue();
+    }
+
+    @Test
+    void 차는_궁성_외부에서_대각으로_이동불가능() {
+        Piece piece = new Chariot(PieceColor.RED);
+        Position source = new Position(Row.ONE, Column.ONE);
+        Position destination = new Position(Row.THREE, Column.THREE);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = piece.isValidMovement(movePath);
+
+        assertThat(canMove).isFalse();
+    }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class General extends Piece {
 
-    public static final int GENERAL_STRAIGHT_MOVE = 1;
+    public static final int GENERAL_MOVE = 1;
 
     public General(PieceColor color) {
         super(PieceType.GENERAL, color, DefaultMoveRule.getInstance());
@@ -15,7 +15,10 @@ public class General extends Piece {
 
     @Override
     public boolean isValidMovement(MovePath movePath) {
-        return movePath.isStraightMoveBy(GENERAL_STRAIGHT_MOVE);
+        if (movePath.isOutsidePalace()) {
+            return false;
+        }
+        return movePath.isStraightMoveBy(GENERAL_MOVE) || movePath.isDiagonalMoveBy(GENERAL_MOVE);
     }
 
     @Override

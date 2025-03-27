@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Soldier extends Piece {
 
-    public static final int SOLDIER_STRAIGHT_MOVE = 1;
+    public static final int SOLDIER_MOVE = 1;
 
     public Soldier(PieceColor color) {
         super(PieceType.SOLDIER, color, DefaultMoveRule.getInstance());
@@ -15,17 +15,24 @@ public class Soldier extends Piece {
 
     @Override
     public boolean isValidMovement(MovePath movePath) {
-        if ((color == PieceColor.RED) && !movePath.isUpward()) {
-            return movePath.isStraightMoveBy(SOLDIER_STRAIGHT_MOVE);
+        if (isWrongDirection(movePath)) {
+            return false;
         }
-        if ((color == PieceColor.BLUE) && !movePath.isDownward()) {
-            return movePath.isStraightMoveBy(SOLDIER_STRAIGHT_MOVE);
-        }
-        return false;
+        return movePath.isStraightMoveBy(SOLDIER_MOVE) || movePath.isDiagonalMoveBy(SOLDIER_MOVE);
     }
 
     @Override
     public List<Position> findAllRoute(MovePath movePath) {
         return movePath.getBetweenPositions();
+    }
+
+    private boolean isWrongDirection(MovePath movepath) {
+        if (color == PieceColor.RED) {
+            return movepath.isUpward();
+        }
+        if (color == PieceColor.BLUE) {
+            return movepath.isDownward();
+        }
+        return false;
     }
 }

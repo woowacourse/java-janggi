@@ -13,7 +13,7 @@ public class Chariot extends Piece {
 
     @Override
     public boolean isValidMovement(MovePath movePath) {
-        return movePath.isStraight();
+        return movePath.isStraight() || movePath.isDiagonalMoveBy(2);
     }
 
     @Override

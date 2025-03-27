@@ -56,13 +56,13 @@ class MovePathTest {
 
     @Test
     void 두_좌표가_특정거리_떨어져있고_대각선인지_확인() {
-        Position src = new Position(Row.ONE, Column.ONE);
-        Position dst = new Position(Row.FIVE, Column.FIVE);
+        Position src = new Position(Row.ONE, Column.FOUR);
+        Position dst = new Position(Row.THREE, Column.SIX);
         MovePath movePath = new MovePath(src, dst);
 
         assertAll(
-                () -> assertThat(movePath.isDiagonalMoveBy(4)).isTrue(),
-                () -> assertThat(movePath.isDiagonalMoveBy(3)).isFalse()
+                () -> assertThat(movePath.isDiagonalMoveBy(2)).isTrue(),
+                () -> assertThat(movePath.isDiagonalMoveBy(1)).isFalse()
         );
     }
 
