@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RoutePolicyForNormal implements RoutePolicy {
+    @Override
     public Set<Route> getPossibleRoutes(Piece piece, List<Piece> pieces) {
         return piece.calculateRoutes().stream()
                 .filter(route -> isValidNormalRoute(route, piece, pieces))

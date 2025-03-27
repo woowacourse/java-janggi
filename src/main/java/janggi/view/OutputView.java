@@ -19,35 +19,40 @@ public class OutputView {
         int startX = 0;
         int startY = 9;
 
+        // 윗부분 인덱스 출력
         System.out.print("  ");
-
         for (int j = startX; j <= 8; j++) {
-            System.out.print(j + " ");
+            System.out.print(j + "＿");
         }
         System.out.println();
 
+        // 보드 출력
         for (int i = startY; i >= 0; i--) {
             System.out.print(i + " ");
 
             for (int j = startX; j <= 8; j++) {
-                boolean check = true;
+                boolean isEmpty = true;
+
                 for (Piece piece : pieces) {
                     if (piece.isSamePosition(new Position(j, i))) {
-                        System.out.print(colorPiece(piece));
-                        check = false;
+                        System.out.print(colorPiece(piece) + " ");
+                        isEmpty = false;
+                        break;
                     }
                 }
-                if (check) {
-                    System.out.print("．");
+
+                if (isEmpty) {
+                    System.out.print("＿ ");
                 }
             }
+
             System.out.println();
         }
 
+        // 아랫부분 인덱스 출력
         System.out.print("  ");
-
         for (int j = startX; j <= 8; j++) {
-            System.out.print(j + " ");
+            System.out.print(j + "＿");
         }
         System.out.println();
     }

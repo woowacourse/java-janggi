@@ -61,6 +61,45 @@ class SoldierTest {
         assertThat(soliderRoutes).isEqualTo(expected);
     }
 
+    @DisplayName("졸이 (3, 7) 위치에서 올바른 루트를 계산하는지 확인한다.")
+    @Test
+    void calculatePalaceRoutesTest1() {
+        // given
+        soldier = new Soldier(new Position(3, 7), Team.BLUE);
+        final Set<Route> soliderRoutes = soldier.calculateRoutes();
+
+        final Route route1 = new Route(new ArrayList<>(List.of(new Position(2, 7))));
+        final Route route2 = new Route(new ArrayList<>(List.of(new Position(4, 7))));
+        final Route route3 = new Route(new ArrayList<>(List.of(new Position(3, 8))));
+        final Route route4 = new Route(new ArrayList<>(List.of(new Position(4, 8))));
+
+        // when
+        final Set<Route> expected = Set.of(route2, route1, route3, route4);
+
+        // then
+        assertThat(soliderRoutes).isEqualTo(expected);
+    }
+
+    @DisplayName("졸이 (4, 8) 위치에서 올바른 루트를 계산하는지 확인한다.")
+    @Test
+    void calculatePalaceRoutesTest2() {
+        // given
+        soldier = new Soldier(new Position(4, 8), Team.BLUE);
+        final Set<Route> soliderRoutes = soldier.calculateRoutes();
+
+        final Route route1 = new Route(new ArrayList<>(List.of(new Position(3, 9))));
+        final Route route2 = new Route(new ArrayList<>(List.of(new Position(4, 9))));
+        final Route route3 = new Route(new ArrayList<>(List.of(new Position(5, 9))));
+        final Route route4 = new Route(new ArrayList<>(List.of(new Position(3, 8))));
+        final Route route5 = new Route(new ArrayList<>(List.of(new Position(5, 8))));
+
+        // when
+        final Set<Route> expected = Set.of(route2, route1, route3, route4, route5);
+
+        // then
+        assertThat(soliderRoutes).isEqualTo(expected);
+    }
+
     @DisplayName("같은 팀이면 참을 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {

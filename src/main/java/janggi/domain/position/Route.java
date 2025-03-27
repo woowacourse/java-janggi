@@ -21,6 +21,10 @@ public class Route {
         return false;
     }
 
+    public boolean isDestinationInPalace() {
+        return getDestination().isPalace();
+    }
+
     public boolean isDestination(Piece piece) {
         return piece.isSamePosition(route.getLast());
     }
