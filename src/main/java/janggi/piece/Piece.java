@@ -7,10 +7,12 @@ import java.util.Objects;
 
 public abstract class Piece {
 
-    private final PieceProfile pieceProfile;
+    private final PieceType pieceType;
+    private final Team team;
 
-    protected Piece(final PieceProfile pieceProfile) {
-        this.pieceProfile = pieceProfile;
+    protected Piece(final PieceType pieceType, final Team team) {
+        this.pieceType = pieceType;
+        this.team = team;
     }
 
     public void moveTo(final Position currentPosition, final Position targetPosition,
@@ -41,7 +43,7 @@ public abstract class Piece {
     }
 
     private boolean isSameTeam(final Piece other) {
-        return other != null && isSame(other.getPieceProfile().getTeam());
+        return other != null && isSame(other.team);
     }
 
     private boolean isNotSameTeam(final Team currentTurnTeam) {
@@ -49,23 +51,23 @@ public abstract class Piece {
     }
 
     private boolean isSame(final Team other) {
-        return pieceProfile.getTeam().isSameTeam(other);
+        return this.team.isSameTeam(other);
     }
 
     public boolean isChoNation() {
-        return pieceProfile.isCho();
+        return Team.isChu(this.team);
     }
 
     public boolean isHanNation() {
-        return pieceProfile.isHan();
+        return Team.isHan(this.team);
     }
 
-    public PieceProfile getPieceProfile() {
-        return pieceProfile;
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
-    public String getType() {
-        return pieceProfile.getPieceType().getValue();
+    public Team getTeam() {
+        return team;
     }
 
     @Override
@@ -74,11 +76,11 @@ public abstract class Piece {
             return false;
         }
         final Piece piece = (Piece) o;
-        return Objects.equals(getPieceProfile(), piece.getPieceProfile());
+        return pieceType == piece.pieceType && team == piece.team;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getPieceProfile());
+        return Objects.hash(pieceType, team);
     }
 }

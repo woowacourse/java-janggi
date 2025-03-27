@@ -30,7 +30,7 @@ class PieceTest {
         final Piece other = new StubPiece(Team.CHU);
 
         //when //then
-        assertThatThrownBy(() -> piece.validateTeam(other.getPieceProfile().getTeam()))
+        assertThatThrownBy(() -> piece.validateTeam(other.getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -38,7 +38,7 @@ class PieceTest {
     static class StubPiece extends Piece {
 
         protected StubPiece(final Team team) {
-            super(new PieceProfile(null, team));
+            super(null, team);
         }
 
         @Override

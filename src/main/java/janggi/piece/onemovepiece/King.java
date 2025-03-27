@@ -1,7 +1,6 @@
 package janggi.piece.onemovepiece;
 
 import janggi.piece.Piece;
-import janggi.piece.PieceProfile;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
@@ -10,7 +9,7 @@ import java.util.List;
 public class King extends Piece {
 
     public King(final Team team) {
-        super(new PieceProfile(PieceType.KING, team));
+        super(PieceType.KING, team);
     }
 
     @Override

@@ -23,15 +23,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class CannonTest {
 
-    @DisplayName("포는 팀과 타입을 가진 프로필을 가진다.")
+    @DisplayName("포는 팀과 타입을 가진다.")
     @Test
     void cannonBoardPosition() {
         //given //when
         final Cannon cannon = new Cannon(Team.HAN);
 
         //then
-        assertThat(cannon.getPieceProfile().getPieceType()).isEqualTo(PieceType.CANNON);
-        assertThat(cannon.getPieceProfile().getTeam()).isEqualTo(Team.HAN);
+        assertThat(cannon.getPieceType()).isEqualTo(PieceType.CANNON);
+        assertThat(cannon.getTeam()).isEqualTo(Team.HAN);
     }
 
     @DisplayName("제공된 위치를 기준으로 이동할 수 없다면 예외를 던진다.")

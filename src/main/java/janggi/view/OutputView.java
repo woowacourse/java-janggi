@@ -46,7 +46,7 @@ public class OutputView {
     }
 
     private String getColoredPieceName(final Piece piece) {
-        final String typeName = piece.getType();
+        final String typeName = piece.getPieceType().getValue();
         if (piece.isChoNation()) {
             return GREEN_COLOR_CODE + typeName + EXIT_CODE;
         }

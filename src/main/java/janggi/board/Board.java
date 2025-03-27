@@ -39,7 +39,7 @@ public class Board {
     }
 
     private boolean isKingCapture(final Piece piece) {
-        return piece != null && PieceType.isKing(piece.getPieceProfile().getPieceType());
+        return piece != null && PieceType.isKing(piece.getPieceType());
     }
 
     public void validateEmptyPieceBy(final Position currentPosition) {

@@ -24,8 +24,8 @@ class GuardTest {
         final Guard guard = new Guard(Team.HAN);
 
         //then
-        assertThat(guard.getPieceProfile().getPieceType()).isEqualTo(PieceType.GUARD);
-        assertThat(guard.getPieceProfile().getTeam()).isEqualTo(Team.HAN);
+        assertThat(guard.getPieceType()).isEqualTo(PieceType.GUARD);
+        assertThat(guard.getTeam()).isEqualTo(Team.HAN);
     }
 
     @DisplayName("제공된 위치를 기준으로 이동할 수 없다면 예외를 반환한다.")

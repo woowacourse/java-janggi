@@ -1,7 +1,6 @@
 package janggi.piece.multiplemovepiece;
 
 import janggi.piece.Piece;
-import janggi.piece.PieceProfile;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
@@ -12,7 +11,7 @@ import java.util.Map;
 public class Cannon extends Piece {
 
     public Cannon(final Team team) {
-        super(new PieceProfile(PieceType.CANNON, team));
+        super(PieceType.CANNON, team);
     }
 
     @Override
@@ -27,7 +26,7 @@ public class Cannon extends Piece {
 
         for (final Position position : moveRoute) {
             final Piece piece = janggiBoard.get(position);
-            if (janggiBoard.containsKey(position) && PieceType.isCannon(piece.getPieceProfile().getPieceType())) {
+            if (janggiBoard.containsKey(position) && PieceType.isCannon(piece.getPieceType())) {
                 throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 포가 존재합니다. 포는 포를 넘을 수 없습니다.");
             }
 

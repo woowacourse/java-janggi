@@ -17,15 +17,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class PawnTest {
 
-    @DisplayName("졸은 팀과 타입을 가진 프로필을 가진다.")
+    @DisplayName("졸은 팀과 타입을 가진다.")
     @Test
     void pawnBoardPosition() {
         //given //when
         final Pawn pawn = new Pawn(Team.HAN);
 
         //then
-        assertThat(pawn.getPieceProfile().getPieceType()).isEqualTo(PieceType.PAWN);
-        assertThat(pawn.getPieceProfile().getTeam()).isEqualTo(Team.HAN);
+        assertThat(pawn.getPieceType()).isEqualTo(PieceType.PAWN);
+        assertThat(pawn.getTeam()).isEqualTo(Team.HAN);
     }
 
     @DisplayName("제공된 위치를 기준으로 이동할 수 없다면 예외를 반환한다.")

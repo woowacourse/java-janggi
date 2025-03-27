@@ -17,15 +17,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SoldierTest {
 
-    @DisplayName("병은 팀과 타입을 가진 프로필을 가진다.")
+    @DisplayName("병은 팀과 타입을 가진다.")
     @Test
     void soldierBoardPosition() {
         //given //when
         final Soldier soldier = new Soldier(Team.HAN);
 
         //then
-        assertThat(soldier.getPieceProfile().getPieceType()).isEqualTo(PieceType.SOLDIER);
-        assertThat(soldier.getPieceProfile().getTeam()).isEqualTo(Team.HAN);
+        assertThat(soldier.getPieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(soldier.getTeam()).isEqualTo(Team.HAN);
     }
 
     @DisplayName("제공된 위치를 기준으로 이동할 수 없다면(가로,세로 한칸을 제외한 경로) 예외를 던진다.")

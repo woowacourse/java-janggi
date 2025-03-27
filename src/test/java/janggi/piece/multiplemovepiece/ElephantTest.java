@@ -20,15 +20,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ElephantTest {
 
-    @DisplayName("상은 팀과 타입을 가진 프로필을 가진다.")
+    @DisplayName("상은 팀과 타입을 가진다.")
     @Test
     void elephantjanggiBoardPosition() {
         //given //when
         final Elephant elephant = new Elephant(Team.HAN);
 
         //then
-        assertThat(elephant.getPieceProfile().getPieceType()).isEqualTo(PieceType.ELEPHANT);
-        assertThat(elephant.getPieceProfile().getTeam()).isEqualTo(Team.HAN);
+        assertThat(elephant.getPieceType()).isEqualTo(PieceType.ELEPHANT);
+        assertThat(elephant.getTeam()).isEqualTo(Team.HAN);
     }
 
     @DisplayName("제공된 위치를 기준으로 이동할 수 없다면 예외를 던진다.")

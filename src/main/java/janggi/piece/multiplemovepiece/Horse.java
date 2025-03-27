@@ -1,7 +1,6 @@
 package janggi.piece.multiplemovepiece;
 
 import janggi.piece.Piece;
-import janggi.piece.PieceProfile;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
@@ -12,7 +11,7 @@ import java.util.Map;
 public class Horse extends Piece {
 
     public Horse(final Team team) {
-        super(new PieceProfile(PieceType.HORSE, team));
+        super(PieceType.HORSE, team);
     }
 
     @Override

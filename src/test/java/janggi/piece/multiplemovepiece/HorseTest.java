@@ -20,15 +20,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class HorseTest {
 
-    @DisplayName("마는 팀과 타입을 가진 프로필을 가진다.")
+    @DisplayName("마는 팀과 타입을 가진다.")
     @Test
     void horsejanggiBoardPosition() {
         //given //when
         final Horse horse = new Horse(Team.HAN);
 
         //then
-        assertThat(horse.getPieceProfile().getPieceType()).isEqualTo(PieceType.HORSE);
-        assertThat(horse.getPieceProfile().getTeam()).isEqualTo(Team.HAN);
+        assertThat(horse.getPieceType()).isEqualTo(PieceType.HORSE);
+        assertThat(horse.getTeam()).isEqualTo(Team.HAN);
     }
 
     @DisplayName("제공된 위치를 기준으로 이동할 수 없다면 예외를 반환한다.")
