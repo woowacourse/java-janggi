@@ -90,14 +90,14 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide궁Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.MOVE_UP)),
-                    Arguments.of(new JanggiPosition(9, 4), List.of(MovingPattern.MOVE_LEFT)),
-                    Arguments.of(new JanggiPosition(9, 6), List.of(MovingPattern.MOVE_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.MOVE_DOWN)),
-                    Arguments.of(new JanggiPosition(8, 4), List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 6), List.of(MovingPattern.MOVE_DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 6), List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 4), List.of(MovingPattern.MOVE_DIAGONAL_DOWN_LEFT))
+                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.UP)),
+                    Arguments.of(new JanggiPosition(9, 4), List.of(MovingPattern.LEFT)),
+                    Arguments.of(new JanggiPosition(9, 6), List.of(MovingPattern.RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.DOWN)),
+                    Arguments.of(new JanggiPosition(8, 4), List.of(MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 6), List.of(MovingPattern.DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 6), List.of(MovingPattern.DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 4), List.of(MovingPattern.DIAGONAL_DOWN_LEFT))
 
             );
         }
@@ -181,14 +181,14 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide마Path() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(5, 2), List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(5, 6), List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(4, 5), List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(4, 3), List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(7, 2), List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 3), List.of(MovingPattern.MOVE_DOWN, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.MOVE_DOWN, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT))
+                    Arguments.of(new JanggiPosition(5, 2), List.of(MovingPattern.LEFT, MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(5, 6), List.of(MovingPattern.RIGHT, MovingPattern.DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(4, 5), List.of(MovingPattern.UP, MovingPattern.DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(4, 3), List.of(MovingPattern.UP, MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(7, 2), List.of(MovingPattern.LEFT, MovingPattern.DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 3), List.of(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT))
             );
         }
 
@@ -261,9 +261,9 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide병Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.MOVE_DOWN)),
-                    Arguments.of(new JanggiPosition(7, 4), List.of(MovingPattern.MOVE_LEFT)),
-                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.MOVE_RIGHT))
+                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.DOWN)),
+                    Arguments.of(new JanggiPosition(7, 4), List.of(MovingPattern.LEFT)),
+                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.RIGHT))
             );
         }
 
@@ -320,7 +320,7 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThat(route).containsAll(List.of(
-                    MovingPattern.MOVE_DIAGONAL_DOWN_LEFT
+                    MovingPattern.DIAGONAL_DOWN_LEFT
             ));
         }
     }
@@ -346,14 +346,14 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide사Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.MOVE_UP)),
-                    Arguments.of(new JanggiPosition(9, 4), List.of(MovingPattern.MOVE_LEFT)),
-                    Arguments.of(new JanggiPosition(9, 6), List.of(MovingPattern.MOVE_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.MOVE_DOWN)),
-                    Arguments.of(new JanggiPosition(8, 4), List.of(MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 6), List.of(MovingPattern.MOVE_DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 6), List.of(MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 4), List.of(MovingPattern.MOVE_DIAGONAL_DOWN_LEFT))
+                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.UP)),
+                    Arguments.of(new JanggiPosition(9, 4), List.of(MovingPattern.LEFT)),
+                    Arguments.of(new JanggiPosition(9, 6), List.of(MovingPattern.RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.DOWN)),
+                    Arguments.of(new JanggiPosition(8, 4), List.of(MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 6), List.of(MovingPattern.DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 6), List.of(MovingPattern.DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 4), List.of(MovingPattern.DIAGONAL_DOWN_LEFT))
             );
         }
 
@@ -452,14 +452,14 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide상Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(4, 8), List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(8, 8), List.of(MovingPattern.MOVE_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(9, 7), List.of(MovingPattern.MOVE_DOWN, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT, MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(9, 3), List.of(MovingPattern.MOVE_DOWN, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 2), List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(4, 2), List.of(MovingPattern.MOVE_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(3, 3), List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_LEFT, MovingPattern.MOVE_DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(3, 7), List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT))
+                    Arguments.of(new JanggiPosition(4, 8), List.of(MovingPattern.RIGHT, MovingPattern.DIAGONAL_UP_RIGHT, MovingPattern.DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(8, 8), List.of(MovingPattern.RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(9, 7), List.of(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(9, 3), List.of(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_LEFT, MovingPattern.DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 2), List.of(MovingPattern.LEFT, MovingPattern.DIAGONAL_DOWN_LEFT, MovingPattern.DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(4, 2), List.of(MovingPattern.LEFT, MovingPattern.DIAGONAL_UP_LEFT, MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(3, 3), List.of(MovingPattern.UP, MovingPattern.DIAGONAL_UP_LEFT, MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(3, 7), List.of(MovingPattern.UP, MovingPattern.DIAGONAL_UP_RIGHT, MovingPattern.DIAGONAL_UP_RIGHT))
             );
         }
 
@@ -539,9 +539,9 @@ public class JanggiPieceTest {
 
         static Stream<Arguments> provide졸Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(6, 5), List.of(MovingPattern.MOVE_UP)),
-                    Arguments.of(new JanggiPosition(7, 4), List.of(MovingPattern.MOVE_LEFT)),
-                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.MOVE_RIGHT))
+                    Arguments.of(new JanggiPosition(6, 5), List.of(MovingPattern.UP)),
+                    Arguments.of(new JanggiPosition(7, 4), List.of(MovingPattern.LEFT)),
+                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.RIGHT))
             );
         }
 
@@ -598,7 +598,7 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThat(route).containsAll(List.of(
-                    MovingPattern.MOVE_DIAGONAL_UP_LEFT
+                    MovingPattern.DIAGONAL_UP_LEFT
             ));
         }
     }
@@ -625,22 +625,22 @@ public class JanggiPieceTest {
             return Stream.of(
                     Arguments.of(new JanggiPosition(5, 1),
                             List.of(
-                                    MovingPattern.MOVE_UP,
-                                    MovingPattern.MOVE_UP,
-                                    MovingPattern.MOVE_UP,
-                                    MovingPattern.MOVE_UP,
-                                    MovingPattern.MOVE_UP
+                                    MovingPattern.UP,
+                                    MovingPattern.UP,
+                                    MovingPattern.UP,
+                                    MovingPattern.UP,
+                                    MovingPattern.UP
                             )),
                     Arguments.of(new JanggiPosition(0, 9),
                             List.of(
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT
                             )));
         }
 
@@ -709,8 +709,8 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThat(route).containsAll(List.of(
-                    MovingPattern.MOVE_DIAGONAL_UP_RIGHT,
-                    MovingPattern.MOVE_DIAGONAL_UP_RIGHT
+                    MovingPattern.DIAGONAL_UP_RIGHT,
+                    MovingPattern.DIAGONAL_UP_RIGHT
             ));
         }
 
@@ -812,23 +812,23 @@ public class JanggiPieceTest {
             return Stream.of(
                     Arguments.of(new JanggiPosition(5, 1),
                             List.of(
-                                    MovingPattern.MOVE_UP,
-                                    MovingPattern.MOVE_UP,
-                                    MovingPattern.MOVE_UP,
-                                    MovingPattern.MOVE_UP,
-                                    MovingPattern.MOVE_UP
+                                    MovingPattern.UP,
+                                    MovingPattern.UP,
+                                    MovingPattern.UP,
+                                    MovingPattern.UP,
+                                    MovingPattern.UP
                             )
                     ),
                     Arguments.of(new JanggiPosition(0, 9),
                             List.of(
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT,
-                                    MovingPattern.MOVE_RIGHT
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT
                             )
                     ));
         }
@@ -885,8 +885,8 @@ public class JanggiPieceTest {
 
             // when & then
             Assertions.assertThat(route).containsAll(List.of(
-                    MovingPattern.MOVE_DIAGONAL_UP_RIGHT,
-                    MovingPattern.MOVE_DIAGONAL_UP_RIGHT
+                    MovingPattern.DIAGONAL_UP_RIGHT,
+                    MovingPattern.DIAGONAL_UP_RIGHT
             ));
         }
     }

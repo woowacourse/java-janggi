@@ -5,6 +5,7 @@ import domain.MovingPattern;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiPieceType;
 import domain.piece.JanggiSide;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,7 @@ public final class JanggiBoard {
     }
 
     public Map<JanggiPosition, JanggiPiece> getBoard() {
-        return janggiBoard;
+        return Collections.unmodifiableMap(janggiBoard);
     }
 
     private JanggiPiece getPieceOfPosition(final JanggiPosition position) {

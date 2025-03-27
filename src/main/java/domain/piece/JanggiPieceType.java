@@ -27,7 +27,7 @@ public enum JanggiPieceType {
     SOLDIER(2, SOLDIER_ROUTE, new GeneralMovementRule()),
     CHARIOT(13, CHARIOT_ROUTE, new GeneralMovementRule()),
     CANNON(7, CANNON_ROUTE, new CannonMovementRule()),
-    EMPTY(0,EMPTY_ROUTE, new NoneMovementStrategy());
+    EMPTY(0, EMPTY_ROUTE, new NoneMovementStrategy());
 
     private final int score;
     private final JanggiPieceRoute route;

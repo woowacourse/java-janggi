@@ -8,7 +8,7 @@ import java.util.List;
 public class InsideOnlyPalaceMovementRule implements PalaceMovementRule {
 
     @Override
-    public void validateCanMove(List<MovingPattern> route, JanggiPosition origin, JanggiPosition destination) {
+    public void validateCanMoveInPalace(List<MovingPattern> route, JanggiPosition origin, JanggiPosition destination) {
         if (!destination.isPalace()) {
             throw new IllegalStateException("해당 기물은 궁성 밖을 벗어날 수 없습니다.");
         }

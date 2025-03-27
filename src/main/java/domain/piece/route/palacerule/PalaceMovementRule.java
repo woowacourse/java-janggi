@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface PalaceMovementRule {
 
-    void validateCanMove(List<MovingPattern> route, JanggiPosition origin, JanggiPosition destination);
+    void validateCanMoveInPalace(List<MovingPattern> route, JanggiPosition origin, JanggiPosition destination);
 }

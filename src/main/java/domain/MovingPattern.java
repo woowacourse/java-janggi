@@ -1,15 +1,15 @@
 package domain;
 
 public enum MovingPattern {
-    MOVE_RIGHT(0, 1),
-    MOVE_DOWN(1, 0),
-    MOVE_LEFT(0, -1),
-    MOVE_UP(-1, 0),
+    RIGHT(0, 1),
+    DOWN(1, 0),
+    LEFT(0, -1),
+    UP(-1, 0),
 
-    MOVE_DIAGONAL_UP_RIGHT(-1, 1),
-    MOVE_DIAGONAL_DOWN_RIGHT(1, 1),
-    MOVE_DIAGONAL_DOWN_LEFT(1, -1),
-    MOVE_DIAGONAL_UP_LEFT(-1, -1);
+    DIAGONAL_UP_RIGHT(-1, 1),
+    DIAGONAL_DOWN_RIGHT(1, 1),
+    DIAGONAL_DOWN_LEFT(1, -1),
+    DIAGONAL_UP_LEFT(-1, -1);
 
     private int x;
     private int y;
@@ -28,9 +28,9 @@ public enum MovingPattern {
     }
 
     public boolean isDiagonalPattern() {
-        return this == MOVE_DIAGONAL_DOWN_LEFT ||
-                this == MOVE_DIAGONAL_UP_LEFT ||
-                this == MOVE_DIAGONAL_DOWN_RIGHT ||
-                this == MOVE_DIAGONAL_UP_RIGHT;
+        return this == DIAGONAL_DOWN_LEFT ||
+                this == DIAGONAL_UP_LEFT ||
+                this == DIAGONAL_DOWN_RIGHT ||
+                this == DIAGONAL_UP_RIGHT;
     }
 }

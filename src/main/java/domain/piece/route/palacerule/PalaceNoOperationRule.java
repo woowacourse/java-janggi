@@ -7,7 +7,7 @@ import java.util.List;
 public class PalaceNoOperationRule implements PalaceMovementRule {
 
     @Override
-    public void validateCanMove(List<MovingPattern> route, JanggiPosition origin, JanggiPosition destination) {
+    public void validateCanMoveInPalace(List<MovingPattern> route, JanggiPosition origin, JanggiPosition destination) {
         return;
     }
 }

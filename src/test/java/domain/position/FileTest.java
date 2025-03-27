@@ -20,10 +20,10 @@ class FileTest {
 
     private static Stream<Arguments> provideFileValues() {
         return Stream.of(
-                Arguments.of(File.FIVE, MovingPattern.MOVE_LEFT, File.FOUR),
-                Arguments.of(File.NINE, MovingPattern.MOVE_LEFT, File.EIGHT),
-                Arguments.of(File.EIGHT, MovingPattern.MOVE_RIGHT, File.NINE),
-                Arguments.of(File.FIVE, MovingPattern.MOVE_DIAGONAL_UP_LEFT, File.FOUR)
+                Arguments.of(File.FIVE, MovingPattern.LEFT, File.FOUR),
+                Arguments.of(File.NINE, MovingPattern.LEFT, File.EIGHT),
+                Arguments.of(File.EIGHT, MovingPattern.RIGHT, File.NINE),
+                Arguments.of(File.FIVE, MovingPattern.DIAGONAL_UP_LEFT, File.FOUR)
         );
     }
 
@@ -37,9 +37,9 @@ class FileTest {
 
     private static Stream<Arguments> provideFileValuesAndMovable() {
         return Stream.of(
-                Arguments.of(File.FIVE, MovingPattern.MOVE_LEFT, true),
-                Arguments.of(File.NINE, MovingPattern.MOVE_RIGHT, false),
-                Arguments.of(File.ONE, MovingPattern.MOVE_LEFT, false)
+                Arguments.of(File.FIVE, MovingPattern.LEFT, true),
+                Arguments.of(File.NINE, MovingPattern.RIGHT, false),
+                Arguments.of(File.ONE, MovingPattern.LEFT, false)
         );
     }
 
@@ -53,8 +53,8 @@ class FileTest {
 
     private static Stream<Arguments> provideFilesAndNotMovable() {
         return Stream.of(
-                Arguments.of(File.ONE, MovingPattern.MOVE_LEFT),
-                Arguments.of(File.NINE, MovingPattern.MOVE_RIGHT)
+                Arguments.of(File.ONE, MovingPattern.LEFT),
+                Arguments.of(File.NINE, MovingPattern.RIGHT)
         );
     }
 

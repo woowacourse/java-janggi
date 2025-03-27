@@ -30,7 +30,7 @@ public class JanggiPositionTest {
         JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
-        JanggiPosition newPosition = beforePosition.moveOnePosition(MovingPattern.MOVE_UP);
+        JanggiPosition newPosition = beforePosition.moveOnePosition(MovingPattern.UP);
 
         // then
         Assertions.assertThat(newPosition).isEqualTo(afterPosition);
@@ -49,7 +49,7 @@ public class JanggiPositionTest {
 
         // when
         JanggiPosition newPosition = beforePosition.move(
-                List.of(MovingPattern.MOVE_UP, MovingPattern.MOVE_DIAGONAL_UP_RIGHT, MovingPattern.MOVE_DIAGONAL_UP_RIGHT));
+                List.of(MovingPattern.UP, MovingPattern.DIAGONAL_UP_RIGHT, MovingPattern.DIAGONAL_UP_RIGHT));
 
         // then
         Assertions.assertThat(newPosition).isEqualTo(afterPosition);

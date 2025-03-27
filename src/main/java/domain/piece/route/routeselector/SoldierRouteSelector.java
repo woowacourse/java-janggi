@@ -9,18 +9,18 @@ import java.util.List;
 public class SoldierRouteSelector implements JanggiPieceRouteSelector {
 
     private static final List<MovingPattern> SOLDIER_OF_CHO_DIRECTIONS = List.of(
-            MovingPattern.MOVE_RIGHT,
-            MovingPattern.MOVE_LEFT,
-            MovingPattern.MOVE_UP,
-            MovingPattern.MOVE_DIAGONAL_UP_RIGHT,
-            MovingPattern.MOVE_DIAGONAL_UP_LEFT
+            MovingPattern.RIGHT,
+            MovingPattern.LEFT,
+            MovingPattern.UP,
+            MovingPattern.DIAGONAL_UP_RIGHT,
+            MovingPattern.DIAGONAL_UP_LEFT
     );
     private static final List<MovingPattern> SOLDIER_OF_HAN_DIRECTIONS = List.of(
-            MovingPattern.MOVE_RIGHT,
-            MovingPattern.MOVE_LEFT,
-            MovingPattern.MOVE_DOWN,
-            MovingPattern.MOVE_DIAGONAL_DOWN_LEFT,
-            MovingPattern.MOVE_DIAGONAL_DOWN_RIGHT
+            MovingPattern.RIGHT,
+            MovingPattern.LEFT,
+            MovingPattern.DOWN,
+            MovingPattern.DIAGONAL_DOWN_LEFT,
+            MovingPattern.DIAGONAL_DOWN_RIGHT
     );
 
     @Override

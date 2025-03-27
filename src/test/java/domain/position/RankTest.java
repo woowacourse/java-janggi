@@ -20,11 +20,11 @@ class RankTest {
 
     private static Stream<Arguments> provideRankValues() {
         return Stream.of(
-                Arguments.of(Rank.FIVE, MovingPattern.MOVE_DOWN, Rank.SIX),
-                Arguments.of(Rank.ONE, MovingPattern.MOVE_DOWN, Rank.TWO),
-                Arguments.of(Rank.NINE, MovingPattern.MOVE_DOWN, Rank.ZERO),
-                Arguments.of(Rank.FIVE, MovingPattern.MOVE_UP, Rank.FOUR),
-                Arguments.of(Rank.NINE, MovingPattern.MOVE_DIAGONAL_DOWN_LEFT, Rank.ZERO)
+                Arguments.of(Rank.FIVE, MovingPattern.DOWN, Rank.SIX),
+                Arguments.of(Rank.ONE, MovingPattern.DOWN, Rank.TWO),
+                Arguments.of(Rank.NINE, MovingPattern.DOWN, Rank.ZERO),
+                Arguments.of(Rank.FIVE, MovingPattern.UP, Rank.FOUR),
+                Arguments.of(Rank.NINE, MovingPattern.DIAGONAL_DOWN_LEFT, Rank.ZERO)
         );
     }
 
@@ -38,9 +38,9 @@ class RankTest {
 
     private static Stream<Arguments> provideRankValuesAndMovable() {
         return Stream.of(
-                Arguments.of(Rank.FIVE, MovingPattern.MOVE_DOWN, true),
-                Arguments.of(Rank.ZERO, MovingPattern.MOVE_DOWN, false),
-                Arguments.of(Rank.ONE, MovingPattern.MOVE_UP, false)
+                Arguments.of(Rank.FIVE, MovingPattern.DOWN, true),
+                Arguments.of(Rank.ZERO, MovingPattern.DOWN, false),
+                Arguments.of(Rank.ONE, MovingPattern.UP, false)
         );
     }
 
@@ -54,8 +54,8 @@ class RankTest {
 
     private static Stream<Arguments> provideRanksAndNotMovable() {
         return Stream.of(
-                Arguments.of(Rank.ZERO, MovingPattern.MOVE_DOWN),
-                Arguments.of(Rank.ONE, MovingPattern.MOVE_UP)
+                Arguments.of(Rank.ZERO, MovingPattern.DOWN),
+                Arguments.of(Rank.ONE, MovingPattern.UP)
         );
     }
 
