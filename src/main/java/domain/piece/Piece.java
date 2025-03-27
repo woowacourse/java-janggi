@@ -4,7 +4,7 @@ import domain.Coordinate;
 import domain.board.Board;
 import java.util.List;
 
-abstract public class Piece {
+public abstract class Piece {
     protected final Country country;
     protected final PieceType type;
 
@@ -13,7 +13,7 @@ abstract public class Piece {
         this.type = type;
     }
 
-    abstract public List<Coordinate> availableMovePositions(Coordinate from, Board board);
+    public abstract List<Coordinate> availableMovePositions(Coordinate from, Board board);
 
     public Country getCountry() {
         return this.country;
