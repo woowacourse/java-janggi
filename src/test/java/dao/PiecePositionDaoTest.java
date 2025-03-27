@@ -43,93 +43,93 @@ class PiecePositionDaoTest {
     @Nested
     class ValidCases {
 
-        @DisplayName("보드의 모든 기물 위치 정보를 저장한다.")
+        @DisplayName("해당 장기 게임의 저장된 모든 기물 위치 정보를 찾는다.")
         @Test
-        void addAll() {
+        void findAllByJanggiId() {
             // given
             Board board = Board.initialize();
             Map<BoardPosition, Piece> pieces = board.getPieces();
-
-            // when
-            piecePositionDao.createByJanggiId(connection, pieces);
-
-            // then
-            assertThat(piecePositionDao.findByJanggiId(connection))
-                    .containsExactlyInAnyOrderEntriesOf(pieces);
-        }
-
-        @DisplayName("데이터베이스에 저장된 모든 기물 위치 정보를 삭제한다.")
-        @Test
-        void deleteAll() {
-            // given
-            Board board = Board.initialize();
-            Map<BoardPosition, Piece> pieces = board.getPieces();
-            piecePositionDao.createByJanggiId(connection, pieces);
-
-            // when
-            piecePositionDao.deleteAll(connection);
-
-            // then
-            assertThat(piecePositionDao.findByJanggiId(connection))
-                    .isEmpty();
-        }
-
-        @DisplayName("데이터베이스에 저장된 모든 기물 위치 정보를 찾는다.")
-        @Test
-        void findAll() {
-            // given
-            Board board = Board.initialize();
-            Map<BoardPosition, Piece> pieces = board.getPieces();
-            piecePositionDao.createByJanggiId(connection, pieces);
+            piecePositionDao.createAllByJanggiId(connection, 1, pieces);
 
             // when & then
-            assertThat(piecePositionDao.findByJanggiId(connection))
+            assertThat(piecePositionDao.findAllByJanggiId(connection, 1))
                     .containsExactlyInAnyOrderEntriesOf(pieces);
         }
 
-        @DisplayName("데이터베이스에 해당 위치를 삭제한다.")
+        @DisplayName("보드의 모든 기물 위치 정보를 해당 장기 게임에 저장한다.")
         @Test
-        void deleteByBoardPosition() {
+        void createAllByJanggiId() {
+            // given
+            Board board = Board.initialize();
+            Map<BoardPosition, Piece> pieces = board.getPieces();
+
+            // when
+            piecePositionDao.createAllByJanggiId(connection, 1, pieces);
+
+            // then
+            assertThat(piecePositionDao.findAllByJanggiId(connection, 1))
+                    .containsExactlyInAnyOrderEntriesOf(pieces);
+        }
+
+        @DisplayName("해당 장기 게임의 특정 위치를 삭제한다.")
+        @Test
+        void deleteByJanggiIdAndPosition() {
             // given
             Map<BoardPosition, Piece> pieces = Map.of(
                     new BoardPosition(4, 2), new General(Team.RED),
                     new BoardPosition(3, 1), new General(Team.GREEN)
             );
             Board board = new Board(pieces);
-            piecePositionDao.createByJanggiId(connection, pieces);
+            piecePositionDao.createAllByJanggiId(connection, 1, pieces);
 
             // when
-            piecePositionDao.deleteByJanggiIdAndPosition(connection, new BoardPosition(4, 2));
+            piecePositionDao.deleteByJanggiIdAndPosition(connection, 1, new BoardPosition(4, 2));
 
             // then
-            assertThat(piecePositionDao.findByJanggiId(connection))
+            assertThat(piecePositionDao.findAllByJanggiId(connection, 1))
                     .containsEntry(new BoardPosition(3, 1), new General(Team.GREEN));
         }
 
-        @DisplayName("데이터베이스에 해당 위치를 다른 위치로 갱신한다.")
+        @DisplayName("해당 장기 게임의 특정 위치를 다른 위치로 갱신한다.")
         @Test
-        void updateByBoardPosition() {
+        void updateByJanggiIdAndPosition() {
             // given
             Map<BoardPosition, Piece> pieces = Map.of(
                     new BoardPosition(4, 2), new General(Team.RED),
                     new BoardPosition(3, 1), new General(Team.GREEN)
             );
-            Board board = new Board(pieces);
-            piecePositionDao.createByJanggiId(connection, pieces);
+            piecePositionDao.createAllByJanggiId(connection, 1, pieces);
 
             // when
             piecePositionDao.updateByJanggiIdAndPosition(
-                    connection,
+                    connection, 1,
                     new BoardPosition(4, 2),
                     new BoardPosition(6, 7)
             );
 
             // then
-            assertThat(piecePositionDao.findByJanggiId(connection))
+            assertThat(piecePositionDao.findAllByJanggiId(connection, 1))
                     .containsExactlyInAnyOrderEntriesOf(Map.of(
                             new BoardPosition(6, 7), new General(Team.RED),
                             new BoardPosition(3, 1), new General(Team.GREEN)
                     ));
         }
+
+    }
+
+    @DisplayName("모든 게임의 모든 기물 위치 정보를 삭제한다.")
+    @Test
+    void deleteAll() {
+        // given
+        Board board = Board.initialize();
+        Map<BoardPosition, Piece> pieces = board.getPieces();
+        piecePositionDao.createAllByJanggiId(connection, 1, pieces);
+
+        // when
+        piecePositionDao.deleteAll(connection);
+
+        // then
+        assertThat(piecePositionDao.findAllByJanggiId(connection, 1))
+                .isEmpty();
     }
 }

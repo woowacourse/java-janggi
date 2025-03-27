@@ -77,7 +77,7 @@ public class JanggiManager {
                 connection, title, JanggiStatus.PROCESS, new Turn(Team.GREEN)
         );
         final Janggi initaialJanggi = Janggi.initialize(janggiId, title);
-        piecePositionDao.createByJanggiId(connection, janggiId, initaialJanggi.getPieces());
+        piecePositionDao.createAllByJanggiId(connection, janggiId, initaialJanggi.getPieces());
         return initaialJanggi;
     }
 
@@ -92,7 +92,7 @@ public class JanggiManager {
         return new Janggi(
                 janggiId,
                 janggiDto.title(),
-                new Board(piecePositionDao.findByJanggiId(connection, janggiId)),
+                new Board(piecePositionDao.findAllByJanggiId(connection, janggiId)),
                 janggiDto.turn()
         );
     }
