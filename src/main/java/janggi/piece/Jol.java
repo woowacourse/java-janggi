@@ -2,26 +2,11 @@ package janggi.piece;
 
 import janggi.position.Position;
 import java.util.List;
-import java.util.Map;
 
 public class Jol extends Piece {
 
     public Jol(final Team team, final Position position) {
         super(new PieceProfile(PieceType.JOL, team), position);
-    }
-
-    @Override
-    public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        final List<Position> moveRoute = makeRoute(futurePosition);
-        for (final Position position : moveRoute) {
-            validateObstacle(janggiBoard, position);
-        }
-    }
-
-    private void validateObstacle(final Map<Position, Piece> janggiBoard, final Position position) {
-        if (janggiBoard.containsKey(position)) {
-            throw new IllegalArgumentException("[ERROR] 졸을 이동할 수 없습니다. 이동하려는 경로에 장애물이 존재합니다.");
-        }
     }
 
     @Override

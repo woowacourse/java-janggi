@@ -25,7 +25,8 @@ public abstract class Piece {
         this.position = position;
     }
 
-    protected abstract void checkObstacle(final Position futurePosition, Map<Position, Piece> janggiBoard);
+    protected void checkObstacle(final Position futurePosition, Map<Position, Piece> janggiBoard) {
+    }
 
     public abstract List<Position> makeRoute(final Position position);
 
