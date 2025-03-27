@@ -12,29 +12,36 @@ public class Soldier extends PathMovingPiece {
 
     @Override
     protected List<Movement> findMovements(Position positionToMove) {
+        validateSoldierMovement(positionToMove);
+        if (getPosition().isInSameDiagonalInPalace(positionToMove)) {
+            return List.of(
+                    Movement.getDiagonal(
+                            positionToMove.x() - getPosition().x(),
+                            positionToMove.y() - getPosition().y()
+                    )
+            );
+        }
         return List.of(Movement.getOrthogonal(
                 positionToMove.x() - getPosition().x(),
                 positionToMove.y() - getPosition().y()
         ));
     }
 
+    private void validateSoldierMovement(Position positionToMove) {
+        if(getTeam() == Team.BLUE) {
+            if(positionToMove.x() - getPosition().x() > 0) {
+                throw new IllegalArgumentException("불가능한 이동입니다");
+            }
+        }
+        if(getTeam() == Team.RED) {
+            if(positionToMove.x() - getPosition().x() < 0) {
+                throw new IllegalArgumentException("불가능한 이동입니다");
+            }
+        }
+    }
+
     @Override
     protected boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
-        System.out.println(checkingPosition + " " + getPosition());
-        Movement movement = Movement.getOrthogonal(
-                checkingPosition.x() - getPosition().x(),
-                checkingPosition.y() - getPosition().y()
-        );
-        if(team == Team.BLUE) {
-            if(movement.getX() > 0) {
-                return false;
-            }
-        }
-        if(team == Team.RED) {
-            if(movement.getX() < 0) {
-                return false;
-            }
-        }
         return pieceInPositionToMove.isNone();
     }
 

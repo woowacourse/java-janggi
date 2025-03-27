@@ -32,7 +32,6 @@ class SoldierTest {
         Position positionToMove = new Position(9, 4);
 
         Piece movedSoldier = soldier.move(pieces, positionToMove);
-
         assertThat(movedSoldier.getPosition()).isEqualTo(positionToMove);
     }
 
@@ -55,5 +54,24 @@ class SoldierTest {
         assertThatThrownBy(() ->
                 soldier.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("청졸은 홍팀의 궁성에서 간선을 타고 이동이 가능하다")
+    @CsvSource(value = {"3, 4, 2, 5", "3, 6, 2, 5", "2, 5, 1, 4", "2, 5, 2, 6"})
+    @ParameterizedTest
+    void move4(int soldierX, int soldierY, int targetX, int targetY) {
+        Soldier soldier = new Soldier(new Position(soldierX, soldierY), Team.BLUE);
+        Piece movedSoldier = soldier.move(pieces, new Position(targetX, targetY));
+        assertThat(movedSoldier.getPosition()).isEqualTo(new Position(targetX, targetY));
+    }
+
+    @DisplayName("간선이 없는 곳에서는 대각 이동이 불가능하다")
+    @CsvSource(value = {"3, 4, 2, 3", "3, 6, 2, 7"})
+    @ParameterizedTest
+    void move5(int soldierX, int soldierY, int targetX, int targetY) {
+        Soldier soldier = new Soldier(new Position(soldierX, soldierY), Team.BLUE);
+        assertThatThrownBy(
+                () -> soldier.move(pieces, new Position(targetX, targetY))
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 }

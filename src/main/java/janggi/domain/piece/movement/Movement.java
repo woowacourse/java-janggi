@@ -48,10 +48,10 @@ public enum Movement {
 
     public static Movement getOrthogonal(int x, int y) {
         if(x == 0) {
-            if(y > 0) {
+            if(y < 0) {
                 return LEFT;
             }
-            if(y < 0) {
+            if(y > 0) {
                 return RIGHT;
             }
         }
