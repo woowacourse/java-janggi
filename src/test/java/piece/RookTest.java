@@ -8,7 +8,7 @@ import static testutil.StaticTest.B3;
 import static testutil.StaticTest.C5;
 import static testutil.StaticTest.D4;
 import static testutil.StaticTest.E1;
-import static testutil.StaticTest.E2;
+import static testutil.StaticTest.E4;
 import static testutil.StaticTest.E5;
 import static testutil.StaticTest.E6;
 import static testutil.StaticTest.E9;
@@ -82,7 +82,7 @@ public class RookTest {
         // given
         Rook rook = new Rook(Cho);
         Board board = new Board(Map.of(
-                E2, new Horse(Cho),
+                E4, new Horse(Cho),
                 E6, new Horse(Cho),
                 C5, new Horse(Cho),
                 G5, new Horse(Cho)
