@@ -65,7 +65,7 @@ public class JanggiGame {
 
     private Board findUnfinishedBoard() {
         if (!janggiDao.existNotFinishedGame()) {
-            System.out.println("[ERROR] 게임 기록이 없습니다.");
+            janggiView.displayError("[ERROR] 게임 기록이 없습니다.");
             return generateBoard();
         }
         final List<Integer> notFinishedGameIds = janggiDao.findNotFinishedGameIds();
@@ -80,12 +80,12 @@ public class JanggiGame {
         try {
             final int id = Integer.parseInt(input);
             if (!notFinishedGameIds.contains(id)) {
-                System.out.println("[ERROR] 목록에 있는 숫자를 입력해주세요.");
+                janggiView.displayError("[ERROR] 목록에 있는 숫자를 입력해주세요.");
                 return readUnfinishedGame(notFinishedGameIds);
             }
             return id;
         } catch (IllegalArgumentException e) {
-            System.out.println("[ERROR] 목록에 있는 숫자를 입력해주세요.");
+            janggiView.displayError("[ERROR] 목록에 있는 숫자를 입력해주세요.");
             return readUnfinishedGame(notFinishedGameIds);
         }
     }

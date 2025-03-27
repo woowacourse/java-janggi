@@ -133,4 +133,8 @@ public final class JanggiView {
         }
         System.out.println("원하는 게임을 골라주세요.");
     }
+
+    public void displayError(final String message) {
+        System.out.println(message);
+    }
 }
