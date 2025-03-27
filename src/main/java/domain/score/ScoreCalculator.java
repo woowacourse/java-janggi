@@ -21,17 +21,17 @@ public class ScoreCalculator {
         return totalScore;
     }
 
-    private void calculateCountByPiece(List<Piece> pieces, Map<PieceType, Integer> counts) {
-        for (Piece piece : pieces) {
-            counts.compute(piece.type(), (k, v) -> v + 1);
-        }
-    }
-
     private Map<PieceType, Integer> initializeCounts() {
         Map<PieceType, Integer> counts = new EnumMap<>(PieceType.class);
         for (PieceType pieceType : PieceType.values()) {
             counts.put(pieceType, 0);
         }
         return counts;
+    }
+
+    private void calculateCountByPiece(List<Piece> pieces, Map<PieceType, Integer> counts) {
+        for (Piece piece : pieces) {
+            counts.compute(piece.type(), (k, v) -> v + 1);
+        }
     }
 }
