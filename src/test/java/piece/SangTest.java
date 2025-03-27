@@ -106,10 +106,10 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(2, 3));
+            Set<Coordinate> path = sang.findPaths(new Coordinate(5, 5), new Coordinate(2, 3));
 
             // then
-            assertThat(path1).containsOnly(
+            assertThat(path).containsOnly(
                     new Coordinate(4, 5),
                     new Coordinate(3, 4)
             );
@@ -122,10 +122,10 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(2, 7));
+            Set<Coordinate> path = sang.findPaths(new Coordinate(5, 5), new Coordinate(2, 7));
 
             // then
-            assertThat(path1).containsOnly(
+            assertThat(path).containsOnly(
                     new Coordinate(4, 5),
                     new Coordinate(3, 6)
             );
@@ -138,10 +138,10 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(3, 8));
+            Set<Coordinate> path = sang.findPaths(new Coordinate(5, 5), new Coordinate(3, 8));
 
             // then
-            assertThat(path1).containsOnly(
+            assertThat(path).containsOnly(
                     new Coordinate(5, 6),
                     new Coordinate(4, 7)
             );
@@ -154,10 +154,10 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(7, 8));
+            Set<Coordinate> path = sang.findPaths(new Coordinate(5, 5), new Coordinate(7, 8));
 
             // then
-            assertThat(path1).containsOnly(
+            assertThat(path).containsOnly(
                     new Coordinate(5, 6),
                     new Coordinate(6, 7)
             );
@@ -170,10 +170,10 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(8, 7));
+            Set<Coordinate> path = sang.findPaths(new Coordinate(5, 5), new Coordinate(8, 7));
 
             // then
-            assertThat(path1).containsOnly(
+            assertThat(path).containsOnly(
                     new Coordinate(6, 5),
                     new Coordinate(7, 6)
             );
@@ -186,10 +186,10 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(8, 3));
+            Set<Coordinate> path = sang.findPaths(new Coordinate(5, 5), new Coordinate(8, 3));
 
             // then
-            assertThat(path1).containsOnly(
+            assertThat(path).containsOnly(
                     new Coordinate(6, 5),
                     new Coordinate(7, 4)
             );
@@ -202,10 +202,10 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(7, 2));
+            Set<Coordinate> path = sang.findPaths(new Coordinate(5, 5), new Coordinate(7, 2));
 
             // then
-            assertThat(path1).containsOnly(
+            assertThat(path).containsOnly(
                     new Coordinate(5, 4),
                     new Coordinate(6, 3)
             );
@@ -218,10 +218,10 @@ class SangTest {
             Sang sang = new Sang(Team.HAN);
 
             // when
-            Set<Coordinate> path1 = sang.findPaths(new Coordinate(5, 5), new Coordinate(3, 2));
+            Set<Coordinate> path = sang.findPaths(new Coordinate(5, 5), new Coordinate(3, 2));
 
             // then
-            assertThat(path1).containsOnly(
+            assertThat(path).containsOnly(
                     new Coordinate(5, 4),
                     new Coordinate(4, 3)
             );
