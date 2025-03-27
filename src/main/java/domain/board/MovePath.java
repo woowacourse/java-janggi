@@ -54,7 +54,35 @@ public class MovePath {
         return source.columnDifference(destination);
     }
 
+    public int getAbsRowDifference() {
+        return Math.abs(source.rowDifference(destination));
+    }
+
+    public int getAbsColumnDifference() {
+        return Math.abs(source.columnDifference(destination));
+    }
+
     public Position getDestination() {
         return destination;
+    }
+
+    public boolean isStraight() {
+        return getRowDifference() == 0 || getColumnDifference() == 0;
+    }
+
+    public boolean isStraightMoveBy(int distance) {
+        return (getAbsRowDifference() == 0 && getAbsColumnDifference() == distance)
+                || (getAbsRowDifference() == distance && getAbsColumnDifference() == 0);
+    }
+
+    public boolean isDiagonalMoveBy(int distance) {
+        return (getAbsRowDifference() == distance && getAbsColumnDifference() == distance);
+    }
+
+    public boolean isStraightAndDiagonalMoveBy(int straightDistance, int diagonalDistance) {
+        return (getAbsRowDifference() == straightDistance + diagonalDistance
+                && getAbsColumnDifference() == diagonalDistance)
+                || (getAbsRowDifference() == straightDistance
+                && getAbsRowDifference() == straightDistance + diagonalDistance);
     }
 }
