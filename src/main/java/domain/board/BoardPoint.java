@@ -18,7 +18,7 @@ public record BoardPoint(int row, int column) {
         return new BoardPoint(row + direction.getRow(), column + direction.getColumn());
     }
 
-    public TempPoint toTempPoint() {
-        return new TempPoint(row, column);
+    public Point toTempPoint() {
+        return new Point(row, column);
     }
 }

@@ -1,7 +1,7 @@
 package domain.movements;
 
 import domain.board.BoardPoint;
-import domain.board.TempPoint;
+import domain.board.Point;
 import java.util.ArrayList;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,10 +22,10 @@ public final class RouteTest {
             final List<Direction> directions = new ArrayList<>(givenDirections);
             final Route route = new Route(directions);
             final BoardPoint startBoardPoint = new BoardPoint(0, 0);
-            final TempPoint expectedPoint = new TempPoint(3, 2);
+            final Point expectedPoint = new Point(3, 2);
 
             //when
-            final TempPoint actual = route.navigateArrivalPoint(startBoardPoint);
+            final Point actual = route.navigateArrivalPoint(startBoardPoint);
 
             //then
             assertThat(actual).isEqualTo(expectedPoint);

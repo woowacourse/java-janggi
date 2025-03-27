@@ -1,7 +1,7 @@
 package domain.movements;
 
 import domain.board.BoardPoint;
-import domain.board.TempPoint;
+import domain.board.Point;
 import execptions.JanggiArgumentException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,16 +13,16 @@ public final class Route {
         this.directions = directions;
     }
 
-    public TempPoint navigateArrivalPoint(BoardPoint startBoardPoint) {
-        TempPoint tempPoint = startBoardPoint.toTempPoint();
+    public Point navigateArrivalPoint(BoardPoint startBoardPoint) {
+        Point point = startBoardPoint.toTempPoint();
         for (final Direction direction : directions) {
-            tempPoint = tempPoint.move(direction);
+            point = point.move(direction);
         }
-        return tempPoint;
+        return point;
     }
 
     public boolean canArrive(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
-        final TempPoint point = navigateArrivalPoint(startBoardPoint);
+        final Point point = navigateArrivalPoint(startBoardPoint);
         if (!point.isInRange()) {
             return false;
         }
