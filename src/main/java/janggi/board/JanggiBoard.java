@@ -8,7 +8,7 @@ import janggi.value.JanggiPosition;
 import java.util.List;
 
 public class JanggiBoard {
-    private static final double CHO_PLUS_SCORE = 1.5;
+    private static final double HAN_PLUS_SCORE = 1.5;
 
     private final Pieces choPieces;
     private final Pieces hanPieces;
@@ -34,12 +34,12 @@ public class JanggiBoard {
         return hanPieces.isPieceAlive(CampType.HAN.getGungName());
     }
 
-    public double requestChoTotalScore() {
-        return choPieces.calculateTotalScore() + CHO_PLUS_SCORE;
+    public int requestChoTotalScore() {
+        return choPieces.calculateTotalScore();
     }
 
-    public int requestHanTotalScore() {
-        return hanPieces.calculateTotalScore();
+    public double requestHanTotalScore() {
+        return hanPieces.calculateTotalScore() + HAN_PLUS_SCORE;
     }
 
     public List<Piece> getChoPieces() {

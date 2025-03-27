@@ -107,4 +107,26 @@ class ByeongTest {
         Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
     }
 
+    @DisplayName("병이 궁성내에 있을 때 이동")
+    @ParameterizedTest
+    @MethodSource()
+    void test6(JanggiPosition destination) {
+        //given
+        Byeong byeong = Byeong.from(new JanggiPosition(3,7));
+
+        //when
+        boolean isMove = byeong.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(isMove).isTrue();
+    }
+
+    static Stream<Arguments> test6() {
+        return Stream.of(
+                Arguments.of(new JanggiPosition(4,7)),
+                Arguments.of(new JanggiPosition(3,8)),
+                Arguments.of(new JanggiPosition(4,8))
+        );
+    }
+
 }
