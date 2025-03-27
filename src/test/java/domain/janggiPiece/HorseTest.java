@@ -1,0 +1,110 @@
+package domain.janggiPiece;
+
+import domain.path.JanggiPath;
+import domain.path.Path;
+import domain.position.JanggiPosition;
+import domain.type.JanggiTeam;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class HorseTest {
+    private final Horse horse = new Horse(JanggiTeam.BLUE);
+
+    @Test
+    @DisplayName("마의 이동 경로를 반환한다")
+    void test1() {
+        //given
+        JanggiPosition horsePosition = JanggiPosition.of(4, 4);
+        final List<JanggiPath> expected = List.of(
+                new JanggiPath(List.of(
+                        JanggiPosition.of(3, 4),
+                        JanggiPosition.of(2, 3)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(3, 4),
+                        JanggiPosition.of(2, 5)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(4, 3),
+                        JanggiPosition.of(3, 2)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(4, 3),
+                        JanggiPosition.of(5, 2)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(5, 4),
+                        JanggiPosition.of(6, 3)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(5, 4),
+                        JanggiPosition.of(6, 5)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(4, 5),
+                        JanggiPosition.of(3, 6)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(4, 5),
+                        JanggiPosition.of(5, 6)
+                ))
+        );
+
+        //when
+        final List<JanggiPath> paths = horse.getCoordinatePaths(horsePosition);
+
+        //then
+        assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    @DisplayName("출발 지점이 궁성인 경우, 궁성 길을 무시하고 이동할 수 있다.")
+    void test2() {
+        //given
+        JanggiPosition horsePosition = JanggiPosition.of(2, 3);
+        final List<JanggiPath> expected = List.of(
+                new JanggiPath(List.of(
+                        JanggiPosition.of(1, 3),
+                        JanggiPosition.of(0, 2)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(1, 3),
+                        JanggiPosition.of(0, 4)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(2, 4),
+                        JanggiPosition.of(1, 5)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(2, 4),
+                        JanggiPosition.of(3, 5)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(2, 2),
+                        JanggiPosition.of(1, 1)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(2, 2),
+                        JanggiPosition.of(3, 1)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(3, 3),
+                        JanggiPosition.of(4, 2)
+                )),
+                new JanggiPath(List.of(
+                        JanggiPosition.of(3, 3),
+                        JanggiPosition.of(4, 4)
+                ))
+        );
+
+        //when
+        final List<JanggiPath> paths = horse.getCoordinatePaths(horsePosition);
+
+        //then
+        assertThat(paths).containsExactlyInAnyOrderElementsOf(expected);
+    }
+}
