@@ -87,4 +87,15 @@ public class StaticTest {
     public static final Position H8 = new Position(Column.H, Row.EIGHT);
     public static final Position H9 = new Position(Column.H, Row.NINE);
 
+    public static final Position I1 = new Position(Column.I, Row.ONE);
+    public static final Position I2 = new Position(Column.I, Row.TWO);
+    public static final Position I3 = new Position(Column.I, Row.THREE);
+    public static final Position I4 = new Position(Column.I, Row.FOUR);
+    public static final Position I5 = new Position(Column.I, Row.FIVE);
+    public static final Position I6 = new Position(Column.I, Row.SIX);
+    public static final Position I7 = new Position(Column.I, Row.SEVEN);
+    public static final Position I8 = new Position(Column.I, Row.EIGHT);
+    public static final Position I9 = new Position(Column.I, Row.NINE);
+
+
 }

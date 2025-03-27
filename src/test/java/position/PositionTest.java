@@ -54,11 +54,9 @@ public class PositionTest {
 
     @Test
     void 직선상의_두_포지션_간의_포지션들을_구한다() {
-        // given
+        // given && when
         List<Position> straightPositions = E5.findStraightPositions(A5);
         List<Position> straightPositions2 = E5.findStraightPositions(E1);
-
-        // when
 
         // then
         assertAll(
