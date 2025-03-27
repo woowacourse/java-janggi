@@ -7,6 +7,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
+import janggi.domain.piece.General;
+import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -15,6 +17,7 @@ import janggi.domain.position.Route;
 import janggi.domain.position.Routes;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -67,6 +70,40 @@ class PiecesTest {
         assertThat(possibleRoutes.size()).isEqualTo(7);
     }
 
+    @DisplayName("차 기물이 궁성에서 이동 가능한 경로를 계산한다.")
+    @Test
+    void getPossibleRoutesInPalaceForChariotTest() {
+
+        // given
+        Piece chariot = new Chariot(new Position(3, 0), BLUE);
+        Piece soldier1 = new Soldier(new Position(3, 4), RED);
+        Piece general = new General(new Position(5, 2), BLUE);
+
+        Pieces pieces = new Pieces(List.of(chariot, soldier1, general));
+
+        // when
+        Set<Route> possibleRoutes = pieces.classifyPossibleRoutes(chariot);
+        Routes routes = new Routes(possibleRoutes);
+        Set<Position> possibleDestinations = routes.getDestinations();
+        Set<Position> expected = Set.of(
+                new Position(2, 0),
+                new Position(1, 0),
+                new Position(0, 0),
+                new Position(4, 0),
+                new Position(5, 0),
+                new Position(6, 0),
+                new Position(7, 0),
+                new Position(8, 0),
+                new Position(3, 1),
+                new Position(3, 2),
+                new Position(3, 3),
+                new Position(3, 4)
+        );
+
+        // then
+        assertThat(possibleDestinations).isEqualTo(expected);
+    }
+
     @DisplayName("포 기물의 가능한 경로를 계산한다.")
     @Test
     void getPossibleRoutesForCannonTest() {
@@ -87,6 +124,93 @@ class PiecesTest {
         // then
         assertThat(possibleRoutes.size()).isEqualTo(6);
     }
+
+    @DisplayName("포 기물이 궁성에서 이동 가능한 경로를 계산한다.")
+    @Test
+    void getPossibleRoutesInPalaceForCannonTest() {
+
+        // given
+        Piece cannon1 = new Cannon(new Position(3, 0), BLUE);
+        Piece soldier1 = new Soldier(new Position(3, 4), RED);
+        Piece cannon2 = new Cannon(new Position(3, 7), RED);
+        Piece general = new General(new Position(4, 1), BLUE);
+
+        Pieces pieces = new Pieces(List.of(cannon1, cannon2, soldier1, general));
+
+        // when
+        Set<Route> possibleRoutes = pieces.classifyPossibleRoutes(cannon1);
+        Routes routes = new Routes(possibleRoutes);
+        Set<Position> possibleDestinations = routes.getDestinations();
+        Set<Position> expected = Set.of(
+                new Position(5, 2),
+                new Position(3, 5),
+                new Position(3, 6)
+        );
+
+        // then
+        assertThat(possibleDestinations).isEqualTo(expected);
+    }
+
+    @DisplayName("왕 기물의 가능한 경로를 계산한다.")
+    @Test
+    void getPossibleRoutesForGeneralTest() {
+
+        // given
+        Piece general = new General(new Position(4, 1), BLUE);
+        Piece soldier1 = new Soldier(new Position(5, 4), RED);
+
+        Pieces pieces = new Pieces(List.of(general, soldier1));
+
+        // when
+        Set<Route> possibleRoutes = pieces.classifyPossibleRoutes(general);
+        Set<Position> possibleDestinations = possibleRoutes.stream().map(Route::getDestination).collect(
+                Collectors.toSet());
+
+        Set<Position> expected = Set.of(
+                new Position(4, 2),
+                new Position(3, 2),
+                new Position(5, 2),
+                new Position(3, 1),
+                new Position(3, 0),
+                new Position(4, 0),
+                new Position(5, 0),
+                new Position(5, 1)
+        );
+
+        // then
+        assertThat(possibleDestinations).isEqualTo(expected);
+    }
+
+    @DisplayName("사 기물의 가능한 경로를 계산한다.")
+    @Test
+    void getPossibleRoutesForGuardTest() {
+
+        // given
+        Piece guard = new Guard(new Position(4, 1), BLUE);
+        Piece soldier1 = new Soldier(new Position(5, 4), RED);
+
+        Pieces pieces = new Pieces(List.of(guard, soldier1));
+
+        // when
+        Set<Route> possibleRoutes = pieces.classifyPossibleRoutes(guard);
+        Set<Position> possibleDestinations = possibleRoutes.stream().map(Route::getDestination).collect(
+                Collectors.toSet());
+
+        Set<Position> expected = Set.of(
+                new Position(4, 2),
+                new Position(3, 2),
+                new Position(5, 2),
+                new Position(3, 1),
+                new Position(3, 0),
+                new Position(4, 0),
+                new Position(5, 0),
+                new Position(5, 1)
+        );
+
+        // then
+        assertThat(possibleDestinations).isEqualTo(expected);
+    }
+
 
     @DisplayName("위치와 팀으로 기물을 찾는다.")
     @Test
