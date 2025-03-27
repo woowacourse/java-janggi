@@ -178,4 +178,58 @@ class PointTest {
         assertThat(point.isDiagonal(otherPoint))
                 .isEqualTo(expected);
     }
+
+    @DisplayName("대각선으로 한 칸 이동한 좌표를 반환한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0, 1, 1, 1, 1",
+            "0, 0, 2, 2, 1, 1",
+    })
+    void getNextDiagonalStepTest(int fromX, int fromY, int toX, int toY, int nextX, int nextY) {
+        // given
+        Point point = new Point(fromX, fromY);
+        Point otherPoint = new Point(toX, toY);
+        Point expected = new Point(nextX, nextY);
+
+        // when
+        Point nextDiagonalStep = point.getNextDiagonalStep(otherPoint);
+
+        // then
+        assertThat(nextDiagonalStep)
+                .isEqualTo(expected);
+    }
+
+    @DisplayName("대각선 이동이 아닌 경우 예외가 발생한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0, 1, 0",
+            "0, 0, 0, 1",
+    })
+    void shouldThrowException_WhenNotDiagonal(int fromX, int fromY, int toX, int toY) {
+        // given
+        Point point = new Point(fromX, fromY);
+        Point otherPoint = new Point(toX, toY);
+
+        // when & then
+        assertThatCode(() -> point.getNextDiagonalStep(otherPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("대각선 이동이 아닌 경우 다음 위치를 계산할 수 없습니다.");
+    }
+
+    @DisplayName("대각선으로 한 칸 떨어져 있는지 확인한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0, 2, 2, false",
+            "0, 0, 1, 1, true",
+            "0, 0, 0, 1, false"
+    })
+    void isOneDiagonalStepAwayTest(int fromX, int fromY, int toX, int toY, boolean expected) {
+        // given
+        Point point = new Point(fromX, fromY);
+        Point otherPoint = new Point(toX, toY);
+
+        // when & then
+        assertThat(point.isOneDiagonalStepAway(otherPoint))
+                .isEqualTo(expected);
+    }
 }

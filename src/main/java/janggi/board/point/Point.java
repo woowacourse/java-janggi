@@ -47,11 +47,24 @@ public record Point(
         return new Point(this.x, this.y - 1);
     }
 
+    public Point getNextDiagonalStep(Point other) {
+        if (!isDiagonal(other)) {
+            throw new IllegalArgumentException("대각선 이동이 아닌 경우 다음 위치를 계산할 수 없습니다.");
+        }
+        int xStep = Integer.signum(other.x - this.x);
+        int yStep = Integer.signum(other.y - this.y);
+        return new Point(this.x + xStep, this.y + yStep);
+    }
+
     public Point middlePoint(Point other) {
         return new Point((this.x + other.x) / 2, (this.y + other.y) / 2);
     }
 
     public boolean isDiagonal(Point other) {
         return Math.abs(this.x - other.x) == Math.abs(this.y - other.y);
+    }
+
+    public boolean isOneDiagonalStepAway(Point other) {
+        return isDiagonal(other) && manhattanDistance(other) == 2;
     }
 }
