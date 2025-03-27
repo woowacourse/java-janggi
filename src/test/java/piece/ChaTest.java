@@ -21,7 +21,7 @@ class ChaTest {
         Cha cha = new Cha(position);
 
         //then
-        assertThat(cha.getPosition()).isEqualTo(new Position(4, 5));
+        assertThat(cha.currentPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")

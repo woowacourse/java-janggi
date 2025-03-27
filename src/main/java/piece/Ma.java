@@ -3,6 +3,7 @@ package piece;
 import static pieceProperty.PieceType.MA;
 
 import java.util.List;
+import java.util.Objects;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -10,14 +11,26 @@ import view.ErrorMessage;
 
 public class Ma extends Piece {
 
-    public Ma(final Position position) {
-        super(position);
+    private Position position;
+
+    public Ma(Position position) {
+        this.position = position;
+    }
+
+    @Override
+    public boolean isSamePosition(final Position startPosition) {
+        return startPosition.equals(position);
+    }
+
+    @Override
+    public void updateChessPiecePositionBy(final Position destination) {
+        position = destination;
     }
 
     @Override
     public void canMoveTo(final Position destination) {
         if (isInvalidMaMove(destination)) {
-            throw new IllegalArgumentException(ErrorMessage.formatMessage("마가 움직일 수 없는 위치입니다."));
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("기물이 움직일 수 없는 위치입니다."));
         }
     }
 
@@ -25,39 +38,39 @@ public class Ma extends Piece {
     public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
 
-        int dRow = getPosition().calculateDRow(destination);
-        int dCol = getPosition().calculateDCol(destination);
+        int dRow = position.calculateDRow(destination);
+        int dCol = position.calculateDCol(destination);
 
-        if (getPosition().isUpLeftUp(dRow, dCol)) {
-            route.addPosition(getPosition().calculateUpMovement());
+        if (position.isUpLeftUp(dRow, dCol)) {
+            route.addPosition(position.calculateUpMovement());
         }
 
-        if (getPosition().isUpRightUp(dRow, dCol)) {
-            route.addPosition(getPosition().calculateUpMovement());
+        if (position.isUpRightUp(dRow, dCol)) {
+            route.addPosition(position.calculateUpMovement());
         }
 
-        if (getPosition().isRightRightUp(dRow, dCol)) {
-            route.addPosition(getPosition().calculateRightMovement());
+        if (position.isRightRightUp(dRow, dCol)) {
+            route.addPosition(position.calculateRightMovement());
         }
 
-        if (getPosition().isRightRightDown(dRow, dCol)) {
-            route.addPosition(getPosition().calculateRightMovement());
+        if (position.isRightRightDown(dRow, dCol)) {
+            route.addPosition(position.calculateRightMovement());
         }
 
-        if (getPosition().isDownRightDown(dRow, dCol)) {
-            route.addPosition(getPosition().calculateDownMovement());
+        if (position.isDownRightDown(dRow, dCol)) {
+            route.addPosition(position.calculateDownMovement());
         }
 
-        if (getPosition().isDownLeftDown(dRow, dCol)) {
-            route.addPosition(getPosition().calculateDownMovement());
+        if (position.isDownLeftDown(dRow, dCol)) {
+            route.addPosition(position.calculateDownMovement());
         }
 
-        if (getPosition().isLeftLeftUp(dRow, dCol)) {
-            route.addPosition(getPosition().calculateLeftMovement());
+        if (position.isLeftLeftUp(dRow, dCol)) {
+            route.addPosition(position.calculateLeftMovement());
         }
 
-        if (getPosition().isLeftLeftDown(dRow, dCol)) {
-            route.addPosition(getPosition().calculateLeftMovement());
+        if (position.isLeftLeftDown(dRow, dCol)) {
+            route.addPosition(position.calculateLeftMovement());
         }
 
         return route;
@@ -78,15 +91,33 @@ public class Ma extends Piece {
         return MA;
     }
 
-    private boolean isInvalidMaMove(final Position destination) {
-        return !getPosition().calculateUpRightUPMovement().equals(destination) &&
-                !getPosition().calculateUpLeftUpMovement().equals(destination) &&
-                !getPosition().calculateDownRightDownMovement().equals(destination) &&
-                !getPosition().calculateDownLeftDownMovement().equals(destination) &&
-                !getPosition().calculateRightRightUpMovement().equals(destination) &&
-                !getPosition().calculateRightRightDownMovement().equals(destination) &&
-                !getPosition().calculateLeftLeftUpMovement().equals(destination) &&
-                !getPosition().calculateLeftLeftDownMovement().equals(destination);
+    @Override
+    public Position currentPosition() {
+        return position;
     }
 
+    private boolean isInvalidMaMove(final Position destination) {
+        return !position.calculateUpRightUPMovement().equals(destination) &&
+                !position.calculateUpLeftUpMovement().equals(destination) &&
+                !position.calculateDownRightDownMovement().equals(destination) &&
+                !position.calculateDownLeftDownMovement().equals(destination) &&
+                !position.calculateRightRightUpMovement().equals(destination) &&
+                !position.calculateRightRightDownMovement().equals(destination) &&
+                !position.calculateLeftLeftUpMovement().equals(destination) &&
+                !position.calculateLeftLeftDownMovement().equals(destination);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Ma ma = (Ma) o;
+        return Objects.equals(position, ma.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(position);
+    }
 }

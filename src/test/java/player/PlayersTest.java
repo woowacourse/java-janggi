@@ -131,12 +131,12 @@ class PlayersTest {
         assertThatThrownBy(() ->
                 players.validateMovement(HAN, new Position(4, 3), new Position(3, 4)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 병이 움직일 수 없는 위치 입니다.");
+                .hasMessage("[ERROR] 기물이 움직일 수 없는 위치입니다.");
 
         assertThatThrownBy(() ->
                 players.validateMovement(CHO, new Position(0, 0), new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 차가 움직일 수 없는 위치 입니다.");
+                .hasMessage("[ERROR] 기물이 움직일 수 없는 위치입니다.");
 
     }
 

@@ -25,7 +25,7 @@ class SaTest {
         Sa sa = new Sa(position);
 
         //then
-        assertThat(sa.getPosition()).isEqualTo(new Position(4, 5));
+        assertThat(sa.currentPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")

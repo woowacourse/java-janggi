@@ -106,7 +106,7 @@ class PlayerTest {
         //when - then
         assertThatThrownBy(() -> player.canPieceMoveTo(new Position(5,5), new Position(5, 7)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 졸이 움직일 수 없는 위치입니다.");
+                .hasMessage("[ERROR] 기물이 움직일 수 없는 위치입니다.");
 
         assertDoesNotThrow(() -> player.canPieceMoveTo(new Position(5, 5), new Position(5, 6)));
     }

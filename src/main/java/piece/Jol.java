@@ -3,6 +3,7 @@ package piece;
 import static pieceProperty.PieceType.JOL;
 
 import java.util.List;
+import java.util.Objects;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -10,14 +11,26 @@ import view.ErrorMessage;
 
 public class Jol extends Piece {
 
-    public Jol(final Position position) {
-        super(position);
+    private Position position;
+
+    public Jol(Position position) {
+        this.position = position;
+    }
+
+    @Override
+    public boolean isSamePosition(final Position startPosition) {
+        return startPosition.equals(position);
+    }
+
+    @Override
+    public void updateChessPiecePositionBy(final Position destination) {
+        position = destination;
     }
 
     @Override
     public void canMoveTo(final Position destination) {
         if (isInvalidJolMove(destination)) {
-            throw new IllegalArgumentException(ErrorMessage.formatMessage("졸이 움직일 수 없는 위치입니다."));
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("기물이 움직일 수 없는 위치입니다."));
         }
     }
 
@@ -41,10 +54,29 @@ public class Jol extends Piece {
         return JOL;
     }
 
+    @Override
+    public Position currentPosition() {
+        return position;
+    }
+
     private boolean isInvalidJolMove(final Position destination) {
-        return !getPosition().calculateUpMovement().equals(destination)
-                && !getPosition().calculateLeftMovement().equals(destination)
-                && !getPosition().calculateRightMovement().equals(destination);
+        return !position.calculateUpMovement().equals(destination)
+                && !position.calculateLeftMovement().equals(destination)
+                && !position.calculateRightMovement().equals(destination);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Jol jol = (Jol) o;
+        return Objects.equals(position, jol.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(position);
     }
 
 }

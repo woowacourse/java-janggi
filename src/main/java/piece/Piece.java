@@ -1,29 +1,14 @@
 package piece;
 
-import java.util.Objects;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 
 public abstract class Piece {
 
-    private Position position;
+    public abstract boolean isSamePosition(Position startPosition);
 
-    public Piece(final Position position) {
-        this.position = position;
-    }
-
-    public boolean isSamePosition(final Position position) {
-        return position.equals(this.position);
-    }
-
-    public void updateChessPiecePositionBy(final Position position) {
-        this.position = position;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
+    public abstract void updateChessPiecePositionBy(Position destination);
 
     public abstract PieceType getPieceType();
 
@@ -35,17 +20,6 @@ public abstract class Piece {
 
     public abstract boolean isPo();
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Piece piece = (Piece) o;
-        return Objects.equals(position, piece.position);
-    }
+    public abstract Position currentPosition();
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(position);
-    }
 }

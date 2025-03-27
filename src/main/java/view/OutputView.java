@@ -34,15 +34,15 @@ public class OutputView {
         System.out.println(ROW);
 
         for (Piece piece : hanPieces.getPieces()) {
-            int row = piece.getPosition().getRow();
-            int col = piece.getPosition().getCol();
+            int row = piece.currentPosition().getRow();
+            int col = piece.currentPosition().getCol();
             PieceType pieceType = piece.getPieceType();
             janggiPan[row][col] = RED_COLOR_CODE +  PIECE_TYPE_NAME_MAP.get(pieceType) + EXIT_CODE + PIECE_DELIMITER;
         }
 
         for (Piece piece : choPieces.getPieces()) {
-            int row = piece.getPosition().getRow();
-            int col = piece.getPosition().getCol();
+            int row = piece.currentPosition().getRow();
+            int col = piece.currentPosition().getCol();
             PieceType pieceType = piece.getPieceType();
             janggiPan[row][col] = GREEN_COLOR_CODE +  PIECE_TYPE_NAME_MAP.get(pieceType) + EXIT_CODE + PIECE_DELIMITER;
         }

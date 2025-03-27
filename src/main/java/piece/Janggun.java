@@ -2,28 +2,13 @@ package piece;
 
 import static pieceProperty.PieceType.JANGGUN;
 
-import java.util.List;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
-import pieceProperty.Positions;
-import view.ErrorMessage;
 
-public class Janggun extends Piece {
+public final class Janggun extends OmniDirectionalMover {
 
     public Janggun(final Position position) {
         super(position);
-    }
-
-    @Override
-    public void canMoveTo(final Position destination) {
-        if (isInvalidJanggunMove(destination)) {
-            throw new IllegalArgumentException(ErrorMessage.formatMessage("장군이 움직일 수 없는 위치 입니다."));
-        }
-    }
-
-    @Override
-    public Positions makeRoute(final Position position) {
-        return new Positions(List.of());
     }
 
     @Override
@@ -39,13 +24,6 @@ public class Janggun extends Piece {
     @Override
     public PieceType getPieceType() {
         return JANGGUN;
-    }
-
-    private boolean isInvalidJanggunMove(final Position destination) {
-        return !getPosition().calculateUpMovement().equals(destination)
-                && !getPosition().calculateRightMovement().equals(destination)
-                && !getPosition().calculateLeftMovement().equals(destination)
-                && !getPosition().calculateDownMovement().equals(destination);
     }
 
 }

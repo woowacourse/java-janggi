@@ -3,6 +3,7 @@ package piece;
 import static pieceProperty.PieceType.BYEONG;
 
 import java.util.List;
+import java.util.Objects;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -10,14 +11,16 @@ import view.ErrorMessage;
 
 public class Byeong extends Piece {
 
-    public Byeong(final Position position) {
-        super(position);
+    private Position position;
+
+    public Byeong(Position position) {
+        this.position = position;
     }
 
     @Override
     public void canMoveTo(final Position destination) {
         if (isInvalidByeongMove(destination)) {
-            throw new IllegalArgumentException(ErrorMessage.formatMessage("병이 움직일 수 없는 위치 입니다."));
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("기물이 움직일 수 없는 위치입니다."));
         }
     }
 
@@ -41,10 +44,39 @@ public class Byeong extends Piece {
         return BYEONG;
     }
 
+    @Override
+    public boolean isSamePosition(final Position startPosition) {
+        return startPosition.equals(position);
+    }
+
+    @Override
+    public void updateChessPiecePositionBy(final Position destination) {
+        position = destination;
+    }
+
+    @Override
+    public Position currentPosition() {
+        return position;
+    }
+
     private boolean isInvalidByeongMove(final Position destination) {
-        return !getPosition().calculateDownMovement().equals(destination)
-                && !getPosition().calculateLeftMovement().equals(destination)
-                && !getPosition().calculateRightMovement().equals(destination);
+        return !position.calculateDownMovement().equals(destination)
+                && !position.calculateLeftMovement().equals(destination)
+                && !position.calculateRightMovement().equals(destination);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Byeong byeong = (Byeong) o;
+        return Objects.equals(position, byeong.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(position);
     }
 
 }

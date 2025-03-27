@@ -24,8 +24,8 @@ class ByeongTest {
         Byeong byeong = new Byeong(position);
 
         //then
-        assertThat(byeong.getPosition().getCol()).isEqualTo(0);
-        assertThat(byeong.getPosition().getRow()).isEqualTo(0);
+        assertThat(byeong.currentPosition().getCol()).isEqualTo(0);
+        assertThat(byeong.currentPosition().getRow()).isEqualTo(0);
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
