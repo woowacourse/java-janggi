@@ -6,7 +6,7 @@ record Vector(int x, int y) {
 
     Position apply(Position origin, Position destination) {
         Direction direction = Direction.get(origin, destination);
-        return new Position(origin.x() + x * direction.getX(), origin.y() + y * direction.getY());
+        return origin.plus(x * direction.getX(), y * direction.getY());
     }
 
     boolean hasRelativeOffsetFrom(Position origin, Position destination) {

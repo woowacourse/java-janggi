@@ -20,6 +20,18 @@ public record Position(int x, int y) {
         }
     }
 
+    public Position plus(int x, int y) {
+        return new Position(this.x + x, this.y + y);
+    }
+
+    public Position plusY(int y) {
+        return new Position(x, this.y + y);
+    }
+
+    public Position minusY(int y) {
+        return new Position(x, this.y - y);
+    }
+
     public boolean hasSameX(Position other) {
         return this.x == other.x;
     }
@@ -51,5 +63,4 @@ public record Position(int x, int y) {
         }
         return x == x1 && y == y1;
     }
-
 }

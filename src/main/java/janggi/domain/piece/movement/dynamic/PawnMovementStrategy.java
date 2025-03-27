@@ -15,9 +15,9 @@ public class PawnMovementStrategy extends DynamicMovementStrategy {
             return destination.getXDistance(origin) == MOVABLE_DISTANCE;
         }
         if (side == Side.HAN) {
-            return destination.y() == origin.y() + MOVABLE_DISTANCE;
+            return origin.plusY(MOVABLE_DISTANCE).equals(destination);
         }
-        return destination.y() == origin.y() - MOVABLE_DISTANCE;
+        return origin.minusY(MOVABLE_DISTANCE).equals(destination);
     }
 
     @Override
@@ -38,12 +38,10 @@ public class PawnMovementStrategy extends DynamicMovementStrategy {
     }
 
     private Set<Position> findAllVerticalMovablePositions(Side side, Position origin) {
-        int x = origin.x();
-        int y = origin.y();
         if (side == Side.HAN) {
-            return Set.of(new Position(x, y + MOVABLE_DISTANCE));
+            return Set.of(origin.plusY(MOVABLE_DISTANCE));
         }
-        return Set.of(new Position(x, y - MOVABLE_DISTANCE));
+        return Set.of(origin.minusY(MOVABLE_DISTANCE));
     }
 
     private boolean isVerticalMove(Position origin, Position destination) {

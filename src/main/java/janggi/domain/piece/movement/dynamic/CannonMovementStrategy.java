@@ -46,7 +46,7 @@ public class CannonMovementStrategy extends DynamicMovementStrategy {
     }
 
     private PiecesView getPiecesOnVerticalPath(PiecesView existingPieces, Position origin, Position destination) {
-        int startY = Math.min(origin.y(), destination.y()) + 1;
+        int startY = Math.abs(origin.y() - destination.y()) + 1;
         int endY = Math.max(origin.y(), destination.y());
 
         return Pieces.fromPieceViews(
