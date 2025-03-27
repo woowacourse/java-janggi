@@ -56,7 +56,7 @@ class CannonTest {
         );
     }
 
-    @DisplayName("포가 궁성안에 있을 경우 대각선 경로를 계산할 수 있다")
+    @DisplayName("포가 궁성안에 있을 경우 대각선, 상하좌우 경로를 계산할 수 있다")
     @ParameterizedTest
     @MethodSource("providePositions2")
     void test2(Position startPosition, Position targetPosition, List<Position> expected) {
@@ -81,6 +81,11 @@ class CannonTest {
                         new Position(1, 6),
                         new Position(3, 4),
                         List.of(new Position(2, 5))
+                ),
+                Arguments.of(
+                        new Position(1, 6),
+                        new Position(3, 6),
+                        List.of(new Position(2, 6))
                 )
         );
     }
