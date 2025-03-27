@@ -62,8 +62,8 @@ public class JanggiGameTest {
     class MoveTest {
 
         @Test
-        @DisplayName("현재 위치의 말과 목적지의 말이 같은 팀이라면 예외를 발생시킨다.")
-        void sholudThrowExceptionWhenCurrentPieceAndDestinationPieceIsSameSide() {
+        @DisplayName("장기말을 이동시킬 때, 시작점과 도착점의 말이 같은 색이라면 예외가 발생한다")
+        void should_throw_exception_when_start_and_end_position_piece_is_same_color() {
             // given
             JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
@@ -80,8 +80,8 @@ public class JanggiGameTest {
         }
 
         @Test
-        @DisplayName("시작점과 도착점이 주어졌을 때, 말을 이동시킨다.")
-        void movePieceWithStartEndPosition() {
+        @DisplayName("시작점과 도착점이 주어질 때, 시작점에 있는 말을 도착점으로 이동시킨다")
+        void should_move_piece_by_start_and_end_position() {
             // given
             Piece piece = new Tank(Color.RED);
             JanggiGame janggiGame = new JanggiGame(
@@ -103,148 +103,169 @@ public class JanggiGameTest {
         }
 
         @Test
-        @DisplayName("말의 이동 규칙과 맞지 않는다면 예외를 던진다.")
-        void shouldThrowExceptionWhenUnfollowingRule() {
+        @DisplayName("장기말을 이동시킬 때, 도착점에 상대편 장기말이 있는 경우 제거하고 시작점에 있는 말을 도착점으로 이동시킨다")
+        void should_move_and_kill_end_position_piece_by_start_and_end_position() {
             // given
             Piece piece = new Tank(Color.RED);
+            Piece enemyPiece = new Cannon(Color.BLUE);
+            Position start = new Position(1, 1);
+            Position end = new Position(2, 1);
             JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
-                            new Position(1, 1), piece
+                            start, piece,
+                            end, enemyPiece
                     ))
             );
-            Position start = new Position(1, 1);
-            Position end = new Position(2, 2);
 
             // when
+            janggiGame.move(start, end);
 
             // then
+            assertAll(
+                    () -> assertThat(janggiGame.getBoard().get(end)).isEqualTo(piece),
+                    () -> assertThat(janggiGame.getBoard().get(start)).isNull()
+            );
+        }
+
+        @Test
+        @DisplayName("장기말을 이동시킬 때, 장기말의 이동 규칙과 맞지 않는다면 예외가 발생한다")
+        void should_throw_exception_when_unfollow_piece_movement_rule() {
+            // given
+            Piece piece = new Tank(Color.RED);
+            Position start = new Position(1, 1);
+            Position end = new Position(2, 2);
+            JanggiGame janggiGame = new JanggiGame(
+                    new Pieces(Map.of(
+                            start, piece
+                    ))
+            );
+
+            // when & then
             assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         @DisplayName("말의 경로에 다른 말이 존재한다면 예외를 던진다.")
-        void shouldThrowExceptionWhenExistsPieceOnPath() {
+        void should_throw_exception_when_exists_piece_on_path() {
             // given
-            Piece piece = new Tank(Color.RED);
-            JanggiGame janggiGame = new JanggiGame(
-                    new Pieces(Map.of(
-                            new Position(1, 1), piece,
-                            new Position(3, 1), new Soldier(Color.RED)
-                    ))
-            );
             Position start = new Position(1, 1);
+            Position positionOnPath = new Position(3, 1);
             Position end = new Position(5, 1);
+            Piece tank = new Tank(Color.RED);
+            JanggiGame janggiGame = new JanggiGame(
+                    new Pieces(Map.of(
+                            start, tank,
+                            positionOnPath, new Soldier(Color.BLUE)
+                    ))
+            );
 
-            // when
-
-            // then
+            // when & then
             assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
-        @DisplayName("포의 경로 상 말이 2개 이상인 경우 예외를 던진다.")
-        void shouldThrowExceptionWhenExistsOverTwoPieceOnCannonPath() {
+        @DisplayName("포가 이동할 때, 경로에 말이 2개 이상 있다면 예외가 발생한다")
+        void should_throw_exception_when_exists_two_or_more_pieces_on_cannon_movement_path() {
             // given
-            Piece piece = new Cannon(Color.RED);
-            JanggiGame janggiGame = new JanggiGame(
-                    new Pieces(Map.of(
-                            new Position(1, 1), piece,
-                            new Position(3, 1), new Soldier(Color.RED),
-                            new Position(4, 1), new Soldier(Color.RED)
-                    ))
-            );
+            Piece cannon = new Cannon(Color.RED);
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
 
-            // when
+            Position positionOnPathFirst = new Position(3, 1);
+            Position positionOnPathSecond = new Position(4, 1);
+            JanggiGame janggiGame = new JanggiGame(
+                    new Pieces(Map.of(
+                            start, cannon,
+                            positionOnPathFirst, new Tank(Color.BLUE),
+                            positionOnPathSecond, new Tank(Color.BLUE)
+                    ))
+            );
 
-            // then
+            // when & then
             assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
-        @DisplayName("포의 경로 상 말이 1개인 경우 예외를 던지지 않는다.")
-        void shouldThrowExceptionWhenExistsOnePieceOnCannonPath() {
+        @DisplayName("포가 이동할 때, 경로에 말이 없다면 예외가 발생한다")
+        void should_throw_exception_when_not_exists_piece_on_cannon_movement_path() {
             // given
-            Piece piece = new Cannon(Color.RED);
-            JanggiGame janggiGame = new JanggiGame(
-                    new Pieces(Map.of(
-                            new Position(1, 1), piece,
-                            new Position(3, 1), new Soldier(Color.RED)
-                    ))
-            );
+            Piece cannon = new Cannon(Color.RED);
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
+            JanggiGame janggiGame = new JanggiGame(
+                    new Pieces(Map.of(
+                            start, cannon
+                    ))
+            );
 
-            // when
+            // when & then
+            assertThatThrownBy(() -> janggiGame.move(start, end))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
 
-            // then
+        @Test
+        @DisplayName("포가 이동할 때, 경로에 말이 1개 있다면 예외가 발생하지 않는다")
+        void should_not_throw_exception_when_exists_one_piece_on_cannon_movement_path() {
+            // given
+            Piece cannon = new Cannon(Color.RED);
+            Position start = new Position(1, 1);
+            Position end = new Position(6, 1);
+            Position positionOnPath = new Position(3, 1);
+            JanggiGame janggiGame = new JanggiGame(
+                    new Pieces(Map.of(
+                            start, cannon,
+                            positionOnPath, new Tank(Color.BLUE)
+                    ))
+            );
+
+            // when & then
             assertThatCode(() -> janggiGame.move(start, end))
                     .doesNotThrowAnyException();
         }
 
         @Test
-        @DisplayName("포의 경로 상 포가 존재하는 경우 예외를 던진다.")
-        void shouldThrowExceptionWhenExistsCannonOnCannonPath() {
+        @DisplayName("포가 이동할 때, 경로에 포가 있다면 예외가 발생한다")
+        void should_throw_exception_when_exists_cannon_piece_on_cannon_movement_path() {
             // given
-            Piece piece = new Cannon(Color.RED);
-            JanggiGame janggiGame = new JanggiGame(
-                    new Pieces(Map.of(
-                            new Position(1, 1), piece,
-                            new Position(3, 1), new Cannon(Color.RED)
-                    ))
-            );
+            Piece cannon = new Cannon(Color.RED);
+            Piece otherCannon = new Cannon(Color.BLUE);
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
+            Position positionOnPath = new Position(3, 1);
+            JanggiGame janggiGame = new JanggiGame(
+                    new Pieces(Map.of(
+                            start, cannon,
+                            positionOnPath, otherCannon
+                    ))
+            );
 
-            // when
-
-            // then
+            // when & then
             assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
-        @DisplayName("포의 경로 상에 말이 존재하지 않는 경우 예외를 던진다.")
-        void shouldThrowExceptionWhenEmptyOnCannonPath() {
+        @DisplayName("포가 이동할 때, 도착점의 장기말이 포인 경우 예외가 발생한다")
+        void should_throw_exception_when_end_position_piece_is_cannon() {
             // given
-            Piece piece = new Cannon(Color.RED);
-            JanggiGame janggiGame = new JanggiGame(
-                    new Pieces(Map.of(
-                            new Position(1, 1), piece
-                    ))
-            );
+            Piece cannon = new Cannon(Color.RED);
+            Piece otherCannon = new Cannon(Color.BLUE);
+            Piece tank = new Tank(Color.BLUE);
             Position start = new Position(1, 1);
             Position end = new Position(6, 1);
-
-            // when
-
-            // then
-            assertThatThrownBy(() -> janggiGame.move(start, end))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
-        @DisplayName("포의 도착지의 말이 포인 경우 예외를 던진다.")
-        void shouldThrowExceptionWhenExistsCannonOnCannonEndPosition() {
-            // given
-            Piece piece = new Cannon(Color.RED);
+            Position positionOnPath = new Position(3, 1);
             JanggiGame janggiGame = new JanggiGame(
                     new Pieces(Map.of(
-                            new Position(1, 1), piece,
-                            new Position(3, 1), new Soldier(Color.RED),
-                            new Position(6, 1), new Cannon(Color.BLUE)
+                            start, cannon,
+                            positionOnPath, tank,
+                            end, otherCannon
                     ))
             );
-            Position start = new Position(1, 1);
-            Position end = new Position(6, 1);
 
-            // when
-
-            // then
+            // when & then
             assertThatThrownBy(() -> janggiGame.move(start, end))
                     .isInstanceOf(IllegalArgumentException.class);
         }
