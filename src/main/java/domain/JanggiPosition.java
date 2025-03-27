@@ -1,6 +1,7 @@
 package domain;
 
 import domain.pattern.Pattern;
+import domain.piece.Side;
 import java.util.List;
 
 public record JanggiPosition(int file, int rank) {
@@ -82,5 +83,18 @@ public record JanggiPosition(int file, int rank) {
 
     public boolean isSameRankWith(JanggiPosition beforePosition) {
         return this.rank == beforePosition.rank;
+    }
+
+    public boolean isDiagonalTo(JanggiPosition afterPosition) {
+        return this.rank != afterPosition.rank && this.file != afterPosition.file;
+    }
+
+    public boolean isPassThroughCenter(Side side, JanggiPosition afterPosition) {
+        int centerPalaceFile = (side == Side.CHO) ? 9 : 2;
+        int centerPalaceRank = 5;
+
+        JanggiPosition centerPosition = new JanggiPosition(centerPalaceFile, centerPalaceRank);
+
+        return this.equals(centerPosition) || afterPosition.equals(centerPosition);
     }
 }

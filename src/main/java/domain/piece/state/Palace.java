@@ -1,5 +1,6 @@
 package domain.piece.state;
 
+import domain.JanggiPosition;
 import domain.piece.Side;
 
 public class Palace implements PalaceMovable {
@@ -16,15 +17,14 @@ public class Palace implements PalaceMovable {
     }
 
     @Override
-    public boolean passesThroughCenter(Side side, int beforeFile, int beforeRank, int afterFile, int afterRank) {
-        if (beforeRank == afterRank || beforeFile == afterFile) {
+    public boolean passesThroughCenter(Side side, JanggiPosition beforePosition, JanggiPosition afterPosition) {
+        boolean isDiagonal = beforePosition.isDiagonalTo(afterPosition);
+
+        if (!isDiagonal) {
             return true;
         }
-        int centerPalaceFile = (side == Side.CHO) ? 9 : 2;
-        int centerPalaceRank = 5;
 
-        return (beforeFile == centerPalaceFile && beforeRank == centerPalaceRank) || (afterFile == centerPalaceFile
-                && afterRank == centerPalaceRank);
+        return beforePosition.isPassThroughCenter(side, afterPosition);
     }
 }
 

@@ -24,7 +24,7 @@ public abstract class MovedInPalace extends NonContinuousPiece {
         if (!palaceMovable.isInPalace(side, afterFile, afterRank)) {
             throw new IllegalArgumentException("궁성 안에서만 이동할 수 있습니다.");
         }
-        if (!palaceMovable.passesThroughCenter(side, beforeFile, beforeRank, afterFile, afterRank)) {
+        if (!palaceMovable.passesThroughCenter(side, beforePosition, afterPosition)) {
             throw new IllegalArgumentException("궁성의 중앙을 지나는 경로로만 이동할 수 있습니다.");
         }
     }
