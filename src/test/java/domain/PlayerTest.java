@@ -28,7 +28,7 @@ public final class PlayerTest {
         }
 
         @Test
-        @DisplayName("한나라는 성공권을 갖는다")
+        @DisplayName("초기 상태에서는 초나라가 턴을 갖는다")
         void test_teamHanIsFirst() {
             // given
             final Player han = new Player(Team.HAN);

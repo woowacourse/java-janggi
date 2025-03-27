@@ -6,16 +6,16 @@ import java.util.List;
 public record Point(int row, int column) {
 
     public Point(List<Integer> request) {
-        this(request.getFirst(), request.getLast());
+        this(request.get(0), request.get(1));
     }
 
     public static Point generateStartPoint(final List<List<Integer>> moveRequest) {
-        final List<Integer> originPointRequest = moveRequest.getFirst();
+        final List<Integer> originPointRequest = moveRequest.get(0);
         return new Point(originPointRequest);
     }
 
     public static Point generateArrivalPoint(final List<List<Integer>> moveRequest) {
-        final List<Integer> arrivalPointRequest = moveRequest.getLast();
+        final List<Integer> arrivalPointRequest = moveRequest.get(1);
         return new Point(arrivalPointRequest);
     }
 

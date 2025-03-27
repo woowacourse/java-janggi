@@ -28,6 +28,9 @@ public final class InputView {
         System.out.println("출발점과 도착점의 위치를 입력해주세요 ex. (A,1) (B,2)");
         final String input = scanner.nextLine();
         final String[] splitInput = input.split(" ");
+        if (splitInput.length != 2) {
+            throw new JanggiGameRuleWarningException("출발점과 도착점 정보가 잘못 입력되었습니다: " + input);
+        }
         final List<Integer> startPoint = formatToIntegerList(splitInput[START_POINT_INDEX]);
         final List<Integer> arrivalPoint = formatToIntegerList(splitInput[ARRIVAL_POINT_INDEX]);
         return List.of(startPoint, arrivalPoint);

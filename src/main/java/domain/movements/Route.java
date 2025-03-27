@@ -12,11 +12,12 @@ public final class Route {
         this.directions = directions;
     }
 
-    public Point navigateArrivalPoint(Point point) {
+    public Point navigateArrivalPoint(final Point point) {
+        Point result = point;
         for (final Direction direction : directions) {
-            point = point.move(direction);
+            result = result.move(direction);
         }
-        return point;
+        return result;
     }
 
     public boolean canArrive(final Point start, final Point arrival) {
@@ -24,11 +25,12 @@ public final class Route {
         return point.equals(arrival);
     }
 
-    public List<Point> getAllPointsOnRoute(Point point) {
+    public List<Point> getAllPointsOnRoute(final Point point) {
         final List<Point> result = new ArrayList<>();
+        Point currentPoint = point;
         for (final Direction direction : directions) {
-            point = point.move(direction);
-            result.add(point);
+            currentPoint = currentPoint.move(direction);
+            result.add(currentPoint);
         }
         return result;
     }

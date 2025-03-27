@@ -69,7 +69,7 @@ public final class ElephantTest {
     }
 
     @Test
-    @DisplayName("경로 상 기물이 없으면 이동할 수 없다.")
+    @DisplayName("경로 상 기물이 없으면 이동할 수 있다.")
     void test_isMovableOnRoute() {
         //given
         final Elephant elephant = new Elephant(Team.CHO);

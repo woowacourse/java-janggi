@@ -68,7 +68,7 @@ public final class HorseTest {
     }
 
     @Test
-    @DisplayName("경로 상 기물이 없으면 이동할 수 없다.")
+    @DisplayName("경로 상 기물이 없으면 이동할 수 있다.")
     void test_isMovableOnRoute() {
         //given
         final Horse horse = new Horse(Team.CHO);
