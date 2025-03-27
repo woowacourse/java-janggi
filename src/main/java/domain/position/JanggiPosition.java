@@ -3,6 +3,8 @@ package domain.position;
 import domain.direction.Direction;
 import domain.position.castle.*;
 import domain.position.normal.NormalPosition;
+import domain.position.vo.Column;
+import domain.position.vo.Row;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,19 +52,13 @@ public abstract class JanggiPosition {
         }
     }
 
-    public static final int MIN_ROW = 0;
-    public static final int MAX_ROW = 9;
-    public static final int MIN_COL = 0;
-    public static final int MAX_COL = 8;
-
-    private final int row;
-    private final int col;
+    private final Row row;
+    private final Column column;
     private final List<Direction> linked;
 
     protected JanggiPosition(final int row, final int col, List<Direction> linked) {
-        validatePosition(row, col);
-        this.row = row;
-        this.col = col;
+        this.row = new Row(row);
+        this.column = new Column(col);
         this.linked = linked;
     }
 
@@ -70,20 +66,10 @@ public abstract class JanggiPosition {
         return JanggiPositionFactory.of(row, col);
     }
 
-    private void validatePosition(final int row, final int col) {
-        if (!isValid(row, col)) {
-            throw new IllegalArgumentException(String.format("위치는 (%d, %d) ~ (%d, %d) 값만 가능합니다.", MIN_ROW, MIN_COL, MAX_ROW, MAX_COL));
-        }
-    }
-
-    private boolean isValid(final int row, final int col) {
-        return row >= MIN_ROW && row <= MAX_ROW && col >= MIN_COL && col <= MAX_COL;
-    }
-
     abstract public boolean isCastle();
 
     public final boolean canMove(Direction direction) {
-        return isValid(row + direction.dr, col + direction.dc);
+        return row.canMove(direction.dr) && column.canMove(direction.dc);
     }
 
     public final List<Direction> getLinkedRoadDirections() {
@@ -97,22 +83,22 @@ public abstract class JanggiPosition {
     }
 
     public final int getRow() {
-        return row;
+        return row.value();
     }
 
     public final int getCol() {
-        return col;
+        return column.value();
     }
 
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof JanggiPosition that)) return false;
-        return row == that.row && col == that.col;
+        return Objects.equals(row, that.row) && Objects.equals(column, that.column);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(row, col);
+        return Objects.hash(row, column);
     }
 }

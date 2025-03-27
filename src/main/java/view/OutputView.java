@@ -2,8 +2,10 @@ package view;
 
 import domain.janggiPiece.JanggiPiece;
 import domain.position.JanggiPosition;
+import domain.position.vo.Row;
 import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
+import domain.position.vo.Column;
 
 import java.util.List;
 import java.util.Map;
@@ -26,13 +28,13 @@ public class OutputView {
 
     public void printBoard(Map<JanggiPosition, JanggiPiece> boardPositions) {
         printGridValue(" ");
-        for (int col = JanggiPosition.MIN_COL; col <= JanggiPosition.MAX_COL; ++col) {
+        for (int col = Column.MIN_COL; col <= Column.MAX_COL; ++col) {
             printGridValue(String.valueOf(col));
         }
         printNewLine();
-        for (int row = JanggiPosition.MIN_ROW; row <= JanggiPosition.MAX_ROW; ++row) {
+        for (int row = Row.MIN_ROW; row <= Row.MAX_ROW; ++row) {
             printGridValue(String.valueOf(row));
-            for (int col = JanggiPosition.MIN_COL; col <= JanggiPosition.MAX_COL; ++col) {
+            for (int col = Column.MIN_COL; col <= Column.MAX_COL; ++col) {
                 printChessPiece(JanggiPosition.of(row, col), boardPositions);
             }
             printNewLine();
