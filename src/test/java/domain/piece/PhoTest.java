@@ -101,4 +101,24 @@ public class PhoTest {
         assertThat(availableMovePositions.contains(new Coordinate(7, 5))).isFalse();
     }
 
+    @DisplayName("포는 궁성 내에서 대각선을 따라 이동할 수 있다.")
+    @Test
+    void phoTest6() {
+        Pho pho = new Pho(Country.HAN);
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(1, 4), pho);
+        pieces.put(new Coordinate(2, 5), new Cha(Country.HAN));
+        Board board = new Board(pieces);
+
+        List<Coordinate> availableMovePositions = pho.findAvailablePaths(new Coordinate(1, 4), board);
+
+        List<Coordinate> expectedIn = List.of(
+                new Coordinate(3, 6));
+        List<Coordinate> notExpectedIn = List.of(
+                new Coordinate(4, 7), new Coordinate(5, 8), new Coordinate(6, 9));
+
+        assertThat(availableMovePositions).containsAnyElementsOf(expectedIn);
+        assertThat(availableMovePositions).doesNotContainAnyElementsOf(notExpectedIn);
+    }
+
 }

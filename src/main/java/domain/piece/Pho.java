@@ -3,14 +3,14 @@ package domain.piece;
 import domain.Coordinate;
 import domain.board.Board;
 import domain.piece.movement.Movement;
+import domain.piece.movement.Movements;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Pho extends Piece {
 
-    private static final List<Movement> MOVEMENTS = List.of(
-            Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT
-    );
+    private final Movements movements = new Movements(List.of(
+            Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT));
 
     public Pho(Country country) {
         super(country, PieceType.PHO);
@@ -18,14 +18,14 @@ public class Pho extends Piece {
 
     @Override
     public List<Coordinate> findAvailablePaths(Coordinate from, Board board) {
-        List<Coordinate> availablePositions = new ArrayList<>();
+        movements.addGungMovement(from);
 
-        for (Movement movement : MOVEMENTS) {
+        List<Coordinate> availablePositions = new ArrayList<>();
+        for (Movement movement : movements.getMovements()) {
             Coordinate next = from.move(movement);
             boolean isJumped = false;
 
-            while (next.isInBoundary()) {
-
+            while (movement.isDiagonal() ? next.isInGungBoundary() : next.isInBoundary()) {
                 if (!isJumped) {
                     if (board.hasPiece(next)) {
                         if (board.findPieceTypeByCoordinate(next) == PieceType.PHO) {
@@ -45,7 +45,6 @@ public class Pho extends Piece {
                 next = next.move(movement);
             }
         }
-
         return availablePositions;
     }
 
