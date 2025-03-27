@@ -53,9 +53,9 @@ class GuardTest {
         pieces.put(guard.getPosition(), guard);
         Board board = new Board(pieces);
         Assertions.assertAll(
-                () -> assertThatThrownBy(() -> board.movePiece(guard.getPosition(), new Position(7, 4)))
+                () -> assertThatThrownBy(() -> guard.move(pieces, new Position(7, 4)))
                         .isInstanceOf(IllegalArgumentException.class),
-                () -> assertThatThrownBy(() -> board.movePiece(guard.getPosition(), new Position(8, 3)))
+                () -> assertThatThrownBy(() -> guard.move(pieces, new Position(8, 3)))
                         .isInstanceOf(IllegalArgumentException.class)
         );
     }

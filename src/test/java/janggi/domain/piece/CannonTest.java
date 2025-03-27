@@ -60,16 +60,17 @@ class CannonTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("포의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
+    @DisplayName("포의 이동 위치에 같은 편 기물이 있으면 이동하지 못한다")
     @Test
     void move4() {
         Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
         Soldier otherSoldier = new Soldier(new Position(3, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         Board board = new Board(pieces);
-        assertThatThrownBy(() ->
-                board.movePiece(cannon.getPosition(), otherSoldier.getPosition()))
-                .isInstanceOf(IllegalArgumentException.class);
+        board.movePiece(cannon.getPosition(), otherSoldier.getPosition());
+        assertThat(
+                board.getPieceByPosition(otherSoldier.getPosition()))
+                .isInstanceOf(Soldier.class);
     }
 
     @DisplayName("포의 이동 위치에 상대편 포가 있으면 예외를 던진다")

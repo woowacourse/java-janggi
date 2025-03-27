@@ -40,55 +40,63 @@ class BoardTest {
         );
     }
 
-    @DisplayName("차의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
+    @DisplayName("차의 이동 위치에 같은 편 기물이 있으면 이동이 안된다")
     @Test
     void move1() {
-        Chariot chariot = new Chariot(new Position(5, 5), Team.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(4, 5), Team.BLUE);
+        Position befoerPosition = new Position(5, 5);
+        Chariot chariot = new Chariot(befoerPosition, Team.BLUE);
+        Position positionToMove = new Position(4, 5);
+        Soldier otherSoldier = new Soldier(positionToMove, Team.BLUE);
         pieceMap.put(chariot.getPosition(), chariot);
         pieceMap.put(otherSoldier.getPosition(), otherSoldier);
         Board board = new Board(pieceMap);
-        assertThatThrownBy(() ->
-                board.movePiece(chariot.getPosition(), otherSoldier.getPosition()))
-                .isInstanceOf(IllegalArgumentException.class);
+        board.movePiece(chariot.getPosition(), otherSoldier.getPosition());
+        assertThat(board.getPieceByPosition(befoerPosition))
+                .isInstanceOf(Chariot.class);
     }
 
-    @DisplayName("궁의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
+    @DisplayName("궁의 이동 위치에 같은 편 기물이 있으면 이동할 수 없다")
     @Test
     void move2() {
-        General general = new General(new Position(5, 5), Team.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(4, 5), Team.BLUE);
+        Position beforePosition = new Position(5, 5);
+        General general = new General(beforePosition, Team.BLUE);
+        Position positionToMove = new Position(4, 5);
+        Soldier otherSoldier = new Soldier(positionToMove, Team.BLUE);
         pieceMap.put(general.getPosition(), general);
         pieceMap.put(otherSoldier.getPosition(), otherSoldier);
         Board board = new Board(pieceMap);
-        assertThatThrownBy(() ->
-                board.movePiece(general.getPosition(), otherSoldier.getPosition()))
-                .isInstanceOf(IllegalArgumentException.class);
+        board.movePiece(general.getPosition(), otherSoldier.getPosition());
+        assertThat(board.getPieceByPosition(beforePosition))
+                .isInstanceOf(General.class);
     }
 
     @DisplayName("사의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move3() {
-        Guard guard = new Guard(new Position(5, 5), Team.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(4, 5), Team.BLUE);
+        Position beforePosition = new Position(5, 5);
+        Guard guard = new Guard(beforePosition, Team.BLUE);
+        Position positionToMove = new Position(4, 5);
+        Soldier otherSoldier = new Soldier(positionToMove, Team.BLUE);
         pieceMap.put(guard.getPosition(), guard);
         pieceMap.put(otherSoldier.getPosition(), otherSoldier);
         Board board = new Board(pieceMap);
-        assertThatThrownBy(() ->
-                board.movePiece(guard.getPosition(), otherSoldier.getPosition()))
-                .isInstanceOf(IllegalArgumentException.class);
+        board.movePiece(beforePosition, positionToMove);
+        assertThat(board.getPieceByPosition(beforePosition))
+                .isInstanceOf(Guard.class);
     }
 
-    @DisplayName("졸의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
+    @DisplayName("졸의 이동 위치에 같은 편 기물이 있으면 이동 할 수 없다")
     @Test
     void move4() {
-        Soldier soldier = new Soldier(new Position(5, 5), Team.BLUE);
-        Soldier otherSoldier = new Soldier(new Position(4, 5), Team.BLUE);
+        Position beforePosition = new Position(5, 5);
+        Soldier soldier = new Soldier(beforePosition, Team.BLUE);
+        Position positionToMove = new Position(4, 5);
+        Soldier otherSoldier = new Soldier(positionToMove, Team.BLUE);
         pieceMap.put(soldier.getPosition(), soldier);
         pieceMap.put(otherSoldier.getPosition(), otherSoldier);
         Board board = new Board(pieceMap);
-        assertThatThrownBy(() ->
-                board.movePiece(soldier.getPosition(), otherSoldier.getPosition()))
-                .isInstanceOf(IllegalArgumentException.class);
+        board.movePiece(beforePosition, positionToMove);
+        assertThat(board.getPieceByPosition(beforePosition))
+                .isInstanceOf(Soldier.class);
     }
 }
