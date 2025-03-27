@@ -12,6 +12,7 @@ public class ProductionDatabaseConnector implements DatabaseConnector {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
+    @Override
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
