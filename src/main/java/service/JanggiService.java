@@ -28,7 +28,7 @@ public class JanggiService {
     }
 
     public boolean isPreviousGameNotOver() {
-        return !gameDao.getGame().equals("-1");
+        return gameDao.getGame() != -1;
     }
 
     public void finishGame() {
@@ -36,11 +36,11 @@ public class JanggiService {
     }
 
     public List<List<JanggiPosition>> getHistories() {
-        String gameId = gameDao.getGame();
-        List<List<String>> histories = historyDao.getAllHistory(gameId);
+        int gameId = gameDao.getGame();
+        List<List<Integer>> histories = historyDao.getAllHistory(gameId);
         List<List<JanggiPosition>> parsedHistories = new ArrayList<>();
 
-        for (List<String> history : histories) {
+        for (List<Integer> history : histories) {
             JanggiPosition origin = positionDao.findPositionById(history.get(0));
             JanggiPosition destination = positionDao.findPositionById(history.get(1));
             parsedHistories.add(List.of(origin, destination));
@@ -50,19 +50,19 @@ public class JanggiService {
     }
 
     public BoardArrangementStrategy getChoStrategy() {
-        String gameId = gameDao.getGame();
+        int gameId = gameDao.getGame();
         return gameDao.findChoStrategyById(gameId);
     }
 
     public BoardArrangementStrategy getHanStrategy() {
-        String gameId = gameDao.getGame();
+        int gameId = gameDao.getGame();
         return gameDao.findHanStrategyById(gameId);
     }
 
     public void addHistory(JanggiPosition origin, JanggiPosition destination) {
-        String gameId = gameDao.getGame();
-        String originId = positionDao.findByPosition(origin);
-        String destinationId = positionDao.findByPosition(destination);
+        int gameId = gameDao.getGame();
+        int originId = positionDao.findByPosition(origin);
+        int destinationId = positionDao.findByPosition(destination);
         historyDao.addHistory(gameId, originId, destinationId);
     }
 }

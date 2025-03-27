@@ -30,25 +30,25 @@ public class JdbcJanggiGameDao implements JanggiGameDao {
         }
     }
 
-    public String getGame() {
+    public int getGame() {
         final String query = "SELECT game_id FROM janggi_game LIMIT 1";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getString("game_id");
+                return resultSet.getInt("game_id");
             }
         } catch (SQLException e) {
             throw new IllegalStateException("게임 탐색에 실패했습니다.");
         }
-        return "-1";
+        return -1;
     }
 
-    public BoardArrangementStrategy findChoStrategyById(String gameId) {
+    public BoardArrangementStrategy findChoStrategyById(int gameId) {
         final String query = "SELECT cho_strategy FROM janggi_game where game_id = ?";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, Integer.parseInt(gameId));
+            preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return parseStrategy(resultSet.getInt("cho_strategy"), JanggiSide.CHO);
@@ -59,11 +59,11 @@ public class JdbcJanggiGameDao implements JanggiGameDao {
         throw new IllegalStateException("게임이 존재하지 않습니다.");
     }
 
-    public BoardArrangementStrategy findHanStrategyById(String gameId) {
+    public BoardArrangementStrategy findHanStrategyById(int gameId) {
         final String query = "SELECT han_strategy FROM janggi_game where game_id = ?";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, Integer.parseInt(gameId));
+            preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return parseStrategy(resultSet.getInt("han_strategy"), JanggiSide.HAN);

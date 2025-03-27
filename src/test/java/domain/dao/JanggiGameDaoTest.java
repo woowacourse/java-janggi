@@ -31,7 +31,7 @@ class JanggiGameDaoTest {
     void 장기_게임_탐색_테스트() {
         // given
         gameDao.addGame(new LeftBoardArrangementStrategy(JanggiSide.CHO), new RightBoardArrangementStrategy(JanggiSide.HAN));
-        String gameId = gameDao.getGame();
+        int gameId = gameDao.getGame();
 
         // when & then
         assertAll(
@@ -45,6 +45,6 @@ class JanggiGameDaoTest {
     @Test
     void 진행중인_장기_게임이_없을_수도_있다() {
         // when & then
-        assertThat(gameDao.getGame()).isEqualTo("-1");
+        assertThat(gameDao.getGame()).isEqualTo(-1);
     }
 }

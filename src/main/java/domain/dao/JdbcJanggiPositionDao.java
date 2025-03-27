@@ -25,7 +25,7 @@ public class JdbcJanggiPositionDao implements JanggiPositionDao {
         }
     }
 
-    public String findByPosition(JanggiPosition janggiPosition) {
+    public int findByPosition(JanggiPosition janggiPosition) {
         final String query = "SELECT position_id FROM janggi_position where rank_value = ? and file_value = ?";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
@@ -33,7 +33,7 @@ public class JdbcJanggiPositionDao implements JanggiPositionDao {
             preparedStatement.setInt(2, janggiPosition.getFile());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getString("position_id");
+                return resultSet.getInt("position_id");
             }
             else {
                 addPosition(janggiPosition);
@@ -44,11 +44,11 @@ public class JdbcJanggiPositionDao implements JanggiPositionDao {
         }
     }
 
-    public JanggiPosition findPositionById(String positionId) {
+    public JanggiPosition findPositionById(int positionId) {
         final String query = "SELECT rank_value, file_value FROM janggi_position where position_id = ?";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, positionId);
+            preparedStatement.setInt(1, positionId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int rank = resultSet.getInt("rank_value");

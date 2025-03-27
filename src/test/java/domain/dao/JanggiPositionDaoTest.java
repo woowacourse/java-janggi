@@ -27,7 +27,7 @@ class JanggiPositionDaoTest {
         // given
         JanggiPosition position = new JanggiPosition(1, 2);
         positionDao.addPosition(position);
-        String positionId = positionDao.findByPosition(position);
+        int positionId = positionDao.findByPosition(position);
 
         // when & then
         assertThat(positionDao.findPositionById(positionId))
@@ -38,7 +38,7 @@ class JanggiPositionDaoTest {
     void 장기_위치가_없으면_생성한다() {
         // given
         JanggiPosition position = new JanggiPosition(1, 2);
-        String positionId = positionDao.findByPosition(position);
+        int positionId = positionDao.findByPosition(position);
 
         // when & then
         assertThat(positionDao.findPositionById(positionId))

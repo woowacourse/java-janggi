@@ -28,20 +28,20 @@ public class FakeJanggiGameDao implements JanggiGameDao {
     }
 
     @Override
-    public String getGame() {
+    public int getGame() {
         if (game.isEmpty()) {
-            return "-1";
+            return -1;
         }
-        return "1";
+        return 1;
     }
 
     @Override
-    public BoardArrangementStrategy findChoStrategyById(String gameId) {
+    public BoardArrangementStrategy findChoStrategyById(int gameId) {
         return game.get(1).strategyOfCho;
     }
 
     @Override
-    public BoardArrangementStrategy findHanStrategyById(String gameId) {
+    public BoardArrangementStrategy findHanStrategyById(int gameId) {
         return game.get(1).strategyOfHan;
     }
 

@@ -14,13 +14,13 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
         this.connector = connector;
     }
 
-    public void addHistory(final String gameId, final String originId, final String destinationId) {
+    public void addHistory(final int gameId, final int originId, final int destinationId) {
         final String query = "INSERT INTO move_history(game, origin, destination) VALUES(?, ?, ?)";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, Integer.parseInt(gameId));
-            preparedStatement.setString(2, originId);
-            preparedStatement.setString(3, destinationId);
+            preparedStatement.setInt(1, gameId);
+            preparedStatement.setInt(2, originId);
+            preparedStatement.setInt(3, destinationId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException(e.getMessage());
@@ -37,16 +37,16 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
         }
     }
 
-    public List<List<String>> getAllHistory(final String gameId) {
+    public List<List<Integer>> getAllHistory(final int gameId) {
         final String query = "SELECT * FROM move_history WHERE game = ?";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            List<List<String>> positions = new ArrayList<>();
-            preparedStatement.setString(1, gameId);
+            List<List<Integer>> positions = new ArrayList<>();
+            preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                String originId = resultSet.getString("origin");
-                String destinationId = resultSet.getString("destination");
+                int originId = resultSet.getInt("origin");
+                int destinationId = resultSet.getInt("destination");
 
                 positions.add(List.of(originId, destinationId));
             }

@@ -5,7 +5,7 @@ import domain.position.JanggiPosition;
 public interface JanggiPositionDao {
 
     void addPosition(final JanggiPosition position);
-    String findByPosition(JanggiPosition janggiPosition);
-    JanggiPosition findPositionById(String positionId);
+    int findByPosition(JanggiPosition janggiPosition);
+    JanggiPosition findPositionById(int positionId);
     void deleteAll();
 }

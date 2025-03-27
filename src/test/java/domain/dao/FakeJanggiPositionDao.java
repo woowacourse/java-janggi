@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class FakeJanggiPositionDao implements JanggiPositionDao {
 
-    private final Map<String, JanggiPosition> positions;
+    private final Map<Integer, JanggiPosition> positions;
     private int sequence;
 
     public FakeJanggiPositionDao() {
@@ -16,12 +16,12 @@ public class FakeJanggiPositionDao implements JanggiPositionDao {
 
     @Override
     public void addPosition(JanggiPosition position) {
-        positions.put(String.valueOf(sequence), position);
+        positions.put(sequence, position);
         sequence++;
     }
 
     @Override
-    public String findByPosition(JanggiPosition position) {
+    public int findByPosition(JanggiPosition position) {
         if (!positions.containsValue(position)) {
             addPosition(position);
         }
@@ -33,7 +33,7 @@ public class FakeJanggiPositionDao implements JanggiPositionDao {
     }
 
     @Override
-    public JanggiPosition findPositionById(String positionId) {
+    public JanggiPosition findPositionById(int positionId) {
         return positions.get(positionId);
     }
 
