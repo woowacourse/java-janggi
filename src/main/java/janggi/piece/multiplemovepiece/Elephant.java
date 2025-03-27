@@ -16,9 +16,9 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public void checkObstacle(final Position presentPosition, final Position futurePosition,
+    public void checkObstacle(final Position currentPosition, final Position targetPosition,
                               final Map<Position, Piece> janggiBoard) {
-        final List<Position> moveRoute = makeRoute(presentPosition, futurePosition);
+        final List<Position> moveRoute = makeRoute(currentPosition, targetPosition);
         for (final Position position : moveRoute) {
             validateObstacle(janggiBoard, position);
         }
@@ -31,136 +31,136 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Position> makeRoute(final Position presentPosition, final Position position) {
+    public List<Position> makeRoute(final Position currentPosition, final Position targetPosition) {
         final List<Position> route = new ArrayList<>();
 
-        final int dx = presentPosition.row() - position.row();
-        final int dy = presentPosition.col() - position.col();
-        final int presentRow = presentPosition.row();
-        final int presentCol = presentPosition.col();
+        final int dx = currentPosition.row() - targetPosition.row();
+        final int dy = currentPosition.col() - targetPosition.col();
+        final int currentRow = currentPosition.row();
+        final int currentCol = currentPosition.col();
 
-        verticalRoute(dx, dy, route, presentRow, presentCol);
-        horizontalRoute(dy, dx, route, presentRow, presentCol);
+        verticalRoute(dx, dy, route, currentRow, currentCol);
+        horizontalRoute(dy, dx, route, currentRow, currentCol);
 
         return route;
     }
 
-    private void verticalRoute(final int dx, final int dy, final List<Position> route, final int presentRow,
-                               final int presentCol) {
-        verticalUp(dx, dy, route, presentRow, presentCol);
-        verticalDown(dx, dy, route, presentRow, presentCol);
+    private void verticalRoute(final int dx, final int dy, final List<Position> route, final int currentRow,
+                               final int currentCol) {
+        verticalUp(dx, dy, route, currentRow, currentCol);
+        verticalDown(dx, dy, route, currentRow, currentCol);
     }
 
-    private void verticalUp(final int dx, final int dy, final List<Position> route, final int presentRow,
-                            final int presentCol) {
+    private void verticalUp(final int dx, final int dy, final List<Position> route, final int currentRow,
+                            final int currentCol) {
         if (dx == 3) {
-            verticalLeftUpRoute(dy, route, presentRow, presentCol);
-            verticalRightUpRoute(dy, route, presentRow, presentCol);
+            verticalLeftUpRoute(dy, route, currentRow, currentCol);
+            verticalRightUpRoute(dy, route, currentRow, currentCol);
         }
     }
 
-    private void verticalLeftUpRoute(final int dy, final List<Position> route, final int presentRow,
-                                     final int presentCol) {
+    private void verticalLeftUpRoute(final int dy, final List<Position> route, final int currentRow,
+                                     final int currentCol) {
         if (dy == 2) {
-            insertRoute(route, presentRow - 1, presentCol);
-            insertRoute(route, presentRow - 2, presentCol - 1);
+            insertRoute(route, currentRow - 1, currentCol);
+            insertRoute(route, currentRow - 2, currentCol - 1);
         }
     }
 
-    private void verticalRightUpRoute(final int dy, final List<Position> route, final int presentRow,
-                                      final int presentCol) {
+    private void verticalRightUpRoute(final int dy, final List<Position> route, final int currentRow,
+                                      final int currentCol) {
         if (dy == -2) {
-            insertRoute(route, presentRow - 1, presentCol);
-            insertRoute(route, presentRow - 2, presentCol + 1);
+            insertRoute(route, currentRow - 1, currentCol);
+            insertRoute(route, currentRow - 2, currentCol + 1);
         }
     }
 
-    private void verticalDown(final int dx, final int dy, final List<Position> route, final int presentRow,
-                              final int presentCol) {
+    private void verticalDown(final int dx, final int dy, final List<Position> route, final int currentRow,
+                              final int currentCol) {
         if (dx == -3) {
-            verticalLeftDownRoute(dy, route, presentRow, presentCol);
-            verticalRightDownRoute(dy, route, presentRow, presentCol);
+            verticalLeftDownRoute(dy, route, currentRow, currentCol);
+            verticalRightDownRoute(dy, route, currentRow, currentCol);
         }
     }
 
-    private void verticalRightDownRoute(final int dy, final List<Position> route, final int presentRow,
-                                        final int presentCol) {
+    private void verticalRightDownRoute(final int dy, final List<Position> route, final int currentRow,
+                                        final int currentCol) {
         if (dy == -2) {
-            insertRoute(route, presentRow + 1, presentCol);
-            insertRoute(route, presentRow + 2, presentCol + 1);
+            insertRoute(route, currentRow + 1, currentCol);
+            insertRoute(route, currentRow + 2, currentCol + 1);
         }
     }
 
-    private void verticalLeftDownRoute(final int dy, final List<Position> route, final int presentRow,
-                                       final int presentCol) {
+    private void verticalLeftDownRoute(final int dy, final List<Position> route, final int currentRow,
+                                       final int currentCol) {
         if (dy == 2) {
-            insertRoute(route, presentRow + 1, presentCol);
-            insertRoute(route, presentRow + 2, presentCol - 1);
+            insertRoute(route, currentRow + 1, currentCol);
+            insertRoute(route, currentRow + 2, currentCol - 1);
         }
     }
 
-    private void horizontalRoute(final int dy, final int dx, final List<Position> route, final int presentRow,
-                                 final int presentCol) {
-        horizontalLeft(dy, dx, route, presentRow, presentCol);
-        horizontalRight(dy, dx, route, presentRow, presentCol);
+    private void horizontalRoute(final int dy, final int dx, final List<Position> route, final int currentRow,
+                                 final int currentCol) {
+        horizontalLeft(dy, dx, route, currentRow, currentCol);
+        horizontalRight(dy, dx, route, currentRow, currentCol);
     }
 
-    private void horizontalLeft(final int dy, final int dx, final List<Position> route, final int presentRow,
-                                final int presentCol) {
+    private void horizontalLeft(final int dy, final int dx, final List<Position> route, final int currentRow,
+                                final int currentCol) {
         if (dy == 3) {
-            horizontalLeftUpRout(dx, route, presentRow, presentCol);
-            horizontalLeftDownRoute(dx, route, presentRow, presentCol);
+            horizontalLeftUpRout(dx, route, currentRow, currentCol);
+            horizontalLeftDownRoute(dx, route, currentRow, currentCol);
         }
     }
 
-    private void horizontalLeftUpRout(final int dx, final List<Position> route, final int presentRow,
-                                      final int presentCol) {
+    private void horizontalLeftUpRout(final int dx, final List<Position> route, final int currentRow,
+                                      final int currentCol) {
         if (dx == 2) {
-            insertRoute(route, presentRow, presentCol - 1);
-            insertRoute(route, presentRow - 1, presentCol - 2);
+            insertRoute(route, currentRow, currentCol - 1);
+            insertRoute(route, currentRow - 1, currentCol - 2);
         }
     }
 
-    private void horizontalLeftDownRoute(final int dx, final List<Position> route, final int presentRow,
-                                         final int presentCol) {
+    private void horizontalLeftDownRoute(final int dx, final List<Position> route, final int currentRow,
+                                         final int currentCol) {
         if (dx == -2) {
-            insertRoute(route, presentRow, presentCol - 1);
-            insertRoute(route, presentRow + 1, presentCol - 2);
+            insertRoute(route, currentRow, currentCol - 1);
+            insertRoute(route, currentRow + 1, currentCol - 2);
         }
     }
 
-    private void horizontalRight(final int dy, final int dx, final List<Position> route, final int presentRow,
-                                 final int presentCol) {
+    private void horizontalRight(final int dy, final int dx, final List<Position> route, final int currentRow,
+                                 final int currentCol) {
         if (dy == -3) {
-            horizontalRightUpRoute(dx, route, presentRow, presentCol);
-            horizontalRightDownRoute(dx, route, presentRow, presentCol);
+            horizontalRightUpRoute(dx, route, currentRow, currentCol);
+            horizontalRightDownRoute(dx, route, currentRow, currentCol);
         }
     }
 
-    private void horizontalRightDownRoute(final int dx, final List<Position> route, final int presentRow,
-                                          final int presentCol) {
+    private void horizontalRightDownRoute(final int dx, final List<Position> route, final int currentRow,
+                                          final int currentCol) {
         if (dx == -2) {
-            insertRoute(route, presentRow, presentCol + 1);
-            insertRoute(route, presentRow + 1, presentCol + 2);
+            insertRoute(route, currentRow, currentCol + 1);
+            insertRoute(route, currentRow + 1, currentCol + 2);
         }
     }
 
-    private void horizontalRightUpRoute(final int dx, final List<Position> route, final int presentRow,
-                                        final int presentCol) {
+    private void horizontalRightUpRoute(final int dx, final List<Position> route, final int currentRow,
+                                        final int currentCol) {
         if (dx == 2) {
-            insertRoute(route, presentRow, presentCol + 1);
-            insertRoute(route, presentRow - 1, presentCol + 2);
+            insertRoute(route, currentRow, currentCol + 1);
+            insertRoute(route, currentRow - 1, currentCol + 2);
         }
     }
 
-    private void insertRoute(final List<Position> route, final int presentRow, final int presentCol) {
-        route.add(new Position(presentRow, presentCol));
+    private void insertRoute(final List<Position> route, final int currentRow, final int currentCol) {
+        route.add(new Position(currentRow, currentCol));
     }
 
     @Override
-    public void canMoveBy(final Position presentPosition, final Position position) {
-        final int dx = position.calculateDifferenceRow(presentPosition.row());
-        final int dy = position.calculateDifferenceCol(presentPosition.col());
+    public void canMoveBy(final Position currentPosition, final Position targetPosition) {
+        final int dx = targetPosition.calculateDifferenceRow(currentPosition.row());
+        final int dy = targetPosition.calculateDifferenceCol(currentPosition.col());
 
         if (isNotMove(dx, dy)) {
             throw new IllegalArgumentException("[ERROR] 상이 움직일 수 없는 위치입니다.");

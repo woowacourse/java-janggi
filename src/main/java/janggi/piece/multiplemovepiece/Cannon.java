@@ -16,9 +16,9 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public void checkObstacle(final Position presentPosition, final Position futurePosition,
+    public void checkObstacle(final Position currentPosition, final Position targetPosition,
                               final Map<Position, Piece> janggiBoard) {
-        final List<Position> route = makeRoute(presentPosition, futurePosition);
+        final List<Position> route = makeRoute(currentPosition, targetPosition);
         validatePoMove(route, janggiBoard);
     }
 
@@ -49,82 +49,82 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public List<Position> makeRoute(final Position presentPosition, final Position position) {
+    public List<Position> makeRoute(final Position currentPosition, final Position targetPosition) {
         final List<Position> route = new ArrayList<>();
-        final int dx = presentPosition.row() - position.row();
-        final int dy = presentPosition.col() - position.col();
-        final int presentCol = presentPosition.col();
-        final int presentRow = presentPosition.row();
+        final int dx = currentPosition.row() - targetPosition.row();
+        final int dy = currentPosition.col() - targetPosition.col();
+        final int currentCol = currentPosition.col();
+        final int currentRow = currentPosition.row();
 
-        verticalRoute(dx, dy, route, presentRow, presentCol);
-        horizontalRoute(dy, dx, route, presentRow, presentCol);
+        verticalRoute(dx, dy, route, currentRow, currentCol);
+        horizontalRoute(dy, dx, route, currentRow, currentCol);
         return route;
     }
 
-    private void verticalRoute(final int dx, final int dy, final List<Position> route, final int presentRow,
-                               final int presentCol) {
+    private void verticalRoute(final int dx, final int dy, final List<Position> route, final int currentRow,
+                               final int currentCol) {
         if (dx == 0) {
-            verticalUpRoute(dy, route, presentRow, presentCol);
-            verticalDownRoute(dy, route, presentRow, presentCol);
+            verticalUpRoute(dy, route, currentRow, currentCol);
+            verticalDownRoute(dy, route, currentRow, currentCol);
         }
     }
 
-    private void verticalUpRoute(final int dy, final List<Position> route, final int presentRow, final int presentCol) {
+    private void verticalUpRoute(final int dy, final List<Position> route, final int currentRow, final int currentCol) {
         if (dy > 0) {
             for (int i = 1; i < dy; i++) {
-                insertRoute(route, presentRow, presentCol - i);
+                insertRoute(route, currentRow, currentCol - i);
             }
         }
     }
 
-    private void verticalDownRoute(final int dy, final List<Position> route, final int presentRow,
-                                   final int presentCol) {
+    private void verticalDownRoute(final int dy, final List<Position> route, final int currentRow,
+                                   final int currentCol) {
         if (dy < 0) {
             for (int i = 1; i < Math.abs(dy); i++) {
-                insertRoute(route, presentRow, presentCol + i);
+                insertRoute(route, currentRow, currentCol + i);
             }
         }
     }
 
-    private void horizontalRoute(final int dy, final int dx, final List<Position> route, final int presentRow,
-                                 final int presentCol) {
+    private void horizontalRoute(final int dy, final int dx, final List<Position> route, final int currentRow,
+                                 final int currentCol) {
         if (dy == 0) {
-            horizontalRightRoute(dx, route, presentRow, presentCol);
-            horizontalLeftRoute(dx, route, presentRow, presentCol);
+            horizontalRightRoute(dx, route, currentRow, currentCol);
+            horizontalLeftRoute(dx, route, currentRow, currentCol);
         }
     }
 
-    private void horizontalRightRoute(final int dx, final List<Position> route, final int presentRow,
-                                      final int presentCol) {
+    private void horizontalRightRoute(final int dx, final List<Position> route, final int currentRow,
+                                      final int currentCol) {
         if (dx > 0) {
             for (int i = 1; i < dx; i++) {
-                insertRoute(route, presentRow - i, presentCol);
+                insertRoute(route, currentRow - i, currentCol);
             }
         }
     }
 
-    private void horizontalLeftRoute(final int dx, final List<Position> route, final int presentRow,
-                                     final int presentCol) {
+    private void horizontalLeftRoute(final int dx, final List<Position> route, final int currentRow,
+                                     final int currentCol) {
         if (dx < 0) {
             for (int i = 1; i < Math.abs(dx); i++) {
-                insertRoute(route, presentRow + i, presentCol);
+                insertRoute(route, currentRow + i, currentCol);
             }
         }
     }
 
-    private void insertRoute(final List<Position> route, final int presentRow, final int presentCol) {
-        route.add(new Position(presentRow, presentCol));
+    private void insertRoute(final List<Position> route, final int currentRow, final int currentCol) {
+        route.add(new Position(currentRow, currentCol));
     }
 
     @Override
-    public void canMoveBy(final Position presentPosition, final Position position) {
-        if (isNotMove(presentPosition, position)) {
+    public void canMoveBy(final Position currentPosition, final Position targetPosition) {
+        if (isNotMove(currentPosition, targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
         }
     }
 
-    private boolean isNotMove(final Position presentPosition, final Position position) {
-        return presentPosition.row() != position.row()
-                && presentPosition.col() != position.col();
+    private boolean isNotMove(final Position currentPosition, final Position targetPosition) {
+        return currentPosition.row() != targetPosition.row()
+                && currentPosition.col() != targetPosition.col();
     }
 }

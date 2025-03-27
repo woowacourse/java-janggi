@@ -19,9 +19,9 @@ public record Position(int row, int col) {
         return calculateDifferenceRow(position.row) + calculateDifferenceCol(position.col) == 1;
     }
 
-    public boolean isBehind(final Position boardPosition) {
-        final int dx = boardPosition.row - row;
-        final int dy = calculateDifferenceCol(boardPosition.col);
+    public boolean isBehind(final Position position) {
+        final int dx = position.row - row;
+        final int dy = calculateDifferenceCol(position.col);
 
         return dx == 0 && dy == 1 || dx == 1 && dy == 0;
     }

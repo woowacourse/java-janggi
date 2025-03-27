@@ -13,20 +13,20 @@ public abstract class Piece {
         this.pieceProfile = pieceProfile;
     }
 
-    public void moveTo(final Position presentPosition, final Position futurePosition,
+    public void moveTo(final Position currentPosition, final Position targetPosition,
                        final Map<Position, Piece> janggiBoard) {
-        canMoveBy(presentPosition, futurePosition);
-        validateTeam(janggiBoard.get(futurePosition));
-        checkObstacle(presentPosition, futurePosition, janggiBoard);
+        canMoveBy(currentPosition, targetPosition);
+        validateTeam(janggiBoard.get(targetPosition));
+        checkObstacle(currentPosition, targetPosition, janggiBoard);
     }
 
-    protected void checkObstacle(final Position presentPosition, final Position futurePosition,
+    protected void checkObstacle(final Position currentPosition, final Position targetPosition,
                                  final Map<Position, Piece> janggiBoard) {
     }
 
-    public abstract List<Position> makeRoute(final Position presentPosition, final Position position);
+    public abstract List<Position> makeRoute(final Position currentPosition, final Position targetPosition);
 
-    protected abstract void canMoveBy(final Position preesntPosition, final Position position);
+    protected abstract void canMoveBy(final Position currentPosition, final Position targetPosition);
 
     protected void validateTeam(final Piece other) {
         if (isSameTeam(other)) {

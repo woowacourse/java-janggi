@@ -20,21 +20,21 @@ public class Board {
         janggiBoard.put(position, piece);
     }
 
-    public GameState pieceMove(final Position presentPosition, final Position futurePosition) {
-        final Piece piece = janggiBoard.get(presentPosition);
-        piece.moveTo(presentPosition, futurePosition, janggiBoard);
-        return updatePiecePosition(presentPosition, futurePosition);
+    public GameState pieceMove(final Position currentPosition, final Position targetPosition) {
+        final Piece piece = janggiBoard.get(currentPosition);
+        piece.moveTo(currentPosition, targetPosition, janggiBoard);
+        return updatePiecePosition(currentPosition, targetPosition);
     }
 
-    private GameState updatePiecePosition(final Position presentPosition, final Position futurePosition) {
-        final Piece removePiece = janggiBoard.remove(presentPosition);
-        final Piece piece = janggiBoard.get(futurePosition);
+    private GameState updatePiecePosition(final Position currentPosition, final Position targetPosition) {
+        final Piece currentPiece = janggiBoard.remove(currentPosition);
+        final Piece targetPiece = janggiBoard.get(targetPosition);
 
-        if (isKingCapture(piece)) {
+        if (isKingCapture(targetPiece)) {
             return GameState.END;
         }
 
-        janggiBoard.put(futurePosition, removePiece);
+        janggiBoard.put(targetPosition, currentPiece);
         return GameState.IN_PROGRESS;
     }
 
@@ -42,14 +42,14 @@ public class Board {
         return piece != null && PieceType.isKing(piece.getPieceProfile().getPieceType());
     }
 
-    public void validateEmptyPieceBy(final Position presentPosition) {
-        if (isNotContainPiece(presentPosition)) {
+    public void validateEmptyPieceBy(final Position currentPosition) {
+        if (isNotContainPiece(currentPosition)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다. 기물이 존재하는 좌표를 입력해 주세요.");
         }
     }
 
-    private boolean isNotContainPiece(final Position presentPosition) {
-        return !janggiBoard.containsKey(presentPosition);
+    private boolean isNotContainPiece(final Position currentPosition) {
+        return !janggiBoard.containsKey(currentPosition);
     }
 
     public Map<Position, Piece> getJanggiBoard() {

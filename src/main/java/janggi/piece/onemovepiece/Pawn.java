@@ -14,13 +14,13 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<Position> makeRoute(final Position presentPosition, final Position position) {
+    public List<Position> makeRoute(final Position presentPosition, final Position targetPosition) {
         return List.of();
     }
 
     @Override
-    public void canMoveBy(final Position presentPosition, final Position position) {
-        if (isNotMove(presentPosition, position)) {
+    public void canMoveBy(final Position currentPosition, final Position targetPosition) {
+        if (isNotMove(currentPosition, targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 졸이 움직일 수 없는 위치입니다.");
         }
     }
