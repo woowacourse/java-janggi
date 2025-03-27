@@ -43,7 +43,7 @@ public class JanggiDao {
             final var resultSet = preparedStatement.executeQuery();
 
             final List<JanggiDto> janggiDtos = new ArrayList<>();
-            while (!resultSet.next()) {
+            while (resultSet.next()) {
                 final JanggiDto janggiDto = new JanggiDto(
                         resultSet.getInt("id"),
                         resultSet.getString("title"),

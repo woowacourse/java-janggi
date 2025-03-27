@@ -14,6 +14,7 @@ import dto.JanggiDto;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -62,8 +63,20 @@ class JanggiDaoTest {
         @DisplayName("저장된 모든 장기 게임을 조회한다.")
         @Test
         void findAllJanggiDtos() {
+            // given
+            int firstId = janggiDao.create(connection, "first title", JanggiStatus.PROCESS, new Turn(Team.RED));
+            int secondId = janggiDao.create(connection, "second title", JanggiStatus.FINISH, new Turn(Team.GREEN));
+            int thirdId = janggiDao.create(connection, "third title", JanggiStatus.PROCESS, new Turn(Team.GREEN));
 
+            // when
+            List<JanggiDto> result = janggiDao.findAllJanggiDtos(connection);
 
+            // then
+            assertThat(result).containsExactlyInAnyOrder(
+                    new JanggiDto(firstId, "first title", new Turn(Team.RED), JanggiStatus.PROCESS),
+                    new JanggiDto(secondId, "second title", new Turn(Team.GREEN), JanggiStatus.FINISH),
+                    new JanggiDto(thirdId, "third title", new Turn(Team.GREEN), JanggiStatus.PROCESS)
+            );
         }
     }
 }
