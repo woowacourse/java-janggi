@@ -6,7 +6,7 @@ import domain.JanggiCoordinate;
 public interface LinearMove {
     void validateLinearMove(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to);
 
-    void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to);
+    void validateReachable(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to);
 
     default void validateRowCol(JanggiCoordinate from, JanggiCoordinate to) {
         if (!from.isSameRow(to) && !from.isSameCol(to)) {

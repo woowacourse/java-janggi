@@ -17,17 +17,17 @@ public class Pho extends Piece implements LinearMove, CastleDiagonalMove {
     public void validateLinearMove(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
         if (!from.isSameRow(to) && !from.isSameCol(to)) {
             validateCastleDiagonalMove(janggiBoard, from, to);
-            validateDiagonalReachAble(janggiBoard, from, to);
+            validateDiagonalReachable(janggiBoard, from, to);
             return;
         }
 
         validateRowCol(from, to);
-        validateReachAble(janggiBoard, from, to);
+        validateReachable(janggiBoard, from, to);
         validatePhoTarget(janggiBoard, to);
     }
 
     @Override
-    public void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
+    public void validateReachable(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
         Direction direction = Direction.getDirection(from, to);
         JanggiCoordinate curr = from.move(direction);
 
@@ -58,7 +58,7 @@ public class Pho extends Piece implements LinearMove, CastleDiagonalMove {
     }
 
     @Override
-    public void validateDiagonalReachAble(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+    public void validateDiagonalReachable(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         Direction direction = Direction.getDiagonalDirection(from, to);
         JanggiCoordinate curr = from.move(direction);
 

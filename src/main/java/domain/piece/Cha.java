@@ -12,7 +12,7 @@ public class Cha extends Piece implements LinearMove, CastleDiagonalMove {
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         if (!from.isSameRow(to) && !from.isSameCol(to)) {
             validateCastleDiagonalMove(board, from, to);
-            validateDiagonalReachAble(board, from, to);
+            validateDiagonalReachable(board, from, to);
             return;
         }
         validateLinearMove(board, from, to);
@@ -21,11 +21,11 @@ public class Cha extends Piece implements LinearMove, CastleDiagonalMove {
     @Override
     public void validateLinearMove(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
         validateRowCol(from, to);
-        validateReachAble(janggiBoard, from, to);
+        validateReachable(janggiBoard, from, to);
     }
 
     @Override
-    public void validateReachAble(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
+    public void validateReachable(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
         Direction direction = Direction.getDirection(from, to);
         JanggiCoordinate curr = from.move(direction);
         while (!janggiBoard.isOccupied(curr) && !curr.equals(to)) {
@@ -48,7 +48,7 @@ public class Cha extends Piece implements LinearMove, CastleDiagonalMove {
     }
 
     @Override
-    public void validateDiagonalReachAble(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+    public void validateDiagonalReachable(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
         Direction diagonalDirection = Direction.getDiagonalDirection(from, to);
         if (!board.castleCoordinateHasDirection(from, diagonalDirection)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없습니다.");
