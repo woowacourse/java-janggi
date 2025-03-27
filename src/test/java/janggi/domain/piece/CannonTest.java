@@ -63,6 +63,21 @@ class CannonTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @DisplayName("포의 초기 위치와 이동 위치 사이에 2개 이상의 기물이 존재하는 경우 예외를 던진다.")
+    @Test
+    void move33() {
+        Cannon cannon = new Cannon(Team.BLUE);
+        Position afterPosition = new Position(2, 5);
+        Position betweenPosition = new Position(3, 5);
+        Position betweenPosition2 = new Position(4, 5);
+        board.put(betweenPosition, new Soldier(Team.BLUE));
+        board.put(betweenPosition2, new Soldier(Team.BLUE));
+
+        assertThatThrownBy(() ->
+                cannon.getMovableValidator(beforePosition, afterPosition).accept(board))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
     @DisplayName("포의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {

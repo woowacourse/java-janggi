@@ -58,25 +58,6 @@ final public class Validator {
         }
     }
 
-    public static void validateNoObstaclesOnPath(
-            final Map<Position, Piece> board,
-            final Position beforePosition,
-            final Position afterPosition
-    ) {
-        Movement nextMovement = Movement.findUnitMovement(
-                afterPosition.x() - beforePosition.x(),
-                afterPosition.y() - beforePosition.y()
-        );
-
-        Position currentPosition = beforePosition.plus(nextMovement.x(), nextMovement.y());
-        while (!currentPosition.equals(afterPosition)) {
-            if (!board.get(currentPosition).isNone()) {
-                throw new IllegalArgumentException("불가능한 이동입니다");
-            }
-            currentPosition = currentPosition.plus(nextMovement.x(), nextMovement.y());
-        }
-    }
-
     public static void validateMovementDirection(final Team team, final Position beforePosition,
                                                  final Position afterPosition) {
         if (team == Team.BLUE && afterPosition.x() - beforePosition.x() > 0) {
@@ -104,6 +85,25 @@ final public class Validator {
         Piece existingPiece = board.get(afterPosition);
         if (existingPiece.getTeam().equals(team)) {
             throw new IllegalArgumentException("같은 팀 기물이 있는 위치로는 이동할 수 없습니다.");
+        }
+    }
+
+    public static void validateNoObstaclesOnPath(
+            final Map<Position, Piece> board,
+            final Position beforePosition,
+            final Position afterPosition
+    ) {
+        Movement nextMovement = Movement.findUnitMovement(
+                afterPosition.x() - beforePosition.x(),
+                afterPosition.y() - beforePosition.y()
+        );
+
+        Position currentPosition = beforePosition.plus(nextMovement.x(), nextMovement.y());
+        while (!currentPosition.equals(afterPosition)) {
+            if (!board.get(currentPosition).isNone()) {
+                throw new IllegalArgumentException("불가능한 이동입니다");
+            }
+            currentPosition = currentPosition.plus(nextMovement.x(), nextMovement.y());
         }
     }
 

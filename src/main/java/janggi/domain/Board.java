@@ -28,9 +28,9 @@ public class Board {
         if (!piece.getTeam().equals(team)) {
             throw new IllegalArgumentException("지금은 " + team.getName() + "팀 기물만 이동할 수 있습니다.");
         }
-        if (piece.isNone()) {
-            throw new IllegalArgumentException("해당 위치에 이동시킬 기물이 존재하지 않습니다.");
-        }
+//        if (piece.isNone()) {
+//            throw new IllegalArgumentException("해당 위치에 이동시킬 기물이 존재하지 않습니다.");
+//        }
 
         piece.getMovableValidator(beforePosition, afterPosition).accept(new HashMap<>(board));
         board.put(beforePosition, new None());
