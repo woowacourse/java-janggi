@@ -150,6 +150,8 @@
     - 병
         - [x] 상대 궁성에서 대각선 전진을 할 수 있음
 
+---
+
 # 레벨 2.1.2 - 장기의 점수를 계산하여 승패와 관계없이 모두 노출한다.
 
 - 기물 당 점수
@@ -169,3 +171,43 @@
 
 - [x] 각 기물 별로 점수 할당
 - [x] 매 턴마다 전체 장기판에 남아 있는 점수의 합을 계산하여 팀별로 출력
+
+---
+
+# 레벨 2.2 - DB 적용 및 추가 구현
+
+- [ ] 애플리케이션을 재시작하더라도 이전에 하던 장기 게임을 다시 시작할 수 있어야 한다.
+    - [x] janggi DB를 연결한다.
+    - [x] 게임 시작 시, 이전 게임을 id를 통해 불러올 것인지 새로운 게임을 만들 것인지 선택한다.
+        - [ ] 이전 게임을 불러올 경우, 선택한 id의 게임 정보를 불러와 장기판을 초기화 한다.
+    - [ ] 입력 턴에 wq를 누르면 현재 상태를 저장 후 종료한다.
+    - [ ] 입력 턴에 아무것도 입력하지 않고 엔터를 누르면 턴을 넘긴다.
+- [ ] DB를 적용할 때 객체의 변경을 최소화해야한다.
+
+### DB table 설계
+
+- [ ] Jangggi_Board_TB : 장기판 위에 남아있는 모든 기물 정보와 해당하는 좌표를 저장
+    - id : INT, primary key
+    - x_pos : INT
+    - y_pos : INT
+    - team_name : VARCHAR(1)
+    - piece_type : VARCHAR(1)
+
+```sql
+CREATE
+DATABASE janggi DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+USE
+janggi;
+
+CREATE TABLE JanggiBoard
+(
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    game_id    INT        NOT NULL,
+    x_pos      INT        NOT NULL,
+    y_pos      INT        NOT NULL,
+    team_name  VARCHAR(1) NOT NULL,
+    piece_type VARCHAR(1) NOT NULL
+);
+```
+

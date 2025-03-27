@@ -9,6 +9,26 @@ import model.Team;
 public class InputView {
     private static Scanner sc;
 
+    public static int choiceLoadOrNewGame() {
+        sc = new Scanner(System.in);
+        int loadOrNewGame;
+        do {
+            System.out.println("""
+                    1. 이전 게임 불러오기
+                    2. 새 게임 시작하기
+                    """);
+            loadOrNewGame = Integer.parseInt(sc.nextLine());
+        } while (loadOrNewGame < 1 || loadOrNewGame > 2);
+
+        return loadOrNewGame;
+    }
+
+    public static int choiceGameId() {
+        sc = new Scanner(System.in);
+        System.out.println("게임 번호를 선택하세요");
+        return Integer.parseInt(sc.nextLine());
+    }
+
     public static int choiceSetUp() {
         sc = new Scanner(System.in);
         System.out.println("""
@@ -24,7 +44,7 @@ public class InputView {
 
     public static List<Point> movePointInput(Team team) {
         sc = new Scanner(System.in);
-        System.out.printf("%s 나라의 차례\n", team.getTeam());
+        System.out.printf("%s 나라의 차례\n", team.getTeamName());
         System.out.println("이동할 기물의 위치를 선택하세요. 입력 형식 : 가로(공백)세로 ex)1 2");
         List<Integer> beforePointInput = Arrays.stream(sc.nextLine().split(" ")).map(Integer::parseInt).toList();
         Point beforePoint = Point.of(beforePointInput.getFirst() - 1, beforePointInput.getLast() - 1);

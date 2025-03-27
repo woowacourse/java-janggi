@@ -9,7 +9,7 @@ public enum Team {
         this.team = team;
     }
 
-    public String getTeam() {
+    public String getTeamName() {
         return team;
     }
 }
