@@ -31,4 +31,8 @@ public class OccupiedPositions {
         }
         return positions.get(position).getColor() == color;
     }
+
+    public Map<Position, PieceIdentity> getPositions() {
+        return positions;
+    }
 }

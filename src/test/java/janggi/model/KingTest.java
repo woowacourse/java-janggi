@@ -85,7 +85,7 @@ class KingTest {
     void 왕은_궁성영역_밖으로_이동할_수_없다() {
 
         Board board = new Board();
-        JanggiGame janggiGame = new JanggiGame(board, new Turn());
+        JanggiGame janggiGame = new JanggiGame(board, new Turn(Color.BLUE));
 
         Piece king = new King(Color.BLUE);
         board.putPiece(position, king);

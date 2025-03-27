@@ -1,6 +1,7 @@
 package janggi.controller;
 
-import janggi.model.BoardInitializer;
+import janggi.dao.BoardDao;
+import janggi.dao.TurnDao;
 import janggi.model.Color;
 import janggi.model.JanggiGame;
 import janggi.view.Parser;
@@ -13,6 +14,8 @@ import java.util.List;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final BoardDao boardDao = new BoardDao();
+    private final TurnDao turnDao = new TurnDao();
 
     public JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -20,8 +23,8 @@ public class JanggiController {
     }
 
     public void run() {
-        BoardInitializer boardInitializer = new BoardInitializer();
-        JanggiGame janggiGame = new JanggiGame(boardInitializer.init(), new Turn());
+        Turn turn = new Turn(turnDao.findCurrentTurn());
+        JanggiGame janggiGame = new JanggiGame(boardDao.findBoard(), turn);
         outputView.printBoard(janggiGame.getBoard());
         retry(() -> playGame(janggiGame));
     }
@@ -29,6 +32,8 @@ public class JanggiController {
     private void playGame(final JanggiGame janggiGame) {
         String command = inputView.inputMovePositions(janggiGame.getCurrentTurn().name());
         if (command.equals("Q")) {
+            boardDao.updateBoard(janggiGame.getBoard().generateOccupiedPositions());
+            turnDao.updateCurrentTurn(janggiGame.getCurrentTurn());
             return;
         }
         List<Position> positions = Parser.parsePositions(command);

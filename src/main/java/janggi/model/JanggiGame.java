@@ -25,7 +25,7 @@ public class JanggiGame {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
         board.move(departure, destination);
-        turn.increaseRound();
+        turn.nextTurn();
     }
 
     public Board getBoard() {

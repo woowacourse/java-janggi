@@ -2,17 +2,17 @@ package janggi.model;
 
 public class Turn {
 
-    private int value = 1;
+    private Color currentColor;
+
+    public Turn(Color currentColor) {
+        this.currentColor = currentColor;
+    }
+
+    public void nextTurn() {
+        currentColor = currentColor.reverse();
+    }
 
     public Color getCurrentTurn() {
-        if (value % 2 == 0) {
-            return Color.RED;
-        }
-        return Color.BLUE;
+        return currentColor;
     }
-
-    public void increaseRound() {
-        ++value;
-    }
-
 }

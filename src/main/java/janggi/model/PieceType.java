@@ -1,5 +1,7 @@
 package janggi.model;
 
+import java.util.Arrays;
+
 public enum PieceType {
     CANNON("포"),
     CHARIOT("차"),
@@ -18,5 +20,12 @@ public enum PieceType {
 
     public String getName() {
         return name;
+    }
+
+    public static PieceType from(String typeName) {
+        return Arrays.stream(values())
+                .filter(pieceType -> pieceType.name().equals(typeName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 기물 타입 입니다."));
     }
 }
