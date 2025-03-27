@@ -91,7 +91,6 @@ public abstract class Piece {
         this.position = new Position(position.x(), position.y());
     }
 
-
     public boolean isSamePosition(final Position otherPosition) {
         return position.equals(otherPosition);
     }

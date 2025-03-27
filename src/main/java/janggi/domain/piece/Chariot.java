@@ -20,7 +20,6 @@ public class Chariot extends Piece {
         return CHARIOT_SCORE;
     }
 
-
     @Override
     public Set<Route> calculateIndependentRoutes() {
         final Set<Route> rawRoutes = new HashSet<>();
