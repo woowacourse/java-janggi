@@ -1,5 +1,8 @@
 package position;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Column {
     A,
     B,
@@ -25,4 +28,14 @@ public enum Column {
         }
         return true;
     }
+
+    public List<Column> findBetweenColumn(Column targetColumn) {
+        int min = Math.min(this.ordinal(), targetColumn.ordinal());
+        int max = Math.max(this.ordinal(), targetColumn.ordinal());
+        return Arrays.stream(values())
+                .filter(column -> column.ordinal() > min && column.ordinal() <= max)
+                .toList();
+    }
+
+
 }

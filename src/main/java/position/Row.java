@@ -1,5 +1,8 @@
 package position;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Row {
     ONE,
     TWO,
@@ -23,5 +26,13 @@ public enum Row {
             return false;
         }
         return true;
+    }
+
+    public List<Row> findBetweenRows(Row targetRow) {
+        int min = Math.min(this.ordinal(), targetRow.ordinal());
+        int max = Math.max(this.ordinal(), targetRow.ordinal());
+        return Arrays.stream(values())
+                .filter(row -> row.ordinal() > min && row.ordinal() <= max)
+                .toList();
     }
 }

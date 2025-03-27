@@ -1,10 +1,22 @@
 package position;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static testutil.StaticTest.A1;
+import static testutil.StaticTest.A5;
+import static testutil.StaticTest.A6;
+import static testutil.StaticTest.B5;
+import static testutil.StaticTest.C5;
+import static testutil.StaticTest.D5;
+import static testutil.StaticTest.E1;
+import static testutil.StaticTest.E2;
+import static testutil.StaticTest.E3;
+import static testutil.StaticTest.E4;
+import static testutil.StaticTest.E5;
 
+import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import position.Movement;
-import position.Row;
 
 public class PositionTest {
 
@@ -31,6 +43,29 @@ public class PositionTest {
         // then
         assertThat(resultPosition).isEqualTo(new Position(Column.E, Row.SIX));
 
+    }
+
+    @Test
+    void 행이나_열이_같으면_직선상으로_판단한다() {
+        // given
+        assertThat(A1.isStraight(A6)).isTrue();
+        assertThat(E5.isStraight(A5)).isTrue();
+    }
+
+    @Test
+    void 직선상의_두_포지션_간의_포지션들을_구한다() {
+        // given
+        List<Position> straightPositions = E5.findStraightPositions(A5);
+        List<Position> straightPositions2 = E5.findStraightPositions(E1);
+
+        // when
+
+        // then
+        assertAll(
+                () -> Assertions.assertThat(straightPositions).containsExactly(B5, C5, D5, E5),
+                () -> Assertions.assertThat(straightPositions2).containsExactly(E2, E3, E4, E5)
+
+        );
     }
 
 

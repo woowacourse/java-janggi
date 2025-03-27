@@ -1,5 +1,6 @@
 package position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record Position(
@@ -23,10 +24,33 @@ public record Position(
         return false;
     }
 
-    public List<Position> findMoveablePositions(List<Movement> pieceMovements) {
+    public List<Position> findMovablePositions(List<Movement> pieceMovements) {
         return pieceMovements.stream()
                 .filter(this::canMove)
                 .map(this::move)
+                .toList();
+    }
+
+
+    public boolean isStraight(Position toPosition) {
+        if (column == toPosition.column || row == toPosition.row) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public List<Position> findStraightPositions(Position toPosition) {
+        List<Position> positions = new ArrayList<>();
+        if (column == toPosition.column) {
+            return row.findBetweenRows(toPosition.row)
+                    .stream()
+                    .map(row -> new Position(column, row))
+                    .toList();
+        }
+        return column.findBetweenColumn(toPosition.column)
+                .stream()
+                .map(column -> new Position(column, row))
                 .toList();
     }
 }
