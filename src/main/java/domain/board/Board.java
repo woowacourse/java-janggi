@@ -32,7 +32,8 @@ public class Board {
         Piece destinationPiece = getPieceBy(destination);
         boolean isValidDestination = sourcePiece.isValidMovement(source, destination);
 
-        List<Position> route = sourcePiece.findAllRoute(source, destination);
+        MovePath movePath = new MovePath(source, destination);
+        List<Position> route = sourcePiece.findAllRoute(movePath);
         List<Piece> piecesOnRoute = getPiecesOnRoute(route);
         boolean canMove = sourcePiece.canMove(destinationPiece, piecesOnRoute);
 

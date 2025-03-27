@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.board.MovePath;
 import domain.board.Position;
 import domain.rule.DefaultMoveRule;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public List<Position> findAllRoute(Position source, Position destination) {
-        return source.getBetweenPositions(destination);
+    public List<Position> findAllRoute(MovePath movePath) {
+        return movePath.getBetweenPositions();
     }
 }

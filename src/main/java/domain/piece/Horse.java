@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.board.MovePath;
 import domain.board.Position;
 import domain.rule.DefaultMoveRule;
 import java.util.List;
@@ -23,8 +24,8 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Position> findAllRoute(Position source, Position destination) {
-        Position route = source.getPositionByFraction(destination, 2);
+    public List<Position> findAllRoute(MovePath movePath) {
+        Position route = movePath.getPositionByFraction(2);
 
         return List.of(route);
     }

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.board.Column;
+import domain.board.MovePath;
 import domain.board.Position;
 import domain.board.Row;
 import java.util.ArrayList;
@@ -16,8 +17,9 @@ class CannonTest {
         Cannon cannon = new Cannon(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.ONE, Column.FIVE);
+        MovePath movePath = new MovePath(source, destination);
 
-        List<Position> allRoute = cannon.findAllRoute(source, destination);
+        List<Position> allRoute = cannon.findAllRoute(movePath);
 
         assertAll(
                 () -> assertThat(allRoute).hasSize(3),

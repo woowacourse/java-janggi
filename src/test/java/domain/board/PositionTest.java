@@ -1,9 +1,7 @@
 package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -23,21 +21,6 @@ class PositionTest {
         Position dst = new Position(Row.FIVE, Column.FIVE);
 
         assertThat(src.columnDifference(dst)).isEqualTo(1);
-    }
-
-    @Test
-    void 두_좌표_사이의_모든_좌표를_반환() {
-        Position src = new Position(Row.ONE, Column.ONE);
-        Position dst = new Position(Row.ONE, Column.FIVE);
-
-        List<Position> betweenPositions = src.getBetweenPositions(dst);
-
-        assertAll(
-                () -> assertThat(betweenPositions).hasSize(3),
-                () -> assertThat(betweenPositions.get(0)).isEqualTo(new Position(Row.ONE, Column.TWO)),
-                () -> assertThat(betweenPositions.get(1)).isEqualTo(new Position(Row.ONE, Column.THREE)),
-                () -> assertThat(betweenPositions.get(2)).isEqualTo(new Position(Row.ONE, Column.FOUR))
-        );
     }
 
     @ParameterizedTest

@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.board.MovePath;
 import domain.board.Position;
 import domain.rule.MoveRule;
 import java.util.List;
@@ -55,5 +56,5 @@ public abstract class Piece {
 
     public abstract boolean isValidMovement(Position source, Position destination);
 
-    public abstract List<Position> findAllRoute(Position source, Position destination);
+    public abstract List<Position> findAllRoute(MovePath movePath);
 }

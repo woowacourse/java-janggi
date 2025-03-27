@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.board.MovePath;
 import domain.board.Position;
 import domain.rule.DefaultMoveRule;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Elephant extends Piece {
@@ -24,14 +24,11 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Position> findAllRoute(Position source, Position destination) {
-        List<Position> positions = new ArrayList<>();
+    public List<Position> findAllRoute(MovePath movePath) {
+        Position firstPosition = movePath.getPositionByFraction(3);
+        MovePath firstToDestination = new MovePath(firstPosition, movePath.getDestination());
+        Position secondPosition = firstToDestination.getPositionByFraction(2);
 
-        Position firstPosition = source.getPositionByFraction(destination, 3);
-        Position secondPosition = firstPosition.getPositionByFraction(destination, 2);
-
-        positions.add(firstPosition);
-        positions.add(secondPosition);
-        return positions;
+        return List.of(firstPosition, secondPosition);
     }
 }

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.board.Column;
+import domain.board.MovePath;
 import domain.board.Position;
 import domain.board.Row;
 import java.util.ArrayList;
@@ -49,8 +50,9 @@ class ChariotTest {
         Elephant elephant = new Elephant(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.THREE);
+        MovePath movePath = new MovePath(source, destination);
 
-        List<Position> allRoute = elephant.findAllRoute(source, destination);
+        List<Position> allRoute = elephant.findAllRoute(movePath);
 
         assertThat(allRoute).hasSize(2);
         assertThat(allRoute.get(0)).isEqualTo(new Position(Row.TWO, Column.ONE));
@@ -62,8 +64,9 @@ class ChariotTest {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.ONE, Column.FIVE);
+        MovePath movePath = new MovePath(source, destination);
 
-        List<Position> allRoute = chariot.findAllRoute(source, destination);
+        List<Position> allRoute = chariot.findAllRoute(movePath);
 
         assertAll(
                 () -> assertThat(allRoute).hasSize(3),
