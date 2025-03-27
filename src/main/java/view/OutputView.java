@@ -47,6 +47,13 @@ public class OutputView {
         System.out.println("우승자 : " + winner.name());
     }
 
+    public void printScores(final Player player1, final Player player2) {
+        System.out.println("게임 결과 ");
+        System.out.println(player1.name() + " : " + player1.score());
+        System.out.println(player2.name() + " : " + player2.score());
+        System.out.println();
+    }
+
     private List<ArrayList<String>> createDefaultBoard() {
         List<ArrayList<String>> result = Stream.generate(() -> new ArrayList<String>())
                 .limit(10)

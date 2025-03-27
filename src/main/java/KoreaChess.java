@@ -41,6 +41,7 @@ public class KoreaChess {
         }
 
         Player winner = board.getWinner();
+        outputView.printScores(han, cho);
         outputView.printWinner(winner);
     }
 
