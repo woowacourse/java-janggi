@@ -11,9 +11,11 @@ import java.util.Map;
 public class Board {
 
     private final Map<Position, Piece> positionToPiece;
+    private final Palaces palaces;
 
-    private Board(final Map<Position, Piece> positionToPiece) {
+    private Board(final Map<Position, Piece> positionToPiece, final Palaces palaces) {
         this.positionToPiece = positionToPiece;
+        this.palaces = palaces;
     }
 
     public static Board from(final Pieces pieces) {
@@ -22,7 +24,7 @@ public class Board {
         pieces.getPieces().forEach(piece ->
                 positionToPiece.put(piece.getPosition(), piece));
 
-        return new Board(positionToPiece);
+        return new Board(positionToPiece, Palaces.create());
     }
 
     public boolean isExists(final Position position) {
@@ -47,6 +49,14 @@ public class Board {
 
         updateScore(player, destination);
         updateBoard(departure, destination, movedPiece);
+    }
+
+    public boolean isPalace(Position position) {
+        return palaces.isPalace(position);
+    }
+
+    public boolean isCenterOfPalace(Position position) {
+        return palaces.isCenter(position);
     }
 
     private void validatePieceOwner(final Piece piece, final Player currentTurnPlayer) {
