@@ -2,11 +2,11 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.pieces.Pieces;
 import janggi.domain.piece.Side;
-import janggi.domain.piece.gererator.ChoPieceGenerator;
-import janggi.domain.piece.gererator.HanPieceGenerator;
-import janggi.domain.piece.gererator.KnightElephantSetting;
+import janggi.domain.piece.generator.ChoPieceGenerator;
+import janggi.domain.piece.generator.HanPieceGenerator;
+import janggi.domain.piece.generator.KnightElephantSetting;
+import janggi.domain.piece.pieces.Pieces;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

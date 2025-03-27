@@ -1,8 +1,8 @@
 package janggi;
 
 import janggi.controller.Controller;
-import janggi.domain.piece.gererator.DefaultChoPieceGenerator;
-import janggi.domain.piece.gererator.DefaultHanPieceGenerator;
+import janggi.domain.piece.generator.DefaultChoPieceGenerator;
+import janggi.domain.piece.generator.DefaultHanPieceGenerator;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 

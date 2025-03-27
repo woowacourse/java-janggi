@@ -1,4 +1,4 @@
-package janggi.domain.piece.gererator;
+package janggi.domain.piece.generator;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;

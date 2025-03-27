@@ -2,8 +2,8 @@ package janggi.controller;
 
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Position;
-import janggi.domain.piece.gererator.ChoPieceGenerator;
-import janggi.domain.piece.gererator.HanPieceGenerator;
+import janggi.domain.piece.generator.ChoPieceGenerator;
+import janggi.domain.piece.generator.HanPieceGenerator;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
