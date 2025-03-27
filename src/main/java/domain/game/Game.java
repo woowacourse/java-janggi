@@ -11,8 +11,8 @@ import view.OutputView;
 
 public class Game {
     public static final int POSITION_INPUT_SIZE = 2;
-    public static final int COLUMN = 0;
-    public static final int ROW = 1;
+    public static final int INPUT_COLUMN_INDEX = 0;
+    public static final int INPUT_ROW_INDEX = 1;
 
     private final Janggi janggi;
     private final InputView inputView;
@@ -87,7 +87,7 @@ public class Game {
         if (positionValue.size() != POSITION_INPUT_SIZE) {
             throw new IllegalArgumentException("column, row 형태로 입력해주세요.");
         }
-        return new Position(positionValue.get(COLUMN), positionValue.get(ROW));
+        return new Position(positionValue.get(INPUT_COLUMN_INDEX), positionValue.get(INPUT_ROW_INDEX));
     }
 
     private static List<Integer> getPosition(String rawPosition) {
