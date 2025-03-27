@@ -11,7 +11,7 @@ public abstract class Movable {
     protected final Team team;
     protected final Point point;
 
-    public Movable(Team team, Point point) {
+    protected Movable(Team team, Point point) {
         this.team = team;
         this.point = point;
     }

@@ -17,7 +17,7 @@ public class Prey {
         try {
             Movable prey = hurdles.findByPoint(targetPoint);
             return new Prey(prey, attacker);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalStateException e) {
             return new Prey(null, attacker);
         }
     }

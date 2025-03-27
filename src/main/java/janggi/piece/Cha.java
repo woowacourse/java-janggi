@@ -26,14 +26,18 @@ public class Cha extends Movable {
     @Override
     public boolean canMove(Point targetPoint, Hurdles hurdles) {
         Direction direction = Direction.toCardinalFrom(point, targetPoint);
-        return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
-    }
-
-    private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
-        Route route = Route.repeat(direction, point, targetPoint);
-        if (route.hasCrash(hurdles)) {
+        if (!isRouteWithoutHurdle(targetPoint, hurdles, direction)) {
             return false;
         }
+        return canMoveOrAttackTargetPoint(targetPoint, hurdles);
+    }
+
+    private boolean isRouteWithoutHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
+        Route route = Route.repeat(direction, point, targetPoint);
+        return !route.hasCrash(hurdles);
+    }
+
+    private boolean canMoveOrAttackTargetPoint(Point targetPoint, Hurdles hurdles) {
         Prey prey = Prey.from(targetPoint, hurdles, this);
         return prey.canAttack();
     }

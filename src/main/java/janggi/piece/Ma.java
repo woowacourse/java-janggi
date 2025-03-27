@@ -38,7 +38,10 @@ public class Ma extends Movable {
         List<Direction> directions = Direction.toInitialCardinalThenDiagonalFrom(
                 point, targetPoint, 1
         );
-        return isRouteHaveNoHurdle(targetPoint, hurdles, directions);
+        if (!isRouteWithoutHurdle(hurdles, directions)) {
+            return false;
+        }
+        return canMoveOrAttackTargetPoint(targetPoint, hurdles);
     }
 
     private boolean isDistanceOverflow(Point targetPoint) {
@@ -46,11 +49,12 @@ public class Ma extends Movable {
         return distance.notMatches(Math.sqrt(5));
     }
 
-    private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, List<Direction> directions) {
+    private boolean isRouteWithoutHurdle(Hurdles hurdles, List<Direction> directions) {
         Route route = Route.follow(directions, point);
-        if (route.hasCrash(hurdles)) {
-            return false;
-        }
+        return !route.hasCrash(hurdles);
+    }
+
+    private boolean canMoveOrAttackTargetPoint(Point targetPoint, Hurdles hurdles) {
         Prey prey = Prey.from(targetPoint, hurdles, this);
         return prey.canAttack();
     }

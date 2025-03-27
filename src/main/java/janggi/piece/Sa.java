@@ -30,7 +30,10 @@ public class Sa extends Movable {
             return false;
         }
         Direction direction = Direction.toCardinalOrDiagonalFrom(point, targetPoint);
-        return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
+        if (!isRouteWithoutHurdle(targetPoint, hurdles, direction)) {
+            return false;
+        }
+        return canMoveOrAttackTargetPoint(targetPoint, hurdles);
     }
 
     private boolean isDistanceOverFlow(Point targetPoint) {
@@ -38,11 +41,12 @@ public class Sa extends Movable {
         return distance.notMatches(1) && distance.notMatches(Math.sqrt(2));
     }
 
-    private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
+    private boolean isRouteWithoutHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, point, targetPoint);
-        if (route.hasCrash(hurdles)) {
-            return false;
-        }
+        return !route.hasCrash(hurdles);
+    }
+
+    private boolean canMoveOrAttackTargetPoint(Point targetPoint, Hurdles hurdles) {
         Prey prey = Prey.from(targetPoint, hurdles, this);
         return prey.canAttack();
     }

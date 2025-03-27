@@ -33,7 +33,10 @@ public class Byeong extends Movable {
         if (movesDown(direction)) {
             return false;
         }
-        return isRouteHaveNoHurdle(targetPoint, hurdles, direction);
+        if (!isRouteWithoutHurdle(targetPoint, hurdles, direction)) {
+            return false;
+        }
+        return canMoveOrAttackTargetPoint(targetPoint, hurdles);
     }
 
     private boolean isDistanceOverFlow(Point targetPoint) {
@@ -45,11 +48,12 @@ public class Byeong extends Movable {
         return team.headsBack(direction);
     }
 
-    private boolean isRouteHaveNoHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
+    private boolean isRouteWithoutHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, this.point, targetPoint);
-        if (route.hasCrash(hurdles)) {
-            return false;
-        }
+        return !route.hasCrash(hurdles);
+    }
+
+    private boolean canMoveOrAttackTargetPoint(Point targetPoint, Hurdles hurdles) {
         Prey prey = Prey.from(targetPoint, hurdles, this);
         return prey.canAttack();
     }
