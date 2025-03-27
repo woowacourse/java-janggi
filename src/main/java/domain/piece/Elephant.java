@@ -4,8 +4,8 @@ import domain.Score;
 import domain.Team;
 import domain.position.Direction;
 import domain.position.Point;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class Elephant extends AbstractPiece {
@@ -19,31 +19,33 @@ public class Elephant extends AbstractPiece {
         final Direction direction = fromPoint.generateDirection(toPoint);
 
         if (direction.isFirstQuadrant()) {
-            if (QuadrantMovement.FIRST_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
-                return searchPossiblePoint(fromPoint, Point::up, Point::rightUp);
-            }
-            return searchPossiblePoint(fromPoint, Point::right, Point::rightUp);
+            final boolean hasMatchPoint = QuadrantMovement.FIRST_QUADRANT.matchesExpectedPosition(fromPoint, toPoint);
+            return processQuadrant(hasMatchPoint, fromPoint, Point::up, Point::right);
         }
         if (direction.isSecondQuadrant()) {
-            if (QuadrantMovement.SECOND_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
-                return searchPossiblePoint(fromPoint, Point::up, Point::leftUp);
-            }
-            return searchPossiblePoint(fromPoint, Point::left, Point::leftUp);
-
+            final boolean hasMatchPoint = QuadrantMovement.SECOND_QUADRANT.matchesExpectedPosition(fromPoint, toPoint);
+            return processQuadrant(hasMatchPoint, fromPoint, Point::up, Point::leftUp);
         }
         if (direction.isThirdQuadrant()) {
-            if (QuadrantMovement.THIRD_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
-                return searchPossiblePoint(fromPoint, Point::left, Point::leftDown);
-            }
-            return searchPossiblePoint(fromPoint, Point::down, Point::leftDown);
+            final boolean hasMatchPoint = QuadrantMovement.THIRD_QUADRANT.matchesExpectedPosition(fromPoint, toPoint);
+            return processQuadrant(hasMatchPoint, fromPoint, Point::left, Point::leftDown);
         }
         if (direction.isFourthQuadrant()) {
-            if (QuadrantMovement.FOURTH_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
-                return searchPossiblePoint(fromPoint, Point::down, Point::rightDown);
-            }
-            return searchPossiblePoint(fromPoint, Point::right, Point::rightDown);
+            final boolean hasMatchPoint = QuadrantMovement.FOURTH_QUADRANT.matchesExpectedPosition(fromPoint, toPoint);
+            return processQuadrant(hasMatchPoint, fromPoint, Point::down, Point::rightDown);
         }
         throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다.");
+    }
+
+    private List<Point> processQuadrant(
+            final boolean hasMatchPoint,
+            final Point fromPoint,
+            final UnaryOperator<Point> firstDirection,
+            final UnaryOperator<Point> secondDirection) {
+        if (hasMatchPoint) {
+            return searchPossiblePoint(fromPoint, firstDirection, firstDirection.andThen(secondDirection));
+        }
+        return searchPossiblePoint(fromPoint, secondDirection, firstDirection.andThen(secondDirection));
     }
 
     private enum QuadrantMovement {
@@ -67,13 +69,11 @@ public class Elephant extends AbstractPiece {
     private List<Point> searchPossiblePoint(
             final Point fromPoint,
             final UnaryOperator<Point> firstMoving,
-            final UnaryOperator<Point> secondMoving
+            final Function<Point, Point> secondMoving
     ) {
-        final List<Point> possiblePoint = new ArrayList<>();
-        final Point apply = firstMoving.apply(fromPoint);
-        possiblePoint.add(apply);
-        possiblePoint.add(secondMoving.apply(apply));
-        return possiblePoint;
+        final Point firstPoint = firstMoving.apply(fromPoint);
+        final Point secondPoint = secondMoving.apply(firstPoint);
+        return List.of(firstPoint, secondPoint);
     }
 
     @Override
