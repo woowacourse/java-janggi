@@ -5,6 +5,7 @@ import board.create.strategy.SangMaMaSang;
 import board.create.strategy.SangMaSangMa;
 import board.create.strategy.TableSettingStrategy;
 import java.util.Map;
+import java.util.function.Supplier;
 import team.Team;
 import view.InputView;
 import view.InputView.CoordinatesPair;
@@ -28,14 +29,14 @@ public class Application {
 
     private void run() {
         Board board = initializeBoard();
-        outputView.printBoard(board.getPieces());
+        outputView.printBoard(board.getUnmodifiablePieces());
 
         startGame(board);
     }
 
     private Board initializeBoard() {
-        int hanTableSetting = inputView.readTableSetting(Team.HAN);
-        int choTableSetting = inputView.readTableSetting(Team.CHO);
+        int hanTableSetting = executeWithRetry(() -> inputView.readTableSetting(Team.HAN));
+        int choTableSetting = executeWithRetry(() -> inputView.readTableSetting(Team.CHO));
         return Board.create(
                 boardCreateStrategy.get(hanTableSetting),
                 boardCreateStrategy.get(choTableSetting)
@@ -45,7 +46,7 @@ public class Application {
     private void startGame(Board board) {
         while (true) {
             for (Team team : Team.values()) {
-                playTurn(board, team);
+                executeWithRetry(() -> playTurn(board, team));
             }
         }
     }
@@ -53,6 +54,30 @@ public class Application {
     private void playTurn(Board board, Team team) {
         CoordinatesPair coordinatesPair = inputView.readMoveCoordinate(team);
         board.move(coordinatesPair.departure(), coordinatesPair.arrival());
-        outputView.printBoard(board.getPieces());
+        outputView.printBoard(board.getUnmodifiablePieces());
+    }
+
+    private void executeWithRetry(Runnable runnable) {
+        while (true) {
+            try {
+                runnable.run();
+                return;
+            } catch (RuntimeException e) {
+                System.out.println();
+                System.out.println("[ERROR] " + e.getMessage());
+                System.out.println();
+            }
+        }
+    }
+
+    private <T> T executeWithRetry(Supplier<T> supplier) {
+        while (true) {
+            try {
+                return supplier.get();
+            } catch (RuntimeException e) {
+                System.out.println("[ERROR] " + e.getMessage());
+                System.out.println();
+            }
+        }
     }
 }
