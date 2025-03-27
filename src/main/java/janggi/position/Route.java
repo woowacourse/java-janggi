@@ -31,12 +31,12 @@ public class Route {
                 + Math.abs(now.getY() - startPoint.getY());
     }
 
-    public List<Position> getPoints() {
-        return new ArrayList<>(positions);
-    }
-
     public List<Position> getPointsExceptEndPoint() {
         return positions.subList(0, positions.size() - 1);
+    }
+
+    public List<Position> getPoints() {
+        return new ArrayList<>(positions);
     }
 
     @Override

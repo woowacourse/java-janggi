@@ -36,6 +36,21 @@ public class Janggi {
         }
     }
 
+    private Unit findUnitByPoint(Position pick) {
+        return units.stream()
+                .filter(unit -> unit.isSamePoint(pick))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
+    }
+
+    public void changeTurn() {
+        if (turn == Team.HAN) {
+            turn = Team.CHO;
+            return;
+        }
+        turn = Team.HAN;
+    }
+
     public List<Route> searchAvailableRoutes(Position pick) {
         Unit pickedUnit = findUnitByPoint(pick);
         List<Route> totalRoutes = pickedUnit.calculateRoutes();
@@ -73,6 +88,10 @@ public class Janggi {
                 .toList();
     }
 
+    public boolean isNoneEnemyUnit() {
+        return units.stream().noneMatch(unit -> unit.getTeam() != turn);
+    }
+
     private boolean canBombJump(Route route) {
         if (isExistBombInRoute(route)) {
             return false;
@@ -93,13 +112,6 @@ public class Janggi {
                 .anyMatch(unit -> unit.getType() == UnitType.BOMB);
     }
 
-    private Unit findUnitByPoint(Position pick) {
-        return units.stream()
-                .filter(unit -> unit.isSamePoint(pick))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
-    }
-
     private List<Route> findAvailableRoute(List<Route> routes, Position startPoint) {
         return routes.stream()
                 .filter(this::isAvailableRoute)
@@ -112,7 +124,7 @@ public class Janggi {
                 .allMatch(this::isEmptyPoint);
     }
 
-    public boolean isAvailableEndPoint(Route route, Position startPoint) {
+    private boolean isAvailableEndPoint(Route route, Position startPoint) {
         Position endPosition = route.searchEndPoint(startPoint);
         if (isExistUnit(endPosition)) {
             Unit endPointUnit = findUnitByPoint(endPosition);
@@ -124,14 +136,6 @@ public class Janggi {
     public boolean isEmptyPoint(Position position) {
         return units.stream()
                 .noneMatch(unit -> unit.isSamePoint(position));
-    }
-
-    public void changeTurn() {
-        if (turn == Team.HAN) {
-            turn = Team.CHO;
-            return;
-        }
-        turn = Team.HAN;
     }
 
     public void moveAndCaptureIfEnemyExists(Route route, Position startPoint) {
@@ -147,10 +151,6 @@ public class Janggi {
     private boolean isExistUnit(Position position) {
         return units.stream()
                 .anyMatch(unit -> unit.isSamePoint(position));
-    }
-
-    public boolean isNoneEnemyUnit() {
-        return units.stream().noneMatch(unit -> unit.getTeam() != turn);
     }
 
     public Team getTurn() {

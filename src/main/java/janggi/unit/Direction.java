@@ -26,10 +26,6 @@ public enum Direction {
         return List.of(Direction.UPPER, Direction.UNDER, Direction.LEFT, Direction.RIGHT);
     }
 
-    public static List<Direction> getDiagonal() {
-        return List.of(UPPER_RIGHT, UNDER_RIGHT, UNDER_LEFT, UPPER_LEFT);
-    }
-
     public List<Direction> getNextWithDiagonal() {
         if (this == NONE) {
             return List.of(UPPER, UNDER, LEFT, RIGHT);

@@ -12,6 +12,10 @@ public class OutputView {
     private static final int MAX_ROW = 10;
     private static final int MAX_COLUM = 9;
 
+    public void printError(String message) {
+        System.err.println("[ERROR] " + message);
+    }
+
     public void printAvailableRoute(List<Route> routes, Position startPoint) {
         int index = 1;
         for (Route route : routes) {
@@ -20,13 +24,6 @@ public class OutputView {
                     , index, endPoint.getX(), endPoint.getY());
             index++;
         }
-    }
-
-    private String teamToName(Team team) {
-        if (team == Team.HAN) {
-            return "한나라";
-        }
-        return "초나라";
     }
 
     public void printUnits(List<Unit> units) {
@@ -38,23 +35,6 @@ public class OutputView {
         printBoard(board, teamInfo);
     }
 
-    private void printBoard(String[][] board, String[][] teamInfo) {
-        for (int i = 0; i < MAX_ROW; i++) {
-            System.out.printf("%2d | ", i);
-            for (int j = 0; j < MAX_COLUM; j++) {
-                String cell = board[i][j];
-                String team = teamInfo[i][j];
-                if (!cell.equals(".")) {
-                    String color = (team.equals("한나라")) ? ConsoleColors.HAN_COLOR : ConsoleColors.CHO_COLOR;
-                    System.out.print(color + cell + ConsoleColors.RESET_COLOR + " ");
-                    continue;
-                }
-                System.out.print(cell + " ");
-            }
-            System.out.println();
-        }
-    }
-
     private String[][] initialBoard(List<Unit> units) {
         String[][] board = new String[MAX_ROW][MAX_COLUM];
 
@@ -63,18 +43,6 @@ public class OutputView {
         }
         for (Unit unit : units) {
             board[unit.getPosition().getY()][unit.getPosition().getX()] = typeToName(unit.getType());
-        }
-        return board;
-    }
-
-    private String[][] initialTeamBoard(List<Unit> units) {
-        String[][] board = new String[MAX_ROW][MAX_COLUM];
-
-        for (int i = 0; i < MAX_ROW; i++) {
-            Arrays.fill(board[i], ".");
-        }
-        for (Unit unit : units) {
-            board[unit.getPosition().getY()][unit.getPosition().getX()] = teamToName(unit.getTeam());
         }
         return board;
     }
@@ -104,7 +72,39 @@ public class OutputView {
         return "N";
     }
 
-    public void printError(String message) {
-        System.err.println("[ERROR] " + message);
+    private String[][] initialTeamBoard(List<Unit> units) {
+        String[][] board = new String[MAX_ROW][MAX_COLUM];
+
+        for (int i = 0; i < MAX_ROW; i++) {
+            Arrays.fill(board[i], ".");
+        }
+        for (Unit unit : units) {
+            board[unit.getPosition().getY()][unit.getPosition().getX()] = teamToName(unit.getTeam());
+        }
+        return board;
+    }
+
+    private String teamToName(Team team) {
+        if (team == Team.HAN) {
+            return "한나라";
+        }
+        return "초나라";
+    }
+
+    private void printBoard(String[][] board, String[][] teamInfo) {
+        for (int i = 0; i < MAX_ROW; i++) {
+            System.out.printf("%2d | ", i);
+            for (int j = 0; j < MAX_COLUM; j++) {
+                String cell = board[i][j];
+                String team = teamInfo[i][j];
+                if (!cell.equals(".")) {
+                    String color = (team.equals("한나라")) ? ConsoleColors.HAN_COLOR : ConsoleColors.CHO_COLOR;
+                    System.out.print(color + cell + ConsoleColors.RESET_COLOR + " ");
+                    continue;
+                }
+                System.out.print(cell + " ");
+            }
+            System.out.println();
+        }
     }
 }

@@ -58,6 +58,26 @@ public class Game {
         return GameState.PLAY;
     }
 
+    private Position getPosition() {
+        List<Integer> positionValue = handleInputException(() ->
+                inputView.readPosition(janggi.getTurn()), Game::getPosition);
+        if (positionValue.size() != POSITION_INPUT_SIZE) {
+            throw new IllegalArgumentException("column, row 형태로 입력해주세요.");
+        }
+        return new Position(positionValue.get(INPUT_COLUMN_INDEX), positionValue.get(INPUT_ROW_INDEX));
+    }
+
+    private static List<Integer> getPosition(String rawPosition) {
+        try {
+            return Arrays.stream(rawPosition.split(","))
+                    .map(String::trim)
+                    .map(Integer::parseInt)
+                    .toList();
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("좌표 내의 정수 숫자를 입력해주세요.");
+        }
+    }
+
     private void moveAndCaptureIfEnemyExists(List<Route> routes, Position startPoint) {
         int selectedRouteNumber = handleInputException(inputView::readRoute,
                 (inputValue) -> parseSelectNumber(inputValue, routes.size()));
@@ -79,26 +99,6 @@ public class Game {
             throw new IllegalArgumentException("범위 내의 번호를 입력해주세요.");
         }
         return selectedNumber;
-    }
-
-    private Position getPosition() {
-        List<Integer> positionValue = handleInputException(() ->
-                inputView.readPosition(janggi.getTurn()), Game::getPosition);
-        if (positionValue.size() != POSITION_INPUT_SIZE) {
-            throw new IllegalArgumentException("column, row 형태로 입력해주세요.");
-        }
-        return new Position(positionValue.get(INPUT_COLUMN_INDEX), positionValue.get(INPUT_ROW_INDEX));
-    }
-
-    private static List<Integer> getPosition(String rawPosition) {
-        try {
-            return Arrays.stream(rawPosition.split(","))
-                    .map(String::trim)
-                    .map(Integer::parseInt)
-                    .toList();
-        } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException("좌표 내의 정수 숫자를 입력해주세요.");
-        }
     }
 
     private <T> T handleInputException(Supplier<String> input, Function<String, T> converter) {

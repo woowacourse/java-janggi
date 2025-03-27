@@ -18,14 +18,6 @@ public class BombUnitRule implements UnitRule {
         return routes;
     }
 
-    private void addValidRoute(Position start, Position end, List<Route> routes) {
-        Route route = calculateRoute(start, end);
-        if (route.getPoints().size() == 1) {
-            return;
-        }
-        routes.add(route);
-    }
-
     private List<Position> calculateEndPoints(Position start) {
         int x = start.getX();
         int y = start.getY();
@@ -41,7 +33,15 @@ public class BombUnitRule implements UnitRule {
                 .toList();
     }
 
-    public Route calculateRoute(Position start, Position end) {
+    private void addValidRoute(Position start, Position end, List<Route> routes) {
+        Route route = calculateRoute(start, end);
+        if (route.getPoints().size() == 1) {
+            return;
+        }
+        routes.add(route);
+    }
+
+    private Route calculateRoute(Position start, Position end) {
         int startX = start.getX();
         int startY = start.getY();
 
