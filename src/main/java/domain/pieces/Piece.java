@@ -27,4 +27,8 @@ public interface Piece {
     default boolean canContinueWhenPieceRemove() {
         return true;
     }
+
+    default Piece inRangeOfPalace() {
+        return this;
+    }
 }

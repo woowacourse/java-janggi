@@ -10,6 +10,12 @@ import java.util.Map;
 import java.util.Optional;
 
 public final class Board {
+    private static final Point PALACE_START_POINT_FOR_HAN = new Point(0, 3);
+    private static final Point PALACE_END_POINT_FOR_HAN = new Point(2, 5);
+
+    private static final Point PALACE_START_POINT_FOR_CHO = new Point(7, 3);
+    private static final Point PALACE_END_POINT_FOR_CHO = new Point(9, 5);
+
     private static final int BOARD_ROW_MAX = 10;
     private static final int BOARD_COLUMN_MAX = 9;
 
@@ -26,6 +32,7 @@ public final class Board {
     ) {
         final Piece piece = getCheckedPieceCanMoveOnStartPoint(start, arrival, teamType);
         checkPieceCanMoveOnRoute(start, arrival, piece);
+
         final Piece pieceAtArrival = locations.get(arrival);
         return canContinueWhenPieceRemove(pieceAtArrival);
     }
@@ -49,7 +56,6 @@ public final class Board {
         final Piece piece = Optional.ofNullable(locations.get(start))
                 .orElseThrow(() -> new JanggiGameRuleWarningException("출발점에 이동할 기물이 없습니다."));
         checkEqualTeam(piece, teamType);
-        checkOutOfRoute(start, arrival, piece);
         return piece;
     }
 
@@ -83,7 +89,13 @@ public final class Board {
             final Point arrival,
             final Piece piece
     ) {
-        final List<Point> routePoints = piece.getRoutePoints(start, arrival);
+        Piece currentPiece = piece;
+        if (checkInRangeOnPalace(start, arrival)) {
+            currentPiece = currentPiece.inRangeOfPalace();
+        }
+        checkOutOfRoute(start, arrival, currentPiece);
+
+        final List<Point> routePoints = currentPiece.getRoutePoints(start, arrival);
         final PiecesOnRoute piecesOnRoute = getAllPiecesOnRoute(routePoints);
         if (!piece.isMovableOnRoute(piecesOnRoute)) {
             throw new JanggiGameRuleWarningException("해당 경로로 이동할 수 없습니다.");
@@ -100,5 +112,12 @@ public final class Board {
         return new PiecesOnRoute(pointsOnRoute.stream()
                 .map(point -> locations.getOrDefault(point, null))
                 .toList());
+    }
+
+    private boolean checkInRangeOnPalace(final Point start, final Point arrival) {
+        return (start.isInSquareRange(PALACE_START_POINT_FOR_HAN, PALACE_END_POINT_FOR_HAN)
+                && arrival.isInSquareRange(PALACE_START_POINT_FOR_HAN, PALACE_END_POINT_FOR_HAN))
+                || (start.isInSquareRange(PALACE_START_POINT_FOR_CHO, PALACE_END_POINT_FOR_CHO)
+                && arrival.isInSquareRange(PALACE_START_POINT_FOR_CHO, PALACE_END_POINT_FOR_CHO));
     }
 }

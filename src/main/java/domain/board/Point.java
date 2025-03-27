@@ -39,4 +39,17 @@ public record Point(int row, int column) {
     private boolean isInRangeOnColumn(int maxColumn) {
         return column >= 0 && column < maxColumn;
     }
+
+    public boolean isInSquareRange(Point squareStartPoint, Point squareEndPoint) {
+        return isInSquareRangeOnRow(squareStartPoint, squareEndPoint)
+                && isInSquareRangeOnColumn(squareStartPoint, squareEndPoint);
+    }
+
+    private boolean isInSquareRangeOnColumn(Point squareStartPoint, Point squareEndPoint) {
+        return this.column() >= squareStartPoint.column() && this.column() <= squareEndPoint.column();
+    }
+
+    private boolean isInSquareRangeOnRow(Point squareStartPoint, Point squareEndPoint) {
+        return this.row() >= squareStartPoint.row() && this.row() <= squareEndPoint.row();
+    }
 }

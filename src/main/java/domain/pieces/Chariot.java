@@ -13,6 +13,8 @@ import java.util.List;
 public final class Chariot implements Piece {
 
     private static final PieceType PIECE_TYPE = CHARIOT;
+
+
     private final TeamType teamType;
     private final PieceMovement movement;
 
@@ -20,6 +22,12 @@ public final class Chariot implements Piece {
         this.teamType = teamType;
         this.movement = new StraightLineMovement();
     }
+
+    public Chariot(TeamType teamType, PieceMovement movement) {
+        this.teamType = teamType;
+        this.movement = movement;
+    }
+
 
     @Override
     public boolean hasEqualTeam(final TeamType teamType) {
@@ -53,5 +61,10 @@ public final class Chariot implements Piece {
     @Override
     public Score getScore() {
         return PIECE_TYPE.getScore();
+    }
+
+    @Override
+    public Piece inRangeOfPalace() {
+        return new Chariot(teamType, StraightLineMovement.generateInRangeOfPalace());
     }
 }

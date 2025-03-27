@@ -23,6 +23,11 @@ public final class Cannon implements Piece {
         this.movement = new StraightLineMovement();
     }
 
+    public Cannon(TeamType teamType, PieceMovement movement) {
+        this.teamType = teamType;
+        this.movement = movement;
+    }
+
     @Override
     public boolean hasEqualTeam(final TeamType teamType) {
         return this.teamType.equals(teamType);
@@ -66,4 +71,8 @@ public final class Cannon implements Piece {
         return PIECE_TYPE.getScore();
     }
 
+    @Override
+    public Piece inRangeOfPalace() {
+        return new Cannon(teamType, StraightLineMovement.generateInRangeOfPalace());
+    }
 }
