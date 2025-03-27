@@ -24,7 +24,7 @@ public enum TeamName {
         return Arrays.stream(TeamName.values())
                 .filter(teamName -> teamName.team == team)
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("팀 이름 탐색 실패"))
+                .orElseThrow(() -> new IllegalArgumentException("팀 이름 탐색 실패: " + team))
                 .country;
     }
 

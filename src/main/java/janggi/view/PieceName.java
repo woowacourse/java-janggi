@@ -31,7 +31,7 @@ public enum PieceName {
         return Arrays.stream(PieceName.values())
                 .filter(pieceName -> pieceName.pieceType == piece.getPieceType())
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("기물 이름 탐색 실패" + piece.getPieceType()))
+                .orElseThrow(() -> new IllegalArgumentException("기물 이름 탐색 실패: " + piece.getPieceType()))
                 .decideTeamName(piece.getTeam());
     }
 

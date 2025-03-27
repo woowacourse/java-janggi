@@ -22,7 +22,7 @@ public enum GameStatusText {
         return Arrays.stream(GameStatusText.values())
                 .filter(gameStatusText -> gameStatusText.gameStatus == gameStatus)
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("게임 상태 메시지 탐색 실패"))
+                .orElseThrow(() -> new IllegalArgumentException("게임 상태 메시지 탐색 실패: " + gameStatus))
                 .text;
     }
 }
