@@ -1,7 +1,6 @@
 package fixture;
 
 import domain.board.Board;
-import domain.board.BoardGenerator;
 import domain.board.PathFinder;
 import domain.board.PathFinderFactory;
 import domain.piece.Piece;
@@ -10,7 +9,6 @@ import java.util.Map;
 
 public class BoardFixture {
 
-    private static final BoardGenerator BOARD_GENERATOR = new BoardGenerator();
     private static final PathFinderFactory pathFinderFactory = new PathFinderFactory();
 
     public static PathFinder createDefaultPathFinder() {
