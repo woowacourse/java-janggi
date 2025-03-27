@@ -1,6 +1,6 @@
 package janggi.controller;
 
-import janggi.domain.Position;
+import janggi.domain.piece.Position;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.generator.DefaultChoPieceGenerator;
 import janggi.domain.piece.generator.DefaultHanPieceGenerator;

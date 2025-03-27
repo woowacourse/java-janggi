@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
+
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -23,14 +23,11 @@ public class Cannon extends Piece {
 
     @Override
     protected boolean isMoveablePosition(Position destination) {
-        if (position.hasSameX(destination)) {
-            return !position.hasSameY(destination);
-        }
-        if (position.hasSameY(destination)) {
-            return position.hasSameY(destination);
+        if (position.hasSameX(destination) || position.hasSameY(destination)) {
+            return true;
         }
         if (position.isPalaceCorner() && destination.isPalaceCorner()) {
-            return position.getXDistance(destination) == position.getYDistance(destination);
+            return position.isDiagnose(destination);
         }
         return false;
     }
@@ -39,37 +36,39 @@ public class Cannon extends Piece {
     protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
         List<Piece> piecesOnPath = getPiecesOnPath(existingPieces, destination);
 
-        if (hasOnePiece(piecesOnPath) && hasCannon(piecesOnPath)) {
-
-            if (!hasPosition(existingPieces, destination)) {
-                return true;
-            }
-            Piece piece = findByPosition(existingPieces, destination);
-
-            return piece.side != this.side && !piece.isCannon();
+        if (!isValidPath(piecesOnPath)) {
+            return false;
         }
-        return false;
+        if (!hasSamePosition(existingPieces, destination)) {
+            return true;
+        }
+        Piece piece = findByPosition(existingPieces, destination);
+        return piece.side != this.side && !piece.isCannon();
     }
 
-    private boolean hasOnePiece(List<Piece> pieces) {
+    private boolean isValidPath(List<Piece> piecesOnPath) {
+        return hasOnlyOnePiece(piecesOnPath) && hasNoCannon(piecesOnPath);
+    }
+
+    private boolean hasOnlyOnePiece(List<Piece> pieces) {
         return pieces.size() == 1;
     }
 
-    private boolean hasCannon(List<Piece> pieces) {
+    private boolean hasNoCannon(List<Piece> pieces) {
         return pieces.stream()
-                .noneMatch(piece -> piece.getClass().equals(this.getClass()));
+            .noneMatch(Piece::isCannon);
     }
 
-    private boolean hasPosition(List<Piece> existingPieces, Position position) {
+    private boolean hasSamePosition(List<Piece> existingPieces, Position position) {
         return existingPieces.stream()
-                .anyMatch(existingPiece -> existingPiece.isSamePosition(position));
+            .anyMatch(existingPiece -> existingPiece.isSamePosition(position));
     }
 
     private Piece findByPosition(List<Piece> existingPieces, Position position) {
         return existingPieces.stream()
-                .filter(existingPiece -> existingPiece.isSamePosition(position))
-                .findAny()
-                .get();
+            .filter(existingPiece -> existingPiece.isSamePosition(position))
+            .findAny()
+            .get();
     }
 
     private List<Piece> getPiecesOnPath(List<Piece> existingPieces, Position destination) {
@@ -84,16 +83,16 @@ public class Cannon extends Piece {
 
     private List<Piece> getPiecesOnHorizontalPath(List<Piece> existingPieces, int destinationX) {
         return IntStream.range(Math.min(getXPosition(), destinationX) + 1, Math.max(getXPosition(), destinationX))
-                .filter(x -> hasPosition(existingPieces, new Position(x, getYPosition())))
-                .mapToObj(x -> findByPosition(existingPieces, new Position(x, getYPosition())))
-                .toList();
+            .filter(x -> hasSamePosition(existingPieces, new Position(x, getYPosition())))
+            .mapToObj(x -> findByPosition(existingPieces, new Position(x, getYPosition())))
+            .toList();
     }
 
     private List<Piece> getPiecesOnVerticalPath(List<Piece> existingPieces, int destinationY) {
         return IntStream.range(Math.min(getYPosition(), destinationY) + 1, Math.max(getYPosition(), destinationY))
-                .filter(y -> hasPosition(existingPieces, new Position(getXPosition(), y)))
-                .mapToObj(y -> findByPosition(existingPieces, new Position(getXPosition(), y)))
-                .toList();
+            .filter(y -> hasSamePosition(existingPieces, new Position(getXPosition(), y)))
+            .mapToObj(y -> findByPosition(existingPieces, new Position(getXPosition(), y)))
+            .toList();
     }
 
     private List<Piece> getPiecesOnPalaceCenter(List<Piece> existingPieces, Position destination) {

@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
 import java.util.List;
 
@@ -22,11 +21,8 @@ public class Rook extends Piece {
 
     @Override
     protected boolean isMoveablePosition(Position destination) {
-        if (position.hasSameX(destination)) {
-            return !position.hasSameY(destination);
-        }
-        if (position.hasSameY(destination)) {
-            return position.hasSameY(destination);
+        if (position.hasSameX(destination) || position.hasSameY(destination)) {
+            return true;
         }
         if (position.isPalace() && destination.isPalace()) {
             return position.getXDistance(destination) == position.getYDistance(destination);

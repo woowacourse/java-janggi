@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.Side;
 import org.junit.jupiter.api.BeforeEach;

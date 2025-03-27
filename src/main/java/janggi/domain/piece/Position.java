@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -31,6 +31,19 @@ public final class Position {
         }
     }
 
+    public boolean isPalace() {
+        return IS_PALACE_X.test(x) && IS_PALACE_Y.test(y);
+    }
+
+    public boolean isPalaceCorner() {
+        return (x == PALACE_X_START|| x == PALACE_X_END)
+            && (y == PALACE_BOTTOM_Y_START || y == PALACE_BOTTOM_Y_END || y == PALACE_TOP_Y_START || y == PALACE_TOP_Y_END);
+    }
+
+    public boolean isDiagnose(Position destination) {
+        return getYDistance(destination) == getXDistance(destination);
+    }
+
     public boolean hasSameX(Position other) {
         return this.x == other.x;
     }
@@ -53,23 +66,6 @@ public final class Position {
 
     public int getY() {
         return y;
-    }
-
-    public boolean isPalace() {
-        return IS_PALACE_X.test(x) && IS_PALACE_Y.test(y);
-    }
-
-    public boolean isPalaceCorner() {
-        return (x == PALACE_X_START|| x == PALACE_X_END)
-            && (y == PALACE_BOTTOM_Y_START || y == PALACE_BOTTOM_Y_END || y == PALACE_TOP_Y_START || y == PALACE_TOP_Y_END);
-    }
-
-    public boolean isDiagnose(Position destination) {
-        return getYDistance(destination) == getXDistance(destination);
-    }
-
-    public boolean isPalaceFrontCorner() {
-        return isPalaceCorner() && (y == PALACE_TOP_Y_START || y == PALACE_BOTTOM_Y_END);
     }
 
     @Override

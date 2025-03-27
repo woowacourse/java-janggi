@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
 import janggi.domain.Side;
 import java.util.List;
 
@@ -30,8 +29,6 @@ public class Guard extends Piece {
 
     @Override
     protected boolean isMoveablePath(List<Piece> existingPieces, Position destination) {
-        if (!isMoveablePosition(destination)) return false;
-
         return existingPieces.stream()
             .filter(piece -> piece.isSamePosition(destination))
             .noneMatch(piece -> piece.getSide() == side);

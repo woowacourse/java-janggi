@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.Position;
+import janggi.domain.piece.Position;
 import janggi.domain.Side;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Cannon;
@@ -20,7 +20,6 @@ public class OutputView {
     public static final String EXIT = "\u001B[0m";
 
     public void printJanggiBoard(JanggiBoard janggiBoard) {
-        System.out.print("   0  1 2 3  4 5 6  7 8");
         System.out.println();
         for (int y = 9; y >= 0; y--) {
             System.out.print(y + "  ");
@@ -31,6 +30,7 @@ public class OutputView {
             }
             System.out.println();
         }
+        System.out.println("   0ㅤ1ㅤ2ㅤ3  4ㅤ5ㅤ6ㅤ7ㅤ8");
     }
 
     private Piece findPiece(Position position, JanggiBoard janggiBoard) {

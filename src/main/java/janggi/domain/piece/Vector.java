@@ -1,7 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
-
 public record Vector(int x, int y) {
 
     public Position apply(Position origin, Position destination) {

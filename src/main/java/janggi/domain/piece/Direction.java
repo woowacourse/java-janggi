@@ -1,7 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Position;
-
 enum Direction {
 
     NONE(0, 0),
