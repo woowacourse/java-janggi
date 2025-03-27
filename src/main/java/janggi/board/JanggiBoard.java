@@ -47,11 +47,11 @@ public class JanggiBoard {
     }
 
     public boolean checkGameIsOver(final Piece catchedPiece) {
-        return catchedPiece instanceof King;
+        return catchedPiece.isKing();
     }
 
     public boolean isPositionCannon(final Position position) {
-        return findPieceBy(position) instanceof Cannon;
+        return findPieceBy(position).isCannon();
     }
 
     public boolean isOutOfRange(final Position position) {
@@ -72,11 +72,11 @@ public class JanggiBoard {
     }
 
     private boolean isPositionEmpty(final Position position) {
-        return board.get(position) instanceof Empty;
+        return board.get(position).isEmpty();
     }
 
     private void validatePositionHasPiece(final Piece piece) {
-        if (piece instanceof Empty) {
+        if (piece.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 해당 위치에 움직일 수 있는 기물이 없습니다.");
         }
     }

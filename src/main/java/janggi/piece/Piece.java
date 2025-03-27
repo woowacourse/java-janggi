@@ -20,7 +20,8 @@ public abstract class Piece {
 
     public abstract List<Route> computeCandidatePositions(final Position position);
 
-    public abstract List<Position> filterReachableDestinations(final List<Route> candidateRoutes, final JanggiBoard board);
+    public abstract List<Position> filterReachableDestinations(final List<Route> candidateRoutes,
+                                                               final JanggiBoard board);
 
     protected List<Route> computeStraightRoutes(final Position position, int distance) {
         return List.of(
@@ -84,6 +85,18 @@ public abstract class Piece {
 
     public boolean isHan() {
         return side == Side.HAN;
+    }
+
+    public boolean isKing() {
+        return symbol == Symbol.KING;
+    }
+
+    public boolean isCannon() {
+        return symbol == Symbol.CANNON;
+    }
+
+    public boolean isEmpty() {
+        return symbol == Symbol.EMPTY;
     }
 
     public String getSymbol() {
