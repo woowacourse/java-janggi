@@ -19,6 +19,10 @@ public class Position {
         return new Position(row.moveRow(deltaRow), column.moveColumn(deltaColumn));
     }
 
+    public boolean isInRange(int minRow, int maxRow, int minColumn, int maxColumn){
+        return row.isInRange(minRow,maxRow) && column.isInRange(minColumn,maxColumn);
+    }
+
     public boolean canMovePosition(int deltaRow, int deltaColumn) {
         return row.canMoveRow(deltaRow) && column.canMoveColumn(deltaColumn);
     }

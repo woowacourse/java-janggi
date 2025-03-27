@@ -19,12 +19,16 @@ public class Column {
         }
     }
 
-    public boolean canMoveColumn(int deltaColumn){
+    public boolean isInRange(int minColumn, int maxColumn) {
+        return column >= minColumn && column <= maxColumn;
+    }
+
+    public boolean canMoveColumn(int deltaColumn) {
         int moveColumn = column + deltaColumn;
         return moveColumn <= MAX_COLUMN && moveColumn >= MIN_COLUMN;
     }
 
-    public Column moveColumn(int deltaColumn){
+    public Column moveColumn(int deltaColumn) {
         return new Column(column + deltaColumn);
     }
 

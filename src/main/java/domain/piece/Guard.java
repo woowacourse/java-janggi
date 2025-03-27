@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.piece.path.PalaceValidator;
 import domain.position.Direction;
 import domain.position.Movement;
 import domain.piece.path.DefaultPathValidator;
@@ -18,7 +19,7 @@ public class Guard extends Piece {
     }
 
     public Guard(TeamType teamType) {
-        super(teamType, new FixedPatternPathFinder(MOVEMENTS), new DefaultPathValidator());
+        super(teamType, new FixedPatternPathFinder(MOVEMENTS), new PalaceValidator());
     }
 
     @Override

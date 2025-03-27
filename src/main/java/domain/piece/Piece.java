@@ -38,7 +38,5 @@ public abstract class Piece {
         pathValidator.validatePath(this, to, intermediatePositions, alivePieces);
     }
 
-    ;
-
     public abstract PieceType getType();
 }

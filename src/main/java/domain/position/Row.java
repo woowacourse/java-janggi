@@ -19,12 +19,16 @@ public class Row {
         }
     }
 
-    public boolean canMoveRow(int deltaRow){
+    public boolean isInRange(int minRow, int maxRow) {
+        return row <= maxRow && row >= minRow;
+    }
+
+    public boolean canMoveRow(int deltaRow) {
         int moveRow = row + deltaRow;
         return moveRow <= MAX_ROW && moveRow >= MIN_ROW;
     }
 
-    public Row moveRow(int deltaRow){
+    public Row moveRow(int deltaRow) {
         return new Row(row + deltaRow);
     }
 
