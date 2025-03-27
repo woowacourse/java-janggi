@@ -18,10 +18,22 @@ public class Route {
     }
 
     public List<Position> calculate() {
-        return calculate(true);
+        return calculate(true, true);
     }
 
-    public List<Position> calculate(boolean excludeDestination) {
+    public List<Position> calculateWithDeparture() {
+        return calculate(false, true);
+    }
+
+    public List<Position> calculateWithDestination() {
+        return calculate(true, false);
+    }
+
+    public List<Position> calculateWithDepartureAndDestination() {
+        return calculate(false, false);
+    }
+
+    private List<Position> calculate(boolean shouldExcludeDeparture, boolean shouldExcludeDestination) {
         List<Position> route = new ArrayList<>();
         route.add(departure);
 
@@ -39,19 +51,17 @@ public class Route {
             route.add(next);
         }
 
-        excludeDepartureAndDestination(route, excludeDestination);
+        excludeDepartureAndDestination(route, shouldExcludeDeparture, shouldExcludeDestination);
 
         return route;
     }
 
-    private void excludeDepartureAndDestination(final List<Position> route, final boolean excludeDestination) {
-        route.removeFirst();
-
-        if (route.isEmpty()) {
-            return;
+    private void excludeDepartureAndDestination(final List<Position> route, final boolean shouldExcludeDeparture, final boolean shouldExcludeDestination) {
+        if (shouldExcludeDeparture && !route.isEmpty()) {
+            route.removeFirst();
         }
 
-        if (excludeDestination) {
+        if (shouldExcludeDestination && !route.isEmpty()) {
             route.removeLast();
         }
     }

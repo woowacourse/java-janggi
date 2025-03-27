@@ -45,9 +45,7 @@ public class Cannon extends Piece {
 
     @Override
     protected void validateSpecialRule(Board board, Position destination) {
-        boolean excludeDestination = false;
-
-        boolean containsCannon = Route.of(position, destination).calculate(excludeDestination).stream()
+        boolean containsCannon = Route.of(position, destination).calculateWithDestination().stream()
                 .filter(board::isExists)
                 .anyMatch(position -> board.getPiece(position).getType().isCannon());
 
