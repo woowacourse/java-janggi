@@ -38,7 +38,7 @@ public class JanggiSaveService {
         return janggiPieceDao.findPiecesByTeamTurn(previousTurnId.get());
     }
 
-    public void initiateJanggi() {
+    public void resetJanggi() {
         janggiPieceDao.deleteAll();
         janggiTurnDao.deleteAll();
     }

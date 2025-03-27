@@ -63,7 +63,7 @@ public class KoreanChessApplication {
         Team team = loseTeam;
         gameView.printWinner(team.opposite());
         printPlayersScore(playerPieces, gameView);
-        janggiSaveService.initiateJanggi();
+        janggiSaveService.resetJanggi();
     }
 
     private static int initiateTurn() {
