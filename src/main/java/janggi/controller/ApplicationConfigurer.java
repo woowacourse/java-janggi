@@ -1,7 +1,6 @@
 package janggi.controller;
 
 import janggi.dao.PieceDao;
-import janggi.domain.Piece;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardBuilder;
@@ -18,7 +17,6 @@ import janggi.service.OnlineGameService;
 import janggi.service.PlayingTurn;
 import janggi.view.BoardInitiliazeView;
 import java.util.Map;
-import java.util.Set;
 
 public class ApplicationConfigurer {
 
@@ -38,8 +36,8 @@ public class ApplicationConfigurer {
     public GameService appropriateGameService() {
         if (successfullyConnectedDB()) {
             Repository repository = new DockerRepository(new PieceDao());
-            Board board = loadBoard(repository);
-            return new OnlineGameService(board, repository);
+            initializeRepository(repository);
+            return new OnlineGameService(repository);
         }
 
         boardInitiliazeView.printConnectionFailed();
@@ -59,12 +57,11 @@ public class ApplicationConfigurer {
         return false;
     }
 
-    private Board loadBoard(Repository repository) {
-        Set<Piece> existingPieces = repository.findAll();
+    private void initializeRepository(Repository repository) {
         final var continuePreviousGame = boardInitiliazeView.readRenewGame();
         if (continuePreviousGame) {
             boardInitiliazeView.printContinueGame();
-            return new Board(existingPieces);
+            return;
         }
 
         repository.clear();
@@ -72,7 +69,6 @@ public class ApplicationConfigurer {
 
         Board board = createBoard();
         board.getPieces().values().forEach(repository::save);
-        return board;
     }
 
     private Board createBoard() {

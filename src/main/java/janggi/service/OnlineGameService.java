@@ -9,8 +9,11 @@ import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.repository.Repository;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class OnlineGameService implements GameService {
 
@@ -18,12 +21,10 @@ public class OnlineGameService implements GameService {
     private final Board board;
     private final PlayingTurn playingTurn;
 
-    public OnlineGameService(
-        final Board board,
-        final Repository repository
-    ) {
-        this.board = board;
+    public OnlineGameService(final Repository repository) {
         this.repository = repository;
+        Set<Piece> pieces = repository.findAll();
+        this.board = new Board(pieces);
         this.playingTurn = repository.getTurn();
     }
 
@@ -61,7 +62,9 @@ public class OnlineGameService implements GameService {
     }
 
     public Map<Coordinate, Piece> allPieces() {
-        return board.getPieces();
+        final var coordinatePieceMap = repository.findAll().stream()
+            .collect(Collectors.toMap(Piece::getCoordinate, identity()));
+        return Collections.unmodifiableMap(coordinatePieceMap);
     }
 
     public Map<Team, Double> scoreTeams() {

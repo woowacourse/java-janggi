@@ -1,5 +1,6 @@
 package janggi.repository;
 
+import janggi.domain.board.Board;
 import janggi.service.PlayingTurn;
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
@@ -10,8 +11,16 @@ import java.util.Set;
 
 public class MemoryRepository implements Repository {
 
-    private final Map<Coordinate, Piece> pieces = new HashMap<>();
+    private final Map<Coordinate, Piece> pieces;
     private PlayingTurn playingTurn = new PlayingTurn();
+
+    public MemoryRepository() {
+        pieces = new HashMap<>();
+    }
+
+    public MemoryRepository(Board board) {
+        pieces = new HashMap<>(board.getPieces());
+    }
 
     @Override
     public void save(final Piece piece) {
