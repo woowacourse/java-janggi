@@ -12,6 +12,30 @@ import java.util.List;
 
 public class JanggiDao {
 
+    public int create(
+            final Connection connection,
+            final String title,
+            final JanggiStatus status,
+            final Turn turn
+    ) {
+        final var query = "INSERT INTO janggi (title, status, turn) VALUES (?, ?, ?)";
+        try (final var preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, status.name());
+            preparedStatement.setString(3, turn.currentTeam().name());
+
+            preparedStatement.executeUpdate();
+
+            final var generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return (int) generatedKeys.getLong(1);
+            }
+            throw new SQLException("생성된 키가 없습니다.");
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<JanggiDto> findAllJanggiDtos(final Connection connection) {
         final var query = "SELECT * FROM janggi";
         try (final var preparedStatement = connection.prepareStatement(query)) {
@@ -44,33 +68,15 @@ public class JanggiDao {
             preparedStatement.setInt(1, id);
             final var resultSet = preparedStatement.executeQuery();
 
-            return new JanggiDto(
-                    resultSet.getInt("id"),
-                    resultSet.getString("title"),
-                    new Turn(Team.valueOf(resultSet.getString("turn"))),
-                    JanggiStatus.from(resultSet.getString("status"))
-            );
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public int create(
-            final Connection connection,
-            final String title,
-            final JanggiStatus status,
-            final Turn turn
-    ) {
-        final var query = "INSERT INTO janggi (title, status, turn) VALUES (?, ?, ?)";
-        try {
-            final var preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, title);
-            preparedStatement.setString(2, status.name());
-            preparedStatement.setString(3, turn.currentTeam().name());
-
-            preparedStatement.executeUpdate();
-
-            return (int) preparedStatement.getGeneratedKeys().getLong(1);
+            if (resultSet.next()) {
+                return new JanggiDto(
+                        resultSet.getInt("id"),
+                        resultSet.getString("title"),
+                        new Turn(Team.from(resultSet.getString("turn"))),
+                        JanggiStatus.from(resultSet.getString("status"))
+                );
+            }
+            throw new SQLException("해당하는 장기 게임이 없습니다.");
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -85,6 +91,15 @@ public class JanggiDao {
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, changedTeam.getTitle());
             preparedStatement.setInt(2, janggiId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteAll(final Connection connection) {
+        final var query = "DELETE FROM janggi WHERE TRUE";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
