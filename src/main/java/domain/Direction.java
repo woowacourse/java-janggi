@@ -11,7 +11,7 @@ public enum Direction {
     LEFT_DOWN;
 
     public static Direction getDirection(JanggiCoordinate from, JanggiCoordinate to) {
-        if (isSameRow(from, to)) {
+        if (from.isSameRow(to)) {
             return getHorizontalDirection(from, to);
         }
         return getVerticalDirection(from, to);
@@ -28,14 +28,6 @@ public enum Direction {
             return Direction.RIGHT;
         }
         return Direction.LEFT;
-    }
-
-    public static boolean isSameRow(JanggiCoordinate from, JanggiCoordinate to) {
-        return from.row() == to.row();
-    }
-
-    public static boolean isSameCol(JanggiCoordinate from, JanggiCoordinate to) {
-        return from.col() == to.col();
     }
 
     public static Direction getDiagonalDirection(JanggiCoordinate from, JanggiCoordinate to) {
