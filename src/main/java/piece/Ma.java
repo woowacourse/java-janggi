@@ -16,10 +16,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import team.Team;
 
 public class Ma extends Piece {
+
+    private static final List<List<MoveVector>> MOVABLE_VECTORS = List.of(
+            List.of(UP, RIGHT_UP),
+            List.of(UP, LEFT_UP),
+            List.of(DOWN, RIGHT_DOWN),
+            List.of(DOWN, LEFT_DOWN),
+            List.of(RIGHT, RIGHT_UP),
+            List.of(RIGHT, RIGHT_DOWN),
+            List.of(LEFT, LEFT_UP),
+            List.of(LEFT, LEFT_DOWN)
+    );
 
     public Ma(Team team) {
         super(team);
@@ -27,16 +37,7 @@ public class Ma extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return Stream.<List<MoveVector>>of(
-                        List.of(UP, RIGHT_UP),
-                        List.of(UP, LEFT_UP),
-                        List.of(DOWN, RIGHT_DOWN),
-                        List.of(DOWN, LEFT_DOWN),
-                        List.of(RIGHT, RIGHT_UP),
-                        List.of(RIGHT, RIGHT_DOWN),
-                        List.of(LEFT, LEFT_UP),
-                        List.of(LEFT, LEFT_DOWN)
-                )
+        return MOVABLE_VECTORS.stream()
                 .map(departure::moveBy)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
