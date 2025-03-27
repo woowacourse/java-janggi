@@ -11,10 +11,6 @@ public abstract class Piece {
         this.team = team;
     }
 
-    protected void validateTeamOfPiece(Board board) {
-        board.validateTeam(team);
-    }
-
     public Team team() {
         return team;
     }

@@ -18,7 +18,7 @@ public abstract class NormalPiece extends Piece {
     }
 
     public Set<Position> possibleRoutes(Board board) {
-        validateTeamOfPiece(board);
+        board.validateTeam(team());
         return routes.possibleRoutes(position, board);
     }
 

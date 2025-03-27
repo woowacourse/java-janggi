@@ -18,7 +18,7 @@ public abstract class JumpingPiece extends Piece {
     }
 
     public Set<Position> possibleRoutes(Board board) {
-        validateTeamOfPiece(board);
+        board.validateTeam(team());
         return routes.possibleJumpingRoutes(position, board);
     }
 
