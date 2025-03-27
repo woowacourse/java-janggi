@@ -48,4 +48,8 @@ public class ConsoleView {
     public void printMessage(String message) {
         outputView.printMessage(message);
     }
+
+    public boolean requestSurrender() {
+        return inputView.requestSurrender();
+    }
 }

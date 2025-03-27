@@ -19,8 +19,8 @@ public class JanggiController {
     public void start() {
         JanggiGame janggiGame = createJanggiGame();
         consoleView.showBoard(janggiGame.getBoard().getPieces());
-
-        while (true) { // TODO : 2단계 궁성 구현에서 종료 로직 구현
+        boolean isSurrender = false;
+        while (!isSurrender) {
             try {
                 consoleView.printTurn(janggiGame.getTurn());
                 BoardLocation current = consoleView.requestCurrent();
@@ -29,11 +29,13 @@ public class JanggiController {
                 janggiGame.process(current, destination);
 
                 consoleView.showBoard(janggiGame.getBoard().getPieces());
+                isSurrender = consoleView.requestSurrender();
             } catch (RuntimeException e) {
                 consoleView.printMessage(e.getMessage());
             }
         }
     }
+
     private JanggiGame createJanggiGame() {
         Map<BoardLocation, Piece> placements = consoleView.requestPlacements();
         Board board = Board.createWithPieces(placements);
