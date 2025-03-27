@@ -131,4 +131,101 @@ class SaTest {
             );
         }
     }
+
+    @Nested
+    class SaCastleTest {
+
+        @DisplayName("사는 궁성 안에서만 움직일 수 있다")
+        @ParameterizedTest
+        @MethodSource("innerCastle")
+        void innerCastleTest(JanggiCoordinate from, JanggiCoordinate to) {
+            Piece sa = new Sa(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+
+            map.put(from, sa);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertDoesNotThrow(() -> sa.validateMove(board, from, to));
+        }
+
+        private static Stream<Arguments> innerCastle() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(1, 4), new JanggiCoordinate(1, 5)),
+                    Arguments.arguments(new JanggiCoordinate(1, 4), new JanggiCoordinate(2, 4)),
+                    Arguments.arguments(new JanggiCoordinate(1, 4), new JanggiCoordinate(2, 5)),
+
+                    Arguments.arguments(new JanggiCoordinate(1, 5), new JanggiCoordinate(1, 4)),
+                    Arguments.arguments(new JanggiCoordinate(1, 5), new JanggiCoordinate(2, 5)),
+                    Arguments.arguments(new JanggiCoordinate(1, 5), new JanggiCoordinate(1, 6)),
+
+                    Arguments.arguments(new JanggiCoordinate(2, 5), new JanggiCoordinate(1, 4)),
+                    Arguments.arguments(new JanggiCoordinate(2, 5), new JanggiCoordinate(1, 5)),
+                    Arguments.arguments(new JanggiCoordinate(2, 5), new JanggiCoordinate(1, 6)),
+                    Arguments.arguments(new JanggiCoordinate(2, 5), new JanggiCoordinate(2, 5)),
+                    Arguments.arguments(new JanggiCoordinate(2, 5), new JanggiCoordinate(2, 6)),
+                    Arguments.arguments(new JanggiCoordinate(2, 5), new JanggiCoordinate(3, 4)),
+                    Arguments.arguments(new JanggiCoordinate(2, 5), new JanggiCoordinate(3, 5)),
+                    Arguments.arguments(new JanggiCoordinate(2, 5), new JanggiCoordinate(3, 6))
+            );
+        }
+
+        @DisplayName("사는 궁성 밖으로 나갈 수 없다")
+        @ParameterizedTest
+        @MethodSource("outerCastle")
+        void outerCastleTest(JanggiCoordinate from, JanggiCoordinate to) {
+            Piece sa = new Sa(Country.HAN);
+
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+
+            map.put(from, sa);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertThatThrownBy(() -> sa.validateMove(board, from, to))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        private static Stream<Arguments> outerCastle() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(1, 4), new JanggiCoordinate(1, 3)),
+                    Arguments.arguments(new JanggiCoordinate(2, 4), new JanggiCoordinate(2, 3)),
+                    Arguments.arguments(new JanggiCoordinate(3, 4), new JanggiCoordinate(3, 3)),
+                    Arguments.arguments(new JanggiCoordinate(3, 4), new JanggiCoordinate(4, 4)),
+                    Arguments.arguments(new JanggiCoordinate(3, 6), new JanggiCoordinate(3, 7)),
+                    Arguments.arguments(new JanggiCoordinate(3, 6), new JanggiCoordinate(4, 6))
+            );
+        }
+
+        @DisplayName("사는 궁성 내 선을 따라서만 움직일 수 있다.")
+        @ParameterizedTest
+        @MethodSource("castleLineCoordinates")
+        void castleLineCoordinateTest(JanggiCoordinate from, JanggiCoordinate to) {
+            Piece sa = new Sa(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+
+            map.put(from, sa);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertThatThrownBy(() -> sa.validateMove(board, from, to))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
+
+        private static Stream<Arguments> castleLineCoordinates() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(2, 4), new JanggiCoordinate(1, 5)),
+                    Arguments.arguments(new JanggiCoordinate(2, 4), new JanggiCoordinate(3, 5)),
+
+                    Arguments.arguments(new JanggiCoordinate(3, 5), new JanggiCoordinate(2, 4)),
+                    Arguments.arguments(new JanggiCoordinate(3, 5), new JanggiCoordinate(2, 6)),
+
+                    Arguments.arguments(new JanggiCoordinate(2, 6), new JanggiCoordinate(1, 5)),
+                    Arguments.arguments(new JanggiCoordinate(2, 6), new JanggiCoordinate(3, 5)),
+
+                    Arguments.arguments(new JanggiCoordinate(1, 5), new JanggiCoordinate(2, 4)),
+                    Arguments.arguments(new JanggiCoordinate(1, 5), new JanggiCoordinate(2, 6))
+            );
+        }
+    }
 }

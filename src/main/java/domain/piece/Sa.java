@@ -17,6 +17,7 @@ public class Sa extends Piece implements DistanceMove, CastlePieceMove {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        validateCastleCoordinate(board, to);
         validateReachableDistanceCoordinate(from, to, isReachAble);
         validateCastlePieceMove(board, from, to);
     }
