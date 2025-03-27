@@ -144,14 +144,12 @@ public class Janggi {
         return !units.containsKey(position);
     }
 
-    public boolean isOneOfTeamNonExist() {
-        long hanUnitCount = units.values().stream().
-                filter(unit -> unit.isSameTeam(Team.HAN))
-                .count();
-        long choUnitCount = units.values().stream().
-                filter(unit -> unit.isSameTeam(Team.CHO))
-                .count();
-        return (hanUnitCount == 0 || choUnitCount == 0);
+    public boolean isOneOfTeamNonExist() { // TODO: 궁, 사 구현 완료 시 게임 종료 조건 변경
+        boolean isHanNonExist = units.values().stream().
+                noneMatch(unit -> unit.isSameTeam(Team.HAN));
+        boolean isChoNonExist = units.values().stream().
+                noneMatch(unit -> unit.isSameTeam(Team.CHO));
+        return isHanNonExist || isChoNonExist;
     }
 
     public Team getTurn() {

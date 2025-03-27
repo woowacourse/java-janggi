@@ -72,7 +72,7 @@
 
 - [X] 객체 간 소통 시 Unit#getTeam 호출 사용 과다 -> 메시지 던지는 방식으로 해결
 - [ ] DefaultUnitPosition 인스턴스 필드 개수에 대한 고민
-- [ ] Janggi#isOneOfTeamNonExist에서 stream 사용 시 filter가 아닌 noneExist 또는 grouping 사용
+- [X] Janggi#isOneOfTeamNonExist에서 stream 사용 시 filter가 아닌 noneExist 또는 grouping 사용
 - [ ] Janggi의 책임 분리 관련해 일급 컬랙션 도입
 - [ ] Janggi의 캐논 움직임 고려하기
 - [ ] Janggi에서 Routes 필터링에 대한 고민

@@ -215,4 +215,22 @@ class JanggiTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(Janggi.CANNOT_MOVE_EXCEPTION);
     }
+
+    @Test
+    @DisplayName("두 진영 중 말이 하나도 남지 않았다면 게임은 끝났다.")
+    void test11() {
+        // given
+        Unit target = Unit.of(Team.CHO, new SoldierUnitRule());
+        Position targetPosition = Position.of(4, 5);
+        Map<Position, Unit> units = Map.of(
+                targetPosition, target
+        );
+        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
+
+        // when
+        boolean oneOfTeamNonExist = janggi.isOneOfTeamNonExist();
+
+        // then
+        assertThat(oneOfTeamNonExist).isTrue();
+    }
 }
