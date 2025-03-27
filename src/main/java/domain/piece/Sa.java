@@ -21,8 +21,14 @@ public class Sa extends FixedMovePiece {
     }
 
     @Override
-    public List<Moves> getMovesOptions(Position startPosition) {
+    protected List<Moves> getMovesOptions(Position startPosition) {
         List<Moves> moves = new ArrayList<>(movesOptions);
+        addMove(startPosition, moves);
+
+        return moves.stream().filter(option -> option.isPossibleInPalace(startPosition)).toList();
+    }
+
+    private static void addMove(Position startPosition, List<Moves> moves) {
         if (startPosition.isPalaceTopLeft()) {
             moves.add(Moves.create(Move.BACK_RIGHT));
         }
@@ -36,12 +42,12 @@ public class Sa extends FixedMovePiece {
             moves.add(Moves.create(Move.FRONT_LEFT));
         }
         if (startPosition.isPalaceCenter()) {
-            moves.add(Moves.create(Move.BACK_RIGHT));
-            moves.add(Moves.create(Move.BACK_LEFT));
-            moves.add(Moves.create(Move.FRONT_RIGHT));
-            moves.add(Moves.create(Move.FRONT_LEFT));
+            moves.addAll(List.of(
+                    Moves.create(Move.BACK_RIGHT),
+                    Moves.create(Move.BACK_LEFT),
+                    Moves.create(Move.FRONT_RIGHT),
+                    Moves.create(Move.FRONT_LEFT)
+            ));
         }
-
-        return moves.stream().filter(option -> option.isPossibleInPalace(startPosition)).toList();
     }
 }
