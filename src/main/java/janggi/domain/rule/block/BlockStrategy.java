@@ -4,5 +4,5 @@ import janggi.domain.Placement;
 import janggi.domain.Route;
 
 public interface BlockStrategy {
-    void validateIsBlock(final Placement placement, final Route route);
+    void validateIsBlock(Placement placement, Route route);
 }

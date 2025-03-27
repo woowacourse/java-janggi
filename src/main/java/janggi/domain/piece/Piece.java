@@ -19,7 +19,7 @@ public abstract class Piece {
         this.moveRule = moveRule;
     }
 
-    public abstract void checkCanMove(final Placement placement, final Position departure, final Position destination);
+    public abstract void checkCanMove(Placement placement, Position departure, Position destination);
 
     protected void validateMove(final Placement placement, final Position departure, final Position destination) {
         moveRule.validateMoveIsAllowed(departure, destination);
