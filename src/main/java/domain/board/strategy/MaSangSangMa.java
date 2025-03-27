@@ -13,6 +13,8 @@ import java.util.Map;
 
 public class MaSangSangMa implements BoardSettingUpStrategy {
 
+    public final static String MA_SANG_SANG_MA = "마상상마";
+
     @Override
     public Map<Coordinate, Piece> setUpCho() {
         Map<Coordinate, Piece> pieces = new HashMap<>();

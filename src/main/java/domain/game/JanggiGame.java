@@ -2,7 +2,11 @@ package domain.game;
 
 import domain.Coordinate;
 import domain.board.Board;
-import domain.board.SettingUp;
+import domain.board.BoardSettingUpStrategy;
+import domain.board.strategy.MaSangMaSang;
+import domain.board.strategy.MaSangSangMa;
+import domain.board.strategy.SangMaMaSang;
+import domain.board.strategy.SangMaSangMa;
 import domain.piece.Country;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -34,17 +38,27 @@ public class JanggiGame {
     }
 
     private Board settingUp() {
-        SettingUp settingUpHan = retryUntilValid(() -> {
+        BoardSettingUpStrategy hanSettingUpStrategy = retryUntilValid(() -> {
             String settingUp = inputView.readSettingUp(Country.HAN);
-            return SettingUp.of(settingUp);
+            return getBoardSettingUpStrategy(settingUp);
         });
 
-        SettingUp settingUpCho = retryUntilValid(() -> {
+        BoardSettingUpStrategy choSettingUpStrategy = retryUntilValid(() -> {
             String settingUp = inputView.readSettingUp(Country.CHO);
-            return SettingUp.of(settingUp);
+            return getBoardSettingUpStrategy(settingUp);
         });
 
-        return new Board(settingUpHan.getStrategy(), settingUpCho.getStrategy());
+        return new Board(hanSettingUpStrategy, choSettingUpStrategy);
+    }
+
+    private BoardSettingUpStrategy getBoardSettingUpStrategy(String settingUp) {
+        return switch (settingUp) {
+            case SangMaMaSang.SANG_MA_MA_SANG -> new SangMaMaSang();
+            case MaSangSangMa.MA_SANG_SANG_MA -> new MaSangMaSang();
+            case SangMaSangMa.SANG_MA_SANG_MA -> new SangMaSangMa();
+            case MaSangMaSang.MA_SANG_MA_SANG -> new MaSangSangMa();
+            default -> throw new IllegalArgumentException("[ERROR] 상차림 전략을 다시 입력해주세요.");
+        };
     }
 
     private void movePiece(Board board) {

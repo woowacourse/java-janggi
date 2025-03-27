@@ -1,6 +1,10 @@
 package view;
 
 import domain.Coordinate;
+import domain.board.strategy.MaSangMaSang;
+import domain.board.strategy.MaSangSangMa;
+import domain.board.strategy.SangMaMaSang;
+import domain.board.strategy.SangMaSangMa;
 import domain.piece.Country;
 import java.util.Scanner;
 
@@ -42,10 +46,10 @@ public class InputView {
 
     public String readSettingUp(Country country) {
         System.out.println(country.getCountryName() + "의 상차림 전략을 선택해주세요. " + "["
-                + "상마마상" + ", "
-                + "마상마상" + ", "
-                + "상마마상" + ", "
-                + "상마상마" + "]");
+                + SangMaMaSang.SANG_MA_MA_SANG + ", "
+                + MaSangSangMa.MA_SANG_SANG_MA + ", "
+                + SangMaSangMa.SANG_MA_SANG_MA + ", "
+                + MaSangMaSang.MA_SANG_MA_SANG + "]");
         return scanner.nextLine();
     }
 }
