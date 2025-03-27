@@ -18,6 +18,7 @@ public class Cannon extends Piece {
         this.pieceType = PieceType.CANNON;
     }
 
+    @Override
     protected Set<RawRoute> calculateRawRoutes() {
         Set<RawRoute> rawRoutes = new HashSet<>();
 
@@ -53,5 +54,23 @@ public class Cannon extends Piece {
             rawRoutes.add(new RawRoute(rawPositions));
         }
         return rawRoutes;
+    }
+
+    @Override
+    protected Set<RawRoute> calculateAdditionalRawRoutesInPalace() {
+        return Set.of(
+                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() + 1))),
+                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() - 1))),
+                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() - 1))),
+                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() + 1))),
+                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() + 1),
+                        new RawPosition(position.x() + 2, position.y() + 2))),
+                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() - 1),
+                        new RawPosition(position.x() - 2, position.y() - 2))),
+                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() - 1),
+                        new RawPosition(position.x() + 2, position.y() - 2))),
+                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() + 1),
+                        new RawPosition(position.x() - 2, position.y() + 2)))
+        );
     }
 }

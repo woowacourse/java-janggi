@@ -29,6 +29,11 @@ public class Elephant extends Piece {
         );
     }
 
+    @Override
+    protected Set<RawRoute> calculateAdditionalRawRoutesInPalace() {
+        return Set.of();
+    }
+
     private List<RawPosition> makeRawPositions1() {
         return List.of(
                 new RawPosition(position.x(), position.y() + 1),

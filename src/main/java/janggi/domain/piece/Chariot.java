@@ -5,7 +5,7 @@ import janggi.domain.Team;
 import janggi.domain.position.Position;
 import janggi.domain.position.RawPosition;
 import janggi.domain.position.RawRoute;
-import janggi.domain.routePolicy.RoutePolicyForChariot;
+import janggi.domain.routePolicy.RoutePolicyForNormal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Set;
 public class Chariot extends Piece {
 
     public Chariot(final Position position, final Team team) {
-        super(position, team, new RoutePolicyForChariot());
+        super(position, team, new RoutePolicyForNormal());
         this.pieceType = PieceType.CHARIOT;
     }
 
@@ -54,5 +54,23 @@ public class Chariot extends Piece {
             rawRoutes.add(new RawRoute(rawPositions));
         }
         return rawRoutes;
+    }
+
+    @Override
+    protected Set<RawRoute> calculateAdditionalRawRoutesInPalace() {
+        return Set.of(
+                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() + 1))),
+                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() - 1))),
+                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() - 1))),
+                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() + 1))),
+                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() + 1),
+                        new RawPosition(position.x() + 2, position.y() + 2))),
+                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() - 1),
+                        new RawPosition(position.x() - 2, position.y() - 2))),
+                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() - 1),
+                        new RawPosition(position.x() + 2, position.y() - 2))),
+                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() + 1),
+                        new RawPosition(position.x() - 2, position.y() + 2)))
+        );
     }
 }
