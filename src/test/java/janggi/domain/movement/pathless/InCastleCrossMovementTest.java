@@ -12,18 +12,18 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class SaMovementTest {
+class InCastleCrossMovementTest {
 
     @Nested
     @DisplayName("이동 가능 여부 반환하는 테스트")
     class CanMoveTest {
 
         @ParameterizedTest
-        @DisplayName("사는 기본적으로 상하좌우 한 칸을 이동할 수 있다.")
+        @DisplayName("궁성 내 십자 움직임은 기본적으로 상하좌우 한 칸을 이동할 수 있다.")
         @CsvSource({"5,1", "5,3", "4,2", "6,2"})
         void test1(int x, int y) {
             // given
-            final var movement = new SaMovement();
+            final var movement = new InCastleCrossMovement();
             final var departure = new Coordinate(5, 2);
             final var arrival = new Coordinate(x, y);
 
@@ -35,11 +35,11 @@ class SaMovementTest {
         }
 
         @ParameterizedTest
-        @DisplayName("사는 궁성을 벗어날 수 없다.")
+        @DisplayName("궁성 내 십자 움직임은 궁성을 벗어날 수 없다.")
         @MethodSource("provideCoordinatesOutCastle")
         void test3(Coordinate departure, Coordinate arrival) {
             //given
-            final var movement = new SaMovement();
+            final var movement = new InCastleCrossMovement();
 
             //when
             final var canMove = movement.canMove(departure, arrival, BoardFixture.emptyBoard());
@@ -49,7 +49,7 @@ class SaMovementTest {
         }
 
         @Nested
-        @DisplayName("사는 궁성 내에서 대각선을 따라 움직일 수 있다.")
+        @DisplayName("궁성 내 십자 움직임은 궁성 내에서 대각선을 따라 움직일 수 있다.")
         class InCastleMoveTest {
 
             @ParameterizedTest
@@ -57,7 +57,7 @@ class SaMovementTest {
             @CsvSource({"4,1", "4,3", "6,1", "6,3"})
             void test1(int x, int y) {
                 // given
-                final var movement = new SaMovement();
+                final var movement = new InCastleCrossMovement();
                 final var departure = new Coordinate(5, 2);
                 final var arrival = new Coordinate(x, y);
 
@@ -73,7 +73,7 @@ class SaMovementTest {
             @CsvSource({"4,1", "4,3", "6,1", "6,3"})
             void test2(int x, int y) {
                 // given
-                final var movement = new SaMovement();
+                final var movement = new InCastleCrossMovement();
                 final var departure = new Coordinate(x, y);
                 final var arrival = new Coordinate(5, 2);
 

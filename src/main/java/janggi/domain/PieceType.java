@@ -8,8 +8,8 @@ import janggi.domain.movement.path.*;
 public enum PieceType {
     BYEONG("병", 2, new ByeongMovement()),
     JOL("졸", 2, new JolMovement()),
-    GOONG("궁", 0, new GoongMovement()),
-    SA("사", 3, new SaMovement()),
+    GOONG("궁", 0, new InCastleCrossMovement()),
+    SA("사", 3, new InCastleCrossMovement()),
     CHA("차", 13, new ChaMovement()),
     MA("마", 5, new MaMovement()),
     PO("포", 7, new PoMovement()),
