@@ -4,6 +4,8 @@ import board.Board;
 import coordinate.Coordinate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import team.Team;
 
 public class Cha extends Piece {
@@ -14,7 +16,11 @@ public class Cha extends Piece {
 
     @Override
     protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return departure.moveByCross();
+        return Stream.concat(
+                        departure.moveByCross().stream(),
+                        departure.moveByDiagonalInCastle().stream()
+                )
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -26,12 +32,8 @@ public class Cha extends Piece {
 
     @Override
     protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
-        int xDirection = Integer.compare(arrival.getX(), departure.getX()); // -1, 0, 1
-        int yDirection = Integer.compare(arrival.getY(), departure.getY()); // -1, 0, 1
-
-        if (xDirection != 0 && yDirection != 0) {
-            throw new IllegalStateException("차는 직선으로만 이동할 수 있습니다.");
-        }
+        int xDirection = Integer.compare(arrival.getX(), departure.getX());
+        int yDirection = Integer.compare(arrival.getY(), departure.getY());
 
         Set<Coordinate> coordinates = new HashSet<>();
         int x = departure.getX() + xDirection;
