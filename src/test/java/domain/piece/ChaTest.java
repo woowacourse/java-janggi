@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class ChaTest {
 
     @Nested
-    class ChaCoordinateTest {
+    class ChaLinearTest {
 
         @DisplayName("기물은 아군 기물을 잡을 수 없다.")
         @Test
@@ -142,6 +142,121 @@ class ChaTest {
             JanggiBoard board = new JanggiBoard(map);
 
             assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+        }
+    }
+
+    @Nested
+    class ChaDiagonalTest {
+
+        @DisplayName("기물이 궁성 LeftUp 있으면 오른쪽 아래로 이동할 수 있다")
+        @ParameterizedTest
+        @MethodSource("chaLeftUpCastleMove")
+        void pieceCastleDiagonalTest(JanggiCoordinate moveCoordinate) {
+            Piece piece = new Cha(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(1, 4);
+            map.put(pieceCoordinate, piece);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+        }
+
+        private static Stream<Arguments> chaLeftUpCastleMove() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(2, 5)),
+                    Arguments.arguments(new JanggiCoordinate(3, 6))
+            );
+        }
+
+        @DisplayName("기물이 궁성 RightUp 있으면 왼쪽 아래로 이동할 수 있다")
+        @ParameterizedTest
+        @MethodSource("chaRightUpCastleMove")
+        void pieceCastleDiagonalTest2(JanggiCoordinate moveCoordinate) {
+            Piece piece = new Cha(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(1, 6);
+            map.put(pieceCoordinate, piece);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+        }
+
+        private static Stream<Arguments> chaRightUpCastleMove() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(2, 5)),
+                    Arguments.arguments(new JanggiCoordinate(3, 4))
+            );
+        }
+
+        @DisplayName("기물이 궁성 Center 있으면 모든 방향으로 이동할 수 있다")
+        @ParameterizedTest
+        @MethodSource("chaCenterCastleMove")
+        void pieceCastleDiagonalTest3(JanggiCoordinate moveCoordinate) {
+            Piece piece = new Cha(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(2, 5);
+            map.put(pieceCoordinate, piece);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+        }
+
+        private static Stream<Arguments> chaCenterCastleMove() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(1, 4)),
+                    Arguments.arguments(new JanggiCoordinate(1, 5)),
+                    Arguments.arguments(new JanggiCoordinate(1, 6)),
+                    Arguments.arguments(new JanggiCoordinate(2, 4)),
+                    Arguments.arguments(new JanggiCoordinate(2, 6)),
+                    Arguments.arguments(new JanggiCoordinate(3, 4)),
+                    Arguments.arguments(new JanggiCoordinate(3, 5)),
+                    Arguments.arguments(new JanggiCoordinate(3, 6))
+            );
+        }
+
+        @DisplayName("기물이 궁성 LeftDown 있으면 오른쪽 위로 이동할 수 있다")
+        @ParameterizedTest
+        @MethodSource("chaLeftDownCastleMove")
+        void pieceCastleDiagonalTest4(JanggiCoordinate moveCoordinate) {
+            Piece piece = new Cha(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(3, 4);
+            map.put(pieceCoordinate, piece);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+        }
+
+        private static Stream<Arguments> chaLeftDownCastleMove() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(1, 6)),
+                    Arguments.arguments(new JanggiCoordinate(2, 5))
+            );
+        }
+
+        @DisplayName("기물이 궁성 RightDown 있으면 왼쪽 위로 이동할 수 있다")
+        @ParameterizedTest
+        @MethodSource("chaRightDownCastleMove")
+        void pieceCastleDiagonalTest5(JanggiCoordinate moveCoordinate) {
+            Piece piece = new Cha(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(3, 6);
+            map.put(pieceCoordinate, piece);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertDoesNotThrow(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate));
+        }
+
+        private static Stream<Arguments> chaRightDownCastleMove() {
+            return Stream.of(
+                    Arguments.arguments(new JanggiCoordinate(2, 5)),
+                    Arguments.arguments(new JanggiCoordinate(1, 4))
+            );
         }
     }
 }
