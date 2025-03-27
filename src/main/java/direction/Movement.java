@@ -40,11 +40,11 @@ public enum Movement {
         }
 
         if (RIGHT.column == columnDirection && RIGHT.row == rowDirection) {
-            return LEFT;
+            return RIGHT;
         }
 
         if (UP.column == columnDirection && UP.row == rowDirection) {
-            return LEFT;
+            return UP;
         }
 
         return DOWN;

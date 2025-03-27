@@ -15,7 +15,7 @@ public class Chariot extends Piece {
     @Override
     public void move(Pieces pieces, Point destination) {
         validateInvalidDestination(destination);
-        Point distance = current.minus(destination);
+        Point distance = destination.minus(current);
 
         Movement direction = Movement.toDirection(distance);
         Point tempCurrent = new Point(current.column(), current.row());
