@@ -33,8 +33,8 @@ class SoldierTest {
         void test_isAbleToArriveByCho() {
             // given
             Soldier soldier = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForCho());
-            Point startPoint = new Point(0, 0);
-            Point arrivalPoint = new Point(-1, 0);
+            Point startPoint = new Point(1, 0);
+            Point arrivalPoint = new Point(0, 0);
 
             // when
             boolean actual = soldier.isAbleToArrive(startPoint, arrivalPoint);

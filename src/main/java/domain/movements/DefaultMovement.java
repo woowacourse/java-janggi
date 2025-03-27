@@ -1,6 +1,7 @@
 package domain.movements;
 
 import domain.board.Point;
+import domain.board.TempPoint;
 import java.util.List;
 
 public final class DefaultMovement implements PieceMovement {
@@ -14,6 +15,8 @@ public final class DefaultMovement implements PieceMovement {
     public List<Point> calculateTotalArrivalPoints(final Point startPoint) {
         return routes.stream()
                 .map(route -> route.navigateArrivalPoint(startPoint))
+                .filter(TempPoint::isInRange)
+                .map(TempPoint::toPoint)
                 .toList();
     }
 

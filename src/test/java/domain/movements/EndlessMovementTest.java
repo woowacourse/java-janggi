@@ -18,7 +18,25 @@ public class EndlessMovementTest {
         List<Point> points = endlessMovement.calculateTotalArrivalPoints(new Point(3, 3));
 
         // then
-        assertThat(points).hasSize(40);
+        assertThat(points).containsExactlyInAnyOrder(
+                new Point(5, 3),
+                new Point(6, 3),
+                new Point(7, 3),
+                new Point(8, 3),
+                new Point(9, 3),
+                new Point(3, 4),
+                new Point(3, 5),
+                new Point(3, 6),
+                new Point(3, 7),
+                new Point(3, 8),
+                new Point(0, 3),
+                new Point(3, 2),
+                new Point(3, 1),
+                new Point(3, 0),
+                new Point(4, 3),
+                new Point(2, 3),
+                new Point(1, 3)
+        );
     }
 
     @Test

@@ -16,7 +16,7 @@ class ChariotTest {
         // given
         Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
         Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(0, 9);
+        Point arrivalPoint = new Point(0, 8);
 
         // when
         boolean actual = chariot.isAbleToArrive(startPoint, arrivalPoint);

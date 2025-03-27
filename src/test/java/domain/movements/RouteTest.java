@@ -1,6 +1,7 @@
 package domain.movements;
 
 import domain.board.Point;
+import domain.board.TempPoint;
 import java.util.ArrayList;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,10 +22,10 @@ public final class RouteTest {
             final List<Direction> directions = new ArrayList<>(givenDirections);
             final Route route = new Route(directions);
             final Point startPoint = new Point(0, 0);
-            final Point expectedPoint = new Point(3, 2);
+            final TempPoint expectedPoint = new TempPoint(3, 2);
 
             //when
-            final Point actual = route.navigateArrivalPoint(startPoint);
+            final TempPoint actual = route.navigateArrivalPoint(startPoint);
 
             //then
             assertThat(actual).isEqualTo(expectedPoint);
@@ -103,8 +104,8 @@ public final class RouteTest {
         void test_doesNotContainInvalidPoint() {
             // given
             Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST));
-            Point startPoint = new Point(0, 0);
-            Point pointToSouth = new Point(-1, 0);
+            Point startPoint = new Point(1, 0);
+            Point pointToSouth = new Point(0, 0);
 
             // when & then
             assertThat(route.getAllPointsOnRoute(startPoint)).doesNotContain(pointToSouth);

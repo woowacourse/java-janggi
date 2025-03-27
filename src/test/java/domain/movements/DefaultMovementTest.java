@@ -20,13 +20,13 @@ class DefaultMovementTest {
             List<Direction> directions2 = List.of(Direction.SOUTH, Direction.SOUTHWEST, Direction.SOUTHWEST);
             List<Route> routes = List.of(new Route(directions1), new Route(directions2));
             DefaultMovement defaultMovement = new DefaultMovement(routes);
-            Point startPoint = new Point(0, 0);
+            Point startPoint = new Point(6, 2);
 
             // when
             List<Point> arrivalPoints = defaultMovement.calculateTotalArrivalPoints(startPoint);
 
             // then
-            assertThat(arrivalPoints).contains(new Point(3, -2), new Point(-3, -2));
+            assertThat(arrivalPoints).contains(new Point(9, 0), new Point(3, 0));
         }
 
         @Test
@@ -40,7 +40,7 @@ class DefaultMovementTest {
             Point startPoint = new Point(0, 0);
 
             Point moveOnceToNorth = new Point(1, 0);
-            Point moveOnceToSouth = new Point(-1, 0);
+            Point moveOnceToSouth = new Point(0, 0);
 
             // when
             List<Point> arrivalPoints = defaultMovement.calculateTotalArrivalPoints(startPoint);
@@ -73,14 +73,15 @@ class DefaultMovementTest {
             List<Direction> directions1 = List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST);
             List<Route> routes = List.of(new Route(directions1));
             DefaultMovement defaultMovement = new DefaultMovement(routes);
-            Point startPoint = new Point(0, 0);
-            Point arrivalPoint = new Point(3, -2);
+
+            Point startPoint = new Point(0, 2);
+            Point arrivalPoint = new Point(3, 0);
 
             // when
             List<Point> arrivalPoints = defaultMovement.calculateRoutePoints(startPoint, arrivalPoint);
 
             // then
-            assertThat(arrivalPoints).contains(new Point(1, 0), new Point(2, -1), new Point(3, -2));
+            assertThat(arrivalPoints).contains(new Point(1, 2), new Point(2, 1), new Point(3, 0));
         }
     }
 }

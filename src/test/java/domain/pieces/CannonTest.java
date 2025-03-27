@@ -16,7 +16,7 @@ class CannonTest {
         // given
         Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
         Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(0, 9);
+        Point arrivalPoint = new Point(0, 3);
 
         // when
         boolean actual = cannon.isAbleToArrive(startPoint, arrivalPoint);
