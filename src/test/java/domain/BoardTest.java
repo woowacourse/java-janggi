@@ -59,13 +59,13 @@ class BoardTest {
         final Board board = BoardFactory.create();
 
         // when
-        final Position treuPosition = board.findPositionBy(Point.newInstance(1, 0));
+        final Position truePosition = board.findPositionBy(Point.newInstance(1, 0));
         final Position falsePosition = board.findPositionBy(Point.newInstance(6, 0));
 
         // then
         SoftAssertions.assertSoftly(softly -> {
-            assertThat(board.canMoveOnPath(treuPosition, Point.newInstance(3, 3))).isTrue();
-            assertThat(board.canMoveOnPath(falsePosition, Point.newInstance(8, 3))).isFalse();
+            softly.assertThat(board.canMoveOnPath(truePosition, Point.newInstance(3, 3))).isTrue();
+            softly.assertThat(board.canMoveOnPath(falsePosition, Point.newInstance(8, 3))).isFalse();
         });
     }
 
@@ -280,5 +280,4 @@ class BoardTest {
         // then
         assertThat(winTeam).isEqualTo(Team.RED);
     }
-
 }

@@ -21,7 +21,7 @@ public class JanggiGame {
             printTurn();
 
             final Position prevPosition = readStartPosition();
-            if (isValidPiece(prevPosition)) {
+            if (isInvalidPiece(prevPosition)) {
                 OutputView.printEndTurn();
                 changeTurn();
                 continue;
@@ -57,7 +57,7 @@ public class JanggiGame {
         return board.findPositionBy(prevPoint);
     }
 
-    private boolean isValidPiece(final Position prevPosition) {
+    private boolean isInvalidPiece(final Position prevPosition) {
         return (isGreenTurn() && !prevPosition.isGreenTeam()) || (isRedTurn() && prevPosition.isGreenTeam());
     }
 

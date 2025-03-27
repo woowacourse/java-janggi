@@ -1,7 +1,5 @@
 package domain.position;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import org.assertj.core.api.SoftAssertions;
@@ -39,8 +37,8 @@ class PositionTest {
         // when
         // then
         SoftAssertions.assertSoftly(softly -> {
-            assertThat(greenPosition.isGreenTeam()).isTrue();
-            assertThat(redPosition.isGreenTeam()).isFalse();
+            softly.assertThat(greenPosition.isGreenTeam()).isTrue();
+            softly.assertThat(redPosition.isGreenTeam()).isFalse();
         });
     }
 }
