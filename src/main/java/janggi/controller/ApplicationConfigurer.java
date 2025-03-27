@@ -1,5 +1,6 @@
 package janggi.controller;
 
+import janggi.dao.PieceDao;
 import janggi.domain.Piece;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
@@ -9,13 +10,17 @@ import janggi.domain.board.maSangStrategy.MaSangSangMa;
 import janggi.domain.board.maSangStrategy.MaSangStrategy;
 import janggi.domain.board.maSangStrategy.SangMaMaSang;
 import janggi.domain.board.maSangStrategy.SangMaSangMa;
+import janggi.repository.DockerRepository;
 import janggi.repository.Repository;
+import janggi.service.GameService;
+import janggi.service.LocalGameService;
+import janggi.service.OnlineGameService;
 import janggi.service.PlayingTurn;
 import janggi.view.BoardInitiliazeView;
 import java.util.Map;
 import java.util.Set;
 
-public class BoardInitializeController {
+public class ApplicationConfigurer {
 
     private final Map<Integer, MaSangStrategy> boardCreateStrategy = Map.of(
         1, new MaSangSangMa(),
@@ -25,29 +30,49 @@ public class BoardInitializeController {
     );
 
     private final BoardInitiliazeView boardInitiliazeView;
-    private final Repository repository;
 
-    public BoardInitializeController(
-        final BoardInitiliazeView view,
-        final Repository repository
-    ) {
+    public ApplicationConfigurer(final BoardInitiliazeView view) {
         this.boardInitiliazeView = view;
-        this.repository = repository;
     }
 
-    public Board initializeBoard() {
-        Set<Piece> existingPieces = repository.findAll();
-        if (existingPieces.isEmpty() || !boardInitiliazeView.readRenewGame()) {
-            repository.clear();
-            repository.updateTurn(new PlayingTurn());
-
-            Board board = createBoard();
-            board.getPieces().values().forEach(repository::save);
-            return board;
+    public GameService appropriateGameService() {
+        if (successfullyConnectedDB()) {
+            Repository repository = new DockerRepository(new PieceDao());
+            Board board = loadBoard(repository);
+            return new OnlineGameService(board, repository);
         }
 
-        boardInitiliazeView.printContinueGame();
-        return new Board(existingPieces);
+        boardInitiliazeView.printConnectionFailed();
+        Board board = createBoard();
+        return new LocalGameService(board);
+    }
+
+    private boolean successfullyConnectedDB() {
+        final var pieceDao = new PieceDao();
+        try {
+            if (pieceDao.getConnection() != null) {
+                return true;
+            }
+
+        } catch (RuntimeException e) {
+        }
+        return false;
+    }
+
+    private Board loadBoard(Repository repository) {
+        Set<Piece> existingPieces = repository.findAll();
+        final var continuePreviousGame = boardInitiliazeView.readRenewGame();
+        if (continuePreviousGame) {
+            boardInitiliazeView.printContinueGame();
+            return new Board(existingPieces);
+        }
+
+        repository.clear();
+        repository.updateTurn(new PlayingTurn());
+
+        Board board = createBoard();
+        board.getPieces().values().forEach(repository::save);
+        return board;
     }
 
     private Board createBoard() {

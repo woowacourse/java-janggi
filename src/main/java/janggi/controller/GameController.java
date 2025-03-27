@@ -2,6 +2,7 @@ package janggi.controller;
 
 import janggi.domain.Team;
 import janggi.service.GameService;
+import janggi.service.OnlineGameService;
 import janggi.view.InputView;
 import janggi.view.InputView.UserInput;
 import janggi.view.OutputView;
