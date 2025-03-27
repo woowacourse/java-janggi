@@ -36,7 +36,7 @@ public class Janggi {
         }
         Unit pickedUnit = units.get(pick);
         Unit destinationUnit = units.get(destination);
-        if (destinationUnit != null && destinationUnit.getTeam() == turn.getOpposite()) {
+        if (destinationUnit != null && destinationUnit.isOppositeTeam(turn)) {
             units.remove(destination);
         }
         units.remove(pick);
@@ -60,7 +60,7 @@ public class Janggi {
             throw new IllegalArgumentException(EMPTY_POINT_EXCEPTION);
         }
         Unit pickedUnit = units.get(pick);
-        if (pickedUnit.getTeam() != turn) {
+        if (pickedUnit.isOppositeTeam(turn)) {
             throw new IllegalArgumentException(PICK_OPPOSITE_UNIT_EXCEPTION);
         }
 
@@ -86,7 +86,7 @@ public class Janggi {
     }
 
     private List<Route> filterSoldierMoves(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
-        if (pickedUnit.getTeam() == Team.HAN) {
+        if (pickedUnit.isSameTeam(Team.HAN)) {
             return totalRoutes.stream()
                     .filter(route -> route.getPositions().getFirst().getY() >= pick.getY())
                     .toList();
@@ -137,7 +137,7 @@ public class Janggi {
             return true;
         }
         Unit endPointUnit = units.get(endPosition);
-        return endPointUnit.getTeam() != this.turn;
+        return endPointUnit.isOppositeTeam(this.turn);
     }
 
     private boolean isEmptyPosition(Position position) {
@@ -146,10 +146,10 @@ public class Janggi {
 
     public boolean isOneOfTeamNonExist() {
         long hanUnitCount = units.values().stream().
-                filter(unit -> unit.getTeam() == Team.HAN)
+                filter(unit -> unit.isSameTeam(Team.HAN))
                 .count();
         long choUnitCount = units.values().stream().
-                filter(unit -> unit.getTeam() == Team.CHO)
+                filter(unit -> unit.isSameTeam(Team.CHO))
                 .count();
         return (hanUnitCount == 0 || choUnitCount == 0);
     }

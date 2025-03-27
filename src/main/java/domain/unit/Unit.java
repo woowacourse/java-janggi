@@ -24,6 +24,14 @@ public class Unit {
         return unitRule.calculateAllRoute(position);
     }
 
+    public boolean isSameTeam(Team team) {
+        return (this.team == team);
+    }
+
+    public boolean isOppositeTeam(Team team) {
+        return (this.team != team);
+    }
+
     public UnitType getType() {
         return this.unitRule.getType();
     }
