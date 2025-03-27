@@ -32,6 +32,13 @@ public class JanggiController {
         outputView.printBoard(board.getBoard());
         JanggiSide nowTurn = JANGGI_GAME_STARTING_SIDE;
 
+        processJanggiGame(board, nowTurn);
+
+        printResult(nowTurn, board);
+        janggiService.finishGame();
+    }
+
+    private JanggiSide processJanggiGame(JanggiBoard board, JanggiSide nowTurn) {
         while (true) {
             processMovePiece(board, nowTurn);
             outputView.printBoard(board.getBoard());
@@ -40,9 +47,7 @@ public class JanggiController {
             }
             nowTurn = nowTurn.getOppositeSide();
         }
-
-        printResult(nowTurn, board);
-        janggiService.finishGame();
+        return nowTurn;
     }
 
     private JanggiBoard setJanggiBoard() {
