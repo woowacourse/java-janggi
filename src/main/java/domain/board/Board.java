@@ -2,7 +2,7 @@ package domain.board;
 
 import domain.Team;
 import domain.pieces.Piece;
-import execptions.JanggiGameRuleWarningException;
+import exceptions.JanggiGameRuleWarningException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

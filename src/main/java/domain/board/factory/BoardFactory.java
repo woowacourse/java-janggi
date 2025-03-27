@@ -14,7 +14,7 @@ import domain.pieces.General;
 import domain.pieces.Guard;
 import domain.pieces.Piece;
 import domain.pieces.Soldier;
-import execptions.JanggiGameRuleWarningException;
+import exceptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;

@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Team;
 import domain.board.factory.BoardFactory;
-import execptions.JanggiGameRuleWarningException;
+import exceptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

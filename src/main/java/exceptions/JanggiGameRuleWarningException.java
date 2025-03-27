@@ -1,4 +1,4 @@
-package execptions;
+package exceptions;
 
 public final class JanggiGameRuleWarningException extends RuntimeException {
 

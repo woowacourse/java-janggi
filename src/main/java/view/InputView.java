@@ -1,7 +1,7 @@
 package view;
 
 import domain.Team;
-import execptions.JanggiGameRuleWarningException;
+import exceptions.JanggiGameRuleWarningException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

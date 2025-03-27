@@ -8,7 +8,7 @@ import domain.board.Board;
 import domain.board.Point;
 import domain.pieces.Piece;
 import domain.pieces.PieceNames;
-import execptions.JanggiGameRuleWarningException;
+import exceptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;

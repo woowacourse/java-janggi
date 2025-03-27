@@ -1,7 +1,7 @@
 package domain.movements;
 
 import domain.board.Point;
-import execptions.JanggiGameRuleWarningException;
+import exceptions.JanggiGameRuleWarningException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

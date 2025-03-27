@@ -3,7 +3,7 @@ package controller;
 import domain.JanggiGame;
 import domain.Team;
 import domain.board.Point;
-import execptions.JanggiGameRuleWarningException;
+import exceptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;

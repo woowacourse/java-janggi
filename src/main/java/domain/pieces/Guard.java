@@ -5,7 +5,7 @@ import static domain.pieces.PieceNames.GUARD;
 import domain.Team;
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
-import execptions.JanggiGameRuleWarningException;
+import exceptions.JanggiGameRuleWarningException;
 import java.util.List;
 
 public final class Guard implements Piece {
