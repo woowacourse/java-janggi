@@ -5,12 +5,16 @@ import java.util.Set;
 import position.Movement;
 import position.Position;
 
-public class General {
+public class General extends Piece {
     private static final Set<List<Movement>> pieceMovements = Set.of(
             List.of(Movement.UP),
             List.of(Movement.DOWN),
             List.of(Movement.LEFT),
             List.of(Movement.RIGHT));
+
+    protected General(final PieceType pieceType, final Country country) {
+        super(PieceType.GENERAL, country);
+    }
 
     public List<Position> getPathForMoving(Position fromPosition, Position toPosition) {
         return pieceMovements.stream()

@@ -5,7 +5,7 @@ import java.util.Set;
 import position.Movement;
 import position.Position;
 
-public class Elephant {
+public class Elephant extends Piece {
     private static final Set<List<Movement>> pieceMovements = Set.of(
             List.of(Movement.UP, Movement.UP_UP_RIGHT, Movement.UP_UP_UP_RIGHT_RIGHT),
             List.of(Movement.UP, Movement.UP_UP_LEFT, Movement.UP_UP_UP_LEFT_LEFT),
@@ -16,6 +16,10 @@ public class Elephant {
             List.of(Movement.LEFT, Movement.UP_LEFT_LEFT, Movement.UP_UP_LEFT_LEFT_LEFT),
             List.of(Movement.LEFT, Movement.DOWN_LEFT_LEFT, Movement.DOWN_DOWN_LEFT_LEFT_LEFT)
     );
+
+    protected Elephant(final PieceType pieceType, final Country country) {
+        super(PieceType.ELEPHANT, country);
+    }
 
     public List<Position> getPathForMoving(Position fromPosition, Position toPosition) {
         return pieceMovements.stream()

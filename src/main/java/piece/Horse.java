@@ -5,7 +5,7 @@ import java.util.Set;
 import position.Movement;
 import position.Position;
 
-public class Horse {
+public class Horse extends Piece {
     private static final Set<List<Movement>> pieceMovements = Set.of(
             List.of(Movement.UP, Movement.UP_UP_LEFT),
             List.of(Movement.UP, Movement.UP_UP_RIGHT),
@@ -15,6 +15,10 @@ public class Horse {
             List.of(Movement.LEFT, Movement.DOWN_LEFT_LEFT),
             List.of(Movement.RIGHT, Movement.UP_RIGHT_RIGHT),
             List.of(Movement.RIGHT, Movement.DOWN_RIGHT_RIGHT));
+
+    protected Horse(final PieceType pieceType, final Country country) {
+        super(PieceType.HORSE, country);
+    }
 
     public List<Position> getPathForMoving(Position fromPosition, Position toPosition) {
         return pieceMovements.stream()

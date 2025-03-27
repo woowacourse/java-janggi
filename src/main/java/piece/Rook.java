@@ -3,7 +3,11 @@ package piece;
 import java.util.List;
 import position.Position;
 
-public class Rook {
+public class Rook extends Piece {
+
+    protected Rook(final PieceType pieceType, final Country country) {
+        super(PieceType.Rook, country);
+    }
 
     public List<Position> getPathForMoving(Position fromPosition, Position toPosition) {
         if (!fromPosition.isStraight(toPosition)) {
