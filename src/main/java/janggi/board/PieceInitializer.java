@@ -1,6 +1,5 @@
 package janggi.board;
 
-import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.piece.multiplemovepiece.Cannon;
 import janggi.piece.multiplemovepiece.Chariot;
@@ -11,60 +10,58 @@ import janggi.piece.onemovepiece.King;
 import janggi.piece.onemovepiece.Pawn;
 import janggi.piece.onemovepiece.Soldier;
 import janggi.position.Position;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PieceInitializer {
 
-    public List<Piece> generate() {
-        final List<Piece> pieces = new ArrayList<>();
+    public Board generate() {
+        final Board board = new Board();
 
-        pieces.add(new Chariot(Team.HAN, new Position(0, 0)));
-        pieces.add(new Chariot(Team.HAN, new Position(0, 8)));
+        board.deployPiece(new Position(0, 0), new Chariot(Team.HAN, new Position(0, 0)));
+        board.deployPiece(new Position(0, 8), new Chariot(Team.HAN, new Position(0, 8)));
 
-        pieces.add(new Elephant(Team.HAN, new Position(0, 1)));
-        pieces.add(new Elephant(Team.HAN, new Position(0, 7)));
+        board.deployPiece(new Position(0, 1), new Elephant(Team.HAN, new Position(0, 1)));
+        board.deployPiece(new Position(0, 7), new Elephant(Team.HAN, new Position(0, 7)));
 
-        pieces.add(new Horse(Team.HAN, new Position(0, 2)));
-        pieces.add(new Horse(Team.HAN, new Position(0, 6)));
+        board.deployPiece(new Position(0, 2), new Horse(Team.HAN, new Position(0, 2)));
+        board.deployPiece(new Position(0, 6), new Horse(Team.HAN, new Position(0, 6)));
 
-        pieces.add(new Guard(Team.HAN, new Position(0, 3)));
-        pieces.add(new Guard(Team.HAN, new Position(0, 5)));
+        board.deployPiece(new Position(0, 3), new Guard(Team.HAN, new Position(0, 3)));
+        board.deployPiece(new Position(0, 5), new Guard(Team.HAN, new Position(0, 5)));
 
-        pieces.add(new King(Team.HAN, new Position(1, 4)));
+        board.deployPiece(new Position(1, 4), new King(Team.HAN, new Position(1, 4)));
 
-        pieces.add(new Cannon(Team.HAN, new Position(2, 1)));
-        pieces.add(new Cannon(Team.HAN, new Position(2, 7)));
+        board.deployPiece(new Position(2, 1), new Cannon(Team.HAN, new Position(2, 1)));
+        board.deployPiece(new Position(2, 7), new Cannon(Team.HAN, new Position(2, 7)));
 
-        pieces.add(new Soldier(Team.HAN, new Position(3, 0)));
-        pieces.add(new Soldier(Team.HAN, new Position(3, 2)));
-        pieces.add(new Soldier(Team.HAN, new Position(3, 4)));
-        pieces.add(new Soldier(Team.HAN, new Position(3, 6)));
-        pieces.add(new Soldier(Team.HAN, new Position(3, 8)));
+        board.deployPiece(new Position(3, 0), new Soldier(Team.HAN, new Position(3, 0)));
+        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN, new Position(3, 2)));
+        board.deployPiece(new Position(3, 4), new Soldier(Team.HAN, new Position(3, 4)));
+        board.deployPiece(new Position(3, 6), new Soldier(Team.HAN, new Position(3, 6)));
+        board.deployPiece(new Position(3, 8), new Soldier(Team.HAN, new Position(3, 8)));
 
-        pieces.add(new Chariot(Team.CHU, new Position(9, 0)));
-        pieces.add(new Chariot(Team.CHU, new Position(9, 8)));
-        pieces.add(new Elephant(Team.CHU, new Position(9, 1)));
-        pieces.add(new Elephant(Team.CHU, new Position(9, 7)));
+        board.deployPiece(new Position(9, 0), new Chariot(Team.CHU, new Position(9, 0)));
+        board.deployPiece(new Position(9, 8), new Chariot(Team.CHU, new Position(9, 8)));
 
-        pieces.add(new Horse(Team.CHU, new Position(9, 2)));
-        pieces.add(new Horse(Team.CHU, new Position(9, 6)));
+        board.deployPiece(new Position(9, 1), new Elephant(Team.CHU, new Position(9, 1)));
+        board.deployPiece(new Position(9, 7), new Elephant(Team.CHU, new Position(9, 7)));
 
-        pieces.add(new Guard(Team.CHU, new Position(9, 3)));
-        pieces.add(new Guard(Team.CHU, new Position(9, 5)));
+        board.deployPiece(new Position(9, 2), new Horse(Team.CHU, new Position(9, 2)));
+        board.deployPiece(new Position(9, 6), new Horse(Team.CHU, new Position(9, 6)));
 
-        pieces.add(new King(Team.CHU, new Position(8, 4)));
+        board.deployPiece(new Position(9, 3), new Guard(Team.CHU, new Position(9, 3)));
+        board.deployPiece(new Position(9, 5), new Guard(Team.CHU, new Position(9, 5)));
 
-        pieces.add(new Cannon(Team.CHU, new Position(7, 1)));
-        pieces.add(new Cannon(Team.CHU, new Position(7, 7)));
+        board.deployPiece(new Position(8, 4), new King(Team.CHU, new Position(8, 4)));
 
-        pieces.add(new Pawn(Team.CHU, new Position(6, 0)));
-        pieces.add(new Pawn(Team.CHU, new Position(6, 2)));
-        pieces.add(new Pawn(Team.CHU, new Position(6, 4)));
-        pieces.add(new Pawn(Team.CHU, new Position(6, 6)));
-        pieces.add(new Pawn(Team.CHU, new Position(6, 8)));
+        board.deployPiece(new Position(7, 1), new Cannon(Team.CHU, new Position(7, 1)));
+        board.deployPiece(new Position(7, 7), new Cannon(Team.CHU, new Position(7, 7)));
 
-        return pieces;
+        board.deployPiece(new Position(6, 0), new Pawn(Team.CHU, new Position(6, 0)));
+        board.deployPiece(new Position(6, 2), new Pawn(Team.CHU, new Position(6, 2)));
+        board.deployPiece(new Position(6, 4), new Pawn(Team.CHU, new Position(6, 4)));
+        board.deployPiece(new Position(6, 6), new Pawn(Team.CHU, new Position(6, 6)));
+        board.deployPiece(new Position(6, 8), new Pawn(Team.CHU, new Position(6, 8)));
+
+        return board;
     }
-
 }

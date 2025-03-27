@@ -10,7 +10,6 @@ import janggi.piece.multiplemovepiece.Chariot;
 import janggi.piece.onemovepiece.King;
 import janggi.piece.onemovepiece.Soldier;
 import janggi.position.Position;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,24 +20,21 @@ class BoardTest {
     void board() {
         //given
         final PieceInitializer pieceInitializer = new PieceInitializer();
-        final List<Piece> pieces = pieceInitializer.generate();
 
         //when
-        final Board board = new Board(pieces);
+        final Board actual = pieceInitializer.generate();
 
         //then
-        assertThat(board.getJanggiBoard()).hasSize(32);
+        assertThat(actual.getJanggiBoard()).hasSize(32);
     }
 
     @DisplayName("선택한 위치에 기물이 존재하지 않는다면 예외를 던진다.")
     @Test
     void emptyPieceByPosition() {
         //given
-        final List<Piece> pieces = List.of(
-                new Soldier(Team.HAN, new Position(3, 2))
-        );
+        final Board board = new Board();
 
-        final Board board = new Board(pieces);
+        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN, new Position(3, 2)));
 
         final Position presentPosition = new Position(4, 2);
 
@@ -52,15 +48,13 @@ class BoardTest {
     @Test
     void exceptionObstacle() {
         //given
-        final List<Piece> pieces = List.of(
-                new Chariot(Team.HAN, new Position(4, 2)),
-                new Soldier(Team.HAN, new Position(7, 2))
-        );
+        final Board board = new Board();
+
+        board.deployPiece(new Position(4, 2), new Chariot(Team.HAN, new Position(4, 2)));
+        board.deployPiece(new Position(7, 2), new Soldier(Team.HAN, new Position(7, 2)));
 
         final Position presentPosition = new Position(4, 2);
         final Position futurePosition = new Position(8, 2);
-
-        final Board board = new Board(pieces);
 
         //when //then
         assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
@@ -72,11 +66,9 @@ class BoardTest {
     @Test
     void pieceMove() {
         //given
-        final List<Piece> pieces = List.of(
-                new Soldier(Team.HAN, new Position(3, 2))
-        );
+        final Board board = new Board();
 
-        final Board board = new Board(pieces);
+        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN, new Position(3, 2)));
 
         final Position presentPosition = new Position(3, 2);
         final Position futurePosition = new Position(4, 2);
@@ -86,20 +78,17 @@ class BoardTest {
 
         //then
         final Piece actual = board.getJanggiBoard().get(futurePosition);
-        assertThat(actual).isEqualTo(new Soldier(Team.HAN,
-                new Position(4, 2)));
+        assertThat(actual).isEqualTo(new Soldier(Team.HAN, new Position(4, 2)));
     }
 
     @DisplayName("왕이 죽으면 게임이 종료 상태가 된다.")
     @Test
     void kingDeadEndState() {
         //given
-        final List<Piece> pieces = List.of(
-                new Soldier(Team.HAN, new Position(3, 2)),
-                new King(Team.CHU, new Position(4, 2))
-        );
+        final Board board = new Board();
 
-        final Board board = new Board(pieces);
+        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN, new Position(3, 2)));
+        board.deployPiece(new Position(4, 2), new King(Team.CHU, new Position(4, 2)));
 
         final Position presentPosition = new Position(3, 2);
         final Position futurePosition = new Position(4, 2);
@@ -115,12 +104,10 @@ class BoardTest {
     @Test
     void nonKingDeadEndState() {
         //given
-        final List<Piece> pieces = List.of(
-                new Soldier(Team.HAN, new Position(3, 2)),
-                new King(Team.CHU, new Position(5, 2))
-        );
+        final Board board = new Board();
 
-        final Board board = new Board(pieces);
+        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN, new Position(3, 2)));
+        board.deployPiece(new Position(5, 2), new King(Team.CHU, new Position(5, 2)));
 
         final Position presentPosition = new Position(3, 2);
         final Position futurePosition = new Position(4, 2);
@@ -131,5 +118,4 @@ class BoardTest {
         //then
         assertThat(gameState).isEqualTo(GameState.IN_PROGRESS);
     }
-
 }

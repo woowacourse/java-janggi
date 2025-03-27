@@ -131,16 +131,30 @@ class CannonTest {
     @Nested
     @DisplayName("포를 수직 또는 수평으로 이동시킬 수 있다.")
     class CannonMoving {
-        @DisplayName("포는 수직으로 이동할 떄 포를 제외한 장애물이 앞에 있는 경우 장애물을 넘어서 이동할 수 있다.")
+        @DisplayName("수평으로 왼쪽으로 이동할 때 경로를 계산한다.")
+        @Test
+        void makeRouteHorizontalLeft() {
+            final Cannon cannon = new Cannon(Team.HAN, new Position(0, 5));
+            final Position futurePosition = new Position(0, 0);
+
+            final List<Position> actual = cannon.makeRoute(futurePosition);
+
+            assertThat(actual).containsExactly(
+                    new Position(0, 4),
+                    new Position(0, 3),
+                    new Position(0, 2),
+                    new Position(0, 1)
+            );
+        }
+
+
+        @DisplayName("포는 수직으로 이동할 때 포를 제외한 장애물이 앞에 있으면 이를 넘어서 이동할 수 있다.")
         @Test
         void cannonMovingVertical() {
             //given
-            final List<Piece> pieces = List.of(
-                    new Cannon(Team.HAN, new Position(3, 2)),
-                    new Soldier(Team.HAN, new Position(4, 2))
-            );
-
-            final Board board = new Board(pieces);
+            final Board board = new Board();
+            board.deployPiece(new Position(3, 2), new Cannon(Team.HAN, new Position(3, 2)));
+            board.deployPiece(new Position(4, 2), new Soldier(Team.HAN, new Position(4, 2)));
 
             final Position presentPosition = new Position(3, 2);
             final Position futurePosition = new Position(5, 2);
@@ -150,20 +164,16 @@ class CannonTest {
 
             //then
             final Piece actual = board.getJanggiBoard().get(futurePosition);
-            assertThat(actual).isEqualTo(new Cannon(Team.HAN,
-                    new Position(5, 2)));
+            assertThat(actual).isEqualTo(new Cannon(Team.HAN, new Position(5, 2)));
         }
 
-        @DisplayName("포는 수평으로 이동할 때 포를 제외한 장애물이 앞에 있는 경우 장애물을 넘어서 이동할 수 있다.")
+        @DisplayName("포는 수평으로 이동할 때 포를 제외한 장애물이 앞에 있으면 이를 넘어서 이동할 수 있다.")
         @Test
         void cannonMovingHorizontal() {
             //given
-            final List<Piece> pieces = List.of(
-                    new Cannon(Team.HAN, new Position(3, 2)),
-                    new Soldier(Team.HAN, new Position(4, 2))
-            );
-
-            final Board board = new Board(pieces);
+            final Board board = new Board();
+            board.deployPiece(new Position(3, 2), new Cannon(Team.HAN, new Position(3, 2)));
+            board.deployPiece(new Position(4, 2), new Soldier(Team.HAN, new Position(4, 2)));
 
             final Position presentPosition = new Position(3, 2);
             final Position futurePosition = new Position(5, 2);
@@ -173,24 +183,19 @@ class CannonTest {
 
             //then
             final Piece actual = board.getJanggiBoard().get(futurePosition);
-            assertThat(actual).isEqualTo(new Cannon(Team.HAN,
-                    new Position(5, 2)));
+            assertThat(actual).isEqualTo(new Cannon(Team.HAN, new Position(5, 2)));
         }
-
     }
 
     @Nested
-    @DisplayName("포는 수직 또는 수평으로 이동하지 못하면 예외를 던진다.")
+    @DisplayName("포가 수직 또는 수평으로 이동할 수 없는 경우 예외를 던진다.")
     class CannonMovingException {
-        @DisplayName("포를 수직으로 이동 시킬 때 앞에 포를 제외한 어떠한 장애물도 없다면 예외를 던진다.")
+        @DisplayName("포를 수직으로 이동할 때 앞에 장애물이 없다면 예외를 던진다.")
         @Test
         void cannonNotMovingVerticalInFrontNothing() {
             //given
-            final List<Piece> pieces = List.of(
-                    new Cannon(Team.HAN, new Position(3, 2))
-            );
-
-            final Board board = new Board(pieces);
+            final Board board = new Board();
+            board.deployPiece(new Position(3, 2), new Cannon(Team.HAN, new Position(3, 2)));
 
             final Position presentPosition = new Position(3, 2);
             final Position futurePosition = new Position(7, 2);
@@ -201,15 +206,12 @@ class CannonTest {
                     .hasMessageStartingWith("[ERROR]");
         }
 
-        @DisplayName("포를 수평으로 이동 시킬 때 앞에 포를 제외한 어떠한 장애물도 없다면 예외를 던진다.")
+        @DisplayName("포를 수평으로 이동할 때 앞에 장애물이 없다면 예외를 던진다.")
         @Test
         void cannonNotMovingHorizontalInFrontNothing() {
             //given
-            final List<Piece> pieces = List.of(
-                    new Cannon(Team.HAN, new Position(3, 2))
-            );
-
-            final Board board = new Board(pieces);
+            final Board board = new Board();
+            board.deployPiece(new Position(3, 2), new Cannon(Team.HAN, new Position(3, 2)));
 
             final Position presentPosition = new Position(3, 2);
             final Position futurePosition = new Position(3, 7);
@@ -220,16 +222,13 @@ class CannonTest {
                     .hasMessageStartingWith("[ERROR]");
         }
 
-        @DisplayName("포를 수직으로 이동 시킬 때 앞에 포가 존재한다면 예외를 던진다.")
+        @DisplayName("포를 수직으로 이동할 때 앞에 다른 포가 있다면 예외를 던진다.")
         @Test
         void notCannonMovingVerticalInFrontPo() {
             //given
-            final List<Piece> pieces = List.of(
-                    new Cannon(Team.HAN, new Position(3, 2)),
-                    new Cannon(Team.HAN, new Position(4, 2))
-            );
-
-            final Board board = new Board(pieces);
+            final Board board = new Board();
+            board.deployPiece(new Position(3, 2), new Cannon(Team.HAN, new Position(3, 2)));
+            board.deployPiece(new Position(4, 2), new Cannon(Team.HAN, new Position(4, 2)));
 
             final Position presentPosition = new Position(3, 2);
             final Position futurePosition = new Position(5, 2);
@@ -240,16 +239,13 @@ class CannonTest {
                     .hasMessageStartingWith("[ERROR]");
         }
 
-        @DisplayName("포를 수평으로 이동 시킬 때 앞에 포가 존재한다면 예외를 던진다.")
+        @DisplayName("포를 수평으로 이동할 때 앞에 다른 포가 있다면 예외를 던진다.")
         @Test
         void notCannonMovingHorizontalInFrontPo() {
             //given
-            final List<Piece> pieces = List.of(
-                    new Cannon(Team.HAN, new Position(2, 3)),
-                    new Cannon(Team.HAN, new Position(2, 4))
-            );
-
-            final Board board = new Board(pieces);
+            final Board board = new Board();
+            board.deployPiece(new Position(2, 3), new Cannon(Team.HAN, new Position(2, 3)));
+            board.deployPiece(new Position(2, 4), new Cannon(Team.HAN, new Position(2, 4)));
 
             final Position presentPosition = new Position(2, 3);
             final Position futurePosition = new Position(2, 5);
@@ -260,39 +256,16 @@ class CannonTest {
                     .hasMessageStartingWith("[ERROR]");
         }
 
-        @DisplayName("포를 수평으로 이동 시킬 때 앞에 기물이 2개 이상 존재한다면 예외를 던진다.")
+        @DisplayName("포를 이동할 때 경로에 기물이 2개 이상 존재하면 예외를 던진다.")
         @Test
         void notCannonMovingHorizontalInFrontTwoPiece() {
-            final List<Piece> pieces = List.of(
-                    new Cannon(Team.HAN, new Position(3, 2)),
-                    new Pawn(Team.HAN, new Position(3, 3)),
-                    new Soldier(Team.HAN, new Position(3, 4))
-            );
-
-            final Board board = new Board(pieces);
+            final Board board = new Board();
+            board.deployPiece(new Position(3, 2), new Cannon(Team.HAN, new Position(3, 2)));
+            board.deployPiece(new Position(3, 3), new Pawn(Team.HAN, new Position(3, 3)));
+            board.deployPiece(new Position(3, 4), new Soldier(Team.HAN, new Position(3, 4)));
 
             final Position presentPosition = new Position(3, 2);
             final Position futurePosition = new Position(3, 5);
-
-            //when //then
-            assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageStartingWith("[ERROR]");
-        }
-
-        @DisplayName("포를 수직으로 이동 시킬 때 앞에 기물이 2개 이상 존재한다면 예외를 던진다.")
-        @Test
-        void notCannonMovingVerticalInFrontTwoPiece() {
-            final List<Piece> pieces = List.of(
-                    new Cannon(Team.HAN, new Position(2, 3)),
-                    new Pawn(Team.HAN, new Position(3, 3)),
-                    new Soldier(Team.HAN, new Position(4, 3))
-            );
-
-            final Board board = new Board(pieces);
-
-            final Position presentPosition = new Position(2, 3);
-            final Position futurePosition = new Position(5, 3);
 
             //when //then
             assertThatThrownBy(() -> board.pieceMove(presentPosition, futurePosition))

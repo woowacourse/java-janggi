@@ -69,7 +69,7 @@ public class JanggiGame {
 
     private Board setJanggiBoard() {
         final PieceInitializer pieceInitializer = new PieceInitializer();
-        return new Board(pieceInitializer.generate());
+        return pieceInitializer.generate();
     }
 
     private Position readPresentPosition(final String currentTurnTeam) {

@@ -6,19 +6,18 @@ import janggi.piece.PieceType;
 import janggi.position.Position;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Board {
 
-    private final Map<Position, Piece> janggiBoard = new HashMap<>();
+    private final Map<Position, Piece> janggiBoard;
 
-    public Board(final List<Piece> pieces) {
-        janggiBoard.putAll(
-                pieces.stream()
-                        .collect((Collectors.toMap(Piece::getBoardPosition, piece -> piece))
-                        ));
+    public Board() {
+        this.janggiBoard = new HashMap<>();
+    }
+
+    public void deployPiece(final Position position, final Piece piece) {
+        janggiBoard.put(position, piece);
     }
 
     public GameState pieceMove(final Position presentPosition, final Position futurePosition) {

@@ -2,8 +2,6 @@ package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.piece.Piece;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,9 +14,10 @@ class PieceInitializerTest {
         final PieceInitializer pieceInitializer = new PieceInitializer();
 
         //when
-        final List<Piece> actual = pieceInitializer.generate();
+        final Board actual = pieceInitializer.generate();
 
         //then
-        assertThat(actual).hasSize(32);
+        assertThat(actual.getJanggiBoard()).hasSize(32);
+
     }
 }
