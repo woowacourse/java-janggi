@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.board.BoardFactory;
 import janggi.board.Position;
+import janggi.piece.Side;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -16,30 +17,27 @@ public class JanggiManager {
         this.outputView = outputView;
         this.janggiGame = new JanggiGame(
                 BoardFactory.initBoard(),
-                Score.initRedSideScore(),
-                Score.initBlueSideScore(),
                 Turn.firstTurn()
         );
     }
 
     public void play() {
-        displayGameStatus();
         while (janggiGame.continueGame()) {
-            outputView.printTurn(janggiGame.getTurn());
+            displayGameStatus();
             String inputStartPosition = inputView.readStartPosition();
             if (inputStartPosition.equals("Q")) {
                 break;
             }
             String inputEndPosition = inputView.readEndPosition();
             movePiece(inputStartPosition, inputEndPosition);
-            displayGameStatus();
         }
-        outputView.printResult(janggiGame.getRedScore(), janggiGame.getBlueScore());
+        outputView.printResult(janggiGame.calculateWinner());
     }
 
     private void displayGameStatus() {
         outputView.printBoard(janggiGame.getBoard());
-        outputView.printScore(janggiGame.getRedScore(), janggiGame.getBlueScore());
+        outputView.printScore(janggiGame.scoreBySide(Side.RED), janggiGame.scoreBySide(Side.BLUE));
+        outputView.printTurn(janggiGame.getTurn());
     }
 
     private void movePiece(final String inputStartPosition, final String inputEndPosition) {

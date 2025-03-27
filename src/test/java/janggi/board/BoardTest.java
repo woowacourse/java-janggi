@@ -8,22 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import janggi.Score;
 import janggi.Turn;
 import janggi.piece.Cannon;
-import janggi.piece.Elephant;
-import janggi.piece.Guard;
-import janggi.piece.Horse;
-import janggi.piece.King;
 import janggi.piece.Piece;
 import janggi.piece.Side;
 import janggi.piece.Soldier;
 import janggi.piece.Tank;
 import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 public class BoardTest {
 
@@ -285,39 +277,38 @@ public class BoardTest {
     @DisplayName("말 점수 테스트")
     class PieceScoreTest {
 
-        @DisplayName("잡은 말의 점수를 반환한다.")
-        @ParameterizedTest
-        @MethodSource("targetPieces")
-        void returnScoreByTargetPiece(Piece targetPiece) {
+        @DisplayName("RED 팀 기물 점수를 계산한다.")
+        @Test
+        void returnScoreByRedSidePieces() {
             // given
-            Piece piece = new Tank(Side.RED);
-            Board board = new Board(
-                    Map.of(
-                            new Position(1, 1), piece,
-                            new Position(1, 2), targetPiece
-                    )
-            );
-            Position start = new Position(1, 1);
-            Position end = new Position(1, 2);
-            Turn turn = new Turn(Side.RED);
+            Board board = new Board(Map.of(
+                    new Position(1, 1), new Tank(Side.RED),
+                    new Position(1, 2), new Cannon(Side.RED),
+                    new Position(1, 3), new Soldier(Side.RED)
+            ));
 
             // when
-            Score score = board.move(start, end, turn);
+            Score score = board.calculatePiecesScoreBySide(Side.RED);
 
             // then
-            assertThat(score).isEqualTo(targetPiece.getScore());
+            assertThat(score).isEqualTo(new Score(22));
         }
 
-        private static Stream<Arguments> targetPieces() {
-            return Stream.of(
-                    Arguments.of(new Cannon(Side.BLUE)),
-                    Arguments.of(new Elephant(Side.BLUE)),
-                    Arguments.of(new Guard(Side.BLUE)),
-                    Arguments.of(new Horse(Side.BLUE)),
-                    Arguments.of(new King(Side.BLUE)),
-                    Arguments.of(new Soldier(Side.BLUE)),
-                    Arguments.of(new Tank(Side.BLUE))
-            );
+        @DisplayName("BLUE 팀 기물 점수를 계산한다.")
+        @Test
+        void returnScoreByBlueSidePieces() {
+            // given
+            Board board = new Board(Map.of(
+                    new Position(1, 1), new Tank(Side.BLUE),
+                    new Position(1, 2), new Cannon(Side.BLUE),
+                    new Position(1, 3), new Soldier(Side.BLUE)
+            ));
+
+            // when
+            Score score = board.calculatePiecesScoreBySide(Side.BLUE);
+
+            // then
+            assertThat(score).isEqualTo(new Score(22));
         }
     }
 }

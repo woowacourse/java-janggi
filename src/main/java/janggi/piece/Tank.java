@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Tank extends Piece {
 
-    private static final int TANK_SCORE = 7;
+    private static final int TANK_SCORE = 13;
 
     public Tank(final Side side) {
         super(side, new Score(TANK_SCORE));

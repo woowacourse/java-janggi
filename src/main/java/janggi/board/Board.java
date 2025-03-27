@@ -3,6 +3,7 @@ package janggi.board;
 import janggi.Score;
 import janggi.Turn;
 import janggi.piece.Piece;
+import janggi.piece.Side;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class Board {
         this.board = new HashMap<>(board);
     }
 
-    public Score move(final Position start, final Position end, final Turn turn) {
+    public void move(final Position start, final Position end, final Turn turn) {
         validatePieceOnStartPosition(start);
         Piece pickedPiece = board.get(start);
         validatePickedPieceBySide(pickedPiece, turn);
@@ -23,12 +24,20 @@ public class Board {
 
         if (pickedPiece.canMove(start, end, board)) {
             board.remove(start);
-            Score score = computeScoreIfExistsTargetPiece(end);
             board.put(end, pickedPiece);
-            return score;
+            return;
         }
 
         throw new IllegalArgumentException("이동할 수 없습니다.");
+    }
+
+    public Score calculatePiecesScoreBySide(final Side side) {
+        return board.values()
+                .stream()
+                .filter(piece -> piece.isSameSide(side))
+                .map(Piece::getScore)
+                .reduce(Score::plus)
+                .orElse(Score.zero());
     }
 
     private void validateEndPosition(final Position end, final Piece pickedPiece) {
@@ -56,13 +65,6 @@ public class Board {
             return;
         }
         throw new IllegalArgumentException("본인 팀 말을 선택해주세요.");
-    }
-
-    private Score computeScoreIfExistsTargetPiece(final Position end) {
-        if (board.containsKey(end)) {
-            return board.get(end).getScore();
-        }
-        return Score.zero();
     }
 
     public Map<Position, Piece> getBoard() {

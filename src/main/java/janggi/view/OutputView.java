@@ -63,12 +63,8 @@ public class OutputView {
         System.out.printf("레드팀: %.1f, 블루팀: %.1f%n", redScore.getValue(), blueScore.getValue());
     }
 
-    public void printResult(final Score redScore, final Score blueScore) {
-        if (redScore.getValue() > blueScore.getValue()) {
-            System.out.println("레드팀 승리");
-            return;
-        }
-        System.out.println("블루팀 승리");
+    public void printResult(Side side) {
+        System.out.printf("%s 팀 승리%n", side);
     }
 
     enum PieceOutput {
