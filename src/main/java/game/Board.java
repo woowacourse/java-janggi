@@ -25,5 +25,9 @@ public class Board {
 
     }
 
+    public Map<Position, Piece> getBoard() {
+        return board;
+    }
+
 
 }
