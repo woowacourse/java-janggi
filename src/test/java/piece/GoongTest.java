@@ -1,6 +1,7 @@
 package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import board.Board;
 import board.BoardFixture;
@@ -18,38 +19,54 @@ class GoongTest {
     class MovableCandidatesTest {
 
         @Test
-        @DisplayName("궁의 출발 좌표가 (5,5)일 때 이동 가능한 좌표 후보 4개를 반환한다.")
+        @DisplayName("궁의 출발 좌표가 (5,2)일 때 이동 가능한 좌표 후보를 반환한다.")
         void test1() {
             // given
             Goong goong = new Goong(Team.HAN);
 
             // when
-            Set<Coordinate> movableCandidates = goong.findMovableCandidates(new Coordinate(5, 5));
+            Set<Coordinate> movableCandidates = goong.findMovableCandidates(new Coordinate(5, 2));
 
             // then
             assertThat(movableCandidates).containsOnly(
-                    new Coordinate(4, 5),
-                    new Coordinate(6, 5),
-                    new Coordinate(5, 6),
-                    new Coordinate(5, 4)
+                    new Coordinate(5, 1),
+                    new Coordinate(5, 3),
+                    new Coordinate(4, 2),
+                    new Coordinate(6, 2),
+                    new Coordinate(4, 1),
+                    new Coordinate(4, 3),
+                    new Coordinate(6, 1),
+                    new Coordinate(6, 3)
             );
         }
 
         @Test
-        @DisplayName("궁의 출발 좌표가 (5, 10)일 때 보드판을 벗어난 좌표는 후보에서 제외한다.")
+        @DisplayName("궁의 출발 좌표가 (4,1)일 때 보드판이나 궁성을 벗어난 좌표는 후보에서 제외한다.")
         void test2() {
             // given
-            Goong goong = new Goong(Team.CHO);
+            Goong goong = new Goong(Team.HAN);
 
             // when
-            Set<Coordinate> movableCandidates = goong.findMovableCandidates(new Coordinate(5, 10));
+            Set<Coordinate> movableCandidates = goong.findMovableCandidates(new Coordinate(4, 1));
 
             // then
             assertThat(movableCandidates).containsOnly(
-                    new Coordinate(4, 10),
-                    new Coordinate(6, 10),
-                    new Coordinate(5, 9)
+                    new Coordinate(5, 1),
+                    new Coordinate(4, 2),
+                    new Coordinate(5, 2)
             );
+        }
+
+        @Test
+        @DisplayName("궁은 궁성 좌표 내에만 존재할 수 있다.")
+        void test3() {
+            // given
+            Goong goong = new Goong(Team.HAN);
+
+            // when & then
+            assertThatThrownBy(() -> goong.findMovableCandidates(new Coordinate(5, 5)))
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessage("궁성 기물은 궁성 좌표 안에만 존재할 수 있습니다.");
         }
     }
 
