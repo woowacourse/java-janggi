@@ -40,16 +40,6 @@ public class Jol implements Piece {
     }
 
     @Override
-    public boolean isJanggun() {
-        return false;
-    }
-
-    @Override
-    public boolean isPo() {
-        return false;
-    }
-
-    @Override
     public PieceType getPieceType() {
         return JOL;
     }

@@ -96,12 +96,6 @@ public abstract sealed class LinearMover
     }
 
     @Override
-    public abstract boolean isJanggun();
-
-    @Override
-    public abstract boolean isPo();
-
-    @Override
     public abstract PieceType getPieceType();
 
     @Override

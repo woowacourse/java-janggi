@@ -68,7 +68,7 @@ class ChaTest {
     void isJanggunTest() {
         Cha cha = new Cha(new Position(5, 5));
 
-        assertThat(cha.isJanggun()).isFalse();
+        assertThat(cha.getPieceType().isJanggun()).isFalse();
     }
 
     @Test
@@ -76,7 +76,7 @@ class ChaTest {
     void isPoTest() {
         Cha cha = new Cha(new Position(5, 5));
 
-        assertThat(cha.isPo()).isFalse();
+        assertThat(cha.getPieceType().isPo()).isFalse();
     }
 
 }

@@ -39,12 +39,6 @@ public abstract sealed class OmniDirectionalMover
         return new Positions(List.of());
     }
 
-    @Override
-    public abstract boolean isJanggun();
-
-    @Override
-    public abstract boolean isPo();
-
     private boolean isOmniDirectionalMover(Position destination) {
         return !position.calculateUpMovement().equals(destination)
                 && !position.calculateRightMovement().equals(destination)

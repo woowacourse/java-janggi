@@ -8,5 +8,16 @@ public enum PieceType {
     MA,
     PO,
     SA,
-    SANG
+    SANG;
+
+    PieceType() {
+    }
+
+    public boolean isPo() {
+        return this.equals(PO);
+    }
+
+    public boolean isJanggun() {
+        return this.equals(JANGGUN);
+    }
 }

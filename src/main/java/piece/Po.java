@@ -12,16 +12,6 @@ public final class Po extends LinearMover {
     }
 
     @Override
-    public boolean isJanggun() {
-        return false;
-    }
-
-    @Override
-    public boolean isPo() {
-        return true;
-    }
-
-    @Override
     public PieceType getPieceType() {
         return PO;
     }

@@ -10,15 +10,6 @@ public final class Sa extends OmniDirectionalMover {
     public Sa(final Position position) {
         super(position);
     }
-    @Override
-    public boolean isJanggun() {
-        return false;
-    }
-
-    @Override
-    public boolean isPo() {
-        return false;
-    }
 
     @Override
     public PieceType getPieceType() {

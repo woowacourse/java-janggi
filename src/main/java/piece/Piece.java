@@ -16,9 +16,5 @@ public interface Piece {
 
     Positions makeRoute(final Position destination);
 
-    boolean isJanggun();
-
-    boolean isPo();
-
     Position currentPosition();
 }

@@ -81,7 +81,7 @@ class SaTest {
     void isJanggunTest() {
         Sa sa  = new Sa(new Position(5, 5));
 
-        assertThat(sa.isJanggun()).isFalse();
+        assertThat(sa.getPieceType().isJanggun()).isFalse();
     }
 
     @Test
@@ -89,6 +89,6 @@ class SaTest {
     void isPoTest() {
         Sa sa = new Sa(new Position(5, 5));
 
-        assertThat(sa.isPo()).isFalse();
+        assertThat(sa.getPieceType().isPo()).isFalse();
     }
 }

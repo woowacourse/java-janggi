@@ -81,7 +81,7 @@ class JanggunTest {
     void isJanggunTest() {
         Janggun janggun = new Janggun(new Position(5, 5));
 
-        assertThat(janggun.isJanggun()).isTrue();
+        assertThat(janggun.getPieceType().isJanggun()).isTrue();
     }
 
     @Test
@@ -89,6 +89,6 @@ class JanggunTest {
     void isPoTest() {
         Janggun janggun = new Janggun(new Position(5, 5));
 
-        assertThat(janggun.isPo()).isFalse();
+        assertThat(janggun.getPieceType().isPo()).isFalse();
     }
 }

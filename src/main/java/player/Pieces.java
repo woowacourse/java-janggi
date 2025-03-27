@@ -23,7 +23,7 @@ public class Pieces {
 
     public boolean hasJanggun() {
         return pieces.stream()
-                .noneMatch(Piece::isJanggun);
+                .noneMatch(piece -> piece.getPieceType().isJanggun());
     }
 
     public void validateAllyPieceAtStart(final Position presentPosition) {
@@ -71,13 +71,13 @@ public class Pieces {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(presentPosition))
                 .findFirst()
-                .map(Piece::isPo)
+                .map(piece -> piece.getPieceType().isPo())
                 .orElseThrow();
     }
 
     public Boolean isExistPoInRoute(final Positions route) {
         return pieces.stream()
-                .anyMatch(piece -> route.containsPosition(piece) && piece.isPo());
+                .anyMatch(piece -> route.containsPosition(piece) && piece.getPieceType().isPo());
     }
 
     public List<Piece> getPieces() {

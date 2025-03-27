@@ -12,16 +12,6 @@ public final class Janggun extends OmniDirectionalMover {
     }
 
     @Override
-    public boolean isJanggun() {
-        return true;
-    }
-
-    @Override
-    public boolean isPo() {
-        return false;
-    }
-
-    @Override
     public PieceType getPieceType() {
         return JANGGUN;
     }
