@@ -8,7 +8,7 @@ public abstract class Piece {
     protected final Country country;
     protected final PieceType type;
 
-    public Piece(Country country, PieceType type) {
+    protected Piece(Country country, PieceType type) {
         this.country = country;
         this.type = type;
     }
