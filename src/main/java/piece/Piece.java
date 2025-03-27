@@ -12,9 +12,9 @@ public interface Piece {
 
     PieceType getPieceType();
 
-    void canMoveTo(final Position position);
+    void canMoveTo(final Position destination);
 
-    Positions makeRoute(final Position position);
+    Positions makeRoute(final Position destination);
 
     boolean isJanggun();
 
