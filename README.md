@@ -35,7 +35,9 @@
 - [x] 메뉴에 없는 입력을 했을 경우, 재입력을 받는다.
     - `[ERROR] 1~4의 숫자만 입력할 수 있습니다.`
 
-- [x] 상차림 번호에 맞게 보드를 생성한다.
+- [x] 이전 기록을 선택하면, 끝나지 않은 게임 목록들이 나오고 그 중에서 선택한다.
+
+- [x] 선택한 번호에 맞게 보드를 생성한다.
 
 - [x] 현재 보드 상태를 출력한다.
 
@@ -122,5 +124,4 @@ create table janggi.moveHistory (
     end_column int not null,
     foreign key (game_id) references game(id)
 );
-
 ```
