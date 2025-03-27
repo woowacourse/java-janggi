@@ -31,24 +31,22 @@ public class Application {
         Camp currentTurnCamp = FIRST_TURN_CAMP;
         while (true) {
             view.displayBoard(board.getPlacedPieces());
-            playTurnUntilSuccess(view, currentTurnCamp, board);
-            currentTurnCamp = currentTurnCamp.reverse();
+            currentTurnCamp = tryPlayTurn(view, currentTurnCamp, board);
         }
     }
 
-    private static void playTurnUntilSuccess(View view, Camp currentTurnCamp, Board board) {
-        while (true) {
-            try {
-                List<List<Integer>> moveInput = view.readMove(currentTurnCamp);
-                playTurn(moveInput, currentTurnCamp, board);
-                return;
-            } catch (IllegalArgumentException e) {
-                System.out.printf(ERROR_MESSAGE_FORMAT, e.getMessage());
-            }
+    private static Camp tryPlayTurn(View view, Camp currentTurnCamp, Board board) {
+        try {
+            List<List<Integer>> moveInput = view.readMove(currentTurnCamp);
+            executeTurn(moveInput, currentTurnCamp, board);
+            return currentTurnCamp.reverse();
+        } catch (IllegalArgumentException e) {
+            System.out.printf(ERROR_MESSAGE_FORMAT, e.getMessage());
+            return currentTurnCamp;
         }
     }
 
-    private static void playTurn(List<List<Integer>> moveInputs, Camp baseCamp, Board board) {
+    private static void executeTurn(List<List<Integer>> moveInputs, Camp baseCamp, Board board) {
         Point from = createPointFromInput(moveInputs, FROM_POINT_INDEX);
         Point to = createPointFromInput(moveInputs, TO_POINT_INDEX);
         validateSelectedPiece(board, from, baseCamp);
