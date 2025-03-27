@@ -14,7 +14,7 @@ public class Prey {
     }
 
     public static Prey from(Point targetPoint, Hurdles hurdles, Movable attacker) {
-        Movable prey = null; //TODO 해결하기
+        Movable prey = null;
         if (hurdles.containsPoint(targetPoint)) {
             prey = hurdles.findByPoint(targetPoint);
         }

@@ -22,6 +22,9 @@ public class Bridge {
     }
     
     public boolean cannotPass() {
+        if (bridge == null) {
+            return false;
+        }
         return mover.isPo() & bridge.isPo();
     }
 }
