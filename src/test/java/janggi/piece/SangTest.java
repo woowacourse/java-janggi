@@ -25,8 +25,9 @@ class SangTest {
 
     @ParameterizedTest
     @MethodSource
-    void 상은_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
-                 final List<Position> expected) {
+    void 상은_한_칸_전후좌후_이동_후_좌우로_대각선_두_칸_움직인다(final int currentY, final int currentX, final int arrivalY,
+                                           final int arrivalX,
+                                           final List<Position> expected) {
         // Given
         Position currentPosition = new Position(currentY, currentX);
         Position arrivalPosition = new Position(arrivalY, arrivalX);
@@ -38,7 +39,7 @@ class SangTest {
         assertThat(path).isEqualTo(new Path(expected));
     }
 
-    private static Stream<Arguments> 상은_움직인다() {
+    private static Stream<Arguments> 상은_한_칸_전후좌후_이동_후_좌우로_대각선_두_칸_움직인다() {
         return Stream.of(
                 Arguments.of(3, 3, 6, 5, List.of(
                         new Position(4, 3), new Position(5, 4), new Position(6, 5))

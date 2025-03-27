@@ -28,7 +28,7 @@ class GungTest {
             "1, 1, 1, 2",
             "1, 2, 1, 1",
     })
-    void 궁은_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
+    void 궁은_전후좌우로_한칸_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
         // Given
         Position currentPosition = new Position(currentY, currentX);
         Position arrivalPosition = new Position(arrivalY, arrivalX);

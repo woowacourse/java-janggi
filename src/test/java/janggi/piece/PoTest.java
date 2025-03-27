@@ -25,8 +25,8 @@ class PoTest {
 
     @ParameterizedTest
     @MethodSource
-    void 포는_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
-                 final List<Position> expected) {
+    void 포는_기물_하나를_건너뛰며_전진_또는_좌우로_움직인다(final int currentY, final int currentX, final int arrivalY, final int arrivalX,
+                                       final List<Position> expected) {
         // Given
         Position currentPosition = new Position(currentY, currentX);
         Position arrivalPosition = new Position(arrivalY, arrivalX);
@@ -38,7 +38,7 @@ class PoTest {
         assertThat(path).isEqualTo(new Path(expected));
     }
 
-    private static Stream<Arguments> 포는_움직인다() {
+    private static Stream<Arguments> 포는_기물_하나를_건너뛰며_전진_또는_좌우로_움직인다() {
         return Stream.of(
                 Arguments.of(1, 1, 10, 1, List.of(
                         new Position(2, 1), new Position(3, 1), new Position(4, 1),
