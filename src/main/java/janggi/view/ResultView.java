@@ -9,7 +9,7 @@ public class ResultView {
 
     private static final String LINE = System.lineSeparator();
     private static final String BLANK = "ㅤ";
-    private static final String HEADER = "   1    2    3    4    5    6   7    8   9%n";
+    private static final String HEADER = "   1    2    3    4    5    6   7    8    9%n";
     private static final String BOARD_LINE = "   |    |    |    |    |    |    |    |   |%n";
     private static final String DASH = " ㅡ ";
     private static final String TITLE_RESULT = """
