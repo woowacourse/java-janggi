@@ -2,11 +2,11 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import game.domain.board.Board;
-import game.domain.board.BoardLocation;
-import game.domain.piece.Chariot;
-import game.domain.piece.Piece;
-import game.domain.piece.Team;
+import domain.board.Board;
+import domain.board.BoardLocation;
+import domain.piece.Chariot;
+import domain.piece.Piece;
+import domain.piece.Team;
 import fixture.BoardFixture;
 import java.util.List;
 import java.util.Map;

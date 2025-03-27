@@ -1,17 +1,17 @@
 package fixture;
 
-import static game.domain.piece.Team.CHO;
-import static game.domain.piece.Team.HAN;
+import static domain.piece.Team.CHO;
+import static domain.piece.Team.HAN;
 
-import game.domain.board.BoardLocation;
-import game.domain.piece.Cannon;
-import game.domain.piece.Chariot;
-import game.domain.piece.Elephant;
-import game.domain.piece.Horse;
-import game.domain.piece.King;
-import game.domain.piece.Pawn;
-import game.domain.piece.Piece;
-import game.domain.piece.Scholar;
+import domain.board.BoardLocation;
+import domain.piece.Cannon;
+import domain.piece.Chariot;
+import domain.piece.Elephant;
+import domain.piece.Horse;
+import domain.piece.King;
+import domain.piece.Pawn;
+import domain.piece.Piece;
+import domain.piece.Scholar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
