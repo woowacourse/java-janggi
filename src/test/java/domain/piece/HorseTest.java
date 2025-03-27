@@ -17,7 +17,9 @@ class HorseTest {
         Horse horse = new Horse(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.THREE, Column.TWO);
-        boolean canMove = horse.isValidMovement(source, destination);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = horse.isValidMovement(movePath);
 
         assertThat(canMove).isTrue();
     }
@@ -27,7 +29,9 @@ class HorseTest {
         Horse horse = new Horse(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.TWO, Column.TWO);
-        boolean canMove = horse.isValidMovement(source, destination);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = horse.isValidMovement(movePath);
 
         assertThat(canMove).isFalse();
     }

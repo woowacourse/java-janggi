@@ -3,6 +3,7 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Column;
+import domain.board.MovePath;
 import domain.board.Position;
 import domain.board.Row;
 import java.util.ArrayList;
@@ -19,7 +20,8 @@ class SoldierTest {
 
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FIVE, Column.ONE);
-        boolean canMove = soldier.isValidMovement(source, destination);
+        MovePath movePath = new MovePath(source, destination);
+        boolean canMove = soldier.isValidMovement(movePath);
 
         assertThat(canMove).isTrue();
     }
@@ -29,8 +31,9 @@ class SoldierTest {
         Soldier soldier = new Soldier(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.TWO);
+        MovePath movePath = new MovePath(source, destination);
 
-        boolean canMove = soldier.isValidMovement(source, destination);
+        boolean canMove = soldier.isValidMovement(movePath);
 
         assertThat(canMove).isTrue();
     }
@@ -40,8 +43,9 @@ class SoldierTest {
         Soldier soldier = new Soldier(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.THREE, Column.ONE);
+        MovePath movePath = new MovePath(source, destination);
 
-        boolean canMove = soldier.isValidMovement(source, destination);
+        boolean canMove = soldier.isValidMovement(movePath);
 
         assertThat(canMove).isFalse();
     }

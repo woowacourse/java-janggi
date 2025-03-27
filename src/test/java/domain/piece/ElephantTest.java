@@ -17,7 +17,9 @@ class ElephantTest {
         Elephant elephant = new Elephant(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.THREE, Column.FOUR);
-        boolean canMove = elephant.isValidMovement(source, destination);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = elephant.isValidMovement(movePath);
 
         assertThat(canMove).isTrue();
     }
@@ -27,7 +29,9 @@ class ElephantTest {
         Elephant elephant = new Elephant(PieceColor.RED);
         Position source = new Position(Row.ONE, Column.ONE);
         Position destination = new Position(Row.TWO, Column.TWO);
-        boolean canMove = elephant.isValidMovement(source, destination);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = elephant.isValidMovement(movePath);
 
         assertThat(canMove).isFalse();
     }

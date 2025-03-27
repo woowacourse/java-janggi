@@ -7,13 +7,15 @@ import java.util.List;
 
 public class Guard extends Piece {
 
+    public static final int GUARD_STRAIGHT_MOVE = 1;
+
     public Guard(PieceColor color) {
         super(PieceType.GUARD, color, DefaultMoveRule.getInstance());
     }
 
     @Override
-    public boolean isValidMovement(Position source, Position destination) {
-        return false;
+    public boolean isValidMovement(MovePath movePath) {
+        return movePath.isStraightMoveBy(GUARD_STRAIGHT_MOVE);
     }
 
     @Override

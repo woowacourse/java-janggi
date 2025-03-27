@@ -82,7 +82,15 @@ public class MovePath {
     public boolean isStraightAndDiagonalMoveBy(int straightDistance, int diagonalDistance) {
         return (getAbsRowDifference() == straightDistance + diagonalDistance
                 && getAbsColumnDifference() == diagonalDistance)
-                || (getAbsRowDifference() == straightDistance
-                && getAbsRowDifference() == straightDistance + diagonalDistance);
+                || (getAbsRowDifference() == diagonalDistance
+                && getAbsColumnDifference() == straightDistance + diagonalDistance);
+    }
+
+    public boolean isUpward() {
+        return (getRowDifference() < 0);
+    }
+
+    public boolean isDownward() {
+        return (getRowDifference() > 0);
     }
 }

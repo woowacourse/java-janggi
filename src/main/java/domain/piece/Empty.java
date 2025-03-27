@@ -18,7 +18,7 @@ public class Empty extends Piece {
     }
 
     @Override
-    public boolean isValidMovement(Position source, Position destination) {
+    public boolean isValidMovement(MovePath movePath) {
         return false;
     }
 

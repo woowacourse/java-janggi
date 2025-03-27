@@ -20,7 +20,9 @@ class ChariotTest {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.ZERO, Column.ONE);
-        boolean canMove = chariot.isValidMovement(source, destination);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = chariot.isValidMovement(movePath);
 
         assertThat(canMove).isTrue();
     }
@@ -30,7 +32,9 @@ class ChariotTest {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.FOUR, Column.THREE);
-        boolean canMove = chariot.isValidMovement(source, destination);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = chariot.isValidMovement(movePath);
 
         assertThat(canMove).isTrue();
     }
@@ -40,7 +44,9 @@ class ChariotTest {
         Chariot chariot = new Chariot(PieceColor.RED);
         Position source = new Position(Row.FOUR, Column.ONE);
         Position destination = new Position(Row.ZERO, Column.TWO);
-        boolean canMove = chariot.isValidMovement(source, destination);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = chariot.isValidMovement(movePath);
 
         assertThat(canMove).isFalse();
     }

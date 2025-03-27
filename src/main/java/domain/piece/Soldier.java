@@ -7,27 +7,19 @@ import java.util.List;
 
 public class Soldier extends Piece {
 
-    public static final int FORWARD_MOVE = 1;
-    public static final int BACKWARD_MOVE = -1;
+    public static final int SOLDIER_STRAIGHT_MOVE = 1;
 
     public Soldier(PieceColor color) {
         super(PieceType.SOLDIER, color, DefaultMoveRule.getInstance());
     }
 
     @Override
-    public boolean isValidMovement(Position source, Position destination) {
-        int rowDifference = source.rowDifference(destination);
-        int columnDifference = source.columnDifference(destination);
-
-        if ((color == PieceColor.RED) && (rowDifference == FORWARD_MOVE && columnDifference == NO_MOVE)) {
-            return true;
+    public boolean isValidMovement(MovePath movePath) {
+        if ((color == PieceColor.RED) && !movePath.isUpward()) {
+            return movePath.isStraightMoveBy(SOLDIER_STRAIGHT_MOVE);
         }
-        if ((color == PieceColor.BLUE) && (rowDifference == BACKWARD_MOVE && columnDifference == NO_MOVE)) {
-            return true;
-        }
-        if ((rowDifference == NO_MOVE && columnDifference == BACKWARD_MOVE) || (rowDifference == NO_MOVE
-                && columnDifference == FORWARD_MOVE)) {
-            return true;
+        if ((color == PieceColor.BLUE) && !movePath.isDownward()) {
+            return movePath.isStraightMoveBy(SOLDIER_STRAIGHT_MOVE);
         }
         return false;
     }
