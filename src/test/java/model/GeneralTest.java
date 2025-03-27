@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 class GeneralTest {
 
     private final General general = new General(Team.RED);
-    private final Position departure = new Position(Column.THREE, Row.THREE);
+    private final Position departure = new Position(Column.TWO, Row.FIVE);
 
     @Nested
     @DisplayName("General의 이동 가능한 경로를 구한다.")
@@ -24,28 +24,28 @@ class GeneralTest {
         @Test
         @DisplayName("Up 인 경우")
         void case_up() {
-            Position arrival = new Position(Column.TWO, Row.THREE);
+            Position arrival = new Position(Column.ONE, Row.FIVE);
             assertValidDirection(departure, arrival);
         }
 
         @Test
         @DisplayName("Down 인 경우")
         void case_down() {
-            Position arrival = new Position(Column.FOUR, Row.THREE);
+            Position arrival = new Position(Column.THREE, Row.FIVE);
             assertValidDirection(departure, arrival);
         }
 
         @Test
         @DisplayName("Left 인 경우")
         void case_left() {
-            Position arrival = new Position(Column.THREE, Row.TWO);
+            Position arrival = new Position(Column.TWO, Row.FOUR);
             assertValidDirection(departure, arrival);
         }
 
         @Test
         @DisplayName("Right 인 경우")
         void case_right() {
-            Position arrival = new Position(Column.THREE, Row.FOUR);
+            Position arrival = new Position(Column.TWO, Row.SIX);
             assertValidDirection(departure, arrival);
         }
 
@@ -58,7 +58,7 @@ class GeneralTest {
     @DisplayName("General이 갈 수 없는 경로라면, 예외를 던져야 한다")
     @Test
     void cannot_go_position_then_throw_exception() {
-        Position arrival = new Position(Column.THREE, Row.FIVE);
+        Position arrival = new Position(Column.FOUR, Row.THREE);
         assertThatThrownBy(() -> general.calculateAllDirection(departure, arrival))
             .isInstanceOf(IllegalArgumentException.class);
     }
