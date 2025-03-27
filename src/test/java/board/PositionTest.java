@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
+import position.Position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -43,7 +42,7 @@ public class PositionTest {
 
             // when & then
             assertThatThrownBy(() -> {
-               new Position(x, y);
+                new Position(x, y);
             }).isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -82,7 +81,7 @@ public class PositionTest {
             // then
             Assertions.assertAll(
                     () -> org.assertj.core.api.Assertions.assertThat(ableResult).isTrue(),
-                                () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
+                    () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
             );
         }
 
@@ -122,40 +121,6 @@ public class PositionTest {
                     () -> org.assertj.core.api.Assertions.assertThat(ableResult).isTrue(),
                     () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
             );
-        }
-
-        @Test
-        @DisplayName("같은 라인의 position간의 모든 position을 반환한다.")
-        void calculateBetweenPositions() {
-            // given
-            final Position srcPosition = new Position(1, 1);
-            final Position destPosition = new Position(5, 1);
-
-            // when
-            final List<Position> betweenPositions = srcPosition.calculateBetweenPositions(destPosition);
-
-            // then
-            assertThat(betweenPositions).hasSize(3);
-        }
-
-        @Test
-        @DisplayName("코끼리의 중간 Position들을 계산하여 반환할 수 있다.")
-        void calculateElephantMiddlePositions() {
-            // given
-            final Position srcPosition = new Position(2, 2);
-            final Position destPosition = new Position(4, 5);
-
-            final Position actualPosition1 = new Position(2, 3);
-            final Position actualPosition2 = new Position(3, 4);
-            final List<Position> actual = List.of(
-                    actualPosition1, actualPosition2
-            );
-
-            // when
-            final List<Position> middlePositions = srcPosition.calculateElephantMiddlePositions(destPosition);
-
-            // then
-            assertThat(middlePositions).containsAll(actual);
         }
     }
 }
