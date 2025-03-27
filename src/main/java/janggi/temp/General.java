@@ -28,7 +28,7 @@ public final class General {
             throw new IllegalArgumentException("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
         }
         if (!destination.isPalace()) {
-            throw new IllegalArgumentException("[ERROR] 궁은 궁성 밖으로 이동할 수 없습니다.");
+            throw new IllegalArgumentException("[ERROR] 궁성 밖으로 이동할 수 없습니다.");
         }
         for (Movement movement : movements()) {
             if (position.canMove(movement)) {
@@ -37,7 +37,7 @@ public final class General {
                 }
             }
         }
-        throw new IllegalArgumentException("[ERROR] 궁의 규칙에 어긋나는 움직입입니다.");
+        throw new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
 
     private Set<Movement> movements() {

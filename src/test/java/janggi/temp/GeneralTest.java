@@ -57,7 +57,7 @@ class GeneralTest {
         // then
         assertThatThrownBy(() -> general.move(new Position(Column.FIVE, Row.TWO)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 궁의 규칙에 어긋나는 움직입입니다.");
+                .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
 
     @DisplayName("궁은 궁성 밖으로 이동할 수 없다.")
@@ -69,7 +69,7 @@ class GeneralTest {
         // then
         assertThatThrownBy(() -> general.move(new Position(Column.FOUR, Row.THREE)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 궁은 궁성 밖으로 이동할 수 없습니다.");
+                .hasMessage("[ERROR] 궁성 밖으로 이동할 수 없습니다.");
     }
 
     @DisplayName("궁은 궁성의 가운데가 아니고, 모서리가 아닌 위치에서는 대각선으로 이동할 수 없다.")
@@ -83,7 +83,7 @@ class GeneralTest {
         // then
         assertThatThrownBy(() -> general.move(destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 궁의 규칙에 어긋나는 움직입입니다.");
+                .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
 
     @DisplayName("궁은 자기 위치로 이동할 수 없다.")
