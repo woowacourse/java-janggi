@@ -21,14 +21,13 @@ public class Cannon extends UnLimitMovable {
         boolean isJumped = false;
         for (Position position : positions) {
             Piece positionPiece = board.get(position);
-            if (!position.isInBoardRange() || positionPiece.isCannon()) {
+            if (positionPiece.isCannon()) {
                 break;
             }
             if (!isJumped && positionPiece.isOccupied()) {
                 isJumped = true;
                 continue;
             }
-
             if(isJumped) {
                 reachableDestinations.addAll(filterValidDestination(position, positionPiece));
                 if(positionPiece.isOccupied()) {

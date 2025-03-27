@@ -21,6 +21,7 @@ public abstract class LimitMovable implements Piece {
         List<Route> candidateRoutes = computeCandidatePositions(position);
 
         List<Position> reachablePositions = new ArrayList<>();
+
         for (Route route : candidateRoutes) {
             if (isInvalidRoute(route, board)) {
                 continue;
@@ -34,7 +35,7 @@ public abstract class LimitMovable implements Piece {
 
     private boolean isInvalidRoute(final Route route, final Map<Position, Piece> board) {
         Position destination = route.getLastPosition();
-        if (destination.isOutOfRange() || isAlly(board.get(destination))) {
+        if (isAlly(board.get(destination))) {
             return true;
         }
         return checkInvalidIntermediatePositions(route, board);
