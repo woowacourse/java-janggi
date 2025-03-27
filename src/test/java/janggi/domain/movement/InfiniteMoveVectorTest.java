@@ -12,12 +12,12 @@ class InfiniteMoveVectorTest {
     void test1() {
         // given
         // when
-        MoveVector moveVector = new InfiniteMoveVector(MoveUnit.LEFT);
+        MoveVector moveVector = new InfiniteMoveVector(MoveStep.LEFT);
         final var iterator = moveVector.iterator();
 
         // then
         for (int repetition = 1; repetition <= 100; repetition++) {
-            assertThat(iterator.next()).isEqualTo(MoveUnit.LEFT);
+            assertThat(iterator.next()).isEqualTo(MoveStep.LEFT);
         }
     }
 }

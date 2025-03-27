@@ -2,7 +2,7 @@ package janggi.domain.movement;
 
 import java.util.Arrays;
 
-public enum MoveUnit {
+public enum MoveStep {
 
     LEFT(-1, 0),
     RIGHT(1, 0),
@@ -16,7 +16,7 @@ public enum MoveUnit {
     private final int deltaX;
     private final int deltaY;
 
-    MoveUnit(final int deltaX, final int deltaY) {
+    MoveStep(final int deltaX, final int deltaY) {
         this.deltaX = deltaX;
         this.deltaY = deltaY;
     }
@@ -37,7 +37,7 @@ public enum MoveUnit {
         return deltaY;
     }
 
-    public static MoveUnit getMoveUnit(final int deltaX, final int deltaY) {
+    public static MoveStep getMoveUnit(final int deltaX, final int deltaY) {
         return Arrays.stream(values())
             .filter(moveUnit -> moveUnit.deltaX == deltaX && moveUnit.deltaY == deltaY)
             .findFirst()

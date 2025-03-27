@@ -4,24 +4,24 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class MoveVector implements Iterable<MoveUnit> {
+public class MoveVector implements Iterable<MoveStep> {
 
-    protected final List<MoveUnit> moveUnits;
+    protected final List<MoveStep> moveSteps;
 
-    public MoveVector(final List<MoveUnit> moveUnits) {
-        this.moveUnits = moveUnits;
+    public MoveVector(final List<MoveStep> moveSteps) {
+        this.moveSteps = moveSteps;
     }
 
-    public MoveVector(final MoveUnit... moveUnits) {
-        this.moveUnits = Arrays.asList(moveUnits);
+    public MoveVector(final MoveStep... moveSteps) {
+        this.moveSteps = Arrays.asList(moveSteps);
     }
 
-    public MoveUnit first() {
-        return moveUnits.getFirst();
+    public MoveStep first() {
+        return moveSteps.getFirst();
     }
 
     @Override
-    public Iterator<MoveUnit> iterator() {
-        return moveUnits.iterator();
+    public Iterator<MoveStep> iterator() {
+        return moveSteps.iterator();
     }
 }

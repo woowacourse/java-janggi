@@ -34,4 +34,14 @@ public class PlayingTurn {
     public int currentRound() {
         return round;
     }
+
+    // TODO
+    /*
+    MoveVector, InfiniteMoveVector
+    상속관계, 네이밍 고려
+    PieceSearcher 네이밍 고려
+
+    PlayingTurn 테스트
+    GameService 테스트
+     */
 }

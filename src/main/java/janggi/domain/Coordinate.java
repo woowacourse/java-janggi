@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.domain.movement.MoveUnit;
+import janggi.domain.movement.MoveStep;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -29,15 +29,15 @@ public record Coordinate(int x, int y) {
         validateYCoordinate(y);
     }
 
-    public boolean canMove(MoveUnit moveUnit) {
-        int newX = this.x + moveUnit.deltaX();
-        int newY = this.y + moveUnit.deltaY();
+    public boolean canMove(MoveStep moveStep) {
+        int newX = this.x + moveStep.deltaX();
+        int newY = this.y + moveStep.deltaY();
         return !isInvalidX(newX) && !isInvalidY(newY);
     }
 
-    public Coordinate move(MoveUnit moveUnit) {
-        int newX = this.x + moveUnit.deltaX();
-        int newY = this.y + moveUnit.deltaY();
+    public Coordinate move(MoveStep moveStep) {
+        int newX = this.x + moveStep.deltaX();
+        int newY = this.y + moveStep.deltaY();
 
         return new Coordinate(newX, newY);
     }
@@ -51,11 +51,11 @@ public record Coordinate(int x, int y) {
         return CASTLE_DIAGONAL_CONNECTIONS.getOrDefault(this, Collections.emptySet());
     }
 
-    public MoveUnit computeMoveUnitToArrival(Coordinate arrival) {
+    public MoveStep computeMoveUnitToArrival(Coordinate arrival) {
         int deltaX = arrival.x - this.x;
         int deltaY = arrival.y - this.y;
 
-        return MoveUnit.getMoveUnit(deltaX, deltaY);
+        return MoveStep.getMoveUnit(deltaX, deltaY);
     }
 
     private boolean isInvalidX(int x) {

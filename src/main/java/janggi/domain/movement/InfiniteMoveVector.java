@@ -5,12 +5,12 @@ import java.util.List;
 
 public class InfiniteMoveVector extends MoveVector {
 
-    public InfiniteMoveVector(final MoveUnit moveUnit) {
-        super(List.of(moveUnit));
+    public InfiniteMoveVector(final MoveStep moveStep) {
+        super(List.of(moveStep));
     }
 
     @Override
-    public Iterator<MoveUnit> iterator() {
+    public Iterator<MoveStep> iterator() {
         return new Iterator<>() {
             @Override
             public boolean hasNext() {
@@ -18,7 +18,7 @@ public class InfiniteMoveVector extends MoveVector {
             }
 
             @Override
-            public MoveUnit next() {
+            public MoveStep next() {
                 return first();
             }
         };

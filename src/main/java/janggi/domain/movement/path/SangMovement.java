@@ -1,13 +1,13 @@
 package janggi.domain.movement.path;
 
-import static janggi.domain.movement.MoveUnit.DOWN;
-import static janggi.domain.movement.MoveUnit.LEFT;
-import static janggi.domain.movement.MoveUnit.LEFT_DOWN;
-import static janggi.domain.movement.MoveUnit.LEFT_UP;
-import static janggi.domain.movement.MoveUnit.RIGHT;
-import static janggi.domain.movement.MoveUnit.RIGHT_DOWN;
-import static janggi.domain.movement.MoveUnit.RIGHT_UP;
-import static janggi.domain.movement.MoveUnit.UP;
+import static janggi.domain.movement.MoveStep.DOWN;
+import static janggi.domain.movement.MoveStep.LEFT;
+import static janggi.domain.movement.MoveStep.LEFT_DOWN;
+import static janggi.domain.movement.MoveStep.LEFT_UP;
+import static janggi.domain.movement.MoveStep.RIGHT;
+import static janggi.domain.movement.MoveStep.RIGHT_DOWN;
+import static janggi.domain.movement.MoveStep.RIGHT_UP;
+import static janggi.domain.movement.MoveStep.UP;
 
 import janggi.domain.movement.MoveVector;
 import java.util.Set;

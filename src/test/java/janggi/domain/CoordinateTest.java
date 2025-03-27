@@ -3,7 +3,7 @@ package janggi.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.movement.MoveUnit;
+import janggi.domain.movement.MoveStep;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -78,7 +78,7 @@ public class CoordinateTest {
         Coordinate coordinate = new Coordinate(5, 5);
 
         // when
-        boolean canMove = coordinate.canMove(MoveUnit.LEFT);
+        boolean canMove = coordinate.canMove(MoveStep.LEFT);
 
         // then
         assertThat(canMove).isTrue();
@@ -91,7 +91,7 @@ public class CoordinateTest {
         Coordinate coordinate = new Coordinate(5, 5);
 
         // when
-        Coordinate moved = coordinate.move(MoveUnit.LEFT_UP);
+        Coordinate moved = coordinate.move(MoveStep.LEFT_UP);
 
         // then
         assertThat(moved).isEqualTo(new Coordinate(4, 4));
@@ -104,7 +104,7 @@ public class CoordinateTest {
         Coordinate coordinate = new Coordinate(1, 1);
 
         // when
-        assertThatThrownBy(() -> coordinate.move(MoveUnit.UP))
+        assertThatThrownBy(() -> coordinate.move(MoveStep.UP))
             .isInstanceOf(IllegalArgumentException.class);
     }
 

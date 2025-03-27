@@ -1,6 +1,6 @@
 package janggi.domain.movement;
 
-import static janggi.domain.movement.MoveUnit.DOWN;
+import static janggi.domain.movement.MoveStep.DOWN;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,13 +14,13 @@ class MoveVectorTest {
     void test1() {
         // given
         // when
-        MoveVector moveVector = new MoveVector(MoveUnit.LEFT, DOWN);
+        MoveVector moveVector = new MoveVector(MoveStep.LEFT, DOWN);
         final var iterator = moveVector.iterator();
 
         // then
         assertAll(
-            () -> assertThat(iterator.next()).isEqualTo(MoveUnit.LEFT),
-            () -> assertThat(iterator.next()).isEqualTo(MoveUnit.DOWN),
+            () -> assertThat(iterator.next()).isEqualTo(MoveStep.LEFT),
+            () -> assertThat(iterator.next()).isEqualTo(MoveStep.DOWN),
             () -> assertThat(iterator.hasNext()).isFalse()
         );
     }
