@@ -52,10 +52,7 @@ public final class Position {
             final Position toPosition,
             final PieceType pieceType
     ) {
-        if (canPassOverPieceWith(middlePosition, pieceType)) {
-            return isDifferentPieceType(toPosition);
-        }
-        return false;
+        return canPassOverPieceWith(middlePosition, pieceType) && isDifferentPieceType(toPosition);
     }
 
     public boolean canPassOverPiece(final Position middlePosition, final PieceType pieceType) {
@@ -63,10 +60,7 @@ public final class Position {
     }
 
     private boolean canPassOverPieceWith(final Position middlePosition, final PieceType pieceType) {
-        if (isDifferentPieceType(pieceType)) {
-            return false;
-        }
-        return isDifferentPieceType(middlePosition);
+        return isSamePieceType(pieceType) && isDifferentPieceType(middlePosition);
     }
 
     public Position getNextPosition(final Point toPoint) {

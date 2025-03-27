@@ -14,19 +14,36 @@ public class Soldier extends AbstractPiece {
 
     @Override
     public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
-        return List.of();
+        if (isMovable(fromPoint, toPoint)) {
+            return List.of();
+        }
+        throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다.");
     }
 
     @Override
     public boolean isMovable(final Point fromPoint, final Point toPoint) {
         final Direction direction = fromPoint.generateDirection(toPoint);
-        if (Team.GREEN == team && direction.x() == 0 && direction.y() == 1) {
-            return true;
-        }
-        if (Team.RED == team && direction.x() == 0 && direction.y() == -1) {
-            return true;
-        }
-        return (direction.x() == 1 || direction.x() == -1) && direction.y() == 0;
+        return isGreenForward(direction) || isRedForward(direction) || isHorizontalMovement(direction);
+    }
+
+    private boolean isRedForward(final Direction direction) {
+        return Team.RED == team && isDownMovement(direction);
+    }
+
+    private boolean isGreenForward(final Direction direction) {
+        return Team.GREEN == team && isUpMovement(direction);
+    }
+
+    private static boolean isDownMovement(final Direction direction) {
+        return direction.isNotHorizontal() && direction.y() == -1;
+    }
+
+    private static boolean isUpMovement(final Direction direction) {
+        return direction.isNotHorizontal() && direction.y() == 1;
+    }
+
+    private static boolean isHorizontalMovement(final Direction direction) {
+        return direction.horizontalDistance() == 1 && direction.verticalDistance() == 0;
     }
 
     @Override

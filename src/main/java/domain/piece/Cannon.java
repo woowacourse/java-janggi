@@ -16,18 +16,21 @@ public class Cannon extends AbstractPiece {
 
     @Override
     public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
-        final int x = fromPoint.calculateSubtractionX(toPoint);
-        final int y = fromPoint.calculateSubtractionY(toPoint);
-        if (x > 0) {
+        final Direction direction = fromPoint.generateDirection(toPoint);
+
+        if (direction.isRight()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxX(), toPoint, Point::right);
         }
-        if (x < 0) {
+        if (direction.isLeft()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMinX(), toPoint, Point::left);
         }
-        if (y > 0) {
+        if (direction.isUp()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxY(), toPoint, Point::up);
         }
-        return searchPossiblePoint(fromPoint, fromPoint.distanceToMinY(), toPoint, Point::down);
+        if (direction.isDown()) {
+            return searchPossiblePoint(fromPoint, fromPoint.distanceToMinY(), toPoint, Point::down);
+        }
+        throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다.");
     }
 
     private List<Point> searchPossiblePoint(
@@ -52,12 +55,19 @@ public class Cannon extends AbstractPiece {
     @Override
     public boolean isMovable(final Point fromPoint, final Point toPoint) {
         final Direction direction = fromPoint.generateDirection(toPoint);
-        final int absoluteX = Math.abs(direction.x());
-        final int absoluteY = Math.abs(direction.y());
-        if (absoluteX >= 2 && absoluteY == 0) {
-            return true;
-        }
-        return absoluteX == 0 && absoluteY >= 2;
+        return isCannonMovement(direction);
+    }
+
+    private static boolean isCannonMovement(final Direction direction) {
+        return isHorizontalCannonMovement(direction) || isVerticalCannonMovement(direction);
+    }
+
+    private static boolean isHorizontalCannonMovement(final Direction direction) {
+        return direction.horizontalDistance() >= 2 && direction.verticalDistance() == 0;
+    }
+
+    private static boolean isVerticalCannonMovement(final Direction direction) {
+        return direction.horizontalDistance() == 0 && direction.verticalDistance() >= 2;
     }
 
     @Override

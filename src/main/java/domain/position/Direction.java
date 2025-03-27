@@ -10,6 +10,14 @@ public record Direction(int x, int y) {
         return y == 0;
     }
 
+    public boolean isUp() {
+        return y > 0;
+    }
+
+    public boolean isDown() {
+        return y < 0;
+    }
+
     public boolean isRight() {
         return x > 0;
     }
@@ -18,12 +26,28 @@ public record Direction(int x, int y) {
         return x < 0;
     }
 
-    public boolean isUp() {
-        return y > 0;
+    public boolean isFirstQuadrant() {
+        return isRight() && isUp();
     }
 
-    public boolean isDown() {
-        return y < 0;
+    public boolean isSecondQuadrant() {
+        return isLeft() && isUp();
+    }
+
+    public boolean isThirdQuadrant() {
+        return isLeft() && isDown();
+    }
+
+    public boolean isFourthQuadrant() {
+        return isRight() && isDown();
+    }
+
+    public int horizontalDistance() {
+        return Math.abs(x);
+    }
+
+    public int verticalDistance() {
+        return Math.abs(y);
     }
 
     public double calculateDistance() {

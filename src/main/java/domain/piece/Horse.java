@@ -15,42 +15,33 @@ public class Horse extends AbstractPiece {
 
     @Override
     public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
-        final int x = fromPoint.calculateSubtractionX(toPoint);
-        final int y = fromPoint.calculateSubtractionY(toPoint);
-        if (isFirstQuadrant(x, y)) {
+        final Direction direction = fromPoint.generateDirection(toPoint);
+
+        if (direction.isFirstQuadrant()) {
             if (QuadrantMovement.FIRST_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return List.of(fromPoint.up());
             }
             return List.of(fromPoint.right());
         }
-        if (isSecondQuadrant(x, y)) {
+        if (direction.isSecondQuadrant()) {
             if (QuadrantMovement.SECOND_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return List.of(fromPoint.up());
             }
             return List.of(fromPoint.left());
         }
-        if (isThirdQuadrant(x, y)) {
+        if (direction.isThirdQuadrant()) {
             if (QuadrantMovement.THIRD_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return List.of(fromPoint.left());
             }
             return List.of(fromPoint.down());
         }
-        if (QuadrantMovement.FOURTH_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
-            return List.of(fromPoint.down());
+        if (direction.isFourthQuadrant()) {
+            if (QuadrantMovement.FOURTH_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
+                return List.of(fromPoint.down());
+            }
+            return List.of(fromPoint.right());
         }
-        return List.of(fromPoint.right());
-    }
-
-    private boolean isFirstQuadrant(final int x, final int y) {
-        return x > 0 && y > 0;
-    }
-
-    private boolean isSecondQuadrant(final int x, final int y) {
-        return x < 0 && y > 0;
-    }
-
-    private boolean isThirdQuadrant(final int x, final int y) {
-        return x < 0 && y < 0;
+        throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다.");
     }
 
     private enum QuadrantMovement {
@@ -74,12 +65,12 @@ public class Horse extends AbstractPiece {
     @Override
     public boolean isMovable(final Point fromPoint, final Point toPoint) {
         final Direction direction = fromPoint.generateDirection(toPoint);
-        final int absoluteX = Math.abs(direction.x());
-        final int absoluteY = Math.abs(direction.y());
-        if (absoluteX == 1 && absoluteY == 2) {
-            return true;
-        }
-        return absoluteX == 2 && absoluteY == 1;
+        return isLShapeMovement(direction);
+    }
+
+    private static boolean isLShapeMovement(final Direction direction) {
+        return (direction.horizontalDistance() == 1 && direction.verticalDistance() == 2) ||
+                (direction.horizontalDistance() == 2 && direction.verticalDistance() == 1);
     }
 
     @Override

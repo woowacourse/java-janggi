@@ -16,43 +16,34 @@ public class Elephant extends AbstractPiece {
 
     @Override
     public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
-        final int x = fromPoint.calculateSubtractionX(toPoint);
-        final int y = fromPoint.calculateSubtractionY(toPoint);
-        if (isFirstQuadrant(x, y)) {
+        final Direction direction = fromPoint.generateDirection(toPoint);
+
+        if (direction.isFirstQuadrant()) {
             if (QuadrantMovement.FIRST_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return searchPossiblePoint(fromPoint, Point::up, Point::rightUp);
             }
             return searchPossiblePoint(fromPoint, Point::right, Point::rightUp);
         }
-        if (isSecondQuadrant(x, y)) {
+        if (direction.isSecondQuadrant()) {
             if (QuadrantMovement.SECOND_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return searchPossiblePoint(fromPoint, Point::up, Point::leftUp);
             }
             return searchPossiblePoint(fromPoint, Point::left, Point::leftUp);
 
         }
-        if (isThirdQuadrant(x, y)) {
+        if (direction.isThirdQuadrant()) {
             if (QuadrantMovement.THIRD_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
                 return searchPossiblePoint(fromPoint, Point::left, Point::leftDown);
             }
             return searchPossiblePoint(fromPoint, Point::down, Point::leftDown);
         }
-        if (QuadrantMovement.THIRD_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
-            return searchPossiblePoint(fromPoint, Point::down, Point::rightDown);
+        if (direction.isFourthQuadrant()) {
+            if (QuadrantMovement.FOURTH_QUADRANT.matchesExpectedPosition(fromPoint, toPoint)) {
+                return searchPossiblePoint(fromPoint, Point::down, Point::rightDown);
+            }
+            return searchPossiblePoint(fromPoint, Point::right, Point::rightDown);
         }
-        return searchPossiblePoint(fromPoint, Point::right, Point::rightDown);
-    }
-
-    private boolean isFirstQuadrant(final int x, final int y) {
-        return x > 0 && y > 0;
-    }
-
-    private boolean isSecondQuadrant(final int x, final int y) {
-        return x < 0 && y > 0;
-    }
-
-    private boolean isThirdQuadrant(final int x, final int y) {
-        return x < 0 && y < 0;
+        throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다.");
     }
 
     private enum QuadrantMovement {
@@ -88,12 +79,12 @@ public class Elephant extends AbstractPiece {
     @Override
     public boolean isMovable(final Point fromPoint, final Point toPoint) {
         final Direction direction = fromPoint.generateDirection(toPoint);
-        final int absoluteX = Math.abs(direction.x());
-        final int absoluteY = Math.abs(direction.y());
-        if (absoluteX == 2 && absoluteY == 3) {
-            return true;
-        }
-        return absoluteX == 3 && absoluteY == 2;
+        return isLShapeMovement(direction);
+    }
+
+    private static boolean isLShapeMovement(final Direction direction) {
+        return (direction.horizontalDistance() == 2 && direction.verticalDistance() == 3) ||
+                (direction.horizontalDistance() == 3 && direction.verticalDistance() == 2);
     }
 
     @Override

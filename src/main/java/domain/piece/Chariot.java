@@ -33,7 +33,7 @@ public class Chariot extends AbstractPiece {
         if (direction.isDown()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMinY(), toPoint, Point::down);
         }
-        throw new IllegalArgumentException("차는 해당 방향으로 움직일 수 없습니다.");
+        throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다.");
     }
 
     private static boolean isDiagonalDirectionInPalace(
@@ -87,13 +87,9 @@ public class Chariot extends AbstractPiece {
     @Override
     public boolean isMovable(final Point fromPoint, final Point toPoint) {
         final Direction direction = fromPoint.generateDirection(toPoint);
-        if (isVerticalDirection(direction)) {
-            return true;
-        }
-        if (isHorizontalDirection(direction)) {
-            return true;
-        }
-        return isDiagonalDirectionInPalace(fromPoint, toPoint, direction);
+        return isVerticalDirection(direction) ||
+                isHorizontalDirection(direction) ||
+                isDiagonalDirectionInPalace(fromPoint, toPoint, direction);
     }
 
     private static boolean isDiagonalDirection(final Direction direction) {
