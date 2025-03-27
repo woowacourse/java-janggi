@@ -1,4 +1,4 @@
-package game;
+package game.controller;
 
 import game.domain.board.Board;
 import game.domain.board.BoardLocation;
@@ -9,11 +9,11 @@ import game.domain.piece.Team;
 import game.view.ConsoleView;
 import java.util.Map;
 
-public class JanggiGame {
+public class JanggiController {
 
     private final ConsoleView consoleView;
 
-    public JanggiGame(ConsoleView consoleView) {
+    public JanggiController(ConsoleView consoleView) {
         this.consoleView = consoleView;
     }
 
