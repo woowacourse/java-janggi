@@ -28,7 +28,7 @@ class PieceTest {
     }
 
     @CsvSource(value = {
-            "2,1,3,1", "1,2,1,3", "2,1,2,1"
+            "2,1", "1,2", "2,1"
     })
     @ParameterizedTest
     void 기물의_이동_경로에_아군_기물이_존재하면_움직일_수_없다(int row, int column) {
