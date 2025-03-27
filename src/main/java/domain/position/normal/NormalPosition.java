@@ -1,6 +1,7 @@
-package domain.position;
+package domain.position.normal;
 
 import domain.direction.Direction;
+import domain.position.JanggiPosition;
 
 import java.util.List;
 

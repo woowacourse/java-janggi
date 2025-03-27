@@ -2,6 +2,7 @@ package domain.position;
 
 import domain.direction.Direction;
 import domain.position.castle.*;
+import domain.position.normal.NormalPosition;
 
 import java.util.Arrays;
 import java.util.List;
