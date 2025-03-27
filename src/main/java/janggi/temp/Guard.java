@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class Guard {
-    
+public final class Guard {
+
     private final Position position;
     private final Team team;
 

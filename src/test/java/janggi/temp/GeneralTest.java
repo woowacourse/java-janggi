@@ -1,5 +1,13 @@
 package janggi.temp;
 
+import static janggi.temp.Movement.DOWN;
+import static janggi.temp.Movement.LEFT;
+import static janggi.temp.Movement.LEFT_DOWN;
+import static janggi.temp.Movement.LEFT_UP;
+import static janggi.temp.Movement.RIGHT;
+import static janggi.temp.Movement.RIGHT_DOWN;
+import static janggi.temp.Movement.RIGHT_UP;
+import static janggi.temp.Movement.UP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -25,31 +33,40 @@ class GeneralTest {
      * (3, 9) (4, 9) (5, 9)
      */
 
-    @DisplayName("한궁은 궁성의 가운데에서 모든 방향으로 이동할 수 있다.")
-    @ParameterizedTest
-    @MethodSource
-    void testMoveHanGeneral(Position destination) {
+    @DisplayName("한궁의 궁은 궁성의 가운데에서 모든 방향으로 이동할 수 있다.")
+    @ParameterizedTest(name = "{0} 이동")
+    @MethodSource("generalMovements")
+    void testMoveHanGeneral(Movement movement) {
         // given
-        General generalInCenter = new General(new Position(Column.FOUR, Row.ONE), Team.HAN);
+        Position current = new Position(Column.FOUR, Row.ONE);
+        Position destination = current.move(movement);
+        General generalInCenter = new General(current, Team.HAN);
         // when
         General movedGeneral = generalInCenter.move(destination);
         // then
         assertThat(movedGeneral).isEqualTo(new General(destination, Team.HAN));
     }
 
-    @DisplayName("초궁은 궁성의 가운데에서 모든 방향으로 이동할 수 있다.")
-    @ParameterizedTest
-    @MethodSource
-    void testMoveChoGeneral(Position destination) {
+    @DisplayName("초궁의 궁은 궁성의 가운데에서 모든 방향으로 이동할 수 있다.")
+    @ParameterizedTest(name = "{0} 이동")
+    @MethodSource("generalMovements")
+    void testMoveChoGeneral(Movement movement) {
         // given
-        General generalInCenter = new General(new Position(Column.FOUR, Row.EIGHT), Team.CHO);
+        Position current = new Position(Column.FOUR, Row.EIGHT);
+        Position destination = current.move(movement);
+        General generalInCenter = new General(current, Team.CHO);
         // when
         General movedGeneral = generalInCenter.move(destination);
         // then
         assertThat(movedGeneral).isEqualTo(new General(destination, Team.CHO));
     }
 
-    @DisplayName("궁은 한 칸만 이동할 수 있다.")
+    private static Stream<Arguments> generalMovements() {
+        return Stream.of(UP, DOWN, LEFT, RIGHT, RIGHT_DOWN, RIGHT_UP, LEFT_DOWN, LEFT_UP)
+                .map(Arguments::of);
+    }
+
+    @DisplayName("한 칸만 이동할 수 있다.")
     @Test
     void testMovingRuleValidation() {
         // given
@@ -61,7 +78,7 @@ class GeneralTest {
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
 
-    @DisplayName("궁은 궁성 밖으로 이동할 수 없다.")
+    @DisplayName("궁성 밖으로 이동할 수 없다.")
     @Test
     void testValidatePalaceDestination() {
         // given
@@ -73,13 +90,13 @@ class GeneralTest {
                 .hasMessage("[ERROR] 궁성 밖으로 이동할 수 없습니다.");
     }
 
-    @DisplayName("궁은 궁성의 가운데가 아니고, 모서리가 아닌 위치에서는 대각선으로 이동할 수 없다.")
+    @DisplayName("궁성의 가운데가 아니고, 모서리가 아닌 위치에서는 대각선으로 이동할 수 없다.")
     @Test
     void testInvalidMoveInPalaceSides() {
         // given
-        Position currentPosition = new Position(Column.FOUR, Row.TWO);
+        Position current = new Position(Column.FOUR, Row.TWO);
         Position destination = new Position(Column.THREE, Row.ONE);
-        General general = new General(currentPosition, Team.HAN);
+        General general = new General(current, Team.HAN);
         // when
         // then
         assertThatThrownBy(() -> general.move(destination))
@@ -87,21 +104,20 @@ class GeneralTest {
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
 
-    @DisplayName("궁은 자기 위치로 이동할 수 없다.")
+    @DisplayName("자기 위치로 이동할 수 없다.")
     @Test
-    void test4() {
+    void testMoveToCurrentPosition() {
         // given
-        Position currentPosition = new Position(Column.FOUR, Row.TWO);
-        General general = new General(currentPosition, Team.HAN);
+        Position current = new Position(Column.FOUR, Row.TWO);
+        General general = new General(current, Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> general.move(currentPosition))
+        assertThatThrownBy(() -> general.move(current))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
     }
 
     // TODO 같은 팀이 있는 위치로 이동할 수 없다
-    // TODO 상대 팀이 있으면 잡으면서 이동한다
 
     private static Stream<Arguments> testMoveHanGeneral() {
         return Stream.of(

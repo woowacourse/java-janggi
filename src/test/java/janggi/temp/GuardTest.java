@@ -1,5 +1,13 @@
 package janggi.temp;
 
+import static janggi.temp.Movement.DOWN;
+import static janggi.temp.Movement.LEFT;
+import static janggi.temp.Movement.LEFT_DOWN;
+import static janggi.temp.Movement.LEFT_UP;
+import static janggi.temp.Movement.RIGHT;
+import static janggi.temp.Movement.RIGHT_DOWN;
+import static janggi.temp.Movement.RIGHT_UP;
+import static janggi.temp.Movement.UP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -26,11 +34,13 @@ class GuardTest {
      */
 
     @DisplayName("한궁의 사는 궁성의 가운데에서 모든 방향으로 이동할 수 있다.")
-    @ParameterizedTest
-    @MethodSource
-    void testMoveHanGuard(Position destination) {
+    @ParameterizedTest(name = "{0} 이동")
+    @MethodSource("guardMovements")
+    void testMoveHanGuard(Movement movement) {
         // given
-        Guard guardInCenter = new Guard(new Position(Column.FOUR, Row.ONE), Team.HAN);
+        Position current = new Position(Column.FOUR, Row.ONE);
+        Position destination = current.move(movement);
+        Guard guardInCenter = new Guard(current, Team.HAN);
         // when
         Guard movedGuard = guardInCenter.move(destination);
         // then
@@ -38,15 +48,22 @@ class GuardTest {
     }
 
     @DisplayName("초궁의 사는 궁성의 가운데에서 모든 방향으로 이동할 수 있다.")
-    @ParameterizedTest
-    @MethodSource
-    void testMoveChoGuard(Position destination) {
+    @ParameterizedTest(name = "{0} 이동")
+    @MethodSource("guardMovements")
+    void testMoveChoGuard(Movement movement) {
         // given
-        Guard guardInCenter = new Guard(new Position(Column.FOUR, Row.EIGHT), Team.CHO);
+        Position current = new Position(Column.FOUR, Row.EIGHT);
+        Position destination = current.move(movement);
+        Guard guardInCenter = new Guard(current, Team.CHO);
         // when
         Guard movedGuard = guardInCenter.move(destination);
         // then
         assertThat(movedGuard).isEqualTo(new Guard(destination, Team.CHO));
+    }
+
+    private static Stream<Arguments> guardMovements() {
+        return Stream.of(UP, DOWN, LEFT, RIGHT, RIGHT_DOWN, RIGHT_UP, LEFT_DOWN, LEFT_UP)
+                .map(Arguments::of);
     }
 
     @DisplayName("사는 한 칸만 이동할 수 있다.")
@@ -77,9 +94,9 @@ class GuardTest {
     @Test
     void testInvalidMoveInPalaceSides() {
         // given
-        Position currentPosition = new Position(Column.FOUR, Row.TWO);
+        Position current = new Position(Column.FOUR, Row.TWO);
         Position destination = new Position(Column.THREE, Row.ONE);
-        Guard guard = new Guard(currentPosition, Team.HAN);
+        Guard guard = new Guard(current, Team.HAN);
         // when
         // then
         assertThatThrownBy(() -> guard.move(destination))
@@ -89,43 +106,16 @@ class GuardTest {
 
     @DisplayName("사는 자기 위치로 이동할 수 없다.")
     @Test
-    void test4() {
+    void testMoveToCurrentPosition() {
         // given
-        Position currentPosition = new Position(Column.FOUR, Row.TWO);
-        Guard guard = new Guard(currentPosition, Team.HAN);
+        Position current = new Position(Column.FOUR, Row.TWO);
+        Guard guard = new Guard(current, Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> guard.move(currentPosition))
+        assertThatThrownBy(() -> guard.move(current))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
     }
 
     // TODO 같은 팀이 있는 위치로 이동할 수 없다
-    // TODO 상대 팀이 있으면 잡으면서 이동한다
-
-    private static Stream<Arguments> testMoveHanGuard() {
-        return Stream.of(
-                Arguments.of(new Position(Column.THREE, Row.ZERO)),
-                Arguments.of(new Position(Column.FOUR, Row.ZERO)),
-                Arguments.of(new Position(Column.FIVE, Row.ZERO)),
-                Arguments.of(new Position(Column.THREE, Row.ONE)),
-                Arguments.of(new Position(Column.FIVE, Row.ONE)),
-                Arguments.of(new Position(Column.THREE, Row.TWO)),
-                Arguments.of(new Position(Column.FOUR, Row.TWO)),
-                Arguments.of(new Position(Column.FIVE, Row.TWO))
-        );
-    }
-
-    private static Stream<Arguments> testMoveChoGuard() {
-        return Stream.of(
-                Arguments.of(new Position(Column.THREE, Row.SEVEN)),
-                Arguments.of(new Position(Column.FOUR, Row.SEVEN)),
-                Arguments.of(new Position(Column.FIVE, Row.SEVEN)),
-                Arguments.of(new Position(Column.THREE, Row.EIGHT)),
-                Arguments.of(new Position(Column.FIVE, Row.EIGHT)),
-                Arguments.of(new Position(Column.THREE, Row.NINE)),
-                Arguments.of(new Position(Column.FOUR, Row.NINE)),
-                Arguments.of(new Position(Column.FIVE, Row.NINE))
-        );
-    }
 }
