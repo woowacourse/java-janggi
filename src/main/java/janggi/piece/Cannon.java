@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-public final class Cannon extends Piece {
+public final class Cannon extends PalaceAffectedPiece {
 
     private static final int POSSIBLE_JUMP_OVER_PIECE_COUNT = 1;
 
@@ -16,8 +16,34 @@ public final class Cannon extends Piece {
 
     @Override
     public void validateMove(Point fromPoint, Point toPoint) {
-        validateLinearMove(fromPoint, toPoint);
+        validateMoveBasedOnLocation(fromPoint, toPoint);
         validateJumpOverOnePiece(fromPoint, toPoint);
+    }
+
+    private void validateMoveBasedOnLocation(Point fromPoint, Point toPoint) {
+        if (isInsidePalace(fromPoint)) {
+            validatePalaceMove(fromPoint, toPoint);
+            return;
+        }
+        validateNonPalaceMove(fromPoint, toPoint);
+    }
+
+    private void validatePalaceMove(Point fromPoint, Point toPoint) {
+        if (fromPoint.isDiagonal(toPoint)) {
+            validateDiagonalPalaceMove(fromPoint, toPoint);
+            return;
+        }
+        validateLinearMove(fromPoint, toPoint);
+    }
+
+    private void validateNonPalaceMove(Point fromPoint, Point toPoint) {
+        validateLinearMove(fromPoint, toPoint);
+    }
+
+    private void validateDiagonalPalaceMove(Point fromPoint, Point toPoint) {
+        if (!isDiagonalPalaceMove(fromPoint, toPoint)) {
+            throw new IllegalArgumentException("포가 대각선으로 이동하려면, 허용된 지점에서만 가능합니다.");
+        }
     }
 
     private void validateLinearMove(Point fromPoint, Point toPoint) {
@@ -50,20 +76,40 @@ public final class Cannon extends Piece {
     }
 
     private Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        boolean isHorizontal = fromPoint.isHorizontal(toPoint);
-        if (isHorizontal) {
-            return findRouteByFromAndTo(fromPoint.y(), fromPoint.x(), toPoint.x(), Point::new);
+        if (fromPoint.isHorizontal(toPoint)) {
+            return findHorizontalRoute(fromPoint, toPoint);
         }
-        return findRouteByFromAndTo(fromPoint.x(), fromPoint.y(), toPoint.y(), (a, b) -> new Point(b, a));
+        if (fromPoint.isVertical(toPoint)) {
+            return findVerticalRoute(fromPoint, toPoint);
+        }
+        return findDiagonalRoute(fromPoint, toPoint);
     }
 
-    private Set<Point> findRouteByFromAndTo(int fixed, int from, int to,
-                                            BiFunction<Integer, Integer, Point> pointGenerator) {
+    private Set<Point> findHorizontalRoute(Point fromPoint, Point toPoint) {
+        return findLinearRoute(fromPoint.y(), fromPoint.x(), toPoint.x(), Point::new);
+    }
+
+    private Set<Point> findVerticalRoute(Point fromPoint, Point toPoint) {
+        return findLinearRoute(fromPoint.x(), fromPoint.y(), toPoint.y(), (y, x) -> new Point(x, y));
+    }
+
+    private Set<Point> findLinearRoute(int fixed, int from, int to,
+                                       BiFunction<Integer, Integer, Point> pointGenerator) {
         Set<Point> route = new HashSet<>();
         int start = Math.min(from, to) + 1;
         int end = Math.max(from, to);
         for (int i = start; i < end; i++) {
             route.add(pointGenerator.apply(i, fixed));
+        }
+        return route;
+    }
+
+    private Set<Point> findDiagonalRoute(Point fromPoint, Point toPoint) {
+        Set<Point> route = new HashSet<>();
+        Point current = fromPoint.getNextDiagonalStep(toPoint);
+        while (!current.equals(toPoint)) {
+            route.add(current);
+            current = current.getNextDiagonalStep(toPoint);
         }
         return route;
     }

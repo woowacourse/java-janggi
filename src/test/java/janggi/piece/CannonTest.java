@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import janggi.board.Board;
 import janggi.board.point.Point;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -199,5 +200,74 @@ class CannonTest {
         // then
         assertThat(pieceSymbol)
                 .isSameAs(PieceSymbol.CANNON);
+    }
+
+    @Nested
+    class WithPalaceTest {
+
+        @DisplayName("포는 궁 내부에서 허용된 대각선으로 직진 가능하다.")
+        @ParameterizedTest
+        @CsvSource({
+                "3, 0, 5, 2",
+                "5, 2, 3, 0",
+                "5, 0, 3, 2",
+                "3, 2, 5, 0",
+        })
+        void isDiagonalPalaceMoveAllowedTest(int fromX, int fromY, int toX, int toY) {
+            // given
+            Board board = new Board();
+            Cannon cannon = new Cannon(Camp.CHU, board);
+            Point fromPoint = new Point(fromX, fromY);
+            Point toPoint = new Point(toX, toY);
+            board.placePiece(fromPoint, cannon);
+            board.placePiece(new Point(4, 1), new SoldierJol(board));
+
+            // when & then
+            assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+                    .doesNotThrowAnyException();
+        }
+
+        @DisplayName("포가 대각선으로 직진하려고 할 때, 허용되지 않은(대각선 경로가 없는) 경로인 경우 예외가 발생한다.")
+        @ParameterizedTest
+        @CsvSource({
+                "3, 1, 4, 0",
+                "4, 0, 5, 1",
+                "5, 1, 4, 2",
+                "4, 2, 3, 1",
+        })
+        void shouldThrowException_WhenDiagonalMoveOutsidePalace(int fromX, int fromY, int toX, int toY) {
+            // given
+            Board board = new Board();
+            Cannon cannon = new Cannon(Camp.CHU, board);
+            Point fromPoint = new Point(fromX, fromY);
+            Point toPoint = new Point(toX, toY);
+            board.placePiece(fromPoint, cannon);
+
+            // when & then
+            assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("포가 대각선으로 이동하려면, 허용된 지점에서만 가능합니다.");
+        }
+
+        @DisplayName("포는 궁 내부에서도 넘을 기물 조건만 충족된다면, 상하좌우로 무제한으로 움직일 수 있다.")
+        @ParameterizedTest
+        @CsvSource({
+                "3, 0, 3, 6",
+                "5, 1, 0, 1",
+        })
+        void validateMoveTest(int fromX, int fromY, int toX, int toY) {
+            // given
+            Board board = new Board();
+            Cannon cannon = new Cannon(Camp.CHU, board);
+            Point fromPoint = new Point(fromX, fromY);
+            Point toPoint = new Point(toX, toY);
+            board.placePiece(fromPoint, cannon);
+            board.placePiece(new Point(3, 3), new SoldierJol(board));
+            board.placePiece(new Point(2, 1), new SoldierJol(board));
+
+            // when & then
+            assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+                    .doesNotThrowAnyException();
+        }
     }
 }

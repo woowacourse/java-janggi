@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import janggi.board.Board;
 import janggi.board.point.Point;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -132,5 +133,93 @@ class ChariotTest {
         // then
         assertThat(pieceSymbol)
                 .isSameAs(PieceSymbol.CHARIOT);
+    }
+
+    @Nested
+    class WithPalaceTest {
+
+        @DisplayName("차는 궁 내부에서 허용된 대각선으로 직진 가능하다.")
+        @ParameterizedTest
+        @CsvSource({
+                "3, 0, 5, 2",
+                "5, 2, 3, 0",
+                "5, 0, 3, 2",
+                "3, 2, 5, 0",
+                "4, 1, 3, 0",
+                "4, 1, 5, 2",
+                "4, 1, 3, 2",
+                "4, 1, 5, 0",
+        })
+        void isDiagonalPalaceMoveAllowedTest(int fromX, int fromY, int toX, int toY) {
+            // given
+            Board board = new Board();
+            Chariot chariot = new Chariot(Camp.CHU, board);
+            Point fromPoint = new Point(fromX, fromY);
+            Point toPoint = new Point(toX, toY);
+            board.placePiece(fromPoint, chariot);
+
+            // when & then
+            assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
+                    .doesNotThrowAnyException();
+        }
+
+        @DisplayName("차가 대각선으로 직진하려고 할 때, 허용되지 않은(대각선 경로가 없는) 경로인 경우 예외가 발생한다.")
+        @ParameterizedTest
+        @CsvSource({
+                "3, 1, 4, 0",
+                "4, 0, 5, 1",
+                "5, 1, 4, 2",
+                "4, 2, 3, 1",
+        })
+        void shouldThrowException_WhenDiagonalMoveOutsidePalace(int fromX, int fromY, int toX, int toY) {
+            // given
+            Board board = new Board();
+            Chariot chariot = new Chariot(Camp.CHU, board);
+            Point fromPoint = new Point(fromX, fromY);
+            Point toPoint = new Point(toX, toY);
+            board.placePiece(fromPoint, chariot);
+
+            // when & then
+            assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("차가 대각선으로 이동하려면, 허용된 지점에서만 가능합니다.");
+        }
+
+        @DisplayName("차는 궁 내부에서 대각선으로 이동할 때 기물에 막힌 경우 예외가 발생한다.")
+        @Test
+        void shouldThrowException_WhenBlockedInsidePalace() {
+            // given
+            Board board = new Board();
+            Chariot chariot = new Chariot(Camp.CHU, board);
+            Point fromPoint = new Point(3, 0);
+            Point toPoint = new Point(5, 2);
+            board.placePiece(fromPoint, chariot);
+            board.placePiece(new Point(4, 1), new SoldierJol(board));
+
+            // when & then
+            assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("차는 기물을 넘어 이동할 수 없습니다.");
+        }
+
+        @DisplayName("차는 궁 내부에서도 상하좌우로 무제한으로 움직일 수 있다.")
+        @ParameterizedTest
+        @CsvSource({
+                "3, 0, 3, 5",
+                "5, 2, 5, 7",
+                "3, 2, 3, 7"
+        })
+        void validateMoveTest(int fromX, int fromY, int toX, int toY) {
+            // given
+            Board board = new Board();
+            Chariot chariot = new Chariot(Camp.CHU, board);
+            Point fromPoint = new Point(fromX, fromY);
+            Point toPoint = new Point(toX, toY);
+            board.placePiece(fromPoint, chariot);
+
+            // when & then
+            assertThatCode(() -> chariot.validateMove(fromPoint, toPoint))
+                    .doesNotThrowAnyException();
+        }
     }
 }
