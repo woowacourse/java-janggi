@@ -32,7 +32,7 @@ class PieceTest {
         ArrayList<Piece> piecesInRoute = new ArrayList<>();
         piecesInRoute.add(new Soldier(PieceColor.BLUE));
         piecesInRoute.add(new Soldier(PieceColor.BLUE));
-        piecesInRoute.add(new Empty());
+        piecesInRoute.add(Empty.getInstance());
 
         Piece piece = new Soldier(PieceColor.BLUE);
         int pieceCountInRoute = piece.countObstacles(piecesInRoute);

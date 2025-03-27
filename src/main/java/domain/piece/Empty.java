@@ -8,7 +8,7 @@ public class Empty extends Piece {
 
     private static final Empty INSTANCE = new Empty();
 
-    public Empty() {
+    private Empty() {
         super(PieceType.EMPTY, PieceColor.NONE, DefaultMoveRule.getInstance());
     }
 
