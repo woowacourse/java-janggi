@@ -1,10 +1,10 @@
 package janggi.board;
 
-import janggi.Team.Team;
 import janggi.piece.Ma;
 import janggi.piece.Piece;
 import janggi.piece.Sang;
 import janggi.position.Position;
+import janggi.team.Team;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

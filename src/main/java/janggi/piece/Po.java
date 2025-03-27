@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.Team.Team;
+import janggi.team.Team;
 import java.util.List;
 
 public class Po extends Piece {

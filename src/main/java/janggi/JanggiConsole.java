@@ -1,10 +1,10 @@
 package janggi;
 
-import janggi.Team.Team;
-import janggi.Team.Turn;
 import janggi.board.Board;
 import janggi.board.BoardFactory;
 import janggi.board.SangSetting;
+import janggi.team.Team;
+import janggi.team.Turn;
 import janggi.utils.ExceptionHandler;
 import janggi.view.InputView;
 import janggi.view.ResultView;

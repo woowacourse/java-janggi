@@ -1,8 +1,8 @@
 package janggi.view;
 
-import janggi.Team.Team;
 import janggi.piece.Piece;
 import janggi.position.Position;
+import janggi.team.Team;
 import java.util.Map;
 
 public class ResultView {

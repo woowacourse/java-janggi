@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.Team.Team;
 import janggi.piece.PieceType;
+import janggi.team.Team;
 import java.util.Arrays;
 import java.util.List;
 

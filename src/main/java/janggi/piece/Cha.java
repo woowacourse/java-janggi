@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.Team.Team;
+import janggi.team.Team;
 
 public class Cha extends Piece {
 

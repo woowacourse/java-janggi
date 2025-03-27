@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.Team.Team;
 import janggi.position.Position;
+import janggi.team.Team;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;

@@ -1,8 +1,8 @@
 package janggi.piece;
 
-import janggi.Team.Team;
 import janggi.position.Path;
 import janggi.position.Position;
+import janggi.team.Team;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

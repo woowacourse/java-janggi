@@ -1,4 +1,4 @@
-package janggi.Team;
+package janggi.team;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

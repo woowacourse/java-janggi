@@ -1,6 +1,5 @@
 package janggi.board;
 
-import janggi.Team.Team;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
@@ -8,6 +7,7 @@ import janggi.piece.Jol;
 import janggi.piece.Piece;
 import janggi.piece.Po;
 import janggi.position.Position;
+import janggi.team.Team;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;

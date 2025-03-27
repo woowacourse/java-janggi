@@ -1,6 +1,5 @@
 package janggi.board;
 
-import janggi.Team.Team;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
@@ -9,6 +8,7 @@ import janggi.piece.Piece;
 import janggi.piece.Po;
 import janggi.piece.Sa;
 import janggi.position.Position;
+import janggi.team.Team;
 import java.util.HashMap;
 import java.util.Map;
 
