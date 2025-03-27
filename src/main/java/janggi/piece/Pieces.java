@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.position.Position;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +109,7 @@ public class Pieces {
     }
 
     public Map<Position, Piece> getPieces() {
-        return pieces;
+        return Collections.unmodifiableMap(pieces);
     }
 
     public boolean isEachCannonPiece(final Position start, final Position end) {
