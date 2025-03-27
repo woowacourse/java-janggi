@@ -1,7 +1,9 @@
 package domain;
 
 import domain.board.Board;
+import domain.piece.Piece;
 import domain.point.Point;
+import java.util.Map;
 
 public class JanggiGame {
 
@@ -48,7 +50,7 @@ public class JanggiGame {
         return turn;
     }
 
-    public Board board() {
-        return board;
+    public Map<Point, Piece> pieces() {
+        return board.getPieces();
     }
 }

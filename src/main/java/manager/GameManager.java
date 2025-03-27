@@ -22,11 +22,11 @@ public class GameManager {
         return boardGenerator.generateInitialBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
     }
 
-    public void startGame(String roomName) {
+    public void startGame(String gameRoomName) {
         // if(DB에 없는 방 이름): 방 새로 생성, else: DB에 저장된 방 로드
         JanggiGame game = new JanggiGame(createBoard(new BoardGenerator()), START_TEAM);
 
-        OutputView.printStart();
+        OutputView.printStart(gameRoomName);
         ErrorHandler.retryUntilSuccess(() -> play(game));
         OutputView.printMatchResult(game.findWinTeam());
     }
@@ -42,10 +42,10 @@ public class GameManager {
             }
 
             if (command.isMove()) {
-                OutputView.printBoard(game.board());
+                OutputView.printBoard(game.pieces());
                 MoveCommand moveCommand = InputView.inputMoveCommand(game.currentTurn());
                 game.move(moveCommand.source(), moveCommand.destination());
-                OutputView.printBoard(game.board());
+                OutputView.printBoard(game.pieces());
                 continue;
             }
 
