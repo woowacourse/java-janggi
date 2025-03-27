@@ -76,7 +76,7 @@ public class MovePath {
     }
 
     public boolean isDiagonalMoveBy(int distance) {
-        if (isOutsidePalace()) {
+        if (!canGoDiagonal()) {
             return false;
         }
         return (getAbsRowDifference() == distance && getAbsColumnDifference() == distance);
@@ -99,5 +99,9 @@ public class MovePath {
 
     public boolean isOutsidePalace() {
         return !source.isInPalace() || !destination.isInPalace();
+    }
+
+    public boolean canGoDiagonal() {
+        return source.canGoDiagonal() && destination.canGoDiagonal();
     }
 }

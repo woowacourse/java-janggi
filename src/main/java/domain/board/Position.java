@@ -19,6 +19,17 @@ public class Position {
         return other.columnValue() - column.getValue();
     }
 
+    public boolean canGoDiagonal() {
+        if ((row.getValue() == 1 || row.getValue() == 3 || row.getValue() == 8 || row.getValue() == 10) && (
+                column.getValue() == 4 || column.getValue() == 6)) {
+            return true;
+        }
+        if ((row.getValue() == 2 || row.getValue() == 9) && column.getValue() == 5) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean isInPalace() {
         return row.isPalaceExist() && column.isPalaceExist();
     }

@@ -45,4 +45,16 @@ class GuardTest {
 
         assertThat(canMove).isTrue();
     }
+
+    @Test
+    void 궁은_선이없는_대각방향으로_이동불가능() {
+        Piece piece = new Guard(PieceColor.RED);
+        Position source = new Position(Row.ONE, Column.FIVE);
+        Position destination = new Position(Row.TWO, Column.FOUR);
+        MovePath movePath = new MovePath(source, destination);
+
+        boolean canMove = piece.isValidMovement(movePath);
+
+        assertThat(canMove).isFalse();
+    }
 }
