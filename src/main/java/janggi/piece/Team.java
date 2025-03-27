@@ -5,10 +5,10 @@ public enum Team {
     HAN("한나라(RED)") {
         @Override
         public Team changeTeam() {
-            return CHO;
+            return CHU;
         }
     },
-    CHO("초나라(GREEN)") {
+    CHU("초나라(GREEN)") {
         @Override
         public Team changeTeam() {
             return HAN;
@@ -23,15 +23,15 @@ public enum Team {
 
     public abstract Team changeTeam();
 
-    public static boolean isCho(final Team team) {
-        return CHO.equals(team);
+    public static boolean isChu(final Team team) {
+        return CHU.equals(team);
     }
 
     public static boolean isHan(final Team team) {
         return HAN.equals(team);
     }
 
-    public boolean isSameNation(final Team team) {
+    public boolean isSameTeam(final Team team) {
         return this.equals(team);
     }
 

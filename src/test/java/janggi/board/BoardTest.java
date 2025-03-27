@@ -96,7 +96,7 @@ class BoardTest {
         //given
         final List<Piece> pieces = List.of(
                 new Soldier(Team.HAN, new Position(3, 2)),
-                new King(Team.CHO, new Position(4, 2))
+                new King(Team.CHU, new Position(4, 2))
         );
 
         final Board board = new Board(pieces);
@@ -117,7 +117,7 @@ class BoardTest {
         //given
         final List<Piece> pieces = List.of(
                 new Soldier(Team.HAN, new Position(3, 2)),
-                new King(Team.CHO, new Position(5, 2))
+                new King(Team.CHU, new Position(5, 2))
         );
 
         final Board board = new Board(pieces);

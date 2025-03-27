@@ -17,7 +17,7 @@ class TeamTest {
         final Team actual = han.changeTeam();
 
         //then
-        assertThat(actual).isEqualTo(Team.CHO);
+        assertThat(actual).isEqualTo(Team.CHU);
     }
 
 }
