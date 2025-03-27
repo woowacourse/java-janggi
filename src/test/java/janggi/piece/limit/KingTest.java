@@ -14,20 +14,51 @@ import static org.junit.jupiter.api.Assertions.*;
 class KingTest {
 
     @Test
-    @DisplayName("궁은 8개의 방향으로 이동 가능하다.")
-    void test2() {
-        King king = new King(Side.CHO);
+    @DisplayName("4, 8의 위치 (궁성의 중앙)에서는 가능한 이동이 대각선 이동 포함 8개이다.")
+    void computeCandidatePositions() {
 
-        List<Route> candidatePositions = king.computeCandidatePositions(new Position(4, 8));
+        King king = new King(Side.CHO);
+        Position currentPosition = new Position(4, 8);
+        List<Route> candidatePositions = king.computeCandidatePositions(currentPosition);
 
         assertThat(candidatePositions).extracting(Route::getLastPosition)
-                .contains(new Position(5, 8),
-                        new Position(3, 8),
-                        new Position(4, 9),
-                        new Position(4, 7),
-                        new Position(5, 9),
+                .contains(
                         new Position(3, 7),
+                        new Position(4, 7),
                         new Position(5, 7),
+                        new Position(3, 8),
+                        new Position(5, 8),
+                        new Position(3, 9),
+                        new Position(4, 9),
+                        new Position(5, 9)
+                );
+    }
+
+    @Test
+    @DisplayName("3, 8의 위치 (궁성의 왼쪽 가운데)에서는 가능한 이동이 3개이다. (대각선 이동 불가)")
+    void test10() {
+        King king = new King(Side.CHO);
+        Position position = new Position(3, 8);
+
+        List<Route> reachableDestinations = king.computeCandidatePositions(position);
+
+        assertThat(reachableDestinations).extracting(Route::getLastPosition)
+                .contains(new Position(3, 7),
+                        new Position(4, 8),
                         new Position(3, 9));
+    }
+
+    @Test
+    @DisplayName("졸이 5, 9의 위치 (궁성의 오른쪽 아래)에서는 가능한 이동이 대각선 이동 포함 3개이다.")
+    void test11() {
+        Soldier soldier = new Soldier(Side.CHO);
+        Position position = new Position(5, 9);
+
+        List<Route> reachableDestinations = soldier.computeCandidatePositions(position);
+
+        assertThat(reachableDestinations).extracting(Route::getLastPosition)
+                .contains(new Position(5, 8),
+                        new Position(4, 9),
+                        new Position(4, 8));
     }
 }
