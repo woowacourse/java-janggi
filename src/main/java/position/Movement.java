@@ -30,7 +30,7 @@ public enum Movement {
     DOWN_DOWN_DOWN_RIGHT_RIGHT(2, -3),
     DOWN_DOWN_DOWN_LEFT_LEFT(-2, -3),
     DOWN_DOWN_LEFT_LEFT_LEFT(-3, -2),
-    UP_UP_LEFT_LEFT_LEFT(-3, 3),
+    UP_UP_LEFT_LEFT_LEFT(-3, 2),
     UP_UP_UP_LEFT_LEFT(-2, 3);;
 
     private final int x;

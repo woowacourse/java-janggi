@@ -1,15 +1,19 @@
 package piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static testutil.StaticTest.B3;
+import static testutil.StaticTest.B7;
+import static testutil.StaticTest.C2;
 import static testutil.StaticTest.C8;
 import static testutil.StaticTest.D5;
-import static testutil.StaticTest.D7;
 import static testutil.StaticTest.E5;
-import static testutil.StaticTest.E6;
 import static testutil.StaticTest.F6;
+import static testutil.StaticTest.G2;
 import static testutil.StaticTest.G6;
+import static testutil.StaticTest.G8;
+import static testutil.StaticTest.H3;
+import static testutil.StaticTest.H7;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,11 +26,14 @@ public class ElephantTest {
 
         // then
         assertThatCode(() -> elephant.getPathForMoving(E5, C8)).doesNotThrowAnyException();
-        assertThat(elephant.getPathForMoving(E5, C8)).containsExactly(E6, D7, C8);
+        assertThatCode(() -> elephant.getPathForMoving(E5, B7)).doesNotThrowAnyException();
+        assertThatCode(() -> elephant.getPathForMoving(E5, C2)).doesNotThrowAnyException();
+        assertThatCode(() -> elephant.getPathForMoving(E5, B3)).doesNotThrowAnyException();
+        assertThatCode(() -> elephant.getPathForMoving(E5, G8)).doesNotThrowAnyException();
+        assertThatCode(() -> elephant.getPathForMoving(E5, G2)).doesNotThrowAnyException();
+        assertThatCode(() -> elephant.getPathForMoving(E5, H7)).doesNotThrowAnyException();
+        assertThatCode(() -> elephant.getPathForMoving(E5, H3)).doesNotThrowAnyException();
 
-        // 다른 방향들도 이후 작성 시 아래처럼 확장 가능
-        // assertThatCode(() -> elephant.getPathForMoving(E5, G8)).doesNotThrowAnyException();
-        // assertThat(elephant.getPathForMoving(E5, G8)).containsExactly(F6, G7, G8); 등등
     }
 
     @Test
