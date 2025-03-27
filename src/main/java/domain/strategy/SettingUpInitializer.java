@@ -17,7 +17,7 @@ public abstract class SettingUpInitializer {
 
     public abstract Pieces initPieces(final Player player);
 
-    List<Piece> initHanBasicPieces() {
+    protected List<Piece> initHanBasicPieces() {
         List<Piece> pieces = new ArrayList<>();
 
         pieces.add(new King(new Position(5, 2), PieceDirection.KING.get()));
@@ -40,7 +40,7 @@ public abstract class SettingUpInitializer {
         return pieces;
     }
 
-    List<Piece> initChoBasicPieces() {
+    protected List<Piece> initChoBasicPieces() {
         List<Piece> pieces = new ArrayList<>();
 
         pieces.add(new King(new Position(5, 9), PieceDirection.KING.get()));
