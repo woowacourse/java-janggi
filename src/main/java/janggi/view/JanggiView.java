@@ -8,6 +8,7 @@ import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
 import janggi.score.ScoreBoard;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -122,5 +123,14 @@ public final class JanggiView {
                 String.format(WINNER_FORMAT_FRONT + COLOR_BLUE + "%s" + COLOR_END + WINNER_FORMAT_END,
                         TEAM_NOTATION_KOREAN.get(winner)));
 
+    }
+
+    public void displayUnfinishedGame(final List<Integer> notFinishedGameIds) {
+        System.out.println();
+        System.out.println("===== 게임 기록 =====");
+        for (Integer id : notFinishedGameIds) {
+            System.out.println(String.format(" - %d번 게임", id));
+        }
+        System.out.println("원하는 게임을 골라주세요.");
     }
 }

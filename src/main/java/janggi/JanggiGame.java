@@ -68,9 +68,26 @@ public class JanggiGame {
             System.out.println("[ERROR] 게임 기록이 없습니다.");
             return generateBoard();
         }
-        this.gameId = janggiDao.findNotFinishedGameId();
+        final List<Integer> notFinishedGameIds = janggiDao.findNotFinishedGameIds();
+        janggiView.displayUnfinishedGame(notFinishedGameIds);
+        this.gameId = readUnfinishedGame(notFinishedGameIds);
         return BoardGenerator.generateExistSetup(janggiDao.findGameSetup(gameId),
                 janggiDao.selectAllHistory(gameId));
+    }
+
+    private int readUnfinishedGame(final List<Integer> notFinishedGameIds) {
+        final String input = janggiView.read();
+        try {
+            final int id = Integer.parseInt(input);
+            if (!notFinishedGameIds.contains(id)) {
+                System.out.println("[ERROR] 목록에 있는 숫자를 입력해주세요.");
+                return readUnfinishedGame(notFinishedGameIds);
+            }
+            return id;
+        } catch (IllegalArgumentException e) {
+            System.out.println("[ERROR] 목록에 있는 숫자를 입력해주세요.");
+            return readUnfinishedGame(notFinishedGameIds);
+        }
     }
 
     private SetupOption readSetupOption() {
@@ -100,7 +117,7 @@ public class JanggiGame {
             final Position start = new Position(Row.of(moveCommand.get(0)), Column.of(moveCommand.get(1)));
             final Position end = new Position(Row.of(moveCommand.get(2)), Column.of(moveCommand.get(3)));
             move(board, start, end);
-            janggiDao.saveHistory(new MoveDto(start, end), janggiDao.findNotFinishedGameId());
+            janggiDao.saveHistory(new MoveDto(start, end), gameId);
         }
     }
 

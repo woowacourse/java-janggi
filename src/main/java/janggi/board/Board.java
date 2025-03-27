@@ -8,7 +8,6 @@ import janggi.score.Score;
 import janggi.score.ScoreBoard;
 import janggi.turn.ChoTurn;
 import janggi.turn.Turn;
-import java.util.HashMap;
 import java.util.Map;
 
 public final class Board {
@@ -17,10 +16,14 @@ public final class Board {
     private Turn turn;
     private final int setupOption;
 
-    public Board(final Map<Position, Piece> board, final int setupOption) {
-        this.board = new HashMap<>(board);
-        this.turn = new ChoTurn();
+    public Board(final Map<Position, Piece> board, final Turn turn, final int setupOption) {
+        this.board = board;
+        this.turn = turn;
         this.setupOption = setupOption;
+    }
+
+    public Board(final Map<Position, Piece> board, final int setupOption) {
+        this(board, new ChoTurn(), setupOption);
     }
 
     public void move(final Position start, final Position end) {

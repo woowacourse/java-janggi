@@ -51,7 +51,7 @@ public class JanggiJdbcDao implements JanggiDao {
 
     @Override
     public int findNotFinishedGameId() {
-        final String notFinishedGameQuery = "SELECT * FROM game WHERE finished=0";
+        final String notFinishedGameQuery = "SELECT * FROM game WHERE finished = 0 ORDER BY id DESC;\n";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
             final ResultSet resultSet = preparedStatement.executeQuery();
@@ -59,6 +59,22 @@ public class JanggiJdbcDao implements JanggiDao {
                 return resultSet.getInt("id");
             }
             throw new IllegalStateException();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Integer> findNotFinishedGameIds() {
+        final String notFinishedGameQuery = "SELECT * FROM game WHERE finished=0";
+        final List<Integer> ids = new ArrayList<>();
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                ids.add(resultSet.getInt("id"));
+            }
+            return ids;
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

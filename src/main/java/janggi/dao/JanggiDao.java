@@ -11,6 +11,8 @@ public interface JanggiDao {
 
     int findNotFinishedGameId();
 
+    List<Integer> findNotFinishedGameIds();
+
     int findGameSetup(int gameId);
 
     List<MoveDto> selectAllHistory(int gameId);
