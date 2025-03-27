@@ -7,6 +7,7 @@ import janggi.position.Position;
 import java.util.List;
 
 public class Soldier extends Piece {
+    private static final PieceType PIECE_TYPE = PieceType.SOLDIER;
 
     private final MovementRule movementRule;
 
@@ -27,5 +28,10 @@ public class Soldier extends Piece {
         if (color.isReverseFrontVerticalDirection(direction)) {
             throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
         }
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PIECE_TYPE;
     }
 }

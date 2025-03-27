@@ -15,9 +15,15 @@ public abstract class Piece {
         return this.color == other.color;
     }
 
+    public boolean isRed() {
+        return color == Color.RED;
+    }
+
     public Color getSide() {
         return color;
     }
 
     public abstract List<Position> calculatePath(final Position start, final Position end);
+
+    public abstract PieceType getPieceType();
 }

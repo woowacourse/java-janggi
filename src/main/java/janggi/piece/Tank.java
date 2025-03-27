@@ -6,6 +6,7 @@ import janggi.position.Position;
 import java.util.List;
 
 public class Tank extends Piece {
+    private static final PieceType PIECE_TYPE = PieceType.TANK;
 
     private final MovementRule movementRule;
 
@@ -18,5 +19,10 @@ public class Tank extends Piece {
     public List<Position> calculatePath(final Position start, final Position end) {
         movementRule.validateMovementRule(start, end);
         return movementRule.calculatePath(start, end);
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PIECE_TYPE;
     }
 }
