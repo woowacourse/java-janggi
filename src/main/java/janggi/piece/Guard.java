@@ -11,7 +11,7 @@ public class Guard extends Piece {
     private static final int ALLOWED_MOVE = 1;
 
     public Guard(final Side side) {
-        super(side);
+        super(Symbol.GUARD, side);
     }
 
     @Override
@@ -36,11 +36,6 @@ public class Guard extends Piece {
             reachablePositions.add(destination);
         }
         return reachablePositions;
-    }
-
-    @Override
-    public String getSymbol() {
-        return "S";
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public class Empty extends Piece {
 
     public Empty() {
-        super(Side.NONE);
+        super(Symbol.EMPTY, Side.NONE);
     }
 
     @Override
@@ -19,11 +19,6 @@ public class Empty extends Piece {
     @Override
     public List<Position> filterReachableDestinations(final List<Route> candidateRoutes, final JanggiBoard board) {
         throw new IllegalArgumentException("[ERROR] 이 위치에는 말이 존재하지 않습니다.");
-    }
-
-    @Override
-    public String getSymbol() {
-        return "·";
     }
 
 }

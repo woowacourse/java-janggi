@@ -10,17 +10,17 @@ public abstract class Piece {
 
     protected static final int MOVE_LIMIT = 10;
 
+    private final Symbol symbol;
     private final Side side;
 
-    protected Piece(final Side side) {
+    protected Piece(final Symbol symbol, final Side side) {
+        this.symbol = symbol;
         this.side = side;
     }
 
     public abstract List<Route> computeCandidatePositions(final Position position);
 
     public abstract List<Position> filterReachableDestinations(final List<Route> candidateRoutes, final JanggiBoard board);
-
-    public abstract String getSymbol();
 
     protected List<Route> computeStraightRoutes(final Position position, int distance) {
         return List.of(
@@ -84,6 +84,10 @@ public abstract class Piece {
 
     public boolean isHan() {
         return side == Side.HAN;
+    }
+
+    public String getSymbol() {
+        return symbol.getSymbol();
     }
 
 }

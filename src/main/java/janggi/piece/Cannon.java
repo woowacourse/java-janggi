@@ -9,7 +9,7 @@ import java.util.List;
 public class Cannon extends Piece {
 
     public Cannon(final Side side) {
-        super(side);
+        super(Symbol.CANNON, side);
     }
 
     @Override
@@ -24,7 +24,9 @@ public class Cannon extends Piece {
             List<Position> positions = route.getPositions();
             boolean hasJumped = false;
             for (Position position : positions) {
-                if (board.isOutOfRange(position) || board.isPositionCannon(position)) break;
+                if (board.isOutOfRange(position) || board.isPositionCannon(position)) {
+                    break;
+                }
                 if (!hasJumped && board.isPositionHasPiece(position)) {
                     hasJumped = true;
                     continue;
@@ -42,11 +44,6 @@ public class Cannon extends Piece {
             }
         }
         return reachablePositions;
-    }
-
-    @Override
-    public String getSymbol() {
-        return "P";
     }
 
 }

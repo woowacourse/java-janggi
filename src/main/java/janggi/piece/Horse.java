@@ -11,7 +11,7 @@ public class Horse extends Piece {
     private static final int DIAGONAL_COUNT = 1;
 
     public Horse(final Side side) {
-        super(side);
+        super(Symbol.HORSE, side);
     }
 
     @Override
@@ -36,11 +36,6 @@ public class Horse extends Piece {
             reachablePositions.add(destination);
         }
         return reachablePositions;
-    }
-
-    @Override
-    public String getSymbol() {
-        return "M";
     }
 
 }

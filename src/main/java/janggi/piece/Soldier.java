@@ -12,7 +12,7 @@ public class Soldier extends Piece {
     private static final int ALLOWED_MOVE = 1;
 
     public Soldier(final Side side) {
-        super(side);
+        super(Symbol.SOLDIER, side);
     }
 
     @Override
@@ -40,11 +40,6 @@ public class Soldier extends Piece {
             reachablePositions.add(destination);
         }
         return reachablePositions;
-    }
-
-    @Override
-    public String getSymbol() {
-        return "J";
     }
 
     private List<Route> computeAndExcludeInvalidRoute(final Position position, final Direction direction) {

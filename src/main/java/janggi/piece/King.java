@@ -11,7 +11,7 @@ public class King extends Piece {
     private static final int ALLOWED_MOVE = 1;
 
     public King(final Side side) {
-        super(side);
+        super(Symbol.KING, side);
     }
 
     @Override
@@ -36,11 +36,6 @@ public class King extends Piece {
             reachablePositions.add(destination);
         }
         return reachablePositions;
-    }
-
-    @Override
-    public String getSymbol() {
-        return "G";
     }
 
 }

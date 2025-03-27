@@ -9,7 +9,7 @@ import java.util.List;
 public class Chariot extends Piece {
 
     public Chariot(final Side side) {
-        super(side);
+        super(Symbol.CHARIOT, side);
     }
 
     @Override
@@ -34,11 +34,6 @@ public class Chariot extends Piece {
             }
         }
         return reachablePositions;
-    }
-
-    @Override
-    public String getSymbol() {
-        return "C";
     }
 
 }

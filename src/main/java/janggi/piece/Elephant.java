@@ -11,7 +11,7 @@ public class Elephant extends Piece {
     private static final int DIAGONAL_COUNT = 2;
 
     public Elephant(final Side side) {
-        super(side);
+        super(Symbol.ELEPHANT, side);
     }
 
     @Override
@@ -36,11 +36,6 @@ public class Elephant extends Piece {
             reachablePositions.add(destination);
         }
         return reachablePositions;
-    }
-
-    @Override
-    public String getSymbol() {
-        return "E";
     }
 
 }
