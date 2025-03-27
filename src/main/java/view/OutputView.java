@@ -47,7 +47,7 @@ public class OutputView {
     }
 
     public void printErrorMessage(final String message) {
-        System.out.println("[ERROR] : " + message);
+        System.out.println(System.lineSeparator() + "[ERROR] : " + message);
     }
 
     private List<ArrayList<String>> createDefaultBoard() {

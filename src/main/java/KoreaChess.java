@@ -53,16 +53,29 @@ public class KoreaChess {
     }
 
     private Pieces createPiecesByPlayer(final Player player) {
-        int command = inputView.readSettingUpStrategyCommand(player);
-        SettingUpInitializer strategy = SettingUp.findStrategyByCommand(command);
-        return strategy.initPieces(player);
+        while (true) {
+            try {
+                int command = inputView.readSettingUpStrategyCommand(player);
+                SettingUpInitializer strategy = SettingUp.findStrategyByCommand(command);
+                return strategy.initPieces(player);
+            } catch (Exception e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
     private void processTurn(final Player player, final Board board) {
-        Position movingHanPosition = parseToPosition(inputView.readMovingPiecePosition(player));
-        Position targetHanPosition = parseToPosition(inputView.readTargetPiecePosition());
-        board.moveAndCapture(player, movingHanPosition, targetHanPosition);
-        outputView.printBoard(board);
+        while (true) {
+            try {
+                Position movingHanPosition = parseToPosition(inputView.readMovingPiecePosition(player));
+                Position targetHanPosition = parseToPosition(inputView.readTargetPiecePosition());
+                board.moveAndCapture(player, movingHanPosition, targetHanPosition);
+                outputView.printBoard(board);
+                return;
+            } catch (Exception e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
     private Position parseToPosition(final String input) {
