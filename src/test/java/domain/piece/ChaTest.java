@@ -6,9 +6,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.Position;
 import domain.Team;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class ChaTest {
 
@@ -90,5 +93,44 @@ public class ChaTest {
         assertThatThrownBy(() -> cha.calculatePath(src, dest))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로는 움직일 수 없습니다.");
+    }
+
+    @ParameterizedTest
+    @MethodSource(value = "createDiagonalMovePosition")
+    void 차가_궁성의_꼭짓점에서_꼭짓점으로_이동하는_경로를_계산할_수_있다(Position src, Position dest, Position jumpedPosition) {
+        // given
+        Cha cha = new Cha(Team.HAN);
+
+        // when
+        List<Position> path = cha.calculatePath(src, dest);
+
+        // then
+        List<Position> expected = List.of(jumpedPosition);
+        assertThat(path).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> createDiagonalMovePosition() {
+        return Stream.of(
+                Arguments.of(
+                        new Position(1, 4),
+                        new Position(3, 6),
+                        new Position(2, 5)
+                ),
+                Arguments.of(
+                        new Position(1, 6),
+                        new Position(3, 4),
+                        new Position(2, 5)
+                ),
+                Arguments.of(
+                        new Position(3, 4),
+                        new Position(1, 6),
+                        new Position(2, 5)
+                ),
+                Arguments.of(
+                        new Position(3, 6),
+                        new Position(1, 4),
+                        new Position(2, 5)
+                )
+        );
     }
 }
