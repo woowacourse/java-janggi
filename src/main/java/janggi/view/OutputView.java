@@ -14,13 +14,15 @@ public class OutputView {
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String ANSI_ORANGE = "\u001B[33m";
 
     public void printBoard(JanggiBoard janggiBoard) {
         Map<Position, Piece> board = janggiBoard.getBoard();
         for (int y = 0; y < 10; y++) {
             System.out.print(y + "  |  ");
             for (int x = 0; x < 9; x++) {
-                Piece piece = board.get(new Position(x, y));
+                Position position = new Position(x, y);
+                Piece piece = board.get(position);
                 if (piece.isCho()) {
                     System.out.print(ANSI_GREEN + piece.getSymbol() + ANSI_RESET + "  ");
                     continue;
@@ -29,6 +31,9 @@ public class OutputView {
                     System.out.print(ANSI_RED + piece.getSymbol() + ANSI_RESET + "  ");
                     continue;
                 }
+//                if (position.isPalace()) {
+//                    System.out.print(ANSI_ORANGE + piece.getSymbol() + ANSI_RESET + "  ");
+//                }
                 System.out.print(piece.getSymbol() + "  ");
             }
             System.out.println();
