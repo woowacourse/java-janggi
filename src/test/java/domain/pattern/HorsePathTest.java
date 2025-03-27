@@ -38,7 +38,7 @@ public class HorsePathTest {
     }
 
     static Stream<Arguments> provideHorsePath() {
-        HorsePath pathOfHorse = new HorsePath();
+        Path pathOfHorse = new Path(Direction.createHorsePatternMap());
         return Stream.of(
                 Arguments.of(FIVE_TWO, pathOfHorse.getPatterns(Direction.LEFT_UP)),
                 Arguments.of(FIVE_SIX, pathOfHorse.getPatterns(Direction.RIGHT_UP)),

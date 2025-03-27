@@ -33,7 +33,7 @@ public class SoldierByeongPathTest {
     }
 
     static Stream<Arguments> provideByeongPath() {
-        Path pathOfByeong = new SoldierByeongPath();
+        Path pathOfByeong = new Path(Direction.createByeongPatternMap());
         return Stream.of(
                 Arguments.of(EIGHT_FIVE, pathOfByeong.getPatterns(Direction.DOWN)),
                 Arguments.of(SEVEN_FOUR, pathOfByeong.getPatterns(Direction.LEFT)),

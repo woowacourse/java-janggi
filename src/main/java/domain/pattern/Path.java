@@ -3,12 +3,10 @@ package domain.pattern;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Path {
-    protected List<Direction> pattern;
+public class Path {
     protected Map<Direction, List<Pattern>> paths;
 
-    protected Path(List<Direction> pattern, Map<Direction, List<Pattern>> paths) {
-        this.pattern = pattern;
+    public Path(Map<Direction, List<Pattern>> paths) {
         this.paths = paths;
     }
 

@@ -31,7 +31,7 @@ public class ChariotPathTest {
     }
 
     static Stream<Arguments> provideChariotPath() {
-        Path pathOfChariot = new ChariotPath();
+        Path pathOfChariot = new Path(Direction.createChariotOrCannonPatternMap());
         return Stream.of(
                 Arguments.of(FIVE_ONE,
                         List.of(pathOfChariot.getPatterns(Direction.UP).getFirst(),

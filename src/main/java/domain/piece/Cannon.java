@@ -1,11 +1,12 @@
 package domain.piece;
 
-import domain.pattern.CannonPath;
+import domain.pattern.Direction;
+import domain.pattern.Path;
 import domain.piece.state.MovedCannon;
 
 public class Cannon extends Piece {
     public Cannon(Side side) {
-        super(7, side, new CannonPath(), new MovedCannon());
+        super(7, side, new Path(Direction.createChariotOrCannonPatternMap()), new MovedCannon());
     }
 
     @Override

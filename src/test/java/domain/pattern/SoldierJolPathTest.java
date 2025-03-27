@@ -33,7 +33,7 @@ public class SoldierJolPathTest {
     }
 
     static Stream<Arguments> provideJolPath() {
-        Path pathOfJol = new SoldierJolPath();
+        Path pathOfJol = new Path(Direction.createJolPatternMap());
         return Stream.of(
                 Arguments.of(SIX_FIVE, pathOfJol.getPatterns(Direction.UP)),
                 Arguments.of(SEVEN_FOUR, pathOfJol.getPatterns(Direction.LEFT)),

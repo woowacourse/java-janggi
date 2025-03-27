@@ -33,7 +33,7 @@ public class GeneralPathTest {
     }
 
     static Stream<Arguments> provideGeneralPath() {
-        Path pathOfGeneral = new GeneralPath();
+        Path pathOfGeneral = new Path(Direction.createGeneralOrGuardPatternMap());
         return Stream.of(
                 Arguments.of(EIGHT_FIVE, pathOfGeneral.getPatterns(Direction.UP)),
                 Arguments.of(NINE_FOUR, pathOfGeneral.getPatterns(Direction.LEFT)),

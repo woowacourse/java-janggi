@@ -38,7 +38,7 @@ public class ElephantPathTest {
     }
 
     static Stream<Arguments> provideElephantPath() {
-        Path pathOfElephant = new ElephantPath();
+        Path pathOfElephant = new Path(Direction.createElephantPatternMap());
         return Stream.of(
                 Arguments.of(FOUR_EIGHT, pathOfElephant.getPatterns(Direction.RIGHT_UP)),
                 Arguments.of(EIGHT_EIGHT, pathOfElephant.getPatterns(Direction.RIGHT_DOWN)),

@@ -33,7 +33,7 @@ public class GuardPathTest {
     }
 
     static Stream<Arguments> provideGuardPath() {
-        Path pathOfGuard = new GuardPath();
+        Path pathOfGuard = new Path(Direction.createGeneralOrGuardPatternMap());
         return Stream.of(
                 Arguments.of(EIGHT_FIVE, pathOfGuard.getPatterns(Direction.UP)),
                 Arguments.of(NINE_FOUR, pathOfGuard.getPatterns(Direction.LEFT)),
