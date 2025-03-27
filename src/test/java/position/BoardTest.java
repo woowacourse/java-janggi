@@ -1,14 +1,20 @@
 package position;
 
+import static janggi.piece.Team.CHO;
 import static janggi.piece.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
+import static position.PositionFixtures.E2;
+import static position.PositionFixtures.E3;
+import static position.PositionFixtures.E5;
 
 import janggi.piece.Piece;
 import janggi.piece.normalPiece.Palace;
 import janggi.position.Board;
+import janggi.position.Position;
+import java.util.HashSet;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,6 +54,19 @@ public class BoardTest {
         assertThatThrownBy(() -> board.validateTeam(HAN))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 같은 팀 기물만 움직일 수 있습니다.");
+    }
+
+    @Test
+    @DisplayName("이동할 수 없는 좌표를 입력하면 예외가 발생한다.")
+    void validateCanMovePosition(){
+        // given
+        Piece palace = new Palace(CHO, E1);
+        Board board = new Board(Set.of(palace));
+
+        // when - then
+        assertThatThrownBy(() -> board.move(E1, E5))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 잘못된 좌표입니다.");
     }
 
 }
