@@ -52,15 +52,15 @@ public class InputView {
             String input = scanner.nextLine();
 
             List<String> parsed = Arrays.stream(input.split(" ", -1)).toList();
-
+            validateMoveCommand(parsed);
             List<String> source = Arrays.stream(parsed.get(0).split(",", -1)).toList();
             List<String> destination = Arrays.stream(parsed.get(1).split(",", -1)).toList();
-            validateSize(source);
-            validateSize(destination);
+            validatePoint(source);
+            validatePoint(destination);
 
-            Point sourcePoint = Point.of(convertToInteger(source.get(0)), convertToInteger(source.get(1)));
-            Point destinationPoint = Point.of(convertToInteger(destination.get(0)),
-                    convertToInteger(destination.get(1)));
+            Point sourcePoint = Point.of(stringToInteger(source.get(0)), stringToInteger(source.get(1)));
+            Point destinationPoint = Point.of(stringToInteger(destination.get(0)),
+                    stringToInteger(destination.get(1)));
 
             return new MoveCommand(sourcePoint, destinationPoint);
         });
@@ -73,17 +73,23 @@ public class InputView {
         };
     }
 
-    private static void validateSize(List<String> point) {
-        if (point.size() != 2) {
-            throw new IllegalArgumentException(point + ": [ERROR] 위치 정보를 올바르게 입력해주세요. (예: 1,1)");
-        }
-    }
-
-    private static int convertToInteger(String input) {
+    private static int stringToInteger(String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 정수를 입력해주세요.");
+        }
+    }
+
+    private static void validateMoveCommand(List<String> parsed) {
+        if (parsed.size() != 2) {
+            throw new IllegalArgumentException(parsed + ": 위치를 2개 입력해주세요.");
+        }
+    }
+
+    private static void validatePoint(List<String> point) {
+        if (point.size() != 2) {
+            throw new IllegalArgumentException(point + ": [ERROR] 위치 정보를 올바르게 입력해주세요. (예: 1,1)");
         }
     }
 }
