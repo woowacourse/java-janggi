@@ -2,10 +2,11 @@ package janggi.domain.piece;
 
 import janggi.domain.Position;
 import janggi.domain.Side;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -109,5 +110,27 @@ class CannonTest {
 
         // then
         assertThat(actual).isFalse();
+    }
+
+    @DisplayName("포는 궁성 영역 안에서 대각선으로 이동할 수 있다.")
+    @ParameterizedTest
+    @CsvSource(value = {"3,4,1,6", "1,4,3,6", "8,4,10,6", "8,6,10,4"})
+    void test6(int startingRow, int startingColumn, int endRow, int endColumn) {
+        // given
+        Position startingPosition = Position.of(startingRow, startingColumn);
+        Piece startingPiece = new Cannon(Side.HAN);
+        Position endPosition = Position.of(endRow, endColumn);
+
+        Map<Position, Piece> startingPieces = Map.of(
+                startingPosition, startingPiece,
+                Position.of(2, 5), new Soldier(Side.HAN),
+                Position.of(9, 5), new Soldier(Side.HAN)
+        );
+
+        // when
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
+
+        // then
+        assertThat(actual).isTrue();
     }
 }

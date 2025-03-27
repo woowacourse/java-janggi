@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Direction;
+import janggi.domain.PalaceMovement;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import java.util.List;
@@ -19,12 +20,18 @@ public class Guard extends Piece {
 
     @Override
     public Set<Position> generateAvailableMovePositions(Map<Position, Piece> pieces, Position currentPosition) {
-        return MOVEMENT_DIRECTIONS.stream()
+        Set<Position> availableMovePositions = MOVEMENT_DIRECTIONS.stream()
                 .map(Direction::getVector)
                 .map(vector -> currentPosition.calculateNextPosition(vector.side(side)))
                 .flatMap(Optional::stream)
                 .filter(availablePosition -> canMoveToPosition(pieces, availablePosition))
-                .collect(Collectors.toUnmodifiableSet());
+                .filter(PalaceMovement::isInsidePalace)
+                .collect(Collectors.toSet());
+        if (PalaceMovement.isInsidePalace(currentPosition)) {
+            Set<Position> palaceMovePositions = generatePalaceMovePositions(pieces, currentPosition);
+            availableMovePositions.addAll(palaceMovePositions);
+        }
+        return availableMovePositions;
     }
 
     private boolean canMoveToPosition(Map<Position, Piece> pieces, Position position) {
@@ -33,5 +40,15 @@ public class Guard extends Piece {
         }
         Piece nextPiece = pieces.get(position);
         return !nextPiece.isSameSide(side);
+    }
+
+    private Set<Position> generatePalaceMovePositions(Map<Position, Piece> pieces, Position currentPosition) {
+        List<Direction> palaceDirections = PalaceMovement.getDirectionsAtPosition(currentPosition);
+        return palaceDirections.stream().map(Direction::getVector)
+                .map(currentPosition::calculateNextPosition)
+                .flatMap(Optional::stream)
+                .filter(availablePosition -> canMoveToPosition(pieces, availablePosition))
+                .filter(PalaceMovement::isInsidePalace)
+                .collect(Collectors.toUnmodifiableSet());
     }
 }

@@ -86,4 +86,40 @@ class SoldierTest {
         // then
         assertThat(actual).isTrue();
     }
+
+    @DisplayName("병은 궁성 영역 안에서 대각선으로 이동할 수 있다.")
+    @ParameterizedTest
+    @CsvSource(value = {"3,4,2,5", "3,6,2,5"})
+    void test5(int startingRow, int startingColumn, int endRow, int endColumn) {
+        // given
+        Position startingPosition = Position.of(startingRow, startingColumn);
+        Piece startingPiece = new Soldier(Side.CHO);
+        Position endPosition = Position.of(endRow, endColumn);
+
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
+
+        // when
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
+
+        // then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("병은 궁성 영역 안에서 후퇴할 수 없다.")
+    @ParameterizedTest
+    @CsvSource(value = {"1,4,2,5,CHO", "1,6,2,5,CHO", "10,4,9,5,HAN", "10,6,9,5,HAN"})
+    void test6(int startingRow, int startingColumn, int endRow, int endColumn, Side side) {
+        // given
+        Position startingPosition = Position.of(startingRow, startingColumn);
+        Piece startingPiece = new Soldier(side);
+        Position endPosition = Position.of(endRow, endColumn);
+
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
+
+        // when
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
+
+        // then
+        assertThat(actual).isFalse();
+    }
 }

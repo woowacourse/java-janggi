@@ -69,4 +69,22 @@ class ChariotTest {
         // then
         assertThat(actual).isTrue();
     }
+
+    @DisplayName("차는 궁성 영역 안에서 대각선으로 이동할 수 있다.")
+    @ParameterizedTest
+    @CsvSource(value = {"3,4,1,6", "1,4,3,6", "1,6,2,5", "3,6,2,5", "10,4,9,5", "10,6,8,4"})
+    void test4(int startingRow, int startingColumn, int endRow, int endColumn) {
+        // given
+        Position startingPosition = Position.of(startingRow, startingColumn);
+        Piece startingPiece = new Chariot(Side.HAN);
+        Position endPosition = Position.of(endRow, endColumn);
+
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece);
+
+        // when
+        boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
+
+        // then
+        assertThat(actual).isTrue();
+    }
 }

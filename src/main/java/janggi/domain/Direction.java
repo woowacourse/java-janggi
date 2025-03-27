@@ -39,4 +39,8 @@ public enum Direction {
         Vector vector = getVector();
         return getDirection(vector);
     }
+
+    public static boolean isDiagonal(Direction direction) {
+        return direction == LEFT_UP || direction == RIGHT_UP || direction == LEFT_DOWN || direction == RIGHT_DOWN;
+    }
 }

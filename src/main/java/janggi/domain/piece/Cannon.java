@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Direction;
+import janggi.domain.PalaceMovement;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.Vector;
@@ -30,7 +31,10 @@ public class Cannon extends Piece {
             currentPosition.calculateNextPosition(vector)
                     .ifPresent(nextPosition -> searchAvailableMoves(result, pieces, nextPosition, vector, pieces.containsKey(nextPosition)));
         }
-
+        if (PalaceMovement.isInsidePalace(currentPosition) && PalaceMovement.isCorner(currentPosition)) {
+            Set<Position> palaceMovePositions = generatePalaceMovePositions(pieces, currentPosition);
+            result.addAll(palaceMovePositions);
+        }
         return result;
     }
 
@@ -72,6 +76,36 @@ public class Cannon extends Piece {
         }
         Piece targetPiece = pieces.get(targetPosition);
         return !targetPiece.isSameSide(side) && !targetPiece.isCannon();
+    }
+
+    private Set<Position> generatePalaceMovePositions(Map<Position, Piece> pieces, Position currentPosition) {
+        List<Direction> allDirections = PalaceMovement.getDirectionsAtPosition(currentPosition);
+        List<Direction> diagonalDirections = allDirections.stream().filter(Direction::isDiagonal).toList();
+        Set<Position> availableMovePositions = new HashSet<>();
+
+        for (Direction diagonalDirection : diagonalDirections) {
+            searchAvailablePalaceMoves(availableMovePositions, pieces, currentPosition, diagonalDirection.getVector());
+        }
+
+        return availableMovePositions;
+    }
+
+    private void searchAvailablePalaceMoves(Set<Position> result, Map<Position, Piece> pieces, Position currentPosition, Vector vector) {
+        if (currentPosition.canNotMove(vector)) {
+            return;
+        }
+        Position midPosition = currentPosition.moveToNextPosition(vector);
+        if (!pieces.containsKey(midPosition) || pieces.get(midPosition).isCannon()) {
+            return;
+        }
+        Position finalPosition = midPosition.moveToNextPosition(vector);
+        if (pieces.containsKey(finalPosition)) {
+            Piece finalPiece = pieces.get(finalPosition);
+            if (finalPiece.isCannon() || finalPiece.isSameSide(side)) {
+                return;
+            }
+        }
+        result.add(finalPosition);
     }
 
     @Override
