@@ -1,24 +1,26 @@
 package domain.pieces;
 
-import static domain.pieces.PieceNames.GENERAL;
+import static domain.pieces.PieceType.GENERAL;
 
-import domain.Team;
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
+import domain.player.Score;
+import domain.player.TeamType;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.List;
 
 public final class General implements Piece {
 
-    private final Team team;
+    private static final PieceType PIECE_TYPE = GENERAL;
+    private final TeamType teamType;
 
-    public General(final Team team) {
-        this.team = team;
+    public General(final TeamType teamType) {
+        this.teamType = teamType;
     }
 
     @Override
-    public boolean hasEqualTeam(final Team team) {
-        return this.team.equals(team);
+    public boolean hasEqualTeam(final TeamType teamType) {
+        return this.teamType.equals(teamType);
     }
 
     @Override
@@ -38,7 +40,12 @@ public final class General implements Piece {
 
     @Override
     public String getName() {
-        return GENERAL.getNameForTeam(team);
+        return PIECE_TYPE.getNameForTeam(teamType);
+    }
+
+    @Override
+    public Score getScore() {
+        return PIECE_TYPE.getScore();
     }
 
     @Override

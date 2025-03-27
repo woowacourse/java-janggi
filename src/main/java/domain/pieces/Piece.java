@@ -1,13 +1,14 @@
 package domain.pieces;
 
-import domain.Team;
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
+import domain.player.Score;
+import domain.player.TeamType;
 import java.util.List;
 
 public interface Piece {
 
-    boolean hasEqualTeam(Team team);
+    boolean hasEqualTeam(TeamType teamType);
 
     boolean isAbleToArrive(Point start, Point arrival);
 
@@ -16,6 +17,8 @@ public interface Piece {
     List<Point> getRoutePoints(Point start, Point arrival);
 
     String getName();
+
+    Score getScore();
 
     default boolean canNotJumpOver() {
         return false;

@@ -1,28 +1,28 @@
 package domain.board.factory.elephantLocators;
 
-import domain.Team;
 import domain.board.Point;
 import domain.pieces.Elephant;
 import domain.pieces.Horse;
 import domain.pieces.Piece;
+import domain.player.TeamType;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class InnerElephantLocator implements ElephantLocator {
 
     @Override
-    public Map<Point, Piece> setupElephant(final Team team) {
+    public Map<Point, Piece> setupElephant(final TeamType teamType) {
         final Map<Point, Piece> locations = new HashMap<>();
-        locations.put(new Point(team.getInitialRow(), 2), new Elephant(team));
-        locations.put(new Point(team.getInitialRow(), 6), new Elephant(team));
+        locations.put(new Point(teamType.getInitialRow(), 2), new Elephant(teamType));
+        locations.put(new Point(teamType.getInitialRow(), 6), new Elephant(teamType));
         return locations;
     }
 
     @Override
-    public Map<Point, Piece> setupHorse(final Team team) {
+    public Map<Point, Piece> setupHorse(final TeamType teamType) {
         final Map<Point, Piece> locations = new HashMap<>();
-        locations.put(new Point(team.getInitialRow(), 1), new Horse(team));
-        locations.put(new Point(team.getInitialRow(), 7), new Horse(team));
+        locations.put(new Point(teamType.getInitialRow(), 1), new Horse(teamType));
+        locations.put(new Point(teamType.getInitialRow(), 7), new Horse(teamType));
         return locations;
     }
 }

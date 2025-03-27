@@ -1,6 +1,6 @@
-package domain;
+package domain.player;
 
-public enum Team {
+public enum TeamType {
     CHO(true, 0, "초나라"),
     HAN(false, 9, "한나라");
 
@@ -8,10 +8,15 @@ public enum Team {
     private final int initialRow;
     private final String name;
 
-    Team(final boolean isFirst, int initialRow, String name) {
+    TeamType(final boolean isFirst, int initialRow, final String name) {
         this.isFirst = isFirst;
         this.initialRow = initialRow;
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public int calculateRowForPiece(int row) {
@@ -30,10 +35,5 @@ public enum Team {
 
     public int getInitialRow() {
         return initialRow;
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 }

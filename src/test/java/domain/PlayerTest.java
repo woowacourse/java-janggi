@@ -3,6 +3,8 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import domain.player.Player;
+import domain.player.TeamType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -12,27 +14,27 @@ public final class PlayerTest {
 
     @Nested
     @DisplayName("플레이어를 생성할 때")
-    class TestMakeTeam {
+    class TestMakeTeamType {
 
         @Test
         @DisplayName("한나라와 초나라 중 하나의 팀을 갖는다")
         void test_NewTeam() {
             // given
-            final Player player = new Player(Team.CHO);
+            final Player player = new Player(TeamType.CHO);
 
             // when
-            final Team team = player.getTeam();
+            final TeamType teamType = player.getTeam();
 
             // then
-            assertThat(team).isEqualTo(Team.CHO);
+            assertThat(teamType).isEqualTo(TeamType.CHO);
         }
 
         @Test
         @DisplayName("초기 상태에서는 초나라가 턴을 갖는다")
         void test_teamHanIsFirst() {
             // given
-            final Player han = new Player(Team.HAN);
-            final Player cho = new Player(Team.CHO);
+            final Player han = new Player(TeamType.HAN);
+            final Player cho = new Player(TeamType.CHO);
 
             // when&then
             assertAll(
@@ -46,8 +48,8 @@ public final class PlayerTest {
         @DisplayName("턴을 일괄적으로 교체할 수 있다.")
         void test_switchTurn() {
             // given
-            final Player han = new Player(Team.HAN);
-            final Player cho = new Player(Team.CHO);
+            final Player han = new Player(TeamType.HAN);
+            final Player cho = new Player(TeamType.CHO);
             final List<Player> players = List.of(han, cho);
 
             // when

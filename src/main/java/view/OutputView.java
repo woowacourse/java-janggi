@@ -1,8 +1,8 @@
 package view;
 
-import domain.Team;
 import domain.board.Point;
 import domain.pieces.Piece;
+import domain.player.TeamType;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -33,8 +33,8 @@ public final class OutputView {
         System.out.println(boardToString(locations));
     }
 
-    public void printWinner(final Team currentTeam) {
-        System.out.println(currentTeam.toString() + "가 승리했습니다!");
+    public void printWinner(final TeamType currentTeamType) {
+        System.out.println(currentTeamType.toString() + "가 승리했습니다!");
     }
 
     private String boardToString(final Map<Point, Piece> locations) {

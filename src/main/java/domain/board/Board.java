@@ -1,7 +1,8 @@
 package domain.board;
 
-import domain.Team;
 import domain.pieces.Piece;
+import domain.player.Score;
+import domain.player.TeamType;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.HashMap;
 import java.util.List;
@@ -21,34 +22,39 @@ public final class Board {
     public boolean canMovePiece(
             final Point start,
             final Point arrival,
-            final Team team
+            final TeamType teamType
     ) {
-        final Piece piece = getCheckedPieceCanMoveOnStartPoint(start, arrival, team);
+        final Piece piece = getCheckedPieceCanMoveOnStartPoint(start, arrival, teamType);
         checkPieceCanMoveOnRoute(start, arrival, piece);
         final Piece pieceAtArrival = locations.get(arrival);
         return canContinueWhenPieceRemove(pieceAtArrival);
     }
 
-    public void movePieceOnLocations(final Point start, final Point arrival) {
-        final Piece piece = locations.remove(start);
-        locations.put(arrival, piece);
+    public Score movePieceOnLocations(final Point start, final Point arrival) {
+        final Piece pieceAtStart = locations.remove(start);
+        final Piece pieceAtArrival = locations.remove(arrival);
+        final Score score = Optional.ofNullable(pieceAtArrival)
+                .map(Piece::getScore)
+                .orElseGet(() -> new Score(0.0));
+        locations.put(arrival, pieceAtStart);
+        return score;
     }
 
     public Map<Point, Piece> getLocations() {
         return new HashMap<>(locations);
     }
 
-    private Piece getCheckedPieceCanMoveOnStartPoint(final Point start, final Point arrival, final Team team) {
+    private Piece getCheckedPieceCanMoveOnStartPoint(final Point start, final Point arrival, final TeamType teamType) {
         checkInRangeOnBoard(start, arrival);
         final Piece piece = Optional.ofNullable(locations.get(start))
                 .orElseThrow(() -> new JanggiGameRuleWarningException("출발점에 이동할 기물이 없습니다."));
-        checkEqualTeam(piece, team);
+        checkEqualTeam(piece, teamType);
         checkOutOfRoute(start, arrival, piece);
         return piece;
     }
 
-    private void checkEqualTeam(final Piece piece, final Team team) {
-        if (!piece.hasEqualTeam(team)) {
+    private void checkEqualTeam(final Piece piece, final TeamType teamType) {
+        if (!piece.hasEqualTeam(teamType)) {
             throw new JanggiGameRuleWarningException("아군 기물만 움직일 수 있습니다.");
         }
     }
