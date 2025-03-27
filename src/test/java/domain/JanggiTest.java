@@ -32,12 +32,14 @@ class JanggiTest {
         @Test
         void initialize() {
             // given & when
-            Janggi janggi = Janggi.initialize();
+            Janggi janggi = Janggi.initialize(1, "title");
 
             // then
             assertAll(
                     () -> assertThat(janggi.getPieces()).isEqualTo(InitialBoardFixture.rawInitialBoard),
-                    () -> assertThat(janggi.getCurrentTeam()).isEqualTo(Team.GREEN)
+                    () -> assertThat(janggi.getCurrentTeam()).isEqualTo(Team.GREEN),
+                    () -> assertThat(janggi.getTitle()).isEqualTo("title"),
+                    () -> assertThat(janggi.getId()).isEqualTo(1)
             );
         }
 
@@ -48,7 +50,7 @@ class JanggiTest {
             Board board = new Board(Map.of(
                     new BoardPosition(0, 0), new Zzu(Team.GREEN)
             ));
-            Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
+            Janggi janggi = new Janggi(1, "title", board, new Turn(Team.GREEN));
 
             // when
             janggi.processTurn(new BoardPosition(0, 0), new BoardPosition(0, 1));
@@ -71,7 +73,7 @@ class JanggiTest {
                     new BoardPosition(1, 2), new Guard(Team.GREEN),
                     new BoardPosition(1, 3), new Cannon(Team.GREEN)
             ));
-            Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
+            Janggi janggi = new Janggi(1, "title", board, new Turn(Team.GREEN));
 
             // when & then
             assertAll(
@@ -85,7 +87,7 @@ class JanggiTest {
         @MethodSource("provideBoard")
         void isGameFinish(Board board, boolean gameFinishFlag) {
             // given
-            Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
+            Janggi janggi = new Janggi(1, "title", board, new Turn(Team.GREEN));
 
             // when & then
             assertThat(janggi.isGameFinish()).isEqualTo(gameFinishFlag);
@@ -108,7 +110,7 @@ class JanggiTest {
         void findWinnerTeam() {
             // given
             Board board = new Board(Map.of(new BoardPosition(0, 0), new General(Team.RED)));
-            Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
+            Janggi janggi = new Janggi(1, "title", board, new Turn(Team.GREEN));
 
             // when & then
             assertThat(janggi.findWinnerTeam()).isEqualTo(Team.RED);
@@ -125,7 +127,7 @@ class JanggiTest {
             Board board = new Board(
                     Map.of(new BoardPosition(0, 0), new General(Team.RED),
                             new BoardPosition(5, 5), new General(Team.GREEN)));
-            Janggi janggi = new Janggi(board, new Turn(Team.GREEN));
+            Janggi janggi = new Janggi(1, "title", board, new Turn(Team.GREEN));
 
             // when & then
             assertThatThrownBy(janggi::findWinnerTeam)
