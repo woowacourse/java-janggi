@@ -5,7 +5,6 @@ import static dao.DatabaseConfig.PASSWORD;
 import static dao.DatabaseConfig.SERVER;
 import static dao.DatabaseConfig.USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import domain.janggi.JanggiStatus;
 import domain.janggi.Team;
@@ -49,7 +48,7 @@ class JanggiDaoTest {
             // given
             String title = "title";
             JanggiStatus status = JanggiStatus.PROCESS;
-            Turn turn =  new Turn(Team.GREEN);
+            Turn turn = new Turn(Team.GREEN);
 
             // when
             int janggiId = janggiDao.create(connection, title, status, turn);
@@ -85,7 +84,7 @@ class JanggiDaoTest {
             // given
             String title = "title";
             JanggiStatus status = JanggiStatus.PROCESS;
-            Turn turn =  new Turn(Team.GREEN);
+            Turn turn = new Turn(Team.GREEN);
             int janggiId = janggiDao.create(connection, title, status, turn);
 
             // when & then
@@ -106,6 +105,21 @@ class JanggiDaoTest {
             // then
             assertThat(janggiDao.findJanggiDtoById(connection, janggiId).turn())
                     .isEqualTo(new Turn(Team.GREEN));
+        }
+
+        @DisplayName("데이터베이스의 모든 장기 게임을 삭제한다.")
+        @Test
+        void deleteAll() {
+            // given
+            janggiDao.create(connection, "first title", JanggiStatus.PROCESS, new Turn(Team.RED));
+            janggiDao.create(connection, "second title", JanggiStatus.FINISH, new Turn(Team.GREEN));
+            janggiDao.create(connection, "third title", JanggiStatus.PROCESS, new Turn(Team.GREEN));
+
+            // when
+            janggiDao.deleteAll(connection);
+
+            // then
+            assertThat(janggiDao.findAllJanggiDtos(connection)).isEmpty();
         }
     }
 }
