@@ -34,11 +34,11 @@ public abstract class TableSettingStrategy {
                 Map.entry(new Coordinate(5, 2), new Goong(Team.HAN)),
                 Map.entry(new Coordinate(2, 3), new Po(Team.HAN)),
                 Map.entry(new Coordinate(8, 3), new Po(Team.HAN)),
-                Map.entry(new Coordinate(1, 4), new Byeong(Team.HAN)),
-                Map.entry(new Coordinate(3, 4), new Byeong(Team.HAN)),
-                Map.entry(new Coordinate(5, 4), new Byeong(Team.HAN)),
-                Map.entry(new Coordinate(7, 4), new Byeong(Team.HAN)),
-                Map.entry(new Coordinate(9, 4), new Byeong(Team.HAN))
+                Map.entry(new Coordinate(1, 4), new Byeong()),
+                Map.entry(new Coordinate(3, 4), new Byeong()),
+                Map.entry(new Coordinate(5, 4), new Byeong()),
+                Map.entry(new Coordinate(7, 4), new Byeong()),
+                Map.entry(new Coordinate(9, 4), new Byeong())
         );
     }
 
@@ -51,11 +51,11 @@ public abstract class TableSettingStrategy {
                 Map.entry(new Coordinate(5, 9), new Goong(Team.CHO)),
                 Map.entry(new Coordinate(2, 8), new Po(Team.CHO)),
                 Map.entry(new Coordinate(8, 8), new Po(Team.CHO)),
-                Map.entry(new Coordinate(1, 7), new Jol(Team.CHO)),
-                Map.entry(new Coordinate(3, 7), new Jol(Team.CHO)),
-                Map.entry(new Coordinate(5, 7), new Jol(Team.CHO)),
-                Map.entry(new Coordinate(7, 7), new Jol(Team.CHO)),
-                Map.entry(new Coordinate(9, 7), new Jol(Team.CHO))
+                Map.entry(new Coordinate(1, 7), new Jol()),
+                Map.entry(new Coordinate(3, 7), new Jol()),
+                Map.entry(new Coordinate(5, 7), new Jol()),
+                Map.entry(new Coordinate(7, 7), new Jol()),
+                Map.entry(new Coordinate(9, 7), new Jol())
         );
     }
 }
