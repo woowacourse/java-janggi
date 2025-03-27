@@ -1,7 +1,7 @@
-import domain.game.Game;
-import domain.game.Janggi;
-import view.InputView;
-import view.OutputView;
+import janggi.game.Game;
+import janggi.game.Janggi;
+import janggi.view.InputView;
+import janggi.view.OutputView;
 
 public class JanggiApplication {
     public static void main(String[] args) {
