@@ -1,46 +1,90 @@
 package dao;
 
+import domain.JanggiStatus;
 import domain.Team;
 import domain.Turn;
+import dto.JanggiDto;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JanggiDao {
 
-    public Turn findAnyTurn(final Connection connection) {
+    public List<JanggiDto> findAllJanggiDtos(final Connection connection) {
         final var query = "SELECT * FROM janggi";
         try (final var preparedStatement = connection.prepareStatement(query)) {
 
             final var resultSet = preparedStatement.executeQuery();
 
-            final String rawTurn = resultSet.getString("turn");
-            if (rawTurn == null) {
-                return null;
+            final List<JanggiDto> janggiDtos = new ArrayList<>();
+            while (!resultSet.next()) {
+                final JanggiDto janggiDto = new JanggiDto(
+                        resultSet.getInt("id"),
+                        resultSet.getString("title"),
+                        new Turn(Team.from(resultSet.getString("turn"))),
+                        JanggiStatus.from(resultSet.getString("status"))
+                );
+                janggiDtos.add(janggiDto);
             }
-            final Team team = Team.from(rawTurn);
-            return new Turn(team);
+
+            return janggiDtos;
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void saveTurn(final Connection connection, final Team team) {
-        final var query = "INSERT INTO janggi (turn) VALUES (?)";
+    public JanggiDto findJanggiDtoById(
+            final Connection connection,
+            final int id
+    ) {
+        final var query = "SELECT * FROM janggi WHERE id = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, team.getTitle());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
+            preparedStatement.setInt(1, id);
+            final var resultSet = preparedStatement.executeQuery();
+
+            return new JanggiDto(
+                    resultSet.getInt("id"),
+                    resultSet.getString("title"),
+                    new Turn(Team.valueOf(resultSet.getString("turn"))),
+                    JanggiStatus.from(resultSet.getString("status"))
+            );
+        } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateAnyTurn(
+    public int create(
             final Connection connection,
+            final String title,
+            final JanggiStatus status,
+            final Turn turn
+    ) {
+        final var query = "INSERT INTO janggi (title, status, turn) VALUES (?, ?, ?)";
+        try {
+            final var preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, status.name());
+            preparedStatement.setString(3, turn.currentTeam().name());
+
+            preparedStatement.executeUpdate();
+
+            return (int) preparedStatement.getGeneratedKeys().getLong(1);
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateTurnByJanggiId(
+            final Connection connection,
+            final int janggiId,
             final Team changedTeam
     ) {
-        final var query = "UPDATE janggi SET turn = ? WHERE TRUE";
+        final var query = "UPDATE janggi SET turn = ? WHERE janggi_id = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, changedTeam.getTitle());
+            preparedStatement.setInt(2, janggiId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

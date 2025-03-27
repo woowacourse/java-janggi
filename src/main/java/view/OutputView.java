@@ -4,6 +4,8 @@ import domain.Score;
 import domain.Team;
 import domain.board.BoardPosition;
 import domain.piece.Piece;
+import dto.JanggiDto;
+import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -55,11 +57,23 @@ public class OutputView {
         System.out.println("승리 팀은 " + winnerTeam.getTitle());
     }
 
+    public void printAllJanggiGames(final List<JanggiDto> janggiDtos) {
+        janggiDtos.forEach(this::printJanggiDto);
+    }
+
     private String createColorCode(final Team team) {
         if (team == Team.RED) {
             return RED;
         }
 
         return GREEN;
+    }
+
+    private void printJanggiDto(final JanggiDto janggiDto) {
+        System.out.printf("NO. %d   /  %s  /  %s  /",
+                janggiDto.id(),
+                janggiDto.title(),
+                janggiDto.status().name()
+        );
     }
 }

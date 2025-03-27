@@ -8,13 +8,17 @@ import view.OutputView;
 public class Application {
 
     public static void main(String[] args) {
-        InputView inputView = new InputView();
-        OutputView outputView = new OutputView();
+        final InputView inputView = new InputView();
+        final OutputView outputView = new OutputView();
 
-        PiecePositionDao piecePositionDao = new PiecePositionDao();
-        JanggiDao janggiDao = new JanggiDao();
-        JanggiManager janggiManager = new JanggiManager(piecePositionDao, janggiDao);
-        JanggiController janggiController = new JanggiController(janggiManager, inputView, outputView);
+        final PiecePositionDao piecePositionDao = new PiecePositionDao();
+        final JanggiDao janggiDao = new JanggiDao();
+        final JanggiManager janggiManager = new JanggiManager(piecePositionDao, janggiDao);
+
+        final JanggiController janggiController = new JanggiController(
+                janggiManager,
+                inputView,
+                outputView);
 
         janggiController.run();
     }

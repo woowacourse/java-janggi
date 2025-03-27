@@ -21,11 +21,12 @@ public class PiecePositionDao {
         }
     }
 
-    public void addAll(
+    public void createByJanggiId(
             final Connection connection,
+            final int janggiGameId,
             final Map<BoardPosition, Piece> board
     ) {
-        final var query = "INSERT INTO piece_position (position_x, position_y, piece, team) VALUES (?, ?, ?, ?)";
+        final var query = "INSERT INTO piece_position (janggi_id, position_x, position_y, piece, team) VALUES (?, ?, ?, ?, ?)";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             connection.setAutoCommit(false);
 
@@ -35,10 +36,11 @@ public class PiecePositionDao {
                 final Team team = entry.getValue().getTeam();
                 final PieceType pieceType = entry.getValue().getPieceType();
 
-                preparedStatement.setInt(1, position.x());
-                preparedStatement.setInt(2, position.y());
-                preparedStatement.setString(3, pieceType.name());
-                preparedStatement.setString(4, team.name());
+                preparedStatement.setInt(1, janggiGameId);
+                preparedStatement.setInt(2, position.x());
+                preparedStatement.setInt(3, position.y());
+                preparedStatement.setString(4, pieceType.name());
+                preparedStatement.setString(5, team.name());
 
                 preparedStatement.addBatch();
             }
@@ -56,10 +58,13 @@ public class PiecePositionDao {
         }
     }
 
-    public Map<BoardPosition, Piece> findAll(final Connection connection) {
-        final var query = "SELECT * FROM piece_position";
+    public Map<BoardPosition, Piece> findByJanggiId(
+            final Connection connection,
+            final int janggiId
+    ) {
+        final var query = "SELECT * FROM piece_position WHERE janggi_id = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
-
+            preparedStatement.setInt(1, janggiId);
             final var resultSet = preparedStatement.executeQuery();
             final Map<BoardPosition, Piece> piecePositions = new HashMap<>();
 
@@ -81,31 +86,35 @@ public class PiecePositionDao {
         }
     }
 
-    public void deleteByBoardPosition(
+    public void deleteByJanggiIdAndPosition(
             final Connection connection,
+            final int janggiId,
             final BoardPosition boardPosition
     ) {
-        final var query = "DELETE FROM piece_position WHERE position_x = ? AND position_y = ?";
+        final var query = "DELETE FROM piece_position WHERE janggi_id = ? AND position_x = ? AND position_y = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, boardPosition.x());
-            preparedStatement.setInt(2, boardPosition.y());
+            preparedStatement.setInt(1, janggiId);
+            preparedStatement.setInt(2, boardPosition.x());
+            preparedStatement.setInt(3, boardPosition.y());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateByBoardPosition(
+    public void updateByJanggiIdAndPosition(
             final Connection connection,
+            final int janggiId,
             final BoardPosition selectPosition,
             final BoardPosition destinationPosition
     ) {
-        final var query = "UPDATE piece_position SET position_x = ?, position_y = ? WHERE position_x = ? AND position_y = ?";
+        final var query = "UPDATE piece_position SET position_x = ?, position_y = ? WHERE janggi_id = ? AND position_x = ? AND position_y = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, destinationPosition.x());
-            preparedStatement.setInt(2, destinationPosition.y());
-            preparedStatement.setInt(3, selectPosition.x());
-            preparedStatement.setInt(4, selectPosition.y());
+            preparedStatement.setInt(1, janggiId);
+            preparedStatement.setInt(2, destinationPosition.x());
+            preparedStatement.setInt(3, destinationPosition.y());
+            preparedStatement.setInt(4, selectPosition.x());
+            preparedStatement.setInt(5, selectPosition.y());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

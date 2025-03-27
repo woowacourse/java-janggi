@@ -51,10 +51,10 @@ class PiecePositionDaoTest {
             Map<BoardPosition, Piece> pieces = board.getPieces();
 
             // when
-            piecePositionDao.addAll(connection, pieces);
+            piecePositionDao.createByJanggiId(connection, pieces);
 
             // then
-            assertThat(piecePositionDao.findAll(connection))
+            assertThat(piecePositionDao.findByJanggiId(connection))
                     .containsExactlyInAnyOrderEntriesOf(pieces);
         }
 
@@ -64,13 +64,13 @@ class PiecePositionDaoTest {
             // given
             Board board = Board.initialize();
             Map<BoardPosition, Piece> pieces = board.getPieces();
-            piecePositionDao.addAll(connection, pieces);
+            piecePositionDao.createByJanggiId(connection, pieces);
 
             // when
             piecePositionDao.deleteAll(connection);
 
             // then
-            assertThat(piecePositionDao.findAll(connection))
+            assertThat(piecePositionDao.findByJanggiId(connection))
                     .isEmpty();
         }
 
@@ -80,10 +80,10 @@ class PiecePositionDaoTest {
             // given
             Board board = Board.initialize();
             Map<BoardPosition, Piece> pieces = board.getPieces();
-            piecePositionDao.addAll(connection, pieces);
+            piecePositionDao.createByJanggiId(connection, pieces);
 
             // when & then
-            assertThat(piecePositionDao.findAll(connection))
+            assertThat(piecePositionDao.findByJanggiId(connection))
                     .containsExactlyInAnyOrderEntriesOf(pieces);
         }
 
@@ -96,13 +96,13 @@ class PiecePositionDaoTest {
                     new BoardPosition(3, 1), new General(Team.GREEN)
             );
             Board board = new Board(pieces);
-            piecePositionDao.addAll(connection, pieces);
+            piecePositionDao.createByJanggiId(connection, pieces);
 
             // when
-            piecePositionDao.deleteByBoardPosition(connection, new BoardPosition(4, 2));
+            piecePositionDao.deleteByJanggiIdAndPosition(connection, new BoardPosition(4, 2));
 
             // then
-            assertThat(piecePositionDao.findAll(connection))
+            assertThat(piecePositionDao.findByJanggiId(connection))
                     .containsEntry(new BoardPosition(3, 1), new General(Team.GREEN));
         }
 
@@ -115,17 +115,17 @@ class PiecePositionDaoTest {
                     new BoardPosition(3, 1), new General(Team.GREEN)
             );
             Board board = new Board(pieces);
-            piecePositionDao.addAll(connection, pieces);
+            piecePositionDao.createByJanggiId(connection, pieces);
 
             // when
-            piecePositionDao.updateByBoardPosition(
+            piecePositionDao.updateByJanggiIdAndPosition(
                     connection,
                     new BoardPosition(4, 2),
                     new BoardPosition(6, 7)
             );
 
             // then
-            assertThat(piecePositionDao.findAll(connection))
+            assertThat(piecePositionDao.findByJanggiId(connection))
                     .containsExactlyInAnyOrderEntriesOf(Map.of(
                             new BoardPosition(6, 7), new General(Team.RED),
                             new BoardPosition(3, 1), new General(Team.GREEN)

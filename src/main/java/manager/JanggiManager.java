@@ -4,14 +4,17 @@ import dao.ConnectionProvider;
 import dao.JanggiDao;
 import dao.PiecePositionDao;
 import domain.Janggi;
+import domain.JanggiStatus;
 import domain.Score;
 import domain.Team;
 import domain.Turn;
 import domain.board.Board;
 import domain.board.BoardPosition;
 import domain.piece.Piece;
+import dto.JanggiDto;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 public class JanggiManager {
@@ -38,13 +41,14 @@ public class JanggiManager {
         try {
             connection.setAutoCommit(false);
             janggi.processTurn(selectPosition, destinationPosition);
-            piecePositionDao.deleteByBoardPosition(connection, destinationPosition);
-            piecePositionDao.updateByBoardPosition(
+            piecePositionDao.deleteByJanggiIdAndPosition(connection, janggi.getId(), destinationPosition);
+            piecePositionDao.updateByJanggiIdAndPosition(
                     connection,
+                    janggi.getId(),
                     selectPosition,
                     destinationPosition
             );
-            janggiDao.updateAnyTurn(connection, getCurrentTeam(janggi));
+            janggiDao.updateTurnByJanggiId(connection, janggi.getId(), getCurrentTeam(janggi));
             connection.commit();
             connection.setAutoCommit(true);
             return janggi;
@@ -59,17 +63,38 @@ public class JanggiManager {
         }
     }
 
-    public Janggi loadOrCreateJanggi() {
+    public List<JanggiDto> findAllJanggiDtos() {
         final Connection connection = ConnectionProvider.getConnection();
-        final Turn turn = janggiDao.findAnyTurn(connection);
-        if (turn == null) {
-            final Janggi initaialJanggi = Janggi.initialize();
-            piecePositionDao.addAll(connection, initaialJanggi.getPieces());
-            janggiDao.saveTurn(connection, getCurrentTeam(initaialJanggi));
-            return initaialJanggi;
+        return janggiDao.findAllJanggiDtos(connection);
+    }
+
+    public Janggi createJanggi(
+            final String title
+    ) {
+        final Connection connection = ConnectionProvider.getConnection();
+
+        final int janggiId = janggiDao.create(
+                connection, title, JanggiStatus.PROCESS, new Turn(Team.GREEN)
+        );
+        final Janggi initaialJanggi = Janggi.initialize(janggiId, title);
+        piecePositionDao.createByJanggiId(connection, janggiId, initaialJanggi.getPieces());
+        return initaialJanggi;
+    }
+
+    public Janggi loadJanggi(final int janggiId) {
+        final Connection connection = ConnectionProvider.getConnection();
+        final JanggiDto janggiDto = janggiDao.findJanggiDtoById(connection, janggiId);
+
+        if (janggiDto.id() == 0) {
+            throw new IllegalArgumentException("해당하는 게임이 없습니다.");
         }
-        final Map<BoardPosition, Piece> pieces = piecePositionDao.findAll(connection);
-        return new Janggi(new Board(pieces), turn);
+
+        return new Janggi(
+                janggiId,
+                janggiDto.title(),
+                new Board(piecePositionDao.findByJanggiId(connection, janggiId)),
+                janggiDto.turn()
+        );
     }
 
     public Score findScore(

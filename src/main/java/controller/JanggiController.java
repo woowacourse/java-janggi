@@ -28,8 +28,26 @@ public class JanggiController {
     }
 
     public void run() {
-        Janggi janggi = janggiManager.loadOrCreateJanggi();
+        try {
+            outputView.printAllJanggiGames(janggiManager.findAllJanggiDtos());
+            final String selectJanggiInput = inputView.inputSelectJanggi();
 
+            if (selectJanggiInput.matches("/^[0-9]*$/")) {
+                playJanggi(janggiManager.loadJanggi(Integer.parseInt(selectJanggiInput)));
+                return;
+            }
+            if (selectJanggiInput.equals("new")) {
+                playJanggi(janggiManager.createJanggi(inputView.inputJanggiTitle()));
+                return;
+            }
+            throw new IllegalArgumentException("잘못된 입력입니다. 재입력해주세요.");
+        } catch (IllegalArgumentException e) {
+            outputView.printInputExceptionMessage(e);
+            run();
+        }
+    }
+
+    private void playJanggi(Janggi janggi) {
         while (!janggiManager.isGameFinish(janggi)) {
             printJanggiProcess(janggi);
 
