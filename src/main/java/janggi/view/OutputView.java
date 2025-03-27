@@ -7,6 +7,9 @@ import janggi.domain.board.Row;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
+import janggi.dto.GameRoomDto;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -85,5 +88,20 @@ public class OutputView {
             int score = entry.getValue();
             System.out.printf("%s 점수: %d\n", teamName, score);
         }
+    }
+
+    public void printRooms(List<GameRoomDto> allPlayingRooms) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("================================ 방 목록 ================================");
+        sb.append(System.lineSeparator());
+        for (int i = 0; i < allPlayingRooms.size(); i++) {
+            GameRoomDto room = allPlayingRooms.get(i);
+            String teamName = TeamColorName.getNameFrom(TeamColor.valueOf(room.turnColor()));
+            sb.append(String.format("[%d] 게임 시작: %s / 최근 진행: %s / 현재 턴: %s%n",
+                    i + 1, room.startTime().format(formatter), room.last_updated().format(formatter), teamName));
+        }
+        System.out.println(sb);
     }
 }

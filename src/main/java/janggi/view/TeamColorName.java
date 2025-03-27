@@ -24,4 +24,7 @@ public enum TeamColorName {
                 .teamName;
     }
 
+    public String getTeamName() {
+        return teamName;
+    }
 }

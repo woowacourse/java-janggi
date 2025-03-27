@@ -65,7 +65,7 @@ public class JanggiController {
         outputView.printBoard(playingBoard);
 
         janggiDBService.updateMoveResult(source, destination, pieceType, turnColor);
-        janggiDBService.updateGameState(janggiGame.getTurnColor(), janggiGame.getTeamScore());
+        janggiDBService.updateGameRoom(janggiGame.getTurnColor(), janggiGame.getTeamScore());
     }
 
     private Position createPosition(char rowInput, char colInput) {

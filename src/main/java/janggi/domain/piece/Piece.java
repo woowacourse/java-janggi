@@ -24,7 +24,6 @@ public class Piece {
         return moveRule.verifyRoute(sourcePiece, destinationPiece, piecesInRoute);
     }
 
-
     public List<Position> findAllRoute(PiecePath path) {
         return moveRule.findAllRoute(path);
     }

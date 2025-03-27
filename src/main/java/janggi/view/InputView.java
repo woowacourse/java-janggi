@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.controller.MainOption;
 import janggi.domain.piece.TeamColor;
 import janggi.dto.MoveCommandDto;
 import java.util.Arrays;
@@ -39,6 +40,7 @@ public class InputView {
         StringBuilder sb = new StringBuilder();
         String teamName = TeamColorName.getNameFrom(teamColor);
 
+        sb.append(System.lineSeparator());
         sb.append(teamName)
                 .append(" - 상차림 종류 번호를 입력해주세요. ex) 1\n");
         sb.append(setupTypeNotice());
@@ -65,5 +67,23 @@ public class InputView {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("유효한 숫자 입력이 아닙니다.");
         }
+    }
+
+    public MainOption readMainOption() {
+        System.out.println("게임 옵션을 선택하세요.\n"
+                + "1. 새로운 게임 진행\n"
+                + "2. 게임 이어서 하기");
+
+        String input = scanner.nextLine();
+        validateNumeric(input);
+
+        return MainOption.from(Integer.parseInt(input));
+    }
+
+    public int readRoomSelectNumber() {
+        System.out.println("게임을 선택하세요.");
+        String input = scanner.nextLine();
+        validateNumeric(input);
+        return Integer.parseInt(input);
     }
 }
