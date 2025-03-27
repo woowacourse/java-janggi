@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
+import janggi.domain.Direction;
+import janggi.domain.Directions;
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.Vector;
-import janggi.domain.Vectors;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,9 +12,9 @@ import java.util.Set;
 
 public class Elephant extends Piece {
 
-    private static final List<Vectors> VECTORS_LIST = List.of(
-            Vectors.of(new Vector(1, 0), new Vector(2, -1), new Vector(3, -2)),
-            Vectors.of(new Vector(1, 0), new Vector(2, 1), new Vector(3, 2))
+    private static final List<Directions> DIRECTIONS_LIST = List.of(
+            Directions.of(Direction.DOWN, Direction.DOWN_DOWN_LEFT, Direction.DOWN_DOWN_DOWN_LEFT_LEFT),
+            Directions.of(Direction.DOWN, Direction.DOWN_DOWN_RIGHT, Direction.DOWN_DOWN_DOWN_RIGHT_RIGHT)
     );
 
     public Elephant(Side side) {
@@ -24,44 +24,45 @@ public class Elephant extends Piece {
     @Override
     public Set<Position> generateAvailableMovePositions(Map<Position, Piece> pieces, Position currentPosition) {
         Set<Position> result = new HashSet<>();
-        List<Vectors> rotatedVectors = new ArrayList<>(VECTORS_LIST);
+        List<Directions> rotatedDirections = new ArrayList<>(DIRECTIONS_LIST);
         for (int i = 0; i < 4; i++) {
-            searchAvailableMoves(result, pieces, currentPosition, rotatedVectors);
-            rotatedVectors = Vectors.rotate(rotatedVectors);
+            searchAvailableMoves(result, pieces, currentPosition, rotatedDirections);
+            rotatedDirections = Directions.rotate(rotatedDirections);
         }
 
         return result;
     }
 
     private void searchAvailableMoves(Set<Position> result, Map<Position, Piece> pieces, Position position,
-                                      List<Vectors> vectorsList) {
-        for (Vectors vectors : vectorsList) {
-            List<Vector> vectorRoute = vectors.vectors();
-            searchAvailableMove(result, pieces, position, vectorRoute);
+                                      List<Directions> directionsList) {
+        for (Directions directions : directionsList) {
+            List<Direction> route = directions.directions();
+            searchAvailableMove(result, pieces, position, route);
         }
     }
 
     private void searchAvailableMove(Set<Position> result, Map<Position, Piece> pieces, Position position,
-                                     List<Vector> vectors) {
-        if (canNotMove(vectors, position) || hasNoAvailableMiddleMove(vectors, position, pieces)) {
+                                     List<Direction> directions) {
+        if (canNotMove(directions, position) || hasNoAvailableMiddleMove(directions, position, pieces)) {
             return;
         }
 
-        Position finalPosition = position.moveToNextPosition(vectors.get(2));
+        Position finalPosition = position.moveToNextPosition(directions.get(2).getVector());
 
         if (canMoveToPosition(pieces, finalPosition)) {
             result.add(finalPosition);
         }
     }
 
-    private boolean canNotMove(List<Vector> vectors, Position currentPosition) {
-        return vectors.stream()
+    private boolean canNotMove(List<Direction> directions, Position currentPosition) {
+        return directions.stream()
+                .map(Direction::getVector)
                 .anyMatch(currentPosition::canNotMove);
     }
 
-    private boolean hasNoAvailableMiddleMove(List<Vector> vectors, Position currentPosition, Map<Position, Piece> pieces) {
-        Position midPosition1 = currentPosition.moveToNextPosition(vectors.get(0));
-        Position midPosition2 = currentPosition.moveToNextPosition(vectors.get(1));
+    private boolean hasNoAvailableMiddleMove(List<Direction> directions, Position currentPosition, Map<Position, Piece> pieces) {
+        Position midPosition1 = currentPosition.moveToNextPosition(directions.get(0).getVector());
+        Position midPosition2 = currentPosition.moveToNextPosition(directions.get(1).getVector());
 
         return !(checkAvailableMiddleMove(midPosition1, pieces) && checkAvailableMiddleMove(midPosition2, pieces));
     }

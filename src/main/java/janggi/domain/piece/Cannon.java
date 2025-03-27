@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Direction;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.Vector;
@@ -10,11 +11,11 @@ import java.util.Set;
 
 public class Cannon extends Piece {
 
-    private static final List<Vector> VECTORS = List.of(
-            new Vector(1, 0),
-            new Vector(0, -1),
-            new Vector(0, 1),
-            new Vector(-1, 0)
+    private static final List<Direction> MOVEMENT_DIRECTIONS = List.of(
+            Direction.DOWN,
+            Direction.LEFT,
+            Direction.RIGHT,
+            Direction.UP
     );
 
     public Cannon(Side side) {
@@ -24,7 +25,8 @@ public class Cannon extends Piece {
     @Override
     public Set<Position> generateAvailableMovePositions(Map<Position, Piece> pieces, Position currentPosition) {
         Set<Position> result = new HashSet<>();
-        for (Vector vector : VECTORS) {
+        for (Direction direction : MOVEMENT_DIRECTIONS) {
+            Vector vector = direction.getVector();
             currentPosition.calculateNextPosition(vector)
                     .ifPresent(nextPosition -> searchAvailableMoves(result, pieces, nextPosition, vector, pieces.containsKey(nextPosition)));
         }

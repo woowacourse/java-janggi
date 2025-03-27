@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
+import janggi.domain.Direction;
+import janggi.domain.Directions;
 import janggi.domain.Position;
 import janggi.domain.Side;
-import janggi.domain.Vector;
-import janggi.domain.Vectors;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -12,9 +12,9 @@ import java.util.Set;
 
 public class Horse extends Piece {
 
-    private static final List<Vectors> VECTOR_ROUTE_LIST = List.of(
-            Vectors.of(new Vector(1, 0), new Vector(2, -1)),
-            Vectors.of(new Vector(1, 0), new Vector(2, 1))
+    private static final List<Directions> DIRECTIONS_LIST = List.of(
+            Directions.of(Direction.DOWN, Direction.DOWN_DOWN_LEFT),
+            Directions.of(Direction.DOWN, Direction.DOWN_DOWN_RIGHT)
     );
 
     public Horse(Side side) {
@@ -24,38 +24,40 @@ public class Horse extends Piece {
     @Override
     public Set<Position> generateAvailableMovePositions(Map<Position, Piece> pieces, Position currentPosition) {
         Set<Position> result = new HashSet<>();
-        List<Vectors> rotatedVectors = new ArrayList<>(VECTOR_ROUTE_LIST);
+        List<Directions> rotatedDirections = new ArrayList<>(DIRECTIONS_LIST);
         for (int i = 0; i < 4; i++) {
-            searchAvailableMoves(result, pieces, currentPosition, rotatedVectors);
-            rotatedVectors = Vectors.rotate(rotatedVectors);
+            searchAvailableMoves(result, pieces, currentPosition, rotatedDirections);
+            rotatedDirections = Directions.rotate(rotatedDirections);
         }
 
         return result;
     }
 
     private void searchAvailableMoves(Set<Position> result, Map<Position, Piece> pieces, Position position,
-                                      List<Vectors> vectorsList) {
-        for (Vectors vectors : vectorsList) {
-            searchAvailableMove(result, pieces, position, vectors.vectors());
+                                      List<Directions> directionsList) {
+        for (Directions directions : directionsList) {
+            searchAvailableMove(result, pieces, position, directions.directions());
         }
     }
 
     private void searchAvailableMove(Set<Position> result, Map<Position, Piece> pieces, Position position,
-                                     List<Vector> vectors) {
-        if (canNotMove(vectors, position)) {
+                                     List<Direction> directions) {
+        if (canNotMove(directions, position)) {
             return;
         }
 
-        Position midPosition = position.moveToNextPosition(vectors.get(0));
-        Position finalPosition = position.moveToNextPosition(vectors.get(1));
+        Position midPosition = position.moveToNextPosition(directions.get(0).getVector());
+        Position finalPosition = position.moveToNextPosition(directions.get(1).getVector());
 
         if (!pieces.containsKey(midPosition) && canMoveToPosition(pieces, finalPosition)) {
             result.add(finalPosition);
         }
     }
 
-    private boolean canNotMove(List<Vector> vectors, Position currentPosition) {
-        return vectors.stream().anyMatch(currentPosition::canNotMove);
+    private boolean canNotMove(List<Direction> directions, Position currentPosition) {
+        return directions.stream()
+                .map(Direction::getVector)
+                .anyMatch(currentPosition::canNotMove);
     }
 
     private boolean canMoveToPosition(Map<Position, Piece> pieces, Position position) {
