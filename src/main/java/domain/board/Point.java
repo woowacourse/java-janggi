@@ -6,7 +6,7 @@ public record Point(int row, int column) {
     private static final int VALID_ROW_SIZE = 10;
     private static final int VALID_COLUMN_SIZE = 9;
 
-    public BoardPoint toPoint() {
+    public BoardPoint toBoardPoint() {
         return new BoardPoint(row, column);
     }
 

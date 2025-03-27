@@ -16,7 +16,7 @@ public final class DefaultMovement implements PieceMovement {
         return routes.stream()
                 .map(route -> route.navigateArrivalPoint(startBoardPoint))
                 .filter(Point::isInRange)
-                .map(Point::toPoint)
+                .map(Point::toBoardPoint)
                 .toList();
     }
 

@@ -2,9 +2,8 @@ package domain.movements;
 
 import domain.board.BoardPoint;
 import domain.board.Point;
-import execptions.JanggiArgumentException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public final class Route {
     private final List<Direction> directions;
@@ -14,7 +13,7 @@ public final class Route {
     }
 
     public Point navigateArrivalPoint(BoardPoint startBoardPoint) {
-        Point point = startBoardPoint.toTempPoint();
+        Point point = startBoardPoint.toPoint();
         for (final Direction direction : directions) {
             point = point.move(direction);
         }
@@ -26,19 +25,25 @@ public final class Route {
         if (!point.isInRange()) {
             return false;
         }
-        return point.toPoint().equals(arrivalBoardPoint);
+        return point.toBoardPoint().equals(arrivalBoardPoint);
     }
 
     public List<BoardPoint> getAllPointsOnRoute(BoardPoint boardPoint) {
-        final List<BoardPoint> result = new ArrayList<>();
-        try {
-            for (final Direction direction : directions) {
-                boardPoint = boardPoint.move(direction);
-                result.add(boardPoint);
-            }
-            return result;
-        } catch (JanggiArgumentException e) {
-            return result;
+        Point start = boardPoint.toPoint();
+
+        return IntStream.range(0, directions.size())
+                .mapToObj(i -> directions.subList(0, i + 1))
+                .map(subList -> moveBy(start, subList))
+                .takeWhile(Point::isInRange)
+                .map(Point::toBoardPoint)
+                .toList();
+    }
+
+    private Point moveBy(Point start, List<Direction> directions) {
+        Point current = start;
+        for (Direction dir : directions) {
+            current = current.move(dir);
         }
+        return current;
     }
 }
