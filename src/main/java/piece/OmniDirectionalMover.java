@@ -39,6 +39,9 @@ public abstract sealed class OmniDirectionalMover
         return new Positions(List.of());
     }
 
+    @Override
+    public abstract PieceType getPieceType();
+
     private boolean isOmniDirectionalMover(Position destination) {
         return !position.calculateUpMovement().equals(destination)
                 && !position.calculateRightMovement().equals(destination)
@@ -64,8 +67,5 @@ public abstract sealed class OmniDirectionalMover
     public int hashCode() {
         return Objects.hashCode(position);
     }
-
-    @Override
-    public abstract PieceType getPieceType();
 
 }
