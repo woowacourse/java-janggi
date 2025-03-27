@@ -3,7 +3,6 @@ package janggi.piece;
 public class General extends Piece {
     private static final PieceType TYPE = PieceType.GENERAL;
 
-
     public General(Team team) {
         super(team);
     }

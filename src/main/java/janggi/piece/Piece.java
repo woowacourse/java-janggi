@@ -1,10 +1,10 @@
 package janggi.piece;
 
+import janggi.board.Board;
 import janggi.board.Position;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class Piece {
     protected final Team team;
@@ -17,8 +17,8 @@ public abstract class Piece {
         return this.team == team;
     }
 
-    public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
-        Piece attacker = board.get(start);
+    public void validateMovable(Board board, Position start, Position goal) {
+        Piece attacker = board.getPiece(start);
         validatePath(board, start, goal);
         validateNonOurArmyAtGoal(board, goal, attacker.getTeam());
     }
@@ -27,8 +27,8 @@ public abstract class Piece {
         return team;
     }
 
-    protected void validatePath(Map<Position, Piece> board, Position start, Position goal) {
-        Piece attacker = board.get(start);
+    protected void validatePath(Board board, Position start, Position goal) {
+        Piece attacker = board.getPiece(start);
         List<Position> positionsOnPath = attacker.findPositionsInPath(start, goal);
 
         for (Position position : positionsOnPath) {
@@ -36,15 +36,15 @@ public abstract class Piece {
         }
     }
 
-    private void validateNonPieceInPosition(Map<Position, Piece> board, Position position) {
-        if (board.containsKey(position)) {
+    private void validateNonPieceInPosition(Board board, Position position) {
+        if (board.existPiece(position)) {
             throw new IllegalArgumentException("[ERROR] 이동 경로 중 특정 위치에 다른 기물이 있어 해당 기물을 목적지로 이동할 수 없습니다.");
         }
     }
 
-    protected void validateNonOurArmyAtGoal(Map<Position, Piece> board, Position goal, Team attackerTeam) {
+    protected void validateNonOurArmyAtGoal(Board board, Position goal, Team attackerTeam) {
         // 목적지에 아군이 존재하면 예외 발생
-        Piece target = board.get(goal);
+        Piece target = board.getPiece(goal);
         if (target != null && target.isSameTeam(attackerTeam)) {
             throw new IllegalArgumentException("[ERROR] 목적지에 같은 진영의 기물이 있어 이동할 수 없습니다.");
         }

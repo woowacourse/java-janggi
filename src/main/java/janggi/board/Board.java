@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Map;
 
 public class Board {
-
     public static final int ROW_SIZE = 10;
     public static final int COLUMN_SIZE = 9;
 
@@ -30,7 +29,7 @@ public class Board {
     private void validateMove(Position start, Position goal, Team team, Piece attacker) {
         isExistPieceAtPosition(start);
         validateAttackTurn(team, attacker);
-        attacker.validateMovable(board, start, goal);
+        attacker.validateMovable(this, start, goal);
     }
 
     private void isExistPieceAtPosition(Position start) {
@@ -62,5 +61,13 @@ public class Board {
 
     public Map<Position, Piece> getBoard() {
         return Collections.unmodifiableMap(board);
+    }
+
+    public Piece getPiece(Position position) {
+        return board.get(position);
+    }
+
+    public boolean existPiece(Position position) {
+        return board.containsKey(position);
     }
 }

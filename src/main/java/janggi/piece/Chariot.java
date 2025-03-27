@@ -1,8 +1,7 @@
 package janggi.piece;
 
+import janggi.board.Board;
 import janggi.board.Position;
-
-import java.util.Map;
 
 public class Chariot extends Piece {
     private static final PieceType TYPE = PieceType.CHARIOT;
@@ -12,9 +11,9 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
+    public void validateMovable(Board board, Position start, Position goal) {
         validateStraightMove(start, goal);
-        Piece attacker = board.get(start);
+        Piece attacker = board.getPiece(start);
         validatePath(board, start, goal);
         validateNonOurArmyAtGoal(board, goal, attacker.getTeam());
     }

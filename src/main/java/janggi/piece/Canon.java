@@ -1,9 +1,9 @@
 package janggi.piece;
 
+import janggi.board.Board;
 import janggi.board.Position;
 
 import java.util.List;
-import java.util.Map;
 
 public class Canon extends Piece {
     protected static final PieceType TYPE = PieceType.CANNON;
@@ -13,21 +13,21 @@ public class Canon extends Piece {
     }
 
     @Override
-    public void validateMovable(Map<Position, Piece> board, Position start, Position goal) {
+    public void validateMovable(Board board, Position start, Position goal) {
         validateStraightMove(start, goal);
         validatePath(board, start, goal);
         validatePieceOnGoal(board, goal);
     }
 
-    protected void validatePath(Map<Position, Piece> board, Position start, Position goal) {
+    protected void validatePath(Board board, Position start, Position goal) {
         List<Position> positionsInPath = findPositionsInPath(start, goal);
         int pieceCount = 0;
         for (Position position : positionsInPath) {
-            boolean existsPiece = board.containsKey(position);
+            boolean existsPiece = board.existPiece(position);
             if (!existsPiece) {
                 continue;
             }
-            Piece piece = board.get(position);
+            Piece piece = board.getPiece(position);
             if (piece.isSameType(PieceType.CANNON)) {
                 throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어넘을 수 없습니다.");
             }
@@ -44,8 +44,8 @@ public class Canon extends Piece {
         }
     }
 
-    protected void validatePieceOnGoal(Map<Position, Piece> board, Position goal) {
-        Piece other = board.get(goal);
+    protected void validatePieceOnGoal(Board board, Position goal) {
+        Piece other = board.getPiece(goal);
         if (other != null && other.isSameType(PieceType.CANNON)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
