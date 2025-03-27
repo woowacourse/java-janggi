@@ -2,9 +2,9 @@ package janggi.board;
 
 import janggi.piece.Piece;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -75,12 +75,10 @@ public class Board {
     }
 
     private Set<Piece> findPiecesByPoint(Set<Point> route) {
-        Set<Piece> pieces = new HashSet<>();
-        for (Point point : route) {
-            Piece piece = peek(point);
-            pieces.add(piece);
-        }
-        return pieces;
+        return route.stream()
+                .filter(placedPieces::containsKey)
+                .map(this::peek)
+                .collect(Collectors.toSet());
     }
 
     public Map<Point, Piece> getPlacedPieces() {
