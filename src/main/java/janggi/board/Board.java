@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.camp.Camp;
 import janggi.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
@@ -83,5 +84,19 @@ public class Board {
 
     public Map<Point, Piece> getPlacedPieces() {
         return placedPieces;
+    }
+
+    public boolean isGameOver() {
+        return placedPieces.values().stream()
+                .filter(Piece::isGeneral)
+                .count() != 2;
+    }
+
+    public Camp findWinningCamp() {
+        return placedPieces.values().stream()
+                .filter(Piece::isGeneral)
+                .map(Piece::getCamp)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("생존한 장군이 없습니다."));
     }
 }

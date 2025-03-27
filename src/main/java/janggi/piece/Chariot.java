@@ -38,6 +38,11 @@ public final class Chariot extends Piece {
     }
 
     @Override
+    public boolean isGeneral() {
+        return false;
+    }
+
+    @Override
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.CHARIOT;
     }

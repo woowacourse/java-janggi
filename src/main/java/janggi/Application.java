@@ -23,10 +23,11 @@ public class Application {
     private static void playGame(View view) {
         Board board = BoardGenerator.generate();
         Camp currentTurnCamp = FIRST_TURN_CAMP;
-        while (true) {
+        while (!board.isGameOver()) {
             view.displayBoard(board.getPlacedPieces());
             currentTurnCamp = tryPlayTurn(view, currentTurnCamp, board);
         }
+        handleGameEnd(view, board);
     }
 
     private static Camp tryPlayTurn(View view, Camp currentTurnCamp, Board board) {
@@ -51,5 +52,11 @@ public class Application {
     private static void validateSelectedPiece(Board board, Point from, Camp baseCamp) {
         Piece piece = board.peek(from);
         piece.validateSelect(baseCamp);
+    }
+
+    private static void handleGameEnd(View view, Board board) {
+        Camp winningCamp = board.findWinningCamp();
+        view.displayBoard(board.getPlacedPieces());
+        view.displayEndingMessage(winningCamp);
     }
 }

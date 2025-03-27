@@ -26,6 +26,11 @@ public final class Guard extends Piece {
     }
 
     @Override
+    public boolean isGeneral() {
+        return false;
+    }
+
+    @Override
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.GUARD;
     }

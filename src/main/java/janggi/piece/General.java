@@ -26,6 +26,11 @@ public final class General extends Piece {
     }
 
     @Override
+    public boolean isGeneral() {
+        return true;
+    }
+
+    @Override
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.GENERAL;
     }

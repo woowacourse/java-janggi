@@ -56,6 +56,11 @@ public final class Soldier extends Piece {
     }
 
     @Override
+    public boolean isGeneral() {
+        return false;
+    }
+
+    @Override
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.SOLDIER;
     }

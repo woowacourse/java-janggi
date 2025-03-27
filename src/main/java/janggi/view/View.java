@@ -102,4 +102,8 @@ public class View {
     public void displayErrorMessage(String errorMessage) {
         System.out.printf(ERROR_MESSAGE_FORMAT, errorMessage);
     }
+
+    public void displayEndingMessage(Camp camp) {
+        System.out.printf("%n%s의 장군이 쓰러졌습니다. %s의 승리입니다.%n", camp.reverse().getName(), camp.getName());
+    }
 }

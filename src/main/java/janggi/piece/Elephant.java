@@ -71,6 +71,11 @@ public final class Elephant extends Piece {
     }
 
     @Override
+    public boolean isGeneral() {
+        return false;
+    }
+
+    @Override
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.ELEPHANT;
     }
