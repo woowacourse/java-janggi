@@ -2,7 +2,6 @@ package janggi.movement.route;
 
 import janggi.piece.Movable;
 import janggi.point.Point;
-import janggi.movement.crash.Crashes;
 import janggi.movement.direction.Direction;
 import java.util.ArrayList;
 import java.util.List;
