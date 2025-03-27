@@ -2,9 +2,11 @@ package view;
 
 import domain.board.Point;
 import domain.pieces.Piece;
+import domain.player.Score;
 import domain.player.TeamType;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 public final class OutputView {
@@ -35,6 +37,15 @@ public final class OutputView {
 
     public void printWinner(final TeamType currentTeamType) {
         System.out.println(currentTeamType.toString() + "가 승리했습니다!");
+    }
+
+    public void printScores(final Map<TeamType, Score> scores) {
+        for (final Entry<TeamType, Score> scoresByTeam : scores.entrySet()) {
+            final TeamType teamType = scoresByTeam.getKey();
+            final Score score = scoresByTeam.getValue();
+            System.out.println(teamType.toString() + " : " + score.value() + " 점");
+        }
+
     }
 
     private String boardToString(final Map<Point, Piece> locations) {
@@ -79,5 +90,6 @@ public final class OutputView {
             builder.append(SPACE);
         }
     }
+
 
 }

@@ -10,7 +10,7 @@ public enum PieceType {
     ELEPHANT("象", "상", new Score(3.0)),
     GUARD("士", "사", new Score(3.0)),
     SOLDIER("兵", "졸", new Score(2.0)),
-    GENERAL("將", "궁", new Score(0.0)),
+    GENERAL("將", "궁", new Score(Double.MAX_VALUE)),
     ;
 
     private final String nameForHan;

@@ -28,7 +28,7 @@ public final class JanggiController {
     private void playJanggi(final JanggiGame game) {
         while (true) {
             final TeamType currentTeamType = game.getTeamOnCurrentTurn();
-            final List<List<Integer>> moveRequest = inputView.readMovementRequest(currentTeamType);
+            final List<List<Integer>> moveRequest = handleInput(() -> inputView.readMovementRequest(currentTeamType));
             final Point start = Point.generateStartPoint(moveRequest);
             final Point arrival = Point.generateArrivalPoint(moveRequest);
             if (!canProcessMove(start, arrival, game)) {
@@ -38,6 +38,7 @@ public final class JanggiController {
             game.movePieceOnBoard(start, arrival);
             game.switchTurn();
             outputView.printBoard(game.getBoard());
+            outputView.printScores(game.getScores());
         }
     }
 
