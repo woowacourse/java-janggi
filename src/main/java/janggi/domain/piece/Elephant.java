@@ -11,8 +11,7 @@ import java.util.Set;
 public class Elephant extends Piece {
 
     public Elephant(final Position position, final Team team) {
-        super(position, team, new RoutePolicyForNormal());
-        this.pieceType = PieceType.ELEPHANT;
+        super(team, position, PieceType.ELEPHANT, new RoutePolicyForNormal());
     }
 
     @Override

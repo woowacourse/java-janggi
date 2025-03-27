@@ -14,8 +14,7 @@ import java.util.Set;
 public class Chariot extends Piece {
 
     public Chariot(final Position position, final Team team) {
-        super(position, team, new RoutePolicyForNormal());
-        this.pieceType = PieceType.CHARIOT;
+        super(team, position, PieceType.CHARIOT, new RoutePolicyForNormal());
     }
 
     @Override

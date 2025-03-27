@@ -11,8 +11,7 @@ import java.util.Set;
 public class Guard extends Piece {
 
     public Guard(final Position position, final Team team) {
-        super(position, team, new RoutePolicyForPalaceConstraint());
-        this.pieceType = PieceType.GUARD;
+        super(team, position, PieceType.GUARD, new RoutePolicyForPalaceConstraint());
     }
 
     @Override

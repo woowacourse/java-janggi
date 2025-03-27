@@ -14,8 +14,7 @@ import java.util.Set;
 public class Cannon extends Piece {
 
     public Cannon(final Position position, final Team team) {
-        super(position, team, new RoutePolicyForCannon());
-        this.pieceType = PieceType.CANNON;
+        super(team, position, PieceType.CANNON, new RoutePolicyForCannon());
     }
 
     @Override

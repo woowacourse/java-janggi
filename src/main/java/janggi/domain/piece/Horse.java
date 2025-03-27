@@ -11,8 +11,7 @@ import java.util.Set;
 public class Horse extends Piece {
 
     public Horse(final Position position, final Team team) {
-        super(position, team, new RoutePolicyForNormal());
-        this.pieceType = PieceType.HORSE;
+        super(team, position, PieceType.HORSE, new RoutePolicyForNormal());
     }
 
     @Override

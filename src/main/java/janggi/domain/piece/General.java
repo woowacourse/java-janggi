@@ -11,7 +11,7 @@ import java.util.Set;
 public class General extends Piece {
 
     public General(final Position position, final Team team) {
-        super(position, team, new RoutePolicyForPalaceConstraint());
+        super(team, position, PieceType.GENERAL, new RoutePolicyForPalaceConstraint());
         this.pieceType = PieceType.GENERAL;
     }
 

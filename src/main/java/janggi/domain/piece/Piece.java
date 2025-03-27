@@ -18,9 +18,10 @@ public abstract class Piece {
     protected PieceType pieceType;
     protected RoutePolicy movePolicy;
 
-    public Piece(Position position, Team team, RoutePolicy movePolicy) {
+    public Piece(Team team, Position position, PieceType pieceType, RoutePolicy movePolicy) {
         this.team = team;
         this.position = position;
+        this.pieceType = pieceType;
         this.movePolicy = movePolicy;
     }
 
