@@ -51,4 +51,15 @@ class PiecesTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
+
+    @DisplayName("장기말이 목적지로 이동할 수 없는 경우 예외를 발생시킨다.")
+    @Test
+    void test3() {
+        Pieces pieces = new Pieces(List.of(Gung.from(STANDARD)));
+        JanggiPosition destination = new JanggiPosition(7, 8);
+
+        assertThatThrownBy(() -> pieces.movePiece(new Pieces(List.of()), STANDARD, destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동이 불가능합니다.");
+    }
 }

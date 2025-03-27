@@ -28,6 +28,10 @@ public enum PieceType {
         return name;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     public int getHeight() {
         return height;
     }

@@ -55,6 +55,20 @@ public class Pieces {
         pieces.removeIf(piece -> piece.getPosition().equals(destination));
     }
 
+    public boolean isPieceAlive(final String name) {
+        boolean gungAlive = pieces.stream()
+                .noneMatch(piece -> piece.getPieceType().getName()
+                        .equals(name));
+
+        return pieces.isEmpty() || gungAlive;
+    }
+
+    public int calculateTotalScore() {
+        return pieces.stream()
+                .mapToInt(piece -> piece.getPieceType().getScore())
+                .sum();
+    }
+
     public List<Piece> getPieces() {
         return Collections.unmodifiableList(pieces);
     }

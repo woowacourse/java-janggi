@@ -8,6 +8,7 @@ import janggi.value.JanggiPosition;
 import java.util.List;
 
 public class JanggiBoard {
+    private static final double CHO_PLUS_SCORE = 1.5;
 
     private final Pieces choPieces;
     private final Pieces hanPieces;
@@ -23,6 +24,22 @@ public class JanggiBoard {
             return;
         }
         hanPieces.movePiece(choPieces, targetJanggiPosition, destination);
+    }
+
+    public boolean isChoCampCollapse() {
+        return choPieces.isPieceAlive(CampType.CHO.getGungName());
+    }
+
+    public boolean isHanCampCollapse() {
+        return hanPieces.isPieceAlive(CampType.HAN.getGungName());
+    }
+
+    public double requestChoTotalScore() {
+        return choPieces.calculateTotalScore() + CHO_PLUS_SCORE;
+    }
+
+    public int requestHanTotalScore() {
+        return hanPieces.calculateTotalScore();
     }
 
     public List<Piece> getChoPieces() {

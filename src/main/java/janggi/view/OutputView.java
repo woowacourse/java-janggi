@@ -70,7 +70,33 @@ public class OutputView {
         System.out.println();
     }
 
+    public void writeTotalScore(double choTotalScore, int hanTotalScore) {
+        System.out.println("초나라 점수 : " + choTotalScore);
+        System.out.println("한나라 점수 : " + hanTotalScore);
+        judgeWinner(choTotalScore, hanTotalScore);
+    }
+
+    private void judgeWinner(double choTotalScore, int hanTotalScore) {
+        if (choTotalScore > hanTotalScore) {
+            System.out.println("초나라 우승");
+            return;
+        }
+        System.out.println("한나라 우승");
+    }
+
     public void writeErrorMessage(String message) {
         System.out.println(message);
+    }
+
+    public void writeChoWin(double choTotalScore, int hanTotalScore) {
+        System.out.println("초나라 점수 : " + choTotalScore);
+        System.out.println("한나라 점수 : " + hanTotalScore);
+        System.out.println("초나라 우승");
+    }
+
+    public void writeHanWin(double choTotalScore, int hanTotalScore) {
+        System.out.println("초나라 점수 : " + choTotalScore);
+        System.out.println("한나라 점수 : " + hanTotalScore);
+        System.out.println("한나라 우승");
     }
 }
