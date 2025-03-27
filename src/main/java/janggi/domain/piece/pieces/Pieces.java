@@ -6,6 +6,7 @@ import janggi.domain.piece.PieceView;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class Pieces implements PiecesView, Cloneable {
     }
 
     public Map<Position, Piece> getValues() {
-        return values;
+        return Collections.unmodifiableMap(values);
     }
 
     @Override
