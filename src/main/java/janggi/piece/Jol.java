@@ -40,9 +40,4 @@ public class Jol extends Piece {
         throw new IllegalArgumentException("[ERROR] 졸이 움직일 수 없는 위치입니다.");
     }
 
-    @Override
-    protected boolean isPo() {
-        return false;
-    }
-
 }

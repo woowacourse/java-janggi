@@ -10,6 +10,7 @@ public class Application {
         final InputView inputView = new InputView();
 
         final JanggiGame janggiGame = new JanggiGame(outputView, inputView);
+
         janggiGame.startGame();
     }
 

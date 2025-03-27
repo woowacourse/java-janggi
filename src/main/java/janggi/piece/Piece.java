@@ -93,6 +93,4 @@ public abstract class Piece {
     public String getType() {
         return pieceProfile.getPieceType().getValue();
     }
-
-    protected abstract boolean isPo();
 }

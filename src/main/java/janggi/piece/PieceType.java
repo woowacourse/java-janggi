@@ -18,6 +18,14 @@ public enum PieceType {
         this.name = name;
     }
 
+    public static boolean isJanggun(final PieceType pieceType) {
+        return JANGGUN.equals(pieceType);
+    }
+
+    public static boolean isPo(final PieceType pieceType) {
+        return PO.equals(pieceType);
+    }
+
     public String getValue() {
         return name;
     }

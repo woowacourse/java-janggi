@@ -40,10 +40,4 @@ public class Sa extends Piece {
 
         throw new IllegalArgumentException("[ERROR] 사가 움직일 수 없는 위치 입니다.");
     }
-
-    @Override
-    protected boolean isPo() {
-        return false;
-    }
-
 }

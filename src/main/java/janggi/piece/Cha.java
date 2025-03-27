@@ -104,9 +104,4 @@ public class Cha extends Piece {
         throw new IllegalArgumentException("[ERROR] 차가 움직일 수 없는 위치 입니다.");
     }
 
-    @Override
-    protected boolean isPo() {
-        return false;
-    }
-
 }

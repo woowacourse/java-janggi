@@ -3,8 +3,10 @@ package janggi.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.GameState;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
+import janggi.piece.Janggun;
 import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.position.Position;
@@ -86,6 +88,48 @@ class BoardTest {
         final Piece actual = board.getJanggiBoard().get(futurePosition);
         assertThat(actual).isEqualTo(new Byeong(Team.HAN,
                 new Position(4, 2)));
+    }
+
+    @DisplayName("왕이 죽으면 게임이 종료 상태가 된다.")
+    @Test
+    void jaggunDeadEndState() {
+        //given
+        final List<Piece> pieces = List.of(
+                new Byeong(Team.HAN, new Position(3, 2)),
+                new Janggun(Team.CHO, new Position(4, 2))
+        );
+
+        final Board board = new Board(pieces);
+
+        final Position presentPosition = new Position(3, 2);
+        final Position futurePosition = new Position(4, 2);
+
+        //when
+        final GameState gameState = board.pieceMove(presentPosition, futurePosition);
+
+        //then
+        assertThat(gameState).isEqualTo(GameState.END);
+    }
+
+    @DisplayName("왕이 죽지 않으면 게임이 진행 상태가 된다.")
+    @Test
+    void nonJaggunDeadEndState() {
+        //given
+        final List<Piece> pieces = List.of(
+                new Byeong(Team.HAN, new Position(3, 2)),
+                new Janggun(Team.CHO, new Position(5, 2))
+        );
+
+        final Board board = new Board(pieces);
+
+        final Position presentPosition = new Position(3, 2);
+        final Position futurePosition = new Position(4, 2);
+
+        //when
+        final GameState gameState = board.pieceMove(presentPosition, futurePosition);
+
+        //then
+        assertThat(gameState).isEqualTo(GameState.IN_PROGRESS);
     }
 
 }

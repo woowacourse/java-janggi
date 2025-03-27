@@ -82,6 +82,10 @@ public class OutputView {
         System.out.println("성공적으로 기물을 이동했습니다.");
     }
 
+    public void printEndGame() {
+        System.out.println("왕이 죽었음으로 게임이 종료됩니다.");
+    }
+
     public void printErrorMessage(final String message) {
         System.out.println(message);
     }

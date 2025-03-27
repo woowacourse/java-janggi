@@ -14,10 +14,12 @@ public class JanggiGame {
 
     private final OutputView outputView;
     private final InputView inputView;
+    private GameState gameState;
 
     public JanggiGame(final OutputView outputView, final InputView inputView) {
         this.outputView = outputView;
         this.inputView = inputView;
+        this.gameState = GameState.IN_PROGRESS;
     }
 
     public void startGame() {
@@ -27,10 +29,16 @@ public class JanggiGame {
 
     private void playJanggi(final Board board) {
         Team currentTurnTeam = FIRST_TURN_TEAM;
-        while (true) {
+
+        while (!isEnd()) {
             playTurn(board, currentTurnTeam);
             currentTurnTeam = changeTurn(currentTurnTeam);
         }
+        outputView.printEndGame();
+    }
+
+    private boolean isEnd() {
+        return gameState == GameState.END;
     }
 
     private void playTurn(final Board board, final Team currentTurnTeam) {
@@ -42,7 +50,7 @@ public class JanggiGame {
 
             final Position futurePosition = readFuturePosition();
 
-            board.pieceMove(presentPosition, futurePosition);
+            gameState = board.pieceMove(presentPosition, futurePosition);
             outputView.printSuccessMove();
         } catch (IllegalArgumentException exception) {
             outputView.printErrorMessage(exception.getMessage());

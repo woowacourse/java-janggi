@@ -71,10 +71,5 @@ class PieceTest {
         public boolean isMove(final Position position) {
             return false;
         }
-
-        @Override
-        protected boolean isPo() {
-            return false;
-        }
     }
 }

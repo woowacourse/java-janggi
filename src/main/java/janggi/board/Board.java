@@ -1,6 +1,8 @@
 package janggi.board;
 
+import janggi.GameState;
 import janggi.piece.Piece;
+import janggi.piece.PieceType;
 import janggi.position.Position;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,16 +21,27 @@ public class Board {
                         ));
     }
 
-    public void pieceMove(final Position presentPosition, final Position futurePosition) {
+    public GameState pieceMove(final Position presentPosition, final Position futurePosition) {
         final Piece piece = janggiBoard.get(presentPosition);
         piece.moveTo(futurePosition, janggiBoard);
-        updatePiecePosition(presentPosition, futurePosition);
+        return updatePiecePosition(presentPosition, futurePosition);
     }
 
-    private void updatePiecePosition(final Position presentPosition, final Position futurePosition) {
+    private GameState updatePiecePosition(final Position presentPosition, final Position futurePosition) {
         final Piece removePiece = janggiBoard.remove(presentPosition);
+        final Piece piece = janggiBoard.get(futurePosition);
+
+        if (isJanggunCapture(piece)) {
+            return GameState.END;
+        }
+
         janggiBoard.put(futurePosition, removePiece);
         removePiece.updatePiecePositionBy(futurePosition);
+        return GameState.IN_PROGRESS;
+    }
+
+    private boolean isJanggunCapture(final Piece piece) {
+        return piece != null && PieceType.isJanggun(piece.getPieceProfile().getPieceType());
     }
 
     public void validateEmptyPieceBy(final Position presentPosition) {

@@ -22,7 +22,7 @@ public class Po extends Piece {
 
         for (final Position position : moveRoute) {
             final Piece piece = janggiBoard.get(position);
-            if (janggiBoard.containsKey(position) && piece.isPo()) {
+            if (janggiBoard.containsKey(position) && PieceType.isPo(piece.getPieceProfile().getPieceType())) {
                 throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 포가 존재합니다. 포는 포를 넘을 수 없습니다.");
             }
 
@@ -118,10 +118,5 @@ public class Po extends Piece {
             return true;
         }
         throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
-    }
-
-    @Override
-    protected boolean isPo() {
-        return true;
     }
 }
