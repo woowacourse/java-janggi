@@ -22,6 +22,39 @@ public class Position {
         return row >= 1 && row <= 10 && column >= 1 && column <= 9;
     }
 
+    public boolean isPalaceTopLeft() {
+        return (row == 1 || row == 8) && column == 4;
+    }
+
+    public boolean isPalaceTopRight() {
+        return (row == 1 || row == 8) && column == 6;
+    }
+
+    public boolean isPalaceBottomLeft() {
+        return (row == 3 || row == 10) && column == 4;
+    }
+
+    public boolean isPalaceBottomRight() {
+        return (row == 3 || row == 10) && column == 6;
+    }
+
+    public boolean isPalaceCenter() {
+        return (row == 9 && column == 5) || (row == 2 && column == 5);
+    }
+
+    public boolean isInPalace() {
+        return checkInPalace(row, column);
+    }
+
+    private boolean checkInPalace(int row, int column) {
+        return (row >= 1 && row <= 3 && column >= 4 && column <= 6) ||
+                (row >= 8 && row <= 10 && column >= 4 && column <= 6);
+    }
+
+    public boolean canMoveInPalace(Move move) {
+        return checkInPalace(this.row + move.getDy(), this.column + move.getDx());
+    }
+
     public Position movePosition(Move move) {
         return new Position(row + move.getDy(), column + move.getDx());
     }

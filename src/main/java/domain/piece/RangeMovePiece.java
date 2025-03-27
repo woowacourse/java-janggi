@@ -14,9 +14,33 @@ public abstract class RangeMovePiece extends Piece {
 
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
+        if (isInPalaceMove(startPosition, targetPosition)) {
+            return decideDiagonalMove(startPosition, targetPosition).convertToPath(startPosition);
+        }
         validateStraightMove(startPosition, targetPosition);
         Moves moves = decideMove(startPosition, targetPosition);
         return moves.convertToPath(startPosition);
+    }
+
+    private boolean isInPalaceMove(Position startPosition, Position targetPosition) {
+        return startPosition.isInPalace() && targetPosition.isInPalace()
+                && Math.abs(startPosition.compareRow(targetPosition)) == Math.abs(
+                startPosition.compareColumn(targetPosition));
+    }
+
+    private Moves decideDiagonalMove(Position startPosition, Position targetPosition) {
+        int rowDiff = startPosition.compareRow(targetPosition);
+        int columnDiff = startPosition.compareColumn(targetPosition);
+        if (rowDiff < 0 && columnDiff < 0) {
+            return Moves.createStraightMove(Math.abs(rowDiff), Move.BACK_RIGHT);
+        }
+        if (rowDiff > 0 && columnDiff < 0) {
+            return Moves.createStraightMove(Math.abs(rowDiff), Move.FRONT_RIGHT);
+        }
+        if (rowDiff > 0 && columnDiff > 0) {
+            return Moves.createStraightMove(Math.abs(columnDiff), Move.FRONT_LEFT);
+        }
+        return Moves.createStraightMove(Math.abs(columnDiff), Move.BACK_LEFT);
     }
 
     private void validateStraightMove(Position startPosition, Position targetPosition) {

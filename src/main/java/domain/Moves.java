@@ -42,4 +42,15 @@ public class Moves {
         }
         return positionInPath.equals(targetPosition);
     }
+
+    public boolean isPossibleInPalace(Position startPosition) {
+        Position positionInPath = startPosition;
+        for (Move move : moves) {
+            if (!positionInPath.canMoveInPalace(move)) {
+                return false;
+            }
+            positionInPath = positionInPath.movePosition(move);
+        }
+        return true;
+    }
 }

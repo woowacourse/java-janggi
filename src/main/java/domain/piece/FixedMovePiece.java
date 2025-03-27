@@ -11,11 +11,11 @@ public abstract class FixedMovePiece extends Piece {
         super(team);
     }
 
-    abstract protected List<Moves> getMovesOptions();
+    abstract protected List<Moves> getMovesOptions(Position startPosition);
 
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
-        List<Moves> movesOptions = getMovesOptions();
+        List<Moves> movesOptions = getMovesOptions(startPosition);
         Moves possibleMoves = movesOptions.stream()
                 .filter(moves -> moves.isPossibleToArrive(startPosition, targetPosition))
                 .findFirst()

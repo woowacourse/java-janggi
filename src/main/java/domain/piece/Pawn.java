@@ -2,7 +2,9 @@ package domain.piece;
 
 import domain.Move;
 import domain.Moves;
+import domain.Position;
 import domain.Team;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pawn extends FixedMovePiece {
@@ -27,7 +29,29 @@ public class Pawn extends FixedMovePiece {
     }
 
     @Override
-    protected List<Moves> getMovesOptions() {
-        return movesOptions;
+    protected List<Moves> getMovesOptions(Position startPosition) {
+        List<Moves> moves = new ArrayList<>(movesOptions);
+        if (startPosition.isPalaceTopLeft()) {
+            moves.add(Moves.create(Move.BACK_RIGHT));
+        }
+        if (startPosition.isPalaceTopRight()) {
+            moves.add(Moves.create(Move.BACK_LEFT));
+        }
+        if (startPosition.isPalaceBottomLeft()) {
+            moves.add(Moves.create(Move.FRONT_RIGHT));
+        }
+        if (startPosition.isPalaceBottomRight()) {
+            moves.add(Moves.create(Move.FRONT_LEFT));
+        }
+        if (startPosition.isPalaceCenter() && team == Team.CHO) {
+            moves.add(Moves.create(Move.FRONT_RIGHT));
+            moves.add(Moves.create(Move.FRONT_LEFT));
+        }
+        if (startPosition.isPalaceCenter() && team == Team.HAN) {
+            moves.add(Moves.create(Move.BACK_RIGHT));
+            moves.add(Moves.create(Move.BACK_LEFT));
+        }
+
+        return moves;
     }
 }

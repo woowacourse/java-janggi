@@ -42,12 +42,12 @@ public class JanggiGameTest {
     void test2() {
         // given
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        Gung choGung = new Gung(Team.CHO);
-        beforeBoard.put(new Position(1, 1), choGung);
+        Cha choCha = new Cha(Team.CHO);
+        beforeBoard.put(new Position(1, 1), choCha);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
 
         Map<Position, Piece> afterBoard = new HashMap<>();
-        afterBoard.put(new Position(2, 1), choGung);
+        afterBoard.put(new Position(2, 1), choCha);
 
         // when
         game.move(List.of(1, 1), List.of(2, 1));

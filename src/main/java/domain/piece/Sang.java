@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Move;
 import domain.Moves;
+import domain.Position;
 import domain.Team;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Sang extends FixedMovePiece {
     }
 
     @Override
-    protected List<Moves> getMovesOptions() {
+    protected List<Moves> getMovesOptions(Position startPosition) {
         return movesOptions;
     }
 }
