@@ -6,19 +6,22 @@ import janggi.dao.PiecePositionDao;
 import janggi.domain.board.Position;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
+import java.sql.Connection;
 import java.util.Map;
 
 public class JanggiDBService {
+    private final PiecePositionDao piecePositionDao;
+    private final GameRoomDao gameRoomDao;
+
     private final int boardId;
     private final int roomId;
 
-    public JanggiDBService(int boardId, int roomId) {
+    public JanggiDBService(Connection connection, int boardId, int roomId) {
+        this.piecePositionDao = new PiecePositionDao(connection);
+        this.gameRoomDao = new GameRoomDao(connection);
         this.boardId = boardId;
         this.roomId = roomId;
     }
-
-    private final PiecePositionDao piecePositionDao = new PiecePositionDao();
-    private final GameRoomDao gameRoomDao = new GameRoomDao();
 
     public void updateMoveResult(Position source, Position destination, PieceType pieceType, TeamColor teamColor) {
         piecePositionDao.updatePiecePosition(boardId, source, destination, pieceType, teamColor);
@@ -34,5 +37,4 @@ public class JanggiDBService {
     public void finishGame(TeamColor winnerColor) {
         gameRoomDao.finishGame(roomId, winnerColor);
     }
-
 }

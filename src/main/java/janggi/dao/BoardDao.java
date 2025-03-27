@@ -8,12 +8,16 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class BoardDao {
+    private final Connection connection;
+
+    public BoardDao(Connection connection) {
+        this.connection = connection;
+    }
 
     public void createBoard() {
         final String query = "INSERT INTO Board () VALUES ()";
 
-        try (Connection connection = ConnectionUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("보드 생성 실패", e);
@@ -23,8 +27,7 @@ public class BoardDao {
     public Optional<Integer> findRecentlyBoardId() {
         final String query = "SELECT id FROM Board ORDER BY id DESC LIMIT 1";
 
-        try (Connection connection = ConnectionUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             if (resultSet.next()) {

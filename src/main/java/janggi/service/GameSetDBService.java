@@ -12,15 +12,22 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
 import janggi.dto.GameRoomDto;
 import janggi.dto.PiecePositionDto;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class GameSetDBService {
-    private final PiecePositionDao piecePositionDao = new PiecePositionDao();
-    private final GameRoomDao gameRoomDao = new GameRoomDao();
-    private final BoardDao boardDao = new BoardDao();
+    private final PiecePositionDao piecePositionDao;
+    private final GameRoomDao gameRoomDao;
+    private final BoardDao boardDao;
+
+    public GameSetDBService(Connection connection) {
+        this.piecePositionDao = new PiecePositionDao(connection);
+        this.gameRoomDao = new GameRoomDao(connection);
+        this.boardDao = new BoardDao(connection);
+    }
 
     public List<GameRoomDto> getAllPlayingRooms() {
         return gameRoomDao.findPlayingGameRooms();
@@ -43,19 +50,8 @@ public class GameSetDBService {
         return boardId.orElseThrow(() -> new IllegalArgumentException("해당 GameRoom의 Board를 찾을 수 없습니다."));
     }
 
-
     public void saveInitialBoard(int boardId, Map<Position, Piece> board) {
         piecePositionDao.saveAllInBoard(boardId, board);
-    }
-
-    public GameRoomDto getRoomById(int roomId) {
-        Optional<GameRoomDto> gameRoomDto = gameRoomDao.findGameRoomById(roomId);
-        return gameRoomDto
-                .orElseThrow(() -> new IllegalArgumentException("해당 id의 게임 방이 존재하지 않습니다, roomId: " + roomId));
-    }
-
-    public void saveNewRoom(int roomId, TeamColor teamColor) {
-        gameRoomDao.saveNewRoom(roomId, teamColor);
     }
 
     public JanggiGame getGameByRoomId(int gameRoomId) {

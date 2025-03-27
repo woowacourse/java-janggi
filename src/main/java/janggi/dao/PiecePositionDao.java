@@ -15,6 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 public final class PiecePositionDao {
+    private final Connection connection;
+
+    public PiecePositionDao(Connection connection) {
+        this.connection = connection;
+    }
 
     public void saveAllInBoard(int boardId, Map<Position, Piece> board) {
         for (Map.Entry<Position, Piece> entry : board.entrySet()) {
@@ -28,8 +33,7 @@ public final class PiecePositionDao {
         final String query = "SELECT position_row, position_col, piece_type, piece_color FROM PiecePosition WHERE board_id = ?";
         List<PiecePositionDto> piecePositionDtos = new ArrayList<>();
 
-        try (Connection connection = ConnectionUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, boardId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -51,8 +55,7 @@ public final class PiecePositionDao {
     public void savePiece(int boardId, Position position, Piece piece) {
         final String query = "INSERT INTO PiecePosition (board_id, position_row, position_col, piece_type, piece_color) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection connection = ConnectionUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, boardId);
 
             preparedStatement.setInt(2, position.rowValue());
