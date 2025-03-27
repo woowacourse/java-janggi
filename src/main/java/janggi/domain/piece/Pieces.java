@@ -18,7 +18,7 @@ public class Pieces {
 
     private static final int GENERAL_COLUMN = 5;
     private static final List<Integer> SOLDIER_COLUMN = List.of(1, 3, 5, 7, 9);
-    private static final List<Integer> GUARD_COLUMN = List.of(3, 5);
+    private static final List<Integer> GUARD_COLUMN = List.of(4, 6);
     private static final List<Integer> CHARIOT_COLUMN = List.of(1, 9);
     private static final List<Integer> CANNON_COLUMN = List.of(2, 8);
 
@@ -47,7 +47,7 @@ public class Pieces {
     }
 
     private void createGeneral(final Team team) {
-        pieces.put(Position.of(team.decideRow(GENERAL_ROW), GENERAL_ROW), new General(team));
+        pieces.put(Position.of(team.decideRow(GENERAL_ROW), GENERAL_COLUMN), new General(team));
     }
 
     private void createGuard(final Team team) {
