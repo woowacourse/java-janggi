@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.piece.direction.FourDirection;
+import janggi.piece.direction.GungDirection;
 import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
@@ -34,6 +35,12 @@ public class Cha extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
+        if (janggiPosition.isPositionInCastle() && destination.isPositionInCastle()) {
+            List<JanggiPosition> gungPathPositions = GungDirection.of(janggiPosition, destination);
+            return isValidMoveInCastle(gungPathPositions)
+                    && allyPieces.isPathBlockedBy(gungPathPositions)
+                    && enemyPieces.isPathBlockedBy(gungPathPositions);
+        }
         if (!isValidMove(destination)) {
             return false;
         }
@@ -44,6 +51,28 @@ public class Cha extends Piece {
         }
         return allyPieces.isPathBlockedBy(pathPositions)
                 && enemyPieces.isPathBlockedBy(pathPositions);
+    }
+
+    private boolean isValidMoveInCastle(List<JanggiPosition> pathPositions) {
+        if (pathPositions.isEmpty()) {
+            return false;
+        }
+        JanggiPosition start = pathPositions.getFirst();
+        JanggiPosition end = pathPositions.getLast();
+
+        int dx = Math.abs(end.x() - start.x());
+        int dy = Math.abs(end.y() - start.y());
+
+        // 1칸 직선 이동
+        boolean isOneStepStraight = (dx == 0 && dy == 0);
+
+        // 2칸 직선 이동
+        boolean isTwoStepStraight = (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
+
+        // 2칸 대각선 이동
+        boolean isTwoStepDiagonal = (dx == 1 && dy == 1);
+
+        return isOneStepStraight || isTwoStepStraight || isTwoStepDiagonal;
     }
 
     private boolean isValidMove(JanggiPosition destination) {

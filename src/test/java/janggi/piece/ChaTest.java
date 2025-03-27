@@ -149,19 +149,28 @@ class ChaTest {
         );
     }
 
-    @DisplayName("적 장기말이 목적지에 있을 때, 잡아서 없애버린다.")
-    @Test
-    void test9() {
+    @DisplayName("차가 궁성내에 있을 때 이동")
+    @ParameterizedTest
+    @MethodSource()
+    void test9(JanggiPosition  destination) {
         //given
-        Cha cha = Cha.from(STANDARD);
-        JanggiPosition destination = new JanggiPosition(6,4);
-        Cha enemyCha = Cha.from(destination);
-        Pieces enemyPieces = new Pieces(List.of(enemyCha));
+        Cha cha = Cha.from(new JanggiPosition(3,2));
 
         //when
-        Cha movedCha = cha.move(destination, enemyPieces, new Pieces(List.of()));
+        boolean isMove = cha.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
 
         //then
-        Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
+        Assertions.assertThat(isMove).isTrue();
+    }
+
+    static Stream<Arguments> test9() {
+        return Stream.of(
+                Arguments.of(new JanggiPosition(3,1)),
+                Arguments.of(new JanggiPosition(3,0)),
+                Arguments.of(new JanggiPosition(4,1)),
+                Arguments.of(new JanggiPosition(5,0)),
+                Arguments.of(new JanggiPosition(4,2)),
+                Arguments.of(new JanggiPosition(5,2))
+        );
     }
 }
