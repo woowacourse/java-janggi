@@ -17,14 +17,14 @@ public class Horse extends Piece {
     @Override
     protected Set<RawRoute> calculateRawRoutes() {
         return Set.of(
-                new RawRoute(makeRawPositions1()),
-                new RawRoute(makeRawPositions2()),
-                new RawRoute(makeRawPositions3()),
-                new RawRoute(makeRawPositions4()),
-                new RawRoute(makeRawPositions5()),
-                new RawRoute(makeRawPositions6()),
-                new RawRoute(makeRawPositions7()),
-                new RawRoute(makeRawPositions8())
+                new RawRoute(makeUpUpLeft()),
+                new RawRoute(makeUpUpRight()),
+                new RawRoute(makeRightRightUp()),
+                new RawRoute(makeRightRightDown()),
+                new RawRoute(makeDownDownRight()),
+                new RawRoute(makeDownDownLeft()),
+                new RawRoute(makeLeftLeftDown()),
+                new RawRoute(makeLeftLeftUp())
         );
     }
 
@@ -33,43 +33,51 @@ public class Horse extends Piece {
         return Set.of();
     }
 
-    private List<RawPosition> makeRawPositions1() {
-        return List.of(new RawPosition(position.x(), position.y() + 1),
+    private List<RawPosition> makeUpUpLeft() {
+        return List.of(
+                new RawPosition(position.x(), position.y() + 1),
                 new RawPosition(position.x() - 1, position.y() + 2));
     }
 
-    private List<RawPosition> makeRawPositions2() {
-        return List.of(new RawPosition(position.x(), position.y() + 1),
+    private List<RawPosition> makeUpUpRight() {
+        return List.of(
+                new RawPosition(position.x(), position.y() + 1),
                 new RawPosition(position.x() + 1, position.y() + 2));
     }
 
-    private List<RawPosition> makeRawPositions3() {
-        return List.of(new RawPosition(position.x() + 1, position.y()),
+    private List<RawPosition> makeRightRightUp() {
+        return List.of(
+                new RawPosition(position.x() + 1, position.y()),
                 new RawPosition(position.x() + 2, position.y() + 1));
     }
 
-    private List<RawPosition> makeRawPositions4() {
-        return List.of(new RawPosition(position.x() + 1, position.y()),
+    private List<RawPosition> makeRightRightDown() {
+        return List.of(
+                new RawPosition(position.x() + 1, position.y()),
                 new RawPosition(position.x() + 2, position.y() - 1));
     }
 
-    private List<RawPosition> makeRawPositions5() {
-        return List.of(new RawPosition(position.x(), position.y() - 1),
+    private List<RawPosition> makeDownDownRight() {
+        return List.of(
+                new RawPosition(position.x(), position.y() - 1),
                 new RawPosition(position.x() + 1, position.y() - 2));
     }
 
-    private List<RawPosition> makeRawPositions6() {
-        return List.of(new RawPosition(position.x(), position.y() - 1),
+    private List<RawPosition> makeDownDownLeft() {
+        return List.of(
+                new RawPosition(position.x(), position.y() - 1),
                 new RawPosition(position.x() - 1, position.y() - 2));
     }
 
-    private List<RawPosition> makeRawPositions7() {
-        return List.of(new RawPosition(position.x() - 1, position.y()),
+    private List<RawPosition> makeLeftLeftDown() {
+        return List.of(
+                new RawPosition(position.x() - 1, position.y()),
                 new RawPosition(position.x() - 2, position.y() - 1));
     }
 
-    private List<RawPosition> makeRawPositions8() {
-        return List.of(new RawPosition(position.x() - 1, position.y()),
+    private List<RawPosition> makeLeftLeftUp() {
+        return List.of(
+                new RawPosition(position.x() - 1, position.y()),
                 new RawPosition(position.x() - 2, position.y() + 1));
     }
 }
