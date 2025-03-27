@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import model.Position;
 import model.Team;
+import model.piece.Chariot;
+import model.piece.Pao;
 import model.piece.Piece;
 import model.piece.normal.Pawn;
 import model.piece.palace.King;
@@ -29,7 +31,7 @@ class BoardTest {
     void outOfBoardMoveTest() {
         Piece p = new King(0, 0, Team.CHO);
         Board board = new Board(List.of(p));
-        assertThatThrownBy(() -> board.movePiece(new Position(0,0), new Position(0, -1), Team.CHO))
+        assertThatThrownBy(() -> board.movePiece(new Position(0, 0), new Position(0, -1), Team.CHO))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 장기판 내에서만 이동할 수 있습니다.");
     }
@@ -48,5 +50,14 @@ class BoardTest {
     void gameOverTest() {
         Board board = new Board(List.of(new King(6, 5, Team.CHO)));
         assertThat(board.getWinnerIfGameOver()).isEqualTo(Team.CHO);
+    }
+
+    @Test
+    @DisplayName("최종 기물 점수를 올바르게 반환한다.")
+    void pieceScoreTest() {
+        Board board = new Board(
+            List.of(new King(6, 5, Team.CHO), new Pao(1, 0, Team.CHO), new Chariot(1, 2, Team.HAN)));
+        assertThat(board.getPieceScore()).containsEntry(Team.CHO, 7);
+        assertThat(board.getPieceScore()).containsEntry(Team.HAN, 13);
     }
 }

@@ -3,6 +3,7 @@ package view;
 import java.util.Map;
 
 import dto.BoardDto;
+import dto.FinalScoreDto;
 import dto.PositionDto;
 import dto.TeamDto;
 import model.Position;
@@ -37,10 +38,17 @@ public class OutputView {
 
     public void result(TeamDto winnerTeamDto) {
         String winner = Color.apply(winnerTeamDto, winnerTeamDto.getDisplayName());
-        System.out.printf("%n%s가 승리했습니다. 게임을 종료합니다.%n", winner);
+        System.out.printf("%n%s가 승리했습니다. 게임을 종료합니다.%n%n", winner);
     }
 
     public void retry(Exception e) {
         System.out.println(e.getMessage() + " 다시 입력해주세요.");
+    }
+
+    public void finalScore(FinalScoreDto dto) {
+        dto.scores().entrySet().stream()
+            .map(set ->
+                String.format("%s: %d점", Color.apply(set.getKey(), set.getKey().getDisplayName()), set.getValue()))
+            .forEach(System.out::println);
     }
 }

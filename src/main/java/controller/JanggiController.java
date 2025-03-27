@@ -59,6 +59,12 @@ public class JanggiController {
         process(() -> outputView.result(service.getWinner()));
     }
 
+    public void showFinalScore() {
+        process(() -> {
+            outputView.finalScore(service.finalScore());
+        });
+    }
+
     private void process(Runnable action) {
         try {
             action.run();

@@ -1,7 +1,10 @@
 package model.board;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import model.Position;
 import model.Team;
@@ -101,5 +104,21 @@ public class Board implements BoardSearcher {
 
     public boolean isInBoard(Position position) {
         return position.x() < WIDTH_SIZE && position.x() >= 0 && position.y() < HEIGHT_SIZE && position.y() >= 0;
+    }
+
+    public Map<Team, Integer> getPieceScore() {
+        return Arrays.stream(Team.values())
+            .collect(Collectors.toMap(
+                team -> team,
+                this::getScoreForTeam,
+                Integer::sum
+            ));
+    }
+
+    private int getScoreForTeam(Team team) {
+        return pieces.stream()
+            .filter(piece -> piece.getTeam() == team)
+            .mapToInt(piece -> piece.type().getScore())
+            .sum();
     }
 }

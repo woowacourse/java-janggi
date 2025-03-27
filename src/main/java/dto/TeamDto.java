@@ -14,9 +14,9 @@ public enum TeamDto {
         this.displayName = displayName;
     }
 
-    public static TeamDto from(Team currentTurn) {
+    public static TeamDto from(Team team) {
         return Arrays.stream(values())
-            .filter(teamDto -> teamDto.name().equals(currentTurn.name()))
+            .filter(teamDto -> teamDto.name().equals(team.name()))
             .findAny()
             .orElseThrow(() -> new IllegalStateException("[ERROR] 잘못된 팀 정보입니다."));
     }

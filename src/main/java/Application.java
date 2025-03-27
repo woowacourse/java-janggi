@@ -11,5 +11,6 @@ public class Application {
             controller.nextTurn();
         }
         controller.endGame();
+        controller.showFinalScore();
     }
 }

@@ -1,6 +1,7 @@
 package service;
 
 import dto.BoardDto;
+import dto.FinalScoreDto;
 import dto.TeamDto;
 import model.Position;
 import model.Team;
@@ -47,5 +48,9 @@ public class JanggiService {
 
     public void abstain() {
         board.abstain(currentTurn);
+    }
+
+    public FinalScoreDto finalScore() {
+        return FinalScoreDto.of(board.getPieceScore());
     }
 }
