@@ -20,7 +20,7 @@ public class Sa extends Piece {
     public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
         return MOVEMENTS.stream()
                 .map(from::move)
-                .filter(to -> !to.isOutOfBoundary())
+                .filter(Coordinate::isInBoundary)
                 .filter(to -> !board.isMyTeam(country, to))
                 .toList();
     }

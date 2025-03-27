@@ -25,7 +25,7 @@ public class Cha extends Piece {
         for (Movement movement : MOVEMENTS) {
             Coordinate next = from.move(movement);
 
-            while (!next.isOutOfBoundary()) {
+            while (next.isInBoundary()) {
                 if (board.hasPiece(next)) {
                     if (!board.isMyTeam(country, next)) {
                         availablePositions.add(next);

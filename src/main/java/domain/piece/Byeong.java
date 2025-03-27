@@ -19,7 +19,7 @@ public class Byeong extends Piece {
         return MOVEMENTS.stream()
                 .filter(this::selectUpOrDown)
                 .map(from::move)
-                .filter(to -> !to.isOutOfBoundary())
+                .filter(Coordinate::isInBoundary)
                 .filter(to -> !board.isMyTeam(country, to))
                 .toList();
     }

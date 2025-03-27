@@ -24,7 +24,7 @@ public class Pho extends Piece {
             Coordinate next = from.move(movement);
             boolean isJumped = false;
 
-            while (!next.isOutOfBoundary()) {
+            while (next.isInBoundary()) {
 
                 if (!isJumped) {
                     if (board.hasPiece(next)) {

@@ -7,6 +7,10 @@ public record Coordinate(int row, int col) {
     public static final int MAX_ROW = 10;
     public static final int MAX_COL = 9;
 
+    public boolean isInBoundary() {
+        return !isOutOfBoundary();
+    }
+
     public boolean isOutOfBoundary() {
         if (this.row < 1 || this.row > MAX_ROW) {
             return true;
