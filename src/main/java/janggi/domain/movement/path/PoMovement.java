@@ -1,7 +1,7 @@
 package janggi.domain.movement.path;
 
 import janggi.domain.Coordinate;
-import janggi.domain.movement.InfiniteMoveVector;
+import janggi.domain.movement.InfiniteMoveProcess;
 import janggi.domain.movement.MoveStep;
 import janggi.domain.board.PieceSearcher;
 import janggi.domain.Piece;
@@ -11,10 +11,10 @@ public class PoMovement extends PathMovement {
 
     public PoMovement() {
         super(Set.of(
-            new InfiniteMoveVector(MoveStep.LEFT),
-            new InfiniteMoveVector(MoveStep.RIGHT),
-            new InfiniteMoveVector(MoveStep.UP),
-            new InfiniteMoveVector(MoveStep.DOWN)
+            new InfiniteMoveProcess(MoveStep.LEFT),
+            new InfiniteMoveProcess(MoveStep.RIGHT),
+            new InfiniteMoveProcess(MoveStep.UP),
+            new InfiniteMoveProcess(MoveStep.DOWN)
         ));
     }
 

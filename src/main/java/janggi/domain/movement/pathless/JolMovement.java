@@ -3,16 +3,17 @@ package janggi.domain.movement.pathless;
 import janggi.domain.Coordinate;
 import janggi.domain.board.PieceSearcher;
 import janggi.domain.movement.MoveStep;
-import janggi.domain.movement.MoveVector;
+import janggi.domain.movement.MoveProcess;
+import java.util.Iterator;
 import java.util.Set;
 
 public class JolMovement extends PathlessMovement {
 
     public JolMovement() {
         super(Set.of(
-            new MoveVector(MoveStep.LEFT),
-            new MoveVector(MoveStep.RIGHT),
-            new MoveVector(MoveStep.UP)
+            new MoveProcess(MoveStep.LEFT),
+            new MoveProcess(MoveStep.RIGHT),
+            new MoveProcess(MoveStep.UP)
         ));
     }
 
@@ -22,8 +23,9 @@ public class JolMovement extends PathlessMovement {
         final Coordinate arrival,
         final PieceSearcher pieceSearcher
     ) {
-        return moveVectorsAt(departure).stream()
-            .map(MoveVector::first)
+        return moveProcessesAt(departure).stream()
+            .map(MoveProcess::iterator)
+            .map(Iterator::next)
             .filter(MoveStep::isUpDirection)
             .filter(departure::canMove)
             .map(departure::move)

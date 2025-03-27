@@ -7,29 +7,29 @@ import java.util.stream.Collectors;
 
 public abstract class Movement {
 
-    private final Set<MoveVector> moveVectors;
+    private final Set<MoveProcess> moveProcesses;
 
-    public Movement(Set<MoveVector> moveVectors) {
-        this.moveVectors = moveVectors;
+    public Movement(Set<MoveProcess> moveProcesses) {
+        this.moveProcesses = moveProcesses;
     }
 
     public abstract boolean canMove(Coordinate departure, Coordinate arrival, PieceSearcher pieceSearcher);
 
-    protected final Set<MoveVector> moveVectorsAt(Coordinate coordinate) {
+    protected final Set<MoveProcess> moveProcessesAt(Coordinate coordinate) {
         if (coordinate.isInCastle()) {
-            return addDiagonalMoveVectorsAt(coordinate);
+            return addDiagonalMoveProcessesAt(coordinate);
         }
-        return moveVectors;
+        return moveProcesses;
     }
 
-    private Set<MoveVector> addDiagonalMoveVectorsAt(final Coordinate coordinate) {
+    private Set<MoveProcess> addDiagonalMoveProcessesAt(final Coordinate coordinate) {
         final var connections = coordinate.findCastleConnections();
-        final var moveVectors = connections.stream()
+        final var moveProcesses = connections.stream()
             .map(coordinate::computeMoveUnitToArrival)
-            .map(moveUnit -> new MoveVector(moveUnit, moveUnit))
+            .map(moveUnit -> new MoveProcess(moveUnit, moveUnit))
             .collect(Collectors.toSet());
 
-        moveVectors.addAll(this.moveVectors);
-        return moveVectors;
+        moveProcesses.addAll(this.moveProcesses);
+        return moveProcesses;
     }
 }

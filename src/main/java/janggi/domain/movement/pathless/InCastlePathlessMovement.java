@@ -1,14 +1,14 @@
 package janggi.domain.movement.pathless;
 
 import janggi.domain.Coordinate;
-import janggi.domain.movement.MoveVector;
+import janggi.domain.movement.MoveProcess;
 import janggi.domain.board.PieceSearcher;
 import java.util.Set;
 
 public abstract class InCastlePathlessMovement extends PathlessMovement {
 
-    public InCastlePathlessMovement(final Set<MoveVector> moveVectors) {
-        super(moveVectors);
+    public InCastlePathlessMovement(final Set<MoveProcess> moveProcesses) {
+        super(moveProcesses);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package janggi.domain.movement.path;
 
 import janggi.domain.Coordinate;
-import janggi.domain.movement.MoveVector;
+import janggi.domain.movement.MoveProcess;
 import janggi.domain.board.PieceSearcher;
 import janggi.domain.movement.Movement;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.Set;
 
 public abstract class PathMovement extends Movement {
 
-    public PathMovement(final Set<MoveVector> moveVectors) {
-        super(moveVectors);
+    public PathMovement(final Set<MoveProcess> moveProcesses) {
+        super(moveProcesses);
     }
 
     @Override
@@ -26,7 +26,7 @@ public abstract class PathMovement extends Movement {
     }
 
     protected final Path findPath(final Coordinate departure, final Coordinate arrival) {
-        for (final var moveVector : moveVectorsAt(departure)) {
+        for (final var moveVector : moveProcessesAt(departure)) {
             var current = departure;
             final var path = new ArrayList<Coordinate>();
 

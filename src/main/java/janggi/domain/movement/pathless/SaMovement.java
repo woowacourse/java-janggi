@@ -1,17 +1,17 @@
 package janggi.domain.movement.pathless;
 
 import janggi.domain.movement.MoveStep;
-import janggi.domain.movement.MoveVector;
+import janggi.domain.movement.MoveProcess;
 import java.util.Set;
 
 public class SaMovement extends InCastlePathlessMovement {
 
     public SaMovement() {
         super(Set.of(
-            new MoveVector(MoveStep.LEFT),
-            new MoveVector(MoveStep.RIGHT),
-            new MoveVector(MoveStep.UP),
-            new MoveVector(MoveStep.DOWN)
+            new MoveProcess(MoveStep.LEFT),
+            new MoveProcess(MoveStep.RIGHT),
+            new MoveProcess(MoveStep.UP),
+            new MoveProcess(MoveStep.DOWN)
         ));
     }
 }
