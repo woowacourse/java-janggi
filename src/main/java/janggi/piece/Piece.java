@@ -18,8 +18,6 @@ public abstract class Piece {
 
     public abstract Set<Point> findRoute(Point from, Point to);
 
-    public abstract boolean isGeneral();
-
     public abstract PieceCategory getPieceCategory();
 
     protected boolean isJol() {

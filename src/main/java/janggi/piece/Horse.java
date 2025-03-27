@@ -52,11 +52,6 @@ public final class Horse extends Piece {
     }
 
     @Override
-    public boolean isGeneral() {
-        return false;
-    }
-
-    @Override
     public PieceCategory getPieceCategory() {
         return PieceCategory.HORSE;
     }

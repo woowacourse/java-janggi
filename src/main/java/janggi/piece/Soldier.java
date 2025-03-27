@@ -53,12 +53,7 @@ public final class Soldier extends Piece {
     public Set<Point> findRoute(Point from, Point to) {
         return Set.of();
     }
-
-    @Override
-    public boolean isGeneral() {
-        return false;
-    }
-
+    
     @Override
     public PieceCategory getPieceCategory() {
         return PieceCategory.SOLDIER;

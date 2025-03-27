@@ -25,11 +25,6 @@ public final class General extends Piece {
     }
 
     @Override
-    public boolean isGeneral() {
-        return true;
-    }
-
-    @Override
     public PieceCategory getPieceCategory() {
         return PieceCategory.GENERAL;
     }
