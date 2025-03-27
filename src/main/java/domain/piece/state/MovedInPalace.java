@@ -16,12 +16,7 @@ public abstract class MovedInPalace extends NonContinuousPiece {
     }
 
     protected void validatePalaceMove(Side side, JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        int beforeFile = beforePosition.file();
-        int beforeRank = beforePosition.rank();
-        int afterFile = afterPosition.file();
-        int afterRank = afterPosition.rank();
-
-        if (!palaceMovable.isInPalace(side, afterFile, afterRank)) {
+        if (!palaceMovable.isInPalace(side, afterPosition)) {
             throw new IllegalArgumentException("궁성 안에서만 이동할 수 있습니다.");
         }
         if (!palaceMovable.passesThroughCenter(side, beforePosition, afterPosition)) {
