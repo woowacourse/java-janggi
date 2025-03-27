@@ -1,6 +1,7 @@
 package domain.piece;
 
 import domain.*;
+import domain.piece.move.DistanceMove;
 
 import java.util.function.Predicate;
 

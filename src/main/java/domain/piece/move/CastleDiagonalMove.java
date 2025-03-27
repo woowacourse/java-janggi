@@ -1,4 +1,4 @@
-package domain.piece;
+package domain.piece.move;
 
 import domain.JanggiBoard;
 import domain.JanggiCoordinate;

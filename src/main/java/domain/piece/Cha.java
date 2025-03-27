@@ -1,6 +1,8 @@
 package domain.piece;
 
 import domain.*;
+import domain.piece.move.CastleDiagonalMove;
+import domain.piece.move.LinearMove;
 
 public class Cha extends Piece implements LinearMove, CastleDiagonalMove {
 

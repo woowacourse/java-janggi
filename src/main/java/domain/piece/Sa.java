@@ -4,6 +4,8 @@ import domain.Country;
 import domain.JanggiBoard;
 import domain.JanggiCoordinate;
 import domain.PieceType;
+import domain.piece.move.CastlePieceMove;
+import domain.piece.move.DistanceMove;
 
 import java.util.function.Predicate;
 
