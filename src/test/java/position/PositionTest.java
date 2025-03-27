@@ -2,17 +2,17 @@ package position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static testutil.StaticTest.A1;
-import static testutil.StaticTest.A5;
-import static testutil.StaticTest.A6;
-import static testutil.StaticTest.B5;
-import static testutil.StaticTest.C5;
-import static testutil.StaticTest.D5;
-import static testutil.StaticTest.E1;
-import static testutil.StaticTest.E2;
-import static testutil.StaticTest.E3;
-import static testutil.StaticTest.E4;
-import static testutil.StaticTest.E5;
+import static testutil.TestConstant.A1;
+import static testutil.TestConstant.A5;
+import static testutil.TestConstant.A6;
+import static testutil.TestConstant.B5;
+import static testutil.TestConstant.C5;
+import static testutil.TestConstant.D5;
+import static testutil.TestConstant.E1;
+import static testutil.TestConstant.E2;
+import static testutil.TestConstant.E3;
+import static testutil.TestConstant.E4;
+import static testutil.TestConstant.E5;
 
 import java.util.List;
 import org.assertj.core.api.Assertions;

@@ -5,7 +5,7 @@ import position.Column;
 import position.Position;
 import position.Row;
 
-public class StaticTest {
+public class TestConstant {
 
     public static final Position A1 = new Position(Column.A, Row.ONE);
     public static final Position A2 = new Position(Column.A, Row.TWO);

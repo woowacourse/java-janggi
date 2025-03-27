@@ -23,7 +23,12 @@ public abstract class Piece {
 
     public abstract void validateRoute(List<Position> positions, Board board);
 
+
     public PieceType getPieceType() {
         return pieceType;
+    }
+
+    public Country getCountry() {
+        return country;
     }
 }

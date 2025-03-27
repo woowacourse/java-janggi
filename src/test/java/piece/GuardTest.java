@@ -2,12 +2,12 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static testutil.StaticTest.A1;
-import static testutil.StaticTest.A2;
-import static testutil.StaticTest.A3;
-import static testutil.StaticTest.B1;
-import static testutil.StaticTest.C1;
-import static testutil.StaticTest.D1;
+import static testutil.TestConstant.A1;
+import static testutil.TestConstant.A2;
+import static testutil.TestConstant.A3;
+import static testutil.TestConstant.B1;
+import static testutil.TestConstant.C1;
+import static testutil.TestConstant.D1;
 
 import game.Board;
 import java.util.Map;
