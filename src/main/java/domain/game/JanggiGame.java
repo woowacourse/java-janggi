@@ -31,7 +31,8 @@ public class JanggiGame {
 
         return new Board(
                 SettingUp.of(settingUpHan).getStrategy(),
-                SettingUp.of(settingUpCho).getStrategy());
+                SettingUp.of(settingUpCho).getStrategy()
+        );
     }
 
     private void movePiece(Board board) {
