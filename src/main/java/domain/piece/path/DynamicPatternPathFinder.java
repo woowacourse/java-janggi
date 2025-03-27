@@ -4,12 +4,16 @@ import domain.position.Direction;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class DynamicPatternPathFinder implements PathFinder {
     private final List<Direction> directions;
+    private final Map<Position, List<Direction>> palace_directions;
 
-    public DynamicPatternPathFinder(List<Direction> directions) {
+    public DynamicPatternPathFinder(List<Direction> directions, Map<Position, List<Direction>> palaceDirections) {
         this.directions = directions;
+        palace_directions = palaceDirections;
     }
 
     @Override
@@ -19,13 +23,21 @@ public class DynamicPatternPathFinder implements PathFinder {
     }
 
     private Direction findDirectionToReachAt(Position from, Position to) {
+        Optional<Direction> extractDirection = extractDirection(from, to, directions);
+        if (extractDirection.isEmpty() && palace_directions.containsKey(from) && to.isInPalace()) {
+            extractDirection = extractDirection(from, to, palace_directions.get(from));
+        }
+        return extractDirection.orElseThrow(() -> new IllegalArgumentException("해당 좌표로 이동시킬 수 없습니다."));
+    }
+
+    private Optional<Direction> extractDirection(Position from, Position to, List<Direction> directions) {
         for (Direction nextDirection : directions) {
             Direction findDirection = findDirection(from, to, nextDirection);
             if (findDirection != null) {
-                return findDirection;
+                return Optional.of(findDirection);
             }
         }
-        throw new IllegalArgumentException("해당 좌표로 이동시킬 수 없습니다.");
+        return Optional.empty();
     }
 
     private Direction findDirection(Position from, Position to, Direction nextDirection) {
