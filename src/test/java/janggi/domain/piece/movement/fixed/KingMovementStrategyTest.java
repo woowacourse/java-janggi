@@ -12,9 +12,9 @@ class KingMovementStrategyTest {
 
     @Test
     void 킹은_움직임을_구현하지_않는다() {
-        GuardMovementStrategy guardMovementStrategy = new GuardMovementStrategy();
+        KingMovementStrategy kingMovementStrategy = new KingMovementStrategy();
 
-        assertThat(guardMovementStrategy.isLegalDestination(null, null)).isFalse();
-        assertThat(guardMovementStrategy.getAllPiecesOnPath(new Pieces(Map.of()), null, null).isEmpty()).isTrue();
+        assertThat(kingMovementStrategy.isLegalDestination(null, null)).isFalse();
+        assertThat(kingMovementStrategy.getAllPiecesOnPath(new Pieces(Map.of()), null, null).isEmpty()).isTrue();
     }
 }
