@@ -24,7 +24,7 @@ public class PieceProfile {
         return pieceType;
     }
 
-    public Team getNation() {
+    public Team getTeam() {
         return team;
     }
 

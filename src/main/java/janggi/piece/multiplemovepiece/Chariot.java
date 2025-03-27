@@ -11,13 +11,14 @@ import java.util.Map;
 
 public class Chariot extends Piece {
 
-    public Chariot(final Team team, final Position position) {
-        super(new PieceProfile(PieceType.CHARIOT, team), position);
+    public Chariot(final Team team) {
+        super(new PieceProfile(PieceType.CHARIOT, team));
     }
 
     @Override
-    public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        final List<Position> makeRoute = makeRoute(futurePosition);
+    public void checkObstacle(final Position presentPosition, final Position futurePosition,
+                              final Map<Position, Piece> janggiBoard) {
+        final List<Position> makeRoute = makeRoute(presentPosition, futurePosition);
         for (final Position position : makeRoute) {
             validateObstacle(janggiBoard, position);
         }
@@ -30,12 +31,12 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public List<Position> makeRoute(final Position position) {
+    public List<Position> makeRoute(final Position presentPosition, final Position position) {
         final List<Position> route = new ArrayList<>();
-        final int dx = getBoardPosition().row() - position.row();
-        final int dy = getBoardPosition().col() - position.col();
-        final int presentCol = getBoardPosition().col();
-        final int presentRow = getBoardPosition().row();
+        final int dx = presentPosition.row() - position.row();
+        final int dy = presentPosition.col() - position.col();
+        final int presentCol = presentPosition.col();
+        final int presentRow = presentPosition.row();
 
         verticalRoute(dx, dy, route, presentRow, presentCol);
         horizontalRoute(dy, dx, route, presentRow, presentCol);
@@ -100,15 +101,15 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public void canMoveBy(final Position position) {
-        if (isNotMove(position)) {
+    public void canMoveBy(final Position presentPosition, final Position position) {
+        if (isNotMove(presentPosition, position)) {
             throw new IllegalArgumentException("[ERROR] 차가 움직일 수 없는 위치 입니다.");
         }
     }
 
-    private boolean isNotMove(final Position position) {
-        return (getBoardPosition().row() != position.row())
-                && (getBoardPosition().col() != position.col());
+    private boolean isNotMove(final Position presentPosition, final Position position) {
+        return (presentPosition.row() != position.row())
+                && (presentPosition.col() != position.col());
     }
 
 }

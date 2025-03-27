@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.position.Position;
@@ -14,8 +13,8 @@ class PieceTest {
     @Test
     void sameNation() {
         //given
-        final Piece piece = new StubPiece(Team.HAN, new Position(0, 0));
-        final Piece other = new StubPiece(Team.HAN, new Position(1, 0));
+        final Piece piece = new StubPiece(Team.HAN);
+        final Piece other = new StubPiece(Team.HAN);
 
         //when //then
         assertThatThrownBy(() -> piece.validateTeam(other))
@@ -27,43 +26,29 @@ class PieceTest {
     @Test
     void nonSameTeam() {
         //given
-        final Piece piece = new StubPiece(Team.HAN, new Position(0, 0));
-        final Piece other = new StubPiece(Team.CHU, new Position(1, 0));
+        final Piece piece = new StubPiece(Team.HAN);
+        final Piece other = new StubPiece(Team.CHU);
 
         //when //then
-        assertThatThrownBy(() -> piece.validateTeam(other.getPieceProfile().getNation()))
+        assertThatThrownBy(() -> piece.validateTeam(other.getPieceProfile().getTeam()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("위치를 변경할 수 있다.")
-    @Test
-    void updatePosition() {
-        //given
-        final Piece piece = new StubPiece(Team.HAN, new Position(0, 0));
-
-        final Position position = new Position(1, 1);
-
-        //when
-        piece.updatePiecePositionBy(position);
-
-        //then
-        assertThat(piece).isEqualTo(new StubPiece(Team.HAN, new Position(1, 1)));
-    }
-
     static class StubPiece extends Piece {
 
-        protected StubPiece(final Team team, final Position position) {
-            super(new PieceProfile(null, team), position);
+        protected StubPiece(final Team team) {
+            super(new PieceProfile(null, team));
         }
 
         @Override
-        public List<Position> makeRoute(final Position position) {
+        public List<Position> makeRoute(final Position currentPosition, final Position targetPosition) {
             return List.of();
         }
 
         @Override
-        public void canMoveBy(final Position position) {
+        protected void canMoveBy(final Position currentPosition, final Position targetPosition) {
+
         }
     }
 }

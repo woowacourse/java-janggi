@@ -8,29 +8,25 @@ import java.util.Objects;
 public abstract class Piece {
 
     private final PieceProfile pieceProfile;
-    protected Position position;
 
-    protected Piece(final PieceProfile pieceProfile, final Position position) {
+    protected Piece(final PieceProfile pieceProfile) {
         this.pieceProfile = pieceProfile;
-        this.position = position;
     }
 
-    public void moveTo(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        canMoveBy(futurePosition);
+    public void moveTo(final Position presentPosition, final Position futurePosition,
+                       final Map<Position, Piece> janggiBoard) {
+        canMoveBy(presentPosition, futurePosition);
         validateTeam(janggiBoard.get(futurePosition));
-        checkObstacle(futurePosition, janggiBoard);
+        checkObstacle(presentPosition, futurePosition, janggiBoard);
     }
 
-    public void updatePiecePositionBy(final Position position) {
-        this.position = position;
+    protected void checkObstacle(final Position presentPosition, final Position futurePosition,
+                                 final Map<Position, Piece> janggiBoard) {
     }
 
-    protected void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-    }
+    public abstract List<Position> makeRoute(final Position presentPosition, final Position position);
 
-    public abstract List<Position> makeRoute(final Position position);
-
-    protected abstract void canMoveBy(final Position position);
+    protected abstract void canMoveBy(final Position preesntPosition, final Position position);
 
     protected void validateTeam(final Piece other) {
         if (isSameTeam(other)) {
@@ -45,7 +41,7 @@ public abstract class Piece {
     }
 
     private boolean isSameTeam(final Piece other) {
-        return other != null && isSame(other.getPieceProfile().getNation());
+        return other != null && isSame(other.getPieceProfile().getTeam());
     }
 
     private boolean isNotSameTeam(final Team currentTurnTeam) {
@@ -53,7 +49,7 @@ public abstract class Piece {
     }
 
     private boolean isSame(final Team other) {
-        return pieceProfile.getNation().isSameTeam(other);
+        return pieceProfile.getTeam().isSameTeam(other);
     }
 
     public boolean isChoNation() {
@@ -64,34 +60,25 @@ public abstract class Piece {
         return pieceProfile.isHan();
     }
 
+    public PieceProfile getPieceProfile() {
+        return pieceProfile;
+    }
+
+    public String getType() {
+        return pieceProfile.getPieceType().getValue();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
         final Piece piece = (Piece) o;
-        return Objects.equals(getPieceProfile(), piece.getPieceProfile()) && Objects.equals(
-                getPosition(), piece.getPosition());
+        return Objects.equals(getPieceProfile(), piece.getPieceProfile());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPieceProfile(), getPosition());
-    }
-
-    public Position getBoardPosition() {
-        return position;
-    }
-
-    public PieceProfile getPieceProfile() {
-        return pieceProfile;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public String getType() {
-        return pieceProfile.getPieceType().getValue();
+        return Objects.hashCode(getPieceProfile());
     }
 }

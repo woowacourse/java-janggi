@@ -37,11 +37,11 @@ class PositionTest {
     void isOneStep(final int row, final int col) {
 
         //given
-        final Position position = new Position(2, 2);
-        final Position futurePosition = new Position(row, col);
+        final Position currentPosition = new Position(2, 2);
+        final Position targetPosition = new Position(row, col);
 
         //when
-        final boolean actual = position.isOneStep(futurePosition);
+        final boolean actual = currentPosition.isOneStep(targetPosition);
 
         //then
         assertThat(actual).isTrue();
@@ -52,11 +52,11 @@ class PositionTest {
     @CsvSource(value = {"2:2", "4:3", "4:2", "3:3", "1:1"}, delimiter = ':')
     void isNotOneStep() {
         //given
-        final Position position = new Position(2, 2);
-        final Position futurePosition = new Position(4, 2);
+        final Position currentPosition = new Position(2, 2);
+        final Position targetPosition = new Position(4, 2);
 
         //when
-        final boolean actual = position.isOneStep(futurePosition);
+        final boolean actual = currentPosition.isOneStep(targetPosition);
 
         //then
         assertThat(actual).isFalse();
@@ -66,11 +66,11 @@ class PositionTest {
     @Test
     void calculateDifferenceRow() {
         //given
-        final Position position = new Position(2, 2);
-        final Position futurePosition = new Position(4, 2);
+        final Position currentPosition = new Position(2, 2);
+        final Position targetPosition = new Position(4, 2);
 
         //when
-        final int actual = position.calculateDifferenceRow(futurePosition.row());
+        final int actual = currentPosition.calculateDifferenceRow(targetPosition.row());
 
         //then
         assertThat(actual).isEqualTo(2);
@@ -80,11 +80,11 @@ class PositionTest {
     @Test
     void calculateDifferenceCol() {
         //given
-        final Position position = new Position(2, 2);
-        final Position futurePosition = new Position(2, 4);
+        final Position currentPosition = new Position(2, 2);
+        final Position targetPosition = new Position(2, 4);
 
         //when
-        final int actual = position.calculateDifferenceCol(futurePosition.col());
+        final int actual = currentPosition.calculateDifferenceCol(targetPosition.col());
 
         //then
         assertThat(actual).isEqualTo(2);
@@ -94,11 +94,11 @@ class PositionTest {
     @Test
     void isBehindWhenOneStepBackwards() {
         // given
-        final Position current = new Position(3, 3);
-        final Position behind = new Position(3, 2);
+        final Position currentPosition = new Position(3, 3);
+        final Position behindPosition = new Position(3, 2);
 
         // when
-        final boolean actual = current.isBehind(behind);
+        final boolean actual = currentPosition.isBehind(behindPosition);
 
         // then
         assertThat(actual).isTrue();

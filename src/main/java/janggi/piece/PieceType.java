@@ -9,7 +9,7 @@ public enum PieceType {
     HORSE("마"),
     CANNON("포"),
     GUARD("사"),
-    SANG("상"),
+    ELEPHANT("상"),
     ;
 
     private final String name;

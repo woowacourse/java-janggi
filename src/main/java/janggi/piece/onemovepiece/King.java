@@ -9,24 +9,24 @@ import java.util.List;
 
 public class King extends Piece {
 
-    public King(final Team team, final Position position) {
-        super(new PieceProfile(PieceType.KING, team), position);
+    public King(final Team team) {
+        super(new PieceProfile(PieceType.KING, team));
     }
 
     @Override
-    public List<Position> makeRoute(final Position position) {
+    public List<Position> makeRoute(final Position presentPosition, final Position position) {
         return List.of();
     }
 
     @Override
-    public void canMoveBy(final Position position) {
-        if (isNotMove(position)) {
+    public void canMoveBy(final Position presentPosition, final Position position) {
+        if (isNotMove(presentPosition, position)) {
             throw new IllegalArgumentException("[ERROR] 왕이 움직일 수 없는 위치 입니다.");
         }
     }
 
-    private boolean isNotMove(final Position position) {
-        return !getBoardPosition().isOneStep(position);
+    private boolean isNotMove(final Position presentPosition, final Position position) {
+        return !presentPosition.isOneStep(position);
     }
 
 }

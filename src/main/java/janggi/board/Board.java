@@ -22,7 +22,7 @@ public class Board {
 
     public GameState pieceMove(final Position presentPosition, final Position futurePosition) {
         final Piece piece = janggiBoard.get(presentPosition);
-        piece.moveTo(futurePosition, janggiBoard);
+        piece.moveTo(presentPosition, futurePosition, janggiBoard);
         return updatePiecePosition(presentPosition, futurePosition);
     }
 
@@ -35,7 +35,6 @@ public class Board {
         }
 
         janggiBoard.put(futurePosition, removePiece);
-        removePiece.updatePiecePositionBy(futurePosition);
         return GameState.IN_PROGRESS;
     }
 

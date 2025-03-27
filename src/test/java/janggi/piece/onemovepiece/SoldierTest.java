@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
@@ -16,70 +17,69 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SoldierTest {
 
-    @DisplayName("병은 자신의 팀과 위치를 가진다.")
+    @DisplayName("병은 팀과 타입을 가진 프로필을 가진다.")
     @Test
     void soldierBoardPosition() {
-        //given
-        final Position position = new Position(0, 0);
-
-        //when
-        final Soldier soldier = new Soldier(Team.HAN, position);
+        //given //when
+        final Soldier soldier = new Soldier(Team.HAN);
 
         //then
-        assertThat(soldier.getBoardPosition().col()).isEqualTo(0);
-        assertThat(soldier.getBoardPosition().row()).isEqualTo(0);
+        assertThat(soldier.getPieceProfile().getPieceType()).isEqualTo(PieceType.SOLDIER);
+        assertThat(soldier.getPieceProfile().getTeam()).isEqualTo(Team.HAN);
     }
 
-    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면(가로,세로 한칸을 제외한 경로) 예외를 던진다.")
+    @DisplayName("제공된 위치를 기준으로 이동할 수 없다면(가로,세로 한칸을 제외한 경로) 예외를 던진다.")
     @ParameterizedTest
     @MethodSource("soldierNonCanMoveByPositionProvider")
-    void nonCanMoveBy(final Position position) {
+    void nonCanMoveBy(final Position currentPosition, final Position targetPosition) {
         //given
-        final Soldier soldier = new Soldier(Team.HAN, new Position(5, 5));
+        final Soldier soldier = new Soldier(Team.HAN);
 
         //when
-        assertThatThrownBy(() -> soldier.canMoveBy(position))
+        assertThatThrownBy(() -> soldier.canMoveBy(currentPosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     private static Stream<Arguments> soldierNonCanMoveByPositionProvider() {
         return Stream.of(
-                Arguments.of(new Position(4, 5)),
-                Arguments.of(new Position(6, 3)),
-                Arguments.of(new Position(6, 6))
+                Arguments.of(new Position(5, 5), new Position(4, 5)),
+                Arguments.of(new Position(5, 5), new Position(6, 3)),
+                Arguments.of(new Position(5, 5), new Position(6, 6))
         );
     }
 
-    @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 예외를 던지지 않는다.")
+    @DisplayName("제공된 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 예외를 던지지 않는다.")
     @ParameterizedTest
     @MethodSource("soldierCanMoveByPositionProvider")
-    void canMoveBy(final Position position) {
+    void canMoveBy(final Position currentPosition, final Position targetPosition) {
         //given
-        final Soldier soldier = new Soldier(Team.HAN, new Position(5, 5));
+        final Soldier soldier = new Soldier(Team.HAN);
 
         //when //then
-        assertThatCode(() -> soldier.canMoveBy(position))
+        assertThatCode(() -> soldier.canMoveBy(currentPosition, targetPosition))
                 .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> soldierCanMoveByPositionProvider() {
         return Stream.of(
-                Arguments.of(new Position(6, 5)),
-                Arguments.of(new Position(5, 6)),
-                Arguments.of(new Position(5, 4))
+                Arguments.of(new Position(5, 5), new Position(6, 5)),
+                Arguments.of(new Position(5, 5), new Position(5, 6)),
+                Arguments.of(new Position(5, 5), new Position(5, 4))
         );
     }
 
-    @DisplayName("병은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
+    @DisplayName("병은 제공된 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     @Test
     void makeRoute() {
         //given
-        final Soldier soldier = new Soldier(Team.HAN, new Position(5, 5));
-        final Position futurePosition = new Position(4, 5);
+        final Soldier soldier = new Soldier(Team.HAN);
+
+        final Position currentPosition = new Position(3, 5);
+        final Position targetPosition = new Position(4, 5);
 
         //when
-        final List<Position> actual = soldier.makeRoute(futurePosition);
+        final List<Position> actual = soldier.makeRoute(currentPosition, targetPosition);
 
         //then
         assertThat(actual.isEmpty()).isTrue();

@@ -34,11 +34,9 @@ class BoardTest {
         //given
         final Board board = new Board();
 
-        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN, new Position(3, 2)));
+        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN));
 
         final Position presentPosition = new Position(4, 2);
-
-        //when //then
         assertThatThrownBy(() -> board.validateEmptyPieceBy(presentPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
@@ -50,8 +48,8 @@ class BoardTest {
         //given
         final Board board = new Board();
 
-        board.deployPiece(new Position(4, 2), new Chariot(Team.HAN, new Position(4, 2)));
-        board.deployPiece(new Position(7, 2), new Soldier(Team.HAN, new Position(7, 2)));
+        board.deployPiece(new Position(4, 2), new Chariot(Team.HAN));
+        board.deployPiece(new Position(7, 2), new Soldier(Team.HAN));
 
         final Position presentPosition = new Position(4, 2);
         final Position futurePosition = new Position(8, 2);
@@ -68,7 +66,7 @@ class BoardTest {
         //given
         final Board board = new Board();
 
-        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN, new Position(3, 2)));
+        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN));
 
         final Position presentPosition = new Position(3, 2);
         final Position futurePosition = new Position(4, 2);
@@ -78,17 +76,17 @@ class BoardTest {
 
         //then
         final Piece actual = board.getJanggiBoard().get(futurePosition);
-        assertThat(actual).isEqualTo(new Soldier(Team.HAN, new Position(4, 2)));
+        assertThat(actual).isEqualTo(new Soldier(Team.HAN));
     }
 
-    @DisplayName("왕이 죽으면 게임이 종료 상태가 된다.")
+    @DisplayName("기물을 이동했을 때 왕이 죽으면 게임이 종료 상태가 된다.")
     @Test
     void kingDeadEndState() {
         //given
         final Board board = new Board();
 
-        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN, new Position(3, 2)));
-        board.deployPiece(new Position(4, 2), new King(Team.CHU, new Position(4, 2)));
+        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN));
+        board.deployPiece(new Position(4, 2), new King(Team.CHU));
 
         final Position presentPosition = new Position(3, 2);
         final Position futurePosition = new Position(4, 2);
@@ -100,14 +98,14 @@ class BoardTest {
         assertThat(gameState).isEqualTo(GameState.END);
     }
 
-    @DisplayName("왕이 죽지 않으면 게임이 진행 상태가 된다.")
+    @DisplayName("기물을 이동했을 때 왕이 죽지 않으면 게임이 진행 상태가 된다.")
     @Test
     void nonKingDeadEndState() {
         //given
         final Board board = new Board();
 
-        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN, new Position(3, 2)));
-        board.deployPiece(new Position(5, 2), new King(Team.CHU, new Position(5, 2)));
+        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN));
+        board.deployPiece(new Position(5, 2), new King(Team.CHU));
 
         final Position presentPosition = new Position(3, 2);
         final Position futurePosition = new Position(4, 2);

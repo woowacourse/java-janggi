@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.piece.Piece;
+import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.piece.onemovepiece.Soldier;
 import janggi.position.Position;
@@ -20,60 +21,63 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class ChariotTest {
 
-    @DisplayName("차는 자신의 팀과 위치를 가진다.")
+    @DisplayName("차는 팀과 타입을 가진 프로필을 가진다.")
     @Test
     void chariotBoardPosition() {
-        //given
-        final Position position = new Position(4, 5);
-
-        //when
-        final Chariot chariot = new Chariot(Team.HAN, position);
+        //given //when
+        final Chariot chariot = new Chariot(Team.HAN);
 
         //then
-        assertThat(chariot.getBoardPosition()).isEqualTo(new Position(4, 5));
+        assertThat(chariot.getPieceProfile().getPieceType()).isEqualTo(PieceType.CHARIOT);
+        assertThat(chariot.getPieceProfile().getTeam()).isEqualTo(Team.HAN);
     }
 
-    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
+    @DisplayName("제공된 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @Test
     void nonCanMoveBy() {
         //given
-        final Chariot chariot = new Chariot(Team.HAN, new Position(0, 0));
+        final Chariot chariot = new Chariot(Team.HAN);
 
-        //when //then
-        assertThatThrownBy(() -> chariot.canMoveBy(new Position(1, 1)))
+        //when
+        final Position currnetPosition = new Position(0, 0);
+        final Position targetPosition = new Position(1, 1);
+
+        //then
+        assertThatThrownBy(() -> chariot.canMoveBy(currnetPosition, targetPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("차는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 예외를 던지지 않는다.")
+    @DisplayName("차는 움직임을 제공된 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 예외를 던지지 않는다.")
     @ParameterizedTest
     @MethodSource("chariotCanMoveByPositionProvider")
-    void canMoveBy(final Position position) {
+    void canMoveBy(final Position currentPosition, final Position targetPosition) {
         //given
-        final Chariot chariot = new Chariot(Team.HAN, new Position(0, 0));
+        final Chariot chariot = new Chariot(Team.HAN);
 
         //when //then
-        assertThatCode(() -> chariot.canMoveBy(position))
+        assertThatCode(() -> chariot.canMoveBy(currentPosition, targetPosition))
                 .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> chariotCanMoveByPositionProvider() {
         return Stream.of(
-                Arguments.of(new Position(0, 1)),
-                Arguments.of(new Position(1, 0)));
+                Arguments.of(new Position(0, 0), new Position(0, 1)),
+                Arguments.of(new Position(0, 0), new Position(1, 0)));
     }
 
     @Nested
-    @DisplayName("차는 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
+    @DisplayName("차는 제공된 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     class makeRoute {
 
         @DisplayName("수직으로 아래로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteVerticalDown() {
-            final Chariot chariot = new Chariot(Team.HAN, new Position(0, 0));
-            final Position futurePosition = new Position(5, 0);
+            final Chariot chariot = new Chariot(Team.HAN);
+            final Position currentPosition = new Position(0, 0);
+            final Position targetPosition = new Position(5, 0);
 
-            final List<Position> actual = chariot.makeRoute(futurePosition);
+            final List<Position> actual = chariot.makeRoute(currentPosition, targetPosition);
 
             assertThat(actual).containsExactly(
                     new Position(1, 0),
@@ -86,10 +90,12 @@ class ChariotTest {
         @DisplayName("수직으로 위로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteVerticalUp() {
-            final Chariot chariot = new Chariot(Team.HAN, new Position(5, 0));
-            final Position futurePosition = new Position(0, 0);
+            final Chariot chariot = new Chariot(Team.HAN);
 
-            final List<Position> actual = chariot.makeRoute(futurePosition);
+            final Position currentPosition = new Position(5, 0);
+            final Position targetPosition = new Position(0, 0);
+
+            final List<Position> actual = chariot.makeRoute(currentPosition, targetPosition);
 
             assertThat(actual).containsExactly(
                     new Position(4, 0),
@@ -102,10 +108,12 @@ class ChariotTest {
         @DisplayName("수평으로 오른쪽으로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteHorizontalRight() {
-            final Chariot chariot = new Chariot(Team.HAN, new Position(0, 0));
-            final Position futurePosition = new Position(0, 5);
+            final Chariot chariot = new Chariot(Team.HAN);
 
-            final List<Position> actual = chariot.makeRoute(futurePosition);
+            final Position currentPosition = new Position(0, 0);
+            final Position targetPosition = new Position(0, 5);
+
+            final List<Position> actual = chariot.makeRoute(currentPosition, targetPosition);
 
             assertThat(actual).containsExactly(
                     new Position(0, 1),
@@ -118,10 +126,12 @@ class ChariotTest {
         @DisplayName("수평으로 왼쪽으로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteHorizontalLeft() {
-            final Chariot chariot = new Chariot(Team.HAN, new Position(0, 5));
-            final Position futurePosition = new Position(0, 0);
+            final Chariot chariot = new Chariot(Team.HAN);
 
-            final List<Position> actual = chariot.makeRoute(futurePosition);
+            final Position currentPosition = new Position(0, 5);
+            final Position targetPosition = new Position(0, 0);
+
+            final List<Position> actual = chariot.makeRoute(currentPosition, targetPosition);
 
             assertThat(actual).containsExactly(
                     new Position(0, 4),
@@ -135,16 +145,17 @@ class ChariotTest {
         @Test
         void hasObstacle() {
             //given
-            final Chariot chariot = new Chariot(Team.HAN, new Position(5, 5));
+            final Chariot chariot = new Chariot(Team.HAN);
 
             final Map<Position, Piece> board = Map.of(
-                    new Position(6, 5), new Soldier(Team.HAN, new Position(6, 5))
+                    new Position(6, 5), new Soldier(Team.HAN)
             );
 
-            final Position futurePosition = new Position(7, 5);
+            final Position currentPosition = new Position(5, 5);
+            final Position targetPosition = new Position(7, 5);
 
             //when //then
-            assertThatThrownBy(() -> chariot.checkObstacle(futurePosition, board))
+            assertThatThrownBy(() -> chariot.checkObstacle(currentPosition, targetPosition, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageStartingWith("[ERROR]");
         }
@@ -153,16 +164,17 @@ class ChariotTest {
         @Test
         void nonObstacle() {
             //given
-            final Chariot chariot = new Chariot(Team.HAN, new Position(5, 5));
+            final Chariot chariot = new Chariot(Team.HAN);
 
             final Map<Position, Piece> board = Map.of(
-                    new Position(7, 5), new Soldier(Team.HAN, new Position(7, 5))
+                    new Position(7, 5), new Soldier(Team.HAN)
             );
 
-            final Position futurePosition = new Position(6, 5);
+            final Position currentPosition = new Position(5, 5);
+            final Position targetPosition = new Position(6, 5);
 
             //when //then
-            assertThatCode(() -> chariot.checkObstacle(futurePosition, board))
+            assertThatCode(() -> chariot.checkObstacle(currentPosition, targetPosition, board))
                     .doesNotThrowAnyException();
         }
     }

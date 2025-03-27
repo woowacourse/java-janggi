@@ -11,13 +11,14 @@ import java.util.Map;
 
 public class Elephant extends Piece {
 
-    public Elephant(final Team team, final Position position) {
-        super(new PieceProfile(PieceType.SANG, team), position);
+    public Elephant(final Team team) {
+        super(new PieceProfile(PieceType.ELEPHANT, team));
     }
 
     @Override
-    public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        final List<Position> moveRoute = makeRoute(futurePosition);
+    public void checkObstacle(final Position presentPosition, final Position futurePosition,
+                              final Map<Position, Piece> janggiBoard) {
+        final List<Position> moveRoute = makeRoute(presentPosition, futurePosition);
         for (final Position position : moveRoute) {
             validateObstacle(janggiBoard, position);
         }
@@ -30,13 +31,13 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Position> makeRoute(final Position position) {
+    public List<Position> makeRoute(final Position presentPosition, final Position position) {
         final List<Position> route = new ArrayList<>();
 
-        final int dx = getBoardPosition().row() - position.row();
-        final int dy = getBoardPosition().col() - position.col();
-        final int presentRow = getBoardPosition().row();
-        final int presentCol = getBoardPosition().col();
+        final int dx = presentPosition.row() - position.row();
+        final int dy = presentPosition.col() - position.col();
+        final int presentRow = presentPosition.row();
+        final int presentCol = presentPosition.col();
 
         verticalRoute(dx, dy, route, presentRow, presentCol);
         horizontalRoute(dy, dx, route, presentRow, presentCol);
@@ -157,9 +158,9 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public void canMoveBy(final Position position) {
-        final int dx = position.calculateDifferenceRow(getPosition().row());
-        final int dy = position.calculateDifferenceCol(getPosition().col());
+    public void canMoveBy(final Position presentPosition, final Position position) {
+        final int dx = position.calculateDifferenceRow(presentPosition.row());
+        final int dy = position.calculateDifferenceCol(presentPosition.col());
 
         if (isNotMove(dx, dy)) {
             throw new IllegalArgumentException("[ERROR] 상이 움직일 수 없는 위치입니다.");
