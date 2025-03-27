@@ -28,41 +28,6 @@ public class Board implements PieceVisibleBoard {
         return isWangsOfAllTeamsAlive();
     }
 
-    private boolean isWangsOfAllTeamsAlive() {
-        return findTeamsOfWang().containsAll(List.of(Team.CHO, Team.HAN));
-    }
-
-    public Team findWinTeam() {
-        if (isPlaying()) {
-            return determineWinTeamByScore();
-        }
-        Set<Team> foundTeam = findTeamsOfWang();
-        if (foundTeam.contains(Team.CHO)) {
-            return Team.CHO;
-        }
-        return Team.HAN;
-    }
-
-    private Team determineWinTeamByScore() {
-        double hanScore = calculateScore(Team.HAN);
-        double choScore = calculateScore(Team.CHO);
-        if (hanScore > choScore) {
-            return Team.HAN;
-        }
-        return Team.CHO;
-    }
-
-    public double calculateScore(Team team) {
-        double sum = 0;
-        if (team == Team.HAN) {
-            sum += HAN_HANDICAP_SCORE;
-        }
-        return sum + pieceByPoint.values().stream()
-                .filter(piece -> piece.team() == team)
-                .mapToInt(Piece::score)
-                .sum();
-    }
-
     public boolean canMove(final Point source, final Point destination) {
         if (!existsPiece(source)) {
             return false;
@@ -142,10 +107,40 @@ public class Board implements PieceVisibleBoard {
         return pathFinder.getPointMovedByPath(point, path);
     }
 
+    public double calculateScore(Team team) {
+        double sum = 0;
+        if (team == Team.HAN) {
+            sum += HAN_HANDICAP_SCORE;
+        }
+        return sum + pieceByPoint.values().stream()
+                .filter(piece -> piece.team() == team)
+                .mapToInt(Piece::score)
+                .sum();
+    }
+
+    public Team findWinTeam() {
+        if (isPlaying()) {
+            return determineWinTeamByScore();
+        }
+        Set<Team> foundTeam = findTeamsOfWang();
+        if (foundTeam.contains(Team.CHO)) {
+            return Team.CHO;
+        }
+        return Team.HAN;
+    }
+
+    private boolean existsPoint(final Point point) {
+        return pathFinder.existsPoint(point);
+    }
+
     private void validatePoint(final Point point) {
         if (!existsPoint(point)) {
             throw new IllegalArgumentException(point.row() + ", " + point.column() + ": 존재하지 않는 좌표입니다.");
         }
+    }
+
+    private boolean isWangsOfAllTeamsAlive() {
+        return findTeamsOfWang().containsAll(List.of(Team.CHO, Team.HAN));
     }
 
     private Set<Team> findTeamsOfWang() {
@@ -155,8 +150,13 @@ public class Board implements PieceVisibleBoard {
                 .collect(Collectors.toSet());
     }
 
-    private boolean existsPoint(final Point point) {
-        return pathFinder.existsPoint(point);
+    private Team determineWinTeamByScore() {
+        double hanScore = calculateScore(Team.HAN);
+        double choScore = calculateScore(Team.CHO);
+        if (hanScore > choScore) {
+            return Team.HAN;
+        }
+        return Team.CHO;
     }
 
     private Piece getPiece(final Point point) {
