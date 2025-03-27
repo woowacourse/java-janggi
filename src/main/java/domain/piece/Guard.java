@@ -22,14 +22,4 @@ public class Guard extends FixedMovePiece {
     public List<Moves> getMoveList() {
         return moves;
     }
-
-    @Override
-    public boolean isCanon() {
-        return false;
-    }
-
-    @Override
-    public boolean isKing() {
-        return false;
-    }
 }

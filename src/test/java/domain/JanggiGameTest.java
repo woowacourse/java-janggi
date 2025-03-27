@@ -3,6 +3,7 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.movestrategy.BasicRangeMoveStrategy;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Horse;
@@ -32,7 +33,7 @@ public class JanggiGameTest {
     void test1() {
 
         // given
-        Cannon blueCannon = new Cannon(Team.BLUE);
+        Cannon blueCannon = new Cannon(Team.BLUE, new BasicRangeMoveStrategy());
         King blueKing = new King(Team.BLUE);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
@@ -74,7 +75,7 @@ public class JanggiGameTest {
     void test24() {
         // given
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        Chariot blueChariot = new Chariot(Team.BLUE);
+        Chariot blueChariot = new Chariot(Team.BLUE, new BasicRangeMoveStrategy());
         beforeBoard.put(new Position(1, 1), blueChariot);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
 
@@ -117,7 +118,7 @@ public class JanggiGameTest {
     void test3() {
         //given
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        Chariot blueChariot = new Chariot(Team.BLUE);
+        Chariot blueChariot = new Chariot(Team.BLUE, new BasicRangeMoveStrategy());
         beforeBoard.put(new Position(1, 1), blueChariot);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
 
@@ -133,7 +134,7 @@ public class JanggiGameTest {
 
         //given
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        Chariot blueChariot = new Chariot(Team.BLUE);
+        Chariot blueChariot = new Chariot(Team.BLUE, new BasicRangeMoveStrategy());
         beforeBoard.put(new Position(1, 1), blueChariot);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
 
@@ -148,7 +149,7 @@ public class JanggiGameTest {
     void test5() {
         //given
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        Chariot blueChariot = new Chariot(Team.RED);
+        Chariot blueChariot = new Chariot(Team.RED, new BasicRangeMoveStrategy());
         beforeBoard.put(new Position(1, 1), blueChariot);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
 

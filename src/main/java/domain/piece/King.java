@@ -24,11 +24,6 @@ public class King extends FixedMovePiece {
     }
 
     @Override
-    public boolean isCanon() {
-        return false;
-    }
-
-    @Override
     public boolean isKing() {
         return true;
     }

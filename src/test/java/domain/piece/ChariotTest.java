@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Position;
 import domain.Team;
+import domain.movestrategy.BasicRangeMoveStrategy;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -20,7 +21,7 @@ public class ChariotTest {
     @MethodSource("providePositions")
     void test1(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
-        Chariot chariot = new Chariot(Team.RED);
+        Chariot chariot = new Chariot(Team.RED, new BasicRangeMoveStrategy());
 
         // when
         List<Position> moves = chariot.calculatePath(startPosition, targetPosition);
@@ -59,7 +60,7 @@ public class ChariotTest {
     @Test
     void test2() {
         //given
-        Chariot chariot = new Chariot(Team.RED);
+        Chariot chariot = new Chariot(Team.RED, new BasicRangeMoveStrategy());
 
         // when & then
         assertThatThrownBy(() -> chariot.calculatePath(new Position(1, 1), new Position(2, 2)))

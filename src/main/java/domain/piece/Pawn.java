@@ -1,44 +1,21 @@
 package domain.piece;
 
+import domain.Position;
 import domain.Team;
-import domain.move.Move;
-import domain.move.Moves;
+import domain.movestrategy.FixedMoveStrategy;
 import java.util.List;
 
-public class Pawn extends FixedMovePiece {
+public class Pawn extends Piece {
 
-    private final List<Moves> blueTeamMoves = List.of(
-            Moves.createMoves(Move.FRONT),
-            Moves.createMoves(Move.BACK),
-            Moves.createMoves(Move.RIGHT),
-            Moves.createMoves(Move.LEFT)
-    );
-    private final List<Moves> redTeamMoves = List.of(
-            Moves.createMoves(Move.FRONT),
-            Moves.createMoves(Move.BACK),
-            Moves.createMoves(Move.RIGHT),
-            Moves.createMoves(Move.LEFT)
-    );
+    private FixedMoveStrategy moveStrategy;
 
-    public Pawn(Team team) {
+    public Pawn(Team team, FixedMoveStrategy moveStrategy) {
         super(team);
+        this.moveStrategy = moveStrategy;
     }
 
     @Override
-    public List<Moves> getMoveList() {
-        if (this.team == Team.BLUE) {
-            return blueTeamMoves;
-        }
-        return redTeamMoves;
-    }
-
-    @Override
-    public boolean isCanon() {
-        return false;
-    }
-
-    @Override
-    public boolean isKing() {
-        return false;
+    public List<Position> calculatePath(Position startPosition, Position targetPosition) {
+        return moveStrategy.calculatePath(startPosition, targetPosition, team);
     }
 }

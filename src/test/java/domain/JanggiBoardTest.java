@@ -1,5 +1,7 @@
 package domain;
 
+import domain.movestrategy.BasicFixedMoveStrategy;
+import domain.movestrategy.BasicRangeMoveStrategy;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Horse;
@@ -19,8 +21,8 @@ public class JanggiBoardTest {
     @Test
     void test1() {
         Map<Position, Piece> board = Map.of(
-                new Position(4, 1), new Pawn(Team.RED),
-                new Position(4, 5), new Pawn(Team.RED)
+                new Position(4, 1), new Pawn(Team.RED, new BasicFixedMoveStrategy()),
+                new Position(4, 5), new Pawn(Team.RED, new BasicFixedMoveStrategy())
         );
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -38,7 +40,7 @@ public class JanggiBoardTest {
     @Test
     void test2() {
         Map<Position, Piece> board = Map.of(
-                new Position(1, 1), new Chariot(Team.RED),
+                new Position(1, 1), new Chariot(Team.RED, new BasicRangeMoveStrategy()),
                 new Position(1, 2), new Horse(Team.RED)
         );
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
@@ -56,7 +58,7 @@ public class JanggiBoardTest {
     @DisplayName("장기말은 이동시 목표 좌표로 위치가 바뀐다.")
     @Test
     void test3() {
-        Pawn pawn = new Pawn(Team.RED);
+        Pawn pawn = new Pawn(Team.RED, new BasicFixedMoveStrategy());
         // given
         Map<Position, Piece> beforeBoard = new HashMap<>();
         beforeBoard.put(new Position(4, 1), pawn);
@@ -80,8 +82,8 @@ public class JanggiBoardTest {
     @Test
     void test4() {
         //given
-        Chariot blueChariot = new Chariot(Team.BLUE);
-        Chariot redChariot = new Chariot(Team.RED);
+        Chariot blueChariot = new Chariot(Team.BLUE, new BasicRangeMoveStrategy());
+        Chariot redChariot = new Chariot(Team.RED, new BasicRangeMoveStrategy());
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
         beforeBoard.put(new Position(4, 1), blueChariot);
@@ -107,8 +109,8 @@ public class JanggiBoardTest {
     @Test
     void test5() {
         //given
-        Chariot blueChariot1 = new Chariot(Team.BLUE);
-        Chariot blueChariot2 = new Chariot(Team.BLUE);
+        Chariot blueChariot1 = new Chariot(Team.BLUE, new BasicRangeMoveStrategy());
+        Chariot blueChariot2 = new Chariot(Team.BLUE, new BasicRangeMoveStrategy());
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
         beforeBoard.put(new Position(4, 1), blueChariot1);
@@ -130,7 +132,7 @@ public class JanggiBoardTest {
     @Test
     void test6() {
         //given
-        Cannon blueCannon = new Cannon(Team.BLUE);
+        Cannon blueCannon = new Cannon(Team.BLUE, new BasicRangeMoveStrategy());
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
         beforeBoard.put(new Position(4, 1), blueCannon);
@@ -151,8 +153,8 @@ public class JanggiBoardTest {
     @Test
     void test7() {
         //given
-        Chariot blueChariot = new Chariot(Team.BLUE);
-        Pawn bluePawn = new Pawn(Team.BLUE);
+        Chariot blueChariot = new Chariot(Team.BLUE, new BasicRangeMoveStrategy());
+        Pawn bluePawn = new Pawn(Team.BLUE, new BasicFixedMoveStrategy());
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
         beforeBoard.put(new Position(1, 1), blueChariot);
@@ -174,8 +176,8 @@ public class JanggiBoardTest {
     @Test
     void test8() {
         //given
-        Cannon blueCannon1 = new Cannon(Team.BLUE);
-        Cannon blueCannon2 = new Cannon(Team.BLUE);
+        Cannon blueCannon1 = new Cannon(Team.BLUE, new BasicRangeMoveStrategy());
+        Cannon blueCannon2 = new Cannon(Team.BLUE, new BasicRangeMoveStrategy());
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
         beforeBoard.put(new Position(8, 2), blueCannon1);
@@ -197,8 +199,8 @@ public class JanggiBoardTest {
     @Test
     void test9() {
         //given
-        Cannon blueCannon1 = new Cannon(Team.BLUE);
-        Cannon blueCannon2 = new Cannon(Team.RED);
+        Cannon blueCannon1 = new Cannon(Team.BLUE, new BasicRangeMoveStrategy());
+        Cannon blueCannon2 = new Cannon(Team.RED, new BasicRangeMoveStrategy());
         King blueKing = new King(Team.RED);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();
@@ -222,7 +224,7 @@ public class JanggiBoardTest {
     @Test
     void test10() {
         //given
-        Cannon blueCannon = new Cannon(Team.BLUE);
+        Cannon blueCannon = new Cannon(Team.BLUE, new BasicRangeMoveStrategy());
         King blueKing = new King(Team.BLUE);
 
         Map<Position, Piece> beforeBoard = new HashMap<>();

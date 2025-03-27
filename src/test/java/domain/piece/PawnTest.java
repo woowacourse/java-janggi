@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
+import domain.movestrategy.BasicFixedMoveStrategy;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,7 @@ class PawnTest {
     void test() {
 
         //given
-        Pawn pawn = new Pawn(Team.RED);
+        Pawn pawn = new Pawn(Team.RED, new BasicFixedMoveStrategy());
 
         //when
         List<Position> move = pawn.calculatePath(new Position(4, 1), new Position(4, 2));
@@ -28,7 +29,7 @@ class PawnTest {
     void test1() {
 
         //given
-        Pawn pawn = new Pawn(Team.RED);
+        Pawn pawn = new Pawn(Team.RED, new BasicFixedMoveStrategy());
 
         // when & then
         Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 1), new Position(4, 3)))
