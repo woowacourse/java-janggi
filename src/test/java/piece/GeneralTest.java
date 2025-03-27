@@ -1,34 +1,49 @@
 package piece;
 
 import board.Board;
-import board.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import position.Position;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 class GeneralTest {
 
-    @DisplayName("General은 주변 한칸으로 이동할 수 있다.")
+    @DisplayName("거리 상수가 이동 규칙에 맞게 생성되었다.")
     @Test
-    void isAbleToMove() {
+    void distance() throws Exception {
+
         // given
-        final Piece generalPiece = new General(TeamType.BLUE);
-        final Position now = new Position(1, 1);
-        final Position ableDest = new Position(1, 2);
-        final Position notAbleDest = new Position(1, 3);
-        final Board board = new Board(new HashMap<>());
+        Field distanceField = General.class.getDeclaredField("DISTANCE");
+        distanceField.setAccessible(true);
 
         // when
-        final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board);
-        final boolean actual2 = generalPiece.isAbleToMove(now, notAbleDest, board);
+        double distanceValue = distanceField.getDouble(null);
 
         // then
-        org.junit.jupiter.api.Assertions.assertAll(
-                () -> assertThat(actual1).isTrue(),
-                () -> assertThat(actual2).isFalse()
-        );
+        assertThat(distanceValue).isEqualTo(1.0);
+    }
+
+    @DisplayName("General은 주변 한칸으로 이동할 수 있다.")
+    @Test
+    void validateMove() {
+        final Position src = new Position(1, 1);
+        final Piece general = new General(src, Country.HAN);
+        final Board board = new Board(new HashMap<>());
+
+        // 정상 이동
+        Position validDest = new Position(1, 2);
+        assertThatCode(() -> general.validateMove(src, validDest, board))
+                .doesNotThrowAnyException();
+
+        // 예외 발생 이동
+        Position invalidDest = new Position(1, 3);
+        assertThatThrownBy(() -> general.validateMove(src, invalidDest, board))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
