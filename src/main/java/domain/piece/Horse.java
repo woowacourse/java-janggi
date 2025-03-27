@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Score;
 import domain.Team;
-import domain.position.Distance;
+import domain.position.Direction;
 import domain.position.Point;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -73,9 +73,9 @@ public class Horse extends AbstractPiece {
 
     @Override
     public boolean isMovable(final Point fromPoint, final Point toPoint) {
-        final Distance distance = fromPoint.generateDistance(toPoint);
-        final int absoluteX = Math.abs(distance.x());
-        final int absoluteY = Math.abs(distance.y());
+        final Direction direction = fromPoint.generateDirection(toPoint);
+        final int absoluteX = Math.abs(direction.x());
+        final int absoluteY = Math.abs(direction.y());
         if (absoluteX == 1 && absoluteY == 2) {
             return true;
         }

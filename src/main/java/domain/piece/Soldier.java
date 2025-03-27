@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Score;
 import domain.Team;
-import domain.position.Distance;
+import domain.position.Direction;
 import domain.position.Point;
 import java.util.List;
 
@@ -19,14 +19,14 @@ public class Soldier extends AbstractPiece {
 
     @Override
     public boolean isMovable(final Point fromPoint, final Point toPoint) {
-        final Distance distance = fromPoint.generateDistance(toPoint);
-        if (Team.GREEN == team && distance.x() == 0 && distance.y() == 1) {
+        final Direction direction = fromPoint.generateDirection(toPoint);
+        if (Team.GREEN == team && direction.x() == 0 && direction.y() == 1) {
             return true;
         }
-        if (Team.RED == team && distance.x() == 0 && distance.y() == -1) {
+        if (Team.RED == team && direction.x() == 0 && direction.y() == -1) {
             return true;
         }
-        return (distance.x() == 1 || distance.x() == -1) && distance.y() == 0;
+        return (direction.x() == 1 || direction.x() == -1) && direction.y() == 0;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package domain.position;
 
-public record Distance(int x, int y) {
+public record Direction(int x, int y) {
 
     public boolean isNotHorizontal() {
         return x == 0;

@@ -68,10 +68,10 @@ public final class Point {
         return y;
     }
 
-    public Distance generateDistance(final Point other) {
+    public Direction generateDirection(final Point other) {
         final int pointX = calculateSubtractionX(other);
         final int pointY = calculateSubtractionY(other);
-        return new Distance(pointX, pointY);
+        return new Direction(pointX, pointY);
     }
 
     public int calculateSubtractionX(final Point other) {

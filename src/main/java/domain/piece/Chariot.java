@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.Score;
 import domain.Team;
-import domain.position.Distance;
+import domain.position.Direction;
 import domain.position.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +16,21 @@ public class Chariot extends AbstractPiece {
 
     @Override
     public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
-        final Distance distance = fromPoint.generateDistance(toPoint);
+        final Direction direction = fromPoint.generateDirection(toPoint);
 
-        if (isDiagonalDirectionInPalace(fromPoint, toPoint, distance)) {
+        if (isDiagonalDirectionInPalace(fromPoint, toPoint, direction)) {
             return searchPalacePossiblePoint(fromPoint, toPoint);
         }
-        if (distance.isRight()) {
+        if (direction.isRight()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxX(), toPoint, Point::right);
         }
-        if (distance.isLeft()) {
+        if (direction.isLeft()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMinX(), toPoint, Point::left);
         }
-        if (distance.isUp()) {
+        if (direction.isUp()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxY(), toPoint, Point::up);
         }
-        if (distance.isDown()) {
+        if (direction.isDown()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMinY(), toPoint, Point::down);
         }
         throw new IllegalArgumentException("차는 해당 방향으로 움직일 수 없습니다.");
@@ -39,9 +39,9 @@ public class Chariot extends AbstractPiece {
     private static boolean isDiagonalDirectionInPalace(
             final Point fromPoint,
             final Point toPoint,
-            final Distance distance
+            final Direction direction
     ) {
-        return fromPoint.isPalace() && toPoint.isPalace() && isDiagonalDirection(distance);
+        return fromPoint.isPalace() && toPoint.isPalace() && isDiagonalDirection(direction);
     }
 
     private List<Point> searchPalacePossiblePoint(final Point fromPoint, final Point toPoint) {
@@ -86,27 +86,27 @@ public class Chariot extends AbstractPiece {
 
     @Override
     public boolean isMovable(final Point fromPoint, final Point toPoint) {
-        final Distance distance = fromPoint.generateDistance(toPoint);
-        if (isVerticalDirection(distance)) {
+        final Direction direction = fromPoint.generateDirection(toPoint);
+        if (isVerticalDirection(direction)) {
             return true;
         }
-        if (isHorizontalDirection(distance)) {
+        if (isHorizontalDirection(direction)) {
             return true;
         }
-        return isDiagonalDirectionInPalace(fromPoint, toPoint, distance);
+        return isDiagonalDirectionInPalace(fromPoint, toPoint, direction);
     }
 
-    private static boolean isDiagonalDirection(final Distance distance) {
-        return distance.calculateDistance() == Point.DIAGONAL_UNIT
-                || distance.calculateDistance() == Point.DIAGONAL_UNIT * 2;
+    private static boolean isDiagonalDirection(final Direction direction) {
+        return direction.calculateDistance() == Point.DIAGONAL_UNIT
+                || direction.calculateDistance() == Point.DIAGONAL_UNIT * 2;
     }
 
-    private static boolean isHorizontalDirection(final Distance distance) {
-        return !distance.isNotHorizontal() && distance.isNotVertical();
+    private static boolean isHorizontalDirection(final Direction direction) {
+        return !direction.isNotHorizontal() && direction.isNotVertical();
     }
 
-    private static boolean isVerticalDirection(final Distance distance) {
-        return distance.isNotHorizontal() && !distance.isNotVertical();
+    private static boolean isVerticalDirection(final Direction direction) {
+        return direction.isNotHorizontal() && !direction.isNotVertical();
     }
 
     @Override
