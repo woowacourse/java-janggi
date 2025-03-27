@@ -25,11 +25,10 @@ public class Soldier extends LimitMovable {
     }
 
     private List<Route> moveCho(final Position position) {
-        List<Route> movableRoute = new ArrayList<>(
-                Arrays.asList(createRoute(position, Direction.LEFT),
-                createRoute(position, Direction.UP),
-                createRoute(position, Direction.RIGHT))
-        );
+        List<Route> movableRoute = new ArrayList<>();
+        movableRoute.addAll(createRoute(position, Direction.LEFT));
+        movableRoute.addAll(createRoute(position, Direction.UP));
+        movableRoute.addAll(createRoute(position, Direction.RIGHT));
 
         if (position.isInPalace()) {
             movableRoute.addAll(createRouteInPalace(position, Direction.LEFT_UP));
@@ -40,11 +39,10 @@ public class Soldier extends LimitMovable {
     }
 
     private List<Route> moveHan(final Position position) {
-        List<Route> movableRoute = new ArrayList<>(
-                Arrays.asList(createRoute(position, Direction.LEFT),
-                        createRoute(position, Direction.DOWN),
-                        createRoute(position, Direction.RIGHT))
-        );
+        List<Route> movableRoute = new ArrayList<>();
+        movableRoute.addAll(createRoute(position, Direction.LEFT));
+        movableRoute.addAll(createRoute(position, Direction.DOWN));
+        movableRoute.addAll(createRoute(position, Direction.RIGHT));
 
         if (position.isInPalace()) {
             movableRoute.addAll(createRouteInPalace(position, Direction.LEFT_DOWN));
@@ -54,10 +52,12 @@ public class Soldier extends LimitMovable {
         return movableRoute;
     }
 
-    private Route createRoute(final Position position, final Direction direction) {
-        Route route = new Route();
-        route.addRoute(position.move(direction));
-        return route;
+    private List<Route> createRoute(final Position position, final Direction direction) {
+        Position movedPosition = position.move(direction);
+        if(movedPosition.isInBoardRange()) {
+            return List.of(new Route(movedPosition));
+        }
+        return List.of();
     }
 
     private List<Route> createRouteInPalace(final Position position, final Direction direction) {
