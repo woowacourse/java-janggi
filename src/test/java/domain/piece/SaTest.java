@@ -21,7 +21,7 @@ public class SaTest {
         pieces.put(new Coordinate(5, 5), sa);
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = sa.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = sa.findAvailablePaths(new Coordinate(5, 5), board);
 
         List<Coordinate> expected = List.of(
                 new Coordinate(5, 4), new Coordinate(5, 6), new Coordinate(4, 5), new Coordinate(6, 5),
@@ -40,7 +40,7 @@ public class SaTest {
         pieces.put(new Coordinate(5, 6), new Sa(Country.HAN));
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = sa.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = sa.findAvailablePaths(new Coordinate(5, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(5, 6))).isFalse();
     }
@@ -54,7 +54,7 @@ public class SaTest {
         pieces.put(new Coordinate(5, 6), new Sa(Country.CHO));
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = sa.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = sa.findAvailablePaths(new Coordinate(5, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(5, 6))).isTrue();
     }

@@ -1,8 +1,8 @@
 package domain.board;
 
 import domain.Coordinate;
-import domain.piece.AvailablePaths;
 import domain.piece.Country;
+import domain.piece.Paths;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.HashMap;
@@ -27,9 +27,9 @@ public final class Board {
     public void movePiece(Coordinate from, Coordinate to) {
         Piece piece = findPieceByCoordinate(from);
 
-        List<Coordinate> coordinates = piece.availableMovePositions(from, this);
-        AvailablePaths availablePaths = new AvailablePaths(coordinates);
-        availablePaths.canMove(to);
+        List<Coordinate> availablePaths = piece.findAvailablePaths(from, this);
+        Paths paths = new Paths(availablePaths);
+        paths.canMove(to);
 
         board.put(to, piece);
         board.remove(from);

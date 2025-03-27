@@ -15,7 +15,7 @@ public class Byeong extends Piece {
     }
 
     @Override
-    public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
+    public List<Coordinate> findAvailablePaths(Coordinate from, Board board) {
         return MOVEMENTS.stream()
                 .filter(this::selectUpOrDown)
                 .map(from::move)

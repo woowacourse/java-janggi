@@ -17,7 +17,7 @@ public class Sa extends Piece {
     }
 
     @Override
-    public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
+    public List<Coordinate> findAvailablePaths(Coordinate from, Board board) {
         return MOVEMENTS.stream()
                 .map(from::move)
                 .filter(Coordinate::isInBoundary)

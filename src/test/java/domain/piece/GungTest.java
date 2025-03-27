@@ -21,7 +21,7 @@ public class GungTest {
         pieces.put(new Coordinate(2, 5), gung);
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = gung.availableMovePositions(new Coordinate(2, 5), board);
+        List<Coordinate> availableMovePositions = gung.findAvailablePaths(new Coordinate(2, 5), board);
 
         List<Coordinate> expected = List.of(
                 new Coordinate(1, 4), new Coordinate(1, 5), new Coordinate(1, 6), new Coordinate(2, 6),
@@ -40,7 +40,7 @@ public class GungTest {
         pieces.put(new Coordinate(1, 5), new Sa(Country.HAN));
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = gung.availableMovePositions(new Coordinate(2, 5), board);
+        List<Coordinate> availableMovePositions = gung.findAvailablePaths(new Coordinate(2, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(1, 5))).isFalse();
     }
@@ -54,8 +54,45 @@ public class GungTest {
         pieces.put(new Coordinate(1, 5), new Sa(Country.CHO));
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = gung.availableMovePositions(new Coordinate(2, 5), board);
+        List<Coordinate> availableMovePositions = gung.findAvailablePaths(new Coordinate(2, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(1, 5))).isTrue();
     }
+
+    @DisplayName("궁은 궁성 밖으로 나갈 수 없다")
+    @Test
+    void gungTest4() {
+        Gung gung = new Gung(Country.HAN);
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(3, 5), gung);
+        Board board = new Board(pieces);
+
+        List<Coordinate> availableMovePositions = gung.findAvailablePaths(new Coordinate(3, 5), board);
+
+        List<Coordinate> expected = List.of(
+                new Coordinate(3, 4), new Coordinate(3, 6), new Coordinate(2, 5)
+        );
+
+        assertThat(availableMovePositions).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @DisplayName("궁은 궁성 안에서 대각선을 따라 이동할 수 있다.")
+    @Test
+    void gungTest5() {
+        Gung gung = new Gung(Country.HAN);
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(2, 5), gung);
+        Board board = new Board(pieces);
+
+        List<Coordinate> availableMovePositions = gung.findAvailablePaths(new Coordinate(2, 5), board);
+
+        List<Coordinate> expected = List.of(
+                new Coordinate(1, 4), new Coordinate(1, 5), new Coordinate(1, 6),
+                new Coordinate(2, 4), new Coordinate(2, 5), new Coordinate(2, 6),
+                new Coordinate(3, 4), new Coordinate(3, 5), new Coordinate(3, 6)
+        );
+
+        assertThat(availableMovePositions).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
 }

@@ -17,7 +17,7 @@ public class Pho extends Piece {
     }
 
     @Override
-    public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
+    public List<Coordinate> findAvailablePaths(Coordinate from, Board board) {
         List<Coordinate> availablePositions = new ArrayList<>();
 
         for (Movement movement : MOVEMENTS) {

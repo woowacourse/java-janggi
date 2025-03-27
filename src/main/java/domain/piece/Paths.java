@@ -3,11 +3,11 @@ package domain.piece;
 import domain.Coordinate;
 import java.util.List;
 
-public class AvailablePaths {
+public class Paths {
 
     private final List<Coordinate> paths;
 
-    public AvailablePaths(List<Coordinate> paths) {
+    public Paths(List<Coordinate> paths) {
         this.paths = paths;
     }
 

@@ -21,7 +21,7 @@ public class ChaTest {
         pieces.put(new Coordinate(5, 5), cha);
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = cha.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = cha.findAvailablePaths(new Coordinate(5, 5), board);
 
         List<Coordinate> expected = List.of(
                 new Coordinate(5, 1), new Coordinate(5, 2), new Coordinate(5, 3),
@@ -44,7 +44,7 @@ public class ChaTest {
         pieces.put(new Coordinate(5, 6), new Cha(Country.HAN));
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = cha.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = cha.findAvailablePaths(new Coordinate(5, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(5, 6))).isFalse();
     }
@@ -58,7 +58,7 @@ public class ChaTest {
         pieces.put(new Coordinate(5, 6), new Cha(Country.CHO));
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = cha.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = cha.findAvailablePaths(new Coordinate(5, 5), board);
 
         List<Coordinate> expected = List.of(
                 new Coordinate(5, 7), new Coordinate(5, 8), new Coordinate(5, 9)
@@ -76,7 +76,7 @@ public class ChaTest {
         pieces.put(new Coordinate(5, 6), new Cha(Country.CHO));
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = cha.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = cha.findAvailablePaths(new Coordinate(5, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(5, 6))).isTrue();
     }

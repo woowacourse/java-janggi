@@ -24,7 +24,7 @@ public class Ma extends Piece {
     }
 
     @Override
-    public List<Coordinate> availableMovePositions(Coordinate from, Board board) {
+    public List<Coordinate> findAvailablePaths(Coordinate from, Board board) {
         List<Coordinate> availables = new ArrayList<>();
 
         for (List<Movement> movement : MOVEMENTS) {

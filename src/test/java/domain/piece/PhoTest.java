@@ -24,7 +24,7 @@ public class PhoTest {
         pieces.put(new Coordinate(6, 5), cha);
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = pho.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = pho.findAvailablePaths(new Coordinate(5, 5), board);
 
         List<Coordinate> expected = List.of(
                 new Coordinate(7, 5), new Coordinate(8, 5),
@@ -44,7 +44,7 @@ public class PhoTest {
         pieces.put(new Coordinate(6, 5), pho2);
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = pho.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = pho.findAvailablePaths(new Coordinate(5, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(7, 5))).isFalse();
     }
@@ -61,7 +61,7 @@ public class PhoTest {
         pieces.put(new Coordinate(7, 5), cha);
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = pho.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = pho.findAvailablePaths(new Coordinate(5, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(7, 5))).isTrue();
     }
@@ -79,7 +79,7 @@ public class PhoTest {
         pieces.put(new Coordinate(7, 5), pho2);
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = pho.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = pho.findAvailablePaths(new Coordinate(5, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(7, 5))).isFalse();
     }
@@ -96,7 +96,7 @@ public class PhoTest {
         pieces.put(new Coordinate(7, 5), cha);
         Board board = new Board(pieces);
 
-        List<Coordinate> availableMovePositions = pho.availableMovePositions(new Coordinate(5, 5), board);
+        List<Coordinate> availableMovePositions = pho.findAvailablePaths(new Coordinate(5, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(7, 5))).isFalse();
     }
