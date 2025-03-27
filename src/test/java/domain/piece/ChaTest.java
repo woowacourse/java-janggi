@@ -258,5 +258,21 @@ class ChaTest {
                     Arguments.arguments(new JanggiCoordinate(1, 4))
             );
         }
+
+        @DisplayName("기물이 궁성 대각선 방향과 동일하더라도 궁성 밖의 좌표면 이동할 수 없다")
+        @Test
+        void pieceCastleOuterDiagonalTest() {
+            Piece piece = new Cha(Country.HAN);
+            Map<JanggiCoordinate, Piece> map = new HashMap<>();
+            JanggiCoordinate pieceCoordinate = new JanggiCoordinate(1, 4);
+            map.put(pieceCoordinate, piece);
+
+            JanggiCoordinate moveCoordinate = new JanggiCoordinate(4, 7);
+
+            JanggiBoard board = new JanggiBoard(map);
+
+            assertThatThrownBy(() -> piece.validateMove(board, pieceCoordinate, moveCoordinate))
+                    .isInstanceOf(IllegalArgumentException.class);
+        }
     }
 }
