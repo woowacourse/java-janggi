@@ -160,4 +160,22 @@ class PointTest {
         assertThat(middlePoint)
                 .isEqualTo(expected);
     }
+
+    @DisplayName("두 좌표가 대각선상에 있는지 확인한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0, 1, 1, true",
+            "0, 0, 2, 2, true",
+            "0, 0, 1, 0, false",
+            "0, 0, 0, 1, false",
+    })
+    void isDiagonalTest(int fromX, int fromY, int toX, int toY, boolean expected) {
+        // given
+        Point point = new Point(fromX, fromY);
+        Point otherPoint = new Point(toX, toY);
+
+        // when & then
+        assertThat(point.isDiagonal(otherPoint))
+                .isEqualTo(expected);
+    }
 }

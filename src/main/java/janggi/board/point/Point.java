@@ -50,4 +50,8 @@ public record Point(
     public Point middlePoint(Point other) {
         return new Point((this.x + other.x) / 2, (this.y + other.y) / 2);
     }
+
+    public boolean isDiagonal(Point other) {
+        return Math.abs(this.x - other.x) == Math.abs(this.y - other.y);
+    }
 }
