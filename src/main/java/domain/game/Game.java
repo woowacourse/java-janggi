@@ -93,10 +93,14 @@ public class Game {
     }
 
     private static List<Integer> getPosition(String rawPosition) {
-        return Arrays.stream(rawPosition.split(","))
-                .map(String::trim)
-                .map(Integer::parseInt)
-                .toList();
+        try {
+            return Arrays.stream(rawPosition.split(","))
+                    .map(String::trim)
+                    .map(Integer::parseInt)
+                    .toList();
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("좌표 내의 정수 숫자를 입력해주세요.");
+        }
     }
 
     private <T> T handleInputException(Supplier<String> input, Function<String, T> converter) {
