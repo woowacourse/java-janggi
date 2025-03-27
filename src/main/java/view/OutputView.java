@@ -29,11 +29,15 @@ public final class OutputView {
 
     public static void printBoard(final Board board) {
         for (int i = 9; i >= 0; i--) {
-            for (int j = 0; j <= 8; j++) {
-                printPoint(board, j, i);
-            }
-            System.out.println();
+            printLine(board, i);
         }
+    }
+
+    private static void printLine(final Board board, final int i) {
+        for (int j = 0; j <= 8; j++) {
+            printPoint(board, j, i);
+        }
+        System.out.println();
     }
 
     private static void printPoint(final Board board, final int j, final int i) {
