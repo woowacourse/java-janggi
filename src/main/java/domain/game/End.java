@@ -1,23 +1,25 @@
 package domain.game;
 
 import domain.JanggiPosition;
-import domain.Score;
 import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
 
 public class End implements GameState {
     private final Map<JanggiPosition, Piece> finalBoard;
-    private final Score finalScore;
+    private final int choScore;
+    private final int hanScore;
 
     public End() {
         this.finalBoard = new HashMap<>();
-        this.finalScore = null;
+        this.choScore = 0;
+        this.hanScore = 0;
     }
 
-    public End(Map<JanggiPosition, Piece> finalBoard, Score score) {
+    public End(Map<JanggiPosition, Piece> finalBoard, int choScore, int hanScore) {
         this.finalBoard = finalBoard;
-        this.finalScore = score;
+        this.choScore = choScore;
+        this.hanScore = hanScore;
     }
 
     @Override
@@ -46,7 +48,12 @@ public class End implements GameState {
     }
 
     @Override
-    public Score getScore() {
-        return finalScore;
+    public int getChoScore() {
+        return choScore;
+    }
+
+    @Override
+    public int getHanScore() {
+        return hanScore;
     }
 }

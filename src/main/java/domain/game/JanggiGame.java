@@ -1,7 +1,6 @@
 package domain.game;
 
 import domain.JanggiPosition;
-import domain.Score;
 import domain.piece.Piece;
 import java.util.Map;
 
@@ -26,7 +25,11 @@ public class JanggiGame {
         return state.getCurrentPlayer();
     }
 
-    public Score getScore() {
-        return state.getScore();
+    public int getChoScore() {
+        return state.getChoScore();
+    }
+
+    public int getHanScore() {
+        return state.getHanScore();
     }
 }

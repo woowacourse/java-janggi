@@ -3,7 +3,6 @@ package domain.game;
 import domain.JanggiBoard;
 import domain.JanggiBoardFactory;
 import domain.JanggiPosition;
-import domain.Score;
 import domain.piece.Piece;
 import domain.piece.Side;
 import java.util.Map;
@@ -37,7 +36,12 @@ public class Start implements GameState {
     }
 
     @Override
-    public Score getScore() {
+    public int getChoScore() {
+        throw new UnsupportedOperationException("게임이 끝나야만 점수를 계산할 수 있습니다.");
+    }
+
+    @Override
+    public int getHanScore() {
         throw new UnsupportedOperationException("게임이 끝나야만 점수를 계산할 수 있습니다.");
     }
 }

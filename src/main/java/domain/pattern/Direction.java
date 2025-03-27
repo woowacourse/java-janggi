@@ -2,8 +2,6 @@ package domain.pattern;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public enum Direction {
     RIGHT,
@@ -20,7 +18,7 @@ public enum Direction {
     UP_LEFT;
 
     public static Map<Direction, List<Pattern>> createElephantPatternMap() {
-        return Stream.of(
+        return Map.ofEntries(
                 Map.entry(UP_RIGHT, List.of(Pattern.UP, Pattern.DIAGONAL_UP_RIGHT, Pattern.DIAGONAL_UP_RIGHT)),
                 Map.entry(RIGHT_UP, List.of(Pattern.RIGHT, Pattern.DIAGONAL_UP_RIGHT, Pattern.DIAGONAL_UP_RIGHT)),
                 Map.entry(RIGHT_DOWN, List.of(Pattern.RIGHT, Pattern.DIAGONAL_DOWN_RIGHT, Pattern.DIAGONAL_DOWN_RIGHT)),
@@ -29,11 +27,11 @@ public enum Direction {
                 Map.entry(LEFT_DOWN, List.of(Pattern.LEFT, Pattern.DIAGONAL_DOWN_LEFT, Pattern.DIAGONAL_DOWN_LEFT)),
                 Map.entry(LEFT_UP, List.of(Pattern.LEFT, Pattern.DIAGONAL_UP_LEFT, Pattern.DIAGONAL_UP_LEFT)),
                 Map.entry(UP_LEFT, List.of(Pattern.UP, Pattern.DIAGONAL_UP_LEFT, Pattern.DIAGONAL_UP_LEFT))
-        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        );
     }
 
     public static Map<Direction, List<Pattern>> createGeneralOrGuardPatternMap() {
-        return Stream.of(
+        return Map.ofEntries(
                 Map.entry(RIGHT, List.of(Pattern.RIGHT)),
                 Map.entry(DOWN, List.of(Pattern.DOWN)),
                 Map.entry(LEFT, List.of(Pattern.LEFT)),
@@ -42,11 +40,11 @@ public enum Direction {
                 Map.entry(RIGHT_DOWN, List.of(Pattern.DIAGONAL_DOWN_RIGHT)),
                 Map.entry(LEFT_UP, List.of(Pattern.DIAGONAL_UP_LEFT)),
                 Map.entry(LEFT_DOWN, List.of(Pattern.DIAGONAL_DOWN_LEFT))
-        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        );
     }
 
     public static Map<Direction, List<Pattern>> createHorsePatternMap() {
-        return Stream.of(
+        return Map.ofEntries(
                 Map.entry(UP_RIGHT, List.of(Pattern.UP, Pattern.DIAGONAL_UP_RIGHT)),
                 Map.entry(RIGHT_UP, List.of(Pattern.RIGHT, Pattern.DIAGONAL_UP_RIGHT)),
                 Map.entry(RIGHT_DOWN, List.of(Pattern.RIGHT, Pattern.DIAGONAL_DOWN_RIGHT)),
@@ -55,31 +53,31 @@ public enum Direction {
                 Map.entry(LEFT_DOWN, List.of(Pattern.LEFT, Pattern.DIAGONAL_DOWN_LEFT)),
                 Map.entry(LEFT_UP, List.of(Pattern.LEFT, Pattern.DIAGONAL_UP_LEFT)),
                 Map.entry(UP_LEFT, List.of(Pattern.UP, Pattern.DIAGONAL_UP_LEFT))
-        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        );
     }
 
     public static Map<Direction, List<Pattern>> createChariotOrCannonPatternMap() {
-        return Stream.of(
+        return Map.ofEntries(
                 Map.entry(RIGHT, List.of(Pattern.RIGHT)),
                 Map.entry(DOWN, List.of(Pattern.DOWN)),
                 Map.entry(LEFT, List.of(Pattern.LEFT)),
                 Map.entry(UP, List.of(Pattern.UP))
-        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        );
     }
 
     public static Map<Direction, List<Pattern>> createByeongPatternMap() {
-        return Stream.of(
+        return Map.ofEntries(
                 Map.entry(RIGHT, List.of(Pattern.RIGHT)),
                 Map.entry(DOWN, List.of(Pattern.DOWN)),
                 Map.entry(LEFT, List.of(Pattern.LEFT))
-        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        );
     }
 
     public static Map<Direction, List<Pattern>> createJolPatternMap() {
-        return Stream.of(
+        return Map.ofEntries(
                 Map.entry(RIGHT, List.of(Pattern.RIGHT)),
                 Map.entry(LEFT, List.of(Pattern.LEFT)),
                 Map.entry(UP, List.of(Pattern.UP))
-        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        );
     }
 }

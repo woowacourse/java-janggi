@@ -82,7 +82,11 @@ public class JanggiBoard {
         }
     }
 
-    public Score getScore() {
-        return new Score(choScore, hanScore);
+    public int getChoScore() {
+        return choScore;
+    }
+
+    public int getHanScore() {
+        return hanScore;
     }
 }

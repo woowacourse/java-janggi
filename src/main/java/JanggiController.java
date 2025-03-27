@@ -20,7 +20,7 @@ public class JanggiController {
         while (!game.isEnd()) {
             doJanggiGame(game);
         }
-        OutputView.printScore(game.getScore().getChoScore(), game.getScore().getHanScore());
+        OutputView.printScore(game.getChoScore(), game.getHanScore());
     }
 
     private void doJanggiGame(JanggiGame game) {

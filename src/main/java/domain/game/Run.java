@@ -2,7 +2,6 @@ package domain.game;
 
 import domain.JanggiBoard;
 import domain.JanggiPosition;
-import domain.Score;
 import domain.piece.Piece;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ public class Run extends Start {
         player.change();
 
         if (janggiBoard.isGeneralDead(targetPiece)) {
-            return new End(getBoard(), getScoreWhenFinish());
+            return new End(getBoard(), getChoScore(), getHanScore());
         }
 
         return new Run(janggiBoard, player);
@@ -37,8 +36,14 @@ public class Run extends Start {
         }
     }
 
-    private Score getScoreWhenFinish() {
-        return janggiBoard.getScore();
+    @Override
+    public int getChoScore() {
+        return janggiBoard.getChoScore();
+    }
+
+    @Override
+    public int getHanScore() {
+        return janggiBoard.getHanScore();
     }
 
     @Override
