@@ -11,7 +11,7 @@ import janggi.score.ScoreBoard;
 import java.util.Map;
 import java.util.Scanner;
 
-public final class BoardView {
+public final class JanggiView {
 
     private final Scanner scanner = new Scanner(System.in);
     private static final Map<Type, String> PIECE_NOTATION_KOREAN = Map.of(

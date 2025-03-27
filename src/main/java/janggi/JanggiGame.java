@@ -8,18 +8,18 @@ import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
 import janggi.util.CommandParser;
-import janggi.view.BoardView;
+import janggi.view.JanggiView;
 import janggi.view.SetupOption;
 import java.util.List;
 
 public class JanggiGame {
 
-    private final BoardView boardView;
+    private final JanggiView janggiView;
     private final JanggiDao janggiDao;
     private int gameId;
 
     public JanggiGame(final JanggiDao janggiDao) {
-        this.boardView = new BoardView();
+        this.janggiView = new JanggiView();
         this.janggiDao = janggiDao;
     }
 
@@ -27,37 +27,55 @@ public class JanggiGame {
         final Board board = generateBoard();
         displayInitialBoard(board);
         Command command = Command.STOP;
-        janggiDao.saveInitialGame(board.getSetupOption());
-        this.gameId = janggiDao.findNotFinishedGameId();
         do {
             command = executeCommand(command, board);
         } while (!command.equals(Command.STOP) && !board.isGeneralDead());
         if (board.isGeneralDead()) {
             janggiDao.setGameFinished(gameId);
         }
-        boardView.displayEnd(board);
+        janggiView.displayEnd(board);
     }
 
     private void displayInitialBoard(final Board board) {
-        boardView.displayGame(board);
-        boardView.displayScore(board.calculateScoreBoard());
-        boardView.displayTurn(board);
+        janggiView.displayGame(board);
+        janggiView.displayScore(board.calculateScoreBoard());
+        janggiView.displayTurn(board);
     }
 
     private Board generateBoard() {
         try {
-            boardView.displaySetupOption();
-            final SetupOption setupOption = readSetupOption();
-            return BoardGenerator.generate(setupOption, janggiDao, gameId);
+            return findBoard();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return generateBoard();
         }
     }
 
+    private Board findBoard() {
+        janggiView.displaySetupOption();
+        final SetupOption setupOption = readSetupOption();
+        if (setupOption == SetupOption.EXIST_SETUP) {
+            return findUnfinishedBoard();
+        }
+        final Board board = BoardGenerator.generateOriginalSetup(setupOption);
+        janggiDao.saveInitialGame(board.getSetupOption());
+        this.gameId = janggiDao.findNotFinishedGameId();
+        return board;
+    }
+
+    private Board findUnfinishedBoard() {
+        if (!janggiDao.existNotFinishedGame()) {
+            System.out.println("[ERROR] 게임 기록이 없습니다.");
+            return generateBoard();
+        }
+        this.gameId = janggiDao.findNotFinishedGameId();
+        return BoardGenerator.generateExistSetup(janggiDao.findGameSetup(gameId),
+                janggiDao.selectAllHistory(gameId));
+    }
+
     private SetupOption readSetupOption() {
         try {
-            return SetupOption.of(boardView.read());
+            return SetupOption.of(janggiView.read());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return readSetupOption();
@@ -65,7 +83,7 @@ public class JanggiGame {
     }
 
     private Command executeCommand(Command command, final Board board) {
-        final String input = boardView.read();
+        final String input = janggiView.read();
         try {
             command = Command.of(input);
             moveUntilStop(command, board, input);
@@ -89,10 +107,10 @@ public class JanggiGame {
     private void move(final Board board, final Position start, final Position end) {
         try {
             board.move(start, end);
-            boardView.displayGame(board);
-            boardView.displayScore(board.calculateScoreBoard());
+            janggiView.displayGame(board);
+            janggiView.displayScore(board.calculateScoreBoard());
             if (!board.isGeneralDead()) {
-                boardView.displayTurn(board);
+                janggiView.displayTurn(board);
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());

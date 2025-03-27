@@ -1,6 +1,5 @@
 package janggi.board;
 
-import janggi.dao.JanggiDao;
 import janggi.dto.MoveDto;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
@@ -18,34 +17,23 @@ import janggi.view.SetupOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public final class BoardGenerator {
 
-    public static Board generate(final SetupOption setupOption, final JanggiDao janggiDao, final int gameId) {
-        switch (setupOption) {
-            case EXIST_SETUP:
-                return generateExistSetup(janggiDao, gameId);
-            case INNER_SETUP:
-                return generateInnerSetup();
-            case OUTER_SETUP:
-                return generateOuterSetup();
-            case RIGHT_SETUP:
-                return generateRightSetup();
-            case LEFT_SETUP:
-                return generateLeftSetup();
-            default:
-                throw new IllegalStateException("[ERROR] 프로그램 로직이 잘못됐습니다.");
-        }
+    private static final Map<SetupOption, Supplier<Board>> SETUP_MENU = Map.of(
+            SetupOption.INNER_SETUP, BoardGenerator::generateInnerSetup,
+            SetupOption.OUTER_SETUP, BoardGenerator::generateOuterSetup,
+            SetupOption.RIGHT_SETUP, BoardGenerator::generateRightSetup,
+            SetupOption.LEFT_SETUP, BoardGenerator::generateLeftSetup
+    );
+
+    public static Board generateExistSetup(final int setupOption, final List<MoveDto> moveDtos) {
+        return moveByHistory(SetupOption.of(String.valueOf(setupOption)), moveDtos);
     }
 
-    private static Board generateExistSetup(final JanggiDao janggiDao, final int gameId) {
-        if (janggiDao.existNotFinishedGame()) {
-            final int notFinishedGameSetup = janggiDao.findGameSetup(gameId);
-            final List<MoveDto> moveDtos = janggiDao.selectAllHistory(gameId);
-            final SetupOption setupOption = SetupOption.of(String.valueOf(notFinishedGameSetup));
-            return moveByHistory(setupOption, moveDtos);
-        }
-        throw new IllegalArgumentException("[ERROR] 끝나지 않은 이전 게임 기록이 없습니다.");
+    public static Board generateOriginalSetup(final SetupOption setupOption) {
+        return SETUP_MENU.get(setupOption).get();
     }
 
     private static Board moveByHistory(final SetupOption setupOption, final List<MoveDto> moveDtos) {
@@ -54,21 +42,6 @@ public final class BoardGenerator {
             board.move(moveDto.getStartPosition(), moveDto.getEndPosition());
         }
         return board;
-    }
-
-    public static Board generateOriginalSetup(final SetupOption setupOption) {
-        switch (setupOption) {
-            case INNER_SETUP:
-                return generateInnerSetup();
-            case OUTER_SETUP:
-                return generateOuterSetup();
-            case RIGHT_SETUP:
-                return generateRightSetup();
-            case LEFT_SETUP:
-                return generateLeftSetup();
-            default:
-                throw new IllegalStateException("[ERROR] 프로그램 로직이 잘못됐습니다.");
-        }
     }
 
     private static Board generateInnerSetup() {
