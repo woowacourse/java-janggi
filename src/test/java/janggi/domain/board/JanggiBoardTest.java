@@ -50,16 +50,16 @@ class JanggiBoardTest {
                 DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
 
-        janggiBoard.move(new Position(1, 0), new Position(3, 3));
-        assertThat(janggiBoard.findPieceByPosition(new Position(3,3)))
-            .isEqualTo(new Elephant(Side.HAN, 3, 3));
+        janggiBoard.move(new Position(1, 9), new Position(3, 6));
+        assertThat(janggiBoard.findPieceByPosition(new Position(3,6)))
+            .isEqualTo(new Elephant(Side.CHO, 3, 6));
     }
 
     @Test
     void 움직인_위치에_적_기물이_있으면_적_기물을_잡을_수_있다() {
         JanggiBoard janggiBoard = new JanggiBoard(
-            (setting) -> List.of(new Rook(Side.HAN, 4, 7)),
-            CHO_PIECE_GENERATOR,
+            HAN_PIECE_GENERATOR,
+            (setting) -> List.of(new Rook(Side.CHO, 4, 7)),
             DEFAULT_HAN_KNIGHTELEPHANTSETTING,
             DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
@@ -67,6 +67,6 @@ class JanggiBoardTest {
         janggiBoard.move(new Position(4, 7) , new Position(4, 8));
 
         assertThat(janggiBoard.findPieceByPosition(new Position(4, 8)))
-            .isEqualTo(new Rook(Side.HAN, 4, 8));
+            .isEqualTo(new Rook(Side.CHO, 4, 8));
     }
 }
