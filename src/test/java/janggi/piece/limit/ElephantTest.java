@@ -24,11 +24,6 @@ class ElephantTest {
                 .contains(
                         new Position(0, 6),
                         new Position(4, 6),
-                        new Position(-1, 7),
-                        new Position(-1, 11),
-                        new Position(0, 12),
-                        new Position(4, 12),
-                        new Position(5, 7),
-                        new Position(5, 11));
+                        new Position(5, 7));
     }
 }

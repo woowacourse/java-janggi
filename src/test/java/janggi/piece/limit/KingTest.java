@@ -49,12 +49,12 @@ class KingTest {
     }
 
     @Test
-    @DisplayName("졸이 5, 9의 위치 (궁성의 오른쪽 아래)에서는 가능한 이동이 대각선 이동 포함 3개이다.")
+    @DisplayName("궁이 5, 9의 위치 (궁성의 오른쪽 아래)에서는 가능한 이동이 대각선 이동 포함 3개이다.")
     void test11() {
-        Soldier soldier = new Soldier(Side.CHO);
+        King king = new King(Side.CHO);
         Position position = new Position(5, 9);
 
-        List<Route> reachableDestinations = soldier.computeCandidatePositions(position);
+        List<Route> reachableDestinations = king.computeCandidatePositions(position);
 
         assertThat(reachableDestinations).extracting(Route::getLastPosition)
                 .contains(new Position(5, 8),
