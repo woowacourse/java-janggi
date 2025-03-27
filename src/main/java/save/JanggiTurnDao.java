@@ -12,8 +12,8 @@ public class JanggiTurnDao {
 
     private final MySQLConnection connection;
 
-    public JanggiTurnDao(MySQLConnection mySQLConnection) {
-        this.connection = mySQLConnection;
+    public JanggiTurnDao(MySQLConnection mySQConnection) {
+        this.connection = mySQConnection;
         initiateTable();
     }
 
