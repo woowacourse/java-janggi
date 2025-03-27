@@ -32,12 +32,12 @@ public class Position {
         return true;
     }
 
-    public int compareRow(Position position) {
-        return this.row - position.row;
+    public int compareRow(Position targetPosition) {
+        return this.row - targetPosition.row;
     }
 
-    public int compareColumn(Position position) {
-        return this.column - position.column;
+    public int compareColumn(Position targetPosition) {
+        return this.column - targetPosition.column;
     }
 
     @Override
