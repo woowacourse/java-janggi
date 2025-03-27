@@ -2,7 +2,7 @@ package janggi.factory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.factory.masang.MaSangFactory;
@@ -20,8 +20,8 @@ class FactoryTest {
             for (MaSangPosition maSangPositionByHan : MaSangPosition.values()) {
                 Map<Position, Piece> initializeBoard = PieceInitFactory.initialize();
 
-                initializeBoard.putAll(MaSangFactory.create(maSangPositionByCho, Side.CHO));
-                initializeBoard.putAll(MaSangFactory.create(maSangPositionByHan, Side.HAN));
+                initializeBoard.putAll(MaSangFactory.create(maSangPositionByCho, Team.CHO));
+                initializeBoard.putAll(MaSangFactory.create(maSangPositionByHan, Team.HAN));
 
                 assertThat(initializeBoard).hasSize(32);
             }

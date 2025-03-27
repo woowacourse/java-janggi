@@ -3,11 +3,10 @@ package janggi.domain.piece.behavior.rotatemove;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.Soldier;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
@@ -21,11 +20,11 @@ class HorseTest {
         // given
         Position position = Position.of(3, 5);
         Horse horse = new Horse();
-        Piece piece = new Piece(Side.HAN, horse);
+        Piece piece = new Piece(Team.HAN, horse);
 
         // when
         Board board = new Board(Map.of(position, piece));
-        Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = horse.generateAvailableMovePositions(board, Team.HAN, position);
 
         // then
         assertThat(actual).hasSize(8).
@@ -40,12 +39,12 @@ class HorseTest {
         Horse horse = new Horse();
         Position soldierPosition = Position.of(4, 5);
         Soldier soldier = new Soldier();
-        Piece horsePiece = new Piece(Side.HAN, horse);
-        Piece soldierPiece = new Piece(Side.HAN, soldier);
+        Piece horsePiece = new Piece(Team.HAN, horse);
+        Piece soldierPiece = new Piece(Team.HAN, soldier);
 
         // when
         Board board = new Board(Map.of(position, horsePiece, soldierPosition, soldierPiece));
-        Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = horse.generateAvailableMovePositions(board, Team.HAN, position);
 
         // then
         assertThat(actual).hasSize(6);
@@ -59,12 +58,12 @@ class HorseTest {
         Horse horse = new Horse();
         Position soldierPosition = Position.of(5, 4);
         Soldier soldier = new Soldier();
-        Piece horsePiece = new Piece(Side.HAN, horse);
-        Piece soldierPiece = new Piece(Side.CHO, soldier);
+        Piece horsePiece = new Piece(Team.HAN, horse);
+        Piece soldierPiece = new Piece(Team.CHO, soldier);
 
         // when
         Board board = new Board(Map.of(position, horsePiece, soldierPosition, soldierPiece));
-        Set<Position> actual = horse.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = horse.generateAvailableMovePositions(board, Team.HAN, position);
 
         // then
         assertThat(actual).hasSize(8);

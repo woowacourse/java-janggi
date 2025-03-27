@@ -1,13 +1,13 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import java.util.Set;
 
 public interface PieceBehavior {
 
-    Set<Position> generateAvailableMovePositions(Board board, Side side, Position position);
+    Set<Position> generateAvailableMovePositions(Board board, Team team, Position position);
 
     String toName();
 

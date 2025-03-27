@@ -2,8 +2,7 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Side;
-import janggi.domain.piece.behavior.straightmove.Cannon;
+import janggi.domain.Team;
 import janggi.domain.piece.behavior.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,10 +13,10 @@ class PieceTest {
     @Test
     void test1() {
         // given
-        Piece piece = new Piece(Side.HAN, new Soldier());
+        Piece piece = new Piece(Team.HAN, new Soldier());
 
         // when
-        boolean actual = piece.isSameSide(Side.HAN);
+        boolean actual = piece.isSameSide(Team.HAN);
 
         // then
         assertThat(actual).isTrue();
@@ -27,10 +26,10 @@ class PieceTest {
     @Test
     void test2() {
         // given
-        Piece piece = new Piece(Side.CHO, new Soldier());
+        Piece piece = new Piece(Team.CHO, new Soldier());
 
         // when
-        boolean actual = piece.isSameSide(Side.HAN);
+        boolean actual = piece.isSameSide(Team.HAN);
 
         // then
         assertThat(actual).isFalse();

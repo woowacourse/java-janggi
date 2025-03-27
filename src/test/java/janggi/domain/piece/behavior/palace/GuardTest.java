@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Board;
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import java.util.Map;
@@ -23,11 +23,11 @@ class GuardTest {
         // given
         Position position = Position.of(row, column);
         Guard guard = new Guard();
-        Piece piece = new Piece(Side.HAN, guard);
+        Piece piece = new Piece(Team.HAN, guard);
         Board board = new Board(Map.of(position, piece));
 
         // when
-        Set<Position> actual = guard.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> actual = guard.generateAvailableMovePositions(board, Team.HAN, position);
 
         // then
         assertThat(actual).hasSize(expected);
@@ -40,12 +40,12 @@ class GuardTest {
         // given
         Position position = Position.of(1, 4);
         Guard guard = new Guard();
-        Piece piece = new Piece(Side.HAN, guard);
+        Piece piece = new Piece(Team.HAN, guard);
 
         Board board = new Board(Map.of(position, piece));
 
         // when
-        Set<Position> result = guard.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> result = guard.generateAvailableMovePositions(board, Team.HAN, position);
 
         assertAll(() -> assertThat(result).doesNotContain(Position.of(1, 3)),
                 () -> assertThat(result).containsExactlyInAnyOrder(

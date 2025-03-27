@@ -1,16 +1,16 @@
 package janggi.view;
 
-import janggi.domain.Side;
+import janggi.domain.Team;
 
 public final class Formatter {
 
     private Formatter() {
     }
 
-    public static String formatSide(Side side) {
-        String sideName = side.toColorString("초나라");
-        if (side.isSameSide(Side.HAN)) {
-            sideName = side.toColorString("한나라");
+    public static String formatSide(Team team) {
+        String sideName = team.toColorString("초나라");
+        if (team.isSameSide(Team.HAN)) {
+            sideName = team.toColorString("한나라");
         }
         return sideName;
     }
@@ -30,7 +30,7 @@ public final class Formatter {
         return builder.toString();
     }
 
-    public static String formatScoreBySide(Side side, double score) {
-        return Formatter.formatSide(side) + " : " + score + "점";
+    public static String formatScoreBySide(Team team, double score) {
+        return Formatter.formatSide(team) + " : " + score + "점";
     }
 }

@@ -1,7 +1,7 @@
 package janggi.domain.piece.behavior.straightmove;
 
 import janggi.domain.Board;
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.move.Vector;
 import java.util.Set;
@@ -25,12 +25,12 @@ public final class Cannon extends StraightMoveBehavior {
 
     @Override
     public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
-                                     Side side) {
-        searchAvailableMoves(result, board, currentPosition, vector, side, board.hasPiece(currentPosition));
+                                     Team team) {
+        searchAvailableMoves(result, board, currentPosition, vector, team, board.hasPiece(currentPosition));
     }
 
     public void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
-                                     Side side, boolean hasPassed) {
+                                     Team team, boolean hasPassed) {
         if (currentPosition.canNotMove(vector) || board.isCannon(currentPosition)) {
             return;
         }
@@ -40,7 +40,7 @@ public final class Cannon extends StraightMoveBehavior {
             return;
         }
 
-        if (hasPassed && board.hasPiece(nextPosition) && !board.isSameSide(side, nextPosition)) {
+        if (hasPassed && board.hasPiece(nextPosition) && !board.isSameSide(team, nextPosition)) {
             result.add(nextPosition);
             return;
         }
@@ -51,9 +51,9 @@ public final class Cannon extends StraightMoveBehavior {
 
         if (hasPassed) {
             result.add(nextPosition);
-            searchAvailableMoves(result, board, nextPosition, vector, side, true);
+            searchAvailableMoves(result, board, nextPosition, vector, team, true);
         }
 
-        searchAvailableMoves(result, board, nextPosition, vector, side, board.hasPiece(nextPosition));
+        searchAvailableMoves(result, board, nextPosition, vector, team, board.hasPiece(nextPosition));
     }
 }

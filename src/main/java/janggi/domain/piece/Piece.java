@@ -1,27 +1,27 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import java.util.Objects;
 import java.util.Set;
 
 public class Piece {
 
-    private final Side side;
+    private final Team team;
     private final PieceBehavior pieceBehavior;
 
-    public Piece(Side side, PieceBehavior pieceBehavior) {
-        this.side = side;
+    public Piece(Team team, PieceBehavior pieceBehavior) {
+        this.team = team;
         this.pieceBehavior = pieceBehavior;
     }
 
-    public boolean isSameSide(Side compareSide) {
-        return side.isSameSide(compareSide);
+    public boolean isSameSide(Team compareTeam) {
+        return team.isSameSide(compareTeam);
     }
 
-    public boolean isGeneral(Side compareSide) {
-        return side.isSameSide(compareSide) && pieceBehavior.isGeneral();
+    public boolean isGeneral(Team compareTeam) {
+        return team.isSameSide(compareTeam) && pieceBehavior.isGeneral();
     }
 
     public boolean isCannon() {
@@ -33,16 +33,16 @@ public class Piece {
     }
 
     public Set<Position> getAvailableMovePositions(Board board, Position currentPosition) {
-        return pieceBehavior.generateAvailableMovePositions(board, side, currentPosition);
+        return pieceBehavior.generateAvailableMovePositions(board, team, currentPosition);
     }
 
     public String toName() {
-        return side.toName(pieceBehavior);
+        return team.toName(pieceBehavior);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(side, pieceBehavior);
+        return Objects.hash(team, pieceBehavior);
     }
 
     @Override
@@ -51,6 +51,6 @@ public class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return side == piece.side && Objects.equals(pieceBehavior, piece.pieceBehavior);
+        return team == piece.team && Objects.equals(pieceBehavior, piece.pieceBehavior);
     }
 }

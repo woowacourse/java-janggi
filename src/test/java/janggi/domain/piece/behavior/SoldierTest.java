@@ -3,7 +3,7 @@ package janggi.domain.piece.behavior;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.factory.PieceInitFactory;
@@ -21,26 +21,26 @@ class SoldierTest {
 
     private static Stream<Arguments> moveableArguments() {
         return Stream.of(
-                Arguments.of(Position.of(7, 3), Side.HAN,
+                Arguments.of(Position.of(7, 3), Team.HAN,
                         List.of(Position.of(7, 2), Position.of(7, 4), Position.of(8, 3))),
-                Arguments.of(Position.of(7, 1), Side.HAN,
+                Arguments.of(Position.of(7, 1), Team.HAN,
                         List.of(Position.of(8, 1), Position.of(7, 2))),
-                Arguments.of(Position.of(7, 1), Side.CHO,
+                Arguments.of(Position.of(7, 1), Team.CHO,
                         List.of(Position.of(6, 1), Position.of(7, 2))),
-                Arguments.of(Position.of(1, 1), Side.CHO, List.of(Position.of(1, 2)))
+                Arguments.of(Position.of(1, 1), Team.CHO, List.of(Position.of(1, 2)))
         );
     }
 
     @DisplayName("좌표를 입력하면 이동 가능한 좌표들을 반환한다.")
     @ParameterizedTest
     @MethodSource("moveableArguments")
-    void test1(Position startingPosition, Side side, List<Position> expected) {
+    void test1(Position startingPosition, Team team, List<Position> expected) {
         // given
         Board board = new Board(PieceInitFactory.initialize());
         Soldier soldier = new Soldier();
 
         // when
-        Set<Position> actual = soldier.generateAvailableMovePositions(board, side, startingPosition);
+        Set<Position> actual = soldier.generateAvailableMovePositions(board, team, startingPosition);
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -52,11 +52,11 @@ class SoldierTest {
         Position position = Position.of(3, 6);
         Soldier soldier = new Soldier();
 
-        Piece piece = new Piece(Side.HAN, soldier);
+        Piece piece = new Piece(Team.HAN, soldier);
 
         Board board = new Board(Map.of(position, piece));
 
-        Set<Position> positions = soldier.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> positions = soldier.generateAvailableMovePositions(board, Team.HAN, position);
 
         assertThat(positions).doesNotContain(Position.of(2, 5), Position.of(2, 7));
     }
@@ -68,11 +68,11 @@ class SoldierTest {
 
         Soldier soldier = new Soldier();
 
-        Piece piece = new Piece(Side.HAN, soldier);
+        Piece piece = new Piece(Team.HAN, soldier);
 
         Board board = new Board(Map.of(position, piece));
 
-        Set<Position> positions = soldier.generateAvailableMovePositions(board, Side.HAN, position);
+        Set<Position> positions = soldier.generateAvailableMovePositions(board, Team.HAN, position);
 
         assertThat(positions).contains(Position.of(10, 4), Position.of(10, 6)).hasSize(5);
     }

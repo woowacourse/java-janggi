@@ -1,6 +1,6 @@
 package janggi.factory.masang;
 
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceBehavior;
@@ -14,28 +14,28 @@ import java.util.stream.Collectors;
 
 public abstract class MaSangPlacement {
 
-    public Map<Position, Piece> generate(Side side) {
+    public Map<Position, Piece> generate(Team team) {
         Map<Position, Piece> pieceMap = new HashMap<>();
 
-        pieceMap.putAll(placePieces(getHorsePositionByCho(), side, Horse::new));
-        pieceMap.putAll(placePieces(getElephantPositionByCho(), side, Elephant::new));
+        pieceMap.putAll(placePieces(getHorsePositionByCho(), team, Horse::new));
+        pieceMap.putAll(placePieces(getElephantPositionByCho(), team, Elephant::new));
 
         return pieceMap;
     }
 
-    private Map<Position, Piece> placePieces(Set<Position> positions, Side side, Supplier<PieceBehavior> supplier) {
+    private Map<Position, Piece> placePieces(Set<Position> positions, Team team, Supplier<PieceBehavior> supplier) {
         Map<Position, Piece> pieceMap = new HashMap<>();
 
-        for (Position position : parsePositionsBySide(positions, side)) {
-            Piece piece = new Piece(side, supplier.get());
+        for (Position position : parsePositionsBySide(positions, team)) {
+            Piece piece = new Piece(team, supplier.get());
             pieceMap.put(position, piece);
         }
 
         return pieceMap;
     }
 
-    private Set<Position> parsePositionsBySide(Set<Position> positions, Side side) {
-        if (side.isSameSide(Side.CHO)) {
+    private Set<Position> parsePositionsBySide(Set<Position> positions, Team team) {
+        if (team.isSameSide(Team.CHO)) {
             return positions;
         }
 

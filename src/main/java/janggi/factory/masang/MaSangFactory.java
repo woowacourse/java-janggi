@@ -1,6 +1,6 @@
 package janggi.factory.masang;
 
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.view.MaSangPosition;
@@ -22,15 +22,15 @@ public enum MaSangFactory {
         this.supplier = supplier;
     }
 
-    public static Map<Position, Piece> create(MaSangPosition maSangPosition, Side side) {
+    public static Map<Position, Piece> create(MaSangPosition maSangPosition, Team team) {
         return Arrays.stream(values())
                 .filter(value -> value.maSangPosition.equals(maSangPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 포지션입니다."))
-                .generate(side);
+                .generate(team);
     }
 
-    private Map<Position, Piece> generate(Side side) {
-        return supplier.get().generate(side);
+    private Map<Position, Piece> generate(Team team) {
+        return supplier.get().generate(team);
     }
 }

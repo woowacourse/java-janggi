@@ -1,7 +1,7 @@
 package janggi.manager;
 
 import janggi.domain.Board;
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
@@ -24,7 +24,7 @@ public class JanggiGame {
     public void start() {
         Board board = initializeBoard();
 
-        Side turn = Side.CHO;
+        Team turn = Team.CHO;
 
         repeatGameTurns(board, turn);
 
@@ -33,19 +33,19 @@ public class JanggiGame {
 
     private Board initializeBoard() {
         Map<Position, Piece> initializeBoard = PieceInitFactory.initialize();
-        initializeBoard.putAll(placeMaSangPiecesBySide(Side.CHO));
-        initializeBoard.putAll(placeMaSangPiecesBySide(Side.HAN));
+        initializeBoard.putAll(placeMaSangPiecesBySide(Team.CHO));
+        initializeBoard.putAll(placeMaSangPiecesBySide(Team.HAN));
 
         return new Board(initializeBoard);
     }
 
-    private Map<Position, Piece> placeMaSangPiecesBySide(Side side) {
-        MaSangPosition maSangPosition = RecoveryUtil.executeWithRetry(() -> viewer.settingMaSangPlacement(side));
+    private Map<Position, Piece> placeMaSangPiecesBySide(Team team) {
+        MaSangPosition maSangPosition = RecoveryUtil.executeWithRetry(() -> viewer.settingMaSangPlacement(team));
 
-        return MaSangFactory.create(maSangPosition, side);
+        return MaSangFactory.create(maSangPosition, team);
     }
 
-    private void repeatGameTurns(Board board, Side turn) {
+    private void repeatGameTurns(Board board, Team turn) {
         boolean isNotClosed = true;
         while (isNotClosed && board.hasGeneral(turn.reverse())) {
             viewer.printBoard(board);
@@ -56,7 +56,8 @@ public class JanggiGame {
         }
     }
 
-    private boolean chooseOption(Board board, Side turn) {
+    // TODO 재귀 메모리 해제하도록하기
+    private boolean chooseOption(Board board, Team turn) {
         Option option = RecoveryUtil.executeWithRetry(viewer::readChooseOption);
 
         if (option == Option.SELECT_PIECE) {
@@ -79,7 +80,7 @@ public class JanggiGame {
         return true;
     }
 
-    private Position choosePiece(Board board, Side turn) {
+    private Position choosePiece(Board board, Team turn) {
         PositionDto positionDto = viewer.readPieceSelection();
         Position position = Position.of(positionDto.row(), positionDto.column());
         board.checkMoveablePiece(turn, position);
@@ -96,16 +97,16 @@ public class JanggiGame {
     }
 
     private void result(Board board) {
-        if (board.hasGeneral(Side.CHO) && board.hasGeneral(Side.HAN)) {
+        if (board.hasGeneral(Team.CHO) && board.hasGeneral(Team.HAN)) {
             viewer.result(board);
             return;
         }
 
-        if (board.hasGeneral(Side.CHO)) {
-            viewer.result(Side.CHO);
+        if (board.hasGeneral(Team.CHO)) {
+            viewer.result(Team.CHO);
             return;
         }
 
-        viewer.result(Side.HAN);
+        viewer.result(Team.HAN);
     }
 }

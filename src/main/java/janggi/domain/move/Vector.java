@@ -1,6 +1,6 @@
 package janggi.domain.move;
 
-import janggi.domain.Side;
+import janggi.domain.Team;
 
 public record Vector(int y, int x) {
 
@@ -8,8 +8,8 @@ public record Vector(int y, int x) {
         return new Vector(vector.x(), -vector.y());
     }
 
-    public Vector side(Side side) {
-        if (side.isSameSide(Side.CHO)) {
+    public Vector side(Team team) {
+        if (team.isSameSide(Team.CHO)) {
             return new Vector(-y, x);
         }
         return new Vector(y, x);

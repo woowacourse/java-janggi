@@ -1,7 +1,7 @@
 package janggi.domain.piece.behavior.rotatemove;
 
 import janggi.domain.Board;
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Movement;
 import janggi.domain.move.Position;
 import janggi.domain.move.Vectors;
@@ -21,14 +21,14 @@ public final class Elephant extends OrthogonalRotateMoveBehavior {
     @Override
     protected void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition,
                                         List<Vectors> vectorsList,
-                                        Side side) {
+                                        Team team) {
         for (Vectors vectors : vectorsList) {
-            searchAvailableMove(result, board, currentPosition, side, vectors);
+            searchAvailableMove(result, board, currentPosition, team, vectors);
         }
     }
 
     @Override
-    protected void searchAvailableMove(Set<Position> result, Board board, Position currentPosition, Side side,
+    protected void searchAvailableMove(Set<Position> result, Board board, Position currentPosition, Team team,
                                        Vectors vectors) {
         if (canNotMove(vectors, currentPosition)) {
             return;
@@ -40,7 +40,7 @@ public final class Elephant extends OrthogonalRotateMoveBehavior {
 
         Position finalPosition = currentPosition.moveToNextPosition(vectors.accumulate(2));
 
-        if (board.canMoveToPosition(side, finalPosition)) {
+        if (board.canMoveToPosition(team, finalPosition)) {
             result.add(finalPosition);
         }
     }

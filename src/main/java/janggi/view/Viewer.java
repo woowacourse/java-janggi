@@ -2,7 +2,7 @@ package janggi.view;
 
 import janggi.common.ErrorMessage;
 import janggi.domain.Board;
-import janggi.domain.Side;
+import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
@@ -29,8 +29,8 @@ public class Viewer {
         System.out.println(Formatter.formatMessageWithHeader(ERROR_HEADER, e.getMessage()));
     }
 
-    public MaSangPosition settingMaSangPlacement(Side side) {
-        System.out.println(Formatter.formatSide(side) + "의 차림을 숫자로 선택해주세요");
+    public MaSangPosition settingMaSangPlacement(Team team) {
+        System.out.println(Formatter.formatSide(team) + "의 차림을 숫자로 선택해주세요");
         System.out.println("1. 상마상마");
         System.out.println("2. 마상마상");
         System.out.println("3. 마상상마");
@@ -65,8 +65,8 @@ public class Viewer {
         return joiner.toString();
     }
 
-    public void printTurnInfo(Side side) {
-        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, Formatter.formatSide(side) + "의 차례입니다."));
+    public void printTurnInfo(Team team) {
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, Formatter.formatSide(team) + "의 차례입니다."));
     }
 
     public Option readChooseOption() {
@@ -113,26 +113,26 @@ public class Viewer {
 
     public void printScore(Board board) {
         System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, "현재 점수입니다"));
-        System.out.println(Formatter.formatScoreBySide(Side.HAN, board.getScore(Side.HAN)));
-        System.out.println(Formatter.formatScoreBySide(Side.CHO, board.getScore(Side.CHO)));
+        System.out.println(Formatter.formatScoreBySide(Team.HAN, board.getScore(Team.HAN)));
+        System.out.println(Formatter.formatScoreBySide(Team.CHO, board.getScore(Team.CHO)));
     }
 
     public void result(Board board) {
         System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, "최종 점수입니다"));
-        double hanScore = board.getScore(Side.HAN);
-        double choScore = board.getScore(Side.CHO);
-        System.out.println(Formatter.formatScoreBySide(Side.HAN, hanScore));
-        System.out.println(Formatter.formatScoreBySide(Side.CHO, choScore));
+        double hanScore = board.getScore(Team.HAN);
+        double choScore = board.getScore(Team.CHO);
+        System.out.println(Formatter.formatScoreBySide(Team.HAN, hanScore));
+        System.out.println(Formatter.formatScoreBySide(Team.CHO, choScore));
 
         if (hanScore > choScore) {
-            result(Side.HAN);
+            result(Team.HAN);
             return;
         }
 
-        result(Side.CHO);
+        result(Team.CHO);
     }
 
-    public void result(Side side) {
-        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, Formatter.formatSide(side) + "가 이겼습니다!"));
+    public void result(Team team) {
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, Formatter.formatSide(team) + "가 이겼습니다!"));
     }
 }

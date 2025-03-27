@@ -25,8 +25,8 @@ class BoardTest {
     @BeforeEach
     void init() {
         Map<Position, Piece> initialize = PieceInitFactory.initialize();
-        initialize.putAll(MaSangFactory.create(MaSangPosition.MA_SANG_MA_SANG, Side.CHO));
-        initialize.putAll(MaSangFactory.create(MaSangPosition.MA_SANG_MA_SANG, Side.HAN));
+        initialize.putAll(MaSangFactory.create(MaSangPosition.MA_SANG_MA_SANG, Team.CHO));
+        initialize.putAll(MaSangFactory.create(MaSangPosition.MA_SANG_MA_SANG, Team.HAN));
 
         board = new Board(initialize);
     }
@@ -38,7 +38,7 @@ class BoardTest {
         Position position = Position.of(7, 1);
 
         // when & then
-        assertThatCode(() -> board.checkMoveablePiece(Side.CHO, position))
+        assertThatCode(() -> board.checkMoveablePiece(Team.CHO, position))
                 .doesNotThrowAnyException();
     }
 
@@ -49,7 +49,7 @@ class BoardTest {
         Position position = Position.of(2, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.checkMoveablePiece(Side.CHO, position))
+        assertThatThrownBy(() -> board.checkMoveablePiece(Team.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
     }
@@ -61,7 +61,7 @@ class BoardTest {
         Position position = Position.of(1, 1);
 
         // when & then
-        assertThatThrownBy(() -> board.checkMoveablePiece(Side.CHO, position))
+        assertThatThrownBy(() -> board.checkMoveablePiece(Team.CHO, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
     }
@@ -71,7 +71,7 @@ class BoardTest {
     void test4() {
         // given
         Position position = Position.of(5, 1);
-        Piece soldier = new Piece(Side.CHO, new Soldier());
+        Piece soldier = new Piece(Team.CHO, new Soldier());
 
         Board board = new Board(Map.of(position, soldier));
 
@@ -87,10 +87,10 @@ class BoardTest {
     void test5() {
         // given
         Position position = Position.of(5, 1);
-        Piece soldier1 = new Piece(Side.CHO, new Soldier());
+        Piece soldier1 = new Piece(Team.CHO, new Soldier());
 
         Position newPosition = Position.of(4, 1);
-        Piece soldier2 = new Piece(Side.CHO, new Soldier());
+        Piece soldier2 = new Piece(Team.CHO, new Soldier());
 
         Board board = new Board(Map.of(position, soldier1, newPosition, soldier2));
 
@@ -105,10 +105,10 @@ class BoardTest {
     void test6() {
         // given
         Position position = Position.of(5, 1);
-        Piece soldier1 = new Piece(Side.CHO, new Soldier());
+        Piece soldier1 = new Piece(Team.CHO, new Soldier());
 
         Position newPosition = Position.of(4, 1);
-        Piece soldier2 = new Piece(Side.HAN, new Soldier());
+        Piece soldier2 = new Piece(Team.HAN, new Soldier());
 
         Board board = new Board(Map.of(position, soldier1, newPosition, soldier2));
 
@@ -124,7 +124,7 @@ class BoardTest {
         Board board = new Board(PieceInitFactory.initialize());
 
         // when & then
-        assertThat(board.hasGeneral(Side.HAN)).isTrue();
+        assertThat(board.hasGeneral(Team.HAN)).isTrue();
     }
 
     @DisplayName("보드의 General이 없다면 false를 반환한다.")
@@ -132,14 +132,14 @@ class BoardTest {
     void test8() {
         // given
         Position position = Position.of(5, 1);
-        Piece general = new Piece(Side.CHO, new General());
+        Piece general = new Piece(Team.CHO, new General());
 
         Position newPosition = Position.of(4, 1);
-        Piece soldier2 = new Piece(Side.HAN, new Soldier());
+        Piece soldier2 = new Piece(Team.HAN, new Soldier());
 
         Board board = new Board(Map.of(position, general, newPosition, soldier2));
 
-        assertThat(board.hasGeneral(Side.HAN)).isFalse();
+        assertThat(board.hasGeneral(Team.HAN)).isFalse();
     }
 
     @DisplayName("초나라의 점수를 반환한다")
@@ -148,7 +148,7 @@ class BoardTest {
         // given
         Board board = BoardFixture.sangMaSangMa();
 
-        double result = board.getScore(Side.CHO);
+        double result = board.getScore(Team.CHO);
 
         assertThat(result).isEqualTo(72);
     }
@@ -159,7 +159,7 @@ class BoardTest {
         // given
         Board board = BoardFixture.sangMaSangMa();
 
-        double result = board.getScore(Side.HAN);
+        double result = board.getScore(Team.HAN);
 
         assertThat(result).isEqualTo(73.5);
     }
