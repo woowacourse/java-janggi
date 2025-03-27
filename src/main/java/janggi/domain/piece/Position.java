@@ -48,6 +48,10 @@ public record Position(int x, int y) {
         return Math.abs(destination.y - y);
     }
 
+    public boolean hasRelativeOffsetFrom(Position destination, int x, int y) {
+        return getXDistance(destination) == x && getYDistance(destination) == y;
+    }
+
     @Override
     public String toString() {
         return "Position{" +

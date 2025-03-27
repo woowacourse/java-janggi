@@ -10,8 +10,6 @@ record Vector(int x, int y) {
     }
 
     boolean hasRelativeOffsetFrom(Position origin, Position destination) {
-        int xDistance = origin.getXDistance(destination);
-        int yDistance = origin.getYDistance(destination);
-        return this.x() == xDistance && this.y() == yDistance;
+        return origin.hasRelativeOffsetFrom(destination, this.x(), this.y());
     }
 }
