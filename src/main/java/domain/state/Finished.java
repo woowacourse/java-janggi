@@ -1,4 +1,4 @@
-package domain.gameState;
+package domain.state;
 
 import domain.board.Position;
 import domain.piece.PieceColor;

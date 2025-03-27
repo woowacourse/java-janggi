@@ -1,9 +1,9 @@
 package domain;
 
 import domain.board.Position;
-import domain.gameState.State;
 import domain.piece.PieceColor;
 import domain.piece.PieceType;
+import domain.state.State;
 
 public class JanggiGame {
     private State state;
