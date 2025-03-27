@@ -12,19 +12,30 @@ import piece.position.JanggiPosition;
 public class PlayerPieces {
 
     private static final String INVALID_PLAYER_SIZE = "장기는 2명이서 할 수 있습니다";
+    private static final String PIECE_PLACE_MUST_BE_SAME_TEAM = "모든 기물은 해당 팀에 속해야 합니다";
 
     private final Pieces blueTeamPieces;
     private final Pieces redTeamPieces;
 
     private final PlayerScores playerScores;
+    ;
 
     public PlayerPieces(Map<Team, Pieces> teamBoard) {
         if (teamBoard.get(Team.BLUE) == null || teamBoard.get(Team.RED) == null) {
             throw new IllegalArgumentException(INVALID_PLAYER_SIZE);
         }
+        validateTeamPieces(teamBoard);
         blueTeamPieces = teamBoard.get(Team.BLUE);
         redTeamPieces = teamBoard.get(Team.RED);
         playerScores = new PlayerScores();
+    }
+
+    private void validateTeamPieces(Map<Team, Pieces> teamBoard) {
+        teamBoard.forEach((team, pieces) -> {
+            if (pieces.getPieces().stream().anyMatch(piece -> !piece.team().equals(team))) {
+                throw new IllegalArgumentException(PIECE_PLACE_MUST_BE_SAME_TEAM);
+            }
+        });
     }
 
     public Pieces allPieces() {
