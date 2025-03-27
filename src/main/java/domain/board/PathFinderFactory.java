@@ -46,13 +46,13 @@ public class PathFinderFactory {
             for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
                 Node currentNode = nodeByPoint.get(point);
-                currentNode.addAllEdges(createEdgesByPoint(point, nodeByPoint));
+                currentNode.addAllEdges(createVerticalEdges(point, nodeByPoint));
             }
         }
     }
 
-    private List<Edge> createEdgesByPoint(final Point point,
-                                          final Map<Point, Node> nodeByPoint) {
+    private List<Edge> createVerticalEdges(final Point point,
+                                           final Map<Point, Node> nodeByPoint) {
 
         List<Edge> edges = new ArrayList<>();
         for (Direction direction : Direction.VERTICALS) {
