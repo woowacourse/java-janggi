@@ -3,22 +3,24 @@ package domain.board;
 import java.util.Arrays;
 
 public enum Row {
-    ONE(1),
-    TWO(2),
-    THREE(3),
-    FOUR(4),
-    FIVE(5),
-    SIX(6),
-    SEVEN(7),
-    EIGHT(8),
-    NINE(9),
-    ZERO(10),
+    ONE(1, true),
+    TWO(2, true),
+    THREE(3, true),
+    FOUR(4, false),
+    FIVE(5, false),
+    SIX(6, false),
+    SEVEN(7, false),
+    EIGHT(8, true),
+    NINE(9, true),
+    ZERO(10, true),
     ;
 
     private final int value;
+    private final boolean isPalaceExist;
 
-    Row(int value) {
+    Row(int value, boolean isPalaceExist) {
         this.value = value;
+        this.isPalaceExist = isPalaceExist;
     }
 
     public static Row from(int value) {
@@ -30,5 +32,9 @@ public enum Row {
 
     public int getValue() {
         return value;
+    }
+
+    public boolean isPalaceExist() {
+        return isPalaceExist;
     }
 }

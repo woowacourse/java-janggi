@@ -41,6 +41,10 @@ public class Position {
         return positions;
     }
 
+    public boolean isInPalace() {
+        return row.isPalaceExist() && column.isPalaceExist();
+    }
+
     private int getDirection(int difference) {
         if (difference != 0) {
             return difference / Math.abs(difference);

@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class PositionTest {
     @Test
@@ -37,4 +39,19 @@ class PositionTest {
                 () -> assertThat(betweenPositions.get(2)).isEqualTo(new Position(Row.ONE, Column.FOUR))
         );
     }
+
+    @ParameterizedTest
+    @CsvSource({"1,4", "1,5", "1,6", "3,4", "3,5", "3,6"})
+    void 궁성_영역_내부임을_정상적으로_확인(int rowValue, int columnValue) {
+        Position position = new Position(Row.from(rowValue), Column.from(columnValue));
+        assertThat(position.isInPalace()).isTrue();
+    }
+
+    @ParameterizedTest
+    @CsvSource({"4,4", "4,5", "4,6", "8,3", "9,3", "10,3"})
+    void 궁성_영역_외부임을_정상적으로_확인(int rowValue, int columnValue) {
+        Position position = new Position(Row.from(rowValue), Column.from(columnValue));
+        assertThat(position.isInPalace()).isFalse();
+    }
+
 }
