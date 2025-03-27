@@ -1,7 +1,5 @@
 package board;
 
-import static team.Team.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import piece.Chariot;
@@ -23,8 +21,8 @@ public class MemoryGameBoard implements GameBoard {
 
     public MemoryGameBoard() {
         this.players = new ArrayList<>(List.of(
-                new Player(makeGreenPieces(), CHO),
-                new Player(makeRedPieces(), HAN)
+                new Player(makeGreenPieces(), Team.CHO),
+                new Player(makeRedPieces(), Team.HAN)
         ));
     }
 
@@ -43,11 +41,11 @@ public class MemoryGameBoard implements GameBoard {
 
     private List<Piece> makeRedSoldiers() {
         return List.of(
-                new Soldier("S", new Point(1, 4), HAN),
-                new Soldier("S", new Point(3, 4), HAN),
-                new Soldier("S", new Point(5, 4), HAN),
-                new Soldier("S", new Point(7, 4), HAN),
-                new Soldier("S", new Point(9, 4), HAN)
+                new Soldier("S", new Point(1, 4), Team.HAN),
+                new Soldier("S", new Point(3, 4), Team.HAN),
+                new Soldier("S", new Point(5, 4), Team.HAN),
+                new Soldier("S", new Point(7, 4), Team.HAN),
+                new Soldier("S", new Point(9, 4), Team.HAN)
         );
     }
 
@@ -147,11 +145,11 @@ public class MemoryGameBoard implements GameBoard {
 
     private List<Piece> makeGreenSoldiers() {
         return List.of(
-                new Soldier("s", new Point(1, 7), CHO),
-                new Soldier("s", new Point(3, 7), CHO),
-                new Soldier("s", new Point(5, 7), CHO),
-                new Soldier("s", new Point(7, 7), CHO),
-                new Soldier("s", new Point(9, 7), CHO)
+                new Soldier("s", new Point(1, 7), Team.CHO),
+                new Soldier("s", new Point(3, 7), Team.CHO),
+                new Soldier("s", new Point(5, 7), Team.CHO),
+                new Soldier("s", new Point(7, 7), Team.CHO),
+                new Soldier("s", new Point(9, 7), Team.CHO)
         );
     }
 
