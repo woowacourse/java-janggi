@@ -1,4 +1,4 @@
-package model;
+package model.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -8,7 +8,8 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import model.board.Board;
+import model.Position;
+import model.Team;
 import model.piece.Piece;
 import model.piece.normal.Palace;
 import model.piece.normal.Pawn;

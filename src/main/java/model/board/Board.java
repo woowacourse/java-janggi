@@ -14,7 +14,15 @@ public class Board implements BoardSearcher {
     public static final int WIDTH_SIZE = 9;
     public static final int HEIGHT_SIZE = 10;
 
-    private final List<Piece> pieces = new ArrayList<>();
+    private final List<Piece> pieces;
+
+    public Board() {
+        this(new ArrayList<>());
+    }
+
+    public Board(List<Piece> pieces) {
+        this.pieces = new ArrayList<>(pieces);
+    }
 
     public void addTeamPieces(Team team, TableSetting tableSetting) {
         pieces.addAll(Initializer.settingWith(team, tableSetting));
