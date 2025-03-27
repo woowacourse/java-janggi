@@ -55,4 +55,12 @@ public class Pieces {
     public List<Piece> getPieces() {
         return pieces;
     }
+
+    public int calculateTeamScore(Team team) {
+        return pieces.stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .map(Piece::getScore)
+                .mapToInt(i -> i)
+                .sum();
+    }
 }

@@ -110,4 +110,14 @@ public class OutputView {
         }
         return "졸";
     }
+
+    public void printTeamScore(final Team currentTurn, int score) {
+        if (currentTurn == Team.RED) {
+            System.out.printf(HAN_DYNASTY + " 점수: %d", score);
+            System.out.println(System.lineSeparator());
+            return;
+        }
+        System.out.printf(CHU_DYNASTY + " 점수: %d", score);
+        System.out.println(System.lineSeparator());
+    }
 }

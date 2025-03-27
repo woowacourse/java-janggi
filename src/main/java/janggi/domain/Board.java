@@ -52,4 +52,8 @@ public class Board {
     public void changeTurn() {
         turn.changeTurn();
     }
+
+    public int getTeamScore(Team team) {
+        return pieces.calculateTeamScore(team);
+    }
 }

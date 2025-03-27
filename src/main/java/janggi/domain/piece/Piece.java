@@ -85,4 +85,8 @@ public abstract class Piece {
     public boolean isEnemy(final Piece otherPiece) {
         return team != otherPiece.team;
     }
+
+    public int getScore() {
+        return pieceType.getScore();
+    }
 }

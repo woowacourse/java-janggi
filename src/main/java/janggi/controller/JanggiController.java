@@ -39,7 +39,7 @@ public class JanggiController {
             Set<Position> possibleDestinations = board.findDestinations(selectedPiece);
 
             showPossibleDestinations(possibleDestinations, board, selectedPiece);
-
+            outputView.printTeamScore(currentTurn, board.getTeamScore(currentTurn));
             outputView.printBoard(pieces);
             board.changeTurn();
         }
