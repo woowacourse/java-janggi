@@ -16,14 +16,14 @@ public class Application {
 
     public static void main(String[] args) {
         Board board = new Board(new NormalPlaceStrategy());
-        outputView.printGameStartMessage();
-        Team team = Team.GREEN;
+        Team attackTeam = Team.GREEN;
+        outputView.printGameStartMessage(attackTeam);
         while (true) {
             outputView.printBoard(board);
-            if (!playTurn(board, team)) {
+            if (!playTurn(board, attackTeam)) {
                 break;
             }
-            team = team.convertTeam();
+            attackTeam = attackTeam.convertTeam();
         }
     }
 
