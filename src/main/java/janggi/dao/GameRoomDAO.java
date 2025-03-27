@@ -26,8 +26,9 @@ public class GameRoomDAO {
 
     public List<String> findAll() {
         List<String> names = new ArrayList<>();
-        try (Connection connection = databaseManager.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement(FIND_ALL_GAME_ROOM_QUERY);
+        try (Connection connection = databaseManager.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(FIND_ALL_GAME_ROOM_QUERY)) {
+
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -42,8 +43,9 @@ public class GameRoomDAO {
     }
 
     public Team findTurn(String gameRoomName) {
-        try (Connection connection = databaseManager.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement(FIND_TURN_QUERY);
+        try (Connection connection = databaseManager.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(FIND_TURN_QUERY)) {
+
             pstmt.setString(1, gameRoomName);
 
             ResultSet rs = pstmt.executeQuery();
@@ -58,8 +60,8 @@ public class GameRoomDAO {
     }
 
     public boolean exist(String gameRoomName) {
-        try (Connection connection = databaseManager.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement(EXIST_QUERY);
+        try (Connection connection = databaseManager.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(EXIST_QUERY)) {
             pstmt.setString(1, gameRoomName);
             ResultSet rs = pstmt.executeQuery();
 
@@ -74,8 +76,9 @@ public class GameRoomDAO {
             throw new IllegalArgumentException("이미 중복된 방 제목입니다.");
         }
 
-        try (Connection connection = databaseManager.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement(INSERT_QUERY);
+        try (Connection connection = databaseManager.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(INSERT_QUERY)) {
+
             pstmt.setString(1, gameRoomName);
             pstmt.setString(2, Team.CHO.toString());
 
@@ -90,8 +93,8 @@ public class GameRoomDAO {
             throw new IllegalArgumentException("해당 방이 존재하지 않습니다!");
         }
 
-        try (Connection connection = databaseManager.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement(UPDATE_QUERY);
+        try (Connection connection = databaseManager.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(UPDATE_QUERY)) {
             pstmt.setString(1, team.toString());
             pstmt.setString(2, gameRoomName);
 
@@ -102,8 +105,8 @@ public class GameRoomDAO {
     }
 
     public void delete(String gameRoomName) {
-        try (Connection connection = databaseManager.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement(DELETE_QUERY);
+        try (Connection connection = databaseManager.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(DELETE_QUERY)) {
             pstmt.setString(1, gameRoomName);
 
             pstmt.executeUpdate();

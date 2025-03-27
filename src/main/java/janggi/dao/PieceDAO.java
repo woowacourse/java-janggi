@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class BoardDAO {
+public class PieceDAO {
 
     private static final String SELECT_BOARD_QUERY = "SELECT PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN FROM PIECE WHERE GAME_ROOM_NAME = ?";
     private static final String INSERT_PIECE_QUERY = "INSERT INTO PIECE(PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN, GAME_ROOM_NAME) VALUES (?, ?, ?, ?, ?)";
@@ -24,13 +24,14 @@ public class BoardDAO {
 
     private final DatabaseManager databaseManager;
 
-    public BoardDAO(DatabaseManager databaseManager) {
+    public PieceDAO(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
     }
 
     public Board toDomain(String gameRoomName) {
-        try (Connection connection = databaseManager.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement(SELECT_BOARD_QUERY);
+        try (Connection connection = databaseManager.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(SELECT_BOARD_QUERY)) {
+
             pstmt.setString(1, gameRoomName);
             ResultSet rs = pstmt.executeQuery();
 
@@ -77,8 +78,9 @@ public class BoardDAO {
 
     private void save(String gameRoomName, Position position, Piece piece) {
 
-        try (Connection connection = databaseManager.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement(INSERT_PIECE_QUERY);
+        try (Connection connection = databaseManager.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(INSERT_PIECE_QUERY)) {
+
             pstmt.setString(1, piece.getName());
             pstmt.setString(2, piece.getTeam().toString());
             pstmt.setInt(3, position.getRow());
@@ -92,17 +94,16 @@ public class BoardDAO {
     }
 
     public void movePiece(Position currentPosition, Position targetPosition) {
-        try (Connection conn = databaseManager.getConnection()) {
+        try (Connection conn = databaseManager.getConnection();
+             PreparedStatement deleteStmt = conn.prepareStatement(DELETE_PIECE_QUERY);
+             PreparedStatement moveStmt = conn.prepareStatement(MOVE_PIECE_QUERY)
+        ) {
             conn.setAutoCommit(false);
-
-            PreparedStatement deleteStmt = conn.prepareStatement(DELETE_PIECE_QUERY);
 
             deleteStmt.setInt(1, targetPosition.getRow());
             deleteStmt.setInt(2, targetPosition.getColumn());
 
             deleteStmt.executeUpdate();
-
-            PreparedStatement moveStmt = conn.prepareStatement(MOVE_PIECE_QUERY);
 
             moveStmt.setInt(1, targetPosition.getRow());
             moveStmt.setInt(2, targetPosition.getColumn());

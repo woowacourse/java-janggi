@@ -16,11 +16,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class BoardDAOTest {
+class PieceDAOTest {
 
     static final String GAME_ROOM_NAME = "room1";
     static DatabaseManager databaseManager = DatabaseTestManger.create();
-    BoardDAO boardDAO = new BoardDAO(databaseManager);
+    PieceDAO pieceDAO = new PieceDAO(databaseManager);
 
     @BeforeAll
     static void setupDatabase() throws SQLException {
@@ -41,7 +41,7 @@ class BoardDAOTest {
     void test1() {
         Board board = BoardFixture.sangMaSangMa();
 
-        assertThatCode(() -> boardDAO.saveAll(GAME_ROOM_NAME, board))
+        assertThatCode(() -> pieceDAO.saveAll(GAME_ROOM_NAME, board))
                 .doesNotThrowAnyException();
     }
 
@@ -50,10 +50,10 @@ class BoardDAOTest {
     void test2() {
         // given
         Board board = BoardFixture.sangMaSangMa();
-        boardDAO.saveAll(GAME_ROOM_NAME, board);
+        pieceDAO.saveAll(GAME_ROOM_NAME, board);
 
         // when
-        Board result = boardDAO.toDomain(GAME_ROOM_NAME);
+        Board result = pieceDAO.toDomain(GAME_ROOM_NAME);
 
         // then
         assertThat(result).usingRecursiveComparison()
@@ -65,15 +65,15 @@ class BoardDAOTest {
     void test3() {
         // given
         Board board = BoardFixture.sangMaSangMa();
-        boardDAO.saveAll(GAME_ROOM_NAME, board);
+        pieceDAO.saveAll(GAME_ROOM_NAME, board);
         Position currentPosition = Position.of(7, 1);
         Position targetPosition = Position.of(6, 1);
 
         // when
-        boardDAO.movePiece(currentPosition, targetPosition);
+        pieceDAO.movePiece(currentPosition, targetPosition);
 
         // then
-        Board domain = boardDAO.toDomain(GAME_ROOM_NAME);
+        Board domain = pieceDAO.toDomain(GAME_ROOM_NAME);
         assertThatCode(() -> domain.getPiece(targetPosition))
                 .doesNotThrowAnyException();
     }

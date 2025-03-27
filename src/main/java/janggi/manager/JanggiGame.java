@@ -1,6 +1,6 @@
 package janggi.manager;
 
-import janggi.dao.BoardDAO;
+import janggi.dao.PieceDAO;
 import janggi.dao.GameRoomDAO;
 import janggi.domain.Board;
 import janggi.domain.GameRoom;
@@ -21,12 +21,12 @@ import java.util.Map;
 public class JanggiGame {
 
     private final Viewer viewer;
-    private final BoardDAO boardDAO;
+    private final PieceDAO pieceDAO;
     private final GameRoomDAO gameRoomDAO;
 
-    public JanggiGame(Viewer viewer, BoardDAO boardDAO, GameRoomDAO gameRoomDAO) {
+    public JanggiGame(Viewer viewer, PieceDAO pieceDAO, GameRoomDAO gameRoomDAO) {
         this.viewer = viewer;
-        this.boardDAO = boardDAO;
+        this.pieceDAO = pieceDAO;
         this.gameRoomDAO = gameRoomDAO;
     }
 
@@ -68,7 +68,7 @@ public class JanggiGame {
             throw new IllegalArgumentException("존재하지 않는 방입니다. 다시 입력해주세요!");
         }
 
-        Board board = boardDAO.toDomain(gameRoomName);
+        Board board = pieceDAO.toDomain(gameRoomName);
         Team turn = gameRoomDAO.findTurn(gameRoomName);
         return new GameRoom(gameRoomName, board, turn);
     }
@@ -82,7 +82,7 @@ public class JanggiGame {
         gameRoomDAO.create(gameRoomName);
         Board board = initializeBoard();
 
-        boardDAO.saveAll(gameRoomName, board);
+        pieceDAO.saveAll(gameRoomName, board);
         return new GameRoom(gameRoomName, board, Team.CHO);
     }
 
@@ -160,7 +160,7 @@ public class JanggiGame {
         Position targetPosition = Position.of(positionDto.row(), positionDto.column());
 
         board.movePiece(currentPosition, targetPosition);
-        boardDAO.movePiece(currentPosition, targetPosition);
+        pieceDAO.movePiece(currentPosition, targetPosition);
     }
 
     private void result(Board board) {
