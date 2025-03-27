@@ -26,15 +26,15 @@ public class Cha extends Movable {
     @Override
     public boolean canMove(Point targetPoint, Hurdles hurdles) {
         Direction direction = Direction.toCardinalFrom(point, targetPoint);
-        if (!isRouteWithoutHurdle(targetPoint, hurdles, direction)) {
+        if (isRouteCrashesHurdle(targetPoint, hurdles, direction)) {
             return false;
         }
         return canMoveOrAttackTargetPoint(targetPoint, hurdles);
     }
 
-    private boolean isRouteWithoutHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
+    private boolean isRouteCrashesHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, point, targetPoint);
-        return !route.hasCrash(hurdles);
+        return route.hasCrash(hurdles);
     }
 
     private boolean canMoveOrAttackTargetPoint(Point targetPoint, Hurdles hurdles) {

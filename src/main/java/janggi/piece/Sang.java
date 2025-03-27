@@ -32,26 +32,26 @@ public class Sang extends Movable {
 
     @Override
     public boolean canMove(Point targetPoint, Hurdles hurdles) {
-        if (isDistanceOverFlow(targetPoint)) {
+        if (isDistanceOutOfRange(targetPoint)) {
             return false;
         }
         List<Direction> directions = Direction.toInitialCardinalThenDiagonalFrom(
                 point, targetPoint, 2
         );
-        if (!isRouteWithoutHurdle(hurdles, directions)) {
+        if (isRouteCrashesHurdle(hurdles, directions)) {
             return false;
         }
         return canMoveOrAttackTargetPoint(targetPoint, hurdles);
     }
 
-    private boolean isDistanceOverFlow(Point targetPoint) {
+    private boolean isDistanceOutOfRange(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
         return distance.notMatches(Math.sqrt(13));
     }
 
-    private boolean isRouteWithoutHurdle(Hurdles hurdles, List<Direction> directions) {
+    private boolean isRouteCrashesHurdle(Hurdles hurdles, List<Direction> directions) {
         Route route = Route.follow(directions, point);
-        return !route.hasCrash(hurdles);
+        return route.hasCrash(hurdles);
     }
 
     private boolean canMoveOrAttackTargetPoint(Point targetPoint, Hurdles hurdles) {

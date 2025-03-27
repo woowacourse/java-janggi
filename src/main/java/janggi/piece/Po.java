@@ -27,22 +27,19 @@ public class Po extends Movable {
     @Override
     public boolean canMove(Point targetPoint, Hurdles hurdles) {
         Direction direction = Direction.toCardinalFrom(point, targetPoint);
-        if (!isRouteWithoutHurdle(targetPoint, hurdles, direction)) {
+        if (isRouteCrashesHurdle(targetPoint, hurdles, direction)) {
             return false;
         }
         return canMoveOrAttackTargetPoint(targetPoint, hurdles);
     }
 
-    private boolean isRouteWithoutHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
+    private boolean isRouteCrashesHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, point, targetPoint);
-        if (!route.hasCrash(hurdles)) {
-            return false;
-        }
-        if (route.countCrashes(hurdles) > 1) {
-            return false;
+        if (route.countCrashes(hurdles) != 1) {
+            return true;
         }
         Bridge bridge = Bridge.from(route, hurdles, this);
-        return !bridge.cannotPass();
+        return bridge.cannotPass();
     }
 
     private boolean canMoveOrAttackTargetPoint(Point targetPoint, Hurdles hurdles) {

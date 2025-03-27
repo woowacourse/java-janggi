@@ -26,24 +26,24 @@ public class Sa extends Movable {
 
     @Override
     public boolean canMove(Point targetPoint, Hurdles hurdles) {
-        if (isDistanceOverFlow(targetPoint)) {
+        if (isDistanceOutOfRange(targetPoint)) {
             return false;
         }
         Direction direction = Direction.toCardinalOrDiagonalFrom(point, targetPoint);
-        if (!isRouteWithoutHurdle(targetPoint, hurdles, direction)) {
+        if (isRouteCrashesHurdle(targetPoint, hurdles, direction)) {
             return false;
         }
         return canMoveOrAttackTargetPoint(targetPoint, hurdles);
     }
 
-    private boolean isDistanceOverFlow(Point targetPoint) {
+    private boolean isDistanceOutOfRange(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
         return distance.notMatches(1) && distance.notMatches(Math.sqrt(2));
     }
 
-    private boolean isRouteWithoutHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
+    private boolean isRouteCrashesHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, point, targetPoint);
-        return !route.hasCrash(hurdles);
+        return route.hasCrash(hurdles);
     }
 
     private boolean canMoveOrAttackTargetPoint(Point targetPoint, Hurdles hurdles) {

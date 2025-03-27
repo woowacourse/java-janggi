@@ -38,7 +38,7 @@ public class Ma extends Movable {
         List<Direction> directions = Direction.toInitialCardinalThenDiagonalFrom(
                 point, targetPoint, 1
         );
-        if (!isRouteWithoutHurdle(hurdles, directions)) {
+        if (isRouteCrashesHurdle(hurdles, directions)) {
             return false;
         }
         return canMoveOrAttackTargetPoint(targetPoint, hurdles);
@@ -49,9 +49,9 @@ public class Ma extends Movable {
         return distance.notMatches(Math.sqrt(5));
     }
 
-    private boolean isRouteWithoutHurdle(Hurdles hurdles, List<Direction> directions) {
+    private boolean isRouteCrashesHurdle(Hurdles hurdles, List<Direction> directions) {
         Route route = Route.follow(directions, point);
-        return !route.hasCrash(hurdles);
+        return route.hasCrash(hurdles);
     }
 
     private boolean canMoveOrAttackTargetPoint(Point targetPoint, Hurdles hurdles) {
