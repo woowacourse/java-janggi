@@ -44,14 +44,34 @@ public record JanggiCoordinate(int row, int col) {
         if (direction == Direction.LEFT) {
             return moveLeft();
         }
-        return moveDown();
+        if (direction == Direction.DOWN) {
+            return moveDown();
+        }
+        if (direction == Direction.RIGHT_UP) {
+            return moveRightUp();
+        }
+        if (direction == Direction.RIGHT_DOWN) {
+            return moveRightDown();
+        }
+        if (direction == Direction.LEFT_UP) {
+            return moveLeftUp();
+        }
+        return moveLeftDown();
     }
 
     public int distanceTo(JanggiCoordinate to) {
-        int rowDst = Math.abs(this.row() - to.row());
-        int colDst = Math.abs(this.col() - to.col());
+        int rowDst = Math.abs(this.row - to.row);
+        int colDst = Math.abs(this.col - to.col);
 
         return square(rowDst) + square(colDst);
+    }
+
+    public boolean isSameRow(JanggiCoordinate compare) {
+        return this.row == compare.row;
+    }
+
+    public boolean isSameCol(JanggiCoordinate compare) {
+        return this.col == compare.col;
     }
 
     private int square(int n) {
