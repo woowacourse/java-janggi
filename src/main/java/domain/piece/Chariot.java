@@ -16,28 +16,35 @@ public class Chariot extends AbstractPiece {
 
     @Override
     public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
-        final int x = fromPoint.calculateSubtractionX(toPoint);
-        final int y = fromPoint.calculateSubtractionY(toPoint);
-        if (x > 0) {
+        final Distance distance = fromPoint.generateDistance(toPoint);
+
+        if (isDiagonalDirectionInPalace(fromPoint, toPoint, distance)) {
+            return searchPalacePossiblePoint(fromPoint, toPoint);
+        }
+        if (distance.isRight()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxX(), toPoint, Point::right);
         }
-        if (x < 0) {
+        if (distance.isLeft()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMinX(), toPoint, Point::left);
         }
-        if (y > 0) {
+        if (distance.isUp()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxY(), toPoint, Point::up);
         }
-        if (y < 0) {
+        if (distance.isDown()) {
             return searchPossiblePoint(fromPoint, fromPoint.distanceToMinY(), toPoint, Point::down);
         }
-        return searchPalacePossiblePoint(fromPoint, toPoint);
+        throw new IllegalArgumentException("차는 해당 방향으로 움직일 수 없습니다.");
+    }
+
+    private static boolean isDiagonalDirectionInPalace(
+            final Point fromPoint,
+            final Point toPoint,
+            final Distance distance
+    ) {
+        return fromPoint.isPalace() && toPoint.isPalace() && isDiagonalDirection(distance);
     }
 
     private List<Point> searchPalacePossiblePoint(final Point fromPoint, final Point toPoint) {
-        if (!fromPoint.isPalace()) {
-            return List.of();
-        }
-
         if (fromPoint.isGreenPalace()) {
             final Point greenPalaceCenter = Point.newInstance(4, 1);
             return addPalacePath(fromPoint, toPoint, greenPalaceCenter);
@@ -48,10 +55,14 @@ public class Chariot extends AbstractPiece {
     }
 
     private static List<Point> addPalacePath(final Point fromPoint, final Point toPoint, final Point palaceCenter) {
-        if (toPoint != palaceCenter && fromPoint != palaceCenter) {
+        if (isNotPalaceCenterBoth(fromPoint, toPoint, palaceCenter)) {
             return List.of(palaceCenter);
         }
         return List.of();
+    }
+
+    private static boolean isNotPalaceCenterBoth(final Point fromPoint, final Point toPoint, final Point palaceCenter) {
+        return !(palaceCenter.equals(fromPoint) || palaceCenter.equals(toPoint));
     }
 
     private List<Point> searchPossiblePoint(
@@ -76,16 +87,26 @@ public class Chariot extends AbstractPiece {
     @Override
     public boolean isMovable(final Point fromPoint, final Point toPoint) {
         final Distance distance = fromPoint.generateDistance(toPoint);
-        if (distance.x() == 0 && distance.y() != 0) {
+        if (isVerticalDirection(distance)) {
             return true;
         }
-        if (distance.x() != 0 && distance.y() == 0) {
+        if (isHorizontalDirection(distance)) {
             return true;
         }
-        return fromPoint.isPalace()
-                && toPoint.isPalace()
-                && (distance.calculateDistance() == Point.DIAGONAL_UNIT
-                || distance.calculateDistance() == Point.DIAGONAL_UNIT * 2);
+        return isDiagonalDirectionInPalace(fromPoint, toPoint, distance);
+    }
+
+    private static boolean isDiagonalDirection(final Distance distance) {
+        return distance.calculateDistance() == Point.DIAGONAL_UNIT
+                || distance.calculateDistance() == Point.DIAGONAL_UNIT * 2;
+    }
+
+    private static boolean isHorizontalDirection(final Distance distance) {
+        return !distance.isNotHorizontal() && distance.isNotVertical();
+    }
+
+    private static boolean isVerticalDirection(final Distance distance) {
+        return distance.isNotHorizontal() && !distance.isNotVertical();
     }
 
     @Override
