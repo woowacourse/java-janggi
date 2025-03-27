@@ -1,9 +1,8 @@
 package janggi.view;
 
 import janggi.controller.KnightElephantSettingCommand;
+import janggi.domain.piece.Position;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class InputView {
@@ -28,28 +27,28 @@ public class InputView {
         return KnightElephantSettingCommand.fromCommand(SCANNER.nextLine());
     }
 
-    public Entry<Integer, Integer> inputHanMoveSource() {
+    public Position inputHanMoveSource() {
         System.out.println("한나라의 움직일 말의 위치를 입력하세요. (예: 1,2) : ");
         return inputPosition();
     }
 
-    public Entry<Integer, Integer> inputHanMoveDestination() {
+    public Position inputHanMoveDestination() {
         System.out.println("한나라의 말을 이동할 위치를 입력하세요. (예: 1,2) : ");
         return inputPosition();
     }
 
-    public Entry<Integer, Integer> inputChoMoveSource() {
+    public Position inputChoMoveSource() {
         System.out.println("초나라의 움직일 말의 위치를 입력하세요. (예: 1,2) : ");
         return inputPosition();
     }
 
-    public Entry<Integer, Integer> inputChoMoveDestination() {
+    public Position inputChoMoveDestination() {
         System.out.println("초나라의 말을 이동할 위치를 입력하세요. (예: 1,2) : ");
         return inputPosition();
     }
 
-    private Entry<Integer, Integer> inputPosition() {
+    private Position inputPosition() {
         String[] position = SCANNER.nextLine().split(",");
-        return Map.entry(Integer.parseInt(position[0]), Integer.parseInt(position[1]));
+        return new Position(Integer.parseInt(position[0]), Integer.parseInt(position[1]));
     }
 }

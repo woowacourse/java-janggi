@@ -1,11 +1,11 @@
 package janggi.controller;
 
 import janggi.domain.board.JanggiBoard;
+import janggi.domain.piece.Position;
 import janggi.domain.piece.gererator.ChoPieceGenerator;
 import janggi.domain.piece.gererator.HanPieceGenerator;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import java.util.Map.Entry;
 
 public class Controller {
 
@@ -61,9 +61,9 @@ public class Controller {
 
     private void moveHan(JanggiBoard janggiBoard) {
         try {
-            Entry<Integer, Integer> source = inputView.inputHanMoveSource();
-            Entry<Integer, Integer> destination = inputView.inputHanMoveDestination();
-            janggiBoard.move(source.getKey(), source.getValue(), destination.getKey(), destination.getValue());
+            Position source = inputView.inputHanMoveSource();
+            Position destination = inputView.inputHanMoveDestination();
+            janggiBoard.move(source.x(), source.y(), destination.x(), destination.y());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             moveHan(janggiBoard);
@@ -72,9 +72,9 @@ public class Controller {
 
     private void moveCho(JanggiBoard janggiBoard) {
         try {
-            Entry<Integer, Integer> source = inputView.inputChoMoveSource();
-            Entry<Integer, Integer> destination = inputView.inputChoMoveDestination();
-            janggiBoard.move(source.getKey(), source.getValue(), destination.getKey(), destination.getValue());
+            Position source = inputView.inputChoMoveSource();
+            Position destination = inputView.inputChoMoveDestination();
+            janggiBoard.move(source.x(), source.y(), destination.x(), destination.y());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             moveCho(janggiBoard);
