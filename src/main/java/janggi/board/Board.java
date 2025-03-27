@@ -8,6 +8,7 @@ import janggi.team.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Board {
 
@@ -71,9 +72,9 @@ public class Board {
     }
 
     private List<Piece> getPiecesByPath(final Path path) {
-        return path.getPositions().stream()
-                .filter(pieces::containsKey)
-                .map(pieces::get)
+        return pieces.entrySet().stream()
+                .filter(entry -> path.hasPosition(entry.getKey()))
+                .map(Entry::getValue)
                 .toList();
     }
 
