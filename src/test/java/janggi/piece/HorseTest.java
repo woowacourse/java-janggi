@@ -12,18 +12,18 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class HorseTest {
 
     @ParameterizedTest
-    @DisplayName("시작점과 끝점이 주어졌을 때, 이동 경로를 반환한다.")
+    @DisplayName("시작점과 끝점이 주어졌을 때, 마의 이동 경로를 반환한다")
     @CsvSource(value = {
-            "4, 7, 5, 6",
-            "6, 7, 5, 6",
-            "3, 6, 4, 5",
-            "3, 4, 4, 5",
-            "4, 3, 5, 4",
-            "6, 3, 5, 4",
-            "7, 4, 6, 5",
-            "7, 6, 6, 5"
+            "4, 3, 5, 4",  // 상 좌상
+            "6, 3, 5, 4",  // 상 우상
+            "4, 7, 5, 6",  // 하 좌하
+            "6, 7, 5, 6",  // 하 우하
+            "3, 4, 4, 5",  // 좌 좌상
+            "3, 6, 4, 5",  // 좌 좌하
+            "7, 4, 6, 5",  // 우 우상
+            "7, 6, 6, 5"   // 우 우하
     })
-    void shouldReturnTrueWhenValidateMovingRule(int destX, int destY, int pathX, int pathY) {
+    void should_return_path_by_start_and_end_position(int destX, int destY, int pathX, int pathY) {
         // given
         Horse horse = new Horse(Color.RED);
         Position horseCurrentPosition = new Position(5, 5);
@@ -37,23 +37,23 @@ public class HorseTest {
     }
 
     @ParameterizedTest
-    @DisplayName("마의 이동 규칙이 어긋나면 예외를 발생한다.")
+    @DisplayName("도착점이 마의 이동 규칙에 어긋나면 예외가 발생한다")
     @CsvSource(value = {
-            "5, 5",
-            "5, 6",
-            "4, 5",
-            "6, 5",
-            "5, 4",
-            "5, 7",
-            "5, 3",
-            "7, 5",
-            "3, 5",
-            "7, 7",
-            "3, 3",
-            "7, 3",
-            "3, 7"
+            "5, 5",  // 원점
+            "5, 4",  // 상
+            "5, 6",  // 하
+            "4, 5",  // 좌
+            "6, 5",  // 우
+            "5, 3",  // 상상
+            "5, 7",  // 하하
+            "3, 5",  // 좌좌
+            "7, 5",  // 우우
+            "3, 3",  // 좌상좌상
+            "3, 7",  // 좌하좌하
+            "7, 3",  // 우상우상
+            "7, 7"   // 우하우하
     })
-    void shouldReturnTrueWhenUnfollowMovingRule(int destX, int destY) {
+    void should_throw_exception_when_unfollow_horse_moving_rule(int destX, int destY) {
         // given
         Horse horse = new Horse(Color.RED);
         Position start = new Position(5, 5);
