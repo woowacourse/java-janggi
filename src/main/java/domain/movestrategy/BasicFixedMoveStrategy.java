@@ -9,12 +9,10 @@ import java.util.List;
 public class BasicFixedMoveStrategy implements FixedMoveStrategy {
     private final List<Moves> blueTeamMoves = List.of(
             Moves.createMoves(Move.FRONT),
-            Moves.createMoves(Move.BACK),
             Moves.createMoves(Move.RIGHT),
             Moves.createMoves(Move.LEFT)
     );
     private final List<Moves> redTeamMoves = List.of(
-            Moves.createMoves(Move.FRONT),
             Moves.createMoves(Move.BACK),
             Moves.createMoves(Move.RIGHT),
             Moves.createMoves(Move.LEFT)

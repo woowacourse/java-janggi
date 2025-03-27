@@ -3,6 +3,7 @@ package domain.piece;
 import domain.Position;
 import domain.Team;
 import domain.movestrategy.BasicFixedMoveStrategy;
+import domain.movestrategy.PalaceFixedMoveStrategy;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -79,6 +80,81 @@ class PawnTest {
                 Arguments.of(
                         new Position(3, 2),
                         new Position(2, 2),
+                        List.of()
+                )
+        );
+    }
+
+    @DisplayName("블루팀의 졸(병)은 궁성에서 대각선,상좌우로 이동할 수 있다.")
+    @ParameterizedTest
+    @MethodSource("providePositions3")
+    void test3(Position startPosition, Position targetPosition, List<Position> expected) {
+
+        //given
+        Pawn pawn = new Pawn(Team.BLUE, new PalaceFixedMoveStrategy());
+
+        //when
+        List<Position> move = pawn.calculatePath(startPosition, targetPosition);
+
+        // then
+        Assertions.assertThat(move).isEqualTo(expected);
+    }
+
+    static Stream<Arguments> providePositions3() {
+        return Stream.of(
+                Arguments.of(
+                        new Position(3, 4),
+                        new Position(2, 5),
+                        List.of()
+                ),
+                Arguments.of(
+                        new Position(3, 6),
+                        new Position(2, 5),
+                        List.of()
+                ),
+                Arguments.of(
+                        new Position(3, 4),
+                        new Position(3, 2),
+                        List.of()
+                )
+        );
+    }
+
+    @DisplayName("레드팀의 졸(병)은 궁성에서 대각선,하좌우로 이동할 수 있다.")
+    @ParameterizedTest
+    @MethodSource("providePositions4")
+    void test4(Position startPosition, Position targetPosition, List<Position> expected) {
+
+        //given
+        Pawn pawn = new Pawn(Team.RED, new PalaceFixedMoveStrategy());
+
+        //when
+        List<Position> move = pawn.calculatePath(startPosition, targetPosition);
+
+        // then
+        Assertions.assertThat(move).isEqualTo(expected);
+    }
+
+    static Stream<Arguments> providePositions4() {
+        return Stream.of(
+                Arguments.of(
+                        new Position(8, 4),
+                        new Position(9, 5),
+                        List.of()
+                ),
+                Arguments.of(
+                        new Position(8, 6),
+                        new Position(9, 5),
+                        List.of()
+                ),
+                Arguments.of(
+                        new Position(8, 4),
+                        new Position(9, 4),
+                        List.of()
+                ),
+                Arguments.of(
+                        new Position(9, 5),
+                        new Position(8, 4),
                         List.of()
                 )
         );
