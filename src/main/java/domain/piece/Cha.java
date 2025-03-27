@@ -20,7 +20,7 @@ public class Cha extends Piece {
 
     @Override
     public List<Coordinate> findAvailablePaths(Coordinate from, Board board) {
-        movements.addGungMovement(from);
+        movements.addMovementIfInGung(from);
 
         List<Coordinate> availablePositions = new ArrayList<>();
         for (Movement movement : movements.getMovements()) {

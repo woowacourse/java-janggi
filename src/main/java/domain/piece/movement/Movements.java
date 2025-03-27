@@ -12,39 +12,39 @@ public class Movements {
         this.movements = new ArrayList<>(movements);
     }
 
-    public void addGungMovement(Coordinate from) {
-        gungCenter(from);
-        gungRightDownCorner(from);
-        gungDownLeftCorner(from);
-        gungUpRightCorner(from);
-        gungUpLeftCorner(from);
+    public void addMovementIfInGung(Coordinate from) {
+        addIfCenter(from);
+        addIfRightDownCorner(from);
+        addIfDownLeftCorner(from);
+        addIfUpRightCorner(from);
+        addIfUpLeftCorner(from);
     }
 
-    private void gungRightDownCorner(Coordinate from) {
+    private void addIfRightDownCorner(Coordinate from) {
         if (from.isGungDownRightCorner()) {
             this.movements.add(Movement.UP_LEFT);
         }
     }
 
-    private void gungDownLeftCorner(Coordinate from) {
+    private void addIfDownLeftCorner(Coordinate from) {
         if (from.isGungDownLeftCorner()) {
             this.movements.add(Movement.UP_RIGHT);
         }
     }
 
-    private void gungUpRightCorner(Coordinate from) {
+    private void addIfUpRightCorner(Coordinate from) {
         if (from.isGungUpRightCorner()) {
             this.movements.add(Movement.DOWN_LEFT);
         }
     }
 
-    private void gungUpLeftCorner(Coordinate from) {
+    private void addIfUpLeftCorner(Coordinate from) {
         if (from.isGungUpLeftCorner()) {
             this.movements.add(Movement.DOWN_RIGHT);
         }
     }
 
-    private void gungCenter(Coordinate from) {
+    private void addIfCenter(Coordinate from) {
         if (from.isGungCenter()) {
             this.movements.add(Movement.DOWN_RIGHT);
             this.movements.add(Movement.DOWN_LEFT);

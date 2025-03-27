@@ -17,7 +17,7 @@ public class Gung extends Piece {
 
     @Override
     public List<Coordinate> findAvailablePaths(Coordinate from, Board board) {
-        movements.addGungMovement(from);
+        movements.addMovementIfInGung(from);
 
         return movements.getMovements().stream()
                 .map(from::move)
