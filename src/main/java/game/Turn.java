@@ -6,7 +6,7 @@ public class Turn {
 
     private int value = 1;
 
-    public Team getCurrnetTeam() {
+    public Team getCurrentTurnTeam() {
         if (value % 2 == 0) {
             return Team.RED;
         }

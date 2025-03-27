@@ -19,7 +19,7 @@ public class Board {
 
     public void isValidTurn(final Position startPosition, final Turn turn) {
         Piece pieceByPosition = findPieceByPosition(startPosition);
-        Team currentTurnTeam = turn.getCurrnetTeam();
+        Team currentTurnTeam = turn.getCurrentTurnTeam();
         if (!pieceByPosition.isSameTeam(currentTurnTeam)) {
             throw new IllegalArgumentException(
                     String.format("올바른 기물의 위치를 입력해주세요(현재 턴: %s).", currentTurnTeam.name())
