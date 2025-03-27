@@ -114,7 +114,7 @@ class PawnTest {
                 ),
                 Arguments.of(
                         new Position(3, 4),
-                        new Position(3, 2),
+                        new Position(2, 4),
                         List.of()
                 )
         );
@@ -151,24 +151,45 @@ class PawnTest {
                         new Position(8, 4),
                         new Position(9, 4),
                         List.of()
-                ),
-                Arguments.of(
-                        new Position(9, 5),
-                        new Position(8, 4),
-                        List.of()
                 )
         );
     }
 
     @DisplayName("졸(병)이 이동할 수 없는 위치라면 예외가 발생한다.")
     @Test
-    void test1() {
+    void test5() {
 
         //given
         Pawn pawn = new Pawn(Team.RED, new BasicFixedMoveStrategy());
 
         // when & then
         Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 1), new Position(4, 3)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이 위치로 이동할 수 없습니다.");
+    }
+
+    @DisplayName("블루팀 졸(병)은 뒤로 이동 불가능 하다")
+    @Test
+    void test6() {
+
+        //given
+        Pawn pawn = new Pawn(Team.BLUE, new BasicFixedMoveStrategy());
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(7, 5), new Position(8, 5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이 위치로 이동할 수 없습니다.");
+    }
+
+    @DisplayName("레드팀 졸(병)은 앞으로 이동 불가능 하다")
+    @Test
+    void test7() {
+
+        //given
+        Pawn pawn = new Pawn(Team.RED, new BasicFixedMoveStrategy());
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 5), new Position(3, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이 위치로 이동할 수 없습니다.");
     }

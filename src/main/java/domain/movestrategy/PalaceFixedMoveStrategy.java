@@ -11,12 +11,16 @@ public class PalaceFixedMoveStrategy implements FixedMoveStrategy {
     private final List<Moves> blueTeamMoves = List.of(
             Moves.createMoves(Move.FRONT),
             Moves.createMoves(Move.RIGHT),
-            Moves.createMoves(Move.LEFT)
+            Moves.createMoves(Move.LEFT),
+            Moves.createMoves(Move.FRONT_LEFT),
+            Moves.createMoves(Move.FRONT_RIGHT)
     );
     private final List<Moves> redTeamMoves = List.of(
             Moves.createMoves(Move.BACK),
             Moves.createMoves(Move.RIGHT),
-            Moves.createMoves(Move.LEFT)
+            Moves.createMoves(Move.LEFT),
+            Moves.createMoves(Move.BACK_LEFT),
+            Moves.createMoves(Move.BACK_RIGHT)
     );
 
     @Override
