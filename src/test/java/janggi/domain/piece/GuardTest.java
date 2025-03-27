@@ -51,7 +51,6 @@ class GuardTest {
     void move3() {
         Guard guard = new Guard(new Position(8, 4), Team.BLUE);
         pieces.put(guard.getPosition(), guard);
-        Board board = new Board(pieces);
         Assertions.assertAll(
                 () -> assertThatThrownBy(() -> guard.move(pieces, new Position(7, 4)))
                         .isInstanceOf(IllegalArgumentException.class),

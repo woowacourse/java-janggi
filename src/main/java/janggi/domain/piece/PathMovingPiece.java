@@ -12,7 +12,7 @@ public abstract class PathMovingPiece extends Piece {
     }
 
     @Override
-    public boolean canMoveTo(Map<Position, Piece> pieces, Position positionToMove) {
+    public void validatePositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
         List<Movement> movements = findMovements(positionToMove);
         Position currentPosition = getPosition();
         for (Movement movement : movements) {
@@ -21,10 +21,9 @@ public abstract class PathMovingPiece extends Piece {
                 throw new IllegalArgumentException("불가능한 이동입니다");
             }
         }
-        if (currentPosition.equals(positionToMove)) {
-            return true;
+        if (!currentPosition.equals(positionToMove)) {
+            throw new IllegalArgumentException("불가능한 이동입니다");
         }
-        throw new IllegalArgumentException("불가능한 이동입니다");
     }
 
     protected abstract boolean checkPieceCondition(Piece checkingPiece, Position checkingPosition);

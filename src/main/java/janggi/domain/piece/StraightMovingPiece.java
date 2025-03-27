@@ -11,9 +11,9 @@ public abstract class StraightMovingPiece extends Piece{
     }
 
     @Override
-    public boolean canMoveTo(Map<Position, Piece> pieces, Position positionToMove) {
+    public void validatePositionToMove(Map<Position, Piece> pieces, Position positionToMove) {
         Movement direction = findDirection(positionToMove);
-        return checkPieceCondition(pieces, positionToMove, direction);
+        validatePieceCondition(pieces, positionToMove, direction);
     }
 
     protected Movement findDirection(Position positionToMove) {
@@ -29,5 +29,5 @@ public abstract class StraightMovingPiece extends Piece{
         );
     }
 
-    protected abstract boolean checkPieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction);
+    protected abstract void validatePieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction);
 }

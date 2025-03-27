@@ -52,7 +52,6 @@ class GeneralTest {
     void move3() {
         General general = new General(new Position(8, 4), Team.BLUE);
         pieces.put(general.getPosition(), general);
-        Board board = new Board(pieces);
         Assertions.assertAll(
                 () -> assertThatThrownBy(() -> general.move(pieces, new Position(7, 4)))
                         .isInstanceOf(IllegalArgumentException.class),

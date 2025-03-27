@@ -11,7 +11,7 @@ public class Chariot extends StraightMovingPiece {
     }
 
     @Override
-    protected boolean checkPieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
+    protected void validatePieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
         Position currentPosition = getPosition().plus(direction.getX(), direction.getY());
         while (currentPosition.isNotEndPoint() && !currentPosition.equals(positionToMove)) {
             if (pieces.get(currentPosition).isNotNone()) {
@@ -19,10 +19,7 @@ public class Chariot extends StraightMovingPiece {
             }
             currentPosition = currentPosition.plus(direction.getX(), direction.getY());
         }
-        return true;
     }
-
-
 
     @Override
     public Piece from(Position position) {

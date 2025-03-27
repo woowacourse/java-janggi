@@ -11,23 +11,34 @@ public class Cannon extends StraightMovingPiece {
     }
 
     @Override
-    protected boolean checkPieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
+    protected void validatePieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
         Position currentPosition = getPosition();
         int count = 0;
         while(currentPosition.isNotEndPoint() && !currentPosition.equals(positionToMove)) {
-            if(pieces.get(currentPosition).isNotNone()) {
-                count ++;
-            }
+            count += getIsNoneValue(pieces.get(currentPosition));
             currentPosition = currentPosition.plus(direction.getX(), direction.getY());
-            if(pieces.get(currentPosition) instanceof Cannon) {
-                throw new IllegalArgumentException("포는 포를 잡지 못합니다");
-            }
+            validateIsCannon(pieces.get(currentPosition));
         }
-        if(count != 1) {
-            throw new IllegalArgumentException("포는 기물 하나를 건너 뛰어야 합니다");
-        }
+        validateCount(count);
+    }
 
-        return true;
+    private void validateCount(int count) {
+        if(count != 1) {
+            throw new IllegalArgumentException("포는 하나의 기물만 건너 뛰어야 합니다");
+        }
+    }
+
+    private void validateIsCannon(Piece piece) {
+        if(piece instanceof Cannon) {
+            throw new IllegalArgumentException("포는 포를 잡지 못합니다");
+        }
+    }
+
+    private int getIsNoneValue(Piece piece) {
+        if(piece.isNone()) {
+            return 0;
+        }
+        return 1;
     }
 
     @Override
