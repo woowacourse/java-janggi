@@ -39,6 +39,7 @@ public class MemoryRepository implements Repository {
     @Override
     public void clear() {
         pieces.clear();
+        playingTurn = new PlayingTurn();
     }
 
     @Override
