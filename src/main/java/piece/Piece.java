@@ -4,22 +4,21 @@ import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 
-public abstract class Piece {
+public interface Piece {
 
-    public abstract boolean isSamePosition(Position startPosition);
+    boolean isSamePosition(Position startPosition);
 
-    public abstract void updateChessPiecePositionBy(Position destination);
+    void updateChessPiecePositionBy(Position destination);
 
-    public abstract PieceType getPieceType();
+    PieceType getPieceType();
 
-    public abstract void canMoveTo(final Position position);
+    void canMoveTo(final Position position);
 
-    public abstract Positions makeRoute(final Position position);
+    Positions makeRoute(final Position position);
 
-    public abstract boolean isJanggun();
+    boolean isJanggun();
 
-    public abstract boolean isPo();
+    boolean isPo();
 
-    public abstract Position currentPosition();
-
+    Position currentPosition();
 }

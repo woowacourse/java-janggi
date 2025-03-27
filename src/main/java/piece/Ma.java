@@ -9,7 +9,7 @@ import pieceProperty.Position;
 import pieceProperty.Positions;
 import view.ErrorMessage;
 
-public class Ma extends Piece {
+public class Ma implements Piece {
 
     private Position position;
 

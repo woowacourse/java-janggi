@@ -8,7 +8,7 @@ import pieceProperty.Positions;
 import view.ErrorMessage;
 
 public abstract sealed class OmniDirectionalMover
-        extends Piece
+        implements Piece
         permits Sa, Janggun{
 
     private Position position;
