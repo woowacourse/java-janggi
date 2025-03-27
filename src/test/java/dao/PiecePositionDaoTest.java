@@ -43,19 +43,6 @@ class PiecePositionDaoTest {
     @Nested
     class ValidCases {
 
-        @DisplayName("해당 장기 게임의 저장된 모든 기물 위치 정보를 찾는다.")
-        @Test
-        void findAllByJanggiId() {
-            // given
-            Board board = Board.initialize();
-            Map<BoardPosition, Piece> pieces = board.getPieces();
-            piecePositionDao.createAllByJanggiId(connection, 1, pieces);
-
-            // when & then
-            assertThat(piecePositionDao.findAllByJanggiId(connection, 1))
-                    .containsExactlyInAnyOrderEntriesOf(pieces);
-        }
-
         @DisplayName("보드의 모든 기물 위치 정보를 해당 장기 게임에 저장한다.")
         @Test
         void createAllByJanggiId() {
@@ -71,23 +58,17 @@ class PiecePositionDaoTest {
                     .containsExactlyInAnyOrderEntriesOf(pieces);
         }
 
-        @DisplayName("해당 장기 게임의 특정 위치를 삭제한다.")
+        @DisplayName("해당 장기 게임의 저장된 모든 기물 위치 정보를 찾는다.")
         @Test
-        void deleteByJanggiIdAndPosition() {
+        void findAllByJanggiId() {
             // given
-            Map<BoardPosition, Piece> pieces = Map.of(
-                    new BoardPosition(4, 2), new General(Team.RED),
-                    new BoardPosition(3, 1), new General(Team.GREEN)
-            );
-            Board board = new Board(pieces);
+            Board board = Board.initialize();
+            Map<BoardPosition, Piece> pieces = board.getPieces();
             piecePositionDao.createAllByJanggiId(connection, 1, pieces);
 
-            // when
-            piecePositionDao.deleteByJanggiIdAndPosition(connection, 1, new BoardPosition(4, 2));
-
-            // then
+            // when & then
             assertThat(piecePositionDao.findAllByJanggiId(connection, 1))
-                    .containsEntry(new BoardPosition(3, 1), new General(Team.GREEN));
+                    .containsExactlyInAnyOrderEntriesOf(pieces);
         }
 
         @DisplayName("해당 장기 게임의 특정 위치를 다른 위치로 갱신한다.")
@@ -113,6 +94,25 @@ class PiecePositionDaoTest {
                             new BoardPosition(6, 7), new General(Team.RED),
                             new BoardPosition(3, 1), new General(Team.GREEN)
                     ));
+        }
+
+        @DisplayName("해당 장기 게임의 특정 위치를 삭제한다.")
+        @Test
+        void deleteByJanggiIdAndPosition() {
+            // given
+            Map<BoardPosition, Piece> pieces = Map.of(
+                    new BoardPosition(4, 2), new General(Team.RED),
+                    new BoardPosition(3, 1), new General(Team.GREEN)
+            );
+            Board board = new Board(pieces);
+            piecePositionDao.createAllByJanggiId(connection, 1, pieces);
+
+            // when
+            piecePositionDao.deleteByJanggiIdAndPosition(connection, 1, new BoardPosition(4, 2));
+
+            // then
+            assertThat(piecePositionDao.findAllByJanggiId(connection, 1))
+                    .containsEntry(new BoardPosition(3, 1), new General(Team.GREEN));
         }
 
 
