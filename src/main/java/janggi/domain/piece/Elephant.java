@@ -16,6 +16,8 @@ import java.util.List;
 
 public class Elephant extends Piece {
 
+    private static final int ELEPHANT_SCORE = 3;
+
     private static final List<List<Direction>> ELEPHANT_MOVES = List.of(
             List.of(UP, RIGHT_UP, RIGHT_UP),
             List.of(UP, LEFT_UP, LEFT_UP),
@@ -32,6 +34,11 @@ public class Elephant extends Piece {
 
     public Elephant(final Position position, final Team team) {
         super(position, team);
+    }
+
+    @Override
+    public double getScore() {
+        return ELEPHANT_SCORE;
     }
 
     @Override

@@ -13,6 +13,8 @@ import java.util.List;
 
 public class Soldier extends Piece {
 
+    private static final int SOLDIER_SCORE = 2;
+
     private static final List<List<Direction>> RED_GUARD_MOVES = List.of(
             List.of(DOWN),
             List.of(LEFT),
@@ -27,6 +29,11 @@ public class Soldier extends Piece {
 
     public Soldier(final Position position, final Team team) {
         super(position, team);
+    }
+
+    @Override
+    public double getScore() {
+        return SOLDIER_SCORE;
     }
 
     protected List<List<Direction>> getMoveStrategy() {

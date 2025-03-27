@@ -1,5 +1,7 @@
 package janggi.controller;
 
+import static janggi.domain.GameStatus.PROGRESS;
+import static janggi.domain.StopInput.Y;
 import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 
@@ -27,29 +29,54 @@ public class JanggiController {
     public void run() {
         final Board board = generateBoard();
         final List<Piece> pieces = board.getPieces();
-        while (true) {
+        boolean isProgress = true;
+        while (isProgress) {
             try {
-                startGame(board, pieces);
-            } catch (IllegalArgumentException e) {
+                isProgress = startGame(board, pieces);
+            } catch (final IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
+        outputView.printGameResult(board.getStatus(), board.getScoreByTeam(RED), board.getScoreByTeam(BLUE));
     }
 
-    private void startGame(final Board board, final List<Piece> pieces) {
+    private boolean startGame(final Board board, final List<Piece> pieces) {
+        displayGameState(board.getTurn(), pieces);
+
+        final Piece selectedPiece = selectPieceToMove(board);
+
+        final Set<Route> possibleRoutes = findPossibleRoutesForPiece(board, selectedPiece);
+
+        movePieceIfValid(board, selectedPiece, possibleRoutes);
+
+        return checkGameOver(board) || stopGame();
+    }
+
+    private boolean checkGameOver(final Board board) {
+        return board.getStatus() != PROGRESS;
+    }
+
+    private void displayGameState(final Team team, final List<Piece> pieces) {
         outputView.printBoard(pieces);
-        final Team currentTurn = board.getTurn();
-        outputView.printTurn(currentTurn);
+        outputView.printTurn(team);
+    }
 
+    private Piece selectPieceToMove(final Board board) {
         final Position position = inputView.inputPiecePosition();
-        final Piece selectPiece = board.selectPiece(position);
+        return board.selectPiece(position);
+    }
 
-        final Set<Route> possibleRoutes = board.findPossibleRoutes(selectPiece);
+    private Set<Route> findPossibleRoutesForPiece(final Board board, final Piece selectedPiece) {
+        final Set<Route> possibleRoutes = board.findPossibleRoutes(selectedPiece);
         outputView.printPossibleRoutes(possibleRoutes);
+        return possibleRoutes;
+    }
 
+    private void movePieceIfValid(final Board board, final Piece selectedPiece, final Set<Route> possibleRoutes) {
         final Position destination = inputView.inputDestination();
+
         if (canMove(possibleRoutes, destination)) {
-            board.movePiece(destination, selectPiece);
+            board.movePiece(destination, selectedPiece);
             board.changeTurn();
             return;
         }
@@ -71,5 +98,9 @@ public class JanggiController {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
+    }
+
+    private boolean stopGame() {
+        return inputView.inputStopGame() == Y && inputView.inputStopGame() == Y;
     }
 }

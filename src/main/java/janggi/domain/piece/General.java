@@ -12,6 +12,8 @@ import java.util.List;
 
 public class General extends Piece {
 
+    private static final int GENERAL_SCORE = 0;
+
     private static final List<List<Direction>> GENERAL_MOVES = List.of(
             List.of(UP),
             List.of(DOWN),
@@ -24,7 +26,17 @@ public class General extends Piece {
     }
 
     @Override
+    public double getScore() {
+        return GENERAL_SCORE;
+    }
+
+    @Override
     protected List<List<Direction>> getMoveStrategy() {
         return GENERAL_MOVES;
+    }
+
+    @Override
+    public boolean isGeneral() {
+        return true;
     }
 }

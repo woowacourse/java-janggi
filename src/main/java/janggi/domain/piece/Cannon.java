@@ -12,9 +12,15 @@ import java.util.Set;
 public class Cannon extends Piece {
 
     private static final int REQUIRED_JUMP_PIECES = 1;
+    private static final int CANNON_SCORE = 7;
 
     public Cannon(final Position position, final Team team) {
         super(position, team);
+    }
+
+    @Override
+    public double getScore() {
+        return CANNON_SCORE;
     }
 
     @Override

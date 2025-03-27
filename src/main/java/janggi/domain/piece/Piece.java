@@ -21,6 +21,8 @@ public abstract class Piece {
         this.team = team;
     }
 
+    public abstract double getScore();
+
     public Set<Route> calculateIndependentRoutes() {
         return getMoveStrategy().stream()
                 .map(this::calculateRoute)
@@ -103,6 +105,10 @@ public abstract class Piece {
     }
 
     protected boolean isCannon() {
+        return false;
+    }
+
+    public boolean isGeneral() {
         return false;
     }
 }

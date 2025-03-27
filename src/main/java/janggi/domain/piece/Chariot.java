@@ -9,9 +9,17 @@ import java.util.Set;
 
 public class Chariot extends Piece {
 
+    private static final int CHARIOT_SCORE = 13;
+
     public Chariot(final Position position, final Team team) {
         super(position, team);
     }
+
+    @Override
+    public double getScore() {
+        return CHARIOT_SCORE;
+    }
+
 
     @Override
     public Set<Route> calculateIndependentRoutes() {

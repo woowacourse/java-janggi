@@ -12,6 +12,8 @@ import java.util.List;
 
 public class Guard extends Piece {
 
+    private static final int GUARD_SCORE = 3;
+
     private static final List<List<Direction>> GUARD_MOVES = List.of(
             List.of(UP),
             List.of(DOWN),
@@ -21,6 +23,11 @@ public class Guard extends Piece {
 
     public Guard(final Position position, final Team team) {
         super(position, team);
+    }
+
+    @Override
+    public double getScore() {
+        return GUARD_SCORE;
     }
 
     @Override

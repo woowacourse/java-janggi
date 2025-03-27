@@ -9,6 +9,8 @@ import java.util.Set;
 
 public class Board {
 
+    private static final double PLUS_SCORE = 1.5;
+
     private final Pieces pieces;
     private final Turn turn;
 
@@ -40,5 +42,20 @@ public class Board {
 
     public void changeTurn() {
         turn.changeTurn();
+    }
+
+    public double getScoreByTeam(final Team team) {
+        return pieces.calculatePiecesScoreByTeam(team);
+    }
+
+    private double plusScoreByTurn(final Team team) {
+        if (turn.getCurrentTurn().equals(team)) {
+            return pieces.calculatePiecesScoreByTeam(team) + PLUS_SCORE;
+        }
+        return pieces.calculatePiecesScoreByTeam(team);
+    }
+
+    public GameStatus getStatus() {
+        return GameStatus.checkStatus(pieces);
     }
 }

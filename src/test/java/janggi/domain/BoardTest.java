@@ -79,4 +79,22 @@ class BoardTest {
             assertThat(nextTurn).isEqualTo(RED);
         });
     }
+
+    @DisplayName("남은 기물로 점수를 계산한다.")
+    @Test
+    void getScoreByTeamTest() {
+
+        // given
+        Board board = new Board(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+
+        // when
+        final double redResult = board.getScoreByTeam(RED);
+        final double blueResult = board.getScoreByTeam(BLUE);
+
+        // then
+        assertAll(() -> {
+            assertThat(redResult).isEqualTo(72);
+            assertThat(blueResult).isEqualTo(72);
+        });
+    }
 }

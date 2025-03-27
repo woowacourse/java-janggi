@@ -4,9 +4,12 @@ import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.General;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -118,5 +121,28 @@ class PiecesTest {
         assertThatThrownBy(() -> pieces.findPieceByPositionAndTeam(new Position(1, 2), BLUE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치에 우리팀 기물이 없습니다.");
+    }
+
+    @DisplayName("남은 기물로 점수를 계산한다.")
+    @Test
+    void calculatePiecesScoreByTeamTest() {
+
+        // given
+        final Pieces pieces = new Pieces(List.of(
+                new Chariot(new Position(4, 4), RED),
+                new Elephant(new Position(4, 5), RED),
+                new Soldier(new Position(1, 1), BLUE),
+                new General(new Position(2, 2), BLUE)
+        ));
+
+        // when
+        final double redResult = pieces.calculatePiecesScoreByTeam(RED);
+        final double blueResult = pieces.calculatePiecesScoreByTeam(BLUE);
+
+        // then
+        assertAll(() -> {
+            assertThat(redResult).isEqualTo(16);
+            assertThat(blueResult).isEqualTo(2);
+        });
     }
 }

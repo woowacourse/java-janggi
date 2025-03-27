@@ -16,6 +16,8 @@ import java.util.List;
 
 public class Horse extends Piece {
 
+    private static final int HORSE_SCORE = 5;
+
     private static final List<List<Direction>> HORSE_MOVES = List.of(
             List.of(RIGHT, RIGHT_UP),
             List.of(RIGHT, RIGHT_DOWN),
@@ -32,6 +34,11 @@ public class Horse extends Piece {
 
     public Horse(final Position position, final Team team) {
         super(position, team);
+    }
+
+    @Override
+    public double getScore() {
+        return HORSE_SCORE;
     }
 
     @Override

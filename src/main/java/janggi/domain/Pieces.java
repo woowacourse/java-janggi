@@ -56,6 +56,23 @@ public class Pieces {
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 없습니다."));
     }
 
+    public boolean isGeneralDead(final Team team) {
+        return pieces.stream()
+                .noneMatch(piece -> piece.isGeneral() && piece.isSameTeam(team));
+    }
+
+    public boolean isAliveOnlyGeneralEachTeam() {
+        return pieces.size() == 2 &&
+                pieces.stream().allMatch(Piece::isGeneral);
+    }
+
+    public double calculatePiecesScoreByTeam(final Team team) {
+        return pieces.stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToDouble(Piece::getScore)
+                .sum();
+    }
+
     public List<Piece> getPieces() {
         return pieces;
     }
