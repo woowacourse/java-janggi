@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -274,5 +276,54 @@ class JanggiBoardTest {
 
         assertThatThrownBy(() -> janggiBoard.computeReachableDestination(Side.CHO, position)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 위치에 움직일 수 있는 기물이 없습니다.");
+    }
+
+    @Test
+    @DisplayName("포 이동 테스트 - 초기 배치에서 궁성의 중앙 (4, 8)에 포 배치 + 양 옆에 기물 배치")
+    void test23() {
+        //테스트할 기물
+        Position position = new Position(4, 8);
+        Side side = Side.CHO;
+        Piece piece = new Cannon(side);
+
+        Map<Position, Piece> piecePositions = new HashMap<>();
+        piecePositions.put(position, piece);
+
+        //포의 양 옆에 졸 배치해서 점프할 수 있도록 함.
+        piecePositions.put(new Position(3, 8), new Soldier(Side.CHO));
+        piecePositions.put(new Position(5, 8), new Soldier(Side.CHO));
+        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoardWithPieces(piecePositions);
+
+        List<Position> positions = modifiedBoard.computeReachableDestination(side, position);
+
+        assertAll(
+                () -> assertThat(positions).contains(new Position(4, 5)),
+                () -> assertThat(positions).contains(new Position(2, 8)),
+                () -> assertThat(positions).contains(new Position(6, 8))
+        );
+    }
+
+    @Test
+    @DisplayName("포 이동 테스트 - 초기 배치에서 궁성의 중앙 (4, 8)에 포 배치 + 왼쪽 대각선에 기물 배치 - 대각선 이동 불가")
+    void test24() {
+        //테스트할 기물
+        Position position = new Position(4, 8);
+        Side side = Side.CHO;
+        Piece piece = new Cannon(side);
+
+        Map<Position, Piece> piecePositions = new HashMap<>();
+        piecePositions.put(position, piece);
+
+        //포의 양 옆에 졸 배치해서 점프할 수 있도록 함.
+        piecePositions.put(new Position(3, 7), new Soldier(Side.CHO));
+        piecePositions.put(new Position(2, 6), new Empty());
+        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoardWithPieces(piecePositions);
+
+        List<Position> positions = modifiedBoard.computeReachableDestination(side, position);
+
+        assertAll(
+                () -> assertThat(positions).contains(new Position(4, 5)),
+                () -> assertThat(positions).doesNotContain(new Position(2, 6))
+        );
     }
 }

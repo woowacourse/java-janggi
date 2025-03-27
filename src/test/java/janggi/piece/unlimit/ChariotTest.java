@@ -20,9 +20,6 @@ class ChariotTest {
 
         List<Route> candidatePositions = chariot.computeCandidateDirections(new Position(2, 9));
 
-        for (Route candidatePosition : candidatePositions) {
-            System.out.println(candidatePosition);
-        }
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(3), //빈 리스트는 제외
                 () -> assertThat(candidatePositions).anySatisfy(route -> {
@@ -51,6 +48,41 @@ class ChariotTest {
                 () -> assertThat(candidateDirections).anySatisfy(route -> {
                         assertThat(route.getPositions()).contains(new Position(5, 6));
                     })
+        );
+    }
+
+    @Test
+    @DisplayName("궁성의 중앙에 위치하면, 대각선 이동 포함 총 8개의 이동 가능 방향 리스트 반환 테스트")
+    void test3() {
+        Chariot chariot = new Chariot(Side.CHO);
+        List<Route> candidateDirections = chariot.computeCandidateDirections(new Position(4, 8));
+
+        assertAll(
+                () -> assertThat(candidateDirections.size()).isEqualTo(8),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(3, 7));
+                }),
+                ()-> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(4, 9));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(5, 7));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(4, 0));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(0, 8));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(8, 8));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(5, 9));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(3, 9));
+                })
         );
     }
 }

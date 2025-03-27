@@ -13,4 +13,12 @@ public class JanggiBoardFixture {
         newJanggiBoard.put(position, piece);
         return new JanggiBoard(newJanggiBoard);
     }
+
+    public static JanggiBoard setUpTestBoardWithPieces(final Map<Position, Piece> piecePositions) {
+        JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
+
+        Map<Position, Piece> newJanggiBoard = janggiBoard.getBoard();
+        newJanggiBoard.putAll(piecePositions);
+        return new JanggiBoard(newJanggiBoard);
+    }
 }

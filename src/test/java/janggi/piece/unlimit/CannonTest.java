@@ -1,20 +1,15 @@
 package janggi.piece.unlimit;
 
-import janggi.board.JanggiBoard;
 import janggi.board.Position;
 import janggi.move.Route;
-import janggi.piece.Empty;
-import janggi.piece.Piece;
 import janggi.piece.Side;
-import janggi.view.OutputView;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class CannonTest {
 
@@ -37,7 +32,7 @@ class CannonTest {
     }
 
     @Test
-    @DisplayName("궁성에 위치하면, 총 8개의 이동 가능 방향 리스트 반환 테스트")
+    @DisplayName("궁성에 위치하면, 총 4개의 이동 가능 방향 리스트 반환 테스트")
     void test2() {
         Cannon cannon = new Cannon(Side.CHO);
         List<Route> candidateDirections = cannon.computeCandidateDirections(new Position(5, 9));
@@ -52,6 +47,41 @@ class CannonTest {
                 }),
                 () -> assertThat(candidateDirections).anySatisfy(route -> {
                     assertThat(route.getPositions()).contains(new Position(5, 6));
+                })
+        );
+    }
+
+    @Test
+    @DisplayName("궁성의 중앙에 위치하면, 총 4개의 이동 가능 방향 리스트 반환 테스트 (대각선 이동 불가)")
+    void test3() {
+        Chariot chariot = new Chariot(Side.CHO);
+        List<Route> candidateDirections = chariot.computeCandidateDirections(new Position(4, 8));
+
+        assertAll(
+                () -> assertThat(candidateDirections.size()).isEqualTo(8),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(3, 7));
+                }),
+                ()-> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(4, 9));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(5, 7));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(4, 0));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(0, 8));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(8, 8));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(5, 9));
+                }),
+                () -> assertThat(candidateDirections).anySatisfy(route -> {
+                    assertThat(route.getPositions()).contains(new Position(3, 9));
                 })
         );
     }
