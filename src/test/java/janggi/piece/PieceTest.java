@@ -66,6 +66,11 @@ class PieceTest {
         public PieceSymbol getPieceSymbol() {
             return PieceSymbol.GENERAL;
         }
+
+        @Override
+        public int getPoint() {
+            return 0;
+        }
     }
 
     static class NeverCaptureTestPiece extends Piece {
@@ -86,6 +91,11 @@ class PieceTest {
         @Override
         public PieceSymbol getPieceSymbol() {
             return PieceSymbol.GENERAL;
+        }
+
+        @Override
+        public int getPoint() {
+            return 0;
         }
     }
 }

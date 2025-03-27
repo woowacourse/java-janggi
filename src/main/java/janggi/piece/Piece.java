@@ -19,6 +19,8 @@ public abstract class Piece {
 
     public abstract PieceSymbol getPieceSymbol();
 
+    public abstract int getPoint();
+
     public final void validateCatch(Piece otherPiece) {
         if (!canCapture(otherPiece)) {
             throw new IllegalArgumentException("해당 기물을 잡을 수 없습니다.");

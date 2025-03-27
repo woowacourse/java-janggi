@@ -81,5 +81,10 @@ class PalaceAffectedPieceTest {
         public PieceSymbol getPieceSymbol() {
             return null;
         }
+
+        @Override
+        public int getPoint() {
+            return 0;
+        }
     }
 }

@@ -135,6 +135,21 @@ class ChariotTest {
                 .isSameAs(PieceSymbol.CHARIOT);
     }
 
+    @DisplayName("자신의 점수를 반환한다.")
+    @Test
+    void getPointTest() {
+        // given
+        Board board = new Board();
+        Chariot chariot = new Chariot(Camp.CHU, board);
+
+        // when
+        int point = chariot.getPoint();
+
+        // then
+        assertThat(point)
+                .isEqualTo(13);
+    }
+
     @Nested
     class WithPalaceTest {
 

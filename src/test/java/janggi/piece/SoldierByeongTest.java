@@ -114,6 +114,21 @@ class SoldierByeongTest {
                 .isSameAs(PieceSymbol.SOLDIER_BYEONG);
     }
 
+    @DisplayName("자신의 점수를 반환한다.")
+    @Test
+    void getPointTest() {
+        // given
+        Board board = new Board();
+        SoldierByeong soldierByeong = new SoldierByeong(board);
+
+        // when
+        int point = soldierByeong.getPoint();
+
+        // then
+        assertThat(point)
+                .isEqualTo(2);
+    }
+
     @Nested
     class WithPalaceTest {
 

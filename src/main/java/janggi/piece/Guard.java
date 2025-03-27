@@ -21,12 +21,17 @@ public final class Guard extends PalaceRestrictedPiece {
     }
 
     @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
+
+    @Override
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.GUARD;
     }
 
     @Override
-    protected boolean canCapture(Piece otherPiece) {
-        return getCamp() != otherPiece.getCamp();
+    public int getPoint() {
+        return PieceSymbol.GUARD.getPoint();
     }
 }

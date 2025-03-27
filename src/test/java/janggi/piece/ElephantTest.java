@@ -87,10 +87,10 @@ class ElephantTest {
     @DisplayName("상은 직선으로 한 칸, 대각선으로 두 칸 움직일 때 대각선으로 이동중 기물에 막힌 경우 예외가 발생한다.")
     @ParameterizedTest
     @CsvSource({
-//            "HAN,7,8",
+            "HAN,7,8",
             "HAN,7,2",
-//            "HAN,8,3",
-//            "HAN,3,2",
+            "HAN,8,3",
+            "HAN,3,2",
     })
     void shouldThrowException_WhenDiagonalBlocked(Camp camp, int toX, int toY) {
         // given
@@ -158,5 +158,20 @@ class ElephantTest {
         // then
         assertThat(pieceSymbol)
                 .isSameAs(PieceSymbol.ELEPHANT);
+    }
+
+    @DisplayName("자신의 점수를 반환한다.")
+    @Test
+    void getPointTest() {
+        // given
+        Board board = new Board();
+        Elephant elephant = new Elephant(Camp.HAN, board);
+
+        // when
+        int point = elephant.getPoint();
+
+        // then
+        assertThat(point)
+                .isEqualTo(3);
     }
 }

@@ -97,4 +97,19 @@ class GuardTest {
         assertThat(pieceSymbol)
                 .isSameAs(PieceSymbol.GUARD);
     }
+
+    @DisplayName("자신의 점수를 반환한다.")
+    @Test
+    void getPointTest() {
+        // given
+        Board board = new Board();
+        Guard guard = new Guard(Camp.CHU, board);
+
+        // when
+        int point = guard.getPoint();
+
+        // then
+        assertThat(point)
+                .isEqualTo(3);
+    }
 }

@@ -97,4 +97,19 @@ class GeneralTest {
         assertThat(pieceSymbol)
                 .isSameAs(PieceSymbol.GENERAL);
     }
+
+    @DisplayName("자신의 점수를 반환한다.")
+    @Test
+    void getPointTest() {
+        // given
+        Board board = new Board();
+        General general = new General(Camp.CHU, board);
+
+        // when
+        int point = general.getPoint();
+
+        // then
+        assertThat(point)
+                .isEqualTo(0);
+    }
 }

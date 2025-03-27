@@ -46,12 +46,17 @@ public final class SoldierJol extends PalaceAffectedPiece {
     }
 
     @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
+
+    @Override
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.SOLDIER_JOL;
     }
 
     @Override
-    protected boolean canCapture(Piece otherPiece) {
-        return getCamp() != otherPiece.getCamp();
+    public int getPoint() {
+        return PieceSymbol.SOLDIER_JOL.getPoint();
     }
 }

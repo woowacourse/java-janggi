@@ -97,12 +97,17 @@ public final class Chariot extends PalaceAffectedPiece {
     }
 
     @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
+
+    @Override
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.CHARIOT;
     }
 
     @Override
-    protected boolean canCapture(Piece otherPiece) {
-        return getCamp() != otherPiece.getCamp();
+    public int getPoint() {
+        return PieceSymbol.CHARIOT.getPoint();
     }
 }

@@ -124,4 +124,9 @@ public final class Cannon extends PalaceAffectedPiece {
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.CANNON;
     }
+
+    @Override
+    public int getPoint() {
+        return PieceSymbol.CANNON.getPoint();
+    }
 }

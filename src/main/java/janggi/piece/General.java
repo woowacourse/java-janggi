@@ -22,12 +22,17 @@ public final class General extends PalaceRestrictedPiece {
     }
 
     @Override
+    protected boolean canCapture(Piece otherPiece) {
+        return getCamp() != otherPiece.getCamp();
+    }
+
+    @Override
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.GENERAL;
     }
 
     @Override
-    protected boolean canCapture(Piece otherPiece) {
-        return getCamp() != otherPiece.getCamp();
+    public int getPoint() {
+        return PieceSymbol.GENERAL.getPoint();
     }
 }

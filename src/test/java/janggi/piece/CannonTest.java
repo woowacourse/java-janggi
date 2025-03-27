@@ -202,6 +202,21 @@ class CannonTest {
                 .isSameAs(PieceSymbol.CANNON);
     }
 
+    @DisplayName("자신의 점수를 반환한다.")
+    @Test
+    void getPointTest() {
+        // given
+        Board board = new Board();
+        Cannon cannon = new Cannon(Camp.CHU, board);
+
+        // when
+        int point = cannon.getPoint();
+
+        // then
+        assertThat(point)
+                .isEqualTo(7);
+    }
+
     @Nested
     class WithPalaceTest {
 

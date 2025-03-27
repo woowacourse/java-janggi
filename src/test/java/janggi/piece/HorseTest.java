@@ -130,4 +130,19 @@ class HorseTest {
         assertThat(pieceSymbol)
                 .isSameAs(PieceSymbol.HORSE);
     }
+
+    @DisplayName("자신의 점수를 반환한다.")
+    @Test
+    void getPointTest() {
+        // given
+        Board board = new Board();
+        Horse horse = new Horse(Camp.CHU, board);
+
+        // when
+        int point = horse.getPoint();
+
+        // then
+        assertThat(point)
+                .isEqualTo(5);
+    }
 }
