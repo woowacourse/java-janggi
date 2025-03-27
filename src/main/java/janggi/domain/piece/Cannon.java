@@ -22,22 +22,16 @@ public class Cannon extends Piece {
     protected Set<RawRoute> calculateRawRoutes() {
         Set<RawRoute> rawRoutes = new HashSet<>();
 
-        for (int i = position.x() + 1; i <= Board.MAX_X_POSITION; i++) {
-            List<RawPosition> rawPositions = new ArrayList<>();
-            for (int j = position.x() + 1; j <= i; j++) {
-                rawPositions.add(new RawPosition(j, position.y()));
-            }
-            rawRoutes.add(new RawRoute(rawPositions));
-        }
+        rawRoutes.addAll(makeRightRoutes());
+        rawRoutes.addAll(makeLeftRoutes());
+        rawRoutes.addAll(makeUpRoutes());
+        rawRoutes.addAll(makeDownRoutes());
 
-        for (int i = position.x() - 1; i >= Board.MIN_POSITION; i--) {
-            List<RawPosition> rawPositions = new ArrayList<>();
-            for (int j = position.x() - 1; j >= i; j--) {
-                rawPositions.add(new RawPosition(j, position.y()));
-            }
-            rawRoutes.add(new RawRoute(rawPositions));
-        }
+        return rawRoutes;
+    }
 
+    private Set<RawRoute> makeDownRoutes() {
+        Set<RawRoute> rawRoutes = new HashSet<>();
         for (int i = position.y() + 1; i <= Board.MAX_Y_POSITION; i++) {
             List<RawPosition> rawPositions = new ArrayList<>();
             for (int j = position.y() + 1; j <= i; j++) {
@@ -45,11 +39,39 @@ public class Cannon extends Piece {
             }
             rawRoutes.add(new RawRoute(rawPositions));
         }
+        return rawRoutes;
+    }
 
+    private Set<RawRoute> makeUpRoutes() {
+        Set<RawRoute> rawRoutes = new HashSet<>();
         for (int i = position.y() - 1; i >= Board.MIN_POSITION; i--) {
             List<RawPosition> rawPositions = new ArrayList<>();
             for (int j = position.y() - 1; j >= i; j--) {
                 rawPositions.add(new RawPosition(position.x(), j));
+            }
+            rawRoutes.add(new RawRoute(rawPositions));
+        }
+        return rawRoutes;
+    }
+
+    private Set<RawRoute> makeLeftRoutes() {
+        Set<RawRoute> rawRoutes = new HashSet<>();
+        for (int i = position.x() - 1; i >= Board.MIN_POSITION; i--) {
+            List<RawPosition> rawPositions = new ArrayList<>();
+            for (int j = position.x() - 1; j >= i; j--) {
+                rawPositions.add(new RawPosition(j, position.y()));
+            }
+            rawRoutes.add(new RawRoute(rawPositions));
+        }
+        return rawRoutes;
+    }
+
+    private Set<RawRoute> makeRightRoutes() {
+        Set<RawRoute> rawRoutes = new HashSet<>();
+        for (int i = position.x() + 1; i <= Board.MAX_X_POSITION; i++) {
+            List<RawPosition> rawPositions = new ArrayList<>();
+            for (int j = position.x() + 1; j <= i; j++) {
+                rawPositions.add(new RawPosition(j, position.y()));
             }
             rawRoutes.add(new RawRoute(rawPositions));
         }

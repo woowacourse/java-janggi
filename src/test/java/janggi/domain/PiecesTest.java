@@ -94,6 +94,7 @@ class PiecesTest {
                 new Position(6, 0),
                 new Position(7, 0),
                 new Position(8, 0),
+                new Position(4, 1),
                 new Position(3, 1),
                 new Position(3, 2),
                 new Position(3, 3),
