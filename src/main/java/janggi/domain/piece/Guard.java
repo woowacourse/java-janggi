@@ -51,4 +51,9 @@ public class Guard extends Piece {
                 .filter(PalaceMovement::isInsidePalace)
                 .collect(Collectors.toUnmodifiableSet());
     }
+
+    @Override
+    public double getPoints() {
+        return 3;
+    }
 }

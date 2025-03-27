@@ -78,4 +78,9 @@ public class Elephant extends Piece {
         Piece nextPiece = pieces.get(position);
         return !nextPiece.isSameSide(side);
     }
+
+    @Override
+    public double getPoints() {
+        return 3;
+    }
 }

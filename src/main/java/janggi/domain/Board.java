@@ -80,4 +80,11 @@ public class Board {
                 .count();
         return generalCount == 2;
     }
+
+    public double getTotalPoints(Side side) {
+        return pieces.values().stream()
+                .filter(piece -> piece.isSameSide(side))
+                .mapToDouble(Piece::getPoints)
+                .sum();
+    }
 }

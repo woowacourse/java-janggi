@@ -60,7 +60,7 @@ public class Viewer {
     }
 
     public void printTurnInfo(Side side) {
-        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, Formatter.formatSide(side) + "의 차례입니다."));
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, side.getName() + "의 차례입니다."));
     }
 
     public PositionDto readPieceSelection() {
@@ -95,7 +95,13 @@ public class Viewer {
         return parsePosition(input);
     }
 
-    public void winner(Side side) {
-        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, Formatter.formatSide(side) + "가 이겼습니다!"));
+    public void printWinner(Side side) {
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, side.getName() + "가 이겼습니다!"));
+    }
+
+    public void printPoints(Map<Side, Double> points) {
+        for (Map.Entry<Side, Double> entry : points.entrySet()) {
+            System.out.println(entry.getKey().getName() + ": " + entry.getValue());
+        }
     }
 }

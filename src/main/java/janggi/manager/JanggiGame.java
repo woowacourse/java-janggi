@@ -20,12 +20,13 @@ public class JanggiGame {
         repeatGameTurns();
 
         viewer.printBoard(round.getCurrentPieces());
-        viewer.winner(round.getCurrentTurn());
+        viewer.printWinner(round.getCurrentTurn());
     }
 
     private void repeatGameTurns() {
         while (round.hasBothGenerals()) {
             viewer.printBoard(round.getCurrentPieces());
+            viewer.printPoints(round.getCurrentPoints());
             viewer.printTurnInfo(round.getCurrentTurn());
 
             RecoveryUtil.executeWithRetry(this::commenceTurn);

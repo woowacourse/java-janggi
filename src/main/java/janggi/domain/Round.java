@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class Round {
 
+    private final static double HANDICAP_POINTS = 1.5;
+
     private final Board board;
     private Side currentTurn = Side.CHO;
 
@@ -33,5 +35,11 @@ public class Round {
 
     public Side getCurrentTurn() {
         return currentTurn;
+    }
+
+    public Map<Side, Double> getCurrentPoints() {
+        double choPoints = board.getTotalPoints(Side.CHO);
+        double hanPoints = board.getTotalPoints(Side.HAN) + HANDICAP_POINTS;
+        return Map.of(Side.CHO, choPoints, Side.HAN, hanPoints);
     }
 }

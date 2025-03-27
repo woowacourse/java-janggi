@@ -37,6 +37,10 @@ public abstract class Piece {
         return false;
     }
 
+    public double getPoints() {
+        return 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

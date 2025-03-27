@@ -67,4 +67,9 @@ public class Horse extends Piece {
         Piece nextPiece = pieces.get(position);
         return !nextPiece.isSameSide(side);
     }
+
+    @Override
+    public double getPoints() {
+        return 5;
+    }
 }

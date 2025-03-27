@@ -59,4 +59,9 @@ public class Soldier extends Piece {
                 .filter(availablePosition -> canMoveToPosition(pieces, availablePosition))
                 .collect(Collectors.toUnmodifiableSet());
     }
+
+    @Override
+    public double getPoints() {
+        return 2;
+    }
 }

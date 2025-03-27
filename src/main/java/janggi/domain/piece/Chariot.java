@@ -88,4 +88,9 @@ public class Chariot extends Piece {
         }
         result.add(finalPosition);
     }
+
+    @Override
+    public double getPoints() {
+        return 13;
+    }
 }

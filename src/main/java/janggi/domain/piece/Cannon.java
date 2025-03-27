@@ -112,4 +112,9 @@ public class Cannon extends Piece {
     public boolean isCannon() {
         return true;
     }
+
+    @Override
+    public double getPoints() {
+        return 7;
+    }
 }
