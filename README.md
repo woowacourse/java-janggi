@@ -108,7 +108,6 @@
 4
 
 ```
-
 ![img.png](src/main/resources/image/img.png)
 
 ```
@@ -120,9 +119,7 @@ ex) 71 72
 71 72
 
 ```
-
 ![img_1.png](src/main/resources/image/img_1.png)
-
 ```
 한나라의 순서입니다.
 
@@ -134,13 +131,11 @@ ex) 71 72
 ```
 
 ![img_2.png](src/main/resources/image/img_2.png)
-
 ```
 ... 중략 ...
 ```
 
 ![img_3.png](src/main/resources/image/img_3.png)
-
 ```
 
 왕이 잡혔습니다.
