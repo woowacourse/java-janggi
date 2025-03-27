@@ -116,14 +116,14 @@ class JanggiBoardTest {
     void test11() {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
 
-        Position position = new Position(8, 3);
+        Position position = new Position(8, 6);
         List<Position> positions = janggiBoard.computeReachableDestination(position);
 
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(2),
-                () -> assertThat(positions).contains(new Position(7, 3)),
-                () -> assertThat(positions).contains(new Position(8, 4))
+                () -> assertThat(positions).contains(new Position(7, 6)),
+                () -> assertThat(positions).contains(new Position(8, 5))
         );
     }
 

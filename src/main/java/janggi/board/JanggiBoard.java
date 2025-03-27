@@ -2,6 +2,7 @@ package janggi.board;
 
 import janggi.piece.Empty;
 import janggi.piece.Piece;
+import janggi.piece.Side;
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +21,13 @@ public class JanggiBoard {
 
     public static JanggiBoard initialize() {
         Map<Position, Piece> board = BoardInitializer.initialPieces(X_LIMIT, Y_LIMIT);
-        return new JanggiBoard(board, BoardStatus.IN_PROGRESS);
+        return new JanggiBoard(board, BoardStatus.CHO_TURN);
     }
 
     public List<Position> computeReachableDestination(final Position position) {
         Piece piece = board.get(position);
         validatePositionHasPiece(piece);
+        validateSelectCurrentTurnPiece(piece);
 
         List<Route> candidatesRoutes = piece.computeCandidatePositions(position);
         List<Position> reachableDestinations = piece.filterReachableDestinations(candidatesRoutes, this);
@@ -55,8 +57,22 @@ public class JanggiBoard {
         }
     }
 
+    public void passTurnToOpponent() {
+        if (status == BoardStatus.HAN_TURN) {
+            status = BoardStatus.CHO_TURN;
+            return;
+        }
+        if (status == BoardStatus.CHO_TURN) {
+            status = BoardStatus.HAN_TURN;
+        }
+    }
+
     public boolean isGameProgress() {
-        return status == BoardStatus.IN_PROGRESS;
+        return status == BoardStatus.CHO_TURN || status == BoardStatus.HAN_TURN;
+    }
+
+    public boolean isGameEnd() {
+        return status == BoardStatus.CHO_WIN || status == BoardStatus.HAN_WIN;
     }
 
     public boolean isPositionCannon(final Position position) {
@@ -90,6 +106,12 @@ public class JanggiBoard {
         }
     }
 
+    private void validateSelectCurrentTurnPiece(final Piece piece) {
+        if (piece.isCho() && status.getSide() == Side.HAN || piece.isHan() && status.getSide() == Side.CHO) {
+            throw new IllegalArgumentException("[ERROR] 자신의 차례에 맞는 기물을 선택해 주세요.");
+        }
+    }
+
     private void validateReachableDestinations(final List<Position> reachableDestinations) {
         if (reachableDestinations.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 이동 가능한 목적지가 존재하지 않습니다.");
@@ -107,4 +129,7 @@ public class JanggiBoard {
         return board;
     }
 
+    public BoardStatus getStatus() {
+        return status;
+    }
 }

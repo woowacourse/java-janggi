@@ -23,6 +23,7 @@ public class JanggiGame {
         while (board.isGameProgress()) {
             try {
                 outputView.printBoard(board);
+                outputView.printCurrentBoardStatus(board);
 
                 Position selectedPiecePosition = inputView.selectPiece();
                 List<Position> reachablePositions = computeReachableDestinations(selectedPiecePosition);
@@ -33,6 +34,7 @@ public class JanggiGame {
                 outputView.printExceptionMessage(e);
             }
         }
+        outputView.printCompetitionResult(board);
     }
 
     private List<Position> computeReachableDestinations(final Position selectedPiecePosition) {
@@ -45,6 +47,7 @@ public class JanggiGame {
         Position destination = inputView.askMovableDestination();
         Piece catchedPiece = board.moveOrCatchPiece(selectedPiecePosition, destination, reachablePositions);
         outputView.printMoveResult(catchedPiece);
+        board.passTurnToOpponent();
         return catchedPiece;
     }
 

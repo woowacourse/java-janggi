@@ -1,10 +1,11 @@
 package janggi.view;
 
+import janggi.board.BoardStatus;
 import janggi.board.JanggiBoard;
 import janggi.board.Position;
 import janggi.piece.Piece;
+import janggi.piece.Side;
 import janggi.view.util.PositionFormatter;
-
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,17 @@ public class OutputView {
         System.out.println("\n G: 궁, S: 사, C: 차, P: 포, M: 마, E: 상, J: 졸(병) \n");
     }
 
+    public void printCurrentBoardStatus(JanggiBoard board) {
+        BoardStatus status = board.getStatus();
+        if (status.getSide() == Side.CHO) {
+            System.out.println(ANSI_GREEN + status.getMessage() + ANSI_RESET);
+            return;
+        }
+        if (status.getSide() == Side.HAN) {
+            System.out.println(ANSI_RED + status.getMessage() + ANSI_RESET);
+        }
+    }
+
     public void printReachableDestinations(final List<Position> positions) {
         System.out.print("해당 기물은 ");
         for (Position position : positions) {
@@ -48,14 +60,21 @@ public class OutputView {
     public void printMoveResult(final Piece piece) {
         if (piece.isCho()) {
             System.out.println(ANSI_GREEN + piece.getSymbol() + ANSI_RESET + " 를 잡았습니다.");
-            return;
         }
         if (piece.isHan()) {
             System.out.println(ANSI_RED + piece.getSymbol() + ANSI_RESET + " 를 잡았습니다.");
+        }
+        System.out.println();
+    }
+
+    public void printCompetitionResult(final JanggiBoard board) {
+        if (board.isGameEnd()) {
+            printCurrentBoardStatus(board);
         }
     }
 
     public void printExceptionMessage(final Exception e) {
         System.out.println(e.getMessage());
     }
+
 }
