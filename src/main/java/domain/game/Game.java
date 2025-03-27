@@ -10,8 +10,6 @@ import view.InputView;
 import view.OutputView;
 
 public class Game {
-    public static final int QUIT = 0;
-    public static final int PLAY = 1;
     public static final int POSITION_INPUT_SIZE = 2;
     public static final int COLUMN = 0;
     public static final int ROW = 1;
@@ -27,23 +25,23 @@ public class Game {
     }
 
     public void play() {
-        int gameState = PLAY;
-        while (gameState == PLAY) {
+        GameState gameState = GameState.PLAY;
+        while (gameState == GameState.PLAY) {
             gameState = handleGameState(this::controlGame);
         }
         inputView.close();
     }
 
-    private int handleGameState(Supplier<Integer> game) {
+    private GameState handleGameState(Supplier<GameState> game) {
         try {
             return game.get();
         } catch (IllegalArgumentException exception) {
             outputView.printError(exception.getMessage());
-            return PLAY;
+            return GameState.PLAY;
         }
     }
 
-    private int controlGame() {
+    private GameState controlGame() {
         outputView.printUnits(janggi.getUnits());
 
         Position position = getPosition();
@@ -54,10 +52,10 @@ public class Game {
 
         moveAndCaptureIfEnemyExists(routes, position);
         if (janggi.isNoneEnemyUnit()) {
-            return QUIT;
+            return GameState.QUIT;
         }
         janggi.changeTurn();
-        return PLAY;
+        return GameState.PLAY;
     }
 
     private void moveAndCaptureIfEnemyExists(List<Route> routes, Position startPoint) {
