@@ -6,6 +6,7 @@ import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
+import java.util.List;
 import java.util.Scanner;
 import java.util.StringJoiner;
 
@@ -29,7 +30,27 @@ public class Viewer {
         System.out.println(Formatter.formatMessageWithHeader(ERROR_HEADER, e.getMessage()));
     }
 
-    public
+    public GameModeOption readGameModeOption() {
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, "방을 불러오시겠습니까?"));
+        System.out.println("1. 방 불러오기");
+        System.out.println("2. 새로운 게임 시작하기");
+
+        return GameModeOption.find(scanner.nextLine());
+    }
+
+    public void printGameRooms(List<String> gameRoomNames) {
+        System.out.println("현재 저장된 게임 방 내역들입니다.");
+
+        for (String gameRoomName : gameRoomNames) {
+            System.out.println("방 이름 : " + gameRoomName);
+        }
+    }
+
+    public String readGameRoomName() {
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, "방 이름을 입력해주세요"));
+
+        return scanner.nextLine();
+    }
 
     public MaSangPosition settingMaSangPlacement(Team team) {
         System.out.println(Formatter.formatSide(team) + "의 차림을 숫자로 선택해주세요");
@@ -75,8 +96,7 @@ public class Viewer {
         System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, "원하는 옵션을 선택해주세요!"));
         System.out.println("1. 기물 선택");
         System.out.println("2. 점수 확인");
-        System.out.println("3. 저장");
-        System.out.println("4. 종료");
+        System.out.println("3. 종료");
 
         return PlayerOption.find(scanner.nextLine());
     }

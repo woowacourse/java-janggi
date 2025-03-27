@@ -6,6 +6,7 @@ import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.factory.PieceFactory;
+import janggi.manager.DatabaseManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,56 +17,53 @@ import java.util.Map.Entry;
 
 public class BoardDAO {
 
-    private static final String FIND_QUERY = "SELECT PIECE_NAME FROM PIECE WHERE GAME_ROOM_NAME = ?";
     private static final String SELECT_BOARD_QUERY = "SELECT PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN FROM PIECE WHERE GAME_ROOM_NAME = ?";
     private static final String INSERT_PIECE_QUERY = "INSERT INTO PIECE(PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN, GAME_ROOM_NAME) VALUES (?, ?, ?, ?, ?)";
     private static final String MOVE_PIECE_QUERY = "UPDATE PIECE SET POSITION_ROW = ?, POSITION_COLUMN = ? WHERE POSITION_ROW = ? AND POSITION_COLUMN = ?";
+    private static final String DELETE_PIECE_QUERY = "DELETE FROM PIECE WHERE POSITION_ROW = ? AND POSITION_COLUMN = ?";
 
-    private final Connection connection;
+    private final DatabaseManager databaseManager;
 
-    public BoardDAO(Connection connection) {
-        this.connection = connection;
+    public BoardDAO(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
     }
 
-    public boolean existGame(String gameRoomName) throws SQLException {
-        try (PreparedStatement pstmt = connection.prepareStatement(FIND_QUERY)) {
-            pstmt.setString(1, gameRoomName);
-            ResultSet rs = pstmt.executeQuery();
-
-            return rs.next();
-        }
-    }
-
-    public Board toDomain(String gameRoomName) throws SQLException {
-        try (PreparedStatement pstmt = connection.prepareStatement(SELECT_BOARD_QUERY)) {
+    public Board toDomain(String gameRoomName) {
+        try (Connection connection = databaseManager.getConnection()) {
+            PreparedStatement pstmt = connection.prepareStatement(SELECT_BOARD_QUERY);
             pstmt.setString(1, gameRoomName);
             ResultSet rs = pstmt.executeQuery();
 
             return toDomain(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException("toDomain 중 오류 발생", e);
         }
     }
 
-    private Board toDomain(ResultSet rs) throws SQLException {
+    private Board toDomain(ResultSet rs) {
         Map<Position, Piece> board = new HashMap<>();
 
-        while (rs.next()) {
-            PieceType pieceType = PieceType.find(rs.getString("PIECE_NAME"));
-            Team team = Team.valueOf(rs.getString("TEAM"));
-            int row = rs.getInt("POSITION_ROW");
-            int column = rs.getInt("POSITION_COLUMN");
+        try {
+            while (rs.next()) {
+                PieceType pieceType = PieceType.find(rs.getString("PIECE_NAME"));
+                Team team = Team.valueOf(rs.getString("TEAM"));
+                int row = rs.getInt("POSITION_ROW");
+                int column = rs.getInt("POSITION_COLUMN");
 
-            Position position = Position.of(row, column);
+                Position position = Position.of(row, column);
 
-            Piece piece = PieceFactory.create(pieceType, team);
+                Piece piece = PieceFactory.create(pieceType, team);
 
-            board.put(position, piece);
+                board.put(position, piece);
+            }
+
+            return new Board(board);
+        } catch (SQLException e) {
+            throw new RuntimeException("toDomain 중 오류 발생", e);
         }
-
-        return new Board(board);
-
     }
 
-    public void saveAll(String gameRoomName, Board board) throws SQLException {
+    public void saveAll(String gameRoomName, Board board) {
         Map<Position, Piece> pieces = board.getPieceMap();
 
         for (Entry<Position, Piece> entry : pieces.entrySet()) {
@@ -77,9 +75,10 @@ public class BoardDAO {
 
     }
 
-    private void save(String gameRoomName, Position position, Piece piece) throws SQLException {
+    private void save(String gameRoomName, Position position, Piece piece) {
 
-        try (PreparedStatement pstmt = connection.prepareStatement(INSERT_PIECE_QUERY)) {
+        try (Connection connection = databaseManager.getConnection()) {
+            PreparedStatement pstmt = connection.prepareStatement(INSERT_PIECE_QUERY);
             pstmt.setString(1, piece.getName());
             pstmt.setString(2, piece.getTeam().toString());
             pstmt.setInt(3, position.getRow());
@@ -87,18 +86,33 @@ public class BoardDAO {
             pstmt.setString(5, gameRoomName);
 
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("save 중 오류 발생", e);
         }
     }
 
-    public void movePiece(Position currentPosition, Position targetPosition) throws SQLException {
-        try (PreparedStatement pstmt = connection.prepareStatement(MOVE_PIECE_QUERY)) {
-            pstmt.setInt(1, targetPosition.getRow());
-            pstmt.setInt(2, targetPosition.getColumn());
-            pstmt.setInt(3, currentPosition.getRow());
-            pstmt.setInt(4, currentPosition.getColumn());
+    public void movePiece(Position currentPosition, Position targetPosition) {
+        try (Connection conn = databaseManager.getConnection()) {
+            conn.setAutoCommit(false);
 
-            pstmt.executeUpdate();
+            PreparedStatement deleteStmt = conn.prepareStatement(DELETE_PIECE_QUERY);
+
+            deleteStmt.setInt(1, targetPosition.getRow());
+            deleteStmt.setInt(2, targetPosition.getColumn());
+
+            deleteStmt.executeUpdate();
+
+            PreparedStatement moveStmt = conn.prepareStatement(MOVE_PIECE_QUERY);
+
+            moveStmt.setInt(1, targetPosition.getRow());
+            moveStmt.setInt(2, targetPosition.getColumn());
+            moveStmt.setInt(3, currentPosition.getRow());
+            moveStmt.setInt(4, currentPosition.getColumn());
+            moveStmt.executeUpdate();
+
+            conn.commit();
+        } catch (SQLException e) {
+            throw new RuntimeException("movePiece 중 오류 발생", e);
         }
     }
-
 }

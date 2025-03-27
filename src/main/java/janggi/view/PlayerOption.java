@@ -6,8 +6,7 @@ import java.util.Arrays;
 public enum PlayerOption {
     SELECT_PIECE("1"),
     CHECK_SCORE("2"),
-    SAVE("3"),
-    CLOSE("4"),
+    CLOSE("3"),
     ;
 
     private final String input;

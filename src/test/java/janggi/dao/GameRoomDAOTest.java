@@ -17,15 +17,13 @@ import org.junit.jupiter.api.Test;
 
 class GameRoomDAOTest {
 
-    static Connection connection;
     static DatabaseManager databaseManager = DatabaseTestManger.create();
     static GameRoomDAO gameRoomDAO;
     String roomName = "room1";
 
     @BeforeAll
-    static void setUpDataBase() throws SQLException {
-        connection = databaseManager.getConnection();
-        gameRoomDAO = new GameRoomDAO(connection);
+    static void setUpDataBase() {
+        gameRoomDAO = new GameRoomDAO(databaseManager);
     }
 
     @DisplayName("게임 룸을 생성한다.")
@@ -36,7 +34,7 @@ class GameRoomDAOTest {
 
     @DisplayName("게임 룸이 존재하면 true를 반환한다.")
     @Test
-    void test2() throws SQLException {
+    void test2(){
         // given
         gameRoomDAO.create(roomName);
 
@@ -49,14 +47,14 @@ class GameRoomDAOTest {
 
     @DisplayName("게임 룸이 존재하지 않으면 false를 반환한다.")
     @Test
-    void test3() throws SQLException {
+    void test3() {
         // given & when & then
         assertThat(gameRoomDAO.exist(roomName)).isFalse();
     }
 
     @DisplayName("게임 룸이 존재하는데 생성을 하면 예외를 반환한다.")
     @Test
-    void test4() throws SQLException {
+    void test4(){
         // given
         gameRoomDAO.create(roomName);
 
@@ -67,7 +65,7 @@ class GameRoomDAOTest {
 
     @DisplayName("게임을 저장한다.")
     @Test
-    void test5() throws SQLException {
+    void test5() {
         // given
         gameRoomDAO.create(roomName);
 
@@ -85,7 +83,7 @@ class GameRoomDAOTest {
 
     @DisplayName("게임 룸을 삭제한다.")
     @Test
-    void test6() throws SQLException {
+    void test6(){
         // given
         gameRoomDAO.create(roomName);
 
@@ -98,7 +96,7 @@ class GameRoomDAOTest {
 
     @BeforeEach
     void clear() throws SQLException {
-        connection = databaseManager.getConnection();
+        Connection connection = databaseManager.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DELETE FROM game_room");

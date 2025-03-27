@@ -19,21 +19,20 @@ import org.junit.jupiter.api.Test;
 class BoardDAOTest {
 
     static final String GAME_ROOM_NAME = "room1";
-    static Connection connection;
     static DatabaseManager databaseManager = DatabaseTestManger.create();
-    BoardDAO boardDAO = new BoardDAO(connection);
+    BoardDAO boardDAO = new BoardDAO(databaseManager);
 
     @BeforeAll
     static void setupDatabase() throws SQLException {
 
         databaseManager.createTableIfNotExist();
-        connection = databaseManager.getConnection();
+        Connection connection = databaseManager.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DELETE FROM game_room");
         }
 
-        GameRoomDAO gameRoomDAO = new GameRoomDAO(connection);
+        GameRoomDAO gameRoomDAO = new GameRoomDAO(databaseManager);
         gameRoomDAO.create(GAME_ROOM_NAME);
     }
 
@@ -48,7 +47,7 @@ class BoardDAOTest {
 
     @DisplayName("보드를 게임에 저장하고 반환한다.")
     @Test
-    void test2() throws SQLException {
+    void test2() {
         // given
         Board board = BoardFixture.sangMaSangMa();
         boardDAO.saveAll(GAME_ROOM_NAME, board);
@@ -63,7 +62,7 @@ class BoardDAOTest {
 
     @DisplayName("기물을 움직일 수 있다.")
     @Test
-    void test3() throws SQLException {
+    void test3() {
         // given
         Board board = BoardFixture.sangMaSangMa();
         boardDAO.saveAll(GAME_ROOM_NAME, board);
@@ -79,11 +78,9 @@ class BoardDAOTest {
                 .doesNotThrowAnyException();
     }
 
-
-
     @AfterEach
     void clearDatabase() throws SQLException {
-        connection = databaseManager.getConnection();
+        Connection connection = databaseManager.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DELETE FROM piece");
