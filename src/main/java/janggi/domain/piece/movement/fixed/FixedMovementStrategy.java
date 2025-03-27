@@ -1,9 +1,9 @@
 package janggi.domain.piece.movement.fixed;
 
-import janggi.domain.piece.pieces.PiecesView;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.movement.MovementStrategy;
+import janggi.domain.piece.pieces.PiecesView;
 
 public abstract class FixedMovementStrategy implements MovementStrategy {
 
@@ -16,7 +16,7 @@ public abstract class FixedMovementStrategy implements MovementStrategy {
         PiecesView onPathPieces = getAllPiecesOnPath(map, origin, destination);
 
         if (!onPathPieces.isEmpty()) {
-            return onPathPieces.isEnemyOnDestination(side, destination);
+            return onPathPieces.hasOnlyOnePiece() && onPathPieces.isEnemyOnDestination(side, destination);
         }
         return true;
     }
