@@ -19,7 +19,7 @@ public class ChariotTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(3, 3);
         //when
-        chariot.attack(arrivedPosition);
+        chariot.move(arrivedPosition);
         //then
         assertThat(chariot.matchesPosition(new Position(3, 3))).isTrue();
     }
@@ -32,7 +32,7 @@ public class ChariotTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(7, 1);
         //when
-        chariot.attack(arrivedPosition);
+        chariot.move(arrivedPosition);
         //then
         assertThat(chariot.matchesPosition(new Position(7, 1))).isTrue();
     }
@@ -45,7 +45,7 @@ public class ChariotTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(9, 3);
         //when
-        chariot.attack(arrivedPosition);
+        chariot.move(arrivedPosition);
         //then
         assertThat(chariot.matchesPosition(new Position(9, 3))).isTrue();
     }
@@ -58,7 +58,7 @@ public class ChariotTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(7, 8);
         //when
-        chariot.attack(arrivedPosition);
+        chariot.move(arrivedPosition);
         //then
         assertThat(chariot.matchesPosition(new Position(7, 8))).isTrue();
     }
@@ -71,7 +71,7 @@ public class ChariotTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(7, 1);
         //when
-        chariot.attack(arrivedPosition);
+        chariot.move(arrivedPosition);
         //then
         assertThat(chariot.matchesPosition(new Position(7, 1))).isTrue();
     }
@@ -84,6 +84,6 @@ public class ChariotTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(3, 7)));
         Position arrivedPosition = new Position(7, 11);
         //when & then
-        assertThatThrownBy(() -> chariot.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> chariot.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 }

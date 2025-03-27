@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Chariot implements Piece {
-
     private static final int POSSIBLE_MOVEMENT_COUNT = 10;
-
     private static final List<List<Movement>> MOVEMENTS = List.of(
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.UP),
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.DOWN),
@@ -21,6 +19,7 @@ public class Chariot implements Piece {
 
     private final Team team;
     private Position position;
+    private boolean isLive = true;
 
     public Chariot(Team team, Position position) {
         this.team = team;
@@ -28,7 +27,7 @@ public class Chariot implements Piece {
     }
 
     @Override
-    public void attack(Position arrivedPosition) {
+    public void move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
         position = step(availableMovement, arrivedPosition);
     }
@@ -123,6 +122,16 @@ public class Chariot implements Piece {
     @Override
     public PieceType getpieceType() {
         return PieceType.CHARIOT;
+    }
+
+    @Override
+    public void receiveAttack() {
+        isLive = false;
+    }
+
+    @Override
+    public boolean isLive() {
+        return isLive;
     }
 
     @Override

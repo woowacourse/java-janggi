@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Cannon implements Piece {
-
     private static final List<List<Movement>> MOVEMENTS = List.of(
             Collections.nCopies(10, Movement.UP),
             Collections.nCopies(10, Movement.DOWN),
@@ -19,6 +18,7 @@ public class Cannon implements Piece {
 
     private final Team team;
     private Position position;
+    private boolean isLive = true;
 
     public Cannon(Team team, Position position) {
         this.team = team;
@@ -26,7 +26,7 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public void attack(Position arrivedPosition) {
+    public void move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
         position = step(availableMovement, arrivedPosition);
     }
@@ -133,6 +133,16 @@ public class Cannon implements Piece {
     @Override
     public PieceType getpieceType() {
         return PieceType.CANNON;
+    }
+
+    @Override
+    public void receiveAttack() {
+        isLive = false;
+    }
+
+    @Override
+    public boolean isLive() {
+        return isLive;
     }
 
     @Override

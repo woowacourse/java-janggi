@@ -16,19 +16,28 @@ public class Board {
         this.locatedPieces = locatedPieces;
     }
 
-    // todo attack 시 해당 위치에 적 기물이 존재하는 경우 기물을 잡습니다.
-    // todo 기물이 존재하는 경우 이동하는 기물과 위치하고 있던 기물 사이에 catch() 메시지를 전달하여 catch가 가능하면 잡고 true false 반환한다.
     public void move(Team turn, Position startPosition, Position arrivedPosition) {
         Piece attackerPiece = findByPosition(startPosition);
         checkTurn(turn, attackerPiece);
-
         boolean isOccupy = isOccupiedPosition(arrivedPosition);
         if (isOccupy) {
-            Piece targetPiece = findByPosition(arrivedPosition);
-            validateAttackingSameTeam(attackerPiece, targetPiece);
+            attackToTarget(attackerPiece, arrivedPosition);
+            return;
         }
+        move(attackerPiece, arrivedPosition);
+    }
+
+    private void attackToTarget(Piece attackerPiece, Position arrivedPosition) {
+        Piece targetPiece = findByPosition(arrivedPosition);
+        validateAttackingSameTeam(attackerPiece, targetPiece);
         validateObstacle(attackerPiece, arrivedPosition);
-        attackerPiece.attack(arrivedPosition);
+        targetPiece.receiveAttack();
+        attackerPiece.move(arrivedPosition);
+    }
+
+    private void move(Piece attackerPiece, Position arrivedPosition) {
+        validateObstacle(attackerPiece, arrivedPosition);
+        attackerPiece.move(arrivedPosition);
     }
 
     private void validateAttackingSameTeam(Piece attakerPiece, Piece targetPiece) {
@@ -46,19 +55,15 @@ public class Board {
         ;
     }
 
-    // todo 포지션에 누군가 존재하는 경우 검증 로직 진행하고 공격
-    // todo 포지션에 누군가 없으면 바로 공격
     private boolean isOccupiedPosition(Position arrivedPosition) {
         return locatedPieces.stream()
                 .anyMatch(piece -> piece.matchesPosition(arrivedPosition));
     }
 
     private boolean isExistObstacleOfPath(Piece attackerPiece, List<Position> pathPositions, List<Piece> locatedPieces) {
-
         List<Piece> obstacles = locatedPieces.stream()
                 .filter(piece -> piece.isObstacle(pathPositions))
                 .toList();
-
         if (attackerPiece.getpieceType() == PieceType.CANNON) {
             if (obstacles.size() != 1) {
                 return true;
@@ -70,11 +75,9 @@ public class Board {
             }
             return false;
         }
-
         if (obstacles.size() >= 1) {
             return true;
         }
-
         return false;
     }
 
@@ -92,8 +95,9 @@ public class Board {
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다"));
     }
 
-    // todo 불변으로 반환하 추후 살아있는 상태의 기물만 반환
-    public List<Piece> getLocatedPieces() {
-        return locatedPieces;
+    public List<Piece> extractLocatedLivePicecs() {
+        return locatedPieces.stream()
+                .filter(piece -> piece.isLive())
+                .toList();
     }
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Horse implements Piece {
-
     private static final List<List<Movement>> MOVEMENTS = List.of(
             List.of(Movement.UP, Movement.RIGHT_UP),
             List.of(Movement.UP, Movement.LEFT_UP),
@@ -22,6 +21,7 @@ public class Horse implements Piece {
 
     private final Team team;
     private Position position;
+    private boolean isLive = true;
 
     public Horse(Team team, Position position) {
         this.team = team;
@@ -29,7 +29,7 @@ public class Horse implements Piece {
     }
 
     @Override
-    public void attack(Position arrivedPosition) {
+    public void move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
         position = step(availableMovement);
     }
@@ -98,6 +98,16 @@ public class Horse implements Piece {
     @Override
     public PieceType getpieceType() {
         return PieceType.HORSE;
+    }
+
+    @Override
+    public void receiveAttack() {
+        isLive = false;
+    }
+
+    @Override
+    public boolean isLive() {
+        return isLive;
     }
 
     @Override

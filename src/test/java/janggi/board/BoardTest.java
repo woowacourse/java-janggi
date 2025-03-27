@@ -25,7 +25,7 @@ public class BoardTest {
         Position arrivedPosition = new Position(8, 1);
         //when
         board.move(Team.CHO, startPosition, arrivedPosition);
-        List<Piece> positionedPieces = board.getLocatedPieces();
+        List<Piece> positionedPieces = board.extractLocatedLivePicecs();
         Piece findPiece = positionedPieces.stream()
                 .filter(piece -> piece.matchesPosition(arrivedPosition))
                 .findFirst()

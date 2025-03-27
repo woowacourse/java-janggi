@@ -19,7 +19,7 @@ public class GuardTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(9, 5)));
         Position arrivedPosition = new Position(9, 4);
         //when
-        guard.attack(arrivedPosition);
+        guard.move(arrivedPosition);
         //then
         assertThat(guard.matchesPosition(new Position(9, 4))).isTrue();
     }
@@ -32,7 +32,7 @@ public class GuardTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(9, 5)));
         Position arrivedPosition = new Position(10, 4);
         //when
-        guard.attack(arrivedPosition);
+        guard.move(arrivedPosition);
         //then
         assertThat(guard.matchesPosition(new Position(10, 4))).isTrue();
     }
@@ -45,7 +45,7 @@ public class GuardTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(9, 5)));
         Position arrivedPosition = new Position(10, 5);
         //when
-        guard.attack(arrivedPosition);
+        guard.move(arrivedPosition);
         //then
         assertThat(guard.matchesPosition(new Position(10, 5))).isTrue();
     }
@@ -58,7 +58,7 @@ public class GuardTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(9, 5)));
         Position arrivedPosition = new Position(10, 5);
         //when
-        guard.attack(arrivedPosition);
+        guard.move(arrivedPosition);
         //then
         assertThat(guard.matchesPosition(new Position(10, 5))).isTrue();
     }
@@ -71,7 +71,7 @@ public class GuardTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(9, 4)));
         Position arrivedPosition = new Position(9, 5);
         //when
-        guard.attack(arrivedPosition);
+        guard.move(arrivedPosition);
         //then
         assertThat(guard.matchesPosition(new Position(9, 5))).isTrue();
     }
@@ -84,7 +84,7 @@ public class GuardTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(9, 4)));
         Position arrivedPosition = new Position(9, 5);
         //when
-        guard.attack(arrivedPosition);
+        guard.move(arrivedPosition);
         //then
         assertThat(guard.matchesPosition(new Position(9, 5))).isTrue();
     }
@@ -97,7 +97,7 @@ public class GuardTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(9, 4)));
         Position arrivedPosition = new Position(9, 5);
         //when
-        guard.attack(arrivedPosition);
+        guard.move(arrivedPosition);
         //then
         assertThat(guard.matchesPosition(new Position(9, 5))).isTrue();
     }
@@ -110,7 +110,7 @@ public class GuardTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(9, 4)));
         Position arrivedPosition = new Position(9, 5);
         //when
-        guard.attack(arrivedPosition);
+        guard.move(arrivedPosition);
         //then
         assertThat(guard.matchesPosition(new Position(9, 5))).isTrue();
     }
@@ -123,6 +123,6 @@ public class GuardTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(9, 6)));
         Position arrivedPosition = new Position(11, 6);
         //when & then
-        assertThatThrownBy(() -> guard.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> guard.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 }

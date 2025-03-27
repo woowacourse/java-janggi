@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class Soldier implements Piece {
-
     private final Team team;
-    private Position position;
     private final List<List<Movement>> movements;
+    private Position position;
+    private boolean isLive = true;
 
     public Soldier(Team team, Position position) {
         this.team = team;
@@ -34,7 +34,7 @@ public class Soldier implements Piece {
     }
 
     @Override
-    public void attack(Position arrivedPosition) {
+    public void move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
         position = step(availableMovement);
     }
@@ -93,6 +93,16 @@ public class Soldier implements Piece {
     @Override
     public PieceType getpieceType() {
         return PieceType.SOLDIER;
+    }
+
+    @Override
+    public void receiveAttack() {
+        isLive = false;
+    }
+
+    @Override
+    public boolean isLive() {
+        return isLive;
     }
 
     @Override

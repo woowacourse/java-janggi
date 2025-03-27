@@ -6,7 +6,7 @@ import janggi.team.Team;
 import java.util.List;
 
 public interface Piece {
-    void attack(Position arrivedPosition);
+    void move(Position arrivedPosition);
 
     List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition);
 
@@ -25,4 +25,8 @@ public interface Piece {
     Team getTeam();
 
     PieceType getpieceType();
+
+    void receiveAttack();
+
+    boolean isLive();
 }

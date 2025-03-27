@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class Guard implements Piece {
-
     private static final List<List<Movement>> MOVEMENTS = List.of(
             List.of(Movement.UP),
             List.of(Movement.DOWN),
@@ -21,6 +20,7 @@ public class Guard implements Piece {
 
     private final Team team;
     private Position position;
+    private boolean isLive = true;
 
     public Guard(Team team, Position position) {
         this.team = team;
@@ -28,7 +28,7 @@ public class Guard implements Piece {
     }
 
     @Override
-    public void attack(Position arrivedPosition) {
+    public void move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
         position = step(availableMovement);
     }
@@ -87,6 +87,16 @@ public class Guard implements Piece {
     @Override
     public PieceType getpieceType() {
         return PieceType.GUARD;
+    }
+
+    @Override
+    public void receiveAttack() {
+        isLive = false;
+    }
+
+    @Override
+    public boolean isLive() {
+        return isLive;
     }
 
     @Override

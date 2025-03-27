@@ -19,7 +19,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(5, 4);
         //when
-        horse.attack(arrivedPosition);
+        horse.move(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(5, 4))).isTrue();
     }
@@ -32,7 +32,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(5, 2);
         //when
-        horse.attack(arrivedPosition);
+        horse.move(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(5, 2))).isTrue();
     }
@@ -45,7 +45,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(6, 1);
         //when
-        horse.attack(arrivedPosition);
+        horse.move(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(6, 1))).isTrue();
     }
@@ -58,7 +58,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(8, 1);
         //when
-        horse.attack(arrivedPosition);
+        horse.move(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(8, 1))).isTrue();
     }
@@ -71,7 +71,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(6, 5);
         //when
-        horse.attack(arrivedPosition);
+        horse.move(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(6, 5))).isTrue();
     }
@@ -84,7 +84,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(8, 5);
         //when
-        horse.attack(arrivedPosition);
+        horse.move(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(8, 5))).isTrue();
     }
@@ -97,7 +97,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(9, 4);
         //when
-        horse.attack(arrivedPosition);
+        horse.move(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(9, 4))).isTrue();
     }
@@ -110,7 +110,7 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(9, 2);
         //when
-        horse.attack(arrivedPosition);
+        horse.move(arrivedPosition);
         //then
         assertThat(horse.matchesPosition(new Position(9, 2))).isTrue();
     }
@@ -123,6 +123,6 @@ public class HorseTest {
         List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(11, 2);
         //when & then
-        assertThatThrownBy(() -> horse.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> horse.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 }

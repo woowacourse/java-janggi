@@ -18,7 +18,7 @@ public class SoldierTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(6, 3);
         //when
-        soldier.attack(arrivedPosition);
+        soldier.move(arrivedPosition);
         //then
         assertThat(soldier.matchesPosition(new Position(6, 3))).isTrue();
     }
@@ -31,7 +31,7 @@ public class SoldierTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(4, 2)));
         Position arrivedPosition = new Position(5, 3);
         //when
-        soldier.attack(arrivedPosition);
+        soldier.move(arrivedPosition);
         //then
         assertThat(soldier.matchesPosition(new Position(5, 3))).isTrue();
     }
@@ -44,7 +44,7 @@ public class SoldierTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(7, 4);
         //when
-        soldier.attack(arrivedPosition);
+        soldier.move(arrivedPosition);
         //then
         assertThat(soldier.matchesPosition(new Position(7, 4))).isTrue();
     }
@@ -57,7 +57,7 @@ public class SoldierTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 4)));
         Position arrivedPosition = new Position(7, 2);
         //when
-        soldier.attack(arrivedPosition);
+        soldier.move(arrivedPosition);
         //then
         assertThat(soldier.matchesPosition(new Position(7, 2))).isTrue();
     }
@@ -70,7 +70,7 @@ public class SoldierTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 4)));
         Position arrivedPosition = new Position(8, 3);
         //when & then
-        assertThatThrownBy(() -> soldier.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> soldier.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class SoldierTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.HAN, new Position(4, 4)));
         Position arrivedPosition = new Position(3, 3);
         //when & then
-        assertThatThrownBy(() -> soldier.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> soldier.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -92,6 +92,6 @@ public class SoldierTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(11, 3);
         //when & then
-        assertThatThrownBy(() -> soldier.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> soldier.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 }

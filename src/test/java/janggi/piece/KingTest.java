@@ -19,7 +19,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(8, 5);
         //when
-        king.attack(arrivedPosition);
+        king.move(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(8, 5))).isTrue();
     }
@@ -32,7 +32,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(10, 5);
         //when
-        king.attack(arrivedPosition);
+        king.move(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(10, 5))).isTrue();
     }
@@ -45,7 +45,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(9, 6);
         //when
-        king.attack(arrivedPosition);
+        king.move(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(9, 6))).isTrue();
     }
@@ -58,7 +58,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(9, 4);
         //when
-        king.attack(arrivedPosition);
+        king.move(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(9, 4))).isTrue();
     }
@@ -71,7 +71,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(8, 6);
         //when
-        king.attack(arrivedPosition);
+        king.move(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(8, 6))).isTrue();
     }
@@ -84,7 +84,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(10, 6);
         //when
-        king.attack(arrivedPosition);
+        king.move(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(10, 6))).isTrue();
     }
@@ -97,7 +97,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(8, 4);
         //when
-        king.attack(arrivedPosition);
+        king.move(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(8, 4))).isTrue();
     }
@@ -110,7 +110,7 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(10, 4);
         //when
-        king.attack(arrivedPosition);
+        king.move(arrivedPosition);
         //then
         assertThat(king.matchesPosition(new Position(10, 4))).isTrue();
     }
@@ -123,6 +123,6 @@ public class KingTest {
         List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(9, 6)));
         Position arrivedPosition = new Position(11, 5);
         //when & then
-        assertThatThrownBy(() -> king.attack(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> king.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
 }
