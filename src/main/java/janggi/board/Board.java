@@ -51,8 +51,7 @@ public class Board {
         List<Position> pathPositions = attackerPiece.extractPathPositions(availableMovement, arrivedPosition);
         if (isExistObstacleOfPath(attackerPiece, pathPositions, locatedPieces)) {
             throw new IllegalArgumentException("이동할 수 없는 경로입니다");
-        }
-        ;
+        };
     }
 
     private boolean isOccupiedPosition(Position arrivedPosition) {
@@ -90,7 +89,7 @@ public class Board {
 
     private Piece findByPosition(Position startPosition) {
         return locatedPieces.stream()
-                .filter(piece -> piece.matchesPosition(startPosition))
+                .filter(piece -> piece.matchesPosition(startPosition) && piece.isLive())
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다"));
     }
@@ -99,5 +98,19 @@ public class Board {
         return locatedPieces.stream()
                 .filter(piece -> piece.isLive())
                 .toList();
+    }
+
+    public boolean isGameOver() {
+        long liveKingCount = locatedPieces.stream()
+                .filter(piece -> piece.isLive() && piece.getpieceType() == PieceType.KING)
+                .count();
+        return liveKingCount == 2;
+    }
+
+    public Piece extractWinnerKing() {
+        return locatedPieces.stream()
+                .filter(piece -> piece.isLive() && piece.getpieceType() == PieceType.KING)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("살아있는 왕이 존재하지 않습니다"));
     }
 }

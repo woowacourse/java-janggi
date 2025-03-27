@@ -21,7 +21,7 @@ public class JanggiGame {
         Team turn = Team.CHO;
         Board board = new Board(initialPieces);
         output.printBoard(board.extractLocatedLivePicecs());
-        while (true) {
+        while (board.isGameOver()) {
             try {
                 Map.Entry<Position, Position> moveableInfo = input.readMoveablePiece();
                 board.move(turn, moveableInfo.getKey(), moveableInfo.getValue());
@@ -31,7 +31,7 @@ public class JanggiGame {
                 System.out.println(e.getMessage());
             }
         }
-
+        output.printGameResult(board.extractWinnerKing());
     }
 
     public static Team changeTurn(Team turn) {

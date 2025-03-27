@@ -21,6 +21,11 @@ public class Output {
             PieceType.CANNON, "P"
     );
 
+    private static final Map<Team, String> TEAMS = Map.of(
+            Team.CHO,"초",
+            Team.HAN,"한"
+    );
+
     public void printBoard(List<Piece> positioningPieces) {
 
         String[][] locatedPieces = new String[10][9];
@@ -48,5 +53,9 @@ public class Output {
         }
 
         System.out.println();
+    }
+
+    public void printGameResult(Piece piece) {
+        System.out.printf("%s 진영이 승리하였습니다" ,TEAMS.get( piece.getTeam()));
     }
 }
