@@ -7,6 +7,7 @@ import move.GungMoveBehavior;
 import move.JanggiMoveBehavior;
 import move.JolMoveBehavior;
 import move.MaMoveBehavior;
+import move.SaMoveBehavior;
 import move.SangMoveBehavior;
 import piece.PieceType;
 
@@ -17,7 +18,7 @@ public enum JanggiTypeMoveBehaviorMapper {
     GUNG(PieceType.GUNG.name(), new GungMoveBehavior()),
     MA(PieceType.MA.name(), new MaMoveBehavior()),
     SANG(PieceType.SANG.name(), new SangMoveBehavior()),
-    SA(PieceType.SA.name(), new SangMoveBehavior()),
+    SA(PieceType.SA.name(), new SaMoveBehavior()),
     ;
 
     private static final String INVALID_TYPE = "지원하지 않는 타입입니다.";
