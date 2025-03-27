@@ -11,9 +11,4 @@ public class MovedGeneral extends MovedInPalace {
     public PieceState updateState() {
         return new MovedGeneral(side);
     }
-
-    @Override
-    public boolean isGeneral() {
-        return true;
-    }
 }

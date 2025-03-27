@@ -3,7 +3,6 @@ package domain;
 import domain.piece.Empty;
 import domain.piece.Piece;
 import domain.piece.Side;
-import domain.piece.state.PieceState;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +43,6 @@ public class JanggiBoard {
         List<JanggiPosition> positions = piece.getPositionsFromPatterns(beforePosition, afterPosition);
         List<Piece> hurdlePieces = getPiecesFrom(positions);
         piece.validateMove(hurdlePieces);
-
     }
 
     private List<Piece> getPiecesFrom(List<JanggiPosition> positions) {
@@ -71,7 +69,7 @@ public class JanggiBoard {
         janggiBoard.put(afterPosition, piece);
     }
 
-    public boolean isGeneralDead(PieceState targetPiece) {
+    public boolean isGeneralDead(Piece targetPiece) {
         return targetPiece.isGeneral();
     }
 

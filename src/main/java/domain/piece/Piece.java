@@ -48,6 +48,10 @@ public abstract class Piece {
         this.state = state.captured();
     }
 
+    public boolean isGeneral() {
+        return false;
+    }
+
     public Side getSide() {
         return side;
     }

@@ -14,4 +14,9 @@ public class General extends Piece {
     public PieceSymbol getPieceSymbol() {
         return PieceSymbol.GENERAL;
     }
+
+    @Override
+    public boolean isGeneral() {
+        return true;
+    }
 }

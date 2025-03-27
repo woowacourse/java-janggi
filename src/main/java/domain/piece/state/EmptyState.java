@@ -26,9 +26,4 @@ public class EmptyState implements PieceState {
     public PieceState updateState() {
         throw new UnsupportedOperationException("비어있는 칸입니다.");
     }
-
-    @Override
-    public boolean isGeneral() {
-        return false;
-    }
 }
