@@ -26,8 +26,9 @@ public class JanggiBoard {
     }
 
     public void move(Dynasty dynasty, Point from, Point to) {
+        validateExistPiece(from);
+
         Piece piece = pieces.get(from);
-        validateExistPiece(piece);
         validateMovablePiece(dynasty, piece);
 
         List<Point> movePath = piece.movePath(from, to);
@@ -40,8 +41,8 @@ public class JanggiBoard {
         return pieces.getOrDefault(point, new EmptyPiece());
     }
 
-    private void validateExistPiece(Piece piece) {
-        if (piece == null) {
+    private void validateExistPiece(Point point) {
+        if (!pieces.containsKey(point)) {
             throw new IllegalArgumentException("시작 위치에 기물이 존재하지 않습니다.");
         }
     }

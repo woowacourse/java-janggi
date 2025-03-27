@@ -19,10 +19,10 @@ class CannonTest {
     @MethodSource("provideMovablePosition")
     void movePath(Point from, Point to, List<Point> expected) {
         //given
-        Chariot ch = new Chariot(Dynasty.HAN);
+        Cannon cannon = new Cannon(Dynasty.HAN);
 
         //when
-        List<Point> points = ch.movePath(from, to);
+        List<Point> points = cannon.movePath(from, to);
 
         //then
         assertThat(points).isEqualTo(expected);

@@ -36,7 +36,7 @@ public class Fixtures {
 
     public static final Point FOUR_ONE = new Point(4, 1);
     public static final Point FOUR_TWO = new Point(4, 2);
-    public static final Point FOUR_THREE = new Point(4, 4);
+    public static final Point FOUR_THREE = new Point(4, 3);
     public static final Point FOUR_FOUR = new Point(4, 4);
     public static final Point FOUR_FIVE = new Point(4, 5);
     public static final Point FOUR_SIX = new Point(4, 6);
