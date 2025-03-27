@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
+import janggi.board.Judge;
 import janggi.board.point.Point;
 import janggi.piece.Camp;
 import janggi.piece.Piece;
@@ -23,12 +24,16 @@ public final class Application {
 
     private static void playGame(View view) {
         Board board = BoardGenerator.generate();
+        Judge judge = new Judge();
         Camp currentTurnCamp = FIRST_TURN_CAMP;
-        while (true) {
+        while (!judge.isGameOver(board)) {
+            view.displayPoint(judge.calculateScore(board));
             view.displayBoard(board.getPlacedPieces());
             playTurnUntilSuccess(view, currentTurnCamp, board);
             currentTurnCamp = currentTurnCamp.reverse();
         }
+        view.displayPoint(judge.calculateScore(board));
+        view.displayEndBanner(board.getPlacedPieces());
     }
 
     private static void playTurnUntilSuccess(View view, Camp currentTurnCamp, Board board) {
@@ -36,7 +41,7 @@ public final class Application {
             playTurn(view, currentTurnCamp, board);
         } catch (IllegalArgumentException e) {
             view.displayErrorMessage(e.getMessage());
-            playTurn(view, currentTurnCamp, board);
+            playTurnUntilSuccess(view, currentTurnCamp, board);
         }
     }
 

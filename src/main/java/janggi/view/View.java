@@ -96,4 +96,24 @@ public final class View {
     public void displayErrorMessage(String message) {
         System.out.printf((ERROR_MESSAGE_FORMAT), message);
     }
+
+    public void displayPoint(Map<Camp, Double> pointByCamp) {
+        System.out.println();
+        System.out.println("-------- 점수판 --------");
+        for (Camp camp : pointByCamp.keySet()) {
+            System.out.printf("[%s나라] %.1f점 ", CampFormatter.format(camp), pointByCamp.get(camp));
+        }
+        System.out.print("\n-----------------------");
+    }
+
+    public void displayEndBanner(Map<Point, Piece> placedPieces) {
+        displayBoard(placedPieces);
+        System.out.println("""
+                
+                
+                ====================================
+                     게임이 종료되었습니다. 감사합니다.
+                ====================================
+                """);
+    }
 }
