@@ -22,11 +22,11 @@ class PositionTest {
     @DisplayName("좌표 이동 범위 테스트")
     void test2() {
         Position position = new Position(0, 0);
-        Position movedPosition1 = position.move(Direction.UP);
+        Position movedPosition = position.move(Direction.UP);
 
         assertAll(
-                () -> assertThat(position.isOutOfRange()).isFalse(),
-                () -> assertThat(movedPosition1.isOutOfRange()).isTrue()
+                () -> assertThat(position.isInBoardRange()).isTrue(),
+                () -> assertThat(movedPosition.isInBoardRange()).isFalse()
         );
     }
 

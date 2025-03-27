@@ -14,7 +14,7 @@ class GuardTest {
 
     @Test
     @DisplayName("3, 9의 위치 (궁성의 왼쪽 아래 꼭지점)에서는 가능한 이동이 대각선 이동 포함 5개이다.")
-    void computeCandidatePositions() {
+    void test1() {
 
         Guard guard = new Guard(Side.CHO);
         Position currentPosition = new Position(3, 9);
@@ -24,7 +24,6 @@ class GuardTest {
                         .contains(
                                 new Position(4, 9),
                                 new Position(3, 8),
-                                new Position(3, 10),
                                 new Position(2, 9),
                                 new Position(4, 8)
                         );

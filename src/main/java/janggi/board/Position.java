@@ -8,7 +8,7 @@ public class Position {
 
     private static final int X_LIMIT = 9;
     private static final int Y_LIMIT = 10;
-    private static final Set<Position> palacePositions = Set.of(
+    private static final Set<Position> PALACE_POSITIONS = Set.of(
             new Position(3, 0), new Position(5, 0),
             new Position(4, 1),
             new Position(3, 2), new Position(5, 2),
@@ -30,12 +30,12 @@ public class Position {
         return new Position(x + direction.getDeltaX(), y + direction.getDeltaY());
     }
 
-    public boolean isOutOfRange() {
-        return x < 0 || y < 0 || x > X_LIMIT - 1 || y > Y_LIMIT - 1;
+    public boolean isInBoardRange() {
+        return x >= 0 && y >= 0 && x <= X_LIMIT - 1 && y <= Y_LIMIT - 1;
     }
 
     public boolean isInPalace() {
-        return palacePositions.contains(this);
+        return PALACE_POSITIONS.contains(this);
     }
 
     public boolean isPalaceCorner() {
