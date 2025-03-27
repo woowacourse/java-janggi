@@ -1,11 +1,12 @@
-package janggi.piece;
+package janggi.piece.multiplemovepiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.piece.multiplemovepiece.Cha;
-import janggi.piece.onemovepiece.Byeong;
+import janggi.piece.Piece;
+import janggi.piece.Team;
+import janggi.piece.onemovepiece.Soldier;
 import janggi.position.Position;
 import java.util.List;
 import java.util.Map;
@@ -17,48 +18,48 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ChaTest {
+class ChariotTest {
 
     @DisplayName("차는 자신의 팀과 위치를 가진다.")
     @Test
-    void chaBoardPosition() {
+    void chariotBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
         //when
-        final Cha cha = new Cha(Team.HAN, position);
+        final Chariot chariot = new Chariot(Team.HAN, position);
 
         //then
-        assertThat(cha.getBoardPosition()).isEqualTo(new Position(4, 5));
+        assertThat(chariot.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @Test
     void nonIsMove() {
         //given
-        final Cha cha = new Cha(Team.HAN, new Position(0, 0));
+        final Chariot chariot = new Chariot(Team.HAN, new Position(0, 0));
 
         //when //then
-        assertThatThrownBy(() -> cha.isMove(new Position(1, 1)))
+        assertThatThrownBy(() -> chariot.isMove(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("차는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("chaIsMovePositionProvider")
+    @MethodSource("chariotIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Cha cha = new Cha(Team.HAN, new Position(0, 0));
+        final Chariot chariot = new Chariot(Team.HAN, new Position(0, 0));
 
         //when
-        final boolean actual = cha.isMove(position);
+        final boolean actual = chariot.isMove(position);
 
         //then
         assertThat(actual).isTrue();
     }
 
-    private static Stream<Arguments> chaIsMovePositionProvider() {
+    private static Stream<Arguments> chariotIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(0, 1)),
                 Arguments.of(new Position(1, 0)));
@@ -71,10 +72,10 @@ class ChaTest {
         @DisplayName("수직으로 아래로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteVerticalDown() {
-            final Cha cha = new Cha(Team.HAN, new Position(0, 0));
+            final Chariot chariot = new Chariot(Team.HAN, new Position(0, 0));
             final Position futurePosition = new Position(5, 0);
 
-            final List<Position> actual = cha.makeRoute(futurePosition);
+            final List<Position> actual = chariot.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(1, 0),
@@ -87,10 +88,10 @@ class ChaTest {
         @DisplayName("수직으로 위로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteVerticalUp() {
-            final Cha cha = new Cha(Team.HAN, new Position(5, 0));
+            final Chariot chariot = new Chariot(Team.HAN, new Position(5, 0));
             final Position futurePosition = new Position(0, 0);
 
-            final List<Position> actual = cha.makeRoute(futurePosition);
+            final List<Position> actual = chariot.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(4, 0),
@@ -103,10 +104,10 @@ class ChaTest {
         @DisplayName("수평으로 오른쪽으로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteHorizontalRight() {
-            final Cha cha = new Cha(Team.HAN, new Position(0, 0));
+            final Chariot chariot = new Chariot(Team.HAN, new Position(0, 0));
             final Position futurePosition = new Position(0, 5);
 
-            final List<Position> actual = cha.makeRoute(futurePosition);
+            final List<Position> actual = chariot.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(0, 1),
@@ -119,10 +120,10 @@ class ChaTest {
         @DisplayName("수평으로 왼쪽으로 이동할 때 경로를 계산한다.")
         @Test
         void makeRouteHorizontalLeft() {
-            final Cha cha = new Cha(Team.HAN, new Position(0, 5));
+            final Chariot chariot = new Chariot(Team.HAN, new Position(0, 5));
             final Position futurePosition = new Position(0, 0);
 
-            final List<Position> actual = cha.makeRoute(futurePosition);
+            final List<Position> actual = chariot.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(0, 4),
@@ -136,16 +137,16 @@ class ChaTest {
         @Test
         void hasObstacle() {
             //given
-            final Cha cha = new Cha(Team.HAN, new Position(5, 5));
+            final Chariot chariot = new Chariot(Team.HAN, new Position(5, 5));
 
             final Map<Position, Piece> board = Map.of(
-                    new Position(6, 5), new Byeong(Team.HAN, new Position(6, 5))
+                    new Position(6, 5), new Soldier(Team.HAN, new Position(6, 5))
             );
 
             final Position futurePosition = new Position(7, 5);
 
             //when //then
-            assertThatThrownBy(() -> cha.checkObstacle(futurePosition, board))
+            assertThatThrownBy(() -> chariot.checkObstacle(futurePosition, board))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessageStartingWith("[ERROR]");
         }
@@ -154,16 +155,16 @@ class ChaTest {
         @Test
         void nonObstacle() {
             //given
-            final Cha cha = new Cha(Team.HAN, new Position(5, 5));
+            final Chariot chariot = new Chariot(Team.HAN, new Position(5, 5));
 
             final Map<Position, Piece> board = Map.of(
-                    new Position(7, 5), new Byeong(Team.HAN, new Position(7, 5))
+                    new Position(7, 5), new Soldier(Team.HAN, new Position(7, 5))
             );
 
             final Position futurePosition = new Position(6, 5);
 
             //when //then
-            assertThatCode(() -> cha.checkObstacle(futurePosition, board))
+            assertThatCode(() -> chariot.checkObstacle(futurePosition, board))
                     .doesNotThrowAnyException();
         }
     }

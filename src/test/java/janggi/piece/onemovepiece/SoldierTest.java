@@ -1,9 +1,9 @@
-package janggi.piece;
+package janggi.piece.onemovepiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.piece.onemovepiece.Byeong;
+import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -13,36 +13,36 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ByeongTest {
+class SoldierTest {
 
     @DisplayName("병은 자신의 팀과 위치를 가진다.")
     @Test
-    void byenogBoardPosition() {
+    void soldierBoardPosition() {
         //given
         final Position position = new Position(0, 0);
 
         //when
-        final Byeong byeong = new Byeong(Team.HAN, position);
+        final Soldier soldier = new Soldier(Team.HAN, position);
 
         //then
-        assertThat(byeong.getBoardPosition().getCol()).isEqualTo(0);
-        assertThat(byeong.getBoardPosition().getRow()).isEqualTo(0);
+        assertThat(soldier.getBoardPosition().getCol()).isEqualTo(0);
+        assertThat(soldier.getBoardPosition().getRow()).isEqualTo(0);
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면(가로,세로 한칸을 제외한 경로) 예외를 던진다.")
     @ParameterizedTest
-    @MethodSource("byeongNonIsMovePositionProvider")
+    @MethodSource("soldierNonIsMovePositionProvider")
     void nonIsMove(final Position position) {
         //given
-        final Byeong byeong = new Byeong(Team.HAN, new Position(5, 5));
+        final Soldier soldier = new Soldier(Team.HAN, new Position(5, 5));
 
         //when
-        assertThatThrownBy(() -> byeong.isMove(position))
+        assertThatThrownBy(() -> soldier.isMove(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    private static Stream<Arguments> byeongNonIsMovePositionProvider() {
+    private static Stream<Arguments> soldierNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(4, 5)),
                 Arguments.of(new Position(6, 3)),
@@ -52,19 +52,19 @@ class ByeongTest {
 
     @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("byeongIsMovePositionProvider")
+    @MethodSource("soldierIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Byeong byeong = new Byeong(Team.HAN, new Position(5, 5));
+        final Soldier soldier = new Soldier(Team.HAN, new Position(5, 5));
 
         //when
-        final boolean actual = byeong.isMove(position);
+        final boolean actual = soldier.isMove(position);
 
         //then
         assertThat(actual).isTrue();
     }
 
-    private static Stream<Arguments> byeongIsMovePositionProvider() {
+    private static Stream<Arguments> soldierIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(5, 6)),
@@ -76,11 +76,11 @@ class ByeongTest {
     @Test
     void makeRoute() {
         //given
-        final Byeong byeong = new Byeong(Team.HAN, new Position(5, 5));
+        final Soldier soldier = new Soldier(Team.HAN, new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when
-        final List<Position> actual = byeong.makeRoute(futurePosition);
+        final List<Position> actual = soldier.makeRoute(futurePosition);
 
         //then
         assertThat(actual.isEmpty()).isTrue();

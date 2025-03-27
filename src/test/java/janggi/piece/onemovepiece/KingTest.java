@@ -1,9 +1,9 @@
-package janggi.piece;
+package janggi.piece.onemovepiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.piece.onemovepiece.Janggun;
+import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -13,43 +13,43 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class JanggunTest {
+class KingTest {
 
     @DisplayName("왕은 자신의 팀과 위치를 가진다.")
     @Test
-    void janggunBoardPosition() {
+    void kingBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
         //when
-        final Janggun janggun = new Janggun(Team.HAN, position);
+        final King king = new King(Team.HAN, position);
 
         //then
-        assertThat(janggun.getBoardPosition()).isEqualTo(new Position(4, 5));
+        assertThat(king.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
-    @MethodSource("JanggunNonIsMovePositionProvider")
+    @MethodSource("kingNonIsMovePositionProvider")
     void isMoveValidate(final Position position) {
         //given
-        final Janggun janggun = new Janggun(Team.HAN, new Position(5, 5));
+        final King king = new King(Team.HAN, new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> janggun.isMove(position))
+        assertThatThrownBy(() -> king.isMove(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("왕은 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("janggunIsMovePositionProvider")
+    @MethodSource("kingIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Janggun janggun = new Janggun(Team.HAN, new Position(5, 5));
+        final King king = new King(Team.HAN, new Position(5, 5));
 
         //when
-        final boolean actual = janggun.isMove(position);
+        final boolean actual = king.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -59,17 +59,17 @@ class JanggunTest {
     @Test
     void makeRoute() {
         //given
-        final Janggun janggun = new Janggun(Team.HAN, new Position(5, 5));
+        final King king = new King(Team.HAN, new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when
-        final List<Position> actual = janggun.makeRoute(futurePosition);
+        final List<Position> actual = king.makeRoute(futurePosition);
 
         //then
         assertThat(actual.isEmpty()).isTrue();
     }
 
-    private static Stream<Arguments> JanggunNonIsMovePositionProvider() {
+    private static Stream<Arguments> kingNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(7, 5)),
                 Arguments.of(new Position(3, 5)),
@@ -82,7 +82,7 @@ class JanggunTest {
         );
     }
 
-    private static Stream<Arguments> janggunIsMovePositionProvider() {
+    private static Stream<Arguments> kingIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(5, 6)),

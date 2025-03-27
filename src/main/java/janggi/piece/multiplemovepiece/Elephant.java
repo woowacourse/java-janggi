@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Sang extends Piece {
+public class Elephant extends Piece {
 
-    public Sang(final Team team, final Position position) {
+    public Elephant(final Team team, final Position position) {
         super(new PieceProfile(PieceType.SANG, team), position);
     }
 

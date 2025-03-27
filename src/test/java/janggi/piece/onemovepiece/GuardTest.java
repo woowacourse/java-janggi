@@ -1,9 +1,9 @@
-package janggi.piece;
+package janggi.piece.onemovepiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.piece.onemovepiece.Sa;
+import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -13,43 +13,43 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class SaTest {
+class GuardTest {
 
     @DisplayName("사는 자신의 팀과 위치를 가진다.")
     @Test
-    void saBoardPosition() {
+    void guardBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
         //when
-        final Sa sa = new Sa(Team.HAN, position);
+        final Guard guard = new Guard(Team.HAN, position);
 
         //then
-        assertThat(sa.getBoardPosition()).isEqualTo(new Position(4, 5));
+        assertThat(guard.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
-    @MethodSource("saNonIsMovePositionProvider")
+    @MethodSource("guardNonIsMovePositionProvider")
     void isMoveValidate(final Position position) {
         //given
-        final Sa sa = new Sa(Team.HAN, new Position(5, 5));
+        final Guard guard = new Guard(Team.HAN, new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> sa.isMove(position))
+        assertThatThrownBy(() -> guard.isMove(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("사는 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("saIsMovePositionProvider")
+    @MethodSource("guardIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Sa sa = new Sa(Team.HAN, new Position(5, 5));
+        final Guard guard = new Guard(Team.HAN, new Position(5, 5));
 
         //when
-        final boolean actual = sa.isMove(position);
+        final boolean actual = guard.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -59,17 +59,17 @@ class SaTest {
     @Test
     void makeRoute() {
         //given
-        final Sa sa = new Sa(Team.HAN, new Position(5, 5));
+        final Guard guard = new Guard(Team.HAN, new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when
-        final List<Position> actual = sa.makeRoute(futurePosition);
+        final List<Position> actual = guard.makeRoute(futurePosition);
 
         //then
         assertThat(actual.isEmpty()).isTrue();
     }
 
-    private static Stream<Arguments> saNonIsMovePositionProvider() {
+    private static Stream<Arguments> guardNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(7, 5)),
                 Arguments.of(new Position(3, 5)),
@@ -82,7 +82,7 @@ class SaTest {
         );
     }
 
-    private static Stream<Arguments> saIsMovePositionProvider() {
+    private static Stream<Arguments> guardIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(5, 6)),

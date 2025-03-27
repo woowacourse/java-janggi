@@ -31,7 +31,7 @@ public class Board {
         final Piece removePiece = janggiBoard.remove(presentPosition);
         final Piece piece = janggiBoard.get(futurePosition);
 
-        if (isJanggunCapture(piece)) {
+        if (isKingCapture(piece)) {
             return GameState.END;
         }
 
@@ -40,8 +40,8 @@ public class Board {
         return GameState.IN_PROGRESS;
     }
 
-    private boolean isJanggunCapture(final Piece piece) {
-        return piece != null && PieceType.isJanggun(piece.getPieceProfile().getPieceType());
+    private boolean isKingCapture(final Piece piece) {
+        return piece != null && PieceType.isKing(piece.getPieceProfile().getPieceType());
     }
 
     public void validateEmptyPieceBy(final Position presentPosition) {

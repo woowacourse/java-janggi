@@ -9,41 +9,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Po extends Piece {
+public class Chariot extends Piece {
 
-    public Po(final Team team, final Position position) {
-        super(new PieceProfile(PieceType.PO, team), position);
+    public Chariot(final Team team, final Position position) {
+        super(new PieceProfile(PieceType.CHARIOT, team), position);
     }
 
     @Override
     public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        final List<Position> route = makeRoute(futurePosition);
-        validatePoMove(route, janggiBoard);
+        final List<Position> makeRoute = makeRoute(futurePosition);
+        for (final Position position : makeRoute) {
+            validateObstacle(janggiBoard, position);
+        }
     }
 
-    private void validatePoMove(final List<Position> moveRoute, final Map<Position, Piece> janggiBoard) {
-        int obstacleCount = 0;
-
-        for (final Position position : moveRoute) {
-            final Piece piece = janggiBoard.get(position);
-            if (janggiBoard.containsKey(position) && PieceType.isPo(piece.getPieceProfile().getPieceType())) {
-                throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 포가 존재합니다. 포는 포를 넘을 수 없습니다.");
-            }
-
-            if (janggiBoard.containsKey(position)) {
-                obstacleCount++;
-            }
-        }
-        validateObstacleBy(obstacleCount);
-    }
-
-    private void validateObstacleBy(final int obstacle) {
-        if (obstacle == 0) {
-            throw new IllegalArgumentException("[ERROR] 포를 이동할 수 없습니다. 포는 반드시 포를 제외한 기물 하나를 넘어야 합니다.");
-        }
-
-        if (obstacle >= 2) {
-            throw new IllegalArgumentException("[ERROR] 이동할 수 없습니다. 이동하려는 경로에 " + obstacle + "개의 장애물이 존재합니다.");
+    private void validateObstacle(final Map<Position, Piece> janggiBoard, final Position position) {
+        if (janggiBoard.containsKey(position)) {
+            throw new IllegalArgumentException("[ERROR] 차를 이동할 수 없습니다. 차는 다른 기물을 넘어 다닐 수 없습니다.");
         }
     }
 
@@ -57,6 +39,7 @@ public class Po extends Piece {
 
         verticalRoute(dx, dy, route, presentRow, presentCol);
         horizontalRoute(dy, dx, route, presentRow, presentCol);
+
         return route;
     }
 
@@ -68,7 +51,8 @@ public class Po extends Piece {
         }
     }
 
-    private void verticalUpRoute(final int dy, final List<Position> route, final int presentRow, final int presentCol) {
+    private void verticalUpRoute(final int dy, final List<Position> route, final int presentRow,
+                                 final int presentCol) {
         if (dy > 0) {
             for (int i = 1; i < dy; i++) {
                 insertRoute(route, presentRow, presentCol - i);
@@ -117,10 +101,11 @@ public class Po extends Piece {
 
     @Override
     public boolean isMove(final Position position) {
-        if (super.getBoardPosition().getRow() == position.getRow()
-                || super.getBoardPosition().getCol() == position.getCol()) {
+        if ((getBoardPosition().getRow() == position.getRow()) || (getBoardPosition().getCol() == position.getCol())) {
             return true;
         }
-        throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
+
+        throw new IllegalArgumentException("[ERROR] 차가 움직일 수 없는 위치 입니다.");
     }
+
 }

@@ -7,10 +7,10 @@ import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 
-public class Byeong extends Piece {
+public class Pawn extends Piece {
 
-    public Byeong(final Team team, final Position position) {
-        super(new PieceProfile(PieceType.BYEONG, team), position);
+    public Pawn(final Team team, final Position position) {
+        super(new PieceProfile(PieceType.PAWN, team), position);
     }
 
     @Override
@@ -23,10 +23,10 @@ public class Byeong extends Piece {
         final int dx = getBoardPosition().getRow() - position.getRow();
         final int dy = getBoardPosition().getCol() - position.getCol();
 
-        if (dx == 0 && Math.abs(dy) == 1 || dx == -1 && dy == 0) {
+        if (dx == 0 && Math.abs(dy) == 1 || dx == 1 && dy == 0) {
             return true;
         }
-
-        throw new IllegalArgumentException("[ERROR] 병이 움직일 수 없는 위치 입니다.");
+        throw new IllegalArgumentException("[ERROR] 졸이 움직일 수 없는 위치입니다.");
     }
+
 }

@@ -1,9 +1,9 @@
-package janggi.piece;
+package janggi.piece.onemovepiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.piece.onemovepiece.Jol;
+import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -13,43 +13,43 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class JolTest {
+class PawnTest {
 
     @DisplayName("졸은 자신의 팀과 위치를 가진다.")
     @Test
-    void jolBoardPosition() {
+    void pawnBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
         //when
-        final Jol jol = new Jol(Team.HAN, position);
+        final Pawn pawn = new Pawn(Team.HAN, position);
 
         //then
-        assertThat(jol.getBoardPosition()).isEqualTo(new Position(4, 5));
+        assertThat(pawn.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
-    @MethodSource("jolNonIsMovePositionProvider")
+    @MethodSource("pawnNonIsMovePositionProvider")
     void nonIsMove(final Position position) {
         //given
-        final Jol jol = new Jol(Team.HAN, new Position(5, 5));
+        final Pawn pawn = new Pawn(Team.HAN, new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> jol.isMove(position))
+        assertThatThrownBy(() -> pawn.isMove(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동이 가능하다면 true를 반환한다.")
     @ParameterizedTest
-    @MethodSource("jolIsMovePositionProvider")
+    @MethodSource("pawnIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Jol jol = new Jol(Team.HAN, new Position(5, 5));
+        final Pawn pawn = new Pawn(Team.HAN, new Position(5, 5));
 
         //when
-        final boolean actual = jol.isMove(position);
+        final boolean actual = pawn.isMove(position);
 
         //then
         assertThat(actual).isTrue();
@@ -59,24 +59,24 @@ class JolTest {
     @Test
     void makeRoute() {
         //given
-        final Jol jol = new Jol(Team.HAN, new Position(5, 5));
+        final Pawn pawn = new Pawn(Team.HAN, new Position(5, 5));
         final Position futurePosition = new Position(4, 5);
 
         //when
-        final List<Position> actual = jol.makeRoute(futurePosition);
+        final List<Position> actual = pawn.makeRoute(futurePosition);
 
         //then
         assertThat(actual.isEmpty()).isTrue();
     }
 
-    private static Stream<Arguments> jolNonIsMovePositionProvider() {
+    private static Stream<Arguments> pawnNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(6, 3)),
                 Arguments.of(new Position(6, 6)));
     }
 
-    private static Stream<Arguments> jolIsMovePositionProvider() {
+    private static Stream<Arguments> pawnIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(5, 4)),
                 Arguments.of(new Position(5, 6)),

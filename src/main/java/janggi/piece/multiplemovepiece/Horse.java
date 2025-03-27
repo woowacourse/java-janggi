@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Ma extends Piece {
+public class Horse extends Piece {
 
-    public Ma(final Team team, final Position position) {
-        super(new PieceProfile(PieceType.MA, team), position);
+    public Horse(final Team team, final Position position) {
+        super(new PieceProfile(PieceType.HORSE, team), position);
     }
 
     @Override
@@ -38,13 +38,13 @@ public class Ma extends Piece {
         final int presentCol = getBoardPosition().getCol();
         final int presentRow = getBoardPosition().getRow();
 
-        verticalRoute(dx, dy, route, presentRow, presentCol);
-        horizontalRoute(dy, dx, route, presentRow, presentCol);
+        verticalRoute(dx, route, presentRow, presentCol);
+        horizontalRoute(dy, route, presentRow, presentCol);
 
         return route;
     }
 
-    private void verticalRoute(final int dx, final int dy, final List<Position> route, final int presentRow,
+    private void verticalRoute(final int dx, final List<Position> route, final int presentRow,
                                final int presentCol) {
         verticalUp(dx, route, presentRow, presentCol);
         verticalDown(dx, route, presentRow, presentCol);
@@ -64,7 +64,7 @@ public class Ma extends Piece {
         }
     }
 
-    private void horizontalRoute(final int dy, final int dx, final List<Position> route, final int presentRow,
+    private void horizontalRoute(final int dy, final List<Position> route, final int presentRow,
                                  final int presentCol) {
         horizontalLeft(dy, route, presentRow, presentCol);
         horizontalRight(dy, route, presentRow, presentCol);

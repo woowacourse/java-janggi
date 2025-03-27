@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.position.Position;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -56,10 +55,6 @@ class PieceTest {
 
         protected StubPiece(final Team team, final Position position) {
             super(new PieceProfile(null, team), position);
-        }
-
-        @Override
-        public void checkObstacle(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
         }
 
         @Override

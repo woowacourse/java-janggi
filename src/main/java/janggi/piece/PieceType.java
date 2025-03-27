@@ -2,13 +2,13 @@ package janggi.piece;
 
 public enum PieceType {
 
-    BYEONG("병"),
-    CHA("차"),
-    JANGGUN("왕"),
-    JOL("졸"),
-    MA("마"),
-    PO("포"),
-    SA("사"),
+    SOLDIER("병"),
+    CHARIOT("차"),
+    KING("왕"),
+    PAWN("졸"),
+    HORSE("마"),
+    CANNON("포"),
+    GUARD("사"),
     SANG("상"),
     ;
 
@@ -18,12 +18,12 @@ public enum PieceType {
         this.name = name;
     }
 
-    public static boolean isJanggun(final PieceType pieceType) {
-        return JANGGUN.equals(pieceType);
+    public static boolean isKing(final PieceType pieceType) {
+        return KING.equals(pieceType);
     }
 
-    public static boolean isPo(final PieceType pieceType) {
-        return PO.equals(pieceType);
+    public static boolean isCannon(final PieceType pieceType) {
+        return CANNON.equals(pieceType);
     }
 
     public String getValue() {

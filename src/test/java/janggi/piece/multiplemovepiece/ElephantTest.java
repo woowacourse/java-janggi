@@ -1,11 +1,11 @@
-package janggi.piece;
+package janggi.piece.multiplemovepiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.piece.multiplemovepiece.Cha;
-import janggi.piece.multiplemovepiece.Sang;
+import janggi.piece.Piece;
+import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 import java.util.Map;
@@ -17,35 +17,35 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class SangTest {
+class ElephantTest {
 
     @DisplayName("상은 자신의 팀과 위치를 가진다.")
     @Test
-    void sangBoardPosition() {
+    void elephantBoardPosition() {
         //given
         final Position position = new Position(4, 5);
 
         //when
-        final Sang sang = new Sang(Team.HAN, position);
+        final Elephant elephant = new Elephant(Team.HAN, position);
 
         //then
-        assertThat(sang.getBoardPosition()).isEqualTo(new Position(4, 5));
+        assertThat(elephant.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @ParameterizedTest
-    @MethodSource("sangNonIsMovePositionProvider")
+    @MethodSource("elephantNonIsMovePositionProvider")
     void nonIsMove(final Position position) {
         //given
-        final Sang sang = new Sang(Team.HAN, new Position(5, 5));
+        final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> sang.isMove(position))
+        assertThatThrownBy(() -> elephant.isMove(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    private static Stream<Arguments> sangNonIsMovePositionProvider() {
+    private static Stream<Arguments> elephantNonIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(2, 5)),
                 Arguments.of(new Position(2, 4)),
@@ -64,19 +64,19 @@ class SangTest {
 
     @DisplayName("상은 자신의 위치를 기준으로 직선으로 한칸 대각선으로 두칸 이동할 수 있다.")
     @ParameterizedTest
-    @MethodSource("sangIsMovePositionProvider")
+    @MethodSource("elephantIsMovePositionProvider")
     void isMove(final Position position) {
         //given
-        final Sang sang = new Sang(Team.HAN, new Position(5, 5));
+        final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
 
         //when
-        final boolean actual = sang.isMove(position);
+        final boolean actual = elephant.isMove(position);
 
         //then
         assertThat(actual).isTrue();
     }
 
-    private static Stream<Arguments> sangIsMovePositionProvider() {
+    private static Stream<Arguments> elephantIsMovePositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(2, 3)),
                 Arguments.of(new Position(2, 7)),
@@ -96,10 +96,10 @@ class SangTest {
         @DisplayName("자신의 위치에서 위로 한칸 이동 후 왼쪽 대각선으로 두칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase1() {
-            final Sang sang = new Sang(Team.HAN, new Position(5, 5));
+            final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
             final Position futurePosition = new Position(2, 3);
 
-            final List<Position> actual = sang.makeRoute(futurePosition);
+            final List<Position> actual = elephant.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(4, 5),
@@ -110,10 +110,10 @@ class SangTest {
         @DisplayName("자신의 위치에서 위로 한칸 이동 후 오른쪽 대각선으로 두칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase2() {
-            final Sang sang = new Sang(Team.HAN, new Position(5, 5));
+            final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
             final Position futurePosition = new Position(2, 7);
 
-            final List<Position> actual = sang.makeRoute(futurePosition);
+            final List<Position> actual = elephant.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(4, 5),
@@ -124,10 +124,10 @@ class SangTest {
         @DisplayName("자신의 위치에서 오른쪽으로 한칸 이동 후 왼쪽 대각선으로 두칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase3() {
-            final Sang sang = new Sang(Team.HAN, new Position(5, 5));
+            final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
             final Position futurePosition = new Position(3, 8);
 
-            final List<Position> actual = sang.makeRoute(futurePosition);
+            final List<Position> actual = elephant.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(5, 6),
@@ -138,10 +138,10 @@ class SangTest {
         @DisplayName("자신의 위치에서 오른쪽으로 한칸 이동 후 오른쪽 대각선으로 두칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase4() {
-            final Sang sang = new Sang(Team.HAN, new Position(5, 5));
+            final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
             final Position futurePosition = new Position(7, 8);
 
-            final List<Position> actual = sang.makeRoute(futurePosition);
+            final List<Position> actual = elephant.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(5, 6),
@@ -152,10 +152,10 @@ class SangTest {
         @DisplayName("자신의 위치에서 아래쪽으로 한칸 이동 후 왼쪽 대각선으로 두칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase5() {
-            final Sang sang = new Sang(Team.HAN, new Position(5, 5));
+            final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
             final Position futurePosition = new Position(8, 7);
 
-            final List<Position> actual = sang.makeRoute(futurePosition);
+            final List<Position> actual = elephant.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(6, 5),
@@ -166,10 +166,10 @@ class SangTest {
         @DisplayName("자신의 위치에서 아래쪽으로 한칸 이동 후 오른쪽 대각선으로 두칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase6() {
-            final Sang sang = new Sang(Team.HAN, new Position(5, 5));
+            final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
             final Position futurePosition = new Position(8, 3);
 
-            final List<Position> actual = sang.makeRoute(futurePosition);
+            final List<Position> actual = elephant.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(6, 5),
@@ -180,10 +180,10 @@ class SangTest {
         @DisplayName("자신의 위치에서 왼쪽으로 한칸 이동 후 왼쪽 대각선으로 두칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase7() {
-            final Sang sang = new Sang(Team.HAN, new Position(5, 5));
+            final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
             final Position futurePosition = new Position(7, 2);
 
-            final List<Position> actual = sang.makeRoute(futurePosition);
+            final List<Position> actual = elephant.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(5, 4),
@@ -194,10 +194,10 @@ class SangTest {
         @DisplayName("자신의 위치에서 왼쪽으로 한칸 이동 후 오른쪽 대각선으로 두칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase8() {
-            final Sang sang = new Sang(Team.HAN, new Position(5, 5));
+            final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
             final Position futurePosition = new Position(3, 2);
 
-            final List<Position> actual = sang.makeRoute(futurePosition);
+            final List<Position> actual = elephant.makeRoute(futurePosition);
 
             assertThat(actual).containsExactly(
                     new Position(5, 4),
@@ -210,16 +210,16 @@ class SangTest {
     @Test
     void hasObstacle() {
         //given
-        final Sang sang = new Sang(Team.HAN, new Position(0, 7));
+        final Elephant elephant = new Elephant(Team.HAN, new Position(0, 7));
 
         final Map<Position, Piece> board = Map.of(
-                new Position(1, 7), new Cha(Team.HAN, new Position(1, 7))
+                new Position(1, 7), new Chariot(Team.HAN, new Position(1, 7))
         );
 
         final Position futurePosition = new Position(3, 5);
 
         //when //then
-        assertThatThrownBy(() -> sang.checkObstacle(futurePosition, board))
+        assertThatThrownBy(() -> elephant.checkObstacle(futurePosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -228,16 +228,16 @@ class SangTest {
     @Test
     void nonObstacle() {
         //given
-        final Sang sang = new Sang(Team.HAN, new Position(0, 7));
+        final Elephant elephant = new Elephant(Team.HAN, new Position(0, 7));
 
         final Map<Position, Piece> board = Map.of(
-                new Position(2, 7), new Cha(Team.HAN, new Position(2, 7))
+                new Position(2, 7), new Chariot(Team.HAN, new Position(2, 7))
         );
 
         final Position futurePosition = new Position(3, 5);
 
         //when //then
-        assertThatCode(() -> sang.checkObstacle(futurePosition, board))
+        assertThatCode(() -> elephant.checkObstacle(futurePosition, board))
                 .doesNotThrowAnyException();
     }
 }

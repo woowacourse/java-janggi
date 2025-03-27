@@ -11,7 +11,7 @@ class PieceProfileTest {
     @Test
     void profile() {
         //given
-        final PieceType pieceType = PieceType.PO;
+        final PieceType pieceType = PieceType.CANNON;
         final Team team = Team.CHO;
 
         //when //then

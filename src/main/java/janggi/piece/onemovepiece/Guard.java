@@ -7,10 +7,10 @@ import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 
-public class Sa extends Piece {
+public class Guard extends Piece {
 
-    public Sa(final Team team, final Position position) {
-        super(new PieceProfile(PieceType.SA, team), position);
+    public Guard(final Team team, final Position position) {
+        super(new PieceProfile(PieceType.GUARD, team), position);
     }
 
     @Override

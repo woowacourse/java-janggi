@@ -6,9 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.GameState;
 import janggi.piece.Piece;
 import janggi.piece.Team;
-import janggi.piece.multiplemovepiece.Cha;
-import janggi.piece.onemovepiece.Byeong;
-import janggi.piece.onemovepiece.Janggun;
+import janggi.piece.multiplemovepiece.Chariot;
+import janggi.piece.onemovepiece.King;
+import janggi.piece.onemovepiece.Soldier;
 import janggi.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,7 @@ class BoardTest {
     void emptyPieceByPosition() {
         //given
         final List<Piece> pieces = List.of(
-                new Byeong(Team.HAN, new Position(3, 2))
+                new Soldier(Team.HAN, new Position(3, 2))
         );
 
         final Board board = new Board(pieces);
@@ -53,8 +53,8 @@ class BoardTest {
     void exceptionObstacle() {
         //given
         final List<Piece> pieces = List.of(
-                new Cha(Team.HAN, new Position(4, 2)),
-                new Byeong(Team.HAN, new Position(7, 2))
+                new Chariot(Team.HAN, new Position(4, 2)),
+                new Soldier(Team.HAN, new Position(7, 2))
         );
 
         final Position presentPosition = new Position(4, 2);
@@ -73,7 +73,7 @@ class BoardTest {
     void pieceMove() {
         //given
         final List<Piece> pieces = List.of(
-                new Byeong(Team.HAN, new Position(3, 2))
+                new Soldier(Team.HAN, new Position(3, 2))
         );
 
         final Board board = new Board(pieces);
@@ -86,17 +86,17 @@ class BoardTest {
 
         //then
         final Piece actual = board.getJanggiBoard().get(futurePosition);
-        assertThat(actual).isEqualTo(new Byeong(Team.HAN,
+        assertThat(actual).isEqualTo(new Soldier(Team.HAN,
                 new Position(4, 2)));
     }
 
     @DisplayName("왕이 죽으면 게임이 종료 상태가 된다.")
     @Test
-    void jaggunDeadEndState() {
+    void kingDeadEndState() {
         //given
         final List<Piece> pieces = List.of(
-                new Byeong(Team.HAN, new Position(3, 2)),
-                new Janggun(Team.CHO, new Position(4, 2))
+                new Soldier(Team.HAN, new Position(3, 2)),
+                new King(Team.CHO, new Position(4, 2))
         );
 
         final Board board = new Board(pieces);
@@ -113,11 +113,11 @@ class BoardTest {
 
     @DisplayName("왕이 죽지 않으면 게임이 진행 상태가 된다.")
     @Test
-    void nonJaggunDeadEndState() {
+    void nonKingDeadEndState() {
         //given
         final List<Piece> pieces = List.of(
-                new Byeong(Team.HAN, new Position(3, 2)),
-                new Janggun(Team.CHO, new Position(5, 2))
+                new Soldier(Team.HAN, new Position(3, 2)),
+                new King(Team.CHO, new Position(5, 2))
         );
 
         final Board board = new Board(pieces);
