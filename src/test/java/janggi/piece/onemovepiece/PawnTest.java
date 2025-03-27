@@ -1,6 +1,7 @@
 package janggi.piece.onemovepiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.piece.Team;
@@ -28,31 +29,43 @@ class PawnTest {
         assertThat(pawn.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
-    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
+    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 반환한다.")
     @ParameterizedTest
-    @MethodSource("pawnNonIsMovePositionProvider")
-    void nonIsMove(final Position position) {
+    @MethodSource("pawnNonCanMoveByPositionProvider")
+    void nonCanMoveBy(final Position position) {
         //given
         final Pawn pawn = new Pawn(Team.HAN, new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> pawn.isMove(position))
+        assertThatThrownBy(() -> pawn.canMoveBy(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동이 가능하다면 true를 반환한다.")
+    private static Stream<Arguments> pawnNonCanMoveByPositionProvider() {
+        return Stream.of(
+                Arguments.of(new Position(6, 5)),
+                Arguments.of(new Position(6, 3)),
+                Arguments.of(new Position(6, 6)));
+    }
+
+    @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동이 가능하다면 예외를 반환하지 않는다.")
     @ParameterizedTest
-    @MethodSource("pawnIsMovePositionProvider")
-    void isMove(final Position position) {
+    @MethodSource("pawnCanMoveByPositionProvider")
+    void canMoveBy(final Position position) {
         //given
         final Pawn pawn = new Pawn(Team.HAN, new Position(5, 5));
 
-        //when
-        final boolean actual = pawn.isMove(position);
+        //when //then
+        assertThatCode(() -> pawn.canMoveBy(position))
+                .doesNotThrowAnyException();
+    }
 
-        //then
-        assertThat(actual).isTrue();
+    private static Stream<Arguments> pawnCanMoveByPositionProvider() {
+        return Stream.of(
+                Arguments.of(new Position(5, 4)),
+                Arguments.of(new Position(5, 6)),
+                Arguments.of(new Position(4, 5)));
     }
 
     @DisplayName("졸은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
@@ -67,19 +80,5 @@ class PawnTest {
 
         //then
         assertThat(actual.isEmpty()).isTrue();
-    }
-
-    private static Stream<Arguments> pawnNonIsMovePositionProvider() {
-        return Stream.of(
-                Arguments.of(new Position(6, 5)),
-                Arguments.of(new Position(6, 3)),
-                Arguments.of(new Position(6, 6)));
-    }
-
-    private static Stream<Arguments> pawnIsMovePositionProvider() {
-        return Stream.of(
-                Arguments.of(new Position(5, 4)),
-                Arguments.of(new Position(5, 6)),
-                Arguments.of(new Position(4, 5)));
     }
 }

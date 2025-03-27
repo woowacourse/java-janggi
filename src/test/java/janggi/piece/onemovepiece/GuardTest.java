@@ -1,6 +1,7 @@
 package janggi.piece.onemovepiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.piece.Team;
@@ -28,31 +29,29 @@ class GuardTest {
         assertThat(guard.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
-    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
+    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 반환한다.")
     @ParameterizedTest
-    @MethodSource("guardNonIsMovePositionProvider")
-    void isMoveValidate(final Position position) {
+    @MethodSource("guardNonCanMoveByPositionProvider")
+    void canMoveByValidate(final Position position) {
         //given
         final Guard guard = new Guard(Team.HAN, new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> guard.isMove(position))
+        assertThatThrownBy(() -> guard.canMoveBy(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("사는 상하좌우 한칸을 움직일 수 있다면 true를 반환한다.")
+    @DisplayName("사는 상하좌우 한칸을 움직일 수 있다면 예외를 반환하지 않는다.")
     @ParameterizedTest
-    @MethodSource("guardIsMovePositionProvider")
-    void isMove(final Position position) {
+    @MethodSource("guardCanMoveByPositionProvider")
+    void canMoveBy(final Position position) {
         //given
         final Guard guard = new Guard(Team.HAN, new Position(5, 5));
 
-        //when
-        final boolean actual = guard.isMove(position);
-
-        //then
-        assertThat(actual).isTrue();
+        //when //then
+        assertThatCode(() -> guard.canMoveBy(position))
+                .doesNotThrowAnyException();
     }
 
     @DisplayName("사는 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
@@ -69,7 +68,7 @@ class GuardTest {
         assertThat(actual.isEmpty()).isTrue();
     }
 
-    private static Stream<Arguments> guardNonIsMovePositionProvider() {
+    private static Stream<Arguments> guardNonCanMoveByPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(7, 5)),
                 Arguments.of(new Position(3, 5)),
@@ -82,7 +81,7 @@ class GuardTest {
         );
     }
 
-    private static Stream<Arguments> guardIsMovePositionProvider() {
+    private static Stream<Arguments> guardCanMoveByPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(5, 6)),

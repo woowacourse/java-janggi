@@ -1,6 +1,7 @@
 package janggi.piece.onemovepiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.piece.Team;
@@ -25,24 +26,24 @@ class SoldierTest {
         final Soldier soldier = new Soldier(Team.HAN, position);
 
         //then
-        assertThat(soldier.getBoardPosition().getCol()).isEqualTo(0);
-        assertThat(soldier.getBoardPosition().getRow()).isEqualTo(0);
+        assertThat(soldier.getBoardPosition().col()).isEqualTo(0);
+        assertThat(soldier.getBoardPosition().row()).isEqualTo(0);
     }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면(가로,세로 한칸을 제외한 경로) 예외를 던진다.")
     @ParameterizedTest
-    @MethodSource("soldierNonIsMovePositionProvider")
-    void nonIsMove(final Position position) {
+    @MethodSource("soldierNonCanMoveByPositionProvider")
+    void nonCanMoveBy(final Position position) {
         //given
         final Soldier soldier = new Soldier(Team.HAN, new Position(5, 5));
 
         //when
-        assertThatThrownBy(() -> soldier.isMove(position))
+        assertThatThrownBy(() -> soldier.canMoveBy(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    private static Stream<Arguments> soldierNonIsMovePositionProvider() {
+    private static Stream<Arguments> soldierNonCanMoveByPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(4, 5)),
                 Arguments.of(new Position(6, 3)),
@@ -50,21 +51,19 @@ class SoldierTest {
         );
     }
 
-    @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 true를 반환한다.")
+    @DisplayName("자신의 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 예외를 던지지 않는다.")
     @ParameterizedTest
-    @MethodSource("soldierIsMovePositionProvider")
-    void isMove(final Position position) {
+    @MethodSource("soldierCanMoveByPositionProvider")
+    void canMoveBy(final Position position) {
         //given
         final Soldier soldier = new Soldier(Team.HAN, new Position(5, 5));
 
-        //when
-        final boolean actual = soldier.isMove(position);
-
-        //then
-        assertThat(actual).isTrue();
+        //when //then
+        assertThatCode(() -> soldier.canMoveBy(position))
+                .doesNotThrowAnyException();
     }
 
-    private static Stream<Arguments> soldierIsMovePositionProvider() {
+    private static Stream<Arguments> soldierCanMoveByPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(5, 6)),

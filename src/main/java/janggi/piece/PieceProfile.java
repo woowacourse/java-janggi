@@ -13,7 +13,7 @@ public class PieceProfile {
     }
 
     public boolean isCho() {
-        return Team.isCho(this.team);
+        return Team.isChu(this.team);
     }
 
     public boolean isHan() {

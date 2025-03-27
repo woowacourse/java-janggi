@@ -10,7 +10,7 @@ import janggi.view.OutputView;
 
 public class JanggiGame {
 
-    private static final Team FIRST_TURN_TEAM = Team.CHO;
+    private static final Team FIRST_TURN_TEAM = Team.CHU;
 
     private final OutputView outputView;
     private final InputView inputView;
@@ -57,7 +57,6 @@ public class JanggiGame {
             playTurn(board, currentTurnTeam);
         }
     }
-
 
     private void validateCurrentTeamBy(final Board board, final Position presentPosition, final Team currentTurnTeam) {
         final Piece piece = board.getJanggiBoard().get(presentPosition);

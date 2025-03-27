@@ -50,10 +50,10 @@ public class Cannon extends Piece {
     @Override
     public List<Position> makeRoute(final Position position) {
         final List<Position> route = new ArrayList<>();
-        final int dx = getBoardPosition().getRow() - position.getRow();
-        final int dy = getBoardPosition().getCol() - position.getCol();
-        final int presentCol = getBoardPosition().getCol();
-        final int presentRow = getBoardPosition().getRow();
+        final int dx = getBoardPosition().row() - position.row();
+        final int dy = getBoardPosition().col() - position.col();
+        final int presentCol = getBoardPosition().col();
+        final int presentRow = getBoardPosition().row();
 
         verticalRoute(dx, dy, route, presentRow, presentCol);
         horizontalRoute(dy, dx, route, presentRow, presentCol);
@@ -116,11 +116,14 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean isMove(final Position position) {
-        if (super.getBoardPosition().getRow() == position.getRow()
-                || super.getBoardPosition().getCol() == position.getCol()) {
-            return true;
+    public void canMoveBy(final Position position) {
+        if (isNotMove(position)) {
+            throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
         }
-        throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
+    }
+
+    private boolean isNotMove(final Position position) {
+        return getBoardPosition().row() != position.row()
+                && getBoardPosition().col() != position.col();
     }
 }

@@ -16,7 +16,7 @@ public abstract class Piece {
     }
 
     public void moveTo(final Position futurePosition, final Map<Position, Piece> janggiBoard) {
-        isMove(futurePosition);
+        canMoveBy(futurePosition);
         validateTeam(janggiBoard.get(futurePosition));
         checkObstacle(futurePosition, janggiBoard);
     }
@@ -30,7 +30,7 @@ public abstract class Piece {
 
     public abstract List<Position> makeRoute(final Position position);
 
-    protected abstract boolean isMove(final Position position);
+    protected abstract void canMoveBy(final Position position);
 
     protected void validateTeam(final Piece other) {
         if (isSameTeam(other)) {
@@ -53,7 +53,7 @@ public abstract class Piece {
     }
 
     private boolean isSame(final Team other) {
-        return pieceProfile.getNation().isSameNation(other);
+        return pieceProfile.getNation().isSameTeam(other);
     }
 
     public boolean isChoNation() {

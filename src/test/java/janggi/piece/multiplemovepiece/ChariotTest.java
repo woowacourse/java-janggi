@@ -33,33 +33,31 @@ class ChariotTest {
         assertThat(chariot.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
-    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
+    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @Test
-    void nonIsMove() {
+    void nonCanMoveBy() {
         //given
         final Chariot chariot = new Chariot(Team.HAN, new Position(0, 0));
 
         //when //then
-        assertThatThrownBy(() -> chariot.isMove(new Position(1, 1)))
+        assertThatThrownBy(() -> chariot.canMoveBy(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("차는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 true를 반환한다.")
+    @DisplayName("차는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 예외를 던지지 않는다.")
     @ParameterizedTest
-    @MethodSource("chariotIsMovePositionProvider")
-    void isMove(final Position position) {
+    @MethodSource("chariotCanMoveByPositionProvider")
+    void canMoveBy(final Position position) {
         //given
         final Chariot chariot = new Chariot(Team.HAN, new Position(0, 0));
 
-        //when
-        final boolean actual = chariot.isMove(position);
-
-        //then
-        assertThat(actual).isTrue();
+        //when //then
+        assertThatCode(() -> chariot.canMoveBy(position))
+                .doesNotThrowAnyException();
     }
 
-    private static Stream<Arguments> chariotIsMovePositionProvider() {
+    private static Stream<Arguments> chariotCanMoveByPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(0, 1)),
                 Arguments.of(new Position(1, 0)));

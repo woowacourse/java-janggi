@@ -12,7 +12,7 @@ class PieceProfileTest {
     void profile() {
         //given
         final PieceType pieceType = PieceType.CANNON;
-        final Team team = Team.CHO;
+        final Team team = Team.CHU;
 
         //when //then
         assertThatCode(() -> new PieceProfile(pieceType, team))

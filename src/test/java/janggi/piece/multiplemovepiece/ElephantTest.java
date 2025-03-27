@@ -34,18 +34,18 @@ class ElephantTest {
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @ParameterizedTest
-    @MethodSource("elephantNonIsMovePositionProvider")
-    void nonIsMove(final Position position) {
+    @MethodSource("elephantNonCanMoveByPositionProvider")
+    void nonCanMoveBy(final Position position) {
         //given
         final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> elephant.isMove(position))
+        assertThatThrownBy(() -> elephant.canMoveBy(position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    private static Stream<Arguments> elephantNonIsMovePositionProvider() {
+    private static Stream<Arguments> elephantNonCanMoveByPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(2, 5)),
                 Arguments.of(new Position(2, 4)),
@@ -62,21 +62,19 @@ class ElephantTest {
         );
     }
 
-    @DisplayName("상은 자신의 위치를 기준으로 직선으로 한칸 대각선으로 두칸 이동할 수 있다.")
+    @DisplayName("상은 자신의 위치를 기준으로 직선으로 한칸 대각선으로 두칸 이동할 수 있다면 예외를 던지지 않는다.")
     @ParameterizedTest
-    @MethodSource("elephantIsMovePositionProvider")
-    void isMove(final Position position) {
+    @MethodSource("elephantCanMoveByPositionProvider")
+    void canMoveBy(final Position position) {
         //given
         final Elephant elephant = new Elephant(Team.HAN, new Position(5, 5));
 
-        //when
-        final boolean actual = elephant.isMove(position);
-
-        //then
-        assertThat(actual).isTrue();
+        //when //then
+        assertThatCode(() -> elephant.canMoveBy(position))
+                .doesNotThrowAnyException();
     }
 
-    private static Stream<Arguments> elephantIsMovePositionProvider() {
+    private static Stream<Arguments> elephantCanMoveByPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(2, 3)),
                 Arguments.of(new Position(2, 7)),

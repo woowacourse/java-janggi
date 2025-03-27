@@ -32,36 +32,61 @@ class HorseTest {
         assertThat(horse.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
-    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
+    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 반환한다.")
     @ParameterizedTest
-    @MethodSource("horseNonIsMovePositionProvider")
-    void nonIsMove(final Position position) {
+    @MethodSource("horseNonCanMoveByPositionProvider")
+    void nonCanMoveBy(final Position position) {
         //given
         final Horse horse = new Horse(Team.HAN, new Position(5, 5));
 
         //when //then
-        assertThatThrownBy(() -> horse.isMove(position)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> horse.canMoveBy(position))
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("자신의 위치를 기준으로 직선으로 한칸 + 대각선으로 한칸 이동할 수 있다면 true를 반환한다.")
+    private static Stream<Arguments> horseNonCanMoveByPositionProvider() {
+        return Stream.of(
+                Arguments.of(new Position(3, 5)),
+                Arguments.of(new Position(3, 3)),
+                Arguments.of(new Position(3, 7)),
+                Arguments.of(new Position(5, 7)),
+                Arguments.of(new Position(3, 7)),
+                Arguments.of(new Position(7, 7)),
+                Arguments.of(new Position(7, 5)),
+                Arguments.of(new Position(7, 3)),
+                Arguments.of(new Position(5, 3))
+        );
+    }
+
+    @DisplayName("자신의 위치를 기준으로 직선으로 한칸 + 대각선으로 한칸 이동할 수 있다면 예외를 반환하지 않는다.")
     @ParameterizedTest
-    @MethodSource("horseIsMovePositionProvider")
-    void isMove(final Position position) {
+    @MethodSource("horseCanMoveByPositionProvider")
+    void canMoveBy(final Position position) {
         //given
         final Horse horse = new Horse(Team.HAN, new Position(5, 5));
 
-        //when
-        final boolean actual = horse.isMove(position);
+        //when //then
+        assertThatCode(() -> horse.canMoveBy(position))
+                .doesNotThrowAnyException();
+    }
 
-        //then
-        assertThat(actual).isTrue();
+    private static Stream<Arguments> horseCanMoveByPositionProvider() {
+        return Stream.of(
+                Arguments.of(new Position(3, 4)),
+                Arguments.of(new Position(3, 6)),
+                Arguments.of(new Position(4, 7)),
+                Arguments.of(new Position(6, 7)),
+                Arguments.of(new Position(7, 6)),
+                Arguments.of(new Position(7, 4)),
+                Arguments.of(new Position(6, 3)),
+                Arguments.of(new Position(4, 3))
+        );
     }
 
     @Nested
     @DisplayName("마은 자신의 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     class makeRoute {
-
         @DisplayName("자신의 위치에서 위로 한칸 이동 후 왼쪽 대각선으로 한칸 이동하는 경로를 계산한다")
         @Test
         void makeRouteCase1() {
@@ -165,21 +190,7 @@ class HorseTest {
                     new Position(5, 4)
             );
         }
-    }
 
-    private static Stream<Arguments> horseNonIsMovePositionProvider() {
-        return Stream.of(Arguments.of(new Position(3, 5)), Arguments.of(new Position(3, 3)),
-                Arguments.of(new Position(3, 7)), Arguments.of(new Position(5, 7)),
-                Arguments.of(new Position(3, 7)), Arguments.of(new Position(7, 7)),
-                Arguments.of(new Position(7, 5)), Arguments.of(new Position(7, 3)),
-                Arguments.of(new Position(5, 3)));
-    }
-
-    private static Stream<Arguments> horseIsMovePositionProvider() {
-        return Stream.of(Arguments.of(new Position(3, 4)), Arguments.of(new Position(3, 6)),
-                Arguments.of(new Position(4, 7)), Arguments.of(new Position(6, 7)),
-                Arguments.of(new Position(7, 6)), Arguments.of(new Position(7, 4)),
-                Arguments.of(new Position(6, 3)), Arguments.of(new Position(4, 3)));
     }
 
     @DisplayName("마가 일보 전진하는 자리에 멱(장애물)이 존재한다면 예외가 발생한다.")

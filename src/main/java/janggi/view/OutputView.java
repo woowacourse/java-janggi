@@ -37,8 +37,8 @@ public class OutputView {
 
     private void placeChessPieces(final Map<Position, Piece> janggiBoard) {
         for (final Position position : janggiBoard.keySet()) {
-            final int row = position.getRow() + 1;
-            final int col = position.getCol() + 1;
+            final int row = position.row() + 1;
+            final int col = position.col() + 1;
 
             final String pieceName = getColoredPieceName(janggiBoard.get(position));
             JANGGI_BOARD_ARR[row][col] = " | " + pieceName;

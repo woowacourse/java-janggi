@@ -17,8 +17,8 @@ class PositionTest {
         final Position position = new Position(4, 5);
 
         //when - then
-        assertThat(position.getRow()).isEqualTo(4);
-        assertThat(position.getCol()).isEqualTo(5);
+        assertThat(position.row()).isEqualTo(4);
+        assertThat(position.col()).isEqualTo(5);
     }
 
     @DisplayName("장기판의 범위를 초과하면 예외가 발생한다.")

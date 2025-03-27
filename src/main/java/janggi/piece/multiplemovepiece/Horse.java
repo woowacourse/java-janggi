@@ -33,10 +33,10 @@ public class Horse extends Piece {
     public List<Position> makeRoute(final Position position) {
         final List<Position> route = new ArrayList<>();
 
-        final int dx = getBoardPosition().getRow() - position.getRow();
-        final int dy = getBoardPosition().getCol() - position.getCol();
-        final int presentCol = getBoardPosition().getCol();
-        final int presentRow = getBoardPosition().getRow();
+        final int dx = getBoardPosition().row() - position.row();
+        final int dy = getBoardPosition().col() - position.col();
+        final int presentCol = getBoardPosition().col();
+        final int presentRow = getBoardPosition().row();
 
         verticalRoute(dx, route, presentRow, presentCol);
         horizontalRoute(dy, route, presentRow, presentCol);
@@ -68,7 +68,6 @@ public class Horse extends Piece {
                                  final int presentCol) {
         horizontalLeft(dy, route, presentRow, presentCol);
         horizontalRight(dy, route, presentRow, presentCol);
-
     }
 
     private void horizontalLeft(final int dy, final List<Position> route, final int presentRow,
@@ -90,27 +89,17 @@ public class Horse extends Piece {
     }
 
     @Override
-    public boolean isMove(final Position position) {
-        final int dx = getBoardPosition().getRow() - position.getRow();
-        final int dy = getBoardPosition().getCol() - position.getCol();
+    public void canMoveBy(final Position position) {
+        final int dx = position.calculateDifferenceRow(getPosition().row());
+        final int dy = position.calculateDifferenceCol(getPosition().col());
 
-        if (dx == 2 && Math.abs(dy) == 1) {
-            return true;
+        if (isNotMove(dy, dx)) {
+            throw new IllegalArgumentException("[ERROR] 마가 움직일 수 없는 위치입니다.");
         }
+    }
 
-        if (dy == 2 && Math.abs(dx) == 1) {
-            return true;
-        }
-
-        if (dx == -2 && Math.abs(dy) == 1) {
-            return true;
-        }
-
-        if (dy == -2 && Math.abs(dx) == 1) {
-            return true;
-        }
-
-        throw new IllegalArgumentException("[ERROR] 마가 움직일 수 없는 위치입니다.");
+    private boolean isNotMove(final int dy, final int dx) {
+        return !(dy == 1 && dx == 2 || dx == 1 && dy == 2);
     }
 
 }

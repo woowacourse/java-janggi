@@ -33,10 +33,10 @@ public class Elephant extends Piece {
     public List<Position> makeRoute(final Position position) {
         final List<Position> route = new ArrayList<>();
 
-        final int dx = getBoardPosition().getRow() - position.getRow();
-        final int dy = getBoardPosition().getCol() - position.getCol();
-        final int presentRow = getBoardPosition().getRow();
-        final int presentCol = getBoardPosition().getCol();
+        final int dx = getBoardPosition().row() - position.row();
+        final int dy = getBoardPosition().col() - position.col();
+        final int presentRow = getBoardPosition().row();
+        final int presentCol = getBoardPosition().col();
 
         verticalRoute(dx, dy, route, presentRow, presentCol);
         horizontalRoute(dy, dx, route, presentRow, presentCol);
@@ -157,27 +157,17 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean isMove(final Position position) {
-        final int dx = getBoardPosition().getRow() - position.getRow();
-        final int dy = getBoardPosition().getCol() - position.getCol();
+    public void canMoveBy(final Position position) {
+        final int dx = position.calculateDifferenceRow(getPosition().row());
+        final int dy = position.calculateDifferenceCol(getPosition().col());
 
-        if (dx == 3 && Math.abs(dy) == 2) {
-            return true;
+        if (isNotMove(dx, dy)) {
+            throw new IllegalArgumentException("[ERROR] 상이 움직일 수 없는 위치입니다.");
         }
+    }
 
-        if (dy == 3 && Math.abs(dx) == 2) {
-            return true;
-        }
-
-        if (dx == -3 && Math.abs(dy) == 2) {
-            return true;
-        }
-
-        if (dy == -3 && Math.abs(dx) == 2) {
-            return true;
-        }
-
-        throw new IllegalArgumentException("[ERROR] 상이 움직일 수 없는 위치입니다.");
+    private boolean isNotMove(final int dx, final int dy) {
+        return !(dx == 2 && dy == 3 || dy == 2 && dx == 3);
     }
 
 }

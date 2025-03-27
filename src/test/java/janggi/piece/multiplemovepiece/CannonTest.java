@@ -1,6 +1,7 @@
 package janggi.piece.multiplemovepiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.board.Board;
@@ -33,30 +34,28 @@ class CannonTest {
         assertThat(cannon.getBoardPosition()).isEqualTo(new Position(4, 5));
     }
 
-    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
+    @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @Test
-    void nonIsMove() {
+    void nonCanMoveBy() {
         //given
         final Cannon cannon = new Cannon(Team.HAN, new Position(0, 0));
 
         //when //then
-        assertThatThrownBy(() -> cannon.isMove(new Position(1, 1)))
+        assertThatThrownBy(() -> cannon.canMoveBy(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("포는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 true를 반환한다.")
+    @DisplayName("포는 움직임을 자신의 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 예외를 던지지 않는다.")
     @ParameterizedTest
-    @MethodSource("cannonIsMovePositionProvider")
-    void isMove(final Position position) {
+    @MethodSource("cannonCanMoveByPositionProvider")
+    void canMoveBy(final Position position) {
         //given
         final Cannon cannon = new Cannon(Team.HAN, new Position(0, 0));
 
-        //when
-        final boolean actual = cannon.isMove(position);
-
-        //then
-        assertThat(actual).isTrue();
+        //when //then
+        assertThatCode(() -> cannon.canMoveBy(position))
+                .doesNotThrowAnyException();
     }
 
     @Nested
@@ -302,7 +301,7 @@ class CannonTest {
         }
     }
 
-    private static Stream<Arguments> cannonIsMovePositionProvider() {
+    private static Stream<Arguments> cannonCanMoveByPositionProvider() {
         return Stream.of(
                 Arguments.of(new Position(0, 1)),
                 Arguments.of(new Position(1, 0))

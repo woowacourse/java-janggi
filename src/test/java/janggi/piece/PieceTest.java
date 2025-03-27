@@ -28,7 +28,7 @@ class PieceTest {
     void nonSameTeam() {
         //given
         final Piece piece = new StubPiece(Team.HAN, new Position(0, 0));
-        final Piece other = new StubPiece(Team.CHO, new Position(1, 0));
+        final Piece other = new StubPiece(Team.CHU, new Position(1, 0));
 
         //when //then
         assertThatThrownBy(() -> piece.validateTeam(other.getPieceProfile().getNation()))
@@ -63,8 +63,7 @@ class PieceTest {
         }
 
         @Override
-        public boolean isMove(final Position position) {
-            return false;
+        public void canMoveBy(final Position position) {
         }
     }
 }

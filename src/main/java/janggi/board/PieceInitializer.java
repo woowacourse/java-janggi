@@ -42,27 +42,27 @@ public class PieceInitializer {
         pieces.add(new Soldier(Team.HAN, new Position(3, 6)));
         pieces.add(new Soldier(Team.HAN, new Position(3, 8)));
 
-        pieces.add(new Chariot(Team.CHO, new Position(9, 0)));
-        pieces.add(new Chariot(Team.CHO, new Position(9, 8)));
-        pieces.add(new Elephant(Team.CHO, new Position(9, 1)));
-        pieces.add(new Elephant(Team.CHO, new Position(9, 7)));
+        pieces.add(new Chariot(Team.CHU, new Position(9, 0)));
+        pieces.add(new Chariot(Team.CHU, new Position(9, 8)));
+        pieces.add(new Elephant(Team.CHU, new Position(9, 1)));
+        pieces.add(new Elephant(Team.CHU, new Position(9, 7)));
 
-        pieces.add(new Horse(Team.CHO, new Position(9, 2)));
-        pieces.add(new Horse(Team.CHO, new Position(9, 6)));
+        pieces.add(new Horse(Team.CHU, new Position(9, 2)));
+        pieces.add(new Horse(Team.CHU, new Position(9, 6)));
 
-        pieces.add(new Guard(Team.CHO, new Position(9, 3)));
-        pieces.add(new Guard(Team.CHO, new Position(9, 5)));
+        pieces.add(new Guard(Team.CHU, new Position(9, 3)));
+        pieces.add(new Guard(Team.CHU, new Position(9, 5)));
 
-        pieces.add(new King(Team.CHO, new Position(8, 4)));
+        pieces.add(new King(Team.CHU, new Position(8, 4)));
 
-        pieces.add(new Cannon(Team.CHO, new Position(7, 1)));
-        pieces.add(new Cannon(Team.CHO, new Position(7, 7)));
+        pieces.add(new Cannon(Team.CHU, new Position(7, 1)));
+        pieces.add(new Cannon(Team.CHU, new Position(7, 7)));
 
-        pieces.add(new Pawn(Team.CHO, new Position(6, 0)));
-        pieces.add(new Pawn(Team.CHO, new Position(6, 2)));
-        pieces.add(new Pawn(Team.CHO, new Position(6, 4)));
-        pieces.add(new Pawn(Team.CHO, new Position(6, 6)));
-        pieces.add(new Pawn(Team.CHO, new Position(6, 8)));
+        pieces.add(new Pawn(Team.CHU, new Position(6, 0)));
+        pieces.add(new Pawn(Team.CHU, new Position(6, 2)));
+        pieces.add(new Pawn(Team.CHU, new Position(6, 4)));
+        pieces.add(new Pawn(Team.CHU, new Position(6, 6)));
+        pieces.add(new Pawn(Team.CHU, new Position(6, 8)));
 
         return pieces;
     }

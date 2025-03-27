@@ -19,15 +19,14 @@ public class King extends Piece {
     }
 
     @Override
-    public boolean isMove(final Position position) {
-        final int dx = getBoardPosition().getRow() - position.getRow();
-        final int dy = getBoardPosition().getCol() - position.getCol();
-
-        if (Math.abs(dx) == 1 && dy == 0 || Math.abs(dy) == 1 && dx == 0) {
-            return true;
+    public void canMoveBy(final Position position) {
+        if (isNotMove(position)) {
+            throw new IllegalArgumentException("[ERROR] 왕이 움직일 수 없는 위치 입니다.");
         }
+    }
 
-        throw new IllegalArgumentException("[ERROR] 왕이 움직일 수 없는 위치 입니다.");
+    private boolean isNotMove(final Position position) {
+        return !getBoardPosition().isOneStep(position);
     }
 
 }
