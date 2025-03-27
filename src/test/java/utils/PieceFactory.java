@@ -1,6 +1,7 @@
-package domain.piece;
+package utils;
 
 import domain.Team;
+import domain.piece.Piece;
 import java.util.function.Function;
 
 public final class PieceFactory {

@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.piece.Cannon;
 import domain.piece.Chariot;
-import domain.piece.PieceFactory;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import utils.PieceFactory;
 
 class PositionTest {
 

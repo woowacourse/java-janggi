@@ -6,13 +6,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.piece.Chariot;
 import domain.piece.General;
-import domain.piece.PieceFactory;
 import domain.piece.PieceType;
 import domain.position.Point;
 import domain.position.Position;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import utils.PieceFactory;
 import view.OutputView;
 
 class BoardTest {

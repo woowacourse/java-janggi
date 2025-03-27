@@ -7,7 +7,6 @@ import domain.piece.General;
 import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.Piece;
-import domain.piece.PieceFactory;
 import domain.piece.Soldier;
 import domain.position.Point;
 import domain.position.Position;
@@ -37,8 +36,8 @@ public final class BoardFactory {
             final List<Point> redPoints
     ) {
         final List<Position> positions = new ArrayList<>();
-        positions.addAll(createPositions(PieceFactory.createGreenTeam(pieceCreator), greenPoints));
-        positions.addAll(createPositions(PieceFactory.createRedTeam(pieceCreator), redPoints));
+        positions.addAll(createPositions(pieceCreator.apply(Team.GREEN), greenPoints));
+        positions.addAll(createPositions(pieceCreator.apply(Team.RED), redPoints));
         return positions;
     }
 

@@ -6,6 +6,7 @@ import domain.position.Point;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import utils.PieceFactory;
 
 class AbstractPieceTest {
 
