@@ -15,7 +15,6 @@ public final class StraightDiagonalDiagonalPathProvider extends MovementPathProv
             Movement.LEFT_DOWNLEFT_DOWNLEFT,
             Movement.RIGHT_UPRIGHT_UPRIGHT,
             Movement.RIGHT_DOWNRIGHT_DOWNRIGHT
-
     );
 
     @Override
