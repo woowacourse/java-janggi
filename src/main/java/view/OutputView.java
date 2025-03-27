@@ -5,9 +5,9 @@ import static domain.point.Point.MAX_ROW_INDEX;
 import static domain.point.Point.MIN_COLUMN_INDEX;
 import static domain.point.Point.MIN_ROW_INDEX;
 
+import domain.piece.Piece;
 import domain.piece.character.PieceType;
 import domain.piece.character.Team;
-import domain.piece.Piece;
 import domain.point.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class OutputView {
                     continue;
                 }
                 Piece piece = pieceByPoint.get(point);
-                rowString.add(paintByTeam(piece.team(), piece.type()));
+                rowString.add(paintPieceByTeam(piece.team(), piece.type()));
             }
             boardString.add(rowString);
         }
@@ -52,13 +52,6 @@ public class OutputView {
         System.out.println(String.join(TAB, lastRowString));
     }
 
-    private static String paintByTeam(Team team, PieceType pieceType) {
-        if (team == Team.CHO) {
-            return Painter.paintGreen(pieceTypeToString(pieceType));
-        }
-        return Painter.paintRed(pieceTypeToString(pieceType));
-    }
-
     public static void printStatus(double choScore, double hanScore) {
         System.out.printf("""
                 %n초나라: %.1f점
@@ -70,10 +63,17 @@ public class OutputView {
         System.out.printf("%n%s나라의 승리입니다.", teamToString(winTeam));
     }
 
+    private static String paintPieceByTeam(Team team, PieceType pieceType) {
+        if (team == Team.CHO) {
+            return Painter.paintGreen(pieceTypeToString(pieceType));
+        }
+        return Painter.paintRed(pieceTypeToString(pieceType));
+    }
+
     private static String teamToString(Team team) {
         return switch (team) {
-            case CHO -> "초";
-            case HAN -> "한";
+            case CHO -> Painter.paintGreen("초");
+            case HAN -> Painter.paintRed("한");
         };
     }
 

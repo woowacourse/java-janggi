@@ -24,7 +24,7 @@ public class InputView {
                     2. 상마마상
                     3. 마상상마
                     4. 마상마상
-                    >\s""", team);
+                    >\s""", teamToString(team));
             String input = scanner.nextLine();
             return SangMaOrderCommand.from(input);
         });
@@ -68,8 +68,8 @@ public class InputView {
 
     private static String teamToString(Team team) {
         return switch (team) {
-            case CHO -> "초";
-            case HAN -> "한";
+            case CHO -> Painter.paintGreen("초");
+            case HAN -> Painter.paintRed("한");
         };
     }
 
