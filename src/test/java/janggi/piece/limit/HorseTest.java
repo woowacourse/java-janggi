@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HorseTest {
 
     @Test
-    @DisplayName("마 이동 가능 후보군 리턴 테스트")
+    @DisplayName("초기 위치인 1, 9에 위치했을 때 이동 가능 후보군 리턴 테스트")
     void test1() {
         Horse horse = new Horse(Side.CHO);
 
@@ -23,12 +23,25 @@ class HorseTest {
         assertThat(candidatePositions).extracting(Route::getLastPosition)
                         .contains(new Position(0, 7),
                                 new Position(2, 7),
-                                new Position(-1, 8),
-                                new Position(-1, 10),
-                                new Position(3, 8),
-                                new Position(3, 10),
-                                new Position(0, 11),
-                                new Position(2, 11));
+                                new Position(3, 8));
+    }
+
+    @Test
+    @DisplayName("3, 5에 위치했을 때 이동 가능 후보군 리턴 테스트")
+    void test2() {
+        Horse horse = new Horse(Side.CHO);
+
+        List<Route> candidatePositions = horse.computeCandidatePositions(new Position(3, 5));
+
+        assertThat(candidatePositions).extracting(Route::getLastPosition)
+                .contains(new Position(2, 3),
+                        new Position(4, 3),
+                        new Position(1, 4),
+                        new Position(1, 6),
+                        new Position(2, 7),
+                        new Position(4, 7),
+                        new Position(5, 4),
+                        new Position(5, 6));
     }
 
 }
