@@ -40,8 +40,36 @@ class SoldierTest {
     }
 
     @Test
-    @DisplayName("궁성에 위치할 경우 대각선 이동을 포함하여 5개의 이동을 반환한다 - 초나라")
+    @DisplayName("궁성의 중앙에 위치할 경우 대각선 이동을 포함하여 5개의 이동을 반환한다 - 초나라")
     void test3() {
+        Soldier soldier = new Soldier(Side.CHO);
+        Position currentPosition = new Position(4, 1);
+        List<Route> candidatePositions = soldier.computeCandidatePositions(currentPosition);
+
+        assertThat(candidatePositions).extracting(Route::getLastPosition)
+                .contains(new Position(3, 1),
+                        new Position(5, 1),
+                        new Position(4, 0),
+                        new Position(3, 0),
+                        new Position(5, 0));
+    }
+
+    @Test
+    @DisplayName("출발과 도착의 좌표가 궁성 내부인 것의 이동만 리턴한다. - 초나라")
+    void test4() {
+        Soldier soldier = new Soldier(Side.CHO);
+        Position currentPosition = new Position(3, 2);
+        List<Route> candidatePositions = soldier.computeCandidatePositions(currentPosition);
+
+        assertThat(candidatePositions).extracting(Route::getLastPosition)
+                .contains(new Position(3, 1),
+                        new Position(4, 2),
+                        new Position(4, 1));
+    }
+
+    @Test
+    @DisplayName("궁성 내부 좌표여도, 대각선으로 이어지지 않은 좌표라면 대각선 이동이 불가능하다. - 초나라")
+    void test5() {
         Soldier soldier = new Soldier(Side.CHO);
         Position currentPosition = new Position(4, 2);
         List<Route> candidatePositions = soldier.computeCandidatePositions(currentPosition);
@@ -49,23 +77,47 @@ class SoldierTest {
         assertThat(candidatePositions).extracting(Route::getLastPosition)
                 .contains(new Position(3, 2),
                         new Position(5, 2),
-                        new Position(4, 1),
-                        new Position(3, 1),
-                        new Position(5, 1));
+                        new Position(4, 1));
     }
 
     @Test
-    @DisplayName("궁성에 위치할 경우 대각선 이동을 포함하여 5개의 이동을 반환한다 - 한나라")
-    void test4() {
+    @DisplayName("궁성의 중앙에 위치할 경우 대각선 이동을 포함하여 5개의 이동을 반환한다 - 한나라")
+    void test6() {
+        Soldier soldier = new Soldier(Side.HAN);
+        Position currentPosition = new Position(4, 8);
+        List<Route> candidatePositions = soldier.computeCandidatePositions(currentPosition);
+
+        assertThat(candidatePositions).extracting(Route::getLastPosition)
+                .contains(new Position(3, 8),
+                        new Position(5, 8),
+                        new Position(4, 9),
+                        new Position(3, 9),
+                        new Position(5, 9));
+    }
+
+    @Test
+    @DisplayName("출발과 도착의 좌표가 궁성 내부인 것의 이동만 리턴한다. - 한나라")
+    void test7() {
+        Soldier soldier = new Soldier(Side.HAN);
+        Position currentPosition = new Position(5, 7);
+        List<Route> candidatePositions = soldier.computeCandidatePositions(currentPosition);
+
+        assertThat(candidatePositions).extracting(Route::getLastPosition)
+                .contains(new Position(4, 7),
+                        new Position(4, 8),
+                        new Position(5, 8));
+    }
+
+    @Test
+    @DisplayName("궁성 내부 좌표여도, 대각선으로 이어지지 않은 좌표라면 대각선 이동이 불가능하다. - 한나라")
+    void test8() {
         Soldier soldier = new Soldier(Side.HAN);
         Position currentPosition = new Position(4, 7);
         List<Route> candidatePositions = soldier.computeCandidatePositions(currentPosition);
 
         assertThat(candidatePositions).extracting(Route::getLastPosition)
                 .contains(new Position(3, 7),
-                        new Position(5, 7),
                         new Position(4, 8),
-                        new Position(3, 8),
-                        new Position(5, 8));
+                        new Position(5, 7));
     }
 }
