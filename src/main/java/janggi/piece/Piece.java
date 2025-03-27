@@ -26,4 +26,8 @@ public abstract class Piece {
     public abstract List<Position> calculatePath(final Position start, final Position end);
 
     public abstract PieceType getPieceType();
+
+    public boolean isCannon() {
+        return false;
+    }
 }

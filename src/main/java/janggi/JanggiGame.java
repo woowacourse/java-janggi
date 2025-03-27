@@ -1,6 +1,5 @@
 package janggi;
 
-import janggi.piece.Cannon;
 import janggi.piece.Piece;
 import janggi.piece.Pieces;
 import janggi.position.Position;
@@ -36,7 +35,7 @@ public class JanggiGame {
 
     private void validatePieceOnPath(final Position start, final Position end) {
         Piece startPositionPiece = pieces.getPieceByPosition(start);
-        if (startPositionPiece instanceof Cannon) {
+        if (startPositionPiece.isCannon()) {
             validateNoneCannonPieceOnPathOfCannonPiece(start, end);
             validateOnlyOnePieceOnPathOfCannonPiece(start, end);
             return;

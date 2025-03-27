@@ -25,4 +25,9 @@ public class Cannon extends Piece {
     public PieceType getPieceType() {
         return PIECE_TYPE;
     }
+
+    @Override
+    public boolean isCannon() {
+        return true;
+    }
 }

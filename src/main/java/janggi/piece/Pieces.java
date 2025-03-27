@@ -117,8 +117,7 @@ public class Pieces {
         }
         Piece startPiece = pieces.get(start);
         Piece endPiece = pieces.get(end);
-        // NOTE: instanceOf를 사용하지 않는 방안 알아보기
-        return startPiece instanceof Cannon && endPiece instanceof Cannon;
+        return startPiece.isCannon() && endPiece.isCannon();
     }
 
     public long countPieceOnPath(final List<Position> path) {
@@ -130,7 +129,7 @@ public class Pieces {
     public boolean isCannonPieceOnPath(final List<Position> path) {
         return path.stream()
                 .anyMatch(position -> pieces.containsKey(position) &&
-                        pieces.get(position) instanceof Cannon);
+                        pieces.get(position).isCannon());
     }
 
 }
