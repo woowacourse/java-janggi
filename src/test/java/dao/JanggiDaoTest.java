@@ -78,5 +78,34 @@ class JanggiDaoTest {
                     new JanggiDto(thirdId, "third title", new Turn(Team.GREEN), JanggiStatus.PROCESS)
             );
         }
+
+        @DisplayName("장기 게임 번호를 통해 해당 장기 게임을 조회한다.")
+        @Test
+        void findJanggiDtoById() {
+            // given
+            String title = "title";
+            JanggiStatus status = JanggiStatus.PROCESS;
+            Turn turn =  new Turn(Team.GREEN);
+            int janggiId = janggiDao.create(connection, title, status, turn);
+
+            // when & then
+            JanggiDto expected = new JanggiDto(janggiId, title, turn, status);
+            assertThat(janggiDao.findJanggiDtoById(connection, janggiId))
+                    .isEqualTo(expected);
+        }
+
+        @DisplayName("장기 게임 번호를 통해 해당 장기 게임의 턴을 갱신한다.")
+        @Test
+        void updateTurnByJanggiId() {
+            // given
+            int janggiId = janggiDao.create(connection, "title", JanggiStatus.PROCESS, new Turn(Team.RED));
+
+            // when
+            janggiDao.updateTurnByJanggiId(connection, janggiId, Team.GREEN);
+
+            // then
+            assertThat(janggiDao.findJanggiDtoById(connection, janggiId).turn())
+                    .isEqualTo(new Turn(Team.GREEN));
+        }
     }
 }

@@ -87,9 +87,9 @@ public class JanggiDao {
             final int janggiId,
             final Team changedTeam
     ) {
-        final var query = "UPDATE janggi SET turn = ? WHERE janggi_id = ?";
+        final var query = "UPDATE janggi SET turn = ? WHERE id = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, changedTeam.getTitle());
+            preparedStatement.setString(1, changedTeam.name());
             preparedStatement.setInt(2, janggiId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
