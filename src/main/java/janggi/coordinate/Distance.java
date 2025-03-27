@@ -57,4 +57,8 @@ public record Distance(int rowDistance, int columnDistance) {
     public boolean isStraight() {
         return isVertical() || isHorizontal();
     }
+
+    public boolean isDiagonal() {
+        return Math.abs(rowDistance) == Math.abs(columnDistance);
+    }
 }
