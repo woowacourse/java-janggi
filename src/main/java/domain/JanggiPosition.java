@@ -4,12 +4,12 @@ import domain.pattern.Pattern;
 import domain.piece.Side;
 import java.util.List;
 
-public record JanggiPosition(int file, int rank) {
+public record JanggiPosition(int rank, int file) {
 
-    private static final int MAX_ROW_BOUND = 9;
-    private static final int MIN_ROW_BOUND = 0;
-    private static final int MAX_COLUMN_BOUND = 9;
-    private static final int MIN_COLUMN_BOUND = 1;
+    private static final int MAX_RANK_BOUND = 9;
+    private static final int MIN_RANK_BOUND = 1;
+    private static final int MAX_FILE_BOUND = 9;
+    private static final int MIN_FILE_BOUND = 0;
 
     public JanggiPosition move(List<Pattern> patterns) {
         JanggiPosition newPosition = this;
@@ -20,28 +20,33 @@ public record JanggiPosition(int file, int rank) {
     }
 
     public JanggiPosition moveOnePosition(Pattern pattern) {
-        int newX = transformedNewX(pattern, file);
-        int newY = rank + pattern.getY();
+        int newRank = rank + pattern.getRank();
+        int newFile = transformedNewFile(pattern, file);
 
-        return new JanggiPosition(newX, newY);
+        return new JanggiPosition(newRank, newFile);
     }
 
-    private int transformedNewX(Pattern pattern, int x) {
-        int newX = x + pattern.getX();
-        if ((pattern.equals(Pattern.UP) && x == MIN_ROW_BOUND) || (pattern.equals(Pattern.DIAGONAL_UP_RIGHT)
-                && x == MIN_ROW_BOUND) || (
-                pattern.equals(Pattern.DIAGONAL_UP_LEFT) && x == MIN_ROW_BOUND)) {
-            newX = 9;
+    private int transformedNewFile(Pattern pattern, int file) {
+        int newFile = file + pattern.getFile();
+        if ((pattern.equals(Pattern.UP) && file == MIN_FILE_BOUND) || (pattern.equals(Pattern.DIAGONAL_UP_RIGHT)
+                && file == MIN_FILE_BOUND) || (
+                pattern.equals(Pattern.DIAGONAL_UP_LEFT) && file == MIN_FILE_BOUND)) {
+            newFile = 9;
         }
-        if ((pattern.equals(Pattern.DOWN) && x == MAX_ROW_BOUND) || (pattern.equals(Pattern.DIAGONAL_DOWN_LEFT)
-                && x == MAX_ROW_BOUND) || (
-                pattern.equals(Pattern.DIAGONAL_DOWN_RIGHT) && x == MAX_ROW_BOUND)) {
-            newX = 0;
+        if ((pattern.equals(Pattern.DOWN) && file == MAX_FILE_BOUND) || (pattern.equals(Pattern.DIAGONAL_DOWN_LEFT)
+                && file == MAX_FILE_BOUND) || (
+                pattern.equals(Pattern.DIAGONAL_DOWN_RIGHT) && file == MAX_FILE_BOUND)) {
+            newFile = 0;
         }
-        return newX;
+        return newFile;
     }
 
-    public boolean isBiggerXThan(JanggiPosition beforePosition) {
+    public boolean isBiggerRankThan(JanggiPosition beforePosition) {
+        return this.rank > beforePosition.rank;
+
+    }
+
+    public boolean isBiggerFileThan(JanggiPosition beforePosition) {
         if (this.file == 0) {
             return true;
         }
@@ -51,11 +56,11 @@ public record JanggiPosition(int file, int rank) {
         return this.file > beforePosition.file;
     }
 
-    public boolean isBiggerYThan(JanggiPosition beforePosition) {
-        return this.rank > beforePosition.rank;
+    public int getRankGap(JanggiPosition beforePosition) {
+        return Math.abs(this.rank - beforePosition.rank);
     }
 
-    public int getXGap(JanggiPosition beforePosition) {
+    public int getFileGap(JanggiPosition beforePosition) {
         if (this.file == 0) {
             return 10 - beforePosition.file();
         }
@@ -67,22 +72,18 @@ public record JanggiPosition(int file, int rank) {
         return Math.abs(this.file - beforePosition.file);
     }
 
-    public int getYGap(JanggiPosition beforePosition) {
-        return Math.abs(this.rank - beforePosition.rank);
-    }
-
     public void validateBound() {
-        if (file < MIN_ROW_BOUND || file > MAX_ROW_BOUND || rank < MIN_COLUMN_BOUND || rank > MAX_COLUMN_BOUND) {
+        if (rank < MIN_RANK_BOUND || rank > MAX_RANK_BOUND || file < MIN_FILE_BOUND || file > MAX_FILE_BOUND) {
             throw new IllegalArgumentException("보드판을 넘어서 이동할 수 없습니다.");
         }
     }
 
-    public boolean isSameFileWith(JanggiPosition beforePosition) {
-        return this.file == beforePosition.file;
-    }
-
     public boolean isSameRankWith(JanggiPosition beforePosition) {
         return this.rank == beforePosition.rank;
+    }
+
+    public boolean isSameFileWith(JanggiPosition beforePosition) {
+        return this.file == beforePosition.file;
     }
 
     public boolean isDiagonalTo(JanggiPosition afterPosition) {
@@ -90,10 +91,10 @@ public record JanggiPosition(int file, int rank) {
     }
 
     public boolean isPassThroughCenter(Side side, JanggiPosition afterPosition) {
-        int centerPalaceFile = (side == Side.CHO) ? 9 : 2;
         int centerPalaceRank = 5;
+        int centerPalaceFile = (side == Side.CHO) ? 9 : 2;
 
-        JanggiPosition centerPosition = new JanggiPosition(centerPalaceFile, centerPalaceRank);
+        JanggiPosition centerPosition = new JanggiPosition(centerPalaceRank, centerPalaceFile);
 
         return this.equals(centerPosition) || afterPosition.equals(centerPosition);
     }

@@ -1,5 +1,10 @@
 package domain;
 
+import static domain.Fixtures.ONE_NINE;
+import static domain.Fixtures.ONE_THREE;
+import static domain.Fixtures.ONE_ZERO;
+import static domain.Fixtures.THREE_SEVEN;
+import static domain.Fixtures.TWO_ZERO;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.pattern.Pattern;
@@ -23,79 +28,43 @@ public class JanggiPositionTest {
 
     @Test
     void 좌표를_위로_한_칸_이동시킬_수_있다() {
-        // given
-        int beforeX = 0;
-        int beforeY = 1;
-        int afterX = 9;
-        int afterY = 1;
-
-        JanggiPosition beforePosition = new JanggiPosition(beforeX, beforeY);
-        JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
-
         // when
-        JanggiPosition newPosition = beforePosition.moveOnePosition(Pattern.UP);
+        JanggiPosition newPosition = ONE_ZERO.moveOnePosition(Pattern.UP);
 
         // then
-        Assertions.assertThat(newPosition).isEqualTo(afterPosition);
+        Assertions.assertThat(newPosition).isEqualTo(ONE_NINE);
     }
 
     @Test
     void 좌표를_이동시킬_수_있다() {
-        // given
-        int beforeX = 0;
-        int beforeY = 1;
-        int afterX = 7;
-        int afterY = 3;
-
-        JanggiPosition beforePosition = new JanggiPosition(beforeX, beforeY);
-        JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
-
         // when
-        JanggiPosition newPosition = beforePosition.move(
+        JanggiPosition newPosition = ONE_ZERO.move(
                 List.of(Pattern.UP, Pattern.DIAGONAL_UP_RIGHT, Pattern.DIAGONAL_UP_RIGHT));
 
         // then
-        Assertions.assertThat(newPosition).isEqualTo(afterPosition);
+        Assertions.assertThat(newPosition).isEqualTo(THREE_SEVEN);
     }
 
     @Test
     void x좌표끼리_비교하여_더_큰_좌표를_찾을_수_있다() {
-        // given
-        int beforeX = 0;
-        int beforeY = 1;
-        int afterX = 2;
-        int afterY = 1;
-
-        JanggiPosition beforePosition = new JanggiPosition(beforeX, beforeY);
-        JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
-
         // when
-        boolean isBiggerX = afterPosition.isBiggerXThan(beforePosition);
+        boolean isBiggerX = TWO_ZERO.isBiggerRankThan(ONE_ZERO);
 
         // then
-        Assertions.assertThat(isBiggerX).isFalse();
+        Assertions.assertThat(isBiggerX).isTrue();
     }
 
     @Test
     void y좌표끼리_비교하여_더_큰_좌표를_찾을_수_있다() {
-        // given
-        int beforeX = 0;
-        int beforeY = 1;
-        int afterX = 1;
-        int afterY = 3;
-
-        JanggiPosition beforePosition = new JanggiPosition(beforeX, beforeY);
-        JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
-
         // when
-        boolean isBiggerY = afterPosition.isBiggerYThan(beforePosition);
+        boolean isBiggerY = ONE_ZERO.isBiggerFileThan(ONE_THREE);
 
         // then
         Assertions.assertThat(isBiggerY).isTrue();
     }
 
     @ParameterizedTest
-    @CsvSource({"0, 8, 2", "3, 7, 4", "8, 0, 2"})
+    @CsvSource({"8, 0, 8", "7, 3, 4", "0, 8, 8"})
     void x좌표끼리의_차이를_구할_수_있다(int beforeX, int afterX, int expected) {
         // given
         int beforeY = 1;
@@ -105,14 +74,14 @@ public class JanggiPositionTest {
         JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
-        int gap = afterPosition.getXGap(beforePosition);
+        int gap = afterPosition.getRankGap(beforePosition);
 
         // then
         Assertions.assertThat(gap).isEqualTo(expected);
     }
 
     @ParameterizedTest
-    @CsvSource({"9, 8, 1", "3, 7, 4", "1, 8, 7"})
+    @CsvSource({"8, 9, 1", "7, 3, 4", "8, 1, 7"})
     void y좌표끼리의_차이를_구할_수_있다(int beforeY, int afterY, int expected) {
         // given
         int beforeX = 1;
@@ -122,7 +91,7 @@ public class JanggiPositionTest {
         JanggiPosition afterPosition = new JanggiPosition(afterX, afterY);
 
         // when
-        int gap = afterPosition.getYGap(beforePosition);
+        int gap = afterPosition.getFileGap(beforePosition);
 
         // then
         Assertions.assertThat(gap).isEqualTo(expected);

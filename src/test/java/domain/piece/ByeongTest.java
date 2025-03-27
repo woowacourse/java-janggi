@@ -1,9 +1,9 @@
 package domain.piece;
 
 import static domain.Fixtures.FIVE_FIVE;
-import static domain.Fixtures.FOUR_FIVE;
+import static domain.Fixtures.FIVE_FOUR;
 import static domain.Fixtures.FOUR_FOUR;
-import static domain.Fixtures.FOUR_SIX;
+import static domain.Fixtures.SIX_FOUR;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.JanggiPosition;
@@ -20,13 +20,13 @@ public class ByeongTest {
         Piece piece = new Soldier(Side.HAN);
 
         // when & then
-        assertDoesNotThrow(() -> piece.findMovablePath(FOUR_FIVE, afterPosition));
+        assertDoesNotThrow(() -> piece.findMovablePath(FIVE_FOUR, afterPosition));
     }
 
     static Stream<Arguments> provideByeongAfterPositions() {
         return Stream.of(
                 Arguments.of(FOUR_FOUR),
-                Arguments.of(FOUR_SIX),
+                Arguments.of(SIX_FOUR),
                 Arguments.of(FIVE_FIVE)
         );
     }

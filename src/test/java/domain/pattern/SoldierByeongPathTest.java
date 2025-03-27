@@ -1,10 +1,10 @@
 package domain.pattern;
 
-import static domain.Fixtures.EIGHT_FIVE;
-import static domain.Fixtures.SEVEN_FIVE;
-import static domain.Fixtures.SEVEN_FOUR;
-import static domain.Fixtures.SEVEN_SIX;
-import static domain.Fixtures.SIX_FIVE;
+import static domain.Fixtures.FIVE_EIGHT;
+import static domain.Fixtures.FIVE_SEVEN;
+import static domain.Fixtures.FIVE_SIX;
+import static domain.Fixtures.FOUR_SEVEN;
+import static domain.Fixtures.SIX_SEVEN;
 
 import domain.JanggiPosition;
 import domain.piece.Piece;
@@ -25,7 +25,7 @@ public class SoldierByeongPathTest {
     @MethodSource("provideByeongPath")
     void 병의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> byeongPath = piece.findMovablePath(SEVEN_FIVE, afterPosition);
+        List<Pattern> byeongPath = piece.findMovablePath(FIVE_SEVEN, afterPosition);
 
         // then
         Assertions.assertThat(byeongPath)
@@ -35,16 +35,16 @@ public class SoldierByeongPathTest {
     static Stream<Arguments> provideByeongPath() {
         Path pathOfByeong = new Path(Direction.createByeongPatternMap());
         return Stream.of(
-                Arguments.of(EIGHT_FIVE, pathOfByeong.getPatterns(Direction.DOWN)),
-                Arguments.of(SEVEN_FOUR, pathOfByeong.getPatterns(Direction.LEFT)),
-                Arguments.of(SEVEN_SIX, pathOfByeong.getPatterns(Direction.RIGHT))
+                Arguments.of(FIVE_EIGHT, pathOfByeong.getPatterns(Direction.DOWN)),
+                Arguments.of(FOUR_SEVEN, pathOfByeong.getPatterns(Direction.LEFT)),
+                Arguments.of(SIX_SEVEN, pathOfByeong.getPatterns(Direction.RIGHT))
         );
     }
 
     @Test
     void 병의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findMovablePath(SEVEN_FIVE, SIX_FIVE))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(FIVE_SEVEN, FIVE_SIX))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

@@ -1,15 +1,15 @@
 package domain.piece;
 
-import static domain.Fixtures.EIGHT_FIVE;
-import static domain.Fixtures.EIGHT_FOUR;
-import static domain.Fixtures.EIGHT_SIX;
-import static domain.Fixtures.NINE_FIVE;
-import static domain.Fixtures.NINE_FOUR;
-import static domain.Fixtures.NINE_SIX;
-import static domain.Fixtures.SEVEN_FIVE;
-import static domain.Fixtures.ZERO_FIVE;
-import static domain.Fixtures.ZERO_FOUR;
-import static domain.Fixtures.ZERO_SIX;
+import static domain.Fixtures.FIVE_EIGHT;
+import static domain.Fixtures.FIVE_NINE;
+import static domain.Fixtures.FIVE_SEVEN;
+import static domain.Fixtures.FIVE_ZERO;
+import static domain.Fixtures.FOUR_EIGHT;
+import static domain.Fixtures.FOUR_NINE;
+import static domain.Fixtures.FOUR_ZERO;
+import static domain.Fixtures.SIX_EIGHT;
+import static domain.Fixtures.SIX_NINE;
+import static domain.Fixtures.SIX_ZERO;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.JanggiPosition;
@@ -28,19 +28,19 @@ public class GeneralTest {
         Piece piece = new General(Side.CHO);
 
         // when & then
-        assertDoesNotThrow(() -> piece.findMovablePath(NINE_FIVE, afterPosition));
+        assertDoesNotThrow(() -> piece.findMovablePath(FIVE_NINE, afterPosition));
     }
 
     static Stream<Arguments> provideGeneralAfterPositions() {
         return Stream.of(
-                Arguments.of(ZERO_FOUR),
-                Arguments.of(ZERO_FIVE),
-                Arguments.of(ZERO_SIX),
-                Arguments.of(NINE_FOUR),
-                Arguments.of(NINE_SIX),
-                Arguments.of(EIGHT_FOUR),
-                Arguments.of(EIGHT_FIVE),
-                Arguments.of(EIGHT_SIX)
+                Arguments.of(FOUR_ZERO),
+                Arguments.of(FIVE_ZERO),
+                Arguments.of(SIX_ZERO),
+                Arguments.of(FOUR_NINE),
+                Arguments.of(SIX_NINE),
+                Arguments.of(FOUR_EIGHT),
+                Arguments.of(FIVE_EIGHT),
+                Arguments.of(SIX_EIGHT)
         );
     }
 
@@ -50,7 +50,7 @@ public class GeneralTest {
         Piece piece = new General(Side.CHO);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findMovablePath(EIGHT_FIVE, SEVEN_FIVE))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(FIVE_EIGHT, FIVE_SEVEN))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -60,7 +60,7 @@ public class GeneralTest {
         Piece piece = new General(Side.CHO);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findMovablePath(EIGHT_FIVE, NINE_FOUR))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(FIVE_EIGHT, FOUR_NINE))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

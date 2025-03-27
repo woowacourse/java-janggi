@@ -25,7 +25,7 @@ public class OutputView {
         for (int file : FILE) {
             System.out.print(file + SEPARATOR);
             for (int rank : RANK) {
-                JanggiPosition position = new JanggiPosition(file, rank);
+                JanggiPosition position = new JanggiPosition(rank, file);
                 Piece piece = board.get(position);
                 printPiece(piece);
             }
@@ -50,7 +50,8 @@ public class OutputView {
     }
 
     public static void printCurrentPlayerTurn(Player player) {
-        System.out.println("이번 차례는 " + changePlayer(player) + "의 차례입니다. (예시 : 01 81)");
+        System.out.println();
+        System.out.println("이번 차례는 " + changePlayer(player) + "의 차례입니다. (예시 : 10 18)");
     }
 
     private static String changePlayer(Player player) {

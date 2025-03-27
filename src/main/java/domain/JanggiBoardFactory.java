@@ -17,9 +17,9 @@ public class JanggiBoardFactory {
 
     public static Map<JanggiPosition, Piece> createJanggiBoard() {
         Map<JanggiPosition, Piece> janggiBoard = new HashMap<>();
-        for (Column column : Column.values()) {
-            for (Row row : Row.values()) {
-                janggiBoard.put(new JanggiPosition(row.getRow(), column.getColumn()), new Empty());
+        for (File file : File.values()) {
+            for (Rank rank : Rank.values()) {
+                janggiBoard.put(new JanggiPosition(rank.getRank(), file.getFile()), new Empty());
             }
         }
         initChoJanggiBoard(janggiBoard);
@@ -28,40 +28,40 @@ public class JanggiBoardFactory {
     }
 
     private static void initChoJanggiBoard(Map<JanggiPosition, Piece> janggiBoard) {
-        janggiBoard.put(new JanggiPosition(Row.NINE.getRow(), Column.FIVE.getColumn()), new General(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.ZERO.getRow(), Column.ONE.getColumn()), new Chariot(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.ZERO.getRow(), Column.NINE.getColumn()), new Chariot(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.EIGHT.getRow(), Column.TWO.getColumn()), new Cannon(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.EIGHT.getRow(), Column.EIGHT.getColumn()), new Cannon(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.SEVEN.getRow(), Column.ONE.getColumn()), new Soldier(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.SEVEN.getRow(), Column.THREE.getColumn()), new Soldier(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.SEVEN.getRow(), Column.FIVE.getColumn()), new Soldier(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.SEVEN.getRow(), Column.SEVEN.getColumn()), new Soldier(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.SEVEN.getRow(), Column.NINE.getColumn()), new Soldier(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.ZERO.getRow(), Column.FOUR.getColumn()), new Guard(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.ZERO.getRow(), Column.SIX.getColumn()), new Guard(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.ZERO.getRow(), Column.TWO.getColumn()), new Horse(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.ZERO.getRow(), Column.EIGHT.getColumn()), new Horse(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.ZERO.getRow(), Column.THREE.getColumn()), new Elephant(Side.CHO));
-        janggiBoard.put(new JanggiPosition(Row.ZERO.getRow(), Column.SEVEN.getColumn()), new Elephant(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.FIVE.getRank(), File.NINE.getFile()), new General(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.ONE.getRank(), File.ZERO.getFile()), new Chariot(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.NINE.getRank(), File.ZERO.getFile()), new Chariot(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.TWO.getRank(), File.EIGHT.getFile()), new Cannon(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.EIGHT.getRank(), File.EIGHT.getFile()), new Cannon(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.ONE.getRank(), File.SEVEN.getFile()), new Soldier(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.THREE.getRank(), File.SEVEN.getFile()), new Soldier(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.FIVE.getRank(), File.SEVEN.getFile()), new Soldier(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.SEVEN.getRank(), File.SEVEN.getFile()), new Soldier(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.NINE.getRank(), File.SEVEN.getFile()), new Soldier(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.FOUR.getRank(), File.ZERO.getFile()), new Guard(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.SIX.getRank(), File.ZERO.getFile()), new Guard(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.TWO.getRank(), File.ZERO.getFile()), new Horse(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.EIGHT.getRank(), File.ZERO.getFile()), new Horse(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.THREE.getRank(), File.ZERO.getFile()), new Elephant(Side.CHO));
+        janggiBoard.put(new JanggiPosition(Rank.SEVEN.getRank(), File.ZERO.getFile()), new Elephant(Side.CHO));
     }
 
     private static void initHanJanggiBoard(Map<JanggiPosition, Piece> janggiBoard) {
-        janggiBoard.put(new JanggiPosition(Row.TWO.getRow(), Column.FIVE.getColumn()), new General(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.ONE.getRow(), Column.ONE.getColumn()), new Chariot(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.ONE.getRow(), Column.NINE.getColumn()), new Chariot(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.THREE.getRow(), Column.TWO.getColumn()), new Cannon(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.THREE.getRow(), Column.EIGHT.getColumn()), new Cannon(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.FOUR.getRow(), Column.ONE.getColumn()), new Soldier(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.FOUR.getRow(), Column.THREE.getColumn()), new Soldier(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.FOUR.getRow(), Column.FIVE.getColumn()), new Soldier(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.FOUR.getRow(), Column.SEVEN.getColumn()), new Soldier(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.FOUR.getRow(), Column.NINE.getColumn()), new Soldier(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.ONE.getRow(), Column.FOUR.getColumn()), new Guard(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.ONE.getRow(), Column.SIX.getColumn()), new Guard(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.ONE.getRow(), Column.TWO.getColumn()), new Horse(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.ONE.getRow(), Column.EIGHT.getColumn()), new Horse(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.ONE.getRow(), Column.THREE.getColumn()), new Elephant(Side.HAN));
-        janggiBoard.put(new JanggiPosition(Row.ONE.getRow(), Column.SEVEN.getColumn()), new Elephant(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.FIVE.getRank(), File.TWO.getFile()), new General(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.ONE.getRank(), File.ONE.getFile()), new Chariot(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.NINE.getRank(), File.ONE.getFile()), new Chariot(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.TWO.getRank(), File.THREE.getFile()), new Cannon(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.EIGHT.getRank(), File.THREE.getFile()), new Cannon(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.ONE.getRank(), File.FOUR.getFile()), new Soldier(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.THREE.getRank(), File.FOUR.getFile()), new Soldier(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.FIVE.getRank(), File.FOUR.getFile()), new Soldier(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.SEVEN.getRank(), File.FOUR.getFile()), new Soldier(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.NINE.getRank(), File.FOUR.getFile()), new Soldier(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.FOUR.getRank(), File.ONE.getFile()), new Guard(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.SIX.getRank(), File.ONE.getFile()), new Guard(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.TWO.getRank(), File.ONE.getFile()), new Horse(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.EIGHT.getRank(), File.ONE.getFile()), new Horse(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.THREE.getRank(), File.ONE.getFile()), new Elephant(Side.HAN));
+        janggiBoard.put(new JanggiPosition(Rank.SEVEN.getRank(), File.ONE.getFile()), new Elephant(Side.HAN));
     }
 }

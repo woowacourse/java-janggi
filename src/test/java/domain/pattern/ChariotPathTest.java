@@ -1,9 +1,9 @@
 package domain.pattern;
 
-import static domain.Fixtures.FIVE_ONE;
-import static domain.Fixtures.NINE_TWO;
-import static domain.Fixtures.ZERO_NINE;
-import static domain.Fixtures.ZERO_ONE;
+import static domain.Fixtures.NINE_ZERO;
+import static domain.Fixtures.ONE_FIVE;
+import static domain.Fixtures.ONE_ZERO;
+import static domain.Fixtures.TWO_NINE;
 
 import domain.JanggiPosition;
 import domain.piece.Chariot;
@@ -24,7 +24,7 @@ public class ChariotPathTest {
     @MethodSource("provideChariotPath")
     void 차의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<Pattern> path) {
         // when
-        List<Pattern> chariotPath = piece.findMovablePath(ZERO_ONE, afterPosition);
+        List<Pattern> chariotPath = piece.findMovablePath(ONE_ZERO, afterPosition);
 
         // then
         Assertions.assertThat(chariotPath).containsAll(path);
@@ -33,13 +33,13 @@ public class ChariotPathTest {
     static Stream<Arguments> provideChariotPath() {
         Path pathOfChariot = new Path(Direction.createChariotOrCannonPatternMap());
         return Stream.of(
-                Arguments.of(FIVE_ONE,
+                Arguments.of(ONE_FIVE,
                         List.of(pathOfChariot.getPatterns(Direction.UP).getFirst(),
                                 pathOfChariot.getPatterns(Direction.UP).getFirst(),
                                 pathOfChariot.getPatterns(Direction.UP).getFirst(),
                                 pathOfChariot.getPatterns(Direction.UP).getFirst(),
                                 pathOfChariot.getPatterns(Direction.UP).getFirst())),
-                Arguments.of(ZERO_NINE,
+                Arguments.of(NINE_ZERO,
                         List.of(pathOfChariot.getPatterns(Direction.RIGHT).getFirst(),
                                 pathOfChariot.getPatterns(Direction.RIGHT).getFirst(),
                                 pathOfChariot.getPatterns(Direction.RIGHT).getFirst(),
@@ -54,7 +54,7 @@ public class ChariotPathTest {
     @Test
     void 차의_이동_전_후_위치가_알맞지_않으면_예외를_발생시킨다() {
         // when & then
-        Assertions.assertThatThrownBy(() -> piece.findMovablePath(ZERO_ONE, NINE_TWO))
+        Assertions.assertThatThrownBy(() -> piece.findMovablePath(ONE_ZERO, TWO_NINE))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

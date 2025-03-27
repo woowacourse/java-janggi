@@ -27,12 +27,12 @@ public abstract class ContinuousPiece extends Moved {
                                                                          JanggiPosition afterPosition) {
         Direction newPath;
         int additionalSize;
-        if (afterPosition.isBiggerYThan(beforePosition)) {
+        if (afterPosition.isBiggerRankThan(beforePosition)) {
             newPath = RIGHT;
-            additionalSize = afterPosition.getYGap(beforePosition);
+            additionalSize = afterPosition.getRankGap(beforePosition);
         } else {
             newPath = LEFT;
-            additionalSize = afterPosition.getYGap(beforePosition);
+            additionalSize = afterPosition.getRankGap(beforePosition);
         }
         return createPattern(path, newPath, additionalSize);
     }
@@ -41,12 +41,12 @@ public abstract class ContinuousPiece extends Moved {
                                                                       JanggiPosition afterPosition) {
         Direction newPath;
         int additionalSize;
-        if (afterPosition.isBiggerXThan(beforePosition)) {
+        if (afterPosition.isBiggerFileThan(beforePosition)) {
             newPath = DOWN;
-            additionalSize = afterPosition.getXGap(beforePosition);
+            additionalSize = afterPosition.getFileGap(beforePosition);
         } else {
             newPath = UP;
-            additionalSize = afterPosition.getXGap(beforePosition);
+            additionalSize = afterPosition.getFileGap(beforePosition);
         }
         return createPattern(path, newPath, additionalSize);
     }

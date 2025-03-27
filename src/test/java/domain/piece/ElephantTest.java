@@ -1,14 +1,14 @@
 package domain.piece;
 
-import static domain.Fixtures.FIVE_EIGHT;
-import static domain.Fixtures.FIVE_TWO;
-import static domain.Fixtures.FOUR_SEVEN;
-import static domain.Fixtures.FOUR_THREE;
-import static domain.Fixtures.NINE_EIGHT;
-import static domain.Fixtures.NINE_TWO;
-import static domain.Fixtures.SEVEN_FIVE;
-import static domain.Fixtures.ZERO_SEVEN;
-import static domain.Fixtures.ZERO_THREE;
+import static domain.Fixtures.EIGHT_FIVE;
+import static domain.Fixtures.EIGHT_NINE;
+import static domain.Fixtures.FIVE_SEVEN;
+import static domain.Fixtures.SEVEN_FOUR;
+import static domain.Fixtures.SEVEN_ZERO;
+import static domain.Fixtures.THREE_FOUR;
+import static domain.Fixtures.THREE_ZERO;
+import static domain.Fixtures.TWO_FIVE;
+import static domain.Fixtures.TWO_NINE;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.JanggiPosition;
@@ -25,19 +25,20 @@ public class ElephantTest {
         Piece piece = new Elephant(Side.CHO);
 
         // when & then
-        assertDoesNotThrow(() -> piece.findMovablePath(SEVEN_FIVE, afterPosition));
+        assertDoesNotThrow(() -> piece.findMovablePath(FIVE_SEVEN, afterPosition));
     }
 
     static Stream<Arguments> provideElephantAfterPositions() {
         return Stream.of(
-                Arguments.of(FOUR_SEVEN),
-                Arguments.of(FOUR_THREE),
-                Arguments.of(FIVE_TWO),
-                Arguments.of(NINE_TWO),
-                Arguments.of(ZERO_THREE),
-                Arguments.of(ZERO_SEVEN),
-                Arguments.of(NINE_EIGHT),
-                Arguments.of(FIVE_EIGHT)
+                Arguments.of(SEVEN_FOUR),
+                Arguments.of(THREE_FOUR),
+                Arguments.of(TWO_FIVE),
+                Arguments.of(TWO_NINE),
+                Arguments.of(THREE_ZERO),
+                Arguments.of(SEVEN_ZERO),
+                Arguments.of(EIGHT_NINE),
+                Arguments.of(EIGHT_FIVE)
+
         );
     }
 }

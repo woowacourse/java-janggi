@@ -1,9 +1,9 @@
 package domain.piece;
 
-import static domain.Fixtures.SEVEN_FIVE;
-import static domain.Fixtures.SEVEN_FOUR;
-import static domain.Fixtures.SEVEN_SIX;
-import static domain.Fixtures.SIX_FIVE;
+import static domain.Fixtures.FIVE_SEVEN;
+import static domain.Fixtures.FIVE_SIX;
+import static domain.Fixtures.FOUR_SEVEN;
+import static domain.Fixtures.SIX_SEVEN;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.JanggiPosition;
@@ -20,14 +20,14 @@ public class JolTest {
         Piece piece = new Soldier(Side.CHO);
 
         // when & then
-        assertDoesNotThrow(() -> piece.findMovablePath(SEVEN_FIVE, afterPosition));
+        assertDoesNotThrow(() -> piece.findMovablePath(FIVE_SEVEN, afterPosition));
     }
 
     static Stream<Arguments> provideJolAfterPositions() {
         return Stream.of(
-                Arguments.of(SEVEN_FOUR),
-                Arguments.of(SEVEN_SIX),
-                Arguments.of(SIX_FIVE)
+                Arguments.of(FOUR_SEVEN),
+                Arguments.of(SIX_SEVEN),
+                Arguments.of(FIVE_SIX)
         );
     }
 }

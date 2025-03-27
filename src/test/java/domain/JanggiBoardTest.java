@@ -1,53 +1,52 @@
 package domain;
 
 import static domain.Fixtures.EIGHT_EIGHT;
-import static domain.Fixtures.EIGHT_FIVE;
+import static domain.Fixtures.EIGHT_ONE;
+import static domain.Fixtures.EIGHT_SEVEN;
 import static domain.Fixtures.EIGHT_THREE;
 import static domain.Fixtures.EIGHT_TWO;
+import static domain.Fixtures.EIGHT_ZERO;
+import static domain.Fixtures.FIVE_EIGHT;
+import static domain.Fixtures.FIVE_FOUR;
 import static domain.Fixtures.FIVE_NINE;
-import static domain.Fixtures.FIVE_ONE;
 import static domain.Fixtures.FIVE_SEVEN;
+import static domain.Fixtures.FIVE_SIX;
 import static domain.Fixtures.FIVE_TWO;
-import static domain.Fixtures.FOUR_FIVE;
 import static domain.Fixtures.FOUR_FOUR;
 import static domain.Fixtures.FOUR_NINE;
 import static domain.Fixtures.FOUR_ONE;
-import static domain.Fixtures.FOUR_SEVEN;
-import static domain.Fixtures.FOUR_THREE;
-import static domain.Fixtures.FOUR_TWO;
+import static domain.Fixtures.FOUR_ZERO;
 import static domain.Fixtures.NINE_FIVE;
 import static domain.Fixtures.NINE_FOUR;
-import static domain.Fixtures.ONE_EIGHT;
+import static domain.Fixtures.NINE_ONE;
+import static domain.Fixtures.NINE_SEVEN;
+import static domain.Fixtures.NINE_ZERO;
+import static domain.Fixtures.ONE_FIVE;
 import static domain.Fixtures.ONE_FOUR;
-import static domain.Fixtures.ONE_NINE;
 import static domain.Fixtures.ONE_ONE;
 import static domain.Fixtures.ONE_SEVEN;
 import static domain.Fixtures.ONE_SIX;
-import static domain.Fixtures.ONE_THREE;
-import static domain.Fixtures.ONE_TWO;
-import static domain.Fixtures.SEVEN_EIGHT;
+import static domain.Fixtures.ONE_ZERO;
 import static domain.Fixtures.SEVEN_FIVE;
-import static domain.Fixtures.SEVEN_NINE;
+import static domain.Fixtures.SEVEN_FOUR;
 import static domain.Fixtures.SEVEN_ONE;
 import static domain.Fixtures.SEVEN_SEVEN;
-import static domain.Fixtures.SEVEN_THREE;
-import static domain.Fixtures.SEVEN_TWO;
-import static domain.Fixtures.SIX_FIVE;
+import static domain.Fixtures.SEVEN_SIX;
+import static domain.Fixtures.SEVEN_ZERO;
 import static domain.Fixtures.SIX_ONE;
-import static domain.Fixtures.SIX_SEVEN;
+import static domain.Fixtures.SIX_ZERO;
 import static domain.Fixtures.THREE_EIGHT;
+import static domain.Fixtures.THREE_FOUR;
+import static domain.Fixtures.THREE_ONE;
+import static domain.Fixtures.THREE_SEVEN;
 import static domain.Fixtures.THREE_THREE;
-import static domain.Fixtures.THREE_TWO;
+import static domain.Fixtures.THREE_ZERO;
 import static domain.Fixtures.TWO_EIGHT;
 import static domain.Fixtures.TWO_FIVE;
-import static domain.Fixtures.ZERO_EIGHT;
-import static domain.Fixtures.ZERO_FOUR;
-import static domain.Fixtures.ZERO_NINE;
-import static domain.Fixtures.ZERO_ONE;
-import static domain.Fixtures.ZERO_SEVEN;
-import static domain.Fixtures.ZERO_SIX;
-import static domain.Fixtures.ZERO_THREE;
-import static domain.Fixtures.ZERO_TWO;
+import static domain.Fixtures.TWO_FOUR;
+import static domain.Fixtures.TWO_ONE;
+import static domain.Fixtures.TWO_THREE;
+import static domain.Fixtures.TWO_ZERO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -92,38 +91,38 @@ public class JanggiBoardTest {
 
     private static Stream<Arguments> providePlaceAndPiece() {
         return Stream.of(
-                Arguments.of(NINE_FIVE, new General(Side.CHO)),
-                Arguments.of(ZERO_ONE, new Chariot(Side.CHO)),
-                Arguments.of(ZERO_NINE, new Chariot(Side.CHO)),
-                Arguments.of(EIGHT_TWO, new Cannon(Side.CHO)),
+                Arguments.of(FIVE_NINE, new General(Side.CHO)),
+                Arguments.of(ONE_ZERO, new Chariot(Side.CHO)),
+                Arguments.of(NINE_ZERO, new Chariot(Side.CHO)),
+                Arguments.of(TWO_EIGHT, new Cannon(Side.CHO)),
                 Arguments.of(EIGHT_EIGHT, new Cannon(Side.CHO)),
-                Arguments.of(SEVEN_ONE, new Soldier(Side.CHO)),
-                Arguments.of(SEVEN_THREE, new Soldier(Side.CHO)),
-                Arguments.of(SEVEN_FIVE, new Soldier(Side.CHO)),
+                Arguments.of(ONE_SEVEN, new Soldier(Side.CHO)),
+                Arguments.of(THREE_SEVEN, new Soldier(Side.CHO)),
+                Arguments.of(FIVE_SEVEN, new Soldier(Side.CHO)),
                 Arguments.of(SEVEN_SEVEN, new Soldier(Side.CHO)),
-                Arguments.of(SEVEN_NINE, new Soldier(Side.CHO)),
-                Arguments.of(ZERO_FOUR, new Guard(Side.CHO)),
-                Arguments.of(ZERO_SIX, new Guard(Side.CHO)),
-                Arguments.of(ZERO_TWO, new Horse(Side.CHO)),
-                Arguments.of(ZERO_EIGHT, new Horse(Side.CHO)),
-                Arguments.of(ZERO_THREE, new Elephant(Side.CHO)),
-                Arguments.of(ZERO_SEVEN, new Elephant(Side.CHO)),
-                Arguments.of(TWO_FIVE, new General(Side.HAN)),
+                Arguments.of(NINE_SEVEN, new Soldier(Side.CHO)),
+                Arguments.of(FOUR_ZERO, new Guard(Side.CHO)),
+                Arguments.of(SIX_ZERO, new Guard(Side.CHO)),
+                Arguments.of(TWO_ZERO, new Horse(Side.CHO)),
+                Arguments.of(EIGHT_ZERO, new Horse(Side.CHO)),
+                Arguments.of(THREE_ZERO, new Elephant(Side.CHO)),
+                Arguments.of(SEVEN_ZERO, new Elephant(Side.CHO)),
+                Arguments.of(FIVE_TWO, new General(Side.HAN)),
                 Arguments.of(ONE_ONE, new Chariot(Side.HAN)),
-                Arguments.of(ONE_NINE, new Chariot(Side.HAN)),
-                Arguments.of(THREE_TWO, new Cannon(Side.HAN)),
-                Arguments.of(THREE_EIGHT, new Cannon(Side.HAN)),
-                Arguments.of(FOUR_ONE, new Soldier(Side.HAN)),
-                Arguments.of(FOUR_THREE, new Soldier(Side.HAN)),
-                Arguments.of(FOUR_FIVE, new Soldier(Side.HAN)),
-                Arguments.of(FOUR_SEVEN, new Soldier(Side.HAN)),
-                Arguments.of(FOUR_NINE, new Soldier(Side.HAN)),
-                Arguments.of(ONE_FOUR, new Guard(Side.HAN)),
-                Arguments.of(ONE_SIX, new Guard(Side.HAN)),
-                Arguments.of(ONE_TWO, new Horse(Side.HAN)),
-                Arguments.of(ONE_EIGHT, new Horse(Side.HAN)),
-                Arguments.of(ONE_THREE, new Elephant(Side.HAN)),
-                Arguments.of(ONE_SEVEN, new Elephant(Side.HAN))
+                Arguments.of(NINE_ONE, new Chariot(Side.HAN)),
+                Arguments.of(TWO_THREE, new Cannon(Side.HAN)),
+                Arguments.of(EIGHT_THREE, new Cannon(Side.HAN)),
+                Arguments.of(ONE_FOUR, new Soldier(Side.HAN)),
+                Arguments.of(THREE_FOUR, new Soldier(Side.HAN)),
+                Arguments.of(FIVE_FOUR, new Soldier(Side.HAN)),
+                Arguments.of(SEVEN_FOUR, new Soldier(Side.HAN)),
+                Arguments.of(NINE_FOUR, new Soldier(Side.HAN)),
+                Arguments.of(FOUR_ONE, new Guard(Side.HAN)),
+                Arguments.of(SIX_ONE, new Guard(Side.HAN)),
+                Arguments.of(TWO_ONE, new Horse(Side.HAN)),
+                Arguments.of(EIGHT_ONE, new Horse(Side.HAN)),
+                Arguments.of(THREE_ONE, new Elephant(Side.HAN)),
+                Arguments.of(SEVEN_ONE, new Elephant(Side.HAN))
         );
     }
 
@@ -133,7 +132,7 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when & then
-        assertThatThrownBy(() -> janggiBoard.move(ZERO_ONE, SIX_ONE))
+        assertThatThrownBy(() -> janggiBoard.move(ONE_ZERO, ONE_SIX))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -145,10 +144,10 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
-            janggiBoard.move(NINE_FIVE, EIGHT_FIVE);
+            janggiBoard.move(FIVE_NINE, FIVE_EIGHT);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(EIGHT_FIVE)).isInstanceOf(General.class);
+            assertThat(janggiBoard.getPieceFrom(FIVE_EIGHT)).isInstanceOf(General.class);
         }
 
         @Test
@@ -157,10 +156,10 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
-            janggiBoard.move(ZERO_TWO, EIGHT_THREE);
+            janggiBoard.move(TWO_ZERO, THREE_EIGHT);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(EIGHT_THREE)).isInstanceOf(Horse.class);
+            assertThat(janggiBoard.getPieceFrom(THREE_EIGHT)).isInstanceOf(Horse.class);
         }
 
         @Test
@@ -169,10 +168,10 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
-            janggiBoard.move(ZERO_FOUR, NINE_FOUR);
+            janggiBoard.move(FOUR_ZERO, FOUR_NINE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(NINE_FOUR)).isInstanceOf(Guard.class);
+            assertThat(janggiBoard.getPieceFrom(FOUR_NINE)).isInstanceOf(Guard.class);
         }
 
         @Test
@@ -181,11 +180,11 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
-            janggiBoard.move(SEVEN_FIVE, SIX_FIVE);
-            janggiBoard.move(ZERO_THREE, SEVEN_FIVE);
+            janggiBoard.move(FIVE_SEVEN, FIVE_SIX);
+            janggiBoard.move(THREE_ZERO, FIVE_SEVEN);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(SEVEN_FIVE)).isInstanceOf(Elephant.class);
+            assertThat(janggiBoard.getPieceFrom(FIVE_SEVEN)).isInstanceOf(Elephant.class);
         }
 
         @Test
@@ -194,10 +193,10 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
-            janggiBoard.move(SEVEN_ONE, SIX_ONE);
+            janggiBoard.move(ONE_SEVEN, ONE_SIX);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(SIX_ONE)).isInstanceOf(Soldier.class);
+            assertThat(janggiBoard.getPieceFrom(ONE_SIX)).isInstanceOf(Soldier.class);
         }
 
         @Test
@@ -206,10 +205,10 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
-            janggiBoard.move(FOUR_ONE, FIVE_ONE);
+            janggiBoard.move(ONE_FOUR, ONE_FIVE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(FIVE_ONE)).isInstanceOf(Soldier.class);
+            assertThat(janggiBoard.getPieceFrom(ONE_FIVE)).isInstanceOf(Soldier.class);
         }
 
         @Test
@@ -218,11 +217,11 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
-            janggiBoard.move(SEVEN_NINE, SEVEN_EIGHT);
-            janggiBoard.move(ZERO_NINE, FIVE_NINE);
+            janggiBoard.move(NINE_SEVEN, EIGHT_SEVEN);
+            janggiBoard.move(NINE_ZERO, NINE_FIVE);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(FIVE_NINE)).isInstanceOf(Chariot.class);
+            assertThat(janggiBoard.getPieceFrom(NINE_FIVE)).isInstanceOf(Chariot.class);
         }
 
         @Test
@@ -230,13 +229,13 @@ public class JanggiBoardTest {
             // given
 
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
-            janggiBoard.move(ZERO_TWO, EIGHT_THREE);
+            janggiBoard.move(TWO_ZERO, THREE_EIGHT);
 
             // when
-            janggiBoard.move(ZERO_ONE, ZERO_TWO);
+            janggiBoard.move(ONE_ZERO, TWO_ZERO);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(ZERO_TWO)).isInstanceOf(Chariot.class);
+            assertThat(janggiBoard.getPieceFrom(TWO_ZERO)).isInstanceOf(Chariot.class);
         }
 
         @Test
@@ -245,14 +244,14 @@ public class JanggiBoardTest {
             JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
             // when
-            janggiBoard.move(FOUR_THREE, FOUR_FOUR);
-            janggiBoard.move(ONE_TWO, THREE_THREE);
-            janggiBoard.move(THREE_THREE, FIVE_TWO);
+            janggiBoard.move(THREE_FOUR, FOUR_FOUR);
+            janggiBoard.move(TWO_ONE, THREE_THREE);
+            janggiBoard.move(THREE_THREE, TWO_FIVE);
 
-            janggiBoard.move(EIGHT_TWO, FOUR_TWO);
+            janggiBoard.move(TWO_EIGHT, TWO_FOUR);
 
             // then
-            assertThat(janggiBoard.getPieceFrom(FOUR_TWO)).isInstanceOf(Cannon.class);
+            assertThat(janggiBoard.getPieceFrom(TWO_FOUR)).isInstanceOf(Cannon.class);
         }
     }
 
@@ -262,7 +261,7 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when & then
-        assertThatThrownBy(() -> janggiBoard.move(EIGHT_EIGHT, TWO_EIGHT))
+        assertThatThrownBy(() -> janggiBoard.move(EIGHT_EIGHT, EIGHT_TWO))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -272,11 +271,11 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when
-        janggiBoard.move(NINE_FIVE, EIGHT_FIVE);
-        janggiBoard.move(EIGHT_EIGHT, EIGHT_THREE);
+        janggiBoard.move(FIVE_NINE, FIVE_EIGHT);
+        janggiBoard.move(EIGHT_EIGHT, THREE_EIGHT);
 
         // then
-        assertThatThrownBy(() -> janggiBoard.move(EIGHT_THREE, THREE_THREE))
+        assertThatThrownBy(() -> janggiBoard.move(THREE_EIGHT, THREE_THREE))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -286,11 +285,11 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when
-        janggiBoard.move(SEVEN_SEVEN, SIX_SEVEN);
-        janggiBoard.move(SIX_SEVEN, FIVE_SEVEN);
+        janggiBoard.move(SEVEN_SEVEN, SEVEN_SIX);
+        janggiBoard.move(SEVEN_SIX, SEVEN_FIVE);
 
-        Piece pieceInDanger = janggiBoard.getPieceFrom(FOUR_SEVEN);
-        janggiBoard.move(FIVE_SEVEN, FOUR_SEVEN);
+        Piece pieceInDanger = janggiBoard.getPieceFrom(SEVEN_FOUR);
+        janggiBoard.move(SEVEN_FIVE, SEVEN_FOUR);
 
         // then
         assertThat(pieceInDanger.getState()).isInstanceOf(Captured.class);
@@ -302,10 +301,10 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
 
         // when
-        janggiBoard.move(SEVEN_THREE, SEVEN_TWO);
+        janggiBoard.move(THREE_FOUR, TWO_FOUR);
 
         // then
-        assertThatThrownBy(() -> janggiBoard.move(EIGHT_TWO, THREE_TWO))
+        assertThatThrownBy(() -> janggiBoard.move(TWO_EIGHT, TWO_THREE))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

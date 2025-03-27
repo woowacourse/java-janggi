@@ -1,14 +1,14 @@
 package domain.piece;
 
-import static domain.Fixtures.EIGHT_SEVEN;
-import static domain.Fixtures.EIGHT_THREE;
-import static domain.Fixtures.FIVE_FOUR;
-import static domain.Fixtures.FIVE_SIX;
-import static domain.Fixtures.NINE_FOUR;
-import static domain.Fixtures.NINE_SIX;
-import static domain.Fixtures.SEVEN_FIVE;
-import static domain.Fixtures.SIX_SEVEN;
-import static domain.Fixtures.SIX_THREE;
+import static domain.Fixtures.FIVE_SEVEN;
+import static domain.Fixtures.FOUR_FIVE;
+import static domain.Fixtures.FOUR_NINE;
+import static domain.Fixtures.SEVEN_EIGHT;
+import static domain.Fixtures.SEVEN_SIX;
+import static domain.Fixtures.SIX_FIVE;
+import static domain.Fixtures.SIX_NINE;
+import static domain.Fixtures.THREE_EIGHT;
+import static domain.Fixtures.THREE_SIX;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import domain.JanggiPosition;
@@ -25,19 +25,19 @@ public class HorseTest {
         Piece piece = new Horse(Side.CHO);
 
         // when & then
-        assertDoesNotThrow(() -> piece.findMovablePath(SEVEN_FIVE, afterPosition));
+        assertDoesNotThrow(() -> piece.findMovablePath(FIVE_SEVEN, afterPosition));
     }
 
     static Stream<Arguments> provideHorseAfterPositions() {
         return Stream.of(
-                Arguments.of(FIVE_SIX),
-                Arguments.of(FIVE_FOUR),
-                Arguments.of(SIX_THREE),
-                Arguments.of(EIGHT_THREE),
-                Arguments.of(NINE_FOUR),
-                Arguments.of(NINE_SIX),
-                Arguments.of(EIGHT_SEVEN),
-                Arguments.of(SIX_SEVEN)
+                Arguments.of(SIX_FIVE),
+                Arguments.of(FOUR_FIVE),
+                Arguments.of(THREE_SIX),
+                Arguments.of(THREE_EIGHT),
+                Arguments.of(FOUR_NINE),
+                Arguments.of(SIX_NINE),
+                Arguments.of(SEVEN_EIGHT),
+                Arguments.of(SEVEN_SIX)
         );
     }
 }

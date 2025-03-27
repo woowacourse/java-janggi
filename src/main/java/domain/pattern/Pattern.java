@@ -1,29 +1,29 @@
 package domain.pattern;
 
 public enum Pattern {
-    RIGHT(0, 1),
-    DOWN(1, 0),
-    LEFT(0, -1),
-    UP(-1, 0),
+    RIGHT(1, 0),
+    DOWN(0, 1),
+    LEFT(-1, 0),
+    UP(0, -1),
 
-    DIAGONAL_UP_RIGHT(-1, 1),
+    DIAGONAL_UP_RIGHT(1, -1),
     DIAGONAL_DOWN_RIGHT(1, 1),
-    DIAGONAL_DOWN_LEFT(1, -1),
+    DIAGONAL_DOWN_LEFT(-1, 1),
     DIAGONAL_UP_LEFT(-1, -1);
 
-    private final int x;
-    private final int y;
+    private final int rank;
+    private final int file;
 
-    Pattern(int x, int y) {
-        this.x = x;
-        this.y = y;
+    Pattern(int rank, int file) {
+        this.rank = rank;
+        this.file = file;
     }
 
-    public int getX() {
-        return x;
+    public int getRank() {
+        return rank;
     }
 
-    public int getY() {
-        return y;
+    public int getFile() {
+        return file;
     }
 }
