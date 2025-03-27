@@ -1,4 +1,4 @@
-package domain;
+package domain.janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -7,10 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import domain.board.Board;
 import domain.board.BoardPosition;
 import domain.board.InitialBoardFixture;
-import domain.janggi.Janggi;
-import domain.janggi.Score;
-import domain.janggi.Team;
-import domain.janggi.Turn;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Elephant;

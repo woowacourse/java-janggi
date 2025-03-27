@@ -6,9 +6,9 @@ import static dao.DatabaseConfig.SERVER;
 import static dao.DatabaseConfig.USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.janggi.Team;
 import domain.board.Board;
 import domain.board.BoardPosition;
+import domain.janggi.Team;
 import domain.piece.General;
 import domain.piece.Piece;
 import java.sql.Connection;
@@ -115,21 +115,21 @@ class PiecePositionDaoTest {
                     ));
         }
 
-    }
 
-    @DisplayName("모든 게임의 모든 기물 위치 정보를 삭제한다.")
-    @Test
-    void deleteAll() {
-        // given
-        Board board = Board.initialize();
-        Map<BoardPosition, Piece> pieces = board.getPieces();
-        piecePositionDao.createAllByJanggiId(connection, 1, pieces);
+        @DisplayName("모든 게임의 모든 기물 위치 정보를 삭제한다.")
+        @Test
+        void deleteAll() {
+            // given
+            Board board = Board.initialize();
+            Map<BoardPosition, Piece> pieces = board.getPieces();
+            piecePositionDao.createAllByJanggiId(connection, 1, pieces);
 
-        // when
-        piecePositionDao.deleteAll(connection);
+            // when
+            piecePositionDao.deleteAll(connection);
 
-        // then
-        assertThat(piecePositionDao.findAllByJanggiId(connection, 1))
-                .isEmpty();
+            // then
+            assertThat(piecePositionDao.findAllByJanggiId(connection, 1))
+                    .isEmpty();
+        }
     }
 }
