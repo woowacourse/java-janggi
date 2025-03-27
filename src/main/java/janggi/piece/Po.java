@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.piece.direction.FourDirection;
+import janggi.piece.direction.GungDirection;
 import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
@@ -33,6 +34,10 @@ public class Po extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemy, Pieces allies) {
+        if (janggiPosition.isPositionInCastle() && destination.isPositionInCastle()) {
+            List<JanggiPosition> gungPathPositions = GungDirection.of(janggiPosition, destination);
+            return isValidMoveInCastle(gungPathPositions, enemy, allies);
+        }
         // 목적지가 직선 상에 있는지 확인
         if (!isValidMove(destination)) {
             return false;
@@ -60,6 +65,33 @@ public class Po extends Piece {
         }
 
         return alliesInPath.size() + enemyInPath.size() == 1 || alliesInPath.size() + enemyInPath.size() == 2;
+    }
+
+    private boolean isValidMoveInCastle(List<JanggiPosition> pathPositions, Pieces enemy, Pieces allies) {
+        if (pathPositions.isEmpty()) {
+            return false;
+        }
+        JanggiPosition start = pathPositions.getFirst();
+        JanggiPosition end = pathPositions.getLast();
+
+        int dx = Math.abs(end.x() - start.x());
+        int dy = Math.abs(end.y() - start.y());
+
+        // 2칸 직선 이동
+        // 1. start에 아군 장기말이나 적군 장기말이 있어야함.
+        // 2. end에 아군 장기말이 없어야함, 적군은 상관 없음
+        boolean isTwoStepStraight = (dx == 1 && dy == 0 && (enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start)) &&
+                enemy.isNotBlockedBy(end))
+                || (dx == 0 && dy == 1 && (enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start)) &&
+                enemy.isNotBlockedBy(end));
+
+        // 2칸 대각선 이동
+        // 1. start에 아군 장기말이나 적군 장기말이 있어야함.
+        // 2. end에 아군 장기말이 없어야함, 적군은 상관 없음
+        boolean isTwoStepDiagonal = (dx == 1 && dy == 1 && (enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start)) &&
+                enemy.isNotBlockedBy(end));
+
+        return  isTwoStepStraight || isTwoStepDiagonal;
     }
 
     private boolean isValidMove(JanggiPosition destination) {

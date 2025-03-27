@@ -207,4 +207,27 @@ class PoTest {
         //then
         Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
     }
+
+    @DisplayName("포가 궁성내에 있을 때 이동")
+    @ParameterizedTest
+    @MethodSource()
+    void test10(Jol allies, JanggiPosition  destination) {
+        //given
+        Po po = Po.from(new JanggiPosition(3,2));
+
+        //when
+        boolean isMove = po.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of(allies)));
+
+        //then
+        Assertions.assertThat(isMove).isTrue();
+    }
+
+    static Stream<Arguments> test10() {
+        return Stream.of(
+                Arguments.of(Jol.from(new JanggiPosition(3,1)), new JanggiPosition(3,0)),
+                Arguments.of(Jol.from(new JanggiPosition(4,1)),new JanggiPosition(5,0)),
+                Arguments.of(Jol.from(new JanggiPosition(4,2)),new JanggiPosition(5,2))
+        );
+    }
 }
+
