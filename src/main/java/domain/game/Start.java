@@ -17,7 +17,7 @@ public class Start implements GameState {
     }
 
     @Override
-    public GameState move(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+    public GameState playSingleTurn(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         throw new UnsupportedOperationException("게임을 start 해야만 move 할 수 있습니다.");
     }
 

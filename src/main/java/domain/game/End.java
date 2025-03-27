@@ -26,7 +26,7 @@ public class End implements GameState {
     }
 
     @Override
-    public GameState move(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+    public GameState playSingleTurn(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         throw new UnsupportedOperationException("게임이 종료되었습니다.");
     }
 

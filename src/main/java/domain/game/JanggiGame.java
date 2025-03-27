@@ -14,7 +14,7 @@ public class JanggiGame {
     }
 
     public Map<JanggiPosition, Piece> move(JanggiPosition beforePosition, JanggiPosition afterPosition) {
-        state = state.move(beforePosition, afterPosition);
+        state = state.playSingleTurn(beforePosition, afterPosition);
         return state.getBoard();
     }
 

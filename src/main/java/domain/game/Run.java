@@ -16,7 +16,7 @@ public class Run extends Start {
     }
 
     @Override
-    public GameState move(JanggiPosition beforePosition, JanggiPosition afterPosition) {
+    public GameState playSingleTurn(JanggiPosition beforePosition, JanggiPosition afterPosition) {
         validatePlayerTurn(beforePosition);
         Piece targetPiece = janggiBoard.getPieceFrom(afterPosition);
 
