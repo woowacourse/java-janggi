@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.board.Point;
 import janggi.camp.Camp;
-import janggi.view.PieceSymbol;
 import java.util.Set;
 
 public abstract class Piece {
@@ -21,7 +20,7 @@ public abstract class Piece {
 
     public abstract boolean isGeneral();
 
-    public abstract PieceSymbol getPieceSymbol();
+    public abstract PieceCategory getPieceCategory();
 
     protected boolean isJol() {
         return camp.isChu();

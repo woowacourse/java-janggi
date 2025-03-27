@@ -3,6 +3,8 @@ package janggi.view;
 import janggi.board.Point;
 import janggi.camp.Camp;
 import janggi.piece.Piece;
+import janggi.piece.PieceCategory;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -89,7 +91,11 @@ public class View {
     }
 
     private String formatPiece(Piece piece) {
-        PieceSymbol pieceSymbol = piece.getPieceSymbol();
+        PieceCategory pieceCategory = piece.getPieceCategory();
+        PieceSymbol pieceSymbol = Arrays.stream(PieceSymbol.values())
+                .filter(symbol -> symbol.getPieceCategory() == pieceCategory)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 기물 종류가 없습니다."));
         return pieceSymbol.getDisplayAttributes(piece.getCamp());
     }
 

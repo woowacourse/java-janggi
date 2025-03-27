@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.board.Point;
 import janggi.camp.Camp;
-import janggi.view.PieceSymbol;
 import java.util.Set;
 
 public final class Horse extends Piece {
@@ -58,7 +57,7 @@ public final class Horse extends Piece {
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.HORSE;
+    public PieceCategory getPieceCategory() {
+        return PieceCategory.HORSE;
     }
 }

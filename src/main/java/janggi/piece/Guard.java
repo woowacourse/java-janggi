@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.board.Point;
 import janggi.camp.Camp;
-import janggi.view.PieceSymbol;
 import java.util.Set;
 
 public final class Guard extends Piece {
@@ -31,7 +30,7 @@ public final class Guard extends Piece {
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.GUARD;
+    public PieceCategory getPieceCategory() {
+        return PieceCategory.GUARD;
     }
 }

@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.board.Point;
 import janggi.camp.Camp;
-import janggi.view.PieceSymbol;
 import java.util.Set;
 
 public final class Soldier extends Piece {
@@ -61,7 +60,7 @@ public final class Soldier extends Piece {
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.SOLDIER;
+    public PieceCategory getPieceCategory() {
+        return PieceCategory.SOLDIER;
     }
 }

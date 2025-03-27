@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.board.Point;
 import janggi.camp.Camp;
-import janggi.view.PieceSymbol;
 import java.util.Set;
 
 public final class Chariot extends Piece {
@@ -43,7 +42,7 @@ public final class Chariot extends Piece {
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.CHARIOT;
+    public PieceCategory getPieceCategory() {
+        return PieceCategory.CHARIOT;
     }
 }

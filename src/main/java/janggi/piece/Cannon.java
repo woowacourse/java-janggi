@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.board.Point;
 import janggi.camp.Camp;
-import janggi.view.PieceSymbol;
 import java.util.Set;
 
 public final class Cannon extends Piece {
@@ -44,7 +43,7 @@ public final class Cannon extends Piece {
 
     private boolean hasCannon(Set<Piece> pieces) {
         return pieces.stream()
-                .anyMatch(piece -> piece.getPieceSymbol() == this.getPieceSymbol());
+                .anyMatch(piece -> piece.getPieceCategory() == this.getPieceCategory());
     }
 
     @Override
@@ -58,7 +57,7 @@ public final class Cannon extends Piece {
     @Override
     public void validateCatch(Piece targetPiece) {
         super.validateCatch(targetPiece);
-        if (getPieceSymbol() == targetPiece.getPieceSymbol()) {
+        if (getPieceCategory() == targetPiece.getPieceCategory()) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }
@@ -69,7 +68,7 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.CANNON;
+    public PieceCategory getPieceCategory() {
+        return PieceCategory.CANNON;
     }
 }

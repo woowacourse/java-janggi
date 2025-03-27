@@ -2,7 +2,6 @@ package janggi.piece;
 
 import janggi.board.Point;
 import janggi.camp.Camp;
-import janggi.view.PieceSymbol;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -76,7 +75,7 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public PieceSymbol getPieceSymbol() {
-        return PieceSymbol.ELEPHANT;
+    public PieceCategory getPieceCategory() {
+        return PieceCategory.ELEPHANT;
     }
 }
