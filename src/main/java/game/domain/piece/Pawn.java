@@ -14,7 +14,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public void validateArrival(BoardLocation current, BoardLocation destination) {
+    protected void validateArrival(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
         boolean isAxis = boardVector.isAxis();
         boolean isStepAxisMove = boardVector.isStepAxisMove(PAWN_STEP);
@@ -30,36 +30,19 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
+    protected List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         return Collections.emptyList();
     }
 
     @Override
-    public void validateMovePath(List<Piece> pathPiece) {
+    protected void validateMovePath(List<Piece> pathPiece) {
         if (!pathPiece.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
     }
 
     @Override
-    public void validateKillable(Piece destinationPiece) {
-        if (this.isEqualTeam(destinationPiece)) {
-            throw new IllegalArgumentException("[ERROR] 해당 기물은 목적지로 이동할 수 없습니다.");
-        }
-    }
-
-    @Override
     public PieceType getType() {
         return PieceType.PAWN;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return this == obj || (obj != null && getClass() == obj.getClass());
-    }
-
-    @Override
-    public int hashCode() {
-        return System.identityHashCode(this);
     }
 }

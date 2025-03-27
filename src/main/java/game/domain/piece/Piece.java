@@ -4,7 +4,6 @@ import game.domain.board.BoardLocation;
 import game.domain.board.PieceExtractor;
 import game.domain.board.PieceFinder;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Piece {
 
@@ -23,47 +22,35 @@ public abstract class Piece {
                 .ifPresent(this::validateKillable);
     }
 
-    public abstract void validateArrival(BoardLocation current, BoardLocation target);
+    protected abstract void validateArrival(BoardLocation current, BoardLocation target);
 
-    public abstract List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target);
+    protected abstract List<BoardLocation> createAllPath(BoardLocation current, BoardLocation target);
 
-    public abstract void validateMovePath(List<Piece> pathPiece);
-
-    protected abstract void validateKillable(Piece destinationPiece);
+    protected abstract void validateMovePath(List<Piece> pathPiece);
 
     public abstract PieceType getType();
 
+    protected void validateKillable(Piece destinationPiece) {
+        if (isEqualTeam(destinationPiece)) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 목적지로 이동할 수 없습니다.");
+        }
+    }
+
     public final void validateEqualTeam(Team team){
-        if (this.isEqualTeam(team)) {
-            return;
+        if (isNotEqualTeam(team)) {
+            throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다");
         }
-        throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다");
-    };
-
-    public final void validateOccupiable(Piece destinationPiece) {
-        if (destinationPiece.isNull()) {
-            return;
-        }
-        validateKillable(destinationPiece);
-    }
-
-    public final boolean isSameType(Piece piece) {
-        return Objects.equals(this.getType(), piece.getType());
-    }
-
-    public final boolean isEqualTeam(Team team) {
-        return this.team == team;
-    }
-
-    public final boolean isEqualTeam(Piece piece) {
-        return this.team == piece.team;
     }
 
     public final Team getTeam() {
         return this.team;
     }
 
-    public boolean isNull() {
-        return false;
+    private boolean isNotEqualTeam(Team team) {
+        return this.team != team;
+    }
+
+    private boolean isEqualTeam(Piece piece) {
+        return this.team == piece.team;
     }
 }

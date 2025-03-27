@@ -4,6 +4,7 @@ import game.domain.board.Axis;
 import game.domain.board.BoardLocation;
 import game.domain.board.BoardVector;
 import java.util.List;
+import java.util.Objects;
 
 public class Cannon extends Piece {
 
@@ -12,7 +13,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public void validateArrival(BoardLocation current, BoardLocation destination) {
+    protected void validateArrival(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
         if (boardVector.isNotAxis()) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
@@ -20,7 +21,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
+    protected List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
 
         Axis quadrant = Axis.findQuadrant(boardVector);
@@ -28,15 +29,16 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public void validateMovePath(List<Piece> pathPiece) {
+    protected void validateMovePath(List<Piece> pathPiece) {
         if (pathPiece.size() != 1 || isSameType(pathPiece.getFirst())) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
     }
 
     @Override
-    public void validateKillable(Piece destinationPiece) {
-        if (this.isEqualTeam(destinationPiece) || isSameType(destinationPiece)) {
+    protected void validateKillable(Piece destinationPiece) {
+        super.validateKillable(destinationPiece);
+        if (isSameType(destinationPiece)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
     }
@@ -46,13 +48,7 @@ public class Cannon extends Piece {
         return PieceType.CANNON;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return this == obj || (obj != null && getClass() == obj.getClass());
-    }
-
-    @Override
-    public int hashCode() {
-        return System.identityHashCode(this);
+    private boolean isSameType(Piece piece) {
+        return Objects.equals(this.getType(), piece.getType());
     }
 }
