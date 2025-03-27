@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 
 class CanonTest {
@@ -114,4 +115,26 @@ class CanonTest {
                 .containsEntry(goal, piece);
     }
 
+    @CsvSource(value = {"2:2", "2:6", "5:3", "6:2", "6:6"}, delimiterString = ":")
+    @ParameterizedTest
+    void 포의_이동_규칙을_벗어나_움직일_경우_예외를_발생한다(int column, int row) {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = new Position(4, 4);
+        Position goal = createPosition(column, row);
+        Canon piece = new Canon(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        initialBoard.put(new Position(3,3), new Soldier(Team.RED));
+        initialBoard.put(new Position(3,5), new Soldier(Team.RED));
+        initialBoard.put(new Position(5,3), new Soldier(Team.RED));
+        initialBoard.put(new Position(5,5), new Soldier(Team.RED));
+
+        Board board = new Board(() -> initialBoard);
+
+        // when && then
+        assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포의 이동 규칙에 어긋나는 움직임입니다.");
+    }
 }

@@ -40,7 +40,7 @@ public class Canon extends Piece {
 
     private void validateStraightMove(Position start, Position goal) {
         if (!start.equalColumn(goal) && !start.equalRow(goal)) {
-            throw new IllegalArgumentException("[ERROR] 포는 상하좌우 일직선으로만 이동 가능합니다.");
+            throw new IllegalArgumentException("[ERROR] 포의 이동 규칙에 어긋나는 움직임입니다.");
         }
     }
 

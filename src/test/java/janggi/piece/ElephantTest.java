@@ -72,5 +72,4 @@ class ElephantTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 상의 이동 규칙에 어긋나는 움직임입니다.");
     }
-
 }
