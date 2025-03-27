@@ -40,6 +40,14 @@ public class Piece {
         return team.toName(pieceBehavior);
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public String getName() {
+        return pieceBehavior.toName();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(team, pieceBehavior);

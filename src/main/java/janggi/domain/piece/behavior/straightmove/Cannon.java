@@ -4,13 +4,14 @@ import janggi.domain.Board;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.move.Vector;
+import janggi.domain.piece.PieceType;
 import java.util.Set;
 
 public final class Cannon extends StraightMoveBehavior {
 
     @Override
     public String toName() {
-        return "포";
+        return PieceType.CANNON.getName();
     }
 
     @Override

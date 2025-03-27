@@ -29,6 +29,8 @@ public class Viewer {
         System.out.println(Formatter.formatMessageWithHeader(ERROR_HEADER, e.getMessage()));
     }
 
+    public
+
     public MaSangPosition settingMaSangPlacement(Team team) {
         System.out.println(Formatter.formatSide(team) + "의 차림을 숫자로 선택해주세요");
         System.out.println("1. 상마상마");
@@ -69,13 +71,14 @@ public class Viewer {
         System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, Formatter.formatSide(team) + "의 차례입니다."));
     }
 
-    public Option readChooseOption() {
+    public PlayerOption readChooseOption() {
         System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, "원하는 옵션을 선택해주세요!"));
         System.out.println("1. 기물 선택");
         System.out.println("2. 점수 확인");
-        System.out.println("3. 종료");
+        System.out.println("3. 저장");
+        System.out.println("4. 종료");
 
-        return Option.find(scanner.nextLine());
+        return PlayerOption.find(scanner.nextLine());
     }
 
     public PositionDto readPieceSelection() {

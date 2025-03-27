@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.common.ErrorMessage;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -105,5 +106,16 @@ public class Board {
         }
 
         return pieceMap.get(position).toName();
+    }
+
+    public Map<Position, Piece> getPieceMap() {
+        return Collections.unmodifiableMap(pieceMap);
+    }
+
+    @Override
+    public String toString() {
+        return "Board{" +
+                "pieceMap=" + pieceMap +
+                '}';
     }
 }

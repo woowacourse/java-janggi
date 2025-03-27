@@ -5,6 +5,7 @@ import janggi.domain.Team;
 import janggi.domain.move.Movement;
 import janggi.domain.move.Position;
 import janggi.domain.move.Vectors;
+import janggi.domain.piece.PieceType;
 import java.util.List;
 import java.util.Set;
 
@@ -44,7 +45,7 @@ public final class Horse extends OrthogonalRotateMoveBehavior {
 
     @Override
     public String toName() {
-        return "마";
+        return PieceType.HORSE.getName();
     }
 
     @Override

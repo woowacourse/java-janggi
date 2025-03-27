@@ -5,6 +5,7 @@ import janggi.domain.Team;
 import janggi.domain.move.Movement;
 import janggi.domain.move.Position;
 import janggi.domain.piece.PieceBehavior;
+import janggi.domain.piece.PieceType;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,7 +30,7 @@ public final class Soldier implements PieceBehavior {
 
     @Override
     public String toName() {
-        return "병";
+        return PieceType.SOLDIER.getName();
     }
 
     @Override

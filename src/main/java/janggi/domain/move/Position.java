@@ -121,6 +121,14 @@ public class Position {
         return PALACE_COLUMN_START <= column && column <= PALACE_COLUMN_END;
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(row, column);

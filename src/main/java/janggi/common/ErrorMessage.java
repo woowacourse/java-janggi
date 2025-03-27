@@ -11,7 +11,8 @@ public enum ErrorMessage {
     NOT_NULL("NULL을 넣을 수 없습니다!"),
     INVALID_MASANG_INPUT("잘못된 입력입니다. 숫자 1, 2, 3, 4로 입력해주세요."),
     INVALID_PIECES_TOTAL_COUNT("장기 기물 개수가 32개가 아닙니다."),
-    INVALID_OPTION_INPUT("잘못된 입력입니다. 숫자 1, 2, 3으로 입력해주세요."),
+    INVALID_GAME_OPTION_INPUT("잘못된 입력입니다. 숫자 1, 2, 3으로 입력해주세요."),
+    INVALID_GAME_MODE_OPTION("")
     ;
 
     private final String message;

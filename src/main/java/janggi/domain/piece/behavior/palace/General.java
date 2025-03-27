@@ -1,10 +1,12 @@
 package janggi.domain.piece.behavior.palace;
 
+import janggi.domain.piece.PieceType;
+
 public class General extends PalaceBehavior {
 
     @Override
     public String toName() {
-        return "궁";
+        return PieceType.GENERAL.getName();
     }
 
     @Override

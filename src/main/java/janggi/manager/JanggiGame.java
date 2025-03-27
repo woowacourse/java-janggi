@@ -9,7 +9,7 @@ import janggi.factory.PieceInitFactory;
 import janggi.factory.masang.MaSangFactory;
 import janggi.util.RecoveryUtil;
 import janggi.view.MaSangPosition;
-import janggi.view.Option;
+import janggi.view.PlayerOption;
 import janggi.view.Viewer;
 import java.util.Map;
 
@@ -22,6 +22,8 @@ public class JanggiGame {
     }
 
     public void start() {
+
+
         Board board = initializeBoard();
 
         Team turn = Team.CHO;
@@ -30,6 +32,9 @@ public class JanggiGame {
 
         result(board);
     }
+
+
+
 
     private Board initializeBoard() {
         Map<Position, Piece> initializeBoard = PieceInitFactory.initialize();
@@ -58,22 +63,22 @@ public class JanggiGame {
 
     // TODO 재귀 메모리 해제하도록하기
     private boolean chooseOption(Board board, Team turn) {
-        Option option = RecoveryUtil.executeWithRetry(viewer::readChooseOption);
+        PlayerOption playerOption = RecoveryUtil.executeWithRetry(viewer::readChooseOption);
 
-        if (option == Option.SELECT_PIECE) {
+        if (playerOption == PlayerOption.SELECT_PIECE) {
             Position position = RecoveryUtil.executeWithRetry(() -> choosePiece(board, turn));
             RecoveryUtil.executeWithRetry(() -> movePiece(board, position));
         }
 
-        if (option == Option.CHECK_SCORE) {
+        if (playerOption == PlayerOption.CHECK_SCORE) {
             viewer.printScore(board);
         }
 
-        if (option == Option.CLOSE) {
+        if (playerOption == PlayerOption.CLOSE) {
             return false;
         }
 
-        if (option != Option.SELECT_PIECE) {
+        if (playerOption != PlayerOption.SELECT_PIECE) {
             return chooseOption(board, turn);
         }
 
