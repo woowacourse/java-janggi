@@ -15,16 +15,16 @@ public class Position {
         return new Position(Row.from(row), Column.from(col));
     }
 
-    public boolean canMove(Direction direction) {
-        boolean rowValid = Row.isValid(this.rowValue() + direction.getX());
-        boolean colValid = Column.isValid(this.columnValue() + direction.getY());
+    public boolean canMove(Movement movement) {
+        boolean rowValid = Row.isValid(this.rowValue() + movement.movedX());
+        boolean colValid = Column.isValid(this.columnValue() + movement.movedY());
 
         return rowValid && colValid;
     }
 
-    public Position move(Direction direction) {
-        Row row = Row.from(this.rowValue() + direction.getX());
-        Column col = Column.from(this.columnValue() + direction.getY());
+    public Position move(Movement movement) {
+        Row row = Row.from(this.rowValue() + movement.movedX());
+        Column col = Column.from(this.columnValue() + movement.movedY());
         return new Position(row, col);
     }
 

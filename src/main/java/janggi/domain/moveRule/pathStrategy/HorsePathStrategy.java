@@ -1,38 +1,27 @@
 package janggi.domain.moveRule.pathStrategy;
 
 import janggi.domain.board.Direction;
-import janggi.domain.board.PiecePath;
-import janggi.domain.board.Position;
-import janggi.domain.piece.TeamColor;
+import janggi.domain.board.Movement;
 import java.util.List;
 
-public class HorsePathStrategy implements PathStrategy {
+public class HorsePathStrategy extends FixedPathStrategy {
     private static final PathStrategy INSTANCE = new HorsePathStrategy();
 
-    private HorsePathStrategy() {
+    HorsePathStrategy() {
+        super(List.of(
+                Movement.from(Direction.UP, Direction.UP_LEFT),
+                Movement.from(Direction.UP, Direction.UP_RIGHT),
+                Movement.from(Direction.DOWN, Direction.DOWN_LEFT),
+                Movement.from(Direction.DOWN, Direction.DOWN_RIGHT),
+                Movement.from(Direction.LEFT, Direction.UP_LEFT),
+                Movement.from(Direction.LEFT, Direction.DOWN_LEFT),
+                Movement.from(Direction.RIGHT, Direction.UP_RIGHT),
+                Movement.from(Direction.RIGHT, Direction.DOWN_RIGHT)
+        ));
     }
 
     public static PathStrategy getInstance() {
         return INSTANCE;
     }
 
-    @Override
-    public boolean isValidMovement(PiecePath path, TeamColor teamColor) {
-        int rowDifference = path.rowDifference();
-        int columnDifference = path.columnDifference();
-
-        if (Math.abs(rowDifference) == 2 && Math.abs(columnDifference) == 1) {
-            return true;
-        }
-        if (Math.abs(rowDifference) == 1 && Math.abs(columnDifference) == 2) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public List<Position> findAllRoute(PiecePath path) {
-        Direction direction = Direction.from(path.rowDifference() / 2, path.columnDifference() / 2);
-        return path.tracePositionsByDirection(List.of(direction));
-    }
 }

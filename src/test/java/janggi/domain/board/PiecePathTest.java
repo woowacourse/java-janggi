@@ -139,7 +139,7 @@ class PiecePathTest {
         assertThat(straight).isFalse();
     }
 
-    @DisplayName("해당 방향으로 이동했을 때 목적지로 갈 수 있는지 확인한다.")
+    @DisplayName("해당 움직임만큼 이동했을 때 목적지로 갈 수 있는지 확인한다.")
     @Test
     void canReachToDestination_whenMoveByDirection() {
         // given
@@ -149,13 +149,13 @@ class PiecePathTest {
         PiecePath path = new PiecePath(source, destination);
 
         // when
-        boolean canReach = path.canReachToDestination(Direction.RIGHT);
+        boolean canReach = path.canReachToDestination(Movement.from(Direction.RIGHT));
 
         // then
         assertThat(canReach).isTrue();
     }
 
-    @DisplayName("해당 방향으로 이동했을 때 목적지로 갈 수 없다면 False")
+    @DisplayName("해당 움직임만큼 이동했을 때 목적지로 갈 수 없다면 False")
     @Test
     void canReachToDestination_whenMoveByDirection_False() {
         // given
@@ -165,14 +165,14 @@ class PiecePathTest {
         PiecePath path = new PiecePath(source, destination);
 
         // when
-        boolean canReach = path.canReachToDestination(Direction.RIGHT);
+        boolean canReach = path.canReachToDestination(Movement.from(Direction.RIGHT));
 
         // then
         assertThat(canReach).isFalse();
     }
 
 
-    @DisplayName("주어진 방향들을 따라서, 출발지에서 방향으로 움직인 경로 Position을 모두 반환한다.")
+    @DisplayName("주어진 움직임의 방향을 따라서 움직인 Position을 모두 반환한다 - 목적지, 출발지 제외")
     @Test
     void tracePositionsByDirection_fromSource() {
         // given
@@ -180,17 +180,17 @@ class PiecePathTest {
         Position destination = Position.of(3, 3);
         PiecePath path = new PiecePath(source, destination);
 
-        List<Direction> directions = List.of(Direction.DOWN, Direction.RIGHT, Direction.DOWN_RIGHT);
+        Movement movement = Movement.from(Direction.DOWN, Direction.RIGHT, Direction.DOWN_RIGHT);
+
         // when
-        List<Position> positions = path.tracePositionsByDirection(directions);
+        List<Position> positions = path.tracePositionsByDirection(movement);
 
         // then
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(positions).hasSize(3);
+        softly.assertThat(positions).hasSize(2);
         softly.assertThat(positions.get(0)).isEqualTo(Position.of(2,1));
         softly.assertThat(positions.get(1)).isEqualTo(Position.of(2,2));
-        softly.assertThat(positions.get(2)).isEqualTo(Position.of(3,3));
 
         softly.assertAll();
     }

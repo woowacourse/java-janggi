@@ -32,33 +32,34 @@ public class PiecePath {
         return destination.columnValue() - source.columnValue();
     }
 
-    public boolean canReachToDestination(Direction direction) {
-        if(!source.canMove(direction)) {
+    public boolean canReachToDestination(Movement movement) {
+        if (!source.canMove(movement)) {
             return false;
         }
-        Position moved = source.move(direction);
+        Position moved = source.move(movement);
         return moved.equals(destination);
     }
 
-    public List<Position> tracePositionsByDirection(List<Direction> directions) {
+    public List<Position> tracePositionsByDirection(Movement movement) {
         List<Position> positions = new ArrayList<>();
 
         Position current = source;
-        for (Direction direction : directions) {
-            current = current.move(direction);
+
+        for (Direction direction : movement.directions()) {
+            current = current.move(Movement.from(direction));
             positions.add(current);
         }
-        return positions;
+        return positions.subList(0, positions.size() - 1);
     }
 
     public List<Position> getBetweenPositions() {
-        Direction direction = calculateDirection();
+        Movement movement = Movement.from(calculateDirection());
 
-        Position current = source.move(direction);
+        Position current = source.move(movement);
         List<Position> positions = new ArrayList<>();
-        while(!current.equals(destination)) {
+        while (!current.equals(destination)) {
             positions.add(current);
-            current = current.move(direction);
+            current = current.move(movement);
         }
         return positions;
     }
@@ -67,11 +68,11 @@ public class PiecePath {
         int rowDir = getDirectionValue(rowDifference());
         int colDir = getDirectionValue(columnDifference());
 
-        return Direction.from(rowDir,colDir);
+        return Direction.from(rowDir, colDir);
     }
 
     private int getDirectionValue(int difference) {
-        if(difference != 0) {
+        if (difference != 0) {
             return difference / Math.abs(difference);
         }
         return 0;
