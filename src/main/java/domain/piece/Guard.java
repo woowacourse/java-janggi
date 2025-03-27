@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.Score;
 import domain.Team;
 import domain.position.Direction;
 import domain.position.Point;
@@ -9,7 +8,7 @@ import java.util.List;
 public class Guard extends AbstractPiece {
 
     public Guard(final Team team) {
-        super(team, Score.GUARD);
+        super(team);
     }
 
     @Override

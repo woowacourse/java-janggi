@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.Score;
 import domain.Team;
 import domain.position.Direction;
 import domain.position.Point;
@@ -10,7 +9,7 @@ import java.util.function.UnaryOperator;
 public class Horse extends AbstractPiece {
 
     public Horse(final Team team) {
-        super(team, Score.HORSE);
+        super(team);
     }
 
     @Override
