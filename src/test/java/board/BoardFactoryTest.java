@@ -4,6 +4,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import piece.Country;
+import position.UpAndDown;
 
 public class BoardFactoryTest {
 
@@ -17,12 +19,12 @@ public class BoardFactoryTest {
             // given
             final int expected = 32;
             final BoardFactory factory = new BoardFactory();
-
             // when
-            final Board board = factory.generateBoard();
+
+            final Board board = factory.generateBoard(Country.HAN, UpAndDown.UP);
 
             // then
-            Assertions.assertThat(board.getPositionDatas()).hasSize(expected);
+            Assertions.assertThat(board.getPieces()).hasSize(expected);
         }
     }
 }
