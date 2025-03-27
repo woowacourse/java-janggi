@@ -17,17 +17,18 @@ public class Horse extends LimitMovable {
 
     @Override
     public List<Route> computeCandidatePositions(final Position position) {
-        List<Route> routes = new ArrayList<>();
-        routes.addAll(createRoute(position, Direction.UP, Direction.LEFT_UP));
-        routes.addAll(createRoute(position, Direction.UP, Direction.RIGHT_UP));
-        routes.addAll(createRoute(position, Direction.LEFT, Direction.LEFT_UP));
-        routes.addAll(createRoute(position, Direction.LEFT, Direction.LEFT_DOWN));
-        routes.addAll(createRoute(position, Direction.RIGHT, Direction.RIGHT_UP));
-        routes.addAll(createRoute(position, Direction.RIGHT, Direction.RIGHT_DOWN));
-        routes.addAll(createRoute(position, Direction.DOWN, Direction.LEFT_DOWN));
-        routes.addAll(createRoute(position, Direction.DOWN, Direction.RIGHT_DOWN));
+        List<Route> movableRoutes = new ArrayList<>();
+        movableRoutes.addAll(createRoute(position, Direction.UP, Direction.LEFT_UP));
+        movableRoutes.addAll(createRoute(position, Direction.UP, Direction.RIGHT_UP));
+        movableRoutes.addAll(createRoute(position, Direction.LEFT, Direction.LEFT_UP));
+        movableRoutes.addAll(createRoute(position, Direction.LEFT, Direction.LEFT_DOWN));
+        movableRoutes.addAll(createRoute(position, Direction.RIGHT, Direction.RIGHT_UP));
+        movableRoutes.addAll(createRoute(position, Direction.RIGHT, Direction.RIGHT_DOWN));
+        movableRoutes.addAll(createRoute(position, Direction.DOWN, Direction.LEFT_DOWN));
+        movableRoutes.addAll(createRoute(position, Direction.DOWN, Direction.RIGHT_DOWN));
 
-        return routes;
+        movableRoutes.removeIf(route -> route.getPositions().isEmpty());
+        return movableRoutes;
     }
 
     private List<Route> createRoute(final Position originalPosition, final Direction normalDirection,

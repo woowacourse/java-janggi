@@ -27,12 +27,12 @@ public class Elephant extends LimitMovable {
         movableRoutes.addAll(createRoute(position, Direction.RIGHT, Direction.RIGHT_UP));
         movableRoutes.addAll(createRoute(position, Direction.RIGHT, Direction.RIGHT_DOWN));
 
+        movableRoutes.removeIf(route -> route.getPositions().isEmpty());
         return movableRoutes;
     }
 
     private List<Route> createRoute(final Position originalPosition, final Direction normalDirection,
                               final Direction diagonalNormalDirection) {
-        Route route = new Route();
         Position movedPosition = originalPosition.move(normalDirection);
         Position diagonalMovedPosition = movedPosition.move(diagonalNormalDirection);
         Position diagonalMovedPosition2 = diagonalMovedPosition.move(diagonalNormalDirection);

@@ -17,19 +17,20 @@ public class King extends LimitMovable {
 
     @Override
     public List<Route> computeCandidatePositions(final Position position) {
-        List<Route> movableRoute = new ArrayList<>();
+        List<Route> movableRoutes = new ArrayList<>();
 
-        movableRoute.addAll(createStraightRoute(position, Direction.UP));
-        movableRoute.addAll(createStraightRoute(position, Direction.DOWN));
-        movableRoute.addAll(createStraightRoute(position, Direction.LEFT));
-        movableRoute.addAll(createStraightRoute(position, Direction.RIGHT));
+        movableRoutes.addAll(createStraightRoute(position, Direction.UP));
+        movableRoutes.addAll(createStraightRoute(position, Direction.DOWN));
+        movableRoutes.addAll(createStraightRoute(position, Direction.LEFT));
+        movableRoutes.addAll(createStraightRoute(position, Direction.RIGHT));
 
-        movableRoute.addAll(createDiagonalRoute(position, Direction.LEFT_UP));
-        movableRoute.addAll(createDiagonalRoute(position, Direction.LEFT_DOWN));
-        movableRoute.addAll(createDiagonalRoute(position, Direction.RIGHT_UP));
-        movableRoute.addAll(createDiagonalRoute(position, Direction.RIGHT_DOWN));
+        movableRoutes.addAll(createDiagonalRoute(position, Direction.LEFT_UP));
+        movableRoutes.addAll(createDiagonalRoute(position, Direction.LEFT_DOWN));
+        movableRoutes.addAll(createDiagonalRoute(position, Direction.RIGHT_UP));
+        movableRoutes.addAll(createDiagonalRoute(position, Direction.RIGHT_DOWN));
 
-        return movableRoute;
+        movableRoutes.removeIf(route -> route.getPositions().isEmpty());
+        return movableRoutes;
     }
 
     private List<Route> createStraightRoute(final Position position, final Direction direction) {
