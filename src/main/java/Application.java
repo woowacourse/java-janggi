@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 public class Application {
     private final Console console = new Console(new Input(), new Output());
+    private final PositionConverter positionConverter = new PositionConverter();
 
     public static void main(String[] args) {
         final Application janggi = new Application();
@@ -33,8 +34,8 @@ public class Application {
 
     public Board takeTurn(Board board) {
         String[] movePosition = console.move();
-        Position source = new PositionConverter().convert(movePosition[0]);
-        Position destination = new PositionConverter().convert(movePosition[1]);
+        Position source = positionConverter.convert(movePosition[0]);
+        Position destination = positionConverter.convert(movePosition[1]);
 
         return move(source, destination, board);
     }
