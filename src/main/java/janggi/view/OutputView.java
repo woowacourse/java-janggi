@@ -31,9 +31,10 @@ public class OutputView {
                     System.out.print(ANSI_RED + piece.getSymbol() + ANSI_RESET + "  ");
                     continue;
                 }
-//                if (position.isPalace()) {
-//                    System.out.print(ANSI_ORANGE + piece.getSymbol() + ANSI_RESET + "  ");
-//                }
+                if (position.isPalace()) {
+                    System.out.print(ANSI_ORANGE + "ˣ" + ANSI_RESET + "  ");
+                    continue;
+                }
                 System.out.print(piece.getSymbol() + "  ");
             }
             System.out.println();

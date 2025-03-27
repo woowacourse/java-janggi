@@ -6,10 +6,12 @@ public class Position {
 
     private final int x;
     private final int y;
+    private final boolean isPalace;
 
     public Position(final int x, final int y) {
         this.x = x;
         this.y = y;
+        this.isPalace = filterPalace();
     }
 
     public Position move(Direction direction) {
@@ -18,6 +20,14 @@ public class Position {
 
     public boolean isOutOfRange(final int xLimit, final int yLimit) {
         return x < 0 || y < 0 || x > xLimit - 1 || y > yLimit - 1;
+    }
+
+    public boolean isPalace() {
+        return isPalace;
+    }
+
+    private boolean filterPalace() {
+        return x >= 3 && x <= 5 && !(y >= 3 && y <= 6);
     }
 
     public int getX() {
