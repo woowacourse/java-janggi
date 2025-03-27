@@ -32,7 +32,7 @@ public class JanggiTurnDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(CANNOT_CREATE_TABLE, e);
+            throw new SaveFailException(e);
         }
     }
 
@@ -45,7 +45,7 @@ public class JanggiTurnDao {
             preparedStatement.setInt(3, score);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new SaveFailException(e);
         }
     }
 
@@ -60,7 +60,7 @@ public class JanggiTurnDao {
                 return Optional.of(resultSet.getInt("id"));
             }
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new SaveFailException(e);
         }
         return Optional.empty();
     }
@@ -76,7 +76,7 @@ public class JanggiTurnDao {
                 return Optional.of(resultSet.getInt("turn"));
             }
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new SaveFailException(e);
         }
         return Optional.empty();
 
@@ -88,7 +88,7 @@ public class JanggiTurnDao {
             final var preparedStatement = connection.prepareStatement(query);
             final var resultSet = preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new SaveFailException(e);
         }
     }
 }

@@ -30,7 +30,7 @@ class JanggiServiceTest {
                 Map.of(Team.BLUE, new Pieces(
                                 List.of(new Piece(new JanggiPosition(0, 0), new JolMoveBehavior(), Team.BLUE))),
                         Team.RED, new Pieces(
-                                List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.BLUE)))
+                                List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.RED)))
                 ));
         janggiSaveService.saveJanggi(playerPieces, 1, Team.BLUE);
         Assertions.assertTrue(janggiSaveService.isPreviousGameExist());
@@ -42,7 +42,7 @@ class JanggiServiceTest {
                 Map.of(Team.BLUE, new Pieces(
                                 List.of(new Piece(new JanggiPosition(0, 0), new JolMoveBehavior(), Team.BLUE))),
                         Team.RED, new Pieces(
-                                List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.BLUE)))
+                                List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.RED)))
                 ));
         janggiSaveService.saveJanggi(playerPieces, 1, Team.BLUE);
         Optional<Integer> previousTurn = janggiSaveService.getPreviousTurn();

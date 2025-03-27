@@ -52,7 +52,7 @@ class SaMoveBehaviorTest {
         );
         Assertions.assertThatThrownBy(
                         () -> moveBehavior.moveOnRoute(new JanggiPosition(0, 5), onRoutePieces, Team.BLUE))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(InvalidMovePosition.class);
     }
 
     @Test

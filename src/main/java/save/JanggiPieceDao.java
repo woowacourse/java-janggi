@@ -62,7 +62,7 @@ public class JanggiPieceDao {
             preparedStatement.setString(5, piece.team().name());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new SaveFailException(e);
         }
     }
 
@@ -83,7 +83,7 @@ public class JanggiPieceDao {
             }
             return new Pieces(resultPieces);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new SaveFailException(e);
         }
     }
 
@@ -93,7 +93,7 @@ public class JanggiPieceDao {
             final var preparedStatement = connection.prepareStatement(query);
             final var resultSet = preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new SaveFailException(e);
         }
     }
 }
