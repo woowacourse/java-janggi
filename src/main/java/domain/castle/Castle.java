@@ -1,14 +1,13 @@
 package domain.castle;
 
 import domain.Position;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Castle {
-    public static List<Position> castle = new ArrayList<>();
+    public List<Position> castle;
 
     public Castle() {
-        List<Position> positions = List.of(
+        castle = List.of(
                 new Position(1, 4), new Position(1, 5), new Position(1, 6),
                 new Position(2, 4), new Position(2, 5), new Position(2, 6),
                 new Position(3, 4), new Position(3, 5), new Position(3, 6),
@@ -16,6 +15,7 @@ public class Castle {
                 new Position(9, 4), new Position(9, 5), new Position(9, 6),
                 new Position(10, 4), new Position(10, 5), new Position(10, 6)
         );
-        castle.addAll(positions);
     }
+
+
 }
