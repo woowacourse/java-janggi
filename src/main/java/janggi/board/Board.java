@@ -28,16 +28,23 @@ public class Board implements VisibleBoard{
         return new Board(initMap);
     }
 
-    public void updatePosition(final Position source, final Position destination, final Country country) {
-        validatePositionAndTeam(source, country);
+    public void updatePosition(final Position source, final Position destination, final Country currentTurnCountry) {
+        validateExistsPieceInPosition(source);
+        validateIsCurrentCountry(source, currentTurnCountry);
         validatePieceCanMove(source, destination);
 
         movePieceToDestination(source, destination);
     }
 
-    private void validatePositionAndTeam(final Position source, final Country country) {
-        if (!janggiBoard.containsKey(source) || !janggiBoard.get(source).equalsTeamType(country)) {
-            throw new IllegalArgumentException("scr 좌표에 기물이 존재하지 않거나, 해당 팀의 기물이 아닙니다.");
+    private void validateExistsPieceInPosition(final Position source) {
+        if (!janggiBoard.containsKey(source)) {
+            throw new IllegalArgumentException("scr 좌표에 기물이 존재하지 않습니다.");
+        }
+    }
+
+    private void validateIsCurrentCountry(final Position source, final Country country){
+        if (!janggiBoard.get(source).equalsCountry(country)) {
+            throw new IllegalArgumentException("현재 턴에 해당하는 기물이 아닙니다.");
         }
     }
 
@@ -54,15 +61,15 @@ public class Board implements VisibleBoard{
         janggiBoard.remove(source);
     }
 
-    @Override
-    public boolean existPieceByPosition(final Position position) {
-        return janggiBoard.containsKey(position);
-    }
-
     public boolean isAliveAllGenerals() {
         return janggiBoard.values().stream()
                 .filter(Piece::isGeneral)
                 .count() == ALL_GENERAL_COUNT;
+    }
+
+    @Override
+    public boolean existPieceByPosition(final Position position) {
+        return janggiBoard.containsKey(position);
     }
 
     @Override
@@ -86,7 +93,7 @@ public class Board implements VisibleBoard{
     public boolean equalsTeamTypeByPosition(final Position position, final Country country) {
         if (janggiBoard.containsKey(position)) {
             final Piece piece = janggiBoard.get(position);
-            return piece.equalsTeamType(country);
+            return piece.equalsCountry(country);
         }
         return false;
     }

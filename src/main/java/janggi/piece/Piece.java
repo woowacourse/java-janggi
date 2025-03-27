@@ -28,7 +28,7 @@ public abstract class Piece {
         return false;
     }
 
-    public boolean equalsTeamType(final Country country) {
+    public boolean equalsCountry(final Country country) {
         return this.country == country;
     }
 
