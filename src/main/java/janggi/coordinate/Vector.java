@@ -11,6 +11,26 @@ public record Vector(int deltaRow, int deltaColumn) {
         return deltaRow.add(deltaColumn);
     }
 
+    public static Vector create() {
+        return new Vector(0, 0);
+    }
+
+    public Vector up() {
+        return new Vector(deltaRow - 1, deltaColumn);
+    }
+
+    public Vector down() {
+        return new Vector(deltaRow + 1, deltaColumn);
+    }
+
+    public Vector left() {
+        return new Vector(deltaRow, deltaColumn - 1);
+    }
+
+    public Vector right() {
+        return new Vector(deltaRow, deltaColumn + 1);
+    }
+
     public Vector add(Vector other) {
         return new Vector(this.deltaRow + other.deltaRow,
                 this.deltaColumn + other.deltaColumn);
