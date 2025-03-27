@@ -2,7 +2,7 @@ package domain.piece;
 
 import domain.*;
 
-public class Pho extends Piece implements LinearMove {
+public class Pho extends Piece implements LinearMove, CastleDiagonalMove {
 
     public Pho(Country country) {
         super(country, PieceType.PHO);
@@ -15,6 +15,12 @@ public class Pho extends Piece implements LinearMove {
 
     @Override
     public void validateLinearMove(JanggiBoard janggiBoard, JanggiCoordinate from, JanggiCoordinate to) {
+        if (!from.isSameRow(to) && !from.isSameCol(to)) {
+            validateCastleDiagonalMove(janggiBoard, from, to);
+            validateDiagonalReachAble(janggiBoard, from, to);
+            return;
+        }
+
         validateRowCol(from, to);
         validateReachAble(janggiBoard, from, to);
         validatePhoTarget(janggiBoard, to);
@@ -37,7 +43,38 @@ public class Pho extends Piece implements LinearMove {
 
         curr = findFirstPieceCoordinate(janggiBoard, curr.move(direction), to, direction);
         if (!curr.equals(to)) {
-            throw new IllegalArgumentException("[ERROR] 포는 기물을 한번만 넘어 공격할 수 있습니다.");
+            throw new IllegalArgumentException("[ERROR] 포는 기물을 한번 넘어 공격할 수 있습니다.");
+        }
+    }
+
+    @Override
+    public void validateCastleDiagonalMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        if (!board.isCastleCoordinate(from) || !board.isCastleCoordinate(to)) {
+            throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없습니다,");
+        }
+        if (from.distanceTo(to) != 8) {
+            throw new IllegalArgumentException("[ERROR] 해당 위치로 이동할 수 없습니다.");
+        }
+    }
+
+    @Override
+    public void validateDiagonalReachAble(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
+        Direction direction = Direction.getDiagonalDirection(from, to);
+        JanggiCoordinate curr = from.move(direction);
+
+        curr = findFirstPieceCoordinate(board, curr, to, direction);
+        Piece currPiece = board.findPieceByCoordinate(curr);
+
+        if (currPiece.getPieceType() == PieceType.PHO) {
+            throw new IllegalArgumentException("[ERROR] 포는 포를 넘을 수 없습니다.");
+        }
+        if (curr.equals(to)) {
+            throw new IllegalArgumentException("[ERROR] 포는 기물을 넘어야 공격할 수 있습니다.");
+        }
+
+        curr = findFirstPieceCoordinate(board, curr.move(direction), to, direction);
+        if (!curr.equals(to)) {
+            throw new IllegalArgumentException("[ERROR] 포는 기물을 한번 넘어 공격할 수 있습니다.");
         }
     }
 
