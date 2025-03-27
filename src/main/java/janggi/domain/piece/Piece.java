@@ -26,6 +26,8 @@ public abstract class Piece {
 
     protected abstract Set<RawRoute> calculateRawRoutes();
 
+    protected abstract Set<RawRoute> calculateAdditionalRawRoutesInPalace();
+
     public RoutePolicy getMovePolicy() {
         return movePolicy;
     }
@@ -39,14 +41,21 @@ public abstract class Piece {
     }
 
     public Set<Route> calculateRoutes() {
-        final Set<Route> rawRoutes = new HashSet<>();
+        final Set<Route> routesInBoard = new HashSet<>();
         for (RawRoute rawRoute : calculateRawRoutes()) {
             Route route = getValidRoutes(rawRoute);
             if (route != null) {
-                rawRoutes.add(getValidRoutes(rawRoute));
+                routesInBoard.add(getValidRoutes(rawRoute));
             }
         }
-        return rawRoutes;
+
+        for (RawRoute additionalRoute : calculateAdditionalRawRoutesInPalace()) {
+            Route route = getValidRoutes(additionalRoute);
+            if (route != null && route.isDestinationInPalace()) {
+                routesInBoard.add(getValidRoutes(additionalRoute));
+            }
+        }
+        return routesInBoard;
     }
 
     private Route getValidRoutes(final RawRoute rawRoute) {
