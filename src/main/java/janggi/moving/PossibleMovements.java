@@ -3,6 +3,7 @@ package janggi.moving;
 import janggi.board.position.Position;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class PossibleMovements {
     private final List<Movements> possibleMovements;
@@ -12,17 +13,57 @@ public class PossibleMovements {
     }
 
     public Path calculatePath(Position start, Position goal) {
-        List<Movements> filteredPossibleMovements = filterMovements(start, goal);
-        for (Movements movements : filteredPossibleMovements) {
-            Path path = makePath(start, goal, movements);
-            if (path == null) {
-                continue;
-            }
-            if (path.lastEquals(goal)) {
-                return path;
-            }
+        return filterMovements(start, goal).stream()
+                .map(movements -> makePath(start, goal, movements))
+                .filter(path -> path.lastEquals(goal))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 선택하신 기물은 해당 목적지로 이동할 수 없습니다."));
+    }
+
+    private List<Movements> filterMovements(Position start, Position goal) {
+        if (goal.isColumnDifferencePositive(start)) {
+            return filterMovementsByDirection(start, goal, Movements::isRightward, Movements::isRightStraight);
         }
-        throw new IllegalArgumentException("[ERROR] 선택하신 기물은 해당 목적지로 이동할 수 없습니다.");
+        if (goal.isColumnDifferenceNegative(start)) {
+            return filterMovementsByDirection(start, goal, Movements::isLeftward, Movements::isLeftStraight);
+        }
+        if (goal.isRowDifferencePositive(start)) {
+            return filterStraightOrGeneralMovements(Movements::isUpward, Movements::isUpStraight);
+        }
+        return filterStraightOrGeneralMovements(Movements::isDownward, Movements::isDownStraight);
+    }
+
+    private List<Movements> filterMovementsByDirection(
+            Position start,
+            Position goal,
+            Predicate<Movements> horizontalCondition,
+            Predicate<Movements> horizontalStraightCondition
+    ) {
+        if (goal.isRowDifferencePositive(start)) {
+            return filterGeneralMovements(Movements::isUpward, horizontalCondition);
+        }
+        if (goal.isRowDifferenceNegative(start)) {
+            return filterGeneralMovements(Movements::isDownward, horizontalCondition);
+        }
+        return filterStraightOrGeneralMovements(horizontalCondition, horizontalStraightCondition);
+    }
+
+    private List<Movements> filterStraightOrGeneralMovements(
+            Predicate<Movements> predicate,
+            Predicate<Movements> straightPredicate
+    ) {
+        return possibleMovements.stream()
+                .filter(straightPredicate::test)
+                .findAny()
+                .map(List::of)
+                .orElseGet(() -> filterGeneralMovements(predicate));
+    }
+
+    private List<Movements> filterGeneralMovements(Predicate<Movements>... conditions) {
+        return possibleMovements.stream()
+                .filter(Stream.of(conditions)
+                        .reduce(movements -> true, Predicate::and))
+                .toList();
     }
 
     private Path makePath(Position start, Position goal, Movements movements) {
@@ -30,68 +71,5 @@ public class PossibleMovements {
             return movements.makeStraightPath(start, goal);
         }
         return movements.makePath(start);
-    }
-
-    private List<Movements> filterMovements(Position start, Position goal) {
-        int columnDifference = goal.subtractColumn(start);
-        int rowDifference = goal.subtractRow(start);
-        if (columnDifference > 0) {
-            return filterRightward(rowDifference);
-        }
-        if (columnDifference < 0) {
-            return filterLeftward(rowDifference);
-        }
-        if (rowDifference > 0) {
-            return getStraightOrFilteredMovements(Movements::isUpward, Movements::isUpStraight);
-        }
-        return getStraightOrFilteredMovements(Movements::isDownward, Movements::isDownStraight);
-    }
-
-    private List<Movements> filterLeftward(int rowDifference) {
-        if (rowDifference > 0) {
-            return filterMovements(Movements::isUpward, Movements::isLeftward);
-        }
-        if (rowDifference < 0) {
-            return filterMovements(Movements::isDownward, Movements::isLeftward);
-        }
-        return getStraightOrFilteredMovements(Movements::isLeftward, Movements::isLeftStraight);
-    }
-
-    private List<Movements> filterRightward(int rowDifference) {
-        if (rowDifference > 0) {
-            return filterMovements(Movements::isUpward, Movements::isRightward);
-        }
-        if (rowDifference < 0) {
-            return filterMovements(Movements::isDownward, Movements::isRightward);
-        }
-        return getStraightOrFilteredMovements(Movements::isRightward, Movements::isRightStraight);
-    }
-
-    private List<Movements> getStraightOrFilteredMovements(
-            Predicate<Movements> predicate,
-            Predicate<Movements> straightPredicate)
-    {
-        for (Movements movements : possibleMovements) {
-            boolean isStraight = straightPredicate.test(movements);
-            if (isStraight) {
-                return List.of(movements);
-            }
-        }
-        return filterMovements(predicate);
-    }
-
-    private List<Movements> filterMovements(Predicate<Movements> predicate) {
-        return possibleMovements.stream()
-                .filter(predicate)
-                .toList();
-    }
-
-    private List<Movements> filterMovements(
-            Predicate<Movements> firstPredicate,
-            Predicate<Movements> secondPredicate) {
-        return possibleMovements.stream()
-                .filter(firstPredicate)
-                .filter(secondPredicate)
-                .toList();
     }
 }

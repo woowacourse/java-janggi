@@ -33,7 +33,7 @@ public class Movements {
         path.add(start);
         Position position = start;
         for (Movement movement : movements) {
-            boolean canNotMove = movement.canNotMove(position);
+            boolean canNotMove = movement.cannotMove(position);
             if (canNotMove) {
                 return null;
             }
@@ -49,7 +49,7 @@ public class Movements {
         Position position = start;
         Movement movement = movements.getFirst();
         while (!position.equals(goal)) {
-            boolean canNotMove = movement.canNotMove(position);
+            boolean canNotMove = movement.cannotMove(position);
             if (canNotMove) {
                 return null;
             }

@@ -16,6 +16,22 @@ public class Position {
         this.row = row;
     }
 
+    public boolean isColumnDifferencePositive(Position other) {
+        return subtractColumn(other) > 0;
+    }
+
+    public boolean isColumnDifferenceNegative(Position other) {
+        return subtractColumn(other) < 0;
+    }
+
+    public boolean isRowDifferencePositive(Position other) {
+        return subtractRow(other) > 0;
+    }
+
+    public boolean isRowDifferenceNegative(Position other) {
+        return subtractRow(other) < 0;
+    }
+
     public int subtractColumn(Position other) {
         return column.subtract(other.column);
     }

@@ -34,7 +34,7 @@ public enum Movement {
         return canMove.test(position);
     }
 
-    public boolean canNotMove(Position position) {
+    public boolean cannotMove(Position position) {
         return !canMove(position);
     }
 }
