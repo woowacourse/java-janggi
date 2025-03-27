@@ -1,7 +1,5 @@
 package janggi.position;
 
-import java.util.Objects;
-
 public record Position(int row, int col) {
 
     private static final int BOARD_ROW_SIZE = 10;
@@ -18,14 +16,14 @@ public record Position(int row, int col) {
     }
 
     public boolean isOneStep(final Position position) {
-        return Math.abs(row - position.row) + Math.abs(col - position.col) == 1;
+        return calculateDifferenceRow(position.row) + calculateDifferenceCol(position.col) == 1;
     }
 
     public boolean isBehind(final Position boardPosition) {
         final int dx = boardPosition.row - row;
-        final int dy = boardPosition.col - col;
+        final int dy = calculateDifferenceCol(boardPosition.col);
 
-        return dx == 0 && Math.abs(dy) == 1 || dx == 1 && dy == 0;
+        return dx == 0 && dy == 1 || dx == 1 && dy == 0;
     }
 
     public int calculateDifferenceRow(final int row) {
@@ -36,17 +34,4 @@ public record Position(int row, int col) {
         return Math.abs(col - this.col);
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final Position that = (Position) o;
-        return row() == that.row() && col() == that.col();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(row(), col());
-    }
 }

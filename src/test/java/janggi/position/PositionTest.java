@@ -23,11 +23,85 @@ class PositionTest {
 
     @DisplayName("장기판의 범위를 초과하면 예외가 발생한다.")
     @ParameterizedTest
-    @CsvSource(value = {"10:9", "-1:-1"}, delimiter = ':')
+    @CsvSource(value = {"10:9", "-1:-1", "-1:8", "9:-1"}, delimiter = ':')
     void validateOutOfBound(final int row, final int col) {
         //when // then
         assertThatThrownBy(() -> new Position(row, col))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
+
+    @DisplayName("현재 위치와 목적 위치의 차가 1이라면 true를 반환한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"3:2", "2:3", "1:2", "2:1"}, delimiter = ':')
+    void isOneStep(final int row, final int col) {
+
+        //given
+        final Position position = new Position(2, 2);
+        final Position futurePosition = new Position(row, col);
+
+        //when
+        final boolean actual = position.isOneStep(futurePosition);
+
+        //then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("현재 위치와 목적 위치의 차가 1이 아니라면 false를 반환한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"2:2", "4:3", "4:2", "3:3", "1:1"}, delimiter = ':')
+    void isNotOneStep() {
+        //given
+        final Position position = new Position(2, 2);
+        final Position futurePosition = new Position(4, 2);
+
+        //when
+        final boolean actual = position.isOneStep(futurePosition);
+
+        //then
+        assertThat(actual).isFalse();
+    }
+
+    @DisplayName("현재 위치와 목적 위치의 Row 값의 절댓값 차를 구한다.")
+    @Test
+    void calculateDifferenceRow() {
+        //given
+        final Position position = new Position(2, 2);
+        final Position futurePosition = new Position(4, 2);
+
+        //when
+        final int actual = position.calculateDifferenceRow(futurePosition.row());
+
+        //then
+        assertThat(actual).isEqualTo(2);
+    }
+
+    @DisplayName("현재 위치와 목적 위치의 col 값의 절댓값 차를 구한다.")
+    @Test
+    void calculateDifferenceCol() {
+        //given
+        final Position position = new Position(2, 2);
+        final Position futurePosition = new Position(2, 4);
+
+        //when
+        final int actual = position.calculateDifferenceCol(futurePosition.col());
+
+        //then
+        assertThat(actual).isEqualTo(2);
+    }
+
+    @DisplayName("자신의 위치를 기준으로 한 칸 뒤에 있다면 true를 반환한다.")
+    @Test
+    void isBehindWhenOneStepBackwards() {
+        // given
+        final Position current = new Position(3, 3);
+        final Position behind = new Position(3, 2);
+
+        // when
+        final boolean actual = current.isBehind(behind);
+
+        // then
+        assertThat(actual).isTrue();
+    }
 }
+

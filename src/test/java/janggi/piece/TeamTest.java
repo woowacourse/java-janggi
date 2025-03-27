@@ -20,4 +20,56 @@ class TeamTest {
         assertThat(actual).isEqualTo(Team.CHU);
     }
 
+    @DisplayName("초나라 팀이라면 true를 반환한다.")
+    @Test
+    void isChu() {
+        //given
+        final Team team = Team.CHU;
+
+        //when
+        final boolean actual = Team.isChu(team);
+
+        //then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("초나라 팀이 아니라면 false를 반환한다.")
+    @Test
+    void isNotChu() {
+        //given
+        final Team team = Team.HAN;
+
+        //when
+        final boolean actual = Team.isChu(team);
+
+        //then
+        assertThat(actual).isFalse();
+    }
+
+    @DisplayName("한나라 팀이라면 true를 반환한다.")
+    @Test
+    void isHan() {
+        //given
+        final Team team = Team.HAN;
+
+        //when
+        final boolean actual = Team.isHan(team);
+
+        //then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("한나라 팀이 아니라면 fasle를 반환한다.")
+    @Test
+    void isNotHan() {
+        //given
+        final Team team = Team.CHU;
+
+        //when
+        final boolean actual = Team.isHan(team);
+
+        //then
+        assertThat(actual).isFalse();
+    }
+
 }
