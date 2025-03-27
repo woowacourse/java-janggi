@@ -23,7 +23,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class GeneralTest {
     @ParameterizedTest
     @MethodSource("provideGeneralAfterPositions")
-    void 궁을_궁성안에서_이동시킬_수_있다(JanggiPosition afterPosition) {
+    void 궁이_궁성_안의_현재_위치에서_입력받은_위치로_이동_가능한지_알_수_있다(JanggiPosition afterPosition) {
         // given
         Piece piece = new General(Side.CHO);
 

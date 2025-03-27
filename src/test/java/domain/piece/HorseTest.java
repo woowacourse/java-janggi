@@ -20,7 +20,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class HorseTest {
     @ParameterizedTest
     @MethodSource("provideHorseAfterPositions")
-    void 마를_이동시킬_수_있다(JanggiPosition afterPosition) {
+    void 마가_현재_위치에서_입력받은_위치로_이동_가능한지_알_수_있다(JanggiPosition afterPosition) {
         // given
         Piece piece = new Horse(Side.CHO);
 
