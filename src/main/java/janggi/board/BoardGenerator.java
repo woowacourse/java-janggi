@@ -11,7 +11,7 @@ import janggi.piece.onemovepiece.Pawn;
 import janggi.piece.onemovepiece.Soldier;
 import janggi.position.Position;
 
-public class PieceInitializer {
+public class BoardGenerator {
 
     public Board generate() {
         final Board board = new Board();

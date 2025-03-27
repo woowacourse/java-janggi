@@ -1,7 +1,7 @@
 package janggi;
 
 import janggi.board.Board;
-import janggi.board.PieceInitializer;
+import janggi.board.BoardGenerator;
 import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.position.Position;
@@ -68,8 +68,8 @@ public class JanggiGame {
     }
 
     private Board setJanggiBoard() {
-        final PieceInitializer pieceInitializer = new PieceInitializer();
-        return pieceInitializer.generate();
+        final BoardGenerator boardGenerator = new BoardGenerator();
+        return boardGenerator.generate();
     }
 
     private Position readPresentPosition(final String currentTurnTeam) {

@@ -19,10 +19,10 @@ class BoardTest {
     @Test
     void board() {
         //given
-        final PieceInitializer pieceInitializer = new PieceInitializer();
+        final BoardGenerator boardGenerator = new BoardGenerator();
 
         //when
-        final Board actual = pieceInitializer.generate();
+        final Board actual = boardGenerator.generate();
 
         //then
         assertThat(actual.getJanggiBoard()).hasSize(32);
