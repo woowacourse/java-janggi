@@ -3,14 +3,13 @@ package domain.piece;
 import domain.Coordinate;
 import domain.board.Board;
 import domain.piece.movement.Movement;
+import domain.piece.movement.Movements;
 import java.util.List;
 
 public class Sa extends Piece {
 
-    private static final List<Movement> MOVEMENTS = List.of(
-            Movement.UP, Movement.UP_RIGHT, Movement.RIGHT, Movement.DOWN_RIGHT,
-            Movement.DOWN, Movement.DOWN_LEFT, Movement.LEFT, Movement.UP_LEFT
-    );
+    private final Movements movements = new Movements(
+            List.of(Movement.UP, Movement.DOWN, Movement.RIGHT, Movement.LEFT));
 
     public Sa(Country country) {
         super(country, PieceType.SA);
@@ -18,7 +17,9 @@ public class Sa extends Piece {
 
     @Override
     public List<Coordinate> findAvailablePaths(Coordinate from, Board board) {
-        return MOVEMENTS.stream()
+        movements.addMovementIfInGung(from);
+
+        return movements.getMovements().stream()
                 .map(from::move)
                 .filter(Coordinate::isInBoundary)
                 .filter(to -> !board.isMyTeam(country, to))

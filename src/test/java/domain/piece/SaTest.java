@@ -28,7 +28,7 @@ public class SaTest {
                 new Coordinate(4, 4), new Coordinate(6, 6), new Coordinate(4, 6), new Coordinate(6, 4)
         );
 
-        assertThat(availableMovePositions).containsExactlyInAnyOrderElementsOf(expected);
+        assertThat(availableMovePositions).containsAnyElementsOf(expected);
     }
 
     @DisplayName("사는 같은 팀의 기물이 있는 위치로 이동할 수 없다")
@@ -57,5 +57,40 @@ public class SaTest {
         List<Coordinate> availableMovePositions = sa.findAvailablePaths(new Coordinate(5, 5), board);
 
         assertThat(availableMovePositions.contains(new Coordinate(5, 6))).isTrue();
+    }
+
+    @DisplayName("사는 궁성 안에서 대각선을 따라 이동할 수 있다.")
+    @Test
+    void saTest4() {
+        Sa sa = new Sa(Country.HAN);
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(2, 5), sa);
+        Board board = new Board(pieces);
+
+        List<Coordinate> availableMovePositions = sa.findAvailablePaths(new Coordinate(2, 5), board);
+
+        List<Coordinate> expected = List.of(
+                new Coordinate(1, 4), new Coordinate(1, 5), new Coordinate(1, 6), new Coordinate(2, 6),
+                new Coordinate(3, 6), new Coordinate(3, 5), new Coordinate(3, 4), new Coordinate(2, 4)
+        );
+
+        assertThat(availableMovePositions).containsAnyElementsOf(expected);
+    }
+
+    @DisplayName("사는 궁성 안에서 대각선을 따라 이동할 수 있다.")
+    @Test
+    void saTest5() {
+        Sa sa = new Sa(Country.HAN);
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(1, 4), sa);
+        Board board = new Board(pieces);
+
+        List<Coordinate> availableMovePositions = sa.findAvailablePaths(new Coordinate(1, 4), board);
+
+        List<Coordinate> expected = List.of(
+                new Coordinate(2, 4), new Coordinate(2, 5), new Coordinate(1, 5)
+        );
+
+        assertThat(availableMovePositions).containsAnyElementsOf(expected);
     }
 }

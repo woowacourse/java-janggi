@@ -18,6 +18,7 @@ public class Byeong extends Piece {
     @Override
     public List<Coordinate> findAvailablePaths(Coordinate from, Board board) {
         movements.addMovementIfInGung(from);
+
         return movements.getMovements().stream()
                 .filter(this::selectUpOrDown)
                 .map(from::move)
