@@ -5,7 +5,6 @@ import janggi.board.Position;
 import janggi.piece.Piece;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-
 import java.util.List;
 
 public class JanggiGame {
@@ -21,19 +20,15 @@ public class JanggiGame {
     }
 
     public void play() {
-        while (true) {
+        while (board.isGameProgress()) {
             try {
                 outputView.printBoard(board);
 
                 Position selectedPiecePosition = inputView.selectPiece();
-
                 List<Position> reachablePositions = computeReachableDestinations(selectedPiecePosition);
-
                 Piece catchedPiece = processMove(selectedPiecePosition, reachablePositions);
 
-                if (board.checkGameIsOver(catchedPiece)) {
-                    break;
-                }
+                board.checkGameIsOver(catchedPiece);
             } catch (IllegalArgumentException | IllegalStateException e) {
                 outputView.printExceptionMessage(e);
             }

@@ -1,8 +1,6 @@
 package janggi.board;
 
-import janggi.piece.Cannon;
 import janggi.piece.Empty;
-import janggi.piece.King;
 import janggi.piece.Piece;
 import java.util.List;
 import java.util.Map;
@@ -13,14 +11,16 @@ public class JanggiBoard {
     private static final int Y_LIMIT = 10;
 
     private final Map<Position, Piece> board;
+    private BoardStatus status;
 
-    private JanggiBoard(Map<Position, Piece> board) {
+    private JanggiBoard(final Map<Position, Piece> board, final BoardStatus status) {
         this.board = board;
+        this.status = status;
     }
 
     public static JanggiBoard initialize() {
         Map<Position, Piece> board = BoardInitializer.initialPieces(X_LIMIT, Y_LIMIT);
-        return new JanggiBoard(board);
+        return new JanggiBoard(board, BoardStatus.IN_PROGRESS);
     }
 
     public List<Position> computeReachableDestination(final Position position) {
@@ -46,8 +46,17 @@ public class JanggiBoard {
         return destinationPiece;
     }
 
-    public boolean checkGameIsOver(final Piece catchedPiece) {
-        return catchedPiece.isKing();
+    public void checkGameIsOver(final Piece catchedPiece) {
+        if (catchedPiece.isKing() && catchedPiece.isHan()) {
+            status = BoardStatus.CHO_WIN;
+        }
+        if (catchedPiece.isKing() && catchedPiece.isCho()) {
+            status = BoardStatus.HAN_WIN;
+        }
+    }
+
+    public boolean isGameProgress() {
+        return status == BoardStatus.IN_PROGRESS;
     }
 
     public boolean isPositionCannon(final Position position) {

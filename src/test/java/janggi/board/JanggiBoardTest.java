@@ -289,8 +289,9 @@ class JanggiBoardTest {
         List<Position> reachableDestinations = janggiBoard.computeReachableDestination(position);
 
         Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination, reachableDestinations);
+        janggiBoard.checkGameIsOver(catchedPiece);
 
-        assertThat(janggiBoard.checkGameIsOver(catchedPiece)).isTrue();
+        assertThat(janggiBoard.isGameProgress()).isFalse();
     }
 
 }
