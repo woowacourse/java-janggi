@@ -2,53 +2,95 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static piece.Country.Cho;
 import static testutil.StaticTest.A5;
 import static testutil.StaticTest.B3;
+import static testutil.StaticTest.C5;
 import static testutil.StaticTest.D4;
 import static testutil.StaticTest.E1;
+import static testutil.StaticTest.E2;
 import static testutil.StaticTest.E5;
+import static testutil.StaticTest.E6;
 import static testutil.StaticTest.E9;
 import static testutil.StaticTest.F6;
+import static testutil.StaticTest.G5;
 import static testutil.StaticTest.I5;
 
-import org.junit.jupiter.api.Test;
+import game.Board;
+import java.util.Map;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import position.Position;
 
 public class RookTest {
-    @Test
-    void 차는_위_아래_왼쪽_오른쪽_으로_움직일_수_있다() {
-        // given
-        Rook rook = new Rook(Country.Cho);
 
-        // then
-        assertThatCode(() -> rook.getPathForMoving(E5, A5))
-                .doesNotThrowAnyException();
-
-        assertThatCode(() -> rook.getPathForMoving(E5, I5))
-                .doesNotThrowAnyException();
-
-        assertThatCode(() -> rook.getPathForMoving(E5, E1))
-                .doesNotThrowAnyException();
-
-        assertThatCode(() -> rook.getPathForMoving(E5, E9))
-                .doesNotThrowAnyException();
+    static Stream<Arguments> validMovePositions() {
+        return Stream.of(
+                Arguments.of(E5, A5),
+                Arguments.of(E5, I5),
+                Arguments.of(E5, E1),
+                Arguments.of(E5, E9)
+        );
     }
 
-    @Test
-    void 차는_위_아래_왼쪽_오른쪽_제외하고_움직일_수_없다() {
+    static Stream<Arguments> invalidMovePositions() {
+        return Stream.of(
+                Arguments.of(E5, D4),
+                Arguments.of(E5, B3),
+                Arguments.of(E5, F6)
+        );
+    }
+
+    static Stream<Arguments> blockedMovePositions() {
+        return Stream.of(
+                Arguments.of(E5, A5),
+                Arguments.of(E5, I5),
+                Arguments.of(E5, E1),
+                Arguments.of(E5, E9)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("validMovePositions")
+    void 차는_상하좌우_방향으로_이동할_수_있다(Position from, Position to) {
         // given
-        General rook = new General(Country.Cho);
+        Rook rook = new Rook(Cho);
+        Board board = new Board(Map.of());
 
-        // then
-        assertThatThrownBy(() -> rook.getPathForMoving(E5, D4))
+        // when & then
+        assertThatCode(() -> rook.canMove(from, to, board)).doesNotThrowAnyException();
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidMovePositions")
+    void 차는_상하좌우가_아닌_경로로는_이동할_수_없다(Position from, Position to) {
+        // given
+        Rook rook = new Rook(Cho);
+        Board board = new Board(Map.of());
+
+        // when & then
+        assertThatThrownBy(() -> rook.canMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
+    }
 
-        assertThatThrownBy(() -> rook.getPathForMoving(E5, B3))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 위치로 이동할 수 없습니다.");
+    @ParameterizedTest
+    @MethodSource("blockedMovePositions")
+    void 차는_중간에_기물이_있으면_이동할_수_없다(Position from, Position to) {
+        // given
+        Rook rook = new Rook(Cho);
+        Board board = new Board(Map.of(
+                E2, new Horse(Cho),
+                E6, new Horse(Cho),
+                C5, new Horse(Cho),
+                G5, new Horse(Cho)
+        ));
 
-        assertThatThrownBy(() -> rook.getPathForMoving(E5, F6))
+        // when & then
+        assertThatThrownBy(() -> rook.canMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 위치로 이동할 수 없습니다.");
+                .hasMessage("중간에 기물이 있어 갈 수 없습니다.");
     }
 }
