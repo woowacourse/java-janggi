@@ -21,19 +21,18 @@ import piece.PieceType;
 
 class JanggiTypeMoveBehaviorMapperTest {
 
-    @DisplayName("피스 타입에 따라 올바른 이동 행동을 반환해야 한다")
     @ParameterizedTest
     @MethodSource("pieceTypeAndMoveBehaviors")
-    void shouldReturnCorrectMoveBehaviorForPieceType(String pieceType,
-                                                     Class<? extends JanggiMoveBehavior> expectedBehaviorClass) {
+    void 피스_타입에_따라_올바른_이동_행동을_반환해야_한다(String pieceType,
+                                      JanggiMoveBehavior expectedBehaviorClass) {
         JanggiMoveBehavior behavior = JanggiTypeMoveBehaviorMapper.from(pieceType);
 
-        assertThat(behavior).isInstanceOf(expectedBehaviorClass);
+        assertThat(behavior).isEqualTo(expectedBehaviorClass);
     }
 
     @DisplayName("지원하지 않는 피스 타입에 대해 예외를 던져야 한다")
     @Test
-    void shouldThrowExceptionForUnsupportedPieceType() {
+    void 지원하지_않는_피스_타입에_대해_예외를_던져야_한다() {
         String notSupportedType = "테스트";
 
         assertThatThrownBy(() -> JanggiTypeMoveBehaviorMapper.from(notSupportedType))
@@ -42,13 +41,13 @@ class JanggiTypeMoveBehaviorMapperTest {
 
     private static Stream<Arguments> pieceTypeAndMoveBehaviors() {
         return Stream.of(
-                Arguments.of(PieceType.CHA.name(), ChaMoveBehavior.class),
-                Arguments.of(PieceType.FO.name(), FoMoveBehavior.class),
-                Arguments.of(PieceType.JOL.name(), JolMoveBehavior.class),
-                Arguments.of(PieceType.GUNG.name(), GungMoveBehavior.class),
-                Arguments.of(PieceType.MA.name(), MaMoveBehavior.class),
-                Arguments.of(PieceType.SANG.name(), SangMoveBehavior.class),
-                Arguments.of(PieceType.SA.name(), SaMoveBehavior.class)
+                Arguments.of(PieceType.CHA.name(), new ChaMoveBehavior()),
+                Arguments.of(PieceType.FO.name(), new FoMoveBehavior()),
+                Arguments.of(PieceType.JOL.name(), new JolMoveBehavior()),
+                Arguments.of(PieceType.GUNG.name(), new GungMoveBehavior()),
+                Arguments.of(PieceType.MA.name(), new MaMoveBehavior()),
+                Arguments.of(PieceType.SANG.name(), new SangMoveBehavior()),
+                Arguments.of(PieceType.SA.name(), new SaMoveBehavior())
         );
     }
 }
