@@ -3,8 +3,14 @@ package domain.janggi;
 import java.util.Arrays;
 
 public enum JanggiStatus {
-    PROCESS,
-    FINISH;
+    PROCESS("진행중"),
+    FINISH("종료");
+
+    private final String title;
+
+    JanggiStatus(final String title) {
+        this.title = title;
+    }
 
     public static JanggiStatus from(final boolean isFinish) {
         if (isFinish) {
@@ -19,5 +25,9 @@ public enum JanggiStatus {
                 .filter(value -> value.name().equals(status.toUpperCase()))
                 .findAny()
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

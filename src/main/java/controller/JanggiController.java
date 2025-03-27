@@ -1,8 +1,8 @@
 package controller;
 
+import domain.board.BoardPosition;
 import domain.janggi.Janggi;
 import domain.janggi.Team;
-import domain.board.BoardPosition;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
@@ -32,7 +32,7 @@ public class JanggiController {
             outputView.printAllJanggiGames(janggiManager.findAllJanggiDtos());
             final String selectJanggiInput = inputView.inputSelectJanggi();
 
-            if (selectJanggiInput.matches("/^[0-9]*$/")) {
+            if (selectJanggiInput.matches("^[0-9]*$")) {
                 playJanggi(janggiManager.loadJanggi(Integer.parseInt(selectJanggiInput)));
                 return;
             }
@@ -41,7 +41,7 @@ public class JanggiController {
                 return;
             }
             throw new IllegalArgumentException("잘못된 입력입니다. 재입력해주세요.");
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             outputView.printInputExceptionMessage(e);
             run();
         }

@@ -72,13 +72,25 @@ public class JanggiManager {
             final String title
     ) {
         final Connection connection = ConnectionProvider.getConnection();
-
-        final int janggiId = janggiDao.create(
-                connection, title, JanggiStatus.PROCESS, new Turn(Team.GREEN)
-        );
-        final Janggi initaialJanggi = Janggi.initialize(janggiId, title);
-        piecePositionDao.createAllByJanggiId(connection, janggiId, initaialJanggi.getPieces());
-        return initaialJanggi;
+        try {
+            connection.setAutoCommit(false);
+            final int janggiId = janggiDao.create(
+                    connection, title, JanggiStatus.PROCESS, new Turn(Team.GREEN)
+            );
+            final Janggi initaialJanggi = Janggi.initialize(janggiId, title);
+            piecePositionDao.createAllByJanggiId(connection, janggiId, initaialJanggi.getPieces());
+            connection.commit();
+            connection.setAutoCommit(true);
+            return initaialJanggi;
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                throw new SQLException();
+            } catch (SQLException e2) {
+                throw new RuntimeException();
+            }
+        }
     }
 
     public Janggi loadJanggi(final int janggiId) {

@@ -1,8 +1,8 @@
 package view;
 
+import domain.board.BoardPosition;
 import domain.janggi.Score;
 import domain.janggi.Team;
-import domain.board.BoardPosition;
 import domain.piece.Piece;
 import dto.JanggiDto;
 import java.util.List;
@@ -27,9 +27,7 @@ public class OutputView {
         System.out.println("현재 턴: " + team.getTitle());
     }
 
-    public void printBoard(
-            final Map<BoardPosition, Piece> pieces)
-    {
+    public void printBoard(final Map<BoardPosition, Piece> pieces) {
         for (int i = 9; i >= 0; i--) {
             for (int j = 0; j < 9; j++) {
                 final BoardPosition boardPosition = new BoardPosition(j, i);
@@ -37,10 +35,10 @@ public class OutputView {
 
                 if (piece == null) {
                     System.out.print(" . ");
-                } else {
-                    final String color = createColorCode(piece.getTeam());
-                    System.out.print(" " + color + piece.getPieceType().getTitle() + RESET + " ");
+                    continue;
                 }
+                final String color = createColorCode(piece.getTeam());
+                System.out.print(" " + color + piece.getPieceType().getTitle() + RESET + " ");
             }
             System.out.println();
         }
@@ -73,7 +71,8 @@ public class OutputView {
         System.out.printf("NO. %d   /  %s  /  %s  /",
                 janggiDto.id(),
                 janggiDto.title(),
-                janggiDto.status().name()
+                janggiDto.status().getTitle()
         );
+        System.out.println();
     }
 }
