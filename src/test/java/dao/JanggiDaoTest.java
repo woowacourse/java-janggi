@@ -44,7 +44,7 @@ class JanggiDaoTest {
 
         @DisplayName("장기 게임을 저장하고 장기 게임 번호를 반환한다.")
         @Test
-        void create() {
+        void create() throws SQLException {
             // given
             String title = "title";
             JanggiStatus status = JanggiStatus.PROCESS;
@@ -61,7 +61,7 @@ class JanggiDaoTest {
 
         @DisplayName("저장된 모든 장기 게임을 조회한다.")
         @Test
-        void findAllJanggiDtos() {
+        void findAllJanggiDtos() throws SQLException {
             // given
             int firstId = janggiDao.create(connection, "first title", JanggiStatus.PROCESS, new Turn(Team.RED));
             int secondId = janggiDao.create(connection, "second title", JanggiStatus.FINISH, new Turn(Team.GREEN));
@@ -80,7 +80,7 @@ class JanggiDaoTest {
 
         @DisplayName("장기 게임 번호를 통해 해당 장기 게임을 조회한다.")
         @Test
-        void findJanggiDtoById() {
+        void findJanggiDtoById() throws SQLException {
             // given
             String title = "title";
             JanggiStatus status = JanggiStatus.PROCESS;
@@ -95,7 +95,7 @@ class JanggiDaoTest {
 
         @DisplayName("장기 게임 번호를 통해 해당 장기 게임의 턴을 갱신한다.")
         @Test
-        void updateTurnByJanggiId() {
+        void updateTurnByJanggiId() throws SQLException {
             // given
             int janggiId = janggiDao.create(connection, "title", JanggiStatus.PROCESS, new Turn(Team.RED));
 
@@ -109,7 +109,7 @@ class JanggiDaoTest {
 
         @DisplayName("데이터베이스의 모든 장기 게임을 삭제한다.")
         @Test
-        void deleteAll() {
+        void deleteAll() throws SQLException {
             // given
             janggiDao.create(connection, "first title", JanggiStatus.PROCESS, new Turn(Team.RED));
             janggiDao.create(connection, "second title", JanggiStatus.FINISH, new Turn(Team.GREEN));

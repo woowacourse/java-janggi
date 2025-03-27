@@ -3,13 +3,13 @@ package manager;
 import dao.ConnectionProvider;
 import dao.JanggiDao;
 import dao.PiecePositionDao;
+import domain.board.Board;
+import domain.board.BoardPosition;
 import domain.janggi.Janggi;
 import domain.janggi.JanggiStatus;
 import domain.janggi.Score;
 import domain.janggi.Team;
 import domain.janggi.Turn;
-import domain.board.Board;
-import domain.board.BoardPosition;
 import domain.piece.Piece;
 import dto.JanggiDto;
 import java.sql.Connection;
@@ -64,8 +64,13 @@ public class JanggiManager {
     }
 
     public List<JanggiDto> findAllJanggiDtos() {
-        final Connection connection = ConnectionProvider.getConnection();
-        return janggiDao.findAllJanggiDtos(connection);
+        try {
+            final Connection connection = ConnectionProvider.getConnection();
+            return janggiDao.findAllJanggiDtos(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new RuntimeException("장기 게임을 불러오는 중 문제 발생");
     }
 
     public Janggi createJanggi(
@@ -83,30 +88,41 @@ public class JanggiManager {
             connection.setAutoCommit(true);
             return initaialJanggi;
         } catch (SQLException e) {
+            e.printStackTrace();
             try {
                 connection.rollback();
+            } catch (SQLException rollbackException) {
+                throw new RuntimeException("장기 게임 생성 중 문제 후 롤백 실패");
+            }
+        } finally {
+            try {
                 connection.setAutoCommit(true);
-                throw new SQLException();
-            } catch (SQLException e2) {
-                throw new RuntimeException();
+            } catch (SQLException e) {
+                throw new RuntimeException("AutoCommit 설정 복구 실패");
             }
         }
+        throw new RuntimeException("장기 게임 생성 중 문제 발생");
     }
 
     public Janggi loadJanggi(final int janggiId) {
         final Connection connection = ConnectionProvider.getConnection();
-        final JanggiDto janggiDto = janggiDao.findJanggiDtoById(connection, janggiId);
+        try {
+            final JanggiDto janggiDto = janggiDao.findJanggiDtoById(connection, janggiId);
 
-        if (janggiDto.id() == 0) {
-            throw new IllegalArgumentException("해당하는 게임이 없습니다.");
+            if (janggiDto.id() == 0) {
+                throw new IllegalArgumentException("해당하는 게임이 없습니다.");
+            }
+
+            return new Janggi(
+                    janggiId,
+                    janggiDto.title(),
+                    new Board(piecePositionDao.findAllByJanggiId(connection, janggiId)),
+                    janggiDto.turn()
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return new Janggi(
-                janggiId,
-                janggiDto.title(),
-                new Board(piecePositionDao.findAllByJanggiId(connection, janggiId)),
-                janggiDto.turn()
-        );
+        throw new RuntimeException("장기 게임 로드 중 문제 발생");
     }
 
     public Score findScore(

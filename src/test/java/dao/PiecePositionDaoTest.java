@@ -45,7 +45,7 @@ class PiecePositionDaoTest {
 
         @DisplayName("보드의 모든 기물 위치 정보를 해당 장기 게임에 저장한다.")
         @Test
-        void createAllByJanggiId() {
+        void createAllByJanggiId() throws SQLException {
             // given
             Board board = Board.initialize();
             Map<BoardPosition, Piece> pieces = board.getPieces();
@@ -60,7 +60,7 @@ class PiecePositionDaoTest {
 
         @DisplayName("해당 장기 게임의 저장된 모든 기물 위치 정보를 찾는다.")
         @Test
-        void findAllByJanggiId() {
+        void findAllByJanggiId() throws SQLException {
             // given
             Board board = Board.initialize();
             Map<BoardPosition, Piece> pieces = board.getPieces();
@@ -73,7 +73,7 @@ class PiecePositionDaoTest {
 
         @DisplayName("해당 장기 게임의 특정 위치를 다른 위치로 갱신한다.")
         @Test
-        void updateByJanggiIdAndPosition() {
+        void updateByJanggiIdAndPosition() throws SQLException {
             // given
             Map<BoardPosition, Piece> pieces = Map.of(
                     new BoardPosition(4, 2), new General(Team.RED),
@@ -98,7 +98,7 @@ class PiecePositionDaoTest {
 
         @DisplayName("해당 장기 게임의 특정 위치를 삭제한다.")
         @Test
-        void deleteByJanggiIdAndPosition() {
+        void deleteByJanggiIdAndPosition() throws SQLException {
             // given
             Map<BoardPosition, Piece> pieces = Map.of(
                     new BoardPosition(4, 2), new General(Team.RED),
@@ -118,7 +118,7 @@ class PiecePositionDaoTest {
 
         @DisplayName("모든 게임의 모든 기물 위치 정보를 삭제한다.")
         @Test
-        void deleteAll() {
+        void deleteAll() throws SQLException {
             // given
             Board board = Board.initialize();
             Map<BoardPosition, Piece> pieces = board.getPieces();

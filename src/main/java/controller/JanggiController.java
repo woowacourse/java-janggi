@@ -41,7 +41,7 @@ public class JanggiController {
                 return;
             }
             throw new IllegalArgumentException("잘못된 입력입니다. 재입력해주세요.");
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             outputView.printInputExceptionMessage(e);
             run();
         }
