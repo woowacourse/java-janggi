@@ -6,8 +6,10 @@ import domain.path.Path;
 import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
 import domain.score.Score;
+import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,14 @@ public class JanggiBoard {
 
     public boolean isExistPieceAt(JanggiPosition position) {
         return janggiPiecePositions.existChessPieceByPosition(position);
+    }
+
+    public boolean isExistBossAt(JanggiPosition position) {
+        if (!isExistPieceAt(position)) {
+            return false;
+        }
+        JanggiPiece piece = janggiPiecePositions.getJanggiPieceByPosition(position);
+        return piece.getChessPieceType() == JanggiPieceType.KING;
     }
 
     public void move(final JanggiTeam currentTeam, final JanggiPosition from, final JanggiPosition to) {
@@ -72,5 +82,9 @@ public class JanggiBoard {
 
     public Map<JanggiPosition, JanggiPiece> getPositions() {
         return janggiPiecePositions.getJanggiPieces();
+    }
+
+    public Map<JanggiTeam, Score> getScores() {
+        return Collections.unmodifiableMap(scores);
     }
 }

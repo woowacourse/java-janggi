@@ -3,6 +3,7 @@ package view;
 import domain.janggiPiece.JanggiPiece;
 import domain.position.JanggiPosition;
 import domain.position.vo.Row;
+import domain.score.Score;
 import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 import domain.position.vo.Column;
@@ -81,6 +82,21 @@ public class OutputView {
         System.out.print(YELLOW);
         System.out.printf("%s 는 이동할 수 없는 위치입니다. 이동 가능한 위치 중에서 선택해주세요.\n", getFormattedPosition(destinationPosition));
         System.out.print(EXIT);
+        printNewLine();
+    }
+
+    public void printGameResult(JanggiTeam winner, Map<JanggiTeam, Score> scores) {
+        printNewLine();
+        System.out.print(YELLOW);
+        System.out.println("경기가 종료되었습니다.");
+        System.out.print(EXIT);
+        printNewLine();
+        System.out.println("=========== 게임 결과 ===========");
+        System.out.printf("우승팀: %s\n", getTeamText(winner));
+        System.out.println("=========== 기물 점수 ===========");
+        for (JanggiTeam team : scores.keySet()) {
+            System.out.printf("%s: %d점\n", getTeamText(team), scores.get(team).value());
+        }
         printNewLine();
     }
 

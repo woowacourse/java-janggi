@@ -34,6 +34,10 @@ public class JanggiGame {
                 JanggiPosition startPosition = getStartPosition();
                 showAvailableDestinations(startPosition);
                 JanggiPosition destinationPosition = getDestinationPosition(startPosition);
+                if (board.isExistBossAt(destinationPosition)) {
+                    showFinalScore();
+                    break;
+                }
                 board.move(currentTeam, startPosition, destinationPosition);
                 switchTeam();
             } catch (IllegalArgumentException e) {
@@ -88,5 +92,9 @@ public class JanggiGame {
             }
             outputView.printInvalidDestination(destinationPosition);
         }
+    }
+
+    private void showFinalScore() {
+        outputView.printGameResult(currentTeam, board.getScores());
     }
 }
