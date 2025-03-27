@@ -2,7 +2,6 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.position.Distance;
 import domain.position.Point;
 import java.util.List;
 import org.assertj.core.api.SoftAssertions;
@@ -14,28 +13,22 @@ class ElephantTest {
 
     @ParameterizedTest
     @CsvSource({
-            "3,2,true",
-            "-3,2,true",
-            "3,-2,true",
-            "-3,-2,true",
-            "2,3,true",
-            "-2,3,true",
-            "2,-3,true",
-            "-2,-3,true",
-            "0,-1,false",
-            "0,0,false",
-            "8,9,false",
+            "3,3,6,5,true", "3,3,0,5,true", "3,3,6,1,true", "3,3,0,1,true",
+            "3,3,5,6,true", "3,3,1,6,true", "3,3,5,0,true", "3,3,1,0,true",
+            "1,1,1,0,false", "1,1,1,1,false", "1,1,8,8,false"
     })
-    void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
+    void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x1, final int y1, final int x2, final int y2,
+                                           final boolean expected) {
 
         // given
         final Elephant elephant = PieceFactory.createRedTeam(Elephant::new);
 
         // when
-        final Distance distance = new Distance(x, y);
+        final Point point1 = Point.newInstance(x1, y1);
+        final Point point2 = Point.newInstance(x2, y2);
 
         // then
-        assertThat(elephant.isMovable(distance)).isEqualTo(expected);
+        assertThat(elephant.isMovable(point1, point2)).isEqualTo(expected);
     }
 
     @Test

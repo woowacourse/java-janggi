@@ -2,41 +2,41 @@ package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.position.Distance;
+import domain.position.Point;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class SoldierTest {
 
     @ParameterizedTest
-    @CsvSource({
-            "0,-1,true", "1,0,true", "-1,0,true", "0,1,false", "4,5,false",
-    })
-    void 레드팀일_때_말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
+    @CsvSource({"1,1,1,0,true", "1,1,2,1,true", "1,1,0,1,true", "1,1,1,2,false", "1,1,5,6,false"})
+    void 레드팀일_때_말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x1, final int y1, final int x2, final int y2,
+                                                  final boolean expected) {
 
         // given
-        Soldier soldier = PieceFactory.createRedTeam(Soldier::new);
+        final Soldier soldier = PieceFactory.createRedTeam(Soldier::new);
 
         // when
-        Distance distance = new Distance(x, y);
+        final Point point1 = Point.newInstance(x1, y1);
+        final Point point2 = Point.newInstance(x2, y2);
 
         // then
-        assertThat(soldier.isMovable(distance)).isEqualTo(expected);
+        assertThat(soldier.isMovable(point1, point2)).isEqualTo(expected);
     }
 
     @ParameterizedTest
-    @CsvSource({
-            "0,1,true", "1,0,true", "-1,0,true", "0,-1,false", "4,5,false",
-    })
-    void 그린팀일_때_말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x, final int y, final boolean expected) {
+    @CsvSource({"1,1,1,2,true", "1,1,2,1,true", "1,1,0,1,true", "1,1,1,0,false", "1,1,5,6,false"})
+    void 그린팀일_때_말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x1, final int y1, final int x2, final int y2,
+                                                  final boolean expected) {
 
         // given
-        Soldier soldier = PieceFactory.createGreenTeam(Soldier::new);
+        final Soldier soldier = PieceFactory.createGreenTeam(Soldier::new);
 
         // when
-        Distance distance = new Distance(x, y);
+        final Point point1 = Point.newInstance(x1, y1);
+        final Point point2 = Point.newInstance(x2, y2);
 
         // then
-        assertThat(soldier.isMovable(distance)).isEqualTo(expected);
+        assertThat(soldier.isMovable(point1, point2)).isEqualTo(expected);
     }
 }

@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class ChariotTest {
 
     @ParameterizedTest
-    @CsvSource({"1,1,1,2,true", "1,1,2,1,true", "1,1,0,1,true", "1,1,1,0,true", "1,1,1,1,false", "1,1,8,8,false",})
+    @CsvSource({"1,1,1,2,true", "1,1,2,1,true", "1,1,0,1,true", "1,1,1,0,true", "1,1,1,1,false", "1,1,8,8,false"})
     void 말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x1, final int y1, final int x2, final int y2,
                                            final boolean expected) {
 
