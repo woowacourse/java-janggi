@@ -39,7 +39,11 @@ public class Janggi {
     public List<Route> searchAvailableRoutes(Position pick) {
         Unit pickedUnit = findUnitByPoint(pick);
         List<Route> totalRoutes = pickedUnit.calculateRoutes();
-        return applyUnitProperty(pickedUnit, pick, totalRoutes);
+        List<Route> routes = applyUnitProperty(pickedUnit, pick, totalRoutes);
+        if (routes.isEmpty()) {
+            throw new IllegalArgumentException("해당 기물의 이동 가능한 경로가 없습니다.");
+        }
+        return routes;
     }
 
     private List<Route> applyUnitProperty(Unit pickedUnit, Position pick, List<Route> totalRoutes) {
