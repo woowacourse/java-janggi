@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import janggi.temp.Team;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

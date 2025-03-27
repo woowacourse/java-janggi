@@ -1,9 +1,10 @@
 package janggi.piece;
 
 import janggi.position.Position;
-import janggi.rule.MoveVector;
 import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
+import janggi.rule.Vector;
+import janggi.temp.Team;
 import java.util.Map;
 
 public final class Cannon extends Piece {
@@ -21,7 +22,7 @@ public final class Cannon extends Piece {
     public void validateMove(final Position start, final Position end, final Map<Position, Piece> board) {
         Position route = start;
         int count = 0;
-        for (MoveVector vector : movingRules.findMatchRule(start, end).getVectorsWithoutLast()) {
+        for (Vector vector : movingRules.findMatchRule(start, end).getVectorsWithoutLast()) {
             route = route.add(vector);
             if (board.containsKey(route) && board.get(route).type() == Type.CANNON) {
                 throw new IllegalArgumentException("[ERROR] 포는 포를 뛰어 넘을 수 없습니다.");

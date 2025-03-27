@@ -12,7 +12,7 @@ public final class MovingRules {
     }
 
     public MovingRule findMatchRule(final Position start, final Position end) {
-        MoveVector startToEnd = end.calculateDifference(start);
+        Vector startToEnd = end.calculateDifference(start);
         return movingRules.stream()
                 .filter(movingRule -> movingRule.sumAllVectors().equals(startToEnd))
                 .findAny()

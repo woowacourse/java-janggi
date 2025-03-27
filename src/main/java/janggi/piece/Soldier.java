@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.position.Position;
 import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
+import janggi.temp.Team;
 import java.util.Map;
 
 public final class Soldier extends Piece {

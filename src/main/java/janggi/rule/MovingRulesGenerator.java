@@ -5,14 +5,14 @@ import java.util.List;
 
 public final class MovingRulesGenerator {
 
-    private static final MoveVector RIGHT = new MoveVector(0, 1);
-    private static final MoveVector LEFT = new MoveVector(0, -1);
-    private static final MoveVector UP = new MoveVector(-1, 0);
-    private static final MoveVector DOWN = new MoveVector(1, 0);
-    private static final MoveVector RIGHT_UP = new MoveVector(-1, 1);
-    private static final MoveVector RIGHT_DOWN = new MoveVector(1, 1);
-    private static final MoveVector LEFT_DOWN = new MoveVector(1, -1);
-    private static final MoveVector LEFT_UP = new MoveVector(-1, -1);
+    private static final Vector RIGHT = new Vector(0, 1);
+    private static final Vector LEFT = new Vector(0, -1);
+    private static final Vector UP = new Vector(-1, 0);
+    private static final Vector DOWN = new Vector(1, 0);
+    private static final Vector RIGHT_UP = new Vector(-1, 1);
+    private static final Vector RIGHT_DOWN = new Vector(1, 1);
+    private static final Vector LEFT_DOWN = new Vector(1, -1);
+    private static final Vector LEFT_UP = new Vector(-1, -1);
     private static final int HORIZONTAL_RANGE = 9;
     private static final int VERTICAL_RANGE = 10;
 
@@ -75,16 +75,16 @@ public final class MovingRulesGenerator {
         return new MovingRules(movingRules);
     }
 
-    private static void addStraightRules(final List<MovingRule> movingRules, final MoveVector direction,
+    private static void addStraightRules(final List<MovingRule> movingRules, final Vector direction,
                                          final int range) {
         for (int i = 1; i < range; i++) {
-            List<MoveVector> units = new ArrayList<>();
+            List<Vector> units = new ArrayList<>();
             addUnit(direction, i, units);
             movingRules.add(new MovingRule(units));
         }
     }
 
-    private static void addUnit(final MoveVector direction, final int count, final List<MoveVector> units) {
+    private static void addUnit(final Vector direction, final int count, final List<Vector> units) {
         for (int j = 0; j < count; j++) {
             units.add(direction);
         }

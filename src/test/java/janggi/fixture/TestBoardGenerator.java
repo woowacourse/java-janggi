@@ -5,10 +5,10 @@ import janggi.piece.Cannon;
 import janggi.piece.Horse;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
-import janggi.piece.Team;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import janggi.temp.Team;
 import java.util.Map;
 
 public class TestBoardGenerator {

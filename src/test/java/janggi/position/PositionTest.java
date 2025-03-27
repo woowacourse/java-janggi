@@ -2,7 +2,7 @@ package janggi.position;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.rule.MoveVector;
+import janggi.rule.Vector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +15,8 @@ class PositionTest {
         final Position start = new Position(Row.SIX, Column.SIX);
         final Position end = new Position(Row.FIVE, Column.SEVEN);
         // when
-        final MoveVector actual = end.calculateDifference(start);
+        final Vector actual = end.calculateDifference(start);
         // then
-        assertThat(actual).isEqualTo(new MoveVector(-1, 1));
+        assertThat(actual).isEqualTo(new Vector(-1, 1));
     }
 }

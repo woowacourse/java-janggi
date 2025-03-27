@@ -1,6 +1,6 @@
 package janggi.position;
 
-import janggi.rule.MoveVector;
+import janggi.rule.Vector;
 import java.util.Objects;
 
 public final class Position {
@@ -13,13 +13,13 @@ public final class Position {
         this.column = column;
     }
 
-    public MoveVector calculateDifference(final Position another) {
+    public Vector calculateDifference(final Position another) {
         final int rowDiff = row.getValue() - another.getRowValue();
         final int columnDiff = column.getValue() - another.getColumnValue();
-        return new MoveVector(rowDiff, columnDiff);
+        return new Vector(rowDiff, columnDiff);
     }
 
-    public Position add(final MoveVector vector) {
+    public Position add(final Vector vector) {
         return new Position(row.add(vector.dy()), column.add(vector.dx()));
     }
 

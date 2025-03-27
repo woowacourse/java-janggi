@@ -12,10 +12,10 @@ class MovingRuleTest {
     @Test
     void testSumAllVectors() {
         // given
-        final MovingRule movingRule = new MovingRule(List.of(new MoveVector(1, 0), new MoveVector(-1, 0)));
+        final MovingRule movingRule = new MovingRule(List.of(new Vector(1, 0), new Vector(-1, 0)));
         // when
-        final MoveVector actual = movingRule.sumAllVectors();
+        final Vector actual = movingRule.sumAllVectors();
         // then
-        assertThat(actual).isEqualTo(new MoveVector(0, 0));
+        assertThat(actual).isEqualTo(new Vector(0, 0));
     }
 }

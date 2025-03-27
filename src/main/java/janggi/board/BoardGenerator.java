@@ -1,9 +1,5 @@
 package janggi.board;
 
-import janggi.position.Column;
-import janggi.position.Position;
-import janggi.position.Row;
-import janggi.view.SetupOption;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;
@@ -12,7 +8,11 @@ import janggi.piece.Guard;
 import janggi.piece.Horse;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
-import janggi.piece.Team;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
+import janggi.temp.Team;
+import janggi.view.SetupOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

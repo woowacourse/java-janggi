@@ -5,22 +5,22 @@ import java.util.List;
 
 public final class MovingRule {
 
-    private final List<MoveVector> movingRule;
+    private final List<Vector> movingRule;
 
-    public MovingRule(final List<MoveVector> movingRule) {
+    public MovingRule(final List<Vector> movingRule) {
         this.movingRule = movingRule;
     }
 
-    public MoveVector sumAllVectors() {
-        MoveVector sumUnit = new MoveVector(0, 0);
-        for (MoveVector moveVector : movingRule) {
+    public Vector sumAllVectors() {
+        Vector sumUnit = new Vector(0, 0);
+        for (Vector moveVector : movingRule) {
             sumUnit = sumUnit.add(moveVector);
         }
         return sumUnit;
     }
 
-    public List<MoveVector> getVectorsWithoutLast() {
-        final ArrayList<MoveVector> vectors = new ArrayList<>(movingRule);
+    public List<Vector> getVectorsWithoutLast() {
+        final ArrayList<Vector> vectors = new ArrayList<>(movingRule);
         vectors.removeLast();
         return vectors;
     }
