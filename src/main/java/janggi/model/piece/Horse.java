@@ -29,6 +29,11 @@ public class Horse extends Piece {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public double getScore() {
+        return 5;
+    }
+
     private static List<PathDirections> horseDirections() {
         return Direction.getStraightDirection().stream()
                 .flatMap(straightDirection -> straightDirection.nextCrossDirection().stream()

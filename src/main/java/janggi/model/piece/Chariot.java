@@ -27,6 +27,11 @@ public class Chariot extends Piece {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public double getScore() {
+        return 13;
+    }
+
     private Set<Position> calculateMovableOneSide(Direction direction, Position start, OccupiedPositions occupied) {
         List<Position> positionsInDirection = getPositionsInDirection(direction, start);
         return findFirstPiece(positionsInDirection, occupied).map(huddle -> {

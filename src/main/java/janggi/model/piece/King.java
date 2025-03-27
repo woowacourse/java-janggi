@@ -24,6 +24,14 @@ public class King extends Piece {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public double getScore() {
+        if (identity().getColor() == Color.BLUE) {
+            return 0;
+        }
+        return 1.5;
+    }
+
     private boolean destinationIsNotSameColor(OccupiedPositions occupied, Position destination) {
         return !occupied.existSameColor(destination, identity().getColor());
     }

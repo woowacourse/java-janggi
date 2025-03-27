@@ -24,6 +24,11 @@ public class Guard extends Piece {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public double getScore() {
+        return 3;
+    }
+
     private boolean destinationIsNotSameColor(OccupiedPositions occupied, Position destination) {
         return !occupied.existSameColor(destination, identity().getColor());
     }

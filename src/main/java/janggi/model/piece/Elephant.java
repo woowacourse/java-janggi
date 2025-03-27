@@ -29,6 +29,11 @@ public class Elephant extends Piece {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public double getScore() {
+        return 3;
+    }
+
     private static List<PathDirections> elephantDirections() {
         return Direction.getStraightDirection().stream()
                 .flatMap(straightDirection -> straightDirection.nextCrossDirection().stream()

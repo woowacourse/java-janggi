@@ -9,6 +9,7 @@ import janggi.model.OccupiedPositions;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
+import janggi.model.piece.Chariot;
 import java.util.Map;
 import java.util.Set;
 import janggi.model.piece.King;
@@ -82,13 +83,14 @@ class KingTest {
 
     @Test
     void 왕은_궁성영역_밖으로_이동할_수_없다() {
+
         Board board = new Board();
+        JanggiGame janggiGame = new JanggiGame(board, new Turn());
+
         Piece king = new King(Color.BLUE);
         board.putPiece(position, king);
 
-        board.move(position, new Position(10, 6), Color.BLUE);
-
-        assertThatThrownBy(() -> board.move(new Position(10, 6), new Position(10, 7), Color.BLUE))
+        assertThatThrownBy(() ->janggiGame.move(position, new Position(10, 7)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

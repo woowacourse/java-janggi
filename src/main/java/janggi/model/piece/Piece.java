@@ -1,5 +1,6 @@
 package janggi.model.piece;
 
+import janggi.model.Color;
 import janggi.model.OccupiedPositions;
 import janggi.model.PieceIdentity;
 import janggi.model.Position;
@@ -16,5 +17,12 @@ public abstract class Piece {
         return pieceIdentity;
     }
 
+    public boolean isEqualsColor(Color color) {
+        return pieceIdentity.getColor() == color;
+    }
+
     public abstract Set<Position> calculateMovablePositions(Position start, OccupiedPositions occupied);
+
+    public abstract double getScore();
+
 }

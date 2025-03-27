@@ -9,6 +9,7 @@ import janggi.model.OccupiedPositions;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
+import janggi.model.piece.Chariot;
 import janggi.model.piece.King;
 import java.util.Map;
 import java.util.Set;
@@ -22,9 +23,7 @@ class GuardTest {
 
     @Test
     void 사가_움직일_수_있는_위치들을_반환한다() {
-        Board board = new Board();
         Piece guard = new Guard(Color.BLUE);
-        board.putPiece(position, guard);
 
         OccupiedPositions occupiedPositions = new OccupiedPositions(Map.of(
                 new Position(9, 6), new PieceIdentity(Color.BLUE, PieceType.CHARIOT),
@@ -46,9 +45,7 @@ class GuardTest {
 
     @Test
     void 궁성_영역_가장자리에서_사가_움직일_수_있는_위치를_계산한다() {
-        Board board = new Board();
         Piece guard = new Guard(Color.BLUE);
-        board.putPiece(new Position(8, 6), guard);
 
         OccupiedPositions occupiedPositions = new OccupiedPositions(Map.of());
         Set<Position> points = guard.calculateMovablePositions(new Position(8, 6), occupiedPositions);
@@ -62,9 +59,7 @@ class GuardTest {
 
     @Test
     void 궁성_영역_가운데에서_사가_움직일_수_있는_위치를_계산한다() {
-        Board board = new Board();
         Piece guard = new Guard(Color.BLUE);
-        board.putPiece(position, guard);
 
         OccupiedPositions occupiedPositions = new OccupiedPositions(Map.of());
         Set<Position> points = guard.calculateMovablePositions(position, occupiedPositions);
@@ -84,12 +79,14 @@ class GuardTest {
     @Test
     void 사는_궁성영역_밖으로_이동할_수_없다() {
         Board board = new Board();
-        Piece guard = new Guard(Color.BLUE);
+        JanggiGame janggiGame = new JanggiGame(board, new Turn());
+
+        Piece guard = new Chariot(Color.BLUE);
         board.putPiece(position, guard);
 
-        board.move(position, new Position(10, 6), Color.BLUE);
+        janggiGame.move(position, new Position(10, 6));
 
-        assertThatThrownBy(() -> board.move(new Position(10, 6), new Position(10, 7), Color.BLUE))
+        assertThatThrownBy(() ->janggiGame.move(position, new Position(10, 6)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

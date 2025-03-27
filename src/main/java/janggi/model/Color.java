@@ -14,4 +14,11 @@ public enum Color {
     public int getInitRow() {
         return initRow;
     }
+
+    public Color reverse() {
+        if (this == Color.RED) {
+            return Color.BLUE;
+        }
+        return Color.RED;
+    }
 }

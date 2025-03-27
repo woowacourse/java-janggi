@@ -31,6 +31,11 @@ public class Soldier extends Piece {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public double getScore() {
+        return 2;
+    }
+
     private List<Direction> calculateCastleCrossDirection(Position start) {
         if (!start.isInCastle()) {
             return List.of();

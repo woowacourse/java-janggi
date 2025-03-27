@@ -1,7 +1,8 @@
 package janggi.controller;
 
-import janggi.model.Board;
 import janggi.model.BoardInitializer;
+import janggi.model.Color;
+import janggi.model.JanggiGame;
 import janggi.view.Parser;
 import janggi.model.Position;
 import janggi.model.Turn;
@@ -20,24 +21,24 @@ public class JanggiController {
 
     public void run() {
         BoardInitializer boardInitializer = new BoardInitializer();
-        Board board = boardInitializer.init();
-        Turn turn = new Turn();
-        outputView.printBoard(board);
-        retry(() -> playGame(board, turn));
+        JanggiGame janggiGame = new JanggiGame(boardInitializer.init(), new Turn());
+        outputView.printBoard(janggiGame.getBoard());
+        retry(() -> playGame(janggiGame));
     }
 
-    private void playGame(final Board board, final Turn turn) {
-        String command = inputView.inputMovePositions(turn.getCurrentTurn().name());
+    private void playGame(final JanggiGame janggiGame) {
+        String command = inputView.inputMovePositions(janggiGame.getCurrentTurn().name());
         if (command.equals("Q")) {
             return;
         }
         List<Position> positions = Parser.parsePositions(command);
         Position startPosition = positions.get(0);
         Position endPosition = positions.get(1);
-        board.move(startPosition, endPosition, turn.getCurrentTurn());
-        turn.increaseRound();
-        outputView.printBoard(board);
-        playGame(board, turn);
+        janggiGame.move(startPosition, endPosition);
+        outputView.printBoard(janggiGame.getBoard());
+        outputView.printRedTeamScore(janggiGame.calculateScore(Color.RED));
+        outputView.printBlueTeamScore(janggiGame.calculateScore(Color.BLUE));
+        playGame(janggiGame);
     }
 
     private void retry(final Runnable runnable) {

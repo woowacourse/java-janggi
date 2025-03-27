@@ -67,4 +67,11 @@ public class OutputView {
         return (char) (c + 0xfee0);
     }
 
+    public void printRedTeamScore(double score) {
+        System.out.println(String.format("홍팀 점수: %.1f", score));
+    }
+
+    public void printBlueTeamScore(double score) {
+        System.out.println(String.format("청팀 점수: %.1f", score));
+    }
 }

@@ -28,6 +28,11 @@ public class Cannon extends Piece {
                 .collect(Collectors.toSet());
     }
 
+    @Override
+    public double getScore() {
+        return 7;
+    }
+
     private Set<Position> calculateMovableOneSide(Direction direction, Position start, OccupiedPositions occupied) {
         List<Position> positionsInDirection = getPositionsInDirection(direction, start);
         Optional<Position> huddle = findHuddle(positionsInDirection, occupied);

@@ -1,19 +1,15 @@
 package janggi.model;
 
+import janggi.model.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
-import janggi.model.piece.Piece;
 
 public class Board {
     private final Map<Position, Piece> pieces = new HashMap<>();
 
-    public void move(Position departure, Position destination, Color currentTurn) {
-        validateExistPiecePosition(departure);
+    public void move(Position departure, Position destination) {
         Piece piece = pieces.get(departure);
-        validateSameTeam(currentTurn, piece);
-        validateMovablePosition(destination, piece.calculateMovablePositions(departure, generateOccupiedPositions()));
         pieces.remove(departure);
         pieces.put(destination, piece);
     }
@@ -26,21 +22,24 @@ public class Board {
         pieces.put(position, piece);
     }
 
-    private static void validateSameTeam(Color currentTurn, Piece piece) {
-        if (piece.identity().getColor() != currentTurn) {
-            throw new IllegalArgumentException("움직일 수 없는 기물입니다.");
+    public Piece findPieceByPositionAndColor(Position position, Color color) {
+        validateExistPiecePosition(position);
+        Piece piece = pieces.get(position);
+        if (piece.identity().getColor() != color) {
+            throw new IllegalArgumentException("같은 팀의 기물이 아닙니다.");
         }
+        return pieces.get(position);
+    }
+
+    public double calculateScore(Color color) {
+        return pieces.values().stream()
+                .filter(piece -> piece.isEqualsColor(color))
+                .mapToDouble(Piece::getScore).sum();
     }
 
     private void validateExistPiecePosition(Position departure) {
         if (!pieces.containsKey(departure)) {
             throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
-        }
-    }
-
-    private void validateMovablePosition(Position destination, Set<Position> movablePositions) {
-        if (!movablePositions.contains(destination)) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
     }
 
