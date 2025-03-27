@@ -6,10 +6,8 @@ public record Point(int row, int column) {
     private static final int ROW_UPPER_BOUND = 9;
     private static final int COLUMN_UPPER_BOUND = 8;
 
-    public Point(int row, int column) {
+    public Point {
         validateRange(row, column);
-        this.row = row;
-        this.column = column;
     }
 
     private void validateRange(int row, int column) {
