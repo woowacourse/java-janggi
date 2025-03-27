@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.Position;
 import domain.Team;
 import domain.movestrategy.BasicRangeMoveStrategy;
+import domain.movestrategy.PalaceRangeMoveStrategy;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -55,9 +56,38 @@ class CannonTest {
         );
     }
 
+    @DisplayName("포가 궁성안에 있을 경우 대각선 경로를 계산할 수 있다")
+    @ParameterizedTest
+    @MethodSource("providePositions2")
+    void test2(Position startPosition, Position targetPosition, List<Position> expected) {
+        // given
+        Cannon cannon = new Cannon(Team.RED, new PalaceRangeMoveStrategy());
+
+        // when
+        List<Position> moves = cannon.calculatePath(startPosition, targetPosition);
+
+        // then
+        Assertions.assertThat(moves).isEqualTo(expected);
+    }
+
+    static Stream<Arguments> providePositions2() {
+        return Stream.of(
+                Arguments.of(
+                        new Position(1, 4),
+                        new Position(3, 6),
+                        List.of(new Position(2, 5))
+                ),
+                Arguments.of(
+                        new Position(1, 6),
+                        new Position(3, 4),
+                        List.of(new Position(2, 5))
+                )
+        );
+    }
+
     @DisplayName("포로 이동할 수 없는 위치인 경우 예외를 발생시킨다")
     @Test
-    void test2() {
+    void test3() {
         //given
         Cannon cannon = new Cannon(Team.RED, new BasicRangeMoveStrategy());
 
