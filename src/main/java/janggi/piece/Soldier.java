@@ -10,12 +10,15 @@ public class Soldier implements Piece {
     private final Team team;
     private final List<List<Movement>> movements;
     private Position position;
-    private boolean isLive = true;
+    private boolean isLive;
+    private PieceType pieceType;
 
     public Soldier(Team team, Position position) {
         this.team = team;
         this.position = position;
         this.movements = choiceMovementsByTeam(team);
+        this.isLive = true;
+        this.pieceType = PieceType.SOLDIER;
     }
 
     private List<List<Movement>> choiceMovementsByTeam(Team team) {
@@ -92,7 +95,7 @@ public class Soldier implements Piece {
 
     @Override
     public PieceType getpieceType() {
-        return PieceType.SOLDIER;
+        return pieceType;
     }
 
     @Override

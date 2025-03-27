@@ -57,5 +57,13 @@ public class Output {
 
     public void printGameResult(Piece piece) {
         System.out.printf("%s 진영이 승리하였습니다" ,TEAMS.get( piece.getTeam()));
+        System.out.println();
+    }
+
+    public void printScore(int choScore, int hanScore) {
+        System.out.printf("초 진영 : %s점" ,choScore);
+        System.out.println();
+        System.out.printf("한 진영 : %s점" ,hanScore);
+        System.out.println();
     }
 }

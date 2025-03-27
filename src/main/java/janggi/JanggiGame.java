@@ -23,6 +23,7 @@ public class JanggiGame {
         output.printBoard(board.extractLocatedLivePicecs());
         while (board.isGameOver()) {
             try {
+                output.printScore(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
                 Map.Entry<Position, Position> moveableInfo = input.readMoveablePiece();
                 board.move(turn, moveableInfo.getKey(), moveableInfo.getValue());
                 output.printBoard(board.extractLocatedLivePicecs());

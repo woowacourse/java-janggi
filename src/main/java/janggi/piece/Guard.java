@@ -20,11 +20,14 @@ public class Guard implements Piece {
 
     private final Team team;
     private Position position;
-    private boolean isLive = true;
+    private PieceType pieceType;
+    private boolean isLive;
 
     public Guard(Team team, Position position) {
         this.team = team;
         this.position = position;
+        this.isLive = true;
+        this.pieceType = PieceType.GUARD;
     }
 
     @Override
@@ -86,7 +89,7 @@ public class Guard implements Piece {
 
     @Override
     public PieceType getpieceType() {
-        return PieceType.GUARD;
+        return pieceType;
     }
 
     @Override

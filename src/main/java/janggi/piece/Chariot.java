@@ -19,11 +19,14 @@ public class Chariot implements Piece {
 
     private final Team team;
     private Position position;
-    private boolean isLive = true;
+    private boolean isLive;
+    private PieceType pieceType;
 
     public Chariot(Team team, Position position) {
         this.team = team;
         this.position = position;
+        this.isLive = true;
+        this.pieceType = PieceType.CHARIOT;
     }
 
     @Override
@@ -121,7 +124,7 @@ public class Chariot implements Piece {
 
     @Override
     public PieceType getpieceType() {
-        return PieceType.CHARIOT;
+        return pieceType;
     }
 
     @Override

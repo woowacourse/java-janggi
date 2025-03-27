@@ -113,4 +113,11 @@ public class Board {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("살아있는 왕이 존재하지 않습니다"));
     }
+
+    public int calculateScore(Team team) {
+        return locatedPieces.stream()
+                .filter(piece -> piece.isSameTeam(team) && piece.isLive())
+                .mapToInt(piece -> piece.getpieceType().getScore())
+                .sum();
+    }
 }

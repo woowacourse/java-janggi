@@ -21,11 +21,14 @@ public class Elephant implements Piece {
 
     private final Team team;
     private Position position;
-    private boolean isLive = true;
+    private boolean isLive;
+    private PieceType pieceType;
 
     public Elephant(Team team, Position position) {
         this.team = team;
         this.position = position;
+        this.isLive = true;
+        this.pieceType = PieceType.ELEPHANT;
     }
 
     @Override
@@ -97,7 +100,7 @@ public class Elephant implements Piece {
 
     @Override
     public PieceType getpieceType() {
-        return PieceType.ELEPHANT;
+        return pieceType;
     }
 
     @Override

@@ -20,11 +20,14 @@ public class King implements Piece {
 
     private final Team team;
     private Position position;
-    private boolean isLive = true;
+    private boolean isLive;
+    private PieceType pieceType;
 
     public King(Team team, Position position) {
         this.team = team;
         this.position = position;
+        this.isLive = true;
+        this.pieceType = PieceType.KING;
     }
 
     @Override
@@ -86,7 +89,7 @@ public class King implements Piece {
 
     @Override
     public PieceType getpieceType() {
-        return PieceType.KING;
+        return pieceType;
     }
 
     @Override

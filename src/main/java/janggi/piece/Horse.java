@@ -21,11 +21,14 @@ public class Horse implements Piece {
 
     private final Team team;
     private Position position;
-    private boolean isLive = true;
+    private boolean isLive;
+    private PieceType pieceType;
 
     public Horse(Team team, Position position) {
         this.team = team;
         this.position = position;
+        this.isLive = true;
+        this.pieceType = PieceType.HORSE;
     }
 
     @Override
@@ -97,7 +100,7 @@ public class Horse implements Piece {
 
     @Override
     public PieceType getpieceType() {
-        return PieceType.HORSE;
+        return pieceType;
     }
 
     @Override

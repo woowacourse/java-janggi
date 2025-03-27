@@ -18,11 +18,14 @@ public class Cannon implements Piece {
 
     private final Team team;
     private Position position;
-    private boolean isLive = true;
+    private boolean isLive;
+    private PieceType pieceType;
 
     public Cannon(Team team, Position position) {
         this.team = team;
         this.position = position;
+        this.isLive = true;
+        this.pieceType = PieceType.CANNON;
     }
 
     @Override
@@ -132,7 +135,7 @@ public class Cannon implements Piece {
 
     @Override
     public PieceType getpieceType() {
-        return PieceType.CANNON;
+        return pieceType;
     }
 
     @Override
