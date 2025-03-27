@@ -2,7 +2,7 @@ package domain.pieces;
 
 import domain.Team;
 import domain.board.PieceOnRoute;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
@@ -14,11 +14,11 @@ class HorseTest {
     void test_isAbleToArrive() {
         // given
         Horse horse = new Horse(Team.CHO, BoardStub.generateHorseMovement());
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(2, 1);
+        BoardPoint startBoardPoint = new BoardPoint(0, 0);
+        BoardPoint arrivalBoardPoint = new BoardPoint(2, 1);
 
         // when
-        boolean actual = horse.isAbleToArrive(startPoint, arrivalPoint);
+        boolean actual = horse.isAbleToArrive(startBoardPoint, arrivalBoardPoint);
 
         // then
         assertThat(actual).isTrue();
@@ -29,16 +29,16 @@ class HorseTest {
     void test_getRoutePoints() {
         // given
         Horse horse = new Horse(Team.CHO, BoardStub.generateHorseMovement());
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(2, 1);
+        BoardPoint startBoardPoint = new BoardPoint(0, 0);
+        BoardPoint arrivalBoardPoint = new BoardPoint(2, 1);
 
         // when
-        List<Point> routePoints = horse.getRoutePoints(startPoint, arrivalPoint);
+        List<BoardPoint> routeBoardPoints = horse.getRoutePoints(startBoardPoint, arrivalBoardPoint);
 
         // then
-        assertThat(routePoints).containsExactlyInAnyOrder(
-                new Point(1, 0),
-                new Point(2, 1)
+        assertThat(routeBoardPoints).containsExactlyInAnyOrder(
+                new BoardPoint(1, 0),
+                new BoardPoint(2, 1)
         );
     }
 

@@ -1,6 +1,6 @@
 package domain.movements;
 
-import domain.board.Point;
+import domain.board.BoardPoint;
 import domain.board.TempPoint;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,11 @@ public final class RouteTest {
             final List<Direction> givenDirections = List.of(Direction.NORTH, Direction.NORTHEAST, Direction.NORTHEAST);
             final List<Direction> directions = new ArrayList<>(givenDirections);
             final Route route = new Route(directions);
-            final Point startPoint = new Point(0, 0);
+            final BoardPoint startBoardPoint = new BoardPoint(0, 0);
             final TempPoint expectedPoint = new TempPoint(3, 2);
 
             //when
-            final TempPoint actual = route.navigateArrivalPoint(startPoint);
+            final TempPoint actual = route.navigateArrivalPoint(startBoardPoint);
 
             //then
             assertThat(actual).isEqualTo(expectedPoint);
@@ -40,11 +40,11 @@ public final class RouteTest {
         void test_canArriveReturnTrue() {
             // given
             Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST));
-            Point startPoint = new Point(0, 0);
-            Point arrivalPoint = new Point(2, 1);
+            BoardPoint startBoardPoint = new BoardPoint(0, 0);
+            BoardPoint arrivalBoardPoint = new BoardPoint(2, 1);
 
             // when
-            boolean actual = route.canArrive(startPoint, arrivalPoint);
+            boolean actual = route.canArrive(startBoardPoint, arrivalBoardPoint);
 
             // then
             assertThat(actual).isTrue();
@@ -55,11 +55,11 @@ public final class RouteTest {
         void test_canArriveReturnFalse() {
             // given
             Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST));
-            Point startPoint = new Point(0, 0);
-            Point arrivalPoint = new Point(2, 2);
+            BoardPoint startBoardPoint = new BoardPoint(0, 0);
+            BoardPoint arrivalBoardPoint = new BoardPoint(2, 2);
 
             // when
-            boolean actual = route.canArrive(startPoint, arrivalPoint);
+            boolean actual = route.canArrive(startBoardPoint, arrivalBoardPoint);
 
             // then
             assertThat(actual).isFalse();
@@ -73,18 +73,18 @@ public final class RouteTest {
         void test_returnValidPointsOnRoute() {
             // given
             Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST, Direction.NORTHEAST));
-            Point startPoint = new Point(0, 0);
+            BoardPoint startBoardPoint = new BoardPoint(0, 0);
 
             // when
-            List<Point> actual = route.getAllPointsOnRoute(startPoint);
+            List<BoardPoint> actual = route.getAllPointsOnRoute(startBoardPoint);
 
             // then
             assertAll(
                     () -> assertThat(actual).hasSize(3),
                     () -> assertThat(actual).containsExactlyInAnyOrder(
-                            new Point(1, 0),
-                            new Point(2, 1),
-                            new Point(3, 2))
+                            new BoardPoint(1, 0),
+                            new BoardPoint(2, 1),
+                            new BoardPoint(3, 2))
             );
         }
 
@@ -93,10 +93,10 @@ public final class RouteTest {
         void test_doesNotContainStartPoint() {
             // given
             Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST));
-            Point startPoint = new Point(0, 0);
+            BoardPoint startBoardPoint = new BoardPoint(0, 0);
 
             // when & then
-            assertThat(route.getAllPointsOnRoute(startPoint)).doesNotContain(startPoint);
+            assertThat(route.getAllPointsOnRoute(startBoardPoint)).doesNotContain(startBoardPoint);
         }
 
         @Test
@@ -104,11 +104,11 @@ public final class RouteTest {
         void test_doesNotContainInvalidPoint() {
             // given
             Route route = new Route(List.of(Direction.NORTH, Direction.NORTHEAST));
-            Point startPoint = new Point(1, 0);
-            Point pointToSouth = new Point(0, 0);
+            BoardPoint startBoardPoint = new BoardPoint(1, 0);
+            BoardPoint boardPointToSouth = new BoardPoint(0, 0);
 
             // when & then
-            assertThat(route.getAllPointsOnRoute(startPoint)).doesNotContain(pointToSouth);
+            assertThat(route.getAllPointsOnRoute(startBoardPoint)).doesNotContain(boardPointToSouth);
         }
     }
 }

@@ -2,7 +2,7 @@ package domain.pieces;
 
 import domain.Team;
 import domain.board.PieceOnRoute;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import domain.movements.PieceMovement;
 import static domain.pieces.PieceNames.ELEPHANT;
 import java.util.List;
@@ -23,13 +23,13 @@ public final class Elephant implements Piece {
     }
 
     @Override
-    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-        return defaultMovement.calculateTotalArrivalPoints(startPoint).contains(arrivalPoint);
+    public boolean isAbleToArrive(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
+        return defaultMovement.calculateTotalArrivalPoints(startBoardPoint).contains(arrivalBoardPoint);
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-        return defaultMovement.calculateRoutePoints(startPoint, arrivalPoint);
+    public List<BoardPoint> getRoutePoints(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
+        return defaultMovement.calculateRoutePoints(startBoardPoint, arrivalBoardPoint);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package view;
 
-import domain.board.Point;
+import domain.board.BoardPoint;
 import domain.pieces.Piece;
 import java.util.Map;
 
@@ -9,11 +9,11 @@ public final class OutputView {
     private static final int MAX_COLUMN = 9;
     private static final int MAX_ROW = 10;
 
-    public void printBoard(final Map<Point, Piece> locations) {
+    public void printBoard(final Map<BoardPoint, Piece> locations) {
         System.out.println(boardToString(locations));
     }
 
-    private String boardToString(final Map<Point, Piece> locations) {
+    private String boardToString(final Map<BoardPoint, Piece> locations) {
         final StringBuilder result = new StringBuilder();
         result.append("  ");
         for (int column = 0; column < MAX_COLUMN; column++) {
@@ -30,12 +30,12 @@ public final class OutputView {
         return result.toString();
     }
 
-    private void addPieceName(final Map<Point, Piece> locations, final int row,
+    private void addPieceName(final Map<BoardPoint, Piece> locations, final int row,
                               StringBuilder result) {
         for (int column = 0; column < MAX_COLUMN; column++) {
-            final Point point = new Point(row, column);
-            if (locations.containsKey(point)) {
-                final Piece piece = locations.get(point);
+            final BoardPoint boardPoint = new BoardPoint(row, column);
+            if (locations.containsKey(boardPoint)) {
+                final Piece piece = locations.get(boardPoint);
                 result.append(piece.getName());
                 result.append(" ");
                 continue;

@@ -3,7 +3,7 @@ package domain.pieces;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Team;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import execptions.JanggiArgumentException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ class GeneralTest {
         General general = new General(Team.CHO);
 
         // when & then
-        assertThatThrownBy(() -> general.isAbleToArrive(new Point(3, 2), new Point(2, 3)))
+        assertThatThrownBy(() -> general.isAbleToArrive(new BoardPoint(3, 2), new BoardPoint(2, 3)))
                 .isInstanceOf(JanggiArgumentException.class);
     }
 }

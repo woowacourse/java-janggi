@@ -2,7 +2,7 @@ package domain.pieces;
 
 import domain.Team;
 import domain.board.PieceOnRoute;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
@@ -18,11 +18,11 @@ class SoldierTest {
         void test_isAbleToArriveByHan() {
             // given
             Soldier soldier = new Soldier(Team.HAN, BoardStub.generateSoldierMovementForHan());
-            Point startPoint = new Point(0, 0);
-            Point arrivalPoint = new Point(1, 0);
+            BoardPoint startBoardPoint = new BoardPoint(0, 0);
+            BoardPoint arrivalBoardPoint = new BoardPoint(1, 0);
 
             // when
-            boolean actual = soldier.isAbleToArrive(startPoint, arrivalPoint);
+            boolean actual = soldier.isAbleToArrive(startBoardPoint, arrivalBoardPoint);
 
             // then
             assertThat(actual).isFalse();
@@ -33,11 +33,11 @@ class SoldierTest {
         void test_isAbleToArriveByCho() {
             // given
             Soldier soldier = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForCho());
-            Point startPoint = new Point(1, 0);
-            Point arrivalPoint = new Point(0, 0);
+            BoardPoint startBoardPoint = new BoardPoint(1, 0);
+            BoardPoint arrivalBoardPoint = new BoardPoint(0, 0);
 
             // when
-            boolean actual = soldier.isAbleToArrive(startPoint, arrivalPoint);
+            boolean actual = soldier.isAbleToArrive(startBoardPoint, arrivalBoardPoint);
 
             // then
             assertThat(actual).isFalse();
@@ -49,15 +49,15 @@ class SoldierTest {
     void test_getRoutePoints() {
         // given
         Soldier soldier = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForCho());
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(1, 0);
+        BoardPoint startBoardPoint = new BoardPoint(0, 0);
+        BoardPoint arrivalBoardPoint = new BoardPoint(1, 0);
 
         // when
-        List<Point> routePoints = soldier.getRoutePoints(startPoint, arrivalPoint);
+        List<BoardPoint> routeBoardPoints = soldier.getRoutePoints(startBoardPoint, arrivalBoardPoint);
 
         // then
-        assertThat(routePoints).containsExactlyInAnyOrder(
-                new Point(1, 0)
+        assertThat(routeBoardPoints).containsExactlyInAnyOrder(
+                new BoardPoint(1, 0)
         );
     }
 

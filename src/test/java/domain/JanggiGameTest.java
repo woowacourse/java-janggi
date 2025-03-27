@@ -1,6 +1,6 @@
 package domain;
 
-import domain.board.Point;
+import domain.board.BoardPoint;
 import domain.pieces.Piece;
 import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +20,7 @@ class JanggiGameTest {
             JanggiGame janggiGame = new JanggiGame();
 
             // when
-            Map<Point, Piece> board = janggiGame.getBoard();
+            Map<BoardPoint, Piece> board = janggiGame.getBoard();
 
             // then
             assertThat(board.keySet()).allSatisfy(point -> {
@@ -37,16 +37,16 @@ class JanggiGameTest {
         void test_move() {
             // given
             JanggiGame janggiGame = new JanggiGame();
-            Point startPoint = new Point(0, 0);
-            Point arrivalPoint = new Point(1, 0);
+            BoardPoint startBoardPoint = new BoardPoint(0, 0);
+            BoardPoint arrivalBoardPoint = new BoardPoint(1, 0);
 
-            Piece originalPieceAtStartPoint = janggiGame.getBoard().get(startPoint);
+            Piece originalPieceAtStartPoint = janggiGame.getBoard().get(startBoardPoint);
 
             // when
-            janggiGame.move(startPoint, arrivalPoint, true);
+            janggiGame.move(startBoardPoint, arrivalBoardPoint, true);
 
             // then
-            Piece pieceAtArrivalPoint = janggiGame.getBoard().get(arrivalPoint);
+            Piece pieceAtArrivalPoint = janggiGame.getBoard().get(arrivalBoardPoint);
             assertThat(originalPieceAtStartPoint).isEqualTo(pieceAtArrivalPoint);
         }
     }

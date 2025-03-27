@@ -2,7 +2,7 @@ package domain.pieces;
 
 import domain.Team;
 import domain.board.PieceOnRoute;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
@@ -14,11 +14,11 @@ class ElephantTest {
     void test_isAbleToArrive() {
         // given
         Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(3, 2);
+        BoardPoint startBoardPoint = new BoardPoint(0, 0);
+        BoardPoint arrivalBoardPoint = new BoardPoint(3, 2);
 
         // when
-        boolean actual = elephant.isAbleToArrive(startPoint, arrivalPoint);
+        boolean actual = elephant.isAbleToArrive(startBoardPoint, arrivalBoardPoint);
 
         // then
         assertThat(actual).isTrue();
@@ -29,17 +29,17 @@ class ElephantTest {
     void test_getRoutePoints() {
         // given
         Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(3, 2);
+        BoardPoint startBoardPoint = new BoardPoint(0, 0);
+        BoardPoint arrivalBoardPoint = new BoardPoint(3, 2);
 
         // when
-        List<Point> routePoints = elephant.getRoutePoints(startPoint, arrivalPoint);
+        List<BoardPoint> routeBoardPoints = elephant.getRoutePoints(startBoardPoint, arrivalBoardPoint);
 
         // then
-        assertThat(routePoints).containsExactlyInAnyOrder(
-                new Point(1, 0),
-                new Point(2, 1),
-                new Point(3, 2)
+        assertThat(routeBoardPoints).containsExactlyInAnyOrder(
+                new BoardPoint(1, 0),
+                new BoardPoint(2, 1),
+                new BoardPoint(3, 2)
         );
     }
 

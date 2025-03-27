@@ -2,7 +2,7 @@ package domain.pieces;
 
 import domain.Team;
 import domain.board.PieceOnRoute;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import domain.movements.EndlessMovement;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,11 +15,11 @@ class CannonTest {
     void test_IsAbleToArrive() {
         // given
         Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(0, 3);
+        BoardPoint startBoardPoint = new BoardPoint(0, 0);
+        BoardPoint arrivalBoardPoint = new BoardPoint(0, 3);
 
         // when
-        boolean actual = cannon.isAbleToArrive(startPoint, arrivalPoint);
+        boolean actual = cannon.isAbleToArrive(startBoardPoint, arrivalBoardPoint);
 
         // then
         assertThat(actual).isTrue();
@@ -30,11 +30,11 @@ class CannonTest {
     void test_IsNotAbleToArrive() {
         // given
         Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(3, 3);
+        BoardPoint startBoardPoint = new BoardPoint(0, 0);
+        BoardPoint arrivalBoardPoint = new BoardPoint(3, 3);
 
         // when
-        boolean actual = cannon.isAbleToArrive(startPoint, arrivalPoint);
+        boolean actual = cannon.isAbleToArrive(startBoardPoint, arrivalBoardPoint);
 
         // then
         assertThat(actual).isFalse();
@@ -46,17 +46,17 @@ class CannonTest {
     void test_getRoutePoints() {
         // given
         Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
-        Point startPoint = new Point(0, 0);
-        Point arrivalPoint = new Point(0, 3);
+        BoardPoint startBoardPoint = new BoardPoint(0, 0);
+        BoardPoint arrivalBoardPoint = new BoardPoint(0, 3);
 
         // when
-        List<Point> routePoints = cannon.getRoutePoints(startPoint, arrivalPoint);
+        List<BoardPoint> routeBoardPoints = cannon.getRoutePoints(startBoardPoint, arrivalBoardPoint);
 
         // then
-        assertThat(routePoints).containsExactlyInAnyOrder(
-                new Point(0, 1),
-                new Point(0, 2),
-                new Point(0, 3)
+        assertThat(routeBoardPoints).containsExactlyInAnyOrder(
+                new BoardPoint(0, 1),
+                new BoardPoint(0, 2),
+                new BoardPoint(0, 3)
         );
     }
 

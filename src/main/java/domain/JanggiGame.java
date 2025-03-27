@@ -1,7 +1,7 @@
 package domain;
 
 import domain.board.Board;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import domain.movements.DefaultMovement;
 import domain.movements.Direction;
 import domain.movements.EndlessMovement;
@@ -29,98 +29,98 @@ public final class JanggiGame {
         players = List.of(new Player(Team.HAN), new Player(Team.CHO));
     }
 
-    public Map<Point, Piece> getBoard() {
+    public Map<BoardPoint, Piece> getBoard() {
         return board.getLocations();
     }
 
-    public void move(final Point startPoint, final Point arrivalPoint, final boolean isFirstPlayerTurn) {
+    public void move(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint, final boolean isFirstPlayerTurn) {
         Player currentPlayer = players.stream()
                 .filter(Player::isTurn)
                 .findFirst()
                 .orElseThrow();
-        board.movePiece(startPoint, arrivalPoint, currentPlayer.getTeam());
+        board.movePiece(startBoardPoint, arrivalBoardPoint, currentPlayer.getTeam());
         players.forEach(Player::switchTurn);
     }
 
     private Board generateBoard() {
-        final Map<Point, Piece> locations = new HashMap<>();
+        final Map<BoardPoint, Piece> locations = new HashMap<>();
         locations.putAll(generateLocationsForHan());
         locations.putAll(generateLocationsForCho());
         return new Board(locations);
     }
 
-    private Map<Point, Piece> generateLocationsForHan() {
-        final Map<Point, Piece> locations = new HashMap<>();
+    private Map<BoardPoint, Piece> generateLocationsForHan() {
+        final Map<BoardPoint, Piece> locations = new HashMap<>();
         final PieceMovement soldierMovement = new DefaultMovement(List.of(
                 new Route(List.of(Direction.SOUTH)),
                 new Route(List.of(Direction.EAST)),
                 new Route(List.of(Direction.WEST))
         ));
-        locations.put(new Point(6, 0), new Soldier(Team.HAN, soldierMovement));
-        locations.put(new Point(6, 2), new Soldier(Team.HAN, soldierMovement));
-        locations.put(new Point(6, 4), new Soldier(Team.HAN, soldierMovement));
-        locations.put(new Point(6, 6), new Soldier(Team.HAN, soldierMovement));
-        locations.put(new Point(6, 8), new Soldier(Team.HAN, soldierMovement));
+        locations.put(new BoardPoint(6, 0), new Soldier(Team.HAN, soldierMovement));
+        locations.put(new BoardPoint(6, 2), new Soldier(Team.HAN, soldierMovement));
+        locations.put(new BoardPoint(6, 4), new Soldier(Team.HAN, soldierMovement));
+        locations.put(new BoardPoint(6, 6), new Soldier(Team.HAN, soldierMovement));
+        locations.put(new BoardPoint(6, 8), new Soldier(Team.HAN, soldierMovement));
 
         final PieceMovement endlessMovement = new EndlessMovement();
 
-        locations.put(new Point(9, 0), new Chariot(Team.HAN, endlessMovement));
-        locations.put(new Point(9, 8), new Chariot(Team.HAN, endlessMovement));
+        locations.put(new BoardPoint(9, 0), new Chariot(Team.HAN, endlessMovement));
+        locations.put(new BoardPoint(9, 8), new Chariot(Team.HAN, endlessMovement));
 
-        locations.put(new Point(7, 1), new Cannon(Team.HAN, endlessMovement));
-        locations.put(new Point(7, 7), new Cannon(Team.HAN, endlessMovement));
+        locations.put(new BoardPoint(7, 1), new Cannon(Team.HAN, endlessMovement));
+        locations.put(new BoardPoint(7, 7), new Cannon(Team.HAN, endlessMovement));
 
         final PieceMovement elephantMovement = generateElephantMovement();
 
-        locations.put(new Point(9, 1), new Elephant(Team.HAN, elephantMovement));
-        locations.put(new Point(9, 7), new Elephant(Team.HAN, elephantMovement));
+        locations.put(new BoardPoint(9, 1), new Elephant(Team.HAN, elephantMovement));
+        locations.put(new BoardPoint(9, 7), new Elephant(Team.HAN, elephantMovement));
 
         final PieceMovement horseMovement = generateHorseMovement();
 
-        locations.put(new Point(9, 2), new Horse(Team.HAN, horseMovement));
-        locations.put(new Point(9, 6), new Horse(Team.HAN, horseMovement));
+        locations.put(new BoardPoint(9, 2), new Horse(Team.HAN, horseMovement));
+        locations.put(new BoardPoint(9, 6), new Horse(Team.HAN, horseMovement));
 
-        locations.put(new Point(8, 4), new General(Team.HAN));
-        locations.put(new Point(9, 3), new Guard(Team.HAN));
-        locations.put(new Point(9, 5), new Guard(Team.HAN));
+        locations.put(new BoardPoint(8, 4), new General(Team.HAN));
+        locations.put(new BoardPoint(9, 3), new Guard(Team.HAN));
+        locations.put(new BoardPoint(9, 5), new Guard(Team.HAN));
 
         return locations;
     }
 
-    private Map<Point, Piece> generateLocationsForCho() {
-        final Map<Point, Piece> locations = new HashMap<>();
+    private Map<BoardPoint, Piece> generateLocationsForCho() {
+        final Map<BoardPoint, Piece> locations = new HashMap<>();
         final PieceMovement soldierMovement = new DefaultMovement(List.of(
                 new Route(List.of(Direction.NORTH)),
                 new Route(List.of(Direction.EAST)),
                 new Route(List.of(Direction.WEST))
         ));
-        locations.put(new Point(3, 0), new Soldier(Team.CHO, soldierMovement));
-        locations.put(new Point(3, 2), new Soldier(Team.CHO, soldierMovement));
-        locations.put(new Point(3, 4), new Soldier(Team.CHO, soldierMovement));
-        locations.put(new Point(3, 6), new Soldier(Team.CHO, soldierMovement));
-        locations.put(new Point(3, 8), new Soldier(Team.CHO, soldierMovement));
+        locations.put(new BoardPoint(3, 0), new Soldier(Team.CHO, soldierMovement));
+        locations.put(new BoardPoint(3, 2), new Soldier(Team.CHO, soldierMovement));
+        locations.put(new BoardPoint(3, 4), new Soldier(Team.CHO, soldierMovement));
+        locations.put(new BoardPoint(3, 6), new Soldier(Team.CHO, soldierMovement));
+        locations.put(new BoardPoint(3, 8), new Soldier(Team.CHO, soldierMovement));
 
         final PieceMovement endlessMovement = new EndlessMovement();
 
-        locations.put(new Point(0, 0), new Chariot(Team.CHO, endlessMovement));
-        locations.put(new Point(0, 8), new Chariot(Team.CHO, endlessMovement));
+        locations.put(new BoardPoint(0, 0), new Chariot(Team.CHO, endlessMovement));
+        locations.put(new BoardPoint(0, 8), new Chariot(Team.CHO, endlessMovement));
 
-        locations.put(new Point(2, 1), new Cannon(Team.CHO, endlessMovement));
-        locations.put(new Point(2, 7), new Cannon(Team.CHO, endlessMovement));
+        locations.put(new BoardPoint(2, 1), new Cannon(Team.CHO, endlessMovement));
+        locations.put(new BoardPoint(2, 7), new Cannon(Team.CHO, endlessMovement));
 
         final PieceMovement elephantMovement = generateElephantMovement();
 
-        locations.put(new Point(0, 1), new Elephant(Team.CHO, elephantMovement));
-        locations.put(new Point(0, 7), new Elephant(Team.CHO, elephantMovement));
+        locations.put(new BoardPoint(0, 1), new Elephant(Team.CHO, elephantMovement));
+        locations.put(new BoardPoint(0, 7), new Elephant(Team.CHO, elephantMovement));
 
         final PieceMovement horseMovement = generateHorseMovement();
 
-        locations.put(new Point(0, 2), new Horse(Team.CHO, horseMovement));
-        locations.put(new Point(0, 6), new Horse(Team.CHO, horseMovement));
+        locations.put(new BoardPoint(0, 2), new Horse(Team.CHO, horseMovement));
+        locations.put(new BoardPoint(0, 6), new Horse(Team.CHO, horseMovement));
 
-        locations.put(new Point(1, 4), new General(Team.CHO));
-        locations.put(new Point(0, 3), new Guard(Team.CHO));
-        locations.put(new Point(0, 5), new Guard(Team.CHO));
+        locations.put(new BoardPoint(1, 4), new General(Team.CHO));
+        locations.put(new BoardPoint(0, 3), new Guard(Team.CHO));
+        locations.put(new BoardPoint(0, 5), new Guard(Team.CHO));
 
         return locations;
     }

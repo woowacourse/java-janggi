@@ -18,11 +18,11 @@ public final class BoardTest {
         void test_throwExceptionWhenPieceIsNotMovable() {
             // given
             Board board = BoardStub.generateBoard();
-            Point startPoint = new Point(0, 0);
-            Point arrivalpoint = new Point(5, 0);
+            BoardPoint startBoardPoint = new BoardPoint(0, 0);
+            BoardPoint arrivalpoint = new BoardPoint(5, 0);
 
             // when
-            assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.CHO))
+            assertThatThrownBy(() -> board.movePiece(startBoardPoint, arrivalpoint, Team.CHO))
                     .isInstanceOf(JanggiArgumentException.class)
                     .hasMessageContaining("해당 경로로 이동할 수 없습니다.");
         }
@@ -32,11 +32,11 @@ public final class BoardTest {
         void test_throwExceptionWhenPieceIsNotAbleToArrive() {
             // given
             Board board = BoardStub.generateBoard();
-            Point startPoint = new Point(0, 0);
-            Point arrivalpoint = new Point(1, 1);
+            BoardPoint startBoardPoint = new BoardPoint(0, 0);
+            BoardPoint arrivalpoint = new BoardPoint(1, 1);
 
             // when
-            assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.HAN))
+            assertThatThrownBy(() -> board.movePiece(startBoardPoint, arrivalpoint, Team.HAN))
                     .isInstanceOf(JanggiArgumentException.class)
                     .hasMessageContaining("아군 기물만 움직일 수 있습니다.");
         }
@@ -46,11 +46,11 @@ public final class BoardTest {
         void test_NoPieceOnStartPoint() {
             // given
             Board board = BoardStub.generateBoard();
-            Point startPoint = new Point(1, 0);
-            Point arrivalpoint = new Point(1, 1);
+            BoardPoint startBoardPoint = new BoardPoint(1, 0);
+            BoardPoint arrivalpoint = new BoardPoint(1, 1);
 
             // when & then
-            assertThatThrownBy(() -> board.movePiece(startPoint, arrivalpoint, Team.HAN))
+            assertThatThrownBy(() -> board.movePiece(startBoardPoint, arrivalpoint, Team.HAN))
                     .isInstanceOf(JanggiArgumentException.class)
                     .hasMessageContaining("출발점에 이동할 기물이 없습니다.");
         }

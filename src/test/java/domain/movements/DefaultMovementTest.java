@@ -1,6 +1,6 @@
 package domain.movements;
 
-import domain.board.Point;
+import domain.board.BoardPoint;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -20,13 +20,13 @@ class DefaultMovementTest {
             List<Direction> directions2 = List.of(Direction.SOUTH, Direction.SOUTHWEST, Direction.SOUTHWEST);
             List<Route> routes = List.of(new Route(directions1), new Route(directions2));
             DefaultMovement defaultMovement = new DefaultMovement(routes);
-            Point startPoint = new Point(6, 2);
+            BoardPoint startBoardPoint = new BoardPoint(6, 2);
 
             // when
-            List<Point> arrivalPoints = defaultMovement.calculateTotalArrivalPoints(startPoint);
+            List<BoardPoint> arrivalBoardPoints = defaultMovement.calculateTotalArrivalPoints(startBoardPoint);
 
             // then
-            assertThat(arrivalPoints).contains(new Point(9, 0), new Point(3, 0));
+            assertThat(arrivalBoardPoints).contains(new BoardPoint(9, 0), new BoardPoint(3, 0));
         }
 
         @Test
@@ -37,16 +37,16 @@ class DefaultMovementTest {
             List<Direction> directions2 = List.of(Direction.SOUTH, Direction.SOUTHWEST, Direction.SOUTHWEST);
             List<Route> routes = List.of(new Route(directions1), new Route(directions2));
             DefaultMovement defaultMovement = new DefaultMovement(routes);
-            Point startPoint = new Point(0, 0);
+            BoardPoint startBoardPoint = new BoardPoint(0, 0);
 
-            Point moveOnceToNorth = new Point(1, 0);
-            Point moveOnceToSouth = new Point(0, 0);
+            BoardPoint moveOnceToNorth = new BoardPoint(1, 0);
+            BoardPoint moveOnceToSouth = new BoardPoint(0, 0);
 
             // when
-            List<Point> arrivalPoints = defaultMovement.calculateTotalArrivalPoints(startPoint);
+            List<BoardPoint> arrivalBoardPoints = defaultMovement.calculateTotalArrivalPoints(startBoardPoint);
 
             // then
-            assertThat(arrivalPoints).doesNotContain(moveOnceToNorth, moveOnceToSouth);
+            assertThat(arrivalBoardPoints).doesNotContain(moveOnceToNorth, moveOnceToSouth);
         }
 
         @Test
@@ -57,11 +57,11 @@ class DefaultMovementTest {
             List<Direction> directions2 = List.of(Direction.SOUTH, Direction.SOUTHWEST, Direction.SOUTHWEST);
             List<Route> routes = List.of(new Route(directions1), new Route(directions2));
             DefaultMovement defaultMovement = new DefaultMovement(routes);
-            Point startPoint = new Point(0, 0);
-            Point invalidArrivalPoint = new Point(3, 2);
+            BoardPoint startBoardPoint = new BoardPoint(0, 0);
+            BoardPoint invalidArrivalBoardPoint = new BoardPoint(3, 2);
 
             // when & then
-            assertThatThrownBy(() -> defaultMovement.calculateRoutePoints(startPoint, invalidArrivalPoint))
+            assertThatThrownBy(() -> defaultMovement.calculateRoutePoints(startBoardPoint, invalidArrivalBoardPoint))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("해당 도착점으로 도착할 수 없는 기물입니다.");
         }
@@ -74,14 +74,15 @@ class DefaultMovementTest {
             List<Route> routes = List.of(new Route(directions1));
             DefaultMovement defaultMovement = new DefaultMovement(routes);
 
-            Point startPoint = new Point(0, 2);
-            Point arrivalPoint = new Point(3, 0);
+            BoardPoint startBoardPoint = new BoardPoint(0, 2);
+            BoardPoint arrivalBoardPoint = new BoardPoint(3, 0);
 
             // when
-            List<Point> arrivalPoints = defaultMovement.calculateRoutePoints(startPoint, arrivalPoint);
+            List<BoardPoint> arrivalBoardPoints = defaultMovement.calculateRoutePoints(startBoardPoint,
+                    arrivalBoardPoint);
 
             // then
-            assertThat(arrivalPoints).contains(new Point(1, 2), new Point(2, 1), new Point(3, 0));
+            assertThat(arrivalBoardPoints).contains(new BoardPoint(1, 2), new BoardPoint(2, 1), new BoardPoint(3, 0));
         }
     }
 }

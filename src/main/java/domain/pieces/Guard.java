@@ -4,7 +4,7 @@ import static domain.pieces.PieceNames.GUARD;
 
 import domain.Team;
 import domain.board.PieceOnRoute;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import execptions.JanggiArgumentException;
 import java.util.List;
 
@@ -22,12 +22,12 @@ public final class Guard implements Piece {
     }
 
     @Override
-    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
+    public boolean isAbleToArrive(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
         throw new JanggiArgumentException("신하는 이동할 수 없습니다.");
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
+    public List<BoardPoint> getRoutePoints(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
         throw new JanggiArgumentException("신하는 이동할 수 없습니다.");
     }
 

@@ -1,7 +1,7 @@
 package controller;
 
 import domain.JanggiGame;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import java.util.List;
 import view.InputView;
 import view.OutputView;
@@ -26,11 +26,11 @@ public class JanggiController {
     }
 
     private void processMove(final JanggiGame game, final boolean isFirstPlayerTurn) {
-        final List<Point> movementRequest = inputView.readMovementRequest();
-        final Point startPoint = movementRequest.getFirst();
-        final Point arrivalPoint = movementRequest.getLast();
+        final List<BoardPoint> movementRequest = inputView.readMovementRequest();
+        final BoardPoint startBoardPoint = movementRequest.getFirst();
+        final BoardPoint arrivalBoardPoint = movementRequest.getLast();
 
-        game.move(startPoint, arrivalPoint, isFirstPlayerTurn);
+        game.move(startBoardPoint, arrivalBoardPoint, isFirstPlayerTurn);
 
         outputView.printBoard(game.getBoard());
     }

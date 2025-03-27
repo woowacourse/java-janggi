@@ -2,16 +2,16 @@ package domain.pieces;
 
 import domain.Team;
 import domain.board.PieceOnRoute;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import java.util.List;
 
 public interface Piece {
 
     boolean hasEqualTeam(Team team);
 
-    boolean isAbleToArrive(Point startPoint, Point arrivalPoint);
+    boolean isAbleToArrive(BoardPoint startBoardPoint, BoardPoint arrivalBoardPoint);
 
-    List<Point> getRoutePoints(Point startPoint, Point arrivalPoint);
+    List<BoardPoint> getRoutePoints(BoardPoint startBoardPoint, BoardPoint arrivalBoardPoint);
 
     boolean isMovable(PieceOnRoute pieceOnRoute);
 

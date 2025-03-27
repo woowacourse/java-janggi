@@ -2,7 +2,7 @@ package domain.pieces;
 
 import domain.Team;
 import domain.board.PieceOnRoute;
-import domain.board.Point;
+import domain.board.BoardPoint;
 import domain.movements.PieceMovement;
 import static domain.pieces.PieceNames.CANNON;
 import java.util.List;
@@ -24,14 +24,14 @@ public final class Cannon implements Piece {
     }
 
     @Override
-    public boolean isAbleToArrive(final Point startPoint, final Point arrivalPoint) {
-        final List<Point> arrivalPoints = movements.calculateTotalArrivalPoints(startPoint);
-        return arrivalPoints.contains(arrivalPoint);
+    public boolean isAbleToArrive(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
+        final List<BoardPoint> arrivalBoardPoints = movements.calculateTotalArrivalPoints(startBoardPoint);
+        return arrivalBoardPoints.contains(arrivalBoardPoint);
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point startPoint, final Point arrivalPoint) {
-        return movements.calculateRoutePoints(startPoint, arrivalPoint);
+    public List<BoardPoint> getRoutePoints(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
+        return movements.calculateRoutePoints(startBoardPoint, arrivalBoardPoint);
     }
 
     @Override

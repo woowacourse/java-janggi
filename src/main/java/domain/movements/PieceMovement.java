@@ -1,11 +1,11 @@
 package domain.movements;
 
-import domain.board.Point;
+import domain.board.BoardPoint;
 import java.util.List;
 
 public interface PieceMovement {
 
-    List<Point> calculateTotalArrivalPoints(Point startPoint);
+    List<BoardPoint> calculateTotalArrivalPoints(BoardPoint startBoardPoint);
 
-    List<Point> calculateRoutePoints(Point startPoint, Point arrivalPoint);
+    List<BoardPoint> calculateRoutePoints(BoardPoint startBoardPoint, BoardPoint arrivalBoardPoint);
 }

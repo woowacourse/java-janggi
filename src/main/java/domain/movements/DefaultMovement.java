@@ -1,6 +1,6 @@
 package domain.movements;
 
-import domain.board.Point;
+import domain.board.BoardPoint;
 import domain.board.TempPoint;
 import java.util.List;
 
@@ -12,19 +12,19 @@ public final class DefaultMovement implements PieceMovement {
     }
 
     @Override
-    public List<Point> calculateTotalArrivalPoints(final Point startPoint) {
+    public List<BoardPoint> calculateTotalArrivalPoints(final BoardPoint startBoardPoint) {
         return routes.stream()
-                .map(route -> route.navigateArrivalPoint(startPoint))
+                .map(route -> route.navigateArrivalPoint(startBoardPoint))
                 .filter(TempPoint::isInRange)
                 .map(TempPoint::toPoint)
                 .toList();
     }
 
     @Override
-    public List<Point> calculateRoutePoints(final Point startPoint, final Point arrivalPoint) {
+    public List<BoardPoint> calculateRoutePoints(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
         for (final Route route : routes) {
-            if (route.canArrive(startPoint, arrivalPoint)) {
-                return route.getAllPointsOnRoute(startPoint);
+            if (route.canArrive(startBoardPoint, arrivalBoardPoint)) {
+                return route.getAllPointsOnRoute(startBoardPoint);
             }
         }
         throw new IllegalArgumentException("해당 도착점으로 도착할 수 없는 기물입니다.");

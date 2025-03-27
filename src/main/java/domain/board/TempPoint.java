@@ -6,8 +6,8 @@ public record TempPoint(int row, int column) {
     private static final int VALID_ROW_SIZE = 10;
     private static final int VALID_COLUMN_SIZE = 9;
 
-    public Point toPoint() {
-        return new Point(row, column);
+    public BoardPoint toPoint() {
+        return new BoardPoint(row, column);
     }
 
     public TempPoint move(final Direction direction) {
