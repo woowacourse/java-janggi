@@ -37,7 +37,7 @@ public enum MoveStep {
         return deltaY;
     }
 
-    public static MoveStep getMoveUnit(final int deltaX, final int deltaY) {
+    public static MoveStep computeMoveStep(final int deltaX, final int deltaY) {
         return Arrays.stream(values())
             .filter(moveUnit -> moveUnit.deltaX == deltaX && moveUnit.deltaY == deltaY)
             .findFirst()

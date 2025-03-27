@@ -51,11 +51,11 @@ public record Coordinate(int x, int y) {
         return CASTLE_DIAGONAL_CONNECTIONS.getOrDefault(this, Collections.emptySet());
     }
 
-    public MoveStep computeMoveUnitToArrival(Coordinate arrival) {
+    public MoveStep computeMoveStepToArrival(Coordinate arrival) {
         int deltaX = arrival.x - this.x;
         int deltaY = arrival.y - this.y;
 
-        return MoveStep.getMoveUnit(deltaX, deltaY);
+        return MoveStep.computeMoveStep(deltaX, deltaY);
     }
 
     private boolean isInvalidX(int x) {

@@ -25,8 +25,8 @@ public abstract class Movement {
     private Set<MoveProcess> addDiagonalMoveProcessesAt(final Coordinate coordinate) {
         final var connections = coordinate.findCastleConnections();
         final var moveProcesses = connections.stream()
-            .map(coordinate::computeMoveUnitToArrival)
-            .map(moveUnit -> new MoveProcess(moveUnit, moveUnit))
+            .map(coordinate::computeMoveStepToArrival)
+            .map(moveStep -> new MoveProcess(moveStep, moveStep))
             .collect(Collectors.toSet());
 
         moveProcesses.addAll(this.moveProcesses);
