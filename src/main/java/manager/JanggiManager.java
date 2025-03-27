@@ -10,6 +10,7 @@ import domain.board.Board;
 import domain.board.BoardPosition;
 import domain.piece.Piece;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
 
 public class JanggiManager {
@@ -26,13 +27,28 @@ public class JanggiManager {
             final BoardPosition destinationPosition
     ) {
         final Janggi janggiSnapshot = janggi.takeSnapshot();
+        final Connection connection = ConnectionProvider.getConnection();
 
         try {
+            connection.setAutoCommit(false);
             janggi.processTurn(selectPosition, destinationPosition);
-            // TODO : 기물 위치 삭제 및 업데이트
+            piecePositionDao.deleteByBoardPosition(connection, destinationPosition);
+            piecePositionDao.updateByBoardPosition(
+                    connection,
+                    selectPosition,
+                    destinationPosition
+            );
             // TODO : JanggiGameDao에 해당 게임 턴 업데이트
+            connection.commit();
+            connection.setAutoCommit(true);
             return janggi;
         } catch (Exception e) {
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
             return janggiSnapshot;
         }
     }

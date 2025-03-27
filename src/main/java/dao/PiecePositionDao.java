@@ -47,6 +47,11 @@ public class PiecePositionDao {
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
             throw new RuntimeException(e);
         }
     }
