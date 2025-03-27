@@ -28,7 +28,7 @@ public class JanggiGameTest {
         beforeBoard.put(new Position(8, 5), choGung);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiGame game = new JanggiGame(boardGenerator, List.of("플레이어1", "플레이어2"));
+        JanggiGame game = new JanggiGame(boardGenerator);
 
         // when
         Map<Position, Piece> boardState = game.getBoardState();
@@ -44,7 +44,7 @@ public class JanggiGameTest {
         Map<Position, Piece> beforeBoard = new HashMap<>();
         Cha choCha = new Cha(Team.CHO);
         beforeBoard.put(new Position(1, 1), choCha);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard));
 
         Map<Position, Piece> afterBoard = new HashMap<>();
         afterBoard.put(new Position(2, 1), choCha);
@@ -62,7 +62,7 @@ public class JanggiGameTest {
         Map<Position, Piece> beforeBoard = new HashMap<>();
         Cha choCha = new Cha(Team.CHO);
         beforeBoard.put(new Position(1, 1), choCha);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), List.of("플레이어1", "플레이어2"));
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard));
 
         assertThatThrownBy(() -> game.move(List.of(1, 1), List.of(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -76,7 +76,7 @@ public class JanggiGameTest {
         Map<Position, Piece> board = new HashMap<>();
         board.put(new Position(1, 1), new Gung(Team.HAN));
         board.put(new Position(1, 2), new Gung(Team.CHO));
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(board), List.of("플레이어1", "플레이어2"));
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(board));
 
         // when
         boolean actual = game.isEnd();
@@ -91,7 +91,7 @@ public class JanggiGameTest {
         // given
         Map<Position, Piece> board = new HashMap<>();
         board.put(new Position(1, 1), new Gung(Team.HAN));
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(board), List.of("플레이어1", "플레이어2"));
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(board));
 
         // when
         boolean actual = game.isEnd();

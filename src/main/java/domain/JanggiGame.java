@@ -2,19 +2,19 @@ package domain;
 
 import domain.boardgenerator.BoardGenerator;
 import domain.piece.Piece;
-import domain.player.Player;
-import domain.player.Players;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class JanggiGame {
 
     private final JanggiBoard janggiBoard;
-    private final Players players;
+    private Team turn;
 
-    public JanggiGame(BoardGenerator boardGenerator, List<String> playerNames) {
+    public JanggiGame(BoardGenerator boardGenerator) {
         this.janggiBoard = new JanggiBoard(boardGenerator);
-        this.players = Players.ofNames(playerNames.getFirst(), playerNames.getLast());
+        this.turn = Team.CHO;
     }
 
     public void move(List<Integer> startRowAndColumn, List<Integer> targetRowAndColumn) {
@@ -22,7 +22,11 @@ public class JanggiGame {
         Position targetPosition = new Position(targetRowAndColumn.getFirst(), targetRowAndColumn.getLast());
         validateSelectedPiece(startPosition, targetPosition);
         janggiBoard.move(startPosition, targetPosition);
-        players.nextTurn();
+        nextTurn();
+    }
+
+    private void nextTurn() {
+        turn = this.turn.getEnemy();
     }
 
     public boolean isEnd() {
@@ -34,7 +38,7 @@ public class JanggiGame {
 
     private void validateSelectedPiece(Position startPosition, Position targetPosition) {
         Piece selectedPiece = janggiBoard.findSelectedPiece(startPosition);
-        if (!players.isSameTeamThisTurnPlayerAndPiece(selectedPiece)) {
+        if (!selectedPiece.isTeam(turn)) {
             throw new IllegalArgumentException("자신의 말만 움직일 수 있습니다.");
         }
         if (startPosition.equals(targetPosition)) {
@@ -42,8 +46,19 @@ public class JanggiGame {
         }
     }
 
-    public Player getThisTurnPlayer() {
-        return players.getThisTurnPlayer();
+    public Team getThisTurnTeam() {
+        return turn;
+    }
+
+    public Map<Team, Double> calculateScore() {
+        Map<Team, Double> scores = Arrays.stream(Team.values())
+                .collect(Collectors.toMap(
+                        team -> team,
+                        team -> (double) janggiBoard.calculateTeamScore(team)
+                ));
+        scores.put(Team.HAN, scores.get(Team.HAN) + 1.5);
+
+        return scores;
     }
 
     public Map<Position, Piece> getBoardState() {

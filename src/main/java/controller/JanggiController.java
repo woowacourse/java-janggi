@@ -18,7 +18,8 @@ public class JanggiController {
     }
 
     public void run() {
-        JanggiGame game = initGame();
+        JanggiGame game = new JanggiGame(new JanggiBoardGenerator());
+        outputView.printJanggiBoard(game);
         while (!game.isEnd()) {
             Command command = retry(() -> Command.find(inputView.readCommand(game.getThisTurnPlayer())));
             if (command == Command.NO) {
@@ -30,13 +31,6 @@ public class JanggiController {
         if (game.isEnd()) {
             outputView.printGameEnd();
         }
-    }
-
-    private JanggiGame initGame() {
-        List<String> playerNames = inputView.readPlayerNames();
-        JanggiGame game = new JanggiGame(new JanggiBoardGenerator(), playerNames);
-        outputView.printGameInfo(playerNames, game);
-        return game;
     }
 
     private <T> T retry(Supplier<T> supplier) {
