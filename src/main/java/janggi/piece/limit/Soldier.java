@@ -5,6 +5,9 @@ import janggi.move.Direction;
 import janggi.move.Route;
 import janggi.piece.PieceType;
 import janggi.piece.Side;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Soldier extends LimitMovable {
@@ -22,23 +25,33 @@ public class Soldier extends LimitMovable {
     }
 
     private List<Route> moveCho(final Position position) {
-        return List.of(
-                createRoute(position, Direction.LEFT),
+        List<Route> movableRoute = new ArrayList<>(
+                Arrays.asList(createRoute(position, Direction.LEFT),
                 createRoute(position, Direction.UP),
-                createRoute(position, Direction.RIGHT),
-                createRoute(position, Direction.LEFT_UP),
-                createRoute(position, Direction.RIGHT_UP)
+                createRoute(position, Direction.RIGHT))
         );
+
+        if (position.isInPalace()) {
+            movableRoute.add(createRoute(position, Direction.LEFT_UP));
+            movableRoute.add(createRoute(position, Direction.RIGHT_UP));
+        }
+
+        return movableRoute;
     }
 
     private List<Route> moveHan(final Position position) {
-        return List.of(
-                createRoute(position, Direction.LEFT),
-                createRoute(position, Direction.DOWN),
-                createRoute(position, Direction.RIGHT),
-                createRoute(position, Direction.LEFT_DOWN),
-                createRoute(position, Direction.RIGHT_DOWN)
+        List<Route> movableRoute = new ArrayList<>(
+                Arrays.asList(createRoute(position, Direction.LEFT),
+                        createRoute(position, Direction.DOWN),
+                        createRoute(position, Direction.RIGHT))
         );
+
+        if (position.isInPalace()) {
+            movableRoute.add(createRoute(position, Direction.LEFT_DOWN));
+            movableRoute.add(createRoute(position, Direction.RIGHT_DOWN));
+        }
+
+        return movableRoute;
     }
 
     private Route createRoute(final Position position, final Direction direction) {
