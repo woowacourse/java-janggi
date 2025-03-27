@@ -1,10 +1,13 @@
 package janggi;
 
+import janggi.board.Board;
 import janggi.board.BoardFactory;
 import janggi.board.Position;
+import janggi.dao.JanggiGameDao;
 import janggi.piece.Side;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.sql.Connection;
 
 public class JanggiManager {
 
@@ -15,7 +18,24 @@ public class JanggiManager {
     public JanggiManager(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.janggiGame = new JanggiGame(
+        this.janggiGame = init();
+    }
+
+    public JanggiGame init() {
+        Connection connection = DBConnection.getConnection();
+        JanggiGameDao dao = new JanggiGameDao();
+        Board board;
+        Turn turn;
+        if (dao.existsPiece(connection)) {
+            board = dao.findBoard(connection);
+            turn = dao.find(connection);
+            return new JanggiGame(board, turn);
+        }
+        board = BoardFactory.initBoard();
+        turn = Turn.firstTurn();
+        dao.addBoard(board, connection);
+        dao.addTurn(turn, connection);
+        return new JanggiGame(
                 BoardFactory.initBoard(),
                 Turn.firstTurn()
         );
