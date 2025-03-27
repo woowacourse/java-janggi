@@ -17,17 +17,17 @@ import org.junit.jupiter.params.provider.MethodSource;
 class KingTest {
     static Stream<Arguments> canMoveKing_Success() {
         return Stream.of(
-                Arguments.of(A1),
-                Arguments.of(B2),
-                Arguments.of(C1),
-                Arguments.of(B0)
+                Arguments.of(D1),
+                Arguments.of(F1),
+                Arguments.of(E0),
+                Arguments.of(E2)
         );
     }
 
     static Stream<Arguments> canMoveKing_Fail() {
         return Stream.of(
+                Arguments.of(D3),
                 Arguments.of(C2),
-                Arguments.of(C0),
                 Arguments.of(A0),
                 Arguments.of(A2)
         );
@@ -37,7 +37,7 @@ class KingTest {
     @MethodSource
     @DisplayName("주위 칸이 비어있을 때 정상적으로 이동할 수 있다")
     void canMoveKing_Success(Position movePosition) {
-        Position currentPosition = B1;
+        Position currentPosition = E1;
         Piece king = new King(TeamType.CHO);
 
         assertThatNoException()
@@ -48,7 +48,7 @@ class KingTest {
     @MethodSource
     @DisplayName("주위 칸이 비어있을 때 정상적으로 이동할 수 있다")
     void canMoveKing_Fail(Position movePosition) {
-        Position currentPosition = B1;
+        Position currentPosition = D2;
         Piece king = new King(TeamType.CHO);
 
         assertThatThrownBy(() -> king.validateCanMove(currentPosition, movePosition, Map.of()))
@@ -60,12 +60,12 @@ class KingTest {
     @DisplayName("도착 칸에 아군이 있으면 이동할 수 없다.")
     void canMoveKing2() {
         // given
-        Position movePosition = B1;
-        Position startPosition = B2;
-        Piece king = new King(TeamType.CHO);
+        Position movePosition = E9;
+        Position startPosition = D9;
+        Piece king = new King(TeamType.HAN);
 
-        Position otherPosition = B1;
-        Piece solider = new Soldier(TeamType.CHO);
+        Position otherPosition = E9;
+        Piece solider = new Soldier(TeamType.HAN);
 
         assertThatThrownBy(() -> king.validateCanMove(startPosition, movePosition, Map.of(otherPosition,solider)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -75,12 +75,12 @@ class KingTest {
     @Test
     @DisplayName("도착 칸에 적이 있으면 이동할 수 있다.")
     void canMoveKing3() {
-        Position movePosition =B3;
-        Position startPosition = B2;
-        Piece king = new King(TeamType.CHO);
+        Position movePosition =E9;
+        Position startPosition = D9;
+        Piece king = new King(TeamType.HAN);
 
-        Position otherPosition = B3;
-        Piece solider = new Soldier(TeamType.HAN);
+        Position otherPosition = E9;
+        Piece solider = new Soldier(TeamType.CHO);
 
         assertThatNoException()
                 .isThrownBy(() -> king.validateCanMove(startPosition, movePosition, Map.of(otherPosition,solider)));
