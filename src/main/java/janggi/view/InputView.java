@@ -4,11 +4,14 @@ import static janggi.domain.BoardSetup.INNER_ELEPHANT_SETUP;
 import static janggi.domain.BoardSetup.LEFT_ELEPHANT_SETUP;
 import static janggi.domain.BoardSetup.OUTER_ELEPHANT_SETUP;
 import static janggi.domain.BoardSetup.RIGHT_ELEPHANT_SETUP;
+import static janggi.domain.Function.GIVE_UP;
+import static janggi.domain.Function.MOVE;
 import static janggi.domain.StopInput.N;
 import static janggi.domain.StopInput.Y;
 import static janggi.domain.Team.RED;
 
 import janggi.domain.BoardSetup;
+import janggi.domain.Function;
 import janggi.domain.StopInput;
 import janggi.domain.Team;
 import janggi.domain.piece.direction.Position;
@@ -61,6 +64,20 @@ public class InputView {
         return switch (input) {
             case "Y" -> Y;
             case "N" -> N;
+            default -> throw new IllegalArgumentException("입력이 올바르지 않습니다.");
+        };
+    }
+
+    public Function inputSelectFunction() {
+        System.out.println("1. 기물 움직이기");
+        System.out.println("2. 게임 종료하기");
+        return getFunction(scanner.nextLine());
+    }
+
+    private Function getFunction(final String input) {
+        return switch (input) {
+            case "1" -> MOVE;
+            case "2" -> GIVE_UP;
             default -> throw new IllegalArgumentException("입력이 올바르지 않습니다.");
         };
     }

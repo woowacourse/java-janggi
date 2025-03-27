@@ -1,5 +1,6 @@
 package janggi.controller;
 
+import static janggi.domain.Function.MOVE;
 import static janggi.domain.GameStatus.PROGRESS;
 import static janggi.domain.StopInput.Y;
 import static janggi.domain.Team.BLUE;
@@ -42,18 +43,17 @@ public class JanggiController {
 
     private boolean startGame(final Board board, final List<Piece> pieces) {
         displayGameState(board.getTurn(), pieces);
-
-        final Piece selectedPiece = selectPieceToMove(board);
-
-        final Set<Route> possibleRoutes = findPossibleRoutesForPiece(board, selectedPiece);
-
-        movePieceIfValid(board, selectedPiece, possibleRoutes);
-
-        return checkGameOver(board) || stopGame();
+        if (inputView.inputSelectFunction() == MOVE) {
+            final Piece selectedPiece = selectPieceToMove(board);
+            final Set<Route> possibleRoutes = findPossibleRoutesForPiece(board, selectedPiece);
+            movePieceIfValid(board, selectedPiece, possibleRoutes);
+            return checkGameOver(board);
+        }
+        return stopGame();
     }
 
     private boolean checkGameOver(final Board board) {
-        return board.getStatus() != PROGRESS;
+        return board.getStatus() == PROGRESS;
     }
 
     private void displayGameState(final Team team, final List<Piece> pieces) {
@@ -101,6 +101,6 @@ public class JanggiController {
     }
 
     private boolean stopGame() {
-        return inputView.inputStopGame() == Y && inputView.inputStopGame() == Y;
+        return !(inputView.inputStopGame() == Y & inputView.inputStopGame() == Y);
     }
 }

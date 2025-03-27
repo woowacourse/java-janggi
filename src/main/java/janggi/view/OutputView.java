@@ -29,6 +29,7 @@ public class OutputView {
         final int startY = 9;
 
         for (int i = startY; i >= 0; i--) {
+            System.out.print(i + " ");
             for (int j = startX; j <= 8; j++) {
                 boolean check = true;
                 for (final Piece piece : pieces) {
@@ -43,6 +44,7 @@ public class OutputView {
             }
             System.out.println();
         }
+        System.out.println("  영일이삼사오육칠팔");
     }
 
     public void printPossibleRoutes(final Set<Route> possibleRoutes) {
@@ -124,9 +126,8 @@ public class OutputView {
         }
 
         System.out.println();
-
-        System.out.printf("한나라 점수: %d", redTeamScore);
-        System.out.printf("초나라 점수: %d", blueTeamScore);
+        System.out.println("한나라 점수: " + redTeamScore);
+        System.out.println("초나라 점수: " + blueTeamScore);
 
     }
 

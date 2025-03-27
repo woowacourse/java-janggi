@@ -45,7 +45,7 @@ public class Board {
     }
 
     public double getScoreByTeam(final Team team) {
-        return pieces.calculatePiecesScoreByTeam(team);
+        return plusScoreByTurn(team);
     }
 
     private double plusScoreByTurn(final Team team) {
