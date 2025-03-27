@@ -13,8 +13,6 @@ import java.util.stream.Collectors;
 
 public class Board implements PieceVisibleBoard {
 
-    private static final double HAN_HANDICAP_SCORE = 1.5;
-
     private final Map<Point, Piece> pieceByPoint;
 
     private final PathFinder pathFinder;
@@ -109,6 +107,7 @@ public class Board implements PieceVisibleBoard {
 
     public double calculateScore(Team team) {
         double sum = 0;
+        final double HAN_HANDICAP_SCORE = 1.5;
         if (team == Team.HAN) {
             sum += HAN_HANDICAP_SCORE;
         }
