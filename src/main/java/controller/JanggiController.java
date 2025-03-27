@@ -1,7 +1,7 @@
 package controller;
 
-import domain.Janggi;
-import domain.Team;
+import domain.janggi.Janggi;
+import domain.janggi.Team;
 import domain.board.BoardPosition;
 import java.util.Arrays;
 import java.util.List;

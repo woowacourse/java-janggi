@@ -1,8 +1,8 @@
 package domain.board;
 
-import domain.InitialPiecesPositions;
-import domain.Score;
-import domain.Team;
+import domain.janggi.InitialPiecesPositions;
+import domain.janggi.Score;
+import domain.janggi.Team;
 import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.EnumMap;

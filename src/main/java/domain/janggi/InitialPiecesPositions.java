@@ -1,18 +1,10 @@
-package domain;
+package domain.janggi;
 
 import domain.board.BoardPosition;
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.Elephant;
-import domain.piece.General;
-import domain.piece.Guard;
-import domain.piece.Horse;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.piece.Zzu;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public enum InitialPiecesPositions {
     ZZU(PieceType.ZZU, Map.of(

@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.Score;
-import domain.Team;
+import domain.janggi.Score;
+import domain.janggi.Team;
 import java.util.Arrays;
 import java.util.function.Function;
 

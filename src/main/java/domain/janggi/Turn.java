@@ -1,4 +1,4 @@
-package domain;
+package domain.janggi;
 
 public class Turn {
 

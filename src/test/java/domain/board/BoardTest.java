@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import domain.Score;
-import domain.Team;
+import domain.janggi.Score;
+import domain.janggi.Team;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Elephant;

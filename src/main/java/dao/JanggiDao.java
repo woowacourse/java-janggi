@@ -1,8 +1,8 @@
 package dao;
 
-import domain.JanggiStatus;
-import domain.Team;
-import domain.Turn;
+import domain.janggi.JanggiStatus;
+import domain.janggi.Team;
+import domain.janggi.Turn;
 import dto.JanggiDto;
 import java.sql.Connection;
 import java.sql.SQLException;

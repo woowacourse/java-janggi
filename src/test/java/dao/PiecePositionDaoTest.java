@@ -6,7 +6,7 @@ import static dao.DatabaseConfig.SERVER;
 import static dao.DatabaseConfig.USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Team;
+import domain.janggi.Team;
 import domain.board.Board;
 import domain.board.BoardPosition;
 import domain.piece.General;

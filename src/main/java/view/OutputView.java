@@ -1,7 +1,7 @@
 package view;
 
-import domain.Score;
-import domain.Team;
+import domain.janggi.Score;
+import domain.janggi.Team;
 import domain.board.BoardPosition;
 import domain.piece.Piece;
 import dto.JanggiDto;

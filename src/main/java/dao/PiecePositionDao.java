@@ -1,6 +1,6 @@
 package dao;
 
-import domain.Team;
+import domain.janggi.Team;
 import domain.board.BoardPosition;
 import domain.piece.Piece;
 import domain.piece.PieceType;

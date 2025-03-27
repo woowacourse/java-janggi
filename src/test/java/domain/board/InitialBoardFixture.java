@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.Team;
+import domain.janggi.Team;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Elephant;

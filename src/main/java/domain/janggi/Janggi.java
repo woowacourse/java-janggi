@@ -1,4 +1,4 @@
-package domain;
+package domain.janggi;
 
 import domain.board.Board;
 import domain.board.BoardPosition;

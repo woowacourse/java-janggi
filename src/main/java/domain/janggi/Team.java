@@ -1,4 +1,4 @@
-package domain;
+package domain.janggi;
 
 import java.util.Arrays;
 

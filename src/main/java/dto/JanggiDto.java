@@ -1,7 +1,7 @@
 package dto;
 
-import domain.JanggiStatus;
-import domain.Turn;
+import domain.janggi.JanggiStatus;
+import domain.janggi.Turn;
 
 public record JanggiDto(
         int id,
