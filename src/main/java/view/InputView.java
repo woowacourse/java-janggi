@@ -47,7 +47,7 @@ public class InputView {
         return ErrorHandler.retryUntilSuccessWithReturn(() -> {
             System.out.printf("""
                     %n현재 턴: %s나라
-                    이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: 7,1 7,2)
+                    이동할 기물의 위치와 이동할 위치를 입력해주세요. (예: 7,1 7,2)
                     >\s""", teamToString(team));
             String input = scanner.nextLine();
 
