@@ -58,7 +58,10 @@ public class JanggiController {
     }
 
     private JanggiBoard loadBoardWhenPreviousGameExist() {
-        GameContinueOption continueSelection = inputView.getPreviousGameContinueSelectionInput();
+        GameContinueOption continueSelection = InputProcessor.repeatUntilNormalInput(
+                inputView::getPreviousGameContinueSelectionInput,
+                OutputView::printErrorMessage
+        );
         if (continueSelection == GameContinueOption.Y) {
             return janggiService.loadPreviousGameBoard();
         }
