@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.piece.None;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,10 +24,15 @@ public class Board {
 
     public void movePiece(Position beforePosition, Position afterPosition) {
         Piece piece = pieces.get(beforePosition);
-        validateMove(beforePosition, afterPosition);
-        pieces.put(beforePosition, new None());
-        Piece movedPiece = piece.move(getPieces(), afterPosition);
-        pieces.put(afterPosition, movedPiece);
+        try {
+            validateMove(beforePosition, afterPosition);
+            pieces.put(beforePosition, new None());
+            Piece movedPiece = piece.move(getPieces(), afterPosition);
+            pieces.put(afterPosition, movedPiece);
+        } catch (IllegalArgumentException e) {
+            pieces.put(piece.getPosition(), piece);
+            System.out.println(e.getMessage());
+        }
     }
 
     private void validateMove(Position beforePosition, Position afterPosition) {
