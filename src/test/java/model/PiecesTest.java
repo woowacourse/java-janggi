@@ -4,13 +4,18 @@ package model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.HashMap;
+import java.util.Map;
 import model.piece.Byeong;
 import model.piece.Cannon;
 import model.piece.Chariot;
 import model.piece.General;
 import model.piece.Horse;
 import model.piece.Jol;
+import model.piece.Piece;
+import model.position.Column;
 import model.position.Position;
+import model.position.Row;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -301,6 +306,103 @@ class PiecesTest {
 
                 Position departure = new Position(4, 2);
                 Position arrival = new Position(4, 1);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+
+            @Test
+            @DisplayName("병이 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 8, 4")
+            void when_byeong_inside_castle_can_move_diagonal_in_8_4() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Byeong());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.FOUR);
+                Position arrival =  new Position(Column.NINE, Row.FIVE);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Byeong.class);
+            }
+
+            @Test
+            @DisplayName("병이 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 8,6")
+            void when_byeong_inside_castle_can_move_diagonal_in_8_6() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Byeong());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.SIX);
+                Position arrival =  new Position(Column.NINE, Row.FIVE);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Byeong.class);
+            }
+
+            @Test
+            @DisplayName("병이 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 9, 5 (우측 대각)")
+            void when_byeong_inside_castle_can_move_diagonal_in_9_5_and_diagonal_right() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Byeong());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.NINE, Row.FIVE);
+                Position arrival =  new Position(Column.TEN, Row.SIX);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Byeong.class);
+            }
+
+            @Test
+            @DisplayName("병이 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 9, 5 (좌측 대각)")
+            void when_byeong_inside_castle_can_move_diagonal_in_9_5_and_diagonal_left() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Byeong());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.NINE, Row.FIVE);
+                Position arrival =  new Position(Column.TEN, Row.FOUR);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Byeong.class);
+            }
+
+            @Test
+            @DisplayName("병의 대각 움직임은 궁성 안에서만 이뤄져야 한다.")
+            void byeong_inside_castle_but_only_move_castle() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Byeong());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.FOUR);
+                Position arrival =  new Position(Column.NINE, Row.THREE);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+
+            @Test
+            @DisplayName("병이 궁성 안에 있을 경우, 뒤로 움직일 수는 없어야 한다.")
+            void when_byeong_inside_castle_then_cannot_move_back() {
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Byeong());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.NINE, Row.FIVE);
+                Position arrival =  new Position(Column.EIGHT, Row.FOUR);
 
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
