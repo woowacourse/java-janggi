@@ -105,4 +105,26 @@ class JolTest {
         //then
         Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
     }
+
+    @DisplayName("졸이 궁성내에 있을 때 이동")
+    @ParameterizedTest
+    @MethodSource()
+    void test7(JanggiPosition destination) {
+        //given
+        Jol jol = Jol.from(new JanggiPosition(3,2));
+
+        //when
+        boolean isMove = jol.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(isMove).isTrue();
+    }
+
+    static Stream<Arguments> test7() {
+        return Stream.of(
+                Arguments.of(new JanggiPosition(4,2)),
+                Arguments.of(new JanggiPosition(3,1)),
+                Arguments.of(new JanggiPosition(4,1))
+        );
+    }
 }

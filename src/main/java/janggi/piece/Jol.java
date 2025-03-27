@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.piece.direction.FourDirection;
+import janggi.piece.direction.GungDirection;
 import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import java.util.List;
@@ -34,8 +35,34 @@ public class Jol extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
+        if (janggiPosition.isPositionInCastle()) {
+            List<JanggiPosition> gungPathPositions = GungDirection.of(janggiPosition, destination);
+            return isValidMoveInCastle(gungPathPositions) && allyPieces.isNotBlockedBy(destination);
+        }
         List<JanggiPosition> pathPositions = FourDirection.from(destination, janggiPosition);
         return isValidMove(pathPositions) && allyPieces.isNotBlockedBy(destination);
+    }
+
+    private boolean isValidMoveInCastle(List<JanggiPosition> pathPositions) {
+        if (pathPositions.isEmpty()) {
+            return false;
+        }
+
+        JanggiPosition destination = pathPositions.getLast();
+        int currentX = janggiPosition.x();
+        int currentY = janggiPosition.y();
+        int destinationX = destination.x();
+        int destinationY = destination.y();
+
+        // 궁성 내에서의 이동 가능한 경우:
+        // 1. 한 칸 앞으로 (y-1)
+        // 2. 한 칸 옆으로 (x±1)
+        // 3. 대각선 앞으로 (x±1, y-1)
+        boolean isForward = (destinationX == currentX && destinationY == currentY - 1);
+        boolean isSideways = (destinationY == currentY && Math.abs(destinationX - currentX) == 1);
+        boolean isDiagonal = (Math.abs(destinationX - currentX) == 1 && destinationY == currentY - 1);
+
+        return isForward || isSideways || isDiagonal;
     }
 
     private boolean isValidMove(List<JanggiPosition> pathPositions) {

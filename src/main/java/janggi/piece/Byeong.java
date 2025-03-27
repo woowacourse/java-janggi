@@ -37,7 +37,7 @@ public class Byeong extends Piece {
     protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
         if (janggiPosition.isPositionInCastle()) {
             List<JanggiPosition> gungPathPositions = GungDirection.of(janggiPosition, destination);
-            return isValidMoveInCastle(gungPathPositions);
+            return isValidMoveInCastle(gungPathPositions) && allyPieces.isNotBlockedBy(destination);
         }
         List<JanggiPosition> pathPositions = FourDirection.from(destination, janggiPosition);
         return isValidMove(pathPositions) && allyPieces.isNotBlockedBy(destination);
