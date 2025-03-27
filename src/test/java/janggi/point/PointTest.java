@@ -13,7 +13,7 @@ class PointTest {
     @DisplayName("생성 테스트")
     class CreatePointTest {
 
-        @DisplayName("생성 시 보드의 가로 범위를 벗어나면 예외가 발생한다.")
+        @DisplayName("생성 시 보드의 세로 범위를 벗어나면 예외가 발생한다.")
         @ParameterizedTest
         @ValueSource(ints = {10, -1})
         void failIfOutOfRowRange(int outOfRangeRow) {
