@@ -4,6 +4,8 @@ package janggi.movement.distance;
 import janggi.point.Point;
 
 public class PointDistance {
+    private static final double EPSILON = 1e-9;
+
     private final double distance;
 
     public PointDistance(double distance) {
@@ -17,7 +19,6 @@ public class PointDistance {
     }
 
     public boolean notMatches(double distance) {
-        final double EPSILON = 1e-9;
         return Math.abs(this.distance - distance) > EPSILON;
     }
 }
