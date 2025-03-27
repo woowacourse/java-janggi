@@ -35,65 +35,65 @@ public class Elephant extends Piece {
 
     private List<RawPosition> makeUpUpUpLeftLeft() {
         return List.of(
-                new RawPosition(position.x(), position.y() + 1),
-                new RawPosition(position.x() - 1, position.y() + 2),
-                new RawPosition(position.x() - 2, position.y() + 3)
+                position.up(),
+                position.up().upLeftDiagonal(),
+                position.up().upLeftDiagonal().upLeftDiagonal()
         );
     }
 
     private List<RawPosition> makeUpUpUpRightRight() {
         return List.of(
-                new RawPosition(position.x(), position.y() + 1),
-                new RawPosition(position.x() + 1, position.y() + 2),
-                new RawPosition(position.x() + 2, position.y() + 3)
+                position.up(),
+                position.up().upRightDiagonal(),
+                position.up().upRightDiagonal().upRightDiagonal()
         );
     }
 
     private List<RawPosition> makeUpUpRightRightRight() {
         return List.of(
-                new RawPosition(position.x() + 1, position.y()),
-                new RawPosition(position.x() + 2, position.y() + 1),
-                new RawPosition(position.x() + 3, position.y() + 2)
+                position.right(),
+                position.right().upRightDiagonal(),
+                position.right().upRightDiagonal().upRightDiagonal()
         );
     }
 
     private List<RawPosition> makeDownDownRightRightRight() {
         return List.of(
-                new RawPosition(position.x() + 1, position.y()),
-                new RawPosition(position.x() + 2, position.y() - 1),
-                new RawPosition(position.x() + 3, position.y() - 2)
+                position.right(),
+                position.right().downRightDiagonal(),
+                position.right().downRightDiagonal().downRightDiagonal()
         );
     }
 
     private List<RawPosition> makeDownDownDownRightRight() {
         return List.of(
-                new RawPosition(position.x(), position.y() - 1),
-                new RawPosition(position.x() + 1, position.y() - 2),
-                new RawPosition(position.x() + 2, position.y() - 3)
+                position.down(),
+                position.down().downRightDiagonal(),
+                position.down().downRightDiagonal().downRightDiagonal()
         );
     }
 
     private List<RawPosition> makeDownDownDownLeftLeft() {
         return List.of(
-                new RawPosition(position.x(), position.y() - 1),
-                new RawPosition(position.x() - 1, position.y() - 2),
-                new RawPosition(position.x() - 2, position.y() - 3)
+                position.down(),
+                position.down().downLeftDiagonal(),
+                position.down().downLeftDiagonal().downLeftDiagonal()
         );
     }
 
     private List<RawPosition> makeDownDownLeftLeftLeft() {
         return List.of(
-                new RawPosition(position.x() - 1, position.y()),
-                new RawPosition(position.x() - 2, position.y() - 1),
-                new RawPosition(position.x() - 3, position.y() - 2)
+                position.left(),
+                position.left().downLeftDiagonal(),
+                position.left().downLeftDiagonal().downLeftDiagonal()
         );
     }
 
     private List<RawPosition> makeUpUpLeftLeftLeft() {
         return List.of(
-                new RawPosition(position.x() - 1, position.y()),
-                new RawPosition(position.x() - 2, position.y() + 1),
-                new RawPosition(position.x() - 3, position.y() + 2)
+                position.left(),
+                position.left().upLeftDiagonal(),
+                position.left().upLeftDiagonal().upLeftDiagonal()
         );
     }
 }

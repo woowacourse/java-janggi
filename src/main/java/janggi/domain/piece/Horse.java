@@ -35,49 +35,54 @@ public class Horse extends Piece {
 
     private List<RawPosition> makeUpUpLeft() {
         return List.of(
-                new RawPosition(position.x(), position.y() + 1),
-                new RawPosition(position.x() - 1, position.y() + 2));
+                position.up(),
+                position.up().upLeftDiagonal()
+        );
     }
 
     private List<RawPosition> makeUpUpRight() {
         return List.of(
-                new RawPosition(position.x(), position.y() + 1),
-                new RawPosition(position.x() + 1, position.y() + 2));
+                position.up(),
+                position.up().upRightDiagonal()
+        );
     }
 
     private List<RawPosition> makeRightRightUp() {
         return List.of(
-                new RawPosition(position.x() + 1, position.y()),
-                new RawPosition(position.x() + 2, position.y() + 1));
+                position.right(),
+                position.right().upRightDiagonal()
+        );
     }
 
     private List<RawPosition> makeRightRightDown() {
         return List.of(
-                new RawPosition(position.x() + 1, position.y()),
-                new RawPosition(position.x() + 2, position.y() - 1));
+                position.right(),
+                position.right().downRightDiagonal()
+        );
     }
 
     private List<RawPosition> makeDownDownRight() {
         return List.of(
-                new RawPosition(position.x(), position.y() - 1),
-                new RawPosition(position.x() + 1, position.y() - 2));
+                position.down(),
+                position.down().downRightDiagonal()
+        );
     }
 
     private List<RawPosition> makeDownDownLeft() {
         return List.of(
-                new RawPosition(position.x(), position.y() - 1),
-                new RawPosition(position.x() - 1, position.y() - 2));
+                position.down(),
+                position.down().downLeftDiagonal());
     }
 
     private List<RawPosition> makeLeftLeftDown() {
         return List.of(
-                new RawPosition(position.x() - 1, position.y()),
-                new RawPosition(position.x() - 2, position.y() - 1));
+                position.left(),
+                position.left().downLeftDiagonal());
     }
 
     private List<RawPosition> makeLeftLeftUp() {
         return List.of(
-                new RawPosition(position.x() - 1, position.y()),
-                new RawPosition(position.x() - 2, position.y() + 1));
+                position.left(),
+                position.left().upLeftDiagonal());
     }
 }

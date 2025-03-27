@@ -80,18 +80,14 @@ public class Chariot extends Piece {
     @Override
     protected Set<RawRoute> calculateAdditionalRawRoutesInPalace() {
         return Set.of(
-                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() + 1))),
-                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() - 1))),
-                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() - 1))),
-                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() + 1))),
-                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() + 1),
-                        new RawPosition(position.x() + 2, position.y() + 2))),
-                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() - 1),
-                        new RawPosition(position.x() - 2, position.y() - 2))),
-                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() - 1),
-                        new RawPosition(position.x() + 2, position.y() - 2))),
-                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() + 1),
-                        new RawPosition(position.x() - 2, position.y() + 2)))
+                new RawRoute(List.of(position.upRightDiagonal())),
+                new RawRoute(List.of(position.downLeftDiagonal())),
+                new RawRoute(List.of(position.downRightDiagonal())),
+                new RawRoute(List.of(position.upLeftDiagonal())),
+                new RawRoute(List.of(position.upRightDiagonal(), position.upRightDiagonal().upRightDiagonal())),
+                new RawRoute(List.of(position.downLeftDiagonal(), position.downLeftDiagonal().downLeftDiagonal())),
+                new RawRoute(List.of(position.downRightDiagonal(), position.downRightDiagonal().downRightDiagonal())),
+                new RawRoute(List.of(position.upLeftDiagonal(), position.upLeftDiagonal().upLeftDiagonal()))
         );
     }
 }

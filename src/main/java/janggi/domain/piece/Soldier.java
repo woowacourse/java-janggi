@@ -14,20 +14,19 @@ import java.util.Set;
 
 public class Soldier extends Piece {
 
-    public static final int BLUE_DIRECTION = 1;
-    public static final int RED_DIRECTION = -BLUE_DIRECTION;
+    private static final int BLUE_DIRECTION = 1;
+    private static final int RED_DIRECTION = -BLUE_DIRECTION;
     private static final Map<Team, Integer> DIRECTION = Map.of(RED, RED_DIRECTION, BLUE, BLUE_DIRECTION);
 
     public Soldier(final Position position, final Team team) {
-        super(position, team, new RoutePolicyForNormal());
-        this.pieceType = PieceType.SOLIDER;
+        super(team, position, PieceType.SOLIDER, new RoutePolicyForNormal());
     }
 
     @Override
     protected Set<RawRoute> calculateRawRoutes() {
         return Set.of(
-                new RawRoute(List.of(new RawPosition(position.x() + BLUE_DIRECTION, position.y()))),
-                new RawRoute(List.of(new RawPosition(position.x() - BLUE_DIRECTION, position.y()))),
+                new RawRoute(List.of(new RawPosition(position.x() + 1, position.y()))),
+                new RawRoute(List.of(new RawPosition(position.x() - 1, position.y()))),
                 new RawRoute(List.of(new RawPosition(position.x(), position.y() + DIRECTION.get(team))))
         );
     }
