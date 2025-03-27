@@ -450,6 +450,103 @@ class PiecesTest {
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
                     .isInstanceOf(IllegalArgumentException.class);
             }
+
+            @Test
+            @DisplayName("졸이 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 3, 4")
+            void when_jol_inside_castle_can_move_diagonal_in_3_4() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.THREE, Row.FOUR), new Jol());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.THREE, Row.FOUR);
+                Position arrival =  new Position(Column.TWO, Row.FIVE);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Jol.class);
+            }
+
+            @Test
+            @DisplayName("졸이 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 3,6")
+            void when_jol_inside_castle_can_move_diagonal_in_3_6() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.THREE, Row.SIX), new Jol());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.THREE, Row.SIX);
+                Position arrival =  new Position(Column.TWO, Row.FIVE);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Jol.class);
+            }
+
+            @Test
+            @DisplayName("졸이 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 2, 5 (우측 대각)")
+            void when_jol_inside_castle_can_move_diagonal_in_2_5_and_diagonal_right() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Jol());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.TWO, Row.FIVE);
+                Position arrival =  new Position(Column.ONE, Row.SIX);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Jol.class);
+            }
+
+            @Test
+            @DisplayName("병이 궁성 안에 있고, 대각선 움직임이 가능한 위치에 있을경우, 움직일 수 있어야 한다. - 2, 5 (좌측 대각)")
+            void when_jol_inside_castle_can_move_diagonal_in_2_5_and_diagonal_left() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Jol());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.TWO, Row.FIVE);
+                Position arrival =  new Position(Column.ONE, Row.FOUR);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Jol.class);
+            }
+
+            @Test
+            @DisplayName("졸의 대각 움직임은 궁성 안에서만 이뤄져야 한다.")
+            void jol_inside_castle_but_only_move_castle() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.THREE, Row.FOUR), new Jol());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.THREE, Row.FOUR);
+                Position arrival =  new Position(Column.TWO, Row.THREE);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+
+            @Test
+            @DisplayName("졸이 궁성 안에 있을 경우, 뒤로 움직일 수는 없어야 한다.")
+            void when_jol_inside_castle_then_cannot_move_back() {
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Jol());
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.TWO, Row.FIVE);
+                Position arrival =  new Position(Column.THREE, Row.FOUR);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
         }
 
         @Nested
