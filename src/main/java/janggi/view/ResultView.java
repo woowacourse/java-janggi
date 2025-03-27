@@ -11,6 +11,8 @@ public class ResultView {
     private static final String BLANK = "ㅤ";
     private static final String HEADER = "   1    2    3    4    5    6    7    8   9%n";
     private static final String BOARD_LINE = "   |    |    |    |    |    |    |    |   |%n";
+    private static final String BOARD_LINE_HEAD_GUNG_CASTLE = "   |    |    |    | \\  |  / |    |    |   |%n";
+    private static final String BOARD_LINE_TAIL_GUNG_CASTLE = "   |    |    |    | /  |  \\ |    |    |   |%n";
     private static final String BLUE_CODE = "\u001B[34m";
     private static final String RED_CODE = "\u001B[31m";
     private static final String EXIT_CODE = "\u001B[0m";
@@ -43,6 +45,14 @@ public class ResultView {
                 sb.append(convertColor(team, PieceTitle.getTitleFromTypeAndTeam(piece.getPieceType(), team)));
             }
             System.out.println(sb);
+            if (y == 1 || y == 8) {
+                System.out.printf(BOARD_LINE_HEAD_GUNG_CASTLE);
+                continue;
+            }
+            if (y == 2 || y == 9) {
+                System.out.printf(BOARD_LINE_TAIL_GUNG_CASTLE);
+                continue;
+            }
             if (y != 10) {
                 System.out.printf(BOARD_LINE);
             }
