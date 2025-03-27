@@ -14,7 +14,7 @@ public abstract class RangeMovePiece extends Piece {
 
     @Override
     public List<Position> calculatePath(Position startPosition, Position targetPosition) {
-        if (isInPalaceMove(startPosition, targetPosition)) {
+        if (isInPalaceDiagonalMove(startPosition, targetPosition)) {
             return decideDiagonalMove(startPosition, targetPosition).convertToPath(startPosition);
         }
         validateStraightMove(startPosition, targetPosition);
@@ -22,7 +22,7 @@ public abstract class RangeMovePiece extends Piece {
         return moves.convertToPath(startPosition);
     }
 
-    private boolean isInPalaceMove(Position startPosition, Position targetPosition) {
+    private boolean isInPalaceDiagonalMove(Position startPosition, Position targetPosition) {
         return startPosition.isInPalace() && targetPosition.isInPalace()
                 && Math.abs(startPosition.compareRow(targetPosition)) == Math.abs(
                 startPosition.compareColumn(targetPosition));
