@@ -5,6 +5,8 @@ import janggi.move.Direction;
 import janggi.move.Route;
 import janggi.piece.PieceType;
 import janggi.piece.Side;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Guard extends LimitMovable {
@@ -13,23 +15,35 @@ public class Guard extends LimitMovable {
         super(side);
     }
 
+    @Override
     public List<Route> computeCandidatePositions(final Position position) {
-        return List.of(
-                createRoute(position, Direction.UP),
-                createRoute(position, Direction.DOWN),
-                createRoute(position, Direction.LEFT),
-                createRoute(position, Direction.RIGHT),
-                createRoute(position, Direction.LEFT_UP),
-                createRoute(position, Direction.LEFT_DOWN),
-                createRoute(position, Direction.RIGHT_UP),
-                createRoute(position, Direction.RIGHT_DOWN)
-        );
+        List<Route> movableRoute = new ArrayList<>();
+
+        movableRoute.add(createStraightRoute(position, Direction.UP));
+        movableRoute.add(createStraightRoute(position, Direction.DOWN));
+        movableRoute.add(createStraightRoute(position, Direction.LEFT));
+        movableRoute.add(createStraightRoute(position, Direction.RIGHT));
+
+        movableRoute.addAll(createDiagonalRoute(position, Direction.LEFT_UP));
+        movableRoute.addAll(createDiagonalRoute(position, Direction.LEFT_DOWN));
+        movableRoute.addAll(createDiagonalRoute(position, Direction.RIGHT_UP));
+        movableRoute.addAll(createDiagonalRoute(position, Direction.RIGHT_DOWN));
+
+        return movableRoute;
     }
 
-    private Route createRoute(final Position position, final Direction direction) {
+    private Route createStraightRoute(final Position position, final Direction direction) {
         Route route = new Route();
         route.addRoute(position.move(direction));
         return route;
+    }
+
+    private List<Route> createDiagonalRoute(final Position position, final Direction direction) {
+        Position movedPosition = position.move(direction);
+        if (movedPosition.isInPalace()){
+            return List.of(new Route(movedPosition));
+        }
+        return List.of();
     }
 
     @Override
