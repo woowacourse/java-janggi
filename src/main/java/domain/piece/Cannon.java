@@ -8,6 +8,8 @@ import java.util.Objects;
 
 public class Cannon extends Piece {
 
+    private static final int ALLOWABLE_JUMP_COUNT = 1;
+
     public Cannon(Team team) {
         super(team);
     }
@@ -30,7 +32,7 @@ public class Cannon extends Piece {
 
     @Override
     protected void validateMovePath(List<Piece> pathPiece) {
-        if (pathPiece.size() != 1 || isSameType(pathPiece.getFirst())) {
+        if (pathPiece.size() != ALLOWABLE_JUMP_COUNT || isSameType(pathPiece.getFirst())) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
     }
