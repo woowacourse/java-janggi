@@ -16,9 +16,9 @@ public class Hurdles {
     }
 
     public Movable findByPoint(Point point) {
-        if (containsPoint(point)) {
-            return hurdles.get(point);
+        if (!containsPoint(point)) {
+            throw new IllegalStateException("해당 좌표에 기물이 존재하지 않습니다.");
         }
-        throw new IllegalStateException();
+        return hurdles.get(point);
     }
 }

@@ -14,11 +14,12 @@ public class Prey {
     }
 
     public static Prey from(Point targetPoint, Hurdles hurdles, Movable attacker) {
-        Movable prey = null;
-        if (hurdles.containsPoint(targetPoint)) {
-            prey = hurdles.findByPoint(targetPoint);
+        try {
+            Movable prey = hurdles.findByPoint(targetPoint);
+            return new Prey(prey, attacker);
+        } catch (IllegalArgumentException e) {
+            return new Prey(null, attacker);
         }
-        return new Prey(prey, attacker);
     }
 
     public boolean canAttack() {
