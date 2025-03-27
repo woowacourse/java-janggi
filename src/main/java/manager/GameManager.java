@@ -1,9 +1,9 @@
 package manager;
 
 import domain.JanggiGame;
-import domain.piece.character.Team;
 import domain.board.Board;
 import domain.board.BoardGenerator;
+import domain.piece.character.Team;
 import util.ErrorHandler;
 import view.Command;
 import view.InputView;
@@ -23,7 +23,7 @@ public class GameManager {
     }
 
     public void startGame(String gameRoomName) {
-        // if(DB에 없는 방 이름): 방 새로 생성, else: DB에 저장된 방 로드
+        // TODO: if(DB에 없는 방 이름): 방 새로 생성, else: DB에 저장된 방 로드
         JanggiGame game = new JanggiGame(createBoard(new BoardGenerator()), START_TEAM);
 
         OutputView.printStart(gameRoomName);
