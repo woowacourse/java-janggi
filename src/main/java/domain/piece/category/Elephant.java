@@ -22,6 +22,11 @@ public class Elephant extends Piece {
     }
 
     @Override
+    public int getScore() {
+        return PieceType.ELEPHANT.getScore();
+    }
+
+    @Override
     public String getName() {
         return PieceType.ELEPHANT.getName();
     }

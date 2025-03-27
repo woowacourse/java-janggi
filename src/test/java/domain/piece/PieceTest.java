@@ -122,6 +122,11 @@ class PieceTest {
         }
 
         @Override
+        public int getScore() {
+            return 0;
+        }
+
+        @Override
         public String getName() {
             return "";
         }

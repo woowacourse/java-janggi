@@ -22,6 +22,11 @@ public class Guard extends Piece {
     }
 
     @Override
+    public int getScore() {
+        return PieceType.GUARD.getScore();
+    }
+
+    @Override
     public String getName() {
         return PieceType.GUARD.getName();
     }

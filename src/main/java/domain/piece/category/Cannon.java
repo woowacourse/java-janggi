@@ -22,6 +22,11 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public int getScore() {
+        return PieceType.CANNON.getScore();
+    }
+
+    @Override
     public String getName() {
         return PieceType.CANNON.getName();
     }

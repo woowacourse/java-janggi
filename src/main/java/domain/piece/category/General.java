@@ -22,6 +22,11 @@ public class General extends Piece {
     }
 
     @Override
+    public int getScore() {
+        return PieceType.GENERAL.getScore();
+    }
+
+    @Override
     public String getName() {
         return PieceType.GENERAL.getName();
     }

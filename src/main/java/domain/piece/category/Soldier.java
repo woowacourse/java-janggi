@@ -22,6 +22,11 @@ public class Soldier extends Piece {
     }
 
     @Override
+    public int getScore() {
+        return PieceType.SOLDIER.getScore();
+    }
+
+    @Override
     public String getName() {
         return PieceType.SOLDIER.getName();
     }

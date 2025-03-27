@@ -25,6 +25,8 @@ public abstract class Piece {
 
     public abstract boolean isEqualType(final PieceType type);
 
+    public abstract int getScore();
+
     public List<Position> getPath(final Position targetPosition) {
         return directions.getPath(position, targetPosition);
     }

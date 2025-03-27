@@ -22,6 +22,11 @@ public class Horse extends Piece {
     }
 
     @Override
+    public int getScore() {
+        return PieceType.HORSE.getScore();
+    }
+
+    @Override
     public String getName() {
         return PieceType.HORSE.getName();
     }

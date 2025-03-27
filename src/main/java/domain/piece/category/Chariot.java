@@ -22,6 +22,11 @@ public class Chariot extends Piece {
     }
 
     @Override
+    public int getScore() {
+        return PieceType.CHARIOT.getScore();
+    }
+
+    @Override
     public String getName() {
         return PieceType.CHARIOT.getName();
     }
