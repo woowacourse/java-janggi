@@ -1,25 +1,26 @@
 package domain.piece;
 
+import domain.piece.path.FixedSingleMovePathFinder;
 import domain.piece.path.PalaceValidator;
 import domain.position.Direction;
 import domain.position.Movement;
-import domain.piece.path.DefaultPathValidator;
-import domain.piece.path.FixedPatternPathFinder;
+import domain.piece.path.FixedMultiStepPathFinder;
 import java.util.List;
 
 public class King extends Piece {
-    private static final List<Movement> MOVEMENTS;
+    private static final List<Direction> DIRECTIONS;
 
     static {
-        MOVEMENTS = List.of(
-                new Movement(List.of(Direction.UP)),
-                new Movement(List.of(Direction.DOWN)),
-                new Movement(List.of(Direction.RIGHT)),
-                new Movement(List.of(Direction.LEFT)));
+        DIRECTIONS = List.of(
+                Direction.UP,
+                Direction.DOWN,
+                Direction.RIGHT,
+                Direction.LEFT
+        );
     }
 
     public King(TeamType teamType) {
-        super(teamType, new FixedPatternPathFinder(MOVEMENTS), new PalaceValidator());
+        super(teamType,new FixedSingleMovePathFinder(DIRECTIONS), new PalaceValidator());
     }
 
     @Override

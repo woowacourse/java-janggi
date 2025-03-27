@@ -3,6 +3,13 @@ package domain.position;
 import java.util.Objects;
 
 public class Position {
+    private static int CHO_PALACE_MIN_ROW = 0;
+    private static int CHO_PALACE_MAX_ROW = 2;
+    private static int HAN_PALACE_MIN_ROW = 7;
+    private static int HAN_PALACE_MAX_ROW = 9;
+    private static int PALACE_MIN_COLUMN = 3;
+    private static int PALACE_MAX_COLUMN = 5;
+
     private final Row row;
     private final Column column;
 
@@ -19,8 +26,16 @@ public class Position {
         return new Position(row.moveRow(deltaRow), column.moveColumn(deltaColumn));
     }
 
-    public boolean isInRange(int minRow, int maxRow, int minColumn, int maxColumn){
-        return row.isInRange(minRow,maxRow) && column.isInRange(minColumn,maxColumn);
+    public boolean isInPalace(){
+        return isInChoPalace() || isInHanPalace();
+    }
+
+    public boolean isInChoPalace(){
+        return row.isInRange(CHO_PALACE_MIN_ROW,CHO_PALACE_MAX_ROW) && column.isInRange(PALACE_MIN_COLUMN,PALACE_MAX_COLUMN);
+    }
+
+    public boolean isInHanPalace(){
+        return row.isInRange(HAN_PALACE_MIN_ROW,HAN_PALACE_MAX_ROW) && column.isInRange(PALACE_MIN_COLUMN,PALACE_MAX_COLUMN);
     }
 
     public boolean canMovePosition(int deltaRow, int deltaColumn) {

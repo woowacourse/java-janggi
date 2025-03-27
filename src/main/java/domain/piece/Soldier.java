@@ -1,34 +1,35 @@
 package domain.piece;
 
+import domain.piece.path.FixedSingleMovePathFinder;
 import domain.position.Direction;
 import domain.position.Movement;
 import domain.piece.path.DefaultPathValidator;
-import domain.piece.path.FixedPatternPathFinder;
+import domain.piece.path.FixedMultiStepPathFinder;
 import java.util.List;
 import java.util.Map;
 
 public class Soldier extends Piece {
-    private static final Map<TeamType, List<Movement>> MOVEMENTS;
+    private static final Map<TeamType, List<Direction>> DIRECTIONS;
 
     static {
-        MOVEMENTS = Map.of(
+        DIRECTIONS = Map.of(
                 TeamType.CHO,
-                List.of(new Movement(List.of(Direction.UP)),
-                        new Movement(List.of(Direction.RIGHT)),
-                        new Movement(List.of(Direction.LEFT)))
+                List.of(Direction.UP,
+                        Direction.RIGHT,
+                        Direction.LEFT)
                 ,
                 TeamType.HAN,
-                List.of(new Movement(List.of(Direction.DOWN)),
-                        new Movement(List.of(Direction.RIGHT)),
-                        new Movement(List.of(Direction.LEFT))));
+                List.of(Direction.DOWN,
+                        Direction.RIGHT,
+                        Direction.LEFT));
     }
 
     public Soldier(TeamType teamType) {
-        super(teamType, new FixedPatternPathFinder(findMovements(teamType)), new DefaultPathValidator());
+        super(teamType, new FixedSingleMovePathFinder(findDirections(teamType)), new DefaultPathValidator());
     }
 
-    private static List<Movement> findMovements(TeamType teamType) {
-        return MOVEMENTS.get(teamType);
+    private static List<Direction> findDirections(TeamType teamType) {
+        return DIRECTIONS.get(teamType);
     }
 
     @Override

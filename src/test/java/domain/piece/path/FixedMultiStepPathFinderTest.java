@@ -12,7 +12,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class FixedPatternPathFinderTest {
+class FixedMultiStepPathFinderTest {
 
     @Test
     @DisplayName("지나온 경로 반환 테스트")
@@ -20,7 +20,7 @@ class FixedPatternPathFinderTest {
         List<Movement> movements = List.of(
                 new Movement(List.of(Direction.UP,Direction.UP,Direction.LEFT_UP))
         );
-        FixedPatternPathFinder pathFinder = new FixedPatternPathFinder(movements);
+        FixedMultiStepPathFinder pathFinder = new FixedMultiStepPathFinder(movements);
 
         List<Position> intermediatePositions = pathFinder.findIntermediatePositions(E0,
                 D3);
@@ -34,7 +34,7 @@ class FixedPatternPathFinderTest {
         List<Movement> movements = List.of(
                 new Movement(List.of(Direction.UP,Direction.UP,Direction.LEFT_UP))
         );
-        FixedPatternPathFinder pathFinder = new FixedPatternPathFinder(movements);
+        FixedMultiStepPathFinder pathFinder = new FixedMultiStepPathFinder(movements);
 
         assertThatThrownBy(()->pathFinder.findIntermediatePositions(D3,
                         H0))

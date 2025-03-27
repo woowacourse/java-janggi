@@ -7,13 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public class PalaceValidator implements PathValidator{
-    private static int CHO_PALACE_MIN_ROW = 0;
-    private static int CHO_PALACE_MAX_ROW = 2;
-    private static int HAN_PALACE_MIN_ROW = 7;
-    private static int HAN_PALACE_MAX_ROW = 9;
-    private static int PALACE_MIN_COLUMN = 3;
-    private static int PALACE_MAX_COLUMN = 5;
-
     @Override
     public void validatePath(Piece piece, Position to, List<Position> intermediatePositions,
                              Map<Position, Piece> alivePieces) {
@@ -27,9 +20,9 @@ public class PalaceValidator implements PathValidator{
 
     private boolean isDestinationInPalace(Piece piece, Position destination) {
         if(piece.getTeamType()== TeamType.CHO){
-            return destination.isInRange(CHO_PALACE_MIN_ROW, CHO_PALACE_MAX_ROW, PALACE_MIN_COLUMN, PALACE_MAX_COLUMN);
+            return destination.isInChoPalace();
         }
-        return destination.isInRange(HAN_PALACE_MIN_ROW, HAN_PALACE_MAX_ROW, PALACE_MIN_COLUMN, PALACE_MAX_COLUMN);
+        return destination.isInHanPalace();
     }
 
     private boolean isTeamAtPosition(Piece piece, Position destination, Map<Position, Piece> alivePieces) {
