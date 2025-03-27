@@ -144,21 +144,21 @@ public final class Routes {
         Set<Position> target = new HashSet<>();
         for (Route route : routes) {
 
-            Route straight = route;
+            Route straightBeforeJump = route;
             while (true) {
-                if (straight.canJump(source, board)) {
-                    Position jump = source.move(straight);
+                if (straightBeforeJump.canJump(source, board)) {
+                    Position jump = source.move(straightBeforeJump);
 
-                    Route straight2 = route;
-                    while (straight2.isPossibleRouteForCannon(jump, board)) {
-                        target.add(jump.move(straight2));
-                        straight2 = straight2.add(route);
+                    Route straight = route;
+                    while (straight.isPossibleRouteForCannon(jump, board)) {
+                        target.add(jump.move(straight));
+                        straight = straight.add(route);
                     }
                 }
-                if (!source.canMove(straight, board)) {
+                if (!source.canMove(straightBeforeJump, board)) {
                     break;
                 }
-                straight = straight.add(route);
+                straightBeforeJump = straightBeforeJump.add(route);
             }
         }
         return target;

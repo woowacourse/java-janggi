@@ -35,10 +35,10 @@ public final class Position {
     }
 
     public boolean canJump(Direction direction, Board board) {
-        if (column.canMove(direction.column()) && row.canMove(direction.row())) { // 1칸 뒤로 이동 가능.
+        if (column.canMove(direction.column()) && row.canMove(direction.row())) {
             Position target = new Position(column.move(direction.column()), row.move(direction.row()));
             return (board.hasPieceWithoutCannon(target) && target.canMove(direction,
-                    board)); // 1칸뒤에 포가 아닌 기물이 있어야 함. 2칸뒤로 이동할 수 있어야 함.
+                    board));
         }
         return false;
     }
