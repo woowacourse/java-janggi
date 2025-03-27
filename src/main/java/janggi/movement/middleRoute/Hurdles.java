@@ -1,4 +1,4 @@
-package janggi.movement.route;
+package janggi.movement.middleRoute;
 
 import janggi.piece.Movable;
 import janggi.point.Point;

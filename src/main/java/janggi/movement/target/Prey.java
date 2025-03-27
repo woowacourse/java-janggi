@@ -1,6 +1,6 @@
-package janggi.movement.passable;
+package janggi.movement.target;
 
-import janggi.movement.route.Hurdles;
+import janggi.movement.middleRoute.Hurdles;
 import janggi.piece.Movable;
 import janggi.point.Point;
 

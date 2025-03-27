@@ -1,12 +1,12 @@
 package janggi.piece;
 
 import janggi.movement.direction.Direction;
-import janggi.movement.passable.Bridge;
-import janggi.movement.route.Hurdles;
-import janggi.movement.passable.Prey;
+import janggi.movement.middleRoute.Bridge;
+import janggi.movement.middleRoute.Hurdles;
+import janggi.movement.target.Prey;
 import janggi.point.Point;
 import janggi.game.Team;
-import janggi.movement.route.Route;
+import janggi.movement.middleRoute.Route;
 import java.util.ArrayList;
 import java.util.List;
 

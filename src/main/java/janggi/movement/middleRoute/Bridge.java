@@ -1,7 +1,5 @@
-package janggi.movement.passable;
+package janggi.movement.middleRoute;
 
-import janggi.movement.route.Hurdles;
-import janggi.movement.route.Route;
 import janggi.piece.Movable;
 
 public class Bridge {
