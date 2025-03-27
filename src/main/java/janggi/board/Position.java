@@ -9,13 +9,13 @@ public class Position {
     private static final int X_LIMIT = 9;
     private static final int Y_LIMIT = 10;
     private static final Set<Position> palacePositions = Set.of(
-            new Position(3, 0), new Position(4, 0), new Position(5, 0),
-            new Position(3, 1), new Position(4, 1), new Position(5, 1),
-            new Position(3, 2), new Position(4, 2), new Position(5, 2),
+            new Position(3, 0), new Position(5, 0),
+            new Position(4, 1),
+            new Position(3, 2), new Position(5, 2),
 
-            new Position(3, 9), new Position(4, 9), new Position(5, 9),
-            new Position(3, 8), new Position(4, 8), new Position(5, 8),
-            new Position(3, 7), new Position(4, 7), new Position(5, 7)
+            new Position(3, 9), new Position(5, 9),
+            new Position(4, 8),
+            new Position(3, 7), new Position(5, 7)
     );
 
     private final int x;
@@ -48,14 +48,6 @@ public class Position {
         return palaceCornerPositions.contains(this);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -76,5 +68,13 @@ public class Position {
                 "x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }
