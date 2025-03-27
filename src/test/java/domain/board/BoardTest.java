@@ -177,4 +177,24 @@ class BoardTest {
         assertThat(board.isHanGungDead()).isFalse();
     }
 
+    @DisplayName("한나라의 점수를 계산한다")
+    @Test
+    void calculateHanScoreTest() {
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(1, 1), new Ma(Country.HAN));
+        Board board = new Board(pieces);
+
+        assertThat(board.calculateHanScore()).isEqualTo(5);
+    }
+
+    @DisplayName("초나라의 점수를 계산한다")
+    @Test
+    void calculateChoScoreTest() {
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(1, 1), new Ma(Country.CHO));
+        Board board = new Board(pieces);
+
+        assertThat(board.calculateChoScore()).isEqualTo(5);
+    }
+
 }

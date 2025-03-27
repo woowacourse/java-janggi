@@ -86,4 +86,18 @@ public final class Board {
         return board.values().stream()
                 .noneMatch(piece -> piece.getType() == PieceType.GUNG && piece.getCountry() == Country.HAN);
     }
+
+    public int calculateHanScore() {
+        return board.values().stream()
+                .filter(Piece::isHan)
+                .mapToInt(Piece::getScore)
+                .sum();
+    }
+
+    public int calculateChoScore() {
+        return board.values().stream()
+                .filter(Piece::isCho)
+                .mapToInt(Piece::getScore)
+                .sum();
+    }
 }

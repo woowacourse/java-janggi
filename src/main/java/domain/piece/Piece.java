@@ -22,4 +22,16 @@ public abstract class Piece {
     public PieceType getType() {
         return type;
     }
+
+    public int getScore() {
+        return type.getScore();
+    }
+
+    public boolean isHan() {
+        return country.isHan();
+    }
+
+    public boolean isCho() {
+        return country.isCho();
+    }
 }

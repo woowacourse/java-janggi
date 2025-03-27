@@ -21,8 +21,16 @@ public class JanggiGame {
 
         while (!isEndGame(board)) {
             takeTurn(board, this::movePiece);
+            showScore(board);
             nextTurn();
         }
+    }
+
+    private void showScore(Board board) {
+        int hanScore = board.calculateHanScore();
+        int choScore = board.calculateChoScore();
+
+        outputView.printScore(hanScore, choScore);
     }
 
     private Board settingUp() {

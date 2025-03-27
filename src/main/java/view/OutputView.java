@@ -30,11 +30,11 @@ public class OutputView {
                 }
                 Country country = board.findCountryByCoordinate(coordinate);
                 if (country == Country.CHO) {
-                    builder.append("\u001B[32m").append(board.findPieceTypeByCoordinate(coordinate).getDescription())
+                    builder.append("\u001B[32m").append(board.findPieceTypeByCoordinate(coordinate).getPieceName())
                             .append("\u001B[0m");
                 }
                 if (country == Country.HAN) {
-                    builder.append("\u001B[31m").append(board.findPieceTypeByCoordinate(coordinate).getDescription())
+                    builder.append("\u001B[31m").append(board.findPieceTypeByCoordinate(coordinate).getPieceName())
                             .append("\u001B[0m");
                 }
             }
@@ -58,5 +58,10 @@ public class OutputView {
         if (isHanGungDead) {
             System.out.println("조나라가 승리하였습니다.");
         }
+    }
+
+    public void printScore(int hanScore, int choScore) {
+        System.out.println("한나라 점수: " + hanScore);
+        System.out.println("조나라 점수: " + choScore);
     }
 }
