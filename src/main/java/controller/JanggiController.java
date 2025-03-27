@@ -32,22 +32,17 @@ public class JanggiController {
         outputView.printBoard(board.getBoard());
         JanggiSide nowTurn = JANGGI_GAME_STARTING_SIDE;
 
-        processJanggiGame(board, nowTurn);
-
-        printResult(nowTurn, board);
-        janggiService.finishGame();
-    }
-
-    private JanggiSide processJanggiGame(JanggiBoard board, JanggiSide nowTurn) {
         while (true) {
             processMovePiece(board, nowTurn);
             outputView.printBoard(board.getBoard());
-            if (!janggiService.isGameEnd(board, nowTurn)) {
+            if (janggiService.isGameEnd(board, nowTurn)) {
                 break;
             }
             nowTurn = nowTurn.getOppositeSide();
         }
-        return nowTurn;
+
+        printResult(nowTurn, board);
+        janggiService.finishGame();
     }
 
     private JanggiBoard setJanggiBoard() {
