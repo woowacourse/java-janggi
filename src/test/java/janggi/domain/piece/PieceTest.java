@@ -125,6 +125,11 @@ class PieceTest {
         }
 
         @Override
+        public double getScore() {
+            return 0;
+        }
+
+        @Override
         protected boolean isMoveablePosition(Position destination) {
             return this.isMoveablePosition;
         }

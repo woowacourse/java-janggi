@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Guard extends Piece {
 
+    public static final double SCORE = 3.0;
+
     public Guard(Side side, int x, int y) {
         super(side, x, y);
     }
@@ -17,6 +19,11 @@ public class Guard extends Piece {
     @Override
     public boolean isKing() {
         return false;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 
     @Override

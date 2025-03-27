@@ -11,6 +11,8 @@ public class Elephant extends Piece {
     private static final List<Vector> HORIZONTAL_MOVEMENT_VECTORS = List.of(
         new Vector(1, 0), new Vector(2, 1), new Vector(3, 2));
 
+    public static final double SCORE = 3.0;
+
     public Elephant(Side side, int x, int y) {
         super(side, x, y);
     }
@@ -23,6 +25,11 @@ public class Elephant extends Piece {
     @Override
     public boolean isCannon() {
         return false;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 
     @Override

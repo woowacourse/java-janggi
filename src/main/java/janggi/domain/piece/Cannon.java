@@ -7,6 +7,8 @@ import java.util.stream.IntStream;
 
 public class Cannon extends Piece {
 
+    public static final double SCORE = 7.0;
+
     public Cannon(Side side, int x, int y) {
         super(side, x, y);
     }
@@ -19,6 +21,11 @@ public class Cannon extends Piece {
     @Override
     public boolean isCannon() {
         return true;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 
     @Override

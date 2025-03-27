@@ -1,5 +1,6 @@
 package janggi.controller;
 
+import janggi.domain.Side;
 import janggi.domain.piece.Position;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.generator.DefaultChoPieceGenerator;
@@ -43,17 +44,20 @@ public class Controller {
 
     private void playGame(JanggiBoard janggiBoard) {
         while (!janggiBoard.isEnd()) {
-            computeException(this::moveHan, janggiBoard);
+            computeException(this::moveSide, janggiBoard);
             outputView.printJanggiBoard(janggiBoard);
-
+            outputView.printGameScore(janggiBoard.calculateGameScore());
             if (janggiBoard.isEnd()) {
                 break;
             }
-
-            computeException(this::moveCho, janggiBoard);
-            outputView.printJanggiBoard(janggiBoard);
         }
         outputView.printWinner(janggiBoard.getWinner());
+    }
+
+    private void moveSide(JanggiBoard janggiBoard) {
+        Side turn = janggiBoard.getTurn();
+        if (turn == Side.HAN) moveHan(janggiBoard);
+        moveCho(janggiBoard);
     }
 
     private void moveHan(JanggiBoard janggiBoard) {

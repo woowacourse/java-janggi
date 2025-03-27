@@ -12,6 +12,8 @@ import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Rook;
 
+import java.util.Map;
+
 public class OutputView {
 
     public static final String BLACK = "\u001B[30m";
@@ -78,5 +80,9 @@ public class OutputView {
             return;
         }
         System.out.println("초나라 승리!");
+    }
+
+    public void printGameScore(Map<Side, Double> sideDoubleMap) {
+        System.out.printf("한나라: %.1f점, 초나라: %.1f점%n", sideDoubleMap.get(Side.HAN), sideDoubleMap.get(Side.CHO));
     }
 }

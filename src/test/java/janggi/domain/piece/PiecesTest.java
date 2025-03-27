@@ -5,6 +5,7 @@ import janggi.domain.Side;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -42,5 +43,24 @@ class PiecesTest {
         Pieces oneKingPieces = new Pieces(List.of(new King(Side.CHO, 4, 4)));
 
         assertThat(oneKingPieces.getWinner()).isEqualTo(Side.CHO);
+    }
+
+    @Test
+    void 기물들의_점수를_계산할_수_있다() {
+        Pieces pieces = new Pieces(List.of(
+            new Rook(Side.CHO, 0, 0), new Rook(Side.HAN, 0, 9),
+            new Knight(Side.CHO, 1, 0), new Knight(Side.HAN, 1, 9),
+            new Elephant(Side.CHO, 2, 0), new Elephant(Side.HAN, 2, 9),
+            new Cannon(Side.CHO, 1, 2), new Cannon(Side.HAN, 1, 7),
+            new Pawn(Side.CHO, 0, 3), new Pawn(Side.HAN, 0, 6),
+            new King(Side.CHO, 4, 1), new King(Side.HAN, 4, 8),
+            new Guard(Side.CHO, 3,0), new Guard(Side.HAN, 3,9)
+        ));
+
+        Map<Side, Double> scoreResult = Map.of(
+            Side.CHO, 33.0,
+            Side.HAN, 34.5
+        );
+        assertThat(pieces.calculateGameScore()).isEqualTo(scoreResult);
     }
 }

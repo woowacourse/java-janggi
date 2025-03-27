@@ -70,6 +70,8 @@ public abstract class Piece {
 
     public abstract boolean isCannon();
 
+    public abstract double getScore();
+
     public boolean isEnemy(Side turn) {
         return turn != this.side;
     }

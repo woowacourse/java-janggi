@@ -4,6 +4,7 @@ import janggi.domain.Side;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class Pieces {
@@ -48,5 +49,24 @@ public class Pieces {
             .map(Piece::getSide)
             .findFirst()
             .orElseThrow(() -> new IllegalStateException("게임이 종료되지 않았습니다."));
+    }
+
+    public Map<Side,Double> calculateGameScore() {
+        double choScore = calculateSideScore(Side.CHO);
+        double hanScore = calculateSideScore(Side.HAN);
+
+        return Map.of(Side.CHO, choScore, Side.HAN, hanScore);
+    }
+
+    private double calculateSideScore(Side side) {
+        double sideScore = pieces.stream()
+            .filter(piece -> piece.getSide() == side)
+            .mapToDouble(Piece::getScore)
+            .sum();
+
+        if (side.isSecondTurn()) {
+            return side.plusSecondTurnBonus(sideScore);
+        }
+        return sideScore;
     }
 }

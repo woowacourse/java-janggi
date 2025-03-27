@@ -7,6 +7,8 @@ import java.util.Set;
 
 public class Pawn extends Piece {
 
+    public static final double SCORE = 2.0;
+
     public Pawn(Side side, int x, int y) {
         super(side, x, y);
     }
@@ -19,6 +21,11 @@ public class Pawn extends Piece {
     @Override
     public boolean isCannon() {
         return false;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 
     @Override

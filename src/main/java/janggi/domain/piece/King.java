@@ -20,6 +20,11 @@ public class King extends Piece {
     }
 
     @Override
+    public double getScore() {
+        return 0;
+    }
+
+    @Override
     protected boolean isMoveablePosition(Position destination) {
         if (!destination.isPalace()) return false;
         int xDistance = position.getXDistance(destination);

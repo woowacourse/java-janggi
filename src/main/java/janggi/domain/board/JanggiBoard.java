@@ -1,15 +1,16 @@
 package janggi.domain.board;
 
-import janggi.domain.piece.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 import janggi.domain.piece.generator.ChoPieceGenerator;
 import janggi.domain.piece.generator.HanPieceGenerator;
 import janggi.domain.piece.generator.KnightElephantSetting;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiBoard {
 
@@ -50,5 +51,13 @@ public class JanggiBoard {
 
     public Side getWinner() {
         return pieces.getWinner();
+    }
+
+    public Map<Side, Double> calculateGameScore() {
+        return pieces.calculateGameScore();
+    }
+
+    public Side getTurn() {
+        return turn;
     }
 }
