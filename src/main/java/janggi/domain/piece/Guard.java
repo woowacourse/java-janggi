@@ -12,6 +12,14 @@ public class Guard extends PathMovingPiece {
 
     @Override
     protected List<Movement> findMovements(Position positionToMove) {
+        if (getPosition().isInSameDiagonalInPalace(positionToMove)) {
+            return List.of(
+                    Movement.getDiagonal(
+                            positionToMove.x() - getPosition().x(),
+                            positionToMove.y() - getPosition().y()
+                    )
+            );
+        }
         return List.of(Movement.getOrthogonal(
                 positionToMove.x() - getPosition().x(),
                 positionToMove.y() - getPosition().y()

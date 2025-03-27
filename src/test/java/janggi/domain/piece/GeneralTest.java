@@ -54,10 +54,20 @@ class GeneralTest {
         pieces.put(general.getPosition(), general);
         Board board = new Board(pieces);
         Assertions.assertAll(
-                () -> assertThatThrownBy(() -> board.movePiece(general.getPosition(), new Position(7, 4)))
+                () -> assertThatThrownBy(() -> general.move(pieces, new Position(7, 4)))
                         .isInstanceOf(IllegalArgumentException.class),
-                () -> assertThatThrownBy(() -> board.movePiece(general.getPosition(), new Position(8, 3)))
+                () -> assertThatThrownBy(() -> general.move(pieces, new Position(8, 3)))
                         .isInstanceOf(IllegalArgumentException.class)
         );
+    }
+
+    @DisplayName("궁은 궁선 내 간선을 통해서 이동이 가능하다")
+    @Test
+    void move4() {
+        General general = new General(new Position(9, 5), Team.BLUE);
+        pieces.put(general.getPosition(), general);
+        Position afterPosition = new Position(8, 4);
+        Piece movedGeneral = general.move(pieces, afterPosition);
+        assertThat(movedGeneral.getPosition()).isEqualTo(afterPosition);
     }
 }

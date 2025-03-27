@@ -59,4 +59,14 @@ class GuardTest {
                         .isInstanceOf(IllegalArgumentException.class)
         );
     }
+
+    @DisplayName("사는 궁선 내 간선을 통해서 이동이 가능하다")
+    @Test
+    void move4() {
+        General general = new General(new Position(1, 4), Team.RED);
+        pieces.put(general.getPosition(), general);
+        Position afterPosition = new Position(2, 5);
+        Piece movedGeneral = general.move(pieces, afterPosition);
+        assertThat(movedGeneral.getPosition()).isEqualTo(afterPosition);
+    }
 }
