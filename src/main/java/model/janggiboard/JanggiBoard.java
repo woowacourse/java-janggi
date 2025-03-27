@@ -23,6 +23,11 @@ public class JanggiBoard {
         placePiece(DEFAULT_SETUP);
     }
 
+    public JanggiBoard(Map<Point, Piece> map) {
+        janggiBoard = initializeJanggiBoard();
+        map.forEach((point, piece) -> janggiBoard.get(point.y()).get(point.x()).place(piece));
+    }
+
     private static List<Dot> getHorizontalDotsLine() {
         List<Dot> dotLine = new ArrayList<>();
         for (int i = 0; i < HORIZONTAL_SIZE; i++) {
@@ -41,8 +46,8 @@ public class JanggiBoard {
     }
 
     private void placePiece(JanggiBoardSetUp janggiBoardSetUp) {
-        janggiBoardSetUp.getMap().forEach((key, value)
-                -> janggiBoard.get(key.y()).get(key.x()).place(value));
+        janggiBoardSetUp.getMap().forEach((point, piece)
+                -> janggiBoard.get(point.y()).get(point.x()).place(piece));
     }
 
     public int countPiece() {

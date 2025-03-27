@@ -23,7 +23,7 @@ public class InputView {
         return loadOrNewGame;
     }
 
-    public static int choiceGameId() {
+    public static int inputGameId() {
         sc = new Scanner(System.in);
         System.out.println("게임 번호를 선택하세요");
         return Integer.parseInt(sc.nextLine());

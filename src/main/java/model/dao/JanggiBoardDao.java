@@ -3,6 +3,7 @@ package model.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import model.dto.PieceDto;
 
@@ -78,5 +79,32 @@ public final class JanggiBoardDao {
             throw new RuntimeException(e);
         }
     }
+
+    public List<PieceDto> findByGameId(int gameId) {
+        final var query = "SELECT x_pos, y_pos, team_name, piece_type FROM JanggiBoard WHERE game_id = ?";
+        final List<PieceDto> results = new ArrayList<>();
+
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, gameId);
+
+            try (final var resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int xPos = resultSet.getInt("x_pos");
+                    int yPos = resultSet.getInt("y_pos");
+                    String team = resultSet.getString("team_name");
+                    String pieceType = resultSet.getString("piece_type");
+
+                    PieceDto dto = new PieceDto(xPos, yPos, team, pieceType);
+                    results.add(dto);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return results;
+    }
+
 
 }
