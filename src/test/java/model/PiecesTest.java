@@ -44,7 +44,7 @@ class PiecesTest {
             void move_1_1_to_3_1() {
                 //given
                 Position departure = new Position(1, 1);
-                Position arrival = new Position(3,1 );
+                Position arrival = new Position(3, 1);
 
                 //when
                 pieces.move(departure, arrival);
@@ -75,7 +75,7 @@ class PiecesTest {
             void move_1_1_to_4_1_then_throw_exception() {
                 //given
                 Position departure = new Position(1, 1);
-                Position arrival = new Position(4,1);
+                Position arrival = new Position(4, 1);
 
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
@@ -90,7 +90,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Chariot(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
-                Position arrival =  new Position(Column.NINE, Row.FIVE);
+                Position arrival = new Position(Column.NINE, Row.FIVE);
 
                 //when
                 pieces.move(departure, arrival);
@@ -107,7 +107,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Chariot(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
-                Position arrival =  new Position(Column.TEN, Row.SIX);
+                Position arrival = new Position(Column.TEN, Row.SIX);
 
                 //when
                 pieces.move(departure, arrival);
@@ -124,7 +124,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Chariot(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.SIX);
-                Position arrival =  new Position(Column.NINE, Row.FIVE);
+                Position arrival = new Position(Column.NINE, Row.FIVE);
 
                 //when
                 pieces.move(departure, arrival);
@@ -141,7 +141,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Chariot(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.SIX);
-                Position arrival =  new Position(Column.TEN, Row.FOUR);
+                Position arrival = new Position(Column.TEN, Row.FOUR);
 
                 //when
                 pieces.move(departure, arrival);
@@ -163,7 +163,7 @@ class PiecesTest {
             void move_3_2_to_9_2_then_throw_exception() {
                 //given
                 Position departure = new Position(3, 2);
-                Position arrival = new Position(3,9);
+                Position arrival = new Position(3, 9);
 
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
                     .isInstanceOf(IllegalArgumentException.class)
@@ -224,6 +224,125 @@ class PiecesTest {
                 Position arrival = new Position(3, 4);
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival));
+            }
+
+            @Test
+            @DisplayName("Cannon이 궁성 안에 있고, 대각 움직임이 가능한 좌표에 있지만, 뛰어넘을 기물이 없다면 예외를 발생시켜야 한다.")
+            void when_cannon_inside_castle_can_move_diagonal_but_other_piece_not_exist() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.FOUR);
+                Position arrival = new Position(Column.TEN, Row.SIX);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+
+            @Test
+            @DisplayName("Cannon이 궁성 안에 있고, 대각 움직임이 가능한 좌표에 있고, 뛰어넘을 기물이 존재한다면, 대각 움직임이 가능해야 한다.")
+            void when_cannon_inside_castle_can_move_diagonal_and_other_piece_exist() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Horse(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.FOUR);
+                Position arrival = new Position(Column.TEN, Row.SIX);
+
+                //when
+                pieces.move(departure, arrival);
+
+                //then
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Cannon.class);
+            }
+
+            @Test
+            @DisplayName("Cannon이 궁성 안에 있고, 대각 움직임이 가능한 좌표에 있지만, 뛰어넘는 기물이 같은 캐논이라면, 예외를 발생시켜야 한다.")
+            void when_cannon_inside_castle_can_move_diagonal_but_other_cannon_exist() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Cannon(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.FOUR);
+                Position arrival = new Position(Column.TEN, Row.SIX);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+
+            @Test
+            @DisplayName("Cannon이 궁성 안에 있고, 대각 움직임이 가능한 좌표에 있고, 뛰어넘을 기물이 있지만, 도착지점에 같은 팀 기물이 있다면 예외를 발생시킨다.")
+            void when_cannon_inside_castle_can_move_diagonal_but_other_piece_exist_but_arrival_same_team() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new General(Team.RED));
+                temporaryPieces.put(new Position(Column.TEN, Row.SIX), new Horse(Team.RED));
+
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.FOUR);
+                Position arrival = new Position(Column.TEN, Row.SIX);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+
+            @Test
+            @DisplayName("Cannon이 궁성 안에 있고, 대각 움직임이 가능한 좌표에 있고, 뛰어넘을 기물이 있고, 도착지점에 다른 팀 기물이 있을 경우, 잡아먹는다")
+            void when_cannon_inside_castle_can_move_diagonal_but_other_piece_exist_and_arrival_other_team() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new General(Team.RED));
+                temporaryPieces.put(new Position(Column.TEN, Row.SIX), new Horse(Team.GREEN));
+
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.FOUR);
+                Position arrival = new Position(Column.TEN, Row.SIX);
+
+                //when
+                pieces.move(departure, arrival);
+                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Cannon.class);
+            }
+
+            @Test
+            @DisplayName("Cannon이 궁성 안에 있고, 대각 움직임이 가능한 좌표에 있고, 뛰어넘을 기물이 있고, 도착지점에 다른 팀 Cannon이 있을 경우, 예외를 발생시킨다.")
+            void when_cannon_inside_castle_can_move_diagonal_but_other_piece_exist_and_arrival_other_team_of_cannon() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new General(Team.RED));
+                temporaryPieces.put(new Position(Column.TEN, Row.SIX), new Cannon(Team.GREEN));
+
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.EIGHT, Row.FOUR);
+                Position arrival = new Position(Column.TEN, Row.SIX);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
+            }
+
+            @Test
+            @DisplayName("Cannon이 궁성 안에 있지만, 대각 움직임이 불가능한 좌표에 있다면, 대각으로 움직여선 안 된다.")
+            void when_cannon_inside_castle_and_cannot_move_diagonal_then_throw_exception() {
+                //given
+                Map<Position, Piece> temporaryPieces = new HashMap<>();
+                temporaryPieces.put(new Position(Column.NINE, Row.FOUR), new Cannon(Team.RED));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FIVE), new Chariot(Team.RED));
+                Pieces pieces = new Pieces(temporaryPieces);
+                Position departure = new Position(Column.NINE, Row.FOUR);
+                Position arrival = new Position(Column.SEVEN, Row.SIX);
+
+                //when, then
+                assertThatThrownBy(() -> pieces.move(departure, arrival))
+                    .isInstanceOf(IllegalArgumentException.class);
             }
         }
 
@@ -315,6 +434,7 @@ class PiecesTest {
         @Nested
         @DisplayName("Geneal의 움직임을 테스트 한다")
         class GeneralMove {
+
             @Test
             @DisplayName("움직이려는 경로에 장애물이 있을 경우, 예외가 발생해야 한다.")
             void general_move_but_other_piece_exist_then_throw_exception() {
@@ -350,7 +470,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new General(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.ONE, Row.FOUR);
-                Position arrival =  new Position(Column.ONE, Row.THREE);
+                Position arrival = new Position(Column.ONE, Row.THREE);
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("해당 기물은 궁성 밖으로 이동할 수 없습니다.");
@@ -363,7 +483,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new General(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.ONE, Row.FOUR);
-                Position arrival =  new Position(Column.TWO, Row.FIVE);
+                Position arrival = new Position(Column.TWO, Row.FIVE);
                 pieces.move(departure, arrival);
                 assertThat(pieces.findPieceBy(arrival)).isInstanceOf(General.class);
             }
@@ -375,7 +495,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new General(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FIVE);
-                Position arrival =  new Position(Column.ONE, Row.FOUR);
+                Position arrival = new Position(Column.ONE, Row.FOUR);
                 pieces.move(departure, arrival);
                 assertThat(pieces.findPieceBy(arrival)).isInstanceOf(General.class);
             }
@@ -387,7 +507,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.TWO, Row.FOUR), new General(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FOUR);
-                Position arrival =  new Position(Column.ONE, Row.FIVE);
+                Position arrival = new Position(Column.ONE, Row.FIVE);
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
                     .isInstanceOf(IllegalArgumentException.class);
             }
@@ -396,6 +516,7 @@ class PiecesTest {
         @Nested
         @DisplayName("Byeong의 움직임을 테스트 한다")
         class ByeongMove {
+
             @Test
             @DisplayName("Byeong은 이동 위치에 상대방 기물이 있다면, 제거 후 움직일 수 있어야 한다.")
             void byeong_move() {
@@ -441,7 +562,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Byeong());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
-                Position arrival =  new Position(Column.NINE, Row.FIVE);
+                Position arrival = new Position(Column.NINE, Row.FIVE);
 
                 //when
                 pieces.move(departure, arrival);
@@ -458,7 +579,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Byeong());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.SIX);
-                Position arrival =  new Position(Column.NINE, Row.FIVE);
+                Position arrival = new Position(Column.NINE, Row.FIVE);
 
                 //when
                 pieces.move(departure, arrival);
@@ -475,7 +596,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Byeong());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.NINE, Row.FIVE);
-                Position arrival =  new Position(Column.TEN, Row.SIX);
+                Position arrival = new Position(Column.TEN, Row.SIX);
 
                 //when
                 pieces.move(departure, arrival);
@@ -492,7 +613,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Byeong());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.NINE, Row.FIVE);
-                Position arrival =  new Position(Column.TEN, Row.FOUR);
+                Position arrival = new Position(Column.TEN, Row.FOUR);
 
                 //when
                 pieces.move(departure, arrival);
@@ -509,7 +630,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Byeong());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
-                Position arrival =  new Position(Column.NINE, Row.THREE);
+                Position arrival = new Position(Column.NINE, Row.THREE);
 
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
@@ -523,7 +644,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Byeong());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.NINE, Row.FIVE);
-                Position arrival =  new Position(Column.EIGHT, Row.FOUR);
+                Position arrival = new Position(Column.EIGHT, Row.FOUR);
 
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
@@ -580,7 +701,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.THREE, Row.FOUR), new Jol());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.THREE, Row.FOUR);
-                Position arrival =  new Position(Column.TWO, Row.FIVE);
+                Position arrival = new Position(Column.TWO, Row.FIVE);
 
                 //when
                 pieces.move(departure, arrival);
@@ -597,7 +718,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.THREE, Row.SIX), new Jol());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.THREE, Row.SIX);
-                Position arrival =  new Position(Column.TWO, Row.FIVE);
+                Position arrival = new Position(Column.TWO, Row.FIVE);
 
                 //when
                 pieces.move(departure, arrival);
@@ -614,7 +735,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Jol());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FIVE);
-                Position arrival =  new Position(Column.ONE, Row.SIX);
+                Position arrival = new Position(Column.ONE, Row.SIX);
 
                 //when
                 pieces.move(departure, arrival);
@@ -631,7 +752,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Jol());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FIVE);
-                Position arrival =  new Position(Column.ONE, Row.FOUR);
+                Position arrival = new Position(Column.ONE, Row.FOUR);
 
                 //when
                 pieces.move(departure, arrival);
@@ -648,7 +769,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.THREE, Row.FOUR), new Jol());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.THREE, Row.FOUR);
-                Position arrival =  new Position(Column.TWO, Row.THREE);
+                Position arrival = new Position(Column.TWO, Row.THREE);
 
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
@@ -662,7 +783,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Jol());
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FIVE);
-                Position arrival =  new Position(Column.THREE, Row.FOUR);
+                Position arrival = new Position(Column.THREE, Row.FOUR);
 
                 //when, then
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
@@ -697,7 +818,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new Guard(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.ONE, Row.FOUR);
-                Position arrival =  new Position(Column.ONE, Row.THREE);
+                Position arrival = new Position(Column.ONE, Row.THREE);
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("해당 기물은 궁성 밖으로 이동할 수 없습니다.");
@@ -710,7 +831,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new Guard(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.ONE, Row.FOUR);
-                Position arrival =  new Position(Column.TWO, Row.FIVE);
+                Position arrival = new Position(Column.TWO, Row.FIVE);
                 pieces.move(departure, arrival);
                 assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Guard.class);
             }
@@ -722,7 +843,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Guard(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FIVE);
-                Position arrival =  new Position(Column.ONE, Row.FOUR);
+                Position arrival = new Position(Column.ONE, Row.FOUR);
                 pieces.move(departure, arrival);
                 assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Guard.class);
             }
@@ -734,7 +855,7 @@ class PiecesTest {
                 temporaryPieces.put(new Position(Column.TWO, Row.FOUR), new Guard(Team.RED));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FOUR);
-                Position arrival =  new Position(Column.ONE, Row.FIVE);
+                Position arrival = new Position(Column.ONE, Row.FIVE);
                 assertThatThrownBy(() -> pieces.move(departure, arrival))
                     .isInstanceOf(IllegalArgumentException.class);
             }
