@@ -1,15 +1,15 @@
 package domain.piece;
 
 public enum PieceSymbol {
-    CANNON("P"),
-    CHARIOT("C"),
-    ELEPHANT("E"),
-    GENERAL("K"),
-    GUARD("S"),
-    HORSE("H"),
-    SOLDIER_JOL("J"),
-    SOLDIER_BYEONG("B"),
-    EMPTY("_");
+    CANNON("포"),
+    CHARIOT("차"),
+    ELEPHANT("상"),
+    GENERAL("궁"),
+    GUARD("사"),
+    HORSE("마"),
+    SOLDIER_JOL("졸"),
+    SOLDIER_BYEONG("병"),
+    EMPTY("ㅡ");
 
     private final String symbol;
 

@@ -7,23 +7,42 @@ import domain.piece.Side;
 import java.util.Map;
 
 public class OutputView {
+    public static final String red = "\u001B[31m";
+    public static final String blue = "\u001B[34m";
+    public static final String exit = "\u001B[0m";
 
     private static final String SEPARATOR = "|";
     private static final int[] FILE = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
     private static final int[] RANK = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     public static void printJanggiBoard(Map<JanggiPosition, Piece> board) {
-        System.out.println(" |1|2|3|4|5|6|7|8|9|");
+        for (int rank : RANK) {
+            char changedRank = (char) ('０' + rank);
+            System.out.print("  " + changedRank);
+        }
+        System.out.println();
+        System.out.println("---------------------------------");
         for (int file : FILE) {
             System.out.print(file + SEPARATOR);
             for (int rank : RANK) {
                 JanggiPosition position = new JanggiPosition(file, rank);
                 Piece piece = board.get(position);
-                System.out.print(changePiece(piece) + SEPARATOR);
+                printPiece(piece);
             }
             System.out.println();
         }
-        System.out.println(" |1|2|3|4|5|6|7|8|9|\n");
+    }
+
+    private static void printPiece(Piece piece) {
+        if (piece.getSide().equals(Side.CHO)) {
+            System.out.print(blue + changePiece(piece) + "  " + exit);
+            return;
+        }
+        if (piece.getSide().equals(Side.HAN)) {
+            System.out.print(red + changePiece(piece) + "  " + exit);
+            return;
+        }
+        System.out.print(changePiece(piece) + "  ");
     }
 
     private static String changePiece(Piece piece) {
