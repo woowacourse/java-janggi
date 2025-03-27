@@ -9,6 +9,7 @@ import java.util.Map;
 import model.Path;
 import model.Point;
 import model.Team;
+import model.dto.PieceDto;
 import model.piece.Piece;
 
 public class JanggiBoard {
@@ -78,6 +79,19 @@ public class JanggiBoard {
             return true;
         }
         throw new IllegalArgumentException("[ERROR] 이동할 수 없는 지점입니다.");
+    }
+
+    public List<PieceDto> getAlivePieces() {
+        List<PieceDto> alivePieces = new ArrayList<>();
+        for (int i = 0; i < janggiBoard.size(); i++) {
+            for (int j = 0; j < janggiBoard.get(i).size(); j++) {
+                if (janggiBoard.get(i).get(j).isPlaced()) {
+                    Piece piece = getPieceFromDot(janggiBoard.get(i).get(j));
+                    alivePieces.add(new PieceDto(i, j, piece.getTeam().getTeamName(), piece.getPieceName()));
+                }
+            }
+        }
+        return alivePieces;
     }
 
     private void validateAfterPoint(Point beforePoint, Point targetPoint, Piece piece) {
