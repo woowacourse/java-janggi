@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.ReplaceUnderBar;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.pieces.Pieces;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
+import janggi.domain.piece.pieces.Pieces;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -146,16 +146,22 @@ class CannonMovementStrategyTest {
     private static Stream<Arguments> 이동하고자_하는_위치에_Cannon_이_아닌_적_기물이_있다면_이동할_수_있다_테스트_케이스() {
         return Stream.of(
             Arguments.of(
-                createPieces(new Piece(PieceType.ROOK, new RookMovementStrategy(), ENEMY_SIDE, 4, 5)),
-                ENEMY_SIDE,
+                createPieces(
+                    new Piece(PieceType.ROOK, new RookMovementStrategy(), ENEMY_SIDE, 3, 5),
+                    new Piece(PieceType.ROOK, new RookMovementStrategy(), ENEMY_SIDE, 2, 5)
+                ),
+                ALLY_SIDE,
                 new Position(5, 5),
-                new Position(3, 5)
+                new Position(2, 5)
             ),
             Arguments.of(
-                createPieces(new Piece(PieceType.ROOK, new RookMovementStrategy(), ENEMY_SIDE, 4, 5)),
-                ENEMY_SIDE,
-                new Position(5, 5),
-                new Position(3, 5)
+                createPieces(
+                    new Piece(PieceType.ROOK, new RookMovementStrategy(), ENEMY_SIDE, 3, 5),
+                    new Piece(PieceType.ROOK, new RookMovementStrategy(), ENEMY_SIDE, 7, 5)
+                ),
+                ALLY_SIDE,
+                new Position(2, 5),
+                new Position(7, 5)
             )
         );
     }
