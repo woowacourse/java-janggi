@@ -1,7 +1,7 @@
 package view;
 
 import domain.board.BoardLocation;
-import domain.piece.Team;
+import domain.game.Turn;
 import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,8 +32,8 @@ public class ConsoleView {
         return new BoardLocation(x, y);
     }
 
-    public void printTurn(Team team) {
-        outputView.printTurn(team);
+    public void printTurn(Turn turn) {
+        outputView.printTurn(turn);
     }
 
     public Map<BoardLocation, Piece> requestPlacements() {

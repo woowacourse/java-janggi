@@ -5,34 +5,30 @@ import domain.board.BoardLocation;
 import domain.board.PieceExtractor;
 import domain.board.PieceFinder;
 import domain.piece.Piece;
-import domain.piece.Team;
 
 public class JanggiGame {
     private final Board board;
-    private final Team team;
+    private final Turn turn;
 
-    public JanggiGame(Board board, Team team) {
+    public JanggiGame(Board board, Turn turn) {
         this.board = board;
-        this.team = team;
+        this.turn = turn;
     }
 
     public void process(BoardLocation current, BoardLocation destination) {
         Piece piece = board.getByLocationOrThrow(current);
-        piece.validateEqualTeam(team);
+        piece.validateEqualTeam(turn.getTeam());
         validateMovable(current, destination, piece);
         board.occupy(current, destination);
-    }
-
-    public Team opposite(Team team) {
-        return team.opposite();
+        turn.opposite();
     }
 
     public Board getBoard() {
         return board;
     }
 
-    public Team getTeam() {
-        return team;
+    public Turn getTurn() {
+        return turn;
     }
 
     private void validateMovable(BoardLocation current, BoardLocation destination, Piece piece){

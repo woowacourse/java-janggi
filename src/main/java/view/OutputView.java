@@ -1,7 +1,7 @@
 package view;
 
 import domain.board.BoardLocation;
-import domain.piece.Team;
+import domain.game.Turn;
 import domain.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +44,8 @@ public class OutputView {
         System.out.println(builder);
     }
 
-    public void printTurn(Team turn) {
-        System.out.println(outputSupporter.formatTurn(turn) + "턴 입니다.");
+    public void printTurn(Turn turn) {
+        System.out.println(outputSupporter.formatTurn(turn.getTeam()) + "턴 입니다.");
     }
 
     public void printMessage(String message) {
