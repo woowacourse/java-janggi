@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.piece.multiplemovepiece.Cha;
+import janggi.piece.multiplemovepiece.Ma;
 import janggi.position.Position;
 import java.util.List;
 import java.util.Map;

@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.GameState;
-import janggi.piece.Byeong;
-import janggi.piece.Cha;
-import janggi.piece.Janggun;
 import janggi.piece.Piece;
 import janggi.piece.Team;
+import janggi.piece.multiplemovepiece.Cha;
+import janggi.piece.onemovepiece.Byeong;
+import janggi.piece.onemovepiece.Janggun;
 import janggi.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

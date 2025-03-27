@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.board.Board;
+import janggi.piece.multiplemovepiece.Po;
+import janggi.piece.onemovepiece.Byeong;
+import janggi.piece.onemovepiece.Jol;
 import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;

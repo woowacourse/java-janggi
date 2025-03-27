@@ -1,15 +1,15 @@
 package janggi.board;
 
-import janggi.piece.Byeong;
-import janggi.piece.Cha;
-import janggi.piece.Janggun;
-import janggi.piece.Jol;
-import janggi.piece.Ma;
 import janggi.piece.Piece;
-import janggi.piece.Po;
-import janggi.piece.Sa;
-import janggi.piece.Sang;
 import janggi.piece.Team;
+import janggi.piece.multiplemovepiece.Cha;
+import janggi.piece.multiplemovepiece.Ma;
+import janggi.piece.multiplemovepiece.Po;
+import janggi.piece.multiplemovepiece.Sang;
+import janggi.piece.onemovepiece.Byeong;
+import janggi.piece.onemovepiece.Janggun;
+import janggi.piece.onemovepiece.Jol;
+import janggi.piece.onemovepiece.Sa;
 import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;

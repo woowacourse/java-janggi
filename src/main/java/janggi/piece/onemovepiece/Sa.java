@@ -1,5 +1,9 @@
-package janggi.piece;
+package janggi.piece.onemovepiece;
 
+import janggi.piece.Piece;
+import janggi.piece.PieceProfile;
+import janggi.piece.PieceType;
+import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 

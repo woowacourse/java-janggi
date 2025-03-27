@@ -1,5 +1,9 @@
-package janggi.piece;
+package janggi.piece.multiplemovepiece;
 
+import janggi.piece.Piece;
+import janggi.piece.PieceProfile;
+import janggi.piece.PieceType;
+import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
