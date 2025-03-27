@@ -32,8 +32,8 @@ public class Soldier extends LimitMovable {
         );
 
         if (position.isInPalace()) {
-            movableRoute.add(createRoute(position, Direction.LEFT_UP));
-            movableRoute.add(createRoute(position, Direction.RIGHT_UP));
+            movableRoute.addAll(createRouteInPalace(position, Direction.LEFT_UP));
+            movableRoute.addAll(createRouteInPalace(position, Direction.RIGHT_UP));
         }
 
         return movableRoute;
@@ -47,8 +47,8 @@ public class Soldier extends LimitMovable {
         );
 
         if (position.isInPalace()) {
-            movableRoute.add(createRoute(position, Direction.LEFT_DOWN));
-            movableRoute.add(createRoute(position, Direction.RIGHT_DOWN));
+            movableRoute.addAll(createRouteInPalace(position, Direction.LEFT_DOWN));
+            movableRoute.addAll(createRouteInPalace(position, Direction.RIGHT_DOWN));
         }
 
         return movableRoute;
@@ -58,6 +58,14 @@ public class Soldier extends LimitMovable {
         Route route = new Route();
         route.addRoute(position.move(direction));
         return route;
+    }
+
+    private List<Route> createRouteInPalace(final Position position, final Direction direction) {
+        Position movedPosition = position.move(direction);
+        if (movedPosition.isInPalace()){
+            return List.of(new Route(movedPosition));
+        }
+        return List.of();
     }
 
     @Override

@@ -120,4 +120,49 @@ class SoldierTest {
                         new Position(4, 8),
                         new Position(5, 7));
     }
+
+    @Test
+    @DisplayName("졸이 3, 2의 위치 (궁성의 왼쪽 아래 꼭지점)에서는 가능한 이동이 대각선 이동 포함 4개이다.")
+    void test9() {
+        Soldier soldier = new Soldier(Side.CHO);
+        Position position = new Position(3, 2);
+
+        List<Route> reachableDestinations = soldier.computeCandidatePositions(position);
+
+        assertThat(reachableDestinations).extracting(Route::getLastPosition)
+                .contains(new Position(2, 2),
+                        new Position(3, 1),
+                        new Position(4, 2),
+                        new Position(4, 1));
+    }
+
+    @Test
+    @DisplayName("졸이 3, 1의 위치 (궁성의 왼쪽 가운데)에서는 가능한 이동이 3개이다. (대각선 이동 불가)")
+    void test10() {
+        Soldier soldier = new Soldier(Side.CHO);
+        Position position = new Position(3, 1);
+
+        List<Route> reachableDestinations = soldier.computeCandidatePositions(position);
+
+        assertThat(reachableDestinations).extracting(Route::getLastPosition)
+                .contains(new Position(3, 0),
+                        new Position(2, 1),
+                        new Position(4, 1));
+    }
+
+    @Test
+    @DisplayName("졸이 4, 1의 위치 (궁성의 중앙)에서는 가능한 이동이 대각선 이동 포함 5개이다.")
+    void test11() {
+        Soldier soldier = new Soldier(Side.CHO);
+        Position position = new Position(4, 1);
+
+        List<Route> reachableDestinations = soldier.computeCandidatePositions(position);
+
+        assertThat(reachableDestinations).extracting(Route::getLastPosition)
+                .contains(new Position(3, 1),
+                        new Position(3, 0),
+                        new Position(4, 0),
+                        new Position(5, 1),
+                        new Position(5, 0));
+    }
 }
