@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.value.JanggiPosition;
 import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -52,14 +53,53 @@ class PiecesTest {
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
 
-    @DisplayName("장기말이 목적지로 이동할 수 없는 경우 예외를 발생시킨다.")
+    @DisplayName("전달받은 피스의 이름의 피스가 살아있는지 확인")
     @Test
-    void test3() {
-        Pieces pieces = new Pieces(List.of(Gung.from(STANDARD)));
-        JanggiPosition destination = new JanggiPosition(7, 8);
+    void test4() {
+        //given
+        Piece gung = Gung.from(STANDARD);
+        Pieces pieces = new Pieces(List.of(gung));
 
-        assertThatThrownBy(() -> pieces.movePiece(new Pieces(List.of()), STANDARD, destination))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+        //when
+        boolean alive = pieces.isPieceAlive(PieceType.GUNG.getName());
+
+        //then
+        Assertions.assertThat(alive).isFalse();
+    }
+
+    @DisplayName("전달받은 피스의 이름의 피스가 죽어있는지 확인")
+    @Test
+    void test5() {
+        //given
+        Piece gung = Gung.from(STANDARD);
+        Pieces pieces = new Pieces(List.of(gung));
+        pieces.beAttackedAt(new JanggiPosition(4,8));
+
+        //when
+        boolean alive = pieces.isPieceAlive(PieceType.GUNG.getName());
+
+        //then
+        Assertions.assertThat(alive).isTrue();
+    }
+
+    @DisplayName("장기말들 점수 계산")
+    @Test
+    void test6() {
+        //given
+        Pieces pieces = new Pieces(List.of(
+                Gung.from(STANDARD),
+                Cha.from(STANDARD),
+                Ma.from(STANDARD),
+                Sang.from(STANDARD),
+                Sa.from(STANDARD),
+                Po.from(STANDARD),
+                Jol.from(STANDARD)
+        ));
+
+        //when
+        int totalScore = pieces.calculateTotalScore();
+
+        //then
+        Assertions.assertThat(totalScore).isEqualTo(33);
     }
 }

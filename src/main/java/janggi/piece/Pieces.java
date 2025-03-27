@@ -56,11 +56,11 @@ public class Pieces {
     }
 
     public boolean isPieceAlive(final String name) {
-        boolean gungAlive = pieces.stream()
+        boolean alive = pieces.stream()
                 .noneMatch(piece -> piece.getPieceType().getName()
                         .equals(name));
 
-        return pieces.isEmpty() || gungAlive;
+        return pieces.isEmpty() || alive;
     }
 
     public int calculateTotalScore() {
