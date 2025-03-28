@@ -3,11 +3,11 @@ package janggi.model.piece;
 import janggi.model.Color;
 import janggi.model.Direction;
 import janggi.model.OccupiedPositions;
-import janggi.model.Path;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
 import janggi.model.PositionsInDirection;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -32,12 +32,15 @@ public class Chariot extends Piece {
 
     private Set<Position> calculateMovableOneSide(Direction direction, Position start, OccupiedPositions occupied) {
         PositionsInDirection positionsInDirection = start.getPositionsInDirection(direction);
-        Path pathUntilHuddle = positionsInDirection.getPathUntilHuddle(occupied);
-        Position destination = pathUntilHuddle.getDestinationPosition();
-        if (!occupied.existSameColor(destination, identity().getColor())) {
-            return pathUntilHuddle.getAllPositionSet();
+        PositionsInDirection positionsUntilHuddle = positionsInDirection.getPositionsUntilHuddle(occupied);
+        if (positionsUntilHuddle.isEmpty()) {
+            return Collections.emptySet();
         }
-        return pathUntilHuddle.getCornerPositionSet();
+        Position lastMovablePosition = positionsUntilHuddle.lastPosition();
+        if (!occupied.existSameColor(lastMovablePosition, getColor())) {
+            return positionsUntilHuddle.getAllPositions();
+        }
+        return positionsUntilHuddle.getCornerPositions();
     }
 
     private boolean isCastleRule(Position start, Position destination) {

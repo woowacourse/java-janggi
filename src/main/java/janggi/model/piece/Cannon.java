@@ -3,13 +3,11 @@ package janggi.model.piece;
 import janggi.model.Color;
 import janggi.model.Direction;
 import janggi.model.OccupiedPositions;
-import janggi.model.Path;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
 import janggi.model.PositionsInDirection;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,30 +31,34 @@ public class Cannon extends Piece {
     }
 
     private Set<Position> calculateMovableOneSide(Direction direction, Position start, OccupiedPositions occupied) {
-        PositionsInDirection positionsInDirection = start.getPositionsInDirection(direction);
-        if (!positionsInDirection.hasHuddle(occupied)) {
-            return new HashSet<>();
+        PositionsInDirection positions = start.getPositionsInDirection(direction);
+        if (!positions.hasHuddle(occupied)) {
+            return Collections.emptySet();
         }
-        Optional<Position> firstHuddle = positionsInDirection.findFirstHuddle(occupied);
-        if (firstHuddle.isEmpty()) {
-            return new HashSet<>();
+        Position huddlePosition = positions.findFirstHuddle(occupied);
+        if (occupied.isSameType(huddlePosition, PieceType.CANNON)) {
+            return Collections.emptySet();
         }
-        if (occupied.getPieceIdentity(firstHuddle.get()).getPieceType() == PieceType.CANNON) {
-            return new HashSet<>();
+        return movableAfterHuddle(direction, occupied, huddlePosition);
+    }
+
+    private Set<Position> movableAfterHuddle(Direction direction, OccupiedPositions occupied, Position huddlePosition) {
+        PositionsInDirection afterHuddlePositionsInDirection = huddlePosition.getPositionsInDirection(direction);
+        PositionsInDirection untilHuddle = afterHuddlePositionsInDirection.getPositionsUntilHuddle(occupied);
+        if (untilHuddle.isEmpty()) {
+            return Collections.emptySet();
         }
-        PositionsInDirection movablePositionsInDirection = firstHuddle.get().getPositionsInDirection(direction);
-        Path pathUntilHuddle = movablePositionsInDirection.getPathUntilHuddle(occupied);
-        Position destination = pathUntilHuddle.getDestinationPosition();
-        if (occupied.existSameColor(destination, identity().getColor())) {
-            return pathUntilHuddle.getCornerPositionSet();
+        Position lastMovablePosition = untilHuddle.lastPosition();
+        if (!occupied.existPosition(lastMovablePosition)) {
+            return untilHuddle.getAllPositions();
         }
-        if (!occupied.existPosition(destination)) {
-            return pathUntilHuddle.getAllPositionSet();
+        if (occupied.existSameColor(lastMovablePosition, getColor())) {
+            return untilHuddle.getCornerPositions();
         }
-        if (occupied.getPieceIdentity(destination).getPieceType() == PieceType.CANNON) {
-            return pathUntilHuddle.getCornerPositionSet();
+        if (occupied.isSameType(lastMovablePosition, PieceType.CANNON)) {
+            return untilHuddle.getCornerPositions();
         }
-        return pathUntilHuddle.getAllPositionSet();
+        return untilHuddle.getAllPositions();
     }
 
     private boolean isCastleRule(Position start, Position destination) {

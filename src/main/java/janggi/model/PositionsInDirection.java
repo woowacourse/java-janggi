@@ -1,7 +1,9 @@
 package janggi.model;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 public class PositionsInDirection {
     private final List<Position> positions;
@@ -10,21 +12,61 @@ public class PositionsInDirection {
         this.positions = positions;
     }
 
-    public Path getPathUntilHuddle(OccupiedPositions occupied) {
-        Optional<Position> firstHuddle = findFirstHuddle(occupied);
-        if (firstHuddle.isEmpty()) {
-            return new Path(positions);
+    public PositionsInDirection getPositionsUntilHuddle(OccupiedPositions occupied) {
+        if (!hasHuddle(occupied)) {
+            return new PositionsInDirection(positions);
         }
-        Position firstHuddlePosition = firstHuddle.get();
+        Position firstHuddlePosition = findFirstHuddle(occupied);
         int firstHuddlePositionIndex = positions.indexOf(firstHuddlePosition);
-        return new Path(positions.subList(0, firstHuddlePositionIndex + 1));
+        return new PositionsInDirection(positions.subList(0, firstHuddlePositionIndex + 1));
+    }
+
+    public PositionsInDirection getPositionsAfterHuddle(OccupiedPositions occupied) {
+        if (!hasHuddle(occupied)) {
+            return new PositionsInDirection(Collections.emptyList());
+        }
+        Position firstHuddle = findFirstHuddle(occupied);
+        int firstHuddlePositionIndex = positions.indexOf(firstHuddle);
+        return new PositionsInDirection(positions.subList(firstHuddlePositionIndex, positions.size()));
     }
 
     public boolean hasHuddle(OccupiedPositions occupied) {
         return positions.stream().anyMatch(occupied::existPosition);
     }
 
-    public Optional<Position> findFirstHuddle(OccupiedPositions occupied) {
-        return positions.stream().filter(occupied::existPosition).findFirst();
+    public Position findFirstHuddle(OccupiedPositions occupied) {
+        return positions.stream()
+                .filter(occupied::existPosition)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("장애물이 존재하지 않습니다."));
+    }
+
+    public boolean isEmpty() {
+        return positions.isEmpty();
+    }
+
+    public Position lastPosition() {
+        if (positions.isEmpty()) {
+            throw new IllegalArgumentException("위치가 존재하지 않습니다.");
+        }
+        return positions.getLast();
+    }
+
+    public Position firstPosition() {
+        if (positions.isEmpty()) {
+            throw new IllegalArgumentException("위치가 존재하지 않습니다.");
+        }
+        return positions.getFirst();
+    }
+
+    public Set<Position> getCornerPositions() {
+        if (positions.size() <= 1) {
+            return Collections.emptySet();
+        }
+        return new HashSet<>(positions.subList(0, positions.size() - 1));
+    }
+
+    public Set<Position> getAllPositions() {
+        return new HashSet<>(positions);
     }
 }

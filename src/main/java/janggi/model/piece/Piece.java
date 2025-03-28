@@ -3,6 +3,7 @@ package janggi.model.piece;
 import janggi.model.Color;
 import janggi.model.OccupiedPositions;
 import janggi.model.PieceIdentity;
+import janggi.model.PieceType;
 import janggi.model.Position;
 import java.util.Set;
 
@@ -15,6 +16,10 @@ public abstract class Piece {
 
     public PieceIdentity identity() {
         return pieceIdentity;
+    }
+
+    public Color getColor() {
+        return pieceIdentity.getColor();
     }
 
     public boolean isEqualsColor(Color color) {

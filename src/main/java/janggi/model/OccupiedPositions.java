@@ -21,6 +21,14 @@ public class OccupiedPositions {
         return positions.get(position);
     }
 
+    public boolean isSameType(Position position, PieceType pieceType) {
+        if (!existPosition(position)) {
+            throw new IllegalArgumentException("기물이 존재하지 않는 위치입니다.");
+        }
+        return positions.get(position).getPieceType() == pieceType;
+
+    }
+
     public boolean isCornerEmpty(List<Position> positions) {
         return positions.stream().noneMatch(this.positions::containsKey);
     }

@@ -35,7 +35,6 @@ class CannonTest {
         assertThat(points).contains(
             new Position(1, 2),
             new Position(2, 2),
-            new Position(2, 2),
             new Position(8, 8)
         );
     }
