@@ -17,17 +17,18 @@ class JolStrategyTest {
 
     static final Position START_POSITION = new Position(4, 4);
     static final Position DESTINATION_POSITION = new Position(5, 4);
+    static final Position GUNSUNG_CENTER = new Position(4, 1);
     JolStrategy strategy = new JolStrategy();
 
-    @DisplayName("앞과 양옆으로 1칸씩 이동 가능하다.")
+    @DisplayName("궁성 밖에서는 앞과 양옆으로 1칸씩 이동 가능하다.")
     @ParameterizedTest
     @MethodSource()
-    void canMove(Position destination) {
+    void canMoveOutGungSung(Position destination) {
         boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(), List.of());
         assertThat(canMove).isTrue();
     }
 
-    static Stream<Arguments> canMove() {
+    static Stream<Arguments> canMoveOutGungSung() {
         return Stream.of(
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y())),
                 Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y())),
@@ -35,12 +36,41 @@ class JolStrategyTest {
         );
     }
 
-    @DisplayName("뒤로 이동이 불가능하다.")
-    @Test
-    void canNotMoveToBackPosition() {
-        Position backPosition = new Position(START_POSITION.x(), START_POSITION.y() + 1);
-        boolean canMove = strategy.ableToMove(START_POSITION, backPosition, List.of(), List.of());
+    @DisplayName("궁성 안에서는 양옆, 앞, 전방 대각선으로 이동이 가능하다.")
+    @ParameterizedTest
+    @MethodSource()
+    void canMoveInGungSung(Position destination) {
+        boolean canMove = strategy.ableToMove(GUNSUNG_CENTER, destination, List.of(), List.of());
+        assertThat(canMove).isTrue();
+    }
+
+    static Stream<Arguments> canMoveInGungSung() {
+        return Stream.of(
+                Arguments.of(new Position(GUNSUNG_CENTER.x() + 1, GUNSUNG_CENTER.y())),
+                Arguments.of(new Position(GUNSUNG_CENTER.x() - 1, GUNSUNG_CENTER.y())),
+                Arguments.of(new Position(GUNSUNG_CENTER.x(), GUNSUNG_CENTER.y() - 1)),
+                Arguments.of(new Position(GUNSUNG_CENTER.x() + 1, GUNSUNG_CENTER.y() - 1)),
+                Arguments.of(new Position(GUNSUNG_CENTER.x() - 1, GUNSUNG_CENTER.y() - 1))
+        );
+    }
+
+    @DisplayName("궁성 안이든 밖이든 뒤로 이동이 불가능하다.")
+    @ParameterizedTest
+    @MethodSource()
+    void canNotMoveToBackPosition(Position destination) {
+        boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(), List.of());
         assertThat(canMove).isFalse();
+    }
+
+    static Stream<Arguments> canNotMoveToBackPosition() {
+        return Stream.of(
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(GUNSUNG_CENTER.x(), GUNSUNG_CENTER.y() + 1)),
+                Arguments.of(new Position(GUNSUNG_CENTER.x() + 1, GUNSUNG_CENTER.y() + 1)),
+                Arguments.of(new Position(GUNSUNG_CENTER.x() - 1, GUNSUNG_CENTER.y() + 1))
+        );
     }
 
     @DisplayName("이동 불가능한 위치로는 이동이 불가능하다.")

@@ -1,7 +1,7 @@
 package janggi.starategy;
 
 import janggi.piece.Piece;
-import janggi.setting.GungSungCoordinate;
+import janggi.setting.GungSung;
 import janggi.value.Direction;
 import janggi.value.Path;
 import janggi.value.Position;
@@ -41,8 +41,8 @@ public class GungStrategy implements MoveStrategy {
     }
 
     private boolean isPathInGungSung(Path path) {
-        boolean isStartInRange = GungSungCoordinate.isInRange(path.getStart());
-        boolean isEndInRange = GungSungCoordinate.isInRange(path.getEnd());
+        boolean isStartInRange = GungSung.isInAnyGungSung(path.getStart());
+        boolean isEndInRange = GungSung.isInAnyGungSung(path.getEnd());
         return isStartInRange && isEndInRange;
     }
 
