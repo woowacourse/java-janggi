@@ -26,6 +26,8 @@ public class JanggiGame {
                 Piece catchedPiece = playTurn(side, board);
                 if (board.checkGameIsOver(side)) {
                     outputView.printEndMessage(side, catchedPiece);
+
+                    printTotalScores(board);
                     return;
                 }
             }
@@ -60,6 +62,12 @@ public class JanggiGame {
         Piece catchedPiece = board.moveOrCatchPiece(selectedPiecePosition, destination);
         outputView.printMoveResult(catchedPiece);
         return catchedPiece;
+    }
+
+    public void printTotalScores(final JanggiBoard board) {
+        int choTotalScore = board.sumSideTotalScore(Side.CHO);
+        int hanTotalScore = board.sumSideTotalScore(Side.HAN);
+        outputView.printTotalScores(choTotalScore, hanTotalScore);
     }
 
     private void validateSelectedDestination(final Position destination, final List<Position> reachableDestinations) {

@@ -67,4 +67,9 @@ public class OutputView {
     public void printExceptionMessage(final Exception e) {
         System.out.println(e.getMessage());
     }
+
+    public void printTotalScores(final int choTotalScore, final int hanTotalScore) {
+        System.out.println("초나라의 점수는 " + choTotalScore + "입니다.");
+        System.out.println("한나라의 점수는 " + hanTotalScore + "입니다.");
+    }
 }
