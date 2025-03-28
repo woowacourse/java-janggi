@@ -36,7 +36,7 @@ public class BoardFactory {
         initializedPieces.forEach(
                 piece -> board.put(piece.getPosition(), piece)
         );
-        return new Board(board);
+        return new Board(board, Turn.First());
     }
 
 

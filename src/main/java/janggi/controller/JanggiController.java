@@ -25,12 +25,21 @@ public class JanggiController {
 
         while (board.isGameNotEnd()) {
             outputView.printBoard(board);
-            String pieceMovement = inputView.getPieceMovement();
-            movePieceByPieceMovement(pieceMovement, board);
+            movePieceByInput(board);
         }
         outputView.printBoard(board);
         outputView.printWinner(board);
     }
+
+    private void movePieceByInput(Board board) {
+        String pieceMovement = inputView.getPieceMovement();
+        try {
+            movePieceByPieceMovement(pieceMovement, board);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     private Board getInitializedBoardByInput() {
         String blueHorsePosition = inputView.getBlueHorsePosition();

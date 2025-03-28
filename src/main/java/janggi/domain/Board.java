@@ -9,9 +9,11 @@ import java.util.Map;
 
 public class Board {
     private final Map<Position, Piece> pieces;
+    private Turn turn;
 
-    public Board(Map<Position, Piece> pieces) {
+    public Board(Map<Position, Piece> pieces, Turn trun) {
         this.pieces = new HashMap<>(pieces);
+        this.turn = trun;
     }
 
     public Piece getPieceByPosition(final Position position) {
@@ -24,14 +26,22 @@ public class Board {
 
     public void movePiece(Position beforePosition, Position afterPosition) {
         Piece piece = pieces.get(beforePosition);
+        validateTurn(piece);
         try {
             validateMove(beforePosition, afterPosition);
             pieces.put(beforePosition, new None());
             Piece movedPiece = piece.move(getPieces(), afterPosition);
             pieces.put(afterPosition, movedPiece);
+            turn = turn.getNextTurn();
         } catch (IllegalArgumentException e) {
             pieces.put(piece.getPosition(), piece);
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void validateTurn(Piece piece) {
+        if(piece.getTeam() != turn.getTeam()) {
+            throw new IllegalArgumentException("현재 이동가능한 팀 기물이 아닙니다");
         }
     }
 
