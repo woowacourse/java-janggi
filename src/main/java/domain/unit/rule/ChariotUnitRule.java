@@ -2,60 +2,54 @@ package domain.unit.rule;
 
 import domain.position.Position;
 import domain.position.Route;
+import domain.unit.Direction;
+import domain.unit.Movement;
 import domain.unit.UnitType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class ChariotUnitRule implements UnitRule {
 
-    @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
-        List<Position> positions = calculateEndPoints(start);
-        for (Position end : positions) {
-            routes.add(calculateRoute(start, end));
+        List<Movement> movements = generatePossibleMovement();
+        for (Movement movement : movements) {
+            try {
+                Route route = movement.calculateRouteBy(start);
+                routes.add(route);
+            } catch (IllegalArgumentException ignored) {
+            }
         }
         return routes;
     }
 
-    public List<Position> calculateEndPoints(Position start) {
-        int x = start.getX();
-        int y = start.getY();
-        List<Position> xPositions = IntStream.range(0, Position.X_MAX + 1)
-                .filter(element -> element != x)
-                .mapToObj(element -> Position.of(element, y))
-                .toList();
-        List<Position> yPositions = IntStream.range(0, Position.Y_MAX + 1)
-                .filter(element -> element != y)
-                .mapToObj(element -> Position.of(x, element))
-                .toList();
-        return Stream.concat(xPositions.stream(), yPositions.stream())
+    @Override
+    public List<Movement> generatePossibleMovement() {
+        return Direction.getStraight().stream()
+                .flatMap(direction -> createMovementsInDirection(direction).stream())
                 .toList();
     }
 
-    public Route calculateRoute(Position start, Position end) {
-        int startX = start.getX();
-        int startY = start.getY();
+    private List<Movement> createMovementsInDirection(Direction direction) {
+        int maxSteps = calculateMaxSteps(direction);
+        return IntStream.rangeClosed(1, maxSteps)
+                .mapToObj(steps -> createMovement(direction, steps))
+                .toList();
+    }
 
-        int endX = end.getX();
-        int endY = end.getY();
+    private Movement createMovement(Direction direction, int steps) {
+        Direction[] directions = new Direction[steps];
+        Arrays.fill(directions, direction);
+        return Movement.of(directions);
+    }
 
-        if (startX == endX) {
-            int maxY = Integer.max(startY, endY);
-            int minY = Integer.min(startY, endY);
-            return Route.of(IntStream.range(minY, maxY + 1)
-                    .filter(y -> startY != y)
-                    .mapToObj(y -> Position.of(startX, y))
-                    .toList());
+    private int calculateMaxSteps(Direction direction) {
+        if (direction == Direction.UPPER || direction == Direction.LOWER) {
+            return Position.Y_MAX;
         }
-        int maxX = Integer.max(startX, endX);
-        int minX = Integer.min(startX, endX);
-        return Route.of(IntStream.range(minX, maxX + 1)
-                .filter(x -> startX != x)
-                .mapToObj(x -> Position.of(x, startY))
-                .toList());
+        return Position.X_MAX;
     }
 
     public UnitType getType() {

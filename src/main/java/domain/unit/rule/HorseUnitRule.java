@@ -1,35 +1,51 @@
 package domain.unit.rule;
 
-import domain.position.Point;
+import static domain.unit.Direction.LEFT;
+import static domain.unit.Direction.LOWER;
+import static domain.unit.Direction.LOWER_LEFT;
+import static domain.unit.Direction.LOWER_RIGHT;
+import static domain.unit.Direction.RIGHT;
+import static domain.unit.Direction.UPPER;
+import static domain.unit.Direction.UPPER_LEFT;
+import static domain.unit.Direction.UPPER_RIGHT;
+
 import domain.position.Position;
 import domain.position.Route;
-import domain.unit.Direction;
+import domain.unit.Movement;
 import domain.unit.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HorseUnitRule implements UnitRule {
 
-    @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
-        dfs(0, Direction.NONE, new ArrayList<>(), Point.of(start.getX(), start.getY()), routes);
+        List<Movement> movements = generatePossibleMovement();
+        for (Movement movement : movements) {
+            try {
+                Route route = movement.calculateRouteBy(start);
+                routes.add(route);
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
         return routes;
     }
 
-    private void dfs(int depth, Direction before, List<Point> route, Point prevPoint, List<Route> routes) {
-        if (depth == 2) {
-            if (route.stream().allMatch(Position::isCanBePosition)) {
-                routes.add(Route.of(route.stream().map(Position::from).toList()));
-            }
-            return;
-        }
-        for (Direction direction : before.getNext()) {
-            Point next = Point.of(prevPoint.getX() + direction.getX(), prevPoint.getY() + direction.getY());
-            route.add(next);
-            dfs(depth + 1, direction, route, next, routes);
-            route.remove(next);
-        }
+    @Override
+    public List<Movement> generatePossibleMovement() {
+        return List.of(
+                Movement.of(UPPER, UPPER_RIGHT),
+                Movement.of(UPPER, UPPER_LEFT),
+
+                Movement.of(LOWER, LOWER_RIGHT),
+                Movement.of(LOWER, LOWER_LEFT),
+
+                Movement.of(LEFT, UPPER_LEFT),
+                Movement.of(LEFT, LOWER_LEFT),
+
+                Movement.of(RIGHT, UPPER_RIGHT),
+                Movement.of(RIGHT, LOWER_RIGHT)
+        );
     }
 
     @Override

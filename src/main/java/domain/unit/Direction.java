@@ -7,9 +7,9 @@ public enum Direction {
     UPPER(0, 1),
     UPPER_RIGHT(1, 1),
     RIGHT(1, 0),
-    UNDER_RIGHT(1, -1),
-    UNDER(0, -1),
-    UNDER_LEFT(-1, -1),
+    LOWER_RIGHT(1, -1),
+    LOWER(0, -1),
+    LOWER_LEFT(-1, -1),
     LEFT(-1, 0),
     UPPER_LEFT(-1, 1),
     NONE(0, 0),
@@ -23,23 +23,8 @@ public enum Direction {
         this.y = y;
     }
 
-    public List<Direction> getNext() {
-        if (this == NONE) {
-            return List.of(UPPER, UNDER, LEFT, RIGHT);
-        }
-        if (this == UPPER) {
-            return List.of(UPPER_LEFT, UPPER_RIGHT);
-        }
-        if (this == UNDER) {
-            return List.of(UNDER_LEFT, UNDER_RIGHT);
-        }
-        if (this == LEFT) {
-            return List.of(UPPER_LEFT, UNDER_LEFT);
-        }
-        if (this == RIGHT) {
-            return List.of(UPPER_RIGHT, UNDER_RIGHT);
-        }
-        return List.of(this);
+    public static List<Direction> getStraight() {
+        return List.of(UPPER, LOWER, LEFT, RIGHT);
     }
 
     public int getX() {

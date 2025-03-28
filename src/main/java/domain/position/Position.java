@@ -1,5 +1,6 @@
 package domain.position;
 
+import domain.unit.Direction;
 import java.util.Objects;
 
 public class Position {
@@ -21,10 +22,6 @@ public class Position {
         return new Position(x, y);
     }
 
-    public static Position from(Point point) {
-        return new Position(point.getX(), point.getY());
-    }
-
     private void validate(int x, int y) {
         if (x < 0 || x > X_MAX) {
             throw new IllegalArgumentException(INVALID_POSITION_EXCEPTION);
@@ -34,11 +31,8 @@ public class Position {
         }
     }
 
-    public static boolean isCanBePosition(Point point) {
-        if (point.getX() < 0 || point.getX() > X_MAX) {
-            return false;
-        }
-        return !(point.getY() < 0 || point.getY() > Y_MAX);
+    public Position calculatePositionWithDirection(Direction direction) {
+        return Position.of(this.x + direction.getX(), this.y + direction.getY());
     }
 
     public double calculateDistance(Position other) {

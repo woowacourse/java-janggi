@@ -3,6 +3,7 @@ package domain.unit;
 import domain.position.Position;
 import domain.position.Route;
 import domain.unit.rule.UnitRule;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Unit {
@@ -21,8 +22,18 @@ public class Unit {
     }
 
     public List<Route> calculateRoutes(Position position) {
-        return unitRule.calculateAllRoute(position);
+        List<Route> routes = new ArrayList<>();
+        List<Movement> movements = unitRule.generatePossibleMovement();
+        for (Movement movement : movements) {
+            try {
+                Route route = movement.calculateRouteBy(position);
+                routes.add(route);
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
+        return routes;
     }
+
 
     public boolean isSameTeam(Team team) {
         return (this.team == team);

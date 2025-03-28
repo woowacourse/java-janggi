@@ -17,25 +17,10 @@ class ChariotUnitRuleTest {
         ChariotUnitRule rule = new ChariotUnitRule();
 
         // when
-        List<Position> endPositions = rule.calculateEndPoints(p);
+        List<Route> endPositions = rule.calculateAllRoute(p);
 
         // then
         assertThat(endPositions)
                 .hasSize(17);
-    }
-
-    @Test
-    @DisplayName("시작점과 끝점의 경로를 반환한다")
-    void test2() {
-        // given
-        Position start = Position.of(0, 0);
-        Position end = Position.of(0, 5);
-        ChariotUnitRule rule = new ChariotUnitRule();
-
-        // when
-        Route path = rule.calculateRoute(start, end);
-
-        // then
-        assertThat(path.getPositions()).hasSize(5);
     }
 }

@@ -1,13 +1,12 @@
 package domain.unit.rule;
 
-import domain.position.Position;
-import domain.position.Route;
+import domain.unit.Movement;
 import domain.unit.UnitType;
 import java.util.List;
 
 public interface UnitRule {
 
-    List<Route> calculateAllRoute(Position start);
+    List<Movement> generatePossibleMovement();
 
     UnitType getType();
 }

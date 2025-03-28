@@ -1,30 +1,39 @@
 package domain.unit.rule;
 
-import domain.position.Point;
+import static domain.unit.Direction.LEFT;
+import static domain.unit.Direction.LOWER;
+import static domain.unit.Direction.RIGHT;
+import static domain.unit.Direction.UPPER;
+
 import domain.position.Position;
 import domain.position.Route;
+import domain.unit.Movement;
 import domain.unit.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SoldierUnitRule implements UnitRule {
 
-    @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
-
-        List<Integer> dx = List.of(0, 1, 0, -1);
-        List<Integer> dy = List.of(1, 0, -1, 0);
-
-        int x = start.getX();
-        int y = start.getY();
-        for (int i = 0; i < dx.size(); i++) {
-            List<Point> route = List.of(Point.of(x + dx.get(i), y + dy.get(i)));
-            if (route.stream().allMatch(Position::isCanBePosition)) {
-                routes.add(Route.of(route.stream().map(Position::from).toList()));
+        List<Movement> movements = generatePossibleMovement();
+        for (Movement movement : movements) {
+            try {
+                Route route = movement.calculateRouteBy(start);
+                routes.add(route);
+            } catch (IllegalArgumentException ignored) {
             }
         }
         return routes;
+    }
+
+    @Override
+    public List<Movement> generatePossibleMovement() {
+        return List.of(
+                Movement.of(UPPER),
+                Movement.of(LOWER),
+                Movement.of(LEFT),
+                Movement.of(RIGHT));
     }
 
     @Override
