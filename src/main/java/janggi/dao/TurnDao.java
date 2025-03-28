@@ -7,7 +7,9 @@ import java.sql.SQLException;
 
 public class TurnDao {
 
-    public void save(final Turn turn, final Connection connection) {
+    private final Connection connection = DBConnection.getInstance();
+
+    public void save(final Turn turn) {
         final var query = "INSERT INTO turn(`turn`) VALUES (?)";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, turn.getSide().toString());
@@ -17,7 +19,7 @@ public class TurnDao {
         }
     }
 
-    public void update(final Turn turn, final Connection connection) {
+    public void update(final Turn turn) {
         final var query = "UPDATE turn SET turn = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, turn.getSide().toString());
@@ -28,7 +30,7 @@ public class TurnDao {
         }
     }
 
-    public Turn find(final Connection connection) {
+    public Turn find() {
         final var query = "SELECT * FROM turn";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
@@ -42,7 +44,7 @@ public class TurnDao {
         return null;
     }
 
-    public void clear(final Connection connection) {
+    public void clear() {
         final var query = "DELETE FROM turn";
         try (final var preparedStatement = connection.prepareStatement(query)) {
 

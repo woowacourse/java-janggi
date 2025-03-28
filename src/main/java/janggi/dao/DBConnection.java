@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
+
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
     private static final String DATABASE = "chess"; // MySQL DATABASE 이름
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -13,7 +14,7 @@ public class DBConnection {
 
     private static final Connection connection = getConnection();
 
-    public static Connection instance() {
+    public static Connection getInstance() {
         return connection;
     }
 
