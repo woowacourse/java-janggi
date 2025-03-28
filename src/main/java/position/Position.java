@@ -53,4 +53,8 @@ public record Position(
                 .map(column -> new Position(column, row))
                 .toList();
     }
+
+    public Position reverse() {
+        return new Position(column.reverse(), row.reverse());
+    }
 }

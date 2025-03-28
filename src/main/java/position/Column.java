@@ -38,4 +38,8 @@ public enum Column {
     }
 
 
+    public Column reverse() {
+        int reversedIndex = values().length - 1 - this.ordinal();
+        return values()[reversedIndex];
+    }
 }

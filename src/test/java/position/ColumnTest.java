@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ColumnTest {
@@ -32,5 +33,16 @@ public class ColumnTest {
                         .hasMessageContaining("이동할 수 없는 열입니다.")
         );
 
+    }
+
+    @Test
+    void 열을_뒤집은_좌표를_구할_수_있다() {
+        Assertions.assertAll(
+                () -> assertThat(Column.A.reverse()).isEqualTo(Column.I),
+                () -> assertThat(Column.B.reverse()).isEqualTo(Column.H),
+                () -> assertThat(Column.I.reverse()).isEqualTo(Column.A),
+                () -> assertThat(Column.H.reverse()).isEqualTo(Column.B),
+                () -> assertThat(Column.E.reverse()).isEqualTo(Column.E)
+        );
     }
 }

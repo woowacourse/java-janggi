@@ -36,4 +36,9 @@ public enum Row {
                 .filter(row -> row.ordinal() > min && row.ordinal() < max)
                 .toList();
     }
+
+    public Row reverse() {
+        int reversedIndex = values().length - 1 - this.ordinal();
+        return values()[reversedIndex];
+    }
 }
