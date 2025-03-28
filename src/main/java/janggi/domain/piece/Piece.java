@@ -87,7 +87,7 @@ public abstract class Piece {
         return team != otherPiece.team;
     }
 
-    public int getScore() {
-        return pieceType.getScore();
+    public PieceType getPieceType() {
+        return pieceType;
     }
 }

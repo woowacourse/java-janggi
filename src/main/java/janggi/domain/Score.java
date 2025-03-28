@@ -1,10 +1,22 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import java.util.List;
+import java.util.Map;
 
 public class Score {
     private static final double ADDITIONAL_POINT_FOR_RED = 1.5;
+    private static final Map<PieceType, Integer> scores = Map.of(
+            PieceType.GENERAL, 0,
+            PieceType.CANNON, 7,
+            PieceType.CHARIOT, 13,
+            PieceType.ELEPHANT, 3,
+            PieceType.GUARD, 3,
+            PieceType.HORSE, 5,
+            PieceType.SOLIDER, 2
+    );
+
     private final List<Piece> pieces;
 
     public Score(List<Piece> pieces) {
@@ -14,7 +26,7 @@ public class Score {
     public double calculateTeamScore(Team team) {
         int teamPoint = pieces.stream()
                 .filter(piece -> piece.isSameTeam(team))
-                .map(Piece::getScore)
+                .map(piece -> scores.get(piece.getPieceType()))
                 .mapToInt(i -> i)
                 .sum();
         if (team == Team.RED) {

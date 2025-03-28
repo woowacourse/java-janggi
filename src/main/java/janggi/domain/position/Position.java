@@ -6,6 +6,9 @@ import static janggi.domain.Board.MIN_POSITION;
 
 public record Position(int x, int y) {
 
+    public static final int PALACE_MIN_X_POSITION = 3;
+    public static final int PALACE_MAX_X_POSITION = 5;
+
     public Position {
         validatePosition(x, y);
     }
@@ -15,7 +18,7 @@ public record Position(int x, int y) {
     }
 
     private boolean isXInPalace() {
-        return x >= 3 && x <= 5;
+        return x >= PALACE_MIN_X_POSITION && x <= PALACE_MAX_X_POSITION;
     }
 
     private boolean isYInPalace() {
