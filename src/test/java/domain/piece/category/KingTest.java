@@ -18,7 +18,8 @@ class KingTest {
         Position target = new Position(3, 1);
 
         // when && then
-        assertThatIllegalArgumentException().isThrownBy(() -> king.move(target, new MoveInfos(List.of())))
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> king.move(target, new MoveInfos(List.of())))
                 .withMessage("왕은 궁성 밖으로 이동할 수 없습니다.");
     }
 }
