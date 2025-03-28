@@ -73,4 +73,8 @@ public class Board {
         }
         return Team.NONE;
     }
+
+    public boolean isGameNotEnd() {
+        return isKingAlive(Team.BLUE) && isKingAlive(Team.RED);
+    }
 }

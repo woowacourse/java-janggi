@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class OutputView {
     private static final String COLOR_CODE_EXIT = "\u001B[0m";
-    private static final String COLOR_CODE_BLUE = "\u001B[34m";
     private static final String COLOR_CODE_RED = "\u001B[31m";
     private static final String COLOR_CODE_YELLOW = "\u001B[33m";
     private static final String COLOR_CODE_GREEN = "\u001B[32m";

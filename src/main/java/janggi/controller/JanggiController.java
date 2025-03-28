@@ -4,7 +4,6 @@ import janggi.domain.Board;
 import janggi.domain.BoardFactory;
 import janggi.domain.HorseSide;
 import janggi.domain.piece.Position;
-import janggi.domain.Team;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -24,7 +23,7 @@ public class JanggiController {
     public void startJanggi() {
         Board board = getInitializedBoardByInput();
 
-        while (board.isKingAlive(Team.BLUE) && board.isKingAlive(Team.RED)) {
+        while (board.isGameNotEnd()) {
             outputView.printBoard(board);
             String pieceMovement = inputView.getPieceMovement();
             movePieceByPieceMovement(pieceMovement, board);
