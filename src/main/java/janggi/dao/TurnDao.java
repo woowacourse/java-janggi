@@ -11,7 +11,7 @@ public class TurnDao {
 
     public void createTableIfAbsent() {
         final var query = """
-                CREATE TABLE turn (
+                CREATE TABLE IF NOT EXISTS turn (
                  	id INT AUTO_INCREMENT PRIMARY KEY,
                  	turn VARCHAR(64) NOT NULL
                  );""";
