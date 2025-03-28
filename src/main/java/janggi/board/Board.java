@@ -6,8 +6,9 @@ import janggi.piece.Piece;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-public class Board implements VisibleBoard{
+public class Board implements VisibleBoard {
 
     private static final int ALL_GENERAL_COUNT = 2;
 
@@ -42,7 +43,7 @@ public class Board implements VisibleBoard{
         }
     }
 
-    private void validateIsCurrentCountry(final Position source, final Country country){
+    private void validateIsCurrentCountry(final Position source, final Country country) {
         if (!janggiBoard.get(source).equalsCountry(country)) {
             throw new IllegalArgumentException("현재 턴에 해당하는 기물이 아닙니다.");
         }
@@ -67,6 +68,17 @@ public class Board implements VisibleBoard{
                 .count() == ALL_GENERAL_COUNT;
     }
 
+    public JanggiScore calculateScoreByCountry(final Country country) {
+        final Pieces piecesByCountry = findAllByCountry(country.toggleCountry());
+        return piecesByCountry.calculateAllScoreByCountry(country);
+    }
+
+    private Pieces findAllByCountry(final Country country) {
+        return new Pieces(janggiBoard.values().stream()
+                .filter(piece -> piece.equalsCountry(country))
+                .collect(Collectors.toList()));
+    }
+
     @Override
     public boolean existPieceByPosition(final Position position) {
         return janggiBoard.containsKey(position);
@@ -82,7 +94,7 @@ public class Board implements VisibleBoard{
     }
 
     @Override
-    public boolean containsCannonByPositions(final List<Position> positions){
+    public boolean containsCannonByPositions(final List<Position> positions) {
         return positions.stream()
                 .filter(janggiBoard::containsKey)
                 .map(janggiBoard::get)
@@ -109,7 +121,7 @@ public class Board implements VisibleBoard{
         return new HashMap<>(janggiBoard);
     }
 
-    public Piece getWinner(){
+    public Piece getWinner() {
         return janggiBoard.values().stream()
                 .filter(Piece::isGeneral)
                 .findFirst()

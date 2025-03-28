@@ -1,0 +1,70 @@
+package janggi.board;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import janggi.piece.Country;
+import java.util.stream.Stream;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+public class JanggiScoreTest {
+
+    @Nested
+    @DisplayName("연산")
+    class Calculate {
+
+        @DisplayName("덧셈 연산을 올바르게 수행한다.")
+        @Test
+        void plus() {
+            // given
+            final JanggiScore janggiScore1 = new JanggiScore(25.5);
+            final JanggiScore janggiScore2 = new JanggiScore(10.5);
+
+            // when
+            final JanggiScore actual = janggiScore1.plus(janggiScore2);
+
+            // then
+            assertThat(actual).isEqualTo(new JanggiScore(36));
+        }
+
+        @DisplayName("뺄셈 연산을 올바르게 수행한다.")
+        @Test
+        void minus() {
+            // given
+            final JanggiScore janggiScore1 = new JanggiScore(25.5);
+            final JanggiScore janggiScore2 = new JanggiScore(10.5);
+
+            // when
+            final JanggiScore actual = janggiScore1.minus(janggiScore2);
+
+            // then
+            assertThat(actual).isEqualTo(new JanggiScore(15));
+        }
+
+        @DisplayName("나라의 최대 점수에서 현재 점수를 뺀 값을 반환한다.")
+        @ParameterizedTest
+        @MethodSource
+        void calculateScoreByCountry(final Country country, final JanggiScore expectedJanggiScore) {
+            // given
+            final JanggiScore janggiScore = new JanggiScore(0);
+
+            // when
+            final JanggiScore actual = janggiScore.calculateScoreByCountry(country);
+
+            // then
+            assertThat(actual).isEqualTo(expectedJanggiScore);
+        }
+
+        static Stream<Arguments> calculateScoreByCountry(){
+            return Stream.of(
+                    Arguments.of(Country.CHO, new JanggiScore(72)),
+                    Arguments.of(Country.HAN, new JanggiScore(73.5))
+            );
+        }
+
+    }
+}

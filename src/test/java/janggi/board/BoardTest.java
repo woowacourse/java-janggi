@@ -1,21 +1,29 @@
 package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import janggi.coordinate.Position;
+import janggi.piece.Cannon;
+import janggi.piece.Chariot;
+import janggi.piece.Country;
+import janggi.piece.Elephant;
+import janggi.piece.General;
+import janggi.piece.Guard;
+import janggi.piece.Horse;
+import janggi.piece.Piece;
+import janggi.piece.Soldier;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import janggi.piece.Cannon;
-import janggi.piece.Chariot;
-import janggi.piece.General;
-import janggi.piece.Piece;
-import janggi.piece.Soldier;
-import janggi.piece.Country;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class BoardTest {
 
@@ -23,7 +31,7 @@ public class BoardTest {
     @DisplayName("보드 생성")
     class ConstructBoard {
 
-        @DisplayName("보드를 생성했을 때 사이즈가 총 90이어야 한다.")
+        @DisplayName("보드를 생성했을 때 null이 아니어야 한다.")
         @Test
         void construct1() {
             //given
@@ -253,6 +261,46 @@ public class BoardTest {
 
             // then
             assertThat(actual).isFalse();
+        }
+    }
+
+    @Nested
+    @DisplayName("플레이어들의 점수 계산")
+    class CalculateJanggiScore {
+
+        @DisplayName("남은 기물수를 기준으로 점수를 계산한다.")
+        @ParameterizedTest
+        @MethodSource
+        void kill(final Piece piece, final JanggiScore expectedJanggiScore) {
+            // given
+            final Position position = new Position(1, 2);
+            final Map<Position, Piece> janggiBoard = Map.of(
+                    position, piece
+            );
+            final Board board = new Board(janggiBoard);
+
+            // when
+            final JanggiScore actualCho = board.calculateScoreByCountry(Country.CHO);
+            final JanggiScore actualHan = board.calculateScoreByCountry(Country.HAN);
+
+            // then
+            assertSoftly(s -> {
+                s.assertThat(actualCho).isEqualTo(expectedJanggiScore);
+                s.assertThat(actualHan).isEqualTo(new JanggiScore(73.5));
+            });
+        }
+
+        static Stream<Arguments> kill() {
+            final double MAX_SCORE_OF_CHO = 72;
+            return Stream.of(
+                    Arguments.of(new Cannon(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 7)),
+                    Arguments.of(new Chariot(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 13)),
+                    Arguments.of(new Elephant(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 3)),
+                    Arguments.of(new General(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 0)),
+                    Arguments.of(new Guard(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 3)),
+                    Arguments.of(new Horse(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 5)),
+                    Arguments.of(new Soldier(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 2))
+            );
         }
     }
 }

@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.board.JanggiScore;
 import janggi.board.VisibleBoard;
 import janggi.coordinate.Position;
 
@@ -17,6 +18,8 @@ public abstract class Piece {
         }
         return canMove(now, destination, visibleBoard);
     };
+
+    public abstract JanggiScore plusScore(final JanggiScore janggiScore);
 
     protected abstract boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard);
 

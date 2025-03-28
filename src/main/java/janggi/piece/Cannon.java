@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.board.JanggiScore;
 import janggi.board.VisibleBoard;
 import janggi.coordinate.Position;
 import java.util.List;
@@ -7,9 +8,15 @@ import java.util.List;
 public class Cannon extends Piece {
 
     private static final int MUST_JUMP_PIECE_COUNT = 1;
+    private static final JanggiScore KILL_JANGGI_SCORE = new JanggiScore(7);
 
     public Cannon(final Country country) {
         super(country);
+    }
+
+    @Override
+    public JanggiScore plusScore(final JanggiScore janggiScore) {
+        return KILL_JANGGI_SCORE.plus(janggiScore);
     }
 
     @Override

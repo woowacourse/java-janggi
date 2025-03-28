@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.board.JanggiScore;
 import janggi.board.VisibleBoard;
 import janggi.coordinate.Path;
 import janggi.coordinate.Position;
@@ -27,9 +28,15 @@ public class Elephant extends Piece {
             new Path(List.of(RelativePosition.RIGHT, RelativePosition.BOTTOM_RIGHT_DIAGONAL,
                     RelativePosition.BOTTOM_RIGHT_DIAGONAL))
     );
+    private static final JanggiScore KILL_JANGGI_SCORE = new JanggiScore(3);
 
     public Elephant(final Country country) {
         super(country);
+    }
+
+    @Override
+    public JanggiScore plusScore(final JanggiScore janggiScore) {
+        return KILL_JANGGI_SCORE.plus(janggiScore);
     }
 
     @Override

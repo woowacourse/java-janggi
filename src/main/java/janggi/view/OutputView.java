@@ -1,6 +1,7 @@
 package janggi.view;
 
 import janggi.board.Board;
+import janggi.board.JanggiScore;
 import janggi.coordinate.Position;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
@@ -89,5 +90,22 @@ public class OutputView {
         }
 
         System.out.println("초나라 입니다!");
+    }
+
+    public static void printJanggiWinnerForTimeOut(final Board board){
+        final JanggiScore scoreOfHan = board.calculateScoreByCountry(Country.HAN);
+        final JanggiScore scoreOfCho = board.calculateScoreByCountry(Country.CHO);
+
+        System.out.println("축하합니다.");
+        System.out.print("우승한 국가는 ");
+
+        if(Double.compare(scoreOfHan.value(), scoreOfCho.value()) > 0){
+            System.out.println("한나라 입니다!");
+            System.out.println("점수 : " + scoreOfHan.value());
+            return;
+        }
+
+        System.out.println("초나라 입니다!");
+        System.out.println("점수 : " + scoreOfCho.value());
     }
 }
