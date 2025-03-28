@@ -45,7 +45,7 @@ public class PiecePath {
             current = current.move(Movement.from(direction));
             positions.add(current);
         }
-        return positions.subList(0, positions.size() - 1);
+        return positions;
     }
 
     public List<Position> getBetweenPositions() {

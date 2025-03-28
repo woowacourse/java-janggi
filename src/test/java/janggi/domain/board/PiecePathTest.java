@@ -188,9 +188,10 @@ class PiecePathTest {
         // then
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(positions).hasSize(2);
+        softly.assertThat(positions).hasSize(3);
         softly.assertThat(positions.get(0)).isEqualTo(Position.of(2,1));
         softly.assertThat(positions.get(1)).isEqualTo(Position.of(2,2));
+        softly.assertThat(positions.get(2)).isEqualTo(Position.of(3,3));
 
         softly.assertAll();
     }
