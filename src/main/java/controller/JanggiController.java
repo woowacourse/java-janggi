@@ -1,62 +1,77 @@
 package controller;
 
-import domain.score.ScoreCalculator;
+import domain.JanggiGame;
 import domain.Turn;
-import domain.board.Board;
 import domain.board.BoardGenerator;
-import domain.board.Node;
 import domain.piece.Team;
+import domain.score.Score;
+import domain.score.ScoreCalculator;
 import util.ErrorHandler;
 import view.InputView;
 import view.MoveCommand;
 import view.OutputView;
+import view.ProgressCommand;
 import view.SangMaOrderCommand;
+
+import java.util.Map;
 
 public class JanggiController {
 
     public void run() {
         OutputView.printStart();
-        Board board = createJanggiBoard();
-
-        Turn turn = new Turn();
-        start(board, turn);
-    }
-
-    private void start(Board board, Turn turn) {
-        while (true) {
-            OutputView.printBoard(board);
-            OutputView.printScore(board.calculateTotalScoreOfPiecesByTeam(new ScoreCalculator()));
-            moveByTurn(turn, board);
-            if (board.isOpponentWangDead(turn.team())) {
-                OutputView.printBoard(board);
-                OutputView.printMatchResult(turn.team());
-                break;
-            }
-            turn.changeTurn();
+        ProgressCommand progressCommand = ErrorHandler.retryUntilSuccess(InputView::inputProgress);
+        if (progressCommand == ProgressCommand.START) {
+            SangMaOrderCommand hanSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.HAN);
+            SangMaOrderCommand choSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.CHO);
+            JanggiGame janggiGame = new JanggiGame(new BoardGenerator(), hanSangMaOrderCommand, choSangMaOrderCommand,
+                                                    new Turn(), new ScoreCalculator());
+            start(janggiGame);
         }
     }
 
-    private void moveByTurn(final Turn turn, final Board board) {
-        ErrorHandler.retryUntilSuccess(() -> {
-            MoveCommand moveCommand = InputView.inputMoveCommand(turn.team());
-            Node sourceNode = board.findNodeByPoint(moveCommand.source());
-            Node destinationNode = board.findNodeByPoint(moveCommand.destination());
+    private void start(JanggiGame janggiGame) {
+        while (true) {
+            OutputView.printBoard(janggiGame.board());
+            OutputView.printTurn(janggiGame.turnTeam());
+            ProgressCommand progressCommand = ErrorHandler.retryUntilSuccess(InputView::inputProgress);
 
-            if (!board.hasPieceTeamByNode(sourceNode, turn.team())) {
-                OutputView.printTurn(turn.team());
+            if (progressCommand == ProgressCommand.MOVE) {
+                move(janggiGame);
+                if (janggiGame.isStop()) {
+                    OutputView.printBoard(janggiGame.board());
+                    OutputView.printMatchResult(janggiGame.turnTeam());
+                    break;
+                }
+                janggiGame.changeTurn();
             }
-            board.movePiece(sourceNode, destinationNode, board);
-        });
+
+            if (progressCommand == ProgressCommand.STATUS) {
+                printStatus(janggiGame);
+                continue;
+            }
+
+            if (progressCommand == ProgressCommand.EXIT) {
+                printStatus(janggiGame);
+                OutputView.printMatchResult(janggiGame.findWinTeam());
+                OutputView.printExit();
+                break;
+            }
+        }
     }
 
-    private Board createJanggiBoard() {
-        BoardGenerator boardGenerator = new BoardGenerator();
-        SangMaOrderCommand hanSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.HAN);
-        SangMaOrderCommand choSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.CHO);
-        return boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
+    private void move(JanggiGame janggiGame) {
+        ErrorHandler.retryUntilSuccess(() -> {
+            MoveCommand moveCommand = InputView.inputMoveCommand(janggiGame.turnTeam());
+            janggiGame.movePiece(moveCommand);
+        });
     }
 
     private SangMaOrderCommand createSangMaOrderCommandByTeam(final Team team) {
         return ErrorHandler.retryUntilSuccess(() -> InputView.inputSangMaOrder(team));
+    }
+
+    private void printStatus(JanggiGame janggiGame) {
+        Map<Team, Score> totalScoreByTeam = janggiGame.calculateTotalScoreByTeam();
+        OutputView.printScore(totalScoreByTeam);
     }
 }

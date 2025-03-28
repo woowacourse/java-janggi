@@ -45,17 +45,23 @@ public class OutputView {
         Painter.clean();
     }
 
+    public static void printTurn(final Team team) {
+        System.out.printf("%n> 현재 턴: %s나라", team.title());
+    }
+
     public static void printMatchResult(final Team winTeam) {
         System.out.printf("%s나라의 승리입니다.%n", winTeam.title());
     }
 
-    public static void printTurn(final Team team) {
-        System.out.printf("이번 턴은 %s나라입니다.%n", team.title());
-    }
-
     public static void printScore(final Map<Team, Score> totalScoreByTeam) {
+        System.out.println();
         for (Team team : totalScoreByTeam.keySet()) {
             System.out.printf("%s나라 : %.1f점%n", team.title(), totalScoreByTeam.get(team).score());
         }
+        System.out.println();
+    }
+
+    public static void printExit() {
+        System.out.print("장기 게임을 종료합니다.");
     }
 }
