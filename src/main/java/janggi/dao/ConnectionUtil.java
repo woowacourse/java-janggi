@@ -1,4 +1,4 @@
-package janggi.util;
+package janggi.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

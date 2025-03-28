@@ -2,7 +2,7 @@ package janggi.service;
 
 
 import janggi.dao.GameRoomDao;
-import janggi.dao.PiecePositionDao;
+import janggi.dao.BoardDao;
 import janggi.domain.board.Position;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
@@ -10,21 +10,19 @@ import java.sql.Connection;
 import java.util.Map;
 
 public class JanggiDBService {
-    private final PiecePositionDao piecePositionDao;
+    private final BoardDao boardDao;
     private final GameRoomDao gameRoomDao;
 
-    private final int boardId;
     private final int roomId;
 
-    public JanggiDBService(Connection connection, int boardId, int roomId) {
-        this.piecePositionDao = new PiecePositionDao(connection);
+    public JanggiDBService(Connection connection, int roomId) {
+        this.boardDao = new BoardDao(connection);
         this.gameRoomDao = new GameRoomDao(connection);
-        this.boardId = boardId;
         this.roomId = roomId;
     }
 
     public void updateMoveResult(Position source, Position destination, PieceType pieceType, TeamColor teamColor) {
-        piecePositionDao.updatePiecePosition(boardId, source, destination, pieceType, teamColor);
+        boardDao.updateBoard(roomId, source, destination, pieceType, teamColor);
     }
 
     public void updateGameRoom(TeamColor teamColor, Map<TeamColor, Integer> teamScore) {

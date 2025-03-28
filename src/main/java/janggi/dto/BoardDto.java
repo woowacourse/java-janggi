@@ -1,6 +1,6 @@
 package janggi.dto;
 
-public record PiecePositionDto(
+public record BoardDto(
         int position_row,
         int position_col,
         String piece_type,

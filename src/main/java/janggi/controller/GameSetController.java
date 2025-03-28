@@ -39,12 +39,11 @@ public class GameSetController {
         PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
         JanggiGame newGame = new JanggiGame(new BlueTurn(playingBoard), new HashMap<>());
 
-        int boardId = gameSetDBService.createNewBoardAndGetId();
-        int roomId = gameSetDBService.createNewGameRoomAndGetId(boardId, TeamColor.BLUE);
+        int roomId = gameSetDBService.createNewGameRoomAndGetId(TeamColor.BLUE);
 
-        gameSetDBService.saveInitialBoard(boardId, initialBoard.getInitialBoard());
+        gameSetDBService.saveInitialBoard(roomId, initialBoard.getInitialBoard());
 
-        return new SetInfoDto(newGame, boardId, roomId);
+        return new SetInfoDto(newGame, roomId);
     }
 
     private InitialBoard setupBoard() {
@@ -65,9 +64,8 @@ public class GameSetController {
         int selectedIndex = RetryUtil.getWithRetry(() -> getSelectedIndexFromUser(allPlayingRooms));
         int selectedRoomId = allPlayingRooms.get(selectedIndex).roomId();
         JanggiGame game = gameSetDBService.getGameByRoomId(selectedRoomId);
-        int boardId = gameSetDBService.getBoardIdByRoom(selectedRoomId);
 
-        return new SetInfoDto(game, boardId, selectedRoomId);
+        return new SetInfoDto(game, selectedRoomId);
     }
 
     private List<GameRoomDto> getGameRoomDtos() {

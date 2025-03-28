@@ -5,7 +5,7 @@ import janggi.controller.JanggiController;
 import janggi.dto.SetInfoDto;
 import janggi.service.GameSetDBService;
 import janggi.service.JanggiDBService;
-import janggi.util.ConnectionUtil;
+import janggi.dao.ConnectionUtil;
 import janggi.view.GameRunningView;
 import janggi.view.GameSettingView;
 import java.sql.Connection;
@@ -21,7 +21,7 @@ public class Application {
         GameSetController gameSetController = new GameSetController(gameSettingView, gameSetDBService);
         SetInfoDto setInfoDto = gameSetController.setJanggiGame();
 
-        JanggiDBService janggiDBService = new JanggiDBService(connection, setInfoDto.boardId(), setInfoDto.roomId());
+        JanggiDBService janggiDBService = new JanggiDBService(connection, setInfoDto.roomId());
 
         JanggiController controller = new JanggiController(gameRunningView, janggiDBService, setInfoDto.janggiGame());
         controller.run();

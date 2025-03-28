@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 public record GameRoomDto(
         int roomId,
-        int boardId,
         String turnColor,
         String winner,
         boolean isFinished,
@@ -14,13 +13,13 @@ public record GameRoomDto(
         LocalDateTime startTime,
         LocalDateTime last_updated
 ) {
-    public static GameRoomDto createForShowRooms(int roomId, int boardId, String turnColor, Timestamp startTime,
+    public static GameRoomDto createForShowRooms(int roomId, String turnColor, Timestamp startTime,
                                                  Timestamp lastUpdated) {
-        return new GameRoomDto(roomId, boardId, turnColor, null, false, 0, 0, startTime.toLocalDateTime(),
+        return new GameRoomDto(roomId, turnColor, null, false, 0, 0, startTime.toLocalDateTime(),
                 lastUpdated.toLocalDateTime());
     }
 
     public static GameRoomDto createForState(int roomId, String turnColor, int redScore, int blueScore) {
-        return new GameRoomDto(roomId, 0, turnColor, turnColor, true, redScore, blueScore, null, null);
+        return new GameRoomDto(roomId, turnColor, turnColor, true, redScore, blueScore, null, null);
     }
 }

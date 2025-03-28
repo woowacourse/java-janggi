@@ -1,14 +1,9 @@
-USE janggi;
-
-CREATE TABLE Board
-(
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
+USE
+janggi;
 
 CREATE TABLE GameRoom
 (
     id           INT AUTO_INCREMENT PRIMARY KEY,
-    board_id     INT         NOT NULL,
     turn_color   VARCHAR(10) NOT NULL,
     start_time   TIMESTAMP            DEFAULT CURRENT_TIMESTAMP,
     last_updated TIMESTAMP            DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -17,16 +12,15 @@ CREATE TABLE GameRoom
     end_time     TIMESTAMP            DEFAULT NULL,
     red_score    INT                  DEFAULT 0,
     blue_score   INT                  DEFAULT 0,
-    FOREIGN KEY (board_id) REFERENCES Board (id) ON DELETE CASCADE
 );
 
-CREATE TABLE PiecePosition
+CREATE TABLE Board
 (
     id           INT AUTO_INCREMENT PRIMARY KEY,
-    board_id     INT         NOT NULL,
+    gameroom_id  INT         NOT NULL,
     position_row INT         NOT NULL,
     position_col INT         NOT NULL,
     piece_type   VARCHAR(50) NOT NULL,
     piece_color  VARCHAR(10) NOT NULL,
-    FOREIGN KEY (board_id) REFERENCES Board (id) ON DELETE CASCADE
+    FOREIGN KEY (gameroom_id) REFERENCES GameRoom (id) ON DELETE CASCADE
 );
