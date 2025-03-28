@@ -2,6 +2,7 @@ package janggi.moving;
 
 import janggi.board.position.Position;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Path {
@@ -9,7 +10,7 @@ public class Path {
     public static final int MIN_LENGTH = 2;
 
     public Path(List<Position> path) {
-        this.path = new ArrayList<>(path);
+        this.path = Collections.unmodifiableList(path);
     }
 
     public List<Position> getIntermediatePath() {
@@ -23,5 +24,9 @@ public class Path {
     public boolean lastEquals(Position position) {
         Position last = path.getLast();
         return last.equals(position);
+    }
+
+    public List<Position> getPath() {
+        return path;
     }
 }

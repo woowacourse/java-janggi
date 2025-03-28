@@ -1,14 +1,27 @@
 package janggi.board;
 
 import janggi.Team;
+import janggi.board.position.Column;
 import janggi.board.position.Position;
+import janggi.board.position.Row;
 import janggi.piece.Piece;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
+    /**
+     * TODO
+     * List? Set?
+     */
+    public static final List<Position> GREEN_CASTLE = List.of(new Position(Row.ZERO, Column.THREE),
+            new Position(Row.ZERO, Column.FOUR), new Position(Row.ZERO, Column.FIVE),
+            new Position(Row.ONE, Column.THREE), new Position(Row.ONE, Column.FOUR), new Position(Row.ONE, Column.FIVE),
+            new Position(Row.TWO, Column.THREE), new Position(Row.TWO, Column.FOUR),
+            new Position(Row.TWO, Column.FIVE));
+
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {

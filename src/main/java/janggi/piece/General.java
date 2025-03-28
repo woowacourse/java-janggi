@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import static janggi.board.Board.GREEN_CASTLE;
 import static janggi.moving.Movement.DOWN;
 import static janggi.moving.Movement.LEFT;
 import static janggi.moving.Movement.RIGHT;
@@ -25,6 +26,11 @@ public class General extends Piece {
 
     @Override
     protected void validatePath(Board board, Path path) {
+        for (Position position : path.getPath()) {
+            if (GREEN_CASTLE.contains(position) == false) {
+                throw new IllegalArgumentException("[ERROR] 궁은 궁성을 벗어날 수 없습니다.");
+            }
+        }
         validateNonPieceOnPath(board, path);
     }
 
