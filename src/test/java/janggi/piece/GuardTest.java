@@ -15,12 +15,12 @@ import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 
 class GuardTest {
 
-    @CsvSource(value = {"4:5", "3:4", "5:4", "4:3"}, delimiterString = ":")
+    @CsvSource(value = {"4:0", "3:1", "5:1", "4:2"}, delimiterString = ":")
     @ParameterizedTest
     void 사의_정상적인_움직임을_테스트한다(int column, int row) {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
-        Position start = new Position(4, 4);
+        Position start = new Position(4, 1);
         Position goal = createPosition(column, row);
         Guard piece = new Guard(Team.GREEN);
 
@@ -36,12 +36,12 @@ class GuardTest {
                 .containsEntry(goal, piece);
     }
 
-    @CsvSource(value = {"4:5", "3:4", "5:4", "4:3"}, delimiterString = ":")
+    @CsvSource(value = {"4:0", "3:1", "5:1", "4:2"}, delimiterString = ":")
     @ParameterizedTest
     void 목적지에_같은_진영의_기물이_있을_경우_예외를_발생한다(int column, int row) {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
-        Position start = createPosition(4, 4);
+        Position start = createPosition(4, 1);
         Position goal = createPosition(column, row);
         Guard piece = new Guard(Team.GREEN);
 
