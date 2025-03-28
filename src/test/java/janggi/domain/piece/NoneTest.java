@@ -13,7 +13,7 @@ class NoneTest {
         Piece none = new None();
         Position position = new Position(5, 5);
 
-        assertThatThrownBy(() -> none.getMovableValidator(position, position).accept(new HashMap<>()))
+        assertThatThrownBy(() -> none.getMovableValidator(position, position).accept(new Pieces(new HashMap<>())))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class None extends Piece {
@@ -14,7 +13,7 @@ public class None extends Piece {
     }
 
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(
+    public Consumer<Pieces> getMovableValidator(
             final Position beforePosition,
             final Position afterPosition) {
         throw new IllegalArgumentException("빈 칸은 이동할 수 없습니다.");

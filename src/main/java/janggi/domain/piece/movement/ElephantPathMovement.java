@@ -66,23 +66,23 @@ public enum ElephantPathMovement {
                     RIGHT.plus(RIGHT).plus(UP)
             )
     );
-    private final Movement destinationMovement;
+    private final Movement destination;
     private final List<Movement> pathMovements;
 
-    ElephantPathMovement(final Movement destinationMovement, final List<Movement> pathMovements) {
-        this.destinationMovement = destinationMovement;
+    ElephantPathMovement(final Movement destination, final List<Movement> pathMovements) {
+        this.destination = destination;
         this.pathMovements = pathMovements;
     }
 
     public static List<Movement> findPathMovements(final Position beforePosition, final Position afterPosition) {
-        return find(afterPosition.x() - beforePosition.x(),
-                afterPosition.y() - beforePosition.y()).pathMovements;
+        Movement movement = afterPosition.subtract(beforePosition);
+        return find(movement.x(), movement.y()).pathMovements;
     }
 
     private static ElephantPathMovement find(final int x, final int y) {
         Movement movement = new Movement(x, y);
         return Arrays.stream(ElephantPathMovement.values())
-                .filter(horseDirection -> horseDirection.destinationMovement.equals(movement))
+                .filter(horseDirection -> horseDirection.destination.equals(movement))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("불가능한 이동입니다."));
     }

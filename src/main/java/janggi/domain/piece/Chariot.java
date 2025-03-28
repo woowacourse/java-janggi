@@ -1,7 +1,7 @@
 package janggi.domain.piece;
 
+import janggi.domain.piece.movement.Movement;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class Chariot extends Piece {
@@ -17,12 +17,29 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
-                                                              final Position afterPosition) {
-        return board -> {
-            Validator.validateNoSameTeamPieceAt(team, board, afterPosition);
-            Validator.validateStraightMovement(beforePosition, afterPosition);
-            Validator.validateNoObstaclesOnPath(board, beforePosition, afterPosition);
+    public Consumer<Pieces> getMovableValidator(final Position beforePosition,
+                                                final Position afterPosition) {
+        return pieces -> {
+            CommonValidator.validateStraightMovement(beforePosition, afterPosition);
+            validateNoSameTeamPieceAt(afterPosition, team, pieces);
+            validateNoObstaclesOnPath(pieces, beforePosition, afterPosition);
         };
+    }
+
+    private void validateNoObstaclesOnPath(
+            final Pieces pieces,
+            final Position beforePosition,
+            final Position afterPosition
+    ) {
+        Movement movement = afterPosition.subtract(beforePosition);
+        Movement nextMovement = Movement.findStraightUnitMovement(movement.x(), movement.y());
+
+        Position currentPosition = beforePosition.plus(nextMovement.x(), nextMovement.y());
+        while (!currentPosition.equals(afterPosition)) {
+            if (!pieces.get(currentPosition).isNone()) {
+                throw new IllegalArgumentException("불가능한 이동입니다");
+            }
+            currentPosition = currentPosition.plus(nextMovement.x(), nextMovement.y());
+        }
     }
 }

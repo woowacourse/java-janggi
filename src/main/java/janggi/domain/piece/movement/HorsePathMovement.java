@@ -51,8 +51,8 @@ public enum HorsePathMovement {
     }
 
     public static List<Movement> findPathMovements(final Position beforePosition, final Position afterPosition) {
-        return find(afterPosition.x() - beforePosition.x(),
-                afterPosition.y() - beforePosition.y()).pathMovements;
+        Movement movement = afterPosition.subtract(beforePosition);
+        return find(movement.x(), movement.y()).pathMovements;
     }
 
     private static HorsePathMovement find(final int x, final int y) {

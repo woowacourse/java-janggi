@@ -23,8 +23,8 @@ class BoardTest {
 
         board.movePiece(Team.BLUE, beforePosition, afterPosition);
 
-        assertThat(board.getPieceByPosition(beforePosition)).isInstanceOf(None.class);
-        assertThat(board.getPieceByPosition(afterPosition)).isInstanceOf(Soldier.class);
+        assertThat(board.getBoard().get(beforePosition)).isInstanceOf(None.class);
+        assertThat(board.getBoard().get(afterPosition)).isInstanceOf(Soldier.class);
     }
 
     @DisplayName("기물 별 이동 조건을 만족하지 않는 경우 예외를 발생시킨다.")

@@ -12,15 +12,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class ChariotTest {
-    Map<Position, Piece> board;
+    Map<Position, Piece> map;
     Position beforePosition = new Position(5, 5);
 
     @BeforeEach
     void setUp() {
-        board = new HashMap<>();
+        map = new HashMap<>();
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 9; j++) {
-                board.put(new Position(i, j), new None());
+                map.put(new Position(i, j), new None());
             }
         }
     }
@@ -29,12 +29,11 @@ class ChariotTest {
     @Test
     void move() {
         Chariot chariot = new Chariot(Team.BLUE);
-        Position afterPosition = new Position(5, 9);
-        Soldier soldier = new Soldier(Team.BLUE);
-        board.put(new Position(5, 5), soldier);
+        Position afterPosition = new Position(5, 8);
 
         assertThatCode(() ->
-                chariot.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
+                chariot.getMovableValidator(beforePosition, afterPosition)
+                        .accept(new Pieces(map))).doesNotThrowAnyException();
     }
 
     @DisplayName("차의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
@@ -44,7 +43,7 @@ class ChariotTest {
         Chariot chariot = new Chariot(Team.BLUE);
         Position afterPosition = new Position(x, y);
 
-        assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -54,9 +53,9 @@ class ChariotTest {
         Chariot chariot = new Chariot(Team.BLUE);
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(2, 5);
-        board.put(new Position(3, 5), otherSoldier);
+        map.put(new Position(3, 5), otherSoldier);
 
-        assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -65,8 +64,8 @@ class ChariotTest {
     void move33() {
         Chariot chariot = new Chariot(Team.BLUE);
 
-        assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, beforePosition).accept(board))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, beforePosition).accept(new Pieces(map)))
+                .isInstanceOf(IllegalStateException.class);
     }
 
     @DisplayName("차의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
@@ -75,9 +74,9 @@ class ChariotTest {
         Chariot chariot = new Chariot(Team.BLUE);
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(2, 5);
-        board.put(afterPosition, otherSoldier);
+        map.put(afterPosition, otherSoldier);
 
-        assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

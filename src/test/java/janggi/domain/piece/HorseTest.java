@@ -12,15 +12,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class HorseTest {
-    Map<Position, Piece> board;
+    Map<Position, Piece> map;
     Position beforePosition = new Position(5, 5);
 
     @BeforeEach
     void setUp() {
-        board = new HashMap<>();
+        map = new HashMap<>();
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 9; j++) {
-                board.put(new Position(i, j), new None());
+                map.put(new Position(i, j), new None());
             }
         }
     }
@@ -32,7 +32,8 @@ class HorseTest {
         Position afterPosition = new Position(3, 4);
 
         assertThatCode(() ->
-                horse.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
+                horse.getMovableValidator(beforePosition, afterPosition)
+                        .accept(new Pieces(map))).doesNotThrowAnyException();
     }
 
     @DisplayName("마의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
@@ -42,7 +43,7 @@ class HorseTest {
         Horse horse = new Horse(Team.BLUE);
         Position afterPosition = new Position(x, y);
 
-        assertThatThrownBy(() -> horse.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> horse.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -53,9 +54,9 @@ class HorseTest {
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(3, 4);
         Position betweenPosition = new Position(4, 5);
-        board.put(betweenPosition, otherSoldier);
+        map.put(betweenPosition, otherSoldier);
 
-        assertThatThrownBy(() -> horse.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> horse.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -65,9 +66,9 @@ class HorseTest {
         Horse horse = new Horse(Team.BLUE);
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(3, 4);
-        board.put(afterPosition, otherSoldier);
+        map.put(afterPosition, otherSoldier);
 
-        assertThatThrownBy(() -> horse.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> horse.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -88,6 +89,7 @@ class HorseTest {
         Position afterPosition = new Position(x, y);
 
         assertThatCode(() ->
-                horse.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
+                horse.getMovableValidator(beforePosition, afterPosition)
+                        .accept(new Pieces(map))).doesNotThrowAnyException();
     }
 }

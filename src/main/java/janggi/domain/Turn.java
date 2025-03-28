@@ -21,6 +21,7 @@ public class Turn {
     private void switchTurn() {
         if (turn == Team.RED) {
             turn = Team.BLUE;
+            return;
         }
         if (turn == Team.BLUE) {
             turn = Team.RED;

@@ -12,15 +12,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class GuardTest {
-    Map<Position, Piece> board;
+    Map<Position, Piece> map;
     Position beforePosition = new Position(5, 5);
 
     @BeforeEach
     void setUp() {
-        board = new HashMap<>();
+        map = new HashMap<>();
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 9; j++) {
-                board.put(new Position(i, j), new None());
+                map.put(new Position(i, j), new None());
             }
         }
     }
@@ -32,7 +32,7 @@ class GuardTest {
         Position afterPosition = new Position(5, 6);
 
         assertThatCode(() ->
-                guard.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
+                guard.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map))).doesNotThrowAnyException();
     }
 
     @DisplayName("사의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
@@ -42,7 +42,7 @@ class GuardTest {
         Guard guard = new Guard(Team.BLUE);
         Position afterPosition = new Position(x, y);
 
-        assertThatThrownBy(() -> guard.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> guard.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -52,9 +52,9 @@ class GuardTest {
         Guard guard = new Guard(Team.BLUE);
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(5, 6);
-        board.put(afterPosition, otherSoldier);
+        map.put(afterPosition, otherSoldier);
 
-        assertThatThrownBy(() -> guard.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> guard.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

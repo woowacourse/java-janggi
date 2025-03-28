@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
 public abstract class Piece {
@@ -20,10 +19,23 @@ public abstract class Piece {
         return team;
     }
 
-    public abstract Consumer<Map<Position, Piece>> getMovableValidator(
+    public abstract Consumer<Pieces> getMovableValidator(
             final Position beforePosition,
             final Position afterPosition
     );
+
+    protected void validateNoSameTeamPieceAt(
+            final Position afterPosition,
+            final Team team,
+            final Pieces pieces) {
+        if (pieces.isTeam(afterPosition, team)) {
+            throw new IllegalArgumentException("같은 팀 기물이 있는 위치로는 이동할 수 없습니다.");
+        }
+    }
+
+    public boolean is(final Team other) {
+        return team.equals(other);
+    }
 
     public boolean isCannon() {
         return false;

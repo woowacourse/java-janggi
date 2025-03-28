@@ -12,15 +12,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class SoldierTest {
-    Map<Position, Piece> board;
+    Map<Position, Piece> map;
     Position beforePosition = new Position(5, 5);
 
     @BeforeEach
     void setUp() {
-        board = new HashMap<>();
+        map = new HashMap<>();
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 9; j++) {
-                board.put(new Position(i, j), new None());
+                map.put(new Position(i, j), new None());
             }
         }
     }
@@ -32,7 +32,7 @@ class SoldierTest {
         Position afterPosition = new Position(5, 6);
 
         assertThatCode(() ->
-                soldier.getMovableValidator(beforePosition, afterPosition).accept(board)).doesNotThrowAnyException();
+                soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map))).doesNotThrowAnyException();
     }
 
     @DisplayName("청졸의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
@@ -42,7 +42,7 @@ class SoldierTest {
         Soldier soldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(x, y);
 
-        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -53,7 +53,7 @@ class SoldierTest {
         Soldier soldier = new Soldier(Team.RED);
         Position afterPosition = new Position(x, y);
 
-        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -63,9 +63,9 @@ class SoldierTest {
         Soldier soldier = new Soldier(Team.BLUE);
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(5, 6);
-        board.put(afterPosition, otherSoldier);
+        map.put(afterPosition, otherSoldier);
 
-        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(board))
+        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

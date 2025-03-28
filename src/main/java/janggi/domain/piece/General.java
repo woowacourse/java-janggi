@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class General extends Piece {
@@ -13,10 +12,10 @@ public class General extends Piece {
     }
 
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition, final Position afterPosition) {
-        return board -> {
-            Validator.validateNoSameTeamPieceAt(team, board, afterPosition);
-            Validator.validateSingleStepMovement(beforePosition, afterPosition);
+    public Consumer<Pieces> getMovableValidator(final Position beforePosition, final Position afterPosition) {
+        return pieces -> {
+            CommonValidator.validateSingleStepMovement(beforePosition, afterPosition);
+            validateNoSameTeamPieceAt(afterPosition, team, pieces);
         };
     }
 }

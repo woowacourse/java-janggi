@@ -1,8 +1,8 @@
 package janggi.domain.piece;
 
 import janggi.domain.piece.movement.HorsePathMovement;
+import janggi.domain.piece.movement.Movement;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class Horse extends Piece {
@@ -55,12 +55,23 @@ public class Horse extends Piece {
                 INITIAL_POSITIONS_RED_RIGHT.get(rightHorsePosition.value()));
     }
 
+    private void validateNoObstaclesOnPath(final Pieces pieces, final Position beforePosition,
+                                           final List<Movement> pathMovements) {
+        boolean hasObstacle = pathMovements.stream()
+                .map(routeDistance -> beforePosition.plus(routeDistance.x(), routeDistance.y()))
+                .anyMatch(position -> !pieces.get(position).isNone());
+
+        if (hasObstacle) {
+            throw new IllegalArgumentException("불가능한 이동입니다.");
+        }
+    }
+
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(final Position beforePosition,
-                                                              final Position afterPosition) {
-        return board -> {
-            Validator.validateNoSameTeamPieceAt(team, board, afterPosition);
-            Validator.validateNoObstaclesOnPath(board, beforePosition,
+    public Consumer<Pieces> getMovableValidator(final Position beforePosition,
+                                                final Position afterPosition) {
+        return pieces -> {
+            validateNoSameTeamPieceAt(afterPosition, team, pieces);
+            validateNoObstaclesOnPath(pieces, beforePosition,
                     HorsePathMovement.findPathMovements(beforePosition, afterPosition));
         };
     }

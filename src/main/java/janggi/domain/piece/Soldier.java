@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class Soldier extends Piece {
@@ -25,13 +24,22 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public Consumer<Map<Position, Piece>> getMovableValidator(
+    public Consumer<Pieces> getMovableValidator(
             final Position beforePosition,
             final Position afterPosition) {
-        return board -> {
-            Validator.validateNoSameTeamPieceAt(team, board, afterPosition);
-            Validator.validateNotMovingTowardsOwnSide(team, beforePosition, afterPosition);
-            Validator.validateSingleStepMovement(beforePosition, afterPosition);
+        return pieces -> {
+            CommonValidator.validateSingleStepMovement(beforePosition, afterPosition);
+            validateNoSameTeamPieceAt(afterPosition, team, pieces);
+            validateNotMovingTowardsOwnSide(beforePosition, afterPosition);
         };
+    }
+
+    public void validateNotMovingTowardsOwnSide(final Position beforePosition, final Position afterPosition) {
+        if (team == Team.BLUE && afterPosition.x() - beforePosition.x() > 0) {
+            throw new IllegalArgumentException("청졸은 아래 방향으로 이동할 수 없는 기물입니다.");
+        }
+        if (team == Team.RED && afterPosition.x() - beforePosition.x() < 0) {
+            throw new IllegalArgumentException("홍졸은 윗 방향으로 이동할 수 없는 기물입니다.");
+        }
     }
 }
