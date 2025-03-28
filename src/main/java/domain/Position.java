@@ -56,4 +56,11 @@ public class Position {
     public int hashCode() {
         return Objects.hash(row, column);
     }
+
+    public boolean isInsidePalace(Team team) {
+        if (team == Team.RED) {
+            return row >= 3 && row <= 5 && column >= 4 && column <= 6;
+        }
+        return row >= 8 && row <= 10 && column >= 4 && column <= 6;
+    }
 }
