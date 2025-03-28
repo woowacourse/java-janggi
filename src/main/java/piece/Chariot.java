@@ -15,11 +15,25 @@ public class Chariot extends Piece {
     @Override
     public Set<Position> getMovablePositions(final Position position, final Board board) {
         Set<Position> movablePositions = new HashSet<>();
-        Direction.getStraightDirection()
-                .forEach(direction ->
-                        addMovablePositionsInDirection(position, direction, board, movablePositions)
-                );
+        for (Direction straightDirection : Direction.getStraightDirection()) {
+            movablePositions.addAll(findMovablePositionInDirection(position, straightDirection, board));
+        }
         return movablePositions;
+    }
+
+    private Set<Position> findMovablePositionInDirection(
+            final Position position, final Direction direction, final Board board
+    ) {
+        Set<Position> movablePositionsInDirection = new HashSet<>();
+        Position movePosition = position.moveByDirection(direction);
+        while (!isBlockedPosition(board, movePosition)) {
+            movablePositionsInDirection.add(movePosition);
+            if (board.isExists(movePosition)) {
+                break;
+            }
+            movePosition = movePosition.moveByDirection(direction);
+        }
+        return movablePositionsInDirection;
     }
 
     @Override
@@ -27,20 +41,8 @@ public class Chariot extends Piece {
         return this.pieceType;
     }
 
-    private void addMovablePositionsInDirection(final Position position, final Direction direction, final Board board,
-                                                final Set<Position> movablePositions
-    ) {
-        Position movePosition = position;
-        while (true) {
-            movePosition = movePosition.moveByDirection(direction);
-            if (movePosition.isInValidPosition() || board.isSameTeamPosition(team, movePosition)) {
-                break;
-            }
-            movablePositions.add(movePosition);
-            if (board.isExists(movePosition)) {
-                break;
-            }
-        }
+    private boolean isBlockedPosition(final Board board, final Position position) {
+        return position.isInValidPosition() || board.isSameTeamPosition(team, position);
     }
 
 }
