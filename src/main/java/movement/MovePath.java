@@ -56,7 +56,11 @@ public class MovePath {
     // TODO 2025. 3. 27. 16:00: src.move가 그냥 src를 move 해준 상황 처럼 보이는데, (약간 반환값 void 생각남). 약간 버그 이슈
     public boolean canReachDestination(Position src, Position destination) {
         for (Movement movement : movements) {
-            src = src.move(movement);
+            try {
+                src = src.move(movement); // TODO: chaining으로 해결하기
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
         }
         return src.equals(destination);
     }
