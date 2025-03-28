@@ -1,8 +1,8 @@
-package janggi.board;
+package janggi.domain.board;
 
-import janggi.piece.Empty;
-import janggi.piece.Piece;
-import janggi.piece.Side;
+import janggi.domain.piece.Empty;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
 
 import java.util.HashMap;
 import java.util.List;

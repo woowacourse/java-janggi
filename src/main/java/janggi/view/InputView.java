@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.board.Position;
+import janggi.domain.board.Position;
 import janggi.view.util.PositionFormatter;
 
 import java.util.Scanner;

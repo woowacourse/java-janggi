@@ -1,8 +1,10 @@
 package janggi.piece.limit;
 
-import janggi.board.Position;
-import janggi.move.Route;
-import janggi.piece.Side;
+import janggi.domain.board.Position;
+import janggi.domain.move.Route;
+import janggi.domain.piece.Side;
+import janggi.domain.piece.limit.Guard;
+import janggi.domain.piece.limit.King;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

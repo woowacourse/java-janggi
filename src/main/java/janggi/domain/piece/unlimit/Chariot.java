@@ -1,9 +1,9 @@
-package janggi.piece.unlimit;
+package janggi.domain.piece.unlimit;
 
-import janggi.board.Position;
-import janggi.piece.Piece;
-import janggi.piece.PieceType;
-import janggi.piece.Side;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Side;
 
 import java.util.ArrayList;
 import java.util.List;

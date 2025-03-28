@@ -1,11 +1,13 @@
 package janggi.board;
 
-import janggi.piece.Empty;
-import janggi.piece.Piece;
-import janggi.piece.Side;
-import janggi.piece.limit.*;
-import janggi.piece.unlimit.Cannon;
-import janggi.piece.unlimit.Chariot;
+import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Empty;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
+import janggi.domain.piece.limit.*;
+import janggi.domain.piece.unlimit.Cannon;
+import janggi.domain.piece.unlimit.Chariot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

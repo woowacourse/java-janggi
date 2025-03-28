@@ -1,7 +1,9 @@
 package janggi.board;
 
-import janggi.piece.Empty;
-import janggi.piece.Piece;
+import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Empty;
+import janggi.domain.piece.Piece;
 
 import java.util.Map;
 

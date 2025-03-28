@@ -1,10 +1,10 @@
-package janggi.piece.limit;
+package janggi.domain.piece.limit;
 
-import janggi.board.Position;
-import janggi.move.Direction;
-import janggi.move.Route;
-import janggi.piece.PieceType;
-import janggi.piece.Side;
+import janggi.domain.board.Position;
+import janggi.domain.move.Direction;
+import janggi.domain.move.Route;
+import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Side;
 
 import java.util.ArrayList;
 import java.util.List;

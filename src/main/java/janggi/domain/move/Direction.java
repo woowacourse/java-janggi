@@ -1,4 +1,4 @@
-package janggi.move;
+package janggi.domain.move;
 
 public enum Direction {
     UP(0, -1),

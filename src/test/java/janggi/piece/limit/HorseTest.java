@@ -1,15 +1,15 @@
 package janggi.piece.limit;
 
-import janggi.board.Position;
-import janggi.move.Route;
-import janggi.piece.Side;
+import janggi.domain.board.Position;
+import janggi.domain.move.Route;
+import janggi.domain.piece.Side;
+import janggi.domain.piece.limit.Horse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class HorseTest {
 

@@ -1,6 +1,7 @@
 package janggi.piece;
 
-import janggi.piece.limit.Soldier;
+import janggi.domain.piece.Side;
+import janggi.domain.piece.limit.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

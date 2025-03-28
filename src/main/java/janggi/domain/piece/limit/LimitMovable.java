@@ -1,9 +1,9 @@
-package janggi.piece.limit;
+package janggi.domain.piece.limit;
 
-import janggi.board.Position;
-import janggi.move.Route;
-import janggi.piece.Piece;
-import janggi.piece.Side;
+import janggi.domain.board.Position;
+import janggi.domain.move.Route;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

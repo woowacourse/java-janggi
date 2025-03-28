@@ -1,8 +1,8 @@
 package janggi.piece.limit;
 
-import janggi.board.JanggiBoard;
-import janggi.board.Position;
-import janggi.piece.Empty;
+import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Empty;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

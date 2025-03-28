@@ -1,6 +1,6 @@
-package janggi.move;
+package janggi.domain.move;
 
-import janggi.board.Position;
+import janggi.domain.board.Position;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

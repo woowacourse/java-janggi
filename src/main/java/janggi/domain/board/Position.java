@@ -1,6 +1,6 @@
-package janggi.board;
+package janggi.domain.board;
 
-import janggi.move.Direction;
+import janggi.domain.move.Direction;
 
 import java.util.*;
 

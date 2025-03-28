@@ -1,6 +1,6 @@
 package janggi.view.util;
 
-import janggi.board.Position;
+import janggi.domain.board.Position;
 
 public class PositionFormatter {
 

@@ -1,9 +1,9 @@
 package janggi.view;
 
-import janggi.board.JanggiBoard;
-import janggi.board.Position;
-import janggi.piece.Piece;
-import janggi.piece.Side;
+import janggi.domain.board.JanggiBoard;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
 import janggi.view.util.PositionFormatter;
 
 import java.util.List;
