@@ -15,16 +15,11 @@ public class PalaceMovePath implements MovePath {
 
     @Override
     public boolean canMove(Point from, Point to) {
-        if (!Palace.isSamePalace(from, to)) {
+        if (!Palace.canMoveInPalace(from, to, direction)) {
             return false;
         }
-        if (!from.move(direction).equals(to)) {
-            return false;
-        }
-        if (direction.isDiagonal()) {
-            return Palace.canMoveDiagonal(from, to);
-        }
-        return true;
+
+        return from.move(direction).equals(to);
     }
 
     @Override

@@ -29,12 +29,24 @@ public enum Palace {
         this.additionalMovementPoints = additionalMovementPoints;
     }
 
+    public static boolean canMoveInPalace(Point from, Point to, Direction direction) {
+        if (!isSamePalace(from, to)) {
+            return false;
+        }
+
+        if (direction.isDiagonal() && !canMoveDiagonal(from, to)) {
+            return false;
+        }
+
+        return true;
+    }
+
     public static boolean isInPalace(Point point) {
         return Arrays.stream(values())
                 .anyMatch(palace -> palace.palacePoints.contains(point));
     }
 
-    public static boolean isSamePalace(Point from, Point to) {
+    private static boolean isSamePalace(Point from, Point to) {
         Palace fromPalace = findPalaceInPalacePoints(from);
         Palace toPalace = findPalaceInPalacePoints(to);
 
@@ -45,7 +57,7 @@ public enum Palace {
         return fromPalace == toPalace;
     }
 
-    public static boolean canMoveDiagonal(Point from, Point to) {
+    private static boolean canMoveDiagonal(Point from, Point to) {
         Palace fromPalace = findPalaceInAdditionalMovementPoints(from);
         Palace toPalace = findPalaceInAdditionalMovementPoints(to);
         if (fromPalace == null || toPalace == null) {

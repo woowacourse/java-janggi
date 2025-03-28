@@ -16,11 +16,7 @@ public class EndlessPalaceMovePath implements MovePath {
 
     @Override
     public boolean canMove(Point from, Point to) {
-        if (!Palace.isSamePalace(from, to)) {
-            return false;
-        }
-
-        if (direction.isDiagonal() && !Palace.canMoveDiagonal(from, to)) {
+        if (!Palace.canMoveInPalace(from, to, direction)) {
             return false;
         }
 
