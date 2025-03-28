@@ -88,6 +88,6 @@ public class OutputView {
     }
 
     public void outputWinner(final Country winner, final int winnerScore, final int looserScore) {
-        System.out.printf("%s 승리!! ( %d : %d )\n", winner.name(), winnerScore, looserScore);
+        System.out.printf("%s 승리!! ( %d : %d )\n", COUNTRY_NAMES.get(winner), winnerScore, looserScore);
     }
 }
