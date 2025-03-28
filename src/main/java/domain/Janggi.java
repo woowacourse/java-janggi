@@ -89,23 +89,27 @@ public class Janggi {
     }
 
     private boolean canCannonJump(Position current, Route route) {
-        Position endPoint = route.searchDestination(current);
-        if (totalUnits.isNotEmptyPosition(endPoint) &&
-                totalUnits.isUnitSameType(endPoint, UnitType.CANNON)) {
+        Position destination = route.searchDestination(current);
+
+        if (totalUnits.isNotEmptyPosition(destination) &&
+                totalUnits.isUnitSameType(destination, UnitType.CANNON)) {
             return false;
         }
 
-        int count = 0;
-        for (Position position : route.getPositionsExceptDestination(current)) {
-            if (totalUnits.isEmptyPosition(position)) {
-                continue;
-            }
-            if (totalUnits.isUnitSameType(position, UnitType.CANNON)) {
-                return false;
-            }
-            count++;
-        }
-        return (count == 1);
+        List<Position> pathPositions = route.getPositionsExceptDestination(current);
+        return !hasCannonInPath(pathPositions) && onlyOneUnitInPath(pathPositions);
+    }
+
+    private boolean hasCannonInPath(List<Position> positions) {
+        return positions.stream()
+                .filter(totalUnits::isNotEmptyPosition)
+                .anyMatch(position -> totalUnits.isUnitSameType(position, UnitType.CANNON));
+    }
+
+    private boolean onlyOneUnitInPath(List<Position> positions) {
+        return positions.stream()
+                .filter(totalUnits::isNotEmptyPosition)
+                .count() == 1;
     }
 
     private List<Route> filterBlockedRoutes(Position pick, List<Route> routes) {
