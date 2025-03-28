@@ -18,6 +18,6 @@ public enum GameModeOption {
         return Arrays.stream(values())
                 .filter(gameModeOption -> gameModeOption.input.equals(input))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_GAME_OPTION_INPUT.getMessage()));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_GAME_MODE_OPTION.getMessage()));
     }
 }
