@@ -2,7 +2,6 @@ package janggi.view;
 
 import janggi.domain.Dynasty;
 import janggi.domain.Player;
-import janggi.domain.board.Point;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.ChuSoldier;
@@ -12,6 +11,7 @@ import janggi.domain.piece.Guard;
 import janggi.domain.piece.HanSoldier;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Point;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;

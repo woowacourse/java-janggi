@@ -1,6 +1,27 @@
-package janggi.domain.board;
+package janggi.domain.piece;
+
+import java.util.Set;
 
 public record Point(int x, int y) {
+    private static final Set<Point> palace = Set.of(
+            new Point(1, 4), new Point(1, 5), new Point(1, 6),
+            new Point(2, 4), new Point(2, 5), new Point(2, 6),
+            new Point(3, 4), new Point(3, 5), new Point(3, 6),
+
+            new Point(8, 4), new Point(8, 5), new Point(8, 6),
+            new Point(9, 4), new Point(9, 5), new Point(9, 6),
+            new Point(10, 4), new Point(10, 5), new Point(10, 6)
+    );
+
+    private static final Set<Point> palace2 = Set.of(
+            new Point(1, 4), new Point(1, 6),
+            new Point(2, 5),
+            new Point(3, 4), new Point(3, 6),
+
+            new Point(8, 4), new Point(8, 6),
+            new Point(9, 5),
+            new Point(10, 4), new Point(10, 6)
+    );
     private static final int MINIMUM_ROW = 1;
     private static final int MAXIMUM_ROW = 10;
     private static final int MINIMUM_COLUMN = 1;

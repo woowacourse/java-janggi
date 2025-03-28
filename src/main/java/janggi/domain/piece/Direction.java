@@ -1,4 +1,4 @@
-package janggi.domain.board;
+package janggi.domain.piece;
 
 public enum Direction {
     UP(-1, 0),
@@ -16,6 +16,20 @@ public enum Direction {
     Direction(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public static boolean isDiagonal(Point from, Point to) {
+        if (from.equals(to)) {
+            return false;
+        }
+
+        int dx = to.x() - from.x();
+        int dy = to.y() - from.y();
+        return Math.abs(dx) == Math.abs(dy);
+    }
+
+    public boolean isDiagonal() {
+        return Math.abs(x) == Math.abs(y);
     }
 
     public int getX() {

@@ -4,6 +4,7 @@ import janggi.domain.Dynasty;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PiecesOnPath;
+import janggi.domain.piece.Point;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

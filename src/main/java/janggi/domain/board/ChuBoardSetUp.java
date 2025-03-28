@@ -9,6 +9,7 @@ import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Point;
 import java.util.HashMap;
 import java.util.Map;
 

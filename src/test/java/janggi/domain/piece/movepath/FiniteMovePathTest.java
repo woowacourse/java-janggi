@@ -3,8 +3,8 @@ package janggi.domain.piece.movepath;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Fixtures;
-import janggi.domain.board.Direction;
-import janggi.domain.board.Point;
+import janggi.domain.piece.Direction;
+import janggi.domain.piece.Point;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;

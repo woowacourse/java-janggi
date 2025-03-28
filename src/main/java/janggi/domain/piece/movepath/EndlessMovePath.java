@@ -1,7 +1,7 @@
 package janggi.domain.piece.movepath;
 
-import janggi.domain.board.Direction;
-import janggi.domain.board.Point;
+import janggi.domain.piece.Direction;
+import janggi.domain.piece.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class EndlessMovePath implements MovePath {
     private List<Point> createMovePoints(Point from, Point to) {
         List<Point> points = new ArrayList<>();
         Point curr = from;
-        while (!curr.isOutOfBoundary() && !curr.equals(to)) {
+        while (!curr.equals(to)) {
             curr = curr.move(direction);
             points.add(curr);
         }

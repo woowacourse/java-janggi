@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Dynasty;
 import janggi.domain.piece.ChuSoldier;
+import janggi.domain.piece.Point;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

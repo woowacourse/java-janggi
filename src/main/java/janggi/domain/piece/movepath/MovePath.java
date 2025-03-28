@@ -1,6 +1,6 @@
 package janggi.domain.piece.movepath;
 
-import janggi.domain.board.Point;
+import janggi.domain.piece.Point;
 import java.util.List;
 
 public interface MovePath {

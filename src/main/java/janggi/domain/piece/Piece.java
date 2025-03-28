@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
-import janggi.domain.board.Point;
 import janggi.domain.piece.movepath.MovePath;
 import java.util.List;
 import java.util.Objects;

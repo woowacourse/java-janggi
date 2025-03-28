@@ -5,7 +5,7 @@ import janggi.domain.Player;
 import janggi.domain.Players;
 import janggi.domain.board.BoardSetUp;
 import janggi.domain.board.JanggiBoard;
-import janggi.domain.board.Point;
+import janggi.domain.piece.Point;
 import janggi.view.InitializeView;
 import janggi.view.JanggiBoardView;
 import janggi.view.JanggiBoardView.Movement;

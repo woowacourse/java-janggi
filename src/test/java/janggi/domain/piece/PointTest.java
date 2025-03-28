@@ -1,4 +1,4 @@
-package janggi.domain.board;
+package janggi.domain.piece;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

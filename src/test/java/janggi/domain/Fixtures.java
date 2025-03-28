@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.domain.board.Point;
+import janggi.domain.piece.Point;
 
 public class Fixtures {
 
