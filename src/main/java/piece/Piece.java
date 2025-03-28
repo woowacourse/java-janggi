@@ -18,6 +18,7 @@ public abstract class Piece {
         List<Position> route = getPathForMoving(fromPosition, toPosition);
         validateNormalTargetPosition(toPosition, board);
         validateRoute(route, board);
+        validateSpecialPieceTargetPosition(toPosition, board);
     }
 
     public abstract List<Position> getPathForMoving(Position fromPosition, Position toPosition);
@@ -35,6 +36,7 @@ public abstract class Piece {
 
 
     public void validateSpecialPieceTargetPosition(Position toPosition, Board board) {
+
     }
 
     public PieceType getPieceType() {

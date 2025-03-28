@@ -25,13 +25,24 @@ public class Cannon extends Piece {
         if (existCannon) {
             throw new IllegalArgumentException("포는 포를 먹거나 넘을 수 없습니다. ");
         }
-        List<Piece> list = positions.subList(0, positions.size() - 1).stream()
+
+        List<Piece> list = positions.stream()
                 .filter(position -> board.getBoard().containsKey(position))
                 .map(position -> board.getBoard().get(position))
                 .toList();
-        if (list.size() != 1 || list.getFirst().getPieceType() == PieceType.CANNON) {
+        if (list.size() != 1) {
             throw new IllegalArgumentException("포는 해당 위치로 이동할 수 없습니다.");
         }
 
+    }
+
+    @Override
+    public void validateSpecialPieceTargetPosition(Position toPosition, Board board) {
+        if (board.getBoard().containsKey(toPosition)) {
+            Piece toPiece = board.getBoard().get(toPosition);
+            if (toPiece.getPieceType() == PieceType.CANNON) {
+                throw new IllegalArgumentException("포는 포를 먹을 수 없습니다.");
+            }
+        }
     }
 }
