@@ -12,13 +12,14 @@ public record Position(int x, int y) {
     public static final int POSITION_RANGE_X_MAX = 10;
     public static final int POSITION_RANGE_Y_MIN = 1;
     public static final int POSITION_RANGE_Y_MAX = 9;
+    public static final Position PALACE_CENTER_HAN = new Position(2, 5);
+    public static final Position PALACE_CENTER_CHO = new Position(9, 5);
 
+    private static final double MAX_DISTANCE_OF_SAME_PALACE = Math.sqrt(8);
     private static final Position PALACE_TOP_LEFT_HAN = new Position(1, 4);
     private static final Position PALACE_BOTTOM_RIGHT_HAN = new Position(3, 6);
     private static final Position PALACE_TOP_LEFT_CHO = new Position(8, 4);
     private static final Position PALACE_BOTTOM_RIGHT_CHO = new Position(10, 6);
-    public static final Position PALACE_CENTER_HAN = new Position(2, 5);
-    public static final Position PALACE_CENTER_CHO = new Position(9, 5);
 
     public Position(final int x, final int y) {
         validatePositionRange(x, y);
@@ -33,6 +34,10 @@ public record Position(int x, int y) {
         if (y < POSITION_RANGE_Y_MIN || POSITION_RANGE_Y_MAX < y) {
             throw new IllegalArgumentException("좌표 범위가 벗어났습니다.");
         }
+    }
+
+    public boolean isSamePalace(final Position position){
+        return this.calculateDistance(position) > MAX_DISTANCE_OF_SAME_PALACE;
     }
 
     public double calculateDistance(final Position descPosition) {
@@ -82,6 +87,13 @@ public record Position(int x, int y) {
         return betweenPositions;
     }
 
+    public Position calculatePalaceCenterPosition(){
+        if(isInsidePalace(Country.HAN)) {
+            return PALACE_CENTER_HAN;
+        }
+        return PALACE_CENTER_CHO;
+    }
+
     private static void removeSourceAndDestination(final List<Position> betweenPositions) {
         betweenPositions.removeFirst();
         betweenPositions.removeLast();
@@ -121,6 +133,10 @@ public record Position(int x, int y) {
         return this.equals(PALACE_CENTER_CHO);
     }
 
+    public boolean isCenterInPalace(){
+        return this.equals(PALACE_CENTER_HAN) || this.equals(PALACE_CENTER_CHO);
+    }
+
     public boolean isCornerInPalace(final Country country) {
         if (country == Country.HAN) {
             return (y == PALACE_TOP_LEFT_CHO.y || y == PALACE_BOTTOM_RIGHT_CHO.y)
@@ -128,6 +144,10 @@ public record Position(int x, int y) {
         }
         return (y == PALACE_TOP_LEFT_CHO.y || y == PALACE_BOTTOM_RIGHT_CHO.y)
                 && (x == PALACE_TOP_LEFT_CHO.x || x == PALACE_BOTTOM_RIGHT_CHO.x);
+    }
+
+    public boolean isCornerInPalace(){
+        return isCornerInPalace(Country.HAN) || isCornerInPalace(Country.CHO);
     }
 
 }
