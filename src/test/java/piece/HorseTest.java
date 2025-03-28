@@ -29,7 +29,7 @@ import position.Position;
 
 public class HorseTest {
 
-    public static Stream<Arguments> horseFromToPositions() {
+    public static Stream<Arguments> VALID_MOVE_POSITIONS() {
         return Stream.of(
                 Arguments.of(E5, D7),
                 Arguments.of(E5, F7),
@@ -44,7 +44,7 @@ public class HorseTest {
 
 
     @ParameterizedTest
-    @MethodSource("horseFromToPositions")
+    @MethodSource("VALID_MOVE_POSITIONS")
     void 말은_시작지와_목적지에_따른_이동경로를_반환한다(Position fromPosition, Position toPosition) {
         // given
         Horse horse = new Horse(Country.Cho);
@@ -75,7 +75,7 @@ public class HorseTest {
     }
 
     @ParameterizedTest
-    @MethodSource("horseFromToPositions")
+    @MethodSource("VALID_MOVE_POSITIONS")
     void 말은_중간에_기물이_있으면_이동할_수_없다(Position fromPosition, Position toPosition) {
         // given
         Horse horse = new Horse(Country.Cho);

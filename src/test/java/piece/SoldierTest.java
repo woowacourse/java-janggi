@@ -23,7 +23,7 @@ import position.Position;
 
 public class SoldierTest {
 
-    static Stream<Arguments> 초나라_병사_이동_가능한_경로() {
+    static Stream<Arguments> CHO_VALID_MOVE_POSITIONS() {
         return Stream.of(
                 Arguments.of(E5, E6),
                 Arguments.of(E5, D5),
@@ -31,7 +31,7 @@ public class SoldierTest {
         );
     }
 
-    static Stream<Arguments> 초나라_병사_이동_불가능한_경로() {
+    static Stream<Arguments> CHO_INVALID_MOVE_POSITIONS() {
         return Stream.of(
                 Arguments.of(E5, E4),
                 Arguments.of(E5, D4),
@@ -39,7 +39,7 @@ public class SoldierTest {
         );
     }
 
-    static Stream<Arguments> 한나라_병사_이동_가능한_경로() {
+    static Stream<Arguments> HAN_VALID_POSITIONS() {
         return Stream.of(
                 Arguments.of(E4, E3),
                 Arguments.of(E4, D4),
@@ -47,7 +47,7 @@ public class SoldierTest {
         );
     }
 
-    static Stream<Arguments> 한나라_병사_이동_불가능한_경로() {
+    static Stream<Arguments> HAN_INVALID_POSITIONS() {
         return Stream.of(
                 Arguments.of(E4, E5),
                 Arguments.of(E4, D5),
@@ -56,7 +56,7 @@ public class SoldierTest {
     }
 
     @ParameterizedTest
-    @MethodSource("초나라_병사_이동_가능한_경로")
+    @MethodSource("CHO_VALID_MOVE_POSITIONS")
     void 초나라_병사는_앞_또는_좌우로_한칸_이동할_수_있다(Position from, Position to) {
         Soldier soldier = new Soldier(Country.Cho);
         Board board = new Board(Map.of());
@@ -65,7 +65,7 @@ public class SoldierTest {
     }
 
     @ParameterizedTest
-    @MethodSource("초나라_병사_이동_불가능한_경로")
+    @MethodSource("CHO_INVALID_MOVE_POSITIONS")
     void 초나라_병사는_뒤쪽이나_대각선으로_이동할_수_없다(Position from, Position to) {
         Soldier soldier = new Soldier(Country.Cho);
         Board board = new Board(Map.of());
@@ -76,7 +76,7 @@ public class SoldierTest {
     }
 
     @ParameterizedTest
-    @MethodSource("한나라_병사_이동_가능한_경로")
+    @MethodSource("HAN_VALID_POSITIONS")
     void 한나라_병사는_앞_또는_좌우로_한칸_이동할_수_있다(Position from, Position to) {
         Soldier soldier = new Soldier(Country.Han);
         Board board = new Board(Map.of());
@@ -85,7 +85,7 @@ public class SoldierTest {
     }
 
     @ParameterizedTest
-    @MethodSource("한나라_병사_이동_불가능한_경로")
+    @MethodSource("HAN_INVALID_POSITIONS")
     void 한나라_병사는_뒤쪽이나_대각선으로_이동할_수_없다(Position from, Position to) {
         Soldier soldier = new Soldier(Country.Han);
         Board board = new Board(Map.of());

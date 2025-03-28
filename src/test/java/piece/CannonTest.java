@@ -31,7 +31,7 @@ import position.Position;
 
 public class CannonTest {
 
-    static Stream<Arguments> validMovePositions() {
+    static Stream<Arguments> VALID_MOVE_POSITIONS() {
         return Stream.of(
                 Arguments.of(E5, A5),
                 Arguments.of(E5, I5),
@@ -40,7 +40,7 @@ public class CannonTest {
         );
     }
 
-    static Stream<Arguments> invalidMovePositions() {
+    static Stream<Arguments> INVALID_MOVE_POSITIONS() {
         return Stream.of(
                 Arguments.of(E5, D4),
                 Arguments.of(E5, B3),
@@ -48,17 +48,9 @@ public class CannonTest {
         );
     }
 
-    static Stream<Arguments> blockedMovePositions() {
-        return Stream.of(
-                Arguments.of(E5, A5),
-                Arguments.of(E5, I5),
-                Arguments.of(E5, E1),
-                Arguments.of(E5, E9)
-        );
-    }
 
     @ParameterizedTest
-    @MethodSource("validMovePositions")
+    @MethodSource("VALID_MOVE_POSITIONS")
     void 포는_중간에_기물이_하나가_있으면상하좌우_방향으로_이동할_수_있다(Position from, Position to) {
         // given
         Cannon cannon = new Cannon(Cho);
@@ -74,7 +66,7 @@ public class CannonTest {
     }
 
     @ParameterizedTest
-    @MethodSource("invalidMovePositions")
+    @MethodSource("INVALID_MOVE_POSITIONS")
     void 포는_상하좌우가_아닌_경로로는_이동할_수_없다(Position from, Position to) {
         // given
         Cannon cannon = new Cannon(Cho);
@@ -92,7 +84,7 @@ public class CannonTest {
     }
 
     @ParameterizedTest
-    @MethodSource("blockedMovePositions")
+    @MethodSource("VALID_MOVE_POSITIONS")
     void 포는_중간에_기물이_두_개_이상_있으면_이동할_수_없다(Position from, Position to) {
         // given
         Cannon cannon = new Cannon(Cho);
@@ -115,7 +107,7 @@ public class CannonTest {
     }
 
     @ParameterizedTest
-    @MethodSource("blockedMovePositions")
+    @MethodSource("VALID_MOVE_POSITIONS")
     void 포는_중간에_기물이_포면_이동할_수_없다(Position from, Position to) {
         // given
         Cannon cannon = new Cannon(Cho);

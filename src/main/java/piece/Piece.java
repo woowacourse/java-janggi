@@ -24,6 +24,14 @@ public abstract class Piece {
     public abstract void validateRoute(List<Position> positions, Board board);
 
 
+    public void validateNormalTargetPosition(Position fromPosition, Position toPosition, Board board) {
+        Piece fromPiece = board.getBoard().get(toPosition);
+        Piece toPiece = board.getBoard().get(toPosition);
+        if (fromPiece.getCountry() == toPiece.getCountry()) {
+            throw new IllegalArgumentException("아군 기물이 위치해 있습니다. ");
+        }
+    }
+
     public PieceType getPieceType() {
         return pieceType;
     }

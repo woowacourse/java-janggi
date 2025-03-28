@@ -29,7 +29,7 @@ import position.Position;
 
 public class ElephantTest {
 
-    static Stream<Arguments> validMovePositions() {
+    static Stream<Arguments> VALID_MOVE_POSITIONS() {
         return Stream.of(
                 Arguments.of(C8),
                 Arguments.of(B7),
@@ -42,7 +42,7 @@ public class ElephantTest {
         );
     }
 
-    static Stream<Arguments> invalidMovePositions() {
+    static Stream<Arguments> INVALID_MOVE_POSITIONS() {
         return Stream.of(
                 Arguments.of(D5),
                 Arguments.of(F6),
@@ -50,16 +50,8 @@ public class ElephantTest {
         );
     }
 
-    static Stream<Arguments> blockedMovePositions() {
-        return Stream.of(
-                Arguments.of(C8),
-                Arguments.of(B7),
-                Arguments.of(C2)
-        );
-    }
-
     @ParameterizedTest
-    @MethodSource("validMovePositions")
+    @MethodSource("VALID_MOVE_POSITIONS")
     void 상은_시작지와_목적지에_따른_이동경로를_반환한다(Position toPosition) {
         // given
         Elephant elephant = new Elephant(Cho);
@@ -70,7 +62,7 @@ public class ElephantTest {
     }
 
     @ParameterizedTest
-    @MethodSource("invalidMovePositions")
+    @MethodSource("INVALID_MOVE_POSITIONS")
     void 상은_정해진_루트가_아니면_이동할_수_없다(Position toPosition) {
         // given
         Elephant elephant = new Elephant(Cho);
@@ -83,7 +75,7 @@ public class ElephantTest {
     }
 
     @ParameterizedTest
-    @MethodSource("blockedMovePositions")
+    @MethodSource("VALID_MOVE_POSITIONS")
     void 상은_중간에_기물이_있으면_이동할_수_없다(Position toPosition) {
         // given
         Elephant elephant = new Elephant(Cho);
