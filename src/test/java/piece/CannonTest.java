@@ -3,6 +3,7 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static piece.Country.Cho;
+import static piece.Country.Han;
 import static testutil.TestConstant.A5;
 import static testutil.TestConstant.B3;
 import static testutil.TestConstant.B5;
@@ -122,6 +123,44 @@ public class CannonTest {
         // when & then
         assertThatThrownBy(() -> cannon.canMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("포는 해당 위치로 이동할 수 없습니다.");
+                .hasMessage("포는 포를 먹거나 넘을 수 없습니다. ");
+    }
+
+    @ParameterizedTest
+    @MethodSource("VALID_MOVE_POSITIONS")
+    void 포는_마지막에_아군이_있으면_이동할_수_없다(Position fromPosition, Position toPosition) {
+        // given
+        Cannon cannon = new Cannon(Cho);
+        Board board = new Board(Map.of(
+                E4, new Elephant(Cho),
+                E6, new Elephant(Cho),
+                C5, new Elephant(Cho),
+                F5, new Elephant(Cho),
+                toPosition, new Elephant(Cho)
+        ));
+
+        // then
+        assertThatThrownBy(() -> cannon.canMove(fromPosition, toPosition, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("아군 기물이 위치해 있습니다. ");
+    }
+
+    @ParameterizedTest
+    @MethodSource("VALID_MOVE_POSITIONS")
+    void 포는_마지막에_상대_포가_있으면_이동할_수_없다(Position fromPosition, Position toPosition) {
+        // given
+        Cannon cannon = new Cannon(Cho);
+        Board board = new Board(Map.of(
+                E4, new Elephant(Cho),
+                E6, new Elephant(Cho),
+                D5, new Elephant(Cho),
+                F5, new Elephant(Cho),
+                toPosition, new Cannon(Han)
+        ));
+
+        // then
+        assertThatThrownBy(() -> cannon.canMove(fromPosition, toPosition, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("포는 포를 먹거나 넘을 수 없습니다. ");
     }
 }

@@ -16,8 +16,15 @@ public class Cannon extends Piece {
         return fromPosition.findStraightPositions(toPosition);
     }
 
+    // 애초에 루트를 따로 중간 기물 계산이랑 최종 위치 계산이랑 따로 하자
     @Override
     public void validateRoute(final List<Position> positions, Board board) {
+        boolean existCannon = positions.stream()
+                .filter(position -> board.getBoard().containsKey(position))
+                .anyMatch(position -> board.getBoard().get(position).getPieceType() == PieceType.CANNON);
+        if (existCannon) {
+            throw new IllegalArgumentException("포는 포를 먹거나 넘을 수 없습니다. ");
+        }
         List<Piece> list = positions.subList(0, positions.size() - 1).stream()
                 .filter(position -> board.getBoard().containsKey(position))
                 .map(position -> board.getBoard().get(position))
