@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 public class OutputView {
     private static final ResourceBundle pieceTypeBundle = ResourceBundle.getBundle("pieceType");
+    private static final ResourceBundle dynastyBundle = ResourceBundle.getBundle("dynasty");
     private static final String BLANK = "＿";
 
     public void printBoard(Map<Position, Piece> pieces) {
@@ -34,5 +35,9 @@ public class OutputView {
         System.out.println();
 
         System.out.println("  ０ １ ２ ３ ４ ５ ６ ７ 8");
+    }
+
+    public void printScore(double hanScore, double choScore) {
+        System.out.printf("한나라의 점수: %.1f \n초나라의 점수: %.1f", hanScore, choScore);
     }
 }

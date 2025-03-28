@@ -43,7 +43,8 @@ public class InputView {
     }
 
     public int readArrangementStrategyByDynasty(Dynasty dynasty) {
-        System.out.printf("%s는 배치 전략을 선택하세요.", dynastyBundle.getString(dynasty.name()));
+        System.out.println();
+        System.out.printf("%s는 배치 전략을 선택하세요.\n1", dynastyBundle.getString(dynasty.name()));
         System.out.println(ARRANGE_PROMPT);
         return Integer.parseInt(scanner.nextLine());
     }

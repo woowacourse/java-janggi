@@ -4,6 +4,7 @@ import janggiGame.arrangement.ArrangementStrategy;
 import janggiGame.piece.character.Dynasty;
 import janggiGame.piece.EmptyPiece;
 import janggiGame.piece.Piece;
+import janggiGame.piece.character.PieceType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,6 @@ public class Board {
                 .forEach(dot -> reversePieces.put(dot.getReverse(), pieces.get(dot)));
 
         this.survivedPieces.putAll(reversePieces);
-
     }
 
     public void arrangeChoPieces(ArrangementStrategy strategy) {
@@ -75,6 +75,21 @@ public class Board {
     private void movePiece(Position origin, Position destination, Piece originPiece) {
         survivedPieces.remove(origin);
         survivedPieces.put(destination, originPiece);
+    }
+
+    public double calculateTotalPoints(final Dynasty dynasty) {
+        double totalPoints = 0;
+
+        totalPoints += survivedPieces.values().stream()
+                .filter(piece -> piece.hasDynasty(dynasty))
+                .mapToInt(piece -> piece.getType().getPoint())
+                .sum();
+
+        if (dynasty == Dynasty.HAN) {
+            totalPoints += 1.5;
+        }
+
+        return totalPoints;
     }
 
     public Map<Position, Piece> getSurvivedPieces() {

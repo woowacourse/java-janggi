@@ -27,6 +27,11 @@ public class Application {
 
                 board.processTurn(currentDynasty, movement.getFirst(), movement.getLast());
 
+                double hanTotalScore =board.calculateTotalPoints(Dynasty.HAN);
+                double choTotalScore = board.calculateTotalPoints(Dynasty.CHO);
+
+                outputView.printScore(hanTotalScore, choTotalScore);
+
                 turn++;
             } catch (Exception e) {
                 System.out.println(e.getMessage());
