@@ -1,6 +1,7 @@
 package janggi.dto;
 
 import janggi.position.Position;
+import java.util.Objects;
 
 public class MoveDto {
 
@@ -41,5 +42,19 @@ public class MoveDto {
 
     public String getEndColumn() {
         return String.valueOf(end.getColumnValue());
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final MoveDto moveDto = (MoveDto) o;
+        return Objects.equals(start, moveDto.start) && Objects.equals(end, moveDto.end);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end);
     }
 }
