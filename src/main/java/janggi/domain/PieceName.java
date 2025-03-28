@@ -12,35 +12,47 @@ import java.util.Arrays;
 
 public enum PieceName {
 
-    HAN_CANNON(new Cannon(Side.HAN), "\u001B[31m포\u001B[0m"),
-    CHO_CANNON(new Cannon(Side.CHO), "\u001B[32m포\u001B[0m"),
-    HAN_CHARIOT(new Chariot(Side.HAN), "\u001B[31m차\u001B[0m"),
-    CHO_CHARIOT(new Chariot(Side.CHO), "\u001B[32m차\u001B[0m"),
-    HAN_ELEPHANT(new Elephant(Side.HAN), "\u001B[31m상\u001B[0m"),
-    CHO_ELEPHANT(new Elephant(Side.CHO), "\u001B[32m상\u001B[0m"),
-    HAN_GENERAL(new General(Side.HAN), "\u001B[31m궁\u001B[0m"),
-    CHO_GENERAL(new General(Side.CHO), "\u001B[32m궁\u001B[0m"),
-    HAN_GUARD(new Guard(Side.HAN), "\u001B[31m사\u001B[0m"),
-    CHO_GUARD(new Guard(Side.CHO), "\u001B[32m사\u001B[0m"),
-    HAN_HORSE(new Horse(Side.HAN), "\u001B[31m마\u001B[0m"),
-    CHO_HORSE(new Horse(Side.CHO), "\u001B[32m마\u001B[0m"),
-    HAN_SOLDIER(new Soldier(Side.HAN), "\u001B[31m병\u001B[0m"),
-    CHO_SOLDIER(new Soldier(Side.CHO), "\u001B[32m병\u001B[0m"),
+    HAN_CANNON(new Cannon(Side.HAN), "포", "Cannon"),
+    CHO_CANNON(new Cannon(Side.CHO), "포", "Cannon"),
+    HAN_CHARIOT(new Chariot(Side.HAN), "차", "Chariot"),
+    CHO_CHARIOT(new Chariot(Side.CHO), "차", "Chariot"),
+    HAN_ELEPHANT(new Elephant(Side.HAN), "상", "Elephant"),
+    CHO_ELEPHANT(new Elephant(Side.CHO), "상", "Elephant"),
+    HAN_GENERAL(new General(Side.HAN), "궁", "General"),
+    CHO_GENERAL(new General(Side.CHO), "궁", "General"),
+    HAN_GUARD(new Guard(Side.HAN), "사", "Guard"),
+    CHO_GUARD(new Guard(Side.CHO), "사", "Guard"),
+    HAN_HORSE(new Horse(Side.HAN), "마", "Horse"),
+    CHO_HORSE(new Horse(Side.CHO), "마", "Horse"),
+    HAN_SOLDIER(new Soldier(Side.HAN), "병", "Soldier"),
+    CHO_SOLDIER(new Soldier(Side.CHO), "병", "Soldier"),
     ;
 
     private final Piece piece;
-    private final String name;
+    private final String displayName;
+    private final String databaseName;
 
-    PieceName(Piece piece, String name) {
+    PieceName(Piece piece, String displayName, String databaseName) {
         this.piece = piece;
-        this.name = name;
+        this.displayName = displayName;
+        this.databaseName = databaseName;
     }
 
-    public static String findName(Piece piece) {
+    public static String getDisplayName(Piece piece) {
         return Arrays.stream(PieceName.values())
                 .filter(pieceName -> pieceName.piece.equals(piece))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Piece입니다."))
-                .name;
+                .displayName;
+    }
+
+    public static Piece getPiece(String name, String side) {
+        Side targetSide = Side.valueOf(side);
+        return Arrays.stream(PieceName.values())
+                .filter(pieceName -> pieceName.databaseName.equals(name))
+                .filter(pieceName -> pieceName.piece.isSameSide(targetSide))
+                .findFirst()
+                .orElseThrow()
+                .piece;
     }
 }

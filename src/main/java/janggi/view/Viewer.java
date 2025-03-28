@@ -1,7 +1,6 @@
 package janggi.view;
 
 import janggi.common.ErrorMessage;
-import janggi.domain.PieceName;
 import janggi.domain.Position;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
@@ -44,7 +43,7 @@ public class Viewer {
     private String getPieceName(Map<Position, Piece> pieces, Position position) {
         if (pieces.containsKey(position)) {
             Piece piece = pieces.get(position);
-            return PieceName.findName(piece);
+            return Formatter.formatPieceName(piece);
         }
         return "＿";
     }
@@ -60,7 +59,8 @@ public class Viewer {
     }
 
     public void printTurnInfo(Side side) {
-        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, side.getName() + "의 차례입니다."));
+        String sideName = Formatter.formatSideName(side);
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, sideName + "의 차례입니다."));
     }
 
     public PositionDto readPieceSelection() {
@@ -96,12 +96,14 @@ public class Viewer {
     }
 
     public void printWinner(Side side) {
-        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, side.getName() + "가 이겼습니다!"));
+        String sideName = Formatter.formatSideName(side);
+        System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, sideName + "가 이겼습니다!"));
     }
 
     public void printPoints(Map<Side, Double> points) {
         for (Map.Entry<Side, Double> entry : points.entrySet()) {
-            System.out.println(entry.getKey().getName() + ": " + entry.getValue());
+            String sideName = Formatter.formatSideName(entry.getKey());
+            System.out.println(sideName + ": " + entry.getValue());
         }
     }
 }
