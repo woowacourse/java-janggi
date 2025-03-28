@@ -34,26 +34,25 @@ public class Route {
     }
 
     private List<Position> calculate(boolean shouldExcludeDeparture, boolean shouldExcludeDestination) {
-        List<Position> route = new ArrayList<>();
-        route.add(departure);
+        List<Position> route = new ArrayList<>(List.of(departure));
 
         Vector origin = departure.vectorTo(destination);
         Vector straightPart = origin.extractStraightForDiagonal();
         Vector diagonalPart = origin.subtract(straightPart);
 
-        for (Vector step : straightPart.splitToUnitVectors()) {
-            Position next = route.getLast().add(step);
-            route.add(next);
-        }
-
-        for (Vector step : diagonalPart.splitToUnitVectors()) {
-            Position next = route.getLast().add(step);
-            route.add(next);
-        }
+        calculatePart(straightPart, route);
+        calculatePart(diagonalPart, route);
 
         excludeDepartureAndDestination(route, shouldExcludeDeparture, shouldExcludeDestination);
 
         return route;
+    }
+
+    private void calculatePart(final Vector part, final List<Position> route) {
+        for (Vector step : part.splitToUnitVectors()) {
+            Position next = route.getLast().add(step);
+            route.add(next);
+        }
     }
 
     private void excludeDepartureAndDestination(final List<Position> route, final boolean shouldExcludeDeparture, final boolean shouldExcludeDestination) {
