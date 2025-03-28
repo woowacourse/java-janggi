@@ -1,9 +1,9 @@
 package coordinate;
 
-import static constant.JanggiConstant.BOARD_MAX_HEIGHT;
-import static constant.JanggiConstant.BOARD_MAX_WIDTH;
-import static constant.JanggiConstant.BOARD_MIN_HEIGHT;
-import static constant.JanggiConstant.BOARD_MIN_WIDTH;
+import static board.Board.BOARD_MAX_HEIGHT;
+import static board.Board.BOARD_MAX_WIDTH;
+import static board.Board.BOARD_MIN_HEIGHT;
+import static board.Board.BOARD_MIN_WIDTH;
 
 import java.util.Arrays;
 import java.util.HashSet;
