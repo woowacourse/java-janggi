@@ -12,8 +12,7 @@ public class InputView {
 
     public static ProgressCommand inputProgress() {
         System.out.printf("""
-                %n> 원하는 진행 커맨드를 입력해주세요. (예: start)
-                - 게임 시작: start
+                %n> 원하는 진행 커맨드를 입력해주세요. (예: move)
                 - 기물 이동: move
                 - 점수 확인: status
                 - 게임 종료: exit

@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public enum ProgressCommand {
 
-    START("start"),
     MOVE("move"),
     STATUS("status"),
     EXIT("exit"),
