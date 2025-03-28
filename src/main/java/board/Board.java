@@ -24,7 +24,6 @@ public class Board {
                 .toList();
     }
 
-    // ///
     public boolean isCorrectExistPositionCount(List<Position> positions, int expectedCount) {
         int count = (int) positions.stream()
                 .filter(pieces::containsKey)
@@ -32,7 +31,6 @@ public class Board {
         return count == expectedCount;
     }
 
-    // /
     public Piece getPieceBy(Position position) {
         if (!existPieceByPosition(position)) {
             throw new IllegalArgumentException("장기판에 기물이 존재하지 않습니다");

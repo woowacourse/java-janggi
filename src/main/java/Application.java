@@ -21,8 +21,8 @@ public class Application {
     public static void main(String[] args) {
         OutputView.printIntroduce();
 
-        final BoardFactory boardFactory = new BoardFactory();
-        final Board board = boardFactory.generateBoard(Country.HAN, LineDirection.UP);
+        final BoardFactory boardFactory = new BoardFactory(Country.HAN, LineDirection.UP);
+        final Board board = boardFactory.generateBoard();
         Country type = Country.getDefaultTeam();
 
         int count = 0;

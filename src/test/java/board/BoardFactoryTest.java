@@ -18,10 +18,10 @@ public class BoardFactoryTest {
         void generateBoard() {
             // given
             final int expected = 32;
-            final BoardFactory factory = new BoardFactory();
+            final BoardFactory factory = new BoardFactory(Country.HAN, LineDirection.UP);
             // when
 
-            final Board board = factory.generateBoard(Country.HAN, LineDirection.UP);
+            final Board board = factory.generateBoard();
 
             // then
             Assertions.assertThat(board.getPieces()).hasSize(expected);

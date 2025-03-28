@@ -4,8 +4,8 @@ import movement.Movement;
 
 public enum LineDirection {
 
-    UP(0, 1),
-    DOWN(9, -1),
+    UP(1, 1),
+    DOWN(10, -1),
     ;
 
     private final int baseIdx;
