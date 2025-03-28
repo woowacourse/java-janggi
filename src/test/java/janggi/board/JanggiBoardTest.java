@@ -176,7 +176,7 @@ class JanggiBoardTest {
         Position position = new Position(5, 7);
         Side side = Side.CHO;
         Piece piece = new Chariot(side);
-        JanggiBoard modifiedJanggiBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
+        JanggiBoard modifiedJanggiBoard = JanggiBoardFixture.modifyInitialBoardWithOnePiece(position, piece);
 
         List<Position> positions = modifiedJanggiBoard.computeReachableDestination(side, position);
 
@@ -214,7 +214,7 @@ class JanggiBoardTest {
         Position position = new Position(4, 7);
         Side side = Side.CHO;
         Piece piece = new Cannon(side);
-        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
+        JanggiBoard modifiedBoard = JanggiBoardFixture.modifyInitialBoardWithOnePiece(position, piece);
 
         List<Position> positions = modifiedBoard.computeReachableDestination(side, position);
 
@@ -232,7 +232,7 @@ class JanggiBoardTest {
     void test18() {
         Position position = new Position(5, 7);
         Piece piece = new Chariot(Side.CHO);
-        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
+        JanggiBoard modifiedBoard = JanggiBoardFixture.modifyInitialBoardWithOnePiece(position, piece);
         Position destination = new Position(5, 0);
 
         Piece catchedPiece = modifiedBoard.moveOrCatchPiece(position, destination);
@@ -245,7 +245,7 @@ class JanggiBoardTest {
     void test19() {
         Position position = new Position(5, 7);
         Piece piece = new Chariot(Side.CHO);
-        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
+        JanggiBoard modifiedBoard = JanggiBoardFixture.modifyInitialBoardWithOnePiece(position, piece);
         Position destination = new Position(5, 1);
 
         Piece catchedPiece = modifiedBoard.moveOrCatchPiece(position, destination);
@@ -259,7 +259,7 @@ class JanggiBoardTest {
         Position position = new Position(5, 1);
         Side side = Side.CHO;
         Piece piece = new Chariot(side);
-        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoard(position, piece);
+        JanggiBoard modifiedBoard = JanggiBoardFixture.modifyInitialBoardWithOnePiece(position, piece);
         Position destination = new Position(4, 1);
 
         modifiedBoard.moveOrCatchPiece(position, destination);
@@ -292,7 +292,7 @@ class JanggiBoardTest {
         //포의 양 옆에 졸 배치해서 점프할 수 있도록 함.
         piecePositions.put(new Position(3, 8), new Soldier(Side.CHO));
         piecePositions.put(new Position(5, 8), new Soldier(Side.CHO));
-        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoardWithPieces(piecePositions);
+        JanggiBoard modifiedBoard = JanggiBoardFixture.modifyInitialBoardWithManyPieces(piecePositions);
 
         List<Position> positions = modifiedBoard.computeReachableDestination(side, position);
 
@@ -317,7 +317,7 @@ class JanggiBoardTest {
         //포의 양 옆에 졸 배치해서 점프할 수 있도록 함.
         piecePositions.put(new Position(3, 7), new Soldier(Side.CHO));
         piecePositions.put(new Position(2, 6), new Empty());
-        JanggiBoard modifiedBoard = JanggiBoardFixture.setUpTestBoardWithPieces(piecePositions);
+        JanggiBoard modifiedBoard = JanggiBoardFixture.modifyInitialBoardWithManyPieces(piecePositions);
 
         List<Position> positions = modifiedBoard.computeReachableDestination(side, position);
 
@@ -325,5 +325,26 @@ class JanggiBoardTest {
                 () -> assertThat(positions).contains(new Position(4, 5)),
                 () -> assertThat(positions).doesNotContain(new Position(2, 6))
         );
+    }
+
+    @Test
+    @DisplayName("초기 상태 기물 점수 계산 테스트")
+    void test25() {
+        JanggiBoard janggiBoard = JanggiBoard.initializeWithPieces();
+
+        assertThat(janggiBoard.sumSideTotalScore(Side.CHO)).isEqualTo(72);
+    }
+
+    @Test
+    @DisplayName("임의의 상태 기물 점수 계산 테스트 - 차와 마만 남은 경우 (상대방의 기물은 고려하지 않음)")
+    void test26() {
+        Map<Position, Piece> piecePositions = new HashMap<>();
+        piecePositions.put(new Position(0, 8), new Chariot(Side.CHO));
+        piecePositions.put(new Position(1, 8), new Horse(Side.CHO));
+        piecePositions.put(new Position(2, 8), new Horse(Side.HAN));
+
+        JanggiBoard janggiBoard = JanggiBoardFixture.modifyEmptyBoardWithManyPieces(piecePositions);
+
+        assertThat(janggiBoard.sumSideTotalScore(Side.CHO)).isEqualTo(18);
     }
 }

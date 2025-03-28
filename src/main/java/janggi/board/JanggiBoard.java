@@ -50,6 +50,14 @@ public class JanggiBoard {
                 .noneMatch(Piece::isKing);
     }
 
+    //FIXME: 메서드명 수정
+    public int sumSideTotalScore(Side side) {
+        return board.values().stream()
+                .filter(piece -> piece.isSameSide(side))
+                .mapToInt(piece -> piece.getType().getScore())
+                .sum();
+    }
+
     private void validatePieceSelect(final Side side, final Position position) {
         validateSideSelectedPiece(side, position);
         validatePositionHasPiece(position);
