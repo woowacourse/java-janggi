@@ -44,12 +44,28 @@ public final class Point {
         return isGreenPalace() || isRedPalace();
     }
 
+    public boolean isGreenDiagonalPalace() {
+        return isGreenPalace() && !isGreenPalacePoint();
+    }
+
+    public boolean isRedDiagonalPalace() {
+        return isRedPalace() && !isRedPalacePoint();
+    }
+
     public boolean isGreenPalace() {
         return x >= 3 && x <= 5 && y >= 0 && y <= 2;
     }
 
+    private boolean isGreenPalacePoint() {
+        return (x == 3 && y == 1) || (x == 4 && y == 2) || (x == 5 && y == 1) || (x == 4 && y == 0);
+    }
+
     public boolean isRedPalace() {
         return x >= 3 && x <= 5 && y >= 7 && y <= 9;
+    }
+
+    private boolean isRedPalacePoint() {
+        return (x == 3 && y == 8) || (x == 4 && y == 9) || (x == 5 && y == 8) || (x == 4 && y == 7);
     }
 
     public Direction generateDirection(final Point other) {
