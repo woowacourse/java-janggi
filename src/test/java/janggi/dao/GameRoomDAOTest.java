@@ -10,6 +10,7 @@ import janggi.manager.DatabaseTestManger;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +35,7 @@ class GameRoomDAOTest {
 
     @DisplayName("게임 룸이 존재하면 true를 반환한다.")
     @Test
-    void test2(){
+    void test2() {
         // given
         gameRoomDAO.create(roomName);
 
@@ -54,7 +55,7 @@ class GameRoomDAOTest {
 
     @DisplayName("게임 룸이 존재하는데 생성을 하면 예외를 반환한다.")
     @Test
-    void test4(){
+    void test4() {
         // given
         gameRoomDAO.create(roomName);
 
@@ -73,17 +74,9 @@ class GameRoomDAOTest {
         assertThatCode(() -> gameRoomDAO.save(roomName, Team.HAN)).doesNotThrowAnyException();
     }
 
-    @DisplayName("해당 게임 방이 존재하지 않는데 저장을 하면 예외가 발생한다")
-    @Test
-    void test7() {
-        // give & when & then
-        assertThatThrownBy(() -> gameRoomDAO.save(roomName, Team.HAN)).hasMessage("해당 방이 존재하지 않습니다!")
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
     @DisplayName("게임 룸을 삭제한다.")
     @Test
-    void test6(){
+    void test6() {
         // given
         gameRoomDAO.create(roomName);
 
@@ -92,6 +85,32 @@ class GameRoomDAOTest {
 
         // then
         assertThat(gameRoomDAO.exist(roomName)).isFalse();
+    }
+
+    @DisplayName("해당 게임 방이 존재하지 않는데 저장을 하면 예외가 발생한다")
+    @Test
+    void test7() {
+        // give & when & then
+        assertThatThrownBy(() -> gameRoomDAO.save(roomName, Team.HAN)).hasMessage("해당 방이 존재하지 않습니다!")
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("방이 존재한다면 방 이름들을 반환한다.")
+    @Test
+    void test8() {
+        // given
+        List<String> nameList = List.of("방1", "방2", "방3", "방4");
+
+        for (String name : nameList) {
+            gameRoomDAO.create(name);
+        }
+
+        // when
+        List<String> result = gameRoomDAO.findAllNames();
+
+        // then
+        assertThat(result).containsExactlyInAnyOrderElementsOf(nameList);
+
     }
 
     @BeforeEach

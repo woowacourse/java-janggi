@@ -24,7 +24,7 @@ public class GameRoomDAO {
         this.databaseManager = databaseManager;
     }
 
-    public List<String> findAll() {
+    public List<String> findAllNames() {
         List<String> names = new ArrayList<>();
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(FIND_ALL_GAME_ROOM_QUERY)) {
@@ -37,8 +37,8 @@ public class GameRoomDAO {
             }
 
             return names;
-        } catch (SQLException e) {
-            throw new RuntimeException("findAll 중 에러 발생", e);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("findAll 중 에러 발생", e);
         }
     }
 
@@ -54,8 +54,8 @@ public class GameRoomDAO {
                 return Team.valueOf(rs.getString("turn"));
             }
             throw new IllegalArgumentException("해당 방 이름이 존재하지 않습니다");
-        } catch (SQLException e) {
-            throw new RuntimeException("findTurn 중 에러 발생", e);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("findTurn 중 에러 발생", e);
         }
     }
 
@@ -66,8 +66,8 @@ public class GameRoomDAO {
             ResultSet rs = pstmt.executeQuery();
 
             return rs.next();
-        } catch (SQLException e) {
-            throw new RuntimeException("exist 중 에러 발생", e);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("exist 중 에러 발생", e);
         }
     }
 
@@ -83,8 +83,8 @@ public class GameRoomDAO {
             pstmt.setString(2, Team.CHO.toString());
 
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("create 중 에러 발생", e);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("create 중 에러 발생", e);
         }
     }
 
@@ -99,8 +99,8 @@ public class GameRoomDAO {
             pstmt.setString(2, gameRoomName);
 
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("save 중 에러 발생", e);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("save 중 에러 발생", e);
         }
     }
 
@@ -110,8 +110,8 @@ public class GameRoomDAO {
             pstmt.setString(1, gameRoomName);
 
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("delete 중 에러 발생");
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("delete 중 에러 발생");
         }
     }
 }

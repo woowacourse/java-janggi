@@ -30,10 +30,12 @@ public final class DatabaseManager {
         }
     }
 
-    public void createTableIfNotExist() throws SQLException {
+    public void createTableIfNotExist() {
         try (final Statement stmt = getConnection().createStatement()) {
             stmt.executeUpdate(createGameRoomTable());
             stmt.executeUpdate(createPieceTable());
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("createTableIfNotExist 중 에러 발생", e);
         }
     }
 

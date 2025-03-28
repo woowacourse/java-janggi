@@ -17,7 +17,8 @@ public final class Horse extends OrthogonalRotateMoveBehavior {
     }
 
     @Override
-    protected void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, List<Vectors> vectorsList,
+    protected void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition,
+                                        List<Vectors> vectorsList,
                                         Team team) {
         for (Vectors vectors : vectorsList) {
             searchAvailableMove(result, board, currentPosition, team, vectors);
@@ -50,6 +51,6 @@ public final class Horse extends OrthogonalRotateMoveBehavior {
 
     @Override
     public int toScore() {
-        return 5;
+        return PieceType.HORSE.getScore();
     }
 }

@@ -36,8 +36,8 @@ public class PieceDAO {
             ResultSet rs = pstmt.executeQuery();
 
             return toDomain(rs);
-        } catch (SQLException e) {
-            throw new RuntimeException("toDomain 중 오류 발생", e);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("toDomain 중 오류 발생", e);
         }
     }
 
@@ -59,8 +59,8 @@ public class PieceDAO {
             }
 
             return new Board(board);
-        } catch (SQLException e) {
-            throw new RuntimeException("toDomain 중 오류 발생", e);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("toDomain 중 오류 발생", e);
         }
     }
 
@@ -76,10 +76,9 @@ public class PieceDAO {
                 save(conn, gameRoomName, position, piece);
             }
             conn.commit();
-        } catch (SQLException e) {
-            throw new RuntimeException("save All 중 오류 발생", e);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("save All 중 오류 발생", e);
         }
-
     }
 
     private void save(Connection conn, String gameRoomName, Position position, Piece piece) throws SQLException {
@@ -91,7 +90,6 @@ public class PieceDAO {
             pstmt.setString(5, gameRoomName);
 
             pstmt.executeUpdate();
-
         }
     }
 
@@ -114,8 +112,8 @@ public class PieceDAO {
             moveStmt.executeUpdate();
 
             conn.commit();
-        } catch (SQLException e) {
-            throw new RuntimeException("movePiece 중 오류 발생", e);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("movePiece 중 오류 발생", e);
         }
     }
 }

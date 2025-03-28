@@ -53,7 +53,7 @@ public final class Elephant extends OrthogonalRotateMoveBehavior {
 
     @Override
     public int toScore() {
-        return 3;
+        return PieceType.ELEPHANT.getScore();
     }
 
     private boolean checkAvailableMiddleMove(Position midPosition, Board board) {

@@ -16,7 +16,7 @@ public final class Cannon extends StraightMoveBehavior {
 
     @Override
     public int toScore() {
-        return 7;
+        return PieceType.CANNON.getScore();
     }
 
     @Override

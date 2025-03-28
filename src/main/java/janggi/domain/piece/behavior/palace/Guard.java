@@ -11,6 +11,6 @@ public final class Guard extends PalaceBehavior {
 
     @Override
     public int toScore() {
-        return 3;
+        return PieceType.GUARD.getScore();
     }
 }

@@ -24,7 +24,7 @@ public class JanggiService {
     }
 
     public void checkExistRoom() {
-        if (gameRoomDAO.findAll().isEmpty()) {
+        if (gameRoomDAO.findAllNames().isEmpty()) {
             throw new IllegalArgumentException("방이 존재하지 않습니다.");
         }
     }
@@ -63,7 +63,7 @@ public class JanggiService {
     }
 
     public List<String> getAllGameRoomName() {
-        return gameRoomDAO.findAll();
+        return gameRoomDAO.findAllNames();
     }
 
     public void saveGameRoom(String gameRoomName, Team turn) {

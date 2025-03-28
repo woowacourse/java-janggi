@@ -35,7 +35,7 @@ public final class Soldier implements PieceBehavior {
 
     @Override
     public int toScore() {
-        return 2;
+        return PieceType.SOLDIER.getScore();
     }
 
     private Set<Position> getAvailableStandardMovePositions(Board board, Position position, Team team) {
