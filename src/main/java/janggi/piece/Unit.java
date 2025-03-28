@@ -1,9 +1,8 @@
-package janggi.unit;
+package janggi.piece;
 
 import janggi.position.Position;
 import janggi.position.Route;
 import java.util.List;
-import java.util.Objects;
 
 public class Unit {
     private final Team team;
@@ -28,19 +27,5 @@ public class Unit {
 
     public Team getTeam() {
         return team;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        Unit unit = (Unit) object;
-        return team == unit.team && Objects.equals(unitRule, unit.unitRule);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(team, unitRule);
     }
 }

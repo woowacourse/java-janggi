@@ -2,7 +2,7 @@ package janggi.game;
 
 import janggi.position.Position;
 import janggi.position.Route;
-import janggi.unit.Team;
+import janggi.piece.Team;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package janggi.unit;
+package janggi.piece;
 
 import janggi.position.Position;
 import janggi.position.Route;

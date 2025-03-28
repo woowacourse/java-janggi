@@ -1,4 +1,4 @@
-package janggi.unit;
+package janggi.piece;
 
 public enum Team {
     HAN,

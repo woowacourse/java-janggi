@@ -1,10 +1,10 @@
 package janggi.view;
 
-import janggi.unit.Team;
-import janggi.unit.UnitType;
+import janggi.piece.Team;
+import janggi.piece.UnitType;
 import janggi.position.Position;
 import janggi.position.Route;
-import janggi.unit.Unit;
+import janggi.piece.Unit;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;

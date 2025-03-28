@@ -2,9 +2,9 @@ package janggi.game;
 
 import janggi.position.Position;
 import janggi.position.Route;
-import janggi.unit.Team;
-import janggi.unit.Unit;
-import janggi.unit.UnitType;
+import janggi.piece.Team;
+import janggi.piece.Unit;
+import janggi.piece.UnitType;
 import java.util.HashMap;
 import java.util.List;
 

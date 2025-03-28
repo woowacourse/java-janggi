@@ -1,4 +1,4 @@
-package janggi.unit;
+package janggi.piece;
 
 import java.util.List;
 
@@ -22,8 +22,11 @@ public enum Direction {
         this.y = y;
     }
 
-    public static List<Direction> getStraight() {
-        return List.of(Direction.UPPER, Direction.UNDER, Direction.LEFT, Direction.RIGHT);
+    public static List<Direction> getStraight(Team team) {
+        if (team == Team.CHO) {
+            return List.of(Direction.UPPER, Direction.LEFT, Direction.RIGHT);
+        }
+        return List.of(Direction.UNDER, Direction.LEFT, Direction.RIGHT);
     }
 
     public List<Direction> getNextWithDiagonal() {
@@ -43,6 +46,14 @@ public enum Direction {
             return List.of(UPPER_RIGHT, UNDER_RIGHT);
         }
         return List.of(this);
+    }
+
+    public int moveColumn(int x) {
+        return this.x + x;
+    }
+
+    public int moveRow(int y) {
+        return this.y + y;
     }
 
     public int getX() {

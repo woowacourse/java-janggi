@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.unit.Team;
+import janggi.piece.Team;
 import java.util.Scanner;
 
 public class InputView {

@@ -1,5 +1,6 @@
 package janggi.position;
 
+import janggi.piece.Direction;
 import java.util.Objects;
 
 public class Position {
@@ -37,6 +38,14 @@ public class Position {
 
     public boolean isSamePoint(Position position) {
         return this.equals(position);
+    }
+
+    public boolean canMove(Direction direction) {
+        return isCanBePosition(direction.moveColumn(x), direction.moveRow(y));
+    }
+
+    public Position move(Direction direction) {
+        return new Position(direction.moveColumn(x), direction.moveRow(y));
     }
 
     public int getX() {

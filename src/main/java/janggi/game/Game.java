@@ -2,7 +2,7 @@ package janggi.game;
 
 import janggi.position.Position;
 import janggi.position.Route;
-import janggi.unit.Team;
+import janggi.piece.Team;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
