@@ -36,6 +36,10 @@ public class Controller {
     }
 
     private JanggiBoard makeJanggiBoard() {
+        return initiateJanggiBoard();
+    }
+
+    private JanggiBoard initiateJanggiBoard() {
         KnightElephantSettingCommand hanKnightElephantSettingCommand = inputView.inputHanKnightElephantSetting();
         KnightElephantSettingCommand choKnightElephantSettingCommand = inputView.inputChoKnightElephantSetting();
 

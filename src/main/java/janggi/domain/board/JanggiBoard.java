@@ -32,6 +32,11 @@ public class JanggiBoard {
         turn = Side.getFirstTurn();
     }
 
+    public JanggiBoard(Pieces pieces, Side turn) {
+        this.pieces = pieces;
+        this.turn = turn;
+    }
+
     public void move(Position start, Position destination) {
         Piece sourcePiece = findPieceByPosition(start);
         List<Piece> allPiecesExceptSourcePiece = pieces.getAllPiecesExcept(sourcePiece);

@@ -26,4 +26,9 @@ public class JanggiBoardService {
         }
         janggiDao.insertTurn(janggiBoard.getTurn());
     }
+
+    public boolean hasGameData() {
+        return janggiDao.hasGamePiece();
+    }
+
 }
