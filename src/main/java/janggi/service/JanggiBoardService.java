@@ -1,5 +1,6 @@
 package janggi.service;
 
+import janggi.domain.Side;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
@@ -31,4 +32,10 @@ public class JanggiBoardService {
         return janggiDao.hasGamePiece();
     }
 
+    public JanggiBoard loadGame() {
+        List<Piece> pieces = janggiDao.loadPieces();
+        Side turn = janggiDao.loadTurn();
+
+        return new JanggiBoard(new Pieces(pieces), turn);
+    }
 }

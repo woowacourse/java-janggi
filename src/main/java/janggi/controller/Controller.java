@@ -36,6 +36,9 @@ public class Controller {
     }
 
     private JanggiBoard makeJanggiBoard() {
+        if (janggiBoardService.hasGameData()) {
+            return janggiBoardService.loadGame();
+        }
         return initiateJanggiBoard();
     }
 

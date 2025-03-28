@@ -1,13 +1,22 @@
 package janggi.repository;
 
 import janggi.domain.Side;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.Guard;
+import janggi.domain.piece.King;
+import janggi.domain.piece.Knight;
+import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Rook;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JanggiDao {
 
@@ -92,5 +101,54 @@ public class JanggiDao {
             System.out.println("piece 정보를 읽어올 수 업습니다." + e.getMessage());
             return false;
         }
+    }
+
+    public List<Piece> loadPieces() {
+        List<Piece> loadedPieces = new ArrayList<Piece>();
+
+        String query = "SELECT piece_type, x_position, y_position, side FROM piece";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                String pieceType = resultSet.getString(1);
+                int x = resultSet.getInt(2);
+                int y = resultSet.getInt(3);
+                String side = resultSet.getString(4);
+                loadedPieces.add(createPiece(pieceType, x, y, Side.valueOf(side)));
+            }
+            return loadedPieces;
+        } catch (SQLException e) {
+            System.out.println("piece 정보를 읽어올 수 업습니다." + e.getMessage());
+        }
+        return loadedPieces;
+    }
+
+    public Side loadTurn() {
+        String query = "SELECT turn FROM turn";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                String turn = resultSet.getString(1);
+                return Side.valueOf(turn);
+            }
+        } catch (SQLException e) {
+            System.out.println("turn 정보를 읽어올 수 업습니다." + e.getMessage());
+        }
+        return null;
+    }
+
+    private Piece createPiece(String pieceType, int x, int y, Side side) {
+        return switch (pieceType) {
+            case "Cannon" -> new Cannon(side, x, y);
+            case "Elephant" -> new Elephant(side, x, y);
+            case "Guard" -> new Guard(side, x, y);
+            case "King" -> new King(side, x, y);
+            case "Knight" -> new Knight(side, x, y);
+            case "Rook" -> new Rook(side, x, y);
+            default -> new Pawn(side, x, y);
+        };
     }
 }
