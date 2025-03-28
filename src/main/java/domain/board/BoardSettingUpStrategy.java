@@ -11,9 +11,9 @@ import domain.board.strategy.SangMaSangMa;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Gung;
-import domain.piece.Pho;
 import domain.piece.Piece;
 import domain.piece.Sa;
+import domain.piece.jump.Pho;
 import java.util.HashMap;
 import java.util.Map;
 

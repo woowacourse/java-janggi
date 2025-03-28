@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.Coordinate;
 import domain.board.Board;
+import domain.piece.jump.Pho;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

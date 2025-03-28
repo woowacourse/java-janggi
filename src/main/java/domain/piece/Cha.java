@@ -23,33 +23,22 @@ public class Cha extends Piece {
         movements.addMovementIfInGung(from);
 
         List<Coordinate> availablePositions = new ArrayList<>();
+
         for (Movement movement : movements.getMovements()) {
             Coordinate next = from.move(movement);
 
-            if (movement.isDiagonal()) {
-                while (next.isInGungBoundary()) {
-                    if (board.hasPiece(next)) {
-                        if (!board.isMyTeam(country, next)) {
-                            availablePositions.add(next);
-                        }
-                        break;
+            while (movement.isDiagonal() ? next.isInGungBoundary() : next.isInBoundary()) {
+                if (board.hasPiece(next)) {
+                    if (!board.isMyTeam(country, next)) {
+                        availablePositions.add(next);
                     }
-                    availablePositions.add(next);
-                    next = next.move(movement);
+                    break;
                 }
-            } else {
-                while (next.isInBoundary()) {
-                    if (board.hasPiece(next)) {
-                        if (!board.isMyTeam(country, next)) {
-                            availablePositions.add(next);
-                        }
-                        break;
-                    }
-                    availablePositions.add(next);
-                    next = next.move(movement);
-                }
+                availablePositions.add(next);
+                next = next.move(movement);
             }
         }
+
         return availablePositions;
     }
 
