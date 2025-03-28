@@ -9,9 +9,9 @@ import static domain.board.Offset.RIGHT_DOWN;
 import static domain.board.Offset.RIGHT_UP;
 import static domain.board.Offset.UP;
 
-import domain.janggi.Team;
 import domain.board.Offset;
 import domain.board.movement.Movement;
+import domain.janggi.Team;
 import java.util.List;
 import java.util.Map;
 

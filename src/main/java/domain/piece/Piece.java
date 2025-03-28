@@ -1,10 +1,10 @@
 package domain.piece;
 
-import domain.janggi.Score;
-import domain.janggi.Team;
 import domain.board.BoardPosition;
 import domain.board.Offset;
 import domain.board.movement.Movement;
+import domain.janggi.Score;
+import domain.janggi.Team;
 import java.util.List;
 import java.util.Objects;
 
