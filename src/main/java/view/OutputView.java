@@ -38,6 +38,10 @@ public class OutputView {
     }
 
     public void printScore(double hanScore, double choScore) {
-        System.out.printf("한나라의 점수: %.1f \n초나라의 점수: %.1f", hanScore, choScore);
+        System.out.printf("한나라의 점수: %.1f \n초나라의 점수: %.1f\n", hanScore, choScore);
+    }
+
+    public void printWinner(Dynasty dynasty) {
+        System.out.printf("우승한 나라는 %s입니다.\n",dynastyBundle.getString(dynasty.name()));
     }
 }

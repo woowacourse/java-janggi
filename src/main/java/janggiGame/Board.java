@@ -1,9 +1,9 @@
 package janggiGame;
 
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.piece.character.Dynasty;
 import janggiGame.piece.EmptyPiece;
 import janggiGame.piece.Piece;
+import janggiGame.piece.character.Dynasty;
 import janggiGame.piece.character.PieceType;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +91,14 @@ public class Board {
 
         return totalPoints;
     }
+
+    public boolean isKingDead(final Dynasty dynasty) {
+        boolean live = survivedPieces.values().stream()
+                .anyMatch(piece -> piece.hasDynasty(dynasty)
+                        && piece.getType() == PieceType.KING);
+        return !live;
+    }
+
 
     public Map<Position, Piece> getSurvivedPieces() {
         return Map.copyOf(survivedPieces);

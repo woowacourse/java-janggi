@@ -30,7 +30,17 @@ public class Application {
                 double hanTotalScore =board.calculateTotalPoints(Dynasty.HAN);
                 double choTotalScore = board.calculateTotalPoints(Dynasty.CHO);
 
-                outputView.printScore(hanTotalScore, choTotalScore);
+                if (board.isKingDead(Dynasty.CHO)) {
+                    outputView.printScore(hanTotalScore, choTotalScore);
+                    outputView.printWinner(Dynasty.HAN);
+                    break;
+                }
+
+                if (board.isKingDead(Dynasty.HAN)) {
+                    outputView.printScore(hanTotalScore, choTotalScore);
+                    outputView.printWinner(Dynasty.CHO);
+                    break;
+                }
 
                 turn++;
             } catch (Exception e) {
