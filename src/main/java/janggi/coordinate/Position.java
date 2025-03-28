@@ -17,8 +17,8 @@ public record Position(int x, int y) {
     private static final Position PALACE_BOTTOM_RIGHT_HAN = new Position(3, 6);
     private static final Position PALACE_TOP_LEFT_CHO = new Position(8, 4);
     private static final Position PALACE_BOTTOM_RIGHT_CHO = new Position(10, 6);
-    private static final Position PALACE_CENTER_HAN = new Position(2, 5);
-    private static final Position PALACE_CENTER_CHO = new Position(9, 5);
+    public static final Position PALACE_CENTER_HAN = new Position(2, 5);
+    public static final Position PALACE_CENTER_CHO = new Position(9, 5);
 
     public Position(final int x, final int y) {
         validatePositionRange(x, y);
@@ -52,7 +52,7 @@ public record Position(int x, int y) {
         return x <= descPosition.x;
     }
 
-    public Position plusPosition(final int x, final int y){
+    public Position plusPosition(final int x, final int y) {
         return new Position(this.x + x, this.y + y);
     }
 
@@ -87,8 +87,8 @@ public record Position(int x, int y) {
         betweenPositions.removeLast();
     }
 
-    public boolean isInsidePalace(final Country country){
-        if(country == Country.HAN){
+    public boolean isInsidePalace(final Country country) {
+        if (country == Country.HAN) {
             return isYInsidePalace() && isXInsideHanPalace();
         }
         return isYInsidePalace() && isXInsideChoPalace();
@@ -106,23 +106,23 @@ public record Position(int x, int y) {
         return this.isXGreaterThan(PALACE_TOP_LEFT_HAN) && this.isXLessThan(PALACE_BOTTOM_RIGHT_HAN);
     }
 
-    private boolean isYGreaterThan(final Position position){
+    private boolean isYGreaterThan(final Position position) {
         return y >= position.y;
     }
 
-    private boolean isYLessThan(final Position position){
+    private boolean isYLessThan(final Position position) {
         return y <= position.y;
     }
-    
-    public boolean isCenterInPalace(final Country country){
-        if(country == Country.HAN){
+
+    public boolean isCenterInPalace(final Country country) {
+        if (country == Country.HAN) {
             return this.equals(PALACE_CENTER_HAN);
         }
         return this.equals(PALACE_CENTER_CHO);
     }
 
-    public boolean isCornerInPalace(final Country country){
-        if(country == Country.HAN){
+    public boolean isCornerInPalace(final Country country) {
+        if (country == Country.HAN) {
             return (y == PALACE_TOP_LEFT_CHO.y || y == PALACE_BOTTOM_RIGHT_CHO.y)
                     && (x == PALACE_TOP_LEFT_HAN.x || x == PALACE_BOTTOM_RIGHT_HAN.x);
         }

@@ -21,6 +21,17 @@ public class Cannon extends Piece {
 
     @Override
     protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
+        if (!now.isSameLine(destination)) {
+            if (isCornerToCornerInPalace(now, destination, Country.HAN)) {
+                return visibleBoard.existPieceByPosition(Position.PALACE_CENTER_HAN)
+                        && !visibleBoard.containsCannonByPositions(List.of(Position.PALACE_CENTER_HAN));
+            }
+            if (isCornerToCornerInPalace(now, destination, Country.CHO)) {
+                return visibleBoard.existPieceByPosition(Position.PALACE_CENTER_CHO)
+                        && !visibleBoard.containsCannonByPositions(List.of(Position.PALACE_CENTER_CHO));
+            }
+        }
+
         if (!now.isSameLine(destination) || visibleBoard.isCannonByPosition(destination)) {
             return false;
         }
@@ -33,6 +44,14 @@ public class Cannon extends Piece {
         }
 
         return true;
+    }
+
+    private static boolean isCornerToCornerInPalace(final Position now, final Position destination,
+                                                    final Country country) {
+        if (now.isCornerInPalace(country) && destination.isCornerInPalace(country)) {
+            return true;
+        }
+        return false;
     }
 
     @Override
