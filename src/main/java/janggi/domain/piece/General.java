@@ -8,6 +8,13 @@ public class General extends PathMovingPiece {
 
     public General(final Position position, final Team team) {
         super("궁", position, team);
+        validateIsPalace(position);
+    }
+
+    private void validateIsPalace(Position position) {
+        if(position.isNotPalace()) {
+            throw new IllegalArgumentException("궁성에만 존재 가능합니다");
+        }
     }
 
     @Override
@@ -27,13 +34,17 @@ public class General extends PathMovingPiece {
     }
 
     @Override
-    protected boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
-        return pieceInPositionToMove.isNone() &&
-                checkingPosition.isPalace();
+    public Piece from(Position position) {
+        return new General(position, team);
     }
 
     @Override
-    public Piece from(Position position) {
-        return new General(position, team);
+    public int getScore() {
+        return 0;
+    }
+
+    @Override
+    public boolean isGeneral() {
+        return true;
     }
 }

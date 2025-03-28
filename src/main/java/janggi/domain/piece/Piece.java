@@ -29,6 +29,10 @@ public abstract class Piece {
         return false;
     }
 
+    public boolean isGeneral() {
+        return false;
+    }
+
     public boolean isNotNone() {
         return !isNone();
     }
@@ -41,4 +45,6 @@ public abstract class Piece {
     public abstract void validatePositionToMove(Map<Position, Piece> pieces, Position positionToMove);
 
     public abstract Piece from(Position position);
+
+    public abstract int getScore();
 }

@@ -21,11 +21,6 @@ public class Elephant extends PathMovingPiece {
     }
 
     @Override
-    protected boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
-        return pieceInPositionToMove.isNone();
-    }
-
-    @Override
     protected List<Movement> findMovements(Position positionToMove) {
         for(List<Movement> checkingMovements : movements) {
             if(canReachPositionToMove(checkingMovements, positionToMove)) {
@@ -39,7 +34,6 @@ public class Elephant extends PathMovingPiece {
         Position currentPosition = getPosition();
         for(Movement movement : checkingMovements) {
             currentPosition = currentPosition.plus(movement.getX(), movement.getY());
-            System.out.println(currentPosition);
             if(currentPosition.equals(positionToMove)) {
                 return true;
             }
@@ -50,5 +44,10 @@ public class Elephant extends PathMovingPiece {
     @Override
     public Piece from(Position position) {
         return new Elephant(position, team);
+    }
+
+    @Override
+    public int getScore() {
+        return 3;
     }
 }

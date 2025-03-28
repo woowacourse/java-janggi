@@ -21,11 +21,6 @@ public class Horse extends PathMovingPiece {
     }
 
     @Override
-    protected boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
-        return pieceInPositionToMove.isNone();
-    }
-
-    @Override
     protected List<Movement> findMovements(Position positionToMove) {
         for(List<Movement> checkingMovements : movements) {
             if(canReachPositionToMove(checkingMovements, positionToMove)) {
@@ -46,5 +41,10 @@ public class Horse extends PathMovingPiece {
     @Override
     public Piece from(Position position) {
         return new Horse(position, team);
+    }
+
+    @Override
+    public int getScore() {
+        return 5;
     }
 }

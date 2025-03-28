@@ -41,12 +41,12 @@ public class Soldier extends PathMovingPiece {
     }
 
     @Override
-    protected boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
-        return pieceInPositionToMove.isNone();
+    public Piece from(Position position) {
+        return new Soldier(position, team);
     }
 
     @Override
-    public Piece from(Position position) {
-        return new Soldier(position, team);
+    public int getScore() {
+        return 2;
     }
 }

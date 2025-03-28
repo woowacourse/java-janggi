@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.piece.None;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
+import janggi.domain.piece.Team;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,5 +45,21 @@ public class Board {
         if (piece.getTeam().equals(other.getTeam())) {
             throw new IllegalArgumentException("불가능한 이동입니다.");
         }
+    }
+
+    public int getScore(Team team) {
+        return pieces.values()
+                .stream()
+                .filter(piece -> piece.getTeam() == team)
+                .mapToInt(Piece::getScore)
+                .sum();
+    }
+
+    public boolean isKingAlive(Team team) {
+        return pieces.values()
+                .stream()
+                .filter(Piece::isGeneral)
+                .anyMatch(piece ->
+                        piece.getTeam() == team);
     }
 }

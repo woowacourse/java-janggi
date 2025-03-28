@@ -45,4 +45,9 @@ public class Cannon extends StraightMovingPiece {
     public Piece from(Position position) {
         return new Cannon(position, getTeam());
     }
+
+    @Override
+    public int getScore() {
+        return 7;
+    }
 }

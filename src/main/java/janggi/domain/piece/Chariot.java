@@ -25,4 +25,9 @@ public class Chariot extends StraightMovingPiece {
     public Piece from(Position position) {
         return new Chariot(position, getTeam());
     }
+
+    @Override
+    public int getScore() {
+        return 13;
+    }
 }

@@ -4,6 +4,7 @@ import janggi.domain.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Team;
+
 import java.util.Map;
 
 public class OutputView {
@@ -13,6 +14,8 @@ public class OutputView {
     private static final String COLOR_CODE_YELLOW = "\u001B[33m";
 
     public void printBoard(Board board) {
+        System.out.println("청팀 점수: " + board.getScore(Team.BLUE));
+        System.out.println("홍팀 점수: " + board.getScore(Team.RED));
         System.out.print("   ");
         for (int j = 1; j <= 9; j++) {
             System.out.printf("%4s", j + "");

@@ -65,6 +65,7 @@ class CannonTest {
     void move4() {
         Cannon cannon = new Cannon(new Position(5, 5), Team.BLUE);
         Soldier otherSoldier = new Soldier(new Position(3, 5), Team.BLUE);
+        pieces.put(cannon.getPosition(), cannon);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         Board board = new Board(pieces);
         board.movePiece(cannon.getPosition(), otherSoldier.getPosition());

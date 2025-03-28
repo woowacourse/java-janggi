@@ -27,4 +27,9 @@ public class None extends Piece {
     public boolean isNone() {
         return true;
     }
+
+    @Override
+    public int getScore() {
+        return 0;
+    }
 }

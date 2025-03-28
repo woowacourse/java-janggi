@@ -1,18 +1,17 @@
 package janggi.domain.piece;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import janggi.domain.Board;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class GuardTest {
     Map<Position, Piece> pieces;
@@ -40,7 +39,7 @@ class GuardTest {
     @CsvSource(value = {"7,5", "5,7"})
     @ParameterizedTest
     void move2(int x, int y) {
-        Guard guard = new Guard(new Position(5, 5), Team.BLUE);
+        Guard guard = new Guard(new Position(9, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> guard.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -63,7 +62,6 @@ class GuardTest {
     @Test
     void move4() {
         General general = new General(new Position(1, 4), Team.RED);
-        pieces.put(general.getPosition(), general);
         Position afterPosition = new Position(2, 5);
         Piece movedGeneral = general.move(pieces, afterPosition);
         assertThat(movedGeneral.getPosition()).isEqualTo(afterPosition);

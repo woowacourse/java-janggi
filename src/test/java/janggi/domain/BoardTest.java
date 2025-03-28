@@ -57,9 +57,9 @@ class BoardTest {
     @DisplayName("궁의 이동 위치에 같은 편 기물이 있으면 이동할 수 없다")
     @Test
     void move2() {
-        Position beforePosition = new Position(5, 5);
+        Position beforePosition = new Position(8, 5);
         General general = new General(beforePosition, Team.BLUE);
-        Position positionToMove = new Position(4, 5);
+        Position positionToMove = new Position(9, 5);
         Soldier otherSoldier = new Soldier(positionToMove, Team.BLUE);
         pieceMap.put(general.getPosition(), general);
         pieceMap.put(otherSoldier.getPosition(), otherSoldier);
@@ -72,9 +72,9 @@ class BoardTest {
     @DisplayName("사의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move3() {
-        Position beforePosition = new Position(5, 5);
+        Position beforePosition = new Position(9, 5);
         Guard guard = new Guard(beforePosition, Team.BLUE);
-        Position positionToMove = new Position(4, 5);
+        Position positionToMove = new Position(8, 5);
         Soldier otherSoldier = new Soldier(positionToMove, Team.BLUE);
         pieceMap.put(guard.getPosition(), guard);
         pieceMap.put(otherSoldier.getPosition(), otherSoldier);
@@ -97,5 +97,145 @@ class BoardTest {
         board.movePiece(beforePosition, positionToMove);
         assertThat(board.getPieceByPosition(beforePosition))
                 .isInstanceOf(Soldier.class);
+    }
+
+    @DisplayName("차를 잡으면 13점이 줄어든다")
+    @Test
+    void move5() {
+        Piece chariot =  new Chariot(new Position(5, 5), Team.RED);
+        Piece soldier = new Soldier(new Position(6, 5), Team.BLUE);
+        pieceMap.put(chariot.getPosition(), chariot);
+        pieceMap.put(soldier.getPosition(), soldier);
+        Board board = new Board(pieceMap);
+        int beforeScore = board.getScore(Team.RED);
+        board.movePiece(new Position(6, 5), new Position(5, 5));
+        int afterScore = board.getScore(Team.RED);
+        assertThat(beforeScore - 13).isEqualTo(afterScore);
+    }
+
+    @DisplayName("차를 잡으면 13점이 줄어든다")
+    @Test
+    void move6() {
+        Piece chariot =  new Chariot(new Position(5, 5), Team.RED);
+        Piece soldier = new Soldier(new Position(6, 5), Team.BLUE);
+        pieceMap.put(chariot.getPosition(), chariot);
+        pieceMap.put(soldier.getPosition(), soldier);
+        Board board = new Board(pieceMap);
+        int beforeScore = board.getScore(Team.RED);
+        board.movePiece(new Position(6, 5), new Position(5, 5));
+        int afterScore = board.getScore(Team.RED);
+        assertThat(beforeScore - 13).isEqualTo(afterScore);
+    }
+
+    @DisplayName("포를 잡으면 7점이 줄어든다")
+    @Test
+    void move7() {
+        Piece cannon =  new Cannon(new Position(5, 5), Team.RED);
+        Piece soldier = new Soldier(new Position(6, 5), Team.BLUE);
+        pieceMap.put(cannon.getPosition(), cannon);
+        pieceMap.put(soldier.getPosition(), soldier);
+        Board board = new Board(pieceMap);
+        int beforeScore = board.getScore(Team.RED);
+        board.movePiece(new Position(6, 5), new Position(5, 5));
+        int afterScore = board.getScore(Team.RED);
+        assertThat(beforeScore - 7).isEqualTo(afterScore);
+    }
+
+    @DisplayName("마를 잡으면 5점이 줄어든다")
+    @Test
+    void move8() {
+        Piece horse =  new Horse(new Position(5, 5), Team.RED);
+        Piece soldier = new Soldier(new Position(6, 5), Team.BLUE);
+        pieceMap.put(horse.getPosition(), horse);
+        pieceMap.put(soldier.getPosition(), soldier);
+        Board board = new Board(pieceMap);
+        int beforeScore = board.getScore(Team.RED);
+        board.movePiece(new Position(6, 5), new Position(5, 5));
+        int afterScore = board.getScore(Team.RED);
+        assertThat(beforeScore - 5).isEqualTo(afterScore);
+    }
+
+    @DisplayName("상을 잡으면 3점이 줄어든다")
+    @Test
+    void move9() {
+        Piece elephant =  new Elephant(new Position(5, 5), Team.RED);
+        Piece soldier = new Soldier(new Position(6, 5), Team.BLUE);
+        pieceMap.put(elephant.getPosition(), elephant);
+        pieceMap.put(soldier.getPosition(), soldier);
+        Board board = new Board(pieceMap);
+        int beforeScore = board.getScore(Team.RED);
+        board.movePiece(new Position(6, 5), new Position(5, 5));
+        int afterScore = board.getScore(Team.RED);
+        assertThat(beforeScore - 3).isEqualTo(afterScore);
+    }
+
+    @DisplayName("상을 잡으면 3점이 줄어든다")
+    @Test
+    void move10() {
+        Piece elephant =  new Elephant(new Position(5, 5), Team.RED);
+        Piece soldier = new Soldier(new Position(6, 5), Team.BLUE);
+        pieceMap.put(elephant.getPosition(), elephant);
+        pieceMap.put(soldier.getPosition(), soldier);
+        Board board = new Board(pieceMap);
+        int beforeScore = board.getScore(Team.RED);
+        board.movePiece(new Position(6, 5), new Position(5, 5));
+        int afterScore = board.getScore(Team.RED);
+        assertThat(beforeScore - 3).isEqualTo(afterScore);
+    }
+
+    @DisplayName("사를 잡으면 3점이 줄어든다")
+    @Test
+    void move11() {
+        Piece guard =  new Guard(new Position(2, 5), Team.RED);
+        Piece soldier = new Soldier(new Position(3, 5), Team.BLUE);
+        pieceMap.put(guard.getPosition(), guard);
+        pieceMap.put(soldier.getPosition(), soldier);
+        Board board = new Board(pieceMap);
+        int beforeScore = board.getScore(Team.RED);
+        board.movePiece(new Position(3, 5), new Position(2, 5));
+        int afterScore = board.getScore(Team.RED);
+        assertThat(beforeScore - 3).isEqualTo(afterScore);
+    }
+
+    @DisplayName("졸을 잡으면 2점이 줄어든다")
+    @Test
+    void move12() {
+        Piece soldier =  new Soldier(new Position(5, 5), Team.RED);
+        Piece otherSoldier = new Soldier(new Position(6, 5), Team.BLUE);
+        pieceMap.put(soldier.getPosition(), soldier);
+        pieceMap.put(otherSoldier.getPosition(), otherSoldier);
+        Board board = new Board(pieceMap);
+        int beforeScore = board.getScore(Team.RED);
+        board.movePiece(new Position(6, 5), new Position(5, 5));
+        int afterScore = board.getScore(Team.RED);
+        assertThat(beforeScore - 2).isEqualTo(afterScore);
+    }
+
+    @DisplayName("청 팀의 왕이 살아있으면 true를 반환한다")
+    void boardBlueKingAliveTest() {
+        Piece general = new General(new Position(9, 5), Team.BLUE);
+        pieceMap.put(general.getPosition(), general);
+        Board board = new Board(pieceMap);
+        assertThat(board.isKingAlive(Team.BLUE)).isTrue();
+    }
+
+    @DisplayName("청 팀의 왕이 죽었으면 false를 반환한다")
+    void boardBlueKingTest() {
+        Board board = new Board(pieceMap);
+        assertThat(board.isKingAlive(Team.BLUE)).isFalse();
+    }
+
+    @DisplayName("청 팀의 왕이 살아있으면 true를 반환한다")
+    void boardRedKingAliveTest() {
+        Piece general = new General(new Position(9, 5), Team.RED);
+        pieceMap.put(general.getPosition(), general);
+        Board board = new Board(pieceMap);
+        assertThat(board.isKingAlive(Team.RED)).isTrue();
+    }
+
+    @DisplayName("청 팀의 왕이 죽었으면 false를 반환한다")
+    void boardRedKingTest() {
+        Board board = new Board(pieceMap);
+        assertThat(board.isKingAlive(Team.RED)).isFalse();
     }
 }

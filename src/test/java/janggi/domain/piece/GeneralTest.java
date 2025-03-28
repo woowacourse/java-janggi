@@ -41,7 +41,7 @@ class GeneralTest {
     @CsvSource(value = {"7,5", "5,7"})
     @ParameterizedTest
     void move2(int x, int y) {
-        General general = new General(new Position(5, 5), Team.BLUE);
+        General general = new General(new Position(9, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> general.move(pieces, positionToMove))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -64,7 +64,6 @@ class GeneralTest {
     @Test
     void move4() {
         General general = new General(new Position(9, 5), Team.BLUE);
-        pieces.put(general.getPosition(), general);
         Position afterPosition = new Position(8, 4);
         Piece movedGeneral = general.move(pieces, afterPosition);
         assertThat(movedGeneral.getPosition()).isEqualTo(afterPosition);

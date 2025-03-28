@@ -16,17 +16,19 @@ public abstract class PathMovingPiece extends Piece {
         List<Movement> movements = findMovements(positionToMove);
         Position currentPosition = getPosition();
         for (Movement movement : movements) {
-            currentPosition = currentPosition.plus(movement.getX(), movement.getY());
             if (!checkPieceCondition(pieces.get(currentPosition), currentPosition)) {
                 throw new IllegalArgumentException("불가능한 이동입니다");
             }
+            currentPosition = currentPosition.plus(movement.getX(), movement.getY());
         }
         if (!currentPosition.equals(positionToMove)) {
             throw new IllegalArgumentException("불가능한 이동입니다");
         }
     }
 
-    protected abstract boolean checkPieceCondition(Piece checkingPiece, Position checkingPosition);
-
     protected abstract List<Movement> findMovements(Position positionToMove);
+
+    private boolean checkPieceCondition(Piece pieceInPositionToMove, Position checkingPosition) {
+        return pieceInPositionToMove.isNone();
+    }
 }
