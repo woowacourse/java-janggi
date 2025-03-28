@@ -3,6 +3,7 @@ package domain.janggiPiece;
 import domain.hurdlePolicy.CannonHurdlePolicy;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
 import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
@@ -17,10 +18,10 @@ public class Cannon extends SlidingJanggiPiece {
 
     public static Map<JanggiPosition, JanggiPiece> initPieces() {
         return Map.of(
-                JanggiPosition.of(2, 1), new Cannon(JanggiTeam.RED),
-                JanggiPosition.of(2, 7), new Cannon(JanggiTeam.RED),
-                JanggiPosition.of(7, 1), new Cannon(JanggiTeam.BLUE),
-                JanggiPosition.of(7, 7), new Cannon(JanggiTeam.BLUE)
+                JanggiPositionFactory.of(2, 1), new Cannon(JanggiTeam.RED),
+                JanggiPositionFactory.of(2, 7), new Cannon(JanggiTeam.RED),
+                JanggiPositionFactory.of(7, 1), new Cannon(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(7, 7), new Cannon(JanggiTeam.BLUE)
         );
     }
 

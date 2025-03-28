@@ -2,6 +2,7 @@ package domain.janggiPiece;
 
 import domain.path.Path;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,32 +18,32 @@ class CannonTest {
     @DisplayName("궁성 외부에 있을 경우 올바른 경로를 반환할 수 있다.")
     void startAtNormalPosition() {
         //given
-        JanggiPosition startPosition = JanggiPosition.of(5, 4);
+        JanggiPosition startPosition = JanggiPositionFactory.of(5, 4);
         final List<Path> expected = List.of(
                 new Path(List.of(
-                        JanggiPosition.of(4, 4),
-                        JanggiPosition.of(3, 4),
-                        JanggiPosition.of(2, 4),
-                        JanggiPosition.of(1, 4),
-                        JanggiPosition.of(0, 4)
+                        JanggiPositionFactory.of(4, 4),
+                        JanggiPositionFactory.of(3, 4),
+                        JanggiPositionFactory.of(2, 4),
+                        JanggiPositionFactory.of(1, 4),
+                        JanggiPositionFactory.of(0, 4)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(5, 3),
-                        JanggiPosition.of(5, 2),
-                        JanggiPosition.of(5, 1),
-                        JanggiPosition.of(5, 0)
+                        JanggiPositionFactory.of(5, 3),
+                        JanggiPositionFactory.of(5, 2),
+                        JanggiPositionFactory.of(5, 1),
+                        JanggiPositionFactory.of(5, 0)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(5, 5),
-                        JanggiPosition.of(5, 6),
-                        JanggiPosition.of(5, 7),
-                        JanggiPosition.of(5, 8)
+                        JanggiPositionFactory.of(5, 5),
+                        JanggiPositionFactory.of(5, 6),
+                        JanggiPositionFactory.of(5, 7),
+                        JanggiPositionFactory.of(5, 8)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(6, 4),
-                        JanggiPosition.of(7, 4),
-                        JanggiPosition.of(8, 4),
-                        JanggiPosition.of(9, 4)
+                        JanggiPositionFactory.of(6, 4),
+                        JanggiPositionFactory.of(7, 4),
+                        JanggiPositionFactory.of(8, 4),
+                        JanggiPositionFactory.of(9, 4)
                 ))
         );
 
@@ -57,32 +58,32 @@ class CannonTest {
     @Test
     void ignoreCastleDiagonal() {
         // given
-        JanggiPosition startPosition = JanggiPosition.of(5, 3);
+        JanggiPosition startPosition = JanggiPositionFactory.of(5, 3);
         final List<Path> expected = List.of(
                 new Path(List.of(
-                        JanggiPosition.of(4, 3),
-                        JanggiPosition.of(3, 3),
-                        JanggiPosition.of(2, 3),
-                        JanggiPosition.of(1, 3),
-                        JanggiPosition.of(0, 3)
+                        JanggiPositionFactory.of(4, 3),
+                        JanggiPositionFactory.of(3, 3),
+                        JanggiPositionFactory.of(2, 3),
+                        JanggiPositionFactory.of(1, 3),
+                        JanggiPositionFactory.of(0, 3)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(5, 2),
-                        JanggiPosition.of(5, 1),
-                        JanggiPosition.of(5, 0)
+                        JanggiPositionFactory.of(5, 2),
+                        JanggiPositionFactory.of(5, 1),
+                        JanggiPositionFactory.of(5, 0)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(5, 4),
-                        JanggiPosition.of(5, 5),
-                        JanggiPosition.of(5, 6),
-                        JanggiPosition.of(5, 7),
-                        JanggiPosition.of(5, 8)
+                        JanggiPositionFactory.of(5, 4),
+                        JanggiPositionFactory.of(5, 5),
+                        JanggiPositionFactory.of(5, 6),
+                        JanggiPositionFactory.of(5, 7),
+                        JanggiPositionFactory.of(5, 8)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(6, 3),
-                        JanggiPosition.of(7, 3),
-                        JanggiPosition.of(8, 3),
-                        JanggiPosition.of(9, 3)
+                        JanggiPositionFactory.of(6, 3),
+                        JanggiPositionFactory.of(7, 3),
+                        JanggiPositionFactory.of(8, 3),
+                        JanggiPositionFactory.of(9, 3)
                 ))
         );
 
@@ -97,36 +98,36 @@ class CannonTest {
     @Test
     void startAtCastleInCorner() {
         // given
-        JanggiPosition startPosition = JanggiPosition.of(2, 3);
+        JanggiPosition startPosition = JanggiPositionFactory.of(2, 3);
         final List<Path> expected = List.of(
                 new Path(List.of(
-                        JanggiPosition.of(1, 3),
-                        JanggiPosition.of(0, 3)
+                        JanggiPositionFactory.of(1, 3),
+                        JanggiPositionFactory.of(0, 3)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(2, 2),
-                        JanggiPosition.of(2, 1),
-                        JanggiPosition.of(2, 0)
+                        JanggiPositionFactory.of(2, 2),
+                        JanggiPositionFactory.of(2, 1),
+                        JanggiPositionFactory.of(2, 0)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(2, 4),
-                        JanggiPosition.of(2, 5),
-                        JanggiPosition.of(2, 6),
-                        JanggiPosition.of(2, 7),
-                        JanggiPosition.of(2, 8)
+                        JanggiPositionFactory.of(2, 4),
+                        JanggiPositionFactory.of(2, 5),
+                        JanggiPositionFactory.of(2, 6),
+                        JanggiPositionFactory.of(2, 7),
+                        JanggiPositionFactory.of(2, 8)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(3, 3),
-                        JanggiPosition.of(4, 3),
-                        JanggiPosition.of(5, 3),
-                        JanggiPosition.of(6, 3),
-                        JanggiPosition.of(7, 3),
-                        JanggiPosition.of(8, 3),
-                        JanggiPosition.of(9, 3)
+                        JanggiPositionFactory.of(3, 3),
+                        JanggiPositionFactory.of(4, 3),
+                        JanggiPositionFactory.of(5, 3),
+                        JanggiPositionFactory.of(6, 3),
+                        JanggiPositionFactory.of(7, 3),
+                        JanggiPositionFactory.of(8, 3),
+                        JanggiPositionFactory.of(9, 3)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(1, 4),
-                        JanggiPosition.of(0, 5)
+                        JanggiPositionFactory.of(1, 4),
+                        JanggiPositionFactory.of(0, 5)
                 ))
         );
 
@@ -141,34 +142,34 @@ class CannonTest {
     @Test
     void startAtCastleOutCorner() {
         // given
-        JanggiPosition startPosition = JanggiPosition.of(0, 3);
+        JanggiPosition startPosition = JanggiPositionFactory.of(0, 3);
         final List<Path> expected = List.of(
                 new Path(List.of(
-                        JanggiPosition.of(0, 2),
-                        JanggiPosition.of(0, 1),
-                        JanggiPosition.of(0, 0)
+                        JanggiPositionFactory.of(0, 2),
+                        JanggiPositionFactory.of(0, 1),
+                        JanggiPositionFactory.of(0, 0)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(0, 4),
-                        JanggiPosition.of(0, 5),
-                        JanggiPosition.of(0, 6),
-                        JanggiPosition.of(0, 7),
-                        JanggiPosition.of(0, 8)
+                        JanggiPositionFactory.of(0, 4),
+                        JanggiPositionFactory.of(0, 5),
+                        JanggiPositionFactory.of(0, 6),
+                        JanggiPositionFactory.of(0, 7),
+                        JanggiPositionFactory.of(0, 8)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(1, 3),
-                        JanggiPosition.of(2, 3),
-                        JanggiPosition.of(3, 3),
-                        JanggiPosition.of(4, 3),
-                        JanggiPosition.of(5, 3),
-                        JanggiPosition.of(6, 3),
-                        JanggiPosition.of(7, 3),
-                        JanggiPosition.of(8, 3),
-                        JanggiPosition.of(9, 3)
+                        JanggiPositionFactory.of(1, 3),
+                        JanggiPositionFactory.of(2, 3),
+                        JanggiPositionFactory.of(3, 3),
+                        JanggiPositionFactory.of(4, 3),
+                        JanggiPositionFactory.of(5, 3),
+                        JanggiPositionFactory.of(6, 3),
+                        JanggiPositionFactory.of(7, 3),
+                        JanggiPositionFactory.of(8, 3),
+                        JanggiPositionFactory.of(9, 3)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(1, 4),
-                        JanggiPosition.of(2, 5)
+                        JanggiPositionFactory.of(1, 4),
+                        JanggiPositionFactory.of(2, 5)
                 ))
         );
 
@@ -183,44 +184,44 @@ class CannonTest {
     @Test
     void startAtMiddleOfCastle() {
         // given
-        JanggiPosition startPosition = JanggiPosition.of(1, 4);
+        JanggiPosition startPosition = JanggiPositionFactory.of(1, 4);
         final List<Path> expected = List.of(
                 new Path(List.of(
-                        JanggiPosition.of(0, 4)
+                        JanggiPositionFactory.of(0, 4)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(0, 3)
+                        JanggiPositionFactory.of(0, 3)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(0, 5)
+                        JanggiPositionFactory.of(0, 5)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(2, 3)
+                        JanggiPositionFactory.of(2, 3)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(2, 5)
+                        JanggiPositionFactory.of(2, 5)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(1, 3),
-                        JanggiPosition.of(1, 2),
-                        JanggiPosition.of(1, 1),
-                        JanggiPosition.of(1, 0)
+                        JanggiPositionFactory.of(1, 3),
+                        JanggiPositionFactory.of(1, 2),
+                        JanggiPositionFactory.of(1, 1),
+                        JanggiPositionFactory.of(1, 0)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(1, 5),
-                        JanggiPosition.of(1, 6),
-                        JanggiPosition.of(1, 7),
-                        JanggiPosition.of(1, 8)
+                        JanggiPositionFactory.of(1, 5),
+                        JanggiPositionFactory.of(1, 6),
+                        JanggiPositionFactory.of(1, 7),
+                        JanggiPositionFactory.of(1, 8)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(2, 4),
-                        JanggiPosition.of(3, 4),
-                        JanggiPosition.of(4, 4),
-                        JanggiPosition.of(5, 4),
-                        JanggiPosition.of(6, 4),
-                        JanggiPosition.of(7, 4),
-                        JanggiPosition.of(8, 4),
-                        JanggiPosition.of(9, 4)
+                        JanggiPositionFactory.of(2, 4),
+                        JanggiPositionFactory.of(3, 4),
+                        JanggiPositionFactory.of(4, 4),
+                        JanggiPositionFactory.of(5, 4),
+                        JanggiPositionFactory.of(6, 4),
+                        JanggiPositionFactory.of(7, 4),
+                        JanggiPositionFactory.of(8, 4),
+                        JanggiPositionFactory.of(9, 4)
                 ))
         );
 
@@ -235,32 +236,32 @@ class CannonTest {
     @Test
     void startAtCastleNotCorner() {
         // given
-        JanggiPosition startPosition = JanggiPosition.of(7, 4);
+        JanggiPosition startPosition = JanggiPositionFactory.of(7, 4);
         final List<Path> expected = List.of(
                 new Path(List.of(
-                        JanggiPosition.of(7, 3),
-                        JanggiPosition.of(7, 2),
-                        JanggiPosition.of(7, 1),
-                        JanggiPosition.of(7, 0)
+                        JanggiPositionFactory.of(7, 3),
+                        JanggiPositionFactory.of(7, 2),
+                        JanggiPositionFactory.of(7, 1),
+                        JanggiPositionFactory.of(7, 0)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(7, 5),
-                        JanggiPosition.of(7, 6),
-                        JanggiPosition.of(7, 7),
-                        JanggiPosition.of(7, 8)
+                        JanggiPositionFactory.of(7, 5),
+                        JanggiPositionFactory.of(7, 6),
+                        JanggiPositionFactory.of(7, 7),
+                        JanggiPositionFactory.of(7, 8)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(6, 4),
-                        JanggiPosition.of(5, 4),
-                        JanggiPosition.of(4, 4),
-                        JanggiPosition.of(3, 4),
-                        JanggiPosition.of(2, 4),
-                        JanggiPosition.of(1, 4),
-                        JanggiPosition.of(0, 4)
+                        JanggiPositionFactory.of(6, 4),
+                        JanggiPositionFactory.of(5, 4),
+                        JanggiPositionFactory.of(4, 4),
+                        JanggiPositionFactory.of(3, 4),
+                        JanggiPositionFactory.of(2, 4),
+                        JanggiPositionFactory.of(1, 4),
+                        JanggiPositionFactory.of(0, 4)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(8, 4),
-                        JanggiPosition.of(9, 4)
+                        JanggiPositionFactory.of(8, 4),
+                        JanggiPositionFactory.of(9, 4)
                 ))
         );
 

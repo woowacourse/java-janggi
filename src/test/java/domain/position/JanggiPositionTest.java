@@ -15,7 +15,7 @@ class JanggiPositionTest {
 
         // when & then
         assertThatThrownBy(() -> {
-            JanggiPosition.of(row, col);
+            JanggiPositionFactory.of(row, col);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 }

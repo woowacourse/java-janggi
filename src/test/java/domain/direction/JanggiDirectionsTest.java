@@ -2,6 +2,7 @@ package domain.direction;
 
 import domain.path.Path;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
 import domain.position.normal.NormalPosition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,19 +31,19 @@ class JanggiDirectionsTest {
     private static Stream<Arguments> outOfBound() {
         return Stream.of(
                 Arguments.of(
-                        JanggiPosition.of(1, 1),
+                        JanggiPositionFactory.of(1, 1),
                         new JanggiDirections(List.of(
                                 Direction.LEFT, Direction.LEFT
                         ))
                 ),
                 Arguments.of(
-                        JanggiPosition.of(1, 1),
+                        JanggiPositionFactory.of(1, 1),
                         new JanggiDirections(List.of(
                                 Direction.UP, Direction.UP
                         ))
                 ),
                 Arguments.of(
-                        JanggiPosition.of(1, 1),
+                        JanggiPositionFactory.of(1, 1),
                         new JanggiDirections(List.of(
                                 Direction.LEFT_UP, Direction.LEFT_UP
                         ))
@@ -66,7 +67,7 @@ class JanggiDirectionsTest {
     private static Stream<Arguments> correctPath() {
         return Stream.of(
                 Arguments.of(
-                        JanggiPosition.of(5, 4),
+                        JanggiPositionFactory.of(5, 4),
                         new JanggiDirections(List.of(
                                 Direction.UP, Direction.LEFT_UP
                         )),
@@ -76,7 +77,7 @@ class JanggiDirectionsTest {
                         )
                 ),
                 Arguments.of(
-                        JanggiPosition.of(5, 4),
+                        JanggiPositionFactory.of(5, 4),
                         new JanggiDirections(List.of(
                                 Direction.UP, Direction.UP, Direction.RIGHT_UP
                         )),
@@ -87,7 +88,7 @@ class JanggiDirectionsTest {
                         )
                 ),
                 Arguments.of(
-                        JanggiPosition.of(5, 4),
+                        JanggiPositionFactory.of(5, 4),
                         new JanggiDirections(List.of(
                                 Direction.DOWN, Direction.DOWN, Direction.LEFT_DOWN
                         )),

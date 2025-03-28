@@ -1,18 +1,10 @@
-package domain.position.normal;
+package domain.position;
 
 import domain.direction.Direction;
-import domain.position.JanggiPosition;
 
 import java.util.List;
 
 public final class NormalPosition extends JanggiPosition {
-    private static final List<Direction> directions = List.of(
-            Direction.UP,
-            Direction.DOWN,
-            Direction.LEFT,
-            Direction.RIGHT
-    );
-
     public NormalPosition(int row, int col) {
         super(row, col);
     }
@@ -24,6 +16,6 @@ public final class NormalPosition extends JanggiPosition {
 
     @Override
     protected List<Direction> getLinkedDirections() {
-        return directions;
+        return defaultDirections;
     }
 }

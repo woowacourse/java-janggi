@@ -2,6 +2,7 @@ package domain.janggiPiece;
 
 import domain.path.Path;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,143 +32,143 @@ class KingTest {
     private static Stream<Arguments> kingTest() {
         return Stream.of(
                 Arguments.of(
-                        JanggiPosition.of(0, 3),
+                        JanggiPositionFactory.of(0, 3),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 3))
+                                        JanggiPositionFactory.of(1, 3))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 4))
+                                        JanggiPositionFactory.of(1, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 4))
+                                        JanggiPositionFactory.of(0, 4))
                                 )
                         )
                 ),
                 Arguments.of(
-                        JanggiPosition.of(0, 4),
+                        JanggiPositionFactory.of(0, 4),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 3))
+                                        JanggiPositionFactory.of(0, 3))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 4))
+                                        JanggiPositionFactory.of(1, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 5))
+                                        JanggiPositionFactory.of(0, 5))
                                 )
                         )
                 ),
                 Arguments.of(
-                        JanggiPosition.of(0, 5),
+                        JanggiPositionFactory.of(0, 5),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 4))
+                                        JanggiPositionFactory.of(0, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 4))
+                                        JanggiPositionFactory.of(1, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 5))
+                                        JanggiPositionFactory.of(1, 5))
                                 )
                         )
                 ),
                 Arguments.of(
-                        JanggiPosition.of(1, 3),
+                        JanggiPositionFactory.of(1, 3),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 3))
+                                        JanggiPositionFactory.of(0, 3))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 4))
+                                        JanggiPositionFactory.of(1, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 3))
+                                        JanggiPositionFactory.of(2, 3))
                                 )
                         )
                 ),
                 Arguments.of(
-                        JanggiPosition.of(1, 4),
+                        JanggiPositionFactory.of(1, 4),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 3))
+                                        JanggiPositionFactory.of(0, 3))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 4))
+                                        JanggiPositionFactory.of(0, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 5))
+                                        JanggiPositionFactory.of(0, 5))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 3))
+                                        JanggiPositionFactory.of(1, 3))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 5))
+                                        JanggiPositionFactory.of(1, 5))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 3))
+                                        JanggiPositionFactory.of(2, 3))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 4))
+                                        JanggiPositionFactory.of(2, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 5))
+                                        JanggiPositionFactory.of(2, 5))
                                 )
                         )
                 ),
                 Arguments.of(
-                        JanggiPosition.of(1, 5),
+                        JanggiPositionFactory.of(1, 5),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 5))
+                                        JanggiPositionFactory.of(0, 5))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 4))
+                                        JanggiPositionFactory.of(1, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 5))
+                                        JanggiPositionFactory.of(2, 5))
                                 )
                         )
                 ),
                 Arguments.of(
-                        JanggiPosition.of(2, 3),
+                        JanggiPositionFactory.of(2, 3),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 3))
+                                        JanggiPositionFactory.of(1, 3))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 4))
+                                        JanggiPositionFactory.of(1, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 4))
+                                        JanggiPositionFactory.of(2, 4))
                                 )
                         )
                 ),
                 Arguments.of(
-                        JanggiPosition.of(2, 4),
+                        JanggiPositionFactory.of(2, 4),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 3))
+                                        JanggiPositionFactory.of(2, 3))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 4))
+                                        JanggiPositionFactory.of(1, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 5))
+                                        JanggiPositionFactory.of(2, 5))
                                 )
                         )
                 ),
                 Arguments.of(
-                        JanggiPosition.of(2, 5),
+                        JanggiPositionFactory.of(2, 5),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 4))
+                                        JanggiPositionFactory.of(2, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 4))
+                                        JanggiPositionFactory.of(1, 4))
                                 ),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 5))
+                                        JanggiPositionFactory.of(1, 5))
                                 )
                         )
                 )

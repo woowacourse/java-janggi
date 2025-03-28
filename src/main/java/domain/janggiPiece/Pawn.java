@@ -4,6 +4,7 @@ import domain.direction.Direction;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.hurdlePolicy.UnpassableHurdlePolicy;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
 import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
@@ -36,16 +37,16 @@ public class Pawn extends StepJanggiPiece {
 
     public static Map<JanggiPosition, JanggiPiece> initPieces() {
         return Map.of(
-                JanggiPosition.of(3, 0), new Pawn(JanggiTeam.RED),
-                JanggiPosition.of(3, 2), new Pawn(JanggiTeam.RED),
-                JanggiPosition.of(3, 4), new Pawn(JanggiTeam.RED),
-                JanggiPosition.of(3, 6), new Pawn(JanggiTeam.RED),
-                JanggiPosition.of(3, 8), new Pawn(JanggiTeam.RED),
-                JanggiPosition.of(6, 0), new Pawn(JanggiTeam.BLUE),
-                JanggiPosition.of(6, 2), new Pawn(JanggiTeam.BLUE),
-                JanggiPosition.of(6, 4), new Pawn(JanggiTeam.BLUE),
-                JanggiPosition.of(6, 6), new Pawn(JanggiTeam.BLUE),
-                JanggiPosition.of(6, 8), new Pawn(JanggiTeam.BLUE)
+                JanggiPositionFactory.of(3, 0), new Pawn(JanggiTeam.RED),
+                JanggiPositionFactory.of(3, 2), new Pawn(JanggiTeam.RED),
+                JanggiPositionFactory.of(3, 4), new Pawn(JanggiTeam.RED),
+                JanggiPositionFactory.of(3, 6), new Pawn(JanggiTeam.RED),
+                JanggiPositionFactory.of(3, 8), new Pawn(JanggiTeam.RED),
+                JanggiPositionFactory.of(6, 0), new Pawn(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(6, 2), new Pawn(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(6, 4), new Pawn(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(6, 6), new Pawn(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(6, 8), new Pawn(JanggiTeam.BLUE)
         );
     }
 

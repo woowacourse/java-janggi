@@ -5,6 +5,7 @@ import domain.direction.JanggiDirections;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.hurdlePolicy.UnpassableHurdlePolicy;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
 import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
@@ -30,10 +31,10 @@ public class Horse extends JumpJanggiPiece {
 
     public static Map<JanggiPosition, JanggiPiece> initPieces() {
         return Map.of(
-                JanggiPosition.of(0, 1), new Horse(JanggiTeam.RED),
-                JanggiPosition.of(0, 7), new Horse(JanggiTeam.RED),
-                JanggiPosition.of(9, 1), new Horse(JanggiTeam.BLUE),
-                JanggiPosition.of(9, 7), new Horse(JanggiTeam.BLUE)
+                JanggiPositionFactory.of(0, 1), new Horse(JanggiTeam.RED),
+                JanggiPositionFactory.of(0, 7), new Horse(JanggiTeam.RED),
+                JanggiPositionFactory.of(9, 1), new Horse(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(9, 7), new Horse(JanggiTeam.BLUE)
         );
     }
 

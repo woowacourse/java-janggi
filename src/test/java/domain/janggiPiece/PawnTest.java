@@ -2,6 +2,7 @@ package domain.janggiPiece;
 
 import domain.path.Path;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,17 +21,17 @@ public class PawnTest {
     @Test
     void redPawnNormalPosition() {
         // given
-        JanggiPosition startPosition = JanggiPosition.of(3, 4);
+        JanggiPosition startPosition = JanggiPositionFactory.of(3, 4);
         Pawn redPawn = new Pawn(JanggiTeam.RED);
         List<Path> expected = List.of(
                 new Path(List.of(
-                        JanggiPosition.of(4, 4)
+                        JanggiPositionFactory.of(4, 4)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(3, 3)
+                        JanggiPositionFactory.of(3, 3)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(3, 5)
+                        JanggiPositionFactory.of(3, 5)
                 ))
         );
 
@@ -45,17 +46,17 @@ public class PawnTest {
     @Test
     void bluePawnNormalPosition() {
         // given
-        JanggiPosition startPosition = JanggiPosition.of(6, 4);
+        JanggiPosition startPosition = JanggiPositionFactory.of(6, 4);
         Pawn bluePawn = new Pawn(JanggiTeam.BLUE);
         List<Path> expected = List.of(
                 new Path(List.of(
-                        JanggiPosition.of(5, 4)
+                        JanggiPositionFactory.of(5, 4)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(6, 3)
+                        JanggiPositionFactory.of(6, 3)
                 )),
                 new Path(List.of(
-                        JanggiPosition.of(6, 5)
+                        JanggiPositionFactory.of(6, 5)
                 ))
         );
 
@@ -84,52 +85,52 @@ public class PawnTest {
         return Stream.of(
                 Arguments.of(
                         "궁성의 왼쪽 상단 모서리에서 출발하는 경우",
-                        JanggiPosition.of(7, 3),
+                        JanggiPositionFactory.of(7, 3),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(7, 2)
+                                        JanggiPositionFactory.of(7, 2)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(7, 4)
+                                        JanggiPositionFactory.of(7, 4)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(8, 3)
+                                        JanggiPositionFactory.of(8, 3)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(8, 4)
+                                        JanggiPositionFactory.of(8, 4)
                                 ))
                         )
                 ),
                 Arguments.of(
                         "궁성의 중앙에서 출발하는 경우",
-                        JanggiPosition.of(8, 4),
+                        JanggiPositionFactory.of(8, 4),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(8, 3)
+                                        JanggiPositionFactory.of(8, 3)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(8, 5)
+                                        JanggiPositionFactory.of(8, 5)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(9, 3)
+                                        JanggiPositionFactory.of(9, 3)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(9, 4)
+                                        JanggiPositionFactory.of(9, 4)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(9, 5)
+                                        JanggiPositionFactory.of(9, 5)
                                 ))
                         )
                 ),
                 Arguments.of(
                         "궁성의 오른쪽 하단 모서리에서 출발하는 경우",
-                        JanggiPosition.of(9, 5),
+                        JanggiPositionFactory.of(9, 5),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(9, 6)
+                                        JanggiPositionFactory.of(9, 6)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(9, 4)
+                                        JanggiPositionFactory.of(9, 4)
                                 ))
                         )
                 )
@@ -154,52 +155,52 @@ public class PawnTest {
         return Stream.of(
                 Arguments.of(
                         "궁성의 왼쪽 상단 모서리에서 출발하는 경우",
-                        JanggiPosition.of(0, 3),
+                        JanggiPositionFactory.of(0, 3),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 2)
+                                        JanggiPositionFactory.of(0, 2)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 4)
+                                        JanggiPositionFactory.of(0, 4)
                                 ))
                         )
                 ),
                 Arguments.of(
                         "궁성의 중앙에서 출발하는 경우",
-                        JanggiPosition.of(1, 4),
+                        JanggiPositionFactory.of(1, 4),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 3)
+                                        JanggiPositionFactory.of(1, 3)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 5)
+                                        JanggiPositionFactory.of(1, 5)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 3)
+                                        JanggiPositionFactory.of(0, 3)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 4)
+                                        JanggiPositionFactory.of(0, 4)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(0, 5)
+                                        JanggiPositionFactory.of(0, 5)
                                 ))
                         )
                 ),
                 Arguments.of(
                         "궁성의 오른쪽 하단 모서리에서 출발하는 경우",
-                        JanggiPosition.of(2, 5),
+                        JanggiPositionFactory.of(2, 5),
                         List.of(
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 4)
+                                        JanggiPositionFactory.of(1, 4)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 4)
+                                        JanggiPositionFactory.of(2, 4)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(1, 5)
+                                        JanggiPositionFactory.of(1, 5)
                                 )),
                                 new Path(List.of(
-                                        JanggiPosition.of(2, 6)
+                                        JanggiPositionFactory.of(2, 6)
                                 ))
                         )
                 )

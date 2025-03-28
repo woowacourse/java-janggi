@@ -2,11 +2,12 @@ package view;
 
 import domain.janggiPiece.JanggiPiece;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
+import domain.position.vo.Column;
 import domain.position.vo.Row;
 import domain.score.Score;
 import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
-import domain.position.vo.Column;
 
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class OutputView {
         for (int row = Row.MIN_ROW; row <= Row.MAX_ROW; ++row) {
             printGridValue(String.valueOf(row));
             for (int col = Column.MIN_COL; col <= Column.MAX_COL; ++col) {
-                printChessPiece(JanggiPosition.of(row, col), boardPositions);
+                printChessPiece(JanggiPositionFactory.of(row, col), boardPositions);
             }
             printNewLine();
         }
@@ -115,7 +116,7 @@ public class OutputView {
         for (char ch : s.toCharArray()) {
             // 숫자/알파벳/기호 -> 전각 변환
             if (ch >= 0x21 && ch <= 0x7E) {
-                result.append((char)(ch - 0x20 + 0xFF00));
+                result.append((char) (ch - 0x20 + 0xFF00));
             } else {
                 result.append(ch);
             }

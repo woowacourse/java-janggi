@@ -3,6 +3,7 @@ package domain.janggiPiece;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.hurdlePolicy.UnpassableHurdlePolicy;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
 import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
@@ -17,8 +18,8 @@ public class King extends CastleJanggiPiece {
 
     public static Map<JanggiPosition, JanggiPiece> initPieces() {
         return Map.of(
-                JanggiPosition.of(1, 4), new King(JanggiTeam.RED),
-                JanggiPosition.of(8, 4), new King(JanggiTeam.BLUE)
+                JanggiPositionFactory.of(1, 4), new King(JanggiTeam.RED),
+                JanggiPositionFactory.of(8, 4), new King(JanggiTeam.BLUE)
         );
     }
 

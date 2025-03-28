@@ -5,6 +5,7 @@ import domain.direction.JanggiDirections;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.hurdlePolicy.UnpassableHurdlePolicy;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
 import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
@@ -30,10 +31,10 @@ public class Elephant extends JumpJanggiPiece {
 
     public static Map<JanggiPosition, JanggiPiece> initPieces() {
         return Map.of(
-                JanggiPosition.of(0, 2), new Elephant(JanggiTeam.RED),
-                JanggiPosition.of(0, 6), new Elephant(JanggiTeam.RED),
-                JanggiPosition.of(9, 2), new Elephant(JanggiTeam.BLUE),
-                JanggiPosition.of(9, 6), new Elephant(JanggiTeam.BLUE)
+                JanggiPositionFactory.of(0, 2), new Elephant(JanggiTeam.RED),
+                JanggiPositionFactory.of(0, 6), new Elephant(JanggiTeam.RED),
+                JanggiPositionFactory.of(9, 2), new Elephant(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(9, 6), new Elephant(JanggiTeam.BLUE)
         );
     }
 
