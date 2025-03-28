@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class GeneralTest {
 
@@ -29,10 +30,10 @@ class GeneralTest {
 
     @Test
     @DisplayName("궁은 수직/수평으로 1칸 이동할 수 있다")
-    void move() {
+    void canMoveSingleStep() {
         // given
-        Position position = Position.of(5, 5);
-        Piece general = General.of(position, Team.HAN);
+        Piece general = General.defaultOf(Team.CHO);
+        Position position = general.getPosition();
         Board board = Board.from(Pieces.empty().add(general));
 
         Position movedPosition = position.add(new Vector(-1, 0));
@@ -45,12 +46,12 @@ class GeneralTest {
     }
 
     @ParameterizedTest
-    @CsvSource(value = {"1, 1", "2, 0"})
+    @CsvSource(value = {"0, 2", "-3, 0"})
     @DisplayName("궁은 2칸 이상 움직일 수 없다")
-    void move(int deltaRow, int deltaColumn) {
+    void cannotMoveOverSingleStep(int deltaRow, int deltaColumn) {
         // given
-        Position position = Position.of(5, 5);
-        Piece general = General.of(position, Team.HAN);
+        Piece general = General.defaultOf(Team.CHO);
+        Position position = general.getPosition();
         Board board = Board.from(Pieces.empty().add(general));
 
         Position movedPosition = position.add(new Vector(deltaRow, deltaColumn));
@@ -60,5 +61,34 @@ class GeneralTest {
         assertThatThrownBy(() -> general.move(board, movedPosition))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이동할 수 없는 지점입니다.");
+    }
+
+    @Test
+    @DisplayName("궁은 궁성의 중앙에서 대각선으로 1칸 이동할 수 있다")
+    void move() {
+        // given
+        Piece general = General.defaultOf(Team.CHO);
+        Position position = general.getPosition();
+        Board board = Board.from(Pieces.empty().add(general));
+
+        // 대각선 4방 이동
+        Position movedPosition1 = position.add(new Vector(1, 1));
+        Position movedPosition2 = position.add(new Vector(-1, 1));
+        Position movedPosition3 = position.add(new Vector(1, -1));
+        Position movedPosition4 = position.add(new Vector(-1, -1));
+
+        // when
+        Piece movedPiece1 = general.move(board, movedPosition1);
+        Piece movedPiece2 = general.move(board, movedPosition2);
+        Piece movedPiece3 = general.move(board, movedPosition3);
+        Piece movedPiece4 = general.move(board, movedPosition4);
+
+        // then
+        assertAll(()->{
+            assertThat(movedPiece1.getPosition()).isEqualTo(movedPosition1);
+            assertThat(movedPiece2.getPosition()).isEqualTo(movedPosition2);
+            assertThat(movedPiece3.getPosition()).isEqualTo(movedPosition3);
+            assertThat(movedPiece4.getPosition()).isEqualTo(movedPosition4);
+        });
     }
 }

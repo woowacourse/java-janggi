@@ -38,8 +38,9 @@ class GuardTest {
     @DisplayName("사는 수직/수평으로 1칸 이동할 수 있다")
     void move() {
         // given
-        Position position = Position.of(5, 5);
-        Piece guard = Guard.of(position, Team.HAN);
+        Piece guard = Guard.defaultsOf(Team.CHO).getFirst();
+
+        Position position = guard.getPosition();
         Board board = Board.from(Pieces.empty().add(guard));
 
         Position movedPosition = position.add(new Vector(-1, 0));

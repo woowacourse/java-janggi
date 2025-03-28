@@ -1,8 +1,6 @@
 package janggi.piece;
 
-import janggi.Board;
-import janggi.Score;
-import janggi.Team;
+import janggi.*;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
 import org.junit.jupiter.api.DisplayName;
@@ -21,32 +19,32 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class PieceTest {
 
     private static Stream<Arguments> provideAllyPiece() {
-        Position position = Position.of(5, 5);
         Team team = Team.HAN;
+        Position position = Position.of(9, 5);
 
         return Stream.of(
                 Arguments.of(Guard.of(position, team), Soldier.of(position.add(new Vector(1, 0)), team), 1, 0),
                 Arguments.of(General.of(position, team), Soldier.of(position.add(new Vector(1, 0)), team), 1, 0),
-                Arguments.of(Soldier.of(position, team), Soldier.of(position.add(new Vector(1, 0)), team), 1, 0),
+                Arguments.of(Soldier.of(position, team), Soldier.of(position.add(new Vector(-1, 0)), team), -1, 0),
                 Arguments.of(Horse.of(position, team), Soldier.of(position.add(new Vector(1, 2)), team), 1, 2),
-                Arguments.of(Elephant.of(position, team), Soldier.of(position.add(new Vector(2, 3)), team), 2, 3),
-                Arguments.of(Chariot.of(position, team), Soldier.of(position.add(new Vector(3, 0)), team), 3, 0),
-                Arguments.of(Cannon.of(position, team), Soldier.of(position.add(new Vector(3, 0)), team), 3, 0));
+                Arguments.of(Elephant.of(position, team), Soldier.of(position.add(new Vector(-2, 3)), team), -2, 3),
+                Arguments.of(Chariot.of(position, team), Soldier.of(position.add(new Vector(0, 3)), team), 0, 3),
+                Arguments.of(Cannon.of(position, team), Soldier.of(position.add(new Vector(0, 3)), team), 0, 3));
     }
 
     private static Stream<Arguments> provideEnemyPiece() {
-        Position position = Position.of(5, 5);
-        Team team = Team.HAN;
-        Team ohterTeam = Team.CHO;
+        Team team = Team.CHO;
+        Position position = Position.of(9, 5);
+        Team ohterTeam = Team.HAN;
 
         return Stream.of(
                 Arguments.of(Guard.of(position, team), Soldier.of(position.add(new Vector(1, 0)), ohterTeam), 1, 0),
                 Arguments.of(General.of(position, team), Soldier.of(position.add(new Vector(1, 0)), ohterTeam), 1, 0),
-                Arguments.of(Soldier.of(position, team), Soldier.of(position.add(new Vector(1, 0)), ohterTeam), 1, 0),
+                Arguments.of(Soldier.of(position, team), Soldier.of(position.add(new Vector(-1, 0)), ohterTeam), -1, 0),
                 Arguments.of(Horse.of(position, team), Soldier.of(position.add(new Vector(1, 2)), ohterTeam), 1, 2),
-                Arguments.of(Elephant.of(position, team), Soldier.of(position.add(new Vector(2, 3)), ohterTeam), 2, 3),
-                Arguments.of(Chariot.of(position, team), Soldier.of(position.add(new Vector(3, 0)), ohterTeam), 3, 0),
-                Arguments.of(Cannon.of(position, team), Soldier.of(position.add(new Vector(3, 0)), ohterTeam), 3, 0));
+                Arguments.of(Elephant.of(position, team), Soldier.of(position.add(new Vector(-2, 3)), ohterTeam), -2, 3),
+                Arguments.of(Chariot.of(position, team), Soldier.of(position.add(new Vector(-3, 0)), ohterTeam), -3, 0),
+                Arguments.of(Cannon.of(position, team), Soldier.of(position.add(new Vector(-3, 0)), ohterTeam), -3, 0));
     }
 
     @ParameterizedTest
@@ -79,7 +77,7 @@ class PieceTest {
         Position movedPosition = piece.getPosition().add(new Vector(rowDirection, columnDirection));
 
         if (piece.getType().isCannon()) {
-            pieces.add(Soldier.of(movedPosition.add(new Vector(-1, 0)), Team.HAN));
+            pieces.add(Soldier.of(movedPosition.add(new Vector(1, 0)), Team.HAN));
         }
 
         Board board = Board.from(Pieces.empty().addAll(pieces));
