@@ -6,7 +6,7 @@ import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Position;
-import janggi.domain.piece.HorseSide;
+import janggi.domain.HorseSide;
 import janggi.domain.piece.Soldier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Team;
 import janggi.domain.piece.movement.Movement;
 
 import java.util.Map;

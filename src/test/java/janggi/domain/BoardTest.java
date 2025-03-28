@@ -107,9 +107,9 @@ class BoardTest {
         pieceMap.put(chariot.getPosition(), chariot);
         pieceMap.put(soldier.getPosition(), soldier);
         Board board = new Board(pieceMap);
-        int beforeScore = board.getScore(Team.RED);
+        double beforeScore = board.getScore(Team.RED).getValue();
         board.movePiece(new Position(6, 5), new Position(5, 5));
-        int afterScore = board.getScore(Team.RED);
+        double afterScore = board.getScore(Team.RED).getValue();
         assertThat(beforeScore - 13).isEqualTo(afterScore);
     }
 
@@ -121,9 +121,9 @@ class BoardTest {
         pieceMap.put(chariot.getPosition(), chariot);
         pieceMap.put(soldier.getPosition(), soldier);
         Board board = new Board(pieceMap);
-        int beforeScore = board.getScore(Team.RED);
+        double beforeScore = board.getScore(Team.RED).getValue();
         board.movePiece(new Position(6, 5), new Position(5, 5));
-        int afterScore = board.getScore(Team.RED);
+        double afterScore = board.getScore(Team.RED).getValue();
         assertThat(beforeScore - 13).isEqualTo(afterScore);
     }
 
@@ -135,9 +135,9 @@ class BoardTest {
         pieceMap.put(cannon.getPosition(), cannon);
         pieceMap.put(soldier.getPosition(), soldier);
         Board board = new Board(pieceMap);
-        int beforeScore = board.getScore(Team.RED);
+        double beforeScore = board.getScore(Team.RED).getValue();
         board.movePiece(new Position(6, 5), new Position(5, 5));
-        int afterScore = board.getScore(Team.RED);
+        double afterScore = board.getScore(Team.RED).getValue();
         assertThat(beforeScore - 7).isEqualTo(afterScore);
     }
 
@@ -149,9 +149,9 @@ class BoardTest {
         pieceMap.put(horse.getPosition(), horse);
         pieceMap.put(soldier.getPosition(), soldier);
         Board board = new Board(pieceMap);
-        int beforeScore = board.getScore(Team.RED);
+        double beforeScore = board.getScore(Team.RED).getValue();
         board.movePiece(new Position(6, 5), new Position(5, 5));
-        int afterScore = board.getScore(Team.RED);
+        double afterScore = board.getScore(Team.RED).getValue();
         assertThat(beforeScore - 5).isEqualTo(afterScore);
     }
 
@@ -163,9 +163,9 @@ class BoardTest {
         pieceMap.put(elephant.getPosition(), elephant);
         pieceMap.put(soldier.getPosition(), soldier);
         Board board = new Board(pieceMap);
-        int beforeScore = board.getScore(Team.RED);
+        double beforeScore = board.getScore(Team.RED).getValue();
         board.movePiece(new Position(6, 5), new Position(5, 5));
-        int afterScore = board.getScore(Team.RED);
+        double afterScore = board.getScore(Team.RED).getValue();
         assertThat(beforeScore - 3).isEqualTo(afterScore);
     }
 
@@ -177,9 +177,9 @@ class BoardTest {
         pieceMap.put(elephant.getPosition(), elephant);
         pieceMap.put(soldier.getPosition(), soldier);
         Board board = new Board(pieceMap);
-        int beforeScore = board.getScore(Team.RED);
+        double beforeScore = board.getScore(Team.RED).getValue();
         board.movePiece(new Position(6, 5), new Position(5, 5));
-        int afterScore = board.getScore(Team.RED);
+        double afterScore = board.getScore(Team.RED).getValue();
         assertThat(beforeScore - 3).isEqualTo(afterScore);
     }
 
@@ -191,9 +191,9 @@ class BoardTest {
         pieceMap.put(guard.getPosition(), guard);
         pieceMap.put(soldier.getPosition(), soldier);
         Board board = new Board(pieceMap);
-        int beforeScore = board.getScore(Team.RED);
+        double beforeScore = board.getScore(Team.RED).getValue();
         board.movePiece(new Position(3, 5), new Position(2, 5));
-        int afterScore = board.getScore(Team.RED);
+        double afterScore = board.getScore(Team.RED).getValue();
         assertThat(beforeScore - 3).isEqualTo(afterScore);
     }
 
@@ -205,9 +205,9 @@ class BoardTest {
         pieceMap.put(soldier.getPosition(), soldier);
         pieceMap.put(otherSoldier.getPosition(), otherSoldier);
         Board board = new Board(pieceMap);
-        int beforeScore = board.getScore(Team.RED);
+        double beforeScore = board.getScore(Team.RED).getValue();
         board.movePiece(new Position(6, 5), new Position(5, 5));
-        int afterScore = board.getScore(Team.RED);
+        double afterScore = board.getScore(Team.RED).getValue();
         assertThat(beforeScore - 2).isEqualTo(afterScore);
     }
 
@@ -241,5 +241,20 @@ class BoardTest {
     void boardRedKingTest() {
         Board board = new Board(pieceMap);
         assertThat(board.isKingAlive(Team.RED)).isFalse();
+    }
+
+    @DisplayName("초기 점수가 청팀은 72점, 홍팀은 73.5점이다")
+    @Test
+    void scoreTest() {
+        Board board = BoardFactory.getInitializedBoard(
+                HorseSide.LEFT,
+                HorseSide.LEFT,
+                HorseSide.LEFT,
+                HorseSide.LEFT
+        );
+        Assertions.assertAll(
+                () -> assertThat(board.getScore(Team.BLUE).getValue()).isEqualTo(72),
+                () -> assertThat(board.getScore(Team.RED).getValue()).isEqualTo(73.5)
+        );
     }
 }

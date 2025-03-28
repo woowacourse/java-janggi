@@ -3,7 +3,6 @@ package janggi.domain;
 import janggi.domain.piece.None;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
-import janggi.domain.piece.Team;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,12 +46,14 @@ public class Board {
         }
     }
 
-    public int getScore(Team team) {
-        return pieces.values()
+    public Score getScore(Team team) {
+        return Score.from(
+                pieces.values()
                 .stream()
                 .filter(piece -> piece.getTeam() == team)
                 .mapToInt(Piece::getScore)
-                .sum();
+                .sum(), team
+        );
     }
 
     public boolean isKingAlive(Team team) {

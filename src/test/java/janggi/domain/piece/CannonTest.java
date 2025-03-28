@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Board;
+import janggi.domain.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
