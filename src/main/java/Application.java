@@ -25,6 +25,10 @@ public class Application {
                 break;
             }
             createArrivalAndMove(departure);
+            if (janggiGame.isEnd()) {
+                outputView.printGeneralDie(currentTurn);
+                break;
+            }
         }
     }
 

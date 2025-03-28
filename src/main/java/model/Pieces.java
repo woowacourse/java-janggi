@@ -20,6 +20,12 @@ public class Pieces {
         return Collections.unmodifiableMap(pieces);
     }
 
+    public boolean isGeneralAlive() {
+        return pieces.values().stream()
+            .filter(Piece::isGeneral)
+            .count() == 2;
+    }
+
     public Optional<Piece> findPieceOfNullable(Position position) {
         return Optional.ofNullable(pieces.get(position));
     }

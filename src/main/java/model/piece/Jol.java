@@ -29,11 +29,6 @@ public class Jol extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
-    }
-
-    @Override
     public String getName() {
         return "졸";
     }

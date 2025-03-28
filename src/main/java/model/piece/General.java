@@ -25,11 +25,6 @@ public class General extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
-    }
-
-    @Override
     public String getName() {
         if (getTeam() == Team.RED) {
             return "漢";
@@ -42,6 +37,11 @@ public class General extends Piece {
         validateOutOfCastle(arrival);
         List<Movement> decidedMovements = decideMovements(departure, arrival);
         return limitedBasicMoveNavigator.find(departure, arrival, decidedMovements);
+    }
+
+    @Override
+    public boolean isGeneral() {
+        return true;
     }
 
     private void validateOutOfCastle(Position arrival) {

@@ -23,7 +23,13 @@ public abstract class Piece {
 
     public abstract List<Position> calculateAllDirection(Position departure, Position arrival);
 
-    public abstract boolean isCannon();
+    public boolean isCannon() {
+        return false;
+    }
+
+    public boolean isGeneral() {
+        return false;
+    }
 
     public abstract String getName();
 
@@ -38,4 +44,5 @@ public abstract class Piece {
     public Team getTeam() {
         return team;
     }
+
 }

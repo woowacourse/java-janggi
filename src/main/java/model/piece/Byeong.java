@@ -27,11 +27,6 @@ public class Byeong extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
-    }
-
-    @Override
     public String getName() {
         return "兵";
     }

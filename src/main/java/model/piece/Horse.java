@@ -24,11 +24,6 @@ public class Horse extends Piece {
     }
 
     @Override
-    public boolean isCannon() {
-        return false;
-    }
-
-    @Override
     public String getName() {
         if (getTeam() == Team.RED) {
             return "馬";

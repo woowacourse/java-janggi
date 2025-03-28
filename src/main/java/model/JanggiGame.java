@@ -22,6 +22,10 @@ public class JanggiGame {
         return pieces.getPieces();
     }
 
+    public boolean isEnd() {
+        return !pieces.isGeneralAlive();
+    }
+
     public Position createPositionAndCheckTurn(String choiceDeparture) {
         Position position = createPositionFrom(choiceDeparture);
         validateTurnAndChange(position);
