@@ -40,7 +40,7 @@ public class Chariot extends AbstractPiece {
             final Point toPoint,
             final Direction direction
     ) {
-        return fromPoint.isPalace() && toPoint.isPalace() && isDiagonalDirection(direction);
+        return fromPoint.isDiagonalPalace() && toPoint.isDiagonalPalace() && isDiagonalDirection(direction);
     }
 
     private List<Point> searchPalacePossiblePoint(final Point fromPoint, final Point toPoint) {
