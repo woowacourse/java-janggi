@@ -59,6 +59,12 @@ public record Position(Column column, Row row) {
         return new Position(targetColumn, targetRow);
     }
 
+    public Position move(final ElephantMovement movement) {
+        final Column targetColumn = column.move(movement.columnValue());
+        final Row targetRow = row.move(movement.rowValue());
+        return new Position(targetColumn, targetRow);
+    }
+
     public boolean canMove(final Movement movement) {
         final boolean canMoveColumn = column.canMove(movement.columnValue());
         final boolean canMoveRow = row.canMove(movement.rowValue());
@@ -66,6 +72,12 @@ public record Position(Column column, Row row) {
     }
 
     public boolean canMove(final HorseMovement movement) {
+        final boolean canMoveColumn = column.canMove(movement.columnValue());
+        final boolean canMoveRow = row.canMove(movement.rowValue());
+        return canMoveColumn && canMoveRow;
+    }
+
+    public boolean canMove(final ElephantMovement movement) {
         final boolean canMoveColumn = column.canMove(movement.columnValue());
         final boolean canMoveRow = row.canMove(movement.rowValue());
         return canMoveColumn && canMoveRow;
