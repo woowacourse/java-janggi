@@ -48,13 +48,13 @@ public class JanggiGame {
         final Team team = board.determineWinTeam();
         final Map<PieceType, Integer> winnerPieceCounts = board.countPieces(team);
         double winnerScore = Score.calculate(winnerPieceCounts);
-        final Map<PieceType, Integer> loserPieceCounts = board.countPieces(Team.opposite(team));
+        final Map<PieceType, Integer> loserPieceCounts = board.countPieces(team.opposite());
         double loserScore = Score.calculate(loserPieceCounts);
 
-        if (Team.isRedTeam(team)) {
+        if (team.isRedTeam()) {
             winnerScore = Score.adjustScore(winnerScore);
         }
-        if (Team.isGreenTeam(team)) {
+        if (team.isGreenTeam()) {
             loserScore = Score.adjustScore(loserScore);
         }
         OutputView.printWinnerTeam(team, winnerScore, loserScore);
@@ -79,7 +79,7 @@ public class JanggiGame {
     }
 
     private void changeTurn() {
-        turn = Team.opposite(turn);
+        turn = turn.opposite();
     }
 
     private Point readEndPoint() {
@@ -92,10 +92,10 @@ public class JanggiGame {
     }
 
     private boolean isGreenTurn() {
-        return Team.isGreenTeam(turn);
+        return turn.isGreenTeam();
     }
 
     private boolean isRedTurn() {
-        return Team.isRedTeam(turn);
+        return turn.isRedTeam();
     }
 }

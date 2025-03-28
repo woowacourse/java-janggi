@@ -4,16 +4,16 @@ public enum Team {
     RED,
     GREEN;
 
-    public static boolean isGreenTeam(final Team team) {
-        return GREEN == team;
+    public boolean isGreenTeam() {
+        return GREEN == this;
     }
 
-    public static boolean isRedTeam(final Team team) {
-        return RED == team;
+    public boolean isRedTeam() {
+        return RED == this;
     }
 
-    public static Team opposite(final Team team) {
-        if (isGreenTeam(team)) {
+    public Team opposite() {
+        if (this.isGreenTeam()) {
             return Team.RED;
         }
         return Team.GREEN;
