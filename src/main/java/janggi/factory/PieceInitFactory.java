@@ -3,52 +3,47 @@ package janggi.factory;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceBehavior;
-import janggi.domain.piece.behavior.Soldier;
-import janggi.domain.piece.behavior.palace.General;
-import janggi.domain.piece.behavior.palace.Guard;
-import janggi.domain.piece.behavior.straightmove.Cannon;
-import janggi.domain.piece.behavior.straightmove.Chariot;
+import janggi.domain.piece.PieceType;
 import java.util.HashMap;
 import java.util.Map;
 
 public enum PieceInitFactory {
-    GENERAL1(Team.CHO, 9, 5, new General()),
-    GUARD1(Team.CHO, 10, 4, new Guard()),
-    GUARD2(Team.CHO, 10, 6, new Guard()),
-    CHARIOT1(Team.CHO, 10, 1, new Chariot()),
-    CHARIOT2(Team.CHO, 10, 9, new Chariot()),
-    CANNON1(Team.CHO, 8, 2, new Cannon()),
-    CANNON2(Team.CHO, 8, 8, new Cannon()),
-    SOLDIER1(Team.CHO, 7, 1, new Soldier()),
-    SOLDIER2(Team.CHO, 7, 3, new Soldier()),
-    SOLDIER3(Team.CHO, 7, 5, new Soldier()),
-    SOLDIER4(Team.CHO, 7, 7, new Soldier()),
-    SOLDIER5(Team.CHO, 7, 9, new Soldier()),
-    GENERAL2(Team.HAN, 2, 5, new General()),
-    GUARD3(Team.HAN, 1, 4, new Guard()),
-    GUARD4(Team.HAN, 1, 6, new Guard()),
-    CHARIOT3(Team.HAN, 1, 1, new Chariot()),
-    CHARIOT4(Team.HAN, 1, 9, new Chariot()),
-    CANNON3(Team.HAN, 3, 2, new Cannon()),
-    CANNON4(Team.HAN, 3, 8, new Cannon()),
-    SOLDIER6(Team.HAN, 4, 1, new Soldier()),
-    SOLDIER7(Team.HAN, 4, 3, new Soldier()),
-    SOLDIER8(Team.HAN, 4, 5, new Soldier()),
-    SOLDIER9(Team.HAN, 4, 7, new Soldier()),
-    SOLDIER10(Team.HAN, 4, 9, new Soldier()),
+    GENERAL1(PieceType.GENERAL, Team.CHO, 9, 5),
+    GUARD1(PieceType.GUARD, Team.CHO, 10, 4),
+    GUARD2(PieceType.GUARD, Team.CHO, 10, 6),
+    CHARIOT1(PieceType.CHARIOT, Team.CHO, 10, 1),
+    CHARIOT2(PieceType.CHARIOT, Team.CHO, 10, 9),
+    CANNON1(PieceType.CANNON, Team.CHO, 8, 2),
+    CANNON2(PieceType.CANNON, Team.CHO, 8, 8),
+    SOLDIER1(PieceType.SOLDIER, Team.CHO, 7, 1),
+    SOLDIER2(PieceType.SOLDIER, Team.CHO, 7, 3),
+    SOLDIER3(PieceType.SOLDIER, Team.CHO, 7, 5),
+    SOLDIER4(PieceType.SOLDIER, Team.CHO, 7, 7),
+    SOLDIER5(PieceType.SOLDIER, Team.CHO, 7, 9),
+    GENERAL2(PieceType.GENERAL, Team.HAN, 2, 5),
+    GUARD3(PieceType.GUARD, Team.HAN, 1, 4),
+    GUARD4(PieceType.GUARD, Team.HAN, 1, 6),
+    CHARIOT3(PieceType.CHARIOT, Team.HAN, 1, 1),
+    CHARIOT4(PieceType.CHARIOT, Team.HAN, 1, 9),
+    CANNON3(PieceType.CANNON, Team.HAN, 3, 2),
+    CANNON4(PieceType.CANNON, Team.HAN, 3, 8),
+    SOLDIER6(PieceType.SOLDIER, Team.HAN, 4, 1),
+    SOLDIER7(PieceType.SOLDIER, Team.HAN, 4, 3),
+    SOLDIER8(PieceType.SOLDIER, Team.HAN, 4, 5),
+    SOLDIER9(PieceType.SOLDIER, Team.HAN, 4, 7),
+    SOLDIER10(PieceType.SOLDIER, Team.HAN, 4, 9),
     ;
 
+    private final PieceType pieceType;
     private final Team team;
     private final int row;
     private final int column;
-    private final PieceBehavior pieceBehavior;
 
-    PieceInitFactory(Team team, int row, int column, PieceBehavior pieceBehavior) {
+    PieceInitFactory(PieceType pieceType, Team team, int row, int column) {
+        this.pieceType = pieceType;
         this.team = team;
         this.row = row;
         this.column = column;
-        this.pieceBehavior = pieceBehavior;
     }
 
     public static Map<Position, Piece> initialize() {
@@ -56,7 +51,7 @@ public enum PieceInitFactory {
 
         for (PieceInitFactory value : PieceInitFactory.values()) {
             Position position = Position.of(value.row, value.column);
-            Piece piece = new Piece(value.team, value.pieceBehavior);
+            Piece piece = PieceFactory.create(value.pieceType, value.team);
             map.put(position, piece);
         }
 
