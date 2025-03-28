@@ -20,14 +20,13 @@ class PalaceValidatorTest {
     @DisplayName("중간길에 유물이 있으면 예외가 발생한다.")
     void validatePathTest() {
         PalaceValidator palaceValidator = new PalaceValidator();
-        Piece piece = new Guard(TeamType.HAN);
         Position to = D0;
         List<Position> positions = List.of(E1);
         Map<Position, Piece> pieces = Map.of(
                 E1, new Elephant(TeamType.HAN)
         );
 
-        assertThatThrownBy(() -> palaceValidator.validatePath(piece, to, positions, pieces))
+        assertThatThrownBy(() -> palaceValidator.validatePath(TeamType.HAN, to, positions, pieces))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -36,14 +35,13 @@ class PalaceValidatorTest {
     @DisplayName("해당 위치에 팀 유물이 있으면 예외가 발생한다.")
     void validatePathTest2() {
         PalaceValidator palaceValidator = new PalaceValidator();
-        Piece piece = new Guard(TeamType.HAN);
         Position to = D0;
         List<Position> positions = List.of();
         Map<Position, Piece> pieces = Map.of(
                 to, new Elephant(TeamType.HAN)
         );
 
-        assertThatThrownBy(() -> palaceValidator.validatePath(piece, to, positions, pieces))
+        assertThatThrownBy(() -> palaceValidator.validatePath(TeamType.HAN, to, positions, pieces))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -52,12 +50,11 @@ class PalaceValidatorTest {
     @DisplayName("궁 외의 위치로 이동하려고 하면 예외가 발생한다.")
     void validatePathTest3() {
         PalaceValidator palaceValidator = new PalaceValidator();
-        Piece piece = new Guard(TeamType.HAN);
         Position to = C0;
         List<Position> positions = List.of();
         Map<Position, Piece> pieces = Map.of();
 
-        assertThatThrownBy(() -> palaceValidator.validatePath(piece, to, positions, pieces))
+        assertThatThrownBy(() -> palaceValidator.validatePath(TeamType.HAN, to, positions, pieces))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }

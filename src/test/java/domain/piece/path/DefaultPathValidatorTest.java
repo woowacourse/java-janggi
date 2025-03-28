@@ -22,14 +22,13 @@ class DefaultPathValidatorTest {
     @DisplayName("중간길에 유물이 있으면 예외가 발생한다.")
     void validatePathTest() {
         DefaultPathValidator cannonPathValidator = new DefaultPathValidator();
-        Piece piece = new Horse(TeamType.HAN);
         Position to = E6;
         List<Position> positions = List.of(E7, E8, E9);
         Map<Position, Piece> pieces = Map.of(
                 E7, new Elephant(TeamType.HAN)
         );
 
-        assertThatThrownBy(() -> cannonPathValidator.validatePath(piece, to, positions, pieces))
+        assertThatThrownBy(() -> cannonPathValidator.validatePath(TeamType.HAN, to, positions, pieces))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -38,14 +37,13 @@ class DefaultPathValidatorTest {
     @DisplayName("해당 위치에 팀 유물이 있으면 예외가 발생한다.")
     void validatePathTest2() {
         DefaultPathValidator cannonPathValidator = new DefaultPathValidator();
-        Piece piece = new Horse(TeamType.HAN);
         Position to = E6;
         List<Position> positions = List.of(E7, E8, E9);
         Map<Position, Piece> pieces = Map.of(
                 to, new Elephant(TeamType.HAN)
         );
 
-        assertThatThrownBy(() -> cannonPathValidator.validatePath(piece, to, positions, pieces))
+        assertThatThrownBy(() -> cannonPathValidator.validatePath(TeamType.HAN, to, positions, pieces))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }

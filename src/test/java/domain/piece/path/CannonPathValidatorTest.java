@@ -23,14 +23,13 @@ class CannonPathValidatorTest {
     @DisplayName("해당 자리에 팀이 있으면 예외가 발생한다.")
     void validatePathTest() {
         CannonPathValidator cannonPathValidator = new CannonPathValidator();
-        Piece piece = new Cannon(TeamType.HAN);
         Position to = E6;
         List<Position> positions = List.of(E7, E8, E9);
         Map<Position, Piece> pieces = Map.of(
                 to, new Elephant(TeamType.HAN)
         );
 
-        assertThatThrownBy(() -> cannonPathValidator.validatePath(piece, to, positions, pieces))
+        assertThatThrownBy(() -> cannonPathValidator.validatePath(TeamType.HAN, to, positions, pieces))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -39,14 +38,13 @@ class CannonPathValidatorTest {
     @DisplayName("해당 자리에 캐논이 있으면 예외가 발생한다.")
     void validatePathTest2() {
         CannonPathValidator cannonPathValidator = new CannonPathValidator();
-        Piece piece = new Cannon(TeamType.HAN);
         Position to = E6;
         List<Position> positions = List.of(E7, E8, E9);
         Map<Position, Piece> pieces = Map.of(
                 to, new Cannon(TeamType.CHO)
         );
 
-        assertThatThrownBy(() -> cannonPathValidator.validatePath(piece, to, positions, pieces))
+        assertThatThrownBy(() -> cannonPathValidator.validatePath(TeamType.HAN, to, positions, pieces))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -55,14 +53,13 @@ class CannonPathValidatorTest {
     @DisplayName("캐논을 넘을 수 없다.")
     void validatePathTest3() {
         CannonPathValidator cannonPathValidator = new CannonPathValidator();
-        Piece piece = new Cannon(TeamType.HAN);
         Position to = E6;
         List<Position> positions = List.of(E7, E8, E9);
         Map<Position, Piece> pieces = Map.of(
                 E9, new Cannon(TeamType.CHO)
         );
 
-        assertThatThrownBy(() -> cannonPathValidator.validatePath(piece, to, positions, pieces))
+        assertThatThrownBy(() -> cannonPathValidator.validatePath(TeamType.HAN, to, positions, pieces))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -71,7 +68,6 @@ class CannonPathValidatorTest {
     @DisplayName("중간에 하나 이상의 기물이 있으면 예외가 발생한다.")
     void validatePathTest4() {
         CannonPathValidator cannonPathValidator = new CannonPathValidator();
-        Piece piece = new Cannon(TeamType.HAN);
         Position to = E6;
         List<Position> positions = List.of(E7, E8, E9);
         Map<Position, Piece> pieces = Map.of(
@@ -79,7 +75,7 @@ class CannonPathValidatorTest {
                 E7, new Horse(TeamType.CHO)
         );
 
-        assertThatThrownBy(() -> cannonPathValidator.validatePath(piece, to, positions, pieces))
+        assertThatThrownBy(() -> cannonPathValidator.validatePath(TeamType.HAN, to, positions, pieces))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }

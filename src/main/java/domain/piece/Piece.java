@@ -16,11 +16,7 @@ public abstract class Piece {
         this.pathFinder = pathFinder;
         this.pathValidator = pathValidator;
     }
-
-    public boolean isSameTeam(Piece piece) {
-        return this.teamType.equals(piece.teamType);
-    }
-
+    
     public boolean isSameTeam(TeamType teamType) {
         return this.teamType.equals(teamType);
     }
@@ -35,7 +31,7 @@ public abstract class Piece {
 
     public void validateCanMove(Position from, Position to, Map<Position, Piece> alivePieces) {
         List<Position> intermediatePositions = pathFinder.findIntermediatePositions(from, to);
-        pathValidator.validatePath(this, to, intermediatePositions, alivePieces);
+        pathValidator.validatePath(teamType, to, intermediatePositions, alivePieces);
     }
 
     public abstract PieceType getType();

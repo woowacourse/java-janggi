@@ -1,5 +1,6 @@
 package domain.piece.path;
 
+import domain.piece.TeamType;
 import domain.position.Position;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -9,9 +10,9 @@ import java.util.Set;
 
 public class CannonPathValidator implements PathValidator {
     @Override
-    public void validatePath(Piece piece, Position to, List<Position> intermediatePositions,
+    public void validatePath(TeamType teamType, Position to, List<Position> intermediatePositions,
                              Map<Position, Piece> alivePieces) {
-        boolean teamOrCannonAtPosition = isTeamOrCannonAtPosition(piece, to, alivePieces);
+        boolean teamOrCannonAtPosition = isTeamOrCannonAtPosition(teamType, to, alivePieces);
         boolean hasCannonPieceAtIntermediatePositions = hasCannonPieceAtIntermediatePositions(intermediatePositions,
                 alivePieces);
         boolean hasOnlyOnePieceAtIntermediatePositions = hasOnlyOnePieceAtIntermediatePositions(intermediatePositions,
@@ -21,12 +22,12 @@ public class CannonPathValidator implements PathValidator {
         }
     }
 
-    private boolean isTeamOrCannonAtPosition(Piece piece, Position destination, Map<Position, Piece> alivePieces) {
+    private boolean isTeamOrCannonAtPosition(TeamType teamType, Position destination, Map<Position, Piece> alivePieces) {
         Piece destinationPiece = alivePieces.getOrDefault(destination, null);
         if (destinationPiece == null) {
             return false;
         }
-        return destinationPiece.isSameTeam(piece) || destinationPiece.isSameType(PieceType.CANNON);
+        return destinationPiece.isSameTeam(teamType) || destinationPiece.isSameType(PieceType.CANNON);
     }
 
     private boolean hasCannonPieceAtIntermediatePositions(List<Position> intermediatePositions,
