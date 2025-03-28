@@ -124,11 +124,11 @@ class GeneralTest {
         // given
         final Piece general = new General(new Position(3, 2), RED);
         final List<Piece> otherPieces = List.of();
-        final Set<Route> guardRoutes = general.getPossibleRoutes(otherPieces);
+        final Set<Route> guardRoutes = general.calculateIndependentRoutes();
 
         // when
 
         // then
-        assertThat(guardRoutes.size()).isEqualTo(3);
+        assertThat(guardRoutes.size()).isEqualTo(5);
     }
 }

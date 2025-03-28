@@ -129,7 +129,7 @@ class GuardTest {
         // when
 
         // then
-        assertThat(guardRoutes.size()).isEqualTo(3);
+        assertThat(guardRoutes.size()).isEqualTo(5);
     }
 
     @DisplayName("사 기물이 궁성에 있을 때 대각선으로 이동할 수 있는 점이 아니라면 대각선으로 움직일 수 없다.")

@@ -55,16 +55,17 @@ public class General extends Piece {
             }
             currentPosition = currentPosition.move(direction);
             if (direction.isDiagonal()) {
-                if (!position.canMoveDiagonalPosition()) {
-                    return null;
-                }
-                if (!position.isInPalace() || !currentPosition.isInPalace()) {
+                if (canMoveDiagonal(currentPosition)) {
                     return null;
                 }
             }
             positions.add(currentPosition);
         }
         return new Route(positions);
+    }
+
+    private boolean canMoveDiagonal(final Position currentPosition) {
+        return !position.canMoveDiagonalPosition() || !position.isInPalace() || !currentPosition.isInPalace();
     }
 
     @Override

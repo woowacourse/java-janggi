@@ -55,10 +55,7 @@ public class Chariot extends Piece {
         while (currentPosition.canMove(direction)) {
             final Position nextPosition = currentPosition.move(direction);
             if (direction.isDiagonal()) {
-                if (!position.canMoveDiagonalPosition()) {
-                    break;
-                }
-                if (!position.isInPalace() || !nextPosition.isInPalace()) {
+                if (canMoveDiagonal(nextPosition)) {
                     break;
                 }
             }
@@ -67,6 +64,10 @@ public class Chariot extends Piece {
             currentPosition = nextPosition;
         }
         return directionalRoutes;
+    }
+
+    private boolean canMoveDiagonal(final Position nextPosition) {
+        return !position.canMoveDiagonalPosition() || !position.isInPalace() || !nextPosition.isInPalace();
     }
 
     @Override
