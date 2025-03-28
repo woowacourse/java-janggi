@@ -52,7 +52,7 @@ class JolTest {
         // When & Then
         assertThatThrownBy(() -> jol.makePath(currentPosition, arrivalPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 졸은 앞 방향으로 이어진 선을 따라 한 칸 씩만 이동할 수 있습니다.");
     }
 
     @Test
@@ -69,6 +69,24 @@ class JolTest {
         // When & Then
         assertThatThrownBy(() -> jol.makePath(currentPosition, arrivalPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 졸은 앞, 좌, 우로 한 칸 씩만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 졸은 앞 방향으로 이어진 선을 따라 한 칸 씩만 이동할 수 있습니다.");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "9, 5, 8, 4",
+            "9, 5, 8, 6",
+    })
+    void 졸은_궁성_안에서_간선을_따라_대각선으로_1칸_이동한다(final int currentY, final int currentX, final int arrivalY,
+                                        final int arrivalX) {
+        // Given
+        Position currentPosition = new Position(currentY, currentX);
+        Position arrivalPosition = new Position(arrivalY, arrivalX);
+
+        // When
+        Path path = jol.makePath(currentPosition, arrivalPosition);
+
+        // Then
+        assertThat(path).isEqualTo(new Path(List.of(arrivalPosition)));
     }
 }
