@@ -1,15 +1,18 @@
 package janggi.board;
 
+import java.util.List;
+
 public enum Direction {
 
-    RIGHT(1, 0),
     LEFT(-1, 0),
+    RIGHT(1, 0),
     UP(0, -1),
     DOWN(0, 1),
-    RIGHT_UP(1, -1),
-    RIGHT_DOWN(1, 1),
-    LEFT_UP(-1, -1),
-    LEFT_DOWN(-1, 1);
+    UP_LEFT(-1, -1),
+    UP_RIGHT(1, -1),
+    DOWN_LEFT(-1, 1),
+    DOWN_RIGHT(1, 1),
+    ;
 
     private final int dx;
     private final int dy;
@@ -17,6 +20,22 @@ public enum Direction {
     Direction(int dx, int dy) {
         this.dx = dx;
         this.dy = dy;
+    }
+
+    public static List<Direction> straightValues() {
+        return List.of(LEFT, RIGHT, UP, DOWN);
+    }
+
+    public static List<Direction> diagonalValues() {
+        return List.of(UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT);
+    }
+
+    public boolean isStraight() {
+        return this == LEFT || this == RIGHT || this == UP || this == DOWN;
+    }
+
+    public boolean isDiagonal() {
+        return this == UP_LEFT || this == UP_RIGHT || this == DOWN_LEFT || this == DOWN_RIGHT;
     }
 
     public int getDx() {

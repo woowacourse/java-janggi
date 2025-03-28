@@ -13,7 +13,7 @@ class PositionTest {
     void test1() {
         Position position = new Position(1, 1);
 
-        Position movedPosition = position.move(Direction.RIGHT_DOWN);
+        Position movedPosition = position.move(Direction.DOWN_RIGHT);
 
         assertThat(movedPosition).isEqualTo(new Position(2, 2));
     }

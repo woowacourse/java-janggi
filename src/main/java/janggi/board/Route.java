@@ -17,6 +17,14 @@ public class Route {
         addRoute(position);
     }
 
+    public static List<Route> createRoutes(final List<Position> positions) {
+        List<Route> routes = new ArrayList<>();
+        for (Position position : positions) {
+            routes.add(new Route(position));
+        }
+        return routes;
+    }
+
     public void addRoute(final Position... position) {
         positions.addAll(List.of(position));
     }

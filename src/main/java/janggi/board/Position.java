@@ -1,5 +1,7 @@
 package janggi.board;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Position {
@@ -7,15 +9,28 @@ public class Position {
     private final int x;
     private final int y;
     private final boolean isPalace;
+    private final List<Direction> candidateDirections;
 
     public Position(final int x, final int y) {
         this.x = x;
         this.y = y;
         this.isPalace = filterPalace();
+        this.candidateDirections = addPalaceDirections();
     }
 
     public Position move(Direction direction) {
-        return new Position(x + direction.getDx(), y + direction.getDy());
+        if (candidateDirections.contains(direction)) {
+            return new Position(x + direction.getDx(), y + direction.getDy());
+        }
+        throw new IllegalArgumentException("[ERROR] 유효하지 않은 방향입니다.");
+    }
+
+    public List<Position> moveToCandidate() {
+        List<Position> candidates = new ArrayList<>();
+        for (Direction direction : candidateDirections) {
+            candidates.add(new Position(x + direction.getDx(), y + direction.getDy()));
+        }
+        return candidates;
     }
 
     public boolean isOutOfRange(final int xLimit, final int yLimit) {
@@ -32,6 +47,31 @@ public class Position {
 
     private boolean filterPalace() {
         return x >= 3 && x <= 5 && !(y >= 3 && y <= 6);
+    }
+
+    private List<Direction> addPalaceDirections() {
+        List<Direction> directions = new ArrayList<>(Direction.straightValues());
+        if ((x == 3 && y == 9) || (x == 3 && y == 2)) {
+            directions.add(Direction.UP_RIGHT);
+            return directions;
+        }
+        if ((x == 3 && y == 7) || (x == 3 && y == 0)) {
+            directions.add(Direction.DOWN_RIGHT);
+            return directions;
+        }
+        if ((x == 4 && y == 8) || (x == 4 && y == 1)) {
+            directions.addAll(Direction.diagonalValues());
+            return directions;
+        }
+        if ((x == 5 && y == 9) || (x == 5 && y == 2)) {
+            directions.add(Direction.UP_LEFT);
+            return directions;
+        }
+        if ((x == 5 && y == 7) || (x == 5 && y == 0)) {
+            directions.add(Direction.DOWN_LEFT);
+            return directions;
+        }
+        return directions;
     }
 
     public int getX() {

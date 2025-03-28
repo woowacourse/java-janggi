@@ -34,14 +34,14 @@ public abstract class Piece {
 
     protected List<Route> computeDiagonalRoutes(final Position position, int diagonalCount) {
         return List.of(
-                computeStraightAndDiagonal(position, Direction.RIGHT, Direction.RIGHT_DOWN, diagonalCount),
-                computeStraightAndDiagonal(position, Direction.RIGHT, Direction.RIGHT_UP, diagonalCount),
-                computeStraightAndDiagonal(position, Direction.LEFT, Direction.LEFT_DOWN, diagonalCount),
-                computeStraightAndDiagonal(position, Direction.LEFT, Direction.LEFT_UP, diagonalCount),
-                computeStraightAndDiagonal(position, Direction.DOWN, Direction.LEFT_DOWN, diagonalCount),
-                computeStraightAndDiagonal(position, Direction.DOWN, Direction.RIGHT_DOWN, diagonalCount),
-                computeStraightAndDiagonal(position, Direction.UP, Direction.LEFT_UP, diagonalCount),
-                computeStraightAndDiagonal(position, Direction.UP, Direction.RIGHT_UP, diagonalCount)
+                computeStraightAndDiagonal(position, Direction.RIGHT, Direction.DOWN_RIGHT, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.RIGHT, Direction.UP_RIGHT, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.LEFT, Direction.DOWN_LEFT, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.LEFT, Direction.UP_LEFT, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.DOWN, Direction.DOWN_LEFT, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.DOWN, Direction.DOWN_RIGHT, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.UP, Direction.UP_LEFT, diagonalCount),
+                computeStraightAndDiagonal(position, Direction.UP, Direction.UP_RIGHT, diagonalCount)
         );
     }
 
