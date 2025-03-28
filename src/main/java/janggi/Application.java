@@ -1,19 +1,50 @@
 package janggi;
 
+import janggi.dao.ChessDao;
 import janggi.domain.Board;
+import janggi.domain.Position;
 import janggi.domain.Round;
+import janggi.domain.piece.Piece;
+import janggi.dto.PieceDto;
 import janggi.factory.PieceFactory;
 import janggi.manager.JanggiGame;
 import janggi.view.Viewer;
+import java.util.List;
+import java.util.Map;
 
 public class Application {
 
     public static void main(String[] args) {
-        Viewer viewer = new Viewer();
-        Board board = new Board(PieceFactory.initialize());
-        Round round = new Round(board);
-        JanggiGame janggiGame = new JanggiGame(viewer, round);
+        ChessDao chessDao = new ChessDao();
+        DatabaseController databaseController = new DatabaseController(chessDao);
+
+        JanggiGame janggiGame = setGame(databaseController);
 
         janggiGame.start();
+    }
+
+    private static JanggiGame setGame(DatabaseController databaseController) {
+        List<PieceDto> pieceDtos = databaseController.loadFromDatabase();
+
+        if (pieceDtos.isEmpty()) {
+            return setNewGame(databaseController);
+        }
+        return loadGame(databaseController, pieceDtos);
+    }
+
+    private static JanggiGame setNewGame(DatabaseController databaseController) {
+        Map<Position, Piece> initialPieces = PieceFactory.initialize();
+        Viewer viewer = new Viewer();
+        Board board = new Board(initialPieces);
+        Round round = new Round(board);
+        databaseController.setupDatabase(initialPieces);
+        return new JanggiGame(databaseController, viewer, round);
+    }
+
+    private static JanggiGame loadGame(DatabaseController databaseController, List<PieceDto> loadedData) {
+        Viewer viewer = new Viewer();
+        Board board = new Board(databaseController.convertFromData(loadedData));
+        Round round = new Round(board);
+        return new JanggiGame(databaseController, viewer, round);
     }
 }

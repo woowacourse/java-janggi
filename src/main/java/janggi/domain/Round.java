@@ -1,7 +1,10 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.dto.PieceDto;
+import janggi.dto.PositionDto;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class Round {
 
@@ -14,15 +17,22 @@ public class Round {
         this.board = board;
     }
 
-    public void commence(Position selectedPosition, Position targetPosition) {
+    public void commence(Position selectedPosition, Position targetPosition, BiConsumer<PositionDto, PieceDto> dataConsumer) {
         board.makeMove(currentTurn, selectedPosition, targetPosition);
         if (board.hasBothGenerals()) {
             changeTurn();
         }
+        dataConsumer.accept(selectedPosition.getPositionDto(), getTargetPieceDto(targetPosition));
     }
 
     private void changeTurn() {
         currentTurn = currentTurn.reverse();
+    }
+
+    private PieceDto getTargetPieceDto(Position targetPosition) {
+        Piece piece = board.getPiece(targetPosition);
+        PositionDto positionDto = targetPosition.getPositionDto();
+        return new PieceDto(PieceName.getDatabaseName(piece), piece.getSide().toString(), positionDto.row(), positionDto.column());
     }
 
     public Map<Position, Piece> getCurrentPieces() {

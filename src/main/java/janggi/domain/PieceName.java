@@ -55,4 +55,12 @@ public enum PieceName {
                 .orElseThrow()
                 .piece;
     }
+
+    public static String getDatabaseName(Piece piece) {
+        return Arrays.stream(PieceName.values())
+                .filter(pieceName -> pieceName.piece.equals(piece))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 Piece입니다."))
+                .databaseName;
+    }
 }

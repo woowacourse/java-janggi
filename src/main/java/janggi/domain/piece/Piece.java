@@ -41,6 +41,10 @@ public abstract class Piece {
         return 0;
     }
 
+    public Side getSide() {
+        return side;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

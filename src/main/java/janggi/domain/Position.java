@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.common.ErrorMessage;
+import janggi.dto.PositionDto;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -66,6 +67,10 @@ public class Position {
 
     public static Vector getVerticalVector(Position start, Position end) {
         return new Vector(end.row - start.row, 0);
+    }
+
+    public PositionDto getPositionDto() {
+        return new PositionDto(row, column);
     }
 
     @Override

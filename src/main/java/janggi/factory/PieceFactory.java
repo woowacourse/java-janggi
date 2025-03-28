@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum PieceFactory {
+
     GENERAL1(9, 5, new General(Side.CHO)),
     GUARD1(10, 4, new Guard(Side.CHO)),
     GUARD2(10, 6, new Guard(Side.CHO)),
