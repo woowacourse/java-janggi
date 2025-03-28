@@ -67,7 +67,7 @@ public class JanggiBoardTest {
                 Arguments.of(PieceType.PO, HanPiecePositionFixture.PO_POSITIONS),
                 Arguments.of(PieceType.MA, HanPiecePositionFixture.MA_POSITIONS_WITH_LEFT_SANG),
                 Arguments.of(PieceType.SANG, HanPiecePositionFixture.SANG_POSITIONS_WITH_LEFT_SANG),
-                Arguments.of(PieceType.JOL, HanPiecePositionFixture.JOL_POSITIONS)
+                Arguments.of(PieceType.BYUNG, HanPiecePositionFixture.BYUNG_POSITIONS)
         );
     }
 

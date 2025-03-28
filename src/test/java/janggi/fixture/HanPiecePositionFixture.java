@@ -13,7 +13,7 @@ public class HanPiecePositionFixture {
             new Position(3, 0), new Position(5, 0));
     public final static List<Position> PO_POSITIONS = List.of(
             new Position(1, 2), new Position(7, 2));
-    public final static List<Position> JOL_POSITIONS = List.of(
+    public final static List<Position> BYUNG_POSITIONS = List.of(
             new Position(0, 3), new Position(2, 3), new Position(4, 3),
             new Position(6, 3), new Position(8, 3));
     public final static List<Position> MA_POSITIONS_WITH_LEFT_SANG = List.of(

@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.starategy.ByungStrategy;
 import janggi.starategy.ChaStrategy;
 import janggi.starategy.GungStrategy;
 import janggi.starategy.JolStrategy;
@@ -16,7 +17,8 @@ public enum PieceType {
     PO("포", 7, new PoStrategy()),
     MA("마", 5, new MaStrategy()),
     SANG("상", 3, new SangStrategy()),
-    JOL("졸", 2, new JolStrategy());
+    JOL("졸", 2, new JolStrategy()),
+    BYUNG("병", 2, new ByungStrategy());
     private final String name;
     private final int score;
     private final MoveStrategy moveStrategy;
