@@ -19,10 +19,15 @@ public class Position {
     }
 
     public Position move(Direction direction) {
-        if (candidateDirections.contains(direction)) {
-            return new Position(x + direction.getDx(), y + direction.getDy());
+        return new Position(x + direction.getDx(), y + direction.getDy());
+    }
+
+    public List<Position> movesTo(Direction... directions) {
+        List<Position> candidates = new ArrayList<>();
+        for (Direction direction : directions) {
+            candidates.add(move(direction));
         }
-        throw new IllegalArgumentException("[ERROR] 유효하지 않은 방향입니다.");
+        return candidates;
     }
 
     public List<Position> moveToCandidate() {

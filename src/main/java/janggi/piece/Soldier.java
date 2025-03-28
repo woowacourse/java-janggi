@@ -9,18 +9,18 @@ import java.util.List;
 
 public class Soldier extends Piece {
 
-    private static final int ALLOWED_MOVE = 1;
-
     public Soldier(final Side side) {
         super(Symbol.SOLDIER, side);
     }
 
     @Override
     public List<Route> computeCandidatePositions(final Position position) {
+        List<Position> positions = position.moveToCandidate();
+        List<Route> routes = Route.createRoutes(positions);
         if (isCho()) {
-            return computeAndExcludeInvalidRoute(position, Direction.DOWN);
+            return excludeInvalidRoutes(routes, position, Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_RIGHT);
         }
-        return computeAndExcludeInvalidRoute(position, Direction.UP);
+        return excludeInvalidRoutes(routes, position, Direction.UP, Direction.UP_LEFT, Direction.UP_RIGHT);
     }
 
     @Override
@@ -42,11 +42,11 @@ public class Soldier extends Piece {
         return reachablePositions;
     }
 
-    private List<Route> computeAndExcludeInvalidRoute(final Position position, final Direction direction) {
-        List<Route> routes = computeStraightRoutes(position, ALLOWED_MOVE);
-        Position invalidPosition = position.move(direction);
+    private List<Route> excludeInvalidRoutes(final List<Route> routes, final Position position,
+                                             final Direction... directions) {
+        List<Position> invalidPositions = position.movesTo(directions);
         return routes.stream()
-                .filter(route -> !route.getDestination().equals(invalidPosition))
+                .filter(route -> !invalidPositions.contains(route.getDestination()))
                 .toList();
     }
 
