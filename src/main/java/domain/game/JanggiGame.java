@@ -19,7 +19,6 @@ public class JanggiGame {
 
     public void process(BoardLocation current, BoardLocation destination) {
         Piece piece = board.getByLocationOrThrow(current);
-        Piece destinationPiece = board.getByLocationOrThrow(destination);
         piece.validateEqualTeam(turn.getTeam());
         validateMovable(current, destination, piece);
         board.occupy(current, destination);

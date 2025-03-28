@@ -11,10 +11,6 @@ public record BoardVector(
         return new BoardVector(destination.x() - current.x(), destination.y() - current.y());
     }
 
-    public boolean isNotAxis() {
-        return dx != 0 && dy != 0;
-    }
-
     public boolean isAxis() {
         return dx == 0 || dy == 0;
     }

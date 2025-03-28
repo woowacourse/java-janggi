@@ -109,30 +109,68 @@ class ChariotTest {
         ).doesNotThrowAnyException();
     }
 
-    @DisplayName("궁성에서 대각선 이동 가능")
+    @DisplayName("궁성 좌표라면 궁성 대각선으로 이동 가능")
     @Test
     void test13() {
         // give n
         BoardLocation current = new BoardLocation(4, 3);
         BoardLocation destination = new BoardLocation(6, 1);
-        Piece cannon = new Cannon(HAN);
+        Piece chariot = new Chariot(HAN);
         // when & then
         assertThatCode(()->
-                cannon.createAllPath(current, destination)
+                chariot.validateArrival(current, destination)
         ).doesNotThrowAnyException();
     }
 
-    @DisplayName("한나라 궁성에서 대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @DisplayName("한나라 궁성에서 (4,3) 좌표에서 (6,1) 좌표 대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
     @Test
     void test14() {
         // give n
         BoardLocation current = new BoardLocation(4, 3);
         BoardLocation destination = new BoardLocation(6, 1);
-        Piece cannon = new Cannon(HAN);
+        Piece chariot = new Chariot(HAN);
         // when & then
-        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
+        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
 
         assertThat(allPath.size()).isEqualTo(1);
     }
 
+    @DisplayName("한나라 궁성에서 (6,3) 좌표에서 (4,1) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test15() {
+        // give n
+        BoardLocation current = new BoardLocation(6, 3);
+        BoardLocation destination = new BoardLocation(4, 1);
+        Piece chariot = new Chariot(HAN);
+        // when & then
+        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
+    }
+
+    @DisplayName("한나라 궁성에서 (4,1) 좌표에서 (6,3) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test16() {
+        // give n
+        BoardLocation current = new BoardLocation(4, 1);
+        BoardLocation destination = new BoardLocation(6, 3);
+        Piece chariot = new Chariot(HAN);
+        // when & then
+        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
+    }
+
+    @DisplayName("한나라 궁성에서 (6,1) 좌표에서 (4,3) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test17() {
+        // give n
+        BoardLocation current = new BoardLocation(6, 1);
+        BoardLocation destination = new BoardLocation(4, 3);
+        Piece chariot = new Chariot(HAN);
+        // when & then
+        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
+    }
 }

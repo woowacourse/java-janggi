@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardFixture {
-    public static Map<BoardLocation, Piece> createTeamBoard( ) {
+    public static Map<BoardLocation, Piece> createHanTeamBoard( ) {
         Map<BoardLocation, Piece> pieces = new HashMap<>();
         pieces.put(new BoardLocation(1, 1), new Chariot(HAN));
         pieces.put(new BoardLocation(4, 1), new Scholar(HAN));
