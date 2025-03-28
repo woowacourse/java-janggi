@@ -8,5 +8,5 @@ import java.util.Set;
 
 public interface PathFilter {
 
-    Set<Path> filter(final Piece piece, final Set<Path> paths, final List<Piece> allyPieces, final List<Piece> enemyPieces);
+    Set<Path> filter(Piece piece, Set<Path> paths, List<Piece> allyPieces, List<Piece> enemyPieces);
 }

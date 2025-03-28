@@ -8,8 +8,8 @@ public interface TurnRepository {
 
     void deleteTable();
 
-    Country findNextTurn(final int number);
+    Country findNextTurn(int number);
 
-    void saveTurn(final int number, final Country country);
+    void saveTurn(int number, Country country);
 
 }

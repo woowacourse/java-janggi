@@ -12,7 +12,7 @@ public interface PieceRepository {
 
     void deleteTable();
 
-    Map<Country, List<Piece>> findAllPieces(final int number);
+    Map<Country, List<Piece>> findAllPieces(int number);
 
-    void saveAllPieces(final int number, final Country country, final List<Piece> pieces);
+    void saveAllPieces(int number, Country country, List<Piece> pieces);
 }
