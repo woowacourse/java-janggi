@@ -98,7 +98,7 @@ public final class Chariot extends PalaceAffectedPiece {
 
     @Override
     protected boolean canCapture(Piece otherPiece) {
-        return getCamp() != otherPiece.getCamp();
+        return isEnemy(otherPiece);
     }
 
     @Override

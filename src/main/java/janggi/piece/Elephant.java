@@ -58,7 +58,7 @@ public final class Elephant extends Piece {
 
     @Override
     protected boolean canCapture(Piece otherPiece) {
-        return getCamp() != otherPiece.getCamp();
+        return isEnemy(otherPiece);
     }
 
     @Override

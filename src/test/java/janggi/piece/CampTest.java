@@ -22,4 +22,21 @@ class CampTest {
         assertThat(reversed)
                 .isSameAs(expected);
     }
+
+    @DisplayName("적인지 확인할 수 있다.")
+    @ParameterizedTest
+    @CsvSource({
+            "CHU, HAN, true",
+            "HAN, CHU, true",
+            "CHU, CHU, false",
+            "HAN, HAN, false"
+    })
+    void isEnemyTest(Camp camp, Camp enemy, boolean expected) {
+        // when
+        boolean result = camp.isEnemy(enemy);
+
+        // then
+        assertThat(result)
+                .isSameAs(expected);
+    }
 }

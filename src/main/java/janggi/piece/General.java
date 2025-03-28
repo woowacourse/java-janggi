@@ -23,7 +23,7 @@ public final class General extends PalaceRestrictedPiece {
 
     @Override
     protected boolean canCapture(Piece otherPiece) {
-        return getCamp() != otherPiece.getCamp();
+        return isEnemy(otherPiece);
     }
 
     @Override

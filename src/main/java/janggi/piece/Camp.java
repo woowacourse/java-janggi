@@ -17,4 +17,8 @@ public enum Camp {
     ;
 
     public abstract Camp reverse();
+
+    public boolean isEnemy(Camp otherCamp) {
+        return this != otherCamp;
+    }
 }

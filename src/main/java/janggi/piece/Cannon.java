@@ -116,7 +116,7 @@ public final class Cannon extends PalaceAffectedPiece {
 
     @Override
     protected boolean canCapture(Piece otherPiece) {
-        return getCamp() != otherPiece.getCamp()
+        return isEnemy(otherPiece)
                 && getPieceSymbol() != otherPiece.getPieceSymbol();
     }
 
