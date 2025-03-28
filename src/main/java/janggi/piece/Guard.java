@@ -8,15 +8,14 @@ import java.util.List;
 
 public class Guard extends Piece {
 
-    private static final int ALLOWED_MOVE = 1;
-
     public Guard(final Side side) {
         super(Symbol.GUARD, side);
     }
 
     @Override
     public List<Route> computeCandidatePositions(final Position position) {
-        return computeStraightRoutes(position, ALLOWED_MOVE);
+        List<Position> positions = position.moveToCandidate();
+        return Route.createRoutes(positions);
     }
 
     @Override
@@ -24,6 +23,9 @@ public class Guard extends Piece {
         List<Position> reachablePositions = new ArrayList<>();
         for (Route route : candidateRoutes) {
             Position destination = route.getDestination();
+            if (destination.isNotPalace()) {
+                continue;
+            }
             if (board.isOutOfRange(destination)) {
                 continue;
             }
