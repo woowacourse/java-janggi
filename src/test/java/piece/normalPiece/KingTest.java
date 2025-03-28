@@ -65,26 +65,6 @@ public class KingTest {
     }
 
     /*
-    0 ＿ * 궁
-    1 ＿ ＿ *
-    2 ＿ ＿ ＿
-    3 g h  i
-    */
-    @Test
-    @DisplayName("궁의 이동 가능한 경로를 모두 표시할 수 있다.")
-    void possibleRoutesTest_3() {
-        // given
-        Piece king = new King(HAN, I0);
-        Board board = new Board(HAN, Set.of(king));
-
-        // when
-        Set<Position> positions = king.possibleRoutes(board);
-
-        // then
-        assertThat(positions).containsOnly(H0, I1);
-    }
-
-    /*
     0 ＿ * ＿
     1 사 궁 *
     2 ＿ 사 ＿

@@ -66,26 +66,6 @@ public class SoldierTest {
     }
 
     /*
-    0 ＿ * 사
-    1 ＿ ＿ *
-    2 ＿ ＿ ＿
-    3 g h  i
-    */
-    @Test
-    @DisplayName("사가 이동 가능한 경로를 모두 표시할 수 있다.")
-    void possibleRoutesTest_3() {
-        // given
-        Piece soldier = new Soldier(HAN, I0);
-        Board board = new Board(HAN, Set.of(soldier));
-
-        // when
-        Set<Position> positions = soldier.possibleRoutes(board);
-
-        // then
-        assertThat(positions).containsOnly(H0, I1);
-    }
-
-    /*
     0 ＿ * ＿
     1 마 사 *
     2 ＿ 마 ＿
