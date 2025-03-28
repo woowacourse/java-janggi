@@ -3,22 +3,17 @@ package janggi.unit;
 import janggi.position.Position;
 import janggi.position.Route;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class CarUnitRule implements UnitRule {
-    public UnitType getType() {
-        return UnitType.CAR;
-    }
-
+public class CannonUnitRule implements UnitRule {
     @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
         List<Position> positions = calculateEndPoints(start);
         for (Position end : positions) {
-            routes.add(calculateRoute(start, end));
+            addValidRoute(start, end, routes);
         }
         return routes;
     }
@@ -38,6 +33,14 @@ public class CarUnitRule implements UnitRule {
                 .toList();
     }
 
+    private void addValidRoute(Position start, Position end, List<Route> routes) {
+        Route route = calculateRoute(start, end);
+        if (route.getPoints().size() == 1) {
+            return;
+        }
+        routes.add(route);
+    }
+
     private Route calculateRoute(Position start, Position end) {
         int startX = start.getX();
         int startY = start.getY();
@@ -46,38 +49,23 @@ public class CarUnitRule implements UnitRule {
         int endY = end.getY();
 
         if (startX == endX) {
-            return calculateYRoute(startY, endY, startX);
-        }
-        return calculateXRoute(startX, endX, startY);
-    }
-
-    private static Route calculateYRoute(int startY, int endY, int startX) {
-        if (startY < endY) {
-            return Route.of(IntStream.range(startY, endY + 1)
+            int maxY = Integer.max(startY, endY);
+            int minY = Integer.min(startY, endY);
+            return Route.of(IntStream.range(minY, maxY + 1)
                     .filter(y -> startY != y)
                     .mapToObj(y -> new Position(startX, y))
                     .toList());
         }
-        return Route.of(IntStream.range(endY, startY + 1)
-                .boxed()
-                .sorted(Comparator.reverseOrder())
-                .filter(y -> startY != y)
-                .map(y -> new Position(startX, y))
+        int maxX = Integer.max(startX, endX);
+        int minX = Integer.min(startX, endX);
+        return Route.of(IntStream.range(minX, maxX + 1)
+                .filter(x -> startX != x)
+                .mapToObj(x -> new Position(x, startY))
                 .toList());
     }
 
-    private static Route calculateXRoute(int startX, int endX, int startY) {
-        if (startX < endX) {
-            return Route.of(IntStream.range(startX, endX + 1)
-                    .filter(x -> startX != x)
-                    .mapToObj(x -> new Position(x, startY))
-                    .toList());
-        }
-        return Route.of(IntStream.range(endX, startX + 1)
-                .boxed()
-                .sorted(Comparator.reverseOrder())
-                .filter(x -> startX != x)
-                .map(x -> new Position(x, startY))
-                .toList());
+    @Override
+    public UnitType getType() {
+        return UnitType.BOMB;
     }
 }

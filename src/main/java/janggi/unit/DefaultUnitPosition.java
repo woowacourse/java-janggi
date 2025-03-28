@@ -7,9 +7,9 @@ import java.util.function.Supplier;
 public enum DefaultUnitPosition {
     KING(1, 8, List.of(4), NoneUnitRule::new),
     SCHOLAR(0, 9, List.of(3, 5), NoneUnitRule::new),
-    CAR(0, 9, List.of(0, 8), CarUnitRule::new),
-    BOMB(2, 7, List.of(1, 7), BombUnitRule::new),
-    JOL(3, 6, List.of(0, 2, 4, 6, 8), JolUnitRule::new),
+    CAR(0, 9, List.of(0, 8), ChariotUnitRule::new),
+    BOMB(2, 7, List.of(1, 7), CannonUnitRule::new),
+    JOL(3, 6, List.of(0, 2, 4, 6, 8), SoldierUnitRule::new),
     HORSE(0, 9, List.of(2, 7), HorseUnitRule::new),
     ELEPHANT(0, 9, List.of(1, 6), ElephantUnitRule::new),
     ;
