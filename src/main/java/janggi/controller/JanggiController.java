@@ -57,15 +57,15 @@ public class JanggiController {
         final GameStartType type = inputView.getStartType();
         return switch (type) {
             case NEW_GAME -> {
+                final StartingPosition choStartingPosition = inputView.getStartPositionOf(Country.CHO);
+                final StartingPosition hanStartingPosition = inputView.getStartPositionOf(Country.HAN);
+                yield Board.start(choStartingPosition, hanStartingPosition);
+            }
+            case CONTINUE -> {
                 final int number = inputView.getStartFileNumber();
                 final Map<Country, List<Piece>> allPieces = pieceRepository.findAllPieces(number);
                 final Country turn = turnRepository.findNextTurn(number);
                 yield Board.continueWith(allPieces, turn);
-            }
-            case CONTINUE -> {
-                final StartingPosition choStartingPosition = inputView.getStartPositionOf(Country.CHO);
-                final StartingPosition hanStartingPosition = inputView.getStartPositionOf(Country.HAN);
-                yield Board.start(choStartingPosition, hanStartingPosition);
             }
         };
     }
