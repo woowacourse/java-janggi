@@ -19,7 +19,7 @@ public class PalaceMovePath implements MovePath {
             return false;
         }
 
-        return from.move(direction).equals(to);
+        return from.canMove(direction) && from.move(direction).equals(to);
     }
 
     @Override

@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
 import janggi.domain.piece.movepath.EndlessMovePath;
+import janggi.domain.piece.movepath.EndlessPalaceMovePath;
 import janggi.domain.piece.movepath.MovePath;
 import java.util.Set;
 
@@ -35,6 +36,10 @@ public class Chariot extends Piece {
                 new EndlessMovePath(Direction.UP),
                 new EndlessMovePath(Direction.DOWN),
                 new EndlessMovePath(Direction.RIGHT),
-                new EndlessMovePath(Direction.LEFT));
+                new EndlessMovePath(Direction.LEFT),
+                new EndlessPalaceMovePath(Direction.UP_RIGHT_DIAGONAL),
+                new EndlessPalaceMovePath(Direction.UP_LEFT_DIAGONAL),
+                new EndlessPalaceMovePath(Direction.DOWN_RIGHT_DIAGONAL),
+                new EndlessPalaceMovePath(Direction.DOWN_LEFT_DIAGONAL));
     }
 }

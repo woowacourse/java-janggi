@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.Dynasty;
 import janggi.domain.piece.movepath.MovePath;
+import janggi.domain.piece.movepath.PalaceMovePath;
 import java.util.Set;
 
 public class Guard extends Piece {
@@ -13,7 +14,7 @@ public class Guard extends Piece {
     @Override
     public boolean canMove(PiecesOnPath piecesOnPath) {
         if (piecesOnPath.isDestinationOfDynasty(dynasty)) {
-            throw new IllegalArgumentException("목적지에 같은 나라의 기물이 있어 갈 수 없습니다.");
+            return false;
         }
         return piecesOnPath.isAllEmptyWithoutDestination();
     }
@@ -30,6 +31,14 @@ public class Guard extends Piece {
 
     @Override
     protected Set<MovePath> paths() {
-        return Set.of();
+        return Set.of(
+                new PalaceMovePath(Direction.UP),
+                new PalaceMovePath(Direction.DOWN),
+                new PalaceMovePath(Direction.LEFT),
+                new PalaceMovePath(Direction.RIGHT),
+                new PalaceMovePath(Direction.UP_LEFT_DIAGONAL),
+                new PalaceMovePath(Direction.UP_RIGHT_DIAGONAL),
+                new PalaceMovePath(Direction.DOWN_LEFT_DIAGONAL),
+                new PalaceMovePath(Direction.DOWN_RIGHT_DIAGONAL));
     }
 }

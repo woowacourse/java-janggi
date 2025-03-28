@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Dynasty;
 import janggi.domain.piece.movepath.FiniteMovePath;
 import janggi.domain.piece.movepath.MovePath;
+import janggi.domain.piece.movepath.PalaceMovePath;
 import java.util.Set;
 
 public class ChuSoldier extends Piece {
@@ -34,7 +35,8 @@ public class ChuSoldier extends Piece {
         return Set.of(
                 new FiniteMovePath(Direction.UP),
                 new FiniteMovePath(Direction.LEFT),
-                new FiniteMovePath(Direction.RIGHT)
-        );
+                new FiniteMovePath(Direction.RIGHT),
+                new PalaceMovePath(Direction.UP_RIGHT_DIAGONAL),
+                new PalaceMovePath(Direction.UP_LEFT_DIAGONAL));
     }
 }
