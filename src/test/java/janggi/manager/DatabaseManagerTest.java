@@ -14,7 +14,7 @@ class DatabaseManagerTest {
 
     @BeforeEach
     void init() {
-        databaseManager = DatabaseTestManger.create();
+        databaseManager = DatabaseTestManager.create();
     }
 
     @DisplayName("데이터베이스 연결 테스트")

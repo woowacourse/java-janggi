@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Team;
 import janggi.manager.DatabaseManager;
-import janggi.manager.DatabaseTestManger;
+import janggi.manager.DatabaseTestManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 
 class GameRoomDAOTest {
 
-    static DatabaseManager databaseManager = DatabaseTestManger.create();
+    static DatabaseManager databaseManager = DatabaseTestManager.create();
     static GameRoomDAO gameRoomDAO;
     String roomName = "room1";
 

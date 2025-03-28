@@ -29,8 +29,8 @@ public class PieceDAO {
     }
 
     public Board toDomain(String gameRoomName) {
-        try (Connection connection = databaseManager.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(SELECT_BOARD_QUERY)) {
+        try (Connection connection = databaseManager.getConnection(); PreparedStatement pstmt = connection.prepareStatement(
+                SELECT_BOARD_QUERY)) {
 
             pstmt.setString(1, gameRoomName);
             ResultSet rs = pstmt.executeQuery();
@@ -68,16 +68,25 @@ public class PieceDAO {
         Map<Position, Piece> pieces = board.getPieceMap();
 
         try (Connection conn = databaseManager.getConnection()) {
-            conn.setAutoCommit(false);
+            saveAllWithTransaction(gameRoomName, conn, pieces);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("DB 연결 중 오류 발생", e);
+        }
+    }
+
+    private void saveAllWithTransaction(String gameRoomName, Connection conn, Map<Position, Piece> pieces)
+            throws SQLException {
+        conn.setAutoCommit(false);
+        try {
             for (Entry<Position, Piece> entry : pieces.entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
-
                 save(conn, gameRoomName, position, piece);
             }
             conn.commit();
-        } catch (final SQLException e) {
-            throw new IllegalArgumentException("save All 중 오류 발생", e);
+        } catch (SQLException e) {
+            conn.rollback();
+            throw new IllegalArgumentException("saveAll 중 오류 발생, 롤백 수행됨", e);
         }
     }
 
@@ -93,12 +102,20 @@ public class PieceDAO {
         }
     }
 
-    public void movePiece( String gameRoomName, Position currentPosition, Position targetPosition) {
-        try (Connection conn = databaseManager.getConnection();
-             PreparedStatement deleteStmt = conn.prepareStatement(DELETE_PIECE_QUERY);
-             PreparedStatement moveStmt = conn.prepareStatement(MOVE_PIECE_QUERY)
-        ) {
-            conn.setAutoCommit(false);
+    public void movePiece(String gameRoomName, Position currentPosition, Position targetPosition) {
+        try (Connection conn = databaseManager.getConnection()) {
+            movePieceWithTransaction(gameRoomName, currentPosition, targetPosition, conn);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException("DB 연결 중 오류 발생", e);
+        }
+    }
+
+    private void movePieceWithTransaction(String gameRoomName, Position currentPosition, Position targetPosition,
+                                          Connection conn) throws SQLException {
+        conn.setAutoCommit(false);
+
+        try (PreparedStatement deleteStmt = conn.prepareStatement(
+                DELETE_PIECE_QUERY); PreparedStatement moveStmt = conn.prepareStatement(MOVE_PIECE_QUERY)) {
 
             deleteStmt.setInt(1, targetPosition.getRow());
             deleteStmt.setInt(2, targetPosition.getColumn());
@@ -112,8 +129,9 @@ public class PieceDAO {
             moveStmt.executeUpdate();
 
             conn.commit();
-        } catch (final SQLException e) {
-            throw new IllegalArgumentException("movePiece 중 오류 발생", e);
+        } catch (SQLException e) {
+            conn.rollback();
+            throw new IllegalArgumentException("movePiece 중 오류 발생, 롤백 수행됨", e);
         }
     }
 }

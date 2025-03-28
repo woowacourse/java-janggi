@@ -6,7 +6,7 @@ public final class DatabaseTestManager {
     private static final String DATABASE = "chess_test";
     private static final DatabaseManager databaseManager = new DatabaseManager(SERVER, DATABASE);
 
-    private DatabaseTestManger() {
+    private DatabaseTestManager() {
     }
 
     public static DatabaseManager create() {

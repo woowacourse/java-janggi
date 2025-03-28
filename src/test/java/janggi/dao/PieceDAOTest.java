@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import janggi.domain.Board;
 import janggi.domain.move.Position;
 import janggi.manager.DatabaseManager;
-import janggi.manager.DatabaseTestManger;
+import janggi.manager.DatabaseTestManager;
 import janggi.util.BoardFixture;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 class PieceDAOTest {
 
     static final String GAME_ROOM_NAME = "room1";
-    static DatabaseManager databaseManager = DatabaseTestManger.create();
+    static DatabaseManager databaseManager = DatabaseTestManager.create();
     static GameRoomDAO gameRoomDAO = new GameRoomDAO(databaseManager);
     PieceDAO pieceDAO = new PieceDAO(databaseManager);
 
