@@ -1,13 +1,15 @@
 package piece;
 
+import board.Board;
 import movement.MovePath;
 import movement.MovePaths;
 import movement.Movement;
 import position.Position;
+import validator.DistanceCheckable;
 
 import java.util.List;
 
-public class Guard extends Piece {
+public class Guard extends Piece implements DistanceCheckable {
 
     private static final MovePaths moveActions;
     private static final double DISTANCE;
@@ -28,7 +30,12 @@ public class Guard extends Piece {
     }
 
     @Override
-    protected double getDistance() {
+    public void validateMoveCondition(Position src, Position dest, Board board) {
+        validateDistance(src, dest);
+    }
+
+    @Override
+    public double getExpectedDistance() {
         return DISTANCE;
     }
 
