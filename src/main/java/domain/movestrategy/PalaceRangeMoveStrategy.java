@@ -8,7 +8,6 @@ import java.util.List;
 public class PalaceRangeMoveStrategy implements RangeMoveStrategy {
 
     private final List<Moves> moves = List.of(
-
             Moves.createMoves(Move.FRONT), Moves.createMoves(Move.BACK),
             Moves.createMoves(Move.RIGHT), Moves.createMoves(Move.LEFT),
 
@@ -20,7 +19,6 @@ public class PalaceRangeMoveStrategy implements RangeMoveStrategy {
 
             Moves.createMoves(Move.FRONT_RIGHT, Move.FRONT_RIGHT), Moves.createMoves(Move.FRONT_LEFT, Move.FRONT_LEFT),
             Moves.createMoves(Move.BACK_RIGHT, Move.BACK_RIGHT), Moves.createMoves(Move.BACK_LEFT, Move.BACK_LEFT)
-
     );
 
     @Override
