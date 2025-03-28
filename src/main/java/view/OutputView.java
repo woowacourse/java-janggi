@@ -1,6 +1,6 @@
 package view;
 
-import domain.janggiPiece.JanggiPiece;
+import domain.janggiPiece.JanggiChessPiece;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
 import domain.position.vo.Column;
@@ -28,7 +28,7 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printBoard(Map<JanggiPosition, JanggiPiece> boardPositions) {
+    public void printBoard(Map<JanggiPosition, JanggiChessPiece> boardPositions) {
         printGridValue(" ");
         for (int col = Column.MIN_COL; col <= Column.MAX_COL; ++col) {
             printGridValue(String.valueOf(col));
@@ -124,16 +124,16 @@ public class OutputView {
         return result.toString();
     }
 
-    private void printChessPiece(JanggiPosition currentPosition, Map<JanggiPosition, JanggiPiece> boardPositions) {
+    private void printChessPiece(JanggiPosition currentPosition, Map<JanggiPosition, JanggiChessPiece> boardPositions) {
         if (!boardPositions.containsKey(currentPosition)) {
             printGridValue("ㅡ");
             return;
         }
-        JanggiPiece piece = boardPositions.get(currentPosition);
+        JanggiChessPiece piece = boardPositions.get(currentPosition);
         printPiece(piece);
     }
 
-    private void printPiece(JanggiPiece piece) {
+    private void printPiece(JanggiChessPiece piece) {
         String symbol = getPieceSymbol(piece.getChessPieceType());
         String color = getTeamColor(piece.getTeam());
         System.out.print(color);

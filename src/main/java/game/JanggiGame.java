@@ -1,7 +1,7 @@
 package game;
 
 import domain.JanggiBoard;
-import domain.janggiPiece.JanggiPiece;
+import domain.janggiPiece.JanggiChessPiece;
 import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
 import domain.position.generator.InitJanggiPiecePositionsGenerator;
@@ -47,7 +47,7 @@ public class JanggiGame {
     }
 
     private void showBoard() {
-        Map<JanggiPosition, JanggiPiece> boardPositions = board.getPositions();
+        Map<JanggiPosition, JanggiChessPiece> boardPositions = board.getPositions();
         outputView.printBoard(boardPositions);
     }
 

@@ -1,13 +1,13 @@
 package domain.position;
 
-import domain.janggiPiece.JanggiPiece;
+import domain.janggiPiece.JanggiChessPiece;
 import domain.position.generator.JanggiPiecePositionsGenerator;
 
 import java.util.Collections;
 import java.util.Map;
 
 public class JanggiPiecePositions {
-    private final Map<JanggiPosition, JanggiPiece> chessPieces;
+    private final Map<JanggiPosition, JanggiChessPiece> chessPieces;
 
     public JanggiPiecePositions(JanggiPiecePositionsGenerator generator) {
         this.chessPieces = generator.generate();
@@ -17,7 +17,7 @@ public class JanggiPiecePositions {
         return chessPieces.containsKey(position);
     }
 
-    public JanggiPiece getJanggiPieceByPosition(final JanggiPosition position) {
+    public JanggiChessPiece getJanggiPieceByPosition(final JanggiPosition position) {
         validateExistPiece(position);
         return chessPieces.get(position);
     }
@@ -25,7 +25,7 @@ public class JanggiPiecePositions {
     public void move(final JanggiPosition from, final JanggiPosition to) {
         validateExistPiece(from);
         validateEmptyPosition(to);
-        JanggiPiece target = getJanggiPieceByPosition(from);
+        JanggiChessPiece target = getJanggiPieceByPosition(from);
         removeJanggiPieceByPosition(from);
         putJanggiPiece(to, target);
     }
@@ -47,12 +47,12 @@ public class JanggiPiecePositions {
         chessPieces.remove(position);
     }
 
-    private void putJanggiPiece(final JanggiPosition position, final JanggiPiece chessPiece) {
+    private void putJanggiPiece(final JanggiPosition position, final JanggiChessPiece chessPiece) {
         validateEmptyPosition(position);
         chessPieces.put(position, chessPiece);
     }
 
-    public Map<JanggiPosition, JanggiPiece> getJanggiPieces() {
+    public Map<JanggiPosition, JanggiChessPiece> getJanggiPieces() {
         return Collections.unmodifiableMap(chessPieces);
     }
 }

@@ -1,7 +1,7 @@
 package domain;
 
 import domain.hurdlePolicy.HurdlePolicy;
-import domain.janggiPiece.JanggiPiece;
+import domain.janggiPiece.JanggiChessPiece;
 import domain.path.Path;
 import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
@@ -34,7 +34,7 @@ public class JanggiBoard {
         if (!isExistPieceAt(position)) {
             return false;
         }
-        JanggiPiece piece = janggiPiecePositions.getJanggiPieceByPosition(position);
+        JanggiChessPiece piece = janggiPiecePositions.getJanggiPieceByPosition(position);
         return piece.getChessPieceType() == JanggiPieceType.KING;
     }
 
@@ -48,26 +48,26 @@ public class JanggiBoard {
     }
 
     public List<JanggiPosition> getAvailableDestination(final JanggiPosition position) {
-        JanggiPiece chessPiece = janggiPiecePositions.getJanggiPieceByPosition(position);
+        JanggiChessPiece chessPiece = janggiPiecePositions.getJanggiPieceByPosition(position);
         List<Path> coordinatePaths = chessPiece.getCoordinatePaths(position);
         HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
         return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, janggiPiecePositions);
     }
 
     public void validateTeam(final JanggiTeam currentTeam, final JanggiPosition from) {
-        JanggiPiece chessPiece = janggiPiecePositions.getJanggiPieceByPosition(from);
+        JanggiChessPiece chessPiece = janggiPiecePositions.getJanggiPieceByPosition(from);
         if (currentTeam != chessPiece.getTeam()) {
             throw new IllegalArgumentException("상대편의 기물을 움직일 수 없습니다.");
         }
     }
 
     private void killTarget(JanggiTeam currentTeam, JanggiPosition to) {
-        JanggiPiece target = janggiPiecePositions.getJanggiPieceByPosition(to);
+        JanggiChessPiece target = janggiPiecePositions.getJanggiPieceByPosition(to);
         updateScore(currentTeam, target);
         janggiPiecePositions.removeJanggiPieceByPosition(to);
     }
 
-    private void updateScore(JanggiTeam currentTeam, JanggiPiece target) {
+    private void updateScore(JanggiTeam currentTeam, JanggiChessPiece target) {
         Score score = target.getScore();
         Score updatedScore = scores.get(currentTeam).add(score);
         scores.put(currentTeam, updatedScore);
@@ -80,7 +80,7 @@ public class JanggiBoard {
         }
     }
 
-    public Map<JanggiPosition, JanggiPiece> getPositions() {
+    public Map<JanggiPosition, JanggiChessPiece> getPositions() {
         return janggiPiecePositions.getJanggiPieces();
     }
 

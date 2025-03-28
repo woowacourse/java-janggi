@@ -1,6 +1,6 @@
 package domain.hurdlePolicy;
 
-import domain.janggiPiece.JanggiPiece;
+import domain.janggiPiece.JanggiChessPiece;
 import domain.path.Path;
 import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
@@ -26,7 +26,7 @@ public class CannonHurdlePolicy implements HurdlePolicy {
         for (int i = 0; i < pathPositions.size(); i++) {
             JanggiPosition currentPosition = pathPositions.get(i);
             if (isHurdle(currentPosition, positions)) {
-                return pathPositions.subList(i+1, pathPositions.size());
+                return pathPositions.subList(i + 1, pathPositions.size());
             }
             if (isWall(currentPosition, positions)) {
                 return List.of();
@@ -46,7 +46,7 @@ public class CannonHurdlePolicy implements HurdlePolicy {
         if (!positions.existChessPieceByPosition(targetPosition)) {
             return false;
         }
-        JanggiPiece other = positions.getJanggiPieceByPosition(targetPosition);
+        JanggiChessPiece other = positions.getJanggiPieceByPosition(targetPosition);
         return other.getChessPieceType() == JanggiPieceType.CANNON;
     }
 
@@ -74,7 +74,7 @@ public class CannonHurdlePolicy implements HurdlePolicy {
         if (isWall(targetPosition, positions)) {
             return false;
         }
-        JanggiPiece targetPiece = positions.getJanggiPieceByPosition(targetPosition);
+        JanggiChessPiece targetPiece = positions.getJanggiPieceByPosition(targetPosition);
         return targetPiece.getTeam() != team;
     }
 }

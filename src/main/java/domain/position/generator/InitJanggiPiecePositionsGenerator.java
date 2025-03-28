@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class InitJanggiPiecePositionsGenerator implements JanggiPiecePositionsGenerator {
     @Override
-    public Map<JanggiPosition, JanggiPiece> generate() {
-        Map<JanggiPosition, JanggiPiece> chessPieces = new HashMap<>();
+    public Map<JanggiPosition, JanggiChessPiece> generate() {
+        Map<JanggiPosition, JanggiChessPiece> chessPieces = new HashMap<>();
         chessPieces.putAll(Cannon.initPieces());
         chessPieces.putAll(Chariot.initPieces());
         chessPieces.putAll(Elephant.initPieces());

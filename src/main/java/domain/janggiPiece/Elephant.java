@@ -4,15 +4,17 @@ import domain.direction.Direction;
 import domain.direction.JanggiDirections;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.hurdlePolicy.UnpassableHurdlePolicy;
+import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
 import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Elephant extends JumpJanggiPiece {
+public class Elephant extends JanggiChessPiece {
     private static final List<JanggiDirections> directions = List.of(
             new JanggiDirections(List.of(Direction.UP, Direction.RIGHT_UP, Direction.RIGHT_UP)),
             new JanggiDirections(List.of(Direction.UP, Direction.LEFT_UP, Direction.LEFT_UP)),
@@ -26,16 +28,27 @@ public class Elephant extends JumpJanggiPiece {
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
     public Elephant(final JanggiTeam team) {
-        super(team, directions);
+        super(team);
     }
 
-    public static Map<JanggiPosition, JanggiPiece> initPieces() {
+    public static Map<JanggiPosition, JanggiChessPiece> initPieces() {
         return Map.of(
                 JanggiPositionFactory.of(0, 2), new Elephant(JanggiTeam.RED),
                 JanggiPositionFactory.of(0, 6), new Elephant(JanggiTeam.RED),
                 JanggiPositionFactory.of(9, 2), new Elephant(JanggiTeam.BLUE),
                 JanggiPositionFactory.of(9, 6), new Elephant(JanggiTeam.BLUE)
         );
+    }
+
+    @Override
+    public final List<Path> getCoordinatePaths(JanggiPosition startPosition) {
+        List<Path> result = new ArrayList<>();
+        for (JanggiDirections direction : directions) {
+            if (direction.canApplyFrom(startPosition)) {
+                result.add(direction.getPathFrom(startPosition));
+            }
+        }
+        return result;
     }
 
     @Override

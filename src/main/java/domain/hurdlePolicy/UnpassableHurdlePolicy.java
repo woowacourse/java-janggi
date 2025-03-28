@@ -1,6 +1,6 @@
 package domain.hurdlePolicy;
 
-import domain.janggiPiece.JanggiPiece;
+import domain.janggiPiece.JanggiChessPiece;
 import domain.path.Path;
 import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
@@ -33,7 +33,7 @@ public class UnpassableHurdlePolicy implements HurdlePolicy {
         if (!positions.existChessPieceByPosition(targetPosition)) {
             return true;
         }
-        JanggiPiece targetPiece = positions.getJanggiPieceByPosition(targetPosition);
+        JanggiChessPiece targetPiece = positions.getJanggiPieceByPosition(targetPosition);
         return targetPiece.getTeam() != team;
     }
 }
