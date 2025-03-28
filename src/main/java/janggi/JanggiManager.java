@@ -1,48 +1,24 @@
 package janggi;
 
-import janggi.board.Board;
-import janggi.board.BoardFactory;
 import janggi.board.Position;
-import janggi.dao.JanggiGameDao;
 import janggi.piece.Side;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import java.sql.Connection;
 
 public class JanggiManager {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final JanggiGame janggiGame;
+    private final JanggiService janggiService;
 
-    public JanggiManager(final InputView inputView, final OutputView outputView) {
+    public JanggiManager(final InputView inputView, final OutputView outputView, final JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.janggiGame = init();
-    }
-
-    public JanggiGame init() {
-        Connection connection = DBConnection.getConnection();
-        JanggiGameDao dao = new JanggiGameDao();
-        Board board;
-        Turn turn;
-        if (dao.existsPiece(connection)) {
-            board = dao.findBoard(connection);
-            turn = dao.find(connection);
-            return new JanggiGame(board, turn);
-        }
-        board = BoardFactory.initBoard();
-        turn = Turn.firstTurn();
-        dao.addBoard(board, connection);
-        dao.addTurn(turn, connection);
-        return new JanggiGame(
-                BoardFactory.initBoard(),
-                Turn.firstTurn()
-        );
+        this.janggiService = janggiService;
     }
 
     public void play() {
-        while (janggiGame.continueGame()) {
+        while (janggiService.continueGame()) {
             displayGameStatus();
             String inputStartPosition = inputView.readStartPosition();
             if (inputStartPosition.equals("Q")) {
@@ -51,20 +27,21 @@ public class JanggiManager {
             String inputEndPosition = inputView.readEndPosition();
             movePiece(inputStartPosition, inputEndPosition);
         }
-        outputView.printResult(janggiGame.calculateWinner());
+        outputView.printResult(janggiService.calculateWinner());
+        janggiService.clearGame();
     }
 
     private void displayGameStatus() {
-        outputView.printBoard(janggiGame.getBoard());
-        outputView.printScore(janggiGame.scoreBySide(Side.RED), janggiGame.scoreBySide(Side.BLUE));
-        outputView.printTurn(janggiGame.getTurn());
+        outputView.printBoard(janggiService.findPiecesByPosition());
+        outputView.printScore(janggiService.scoreBySide(Side.RED), janggiService.scoreBySide(Side.BLUE));
+        outputView.printTurn(janggiService.getTurn());
     }
 
     private void movePiece(final String inputStartPosition, final String inputEndPosition) {
         handleException(() -> {
             Position start = parsePosition(inputStartPosition);
             Position end = parsePosition(inputEndPosition);
-            janggiGame.movePiece(start, end);
+            janggiService.movePiece(start, end);
         });
     }
 

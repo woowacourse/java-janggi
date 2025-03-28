@@ -1,0 +1,54 @@
+package janggi.dao;
+
+import janggi.Turn;
+import janggi.piece.Side;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class TurnDao {
+
+    public void save(final Turn turn, final Connection connection) {
+        final var query = "INSERT INTO turn(`turn`) VALUES (?)";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, turn.getSide().toString());
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void update(final Turn turn, final Connection connection) {
+        final var query = "UPDATE turn SET turn = ?";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, turn.getSide().toString());
+
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Turn find(final Connection connection) {
+        final var query = "SELECT * FROM turn";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            final var resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return new Turn(Side.valueOf(resultSet.getString("turn")));
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public void clear(final Connection connection) {
+        final var query = "DELETE FROM turn";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
