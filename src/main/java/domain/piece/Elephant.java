@@ -21,7 +21,7 @@ public class Elephant extends Piece {
     );
 
     public Elephant(Team team) {
-        super(team);
+        super(team, new Score(3));
     }
 
     @Override

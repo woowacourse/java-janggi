@@ -9,7 +9,7 @@ import java.util.List;
 public class Scholar extends Piece {
 
     public Scholar(Team team) {
-        super(team);
+        super(team, new Score(3));
     }
 
     @Override

@@ -8,8 +8,8 @@ import java.util.List;
 
 public class King extends Piece {
 
-    public King(Team team) {
-        super(team);
+    public King(Team team, Score score) {
+        super(team, score);
     }
 
     @Override
@@ -36,6 +36,11 @@ public class King extends Piece {
         if (!pathPiece.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
+    }
+
+    @Override
+    public boolean isStoppedGameIfDie() {
+        return true;
     }
 
     @Override

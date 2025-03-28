@@ -1,12 +1,14 @@
 package view;
 
-import static domain.board.PlacementSelection.*;
+import static domain.board.PlacementSelection.EHEH;
+import static domain.board.PlacementSelection.EHHE;
+import static domain.board.PlacementSelection.HEEH;
+import static domain.board.PlacementSelection.HEHE;
 
 import domain.board.BoardLocation;
 import domain.board.PlacementSelection;
 import domain.piece.Piece;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class InputView {
@@ -67,17 +69,5 @@ public class InputView {
             throw new IllegalArgumentException("[ERROR] 잘못된 번호입니다.");
         }
         return PLACEMENT_SELECTION_SET_UP.get(selectNumber).getCho();
-    }
-
-    public boolean requestSurrender() {
-        System.out.println("항복하시겠습니까? (y/n)");
-        String input = scanner.nextLine();
-        if (Objects.equals(input, "y")) {
-            return true;
-        }
-        if (Objects.equals(input, "n")) {
-            return false;
-        }
-        throw new IllegalArgumentException("잘못된 입력입니다");
     }
 }

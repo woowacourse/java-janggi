@@ -3,6 +3,7 @@ package view;
 import domain.board.BoardLocation;
 import domain.game.Turn;
 import domain.piece.Piece;
+import domain.piece.Score;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -44,11 +45,25 @@ public class OutputView {
         System.out.println(builder);
     }
 
-    public void printTurn(Turn turn) {
+    public void showTurn(Turn turn) {
         System.out.println(outputSupporter.formatTurn(turn.getTeam()) + "턴 입니다.");
     }
 
-    public void printMessage(String message) {
+    public void showMessage(String message) {
         System.out.println(message);
+    }
+
+    public void printScore(Score hanScore, Score choScore) {
+        System.out.println("====== Score ======");
+        System.out.println("한나라 점수 : " + hanScore.score());
+        System.out.println("초나라 점수 : " + choScore.score());
+        System.out.println("===================");
+
+    }
+
+    public void showWinner(Turn turn) {
+        System.out.println("====== Winner ======");
+        System.out.println("승리자 : " + turn.getTeam());
+        System.out.println("====================");
     }
 }

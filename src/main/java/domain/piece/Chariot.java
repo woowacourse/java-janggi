@@ -11,7 +11,7 @@ import java.util.List;
 public class Chariot extends Piece {
 
     public Chariot(Team team) {
-        super(team);
+        super(team, new Score(13));
     }
 
     @Override

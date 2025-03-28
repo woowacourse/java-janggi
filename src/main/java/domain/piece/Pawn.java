@@ -11,7 +11,7 @@ public class Pawn extends Piece {
     private static final int PAWN_STEP = 1;
 
     public Pawn(Team team) {
-        super(team);
+        super(team, new Score(2));
     }
 
     @Override

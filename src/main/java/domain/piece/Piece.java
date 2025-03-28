@@ -8,9 +8,11 @@ import java.util.List;
 public abstract class Piece {
 
     protected final Team team;
+    protected final Score score;
 
-    public Piece(Team team) {
+    public Piece(Team team, Score score) {
         this.team = team;
+        this.score = score;
     }
 
     public void validateMovable(
@@ -51,11 +53,19 @@ public abstract class Piece {
         return this.team;
     }
 
+    public Score getScore() {
+        return score;
+    }
+
     private boolean isNotEqualTeam(Team team) {
         return this.team != team;
     }
 
     private boolean isEqualTeam(Piece piece) {
         return this.team == piece.team;
+    }
+
+    public boolean isStoppedGameIfDie() {
+        return false;
     }
 }

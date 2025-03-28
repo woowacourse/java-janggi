@@ -3,6 +3,7 @@ package view;
 import domain.board.BoardLocation;
 import domain.game.Turn;
 import domain.piece.Piece;
+import domain.piece.Score;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,8 +33,8 @@ public class ConsoleView {
         return new BoardLocation(x, y);
     }
 
-    public void printTurn(Turn turn) {
-        outputView.printTurn(turn);
+    public void showTurn(Turn turn) {
+        outputView.showTurn(turn);
     }
 
     public Map<BoardLocation, Piece> requestPlacements() {
@@ -45,11 +46,15 @@ public class ConsoleView {
         return placements;
     }
 
-    public void printMessage(String message) {
-        outputView.printMessage(message);
+    public void showMessage(String message) {
+        outputView.showMessage(message);
     }
 
-    public boolean requestSurrender() {
-        return inputView.requestSurrender();
+    public void showScore(Score hanScore, Score choScore) {
+        outputView.printScore(hanScore, choScore);
+    }
+
+    public void showWinner(Turn turn) {
+        outputView.showWinner(turn);
     }
 }

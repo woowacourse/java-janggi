@@ -14,7 +14,7 @@ public class Cannon extends Piece {
     private static final int ALLOWABLE_JUMP_COUNT = 1;
 
     public Cannon(Team team) {
-        super(team);
+        super(team, new Score(7));
     }
 
     @Override
