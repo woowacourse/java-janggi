@@ -8,7 +8,7 @@ import janggi.piece.Piece;
 import janggi.piece.Po;
 import janggi.piece.Sa;
 import janggi.position.Position;
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,17 +32,17 @@ public class BoardFactory {
     }
 
     private static void makeChoInitialPieces(Map<Position, Piece> pieces, SangSetting sangSetting) {
-        final Team targetTeam = Team.CHO;
-        pieces.putAll(getSangSetting(targetTeam, sangSetting));
+        final TeamType targetTeamType = TeamType.CHO;
+        pieces.putAll(getSangSetting(targetTeamType, sangSetting));
 
-        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO, 1), new Cha(targetTeam));
-        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO, 4), new Sa(targetTeam));
-        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO, 6), new Sa(targetTeam));
-        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO, 9), new Cha(targetTeam));
+        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO, 1), new Cha(targetTeamType));
+        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO, 4), new Sa(targetTeamType));
+        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO, 6), new Sa(targetTeamType));
+        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO, 9), new Cha(targetTeamType));
 
-        pieces.put(new Position(INITIAL_Y_OF_GUNG_FOR_CHO, 5), new Gung(targetTeam));
-        pieces.put(new Position(INITIAL_Y_OF_PO_FOR_CHO, 2), new Po(targetTeam));
-        pieces.put(new Position(INITIAL_Y_OF_PO_FOR_CHO, 8), new Po(targetTeam));
+        pieces.put(new Position(INITIAL_Y_OF_GUNG_FOR_CHO, 5), new Gung(targetTeamType));
+        pieces.put(new Position(INITIAL_Y_OF_PO_FOR_CHO, 2), new Po(targetTeamType));
+        pieces.put(new Position(INITIAL_Y_OF_PO_FOR_CHO, 8), new Po(targetTeamType));
 
         pieces.put(new Position(INITIAL_Y_OF_JOL_FOR_CHO, 1), new Jol());
         pieces.put(new Position(INITIAL_Y_OF_JOL_FOR_CHO, 3), new Jol());
@@ -52,17 +52,17 @@ public class BoardFactory {
     }
 
     private static void makeHanInitialPieces(Map<Position, Piece> pieces, SangSetting sangSetting) {
-        final Team targetTeam = Team.HAN;
-        pieces.putAll(getSangSetting(targetTeam, sangSetting));
+        final TeamType targetTeamType = TeamType.HAN;
+        pieces.putAll(getSangSetting(targetTeamType, sangSetting));
 
-        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN, 1), new Cha(targetTeam));
-        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN, 4), new Sa(targetTeam));
-        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN, 6), new Sa(targetTeam));
-        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN, 9), new Cha(targetTeam));
+        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN, 1), new Cha(targetTeamType));
+        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN, 4), new Sa(targetTeamType));
+        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN, 6), new Sa(targetTeamType));
+        pieces.put(new Position(INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN, 9), new Cha(targetTeamType));
 
-        pieces.put(new Position(INITIAL_Y_OF_GUNG_FOR_HAN, 5), new Gung(targetTeam));
-        pieces.put(new Position(INITIAL_Y_OF_PO_FOR_HAN, 2), new Po(targetTeam));
-        pieces.put(new Position(INITIAL_Y_OF_PO_FOR_HAN, 8), new Po(targetTeam));
+        pieces.put(new Position(INITIAL_Y_OF_GUNG_FOR_HAN, 5), new Gung(targetTeamType));
+        pieces.put(new Position(INITIAL_Y_OF_PO_FOR_HAN, 2), new Po(targetTeamType));
+        pieces.put(new Position(INITIAL_Y_OF_PO_FOR_HAN, 8), new Po(targetTeamType));
 
         pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 1), new Byeong());
         pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 3), new Byeong());
@@ -71,10 +71,10 @@ public class BoardFactory {
         pieces.put(new Position(INITIAL_Y_OF_BYEONG_FOR_HAN, 9), new Byeong());
     }
 
-    private static Map<Position, Piece> getSangSetting(Team team, SangSetting sangSetting) {
-        if (team == Team.HAN) {
-            return sangSetting.getSangSetting(team, INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN);
+    private static Map<Position, Piece> getSangSetting(TeamType teamType, SangSetting sangSetting) {
+        if (teamType == TeamType.HAN) {
+            return sangSetting.getSangSetting(teamType, INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_HAN);
         }
-        return sangSetting.getSangSetting(team, INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO);
+        return sangSetting.getSangSetting(teamType, INITIAL_Y_OF_SANG_MA_CHA_SA_FOR_CHO);
     }
 }

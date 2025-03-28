@@ -3,8 +3,9 @@ package janggi;
 import janggi.board.Board;
 import janggi.piece.Piece;
 import janggi.position.Position;
-import janggi.team.Team;
+import janggi.team.TeamType;
 import janggi.team.Turn;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,15 +24,34 @@ public class JanggiGame {
         turn.turnOver();
     }
 
+    public Map<TeamType, Double> getScoreEachTeam() {
+        Map<TeamType, Double> scores = new HashMap<>();
+
+        turn.getOrders()
+                .forEach(teamType -> scores.put(teamType, calculateCurrentScoreByTeam(teamType)));
+
+        return scores;
+    }
+
+    private double calculateCurrentScoreByTeam(TeamType teamType) {
+        double totalScore = board.calculateCurrentScoreByTeam(teamType);
+
+        if (turn.isLastOrder(teamType)) {
+            totalScore += 1.5;
+        }
+
+        return totalScore;
+    }
+
     public boolean canContinueGame() {
         return board.hasEachKing();
     }
 
-    public Team getWinningTeam() {
+    public TeamType getWinningTeam() {
         return board.findWinningTeam();
     }
 
-    public Team getCurrentTeam() {
+    public TeamType getCurrentTeam() {
         return turn.getCurrentTeam();
     }
 

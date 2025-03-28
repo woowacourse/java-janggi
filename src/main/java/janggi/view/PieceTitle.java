@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.piece.PieceType;
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,16 +30,16 @@ public enum PieceTitle {
         this.titles = List.of(title);
     }
 
-    public static String getTitleFromTypeAndTeam(PieceType pieceType, Team team) {
+    public static String getTitleFromTypeAndTeam(PieceType pieceType, TeamType teamType) {
         return Arrays.stream(values())
                 .filter(pieceTitle -> pieceTitle.pieceType == pieceType)
-                .map(pieceTitle -> pieceTitle.getTitle(team))
+                .map(pieceTitle -> pieceTitle.getTitle(teamType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 기물을 찾을 수 없습니다."));
     }
 
-    public String getTitle(Team team) {
-        if (team == Team.HAN) {
+    public String getTitle(TeamType teamType) {
+        if (teamType == TeamType.HAN) {
             return titles.getFirst();
         }
         return titles.getLast();

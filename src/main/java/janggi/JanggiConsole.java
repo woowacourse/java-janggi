@@ -3,7 +3,7 @@ package janggi;
 import janggi.board.Board;
 import janggi.board.BoardFactory;
 import janggi.board.SangSetting;
-import janggi.team.Team;
+import janggi.team.TeamType;
 import janggi.team.Turn;
 import janggi.utils.ExceptionHandler;
 import janggi.view.InputView;
@@ -25,8 +25,9 @@ public class JanggiConsole {
         resultView.printBoard(janggiGame.getPieces());
 
         while (janggiGame.canContinueGame()) {
-            final Team currentTeam = janggiGame.getCurrentTeam();
-            resultView.printOrder(currentTeam);
+            final TeamType currentTeamType = janggiGame.getCurrentTeam();
+            resultView.printScoreBoard(janggiGame.getScoreEachTeam());
+            resultView.printOrder(currentTeamType);
             ExceptionHandler.retry(() -> janggiGame.move(inputView.readMovingPosition()));
             resultView.printBoard(janggiGame.getPieces());
         }
@@ -40,9 +41,9 @@ public class JanggiConsole {
         resultView.printSetting();
 
         SangSetting choSangSetting = ExceptionHandler.repeat(() -> SangSetting.selectSetting((
-                inputView.readElephantSetting(Team.CHO))));
+                inputView.readElephantSetting(TeamType.CHO))));
         SangSetting hanSangSetting = ExceptionHandler.repeat(() -> SangSetting.selectSetting((
-                inputView.readElephantSetting(Team.HAN))));
+                inputView.readElephantSetting(TeamType.HAN))));
         final Turn turn = new Turn();
         final Board board = boardFactory.makeBoard(choSangSetting, hanSangSetting);
 

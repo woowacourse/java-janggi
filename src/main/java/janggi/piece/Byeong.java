@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +15,7 @@ public class Byeong extends Piece {
     );
 
     public Byeong() {
-        super(PieceType.BYEONG, Team.HAN);
+        super(PieceType.BYEONG, TeamType.HAN);
     }
 
     @Override

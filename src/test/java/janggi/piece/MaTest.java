@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.position.Path;
 import janggi.position.Position;
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +20,7 @@ class MaTest {
 
     @BeforeEach
     void setUp() {
-        ma = new Ma(Team.CHO);
+        ma = new Ma(TeamType.CHO);
     }
 
     @ParameterizedTest

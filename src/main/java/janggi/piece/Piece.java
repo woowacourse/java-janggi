@@ -2,18 +2,18 @@ package janggi.piece;
 
 import janggi.position.Path;
 import janggi.position.Position;
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
 
     private final PieceType pieceType;
-    private final Team team;
+    private final TeamType teamType;
 
-    public Piece(PieceType pieceType, Team team) {
+    public Piece(PieceType pieceType, TeamType teamType) {
         this.pieceType = pieceType;
-        this.team = team;
+        this.teamType = teamType;
     }
 
     public Path makePath(Position currentPosition, Position arrivalPosition) {
@@ -80,7 +80,11 @@ public abstract class Piece {
         return pieceType;
     }
 
-    public Team getTeam() {
-        return team;
+    public TeamType getTeamType() {
+        return teamType;
+    }
+
+    public int getScore() {
+        return pieceType.getScore();
     }
 }

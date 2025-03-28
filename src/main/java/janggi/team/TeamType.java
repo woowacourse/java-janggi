@@ -1,13 +1,13 @@
 package janggi.team;
 
-public enum Team {
+public enum TeamType {
 
     HAN("한"),
     CHO("초");
 
     private final String title;
 
-    Team(String title) {
+    TeamType(String title) {
         this.title = title;
     }
 

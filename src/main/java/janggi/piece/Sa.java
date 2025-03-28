@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.List;
 import java.util.Set;
 
@@ -15,8 +15,8 @@ public class Sa extends Piece {
             FORWARD, RIGHT, LEFT, BACKWARD
     );
 
-    public Sa(Team team) {
-        super(PieceType.SA, team);
+    public Sa(TeamType teamType) {
+        super(PieceType.SA, teamType);
     }
 
     @Override

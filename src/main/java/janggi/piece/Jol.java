@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +15,7 @@ public class Jol extends Piece {
     );
 
     public Jol() {
-        super(PieceType.JOL, Team.CHO);
+        super(PieceType.JOL, TeamType.CHO);
     }
 
     @Override

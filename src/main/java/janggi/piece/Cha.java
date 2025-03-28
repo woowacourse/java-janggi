@@ -1,11 +1,11 @@
 package janggi.piece;
 
-import janggi.team.Team;
+import janggi.team.TeamType;
 
 public class Cha extends Piece {
 
-    public Cha(Team team) {
-        super(PieceType.CHA, team);
+    public Cha(TeamType teamType) {
+        super(PieceType.CHA, teamType);
     }
 
     @Override

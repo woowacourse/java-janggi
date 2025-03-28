@@ -12,7 +12,7 @@ class TurnTest {
 
         // When & Then
         Assertions.assertThat(turn.getCurrentTeam())
-                .isEqualTo(Team.CHO);
+                .isEqualTo(TeamType.CHO);
     }
 
     @Test
@@ -25,6 +25,6 @@ class TurnTest {
 
         // Then
         Assertions.assertThat(turn.getCurrentTeam())
-                .isEqualTo(Team.HAN);
+                .isEqualTo(TeamType.HAN);
     }
 }

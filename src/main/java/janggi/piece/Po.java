@@ -1,12 +1,12 @@
 package janggi.piece;
 
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.List;
 
 public class Po extends Piece {
 
-    public Po(Team team) {
-        super(PieceType.PO, team);
+    public Po(TeamType teamType) {
+        super(PieceType.PO, teamType);
     }
 
     @Override

@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.position.Path;
 import janggi.position.Position;
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ class GungTest {
 
     @BeforeEach
     void setUp() {
-        gung = new Gung(Team.CHO);
+        gung = new Gung(TeamType.CHO);
     }
 
     @ParameterizedTest

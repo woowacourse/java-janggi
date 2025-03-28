@@ -5,22 +5,27 @@ import java.util.Deque;
 import java.util.List;
 
 public class Turn {
-    private final Deque<Team> orders;
+    private static final List<TeamType> INITIAL_ORDERS = List.of(TeamType.CHO, TeamType.HAN);
+    private final Deque<TeamType> orders;
 
     public Turn() {
-        this.orders = new ArrayDeque<>(List.of(Team.CHO, Team.HAN));
+        this.orders = new ArrayDeque<>(INITIAL_ORDERS);
     }
 
-    public Team getCurrentTeam() {
+    public TeamType getCurrentTeam() {
         return orders.peek();
     }
 
     public void turnOver() {
-        final Team currentTeam = orders.poll();
-        orders.offer(currentTeam);
+        final TeamType currentTeamType = orders.poll();
+        orders.offer(currentTeamType);
     }
 
-    public Deque<Team> getOrders() {
+    public boolean isLastOrder(TeamType teamType) {
+        return teamType == INITIAL_ORDERS.getLast();
+    }
+
+    public Deque<TeamType> getOrders() {
         return orders;
     }
 }

@@ -4,7 +4,7 @@ import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.position.Path;
 import janggi.position.Position;
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +18,12 @@ public class Board {
         this.pieces = new HashMap<>(pieces);
     }
 
-    public void move(final List<Position> positions, final Team currentTeam) {
+    public void move(final List<Position> positions, final TeamType currentTeamType) {
         Position currentPosition = positions.getFirst();
         Position arrivalPosition = positions.getLast();
         validateSamePosition(currentPosition, arrivalPosition);
 
-        Piece piece = findOwnPiece(currentTeam, currentPosition);
+        Piece piece = findOwnPiece(currentTeamType, currentPosition);
         Path path = piece.makePath(currentPosition, arrivalPosition);
 
         piece.validateExistPieceInPath(getPiecesByPath(path), hasPiece(arrivalPosition));
@@ -34,16 +34,24 @@ public class Board {
         return calculateExistKing() == 2;
     }
 
-    public Team findWinningTeam() {
+    public TeamType findWinningTeam() {
         if (calculateExistKing() != 1) {
             throw new IllegalStateException("[ERROR] 궁이 하나가 아니라면 접근할 수 없습니다.");
         }
 
         return pieces.values().stream()
                 .filter(piece -> piece.matchPieceType(PieceType.GUNG))
-                .map(Piece::getTeam)
+                .map(Piece::getTeamType)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("[ERROR] 궁이 존재하지 않을 수 없습니다."));
+    }
+
+    public int calculateCurrentScoreByTeam(TeamType teamType) {
+        return pieces.values()
+                .stream()
+                .filter(piece -> piece.getTeamType().equals(teamType))
+                .mapToInt(Piece::getScore)
+                .sum();
     }
 
     private void validateSamePosition(Position currentPosition, Position arrivalPosition) {
@@ -52,9 +60,9 @@ public class Board {
         }
     }
 
-    private Piece findOwnPiece(final Team currentTeam, final Position currentPosition) {
+    private Piece findOwnPiece(final TeamType currentTeamType, final Position currentPosition) {
         final Piece piece = findPieceByPosition(currentPosition);
-        validateOwnPiece(currentTeam, piece);
+        validateOwnPiece(currentTeamType, piece);
         return piece;
     }
 
@@ -65,8 +73,8 @@ public class Board {
         throw new IllegalArgumentException("[ERROR] 해당 좌표에 기물이 존재하지 않습니다.");
     }
 
-    private void validateOwnPiece(final Team currentTeam, final Piece piece) {
-        if (currentTeam != piece.getTeam()) {
+    private void validateOwnPiece(final TeamType currentTeamType, final Piece piece) {
+        if (currentTeamType != piece.getTeamType()) {
             throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다.");
         }
     }
@@ -97,7 +105,7 @@ public class Board {
 
     private void catchPiece(Position currentPosition, Position arrivalPosition, Piece piece) {
         Piece existPiece = findPieceByPosition(arrivalPosition);
-        if (existPiece.getTeam() == piece.getTeam()) {
+        if (existPiece.getTeamType() == piece.getTeamType()) {
             throw new IllegalArgumentException("[ERROR] 자신의 팀 기물은 잡을 수 없습니다.");
         }
         updatePosition(currentPosition, arrivalPosition, piece);

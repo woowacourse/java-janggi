@@ -4,7 +4,7 @@ import janggi.piece.Ma;
 import janggi.piece.Piece;
 import janggi.piece.Sang;
 import janggi.position.Position;
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,9 +47,9 @@ public enum SangSetting {
     ;
 
     private final String menu;
-    private final BiFunction<Team, Integer, Map<Position, Piece>> biFunction;
+    private final BiFunction<TeamType, Integer, Map<Position, Piece>> biFunction;
 
-    SangSetting(String menu, BiFunction<Team, Integer, Map<Position, Piece>> biFunction) {
+    SangSetting(String menu, BiFunction<TeamType, Integer, Map<Position, Piece>> biFunction) {
         this.menu = menu;
         this.biFunction = biFunction;
     }
@@ -61,7 +61,7 @@ public enum SangSetting {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 1~4까지의 값만 입력할 수 있습니다."));
     }
 
-    public Map<Position, Piece> getSangSetting(Team team, int y) {
-        return biFunction.apply(team, y);
+    public Map<Position, Piece> getSangSetting(TeamType teamType, int y) {
+        return biFunction.apply(teamType, y);
     }
 }

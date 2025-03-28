@@ -1,7 +1,7 @@
 package janggi.piece;
 
 import janggi.position.Position;
-import janggi.team.Team;
+import janggi.team.TeamType;
 import java.util.List;
 import java.util.Set;
 
@@ -23,8 +23,8 @@ public class Ma extends Piece {
             BACKWARD_RIGHT_DIAGONAL, BACKWARD_LEFT_DIAGONAL
     );
 
-    public Ma(Team team) {
-        super(PieceType.MA, team);
+    public Ma(TeamType teamType) {
+        super(PieceType.MA, teamType);
     }
 
     @Override
