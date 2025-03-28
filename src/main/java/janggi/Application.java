@@ -1,6 +1,6 @@
 package janggi;
 
-import janggi.common.Constants;
+import janggi.config.DatabaseConfig;
 import janggi.dao.GameRoomDAO;
 import janggi.dao.PieceDAO;
 import janggi.manager.DatabaseManager;
@@ -12,7 +12,8 @@ public class Application {
 
     public static void main(String[] args) {
         try {
-            DatabaseManager databaseManager = new DatabaseManager(Constants.SERVER, Constants.DATABASE);
+            DatabaseManager databaseManager = new DatabaseManager(DatabaseConfig.getServer(),
+                    DatabaseConfig.getDatabase());
             databaseManager.createTableIfNotExist();
 
             Viewer viewer = new Viewer();
