@@ -1,27 +1,33 @@
 package domain.piece;
 
-import domain.Path;
 import domain.TeamType;
-import domain.piece.move.FixedMoveRule;
+import domain.piece.move.LimitedMoveRule;
+import domain.piece.move.area.PalaceOnlyConstraint;
 import domain.piece.path.DefaultPathValidator;
 import domain.position.Direction;
 import java.util.List;
 
 public class King extends Piece {
 
-    private static final List<Path> PATHS;
+    private static final List<Direction> DIRECTIONS;
+    private static final int KING_MOVE_COUNT = 1;
 
     static {
-        PATHS = List.of(
-                new Path(List.of(Direction.UP)),
-                new Path(List.of(Direction.DOWN)),
-                new Path(List.of(Direction.RIGHT)),
-                new Path(List.of(Direction.LEFT))
+        DIRECTIONS = List.of(
+                Direction.UP,
+                Direction.DOWN,
+                Direction.RIGHT,
+                Direction.LEFT,
+                Direction.RIGHT_UP,
+                Direction.LEFT_UP,
+                Direction.RIGHT_DOWN,
+                Direction.LEFT_DOWN
         );
     }
 
     public King(TeamType teamType) {
-        super(teamType, new FixedMoveRule(PATHS), new DefaultPathValidator());
+        super(teamType, new LimitedMoveRule(DIRECTIONS, KING_MOVE_COUNT, new PalaceOnlyConstraint()),
+                new DefaultPathValidator());
     }
 
     @Override
