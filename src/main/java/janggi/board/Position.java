@@ -68,6 +68,14 @@ public class Position {
         return row;
     }
 
+    public boolean isIncludedColumnRange(int minColumn, int maxColumn) {
+        return (column >= minColumn && column <= maxColumn);
+    }
+
+    public boolean isIncludedRowRange(int minColumn, int maxColumn) {
+        return (row >= minColumn && row <= maxColumn);
+    }
+
     private void validateColumnRange(int column) {
         if (column < MIN_COLUMN || column > MAX_COLUMN) {
             throw new IllegalArgumentException("[ERROR] 좌표의 Column이 제한 범위를 벗어났습니다.");
