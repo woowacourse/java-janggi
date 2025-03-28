@@ -8,6 +8,7 @@ import janggi.domain.piece.King;
 import janggi.domain.piece.Knight;
 import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.Position;
 import janggi.domain.piece.Rook;
 
 import java.sql.Connection;
@@ -138,6 +139,32 @@ public class JanggiDao {
             System.out.println("turn 정보를 읽어올 수 업습니다." + e.getMessage());
         }
         return null;
+    }
+
+    public void removeDestinationPiece(Position destination) {
+        String query = "DELETE FROM piece WHERE x_position = ? AND y_position = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+            preparedStatement.setInt(1, destination.getX());
+            preparedStatement.setInt(2, destination.getY());
+            preparedStatement.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println("piece를 삭제 할 수 업습니다." + e.getMessage());
+        }
+    }
+
+    public void updateMovingPiece(Position start, Position destination) {
+        String query = "UPDATE piece SET x_position = ?, y_position = ? WHERE x_position = ? AND y_position = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+            preparedStatement.setInt(1, destination.getX());
+            preparedStatement.setInt(2, destination.getY());
+            preparedStatement.setInt(3, start.getX());
+            preparedStatement.setInt(4, start.getY());
+            preparedStatement.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println("piece를 수정 할 수 업습니다." + e.getMessage());
+        }
     }
 
     private Piece createPiece(String pieceType, int x, int y, Side side) {

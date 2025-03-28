@@ -4,6 +4,7 @@ import janggi.domain.Side;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 import janggi.repository.JanggiDao;
 
 import java.util.List;
@@ -37,5 +38,10 @@ public class JanggiBoardService {
         Side turn = janggiDao.loadTurn();
 
         return new JanggiBoard(new Pieces(pieces), turn);
+    }
+
+    public void updateGame(Position start, Position destination) {
+        janggiDao.removeDestinationPiece(destination);
+        janggiDao.updateMovingPiece(start, destination);
     }
 }

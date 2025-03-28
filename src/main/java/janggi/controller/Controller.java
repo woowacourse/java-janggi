@@ -84,7 +84,7 @@ public class Controller {
         move(janggiBoard, source, destinationValues);
     }
 
-    private static void move(
+    private void move(
         JanggiBoard janggiBoard,
         Entry<Integer, Integer> source,
         Entry<Integer, Integer> destinationValues
@@ -92,6 +92,7 @@ public class Controller {
         Position start = new Position(source.getKey(), source.getValue());
         Position destination = new Position(destinationValues.getKey(), destinationValues.getValue());
         janggiBoard.move(start, destination);
+        janggiBoardService.updateGame(start, destination);
     }
 
     private void computeException(Consumer<JanggiBoard> move, JanggiBoard janggiBoard) {
