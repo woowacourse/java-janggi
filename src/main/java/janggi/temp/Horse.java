@@ -18,10 +18,10 @@ public final class Horse extends Piece {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다."));
         // 첫 번째 위치 판단
-        boolean hasPieceInFirstMove = pieces.stream()
+        boolean hasBlockingPiece = pieces.stream()
                 .map(Piece::position)
-                .anyMatch(position -> targetMovement.calculateFirstPosition(position()).equals(position));
-        if (hasPieceInFirstMove) {
+                .anyMatch(blockingPiece -> position().move(targetMovement.getFirst()).equals(blockingPiece));
+        if (hasBlockingPiece) {
             throw new IllegalArgumentException("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
         }
         return new Horse(destination, team());

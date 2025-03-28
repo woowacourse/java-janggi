@@ -28,15 +28,15 @@ public enum HorseMovement {
         this.second = second;
     }
 
-    public Position calculateFirstPosition(final Position position) {
-        return position.move(first);
-    }
-
     public int columnValue() {
         return first.columnValue() + second.columnValue();
     }
 
     public int rowValue() {
         return first.rowValue() + second.rowValue();
+    }
+
+    public Movement getFirst() {
+        return first;
     }
 }
