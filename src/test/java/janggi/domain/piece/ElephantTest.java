@@ -29,8 +29,8 @@ class ElephantTest {
     void move() {
         Elephant elephant = new Elephant(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(2, 3);
-        Piece movedHorse = elephant.move(pieces, positionToMove);
-        assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
+        Piece movedElephant = elephant.move(pieces, positionToMove);
+        assertThat(movedElephant.getPosition()).isEqualTo(positionToMove);
     }
 
     @DisplayName("상의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
@@ -80,7 +80,7 @@ class ElephantTest {
     void move6(int x, int y) {
         Elephant elephant = new Elephant(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
-        Piece movedHorse = elephant.move(pieces, positionToMove);
-        assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
+        Piece movedElephant = elephant.move(pieces, positionToMove);
+        assertThat(movedElephant.getPosition()).isEqualTo(positionToMove);
     }
 }

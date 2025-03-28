@@ -35,8 +35,8 @@ class CannonTest {
         Soldier otherSoldier2 = new Soldier(new Position(1, 1), Team.BLUE);
         pieces.put(otherSoldier1.getPosition(), otherSoldier1);
         pieces.put(otherSoldier2.getPosition(), otherSoldier2);
-        Piece movedHorse = cannon.move(pieces, positionToMove);
-        assertThat(movedHorse.getPosition()).isEqualTo(positionToMove);
+        Piece movedCannon = cannon.move(pieces, positionToMove);
+        assertThat(movedCannon.getPosition()).isEqualTo(positionToMove);
     }
 
     @DisplayName("포의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
@@ -121,6 +121,5 @@ class CannonTest {
         Board board = new Board(pieces);
         board.movePiece(cannon.getPosition(), new Position(10, 6));
         assertThat(board.getPieceByPosition(new Position(10, 6))).isInstanceOf(Cannon.class);
-
     }
 }

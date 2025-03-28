@@ -32,12 +32,6 @@ public record Position(int x, int y) {
         return new Position(this.x + x, this.y + y);
     }
 
-    private void validatePosition(int x, int y) {
-        if(x <= 0 || x > 10 || y <= 0 || y > 9) {
-            throw new IllegalArgumentException("이동할 수 없는 위치입니다");
-        }
-    }
-
     public boolean isPalace() {
         return (x >= 8 && x <= 10 || x >= 1 && x <= 3) &&
                 y >= 4 && y <= 6;
@@ -56,14 +50,15 @@ public record Position(int x, int y) {
     }
 
     public boolean isInSameDiagonalInPalace(Position positionToMove) {
-        if (isNotPalace()) {
-            return false;
+        return isPalace() && palaceDiagonals.stream()
+                .anyMatch(diagonal ->
+                        diagonal.contains(this) && diagonal.contains(positionToMove)
+                );
+    }
+
+    private void validatePosition(int x, int y) {
+        if (x <= 0 || x > 10 || y <= 0 || y > 9) {
+            throw new IllegalArgumentException("이동할 수 없는 위치입니다");
         }
-        for(Set<Position> diagonal : palaceDiagonals) {
-            if(diagonal.contains(this) && diagonal.contains(positionToMove)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

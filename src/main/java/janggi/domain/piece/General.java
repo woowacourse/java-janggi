@@ -11,10 +11,19 @@ public class General extends PathMovingPiece {
         validateIsPalace(position);
     }
 
-    private void validateIsPalace(Position position) {
-        if(position.isNotPalace()) {
-            throw new IllegalArgumentException("궁성에만 존재 가능합니다");
-        }
+    @Override
+    public Piece from(Position position) {
+        return new General(position, team);
+    }
+
+    @Override
+    public int getScore() {
+        return 0;
+    }
+
+    @Override
+    public boolean isGeneral() {
+        return true;
     }
 
     @Override
@@ -33,18 +42,9 @@ public class General extends PathMovingPiece {
         ));
     }
 
-    @Override
-    public Piece from(Position position) {
-        return new General(position, team);
-    }
-
-    @Override
-    public int getScore() {
-        return 0;
-    }
-
-    @Override
-    public boolean isGeneral() {
-        return true;
+    private void validateIsPalace(Position position) {
+        if(position.isNotPalace()) {
+            throw new IllegalArgumentException("궁성에만 존재 가능합니다");
+        }
     }
 }

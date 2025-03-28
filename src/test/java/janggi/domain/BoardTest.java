@@ -212,6 +212,7 @@ class BoardTest {
     }
 
     @DisplayName("청 팀의 왕이 살아있으면 true를 반환한다")
+    @Test
     void boardBlueKingAliveTest() {
         Piece general = new General(new Position(9, 5), Team.BLUE);
         pieceMap.put(general.getPosition(), general);
@@ -220,12 +221,14 @@ class BoardTest {
     }
 
     @DisplayName("청 팀의 왕이 죽었으면 false를 반환한다")
+    @Test
     void boardBlueKingTest() {
         Board board = new Board(pieceMap);
         assertThat(board.isKingAlive(Team.BLUE)).isFalse();
     }
 
     @DisplayName("청 팀의 왕이 살아있으면 true를 반환한다")
+    @Test
     void boardRedKingAliveTest() {
         Piece general = new General(new Position(9, 5), Team.RED);
         pieceMap.put(general.getPosition(), general);
@@ -234,6 +237,7 @@ class BoardTest {
     }
 
     @DisplayName("청 팀의 왕이 죽었으면 false를 반환한다")
+    @Test
     void boardRedKingTest() {
         Board board = new Board(pieceMap);
         assertThat(board.isKingAlive(Team.RED)).isFalse();

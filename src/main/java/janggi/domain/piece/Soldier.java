@@ -11,6 +11,16 @@ public class Soldier extends PathMovingPiece {
     }
 
     @Override
+    public Piece from(Position position) {
+        return new Soldier(position, team);
+    }
+
+    @Override
+    public int getScore() {
+        return 2;
+    }
+
+    @Override
     protected List<Movement> findMovements(Position positionToMove) {
         validateSoldierMovement(positionToMove);
         if (getPosition().isInSameDiagonalInPalace(positionToMove)) {
@@ -28,25 +38,13 @@ public class Soldier extends PathMovingPiece {
     }
 
     private void validateSoldierMovement(Position positionToMove) {
-        if(getTeam() == Team.BLUE) {
-            if(positionToMove.x() - getPosition().x() > 0) {
+        if(getTeam() == Team.BLUE &&
+                positionToMove.x() - getPosition().x() > 0) {
                 throw new IllegalArgumentException("불가능한 이동입니다");
-            }
         }
-        if(getTeam() == Team.RED) {
-            if(positionToMove.x() - getPosition().x() < 0) {
+        if(getTeam() == Team.RED &&
+                positionToMove.x() - getPosition().x() < 0) {
                 throw new IllegalArgumentException("불가능한 이동입니다");
-            }
         }
-    }
-
-    @Override
-    public Piece from(Position position) {
-        return new Soldier(position, team);
-    }
-
-    @Override
-    public int getScore() {
-        return 2;
     }
 }

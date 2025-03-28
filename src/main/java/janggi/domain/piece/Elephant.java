@@ -21,13 +21,21 @@ public class Elephant extends PathMovingPiece {
     }
 
     @Override
+    public Piece from(Position position) {
+        return new Elephant(position, team);
+    }
+
+    @Override
+    public int getScore() {
+        return 3;
+    }
+
+    @Override
     protected List<Movement> findMovements(Position positionToMove) {
-        for(List<Movement> checkingMovements : movements) {
-            if(canReachPositionToMove(checkingMovements, positionToMove)) {
-                return checkingMovements;
-            }
-        }
-        throw new IllegalArgumentException("불가능한 이동입니다");
+        return movements.stream()
+                .filter(checkingMovements -> canReachPositionToMove(checkingMovements, positionToMove))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("불가능한 이동입니다"));
     }
 
     private boolean canReachPositionToMove(List<Movement> checkingMovements, Position positionToMove) {
@@ -39,15 +47,5 @@ public class Elephant extends PathMovingPiece {
             }
         }
         return false;
-    }
-
-    @Override
-    public Piece from(Position position) {
-        return new Elephant(position, team);
-    }
-
-    @Override
-    public int getScore() {
-        return 3;
     }
 }

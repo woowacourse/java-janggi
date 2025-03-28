@@ -11,6 +11,16 @@ public class Cannon extends StraightMovingPiece {
     }
 
     @Override
+    public Piece from(Position position) {
+        return new Cannon(position, getTeam());
+    }
+
+    @Override
+    public int getScore() {
+        return 7;
+    }
+
+    @Override
     protected void validatePieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
         Position currentPosition = getPosition();
         int count = 0;
@@ -22,15 +32,15 @@ public class Cannon extends StraightMovingPiece {
         validateCount(count);
     }
 
-    private void validateCount(int count) {
-        if(count != 1) {
-            throw new IllegalArgumentException("포는 하나의 기물만 건너 뛰어야 합니다");
-        }
-    }
-
     private void validateIsCannon(Piece piece) {
         if(piece instanceof Cannon) {
             throw new IllegalArgumentException("포는 포를 잡지 못합니다");
+        }
+    }
+
+    private void validateCount(int count) {
+        if(count != 1) {
+            throw new IllegalArgumentException("포는 하나의 기물만 건너 뛰어야 합니다");
         }
     }
 
@@ -39,15 +49,5 @@ public class Cannon extends StraightMovingPiece {
             return 0;
         }
         return 1;
-    }
-
-    @Override
-    public Piece from(Position position) {
-        return new Cannon(position, getTeam());
-    }
-
-    @Override
-    public int getScore() {
-        return 7;
     }
 }

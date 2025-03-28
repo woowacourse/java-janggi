@@ -11,17 +11,6 @@ public class Chariot extends StraightMovingPiece {
     }
 
     @Override
-    protected void validatePieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
-        Position currentPosition = getPosition().plus(direction.getX(), direction.getY());
-        while (currentPosition.isNotEndPoint() && !currentPosition.equals(positionToMove)) {
-            if (pieces.get(currentPosition).isNotNone()) {
-                throw new IllegalArgumentException("불가능한 이동입니다");
-            }
-            currentPosition = currentPosition.plus(direction.getX(), direction.getY());
-        }
-    }
-
-    @Override
     public Piece from(Position position) {
         return new Chariot(position, getTeam());
     }
@@ -29,5 +18,20 @@ public class Chariot extends StraightMovingPiece {
     @Override
     public int getScore() {
         return 13;
+    }
+
+    @Override
+    protected void validatePieceCondition(Map<Position, Piece> pieces, Position positionToMove, Movement direction) {
+        Position currentPosition = getPosition().plus(direction.getX(), direction.getY());
+        while (currentPosition.isNotEndPoint() && !currentPosition.equals(positionToMove)) {
+            validateIsNotNone(pieces, currentPosition);
+            currentPosition = currentPosition.plus(direction.getX(), direction.getY());
+        }
+    }
+
+    private static void validateIsNotNone(Map<Position, Piece> pieces, Position currentPosition) {
+        if (pieces.get(currentPosition).isNotNone()) {
+            throw new IllegalArgumentException("불가능한 이동입니다");
+        }
     }
 }

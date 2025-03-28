@@ -139,6 +139,4 @@ public class JanggiPieceSetup {
         horses.add(new Horse(INITIAL_POSITIONS_RED_RIGHT_HORSE.get(rightHorsePosition.value()), Team.RED));
         return horses;
     }
-
-
 }
