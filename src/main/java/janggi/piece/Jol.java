@@ -35,7 +35,7 @@ public class Jol extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
-        if (janggiPosition.isPositionInCastle()) {
+        if (janggiPosition.isDiagonalPositionInCastle()) {
             List<JanggiPosition> gungPathPositions = GungDirection.of(janggiPosition, destination);
             return isValidMoveInCastle(gungPathPositions) && allyPieces.isNotBlockedBy(destination);
         }

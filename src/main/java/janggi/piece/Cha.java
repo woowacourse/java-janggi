@@ -35,7 +35,7 @@ public class Cha extends Piece {
 
     @Override
     protected boolean ableToMove(JanggiPosition destination, Pieces enemyPieces, Pieces allyPieces) {
-        if (janggiPosition.isPositionInCastle() && destination.isPositionInCastle()) {
+        if (janggiPosition.isDiagonalPositionInCastle() && destination.isDiagonalPositionInCastle()) {
             List<JanggiPosition> gungPathPositions = GungDirection.of(janggiPosition, destination);
             return isValidMoveInCastle(gungPathPositions)
                     && allyPieces.isPathBlockedBy(gungPathPositions)

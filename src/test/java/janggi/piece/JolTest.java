@@ -109,9 +109,9 @@ class JolTest {
     @DisplayName("졸이 궁성내에 있을 때 이동")
     @ParameterizedTest
     @MethodSource()
-    void test7(JanggiPosition destination) {
+    void test7(JanggiPosition currentPosition, JanggiPosition destination) {
         //given
-        Jol jol = Jol.from(new JanggiPosition(3,2));
+        Jol jol = Jol.from(currentPosition);
 
         //when
         boolean isMove = jol.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
@@ -122,9 +122,46 @@ class JolTest {
 
     static Stream<Arguments> test7() {
         return Stream.of(
-                Arguments.of(new JanggiPosition(4,2)),
-                Arguments.of(new JanggiPosition(3,1)),
-                Arguments.of(new JanggiPosition(4,1))
+                Arguments.of(new JanggiPosition(3,2), new JanggiPosition(4,2)),
+                Arguments.of(new JanggiPosition(3,2), new JanggiPosition(3,1)),
+                Arguments.of(new JanggiPosition(3,2), new JanggiPosition(4,1)),
+                Arguments.of(new JanggiPosition(5,2), new JanggiPosition(4,2)),
+                Arguments.of(new JanggiPosition(5,2), new JanggiPosition(5,1)),
+                Arguments.of(new JanggiPosition(5,2), new JanggiPosition(4,1)),
+                Arguments.of(new JanggiPosition(4,1), new JanggiPosition(3,1)),
+                Arguments.of(new JanggiPosition(4,1), new JanggiPosition(5,1)),
+                Arguments.of(new JanggiPosition(4,1), new JanggiPosition(4,0)),
+                Arguments.of(new JanggiPosition(4,1), new JanggiPosition(5,0)),
+                Arguments.of(new JanggiPosition(4,1), new JanggiPosition(3,0)),
+                Arguments.of(new JanggiPosition(3,0), new JanggiPosition(4,0)),
+                Arguments.of(new JanggiPosition(5,0), new JanggiPosition(4,0))
+        );
+    }
+
+    @DisplayName("졸이 궁성내에 있을 때 이동불가능한 경우")
+    @ParameterizedTest
+    @MethodSource()
+    void test8(JanggiPosition currentPosition, JanggiPosition destination) {
+        //given
+        Jol jol = Jol.from(currentPosition);
+
+        //when & then
+        assertThatThrownBy(
+                () -> jol.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()))
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동 가능한 방향이 없습니다.");
+    }
+
+    static Stream<Arguments> test8() {
+        return Stream.of(
+                Arguments.of(new JanggiPosition(4,2), new JanggiPosition(3,1)),
+                Arguments.of(new JanggiPosition(4,2), new JanggiPosition(5,1)),
+                Arguments.of(new JanggiPosition(3,1), new JanggiPosition(4,0)),
+                Arguments.of(new JanggiPosition(3,1), new JanggiPosition(4,2)),
+                Arguments.of(new JanggiPosition(5,1), new JanggiPosition(4,0)),
+                Arguments.of(new JanggiPosition(5,1), new JanggiPosition(4,2)),
+                Arguments.of(new JanggiPosition(4,0), new JanggiPosition(3,1)),
+                Arguments.of(new JanggiPosition(4,0), new JanggiPosition(5,1))
         );
     }
 }

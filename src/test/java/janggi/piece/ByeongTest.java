@@ -110,9 +110,9 @@ class ByeongTest {
     @DisplayName("병이 궁성내에 있을 때 이동")
     @ParameterizedTest
     @MethodSource()
-    void test6(JanggiPosition destination) {
+    void test6(JanggiPosition currentPosition, JanggiPosition destination) {
         //given
-        Byeong byeong = Byeong.from(new JanggiPosition(3,7));
+        Byeong byeong = Byeong.from(currentPosition);
 
         //when
         boolean isMove = byeong.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
@@ -123,9 +123,55 @@ class ByeongTest {
 
     static Stream<Arguments> test6() {
         return Stream.of(
-                Arguments.of(new JanggiPosition(4,7)),
-                Arguments.of(new JanggiPosition(3,8)),
-                Arguments.of(new JanggiPosition(4,8))
+                Arguments.of(new JanggiPosition(3,7), new JanggiPosition(4,7)),
+                Arguments.of(new JanggiPosition(3,7), new JanggiPosition(3,8)),
+                Arguments.of(new JanggiPosition(3,7), new JanggiPosition(4,8)),
+                Arguments.of(new JanggiPosition(4,7), new JanggiPosition(3,7)),
+                Arguments.of(new JanggiPosition(4,7), new JanggiPosition(5,7)),
+                Arguments.of(new JanggiPosition(4,7), new JanggiPosition(4,8)),
+                Arguments.of(new JanggiPosition(5,7), new JanggiPosition(4,7)),
+                Arguments.of(new JanggiPosition(5,7), new JanggiPosition(5,8)),
+                Arguments.of(new JanggiPosition(5,7), new JanggiPosition(4,8)),
+                Arguments.of(new JanggiPosition(3,8), new JanggiPosition(4,8)),
+                Arguments.of(new JanggiPosition(3,8), new JanggiPosition(3,9)),
+                Arguments.of(new JanggiPosition(4,8), new JanggiPosition(3,8)),
+                Arguments.of(new JanggiPosition(4,8), new JanggiPosition(5,8)),
+                Arguments.of(new JanggiPosition(4,8), new JanggiPosition(3,9)),
+                Arguments.of(new JanggiPosition(4,8), new JanggiPosition(5,9)),
+                Arguments.of(new JanggiPosition(4,8), new JanggiPosition(4,9)),
+                Arguments.of(new JanggiPosition(5,8), new JanggiPosition(4,8)),
+                Arguments.of(new JanggiPosition(5,8), new JanggiPosition(5,9)),
+                Arguments.of(new JanggiPosition(3,9), new JanggiPosition(4,9)),
+                Arguments.of(new JanggiPosition(4,9), new JanggiPosition(3,9)),
+                Arguments.of(new JanggiPosition(4,9), new JanggiPosition(5,9)),
+                Arguments.of(new JanggiPosition(5,9), new JanggiPosition(4,9))
+        );
+    }
+
+    @DisplayName("병이 궁성내에 있을 때 이동불가능한 경우")
+    @ParameterizedTest
+    @MethodSource()
+    void test7(JanggiPosition currentPosition, JanggiPosition destination) {
+        //given
+        Byeong byeong = Byeong.from(currentPosition);
+
+        //when & then
+        assertThatThrownBy(
+                () -> byeong.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()))
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동 가능한 방향이 없습니다.");
+    }
+
+    static Stream<Arguments> test7() {
+        return Stream.of(
+                Arguments.of(new JanggiPosition(4,7), new JanggiPosition(3,8)),
+                Arguments.of(new JanggiPosition(4,7), new JanggiPosition(5,8)),
+                Arguments.of(new JanggiPosition(3,8), new JanggiPosition(4,7)),
+                Arguments.of(new JanggiPosition(3,8), new JanggiPosition(4,9)),
+                Arguments.of(new JanggiPosition(5,8), new JanggiPosition(4,7)),
+                Arguments.of(new JanggiPosition(5,8), new JanggiPosition(4,9)),
+                Arguments.of(new JanggiPosition(4,9), new JanggiPosition(3,8)),
+                Arguments.of(new JanggiPosition(4,9), new JanggiPosition(5,8))
         );
     }
 

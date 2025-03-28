@@ -3,62 +3,70 @@ package janggi.piece.direction;
 import janggi.value.JanggiPosition;
 import janggi.value.RelativePosition;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public enum GungDirection {
-    RIGHT(List.of(), new RelativePosition(1,0)),
-    RIGHT_RIGHT(List.of(new RelativePosition(1,0)), new RelativePosition(2,0)),
-    LEFT(List.of(), new RelativePosition(-1,0)),
-    LEFT_LEFT(List.of(new RelativePosition(-1,0)), new RelativePosition(-2,0)),
-    UP(List.of(), new RelativePosition(0,1)),
-    UP_UP(List.of(new RelativePosition(0,1)), new RelativePosition(0,2)),
-    DOWN(List.of(), new RelativePosition(0,-1)),
-    DOWN_DOWN(List.of(new RelativePosition(0,-1)), new RelativePosition(0,-2)),
-    LEFT_TO_RIGHT_DOWN_DIAGONAL(List.of(), new RelativePosition(1,1)),
-    RIGHT_TO_LEFT_DOWN_DIAGONAL(List.of(), new RelativePosition(-1,1)),
-    LEFT_TO_RIGHT_UP_DIAGONAL(List.of(), new RelativePosition(1,-1)),
-    RIGHT_TO_LEFT_UP_DIAGONAL(List.of(), new RelativePosition(-1,-1)),
-    LEFT_TO_RIGHT_TWO_DOWN_DIAGONAL(List.of(new RelativePosition(1,1)), new RelativePosition(2,2)),
-    RIGHT_TO_LEFT_TWO_DOWN_DIAGONAL(List.of(new RelativePosition(-1,1)), new RelativePosition(-2,2)),
-    LEFT_TO_RIGHT_TWO_UP_DIAGONAL(List.of(new RelativePosition(1,-1)), new RelativePosition(2,-2)),
-    RIGHT_TO_LEFT_TWO_UP_DIAGONAL(List.of(new RelativePosition(-1,-1)), new RelativePosition(-2,-2)),
-    ;
-    private final List<RelativePosition> routes;
-    private final RelativePosition destinationPosition;
+    // 1칸 직선 이동
+    RIGHT(1, 0),
+    LEFT(-1, 0),
+    UP(0, 1),
+    DOWN(0, -1),
 
-    GungDirection(final List<RelativePosition> routes, final RelativePosition destinationPosition) {
-        this.routes = routes;
-        this.destinationPosition = destinationPosition;
+    // 2칸 직선 이동 (경로 포함)
+    RIGHT_RIGHT(2, 0, new RelativePosition(1, 0)),
+    LEFT_LEFT(-2, 0, new RelativePosition(-1, 0)),
+    UP_UP(0, 2, new RelativePosition(0, 1)),
+    DOWN_DOWN(0, -2, new RelativePosition(0, -1)),
+
+    // 1칸 대각선 이동
+    UP_RIGHT(1, 1),
+    UP_LEFT(-1, 1),
+    DOWN_RIGHT(1, -1),
+    DOWN_LEFT(-1, -1),
+
+    // 2칸 대각선 이동 (경로 포함)
+    UP_RIGHT_TWO(2, 2, new RelativePosition(1, 1)),
+    UP_LEFT_TWO(-2, 2, new RelativePosition(-1, 1)),
+    DOWN_RIGHT_TWO(2, -2, new RelativePosition(1, -1)),
+    DOWN_LEFT_TWO(-2, -2, new RelativePosition(-1, -1));
+
+    private final RelativePosition destination;
+    private final List<RelativePosition> intermediates;
+
+    GungDirection(final int dx, final int dy) {
+        this.destination = new RelativePosition(dx, dy);
+        this.intermediates = List.of();
     }
 
-    public static List<JanggiPosition> of(final JanggiPosition currentPosition, final JanggiPosition destination) {
-        int dx = destination.x() - currentPosition.x();
-        int dy = destination.y() - currentPosition.y();
-
-        GungDirection gungDirection = findDirection(dx, dy);
-
-        return generatePositions(currentPosition, destination, gungDirection.routes);
+    GungDirection(final int dx, final int dy, final RelativePosition intermediate) {
+        this.destination = new RelativePosition(dx, dy);
+        this.intermediates = List.of(intermediate);
     }
 
-    private static GungDirection findDirection(int dx, int dy) {
-        return Arrays.stream(GungDirection.values())
-                .filter(gungDirection -> gungDirection.destinationPosition.equals(new RelativePosition(dx,dy)))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 궁성 내에서 이동 가능한 경로가 없습니다."));
+    public static List<JanggiPosition> of(JanggiPosition start, JanggiPosition end) {
+        int dx = end.x() - start.x();
+        int dy = end.y() - start.y();
+        RelativePosition difference = new RelativePosition(dx, dy);
+
+        for (GungDirection gungDirection : values()) {
+            if (gungDirection.destination.equals(difference)) {
+                return buildPath(start, gungDirection);
+            }
+        }
+        throw new IllegalArgumentException("[ERROR] 궁성 내에서 이동 가능한 경로가 없습니다.");
     }
 
-    private static List<JanggiPosition> generatePositions(JanggiPosition start, JanggiPosition end, List<RelativePosition> routes) {
-        List<JanggiPosition> positions = new ArrayList<>();
-        if (routes.isEmpty()) {
-            positions.add(end);
-            return positions;
+    private static List<JanggiPosition> buildPath(JanggiPosition start, GungDirection dir) {
+        List<JanggiPosition> path = new ArrayList<>();
+
+        // 중간 위치 추가
+        for (RelativePosition pos : dir.intermediates) {
+            path.add(new JanggiPosition(start.x() + pos.x(), start.y() + pos.y()));
         }
 
-        for (RelativePosition relativePosition : routes) {
-            positions.add(new JanggiPosition(relativePosition.x() + start.x(), relativePosition.y() + start.y()));
-        }
-        positions.add(end);
-        return positions;
+        // 최종 위치 추가
+        path.add(new JanggiPosition(start.x() + dir.destination.x(), start.y() + dir.destination.y()));
+
+        return path;
     }
 }

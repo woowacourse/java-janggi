@@ -58,7 +58,7 @@ class GungTest {
         return Stream.of(
                 Arguments.of(new JanggiPosition(STANDARD.x() + 2, STANDARD.y())),
                 Arguments.of(new JanggiPosition(STANDARD.x() - 2, STANDARD.y())),
-                Arguments.of(new JanggiPosition(STANDARD.x(),STANDARD.y()-2))
+                Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() - 2))
         );
     }
 
@@ -81,7 +81,7 @@ class GungTest {
     void test4() {
         //given
         Gung gung = Gung.from(STANDARD);
-        JanggiPosition destination = new JanggiPosition(5,8);
+        JanggiPosition destination = new JanggiPosition(5, 8);
         Cha enemyCha = Cha.from(destination);
         Pieces enemyPieces = new Pieces(List.of(enemyCha));
 
@@ -90,5 +90,42 @@ class GungTest {
 
         //then
         Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
+    }
+
+    @DisplayName("궁안에서 대각선으로 이동 가능하다.")
+    @ParameterizedTest
+    @MethodSource()
+    void test5(JanggiPosition destination) {
+        //given
+        Gung gung = Gung.from(STANDARD);
+
+        //when
+        boolean isMoving = gung.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(isMoving).isTrue();
+
+    }
+
+    static Stream<Arguments> test5() {
+        return Stream.of(
+                Arguments.of(new JanggiPosition(3, 7)),
+                Arguments.of(new JanggiPosition(5, 7)),
+                Arguments.of(new JanggiPosition(5, 9)),
+                Arguments.of(new JanggiPosition(3, 9))
+        );
+    }
+
+    @DisplayName("궁 밖으로 나갈 수 없다.")
+    @Test
+    void test6() {
+        //given
+        Gung gung = Gung.from(new JanggiPosition(3,8));
+        JanggiPosition destination = new JanggiPosition(2,8);
+        //when
+        boolean isMoving = gung.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(isMoving).isFalse();
     }
 }

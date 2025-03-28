@@ -211,9 +211,9 @@ class PoTest {
     @DisplayName("포가 궁성내에 있을 때 이동")
     @ParameterizedTest
     @MethodSource()
-    void test10(Jol allies, JanggiPosition  destination) {
+    void test10(JanggiPosition currentPosition, Jol allies, JanggiPosition  destination) {
         //given
-        Po po = Po.from(new JanggiPosition(3,2));
+        Po po = Po.from(currentPosition);
 
         //when
         boolean isMove = po.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of(allies)));
@@ -224,9 +224,47 @@ class PoTest {
 
     static Stream<Arguments> test10() {
         return Stream.of(
-                Arguments.of(Jol.from(new JanggiPosition(3,1)), new JanggiPosition(3,0)),
-                Arguments.of(Jol.from(new JanggiPosition(4,1)),new JanggiPosition(5,0)),
-                Arguments.of(Jol.from(new JanggiPosition(4,2)),new JanggiPosition(5,2))
+                Arguments.of(new JanggiPosition(3,2), Jol.from(new JanggiPosition(3,1)), new JanggiPosition(3,0)),
+                Arguments.of(new JanggiPosition(3,2), Jol.from(new JanggiPosition(4,1)),new JanggiPosition(5,0)),
+                Arguments.of(new JanggiPosition(3,2), Jol.from(new JanggiPosition(4,2)),new JanggiPosition(5,2)),
+                Arguments.of(new JanggiPosition(5,2), Jol.from(new JanggiPosition(5,1)), new JanggiPosition(5,0)),
+                Arguments.of(new JanggiPosition(5,2), Jol.from(new JanggiPosition(4,1)),new JanggiPosition(3,0)),
+                Arguments.of(new JanggiPosition(5,2), Jol.from(new JanggiPosition(4,2)),new JanggiPosition(3,2)),
+                Arguments.of(new JanggiPosition(3,0), Jol.from(new JanggiPosition(4,0)), new JanggiPosition(5,0)),
+                Arguments.of(new JanggiPosition(3,0), Jol.from(new JanggiPosition(4,1)),new JanggiPosition(5,2)),
+                Arguments.of(new JanggiPosition(3,0), Jol.from(new JanggiPosition(3,1)),new JanggiPosition(3,2)),
+                Arguments.of(new JanggiPosition(5,0), Jol.from(new JanggiPosition(4,0)), new JanggiPosition(3,0)),
+                Arguments.of(new JanggiPosition(5,0), Jol.from(new JanggiPosition(4,1)),new JanggiPosition(3,2)),
+                Arguments.of(new JanggiPosition(5,0), Jol.from(new JanggiPosition(5,1)),new JanggiPosition(5,2))
+        );
+    }
+
+    @DisplayName("포가 궁성내에 있을 경우 못 움직이는 경우 확인")
+    @ParameterizedTest
+    @MethodSource()
+    void test11(JanggiPosition currentPosition, Jol allies, JanggiPosition  destination) {
+        //given
+        Po po = Po.from(currentPosition);
+
+        //when
+        boolean isMoved = po.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of(allies)));
+
+        //then
+        Assertions.assertThat(isMoved).isFalse();
+    }
+
+    static Stream<Arguments> test11() {
+        return Stream.of(
+                Arguments.of(new JanggiPosition(4,0), Jol.from(new JanggiPosition(3,1)), new JanggiPosition(2,2)),
+                Arguments.of(new JanggiPosition(4,0), Jol.from(new JanggiPosition(5,1)), new JanggiPosition(6,2)),
+                Arguments.of(new JanggiPosition(3,1), Jol.from(new JanggiPosition(4,2)), new JanggiPosition(5,3)),
+                Arguments.of(new JanggiPosition(3,1), Jol.from(new JanggiPosition(2,2)), new JanggiPosition(1,3)),
+                Arguments.of(new JanggiPosition(5,1), Jol.from(new JanggiPosition(4,2)), new JanggiPosition(3,3)),
+                Arguments.of(new JanggiPosition(5,1), Jol.from(new JanggiPosition(6,2)), new JanggiPosition(7,3)),
+                Arguments.of(new JanggiPosition(4,2), Jol.from(new JanggiPosition(3,1)), new JanggiPosition(2,0)),
+                Arguments.of(new JanggiPosition(4,2), Jol.from(new JanggiPosition(5,1)), new JanggiPosition(6,0)),
+                Arguments.of(new JanggiPosition(4,2), Jol.from(new JanggiPosition(3,3)), new JanggiPosition(2,4)),
+                Arguments.of(new JanggiPosition(4,2), Jol.from(new JanggiPosition(5,3)), new JanggiPosition(6,4))
         );
     }
 }

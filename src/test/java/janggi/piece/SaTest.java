@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class SaTest {
 
-    static final JanggiPosition STANDARD = new JanggiPosition(4, 4);
+    static final JanggiPosition STANDARD = new JanggiPosition(4, 8);
 
     @DisplayName("장기말을 이동시킬 수 있다.")
     @ParameterizedTest
@@ -58,7 +58,6 @@ class SaTest {
         return Stream.of(
                 Arguments.of(new JanggiPosition(STANDARD.x() + 2, STANDARD.y())),
                 Arguments.of(new JanggiPosition(STANDARD.x() - 2, STANDARD.y())),
-                Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() + 2)),
                 Arguments.of(new JanggiPosition(STANDARD.x(), STANDARD.y() - 2))
         );
     }
@@ -82,7 +81,7 @@ class SaTest {
     void test4() {
         //given
         Sa sa = Sa.from(STANDARD);
-        JanggiPosition destination = new JanggiPosition(5,4);
+        JanggiPosition destination = new JanggiPosition(4,9);
         Cha enemyCha = Cha.from(destination);
         Pieces enemyPieces = new Pieces(List.of(enemyCha));
 
@@ -91,5 +90,42 @@ class SaTest {
 
         //then
         Assertions.assertThat(enemyPieces.isNotBlockedBy(destination)).isTrue();
+    }
+
+    @DisplayName("궁안에서 대각선으로 이동 가능하다.")
+    @ParameterizedTest
+    @MethodSource()
+    void test5(JanggiPosition destination) {
+        //given
+        Sa sa = Sa.from(STANDARD);
+
+        //when
+        boolean isMoving = sa.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(isMoving).isTrue();
+
+    }
+
+    static Stream<Arguments> test5() {
+        return Stream.of(
+                Arguments.of(new JanggiPosition(3, 7)),
+                Arguments.of(new JanggiPosition(5, 7)),
+                Arguments.of(new JanggiPosition(5, 9)),
+                Arguments.of(new JanggiPosition(3, 9))
+        );
+    }
+
+    @DisplayName("궁 밖으로 나갈 수 없다.")
+    @Test
+    void test6() {
+        //given
+        Sa sa = Sa.from(new JanggiPosition(3,8));
+        JanggiPosition destination = new JanggiPosition(2,8);
+        //when
+        boolean isMoving = sa.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(isMoving).isFalse();
     }
 }

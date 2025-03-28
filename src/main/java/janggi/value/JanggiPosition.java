@@ -1,7 +1,5 @@
 package janggi.value;
 
-import java.util.List;
-
 public record JanggiPosition(int x, int y) {
     private final static int X_MIN = 0;
     private final static int X_MAX = 8;
@@ -19,10 +17,13 @@ public record JanggiPosition(int x, int y) {
     }
 
     public boolean isPositionInCastle() {
-        if (x == 3 || x == 4 || x == 5) {
-            return y == 0 || y == 1 || y == 2 || y == 7 || y == 8 || y == 9;
+        return x >= 3 && x <= 5 && ((y >= 0 && y <= 2) || (y >= 7 && y <= 9));
+    }
+    public boolean isDiagonalPositionInCastle() {
+        if ((x == 3 || x == 5) && ((y == 0) || (y == 2) || (y == 7) || (y == 9))) {
+            return true;
         }
-        return false;
+        return x == 4 &&( (y == 1) || (y == 8));
     }
 
     @Override

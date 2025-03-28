@@ -152,9 +152,9 @@ class ChaTest {
     @DisplayName("차가 궁성내에 있을 때 이동")
     @ParameterizedTest
     @MethodSource()
-    void test9(JanggiPosition  destination) {
+    void test9(JanggiPosition currentPosition, JanggiPosition  destination) {
         //given
-        Cha cha = Cha.from(new JanggiPosition(3,2));
+        Cha cha = Cha.from(currentPosition);
 
         //when
         boolean isMove = cha.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
@@ -165,12 +165,62 @@ class ChaTest {
 
     static Stream<Arguments> test9() {
         return Stream.of(
-                Arguments.of(new JanggiPosition(3,1)),
-                Arguments.of(new JanggiPosition(3,0)),
-                Arguments.of(new JanggiPosition(4,1)),
-                Arguments.of(new JanggiPosition(5,0)),
-                Arguments.of(new JanggiPosition(4,2)),
-                Arguments.of(new JanggiPosition(5,2))
+                Arguments.of(new JanggiPosition(3,2), new JanggiPosition(3,1)),
+                Arguments.of(new JanggiPosition(3,2), new JanggiPosition(3,0)),
+                Arguments.of(new JanggiPosition(3,2), new JanggiPosition(4,1)),
+                Arguments.of(new JanggiPosition(3,2), new JanggiPosition(5,0)),
+                Arguments.of(new JanggiPosition(3,2), new JanggiPosition(4,2)),
+                Arguments.of(new JanggiPosition(3,2), new JanggiPosition(5,2)),
+                Arguments.of(new JanggiPosition(5,2), new JanggiPosition(3,2)),
+                Arguments.of(new JanggiPosition(5,2), new JanggiPosition(4,2)),
+                Arguments.of(new JanggiPosition(5,2), new JanggiPosition(5,1)),
+                Arguments.of(new JanggiPosition(5,2), new JanggiPosition(5,0)),
+                Arguments.of(new JanggiPosition(5,2), new JanggiPosition(4,1)),
+                Arguments.of(new JanggiPosition(5,2), new JanggiPosition(3,0)),
+                Arguments.of(new JanggiPosition(4,1), new JanggiPosition(3,0)),
+                Arguments.of(new JanggiPosition(4,1), new JanggiPosition(5,0)),
+                Arguments.of(new JanggiPosition(4,1), new JanggiPosition(5,2)),
+                Arguments.of(new JanggiPosition(4,1), new JanggiPosition(3,2)),
+                Arguments.of(new JanggiPosition(3,0), new JanggiPosition(4,0)),
+                Arguments.of(new JanggiPosition(3,0), new JanggiPosition(5,0)),
+                Arguments.of(new JanggiPosition(3,0), new JanggiPosition(4,1)),
+                Arguments.of(new JanggiPosition(3,0), new JanggiPosition(5,2)),
+                Arguments.of(new JanggiPosition(3,0), new JanggiPosition(3,1)),
+                Arguments.of(new JanggiPosition(3,0), new JanggiPosition(3,2)),
+                Arguments.of(new JanggiPosition(5,0), new JanggiPosition(4,0)),
+                Arguments.of(new JanggiPosition(5,0), new JanggiPosition(3,0)),
+                Arguments.of(new JanggiPosition(5,0), new JanggiPosition(4,1)),
+                Arguments.of(new JanggiPosition(5,0), new JanggiPosition(3,2)),
+                Arguments.of(new JanggiPosition(5,0), new JanggiPosition(5,1)),
+                Arguments.of(new JanggiPosition(5,0), new JanggiPosition(5,2))
+        );
+    }
+
+    @DisplayName("차가 궁성내에 있을 경우 못 움직이는 경우 확인")
+    @ParameterizedTest
+    @MethodSource()
+    void test10(JanggiPosition currentPosition, JanggiPosition  destination) {
+        //given
+        Cha cha = Cha.from(currentPosition);
+
+        //when
+        boolean isMoved = cha.ableToMove(destination, new Pieces(List.of()), new Pieces(List.of()));
+
+        //then
+        Assertions.assertThat(isMoved).isFalse();
+    }
+
+    static Stream<Arguments> test10() {
+        return Stream.of(
+                Arguments.of(new JanggiPosition(4,0), new JanggiPosition(3,1)),
+                Arguments.of(new JanggiPosition(4,0), new JanggiPosition(5,1)),
+                Arguments.of(new JanggiPosition(3,1), new JanggiPosition(4,0)),
+                Arguments.of(new JanggiPosition(3,1), new JanggiPosition(4,2)),
+                Arguments.of(new JanggiPosition(5,1), new JanggiPosition(4,0)),
+                Arguments.of(new JanggiPosition(5,1), new JanggiPosition(4,2)),
+                Arguments.of(new JanggiPosition(4,2), new JanggiPosition(3,1)),
+                Arguments.of(new JanggiPosition(4,2), new JanggiPosition(5,1))
+
         );
     }
 }
