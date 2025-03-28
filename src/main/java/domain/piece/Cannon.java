@@ -17,35 +17,52 @@ public class Cannon extends AbstractPiece {
     public List<Point> calculatePossiblePoint(final Point fromPoint, final Point toPoint) {
         final Direction direction = fromPoint.generateDirection(toPoint);
 
+        if (isDiagonalDirectionInPalace(fromPoint, toPoint, direction)) {
+            return searchPalacePossiblePoint(fromPoint);
+        }
+
         if (direction.isRight()) {
-            return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxX(), toPoint, Point::right);
+            return searchPossiblePoint(fromPoint, direction.horizontalDistance(), Point::right);
         }
         if (direction.isLeft()) {
-            return searchPossiblePoint(fromPoint, fromPoint.distanceToMinX(), toPoint, Point::left);
+            return searchPossiblePoint(fromPoint, direction.horizontalDistance(), Point::left);
         }
         if (direction.isUp()) {
-            return searchPossiblePoint(fromPoint, fromPoint.distanceToMaxY(), toPoint, Point::up);
+            return searchPossiblePoint(fromPoint, direction.verticalDistance(), Point::up);
         }
         if (direction.isDown()) {
-            return searchPossiblePoint(fromPoint, fromPoint.distanceToMinY(), toPoint, Point::down);
+            return searchPossiblePoint(fromPoint, direction.verticalDistance(), Point::down);
         }
         throw new IllegalArgumentException("해당 방향으로 움직일 수 없습니다.");
     }
 
+    private static boolean isDiagonalDirectionInPalace(
+            final Point fromPoint,
+            final Point toPoint,
+            final Direction direction
+    ) {
+        return fromPoint.isPalace() && toPoint.isPalace() && isDiagonalDirection(direction);
+    }
+
+    private List<Point> searchPalacePossiblePoint(final Point fromPoint) {
+        if (fromPoint.isGreenPalace()) {
+            final Point greenPalaceCenter = Point.newInstance(4, 1);
+            return List.of(greenPalaceCenter);
+        }
+
+        final Point redPalaceCenter = Point.newInstance(4, 8);
+        return List.of(redPalaceCenter);
+    }
+
     private List<Point> searchPossiblePoint(
             final Point fromPoint,
-            final int bordEdge,
-            final Point toPoint,
+            final int count,
             final UnaryOperator<Point> directionOperator
-
     ) {
         final List<Point> possiblePoint = new ArrayList<>();
         Point target = fromPoint;
-        for (int i = 0; i < bordEdge; i++) {
+        for (int i = 1; i < count; i++) {
             target = directionOperator.apply(target);
-            if (target.equals(toPoint)) {
-                break;
-            }
             possiblePoint.add(target);
         }
         return possiblePoint;
@@ -54,7 +71,11 @@ public class Cannon extends AbstractPiece {
     @Override
     public boolean isMovable(final Point fromPoint, final Point toPoint) {
         final Direction direction = fromPoint.generateDirection(toPoint);
-        return isCannonMovement(direction);
+        return isCannonMovement(direction) || isDiagonalDirectionInPalace(fromPoint, toPoint, direction);
+    }
+
+    private static boolean isDiagonalDirection(final Direction direction) {
+        return direction.calculateDistance() == Point.DIAGONAL_UNIT * 2;
     }
 
     private static boolean isCannonMovement(final Direction direction) {
