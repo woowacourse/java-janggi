@@ -72,6 +72,30 @@ class PoTest {
         // When & Then
         assertThatThrownBy(() -> po.makePath(currentPosition, arrivalPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 포는 한 방향으로만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 포는 이어진 선을 따라서만 이동할 수 있습니다.");
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void 포는_간선을_따라_대각선으로_움직인다(final int currentY, final int currentX, final int arrivalY,
+                              final int arrivalX,
+                              final List<Position> expected) {
+        // Given
+        Position currentPosition = new Position(currentY, currentX);
+        Position arrivalPosition = new Position(arrivalY, arrivalX);
+
+        // When
+        Path path = po.makePath(currentPosition, arrivalPosition);
+
+        // Then
+        assertThat(path).isEqualTo(new Path(expected));
+    }
+
+    private static Stream<Arguments> 포는_간선을_따라_대각선으로_움직인다() {
+        return Stream.of(
+                Arguments.of(1, 4, 3, 6, List.of(new Position(2, 5), new Position(3, 6))),
+
+                Arguments.of(3, 4, 1, 6, List.of(new Position(2, 5), new Position(1, 6)))
+        );
     }
 }

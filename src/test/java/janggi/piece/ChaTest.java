@@ -72,6 +72,49 @@ class ChaTest {
         // When & Then
         assertThatThrownBy(() -> cha.makePath(currentPosition, arrivalPosition))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 차는 한 방향으로만 이동할 수 있습니다.");
+                .hasMessageContaining("[ERROR] 차는 이어진 선을 따라서만 이동할 수 있습니다.");
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void 차는_궁성_안에서_간선을_따라_대각선으로_이동한다(final int currentY, final int currentX, final int arrivalY,
+                                     final int arrivalX, final List<Position> expected) {
+        // Given
+        Position currentPosition = new Position(currentY, currentX);
+        Position arrivalPosition = new Position(arrivalY, arrivalX);
+
+        // When
+        Path path = cha.makePath(currentPosition, arrivalPosition);
+
+        // Then
+        assertThat(path)
+                .isEqualTo(new Path(expected));
+    }
+
+    private static Stream<Arguments> 차는_궁성_안에서_간선을_따라_대각선으로_이동한다() {
+        return Stream.of(
+                Arguments.of(1, 4, 3, 6, List.of(new Position(2, 5), new Position(3, 6))),
+
+                Arguments.of(1, 4, 2, 5, List.of(new Position(2, 5))),
+
+                Arguments.of(1, 6, 3, 4, List.of(new Position(2, 5), new Position(3, 4)))
+        );
+    }
+
+    @Test
+    void 차는_궁성_안에서_간선이_이어지지_않았다면_이동할_수_없다() {
+        // Given
+        final int currentY = 8;
+        final int currentX = 5;
+        final int arrivalY = 9;
+        final int arrivalX = 4;
+
+        Position currentPosition = new Position(currentY, currentX);
+        Position arrivalPosition = new Position(arrivalY, arrivalX);
+
+        // When & Then
+        assertThatThrownBy(() -> cha.makePath(currentPosition, arrivalPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 차는 이어진 선을 따라서만 이동할 수 있습니다.");
     }
 }
