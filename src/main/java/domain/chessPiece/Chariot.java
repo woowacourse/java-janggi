@@ -16,13 +16,19 @@ public class Chariot extends UnlimitedMoveChessPiece {
             Direction.UP,
             Direction.DOWN,
             Direction.LEFT,
-            Direction.RIGHT
+            Direction.RIGHT,
+            Direction.LEFT_UP,
+            Direction.LEFT_DOWN,
+            Direction.RIGHT_UP,
+            Direction.RIGHT_DOWN
     );
+
     private final HurdlePolicy hurdlePolicy = new StopAtHurdlePolicy();
 
     public Chariot(final ChessTeam team) {
         super(team, directions);
     }
+
 
     public static Map<ChessPosition, ChessPiece> initPieces() {
         return Map.of(
