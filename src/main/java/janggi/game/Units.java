@@ -1,10 +1,10 @@
 package janggi.game;
 
 import janggi.position.Position;
-import janggi.unit.DefaultUnitPosition;
-import janggi.unit.Team;
-import janggi.unit.Unit;
-import janggi.unit.UnitType;
+import janggi.piece.DefaultUnitPosition;
+import janggi.piece.Team;
+import janggi.piece.Unit;
+import janggi.piece.UnitType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package janggi.unit;
+package janggi.piece;
 
 import janggi.position.Position;
 import janggi.position.Route;
@@ -12,7 +12,7 @@ public class SoldierUnitRule implements UnitRule {
 
         int x = start.getX();
         int y = start.getY();
-        for (Direction direction : Direction.getStraight()) {
+        for (Direction direction : Direction.getStraight(Team.CHO)) {
             addRouteIfCanBePosition(direction, x, y, routes);
         }
         return routes;
