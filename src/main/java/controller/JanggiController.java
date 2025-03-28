@@ -29,7 +29,7 @@ public class JanggiController {
         }
     }
 
-    private void start(JanggiGame janggiGame) {
+    private void start(final JanggiGame janggiGame) {
         while (true) {
             OutputView.printBoard(janggiGame.board());
             OutputView.printTurn(janggiGame.turnTeam());
@@ -59,7 +59,7 @@ public class JanggiController {
         }
     }
 
-    private void move(JanggiGame janggiGame) {
+    private void move(final JanggiGame janggiGame) {
         ErrorHandler.retryUntilSuccess(() -> {
             MoveCommand moveCommand = InputView.inputMoveCommand();
             janggiGame.movePiece(moveCommand);
@@ -70,7 +70,7 @@ public class JanggiController {
         return ErrorHandler.retryUntilSuccess(() -> InputView.inputSangMaOrder(team));
     }
 
-    private void printStatus(JanggiGame janggiGame) {
+    private void printStatus(final JanggiGame janggiGame) {
         Map<Team, Score> totalScoreByTeam = janggiGame.calculateTotalScoreByTeam();
         OutputView.printScore(totalScoreByTeam);
     }

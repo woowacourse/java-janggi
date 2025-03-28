@@ -27,7 +27,7 @@ public class JanggiGame {
         this.scoreCalculator = scoreCalculator;
     }
 
-    public void movePiece(MoveCommand moveCommand) {
+    public void movePiece(final MoveCommand moveCommand) {
         Node sourceNode = board.findNodeByPoint(moveCommand.source());
         Node destinationNode = board.findNodeByPoint(moveCommand.destination());
         if (!board.hasPieceTeamByNode(sourceNode, turnTeam())) {

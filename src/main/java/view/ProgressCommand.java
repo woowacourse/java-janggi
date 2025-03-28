@@ -12,7 +12,7 @@ public enum ProgressCommand {
 
     private final String input;
 
-    ProgressCommand(String input) {
+    ProgressCommand(final String input) {
         this.input = input;
     }
 
