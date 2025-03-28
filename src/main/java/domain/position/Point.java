@@ -44,6 +44,10 @@ public final class Point {
         return isGreenPalace() || isRedPalace();
     }
 
+    public boolean isDiagonalPalace() {
+        return isGreenDiagonalPalace() || isRedDiagonalPalace();
+    }
+
     public boolean isGreenDiagonalPalace() {
         return isGreenPalace() && !isGreenPalacePoint();
     }
