@@ -3,7 +3,7 @@ package domain.direction;
 import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
-import domain.position.normal.NormalPosition;
+import domain.position.NormalPosition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
