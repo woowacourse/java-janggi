@@ -53,7 +53,34 @@ public class Board {
         turn.changeTurn();
     }
 
-    public int getTeamScore(Team team) {
-        return pieces.calculateTeamScore(team);
+    public double getTeamScore(Team team) {
+        return pieces.calculateTeamScore().calculateTeamScore(team);
+    }
+
+    public boolean isGameEnd(Team currentTeam) {
+        Team otherTeam = Team.getOhterTeam(currentTeam);
+        return turn.isDraw() || isGeneralDead(otherTeam);
+    }
+
+    public Team getWinner(Team currentTeam) {
+        if (turn.isDraw()) { // 무승부가 됐다면 점수계산
+            return getWinnerWithScore(currentTeam);
+        }
+        return currentTeam; // 게임이 끝났는데, 지금턴은 왕이 죽어서 끝날 수 없으니 현재턴이 승리
+    }
+
+    private Team getWinnerWithScore(Team currentTeam) {
+        Team otherTeam = Team.getOhterTeam(currentTeam);
+        double currentTeamPoint = getTeamScore(currentTeam);
+        double otherTeamPoint = getTeamScore(otherTeam);
+
+        if (currentTeamPoint > otherTeamPoint) {
+            return currentTeam;
+        }
+        return otherTeam;
+    }
+
+    private boolean isGeneralDead(Team otherTeam) {
+        return pieces.isGeneralDead(otherTeam);
     }
 }
