@@ -7,6 +7,7 @@ import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import domain.player.TeamType;
 import exceptions.JanggiGameRuleWarningException;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,41 +25,60 @@ public final class GeneralTest {
         assertThat(piece.hasEqualTeam(TeamType.HAN)).isFalse();
     }
 
-    @Test
-    @DisplayName("궁의 도착점들을 확인하고자 할 경우, 예외를 던진다")
-    void test_isAbleToArrive() {
-        // given
-        final General general = new General(TeamType.CHO);
-
-        // when & then
-        assertThatThrownBy(() -> general.isAbleToArrive(new Point(3, 2), new Point(2, 3)))
-                .isInstanceOf(JanggiGameRuleWarningException.class);
-    }
 
     @Test
-    @DisplayName("궁을 이동 가능 여부를 확인할 경우, 예외가 발생한다.")
-    void test_isMovableOnRoute() {
-        // given
-        final General general = new General(TeamType.CHO);
-        final Piece piece = new Soldier(TeamType.HAN);
-        final PiecesOnRoute pieces = new PiecesOnRoute(List.of(piece));
-
-        // when & then
-        assertThatThrownBy(() -> general.isMovableOnRoute(pieces))
-                .isInstanceOf(JanggiGameRuleWarningException.class);
-    }
-
-    @Test
-    @DisplayName("궁의 이동 경로상 좌표를 요청할 경우, 예외가 발생한다.")
+    @DisplayName("경로에 있는 모든 지점들을 반환한다")
     void test_getRoutePoints() {
         // given
-        final General general = new General(TeamType.CHO);
+        final Piece general = new General(TeamType.CHO);
+        final Point startPoint = new Point(0, 3);
+        final Point arrivalPoint = new Point(1, 4);
 
-        // when & then
-        assertThatThrownBy(() -> general.getRoutePoints(new Point(3, 2), new Point(2, 3)))
-                .isInstanceOf(JanggiGameRuleWarningException.class);
+        // when
+        final List<Point> routePoints = general.getRoutePoints(startPoint, arrivalPoint);
+
+        // then
+        assertThat(routePoints).containsExactlyInAnyOrder(
+                new Point(1, 4)
+        );
     }
 
+    @Test
+    @DisplayName("입력한 지점이 궁성 외부일 경우, 예외를 발생시킨다.")
+    void test_getRoutePointsInOutRangeOfPalace() {
+        // given
+        final Piece general = new General(TeamType.CHO);
+        final Point startPoint = new Point(0, 0);
+        final Point arrivalPoint = new Point(1, 1);
+
+        // when
+        assertThatThrownBy(() -> general.getRoutePoints(startPoint, arrivalPoint))
+                .isInstanceOf(JanggiGameRuleWarningException.class)
+                .hasMessageContaining("해당 기물은 궁성 내에서만 이동 가능 합니다.");
+    }
+
+    @Test
+    @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
+    void test_isMovableWhenPieceIsInMyTeamOnRoute() {
+        //given
+        final Piece general = new General(TeamType.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, general));
+
+        //when&then
+        assertThat(general.isMovableOnRoute(piecesOnRoute)).isFalse();
+    }
+
+    @Test
+    @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
+    void test_isMovableWhenPieceIsInOtherTeamOnRoute() {
+        //given
+        final Piece generalHan = new General(TeamType.HAN);
+        final Piece generalCho = new General(TeamType.CHO);
+        final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, generalCho));
+
+        //when&then
+        assertThat(generalHan.isMovableOnRoute(piecesOnRoute)).isTrue();
+    }
 
     @Test
     @DisplayName("궁은 팀에 따라 다르게 이름을 반환한다.")
