@@ -2,33 +2,24 @@ package janggi.starategy;
 
 import janggi.piece.Piece;
 import janggi.setting.GungSungCoordinate;
+import janggi.value.Direction;
 import janggi.value.Path;
 import janggi.value.Position;
 import janggi.value.RelativePath;
-import janggi.value.RelativePosition;
 import java.util.List;
 import java.util.Optional;
 
 public class SaStrategy implements MoveStrategy {
 
     private static final List<RelativePath> RELATIVE_PATH = List.of(
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(-1, 0))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(1, 0))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(0, 1))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(0, -1))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(1, 1))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(1, -1))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(-1, 1))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(-1, -1)))
-    );
+            new RelativePath(List.of(Direction.ORIGIN, Direction.LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.RIGHT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.UP)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.DOWN)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.UP_LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.DOWN_LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.UP_RIGHT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.DOWN_RIGHT)));
 
     @Override
     public boolean ableToMove(Position start, Position destination, List<Piece> enemy, List<Piece> allies) {

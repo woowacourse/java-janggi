@@ -1,32 +1,24 @@
 package janggi.starategy;
 
 import janggi.piece.Piece;
+import janggi.value.Direction;
 import janggi.value.Path;
 import janggi.value.Position;
 import janggi.value.RelativePath;
-import janggi.value.RelativePosition;
 import java.util.List;
 import java.util.Optional;
 
 public class MaStrategy implements MoveStrategy {
 
     private static final List<RelativePath> RELATIVE_PATH = List.of(
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(-1, 0), new RelativePosition(-2, -1))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(-1, 0), new RelativePosition(-2, 1))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(1, 0), new RelativePosition(2, -1))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(1, 0), new RelativePosition(2, 1))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(0, -1), new RelativePosition(-1, -2))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(0, -1), new RelativePosition(1, -2))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(0, 1), new RelativePosition(-1, 2))),
-            new RelativePath(
-                    List.of(new RelativePosition(0, 0), new RelativePosition(0, 1), new RelativePosition(1, 2)))
+            new RelativePath(List.of(Direction.ORIGIN, Direction.LEFT, Direction.UP_LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.LEFT, Direction.DOWN_LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.RIGHT, Direction.UP_RIGHT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.RIGHT, Direction.DOWN_RIGHT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.UP, Direction.UP_LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.UP, Direction.UP_RIGHT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.DOWN, Direction.DOWN_LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.DOWN, Direction.DOWN_RIGHT))
     );
 
 
