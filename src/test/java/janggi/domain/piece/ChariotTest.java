@@ -203,4 +203,22 @@ class ChariotTest {
         // then
         assertThat(result).isTrue();
     }
+
+    @DisplayName("차 기물은 궁성이며 대각선에 있을 경우 대각선으로 움직일 수 있다.")
+    @Test
+    void cannonCanMoveDiagonalIfInPalace() {
+
+        // given
+        final Piece chariot = new Chariot(new Position(3, 0), RED);
+        final Piece soldier1 = new Soldier(new Position(4, 0), RED);
+        final Piece soldier2 = new Soldier(new Position(3, 1), RED);
+        final Piece soldier3 = new Soldier(new Position(2, 0), RED);
+        final List<Piece> otherPieces = List.of(soldier1, soldier2, soldier3);
+
+        // when
+        final Set<Route> possibleRoutes = chariot.getPossibleRoutes(otherPieces);
+
+        // then
+        assertThat(possibleRoutes.size()).isEqualTo(2);
+    }
 }

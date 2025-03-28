@@ -1,7 +1,5 @@
 package janggi.domain.piece.direction;
 
-import java.util.List;
-
 public enum Direction {
 
     RIGHT(1, 0),
@@ -30,7 +28,7 @@ public enum Direction {
         return dy;
     }
 
-    public static List<Direction> getStraightDirections() {
-        return List.of(RIGHT, LEFT, DOWN, UP);
+    public boolean isDiagonal() {
+        return this == RIGHT_DOWN || this == RIGHT_UP || this == LEFT_DOWN || this == LEFT_UP;
     }
 }

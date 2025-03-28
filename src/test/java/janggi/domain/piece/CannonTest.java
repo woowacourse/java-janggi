@@ -245,4 +245,20 @@ class CannonTest {
         // then
         assertThat(result).isFalse();
     }
+
+    @DisplayName("포 기물은 궁성이며 대각선에 있을 경우 대각선으로 움직일 수 있다.")
+    @Test
+    void cannonCanMoveDiagonalIfInPalace() {
+
+        // given
+        final Piece cannon = new Cannon(new Position(3, 0), RED);
+        final Piece soldier = new Soldier(new Position(4, 1), RED);
+        final List<Piece> otherPieces = List.of(soldier);
+
+        // when
+        final Set<Route> possibleRoutes = cannon.getPossibleRoutes(otherPieces);
+
+        // then
+        assertThat(possibleRoutes.size()).isEqualTo(1);
+    }
 }

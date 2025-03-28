@@ -25,8 +25,8 @@ public abstract class Piece {
     public abstract double getScore();
 
     public Set<Route> getPossibleRoutes(final List<Piece> otherPieces) {
-        Set<Route> routes = new HashSet<>();
-        for (Route route : calculateIndependentRoutes()) {
+        final Set<Route> routes = new HashSet<>();
+        for (final Route route : calculateIndependentRoutes()) {
             if (isValidRoute(route, otherPieces)) {
                 routes.add(route);
             }

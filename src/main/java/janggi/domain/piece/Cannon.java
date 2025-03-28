@@ -1,6 +1,15 @@
 package janggi.domain.piece;
 
 
+import static janggi.domain.piece.direction.Direction.DOWN;
+import static janggi.domain.piece.direction.Direction.LEFT;
+import static janggi.domain.piece.direction.Direction.LEFT_DOWN;
+import static janggi.domain.piece.direction.Direction.LEFT_UP;
+import static janggi.domain.piece.direction.Direction.RIGHT;
+import static janggi.domain.piece.direction.Direction.RIGHT_DOWN;
+import static janggi.domain.piece.direction.Direction.RIGHT_UP;
+import static janggi.domain.piece.direction.Direction.UP;
+
 import janggi.domain.Team;
 import janggi.domain.piece.direction.Direction;
 import janggi.domain.piece.direction.Position;
@@ -15,6 +24,17 @@ public class Cannon extends Piece {
     private static final int REQUIRED_JUMP_PIECES = 1;
     private static final int CANNON_SCORE = 7;
 
+    private static final List<Direction> CANNON_MOVE = List.of(
+            RIGHT_UP,
+            RIGHT,
+            RIGHT_DOWN,
+            UP,
+            LEFT_UP,
+            LEFT,
+            LEFT_DOWN,
+            DOWN
+    );
+
     public Cannon(final Position position, final Team team) {
         super(position, team);
     }
@@ -28,15 +48,10 @@ public class Cannon extends Piece {
     public Set<Route> calculateIndependentRoutes() {
         final Set<Route> validRoutes = new HashSet<>();
 
-        for (final Direction direction : Direction.getStraightDirections()) {
+        for (final Direction direction : CANNON_MOVE) {
             validRoutes.addAll(generateRoutesInDirection(direction));
         }
         return validRoutes;
-    }
-
-    @Override
-    public boolean isValidRoute(final Route route, final List<Piece> otherPieces) {
-        return isValidCannonRoute(route, otherPieces);
     }
 
     private Set<Route> generateRoutesInDirection(final Direction direction) {
@@ -46,11 +61,24 @@ public class Cannon extends Piece {
         final List<Position> positions = new ArrayList<>();
         while (currentPosition.canMove(direction)) {
             final Position nextPosition = currentPosition.move(direction);
+            if (direction.isDiagonal()) {
+                if (!position.isInPalace()) {
+                    break;
+                }
+                if (!nextPosition.isInPalace()) {
+                    break;
+                }
+            }
             positions.add(nextPosition);
             directionalRoutes.add(new Route(new ArrayList<>(positions)));
             currentPosition = nextPosition;
         }
         return directionalRoutes;
+    }
+
+    @Override
+    public boolean isValidRoute(final Route route, final List<Piece> otherPieces) {
+        return isValidCannonRoute(route, otherPieces);
     }
 
     private boolean isValidCannonRoute(final Route route, final List<Piece> otherPieces) {

@@ -1,5 +1,14 @@
 package janggi.domain.piece;
 
+import static janggi.domain.piece.direction.Direction.DOWN;
+import static janggi.domain.piece.direction.Direction.LEFT;
+import static janggi.domain.piece.direction.Direction.LEFT_DOWN;
+import static janggi.domain.piece.direction.Direction.LEFT_UP;
+import static janggi.domain.piece.direction.Direction.RIGHT;
+import static janggi.domain.piece.direction.Direction.RIGHT_DOWN;
+import static janggi.domain.piece.direction.Direction.RIGHT_UP;
+import static janggi.domain.piece.direction.Direction.UP;
+
 import janggi.domain.Team;
 import janggi.domain.piece.direction.Direction;
 import janggi.domain.piece.direction.Position;
@@ -13,6 +22,17 @@ public class Chariot extends Piece {
 
     private static final int CHARIOT_SCORE = 13;
 
+    private static final List<Direction> CANNON_MOVE = List.of(
+            RIGHT_UP,
+            RIGHT,
+            RIGHT_DOWN,
+            UP,
+            LEFT_UP,
+            LEFT,
+            LEFT_DOWN,
+            DOWN
+    );
+
     public Chariot(final Position position, final Team team) {
         super(position, team);
     }
@@ -21,7 +41,7 @@ public class Chariot extends Piece {
     public Set<Route> calculateIndependentRoutes() {
         final Set<Route> rawRoutes = new HashSet<>();
 
-        for (final Direction direction : Direction.getStraightDirections()) {
+        for (final Direction direction : CANNON_MOVE) {
             rawRoutes.addAll(generateRoutesInDirection(direction));
         }
         return rawRoutes;
@@ -34,6 +54,14 @@ public class Chariot extends Piece {
         final List<Position> positions = new ArrayList<>();
         while (currentPosition.canMove(direction)) {
             final Position nextPosition = currentPosition.move(direction);
+            if (direction.isDiagonal()) {
+                if (!position.isInPalace()) {
+                    break;
+                }
+                if (!nextPosition.isInPalace()) {
+                    break;
+                }
+            }
             positions.add(nextPosition);
             directionalRoutes.add(new Route(new ArrayList<>(positions)));
             currentPosition = nextPosition;
