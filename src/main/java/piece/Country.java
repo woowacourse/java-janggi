@@ -1,0 +1,31 @@
+package piece;
+
+import position.LineDirection;
+
+import java.util.EnumMap;
+import java.util.Map;
+
+public enum Country {
+
+    CHO,
+    HAN;
+
+    private static final Map<Country, LineDirection> directionByCountry = new EnumMap<>(Country.class);
+
+    public static void assignDirection(Country country, LineDirection direction) {
+        directionByCountry.put(country, direction);
+        directionByCountry.put(country.opposite(), direction.opposite());
+    }
+
+    public LineDirection getDirection() {
+        return directionByCountry.get(this);
+    }
+
+    public Country opposite() {
+        return this == CHO ? HAN : CHO;
+    }
+
+    public static Country getDefaultTeam() {
+        return CHO;
+    }
+}
