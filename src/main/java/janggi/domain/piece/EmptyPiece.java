@@ -6,8 +6,4 @@ public class EmptyPiece extends Piece{
     public EmptyPiece() {
         super(TeamColor.NONE, PieceType.NONE);
     }
-
-    public Piece getInstance() {
-        return INSTANCE;
-    }
 }
