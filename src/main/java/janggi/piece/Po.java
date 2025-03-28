@@ -77,17 +77,11 @@ public class Po extends Piece {
         int dx = Math.abs(end.x() - start.x());
         int dy = Math.abs(end.y() - start.y());
 
-        // 2칸 직선 이동
-        // 1. start에 아군 장기말이나 적군 장기말이 있어야함.
-        // 2. end에 아군 장기말이 없어야함, 적군은 상관 없음
         boolean isTwoStepStraight = (dx == 1 && dy == 0 && (enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start)) &&
                 enemy.isNotBlockedBy(end))
                 || (dx == 0 && dy == 1 && (enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start)) &&
                 enemy.isNotBlockedBy(end));
 
-        // 2칸 대각선 이동
-        // 1. start에 아군 장기말이나 적군 장기말이 있어야함.
-        // 2. end에 아군 장기말이 없어야함, 적군은 상관 없음
         boolean isTwoStepDiagonal = (dx == 1 && dy == 1 && (enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start)) &&
                 enemy.isNotBlockedBy(end));
 

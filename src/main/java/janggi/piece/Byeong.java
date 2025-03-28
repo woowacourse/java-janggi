@@ -54,10 +54,6 @@ public class Byeong extends Piece {
         int destinationX = destination.x();
         int destinationY = destination.y();
 
-        // 궁성 내에서의 이동 가능한 경우:
-        // 1. 한 칸 앞으로 (y+1)
-        // 2. 한 칸 옆으로 (x±1)
-        // 3. 대각선 앞으로 (x±1, y+1)
         boolean isForward = (destinationX == currentX && destinationY == currentY + 1);
         boolean isSideways = (destinationY == currentY && Math.abs(destinationX - currentX) == 1);
         boolean isDiagonal = (Math.abs(destinationX - currentX) == 1 && destinationY == currentY + 1);
