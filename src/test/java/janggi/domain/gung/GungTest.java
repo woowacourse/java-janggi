@@ -1,6 +1,5 @@
-package janggi.domain;
+package janggi.domain.gung;
 
-import janggi.domain.gung.Gung;
 import janggi.domain.path.Path;
 import janggi.test_util.BaseTest;
 import org.junit.jupiter.api.Test;

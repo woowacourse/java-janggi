@@ -1,8 +1,10 @@
-package janggi.domain.position;
+package janggi.domain.path;
 
-import janggi.domain.path.Path;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.position.Movement;
+import janggi.domain.position.Position;
+import janggi.domain.position.PositionFile;
 import janggi.test_util.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

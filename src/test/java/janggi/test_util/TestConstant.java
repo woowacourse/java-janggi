@@ -47,6 +47,8 @@ public class TestConstant {
     public static Position POSITION_5_6 = new Position(FILE_5, RANK_6);
     public static Position POSITION_5_7 = new Position(FILE_5, RANK_7);
     public static Position POSITION_5_8 = new Position(FILE_5, RANK_8);
+    public static Position POSITION_5_9 = new Position(FILE_5, RANK_9);
+    public static Position POSITION_5_10 = new Position(FILE_5, RANK_10);
     public static Position POSITION_6_1 = new Position(FILE_6, RANK_1);
     public static Position POSITION_6_2 = new Position(FILE_6, RANK_2);
     public static Position POSITION_6_3 = new Position(FILE_6, RANK_3);
@@ -71,4 +73,5 @@ public class TestConstant {
     public static Position POSITION_8_6 = new Position(FILE_8, RANK_6);
     public static Position POSITION_8_7 = new Position(FILE_8, RANK_7);
     public static Position POSITION_8_8 = new Position(FILE_8, RANK_8);
+    public static Position POSITION_9_5 = new Position(FILE_9, RANK_5);
 }

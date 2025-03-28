@@ -1,0 +1,41 @@
+package janggi.domain.path.path_filter;
+
+import janggi.domain.gung.Gung;
+import janggi.domain.path.Path;
+import org.junit.jupiter.api.Test;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static janggi.test_util.TestConstant.*;
+import static org.assertj.core.api.Assertions.*;
+
+class InGungPathFilterTest {
+
+    @Test
+    void 궁_내부의_움직임이_아닌_경로를_필터링한다() {
+        // given
+        final Set<Path> paths = new HashSet<>();
+        paths.add(new Path(List.of(POSITION_4_1, POSITION_4_2, POSITION_4_3)));
+        paths.add(new Path(List.of(POSITION_6_3, POSITION_5_2)));
+        paths.add(new Path(List.of(POSITION_7_4, POSITION_6_3, POSITION_5_2)));
+        paths.add(new Path(List.of(POSITION_4_2, POSITION_4_3, POSITION_4_4)));
+        final InGungPathFilter sut = new InGungPathFilter(new Gung());
+
+        // when
+        sut.filter(
+                null,
+                paths,
+                List.of(),
+                List.of()
+        );
+
+        // then
+        assertThat(paths).containsExactlyInAnyOrder(
+                new Path(List.of(POSITION_4_1, POSITION_4_2, POSITION_4_3)),
+                new Path(List.of(POSITION_6_3, POSITION_5_2))
+        );
+    }
+
+}
