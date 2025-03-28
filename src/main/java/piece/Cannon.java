@@ -5,12 +5,12 @@ import direction.Point;
 
 public class Cannon extends Piece {
 
-    public Cannon(Point current) {
+    public Cannon(final Point current) {
         super(current);
     }
 
     @Override
-    public void move(Pieces pieces, Point destination) {
+    public void move(final Pieces allPieces, final Point destination) {
         validateInvalidDestination(destination);
         Point distance = destination.minus(current);
 
@@ -19,8 +19,8 @@ public class Cannon extends Piece {
         int count = 0;
         for (int moveCount = 0; moveCount < distance.moveCount(distance); moveCount++) {
             tempCurrent = tempCurrent.move(direction);
-            if (pieces.isExistPieceIn(tempCurrent)) {
-                Piece piece = pieces.findByPoint(tempCurrent);
+            if (allPieces.isExistPieceIn(tempCurrent)) {
+                Piece piece = allPieces.findByPoint(tempCurrent);
                 validateIsNotCannon(piece);
                 count++;
             }
@@ -31,19 +31,19 @@ public class Cannon extends Piece {
         current = new Point(destination.column(), destination.row());
     }
 
-    private static void validateOverOnePiece(int count) {
+    private static void validateOverOnePiece(final int count) {
         if (count != 1) {
             throw new IllegalArgumentException("[ERROR] 포는 기물을 하나 넘어야 합니다.");
         }
     }
 
-    private void validateIsNotCannon(Piece piece) {
+    private void validateIsNotCannon(final Piece piece) {
         if (piece.equals(this)) {
             throw new IllegalArgumentException("[ERROR] 포가 존재하여 움직일 수 없습니다.");
         }
     }
 
-    private void validateInvalidDestination(Point destination) {
+    private void validateInvalidDestination(final Point destination) {
         if (current.isDifferentColumn(destination) && current.isDifferentRow(destination)) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }

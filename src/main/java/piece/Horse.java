@@ -18,24 +18,24 @@ public class Horse extends Piece {
             Movement.LEFT_LEFT_DOWN, List.of(Movement.LEFT)
     );
 
-    public Horse(Point current) {
+    public Horse(final Point current) {
         super(current);
     }
 
     @Override
-    public void move(final Pieces oppsiteTeamPieces, final Point destination) {
+    public void move(final Pieces allPieces, final Point destination) {
         Movement destinationMovement = getDestinationMovement(destination);
         List<Movement> movements = MOVEMENT_PATH.get(destinationMovement);
 
         for (Movement pathMovement : movements) {
             Point nextPoint = current.move(pathMovement);
-            validateIsExistPieceInPoint(oppsiteTeamPieces, nextPoint);
+            validateIsExistPieceInPoint(allPieces, nextPoint);
         }
 
         current = current.move(destinationMovement);
     }
 
-    private Movement getDestinationMovement(Point destination) {
+    private Movement getDestinationMovement(final Point destination) {
         for (Movement destinationMovement : MOVEMENT_PATH.keySet()) {
             Point predictDestination = current.move(destinationMovement);
             if (predictDestination.equals(destination)) {
@@ -46,7 +46,7 @@ public class Horse extends Piece {
         throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
     }
 
-    private static void validateIsExistPieceInPoint(Pieces pieces, Point nextPoint) {
+    private static void validateIsExistPieceInPoint(final Pieces pieces, final Point nextPoint) {
         if (pieces.isExistPieceIn(nextPoint)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }

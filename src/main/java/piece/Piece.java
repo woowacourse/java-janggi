@@ -6,18 +6,18 @@ public abstract class Piece {
 
     protected Point current;
 
-    public Piece(Point current) {
+    public Piece(final Point current) {
         this.current = current;
     }
 
-    public abstract void move(Pieces pieces, Point destination);
+    public abstract void move(final Pieces allPieces, final Point destination);
 
-    public boolean isSamePoint(Point point) {
+    public boolean isSamePoint(final Point point) {
         return current.equals(point);
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         return object != null && getClass() == object.getClass();
     }
 }
