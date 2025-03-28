@@ -91,7 +91,7 @@ public final class JanggiGameTest {
         //when
         janggiGame.movePieceOnBoard(start, arrival);
         //then
-        final Map<TeamType, Score> scores = janggiGame.getScores();
+        final Map<TeamType, Score> scores = janggiGame.wrapPlayersScore();
         final Score actual = scores.get(CHO);
         assertThat(actual).isEqualTo(expected);
     }

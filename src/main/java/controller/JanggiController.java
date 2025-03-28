@@ -38,7 +38,7 @@ public final class JanggiController {
             game.movePieceOnBoard(start, arrival);
             game.switchTurn();
             outputView.printBoard(game.getBoard());
-            outputView.printScores(game.getScores());
+            outputView.printScores(game.wrapPlayersScore());
         }
     }
 

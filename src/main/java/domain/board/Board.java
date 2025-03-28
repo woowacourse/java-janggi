@@ -24,7 +24,7 @@ public final class Board {
             final Point arrival,
             final TeamType teamType
     ) {
-        final Piece piece = getCheckedPieceCanMoveOnStartPoint(start, arrival, teamType);
+        final Piece piece = retrievePieceCanMoveOnStartPoint(start, arrival, teamType);
         checkPieceCanMoveOnRoute(start, arrival, piece);
 
         final Piece pieceAtArrival = locations.get(arrival);
@@ -45,7 +45,7 @@ public final class Board {
         return new HashMap<>(locations);
     }
 
-    private Piece getCheckedPieceCanMoveOnStartPoint(final Point start, final Point arrival, final TeamType teamType) {
+    private Piece retrievePieceCanMoveOnStartPoint(final Point start, final Point arrival, final TeamType teamType) {
         checkInRangeOnBoard(start, arrival);
         final Piece piece = Optional.ofNullable(locations.get(start))
                 .orElseThrow(() -> new JanggiGameRuleWarningException("출발점에 이동할 기물이 없습니다."));
@@ -84,13 +84,13 @@ public final class Board {
             final Piece pastPiece
     ) {
         Piece currentPiece = pastPiece;
-        if (Palace.checkInRange(start, arrival)) {
+        if (Palace.isInRange(start, arrival)) {
             currentPiece = currentPiece.inRangeOfPalace();
         }
         checkOutOfRoute(start, arrival, currentPiece);
 
-        final List<Point> routePoints = currentPiece.getRoutePoints(start, arrival);
-        final PiecesOnRoute piecesOnRoute = getAllPiecesOnRoute(routePoints);
+        final List<Point> routePoints = currentPiece.searchRoutePoints(start, arrival);
+        final PiecesOnRoute piecesOnRoute = wrapPiecesOnRoute(routePoints);
         if (!pastPiece.isMovableOnRoute(piecesOnRoute)) {
             throw new JanggiGameRuleWarningException("해당 경로로 이동할 수 없습니다.");
         }
@@ -98,11 +98,11 @@ public final class Board {
 
     private boolean canContinueWhenPieceRemove(final Piece pieceAtArrival) {
         return Optional.ofNullable(pieceAtArrival)
-                .map(Piece::canContinueWhenPieceRemove)
+                .map(Piece::canContinueWhenThisRemove)
                 .orElse(true);
     }
 
-    private PiecesOnRoute getAllPiecesOnRoute(final List<Point> pointsOnRoute) {
+    private PiecesOnRoute wrapPiecesOnRoute(final List<Point> pointsOnRoute) {
         return new PiecesOnRoute(pointsOnRoute.stream()
                 .map(point -> locations.getOrDefault(point, null))
                 .toList());

@@ -6,10 +6,10 @@ public record Score(Double value) {
 
 
     public static Score generateInitialScoreByTeam(TeamType type) {
-        return getInitialScoreByTeam(type);
+        return generateScoreByTeam(type);
     }
 
-    private static Score getInitialScoreByTeam(TeamType type) {
+    private static Score generateScoreByTeam(TeamType type) {
         if (type == TeamType.CHO) {
             return INITIAL_SCORE_FOR_CHO;
         }

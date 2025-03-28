@@ -56,14 +56,14 @@ public final class CannonTest {
 
     @Test
     @DisplayName("도착점까지의 경로를 모두 반환한다.")
-    void test_getRoutePoints() {
+    void test_searchRoutePoints() {
         // given
         final Cannon cannon = new Cannon(TeamType.CHO);
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(0, 3);
 
         // when
-        final List<Point> routePoints = cannon.getRoutePoints(startPoint, arrivalPoint);
+        final List<Point> routePoints = cannon.searchRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(

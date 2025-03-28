@@ -40,14 +40,14 @@ public final class HorseTest {
 
     @Test
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
-    void test_getRoutePoints() {
+    void test_searchRoutePoints() {
         // given
         final Horse horse = new Horse(TeamType.CHO);
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(2, 1);
 
         // when
-        final List<Point> routePoints = horse.getRoutePoints(startPoint, arrivalPoint);
+        final List<Point> routePoints = horse.searchRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(

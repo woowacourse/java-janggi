@@ -40,9 +40,9 @@ public final class StraightLineMovement implements PieceMovement {
     }
 
     @Override
-    public List<Point> calculateTotalArrivalPoints(final Point start) {
+    public List<Point> searchTotalArrivalPoints(final Point start) {
         return routes.stream()
-                .map(route -> route.getAllPointsOnRoute(start))
+                .map(route -> route.retrieveAllPointsOnRoute(start))
                 .flatMap(Collection::stream)
                 .toList();
     }
@@ -50,7 +50,7 @@ public final class StraightLineMovement implements PieceMovement {
     @Override
     public List<Point> calculatePointsOnRoute(final Point start, final Point arrival) {
         return routes.stream()
-                .map(route -> route.getAllPointsOnRoute(start))
+                .map(route -> route.retrieveAllPointsOnRoute(start))
                 .filter(points -> points.contains(arrival))
                 .map(points -> points.subList(0, points.indexOf(arrival) + 1))
                 .findFirst()

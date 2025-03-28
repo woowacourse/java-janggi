@@ -56,14 +56,14 @@ public final class ChariotTest {
 
     @Test
     @DisplayName("도착 위치까지의 경로를 모두 반환한다.")
-    void test_getRoutePoints() {
+    void test_searchRoutePoints() {
         // given
         final Chariot chariot = new Chariot(TeamType.CHO);
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(0, 3);
 
         // when
-        List<Point> routePoints = chariot.getRoutePoints(startPoint, arrivalPoint);
+        List<Point> routePoints = chariot.searchRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(

@@ -27,7 +27,7 @@ public final class DefaultMovementTest {
             final Point startPoint = new Point(0, 0);
 
             // when
-            final List<Point> arrivalPoints = defaultMovement.calculateTotalArrivalPoints(startPoint);
+            final List<Point> arrivalPoints = defaultMovement.searchTotalArrivalPoints(startPoint);
 
             // then
             assertThat(arrivalPoints).contains(new Point(3, -2), new Point(-3, -2));

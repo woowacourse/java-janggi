@@ -19,7 +19,7 @@ public final class Elephant implements Piece {
 
     public Elephant(final TeamType teamType) {
         this.teamType = teamType;
-        this.movement = getDefaultMovementForElephant();
+        this.movement = generateMovementForElephant();
     }
 
     @Override
@@ -29,7 +29,7 @@ public final class Elephant implements Piece {
 
     @Override
     public boolean isAbleToArrive(final Point start, final Point arrival) {
-        return movement.calculateTotalArrivalPoints(start).contains(arrival);
+        return movement.searchTotalArrivalPoints(start).contains(arrival);
     }
 
     @Override
@@ -41,7 +41,7 @@ public final class Elephant implements Piece {
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point start, final Point arrival) {
+    public List<Point> searchRoutePoints(final Point start, final Point arrival) {
         return movement.calculatePointsOnRoute(start, arrival);
     }
 
@@ -55,7 +55,7 @@ public final class Elephant implements Piece {
         return score;
     }
 
-    private DefaultMovement getDefaultMovementForElephant() {
+    private DefaultMovement generateMovementForElephant() {
         return new DefaultMovement(List.of(
                 new Route(List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST)),
                 new Route(List.of(Direction.NORTH, Direction.NORTHEAST, Direction.NORTHEAST)),

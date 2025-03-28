@@ -28,14 +28,14 @@ public final class GuardTest {
 
     @Test
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
-    void test_getRoutePoints() {
+    void test_searchRoutePoints() {
         // given
         final Piece guard = new Guard(TeamType.CHO);
         final Point startPoint = new Point(0, 3);
         final Point arrivalPoint = new Point(1, 4);
 
         // when
-        final List<Point> routePoints = guard.getRoutePoints(startPoint, arrivalPoint);
+        final List<Point> routePoints = guard.searchRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(
@@ -45,14 +45,14 @@ public final class GuardTest {
 
     @Test
     @DisplayName("입력한 지점이 궁성 외부일 경우, 예외를 발생시킨다.")
-    void test_getRoutePointsInOutRangeOfPalace() {
+    void test_searchRoutePointsInOutRangeOfPalace() {
         // given
         final Piece guard = new Guard(TeamType.CHO);
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(1, 1);
 
         // when
-        assertThatThrownBy(() -> guard.getRoutePoints(startPoint, arrivalPoint))
+        assertThatThrownBy(() -> guard.searchRoutePoints(startPoint, arrivalPoint))
                 .isInstanceOf(JanggiGameRuleWarningException.class)
                 .hasMessageContaining("해당 기물은 궁성 내에서만 이동 가능 합니다.");
     }

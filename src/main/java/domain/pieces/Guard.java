@@ -27,7 +27,7 @@ public final class Guard implements Piece {
 
     @Override
     public boolean isAbleToArrive(final Point start, final Point arrival) {
-        return movement.calculateTotalArrivalPoints(start).contains(arrival);
+        return movement.searchTotalArrivalPoints(start).contains(arrival);
     }
 
     @Override
@@ -36,7 +36,7 @@ public final class Guard implements Piece {
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point start, final Point arrival) {
+    public List<Point> searchRoutePoints(final Point start, final Point arrival) {
         return movement.calculatePointsOnRoute(start, arrival);
     }
 

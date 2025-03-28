@@ -9,6 +9,11 @@ public record Point(int row, int column) {
         this(request.get(0), request.get(1));
     }
 
+    @Override
+    public String toString() {
+        return "(" + row + "," + column + ")";
+    }
+
     public static Point generateStartPoint(final List<List<Integer>> moveRequest) {
         final List<Integer> originPointRequest = moveRequest.get(0);
         return new Point(originPointRequest);
@@ -19,11 +24,6 @@ public record Point(int row, int column) {
         return new Point(arrivalPointRequest);
     }
 
-    @Override
-    public String toString() {
-        return "(" + row + "," + column + ")";
-    }
-
     public Point move(final Direction direction) {
         return new Point(row + direction.getRow(), column + direction.getColumn());
     }
@@ -32,17 +32,17 @@ public record Point(int row, int column) {
         return isInRangeOnRow(maxRow) && isInRangeOnColumn(maxColumn);
     }
 
+    public boolean isInSquareRange(Point squareStartPoint, Point squareEndPoint) {
+        return isInSquareRangeOnRow(squareStartPoint, squareEndPoint)
+                && isInSquareRangeOnColumn(squareStartPoint, squareEndPoint);
+    }
+
     private boolean isInRangeOnRow(int maxRow) {
         return row >= 0 && row < maxRow;
     }
 
     private boolean isInRangeOnColumn(int maxColumn) {
         return column >= 0 && column < maxColumn;
-    }
-
-    public boolean isInSquareRange(Point squareStartPoint, Point squareEndPoint) {
-        return isInSquareRangeOnRow(squareStartPoint, squareEndPoint)
-                && isInSquareRangeOnColumn(squareStartPoint, squareEndPoint);
     }
 
     private boolean isInSquareRangeOnColumn(Point squareStartPoint, Point squareEndPoint) {

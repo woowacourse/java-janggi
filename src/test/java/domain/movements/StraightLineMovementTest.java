@@ -11,12 +11,12 @@ public final class StraightLineMovementTest {
 
     @Test
     @DisplayName("도착할 수 있는 지점들을 모두 반환한다")
-    void test_calculateTotalArrivalPoints() {
+    void test_searchTotalArrivalPoints() {
         // given
         final StraightLineMovement straightLineMovement = new StraightLineMovement();
 
         // when
-        final List<Point> points = straightLineMovement.calculateTotalArrivalPoints(new Point(3, 3));
+        final List<Point> points = straightLineMovement.searchTotalArrivalPoints(new Point(3, 3));
 
         // then
         assertThat(points).hasSize(40);

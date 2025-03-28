@@ -14,7 +14,7 @@ public interface Piece {
 
     boolean isMovableOnRoute(PiecesOnRoute piecesOnRoute);
 
-    List<Point> getRoutePoints(Point start, Point arrival);
+    List<Point> searchRoutePoints(Point start, Point arrival);
 
     String getName();
 
@@ -24,7 +24,7 @@ public interface Piece {
         return false;
     }
 
-    default boolean canContinueWhenPieceRemove() {
+    default boolean canContinueWhenThisRemove() {
         return true;
     }
 

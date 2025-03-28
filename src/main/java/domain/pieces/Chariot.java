@@ -33,7 +33,7 @@ public final class Chariot implements Piece {
 
     @Override
     public boolean isAbleToArrive(final Point start, final Point arrival) {
-        final List<Point> arrivalPoints = movement.calculateTotalArrivalPoints(start);
+        final List<Point> arrivalPoints = movement.searchTotalArrivalPoints(start);
         return arrivalPoints.contains(arrival);
     }
 
@@ -46,7 +46,7 @@ public final class Chariot implements Piece {
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point start, final Point arrival) {
+    public List<Point> searchRoutePoints(final Point start, final Point arrival) {
         return movement.calculatePointsOnRoute(start, arrival);
     }
 

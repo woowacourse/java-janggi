@@ -40,14 +40,14 @@ public final class ElephantTest {
 
     @Test
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
-    void test_getRoutePoints() {
+    void test_searchRoutePoints() {
         // given
         final Elephant elephant = new Elephant(TeamType.CHO);
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(3, 2);
 
         // when
-        final List<Point> routePoints = elephant.getRoutePoints(startPoint, arrivalPoint);
+        final List<Point> routePoints = elephant.searchRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(

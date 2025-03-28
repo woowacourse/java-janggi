@@ -35,7 +35,7 @@ public final class Soldier implements Piece {
 
     @Override
     public boolean isAbleToArrive(final Point start, final Point arrival) {
-        return movement.calculateTotalArrivalPoints(start).contains(arrival);
+        return movement.searchTotalArrivalPoints(start).contains(arrival);
     }
 
     @Override
@@ -44,7 +44,7 @@ public final class Soldier implements Piece {
     }
 
     @Override
-    public List<Point> getRoutePoints(final Point start, final Point arrival) {
+    public List<Point> searchRoutePoints(final Point start, final Point arrival) {
         return movement.calculatePointsOnRoute(start, arrival);
     }
 
@@ -60,15 +60,15 @@ public final class Soldier implements Piece {
 
     @Override
     public Piece inRangeOfPalace() {
-        return new Soldier(teamType, getMovementInPalaceByTeam(teamType));
+        return new Soldier(teamType, generateMovementInPalaceByTeam(teamType));
     }
 
     private PieceMovement getDefaultMovementByTeam(final TeamType teamType) {
-        return new DefaultMovement(getDefaultRoutes(teamType));
+        return new DefaultMovement(generateDefaultRoutes(teamType));
     }
 
-    private PieceMovement getMovementInPalaceByTeam(final TeamType teamType) {
-        final List<Route> routes = getDefaultRoutes(teamType);
+    private PieceMovement generateMovementInPalaceByTeam(final TeamType teamType) {
+        final List<Route> routes = generateDefaultRoutes(teamType);
         routes.add(new Route(List.of(Direction.NORTHEAST)));
         routes.add(new Route(List.of(Direction.NORTHWEST)));
         routes.add(new Route(List.of(Direction.SOUTHEAST)));
@@ -76,7 +76,7 @@ public final class Soldier implements Piece {
         return new DefaultMovement(routes);
     }
 
-    private List<Route> getDefaultRoutes(TeamType teamType) {
+    private List<Route> generateDefaultRoutes(TeamType teamType) {
         final List<Route> routes = new ArrayList<>();
         routes.add(new Route(List.of(Direction.EAST)));
         routes.add(new Route(List.of(Direction.WEST)));

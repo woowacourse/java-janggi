@@ -61,14 +61,14 @@ public final class SoldierTest {
 
     @Test
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
-    void test_getRoutePoints() {
+    void test_searchRoutePoints() {
         // given
         final Soldier soldier = new Soldier(TeamType.CHO);
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(1, 0);
 
         // when
-        final List<Point> routePoints = soldier.getRoutePoints(startPoint, arrivalPoint);
+        final List<Point> routePoints = soldier.searchRoutePoints(startPoint, arrivalPoint);
 
         // then
         assertThat(routePoints).containsExactlyInAnyOrder(

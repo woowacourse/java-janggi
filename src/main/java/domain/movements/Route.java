@@ -25,7 +25,7 @@ public final class Route {
         return point.equals(arrival);
     }
 
-    public List<Point> getAllPointsOnRoute(final Point point) {
+    public List<Point> retrieveAllPointsOnRoute(final Point point) {
         final List<Point> result = new ArrayList<>();
         Point currentPoint = point;
         for (final Direction direction : directions) {
