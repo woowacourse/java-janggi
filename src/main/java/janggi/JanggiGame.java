@@ -50,6 +50,7 @@ public class JanggiGame {
                     janggiBoard.move(currentTurnDynasty, new Point(movement.startX(), movement.startY()),
                             new Point(movement.endX(), movement.endY()));
                     janggiBoardView.printBoard(janggiBoard.getPieces());
+                    janggiBoardView.printScore(janggiBoard);
                     currentTurnDynasty = changePlayerTurn(currentTurnDynasty);
                 }
             } catch (IllegalArgumentException e) {

@@ -1,11 +1,15 @@
 package janggi.domain;
 
 public enum Dynasty {
-    CHU(72), HAN(73.5), EMPTY(0);
+    CHU(0), HAN(1.5), EMPTY(0);
 
-    private final double initialScore;
+    private final double additionalScore;
 
-    Dynasty(double initialScore) {
-        this.initialScore = initialScore;
+    Dynasty(double additionalScore) {
+        this.additionalScore = additionalScore;
+    }
+
+    public double getInitialScore() {
+        return additionalScore;
     }
 }

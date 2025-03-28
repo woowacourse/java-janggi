@@ -34,10 +34,16 @@ public class JanggiBoard {
 
         List<Point> movePath = piece.movePath(from, to);
         validateCanMoveByPath(piece, movePath);
-
-        Piece destinationPiece = findPiece(to);
         pieces.remove(from);
         pieces.put(to, piece);
+    }
+
+    public double dynastyScore(Dynasty dynasty) {
+        int totalScore = pieces.values().stream()
+                .filter(piece -> piece.isDynasty(dynasty))
+                .mapToInt(Piece::score)
+                .sum();
+        return totalScore + dynasty.getInitialScore();
     }
 
     private Piece findPiece(Point point) {

@@ -2,6 +2,7 @@ package janggi.view;
 
 import janggi.domain.Dynasty;
 import janggi.domain.Player;
+import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.ChuSoldier;
@@ -126,6 +127,11 @@ public class JanggiBoardView {
 
     private String readLine() {
         return scanner.nextLine().trim();
+    }
+
+    public void printScore(JanggiBoard janggiBoard) {
+        System.out.println("한나라 점수: " + janggiBoard.dynastyScore(Dynasty.HAN));
+        System.out.println("초나라 점수: " + janggiBoard.dynastyScore(Dynasty.CHU));
     }
 
     public record Movement(
