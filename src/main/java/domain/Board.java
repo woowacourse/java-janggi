@@ -39,6 +39,11 @@ public class Board {
         return winnerKing.getTeamType();
     }
 
+    public ScoreCalculator getScoreResult(){
+        List<Piece> alivePieces = this.alivePieces.values().stream().toList();
+        return new ScoreCalculator(alivePieces);
+    }
+
     private void changePiecePosition(Position startPosition, Piece piece, Position endPosition) {
         alivePieces.remove(startPosition);
         alivePieces.remove(endPosition);

@@ -30,6 +30,7 @@ public class JanggiRunner {
     private void showInitializedBoardResult(JanggiGame janggiGame) {
         Map<Position, Piece> alivePiecesInfo = janggiGame.getAlivePiecesInfo();
         outputView.printBoard(alivePiecesInfo);
+        outputView.printScore(janggiGame.getScoreInfo());
     }
 
     private void startGame(JanggiGame janggiGame) {
@@ -45,6 +46,7 @@ public class JanggiRunner {
             Position endPosition = inputView.getEndPosition(nowPlayer);
             janggiGame.movePiece(startPosition, endPosition, nowTurn);
             outputView.printBoard(janggiGame.getAlivePiecesInfo());
+            outputView.printScore(janggiGame.getScoreInfo());
             nowTurn = findNextTurn(nowTurn);
         }
     }

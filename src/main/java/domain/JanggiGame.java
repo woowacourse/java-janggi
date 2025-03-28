@@ -29,6 +29,10 @@ public class JanggiGame {
         return board.getAlivePieces();
     }
 
+    public ScoreCalculator getScoreInfo(){
+        return board.getScoreResult();
+    }
+
     public boolean isFinished() {
         return board.isFinished();
     }

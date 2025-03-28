@@ -1,5 +1,6 @@
 package view;
 
+import domain.ScoreCalculator;
 import domain.position.Column;
 import domain.participants.Player;
 import domain.position.Position;
@@ -17,6 +18,11 @@ public class OutputView {
     public void printBoard(Map<Position, Piece> alivePiecesInfo) {
         printColumnsInfo();
         printBoardInfo(alivePiecesInfo);
+    }
+
+    public void printScore(ScoreCalculator scoreCalculator){
+        System.out.printf("현재 초 점수 : %.1f\n",scoreCalculator.calculateChoScore());
+        System.out.printf("현재 한 점수 : %.1f\n",scoreCalculator.calculateHanScore());
     }
 
     public void printWinner(Player player) {
