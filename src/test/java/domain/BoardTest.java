@@ -9,6 +9,7 @@ import domain.piece.PieceType;
 import domain.position.Point;
 import domain.position.Position;
 import java.util.List;
+import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import utils.PieceFactory;
@@ -279,5 +280,43 @@ class BoardTest {
 
         // then
         assertThat(winTeam).isEqualTo(Team.RED);
+    }
+
+    @Test
+    void 초나라_남은_기물_개수_반환() {
+
+        // given
+        final Board board = BoardFactory.create();
+        final Map<PieceType, Integer> pieceTypeIntegerMap = board.countPieces(Team.GREEN);
+
+        // when
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(pieceTypeIntegerMap).hasSize(7);
+            softly.assertThat(pieceTypeIntegerMap).containsEntry(PieceType.GENERAL, 1);
+            softly.assertThat(pieceTypeIntegerMap).containsEntry(PieceType.SOLDIER, 5);
+            softly.assertThat(pieceTypeIntegerMap).containsEntry(PieceType.CANNON, 2);
+            softly.assertThat(pieceTypeIntegerMap).containsEntry(PieceType.CHARIOT, 2);
+            softly.assertThat(pieceTypeIntegerMap).containsEntry(PieceType.ELEPHANT, 2);
+        });
+    }
+
+    @Test
+    void 한나라_남은_기물_개수_반환() {
+
+        // given
+        final Board board = BoardFactory.create();
+        final Map<PieceType, Integer> pieceTypeIntegerMap = board.countPieces(Team.RED);
+
+        // when
+        // then
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(pieceTypeIntegerMap).hasSize(7);
+            softly.assertThat(pieceTypeIntegerMap).containsEntry(PieceType.GENERAL, 1);
+            softly.assertThat(pieceTypeIntegerMap).containsEntry(PieceType.SOLDIER, 5);
+            softly.assertThat(pieceTypeIntegerMap).containsEntry(PieceType.CANNON, 2);
+            softly.assertThat(pieceTypeIntegerMap).containsEntry(PieceType.CHARIOT, 2);
+            softly.assertThat(pieceTypeIntegerMap).containsEntry(PieceType.ELEPHANT, 2);
+        });
     }
 }
