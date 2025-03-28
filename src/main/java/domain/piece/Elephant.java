@@ -3,6 +3,7 @@ package domain.piece;
 import domain.Path;
 import domain.TeamType;
 import domain.piece.move.FixedMoveRule;
+import domain.piece.move.area.FreeMoveConstraint;
 import domain.piece.path.DefaultPathValidator;
 import domain.position.Direction;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Elephant extends Piece {
     }
 
     public Elephant(TeamType teamType) {
-        super(teamType, new FixedMoveRule(PATHS), new DefaultPathValidator());
+        super(teamType, new FixedMoveRule(PATHS, new FreeMoveConstraint()), new DefaultPathValidator());
     }
 
     @Override

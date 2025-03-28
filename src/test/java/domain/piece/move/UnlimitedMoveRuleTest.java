@@ -3,6 +3,7 @@ package domain.piece.move;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.piece.move.area.FreeMoveConstraint;
 import domain.position.Direction;
 import domain.position.Position;
 import java.util.List;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class UnlimitedMoveRuleTest {
 
     private final UnlimitedMoveRule unlimitedMoveRule = new UnlimitedMoveRule(
-            List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT));
+            List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT), new FreeMoveConstraint());
 
     @Test
     @DisplayName("이동할 수 있는 경로의 중간지점들을 반환한다")

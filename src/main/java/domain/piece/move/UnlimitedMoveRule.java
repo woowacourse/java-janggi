@@ -1,5 +1,6 @@
 package domain.piece.move;
 
+import domain.piece.move.area.MoveAreaConstraint;
 import domain.position.Direction;
 import domain.position.Position;
 import java.util.ArrayList;
@@ -8,9 +9,11 @@ import java.util.List;
 public class UnlimitedMoveRule implements MoveRule {
 
     private final List<Direction> directions;
+    private final MoveAreaConstraint moveAreaConstraint;
 
-    public UnlimitedMoveRule(List<Direction> directions) {
+    public UnlimitedMoveRule(List<Direction> directions, MoveAreaConstraint moveAreaConstraint) {
         this.directions = directions;
+        this.moveAreaConstraint = moveAreaConstraint;
     }
 
     @Override
@@ -29,7 +32,7 @@ public class UnlimitedMoveRule implements MoveRule {
     private boolean isReachable(Position from, Position to, Direction direction) {
         Position movePosition = from;
 
-        while (movePosition.canMoveDirection(direction)) {
+        while (movePosition.canMoveDirection(direction) && moveAreaConstraint.canMoveArea(movePosition)) {
             movePosition = movePosition.moveDirection(direction);
             if (movePosition.equals(to)) {
                 return true;

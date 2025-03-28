@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.Path;
+import domain.piece.move.area.FreeMoveConstraint;
 import domain.position.Direction;
 import domain.position.Position;
 import java.util.List;
@@ -24,7 +25,7 @@ class FixedMoveRuleTest {
                 new Path(List.of(Direction.RIGHT, Direction.LEFT, Direction.UP, Direction.UP)),
                 new Path(List.of(Direction.DOWN, Direction.LEFT, Direction.LEFT, Direction.UP))
         );
-        fixedMoveRule = new FixedMoveRule(paths);
+        fixedMoveRule = new FixedMoveRule(paths, new FreeMoveConstraint());
     }
 
 
@@ -43,7 +44,7 @@ class FixedMoveRuleTest {
     }
 
     @Test
-    @DisplayName("이동할 수 있는 경로가 없으면 예외가 발생한다")
+    @DisplayName("목표 위치로 이동할 수 없는 경우 예외가 발생한다")
     void getIntermediatePathException(){
         // given
         Position from = Position.of(3, 3);
