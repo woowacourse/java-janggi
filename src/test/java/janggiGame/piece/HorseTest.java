@@ -3,7 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.curveMovePiece.Horse;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,12 +19,12 @@ class HorseTest {
     @DisplayName("마는 목적지로 가는 경로를 구할 수 있다.")
     @ParameterizedTest
     @MethodSource("provideHorseOriginAndDestinationAndExpected")
-    void horseCanGetRoute(Dot origin, Dot destination, List<Dot> expected) {
+    void horseCanGetRoute(Position origin, Position destination, List<Position> expected) {
         // given
         Horse horse = new Horse(Dynasty.HAN);
 
         // when
-        List<Dot> actual = horse.getRoute(origin, destination);
+        List<Position> actual = horse.getRoute(origin, destination);
 
         // then
         assertThat(actual).isEqualTo(expected);
@@ -32,11 +32,16 @@ class HorseTest {
 
     public static Stream<Arguments> provideHorseOriginAndDestinationAndExpected() {
         return Stream.of(
-                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(6, 8), List.of(Dot.getInstanceBy(5, 7))),
-                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(4, 8), List.of(Dot.getInstanceBy(5, 7))),
-                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(7, 7), List.of(Dot.getInstanceBy(6, 6))),
-                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(7, 5), List.of(Dot.getInstanceBy(6, 6))),
-                Arguments.of(Dot.getInstanceBy(5, 6), Dot.getInstanceBy(4, 4), List.of(Dot.getInstanceBy(5, 5)))
+                Arguments.of(
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(6, 8), List.of(Position.getInstanceBy(5, 7))),
+                Arguments.of(
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(4, 8), List.of(Position.getInstanceBy(5, 7))),
+                Arguments.of(
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(7, 7), List.of(Position.getInstanceBy(6, 6))),
+                Arguments.of(
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(7, 5), List.of(Position.getInstanceBy(6, 6))),
+                Arguments.of(
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(4, 4), List.of(Position.getInstanceBy(5, 5)))
         );
     }
 
@@ -44,8 +49,8 @@ class HorseTest {
     @Test
     void horseCannotGetRoute() {
         // given
-        Dot origin = Dot.getInstanceBy(1, 1);
-        Dot destination = Dot.getInstanceBy(3, 3);
+        Position origin = Position.getInstanceBy(1, 1);
+        Position destination = Position.getInstanceBy(3, 3);
         Horse horse = new Horse(Dynasty.HAN);
 
         // when // then
@@ -58,10 +63,10 @@ class HorseTest {
     @Test
     void horseJudgeMovable() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.getInstanceBy(5, 7), null);
+        routesWithPiece.put(Position.getInstanceBy(5, 7), null);
 
         // when // then
         assertThatCode(() -> horse.validateMove(routesWithPiece, null))
@@ -72,10 +77,10 @@ class HorseTest {
     @Test
     void horseJudgeMovable2() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
-        routesWithPiece.put(Dot.getInstanceBy(6, 8), new Horse(Dynasty.HAN));
+        routesWithPiece.put(Position.getInstanceBy(6, 8), new Horse(Dynasty.HAN));
 
         // when // then
         assertThatCode(() -> horse.validateMove(routesWithPiece, null))

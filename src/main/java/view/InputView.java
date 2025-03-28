@@ -1,6 +1,6 @@
 package view;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import java.util.List;
 import java.util.Scanner;
@@ -45,7 +45,7 @@ public class InputView {
         return "한나라";
     }
 
-    public List<Dot> readPieceMovement() {
+    public List<Position> readPieceMovement() {
         System.out.println("""
                 말을 움직여주세요
                 ex) 기물의 x좌표, 기물의 y좌표 > 이동할 x좌표, 이동할 y좌표""");
@@ -63,8 +63,8 @@ public class InputView {
         int destinationX = Integer.parseInt(destinationXY[0].trim());
         int destinationY = Integer.parseInt(destinationXY[1].trim());
 
-        Dot origin = Dot.getInstanceBy(originX, originY);
-        Dot destination = Dot.getInstanceBy(destinationX, destinationY);
+        Position origin = Position.getInstanceBy(originX, originY);
+        Position destination = Position.getInstanceBy(destinationX, destinationY);
 
         return List.of(origin, destination);
     }

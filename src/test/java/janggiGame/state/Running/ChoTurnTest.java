@@ -2,7 +2,7 @@ package janggiGame.state.Running;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.oneMovePiece.King;
 import janggiGame.piece.straightMovePiece.Chariot;
@@ -18,8 +18,8 @@ class ChoTurnTest {
     @Test
     void choToHan() {
         // given
-        Dot origin = Dot.getInstanceBy(0, 0);
-        Dot destination = Dot.getInstanceBy(0, 1);
+        Position origin = Position.getInstanceBy(0, 0);
+        Position destination = Position.getInstanceBy(0, 1);
         State choTurn = new ChoTurn(Map.of(origin, new Chariot(Dynasty.CHO)), false);
 
         // when
@@ -33,7 +33,7 @@ class ChoTurnTest {
     @Test
     void choToDraw() {
         // given
-        Dot origin = Dot.getInstanceBy(0, 0);
+        Position origin = Position.getInstanceBy(0, 0);
         State choTurn = new ChoTurn(Map.of(origin, new Chariot(Dynasty.CHO)), true);
 
         // when
@@ -47,8 +47,8 @@ class ChoTurnTest {
     @Test
     void choToChoWin() {
         // given
-        Dot origin = Dot.getInstanceBy(0, 0);
-        Dot destination = Dot.getInstanceBy(0, 1);
+        Position origin = Position.getInstanceBy(0, 0);
+        Position destination = Position.getInstanceBy(0, 1);
         State choTurn = new ChoTurn(Map.of(origin, new Chariot(Dynasty.CHO), destination, new King(Dynasty.HAN)), false);
 
         // when
@@ -62,7 +62,7 @@ class ChoTurnTest {
     @Test
     void getCurrentDynasty() {
         // given
-        State choTurn = new ChoTurn(Map.of(Dot.getInstanceBy(0, 0), new Chariot(Dynasty.CHO)), true);
+        State choTurn = new ChoTurn(Map.of(Position.getInstanceBy(0, 0), new Chariot(Dynasty.CHO)), true);
 
         // when
         Dynasty actual = choTurn.getCurrentDynasty();

@@ -1,7 +1,7 @@
 package janggiGame.state.Running;
 
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
@@ -14,16 +14,16 @@ import java.util.Map;
 
 public abstract class Running implements State {
     private static final double DEOM_FOR_HAN = 1.5;
-    protected final Map<Dot, Piece> pieces;
+    protected final Map<Position, Piece> pieces;
     protected final boolean wasLastTurnPassed;
 
-    public Running(Map<Dot, Piece> pieces, boolean wasLastTurnPassed) {
+    public Running(Map<Position, Piece> pieces, boolean wasLastTurnPassed) {
         this.pieces = pieces;
         this.wasLastTurnPassed = wasLastTurnPassed;
     }
 
     @Override
-    public Map<Dot, Piece> getPieces() {
+    public Map<Position, Piece> getPieces() {
         return new HashMap<>(pieces);
     }
 
@@ -58,34 +58,34 @@ public abstract class Running implements State {
                 .sum();
     }
 
-    protected void validateOrigin(Dot origin, Dynasty dynasty) {
+    protected void validateOrigin(Position origin, Dynasty dynasty) {
         validateEmptySpace(origin);
         validatePieceDynasty(origin, dynasty);
     }
 
-    private void validateEmptySpace(Dot origin) {
+    private void validateEmptySpace(Position origin) {
         if (!pieces.containsKey(origin)) {
             throw new IllegalArgumentException("[ERROR] 입력 받은 위치에 기물이 존재하지 않습니다.");
         }
     }
 
-    private void validatePieceDynasty(Dot origin, Dynasty dynasty) {
+    private void validatePieceDynasty(Position origin, Dynasty dynasty) {
         if (pieces.get(origin).getDynasty() != dynasty) {
             throw new IllegalArgumentException("[ERROR] 입력 받은 위치의 기물이 현 사용자 소유의 기물이 아닙니다.");
         }
     }
 
-    protected Map<Dot, Piece> getPiecesOn(List<Dot> route) {
-        Map<Dot, Piece> routeWithPiece = new HashMap<>();
+    protected Map<Position, Piece> getPiecesOn(List<Position> route) {
+        Map<Position, Piece> routeWithPiece = new HashMap<>();
 
-        for (Dot dot : route) {
-            routeWithPiece.put(dot, pieces.getOrDefault(dot, null));
+        for (Position position : route) {
+            routeWithPiece.put(position, pieces.getOrDefault(position, null));
         }
         return routeWithPiece;
     }
 
-    protected Map<Dot, Piece> movePiece(Dot origin, Dot destination, Piece originPiece) {
-        Map<Dot, Piece> nextTurnPieces = new HashMap<>(pieces);
+    protected Map<Position, Piece> movePiece(Position origin, Position destination, Piece originPiece) {
+        Map<Position, Piece> nextTurnPieces = new HashMap<>(pieces);
         nextTurnPieces.remove(origin);
         nextTurnPieces.put(destination, originPiece);
 

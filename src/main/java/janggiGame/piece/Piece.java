@@ -1,6 +1,6 @@
 package janggiGame.piece;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import java.util.List;
 import java.util.Map;
 
@@ -31,9 +31,9 @@ public abstract class Piece {
         return type.getPoint();
     }
 
-    public abstract List<Dot> getRoute(Dot origin, Dot destination);
+    public abstract List<Position> getRoute(Position origin, Position destination);
 
-    public abstract void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece);
+    public abstract void validateMove(Map<Position, Piece> routesWithPiece, Piece destinationPiece);
 
     protected abstract void validateRoute(int dx, int dy);
 

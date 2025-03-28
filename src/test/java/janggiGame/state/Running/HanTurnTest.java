@@ -2,7 +2,7 @@ package janggiGame.state.Running;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.oneMovePiece.King;
 import janggiGame.piece.straightMovePiece.Chariot;
@@ -18,8 +18,8 @@ class HanTurnTest {
     @Test
     void hanToCho() {
         // given
-        Dot origin = Dot.getInstanceBy(0, 0);
-        Dot destination = Dot.getInstanceBy(0, 1);
+        Position origin = Position.getInstanceBy(0, 0);
+        Position destination = Position.getInstanceBy(0, 1);
         State hanTurn = new HanTurn(Map.of(origin, new Chariot(Dynasty.HAN)), false);
 
         // when
@@ -33,7 +33,7 @@ class HanTurnTest {
     @Test
     void hanToDraw() {
         // given
-        Dot origin = Dot.getInstanceBy(0, 0);
+        Position origin = Position.getInstanceBy(0, 0);
         State hanTurn = new HanTurn(Map.of(origin, new Chariot(Dynasty.HAN)), true);
 
         // when
@@ -47,8 +47,8 @@ class HanTurnTest {
     @Test
     void hanToHanWin() {
         // given
-        Dot origin = Dot.getInstanceBy(0, 0);
-        Dot destination = Dot.getInstanceBy(0, 1);
+        Position origin = Position.getInstanceBy(0, 0);
+        Position destination = Position.getInstanceBy(0, 1);
         State hanTurn = new HanTurn(Map.of(origin, new Chariot(Dynasty.HAN), destination, new King(Dynasty.CHO)), false);
 
         // when
@@ -62,7 +62,7 @@ class HanTurnTest {
     @Test
     void getCurrentDynasty() {
         // given
-        State hanTurn = new HanTurn(Map.of(Dot.getInstanceBy(0, 0), new Chariot(Dynasty.HAN)), true);
+        State hanTurn = new HanTurn(Map.of(Position.getInstanceBy(0, 0), new Chariot(Dynasty.HAN)), true);
 
         // when
         Dynasty actual = hanTurn.getCurrentDynasty();

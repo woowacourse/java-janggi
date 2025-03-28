@@ -3,7 +3,7 @@ package controller;
 import janggiGame.JanggiGame;
 import janggiGame.arrangement.ArrangementOption;
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.state.GameResult;
 import janggiGame.state.GameScore;
 import view.InputView;
@@ -51,7 +51,7 @@ public class JanggiController {
     }
 
     public void takeTurn() {
-        List<Dot> movement = inputView.readPieceMovement();
+        List<Position> movement = inputView.readPieceMovement();
         janggiGame.takeTurn(movement.getFirst(), movement.getLast());
     }
 

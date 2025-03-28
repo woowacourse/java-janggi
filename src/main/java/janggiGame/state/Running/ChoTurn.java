@@ -1,6 +1,6 @@
 package janggiGame.state.Running;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ChoTurn extends Running{
 
-    public ChoTurn(Map<Dot, Piece> pieces, boolean wasLastTurnPassed) {
+    public ChoTurn(Map<Position, Piece> pieces, boolean wasLastTurnPassed) {
         super(pieces, wasLastTurnPassed);
     }
 
@@ -25,16 +25,16 @@ public class ChoTurn extends Running{
     }
 
     @Override
-    public State takeTurn(Dot origin, Dot destination) {
+    public State takeTurn(Position origin, Position destination) {
         validateOrigin(origin, Dynasty.CHO);
 
         Piece originPiece = pieces.get(origin);
-        List<Dot> route = originPiece.getRoute(origin, destination);
-        Map<Dot, Piece> routeWithPiece = getPiecesOn(route);
+        List<Position> route = originPiece.getRoute(origin, destination);
+        Map<Position, Piece> routeWithPiece = getPiecesOn(route);
         Piece destinationPiece = pieces.getOrDefault(destination, null);
 
         originPiece.validateMove(routeWithPiece, destinationPiece);
-        Map<Dot, Piece> nextTurnPieces = movePiece(origin, destination, originPiece);
+        Map<Position, Piece> nextTurnPieces = movePiece(origin, destination, originPiece);
 
         if(destinationPiece != null && destinationPiece.getType() == Type.KING) {
             return new ChoWin();

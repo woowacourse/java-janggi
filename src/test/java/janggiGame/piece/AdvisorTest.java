@@ -4,7 +4,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.oneMovePiece.Advisor;
 import janggiGame.piece.straightMovePiece.Chariot;
 import org.junit.jupiter.api.DisplayName;
@@ -19,12 +19,12 @@ class AdvisorTest {
     @Test
     void advisorCanGetRoute() {
         // given
-        Dot origin = Dot.getInstanceBy(1, 1);
-        Dot destination = Dot.getInstanceBy(1, 0);
+        Position origin = Position.getInstanceBy(1, 1);
+        Position destination = Position.getInstanceBy(1, 0);
         Advisor advisor = new Advisor(Dynasty.HAN);
 
         // when
-        List<Dot> actual = advisor.getRoute(origin, destination);
+        List<Position> actual = advisor.getRoute(origin, destination);
 
         // then
         assertThat(actual).isEmpty();
@@ -34,7 +34,7 @@ class AdvisorTest {
     @Test
     void advisorJudgeMovable3() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Advisor advisor = new Advisor(Dynasty.HAN);
 
         // when // then

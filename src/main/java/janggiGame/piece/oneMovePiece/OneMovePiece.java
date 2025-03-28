@@ -1,6 +1,6 @@
 package janggiGame.piece.oneMovePiece;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
@@ -13,7 +13,7 @@ public abstract class OneMovePiece extends Piece {
     }
 
     @Override
-    public List<Dot> getRoute(Dot origin, Dot destination) {
+    public List<Position> getRoute(Position origin, Position destination) {
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
 
@@ -30,7 +30,7 @@ public abstract class OneMovePiece extends Piece {
     }
 
     @Override
-    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
+    public void validateMove(Map<Position, Piece> routesWithPiece, Piece destinationPiece) {
         validateSameDynasty(destinationPiece);
     }
 }

@@ -1,36 +1,36 @@
-package janggiGame;
+package janggiGame.position;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Dot {
+public class Position {
     private static final Integer MIN_X_RANGE = 0;
     private static final Integer MAX_X_RANGE = 8;
     private static final Integer MIN_Y_RANGE = 0;
     private static final Integer MAX_Y_RANGE = 9;
 
-    private static final List<Dot> CACHE = createCache();
+    private static final List<Position> CACHE = createCache();
 
     private final Integer x;
     private final Integer y;
 
-    private Dot(Integer x, Integer y) {
+    private Position(Integer x, Integer y) {
         this.x = x;
         this.y = y;
     }
 
-    private static List<Dot> createCache() {
-        List<Dot> cache = new ArrayList<>();
+    private static List<Position> createCache() {
+        List<Position> cache = new ArrayList<>();
         for (int i = MAX_Y_RANGE; i >= MIN_Y_RANGE; i--) {
             for (int j = MIN_X_RANGE; j <= MAX_X_RANGE; j++) {
-                cache.add(new Dot(j, i));
+                cache.add(new Position(j, i));
             }
         }
         return cache;
     }
 
-    public static Dot getInstanceBy(Integer x, Integer y) {
+    public static Position getInstanceBy(Integer x, Integer y) {
         validateDotRange(x, y);
         return CACHE.stream()
                 .filter(d -> d.getX().equals(x))
@@ -56,7 +56,7 @@ public class Dot {
         }
     }
 
-    public Dot getReverse() {
+    public Position getReverse() {
         return CACHE.stream()
                 .filter(d -> d.getX() == MAX_X_RANGE - x)
                 .filter(d -> d.getY() == MAX_Y_RANGE - y)
@@ -64,7 +64,7 @@ public class Dot {
                 .orElseThrow(RuntimeException::new);
     }
 
-    public static List<Dot> getDots() {
+    public static List<Position> getDots() {
         return List.copyOf(CACHE);
     }
 
@@ -77,43 +77,43 @@ public class Dot {
         return y;
     }
 
-    public int getDx(Dot other) {
+    public int getDx(Position other) {
         return other.x - this.x;
     }
 
-    public int getDy(Dot other) {
+    public int getDy(Position other) {
         return other.y - this.y;
     }
 
-    public Dot up() {
+    public Position up() {
         return getInstanceBy(x, y + 1);
     }
 
-    public Dot down() {
+    public Position down() {
         return getInstanceBy(x, y - 1);
     }
 
-    public Dot right() {
+    public Position right() {
         return getInstanceBy(x + 1, y);
     }
 
-    public Dot left() {
+    public Position left() {
         return getInstanceBy(x - 1, y);
     }
 
-    public Dot upRight() {
+    public Position upRight() {
         return getInstanceBy(x + 1, y + 1);
     }
 
-    public Dot upLeft() {
+    public Position upLeft() {
         return getInstanceBy(x - 1, y + 1);
     }
 
-    public Dot downRight() {
+    public Position downRight() {
         return getInstanceBy(x + 1, y - 1);
     }
 
-    public Dot downLeft() {
+    public Position downLeft() {
         return getInstanceBy(x - 1, y - 1);
     }
 
@@ -122,8 +122,8 @@ public class Dot {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Dot dot = (Dot) o;
-        return Objects.equals(x, dot.x) && Objects.equals(y, dot.y);
+        Position position = (Position) o;
+        return Objects.equals(x, position.x) && Objects.equals(y, position.y);
     }
 
     @Override

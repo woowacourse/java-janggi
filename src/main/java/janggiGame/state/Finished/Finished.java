@@ -1,7 +1,7 @@
 package janggiGame.state.Finished;
 
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.state.GameScore;
@@ -22,7 +22,7 @@ public abstract class Finished implements State {
     }
 
     @Override
-    public State takeTurn(Dot origin, Dot destination) {
+    public State takeTurn(Position origin, Position destination) {
         throw new IllegalStateException(ERROR_MESSAGE);
     }
 
@@ -37,7 +37,7 @@ public abstract class Finished implements State {
     }
 
     @Override
-    public Map<Dot, Piece> getPieces() {
+    public Map<Position, Piece> getPieces() {
         throw new IllegalStateException(ERROR_MESSAGE);
     }
 

@@ -1,6 +1,6 @@
 package janggiGame.piece.curveMovePiece;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Type;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Horse extends CurveMovePiece {
     }
 
     @Override
-    protected List<Function<Dot, Dot>> getMoveSteps(int dx, int dy) {
+    protected List<Function<Position, Position>> getMoveSteps(int dx, int dy) {
         return List.of(getFirstMove(dx, dy));
     }
 

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import fixture.JanggiGameFixture;
 import janggiGame.piece.Dynasty;
+import janggiGame.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ class JanggiGameTest {
 
         // when
         Dynasty lastDynasty = janggiGame.getCurrentDynasty();
-        janggiGame.takeTurn(Dot.getInstanceBy(0, 0), Dot.getInstanceBy(0, 1));
+        janggiGame.takeTurn(Position.getInstanceBy(0, 0), Position.getInstanceBy(0, 1));
         janggiGame.undoTurn();
         Dynasty currentDynasty = janggiGame.getCurrentDynasty();
 

@@ -3,6 +3,7 @@ package janggiGame;
 import janggiGame.arrangement.ArrangementStrategy;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
+import janggiGame.position.Position;
 import janggiGame.state.GameResult;
 import janggiGame.state.GameScore;
 import janggiGame.state.Started.Started;
@@ -19,7 +20,7 @@ public class JanggiGame {
         currentState = currentState.arrangePieces(hanStrategy, choStrategy);
     }
 
-    public void takeTurn(Dot origin, Dot destination) {
+    public void takeTurn(Position origin, Position destination) {
         history.push(currentState);
         currentState = currentState.takeTurn(origin, destination);
     }
@@ -52,7 +53,7 @@ public class JanggiGame {
         }
     }
 
-    public Map<Dot, Piece> getPieces() {
+    public Map<Position, Piece> getPieces() {
         return currentState.getPieces();
     }
 

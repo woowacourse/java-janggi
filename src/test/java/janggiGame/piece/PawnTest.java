@@ -3,7 +3,7 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.oneMovePiece.Pawn;
 import janggiGame.piece.straightMovePiece.Chariot;
 import java.util.LinkedHashMap;
@@ -21,12 +21,12 @@ class PawnTest {
     @Test
     void pawnCanGetRoute() {
         // given
-        Dot origin = Dot.getInstanceBy(1, 1);
-        Dot destination = Dot.getInstanceBy(1, 0);
+        Position origin = Position.getInstanceBy(1, 1);
+        Position destination = Position.getInstanceBy(1, 0);
         Pawn pawn = new Pawn(Dynasty.HAN);
 
         // when
-        List<Dot> actual = pawn.getRoute(origin, destination);
+        List<Position> actual = pawn.getRoute(origin, destination);
 
         // then
         assertThat(actual).isEmpty();
@@ -35,7 +35,7 @@ class PawnTest {
     @DisplayName("병은 뒤로 이동할 수 없다.")
     @ParameterizedTest
     @MethodSource("providePawnAndOriginAndDestination")
-    void pawnCannotMoveBack(Pawn pawn, Dot origin, Dot destination) {
+    void pawnCannotMoveBack(Pawn pawn, Position origin, Position destination) {
         // when // then
         assertThatCode(() -> pawn.getRoute(origin, destination))
                 .isInstanceOf(UnsupportedOperationException.class)
@@ -44,8 +44,8 @@ class PawnTest {
 
     public static Stream<Arguments> providePawnAndOriginAndDestination() {
         return Stream.of(
-                Arguments.of(new Pawn(Dynasty.HAN), Dot.getInstanceBy(0, 5), Dot.getInstanceBy(0, 6)),
-                Arguments.of(new Pawn(Dynasty.CHO), Dot.getInstanceBy(0, 3), Dot.getInstanceBy(0, 2))
+                Arguments.of(new Pawn(Dynasty.HAN), Position.getInstanceBy(0, 5), Position.getInstanceBy(0, 6)),
+                Arguments.of(new Pawn(Dynasty.CHO), Position.getInstanceBy(0, 3), Position.getInstanceBy(0, 2))
         );
     }
 
@@ -53,7 +53,7 @@ class PawnTest {
     @Test
     void pawnJudgeMovable3() {
         // given
-        Map<Dot, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
         Pawn pawn = new Pawn(Dynasty.HAN);
 
         // when // then

@@ -4,7 +4,7 @@ package janggiGame.state.Started;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.arrangement.ArrangementStrategy;
 import janggiGame.arrangement.InnerElephantStrategy;
 import janggiGame.state.Running.ChoTurn;
@@ -33,7 +33,8 @@ class StartedTest {
         State started = new Started();
 
         return Stream.of(
-                Arguments.of((ThrowingCallable) () -> started.takeTurn(Dot.getInstanceBy(1, 1), Dot.getInstanceBy(2, 2))),
+                Arguments.of((ThrowingCallable) () -> started.takeTurn(
+                        Position.getInstanceBy(1, 1), Position.getInstanceBy(2, 2))),
                 Arguments.of((ThrowingCallable) started::skipTurn),
                 Arguments.of((ThrowingCallable) started::getGameResult),
                 Arguments.of((ThrowingCallable) started::getGameScore),

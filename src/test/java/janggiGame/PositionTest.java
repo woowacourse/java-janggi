@@ -3,6 +3,7 @@ package janggiGame;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggiGame.position.Position;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 
-class DotTest {
+class PositionTest {
 
     @DisplayName("x 좌표가 0부터 8까지의 범위를 가진다")
     @ParameterizedTest
@@ -22,7 +23,7 @@ class DotTest {
         int y = 2;
 
         // when // then
-        assertThatCode(() -> Dot.getInstanceBy(x, y))
+        assertThatCode(() -> Position.getInstanceBy(x, y))
                 .doesNotThrowAnyException();
     }
 
@@ -34,7 +35,7 @@ class DotTest {
         int x = 2;
 
         // when // then
-        assertThatCode(() -> Dot.getInstanceBy(x, y))
+        assertThatCode(() -> Position.getInstanceBy(x, y))
                 .doesNotThrowAnyException();
     }
 
@@ -44,7 +45,7 @@ class DotTest {
     void validateDotRange(int x, int y) {
 
         // when // then
-        assertThatCode(() -> Dot.getInstanceBy(x, y))
+        assertThatCode(() -> Position.getInstanceBy(x, y))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -61,11 +62,11 @@ class DotTest {
     @Test
     void createDotsCache() {
         // given
-        Dot dotA = Dot.getInstanceBy(1, 1);
-        Dot dotB = Dot.getInstanceBy(1, 1);
+        Position positionA = Position.getInstanceBy(1, 1);
+        Position positionB = Position.getInstanceBy(1, 1);
 
         // when
-        boolean actual = dotA == dotB;
+        boolean actual = positionA == positionB;
 
         // then
         assertThat(actual).isTrue();

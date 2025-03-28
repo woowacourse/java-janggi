@@ -1,6 +1,6 @@
 package janggiGame.piece.curveMovePiece;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
@@ -17,7 +17,7 @@ public abstract class CurveMovePiece extends Piece {
     }
 
     @Override
-    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
+    public void validateMove(Map<Position, Piece> routesWithPiece, Piece destinationPiece) {
         validateSameDynasty(destinationPiece);
 
         boolean isBlocked = routesWithPiece.values().stream().anyMatch(Objects::nonNull);
@@ -27,16 +27,16 @@ public abstract class CurveMovePiece extends Piece {
     }
 
     @Override
-    public List<Dot> getRoute(Dot origin, Dot destination) {
+    public List<Position> getRoute(Position origin, Position destination) {
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
         validateRoute(dx, dy);
         return getRouteBySteps(origin, getMoveSteps(dx, dy));
     }
 
-    private List<Dot> getRouteBySteps(Dot origin, List<Function<Dot, Dot>> moveSteps) {
-        List<Dot> route = new ArrayList<>();
-        for (Function<Dot, Dot> move : moveSteps) {
+    private List<Position> getRouteBySteps(Position origin, List<Function<Position, Position>> moveSteps) {
+        List<Position> route = new ArrayList<>();
+        for (Function<Position, Position> move : moveSteps) {
             origin = move.apply(origin);
             route.add(origin);
         }
@@ -50,11 +50,11 @@ public abstract class CurveMovePiece extends Piece {
         }
     }
 
-    protected Function<Dot, Dot> getFirstMove(int dx, int dy) {
+    protected Function<Position, Position> getFirstMove(int dx, int dy) {
         if (isFirstMoveVertical(dx, dy)) {
-            return dy > 0 ? Dot::up : Dot::down;
+            return dy > 0 ? Position::up : Position::down;
         } else {
-            return dx > 0 ? Dot::right : Dot::left;
+            return dx > 0 ? Position::right : Position::left;
         }
     }
 
@@ -62,5 +62,5 @@ public abstract class CurveMovePiece extends Piece {
 
     protected abstract boolean isFirstMoveHorizontal(int dx, int dy);
 
-    protected abstract List<Function<Dot, Dot>> getMoveSteps(int dx, int dy);
+    protected abstract List<Function<Position, Position>> getMoveSteps(int dx, int dy);
 }

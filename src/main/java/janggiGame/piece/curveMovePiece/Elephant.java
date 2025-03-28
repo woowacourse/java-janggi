@@ -1,6 +1,6 @@
 package janggiGame.piece.curveMovePiece;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Type;
 import java.util.List;
@@ -13,18 +13,18 @@ public class Elephant extends CurveMovePiece {
     }
 
     @Override
-    protected List<Function<Dot, Dot>> getMoveSteps(int dx, int dy) {
+    protected List<Function<Position, Position>> getMoveSteps(int dx, int dy) {
         return List.of(
                 getFirstMove(dx, dy),
                 getDiagonalMove(dx, dy)
         );
     }
 
-    private Function<Dot, Dot> getDiagonalMove(int dx, int dy) {
-        if (dx > 0 && dy > 0) return Dot::upRight;
-        if (dx > 0) return Dot::downRight;
-        if (dy > 0) return Dot::upLeft;
-        return Dot::downLeft;
+    private Function<Position, Position> getDiagonalMove(int dx, int dy) {
+        if (dx > 0 && dy > 0) return Position::upRight;
+        if (dx > 0) return Position::downRight;
+        if (dy > 0) return Position::upLeft;
+        return Position::downLeft;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package janggiGame.piece.straightMovePiece;
 
-import janggiGame.Dot;
+import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
@@ -15,7 +15,7 @@ public class Cannon extends StraightMovePiece {
     }
 
     @Override
-    public void validateMove(Map<Dot, Piece> routesWithPiece, Piece destinationPiece) {
+    public void validateMove(Map<Position, Piece> routesWithPiece, Piece destinationPiece) {
         validateSameDynasty(destinationPiece);
 
         if (destinationPiece != null && destinationPiece.getType() == Type.CANNON) {
