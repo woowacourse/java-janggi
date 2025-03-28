@@ -24,6 +24,11 @@ public class General extends Piece {
             return false;
         }
 
+        if (now.isCornerInPalace() && destination.isCenterInPalace()
+                || now.isCenterInPalace() && destination.isCornerInPalace()) {
+            return true;
+        }
+
         return now.calculateDistance(destination) == GENERAL_DISTANCE;
     }
 

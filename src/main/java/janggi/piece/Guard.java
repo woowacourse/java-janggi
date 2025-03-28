@@ -24,6 +24,11 @@ public class Guard extends Piece{
             return false;
         }
 
+        if (now.isCornerInPalace() && destination.isCenterInPalace()
+                || now.isCenterInPalace() && destination.isCornerInPalace()) {
+            return true;
+        }
+
         return now.calculateDistance(destination) == GUARD_DISTANCE;
     }
 

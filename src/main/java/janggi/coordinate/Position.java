@@ -16,6 +16,8 @@ public record Position(int x, int y) {
     private static final Position PALACE_BOTTOM_RIGHT_HAN = new Position(3, 6);
     private static final Position PALACE_TOP_LEFT_CHO = new Position(8, 4);
     private static final Position PALACE_BOTTOM_RIGHT_CHO = new Position(10, 6);
+    private static final Position PALACE_CENTER_HAN = new Position(2, 5);
+    private static final Position PALACE_CENTER_CHO = new Position(9, 5);
 
     public Position(final int x, final int y) {
         validatePositionRange(x, y);
@@ -107,6 +109,16 @@ public record Position(int x, int y) {
 
     private boolean isYLessThan(final Position position){
         return y <= position.y;
+    }
+    
+    public boolean isCenterInPalace(){
+        return this.equals(PALACE_CENTER_HAN) || this.equals(PALACE_CENTER_CHO);
+    }
+
+    public boolean isCornerInPalace(){
+        return (y == PALACE_TOP_LEFT_CHO.y || y == PALACE_BOTTOM_RIGHT_CHO.y)
+                && ((x == PALACE_TOP_LEFT_HAN.x || x == PALACE_BOTTOM_RIGHT_HAN.x)
+                || (x == PALACE_TOP_LEFT_CHO.x || x == PALACE_BOTTOM_RIGHT_CHO.x));
     }
 
 }
