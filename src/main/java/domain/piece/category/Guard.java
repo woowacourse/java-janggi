@@ -19,7 +19,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    public Guard move(final Position position, final MoveInfos moveInfos) {
-        return new Guard(position, directions);
+    public Guard move(final Position target, final MoveInfos moveInfos) {
+        return new Guard(target, directions);
     }
 }

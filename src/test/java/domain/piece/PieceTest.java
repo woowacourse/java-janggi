@@ -116,8 +116,8 @@ class PieceTest {
         }
 
         @Override
-        public TestPiece move(final Position position, final MoveInfos moveInfos) {
-            return new TestPiece(position, directions);
+        public TestPiece move(final Position target, final MoveInfos moveInfos) {
+            return new TestPiece(target, directions);
         }
 
         @Override

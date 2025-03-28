@@ -19,8 +19,8 @@ public class King extends Piece {
     }
 
     @Override
-    public King move(final Position position, final MoveInfos moveInfos) {
-        return new King(position, directions);
+    public King move(final Position target, final MoveInfos moveInfos) {
+        return new King(target, directions);
     }
 
     @Override

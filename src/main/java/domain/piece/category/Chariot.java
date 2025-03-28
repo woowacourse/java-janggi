@@ -20,9 +20,9 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public Chariot move(final Position position, final MoveInfos moveInfos) {
+    public Chariot move(final Position target, final MoveInfos moveInfos) {
         validateMove(moveInfos);
-        return new Chariot(position, directions);
+        return new Chariot(target, directions);
     }
 
     private void validateMove(final MoveInfos moveInfos) {

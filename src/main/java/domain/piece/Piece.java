@@ -19,7 +19,7 @@ public abstract class Piece {
 
     public abstract PieceCategory getCategory();
 
-    public abstract Piece move(final Position position, final MoveInfos moveInfos);
+    public abstract Piece move(final Position target, final MoveInfos moveInfos);
 
     public boolean isKing() {
         return false;

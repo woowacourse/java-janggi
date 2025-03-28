@@ -20,9 +20,9 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public Elephant move(final Position position, final MoveInfos moveInfos) {
+    public Elephant move(final Position target, final MoveInfos moveInfos) {
         validateMove(moveInfos);
-        return new Elephant(position, directions);
+        return new Elephant(target, directions);
     }
 
     private void validateMove(final MoveInfos moveInfos) {

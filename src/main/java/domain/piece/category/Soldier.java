@@ -14,8 +14,8 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public Soldier move(final Position position, final MoveInfos moveInfos) {
-        return new Soldier(position, directions);
+    public Soldier move(final Position target, final MoveInfos moveInfos) {
+        return new Soldier(target, directions);
     }
 
     @Override

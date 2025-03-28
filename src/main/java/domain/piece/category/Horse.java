@@ -20,9 +20,9 @@ public class Horse extends Piece {
     }
 
     @Override
-    public Horse move(final Position position, final MoveInfos moveInfos) {
+    public Horse move(final Position target, final MoveInfos moveInfos) {
         validateMove(moveInfos);
-        return new Horse(position, directions);
+        return new Horse(target, directions);
     }
 
     private void validateMove(final MoveInfos moveInfos) {

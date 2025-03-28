@@ -20,9 +20,9 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public Cannon move(final Position position, final MoveInfos moveInfos) {
+    public Cannon move(final Position target, final MoveInfos moveInfos) {
         validateMove(moveInfos);
-        return new Cannon(position, directions);
+        return new Cannon(target, directions);
     }
 
     private void validateMove(final MoveInfos moveInfos) {
