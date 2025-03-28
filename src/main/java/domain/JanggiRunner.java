@@ -1,7 +1,7 @@
 package domain;
 
+import domain.game.JanggiGame;
 import domain.piece.Piece;
-import domain.piece.PieceFactory;
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.player.Player;
 import domain.player.Players;
@@ -70,7 +70,6 @@ public class JanggiRunner {
         }
     }
 
-
     private void showWinner(JanggiGame janggiGame) {
         Player winner = janggiGame.findWinner();
         if (janggiGame.isFinishedByCheckmate()) {
@@ -83,16 +82,9 @@ public class JanggiRunner {
 
     private JanggiGame initializeGame() {
         Players players = createPlayers();
-        HorseElephantSetupStrategy firstPlayerStrategy = chooseStrategy(players.getChoPlayerName());
-        HorseElephantSetupStrategy secondPlayerStrategy = chooseStrategy(players.getHanPlayerName());
-        Map<Position, Piece> allPieces = createAllPieces(firstPlayerStrategy, secondPlayerStrategy);
-        return new JanggiGame(players, allPieces);
-    }
-
-    private Map<Position, Piece> createAllPieces(HorseElephantSetupStrategy firstPlayerStrategy,
-                                                 HorseElephantSetupStrategy secondPlayerStrategy) {
-        PieceFactory factory = new PieceFactory();
-        return factory.createAllPieces(firstPlayerStrategy, secondPlayerStrategy);
+        HorseElephantSetupStrategy choPlayerStrategy = chooseStrategy(players.getChoPlayerName());
+        HorseElephantSetupStrategy hanPlayerStrategy = chooseStrategy(players.getHanPlayerName());
+        return JanggiGame.start(players, choPlayerStrategy, hanPlayerStrategy);
     }
 
     private HorseElephantSetupStrategy chooseStrategy(String players) {

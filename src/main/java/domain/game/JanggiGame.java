@@ -1,6 +1,11 @@
-package domain;
+package domain.game;
 
+import domain.TeamType;
 import domain.piece.Piece;
+import domain.piece.PieceFactory;
+import domain.piece.strategy.HorseElephantSetupStrategy;
+import domain.player.Player;
+import domain.player.Players;
 import domain.position.Position;
 import domain.turn.Finished;
 import domain.turn.Turn;
@@ -12,9 +17,25 @@ public class JanggiGame {
     private final Players players;
     private Turn turn;
 
-    public JanggiGame(Players players, Map<Position, Piece> pieces) {
+    private JanggiGame(Players players, Turn turn) {
         this.players = players;
-        this.turn = Turn.start(pieces);
+        this.turn = turn;
+    }
+
+    public static JanggiGame start(Players players, HorseElephantSetupStrategy choPlayerStrategy,
+                                   HorseElephantSetupStrategy hanPlayerStrategy) {
+        Map<Position, Piece> pieces = createAllPieces(choPlayerStrategy, hanPlayerStrategy);
+        return new JanggiGame(players, Turn.start(pieces));
+    }
+
+    public static JanggiGame from(Players players, Turn turn) {
+        return new JanggiGame(players, turn);
+    }
+
+    private static Map<Position, Piece> createAllPieces(HorseElephantSetupStrategy choPlayerStrategy,
+                                                        HorseElephantSetupStrategy hanPlayerStrategy) {
+        PieceFactory factory = new PieceFactory();
+        return factory.createAllPieces(choPlayerStrategy, hanPlayerStrategy);
     }
 
     public void movePiece(Position startPosition, Position endPosition) {

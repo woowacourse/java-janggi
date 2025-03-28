@@ -3,6 +3,7 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.game.JanggiGame;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Piece;
@@ -11,6 +12,9 @@ import domain.player.Player;
 import domain.player.Players;
 import domain.player.Usernames;
 import domain.position.Position;
+import domain.turn.Playing;
+import domain.turn.Turn;
+import domain.turn.TurnState;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +37,9 @@ class JanggiGameTest {
                 Position.of(4, 3), new King(TeamType.CHO),
                 Position.of(3, 2), new King(TeamType.HAN)
         );
-        janggiGame = new JanggiGame(players, pieces);
+        Board board = new Board(pieces);
+        Turn turn = new Playing(board, new TurnState(false, TeamType.CHO));
+        janggiGame = JanggiGame.from(players, turn);
     }
 
     @Test
