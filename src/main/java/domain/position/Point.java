@@ -52,22 +52,6 @@ public final class Point {
         return x >= 3 && x <= 5 && y >= 7 && y <= 9;
     }
 
-    public int distanceToMaxX() {
-        return MAX_X - x;
-    }
-
-    public int distanceToMinX() {
-        return x;
-    }
-
-    public int distanceToMaxY() {
-        return MAX_Y - y;
-    }
-
-    public int distanceToMinY() {
-        return y;
-    }
-
     public Direction generateDirection(final Point other) {
         final int pointX = calculateSubtractionX(other);
         final int pointY = calculateSubtractionY(other);
