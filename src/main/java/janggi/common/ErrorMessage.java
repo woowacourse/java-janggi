@@ -12,7 +12,7 @@ public enum ErrorMessage {
     INVALID_MASANG_INPUT("잘못된 입력입니다. 숫자 1, 2, 3, 4로 입력해주세요."),
     INVALID_PIECES_TOTAL_COUNT("장기 기물 개수가 32개가 아닙니다."),
     INVALID_GAME_OPTION_INPUT("잘못된 입력입니다. 숫자 1, 2, 3으로 입력해주세요."),
-    INVALID_GAME_MODE_OPTION("")
+    INVALID_GAME_MODE_OPTION("잘못된 입력입니다. 숫자 1, 2으로 입력해주세요."),
     ;
 
     private final String message;
