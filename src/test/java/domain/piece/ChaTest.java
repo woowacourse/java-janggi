@@ -81,7 +81,7 @@ public class ChaTest {
         assertThat(availableMovePositions.contains(new Coordinate(5, 6))).isTrue();
     }
 
-    @DisplayName("차는 궁성 내에서 대각선을 따라 이동할 수 있다.")
+    @DisplayName("차는 궁성 내에서 대각선을 따라 이동할 수 있다._오른쪽 대각선으로 이동 가능")
     @Test
     void chaAvailableMovePosition5() {
         Cha cha = new Cha(Country.HAN);

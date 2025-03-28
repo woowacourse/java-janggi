@@ -76,7 +76,7 @@ public class GungTest {
         assertThat(availableMovePositions).containsExactlyInAnyOrderElementsOf(expected);
     }
 
-    @DisplayName("궁은 궁성 안에서 대각선을 따라 이동할 수 있다.")
+    @DisplayName("궁은 궁성 안에서 대각선을 따라 이동할 수 있다._(1, 1) 방향 대각선으로 이동 가능")
     @Test
     void gungTest5() {
         Gung gung = new Gung(Country.HAN);
@@ -88,6 +88,57 @@ public class GungTest {
 
         List<Coordinate> expected = List.of(
                 new Coordinate(2, 4), new Coordinate(2, 5), new Coordinate(1, 5)
+        );
+
+        assertThat(availableMovePositions).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @DisplayName("궁은 궁성 안에서 대각선을 따라 이동할 수 있다._(1, -1) 방향 대각선으로 이동 가능")
+    @Test
+    void gungTest6() {
+        Gung gung = new Gung(Country.HAN);
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(1, 6), gung);
+        Board board = new Board(pieces);
+
+        List<Coordinate> availableMovePositions = gung.findAvailablePaths(new Coordinate(1, 6), board);
+
+        List<Coordinate> expected = List.of(
+                new Coordinate(2, 6), new Coordinate(2, 5), new Coordinate(1, 5)
+        );
+
+        assertThat(availableMovePositions).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @DisplayName("궁은 궁성 안에서 대각선을 따라 이동할 수 있다._(-1, 1) 방향 대각선으로 이동 가능")
+    @Test
+    void gungTest7() {
+        Gung gung = new Gung(Country.HAN);
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(3, 4), gung);
+        Board board = new Board(pieces);
+
+        List<Coordinate> availableMovePositions = gung.findAvailablePaths(new Coordinate(3, 4), board);
+
+        List<Coordinate> expected = List.of(
+                new Coordinate(2, 4), new Coordinate(2, 5), new Coordinate(3, 5)
+        );
+
+        assertThat(availableMovePositions).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @DisplayName("궁은 궁성 안에서 대각선을 따라 이동할 수 있다._(-1, 1) 방향 대각선으로 이동 가능")
+    @Test
+    void gungTest8() {
+        Gung gung = new Gung(Country.HAN);
+        Map<Coordinate, Piece> pieces = new HashMap<>();
+        pieces.put(new Coordinate(3, 6), gung);
+        Board board = new Board(pieces);
+
+        List<Coordinate> availableMovePositions = gung.findAvailablePaths(new Coordinate(3, 6), board);
+
+        List<Coordinate> expected = List.of(
+                new Coordinate(2, 6), new Coordinate(2, 5), new Coordinate(3, 5)
         );
 
         assertThat(availableMovePositions).containsExactlyInAnyOrderElementsOf(expected);
