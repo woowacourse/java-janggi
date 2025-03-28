@@ -9,7 +9,7 @@ public enum Dynasty {
         this.additionalScore = additionalScore;
     }
 
-    public double getInitialScore() {
-        return additionalScore;
+    public double score(int currentScore) {
+        return additionalScore + currentScore;
     }
 }

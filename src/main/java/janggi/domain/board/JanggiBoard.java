@@ -43,7 +43,7 @@ public class JanggiBoard {
                 .filter(piece -> piece.isDynasty(dynasty))
                 .mapToInt(Piece::score)
                 .sum();
-        return totalScore + dynasty.getInitialScore();
+        return dynasty.score(totalScore);
     }
 
     private Piece findPiece(Point point) {
