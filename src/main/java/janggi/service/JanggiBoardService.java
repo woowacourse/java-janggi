@@ -44,4 +44,9 @@ public class JanggiBoardService {
         janggiDao.removeDestinationPiece(destination);
         janggiDao.updateMovingPiece(start, destination);
     }
+
+    public void resetGame() {
+        janggiDao.removePieces();
+        janggiDao.removeTurn();
+    }
 }

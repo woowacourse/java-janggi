@@ -64,6 +64,7 @@ public class Controller {
             }
         }
         outputView.printWinner(janggiBoard.getWinner());
+        janggiBoardService.resetGame();
     }
 
     private void moveSide(JanggiBoard janggiBoard) {

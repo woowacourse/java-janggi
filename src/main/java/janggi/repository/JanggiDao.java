@@ -74,7 +74,7 @@ public class JanggiDao {
             preparedStatement.setString(4, piece.getSide().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("piece 정보를 삽입할 수 업습니다." + e.getMessage());
+            System.out.println("piece 정보를 삽입할 수 없습니다." + e.getMessage());
         }
     }
 
@@ -85,7 +85,7 @@ public class JanggiDao {
             preparedStatement.setString(1, turn.name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("turn 정보를 삽입할 수 업습니다." + e.getMessage());
+            System.out.println("turn 정보를 삽입할 수 없습니다." + e.getMessage());
         }
     }
 
@@ -99,7 +99,7 @@ public class JanggiDao {
             }
             return false;
         } catch (SQLException e) {
-            System.out.println("piece 정보를 읽어올 수 업습니다." + e.getMessage());
+            System.out.println("piece 정보를 읽어 올 수 없습니다." + e.getMessage());
             return false;
         }
     }
@@ -121,7 +121,7 @@ public class JanggiDao {
             }
             return loadedPieces;
         } catch (SQLException e) {
-            System.out.println("piece 정보를 읽어올 수 업습니다." + e.getMessage());
+            System.out.println("piece 정보를 읽어 올 수 없습니다." + e.getMessage());
         }
         return loadedPieces;
     }
@@ -136,7 +136,7 @@ public class JanggiDao {
                 return Side.valueOf(turn);
             }
         } catch (SQLException e) {
-            System.out.println("turn 정보를 읽어올 수 업습니다." + e.getMessage());
+            System.out.println("turn 정보를 읽어 올 수 없습니다." + e.getMessage());
         }
         return null;
     }
@@ -147,9 +147,9 @@ public class JanggiDao {
              PreparedStatement preparedStatement = connection.prepareStatement(query);) {
             preparedStatement.setInt(1, destination.getX());
             preparedStatement.setInt(2, destination.getY());
-            preparedStatement.executeUpdate(query);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("piece를 삭제 할 수 업습니다." + e.getMessage());
+            System.out.println("piece를 삭제 할 수 없습니다." + e.getMessage());
         }
     }
 
@@ -161,9 +161,29 @@ public class JanggiDao {
             preparedStatement.setInt(2, destination.getY());
             preparedStatement.setInt(3, start.getX());
             preparedStatement.setInt(4, start.getY());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("piece를 수정 할 수 없습니다." + e.getMessage());
+        }
+    }
+
+    public void removePieces() {
+        String query = "DELETE FROM piece";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
             preparedStatement.executeUpdate(query);
         } catch (SQLException e) {
-            System.out.println("piece를 수정 할 수 업습니다." + e.getMessage());
+            System.out.println("pieces를 삭제 할 수 없습니다." + e.getMessage());
+        }
+    }
+
+    public void removeTurn() {
+        String query = "DELETE FROM turn";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+            preparedStatement.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println("turn을 삭제 할 수 없습니다." + e.getMessage());
         }
     }
 
