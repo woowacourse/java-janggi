@@ -28,7 +28,6 @@ public class GameManager {
 
         OutputView.printStart(gameRoomName);
         ErrorHandler.retryUntilSuccess(() -> play(game));
-        OutputView.printMatchResult(game.findWinTeam());
     }
 
     private void play(JanggiGame game) {
