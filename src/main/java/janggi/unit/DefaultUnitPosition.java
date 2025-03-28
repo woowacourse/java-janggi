@@ -1,7 +1,11 @@
 package janggi.unit;
 
 import janggi.position.Position;
+import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Supplier;
 
 public enum DefaultUnitPosition {
@@ -26,12 +30,16 @@ public enum DefaultUnitPosition {
         this.rule = rule;
     }
 
-    public static List<Unit> createDefaultUnits(DefaultUnitPosition position, Team team) {
+    public static Map<Position, Unit> createDefaultUnits(DefaultUnitPosition position, Team team) {
+        Map<Position, Unit> units = new HashMap<>();
         if (team == Team.CHO) {
-            return position.xPositions.stream()
-                    .map(x -> Unit.of(new Position(x, position.choY), team, position.rule.get())).toList();
+            position.xPositions.forEach(xPosition -> units.put(new Position(xPosition, position.choY),
+                    Unit.of(team, position.rule.get())));
         }
-        return position.xPositions.stream()
-                .map(x -> Unit.of(new Position(x, position.hanY), team, position.rule.get())).toList();
+        if (team == Team.HAN) {
+            position.xPositions.forEach(xPosition -> units.put(new Position(xPosition, position.hanY),
+                    Unit.of(team, position.rule.get())));
+        }
+        return units;
     }
 }
