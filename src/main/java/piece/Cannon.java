@@ -5,8 +5,8 @@ import direction.Point;
 
 public class Cannon extends Piece {
 
-    public Cannon(String nickname, Point current) {
-        super(nickname, current);
+    public Cannon(Point current) {
+        super(current);
     }
 
     @Override

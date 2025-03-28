@@ -8,8 +8,8 @@ public class General extends Piece  {
 
     private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP, Movement.DOWN);
 
-    public General(String nickname, Point current) {
-        super(nickname, current);
+    public General(Point current) {
+        super(current);
     }
 
     @Override

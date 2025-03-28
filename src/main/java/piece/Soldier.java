@@ -11,8 +11,8 @@ public class Soldier extends Piece {
 
     private final Team team;
 
-    public Soldier(String nickname, Point current, Team team) {
-        super(nickname, current);
+    public Soldier(Point current, Team team) {
+        super(current);
         this.team = team;
     }
 

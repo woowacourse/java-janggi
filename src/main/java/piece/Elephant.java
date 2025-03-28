@@ -18,8 +18,8 @@ public class Elephant extends Piece {
             Movement.UP_UP_UP_RIGHT_RIGHT, List.of(Movement.UP, Movement.UP_UP_RIGHT)
     );
 
-    public Elephant(String nickname, Point current) {
-        super(nickname, current);
+    public Elephant(Point current) {
+        super(current);
     }
 
     @Override

@@ -4,11 +4,9 @@ import direction.Point;
 
 public abstract class Piece {
 
-    protected final String nickname;
     protected Point current;
 
-    public Piece(String nickname, Point current) {
-        this.nickname = nickname;
+    public Piece(Point current) {
         this.current = current;
     }
 
@@ -21,9 +19,5 @@ public abstract class Piece {
     @Override
     public boolean equals(Object object) {
         return object != null && getClass() == object.getClass();
-    }
-
-    public String getNickname() {
-        return nickname;
     }
 }

@@ -18,18 +18,18 @@ public class Horse extends Piece {
             Movement.LEFT_LEFT_DOWN, List.of(Movement.LEFT)
     );
 
-    public Horse(String nickname, Point current) {
-        super(nickname, current);
+    public Horse(Point current) {
+        super(current);
     }
 
     @Override
-    public void move(final Pieces pieces, final Point destination) {
+    public void move(final Pieces oppsiteTeamPieces, final Point destination) {
         Movement destinationMovement = getDestinationMovement(destination);
         List<Movement> movements = MOVEMENT_PATH.get(destinationMovement);
 
         for (Movement pathMovement : movements) {
             Point nextPoint = current.move(pathMovement);
-            validateIsExistPieceInPoint(pieces, nextPoint);
+            validateIsExistPieceInPoint(oppsiteTeamPieces, nextPoint);
         }
 
         current = current.move(destinationMovement);

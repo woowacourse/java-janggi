@@ -8,8 +8,8 @@ public class Guard extends Piece {
 
     private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP, Movement.DOWN);
 
-    public Guard(String nickname, Point current) {
-        super(nickname, current);
+    public Guard(Point current) {
+        super(current);
     }
 
     @Override
