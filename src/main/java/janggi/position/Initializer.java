@@ -40,7 +40,7 @@ import janggi.piece.normalPiece.ChoPawn;
 import janggi.piece.normalPiece.Elephant;
 import janggi.piece.normalPiece.HanPawn;
 import janggi.piece.normalPiece.Horse;
-import janggi.piece.normalPiece.Palace;
+import janggi.piece.normalPiece.King;
 import janggi.piece.normalPiece.Soldier;
 import janggi.piece.straightPiece.Chariot;
 import java.util.HashSet;
@@ -49,8 +49,8 @@ import java.util.Set;
 class Initializer {
     public Set<Piece> generate() {
         Set<Piece> pieces = new HashSet<>();
-        pieces.add(new Palace(Team.HAN, E8));
-        pieces.add(new Palace(Team.CHO, E1));
+        pieces.add(new King(Team.HAN, E8));
+        pieces.add(new King(Team.CHO, E1));
 
         pieces.add(new Soldier(Team.HAN, D9));
         pieces.add(new Soldier(Team.HAN, F9));

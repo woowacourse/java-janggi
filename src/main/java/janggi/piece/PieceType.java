@@ -1,7 +1,7 @@
 package janggi.piece;
 
 public enum PieceType {
-    PALACE(0),
+    KING(0),
     CHARIOT(13),
     CANNON(7),
     HORSE(5),

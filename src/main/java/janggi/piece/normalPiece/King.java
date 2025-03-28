@@ -6,19 +6,19 @@ import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.route.Routes;
 
-public class Palace extends NormalPiece {
+public class King extends NormalPiece {
 
-    public Palace(Team team, Position position) {
+    public King(Team team, Position position) {
         super(team, position, Routes.ofPalace());
     }
 
     @Override
     public PieceType type() {
-        return PieceType.PALACE;
+        return PieceType.KING;
     }
 
     @Override
     public Piece move(Team team, Position destination) {
-        return new Palace(team, destination);
+        return new King(team, destination);
     }
 }

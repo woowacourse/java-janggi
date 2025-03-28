@@ -14,7 +14,7 @@ import static position.PositionFixtures.F1;
 
 import janggi.piece.Piece;
 import janggi.piece.jumpingPiece.Cannon;
-import janggi.piece.normalPiece.Palace;
+import janggi.piece.normalPiece.King;
 import janggi.position.Board;
 import janggi.route.Route;
 import java.util.List;
@@ -34,8 +34,8 @@ public class RouteTest {
     @DisplayName("해당 경로로 이동하는 것이 가능한지 검사할 수 있다.")
     void isPossibleRouteTest_1() {
         // given
-        Piece palace = new Palace(HAN, E1);
-        Board board = new Board(Set.of(palace));
+        Piece king = new King(HAN, E1);
+        Board board = new Board(Set.of(king));
         Route route = new Route(List.of(SOUTH));
 
         // when - then
@@ -53,8 +53,8 @@ public class RouteTest {
     @DisplayName("해당 경로로 이동하는 것이 가능한지 검사할 수 있다.")
     void isPossibleRouteTest_2() {
         // given
-        Piece palace = new Palace(HAN, E5);
-        Board board = new Board(Set.of(palace));
+        Piece king = new King(HAN, E5);
+        Board board = new Board(Set.of(king));
         Route route = new Route(List.of(NORTH, NORTH, NORTH, NORTH, NORTH, NORTH));
 
         // when - then
@@ -72,8 +72,8 @@ public class RouteTest {
     void canJumpTest_1() {
         // given
         Piece cannon = new Cannon(HAN, D1);
-        Piece palace = new Palace(HAN, E1);
-        Board board = new Board(Set.of(cannon, palace));
+        Piece king = new King(HAN, E1);
+        Board board = new Board(Set.of(cannon, king));
         Route route = new Route(List.of(EAST));
 
         // when - then
@@ -91,8 +91,8 @@ public class RouteTest {
     void canJumpTest_2() {
         // given
         Piece cannon = new Cannon(HAN, D1);
-        Piece palace = new Palace(HAN, F1);
-        Board board = new Board(Set.of(cannon, palace));
+        Piece king = new King(HAN, F1);
+        Board board = new Board(Set.of(cannon, king));
         Route route = new Route(List.of(EAST, EAST, EAST, EAST));
 
         // when - then
@@ -110,8 +110,8 @@ public class RouteTest {
     void canJumpTest_3() {
         // given
         Piece cannon = new Cannon(HAN, D1);
-        Piece palace = new Palace(HAN, F1);
-        Board board = new Board(Set.of(cannon, palace));
+        Piece king = new King(HAN, F1);
+        Board board = new Board(Set.of(cannon, king));
         Route route = new Route(List.of(SOUTH, SOUTH));
 
         // when - then

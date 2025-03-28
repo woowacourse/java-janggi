@@ -13,7 +13,7 @@ import static position.PositionFixtures.H1;
 
 import janggi.piece.Piece;
 import janggi.piece.jumpingPiece.Cannon;
-import janggi.piece.normalPiece.Palace;
+import janggi.piece.normalPiece.King;
 import janggi.position.Board;
 import janggi.route.Direction;
 import janggi.route.Route;
@@ -84,8 +84,8 @@ public class PositionTest {
     void canJumpTest_1() {
         // given
         Piece cannon = new Cannon(HAN, D1);
-        Piece palace = new Palace(HAN, E1);
-        Board board = new Board(Set.of(cannon, palace));
+        Piece king = new King(HAN, E1);
+        Board board = new Board(Set.of(cannon, king));
 
         // when - then
         assertThat(D1.canJump(EAST, board)).isTrue();

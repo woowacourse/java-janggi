@@ -16,7 +16,7 @@ import static position.PositionFixtures.E3;
 
 import janggi.piece.Piece;
 import janggi.piece.normalPiece.Horse;
-import janggi.piece.normalPiece.Palace;
+import janggi.piece.normalPiece.King;
 import janggi.position.Board;
 import janggi.position.Position;
 import java.util.Set;
@@ -60,8 +60,8 @@ public class HorseTest {
     void possibleRoutesTest_2() {
         // given
         Piece horse = new Horse(HAN, C2);
-        Piece palace = new Palace(HAN, B2);
-        Board board = new Board(HAN, Set.of(palace, horse));
+        Piece king = new King(HAN, B2);
+        Board board = new Board(HAN, Set.of(king, horse));
 
         // when
         Set<Position> positions = horse.possibleRoutes(board);
@@ -83,8 +83,8 @@ public class HorseTest {
     void possibleRoutesTest_3() {
         // given
         Piece horse = new Horse(HAN, C2);
-        Piece palace = new Palace(HAN, B0);
-        Board board = new Board(HAN, Set.of(palace, horse));
+        Piece king = new King(HAN, B0);
+        Board board = new Board(HAN, Set.of(king, horse));
 
         // when
         Set<Position> positions = horse.possibleRoutes(board);
@@ -106,8 +106,8 @@ public class HorseTest {
     void possibleRoutesTest_4() {
         // given
         Piece horse = new Horse(HAN, C2);
-        Piece palace = new Palace(CHO, B0);
-        Board board = new Board(HAN, Set.of(palace, horse));
+        Piece king = new King(CHO, B0);
+        Board board = new Board(HAN, Set.of(king, horse));
 
         // when
         Set<Position> positions = horse.possibleRoutes(board);

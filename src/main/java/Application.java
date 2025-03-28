@@ -29,7 +29,7 @@ public class Application {
             Board boardForTurn = board;
             board = process(() -> takeTurn(boardForTurn));
 
-        } while (!board.catchPalace());
+        } while (!board.catchKing());
 
         console.end(board.findWinner());
     }

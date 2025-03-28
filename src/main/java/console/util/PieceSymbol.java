@@ -5,7 +5,7 @@ import janggi.piece.PieceType;
 import java.util.Arrays;
 
 public enum PieceSymbol {
-    PALACE("궁", PieceType.PALACE),
+    PALACE("궁", PieceType.KING),
     SOLDIER("사", PieceType.SOLDIER),
     ELEPHANT("상", PieceType.ELEPHANT),
     HORSE("마", PieceType.HORSE),

@@ -29,7 +29,7 @@ import janggi.piece.jumpingPiece.Cannon;
 import janggi.piece.normalPiece.Elephant;
 import janggi.piece.normalPiece.HanPawn;
 import janggi.piece.normalPiece.Horse;
-import janggi.piece.normalPiece.Palace;
+import janggi.piece.normalPiece.King;
 import janggi.piece.straightPiece.Chariot;
 import janggi.position.Board;
 import janggi.position.Position;
@@ -62,8 +62,8 @@ public class RoutesTest {
     @DisplayName("일반 기물이 이동 가능한 경로를 모두 표시할 수 있다.")
     void possibleRoutesTest_1() {
         // given
-        Piece palace = new Palace(HAN, E1);
-        Board board = new Board(Set.of(palace));
+        Piece king = new King(HAN, E1);
+        Board board = new Board(Set.of(king));
         Routes routes = Routes.ofPalace();
 
         // when

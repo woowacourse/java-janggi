@@ -102,9 +102,9 @@ public final class Board {
         }
     }
 
-    public boolean catchPalace() {
+    public boolean catchKing() {
         final long count = toSet().stream()
-                .filter(piece -> piece.type() == PieceType.PALACE)
+                .filter(piece -> piece.type() == PieceType.KING)
                 .count();
 
         return count == 1;
@@ -112,7 +112,7 @@ public final class Board {
 
     public Team findWinner() {
         return toSet().stream()
-                .filter(piece -> piece.type() == PieceType.PALACE)
+                .filter(piece -> piece.type() == PieceType.KING)
                 .map(Piece::team)
                 .findAny()
                 .orElseThrow(IllegalStateException::new);
