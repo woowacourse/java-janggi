@@ -10,12 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public final class Board {
-    private static final Point PALACE_START_POINT_FOR_HAN = new Point(0, 3);
-    private static final Point PALACE_END_POINT_FOR_HAN = new Point(2, 5);
-
-    private static final Point PALACE_START_POINT_FOR_CHO = new Point(7, 3);
-    private static final Point PALACE_END_POINT_FOR_CHO = new Point(9, 5);
-
     private static final int BOARD_ROW_MAX = 10;
     private static final int BOARD_COLUMN_MAX = 9;
 
@@ -87,17 +81,17 @@ public final class Board {
     private void checkPieceCanMoveOnRoute(
             final Point start,
             final Point arrival,
-            final Piece piece
+            final Piece pastPiece
     ) {
-        Piece currentPiece = piece;
-        if (checkInRangeOnPalace(start, arrival)) {
+        Piece currentPiece = pastPiece;
+        if (Palace.checkInRange(start, arrival)) {
             currentPiece = currentPiece.inRangeOfPalace();
         }
         checkOutOfRoute(start, arrival, currentPiece);
 
         final List<Point> routePoints = currentPiece.getRoutePoints(start, arrival);
         final PiecesOnRoute piecesOnRoute = getAllPiecesOnRoute(routePoints);
-        if (!piece.isMovableOnRoute(piecesOnRoute)) {
+        if (!pastPiece.isMovableOnRoute(piecesOnRoute)) {
             throw new JanggiGameRuleWarningException("해당 경로로 이동할 수 없습니다.");
         }
     }
@@ -112,12 +106,5 @@ public final class Board {
         return new PiecesOnRoute(pointsOnRoute.stream()
                 .map(point -> locations.getOrDefault(point, null))
                 .toList());
-    }
-
-    private boolean checkInRangeOnPalace(final Point start, final Point arrival) {
-        return (start.isInSquareRange(PALACE_START_POINT_FOR_HAN, PALACE_END_POINT_FOR_HAN)
-                && arrival.isInSquareRange(PALACE_START_POINT_FOR_HAN, PALACE_END_POINT_FOR_HAN))
-                || (start.isInSquareRange(PALACE_START_POINT_FOR_CHO, PALACE_END_POINT_FOR_CHO)
-                && arrival.isInSquareRange(PALACE_START_POINT_FOR_CHO, PALACE_END_POINT_FOR_CHO));
     }
 }
