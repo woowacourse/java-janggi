@@ -17,8 +17,8 @@ class JanggiPieceDaoTest {
     @BeforeEach
     void setUp() {
         MySQLConnection connection = new TestJanggiConnection();
-        janggiPieceDao = new JanggiPieceDao(connection);
         janggiTurnDao = new JanggiTurnDao(connection);
+        janggiPieceDao = new JanggiPieceDao(connection);
         janggiPieceDao.deleteAll();
         janggiTurnDao.deleteAll();
     }

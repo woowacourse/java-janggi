@@ -11,6 +11,7 @@ import piece.player.Team;
 import piece.position.JanggiPosition;
 import save.JanggiConnection;
 import save.JanggiSaveService;
+import save.SaveFailException;
 
 public class KoreanChessApplication {
 
@@ -29,9 +30,15 @@ public class KoreanChessApplication {
     }
 
     private static PlayerPieces initiatePieces(GameView gameView) {
-        if (janggiSaveService.isPreviousGameExist()) {
+        try {
             return initiatePiecesFromPreviousGame();
+        } catch (SaveFailException e) {
+            gameView.printError(e.getMessage());
         }
+        return userInputInitiatePieces(gameView);
+    }
+
+    private static PlayerPieces userInputInitiatePieces(GameView gameView) {
         Map<Team, TableSetting> teamTableSetting = inputTableSetting(gameView);
         Map<Team, Pieces> teamPieces = new InitiateJanggiTeamPieces(teamTableSetting).janggiInitiatePieces();
         return new PlayerPieces(teamPieces);
@@ -57,28 +64,47 @@ public class KoreanChessApplication {
         Team loseTeam = Team.EMPTY;
         while (loseTeam == Team.EMPTY) {
             TurnResult turnResult = playKoreanChess(playerPieces, gameView, turn);
+
+            saveJanggi(playerPieces, turn, gameView);
+
             loseTeam = turnResult.loseTeam();
             turn = turnResult.nextTurn();
         }
         Team team = loseTeam;
         gameView.printWinner(team.opposite());
         printPlayersScore(playerPieces, gameView);
-        janggiSaveService.resetJanggi();
+        resetJanggi(gameView);
+    }
+
+    private static void resetJanggi(GameView gameView) {
+        try {
+            janggiSaveService.resetJanggi();
+        } catch (SaveFailException e) {
+            gameView.printError(e.getMessage());
+        }
+    }
+
+    private static void saveJanggi(PlayerPieces playerPieces, int turn, GameView gameView) {
+        try {
+            janggiSaveService.saveJanggi(playerPieces, turn, determineCurrentPlayTeam(turn));
+        } catch (SaveFailException e) {
+            gameView.printError(e.getMessage());
+        }
     }
 
     private static int initiateTurn() {
-        Optional<Integer> previousTurn = janggiSaveService.getPreviousTurn();
-        if (previousTurn.isPresent()) {
-            return previousTurn.get() + 1;
+        try {
+            Optional<Integer> previousTurn = janggiSaveService.getPreviousTurn();
+            return previousTurn.map(turn -> turn + 1).orElse(0);
+        } catch (SaveFailException e) {
+            return 0;
         }
-        return 0;
     }
 
     private static TurnResult playKoreanChess(PlayerPieces playerPieces, GameView gameView, int turn) {
         try {
             playTurn(playerPieces, gameView, turn);
             Team kingDeadTeam = playerPieces.kingDeadTeam();
-            janggiSaveService.saveJanggi(playerPieces, turn, determineCurrentPlayTeam(turn));
             return new TurnResult(turn + 1, kingDeadTeam);
         } catch (IllegalArgumentException e) {
             gameView.printError(e.getMessage());
