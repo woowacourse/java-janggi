@@ -11,6 +11,7 @@ import janggi.util.BoardFixture;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -34,6 +35,11 @@ class PieceDAOTest {
         }
 
         gameRoomDAO.create(GAME_ROOM_NAME);
+    }
+
+    @AfterAll
+    static void clearAll() throws SQLException {
+        DatabaseTestManager.resetDatabase();
     }
 
     @DisplayName("보드를 게임에 저장한다.")
