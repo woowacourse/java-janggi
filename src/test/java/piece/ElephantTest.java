@@ -45,4 +45,54 @@ class ElephantTest {
         );
     }
 
+    @Test
+    void 상의_동서남북_방향에_장애물이_존재하면_움직일_수_없다() {
+        Piece piece = new Elephant(Team.BLUE);
+        Board board = new Board(Map.of(
+                initPosition, piece,
+                new Position(3, 4), new Chariot(Team.BLUE),
+                new Position(5, 4), new Chariot(Team.BLUE),
+                new Position(4, 3), new Chariot(Team.BLUE),
+                new Position(4, 5), new Chariot(Team.RED)
+        ));
+
+        assertThat(piece.getMovablePositions(initPosition, board)).isEmpty();
+    }
+
+    @Test
+    void 상의_움직임_중간_경로에_장애물이_존재하면_움직일_수_없다() {
+        Piece piece = new Elephant(Team.BLUE);
+        Board board = new Board(Map.of(
+                initPosition, piece,
+                new Position(2, 3), new Chariot(Team.BLUE),
+                new Position(2, 5), new Chariot(Team.BLUE),
+                new Position(3, 2), new Chariot(Team.BLUE),
+                new Position(5, 2), new Chariot(Team.BLUE),
+                new Position(6, 3), new Chariot(Team.RED),
+                new Position(6, 5), new Chariot(Team.RED),
+                new Position(3, 6), new Chariot(Team.RED),
+                new Position(5, 6), new Chariot(Team.RED)
+        ));
+
+        assertThat(piece.getMovablePositions(initPosition, board)).isEmpty();
+    }
+
+    @Test
+    void 상의_움직임_도착_지점에_장애물이_존재하면_움직일_수_없다() {
+        Piece piece = new Elephant(Team.BLUE);
+        Board board = new Board(Map.of(
+                initPosition, piece,
+                new Position(1, 2), new Chariot(Team.BLUE),
+                new Position(1, 6), new Chariot(Team.BLUE),
+                new Position(2, 1), new Chariot(Team.BLUE),
+                new Position(6, 1), new Chariot(Team.BLUE),
+                new Position(7, 2), new Chariot(Team.BLUE),
+                new Position(7, 6), new Chariot(Team.BLUE),
+                new Position(2, 7), new Chariot(Team.BLUE),
+                new Position(6, 7), new Chariot(Team.BLUE)
+        ));
+
+        assertThat(piece.getMovablePositions(initPosition, board)).isEmpty();
+    }
+
 }

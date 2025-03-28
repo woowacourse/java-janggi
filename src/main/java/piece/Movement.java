@@ -9,6 +9,7 @@ import static piece.Direction.RIGHT_BOTTOM;
 import static piece.Direction.RIGHT_TOP;
 import static piece.Direction.TOP;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import board.Position;
@@ -40,20 +41,14 @@ public enum Movement {
         this.directions = directions;
     }
 
-    public Position applyMovementLastStep(final Position position) {
-        return position.moveByDirection(directions.getLast());
-    }
-
-    public Position applyMovementStep(final int step, final Position position) {
-        if (isOverStep(step)) {
-            throw new IllegalArgumentException("움직임의 최대 크기를 초과합니다.");
+    public List<Position> applyMovement(final Position position) {
+        List<Position> positions = new ArrayList<>();
+        Position movedPosition = position;
+        for (Direction direction : this.directions) {
+            movedPosition = movedPosition.moveByDirection(direction);
+            positions.add(movedPosition);
         }
-        Direction stepDirection = this.directions.get(step - 1);
-        return position.moveByDirection(stepDirection);
-    }
-
-    private boolean isOverStep(final int step) {
-        return step > directions.size();
+        return positions;
     }
 
 }

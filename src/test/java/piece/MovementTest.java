@@ -1,44 +1,50 @@
 package piece;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static piece.Movement.BOTTOM_LEFT_BOTTOM;
+import static piece.Movement.BOTTOM_RIGHT_BOTTOM;
+import static piece.Movement.LEFT_LEFT_BOTTOM;
+import static piece.Movement.LEFT_LEFT_TOP;
+import static piece.Movement.RIGHT_RIGHT_BOTTOM;
+import static piece.Movement.RIGHT_RIGHT_TOP;
+import static piece.Movement.TOP_LEFT_TOP;
+import static piece.Movement.TOP_RIGHT_TOP;
 
-import org.junit.jupiter.api.Test;
+import java.util.List;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import board.Position;
 
 class MovementTest {
 
-    @CsvSource(value = {
-            "1,3,2",
-            "2,2,2"
-    })
+
+    @MethodSource
     @ParameterizedTest
-    void 움직임의_단계를_알려주면_이동시킨_위치를_알려준다(int step, int expectedRow, int expectedColumn) {
-        Movement leftLeftTop = Movement.LEFT_LEFT_TOP;
-        Position position = new Position(3, 3);
+    void 움직임이_적용된_경로를_계산한다(Movement movement, List<Direction> expected) {
+        Position position = new Position(4, 4);
 
-        assertThat(leftLeftTop.applyMovementStep(step, position)).isEqualTo(new Position(expectedRow, expectedColumn));
+        assertThat(movement.applyMovement(position)).isEqualTo(expected);
     }
 
-    @Test
-    void 움직임의_단계를_넘어서면_위치를_계산할_수_없다() {
-        Movement leftLeftTop = Movement.LEFT_LEFT_TOP;
-        Position position = new Position(3, 3);
-
-        assertThatThrownBy(() -> leftLeftTop.applyMovementStep(3, position))
-                .isInstanceOf(IllegalArgumentException.class);
+    private static Stream<Arguments> 움직임이_적용된_경로를_계산한다() {
+        return Stream.of(
+                Arguments.of(TOP_LEFT_TOP, List.of(position(3, 4), position(2, 3))),
+                Arguments.of(TOP_RIGHT_TOP, List.of(position(3, 4), position(2, 5))),
+                Arguments.of(BOTTOM_LEFT_BOTTOM, List.of(position(5, 4), position(6, 3))),
+                Arguments.of(BOTTOM_RIGHT_BOTTOM, List.of(position(5, 4), position(6, 5))),
+                Arguments.of(LEFT_LEFT_TOP, List.of(position(4, 3), position(3, 2))),
+                Arguments.of(LEFT_LEFT_BOTTOM, List.of(position(4, 3), position(5, 2))),
+                Arguments.of(RIGHT_RIGHT_TOP, List.of(position(4, 5), position(3, 6))),
+                Arguments.of(RIGHT_RIGHT_BOTTOM, List.of(position(4, 5), position(5, 6)))
+        );
     }
 
-    @Test
-    void 움직임의_마지막_단계를_적용한_위치를_알려준다() {
-        Movement leftLeftTop = Movement.LEFT_LEFT_TOP;
-        Position position = new Position(3, 3);
-
-        assertThat(leftLeftTop.applyMovementLastStep(position)).isEqualTo(new Position(2, 2));
+    private static Position position(int row, int column) {
+        return new Position(row, column);
     }
 
 }

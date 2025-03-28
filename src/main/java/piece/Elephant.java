@@ -1,9 +1,7 @@
 package piece;
 
-import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import board.Board;
@@ -31,53 +29,37 @@ public class Elephant extends Piece {
     @Override
     protected Set<Position> getMovablePositions(final Position position, final Board board) {
         Set<Position> movablePositions = new HashSet<>();
-        Map<Movement, Position> beforeLastStepPositions = moveBeforeLastStep(position, board);
-        if (beforeLastStepPositions.isEmpty()) {
-            throw new IllegalArgumentException("현재 해당 기물이 이동 가능한 곳이 없습니다.");
+        for (Movement movement : MOVEMENTS) {
+            List<Position> routePositions = movement.applyMovement(position);
+            if (canApplyMovement(board, routePositions)) {
+                movablePositions.add(routePositions.getLast());
+            }
         }
-        addMovablePosition(board, movablePositions, beforeLastStepPositions);
         return movablePositions;
+    }
+
+    private boolean canApplyMovement(final Board board, final List<Position> routePositions) {
+        for (int routeIndex = 0; routeIndex < routePositions.size() - 1; routeIndex++) {
+            Position routePosition = routePositions.get(routeIndex);
+            if (hasObstacle(board, routePosition)) {
+                return false;
+            }
+        }
+        Position destination = routePositions.getLast();
+        return canMoveDestination(board, destination);
+    }
+
+    private boolean hasObstacle(final Board board, final Position routePosition) {
+        return routePosition.isInValidPosition() || board.isExists(routePosition);
+    }
+
+    private boolean canMoveDestination(final Board board, final Position destination) {
+        return !destination.isInValidPosition() && !board.isSameTeamPosition(team, destination);
     }
 
     @Override
     public PieceType getType() {
         return this.pieceType;
-    }
-
-    private Map<Movement, Position> moveBeforeLastStep(final Position position, final Board board) {
-        Map<Movement, Position> moveBeforeLastStepPositions = new EnumMap<>(Movement.class);
-        for (Movement movement : MOVEMENTS) {
-            addBeforeLastStepPosition(position, board, movement, moveBeforeLastStepPositions);
-        }
-        return moveBeforeLastStepPositions;
-    }
-
-    private void addBeforeLastStepPosition(final Position position, final Board board, final Movement movement,
-                                           final Map<Movement, Position> moveBeforeLastStepPositions
-    ) {
-        Position movePosition = position;
-        for (int step = 1; step < MOVEMENT_TOTAL_STEP; step++) {
-            movePosition = movement.applyMovementStep(step, movePosition);
-            if (movePosition.isInValidPosition() || board.isExists(movePosition)) {
-                break;
-            }
-            if (step == (MOVEMENT_TOTAL_STEP - 1)) {
-                moveBeforeLastStepPositions.put(movement, movePosition);
-            }
-        }
-    }
-
-    private void addMovablePosition(final Board board, final Set<Position> movablePositions,
-                                    final Map<Movement, Position> beforeLastStepPositions
-    ) {
-        for (Movement movement : beforeLastStepPositions.keySet()) {
-            Position beforeLastStepPosition = beforeLastStepPositions.get(movement);
-            Position movableFinalPosition = movement.applyMovementLastStep(beforeLastStepPosition);
-            if (movableFinalPosition.isInValidPosition() || board.isSameTeamPosition(team, movableFinalPosition)) {
-                continue;
-            }
-            movablePositions.add(movableFinalPosition);
-        }
     }
 
 }
