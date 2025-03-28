@@ -28,12 +28,9 @@ public class General extends Piece {
         super(position, country);
     }
 
-    // TODO 2025. 3. 27. 15:42: validateDistance 의 내부 구현이 모두 동일한데, 이거 Piece에서 처리해줄 수 있지 않나?
     @Override
-    protected void validateDistance(double distance) {
-        if (distance != DISTANCE) {
-            throw new IllegalArgumentException("공격 할 수 없는 거리의 기물입니다.");
-        }
+    protected double getDistance() {
+        return DISTANCE;
     }
 
     @Override

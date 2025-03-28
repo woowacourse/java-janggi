@@ -1,29 +1,35 @@
 package piece;
 
-import board.Board;
-import board.Position;
+import movement.MovePath;
+import movement.MovePaths;
+import movement.Movement;
+import position.Position;
+
+import java.util.List;
 
 public class Guard extends Piece {
 
-    public static final int GUARD_DISTANCE = 1;
+    private static final MovePaths moveActions;
+    private static final double DISTANCE;
 
-    public Guard(final TeamType teamType) {
-        super(teamType);
+    static {
+        moveActions = new MovePaths(List.of(
+                new MovePath(Movement.UP),
+                new MovePath(Movement.DOWN),
+                new MovePath(Movement.LEFT),
+                new MovePath(Movement.RIGHT)
+        ));
+
+        DISTANCE = moveActions.calculateDistance();
+    }
+
+    public Guard(final Position position, final Country country) {
+        super(position, country);
     }
 
     @Override
-    protected boolean withInDirection(Position src, Position destination) {
-        return true;
-    }
-
-    @Override
-    protected boolean withInRangeByMovement(double distanceByPositions) {
-        return distanceByPositions == GUARD_DISTANCE;
-    }
-
-    @Override
-    protected boolean passFilter(Position src, Position destination, Board board) {
-        return true;
+    protected double getDistance() {
+        return DISTANCE;
     }
 
     @Override

@@ -1,55 +1,51 @@
 package piece;
 
 import board.Board;
-import board.Position;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import position.LineDirection;
+import position.Position;
 
 import java.util.HashMap;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 class GuardTest {
 
-    @DisplayName("General은 주변 한칸으로 이동할 수 있다.")
+    @DisplayName("출발지에서 도착지까지의 거리는 1이여야 한다.")
     @Test
-    void isAbleToMove() {
+    void distance() {
         // given
-        final Piece generalPiece = new General(TeamType.BLUE);
-        final Position now = new Position(1, 1);
-        final Position ableDest = new Position(1, 2);
-        final Position notAbleDest = new Position(1, 3);
-        final Board board = new Board(new HashMap<>());
+        Country dumyCountry = Country.HAN;
+        Country.assignDirection(dumyCountry, LineDirection.UP);
+        Position dumyPosition = new Position(2, 3);
+        final Piece guard = new Guard(dumyPosition, dumyCountry);
+        double expected = 1.0;
 
         // when
-        final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board);
-        final boolean actual2 = generalPiece.isAbleToMove(now, notAbleDest, board);
-
+        double actual = guard.getDistance();
         // then
-        org.junit.jupiter.api.Assertions.assertAll(
-                () -> assertThat(actual1).isTrue(),
-                () -> assertThat(actual2).isFalse()
-        );
+        Assertions.assertThat(actual).isEqualTo(expected);
     }
 
-    @DisplayName("guard는 주변 한칸으로 이동할 수 있다.")
+    @DisplayName("Guard은 주변 한칸으로 이동할 수 있다.")
     @Test
-    void isAbleToMoveByRange() {
+    void validateMove() {
         // given
-        final Piece guardPiece = new Guard(TeamType.BLUE);
-        final Position now = new Position(1, 1);
-        final Position ableDest = new Position(1, 2);
-        final Position notAbleDest = new Position(1, 3);
+        final Position src = new Position(1, 1);
+        final Piece guard = new Guard(src, Country.HAN);
         final Board board = new Board(new HashMap<>());
 
-        // when
-        final boolean actual1 = guardPiece.isAbleToMove(now, ableDest, board);
-        final boolean actual2 = guardPiece.isAbleToMove(now, notAbleDest, board);
+        // when & then : 1 : success
+        final Position validDest = new Position(1, 2);
+        assertThatCode(() -> guard.validateMove(src, validDest, board))
+                .doesNotThrowAnyException();
 
-        // then
-        org.junit.jupiter.api.Assertions.assertAll(
-                () -> assertThat(actual1).isTrue(),
-                () -> assertThat(actual2).isFalse()
-        );
+        // when & then : 2 : failure
+        final Position invalidDest = new Position(1, 3);
+        assertThatThrownBy(() -> guard.validateMove(src, invalidDest, board))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
