@@ -12,6 +12,7 @@ public class Turn {
     private static final int TURN_STEP = 1;
 
     private final List<Team> teams;
+    private int turnCount = 1;
 
     private Turn(final List<Team> teams) {
         validateTeamSize(teams);
@@ -37,6 +38,15 @@ public class Turn {
     }
 
     public void changeTurn() {
+        addTurnCount();
         Collections.rotate(teams, TURN_STEP);
+    }
+
+    private void addTurnCount() {
+        turnCount += 1;
+    }
+
+    public boolean isDraw() {
+        return turnCount >= 30;
     }
 }

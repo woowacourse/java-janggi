@@ -47,4 +47,19 @@ class TurnTest {
             assertThat(turn.getCurrentTurn()).isEqualTo(RED);
         });
     }
+
+    @DisplayName("30턴이 지나면 무승부가 된다.")
+    @Test
+    void isDrawTest() {
+        // given
+        Turn turn = Turn.initialize();
+
+        // when
+        for (int i = 0; i < 30; i++) {
+            turn.changeTurn();
+        }
+
+        // then
+        assertThat(turn.isDraw()).isTrue();
+    }
 }
