@@ -6,6 +6,7 @@ import janggi.domain.piece.Piece;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public final class InGungPathFilter implements PathFilter {
 
@@ -16,8 +17,10 @@ public final class InGungPathFilter implements PathFilter {
     }
 
     @Override
-    public void filter(final Piece piece, final Set<Path> paths, final List<Piece> allyPieces, final List<Piece> enemyPieces) {
-        paths.removeIf(path -> !gung.isInGung(path));
-        paths.removeIf(path -> !gung.isAvailablePathInGung(path));
+    public Set<Path> filter(final Piece piece, final Set<Path> paths, final List<Piece> allyPieces, final List<Piece> enemyPieces) {
+        return paths.stream()
+                .filter(gung::isInGung)
+                .filter(gung::isAvailablePathInGung)
+                .collect(Collectors.toSet());
     }
 }

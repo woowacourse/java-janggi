@@ -24,7 +24,7 @@ class InGungPathFilterTest {
         final InGungPathFilter sut = new InGungPathFilter(new Gung());
 
         // when
-        sut.filter(
+        final Set<Path> result = sut.filter(
                 null,
                 paths,
                 List.of(),
@@ -32,7 +32,7 @@ class InGungPathFilterTest {
         );
 
         // then
-        assertThat(paths).containsExactlyInAnyOrder(
+        assertThat(result).containsExactlyInAnyOrder(
                 new Path(List.of(POSITION_4_1, POSITION_4_2, POSITION_4_3)),
                 new Path(List.of(POSITION_6_3, POSITION_5_2))
         );

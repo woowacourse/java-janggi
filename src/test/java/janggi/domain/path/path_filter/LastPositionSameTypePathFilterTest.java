@@ -23,7 +23,7 @@ class LastPositionSameTypePathFilterTest {
         final LastPositionSameTypePathFilter sut = new LastPositionSameTypePathFilter();
 
         // when
-        sut.filter(
+        final Set<Path> result = sut.filter(
                 new Piece(PieceType.졸, POSITION_1_1),
                 paths,
                 List.of(),
@@ -31,7 +31,7 @@ class LastPositionSameTypePathFilterTest {
         );
 
         // then
-        assertThat(paths).containsExactly(
+        assertThat(result).containsExactly(
                 new Path(List.of(POSITION_2_5, POSITION_2_6, POSITION_2_7, POSITION_2_8))
         );
     }

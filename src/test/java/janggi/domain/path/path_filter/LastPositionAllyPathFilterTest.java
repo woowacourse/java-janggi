@@ -23,7 +23,7 @@ class LastPositionAllyPathFilterTest {
         final LastPositionAllyPathFilter sut = new LastPositionAllyPathFilter();
 
         // when
-        sut.filter(
+        final Set<Path> result = sut.filter(
                 null,
                 paths,
                 List.of(new Piece(PieceType.졸, POSITION_3_8)),
@@ -31,7 +31,7 @@ class LastPositionAllyPathFilterTest {
         );
 
         // then
-        assertThat(paths).containsExactly(
+        assertThat(result).containsExactly(
                 new Path(List.of(POSITION_2_5, POSITION_2_6, POSITION_2_7, POSITION_2_8))
         );
     }

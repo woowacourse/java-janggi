@@ -24,7 +24,7 @@ class JumpPathFilterTest {
         final JumpPathFilter sut = new JumpPathFilter(1);
 
         // when
-        sut.filter(
+        final Set<Path> result = sut.filter(
                 null,
                 paths,
                 List.of(),
@@ -32,7 +32,7 @@ class JumpPathFilterTest {
         );
 
         // then
-        assertThat(paths).containsExactlyInAnyOrder(
+        assertThat(result).containsExactlyInAnyOrder(
                 new Path(List.of(POSITION_1_6, POSITION_2_6, POSITION_3_6)),
                 new Path(List.of(POSITION_3_6, POSITION_4_6, POSITION_5_6, POSITION_6_6))
         );
@@ -48,7 +48,7 @@ class JumpPathFilterTest {
         final JumpPathFilter sut = new JumpPathFilter(2);
 
         // when
-        sut.filter(
+        final Set<Path> result = sut.filter(
                 null,
                 paths,
                 List.of(),
@@ -56,7 +56,7 @@ class JumpPathFilterTest {
         );
 
         // then
-        assertThat(paths).containsExactlyInAnyOrder(
+        assertThat(result).containsExactlyInAnyOrder(
                 new Path(List.of(POSITION_1_6, POSITION_2_6, POSITION_3_6, POSITION_4_6, POSITION_5_6, POSITION_6_6))
         );
     }

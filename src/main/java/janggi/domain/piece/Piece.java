@@ -21,12 +21,12 @@ public final class Piece {
     }
 
     public void move(final Position newPosition, final List<Piece> allyPieces, final List<Piece> enemyPieces) {
-        final Set<Path> paths = new HashSet<>();
+        Set<Path> paths = new HashSet<>();
         for (final PathProvider pathProvider : pieceType.pathProviders) {
             paths.addAll(pathProvider.get(position));
         }
         for (final PathFilter pathFilter : pieceType.pathFilters) {
-            pathFilter.filter(this, paths, allyPieces, enemyPieces);
+            paths = pathFilter.filter(this, paths, allyPieces, enemyPieces);
         }
 
         if (!isNewPositionExistInMoveablePath(newPosition, paths)) {
