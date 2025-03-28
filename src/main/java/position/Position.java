@@ -6,13 +6,7 @@ public record Position(int x, int y) {
 
     private static final int SQUARE_NUMBER = 2;
 
-    public Position(final int x, final int y) {
-        validateRange(x, y);
-        this.x = x;
-        this.y = y;
-    }
-
-    private void validateRange(int x, int y) {
+    public Position {
         if (x <= 0 || x > 9 || y <= 0 || y > 10) {
             throw new IllegalArgumentException("존재할 수 없는 위치의 값입니다.");
         }
@@ -50,9 +44,6 @@ public record Position(int x, int y) {
         return isVertical(dest) || isHorizontal(dest);
     }
 
-    // 수직 vertical
-    // 수평 horizontal
-
     public boolean isVertical(final Position dest) {
         return x == dest.x && y != dest.y;
     }
@@ -68,29 +59,4 @@ public record Position(int x, int y) {
     public boolean isXLessThan(final Position dest) {
         return x <= (dest.x);
     }
-
-//
-//    public int diff(Row row) {
-//        return Math.abs(x - row.ordinal());
-//    }
-//
-//    public int diff(Column column) {
-//        return Math.abs(y.ordinal() - column.ordinal());
-//    }
-//
-//    public Row min(Row row) {
-//        return x.ordinal() >= row.ordinal() ? row : x;
-//    }
-//
-//    public Column min(Column column) {
-//        return y.ordinal() >= column.ordinal() ? column : y;
-//    }
-//
-//    public Row max(Row row) {
-//        return x.ordinal() >= row.ordinal() ? x : row;
-//    }
-//
-//    public Column max(Column column) {
-//        return y.ordinal() >= column.ordinal() ? y : column;
-//    }
 }
