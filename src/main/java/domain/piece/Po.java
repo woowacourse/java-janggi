@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.board.PieceVisibleBoard;
 import domain.piece.character.PieceType;
 import domain.piece.character.Team;
-import domain.board.PieceVisibleBoard;
 import domain.point.Direction;
 import domain.point.Point;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class Po extends Piece {
     }
 
     @Override
-    public List<Point> findMovablePoints(final Point source, final PieceVisibleBoard board) {
+    protected List<Point> findMovablePoints(final Point source, final PieceVisibleBoard board) {
         return movableDirections().stream()
                 .filter(direction -> existsHurdle(source, direction, board))
                 .flatMap(direction -> {

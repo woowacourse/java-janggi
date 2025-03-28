@@ -23,7 +23,7 @@ public class Board implements PieceVisibleBoard {
     }
 
     public boolean isPlaying() {
-        return isWangsOfAllTeamsAlive();
+        return isWangsOfAllTeamAlive();
     }
 
     public boolean canMove(final Point source, final Point destination) {
@@ -138,7 +138,7 @@ public class Board implements PieceVisibleBoard {
         }
     }
 
-    private boolean isWangsOfAllTeamsAlive() {
+    private boolean isWangsOfAllTeamAlive() {
         return findTeamsOfWang().containsAll(List.of(Team.CHO, Team.HAN));
     }
 

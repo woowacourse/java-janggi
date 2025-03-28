@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.piece.character.Team;
 import domain.board.PieceVisibleBoard;
+import domain.piece.character.Team;
 import domain.point.Direction;
 import domain.point.Point;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public abstract class SlidingPiece extends Piece {
     }
 
     @Override
-    public List<Point> findMovablePoints(final Point point, final PieceVisibleBoard board) {
+    protected List<Point> findMovablePoints(final Point point, final PieceVisibleBoard board) {
         List<Point> candidates = new ArrayList<>();
         for (Direction direction : movableDirections()) {
             candidates.addAll(findCandidatesByDirection(point, direction, board));

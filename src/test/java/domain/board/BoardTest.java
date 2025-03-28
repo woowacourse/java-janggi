@@ -2,8 +2,8 @@ package domain.board;
 
 import domain.piece.Cha;
 import domain.piece.Piece;
-import domain.piece.character.PieceType;
 import domain.piece.Po;
+import domain.piece.character.PieceType;
 import domain.piece.character.Team;
 import domain.point.Point;
 import fixture.BoardFixture;
@@ -117,7 +117,7 @@ class BoardTest {
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
-            final boolean actual = board.hasPieceType(point, pieceType);
+            final boolean actual = board.matchPieceType(point, pieceType);
 
             // then
             Assertions.assertThat(actual).isTrue();
@@ -135,7 +135,7 @@ class BoardTest {
             Board board = BoardFixture.createTestBoard(pieceByPoint);
 
             // when
-            final boolean actual = board.hasPieceType(point, pieceType);
+            final boolean actual = board.matchPieceType(point, pieceType);
 
             // then
             Assertions.assertThat(actual).isFalse();
