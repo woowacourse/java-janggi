@@ -1,8 +1,8 @@
 package janggi.movement.direction;
 
+import janggi.game.Team;
 import janggi.point.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public enum Direction {
@@ -131,13 +131,8 @@ public enum Direction {
         return REST;
     }
 
-    public Direction getReversed() {
-        return Arrays.stream(Direction.values())
-                .filter(direction ->
-                        direction.rowOffset == -this.rowOffset
-                        && direction.columnOffset == -this.columnOffset)
-                .findAny()
-                .orElseThrow(IllegalStateException::new);
+    public boolean isBackwardDirectionOf(Team team) {
+        return rowOffset == -team.getForwardDirection().rowOffset;
     }
 
     public boolean isCardinal() {
@@ -155,5 +150,4 @@ public enum Direction {
     public int getColumnOffset() {
         return columnOffset;
     }
-
 }

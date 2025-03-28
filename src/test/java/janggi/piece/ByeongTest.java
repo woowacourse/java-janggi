@@ -101,6 +101,54 @@ class ByeongTest {
 
             assertThat(byeong.canMove(targetPoint, board.findHurdles())).isTrue();
         }
+
+        @Test
+        @DisplayName("초나라의 경우 궁성에서 남서쪽으로 이동할 수 있다면 false를 반환한다.")
+        void checkDownMovableWithChoInPalace() {
+            Byeong byeong = new Byeong(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(9, 3);
+            Board board = new Board(List.of(
+                    byeong
+            ));
+
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
+        }
+
+        @Test
+        @DisplayName("초나라의 경우 궁성에서 남동쪽으로 이동할 수 있다면 false를 반환한다.")
+        void checkDownMovableWithChoInPalace_2() {
+            Byeong byeong = new Byeong(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(9, 5);
+            Board board = new Board(List.of(
+                    byeong
+            ));
+
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
+        }
+
+        @Test
+        @DisplayName("한나라의 경우 궁성에서 북서쪽으로 이동할 수 있다면 false를 반환한다.")
+        void checkDownMovableWithHanInPalace() {
+            Byeong byeong = new Byeong(Team.HAN, new Point(1, 4));
+            Point targetPoint = new Point(0, 3);
+            Board board = new Board(List.of(
+                    byeong
+            ));
+
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
+        }
+
+        @Test
+        @DisplayName("한나라의 경우 궁성에서 북동쪽으로 이동할 수 있다면 false를 반환한다.")
+        void checkDownMovableWithHanInPalace_2() {
+            Byeong byeong = new Byeong(Team.HAN, new Point(1, 4));
+            Point targetPoint = new Point(0, 5);
+            Board board = new Board(List.of(
+                    byeong
+            ));
+
+            assertThat(byeong.canMove(targetPoint, board.findHurdles())).isFalse();
+        }
     }
 
     @Nested

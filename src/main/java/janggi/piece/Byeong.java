@@ -49,7 +49,7 @@ public class Byeong extends Movable {
     }
 
     private boolean movesDown(Direction direction) {
-        return team.headsBack(direction);
+        return direction.isBackwardDirectionOf(team);
     }
 
     private boolean isUnavailableDirection(Point targetPoint, Direction direction) {
