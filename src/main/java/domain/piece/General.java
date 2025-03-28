@@ -26,11 +26,17 @@ public class General extends AbstractPiece {
             return false;
         }
 
-        return isHorizontalMovement(direction) || isVerticalMovement(direction) || isDiagonalDirection(direction);
+        return isHorizontalMovement(direction)
+                || isVerticalMovement(direction)
+                || (isInDiagonalPalace(toPoint) && isDiagonalDirection(direction));
     }
 
     private boolean isInPalace(final Point toPoint) {
         return toPoint.isPalace();
+    }
+
+    private boolean isInDiagonalPalace(final Point toPoint) {
+        return toPoint.isDiagonalPalace();
     }
 
     private boolean isHorizontalMovement(final Direction direction) {
