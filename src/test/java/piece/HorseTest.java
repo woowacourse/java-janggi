@@ -1,4 +1,4 @@
-package move;
+package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,8 +7,6 @@ import fixture.ChoPiecesFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Horse;
-import piece.Pieces;
 
 class HorseTest {
 
@@ -20,7 +18,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(1, 0);
-        Horse horse = new Horse("h", from);
+        Horse horse = new Horse(from);
 
         //when
         horse.move(pieces, to);
@@ -36,7 +34,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(3, 0);
-        Horse horse = new Horse("h", from);
+        Horse horse = new Horse(from);
 
         //when
         horse.move(pieces, to);
@@ -52,7 +50,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 1);
-        Horse horse = new Horse("h", from);
+        Horse horse = new Horse(from);
 
         //when
         horse.move(pieces, to);
@@ -68,7 +66,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(0, 3);
-        Horse horse = new Horse("h", from);
+        Horse horse = new Horse(from);
 
         //when
         horse.move(pieces, to);
@@ -84,7 +82,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(1, 4);
-        Horse horse = new Horse("h", from);
+        Horse horse = new Horse(from);
 
         //when
         horse.move(pieces, to);
@@ -100,7 +98,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(3, 4);
-        Horse horse = new Horse("h", from);
+        Horse horse = new Horse(from);
 
         //when
         horse.move(pieces, to);
@@ -116,7 +114,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 1);
-        Horse horse = new Horse("h", from);
+        Horse horse = new Horse(from);
 
         //when
         horse.move(pieces, to);
@@ -132,7 +130,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(4, 3);
-        Horse horse = new Horse("h", from);
+        Horse horse = new Horse(from);
 
         //when
         horse.move(pieces, to);
@@ -148,7 +146,7 @@ class HorseTest {
         //given
         Point from = new Point(2, 2);
         Point to = new Point(6, 3);
-        Horse horse = new Horse("h", from);
+        Horse horse = new Horse(from);
 
         //when
         //then
