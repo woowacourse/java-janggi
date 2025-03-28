@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.board.Board;
 import domain.board.Point;
 import domain.pieces.Piece;
-import domain.pieces.PieceType;
+import domain.pieces.PieceName;
 import domain.player.TeamType;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
@@ -31,7 +31,7 @@ public final class BoardFactoryTest {
             setups.put(teamType, 1);
             final Point pointLeft = new Point(teamType.getInitialRow(), 1);
             final Point pointRight = new Point(teamType.getInitialRow(), 7);
-            final String expected = PieceType.ELEPHANT.getNameForTeam(teamType);
+            final String expected = PieceName.ELEPHANT.getNameForTeam(teamType);
 
             //when
             final Board board = BoardFactory.generateBoard(setups);
@@ -53,7 +53,7 @@ public final class BoardFactoryTest {
             setups.put(teamType, 2);
             final Point pointLeft = new Point(teamType.getInitialRow(), 2);
             final Point pointRight = new Point(teamType.getInitialRow(), 6);
-            final String expected = PieceType.ELEPHANT.getNameForTeam(teamType);
+            final String expected = PieceName.ELEPHANT.getNameForTeam(teamType);
 
             //when
             final Board board = BoardFactory.generateBoard(setups);
@@ -75,7 +75,7 @@ public final class BoardFactoryTest {
             setups.put(teamType, 3);
             final Point pointLeft = new Point(teamType.getInitialRow(), 1);
             final Point pointRight = new Point(teamType.getInitialRow(), 6);
-            final String expected = PieceType.ELEPHANT.getNameForTeam(teamType);
+            final String expected = PieceName.ELEPHANT.getNameForTeam(teamType);
 
             //when
             final Board board = BoardFactory.generateBoard(setups);
@@ -97,7 +97,7 @@ public final class BoardFactoryTest {
             setups.put(teamType, 4);
             final Point pointLeft = new Point(teamType.getInitialRow(), 2);
             final Point pointRight = new Point(teamType.getInitialRow(), 7);
-            final String expected = PieceType.ELEPHANT.getNameForTeam(teamType);
+            final String expected = PieceName.ELEPHANT.getNameForTeam(teamType);
 
             //when
             final Board board = BoardFactory.generateBoard(setups);
@@ -119,13 +119,13 @@ public final class BoardFactoryTest {
             setups.put(han, 1);
             final Point pointLeftForHan = new Point(han.getInitialRow(), 1);
             final Point pointRightForHan = new Point(han.getInitialRow(), 7);
-            final String expectedForHan = PieceType.ELEPHANT.getNameForTeam(han);
+            final String expectedForHan = PieceName.ELEPHANT.getNameForTeam(han);
 
             final TeamType cho = TeamType.CHO;
             setups.put(cho, 4);
             final Point pointLeftForCho = new Point(cho.getInitialRow(), 2);
             final Point pointRightForCho = new Point(cho.getInitialRow(), 7);
-            final String expectedForCho = PieceType.ELEPHANT.getNameForTeam(cho);
+            final String expectedForCho = PieceName.ELEPHANT.getNameForTeam(cho);
 
             //when
             final Board board = BoardFactory.generateBoard(setups);

@@ -1,7 +1,5 @@
 package domain.pieces;
 
-import static domain.pieces.PieceType.HORSE;
-
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import domain.movements.DefaultMovement;
@@ -14,7 +12,8 @@ import java.util.List;
 
 public final class Horse implements Piece {
 
-    private static final PieceType PIECE_TYPE = HORSE;
+    private static final Score score = new Score(5.0);
+
     private final TeamType teamType;
     private final PieceMovement movement;
 
@@ -48,12 +47,12 @@ public final class Horse implements Piece {
 
     @Override
     public String getName() {
-        return PIECE_TYPE.getNameForTeam(teamType);
+        return PieceName.HORSE.getNameForTeam(teamType);
     }
 
     @Override
     public Score getScore() {
-        return PIECE_TYPE.getScore();
+        return score;
     }
 
     private DefaultMovement getDefaultMovementForHorse() {

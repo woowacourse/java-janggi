@@ -1,7 +1,5 @@
 package domain.pieces;
 
-import static domain.pieces.PieceType.CHARIOT;
-
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import domain.movements.PieceMovement;
@@ -12,8 +10,7 @@ import java.util.List;
 
 public final class Chariot implements Piece {
 
-    private static final PieceType PIECE_TYPE = CHARIOT;
-
+    private static final Score score = new Score(13.0);
 
     private final TeamType teamType;
     private final PieceMovement movement;
@@ -55,12 +52,12 @@ public final class Chariot implements Piece {
 
     @Override
     public String getName() {
-        return PIECE_TYPE.getNameForTeam(teamType);
+        return PieceName.CHARIOT.getNameForTeam(teamType);
     }
 
     @Override
     public Score getScore() {
-        return PIECE_TYPE.getScore();
+        return score;
     }
 
     @Override

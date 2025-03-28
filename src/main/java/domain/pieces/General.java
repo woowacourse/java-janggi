@@ -1,7 +1,5 @@
 package domain.pieces;
 
-import static domain.pieces.PieceType.GENERAL;
-
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import domain.movements.PalaceMovement;
@@ -12,7 +10,7 @@ import java.util.List;
 
 public final class General implements Piece {
 
-    private static final PieceType PIECE_TYPE = GENERAL;
+    private static final Score score = new Score(Double.MAX_VALUE);
 
     private final TeamType teamType;
     private final PieceMovement movement;
@@ -45,12 +43,12 @@ public final class General implements Piece {
 
     @Override
     public String getName() {
-        return PIECE_TYPE.getNameForTeam(teamType);
+        return PieceName.GENERAL.getNameForTeam(teamType);
     }
 
     @Override
     public Score getScore() {
-        return PIECE_TYPE.getScore();
+        return score;
     }
 
     @Override
