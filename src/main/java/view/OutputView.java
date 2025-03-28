@@ -49,7 +49,7 @@ public class OutputView {
             System.out.print("- ");
             return;
         }
-        System.out.print(getDescription(piece) + " ");
+        System.out.print(PieceSymbol.findSymbol(piece) + " ");
     }
 
     private void printColumnsInfo() {
@@ -59,12 +59,5 @@ public class OutputView {
                 .collect(Collectors.joining(" "));
 
         System.out.println("    " + columnInfo);
-    }
-
-    private String getDescription(Piece piece) {
-        if (piece.isSameTeam(TeamType.CHO)) {
-            return piece.getType().getDescription().toLowerCase();
-        }
-        return piece.getType().getDescription();
     }
 }
