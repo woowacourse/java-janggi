@@ -18,4 +18,8 @@ public enum Direction {
         this.dr = dr;
         this.dc = dc;
     }
+
+    public boolean isDiagonal() {
+        return this == LEFT_DOWN || this == LEFT_UP || this == RIGHT_DOWN || this == RIGHT_UP;
+    }
 }
