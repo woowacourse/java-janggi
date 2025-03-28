@@ -61,15 +61,29 @@ class PositionTest {
         assertThat(result).isEqualTo(expectedResult);
     }
 
-    @Test
-    void 궁성_좌표를_판단해_반환한다() {
+    @ParameterizedTest
+    @CsvSource({
+            "4, 1, true", "4, 2, true", "4, 3, true",
+            "5, 1, true", "5, 2, true", "5, 3, true",
+            "6, 1, true", "6, 2, true", "6, 3, true",
+            "4, 8, true", "4, 9, true", "4, 10, true",
+            "5, 8, true", "5, 9, true", "5, 10, true",
+            "6, 8, true", "6, 9, true", "6, 10, true",
+            "3, 1, false", "3, 2, false", "3, 3, false",
+            "4, 4, false", "5, 4, false", "6, 4, false",
+            "7, 1, false", "7, 2, false", "7, 3, false",
+            "3, 8, false", "3, 9, false", "3, 10, false",
+            "4, 7, false", "5, 7, false", "6, 7, false",
+            "7, 8, false", "7, 9, false", "7, 10, false",
+    })
+    void 궁성_좌표를_판단해_반환한다(int row, int column, boolean expected) {
         // given
-        Position position = new Position(4, 1);
+        Position position = new Position(row, column);
 
         // when
         boolean result = position.isWithinPalace();
 
         // then
-        assertThat(result).isTrue();
+        assertThat(result).isEqualTo(expected);
     }
 }
