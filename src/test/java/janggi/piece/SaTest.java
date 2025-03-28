@@ -19,8 +19,8 @@ public class SaTest {
         @Test
         @DisplayName("북서쪽으로 이동할 수 있다면 true를 반환한다.")
         void checkUpLeftMovable() {
-            Sa sa = new Sa(Team.CHO, new Point(6, 6));
-            Point targetPoint = new Point(5, 5);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(7, 3);
             Board board = new Board(List.of(
                     sa
             ));
@@ -31,8 +31,8 @@ public class SaTest {
         @Test
         @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
         void checkLeftMovable() {
-            Sa sa = new Sa(Team.CHO, new Point(6, 6));
-            Point targetPoint = new Point(6, 5);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(8, 3);
             Board board = new Board(List.of(
                     sa
             ));
@@ -43,8 +43,8 @@ public class SaTest {
         @Test
         @DisplayName("우로 이동할 수 있다면 true를 반환한다.")
         void checkRightMovable() {
-            Sa sa = new Sa(Team.CHO, new Point(6, 6));
-            Point targetPoint = new Point(6, 7);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(8, 5);
             Board board = new Board(List.of(
                     sa
             ));
@@ -55,8 +55,8 @@ public class SaTest {
         @Test
         @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
         void checkUpMovable() {
-            Sa sa = new Sa(Team.CHO, new Point(6, 6));
-            Point targetPoint = new Point(5, 6);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(7, 4);
             Board board = new Board(List.of(
                     sa
             ));
@@ -67,8 +67,8 @@ public class SaTest {
         @Test
         @DisplayName("하으로 이동할 수 있다면 true를 반환한다.")
         void checkDownMovable() {
-            Sa sa = new Sa(Team.CHO, new Point(6, 6));
-            Point targetPoint = new Point(7, 6);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(9, 4);
             Board board = new Board(List.of(
                     sa
             ));
@@ -83,8 +83,8 @@ public class SaTest {
         @Test
         @DisplayName("좌로 이동 시 장애물이 있으면 이동가능 여부는 false이다.")
         void checkLeftHurdle() {
-            Sa sa = new Sa(Team.CHO, new Point(5, 4));
-            Point targetPoint = new Point(5, 3);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(8, 3);
             Board board = new Board(List.of(
                     sa,
                     new Byeong(Team.CHO, targetPoint)
@@ -96,8 +96,8 @@ public class SaTest {
         @Test
         @DisplayName("좌로 이동 시 장애물이 없으면 이동가능 여부는 true이다.")
         void checkLeftNoHurdle() {
-            Sa sa = new Sa(Team.CHO, new Point(5, 4));
-            Point targetPoint = new Point(5, 3);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(8, 3);
             Board board = new Board(List.of(
                     sa
             ));
@@ -113,8 +113,8 @@ public class SaTest {
         @Test
         @DisplayName("좌로 이동할 수 있다면 true를 반환한다.")
         void checkLeftMovable() {
-            Sa sa = new Sa(Team.CHO, new Point(6, 6));
-            Point targetPoint = new Point(6, 5);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(8, 3);
             Board board = new Board(List.of(
                     sa,
                     new Byeong(Team.HAN, targetPoint)
@@ -126,8 +126,8 @@ public class SaTest {
         @Test
         @DisplayName("우로 이동할 수 있다면 true를 반환한다.")
         void checkRightMovable() {
-            Sa sa = new Sa(Team.CHO, new Point(6, 6));
-            Point targetPoint = new Point(6, 7);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(8, 5);
             Board board = new Board(List.of(
                     sa,
                     new Byeong(Team.HAN, targetPoint)
@@ -139,8 +139,8 @@ public class SaTest {
         @Test
         @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
         void checkUpMovable() {
-            Sa sa = new Sa(Team.CHO, new Point(6, 6));
-            Point targetPoint = new Point(5, 6);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(7, 4);
             Board board = new Board(List.of(
                     sa,
                     new Byeong(Team.HAN, targetPoint)
@@ -152,8 +152,8 @@ public class SaTest {
         @Test
         @DisplayName("하으로 이동할 수 있다면 true를 반환한다.")
         void checkDownMovable() {
-            Sa sa = new Sa(Team.CHO, new Point(6, 6));
-            Point targetPoint = new Point(7, 6);
+            Sa sa = new Sa(Team.CHO, new Point(8, 4));
+            Point targetPoint = new Point(9, 4);
             Board board = new Board(List.of(
                     sa,
                     new Byeong(Team.HAN, targetPoint)

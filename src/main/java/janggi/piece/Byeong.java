@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.game.Palace;
 import janggi.movement.direction.Direction;
 import janggi.movement.middleRoute.Hurdles;
 import janggi.movement.target.Prey;
@@ -29,8 +30,11 @@ public class Byeong extends Movable {
         if (isDistanceOutOfRange(targetPoint)) {
             return false;
         }
-        Direction direction = Direction.toCardinalFrom(point, targetPoint);
-        if (movesDown(direction)) {
+        Direction direction = Direction.toCardinalOrDiagonalFrom(point, targetPoint);
+        if (movesDown(direction)) { //TODO : 궁성 반영
+            return false;
+        }
+        if (isUnavailableDirection(targetPoint, direction)) {
             return false;
         }
         if (isRouteCrashesHurdle(targetPoint, hurdles, direction)) {
@@ -46,6 +50,13 @@ public class Byeong extends Movable {
 
     private boolean movesDown(Direction direction) {
         return team.headsBack(direction);
+    }
+
+    private boolean isUnavailableDirection(Point targetPoint, Direction direction) {
+        if (Palace.movesInPalace(this, targetPoint)) {
+            return !Palace.movesOnEdge(this, direction);
+        }
+        return direction.isDiagonal();
     }
 
     private boolean isRouteCrashesHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {

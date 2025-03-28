@@ -3,7 +3,9 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.game.Board;
+import janggi.game.Palace;
 import janggi.game.Team;
+import janggi.movement.direction.Direction;
 import janggi.point.Point;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

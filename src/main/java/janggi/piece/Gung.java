@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.game.Palace;
 import janggi.movement.direction.Direction;
 import janggi.movement.middleRoute.Hurdles;
 import janggi.movement.target.Prey;
@@ -28,6 +29,9 @@ public class Gung extends Movable {
             return false;
         }
         Direction direction = Direction.toCardinalOrDiagonalFrom(point, targetPoint);
+        if (isUnavailableDirection(targetPoint, direction)) {
+//            return false; //TODO 수정
+        }
         if (isRouteCrashesHurdle(targetPoint, hurdles, direction)) {
             return false;
         }
@@ -37,6 +41,14 @@ public class Gung extends Movable {
     private boolean isDistanceOutOfRange(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
         return distance.notMatches(1) && distance.notMatches(Math.sqrt(2));
+    }
+
+    private boolean isUnavailableDirection(Point targetPoint, Direction direction) {
+        if (Palace.movesInPalace(this, targetPoint)) {
+            return !Palace.movesOnEdge(this, direction);
+        }
+        //TODO : false면 예외
+        throw new IllegalArgumentException("궁은 궁성 내에서만 이동 가능합니다.");
     }
 
     private boolean isRouteCrashesHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {

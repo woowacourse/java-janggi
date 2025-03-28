@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.game.Palace;
 import janggi.movement.direction.Direction;
 import janggi.movement.middleRoute.Bridge;
 import janggi.movement.middleRoute.Hurdles;
@@ -26,11 +27,21 @@ public class Po extends Movable {
 
     @Override
     public boolean canMove(Point targetPoint, Hurdles hurdles) {
-        Direction direction = Direction.toCardinalFrom(point, targetPoint);
+        Direction direction = Direction.toCardinalOrDiagonalFrom(point, targetPoint);
+        if (isUnavailableDirection(targetPoint, direction)) {
+            return false;
+        }
         if (isRouteCrashesHurdle(targetPoint, hurdles, direction)) {
             return false;
         }
         return canMoveOrAttackTargetPoint(targetPoint, hurdles);
+    }
+
+    private boolean isUnavailableDirection(Point targetPoint, Direction direction) {
+        if (Palace.movesInPalace(this, targetPoint)) {
+            return !Palace.movesOnEdge(this, direction);
+        }
+        return direction.isDiagonal();
     }
 
     private boolean isRouteCrashesHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {

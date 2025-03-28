@@ -140,6 +140,14 @@ public enum Direction {
                 .orElseThrow(IllegalStateException::new);
     }
 
+    public boolean isCardinal() {
+        return rowOffset == 0 || columnOffset == 0;
+    }
+
+    public boolean isDiagonal() {
+        return rowOffset != 0 && columnOffset != 0;
+    }
+
     public int getRowOffset() {
         return rowOffset;
     }
@@ -147,4 +155,5 @@ public enum Direction {
     public int getColumnOffset() {
         return columnOffset;
     }
+
 }
