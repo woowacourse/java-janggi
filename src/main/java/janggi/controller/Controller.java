@@ -31,7 +31,6 @@ public class Controller {
     public void run() {
         JanggiBoard janggiBoard = makeJanggiBoard();
         outputView.printJanggiBoard(janggiBoard);
-        janggiBoardService.saveInitialBoard(janggiBoard);
         playGame(janggiBoard);
     }
 
@@ -39,7 +38,9 @@ public class Controller {
         if (janggiBoardService.hasGameData()) {
             return janggiBoardService.loadGame();
         }
-        return initiateJanggiBoard();
+        JanggiBoard janggiBoard = initiateJanggiBoard();
+        janggiBoardService.saveInitialBoard(janggiBoard);
+        return janggiBoard;
     }
 
     private JanggiBoard initiateJanggiBoard() {
@@ -69,31 +70,35 @@ public class Controller {
 
     private void moveSide(JanggiBoard janggiBoard) {
         Side turn = janggiBoard.getTurn();
-        if (turn == Side.HAN) moveHan(janggiBoard);
-        moveCho(janggiBoard);
+        if (turn == Side.HAN) {
+            moveHan(janggiBoard, turn);
+            return;
+        }
+        moveCho(janggiBoard, turn);
     }
 
-    private void moveHan(JanggiBoard janggiBoard) {
+    private void moveHan(JanggiBoard janggiBoard, Side turn) {
         Entry<Integer, Integer> source = inputView.inputHanMoveSource();
         Entry<Integer, Integer> destinationValues = inputView.inputHanMoveDestination();
-        move(janggiBoard, source, destinationValues);
+        move(janggiBoard, source, destinationValues, turn);
     }
 
-    private void moveCho(JanggiBoard janggiBoard) {
+    private void moveCho(JanggiBoard janggiBoard, Side turn) {
         Entry<Integer, Integer> source = inputView.inputChoMoveSource();
         Entry<Integer, Integer> destinationValues = inputView.inputChoMoveDestination();
-        move(janggiBoard, source, destinationValues);
+        move(janggiBoard, source, destinationValues, turn);
     }
 
     private void move(
         JanggiBoard janggiBoard,
         Entry<Integer, Integer> source,
-        Entry<Integer, Integer> destinationValues
+        Entry<Integer, Integer> destinationValues,
+        Side turn
         ) {
         Position start = new Position(source.getKey(), source.getValue());
         Position destination = new Position(destinationValues.getKey(), destinationValues.getValue());
         janggiBoard.move(start, destination);
-        janggiBoardService.updateGame(start, destination);
+        janggiBoardService.updateGame(start, destination, turn);
     }
 
     private void computeException(Consumer<JanggiBoard> move, JanggiBoard janggiBoard) {

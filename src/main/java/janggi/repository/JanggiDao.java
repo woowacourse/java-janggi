@@ -167,6 +167,18 @@ public class JanggiDao {
         }
     }
 
+    public void updateTurn(Side turn) {
+        String query = "UPDATE turn SET turn = ? WHERE turn = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+            preparedStatement.setString(1, Side.opposite(turn).name());
+            preparedStatement.setString(2, turn.name());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("turn을 수정 할 수 없습니다." + e.getMessage());
+        }
+    }
+
     public void removePieces() {
         String query = "DELETE FROM piece";
         try (Connection connection = getConnection();

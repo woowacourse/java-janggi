@@ -40,9 +40,10 @@ public class JanggiBoardService {
         return new JanggiBoard(new Pieces(pieces), turn);
     }
 
-    public void updateGame(Position start, Position destination) {
+    public void updateGame(Position start, Position destination, Side turn) {
         janggiDao.removeDestinationPiece(destination);
         janggiDao.updateMovingPiece(start, destination);
+        janggiDao.updateTurn(turn);
     }
 
     public void resetGame() {
