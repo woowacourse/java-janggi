@@ -5,7 +5,7 @@ import domain.position.Route;
 import domain.unit.Team;
 import domain.unit.Unit;
 import domain.unit.UnitType;
-import java.util.HashMap;
+import domain.unit.Units;
 import java.util.List;
 import java.util.Map;
 
@@ -15,32 +15,26 @@ public class Janggi {
     public static final String PICK_OPPOSITE_UNIT_EXCEPTION = "상대팀 말은 고를 수 없습니다.";
     public static final String CANNOT_MOVE_EXCEPTION = "이동할 수 없는 도착지입니다.";
 
-    private final Map<Position, Unit> units;
+    private final Units totalUnits;
     private Team turn;
 
-    private Janggi(Map<Position, Unit> units, Team turn) {
-        this.units = new HashMap<>(units);
+    private Janggi(Units totalUnits, Team turn) {
+        this.totalUnits = totalUnits;
         this.turn = turn;
     }
 
-    public static Janggi of(Map<Position, Unit> hanUnits, Map<Position, Unit> choUnits, Team turn) {
-        Map<Position, Unit> units = new HashMap<>();
-        units.putAll(hanUnits);
-        units.putAll(choUnits);
-        return new Janggi(units, turn);
+    public static Janggi of(Units totalUnits, Team turn) {
+        return new Janggi(totalUnits, turn);
     }
 
     public void doTurn(Position pick, Position destination) {
         if (!canMove(pick, destination)) {
             throw new IllegalArgumentException(CANNOT_MOVE_EXCEPTION);
         }
-        Unit pickedUnit = units.get(pick);
-        Unit destinationUnit = units.get(destination);
-        if (destinationUnit != null && destinationUnit.isOppositeTeam(turn)) {
-            units.remove(destination);
+        if (totalUnits.isOppositeTeam(pick, destination)) {
+            totalUnits.removeUnitAt(destination);
         }
-        units.remove(pick);
-        units.put(destination, pickedUnit);
+        totalUnits.moveUnit(pick, destination);
         switchTurn();
     }
 
@@ -56,37 +50,35 @@ public class Janggi {
     }
 
     public List<Route> findMovableRoutesFrom(Position pick) {
-        if (isEmptyPosition(pick)) {
+        if (totalUnits.isEmptyPosition(pick)) {
             throw new IllegalArgumentException(EMPTY_POINT_EXCEPTION);
         }
-        Unit pickedUnit = units.get(pick);
-        if (pickedUnit.isOppositeTeam(turn)) {
+        if (totalUnits.isUnitTeamNotEqualAt(pick, turn)) {
             throw new IllegalArgumentException(PICK_OPPOSITE_UNIT_EXCEPTION);
         }
 
-        List<Route> totalRoutes = pickedUnit.calculateRoutes(pick);
-        totalRoutes = filterRoutesByUnitType(pickedUnit, pick, totalRoutes);
-        if (pickedUnit.getType() == UnitType.CANNON) {
-            return totalRoutes;
+        List<Route> unitRoutes = calculateRoutesByUnitType(pick);
+        if (totalUnits.isUnitSameType(pick, UnitType.CANNON)) {
+            return unitRoutes;
         }
-        return filterBlockedRoutes(pick, totalRoutes);
+        return filterBlockedRoutes(pick, unitRoutes);
     }
 
-    private List<Route> filterRoutesByUnitType(Unit pickedUnit, Position pick, List<Route> totalRoutes) {
-        UnitType type = pickedUnit.getType();
-        if (type == UnitType.CANNON) {
-            return totalRoutes.stream()
+    private List<Route> calculateRoutesByUnitType(Position pick) {
+        List<Route> routes = totalUnits.getUnitRoutes(pick);
+        if (totalUnits.isUnitSameType(pick, UnitType.CANNON)) {
+            return routes.stream()
                     .filter(route -> canCannonJump(pick, route))
                     .toList();
         }
-        if (type == UnitType.SOLDIER) {
-            return filterSoldierMoves(pick, pickedUnit, totalRoutes);
+        if (totalUnits.isUnitSameType(pick, UnitType.SOLDIER)) {
+            return filterSoldierMoves(pick, routes);
         }
-        return totalRoutes;
+        return routes;
     }
 
-    private List<Route> filterSoldierMoves(Position pick, Unit pickedUnit, List<Route> totalRoutes) {
-        if (pickedUnit.isSameTeam(Team.HAN)) {
+    private List<Route> filterSoldierMoves(Position pick, List<Route> totalRoutes) {
+        if (totalUnits.isUnitTeamEqualAt(pick, Team.HAN)) {
             return totalRoutes.stream()
                     .filter(route -> route.getPositions().getFirst().getY() >= pick.getY())
                     .toList();
@@ -98,20 +90,17 @@ public class Janggi {
 
     private boolean canCannonJump(Position current, Route route) {
         Position endPoint = route.searchDestination(current);
-        if (!isEmptyPosition(endPoint)) {
-            Unit endUnit = units.get(endPoint);
-            if (endUnit.getType() == UnitType.CANNON) {
-                return false;
-            }
+        if (totalUnits.isNotEmptyPosition(endPoint) &&
+                totalUnits.isUnitSameType(endPoint, UnitType.CANNON)) {
+            return false;
         }
 
         int count = 0;
         for (Position position : route.getPositionsExceptDestination(current)) {
-            if (isEmptyPosition(position)) {
+            if (totalUnits.isEmptyPosition(position)) {
                 continue;
             }
-            Unit unit = units.get(position);
-            if (unit.getType() == UnitType.CANNON) {
+            if (totalUnits.isUnitSameType(position, UnitType.CANNON)) {
                 return false;
             }
             count++;
@@ -128,28 +117,19 @@ public class Janggi {
 
     private boolean isClearRoute(Position pick, Route route) {
         return route.getPositionsExceptDestination(pick).stream()
-                .allMatch(this::isEmptyPosition);
+                .allMatch(totalUnits::isEmptyPosition);
     }
 
     private boolean isClearDestination(Position pick, Route route) {
         Position endPosition = route.searchDestination(pick);
-        if (isEmptyPosition(endPosition)) {
+        if (totalUnits.isEmptyPosition(endPosition)) {
             return true;
         }
-        Unit endPointUnit = units.get(endPosition);
-        return endPointUnit.isOppositeTeam(this.turn);
-    }
-
-    private boolean isEmptyPosition(Position position) {
-        return !units.containsKey(position);
+        return totalUnits.isUnitTeamNotEqualAt(endPosition, turn);
     }
 
     public boolean isOneOfTeamNonExist() { // TODO: 궁, 사 구현 완료 시 게임 종료 조건 변경
-        boolean isHanNonExist = units.values().stream().
-                noneMatch(unit -> unit.isSameTeam(Team.HAN));
-        boolean isChoNonExist = units.values().stream().
-                noneMatch(unit -> unit.isSameTeam(Team.CHO));
-        return isHanNonExist || isChoNonExist;
+        return totalUnits.isTeamNonExist(Team.HAN) || totalUnits.isTeamNonExist(Team.CHO);
     }
 
     public Team getTurn() {
@@ -157,6 +137,6 @@ public class Janggi {
     }
 
     public Map<Position, Unit> getUnits() {
-        return units;
+        return totalUnits.getAllUnits();
     }
 }

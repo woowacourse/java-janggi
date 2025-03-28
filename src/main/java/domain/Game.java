@@ -5,6 +5,7 @@ import domain.position.Position;
 import domain.position.Route;
 import domain.unit.Team;
 import domain.unit.Unit;
+import domain.unit.Units;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,8 @@ public class Game {
     private Janggi createJanggi() {
         Map<Position, Unit> hanUnits = settingUnits(Team.HAN);
         Map<Position, Unit> choUnits = settingUnits(Team.CHO);
-        return Janggi.of(hanUnits, choUnits, Team.CHO);
+        Units totalUnits = Units.of(hanUnits, choUnits);
+        return Janggi.of(totalUnits, Team.CHO);
     }
 
     private Map<Position, Unit> settingUnits(Team team) {

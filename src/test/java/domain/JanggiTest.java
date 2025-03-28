@@ -7,6 +7,7 @@ import domain.position.Position;
 import domain.position.Route;
 import domain.unit.Team;
 import domain.unit.Unit;
+import domain.unit.Units;
 import domain.unit.rule.CannonUnitRule;
 import domain.unit.rule.ChariotUnitRule;
 import domain.unit.rule.ElephantUnitRule;
@@ -28,7 +29,8 @@ class JanggiTest {
                 targetPosition, target,
                 Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
-        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
+        Units totalUnits = Units.of(units, Map.of());
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when
         List<Route> routes = janggi.findMovableRoutesFrom(targetPosition);
@@ -47,7 +49,8 @@ class JanggiTest {
                 targetPosition, target,
                 Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
-        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
+        Units totalUnits = Units.of(units, Map.of());
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when
         List<Route> routes = janggi.findMovableRoutesFrom(targetPosition);
@@ -66,7 +69,8 @@ class JanggiTest {
                 targetPosition, target,
                 Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
-        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
+        Units totalUnits = Units.of(units, Map.of());
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when
         List<Route> routes = janggi.findMovableRoutesFrom(targetPosition);
@@ -85,7 +89,8 @@ class JanggiTest {
                 targetPosition, target,
                 Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
-        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
+        Units totalUnits = Units.of(units, Map.of());
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when
         List<Route> routes = janggi.findMovableRoutesFrom(targetPosition);
@@ -104,7 +109,8 @@ class JanggiTest {
                 targetPosition, target,
                 Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
-        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
+        Units totalUnits = Units.of(units, Map.of());
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when
         List<Route> routes = janggi.findMovableRoutesFrom(targetPosition);
@@ -123,7 +129,8 @@ class JanggiTest {
                 targetPosition, target,
                 Position.of(4, 4), Unit.of(Team.CHO, new SoldierUnitRule())
         );
-        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
+        Units totalUnits = Units.of(units, Map.of());
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when
         Position destination = Position.of(3, 5);
@@ -146,7 +153,8 @@ class JanggiTest {
         Map<Position, Unit> oppositeUnits = Map.of(
                 Position.of(4, 4), Unit.of(Team.HAN, new SoldierUnitRule())
         );
-        Janggi janggi = Janggi.of(units, oppositeUnits, Team.CHO);
+        Units totalUnits = Units.of(units, oppositeUnits);
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when
         Position destination = Position.of(4, 4);
@@ -170,7 +178,8 @@ class JanggiTest {
         Map<Position, Unit> oppositeUnits = Map.of(
                 oppositePosition, Unit.of(Team.HAN, new SoldierUnitRule())
         );
-        Janggi janggi = Janggi.of(units, oppositeUnits, Team.CHO);
+        Units totalUnits = Units.of(units, oppositeUnits);
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when & then
         assertThatThrownBy(() -> janggi.doTurn(oppositePosition, targetPosition))
@@ -191,7 +200,8 @@ class JanggiTest {
         Map<Position, Unit> oppositeUnits = Map.of(
                 oppositePosition, Unit.of(Team.HAN, new SoldierUnitRule())
         );
-        Janggi janggi = Janggi.of(units, oppositeUnits, Team.CHO);
+        Units totalUnits = Units.of(units, oppositeUnits);
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when & then
         assertThatThrownBy(() -> janggi.doTurn(Position.of(0, 0), oppositePosition))
@@ -208,7 +218,8 @@ class JanggiTest {
         Map<Position, Unit> units = Map.of(
                 targetPosition, target
         );
-        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
+        Units totalUnits = Units.of(units, Map.of());
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when & then
         assertThatThrownBy(() -> janggi.doTurn(targetPosition, Position.of(0, 0)))
@@ -225,12 +236,38 @@ class JanggiTest {
         Map<Position, Unit> units = Map.of(
                 targetPosition, target
         );
-        Janggi janggi = Janggi.of(units, Map.of(), Team.CHO);
+        Units totalUnits = Units.of(units, Map.of());
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
 
         // when
         boolean oneOfTeamNonExist = janggi.isOneOfTeamNonExist();
 
         // then
         assertThat(oneOfTeamNonExist).isTrue();
+    }
+
+    @Test
+    @DisplayName("포가 포를 잡을 수 없다")
+    void test12() {
+        // given
+        Unit target = Unit.of(Team.CHO, new CannonUnitRule());
+        Position targetPosition = Position.of(0, 0);
+        Map<Position, Unit> units = Map.of(
+                targetPosition, target,
+                Position.of(0, 1), Unit.of(Team.CHO, new SoldierUnitRule())
+        );
+        Unit oppositeCannon = Unit.of(Team.CHO, new CannonUnitRule());
+        Position oppositePosition = Position.of(0, 3);
+        Map<Position, Unit> oppositeUnits = Map.of(
+                oppositePosition, oppositeCannon
+        );
+        Units totalUnits = Units.of(units, oppositeUnits);
+        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+
+        // when
+        List<Route> movableRoutesFrom = janggi.findMovableRoutesFrom(targetPosition);
+
+        // then
+        assertThat(movableRoutesFrom).hasSize(1);
     }
 }
