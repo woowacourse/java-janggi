@@ -1,6 +1,8 @@
 package janggi.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public record Position(int row, int column) {
 
@@ -35,6 +37,16 @@ public record Position(int row, int column) {
 
     public Position move(final Direction direction) {
         return new Position(row + direction.deltaRow(), column + direction.deltaColumn());
+    }
+
+    public PositionsInDirection getPositionsInDirection(Direction direction) {
+        List<Position> positions = new ArrayList<>();
+        Position currentPosition = this;
+        while (currentPosition.canMove(direction)) {
+            currentPosition = currentPosition.move(direction);
+            positions.add(currentPosition);
+        }
+        return new PositionsInDirection(positions);
     }
 
     private boolean isInValidPosition(int row, int column) {

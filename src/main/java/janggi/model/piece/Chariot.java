@@ -3,13 +3,11 @@ package janggi.model.piece;
 import janggi.model.Color;
 import janggi.model.Direction;
 import janggi.model.OccupiedPositions;
+import janggi.model.Path;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import janggi.model.PositionsInDirection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,29 +31,13 @@ public class Chariot extends Piece {
     }
 
     private Set<Position> calculateMovableOneSide(Direction direction, Position start, OccupiedPositions occupied) {
-        List<Position> positionsInDirection = getPositionsInDirection(direction, start);
-        return findFirstPiece(positionsInDirection, occupied).map(huddle -> {
-            int huddleIndex = positionsInDirection.indexOf(huddle);
-            Set<Position> movablePositions = new HashSet<>(positionsInDirection.subList(0, huddleIndex));
-            if (!occupied.existSameColor(huddle, identity().getColor())) {
-                movablePositions.add(huddle);
-            }
-            return movablePositions;
-        }).orElseGet(() -> new HashSet<>(positionsInDirection));
-    }
-
-    private List<Position> getPositionsInDirection(Direction direction, Position start) {
-        List<Position> positions = new ArrayList<>();
-        Position currentPosition = start;
-        while (currentPosition.canMove(direction)) {
-            currentPosition = currentPosition.move(direction);
-            positions.add(currentPosition);
+        PositionsInDirection positionsInDirection = start.getPositionsInDirection(direction);
+        Path pathUntilHuddle = positionsInDirection.getPathUntilHuddle(occupied);
+        Position destination = pathUntilHuddle.getDestinationPosition();
+        if (!occupied.existSameColor(destination, identity().getColor())) {
+            return pathUntilHuddle.getAllPositionSet();
         }
-        return positions;
-    }
-
-    private Optional<Position> findFirstPiece(List<Position> positions, OccupiedPositions occupied) {
-        return positions.stream().filter(occupied::existPosition).findFirst();
+        return pathUntilHuddle.getCornerPositionSet();
     }
 
     private boolean isCastleRule(Position start, Position destination) {
