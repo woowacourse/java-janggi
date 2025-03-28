@@ -33,7 +33,7 @@ public enum Column {
         int min = Math.min(this.ordinal(), targetColumn.ordinal());
         int max = Math.max(this.ordinal(), targetColumn.ordinal());
         return Arrays.stream(values())
-                .filter(column -> column.ordinal() > min && column.ordinal() <= max)
+                .filter(column -> column.ordinal() > min && column.ordinal() < max)
                 .toList();
     }
 

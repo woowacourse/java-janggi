@@ -3,17 +3,21 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static piece.Country.Cho;
+import static testutil.TestConstant.A4;
 import static testutil.TestConstant.A5;
 import static testutil.TestConstant.B3;
 import static testutil.TestConstant.C5;
 import static testutil.TestConstant.D4;
 import static testutil.TestConstant.E1;
+import static testutil.TestConstant.E2;
 import static testutil.TestConstant.E4;
 import static testutil.TestConstant.E5;
 import static testutil.TestConstant.E6;
+import static testutil.TestConstant.E8;
 import static testutil.TestConstant.E9;
 import static testutil.TestConstant.F6;
 import static testutil.TestConstant.G5;
+import static testutil.TestConstant.I4;
 import static testutil.TestConstant.I5;
 
 import game.Board;
@@ -78,6 +82,24 @@ public class RookTest {
                 E6, new Horse(Cho),
                 C5, new Horse(Cho),
                 G5, new Horse(Cho)
+        ));
+
+        // when & then
+        assertThatThrownBy(() -> rook.canMove(from, to, board))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("중간에 기물이 있어 갈 수 없습니다.");
+    }
+
+    @ParameterizedTest
+    @MethodSource("VALID_MOVE_POSITIONS")
+    void 차는_중간에_기물이_있으면_이동할_수_없다2(Position from, Position to) {
+        // given
+        Rook rook = new Rook(Cho);
+        Board board = new Board(Map.of(
+                A4, new Horse(Cho),
+                I4, new Horse(Cho),
+                E2, new Horse(Cho),
+                E8, new Horse(Cho)
         ));
 
         // when & then
