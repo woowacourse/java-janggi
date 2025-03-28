@@ -30,4 +30,14 @@ public class Cannon extends Piece {
     public String getName() {
         return PieceType.CANNON.getName();
     }
+
+    @Override
+    public boolean isValidPosition(final Position targetPosition) {
+        return targetPosition.isValid();
+    }
+
+    @Override
+    public boolean canMoveInPalace() {
+        return true;
+    }
 }

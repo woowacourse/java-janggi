@@ -30,4 +30,14 @@ public class Chariot extends Piece {
     public String getName() {
         return PieceType.CHARIOT.getName();
     }
+
+    @Override
+    public boolean isValidPosition(final Position targetPosition) {
+        return targetPosition.isValid();
+    }
+
+    @Override
+    public boolean canMoveInPalace() {
+        return true;
+    }
 }

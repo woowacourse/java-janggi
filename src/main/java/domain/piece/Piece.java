@@ -7,7 +7,7 @@ import java.util.Objects;
 public abstract class Piece {
 
     protected final Directions directions;
-    private final Position position;
+    protected final Position position;
 
     public Piece(final int row, final int column, final Directions directions) {
         this.position = Position.of(row, column);
@@ -27,8 +27,18 @@ public abstract class Piece {
 
     public abstract int getScore();
 
+    public abstract boolean isValidPosition(final Position position);
+
+    public abstract boolean canMoveInPalace();
+
     public List<Position> getPath(final Position targetPosition) {
         return directions.getPath(position, targetPosition);
+    }
+
+    public void validateInRangePosition(Position targetPosition) {
+        if (!isValidPosition(targetPosition)) {
+            throw new IllegalArgumentException("[ERROR] 이동할 수 없는 위치입니다.");
+        }
     }
 
     public boolean isSamePosition(final Position position) {

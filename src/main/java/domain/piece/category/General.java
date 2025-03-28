@@ -30,4 +30,14 @@ public class General extends Piece {
     public String getName() {
         return PieceType.GENERAL.getName();
     }
+
+    @Override
+    public boolean isValidPosition(final Position targetPosition) {
+        return targetPosition.isInPalace();
+    }
+
+    @Override
+    public boolean canMoveInPalace() {
+        return true;
+    }
 }

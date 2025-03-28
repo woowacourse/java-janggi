@@ -30,4 +30,14 @@ public class Elephant extends Piece {
     public String getName() {
         return PieceType.ELEPHANT.getName();
     }
+
+    @Override
+    public boolean isValidPosition(final Position targetPosition) {
+        return targetPosition.isValid();
+    }
+
+    @Override
+    public boolean canMoveInPalace() {
+        return false;
+    }
 }

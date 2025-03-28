@@ -30,4 +30,14 @@ public class Soldier extends Piece {
     public String getName() {
         return PieceType.SOLDIER.getName();
     }
+
+    @Override
+    public boolean isValidPosition(final Position targetPosition) {
+        return targetPosition.isValid();
+    }
+
+    @Override
+    public boolean canMoveInPalace() {
+        return true;
+    }
 }

@@ -30,4 +30,14 @@ public class Horse extends Piece {
     public String getName() {
         return PieceType.HORSE.getName();
     }
+
+    @Override
+    public boolean isValidPosition(final Position targetPosition) {
+        return targetPosition.isValid();
+    }
+
+    @Override
+    public boolean canMoveInPalace() {
+        return false;
+    }
 }
