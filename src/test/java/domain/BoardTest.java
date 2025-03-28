@@ -4,12 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.Board;
 import domain.board.BoardLocation;
-import domain.piece.Chariot;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import fixture.BoardFixture;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -59,7 +60,10 @@ class BoardTest {
         Piece piece = board.getByLocationOrThrow(boardLocation);
 
         //then
-        assertThat(piece).isEqualTo(new Chariot(Team.HAN));
+        SoftAssertions.assertSoftly(softly -> {
+            softly.assertThat(piece.getType()).isEqualTo(PieceType.CHARIOT);
+            softly.assertThat(piece.getTeam()).isEqualTo(Team.HAN);
+        });
     }
 
     @DisplayName("기물이 이동할 경우, 현재 위치는 제거하고 목표 위치를 추가한다")

@@ -13,7 +13,12 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public void validateMovable(BoardLocation current, BoardLocation destination, PieceExtractor pieceExtractor, PieceFinder pieceFinder) {
+    public void validateMovable(
+            BoardLocation current,
+            BoardLocation destination,
+            PieceExtractor pieceExtractor,
+            PieceFinder pieceFinder
+    ) {
         validateArrival(current, destination);
         List<BoardLocation> allPath = createAllPath(current, destination);
         List<Piece> pathPiece = pieceExtractor.extract(allPath);

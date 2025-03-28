@@ -1,7 +1,5 @@
 package domain.board;
 
-import java.util.List;
-
 public enum Direction {
     UP(0, -1),
     DOWN(0, 1),
@@ -26,13 +24,5 @@ public enum Direction {
 
     public int y() {
         return y;
-    }
-
-    public static List<Direction> getAllDiagonal() {
-        return List.of(UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT);
-    }
-
-    public static List<Direction> getAllOrthogonal() {
-        return List.of(UP, DOWN, LEFT, RIGHT);
     }
 }

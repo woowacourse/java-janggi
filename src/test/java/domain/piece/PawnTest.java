@@ -134,8 +134,8 @@ public class PawnTest {
     @Test
     void test9() {
         // given
-        List<Piece> pathPiece = List.of(new Pawn(Team.DEFAULT));
-        Piece piece = new Pawn(Team.DEFAULT);
+        List<Piece> pathPiece = List.of(new Pawn(HAN));
+        Piece piece = new Pawn(HAN);
 
         // when & then
         assertThatThrownBy(() -> {
@@ -148,7 +148,7 @@ public class PawnTest {
     void test10() {
         // given
         List<Piece> pathPiece = List.of();
-        Piece piece = new Pawn(Team.DEFAULT);
+        Piece piece = new Pawn(HAN);
 
         // when & then
         assertThatCode(
@@ -180,5 +180,31 @@ public class PawnTest {
         assertThatCode(
                 () -> start.validateKillable(destination)
         ).doesNotThrowAnyException();
+    }
+
+    @DisplayName("궁성에서 대각선 이동 가능")
+    @Test
+    void test13() {
+        // give n
+        BoardLocation current = new BoardLocation(4, 3);
+        BoardLocation destination = new BoardLocation(5, 2);
+        Pawn pawn = new Pawn(CHO);
+        // when & then
+        assertThatCode(()->
+                pawn.validateArrival(current, destination)
+        ).doesNotThrowAnyException();
+    }
+
+    @DisplayName("대각선 2칸 이동시 예외 발생")
+    @Test
+    void test14() {
+        // give n
+        BoardLocation current = new BoardLocation(4, 3);
+        BoardLocation destination = new BoardLocation(6, 1);
+        Pawn pawn = new Pawn(CHO);
+        // when & then
+        assertThatThrownBy(() -> {
+            pawn.validateArrival(current, destination);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -1,8 +1,8 @@
 package domain.piece;
 
 import static domain.piece.Team.CHO;
-import static domain.piece.Team.DEFAULT;
-import static domain.piece.Team.HAN;
+import static domain.piece.Team.HAN
+        ;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -14,7 +14,8 @@ import org.junit.jupiter.api.Test;
 
 public class HorseTest {
 
-    private Horse horse = new Horse(DEFAULT);
+    private Horse horse = new Horse(HAN
+    );
 
     @DisplayName("마는 상하좌우 한 칸 그리고 대각선 한 칸 움직일 때의 목적지 좌표로 위치 가능하다면 예와를 발생시키지않는다")
     @Test
@@ -60,8 +61,10 @@ public class HorseTest {
     @Test
     void test4() {
         // given
-        List<Piece> pathPiece = List.of(new Pawn(Team.DEFAULT));
-        Piece piece = new Horse(Team.DEFAULT);
+        List<Piece> pathPiece = List.of(new Pawn(Team.HAN
+        ));
+        Piece piece = new Horse(Team.HAN
+        );
         // when & then
         assertThatThrownBy(() -> {
             piece.validateMovePath(pathPiece);
@@ -73,7 +76,8 @@ public class HorseTest {
     void test5() {
         // given
         List<Piece> pathPiece = List.of();
-        Piece piece = new Horse(Team.DEFAULT);
+        Piece piece = new Horse(Team.HAN
+        );
 
         // when & then
         assertThatCode(

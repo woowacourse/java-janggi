@@ -1,18 +1,18 @@
 package domain.piece;
 
-public enum Team {
-    HAN,
-    CHO,
-    DEFAULT;
+import domain.board.Palace;
 
-    public static Team getStartingTeam() {
-        return CHO;
+public enum Team {
+    HAN(Palace.HAN_PALACE),
+    CHO(Palace.CHO_PALACE);
+
+    private final Palace palace;
+
+    Team(Palace palace) {
+        this.palace = palace;
     }
 
-    public Team opposite() {
-        if (this == HAN) {
-            return CHO;
-        }
-        return HAN;
+    public Palace getPalace() {
+        return palace;
     }
 }
