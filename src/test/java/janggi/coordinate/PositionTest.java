@@ -3,12 +3,16 @@ package janggi.coordinate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.coordinate.Position;
+import janggi.piece.Country;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class PositionTest {
 
@@ -43,7 +47,7 @@ public class PositionTest {
 
             // when & then
             assertThatThrownBy(() -> {
-               new Position(x, y);
+                new Position(x, y);
             }).isInstanceOf(IllegalArgumentException.class);
         }
     }
@@ -82,7 +86,7 @@ public class PositionTest {
             // then
             Assertions.assertAll(
                     () -> org.assertj.core.api.Assertions.assertThat(ableResult).isTrue(),
-                                () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
+                    () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
             );
         }
 
@@ -149,6 +153,87 @@ public class PositionTest {
 
             // then
             assertThat(actual).isEqualTo(new Position(4, 3));
+        }
+    }
+
+    @Nested
+    @DisplayName("포지션 검증")
+    class Is {
+
+        @DisplayName("Country에 따라, Position이 궁성 내부인지 검증한다.")
+        @ParameterizedTest
+        @MethodSource
+        void isInsidePalace(final Position position, final Country country) {
+            // given & when
+            final boolean actual = position.isInsidePalace(country);
+
+            // then
+            assertThat(actual).isTrue();
+        }
+
+        static Stream<Arguments> isInsidePalace() {
+            return Stream.of(
+                    Arguments.of(new Position(1, 4), Country.HAN),
+                    Arguments.of(new Position(1, 5), Country.HAN),
+                    Arguments.of(new Position(1, 6), Country.HAN),
+                    Arguments.of(new Position(2, 4), Country.HAN),
+                    Arguments.of(new Position(2, 5), Country.HAN),
+                    Arguments.of(new Position(2, 6), Country.HAN),
+                    Arguments.of(new Position(3, 4), Country.HAN),
+                    Arguments.of(new Position(3, 5), Country.HAN),
+                    Arguments.of(new Position(3, 6), Country.HAN),
+                    Arguments.of(new Position(8, 4), Country.CHO),
+                    Arguments.of(new Position(8, 5), Country.CHO),
+                    Arguments.of(new Position(8, 6), Country.CHO),
+                    Arguments.of(new Position(9, 4), Country.CHO),
+                    Arguments.of(new Position(9, 5), Country.CHO),
+                    Arguments.of(new Position(9, 6), Country.CHO),
+                    Arguments.of(new Position(10, 4), Country.CHO),
+                    Arguments.of(new Position(10, 5), Country.CHO),
+                    Arguments.of(new Position(10, 6), Country.CHO)
+            );
+        }
+
+        @DisplayName("Country에 따라, position이 궁성 중심인지 검증한다.")
+        @ParameterizedTest
+        @MethodSource
+        void isCenterInPalace(final Position position, final Country country) {
+            // given & when
+            final boolean actual = position.isCenterInPalace(country);
+
+            // then
+            assertThat(actual).isTrue();
+        }
+
+        static Stream<Arguments> isCenterInPalace() {
+            return Stream.of(
+                    Arguments.of(new Position(2, 5), Country.HAN),
+                    Arguments.of(new Position(9, 5), Country.CHO)
+            );
+        }
+
+        @DisplayName("Country에 따라, position이 궁성 모서리인지 검증한다.")
+        @ParameterizedTest
+        @MethodSource
+        void isCornerInPalace(final Position position, final Country country) {
+            // given & when
+            final boolean actual = position.isCornerInPalace(country);
+
+            // then
+            assertThat(actual).isTrue();
+        }
+
+        static Stream<Arguments> isCornerInPalace() {
+            return Stream.of(
+                    Arguments.of(new Position(1, 4), Country.HAN),
+                    Arguments.of(new Position(1, 6), Country.HAN),
+                    Arguments.of(new Position(3, 4), Country.HAN),
+                    Arguments.of(new Position(3, 6), Country.HAN),
+                    Arguments.of(new Position(8, 4), Country.CHO),
+                    Arguments.of(new Position(8, 6), Country.CHO),
+                    Arguments.of(new Position(10, 4), Country.CHO),
+                    Arguments.of(new Position(10, 6), Country.CHO)
+            );
         }
     }
 }
