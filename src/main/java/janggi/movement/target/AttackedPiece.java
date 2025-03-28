@@ -1,6 +1,6 @@
 package janggi.movement.target;
 
-import janggi.game.Score;
+import janggi.score.Score;
 import janggi.game.Team;
 import janggi.piece.Piece;
 

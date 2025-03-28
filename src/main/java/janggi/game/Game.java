@@ -3,6 +3,7 @@ package janggi.game;
 import janggi.movement.target.AttackedPiece;
 import janggi.piece.Piece;
 import janggi.point.Point;
+import janggi.score.ScoreResult;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,5 +1,6 @@
-package janggi.game;
+package janggi.score;
 
+import janggi.game.Team;
 import janggi.movement.target.AttackedPiece;
 import janggi.piece.PieceInformation;
 import java.util.Collections;

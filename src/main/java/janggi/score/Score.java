@@ -1,4 +1,4 @@
-package janggi.game;
+package janggi.score;
 
 public record Score(double value) {
 

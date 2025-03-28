@@ -1,7 +1,6 @@
 package janggi.piece;
 
 import janggi.game.Palace;
-import janggi.game.Score;
 import janggi.movement.direction.Direction;
 import janggi.movement.middleRoute.Hurdles;
 import janggi.movement.target.Prey;

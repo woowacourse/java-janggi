@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.game.Score;
+import janggi.score.Score;
 import janggi.game.Team;
 import janggi.movement.middleRoute.Hurdles;
 import janggi.point.Point;

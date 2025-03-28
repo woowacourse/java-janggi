@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.game.Score;
+import janggi.score.Score;
 
 public enum PieceInformation {
     GUNG(new Score(0), "궁", 1),

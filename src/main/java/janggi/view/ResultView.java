@@ -1,8 +1,8 @@
 package janggi.view;
 
 import janggi.game.Game;
-import janggi.game.Score;
-import janggi.game.ScoreResult;
+import janggi.score.Score;
+import janggi.score.ScoreResult;
 import janggi.game.Team;
 import java.util.Map.Entry;
 
