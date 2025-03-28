@@ -24,12 +24,19 @@ public class General extends Piece {
             return false;
         }
 
-        if ((now.isCornerInPalace(country) && destination.isCenterInPalace(country))
-                || (now.isCenterInPalace(country) && destination.isCornerInPalace(country))) {
+        if (isCenterToCorner(now, destination) || isCornerToCenter(now, destination)) {
             return true;
         }
 
         return now.calculateDistance(destination) == GENERAL_DISTANCE;
+    }
+
+    private boolean isCenterToCorner(final Position now, final Position destination) {
+        return now.isCenterInPalace() && destination.isCornerInPalace();
+    }
+
+    private boolean isCornerToCenter(final Position now, final Position destination) {
+        return now.isCornerInPalace() && destination.isCenterInPalace();
     }
 
     @Override
