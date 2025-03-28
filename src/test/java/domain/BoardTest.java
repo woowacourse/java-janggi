@@ -153,6 +153,8 @@ class BoardTest {
         SoftAssertions.assertSoftly(softly -> {
             softly.assertThat(board.hasPieceAt(expectedPoint)).isTrue();
             softly.assertThat(position.isSamePieceType(PieceType.CANNON)).isTrue();
+            softly.assertThatThrownBy(() -> board.findPositionBy(Point.newInstance(1, 2)))
+                    .isInstanceOf(IllegalArgumentException.class);
         });
     }
 
