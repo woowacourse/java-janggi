@@ -20,6 +20,7 @@ class PieceDAOTest {
 
     static final String GAME_ROOM_NAME = "room1";
     static DatabaseManager databaseManager = DatabaseTestManger.create();
+    static GameRoomDAO gameRoomDAO = new GameRoomDAO(databaseManager);
     PieceDAO pieceDAO = new PieceDAO(databaseManager);
 
     @BeforeAll
@@ -32,7 +33,6 @@ class PieceDAOTest {
             stmt.executeUpdate("DELETE FROM game_room");
         }
 
-        GameRoomDAO gameRoomDAO = new GameRoomDAO(databaseManager);
         gameRoomDAO.create(GAME_ROOM_NAME);
     }
 
@@ -70,7 +70,7 @@ class PieceDAOTest {
         Position targetPosition = Position.of(6, 1);
 
         // when
-        pieceDAO.movePiece(currentPosition, targetPosition);
+        pieceDAO.movePiece(GAME_ROOM_NAME, currentPosition, targetPosition);
 
         // then
         Board domain = pieceDAO.toDomain(GAME_ROOM_NAME);
@@ -81,7 +81,6 @@ class PieceDAOTest {
     @AfterEach
     void clearDatabase() throws SQLException {
         Connection connection = databaseManager.getConnection();
-
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DELETE FROM piece");
         }

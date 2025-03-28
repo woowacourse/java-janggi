@@ -19,7 +19,7 @@ public class PieceDAO {
 
     private static final String SELECT_BOARD_QUERY = "SELECT PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN FROM PIECE WHERE GAME_ROOM_NAME = ?";
     private static final String INSERT_PIECE_QUERY = "INSERT INTO PIECE(PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN, GAME_ROOM_NAME) VALUES (?, ?, ?, ?, ?)";
-    private static final String MOVE_PIECE_QUERY = "UPDATE PIECE SET POSITION_ROW = ?, POSITION_COLUMN = ? WHERE POSITION_ROW = ? AND POSITION_COLUMN = ?";
+    private static final String MOVE_PIECE_QUERY = "UPDATE PIECE SET POSITION_ROW = ?, POSITION_COLUMN = ? WHERE POSITION_ROW = ? AND POSITION_COLUMN = ? AND GAME_ROOM_NAME = ?";
     private static final String DELETE_PIECE_QUERY = "DELETE FROM PIECE WHERE POSITION_ROW = ? AND POSITION_COLUMN = ?";
 
     private final DatabaseManager databaseManager;
@@ -95,7 +95,7 @@ public class PieceDAO {
         }
     }
 
-    public void movePiece(Position currentPosition, Position targetPosition) {
+    public void movePiece( String gameRoomName, Position currentPosition, Position targetPosition) {
         try (Connection conn = databaseManager.getConnection();
              PreparedStatement deleteStmt = conn.prepareStatement(DELETE_PIECE_QUERY);
              PreparedStatement moveStmt = conn.prepareStatement(MOVE_PIECE_QUERY)
@@ -110,6 +110,7 @@ public class PieceDAO {
             moveStmt.setInt(2, targetPosition.getColumn());
             moveStmt.setInt(3, currentPosition.getRow());
             moveStmt.setInt(4, currentPosition.getColumn());
+            moveStmt.setString(5, gameRoomName);
             moveStmt.executeUpdate();
 
             conn.commit();

@@ -68,8 +68,6 @@ public class JanggiGame {
         String gameRoomName = gameRoom.name();
         Team turn = gameRoom.turn();
 
-        // TODO 커넥션을 넣어서 처리해야한다.
-        // 에러가 났을 경우 롤백이 될 수 있도록 해야한다.
         boolean isNotClosed = true;
         while (isNotClosed && board.hasGeneral(turn.reverse())) {
             viewer.printBoard(board);
@@ -83,27 +81,26 @@ public class JanggiGame {
         janggiService.deleteGameRoomIfNotEnd(gameRoom, isNotClosed);
     }
 
-    // TODO 재귀 메모리 해제하도록하기
     private boolean chooseOption(GameRoom gameRoom, Team turn) {
         Board board = gameRoom.board();
-        PlayerOption playerOption = RecoveryUtil.executeWithRetry(viewer::readChooseOption);
+        PlayerOption playerOption;
 
-        if (playerOption == PlayerOption.SELECT_PIECE) {
-            Position position = RecoveryUtil.executeWithRetry(() -> choosePiece(board, turn));
-            RecoveryUtil.executeWithRetry(() -> movePiece(gameRoom.board(), position));
-        }
+        do {
+            playerOption = RecoveryUtil.executeWithRetry(viewer::readChooseOption);
 
-        if (playerOption == PlayerOption.CHECK_SCORE) {
-            viewer.printScore(board);
-        }
+            if (playerOption == PlayerOption.SELECT_PIECE) {
+                Position position = RecoveryUtil.executeWithRetry(() -> choosePiece(board, turn));
+                RecoveryUtil.executeWithRetry(() -> movePiece(gameRoom, position));
+            }
 
-        if (playerOption == PlayerOption.CLOSE) {
-            return false;
-        }
+            if (playerOption == PlayerOption.CHECK_SCORE) {
+                viewer.printScore(board);
+            }
 
-        if (playerOption != PlayerOption.SELECT_PIECE) {
-            return chooseOption(gameRoom, turn);
-        }
+            if (playerOption == PlayerOption.CLOSE) {
+                return false;
+            }
+        } while (playerOption != PlayerOption.SELECT_PIECE);
 
         return true;
     }
@@ -116,12 +113,13 @@ public class JanggiGame {
         return position;
     }
 
-    private void movePiece(Board board, Position currentPosition) {
+    private void movePiece(GameRoom gameRoom, Position currentPosition) {
+        Board board = gameRoom.board();
         PositionDto positionDto = viewer.readMove(board.getPiece(currentPosition));
 
         Position targetPosition = Position.of(positionDto.row(), positionDto.column());
 
-        janggiService.movePiece(board, currentPosition, targetPosition);
+        janggiService.movePiece(gameRoom, currentPosition, targetPosition);
     }
 
     private void result(Board board) {
@@ -137,5 +135,4 @@ public class JanggiGame {
 
         viewer.result(Team.HAN);
     }
-
 }

@@ -80,9 +80,11 @@ public class JanggiService {
         }
     }
 
-    public void movePiece(Board board, Position currentPosition, Position targetPosition) {
+    public void movePiece(GameRoom gameRoom, Position currentPosition, Position targetPosition) {
+        Board board = gameRoom.board();
+        String gameRoomName = gameRoom.name();
         board.movePiece(currentPosition, targetPosition);
-        pieceDAO.movePiece(currentPosition, targetPosition);
+        pieceDAO.movePiece( gameRoomName, currentPosition, targetPosition);
     }
 
 }
