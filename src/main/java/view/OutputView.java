@@ -20,7 +20,7 @@ public class OutputView {
             System.out.print(YELLOW_COLOR + row.getValue() % 10 + " " + WHITE_COLOR);
             for (Column column : Column.values()) {
                 Position position = new Position(row, column);
-                Piece piece = board.getPieceBy(position);
+                Piece piece = board.getPieceByPosition(position);
                 String color = applyColor(piece);
                 String pieceName = PieceName.getNameFromPieceType(piece);
 

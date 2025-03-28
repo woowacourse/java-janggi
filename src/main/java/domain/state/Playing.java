@@ -17,8 +17,8 @@ public abstract class Playing implements State {
 
     @Override
     public State movePiece(PieceType pieceType, Position source, Position destination) {
-        Piece sourcePiece = board.getPieceBy(source);
-        Piece destinationPiece = board.getPieceBy(destination);
+        Piece sourcePiece = board.getPieceByPosition(source);
+        Piece destinationPiece = board.getPieceByPosition(destination);
         validateIsMyPieceColor(sourcePiece);
 
         board.movePiece(pieceType, source, destination);

@@ -54,6 +54,10 @@ public abstract class Piece {
         return color;
     }
 
+    public double getPieceScore() {
+        return type.getPieceScore();
+    }
+
     public abstract boolean isValidMovement(MovePath movePath);
 
     public abstract List<Position> findAllRoute(MovePath movePath);

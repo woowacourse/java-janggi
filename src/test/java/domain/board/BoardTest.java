@@ -28,8 +28,8 @@ class BoardTest {
 
         board.movePiece(PieceType.HORSE, source, destination);
 
-        Piece movedPiece = board.getPieceBy(destination);
-        Piece afterPositionPiece = board.getPieceBy(source);
+        Piece movedPiece = board.getPieceByPosition(destination);
+        Piece afterPositionPiece = board.getPieceByPosition(source);
 
         assertThat(afterPositionPiece).isInstanceOf(Empty.class);
         assertThat(movedPiece.isSamePieceType(horse)).isTrue();
@@ -55,7 +55,7 @@ class BoardTest {
         Position source = new Position(Row.ONE, Column.TWO);
         Position destination = new Position(Row.TWO, Column.FOUR);
 
-        System.out.println(board.getPieceBy(new Position(Row.ONE, Column.THREE)));
+        System.out.println(board.getPieceByPosition(new Position(Row.ONE, Column.THREE)));
 
         assertThatThrownBy(() -> board.movePiece(PieceType.HORSE, source, destination))
                 .isInstanceOf(IllegalArgumentException.class);
