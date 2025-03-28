@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import position.LineDirection;
 import position.Position;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
@@ -21,11 +21,11 @@ class GuardTest {
         Country dumyCountry = Country.HAN;
         Country.assignDirection(dumyCountry, LineDirection.UP);
         Position dumyPosition = new Position(2, 3);
-        final Piece guard = new Guard(dumyPosition, dumyCountry);
+        final Guard guard = new Guard(dumyPosition, dumyCountry);
         double expected = 1.0;
 
         // when
-        double actual = guard.getDistance();
+        double actual = guard.getExpectedDistance();
         // then
         Assertions.assertThat(actual).isEqualTo(expected);
     }
@@ -35,8 +35,8 @@ class GuardTest {
     void validateMove() {
         // given
         final Position src = new Position(1, 1);
-        final Piece guard = new Guard(src, Country.HAN);
-        final Board board = new Board(new HashMap<>());
+        final Piece guard = new Guard(src, Country.HAN); // TODO 2025. 3. 28. 17:53: 순환참조 StackOverflowError board#existPieceByPosition
+        final Board board = new Board(Map.of(src, guard));
 
         // when & then : 1 : success
         final Position validDest = new Position(1, 2);

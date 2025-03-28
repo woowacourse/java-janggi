@@ -1,15 +1,16 @@
 package piece;
 
+import board.Board;
 import movement.MovePath;
 import movement.MovePaths;
 import movement.Movement;
 import position.Position;
+import validator.DistanceCheckable;
 
 import java.util.List;
 
-public class General extends Piece {
+public class General extends Piece implements DistanceCheckable {
 
-    // todo: List<Movement> 를 Movements로 바꾸려니까 한 세월 걸리네 이거 한번에 처리할 수 없을까?? Piece에서 할 수 있었으면 좋겠는데,,
     private static final MovePaths moveActions;
     private static final double DISTANCE;
 
@@ -29,7 +30,12 @@ public class General extends Piece {
     }
 
     @Override
-    protected double getDistance() {
+    public void validateMoveCondition(Position src, Position dest, Board board) {
+        validateDistance(src, dest);
+    }
+
+    @Override
+    public double getExpectedDistance() {
         return DISTANCE;
     }
 

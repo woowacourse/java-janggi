@@ -21,11 +21,11 @@ class GeneralTest {
         Country dumyCountry = Country.HAN;
         Country.assignDirection(dumyCountry, LineDirection.UP);
         Position dumyPosition = new Position(2, 3);
-        final Piece guard = new General(dumyPosition, dumyCountry);
+        final General general = new General(dumyPosition, dumyCountry);
         double expected = 1.0;
 
         // when
-        double actual = guard.getDistance();
+        double actual = general.getExpectedDistance();
         // then
         Assertions.assertThat(actual).isEqualTo(expected);
     }
