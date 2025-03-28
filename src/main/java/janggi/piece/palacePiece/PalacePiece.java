@@ -1,4 +1,4 @@
-package janggi.piece.straightPiece;
+package janggi.piece.palacePiece;
 
 import janggi.piece.Piece;
 import janggi.piece.Team;
@@ -10,11 +10,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class StraightPiece extends Piece {
+public abstract class PalacePiece extends Piece {
     private final Position position;
     private final Routes routes;
 
-    protected StraightPiece(Team team, Position position, Routes routes) {
+    public PalacePiece(Team team, Position position, Routes routes) {
         super(team);
         this.position = position;
         this.routes = routes;
@@ -22,10 +22,11 @@ public abstract class StraightPiece extends Piece {
 
     public Set<Position> possibleRoutes(Board board) {
         board.validateTeam(team());
-        Set<Position> positions = routes.possibleStraightRoutes(position, board);
+        Set<Position> positions = routes.possibleRoutes(position, board);
         Set<Position> palacePositions = possiblePalacePositions(board);
 
         return Stream.concat(positions.stream(), palacePositions.stream())
+                .filter(new Positions()::isInPalace)
                 .collect(Collectors.toSet());
     }
 
@@ -33,9 +34,7 @@ public abstract class StraightPiece extends Piece {
         Positions palacePositions = new Positions();
 
         Routes palaceRoutes = palacePositions.addPossiblePalaceDirections(position);
-        return palaceRoutes.possibleStraightRoutes(position, board).stream()
-                .filter(palacePositions::isInPalace)
-                .collect(Collectors.toSet());
+        return palaceRoutes.possibleRoutes(position, board);
     }
 
     public Position position() {

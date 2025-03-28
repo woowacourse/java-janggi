@@ -8,7 +8,7 @@ import static position.PositionFixtures.E2;
 import static position.PositionFixtures.F1;
 
 import janggi.piece.Piece;
-import janggi.piece.normalPiece.ChoPawn;
+import janggi.piece.pawnPiece.ChoPawn;
 import janggi.piece.normalPiece.Horse;
 import janggi.position.Board;
 import janggi.position.Position;

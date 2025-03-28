@@ -14,7 +14,7 @@ import static position.PositionFixtures.F1;
 
 import janggi.piece.Piece;
 import janggi.piece.jumpingPiece.Cannon;
-import janggi.piece.normalPiece.King;
+import janggi.piece.palacePiece.King;
 import janggi.position.Board;
 import janggi.route.Route;
 import java.util.List;

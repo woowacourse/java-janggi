@@ -17,8 +17,14 @@ import static janggi.position.Row.SIX;
 import static janggi.position.Row.THREE;
 import static janggi.position.Row.TWO;
 import static janggi.position.Row.ZERO;
+import static janggi.route.Direction.EAST_NORTH;
+import static janggi.route.Direction.EAST_SOUTH;
+import static janggi.route.Direction.WEST_NORTH;
+import static janggi.route.Direction.WEST_SOUTH;
 
-import java.util.HashSet;
+import janggi.route.Route;
+import janggi.route.Routes;
+import java.util.List;
 import java.util.Set;
 
 public class Positions {
@@ -82,11 +88,11 @@ public class Positions {
     public static final Position D9 = new Position(D, NINE);
     public static final Position F9 = new Position(F, NINE);
 
-    public boolean isInPalace(Position position){
+    public boolean isInPalace(Position position) {
         return ofPalace().contains(position);
     }
 
-    public static Set<Position> ofPalace(){
+    private Set<Position> ofPalace() {
         return Set.of(
                 D0, E0, F0,
                 D1, E1, F1,
@@ -95,6 +101,70 @@ public class Positions {
                 D7, E7, F7,
                 D8, E8, F8,
                 D9, E9, F9
-                );
+        );
+    }
+
+    public Routes addPossiblePalaceDirections(Position position) {
+        if (position.equals(D0) || position.equals(D7)) {
+            return new Routes(Set.of(new Route(List.of(EAST_NORTH))));
+        }
+
+        if (position.equals(F0) || position.equals(F7)) {
+            return new Routes(Set.of(new Route(List.of(WEST_NORTH))));
+        }
+
+        if (position.equals(D2) || position.equals(D9)) {
+            return new Routes(Set.of(new Route(List.of(EAST_SOUTH))));
+        }
+
+        if (position.equals(F2) || position.equals(F9)) {
+            return new Routes(Set.of(new Route(List.of(WEST_SOUTH))));
+        }
+
+        if (position.equals(E1) || position.equals(E8)) {
+            return new Routes(Set.of(
+                    new Route(List.of(EAST_NORTH)),
+                    new Route(List.of(WEST_NORTH)),
+                    new Route(List.of(EAST_SOUTH)),
+                    new Route(List.of(WEST_SOUTH))
+            ));
+        }
+        return new Routes(Set.of());
+    }
+
+    public Routes addPossiblePalaceForHanPawnDirections(Position position) {
+        if (position.equals(D2)) {
+            return new Routes(Set.of(new Route(List.of(EAST_SOUTH))));
+        }
+
+        if (position.equals(F2)) {
+            return new Routes(Set.of(new Route(List.of(WEST_SOUTH))));
+        }
+
+        if (position.equals(E1)) {
+            return new Routes(Set.of(
+                    new Route(List.of(EAST_SOUTH)),
+                    new Route(List.of(WEST_SOUTH))
+            ));
+        }
+        return new Routes(Set.of());
+    }
+
+    public Routes addPossiblePalaceForChoPawnDirections(Position position) {
+        if (position.equals(D9)) {
+            return new Routes(Set.of(new Route(List.of(EAST_NORTH))));
+        }
+
+        if (position.equals(F9)) {
+            return new Routes(Set.of(new Route(List.of(WEST_NORTH))));
+        }
+
+        if (position.equals(E8)) {
+            return new Routes(Set.of(
+                    new Route(List.of(EAST_NORTH)),
+                    new Route(List.of(WEST_NORTH))
+            ));
+        }
+        return new Routes(Set.of());
     }
 }

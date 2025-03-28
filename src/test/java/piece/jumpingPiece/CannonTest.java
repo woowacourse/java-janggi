@@ -4,12 +4,15 @@ import static janggi.piece.Team.CHO;
 import static janggi.piece.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static position.PositionFixtures.A5;
+import static position.PositionFixtures.D8;
+import static position.PositionFixtures.D9;
 import static position.PositionFixtures.E2;
 import static position.PositionFixtures.E5;
 import static position.PositionFixtures.E6;
 import static position.PositionFixtures.E7;
 import static position.PositionFixtures.E8;
 import static position.PositionFixtures.E9;
+import static position.PositionFixtures.F7;
 import static position.PositionFixtures.H0;
 import static position.PositionFixtures.H1;
 import static position.PositionFixtures.H2;
@@ -26,6 +29,7 @@ import janggi.piece.Piece;
 import janggi.piece.jumpingPiece.Cannon;
 import janggi.piece.normalPiece.Elephant;
 import janggi.piece.normalPiece.Horse;
+import janggi.piece.palacePiece.King;
 import janggi.piece.straightPiece.Chariot;
 import janggi.position.Board;
 import janggi.position.Position;
@@ -123,6 +127,34 @@ public class CannonTest {
     }
 
     /*
+    0  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
+    1  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
+    2  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
+    3  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
+    4  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
+    5  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
+    6  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
+    7  ＿ ＿ ＿ ＿ ＿ * ＿ ＿ ＿
+    8  ＿ ＿ ＿ ＿ 궁 ＿ ＿ ＿ ＿
+    9  ＿ ＿ ＿ 포 ＿ ＿ ＿ ＿ ＿
+       a  b c  d e f g  h i
+    */
+    @Test
+    @DisplayName("포의 이동 가능한 경로를 모두 표시할 수 있다.")
+    void possibleRoutesTest_4() {
+        // given
+        Piece king = new King(HAN, E8);
+        Piece cannon = new Cannon(HAN, D9);
+        Board board = new Board(HAN, Set.of(king, cannon));
+
+        // when
+        Set<Position> positions = cannon.possibleRoutes(board);
+
+        // then
+        assertThat(positions).containsOnly(F7);
+    }
+
+    /*
     0  ＿ ＿ ＿ ＿ ＿ ＿ ＿ 포 ＿
     1  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
     2  ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿ ＿
@@ -137,7 +169,7 @@ public class CannonTest {
     */
     @Test
     @DisplayName("포는 포를 넘을 수 없다.")
-    void possibleRoutesTest_4() {
+    void possibleRoutesTest_5() {
         // given
         Piece cannon1 = new Cannon(HAN, H0);
         Piece cannon2 = new Cannon(CHO, H4);
@@ -165,7 +197,7 @@ public class CannonTest {
     */
     @Test
     @DisplayName("포는 포를 잡을 수 없다.")
-    void possibleRoutesTest_5() {
+    void possibleRoutesTest_6() {
         // given
         Piece cannon1 = new Cannon(HAN, H0);
         Piece horse = new Horse(HAN, H2);

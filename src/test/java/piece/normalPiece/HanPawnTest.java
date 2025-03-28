@@ -3,13 +3,15 @@ package piece.normalPiece;
 import static janggi.piece.Team.CHO;
 import static janggi.piece.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
+import static position.PositionFixtures.D0;
 import static position.PositionFixtures.D1;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
+import static position.PositionFixtures.F0;
 import static position.PositionFixtures.F1;
 
 import janggi.piece.Piece;
-import janggi.piece.normalPiece.HanPawn;
+import janggi.piece.pawnPiece.HanPawn;
 import janggi.piece.normalPiece.Horse;
 import janggi.position.Board;
 import janggi.position.Position;
@@ -20,7 +22,7 @@ import org.junit.jupiter.api.Test;
 public class HanPawnTest {
 
     /*
-    0 ＿ * ＿
+    0 * * *
     1 * 병 *
     2 ＿ ＿ ＿
     3 d e f
@@ -35,12 +37,16 @@ public class HanPawnTest {
         // when
         Set<Position> positions = hanPawn.possibleRoutes(board);
 
+        for (Position position : positions) {
+            position.print();
+        }
+
         // then
-        assertThat(positions).containsOnly(E0, D1, F1);
+        assertThat(positions).containsOnly(E0, D1, F1, D0, F0);
     }
 
     /*
-    0 ＿ * ＿
+    0 * * *
     1 마 병 마
     2 ＿ ＿ ＿
     3 d e f
@@ -58,6 +64,6 @@ public class HanPawnTest {
         Set<Position> positions = hanPawn.possibleRoutes(board);
 
         // then
-        assertThat(positions).containsOnly(E0, F1);
+        assertThat(positions).containsOnly(E0, F1, D0, F0);
     }
 }

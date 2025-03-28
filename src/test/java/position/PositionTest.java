@@ -13,7 +13,7 @@ import static position.PositionFixtures.H1;
 
 import janggi.piece.Piece;
 import janggi.piece.jumpingPiece.Cannon;
-import janggi.piece.normalPiece.King;
+import janggi.piece.palacePiece.King;
 import janggi.position.Board;
 import janggi.route.Direction;
 import janggi.route.Route;

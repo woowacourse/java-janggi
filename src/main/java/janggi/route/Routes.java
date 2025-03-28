@@ -92,10 +92,6 @@ public final class Routes {
         return new Routes(Set.of());
     }
 
-    private Routes(Set<Route> routes) {
-        this.routes = routes;
-    }
-
     public static Routes ofChariot() {
         return new Routes(Set.of(
                 new Route(List.of(EAST)),
@@ -112,6 +108,10 @@ public final class Routes {
                 new Route(List.of(SOUTH)),
                 new Route(List.of(NORTH))
         ));
+    }
+
+    public Routes(Set<Route> routes) {
+        this.routes = routes;
     }
 
     public Set<Route> routes() {

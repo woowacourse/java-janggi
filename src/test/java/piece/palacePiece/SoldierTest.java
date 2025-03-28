@@ -1,22 +1,20 @@
-package piece.normalPiece;
+package piece.palacePiece;
 
-import static janggi.piece.Team.CHO;
 import static janggi.piece.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static position.PositionFixtures.D0;
 import static position.PositionFixtures.D1;
+import static position.PositionFixtures.D2;
 import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 import static position.PositionFixtures.E2;
 import static position.PositionFixtures.F0;
 import static position.PositionFixtures.F1;
-import static position.PositionFixtures.H0;
-import static position.PositionFixtures.I0;
-import static position.PositionFixtures.I1;
+import static position.PositionFixtures.F2;
 
 import janggi.piece.Piece;
 import janggi.piece.normalPiece.Horse;
-import janggi.piece.normalPiece.Soldier;
+import janggi.piece.palacePiece.Soldier;
 import janggi.position.Board;
 import janggi.position.Position;
 import java.util.Set;
@@ -42,7 +40,7 @@ public class SoldierTest {
         Set<Position> positions = soldier.possibleRoutes(board);
 
         // then
-        assertThat(positions).containsOnly(E0, E2, D1, F1);
+        assertThat(positions).containsOnly(D0, D1, D2, E0, E2, F0, F1, F2);
     }
 
     /*
@@ -66,9 +64,9 @@ public class SoldierTest {
     }
 
     /*
-    0 ＿ * ＿
+    0 * * *
     1 마 사 *
-    2 ＿ 마 ＿
+    2 * 마 *
     3 d e f
     */
     @Test
@@ -84,13 +82,13 @@ public class SoldierTest {
         Set<Position> positions = soldier.possibleRoutes(board);
 
         // then
-        assertThat(positions).containsOnly(E0, F1);
+        assertThat(positions).containsOnly(D0, D2, E0, F0, F1, F2);
     }
 
     /*
-    0 ＿ 마 ＿
+    0 * 마 *
     1 마 사 마
-    2 ＿ 마 ＿
+    2 * 마 *
     3 d e f
     */
     @Test
@@ -108,6 +106,6 @@ public class SoldierTest {
         Set<Position> positions = soldier.possibleRoutes(board);
 
         // then
-        assertThat(positions).isEmpty();
+        assertThat(positions).containsOnly(D0, D2, F0, F2);
     }
 }

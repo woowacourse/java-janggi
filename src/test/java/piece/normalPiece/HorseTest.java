@@ -16,7 +16,7 @@ import static position.PositionFixtures.E3;
 
 import janggi.piece.Piece;
 import janggi.piece.normalPiece.Horse;
-import janggi.piece.normalPiece.King;
+import janggi.piece.palacePiece.King;
 import janggi.position.Board;
 import janggi.position.Position;
 import java.util.Set;

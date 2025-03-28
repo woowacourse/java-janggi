@@ -21,6 +21,8 @@ public abstract class Piece {
 
     public abstract Set<Position> possibleRoutes(Board board);
 
+    public abstract Set<Position> possiblePalacePositions(Board board);
+
     public abstract Piece move(Team team, Position destination);
 
     public abstract PieceType type();

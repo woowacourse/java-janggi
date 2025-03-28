@@ -1,6 +1,5 @@
-package janggi.piece.normalPiece;
+package janggi.piece.palacePiece;
 
-import janggi.piece.PalacePiece.PalacePiece;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;

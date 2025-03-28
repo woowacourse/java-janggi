@@ -1,4 +1,4 @@
-package janggi.piece.normalPiece;
+package janggi.piece.palacePiece;
 
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
@@ -6,19 +6,19 @@ import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.route.Routes;
 
-public class HanPawn extends NormalPiece {
+public class Soldier extends PalacePiece {
 
-    public HanPawn(Position position) {
-        super(Team.HAN, position, Routes.ofHanPawn());
+    public Soldier(Team team, Position position) {
+        super(team, position, Routes.ofSoldier());
     }
 
     @Override
     public PieceType type() {
-        return PieceType.PAWN;
+        return PieceType.SOLDIER;
     }
 
     @Override
     public Piece move(Team team, Position destination) {
-        return new HanPawn(destination);
+        return new Soldier(team, destination);
     }
 }
