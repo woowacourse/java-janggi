@@ -65,6 +65,7 @@ public final class Board {
     public void move(final Position prevPosition, final Point newPoint, final Runnable noticeRunner) {
         if (hasPieceAt(newPoint)) {
             moveAndCapture(newPoint, prevPosition, noticeRunner);
+            return;
         }
         movePiece(prevPosition, newPoint);
     }
