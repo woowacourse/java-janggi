@@ -15,9 +15,11 @@ import save.SaveFailException;
 
 public class KoreanChessApplication {
 
+    private static final String GAME_SAVE_NOT_AVAILABLE = "저장 기능이 비활성화 되었습니다. 게임은 여전히 진행하실 수 있습니다";
+
     private static final int PLAYER_SIZE = 2;
     private static final Map<Integer, Team> turnTable;
-    private static final JanggiSaveService janggiSaveService = new JanggiSaveService(new JanggiConnection());
+    private static JanggiSaveService janggiSaveService;
 
     static {
         turnTable = Map.of(0, Team.RED, 1, Team.BLUE);
@@ -26,7 +28,16 @@ public class KoreanChessApplication {
     public static void main(String[] args) {
         GameView gameView = new GameView();
         PlayerPieces playerPieces = initiatePieces(gameView);
+        initiateJanggiService(gameView);
         playKoreanChess(playerPieces, gameView);
+    }
+
+    private static void initiateJanggiService(GameView gameView) {
+        try {
+            janggiSaveService = new JanggiSaveService(new JanggiConnection());
+        } catch (SaveFailException e) {
+            gameView.printCanNotApplySave();
+        }
     }
 
     private static PlayerPieces initiatePieces(GameView gameView) {
@@ -45,6 +56,9 @@ public class KoreanChessApplication {
     }
 
     private static PlayerPieces initiatePiecesFromPreviousGame() {
+        if (janggiSaveService == null) {
+            throw new SaveFailException(GAME_SAVE_NOT_AVAILABLE);
+        }
         Pieces previousPieces = janggiSaveService.loadPieces();
         Map<Team, Pieces> teamPieces = new InitiateJanggiTeamPieces(previousPieces).janggiInitiatePieces();
         return new PlayerPieces(teamPieces);
@@ -85,6 +99,9 @@ public class KoreanChessApplication {
     }
 
     private static void saveJanggi(PlayerPieces playerPieces, int turn, GameView gameView) {
+        if (janggiSaveService == null) {
+            return;
+        }
         try {
             janggiSaveService.saveJanggi(playerPieces, turn, determineCurrentPlayTeam(turn));
         } catch (SaveFailException e) {
@@ -93,6 +110,9 @@ public class KoreanChessApplication {
     }
 
     private static int initiateTurn() {
+        if (janggiSaveService == null) {
+            return 0;
+        }
         try {
             Optional<Integer> previousTurn = janggiSaveService.getPreviousTurn();
             return previousTurn.map(turn -> turn + 1).orElse(0);
