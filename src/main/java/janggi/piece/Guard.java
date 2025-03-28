@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.Board;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.piece.strategy.block.RequiredBlockCountStrategy;
@@ -30,6 +31,14 @@ public class Guard extends Piece {
     @Override
     protected Piece createPiece(final Position position) {
         return Guard.of(position, team);
+    }
+
+    @Override
+    protected void validateSpecialRule(Board board, Position destination) {
+        if (board.isPalace(destination)) {
+            return;
+        }
+        throw new IllegalArgumentException("사는 궁성 밖으로 나갈 수 없습니다");
     }
 
     @Override
