@@ -2,6 +2,7 @@ package domain;
 
 import domain.movestrategy.BasicFixedMoveStrategy;
 import domain.movestrategy.BasicRangeMoveStrategy;
+import domain.palace.Palace;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Horse;
@@ -25,7 +26,7 @@ public class JanggiBoardTest {
                 new Position(4, 5), new Pawn(Team.RED, new BasicFixedMoveStrategy())
         );
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator, new Palace());
 
         boolean moveResult1 = janggiBoard.isPositionEmpty(new Position(4, 2));
         boolean moveResult2 = janggiBoard.isPositionEmpty(new Position(4, 5));
@@ -44,7 +45,7 @@ public class JanggiBoardTest {
                 new Position(1, 2), new Horse(Team.RED)
         );
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator, new Palace());
 
         boolean moveResult1 = janggiBoard.isPositionEmpty(new Position(1, 1));
         boolean moveResult3 = janggiBoard.isPositionEmpty(new Position(1, 2));
@@ -66,7 +67,7 @@ public class JanggiBoardTest {
         afterBoard.put(new Position(5, 1), pawn);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator, new Palace());
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(5, 1);
@@ -93,7 +94,7 @@ public class JanggiBoardTest {
         afterBoard.put(new Position(8, 1), blueChariot);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator, new Palace());
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(8, 1);
@@ -117,7 +118,7 @@ public class JanggiBoardTest {
         beforeBoard.put(new Position(8, 1), blueChariot2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator, new Palace());
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(8, 1);
@@ -138,7 +139,7 @@ public class JanggiBoardTest {
         beforeBoard.put(new Position(4, 1), blueCannon);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator, new Palace());
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(8, 1);
@@ -161,7 +162,7 @@ public class JanggiBoardTest {
         beforeBoard.put(new Position(4, 1), bluePawn);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator, new Palace());
 
         Position startPosition = new Position(1, 1);
         Position targetPosition = new Position(8, 1);
@@ -184,7 +185,7 @@ public class JanggiBoardTest {
         beforeBoard.put(new Position(8, 8), blueCannon2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator, new Palace());
 
         Position startPosition = new Position(8, 2);
         Position targetPosition = new Position(8, 9);
@@ -209,7 +210,7 @@ public class JanggiBoardTest {
         beforeBoard.put(new Position(8, 8), blueCannon2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator, new Palace());
 
         Position startPosition = new Position(8, 2);
         Position targetPosition = new Position(8, 8);
@@ -236,7 +237,7 @@ public class JanggiBoardTest {
         afterBoard.put(new Position(8, 5), blueKing);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator, new Palace());
 
         Position startPosition = new Position(8, 2);
         Position targetPosition = new Position(8, 8);
@@ -245,5 +246,6 @@ public class JanggiBoardTest {
         janggiBoard.move(startPosition, targetPosition);
         Assertions.assertThat(beforeBoard).isEqualTo(afterBoard);
     }
+
 
 }

@@ -3,6 +3,7 @@ package controller;
 import domain.JanggiGame;
 import domain.Position;
 import domain.boardgenerator.JanggiBoardGenerator;
+import domain.palace.Palace;
 import domain.player.Player;
 import domain.player.Players;
 import java.util.List;
@@ -23,7 +24,7 @@ public class JanggiController {
     public void run() {
         List<String> playerNames = inputView.readPlayerNames();
         Players players = Parser.parseListToPlayers(playerNames);
-        JanggiGame janggiGame = new JanggiGame(new JanggiBoardGenerator(), players);
+        JanggiGame janggiGame = new JanggiGame(new JanggiBoardGenerator(), players, new Palace());
 
         outputView.displayPlayerInfo(players);
         outputView.displayJanggiBoard(janggiGame.getBoardState());

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.movestrategy.BasicRangeMoveStrategy;
+import domain.palace.Palace;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Horse;
@@ -42,7 +43,7 @@ public class JanggiGameTest {
         beforeBoard.put(new Position(8, 5), blueKing);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiGame game = new JanggiGame(boardGenerator, players);
+        JanggiGame game = new JanggiGame(boardGenerator, players, new Palace());
         // when
         Map<Position, Piece> boardState = game.getBoardState();
 
@@ -56,14 +57,14 @@ public class JanggiGameTest {
         // given
         King blueKing = new King(Team.BLUE);
         Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(1, 1), blueKing);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
+        beforeBoard.put(new Position(9, 5), blueKing);
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players, new Palace());
 
         Map<Position, Piece> afterBoard = new HashMap<>();
-        afterBoard.put(new Position(2, 1), blueKing);
+        afterBoard.put(new Position(10, 5), blueKing);
 
-        Position startPosition = new Position(1, 1);
-        Position targetPosition = new Position(2, 1);
+        Position startPosition = new Position(9, 5);
+        Position targetPosition = new Position(10, 5);
         // when
         game.move(startPosition, targetPosition);
         // then
@@ -77,7 +78,7 @@ public class JanggiGameTest {
         Map<Position, Piece> beforeBoard = new HashMap<>();
         Chariot blueChariot = new Chariot(Team.BLUE, new BasicRangeMoveStrategy());
         beforeBoard.put(new Position(1, 1), blueChariot);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players, new Palace());
 
         Map<Position, Piece> afterBoard = new HashMap<>();
         afterBoard.put(new Position(2, 1), blueChariot);
@@ -97,7 +98,7 @@ public class JanggiGameTest {
         Map<Position, Piece> beforeBoard = new HashMap<>();
         Horse blueHorse = new Horse(Team.BLUE);
         beforeBoard.put(new Position(1, 1), blueHorse);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players, new Palace());
 
         Map<Position, Piece> afterBoard = new HashMap<>();
         afterBoard.put(new Position(3, 2), blueHorse);
@@ -120,7 +121,7 @@ public class JanggiGameTest {
         Map<Position, Piece> beforeBoard = new HashMap<>();
         Chariot blueChariot = new Chariot(Team.BLUE, new BasicRangeMoveStrategy());
         beforeBoard.put(new Position(1, 1), blueChariot);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players, new Palace());
 
         //when & then
         assertThatThrownBy(() -> game.move(new Position(1, 1), new Position(1, 1)))
@@ -136,7 +137,7 @@ public class JanggiGameTest {
         Map<Position, Piece> beforeBoard = new HashMap<>();
         Chariot blueChariot = new Chariot(Team.BLUE, new BasicRangeMoveStrategy());
         beforeBoard.put(new Position(1, 1), blueChariot);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players, new Palace());
 
         //when & then
         assertThatThrownBy(() -> game.move(new Position(1, 2), new Position(1, 5)))
@@ -151,7 +152,7 @@ public class JanggiGameTest {
         Map<Position, Piece> beforeBoard = new HashMap<>();
         Chariot blueChariot = new Chariot(Team.RED, new BasicRangeMoveStrategy());
         beforeBoard.put(new Position(1, 1), blueChariot);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players, new Palace());
 
         //when & then
         assertThatThrownBy(() -> game.move(new Position(1, 1), new Position(1, 2)))
@@ -166,7 +167,7 @@ public class JanggiGameTest {
         Map<Position, Piece> beforeBoard = new HashMap<>();
         King redKing = new King(Team.RED);
         beforeBoard.put(new Position(2, 5), redKing);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players);
+        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard), players, new Palace());
 
         //when & then
         boolean isKingDead = game.checkKingIsDead();

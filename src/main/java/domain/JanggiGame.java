@@ -1,6 +1,7 @@
 package domain;
 
 import domain.boardgenerator.BoardGenerator;
+import domain.palace.Palace;
 import domain.piece.Piece;
 import domain.player.Player;
 import domain.player.Players;
@@ -16,8 +17,8 @@ public class JanggiGame {
     private int sequence = SEQUENCE_ZERO;
 
 
-    public JanggiGame(BoardGenerator boardGenerator, Players players) {
-        this.janggiBoard = new JanggiBoard(boardGenerator);
+    public JanggiGame(BoardGenerator boardGenerator, Players players, Palace palace) {
+        this.janggiBoard = new JanggiBoard(boardGenerator, palace);
         this.players = players;
     }
 

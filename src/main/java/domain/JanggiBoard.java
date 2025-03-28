@@ -1,21 +1,26 @@
 package domain;
 
 import domain.boardgenerator.BoardGenerator;
+import domain.palace.Palace;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
 public class JanggiBoard {
 
     private final Map<Position, Piece> board;
+    private final Palace palace;
 
-    public JanggiBoard(BoardGenerator boardGenerator) {
+    public JanggiBoard(BoardGenerator boardGenerator, Palace palace) {
         this.board = boardGenerator.generateBoard();
+        this.palace = palace;
     }
 
     public void move(Position startPosition, Position targetPosition) {
         Piece startPiece = findPiece(startPosition);
         Piece targetPositionPiece = findPiece(targetPosition);
+        palace.checkAndChangeStrategy(startPosition, targetPosition, startPiece);
         List<Position> path = startPiece.calculatePath(startPosition, targetPosition);
         validateMovePiece(startPiece, path, targetPositionPiece);
 
@@ -24,10 +29,10 @@ public class JanggiBoard {
     }
 
     private void validateMovePiece(Piece startPiece, List<Position> path, Piece targetPositionPiece) {
-        if (startPiece.isCanon()) {
+        if (startPiece.getPieceType() == PieceType.CANNON) {
             validateCanonMove(path, targetPositionPiece);
         }
-        if (!startPiece.isCanon()) {
+        if (startPiece.getPieceType() != PieceType.CANNON) {
             validateNonCanonMove(path);
         }
         validateSameTeamAttack(startPiece, targetPositionPiece);
@@ -48,13 +53,13 @@ public class JanggiBoard {
     }
 
     private void validateAttackCanon(Piece targetPositionPiece) {
-        if (targetPositionPiece != null && targetPositionPiece.isCanon()) {
+        if (targetPositionPiece != null && targetPositionPiece.getPieceType().equals(PieceType.CANNON)) {
             throw new IllegalArgumentException("포는 포끼리 잡을 수 없습니다");
         }
     }
 
     private void validateJumpCanon(Position position) {
-        if (findPiece(position) != null && findPiece(position).isCanon()) {
+        if (findPiece(position) != null && findPiece(position).getPieceType().equals(PieceType.CANNON)) {
             throw new IllegalArgumentException("포는 포끼리 건너뛸 수 없습니다.");
         }
     }
@@ -95,7 +100,7 @@ public class JanggiBoard {
 
     public boolean checkKingIsDead() {
         long kingCount = board.values().stream()
-                .filter(Piece::isKing).count();
+                .filter(piece -> piece.getPieceType() == PieceType.KING).count();
         return kingCount == 1;
     }
 }
