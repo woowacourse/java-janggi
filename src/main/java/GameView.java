@@ -143,4 +143,8 @@ public class GameView {
     public void printCanNotApplySave() {
         System.out.println("장기 저장 기능이 동작하지 않습니다. 여전히 게임은 진행하실 수 있습니다!");
     }
+
+    public void printStartFromUserInput() {
+        System.out.println("게임을 다시 처음부터 시작합니다.");
+    }
 }

@@ -1,6 +1,5 @@
 package save;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import piece.Piece;
@@ -12,6 +11,7 @@ public class JanggiSaveService {
 
     private final JanggiTurnDao janggiTurnDao;
     private final JanggiPieceDao janggiPieceDao;
+    private final String PIECES_DOESNT_EXIST = "피스 정보가 존재하지 않습니다";
 
     public JanggiSaveService(MySQLConnection mySQLConnection) {
         janggiTurnDao = new JanggiTurnDao(mySQLConnection);
@@ -31,11 +31,9 @@ public class JanggiSaveService {
     }
 
     public Pieces loadPieces() {
-        Optional<Integer> previousTurnId = janggiTurnDao.getLatestTurnId();
-        if (previousTurnId.isEmpty()) {
-            return new Pieces(List.of());
-        }
-        return janggiPieceDao.findPiecesByTeamTurn(previousTurnId.get());
+        Optional<Integer> previousLatestTurnId = janggiTurnDao.getLatestTurnId();
+        int previousTurnId = previousLatestTurnId.orElseThrow(() -> new SaveFailException(PIECES_DOESNT_EXIST));
+        return janggiPieceDao.findPiecesByTeamTurn(previousTurnId);
     }
 
     public void resetJanggi() {

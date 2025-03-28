@@ -27,8 +27,8 @@ public class KoreanChessApplication {
 
     public static void main(String[] args) {
         GameView gameView = new GameView();
-        PlayerPieces playerPieces = initiatePieces(gameView);
         initiateJanggiService(gameView);
+        PlayerPieces playerPieces = initiatePieces(gameView);
         playKoreanChess(playerPieces, gameView);
     }
 
@@ -44,7 +44,7 @@ public class KoreanChessApplication {
         try {
             return initiatePiecesFromPreviousGame();
         } catch (SaveFailException e) {
-            gameView.printError(e.getMessage());
+            gameView.printStartFromUserInput();
         }
         return userInputInitiatePieces(gameView);
     }
