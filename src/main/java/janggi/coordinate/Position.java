@@ -37,7 +37,7 @@ public record Position(int x, int y) {
     }
 
     public boolean isSamePalace(final Position position){
-        return this.calculateDistance(position) > MAX_DISTANCE_OF_SAME_PALACE;
+        return this.calculateDistance(position) <= MAX_DISTANCE_OF_SAME_PALACE;
     }
 
     public double calculateDistance(final Position descPosition) {

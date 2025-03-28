@@ -21,19 +21,12 @@ public class Cannon extends Piece {
 
     @Override
     protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
-        if (!now.isSameLine(destination)) {
-            if (isCornerToCornerInPalace(now, destination, Country.HAN)) {
-                return visibleBoard.existPieceByPosition(Position.PALACE_CENTER_HAN)
-                        && !visibleBoard.containsCannonByPositions(List.of(Position.PALACE_CENTER_HAN));
-            }
-            if (isCornerToCornerInPalace(now, destination, Country.CHO)) {
-                return visibleBoard.existPieceByPosition(Position.PALACE_CENTER_CHO)
-                        && !visibleBoard.containsCannonByPositions(List.of(Position.PALACE_CENTER_CHO));
-            }
+        if (visibleBoard.isCannonByPosition(destination)) {
+            return false;
         }
 
-        if (!now.isSameLine(destination) || visibleBoard.isCannonByPosition(destination)) {
-            return false;
+        if (!now.isSameLine(destination)) {
+            return canMoveInPalace(now, destination, visibleBoard);
         }
 
         final List<Position> positions = now.calculateBetweenPositions(destination);
@@ -46,12 +39,26 @@ public class Cannon extends Piece {
         return true;
     }
 
-    private static boolean isCornerToCornerInPalace(final Position now, final Position destination,
-                                                    final Country country) {
-        if (now.isCornerInPalace(country) && destination.isCornerInPalace(country)) {
-            return true;
+    private boolean canMoveInPalace(final Position now, final Position destination, final VisibleBoard visibleBoard) {
+        if (!now.isSamePalace(destination)) {
+            return false;
         }
+
+        if (isCornerToCorner(now, destination)) {
+            return hasHurdle(visibleBoard, now);
+        }
+
         return false;
+    }
+
+    private boolean hasHurdle(final VisibleBoard visibleBoard, final Position now) {
+        final List<Position> palaceCenter = List.of(now.calculatePalaceCenterPosition());
+        return visibleBoard.calculatePieceCountByPositions(palaceCenter) == MUST_JUMP_PIECE_COUNT
+                && !visibleBoard.containsCannonByPositions(palaceCenter);
+    }
+
+    private boolean isCornerToCorner(final Position now, final Position destination) {
+        return now.isCornerInPalace() && destination.isCornerInPalace();
     }
 
     @Override
