@@ -34,6 +34,8 @@ public class JanggiBoard {
 
         List<Point> movePath = piece.movePath(from, to);
         validateCanMoveByPath(piece, movePath);
+
+        Piece destinationPiece = findPiece(to);
         pieces.remove(from);
         pieces.put(to, piece);
     }

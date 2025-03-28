@@ -26,6 +26,11 @@ public class Chariot extends Piece {
     }
 
     @Override
+    public int score() {
+        return 13;
+    }
+
+    @Override
     public boolean isSameType(Piece piece) {
         return piece instanceof Chariot;
     }

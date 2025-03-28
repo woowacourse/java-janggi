@@ -30,6 +30,11 @@ public class Cannon extends Piece {
     }
 
     @Override
+    public int score() {
+        return 7;
+    }
+
+    @Override
     public boolean isSameType(Piece piece) {
         return piece instanceof Cannon;
     }

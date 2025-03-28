@@ -25,6 +25,11 @@ public class Horse extends Piece {
     }
 
     @Override
+    public int score() {
+        return 5;
+    }
+
+    @Override
     public boolean isSameType(Piece piece) {
         return piece instanceof Horse;
     }

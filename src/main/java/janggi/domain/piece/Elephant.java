@@ -25,6 +25,11 @@ public class Elephant extends Piece {
     }
 
     @Override
+    public int score() {
+        return 3;
+    }
+
+    @Override
     public boolean isSameType(Piece piece) {
         return piece instanceof Elephant;
     }

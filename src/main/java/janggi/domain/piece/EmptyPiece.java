@@ -21,6 +21,11 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
+    public int score() {
+        return 0;
+    }
+
+    @Override
     public boolean isSameType(Piece piece) {
         return piece instanceof EmptyPiece;
     }

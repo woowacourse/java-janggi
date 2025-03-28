@@ -48,6 +48,9 @@ public abstract class Piece {
 
     abstract public boolean isEmptyPiece();
 
+    abstract public int score();
+
     abstract protected Set<MovePath> paths();
+
 }
 
