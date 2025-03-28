@@ -6,10 +6,11 @@ import janggi.board.Position;
 import java.util.List;
 
 public class Canon extends Piece {
-    protected static final PieceType TYPE = PieceType.CANNON;
+    private final PieceType pieceType;
 
     public Canon(Team team) {
         super(team);
+        this.pieceType = PieceType.CANNON;
     }
 
     @Override
@@ -53,11 +54,11 @@ public class Canon extends Piece {
 
     @Override
     protected String getName() {
-        return TYPE.getName();
+        return pieceType.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == TYPE;
+        return this.pieceType == pieceType;
     }
 }

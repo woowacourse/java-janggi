@@ -4,12 +4,14 @@ import janggi.board.Board;
 import janggi.board.Position;
 
 public class Horse extends Piece {
-    private static final PieceType TYPE = PieceType.HORSE;
     private static final int HORSE_MOVE_LONG = 2;
     private static final int HORSE_MOVE_SHORT = 1;
 
-    public Horse(Team team) {
+    private final PieceType pieceType;
+
+    public Horse(Team  team) {
         super(team);
+        this.pieceType = PieceType.HORSE;
     }
 
     @Override
@@ -30,11 +32,11 @@ public class Horse extends Piece {
 
     @Override
     protected String getName() {
-        return TYPE.getName();
+        return pieceType.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == TYPE;
+        return this.pieceType == pieceType;
     }
 }

@@ -5,10 +5,11 @@ import janggi.board.Position;
 import java.util.List;
 
 public class Soldier extends Piece {
-    private static final PieceType TYPE = PieceType.SOLDIER;
+    private final PieceType pieceType;
 
     public Soldier(Team team) {
         super(team);
+        this.pieceType = PieceType.SOLDIER;
     }
 
     @Override
@@ -38,11 +39,11 @@ public class Soldier extends Piece {
 
     @Override
     protected String getName() {
-        return TYPE.getName();
+        return pieceType.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == TYPE;
+        return this.pieceType == pieceType;
     }
 }

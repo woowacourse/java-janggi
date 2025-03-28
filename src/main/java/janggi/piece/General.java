@@ -1,19 +1,20 @@
 package janggi.piece;
 
 public class General extends Piece {
-    private static final PieceType TYPE = PieceType.GENERAL;
+    private final PieceType pieceType;
 
     public General(Team team) {
         super(team);
+        this.pieceType = PieceType.GENERAL;
     }
 
     @Override
     protected String getName() {
-        return TYPE.getName();
+        return pieceType.getName();
     }
 
     @Override
     public boolean isSameType(PieceType pieceType) {
-        return pieceType == TYPE;
+        return this.pieceType == pieceType;
     }
 }
