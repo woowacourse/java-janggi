@@ -60,5 +60,4 @@ public final class DatabaseManager {
     private String createTableIfNotExist(String tableName) {
         return "CREATE TABLE IF NOT EXISTS " + tableName + " (";
     }
-
 }

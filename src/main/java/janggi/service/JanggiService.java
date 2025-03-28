@@ -84,7 +84,6 @@ public class JanggiService {
         Board board = gameRoom.board();
         String gameRoomName = gameRoom.name();
         board.movePiece(currentPosition, targetPosition);
-        pieceDAO.movePiece( gameRoomName, currentPosition, targetPosition);
+        pieceDAO.movePiece(gameRoomName, currentPosition, targetPosition);
     }
-
 }
