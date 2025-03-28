@@ -5,19 +5,33 @@ import janggi.board.Position;
 
 import java.util.List;
 
-public class Canon extends Piece {
+public class Cannon extends Piece {
     private final PieceType pieceType;
 
-    public Canon(Team team) {
+    public Cannon(Team team) {
         super(team);
         this.pieceType = PieceType.CANNON;
     }
 
     @Override
     public void validateMovable(Board board, Position start, Position goal) {
-        validateStraightMove(start, goal);
+        if (!isPalaceCorner(board, start, goal)) {
+            validateStraightMove(start, goal);
+        }
         validatePath(board, start, goal);
         validatePieceOnGoal(board, goal);
+    }
+
+    public boolean isPalaceCorner(Board board, Position start, Position goal) {
+        return (board.isBottomPalaceCorner(start) && board.isBottomPalaceCorner(goal)) ||
+                (board.isUpperPalaceCorner(start) && board.isUpperPalaceCorner(goal));
+
+    }
+
+    private void validateStraightMove(Position start, Position goal) {
+        if (!start.equalColumn(goal) && !start.equalRow(goal)) {
+            throw new IllegalArgumentException("[ERROR] 포의 이동 규칙에 어긋나는 움직임입니다.");
+        }
     }
 
     protected void validatePath(Board board, Position start, Position goal) {
@@ -36,12 +50,6 @@ public class Canon extends Piece {
         }
         if (pieceCount != 1) {
             throw new IllegalArgumentException("[ERROR] 포는 다른 기물 1개를 넘어가야 합니다.");
-        }
-    }
-
-    private void validateStraightMove(Position start, Position goal) {
-        if (!start.equalColumn(goal) && !start.equalRow(goal)) {
-            throw new IllegalArgumentException("[ERROR] 포의 이동 규칙에 어긋나는 움직임입니다.");
         }
     }
 
