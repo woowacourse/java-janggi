@@ -51,6 +51,9 @@ public final class BoardFactory {
         return positions;
     }
 
+    /**
+     * 수정 금지!!!!! why? 숫자 수정 시 게임 정상 진행이 어렵기 때문에 수정하고자 할 때 반드시 담당자에게 보고할 것
+     */
     private enum InitialPoint {
         GENERAL(List.of(Point.newInstance(4, 1)), List.of(Point.newInstance(4, 8))),
         SOLDIER(List.of(Point.newInstance(0, 3), Point.newInstance(2, 3), Point.newInstance(4, 3),
