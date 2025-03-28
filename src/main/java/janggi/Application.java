@@ -1,10 +1,11 @@
 package janggi;
 
 import janggi.common.Constants;
-import janggi.dao.PieceDAO;
 import janggi.dao.GameRoomDAO;
+import janggi.dao.PieceDAO;
 import janggi.manager.DatabaseManager;
 import janggi.manager.JanggiGame;
+import janggi.service.JanggiService;
 import janggi.view.Viewer;
 import java.sql.SQLException;
 
@@ -16,7 +17,10 @@ public class Application {
             databaseManager.createTableIfNotExist();
 
             Viewer viewer = new Viewer();
-            JanggiGame janggiGame = new JanggiGame(viewer, new PieceDAO(databaseManager), new GameRoomDAO(databaseManager));
+            JanggiService janggiService = new JanggiService(new GameRoomDAO(databaseManager),
+                    new PieceDAO(databaseManager));
+
+            JanggiGame janggiGame = new JanggiGame(viewer, janggiService);
 
             janggiGame.start();
         } catch (SQLException e) {

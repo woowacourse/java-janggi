@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 
 public abstract class StraightMoveBehavior implements PieceBehavior {
 
-    public static final Set<Movement> STANDARD_MOVEMENTS = Set.of(
+    private static final Set<Movement> STANDARD_MOVEMENTS = Set.of(
             Movement.DOWN, Movement.LEFT, Movement.RIGHT, Movement.UP
     );
 
-    public static final Set<Movement> CROSS_MOVEMENTS = Set.of(
+    private static final Set<Movement> CROSS_MOVEMENTS = Set.of(
             Movement.LEFT_DOWN, Movement.LEFT_UP, Movement.RIGHT_DOWN, Movement.RIGHT_UP
     );
 

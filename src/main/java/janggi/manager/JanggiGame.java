@@ -1,41 +1,31 @@
 package janggi.manager;
 
-import janggi.dao.PieceDAO;
-import janggi.dao.GameRoomDAO;
 import janggi.domain.Board;
 import janggi.domain.GameRoom;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
-import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
-import janggi.factory.PieceInitFactory;
-import janggi.factory.masang.MaSangFactory;
+import janggi.dto.TeamMaSangPositionDto;
+import janggi.service.JanggiService;
 import janggi.util.RecoveryUtil;
 import janggi.view.GameModeOption;
-import janggi.view.MaSangPosition;
 import janggi.view.PlayerOption;
 import janggi.view.Viewer;
-import java.sql.SQLException;
-import java.util.Map;
 
 public class JanggiGame {
 
     private final Viewer viewer;
-    private final PieceDAO pieceDAO;
-    private final GameRoomDAO gameRoomDAO;
+    private final JanggiService janggiService;
 
-    public JanggiGame(Viewer viewer, PieceDAO pieceDAO, GameRoomDAO gameRoomDAO) {
+    public JanggiGame(Viewer viewer, JanggiService janggiService) {
         this.viewer = viewer;
-        this.pieceDAO = pieceDAO;
-        this.gameRoomDAO = gameRoomDAO;
+        this.janggiService = janggiService;
     }
 
-    public void start() throws SQLException {
+    public void start() {
         GameRoom gameRoom = RecoveryUtil.executeWithRetry(this::chooseGameMode);
 
-        Team turn = gameRoom.turn();
-
-        repeatGameTurns(gameRoom, turn);
+        repeatGameTurns(gameRoom);
 
         result(gameRoom.board());
     }
@@ -44,7 +34,7 @@ public class JanggiGame {
         GameModeOption gameModeOption = RecoveryUtil.executeWithRetry(viewer::readGameModeOption);
 
         if (gameModeOption == GameModeOption.LOAD) {
-            checkExistRoom();
+            janggiService.checkExistRoom();
             return RecoveryUtil.executeWithRetry(this::loadGameRoom);
         }
 
@@ -55,54 +45,28 @@ public class JanggiGame {
         throw new IllegalArgumentException("잘못된 옵션입니다.");
     }
 
-    private void checkExistRoom() {
-        if (gameRoomDAO.findAll().isEmpty()) {
-            throw new IllegalArgumentException("방이 존재하지 않습니다.");
-        }
-    }
-
     private GameRoom loadGameRoom() {
-        viewer.printGameRooms(gameRoomDAO.findAll());
+        viewer.printGameRooms(janggiService.getAllGameRoomName());
         String gameRoomName = viewer.readGameRoomName();
-        if (!gameRoomDAO.exist(gameRoomName)) {
-            throw new IllegalArgumentException("존재하지 않는 방입니다. 다시 입력해주세요!");
-        }
 
-        Board board = pieceDAO.toDomain(gameRoomName);
-        Team turn = gameRoomDAO.findTurn(gameRoomName);
-        return new GameRoom(gameRoomName, board, turn);
+        return janggiService.loadGameRoom(gameRoomName);
     }
 
     private GameRoom newGameRoom() {
         String gameRoomName = viewer.readGameRoomName();
 
-        if (gameRoomDAO.exist(gameRoomName)) {
-            throw new IllegalArgumentException("이미 존재하는 방입니다. 다시 입력해주세요!");
-        }
-        gameRoomDAO.create(gameRoomName);
-        Board board = initializeBoard();
+        TeamMaSangPositionDto maSangPositionByCho = RecoveryUtil.executeWithRetry(
+                () -> viewer.settingMaSangPlacement(Team.CHO));
+        TeamMaSangPositionDto maSangPositionByHan = RecoveryUtil.executeWithRetry(
+                () -> viewer.settingMaSangPlacement(Team.HAN));
 
-        pieceDAO.saveAll(gameRoomName, board);
-        return new GameRoom(gameRoomName, board, Team.CHO);
+        return janggiService.newGameRoom(gameRoomName, maSangPositionByCho, maSangPositionByHan);
     }
 
-    private Board initializeBoard() {
-        Map<Position, Piece> initializeBoard = PieceInitFactory.initialize();
-        initializeBoard.putAll(placeMaSangPiecesBySide(Team.CHO));
-        initializeBoard.putAll(placeMaSangPiecesBySide(Team.HAN));
-
-        return new Board(initializeBoard);
-    }
-
-    private Map<Position, Piece> placeMaSangPiecesBySide(Team team) {
-        MaSangPosition maSangPosition = RecoveryUtil.executeWithRetry(() -> viewer.settingMaSangPlacement(team));
-
-        return MaSangFactory.create(maSangPosition, team);
-    }
-
-    private void repeatGameTurns(GameRoom gameRoom, Team turn) {
+    private void repeatGameTurns(GameRoom gameRoom) {
         Board board = gameRoom.board();
         String gameRoomName = gameRoom.name();
+        Team turn = gameRoom.turn();
 
         // TODO 커넥션을 넣어서 처리해야한다.
         // 에러가 났을 경우 롤백이 될 수 있도록 해야한다.
@@ -112,13 +76,11 @@ public class JanggiGame {
             viewer.printTurnInfo(turn);
             isNotClosed = chooseOption(gameRoom, turn);
 
-            gameRoomDAO.save(gameRoomName, turn);
+            janggiService.saveGameRoom(gameRoomName, turn);
             turn = turn.reverse();
         }
 
-        if (isNotClosed && !board.hasGeneral(turn.reverse())) {
-            gameRoomDAO.delete(gameRoomName);
-        }
+        janggiService.deleteGameRoomIfNotEnd(gameRoom, isNotClosed);
     }
 
     // TODO 재귀 메모리 해제하도록하기
@@ -128,7 +90,7 @@ public class JanggiGame {
 
         if (playerOption == PlayerOption.SELECT_PIECE) {
             Position position = RecoveryUtil.executeWithRetry(() -> choosePiece(board, turn));
-            RecoveryUtil.executeWithRetry(() -> movePiece(board, position));
+            RecoveryUtil.executeWithRetry(() -> movePiece(gameRoom.board(), position));
         }
 
         if (playerOption == PlayerOption.CHECK_SCORE) {
@@ -159,8 +121,7 @@ public class JanggiGame {
 
         Position targetPosition = Position.of(positionDto.row(), positionDto.column());
 
-        board.movePiece(currentPosition, targetPosition);
-        pieceDAO.movePiece(currentPosition, targetPosition);
+        janggiService.movePiece(board, currentPosition, targetPosition);
     }
 
     private void result(Board board) {

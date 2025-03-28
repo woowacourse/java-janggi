@@ -6,6 +6,7 @@ import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
+import janggi.dto.TeamMaSangPositionDto;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringJoiner;
@@ -52,14 +53,14 @@ public class Viewer {
         return scanner.nextLine();
     }
 
-    public MaSangPosition settingMaSangPlacement(Team team) {
+    public TeamMaSangPositionDto settingMaSangPlacement(Team team) {
         System.out.println(Formatter.formatSide(team) + "의 차림을 숫자로 선택해주세요");
         System.out.println("1. 상마상마");
         System.out.println("2. 마상마상");
         System.out.println("3. 마상상마");
         System.out.println("4. 상마마상");
 
-        return MaSangPosition.find(scanner.nextLine());
+        return new TeamMaSangPositionDto(team, MaSangPosition.find(scanner.nextLine()));
     }
 
     public void printBoard(Board board) {

@@ -67,20 +67,23 @@ public class PieceDAO {
     public void saveAll(String gameRoomName, Board board) {
         Map<Position, Piece> pieces = board.getPieceMap();
 
-        for (Entry<Position, Piece> entry : pieces.entrySet()) {
-            Position position = entry.getKey();
-            Piece piece = entry.getValue();
+        try (Connection conn = databaseManager.getConnection()) {
+            conn.setAutoCommit(false);
+            for (Entry<Position, Piece> entry : pieces.entrySet()) {
+                Position position = entry.getKey();
+                Piece piece = entry.getValue();
 
-            save(gameRoomName, position, piece);
+                save(conn, gameRoomName, position, piece);
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            throw new RuntimeException("save All 중 오류 발생", e);
         }
 
     }
 
-    private void save(String gameRoomName, Position position, Piece piece) {
-
-        try (Connection connection = databaseManager.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(INSERT_PIECE_QUERY)) {
-
+    private void save(Connection conn, String gameRoomName, Position position, Piece piece) throws SQLException {
+        try (PreparedStatement pstmt = conn.prepareStatement(INSERT_PIECE_QUERY)) {
             pstmt.setString(1, piece.getName());
             pstmt.setString(2, piece.getTeam().toString());
             pstmt.setInt(3, position.getRow());
@@ -88,8 +91,7 @@ public class PieceDAO {
             pstmt.setString(5, gameRoomName);
 
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("save 중 오류 발생", e);
+
         }
     }
 
@@ -102,7 +104,6 @@ public class PieceDAO {
 
             deleteStmt.setInt(1, targetPosition.getRow());
             deleteStmt.setInt(2, targetPosition.getColumn());
-
             deleteStmt.executeUpdate();
 
             moveStmt.setInt(1, targetPosition.getRow());
