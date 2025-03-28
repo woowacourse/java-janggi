@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class General extends Piece {
+public class General extends PalacePiece {
     public static final List<Position> INITIAL_POSITIONS_BLUE = List.of(new Position(9, 5));
     public static final List<Position> INITIAL_POSITIONS_RED = List.of(new Position(2, 5));
 

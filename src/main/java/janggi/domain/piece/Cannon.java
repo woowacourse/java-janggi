@@ -4,7 +4,7 @@ import janggi.domain.piece.movement.Movement;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Cannon extends Piece {
+public class Cannon extends PalacePiece {
     public static final List<Position> INITIAL_POSITIONS_BLUE = List.of(
             new Position(8, 2),
             new Position(8, 8));
@@ -27,6 +27,16 @@ public class Cannon extends Piece {
         };
     }
 
+    @Override
+    public Consumer<Pieces> getPalaceMovableValidator(final Position beforePosition, final Position afterPosition) {
+        return pieces -> {
+            CommonValidator.validateLinearMovement(beforePosition, afterPosition);
+            validateNoSameTeamPieceAt(afterPosition, team, pieces);
+            validateDestinationNotCannon(pieces, afterPosition);
+            validatePalaceCannonJumpRule(pieces, beforePosition, afterPosition);
+        };
+    }
+
     private void validateDestinationNotCannon(final Pieces pieces, final Position afterPosition) {
         if (pieces.get(afterPosition).isCannon()) {
             throw new IllegalArgumentException("불가능한 이동입니다.");
@@ -34,6 +44,39 @@ public class Cannon extends Piece {
     }
 
     private void validateCannonJumpRule(
+            final Pieces pieces,
+            final Position beforePosition,
+            final Position afterPosition) {
+
+        int obstaclesCount = countObstaclesOnStraightPath(pieces, beforePosition, afterPosition);
+
+        if (obstaclesCount != 1) {
+            throw new IllegalArgumentException("포는 반드시 하나의 장애물을 넘어야 합니다.");
+        }
+    }
+
+    private int countObstaclesOnStraightPath(
+            final Pieces pieces,
+            final Position beforePosition,
+            final Position afterPosition) {
+
+        Movement movement = afterPosition.getMovementTo(beforePosition);
+        Movement nextMovement = Movement.findStraightUnitMovement(movement.x(), movement.y());
+
+        int obstaclesCount = 0;
+        Position currentPosition = beforePosition.plus(nextMovement.x(), nextMovement.y());
+
+        while (!currentPosition.equals(afterPosition)) {
+            validateNoCannonOnPath(pieces, currentPosition);
+            if (!pieces.get(currentPosition).isNone()) {
+                obstaclesCount++;
+            }
+            currentPosition = currentPosition.plus(nextMovement.x(), nextMovement.y());
+        }
+        return obstaclesCount;
+    }
+
+    private void validatePalaceCannonJumpRule(
             final Pieces pieces,
             final Position beforePosition,
             final Position afterPosition) {
@@ -51,7 +94,7 @@ public class Cannon extends Piece {
             final Position afterPosition) {
 
         Movement movement = afterPosition.getMovementTo(beforePosition);
-        Movement nextMovement = Movement.findStraightUnitMovement(movement.x(), movement.y());
+        Movement nextMovement = Movement.findUnitMovement(movement.x(), movement.y());
 
         int obstaclesCount = 0;
         Position currentPosition = beforePosition.plus(nextMovement.x(), nextMovement.y());
