@@ -26,7 +26,7 @@ public final class DatabaseManager {
             return DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
             System.err.println("DB 연결 오류:" + e.getMessage());
-            throw new SQLException();
+            throw new IllegalArgumentException("Connection 중 예외 발생: ", e);
         }
     }
 
