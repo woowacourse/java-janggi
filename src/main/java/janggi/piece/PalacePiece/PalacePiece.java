@@ -4,6 +4,7 @@ import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.position.Board;
 import janggi.position.Position;
+import janggi.position.Positions;
 import janggi.route.Routes;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,11 +20,11 @@ public abstract class PalacePiece extends Piece {
     }
 
     public Set<Position> possibleRoutes(Board board) {
-//        board.validateTeam(team());
-//        return routes.possibleRoutes(position, board).stream()
-//                .filter(position1 -> position1.isInPalace())
-//                .collect(Collectors.toSet());
-        return null;
+        board.validateTeam(team());
+
+        return routes.possibleRoutes(position, board).stream()
+                .filter(position1 -> new Positions().isInPalace(position1))
+                .collect(Collectors.toSet());
     }
 
     public Position position() {

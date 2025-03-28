@@ -1,12 +1,13 @@
 package janggi.piece.normalPiece;
 
+import janggi.piece.PalacePiece.PalacePiece;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.route.Routes;
 
-public class King extends NormalPiece {
+public class King extends PalacePiece {
 
     public King(Team team, Position position) {
         super(team, position, Routes.ofPalace());
