@@ -40,23 +40,20 @@ public abstract sealed class LinearMover
         int dRow = position.calculateDRow(destination);
         int dCol = position.calculateDCol(destination);
 
-        int presentCol = position.getCol();
-        int presentRow = position.getRow();
-
-        if (position.isLeftward(dRow, dCol)) {
-            addLeftwardRoute(dCol, route, presentRow, presentCol);
+        if (position.isLeftwardTo(destination)) {
+            addLeftwardRoute(dCol, route);
         }
 
-        if (position.isRightward(dRow, dCol)) {
-            addRightwardRoute(dCol, route, presentRow, presentCol);
+        if (position.isRightwardTo(destination)) {
+            addRightwardRoute(dCol, route);
         }
 
-        if (position.isUpward(dRow, dCol)) {
-            addUpwardRoute(dRow, route, presentRow, presentCol);
+        if (position.isUpwardTo(destination)) {
+            addUpwardRoute(dRow, route);
         }
 
-        if (position.isDownward(dRow, dCol)) {
-            addDownwardRoute(dRow, route, presentRow, presentCol);
+        if (position.isDownwardTo(destination)) {
+            addDownwardRoute(dRow, route);
         }
 
         return route;
@@ -66,27 +63,27 @@ public abstract sealed class LinearMover
         return !position.isSameRow(destination) && !position.isSameCol(destination);
     }
 
-    private void addDownwardRoute(final int dRow, Positions route, final int presentRow, final int presentCol) {
+    private void addDownwardRoute(final int dRow, Positions route) {
         for (int i = 1; i < Math.abs(dRow); i++) {
-            route.addPosition(new Position(presentRow + i, presentCol));
+            route.addPosition(position.calculateMovement(i, 0));
         }
     }
 
-    private void addUpwardRoute(final int dRow, Positions route, final int presentRow, final int presentCol) {
+    private void addUpwardRoute(final int dRow, Positions route) {
         for (int i = 1; i < dRow; i++) {
-            route.addPosition(new Position(presentRow - i, presentCol));
+            route.addPosition(position.calculateMovement(-i, 0));
         }
     }
 
-    private void addRightwardRoute(final int dCol, Positions route, final int presentRow, final int presentCol) {
+    private void addRightwardRoute(final int dCol, Positions route) {
         for (int i = 1; i < Math.abs(dCol); i++) {
-            route.addPosition(new Position(presentRow, presentCol + i));
+            route.addPosition(position.calculateMovement(0, i));
         }
     }
 
-    private void addLeftwardRoute(final int dCol, Positions route, final int presentRow, final int presentCol) {
+    private void addLeftwardRoute(final int dCol, Positions route) {
         for (int i = 1; i < dCol; i++) {
-            route.addPosition(new Position(presentRow, presentCol - i));
+            route.addPosition(position.calculateMovement(0, -i));
         }
     }
 

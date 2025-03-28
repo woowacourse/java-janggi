@@ -38,45 +38,42 @@ public class Sang implements Piece {
     public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
 
-        int dRow = position.calculateDRow(destination);
-        int dCol = position.calculateDCol(destination);
-
-        if (position.isUpLeftUpLeftUp(dRow, dCol)) {
+        if (position.isUpLeftUpLeftUpMovementTo(destination)) {
             route.addPosition(position.calculateUpMovement());
             route.addPosition(position.calculateUpLeftUpMovement());
         }
 
-        if (position.isUpRightUpRightUp(dRow, dCol)) {
+        if (position.isUpRightUpRightUpMovementTo(destination)) {
             route.addPosition(position.calculateUpMovement());
             route.addPosition(position.calculateUpRightUPMovement());
         }
 
-        if (position.isRightUpRightUpRight(dRow, dCol)) {
+        if (position.isRightRightUpRightUpMovementTo(destination)) {
             route.addPosition(position.calculateRightMovement());
             route.addPosition(position.calculateRightRightUpMovement());
         }
 
-        if (position.isRightRightDownRightDown(dRow, dCol)) {
+        if (position.isRightRightDownRightDownMovementTo(destination)) {
             route.addPosition(position.calculateRightMovement());
             route.addPosition(position.calculateRightRightDownMovement());
         }
 
-        if (position.isDownLeftDownLeftDown(dRow, dCol)) {
+        if (position.isDownLeftDownLeftDownMovementTo(destination)) {
             route.addPosition(position.calculateDownMovement());
             route.addPosition(position.calculateDownLeftDownMovement());
         }
 
-        if (position.isDownRightDownRightDown(dRow, dCol)) {
+        if (position.isDownRightDownRightDownMovementTo(destination)) {
             route.addPosition(position.calculateDownMovement());
             route.addPosition(position.calculateDownRightDownMovement());
         }
 
-        if (position.isLeftLeftUpLeftUp(dRow, dCol)) {
+        if (position.isLeftLeftUpLeftUpMovementTo(destination)) {
             route.addPosition(position.calculateLeftMovement());
             route.addPosition(position.calculateLeftLeftUpMovement());
         }
 
-        if (position.isLeftLeftDownLeftDown(dRow, dCol)) {
+        if (position.isLeftLeftDownLeftDownMovementTo(destination)) {
             route.addPosition(position.calculateLeftMovement());
             route.addPosition(position.calculateLeftLeftDownMovement());
         }
@@ -95,14 +92,14 @@ public class Sang implements Piece {
     }
 
     private boolean isInvalidSangMove(final Position destination) {
-        return !position.calculateUpRightUpRightUpMovement().equals(destination) &&
-                !position.calculateUpLeftUpLeftUpMovement().equals(destination) &&
-                !position.calculateRightRightUpRightUpMovement().equals(destination) &&
-                !position.calculateRightRightDownRightDownMovement().equals(destination) &&
-                !position.calculateDownRightDownRightDownMovement().equals(destination) &&
-                !position.calculateDownLeftDownLeftDownMovement().equals(destination) &&
-                !position.calculateLeftLeftUpLeftUpMovement().equals(destination) &&
-                !position.calculateLeftLeftDownLeftDownMovement().equals(destination);
+        return !position.isUpRightUpRightUpMovementTo(destination)
+                && !position.isUpLeftUpLeftUpMovementTo(destination)
+                && !position.isRightRightUpRightUpMovementTo(destination)
+                && !position.isRightRightDownRightDownMovementTo(destination)
+                && !position.isDownRightDownRightDownMovementTo(destination)
+                && !position.isDownLeftDownLeftDownMovementTo(destination)
+                && !position.isLeftLeftUpLeftUpMovementTo(destination)
+                && !position.isLeftLeftDownLeftDownMovementTo(destination);
     }
 
     @Override

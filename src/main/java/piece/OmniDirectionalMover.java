@@ -43,10 +43,10 @@ public abstract sealed class OmniDirectionalMover
     public abstract PieceType getPieceType();
 
     private boolean isOmniDirectionalMover(Position destination) {
-        return !position.calculateUpMovement().equals(destination)
-                && !position.calculateRightMovement().equals(destination)
-                && !position.calculateLeftMovement().equals(destination)
-                && !position.calculateDownMovement().equals(destination);
+        return !position.isUpMovementTo(destination)
+                && !position.isDownMovementTo(destination)
+                && !position.isLeftMovementTo(destination)
+                && !position.isRightMovementTo(destination);
     }
 
     @Override

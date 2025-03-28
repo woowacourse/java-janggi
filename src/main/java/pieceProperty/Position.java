@@ -64,6 +64,111 @@ public class Position {
         return col - destination.col;
     }
 
+    public boolean isUpMovementTo(Position destination) {
+        return new Position(row + UP.getDRow(), col + UP.getDCol()).equals(destination);
+    }
+
+    public boolean isDownMovementTo(Position destination) {
+        return new Position(row + DOWN.getDRow(), col + DOWN.getDCol()).equals(destination);
+    }
+
+    public boolean isRightMovementTo(Position destination) {
+        return new Position(row + RIGHT.getDRow(), col + RIGHT.getDCol()).equals(destination);
+    }
+
+    public boolean isLeftMovementTo(Position destination) {
+        return new Position(row + LEFT.getDRow(), col + LEFT.getDCol()).equals(destination);
+    }
+
+    public boolean isRightUpMovementTo(Position destination) {
+        return new Position(row + RIGHT_UP_DIAGONAL.getDRow(), col + RIGHT_UP_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isRightDownMovementTo(Position destination) {
+        return new Position(row + RIGHT_DOWN_DIAGONAL.getDRow(), col + RIGHT_DOWN_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isLeftUpMovementTo(Position destination) {
+        return new Position(row + LEFT_UP_DIAGONAL.getDRow(), col + LEFT_UP_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isLeftDownMovementTo(Position destination) {
+        return new Position(row + LEFT_DOWN_DIAGONAL.getDRow(), col + LEFT_DOWN_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isUpRightUpMovementTo(Position destination) {
+        return new Position(row + UP_RIGHT_UP_DIAGONAL.getDRow(), col + UP_RIGHT_UP_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isUpLeftUpMovementTo(Position destination) {
+        return new Position(row + UP_LEFT_UP_DIAGONAL.getDRow(), col + UP_LEFT_UP_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isRightRightUpMovementTo(Position destination) {
+        return new Position(row + RIGHT_RIGHT_UP_DIAGONAL.getDRow(), col + RIGHT_RIGHT_UP_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isRightRightDownMovementTo(Position destination) {
+        return new Position(row + RIGHT_RIGHT_DOWN_DIAGONAL.getDRow(), col + RIGHT_RIGHT_DOWN_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isDownRightDownMovementTo(Position destination) {
+        return new Position(row + DOWN_RIGHT_DOWN_DIAGONAL.getDRow(), col + DOWN_RIGHT_DOWN_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isDownLeftDownMovementTo(Position destination) {
+        return new Position(row + DOWN_LEFT_DOWN_DIAGONAL.getDRow(), col + DOWN_LEFT_DOWN_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isLeftLeftUpMovementTo(Position destination) {
+        return new Position(row + LEFT_LEFT_UP_DIAGONAL.getDRow(), col + LEFT_LEFT_UP_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isLeftLeftDownMovementTo(Position destination) {
+        return new Position(row + LEFT_LEFT_DOWN_DIAGONAL.getDRow(), col + LEFT_LEFT_DOWN_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isUpRightUpRightUpMovementTo(Position destination) {
+        return new Position(row + UP_RIGHT_UP_DIAGONAL_RIGHT_UP_DIAGONAL.getDRow(),
+                col + UP_RIGHT_UP_DIAGONAL_RIGHT_UP_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isUpLeftUpLeftUpMovementTo(Position destination) {
+
+        return new Position(row + UP_LEFT_UP_DIAGONAL_LEFT_UP_DIAGONAL.getDRow(),
+                col + UP_LEFT_UP_DIAGONAL_LEFT_UP_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isRightRightUpRightUpMovementTo(Position destination) {
+        return new Position(row + RIGHT_RIGHT_UP_DIAGONAL_RIGHT_UP_DIAGONAL.getDRow(),
+                col + RIGHT_RIGHT_UP_DIAGONAL_RIGHT_UP_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isRightRightDownRightDownMovementTo(Position destination) {
+        return new Position(row + RIGHT_RIGHT_DOWN_DIAGONAL_RIGHT_DOWN_DIAGONAL.getDRow(),
+                col + RIGHT_RIGHT_DOWN_DIAGONAL_RIGHT_DOWN_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isDownRightDownRightDownMovementTo(Position destination) {
+        return new Position(row + DOWN_RIGHT_DOWN_DIAGONAL_RIGHT_DOWN_DIAGONAL.getDRow(),
+                col + DOWN_RIGHT_DOWN_DIAGONAL_RIGHT_DOWN_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isDownLeftDownLeftDownMovementTo(Position destination) {
+        return new Position(row + DOWN_LEFT_DOWN_DIAGONAL_LEFT_DOWN_DIAGONAL.getDRow(),
+                col + DOWN_LEFT_DOWN_DIAGONAL_LEFT_DOWN_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isLeftLeftUpLeftUpMovementTo(Position destination) {
+        return new Position(row + LEFT_LEFT_UP_DIAGONAL_LEFT_UP_DIAGONAL.getDRow(),
+                col + LEFT_LEFT_UP_DIAGONAL_LEFT_UP_DIAGONAL.getDCol()).equals(destination);
+    }
+
+    public boolean isLeftLeftDownLeftDownMovementTo(Position destination) {
+        return new Position(row + LEFT_LEFT_DOWN_DIAGONAL_LEFT_DOWN_DIAGONAL.getDRow(),
+                col + LEFT_LEFT_DOWN_DIAGONAL_LEFT_DOWN_DIAGONAL.getDCol()).equals(destination);
+    }
+
     public Position calculateUpMovement() {
         return new Position(row + UP.getDRow(), col + UP.getDCol());
     }
@@ -168,83 +273,27 @@ public class Position {
                 col + LEFT_LEFT_DOWN_DIAGONAL_LEFT_DOWN_DIAGONAL.getDCol());
     }
 
-    public boolean isUpLeftUpLeftUp(final int dRow, final int dCol) {
-        return dRow == 3 && dCol == 2;
-    }
-
-    public boolean isUpRightUpRightUp(final int dRow, final int dCol) {
-        return dRow == 3 && dCol == -2;
-    }
-
-    public boolean isRightUpRightUpRight (final int dRow, final int dCol) {
-        return dRow == 2 && dCol == -3;
-    }
-
-    public boolean isRightRightDownRightDown(final int dRow, final int dCol) {
-        return dRow == -2 && dCol == -3;
-    }
-
-    public boolean isDownRightDownRightDown(final int dRow, final int dCol) {
-        return dRow == -3 && dCol == -2;
-    }
-
-    public boolean isDownLeftDownLeftDown(final int dRow, final int dCol) {
-        return dRow == -3 && dCol == 2;
-    }
-
-    public boolean isLeftLeftUpLeftUp(final int dRow, final int dCol) {
-        return dRow == 2 && dCol == 3;
-    }
-
-    public boolean isLeftLeftDownLeftDown(final int dRow, final int dCol) {
-        return dRow == -2 && dCol == 3;
-    }
-
-    public boolean isUpLeftUp(final int dRow, final int dCol) {
-        return dRow == 2 && dCol == 1;
-    }
-
-    public boolean isUpRightUp(final int dRow, final int dCol) {
-        return dRow == 2 && dCol == -1;
-    }
-
-    public boolean isRightRightUp(final int dRow, final int dCol) {
-        return dRow == 1 && dCol == - 2;
-    }
-
-    public boolean isRightRightDown(final int dRow, final int dCol) {
-        return dRow == -1 && dCol == -2;
-    }
-
-    public boolean isDownRightDown(final int dRow, final int dCol) {
-        return dRow == -2 && dCol == -1;
-    }
-
-    public boolean isDownLeftDown(final int dRow, final int dCol) {
-        return dRow == -2 && dCol == 1;
-    }
-
-    public boolean isLeftLeftDown(final int dRow, final int dCol) {
-        return dRow == -1 && dCol == 2;
-    }
-
-    public boolean isLeftLeftUp(final int dRow, final int dCol) {
-        return dRow == 1 && dCol == 2;
-    }
-
-    public boolean isLeftward(final int dRow, final int dCol) {
+    public boolean isLeftwardTo(Position destination) {
+        int dRow = row - destination.row;
+        int dCol = col - destination.col;
         return dRow == 0 && dCol > 0;
     }
 
-    public boolean isRightward(final int dRow, final int dCol) {
+    public boolean isRightwardTo(Position destination) {
+        int dRow = row - destination.row;
+        int dCol = col - destination.col;
         return dRow == 0 && dCol < 0;
     }
 
-    public boolean isUpward(final int dRow, final int dCol) {
+    public boolean isUpwardTo(Position destination) {
+        int dRow = row - destination.row;
+        int dCol = col - destination.col;
         return dRow > 0 && dCol == 0;
     }
 
-    public boolean isDownward(final int dRow, final int dCol) {
+    public boolean isDownwardTo(Position destination) {
+        int dRow = row - destination.row;
+        int dCol = col - destination.col;
         return dRow < 0 && dCol == 0;
     }
 

@@ -50,9 +50,9 @@ public class Jol implements Piece {
     }
 
     private boolean isInvalidJolMove(final Position destination) {
-        return !position.calculateUpMovement().equals(destination)
-                && !position.calculateLeftMovement().equals(destination)
-                && !position.calculateRightMovement().equals(destination);
+        return !position.isUpMovementTo(destination)
+                && !position.isLeftMovementTo(destination)
+                && !position.isRightMovementTo(destination);
     }
 
     @Override

@@ -50,9 +50,9 @@ public class Byeong implements Piece {
     }
 
     private boolean isInvalidByeongMove(final Position destination) {
-        return !position.calculateDownMovement().equals(destination)
-                && !position.calculateLeftMovement().equals(destination)
-                && !position.calculateRightMovement().equals(destination);
+        return !position.isDownMovementTo(destination)
+                && !position.isLeftMovementTo(destination)
+                && !position.isRightMovementTo(destination);
     }
 
     @Override

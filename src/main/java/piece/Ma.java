@@ -38,38 +38,35 @@ public class Ma implements Piece {
     public Positions makeRoute(final Position destination) {
         Positions route = new Positions(List.of());
 
-        int dRow = position.calculateDRow(destination);
-        int dCol = position.calculateDCol(destination);
-
-        if (position.isUpLeftUp(dRow, dCol)) {
+        if (position.isUpLeftUpMovementTo(destination)) {
             route.addPosition(position.calculateUpMovement());
         }
 
-        if (position.isUpRightUp(dRow, dCol)) {
+        if (position.isUpRightUpMovementTo(destination)) {
             route.addPosition(position.calculateUpMovement());
         }
 
-        if (position.isRightRightUp(dRow, dCol)) {
+        if (position.isRightRightUpMovementTo(destination)) {
             route.addPosition(position.calculateRightMovement());
         }
 
-        if (position.isRightRightDown(dRow, dCol)) {
+        if (position.isRightRightDownMovementTo(destination)) {
             route.addPosition(position.calculateRightMovement());
         }
 
-        if (position.isDownRightDown(dRow, dCol)) {
+        if (position.isDownRightDownMovementTo(destination)) {
             route.addPosition(position.calculateDownMovement());
         }
 
-        if (position.isDownLeftDown(dRow, dCol)) {
+        if (position.isDownLeftDownMovementTo(destination)) {
             route.addPosition(position.calculateDownMovement());
         }
 
-        if (position.isLeftLeftUp(dRow, dCol)) {
+        if (position.isLeftLeftUpMovementTo(destination)) {
             route.addPosition(position.calculateLeftMovement());
         }
 
-        if (position.isLeftLeftDown(dRow, dCol)) {
+        if (position.isLeftLeftDownMovementTo(destination)) {
             route.addPosition(position.calculateLeftMovement());
         }
 
@@ -87,14 +84,14 @@ public class Ma implements Piece {
     }
 
     private boolean isInvalidMaMove(final Position destination) {
-        return !position.calculateUpRightUPMovement().equals(destination) &&
-                !position.calculateUpLeftUpMovement().equals(destination) &&
-                !position.calculateDownRightDownMovement().equals(destination) &&
-                !position.calculateDownLeftDownMovement().equals(destination) &&
-                !position.calculateRightRightUpMovement().equals(destination) &&
-                !position.calculateRightRightDownMovement().equals(destination) &&
-                !position.calculateLeftLeftUpMovement().equals(destination) &&
-                !position.calculateLeftLeftDownMovement().equals(destination);
+        return !position.isUpRightUpMovementTo(destination)
+                && !position.isUpLeftUpMovementTo(destination)
+                && !position.isRightRightUpMovementTo(destination)
+                && !position.isRightRightDownMovementTo(destination)
+                && !position.isDownRightDownMovementTo(destination)
+                && !position.isDownLeftDownMovementTo(destination)
+                && !position.isLeftLeftUpMovementTo(destination)
+                && !position.isLeftLeftDownMovementTo(destination);
     }
 
     @Override
