@@ -34,11 +34,11 @@ public class OutputView {
 
         final StringBuilder sb = new StringBuilder("ㅁ 일 이 삼 사 오 육 칠 팔 구\n");
         final Map<Position, Piece> pieces = board.getPieces();
-        for (int i = 1; i <= 10; i++) {
+        for (int y = 1; y <= 10; y++) {
 
-            sb.append(NumberFormat.findNumberName(i) + " ");
-            for (int j = 1; j <= 9; j++) {
-                final Position now = new Position(i, j);
+            sb.append(NumberFormat.findNumberName(y) + " ");
+            for (int x = 1; x <= 9; x++) {
+                final Position now = new Position(x, y);
 
                 if (pieces.containsKey(now)) {
                     final Piece piece = pieces.get(now);

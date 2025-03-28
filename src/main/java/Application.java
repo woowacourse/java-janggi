@@ -8,9 +8,6 @@ import view.OutputView;
 
 import java.util.List;
 
-// TODO 2025. 3. 27. 20:53: 1. Board 내 필드 일급 컬렉션 처리 할 지
-// TODO 2025. 3. 27. 20:53: 2. Board 양방향 매핑 처리 어떻게 할 건지
-// TODO 2025. 3. 27. 20:54: 3. 테스트
 // TODO 2025. 3. 27. 20:54: 4. 리뷰 처리
 
 
