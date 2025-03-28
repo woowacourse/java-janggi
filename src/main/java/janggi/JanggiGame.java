@@ -85,7 +85,7 @@ public class JanggiGame {
             }
             return id;
         } catch (IllegalArgumentException e) {
-            janggiView.displayError("[ERROR] 목록에 있는 숫자를 입력해주세요.");
+            janggiView.displayError("[ERROR] 숫자 형식으로 입력해주세요.");
             return readUnfinishedGame(notFinishedGameIds);
         }
     }
