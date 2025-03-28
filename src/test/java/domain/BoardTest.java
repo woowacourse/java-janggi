@@ -3,6 +3,7 @@ package domain;
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
 import domain.piece.Pieces;
+import domain.piece.category.King;
 import domain.piece.category.Soldier;
 import domain.spatial.Position;
 import domain.strategy.InnerElephantInitializer;
@@ -24,6 +25,33 @@ class BoardTest {
         Position targetPosition = new Position(1, 5);
 
         Piece expected = new Soldier(new Position(1, 5), PieceDirection.HAN_SOLDIER.get());
+
+        Player han = new Player(Team.HAN);
+        Player cho = new Player(Team.CHO);
+
+        Pieces hanPieces = createPiecesByPlayer(han);
+        Pieces choPieces = createPiecesByPlayer(cho);
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(han, hanPieces);
+        boardElements.put(cho, choPieces);
+
+        Board board = new Board(boardElements);
+
+        // when
+        board.moveAndCapture(han, startPosition, targetPosition);
+
+        // then
+        assertThat(hanPieces.pieces()).contains(expected);
+    }
+
+    @Test
+    void 기물의_위치가_궁성_내부인_경우_대각선으로_이동한다() {
+        // given
+        Position startPosition = new Position(5, 2);
+        Position targetPosition = new Position(6, 3);
+
+        Piece expected = new King(new Position(6, 3), PieceDirection.KING.get());
 
         Player han = new Player(Team.HAN);
         Player cho = new Player(Team.CHO);
