@@ -8,21 +8,19 @@ import java.util.Objects;
 public class Direction {
 
     private final List<Vector> direction;
-    private final boolean repeatable;
 
-    public Direction(final List<Vector> direction, final boolean repeatable) {
+    public Direction(final List<Vector> direction) {
         this.direction = direction;
-        this.repeatable = repeatable;
     }
 
-    public boolean canReach(final Position start, final Position target) {
+    public boolean canReach(final Position start, final Position target, final boolean repeatable) {
         if (repeatable) {
             return canReachWithRepeat(start, target);
         }
         return canReachWithoutRepeat(start, target);
     }
 
-    public List<Position> createPath(final Position start, final Position target) {
+    public List<Position> createPath(final Position start, final Position target, final boolean repeatable) {
         if (repeatable) {
             return createPathWithRepeat(start, target);
         }
@@ -76,11 +74,11 @@ public class Direction {
             return false;
         }
         Direction direction1 = (Direction) object;
-        return repeatable == direction1.repeatable && Objects.equals(direction, direction1.direction);
+        return Objects.equals(direction, direction1.direction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(direction, repeatable);
+        return Objects.hash(direction);
     }
 }

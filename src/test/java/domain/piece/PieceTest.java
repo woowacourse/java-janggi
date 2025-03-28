@@ -14,6 +14,7 @@ import domain.piece.category.Guard;
 import domain.piece.category.Horse;
 import domain.piece.category.Soldier;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class PieceTest {
@@ -24,7 +25,7 @@ class PieceTest {
         final Position position = Position.of(1, 2);
 
         // when
-        final TestPiece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final TestPiece piece = new TestPiece(1, 2, new Directions(Set.of(), true));
 
         // then
         assertThat(piece.getPosition()).isEqualTo(position);
@@ -38,8 +39,8 @@ class PieceTest {
         List<Position> expected = List.of(Position.of(4, 6));
 
         List<Vector> vectors = List.of(Vector.UP, Vector.UP_RIGHT);
-        List<Direction> directionElements = List.of(new Direction(vectors, false));
-        Directions directions = new Directions(directionElements);
+        Set<Direction> directionElements = Set.of(new Direction(vectors));
+        Directions directions = new Directions(directionElements, false);
 
         Piece piece = new TestPiece(4, 7, directions);
 
@@ -54,7 +55,7 @@ class PieceTest {
     void 위치가_같은지_판단한다() {
         // given
         final Position position = Position.of(1, 2);
-        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final Piece piece = new TestPiece(1, 2, new Directions(Set.of(), true));
 
         // when
         boolean result = piece.isSamePosition(position);
@@ -67,7 +68,7 @@ class PieceTest {
     void 위치를_변경한다() {
         // given
         final Position position = Position.of(2, 2);
-        final Piece piece = new TestPiece(1, 2, new Directions(List.of()));
+        final Piece piece = new TestPiece(1, 2, new Directions(Set.of(), true));
 
         // when
         Piece result = piece.updatePosition(position);
@@ -80,14 +81,14 @@ class PieceTest {
     @Test
     void 입력받은_타입의_기물인지_판단한다() {
         // given
-        final Piece cannon = new Cannon(Position.of(1, 2), new Directions(List.of()));
-        final Piece king = new General(Position.of(1, 2), new Directions(List.of()));
-        final Piece advisor = new Guard(Position.of(1, 2), new Directions(List.of()));
-        final Piece elephant = new Elephant(Position.of(1, 2), new Directions(List.of()));
-        final Piece horse = new Horse(Position.of(1, 2), new Directions(List.of()));
-        final Piece pawn = new Soldier(Position.of(1, 2), new Directions(List.of()));
-        final Piece rook = new Chariot(Position.of(1, 2), new Directions(List.of()));
-        final Piece piece = new TestPiece(Position.of(1, 2), new Directions(List.of()));
+        final Piece cannon = new Cannon(Position.of(1, 2), new Directions(Set.of(), true));
+        final Piece king = new General(Position.of(1, 2), new Directions(Set.of(), true));
+        final Piece advisor = new Guard(Position.of(1, 2), new Directions(Set.of(), true));
+        final Piece elephant = new Elephant(Position.of(1, 2), new Directions(Set.of(), true));
+        final Piece horse = new Horse(Position.of(1, 2), new Directions(Set.of(), true));
+        final Piece pawn = new Soldier(Position.of(1, 2), new Directions(Set.of(), true));
+        final Piece rook = new Chariot(Position.of(1, 2), new Directions(Set.of(), true));
+        final Piece piece = new TestPiece(Position.of(1, 2), new Directions(Set.of(), true));
 
         // when & then
         assertAll(
@@ -124,6 +125,16 @@ class PieceTest {
         @Override
         public int getScore() {
             return 0;
+        }
+
+        @Override
+        public boolean isValidPosition(Position position) {
+            return false;
+        }
+
+        @Override
+        public boolean canMoveInPalace() {
+            return false;
         }
 
         @Override

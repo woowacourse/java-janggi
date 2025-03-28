@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.piece.Position;
 import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class DirectionsTest {
@@ -16,8 +17,8 @@ class DirectionsTest {
         List<Position> expected = List.of(Position.of(5, 4));
 
         List<Vector> vectors = List.of(Vector.UP, Vector.UP_RIGHT);
-        List<Direction> directionElements = List.of(new Direction(vectors, false));
-        Directions directions = new Directions(directionElements);
+        Set<Direction> directionElements = Set.of(new Direction(vectors));
+        Directions directions = new Directions(directionElements, false);
 
         // when
         List<Position> result = directions.getPath(start, target);
@@ -34,8 +35,8 @@ class DirectionsTest {
         List<Position> expected = List.of(Position.of(6, 5), Position.of(7, 5), Position.of(8, 5));
 
         List<Vector> vectors = List.of(Vector.RIGHT);
-        List<Direction> directionElements = List.of(new Direction(vectors, true));
-        Directions directions = new Directions(directionElements);
+        Set<Direction> directionElements = Set.of(new Direction(vectors));
+        Directions directions = new Directions(directionElements, true);
 
         // when
         List<Position> result = directions.getPath(start, target);

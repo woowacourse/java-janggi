@@ -3,22 +3,27 @@ package domain.direction;
 import domain.piece.Position;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 public class Directions {
 
-    private final List<Direction> directions;
+    private final Set<Direction> directions;
+    private final boolean repeatable;
 
-    public Directions(final List<Direction> directions) {
+    public Directions(final Set<Direction> directions, boolean repeatable) {
         this.directions = directions;
+        this.repeatable = repeatable;
     }
 
     public List<Position> getPath(final Position start, final Position target) {
-        Direction direction = directions.stream()
-                .filter(element -> element.canReach(start, target))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이동할 수 없는 위치입니다."));
+        // TODO : 궁성의 경우, 대각선 Direction이 포함 안되어 있음
+        // 궁성으로 이동할 수 있는데 orElseThrow에서 터지면?
+        Optional<Direction> direction = directions.stream()
+                .filter(element -> element.canReach(start, target, repeatable))
+                .findFirst();
 
-        return direction.createPath(start, target);
+        return direction.map(value -> value.createPath(start, target, repeatable)).orElse(null);
     }
 
     @Override

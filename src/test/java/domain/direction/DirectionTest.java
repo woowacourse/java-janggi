@@ -18,10 +18,10 @@ class DirectionTest {
         List<Position> expected = List.of(Position.of(5, 4));
 
         List<Vector> vectors = List.of(Vector.UP, Vector.UP_RIGHT);
-        Direction direction = new Direction(vectors, false);
+        Direction direction = new Direction(vectors);
 
         // when
-        List<Position> result = direction.createPath(start, target);
+        List<Position> result = direction.createPath(start, target, false);
 
         // then
         assertThat(result).containsAll(expected);
@@ -35,10 +35,10 @@ class DirectionTest {
         List<Position> expected = List.of(Position.of(5, 6), Position.of(5, 7), Position.of(5, 8));
 
         List<Vector> vectors = List.of(Vector.DOWN);
-        Direction direction = new Direction(vectors, true);
+        Direction direction = new Direction(vectors);
 
         // when
-        List<Position> result = direction.createPath(start, target);
+        List<Position> result = direction.createPath(start, target, true);
 
         // then
         assertThat(result).containsAll(expected);
@@ -55,10 +55,10 @@ class DirectionTest {
         Position target = Position.of(row, column);
 
         List<Vector> vectors = List.of(Vector.UP, Vector.UP_RIGHT);
-        Direction direction = new Direction(vectors, false);
+        Direction direction = new Direction(vectors);
 
         // when
-        boolean result = direction.canReach(start, target);
+        boolean result = direction.canReach(start, target, false);
 
         // then
         assertThat(result).isEqualTo(expectedResult);
@@ -75,10 +75,10 @@ class DirectionTest {
         Position target = Position.of(row, column);
 
         List<Vector> vectors = List.of(Vector.DOWN);
-        Direction direction = new Direction(vectors, true);
+        Direction direction = new Direction(vectors);
 
         // when
-        boolean result = direction.canReach(start, target);
+        boolean result = direction.canReach(start, target, true);
 
         // then
         assertThat(result).isEqualTo(expectedResult);
