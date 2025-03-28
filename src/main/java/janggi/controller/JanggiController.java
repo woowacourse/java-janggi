@@ -34,7 +34,7 @@ public class JanggiController {
         outputView.printBoard(playingBoard);
 
         while (!janggiGame.isFinished()) {
-            processWithRetry(() -> playSingleCommand(janggiGame));
+            RetryUtil.processWithRetry(() -> playSingleCommand(janggiGame));
         }
         displayGameResult(janggiGame);
 
@@ -88,16 +88,5 @@ public class JanggiController {
     private void gameQuit() {
         System.out.println("게임 종료");
         System.exit(0);
-    }
-
-    private void processWithRetry(Runnable runnable) {
-        while (true) {
-            try {
-                runnable.run();
-                return;
-            } catch (IllegalArgumentException e) {
-                System.out.println("[Error] " + e.getMessage() + "\n");
-            }
-        }
     }
 }

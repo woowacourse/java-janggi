@@ -13,7 +13,6 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class GameSetController {
     private final InputView inputView;
@@ -28,8 +27,8 @@ public class GameSetController {
     private final GameSetDBService gameSetDBService;
 
     public SetInfoDto setJanggiGame() {
-        return getWithRetry(() -> {
-            MainOption mainOption = getWithRetry(inputView::readMainOption);
+        return RetryUtil.getWithRetry(() -> {
+            MainOption mainOption = RetryUtil.getWithRetry(inputView::readMainOption);
 
             if (mainOption == MainOption.NEW_GAME) {
                 return setNewGame();
@@ -39,7 +38,7 @@ public class GameSetController {
     }
 
     private SetInfoDto setNewGame() {
-        InitialBoard initialBoard = getWithRetry(this::setupBoard);
+        InitialBoard initialBoard = RetryUtil.getWithRetry(this::setupBoard);
         PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
         JanggiGame newGame = new JanggiGame(new BlueTurn(playingBoard), new HashMap<>());
 
@@ -66,7 +65,7 @@ public class GameSetController {
         List<GameRoomDto> allPlayingRooms = getGameRoomDtos();
         outputView.printRooms(allPlayingRooms);
 
-        int selectedIndex = getWithRetry(() -> getSelectedIndexFromUser(allPlayingRooms));
+        int selectedIndex = RetryUtil.getWithRetry(() -> getSelectedIndexFromUser(allPlayingRooms));
         int selectedRoomId = allPlayingRooms.get(selectedIndex).roomId();
         JanggiGame game = gameSetDBService.getGameByRoomId(selectedRoomId);
         int boardId = gameSetDBService.getBoardIdByRoom(selectedRoomId);
@@ -90,15 +89,5 @@ public class GameSetController {
             throw new IllegalArgumentException("잘못된 입력입니다.");
         }
         return selectedIndex;
-    }
-
-    public <T> T getWithRetry(Supplier<T> task) {
-        while (true) {
-            try {
-                return task.get();
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
     }
 }
