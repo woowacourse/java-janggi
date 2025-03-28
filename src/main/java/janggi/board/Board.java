@@ -121,10 +121,4 @@ public class Board implements VisibleBoard {
         return new HashMap<>(janggiBoard);
     }
 
-    public Piece getWinner() {
-        return janggiBoard.values().stream()
-                .filter(Piece::isGeneral)
-                .findFirst()
-                .orElseThrow(IllegalAccessError::new);
-    }
 }

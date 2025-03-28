@@ -80,19 +80,6 @@ public class OutputView {
     }
 
     public static void printJanggiWinner(final Board board){
-        final Country winner = board.getWinner().getCountry();
-        System.out.println("축하합니다.");
-        System.out.print("우승한 국가는 ");
-
-        if(winner.equals(Country.HAN)){
-            System.out.println("한나라 입니다!");
-            return;
-        }
-
-        System.out.println("초나라 입니다!");
-    }
-
-    public static void printJanggiWinnerForTimeOut(final Board board){
         final JanggiScore scoreOfHan = board.calculateScoreByCountry(Country.HAN);
         final JanggiScore scoreOfCho = board.calculateScoreByCountry(Country.CHO);
 
