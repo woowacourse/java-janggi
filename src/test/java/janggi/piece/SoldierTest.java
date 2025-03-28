@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.position.Position;
 import janggi.team.Team;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,6 @@ public class SoldierTest {
     void choSoldierForwardTest() {
         //given
         Soldier soldier = new Soldier(Team.CHO, new Position(7, 3));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(6, 3);
         //when
         soldier.move(arrivedPosition);
@@ -28,7 +28,6 @@ public class SoldierTest {
     void hanSoldierForwardTest() {
         //given
         Soldier soldier = new Soldier(Team.HAN, new Position(4, 3));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(4, 2)));
         Position arrivedPosition = new Position(5, 3);
         //when
         soldier.move(arrivedPosition);
@@ -41,7 +40,6 @@ public class SoldierTest {
     void choSoldierRightStepTest() {
         //given
         Soldier soldier = new Soldier(Team.CHO, new Position(7, 3));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(7, 4);
         //when
         soldier.move(arrivedPosition);
@@ -54,7 +52,6 @@ public class SoldierTest {
     void choSoldierLeftStepTest() {
         //given
         Soldier soldier = new Soldier(Team.CHO, new Position(7, 3));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 4)));
         Position arrivedPosition = new Position(7, 2);
         //when
         soldier.move(arrivedPosition);
@@ -67,7 +64,6 @@ public class SoldierTest {
     void choSoldierBackStepExceptionTest() {
         //given
         Soldier soldier = new Soldier(Team.CHO, new Position(7, 3));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 4)));
         Position arrivedPosition = new Position(8, 3);
         //when & then
         assertThatThrownBy(() -> soldier.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
@@ -78,7 +74,6 @@ public class SoldierTest {
     void hanSoldierBackStepExceptionTest() {
         //given
         Soldier soldier = new Soldier(Team.HAN, new Position(4, 3));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.HAN, new Position(4, 4)));
         Position arrivedPosition = new Position(3, 3);
         //when & then
         assertThatThrownBy(() -> soldier.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
@@ -89,9 +84,21 @@ public class SoldierTest {
     void outOfBoardTest() {
         //given
         Soldier soldier = new Soldier(Team.CHO, new Position(10, 3));
-        List<Piece> positioningPiece = List.of(new Soldier(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(11, 3);
         //when & then
         assertThatThrownBy(() -> soldier.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("졸/병 궁성 내 이동 테스트")
+    void moveSoldierInPalaceTest() {
+        //given
+        Soldier soldier = new Soldier(Team.CHO, new Position(3, 5));
+        Position arrivedPosition = new Position(3, 4);
+
+        //when
+        soldier.move(arrivedPosition);
+        //then
+        assertThat(soldier.matchesPosition(new Position(3, 4))).isTrue();
     }
 }

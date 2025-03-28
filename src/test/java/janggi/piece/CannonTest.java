@@ -16,7 +16,6 @@ public class CannonTest {
     void cannonUpTest() {
         //given
         Cannon cannon = new Cannon(Team.CHO, new Position(7, 3));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(5, 3)));
         Position arrivedPosition = new Position(3, 3);
         //when
         cannon.move(arrivedPosition);
@@ -29,7 +28,6 @@ public class CannonTest {
     void cannonDownTest() {
         //given
         Cannon cannon = new Cannon(Team.CHO, new Position(7, 3));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(8, 3)));
         Position arrivedPosition = new Position(9, 3);
         //when
         cannon.move(arrivedPosition);
@@ -42,7 +40,6 @@ public class CannonTest {
     void CannonRightTest() {
         //given
         Cannon cannon = new Cannon(Team.CHO, new Position(7, 3));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(7, 4)));
         Position arrivedPosition = new Position(7, 5);
         //when
         cannon.move(arrivedPosition);
@@ -55,7 +52,6 @@ public class CannonTest {
     void cannonLeftTest() {
         //given
         Cannon cannon = new Cannon(Team.CHO, new Position(7, 3));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(7, 2)));
         Position arrivedPosition = new Position(7, 1);
         //when
         cannon.move(arrivedPosition);
@@ -68,9 +64,9 @@ public class CannonTest {
     void outOfBoardTest() {
         //given
         Cannon cannon = new Cannon(Team.CHO, new Position(7, 6));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(7, 7)));
         Position arrivedPosition = new Position(7, 11);
         //when & then
         assertThatThrownBy(() -> cannon.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);
     }
+
 }

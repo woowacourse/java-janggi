@@ -1,8 +1,10 @@
 package janggi.piece;
 
+import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,7 +13,10 @@ public class Guard implements Piece {
             List.of(Movement.UP),
             List.of(Movement.DOWN),
             List.of(Movement.RIGHT),
-            List.of(Movement.LEFT),
+            List.of(Movement.LEFT)
+    );
+
+    private static final List<List<Movement>> PALACE_MOVEMENTS = List.of(
             List.of(Movement.RIGHT_UP),
             List.of(Movement.RIGHT_DOWN),
             List.of(Movement.LEFT_UP),
@@ -36,9 +41,20 @@ public class Guard implements Piece {
         position = step(availableMovement);
     }
 
+    private List<List<Movement>> generateMovements(Position arrivedPosition) {
+        if (!arrivedPosition.isOutOfPalace() && PalacePosition.isContains(position)) {
+            List<List<Movement>> totalMovements = new ArrayList<>();
+            totalMovements.addAll(MOVEMENTS);
+            totalMovements.addAll(PALACE_MOVEMENTS);
+            return totalMovements;
+        }
+        return MOVEMENTS;
+    }
+
     public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        return MOVEMENTS.stream()
-                .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement).equals(arrivedPosition))
+        List<List<Movement>> totalMovements = generateMovements(arrivedPosition);
+        return totalMovements.stream()
+                .filter(movement -> !arrivedPosition.isOutOfPalace() && !arrivedPosition.isOutOfBoards() && step(movement).equals(arrivedPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }

@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
 
@@ -15,6 +16,20 @@ public class Chariot implements Piece {
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.DOWN),
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.RIGHT),
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.LEFT)
+    );
+
+    private static final List<List<Movement>> PALACE_EDGE_MOVEMENTS = List.of(
+            Collections.nCopies(2, Movement.RIGHT_UP),
+            Collections.nCopies(2, Movement.RIGHT_DOWN),
+            Collections.nCopies(2, Movement.LEFT_UP),
+            Collections.nCopies(2, Movement.LEFT_DOWN)
+    );
+
+    private static final List<List<Movement>> PALACE_CENTER_MOVEMENTS = List.of(
+            List.of(Movement.RIGHT_UP),
+            List.of(Movement.RIGHT_DOWN),
+            List.of(Movement.LEFT_UP),
+            List.of(Movement.LEFT_DOWN)
     );
 
     private final Team team;
@@ -35,9 +50,32 @@ public class Chariot implements Piece {
         position = step(availableMovement, arrivedPosition);
     }
 
+    private List<List<Movement>> generateMovements() {
+        List<List<Movement>> totalMovements = new ArrayList<>();
+        if (PalacePosition.isContains(position) && PalacePosition.CENTER_POSITION.contains(position)) {
+            totalMovements.addAll(MOVEMENTS);
+            totalMovements.addAll(PALACE_CENTER_MOVEMENTS);
+            return totalMovements;
+        }
+        if (PalacePosition.isContains(position) && !PalacePosition.CENTER_POSITION.contains(position)) {
+            totalMovements.addAll(MOVEMENTS);
+            totalMovements.addAll(PALACE_CENTER_MOVEMENTS);
+            return totalMovements;
+        }
+        return MOVEMENTS;
+    }
+
     public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        return MOVEMENTS.stream()
-                .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement, arrivedPosition).equals(arrivedPosition))
+        List<List<Movement>> totalMovements = generateMovements();
+        return totalMovements.stream()
+                .filter(movement -> {
+                    Position step = step(movement, arrivedPosition);
+                    if (step.isOutOfPalace() && position.isCrossFromPosition(arrivedPosition)) {
+                        return false;
+                    }
+                    return  !arrivedPosition.isOutOfBoards() && step.equals(arrivedPosition);
+                    }
+                )
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }
@@ -77,6 +115,15 @@ public class Chariot implements Piece {
         }
 
         if (position.isVerticalFromPosition(arrivedPosition)) {
+            for (Movement movement : movements) {
+                reachablePosition = movement.move(reachablePosition);
+                if (reachablePosition.isSameRow(arrivedPosition)) {
+                    return reachablePosition;
+                }
+            }
+        }
+
+        if (position.isCrossFromPosition(arrivedPosition)) {
             for (Movement movement : movements) {
                 reachablePosition = movement.move(reachablePosition);
                 if (reachablePosition.isSameRow(arrivedPosition)) {

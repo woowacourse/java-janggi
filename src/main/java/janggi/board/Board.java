@@ -46,6 +46,7 @@ public class Board {
         }
     }
 
+    // todo 이동 경로 관련 검증은 각 피스들에게 다시 부여하기
     private void validateObstacle(Piece attackerPiece, Position arrivedPosition) {
         List<Movement> availableMovement = attackerPiece.findAvailableMovementByArrivedPosition(arrivedPosition);
         List<Position> pathPositions = attackerPiece.extractPathPositions(availableMovement, arrivedPosition);

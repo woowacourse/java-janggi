@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
 
@@ -14,6 +15,13 @@ public class Cannon implements Piece {
             Collections.nCopies(10, Movement.DOWN),
             Collections.nCopies(10, Movement.RIGHT),
             Collections.nCopies(10, Movement.LEFT)
+    );
+
+    private static final List<List<Movement>> PALACE_MOVEMENTS = List.of(
+            Collections.nCopies(2, Movement.RIGHT_UP),
+            Collections.nCopies(2, Movement.RIGHT_DOWN),
+            Collections.nCopies(2, Movement.LEFT_UP),
+            Collections.nCopies(2, Movement.LEFT_DOWN)
     );
 
     private final Team team;
@@ -34,8 +42,19 @@ public class Cannon implements Piece {
         position = step(availableMovement, arrivedPosition);
     }
 
+    private List<List<Movement>> generateMovements() {
+        if (PalacePosition.isContains(position) && !PalacePosition.CENTER_POSITION.contains(position)) {
+            List<List<Movement>> totalMovements = new ArrayList<>();
+            totalMovements.addAll(MOVEMENTS);
+            totalMovements.addAll(PALACE_MOVEMENTS);
+            return totalMovements;
+        }
+        return MOVEMENTS;
+    }
+
     public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        return MOVEMENTS.stream()
+        List<List<Movement>> totalMovements = generateMovements();
+        return totalMovements.stream()
                 .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement, arrivedPosition).equals(arrivedPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
@@ -50,6 +69,9 @@ public class Cannon implements Piece {
         if (position.isVerticalFromPosition(arrivedPosition)) {
             arrivedValue = position.calculateRowDistance(arrivedPosition);
         }
+        if (position.isCrossFromPosition(arrivedPosition)) {
+            arrivedValue = position.calculateRowDistance(arrivedPosition);
+        }
         for (int i = 0; i < arrivedValue; i++) {
             Position pathPosition = position;
             for (int j = 0; j <= i; j++) {
@@ -61,19 +83,6 @@ public class Cannon implements Piece {
         return pathPositions.stream()
                 .filter(position -> !position.equals(arrivedPosition))
                 .toList();
-    }
-
-    private void checkObstacleOfPath(List<Position> pathPositions, List<Piece> locatedPieces) {
-        List<Piece> obstacles = locatedPieces.stream()
-                .filter(piece -> piece.isObstacle(pathPositions))
-                .toList();
-        if (obstacles.size() != 1) {
-            throw new IllegalArgumentException("이동할 수 없는 경로입니다");
-        }
-        Piece obstacle = obstacles.getFirst();
-        if (obstacle.canNotJumpingOver()) {
-            throw new IllegalArgumentException("넘을 수 없는 기물입니다");
-        }
     }
 
     private Position step(List<Movement> movements, Position arrivedPosition) {

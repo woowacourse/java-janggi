@@ -6,11 +6,14 @@ import janggi.team.Team;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.List;
+import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 public class BoardTest {
 
@@ -31,7 +34,7 @@ public class BoardTest {
                 .findFirst()
                 .orElseThrow();
         //then
-        Assertions.assertThat(findPiece).isEqualTo(new Chariot(Team.CHO,new Position(8, 1)));
+        Assertions.assertThat(findPiece).isEqualTo(new Chariot(Team.CHO, new Position(8, 1)));
     }
 
     @Test
@@ -52,7 +55,7 @@ public class BoardTest {
         //given
         Board board = new Board(pieceGenerator.generateInitialPieces(TableOption.EHHE, TableOption.HEEH));
         Position startPosition = new Position(9, 1);
-        Position arrivedPosition = new Position(8,1);
+        Position arrivedPosition = new Position(8, 1);
         //when & then
         Assertions.assertThatThrownBy(() -> board.move(Team.CHO, startPosition, arrivedPosition));
     }
@@ -61,12 +64,12 @@ public class BoardTest {
     @DisplayName("포 이동 경로에 넘을 수 있는 장애물이 존재하는 경우 이동")
     void cannonMoveTest() {
         Board board = new Board(List.of(
-                new Cannon(Team.CHO,new Position(8,2)),
-                new Elephant(Team.CHO,new Position(8,3))
+                new Cannon(Team.CHO, new Position(8, 2)),
+                new Elephant(Team.CHO, new Position(8, 3))
         ));
 
         assertThatCode(
-                ()-> board.move(Team.CHO,new Position(8,2),new Position(8,5))
+                () -> board.move(Team.CHO, new Position(8, 2), new Position(8, 5))
         ).doesNotThrowAnyException();
     }
 
@@ -74,12 +77,12 @@ public class BoardTest {
     @DisplayName("포 이동 경로에 넘을 수 없는 장애물이 존재하는 경우 예외 발생")
     void cannonMoveExceptionTest() {
         Board board = new Board(List.of(
-                new Cannon(Team.CHO,new Position(8,2)),
-                new Cannon(Team.CHO,new Position(8,3))
+                new Cannon(Team.CHO, new Position(8, 2)),
+                new Cannon(Team.CHO, new Position(8, 3))
         ));
 
         assertThatThrownBy(
-                ()-> board.move(Team.CHO,new Position(8,2),new Position(8,5))
+                () -> board.move(Team.CHO, new Position(8, 2), new Position(8, 5))
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -87,17 +90,60 @@ public class BoardTest {
     @DisplayName("포 이동 경로에 장애물이 여러개 존재하는 경우 예외 발생")
     void hasManyObstacleExceptionTest() {
         Board board = new Board(List.of(
-                new Cannon(Team.CHO,new Position(8,2)),
-                new Elephant(Team.CHO,new Position(8,3)),
-                new Elephant(Team.CHO,new Position(8,4))
+                new Cannon(Team.CHO, new Position(8, 2)),
+                new Elephant(Team.CHO, new Position(8, 3)),
+                new Elephant(Team.CHO, new Position(8, 4))
         ));
 
         assertThatThrownBy(
-                ()-> board.move(Team.CHO,new Position(8,2),new Position(8,5))
+                () -> board.move(Team.CHO, new Position(8, 2), new Position(8, 5))
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    // todo 기물 이동 경로에 장애물 존재 시 예외 발생 테스트 작성
-    // todo 포 관련 예외 발생 테스트
-    // todo 기물 이동 위치에 아군 말 있는 경우 예외 테스트 작성
+    @ParameterizedTest
+    @MethodSource("makeCannonInPalace")
+    @DisplayName("포 궁성 내 대각선 이동 테스트")
+    void moveCrossWithinPalaceTest(Position cannonPosition, Position abstaclePosition, Position arrivedPosition) {
+        //given
+        Board board = new Board(List.of(
+                new Cannon(Team.CHO, cannonPosition),
+                new King(Team.CHO, abstaclePosition)
+        ));
+        //when & then
+        assertThatCode(
+                () -> board.move(Team.CHO, cannonPosition, arrivedPosition)
+        ).doesNotThrowAnyException();
+    }
+
+    static Stream<Arguments> makeCannonInPalace() {
+        return Stream.of(
+                Arguments.arguments(new Position(8, 4), new Position(9, 5), new Position(10, 6)),
+                Arguments.arguments(new Position(10, 4), new Position(10, 5), new Position(10, 9)),
+                Arguments.arguments(new Position(8, 4), new Position(9, 5), new Position(10, 6))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("makeExceptionCannonInPalace")
+    @DisplayName("포 궁성 내 대각선 이동 불가 테스트")
+    void moveCrossWithinPalaceExceptionTest(Position cannonPosition, Piece abstacle, Position arrivedPosition) {
+        //given
+        Board board = new Board(List.of(
+                new Cannon(Team.CHO, cannonPosition),
+                abstacle
+        ));
+
+        //when & then
+        assertThatThrownBy(
+                () -> board.move(Team.CHO, cannonPosition, arrivedPosition)
+        ).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    static Stream<Arguments> makeExceptionCannonInPalace() {
+        return Stream.of(
+                Arguments.arguments(new Position(10, 4), new King(Team.CHO, new Position(9, 5)), new Position(7, 7)),
+                Arguments.arguments(new Position(10, 4), new Cannon(Team.CHO, new Position(9, 5)), new Position(7, 7)),
+                Arguments.arguments(new Position(10, 4), new King(Team.CHO, new Position(10, 5)), new Position(8, 6))
+        );
+    }
 }

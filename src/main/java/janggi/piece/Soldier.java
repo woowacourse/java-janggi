@@ -1,14 +1,17 @@
 package janggi.piece;
 
+import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Soldier implements Piece {
     private final Team team;
     private final List<List<Movement>> movements;
+    private final List<List<Movement>> palaceMovements;
     private Position position;
     private boolean isLive;
     private PieceType pieceType;
@@ -17,6 +20,7 @@ public class Soldier implements Piece {
         this.team = team;
         this.position = position;
         this.movements = choiceMovementsByTeam(team);
+        this.palaceMovements = choicePalaceMovementsByTeam(team);
         this.isLive = true;
         this.pieceType = PieceType.SOLDIER;
     }
@@ -36,15 +40,47 @@ public class Soldier implements Piece {
         );
     }
 
+    private List<List<Movement>> choicePalaceMovementsByTeam(Team team) {
+        if (team == Team.CHO) {
+            return List.of(
+                    List.of(Movement.RIGHT_UP),
+                    List.of(Movement.LEFT_UP)
+            );
+        }
+        return List.of(
+                List.of(Movement.RIGHT_DOWN),
+                List.of(Movement.LEFT_DOWN)
+        );
+    }
+
     @Override
     public void move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
         position = step(availableMovement);
     }
 
+    // todo 졸/병 궁성 내 움직임 확인
+    private List<List<Movement>> generateMovements() {
+        if (PalacePosition.isContains(position)) {
+            List<List<Movement>> totalMovements = new ArrayList<>();
+            movements.addAll(movements);
+            movements.addAll(palaceMovements);
+            return totalMovements;
+        }
+        return movements;
+    }
+
     public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        return movements.stream()
-                .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement).equals(arrivedPosition))
+        List<List<Movement>> totalMovements = generateMovements();
+        return totalMovements.stream()
+                .filter(movement ->
+                {
+                    Position step = step(movement);
+                    if (step.isOutOfPalace() && position.isCrossFromPosition(arrivedPosition)) {
+                        return false;
+                    }
+                    return !arrivedPosition.isOutOfBoards() && step.equals(arrivedPosition);
+                })
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }
