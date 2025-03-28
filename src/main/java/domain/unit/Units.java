@@ -49,7 +49,7 @@ public class Units {
         if (isEmptyPosition(position) || isEmptyPosition(other)) {
             return false;
         }
-        return units.get(position).isOppositeTeam(units.get(other));
+        return units.get(position).isOppositeTeamWith(units.get(other));
     }
 
     public boolean isUnitTeamEqualAt(Position position, Team compare) {
@@ -61,7 +61,7 @@ public class Units {
 
     public boolean isUnitTeamNotEqualAt(Position position, Team compare) {
         if (isNotEmptyPosition(position)) {
-            return units.get(position).isOppositeTeam(compare);
+            return !units.get(position).isSameTeam(compare);
         }
         return true;
     }

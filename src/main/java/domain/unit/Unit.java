@@ -28,15 +28,7 @@ public class Unit {
         return (this.team == team);
     }
 
-    public boolean isSameTeam(Unit other) {
-        return (this.team == other.team);
-    }
-
-    public boolean isOppositeTeam(Team team) {
-        return (this.team != team);
-    }
-
-    public boolean isOppositeTeam(Unit other) {
+    public boolean isOppositeTeamWith(Unit other) {
         return (this.team != other.team);
     }
 
