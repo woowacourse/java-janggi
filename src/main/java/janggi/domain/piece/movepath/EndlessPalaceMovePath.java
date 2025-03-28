@@ -21,7 +21,7 @@ public class EndlessPalaceMovePath implements MovePath {
         }
 
         Point current = from;
-        while (Palace.isInPalace(current) && !current.equals(to)) {
+        while (Palace.isInPalace(current) && current.canMove(direction) && !current.equals(to)) {
             current = current.move(direction);
         }
         return current.equals(to);
