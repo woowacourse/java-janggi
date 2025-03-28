@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.0.0'
 }
 
 version '1.0-SNAPSHOT'
@@ -7,6 +8,15 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
+
+shadowJar {
+    manifest {
+        attributes(
+                'Main-Class': 'KoreanChessApplication'
+        )
+    }
+}
+
 
 dependencies {
     implementation("com.mysql:mysql-connector-j:9.2.0")

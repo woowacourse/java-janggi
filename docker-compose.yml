@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  janggi-mysql:
+    image: mysql:8.2.0
+    container_name: janggi-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: janggi
+    ports:
+      - "13306:3306"
+    volumes:
+      - janggi-mysql-data:/var/lib/mysql
+
+volumes:
+  janggi-mysql-data:
