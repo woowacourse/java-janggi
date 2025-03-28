@@ -66,7 +66,8 @@ class CannonTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"3,0,6,3", "4,1,6,3", "5,2,6,3", "3,2,1,4", "4,1,2,3", "3,0,4,1"})
+    @CsvSource({"3,0,6,3", "4,1,6,3", "5,2,6,3", "3,2,1,4", "4,1,2,3", "3,0,4,1", "4,0,3,1", " 3,1,4,2", "4,2,5,1",
+            "5,1,4,0", "3,8,4,9"})
     void 포의_궁성_내_이동_불가능하면_false(final int x1, final int y1, final int x2, final int y2) {
 
         // given
