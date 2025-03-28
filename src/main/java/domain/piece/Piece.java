@@ -14,13 +14,7 @@ public abstract class Piece {
 
     public abstract List<Position> calculatePath(Position startPosition, Position targetPosition);
 
-    public boolean isCanon() {
-        return false;
-    }
-
-    public boolean isKing() {
-        return false;
-    }
+    public abstract PieceType getPieceType();
 
     public Team getTeam() {
         return team;

@@ -21,6 +21,7 @@ public class Moves {
             if (!movedPosition.canMovePosition(move)) {
                 continue;
             }
+
             movedPosition = movedPosition.movePosition(move);
         }
         return movedPosition.equals(targetPosition);

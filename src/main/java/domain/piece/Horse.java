@@ -23,6 +23,11 @@ public class Horse extends FixedMovePiece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.HORSE;
+    }
+
+    @Override
     public List<Moves> getMoveList() {
         return moves;
     }

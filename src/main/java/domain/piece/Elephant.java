@@ -23,6 +23,11 @@ public class Elephant extends FixedMovePiece {
     }
 
     @Override
+    public PieceType getPieceType() {
+        return PieceType.ELEPHANT;
+    }
+
+    @Override
     public List<Moves> getMoveList() {
         return moves;
     }
