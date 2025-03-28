@@ -28,7 +28,7 @@ class JanggiBoardDaoTest {
     }
 
     @Test
-    @DisplayName("게임 정보 존재 여부 테스트")
+    @DisplayName("게임 정보 존재 여부 테스트 - updateJanggiGameTest 사전 호출 필수")
     void existJanggiGameTest() throws SQLException {
         assertThat(janggiboardDao.existJanggiGame(TEST_GAME_ID)).isTrue();
     }
