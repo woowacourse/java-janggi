@@ -15,7 +15,7 @@ class SoldierTest {
     Map<Position, Piece> map;
     Position beforePosition = new Position(5, 5);
     Position beforePalacePosition = new Position(9, 5);
-    Soldier blueSoldier = new Soldier(Team.BLUE);
+    Soldier soldier = new Soldier(Team.BLUE);
 
     @BeforeEach
     void setUp() {
@@ -33,7 +33,7 @@ class SoldierTest {
         Position afterPosition = new Position(5, 6);
 
         assertThatCode(() ->
-                SoldierTest.this.blueSoldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map))).doesNotThrowAnyException();
+                SoldierTest.this.soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map))).doesNotThrowAnyException();
     }
 
     @DisplayName("청졸의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
@@ -42,7 +42,7 @@ class SoldierTest {
     void move2(final int x, final int y) {
         Position afterPosition = new Position(x, y);
 
-        assertThatThrownBy(() -> blueSoldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
+        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -52,7 +52,7 @@ class SoldierTest {
     void move3(final int x, final int y) {
         Position afterPosition = new Position(x, y);
 
-        assertThatThrownBy(() -> blueSoldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
+        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -63,7 +63,7 @@ class SoldierTest {
         Position afterPosition = new Position(5, 6);
         map.put(afterPosition, otherSoldier);
 
-        assertThatThrownBy(() -> blueSoldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
+        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -72,7 +72,7 @@ class SoldierTest {
     void palaceMove() {
         Position afterPalacePosition = new Position(8, 4);
 
-        assertThatCode(() -> blueSoldier.getPalaceMovableValidator(beforePalacePosition, afterPalacePosition)
+        assertThatCode(() -> soldier.getPalaceMovableValidator(beforePalacePosition, afterPalacePosition)
                 .accept(new Pieces(map))).doesNotThrowAnyException();
     }
 }

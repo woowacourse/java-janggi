@@ -13,6 +13,11 @@ public class Guard extends Piece {
 
     @Override
     public Consumer<Pieces> getMovableValidator(final Position beforePosition, final Position afterPosition) {
+        throw new IllegalArgumentException("사는 궁성 내에서만 이동할 수 있습니다.");
+    }
+
+    @Override
+    public Consumer<Pieces> getPalaceMovableValidator(final Position beforePosition, final Position afterPosition) {
         return pieces -> {
             CommonValidator.validateSingleStepMovement(beforePosition, afterPosition);
             validateNoSameTeamPieceAt(afterPosition, team, pieces);
