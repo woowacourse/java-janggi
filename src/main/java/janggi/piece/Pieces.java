@@ -1,7 +1,7 @@
 package janggi.piece;
 
+import janggi.setting.BoardCoordinate;
 import janggi.value.Position;
-import janggi.value.PositionRange;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,8 +15,8 @@ public class Pieces {
     }
 
     public void movePiece(List<Piece> enemyPieces, Position targetPiecePosition, Position destination) {
-        PositionRange.validatePositionInRange(targetPiecePosition);
-        PositionRange.validatePositionInRange(destination);
+        BoardCoordinate.validateInRange(targetPiecePosition);
+        BoardCoordinate.validateInRange(destination);
         Piece target = searchPiece(targetPiecePosition);
         pieces.remove(target);
         Piece movedTarget = target.move(destination, enemyPieces, pieces);

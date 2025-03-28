@@ -1,6 +1,6 @@
 package janggi;
 
-import janggi.manager.JanggiGame;
+import janggi.game.JanggiGame;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 

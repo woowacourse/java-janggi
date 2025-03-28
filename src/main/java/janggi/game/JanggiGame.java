@@ -1,4 +1,4 @@
-package janggi.manager;
+package janggi.game;
 
 import janggi.board.JanggiBoard;
 import janggi.setting.CampType;
