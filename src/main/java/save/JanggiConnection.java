@@ -33,7 +33,7 @@ public class JanggiConnection implements MySQLConnection {
             String createDatabaseQuery = "CREATE DATABASE IF NOT EXISTS " + DATABASE;
             statement.executeUpdate(createDatabaseQuery);
         } catch (SQLException e) {
-            throw new IllegalStateException(e.getMessage());
+            throw new SaveFailException(e.getMessage());
         }
     }
 }

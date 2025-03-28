@@ -13,9 +13,9 @@ public class JanggiSaveService {
     private final JanggiTurnDao janggiTurnDao;
     private final JanggiPieceDao janggiPieceDao;
 
-    public JanggiSaveService(MySQLConnection mySQConnection) {
-        janggiTurnDao = new JanggiTurnDao(mySQConnection);
-        janggiPieceDao = new JanggiPieceDao(mySQConnection);
+    public JanggiSaveService(MySQLConnection mySQLConnection) {
+        janggiTurnDao = new JanggiTurnDao(mySQLConnection);
+        janggiPieceDao = new JanggiPieceDao(mySQLConnection);
     }
 
     public void saveJanggi(PlayerPieces playerPieces, int turn, Team team) {
