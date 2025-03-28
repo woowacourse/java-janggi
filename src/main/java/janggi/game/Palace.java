@@ -12,20 +12,15 @@ import static janggi.movement.direction.Direction.WEST;
 import janggi.movement.direction.Direction;
 import janggi.piece.Piece;
 import janggi.point.Point;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class Palace {
-    private static final Map<Team, Area> palace;
+    private static final List<Area> palace;
 
     static {
-        Map<Team, Area> palacePerTeam = new HashMap<>();
-        for (Team team : Team.values()) {
-            palacePerTeam.put(team, Area.of(team));
-        }
-        palace = palacePerTeam;
+        palace = Arrays.stream(Team.values()).map(Area::of).toList();
     }
 
     public static boolean movesInPalaceOfMyTeam(Piece movingPiece, Point targetPoint) {
@@ -34,12 +29,12 @@ public class Palace {
         boolean containsMovingPoint = false;
         Team palaceTeam = Team.CHO;
         boolean containsTargetPoint = false;
-        for (Entry<Team, Area> entrySet : palace.entrySet()) {
-            if (entrySet.getValue().contains(movingPoint)) {
+        for (Area area : palace) {
+            if (area.contains(movingPoint)) {
                 containsMovingPoint = true;
-                palaceTeam = entrySet.getKey();
+                palaceTeam = area.getTeam();
             }
-            if (entrySet.getValue().contains(targetPoint)) {
+            if (area.contains(targetPoint)) {
                 containsTargetPoint = true;
             }
         }
@@ -51,11 +46,11 @@ public class Palace {
     public static boolean movesInPalace(Point movingPoint, Point targetPoint) {
         boolean containsMovingPoint = false;
         boolean containsTargetPoint = false;
-        for (Entry<Team, Area> entrySet : palace.entrySet()) {
-            if (entrySet.getValue().contains(movingPoint)) {
+        for (Area area : palace) {
+            if (area.contains(movingPoint)) {
                 containsMovingPoint = true;
             }
-            if (entrySet.getValue().contains(targetPoint)) {
+            if (area.contains(targetPoint)) {
                 containsTargetPoint = true;
             }
         }
@@ -63,9 +58,9 @@ public class Palace {
     }
 
     public static boolean movesOnEdge(Point movingPoint, Direction direction) {
-        for (Entry<Team, Area> entrySet : palace.entrySet()) {
-            if (entrySet.getValue().contains(movingPoint)) {
-                return entrySet.getValue().hasEdgeFrom(movingPoint, direction);
+        for (Area area : palace) {
+            if (area.contains(movingPoint)) {
+                return area.hasEdgeFrom(movingPoint, direction);
             }
         }
         return false;
@@ -73,11 +68,7 @@ public class Palace {
 
     private static class Area {
         private final Map<Point, List<Direction>> nodes;
-        //TODO: Link를 할까 Direction을 할까?
-        /**
-         * 1. Direction을 구한다 > 여기서 잡지 않으면 에러가 날것..
-         * 2. Route를 구해서 간선에 포함되는지 확인한다
-         */
+        private final Team team;
 
         private static Area of(Team team) {
             if (team.isCho()) {
@@ -91,7 +82,7 @@ public class Palace {
                         new Point(9, 3), List.of(NORTH, EAST, NORTH_EAST),
                         new Point(9, 4), List.of(NORTH, WEST, EAST),
                         new Point(9, 5), List.of(NORTH, WEST, NORTH_WEST)
-                ));
+                ), team);
             }
             return new Area(Map.of(
                     new Point(0, 3), List.of(SOUTH, EAST, SOUTH_EAST),
@@ -103,11 +94,12 @@ public class Palace {
                     new Point(2, 3), List.of(NORTH, EAST, NORTH_EAST),
                     new Point(2, 4), List.of(NORTH, WEST, EAST),
                     new Point(2, 5), List.of(NORTH, WEST, NORTH_WEST)
-            ));
+            ), team);
         }
 
-        public Area(Map<Point, List<Direction>> nodes) {
+        public Area(Map<Point, List<Direction>> nodes, Team team) {
             this.nodes = nodes;
+            this.team = team;
         }
 
         public boolean contains(Point movingPoint) {
@@ -116,6 +108,10 @@ public class Palace {
 
         public boolean hasEdgeFrom(Point movingPoint, Direction direction) {
             return nodes.get(movingPoint).contains(direction);
+        }
+
+        public Team getTeam() {
+            return team;
         }
     }
 }

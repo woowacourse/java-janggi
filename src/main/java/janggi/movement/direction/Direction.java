@@ -135,10 +135,6 @@ public enum Direction {
         return rowOffset == -team.getForwardDirection().rowOffset;
     }
 
-    public boolean isCardinal() {
-        return rowOffset == 0 || columnOffset == 0;
-    }
-
     public boolean isDiagonal() {
         return rowOffset != 0 && columnOffset != 0;
     }
