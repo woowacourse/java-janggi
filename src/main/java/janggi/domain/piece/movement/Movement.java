@@ -65,8 +65,8 @@ public record Movement(
         throw new IllegalStateException("원래 위치로 이동할 수 없거나, 방향을 특정할 수 없습니다.");
     }
 
-    public static boolean isUnitMovement(Movement other) {
-        return Movement.UNIT_MOVEMENTS.contains(other);
+    public static boolean isUnitMovement(final Movement value) {
+        return Movement.UNIT_MOVEMENTS.contains(value);
     }
 
     public Movement plus(final Movement other) {
