@@ -1,5 +1,6 @@
 package view;
 
+import controller.JanggiController;
 import domain.JanggiCoordinate;
 
 import java.util.Scanner;
@@ -12,8 +13,13 @@ public class InputView {
     private final static Scanner scanner = new Scanner(System.in);
 
     public JanggiCoordinate readMovePiece() {
-        System.out.println("옮길 기물을 입력해주세요 : ");
+        System.out.println("옮길 기물을 입력해주세요 :  -1을 입력하면 게임이 종료됩니다.");
         String coordinate = scanner.nextLine();
+
+        if (coordinate.equals("-1")) {
+            return JanggiController.GAME_STOP_COORDINATE;
+        }
+
         validateInput(coordinate);
         String[] parsedCoordinate = coordinate.split("");
         return convertToJanggiCoordinate(parsedCoordinate[ROW_IDX], parsedCoordinate[COL_IDX]);
