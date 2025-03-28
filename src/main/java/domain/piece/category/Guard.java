@@ -20,6 +20,13 @@ public class Guard extends Piece {
 
     @Override
     public Guard move(final Position target, final MoveInfos moveInfos) {
+        validateMoveWithinPalace(target);
         return new Guard(target, directions);
+    }
+
+    private void validateMoveWithinPalace(final Position target) {
+        if (!target.isWithinPalace()) {
+            throw new IllegalArgumentException("사는 궁성 밖으로 이동할 수 없습니다.");
+        }
     }
 }
