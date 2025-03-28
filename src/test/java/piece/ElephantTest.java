@@ -3,12 +3,10 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static piece.Country.Cho;
-import static testutil.TestConstant.A1;
 import static testutil.TestConstant.B3;
 import static testutil.TestConstant.B7;
 import static testutil.TestConstant.C2;
 import static testutil.TestConstant.C8;
-import static testutil.TestConstant.D3;
 import static testutil.TestConstant.D5;
 import static testutil.TestConstant.E4;
 import static testutil.TestConstant.E5;
@@ -41,16 +39,15 @@ public class ElephantTest {
                 Arguments.of(E5, G2),
                 Arguments.of(E5, H7),
                 Arguments.of(E5, H3),
-                Arguments.of(E5, H3),
-                Arguments.of(A1, D3)
+                Arguments.of(E5, H3)
         );
     }
 
     static Stream<Arguments> INVALID_MOVE_POSITIONS() {
         return Stream.of(
-                Arguments.of(D5),
-                Arguments.of(F6),
-                Arguments.of(G6)
+                Arguments.of(E5, D5),
+                Arguments.of(E5, F6),
+                Arguments.of(E5, G6)
         );
     }
 
