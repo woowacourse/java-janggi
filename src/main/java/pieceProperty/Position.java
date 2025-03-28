@@ -34,6 +34,10 @@ public class Position {
     private static final int MAX_COL = 10;
     private static final int MIN_ROW = 0;
     private static final int MIN_COL = 0;
+    private static final int PALACE_START_ROW = 0;
+    private static final int PALACE_END_ROW = 2;
+    private static final int PALACE_START_COLUMN = 3;
+    private static final int PALACE_END_COLUMN = 5;
 
     private final int row;
     private final int col;
@@ -44,15 +48,19 @@ public class Position {
         this.col = col;
     }
 
+    public boolean isInPalace() {
+        return row >= PALACE_START_ROW && row <= PALACE_END_ROW && col >= PALACE_START_COLUMN && col <= PALACE_END_COLUMN;
+    }
+
     public Position calculateMovement(final int dRow, final int dCol) {
         return new Position(row + dRow, col + dCol);
     }
 
-    public Boolean isSameRow(final Position destination) {
+    public boolean isSameRow(final Position destination) {
         return row == destination.getRow();
     }
 
-    public Boolean isSameCol(final Position destination) {
+    public boolean isSameCol(final Position destination) {
         return col == destination.col;
     }
 
