@@ -9,18 +9,15 @@ import janggi.domain.piece.TeamColor;
 import janggi.dto.GameRoomDto;
 import janggi.dto.SetInfoDto;
 import janggi.service.GameSetDBService;
-import janggi.view.InputView;
-import janggi.view.OutputView;
+import janggi.view.GameSettingView;
 import java.util.HashMap;
 import java.util.List;
 
 public class GameSetController {
-    private final InputView inputView;
-    private final OutputView outputView;
+    private final GameSettingView gameSettingView;
 
-    public GameSetController(InputView inputView, OutputView outputView, GameSetDBService gameSetDBService) {
-        this.inputView = inputView;
-        this.outputView = outputView;
+    public GameSetController(GameSettingView gameSettingView, GameSetDBService gameSetDBService) {
+        this.gameSettingView = gameSettingView;
         this.gameSetDBService = gameSetDBService;
     }
 
@@ -28,7 +25,7 @@ public class GameSetController {
 
     public SetInfoDto setJanggiGame() {
         return RetryUtil.getWithRetry(() -> {
-            MainOption mainOption = RetryUtil.getWithRetry(inputView::readMainOption);
+            MainOption mainOption = RetryUtil.getWithRetry(gameSettingView::readMainOption);
 
             if (mainOption == MainOption.NEW_GAME) {
                 return setNewGame();
@@ -57,13 +54,13 @@ public class GameSetController {
     }
 
     private BoardSetup getBoardSetup(TeamColor teamColor) {
-        int setNumber = inputView.readBoardSetup(teamColor);
+        int setNumber = gameSettingView.readBoardSetup(teamColor);
         return BoardSetup.from(setNumber);
     }
 
     private SetInfoDto setPlayedGame() {
         List<GameRoomDto> allPlayingRooms = getGameRoomDtos();
-        outputView.printRooms(allPlayingRooms);
+        gameSettingView.printRooms(allPlayingRooms);
 
         int selectedIndex = RetryUtil.getWithRetry(() -> getSelectedIndexFromUser(allPlayingRooms));
         int selectedRoomId = allPlayingRooms.get(selectedIndex).roomId();
@@ -82,7 +79,7 @@ public class GameSetController {
     }
 
     private int getSelectedIndexFromUser(List<GameRoomDto> allPlayingRooms) {
-        int selectedNumber = inputView.readRoomSelectNumber();
+        int selectedNumber = gameSettingView.readRoomSelectNumber();
 
         int selectedIndex = selectedNumber - 1;
         if (selectedIndex < 0 || selectedIndex >= allPlayingRooms.size()) {

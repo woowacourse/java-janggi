@@ -9,29 +9,26 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
 import janggi.dto.MoveCommandDto;
 import janggi.service.JanggiDBService;
-import janggi.view.InputView;
-import janggi.view.OutputView;
+import janggi.view.GameRunningView;
 import janggi.view.PieceTypeName;
 import java.util.Map;
 
 public class JanggiController {
-    private final InputView inputView;
-    private final OutputView outputView;
+    private final GameRunningView gameRunningView;
     private final JanggiDBService janggiDBService;
     private final JanggiGame janggiGame;
     private final PlayingBoard playingBoard;
 
-    public JanggiController(InputView inputView, OutputView outputView,
+    public JanggiController(GameRunningView gameRunningView,
                             JanggiDBService janggiDBService, JanggiGame janggiGame) {
-        this.inputView = inputView;
-        this.outputView = outputView;
+        this.gameRunningView = gameRunningView;
         this.janggiDBService = janggiDBService;
         this.janggiGame = janggiGame;
         this.playingBoard = janggiGame.getPlayingBoard();
     }
 
     public void run() {
-        outputView.printBoard(playingBoard);
+        gameRunningView.printBoard(playingBoard);
 
         while (!janggiGame.isFinished()) {
             RetryUtil.processWithRetry(() -> playSingleCommand(janggiGame));
@@ -42,8 +39,8 @@ public class JanggiController {
     }
 
     private void playSingleCommand(JanggiGame janggiGame) {
-        outputView.printTurnNotice(janggiGame.getTurnColor());
-        String input = inputView.readCommand();
+        gameRunningView.printTurnNotice(janggiGame.getTurnColor());
+        String input = gameRunningView.readCommand();
         GameCommand command = GameCommand.from(input);
 
         Map<GameCommand, Runnable> commands = Map.of(
@@ -62,7 +59,7 @@ public class JanggiController {
 
         janggiGame.move(pieceType, source, destination);
 
-        outputView.printBoard(playingBoard);
+        gameRunningView.printBoard(playingBoard);
 
         janggiDBService.updateMoveResult(source, destination, pieceType, turnColor);
         janggiDBService.updateGameRoom(janggiGame.getTurnColor(), janggiGame.getTeamScore());
@@ -79,10 +76,10 @@ public class JanggiController {
     }
 
     private void displayGameResult(JanggiGame janggiGame) {
-        outputView.printWinner(janggiGame.getTurnColor());
+        gameRunningView.printWinner(janggiGame.getTurnColor());
 
         Map<TeamColor, Integer> teamScore = janggiGame.getTeamScore();
-        outputView.printGameResult(teamScore);
+        gameRunningView.printGameResult(teamScore);
     }
 
     private void gameQuit() {
