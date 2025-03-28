@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 public final class Board {
+    private static final double AFTER_TURN_BONUS_SCORE = 1.5;
     private final Team currentTeam;
     private final Map<Position, Piece> pieceOfPosition;
 
@@ -123,5 +124,19 @@ public final class Board {
 
     public Team currentTeam() {
         return currentTeam;
+    }
+
+    public double hanScore() {
+        return toSet().stream()
+                .filter(piece -> piece.team() == Team.HAN)
+                .mapToDouble(Piece::score)
+                .sum() + AFTER_TURN_BONUS_SCORE;
+    }
+
+    public double choScore() {
+        return toSet().stream()
+                .filter(piece -> piece.team() == Team.CHO)
+                .mapToDouble(Piece::score)
+                .sum();
     }
 }

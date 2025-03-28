@@ -36,4 +36,7 @@ public class Console {
         output.end(winner);
     }
 
+    public void displayScore(double choScore, double hanScore) {
+        output.displayScore(choScore, hanScore);
+    }
 }

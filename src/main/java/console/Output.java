@@ -48,4 +48,9 @@ public class Output {
         String winner = Color.apply(winnerTeam, TeamSymbol.from(winnerTeam));
         System.out.printf("%n%s가 승리했습니다. 게임을 종료합니다.%n", winner);
     }
+
+    public void displayScore(double choScore, double hanScore) {
+        System.out.println("=== 점수표 ===");
+        System.out.printf("초나라 : %.1f, 한나라 : %.1f%n%n", choScore, hanScore);
+    }
 }

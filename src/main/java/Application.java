@@ -24,12 +24,20 @@ public class Application {
             console.display(board);
             console.displayTurn(board);
 
+            displayScore(board);
+
             Board boardForTurn = board;
             board = process(() -> takeTurn(boardForTurn));
 
         } while (!board.catchPalace());
 
         console.end(board.findWinner());
+    }
+
+    private void displayScore(Board board) {
+        double choScore = board.choScore();
+        double hanScore = board.hanScore();
+        console.displayScore(choScore, hanScore);
     }
 
     public Board takeTurn(Board board) {

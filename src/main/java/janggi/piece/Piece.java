@@ -26,4 +26,8 @@ public abstract class Piece {
     public abstract PieceType type();
 
     public abstract Position position();
+
+    public double score() {
+        return type().score();
+    }
 }
