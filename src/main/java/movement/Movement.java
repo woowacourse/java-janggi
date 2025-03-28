@@ -21,6 +21,14 @@ public enum Movement {
         this.y = y;
     }
 
+    public static Movement findVerticalByY(int y) {
+        return switch (y) {
+            case 1 -> UP;
+            case -1 -> DOWN;
+            default -> throw new IllegalArgumentException("존재할 수 없는 movement의 y값 입니다.");
+        };
+    }
+
     public int x() {
         return x;
     }
