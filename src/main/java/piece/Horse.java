@@ -5,11 +5,13 @@ import movement.MovePaths;
 import movement.Movement;
 import movement.MovePath;
 import position.Position;
+import validator.DistanceCheckable;
+import validator.ObstructionCheckable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Horse extends Piece {
+public class Horse extends Piece implements DistanceCheckable, ObstructionCheckable {
 
     private static final MovePaths movePaths;
     private static final double DISTANCE;
@@ -33,15 +35,10 @@ public class Horse extends Piece {
         super(position, country);
     }
 
-    // todo: 현재, board 인자 대신 함수형 인터페이스로 가능한지 여부 검토 중
-    // todo: 하나의 인터페이스만 사용하면 가능한데, 3개 정도면 불가능 판단할 것
-    // todo: depth 처리 잘하기
     @Override
-    protected void validateFilter(Position src, Position destination, Board board) {
-        List<Position> internalPositions = getInternalPositions(getInternalMovePaths(findCorrectMovePath(destination)));
-        if (!board.isCorrectExistPositionCount(internalPositions, 0)) {
-            throw new IllegalArgumentException("목적지까지의 경로 내부에 기물이 존재해서는 안됩니다.");
-        }
+    public void validateMoveCondition(Position src, Position dest, Board board) {
+        List<Position> internalPositions = getInternalPositions(getInternalMovePaths(findCorrectMovePath(dest)));
+        validateObstruction(board, internalPositions, 0);
     }
 
     private List<Position> getInternalPositions(MovePaths internalMoverPaths) {
@@ -65,7 +62,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    protected double getDistance() {
+    public double getExpectedDistance() {
         return DISTANCE;
     }
 

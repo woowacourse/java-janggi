@@ -1,51 +1,50 @@
 package piece;
 
 import board.Board;
-import board.Position;
+import position.Position;
 
 public abstract class Piece {
 
-    protected final TeamType teamType;
+    protected Position position;
+    protected final Country country;
 
-    public Piece(final TeamType teamType) {
-        this.teamType = teamType;
+    public Piece(final Position position, final Country country) {
+        this.position = position;
+        this.country = country;
     }
 
-    public boolean isAbleToMove(final Position now, final Position destination, final Board board){
-        if (board.existPieceByPosition(destination) && board.equalsTeamTypeByPosition(destination, teamType)) {
-            return false;
+    public void validateMove(final Position src, final Position dest, final Board board) {
+        if (board.existPieceByPosition(dest) && board.equalsTeamTypeByPosition(dest, country)) {
+            throw new IllegalArgumentException("잘못된 입력입니다.");
         }
-        return canMove(now, destination, board);
-    };
-
-    public boolean canMove(Position src, Position dest, Board board) {
-        double distanceByPositions = src.calculateDistance(dest);
-
-        if (!withInDirection(src, dest)) {
-            return false;
-        }
-        if (!withInRangeByMovement(distanceByPositions)) {
-            return false;
-        }
-        if (!passFilter(src, dest, board)) {
-            return false;
-        }
-        return true;
+        validateMoveCondition(src, dest, board);
     }
 
-    protected abstract boolean withInDirection(Position src, Position destination);
-
-    protected abstract boolean withInRangeByMovement(double distanceByPositions);
-
-    protected abstract boolean passFilter(Position src, Position destination, Board board);
+    public abstract void validateMoveCondition(final Position src, final Position dest, final Board board);
 
     public abstract boolean equalsType(final Piece piece);
 
-    public boolean equalsTeamType(final TeamType teamType) {
-        return this.teamType == teamType;
+    public Country getTeamType() {
+        return country;
     }
 
-    public TeamType getTeamType() {
-        return teamType;
+    public boolean equalsCountry(Country country) {
+        return this.country.equals(country);
     }
 }
+// 상속은 쓰레기
+
+// Horse is Piece
+
+// Piece has a rule(Horse)
+// Piece
+// - PieceRule rule; // horse, king, elephant
+// - Team team;
+//
+
+// PieceRule interface -> 루트를 찾는 메서드 searchRoutes()
+/**
+ * public List<Position> findExistPositions(List<Position> positions) {
+ *         return 조합클래스.뭐시기();
+ * }
+ */
