@@ -37,31 +37,4 @@ public enum Direction {
                 .toList();
     }
 
-    public static List<Direction> getCrossDirection() {
-        return Arrays.stream(values())
-                .filter(direction -> direction.row != 0 && direction.column != 0)
-                .toList();
-    }
-
-    public List<Direction> nextCrossDirection() {
-        return getCrossDirection()
-                .stream()
-                .filter(this::isSameStraightDirection)
-                .toList();
-    }
-
-    private boolean isSameStraightDirection(Direction direction) {
-        if (column != 0) {
-            return direction.column == column;
-        }
-        return direction.row == row;
-    }
-
-    public boolean isCrossDirection() {
-        return Math.abs(column) + Math.abs(row) == 2;
-    }
-
-    public boolean isStraightDirection() {
-        return Math.abs(column) + Math.abs(row) == 1;
-    }
 }
