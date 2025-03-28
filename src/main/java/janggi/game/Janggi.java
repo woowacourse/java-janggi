@@ -44,11 +44,7 @@ public class Janggi {
     }
 
     public void changeTurn() {
-        if (turn == Team.HAN) {
-            turn = Team.CHO;
-            return;
-        }
-        turn = Team.HAN;
+        turn = turn.getOppositie();
     }
 
     public List<Route> searchAvailableRoutes(Position pick) {
