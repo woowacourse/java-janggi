@@ -36,7 +36,7 @@ public class Byeong extends Piece {
         int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
         int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 
-        if (isMovingInOnlyGungSung(currentPosition, arrivalPosition) && isDiagonaInGungSung(currentPosition,
+        if (isMovingInOnlyGungSung(currentPosition, arrivalPosition) && isDiagonalInGungSung(currentPosition,
                 differenceForY, differenceForX)) {
             return new Path(
                     calculateGungSungMovingPositions(currentPosition, arrivalPosition, differenceForY, differenceForX));
@@ -83,7 +83,7 @@ public class Byeong extends Piece {
         return Position.isInGungSung(currentPosition) && Position.isInGungSung(arrivalPosition);
     }
 
-    private boolean isDiagonaInGungSung(Position currentPosition, int differenceForY, int differenceForX) {
+    private boolean isDiagonalInGungSung(Position currentPosition, int differenceForY, int differenceForX) {
         return Position.isAbleToDiagonalMoveInGungSung(currentPosition) && AVAILABLE_DIFFERENCE_IN_GUNGSUNG.contains(
                 List.of(differenceForY, differenceForX)) && (differenceForY > 0);
     }
