@@ -110,4 +110,30 @@ class ChariotTest {
         assertThatNoException()
                 .isThrownBy(()->chariot.validateCanMove(startPosition,expectedPosition, Map.of(otherPosition,soldier)));
     }
+
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("궁 안에서 이동은 특별 이동이 가능하다.")
+    void canMoveChariot5(Position from, Position to){
+        Piece chariot = new Chariot(TeamType.HAN);
+        assertThatNoException()
+                .isThrownBy(() -> chariot.validateCanMove(from, to, Map.of()));
+    }
+
+    private static Stream<Arguments> canMoveChariot5(){
+        return Stream.of(
+                Arguments.of(D2, E1),
+                Arguments.of(D2, F0),
+                Arguments.of(E1, D2),
+                Arguments.of(F0, D2),
+                Arguments.of(F2, E1),
+                Arguments.of(F2, D0),
+                Arguments.of(E1, D0),
+                Arguments.of(E1, F0),
+                Arguments.of(D7, E8),
+                Arguments.of(F7, E8),
+                Arguments.of(E8, D9),
+                Arguments.of(E8, F9)
+        );
+    }
 }

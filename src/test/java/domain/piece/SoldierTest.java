@@ -129,4 +129,26 @@ class SoldierTest {
         assertThatNoException()
                 .isThrownBy(() -> solider1.validateCanMove(position, movePosition, Map.of(currentPosition,solider2)));
     }
+
+    @ParameterizedTest
+    @MethodSource
+    @DisplayName("궁 안에서 이동은 특별 이동이 가능하다.")
+    void canMoveSoldier4(TeamType teamType,Position from, Position to){
+        Piece solider1 = new Soldier(teamType);
+        assertThatNoException()
+                .isThrownBy(() -> solider1.validateCanMove(from, to, Map.of()));
+    }
+
+    private static Stream<Arguments> canMoveSoldier4(){
+        return Stream.of(
+                Arguments.of(TeamType.HAN,D2, E1),
+                Arguments.of(TeamType.HAN,F2, E1),
+                Arguments.of(TeamType.HAN,E1, D0),
+                Arguments.of(TeamType.HAN,E1, F0),
+                Arguments.of(TeamType.CHO,D7, E8),
+                Arguments.of(TeamType.CHO,F7, E8),
+                Arguments.of(TeamType.CHO,E8, D9),
+                Arguments.of(TeamType.CHO,E8, F9)
+        );
+    }
 }
