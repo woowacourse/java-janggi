@@ -20,8 +20,8 @@ public class Sang extends FixedMovePiece {
     );
     public static final int SCORE = 3;
 
-    public Sang(Team team) {
-        super(team);
+    public Sang(Team team, Position position) {
+        super(team, position);
     }
 
     @Override

@@ -1,11 +1,13 @@
 package view;
 
+import domain.JanggiBoard;
 import domain.JanggiGame;
 import domain.Position;
 import domain.Team;
 import domain.piece.Piece;
 import java.text.DecimalFormat;
 import java.util.Map;
+import java.util.Optional;
 
 public class OutputView {
 
@@ -16,15 +18,16 @@ public class OutputView {
     public static final String exit = "\u001B[0m";
 
     public void printJanggiBoard(JanggiGame game) {
-        Map<Position, Piece> board = game.getBoardState();
+        JanggiBoard board = game.getBoard();
         StringBuilder stringBuilder = new StringBuilder("\n");
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 9; j++) {
-                Piece piece = board.get(new Position(i + 1, j + 1));
-                if (piece == null) {
+                Optional<Piece> optionalPiece = board.findPiece(new Position(i + 1, j + 1));
+                if (optionalPiece.isEmpty()) {
                     stringBuilder.append(white + "ㅁ" + exit);
                     continue;
                 }
+                Piece piece = optionalPiece.get();
                 if (piece.getTeam() == Team.HAN) {
                     stringBuilder.append(convertToString(red, piece));
                 }

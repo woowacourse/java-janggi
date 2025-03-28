@@ -21,8 +21,8 @@ public class Ma extends FixedMovePiece {
             Moves.create(Move.LEFT, Move.BACK_LEFT)
     );
 
-    public Ma(Team team) {
-        super(team);
+    public Ma(Team team, Position position) {
+        super(team, position);
     }
 
     @Override

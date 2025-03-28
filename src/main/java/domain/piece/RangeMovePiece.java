@@ -8,8 +8,8 @@ import java.util.List;
 
 public abstract class RangeMovePiece extends Piece {
 
-    public RangeMovePiece(Team team) {
-        super(team);
+    public RangeMovePiece(Team team, Position position) {
+        super(team, position);
     }
 
     @Override

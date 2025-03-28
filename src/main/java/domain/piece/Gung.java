@@ -18,8 +18,8 @@ public class Gung extends FixedMovePiece {
 
     private static final int SCORE = 0;
 
-    public Gung(Team team) {
-        super(team);
+    public Gung(Team team, Position position) {
+        super(team, position);
     }
 
     @Override

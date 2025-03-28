@@ -61,7 +61,7 @@ public class JanggiGame {
         return scores;
     }
 
-    public Map<Position, Piece> getBoardState() {
-        return janggiBoard.getBoard();
+    public JanggiBoard getBoard() {
+        return janggiBoard;
     }
 }

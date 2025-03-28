@@ -17,8 +17,8 @@ public class Sa extends FixedMovePiece {
     );
     public static final int SCORE = 3;
 
-    public Sa(Team team) {
-        super(team);
+    public Sa(Team team, Position position) {
+        super(team, position);
     }
 
     @Override

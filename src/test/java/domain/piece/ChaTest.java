@@ -18,9 +18,9 @@ public class ChaTest {
     @Test
     void 차가_위로_이동하는_경로를_계산할_수_있다() {
         // given
-        Cha cha = new Cha(Team.HAN);
         Position src = new Position(4, 1);
         Position dest = new Position(1, 1);
+        Cha cha = new Cha(Team.HAN, src);
 
         // when
         List<Position> path = cha.calculatePath(src, dest);
@@ -33,9 +33,9 @@ public class ChaTest {
     @Test
     void 차가_아래로_이동하는_경로를_계산할_수_있다() {
         // given
-        Cha cha = new Cha(Team.HAN);
         Position src = new Position(1, 1);
         Position dest = new Position(4, 1);
+        Cha cha = new Cha(Team.HAN, src);
 
         // when
         List<Position> path = cha.calculatePath(src, dest);
@@ -48,9 +48,9 @@ public class ChaTest {
     @Test
     void 차가_왼쪽으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Cha cha = new Cha(Team.HAN);
         Position src = new Position(4, 4);
         Position dest = new Position(1, 4);
+        Cha cha = new Cha(Team.HAN, src);
 
         // when
         List<Position> path = cha.calculatePath(src, dest);
@@ -63,9 +63,9 @@ public class ChaTest {
     @Test
     void 차가_오른쪽으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Cha cha = new Cha(Team.HAN);
         Position src = new Position(1, 1);
         Position dest = new Position(1, 4);
+        Cha cha = new Cha(Team.HAN, src);
 
         // when
         List<Position> path1 = cha.calculatePath(src, dest);
@@ -84,10 +84,10 @@ public class ChaTest {
     })
     void 차로_이동할_수_없는_위치인_경우_예외를_발생시킨다(int movedRow, int movedColumn) {
         // given
-        Cha cha = new Cha(Team.HAN);
         int row = 5;
         int column = 5;
         Position src = new Position(row, column);
+        Cha cha = new Cha(Team.HAN, src);
         Position dest = new Position(row + movedRow, column + movedColumn);
         // when & then
         assertThatThrownBy(() -> cha.calculatePath(src, dest))
@@ -99,7 +99,7 @@ public class ChaTest {
     @MethodSource(value = "createDiagonalMovePosition")
     void 차가_궁성의_꼭짓점에서_꼭짓점으로_이동하는_경로를_계산할_수_있다(Position src, Position dest, Position jumpedPosition) {
         // given
-        Cha cha = new Cha(Team.HAN);
+        Cha cha = new Cha(Team.HAN, src);
 
         // when
         List<Position> path = cha.calculatePath(src, dest);

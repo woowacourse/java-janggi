@@ -13,9 +13,9 @@ public class MaTest {
     @Test
     void 마가_왼쪽_왼쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Ma ma = new Ma(Team.HAN);
         Position src = new Position(4, 4);
         Position dest = new Position(3, 2);
+        Ma ma = new Ma(Team.HAN, src);
 
         // when
         List<Position> moves = ma.calculatePath(src, dest);
@@ -28,9 +28,9 @@ public class MaTest {
     @Test
     void 마가_왼쪽_왼쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Ma ma = new Ma(Team.HAN);
         Position src = new Position(4, 4);
         Position dest = new Position(5, 2);
+        Ma ma = new Ma(Team.HAN, src);
 
         // when
         List<Position> moves = ma.calculatePath(src, dest);
@@ -43,9 +43,9 @@ public class MaTest {
     @Test
     void 마가_위_왼쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Ma ma = new Ma(Team.HAN);
         Position src = new Position(4, 4);
         Position dest = new Position(2, 3);
+        Ma ma = new Ma(Team.HAN, src);
 
         // when
         List<Position> moves = ma.calculatePath(src, dest);
@@ -58,9 +58,9 @@ public class MaTest {
     @Test
     void 마가_위_오른쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Ma ma = new Ma(Team.HAN);
         Position src = new Position(4, 4);
         Position dest = new Position(2, 5);
+        Ma ma = new Ma(Team.HAN, src);
 
         // when
         List<Position> moves = ma.calculatePath(src, dest);
@@ -73,9 +73,9 @@ public class MaTest {
     @Test
     void 마가_오른쪽_오른쪽위_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Ma ma = new Ma(Team.HAN);
         Position src = new Position(4, 4);
         Position dest = new Position(3, 6);
+        Ma ma = new Ma(Team.HAN, src);
 
         // when
         List<Position> moves = ma.calculatePath(src, dest);
@@ -88,9 +88,9 @@ public class MaTest {
     @Test
     void 마가_오른쪽_오른쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Ma ma = new Ma(Team.HAN);
         Position src = new Position(4, 4);
         Position dest = new Position(5, 6);
+        Ma ma = new Ma(Team.HAN, src);
 
         // when
         List<Position> moves = ma.calculatePath(src, dest);
@@ -103,9 +103,9 @@ public class MaTest {
     @Test
     void 마가_아래_오른쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Ma ma = new Ma(Team.HAN);
         Position src = new Position(4, 4);
         Position dest = new Position(6, 5);
+        Ma ma = new Ma(Team.HAN, src);
 
         // when
         List<Position> moves = ma.calculatePath(src, dest);
@@ -118,9 +118,9 @@ public class MaTest {
     @Test
     void 마가_아래_왼쪽아래_대각선으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Ma ma = new Ma(Team.HAN);
         Position src = new Position(4, 4);
         Position dest = new Position(6, 3);
+        Ma ma = new Ma(Team.HAN, src);
 
         // when
         List<Position> moves = ma.calculatePath(src, dest);
@@ -143,10 +143,10 @@ public class MaTest {
     })
     void 마로_한_칸_이동할_경우_예외를_발생시킨다(int movedRow, int movedColumn) {
         // given
-        Ma ma = new Ma(Team.HAN);
         int row = 4;
         int column = 4;
         Position src = new Position(row, column);
+        Ma ma = new Ma(Team.HAN, src);
         Position dest = new Position(row + movedRow, column + movedColumn);
 
         // when & then
@@ -168,10 +168,10 @@ public class MaTest {
     })
     void 마로_두_칸_이동할_경우_예외를_발생시킨다(int movedRow, int movedColumn) {
         // given
-        Ma ma = new Ma(Team.HAN);
         int row = 4;
         int column = 4;
         Position src = new Position(row, column);
+        Ma ma = new Ma(Team.HAN, src);
         Position dest = new Position(row + movedRow, column + movedColumn);
 
         // when & then

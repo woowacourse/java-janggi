@@ -16,7 +16,7 @@ class PawnTest {
     @Test
     void 졸은_오른쪽으로_이동할_수_있다() {
         //given
-        Pawn pawn = new Pawn(Team.CHO);
+        Pawn pawn = new Pawn(Team.CHO, new Position(4, 4));
 
         //when
         List<Position> move = pawn.calculatePath(new Position(4, 4), new Position(4, 5));
@@ -28,7 +28,7 @@ class PawnTest {
     @Test
     void 졸은_왼쪽으로_이동할_수_있다() {
         //given
-        Pawn pawn = new Pawn(Team.CHO);
+        Pawn pawn = new Pawn(Team.CHO, new Position(4, 4));
 
         //when
         List<Position> move = pawn.calculatePath(new Position(4, 4), new Position(4, 3));
@@ -40,7 +40,7 @@ class PawnTest {
     @Test
     void 졸은_위으로_이동할_수_있다() {
         //given
-        Pawn pawn = new Pawn(Team.CHO);
+        Pawn pawn = new Pawn(Team.CHO, new Position(4, 4));
 
         //when
         List<Position> move = pawn.calculatePath(new Position(4, 4), new Position(3, 4));
@@ -52,7 +52,7 @@ class PawnTest {
     @Test
     void 졸이_아래로_이동할_경우_예외를_발생시킨다() {
         //given
-        Pawn pawn = new Pawn(Team.CHO);
+        Pawn pawn = new Pawn(Team.CHO, new Position(4, 4));
 
         //when & then
         assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 4), new Position(5, 4)))
@@ -73,10 +73,10 @@ class PawnTest {
     })
     void 졸으로_두_칸_이동할_경우_예외를_발생시킨다(int movedRow, int movedColumn) {
         // given
-        Pawn pawn = new Pawn(Team.CHO);
         int row = 4;
         int column = 4;
         Position src = new Position(row, column);
+        Pawn pawn = new Pawn(Team.CHO, src);
         Position dest = new Position(row + movedRow, column + movedColumn);
 
         // when & then
@@ -88,7 +88,7 @@ class PawnTest {
     @Test
     void 병은_아래로_이동할_수_있다() {
         //given
-        Pawn pawn = new Pawn(Team.HAN);
+        Pawn pawn = new Pawn(Team.HAN, new Position(4, 4));
 
         //when
         List<Position> move = pawn.calculatePath(new Position(4, 4), new Position(5, 4));
@@ -100,7 +100,7 @@ class PawnTest {
     @Test
     void 병은_왼쪽으로_이동할_수_있다() {
         //given
-        Pawn pawn = new Pawn(Team.HAN);
+        Pawn pawn = new Pawn(Team.HAN, new Position(4, 4));
 
         //when
         List<Position> move = pawn.calculatePath(new Position(4, 4), new Position(4, 3));
@@ -112,7 +112,7 @@ class PawnTest {
     @Test
     void 병은_오른쪽으로_이동할_수_있다() {
         //given
-        Pawn pawn = new Pawn(Team.HAN);
+        Pawn pawn = new Pawn(Team.HAN, new Position(4, 4));
 
         //when
         List<Position> move = pawn.calculatePath(new Position(4, 4), new Position(4, 5));
@@ -124,7 +124,7 @@ class PawnTest {
     @Test
     void 병이_위로_이동할_경우_예외를_발생시킨다() {
         //given
-        Pawn pawn = new Pawn(Team.HAN);
+        Pawn pawn = new Pawn(Team.HAN, new Position(4, 4));
 
         //when & then
         assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 4), new Position(3, 4)))
@@ -145,10 +145,10 @@ class PawnTest {
     })
     void 병으로_두_칸_이동할_경우_예외를_발생시킨다(int movedRow, int movedColumn) {
         // given
-        Pawn pawn = new Pawn(Team.HAN);
         int row = 4;
         int column = 4;
         Position src = new Position(row, column);
+        Pawn pawn = new Pawn(Team.HAN, src);
         Position dest = new Position(row + movedRow, column + movedColumn);
 
         // when & then

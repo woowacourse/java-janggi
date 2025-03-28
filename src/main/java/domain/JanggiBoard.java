@@ -4,31 +4,29 @@ import domain.boardgenerator.BoardGenerator;
 import domain.piece.Gung;
 import domain.piece.Piece;
 import domain.piece.Po;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class JanggiBoard {
 
-    private final Map<Position, Piece> board;
+    private final List<Piece> board;
 
     public JanggiBoard(BoardGenerator boardGenerator) {
         this.board = boardGenerator.generateBoard();
     }
 
-    public void move(Position startPosition, Position targetPosition) {
+    public void move(final Position startPosition, final Position targetPosition) {
         Piece selectedPiece = findSelectedPiece(startPosition);
         Optional<Piece> targetPiece = findPiece(targetPosition);
         List<Position> path = selectedPiece.calculatePath(startPosition, targetPosition);
         validatePath(path, selectedPiece, targetPiece);
 
-        board.remove(startPosition);
-        board.put(targetPosition, selectedPiece);
+        targetPiece.ifPresent(board::remove);
+        selectedPiece.moveTo(targetPosition);
     }
 
     public int calculateTeamScore(Team team) {
-        return board.values().stream().filter(piece -> piece.isTeam(team)).mapToInt(Piece::getScore).sum();
+        return board.stream().filter(piece -> piece.isTeam(team)).mapToInt(Piece::getScore).sum();
     }
 
     public Piece findSelectedPiece(Position startPosition) {
@@ -90,14 +88,10 @@ public class JanggiBoard {
     }
 
     public boolean existGung(Team team) {
-        return board.values().stream().anyMatch(piece -> piece instanceof Gung && piece.isTeam(team));
+        return board.stream().anyMatch(piece -> piece instanceof Gung && piece.isTeam(team));
     }
 
-    public Optional<Piece> findPiece(Position startPosition) {
-        return Optional.ofNullable(board.get(startPosition));
-    }
-
-    public Map<Position, Piece> getBoard() {
-        return Collections.unmodifiableMap(board);
+    public Optional<Piece> findPiece(Position position) {
+        return board.stream().filter(piece -> piece.isSamePosition(position)).findFirst();
     }
 }

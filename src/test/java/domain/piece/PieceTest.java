@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Position;
 import domain.Team;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,8 +17,8 @@ public class PieceTest {
     })
     void 두_기물의_팀이_같은지_판단한다(Team team1, Team team2, boolean expected) {
         // given
-        Piece piece1 = new Ma(team1);
-        Piece piece2 = new Ma(team2);
+        Piece piece1 = new Ma(team1, new Position(1, 1));
+        Piece piece2 = new Ma(team2, new Position(1, 1));
 
         // when
         boolean actual = piece1.isTeam(piece2);
@@ -35,7 +36,7 @@ public class PieceTest {
     })
     void 기물이_특정_팀인지_판단한다(Team pieceTeam, Team team, boolean expected) {
         // given
-        Piece piece = new Ma(pieceTeam);
+        Piece piece = new Ma(pieceTeam, new Position(1, 1));
 
         // when
         boolean actual = piece.isTeam(team);

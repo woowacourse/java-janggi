@@ -10,8 +10,8 @@ import domain.piece.Pawn;
 import domain.piece.Piece;
 import domain.piece.Po;
 import domain.piece.Sang;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,12 +21,13 @@ public class JanggiBoardTest {
 
     @Test
     void 장기말은_이동시_목표_좌표로_위치가_바뀐다() {
-        Pawn pawn = new Pawn(Team.HAN);
+        Pawn pawn = new Pawn(Team.HAN, new Position(4, 1));
         // given
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(4, 1), pawn);
-        Map<Position, Piece> afterBoard = new HashMap<>();
-        afterBoard.put(new Position(5, 1), pawn);
+        List<Piece> beforeBoard = new ArrayList<>();
+        beforeBoard.add(pawn);
+        List<Piece> afterBoard = new ArrayList<>();
+        Pawn pawn2 = new Pawn(Team.HAN, new Position(5, 1));
+        afterBoard.add(pawn2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -44,15 +45,16 @@ public class JanggiBoardTest {
     @Test
     void 최종_좌표에_상대_말이_있으면_상대말을_없애고_해당_위치로_이동한다() {
         //given
-        Cha choCha = new Cha(Team.CHO);
-        Cha hanCha = new Cha(Team.HAN);
+        Cha choCha = new Cha(Team.CHO, new Position(4, 1));
+        Cha hanCha = new Cha(Team.HAN, new Position(8, 1));
 
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(4, 1), choCha);
-        beforeBoard.put(new Position(8, 1), hanCha);
+        List<Piece> beforeBoard = new ArrayList<>();
+        beforeBoard.add(choCha);
+        beforeBoard.add(hanCha);
 
-        Map<Position, Piece> afterBoard = new HashMap<>();
-        afterBoard.put(new Position(8, 1), choCha);
+        List<Piece> afterBoard = new ArrayList<>();
+        Cha choCha2 = new Cha(Team.CHO, new Position(8, 1));
+        afterBoard.add(choCha2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -70,12 +72,12 @@ public class JanggiBoardTest {
     @Test
     void 최종_좌표에_아군_말이_있으면_위치로_이동하지_못한다() {
         //given
-        Cha choCha1 = new Cha(Team.CHO);
-        Cha choCha2 = new Cha(Team.CHO);
+        Cha choCha1 = new Cha(Team.CHO, new Position(4, 1));
+        Cha choCha2 = new Cha(Team.CHO, new Position(8, 1));
 
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(4, 1), choCha1);
-        beforeBoard.put(new Position(8, 1), choCha2);
+        List<Piece> beforeBoard = new ArrayList<>();
+        beforeBoard.add(choCha1);
+        beforeBoard.add(choCha2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -92,10 +94,10 @@ public class JanggiBoardTest {
     @Test
     void 포가_건너뛸_말이_없으면_예외를_발생시킨다() {
         //given
-        Po choPo = new Po(Team.CHO);
+        Po choPo = new Po(Team.CHO, new Position(4, 1));
 
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(4, 1), choPo);
+        List<Piece> beforeBoard = new ArrayList<>();
+        beforeBoard.add(choPo);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -112,12 +114,12 @@ public class JanggiBoardTest {
     @Test
     void 장기말_이동중_다른_장기말을_만나면_예외를_발생한다() {
         //given
-        Cha choCha = new Cha(Team.CHO);
-        Pawn choPawn = new Pawn(Team.CHO);
+        Cha choCha = new Cha(Team.CHO, new Position(1, 1));
+        Pawn choPawn = new Pawn(Team.CHO, new Position(4, 1));
 
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(1, 1), choCha);
-        beforeBoard.put(new Position(4, 1), choPawn);
+        List<Piece> beforeBoard = new ArrayList<>();
+        beforeBoard.add(choCha);
+        beforeBoard.add(choPawn);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -134,12 +136,12 @@ public class JanggiBoardTest {
     @Test
     void 뛰어넘을_장기말이_포라면_예외를_발생한다() {
         //given
-        Po choPo1 = new Po(Team.CHO);
-        Po choPo2 = new Po(Team.CHO);
+        Po choPo1 = new Po(Team.CHO, new Position(8, 2));
+        Po choPo2 = new Po(Team.CHO, new Position(8, 8));
 
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(8, 2), choPo1);
-        beforeBoard.put(new Position(8, 8), choPo2);
+        List<Piece> beforeBoard = new ArrayList<>();
+        beforeBoard.add(choPo1);
+        beforeBoard.add(choPo2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -156,14 +158,14 @@ public class JanggiBoardTest {
     @Test
     void 목표_좌표의_장기말이_포라면_예외를_발생한다() {
         //given
-        Po choPo1 = new Po(Team.CHO);
-        Po choPo2 = new Po(Team.HAN);
-        Gung choGung = new Gung(Team.HAN);
+        Po choPo1 = new Po(Team.CHO, new Position(8, 2));
+        Po choPo2 = new Po(Team.HAN, new Position(8, 8));
+        Gung choGung = new Gung(Team.HAN, new Position(8, 5));
 
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-        beforeBoard.put(new Position(8, 2), choPo1);
-        beforeBoard.put(new Position(8, 5), choGung);
-        beforeBoard.put(new Position(8, 8), choPo2);
+        List<Piece> beforeBoard = new ArrayList<>();
+        beforeBoard.add(choPo1);
+        beforeBoard.add(choGung);
+        beforeBoard.add(choPo2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -180,16 +182,17 @@ public class JanggiBoardTest {
     @Test
     void 포는_장기말을_뛰어넘어_이동한다() {
         //given
-        Po choPo = new Po(Team.CHO);
-        Gung choGung = new Gung(Team.CHO);
+        Po choPo = new Po(Team.CHO, new Position(8, 2));
+        Gung choGung = new Gung(Team.CHO, new Position(8, 5));
 
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-        Map<Position, Piece> afterBoard = new HashMap<>();
+        List<Piece> beforeBoard = new ArrayList<>();
 
-        beforeBoard.put(new Position(8, 2), choPo);
-        beforeBoard.put(new Position(8, 5), choGung);
-        afterBoard.put(new Position(8, 8), choPo);
-        afterBoard.put(new Position(8, 5), choGung);
+        List<Piece> afterBoard = new ArrayList<>();
+        Po choPo2 = new Po(Team.CHO, new Position(8, 8));
+        beforeBoard.add(choPo);
+        beforeBoard.add(choGung);
+        afterBoard.add(choPo2);
+        afterBoard.add(choGung);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
@@ -211,8 +214,8 @@ public class JanggiBoardTest {
     })
     void 특정_팀의_궁이_생존했는지_알_수_있다(Team gungTeam, Team team, boolean expected) {
         //given
-        Map<Position, Piece> board = new HashMap<>();
-        board.put(new Position(1, 1), new Gung(gungTeam));
+        List<Piece> board = new ArrayList<>();
+        board.add(new Gung(gungTeam, new Position(1, 1)));
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
         JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
 
@@ -224,7 +227,7 @@ public class JanggiBoardTest {
 
     @Test
     void 시작_위치에_기물이_존재하지_않는_경우_예외를_발생시킨다() {
-        Map<Position, Piece> board = new HashMap<>();
+        List<Piece> board = new ArrayList<>();
         JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
 
         assertThatThrownBy(() -> janggiBoard.move(new Position(1, 1), new Position(1, 2)))
@@ -234,9 +237,9 @@ public class JanggiBoardTest {
 
     @Test
     void 시작_위치에_있는_기물을_찾는다() {
-        Map<Position, Piece> board = new HashMap<>();
-        Pawn pawn = new Pawn(Team.CHO);
-        board.put(new Position(1, 1), pawn);
+        List<Piece> board = new ArrayList<>();
+        Pawn pawn = new Pawn(Team.CHO, new Position(1, 1));
+        board.add(pawn);
         JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
 
         Piece selectedPiece = janggiBoard.findSelectedPiece(new Position(1, 1));
@@ -246,7 +249,7 @@ public class JanggiBoardTest {
 
     @Test
     void 시작_위치가_기물이_없는_위치라면_예외를_발생시킨다() {
-        Map<Position, Piece> board = new HashMap<>();
+        List<Piece> board = new ArrayList<>();
         JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
 
         assertThatThrownBy(() -> janggiBoard.findSelectedPiece(new Position(1, 1)))
@@ -260,13 +263,13 @@ public class JanggiBoardTest {
             "HAN, 5"
     })
     void 특정팀의_기물의_점수합을_계산할_수_있다(Team team, int score) {
-        Map<Position, Piece> board = new HashMap<>();
-        board.put(new Position(1, 1), new Pawn(Team.CHO));
-        board.put(new Position(1, 2), new Ma(Team.CHO));
-        board.put(new Position(1, 3), new Sang(Team.CHO));
-        board.put(new Position(2, 1), new Pawn(Team.HAN));
-        board.put(new Position(2, 2), new Gung(Team.HAN));
-        board.put(new Position(2, 3), new Sang(Team.HAN));
+        List<Piece> board = new ArrayList<>();
+        board.add(new Pawn(Team.CHO, new Position(1, 1)));
+        board.add(new Ma(Team.CHO, new Position(1, 2)));
+        board.add(new Sang(Team.CHO, new Position(1, 3)));
+        board.add(new Pawn(Team.HAN, new Position(2, 1)));
+        board.add(new Gung(Team.HAN, new Position(2, 2)));
+        board.add(new Sang(Team.HAN, new Position(2, 3)));
 
         JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
 

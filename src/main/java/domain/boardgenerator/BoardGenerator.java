@@ -1,10 +1,9 @@
 package domain.boardgenerator;
 
-import domain.Position;
 import domain.piece.Piece;
-import java.util.Map;
+import java.util.List;
 
 public interface BoardGenerator {
 
-    Map<Position, Piece> generateBoard();
+    List<Piece> generateBoard();
 }

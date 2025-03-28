@@ -8,9 +8,8 @@ import domain.piece.Gung;
 import domain.piece.Ma;
 import domain.piece.Pawn;
 import domain.piece.Piece;
-import domain.piece.Po;
 import domain.piece.Sang;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -18,39 +17,17 @@ import org.junit.jupiter.api.Test;
 
 public class JanggiGameTest {
 
-    @DisplayName("장가판을 가져온다")
-    @Test
-    void test1() {
-        // given
-        Po choPo = new Po(Team.CHO);
-        Gung choGung = new Gung(Team.CHO);
-
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-
-        beforeBoard.put(new Position(8, 2), choPo);
-        beforeBoard.put(new Position(8, 5), choGung);
-
-        FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiGame game = new JanggiGame(boardGenerator);
-
-        // when
-        Map<Position, Piece> boardState = game.getBoardState();
-
-        // then
-        assertThat(boardState).isEqualTo(beforeBoard);
-    }
-
     @DisplayName("장기판의 말을 이동시킨다")
     @Test
     void test2() {
         // given
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-        Cha choCha = new Cha(Team.CHO);
-        beforeBoard.put(new Position(1, 1), choCha);
+        List<Piece> beforeBoard = new ArrayList<>();
+        Cha choCha = new Cha(Team.CHO, new Position(1, 1));
+        beforeBoard.add(choCha);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard));
 
-        Map<Position, Piece> afterBoard = new HashMap<>();
-        afterBoard.put(new Position(2, 1), choCha);
+        List<Piece> afterBoard = new ArrayList<>();
+        afterBoard.add(new Cha(Team.CHO, new Position(2, 1)));
 
         // when
         game.move(List.of(1, 1), List.of(2, 1));
@@ -62,9 +39,9 @@ public class JanggiGameTest {
     @DisplayName("동일한 위치로 움직일 경우 예외를 발생시킨다")
     @Test
     void test3() {
-        Map<Position, Piece> beforeBoard = new HashMap<>();
-        Cha choCha = new Cha(Team.CHO);
-        beforeBoard.put(new Position(1, 1), choCha);
+        List<Piece> beforeBoard = new ArrayList<>();
+        Cha choCha = new Cha(Team.CHO, new Position(1, 1));
+        beforeBoard.add(choCha);
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard));
 
         assertThatThrownBy(() -> game.move(List.of(1, 1), List.of(1, 1)))
@@ -76,9 +53,9 @@ public class JanggiGameTest {
     @Test
     void test5() {
         // given
-        Map<Position, Piece> board = new HashMap<>();
-        board.put(new Position(1, 1), new Gung(Team.HAN));
-        board.put(new Position(1, 2), new Gung(Team.CHO));
+        List<Piece> board = new ArrayList<>();
+        board.add(new Gung(Team.HAN, new Position(1, 1)));
+        board.add(new Gung(Team.CHO, new Position(1, 2)));
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(board));
 
         // when
@@ -92,8 +69,8 @@ public class JanggiGameTest {
     @Test
     void test6() {
         // given
-        Map<Position, Piece> board = new HashMap<>();
-        board.put(new Position(1, 1), new Gung(Team.HAN));
+        List<Piece> board = new ArrayList<>();
+        board.add(new Gung(Team.HAN, new Position(1, 1)));
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(board));
 
         // when
@@ -106,13 +83,13 @@ public class JanggiGameTest {
     @Test
     void 모든팀의_점수을_계산할_수_있다() {
         // given
-        Map<Position, Piece> board = new HashMap<>();
-        board.put(new Position(1, 1), new Pawn(Team.CHO));
-        board.put(new Position(1, 2), new Ma(Team.CHO));
-        board.put(new Position(1, 3), new Sang(Team.CHO));
-        board.put(new Position(2, 1), new Pawn(Team.HAN));
-        board.put(new Position(2, 2), new Gung(Team.HAN));
-        board.put(new Position(2, 3), new Sang(Team.HAN));
+        List<Piece> board = new ArrayList<>();
+        board.add(new Pawn(Team.CHO, new Position(1, 1)));
+        board.add(new Ma(Team.CHO, new Position(1, 2)));
+        board.add(new Sang(Team.CHO, new Position(1, 3)));
+        board.add(new Pawn(Team.HAN, new Position(2, 1)));
+        board.add(new Gung(Team.HAN, new Position(2, 2)));
+        board.add(new Sang(Team.HAN, new Position(2, 3)));
         JanggiGame game = new JanggiGame(new FakeBoardGenerator(board));
 
         // when

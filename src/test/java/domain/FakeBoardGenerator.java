@@ -2,18 +2,18 @@ package domain;
 
 import domain.boardgenerator.BoardGenerator;
 import domain.piece.Piece;
-import java.util.Map;
+import java.util.List;
 
 public class FakeBoardGenerator implements BoardGenerator {
 
-    private final Map<Position, Piece> board;
+    private final List<Piece> board;
 
-    public FakeBoardGenerator(Map<Position, Piece> board) {
+    public FakeBoardGenerator(List<Piece> board) {
         this.board = board;
     }
 
     @Override
-    public Map<Position, Piece> generateBoard() {
+    public List<Piece> generateBoard() {
         return board;
     }
 }

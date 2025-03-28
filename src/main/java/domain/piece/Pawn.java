@@ -12,8 +12,8 @@ public class Pawn extends FixedMovePiece {
     public static final int SCORE = 2;
     private final List<Moves> movesOptions;
 
-    public Pawn(Team team) {
-        super(team);
+    public Pawn(Team team, Position position) {
+        super(team, position);
         if (team == Team.CHO) {
             this.movesOptions = List.of(
                     Moves.create(Move.FRONT),

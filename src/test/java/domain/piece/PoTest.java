@@ -18,9 +18,9 @@ class PoTest {
     @Test
     void 포가_위로_이동하는_경로를_계산할_수_있다() {
         // given
-        Po po = new Po(Team.HAN);
         Position src = new Position(4, 1);
         Position dest = new Position(1, 1);
+        Po po = new Po(Team.HAN, src);
 
         // when
         List<Position> path = po.calculatePath(src, dest);
@@ -33,9 +33,9 @@ class PoTest {
     @Test
     void 포가_아래로_이동하는_경로를_계산할_수_있다() {
         // given
-        Po po = new Po(Team.HAN);
         Position src = new Position(1, 1);
         Position dest = new Position(4, 1);
+        Po po = new Po(Team.HAN, src);
 
         // when
         List<Position> path = po.calculatePath(src, dest);
@@ -48,9 +48,9 @@ class PoTest {
     @Test
     void 포가_왼쪽으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Po po = new Po(Team.HAN);
         Position src = new Position(4, 4);
         Position dest = new Position(1, 4);
+        Po po = new Po(Team.HAN, src);
 
         // when
         List<Position> path = po.calculatePath(src, dest);
@@ -63,9 +63,9 @@ class PoTest {
     @Test
     void 포가_오른쪽으로_이동하는_경로를_계산할_수_있다() {
         // given
-        Po po = new Po(Team.HAN);
         Position src = new Position(1, 1);
         Position dest = new Position(1, 4);
+        Po po = new Po(Team.HAN, src);
 
         // when
         List<Position> path1 = po.calculatePath(src, dest);
@@ -84,10 +84,10 @@ class PoTest {
     })
     void 포로_이동할_수_없는_위치인_경우_예외를_발생시킨다(int movedRow, int movedColumn) {
         // given
-        Po po = new Po(Team.HAN);
         int row = 5;
         int column = 5;
         Position src = new Position(row, column);
+        Po po = new Po(Team.HAN, src);
         Position dest = new Position(row + movedRow, column + movedColumn);
         // when & then
         assertThatThrownBy(() -> po.calculatePath(src, dest))
@@ -99,7 +99,7 @@ class PoTest {
     @MethodSource(value = "createDiagonalMovePosition")
     void 포가_궁성의_꼭짓점에서_꼭짓점으로_이동하는_경로를_계산할_수_있다(Position src, Position dest, Position jumpedPosition) {
         // given
-        Po po = new Po(Team.HAN);
+        Po po = new Po(Team.HAN, src);
 
         // when
         List<Position> path = po.calculatePath(src, dest);
