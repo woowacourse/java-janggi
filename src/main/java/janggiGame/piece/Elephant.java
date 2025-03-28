@@ -37,6 +37,10 @@ public class Elephant extends Piece {
     }
 
     private void validateRoute(int dx, int dy) {
+        if (dx == 0 && dy == 0) {
+            throw new IllegalArgumentException("[ERROR] 같은 위치로 이동할 수 없습니다.");
+        }
+
         if (!(isFirstMoveVertical(dx, dy) || isFirstMoveHorizontal(dx, dy))) {
             throw new UnsupportedOperationException("[ERROR] 상이 이동할 수 있는 목적지가 아닙니다.");
         }

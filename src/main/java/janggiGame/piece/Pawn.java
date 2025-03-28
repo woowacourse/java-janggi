@@ -21,6 +21,10 @@ public class Pawn extends Piece {
     }
 
     private void validateRoute(int dx, int dy) {
+        if (dx == 0 && dy == 0) {
+            throw new IllegalArgumentException("[ERROR] 같은 위치로 이동할 수 없습니다.");
+        }
+
         if (Math.abs(dx) + Math.abs(dy) != 1) {
             throw new UnsupportedOperationException("[ERROR] 병이 이동할 수 있는 목적지가 아닙니다.");
         }
