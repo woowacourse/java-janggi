@@ -3,8 +3,8 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.board.Board;
 import janggi.board.point.Point;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -25,8 +25,7 @@ class PalaceAffectedPieceTest {
     })
     void isInsidePalaceTest(int x, int y, boolean expected) {
         // given
-        Board board = new Board();
-        TestPalaceAffectedPiece palaceAffectedPiece = new TestPalaceAffectedPiece(Camp.CHU, board);
+        TestPalaceAffectedPiece palaceAffectedPiece = new TestPalaceAffectedPiece(Camp.CHU);
 
         // when
         boolean isInsidePalace = palaceAffectedPiece.isOutsidePalace(new Point(x, y));
@@ -50,8 +49,7 @@ class PalaceAffectedPieceTest {
     })
     void isDiagonalPalaceMoveTest(int fromX, int fromY, int toX, int toY, boolean expected) {
         // given
-        Board board = new Board();
-        TestPalaceAffectedPiece palaceAffectedPiece = new TestPalaceAffectedPiece(Camp.CHU, board);
+        TestPalaceAffectedPiece palaceAffectedPiece = new TestPalaceAffectedPiece(Camp.CHU);
         Point fromPoint = new Point(fromX, fromY);
         Point toPoint = new Point(toX, toY);
 
@@ -71,21 +69,25 @@ class PalaceAffectedPieceTest {
     })
     void validatePalaceMoveTest(int fromX, int fromY, int toX, int toY, String expectedMessage) {
         // given
-        Board board = new Board();
-        TestPalaceAffectedPiece palaceAffectedPiece = new TestPalaceAffectedPiece(Camp.CHU, board);
+        TestPalaceAffectedPiece palaceAffectedPiece = new TestPalaceAffectedPiece(Camp.CHU);
         Point fromPoint = new Point(fromX, fromY);
         Point toPoint = new Point(toX, toY);
 
         // when & then
-        assertThatThrownBy(() -> palaceAffectedPiece.validateMove(fromPoint, toPoint))
+        assertThatThrownBy(() -> palaceAffectedPiece.validateMove(fromPoint, toPoint, Set.of()))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage(expectedMessage);
     }
 
     static class TestPalaceAffectedPiece extends PalaceAffectedPiece {
 
-        public TestPalaceAffectedPiece(Camp camp, Board board) {
-            super(camp, board);
+        public TestPalaceAffectedPiece(Camp camp) {
+            super(camp);
+        }
+
+        @Override
+        public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+            return Set.of();
         }
 
         @Override
@@ -96,6 +98,10 @@ class PalaceAffectedPieceTest {
         @Override
         protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
             throw new IllegalStateException("궁 밖에서의 이동입니다.");
+        }
+
+        @Override
+        protected void validateObstacleOnRoute(Set<Piece> piecesOnRoute) {
         }
 
         @Override

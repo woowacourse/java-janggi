@@ -1,19 +1,26 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.point.Point;
 import java.util.Set;
 
 public final class Horse extends Piece {
 
-    public Horse(Camp camp, Board board) {
-        super(camp, board);
+    public Horse(Camp camp) {
+        super(camp);
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+        if (isNextPointOnHorizontal(fromPoint, toPoint)) {
+            return Set.of(fromPoint.getNextHorizontalStep(toPoint));
+        }
+        return Set.of(fromPoint.getNextVerticalStep(toPoint));
+    }
+
+    @Override
+    public void validateMove(Point fromPoint, Point toPoint, Set<Piece> piecesOnRoute) {
         validateHorseMove(fromPoint, toPoint);
-        validateObstacleOnRoute(fromPoint, toPoint);
+        validateObstacleOnRoute(piecesOnRoute);
     }
 
     private void validateHorseMove(Point fromPoint, Point toPoint) {
@@ -26,18 +33,10 @@ public final class Horse extends Piece {
         return (xDistance == 2 && yDistance == 1) || (xDistance == 1 && yDistance == 2);
     }
 
-    private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(findRoute(fromPoint, toPoint));
-        if (!pieces.isEmpty()) {
+    private void validateObstacleOnRoute(Set<Piece> piecesOnRoute) {
+        if (!piecesOnRoute.isEmpty()) {
             throw new IllegalArgumentException("마는 기물을 넘어서 이동할 수 없습니다.");
         }
-    }
-
-    private Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        if (isNextPointOnHorizontal(fromPoint, toPoint)) {
-            return Set.of(fromPoint.getNextHorizontalStep(toPoint));
-        }
-        return Set.of(fromPoint.getNextVerticalStep(toPoint));
     }
 
     private boolean isNextPointOnHorizontal(Point fromPoint, Point toPoint) {

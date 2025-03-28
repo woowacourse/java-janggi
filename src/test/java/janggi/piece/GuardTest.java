@@ -3,8 +3,8 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.board.Board;
 import janggi.board.point.Point;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -16,12 +16,12 @@ class GuardTest {
     @Test
     void shouldThrowException_WhenInvalidMove() {
         // given
-        Guard guard = new Guard(Camp.HAN, null);
+        Guard guard = new Guard(Camp.HAN);
         Point fromPoint = new Point(3, 3);
         Point toPoint = new Point(3, 0);
 
         // when & then
-        assertThatCode(() -> guard.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> guard.validateMove(fromPoint, toPoint, Set.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("궁 안에서만 이동할 수 있습니다.");
     }
@@ -35,12 +35,12 @@ class GuardTest {
     })
     void shouldThrowException_WhenInvalidMove(int toX, int toY) {
         // given
-        Guard guard = new Guard(Camp.HAN, null);
+        Guard guard = new Guard(Camp.HAN);
         Point fromPoint = new Point(3, 2);
         Point toPoint = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> guard.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> guard.validateMove(fromPoint, toPoint, Set.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("사는 직선 또는 대각선 한 칸만 이동할 수 있습니다.");
     }
@@ -55,13 +55,35 @@ class GuardTest {
     })
     void validateMoveTest(int fromX, int fromY, int toX, int toY) {
         // given
-        Guard guard = new Guard(Camp.HAN, null);
+        Guard guard = new Guard(Camp.HAN);
         Point fromPoint = new Point(fromX, fromY);
         Point toPoint = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> guard.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> guard.validateMove(fromPoint, toPoint, Set.of()))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("사의 경로를 반환한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "3, 0, 3, 1",
+            "3, 0, 4, 0",
+            "3, 0, 4, 1",
+            "4, 1, 5, 2"
+    })
+    void findRouteTest(int fromX, int fromY, int toX, int toY) {
+        // given
+        Guard guard = new Guard(Camp.HAN);
+        Point fromPoint = new Point(fromX, fromY);
+        Point toPoint = new Point(toX, toY);
+
+        // when
+        Set<Point> route = guard.findRoute(fromPoint, toPoint);
+
+        // then
+        assertThat(route)
+                .isEmpty();
     }
 
     @DisplayName("사는 같은 진영의 기물을 잡을 수 없다.")
@@ -72,11 +94,10 @@ class GuardTest {
     })
     void canCatchTest(Camp camp, boolean expected) {
         // given
-        Board board = new Board();
-        Guard guard = new Guard(camp, board);
+        Guard guard = new Guard(camp);
 
         // when
-        boolean canCapture = guard.canCapture(new SoldierJol(board));
+        boolean canCapture = guard.canCapture(new SoldierJol());
 
         // then
         assertThat(canCapture)
@@ -87,8 +108,7 @@ class GuardTest {
     @Test
     void getPieceSymbolTest() {
         // given
-        Board board = new Board();
-        Guard guard = new Guard(Camp.CHU, board);
+        Guard guard = new Guard(Camp.CHU);
 
         // when
         PieceSymbol pieceSymbol = guard.getPieceSymbol();
@@ -102,8 +122,7 @@ class GuardTest {
     @Test
     void getPointTest() {
         // given
-        Board board = new Board();
-        Guard guard = new Guard(Camp.CHU, board);
+        Guard guard = new Guard(Camp.CHU);
 
         // when
         int point = guard.getPoint();

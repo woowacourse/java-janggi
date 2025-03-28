@@ -1,12 +1,19 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.point.Point;
+import java.util.Set;
 
 public final class Guard extends PalaceRestrictedPiece {
 
-    public Guard(Camp camp, Board board) {
-        super(camp, board);
+    private static final Set<Point> EMPTY_ROUTE = Set.of();
+
+    public Guard(Camp camp) {
+        super(camp);
+    }
+
+    @Override
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+        return EMPTY_ROUTE;
     }
 
     @Override
@@ -15,6 +22,10 @@ public final class Guard extends PalaceRestrictedPiece {
                 && !fromPoint.isOneStepAway(toPoint)) {
             throw new IllegalArgumentException("사는 직선 또는 대각선 한 칸만 이동할 수 있습니다.");
         }
+    }
+
+    @Override
+    protected void validateObstacleOnRoute(Set<Piece> piecesOnRoute) {
     }
 
     @Override

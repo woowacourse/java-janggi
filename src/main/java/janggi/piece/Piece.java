@@ -1,19 +1,19 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.point.Point;
+import java.util.Set;
 
 public abstract class Piece {
 
     private final Camp camp;
-    private final Board board;
 
-    public Piece(Camp camp, Board board) {
+    public Piece(Camp camp) {
         this.camp = camp;
-        this.board = board;
     }
 
-    public abstract void validateMove(Point fromPoint, Point toPoint);
+    public abstract Set<Point> findRoute(Point fromPoint, Point toPoint);
+
+    public abstract void validateMove(Point fromPoint, Point toPoint, Set<Piece> piecesOnRoute);
 
     protected abstract boolean canCapture(Piece otherPiece);
 
@@ -39,9 +39,5 @@ public abstract class Piece {
 
     public final Camp getCamp() {
         return camp;
-    }
-
-    public final Board getBoard() {
-        return board;
     }
 }

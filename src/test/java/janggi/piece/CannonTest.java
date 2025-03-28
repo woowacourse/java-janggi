@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.board.Board;
 import janggi.board.point.Point;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -24,15 +25,16 @@ class CannonTest {
     void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
         // given
         Board board = new Board();
-        Piece piece = new SoldierByeong(board);
+        Piece piece = new SoldierByeong();
         board.placePiece(new Point(3, 5), piece);
         Point fromPoint = new Point(3, 3);
-        Cannon cannon = new Cannon(camp, board);
+        Cannon cannon = new Cannon(camp);
         board.placePiece(fromPoint, cannon);
         Point toPoint = new Point(toX, toY);
+        Set<Piece> piecesOnRoute = board.getPiecesByPoint(cannon.findRoute(fromPoint, toPoint));
 
         // when & then
-        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint, piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 수평 혹은 수직으로만 움직여야 합니다.");
     }
@@ -48,17 +50,18 @@ class CannonTest {
     void validateMoveTest(Camp camp, int toX, int toY) {
         // given
         Board board = new Board();
-        board.placePiece(new Point(3, 4), new SoldierByeong(board));
-        board.placePiece(new Point(2, 3), new SoldierByeong(board));
-        board.placePiece(new Point(4, 3), new SoldierByeong(board));
-        board.placePiece(new Point(3, 2), new SoldierByeong(board));
+        board.placePiece(new Point(3, 4), new SoldierByeong());
+        board.placePiece(new Point(2, 3), new SoldierByeong());
+        board.placePiece(new Point(4, 3), new SoldierByeong());
+        board.placePiece(new Point(3, 2), new SoldierByeong());
         Point fromPoint = new Point(3, 3);
-        Cannon cannon = new Cannon(camp, board);
+        Cannon cannon = new Cannon(camp);
         board.placePiece(fromPoint, cannon);
         Point toPoint = new Point(toX, toY);
+        Set<Piece> piecesOnRoute = board.getPiecesByPoint(cannon.findRoute(fromPoint, toPoint));
 
         // when & then
-        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint, piecesOnRoute))
                 .doesNotThrowAnyException();
     }
 
@@ -71,10 +74,10 @@ class CannonTest {
     void canCaptureTest(Camp camp, boolean expected) {
         // given
         Board board = new Board();
-        Cannon cannon = new Cannon(camp, board);
+        Cannon cannon = new Cannon(camp);
 
         // when
-        boolean canCapture = cannon.canCapture(new SoldierJol(board));
+        boolean canCapture = cannon.canCapture(new SoldierJol());
 
         // then
         assertThat(canCapture)
@@ -85,9 +88,8 @@ class CannonTest {
     @Test
     void canCaptureTest_WhenSameCannonPiece() {
         // given
-        Board board = new Board();
-        Cannon chuCannon = new Cannon(Camp.CHU, board);
-        Cannon hanCannon = new Cannon(Camp.HAN, board);
+        Cannon chuCannon = new Cannon(Camp.CHU);
+        Cannon hanCannon = new Cannon(Camp.HAN);
 
         // when
         boolean canCapture = chuCannon.canCapture(hanCannon);
@@ -101,11 +103,10 @@ class CannonTest {
     @Test
     void shouldThrowException_WhenCatchSameCamp() {
         // given
-        Board board = new Board();
-        Cannon chuCannon = new Cannon(Camp.CHU, board);
+        Cannon chuCannon = new Cannon(Camp.CHU);
 
         // when & then
-        assertThatCode(() -> chuCannon.validateCatch(new SoldierJol(board)))
+        assertThatCode(() -> chuCannon.validateCatch(new SoldierJol()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 기물을 잡을 수 없습니다.");
     }
@@ -114,11 +115,10 @@ class CannonTest {
     @Test
     void shouldThrowException_WhenCaptureCannon() {
         // given
-        Board board = new Board();
-        Cannon chuCannon = new Cannon(Camp.CHU, board);
+        Cannon chuCannon = new Cannon(Camp.CHU);
 
         // when & then
-        assertThatCode(() -> chuCannon.validateCatch(new SoldierJol(board)))
+        assertThatCode(() -> chuCannon.validateCatch(new SoldierJol()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 기물을 잡을 수 없습니다.");
     }
@@ -127,9 +127,8 @@ class CannonTest {
     @Test
     void validateCatchTest() {
         // given
-        Board board = new Board();
-        Cannon chuCannon = new Cannon(Camp.CHU, board);
-        SoldierByeong soldierByeong = new SoldierByeong(board);
+        Cannon chuCannon = new Cannon(Camp.CHU);
+        SoldierByeong soldierByeong = new SoldierByeong();
 
         // when & then
         assertThatCode(() -> chuCannon.validateCatch(soldierByeong))
@@ -141,13 +140,14 @@ class CannonTest {
     void shouldThrowException_WhenJumpOverZeroPiece() {
         // given
         Board board = new Board();
-        Cannon cannon = new Cannon(Camp.CHU, board);
+        Cannon cannon = new Cannon(Camp.CHU);
         Point fromPoint = new Point(1, 1);
         Point toPoint = new Point(1, 3);
         board.placePiece(fromPoint, cannon);
+        Set<Piece> piecesOnRoute = board.getPiecesByPoint(cannon.findRoute(fromPoint, toPoint));
 
         // when & then
-        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint, piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 0");
     }
@@ -157,15 +157,16 @@ class CannonTest {
     void shouldThrowException_WhenJumpOverTwoPiece() {
         // given
         Board board = new Board();
-        Cannon cannon = new Cannon(Camp.CHU, board);
+        Cannon cannon = new Cannon(Camp.CHU);
         Point fromPoint = new Point(1, 1);
         Point toPoint = new Point(1, 5);
         board.placePiece(fromPoint, cannon);
-        board.placePiece(new Point(1, 2), new SoldierJol(board));
-        board.placePiece(new Point(1, 3), new SoldierJol(board));
+        board.placePiece(new Point(1, 2), new SoldierJol());
+        board.placePiece(new Point(1, 3), new SoldierJol());
+        Set<Piece> piecesOnRoute = board.getPiecesByPoint(cannon.findRoute(fromPoint, toPoint));
 
         // when & then
-        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint, piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 2");
     }
@@ -175,14 +176,15 @@ class CannonTest {
     void shouldThrowException_WhenCannonJumpOverCannon() {
         // given
         Board board = new Board();
-        Cannon cannon = new Cannon(Camp.CHU, board);
+        Cannon cannon = new Cannon(Camp.CHU);
         Point fromPoint = new Point(1, 1);
         Point toPoint = new Point(1, 3);
         board.placePiece(fromPoint, cannon);
-        board.placePiece(new Point(1, 2), new Cannon(Camp.HAN, board));
+        board.placePiece(new Point(1, 2), new Cannon(Camp.HAN));
+        Set<Piece> piecesOnRoute = board.getPiecesByPoint(cannon.findRoute(fromPoint, toPoint));
 
         // when & then
-        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> cannon.validateMove(fromPoint, toPoint, piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 넘을 수 없습니다.");
     }
@@ -191,8 +193,7 @@ class CannonTest {
     @Test
     void getPieceSymbolTest() {
         // given
-        Board board = new Board();
-        Cannon cannon = new Cannon(Camp.CHU, board);
+        Cannon cannon = new Cannon(Camp.CHU);
 
         // when
         PieceSymbol pieceSymbol = cannon.getPieceSymbol();
@@ -206,8 +207,7 @@ class CannonTest {
     @Test
     void getPointTest() {
         // given
-        Board board = new Board();
-        Cannon cannon = new Cannon(Camp.CHU, board);
+        Cannon cannon = new Cannon(Camp.CHU);
 
         // when
         int point = cannon.getPoint();
@@ -231,14 +231,15 @@ class CannonTest {
         void isDiagonalPalaceMoveAllowedTest(int fromX, int fromY, int toX, int toY) {
             // given
             Board board = new Board();
-            Cannon cannon = new Cannon(Camp.CHU, board);
+            Cannon cannon = new Cannon(Camp.CHU);
             Point fromPoint = new Point(fromX, fromY);
             Point toPoint = new Point(toX, toY);
             board.placePiece(fromPoint, cannon);
-            board.placePiece(new Point(4, 1), new SoldierJol(board));
+            board.placePiece(new Point(4, 1), new SoldierJol());
+            Set<Piece> piecesOnRoute = board.getPiecesByPoint(cannon.findRoute(fromPoint, toPoint));
 
             // when & then
-            assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+            assertThatCode(() -> cannon.validateMove(fromPoint, toPoint, piecesOnRoute))
                     .doesNotThrowAnyException();
         }
 
@@ -253,13 +254,14 @@ class CannonTest {
         void shouldThrowException_WhenDiagonalMoveOutsidePalace(int fromX, int fromY, int toX, int toY) {
             // given
             Board board = new Board();
-            Cannon cannon = new Cannon(Camp.CHU, board);
+            Cannon cannon = new Cannon(Camp.CHU);
             Point fromPoint = new Point(fromX, fromY);
             Point toPoint = new Point(toX, toY);
             board.placePiece(fromPoint, cannon);
+            Set<Piece> piecesOnRoute = board.getPiecesByPoint(cannon.findRoute(fromPoint, toPoint));
 
             // when & then
-            assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+            assertThatCode(() -> cannon.validateMove(fromPoint, toPoint, piecesOnRoute))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("포가 대각선으로 이동하려면, 허용된 지점에서만 가능합니다.");
         }
@@ -273,15 +275,16 @@ class CannonTest {
         void validateMoveTest(int fromX, int fromY, int toX, int toY) {
             // given
             Board board = new Board();
-            Cannon cannon = new Cannon(Camp.CHU, board);
+            Cannon cannon = new Cannon(Camp.CHU);
             Point fromPoint = new Point(fromX, fromY);
             Point toPoint = new Point(toX, toY);
             board.placePiece(fromPoint, cannon);
-            board.placePiece(new Point(3, 3), new SoldierJol(board));
-            board.placePiece(new Point(2, 1), new SoldierJol(board));
+            board.placePiece(new Point(3, 3), new SoldierJol());
+            board.placePiece(new Point(2, 1), new SoldierJol());
+            Set<Piece> piecesOnRoute = board.getPiecesByPoint(cannon.findRoute(fromPoint, toPoint));
 
             // when & then
-            assertThatCode(() -> cannon.validateMove(fromPoint, toPoint))
+            assertThatCode(() -> cannon.validateMove(fromPoint, toPoint, piecesOnRoute))
                     .doesNotThrowAnyException();
         }
     }

@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.point.Point;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,25 +9,39 @@ public final class Cannon extends PalaceAffectedPiece {
 
     private static final int POSSIBLE_JUMP_OVER_PIECE_COUNT = 1;
 
-    public Cannon(Camp camp, Board board) {
-        super(camp, board);
+    public Cannon(Camp camp) {
+        super(camp);
+    }
+
+    @Override
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+        if (fromPoint.isHorizontal(toPoint)) {
+            return findHorizontalRoute(fromPoint, toPoint);
+        }
+        if (fromPoint.isVertical(toPoint)) {
+            return findVerticalRoute(fromPoint, toPoint);
+        }
+        return findDiagonalRoute(fromPoint, toPoint);
+    }
+
+    @Override
+    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
+        validateLinearMove(fromPoint, toPoint);
     }
 
     @Override
     protected void validatePalaceMove(Point fromPoint, Point toPoint) {
         if (fromPoint.isDiagonal(toPoint)) {
             validateDiagonalPalaceMove(fromPoint, toPoint);
-            validateJumpOverOnePiece(fromPoint, toPoint);
             return;
         }
         validateLinearMove(fromPoint, toPoint);
-        validateJumpOverOnePiece(fromPoint, toPoint);
     }
 
     @Override
-    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
-        validateLinearMove(fromPoint, toPoint);
-        validateJumpOverOnePiece(fromPoint, toPoint);
+    protected void validateObstacleOnRoute(Set<Piece> piecesOnRoute) {
+        validatePieceCount(piecesOnRoute);
+        validateNotJumpOverCannon(piecesOnRoute);
     }
 
     private void validateDiagonalPalaceMove(Point fromPoint, Point toPoint) {
@@ -41,12 +54,6 @@ public final class Cannon extends PalaceAffectedPiece {
         if (!fromPoint.isHorizontal(toPoint) && !fromPoint.isVertical(toPoint)) {
             throw new IllegalArgumentException("포는 수평 혹은 수직으로만 움직여야 합니다.");
         }
-    }
-
-    private void validateJumpOverOnePiece(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(findRoute(fromPoint, toPoint));
-        validatePieceCount(pieces);
-        validateNotJumpOverCannon(pieces);
     }
 
     private void validatePieceCount(Set<Piece> pieces) {
@@ -64,16 +71,6 @@ public final class Cannon extends PalaceAffectedPiece {
     private boolean hasCannon(Set<Piece> pieces) {
         return pieces.stream()
                 .anyMatch(piece -> piece.getPieceSymbol() == this.getPieceSymbol());
-    }
-
-    private Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        if (fromPoint.isHorizontal(toPoint)) {
-            return findHorizontalRoute(fromPoint, toPoint);
-        }
-        if (fromPoint.isVertical(toPoint)) {
-            return findVerticalRoute(fromPoint, toPoint);
-        }
-        return findDiagonalRoute(fromPoint, toPoint);
     }
 
     private Set<Point> findHorizontalRoute(Point fromPoint, Point toPoint) {

@@ -1,33 +1,37 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.Palace;
 import janggi.board.point.Point;
+import java.util.Set;
 
 public abstract class PalaceAffectedPiece extends Piece {
 
-    public PalaceAffectedPiece(Camp camp, Board board) {
-        super(camp, board);
+    public PalaceAffectedPiece(Camp camp) {
+        super(camp);
     }
 
     @Override
-    public final void validateMove(Point fromPoint, Point toPoint) {
+    public final void validateMove(Point fromPoint, Point toPoint, Set<Piece> piecesOnRoute) {
         if (isOutsidePalace(fromPoint)) {
             validateNonPalaceMove(fromPoint, toPoint);
-            return;
         }
-        validatePalaceMove(fromPoint, toPoint);
+        if (!isOutsidePalace(fromPoint)) {
+            validatePalaceMove(fromPoint, toPoint);
+        }
+        validateObstacleOnRoute(piecesOnRoute);
     }
-
-    protected abstract void validatePalaceMove(Point fromPoint, Point toPoint);
 
     protected abstract void validateNonPalaceMove(Point fromPoint, Point toPoint);
 
-    public final boolean isOutsidePalace(Point point) {
+    protected abstract void validatePalaceMove(Point fromPoint, Point toPoint);
+
+    protected abstract void validateObstacleOnRoute(Set<Piece> piecesOnRoute);
+
+    protected final boolean isOutsidePalace(Point point) {
         return !Palace.isInsidePalace(point);
     }
 
-    public final boolean isDiagonalPalaceMove(Point fromPoint, Point toPoint) {
+    protected final boolean isDiagonalPalaceMove(Point fromPoint, Point toPoint) {
         return Palace.isDiagonalPalaceMoveAllowed(fromPoint, toPoint)
                 && fromPoint.isDiagonal(toPoint);
     }

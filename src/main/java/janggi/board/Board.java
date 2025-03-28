@@ -26,9 +26,19 @@ public final class Board {
     public void movePiece(Point fromPoint, Point toPoint) {
         validateMoveRequest(fromPoint, toPoint);
         Piece fromPiece = getPiece(fromPoint);
-        fromPiece.validateMove(fromPoint, toPoint);
+        validateMove(fromPoint, toPoint, fromPiece);
         validateCaptureEligibility(fromPiece, toPoint);
         movePieceOnBoard(fromPoint, toPoint, fromPiece);
+    }
+
+    private void validateMove(Point fromPoint, Point toPoint, Piece fromPiece) {
+        Set<Piece> piecesOnRoute = getPiecesOnRoute(fromPoint, toPoint, fromPiece);
+        fromPiece.validateMove(fromPoint, toPoint, piecesOnRoute);
+    }
+
+    private Set<Piece> getPiecesOnRoute(Point fromPoint, Point toPoint, Piece fromPiece) {
+        Set<Point> route = fromPiece.findRoute(fromPoint, toPoint);
+        return getPiecesByPoint(route);
     }
 
     private void validateMoveRequest(Point fromPoint, Point toPoint) {

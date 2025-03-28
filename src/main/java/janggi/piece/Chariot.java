@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.point.Point;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,25 +7,40 @@ import java.util.function.BiFunction;
 
 public final class Chariot extends PalaceAffectedPiece {
 
-    public Chariot(Camp camp, Board board) {
-        super(camp, board);
+    public Chariot(Camp camp) {
+        super(camp);
+    }
+
+    @Override
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+        if (fromPoint.isHorizontal(toPoint)) {
+            return findHorizontalRoute(fromPoint, toPoint);
+        }
+        if (fromPoint.isVertical(toPoint)) {
+            return findVerticalRoute(fromPoint, toPoint);
+        }
+        return findDiagonalRoute(fromPoint, toPoint);
+    }
+
+    @Override
+    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
+        validateLinearMove(fromPoint, toPoint);
     }
 
     @Override
     protected void validatePalaceMove(Point fromPoint, Point toPoint) {
         if (fromPoint.isDiagonal(toPoint)) {
             validateDiagonalPalaceMove(fromPoint, toPoint);
-            validateObstacleOnRoute(fromPoint, toPoint);
             return;
         }
         validateLinearMove(fromPoint, toPoint);
-        validateObstacleOnRoute(fromPoint, toPoint);
     }
 
     @Override
-    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
-        validateLinearMove(fromPoint, toPoint);
-        validateObstacleOnRoute(fromPoint, toPoint);
+    protected void validateObstacleOnRoute(Set<Piece> piecesOnRoute) {
+        if (!piecesOnRoute.isEmpty()) {
+            throw new IllegalArgumentException("차는 기물을 넘어 이동할 수 없습니다.");
+        }
     }
 
     private void validateDiagonalPalaceMove(Point fromPoint, Point toPoint) {
@@ -39,23 +53,6 @@ public final class Chariot extends PalaceAffectedPiece {
         if (!fromPoint.isHorizontal(toPoint) && !fromPoint.isVertical(toPoint)) {
             throw new IllegalArgumentException("차는 수평 혹은 수직으로만 움직여야 합니다.");
         }
-    }
-
-    private void validateObstacleOnRoute(Point fromPoint, Point toPoint) {
-        Set<Piece> pieces = getBoard().getPiecesByPoint(findRoute(fromPoint, toPoint));
-        if (!pieces.isEmpty()) {
-            throw new IllegalArgumentException("차는 기물을 넘어 이동할 수 없습니다.");
-        }
-    }
-
-    private Set<Point> findRoute(Point fromPoint, Point toPoint) {
-        if (fromPoint.isHorizontal(toPoint)) {
-            return findHorizontalRoute(fromPoint, toPoint);
-        }
-        if (fromPoint.isVertical(toPoint)) {
-            return findVerticalRoute(fromPoint, toPoint);
-        }
-        return findDiagonalRoute(fromPoint, toPoint);
     }
 
     private Set<Point> findHorizontalRoute(Point fromPoint, Point toPoint) {

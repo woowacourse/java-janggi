@@ -1,12 +1,24 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.point.Point;
+import java.util.Set;
 
 public final class SoldierByeong extends PalaceAffectedPiece {
 
-    public SoldierByeong(Board board) {
-        super(Camp.HAN, board);
+    private static final Set<Point> EMPTY_ROUTE = Set.of();
+
+    public SoldierByeong() {
+        super(Camp.HAN);
+    }
+
+    @Override
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+        return EMPTY_ROUTE;
+    }
+
+    @Override
+    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
+        validateByeongMove(fromPoint, toPoint);
     }
 
     @Override
@@ -28,8 +40,7 @@ public final class SoldierByeong extends PalaceAffectedPiece {
     }
 
     @Override
-    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
-        validateByeongMove(fromPoint, toPoint);
+    protected void validateObstacleOnRoute(Set<Piece> piecesOnRoute) {
     }
 
     private void validateByeongMove(Point fromPoint, Point toPoint) {

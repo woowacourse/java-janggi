@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.board.Board;
 import janggi.board.point.Point;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,13 +25,12 @@ class HorseTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int toX, int toY) {
         // given
-        Board board = new Board();
-        Horse horse = new Horse(camp, board);
+        Horse horse = new Horse(camp);
         Point fromPoint = new Point(5, 5);
         Point toPoint = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> horse.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> horse.validateMove(fromPoint, toPoint, Set.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("마는 직선으로 한 칸, 대각선으로 한 칸 움직여야 합니다.");
     }
@@ -49,13 +49,12 @@ class HorseTest {
     })
     void validateMoveTest(Camp camp, int toX, int toY) {
         // given
-        Board board = new Board();
-        Horse horse = new Horse(camp, board);
+        Horse horse = new Horse(camp);
         Point fromPoint = new Point(5, 5);
         Point toPoint = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> horse.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> horse.validateMove(fromPoint, toPoint, Set.of()))
                 .doesNotThrowAnyException();
     }
 
@@ -70,16 +69,17 @@ class HorseTest {
     void shouldThrowException_WhenBlocked(Camp camp, int toX, int toY) {
         // given
         Board board = new Board();
-        Horse horse = new Horse(camp, board);
+        Horse horse = new Horse(camp);
         Point fromPoint = new Point(5, 5);
         Point toPoint = new Point(toX, toY);
-        board.placePiece(new Point(5, 6), new SoldierJol(board));
-        board.placePiece(new Point(6, 5), new SoldierJol(board));
-        board.placePiece(new Point(4, 5), new SoldierJol(board));
-        board.placePiece(new Point(5, 4), new SoldierJol(board));
+        board.placePiece(new Point(5, 6), new SoldierJol());
+        board.placePiece(new Point(6, 5), new SoldierJol());
+        board.placePiece(new Point(4, 5), new SoldierJol());
+        board.placePiece(new Point(5, 4), new SoldierJol());
+        Set<Piece> piecesOnRoute = board.getPiecesByPoint(horse.findRoute(fromPoint, toPoint));
 
         // when & then
-        assertThatCode(() -> horse.validateMove(fromPoint, toPoint))
+        assertThatCode(() -> horse.validateMove(fromPoint, toPoint, piecesOnRoute))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("마는 기물을 넘어서 이동할 수 없습니다.");
     }
@@ -92,11 +92,10 @@ class HorseTest {
     })
     void canCaptureTest(Camp camp, boolean expected) {
         // given
-        Board board = new Board();
-        Horse horse = new Horse(camp, board);
+        Horse horse = new Horse(camp);
 
         // when
-        boolean canCapture = horse.canCapture(new SoldierJol(board));
+        boolean canCapture = horse.canCapture(new SoldierJol());
 
         // then
         assertThat(canCapture)
@@ -107,11 +106,10 @@ class HorseTest {
     @Test
     void shouldThrowException_WhenCatchSameCamp() {
         // given
-        Board board = new Board();
-        Horse horse = new Horse(Camp.CHU, board);
+        Horse horse = new Horse(Camp.CHU);
 
         // when & then
-        assertThatCode(() -> horse.validateCatch(new SoldierJol(board)))
+        assertThatCode(() -> horse.validateCatch(new SoldierJol()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 기물을 잡을 수 없습니다.");
     }
@@ -120,8 +118,7 @@ class HorseTest {
     @Test
     void getPieceSymbolTest() {
         // given
-        Board board = new Board();
-        Horse horse = new Horse(Camp.CHU, board);
+        Horse horse = new Horse(Camp.CHU);
 
         // when
         PieceSymbol pieceSymbol = horse.getPieceSymbol();
@@ -135,8 +132,7 @@ class HorseTest {
     @Test
     void getPointTest() {
         // given
-        Board board = new Board();
-        Horse horse = new Horse(Camp.CHU, board);
+        Horse horse = new Horse(Camp.CHU);
 
         // when
         int point = horse.getPoint();

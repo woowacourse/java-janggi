@@ -1,12 +1,24 @@
 package janggi.piece;
 
-import janggi.board.Board;
 import janggi.board.point.Point;
+import java.util.Set;
 
 public final class SoldierJol extends PalaceAffectedPiece {
 
-    public SoldierJol(Board board) {
-        super(Camp.CHU, board);
+    private static final Set<Point> EMPTY_ROUTE = Set.of();
+
+    public SoldierJol() {
+        super(Camp.CHU);
+    }
+
+    @Override
+    public Set<Point> findRoute(Point fromPoint, Point toPoint) {
+        return EMPTY_ROUTE;
+    }
+
+    @Override
+    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
+        validateJolMove(fromPoint, toPoint);
     }
 
     @Override
@@ -19,8 +31,7 @@ public final class SoldierJol extends PalaceAffectedPiece {
     }
 
     @Override
-    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
-        validateJolMove(fromPoint, toPoint);
+    protected void validateObstacleOnRoute(Set<Piece> piecesOnRoute) {
     }
 
     private void validateDiagonalPalaceMove(Point fromPoint, Point toPoint) {

@@ -3,8 +3,8 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.board.Board;
 import janggi.board.point.Point;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,11 +17,10 @@ class SoldierByeongTest {
     @Test
     void shouldThrowException_WhenMoveBackward() {
         // given
-        Board board = new Board();
-        SoldierByeong soldierByeong = new SoldierByeong(board);
+        SoldierByeong soldierByeong = new SoldierByeong();
 
         // when & then
-        assertThatCode(() -> soldierByeong.validateMove(new Point(4, 4), new Point(4, 5)))
+        assertThatCode(() -> soldierByeong.validateMove(new Point(4, 4), new Point(4, 5), Set.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("병은 뒤로 갈 수 없으며, 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
     }
@@ -30,11 +29,10 @@ class SoldierByeongTest {
     @Test
     void shouldThrowException_WhenMoveDiagonal() {
         // given
-        Board board = new Board();
-        SoldierByeong soldierByeong = new SoldierByeong(board);
+        SoldierByeong soldierByeong = new SoldierByeong();
 
         // when & then
-        assertThatCode(() -> soldierByeong.validateMove(new Point(4, 4), new Point(3, 3)))
+        assertThatCode(() -> soldierByeong.validateMove(new Point(4, 4), new Point(3, 3), Set.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("병은 뒤로 갈 수 없으며, 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
     }
@@ -48,11 +46,10 @@ class SoldierByeongTest {
     })
     void validateMoveTest(int toX, int toY) {
         // given
-        Board board = new Board();
-        SoldierByeong soldierByeong = new SoldierByeong(board);
+        SoldierByeong soldierByeong = new SoldierByeong();
 
         // when & then
-        assertThatCode(() -> soldierByeong.validateMove(new Point(4, 4), new Point(toX, toY)))
+        assertThatCode(() -> soldierByeong.validateMove(new Point(4, 4), new Point(toX, toY), Set.of()))
                 .doesNotThrowAnyException();
     }
 
@@ -64,11 +61,10 @@ class SoldierByeongTest {
     })
     void canCaptureTest(Camp camp, boolean expected) {
         // given
-        Board board = new Board();
-        SoldierByeong soldierByeong = new SoldierByeong(board);
+        SoldierByeong soldierByeong = new SoldierByeong();
 
         // when
-        boolean canCapture = soldierByeong.canCapture(new Horse(camp, board));
+        boolean canCapture = soldierByeong.canCapture(new Horse(camp));
 
         // then
         assertThat(canCapture)
@@ -79,23 +75,41 @@ class SoldierByeongTest {
     @Test
     void shouldThrowException_WhenCatchSameCamp() {
         // given
-        Board board = new Board();
-        SoldierByeong soldierByeong = new SoldierByeong(board);
+        SoldierByeong soldierByeong = new SoldierByeong();
 
         // when & then
-        assertThatCode(() -> soldierByeong.validateCatch(new SoldierByeong(board)))
+        assertThatCode(() -> soldierByeong.validateCatch(new SoldierByeong()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 기물을 잡을 수 없습니다.");
+    }
+
+    @DisplayName("병의 경로를 반환한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "3, 0, 3, 1",
+            "3, 0, 4, 0",
+            "3, 0, 4, 1",
+            "4, 1, 5, 2"
+    })
+    void findRouteTest(int fromX, int fromY, int toX, int toY) {
+        // given
+        SoldierByeong soldierByeong = new SoldierByeong();
+        Point fromPoint = new Point(fromX, fromY);
+        Point toPoint = new Point(toX, toY);
+
+        // when
+        Set<Point> route = soldierByeong.findRoute(fromPoint, toPoint);
+
+        // then
+        assertThat(route)
+                .isEmpty();
     }
 
     @DisplayName("병이 정상적으로 생성되는지 테스트한다.")
     @Test
     void createTest() {
-        // given
-        Board board = new Board();
-
         // when & then
-        assertThatCode(() -> new SoldierByeong(board))
+        assertThatCode(SoldierByeong::new)
                 .doesNotThrowAnyException();
     }
 
@@ -103,8 +117,7 @@ class SoldierByeongTest {
     @Test
     void getPieceSymbolTest() {
         // given
-        Board board = new Board();
-        SoldierByeong soldierByeong = new SoldierByeong(board);
+        SoldierByeong soldierByeong = new SoldierByeong();
 
         // when
         PieceSymbol pieceSymbol = soldierByeong.getPieceSymbol();
@@ -118,8 +131,7 @@ class SoldierByeongTest {
     @Test
     void getPointTest() {
         // given
-        Board board = new Board();
-        SoldierByeong soldierByeong = new SoldierByeong(board);
+        SoldierByeong soldierByeong = new SoldierByeong();
 
         // when
         int point = soldierByeong.getPoint();
@@ -142,13 +154,12 @@ class SoldierByeongTest {
         })
         void isDiagonalPalaceMoveAllowedTest(int fromX, int fromY, int toX, int toY) {
             // given
-            Board board = new Board();
-            SoldierByeong soldierByeong = new SoldierByeong(board);
+            SoldierByeong soldierByeong = new SoldierByeong();
             Point fromPoint = new Point(fromX, fromY);
             Point toPoint = new Point(toX, toY);
 
             // when & then
-            assertThatCode(() -> soldierByeong.validateMove(fromPoint, toPoint))
+            assertThatCode(() -> soldierByeong.validateMove(fromPoint, toPoint, Set.of()))
                     .doesNotThrowAnyException();
         }
 
@@ -162,13 +173,12 @@ class SoldierByeongTest {
         })
         void shouldThrowException_WhenDiagonalMoveOutsidePalace(int fromX, int fromY, int toX, int toY) {
             // given
-            Board board = new Board();
-            SoldierByeong soldierByeong = new SoldierByeong(board);
+            SoldierByeong soldierByeong = new SoldierByeong();
             Point fromPoint = new Point(fromX, fromY);
             Point toPoint = new Point(toX, toY);
 
             // when & then
-            assertThatCode(() -> soldierByeong.validateMove(fromPoint, toPoint))
+            assertThatCode(() -> soldierByeong.validateMove(fromPoint, toPoint, Set.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("병이 대각선으로 이동하려면, 허용된 지점에서만 가능합니다.");
         }
@@ -183,13 +193,12 @@ class SoldierByeongTest {
         })
         void validateMoveTest(int fromX, int fromY, int toX, int toY) {
             // given
-            Board board = new Board();
-            SoldierByeong soldierByeong = new SoldierByeong(board);
+            SoldierByeong soldierByeong = new SoldierByeong();
             Point fromPoint = new Point(fromX, fromY);
             Point toPoint = new Point(toX, toY);
 
             // when & then
-            assertThatCode(() -> soldierByeong.validateMove(fromPoint, toPoint))
+            assertThatCode(() -> soldierByeong.validateMove(fromPoint, toPoint, Set.of()))
                     .doesNotThrowAnyException();
         }
 
@@ -203,13 +212,12 @@ class SoldierByeongTest {
         })
         void shouldThrowException_WhenMoveBackward(int fromX, int fromY, int toX, int toY) {
             // given
-            Board board = new Board();
-            SoldierByeong soldierByeong = new SoldierByeong(board);
+            SoldierByeong soldierByeong = new SoldierByeong();
             Point fromPoint = new Point(fromX, fromY);
             Point toPoint = new Point(toX, toY);
 
             // when & then
-            assertThatCode(() -> soldierByeong.validateMove(fromPoint, toPoint))
+            assertThatCode(() -> soldierByeong.validateMove(fromPoint, toPoint, Set.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("병은 대각선으로 이동할 수 있는 경우 뒤로 갈 수 없으며, 한 칸만 이동할 수 있습니다.");
         }
@@ -224,13 +232,12 @@ class SoldierByeongTest {
         })
         void shouldThrowException_WhenMoveDiagonalMultipleSteps(int fromX, int fromY, int toX, int toY) {
             // given
-            Board board = new Board();
-            SoldierByeong soldierByeong = new SoldierByeong(board);
+            SoldierByeong soldierByeong = new SoldierByeong();
             Point fromPoint = new Point(fromX, fromY);
             Point toPoint = new Point(toX, toY);
 
             // when & then
-            assertThatCode(() -> soldierByeong.validateMove(fromPoint, toPoint))
+            assertThatCode(() -> soldierByeong.validateMove(fromPoint, toPoint, Set.of()))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("병은 대각선으로 이동할 수 있는 경우 뒤로 갈 수 없으며, 한 칸만 이동할 수 있습니다.");
         }

@@ -20,8 +20,8 @@ class JudgeTest {
     void isGameOverTest_WhenAllGeneralsAreAlive() {
         // given
         Board board = new Board();
-        board.placePiece(new Point(4, 1), new General(Camp.CHU, board));
-        board.placePiece(new Point(4, 8), new General(Camp.HAN, board));
+        board.placePiece(new Point(4, 1), new General(Camp.CHU));
+        board.placePiece(new Point(4, 8), new General(Camp.HAN));
         Judge judge = new Judge();
 
         // when
@@ -37,7 +37,7 @@ class JudgeTest {
     void isGameOverTest_WhenOneGeneralIsDead() {
         // given
         Board board = new Board();
-        board.placePiece(new Point(4, 1), new General(Camp.CHU, board));
+        board.placePiece(new Point(4, 1), new General(Camp.CHU));
         Judge judge = new Judge();
 
         // when
@@ -68,14 +68,14 @@ class JudgeTest {
     void calculateScoreTest() {
         // given
         Board board = new Board();
-        board.placePiece(new Point(0, 0), new Chariot(Camp.CHU, board));
-        board.placePiece(new Point(1, 0), new Elephant(Camp.CHU, board));
-        board.placePiece(new Point(2, 0), new Horse(Camp.CHU, board));
-        board.placePiece(new Point(3, 0), new Guard(Camp.CHU, board));
-        board.placePiece(new Point(5, 9), new Guard(Camp.HAN, board));
-        board.placePiece(new Point(6, 9), new Elephant(Camp.HAN, board));
-        board.placePiece(new Point(7, 9), new Horse(Camp.HAN, board));
-        board.placePiece(new Point(8, 9), new Chariot(Camp.HAN, board));
+        board.placePiece(new Point(0, 0), new Chariot(Camp.CHU));
+        board.placePiece(new Point(1, 0), new Elephant(Camp.CHU));
+        board.placePiece(new Point(2, 0), new Horse(Camp.CHU));
+        board.placePiece(new Point(3, 0), new Guard(Camp.CHU));
+        board.placePiece(new Point(5, 9), new Guard(Camp.HAN));
+        board.placePiece(new Point(6, 9), new Elephant(Camp.HAN));
+        board.placePiece(new Point(7, 9), new Horse(Camp.HAN));
+        board.placePiece(new Point(8, 9), new Chariot(Camp.HAN));
         Judge judge = new Judge();
 
         // when
