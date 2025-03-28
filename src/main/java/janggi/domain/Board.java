@@ -7,12 +7,15 @@ import janggi.domain.piece.Position;
 import janggi.domain.piece.Team;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Board {
     private final Map<Position, Piece> board;
+    private final Set<Position> palacePositions;
 
-    public Board(final Map<Position, Piece> board) {
+    public Board(final Map<Position, Piece> board, final Set<Position> palacePositions) {
         this.board = new HashMap<>(board);
+        this.palacePositions = palacePositions;
     }
 
     public Map<Position, Piece> getBoard() {
@@ -22,12 +25,15 @@ public class Board {
     public void movePiece(final Team team, final Position beforePosition, final Position afterPosition) {
         Piece piece = board.get(beforePosition);
 
-        if (!piece.is(team)) {
-            throw new IllegalArgumentException("지금은 " + team.getName() + "팀 기물만 이동할 수 있습니다.");
-        }
-
+        validateTurn(team, piece);
         piece.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(board));
         board.put(beforePosition, new None());
         board.put(afterPosition, piece);
+    }
+
+    private void validateTurn(final Team team, final Piece piece) {
+        if (!piece.is(team)) {
+            throw new IllegalArgumentException("지금은 " + team.getName() + "팀 기물만 이동할 수 있습니다.");
+        }
     }
 }

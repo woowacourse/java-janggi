@@ -13,13 +13,16 @@ import janggi.domain.piece.Position;
 import janggi.domain.piece.Soldier;
 import janggi.domain.piece.Team;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 public class BoardFactory {
 
     private static final Map<String, Piece> pieceCache = new HashMap<>();
+    private static final Set<Position> palacePositions = new HashSet<>();
 
     public static Board getInitializedBoard(
             final HorseSide blueLeftHorsePosition,
@@ -36,7 +39,8 @@ public class BoardFactory {
                 redLeftHorsePosition,
                 redRightHorsePosition
         );
-        return new Board(pieces);
+        initializePalacePositions();
+        return new Board(pieces, palacePositions);
     }
 
     private static void initializeWithNones(final Map<Position, Piece> pieces) {
@@ -88,5 +92,13 @@ public class BoardFactory {
     private static Piece getOrCreatePiece(final Function<Team, Piece> pieceCreator, final Team team) {
         String key = team.name() + pieceCreator.getClass().getSimpleName();
         return pieceCache.computeIfAbsent(key, k -> pieceCreator.apply(team));
+    }
+
+    private static void initializePalacePositions() {
+        for (int x : new int[]{1, 2, 3, 8, 9, 10}) {
+            for (int y : new int[]{4, 5, 6}) {
+                palacePositions.add(new Position(x, y));
+            }
+        }
     }
 }
