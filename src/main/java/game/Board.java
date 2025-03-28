@@ -2,6 +2,7 @@ package game;
 
 import java.util.HashMap;
 import java.util.Map;
+import piece.Country;
 import piece.Piece;
 import position.Position;
 
@@ -13,10 +14,12 @@ public class Board {
         this.board = board;
     }
 
-    public Board(BoardSetting boardSetting) {
-        Map<Position, Piece> pieces = new HashMap<>();
-        pieces.putAll(boardSetting.setting());
-        this.board = pieces;
+    public Board(StartPosition choStartPosition, StartPosition hanStartPosition) {
+        BoardSetting boardSetting = new BoardSetting();
+        Map<Position, Piece> board = new HashMap<>();
+        board.putAll(boardSetting.setting(Country.Cho, choStartPosition));
+        board.putAll(boardSetting.setting(Country.Han, hanStartPosition));
+        this.board = board;
     }
 
     public void movePiece(Position fromPosition, Position toPosition) {
@@ -28,6 +31,4 @@ public class Board {
     public Map<Position, Piece> getBoard() {
         return board;
     }
-
-
 }
