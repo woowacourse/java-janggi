@@ -7,15 +7,15 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class JolUnitRuleTest {
+class SoldierUnitRuleTest {
     @Test
     @DisplayName("졸은 수직/수평 한칸만 움직일 수 있다")
     void test1() {
         // given
-        JolUnitRule jolUnitRule = new JolUnitRule();
+        SoldierUnitRule soldierUnitRule = new SoldierUnitRule();
 
         // when
-        List<Route> routes = jolUnitRule.calculateAllRoute(new Position(0, 0));
+        List<Route> routes = soldierUnitRule.calculateAllRoute(new Position(0, 0));
 
         // then
         Assertions.assertThat(routes).isNotEmpty();
