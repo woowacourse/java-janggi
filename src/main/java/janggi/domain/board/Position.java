@@ -11,12 +11,14 @@ public record Position(int x, int y) {
     private static final int BOARD_Y_LOWER_BOUND = 1;
     private static final int BOARD_Y_UPPER_BOUND = 10;
     private static final Set<Position> CAN_MOVE_DIAGONAL_IN_PALACE_POSITIONS = Set.of(
+            // Blue Team Palace
             new Position(4, 1),
             new Position(4, 3),
             new Position(5, 2),
             new Position(6, 1),
             new Position(6, 3),
 
+            // Red Team Palace
             new Position(4, 8),
             new Position(4, 10),
             new Position(5, 9),
