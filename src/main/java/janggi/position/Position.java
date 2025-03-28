@@ -15,10 +15,6 @@ public class Position {
         this.y = y;
     }
 
-    public static Position from(Point point) {
-        return new Position(point.getX(), point.getY());
-    }
-
     public static boolean isCanBePosition(int x, int y) {
         if (x < 0 || x > X_MAX) {
             return false;
