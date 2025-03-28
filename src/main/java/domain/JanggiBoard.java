@@ -16,14 +16,9 @@ import java.util.Map;
 
 public class JanggiBoard {
     private final JanggiPiecePositions janggiPiecePositions;
-    private final Map<JanggiTeam, Score> scores = new EnumMap<>(JanggiTeam.class);
 
     public JanggiBoard(final JanggiPiecePositions janggiPiecePositions) {
         this.janggiPiecePositions = janggiPiecePositions;
-        scores.putAll(Map.of(
-                JanggiTeam.RED, Score.zero(),
-                JanggiTeam.BLUE, Score.zero()
-        ));
     }
 
     public boolean isExistBossAt(JanggiPosition position) {
@@ -42,7 +37,7 @@ public class JanggiBoard {
         validateTeam(currentTeam, from);
         validateDestination(from, to);
         if (janggiPiecePositions.existChessPieceByPosition(to)) {
-            killTarget(currentTeam, to);
+            killTarget(to);
         }
         janggiPiecePositions.move(from, to);
     }
@@ -61,16 +56,8 @@ public class JanggiBoard {
         }
     }
 
-    private void killTarget(JanggiTeam currentTeam, JanggiPosition to) {
-        JanggiChessPiece target = janggiPiecePositions.getJanggiPieceByPosition(to);
-        updateScore(currentTeam, target);
+    private void killTarget(JanggiPosition to) {
         janggiPiecePositions.removeJanggiPieceByPosition(to);
-    }
-
-    private void updateScore(JanggiTeam currentTeam, JanggiChessPiece target) {
-        Score score = target.getScore();
-        Score updatedScore = scores.get(currentTeam).add(score);
-        scores.put(currentTeam, updatedScore);
     }
 
     public List<JanggiPosition> getAvailableDestination(final JanggiPosition position) {
@@ -85,6 +72,10 @@ public class JanggiBoard {
     }
 
     public Map<JanggiTeam, Score> getScores() {
+        Map<JanggiTeam, Score> scores = new EnumMap<>(JanggiTeam.class);
+        for (JanggiTeam team : JanggiTeam.values()) {
+            scores.put(team, janggiPiecePositions.calculateScoreWith(team));
+        }
         return Collections.unmodifiableMap(scores);
     }
 }

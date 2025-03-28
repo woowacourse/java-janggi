@@ -2,6 +2,8 @@ package domain.position;
 
 import domain.janggiPiece.JanggiChessPiece;
 import domain.position.generator.JanggiPiecePositionsGenerator;
+import domain.score.Score;
+import domain.type.JanggiTeam;
 
 import java.util.Collections;
 import java.util.Map;
@@ -50,6 +52,15 @@ public class JanggiPiecePositions {
     private void putJanggiPiece(final JanggiPosition position, final JanggiChessPiece chessPiece) {
         validateEmptyPosition(position);
         chessPieces.put(position, chessPiece);
+    }
+
+    public Score calculateScoreWith(JanggiTeam team) {
+        final int total = chessPieces.values().stream()
+                .filter(p -> p.getTeam() == team)
+                .map(JanggiChessPiece::getScore)
+                .mapToInt(Score::value)
+                .sum();
+        return new Score(total);
     }
 
     public Map<JanggiPosition, JanggiChessPiece> getJanggiPieces() {
