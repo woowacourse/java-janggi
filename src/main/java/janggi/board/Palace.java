@@ -25,6 +25,9 @@ public final class Palace {
             new Point(3, 2), new Point(5, 2)
     );
 
+    private Palace() {
+    }
+
     public static boolean isInsidePalace(Point point) {
         return PALACE_POINTS.contains(point);
     }
