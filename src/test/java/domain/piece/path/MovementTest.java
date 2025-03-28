@@ -1,11 +1,10 @@
-package domain;
+package domain.piece.path;
 
 import static fixtures.PositionFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.position.Direction;
-import domain.piece.path.Movement;
 import domain.position.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
