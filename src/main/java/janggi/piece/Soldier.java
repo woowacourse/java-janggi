@@ -28,9 +28,6 @@ public class Soldier extends Piece {
         List<Position> reachablePositions = new ArrayList<>();
         for (Route route : candidateRoutes) {
             Position destination = route.getDestination();
-            if (destination.isNotPalace()) {
-                continue;
-            }
             if (board.isOutOfRange(destination)) {
                 continue;
             }
