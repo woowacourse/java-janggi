@@ -20,6 +20,10 @@ public class Guard extends Piece{
 
     @Override
     protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
+        if(!destination.isInsidePalace()){
+            return false;
+        }
+
         return now.calculateDistance(destination) == GUARD_DISTANCE;
     }
 

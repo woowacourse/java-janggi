@@ -6,49 +6,70 @@ import janggi.board.Board;
 import janggi.coordinate.Position;
 import java.util.HashMap;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class GuardTest {
 
-    @DisplayName("General은 주변 한칸으로 이동할 수 있다.")
-    @Test
-    void general() {
-        // given
-        final Piece generalPiece = new General(Country.CHO);
-        final Position now = new Position(1, 1);
-        final Position ableDest = new Position(1, 2);
-        final Position notAbleDest = new Position(1, 3);
-        final Board board = new Board(new HashMap<>());
+    @Nested
+    @DisplayName("사 이동")
+    class CanMove {
+        @DisplayName("General은 주변 한칸으로 이동할 수 있다.")
+        @Test
+        void general() {
+            // given
+            final Piece generalPiece = new General(Country.CHO);
+            final Position now = new Position(1, 1);
+            final Position ableDest = new Position(1, 2);
+            final Position notAbleDest = new Position(1, 3);
+            final Board board = new Board(new HashMap<>());
 
-        // when
-        final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board);
-        final boolean actual2 = generalPiece.isAbleToMove(now, notAbleDest, board);
+            // when
+            final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board);
+            final boolean actual2 = generalPiece.isAbleToMove(now, notAbleDest, board);
 
-        // then
-        org.junit.jupiter.api.Assertions.assertAll(
-                () -> assertThat(actual1).isTrue(),
-                () -> assertThat(actual2).isFalse()
-        );
-    }
+            // then
+            org.junit.jupiter.api.Assertions.assertAll(
+                    () -> assertThat(actual1).isTrue(),
+                    () -> assertThat(actual2).isFalse()
+            );
+        }
 
-    @DisplayName("guard는 주변 한칸으로 이동할 수 있다.")
-    @Test
-    void guard() {
-        // given
-        final Piece guardPiece = new Guard(Country.CHO);
-        final Position now = new Position(1, 1);
-        final Position ableDest = new Position(1, 2);
-        final Position notAbleDest = new Position(1, 3);
-        final Board board = new Board(new HashMap<>());
+        @DisplayName("guard는 주변 한칸으로 이동할 수 있다.")
+        @Test
+        void guard() {
+            // given
+            final Piece guardPiece = new Guard(Country.CHO);
+            final Position now = new Position(1, 1);
+            final Position ableDest = new Position(1, 2);
+            final Position notAbleDest = new Position(1, 3);
+            final Board board = new Board(new HashMap<>());
 
-        // when
-        final boolean actual1 = guardPiece.isAbleToMove(now, ableDest, board);
-        final boolean actual2 = guardPiece.isAbleToMove(now, notAbleDest, board);
+            // when
+            final boolean actual1 = guardPiece.isAbleToMove(now, ableDest, board);
+            final boolean actual2 = guardPiece.isAbleToMove(now, notAbleDest, board);
 
-        // then
-        org.junit.jupiter.api.Assertions.assertAll(
-                () -> assertThat(actual1).isTrue(),
-                () -> assertThat(actual2).isFalse()
-        );
+            // then
+            org.junit.jupiter.api.Assertions.assertAll(
+                    () -> assertThat(actual1).isTrue(),
+                    () -> assertThat(actual2).isFalse()
+            );
+        }
+
+        @DisplayName("guard는 궁성 밖으로 나갈 수 없다.")
+        @Test
+        void guard1() {
+            // given
+            final Piece guardPiece = new Guard(Country.HAN);
+            final Position now = new Position(2, 4);
+            final Position notAbleDest = new Position(2, 3);
+            final Board board = new Board(new HashMap<>());
+
+            // when
+            final boolean actual = guardPiece.canMove(now, notAbleDest, board);
+
+            // then
+            assertThat(actual).isFalse();
+        }
     }
 }

@@ -12,6 +12,11 @@ public record Position(int x, int y) {
     public static final int POSITION_RANGE_Y_MIN = 1;
     public static final int POSITION_RANGE_Y_MAX = 9;
 
+    private static final Position PALACE_TOP_LEFT_HAN = new Position(1, 4);
+    private static final Position PALACE_BOTTOM_RIGHT_HAN = new Position(3, 6);
+    private static final Position PALACE_TOP_LEFT_CHO = new Position(8, 4);
+    private static final Position PALACE_BOTTOM_RIGHT_CHO = new Position(10, 6);
+
     public Position(final int x, final int y) {
         validatePositionRange(x, y);
         this.x = x;
@@ -77,6 +82,31 @@ public record Position(int x, int y) {
     private static void removeSourceAndDestination(final List<Position> betweenPositions) {
         betweenPositions.removeFirst();
         betweenPositions.removeLast();
+    }
+
+    public boolean isInsidePalace(){
+        return isYInsidePalace() && (isXInsideChoPalace() || isXInsideHanPalace());
+
+    }
+
+    private boolean isYInsidePalace() {
+        return this.isYGreaterThan(PALACE_TOP_LEFT_HAN) && this.isYLessThan(PALACE_BOTTOM_RIGHT_HAN);
+    }
+
+    private boolean isXInsideChoPalace() {
+        return this.isXGreaterThan(PALACE_TOP_LEFT_CHO) && this.isXLessThan(PALACE_BOTTOM_RIGHT_CHO);
+    }
+
+    private boolean isXInsideHanPalace() {
+        return this.isXGreaterThan(PALACE_TOP_LEFT_HAN) && this.isXLessThan(PALACE_BOTTOM_RIGHT_HAN);
+    }
+
+    private boolean isYGreaterThan(final Position position){
+        return y >= position.y;
+    }
+
+    private boolean isYLessThan(final Position position){
+        return y <= position.y;
     }
 
 }
