@@ -29,7 +29,7 @@ public class PathFinderFactory {
         return new PathFinder(nodeByPoint);
     }
 
-    private void createAllNodes(Map<Point, Node> nodeByPoint) {
+    private void createAllNodes(final Map<Point, Node> nodeByPoint) {
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
             for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
@@ -39,7 +39,7 @@ public class PathFinderFactory {
         }
     }
 
-    private void createAllEdges(Map<Point, Node> nodeByPoint) {
+    private void createAllEdges(final Map<Point, Node> nodeByPoint) {
         final Point HAN_WANG_POINT = Point.of(2, 5);
         final Point CHO_WANG_POINT = Point.of(9, 5);
 
@@ -71,7 +71,7 @@ public class PathFinderFactory {
         return edges;
     }
 
-    private void createDiagonalEdges(Point point, Map<Point, Node> nodeByPoint) {
+    private void createDiagonalEdges(final Point point, final Map<Point, Node> nodeByPoint) {
         Node node = nodeByPoint.get(point);
         for (Direction direction : Direction.DIAGONALS) {
             int nextRow = point.row() + direction.deltaRow();
