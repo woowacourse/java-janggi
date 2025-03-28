@@ -3,7 +3,7 @@ package janggi.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Country;
@@ -65,14 +65,14 @@ public class BoardTest {
         @Test
         void existPieceByPosition() {
             // given
-            final Map<Position, Piece> map = Map.of(new Position(1, 1), new General(Country.HAN));
+            final Map<JanggiPosition, Piece> map = Map.of(new JanggiPosition(1, 1), new General(Country.HAN));
             final Board board = new Board(map);
-            final Position existPosition = new Position(1, 1);
-            final Position notExistPosition = new Position(1, 2);
+            final JanggiPosition existJanggiPosition = new JanggiPosition(1, 1);
+            final JanggiPosition notExistJanggiPosition = new JanggiPosition(1, 2);
 
             // when
-            final boolean actual1 = board.existPieceByPosition(existPosition);
-            final boolean actual2 = board.existPieceByPosition(notExistPosition);
+            final boolean actual1 = board.existPieceByPosition(existJanggiPosition);
+            final boolean actual2 = board.existPieceByPosition(notExistJanggiPosition);
 
             // then
             org.junit.jupiter.api.Assertions.assertAll(
@@ -85,15 +85,15 @@ public class BoardTest {
         @Test
         void isCannonByPosition() {
             // given
-            final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(Country.HAN),
-                    new Position(1, 2), new Soldier(Country.HAN)
+            final Map<JanggiPosition, Piece> map = Map.of(
+                    new JanggiPosition(1, 1), new Cannon(Country.HAN),
+                    new JanggiPosition(1, 2), new Soldier(Country.HAN)
             );
             final Board board = new Board(map);
-            final Position cannonPosition = new Position(1, 1);
+            final JanggiPosition cannonJanggiPosition = new JanggiPosition(1, 1);
 
             // when
-            final boolean actualCannon = board.isCannonByPosition(cannonPosition);
+            final boolean actualCannon = board.isCannonByPosition(cannonJanggiPosition);
 
             // then
             assertThat(actualCannon).isTrue();
@@ -103,17 +103,17 @@ public class BoardTest {
         @Test
         void containsCannonByPositions() {
             // given
-            final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(Country.HAN),
-                    new Position(1, 2), new Soldier(Country.HAN)
+            final Map<JanggiPosition, Piece> map = Map.of(
+                    new JanggiPosition(1, 1), new Cannon(Country.HAN),
+                    new JanggiPosition(1, 2), new Soldier(Country.HAN)
             );
             final Board board = new Board(map);
-            final List<Position> positions = List.of(
-                    new Position(1, 1), new Position(1, 2)
+            final List<JanggiPosition> janggiPositions = List.of(
+                    new JanggiPosition(1, 1), new JanggiPosition(1, 2)
             );
 
             // when
-            final boolean actual = board.containsCannonByPositions(positions);
+            final boolean actual = board.containsCannonByPositions(janggiPositions);
 
             // then
             assertThat(actual).isTrue();
@@ -123,18 +123,18 @@ public class BoardTest {
         @DisplayName("보드의 특정 위치의 기물이 주어진 팀과 같다면 true를 반환한다.")
         void equalsTeamTypeByPosition() {
             // given
-            final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(Country.HAN)
+            final Map<JanggiPosition, Piece> map = Map.of(
+                    new JanggiPosition(1, 1), new Cannon(Country.HAN)
             );
             final Board board = new Board(map);
 
-            final Position position = new Position(1, 1);
+            final JanggiPosition janggiPosition = new JanggiPosition(1, 1);
             final Country equalsCountry = Country.HAN;
             final Country notEqualsCountry = Country.CHO;
 
             // when
-            final boolean actualEquals = board.equalsTeamTypeByPosition(position, equalsCountry);
-            final boolean actualNotEquals = board.equalsTeamTypeByPosition(position, notEqualsCountry);
+            final boolean actualEquals = board.equalsTeamTypeByPosition(janggiPosition, equalsCountry);
+            final boolean actualNotEquals = board.equalsTeamTypeByPosition(janggiPosition, notEqualsCountry);
 
             // then
             assertThat(actualEquals).isTrue();
@@ -145,19 +145,19 @@ public class BoardTest {
         @Test
         void calculatePieceCountByPositions() {
             // given
-            final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(Country.HAN),
-                    new Position(1, 2), new Cannon(Country.HAN),
-                    new Position(1, 3), new Cannon(Country.HAN)
+            final Map<JanggiPosition, Piece> map = Map.of(
+                    new JanggiPosition(1, 1), new Cannon(Country.HAN),
+                    new JanggiPosition(1, 2), new Cannon(Country.HAN),
+                    new JanggiPosition(1, 3), new Cannon(Country.HAN)
             );
             final Board board = new Board(map);
-            final List<Position> positions = List.of(
-                    new Position(1, 1), new Position(1, 2)
+            final List<JanggiPosition> janggiPositions = List.of(
+                    new JanggiPosition(1, 1), new JanggiPosition(1, 2)
             );
             final int expected = 2;
 
             // when
-            final int actual = board.calculatePieceCountByPositions(positions);
+            final int actual = board.calculatePieceCountByPositions(janggiPositions);
 
             // then
             assertThat(actual).isEqualTo(expected);
@@ -166,18 +166,18 @@ public class BoardTest {
 
     @Nested
     @DisplayName("기물 위치 이동")
-    class UpdatePosition {
+    class UpdateJanggiPosition {
         @Test
         @DisplayName("src 위치에 있는 기물이 dest로 옮겨질 수 있다면 이동시킨다.")
         void updatePosition3() {
             // given
-            final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Chariot(Country.HAN)
+            final Map<JanggiPosition, Piece> map = Map.of(
+                    new JanggiPosition(1, 1), new Chariot(Country.HAN)
             );
             final Board board = new Board(map);
 
-            final Position src = new Position(1, 1);
-            final Position dest = new Position(1, 5);
+            final JanggiPosition src = new JanggiPosition(1, 1);
+            final JanggiPosition dest = new JanggiPosition(1, 5);
             final Country country = Country.HAN;
 
             // when
@@ -197,8 +197,8 @@ public class BoardTest {
             // given
             final Board board = new Board(new HashMap<>());
 
-            final Position src = new Position(1, 1);
-            final Position dest = new Position(1, 2);
+            final JanggiPosition src = new JanggiPosition(1, 1);
+            final JanggiPosition dest = new JanggiPosition(1, 2);
             final Country country = Country.HAN;
 
             // when & then
@@ -210,13 +210,13 @@ public class BoardTest {
         @DisplayName("src 위치에 기물이 현재 턴의 팀이 아니라면 예외가 발생한다")
         void updatePosition1() {
             // given
-            final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(Country.CHO)
+            final Map<JanggiPosition, Piece> map = Map.of(
+                    new JanggiPosition(1, 1), new Cannon(Country.CHO)
             );
             final Board board = new Board(map);
 
-            final Position src = new Position(1, 1);
-            final Position dest = new Position(1, 2);
+            final JanggiPosition src = new JanggiPosition(1, 1);
+            final JanggiPosition dest = new JanggiPosition(1, 2);
             final Country country = Country.HAN;
 
             // when & then
@@ -228,13 +228,13 @@ public class BoardTest {
         @DisplayName("src 위치에 기물이 dest로 갈 수 없다면 예외가 발생한다")
         void updatePosition2() {
             // given
-            final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(Country.HAN)
+            final Map<JanggiPosition, Piece> map = Map.of(
+                    new JanggiPosition(1, 1), new Cannon(Country.HAN)
             );
             final Board board = new Board(map);
 
-            final Position src = new Position(1, 1);
-            final Position dest = new Position(1, 2);
+            final JanggiPosition src = new JanggiPosition(1, 1);
+            final JanggiPosition dest = new JanggiPosition(1, 2);
             final Country country = Country.HAN;
 
             // when & then
@@ -251,8 +251,8 @@ public class BoardTest {
         @Test
         void isAliveAllGenerals() {
             // given
-            final Map<Position, Piece> janggiBoard = Map.of(
-                    new Position(1, 1), new General(Country.HAN)
+            final Map<JanggiPosition, Piece> janggiBoard = Map.of(
+                    new JanggiPosition(1, 1), new General(Country.HAN)
             );
             final Board board = new Board(janggiBoard);
 
@@ -273,9 +273,9 @@ public class BoardTest {
         @MethodSource
         void kill(final Piece piece, final JanggiScore expectedJanggiScore) {
             // given
-            final Position position = new Position(1, 2);
-            final Map<Position, Piece> janggiBoard = Map.of(
-                    position, piece
+            final JanggiPosition janggiPosition = new JanggiPosition(1, 2);
+            final Map<JanggiPosition, Piece> janggiBoard = Map.of(
+                    janggiPosition, piece
             );
             final Board board = new Board(janggiBoard);
 

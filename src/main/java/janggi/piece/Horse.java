@@ -3,7 +3,7 @@ package janggi.piece;
 import janggi.board.JanggiScore;
 import janggi.board.VisibleBoard;
 import janggi.coordinate.Path;
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 import janggi.coordinate.RelativePosition;
 import java.util.List;
 
@@ -32,18 +32,18 @@ public class Horse extends Piece {
     }
 
     @Override
-    protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
+    protected boolean canMove(final JanggiPosition now, final JanggiPosition destination, final VisibleBoard visibleBoard) {
         if (now.calculateDistance(destination) != HORSE_DISTANCE) {
             return false;
         }
 
-        final List<Position> absolutePath = findPathByDestination(now, destination);
-        final Position passPosition = absolutePath.getFirst();
+        final List<JanggiPosition> absolutePath = findPathByDestination(now, destination);
+        final JanggiPosition passJanggiPosition = absolutePath.getFirst();
 
-        return !visibleBoard.existPieceByPosition(passPosition);
+        return !visibleBoard.existPieceByPosition(passJanggiPosition);
     }
 
-    private List<Position> findPathByDestination(final Position now, final Position destination){
+    private List<JanggiPosition> findPathByDestination(final JanggiPosition now, final JanggiPosition destination){
         return RELATIVE_POSITIONS.stream()
                 .filter(path -> path.equalsDestination(now, destination))
                 .findFirst()

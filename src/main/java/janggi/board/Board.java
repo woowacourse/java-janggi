@@ -1,6 +1,6 @@
 package janggi.board;
 
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 import janggi.piece.Country;
 import janggi.piece.Piece;
 import java.util.HashMap;
@@ -12,14 +12,14 @@ public class Board implements VisibleBoard {
 
     private static final int ALL_GENERAL_COUNT = 2;
 
-    private final Map<Position, Piece> janggiBoard;
+    private final Map<JanggiPosition, Piece> janggiBoard;
 
-    public Board(final Map<Position, Piece> janggiBoard) {
+    public Board(final Map<JanggiPosition, Piece> janggiBoard) {
         this.janggiBoard = new HashMap<>(janggiBoard);
     }
 
     public static Board createInitializedJanggiBoard() {
-        final Map<Position, Piece> initMap = new HashMap<>();
+        final Map<JanggiPosition, Piece> initMap = new HashMap<>();
 
         for (final PieceInitialPosition pieceType : PieceInitialPosition.values()) {
             initMap.putAll(pieceType.makeInitPieces(Country.CHO));
@@ -29,7 +29,7 @@ public class Board implements VisibleBoard {
         return new Board(initMap);
     }
 
-    public void updatePosition(final Position source, final Position destination, final Country currentTurnCountry) {
+    public void updatePosition(final JanggiPosition source, final JanggiPosition destination, final Country currentTurnCountry) {
         validateExistsPieceInPosition(source);
         validateIsCurrentCountry(source, currentTurnCountry);
         validatePieceCanMove(source, destination);
@@ -37,19 +37,19 @@ public class Board implements VisibleBoard {
         movePieceToDestination(source, destination);
     }
 
-    private void validateExistsPieceInPosition(final Position source) {
+    private void validateExistsPieceInPosition(final JanggiPosition source) {
         if (!janggiBoard.containsKey(source)) {
             throw new IllegalArgumentException("scr 좌표에 기물이 존재하지 않습니다.");
         }
     }
 
-    private void validateIsCurrentCountry(final Position source, final Country country) {
+    private void validateIsCurrentCountry(final JanggiPosition source, final Country country) {
         if (!janggiBoard.get(source).equalsCountry(country)) {
             throw new IllegalArgumentException("현재 턴에 해당하는 기물이 아닙니다.");
         }
     }
 
-    private void validatePieceCanMove(final Position source, final Position destination) {
+    private void validatePieceCanMove(final JanggiPosition source, final JanggiPosition destination) {
         final Piece piece = janggiBoard.get(source);
 
         if (!piece.isAbleToMove(source, destination, this)) {
@@ -57,7 +57,7 @@ public class Board implements VisibleBoard {
         }
     }
 
-    private void movePieceToDestination(final Position source, final Position destination) {
+    private void movePieceToDestination(final JanggiPosition source, final JanggiPosition destination) {
         janggiBoard.put(destination, janggiBoard.get(source));
         janggiBoard.remove(source);
     }
@@ -80,44 +80,44 @@ public class Board implements VisibleBoard {
     }
 
     @Override
-    public boolean existPieceByPosition(final Position position) {
-        return janggiBoard.containsKey(position);
+    public boolean existPieceByPosition(final JanggiPosition janggiPosition) {
+        return janggiBoard.containsKey(janggiPosition);
     }
 
     @Override
-    public boolean isCannonByPosition(final Position position) {
-        if (janggiBoard.containsKey(position)) {
-            final Piece piece = janggiBoard.get(position);
+    public boolean isCannonByPosition(final JanggiPosition janggiPosition) {
+        if (janggiBoard.containsKey(janggiPosition)) {
+            final Piece piece = janggiBoard.get(janggiPosition);
             return piece.isCannon();
         }
         return false;
     }
 
     @Override
-    public boolean containsCannonByPositions(final List<Position> positions) {
-        return positions.stream()
+    public boolean containsCannonByPositions(final List<JanggiPosition> janggiPositions) {
+        return janggiPositions.stream()
                 .filter(janggiBoard::containsKey)
                 .map(janggiBoard::get)
                 .anyMatch(Piece::isCannon);
     }
 
     @Override
-    public boolean equalsTeamTypeByPosition(final Position position, final Country country) {
-        if (janggiBoard.containsKey(position)) {
-            final Piece piece = janggiBoard.get(position);
+    public boolean equalsTeamTypeByPosition(final JanggiPosition janggiPosition, final Country country) {
+        if (janggiBoard.containsKey(janggiPosition)) {
+            final Piece piece = janggiBoard.get(janggiPosition);
             return piece.equalsCountry(country);
         }
         return false;
     }
 
     @Override
-    public int calculatePieceCountByPositions(final List<Position> positions) {
-        return (int) positions.stream()
+    public int calculatePieceCountByPositions(final List<JanggiPosition> janggiPositions) {
+        return (int) janggiPositions.stream()
                 .filter(janggiBoard::containsKey)
                 .count();
     }
 
-    public Map<Position, Piece> getJanggiBoard() {
+    public Map<JanggiPosition, Piece> getJanggiBoard() {
         return new HashMap<>(janggiBoard);
     }
 

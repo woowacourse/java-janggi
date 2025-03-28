@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.board.JanggiScore;
 import janggi.board.VisibleBoard;
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 
 public class Soldier extends Piece {
 
@@ -19,7 +19,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
+    protected boolean canMove(final JanggiPosition now, final JanggiPosition destination, final VisibleBoard visibleBoard) {
         if (isDestinationDirectionFront(now, destination, country)) {
             return false;
         }
@@ -31,18 +31,18 @@ public class Soldier extends Piece {
         return now.calculateDistance(destination) == SOLDIER_DISTANCE;
     }
 
-    private boolean isDestinationDirectionFront(final Position now, final Position destination, final Country country) {
+    private boolean isDestinationDirectionFront(final JanggiPosition now, final JanggiPosition destination, final Country country) {
         if(country == Country.HAN){
             return now.isXGreaterThan(destination);
         }
         return now.isXLessThan(destination);
     }
 
-    private boolean isCenterToCorner(final Position now, final Position destination) {
+    private boolean isCenterToCorner(final JanggiPosition now, final JanggiPosition destination) {
         return now.isCenterInPalace() && destination.isCornerInPalace();
     }
 
-    private boolean isCornerToCenter(final Position now, final Position destination) {
+    private boolean isCornerToCenter(final JanggiPosition now, final JanggiPosition destination) {
         return now.isCornerInPalace() && destination.isCenterInPalace();
     }
 

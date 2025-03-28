@@ -1,17 +1,17 @@
 package janggi.board;
 
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 import janggi.piece.Country;
 import java.util.List;
 
 public interface VisibleBoard {
-    boolean existPieceByPosition(final Position existPosition);
+    boolean existPieceByPosition(final JanggiPosition existJanggiPosition);
 
-    boolean isCannonByPosition(final Position position);
+    boolean isCannonByPosition(final JanggiPosition janggiPosition);
 
-    boolean containsCannonByPositions(final List<Position> positions);
+    boolean containsCannonByPositions(final List<JanggiPosition> janggiPositions);
 
-    boolean equalsTeamTypeByPosition(final Position position, final Country country);
+    boolean equalsTeamTypeByPosition(final JanggiPosition janggiPosition, final Country country);
 
-    int calculatePieceCountByPositions(final List<Position> positions);
+    int calculatePieceCountByPositions(final List<JanggiPosition> janggiPositions);
 }

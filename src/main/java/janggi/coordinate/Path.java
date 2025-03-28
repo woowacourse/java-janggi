@@ -11,7 +11,7 @@ public class Path {
         this.relativePositions = Collections.unmodifiableList(relativePositions);
     }
 
-    public List<Position> calculateAbsolutePath(final Position now) {
+    public List<JanggiPosition> calculateAbsolutePath(final JanggiPosition now) {
         try {
             return makeAbsolutePath(now);
         }
@@ -20,9 +20,9 @@ public class Path {
         }
     }
 
-    private List<Position> makeAbsolutePath(final Position now) {
-        final List<Position> absolutePath = new ArrayList<>();
-        Position next = now;
+    private List<JanggiPosition> makeAbsolutePath(final JanggiPosition now) {
+        final List<JanggiPosition> absolutePath = new ArrayList<>();
+        JanggiPosition next = now;
         for (final RelativePosition relativePosition : relativePositions) {
             next = relativePosition.calculateNextPosition(next);
             absolutePath.add(next);
@@ -30,10 +30,10 @@ public class Path {
         return absolutePath;
     }
 
-    public boolean equalsDestination(final Position now, final Position destination) {
+    public boolean equalsDestination(final JanggiPosition now, final JanggiPosition destination) {
         try {
-            final List<Position> positions = makeAbsolutePath(now);
-            return destination.equals(positions.getLast());
+            final List<JanggiPosition> janggiPositions = makeAbsolutePath(now);
+            return destination.equals(janggiPositions.getLast());
         } catch (final IllegalArgumentException e){
             return false;
         }

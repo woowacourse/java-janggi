@@ -1,7 +1,7 @@
 package janggi;
 
 import janggi.board.Board;
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 import janggi.piece.Country;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -22,8 +22,8 @@ public class JanggiApplication {
 
         while (board.isAliveAllGenerals()) {
             OutputView.printBoard(board, type);
-            final List<Position> positions = InputView.readPositions();
-            board.updatePosition(positions.get(MOVE_SOURCE), positions.get(MOVE_DESTINATION), type);
+            final List<JanggiPosition> janggiPositions = InputView.readPositions();
+            board.updatePosition(janggiPositions.get(MOVE_SOURCE), janggiPositions.get(MOVE_DESTINATION), type);
             type = type.toggleCountry();
         }
 

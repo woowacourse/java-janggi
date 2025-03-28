@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.board.JanggiScore;
 import janggi.board.VisibleBoard;
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 
 public abstract class Piece {
 
@@ -12,7 +12,7 @@ public abstract class Piece {
         this.country = country;
     }
 
-    public boolean isAbleToMove(final Position now, final Position destination, final VisibleBoard visibleBoard){
+    public boolean isAbleToMove(final JanggiPosition now, final JanggiPosition destination, final VisibleBoard visibleBoard){
         if (visibleBoard.existPieceByPosition(destination) && visibleBoard.equalsTeamTypeByPosition(destination, country)) {
             return false;
         }
@@ -21,7 +21,7 @@ public abstract class Piece {
 
     public abstract JanggiScore plusScore(final JanggiScore janggiScore);
 
-    protected abstract boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard);
+    protected abstract boolean canMove(final JanggiPosition now, final JanggiPosition destination, final VisibleBoard visibleBoard);
 
     public boolean isCannon(){
         return false;

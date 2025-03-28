@@ -1,7 +1,5 @@
 package janggi.coordinate;
 
-import janggi.coordinate.Position;
-
 public enum RelativePosition {
     TOP(-1, 0),
     BOTTOM(1, 0),
@@ -21,7 +19,7 @@ public enum RelativePosition {
     }
 
 
-    public Position calculateNextPosition(final Position now) {
+    public JanggiPosition calculateNextPosition(final JanggiPosition now) {
         return now.plusPosition(x, y);
     }
 }

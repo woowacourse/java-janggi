@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.board.JanggiScore;
 import janggi.board.VisibleBoard;
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 
 public class Guard extends Piece {
 
@@ -19,7 +19,7 @@ public class Guard extends Piece {
     }
 
     @Override
-    protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
+    protected boolean canMove(final JanggiPosition now, final JanggiPosition destination, final VisibleBoard visibleBoard) {
         if (!destination.isInsidePalace(country)) {
             return false;
         }
@@ -31,11 +31,11 @@ public class Guard extends Piece {
         return now.calculateDistance(destination) == GUARD_DISTANCE;
     }
 
-    private boolean isCenterToCorner(final Position now, final Position destination) {
+    private boolean isCenterToCorner(final JanggiPosition now, final JanggiPosition destination) {
         return now.isCenterInPalace() && destination.isCornerInPalace();
     }
 
-    private boolean isCornerToCenter(final Position now, final Position destination) {
+    private boolean isCornerToCenter(final JanggiPosition now, final JanggiPosition destination) {
         return now.isCornerInPalace() && destination.isCenterInPalace();
     }
 

@@ -2,9 +2,6 @@ package janggi.coordinate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.coordinate.Path;
-import janggi.coordinate.Position;
-import janggi.coordinate.RelativePosition;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -24,15 +21,15 @@ public class PathTest {
                     RelativePosition.BOTTOM, RelativePosition.BOTTOM_LEFT_DIAGONAL
             );
             final Path path = new Path(relativePositions);
-            final Position now = new Position(3, 3);
+            final JanggiPosition now = new JanggiPosition(3, 3);
 
             // when
-            final List<Position> positions = path.calculateAbsolutePath(now);
+            final List<JanggiPosition> janggiPositions = path.calculateAbsolutePath(now);
 
             // then
-            assertThat(positions)
-                    .contains(new Position(4, 3))
-                    .contains(new Position(5, 2));
+            assertThat(janggiPositions)
+                    .contains(new JanggiPosition(4, 3))
+                    .contains(new JanggiPosition(5, 2));
         }
 
         @DisplayName("주어진 위치에 대한 절대 경로의 목적지가, 주어진 목적지라면 true, 아니라면 false를 반환한다.")
@@ -43,8 +40,8 @@ public class PathTest {
                     RelativePosition.BOTTOM, RelativePosition.BOTTOM_LEFT_DIAGONAL
             );
             final Path path = new Path(relativePositions);
-            final Position now = new Position(3, 3);
-            final Position destination = new Position(5, 2);
+            final JanggiPosition now = new JanggiPosition(3, 3);
+            final JanggiPosition destination = new JanggiPosition(5, 2);
 
             // when
             final boolean actual = path.equalsDestination(now, destination);

@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.board.JanggiScore;
 import janggi.board.VisibleBoard;
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 import java.util.List;
 
 public class Chariot extends Piece {
@@ -20,18 +20,18 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
+    protected boolean canMove(final JanggiPosition now, final JanggiPosition destination, final VisibleBoard visibleBoard) {
         if (!now.isSameLine(destination)) {
             return canMoveInPalace(now, destination, visibleBoard);
         }
 
-        final List<Position> positions = now.calculateBetweenPositions(destination);
-        final int pieceCountInPath = visibleBoard.calculatePieceCountByPositions(positions);
+        final List<JanggiPosition> janggiPositions = now.calculateBetweenPositions(destination);
+        final int pieceCountInPath = visibleBoard.calculatePieceCountByPositions(janggiPositions);
 
         return pieceCountInPath == CAN_JUMP_PIECE_COUNT;
     }
 
-    private static boolean canMoveInPalace(final Position now, final Position destination,
+    private static boolean canMoveInPalace(final JanggiPosition now, final JanggiPosition destination,
                                            final VisibleBoard visibleBoard) {
         if (!now.isSamePalace(destination)) {
             return false;
@@ -48,15 +48,15 @@ public class Chariot extends Piece {
         return false;
     }
 
-    private static boolean isCornerToCorner(final Position now, final Position destination) {
+    private static boolean isCornerToCorner(final JanggiPosition now, final JanggiPosition destination) {
         return now.isCornerInPalace() && destination.isCornerInPalace();
     }
 
-    private static boolean isCornerToCenter(final Position now, final Position destination) {
+    private static boolean isCornerToCenter(final JanggiPosition now, final JanggiPosition destination) {
         return now.isCornerInPalace() && destination.isCenterInPalace();
     }
 
-    private static boolean isCenterToCorner(final Position now, final Position destination) {
+    private static boolean isCenterToCorner(final JanggiPosition now, final JanggiPosition destination) {
         return now.isCenterInPalace() && destination.isCornerInPalace();
     }
 

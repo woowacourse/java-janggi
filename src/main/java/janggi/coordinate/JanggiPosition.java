@@ -6,22 +6,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public record Position(int x, int y) {
+public record JanggiPosition(int x, int y) {
 
     public static final int POSITION_RANGE_X_MIN = 1;
     public static final int POSITION_RANGE_X_MAX = 10;
     public static final int POSITION_RANGE_Y_MIN = 1;
     public static final int POSITION_RANGE_Y_MAX = 9;
-    public static final Position PALACE_CENTER_HAN = new Position(2, 5);
-    public static final Position PALACE_CENTER_CHO = new Position(9, 5);
+    public static final JanggiPosition PALACE_CENTER_HAN = new JanggiPosition(2, 5);
+    public static final JanggiPosition PALACE_CENTER_CHO = new JanggiPosition(9, 5);
 
     private static final double MAX_DISTANCE_OF_SAME_PALACE = Math.sqrt(8);
-    private static final Position PALACE_TOP_LEFT_HAN = new Position(1, 4);
-    private static final Position PALACE_BOTTOM_RIGHT_HAN = new Position(3, 6);
-    private static final Position PALACE_TOP_LEFT_CHO = new Position(8, 4);
-    private static final Position PALACE_BOTTOM_RIGHT_CHO = new Position(10, 6);
+    private static final JanggiPosition PALACE_TOP_LEFT_HAN = new JanggiPosition(1, 4);
+    private static final JanggiPosition PALACE_BOTTOM_RIGHT_HAN = new JanggiPosition(3, 6);
+    private static final JanggiPosition PALACE_TOP_LEFT_CHO = new JanggiPosition(8, 4);
+    private static final JanggiPosition PALACE_BOTTOM_RIGHT_CHO = new JanggiPosition(10, 6);
 
-    public Position(final int x, final int y) {
+    public JanggiPosition(final int x, final int y) {
         validatePositionRange(x, y);
         this.x = x;
         this.y = y;
@@ -36,44 +36,47 @@ public record Position(int x, int y) {
         }
     }
 
-    public boolean isSamePalace(final Position position){
-        return this.calculateDistance(position) <= MAX_DISTANCE_OF_SAME_PALACE;
+    public boolean isSamePalace(final JanggiPosition janggiPosition){
+        if(this.isInsidePalace() && janggiPosition.isInsidePalace()){
+            return false;
+        }
+        return this.calculateDistance(janggiPosition) <= MAX_DISTANCE_OF_SAME_PALACE;
     }
 
-    public double calculateDistance(final Position descPosition) {
+    public double calculateDistance(final JanggiPosition descJanggiPosition) {
         return Math.sqrt(
-                Math.pow(Math.abs(this.x - descPosition.x), 2) + Math.pow(Math.abs(this.y - descPosition.y), 2));
+                Math.pow(Math.abs(this.x - descJanggiPosition.x), 2) + Math.pow(Math.abs(this.y - descJanggiPosition.y), 2));
     }
 
-    public boolean isSameLine(final Position descPosition) {
-        return x == descPosition.x || y == descPosition.y;
+    public boolean isSameLine(final JanggiPosition descJanggiPosition) {
+        return x == descJanggiPosition.x || y == descJanggiPosition.y;
     }
 
-    public boolean isXGreaterThan(final Position descPosition) {
-        return x >= descPosition.x;
+    public boolean isXGreaterThan(final JanggiPosition descJanggiPosition) {
+        return x >= descJanggiPosition.x;
     }
 
-    public boolean isXLessThan(final Position descPosition) {
-        return x <= descPosition.x;
+    public boolean isXLessThan(final JanggiPosition descJanggiPosition) {
+        return x <= descJanggiPosition.x;
     }
 
-    public Position plusPosition(final int x, final int y) {
-        return new Position(this.x + x, this.y + y);
+    public JanggiPosition plusPosition(final int x, final int y) {
+        return new JanggiPosition(this.x + x, this.y + y);
     }
 
-    public List<Position> calculateBetweenPositions(final Position destination) {
+    public List<JanggiPosition> calculateBetweenPositions(final JanggiPosition destination) {
         if (!isSameLine(destination)) {
             return Collections.emptyList();
         }
 
-        final List<Position> betweenPositions = makePositionsToDestination(destination);
-        removeSourceAndDestination(betweenPositions);
+        final List<JanggiPosition> betweenJanggiPositions = makePositionsToDestination(destination);
+        removeSourceAndDestination(betweenJanggiPositions);
 
-        return betweenPositions;
+        return betweenJanggiPositions;
     }
 
-    private List<Position> makePositionsToDestination(final Position destination) {
-        final List<Position> betweenPositions = new ArrayList<>();
+    private List<JanggiPosition> makePositionsToDestination(final JanggiPosition destination) {
+        final List<JanggiPosition> betweenJanggiPositions = new ArrayList<>();
         final int minX = Math.min(x, destination.x);
         final int minY = Math.min(y, destination.y);
         final int maxX = Math.max(x, destination.x);
@@ -81,22 +84,22 @@ public record Position(int x, int y) {
 
         for (int i = minX; i <= maxX; i++) {
             for (int j = minY; j <= maxY; j++) {
-                betweenPositions.add(new Position(i, j));
+                betweenJanggiPositions.add(new JanggiPosition(i, j));
             }
         }
-        return betweenPositions;
+        return betweenJanggiPositions;
     }
 
-    public Position calculatePalaceCenterPosition(){
+    private void removeSourceAndDestination(final List<JanggiPosition> betweenJanggiPositions) {
+        betweenJanggiPositions.removeFirst();
+        betweenJanggiPositions.removeLast();
+    }
+
+    public JanggiPosition calculatePalaceCenterPosition(){
         if(isInsidePalace(Country.HAN)) {
             return PALACE_CENTER_HAN;
         }
         return PALACE_CENTER_CHO;
-    }
-
-    private static void removeSourceAndDestination(final List<Position> betweenPositions) {
-        betweenPositions.removeFirst();
-        betweenPositions.removeLast();
     }
 
     public boolean isInsidePalace(final Country country) {
@@ -104,6 +107,10 @@ public record Position(int x, int y) {
             return isYInsidePalace() && isXInsideHanPalace();
         }
         return isYInsidePalace() && isXInsideChoPalace();
+    }
+
+    public boolean isInsidePalace(){
+        return isYInsidePalace() && (isXInsideHanPalace() || isXInsideChoPalace());
     }
 
     private boolean isYInsidePalace() {
@@ -118,19 +125,12 @@ public record Position(int x, int y) {
         return this.isXGreaterThan(PALACE_TOP_LEFT_HAN) && this.isXLessThan(PALACE_BOTTOM_RIGHT_HAN);
     }
 
-    private boolean isYGreaterThan(final Position position) {
-        return y >= position.y;
+    private boolean isYGreaterThan(final JanggiPosition janggiPosition) {
+        return y >= janggiPosition.y;
     }
 
-    private boolean isYLessThan(final Position position) {
-        return y <= position.y;
-    }
-
-    public boolean isCenterInPalace(final Country country) {
-        if (country == Country.HAN) {
-            return this.equals(PALACE_CENTER_HAN);
-        }
-        return this.equals(PALACE_CENTER_CHO);
+    private boolean isYLessThan(final JanggiPosition janggiPosition) {
+        return y <= janggiPosition.y;
     }
 
     public boolean isCenterInPalace(){

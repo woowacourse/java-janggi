@@ -3,7 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.board.Board;
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -16,9 +16,9 @@ class ElephantTest {
     void elephant() {
         // given
         final Piece elephantPiece = new Elephant(Country.CHO);
-        final Position now = new Position(1, 1);
-        final Position ableDest = new Position(4, 3);
-        final Position notAbleDest = new Position(1, 2);
+        final JanggiPosition now = new JanggiPosition(1, 1);
+        final JanggiPosition ableDest = new JanggiPosition(4, 3);
+        final JanggiPosition notAbleDest = new JanggiPosition(1, 2);
         final Board board = new Board(new HashMap<>());
 
         // when
@@ -37,14 +37,14 @@ class ElephantTest {
     void elephant1() {
         // given
         final Piece elephantPiece = new Elephant(Country.CHO);
-        final Position now = new Position(2, 2);
-        final Position dest1 = new Position(4, 5);
-        final Position dest2 = new Position(5, 4);
+        final JanggiPosition now = new JanggiPosition(2, 2);
+        final JanggiPosition dest1 = new JanggiPosition(4, 5);
+        final JanggiPosition dest2 = new JanggiPosition(5, 4);
 
 
         final Board board = new Board(Map.of(
-                new Position(2, 3), new Cannon(Country.HAN),
-                new Position(4, 3), new Cannon(Country.HAN)
+                new JanggiPosition(2, 3), new Cannon(Country.HAN),
+                new JanggiPosition(4, 3), new Cannon(Country.HAN)
         ));
 
         // when

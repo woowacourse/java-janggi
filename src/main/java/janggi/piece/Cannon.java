@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.board.JanggiScore;
 import janggi.board.VisibleBoard;
-import janggi.coordinate.Position;
+import janggi.coordinate.JanggiPosition;
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -20,7 +20,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
+    protected boolean canMove(final JanggiPosition now, final JanggiPosition destination, final VisibleBoard visibleBoard) {
         if (visibleBoard.isCannonByPosition(destination)) {
             return false;
         }
@@ -29,17 +29,17 @@ public class Cannon extends Piece {
             return canMoveInPalace(now, destination, visibleBoard);
         }
 
-        final List<Position> positions = now.calculateBetweenPositions(destination);
-        final int pieceCountInPositions = visibleBoard.calculatePieceCountByPositions(positions);
+        final List<JanggiPosition> janggiPositions = now.calculateBetweenPositions(destination);
+        final int pieceCountInPositions = visibleBoard.calculatePieceCountByPositions(janggiPositions);
 
-        if (pieceCountInPositions != MUST_JUMP_PIECE_COUNT || visibleBoard.containsCannonByPositions(positions)) {
+        if (pieceCountInPositions != MUST_JUMP_PIECE_COUNT || visibleBoard.containsCannonByPositions(janggiPositions)) {
             return false;
         }
 
         return true;
     }
 
-    private boolean canMoveInPalace(final Position now, final Position destination, final VisibleBoard visibleBoard) {
+    private boolean canMoveInPalace(final JanggiPosition now, final JanggiPosition destination, final VisibleBoard visibleBoard) {
         if (!now.isSamePalace(destination)) {
             return false;
         }
@@ -51,13 +51,13 @@ public class Cannon extends Piece {
         return false;
     }
 
-    private boolean hasHurdle(final VisibleBoard visibleBoard, final Position now) {
-        final List<Position> palaceCenter = List.of(now.calculatePalaceCenterPosition());
+    private boolean hasHurdle(final VisibleBoard visibleBoard, final JanggiPosition now) {
+        final List<JanggiPosition> palaceCenter = List.of(now.calculatePalaceCenterPosition());
         return visibleBoard.calculatePieceCountByPositions(palaceCenter) == MUST_JUMP_PIECE_COUNT
                 && !visibleBoard.containsCannonByPositions(palaceCenter);
     }
 
-    private boolean isCornerToCorner(final Position now, final Position destination) {
+    private boolean isCornerToCorner(final JanggiPosition now, final JanggiPosition destination) {
         return now.isCornerInPalace() && destination.isCornerInPalace();
     }
 
