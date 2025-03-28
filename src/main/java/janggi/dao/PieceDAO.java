@@ -20,7 +20,7 @@ public class PieceDAO {
     private static final String SELECT_BOARD_QUERY = "SELECT PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN FROM PIECE WHERE GAME_ROOM_NAME = ?";
     private static final String INSERT_PIECE_QUERY = "INSERT INTO PIECE(PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN, GAME_ROOM_NAME) VALUES (?, ?, ?, ?, ?)";
     private static final String MOVE_PIECE_QUERY = "UPDATE PIECE SET POSITION_ROW = ?, POSITION_COLUMN = ? WHERE POSITION_ROW = ? AND POSITION_COLUMN = ? AND GAME_ROOM_NAME = ?";
-    private static final String DELETE_PIECE_QUERY = "DELETE FROM PIECE WHERE POSITION_ROW = ? AND POSITION_COLUMN = ?";
+    private static final String DELETE_PIECE_QUERY = "DELETE FROM PIECE WHERE POSITION_ROW = ? AND POSITION_COLUMN = ? AND GAME_ROOM_NAME = ?";
 
     private final DatabaseManager databaseManager;
 
@@ -119,6 +119,7 @@ public class PieceDAO {
 
             deleteStmt.setInt(1, targetPosition.getRow());
             deleteStmt.setInt(2, targetPosition.getColumn());
+            deleteStmt.setString(3, gameRoomName);
             deleteStmt.executeUpdate();
 
             moveStmt.setInt(1, targetPosition.getRow());
