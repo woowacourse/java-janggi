@@ -60,4 +60,8 @@ public class JanggiBoard {
     public Side getTurn() {
         return turn;
     }
+
+    public Pieces getPieces() {
+        return pieces;
+    }
 }

@@ -69,4 +69,8 @@ public class Pieces {
         }
         return sideScore;
     }
+
+    public List<Piece> getPieces() {
+        return pieces;
+    }
 }

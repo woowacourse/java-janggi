@@ -1,10 +1,11 @@
 package janggi.controller;
 
 import janggi.domain.Side;
-import janggi.domain.piece.Position;
 import janggi.domain.board.JanggiBoard;
+import janggi.domain.piece.Position;
 import janggi.domain.piece.generator.DefaultChoPieceGenerator;
 import janggi.domain.piece.generator.DefaultHanPieceGenerator;
+import janggi.service.JanggiBoardService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -15,18 +16,22 @@ public class Controller {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiBoardService janggiBoardService;
 
     public Controller(
         InputView inputView,
-        OutputView outputView
+        OutputView outputView,
+        JanggiBoardService janggiBoardService
     ) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiBoardService = janggiBoardService;
     }
 
     public void run() {
         JanggiBoard janggiBoard = makeJanggiBoard();
         outputView.printJanggiBoard(janggiBoard);
+        janggiBoardService.saveInitialBoard(janggiBoard);
         playGame(janggiBoard);
     }
 
@@ -72,7 +77,11 @@ public class Controller {
         move(janggiBoard, source, destinationValues);
     }
 
-    private static void move(JanggiBoard janggiBoard, Entry<Integer, Integer> source, Entry<Integer, Integer> destinationValues) {
+    private static void move(
+        JanggiBoard janggiBoard,
+        Entry<Integer, Integer> source,
+        Entry<Integer, Integer> destinationValues
+        ) {
         Position start = new Position(source.getKey(), source.getValue());
         Position destination = new Position(destinationValues.getKey(), destinationValues.getValue());
         janggiBoard.move(start, destination);
