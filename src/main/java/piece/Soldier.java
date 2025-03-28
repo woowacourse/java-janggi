@@ -1,32 +1,61 @@
 package piece;
 
 import board.Board;
-import board.Position;
+import movement.MovePath;
+import movement.MovePaths;
+import movement.Movement;
+import position.Position;
+import validator.DirectionCheckable;
+import validator.DistanceCheckable;
 
-public class Soldier extends Piece {
+import java.util.List;
+import java.util.function.BiPredicate;
 
-    public static final int SOLDIER_DISTANCE = 1;
+public class Soldier extends Piece implements DirectionCheckable, DistanceCheckable {
 
-    public Soldier(final TeamType teamType) {
-        super(teamType);
+    private static final MovePaths basicMoveActions;
+    private static final double DISTANCE;
+
+    private final MovePaths moveActions;
+
+    static {
+        basicMoveActions = new MovePaths(List.of(
+                new MovePath(Movement.RIGHT),
+                new MovePath(Movement.LEFT)
+        ));
+
+        DISTANCE = basicMoveActions.calculateDistance();
+    }
+
+    public Soldier(final Position position, final Country country) {
+        super(position, country);
+        Movement additionalMovementByCountry = country.getDirection().getForward();
+        moveActions = new MovePaths(basicMoveActions, new MovePath(additionalMovementByCountry));
     }
 
     @Override
-    protected boolean withInDirection(Position src, Position destination) {
-        if (teamType == TeamType.RED) {
-            return src.isXLessThan(destination);
+    public void validateMoveCondition(Position src, Position dest, Board board) {
+        validateDirection(src, dest);
+        validateDistance(src, dest);
+    }
+
+    @Override
+    public BiPredicate<Position, Position> directionRule() {
+        return (src, dest) -> canFindCorrectPath(dest);
+    }
+
+    private boolean canFindCorrectPath(Position destination) {
+        try {
+            moveActions.findCorrectMovePath(position, destination);
+        } catch (IllegalArgumentException e) {
+            return false;
         }
-        return src.isXGreaterThan(destination);
-    }
-
-    @Override
-    protected boolean withInRangeByMovement(double distanceByPositions) {
-        return distanceByPositions == SOLDIER_DISTANCE;
-    }
-
-    @Override
-    protected boolean passFilter(Position src, Position destination, Board board) {
         return true;
+    }
+
+    @Override
+    public double getExpectedDistance() {
+        return DISTANCE;
     }
 
     @Override
