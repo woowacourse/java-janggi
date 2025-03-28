@@ -19,7 +19,7 @@ class SaStrategyTest {
     static final Position DESTINATION_POSITION = new Position(5, 1);
     SaStrategy strategy = new SaStrategy();
 
-    @DisplayName("8방향으로 1칸씩 이동할 수 있다.")
+    @DisplayName("궁성안에서 8방향으로 1칸씩 이동할 수 있다.")
     @ParameterizedTest
     @MethodSource()
     void canMove(Position destination) {
@@ -32,7 +32,11 @@ class SaStrategyTest {
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y())),
                 Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y())),
                 Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() + 1)),
-                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 1))
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 1)),
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() - 1)),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() - 1))
         );
     }
 

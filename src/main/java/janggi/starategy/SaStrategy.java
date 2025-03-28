@@ -1,27 +1,61 @@
 package janggi.starategy;
 
-import janggi.direction.OneStepDirection;
 import janggi.piece.Piece;
+import janggi.setting.GungSungCoordinate;
+import janggi.value.Path;
 import janggi.value.Position;
+import janggi.value.RelativePath;
+import janggi.value.RelativePosition;
 import java.util.List;
+import java.util.Optional;
 
 public class SaStrategy implements MoveStrategy {
 
+    private static final List<RelativePath> RELATIVE_PATH = List.of(
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(-1, 0))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(1, 0))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(0, 1))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(0, -1))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(1, 1))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(1, -1))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(-1, 1))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(-1, -1)))
+    );
+
     @Override
     public boolean ableToMove(Position start, Position destination, List<Piece> enemy, List<Piece> allies) {
-        OneStepDirection direction = OneStepDirection.parse(start, destination);
-
-        boolean followRuleOfMove = checkRuleOfMove(direction);
-        boolean existAlliesInDestination = existPieceInDestination(destination, allies);
-        return followRuleOfMove && !existAlliesInDestination;
+        Optional<Path> optionalPath = calculatePath(start, destination);
+        if (optionalPath.isEmpty()) {
+            return false;
+        }
+        Path path = optionalPath.get();
+        boolean isPathInGungSung = isPathInGungSung(path);
+        boolean existAlliesInDestination = existPieceInPosition(destination, allies);
+        return isPathInGungSung && !existAlliesInDestination;
     }
 
-    private boolean checkRuleOfMove(OneStepDirection direction) {
-        return direction != OneStepDirection.NONE;
+    private Optional<Path> calculatePath(Position start, Position destination) {
+        return RELATIVE_PATH.stream()
+                .filter(route -> route.getDestination(start).equals(destination))
+                .map(route -> route.calculatePath(start))
+                .findFirst();
     }
 
-    private boolean existPieceInDestination(Position destination, List<Piece> allies) {
-        return allies.stream()
-                .anyMatch(piece -> piece.getPosition().equals(destination));
+    private boolean isPathInGungSung(Path path) {
+        boolean isStartInRange = GungSungCoordinate.isInRange(path.getStart());
+        boolean isEndInRange = GungSungCoordinate.isInRange(path.getEnd());
+        return isStartInRange && isEndInRange;
+    }
+
+    private boolean existPieceInPosition(Position position, List<Piece> pieces) {
+        return pieces.stream().anyMatch(piece -> position.equals(piece.getPosition()));
     }
 }
