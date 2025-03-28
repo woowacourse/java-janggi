@@ -8,15 +8,14 @@ import java.util.List;
 
 public class King extends Piece {
 
-    private static final int ALLOWED_MOVE = 1;
-
     public King(final Side side) {
         super(Symbol.KING, side);
     }
 
     @Override
     public List<Route> computeCandidatePositions(final Position position) {
-        return computeStraightRoutes(position, ALLOWED_MOVE);
+        List<Position> positions = position.moveToCandidate();
+        return Route.createRoutes(positions);
     }
 
     @Override
