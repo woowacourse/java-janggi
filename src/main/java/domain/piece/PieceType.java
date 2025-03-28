@@ -21,7 +21,7 @@ public enum PieceType {
     PieceType(
             final String title,
             final Score score,
-            final Function<Team, Piece>generatePiece
+            final Function<Team, Piece> generatePiece
     ) {
         this.title = title;
         this.score = score;

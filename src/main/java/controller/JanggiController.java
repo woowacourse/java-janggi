@@ -3,10 +3,8 @@ package controller;
 import domain.board.BoardPosition;
 import domain.janggi.Janggi;
 import domain.janggi.Team;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.PatternSyntaxException;
 import manager.JanggiManager;
+import util.InputParser;
 import view.InputView;
 import view.OutputView;
 
@@ -79,36 +77,11 @@ public class JanggiController {
 
     private BoardPosition createSelectBoardPosition() {
         final String selectPosition = inputView.inputSelectPosition();
-        return createBoardPosition(selectPosition);
+        return InputParser.parseBoardPosition(selectPosition);
     }
 
     private BoardPosition createDestinationBoardPosition() {
         final String destinationPosition = inputView.inputDestinationPosition();
-        return createBoardPosition(destinationPosition);
-    }
-
-    private BoardPosition createBoardPosition(final String inputPosition) {
-        final List<Integer> positions = parseBoardPosition(inputPosition);
-        validateSize(positions);
-        final int x = positions.getFirst();
-        final int y = positions.getLast();
-        return new BoardPosition(x, y);
-    }
-
-    private List<Integer> parseBoardPosition(final String inputPosition) {
-        try {
-            return Arrays.stream(inputPosition.split(",", -1))
-                    .map(String::trim)
-                    .map(Integer::parseInt)
-                    .toList();
-        } catch (PatternSyntaxException | NumberFormatException e) {
-            throw new IllegalArgumentException("좌표 입력 형식이 잘못되었습니다.");
-        }
-    }
-
-    private void validateSize(final List<Integer> positions) {
-        if (positions.size() != 2) {
-            throw new IllegalArgumentException("좌표 입력 형식이 잘못되었습니다.");
-        }
+        return InputParser.parseBoardPosition(destinationPosition);
     }
 }
