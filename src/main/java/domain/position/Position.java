@@ -37,6 +37,14 @@ public class Position {
         return row.canMove(deltaRow) && column.canMove(deltaColumn);
     }
 
+    public Row getRow() {
+        return this.row;
+    }
+
+    public Column getColumn() {
+        return this.column;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
