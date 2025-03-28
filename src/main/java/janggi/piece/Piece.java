@@ -26,6 +26,10 @@ public abstract class Piece {
         return false;
     }
 
+    public boolean isGung() {
+        return false;
+    }
+
     public Point getPoint() {
         return point;
     }

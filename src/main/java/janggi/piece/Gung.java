@@ -69,4 +69,9 @@ public class Gung extends Piece {
     public String getName() {
         return "궁";
     }
+
+    @Override
+    public boolean isGung() {
+        return true;
+    }
 }

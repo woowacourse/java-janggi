@@ -58,7 +58,7 @@ public class BoardTest {
             Board board = new Board(pieces);
 
             Point afterPoint = new Point(5, 4);
-            board.move(beforePoint, afterPoint);
+            board.move(byeong, afterPoint);
 
             assertAll(() -> {
                 assertThat(board.findByPoint(afterPoint).getPoint()).isEqualTo(afterPoint);
@@ -80,7 +80,7 @@ public class BoardTest {
             List<Piece> pieces = new ArrayList<>(List.of(byeong1, byeong2));
             Board board = new Board(pieces);
 
-            board.move(beforePoint, afterPoint);
+            board.move(byeong1, afterPoint);
 
             assertThat(board.getRunningPieces()).hasSize(1);
         }

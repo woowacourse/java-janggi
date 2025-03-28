@@ -1,5 +1,6 @@
 package janggi.game;
 
+import janggi.movement.target.AttackedPiece;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
@@ -18,13 +19,9 @@ import java.util.Map;
 
 public class Board {
     private final List<Piece> runningPieces;
-    private final List<Piece> attackedPieces;
-    private Team turn;
 
     public Board(List<Piece> runningPieces) {
         this.runningPieces = runningPieces;
-        this.attackedPieces = new ArrayList<>();
-        this.turn = Team.CHO;
     }
 
     public static Board init() {
@@ -41,10 +38,6 @@ public class Board {
         return new Board(pieces);
     }
 
-    public void reverseTurn() {
-        this.turn = turn.reverse();
-    }
-
     public Piece findByPoint(Point point) {
         return runningPieces.stream()
                 .filter(piece -> piece.getPoint().equals(point))
@@ -57,20 +50,12 @@ public class Board {
                 .anyMatch(piece -> piece.getPoint().equals(point));
     }
 
-    public void move(Point beforePoint, Point afterPoint) {
-        Piece movingPiece = findByPoint(beforePoint);
-        validatePieceTeam(movingPiece);
+    public AttackedPiece move(Piece movingPiece, Point afterPoint) {
         validatePieceMovable(afterPoint, movingPiece);
-
         Piece updatedMoving = movingPiece.updatePoint(afterPoint);
-        removeAttackedPiece(afterPoint);
+        AttackedPiece attackedPiece = removePieceIfAttacked(afterPoint);
         updateMovedPiece(movingPiece, updatedMoving);
-    }
-
-    private void validatePieceTeam(Piece movingPiece) {
-        if (turn != movingPiece.getTeam()) {
-            throw new IllegalArgumentException(turn.getText() + "의 기물만 이동할 수 있습니다.");
-        }
+        return attackedPiece;
     }
 
     private void validatePieceMovable(Point afterPoint, Piece movingPiece) {
@@ -79,12 +64,13 @@ public class Board {
         }
     }
 
-    private void removeAttackedPiece(Point afterPoint) {
+    private AttackedPiece removePieceIfAttacked(Point afterPoint) {
         if (hasPieceOnPoint(afterPoint)) {
-            Piece prey = findByPoint(afterPoint);
-            runningPieces.remove(prey);
-            attackedPieces.add(prey);
+            Piece attackedPiece = findByPoint(afterPoint);
+            runningPieces.remove(attackedPiece);
+            return new AttackedPiece(attackedPiece);
         }
+        return AttackedPiece.notAttacked();
     }
 
     private void updateMovedPiece(Piece movingPiece, Piece updatedMoving) {
@@ -102,9 +88,5 @@ public class Board {
 
     public List<Piece> getRunningPieces() {
         return Collections.unmodifiableList(runningPieces);
-    }
-
-    public Team getTurn() {
-        return turn;
     }
 }
