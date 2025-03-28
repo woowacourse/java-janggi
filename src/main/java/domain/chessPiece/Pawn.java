@@ -17,12 +17,16 @@ public class Pawn extends LimitedMoveChessPiece {
             ChessTeam.RED, List.of(
                     new Directions(List.of(Direction.LEFT)),
                     new Directions(List.of(Direction.RIGHT)),
-                    new Directions(List.of(Direction.DOWN))
+                    new Directions(List.of(Direction.DOWN)),
+                    new Directions(List.of(Direction.LEFT_DOWN)),
+                    new Directions(List.of(Direction.RIGHT_DOWN))
             ),
             ChessTeam.BLUE, List.of(
                     new Directions(List.of(Direction.LEFT)),
                     new Directions(List.of(Direction.RIGHT)),
-                    new Directions(List.of(Direction.UP))
+                    new Directions(List.of(Direction.UP)),
+                    new Directions(List.of(Direction.LEFT_UP)),
+                    new Directions(List.of(Direction.RIGHT_UP))
             )
     );
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
@@ -54,5 +58,10 @@ public class Pawn extends LimitedMoveChessPiece {
     @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.PAWN;
+    }
+
+    @Override
+    protected boolean canMove(final ChessPosition position, final Directions directions) {
+        return position.canCastleMove(directions.getFirstDirection());
     }
 }

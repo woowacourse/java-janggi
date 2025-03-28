@@ -32,4 +32,23 @@ public class PawnTest {
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expectDestinations);
     }
+
+    @Test
+    @DisplayName("궁안에 있는 폰의 이동 가능한 경로를 반환한다")
+    void test2() {
+        //given
+        final ChessPosition chessPosition = new ChessPosition(2, 3);
+//        final List<ChessPosition> expectDestinations = List.of(
+//                new ChessPosition(1,0),
+//                new ChessPosition(0,1)
+//        );
+
+        //when
+        final Pawn pawn = new Pawn(ChessTeam.BLUE);
+        final List<ChessPosition> destinations = pawn.getDestinations(chessPosition, emptyPositions);
+
+        //then
+        System.out.println(destinations);
+
+    }
 }

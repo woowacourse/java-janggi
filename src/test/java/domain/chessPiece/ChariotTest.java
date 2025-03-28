@@ -2,6 +2,8 @@ package domain.chessPiece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.hurdlePolicy.HurdlePolicy;
+import domain.path.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -23,10 +25,10 @@ class ChariotTest {
         @Override
         public Map<ChessPosition, ChessPiece> generate() {
             return Map.of(
-                    new ChessPosition(2, 4), new Pawn(ChessTeam.RED),
-                    new ChessPosition(7, 3), new Pawn(ChessTeam.RED),
-                    new ChessPosition(7, 5), new Pawn(ChessTeam.RED),
-                    new ChessPosition(7, 8), new Pawn(ChessTeam.RED)
+//                    new ChessPosition(2, 4), new Pawn(ChessTeam.RED),
+//                    new ChessPosition(7, 3), new Pawn(ChessTeam.RED),
+//                    new ChessPosition(7, 5), new Pawn(ChessTeam.RED),
+//                    new ChessPosition(7, 8), new Pawn(ChessTeam.RED)
             );
         }
     }
@@ -54,5 +56,23 @@ class ChariotTest {
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    @DisplayName("궁안에 차의 이동 경로를 계산하여 반환한다")
+    void test2() {
+        //given
+        final ChessPiecePositions piecePositions = new ChessPiecePositions(new FakeChessPositionsGenerator());
+        final ChessPosition chessPosition = new ChessPosition(2, 3);
+
+        //when
+        final Chariot chariot1 = new Chariot(ChessTeam.BLUE);
+        final List<Path> coordinatePaths = chariot1.getCoordinatePaths(chessPosition);
+        final HurdlePolicy hurdlePolicy = chariot1.getHurdlePolicy();
+        final List<ChessPosition> chessPositions = hurdlePolicy.pickDestinations(ChessTeam.BLUE, coordinatePaths,
+                piecePositions);
+
+        System.out.println(chessPositions);
+
     }
 }

@@ -29,9 +29,16 @@ public class Directions {
         for (Direction direction : directions) {
             validatePosition(currentPosition, direction);
             currentPosition = currentPosition.move(direction);
+            if (currentPosition.isCastlePosition() && !currentPosition.canCastleMove(direction)) {
+                continue;
+            }
             positions.add(currentPosition);
         }
         return new Path(positions);
+    }
+
+    public Direction getFirstDirection() {
+        return directions.getFirst();
     }
 
     private void validatePosition(ChessPosition currentPosition, Direction direction) {

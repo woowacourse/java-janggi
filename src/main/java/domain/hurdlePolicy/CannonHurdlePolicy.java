@@ -40,7 +40,7 @@ public class CannonHurdlePolicy implements HurdlePolicy {
             return false;
         }
         ChessPiece other = positions.getChessPieceByPosition(targetPosition);
-        return !isWall(targetPosition, positions) && team != other.getTeam();
+        return !isWall(targetPosition, positions);
     }
 
     private boolean isWall(ChessPosition targetPosition, ChessPiecePositions positions) {

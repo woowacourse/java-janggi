@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Horse extends LimitedMoveChessPiece {
-    private static final List<Directions> directions = List.of(
+        private static final List<Directions> directions = List.of(
             new Directions(List.of(Direction.UP, Direction.RIGHT_UP)),
             new Directions(List.of(Direction.UP, Direction.LEFT_UP)),
             new Directions(List.of(Direction.LEFT, Direction.LEFT_UP)),
@@ -22,6 +22,7 @@ public class Horse extends LimitedMoveChessPiece {
             new Directions(List.of(Direction.DOWN, Direction.LEFT_DOWN)),
             new Directions(List.of(Direction.DOWN, Direction.RIGHT_DOWN))
     );
+
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
     public Horse(final ChessTeam team) {
@@ -45,5 +46,10 @@ public class Horse extends LimitedMoveChessPiece {
     @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.HORSE;
+    }
+
+    @Override
+    protected boolean canMove(final ChessPosition position, final Directions direction) {
+        return true;
     }
 }

@@ -3,6 +3,8 @@ package domain.chessPiece;
 import domain.chessPiece.ChessPiece;
 import domain.chessPiece.Elephant;
 import domain.chessPiece.Pawn;
+import domain.hurdlePolicy.HurdlePolicy;
+import domain.path.Path;
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPiecePositionsGenerator;
 import domain.position.ChessPosition;
@@ -48,9 +50,12 @@ class ElephantTest {
         @Override
         public Map<ChessPosition, ChessPiece> generate() {
             return Map.of(
-                    new ChessPosition(2, 5), new Pawn(ChessTeam.RED),
-                    new ChessPosition(1, 2), new Pawn(ChessTeam.BLUE),
-                    new ChessPosition(7, 2), new Pawn(ChessTeam.RED)
+//                    new ChessPosition(2, 5), new Pawn(ChessTeam.RED),
+//                    new ChessPosition(1, 2), new Pawn(ChessTeam.BLUE),
+//                    new ChessPosition(7, 2), new Pawn(ChessTeam.RED),
+                    new ChessPosition(1,4), new Pawn(ChessTeam.BLUE),
+                    new ChessPosition(2,4), new Pawn(ChessTeam.BLUE),
+                    new ChessPosition(3,2), new Pawn(ChessTeam.BLUE)
             );
         }
     }
@@ -75,5 +80,24 @@ class ElephantTest {
 
         //then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    @DisplayName("포가 궁안에 있을때 이동 경로를 계산하여 반환 한다")
+    void test2() {
+        //given
+        final ChessPiecePositions chessPiecePositions = new ChessPiecePositions(new FakeChessPositionsGenerator());
+        final ChessPosition chessPosition = new ChessPosition(2, 3);
+
+        //when
+        final Cannon cannon = new Cannon(ChessTeam.BLUE);
+        final List<Path> coordinatePaths = cannon.getCoordinatePaths(chessPosition);
+        final HurdlePolicy hurdlePolicy = cannon.getHurdlePolicy();
+        final List<ChessPosition> chessPositions = hurdlePolicy.pickDestinations(ChessTeam.BLUE, coordinatePaths,
+                chessPiecePositions);
+
+        //then
+        System.out.println(chessPositions);
+
     }
 }

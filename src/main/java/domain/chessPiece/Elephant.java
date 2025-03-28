@@ -46,4 +46,9 @@ public class Elephant extends LimitedMoveChessPiece {
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.ELEPHANT;
     }
+
+    @Override
+    protected boolean canMove(final ChessPosition position, final Directions direction) {
+        return true;
+    }
 }

@@ -16,6 +16,12 @@ public abstract class UnlimitedMoveChessPiece extends JanggiChessPiece {
         this.directions = directions;
     }
 
+    protected UnlimitedMoveChessPiece(final ChessPosition position, final ChessTeam team,
+                                   final List<Direction> directions) {
+        super(position, team);
+        this.directions = directions;
+    }
+
     @Override
     public final List<Path> getCoordinatePaths(ChessPosition startPosition) {
         final List<Path> paths = new ArrayList<>();
@@ -31,10 +37,17 @@ public abstract class UnlimitedMoveChessPiece extends JanggiChessPiece {
     private List<ChessPosition> getBoundaryPositions(ChessPosition startPosition, Direction direction) {
         final List<ChessPosition> chessPositions = new ArrayList<>();
         ChessPosition currentPosition = startPosition;
-        while (currentPosition.canMove(direction)) {
+        while (canMove(direction, currentPosition)) {
             currentPosition = currentPosition.move(direction);
             chessPositions.add(currentPosition);
         }
         return chessPositions;
+    }
+
+    private static boolean canMove(final Direction direction, final ChessPosition currentPosition) {
+        if (direction.isDiagonal()) {
+            return currentPosition.canMove(direction) && currentPosition.canCastleMove(direction);
+        }
+        return currentPosition.canMove(direction);
     }
 }

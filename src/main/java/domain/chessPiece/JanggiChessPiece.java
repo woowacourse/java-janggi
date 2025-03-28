@@ -11,9 +11,16 @@ import java.util.List;
 
 public abstract class JanggiChessPiece implements ChessPiece {
 
+    private final ChessPosition position;
     private final ChessTeam team;
 
     protected JanggiChessPiece(ChessTeam team) {
+        this.position = null;
+        this.team = team;
+    }
+
+    protected JanggiChessPiece(ChessPosition position, ChessTeam team) {
+        this.position = position;
         this.team = team;
     }
 
@@ -24,12 +31,6 @@ public abstract class JanggiChessPiece implements ChessPiece {
         return hurdlePolicy.pickDestinations(team, coordinates, positions);
     }
 
-
-    @Override
-    public abstract List<Path> getCoordinatePaths(ChessPosition startPosition);
-
-    @Override
-    public abstract HurdlePolicy getHurdlePolicy();
 
     @Override
     public final ChessTeam getTeam() {
