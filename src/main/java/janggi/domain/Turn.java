@@ -10,6 +10,7 @@ import java.util.List;
 public class Turn {
     private static final int VALID_TEAM_SIZE = 2;
     private static final int TURN_STEP = 1;
+    private static final int MAX_GAME_TURN_COUNT = 30;
 
     private final List<Team> teams;
     private int turnCount = 1;
@@ -47,6 +48,6 @@ public class Turn {
     }
 
     public boolean isDraw() {
-        return turnCount >= 30;
+        return turnCount >= MAX_GAME_TURN_COUNT;
     }
 }

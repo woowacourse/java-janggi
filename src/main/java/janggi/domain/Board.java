@@ -63,10 +63,10 @@ public class Board {
     }
 
     public Team getWinner(Team currentTeam) {
-        if (turn.isDraw()) { // 무승부가 됐다면 점수계산
+        if (turn.isDraw()) {
             return getWinnerWithScore(currentTeam);
         }
-        return currentTeam; // 게임이 끝났는데, 지금턴은 왕이 죽어서 끝날 수 없으니 현재턴이 승리
+        return currentTeam;
     }
 
     private Team getWinnerWithScore(Team currentTeam) {

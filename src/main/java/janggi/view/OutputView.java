@@ -128,7 +128,7 @@ public class OutputView {
     }
 
     public void printWinnerWithSurrender(Team currentTeam) {
-        System.out.println(TEAMS.get(currentTeam) + "이 기권했습니다.");
+        System.out.println(TEAMS.get(currentTeam) + "가 기권했습니다.");
     }
 }
 
