@@ -28,8 +28,7 @@ public abstract class Piece {
         return createPiece(destination);
     }
 
-    public Score die(Consumer<Position> remover) {
-        remover.accept(this.position);
+    public Score getScore() {
         return getType().score();
     }
 
