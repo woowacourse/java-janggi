@@ -42,25 +42,29 @@ public class PieceDAO {
     }
 
     private Board toDomain(ResultSet resultSet) {
-        Map<Position, Piece> board = new HashMap<>();
-
         try {
-            while (resultSet.next()) {
-                PieceType pieceType = PieceType.find(resultSet.getString("PIECE_NAME"));
-                Team team = Team.valueOf(resultSet.getString("TEAM"));
-                int row = resultSet.getInt("POSITION_ROW");
-                int column = resultSet.getInt("POSITION_COLUMN");
+            Map<Position, Piece> board = new HashMap<>();
 
-                Position position = Position.of(row, column);
-
-                Piece piece = PieceFactory.create(pieceType, team);
-
-                board.put(position, piece);
-            }
+            putPieces(resultSet, board);
 
             return new Board(board);
         } catch (final SQLException e) {
             throw new IllegalArgumentException("toDomain 중 오류 발생", e);
+        }
+    }
+
+    private void putPieces(ResultSet resultSet, Map<Position, Piece> board) throws SQLException {
+        while (resultSet.next()) {
+            PieceType pieceType = PieceType.find(resultSet.getString("PIECE_NAME"));
+            Team team = Team.valueOf(resultSet.getString("TEAM"));
+            int row = resultSet.getInt("POSITION_ROW");
+            int column = resultSet.getInt("POSITION_COLUMN");
+
+            Position position = Position.of(row, column);
+
+            Piece piece = PieceFactory.create(pieceType, team);
+
+            board.put(position, piece);
         }
     }
 
@@ -76,13 +80,15 @@ public class PieceDAO {
 
     private void saveAllWithTransaction(String gameRoomName, Connection conn, Map<Position, Piece> pieces)
             throws SQLException {
-        conn.setAutoCommit(false);
         try {
+            conn.setAutoCommit(false);
+
             for (Entry<Position, Piece> entry : pieces.entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
                 save(conn, gameRoomName, position, piece);
             }
+
             conn.commit();
         } catch (SQLException e) {
             conn.rollback();
@@ -113,26 +119,34 @@ public class PieceDAO {
     private void movePieceWithTransaction(String gameRoomName, Position currentPosition, Position targetPosition,
                                           Connection conn) throws SQLException {
         conn.setAutoCommit(false);
-
         try (PreparedStatement deleteStmt = conn.prepareStatement(DELETE_PIECE_QUERY);
              PreparedStatement moveStmt = conn.prepareStatement(MOVE_PIECE_QUERY)) {
 
-            deleteStmt.setInt(1, targetPosition.getRow());
-            deleteStmt.setInt(2, targetPosition.getColumn());
-            deleteStmt.setString(3, gameRoomName);
-            deleteStmt.executeUpdate();
-
-            moveStmt.setInt(1, targetPosition.getRow());
-            moveStmt.setInt(2, targetPosition.getColumn());
-            moveStmt.setInt(3, currentPosition.getRow());
-            moveStmt.setInt(4, currentPosition.getColumn());
-            moveStmt.setString(5, gameRoomName);
-            moveStmt.executeUpdate();
+            deletePosition(gameRoomName, targetPosition, deleteStmt);
+            movePosition(gameRoomName, currentPosition, targetPosition, moveStmt);
 
             conn.commit();
         } catch (SQLException e) {
             conn.rollback();
             throw new IllegalArgumentException("movePiece 중 오류 발생, 롤백 수행됨", e);
         }
+    }
+
+    private void movePosition(String gameRoomName, Position currentPosition, Position targetPosition,
+                              PreparedStatement moveStmt) throws SQLException {
+        moveStmt.setInt(1, targetPosition.getRow());
+        moveStmt.setInt(2, targetPosition.getColumn());
+        moveStmt.setInt(3, currentPosition.getRow());
+        moveStmt.setInt(4, currentPosition.getColumn());
+        moveStmt.setString(5, gameRoomName);
+        moveStmt.executeUpdate();
+    }
+
+    private void deletePosition(String gameRoomName, Position targetPosition, PreparedStatement deleteStmt)
+            throws SQLException {
+        deleteStmt.setInt(1, targetPosition.getRow());
+        deleteStmt.setInt(2, targetPosition.getColumn());
+        deleteStmt.setString(3, gameRoomName);
+        deleteStmt.executeUpdate();
     }
 }

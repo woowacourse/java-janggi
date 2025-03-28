@@ -31,14 +31,18 @@ public class GameRoomDAO {
 
             ResultSet resultSet = pstmt.executeQuery();
 
-            while (resultSet.next()) {
-                String name = resultSet.getString("name");
-                names.add(name);
-            }
+            addName(resultSet, names);
 
             return names;
         } catch (final SQLException e) {
             throw new IllegalArgumentException("findAll 중 에러 발생", e);
+        }
+    }
+
+    private void addName(ResultSet resultSet, List<String> names) throws SQLException {
+        while (resultSet.next()) {
+            String name = resultSet.getString("name");
+            names.add(name);
         }
     }
 
