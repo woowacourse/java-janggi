@@ -94,7 +94,7 @@ class BoardTest {
         // then
         assertAll(() -> {
             assertThat(redResult).isEqualTo(72);
-            assertThat(blueResult).isEqualTo(72);
+            assertThat(blueResult).isEqualTo(73.5);
         });
     }
 }

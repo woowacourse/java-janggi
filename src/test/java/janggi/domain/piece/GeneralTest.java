@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ class GeneralTest {
 
     @BeforeEach
     void setUp() {
-        general = new General(new Position(4, 4), RED);
+        general = new General(new Position(4, 1), RED);
     }
 
 
@@ -28,19 +29,21 @@ class GeneralTest {
     void calculateIndependentRoutesTest() {
 
         // given
-        final Piece general = new General(new Position(1, 1), RED);
-        final Set<Route> soliderRoutes = general.calculateIndependentRoutes();
-
-        final Route route1 = new Route(List.of(new Position(0, 1)));
-        final Route route2 = new Route(List.of(new Position(2, 1)));
-        final Route route3 = new Route(List.of(new Position(1, 0)));
-        final Route route4 = new Route(List.of(new Position(1, 2)));
+        final Set<Route> generalRoutes = general.calculateIndependentRoutes();
+        final Set<Route> allRoutes = new HashSet<>();
+        allRoutes.add(new Route(List.of(new Position(3, 1))));
+        allRoutes.add(new Route(List.of(new Position(5, 1))));
+        allRoutes.add(new Route(List.of(new Position(4, 0))));
+        allRoutes.add(new Route(List.of(new Position(4, 2))));
+        allRoutes.add(new Route(List.of(new Position(3, 2))));
+        allRoutes.add(new Route(List.of(new Position(5, 2))));
+        allRoutes.add(new Route(List.of(new Position(3, 0))));
+        allRoutes.add(new Route(List.of(new Position(5, 0))));
 
         // when
-        final Set<Route> expected = Set.of(route2, route1, route3, route4);
 
         // then
-        assertThat(soliderRoutes).isEqualTo(expected);
+        assertThat(generalRoutes).isEqualTo(allRoutes);
     }
 
     @DisplayName("다른 기물을 통해 왕 기물이 이동 가능한 경로를 얻는다.")
@@ -48,18 +51,17 @@ class GeneralTest {
     void isValidRouteTest() {
 
         // given
-        final Piece general = new General(new Position(4, 4), RED);
         final List<Piece> otherPieces = new ArrayList<>();
-        otherPieces.add(new Soldier(new Position(4, 5), RED));
-        otherPieces.add(new Soldier(new Position(3, 4), RED));
-        otherPieces.add(new Soldier(new Position(4, 3), BLUE));
-        otherPieces.add(new Soldier(new Position(5, 4), BLUE));
+        otherPieces.add(new Soldier(new Position(3, 1), RED));
+        otherPieces.add(new Soldier(new Position(5, 1), RED));
+        otherPieces.add(new Soldier(new Position(4, 2), BLUE));
+        otherPieces.add(new Soldier(new Position(3, 2), BLUE));
 
         // when
         final Set<Route> generaleRoutes = general.getPossibleRoutes(otherPieces);
 
         // then
-        assertThat(generaleRoutes.size()).isEqualTo(2);
+        assertThat(generaleRoutes.size()).isEqualTo(6);
     }
 
     @DisplayName("왕 기물은 다른 팀을 공격할 수 있다.")
@@ -113,5 +115,20 @@ class GeneralTest {
 
         // then
         assertThat(result).isTrue();
+    }
+
+    @DisplayName("왕 기물은 궁성 밖으로 나갈 수 없다.")
+    @Test
+    void generalCanNotMoveOutOfPalace() {
+
+        // given
+        final Piece general = new General(new Position(3, 2), RED);
+        final List<Piece> otherPieces = List.of();
+        final Set<Route> guardRoutes = general.getPossibleRoutes(otherPieces);
+
+        // when
+
+        // then
+        assertThat(guardRoutes.size()).isEqualTo(3);
     }
 }

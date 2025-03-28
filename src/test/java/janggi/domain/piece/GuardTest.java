@@ -27,6 +27,10 @@ class GuardTest {
         allRoutes.add(new Route(List.of(new Position(3, 1))));
         allRoutes.add(new Route(List.of(new Position(5, 1))));
         allRoutes.add(new Route(List.of(new Position(4, 2))));
+        allRoutes.add(new Route(List.of(new Position(3, 2))));
+        allRoutes.add(new Route(List.of(new Position(5, 2))));
+        allRoutes.add(new Route(List.of(new Position(3, 0))));
+        allRoutes.add(new Route(List.of(new Position(5, 0))));
     }
 
     @DisplayName("사 기물이 올바른 루트를 계산하는지 확인한다.")
@@ -57,7 +61,7 @@ class GuardTest {
         final Set<Route> guardRoutes = guard.getPossibleRoutes(otherPieces);
 
         // then
-        assertThat(guardRoutes.size()).isEqualTo(2);
+        assertThat(guardRoutes.size()).isEqualTo(6);
     }
 
     @DisplayName("사 기물은 다른 팀을 공격할 수 있다.")
@@ -111,5 +115,20 @@ class GuardTest {
 
         // then
         assertThat(result).isTrue();
+    }
+
+    @DisplayName("사 기물은 궁성 밖으로 나갈 수 없다.")
+    @Test
+    void guardCanNotMoveOutOfPalace() {
+
+        // given
+        final Piece guard = new Guard(new Position(3, 2), RED);
+        final List<Piece> otherPieces = List.of();
+        final Set<Route> guardRoutes = guard.getPossibleRoutes(otherPieces);
+
+        // when
+
+        // then
+        assertThat(guardRoutes.size()).isEqualTo(3);
     }
 }
