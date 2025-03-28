@@ -1,6 +1,9 @@
 package domain.direction;
 
+import domain.piece.Palace;
 import domain.piece.Position;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -17,13 +20,20 @@ public class Directions {
     }
 
     public List<Position> getPath(final Position start, final Position target) {
-        // TODO : 궁성의 경우, 대각선 Direction이 포함 안되어 있음
-        // 궁성으로 이동할 수 있는데 orElseThrow에서 터지면?
         Optional<Direction> direction = directions.stream()
                 .filter(element -> element.canReach(start, target, repeatable))
                 .findFirst();
+        return direction.map(value -> value.createPath(start, target, repeatable)).orElse(new ArrayList<>());
+    }
 
-        return direction.map(value -> value.createPath(start, target, repeatable)).orElse(null);
+    public List<Position> getPalacePath(final Position start, final Position target) {
+        Set<Direction> tempDirections = new HashSet<>(List.copyOf(directions));
+        tempDirections.addAll(Palace.getMovableDirectionInPalace(start));
+        Optional<Direction> direction = tempDirections.stream()
+                .filter(element -> element.canReach(start, target, repeatable))
+                .findFirst();
+
+        return direction.map(value -> value.createPath(start, target, repeatable)).orElse(new ArrayList<>());
     }
 
     @Override

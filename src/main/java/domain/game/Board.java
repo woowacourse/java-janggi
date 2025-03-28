@@ -45,6 +45,7 @@ public record Board(
     }
 
     private void validatePieceMovingPath(final Player player, final Position targetPosition, final Piece piece) {
+        piece.validateInRangePosition(targetPosition); // TODO: 검증 추가가 여기가 맞나?
         List<Position> path = piece.getPath(targetPosition);
         if (piece.isEqualType(PieceType.CANNON)) {
             validateCannonMoving(player, targetPosition, path);

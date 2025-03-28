@@ -1,6 +1,8 @@
 package domain.direction;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public enum PieceDirections {
 
@@ -27,8 +29,8 @@ public enum PieceDirections {
         public Directions get() {
             return new Directions(Vector.getUpDownRightLeft().stream()
                     .flatMap(vector1 -> Vector.getDiagonals().stream()
-                            .map(vector2 -> new Direction(List.of(vector1, vector2), false)))
-                    .toList());
+                            .map(vector2 -> new Direction(List.of(vector1, vector2))))
+                    .collect(Collectors.toSet()), false);
         }
     },
     ELEPHANT {
@@ -36,8 +38,8 @@ public enum PieceDirections {
         public Directions get() {
             return new Directions(Vector.getUpDownRightLeft().stream()
                     .flatMap(vector1 -> Vector.getDiagonals().stream()
-                            .map(vector2 -> new Direction(List.of(vector1, vector2, vector2), false)))
-                    .toList());
+                            .map(vector2 -> new Direction(List.of(vector1, vector2, vector2))))
+                    .collect(Collectors.toSet()), false);
         }
     },
     GUARD {
@@ -49,29 +51,29 @@ public enum PieceDirections {
     HAN_SOLDIER {
         @Override
         public Directions get() {
-            return new Directions(List.of(
-                    new Direction(List.of(Vector.DOWN), false),
-                    new Direction(List.of(Vector.RIGHT), false),
-                    new Direction(List.of(Vector.LEFT), false)
-            ));
+            return new Directions(Set.of(
+                    new Direction(List.of(Vector.DOWN)),
+                    new Direction(List.of(Vector.RIGHT)),
+                    new Direction(List.of(Vector.LEFT))
+            ), false);
         }
     },
     CHO_SOLDIER {
         @Override
         public Directions get() {
-            return new Directions(List.of(
-                    new Direction(List.of(Vector.UP), false),
-                    new Direction(List.of(Vector.RIGHT), false),
-                    new Direction(List.of(Vector.LEFT), false)
-            ));
+            return new Directions(Set.of(
+                    new Direction(List.of(Vector.UP)),
+                    new Direction(List.of(Vector.RIGHT)),
+                    new Direction(List.of(Vector.LEFT))
+            ), false);
         }
     };
 
     private static Directions getUpDownRightLeftDirections(boolean repeatable) {
         return new Directions(Vector.getUpDownRightLeft()
                 .stream()
-                .map(vector -> new Direction(List.of(vector), repeatable))
-                .toList());
+                .map(vector -> new Direction(List.of(vector)))
+                .collect(Collectors.toSet()), repeatable);
     }
 
     public abstract Directions get();
