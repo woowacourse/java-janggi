@@ -127,8 +127,12 @@ public class OutputView {
         System.out.println(System.lineSeparator());
     }
 
-    public void printWinner(Team team) {
+    public void printWinnerWithGameEnd(Team team) {
         System.out.printf(TEAMS.get(team) + "의 승리입니다.");
+    }
+
+    public void printWinnerWithSurrender(Team currentTeam) {
+        System.out.println(TEAMS.get(currentTeam) + "이 기권했습니다.");
     }
 }
 

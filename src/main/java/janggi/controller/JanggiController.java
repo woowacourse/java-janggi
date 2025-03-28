@@ -33,6 +33,7 @@ public class JanggiController {
             UserContinueResponse userContinueResponse = UserExceptionHandler.retryUntilSuccess(inputView::continueGame);
 
             if (userContinueResponse == UserContinueResponse.QUIT) {
+                outputView.printWinnerWithSurrender(currentTurn);
                 break;
             }
             Piece selectedPiece = UserExceptionHandler.retryUntilSuccess(() -> selectPiece(board));
@@ -42,7 +43,7 @@ public class JanggiController {
 
             if (board.isGameEnd(currentTurn)) {
                 Team winner = board.getWinner(currentTurn);
-                outputView.printWinner(winner);
+                outputView.printWinnerWithGameEnd(winner);
             }
 
             outputView.printTeamScore(currentTurn, board.getTeamScore(currentTurn));

@@ -35,9 +35,7 @@ public class Soldier extends Piece {
     protected Set<RawRoute> calculateAdditionalRawRoutesInPalace() {
         return Set.of(
                 new RawRoute(List.of(new RawPosition(position.x() + 1, position.y() + DIRECTION.get(team)))),
-                // 오른쪽 위 대각 이동
                 new RawRoute(List.of(new RawPosition(position.x() - 1, position.y() + DIRECTION.get(team))))
-                // 왼쪽 위 대각 이동
         );
     }
 }
