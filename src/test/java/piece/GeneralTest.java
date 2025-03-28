@@ -43,10 +43,10 @@ public class GeneralTest {
         Board board = new Board(Map.of());
 
         // then
-        assertThatCode(() -> general.canMove(E5, E4, board)).doesNotThrowAnyException();
-        assertThatCode(() -> general.canMove(E5, E6, board)).doesNotThrowAnyException();
-        assertThatCode(() -> general.canMove(E5, D5, board)).doesNotThrowAnyException();
-        assertThatCode(() -> general.canMove(E5, F5, board)).doesNotThrowAnyException();
+        assertThatCode(() -> general.validateMove(E5, E4, board)).doesNotThrowAnyException();
+        assertThatCode(() -> general.validateMove(E5, E6, board)).doesNotThrowAnyException();
+        assertThatCode(() -> general.validateMove(E5, D5, board)).doesNotThrowAnyException();
+        assertThatCode(() -> general.validateMove(E5, F5, board)).doesNotThrowAnyException();
     }
 
     @Test
@@ -57,15 +57,15 @@ public class GeneralTest {
         General general = new General(Country.Cho);
 
         // then
-        assertThatThrownBy(() -> general.canMove(A1, A3, board))
+        assertThatThrownBy(() -> general.validateMove(A1, A3, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
 
-        assertThatThrownBy(() -> general.canMove(A2, B1, board))
+        assertThatThrownBy(() -> general.validateMove(A2, B1, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
 
-        assertThatThrownBy(() -> general.canMove(B1, D1, board))
+        assertThatThrownBy(() -> general.validateMove(B1, D1, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
     }

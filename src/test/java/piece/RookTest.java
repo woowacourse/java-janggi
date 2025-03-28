@@ -55,7 +55,7 @@ public class RookTest {
         Board board = new Board(Map.of());
 
         // when & then
-        assertThatCode(() -> rook.canMove(from, to, board)).doesNotThrowAnyException();
+        assertThatCode(() -> rook.validateMove(from, to, board)).doesNotThrowAnyException();
     }
 
     @ParameterizedTest
@@ -66,7 +66,7 @@ public class RookTest {
         Board board = new Board(Map.of());
 
         // when & then
-        assertThatThrownBy(() -> rook.canMove(from, to, board))
+        assertThatThrownBy(() -> rook.validateMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
@@ -84,7 +84,7 @@ public class RookTest {
         ));
 
         // when & then
-        assertThatThrownBy(() -> rook.canMove(from, to, board))
+        assertThatThrownBy(() -> rook.validateMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("중간에 기물이 있어 갈 수 없습니다.");
     }
@@ -102,7 +102,7 @@ public class RookTest {
         ));
 
         // when & then
-        assertThatThrownBy(() -> rook.canMove(from, to, board))
+        assertThatThrownBy(() -> rook.validateMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("중간에 기물이 있어 갈 수 없습니다.");
     }

@@ -63,7 +63,7 @@ public class CannonTest {
         ));
 
         // when & then
-        assertThatCode(() -> cannon.canMove(from, to, board)).doesNotThrowAnyException();
+        assertThatCode(() -> cannon.validateMove(from, to, board)).doesNotThrowAnyException();
     }
 
     @ParameterizedTest
@@ -79,7 +79,7 @@ public class CannonTest {
         ));
 
         // when & then
-        assertThatThrownBy(() -> cannon.canMove(from, to, board))
+        assertThatThrownBy(() -> cannon.validateMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
@@ -102,7 +102,7 @@ public class CannonTest {
         ));
 
         // when & then
-        assertThatThrownBy(() -> cannon.canMove(from, to, board))
+        assertThatThrownBy(() -> cannon.validateMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 해당 위치로 이동할 수 없습니다.");
     }
@@ -121,7 +121,7 @@ public class CannonTest {
         ));
 
         // when & then
-        assertThatThrownBy(() -> cannon.canMove(from, to, board))
+        assertThatThrownBy(() -> cannon.validateMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 먹거나 넘을 수 없습니다. ");
     }
@@ -140,7 +140,7 @@ public class CannonTest {
         ));
 
         // then
-        assertThatThrownBy(() -> cannon.canMove(fromPosition, toPosition, board))
+        assertThatThrownBy(() -> cannon.validateMove(fromPosition, toPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("아군 기물이 위치해 있습니다. ");
     }
@@ -159,7 +159,7 @@ public class CannonTest {
         ));
 
         // then
-        assertThatThrownBy(() -> cannon.canMove(fromPosition, toPosition, board))
+        assertThatThrownBy(() -> cannon.validateMove(fromPosition, toPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 먹을 수 없습니다.");
     }

@@ -61,7 +61,7 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Country.Cho);
         Board board = new Board(Map.of());
 
-        assertThatCode(() -> soldier.canMove(from, to, board)).doesNotThrowAnyException();
+        assertThatCode(() -> soldier.validateMove(from, to, board)).doesNotThrowAnyException();
     }
 
     @ParameterizedTest
@@ -70,7 +70,7 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Country.Cho);
         Board board = new Board(Map.of());
 
-        assertThatThrownBy(() -> soldier.canMove(from, to, board))
+        assertThatThrownBy(() -> soldier.validateMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
@@ -81,7 +81,7 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Country.Han);
         Board board = new Board(Map.of());
 
-        assertThatCode(() -> soldier.canMove(from, to, board)).doesNotThrowAnyException();
+        assertThatCode(() -> soldier.validateMove(from, to, board)).doesNotThrowAnyException();
     }
 
     @ParameterizedTest
@@ -90,7 +90,7 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Country.Han);
         Board board = new Board(Map.of());
 
-        assertThatThrownBy(() -> soldier.canMove(from, to, board))
+        assertThatThrownBy(() -> soldier.validateMove(from, to, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
     }

@@ -51,7 +51,7 @@ public class HorseTest {
         Board board = new Board(Map.of());
 
         // then
-        assertThatCode(() -> horse.canMove(fromPosition, toPosition, board)).doesNotThrowAnyException();
+        assertThatCode(() -> horse.validateMove(fromPosition, toPosition, board)).doesNotThrowAnyException();
     }
 
     @Test
@@ -61,15 +61,15 @@ public class HorseTest {
         Board board = new Board(Map.of());
 
         // then
-        assertThatThrownBy(() -> horse.canMove(E5, E6, board))
+        assertThatThrownBy(() -> horse.validateMove(E5, E6, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
 
-        assertThatThrownBy(() -> horse.canMove(E5, F5, board))
+        assertThatThrownBy(() -> horse.validateMove(E5, F5, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
 
-        assertThatThrownBy(() -> horse.canMove(E5, F6, board))
+        assertThatThrownBy(() -> horse.validateMove(E5, F6, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
@@ -87,7 +87,7 @@ public class HorseTest {
         ));
 
         // then
-        assertThatThrownBy(() -> horse.canMove(fromPosition, toPosition, board))
+        assertThatThrownBy(() -> horse.validateMove(fromPosition, toPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("중간에 기물이 있어 갈 수 없습니다.");
 

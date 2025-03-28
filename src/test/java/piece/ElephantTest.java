@@ -60,7 +60,7 @@ public class ElephantTest {
         Board board = new Board(Map.of());
 
         // then
-        assertThatCode(() -> elephant.canMove(fromPosition, toPosition, board)).doesNotThrowAnyException();
+        assertThatCode(() -> elephant.validateMove(fromPosition, toPosition, board)).doesNotThrowAnyException();
     }
 
     @ParameterizedTest
@@ -71,7 +71,7 @@ public class ElephantTest {
         Board board = new Board(Map.of());
 
         // then
-        assertThatThrownBy(() -> elephant.canMove(fromPosition, toPosition, board))
+        assertThatThrownBy(() -> elephant.validateMove(fromPosition, toPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
@@ -89,7 +89,7 @@ public class ElephantTest {
         ));
 
         // then
-        assertThatThrownBy(() -> elephant.canMove(fromPosition, toPosition, board))
+        assertThatThrownBy(() -> elephant.validateMove(fromPosition, toPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("중간에 기물이 있어 갈 수 없습니다.");
     }
@@ -104,7 +104,7 @@ public class ElephantTest {
         ));
 
         // then
-        assertThatThrownBy(() -> elephant.canMove(fromPosition, toPosition, board))
+        assertThatThrownBy(() -> elephant.validateMove(fromPosition, toPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("아군 기물이 위치해 있습니다. ");
     }
@@ -119,6 +119,6 @@ public class ElephantTest {
         ));
 
         // then
-        assertThatCode(() -> elephant.canMove(fromPosition, toPosition, board)).doesNotThrowAnyException();
+        assertThatCode(() -> elephant.validateMove(fromPosition, toPosition, board)).doesNotThrowAnyException();
     }
 }

@@ -41,7 +41,7 @@ public class GuardTest {
         Board board = new Board(Map.of());
 
         // then
-        assertThatCode(() -> guard.canMove(fromPosition, toPosition, board)).doesNotThrowAnyException();
+        assertThatCode(() -> guard.validateMove(fromPosition, toPosition, board)).doesNotThrowAnyException();
     }
 
     @Test
@@ -50,15 +50,15 @@ public class GuardTest {
         Guard guard = new Guard(Country.Cho);
         Board board = new Board(Map.of());
         // then
-        assertThatThrownBy(() -> guard.canMove(A1, A3, board))
+        assertThatThrownBy(() -> guard.validateMove(A1, A3, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
 
-        assertThatThrownBy(() -> guard.canMove(A2, B1, board))
+        assertThatThrownBy(() -> guard.validateMove(A2, B1, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
 
-        assertThatThrownBy(() -> guard.canMove(B1, D1, board))
+        assertThatThrownBy(() -> guard.validateMove(B1, D1, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
 
