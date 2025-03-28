@@ -1,6 +1,7 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.position.Route;
 import java.util.ArrayList;
@@ -56,11 +57,13 @@ public class Pieces {
         return pieces;
     }
 
-    public int calculateTeamScore(Team team) {
+    public Score calculateTeamScore() {
+        return new Score(pieces);
+    }
+
+    public boolean isGeneralDead(Team team) {
         return pieces.stream()
                 .filter(piece -> piece.isSameTeam(team))
-                .map(Piece::getScore)
-                .mapToInt(i -> i)
-                .sum();
+                .noneMatch(piece -> piece.isSameType(PieceType.GENERAL));
     }
 }

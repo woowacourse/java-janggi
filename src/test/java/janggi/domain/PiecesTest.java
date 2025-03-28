@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
-import janggi.domain.piece.Elephant;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
@@ -256,21 +255,16 @@ class PiecesTest {
                 .hasMessage("해당 위치에 우리팀 기물이 없습니다.");
     }
 
-    @DisplayName("보드에 있는 기물들의 점수를 계산한다.")
+    @DisplayName("왕이 죽었을 경우 참을 반환한다.")
     @Test
-    void calculateScoreTest() {
-        Piece soldier1 = new Soldier(new Position(1, 1), RED); // 2점
-        Piece elephant = new Elephant(new Position(1, 3), RED); // 3점
-        Piece chariot = new Chariot(new Position(1, 4), RED); // 13점
-        Piece soldier2 = new Soldier(new Position(1, 2), BLUE); // 2점
-        Piece guard = new Guard(new Position(1, 5), BLUE); // 3점
-        Piece horse = new Horse(new Position(1, 6), BLUE); // 5점
-
-        Pieces pieces = new Pieces(List.of(soldier1, soldier2, elephant, chariot, guard, horse));
-
+    void isGeneralDeadTest() {
+        Piece soldier1 = new Soldier(new Position(1, 1), RED);
+        Piece soldier2 = new Soldier(new Position(1, 2), BLUE);
+        Piece general = new General(new Position(1, 3), BLUE);
+        Pieces pieces = new Pieces(List.of(soldier1, soldier2, general));
         assertAll(
-                () -> assertThat(pieces.calculateTeamScore(RED)).isEqualTo(18),
-                () -> assertThat(pieces.calculateTeamScore(BLUE)).isEqualTo(10)
+                () -> assertThat(pieces.isGeneralDead(RED)).isTrue(),
+                () -> assertThat(pieces.isGeneralDead(BLUE)).isFalse()
         );
     }
 }
