@@ -10,7 +10,7 @@ import static janggi.movement.direction.Direction.SOUTH_WEST;
 import static janggi.movement.direction.Direction.WEST;
 
 import janggi.movement.direction.Direction;
-import janggi.piece.Movable;
+import janggi.piece.Piece;
 import janggi.point.Point;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +28,7 @@ public class Palace {
         palace = palacePerTeam;
     }
 
-    public static boolean movesInPalaceOfMyTeam(Movable movingPiece, Point targetPoint) {
+    public static boolean movesInPalaceOfMyTeam(Piece movingPiece, Point targetPoint) {
         Point movingPoint = movingPiece.getPoint();
         Team movingTeam = movingPiece.getTeam();
         boolean containsMovingPoint = false;

@@ -11,7 +11,7 @@ import janggi.movement.middleRoute.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Byeong extends Movable {
+public class Byeong extends Piece {
 
     public static List<Byeong> init(Team team) {
         List<Byeong> byeongs = new ArrayList<>();
@@ -70,7 +70,7 @@ public class Byeong extends Movable {
     }
 
     @Override
-    public Movable updatePoint(Point afterPoint) {
+    public Piece updatePoint(Point afterPoint) {
         return new Byeong(team, afterPoint);
     }
 

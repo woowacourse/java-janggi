@@ -1,18 +1,18 @@
 package janggi.movement.middleRoute;
 
-import janggi.piece.Movable;
+import janggi.piece.Piece;
 
 public class Bridge {
-    private final Movable bridge;
-    private final Movable mover;
+    private final Piece bridge;
+    private final Piece mover;
 
-    public Bridge(Movable bridge, Movable mover) {
+    public Bridge(Piece bridge, Piece mover) {
         this.bridge = bridge;
         this.mover = mover;
     }
 
-    public static Bridge from(Route route, Hurdles hurdles, Movable movingPiece) {
-        Movable bridge = null;
+    public static Bridge from(Route route, Hurdles hurdles, Piece movingPiece) {
+        Piece bridge = null;
         if (route.hasCrash(hurdles)) {
             bridge = route.findFirstCrash(hurdles);
         }

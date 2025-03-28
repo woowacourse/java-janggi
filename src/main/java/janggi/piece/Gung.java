@@ -11,7 +11,7 @@ import janggi.movement.middleRoute.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Gung extends Movable {
+public class Gung extends Piece {
 
     public Gung(Team team, Point point) {
         super(team, point);
@@ -61,7 +61,7 @@ public class Gung extends Movable {
     }
 
     @Override
-    public Movable updatePoint(Point afterPoint) {
+    public Piece updatePoint(Point afterPoint) {
         return new Gung(team, afterPoint);
     }
 

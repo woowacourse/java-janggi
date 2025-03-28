@@ -14,7 +14,7 @@ public class SangTest {
 
     @Nested
     @DisplayName("이동 가능 확인 테스트")
-    class CheckMovableTest {
+    class CheckPieceTest {
 
         @Test
         @DisplayName("상-우측대각선으로 이동할 수 있다면 true를 반환한다.")

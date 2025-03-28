@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.game.Board;
-import janggi.piece.Movable;
+import janggi.piece.Piece;
 import janggi.game.Team;
 import janggi.point.Point;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public class BoardView {
 
     public void displayBoard(Board board) {
         clearBoard();
-        List<Movable> pieces = board.getRunningPieces();
+        List<Piece> pieces = board.getRunningPieces();
         placePieces(pieces);
         for (int row = 0; row < ROW_SIZE; row++) {
             String line = String.format(" %2s |", WHITE_CODE + toFullWidthNumber(row) + EXIT_COLOR_CODE);
@@ -65,8 +65,8 @@ public class BoardView {
         );
     }
 
-    private void placePieces(List<Movable> pieces) {
-        for (Movable piece : pieces) {
+    private void placePieces(List<Piece> pieces) {
+        for (Piece piece : pieces) {
             Point point = piece.getPoint();
             Team team = piece.getTeam();
             matrix[point.row()][point.column()] = team.getColorCode() + piece.getName() + EXIT_COLOR_CODE;

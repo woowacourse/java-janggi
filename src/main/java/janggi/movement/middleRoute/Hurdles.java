@@ -1,13 +1,13 @@
 package janggi.movement.middleRoute;
 
-import janggi.piece.Movable;
+import janggi.piece.Piece;
 import janggi.point.Point;
 import java.util.Map;
 
 public class Hurdles {
-    private final Map<Point, Movable> hurdles;
+    private final Map<Point, Piece> hurdles;
 
-    public Hurdles(Map<Point, Movable> hurdles) {
+    public Hurdles(Map<Point, Piece> hurdles) {
         this.hurdles = hurdles;
     }
 
@@ -15,7 +15,7 @@ public class Hurdles {
         return hurdles.containsKey(point);
     }
 
-    public Movable findByPoint(Point point) {
+    public Piece findByPoint(Point point) {
         if (!containsPoint(point)) {
             throw new IllegalStateException("해당 좌표에 기물이 존재하지 않습니다.");
         }

@@ -4,7 +4,7 @@ import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
 import janggi.piece.Ma;
-import janggi.piece.Movable;
+import janggi.piece.Piece;
 import janggi.piece.Po;
 import janggi.piece.Sa;
 import janggi.piece.Sang;
@@ -17,18 +17,18 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
-    private final List<Movable> runningPieces;
-    private final List<Movable> attackedPieces;
+    private final List<Piece> runningPieces;
+    private final List<Piece> attackedPieces;
     private Team turn;
 
-    public Board(List<Movable> runningPieces) {
+    public Board(List<Piece> runningPieces) {
         this.runningPieces = runningPieces;
         this.attackedPieces = new ArrayList<>();
         this.turn = Team.CHO;
     }
 
     public static Board init() {
-        List<Movable> pieces = new ArrayList<>();
+        List<Piece> pieces = new ArrayList<>();
         for (Team team : Team.values()) {
             pieces.addAll(Gung.init(team));
             pieces.addAll(Sa.init(team));
@@ -45,7 +45,7 @@ public class Board {
         this.turn = turn.reverse();
     }
 
-    public Movable findByPoint(Point point) {
+    public Piece findByPoint(Point point) {
         return runningPieces.stream()
                 .filter(piece -> piece.getPoint().equals(point))
                 .findFirst()
@@ -58,22 +58,22 @@ public class Board {
     }
 
     public void move(Point beforePoint, Point afterPoint) {
-        Movable movingPiece = findByPoint(beforePoint);
+        Piece movingPiece = findByPoint(beforePoint);
         validatePieceTeam(movingPiece);
         validatePieceMovable(afterPoint, movingPiece);
 
-        Movable updatedMoving = movingPiece.updatePoint(afterPoint);
+        Piece updatedMoving = movingPiece.updatePoint(afterPoint);
         removeAttackedPiece(afterPoint);
         updateMovedPiece(movingPiece, updatedMoving);
     }
 
-    private void validatePieceTeam(Movable movingPiece) {
+    private void validatePieceTeam(Piece movingPiece) {
         if (turn != movingPiece.getTeam()) {
             throw new IllegalArgumentException(turn.getText() + "의 기물만 이동할 수 있습니다.");
         }
     }
 
-    private void validatePieceMovable(Point afterPoint, Movable movingPiece) {
+    private void validatePieceMovable(Point afterPoint, Piece movingPiece) {
         if (!movingPiece.canMove(afterPoint, findHurdles())) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
@@ -81,26 +81,26 @@ public class Board {
 
     private void removeAttackedPiece(Point afterPoint) {
         if (hasPieceOnPoint(afterPoint)) {
-            Movable prey = findByPoint(afterPoint);
+            Piece prey = findByPoint(afterPoint);
             runningPieces.remove(prey);
             attackedPieces.add(prey);
         }
     }
 
-    private void updateMovedPiece(Movable movingPiece, Movable updatedMoving) {
+    private void updateMovedPiece(Piece movingPiece, Piece updatedMoving) {
         runningPieces.remove(movingPiece);
         runningPieces.add(updatedMoving);
     }
 
     public Hurdles findHurdles() {
-        Map<Point, Movable> hurdles = new HashMap<>();
+        Map<Point, Piece> hurdles = new HashMap<>();
         runningPieces.forEach(piece ->
                 hurdles.put(piece.getPoint(), piece)
         );
         return new Hurdles(hurdles);
     }
 
-    public List<Movable> getRunningPieces() {
+    public List<Piece> getRunningPieces() {
         return Collections.unmodifiableList(runningPieces);
     }
 

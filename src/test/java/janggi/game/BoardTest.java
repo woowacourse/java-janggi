@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import janggi.piece.Byeong;
 import janggi.piece.Gung;
-import janggi.piece.Movable;
+import janggi.piece.Piece;
 import janggi.point.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class BoardTest {
         @DisplayName("입력 좌표에 기물이 위치하는지 확인할 수 있다.")
         void searchByPoint() {
             Point point = new Point(8, 4);
-            List<Movable> pieces = List.of(new Gung(Team.CHO, point));
+            List<Piece> pieces = List.of(new Gung(Team.CHO, point));
             Board board = new Board(pieces);
 
             assertThat(board.findByPoint(point)).isEqualTo(pieces.getFirst());
@@ -54,7 +54,7 @@ public class BoardTest {
         void updatePoint() {
             Point beforePoint = new Point(6, 4);
             Byeong byeong = new Byeong(Team.CHO, beforePoint);
-            List<Movable> pieces = new ArrayList<>(List.of(byeong));
+            List<Piece> pieces = new ArrayList<>(List.of(byeong));
             Board board = new Board(pieces);
 
             Point afterPoint = new Point(5, 4);
@@ -77,7 +77,7 @@ public class BoardTest {
             Point afterPoint = new Point(5, 4);
             Byeong byeong2 = new Byeong(Team.HAN, afterPoint);
 
-            List<Movable> pieces = new ArrayList<>(List.of(byeong1, byeong2));
+            List<Piece> pieces = new ArrayList<>(List.of(byeong1, byeong2));
             Board board = new Board(pieces);
 
             board.move(beforePoint, afterPoint);

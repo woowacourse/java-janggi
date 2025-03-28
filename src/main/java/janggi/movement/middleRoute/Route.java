@@ -1,6 +1,6 @@
 package janggi.movement.middleRoute;
 
-import janggi.piece.Movable;
+import janggi.piece.Piece;
 import janggi.point.Point;
 import janggi.movement.direction.Direction;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class Route {
         return route.stream().anyMatch(hurdles::containsPoint);
     }
 
-    public Movable findFirstCrash(Hurdles hurdles) {
+    public Piece findFirstCrash(Hurdles hurdles) {
         return route.stream()
                 .filter(hurdles::containsPoint)
                 .map(hurdles::findByPoint)
