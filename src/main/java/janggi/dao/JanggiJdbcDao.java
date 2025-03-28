@@ -15,6 +15,12 @@ public class JanggiJdbcDao implements JanggiDao {
     private static final String USERNAME = "root"; //  MySQL 서버 아이디
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
 
+    private final Connection connection;
+
+    public JanggiJdbcDao() {
+        this.connection = getConnection();
+    }
+
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
@@ -28,8 +34,7 @@ public class JanggiJdbcDao implements JanggiDao {
     @Override
     public void saveInitialGame(final int setupOption) {
         final String gameSaveQuery = "INSERT INTO game(setup_option, finished) value (?,false)";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(gameSaveQuery)) {
+        try (final var preparedStatement = connection.prepareStatement(gameSaveQuery)) {
             preparedStatement.setInt(1, setupOption);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
@@ -40,8 +45,7 @@ public class JanggiJdbcDao implements JanggiDao {
     @Override
     public boolean existNotFinishedGame() {
         final String notFinishedGameQuery = "SELECT * FROM game WHERE finished=0";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
+        try (final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
             final ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
@@ -52,8 +56,7 @@ public class JanggiJdbcDao implements JanggiDao {
     @Override
     public int findNotFinishedGameId() {
         final String notFinishedGameQuery = "SELECT * FROM game WHERE finished = 0 ORDER BY id DESC";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
+        try (final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
             final ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("id");
@@ -68,8 +71,7 @@ public class JanggiJdbcDao implements JanggiDao {
     public List<Integer> findNotFinishedGameIds() {
         final String notFinishedGameQuery = "SELECT * FROM game WHERE finished=0";
         final List<Integer> ids = new ArrayList<>();
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
+        try (final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
             final ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 ids.add(resultSet.getInt("id"));
@@ -83,8 +85,7 @@ public class JanggiJdbcDao implements JanggiDao {
     @Override
     public int findGameSetup(final int gameId) {
         final String notFinishedGameQuery = "SELECT * FROM game WHERE id=?";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
+        try (final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
             preparedStatement.setInt(1, gameId);
             final ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -100,8 +101,7 @@ public class JanggiJdbcDao implements JanggiDao {
     public List<MoveDto> selectAllHistory(final int gameId) {
         final String selectAllQuery = "SELECT start_row, start_column, end_row, end_column FROM moveHistory WHERE game_id = ?";
         final List<MoveDto> moveDtos = new ArrayList<>();
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(selectAllQuery)) {
+        try (final var preparedStatement = connection.prepareStatement(selectAllQuery)) {
             preparedStatement.setInt(1, gameId);
             final ResultSet historyResult = preparedStatement.executeQuery();
             while (historyResult.next()) {
@@ -116,8 +116,7 @@ public class JanggiJdbcDao implements JanggiDao {
     @Override
     public void saveHistory(final MoveDto moveDto, final int gameId) {
         final String historySaveQuery = "INSERT INTO moveHistory(game_id, start_row, start_column, end_row, end_column) VALUES (?,?,?,?,?)";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(historySaveQuery)) {
+        try (final var preparedStatement = connection.prepareStatement(historySaveQuery)) {
             preparedStatement.setInt(1, gameId);
             preparedStatement.setString(2, moveDto.getStartRow());
             preparedStatement.setString(3, moveDto.getStartColumn());
@@ -132,8 +131,7 @@ public class JanggiJdbcDao implements JanggiDao {
     @Override
     public void setGameFinished(final int gameId) {
         final String gameSetFinishedQuery = "UPDATE game SET finished = true WHERE id = ?";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(gameSetFinishedQuery)) {
+        try (final var preparedStatement = connection.prepareStatement(gameSetFinishedQuery)) {
             preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
