@@ -18,10 +18,12 @@ import java.util.Map;
 
 public class Board {
     private final List<Movable> runningPieces;
+    private final List<Movable> attackedPieces;
     private Team turn;
 
     public Board(List<Movable> runningPieces) {
         this.runningPieces = runningPieces;
+        this.attackedPieces = new ArrayList<>();
         this.turn = Team.CHO;
     }
 
@@ -81,6 +83,7 @@ public class Board {
         if (hasPieceOnPoint(afterPoint)) {
             Movable prey = findByPoint(afterPoint);
             runningPieces.remove(prey);
+            attackedPieces.add(prey);
         }
     }
 
