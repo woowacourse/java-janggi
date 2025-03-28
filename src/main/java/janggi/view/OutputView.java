@@ -3,7 +3,7 @@ package janggi.view;
 import janggi.domain.Board;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
-import janggi.domain.piece.Team;
+import janggi.domain.Team;
 
 import java.util.Map;
 
@@ -12,10 +12,11 @@ public class OutputView {
     private static final String COLOR_CODE_BLUE = "\u001B[34m";
     private static final String COLOR_CODE_RED = "\u001B[31m";
     private static final String COLOR_CODE_YELLOW = "\u001B[33m";
+    private static final String COLOR_CODE_GREEN = "\u001B[32m";
 
     public void printBoard(Board board) {
-        System.out.println("청팀 점수: " + board.getScore(Team.BLUE));
-        System.out.println("홍팀 점수: " + board.getScore(Team.RED));
+        System.out.println("청팀 점수: " + board.getScore(Team.BLUE).getValue());
+        System.out.println("홍팀 점수: " + board.getScore(Team.RED).getValue());
         System.out.print("   ");
         for (int j = 1; j <= 9; j++) {
             System.out.printf("%4s", j + "");
@@ -34,11 +35,21 @@ public class OutputView {
 
     private String setPrintColorByTeam(Piece piece) {
         if (piece.getTeam().equals(Team.BLUE)) {
-            return COLOR_CODE_BLUE;
+            return COLOR_CODE_GREEN;
         }
         if (piece.getTeam().equals(Team.RED)) {
             return COLOR_CODE_RED;
         }
         return COLOR_CODE_YELLOW;
+    }
+
+    public void printWinner(Board board) {
+        Team winner = board.getWinner();
+        if(winner == Team.BLUE) {
+            System.out.println("청팀 승리");
+        }
+        if(winner == Team.RED) {
+            System.out.println("홍팀 승리");
+        }
     }
 }

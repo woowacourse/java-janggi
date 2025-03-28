@@ -63,4 +63,14 @@ public class Board {
                 .anyMatch(piece ->
                         piece.getTeam() == team);
     }
+
+    public Team getWinner() {
+        if(isKingAlive(Team.BLUE)) {
+            return Team.BLUE;
+        }
+        if(isKingAlive(Team.RED)) {
+            return Team.RED;
+        }
+        return Team.NONE;
+    }
 }

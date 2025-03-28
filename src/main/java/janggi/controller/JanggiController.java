@@ -2,9 +2,9 @@ package janggi.controller;
 
 import janggi.domain.Board;
 import janggi.domain.BoardFactory;
-import janggi.domain.piece.HorseSide;
+import janggi.domain.HorseSide;
 import janggi.domain.piece.Position;
-import janggi.domain.piece.Team;
+import janggi.domain.Team;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -29,6 +29,8 @@ public class JanggiController {
             String pieceMovement = inputView.getPieceMovement();
             movePieceByPieceMovement(pieceMovement, board);
         }
+        outputView.printBoard(board);
+        outputView.printWinner(board);
     }
 
     private Board getInitializedBoardByInput() {
