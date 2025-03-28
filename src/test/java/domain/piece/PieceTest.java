@@ -53,6 +53,23 @@ class PieceTest {
     }
 
     @Test
+    void 궁성에_위치한_기물이_대각선_이동_경로를_반환한다() {
+        // given
+        final Position target = new Position(6, 3);
+        List<Position> expected = List.of(new Position(6, 3));
+
+        Directions directions = new Directions(List.of(), false);
+
+        Piece piece = new TestPiece(new Position(5, 2), directions);
+
+        // when
+        List<Position> result = piece.getPaths(target);
+
+        // then
+        assertThat(result).containsAll(expected);
+    }
+
+    @Test
     void 위치가_같은지_판단한다() {
         // given
         final Position position = new Position(1, 2);
@@ -118,11 +135,6 @@ class PieceTest {
         @Override
         public TestPiece move(final Position target, final MoveInfos moveInfos) {
             return new TestPiece(target, directions);
-        }
-
-        @Override
-        public boolean isKing() {
-            return false;
         }
     }
 }
