@@ -34,4 +34,8 @@ public record Position(
     private boolean isWithinRange(final int newRow, final int newColumn) {
         return newRow >= MIN_ROW && newRow <= MAX_ROW && newColumn >= MIN_COLUMN && newColumn <= MAX_COLUMN;
     }
+
+    public boolean isWithinPalace() {
+        return (this.row >= 4 && this.row <= 6) && (this.column <= 3 || this.column >= 8);
+    }
 }
