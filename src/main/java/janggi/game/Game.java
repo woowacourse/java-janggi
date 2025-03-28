@@ -2,6 +2,7 @@ package janggi.game;
 
 import janggi.position.Position;
 import janggi.position.Route;
+import janggi.unit.Team;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -10,9 +11,9 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class Game {
-    public static final int POSITION_INPUT_SIZE = 2;
-    public static final int INPUT_COLUMN_INDEX = 0;
-    public static final int INPUT_ROW_INDEX = 1;
+    private static final int POSITION_INPUT_SIZE = 2;
+    private static final int INPUT_COLUMN_INDEX = 0;
+    private static final int INPUT_ROW_INDEX = 1;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -24,8 +25,10 @@ public class Game {
 
     public void play() {
         GameState gameState = GameState.PLAY;
+        Janggi janggi = new Janggi(new Units(), Team.CHO);
+
         while (gameState == GameState.PLAY) {
-            gameState = handleGameState(this::controlGame);
+            gameState = handleGameState(() -> controlGame(janggi));
         }
         inputView.close();
     }
@@ -39,8 +42,7 @@ public class Game {
         }
     }
 
-    private GameState controlGame() {
-        Janggi janggi = new Janggi();
+    private GameState controlGame(Janggi janggi) {
         outputView.printUnits(janggi.getUnits());
 
         Position position = getPosition(janggi);

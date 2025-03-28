@@ -35,6 +35,10 @@ public class Position {
         return (this.x == opposite.x || this.y == opposite.y);
     }
 
+    public boolean isSamePoint(Position position) {
+        return this.equals(position);
+    }
+
     public int getX() {
         return this.x;
     }

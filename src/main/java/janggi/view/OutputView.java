@@ -6,7 +6,9 @@ import janggi.position.Position;
 import janggi.position.Route;
 import janggi.unit.Unit;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OutputView {
     private static final int MAX_ROW = 10;
@@ -26,7 +28,7 @@ public class OutputView {
         }
     }
 
-    public void printUnits(List<Unit> units) {
+    public void printUnits(HashMap<Position, Unit> units) {
         String[][] board = initialBoard(units);
         String[][] teamInfo = initialTeamBoard(units);
 
@@ -35,15 +37,15 @@ public class OutputView {
         printBoard(board, teamInfo);
     }
 
-    private String[][] initialBoard(List<Unit> units) {
+    private String[][] initialBoard(Map<Position, Unit> units) {
         String[][] board = new String[MAX_ROW][MAX_COLUM];
 
         for (int i = 0; i < MAX_ROW; i++) {
             Arrays.fill(board[i], ".");
         }
-        for (Unit unit : units) {
-            board[unit.getPosition().getY()][unit.getPosition().getX()] = typeToName(unit.getType());
-        }
+        units.forEach((position, unit) ->
+                board[position.getY()][position.getX()] = typeToName(unit.getType()));
+
         return board;
     }
 
@@ -72,15 +74,13 @@ public class OutputView {
         return "N";
     }
 
-    private String[][] initialTeamBoard(List<Unit> units) {
+    private String[][] initialTeamBoard(Map<Position, Unit> units) {
         String[][] board = new String[MAX_ROW][MAX_COLUM];
 
         for (int i = 0; i < MAX_ROW; i++) {
             Arrays.fill(board[i], ".");
         }
-        for (Unit unit : units) {
-            board[unit.getPosition().getY()][unit.getPosition().getX()] = teamToName(unit.getTeam());
-        }
+        units.forEach((position, unit) -> board[position.getY()][position.getX()] = teamToName(unit.getTeam()));
         return board;
     }
 

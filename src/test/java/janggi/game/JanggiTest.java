@@ -2,6 +2,7 @@ package janggi.game;
 
 import janggi.position.Position;
 import janggi.position.Route;
+import janggi.unit.Team;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +13,7 @@ class JanggiTest {
     @DisplayName("졸의 이동경로를 구한다.")
     void test1() {
         // given
-        Janggi janggi = new Janggi();
+        Janggi janggi = new Janggi(new Units(), Team.CHO);
 
         // when
         List<Route> routes = janggi.searchAvailableRoutes(new Position(0, 3));
@@ -25,7 +26,7 @@ class JanggiTest {
     @DisplayName("포의 이동경로를 구한다.")
     void test2() {
         // given
-        Janggi janggi = new Janggi();
+        Janggi janggi = new Janggi(new Units(), Team.CHO);
 
         // when
         List<Route> routes = janggi.searchAvailableRoutes(new Position(1, 7));
@@ -38,10 +39,10 @@ class JanggiTest {
     @DisplayName("경로 중에 기물이 있다면 거짓이다")
     void test3() {
         // given
-        Janggi janggi = new Janggi();
+        Janggi janggi = new Janggi(new Units(), Team.CHO);
 
         // when
-        boolean isFalse = janggi.isAvailableRoute(Route.of(List.of
+        boolean isFalse = janggi.isAvailablePath(Route.of(List.of
                 (new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4))));
 
         // then
@@ -52,10 +53,10 @@ class JanggiTest {
     @DisplayName("경로 중에 기물이 없다면 참이다")
     void test4() {
         // given
-        Janggi janggi = new Janggi();
+        Janggi janggi = new Janggi(new Units(), Team.CHO);
 
         // when
-        boolean isTrue = janggi.isAvailableRoute(Route.of(List.of
+        boolean isTrue = janggi.isAvailablePath(Route.of(List.of
                 (new Position(0, 1), new Position(0, 2), new Position(0, 4))));
 
         // then
