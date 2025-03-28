@@ -22,7 +22,7 @@ public class Cannon extends Piece {
         validatePieceOnGoal(board, goal);
     }
 
-    public boolean isPalaceCorner(Board board, Position start, Position goal) {
+    private boolean isPalaceCorner(Board board, Position start, Position goal) {
         return (board.isBottomPalaceCorner(start) && board.isBottomPalaceCorner(goal)) ||
                 (board.isUpperPalaceCorner(start) && board.isUpperPalaceCorner(goal));
 
