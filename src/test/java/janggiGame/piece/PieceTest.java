@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggiGame.Position;
+import janggiGame.piece.character.Dynasty;
+import janggiGame.piece.character.PieceType;
 import janggiGame.testhelper.FakePiece;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

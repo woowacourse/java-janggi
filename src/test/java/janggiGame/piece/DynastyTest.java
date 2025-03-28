@@ -2,6 +2,7 @@ package janggiGame.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggiGame.piece.character.Dynasty;
 import java.util.Arrays;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

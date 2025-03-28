@@ -2,7 +2,7 @@ import janggiGame.Board;
 import janggiGame.Position;
 import janggiGame.arrangement.ArrangementOption;
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.piece.Dynasty;
+import janggiGame.piece.character.Dynasty;
 import java.util.List;
 import view.InputView;
 import view.OutputView;

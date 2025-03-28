@@ -1,7 +1,7 @@
 package view;
 
 import janggiGame.Position;
-import janggiGame.piece.Dynasty;
+import janggiGame.piece.character.Dynasty;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;

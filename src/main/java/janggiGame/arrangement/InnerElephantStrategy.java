@@ -1,7 +1,7 @@
 package janggiGame.arrangement;
 
 import janggiGame.Position;
-import janggiGame.piece.Dynasty;
+import janggiGame.piece.character.Dynasty;
 import janggiGame.piece.Elephant;
 import janggiGame.piece.Horse;
 import janggiGame.piece.Piece;

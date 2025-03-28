@@ -1,4 +1,4 @@
-package janggiGame.piece;
+package janggiGame.piece.character;
 
 public enum Dynasty {
     HAN,

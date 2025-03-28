@@ -1,9 +1,9 @@
 package janggiGame.testhelper;
 
 import janggiGame.Position;
-import janggiGame.piece.Dynasty;
+import janggiGame.piece.character.Dynasty;
 import janggiGame.piece.Piece;
-import janggiGame.piece.PieceType;
+import janggiGame.piece.character.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 

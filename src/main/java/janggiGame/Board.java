@@ -1,7 +1,7 @@
 package janggiGame;
 
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.piece.Dynasty;
+import janggiGame.piece.character.Dynasty;
 import janggiGame.piece.EmptyPiece;
 import janggiGame.piece.Piece;
 import java.util.HashMap;

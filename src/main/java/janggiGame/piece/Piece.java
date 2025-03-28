@@ -1,6 +1,8 @@
 package janggiGame.piece;
 
 import janggiGame.Position;
+import janggiGame.piece.character.Dynasty;
+import janggiGame.piece.character.PieceType;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

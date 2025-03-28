@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggiGame.Position;
+import janggiGame.piece.character.Dynasty;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
