@@ -117,13 +117,9 @@ public class OutputView {
         return "졸";
     }
 
-    public void printTeamScore(final Team currentTurn, double score) {
-        if (currentTurn == Team.RED) {
-            System.out.printf(HAN_DYNASTY + " 점수: %f", score);
-            System.out.println(System.lineSeparator());
-            return;
-        }
-        System.out.printf(CHU_DYNASTY + " 점수: %f", score);
+    public void printTeamScore(final double hanScore, final double chuScore) {
+        System.out.printf(HAN_DYNASTY + " 점수: %.1f", hanScore);
+        System.out.printf(CHU_DYNASTY + " 점수: %.1f", chuScore);
         System.out.println(System.lineSeparator());
     }
 

@@ -46,7 +46,7 @@ public class JanggiController {
                 outputView.printWinnerWithGameEnd(winner);
             }
 
-            outputView.printTeamScore(currentTurn, board.getTeamScore(currentTurn));
+            outputView.printTeamScore(board.getTeamScore(Team.RED), board.getTeamScore(Team.BLUE));
             outputView.printBoard(pieces);
             board.changeTurn();
         }
