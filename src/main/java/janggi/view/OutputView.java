@@ -5,6 +5,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class OutputView {
@@ -14,6 +15,11 @@ public class OutputView {
     private static final String ANSI_BLUE = "\u001B[34m";
     private static final String HAN_DYNASTY = ANSI_RED + "한나라" + ANSI_RESET;
     private static final String CHU_DYNASTY = ANSI_BLUE + "초나라" + ANSI_RESET;
+
+    private static final Map<Team, String> TEAMS = Map.of(
+            Team.RED, HAN_DYNASTY,
+            Team.BLUE, CHU_DYNASTY
+    );
 
     public void printBoard(List<Piece> pieces) {
         int startX = 0;
@@ -111,13 +117,18 @@ public class OutputView {
         return "졸";
     }
 
-    public void printTeamScore(final Team currentTurn, int score) {
+    public void printTeamScore(final Team currentTurn, double score) {
         if (currentTurn == Team.RED) {
-            System.out.printf(HAN_DYNASTY + " 점수: %d", score);
+            System.out.printf(HAN_DYNASTY + " 점수: %f", score);
             System.out.println(System.lineSeparator());
             return;
         }
-        System.out.printf(CHU_DYNASTY + " 점수: %d", score);
+        System.out.printf(CHU_DYNASTY + " 점수: %f", score);
         System.out.println(System.lineSeparator());
     }
+
+    public void printWinner(Team team) {
+        System.out.printf(TEAMS.get(team) + "의 승리입니다.");
+    }
 }
+
