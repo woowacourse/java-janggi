@@ -9,6 +9,7 @@ import position.Position;
 public class Board {
 
     private final Map<Position, Piece> board;
+    private Country turn = Country.Cho;
 
     public Board(final Map<Position, Piece> board) {
         this.board = board;
@@ -23,6 +24,9 @@ public class Board {
     }
 
     public void movePiece(Position fromPosition, Position toPosition) {
+        if (!board.containsKey(fromPosition)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
+        }
         Piece piece = board.get(fromPosition);
         piece.canMove(fromPosition, toPosition, this);
 
