@@ -52,12 +52,10 @@ public class MovePath {
         return movements;
     }
 
-    // todo: 다 움직이고 난 후에 destination과 동일 판단 말고, 중간에 멀어지면 그 자리에서 false 하는게 연산 횟수 줄이는 방법일지도
-    // TODO 2025. 3. 27. 16:00: src.move가 그냥 src를 move 해준 상황 처럼 보이는데, (약간 반환값 void 생각남). 약간 버그 이슈
     public boolean canReachDestination(Position src, Position destination) {
         for (Movement movement : movements) {
             try {
-                src = src.move(movement); // TODO: chaining으로 해결하기
+                src = src.move(movement);
             } catch (IllegalArgumentException e) {
                 return false;
             }

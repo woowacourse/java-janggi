@@ -35,7 +35,7 @@ class GuardTest {
     void validateMove() {
         // given
         final Position src = new Position(1, 1);
-        final Piece guard = new Guard(src, Country.HAN); // TODO 2025. 3. 28. 17:53: 순환참조 StackOverflowError board#existPieceByPosition
+        final Piece guard = new Guard(src, Country.HAN);
         final Board board = new Board(Map.of(src, guard));
 
         // when & then : 1 : success

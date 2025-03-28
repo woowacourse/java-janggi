@@ -30,7 +30,7 @@ public class Soldier extends Piece implements DirectionCheckable, DistanceChecka
     public Soldier(final Position position, final Country country) {
         super(position, country);
         Movement additionalMovementByCountry = country.getDirection().getForward();
-        moveActions = new MovePaths(basicMoveActions, new MovePath(additionalMovementByCountry));
+        moveActions = MovePaths.of(basicMoveActions, new MovePath(additionalMovementByCountry));
     }
 
     @Override

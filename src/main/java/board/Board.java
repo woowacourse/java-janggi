@@ -10,8 +10,6 @@ import java.util.Map;
 
 public class Board {
 
-    // TODO 2025. 3. 28. 13:51: Piece에도 Position이 있고 map 으로 관리하려고 Position도 또 있는데
-    // TODO 2025. 3. 28. 13:51: 중복 아닌가? 매번 개발자가 같은 position을 넣어야 한다는 비용이 있는데?
     private final Map<Position, Piece> pieces;
 
     public Board(final Map<Position, Piece> pieces) {

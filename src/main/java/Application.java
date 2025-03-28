@@ -8,8 +8,6 @@ import view.OutputView;
 
 import java.util.List;
 
-// TODO 2025. 3. 27. 20:54: 4. 리뷰 처리
-
 public class Application {
 
     private static final int MAX_TRY_COUNT = 150;

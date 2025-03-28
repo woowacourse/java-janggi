@@ -14,37 +14,38 @@ public class MovePaths {
         this.movePaths = new HashSet<>(moveActions);
     }
 
-    // TODO 2025. 3. 28. 17:26: 좀 더 가독성 좋은 매개인자 합치기 코드 필요
-    public MovePaths(MovePaths movePaths, MovePath movePath) {
-        Set<MovePath> newMovePaths = new HashSet<>(movePaths.getMovePaths());
-        newMovePaths.add(movePath);
-        this.movePaths = newMovePaths;
+    public static MovePaths of(MovePaths existing, MovePath additional) {
+        Set<MovePath> combinedPaths = new HashSet<>(existing.movePaths);
+        combinedPaths.add(additional);
+        return new MovePaths(List.copyOf(combinedPaths));
     }
 
-    // todo: 뭔가 더 깔끔한 코드 없을까?? validate메서드와의 연결이 좀 더 깔끔헀으면 좋겠어
     public double calculateDistance() {
-        List<MovePath> list = movePaths.stream().limit(1).toList();
-        double distance = list.getFirst().calculateDistance();
-        validateMoveDistance(distance);
+        double distance = getReferenceDistance();
+        validateUniformDistance(distance);
         return distance;
     }
 
-    private void validateMoveDistance(double origin) {
-        for (MovePath moveAction : movePaths) {
-            double compare = moveAction.calculateDistance();
-            if (Math.abs(origin - compare) > 1e-9) {
-                throw new IllegalArgumentException("이동 액션에 잘못된 값이 들어갔습니다.");
-            }
+    private double getReferenceDistance() {
+        return movePaths.stream()
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("이동 경로가 존재하지 않습니다."))
+                .calculateDistance();
+    }
+
+    private void validateUniformDistance(double reference) {
+        boolean hasMismatch = movePaths.stream()
+                .anyMatch(mp -> Math.abs(mp.calculateDistance() - reference) > 1e-9);
+        if (hasMismatch) {
+            throw new IllegalArgumentException("이동 액션에 잘못된 값이 들어갔습니다.");
         }
     }
 
     public MovePath findCorrectMovePath(Position src, Position destination) {
-        for (MovePath movePath : movePaths) {
-            if (movePath.canReachDestination(src, destination)) {
-                return movePath;
-            }
-        }
-        throw new IllegalArgumentException("목적지에 도착할 수 있는 경로가 존재하지 않습니다.");
+        return movePaths.stream()
+                .filter(mp -> mp.canReachDestination(src, destination))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("목적지에 도착할 수 있는 경로가 존재하지 않습니다."));
     }
 
     public List<MovePath> getMovePaths() {
