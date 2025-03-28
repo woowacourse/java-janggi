@@ -10,6 +10,14 @@ public class Position {
     public static final int MAX_ROW = 9;
     public static final int MAX_COLUMN = 10;
 
+    private static final int PALACE_MIN_ROW = 4;
+    private static final int PALACE_MAX_ROW = 6;
+
+    private static final int HAN_PALACE_MIN_COLUMN = 1;
+    private static final int HAN_PALACE_MAX_COLUMN = 3;
+    private static final int CHO_PALACE_MIN_COLUMN = 8;
+    private static final int CHO_PALACE_MAX_COLUMN = 10;
+
     private final int row;
     private final int column;
 
@@ -39,6 +47,12 @@ public class Position {
 
     public boolean isValid() {
         return !(row < MIN_ROW || column < MIN_COLUMN || row > MAX_ROW || column > MAX_COLUMN);
+    }
+
+    public boolean isInPalace() {
+        return (PALACE_MIN_ROW <= row && row <= PALACE_MAX_ROW) &&
+                ((HAN_PALACE_MIN_COLUMN <= column && column <= HAN_PALACE_MAX_COLUMN) ||
+                        (CHO_PALACE_MIN_COLUMN <= column && column <= CHO_PALACE_MAX_COLUMN));
     }
 
     public Position flipLeftRight() {
