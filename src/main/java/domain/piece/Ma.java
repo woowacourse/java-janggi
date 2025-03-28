@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 public class Ma extends Piece implements DistanceMove {
     private static final int MA_REACHABLE_DISTANCE = 5;
     private static final int MA_DIRECTION_DISTANCE = 2;
-    private static final Predicate<Integer> isReachAble = (dist) -> dist == MA_REACHABLE_DISTANCE;
+    private static final Predicate<Integer> isReachable = (dist) -> dist == MA_REACHABLE_DISTANCE;
 
     public Ma(Country country) {
         super(country, PieceType.MA);
@@ -16,7 +16,7 @@ public class Ma extends Piece implements DistanceMove {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateReachableDistanceCoordinate(from, to, isReachAble);
+        validateReachableDistanceCoordinate(from, to, isReachable);
         validateDoesNotHasObstacle(board, from, to);
     }
 

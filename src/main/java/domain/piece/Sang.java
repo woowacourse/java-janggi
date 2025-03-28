@@ -9,7 +9,7 @@ public class Sang extends Piece implements DistanceMove {
 
     private static final int SANG_REACHABLE_DISTANCE = 13;
     private static final int SANG_DIRECTION_DISTANCE = 3;
-    private static final Predicate<Integer> isReachAble = (dist) -> dist == SANG_REACHABLE_DISTANCE;
+    private static final Predicate<Integer> isReachable = (dist) -> dist == SANG_REACHABLE_DISTANCE;
 
     public Sang(Country country) {
         super(country, PieceType.SANG);
@@ -17,7 +17,7 @@ public class Sang extends Piece implements DistanceMove {
 
     @Override
     public void validateMove(JanggiBoard board, JanggiCoordinate from, JanggiCoordinate to) {
-        validateReachableDistanceCoordinate(from, to, isReachAble);
+        validateReachableDistanceCoordinate(from, to, isReachable);
         validateDoesNotHasObstacle(board, from, to);
     }
 
