@@ -3,9 +3,10 @@ package domain.piece;
 import domain.Position;
 import domain.Team;
 import domain.movestrategy.RangeMoveStrategy;
+import domain.movestrategy.RangeMoveStrategyChangeable;
 import java.util.List;
 
-public class Cannon extends Piece {
+public class Cannon extends Piece implements RangeMoveStrategyChangeable {
 
     private RangeMoveStrategy moveStrategy;
 
@@ -20,7 +21,12 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public boolean isCanon() {
-        return true;
+    public PieceType getPieceType() {
+        return PieceType.CANNON;
+    }
+
+    @Override
+    public void changeStrategy(RangeMoveStrategy rangeMoveStrategy) {
+        this.moveStrategy = rangeMoveStrategy;
     }
 }
