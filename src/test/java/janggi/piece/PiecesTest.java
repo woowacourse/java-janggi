@@ -19,7 +19,7 @@ class PiecesTest {
     @DisplayName("장기말을 이동시킬 수 있다.")
     @Test
     void test1() {
-        Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
+        Pieces pieces = new Pieces(List.of(new Piece(PieceType.GUNG, STANDARD)));
         Position destination = new Position(5, 8);
 
         pieces.movePiece(List.of(), STANDARD, destination);
@@ -32,7 +32,7 @@ class PiecesTest {
     @ParameterizedTest
     @MethodSource()
     void test2(Position invalidPosition) {
-        Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
+        Pieces pieces = new Pieces(List.of(new Piece(PieceType.GUNG, STANDARD)));
 
         assertThatThrownBy(() -> pieces.movePiece(List.of(), invalidPosition, new Position(5, 8)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -52,7 +52,7 @@ class PiecesTest {
     @ParameterizedTest
     @MethodSource()
     void test3(Position invalidPosition) {
-        Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
+        Pieces pieces = new Pieces(List.of(new Piece(PieceType.GUNG, STANDARD)));
 
         assertThatThrownBy(() -> pieces.movePiece(List.of(), STANDARD, invalidPosition))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -71,7 +71,7 @@ class PiecesTest {
     @DisplayName("이동시킬 좌표에 장기말이 존재하지 않는 경우 예외를 발생시킨다.")
     @Test
     void test4() {
-        Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
+        Pieces pieces = new Pieces(List.of(new Piece(PieceType.GUNG, STANDARD)));
 
         Position invalidPosition = new Position(5, 8);
 
@@ -83,7 +83,7 @@ class PiecesTest {
     @DisplayName("장기말이 목적지로 이동할 수 없는 경우 예외를 발생시킨다.")
     @Test
     void test5() {
-        Pieces pieces = new Pieces(List.of(new Gung(STANDARD)));
+        Pieces pieces = new Pieces(List.of(new Piece(PieceType.GUNG, STANDARD)));
         Position destination = new Position(7, 8);
 
         assertThatThrownBy(() -> pieces.movePiece(List.of(), STANDARD, destination))

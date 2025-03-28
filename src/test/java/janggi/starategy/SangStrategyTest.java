@@ -1,20 +1,19 @@
-package janggi.piece;
+package janggi.starategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.piece.Piece;
+import janggi.piece.PieceType;
 import janggi.value.Position;
 import java.util.List;
 import java.util.stream.Stream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class SangTest {
+class SangStrategyTest {
 
     static final Position START_POSITION = new Position(4, 4);
     static final Position DIRECT_PATH_POSITION = new Position(5, 4);
@@ -22,16 +21,14 @@ class SangTest {
     static final Position SECOND_DIAGONAL_PATH_POSITION = new Position(6, 5);
     static final Position FIRST_DESTINATION = new Position(7, 2);
     static final Position SECOND_DESTINATION = new Position(7, 6);
+    SangStrategy strategy = new SangStrategy();
 
-    @DisplayName("장기말을 이동시킬 수 있다.")
+    @DisplayName("동사남북 방향으로 1칸 이동 후 같은 방향의 대각선으로 2칸 이동할 수 있다.")
     @ParameterizedTest
     @MethodSource()
     void canMove(Position destination) {
-        Sang sang = new Sang(START_POSITION);
-
-        Piece movedSang = sang.move(destination, List.of(), List.of());
-
-        assertThat(movedSang.getPosition()).isEqualTo(destination);
+        boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(), List.of());
+        assertThat(canMove).isTrue();
     }
 
     static Stream<Arguments> canMove() {
@@ -47,19 +44,15 @@ class SangTest {
         );
     }
 
-
     @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
     @ParameterizedTest
     @MethodSource()
-    void canNotMoveBecauseRuleOfMove(Position destination) {
-        Sang sang = new Sang(START_POSITION);
-
-        assertThatThrownBy(() -> sang.move(destination, List.of(), List.of()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+    void canNotMove(Position destination) {
+        boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(), List.of());
+        assertThat(canMove).isFalse();
     }
 
-    static Stream<Arguments> canNotMoveBecauseRuleOfMove() {
+    static Stream<Arguments> canNotMove() {
         return Stream.of(
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() + 1)),
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() - 1)),
@@ -72,17 +65,9 @@ class SangTest {
     @ParameterizedTest
     @MethodSource()
     void canNotMoveBecauseAlliesInPath(Position pathPosition, Position destination) {
-        Sang sang = new Sang(START_POSITION);
-        Sang alliesPiece = new Sang(pathPosition);
-
-        assertAll(
-                () -> assertThatThrownBy(() -> sang.move(destination, List.of(), List.of(alliesPiece)))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> sang.move(destination, List.of(), List.of(alliesPiece)))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 이동이 불가능합니다.")
-        );
+        Piece alliesPiece = new Piece(PieceType.JOL, pathPosition);
+        boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(), List.of(alliesPiece));
+        assertThat(canMove).isFalse();
     }
 
     static Stream<Arguments> canNotMoveBecauseAlliesInPath() {
@@ -97,29 +82,18 @@ class SangTest {
     @DisplayName("아군 장기말이 목적지에 장애물로 있을 경우 이동이 불가능하다.")
     @Test
     void canNotMoveBecauseAlliesInDestination() {
-        Sang sang = new Sang(START_POSITION);
-        Sang alliesPiece = new Sang(FIRST_DESTINATION);
-
-        assertThatThrownBy(() -> sang.move(FIRST_DESTINATION, List.of(), List.of(alliesPiece)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+        Piece alliesPiece = new Piece(PieceType.JOL, FIRST_DESTINATION);
+        boolean canMove = strategy.ableToMove(START_POSITION, FIRST_DESTINATION, List.of(), List.of(alliesPiece));
+        assertThat(canMove).isFalse();
     }
 
     @DisplayName("상대 장기말이 경로안에 장애물로 있을 경우 이동이 불가능하다.")
     @ParameterizedTest
     @MethodSource()
     void canNotMoveBecauseEnemyInPath(Position pathPosition, Position destination) {
-        Sang sang = new Sang(START_POSITION);
-        Sang enemyPiece = new Sang(pathPosition);
-
-        assertAll(
-                () -> assertThatThrownBy(() -> sang.move(destination, List.of(enemyPiece), List.of()))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> sang.move(destination, List.of(enemyPiece), List.of()))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 이동이 불가능합니다.")
-        );
+        Piece enemyPiece = new Piece(PieceType.JOL, pathPosition);
+        boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(enemyPiece), List.of());
+        assertThat(canMove).isFalse();
     }
 
     static Stream<Arguments> canNotMoveBecauseEnemyInPath() {
@@ -134,11 +108,8 @@ class SangTest {
     @DisplayName("상대 장기말이 목적지에 있을 경우 이동이 가능하다.")
     @Test
     void canMoveWithEnemyInDestination() {
-        Sang sang = new Sang(START_POSITION);
-        Sang enemyPiece = new Sang(FIRST_DESTINATION);
-
-        Piece movedSang = sang.move(FIRST_DESTINATION, List.of(enemyPiece), List.of());
-
-        Assertions.assertThat(movedSang.getPosition()).isEqualTo(FIRST_DESTINATION);
+        Piece enemyPiece = new Piece(PieceType.JOL, FIRST_DESTINATION);
+        boolean canMove = strategy.ableToMove(START_POSITION, FIRST_DESTINATION, List.of(enemyPiece), List.of());
+        assertThat(canMove).isTrue();
     }
 }

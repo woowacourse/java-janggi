@@ -1,34 +1,19 @@
-package janggi.piece;
+package janggi.starategy;
 
 import janggi.direction.BeelineDirection;
-import janggi.setting.CampType;
+import janggi.piece.Piece;
+import janggi.piece.PieceType;
 import janggi.value.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class Po extends Piece {
-
-    public Po(final Position position) {
-        super(PieceType.PO, position);
-    }
-
-    public static List<Po> generateInitialPos(final CampType campType) {
-        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.PO.getHeight());
-        return PieceType.PO.getDefaultXPositions().stream()
-                .map(xPosition -> new Po(new Position(xPosition, yPosition)))
-                .toList();
-    }
+public class PoStrategy implements MoveStrategy {
 
     @Override
-    protected Po makeMovedPiece(Position position) {
-        return new Po(position);
-    }
-
-    @Override
-    public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        BeelineDirection direction = BeelineDirection.parse(getPosition(), destination);
-        List<Position> positionsInPath = calculatePositionsInPath(direction, destination);
+    public boolean ableToMove(Position start, Position destination, List<Piece> enemy, List<Piece> allies) {
+        BeelineDirection direction = BeelineDirection.parse(start, destination);
+        List<Position> positionsInPath = calculatePositionsInPath(start, direction, destination);
         List<Piece> piecesInPath = searchPieceInPath(enemy, allies, positionsInPath);
 
         boolean followRuleOfMove = checkRuleOfMove(direction);
@@ -38,12 +23,13 @@ public class Po extends Piece {
         return followRuleOfMove && existOnlyOnePieceInPath && !existPoInPath && !existAlliesInDestination;
     }
 
-    private List<Position> calculatePositionsInPath(BeelineDirection direction, Position destination) {
+    private List<Position> calculatePositionsInPath(Position start, BeelineDirection direction, Position destination) {
         BiFunction<Position, Position, List<Position>> calculationMethod = direction.getCalculatePositionsInPath();
-        return calculationMethod.apply(getPosition(), destination);
+        return calculationMethod.apply(start, destination);
     }
 
-    private List<Piece> searchPieceInPath(List<Piece> enemy, List<Piece> allies, List<Position> positionsInPath) {
+    private List<Piece> searchPieceInPath(List<Piece> enemy, List<Piece> allies,
+            List<Position> positionsInPath) {
         ArrayList<Piece> allPieces = new ArrayList<>();
         allPieces.addAll(enemy);
         allPieces.addAll(allies);

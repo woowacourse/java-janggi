@@ -1,9 +1,10 @@
-package janggi.piece;
+package janggi.starategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.piece.Piece;
+import janggi.piece.PieceType;
 import janggi.value.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -13,23 +14,21 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ChaTest {
+class ChaStrategyTest {
 
     static final Position START_POSITION = new Position(4, 4);
     static final Position MIDDLE_POSITION = new Position(5, 4);
     static final Position DESTINATION_POSITION = new Position(6, 4);
     static final Position OVER_POSITION = new Position(7, 4);
+    ChaStrategy chaStrategy = new ChaStrategy();
 
 
-    @DisplayName("장기말을 이동시킬 수 있다.")
+    @DisplayName("동서남북 방향으로 끝까지 이동이 가능하다.")
     @ParameterizedTest
     @MethodSource()
     void canMove(Position destination) {
-        Cha cha = new Cha(START_POSITION);
-
-        Piece movedCha = cha.move(destination, List.of(), List.of());
-
-        assertThat(movedCha.getPosition()).isEqualTo(destination);
+        boolean canMove = chaStrategy.ableToMove(START_POSITION, destination, List.of(), List.of());
+        assertThat(canMove).isTrue();
     }
 
     static Stream<Arguments> canMove() {
@@ -46,18 +45,15 @@ class ChaTest {
     }
 
 
-    @DisplayName("장기말의 이동 규칙에 어긋난 경우 이동이 불가능합니다.")
+    @DisplayName("이동 불가능한 위치로는 이동이 불가능하다.")
     @ParameterizedTest
     @MethodSource()
-    void canNotMoveBecauseRuleOfMove(Position destination) {
-        Cha cha = new Cha(START_POSITION);
-
-        assertThatThrownBy(() -> cha.move(destination, List.of(), List.of()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+    void canNotMove(Position destination) {
+        boolean canMove = chaStrategy.ableToMove(START_POSITION, destination, List.of(), List.of());
+        assertThat(canMove).isFalse();
     }
 
-    static Stream<Arguments> canNotMoveBecauseRuleOfMove() {
+    static Stream<Arguments> canNotMove() {
         return Stream.of(
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() + 1)),
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() - 1)),
@@ -69,47 +65,37 @@ class ChaTest {
     @DisplayName("아군 장기말이 장애물일 경우 장애물 이전 위치까지 이동이 가능하다.")
     @Test
     void canMoveToPreviousPositionWithAllies() {
-        Cha cha = new Cha(START_POSITION);
-        Cha alliesPiece = new Cha(DESTINATION_POSITION);
-
-        Piece movedCha = cha.move(MIDDLE_POSITION, List.of(), List.of(alliesPiece));
-        assertThat(movedCha.getPosition()).isEqualTo(MIDDLE_POSITION);
+        Piece alliesPiece = new Piece(PieceType.JOL, DESTINATION_POSITION);
+        boolean canMove = chaStrategy.ableToMove(START_POSITION, MIDDLE_POSITION, List.of(), List.of(alliesPiece));
+        assertThat(canMove).isTrue();
     }
 
     @DisplayName("아군 장기말이 장애물일 경우 장애물 위치를 포함해 너머로 이동이 불가능하다.")
     @Test
     void canNotMoveToOverPositionWithAllies() {
-        Cha cha = new Cha(START_POSITION);
-        Cha alliesPiece = new Cha(DESTINATION_POSITION);
-
+        Piece alliesPiece = new Piece(PieceType.JOL, DESTINATION_POSITION);
         assertAll(
-                () -> assertThatThrownBy(() -> cha.move(DESTINATION_POSITION, List.of(), List.of(alliesPiece)))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 이동이 불가능합니다."),
-                () -> assertThatThrownBy(() -> cha.move(OVER_POSITION, List.of(), List.of(alliesPiece)))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessage("[ERROR] 이동이 불가능합니다.")
+                () -> assertThat(
+                        chaStrategy.ableToMove(START_POSITION, DESTINATION_POSITION, List.of(), List.of(alliesPiece)))
+                        .isFalse(),
+                () -> assertThat(chaStrategy.ableToMove(START_POSITION, OVER_POSITION, List.of(), List.of(alliesPiece)))
+                        .isFalse()
         );
     }
 
     @DisplayName("상대 장기말이 장애물일 경우 장애물 위치까지 이동이 가능하다.")
     @Test
     void canMoveToDestinationWithEnemy() {
-        Cha cha = new Cha(START_POSITION);
-        Cha enemyPiece = new Cha(DESTINATION_POSITION);
-
-        Piece movedCha = cha.move(DESTINATION_POSITION, List.of(enemyPiece), List.of());
-        assertThat(movedCha.getPosition()).isEqualTo(DESTINATION_POSITION);
+        Piece enemyPiece = new Piece(PieceType.JOL, DESTINATION_POSITION);
+        boolean canMove = chaStrategy.ableToMove(START_POSITION, MIDDLE_POSITION, List.of(enemyPiece), List.of());
+        assertThat(canMove).isTrue();
     }
 
     @DisplayName("상대 장기말이 장애물일 경우 장애물 위치를 제외하고 너머로 이동이 불가능하다.")
     @Test
     void canMoveToOverPositionWith() {
-        Cha cha = new Cha(START_POSITION);
-        Cha enemyPiece = new Cha(DESTINATION_POSITION);
-
-        assertThatThrownBy(() -> cha.move(OVER_POSITION, List.of(enemyPiece), List.of()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+        Piece enemyPiece = new Piece(PieceType.JOL, DESTINATION_POSITION);
+        boolean canMove = chaStrategy.ableToMove(START_POSITION, OVER_POSITION, List.of(enemyPiece), List.of());
+        assertThat(canMove).isFalse();
     }
 }

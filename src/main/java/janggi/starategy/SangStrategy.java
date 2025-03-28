@@ -1,6 +1,6 @@
-package janggi.piece;
+package janggi.starategy;
 
-import janggi.setting.CampType;
+import janggi.piece.Piece;
 import janggi.value.Path;
 import janggi.value.Position;
 import janggi.value.RelativePath;
@@ -8,7 +8,7 @@ import janggi.value.RelativePosition;
 import java.util.List;
 import java.util.Optional;
 
-public class Sang extends Piece {
+public class SangStrategy implements MoveStrategy {
 
     private static final List<RelativePath> RELATIVE_PATH = List.of(
             new RelativePath(
@@ -36,25 +36,9 @@ public class Sang extends Piece {
                     List.of(new RelativePosition(0, 0), new RelativePosition(0, 1),
                             new RelativePosition(1, 2), new RelativePosition(2, 3))));
 
-    public Sang(final Position position) {
-        super(PieceType.SANG, position);
-    }
-
-    public static List<Sang> generateInitialSangs(final CampType campType, final List<Integer> xPositions) {
-        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.SANG.getHeight());
-        return xPositions.stream()
-                .map(xPosition -> new Sang(new Position(xPosition, yPosition)))
-                .toList();
-    }
-
     @Override
-    protected Sang makeMovedPiece(Position position) {
-        return new Sang(position);
-    }
-
-    @Override
-    public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        Optional<Path> optionalPath = calculatePath(destination);
+    public boolean ableToMove(Position start, Position destination, List<Piece> enemy, List<Piece> allies) {
+        Optional<Path> optionalPath = calculatePath(start, destination);
         if (optionalPath.isEmpty()) {
             return false;
         }
@@ -65,10 +49,10 @@ public class Sang extends Piece {
         return !existEnemyInPath && !existAlliesInPath && !existAllieInDestination;
     }
 
-    private Optional<Path> calculatePath(Position destination) {
+    private Optional<Path> calculatePath(Position start, Position destination) {
         return RELATIVE_PATH.stream()
-                .filter(route -> route.getDestination(getPosition()).equals(destination))
-                .map(route -> route.calculatePath(getPosition()))
+                .filter(route -> route.getDestination(start).equals(destination))
+                .map(route -> route.calculatePath(start))
                 .findFirst();
     }
 

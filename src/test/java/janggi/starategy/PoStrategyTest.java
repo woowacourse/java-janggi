@@ -1,9 +1,9 @@
-package janggi.piece;
+package janggi.starategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.setting.CampType;
+import janggi.piece.Piece;
+import janggi.piece.PieceType;
 import janggi.value.Position;
 import java.util.List;
 import java.util.stream.Stream;
@@ -13,20 +13,18 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class PoTest {
+class PoStrategyTest {
 
     static final Position START_POSITION = new Position(4, 4);
+    PoStrategy strategy = new PoStrategy();
 
-    @DisplayName("장기말을 이동시킬 수 있다.")
+    @DisplayName("동서남북 방향으로 끝까지 이동 가능하다")
     @ParameterizedTest
     @MethodSource()
     void canMove(Position jumpPadPosition, Position destination) {
-        Po po = new Po(START_POSITION);
-        Jol jumpPad = new Jol(jumpPadPosition, CampType.CHO);
-
-        Piece movedPo = po.move(destination, List.of(), List.of(jumpPad));
-
-        assertThat(movedPo.getPosition()).isEqualTo(destination);
+        Piece jumpPad = new Piece(PieceType.JOL, jumpPadPosition);
+        boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(), List.of(jumpPad));
+        assertThat(canMove).isTrue();
     }
 
     static Stream<Arguments> canMove() {
@@ -46,26 +44,12 @@ class PoTest {
         );
     }
 
-    @DisplayName("목적지가 일직선 상에 없는 경우 이동할 수 없다.")
-    @Test
-    void canNotMoveBecauseRuleOfMove() {
-        Po po = new Po(START_POSITION);
-        Position destination = new Position(5, 7);
-
-        assertThatThrownBy(() -> po.move(destination, List.of(), List.of()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
-    }
-
     @DisplayName("장기말의 경로상에 점프대가 없는 경우 이동할 수 없다")
     @ParameterizedTest
     @MethodSource()
     void canNotMoveWithoutJumpPad(Position destination) {
-        Po po = new Po(START_POSITION);
-
-        assertThatThrownBy(() -> po.move(destination, List.of(), List.of()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+        boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(), List.of());
+        assertThat(canMove).isFalse();
     }
 
     static Stream<Arguments> canNotMoveWithoutJumpPad() {
@@ -81,12 +65,9 @@ class PoTest {
     @ParameterizedTest
     @MethodSource()
     void canNotMoveBecauseAlliesPo(Position otherPoPosition, Position destination) {
-        Po po = new Po(START_POSITION);
-        Po alliesPoInPath = new Po(otherPoPosition);
-
-        assertThatThrownBy(() -> po.move(destination, List.of(), List.of(alliesPoInPath)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+        Piece otherPo = new Piece(PieceType.PO, otherPoPosition);
+        boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(), List.of(otherPo));
+        assertThat(canMove).isFalse();
     }
 
     static Stream<Arguments> canNotMoveBecauseAlliesPo() {
@@ -110,12 +91,9 @@ class PoTest {
     @ParameterizedTest
     @MethodSource()
     void canNotMoveBecauseEnemyPo(Position otherPoPosition, Position destination) {
-        Po po = new Po(START_POSITION);
-        Po enemyPoInPath = new Po(otherPoPosition);
-
-        assertThatThrownBy(() -> po.move(destination, List.of(enemyPoInPath), List.of()))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+        Piece otherPo = new Piece(PieceType.PO, otherPoPosition);
+        boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(otherPo), List.of());
+        assertThat(canMove).isFalse();
     }
 
     static Stream<Arguments> canNotMoveBecauseEnemyPo() {
@@ -135,18 +113,15 @@ class PoTest {
         );
     }
 
-
     @DisplayName("장기말의 경로상에 적군과 아군 상관없이 점프대가 2개이상인 경우 이동할 수 없다")
     @ParameterizedTest
     @MethodSource()
     void canNotMoveBecauseTwoJumpPad(List<Position> jumpPadPositions, Position destination) {
-        Po po = new Po(START_POSITION);
-        Piece enemyJumpPad = new Jol(jumpPadPositions.getFirst(), CampType.CHO);
-        Piece alliesJumpPad = new Jol(jumpPadPositions.getLast(), CampType.CHO);
-
-        assertThatThrownBy(() -> po.move(destination, List.of(enemyJumpPad), List.of(alliesJumpPad)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+        Piece enemyJumpPad = new Piece(PieceType.JOL, jumpPadPositions.getFirst());
+        Piece alliesJumpPad = new Piece(PieceType.JOL, jumpPadPositions.getLast());
+        boolean canMove = strategy.ableToMove(
+                START_POSITION, destination, List.of(enemyJumpPad), List.of(alliesJumpPad));
+        assertThat(canMove).isFalse();
     }
 
     static Stream<Arguments> canNotMoveBecauseTwoJumpPad() {
@@ -175,13 +150,13 @@ class PoTest {
     void canNotMoveBecauseAlliesInDestination() {
         Position jumpPadPosition = new Position(START_POSITION.x() + 1, START_POSITION.y());
         Position destination = new Position(START_POSITION.x() + 3, START_POSITION.y());
-        Po po = new Po(START_POSITION);
-        Jol jumpPad = new Jol(jumpPadPosition, CampType.CHO);
-        Jol alliesInDestination = new Jol(destination, CampType.CHO);
 
-        assertThatThrownBy(() -> po.move(destination, List.of(jumpPad), List.of(alliesInDestination)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 이동이 불가능합니다.");
+        Piece jumpPad = new Piece(PieceType.JOL, jumpPadPosition);
+        Piece alliesInDestination = new Piece(PieceType.JOL, destination);
+
+        boolean canMove = strategy.ableToMove(
+                START_POSITION, destination, List.of(jumpPad), List.of(alliesInDestination));
+        assertThat(canMove).isFalse();
     }
 
     @DisplayName("목적지에 상대 장기말이 있는 경우 이동할 수 없다")
@@ -189,12 +164,12 @@ class PoTest {
     void canMoveWithEnemyInDestination() {
         Position jumpPadPosition = new Position(START_POSITION.x() + 1, START_POSITION.y());
         Position destination = new Position(START_POSITION.x() + 3, START_POSITION.y());
-        Po po = new Po(START_POSITION);
-        Jol jumpPad = new Jol(jumpPadPosition, CampType.CHO);
-        Jol enemyInDestination = new Jol(destination, CampType.CHO);
 
-        Piece movedPo = po.move(destination, List.of(enemyInDestination), List.of(jumpPad));
+        Piece jumpPad = new Piece(PieceType.JOL, jumpPadPosition);
+        Piece enemyInDestination = new Piece(PieceType.JOL, destination);
 
-        assertThat(movedPo.getPosition()).isEqualTo(destination);
+        boolean canMove = strategy.ableToMove(
+                START_POSITION, destination, List.of(enemyInDestination), List.of(jumpPad));
+        assertThat(canMove).isTrue();
     }
 }

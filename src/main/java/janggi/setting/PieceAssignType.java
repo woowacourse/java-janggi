@@ -1,14 +1,5 @@
 package janggi.setting;
 
-import janggi.piece.Cha;
-import janggi.piece.Gung;
-import janggi.piece.Jol;
-import janggi.piece.Ma;
-import janggi.piece.Piece;
-import janggi.piece.Po;
-import janggi.piece.Sa;
-import janggi.piece.Sang;
-import java.util.ArrayList;
 import java.util.List;
 
 public enum PieceAssignType {
@@ -27,17 +18,17 @@ public enum PieceAssignType {
         this.maXPositions = maXPositions;
     }
 
-    public List<Piece> makeAssign(CampType campType) {
-        List<Piece> allPieces = new ArrayList<>();
-        allPieces.addAll(Sang.generateInitialSangs(campType, sangXPositions));
-        allPieces.addAll(Ma.generateInitialMas(campType, maXPositions));
-        allPieces.addAll(Gung.generateInitialGung(campType));
-        allPieces.addAll(Sa.generateInitialSas(campType));
-        allPieces.addAll(Cha.generateInitialChas(campType));
-        allPieces.addAll(Po.generateInitialPos(campType));
-        allPieces.addAll(Jol.generateInitialJols(campType));
-        return allPieces;
-    }
+//    public List<Piece> makeAssign(CampType campType) {
+//        List<Piece> allPieces = new ArrayList<>();
+//        allPieces.addAll(Sang.generateInitialSangs(campType, sangXPositions));
+//        allPieces.addAll(Ma.generateInitialMas(campType, maXPositions));
+//        allPieces.addAll(Gung.generateInitialGung(campType));
+//        allPieces.addAll(Sa.generateInitialSas(campType));
+//        allPieces.addAll(Cha.generateInitialChas(campType));
+//        allPieces.addAll(Po.generateInitialPos(campType));
+//        allPieces.addAll(Jol.generateInitialJols(campType));
+//        return allPieces;
+//    }
 
     public String getName() {
         return name;

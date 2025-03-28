@@ -48,7 +48,7 @@ public class OutputView {
                     .filter(piece -> piece.getPosition().x() == xPosition)
                     .findFirst()
                     .ifPresentOrElse(
-                            piece -> System.out.print(piece.getPieceType().getName()),
+                            piece -> System.out.print(piece.getType().getName()),
                             () -> System.out.print(SQUARE)
                     );
         }

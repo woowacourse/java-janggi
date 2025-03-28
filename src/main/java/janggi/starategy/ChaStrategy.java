@@ -1,34 +1,17 @@
-package janggi.piece;
+package janggi.starategy;
 
 import janggi.direction.BeelineDirection;
-import janggi.setting.CampType;
+import janggi.piece.Piece;
 import janggi.value.Position;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class Cha extends Piece {
-
-    public Cha(final Position position) {
-        super(PieceType.CHA, position);
-    }
-
-    public static List<Cha> generateInitialChas(final CampType campType) {
-        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.CHA.getHeight());
-        return PieceType.CHA.getDefaultXPositions()
-                .stream()
-                .map(xPosition -> new Cha(new Position(xPosition, yPosition)))
-                .toList();
-    }
+public class ChaStrategy implements MoveStrategy {
 
     @Override
-    protected Cha makeMovedPiece(Position position) {
-        return new Cha(position);
-    }
-
-    @Override
-    public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        BeelineDirection direction = BeelineDirection.parse(getPosition(), destination);
-        List<Position> positionsInPath = calculatePositionsInPath(direction, destination);
+    public boolean ableToMove(Position start, Position destination, List<Piece> enemy, List<Piece> allies) {
+        BeelineDirection direction = BeelineDirection.parse(start, destination);
+        List<Position> positionsInPath = calculatePositionsInPath(start, direction, destination);
 
         boolean followRuleOfMove = checkRuleOfMove(direction);
         boolean existHurdleInPath = existHurdleInPath(positionsInPath, enemy, allies);
@@ -36,9 +19,9 @@ public class Cha extends Piece {
         return followRuleOfMove && !existHurdleInPath && !existAlliesInDestination;
     }
 
-    private List<Position> calculatePositionsInPath(BeelineDirection direction, Position destination) {
+    private List<Position> calculatePositionsInPath(Position start, BeelineDirection direction, Position destination) {
         BiFunction<Position, Position, List<Position>> calculationMethod = direction.getCalculatePositionsInPath();
-        return calculationMethod.apply(getPosition(), destination);
+        return calculationMethod.apply(start, destination);
     }
 
     private boolean checkRuleOfMove(BeelineDirection direction) {

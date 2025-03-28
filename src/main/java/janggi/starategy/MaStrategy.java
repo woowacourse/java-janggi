@@ -1,6 +1,6 @@
-package janggi.piece;
+package janggi.starategy;
 
-import janggi.setting.CampType;
+import janggi.piece.Piece;
 import janggi.value.Path;
 import janggi.value.Position;
 import janggi.value.RelativePath;
@@ -8,7 +8,7 @@ import janggi.value.RelativePosition;
 import java.util.List;
 import java.util.Optional;
 
-public class Ma extends Piece {
+public class MaStrategy implements MoveStrategy {
 
     private static final List<RelativePath> RELATIVE_PATH = List.of(
             new RelativePath(
@@ -29,25 +29,10 @@ public class Ma extends Piece {
                     List.of(new RelativePosition(0, 0), new RelativePosition(0, 1), new RelativePosition(1, 2)))
     );
 
-    public Ma(final Position position) {
-        super(PieceType.MA, position);
-    }
-
-    public static List<Ma> generateInitialMas(final CampType campType, final List<Integer> xPositions) {
-        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.MA.getHeight());
-        return xPositions.stream()
-                .map(xPosition -> new Ma(new Position(xPosition, yPosition)))
-                .toList();
-    }
 
     @Override
-    protected Ma makeMovedPiece(Position position) {
-        return new Ma(position);
-    }
-
-    @Override
-    public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        Optional<Path> optionalPath = calculatePath(destination);
+    public boolean ableToMove(Position start, Position destination, List<Piece> enemy, List<Piece> allies) {
+        Optional<Path> optionalPath = calculatePath(start, destination);
         if (optionalPath.isEmpty()) {
             return false;
         }
@@ -58,10 +43,10 @@ public class Ma extends Piece {
         return !existEnemyInPath && !existAlliesInPath && !existAllieInDestination;
     }
 
-    private Optional<Path> calculatePath(Position destination) {
+    private Optional<Path> calculatePath(Position start, Position destination) {
         return RELATIVE_PATH.stream()
-                .filter(route -> route.getDestination(getPosition()).equals(destination))
-                .map(route -> route.calculatePath(getPosition()))
+                .filter(route -> route.getDestination(start).equals(destination))
+                .map(route -> route.calculatePath(start))
                 .findFirst();
     }
 

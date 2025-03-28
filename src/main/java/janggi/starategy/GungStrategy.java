@@ -1,6 +1,6 @@
-package janggi.piece;
+package janggi.starategy;
 
-import janggi.setting.CampType;
+import janggi.piece.Piece;
 import janggi.setting.GungSungCoordinate;
 import janggi.value.Path;
 import janggi.value.Position;
@@ -9,7 +9,7 @@ import janggi.value.RelativePosition;
 import java.util.List;
 import java.util.Optional;
 
-public class Gung extends Piece {
+public class GungStrategy implements MoveStrategy {
 
     private static final List<RelativePath> RELATIVE_PATH = List.of(
             new RelativePath(
@@ -30,26 +30,9 @@ public class Gung extends Piece {
                     List.of(new RelativePosition(0, 0), new RelativePosition(-1, -1)))
     );
 
-    public Gung(final Position position) {
-        super(PieceType.GUNG, position);
-    }
-
-    public static List<Gung> generateInitialGung(final CampType campType) {
-        int yPosition = Math.abs(campType.getStartYPosition() - PieceType.GUNG.getHeight());
-        return PieceType.GUNG.getDefaultXPositions()
-                .stream()
-                .map(xPosition -> new Gung(new Position(xPosition, yPosition)))
-                .toList();
-    }
-
     @Override
-    protected Gung makeMovedPiece(Position position) {
-        return new Gung(position);
-    }
-
-    @Override
-    public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        Optional<Path> optionalPath = calculatePath(destination);
+    public boolean ableToMove(Position start, Position destination, List<Piece> enemy, List<Piece> allies) {
+        Optional<Path> optionalPath = calculatePath(start, destination);
         if (optionalPath.isEmpty()) {
             return false;
         }
@@ -59,10 +42,10 @@ public class Gung extends Piece {
         return isPathInGungSung && !existAlliesInDestination;
     }
 
-    private Optional<Path> calculatePath(Position destination) {
+    private Optional<Path> calculatePath(Position start, Position destination) {
         return RELATIVE_PATH.stream()
-                .filter(route -> route.getDestination(getPosition()).equals(destination))
-                .map(route -> route.calculatePath(getPosition()))
+                .filter(route -> route.getDestination(start).equals(destination))
+                .map(route -> route.calculatePath(start))
                 .findFirst();
     }
 
