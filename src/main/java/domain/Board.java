@@ -5,6 +5,9 @@ import domain.position.Point;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class Board {
 
@@ -112,5 +115,23 @@ public final class Board {
             return Team.GREEN;
         }
         return Team.RED;
+    }
+
+    public Map<PieceType, Integer> countPieces(final Team team) {
+        if (team == Team.GREEN) {
+            return countPieceType(Position::isGreenTeam);
+        }
+        return countPieceType(position -> !position.isGreenTeam());
+    }
+
+    private Map<PieceType, Integer> countPieceType(final Function<Position, Boolean> function) {
+        return positions.stream()
+                .filter(function::apply)
+                .map(Position::getPieceType)
+                .collect(Collectors.toMap(
+                        pieceType -> pieceType,
+                        pieceType -> 1,
+                        Integer::sum
+                ));
     }
 }

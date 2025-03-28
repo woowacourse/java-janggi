@@ -58,6 +58,10 @@ public final class Position {
         return isSamePieceType(pieceType) && isDifferentPieceType(middlePosition);
     }
 
+    public PieceType getPieceType() {
+        return piece.type();
+    }
+
     public Position getNextPosition(final Point toPoint) {
         return new Position(toPoint, piece);
     }
