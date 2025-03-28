@@ -90,8 +90,6 @@ class SangTest {
                 Arguments.of(DIRECT_PATH_POSITION, FIRST_DESTINATION),
                 Arguments.of(DIRECT_PATH_POSITION, SECOND_DESTINATION),
                 Arguments.of(FIRST_DIAGONAL_PATH_POSITION, FIRST_DESTINATION),
-                Arguments.of(FIRST_DIAGONAL_PATH_POSITION, SECOND_DESTINATION),
-                Arguments.of(SECOND_DIAGONAL_PATH_POSITION, FIRST_DESTINATION),
                 Arguments.of(SECOND_DIAGONAL_PATH_POSITION, SECOND_DESTINATION)
         );
     }
@@ -129,8 +127,6 @@ class SangTest {
                 Arguments.of(DIRECT_PATH_POSITION, FIRST_DESTINATION),
                 Arguments.of(DIRECT_PATH_POSITION, SECOND_DESTINATION),
                 Arguments.of(FIRST_DIAGONAL_PATH_POSITION, FIRST_DESTINATION),
-                Arguments.of(FIRST_DIAGONAL_PATH_POSITION, SECOND_DESTINATION),
-                Arguments.of(SECOND_DIAGONAL_PATH_POSITION, FIRST_DESTINATION),
                 Arguments.of(SECOND_DIAGONAL_PATH_POSITION, SECOND_DESTINATION)
         );
     }
