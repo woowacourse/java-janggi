@@ -23,17 +23,18 @@ public class Elephant extends Piece {
     }
 
     public List<Position> getPathForMoving(Position fromPosition, Position toPosition) {
-        return pieceMovements.stream()
+
+        List<Position> pathPosition = pieceMovements.stream()
                 .map(route -> fromPosition.findMovablePositions(route))
                 .filter(path -> !path.isEmpty() && path.getLast().equals(toPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
-
+        return pathPosition.subList(0, pathPosition.size() - 1);
     }
 
     @Override
     public void validateRoute(final List<Position> positions, Board board) {
-        if (positions.subList(0, positions.size() - 1).stream()
+        if (positions.stream()
                 .anyMatch(position -> board.getBoard().containsKey(position))) {
             throw new IllegalArgumentException("중간에 기물이 있어 갈 수 없습니다.");
         }

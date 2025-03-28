@@ -3,9 +3,9 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static piece.Country.Cho;
-import static testutil.TestConstant.A4;
 import static testutil.TestConstant.A5;
 import static testutil.TestConstant.B3;
+import static testutil.TestConstant.B5;
 import static testutil.TestConstant.C5;
 import static testutil.TestConstant.D4;
 import static testutil.TestConstant.E1;
@@ -17,7 +17,6 @@ import static testutil.TestConstant.E8;
 import static testutil.TestConstant.E9;
 import static testutil.TestConstant.F6;
 import static testutil.TestConstant.G5;
-import static testutil.TestConstant.I4;
 import static testutil.TestConstant.I5;
 
 import game.Board;
@@ -96,8 +95,8 @@ public class RookTest {
         // given
         Rook rook = new Rook(Cho);
         Board board = new Board(Map.of(
-                A4, new Horse(Cho),
-                I4, new Horse(Cho),
+                B5, new Horse(Cho),
+                G5, new Horse(Cho),
                 E2, new Horse(Cho),
                 E8, new Horse(Cho)
         ));

@@ -60,8 +60,8 @@ public class PositionTest {
 
         // then
         assertAll(
-                () -> Assertions.assertThat(straightPositions).containsExactly(B5, C5, D5, E5),
-                () -> Assertions.assertThat(straightPositions2).containsExactly(E2, E3, E4, E5)
+                () -> Assertions.assertThat(straightPositions).containsExactly(B5, C5, D5),
+                () -> Assertions.assertThat(straightPositions2).containsExactly(E2, E3, E4)
 
         );
     }

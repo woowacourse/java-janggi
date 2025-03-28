@@ -19,7 +19,7 @@ public class Rook extends Piece {
 
     @Override
     public void validateRoute(final List<Position> positions, Board board) {
-        if (positions.subList(0, positions.size() - 1).stream()
+        if (positions.stream()
                 .anyMatch(position -> board.getBoard().containsKey(position))) {
             throw new IllegalArgumentException("중간에 기물이 있어 갈 수 없습니다.");
         }
