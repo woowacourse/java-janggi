@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.position.Direction;
-import domain.position.Movement;
+import domain.piece.path.Movement;
 import domain.piece.path.DefaultPathValidator;
 import domain.piece.path.FixedMultiStepPathFinder;
 import java.util.List;

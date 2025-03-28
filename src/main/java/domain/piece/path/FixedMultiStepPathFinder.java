@@ -1,11 +1,9 @@
 package domain.piece.path;
 
-import domain.position.Movement;
 import domain.position.Position;
 import java.util.List;
 
 public class FixedMultiStepPathFinder implements PathFinder {
-
     private final List<Movement> movements;
 
     public FixedMultiStepPathFinder(List<Movement> movements) {
