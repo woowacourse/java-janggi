@@ -28,8 +28,8 @@ public class Piece {
         return moveRule.findAllRoute(path);
     }
 
-    public int countPieceInRoute(List<Piece> piecesInRoute) {
-        return (int) piecesInRoute.stream()
+    public long countPieceInRoute(List<Piece> piecesInRoute) {
+        return piecesInRoute.stream()
                 .filter(Piece::isNotEmptyPiece)
                 .count();
     }

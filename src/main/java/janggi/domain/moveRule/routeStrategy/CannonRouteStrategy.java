@@ -6,7 +6,7 @@ import java.util.List;
 public class CannonRouteStrategy implements RouteStrategy {
     @Override
     public boolean canMoveAlongRoute(Piece piece, Piece destination, List<Piece> piecesInRoute) {
-        int pieceCount = piece.countPieceInRoute(piecesInRoute);
+        long pieceCount = piece.countPieceInRoute(piecesInRoute);
         boolean noSamePieceOnRoute = piecesInRoute.stream().noneMatch(piece::isSamePieceType);
         boolean notTakeSamePiece = !piece.isSamePieceType(destination);
         boolean isOtherTeam = piece.isOtherTeam(destination);

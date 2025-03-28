@@ -40,7 +40,7 @@ class PieceTest {
         piecesInRoute.add(EmptyPiece.INSTANCE);
 
         Piece piece = RED_SOLDIER;
-        int pieceCountInRoute = piece.countPieceInRoute(piecesInRoute);
+        long pieceCountInRoute = piece.countPieceInRoute(piecesInRoute);
 
         assertThat(pieceCountInRoute).isEqualTo(2);
     }
