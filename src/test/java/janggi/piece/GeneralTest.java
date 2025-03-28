@@ -29,4 +29,22 @@ class GeneralTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 궁은 궁성을 벗어날 수 없습니다.");
     }
+
+    @DisplayName("한나라_궁이_궁성_밖으로_이동하면_예외를_발생한다")
+    @Test
+    void aaa() {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = createPosition(3, 7);
+        Position goal = createPosition(2, 7);
+        General piece = new General(Team.RED);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(initialBoard);
+
+        // then
+        assertThatThrownBy(() -> board.movePiece(start, goal, Team.RED))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 궁은 궁성을 벗어날 수 없습니다.");
+    }
 }
