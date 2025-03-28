@@ -193,7 +193,7 @@ class BoardTest {
             board.putPiece(nodeOfCho, new Sang(Team.CHO));
 
             // when
-            final Map<Team, Score> actual = board.calculateTotalScoreOfPiecesByTeam(scoreCalculator);
+            final Map<Team, Score> actual = board.calculateTotalScoreByTeam(scoreCalculator);
 
             // then
             assertThat(actual).isEqualTo(Map.ofEntries(

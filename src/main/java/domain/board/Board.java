@@ -27,7 +27,6 @@ public class Board {
     private static final int CHO_PALACE_START_ROW_INDEX = 8;
     private static final int CHO_PALACE_END_ROW_INDEX = 10;
 
-
     private final Map<Node, Piece> board;
     private final Map<Point, Node> nodeByPoint;
 
@@ -127,11 +126,15 @@ public class Board {
         }
     }
 
-    public Map<Team, Score> calculateTotalScoreOfPiecesByTeam(final ScoreCalculator scoreCalculator) {
+    public Map<Team, Score> calculateTotalScoreByTeam(final ScoreCalculator scoreCalculator) {
         List<Point> points = getPoints();
         List<Piece> piecesOfCho = getPiecesByTeam(points, Team.CHO);
         List<Piece> piecesOfHan = getPiecesByTeam(points, Team.HAN);
-        return calculateTotalScore(scoreCalculator, piecesOfCho, piecesOfHan);
+
+        Map<Team, Score> totalScoreByTeam = new HashMap<>();
+        totalScoreByTeam.put(Team.CHO, scoreCalculator.calculateTotalScoreOfPieces(piecesOfCho));
+        totalScoreByTeam.put(Team.HAN, scoreCalculator.calculateTotalScoreOfPieces(piecesOfHan).plus(HAN_BONUS_SCORE));
+        return totalScoreByTeam;
     }
 
     private List<Point> getPoints() {
@@ -150,12 +153,5 @@ public class Board {
                 .filter(node -> hasPieceTeamByNode(node, team))
                 .map(this::findPieceByNode)
                 .toList();
-    }
-
-    private Map<Team, Score> calculateTotalScore(ScoreCalculator scoreCalculator, List<Piece> piecesOfCho, List<Piece> piecesOfHan) {
-        Map<Team, Score> totalScoreByTeam = new HashMap<>();
-        totalScoreByTeam.put(Team.CHO, scoreCalculator.calculateTotalScoreOfPieces(piecesOfCho));
-        totalScoreByTeam.put(Team.HAN, scoreCalculator.calculateTotalScoreOfPieces(piecesOfHan).plus(HAN_BONUS_SCORE));
-        return totalScoreByTeam;
     }
 }
