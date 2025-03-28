@@ -62,8 +62,10 @@ public final class OutputView {
                 RED + SCORE_RB.getString(pieceType.name()) + "(" + j + "," + i + ")" + RESET);
     }
 
-    public static void printWinnerTeam(final Team team) {
+    public static void printWinnerTeam(final Team team, final double winnerScore, final double loserScore) {
         System.out.println(TEAM_RB.getString(team.name()) + "가 승리했습니다.");
+        System.out.println(TEAM_RB.getString(team.name()) + "의 점수: " + winnerScore);
+        System.out.println(TEAM_RB.getString(Team.opposite(team).name()) + "의 점수: " + loserScore);
     }
 
     public static void printCaptureMessage() {
