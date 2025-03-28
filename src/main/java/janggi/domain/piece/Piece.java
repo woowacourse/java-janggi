@@ -24,6 +24,13 @@ public abstract class Piece {
             final Position afterPosition
     );
 
+    public Consumer<Pieces> getPalaceMovableValidator(
+            final Position beforePosition,
+            final Position afterPosition
+    ){
+        throw new IllegalStateException("잘못된 이동 명령 호출입니다.");
+    }
+
     protected void validateNoSameTeamPieceAt(
             final Position afterPosition,
             final Team team,
@@ -42,6 +49,10 @@ public abstract class Piece {
     }
 
     public boolean isNone() {
+        return false;
+    }
+
+    public boolean isPalacePiece() {
         return false;
     }
 }

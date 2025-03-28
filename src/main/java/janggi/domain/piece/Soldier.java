@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Soldier extends Piece {
+public class Soldier extends PalacePiece{
     public static final List<Position> INITIAL_POSITIONS_BLUE = List.of(
             new Position(7, 1),
             new Position(7, 3),
@@ -29,6 +29,15 @@ public class Soldier extends Piece {
             final Position afterPosition) {
         return pieces -> {
             CommonValidator.validateSingleStepMovement(beforePosition, afterPosition);
+            validateNoSameTeamPieceAt(afterPosition, team, pieces);
+            validateNotMovingTowardsOwnSide(beforePosition, afterPosition);
+        };
+    }
+
+    @Override
+    public Consumer<Pieces> getPalaceMovableValidator(final Position beforePosition, final Position afterPosition) {
+        return pieces -> {
+            CommonValidator.validatePalaceSingleStepMovement(beforePosition, afterPosition);
             validateNoSameTeamPieceAt(afterPosition, team, pieces);
             validateNotMovingTowardsOwnSide(beforePosition, afterPosition);
         };

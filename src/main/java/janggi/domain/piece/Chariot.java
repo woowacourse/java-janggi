@@ -31,7 +31,7 @@ public class Chariot extends Piece {
             final Position beforePosition,
             final Position afterPosition
     ) {
-        Movement movement = afterPosition.subtract(beforePosition);
+        Movement movement = afterPosition.getMovementTo(beforePosition);
         Movement nextMovement = Movement.findStraightUnitMovement(movement.x(), movement.y());
 
         Position currentPosition = beforePosition.plus(nextMovement.x(), nextMovement.y());

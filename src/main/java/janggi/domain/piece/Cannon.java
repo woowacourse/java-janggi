@@ -50,7 +50,7 @@ public class Cannon extends Piece {
             final Position beforePosition,
             final Position afterPosition) {
 
-        Movement movement = afterPosition.subtract(beforePosition);
+        Movement movement = afterPosition.getMovementTo(beforePosition);
         Movement nextMovement = Movement.findStraightUnitMovement(movement.x(), movement.y());
 
         int obstaclesCount = 0;

@@ -11,7 +11,7 @@ public record Position(int x, int y) {
         return new Position(this.x + x, this.y + y);
     }
 
-    public Movement subtract(final Position other) {
+    public Movement getMovementTo(final Position other) {
         return new Movement(this.x - other.x, this.y - other.y);
     }
 

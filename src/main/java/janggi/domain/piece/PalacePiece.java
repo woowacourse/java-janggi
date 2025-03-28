@@ -11,6 +11,12 @@ public abstract class PalacePiece extends Piece {
     @Override
     public abstract Consumer<Pieces> getMovableValidator(final Position beforePosition, final Position afterPosition);
 
+    @Override
     public abstract Consumer<Pieces> getPalaceMovableValidator(final Position beforePosition,
                                                                final Position afterPosition);
+
+    @Override
+    public boolean isPalacePiece() {
+        return true;
+    }
 }

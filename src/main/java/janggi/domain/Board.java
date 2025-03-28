@@ -26,6 +26,9 @@ public class Board {
         Piece piece = board.get(beforePosition);
 
         validateTurn(team, piece);
+        if (piece.isPalacePiece() && palacePositions.contains(beforePosition) && palacePositions.contains(afterPosition)) {
+            piece.getPalaceMovableValidator(beforePosition, afterPosition).accept(new Pieces(board));
+        }
         piece.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(board));
         board.put(beforePosition, new None());
         board.put(afterPosition, piece);

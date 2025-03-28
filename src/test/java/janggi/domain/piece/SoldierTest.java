@@ -14,6 +14,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 class SoldierTest {
     Map<Position, Piece> map;
     Position beforePosition = new Position(5, 5);
+    Position beforePalacePosition = new Position(9, 5);
+    Soldier blueSoldier = new Soldier(Team.BLUE);
 
     @BeforeEach
     void setUp() {
@@ -28,21 +30,19 @@ class SoldierTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        Soldier soldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(5, 6);
 
         assertThatCode(() ->
-                soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map))).doesNotThrowAnyException();
+                SoldierTest.this.blueSoldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map))).doesNotThrowAnyException();
     }
 
     @DisplayName("청졸의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
     @CsvSource(value = {"6,5", "5,7"})
     @ParameterizedTest
     void move2(final int x, final int y) {
-        Soldier soldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(x, y);
 
-        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
+        assertThatThrownBy(() -> blueSoldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -50,22 +50,29 @@ class SoldierTest {
     @CsvSource(value = {"4,5", "5,7"})
     @ParameterizedTest
     void move3(final int x, final int y) {
-        Soldier soldier = new Soldier(Team.RED);
         Position afterPosition = new Position(x, y);
 
-        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
+        assertThatThrownBy(() -> blueSoldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("졸의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {
-        Soldier soldier = new Soldier(Team.BLUE);
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(5, 6);
         map.put(afterPosition, otherSoldier);
 
-        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
+        assertThatThrownBy(() -> blueSoldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("이전 위치와 이후 위치가 모두 궁성 내에 있을 경우, 대각선 이동이 가능하다.")
+    @Test
+    void palaceMove() {
+        Position afterPalacePosition = new Position(8, 4);
+
+        assertThatCode(() -> blueSoldier.getPalaceMovableValidator(beforePalacePosition, afterPalacePosition)
+                .accept(new Pieces(map))).doesNotThrowAnyException();
     }
 }
