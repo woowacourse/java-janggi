@@ -59,10 +59,10 @@ public class GameSetDBService {
 
         Map<Position, Piece> board = new HashMap<>();
         for (BoardDto dto : boardDtos) {
-            Position position = Position.of(dto.position_row(), dto.position_col());
+            Position position = Position.of(dto.positionRow(), dto.positionCol());
 
-            TeamColor pieceColor = TeamColor.valueOf(TeamColor.class, dto.piece_color());
-            PieceType pieceType = PieceType.valueOf(PieceType.class, dto.piece_type());
+            TeamColor pieceColor = TeamColor.valueOf(TeamColor.class, dto.pieceColor());
+            PieceType pieceType = PieceType.valueOf(PieceType.class, dto.pieceType());
             Piece piece = new Piece(pieceColor, pieceType);
 
             board.put(position, piece);
