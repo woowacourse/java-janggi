@@ -52,15 +52,15 @@ public class InputView {
             String input = scanner.nextLine();
 
             List<String> parsed = Arrays.stream(input.split(" ", -1)).toList();
-            validateMoveCommand(parsed);
+            validateMoveCommandSize(parsed);
+
             List<String> source = Arrays.stream(parsed.get(0).split(",", -1)).toList();
             List<String> destination = Arrays.stream(parsed.get(1).split(",", -1)).toList();
             validatePoint(source);
             validatePoint(destination);
 
             Point sourcePoint = Point.of(stringToInteger(source.get(0)), stringToInteger(source.get(1)));
-            Point destinationPoint = Point.of(stringToInteger(destination.get(0)),
-                    stringToInteger(destination.get(1)));
+            Point destinationPoint = Point.of(stringToInteger(destination.get(0)), stringToInteger(destination.get(1)));
 
             return new MoveCommand(sourcePoint, destinationPoint);
         });
@@ -81,7 +81,7 @@ public class InputView {
         }
     }
 
-    private static void validateMoveCommand(List<String> parsed) {
+    private static void validateMoveCommandSize(List<String> parsed) {
         if (parsed.size() != 2) {
             throw new IllegalArgumentException(parsed + ": 위치를 2개 입력해주세요.");
         }
