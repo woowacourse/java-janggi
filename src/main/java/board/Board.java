@@ -47,7 +47,7 @@ public class Board {
         Piece piece = pieces.get(src);
         piece.validateMove(src, dest,this);
         pieces.remove(src);
-        pieces.put(src, piece);
+        pieces.put(dest, piece);
     }
 
     private void validate(Position src, Country country) {

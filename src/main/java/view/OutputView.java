@@ -30,7 +30,7 @@ public class OutputView {
 
     public static void printBoard(final Board board, final Country country) {
         System.out.println("현재 보드 상태입니다.");
-        System.out.println("현재 턴은 다음의 팀입니다. : " + country);
+        System.out.println("현재 턴은 " + country + "나라의 것입니다.");
 
         final StringBuilder sb = new StringBuilder("ㅁ 일 이 삼 사 오 육 칠 팔 구\n");
         final Map<Position, Piece> pieces = board.getPieces();
