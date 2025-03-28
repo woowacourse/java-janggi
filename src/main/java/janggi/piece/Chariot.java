@@ -39,7 +39,7 @@ public final class Chariot extends Piece {
     }
 
     @Override
-    public Type getPieceSymbol() {
+    public Type getType() {
         return Type.CHARIOT;
     }
 }

@@ -28,7 +28,7 @@ public final class General extends Piece {
     }
 
     @Override
-    public Type getPieceSymbol() {
+    public Type getType() {
         return Type.GENERAL;
     }
 }

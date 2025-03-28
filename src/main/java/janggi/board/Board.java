@@ -4,12 +4,15 @@ import janggi.exception.ErrorException;
 import janggi.piece.Camp;
 import janggi.piece.Empty;
 import janggi.piece.Piece;
+import janggi.piece.Type;
 import janggi.position.Movement;
 import janggi.position.Position;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Board {
 
@@ -100,6 +103,13 @@ public class Board {
         }
     }
 
+    private List<Position> findPalacePositions(int centerX, int centerY) {
+        List<Integer> directions = List.of(-1, 0, 1);
+        return directions.stream()
+                .flatMap(dx -> directions.stream().map(dy -> new Position(centerX + dx, centerY + dy)))
+                .toList();
+    }
+
     public Set<Piece> getPiecesByPosition(Set<Position> route) {
         Set<Piece> pieces = new HashSet<>();
         for (Position position : route) {
@@ -111,14 +121,51 @@ public class Board {
         return pieces;
     }
 
-    public Map<Position, Piece> getCells() {
-        return cells;
+    public Camp determineWinner() {
+        for (Camp camp : Camp.values()) {
+            Set<Piece> pieces = filterPiecesByCamp(camp);
+            if (!isGeneralAlive(pieces)) {
+                return camp.switchTurn();
+            }
+        }
+        return Camp.NONE;
     }
 
-    private List<Position> findPalacePositions(int centerX, int centerY) {
-        List<Integer> directions = List.of(-1, 0, 1);
-        return directions.stream()
-                .flatMap(dx -> directions.stream().map(dy -> new Position(centerX + dx, centerY + dy)))
-                .toList();
+    private Set<Piece> filterPiecesByCamp(Camp camp) {
+        return cells.values()
+                .stream()
+                .filter(piece -> piece.getCamp() == camp)
+                .collect(Collectors.toSet());
+    }
+
+    private boolean isGeneralAlive(Set<Piece> pieces) {
+        return pieces.stream()
+                .filter(piece -> piece.getType() == Type.GENERAL)
+                .count() == 1;
+    }
+
+    public Map<Camp, Double> determineScores(Camp firstTurn) {
+        Map<Camp, Double> scores = new EnumMap<>(Camp.class);
+        initializeScores(scores, firstTurn);
+        calculateScores(scores);
+        return scores;
+    }
+
+    private void initializeScores(Map<Camp, Double> scores, Camp firstTurn) {
+        scores.put(firstTurn, 0.0);
+        scores.put(firstTurn.switchTurn(), 1.5);
+    }
+
+    private void calculateScores(Map<Camp, Double> scores) {
+        for (Piece piece : cells.values()) {
+            if (!piece.isEmpty()) {
+                Camp camp = piece.getCamp();
+                scores.merge(camp, piece.getType().getPoint(), Double::sum);
+            }
+        }
+    }
+
+    public Map<Position, Piece> getCells() {
+        return cells;
     }
 }

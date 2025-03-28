@@ -49,7 +49,7 @@ public final class Cannon extends Piece {
 
     private boolean hasCannon(Set<Piece> pieces) {
         return pieces.stream()
-                .anyMatch(piece -> piece.getPieceSymbol() == this.getPieceSymbol());
+                .anyMatch(piece -> piece.getType() == this.getType());
     }
 
     private Set<Position> findRoute(Movement movement) {
@@ -59,13 +59,13 @@ public final class Cannon extends Piece {
     @Override
     public void validateCatch(Piece otherPiece) {
         super.validateCatch(otherPiece);
-        if (getPieceSymbol() == otherPiece.getPieceSymbol()) {
+        if (getType() == otherPiece.getType()) {
             throw new ErrorException("포는 포를 잡을 수 없습니다.");
         }
     }
 
     @Override
-    public Type getPieceSymbol() {
+    public Type getType() {
         return Type.CANNON;
     }
 }

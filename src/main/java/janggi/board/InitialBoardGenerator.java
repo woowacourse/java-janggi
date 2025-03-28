@@ -53,7 +53,7 @@ public class InitialBoardGenerator implements BoardGenerator {
             board.placePiece(new Position(x, 2), new Cannon(Camp.CHO, board));
         }
         for (int x = 0; x <= 8; x += 2) {
-            board.placePiece(new Position(x, 2), new Soldier(Camp.CHO, board));
+            board.placePiece(new Position(x, 3), new Soldier(Camp.CHO, board));
         }
     }
 

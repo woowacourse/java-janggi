@@ -69,7 +69,7 @@ public final class Horse extends Piece {
     }
 
     @Override
-    public Type getPieceSymbol() {
+    public Type getType() {
         return Type.HORSE;
     }
 }

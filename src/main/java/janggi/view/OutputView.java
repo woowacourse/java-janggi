@@ -3,6 +3,7 @@ package janggi.view;
 import static janggi.board.Board.COLUMN;
 import static janggi.board.Board.ROW;
 
+import janggi.piece.Camp;
 import janggi.piece.Piece;
 import janggi.piece.Type;
 import janggi.position.Position;
@@ -48,6 +49,27 @@ public class OutputView {
         System.out.println(stringBuilder);
     }
 
+    public void displayScores(Map<Camp, Double> scores) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(System.lineSeparator())
+                .append(DISPLAY_LINE).append(System.lineSeparator())
+                .append("[점수 현황판]").append(System.lineSeparator())
+                .append(formatScore(Camp.CHO, scores.get(Camp.CHO))).append(System.lineSeparator())
+                .append(formatScore(Camp.HAN, scores.get(Camp.HAN))).append(System.lineSeparator())
+                .append(DISPLAY_LINE);
+        System.out.println(stringBuilder);
+    }
+
+    public void displayWinner(Camp winner) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(System.lineSeparator())
+                .append(DISPLAY_LINE).append(System.lineSeparator())
+                .append("[게임 우승자]").append(System.lineSeparator())
+                .append(String.format("%s", winner.getName())).append(System.lineSeparator())
+                .append(DISPLAY_LINE);
+        System.out.println(stringBuilder);
+    }
+
     private String formatBoardRow(Map<Position, Piece> placedPieces, int i) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(formatBoardIndex(i));
@@ -63,6 +85,12 @@ public class OutputView {
         return formatCell(String.valueOf(fullWidthDigit));
     }
 
+    private String formatScore(Camp camp, double score) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(String.format("%s : %.1f점", camp.getName(), score));
+        return stringBuilder.toString();
+    }
+
     private String formatPiece(Piece piece) {
         String symbol = formatPieceSymbol(piece);
         return formatCell(symbol);
@@ -76,7 +104,7 @@ public class OutputView {
         if (piece.isEmpty()) {
             return EMPTY_PIECE;
         }
-        Type pieceSymbol = piece.getPieceSymbol();
+        Type pieceSymbol = piece.getType();
         return pieceSymbol.getDisplayAttributes(piece.getCamp());
     }
 }

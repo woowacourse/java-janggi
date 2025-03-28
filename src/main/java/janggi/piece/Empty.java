@@ -15,7 +15,7 @@ public class Empty extends Piece {
     }
 
     @Override
-    public Type getPieceSymbol() {
+    public Type getType() {
         return Type.EMPTY;
     }
 }

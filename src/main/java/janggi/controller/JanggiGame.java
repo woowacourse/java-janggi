@@ -10,6 +10,7 @@ import janggi.view.Command;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -32,39 +33,68 @@ public class JanggiGame {
     }
 
     private void startGame() {
-        GameStatus gameStatus = new GameStatus();
+        GameMode gameMode = new GameMode();
         Camp currentTurn = FIRST_TURN;
         InitialBoardGenerator initialBoardGenerator = new InitialBoardGenerator();
         Board board = initialBoardGenerator.generate(currentTurn);
 
-        while (gameStatus.isPlaying()) {
-            outputView.displayBoard(board.getCells());
-            requestPlayGameUntilEnd(currentTurn, board, gameStatus);
+        while (gameMode.isPlaying()) {
+            showBoard(board);
+            requestPlayGameUntilEnd(currentTurn, board, gameMode);
             currentTurn = currentTurn.switchTurn();
         }
     }
 
-    private void requestPlayGameUntilEnd(Camp baseCamp, Board board, GameStatus gameStatus) {
+    private void requestPlayGameUntilEnd(Camp baseCamp, Board board, GameMode gameMode) {
         repeatUntilSuccess(() -> {
-            playGame(baseCamp, board, gameStatus);
+            playGame(baseCamp, board, gameMode);
         });
     }
 
-    private void playGame(Camp baseCamp, Board board, GameStatus gameStatus) {
+    private void playGame(Camp baseCamp, Board board, GameMode gameMode) {
         Command command = repeatUntilSuccess(inputView::askPlayCommand);
         if (command == Command.END) {
-            gameStatus.stopPlaying();
+            gameMode.stopPlaying();
         }
         if (command == Command.MOVE) {
-            processGame(inputView.readMovement(baseCamp), board);
+            processAndShowGame(inputView.readMovement(baseCamp), board, gameMode);
         }
     }
 
-    private void processGame(List<List<Integer>> input, Board board) {
+    private void processAndShowGame(List<List<Integer>> input, Board board, GameMode gameMode) {
+        processBoard(input, board);
+        processAndShowResult(board, gameMode);
+    }
+
+    private void processAndShowResult(Board board, GameMode gameMode) {
+        showBoard(board);
+        showScore(board);
+        Camp winner = board.determineWinner();
+        if (winner != Camp.NONE) {
+            gameMode.stopPlaying();
+            showWinner(winner);
+        }
+    }
+
+    private void processBoard(List<List<Integer>> input, Board board) {
         Position origin = parsePositionOf(input.getFirst());
         Position target = parsePositionOf(input.getLast());
         Movement movement = new Movement(origin, target);
         board.move(movement);
+    }
+
+
+    private void showBoard(Board board) {
+        outputView.displayBoard(board.getCells());
+    }
+
+    private void showScore(Board board) {
+        Map<Camp, Double> scores = board.determineScores(FIRST_TURN);
+        outputView.displayScores(scores);
+    }
+
+    private void showWinner(Camp winner) {
+        outputView.displayWinner(winner);
     }
 
     private Position parsePositionOf(List<Integer> input) {

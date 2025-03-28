@@ -13,7 +13,7 @@ public abstract class Piece {
 
     public abstract void validateMove(Movement movement);
 
-    public abstract Type getPieceSymbol();
+    public abstract Type getType();
 
     public void validateCatch(Piece otherPiece) {
         if (!otherPiece.isEmpty() && camp == otherPiece.getCamp()) {
@@ -26,7 +26,7 @@ public abstract class Piece {
     }
 
     public boolean isEmpty() {
-        return getPieceSymbol() == Type.EMPTY;
+        return getType() == Type.EMPTY;
     }
 
     public Camp getCamp() {

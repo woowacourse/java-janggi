@@ -1,6 +1,6 @@
 package janggi.controller;
 
-public class GameStatus {
+public class GameMode {
 
     private boolean isPlaying = true;
 
