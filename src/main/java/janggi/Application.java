@@ -1,7 +1,7 @@
 package janggi;
 
 import janggi.controller.GameSetController;
-import janggi.controller.JanggiController;
+import janggi.controller.GamePlayController;
 import janggi.dto.SetInfoDto;
 import janggi.service.GameSetDBService;
 import janggi.service.JanggiDBService;
@@ -23,7 +23,7 @@ public class Application {
 
         JanggiDBService janggiDBService = new JanggiDBService(connection, setInfoDto.roomId());
 
-        JanggiController controller = new JanggiController(gameRunningView, janggiDBService, setInfoDto.janggiGame());
+        GamePlayController controller = new GamePlayController(gameRunningView, janggiDBService, setInfoDto.janggiGame());
         controller.run();
     }
 

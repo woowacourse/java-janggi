@@ -13,14 +13,14 @@ import janggi.view.GameRunningView;
 import janggi.view.PieceTypeName;
 import java.util.Map;
 
-public class JanggiController {
+public class GamePlayController {
     private final GameRunningView gameRunningView;
     private final JanggiDBService janggiDBService;
     private final JanggiGame janggiGame;
     private final PlayingBoard playingBoard;
 
-    public JanggiController(GameRunningView gameRunningView,
-                            JanggiDBService janggiDBService, JanggiGame janggiGame) {
+    public GamePlayController(GameRunningView gameRunningView,
+                              JanggiDBService janggiDBService, JanggiGame janggiGame) {
         this.gameRunningView = gameRunningView;
         this.janggiDBService = janggiDBService;
         this.janggiGame = janggiGame;
