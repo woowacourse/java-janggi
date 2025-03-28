@@ -7,7 +7,6 @@ import janggi.piece.PieceType;
 import janggi.piece.Side;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Soldier extends LimitMovable {
@@ -30,7 +29,7 @@ public class Soldier extends LimitMovable {
         movableRoute.addAll(createRoute(position, Direction.UP));
         movableRoute.addAll(createRoute(position, Direction.RIGHT));
 
-        if (position.isInPalace()) {
+        if (position.isDiagonalMovable()) {
             movableRoute.addAll(createRouteInPalace(position, Direction.LEFT_UP));
             movableRoute.addAll(createRouteInPalace(position, Direction.RIGHT_UP));
         }
@@ -44,7 +43,7 @@ public class Soldier extends LimitMovable {
         movableRoute.addAll(createRoute(position, Direction.DOWN));
         movableRoute.addAll(createRoute(position, Direction.RIGHT));
 
-        if (position.isInPalace()) {
+        if (position.isDiagonalMovable()) {
             movableRoute.addAll(createRouteInPalace(position, Direction.LEFT_DOWN));
             movableRoute.addAll(createRouteInPalace(position, Direction.RIGHT_DOWN));
         }
@@ -62,7 +61,7 @@ public class Soldier extends LimitMovable {
 
     private List<Route> createRouteInPalace(final Position position, final Direction direction) {
         Position movedPosition = position.move(direction);
-        if (movedPosition.isInPalace()){
+        if (movedPosition.isDiagonalMovable()){
             return List.of(new Route(movedPosition));
         }
         return List.of();

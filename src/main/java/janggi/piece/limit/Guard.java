@@ -35,7 +35,7 @@ public class Guard extends LimitMovable {
 
     private List<Route> createStraightRoute(final Position position, final Direction direction) {
         Position movedPosition = position.move(direction);
-        if (movedPosition.isInBoardRange()) {
+        if (movedPosition.isInPalace()) {
             return List.of(new Route(movedPosition));
         }
         return List.of();
@@ -43,7 +43,7 @@ public class Guard extends LimitMovable {
 
     private List<Route> createDiagonalRoute(final Position position, final Direction direction) {
         Position movedPosition = position.move(direction);
-        if (movedPosition.isInPalace()){
+        if (movedPosition.isDiagonalMovable()){
             return List.of(new Route(movedPosition));
         }
         return List.of();

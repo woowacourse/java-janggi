@@ -35,7 +35,7 @@ class PositionTest {
     void test3() {
         Position position = new Position(3, 0);
 
-        assertThat(position.isInPalace()).isTrue();
+        assertThat(position.isDiagonalMovable()).isTrue();
     }
 
     @Test
@@ -43,6 +43,6 @@ class PositionTest {
     void test4() {
         Position position = new Position(0, 0);
 
-        assertThat(position.isInPalace()).isFalse();
+        assertThat(position.isDiagonalMovable()).isFalse();
     }
 }

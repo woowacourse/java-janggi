@@ -36,7 +36,7 @@ public abstract class UnLimitMovable implements Piece {
                     createCandidateDirections(position, Direction.LEFT),
                     createCandidateDirections(position, Direction.RIGHT)));
 
-        if(position.isInPalace()) {
+        if(position.isDiagonalMovable()) {
             movableDirections.addAll(computeCandidateDirectionsInPalace(position));
         }
         movableDirections.removeIf(route -> route.getPositions().isEmpty());
@@ -73,7 +73,7 @@ public abstract class UnLimitMovable implements Piece {
         for (int i = 0; i < MOVE_LIMIT; i++) {
             Position lastPosition = route.getLastPosition();
             Position movedPosition = lastPosition.move(direction);
-            if (movedPosition.isInPalace()) {
+            if (movedPosition.isDiagonalMovable()) {
                 route.addRoute(movedPosition);
             }
         }

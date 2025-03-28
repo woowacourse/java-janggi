@@ -61,4 +61,18 @@ class KingTest {
                         new Position(4, 9),
                         new Position(4, 8));
     }
+
+    @Test
+    @DisplayName("궁이 4, 7의 위치 (궁성의 가운데 상단)에서는 가능한 이동이 3개이다. (대각선 이동 불가)")
+    void test12() {
+        King king = new King(Side.CHO);
+        Position position = new Position(4, 7);
+
+        List<Route> reachableDestinations = king.computeCandidatePositions(position);
+
+        assertThat(reachableDestinations).extracting(Route::getLastPosition)
+                .contains(new Position(3, 7),
+                        new Position(5, 7),
+                        new Position(4, 8));
+    }
 }

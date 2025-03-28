@@ -8,15 +8,6 @@ public class Position {
 
     private static final int X_LIMIT = 9;
     private static final int Y_LIMIT = 10;
-    private static final Set<Position> PALACE_POSITIONS = Set.of(
-            new Position(3, 0), new Position(5, 0),
-            new Position(4, 1),
-            new Position(3, 2), new Position(5, 2),
-
-            new Position(3, 9), new Position(5, 9),
-            new Position(4, 8),
-            new Position(3, 7), new Position(5, 7)
-    );
 
     private final int x;
     private final int y;
@@ -35,7 +26,11 @@ public class Position {
     }
 
     public boolean isInPalace() {
-        return PALACE_POSITIONS.contains(this);
+        return PalacePoint.PALACE_POSITIONS.contains(this);
+    }
+
+    public boolean isDiagonalMovable() {
+        return PalacePoint.DIAGONAL_MOVABLE_POSITIONS.contains(this);
     }
 
     @Override

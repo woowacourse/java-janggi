@@ -24,13 +24,12 @@ class GuardTest {
                         .contains(
                                 new Position(4, 9),
                                 new Position(3, 8),
-                                new Position(2, 9),
                                 new Position(4, 8)
                         );
     }
 
     @Test
-    @DisplayName("졸이 3, 8의 위치 (궁성의 왼쪽 가운데)에서는 가능한 이동이 3개이다. (대각선 이동 불가)")
+    @DisplayName("3, 8의 위치 (궁성의 왼쪽 가운데)에서는 가능한 이동이 3개이다. (대각선 이동 불가)")
     void test10() {
         Guard guard = new Guard(Side.CHO);
         Position position = new Position(3, 8);
@@ -44,7 +43,7 @@ class GuardTest {
     }
 
     @Test
-    @DisplayName("졸이 5, 9의 위치 (궁성의 오른쪽 아래)에서는 가능한 이동이 대각선 이동 포함 3개이다.")
+    @DisplayName("5, 9의 위치 (궁성의 오른쪽 아래)에서는 가능한 이동이 대각선 이동 포함 3개이다.")
     void test11() {
         Guard guard = new Guard(Side.CHO);
         Position position = new Position(5, 9);
@@ -55,5 +54,19 @@ class GuardTest {
                 .contains(new Position(5, 8),
                         new Position(4, 8),
                         new Position(4, 9));
+    }
+
+    @Test
+    @DisplayName("4, 7의 위치 (궁성의 가운데 상단)에서는 가능한 이동이 3개이다. (대각선 이동 불가)")
+    void test12() {
+        King king = new King(Side.CHO);
+        Position position = new Position(4, 7);
+
+        List<Route> reachableDestinations = king.computeCandidatePositions(position);
+
+        assertThat(reachableDestinations).extracting(Route::getLastPosition)
+                .contains(new Position(3, 7),
+                        new Position(5, 7),
+                        new Position(4, 8));
     }
 }
