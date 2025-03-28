@@ -1,11 +1,33 @@
 package janggi.piece;
 
-import janggi.direction.MaDirection;
 import janggi.setting.CampType;
+import janggi.value.Path;
 import janggi.value.Position;
+import janggi.value.RelativePath;
+import janggi.value.RelativePosition;
 import java.util.List;
+import java.util.Optional;
 
 public class Ma extends Piece {
+
+    private static final List<RelativePath> RELATIVE_PATH = List.of(
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(-1, 0), new RelativePosition(-2, -1))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(-1, 0), new RelativePosition(-2, 1))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(1, 0), new RelativePosition(2, -1))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(1, 0), new RelativePosition(2, 1))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(0, -1), new RelativePosition(-1, -2))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(0, -1), new RelativePosition(1, -2))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(0, 1), new RelativePosition(-1, 2))),
+            new RelativePath(
+                    List.of(new RelativePosition(0, 0), new RelativePosition(0, 1), new RelativePosition(1, 2)))
+    );
 
     public Ma(final Position position) {
         super(PieceType.MA, position);
@@ -25,29 +47,29 @@ public class Ma extends Piece {
 
     @Override
     public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
-        MaDirection maDirection = MaDirection.parse(getPosition(), destination);
-        boolean followRuleOfMove = checkRuleOfMove(maDirection);
-        boolean existHurdleInPath = existHurdleInPath(maDirection, enemy, allies);
-        boolean existAllieInDestination = existPieceInDestination(destination, allies);
-        return followRuleOfMove && !existHurdleInPath && !existAllieInDestination;
+        Optional<Path> optionalPath = calculatePath(destination);
+        if (optionalPath.isEmpty()) {
+            return false;
+        }
+        Path path = optionalPath.get();
+        boolean existEnemyInPath = existPieceInPath(path, enemy);
+        boolean existAlliesInPath = existPieceInPath(path, allies);
+        boolean existAllieInDestination = existPieceInPosition(destination, allies);
+        return !existEnemyInPath && !existAlliesInPath && !existAllieInDestination;
     }
 
-    private boolean checkRuleOfMove(MaDirection maDirection) {
-        return maDirection != MaDirection.NONE;
+    private Optional<Path> calculatePath(Position destination) {
+        return RELATIVE_PATH.stream()
+                .filter(route -> route.getDestination(getPosition()).equals(destination))
+                .map(route -> route.calculatePath(getPosition()))
+                .findFirst();
     }
 
-    private boolean existHurdleInPath(MaDirection direction, List<Piece> enemy, List<Piece> allies) {
-        boolean existEnemyInPath = existPieceInPath(direction, enemy);
-        boolean existAlliesInPath = existPieceInPath(direction, allies);
-        return existEnemyInPath || existAlliesInPath;
+    private boolean existPieceInPath(Path path, List<Piece> pieces) {
+        return pieces.stream().anyMatch(piece -> path.isInMiddle(piece.getPosition()));
     }
 
-    private boolean existPieceInPath(MaDirection direction, List<Piece> pieces) {
-        return pieces.stream()
-                .anyMatch(piece -> direction.checkPositionInPath(getPosition(), piece.getPosition()));
-    }
-
-    private boolean existPieceInDestination(Position destination, List<Piece> pieces) {
-        return pieces.stream().anyMatch(piece -> destination.equals(piece.getPosition()));
+    private boolean existPieceInPosition(Position position, List<Piece> pieces) {
+        return pieces.stream().anyMatch(piece -> position.equals(piece.getPosition()));
     }
 }
