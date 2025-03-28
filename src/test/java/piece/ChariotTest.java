@@ -1,60 +1,69 @@
 package piece;
 
 import board.Board;
-import board.Position;
+import position.LineDirection;
+import position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 class ChariotTest {
 
     @DisplayName("Chariot은 직선 방향으로 모든 곳을 이동할 수 있다.")
     @Test
-    void isAbleToMove() {
+    void validateMove() {
         // given
-        final Piece chariotPiece = new Chariot(TeamType.BLUE);
-        final Position now = new Position(1, 1);
-        final Position ableDest = new Position(1, 2);
-        final Position notAbleDest = new Position(2, 2);
+        Country dumyCountry = Country.HAN;
+        Country.assignDirection(dumyCountry, LineDirection.UP);
+        Position dumyPosition = new Position(1, 1);
+        final Piece horse = new Chariot(dumyPosition, dumyCountry);
+
+        final Position src = dumyPosition;
         final Board board = new Board(new HashMap<>());
-        final TeamType teamType = TeamType.RED;
 
-        // when
-        final boolean actual1 = chariotPiece.isAbleToMove(now, ableDest, board);
-        final boolean actual2 = chariotPiece.isAbleToMove(now, notAbleDest, board);
+        // when & then: 1 : success
+        final Position ableDest = new Position(1, 2);
+        assertThatCode(
+                () -> horse.validateMove(src, ableDest, board)
+        ).doesNotThrowAnyException();
 
-        // then
-        org.junit.jupiter.api.Assertions.assertAll(
-                () -> assertThat(actual1).isTrue(),
-                () -> assertThat(actual2).isFalse()
-        );
+        // when & then : 2 : failure
+        final Position notAbleDest = new Position(2, 2);
+        assertThatThrownBy(
+                () -> horse.validateMove(src, notAbleDest, board)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("Chariot 은 목적지까지 어떠한 기물도 존재해서는 안된다")
     @Test
-    void isAbleToMoveByPieceBetween() {
+    void validateMoveWithObstruction() {
         // given
-        final Piece chariotPiece = new Chariot(TeamType.BLUE);
-        final Position now = new Position(1, 1);
+        Country turnCountry = Country.HAN;
+        Country.assignDirection(turnCountry, LineDirection.UP);
+        Position dumyPosition = new Position(2, 3);
+        final Piece horse = new Chariot(dumyPosition, turnCountry);
+        final Position src = dumyPosition;
+
+        final Position obstructionPosition = new Position(2, 2);
+        final Piece obstructionPiece = new Cannon(obstructionPosition, turnCountry);
+        final Board board = new Board(Map.of(
+                obstructionPosition, obstructionPiece
+        ));
+
+        // when & then : 1 : success
         final Position ableDest = new Position(1, 3);
-        final Position notAbleDest = new Position(1, 5);
-        final Map<Position, Piece> map = Map.of(new Position(1, 4),
-                new Elephant(TeamType.BLUE));
-        final Board board = new Board(map);
-        final TeamType teamType = TeamType.RED;
+        assertThatCode(
+                () -> horse.validateMove(src, ableDest, board)
+        ).doesNotThrowAnyException();
 
-        // when
-        final boolean actual1 = chariotPiece.isAbleToMove(now, ableDest, board);
-        final boolean actual2 = chariotPiece.isAbleToMove(now, notAbleDest, board);
-
-        // then
-        org.junit.jupiter.api.Assertions.assertAll(
-                () -> assertThat(actual1).isTrue(),
-                () -> assertThat(actual2).isFalse()
-        );
+        // when & then : 2 : failure
+        final Position notAbleDest = new Position(2, 1);
+        assertThatThrownBy(
+                () -> horse.validateMove(src, notAbleDest, board)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 }

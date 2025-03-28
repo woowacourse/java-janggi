@@ -1,35 +1,41 @@
 package piece;
 
 import board.Board;
-import board.Position;
+import position.Position;
+import validator.DirectionCheckable;
+import validator.ObstructionCheckable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiPredicate;
 
-public class Chariot extends Piece {
+public class Chariot extends Piece implements DirectionCheckable, ObstructionCheckable {
 
-    public Chariot(final TeamType teamType) {
-        super(teamType);
+    public Chariot(final Position position, final Country country) {
+        super(position, country);
     }
 
     @Override
-    protected boolean withInDirection(Position src, Position destination) {
-        return src.isSameLine(destination);
+    public void validateMoveCondition(Position src, Position dest, Board board) {
+        validateDirection(src, dest);
+        List<Position> internalPositions = getInternalPositions(dest);
+        validateObstruction(board, internalPositions, 0);
     }
 
-    @Override
-    protected boolean withInRangeByMovement(double distanceByPositions) {
-        return true;
-    }
-
-    @Override
-    protected boolean passFilter(Position src, Position destination, Board board) {
-        final List<Position> positions = src.calculateBetweenPositions(destination);
-        for (final Position position : positions) {
-            if (board.existPieceByPosition(position)) {
-                return false;
+    private List<Position> getInternalPositions(Position destination) {
+        List<Position> positions = new ArrayList<>();
+        for (int x = Math.min(position.x(), destination.x()); x <= Math.max(position.x(), destination.x()); x++) {
+            for (int y = Math.min(position.y(), destination.y()); y <= Math.max(position.y(), destination.y()); y++) {
+                positions.add(new Position(x, y));
             }
         }
-        return true;
+        positions.removeLast();
+        return positions;
+    }
+
+    @Override
+    public BiPredicate<Position, Position> directionRule() {
+        return Position::isSameLine;
     }
 
     @Override
