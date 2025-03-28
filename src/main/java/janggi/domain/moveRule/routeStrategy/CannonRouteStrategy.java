@@ -1,9 +1,9 @@
-package janggi.domain.moveRule.moveStrategy;
+package janggi.domain.moveRule.routeStrategy;
 
 import janggi.domain.piece.Piece;
 import java.util.List;
 
-public class CannonMoveStrategy implements moveStrategy {
+public class CannonRouteStrategy implements RouteStrategy {
     @Override
     public boolean canMoveAlongRoute(Piece piece, Piece destination, List<Piece> piecesInRoute) {
         int pieceCount = piece.countPieceInRoute(piecesInRoute);

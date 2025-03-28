@@ -8,5 +8,5 @@ import java.util.List;
 public interface PathStrategy {
     boolean isValidMovement(PiecePath path, TeamColor teamColor);
 
-    List<Position> findAllRoute(PiecePath path);
+    List<Position> findAllIntermediatePositions(PiecePath path);
 }

@@ -23,7 +23,7 @@ public class ElephantPathStrategy implements PathStrategy{
     }
 
     @Override
-    public List<Position> findAllRoute(PiecePath path) {
+    public List<Position> findAllIntermediatePositions(PiecePath path) {
         int rowDifference = path.rowDifference();
         int columnDifference = path.columnDifference();
 

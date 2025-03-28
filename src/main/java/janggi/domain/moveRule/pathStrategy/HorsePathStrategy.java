@@ -23,7 +23,7 @@ public class HorsePathStrategy implements PathStrategy {
     }
 
     @Override
-    public List<Position> findAllRoute(PiecePath path) {
+    public List<Position> findAllIntermediatePositions(PiecePath path) {
         Direction direction = Direction.from(path.rowDifference() / 2, path.columnDifference() / 2);
         return path.tracePositionsByDirection(Movement.from(direction));
     }

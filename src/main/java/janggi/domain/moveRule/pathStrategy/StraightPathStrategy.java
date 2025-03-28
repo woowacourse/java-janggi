@@ -15,7 +15,7 @@ public class StraightPathStrategy implements PathStrategy {
     }
 
     @Override
-    public List<Position> findAllRoute(PiecePath path) {
+    public List<Position> findAllIntermediatePositions(PiecePath path) {
         return path.getBetweenPositions();
     }
 }
