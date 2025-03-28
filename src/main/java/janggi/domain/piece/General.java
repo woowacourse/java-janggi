@@ -54,8 +54,13 @@ public class General extends Piece {
                 return null;
             }
             currentPosition = currentPosition.move(direction);
-            if (!currentPosition.isInPalace()) {
-                return null;
+            if (direction.isDiagonal()) {
+                if (!position.canMoveDiagonalPosition()) {
+                    return null;
+                }
+                if (!position.isInPalace() || !currentPosition.isInPalace()) {
+                    return null;
+                }
             }
             positions.add(currentPosition);
         }

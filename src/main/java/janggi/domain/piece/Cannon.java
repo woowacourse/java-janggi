@@ -62,10 +62,10 @@ public class Cannon extends Piece {
         while (currentPosition.canMove(direction)) {
             final Position nextPosition = currentPosition.move(direction);
             if (direction.isDiagonal()) {
-                if (!position.isInPalace()) {
+                if (!position.canMoveDiagonalPosition()) {
                     break;
                 }
-                if (!nextPosition.isInPalace()) {
+                if (!position.isInPalace() || !nextPosition.isInPalace()) {
                     break;
                 }
             }

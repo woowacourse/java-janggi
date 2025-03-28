@@ -1,6 +1,8 @@
 package janggi.domain.piece.direction;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public record Position(int x, int y) {
 
@@ -35,12 +37,29 @@ public record Position(int x, int y) {
         return isInBluePalace() || isInRedPalace();
     }
 
-    public boolean isInBluePalace() {
+    private boolean isInBluePalace() {
         return x >= PALACE_MIN_X && x <= PALACE_MAX_X && y >= BLUE_PALACE_MIN_Y && y <= BLUE_PALACE_MAX_Y;
     }
 
-    public boolean isInRedPalace() {
+    private boolean isInRedPalace() {
         return x >= PALACE_MIN_X && x <= PALACE_MAX_X && y >= RED_PALACE_MIN_Y && y <= RED_PALACE_MAX_Y;
+    }
+
+    public boolean canMoveDiagonalPosition() {
+        Set<Position> positions = new HashSet<>();
+        positions.add(new Position(3, 2));
+        positions.add(new Position(5, 2));
+        positions.add(new Position(3, 0));
+        positions.add(new Position(5, 0));
+        positions.add(new Position(4, 1));
+
+        positions.add(new Position(3, 7));
+        positions.add(new Position(5, 7));
+        positions.add(new Position(3, 9));
+        positions.add(new Position(5, 9));
+        positions.add(new Position(4, 8));
+
+        return positions.contains(this);
     }
 
     public boolean canMove(final Direction direction) {

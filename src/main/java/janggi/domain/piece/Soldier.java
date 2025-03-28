@@ -3,7 +3,11 @@ package janggi.domain.piece;
 import static janggi.domain.Team.RED;
 import static janggi.domain.piece.direction.Direction.DOWN;
 import static janggi.domain.piece.direction.Direction.LEFT;
+import static janggi.domain.piece.direction.Direction.LEFT_DOWN;
+import static janggi.domain.piece.direction.Direction.LEFT_UP;
 import static janggi.domain.piece.direction.Direction.RIGHT;
+import static janggi.domain.piece.direction.Direction.RIGHT_DOWN;
+import static janggi.domain.piece.direction.Direction.RIGHT_UP;
 import static janggi.domain.piece.direction.Direction.UP;
 
 import janggi.domain.Team;
@@ -23,13 +27,17 @@ public class Soldier extends Piece {
     private static final List<List<Direction>> RED_GUARD_MOVES = List.of(
             List.of(DOWN),
             List.of(LEFT),
-            List.of(RIGHT)
+            List.of(RIGHT),
+            List.of(LEFT_DOWN),
+            List.of(RIGHT_DOWN)
     );
 
     private static final List<List<Direction>> BLUE_GUARD_MOVES = List.of(
             List.of(UP),
             List.of(LEFT),
-            List.of(RIGHT)
+            List.of(RIGHT),
+            List.of(RIGHT_UP),
+            List.of(LEFT_UP)
     );
 
     public Soldier(final Position position, final Team team) {
@@ -52,6 +60,14 @@ public class Soldier extends Piece {
                 return null;
             }
             currentPosition = currentPosition.move(direction);
+            if (direction.isDiagonal()) {
+                if (!position.canMoveDiagonalPosition()) {
+                    return null;
+                }
+                if (!position.isInPalace() || !currentPosition.isInPalace()) {
+                    return null;
+                }
+            }
             positions.add(currentPosition);
         }
         return new Route(positions);

@@ -126,4 +126,22 @@ class SoldierTest {
         // then
         assertThat(result).isTrue();
     }
+
+    @DisplayName("졸 기물이 궁성에 있을 때 대각선으로 이동할 수 있는 점이 아니라면 대각선으로 움직일 수 없다.")
+    @Test
+    void soldierCanNotMoveDiagonalIfInNotSpecialPosition() {
+
+        // given
+        final Piece soldier = new Soldier(new Position(4, 2), RED);
+        final Piece soldier1 = new Soldier(new Position(4, 1), RED);
+        final Piece soldier2 = new Soldier(new Position(3, 2), RED);
+        final Piece soldier3 = new Soldier(new Position(5, 2), RED);
+        final List<Piece> otherPieces = List.of(soldier1, soldier2, soldier3);
+
+        // when
+        final Set<Route> possibleRoutes = soldier.getPossibleRoutes(otherPieces);
+
+        // then
+        assertThat(possibleRoutes.size()).isEqualTo(0);
+    }
 }

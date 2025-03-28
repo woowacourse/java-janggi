@@ -221,4 +221,22 @@ class ChariotTest {
         // then
         assertThat(possibleRoutes.size()).isEqualTo(2);
     }
+
+    @DisplayName("차 기물이 궁성에 있을 때 대각선으로 이동할 수 있는 점이 아니라면 대각선으로 움직일 수 없다.")
+    @Test
+    void chariotCanNotMoveDiagonalIfInNotSpecialPosition() {
+
+        // given
+        final Piece chariot = new Chariot(new Position(4, 0), RED);
+        final Piece soldier1 = new Soldier(new Position(4, 1), RED);
+        final Piece soldier2 = new Soldier(new Position(3, 0), RED);
+        final Piece soldier3 = new Soldier(new Position(5, 0), RED);
+        final List<Piece> otherPieces = List.of(soldier1, soldier2, soldier3);
+
+        // when
+        final Set<Route> possibleRoutes = chariot.getPossibleRoutes(otherPieces);
+
+        // then
+        assertThat(possibleRoutes.size()).isEqualTo(0);
+    }
 }

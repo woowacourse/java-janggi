@@ -131,4 +131,22 @@ class GuardTest {
         // then
         assertThat(guardRoutes.size()).isEqualTo(3);
     }
+
+    @DisplayName("사 기물이 궁성에 있을 때 대각선으로 이동할 수 있는 점이 아니라면 대각선으로 움직일 수 없다.")
+    @Test
+    void guardCanNotMoveDiagonalIfInNotSpecialPosition() {
+
+        // given
+        final Piece guard = new Guard(new Position(4, 0), RED);
+        final Piece soldier1 = new Soldier(new Position(4, 1), RED);
+        final Piece soldier2 = new Soldier(new Position(3, 0), RED);
+        final Piece soldier3 = new Soldier(new Position(5, 0), RED);
+        final List<Piece> otherPieces = List.of(soldier1, soldier2, soldier3);
+
+        // when
+        final Set<Route> possibleRoutes = guard.getPossibleRoutes(otherPieces);
+
+        // then
+        assertThat(possibleRoutes.size()).isEqualTo(0);
+    }
 }
