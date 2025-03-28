@@ -15,6 +15,7 @@ import janggi.point.Point;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Palace {
     private static final Map<Team, Area> palace;
@@ -27,18 +28,44 @@ public class Palace {
         palace = palacePerTeam;
     }
 
-    public static boolean movesInPalace(Movable movingPiece, Point targetPoint) {
+    public static boolean movesInPalaceOfMyTeam(Movable movingPiece, Point targetPoint) {
         Point movingPoint = movingPiece.getPoint();
-        Area area = palace.get(movingPiece.getTeam());
-        return area.contains(movingPoint) && area.contains(targetPoint);
+        Team movingTeam = movingPiece.getTeam();
+        boolean containsMovingPoint = false;
+        Team palaceTeam = Team.CHO;
+        boolean containsTargetPoint = false;
+        for (Entry<Team, Area> entrySet : palace.entrySet()) {
+            if (entrySet.getValue().contains(movingPoint)) {
+                containsMovingPoint = true;
+                palaceTeam = entrySet.getKey();
+            }
+            if (entrySet.getValue().contains(targetPoint)) {
+                containsTargetPoint = true;
+            }
+        }
+        return containsMovingPoint
+                && containsTargetPoint
+                && movingTeam == palaceTeam;
     }
 
-    public static boolean movesOnEdge(Movable movingPiece, Direction direction) {
-        Point movingPoint = movingPiece.getPoint();
-        Area area = palace.get(movingPiece.getTeam());
-        if (area.contains(movingPoint)) {
-            if (area.hasEdgeFrom(movingPoint, direction)) {
-                return true;
+    public static boolean movesInPalace(Point movingPoint, Point targetPoint) {
+        boolean containsMovingPoint = false;
+        boolean containsTargetPoint = false;
+        for (Entry<Team, Area> entrySet : palace.entrySet()) {
+            if (entrySet.getValue().contains(movingPoint)) {
+                containsMovingPoint = true;
+            }
+            if (entrySet.getValue().contains(targetPoint)) {
+                containsTargetPoint = true;
+            }
+        }
+        return containsMovingPoint && containsTargetPoint;
+    }
+
+    public static boolean movesOnEdge(Point movingPoint, Direction direction) {
+        for (Entry<Team, Area> entrySet : palace.entrySet()) {
+            if (entrySet.getValue().contains(movingPoint)) {
+                return entrySet.getValue().hasEdgeFrom(movingPoint, direction);
             }
         }
         return false;

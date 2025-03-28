@@ -44,8 +44,8 @@ public class Gung extends Movable {
     }
 
     private boolean isUnavailableDirection(Point targetPoint, Direction direction) {
-        if (Palace.movesInPalace(this, targetPoint)) {
-            return !Palace.movesOnEdge(this, direction);
+        if (Palace.movesInPalaceOfMyTeam(this, targetPoint)) {
+            return !Palace.movesOnEdge(point, direction);
         }
         //TODO : false면 예외
         throw new IllegalArgumentException("궁은 궁성 내에서만 이동 가능합니다.");

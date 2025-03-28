@@ -19,7 +19,7 @@ class PalaceTest {
             Byeong byeong = new Byeong(Team.CHO, new Point(7, 4));
             Point targetPoint = new Point(8, 4);
 
-            assertThat(Palace.movesInPalace(byeong, targetPoint)).isTrue();
+            assertThat(Palace.movesInPalace(byeong.getPoint(), targetPoint)).isTrue();
         }
 
         @Test
@@ -28,7 +28,7 @@ class PalaceTest {
             Byeong byeong = new Byeong(Team.HAN, new Point(2, 3));
             Point targetPoint = new Point(1, 4);
 
-            assertThat(Palace.movesInPalace(byeong, targetPoint)).isTrue();
+            assertThat(Palace.movesInPalace(byeong.getPoint(), targetPoint)).isTrue();
         }
 
         @Test
@@ -37,7 +37,7 @@ class PalaceTest {
             Byeong byeong = new Byeong(Team.CHO, new Point(7, 4));
             Direction direction = Direction.SOUTH;
 
-            assertThat(Palace.movesOnEdge(byeong, direction)).isTrue();
+            assertThat(Palace.movesOnEdge(byeong.getPoint(), direction)).isTrue();
         }
 
         @Test
@@ -46,7 +46,7 @@ class PalaceTest {
             Byeong byeong = new Byeong(Team.CHO, new Point(7, 3));
             Direction direction = Direction.SOUTH_EAST;
 
-            assertThat(Palace.movesOnEdge(byeong, direction)).isTrue();
+            assertThat(Palace.movesOnEdge(byeong.getPoint(), direction)).isTrue();
         }
 
         @Test
@@ -55,7 +55,7 @@ class PalaceTest {
             Byeong byeong = new Byeong(Team.CHO, new Point(7, 4));
             Direction direction = Direction.SOUTH_WEST;
 
-            assertThat(Palace.movesOnEdge(byeong, direction)).isFalse();
+            assertThat(Palace.movesOnEdge(byeong.getPoint(), direction)).isFalse();
         }
     }
 }

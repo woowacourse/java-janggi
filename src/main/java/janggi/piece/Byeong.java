@@ -31,7 +31,7 @@ public class Byeong extends Movable {
             return false;
         }
         Direction direction = Direction.toCardinalOrDiagonalFrom(point, targetPoint);
-        if (movesDown(direction)) { //TODO : 궁성 반영
+        if (movesDown(direction)) {
             return false;
         }
         if (isUnavailableDirection(targetPoint, direction)) {
@@ -53,8 +53,8 @@ public class Byeong extends Movable {
     }
 
     private boolean isUnavailableDirection(Point targetPoint, Direction direction) {
-        if (Palace.movesInPalace(this, targetPoint)) {
-            return !Palace.movesOnEdge(this, direction);
+        if (Palace.movesInPalace(point, targetPoint)) {
+            return !Palace.movesOnEdge(point, direction);
         }
         return direction.isDiagonal();
     }

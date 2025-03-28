@@ -38,8 +38,8 @@ public class Po extends Movable {
     }
 
     private boolean isUnavailableDirection(Point targetPoint, Direction direction) {
-        if (Palace.movesInPalace(this, targetPoint)) {
-            return !Palace.movesOnEdge(this, direction);
+        if (Palace.movesInPalace(point, targetPoint)) {
+            return !Palace.movesOnEdge(point, direction);
         }
         return direction.isDiagonal();
     }
