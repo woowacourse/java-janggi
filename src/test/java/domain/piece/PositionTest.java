@@ -60,4 +60,16 @@ class PositionTest {
         // then
         assertThat(result).isEqualTo(expectedResult);
     }
+
+    @Test
+    void 궁성_좌표를_판단해_반환한다() {
+        // given
+        Position position = new Position(4, 1);
+
+        // when
+        boolean result = position.isWithinPalace();
+
+        // then
+        assertThat(result).isTrue();
+    }
 }
