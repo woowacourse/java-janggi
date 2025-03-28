@@ -2,12 +2,11 @@ package janggi.strategy;
 
 import janggi.direction.Movement;
 import janggi.direction.PieceMovement;
-import janggi.piece.Piece;
+import janggi.piece.Pieces;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class WalkingStrategy implements MoveStrategy {
 
@@ -18,7 +17,7 @@ public class WalkingStrategy implements MoveStrategy {
     }
 
     @Override
-    public void validatePath(final Position currentPosition, final Position arrivalPosition, final Set<Piece> pieces) {
+    public void validatePath(final Position currentPosition, final Position arrivalPosition, final Pieces pieces) {
         final Movement movement = pieceMovement.getMovements().findMovements(currentPosition, arrivalPosition);
         final Path path = movement.makePath(currentPosition, arrivalPosition);
         if (hasPieceInMiddle(path, pieces)) {
@@ -31,10 +30,10 @@ public class WalkingStrategy implements MoveStrategy {
         return pieceMovement;
     }
 
-    private boolean hasPieceInMiddle(final Path path, final Set<Piece> pieces) {
+    private boolean hasPieceInMiddle(final Path path, final Pieces pieces) {
         final List<Position> positions = new ArrayList<>(path.getPositions());
         positions.removeLast();
         return positions.stream()
-                .anyMatch(pieces::contains);
+                .anyMatch(pieces::hasPiece);
     }
 }

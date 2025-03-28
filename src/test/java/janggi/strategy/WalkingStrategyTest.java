@@ -1,7 +1,10 @@
-package janggi.piece;
+package janggi.strategy;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.direction.PieceMovement;
+import janggi.piece.Piece;
+import janggi.piece.Pieces;
 import janggi.position.Position;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -11,23 +14,25 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ElephantTest {
+class WalkingStrategyTest {
+
+    private final WalkingStrategy walkingStrategy = new WalkingStrategy(PieceMovement.ELEPHANT);
 
     @ParameterizedTest
     @MethodSource
-    void 상은_직선_1칸_이동_후_대각선_2칸으로_이동한다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
+    void 정해진_거리만큼_이동한다(final int currentY, final int currentX, final int arrivalY, final int arrivalX) {
         // Given
         final Position currentPosition = new Position(currentY, currentX);
-        final Elephant elephant = new Elephant(Team.CHO, currentPosition);
+        final Piece piece = new Piece(walkingStrategy, currentPosition);
         final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
         Assertions.assertThatCode(() ->
-                elephant.checkMovement(arrivalPosition, Team.CHO, new Pieces(Set.of(elephant)))
+                piece.validateMovement(currentPosition, arrivalPosition, Pieces.from(Set.of(piece)))
         ).doesNotThrowAnyException();
     }
 
-    private static Stream<Arguments> 상은_직선_1칸_이동_후_대각선_2칸으로_이동한다() {
+    private static Stream<Arguments> 정해진_거리만큼_이동한다() {
         return Stream.of(
                 Arguments.of(3, 3, 6, 5),
                 Arguments.of(3, 3, 6, 1),
@@ -49,12 +54,12 @@ class ElephantTest {
         final int arrivalX = 5;
 
         final Position currentPosition = new Position(currentY, currentX);
-        final Elephant elephant = new Elephant(Team.CHO, currentPosition);
+        final Piece piece = new Piece(walkingStrategy, currentPosition);
         final Position arrivalPosition = new Position(arrivalY, arrivalX);
 
         // When & Then
         assertThatThrownBy(
-                () -> elephant.checkMovement(arrivalPosition, Team.CHO, new Pieces(Set.of(elephant))))
+                () -> piece.validateMovement(currentPosition, arrivalPosition, Pieces.from(Set.of(piece))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
     }

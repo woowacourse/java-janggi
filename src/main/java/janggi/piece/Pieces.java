@@ -24,7 +24,7 @@ public class Pieces {
     }
 
     public void validatePath(final Position currentPosition, final Position arrivalPosition,
-                             final Set<Piece> totalPieces) {
+                             final Pieces totalPieces) {
         final Piece piece = findPieceByPosition(currentPosition);
         piece.validateMovement(currentPosition, arrivalPosition, totalPieces);
     }

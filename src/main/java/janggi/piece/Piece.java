@@ -24,7 +24,7 @@ public class Piece {
     }
 
     public void validateMovement(final Position currentPosition, final Position arrivalPosition,
-                                 final Set<Piece> pieces) {
+                                 final Pieces pieces) {
         moveStrategy.validatePath(currentPosition, arrivalPosition, pieces);
     }
 

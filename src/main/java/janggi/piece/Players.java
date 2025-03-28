@@ -50,12 +50,12 @@ public class Players {
                 .orElseThrow(() -> new IllegalStateException("[ERROR] 왕이 존재하지 않을 수 없습니다."));
     }
 
-    public Set<Piece> getTotalPieces() {
+    public Pieces getTotalPieces() {
         final Set<Piece> totalPieces = new HashSet<>();
         for (final Pieces pieces : players.values()) {
             totalPieces.addAll(pieces.getPieces());
         }
-        return totalPieces;
+        return Pieces.from(totalPieces);
     }
 
     private void catchPiece(final Position arrivalPosition,
