@@ -17,6 +17,7 @@ public abstract class Piece {
     public void canMove(final Position fromPosition, final Position toPosition, Board board) {
         List<Position> route = getPathForMoving(fromPosition, toPosition);
         validateRoute(route, board);
+        validateNormalTargetPosition(fromPosition, toPosition, board);
     }
 
     public abstract List<Position> getPathForMoving(Position fromPosition, Position toPosition);
@@ -25,11 +26,14 @@ public abstract class Piece {
 
 
     public void validateNormalTargetPosition(Position fromPosition, Position toPosition, Board board) {
-        Piece fromPiece = board.getBoard().get(toPosition);
-        Piece toPiece = board.getBoard().get(toPosition);
-        if (fromPiece.getCountry() == toPiece.getCountry()) {
-            throw new IllegalArgumentException("아군 기물이 위치해 있습니다. ");
+        if (board.getBoard().containsKey(toPosition)) {
+            Piece fromPiece = board.getBoard().get(toPosition);
+            Piece toPiece = board.getBoard().get(toPosition);
+            if (fromPiece.getCountry() == toPiece.getCountry()) {
+                throw new IllegalArgumentException("아군 기물이 위치해 있습니다. ");
+            }
         }
+
     }
 
     public PieceType getPieceType() {
