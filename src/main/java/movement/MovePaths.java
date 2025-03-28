@@ -2,20 +2,29 @@ package movement;
 
 import position.Position;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MovePaths {
 
-    private final List<MovePath> movePaths;
+    private final Set<MovePath> movePaths;
 
     public MovePaths(List<MovePath> moveActions) {
-        this.movePaths = new ArrayList<>(moveActions);
+        this.movePaths = new HashSet<>(moveActions);
+    }
+
+    // TODO 2025. 3. 28. 17:26: 좀 더 가독성 좋은 매개인자 합치기 코드 필요
+    public MovePaths(MovePaths movePaths, MovePath movePath) {
+        Set<MovePath> newMovePaths = new HashSet<>(movePaths.getMovePaths());
+        newMovePaths.add(movePath);
+        this.movePaths = newMovePaths;
     }
 
     // todo: 뭔가 더 깔끔한 코드 없을까?? validate메서드와의 연결이 좀 더 깔끔헀으면 좋겠어
     public double calculateDistance() {
-        double distance = movePaths.getFirst().calculateDistance();
+        List<MovePath> list = movePaths.stream().limit(1).toList();
+        double distance = list.getFirst().calculateDistance();
         validateMoveDistance(distance);
         return distance;
     }
@@ -39,6 +48,6 @@ public class MovePaths {
     }
 
     public List<MovePath> getMovePaths() {
-        return movePaths;
+        return movePaths.stream().toList();
     }
 }
