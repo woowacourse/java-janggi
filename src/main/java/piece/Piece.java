@@ -40,12 +40,12 @@ public abstract class Piece {
         if (!(o instanceof Piece piece)) {
             return false;
         }
-        return getTeam() == piece.getTeam();
+        return team == piece.team && pieceType == piece.pieceType;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getTeam());
+        return Objects.hash(team, pieceType);
     }
 
 }

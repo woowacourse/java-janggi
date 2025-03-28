@@ -1,5 +1,6 @@
 package piece;
 
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -18,14 +19,9 @@ public class Cannon extends Piece {
     protected Set<Position> getMovablePositions(final Position position, final Board board) {
         Map<Direction, Position> hurdlePositions = findHurdlePositions(position, board);
         if (hurdlePositions.isEmpty()) {
-            throw new IllegalArgumentException("움직일 수 없습니다.");
+            return Collections.emptySet();
         }
-        Set<Position> movablePositions = new HashSet<>();
-        for (Direction direction : hurdlePositions.keySet()) {
-            Position movablePosition = hurdlePositions.get(direction);
-            addMovablePosition(board, direction, movablePosition, movablePositions);
-        }
-        return movablePositions;
+        return findMovablePositions(board, hurdlePositions);
     }
 
     @Override
@@ -36,44 +32,59 @@ public class Cannon extends Piece {
     private Map<Direction, Position> findHurdlePositions(final Position position, final Board board) {
         Map<Direction, Position> hurdlePositions = new EnumMap<>(Direction.class);
         for (Direction straightDirection : Direction.getStraightDirection()) {
-            addHurdlePosition(position, board, straightDirection, hurdlePositions);
+            Position hurdlePosition = findHurdlePosition(position, board, straightDirection);
+            if (hasHurdle(position, hurdlePosition)) {
+                hurdlePositions.put(straightDirection, hurdlePosition);
+            }
         }
         return hurdlePositions;
     }
 
-    private void addHurdlePosition(final Position position, final Board board, final Direction straightDirection,
-                                   final Map<Direction, Position> hurdlePositions
-    ) {
-        Position movePosition = position;
-        while (true) {
-            movePosition = movePosition.moveByDirection(straightDirection);
-            if (movePosition.isInValidPosition() || board.isCannonPosition(movePosition)) {
-                break;
-            }
-            if (board.isExists(movePosition)) {
-                hurdlePositions.put(straightDirection, movePosition);
-                break;
-            }
-        }
+    private boolean hasHurdle(final Position position, final Position hurdlePosition) {
+        return !position.equals(hurdlePosition);
     }
 
-    private void addMovablePosition(final Board board, final Direction direction,
-                                    final Position hurdlePosition, final Set<Position> movablePositions
+    private Position findHurdlePosition(final Position position, final Board board, final Direction straightDirection) {
+        Position movePosition = position.moveByDirection(straightDirection);
+        while (!isBlockedPosition(board, movePosition)) {
+            if (board.isExists(movePosition)) {
+                return movePosition;
+            }
+            movePosition = movePosition.moveByDirection(straightDirection);
+        }
+        return position;
+    }
+
+    private Set<Position> findMovablePositions(final Board board, final Map<Direction, Position> hurdlePositions) {
+        Set<Position> movablePositions = new HashSet<>();
+        for (Direction direction : hurdlePositions.keySet()) {
+            Position hurdlePosition = hurdlePositions.get(direction);
+            Position startPosition = hurdlePosition.moveByDirection(direction);
+            movablePositions.addAll(findMovablePositionsEachDirection(board, startPosition, direction));
+        }
+        return movablePositions;
+    }
+
+    private Set<Position> findMovablePositionsEachDirection(
+            final Board board, Position movablePosition, final Direction direction
     ) {
-        Position movablePosition = hurdlePosition;
-        while (true) {
-            movablePosition = movablePosition.moveByDirection(direction);
-            if (movablePosition.isInValidPosition()) {
-                break;
-            }
-            if (board.isSameTeamPosition(team, movablePosition) || board.isCannonPosition(movablePosition)) {
-                break;
-            }
-            movablePositions.add(movablePosition);
+        Set<Position> movablePositionsEachDirection = new HashSet<>();
+        while (!isMovablePosition(board, movablePosition, team)) {
+            movablePositionsEachDirection.add(movablePosition);
             if (board.isExists(movablePosition)) {
                 break;
             }
+            movablePosition = movablePosition.moveByDirection(direction);
         }
+        return movablePositionsEachDirection;
+    }
+
+    private boolean isMovablePosition(final Board board, final Position position, final Team team) {
+        return isBlockedPosition(board, position) || board.isSameTeamPosition(team, position);
+    }
+
+    private boolean isBlockedPosition(final Board board, final Position movePosition) {
+        return movePosition.isInValidPosition() || board.isCannonPosition(movePosition);
     }
 
 }
