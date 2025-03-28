@@ -2,6 +2,7 @@ package model.piece;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.ToIntFunction;
 
 import model.Position;
@@ -9,6 +10,7 @@ import model.Team;
 
 public abstract class Piece {
 
+    private Integer id;
     protected Position position;
     protected final Team team;
     protected final List<Route> routes = new ArrayList<>();
@@ -74,5 +76,27 @@ public abstract class Piece {
 
     public boolean equalsTeam(Team team) {
         return this.team == team;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof Piece piece))
+            return false;
+        return Objects.equals(id, piece.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

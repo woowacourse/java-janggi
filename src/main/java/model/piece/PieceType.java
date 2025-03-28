@@ -1,19 +1,40 @@
 package model.piece;
 
+import java.util.Arrays;
+
+import model.piece.normal.Elephant;
+import model.piece.normal.Horse;
+import model.piece.normal.Pawn;
+import model.piece.palace.King;
+import model.piece.palace.Soldier;
+
 public enum PieceType {
-    PALACE(0),
-    CHARIOT(13),
-    PAO(7),
-    HORSE(5),
-    ELEPHANT(3),
-    SOLDIER(3),
-    PAWN(2),
+    PALACE(King::new, 0),
+    CHARIOT(Chariot::new, 13),
+    PAO(Pao::new, 7),
+    HORSE(Horse::new, 5),
+    ELEPHANT(Elephant::new, 3),
+    SOLDIER(Soldier::new, 3),
+    PAWN(Pawn::new, 2),
     ;
 
+    private final PieceConstructor constructor;
     private final int score;
 
-    PieceType(int score) {
+    PieceType(PieceConstructor constructor, int score) {
+        this.constructor = constructor;
         this.score = score;
+    }
+
+    public static PieceType from(String name) {
+        return Arrays.stream(values())
+            .filter(pieceType -> pieceType.name().equals(name))
+            .findAny()
+            .orElse(null);
+    }
+
+    public PieceConstructor getConstructor() {
+        return constructor;
     }
 
     public int getScore() {
