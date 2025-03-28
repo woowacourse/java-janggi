@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 public class Board implements PieceVisibleBoard {
 
     private final Map<Point, Piece> pieceByPoint;
-
     private final PathFinder pathFinder;
 
     public Board(final Map<Point, Piece> pieceByPoint, final PathFinder pathFinder) {
