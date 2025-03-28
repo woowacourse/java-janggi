@@ -33,7 +33,7 @@ public abstract class Piece {
         }
     }
 
-    public boolean isEnemy(Piece otherPiece) {
+    public final boolean isEnemy(Piece otherPiece) {
         return camp.isEnemy(otherPiece.camp);
     }
 
