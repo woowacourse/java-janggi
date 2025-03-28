@@ -9,6 +9,7 @@ import java.util.Map;
 public final class Score {
 
     private static final Map<PieceType, Integer> scores;
+    private static final double RED_BENEFIT = 1.5;
 
     static {
         scores = Map.ofEntries(
@@ -23,6 +24,10 @@ public final class Score {
     }
 
     private Score() {
+    }
+
+    public static double adjustScore(final double score) {
+        return score + RED_BENEFIT;
     }
 
     public static int calculate(final Map<PieceType, Integer> pieceCounts) {
