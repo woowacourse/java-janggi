@@ -27,9 +27,8 @@ public abstract class Piece {
 
     public void validateNormalTargetPosition(Position fromPosition, Position toPosition, Board board) {
         if (board.getBoard().containsKey(toPosition)) {
-            Piece fromPiece = board.getBoard().get(toPosition);
             Piece toPiece = board.getBoard().get(toPosition);
-            if (fromPiece.getCountry() == toPiece.getCountry()) {
+            if (country == toPiece.getCountry()) {
                 throw new IllegalArgumentException("아군 기물이 위치해 있습니다. ");
             }
         }

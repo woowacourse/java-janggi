@@ -3,6 +3,7 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static piece.Country.Cho;
+import static piece.Country.Han;
 import static testutil.TestConstant.B3;
 import static testutil.TestConstant.B7;
 import static testutil.TestConstant.C2;
@@ -106,5 +107,18 @@ public class ElephantTest {
         assertThatThrownBy(() -> elephant.canMove(fromPosition, toPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("아군 기물이 위치해 있습니다. ");
+    }
+
+    @ParameterizedTest
+    @MethodSource("VALID_MOVE_POSITIONS")
+    void 상은_마지막에_상대_기물이_있으면_이동할_수_있다(Position fromPosition, Position toPosition) {
+        // given
+        Elephant elephant = new Elephant(Cho);
+        Board board = new Board(Map.of(
+                toPosition, new Elephant(Han)
+        ));
+
+        // then
+        assertThatCode(() -> elephant.canMove(fromPosition, toPosition, board)).doesNotThrowAnyException();
     }
 }
