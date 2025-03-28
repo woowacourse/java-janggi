@@ -9,6 +9,19 @@ public class TurnDao {
 
     private final Connection connection = DBConnection.getInstance();
 
+    public void createTableIfAbsent() {
+        final var query = """
+                CREATE TABLE turn (
+                 	id INT AUTO_INCREMENT PRIMARY KEY,
+                 	turn VARCHAR(64) NOT NULL
+                 );""";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.execute();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void save(final Turn turn) {
         final var query = "INSERT INTO turn(`turn`) VALUES (?)";
         try (final var preparedStatement = connection.prepareStatement(query)) {

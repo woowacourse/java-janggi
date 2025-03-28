@@ -21,6 +21,22 @@ public class PieceDao {
 
     private final Connection connection = DBConnection.getInstance();
 
+    public void createTableIfAbsent() {
+        final var query = """
+                CREATE TABLE IF NOT EXISTS board (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    type VARCHAR(64) NOT NULL,
+                    side VARCHAR(62) NOT NULL,
+                    x INT NOT NULL,
+                    y INT NOT NULL
+                );""";
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.execute();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void save(final Board board) {
         final var query = "INSERT INTO board(type, side, x, y) VALUES(?, ?, ?, ?)";
         try (final var preparedStatement = connection.prepareStatement(query)) {

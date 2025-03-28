@@ -11,7 +11,6 @@ import janggi.domain.game.Score;
 import janggi.domain.game.Turn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Side;
-import java.sql.SQLException;
 import java.util.Map;
 
 public class JanggiService {
@@ -26,7 +25,40 @@ public class JanggiService {
         this.janggiGame = init();
     }
 
+    public void movePiece(final Position start, final Position end) {
+        janggiGame.movePiece(start, end);
+        pieceDao.deleteByPosition(end);
+        Piece piece = pieceDao.findByPosition(start);
+        pieceDao.updateByPosition(piece, start, end);
+        turnDao.update(janggiGame.getTurn());
+        DBConnection.commit();
+    }
+
+    public boolean continueGame() {
+        return janggiGame.continueGame();
+    }
+
+    public void clearGame() {
+        pieceDao.clear();
+        turnDao.clear();
+        DBConnection.commit();
+    }
+
+    public Map<Position, Piece> findPiecesByPosition() {
+        return pieceDao.findAll();
+    }
+
+    public Side calculateWinner() {
+        return janggiGame.calculateWinner();
+    }
+
+    public Score scoreBySide(final Side side) {
+        return janggiGame.scoreBySide(side);
+    }
+
     private JanggiGame init() {
+        pieceDao.createTableIfAbsent();
+        turnDao.createTableIfAbsent();
         if (pieceDao.existsPieces()) {
             return loadJanggiGame();
         }
@@ -48,44 +80,6 @@ public class JanggiService {
                 board,
                 turn
         );
-    }
-
-    public void movePiece(final Position start, final Position end) {
-        janggiGame.movePiece(start, end);
-        pieceDao.deleteByPosition(end);
-        Piece piece = pieceDao.findByPosition(start);
-        pieceDao.updateByPosition(piece, start, end);
-        turnDao.update(janggiGame.getTurn());
-        commit();
-    }
-
-    public boolean continueGame() {
-        return janggiGame.continueGame();
-    }
-
-    public void clearGame() {
-        pieceDao.clear();
-        turnDao.clear();
-        commit();
-    }
-
-    private void commit() {
-        try {
-            DBConnection.getInstance().commit();
-        } catch (SQLException ignored) {
-        }
-    }
-
-    public Map<Position, Piece> findPiecesByPosition() {
-        return pieceDao.findAll();
-    }
-
-    public Side calculateWinner() {
-        return janggiGame.calculateWinner();
-    }
-
-    public Score scoreBySide(final Side side) {
-        return janggiGame.scoreBySide(side);
     }
 
     public Turn getTurn() {

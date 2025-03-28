@@ -18,6 +18,14 @@ public class DBConnection {
         return connection;
     }
 
+    public static void commit() {
+        try {
+            DBConnection.getInstance().commit();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static Connection getConnection() {
         // 드라이버 연결
         try {
