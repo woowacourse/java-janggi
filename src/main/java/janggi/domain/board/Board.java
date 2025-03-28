@@ -1,9 +1,9 @@
-package janggi.board;
+package janggi.domain.board;
 
-import janggi.Score;
-import janggi.Turn;
-import janggi.piece.Piece;
-import janggi.piece.Side;
+import janggi.domain.game.Score;
+import janggi.domain.game.Turn;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

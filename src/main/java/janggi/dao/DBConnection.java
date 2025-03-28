@@ -1,4 +1,4 @@
-package janggi;
+package janggi.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +11,13 @@ public class DBConnection {
     private static final String USERNAME = "root"; //  MySQL 서버 아이디
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
 
-    public static Connection getConnection() {
+    private static final Connection connection = getConnection();
+
+    public static Connection instance() {
+        return connection;
+    }
+
+    private static Connection getConnection() {
         // 드라이버 연결
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);

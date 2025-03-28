@@ -2,13 +2,15 @@ package janggi;
 
 import janggi.dao.PieceDao;
 import janggi.dao.TurnDao;
+import janggi.controller.JanggiController;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class Application {
 
     public static void main(String[] args) {
-        JanggiManager janggiManager = new JanggiManager(
+        JanggiController janggiController = new JanggiController(
                 new InputView(),
                 new OutputView(),
                 new JanggiService(
@@ -16,6 +18,6 @@ public class Application {
                         new TurnDao()
                 )
         );
-        janggiManager.play();
+        janggiController.play();
     }
 }

@@ -2,7 +2,12 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.board.Position;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.King;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
+import janggi.domain.piece.Soldier;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;

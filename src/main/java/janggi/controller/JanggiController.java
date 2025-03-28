@@ -1,17 +1,18 @@
-package janggi;
+package janggi.controller;
 
-import janggi.board.Position;
-import janggi.piece.Side;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Side;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
-public class JanggiManager {
+public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
     private final JanggiService janggiService;
 
-    public JanggiManager(final InputView inputView, final OutputView outputView, final JanggiService janggiService) {
+    public JanggiController(final InputView inputView, final OutputView outputView, final JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.janggiService = janggiService;

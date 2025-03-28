@@ -2,8 +2,10 @@ package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.piece.Piece;
-import janggi.piece.Side;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardFactory;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

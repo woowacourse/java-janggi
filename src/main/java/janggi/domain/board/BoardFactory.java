@@ -1,14 +1,14 @@
-package janggi.board;
+package janggi.domain.board;
 
-import janggi.piece.Cannon;
-import janggi.piece.Elephant;
-import janggi.piece.Guard;
-import janggi.piece.Horse;
-import janggi.piece.King;
-import janggi.piece.Piece;
-import janggi.piece.Side;
-import janggi.piece.Soldier;
-import janggi.piece.Tank;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.Guard;
+import janggi.domain.piece.Horse;
+import janggi.domain.piece.King;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
+import janggi.domain.piece.Soldier;
+import janggi.domain.piece.Tank;
 import java.util.HashMap;
 import java.util.Map;
 

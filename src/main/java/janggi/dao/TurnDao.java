@@ -1,7 +1,7 @@
 package janggi.dao;
 
-import janggi.Turn;
-import janggi.piece.Side;
+import janggi.domain.game.Turn;
+import janggi.domain.piece.Side;
 import java.sql.Connection;
 import java.sql.SQLException;
 

@@ -1,12 +1,15 @@
-package janggi;
+package janggi.service;
 
-import janggi.board.Board;
-import janggi.board.BoardFactory;
-import janggi.board.Position;
 import janggi.dao.PieceDao;
 import janggi.dao.TurnDao;
-import janggi.piece.Piece;
-import janggi.piece.Side;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardFactory;
+import janggi.domain.board.Position;
+import janggi.domain.game.JanggiGame;
+import janggi.domain.game.Score;
+import janggi.domain.game.Turn;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -56,7 +59,7 @@ public class JanggiService {
         );
     }
 
-    public Connection getConnection() {
+    private Connection getConnection() {
         // 드라이버 연결
         try {
             Connection connection = DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION,

@@ -1,6 +1,6 @@
-package janggi;
+package janggi.domain.game;
 
-import janggi.piece.Side;
+import janggi.domain.piece.Side;
 
 public class Turn {
 
@@ -16,14 +16,6 @@ public class Turn {
 
     public void nextTurn() {
         this.side = this.side.opposite();
-    }
-
-    public boolean isBlueTurn() {
-        return this.side == Side.BLUE;
-    }
-
-    public boolean isRedTurn() {
-        return this.side == Side.RED;
     }
 
     public Side getSide() {

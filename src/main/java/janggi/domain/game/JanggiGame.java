@@ -1,12 +1,12 @@
-package janggi;
+package janggi.domain.game;
 
-import static janggi.piece.Side.BLUE;
-import static janggi.piece.Side.RED;
+import static janggi.domain.piece.Side.BLUE;
+import static janggi.domain.piece.Side.RED;
 
-import janggi.board.Board;
-import janggi.board.Position;
-import janggi.piece.Piece;
-import janggi.piece.Side;
+import janggi.domain.board.Board;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Side;
 import java.util.Collections;
 import java.util.Map;
 

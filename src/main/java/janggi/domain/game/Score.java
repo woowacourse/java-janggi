@@ -1,6 +1,6 @@
-package janggi;
+package janggi.domain.game;
 
-import janggi.piece.Side;
+import janggi.domain.piece.Side;
 
 public record Score(double value) {
 

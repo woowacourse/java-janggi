@@ -2,7 +2,9 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.board.Position;
+import janggi.domain.board.Position;
+import janggi.domain.piece.Side;
+import janggi.domain.piece.Soldier;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

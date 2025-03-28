@@ -1,7 +1,7 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.Score;
-import janggi.board.Position;
+import janggi.domain.board.Position;
+import janggi.domain.game.Score;
 import java.util.Map;
 
 public abstract class Piece {
