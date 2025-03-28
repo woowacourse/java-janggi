@@ -1,6 +1,5 @@
 package janggi.unit;
 
-import janggi.position.Point;
 import janggi.position.Position;
 import janggi.position.Route;
 import java.util.ArrayList;
@@ -10,19 +9,19 @@ public class ElephantUnitRule implements UnitRule {
     @Override
     public List<Route> calculateAllRoute(Position start) {
         List<Route> routes = new ArrayList<>();
-        dfs(0, Direction.NONE, new ArrayList<>(), Point.of(start.getX(), start.getY()), routes);
+        dfs(0, Direction.NONE, new ArrayList<>(), start, routes);
         return routes;
     }
 
-    private void dfs(int depth, Direction before, List<Point> route, Point prevPoint, List<Route> routes) {
+    public void dfs(int depth, Direction before, List<Position> route, Position prevPoint, List<Route> routes) {
         if (depth == 3) {
             if (route.stream().allMatch(point -> Position.isCanBePosition(point.getX(), point.getY()))) {
-                routes.add(Route.of(route.stream().map(Position::from).toList()));
+                routes.add(Route.of(route));
             }
             return;
         }
         for (Direction direction : before.getNextWithDiagonal()) {
-            Point next = Point.of(prevPoint.getX() + direction.getX(), prevPoint.getY() + direction.getY());
+            Position next = new Position(prevPoint.getX() + direction.getX(), prevPoint.getY() + direction.getY());
             route.add(next);
             dfs(depth + 1, direction, route, next, routes);
             route.remove(next);
