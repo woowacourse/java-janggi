@@ -29,50 +29,54 @@ public class Chariot extends Piece {
         return rawRoutes;
     }
 
-    private Set<RawRoute> makeDownRoutes() {
+    private Set<RawRoute> makeUpRoutes() {
         Set<RawRoute> rawRoutes = new HashSet<>();
-        for (int i = position.y() + 1; i <= Board.MAX_Y_POSITION; i++) {
-            List<RawPosition> rawPositions = new ArrayList<>();
-            for (int j = position.y() + 1; j <= i; j++) {
-                rawPositions.add(new RawPosition(position.x(), j));
-            }
-            rawRoutes.add(new RawRoute(rawPositions));
+        List<RawPosition> rawPositions = new ArrayList<>();
+        RawPosition current = position.up();
+
+        while (current.y() <= Board.MAX_Y_POSITION) {
+            rawPositions.add(current);
+            rawRoutes.add(new RawRoute(new ArrayList<>(rawPositions)));
+            current = current.up();
         }
         return rawRoutes;
     }
 
-    private Set<RawRoute> makeUpRoutes() {
+    private Set<RawRoute> makeDownRoutes() {
         Set<RawRoute> rawRoutes = new HashSet<>();
-        for (int i = position.y() - 1; i >= Board.MIN_POSITION; i--) {
-            List<RawPosition> rawPositions = new ArrayList<>();
-            for (int j = position.y() - 1; j >= i; j--) {
-                rawPositions.add(new RawPosition(position.x(), j));
-            }
-            rawRoutes.add(new RawRoute(rawPositions));
+        List<RawPosition> rawPositions = new ArrayList<>();
+        RawPosition current = position.down();
+
+        while (current.y() >= Board.MIN_POSITION) {
+            rawPositions.add(current);
+            rawRoutes.add(new RawRoute(new ArrayList<>(rawPositions)));
+            current = current.down();
         }
         return rawRoutes;
     }
 
     private Set<RawRoute> makeLeftRoutes() {
         Set<RawRoute> rawRoutes = new HashSet<>();
-        for (int i = position.x() - 1; i >= Board.MIN_POSITION; i--) {
-            List<RawPosition> rawPositions = new ArrayList<>();
-            for (int j = position.x() - 1; j >= i; j--) {
-                rawPositions.add(new RawPosition(j, position.y()));
-            }
-            rawRoutes.add(new RawRoute(rawPositions));
+        List<RawPosition> rawPositions = new ArrayList<>();
+        RawPosition current = position.left();
+
+        while (current.x() >= Board.MIN_POSITION) {
+            rawPositions.add(current);
+            rawRoutes.add(new RawRoute(new ArrayList<>(rawPositions)));
+            current = current.left();
         }
         return rawRoutes;
     }
 
     private Set<RawRoute> makeRightRoutes() {
         Set<RawRoute> rawRoutes = new HashSet<>();
-        for (int i = position.x() + 1; i <= Board.MAX_X_POSITION; i++) {
-            List<RawPosition> rawPositions = new ArrayList<>();
-            for (int j = position.x() + 1; j <= i; j++) {
-                rawPositions.add(new RawPosition(j, position.y()));
-            }
-            rawRoutes.add(new RawRoute(rawPositions));
+        List<RawPosition> rawPositions = new ArrayList<>();
+        RawPosition current = position.right();
+
+        while (current.x() <= Board.MAX_X_POSITION) {
+            rawPositions.add(current);
+            rawRoutes.add(new RawRoute(new ArrayList<>(rawPositions)));
+            current = current.right();
         }
         return rawRoutes;
     }
