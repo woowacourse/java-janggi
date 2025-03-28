@@ -17,6 +17,10 @@ public enum Country {
         directionByCountry.put(country.opposite(), direction.opposite());
     }
 
+    public int getLineFarBy(int distanceFromEnd) {
+        return getDirection().getLineFarBy(distanceFromEnd);
+    }
+
     public LineDirection getDirection() {
         return directionByCountry.get(this);
     }

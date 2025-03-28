@@ -34,15 +34,14 @@ public enum PieceInitialPosition {
 
     public Map<Position, Piece> getAbsolutePositions(Country country) {
         Map<Position, Piece> map = new HashMap<>();
-        relativePositions.stream() // TODO 2025. 3. 27. 11:29: country.getDirection().getLineFarBy 디미터 법칙?
-                .map(rp -> new Position(rp.x(), country.getDirection().getLineFarBy(rp.distanceFromEnd())))
+        relativePositions.stream()
+                .map(rp -> new Position(rp.x(), country.getLineFarBy(rp.distanceFromEnd())))
                 .forEach(position -> {
                     Piece piece = constructor.apply(position, country);
                     map.put(position, piece);
                 });
         return map;
     }
-
 }
 
 record RelativePosition(int x, int distanceFromEnd) {
