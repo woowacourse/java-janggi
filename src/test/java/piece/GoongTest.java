@@ -64,7 +64,9 @@ class GoongTest {
             Goong goong = new Goong(Team.HAN);
 
             // when & then
-            assertThatThrownBy(() -> goong.findMovableCandidates(new Coordinate(5, 5)))
+            Coordinate departure = new Coordinate(5, 5);
+
+            assertThatThrownBy(() -> goong.findMovableCandidates(departure))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("궁성 기물은 궁성 좌표 안에만 존재할 수 있습니다.");
         }

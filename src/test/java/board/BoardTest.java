@@ -28,7 +28,10 @@ public class BoardTest {
                     .build();
 
             // when & then
-            assertThatThrownBy(() -> board.move(new Coordinate(5, 5), new Coordinate(5, 6)))
+            Coordinate departure = new Coordinate(5, 5);
+            Coordinate arrival = new Coordinate(5, 6);
+
+            assertThatThrownBy(() -> board.move(departure, arrival))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("해당 좌표에는 기물이 없습니다.");
         }
@@ -42,7 +45,10 @@ public class BoardTest {
                     .build();
 
             // when & then
-            assertThatThrownBy(() -> board.move(new Coordinate(5, 5), new Coordinate(9, 9)))
+            Coordinate departure = new Coordinate(5, 5);
+            Coordinate arrival = new Coordinate(9, 9);
+
+            assertThatThrownBy(() -> board.move(departure, arrival))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("해당 기물이 이동할 수 없는 좌표입니다.");
         }
@@ -57,7 +63,10 @@ public class BoardTest {
                     .build();
 
             // when & then
-            assertThatThrownBy(() -> board.move(new Coordinate(5, 5), new Coordinate(5, 6)))
+            Coordinate departure = new Coordinate(5, 5);
+            Coordinate arrival = new Coordinate(5, 6);
+
+            assertThatThrownBy(() -> board.move(departure, arrival))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("도착 좌표에 같은 팀 말이 있습니다.");
         }
