@@ -16,12 +16,16 @@ import java.util.Map;
 
 public class PathFinderFactory {
 
-    public PathFinder createDefaultPathFinder() {
-        Map<Point, Node> nodeByPoint = new HashMap<>();
+    private static Map<Point, Node> nodeByPoint;
 
+    public PathFinder createDefaultPathFinder() {
+        if (nodeByPoint != null) {
+            return new PathFinder(nodeByPoint);
+        }
+
+        nodeByPoint = new HashMap<>();
         createAllNodes(nodeByPoint);
         createAllEdges(nodeByPoint);
-
         return new PathFinder(nodeByPoint);
     }
 
