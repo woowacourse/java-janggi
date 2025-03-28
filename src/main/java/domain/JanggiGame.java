@@ -1,8 +1,10 @@
 package domain;
 
+import domain.piece.PieceType;
 import domain.position.Point;
 import domain.position.Position;
 import java.util.List;
+import java.util.Map;
 import view.InputView;
 import view.OutputView;
 
@@ -36,7 +38,16 @@ public class JanggiGame {
             board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
             if (board.hasOnlyOneGeneral()) {
                 final Team team = board.determineWinTeam();
-                OutputView.printWinnerTeam(team);
+                final Map<PieceType, Integer> winnerPieceCounts = board.countPieces(team);
+                double winnerScore = Score.calculate(winnerPieceCounts);
+                final Map<PieceType, Integer> loserPieceCounts = board.countPieces(Team.opposite(team));
+                double loserScore = Score.calculate(loserPieceCounts);
+                if (team == Team.RED) {
+                    winnerScore = Score.adjustScore(winnerScore);
+                } else {
+                    loserScore = Score.adjustScore(loserScore);
+                }
+                OutputView.printWinnerTeam(team, winnerScore, loserScore);
                 break;
             }
             changeTurn();
