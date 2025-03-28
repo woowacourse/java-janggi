@@ -26,16 +26,16 @@ public class JanggiBoard {
         ));
     }
 
-    public boolean isExistPieceAt(JanggiPosition position) {
-        return janggiPiecePositions.existChessPieceByPosition(position);
-    }
-
     public boolean isExistBossAt(JanggiPosition position) {
         if (!isExistPieceAt(position)) {
             return false;
         }
         JanggiChessPiece piece = janggiPiecePositions.getJanggiPieceByPosition(position);
         return piece.getChessPieceType() == JanggiPieceType.KING;
+    }
+
+    public boolean isExistPieceAt(JanggiPosition position) {
+        return janggiPiecePositions.existChessPieceByPosition(position);
     }
 
     public void move(final JanggiTeam currentTeam, final JanggiPosition from, final JanggiPosition to) {
@@ -47,17 +47,17 @@ public class JanggiBoard {
         janggiPiecePositions.move(from, to);
     }
 
-    public List<JanggiPosition> getAvailableDestination(final JanggiPosition position) {
-        JanggiChessPiece chessPiece = janggiPiecePositions.getJanggiPieceByPosition(position);
-        List<Path> coordinatePaths = chessPiece.getCoordinatePaths(position);
-        HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
-        return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, janggiPiecePositions);
-    }
-
     public void validateTeam(final JanggiTeam currentTeam, final JanggiPosition from) {
         JanggiChessPiece chessPiece = janggiPiecePositions.getJanggiPieceByPosition(from);
         if (currentTeam != chessPiece.getTeam()) {
             throw new IllegalArgumentException("상대편의 기물을 움직일 수 없습니다.");
+        }
+    }
+
+    private void validateDestination(final JanggiPosition from, final JanggiPosition to) {
+        List<JanggiPosition> destinations = getAvailableDestination(from);
+        if (!destinations.contains(to)) {
+            throw new IllegalArgumentException("이동할 수 없는 경로입니다.");
         }
     }
 
@@ -73,11 +73,11 @@ public class JanggiBoard {
         scores.put(currentTeam, updatedScore);
     }
 
-    private void validateDestination(final JanggiPosition from, final JanggiPosition to) {
-        List<JanggiPosition> destinations = getAvailableDestination(from);
-        if (!destinations.contains(to)) {
-            throw new IllegalArgumentException("이동할 수 없는 경로입니다.");
-        }
+    public List<JanggiPosition> getAvailableDestination(final JanggiPosition position) {
+        JanggiChessPiece chessPiece = janggiPiecePositions.getJanggiPieceByPosition(position);
+        List<Path> coordinatePaths = chessPiece.getCoordinatePaths(position);
+        HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
+        return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, janggiPiecePositions);
     }
 
     public Map<JanggiPosition, JanggiChessPiece> getPositions() {
