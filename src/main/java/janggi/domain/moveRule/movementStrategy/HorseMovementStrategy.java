@@ -1,4 +1,4 @@
-package janggi.domain.moveRule.pathStrategy;
+package janggi.domain.moveRule.movementStrategy;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.Movement;
@@ -7,7 +7,7 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.TeamColor;
 import java.util.List;
 
-public class HorsePathStrategy implements PathStrategy {
+public class HorseMovementStrategy implements MovementStrategy {
     @Override
     public boolean isValidMovement(PiecePath path, TeamColor teamColor) {
         int rowDifference = path.rowDifference();

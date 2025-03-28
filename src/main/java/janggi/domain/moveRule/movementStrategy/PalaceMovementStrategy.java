@@ -1,4 +1,4 @@
-package janggi.domain.moveRule.pathStrategy;
+package janggi.domain.moveRule.movementStrategy;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.Movement;
@@ -7,7 +7,7 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.TeamColor;
 import java.util.List;
 
-public class PalacePathStrategy implements PathStrategy {
+public class PalaceMovementStrategy implements MovementStrategy {
     private static final List<Movement> IN_PALACE_POSSIBLE_MOVEMENT =
             List.of(
                     Movement.from(Direction.UP),

@@ -1,11 +1,11 @@
-package janggi.domain.moveRule.pathStrategy;
+package janggi.domain.moveRule.movementStrategy;
 
 import janggi.domain.board.PiecePath;
 import janggi.domain.board.Position;
 import janggi.domain.piece.TeamColor;
 import java.util.List;
 
-public class StraightPathStrategy implements PathStrategy {
+public class StraightMovementStrategy implements MovementStrategy {
     @Override
     public boolean isValidMovement(PiecePath path, TeamColor teamColor) {
         if (path.isDiagonal()) {
