@@ -1,19 +1,20 @@
 package janggi.piece;
 
+import janggi.board.Board;
 import janggi.exception.ErrorException;
 import janggi.position.Movement;
 
 public abstract class Piece {
 
     private final Camp camp;
+    private final Type type;
 
-    public Piece(Camp camp) {
+    public Piece(Camp camp, Type type) {
         this.camp = camp;
+        this.type = type;
     }
 
-    public abstract void validateMove(Movement movement);
-
-    public abstract Type getType();
+    public abstract void validateMove(Movement movement, Board board);
 
     public void validateCatch(Piece otherPiece) {
         if (!otherPiece.isEmpty() && camp == otherPiece.getCamp()) {
@@ -31,5 +32,9 @@ public abstract class Piece {
 
     public Camp getCamp() {
         return camp;
+    }
+
+    public Type getType() {
+        return type;
     }
 }

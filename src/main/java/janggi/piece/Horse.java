@@ -12,17 +12,18 @@ public final class Horse extends Piece {
     private static final int SHORT_MOVE_DISTANCE = 1;
     private static final int STEP = 1;
 
-    private final Board board;
+    public Horse(Camp camp) {
+        super(camp, Type.HORSE);
+    }
 
-    public Horse(Camp camp, Board board) {
-        super(camp);
-        this.board = board;
+    public static Piece from(Camp camp) {
+        return new Horse(camp);
     }
 
     @Override
-    public void validateMove(Movement movement) {
+    public void validateMove(Movement movement, Board board) {
         validateHorseMove(movement);
-        validateObstacleOnRoute(movement);
+        validateObstacleOnRoute(movement, board);
     }
 
     private void validateHorseMove(Movement movement) {
@@ -36,7 +37,7 @@ public final class Horse extends Piece {
                 xDistance == SHORT_MOVE_DISTANCE && yDistance == LONG_MOVE_DISTANCE);
     }
 
-    private void validateObstacleOnRoute(Movement movement) {
+    private void validateObstacleOnRoute(Movement movement, Board board) {
         Set<Piece> pieces = board.getPiecesByPosition(Set.of(findRoute(movement)));
         if (!pieces.isEmpty()) {
             throw new ErrorException("마는 기물을 넘어서 이동할 수 없습니다.");
@@ -56,20 +57,15 @@ public final class Horse extends Piece {
 
     private Position getNextHorizontalPosition(Position origin, Position target) {
         if (origin.x() < target.x()) {
-            return new Position(origin.x() + STEP, origin.y());
+            return Position.of(origin.x() + STEP, origin.y());
         }
-        return new Position(origin.x() - STEP, origin.y());
+        return Position.of(origin.x() - STEP, origin.y());
     }
 
     private Position getNextVerticalPosition(Position origin, Position target) {
         if (origin.y() < target.y()) {
-            return new Position(origin.x(), origin.y() + STEP);
+            return Position.of(origin.x(), origin.y() + STEP);
         }
-        return new Position(origin.x(), origin.y() - STEP);
-    }
-
-    @Override
-    public Type getType() {
-        return Type.HORSE;
+        return Position.of(origin.x(), origin.y() - STEP);
     }
 }

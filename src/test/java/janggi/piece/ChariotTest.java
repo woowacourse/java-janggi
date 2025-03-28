@@ -32,14 +32,14 @@ class ChariotTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int targetX, int targetY) {
         // given
-        Piece piece = new Chariot(camp, board);
+        Piece piece = new Chariot(camp);
 
-        Position origin = new Position(3, 3);
-        Position target = new Position(targetX, targetY);
+        Position origin = Position.of(3, 3);
+        Position target = Position.of(targetX, targetY);
         Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("차는 수평 혹은 수직으로만 움직여야 합니다.");
     }
@@ -54,14 +54,14 @@ class ChariotTest {
     })
     void validateMoveTest(Camp camp, int targetX, int targetY) {
         // given
-        Piece piece = new Chariot(camp, board);
+        Piece piece = new Chariot(camp);
 
-        Position origin = new Position(3, 3);
-        Position target = new Position(targetX, targetY);
+        Position origin = Position.of(3, 3);
+        Position target = Position.of(targetX, targetY);
         Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .doesNotThrowAnyException();
     }
 
@@ -69,17 +69,17 @@ class ChariotTest {
     @Test
     void shouldThrowException_WhenBlocked() {
         // given
-        Piece piece = new Chariot(Camp.CHO, board);
+        Piece piece = new Chariot(Camp.CHO);
 
-        Position origin = new Position(3, 3);
-        Position target = new Position(3, 7);
+        Position origin = Position.of(3, 3);
+        Position target = Position.of(3, 7);
         Movement movement = new Movement(origin, target);
 
         board.placePiece(origin, piece);
-        board.placePiece(new Position(3, 5), new Soldier(Camp.CHO, board));
+        board.placePiece(Position.of(3, 5), new Soldier(Camp.CHO));
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("차는 기물을 넘어 이동할 수 없습니다.");
     }

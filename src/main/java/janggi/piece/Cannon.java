@@ -10,17 +10,18 @@ public final class Cannon extends Piece {
 
     private static final int POSSIBLE_JUMP_OVER_PIECE_COUNT = 1;
 
-    private final Board board;
+    public Cannon(Camp camp) {
+        super(camp, Type.CANNON);
+    }
 
-    public Cannon(Camp camp, Board board) {
-        super(camp);
-        this.board = board;
+    public static Piece from(Camp camp) {
+        return new Cannon(camp);
     }
 
     @Override
-    public void validateMove(Movement movement) {
+    public void validateMove(Movement movement, Board board) {
         validateLinearMove(movement);
-        validateJumpOverOnePiece(movement);
+        validateJumpOverOnePiece(movement, board);
     }
 
     private void validateLinearMove(Movement movement) {
@@ -29,7 +30,7 @@ public final class Cannon extends Piece {
         }
     }
 
-    private void validateJumpOverOnePiece(Movement movement) {
+    private void validateJumpOverOnePiece(Movement movement, Board board) {
         Set<Piece> pieces = board.getPiecesByPosition(findRoute(movement));
         validatePieceCount(pieces);
         validateNotJumpOverCannon(pieces);
@@ -62,10 +63,5 @@ public final class Cannon extends Piece {
         if (getType() == otherPiece.getType()) {
             throw new ErrorException("포는 포를 잡을 수 없습니다.");
         }
-    }
-
-    @Override
-    public Type getType() {
-        return Type.CANNON;
     }
 }

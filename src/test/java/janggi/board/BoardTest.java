@@ -30,43 +30,23 @@ class BoardTest {
     @Test
     void placePieceTest() {
         // given
-        Piece piece = new Soldier(Camp.CHO, board);
+        Piece piece = new Soldier(Camp.CHO);
 
-        Position position = new Position(1, 1);
+        Position position = Position.of(1, 1);
 
         // when & then
         assertThatCode(() -> board.placePiece(position, piece))
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("기물이 9x10 크기의 보드 내에서 이동하지 않을 경우 예외가 발생한다.")
-    @ParameterizedTest
-    @CsvSource({
-            "9,11",
-            "9,0",
-            "10,10",
-            "0,10"
-    })
-    void shouldThrowException_WhenInvalidPosition(int x, int y) {
-        // given
-        Piece piece = new Soldier(Camp.CHO, board);
-
-        Position position = new Position(x, y);
-
-        // when & then
-        assertThatCode(() -> board.placePiece(position, piece))
-                .isInstanceOf(ErrorException.class)
-                .hasMessageContaining("기물은 9x10 크기의 보드 내에서만 이동 가능합니다.");
-    }
-
     @DisplayName("기물을 정상적인 좌표로 움직인다.")
     @Test
     void moveTest() {
         // given
-        Piece piece = new Soldier(Camp.CHO, board);
+        Piece piece = new Soldier(Camp.CHO);
 
-        Position origin = new Position(0, 3);
-        Position target = new Position(0, 4);
+        Position origin = Position.of(0, 3);
+        Position target = Position.of(0, 4);
         Movement movement = new Movement(origin, target);
 
         board.placePiece(origin, piece);
@@ -79,30 +59,13 @@ class BoardTest {
                 .containsEntry(target, piece);
     }
 
-    @DisplayName("기물을 보드판의 영역을 넘어서 움직일 경우 예외가 발생한다.")
-    @Test
-    void shouldThrowException_WhenInvalidMove() {
-        // given
-        Piece piece = new Soldier(Camp.CHO, board);
-
-        Position origin = new Position(0, 3);
-        Position target = new Position(0, 15);
-        Movement movement = new Movement(origin, target);
-
-        board.placePiece(origin, piece);
-
-        // when & then
-        assertThatCode(() -> board.move(movement))
-                .isInstanceOf(ErrorException.class)
-                .hasMessageContaining("기물은 9x10 크기의 보드 내에서만 이동 가능합니다.");
-    }
 
     @DisplayName("이동시킬 기물을 찾을 수 없는 경우 예외가 발생한다.")
     @Test
     void shouldThrowException_WhenNotFoundPiece() {
         // given
-        Position origin = new Position(0, 3);
-        Position target = new Position(0, 4);
+        Position origin = Position.of(0, 3);
+        Position target = Position.of(0, 4);
         Movement movement = new Movement(origin, target);
 
         // when & then
@@ -115,11 +78,11 @@ class BoardTest {
     @Test
     void shouldThrowException_WhenCatchSameCampPiece() {
         // given
-        Piece originPiece = new Soldier(Camp.CHO, board);
-        Piece targetPiece = new Soldier(Camp.CHO, board);
+        Piece originPiece = new Soldier(Camp.CHO);
+        Piece targetPiece = new Soldier(Camp.CHO);
 
-        Position origin = new Position(0, 3);
-        Position target = new Position(0, 4);
+        Position origin = Position.of(0, 3);
+        Position target = Position.of(0, 4);
         Movement movement = new Movement(origin, target);
 
         board.placePiece(origin, originPiece);
@@ -135,11 +98,11 @@ class BoardTest {
     @Test
     void moveCatchTest() {
         // given
-        Piece originPiece = new Soldier(Camp.CHO, board);
-        Piece targetPiece = new Soldier(Camp.HAN, board);
+        Piece originPiece = new Soldier(Camp.CHO);
+        Piece targetPiece = new Soldier(Camp.HAN);
 
-        Position origin = new Position(0, 3);
-        Position target = new Position(0, 4);
+        Position origin = Position.of(0, 3);
+        Position target = Position.of(0, 4);
         Movement movement = new Movement(origin, target);
 
         board.placePiece(origin, originPiece);
@@ -160,10 +123,10 @@ class BoardTest {
     @Test
     void shouldThrowException_WhenMoveSamePosition() {
         // given
-        Piece piece = new Soldier(Camp.CHO, board);
+        Piece piece = new Soldier(Camp.CHO);
 
-        Position origin = new Position(1, 1);
-        Position target = new Position(1, 1);
+        Position origin = Position.of(1, 1);
+        Position target = Position.of(1, 1);
 
         board.placePiece(origin, piece);
 
@@ -177,10 +140,10 @@ class BoardTest {
     @Test
     void shouldThrowException_WhenSelectOppositeCampPiece() {
         // given
-        Piece piece = new Soldier(Camp.HAN, board);
+        Piece piece = new Soldier(Camp.HAN);
 
-        Position origin = new Position(1, 1);
-        Position target = new Position(1, 2);
+        Position origin = Position.of(1, 1);
+        Position target = Position.of(1, 2);
         Movement movement = new Movement(origin, target);
 
         board.placePiece(origin, piece);

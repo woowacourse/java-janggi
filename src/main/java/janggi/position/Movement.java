@@ -40,7 +40,7 @@ public record Movement(Position origin, Position target) {
         int start = Math.min(origin.x(), target.x());
         int end = Math.max(origin.x(), target.x());
         for (int i = start + 1; i < end; i++) {
-            route.add(new Position(i, origin.y()));
+            route.add(Position.of(i, origin.y()));
         }
         return route;
     }
@@ -50,7 +50,7 @@ public record Movement(Position origin, Position target) {
         int start = Math.min(origin.y(), target.y());
         int end = Math.max(origin.y(), target.y());
         for (int i = start + 1; i < end; i++) {
-            route.add(new Position(origin.x(), i));
+            route.add(Position.of(origin.x(), i));
         }
         return route;
     }

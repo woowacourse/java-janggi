@@ -8,15 +8,17 @@ import janggi.position.Position;
 public final class Soldier extends Piece {
 
     private static final int MOVE_DISTANCE = 1;
-    private final Board board;
 
-    public Soldier(Camp camp, Board board) {
-        super(camp);
-        this.board = board;
+    public Soldier(Camp camp) {
+        super(camp, Type.SOLDIER);
+    }
+
+    public static Piece from(Camp camp) {
+        return new Soldier(camp);
     }
 
     @Override
-    public void validateMove(Movement movement) {
+    public void validateMove(Movement movement, Board board) {
         if (checkBackwardMove(movement.origin(), movement.target())) {
             throw new ErrorException("군인은 뒤로 갈 수 없습니다.");
         }
@@ -34,10 +36,5 @@ public final class Soldier extends Piece {
         if (Math.abs(target.y() - origin.y() + origin.x() - target.x()) != MOVE_DISTANCE) {
             throw new ErrorException("군인은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
         }
-    }
-
-    @Override
-    public Type getType() {
-        return Type.SOLDIER;
     }
 }

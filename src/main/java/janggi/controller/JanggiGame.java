@@ -98,7 +98,7 @@ public class JanggiGame {
     }
 
     private Position parsePositionOf(List<Integer> input) {
-        return new Position(input.getFirst(), input.getLast());
+        return Position.of(input.getFirst(), input.getLast());
     }
 
     // 재입력 받는 로직

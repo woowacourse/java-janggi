@@ -8,17 +8,18 @@ import java.util.Set;
 
 public final class Chariot extends Piece {
 
-    private final Board board;
+    public Chariot(Camp camp) {
+        super(camp, Type.CHARIOT);
+    }
 
-    public Chariot(Camp camp, Board board) {
-        super(camp);
-        this.board = board;
+    public static Piece from(Camp camp) {
+        return new Chariot(camp);
     }
 
     @Override
-    public void validateMove(Movement movement) {
+    public void validateMove(Movement movement, Board board) {
         validateLinearMove(movement);
-        validateObstacleOnRoute(movement);
+        validateObstacleOnRoute(movement, board);
     }
 
     private void validateLinearMove(Movement movement) {
@@ -27,7 +28,7 @@ public final class Chariot extends Piece {
         }
     }
 
-    private void validateObstacleOnRoute(Movement movement) {
+    private void validateObstacleOnRoute(Movement movement, Board board) {
         Set<Piece> pieces = board.getPiecesByPosition(findRoute(movement));
         if (!pieces.isEmpty()) {
             throw new ErrorException("차는 기물을 넘어 이동할 수 없습니다.");
@@ -36,10 +37,5 @@ public final class Chariot extends Piece {
 
     private Set<Position> findRoute(Movement movement) {
         return movement.findRoute();
-    }
-
-    @Override
-    public Type getType() {
-        return Type.CHARIOT;
     }
 }

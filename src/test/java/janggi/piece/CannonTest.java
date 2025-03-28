@@ -32,17 +32,17 @@ class CannonTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int targetX, int targetY) {
         // given
-        Piece piece = new Cannon(camp, board);
+        Piece piece = new Cannon(camp);
 
-        Position origin = new Position(3, 3);
-        Position target = new Position(targetX, targetY);
+        Position origin = Position.of(3, 3);
+        Position target = Position.of(targetX, targetY);
         Movement movement = new Movement(origin, target);
 
         board.placePiece(origin, piece);
-        board.placePiece(new Position(3, 5), new Soldier(camp, board));
+        board.placePiece(Position.of(3, 5), new Soldier(camp));
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("포는 수평 혹은 수직으로만 움직여야 합니다.");
     }
@@ -57,20 +57,20 @@ class CannonTest {
     })
     void validateMoveTest(Camp camp, int targetX, int targetY) {
         // given
-        Piece piece = new Cannon(camp, board);
+        Piece piece = new Cannon(camp);
 
-        Position origin = new Position(3, 3);
-        Position target = new Position(targetX, targetY);
+        Position origin = Position.of(3, 3);
+        Position target = Position.of(targetX, targetY);
         Movement movement = new Movement(origin, target);
 
         board.placePiece(origin, piece);
-        board.placePiece(new Position(3, 4), new Soldier(camp, board));
-        board.placePiece(new Position(2, 3), new Soldier(camp, board));
-        board.placePiece(new Position(4, 3), new Soldier(camp, board));
-        board.placePiece(new Position(3, 2), new Soldier(camp, board));
+        board.placePiece(Position.of(3, 4), new Soldier(camp));
+        board.placePiece(Position.of(2, 3), new Soldier(camp));
+        board.placePiece(Position.of(4, 3), new Soldier(camp));
+        board.placePiece(Position.of(3, 2), new Soldier(camp));
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .doesNotThrowAnyException();
     }
 
@@ -78,8 +78,8 @@ class CannonTest {
     @Test
     void shouldThrowException_WhenCatchOtherCannon() {
         // given
-        Piece choPiece = new Cannon(Camp.CHO, board);
-        Piece hanPiece = new Cannon(Camp.HAN, board);
+        Piece choPiece = new Cannon(Camp.CHO);
+        Piece hanPiece = new Cannon(Camp.HAN);
 
         // when & then
         assertThatCode(() -> choPiece.validateCatch(hanPiece))
@@ -91,16 +91,16 @@ class CannonTest {
     @Test
     void shouldThrowException_WhenJumpOverZeroPiece() {
         // given
-        Piece piece = new Cannon(Camp.CHO, board);
+        Piece piece = new Cannon(Camp.CHO);
 
-        Position origin = new Position(1, 1);
-        Position target = new Position(1, 3);
+        Position origin = Position.of(1, 1);
+        Position target = Position.of(1, 3);
         Movement movement = new Movement(origin, target);
 
         board.placePiece(origin, piece);
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 0");
     }
@@ -109,18 +109,18 @@ class CannonTest {
     @Test
     void shouldThrowException_WhenJumpOverTwoPiece() {
         // given
-        Piece piece = new Cannon(Camp.CHO, board);
+        Piece piece = new Cannon(Camp.CHO);
 
-        Position origin = new Position(1, 1);
-        Position target = new Position(1, 5);
+        Position origin = Position.of(1, 1);
+        Position target = Position.of(1, 5);
         Movement movement = new Movement(origin, target);
 
         board.placePiece(origin, piece);
-        board.placePiece(new Position(1, 2), new Soldier(Camp.CHO, board));
-        board.placePiece(new Position(1, 3), new Soldier(Camp.CHO, board));
+        board.placePiece(Position.of(1, 2), new Soldier(Camp.CHO));
+        board.placePiece(Position.of(1, 3), new Soldier(Camp.CHO));
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("포는 정확히 하나의 기물만 넘을 수 있습니다. 넘은 기물 수: 2");
     }
@@ -129,17 +129,17 @@ class CannonTest {
     @Test
     void shouldThrowException_WhenCannonJumpOverCannon() {
         // given
-        Piece piece = new Cannon(Camp.CHO, board);
+        Piece piece = new Cannon(Camp.CHO);
 
-        Position origin = new Position(1, 1);
-        Position target = new Position(1, 3);
+        Position origin = Position.of(1, 1);
+        Position target = Position.of(1, 3);
         Movement movement = new Movement(origin, target);
 
         board.placePiece(origin, piece);
-        board.placePiece(new Position(1, 2), new Cannon(Camp.HAN, board));
+        board.placePiece(Position.of(1, 2), new Cannon(Camp.HAN));
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("포는 포를 넘을 수 없습니다.");
     }

@@ -1,7 +1,9 @@
 package janggi.board;
 
-import static janggi.board.Board.COLUMN;
-import static janggi.board.Board.ROW;
+import static janggi.board.Board.MAX_COLUMN;
+import static janggi.board.Board.MAX_ROW;
+import static janggi.board.Board.MIN_COLUMN;
+import static janggi.board.Board.MIN_ROW;
 
 import janggi.piece.Camp;
 import janggi.piece.Cannon;
@@ -30,49 +32,49 @@ public class InitialBoardGenerator implements BoardGenerator {
 
     private Map<Position, Piece> initializeCells() {
         Map<Position, Piece> cells = new HashMap<>();
-        for (int i = 0; i < COLUMN; i++) {
-            for (int j = 0; j < ROW; j++) {
-                cells.put(new Position(i, j), Empty.INSTANCE);
+        for (int i = MIN_ROW; i < MAX_ROW; i++) {
+            for (int j = MIN_COLUMN; j < MAX_COLUMN; j++) {
+                cells.put(Position.of(i, j), Empty.INSTANCE);
             }
         }
         return cells;
     }
 
     private void placeChoPieces(Board board) {
-        board.placePiece(new Position(0, 0), new Chariot(Camp.CHO, board));
-        board.placePiece(new Position(1, 0), new Elephant(Camp.CHO, board));
-        board.placePiece(new Position(2, 0), new Horse(Camp.CHO, board));
-        board.placePiece(new Position(3, 0), new Guard(Camp.CHO, board));
-        board.placePiece(new Position(4, 1), new General(Camp.CHO, board));
-        board.placePiece(new Position(5, 0), new Guard(Camp.CHO, board));
-        board.placePiece(new Position(6, 0), new Elephant(Camp.CHO, board));
-        board.placePiece(new Position(7, 0), new Horse(Camp.CHO, board));
-        board.placePiece(new Position(8, 0), new Chariot(Camp.CHO, board));
+        board.placePiece(Position.of(0, 0), new Chariot(Camp.CHO));
+        board.placePiece(Position.of(1, 0), new Elephant(Camp.CHO));
+        board.placePiece(Position.of(2, 0), new Horse(Camp.CHO));
+        board.placePiece(Position.of(3, 0), new Guard(Camp.CHO));
+        board.placePiece(Position.of(4, 1), new General(Camp.CHO));
+        board.placePiece(Position.of(5, 0), new Guard(Camp.CHO));
+        board.placePiece(Position.of(6, 0), new Elephant(Camp.CHO));
+        board.placePiece(Position.of(7, 0), new Horse(Camp.CHO));
+        board.placePiece(Position.of(8, 0), new Chariot(Camp.CHO));
 
         for (int x : List.of(1, 7)) {
-            board.placePiece(new Position(x, 2), new Cannon(Camp.CHO, board));
+            board.placePiece(Position.of(x, 2), new Cannon(Camp.CHO));
         }
         for (int x = 0; x <= 8; x += 2) {
-            board.placePiece(new Position(x, 3), new Soldier(Camp.CHO, board));
+            board.placePiece(Position.of(x, 3), new Soldier(Camp.CHO));
         }
     }
 
     private void placeHanPieces(Board board) {
-        board.placePiece(new Position(0, 9), new Chariot(Camp.HAN, board));
-        board.placePiece(new Position(1, 9), new Elephant(Camp.HAN, board));
-        board.placePiece(new Position(2, 9), new Horse(Camp.HAN, board));
-        board.placePiece(new Position(3, 9), new Guard(Camp.HAN, board));
-        board.placePiece(new Position(4, 8), new General(Camp.HAN, board));
-        board.placePiece(new Position(5, 9), new Guard(Camp.HAN, board));
-        board.placePiece(new Position(6, 9), new Elephant(Camp.HAN, board));
-        board.placePiece(new Position(7, 9), new Horse(Camp.HAN, board));
-        board.placePiece(new Position(8, 9), new Chariot(Camp.HAN, board));
+        board.placePiece(Position.of(0, 9), new Chariot(Camp.HAN));
+        board.placePiece(Position.of(1, 9), new Elephant(Camp.HAN));
+        board.placePiece(Position.of(2, 9), new Horse(Camp.HAN));
+        board.placePiece(Position.of(3, 9), new Guard(Camp.HAN));
+        board.placePiece(Position.of(4, 8), new General(Camp.HAN));
+        board.placePiece(Position.of(5, 9), new Guard(Camp.HAN));
+        board.placePiece(Position.of(6, 9), new Elephant(Camp.HAN));
+        board.placePiece(Position.of(7, 9), new Horse(Camp.HAN));
+        board.placePiece(Position.of(8, 9), new Chariot(Camp.HAN));
 
         for (int x : List.of(1, 7)) {
-            board.placePiece(new Position(x, 7), new Cannon(Camp.HAN, board));
+            board.placePiece(Position.of(x, 7), new Cannon(Camp.HAN));
         }
         for (int x = 0; x <= 8; x += 2) {
-            board.placePiece(new Position(x, 6), new Soldier(Camp.HAN, board));
+            board.placePiece(Position.of(x, 6), new Soldier(Camp.HAN));
         }
     }
 }

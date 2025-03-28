@@ -30,14 +30,14 @@ class SoldierTest {
     })
     void shouldThrowException_WhenBackwardMove(Camp camp, int targetY) {
         // given
-        Piece piece = new Soldier(camp, board);
+        Piece piece = new Soldier(camp);
 
-        Position origin = new Position(0, 1);
-        Position target = new Position(0, targetY);
+        Position origin = Position.of(0, 1);
+        Position target = Position.of(0, targetY);
         Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("군인은 뒤로 갈 수 없습니다.");
     }
@@ -54,14 +54,14 @@ class SoldierTest {
     })
     void validMoveTest(Camp camp, int targetX, int targetY) {
         // given
-        Piece piece = new Soldier(camp, board);
+        Piece piece = new Soldier(camp);
 
-        Position origin = new Position(1, 1);
-        Position target = new Position(targetX, targetY);
+        Position origin = Position.of(1, 1);
+        Position target = Position.of(targetX, targetY);
         Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .doesNotThrowAnyException();
     }
 
@@ -73,14 +73,14 @@ class SoldierTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int targetX, int targetY) {
         // given
-        Piece piece = new Soldier(camp, board);
+        Piece piece = new Soldier(camp);
 
-        Position origin = new Position(1, 1);
-        Position target = new Position(targetX, targetY);
+        Position origin = Position.of(1, 1);
+        Position target = Position.of(targetX, targetY);
         Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("군인은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
     }
@@ -89,8 +89,8 @@ class SoldierTest {
     @Test
     void shouldThrowException_WhenCatchSameCamp() {
         // given
-        Piece piece = new Soldier(Camp.HAN, board);
-        Piece otherPiece = new Soldier(Camp.HAN, board);
+        Piece piece = new Soldier(Camp.HAN);
+        Piece otherPiece = new Soldier(Camp.HAN);
 
         // when & then
         assertThatCode(() -> piece.validateCatch(otherPiece))

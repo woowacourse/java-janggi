@@ -14,17 +14,18 @@ public final class Elephant extends Piece {
     private static final int STEP = 1;
     private static final int DENOMINATOR = 2;
 
-    private final Board board;
+    public Elephant(Camp camp) {
+        super(camp, Type.ELEPHANT);
+    }
 
-    public Elephant(Camp camp, Board board) {
-        super(camp);
-        this.board = board;
+    public static Piece from(Camp camp) {
+        return new Elephant(camp);
     }
 
     @Override
-    public void validateMove(Movement movement) {
+    public void validateMove(Movement movement, Board board) {
         validateElephantMove(movement);
-        validateObstacleOnRoute(movement);
+        validateObstacleOnRoute(movement, board);
     }
 
     private void validateElephantMove(Movement movement) {
@@ -38,7 +39,7 @@ public final class Elephant extends Piece {
                 xDistance == SHORT_MOVE_DISTANCE && yDistance == LONG_MOVE_DISTANCE);
     }
 
-    private void validateObstacleOnRoute(Movement movement) {
+    private void validateObstacleOnRoute(Movement movement, Board board) {
         Set<Piece> pieces = board.getPiecesByPosition(findRoute(movement));
         if (!pieces.isEmpty()) {
             throw new ErrorException("상은 기물을 넘어서 이동할 수 없습니다.");
@@ -73,25 +74,20 @@ public final class Elephant extends Piece {
 
     private Position getNextHorizontalPosition(Position origin, Position target) {
         if (origin.x() < target.x()) {
-            return new Position(origin.x() + STEP, origin.y());
+            return Position.of(origin.x() + STEP, origin.y());
         }
-        return new Position(origin.x() - STEP, origin.y());
+        return Position.of(origin.x() - STEP, origin.y());
     }
 
     private Position getNextVerticalPosition(Position origin, Position target) {
         if (origin.y() < target.y()) {
-            return new Position(origin.x(), origin.y() + STEP);
+            return Position.of(origin.x(), origin.y() + STEP);
         }
-        return new Position(origin.x(), origin.y() - STEP);
+        return Position.of(origin.x(), origin.y() - STEP);
     }
 
     private Position findSecondPosition(Position target, Position firstPosition) {
-        return new Position((firstPosition.x() + target.x()) / DENOMINATOR,
+        return Position.of((firstPosition.x() + target.x()) / DENOMINATOR,
                 (firstPosition.y() + target.y()) / DENOMINATOR);
-    }
-
-    @Override
-    public Type getType() {
-        return Type.ELEPHANT;
     }
 }

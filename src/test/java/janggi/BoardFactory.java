@@ -1,7 +1,7 @@
 package janggi;
 
-import static janggi.board.Board.COLUMN;
-import static janggi.board.Board.ROW;
+import static janggi.board.Board.MAX_COLUMN;
+import static janggi.board.Board.MAX_ROW;
 
 import janggi.board.Board;
 import janggi.piece.Camp;
@@ -18,10 +18,10 @@ public class BoardFactory {
     }
 
     private static Map<Position, Piece> initializeCells() {
-        Map<Position, Piece> cells = new HashMap<>(COLUMN * ROW);
-        for (int x = 0; x < COLUMN; x++) {
-            for (int y = 0; y < ROW; y++) {
-                cells.put(new Position(x, y), Empty.INSTANCE);
+        Map<Position, Piece> cells = new HashMap<>(MAX_COLUMN * MAX_ROW);
+        for (int x = 0; x < MAX_COLUMN; x++) {
+            for (int y = 0; y < MAX_ROW; y++) {
+                cells.put(Position.of(x, y), Empty.INSTANCE);
             }
         }
         return cells;

@@ -3,8 +3,15 @@ package janggi.position;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.board.Board;
+import janggi.exception.ErrorException;
+import janggi.piece.Camp;
+import janggi.piece.Piece;
+import janggi.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class PositionTest {
 
@@ -16,7 +23,7 @@ class PositionTest {
         int y = 2;
 
         // when & then
-        assertThatCode(() -> new Position(x, y))
+        assertThatCode(() -> Position.of(x, y))
                 .doesNotThrowAnyException();
     }
 
@@ -24,8 +31,8 @@ class PositionTest {
     @Test
     void horizontalTest() {
         // given
-        Position position = new Position(0, 0);
-        Position otherPosition = new Position(2, 0);
+        Position position = Position.of(0, 0);
+        Position otherPosition = Position.of(2, 0);
 
         // when & then
         assertThat(position.isHorizontalTo(otherPosition))
@@ -36,8 +43,8 @@ class PositionTest {
     @Test
     void verticalTest() {
         // given
-        Position position = new Position(0, 0);
-        Position otherPosition = new Position(0, 2);
+        Position position = Position.of(0, 0);
+        Position otherPosition = Position.of(0, 2);
 
         // when & then
         assertThat(position.isVerticalTo(otherPosition))
@@ -48,11 +55,26 @@ class PositionTest {
     @Test
     void equalsTest() {
         // given
-        Position position = new Position(0, 0);
-        Position otherPosition = new Position(0, 0);
+        Position position = Position.of(0, 0);
+        Position otherPosition = Position.of(0, 0);
 
         // when & then
         assertThat(position.equals(otherPosition))
                 .isTrue();
+    }
+
+    @DisplayName("9x10 크기의 장기 보드판의 좌표값이 아닌 경우 예외가 발생한다.")
+    @ParameterizedTest
+    @CsvSource({
+            "8,10",
+            "0,10",
+            "9,9",
+            "0,9"
+    })
+    void shouldThrowException_WhenInvalidPosition(int x, int y) {
+        // given & when & then
+        assertThatCode(() -> Position.of(x, y))
+                .isInstanceOf(ErrorException.class)
+                .hasMessageContaining("9x10 크기의 장기 보드판의 좌표값만 가능합니다.");
     }
 }

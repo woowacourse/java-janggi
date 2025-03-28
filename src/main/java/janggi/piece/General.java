@@ -8,15 +8,16 @@ public final class General extends Piece {
 
     private final static int MOVE_DISTANCE = 1;
 
-    private final Board board;
+    public General(Camp camp) {
+        super(camp, Type.GENERAL);
+    }
 
-    public General(Camp camp, Board board) {
-        super(camp);
-        this.board = board;
+    public static Piece from(Camp camp) {
+        return new General(camp);
     }
 
     @Override
-    public void validateMove(Movement movement) {
+    public void validateMove(Movement movement, Board board) {
         board.validateCampPalace(movement.target(), getCamp());
         if (!isGeneralMove(movement.calculateXDistance(), movement.calculateYDistance())) {
             throw new ErrorException("궁은 상하좌우 또는 대각선으로 한 칸 움직여야 합니다.");
@@ -25,10 +26,5 @@ public final class General extends Piece {
 
     private boolean isGeneralMove(int xDistance, int yDistance) {
         return xDistance == MOVE_DISTANCE || yDistance == MOVE_DISTANCE;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.GENERAL;
     }
 }

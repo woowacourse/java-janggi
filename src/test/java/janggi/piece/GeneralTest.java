@@ -29,14 +29,14 @@ class GeneralTest {
     })
     void shouldThrowException_WhenInvalidPalace(Camp camp, int originX, int originY, int targetX, int targetY) {
         // given
-        Piece piece = new General(camp, board);
+        Piece piece = new General(camp);
 
-        Position origin = new Position(originX, originY);
-        Position target = new Position(targetX, targetY);
+        Position origin = Position.of(originX, originY);
+        Position target = Position.of(targetX, targetY);
         Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("궁성 안에서 이동해야 합니다.");
     }
@@ -54,14 +54,14 @@ class GeneralTest {
     })
     void shouldThrowException_WhenInvalidMove(Camp camp, int originX, int originY, int targetX, int targetY) {
         // given
-        Piece piece = new General(camp, board);
+        Piece piece = new General(camp);
 
-        Position origin = new Position(originX, originY);
-        Position target = new Position(targetX, targetY);
+        Position origin = Position.of(originX, originY);
+        Position target = Position.of(targetX, targetY);
         Movement movement = new Movement(origin, target);
 
         // when & then
-        assertThatCode(() -> piece.validateMove(movement))
+        assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
                 .hasMessageContaining("궁은 상하좌우 또는 대각선으로 한 칸 움직여야 합니다.");
     }

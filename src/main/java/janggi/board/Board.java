@@ -16,11 +16,13 @@ import java.util.stream.Collectors;
 
 public class Board {
 
-    public static final int COLUMN = 9;
-    public static final int ROW = 10;
+    public static final int MIN_COLUMN = 0;
+    public static final int MAX_COLUMN = 9;
+    public static final int MIN_ROW = 0;
+    public static final int MAX_ROW = 10;
     private static final Map<Camp, Position> PALACE_POSITIONS = Map.of(
-            Camp.CHO, new Position(4, 1),
-            Camp.HAN, new Position(4, 8)
+            Camp.CHO, Position.of(4, 1),
+            Camp.HAN, Position.of(4, 8)
     );
 
     private final Map<Position, Piece> cells;
@@ -32,31 +34,15 @@ public class Board {
     }
 
     public void placePiece(Position position, Piece piece) {
-        validatePosition(position);
         cells.put(position, piece);
     }
 
-    private void validatePosition(Position position) {
-        if (position.x() < 0 || COLUMN <= position.x() || position.y() < 0 || ROW <= position.y()) {
-            throw new ErrorException("기물은 9x10 크기의 보드 내에서만 이동 가능합니다.");
-        }
-    }
-
     public void move(Movement movement) {
-        validateBorder(movement);
         validateTurn(movement);
         validateMove(movement);
         updateBoard(movement);
         currentCamp = currentCamp.switchTurn();
     }
-
-    private void validateBorder(Movement movement) {
-        Position origin = movement.origin();
-        Position target = movement.target();
-        validatePosition(origin);
-        validatePosition(target);
-    }
-
     private void validateTurn(Movement movement) {
         Piece originPiece = getOriginPiece(movement);
         if (originPiece.isOppositeCampTo(currentCamp)) {
@@ -68,7 +54,7 @@ public class Board {
         Piece originPiece = getOriginPiece(movement);
         Piece targetPiece = getTargetPiece(movement);
         originPiece.validateCatch(targetPiece);
-        originPiece.validateMove(movement);
+        originPiece.validateMove(movement, this);
 
     }
 
@@ -106,7 +92,7 @@ public class Board {
     private List<Position> findPalacePositions(int centerX, int centerY) {
         List<Integer> directions = List.of(-1, 0, 1);
         return directions.stream()
-                .flatMap(dx -> directions.stream().map(dy -> new Position(centerX + dx, centerY + dy)))
+                .flatMap(dx -> directions.stream().map(dy -> Position.of(centerX + dx, centerY + dy)))
                 .toList();
     }
 
@@ -167,5 +153,9 @@ public class Board {
 
     public Map<Position, Piece> getCells() {
         return cells;
+    }
+
+    public Camp getCurrentCamp() {
+        return currentCamp;
     }
 }

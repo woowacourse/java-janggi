@@ -1,7 +1,7 @@
 package janggi.view;
 
-import static janggi.board.Board.COLUMN;
-import static janggi.board.Board.ROW;
+import static janggi.board.Board.MAX_COLUMN;
+import static janggi.board.Board.MAX_ROW;
 
 import janggi.piece.Camp;
 import janggi.piece.Piece;
@@ -36,14 +36,14 @@ public class OutputView {
 
     public void displayBoard(Map<Position, Piece> placedPieces) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = ROW - 1; i >= 0; i--) {
+        for (int i = MAX_ROW - 1; i >= 0; i--) {
             stringBuilder.append(System.lineSeparator())
                     .append(formatBoardRow(placedPieces, i));
         }
         stringBuilder.append(System.lineSeparator())
                 .append(CELL_SPACE)
                 .append(BOARD_LINE);
-        for (int i = 0; i < COLUMN; i++) {
+        for (int i = 0; i < MAX_COLUMN; i++) {
             stringBuilder.append(formatBoardIndex(i));
         }
         System.out.println(stringBuilder);
@@ -73,8 +73,8 @@ public class OutputView {
     private String formatBoardRow(Map<Position, Piece> placedPieces, int i) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(formatBoardIndex(i));
-        for (int j = 0; j < COLUMN; j++) {
-            Piece piece = placedPieces.get(new Position(j, i));
+        for (int j = 0; j < MAX_COLUMN; j++) {
+            Piece piece = placedPieces.get(Position.of(j, i));
             stringBuilder.append(formatPiece(piece));
         }
         return stringBuilder.toString();

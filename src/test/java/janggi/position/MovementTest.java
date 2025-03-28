@@ -14,8 +14,8 @@ public class MovementTest {
     @Test
     void shouldThrowException_WhenNoMovement() {
         // given
-        Position origin = new Position(1, 1);
-        Position target = new Position(1, 1);
+        Position origin = Position.of(1, 1);
+        Position target = Position.of(1, 1);
 
         // when & then
         assertThatCode(() -> new Movement(origin, target))
@@ -27,8 +27,8 @@ public class MovementTest {
     @Test
     void horizontalTest() {
         // given
-        Position origin = new Position(0, 0);
-        Position target = new Position(2, 0);
+        Position origin = Position.of(0, 0);
+        Position target = Position.of(2, 0);
         Movement movement = new Movement(origin, target);
 
         // when & then
@@ -41,8 +41,8 @@ public class MovementTest {
     @Test
     void verticalTest() {
         // given
-        Position origin = new Position(0, 0);
-        Position target = new Position(0, 2);
+        Position origin = Position.of(0, 0);
+        Position target = Position.of(0, 2);
         Movement movement = new Movement(origin, target);
 
         // when & then
@@ -55,8 +55,8 @@ public class MovementTest {
     @Test
     void horizontalDistanceTest() {
         // given
-        Position origin = new Position(0, 0);
-        Position target = new Position(2, 0);
+        Position origin = Position.of(0, 0);
+        Position target = Position.of(2, 0);
         Movement movement = new Movement(origin, target);
 
         // when & then
@@ -69,8 +69,8 @@ public class MovementTest {
     @Test
     void verticalDistanceTest() {
         // given
-        Position origin = new Position(0, 0);
-        Position target = new Position(0, 2);
+        Position origin = Position.of(0, 0);
+        Position target = Position.of(0, 2);
         Movement movement = new Movement(origin, target);
 
         // when & then
@@ -83,13 +83,13 @@ public class MovementTest {
     @Test
     void horizontalRouteTest() {
         // given
-        Position origin = new Position(0, 0);
-        Position target = new Position(3, 0);
+        Position origin = Position.of(0, 0);
+        Position target = Position.of(3, 0);
         Movement movement = new Movement(origin, target);
 
         Set<Position> route = Set.of(
-                new Position(1, 0),
-                new Position(2, 0)
+                Position.of(1, 0),
+                Position.of(2, 0)
         );
 
         // when
@@ -105,13 +105,13 @@ public class MovementTest {
     @Test
     void verticalRouteTest() {
         // given
-        Position origin = new Position(0, 0);
-        Position target = new Position(0, 3);
+        Position origin = Position.of(0, 0);
+        Position target = Position.of(0, 3);
         Movement movement = new Movement(origin, target);
 
         Set<Position> route = Set.of(
-                new Position(0, 1),
-                new Position(0, 2)
+                Position.of(0, 1),
+                Position.of(0, 2)
         );
 
         // when
