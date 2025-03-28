@@ -1,8 +1,9 @@
 package store;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import location.Position;
 import java.util.List;
-import java.util.Optional;
 import piece.Piece;
 
 public class Pieces {
@@ -10,7 +11,7 @@ public class Pieces {
     private final List<Piece> pieces;
 
     public Pieces(List<Piece> pieces) {
-        this.pieces = pieces;
+        this.pieces = new ArrayList<>(pieces);
     }
 
     public void add(Piece piece) {
@@ -18,13 +19,7 @@ public class Pieces {
     }
 
     public List<Piece> getPieces() {
-        return pieces;
-    }
-
-    public Optional<Piece> findByPoint(Position targetPosition) {
-        return pieces.stream()
-                .filter(piece -> piece.isPlacedAt(targetPosition))
-                .findAny();
+        return Collections.unmodifiableList(pieces);
     }
 
     public Piece getByPosition(Position targetPosition) {
