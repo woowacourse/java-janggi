@@ -52,7 +52,7 @@ public final class DatabaseManager {
                 "TEAM VARCHAR(10) NOT NULL CHECK(TEAM IN('HAN', 'CHO'))," +
                 "POSITION_ROW int NOT NULL," +
                 "POSITION_COLUMN int NOT NULL," +
-                "GAME_ROOM_NAME VARCHAR(10) NOT NULL," +
+                "GAME_ROOM_NAME VARCHAR(30) NOT NULL," +
                 "UNIQUE(GAME_ROOM_NAME, POSITION_ROW, POSITION_COLUMN)," +
                 "FOREIGN KEY (GAME_ROOM_NAME) REFERENCES GAME_ROOM(NAME) ON DELETE CASCADE);";
     }

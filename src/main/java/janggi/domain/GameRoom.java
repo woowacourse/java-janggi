@@ -1,4 +1,5 @@
 package janggi.domain;
 
-public record GameRoom (String name, Board board, Team turn){
+public record GameRoom(String name, Board board, Team turn) {
+
 }

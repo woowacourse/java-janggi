@@ -50,7 +50,15 @@ public class Viewer {
     public String readGameRoomName() {
         System.out.println(Formatter.formatMessageWithHeader(INFO_HEADER, "방 이름을 입력해주세요"));
 
-        return scanner.nextLine();
+        String gameRoomName = scanner.nextLine();
+        validGameRoomName(gameRoomName);
+        return gameRoomName;
+    }
+
+    private void validGameRoomName(String gameRoomName) {
+        if (gameRoomName.isBlank() || gameRoomName.length() > 10) {
+            throw new IllegalArgumentException("방 이름은 공백이거나 10자를 넘을 수 없습니다!");
+        }
     }
 
     public TeamMaSangPositionDto settingMaSangPlacement(Team team) {
