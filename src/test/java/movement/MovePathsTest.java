@@ -64,7 +64,7 @@ class MovePathsTest {
         ));
         Position src = new Position(1, 1);
         Position dest = new Position(3, 4);
-        MovePath expected = new MovePath(Movement.UP, Movement.RIGHT_UP, Movement.RIGHT_UP);
+        MovePath expected = new MovePath(Movement.DOWN, Movement.RIGHT_DOWN, Movement.RIGHT_DOWN);
 
         // when
         MovePath actual = movePaths.findCorrectMovePath(src, dest);
@@ -91,8 +91,6 @@ class MovePathsTest {
         Position dest = new Position(5, 5);
 
         // when
-
-
         // then
         Assertions.assertThatThrownBy(
                 () -> movePaths.findCorrectMovePath(src, dest)

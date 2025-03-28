@@ -1,7 +1,6 @@
 package board;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -96,7 +95,6 @@ public class BoardTest {
         }
 
         @Test
-        @Disabled
         @DisplayName("src 위치에 기물이 현재 턴의 팀이 아니라면 예외가 발생한다")
         void updatePositionFailureBySameTeamType() {
             // given
@@ -110,25 +108,6 @@ public class BoardTest {
             final Position src = new Position(1, 1);
             final Position dest = new Position(1, 2);
 
-
-            // when & then
-            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, country))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
-        @Disabled
-        @DisplayName("src 위치에 기물이 dest로 갈 수 없다면 예외가 발생한다")
-        void updatePositionFailureByCantMove() {
-            // given
-            final Map<Position, Piece> map = Map.of(
-                    new Position(1, 1), new Cannon(null, null)
-            );
-            final Board board = new Board(map);
-
-            final Position src = new Position(1, 1);
-            final Position dest = new Position(1, 2);
-            final Country country = Country.CHO;
 
             // when & then
             Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, country))

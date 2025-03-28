@@ -4,10 +4,12 @@ import movement.Movement;
 
 public record Position(int x, int y) {
 
-    private static final int SQUARE_NUMBER = 2;
+    private static final int POSITION_MIN_RANGE = 0;
+    private static final int X_MAX_RANGE = 9;
+    private static final int Y_MAX_RANGE = 10;
 
     public Position {
-        if (x <= 0 || x > 9 || y <= 0 || y > 10) {
+        if (x <= POSITION_MIN_RANGE || x > X_MAX_RANGE || y <= POSITION_MIN_RANGE || y > Y_MAX_RANGE) {
             throw new IllegalArgumentException("존재할 수 없는 위치의 값입니다.");
         }
     }
@@ -21,21 +23,21 @@ public record Position(int x, int y) {
     // todo : row, column인 Position 이랑 int인 movement랑 자료형 어떻게 연결해줄 것인지 고민해보기
     public Position move(Movement movement) {
         if (movement == Movement.UP) {
-            return new Position(x, y + 1);
-        } else if (movement == Movement.DOWN) {
             return new Position(x, y - 1);
+        } else if (movement == Movement.DOWN) {
+            return new Position(x, y + 1);
         } else if (movement == Movement.RIGHT) {
             return new Position(x + 1, y);
         } else if (movement == Movement.LEFT) {
             return new Position(x - 1, y);
         } else if (movement == Movement.LEFT_UP) {
-            return new Position(x - 1, y + 1);
-        } else if (movement == Movement.LEFT_DOWN) {
             return new Position(x - 1, y - 1);
+        } else if (movement == Movement.LEFT_DOWN) {
+            return new Position(x - 1, y + 1);
         } else if (movement == Movement.RIGHT_DOWN) {
-            return new Position(x + 1, y - 1);
-        } else if (movement == Movement.RIGHT_UP) {
             return new Position(x + 1, y + 1);
+        } else if (movement == Movement.RIGHT_UP) {
+            return new Position(x + 1, y - 1);
         }
         return new Position(x, y);
     }

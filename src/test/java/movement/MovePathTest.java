@@ -47,8 +47,8 @@ class MovePathTest {
     void canReachDestination() {
         // given
         MovePath movePath = new MovePath(Movement.UP, Movement.LEFT_UP, Movement.LEFT_UP);
-        Position src = new Position(4, 3);
-        Position canReachDest = new Position(2, 6);
+        Position src = new Position(4, 4);
+        Position canReachDest = new Position(2, 1);
         Position canNotReachDest = new Position(3, 6);
 
         // when

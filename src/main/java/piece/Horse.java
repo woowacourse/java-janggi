@@ -44,8 +44,8 @@ public class Horse extends Piece implements DistanceCheckable, ObstructionChecka
 
     private List<Position> getInternalPositions(MovePaths internalMoverPaths) {
         List<Position> positions = new ArrayList<>();
-        Position buffer = new Position(position.x(), position.y());
         for (MovePath movePath : internalMoverPaths.getMovePaths()) {
+            Position buffer = new Position(position.x(), position.y());
             for (Movement movement : movePath.getMovements()) {
                 buffer = buffer.move(movement);
             }

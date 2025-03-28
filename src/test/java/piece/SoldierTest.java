@@ -38,15 +38,15 @@ class SoldierTest {
 
         // when & then: 1 : success
         final Position ableDest1 = new Position(2, 2);
-        assertThatThrownBy(
+        assertThatCode(
                 () -> soldier.validateMove(src, ableDest1, board)
-        ).isInstanceOf(IllegalArgumentException.class);
+        ).doesNotThrowAnyException();
 
         // when & then : 2 : failure
         final Position ableDest2 = new Position(2, 4);
-        assertThatCode(
+        assertThatThrownBy(
                 () -> soldier.validateMove(src, ableDest2, board)
-        ).doesNotThrowAnyException();
+        ).isInstanceOf(IllegalArgumentException.class);
 
         // when & then: 1 : success
         final Position ableDest3 = new Position(3, 3);

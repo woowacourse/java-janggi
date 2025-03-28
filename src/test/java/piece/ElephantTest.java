@@ -44,26 +44,26 @@ class ElephantTest {
         // given
         Country turnCountry = Country.HAN;
         Country.assignDirection(turnCountry, LineDirection.UP);
-        Position dumyPosition = new Position(2, 2);
-        final Piece horse = new Elephant(dumyPosition, turnCountry);
+        Position dumyPosition = new Position(2, 4);
+        final Piece elephant = new Elephant(dumyPosition, turnCountry);
         final Position src = dumyPosition;
 
-        final Position obstructionPosition = new Position(3, 2);
+        final Position obstructionPosition = new Position(3, 4);
         final Piece obstructionPiece = new Cannon(obstructionPosition, turnCountry);
         final Board board = new Board(Map.of(
                 obstructionPosition, obstructionPiece
         ));
 
         // when & then : 1 : success
-        final Position ableDest = new Position(4, 5);
+        final Position ableDest = new Position(4, 1);
         assertThatCode(
-                () -> horse.validateMove(src, ableDest, board)
+                () -> elephant.validateMove(src, ableDest, board)
         ).doesNotThrowAnyException();
 
         // when & then : 2 : failure
-        final Position notAbleDest = new Position(5, 4);
+        final Position notAbleDest = new Position(5, 2);
         assertThatThrownBy(
-                () -> horse.validateMove(src, notAbleDest, board)
+                () -> elephant.validateMove(src, notAbleDest, board)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 }
