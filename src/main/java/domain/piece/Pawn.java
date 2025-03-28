@@ -25,7 +25,7 @@ public class Pawn extends Piece {
             if (isAxis && isStepAxisMove){
                 return;
             }
-            if (Palace.equalsPalaceLocation(current, destination) && boardVector.isQuadrant() && isStepQuadrantMove){
+            if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isQuadrant() && isStepQuadrantMove){
                 return;
             }
         }
@@ -33,7 +33,7 @@ public class Pawn extends Piece {
             if (isAxis && isStepAxisMove){
                 return;
             }
-            if (Palace.equalsPalaceLocation(current, destination) && boardVector.isQuadrant() && isStepQuadrantMove){
+            if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isQuadrant() && isStepQuadrantMove){
                 return;
             }
         }

@@ -27,9 +27,9 @@ public enum Palace {
             new BoardLocation(6, 10)
     );
 
-    private List<BoardLocation> locations;
-    private BoardLocation startLocation;
-    private BoardLocation endLocation;
+    private final List<BoardLocation> locations;
+    private final BoardLocation startLocation;
+    private final BoardLocation endLocation;
 
     Palace(List<BoardLocation> locations, BoardLocation startLocation, BoardLocation endLocation) {
         this.locations = locations;
@@ -37,13 +37,14 @@ public enum Palace {
         this.endLocation = endLocation;
     }
 
-    public static boolean equalsPalaceLocation(BoardLocation current, BoardLocation destination) {
-        //TODO Null 관련 해결책 찾기
-        if (findVertexByLocation(current).isPresent() && findVertexByLocation(destination).isPresent()) {
-            Palace currentPalace = findVertexByLocation(current).get();
-            Palace destinationPalace = findVertexByLocation(destination).get();
-            return currentPalace == destinationPalace;
+    public static boolean isDiagonalMoveAllowed(BoardLocation current, BoardLocation destination) {
+        Optional<Palace> currentPalace = findByDiagonalMovableLocation(current);
+        Optional<Palace> destinationPalace = findByDiagonalMovableLocation(destination);
+
+        if (currentPalace.isPresent() && destinationPalace.isPresent()) {
+            return currentPalace.get() == destinationPalace.get();
         }
+
         return false;
     }
 
@@ -60,7 +61,7 @@ public enum Palace {
                 || endLocation.y() < location.y();
     }
 
-    private static Optional<Palace> findVertexByLocation(BoardLocation location) {
+    private static Optional<Palace> findByDiagonalMovableLocation(BoardLocation location) {
         return Arrays.stream(Palace.values())
                 .filter(palace -> palace.locations.contains(location))
                 .findFirst();
