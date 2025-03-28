@@ -20,15 +20,20 @@ public class Position {
         return movePosition(direction.getDeltaRow(), direction.getDeltaColumn());
     }
 
-    public boolean canMoveDirection(Direction direction){
-        return canMovePosition(direction.getDeltaRow(), direction.getDeltaColumn());
+    public boolean isInPalace() {
+        return Palace.isInPalace(this);
     }
 
-    private Position movePosition(int deltaRow, int deltaColumn) {
+    public boolean canMoveDirection(Direction direction) {
+        return canMovePosition(direction.getDeltaRow(), direction.getDeltaColumn()) &&
+                (!Palace.isInPalace(this) && !direction.isCrossDirection() || Palace.isValidDirection(this, direction));
+    }
+
+    public Position movePosition(int deltaRow, int deltaColumn) {
         return new Position(row.move(deltaRow), column.move(deltaColumn));
     }
 
-    private boolean canMovePosition(int deltaRow, int deltaColumn) {
+    public boolean canMovePosition(int deltaRow, int deltaColumn) {
         return row.canMove(deltaRow) && column.canMove(deltaColumn);
     }
 

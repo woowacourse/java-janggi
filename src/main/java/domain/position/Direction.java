@@ -26,4 +26,8 @@ public enum Direction {
     public int getDeltaColumn() {
         return deltaColumn;
     }
+
+    public boolean isCrossDirection() {
+        return Math.abs(this.deltaRow) + Math.abs(this.deltaColumn) != 1;
+    }
 }
