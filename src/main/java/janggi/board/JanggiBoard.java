@@ -13,8 +13,11 @@ public class JanggiBoard {
     private final Pieces hanPieces;
 
     public JanggiBoard(PieceAssignType choPieceAssignType, PieceAssignType hanPieceAssignType) {
-        this.choPieces = new Pieces(List.of());
-        this.hanPieces = new Pieces(List.of());
+        PieceAssigner assigner = new PieceAssigner();
+        List<Piece> chaInitialPieces = assigner.assignPieces(CampType.CHO, choPieceAssignType);
+        List<Piece> hanInitialPieces = assigner.assignPieces(CampType.HAN, hanPieceAssignType);
+        this.choPieces = new Pieces(chaInitialPieces);
+        this.hanPieces = new Pieces(hanInitialPieces);
     }
 
     public void movePiece(CampType campType, Position targetPiecePosition, Position destination) {

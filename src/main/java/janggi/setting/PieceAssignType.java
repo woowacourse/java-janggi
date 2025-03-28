@@ -18,19 +18,15 @@ public enum PieceAssignType {
         this.maXPositions = maXPositions;
     }
 
-//    public List<Piece> makeAssign(CampType campType) {
-//        List<Piece> allPieces = new ArrayList<>();
-//        allPieces.addAll(Sang.generateInitialSangs(campType, sangXPositions));
-//        allPieces.addAll(Ma.generateInitialMas(campType, maXPositions));
-//        allPieces.addAll(Gung.generateInitialGung(campType));
-//        allPieces.addAll(Sa.generateInitialSas(campType));
-//        allPieces.addAll(Cha.generateInitialChas(campType));
-//        allPieces.addAll(Po.generateInitialPos(campType));
-//        allPieces.addAll(Jol.generateInitialJols(campType));
-//        return allPieces;
-//    }
-
     public String getName() {
         return name;
+    }
+
+    public List<Integer> getSangXPositions() {
+        return sangXPositions;
+    }
+
+    public List<Integer> getMaXPositions() {
+        return maXPositions;
     }
 }
