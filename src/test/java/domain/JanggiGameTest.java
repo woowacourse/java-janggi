@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import vo.Choice;
 
 public final class JanggiGameTest {
 
@@ -25,8 +26,8 @@ public final class JanggiGameTest {
     @DisplayName("보드를 초기화할 경우, 플레이어 당 16개의 기물을 가진다.")
     void test_setup() {
         //given
-        final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
-        given.put(Team.HAN, 1);
+        final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
+        given.put(Team.HAN, new Choice(1));
 
         //when
         final JanggiGame janggiGame = JanggiGame.setup(given);
@@ -39,9 +40,9 @@ public final class JanggiGameTest {
     @DisplayName("시작점과 도착점을 입력할 경우, 기물을 움직일 수 있는 지 반환한다.")
     void test_canMovePieceOnBoard() {
         //given
-        final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
-        given.put(CHO, 1);
-        given.put(Team.HAN, 1);
+        final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
+        given.put(Team.CHO, new Choice(1));
+        given.put(Team.HAN, new Choice(1));
         final JanggiGame janggiGame = JanggiGame.setup(given);
         final Point start = new Point(0, 0);
         final Point arrival = new Point(2, 0);
@@ -54,9 +55,9 @@ public final class JanggiGameTest {
     @DisplayName("시작점과 도착점을 입력할 경우, 기물을 움직일 수 있다.")
     void test_movePieceOnBoard() {
         //given
-        final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
-        given.put(CHO, 1);
-        given.put(Team.HAN, 1);
+        final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
+        given.put(Team.CHO, new Choice(1));
+        given.put(Team.HAN, new Choice(1));
         final JanggiGame janggiGame = JanggiGame.setup(given);
         final Map<Point, Piece> givenBoard = janggiGame.getBoard();
         final Point start = new Point(0, 0);
@@ -100,9 +101,9 @@ public final class JanggiGameTest {
     @DisplayName("플레이어 턴이 교체한다.(초나라 선공)")
     void test_switchTurn() {
         //given
-        final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
-        given.put(CHO, 1);
-        given.put(Team.HAN, 1);
+        final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
+        given.put(Team.CHO, new Choice(1));
+        given.put(Team.HAN, new Choice(1));
         final JanggiGame janggiGame = JanggiGame.setup(given);
         final Team startTurn = janggiGame.getTeamOnCurrentTurn();
 
@@ -111,7 +112,7 @@ public final class JanggiGameTest {
         final Team nextTurn = janggiGame.getTeamOnCurrentTurn();
 
         //then
-        assertThat(startTurn).isEqualTo(CHO);
+        assertThat(startTurn).isEqualTo(Team.CHO);
         assertThat(startTurn).isNotEqualTo(nextTurn);
         assertThat(nextTurn).isEqualTo(Team.HAN);
     }

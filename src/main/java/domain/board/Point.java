@@ -2,11 +2,12 @@ package domain.board;
 
 import domain.movements.Direction;
 import java.util.List;
+import vo.Choice;
 
 public record Point(int row, int column) {
 
-    public Point(List<Integer> request) {
-        this(request.get(0), request.get(1));
+    public Point(List<Choice> request) {
+        this(request.get(0).value(), request.get(1).value());
     }
 
     @Override
@@ -14,13 +15,13 @@ public record Point(int row, int column) {
         return "(" + row + "," + column + ")";
     }
 
-    public static Point generateStartPoint(final List<List<Integer>> moveRequest) {
-        final List<Integer> originPointRequest = moveRequest.get(0);
+    public static Point generateStartPoint(final List<List<Choice>> moveRequest) {
+        final List<Choice> originPointRequest = moveRequest.get(0);
         return new Point(originPointRequest);
     }
 
-    public static Point generateArrivalPoint(final List<List<Integer>> moveRequest) {
-        final List<Integer> arrivalPointRequest = moveRequest.get(1);
+    public static Point generateArrivalPoint(final List<List<Choice>> moveRequest) {
+        final List<Choice> arrivalPointRequest = moveRequest.get(1);
         return new Point(arrivalPointRequest);
     }
 

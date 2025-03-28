@@ -21,13 +21,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import vo.Choice;
 
 public final class BoardFactory {
     private static final int MAX_SOLDIER_COUNT = 5;
 
-    public static Board generateBoard(final EnumMap<Team, Integer> setups) {
+    public static Board generateBoard(final EnumMap<Team, Choice> setups) {
         final Map<Point, Piece> locations = new HashMap<>();
-        for (final Entry<Team, Integer> setup : setups.entrySet()) {
+        for (final Entry<Team, Choice> setup : setups.entrySet()) {
             final Team team = setup.getKey();
             final ElephantLocator locator = createFromChoice(setup.getValue(), team);
             locations.putAll(setupSoldierLocations(team));
@@ -38,8 +39,8 @@ public final class BoardFactory {
         return new Board(locations);
     }
 
-    private static ElephantLocator createFromChoice(final int choice, final Team team) {
-        return switch (choice) {
+    private static ElephantLocator createFromChoice(final Choice choice, final Team team) {
+        return switch (choice.value()) {
             case 1 -> new OuterElephantLocator();
             case 2 -> new InnerElephantLocator();
             case 3 -> new LeftElephantLocator();

@@ -16,6 +16,7 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import vo.Choice;
 
 public final class BoardTest {
 
@@ -27,10 +28,10 @@ public final class BoardTest {
         @DisplayName("해당 경로로 이동할 수 없을 경우, 예외를 던진다")
         void test_throwExceptionWhenPieceIsNotMovable() {
             // given
-            final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
-            setups.put(Team.HAN, 1);
-            setups.put(Team.CHO, 1);
-            final Board board = BoardFactory.generateBoard(setups);
+            final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
+            given.put(Team.CHO, new Choice(1));
+            given.put(Team.HAN, new Choice(1));
+            final Board board = BoardFactory.generateBoard(given);
             Point startPoint = new Point(0, 0);
             Point arrivalpoint = new Point(5, 0);
 
@@ -44,10 +45,10 @@ public final class BoardTest {
         @DisplayName("도착점이 이동할 수 없는 위치일 경우, 예외를 던진다")
         void test_throwExceptionWhenPieceIsNotAbleToArrive() {
             // given
-            final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
-            setups.put(Team.HAN, 1);
-            setups.put(Team.CHO, 1);
-            final Board board = BoardFactory.generateBoard(setups);
+            final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
+            given.put(Team.CHO, new Choice(1));
+            given.put(Team.HAN, new Choice(1));
+            final Board board = BoardFactory.generateBoard(given);
 
             Point startPoint = new Point(0, 0);
             Point arrivalpoint = new Point(1, 1);
@@ -62,10 +63,10 @@ public final class BoardTest {
         @DisplayName("이동할 기물이 존재하지 않을 경우, 예외를 던진다")
         void test_NoPieceOnStartPoint() {
             // given
-            final EnumMap<Team, Integer> setups = new EnumMap<>(Team.class);
-            setups.put(Team.HAN, 1);
-            setups.put(Team.CHO, 1);
-            final Board board = BoardFactory.generateBoard(setups);
+            final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
+            given.put(Team.CHO, new Choice(1));
+            given.put(Team.HAN, new Choice(1));
+            final Board board = BoardFactory.generateBoard(given);
             Point startPoint = new Point(1, 0);
             Point arrivalpoint = new Point(1, 1);
 

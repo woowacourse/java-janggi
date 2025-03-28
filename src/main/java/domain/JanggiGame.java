@@ -11,6 +11,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import vo.Choice;
 
 public final class JanggiGame {
 
@@ -22,7 +23,7 @@ public final class JanggiGame {
         this.players = players;
     }
 
-    public static JanggiGame setup(final EnumMap<Team, Integer> elephantLocatorByTeam) {
+    public static JanggiGame setup(final EnumMap<Team, Choice> elephantLocatorByTeam) {
         final Board board = BoardFactory.generateBoard(elephantLocatorByTeam);
         final List<Player> players = elephantLocatorByTeam.keySet().stream()
                 .map(Player::new)
