@@ -20,8 +20,6 @@ public class Elephant extends Piece {
             Movement.RIGHT_RIGHT_BOTTOM_RIGHT_BOTTOM
     );
 
-    private static final int MOVEMENT_TOTAL_STEP = 3;
-
     public Elephant(final Team team) {
         super(team, PieceType.ELEPHANT);
     }
