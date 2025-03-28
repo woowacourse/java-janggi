@@ -122,4 +122,12 @@ class CannonTest {
         );
     }
 
+    @Test
+    void 포는_허들이_존재하지_않으면_움직일_수_없다() {
+        Piece piece = new Cannon(Team.BLUE);
+        Board board = new Board(Map.of(initPosition, piece));
+
+        assertThat(piece.getMovablePositions(initPosition, board)).isEmpty();
+    }
+
 }
