@@ -23,18 +23,18 @@ public enum Direction {
         this.column = column;
     }
 
+    public static List<Direction> getStraightDirection() {
+        return Arrays.stream(values())
+                .filter(direction -> direction.row == 0 || direction.column == 0)
+                .toList();
+    }
+
     public int getRow() {
         return row;
     }
 
     public int getColumn() {
         return column;
-    }
-
-    public static List<Direction> getStraightDirection() {
-        return Arrays.stream(values())
-                .filter(direction -> direction.row == 0 || direction.column == 0)
-                .toList();
     }
 
 }
