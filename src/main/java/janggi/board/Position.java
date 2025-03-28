@@ -26,6 +26,10 @@ public class Position {
         return isPalace;
     }
 
+    public boolean isNotPalace() {
+        return !isPalace;
+    }
+
     private boolean filterPalace() {
         return x >= 3 && x <= 5 && !(y >= 3 && y <= 6);
     }
