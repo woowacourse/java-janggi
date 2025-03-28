@@ -29,21 +29,19 @@ public class InputView {
                 2. 상마마상
                 3. 마상상마
                 4. 마상마상
-                """, team.title());
+                """, TeamView.title(team));
         String input = scanner.nextLine();
         return SangMaOrderCommand.from(input);
     }
 
-    public static MoveCommand inputMoveCommand(final Team team) {
-        System.out.printf("""
-                > 이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: 1,1 2,1)
-                """, team.title());
+    public static MoveCommand inputMoveCommand() {
+        System.out.println("> 이동할 기물의 현재 위치와 이동할 위치를 입력해주세요. (예: 1,1 2,1)");
         String input = scanner.nextLine();
 
         List<String> parsed = Arrays.stream(input.split(" ", -1)).toList();
-
         List<String> source = Arrays.stream(parsed.get(0).split(",", -1)).toList();
         List<String> destination = Arrays.stream(parsed.get(1).split(",", -1)).toList();
+
         validateSize(source);
         validateSize(destination);
 

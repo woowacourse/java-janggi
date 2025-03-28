@@ -61,7 +61,7 @@ public class JanggiController {
 
     private void move(JanggiGame janggiGame) {
         ErrorHandler.retryUntilSuccess(() -> {
-            MoveCommand moveCommand = InputView.inputMoveCommand(janggiGame.turnTeam());
+            MoveCommand moveCommand = InputView.inputMoveCommand();
             janggiGame.movePiece(moveCommand);
         });
     }

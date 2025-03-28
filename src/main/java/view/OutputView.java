@@ -31,10 +31,10 @@ public class OutputView {
 
                 Piece piece = board.findPieceByNode(node);
                 if (board.hasPieceTeamByNode(node, Team.CHO)) {
-                    rowString.add(Painter.paintGreen(piece.type().title()));
+                    rowString.add(Painter.paintGreen(PieceTypeView.title(piece.type())));
                     continue;
                 }
-                rowString.add(Painter.paintRed(piece.type().title()));
+                rowString.add(Painter.paintRed(PieceTypeView.title(piece.type())));
             }
         }
 
@@ -46,17 +46,17 @@ public class OutputView {
     }
 
     public static void printTurn(final Team team) {
-        System.out.printf("%n> 현재 턴: %s나라", team.title());
+        System.out.printf("%n> 현재 턴: %s나라", TeamView.title(team));
     }
 
     public static void printMatchResult(final Team winTeam) {
-        System.out.printf("%s나라의 승리입니다.%n", winTeam.title());
+        System.out.printf("%s나라의 승리입니다.%n", TeamView.title(winTeam));
     }
 
     public static void printScore(final Map<Team, Score> totalScoreByTeam) {
         System.out.println();
         for (Team team : totalScoreByTeam.keySet()) {
-            System.out.printf("%s나라 : %.1f점%n", team.title(), totalScoreByTeam.get(team).score());
+            System.out.printf("%s나라 : %.1f점%n", TeamView.title(team), totalScoreByTeam.get(team).score());
         }
         System.out.println();
     }

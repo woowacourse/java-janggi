@@ -31,7 +31,7 @@ public class JanggiGame {
         Node sourceNode = board.findNodeByPoint(moveCommand.source());
         Node destinationNode = board.findNodeByPoint(moveCommand.destination());
         if (!board.hasPieceTeamByNode(sourceNode, turnTeam())) {
-            throw new IllegalArgumentException("[ERROR] 이번 턴은 " + turnTeam().title() + "나라입니다.");
+            throw new IllegalArgumentException("[ERROR] 현재 턴의 기물을 이동해주세요.");
         }
         board.movePiece(sourceNode, destinationNode, board);
     }

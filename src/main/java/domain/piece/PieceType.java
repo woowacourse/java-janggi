@@ -4,25 +4,19 @@ import domain.score.Score;
 
 public enum PieceType {
 
-    WANG("왕", new Score(0)),
-    SA("사", new Score(3)),
-    CHA("차", new Score(13)),
-    SANG("상", new Score(3)),
-    MA("마", new Score(5)),
-    PO("포", new Score(7)),
-    BYEONG("병", new Score(2)),
+    WANG(new Score(0)),
+    SA(new Score(3)),
+    CHA(new Score(13)),
+    SANG(new Score(3)),
+    MA(new Score(5)),
+    PO(new Score(7)),
+    BYEONG(new Score(2)),
     ;
 
-    private final String title;
     private final Score score;
 
-    PieceType(final String title, final Score score) {
-        this.title = title;
+    PieceType(final Score score) {
         this.score = score;
-    }
-
-    public String title() {
-        return title;
     }
 
     public Score score() {
