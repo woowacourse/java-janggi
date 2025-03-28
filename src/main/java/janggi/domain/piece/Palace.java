@@ -34,7 +34,7 @@ public enum Palace {
                 .anyMatch(palace -> palace.palacePoints.contains(point));
     }
 
-    public static boolean isInPalace(Point from, Point to) {
+    public static boolean isSamePalace(Point from, Point to) {
         Palace fromPalace = findPalaceInPalacePoints(from);
         Palace toPalace = findPalaceInPalacePoints(to);
 
@@ -48,7 +48,6 @@ public enum Palace {
     public static boolean canMoveDiagonal(Point from, Point to) {
         Palace fromPalace = findPalaceInAdditionalMovementPoints(from);
         Palace toPalace = findPalaceInAdditionalMovementPoints(to);
-
         if (fromPalace == null || toPalace == null) {
             return false;
         }
