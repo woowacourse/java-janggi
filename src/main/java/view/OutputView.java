@@ -1,8 +1,8 @@
 package view;
 
-import domain.Player;
 import domain.TeamType;
 import domain.piece.Piece;
+import domain.player.Player;
 import domain.position.Column;
 import domain.position.Position;
 import domain.position.Row;

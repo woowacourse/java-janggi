@@ -1,5 +1,6 @@
-package domain;
+package domain.player;
 
+import domain.TeamType;
 import java.util.Objects;
 
 public class Player {
@@ -12,12 +13,20 @@ public class Player {
         this.teamType = teamType;
     }
 
+    private void validateNameLength() {
+
+    }
+
     public boolean isSameTeam(TeamType teamType) {
         return this.teamType.equals(teamType);
     }
 
     public String getName() {
         return name;
+    }
+
+    public TeamType getTeamType() {
+        return teamType;
     }
 
     @Override

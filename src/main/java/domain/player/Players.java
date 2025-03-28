@@ -1,4 +1,6 @@
-package domain;
+package domain.player;
+
+import domain.TeamType;
 
 public class Players {
 
