@@ -29,10 +29,10 @@ public class GameRoomDAO {
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(FIND_ALL_GAME_ROOM_QUERY)) {
 
-            ResultSet rs = pstmt.executeQuery();
+            ResultSet resultSet = pstmt.executeQuery();
 
-            while (rs.next()) {
-                String name = rs.getString("name");
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
                 names.add(name);
             }
 
@@ -48,10 +48,10 @@ public class GameRoomDAO {
 
             pstmt.setString(1, gameRoomName);
 
-            ResultSet rs = pstmt.executeQuery();
+            ResultSet resultSet = pstmt.executeQuery();
 
-            if (rs.next()) {
-                return Team.valueOf(rs.getString("turn"));
+            if (resultSet.next()) {
+                return Team.valueOf(resultSet.getString("turn"));
             }
             throw new IllegalArgumentException("해당 방 이름이 존재하지 않습니다");
         } catch (final SQLException e) {
@@ -62,10 +62,11 @@ public class GameRoomDAO {
     public boolean exist(String gameRoomName) {
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(EXIST_QUERY)) {
-            pstmt.setString(1, gameRoomName);
-            ResultSet rs = pstmt.executeQuery();
 
-            return rs.next();
+            pstmt.setString(1, gameRoomName);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            return resultSet.next();
         } catch (final SQLException e) {
             throw new IllegalArgumentException("exist 중 에러 발생", e);
         }
@@ -95,6 +96,7 @@ public class GameRoomDAO {
 
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(UPDATE_QUERY)) {
+
             pstmt.setString(1, team.toString());
             pstmt.setString(2, gameRoomName);
 
@@ -107,6 +109,7 @@ public class GameRoomDAO {
     public void delete(String gameRoomName) {
         try (Connection connection = databaseManager.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(DELETE_QUERY)) {
+
             pstmt.setString(1, gameRoomName);
 
             pstmt.executeUpdate();

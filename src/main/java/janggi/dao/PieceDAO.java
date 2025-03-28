@@ -41,15 +41,15 @@ public class PieceDAO {
         }
     }
 
-    private Board toDomain(ResultSet rs) {
+    private Board toDomain(ResultSet resultSet) {
         Map<Position, Piece> board = new HashMap<>();
 
         try {
-            while (rs.next()) {
-                PieceType pieceType = PieceType.find(rs.getString("PIECE_NAME"));
-                Team team = Team.valueOf(rs.getString("TEAM"));
-                int row = rs.getInt("POSITION_ROW");
-                int column = rs.getInt("POSITION_COLUMN");
+            while (resultSet.next()) {
+                PieceType pieceType = PieceType.find(resultSet.getString("PIECE_NAME"));
+                Team team = Team.valueOf(resultSet.getString("TEAM"));
+                int row = resultSet.getInt("POSITION_ROW");
+                int column = resultSet.getInt("POSITION_COLUMN");
 
                 Position position = Position.of(row, column);
 
@@ -114,8 +114,8 @@ public class PieceDAO {
                                           Connection conn) throws SQLException {
         conn.setAutoCommit(false);
 
-        try (PreparedStatement deleteStmt = conn.prepareStatement(
-                DELETE_PIECE_QUERY); PreparedStatement moveStmt = conn.prepareStatement(MOVE_PIECE_QUERY)) {
+        try (PreparedStatement deleteStmt = conn.prepareStatement(DELETE_PIECE_QUERY);
+             PreparedStatement moveStmt = conn.prepareStatement(MOVE_PIECE_QUERY)) {
 
             deleteStmt.setInt(1, targetPosition.getRow());
             deleteStmt.setInt(2, targetPosition.getColumn());
