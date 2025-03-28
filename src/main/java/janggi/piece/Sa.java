@@ -32,7 +32,7 @@ public class Sa extends Movable {
         }
         Direction direction = Direction.toCardinalOrDiagonalFrom(point, targetPoint);
         if (isUnavailableDirection(targetPoint, direction)) {
-            //TODO
+            return false;
         }
         if (isRouteCrashesHurdle(targetPoint, hurdles, direction)) {
             return false;
@@ -49,8 +49,7 @@ public class Sa extends Movable {
         if (Palace.movesInPalaceOfMyTeam(this, targetPoint)) {
             return !Palace.movesOnEdge(point, direction);
         }
-        //TODO : false면 예외
-        throw new IllegalArgumentException("사는 궁성 내에서만 이동 가능합니다.");
+        return false;
     }
 
     private boolean isRouteCrashesHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {

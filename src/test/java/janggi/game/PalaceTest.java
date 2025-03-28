@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.movement.direction.Direction;
 import janggi.piece.Byeong;
+import janggi.piece.Gung;
+import janggi.piece.Sa;
 import janggi.point.Point;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -56,6 +58,28 @@ class PalaceTest {
             Direction direction = Direction.SOUTH_WEST;
 
             assertThat(Palace.movesOnEdge(byeong.getPoint(), direction)).isFalse();
+        }
+    }
+
+    @Nested
+    @DisplayName("궁성 외 이동 제한 테스트")
+    class OutOfPalaceTest {
+        @Test
+        @DisplayName("궁이 자신의 팀의 궁성 밖으로 이동하면 false를 반환한다.")
+        void checkGungOutOfPalace() {
+            Gung gung = new Gung(Team.HAN, new Point(2, 4));
+            Point targetPoint = new Point(3, 4);
+
+            assertThat(Palace.movesInPalaceOfMyTeam(gung, targetPoint)).isFalse();
+        }
+
+        @Test
+        @DisplayName("사가 자신의 팀의 궁성 밖으로 이동하면 false를 반환한다.")
+        void checkSaOutOfPalace() {
+            Sa sa = new Sa(Team.HAN, new Point(2, 4));
+            Point targetPoint = new Point(3, 4);
+
+            assertThat(Palace.movesInPalaceOfMyTeam(sa, targetPoint)).isFalse();
         }
     }
 }
