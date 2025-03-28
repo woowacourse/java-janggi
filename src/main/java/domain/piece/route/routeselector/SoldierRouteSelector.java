@@ -2,11 +2,13 @@ package domain.piece.route.routeselector;
 
 import domain.MovingPattern;
 import domain.piece.JanggiSide;
+import domain.piece.route.Route;
 import domain.position.JanggiPosition;
 import janggiexception.InvalidPathException;
+
 import java.util.List;
 
-public class SoldierRouteSelector implements JanggiPieceRouteSelector {
+public class SoldierRouteSelector implements RouteSelector {
 
     private static final List<MovingPattern> SOLDIER_OF_CHO_DIRECTIONS = List.of(
             MovingPattern.RIGHT,
@@ -24,29 +26,23 @@ public class SoldierRouteSelector implements JanggiPieceRouteSelector {
     );
 
     @Override
-    public List<MovingPattern> getRoute(final JanggiSide side, final List<List<MovingPattern>> routes, final JanggiPosition beforePosition, final JanggiPosition afterPosition) {
-        List<MovingPattern> patterns = routes.stream()
-                .filter(route -> {
-                    if (beforePosition.canMove(route)) {
-                        JanggiPosition newPosition = beforePosition.move(route);
-                        return newPosition.equals(afterPosition);
-                    }
-                    return false;
-                })
+    public Route getRoute(final JanggiSide side, final List<Route> routes, final JanggiPosition origin, final JanggiPosition destination) {
+        Route moveDirections = routes.stream()
+                .filter(route -> route.isReachableByRoute(origin, destination))
                 .findFirst()
                 .orElseThrow(InvalidPathException::new);
 
-        checkValidRouteOfSide(side, patterns);
-        return patterns;
+        checkValidRouteOfSide(side, moveDirections);
+        return moveDirections;
     }
 
 
-    private void checkValidRouteOfSide(final JanggiSide side, final List<MovingPattern> patterns) {
-        if (side == JanggiSide.CHO && !SOLDIER_OF_CHO_DIRECTIONS.contains(patterns.getFirst())) {
+    private void checkValidRouteOfSide(final JanggiSide side, final Route route) {
+        if (side == JanggiSide.CHO && !route.isDirectionContainsIn(SOLDIER_OF_CHO_DIRECTIONS)) {
             throw new InvalidPathException();
         }
 
-        if (side == JanggiSide.HAN && !SOLDIER_OF_HAN_DIRECTIONS.contains(patterns.getFirst())) {
+        if (side == JanggiSide.HAN && !route.isDirectionContainsIn(SOLDIER_OF_HAN_DIRECTIONS)) {
             throw new InvalidPathException();
         }
     }

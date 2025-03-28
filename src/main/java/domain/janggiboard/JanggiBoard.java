@@ -1,10 +1,11 @@
 package domain.janggiboard;
 
-import domain.position.JanggiPosition;
-import domain.MovingPattern;
 import domain.piece.JanggiPiece;
 import domain.piece.JanggiPieceType;
 import domain.piece.JanggiSide;
+import domain.piece.route.Route;
+import domain.position.JanggiPosition;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,10 @@ public final class JanggiBoard {
         return getPieceOfPosition(position).isTeamOf(janggiSide);
     }
 
+    private JanggiPiece getPieceOfPosition(final JanggiPosition position) {
+        return janggiBoard.get(position);
+    }
+
     public boolean isOppositeKingCaptured(JanggiSide nowTurn) {
         return janggiBoard.keySet().stream()
                 .map(this::getPieceOfPosition)
@@ -49,10 +54,6 @@ public final class JanggiBoard {
 
     public Map<JanggiPosition, JanggiPiece> getBoard() {
         return Collections.unmodifiableMap(janggiBoard);
-    }
-
-    private JanggiPiece getPieceOfPosition(final JanggiPosition position) {
-        return janggiBoard.get(position);
     }
 
     private void movePieceFromOriginToDestination(
@@ -72,25 +73,25 @@ public final class JanggiBoard {
 
     private JanggiPiece getFirstHurdlePieceOnRoute(JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
         JanggiPiece hurdlePiece = new JanggiPiece(JanggiSide.NONE, JanggiPieceType.EMPTY);
-        List<MovingPattern> patterns = piece.getRoute(origin, destination);
-        JanggiPosition newPosition = origin;
-        for (MovingPattern pattern : patterns) {
-            newPosition = newPosition.moveOnePosition(pattern);
-            if (checkExistPiece(newPosition)) {
-                hurdlePiece = getPieceOfPosition(newPosition);
+        Route route = piece.getRoute(origin, destination);
+        List<JanggiPosition> positions = route.getPositionsOnRouteFrom(origin);
+
+        for (JanggiPosition position : positions) {
+            if (checkExistPiece(position)) {
+                hurdlePiece = getPieceOfPosition(position);
             }
         }
         return hurdlePiece;
     }
 
     private int getHurdleCountOnRoute(final JanggiPiece piece, final JanggiPosition origin, final JanggiPosition destination) {
-        List<MovingPattern> path = piece.getRoute(origin, destination);
-        List<MovingPattern> patterns = path.subList(0, path.size() - 1);
+        Route path = piece.getRoute(origin, destination);
+        List<JanggiPosition> positionsWithDestination = path.getPositionsOnRouteFrom(origin);
+        List<JanggiPosition> positionsWithoutDestination = positionsWithDestination.subList(0, positionsWithDestination.size() - 1);
         int count = 0;
-        JanggiPosition newPosition = origin;
-        for (MovingPattern pattern : patterns) {
-            newPosition = newPosition.moveOnePosition(pattern);
-            if (checkExistPiece(newPosition)) {
+
+        for (JanggiPosition position : positionsWithoutDestination) {
+            if (checkExistPiece(position)) {
                 count++;
             }
         }

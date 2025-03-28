@@ -1,21 +1,19 @@
 package domain.piece.route.palacerule;
 
-import domain.MovingPattern;
+import domain.piece.route.Route;
 import domain.position.JanggiPosition;
 import janggiexception.InvalidPathException;
-import java.util.List;
 
 public class PalaceLinearMovementRule implements PalaceMovementRule {
 
     @Override
-    public void validateCanMoveInPalace(List<MovingPattern> route, JanggiPosition origin, JanggiPosition destination) {
-        MovingPattern direction = route.getFirst();
-        if (direction.isDiagonalPattern()) {
-            validateMoveInPalace(origin, destination, direction);
+    public void validateCanMoveInPalace(Route route, JanggiPosition origin, JanggiPosition destination) {
+        if (route.isDiagonalDirection()) {
+            validateMoveInPalace(origin, destination);
         }
     }
 
-    private void validateMoveInPalace(JanggiPosition origin, JanggiPosition destination, MovingPattern direction) {
+    private void validateMoveInPalace(JanggiPosition origin, JanggiPosition destination) {
         if (origin.isDiagonalMovablePalace() && destination.isDiagonalMovablePalace()) {
             return;
         }

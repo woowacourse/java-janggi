@@ -1,6 +1,7 @@
 package domain.position;
 
 import domain.MovingPattern;
+
 import java.util.List;
 
 public record JanggiPosition(Rank rank, File file) {
@@ -17,15 +18,26 @@ public record JanggiPosition(Rank rank, File file) {
         return newPosition;
     }
 
+    public JanggiPosition moveOnePosition(final MovingPattern pattern) {
+        Rank newRank = rank.moveRank(pattern);
+        File newFile = file.moveFile(pattern);
+
+        return new JanggiPosition(newRank, newFile);
+    }
+
     public boolean canMove(final List<MovingPattern> patterns) {
         JanggiPosition newPosition = this;
         for (MovingPattern pattern : patterns) {
-            if (!newPosition.canMoveOnePosition(pattern)) {
+            if (!newPosition.canMoveOnePositionTo(pattern)) {
                 return false;
             }
-           newPosition = newPosition.moveOnePosition(pattern);
+            newPosition = newPosition.moveOnePosition(pattern);
         }
         return true;
+    }
+
+    public boolean canMoveOnePositionTo(final MovingPattern pattern) {
+        return rank.canMoveRank(pattern) && file.canMoveFile(pattern);
     }
 
     public boolean isPalace() {
@@ -34,17 +46,6 @@ public record JanggiPosition(Rank rank, File file) {
 
     public boolean isDiagonalMovablePalace() {
         return PalacePositions.isDiagonalMovablePalacePosition(this);
-    }
-
-    public JanggiPosition moveOnePosition(final MovingPattern pattern) {
-        Rank newRank = rank.moveRank(pattern);
-        File newFile = file.moveFile(pattern);
-
-        return new JanggiPosition(newRank, newFile);
-    }
-
-    public boolean canMoveOnePosition(final MovingPattern pattern) {
-        return rank.canMoveRank(pattern) && file.canMoveFile(pattern);
     }
 
     public boolean isBiggerRankThan(final JanggiPosition beforePosition) {

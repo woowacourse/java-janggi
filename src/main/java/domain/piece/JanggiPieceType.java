@@ -1,22 +1,14 @@
 package domain.piece;
 
-import static domain.piece.route.JanggiPieceRoute.ADVISOR_ROUTE;
-import static domain.piece.route.JanggiPieceRoute.CANNON_ROUTE;
-import static domain.piece.route.JanggiPieceRoute.CHARIOT_ROUTE;
-import static domain.piece.route.JanggiPieceRoute.ELEPHANT_ROUTE;
-import static domain.piece.route.JanggiPieceRoute.EMPTY_ROUTE;
-import static domain.piece.route.JanggiPieceRoute.HORSE_ROUTE;
-import static domain.piece.route.JanggiPieceRoute.KING_ROUTE;
-import static domain.piece.route.JanggiPieceRoute.SOLDIER_ROUTE;
-
-import domain.MovingPattern;
 import domain.piece.movementrule.CannonMovementRule;
 import domain.piece.movementrule.GeneralMovementRule;
 import domain.piece.movementrule.JanggiPieceMovementRule;
 import domain.piece.movementrule.NoneMovementStrategy;
 import domain.piece.route.JanggiPieceRoute;
+import domain.piece.route.Route;
 import domain.position.JanggiPosition;
-import java.util.List;
+
+import static domain.piece.route.JanggiPieceRoute.*;
 
 public enum JanggiPieceType {
 
@@ -43,7 +35,7 @@ public enum JanggiPieceType {
         this.movementRule = movementRule;
     }
 
-    public List<MovingPattern> getRoute(
+    public Route getRoute(
             JanggiSide side,
             JanggiPosition origin,
             JanggiPosition destination

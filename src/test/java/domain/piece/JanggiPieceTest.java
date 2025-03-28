@@ -1,26 +1,22 @@
 package domain.piece;
 
-import static domain.constant.JanggiPieceConstant.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
 import domain.MovingPattern;
+import domain.piece.route.Route;
 import domain.position.JanggiPosition;
-import janggiexception.BlockedByFriendlyPieceException;
-import janggiexception.CannotCaptureCannonException;
-import janggiexception.CannotJumpCannonException;
-import janggiexception.HurdleExistException;
-import janggiexception.InvalidPathException;
-import janggiexception.NotExistOnlyOneHurdleException;
-import java.util.List;
-import java.util.stream.Stream;
+import janggiexception.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static domain.constant.JanggiPieceConstant.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class JanggiPieceTest {
 
@@ -57,7 +53,6 @@ public class JanggiPieceTest {
         int hurdleCount = 1;
         JanggiPiece targetPiece = CHO_졸;
 
-
         // when & then
         assertThatThrownBy(() -> 마.validateCanMove(hurdlePiece, hurdleCount, targetPiece))
                 .isInstanceOf(BlockedByFriendlyPieceException.class);
@@ -72,34 +67,33 @@ public class JanggiPieceTest {
     @Nested
     class 궁Test {
 
+        static Stream<Arguments> provide궁Route() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(8, 5), new Route(MovingPattern.UP)),
+                    Arguments.of(new JanggiPosition(9, 4), new Route(MovingPattern.LEFT)),
+                    Arguments.of(new JanggiPosition(9, 6), new Route(MovingPattern.RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 5), new Route(MovingPattern.DOWN)),
+                    Arguments.of(new JanggiPosition(8, 4), new Route(MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 6), new Route(MovingPattern.DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 6), new Route(MovingPattern.DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 4), new Route(MovingPattern.DIAGONAL_DOWN_LEFT))
+            );
+        }
+
         @ParameterizedTest
         @MethodSource("provide궁Route")
-        void 궁의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPostion, List<MovingPattern> expected) {
+        void 궁의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition destination, Route expected) {
             // given
             int beforeRow = 9;
             int beforeColumn = 5;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             // when
-            List<MovingPattern> route = CHO_궁.getRoute(beforePosition, afterPostion);
+            Route route = CHO_궁.getRoute(beforePosition, destination);
 
             // when & then
             Assertions.assertThat(route)
                     .isEqualTo(expected);
-        }
-
-        static Stream<Arguments> provide궁Route() {
-            return Stream.of(
-                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.UP)),
-                    Arguments.of(new JanggiPosition(9, 4), List.of(MovingPattern.LEFT)),
-                    Arguments.of(new JanggiPosition(9, 6), List.of(MovingPattern.RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.DOWN)),
-                    Arguments.of(new JanggiPosition(8, 4), List.of(MovingPattern.DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 6), List.of(MovingPattern.DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 6), List.of(MovingPattern.DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 4), List.of(MovingPattern.DIAGONAL_DOWN_LEFT))
-
-            );
         }
 
         @Test
@@ -165,31 +159,31 @@ public class JanggiPieceTest {
     @Nested
     class 마Test {
 
+        static Stream<Arguments> provide마Path() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(5, 2), new Route(MovingPattern.LEFT, MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(5, 6), new Route(MovingPattern.RIGHT, MovingPattern.DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(4, 5), new Route(MovingPattern.UP, MovingPattern.DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(4, 3), new Route(MovingPattern.UP, MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(7, 2), new Route(MovingPattern.LEFT, MovingPattern.DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 3), new Route(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 5), new Route(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(7, 6), new Route(MovingPattern.RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT))
+            );
+        }
+
         @ParameterizedTest
         @MethodSource("provide마Path")
-        void 마의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
+        void 마의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, Route expected) {
             // given
             JanggiPosition beforePosition = new JanggiPosition(6, 4);
 
             // when
-            List<MovingPattern> route = CHO_마.getRoute(beforePosition, afterPosition);
+            Route route = CHO_마.getRoute(beforePosition, afterPosition);
 
             // when & then
             Assertions.assertThat(route)
                     .isEqualTo(expected);
-        }
-
-        static Stream<Arguments> provide마Path() {
-            return Stream.of(
-                    Arguments.of(new JanggiPosition(5, 2), List.of(MovingPattern.LEFT, MovingPattern.DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(5, 6), List.of(MovingPattern.RIGHT, MovingPattern.DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(4, 5), List.of(MovingPattern.UP, MovingPattern.DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(4, 3), List.of(MovingPattern.UP, MovingPattern.DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(7, 2), List.of(MovingPattern.LEFT, MovingPattern.DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 3), List.of(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT))
-            );
         }
 
         @Test
@@ -245,34 +239,12 @@ public class JanggiPieceTest {
     @Nested
     class 병Test {
 
-        @ParameterizedTest
-        @MethodSource("provide병Route")
-        void 병의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
-            // given
-            JanggiPosition beforePosition = new JanggiPosition(7, 5);
-
-            // when
-            List<MovingPattern> 병path = HAN_병.getRoute(beforePosition, afterPosition);
-
-            // when & then
-            Assertions.assertThat(병path)
-                    .isEqualTo(expected);
-        }
-
         static Stream<Arguments> provide병Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.DOWN)),
-                    Arguments.of(new JanggiPosition(7, 4), List.of(MovingPattern.LEFT)),
-                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.RIGHT))
+                    Arguments.of(new JanggiPosition(8, 5), new Route(MovingPattern.DOWN)),
+                    Arguments.of(new JanggiPosition(7, 4), new Route(MovingPattern.LEFT)),
+                    Arguments.of(new JanggiPosition(7, 6), new Route(MovingPattern.RIGHT))
             );
-        }
-
-        @ParameterizedTest
-        @MethodSource("provideInvalid병Path")
-        void 병이_이동할_수_없는_경로면_예외를_발생시킨다(JanggiPosition origin, JanggiPosition destination) {
-            // when & then
-            assertThatThrownBy(() -> HAN_병.getRoute(origin, destination))
-                    .isInstanceOf(InvalidPathException.class);
         }
 
         private static Stream<Arguments> provideInvalid병Path() {
@@ -282,6 +254,28 @@ public class JanggiPieceTest {
                     Arguments.of(new JanggiPosition(4, 5), new JanggiPosition(5, 6)),
                     Arguments.of(new JanggiPosition(9, 5), new JanggiPosition(8, 5))
             );
+        }
+
+        @ParameterizedTest
+        @MethodSource("provide병Route")
+        void 병의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, Route expected) {
+            // given
+            JanggiPosition beforePosition = new JanggiPosition(7, 5);
+
+            // when
+            Route route = HAN_병.getRoute(beforePosition, afterPosition);
+
+            // when & then
+            Assertions.assertThat(route)
+                    .isEqualTo(expected);
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideInvalid병Path")
+        void 병이_이동할_수_없는_경로면_예외를_발생시킨다(JanggiPosition origin, JanggiPosition destination) {
+            // when & then
+            assertThatThrownBy(() -> HAN_병.getRoute(origin, destination))
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -316,45 +310,43 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(0, 4);
 
             // when
-            List<MovingPattern> route = HAN_병.getRoute(beforePosition, afterPosition);
+            Route route = HAN_병.getRoute(beforePosition, afterPosition);
 
             // when & then
-            Assertions.assertThat(route).containsAll(List.of(
-                    MovingPattern.DIAGONAL_DOWN_LEFT
-            ));
+            Assertions.assertThat(route).isEqualTo(new Route(MovingPattern.DIAGONAL_DOWN_LEFT));
         }
     }
 
     @Nested
     class 사Test {
 
+        static Stream<Arguments> provide사Route() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(8, 5), new Route(MovingPattern.UP)),
+                    Arguments.of(new JanggiPosition(9, 4), new Route(MovingPattern.LEFT)),
+                    Arguments.of(new JanggiPosition(9, 6), new Route(MovingPattern.RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 5), new Route(MovingPattern.DOWN)),
+                    Arguments.of(new JanggiPosition(8, 4), new Route(MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 6), new Route(MovingPattern.DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 6), new Route(MovingPattern.DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(0, 4), new Route(MovingPattern.DIAGONAL_DOWN_LEFT))
+            );
+        }
+
         @ParameterizedTest
         @MethodSource("provide사Route")
-        void 사의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
+        void 사의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, Route expected) {
             // given
             int beforeRow = 9;
             int beforeColumn = 5;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             // when
-            List<MovingPattern> route = CHO_사.getRoute(beforePosition, afterPosition);
+            Route route = CHO_사.getRoute(beforePosition, afterPosition);
 
             // when & then
             Assertions.assertThat(route)
                     .isEqualTo(expected);
-        }
-
-        static Stream<Arguments> provide사Route() {
-            return Stream.of(
-                    Arguments.of(new JanggiPosition(8, 5), List.of(MovingPattern.UP)),
-                    Arguments.of(new JanggiPosition(9, 4), List.of(MovingPattern.LEFT)),
-                    Arguments.of(new JanggiPosition(9, 6), List.of(MovingPattern.RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 5), List.of(MovingPattern.DOWN)),
-                    Arguments.of(new JanggiPosition(8, 4), List.of(MovingPattern.DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 6), List.of(MovingPattern.DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 6), List.of(MovingPattern.DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(0, 4), List.of(MovingPattern.DIAGONAL_DOWN_LEFT))
-            );
         }
 
         @Test
@@ -434,33 +426,33 @@ public class JanggiPieceTest {
     @Nested
     class 상Test {
 
+        static Stream<Arguments> provide상Route() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(4, 8), new Route(MovingPattern.RIGHT, MovingPattern.DIAGONAL_UP_RIGHT, MovingPattern.DIAGONAL_UP_RIGHT)),
+                    Arguments.of(new JanggiPosition(8, 8), new Route(MovingPattern.RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(9, 7), new Route(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT)),
+                    Arguments.of(new JanggiPosition(9, 3), new Route(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_LEFT, MovingPattern.DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(8, 2), new Route(MovingPattern.LEFT, MovingPattern.DIAGONAL_DOWN_LEFT, MovingPattern.DIAGONAL_DOWN_LEFT)),
+                    Arguments.of(new JanggiPosition(4, 2), new Route(MovingPattern.LEFT, MovingPattern.DIAGONAL_UP_LEFT, MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(3, 3), new Route(MovingPattern.UP, MovingPattern.DIAGONAL_UP_LEFT, MovingPattern.DIAGONAL_UP_LEFT)),
+                    Arguments.of(new JanggiPosition(3, 7), new Route(MovingPattern.UP, MovingPattern.DIAGONAL_UP_RIGHT, MovingPattern.DIAGONAL_UP_RIGHT))
+            );
+        }
+
         @ParameterizedTest
         @MethodSource("provide상Route")
-        void 상의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
+        void 상의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, Route expected) {
             // given
             int beforeRow = 6;
             int beforeColumn = 5;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             // when
-            List<MovingPattern> 상route = CHO_상.getRoute(beforePosition, afterPosition);
+            Route route = CHO_상.getRoute(beforePosition, afterPosition);
 
             // when & then
-            Assertions.assertThat(상route)
+            Assertions.assertThat(route)
                     .isEqualTo(expected);
-        }
-
-        static Stream<Arguments> provide상Route() {
-            return Stream.of(
-                    Arguments.of(new JanggiPosition(4, 8), List.of(MovingPattern.RIGHT, MovingPattern.DIAGONAL_UP_RIGHT, MovingPattern.DIAGONAL_UP_RIGHT)),
-                    Arguments.of(new JanggiPosition(8, 8), List.of(MovingPattern.RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(9, 7), List.of(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_RIGHT, MovingPattern.DIAGONAL_DOWN_RIGHT)),
-                    Arguments.of(new JanggiPosition(9, 3), List.of(MovingPattern.DOWN, MovingPattern.DIAGONAL_DOWN_LEFT, MovingPattern.DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(8, 2), List.of(MovingPattern.LEFT, MovingPattern.DIAGONAL_DOWN_LEFT, MovingPattern.DIAGONAL_DOWN_LEFT)),
-                    Arguments.of(new JanggiPosition(4, 2), List.of(MovingPattern.LEFT, MovingPattern.DIAGONAL_UP_LEFT, MovingPattern.DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(3, 3), List.of(MovingPattern.UP, MovingPattern.DIAGONAL_UP_LEFT, MovingPattern.DIAGONAL_UP_LEFT)),
-                    Arguments.of(new JanggiPosition(3, 7), List.of(MovingPattern.UP, MovingPattern.DIAGONAL_UP_RIGHT, MovingPattern.DIAGONAL_UP_RIGHT))
-            );
         }
 
         @Test
@@ -521,36 +513,12 @@ public class JanggiPieceTest {
     @Nested
     class 졸Test {
 
-        @ParameterizedTest
-        @MethodSource("provide졸Route")
-        void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
-            // given
-            int beforeRow = 7;
-            int beforeColumn = 5;
-            JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
-            // when
-            List<MovingPattern> route = CHO_졸.getRoute(beforePosition, afterPosition);
-
-            // when & then
-            Assertions.assertThat(route)
-                    .isEqualTo(expected);
-        }
-
         static Stream<Arguments> provide졸Route() {
             return Stream.of(
-                    Arguments.of(new JanggiPosition(6, 5), List.of(MovingPattern.UP)),
-                    Arguments.of(new JanggiPosition(7, 4), List.of(MovingPattern.LEFT)),
-                    Arguments.of(new JanggiPosition(7, 6), List.of(MovingPattern.RIGHT))
+                    Arguments.of(new JanggiPosition(6, 5), new Route(MovingPattern.UP)),
+                    Arguments.of(new JanggiPosition(7, 4), new Route(MovingPattern.LEFT)),
+                    Arguments.of(new JanggiPosition(7, 6), new Route(MovingPattern.RIGHT))
             );
-        }
-
-        @ParameterizedTest
-        @MethodSource("provideInvalid졸Path")
-        void 졸이_이동할_수_없는_경로면_예외를_발생시킨다(JanggiPosition origin, JanggiPosition destination) {
-            // when & then
-            assertThatThrownBy(() -> CHO_졸.getRoute(origin, destination))
-                    .isInstanceOf(InvalidPathException.class);
         }
 
         private static Stream<Arguments> provideInvalid졸Path() {
@@ -560,6 +528,30 @@ public class JanggiPieceTest {
                     Arguments.of(new JanggiPosition(2, 5), new JanggiPosition(3, 4)),
                     Arguments.of(new JanggiPosition(7, 5), new JanggiPosition(6, 4))
             );
+        }
+
+        @ParameterizedTest
+        @MethodSource("provide졸Route")
+        void 졸의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, Route expected) {
+            // given
+            int beforeRow = 7;
+            int beforeColumn = 5;
+            JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
+
+            // when
+            Route route = CHO_졸.getRoute(beforePosition, afterPosition);
+
+            // when & then
+            Assertions.assertThat(route)
+                    .isEqualTo(expected);
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideInvalid졸Path")
+        void 졸이_이동할_수_없는_경로면_예외를_발생시킨다(JanggiPosition origin, JanggiPosition destination) {
+            // when & then
+            assertThatThrownBy(() -> CHO_졸.getRoute(origin, destination))
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -594,37 +586,20 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(2, 5);
 
             // when
-            List<MovingPattern> route = CHO_졸.getRoute(beforePosition, afterPosition);
+            Route route = CHO_졸.getRoute(beforePosition, afterPosition);
 
             // when & then
-            Assertions.assertThat(route).containsAll(List.of(
-                    MovingPattern.DIAGONAL_UP_LEFT
-            ));
+            Assertions.assertThat(route).isEqualTo(new Route(MovingPattern.DIAGONAL_UP_LEFT));
         }
     }
 
     @Nested
     class 차Test {
 
-        @ParameterizedTest
-        @MethodSource("provide차Route")
-        void 차의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
-            // given
-            int beforeRow = 0;
-            int beforeColumn = 1;
-            JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
-
-            // when
-            List<MovingPattern> route = CHO_차.getRoute(beforePosition, afterPosition);
-
-            // when & then
-            Assertions.assertThat(route).containsAll(expected);
-        }
-
         static Stream<Arguments> provide차Route() {
             return Stream.of(
                     Arguments.of(new JanggiPosition(5, 1),
-                            List.of(
+                            new Route(
                                     MovingPattern.UP,
                                     MovingPattern.UP,
                                     MovingPattern.UP,
@@ -632,7 +607,7 @@ public class JanggiPieceTest {
                                     MovingPattern.UP
                             )),
                     Arguments.of(new JanggiPosition(0, 9),
-                            List.of(
+                            new Route(
                                     MovingPattern.RIGHT,
                                     MovingPattern.RIGHT,
                                     MovingPattern.RIGHT,
@@ -644,20 +619,35 @@ public class JanggiPieceTest {
                             )));
         }
 
-        @ParameterizedTest
-        @MethodSource("provideInvalid차Path")
-        void 차가_이동할_수_없는_경로면_예외를_발생시킨다(JanggiPosition origin, JanggiPosition destination) {
-            // when & then
-            assertThatThrownBy(() -> CHO_차.getRoute(origin, destination))
-                    .isInstanceOf(InvalidPathException.class);
-        }
-
         private static Stream<Arguments> provideInvalid차Path() {
             return Stream.of(
                     Arguments.of(new JanggiPosition(0, 1), new JanggiPosition(9, 2)),
                     Arguments.of(new JanggiPosition(9, 4), new JanggiPosition(0, 5)),
                     Arguments.of(new JanggiPosition(0, 1), new JanggiPosition(8, 2))
             );
+        }
+
+        @ParameterizedTest
+        @MethodSource("provide차Route")
+        void 차의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, Route expected) {
+            // given
+            int beforeRow = 0;
+            int beforeColumn = 1;
+            JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
+
+            // when
+            Route route = CHO_차.getRoute(beforePosition, afterPosition);
+
+            // when & then
+            Assertions.assertThat(route).isEqualTo(expected);
+        }
+
+        @ParameterizedTest
+        @MethodSource("provideInvalid차Path")
+        void 차가_이동할_수_없는_경로면_예외를_발생시킨다(JanggiPosition origin, JanggiPosition destination) {
+            // when & then
+            assertThatThrownBy(() -> CHO_차.getRoute(origin, destination))
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test
@@ -705,10 +695,10 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(8, 6);
 
             // when
-            List<MovingPattern> route = CHO_차.getRoute(beforePosition, afterPosition);
+            Route route = CHO_차.getRoute(beforePosition, afterPosition);
 
             // when & then
-            Assertions.assertThat(route).containsAll(List.of(
+            Assertions.assertThat(route).isEqualTo(new Route(
                     MovingPattern.DIAGONAL_UP_RIGHT,
                     MovingPattern.DIAGONAL_UP_RIGHT
             ));
@@ -727,6 +717,39 @@ public class JanggiPieceTest {
 
     @Nested
     class 포Test {
+
+        static Stream<Arguments> provide포Route() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(5, 1),
+                            new Route(
+                                    MovingPattern.UP,
+                                    MovingPattern.UP,
+                                    MovingPattern.UP,
+                                    MovingPattern.UP,
+                                    MovingPattern.UP
+                            )
+                    ),
+                    Arguments.of(new JanggiPosition(0, 9),
+                            new Route(
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT,
+                                    MovingPattern.RIGHT
+                            )
+                    ));
+        }
+
+        private static Stream<Arguments> provideInvalid포Path() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(0, 1), new JanggiPosition(8, 3)),
+                    Arguments.of(new JanggiPosition(7, 3), new JanggiPosition(5, 4)),
+                    Arguments.of(new JanggiPosition(9, 4), new JanggiPosition(0, 5))
+            );
+        }
 
         @Test
         void 포는_포를_넘을_수_없다() {
@@ -795,42 +818,17 @@ public class JanggiPieceTest {
 
         @ParameterizedTest
         @MethodSource("provide포Route")
-        void 포의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, List<MovingPattern> expected) {
+        void 포의_이동_전_후_위치를_입력받으면_알맞은_경로를_찾을_수_있다(JanggiPosition afterPosition, Route expected) {
             // given
             int beforeRow = 0;
             int beforeColumn = 1;
             JanggiPosition beforePosition = new JanggiPosition(beforeRow, beforeColumn);
 
             // when
-            List<MovingPattern> route = CHO_포.getRoute(beforePosition, afterPosition);
+            Route route = CHO_포.getRoute(beforePosition, afterPosition);
 
             // when & then
-            Assertions.assertThat(route).containsAll(expected);
-        }
-
-        static Stream<Arguments> provide포Route() {
-            return Stream.of(
-                    Arguments.of(new JanggiPosition(5, 1),
-                            List.of(
-                                    MovingPattern.UP,
-                                    MovingPattern.UP,
-                                    MovingPattern.UP,
-                                    MovingPattern.UP,
-                                    MovingPattern.UP
-                            )
-                    ),
-                    Arguments.of(new JanggiPosition(0, 9),
-                            List.of(
-                                    MovingPattern.RIGHT,
-                                    MovingPattern.RIGHT,
-                                    MovingPattern.RIGHT,
-                                    MovingPattern.RIGHT,
-                                    MovingPattern.RIGHT,
-                                    MovingPattern.RIGHT,
-                                    MovingPattern.RIGHT,
-                                    MovingPattern.RIGHT
-                            )
-                    ));
+            Assertions.assertThat(route).isEqualTo(expected);
         }
 
         @ParameterizedTest
@@ -839,14 +837,6 @@ public class JanggiPieceTest {
             // when & then
             assertThatThrownBy(() -> CHO_포.getRoute(origin, destination))
                     .isInstanceOf(InvalidPathException.class);
-        }
-
-        private static Stream<Arguments> provideInvalid포Path() {
-            return Stream.of(
-                    Arguments.of(new JanggiPosition(0, 1), new JanggiPosition(8, 3)),
-                    Arguments.of(new JanggiPosition(7, 3), new JanggiPosition(5, 4)),
-                    Arguments.of(new JanggiPosition(9, 4), new JanggiPosition(0, 5))
-            );
         }
 
         @Test
@@ -881,10 +871,10 @@ public class JanggiPieceTest {
             JanggiPosition afterPosition = new JanggiPosition(8, 6);
 
             // when
-            List<MovingPattern> route = CHO_포.getRoute(beforePosition, afterPosition);
+            Route route = CHO_포.getRoute(beforePosition, afterPosition);
 
             // when & then
-            Assertions.assertThat(route).containsAll(List.of(
+            Assertions.assertThat(route).isEqualTo(new Route(
                     MovingPattern.DIAGONAL_UP_RIGHT,
                     MovingPattern.DIAGONAL_UP_RIGHT
             ));
