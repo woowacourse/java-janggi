@@ -37,21 +37,27 @@ public class JanggiGame {
 
             board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
             if (board.hasOnlyOneGeneral()) {
-                final Team team = board.determineWinTeam();
-                final Map<PieceType, Integer> winnerPieceCounts = board.countPieces(team);
-                double winnerScore = Score.calculate(winnerPieceCounts);
-                final Map<PieceType, Integer> loserPieceCounts = board.countPieces(Team.opposite(team));
-                double loserScore = Score.calculate(loserPieceCounts);
-                if (team == Team.RED) {
-                    winnerScore = Score.adjustScore(winnerScore);
-                } else {
-                    loserScore = Score.adjustScore(loserScore);
-                }
-                OutputView.printWinnerTeam(team, winnerScore, loserScore);
+                processGameResult();
                 break;
             }
             changeTurn();
         }
+    }
+
+    private void processGameResult() {
+        final Team team = board.determineWinTeam();
+        final Map<PieceType, Integer> winnerPieceCounts = board.countPieces(team);
+        double winnerScore = Score.calculate(winnerPieceCounts);
+        final Map<PieceType, Integer> loserPieceCounts = board.countPieces(Team.opposite(team));
+        double loserScore = Score.calculate(loserPieceCounts);
+
+        if (Team.isRedTeam(team)) {
+            winnerScore = Score.adjustScore(winnerScore);
+        }
+        if (Team.isGreenTeam(team)) {
+            loserScore = Score.adjustScore(loserScore);
+        }
+        OutputView.printWinnerTeam(team, winnerScore, loserScore);
     }
 
     private void printTurn() {
