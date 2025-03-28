@@ -35,8 +35,8 @@ public class Player {
         return pieces.isContainedPieceAtPosition(position);
     }
 
-    public boolean isTeam(Team targetTeam) {
-        return team.equals(targetTeam);
+    public boolean isSameTeam(Team targetTeam) {
+        return team == targetTeam;
     }
 
     private boolean isAlreadyPlayerPieceInPosition(Position position) {

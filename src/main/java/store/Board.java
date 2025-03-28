@@ -79,7 +79,7 @@ public class Board {
 
     public Player findPlayerBy(Team team) {
         return players.stream()
-                .filter(player -> player.isTeam(team))
+                .filter(player -> player.isSameTeam(team))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 팀이 존재하지 않습니다."));
     }
