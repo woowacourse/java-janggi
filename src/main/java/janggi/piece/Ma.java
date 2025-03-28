@@ -13,7 +13,7 @@ import java.util.List;
 public class Ma extends Piece {
 
     public Ma(Team team, Point point) {
-        super(team, point);
+        super(team, point, PieceInformation.MA);
     }
 
     public static List<Ma> init(Team team) {
@@ -62,10 +62,5 @@ public class Ma extends Piece {
     @Override
     public Piece updatePoint(Point afterPoint) {
         return new Ma(team, afterPoint);
-    }
-
-    @Override
-    public String getName() {
-        return "마";
     }
 }

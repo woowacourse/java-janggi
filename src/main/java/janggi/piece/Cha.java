@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.game.Palace;
+import janggi.game.Score;
 import janggi.movement.direction.Direction;
 import janggi.movement.middleRoute.Hurdles;
 import janggi.movement.target.Prey;
@@ -13,7 +14,7 @@ import java.util.List;
 public class Cha extends Piece {
 
     public Cha(Team team, Point point) {
-        super(team, point);
+        super(team, point, PieceInformation.CHA);
     }
 
     public static List<Cha> init(Team team) {
@@ -56,10 +57,5 @@ public class Cha extends Piece {
     @Override
     public Piece updatePoint(Point afterPoint) {
         return new Cha(team, afterPoint);
-    }
-
-    @Override
-    public String getName() {
-        return "차";
     }
 }

@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.game.Score;
 import janggi.game.Team;
 import janggi.movement.middleRoute.Hurdles;
 import janggi.point.Point;
@@ -10,17 +11,17 @@ public abstract class Piece {
 
     protected final Team team;
     protected final Point point;
+    private final PieceInformation information;
 
-    protected Piece(Team team, Point point) {
+    public Piece(Team team, Point point, PieceInformation information) {
         this.team = team;
         this.point = point;
+        this.information = information;
     }
 
     public abstract boolean canMove(Point targetPoint, Hurdles hurdles);
 
     public abstract Piece updatePoint(Point afterPoint);
-
-    public abstract String getName();
 
     public boolean isPo() {
         return false;
@@ -36,5 +37,13 @@ public abstract class Piece {
 
     public Team getTeam() {
         return team;
+    }
+
+    public String getName() {
+        return information.getName();
+    }
+
+    public Score getScore() {
+        return information.getScore();
     }
 }

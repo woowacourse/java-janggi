@@ -47,7 +47,7 @@ public class JanggiApplication {
                 game.reverseTurn();
             }
 
-            resultView.printResult(game);
+            resultView.printResult(game, game.calculateScore());
         }
     }
 

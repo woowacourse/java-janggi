@@ -14,7 +14,7 @@ import java.util.List;
 public class Po extends Piece {
 
     public Po(Team team, Point point) {
-        super(team, point);
+        super(team, point, PieceInformation.PO);
     }
 
     public static List<Po> init(Team team) {
@@ -61,11 +61,6 @@ public class Po extends Piece {
     @Override
     public Piece updatePoint(Point afterPoint) {
         return new Po(team, afterPoint);
-    }
-
-    @Override
-    public String getName() {
-        return "포";
     }
 
     @Override

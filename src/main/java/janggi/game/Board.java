@@ -35,6 +35,7 @@ public class Board {
             pieces.addAll(Po.init(team));
             pieces.addAll(Byeong.init(team));
         }
+        pieces.add(new Cha(Team.CHO, new Point(2, 3)));
         return new Board(pieces);
     }
 

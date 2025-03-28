@@ -36,6 +36,12 @@ public class Game {
         }
     }
 
+    public ScoreResult calculateScore() {
+        ScoreResult scoreResult = ScoreResult.initialize();
+        scoreResult.aggregate(attackedPieces);
+        return scoreResult;
+    }
+
     public void reverseTurn() {
         this.turn = turn.reverse();
     }
@@ -44,19 +50,19 @@ public class Game {
         return attackedPieces.stream().noneMatch(AttackedPiece::isGung);
     }
 
-    public Board getBoard() {
-        return board;
-    }
-
-    public Team getTurn() {
-        return turn;
-    }
-
     public Team findWinner() {
         return attackedPieces.stream()
                 .filter(AttackedPiece::isGung)
                 .map(piece -> piece.getTeam().reverse())
                 .findFirst()
                 .orElseThrow(IllegalStateException::new);
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Team getTurn() {
+        return turn;
     }
 }

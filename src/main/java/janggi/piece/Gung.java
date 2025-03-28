@@ -14,7 +14,7 @@ import java.util.List;
 public class Gung extends Piece {
 
     public Gung(Team team, Point point) {
-        super(team, point);
+        super(team, point, PieceInformation.GUNG);
     }
 
     public static List<Gung> init(Team team) {
@@ -63,11 +63,6 @@ public class Gung extends Piece {
     @Override
     public Piece updatePoint(Point afterPoint) {
         return new Gung(team, afterPoint);
-    }
-
-    @Override
-    public String getName() {
-        return "궁";
     }
 
     @Override

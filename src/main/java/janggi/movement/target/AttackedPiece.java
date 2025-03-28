@@ -1,5 +1,6 @@
 package janggi.movement.target;
 
+import janggi.game.Score;
 import janggi.game.Team;
 import janggi.piece.Piece;
 
@@ -24,5 +25,9 @@ public class AttackedPiece {
 
     public Team getTeam() {
         return attackedPiece.getTeam();
+    }
+
+    public Score getScore() {
+        return attackedPiece.getScore();
     }
 }

@@ -22,7 +22,7 @@ public class Byeong extends Piece {
     }
 
     public Byeong(Team team, Point point) {
-        super(team, point);
+        super(team, point, PieceInformation.BYEONG);
     }
 
     @Override
@@ -72,10 +72,5 @@ public class Byeong extends Piece {
     @Override
     public Piece updatePoint(Point afterPoint) {
         return new Byeong(team, afterPoint);
-    }
-
-    @Override
-    public String getName() {
-        return "병";
     }
 }
