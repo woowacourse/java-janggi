@@ -1,70 +1,72 @@
 package board;
 
+import piece.Country;
 import piece.Piece;
-import piece.TeamType;
+import position.Position;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
 
-    private final Map<Position, Piece> positionDatas;
+    // TODO 2025. 3. 28. 13:51: Piece에도 Position이 있고 map 으로 관리하려고 Position도 또 있는데
+    // TODO 2025. 3. 28. 13:51: 중복 아닌가? 매번 개발자가 같은 position을 넣어야 한다는 비용이 있는데?
+    private final Map<Position, Piece> pieces;
 
-    public Board(final Map<Position, Piece> map) {
-        this.positionDatas = new HashMap<>(map);
+    public Board(final Map<Position, Piece> pieces) {
+        this.pieces = new HashMap<>(pieces);
     }
 
-    public boolean existPieceByPosition(final Position position) {
-        return positionDatas.containsKey(position);
+    public List<Position> findExistPositions(List<Position> positions) {
+        return positions.stream()
+                .filter(pieces::containsKey)
+                .toList();
     }
 
-    public boolean equalsTypeByPositionAndPiece(final Position position, final Piece piece) {
-        if (positionDatas.containsKey(position)) {
-            final Piece target = positionDatas.get(position);
-            return target.equalsType(piece);
+    // ///
+    public boolean isCorrectExistPositionCount(List<Position> positions, int expectedCount) {
+        int count = (int) positions.stream()
+                .filter(pieces::containsKey)
+                .count();
+        return count == expectedCount;
+    }
+
+    // /
+    public Piece getPieceBy(Position position) {
+        if (!existPieceByPosition(position)) {
+            throw new IllegalArgumentException("장기판에 기물이 존재하지 않습니다");
         }
-        return false;
+        return pieces.get(position);
     }
 
-    public boolean equalsTeamTypeByPosition(final Position position, final TeamType teamType) {
-        if (positionDatas.containsKey(position)) {
-            final Piece piece = positionDatas.get(position);
-            return piece.equalsTeamType(teamType);
+    public Map<Position, Piece> getPieces() {
+        return new HashMap<>(pieces);
+    }
+
+    public void updatePosition(Position src, Position dest, Country country) {
+        validate(src, country);
+        Piece piece = pieces.get(src);
+        piece.validateMove(src, dest,this);
+        pieces.remove(src);
+        pieces.put(src, piece);
+    }
+
+    private void validate(Position src, Country country) {
+        if (!existPieceByPosition(src)) {
+            throw new IllegalArgumentException("시작 위치의 기물이 존재하지 않습니다.");
         }
-        return false;
-    }
-
-    public void updatePosition(final Position source, final Position destination, final TeamType teamType) {
-        validatePositionAndTeam(source, teamType);
-        validatePieceCanMove(source, destination);
-
-        movePieceToDestination(source, destination);
-    }
-
-    private void validatePositionAndTeam(final Position source, final TeamType teamType) {
-        if (!positionDatas.containsKey(source) || !positionDatas.get(source).equalsTeamType(teamType)) {
-            throw new IllegalArgumentException("scr 좌표에 기물이 존재하지 않거나, 해당 팀의 기물이 아닙니다.");
-        }
-    }
-
-    private void validatePieceCanMove(final Position source, final Position destination) {
-        final Piece piece = positionDatas.get(source);
-
-        if (!piece.isAbleToMove(source, destination, this)) {
-            throw new IllegalArgumentException("해당 기물은 해당 위치로 이동할 수 없습니다.");
+        if (!equalsTeamTypeByPosition(src, country)) {
+            throw new IllegalArgumentException("시작 위치의 기물은 현재 턴의 나라여야 합니다.");
         }
     }
 
-    private void movePieceToDestination(final Position source, final Position destination) {
-        positionDatas.put(destination, positionDatas.get(source));
-        positionDatas.remove(source);
+    public boolean existPieceByPosition(Position position) {
+        return pieces.containsKey(position);
     }
 
-    public Map<Position, Piece> getPositionDatas() {
-        return new HashMap<>(positionDatas);
-    }
-
-    public Piece getPieceByPosition(Position position) {
-        return positionDatas.get(position);
+    public boolean equalsTeamTypeByPosition(Position position, Country country) {
+        Piece piece = pieces.get(position);
+        return piece.equalsCountry(country);
     }
 }

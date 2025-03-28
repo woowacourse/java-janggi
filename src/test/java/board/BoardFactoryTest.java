@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import piece.Country;
-import position.UpAndDown;
+import position.LineDirection;
 
 public class BoardFactoryTest {
 
@@ -21,7 +21,7 @@ public class BoardFactoryTest {
             final BoardFactory factory = new BoardFactory();
             // when
 
-            final Board board = factory.generateBoard(Country.HAN, UpAndDown.UP);
+            final Board board = factory.generateBoard(Country.HAN, LineDirection.UP);
 
             // then
             Assertions.assertThat(board.getPieces()).hasSize(expected);

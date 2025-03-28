@@ -1,24 +1,17 @@
 package view;
 
 import board.Board;
-import board.Position;
+import position.Position;
+import piece.*;
+
 import java.util.Map;
-import piece.Cannon;
-import piece.Chariot;
-import piece.Elephant;
-import piece.General;
-import piece.Guard;
-import piece.Horse;
-import piece.Piece;
-import piece.Soldier;
-import piece.TeamType;
 
 public class OutputView {
 
     public static final String COLOR_RESET = "\u001B[0m";
-    private static final Map<TeamType, String> TEAM_FORMAT = Map.of(
-            TeamType.RED, "\u001B[31m",
-            TeamType.BLUE, "\u001B[34m"
+    private static final Map<Country, String> TEAM_FORMAT = Map.of(
+            Country.CHO, "\u001B[31m",
+            Country.HAN, "\u001B[34m"
     );
     private static final Map<Class<? extends Piece>, String> PIECE_FORMAT = Map.of(
             General.class, "漢",
@@ -35,20 +28,20 @@ public class OutputView {
         System.out.println("어서오세요 장기 게임입니다. :)");
     }
 
-    public static void printBoard(final Board board, final TeamType teamType) {
+    public static void printBoard(final Board board, final Country country) {
         System.out.println("현재 보드 상태입니다.");
-        System.out.println("현재 턴은 다음의 팀입니다. : " + teamType);
+        System.out.println("현재 턴은 다음의 팀입니다. : " + country);
 
         final StringBuilder sb = new StringBuilder("ㅁ 일 이 삼 사 오 육 칠 팔 구\n");
-        final Map<Position, Piece> map = board.getPositionDatas();
+        final Map<Position, Piece> pieces = board.getPieces();
         for (int i = 1; i <= 10; i++) {
 
             sb.append(NumberFormat.findNumberName(i) + " ");
             for (int j = 1; j <= 9; j++) {
                 final Position now = new Position(i, j);
 
-                if (map.containsKey(now)) {
-                    final Piece piece = map.get(now);
+                if (pieces.containsKey(now)) {
+                    final Piece piece = pieces.get(now);
                     sb.append(TEAM_FORMAT.get(piece.getTeamType()));
                     sb.append(PIECE_FORMAT.get(piece.getClass()));
                     sb.append(COLOR_RESET + " ");
