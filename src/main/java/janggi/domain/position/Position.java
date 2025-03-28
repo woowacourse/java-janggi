@@ -43,6 +43,10 @@ public record Position(int x, int y) {
         return new RawPosition(x, y - 1);
     }
 
+    public RawPosition upOrDown(int direction) {
+        return new RawPosition(x, y + direction);
+    }
+
     public RawPosition left() {
         return new RawPosition(x - 1, y);
     }
@@ -66,4 +70,14 @@ public record Position(int x, int y) {
     public RawPosition downLeftDiagonal() {
         return new RawPosition(x - 1, y - 1);
     }
+
+    public RawPosition upOrDownLeftDiagonal(int direction) {
+        return new RawPosition(x - 1, y + direction);
+    }
+
+    public RawPosition upOrDownRightDiagonal(int direction) {
+        return new RawPosition(x + 1, y + direction);
+    }
+
+
 }
