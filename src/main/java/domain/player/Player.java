@@ -3,15 +3,18 @@ package domain.player;
 public final class Player {
 
     private final Team team;
+
+    private Score score;
     private boolean isTurn;
 
-    public Player(final TeamType type) {
-        this.team = new Team(type);
-        this.isTurn = team.isFirst();
+    public Player(final Team team) {
+        this.team = team;
+        this.isTurn = this.team.isFirst();
+        this.score = Score.generateInitialScoreByTeam(team);
     }
 
-    public TeamType getTeam() {
-        return team.getType();
+    public Team getTeam() {
+        return team;
     }
 
     public boolean isTurn() {
@@ -22,11 +25,12 @@ public final class Player {
         this.isTurn = !isTurn;
     }
 
-    public void addScore(Score score) {
-        team.addScore(score);
+    public void addScore(Score other) {
+        this.score = score.add(other);
     }
 
     public Score getScore() {
-        return team.getScore();
+        return score;
     }
+
 }

@@ -7,24 +7,24 @@ import domain.movements.Direction;
 import domain.movements.PieceMovement;
 import domain.movements.Route;
 import domain.player.Score;
-import domain.player.TeamType;
+import domain.player.Team;
 import java.util.List;
 
 public final class Horse implements Piece {
 
     private static final Score score = new Score(5.0);
 
-    private final TeamType teamType;
+    private final Team team;
     private final PieceMovement movement;
 
-    public Horse(final TeamType teamType) {
-        this.teamType = teamType;
+    public Horse(final Team team) {
+        this.team = team;
         this.movement = generateMovementForHorse();
     }
 
     @Override
-    public boolean hasEqualTeam(final TeamType teamType) {
-        return this.teamType.equals(teamType);
+    public boolean hasEqualTeam(final Team team) {
+        return this.team.equals(team);
     }
 
     @Override
@@ -34,7 +34,7 @@ public final class Horse implements Piece {
 
     @Override
     public boolean isMovableOnRoute(final PiecesOnRoute piecesOnRoute) {
-        if (piecesOnRoute.hasSameTeamOnArrivalPoint(teamType)) {
+        if (piecesOnRoute.hasSameTeamOnArrivalPoint(team)) {
             return false;
         }
         return piecesOnRoute.hasNotPieceOnRoute();
@@ -47,7 +47,7 @@ public final class Horse implements Piece {
 
     @Override
     public String getName() {
-        return PieceName.HORSE.getNameForTeam(teamType);
+        return PieceName.HORSE.getNameForTeam(team);
     }
 
     @Override

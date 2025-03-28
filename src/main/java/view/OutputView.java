@@ -3,7 +3,7 @@ package view;
 import domain.board.Point;
 import domain.pieces.Piece;
 import domain.player.Score;
-import domain.player.TeamType;
+import domain.player.Team;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,15 +35,15 @@ public final class OutputView {
         System.out.println(boardToString(locations));
     }
 
-    public void printWinner(final TeamType currentTeamType) {
-        System.out.println(currentTeamType.toString() + "가 승리했습니다!");
+    public void printWinner(final Team currentTeam) {
+        System.out.println(currentTeam.toString() + "가 승리했습니다!");
     }
 
-    public void printScores(final Map<TeamType, Score> scores) {
-        for (final Entry<TeamType, Score> scoresByTeam : scores.entrySet()) {
-            final TeamType teamType = scoresByTeam.getKey();
+    public void printScores(final Map<Team, Score> scores) {
+        for (final Entry<Team, Score> scoresByTeam : scores.entrySet()) {
+            final Team team = scoresByTeam.getKey();
             final Score score = scoresByTeam.getValue();
-            System.out.println(teamType.toString() + " : " + score.value() + " 점");
+            System.out.printf("%s : %.1f 점", team.toString(), score.value());
         }
 
     }

@@ -1,7 +1,7 @@
 package domain;
 
-import static domain.player.TeamType.CHO;
-import static domain.player.TeamType.HAN;
+import static domain.player.Team.CHO;
+import static domain.player.Team.HAN;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import domain.board.Board;
@@ -10,7 +10,7 @@ import domain.pieces.Chariot;
 import domain.pieces.Piece;
 import domain.player.Player;
 import domain.player.Score;
-import domain.player.TeamType;
+import domain.player.Team;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -25,8 +25,8 @@ public final class JanggiGameTest {
     @DisplayName("보드를 초기화할 경우, 플레이어 당 16개의 기물을 가진다.")
     void test_setup() {
         //given
-        final EnumMap<TeamType, Integer> given = new EnumMap<>(TeamType.class);
-        given.put(TeamType.HAN, 1);
+        final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
+        given.put(Team.HAN, 1);
 
         //when
         final JanggiGame janggiGame = JanggiGame.setup(given);
@@ -39,9 +39,9 @@ public final class JanggiGameTest {
     @DisplayName("시작점과 도착점을 입력할 경우, 기물을 움직일 수 있는 지 반환한다.")
     void test_canMovePieceOnBoard() {
         //given
-        final EnumMap<TeamType, Integer> given = new EnumMap<>(TeamType.class);
+        final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
         given.put(CHO, 1);
-        given.put(TeamType.HAN, 1);
+        given.put(Team.HAN, 1);
         final JanggiGame janggiGame = JanggiGame.setup(given);
         final Point start = new Point(0, 0);
         final Point arrival = new Point(2, 0);
@@ -54,9 +54,9 @@ public final class JanggiGameTest {
     @DisplayName("시작점과 도착점을 입력할 경우, 기물을 움직일 수 있다.")
     void test_movePieceOnBoard() {
         //given
-        final EnumMap<TeamType, Integer> given = new EnumMap<>(TeamType.class);
+        final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
         given.put(CHO, 1);
-        given.put(TeamType.HAN, 1);
+        given.put(Team.HAN, 1);
         final JanggiGame janggiGame = JanggiGame.setup(given);
         final Map<Point, Piece> givenBoard = janggiGame.getBoard();
         final Point start = new Point(0, 0);
@@ -73,7 +73,7 @@ public final class JanggiGameTest {
     @DisplayName("기물을 움직여 상대 기물을 잡았을 때, 그에 맞는 스코어를 획득한다.")
     void test_getScoreWhenMovePieceOnBoard() {
         //given
-        final List<Player> players = Arrays.stream(TeamType.values())
+        final List<Player> players = Arrays.stream(Team.values())
                 .map(Player::new)
                 .toList();
 
@@ -91,7 +91,7 @@ public final class JanggiGameTest {
         //when
         janggiGame.movePieceOnBoard(start, arrival);
         //then
-        final Map<TeamType, Score> scores = janggiGame.wrapPlayersScore();
+        final Map<Team, Score> scores = janggiGame.wrapPlayersScore();
         final Score actual = scores.get(CHO);
         assertThat(actual).isEqualTo(expected);
     }
@@ -100,19 +100,19 @@ public final class JanggiGameTest {
     @DisplayName("플레이어 턴이 교체한다.(초나라 선공)")
     void test_switchTurn() {
         //given
-        final EnumMap<TeamType, Integer> given = new EnumMap<>(TeamType.class);
+        final EnumMap<Team, Integer> given = new EnumMap<>(Team.class);
         given.put(CHO, 1);
-        given.put(TeamType.HAN, 1);
+        given.put(Team.HAN, 1);
         final JanggiGame janggiGame = JanggiGame.setup(given);
-        final TeamType startTurn = janggiGame.getTeamOnCurrentTurn();
+        final Team startTurn = janggiGame.getTeamOnCurrentTurn();
 
         //when
         janggiGame.switchTurn();
-        final TeamType nextTurn = janggiGame.getTeamOnCurrentTurn();
+        final Team nextTurn = janggiGame.getTeamOnCurrentTurn();
 
         //then
         assertThat(startTurn).isEqualTo(CHO);
         assertThat(startTurn).isNotEqualTo(nextTurn);
-        assertThat(nextTurn).isEqualTo(TeamType.HAN);
+        assertThat(nextTurn).isEqualTo(Team.HAN);
     }
 }

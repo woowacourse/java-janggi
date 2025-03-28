@@ -5,12 +5,8 @@ public record Score(Double value) {
     private static final Score INITIAL_SCORE_FOR_HAN = new Score(1.5);
 
 
-    public static Score generateInitialScoreByTeam(TeamType type) {
-        return generateScoreByTeam(type);
-    }
-
-    private static Score generateScoreByTeam(TeamType type) {
-        if (type == TeamType.CHO) {
+    public static Score generateInitialScoreByTeam(Team team) {
+        if (team == Team.CHO) {
             return INITIAL_SCORE_FOR_CHO;
         }
         return INITIAL_SCORE_FOR_HAN;

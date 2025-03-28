@@ -2,7 +2,7 @@ package controller;
 
 import domain.JanggiGame;
 import domain.board.Point;
-import domain.player.TeamType;
+import domain.player.Team;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.EnumMap;
 import java.util.List;
@@ -27,12 +27,12 @@ public final class JanggiController {
 
     private void playJanggi(final JanggiGame game) {
         while (true) {
-            final TeamType currentTeamType = game.getTeamOnCurrentTurn();
-            final List<List<Integer>> moveRequest = handleInput(() -> inputView.readMovementRequest(currentTeamType));
+            final Team currentTeam = game.getTeamOnCurrentTurn();
+            final List<List<Integer>> moveRequest = handleInput(() -> inputView.readMovementRequest(currentTeam));
             final Point start = Point.generateStartPoint(moveRequest);
             final Point arrival = Point.generateArrivalPoint(moveRequest);
             if (!canProcessMove(start, arrival, game)) {
-                outputView.printWinner(currentTeamType);
+                outputView.printWinner(currentTeam);
                 break;
             }
             game.movePieceOnBoard(start, arrival);
@@ -48,10 +48,10 @@ public final class JanggiController {
     }
 
     private JanggiGame setupGame() {
-        final EnumMap<TeamType, Integer> elephantLocatorByTeam = new EnumMap<>(TeamType.class);
-        for (final TeamType teamType : TeamType.values()) {
-            final int choice = inputView.readChoiceForElephantLocation(teamType.toString());
-            elephantLocatorByTeam.put(teamType, choice);
+        final EnumMap<Team, Integer> elephantLocatorByTeam = new EnumMap<>(Team.class);
+        for (final Team team : Team.values()) {
+            final int choice = inputView.readChoiceForElephantLocation(team.toString());
+            elephantLocatorByTeam.put(team, choice);
         }
         return JanggiGame.setup(elephantLocatorByTeam);
     }

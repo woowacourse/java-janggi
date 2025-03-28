@@ -1,6 +1,6 @@
 package domain.pieces;
 
-import domain.player.TeamType;
+import domain.player.Team;
 
 public enum PieceName {
     CHARIOT("車", "차"),
@@ -20,8 +20,8 @@ public enum PieceName {
         this.nameForCho = nameForCho;
     }
 
-    public String getNameForTeam(final TeamType teamType) {
-        if (teamType.equals(TeamType.HAN)) {
+    public String getNameForTeam(final Team team) {
+        if (team.equals(Team.HAN)) {
             return this.nameForHan;
         }
         return this.nameForCho;

@@ -5,7 +5,7 @@ import domain.board.Point;
 import domain.movements.PieceMovement;
 import domain.movements.StraightLineMovement;
 import domain.player.Score;
-import domain.player.TeamType;
+import domain.player.Team;
 import java.util.List;
 
 public final class Cannon implements Piece {
@@ -13,22 +13,22 @@ public final class Cannon implements Piece {
     private static final int VALID_BETWEEN_PIECE_COUNT = 1;
     private static final Score score = new Score(2.0);
 
-    private final TeamType teamType;
+    private final Team team;
     private final PieceMovement movement;
 
-    public Cannon(final TeamType teamType) {
-        this.teamType = teamType;
+    public Cannon(final Team team) {
+        this.team = team;
         this.movement = new StraightLineMovement();
     }
 
-    public Cannon(TeamType teamType, PieceMovement movement) {
-        this.teamType = teamType;
+    public Cannon(Team team, PieceMovement movement) {
+        this.team = team;
         this.movement = movement;
     }
 
     @Override
-    public boolean hasEqualTeam(final TeamType teamType) {
-        return this.teamType.equals(teamType);
+    public boolean hasEqualTeam(final Team team) {
+        return this.team.equals(team);
     }
 
     @Override
@@ -46,7 +46,7 @@ public final class Cannon implements Piece {
         if (piecesOnRoute.canNotJumpOverFirstPiece()) {
             return false;
         }
-        return !piecesOnRoute.hasSameTeamOnArrivalPoint(teamType);
+        return !piecesOnRoute.hasSameTeamOnArrivalPoint(team);
     }
 
     @Override
@@ -61,7 +61,7 @@ public final class Cannon implements Piece {
 
     @Override
     public String getName() {
-        return PieceName.CANNON.getNameForTeam(teamType);
+        return PieceName.CANNON.getNameForTeam(team);
     }
 
     @Override
@@ -71,6 +71,6 @@ public final class Cannon implements Piece {
 
     @Override
     public Piece inRangeOfPalace() {
-        return new Cannon(teamType, StraightLineMovement.generateInRangeOfPalace());
+        return new Cannon(team, StraightLineMovement.generateInRangeOfPalace());
     }
 }

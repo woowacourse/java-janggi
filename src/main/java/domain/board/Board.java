@@ -2,7 +2,7 @@ package domain.board;
 
 import domain.pieces.Piece;
 import domain.player.Score;
-import domain.player.TeamType;
+import domain.player.Team;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +22,9 @@ public final class Board {
     public boolean canMovePiece(
             final Point start,
             final Point arrival,
-            final TeamType teamType
+            final Team team
     ) {
-        final Piece piece = retrievePieceCanMoveOnStartPoint(start, arrival, teamType);
+        final Piece piece = retrievePieceCanMoveOnStartPoint(start, arrival, team);
         checkPieceCanMoveOnRoute(start, arrival, piece);
 
         final Piece pieceAtArrival = locations.get(arrival);
@@ -45,16 +45,16 @@ public final class Board {
         return new HashMap<>(locations);
     }
 
-    private Piece retrievePieceCanMoveOnStartPoint(final Point start, final Point arrival, final TeamType teamType) {
+    private Piece retrievePieceCanMoveOnStartPoint(final Point start, final Point arrival, final Team team) {
         checkInRangeOnBoard(start, arrival);
         final Piece piece = Optional.ofNullable(locations.get(start))
                 .orElseThrow(() -> new JanggiGameRuleWarningException("출발점에 이동할 기물이 없습니다."));
-        checkEqualTeam(piece, teamType);
+        checkEqualTeam(piece, team);
         return piece;
     }
 
-    private void checkEqualTeam(final Piece piece, final TeamType teamType) {
-        if (!piece.hasEqualTeam(teamType)) {
+    private void checkEqualTeam(final Piece piece, final Team team) {
+        if (!piece.hasEqualTeam(team)) {
             throw new JanggiGameRuleWarningException("아군 기물만 움직일 수 있습니다.");
         }
     }
@@ -81,28 +81,28 @@ public final class Board {
     private void checkPieceCanMoveOnRoute(
             final Point start,
             final Point arrival,
-            final Piece pastPiece
+            final Piece originalPiece
     ) {
-        Piece currentPiece = pastPiece;
+        Piece movingPiece = originalPiece;
         if (Palace.isInRange(start, arrival)) {
-            currentPiece = currentPiece.inRangeOfPalace();
+            movingPiece = movingPiece.inRangeOfPalace();
         }
-        checkOutOfRoute(start, arrival, currentPiece);
+        checkOutOfRoute(start, arrival, movingPiece);
 
-        final List<Point> routePoints = currentPiece.searchRoutePoints(start, arrival);
-        final PiecesOnRoute piecesOnRoute = wrapPiecesOnRoute(routePoints);
-        if (!pastPiece.isMovableOnRoute(piecesOnRoute)) {
+        final List<Point> routePoints = movingPiece.searchRoutePoints(start, arrival);
+        final PiecesOnRoute piecesOnRoute = piecesFromRoutePoints(routePoints);
+        if (!movingPiece.isMovableOnRoute(piecesOnRoute)) {
             throw new JanggiGameRuleWarningException("해당 경로로 이동할 수 없습니다.");
         }
     }
 
     private boolean canContinueWhenPieceRemove(final Piece pieceAtArrival) {
         return Optional.ofNullable(pieceAtArrival)
-                .map(Piece::canContinueWhenThisRemove)
+                .map(Piece::canContinueGameAfterRemoval)
                 .orElse(true);
     }
 
-    private PiecesOnRoute wrapPiecesOnRoute(final List<Point> pointsOnRoute) {
+    private PiecesOnRoute piecesFromRoutePoints(final List<Point> pointsOnRoute) {
         return new PiecesOnRoute(pointsOnRoute.stream()
                 .map(point -> locations.getOrDefault(point, null))
                 .toList());

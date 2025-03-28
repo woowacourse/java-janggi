@@ -7,7 +7,7 @@ import domain.movements.Direction;
 import domain.movements.PieceMovement;
 import domain.movements.Route;
 import domain.player.Score;
-import domain.player.TeamType;
+import domain.player.Team;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,22 +15,22 @@ public final class Soldier implements Piece {
 
     private static final Score score = new Score(2.0);
 
-    private final TeamType teamType;
+    private final Team team;
     private final PieceMovement movement;
 
-    public Soldier(final TeamType teamType) {
-        this.teamType = teamType;
-        this.movement = getDefaultMovementByTeam(teamType);
+    public Soldier(final Team team) {
+        this.team = team;
+        this.movement = getDefaultMovementByTeam(team);
     }
 
-    public Soldier(TeamType teamType, PieceMovement movement) {
-        this.teamType = teamType;
+    public Soldier(Team team, PieceMovement movement) {
+        this.team = team;
         this.movement = movement;
     }
 
     @Override
-    public boolean hasEqualTeam(final TeamType teamType) {
-        return this.teamType.equals(teamType);
+    public boolean hasEqualTeam(final Team team) {
+        return this.team.equals(team);
     }
 
     @Override
@@ -40,7 +40,7 @@ public final class Soldier implements Piece {
 
     @Override
     public boolean isMovableOnRoute(final PiecesOnRoute piecesOnRoute) {
-        return !piecesOnRoute.hasSameTeamOnArrivalPoint(teamType);
+        return !piecesOnRoute.hasSameTeamOnArrivalPoint(team);
     }
 
     @Override
@@ -50,7 +50,7 @@ public final class Soldier implements Piece {
 
     @Override
     public String getName() {
-        return PieceName.SOLDIER.getNameForTeam(teamType);
+        return PieceName.SOLDIER.getNameForTeam(team);
     }
 
     @Override
@@ -60,15 +60,15 @@ public final class Soldier implements Piece {
 
     @Override
     public Piece inRangeOfPalace() {
-        return new Soldier(teamType, generateMovementInPalaceByTeam(teamType));
+        return new Soldier(team, generateMovementInPalaceByTeam(team));
     }
 
-    private PieceMovement getDefaultMovementByTeam(final TeamType teamType) {
-        return new DefaultMovement(generateDefaultRoutes(teamType));
+    private PieceMovement getDefaultMovementByTeam(final Team team) {
+        return new DefaultMovement(generateDefaultRoutes(team));
     }
 
-    private PieceMovement generateMovementInPalaceByTeam(final TeamType teamType) {
-        final List<Route> routes = generateDefaultRoutes(teamType);
+    private PieceMovement generateMovementInPalaceByTeam(final Team team) {
+        final List<Route> routes = generateDefaultRoutes(team);
         routes.add(new Route(List.of(Direction.NORTHEAST)));
         routes.add(new Route(List.of(Direction.NORTHWEST)));
         routes.add(new Route(List.of(Direction.SOUTHEAST)));
@@ -76,11 +76,11 @@ public final class Soldier implements Piece {
         return new DefaultMovement(routes);
     }
 
-    private List<Route> generateDefaultRoutes(TeamType teamType) {
+    private List<Route> generateDefaultRoutes(Team team) {
         final List<Route> routes = new ArrayList<>();
         routes.add(new Route(List.of(Direction.EAST)));
         routes.add(new Route(List.of(Direction.WEST)));
-        if (teamType == TeamType.CHO) {
+        if (team == Team.CHO) {
             routes.add(new Route(List.of(Direction.NORTH)));
             return routes;
         }

@@ -12,27 +12,27 @@ public final class PlayerTest {
 
     @Nested
     @DisplayName("플레이어를 생성할 때")
-    class TestMakeTeamType {
+    class TestMakeTeam {
 
         @Test
         @DisplayName("한나라와 초나라 중 하나의 팀을 갖는다")
         void test_NewTeam() {
             // given
-            final Player player = new Player(TeamType.CHO);
+            final Player player = new Player(Team.CHO);
 
             // when
-            final TeamType teamType = player.getTeam();
+            final Team team = player.getTeam();
 
             // then
-            assertThat(teamType).isEqualTo(TeamType.CHO);
+            assertThat(team).isEqualTo(Team.CHO);
         }
 
         @Test
         @DisplayName("초기 상태에서는 초나라가 턴을 갖는다")
         void test_teamHanIsFirst() {
             // given
-            final Player han = new Player(TeamType.HAN);
-            final Player cho = new Player(TeamType.CHO);
+            final Player han = new Player(Team.HAN);
+            final Player cho = new Player(Team.CHO);
 
             // when&then
             assertAll(
@@ -46,8 +46,8 @@ public final class PlayerTest {
         @DisplayName("턴을 일괄적으로 교체할 수 있다.")
         void test_switchTurn() {
             // given
-            final Player han = new Player(TeamType.HAN);
-            final Player cho = new Player(TeamType.CHO);
+            final Player han = new Player(Team.HAN);
+            final Player cho = new Player(Team.CHO);
             final List<Player> players = List.of(han, cho);
 
             // when

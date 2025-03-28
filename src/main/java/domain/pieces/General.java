@@ -5,24 +5,24 @@ import domain.board.Point;
 import domain.movements.PalaceMovement;
 import domain.movements.PieceMovement;
 import domain.player.Score;
-import domain.player.TeamType;
+import domain.player.Team;
 import java.util.List;
 
 public final class General implements Piece {
 
     private static final Score score = new Score(Double.MAX_VALUE);
 
-    private final TeamType teamType;
+    private final Team team;
     private final PieceMovement movement;
 
-    public General(final TeamType teamType) {
-        this.teamType = teamType;
+    public General(final Team team) {
+        this.team = team;
         this.movement = new PalaceMovement();
     }
 
     @Override
-    public boolean hasEqualTeam(final TeamType teamType) {
-        return this.teamType.equals(teamType);
+    public boolean hasEqualTeam(final Team team) {
+        return this.team.equals(team);
     }
 
     @Override
@@ -32,7 +32,7 @@ public final class General implements Piece {
 
     @Override
     public boolean isMovableOnRoute(final PiecesOnRoute piecesOnRoute) {
-        return !piecesOnRoute.hasSameTeamOnArrivalPoint(teamType);
+        return !piecesOnRoute.hasSameTeamOnArrivalPoint(team);
 
     }
 
@@ -43,7 +43,7 @@ public final class General implements Piece {
 
     @Override
     public String getName() {
-        return PieceName.GENERAL.getNameForTeam(teamType);
+        return PieceName.GENERAL.getNameForTeam(team);
     }
 
     @Override
@@ -52,7 +52,7 @@ public final class General implements Piece {
     }
 
     @Override
-    public boolean canContinueWhenThisRemove() {
+    public boolean canContinueGameAfterRemoval() {
         return false;
     }
 }

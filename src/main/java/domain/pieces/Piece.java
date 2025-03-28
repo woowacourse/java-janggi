@@ -3,12 +3,12 @@ package domain.pieces;
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import domain.player.Score;
-import domain.player.TeamType;
+import domain.player.Team;
 import java.util.List;
 
 public interface Piece {
 
-    boolean hasEqualTeam(TeamType teamType);
+    boolean hasEqualTeam(Team team);
 
     boolean isAbleToArrive(Point start, Point arrival);
 
@@ -24,7 +24,7 @@ public interface Piece {
         return false;
     }
 
-    default boolean canContinueWhenThisRemove() {
+    default boolean canContinueGameAfterRemoval() {
         return true;
     }
 

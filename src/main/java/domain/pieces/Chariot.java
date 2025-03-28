@@ -5,30 +5,30 @@ import domain.board.Point;
 import domain.movements.PieceMovement;
 import domain.movements.StraightLineMovement;
 import domain.player.Score;
-import domain.player.TeamType;
+import domain.player.Team;
 import java.util.List;
 
 public final class Chariot implements Piece {
 
     private static final Score score = new Score(13.0);
 
-    private final TeamType teamType;
+    private final Team team;
     private final PieceMovement movement;
 
-    public Chariot(final TeamType teamType) {
-        this.teamType = teamType;
+    public Chariot(final Team team) {
+        this.team = team;
         this.movement = new StraightLineMovement();
     }
 
-    public Chariot(TeamType teamType, PieceMovement movement) {
-        this.teamType = teamType;
+    public Chariot(Team team, PieceMovement movement) {
+        this.team = team;
         this.movement = movement;
     }
 
 
     @Override
-    public boolean hasEqualTeam(final TeamType teamType) {
-        return this.teamType.equals(teamType);
+    public boolean hasEqualTeam(final Team team) {
+        return this.team.equals(team);
     }
 
     @Override
@@ -39,7 +39,7 @@ public final class Chariot implements Piece {
 
     @Override
     public boolean isMovableOnRoute(final PiecesOnRoute piecesOnRoute) {
-        if (piecesOnRoute.hasSameTeamOnArrivalPoint(teamType)) {
+        if (piecesOnRoute.hasSameTeamOnArrivalPoint(team)) {
             return false;
         }
         return piecesOnRoute.hasNotPieceOnRoute();
@@ -52,7 +52,7 @@ public final class Chariot implements Piece {
 
     @Override
     public String getName() {
-        return PieceName.CHARIOT.getNameForTeam(teamType);
+        return PieceName.CHARIOT.getNameForTeam(team);
     }
 
     @Override
@@ -62,6 +62,6 @@ public final class Chariot implements Piece {
 
     @Override
     public Piece inRangeOfPalace() {
-        return new Chariot(teamType, StraightLineMovement.generateInRangeOfPalace());
+        return new Chariot(team, StraightLineMovement.generateInRangeOfPalace());
     }
 }
