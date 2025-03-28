@@ -7,14 +7,14 @@ import janggi.domain.piece.direction.Route;
 import java.util.List;
 import java.util.Set;
 
-public class Board {
+public class Game {
 
     private static final double PLUS_SCORE = 1.5;
 
     private final Pieces pieces;
     private final Turn turn;
 
-    public Board(final BoardSetup redBoardSetup, final BoardSetup blueBoardSetup) {
+    public Game(final BoardSetup redBoardSetup, final BoardSetup blueBoardSetup) {
         this.pieces = new Pieces(PiecesInitializer.initializePieces(redBoardSetup, blueBoardSetup));
         this.turn = Turn.initialize();
     }

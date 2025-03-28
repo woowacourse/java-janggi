@@ -14,21 +14,21 @@ import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class BoardTest {
+class GameTest {
 
     @DisplayName("보드에서 기물을 선택한다.")
     @Test
     void selectPieceTest() {
 
         // given
-        final Board board = new Board(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+        final Game game = new Game(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
         final Position position = new Position(0, 0);
 
         // when
-        final Piece piece = board.selectPiece(position);
+        final Piece piece = game.selectPiece(position);
 
         // then
-        assertThat(piece).isEqualTo(board.selectPiece(new Position(0, 0)));
+        assertThat(piece).isEqualTo(game.selectPiece(new Position(0, 0)));
     }
 
     @DisplayName("기물의 이동 가능한 경로를 찾는다.")
@@ -36,11 +36,11 @@ class BoardTest {
     void findPossibleRoutesTest() {
 
         // given
-        final Board board = new Board(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+        final Game game = new Game(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
         final Piece chariot = new Chariot(new Position(0, 0), BLUE);
 
         // when
-        final Set<Route> routes = board.findPossibleRoutes(chariot);
+        final Set<Route> routes = game.findPossibleRoutes(chariot);
 
         // then
         assertThat(routes.size()).isEqualTo(2);
@@ -51,12 +51,12 @@ class BoardTest {
     void movePieceTest() {
 
         // given
-        final Board board = new Board(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
-        final Piece chariot = board.selectPiece(new Position(0, 0));
+        final Game game = new Game(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+        final Piece chariot = game.selectPiece(new Position(0, 0));
 
         // when
-        board.movePiece(new Position(0, 2), chariot);
-        final Piece selectPiece = board.selectPiece(new Position(0, 2));
+        game.movePiece(new Position(0, 2), chariot);
+        final Piece selectPiece = game.selectPiece(new Position(0, 2));
 
         // then
         assertThat(chariot).isEqualTo(selectPiece);
@@ -67,12 +67,12 @@ class BoardTest {
     void changeTurnTest() {
 
         // given
-        final Board board = new Board(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+        final Game game = new Game(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
 
         // when
-        final Team currentTurn = board.getTurn();
-        board.changeTurn();
-        final Team nextTurn = board.getTurn();
+        final Team currentTurn = game.getTurn();
+        game.changeTurn();
+        final Team nextTurn = game.getTurn();
 
         assertAll(() -> {
             assertThat(currentTurn).isEqualTo(BLUE);
@@ -85,11 +85,11 @@ class BoardTest {
     void getScoreByTeamTest() {
 
         // given
-        Board board = new Board(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+        final Game game = new Game(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
 
         // when
-        final double redResult = board.getScoreByTeam(RED);
-        final double blueResult = board.getScoreByTeam(BLUE);
+        final double redResult = game.getScoreByTeam(RED);
+        final double blueResult = game.getScoreByTeam(BLUE);
 
         // then
         assertAll(() -> {
