@@ -8,17 +8,12 @@ import java.util.Map;
 public class Cannon extends StraightMovingPiece {
 
     public Cannon(final Position position, final Team team) {
-        super("포", position, team);
+        super(PieceType.CANNON, position, team);
     }
 
     @Override
     public Piece from(Position position) {
         return new Cannon(position, getTeam());
-    }
-
-    @Override
-    public int getScore() {
-        return 7;
     }
 
     @Override
@@ -34,7 +29,7 @@ public class Cannon extends StraightMovingPiece {
     }
 
     private void validateIsCannon(Piece piece) {
-        if(piece instanceof Cannon) {
+        if(piece.getPieceType() == PieceType.CANNON) {
             throw new IllegalArgumentException("포는 포를 잡지 못합니다");
         }
     }

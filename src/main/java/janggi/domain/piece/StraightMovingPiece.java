@@ -7,8 +7,8 @@ import java.util.Map;
 
 public abstract class StraightMovingPiece extends Piece{
 
-    public StraightMovingPiece(String name, Position position, Team team) {
-        super(name, position, team);
+    public StraightMovingPiece(PieceType pieceType, Position position, Team team) {
+        super(pieceType, position, team);
     }
 
     @Override

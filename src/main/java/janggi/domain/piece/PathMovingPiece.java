@@ -8,8 +8,8 @@ import java.util.Map;
 
 public abstract class PathMovingPiece extends Piece {
 
-    protected PathMovingPiece(String name, Position position, Team team) {
-        super(name, position, team);
+    protected PathMovingPiece(PieceType pieceType, Position position, Team team) {
+        super(pieceType, position, team);
     }
 
     @Override

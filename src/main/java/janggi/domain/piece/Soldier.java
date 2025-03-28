@@ -8,17 +8,12 @@ import java.util.List;
 public class Soldier extends PathMovingPiece {
 
     public Soldier(final Position position, final Team team) {
-        super("졸", position, team);
+        super(PieceType.SOLDIER, position, team);
     }
 
     @Override
     public Piece from(Position position) {
         return new Soldier(position, team);
-    }
-
-    @Override
-    public int getScore() {
-        return 2;
     }
 
     @Override

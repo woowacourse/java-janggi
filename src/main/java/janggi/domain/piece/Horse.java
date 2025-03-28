@@ -18,7 +18,7 @@ public class Horse extends PathMovingPiece {
     );
 
     public Horse(final Position position, final Team team) {
-        super("마", position, team);
+        super(PieceType.HORSE, position, team);
     }
 
     @Override
@@ -40,10 +40,5 @@ public class Horse extends PathMovingPiece {
     @Override
     public Piece from(Position position) {
         return new Horse(position, team);
-    }
-
-    @Override
-    public int getScore() {
-        return 5;
     }
 }

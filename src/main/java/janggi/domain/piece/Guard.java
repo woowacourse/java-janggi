@@ -8,7 +8,7 @@ import java.util.List;
 public class Guard extends PathMovingPiece {
 
     public Guard(final Position position, final Team team) {
-        super("사", position, team);
+        super(PieceType.GUARD, position, team);
         validateIsPalace(position);
     }
 

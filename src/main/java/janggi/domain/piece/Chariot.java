@@ -8,17 +8,12 @@ import java.util.Map;
 public class Chariot extends StraightMovingPiece {
 
     public Chariot(final Position position, final Team team) {
-        super("차", position, team);
+        super(PieceType.CHARIOT, position, team);
     }
 
     @Override
     public Piece from(Position position) {
         return new Chariot(position, getTeam());
-    }
-
-    @Override
-    public int getScore() {
-        return 13;
     }
 
     @Override

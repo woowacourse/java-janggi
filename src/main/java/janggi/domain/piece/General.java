@@ -8,23 +8,13 @@ import java.util.List;
 public class General extends PathMovingPiece {
 
     public General(final Position position, final Team team) {
-        super("궁", position, team);
+        super(PieceType.GENERAL, position, team);
         validateIsPalace(position);
     }
 
     @Override
     public Piece from(Position position) {
         return new General(position, team);
-    }
-
-    @Override
-    public int getScore() {
-        return 0;
-    }
-
-    @Override
-    public boolean isGeneral() {
-        return true;
     }
 
     @Override

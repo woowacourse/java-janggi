@@ -18,17 +18,12 @@ public class Elephant extends PathMovingPiece {
     );
 
     public Elephant(final Position position, final Team team) {
-        super("상", position, team);
+        super(PieceType.ELEPHANT, position, team);
     }
 
     @Override
     public Piece from(Position position) {
         return new Elephant(position, team);
-    }
-
-    @Override
-    public int getScore() {
-        return 3;
     }
 
     @Override

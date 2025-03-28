@@ -7,10 +7,14 @@ import java.util.Map;
 public abstract class Piece {
     protected final Team team;
     private final Position position;
-    private final String name;
+    private final PieceType pieceType;
 
-    public Piece(final String name, final Position position, final Team team) {
-        this.name = name;
+    public Piece(
+            final PieceType pieceType,
+            final Position position,
+            final Team team
+    ) {
+        this.pieceType = pieceType;
         this.position = position;
         this.team = team;
     }
@@ -19,8 +23,8 @@ public abstract class Piece {
         return position;
     }
 
-    public String getName() {
-        return name;
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     public Team getTeam() {
@@ -28,11 +32,7 @@ public abstract class Piece {
     }
 
     public boolean isNone() {
-        return false;
-    }
-
-    public boolean isGeneral() {
-        return false;
+        return pieceType == PieceType.NONE;
     }
 
     public boolean isNotNone() {
@@ -44,9 +44,15 @@ public abstract class Piece {
         return from(positionToMove);
     }
 
+    public int getScore() {
+        return pieceType.getScore();
+    }
+
+    public String getName() {
+        return pieceType.getName();
+    }
+
     public abstract void validatePositionToMove(Map<Position, Piece> pieces, Position positionToMove);
 
     public abstract Piece from(Position position);
-
-    public abstract int getScore();
 }

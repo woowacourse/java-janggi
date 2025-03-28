@@ -2,6 +2,7 @@ package janggi.domain;
 
 import janggi.domain.piece.None;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Position;
 
 import java.util.HashMap;
@@ -11,9 +12,9 @@ public class Board {
     private final Map<Position, Piece> pieces;
     private Turn turn;
 
-    public Board(Map<Position, Piece> pieces, Turn trun) {
+    public Board(Map<Position, Piece> pieces, Turn turn) {
         this.pieces = new HashMap<>(pieces);
-        this.turn = trun;
+        this.turn = turn;
     }
 
     public Piece getPieceByPosition(final Position position) {
@@ -56,8 +57,8 @@ public class Board {
         }
     }
 
-    public Score getScore(Team team) {
-        return Score.from(
+    public TotalScore getScore(Team team) {
+        return TotalScore.from(
                 pieces.values()
                 .stream()
                 .filter(piece -> piece.getTeam() == team)
@@ -69,7 +70,7 @@ public class Board {
     public boolean isKingAlive(Team team) {
         return pieces.values()
                 .stream()
-                .filter(Piece::isGeneral)
+                .filter(piece -> piece.getPieceType() == PieceType.GENERAL)
                 .anyMatch(piece ->
                         piece.getTeam() == team);
     }
