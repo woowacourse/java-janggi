@@ -11,6 +11,8 @@ import java.util.function.BiPredicate;
 
 public class Chariot extends Piece implements DirectionCheckable, ObstructionCheckable {
 
+    private static final int EXPECTED_INTERNAL_POSITION_COUNT = 0;
+
     public Chariot(final Position position, final Country country) {
         super(position, country);
     }
@@ -19,7 +21,7 @@ public class Chariot extends Piece implements DirectionCheckable, ObstructionChe
     public void validateMoveCondition(Position src, Position dest, Board board) {
         validateDirection(src, dest);
         List<Position> internalPositions = getInternalPositions(dest);
-        validateObstruction(board, internalPositions, 0);
+        validateObstruction(board, internalPositions, EXPECTED_INTERNAL_POSITION_COUNT);
     }
 
     private List<Position> getInternalPositions(Position destination) {

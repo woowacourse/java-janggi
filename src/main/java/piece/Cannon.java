@@ -11,6 +11,8 @@ import java.util.function.BiPredicate;
 
 public class Cannon extends Piece implements DirectionCheckable, ObstructionCheckable {
 
+    private static final int EXPECTED_INTERNAL_POSITION_COUNT = 1;
+
     public Cannon(final Position position, final Country country) {
         super(position, country);
     }
@@ -19,7 +21,7 @@ public class Cannon extends Piece implements DirectionCheckable, ObstructionChec
     public void validateMoveCondition(Position src, Position dest, Board board) {
         validateDirection(src, dest);
         List<Position> internalPositions = getInternalPositions(dest);
-        validateObstruction(board, internalPositions, 1);
+        validateObstruction(board, internalPositions, EXPECTED_INTERNAL_POSITION_COUNT);
 
         List<Position> existPositions = board.findExistPositions(internalPositions);
         Piece findPiece = board.getPieceBy(existPositions.getFirst());

@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Horse extends Piece implements DistanceCheckable, ObstructionCheckable {
 
+    private static final int EXPECTED_INTERNAL_POSITION_COUNT = 0;
     private static final MovePaths movePaths;
     private static final double DISTANCE;
 
@@ -38,7 +39,7 @@ public class Horse extends Piece implements DistanceCheckable, ObstructionChecka
     @Override
     public void validateMoveCondition(Position src, Position dest, Board board) {
         List<Position> internalPositions = getInternalPositions(getInternalMovePaths(findCorrectMovePath(dest)));
-        validateObstruction(board, internalPositions, 0);
+        validateObstruction(board, internalPositions, EXPECTED_INTERNAL_POSITION_COUNT);
     }
 
     private List<Position> getInternalPositions(MovePaths internalMoverPaths) {
