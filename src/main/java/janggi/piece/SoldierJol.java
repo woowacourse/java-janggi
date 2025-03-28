@@ -10,19 +10,16 @@ public final class SoldierJol extends PalaceAffectedPiece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
-        if (isInsidePalace(fromPoint)) {
-            validatePalaceMove(fromPoint, toPoint);
-            return;
-        }
-        validateNonPalaceMove(fromPoint, toPoint);
-    }
-
-    private void validatePalaceMove(Point fromPoint, Point toPoint) {
+    protected void validatePalaceMove(Point fromPoint, Point toPoint) {
         if (fromPoint.isDiagonal(toPoint)) {
             validateDiagonalPalaceMove(fromPoint, toPoint);
             return;
         }
+        validateJolMove(fromPoint, toPoint);
+    }
+
+    @Override
+    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
         validateJolMove(fromPoint, toPoint);
     }
 
@@ -33,10 +30,6 @@ public final class SoldierJol extends PalaceAffectedPiece {
         if (!fromPoint.isOneDiagonalStepAway(toPoint) || toPoint.isBehind(fromPoint)) {
             throw new IllegalArgumentException("졸은 대각선으로 이동할 수 있는 경우 뒤로 갈 수 없으며, 한 칸만 이동할 수 있습니다.");
         }
-    }
-
-    private void validateNonPalaceMove(Point fromPoint, Point toPoint) {
-        validateJolMove(fromPoint, toPoint);
     }
 
     private void validateJolMove(Point fromPoint, Point toPoint) {

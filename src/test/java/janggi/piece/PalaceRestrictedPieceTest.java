@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.board.Board;
 import janggi.board.point.Point;
@@ -10,19 +11,19 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class PalaceRestrictedPieceTest {
 
-    @DisplayName("궁 밖에서 이동하는지 확인한다.")
+    @DisplayName("궁 안에서 대각선으로 움직일 수 있는지 확인한다.")
     @ParameterizedTest
     @CsvSource({
-            "0, 0, 0, 1, true",
-            "0, 1, 0, 0, true",
-            "3, 5, 4, 5, true",
-            "4, 5, 3, 5, true",
-            "3, 9, 4, 8, false",
-            "5, 9, 4, 8, false",
-            "3, 7, 5, 9, false",
-            "5, 9, 3, 7, false"
+            "3, 9, 4, 8, true",
+            "5, 9, 4, 8, true",
+            "3, 7, 5, 9, true",
+            "5, 9, 3, 7, true",
+            "3, 8, 4, 9, false",
+            "4, 9, 5, 8, false",
+            "5, 8, 4, 7, false",
+            "4, 7, 3, 8, false"
     })
-    void isBothOutsidePalaceTest(int fromX, int fromY, int toX, int toY, boolean expected) {
+    void isDiagonalPalaceMoveTest(int fromX, int fromY, int toX, int toY, boolean expected) {
         // given
         Board board = new Board();
         TestPalaceRestrictedPiece palaceRestrictedPiece = new TestPalaceRestrictedPiece(Camp.CHU, board);
@@ -30,11 +31,54 @@ class PalaceRestrictedPieceTest {
         Point toPoint = new Point(toX, toY);
 
         // when
-        boolean isBothOutsidePalace = palaceRestrictedPiece.isBothOutsidePalace(fromPoint, toPoint);
+        boolean isDiagonalPalaceMove = palaceRestrictedPiece.isDiagonalPalaceMove(fromPoint, toPoint);
 
         // then
-        assertThat(isBothOutsidePalace)
+        assertThat(isDiagonalPalaceMove)
                 .isSameAs(expected);
+    }
+
+    @DisplayName("궁에 고립된 기물은 궁 안에서 이동할 수 있다.")
+    @ParameterizedTest
+    @CsvSource({
+            "3, 9, 4, 8",
+            "5, 9, 4, 8",
+            "3, 7, 5, 9",
+            "5, 9, 3, 7",
+    })
+    void validateMoveTest(int fromX, int fromY, int toX, int toY) {
+        // given
+        Board board = new Board();
+        TestPalaceRestrictedPiece palaceRestrictedPiece = new TestPalaceRestrictedPiece(Camp.CHU, board);
+        Point fromPoint = new Point(fromX, fromY);
+        Point toPoint = new Point(toX, toY);
+
+        // when & then
+        assertThatCode(() -> palaceRestrictedPiece.validateMove(fromPoint, toPoint))
+                .doesNotThrowAnyException();
+    }
+
+    @DisplayName("궁에 고립된 기물은 궁 밖으로 이동할 수 없다.")
+    @ParameterizedTest
+    @CsvSource({
+            "0, 0, 0, 1",
+            "0, 1, 0, 0",
+            "3, 5, 4, 5",
+            "4, 5, 3, 5",
+            "3, 2, 3, 5",
+            "3, 5, 3, 2"
+    })
+    void shouldThrowException_WhenValidateMoveOutsidePalace(int fromX, int fromY, int toX, int toY) {
+        // given
+        Board board = new Board();
+        TestPalaceRestrictedPiece palaceRestrictedPiece = new TestPalaceRestrictedPiece(Camp.CHU, board);
+        Point fromPoint = new Point(fromX, fromY);
+        Point toPoint = new Point(toX, toY);
+
+        // when & then
+        assertThatCode(() -> palaceRestrictedPiece.validateMove(fromPoint, toPoint))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("궁 안에서만 이동할 수 있습니다.");
     }
 
     static class TestPalaceRestrictedPiece extends PalaceRestrictedPiece {
@@ -44,7 +88,7 @@ class PalaceRestrictedPieceTest {
         }
 
         @Override
-        public void validateMove(Point fromPoint, Point toPoint) {
+        protected void validatePalaceRestrictedMove(Point fromPoint, Point toPoint) {
         }
 
         @Override

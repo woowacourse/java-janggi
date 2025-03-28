@@ -9,7 +9,18 @@ public abstract class PalaceRestrictedPiece extends PalaceAffectedPiece {
         super(camp, board);
     }
 
-    public boolean isBothOutsidePalace(Point fromPoint, Point toPoint) {
-        return !isInsidePalace(fromPoint) || !isInsidePalace(toPoint);
+    @Override
+    protected void validatePalaceMove(Point fromPoint, Point toPoint) {
+        if (isOutsidePalace(toPoint)) {
+            throw new IllegalArgumentException("궁 안에서만 이동할 수 있습니다.");
+        }
+        validatePalaceRestrictedMove(fromPoint, toPoint);
     }
+
+    @Override
+    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
+        throw new IllegalArgumentException("궁 안에서만 이동할 수 있습니다.");
+    }
+
+    protected abstract void validatePalaceRestrictedMove(Point fromPoint, Point toPoint);
 }

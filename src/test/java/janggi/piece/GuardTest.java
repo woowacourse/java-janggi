@@ -23,7 +23,7 @@ class GuardTest {
         // when & then
         assertThatCode(() -> guard.validateMove(fromPoint, toPoint))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("사는 궁 안에서만 이동할 수 있습니다.");
+                .hasMessage("궁 안에서만 이동할 수 있습니다.");
     }
 
     @DisplayName("사가 상하좌우로 한 칸 혹은 대각선으로 한 칸만 움직이지 않은 경우 예외가 발생한다.")

@@ -15,29 +15,20 @@ public final class Cannon extends PalaceAffectedPiece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
-        validateMoveBasedOnLocation(fromPoint, toPoint);
+    protected void validatePalaceMove(Point fromPoint, Point toPoint) {
+        if (fromPoint.isDiagonal(toPoint)) {
+            validateDiagonalPalaceMove(fromPoint, toPoint);
+            validateJumpOverOnePiece(fromPoint, toPoint);
+            return;
+        }
+        validateLinearMove(fromPoint, toPoint);
         validateJumpOverOnePiece(fromPoint, toPoint);
     }
 
-    private void validateMoveBasedOnLocation(Point fromPoint, Point toPoint) {
-        if (isInsidePalace(fromPoint)) {
-            validatePalaceMove(fromPoint, toPoint);
-            return;
-        }
-        validateNonPalaceMove(fromPoint, toPoint);
-    }
-
-    private void validatePalaceMove(Point fromPoint, Point toPoint) {
-        if (fromPoint.isDiagonal(toPoint)) {
-            validateDiagonalPalaceMove(fromPoint, toPoint);
-            return;
-        }
+    @Override
+    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
         validateLinearMove(fromPoint, toPoint);
-    }
-
-    private void validateNonPalaceMove(Point fromPoint, Point toPoint) {
-        validateLinearMove(fromPoint, toPoint);
+        validateJumpOverOnePiece(fromPoint, toPoint);
     }
 
     private void validateDiagonalPalaceMove(Point fromPoint, Point toPoint) {

@@ -10,15 +10,7 @@ public final class SoldierByeong extends PalaceAffectedPiece {
     }
 
     @Override
-    public void validateMove(Point fromPoint, Point toPoint) {
-        if (isInsidePalace(fromPoint)) {
-            validatePalaceMove(fromPoint, toPoint);
-            return;
-        }
-        validateNonPalaceMove(fromPoint, toPoint);
-    }
-
-    private void validatePalaceMove(Point fromPoint, Point toPoint) {
+    protected void validatePalaceMove(Point fromPoint, Point toPoint) {
         if (fromPoint.isDiagonal(toPoint)) {
             validateDiagonalPalaceMove(fromPoint, toPoint);
             return;
@@ -35,7 +27,8 @@ public final class SoldierByeong extends PalaceAffectedPiece {
         }
     }
 
-    private void validateNonPalaceMove(Point fromPoint, Point toPoint) {
+    @Override
+    protected void validateNonPalaceMove(Point fromPoint, Point toPoint) {
         validateByeongMove(fromPoint, toPoint);
     }
 

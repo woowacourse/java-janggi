@@ -23,7 +23,7 @@ class GeneralTest {
         // when & then
         assertThatCode(() -> general.validateMove(fromPoint, toPoint))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("장군은 궁 안에서만 이동할 수 있습니다.");
+                .hasMessage("궁 안에서만 이동할 수 있습니다.");
     }
 
     @DisplayName("장군이 상화좌우로 한 칸 혹은 대각선으로 한 칸만 움직이지 않은 경우 예외가 발생한다.")
