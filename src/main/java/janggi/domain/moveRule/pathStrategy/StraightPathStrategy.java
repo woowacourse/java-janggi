@@ -6,14 +6,6 @@ import janggi.domain.piece.TeamColor;
 import java.util.List;
 
 public class StraightPathStrategy implements PathStrategy {
-    private static final PathStrategy INSTANCE = new StraightPathStrategy();
-
-    private StraightPathStrategy() {}
-
-    public static PathStrategy getInstance() {
-        return INSTANCE;
-    }
-
     @Override
     public boolean isValidMovement(PiecePath path, TeamColor teamColor) {
         if (path.isDiagonal()) {

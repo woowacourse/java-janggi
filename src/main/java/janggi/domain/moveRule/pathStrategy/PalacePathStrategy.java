@@ -8,8 +8,6 @@ import janggi.domain.piece.TeamColor;
 import java.util.List;
 
 public class PalacePathStrategy implements PathStrategy {
-    private static final PathStrategy INSTANCE = new PalacePathStrategy();
-
     private static final List<Movement> IN_PALACE_POSSIBLE_MOVEMENT =
             List.of(
                     Movement.from(Direction.UP),
@@ -21,12 +19,6 @@ public class PalacePathStrategy implements PathStrategy {
                     Movement.from(Direction.UP_LEFT),
                     Movement.from(Direction.UP_RIGHT)
             );
-
-    private PalacePathStrategy() {}
-
-    public static PathStrategy getInstance() {
-        return INSTANCE;
-    }
 
     @Override
     public boolean isValidMovement(PiecePath path, TeamColor teamColor) {

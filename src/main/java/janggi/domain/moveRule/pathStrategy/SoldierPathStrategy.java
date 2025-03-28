@@ -8,15 +8,6 @@ import janggi.domain.piece.TeamColor;
 import java.util.List;
 
 public class SoldierPathStrategy implements PathStrategy {
-    private static final PathStrategy INSTANCE = new SoldierPathStrategy();
-
-    private SoldierPathStrategy() {
-    }
-
-    public static PathStrategy getInstance() {
-        return INSTANCE;
-    }
-
     private final static List<Movement> SOLDIER_POSSIBLE_MOVEMENT =
             List.of(
                     Movement.from(Direction.UP),

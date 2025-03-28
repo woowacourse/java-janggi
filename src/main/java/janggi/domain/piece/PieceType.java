@@ -10,13 +10,13 @@ import janggi.domain.moveRule.moveStrategy.CannonMoveStrategy;
 import janggi.domain.moveRule.moveStrategy.DefaultMoveStrategy;
 
 public enum PieceType {
-    SOLDIER(2, new MoveRule(SoldierPathStrategy.getInstance(), DefaultMoveStrategy.getInstance())),
-    HORSE(5, new MoveRule(HorsePathStrategy.getInstance(), DefaultMoveStrategy.getInstance())),
-    CHARIOT(13, new MoveRule(StraightPathStrategy.getInstance(), DefaultMoveStrategy.getInstance())),
-    ELEPHANT(3, new MoveRule(ElephantPathStrategy.getInstance(), DefaultMoveStrategy.getInstance())),
-    CANNON(7, new MoveRule(StraightPathStrategy.getInstance(), CannonMoveStrategy.getInstance())),
-    GENERAL(0, new MoveRule(PalacePathStrategy.getInstance(), DefaultMoveStrategy.getInstance())),
-    GUARD(3, new MoveRule(PalacePathStrategy.getInstance(), DefaultMoveStrategy.getInstance())),
+    SOLDIER(2, new MoveRule(new SoldierPathStrategy(), new DefaultMoveStrategy())),
+    HORSE(5, new MoveRule(new HorsePathStrategy(), new DefaultMoveStrategy())),
+    CHARIOT(13, new MoveRule(new StraightPathStrategy(), new DefaultMoveStrategy())),
+    ELEPHANT(3, new MoveRule(new ElephantPathStrategy(), new DefaultMoveStrategy())),
+    CANNON(7, new MoveRule(new StraightPathStrategy(),new  CannonMoveStrategy())),
+    GENERAL(0, new MoveRule(new PalacePathStrategy(), new DefaultMoveStrategy())),
+    GUARD(3, new MoveRule(new PalacePathStrategy(), new DefaultMoveStrategy())),
     NONE(0, null)
     ;
 

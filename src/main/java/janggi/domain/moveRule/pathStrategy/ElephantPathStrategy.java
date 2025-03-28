@@ -5,9 +5,7 @@ import janggi.domain.board.Movement;
 import java.util.List;
 
 public class ElephantPathStrategy extends FixedPathStrategy {
-    private final static PathStrategy INSTANCE = new ElephantPathStrategy();
-
-    ElephantPathStrategy() {
+    public ElephantPathStrategy() {
         super(List.of(
                 Movement.from(Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT),
                 Movement.from(Direction.UP, Direction.UP_RIGHT, Direction.UP_RIGHT),
@@ -19,9 +17,4 @@ public class ElephantPathStrategy extends FixedPathStrategy {
                 Movement.from(Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT)
         ));
     }
-
-    public static PathStrategy getInstance() {
-        return INSTANCE;
-    }
-
 }

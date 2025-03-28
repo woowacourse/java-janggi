@@ -5,9 +5,7 @@ import janggi.domain.board.Movement;
 import java.util.List;
 
 public class HorsePathStrategy extends FixedPathStrategy {
-    private static final PathStrategy INSTANCE = new HorsePathStrategy();
-
-    HorsePathStrategy() {
+    public HorsePathStrategy() {
         super(List.of(
                 Movement.from(Direction.UP, Direction.UP_LEFT),
                 Movement.from(Direction.UP, Direction.UP_RIGHT),
@@ -18,9 +16,5 @@ public class HorsePathStrategy extends FixedPathStrategy {
                 Movement.from(Direction.RIGHT, Direction.UP_RIGHT),
                 Movement.from(Direction.RIGHT, Direction.DOWN_RIGHT)
         ));
-    }
-
-    public static PathStrategy getInstance() {
-        return INSTANCE;
     }
 }

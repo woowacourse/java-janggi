@@ -4,14 +4,6 @@ import janggi.domain.piece.Piece;
 import java.util.List;
 
 public class CannonMoveStrategy implements moveStrategy {
-    private static final CannonMoveStrategy INSTANCE = new CannonMoveStrategy();
-
-    private CannonMoveStrategy() {}
-
-    public static CannonMoveStrategy getInstance() {
-        return INSTANCE;
-    }
-
     @Override
     public boolean canMoveAlongRoute(Piece piece, Piece destination, List<Piece> piecesInRoute) {
         int pieceCount = piece.countPieceInRoute(piecesInRoute);
