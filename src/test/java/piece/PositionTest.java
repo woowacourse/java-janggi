@@ -379,4 +379,26 @@ class PositionTest {
         assertThat(future).isEqualTo(new Position(7, 2));
     }
 
+    @DisplayName("장성 위치 판단 테스트")
+    @ParameterizedTest
+    @MethodSource("providePositionForPalaceTest")
+    void isInPalaceTest(Position position) {
+        //when - then
+        assertThat(position.isInPalace()).isTrue();
+    }
+
+    private static Stream<Arguments> providePositionForPalaceTest() {
+        return Stream.of(
+                Arguments.of(new Position(0, 3)),
+                Arguments.of(new Position(0, 4)),
+                Arguments.of(new Position(0, 5)),
+                Arguments.of(new Position(1, 3)),
+                Arguments.of(new Position(1, 4)),
+                Arguments.of(new Position(1, 5)),
+                Arguments.of(new Position(2, 3)),
+                Arguments.of(new Position(2, 4)),
+                Arguments.of(new Position(2, 5))
+        );
+    }
+
 }
