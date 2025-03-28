@@ -6,6 +6,7 @@ import model.piece.Piece;
 import model.position.Position;
 import model.position.Row;
 import model.Team;
+import model.position.Score;
 
 public class OutputView {
 
@@ -43,5 +44,11 @@ public class OutputView {
             return;
         }
         System.out.print(piece.getName());
+    }
+
+    public void printGameResult(Score score) {
+        System.out.println("게임 결과");
+        System.out.println("레드 팀 : " + score.getRedScore());
+        System.out.println("그린 팀 : " + score.getGreenScore());
     }
 }

@@ -9,7 +9,7 @@ public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
     public String choiceDeparture() {
-        System.out.println("이동할 말을 선택해주세요. ex) 1,4");
+        System.out.println("이동할 말을 선택해주세요. ex) 1,4 / 결과 계산을 하고 싶다면, 종료를 입력해주세요.");
         return scanner.nextLine();
     }
 

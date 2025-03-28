@@ -7,9 +7,11 @@ import model.position.Position;
 public abstract class Piece {
 
     private final Team team;
+    private final int score;
 
-    public Piece(Team team) {
+    public Piece(Team team, int score) {
         this.team = team;
+        this.score = score;
     }
 
     public void checkOfTurn(Team turn) {
@@ -24,6 +26,10 @@ public abstract class Piece {
     public abstract boolean isCannon();
 
     public abstract String getName();
+
+    public int getScore() {
+        return score;
+    }
 
     public boolean isSameTeam(Piece piece) {
         return this.team == piece.getTeam();

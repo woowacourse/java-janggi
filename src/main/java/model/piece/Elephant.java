@@ -9,6 +9,8 @@ import model.position.Position;
 
 public class Elephant extends Piece {
 
+    private static final int SCORE = 3;
+
     private final List<List<Movement>> movements = List.of(
         List.of(UP, UP_AND_DIAGONAL_UP_LEFT, UP_AND_DOUBLE_DIAGONAL_UP_LEFT),
         List.of(UP, UP_AND_DIAGONAL_UP_RIGHT, UP_AND_DOUBLE_DIAGONAL_UP_RIGHT),
@@ -21,7 +23,7 @@ public class Elephant extends Piece {
     private final JumpMoveNavigator jumpMoveNavigator;
 
     public Elephant(Team team) {
-        super(team);
+        super(team, SCORE);
         this.jumpMoveNavigator = new JumpMoveNavigator();
     }
 

@@ -1,8 +1,10 @@
+import java.util.Collections;
 import java.util.function.Supplier;
 import model.JanggiGame;
 import model.piece.Piece;
 import model.position.Position;
 import model.Team;
+import model.position.Score;
 import view.InputView;
 import view.OutputView;
 
@@ -19,6 +21,9 @@ public class Application {
             Team currentTurn = janggiGame.getCurrentTurn();
             outputView.printCurrentTurnOfTeam(currentTurn);
             Position departure = createDeparture();
+            if (departure == null) {
+                break;
+            }
             createArrivalAndMove(departure);
         }
     }
@@ -36,6 +41,11 @@ public class Application {
     private static Position createDeparture() {
         return retryOnInvalidInput(() -> {
             String choiceDeparture = inputView.choiceDeparture();
+            if (choiceDeparture.equals("종료")) {
+                Score score = janggiGame.showGameResult();
+                outputView.printGameResult(score);
+                return null;
+            }
             return janggiGame.createPositionAndCheckTurn(choiceDeparture);
         });
     }

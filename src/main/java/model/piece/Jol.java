@@ -14,6 +14,8 @@ import model.position.Position;
 
 public class Jol extends Piece {
 
+    private static final int SCORE = 2;
+
     private final List<Movement> movements = List.of(UP, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT);
     private final Area area;
@@ -21,7 +23,7 @@ public class Jol extends Piece {
     private final LimitedBasicMoveNavigator limitedBasicMoveNavigator;
 
     public Jol() {
-        super(Team.GREEN);
+        super(Team.GREEN, SCORE);
         this.area = new Area();
         this.limitedBasicMoveNavigator = new LimitedBasicMoveNavigator();
     }

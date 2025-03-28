@@ -10,6 +10,8 @@ import model.position.Position;
 
 public class Cannon extends Piece {
 
+    private static final int SCORE = 7;
+
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
     private final UnLimitedBasicMoveNavigator unLimitedBasicMoveNavigator;
     private final List<Movement> movementsInCastle = List.of(
@@ -18,7 +20,7 @@ public class Cannon extends Piece {
     private final Area area;
 
     public Cannon(Team team) {
-        super(team);
+        super(team, SCORE);
         this.area = new Area();
         this.unLimitedBasicMoveNavigator = new UnLimitedBasicMoveNavigator();
     }

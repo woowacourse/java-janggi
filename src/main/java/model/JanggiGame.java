@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import model.piece.Piece;
 import model.position.Position;
+import model.position.Score;
 import utils.InputParser;
 
 public class JanggiGame {
@@ -50,5 +51,10 @@ public class JanggiGame {
 
     public Team getCurrentTurn() {
         return this.turn;
+    }
+
+    public Score showGameResult() {
+        Map<Position, Piece> pieces = this.pieces.getPieces();
+        return Score.calculateScoreFrom(pieces);
     }
 }
