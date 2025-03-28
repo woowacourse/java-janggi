@@ -8,11 +8,20 @@ import static position.PositionFixtures.E0;
 import static position.PositionFixtures.E1;
 import static position.PositionFixtures.E2;
 import static position.PositionFixtures.E3;
+import static position.PositionFixtures.E4;
 import static position.PositionFixtures.E5;
+import static position.PositionFixtures.E6;
 
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
+import janggi.piece.jumpingPiece.Cannon;
+import janggi.piece.normalPiece.ChoPawn;
+import janggi.piece.normalPiece.Elephant;
+import janggi.piece.normalPiece.HanPawn;
+import janggi.piece.normalPiece.Horse;
 import janggi.piece.normalPiece.Palace;
+import janggi.piece.normalPiece.Soldier;
+import janggi.piece.straightPiece.Chariot;
 import janggi.position.Board;
 import janggi.position.Position;
 import java.util.HashSet;
@@ -112,6 +121,40 @@ public class BoardTest {
 
         // when - then
         assertThat(board.findWinner()).isEqualTo(CHO);
+    }
+
+    @Test
+    @DisplayName("한나라의 점수를 계산할 수 있다.")
+    void hanScoreTest(){
+        // given
+        Piece chariot = new Chariot(HAN, E1);
+        Piece cannon = new Cannon(HAN, E2);
+        Piece horse = new Horse(HAN, E3);
+        Piece elephant = new Elephant(HAN, E4);
+        Piece soldier = new Soldier(HAN, E5);
+        Piece hanPawn = new HanPawn(E6);
+
+        Board board = new Board(HAN, Set.of(chariot, cannon, horse, elephant, soldier, hanPawn));
+
+        // when - then
+        assertThat(board.hanScore()).isEqualTo(34.5);
+    }
+
+    @Test
+    @DisplayName("초나라의 점수를 계산할 수 있다.")
+    void choScoreTest(){
+        // given
+        Piece chariot = new Chariot(CHO, E1);
+        Piece cannon = new Cannon(CHO, E2);
+        Piece horse = new Horse(CHO, E3);
+        Piece elephant = new Elephant(CHO, E4);
+        Piece soldier = new Soldier(CHO, E5);
+        Piece choPawn = new ChoPawn(E6);
+
+        Board board = new Board(CHO, Set.of(chariot, cannon, horse, elephant, soldier, choPawn));
+
+        // when - then
+        assertThat(board.choScore()).isEqualTo(33);
     }
 
 }
