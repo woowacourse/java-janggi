@@ -7,8 +7,8 @@ import java.util.Map;
 public class JanggiGame {
     private GameState state = new Start();
 
-    public Map<JanggiPosition, Piece> start() {
-        state = state.start();
+    public Map<JanggiPosition, Piece> start(Map<JanggiPosition, Piece> board) {
+        state = state.start(board);
         return state.getBoard();
     }
 

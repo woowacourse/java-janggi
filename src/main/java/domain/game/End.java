@@ -23,7 +23,7 @@ public class End implements GameState {
     }
 
     @Override
-    public GameState start() {
+    public GameState start(Map<JanggiPosition, Piece> board) {
         throw new UnsupportedOperationException("게임이 종료되었습니다.");
     }
 

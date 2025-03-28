@@ -5,7 +5,7 @@ import domain.piece.Piece;
 import java.util.Map;
 
 public interface GameState {
-    GameState start();
+    GameState start(Map<JanggiPosition, Piece> board);
 
     GameState playSingleTurn(JanggiPosition beforePosition, JanggiPosition afterPosition);
 

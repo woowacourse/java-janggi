@@ -1,3 +1,4 @@
+import dao.JanggiDao;
 import domain.JanggiPosition;
 import domain.game.JanggiGame;
 import domain.piece.Piece;
@@ -7,6 +8,7 @@ import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
+    private JanggiDao janggiDao = new JanggiDao();
 
     public void run() {
         JanggiGame game = new JanggiGame();
@@ -14,7 +16,8 @@ public class JanggiController {
     }
 
     private void startJanggiGame(JanggiGame game) {
-        Map<JanggiPosition, Piece> board = game.start();
+        Map<JanggiPosition, Piece> board = janggiDao.loadBoard();
+        game.start(board);
         OutputView.printJanggiBoard(board);
 
         while (!game.isEnd()) {

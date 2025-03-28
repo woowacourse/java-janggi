@@ -12,6 +12,7 @@ public abstract class Piece {
     protected final Side side;
     protected Path path;
     protected PieceState state;
+    private Piece targetPiece;
 
     public Piece(int score, Side side, Path path, PieceState state) {
         this.score = score;

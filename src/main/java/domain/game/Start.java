@@ -1,17 +1,20 @@
 package domain.game;
 
 import domain.JanggiBoard;
-import domain.JanggiBoardFactory;
 import domain.JanggiPosition;
 import domain.piece.Piece;
 import domain.piece.Side;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Start implements GameState {
-    JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
+    //    JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
+    JanggiBoard janggiBoard;
 
     @Override
-    public GameState start() {
+    public GameState start(Map<JanggiPosition, Piece> initialBoard) {
+        Map<JanggiPosition, Piece> savedJanggiBoard = new HashMap<>(initialBoard);
+        this.janggiBoard = new JanggiBoard(savedJanggiBoard);
         return new Run(janggiBoard, new Player(Side.CHO));
     }
 
