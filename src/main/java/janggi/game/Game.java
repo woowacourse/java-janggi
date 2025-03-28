@@ -14,12 +14,10 @@ public class Game {
     public static final int INPUT_COLUMN_INDEX = 0;
     public static final int INPUT_ROW_INDEX = 1;
 
-    private final Janggi janggi;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public Game(Janggi janggi, InputView inputView, OutputView outputView) {
-        this.janggi = janggi;
+    public Game(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
     }
@@ -42,15 +40,16 @@ public class Game {
     }
 
     private GameState controlGame() {
+        Janggi janggi = new Janggi();
         outputView.printUnits(janggi.getUnits());
 
-        Position position = getPosition();
+        Position position = getPosition(janggi);
         janggi.judgeUnitTurn(position);
 
         List<Route> routes = janggi.searchAvailableRoutes(position);
         outputView.printAvailableRoute(routes, position);
 
-        moveAndCaptureIfEnemyExists(routes, position);
+        moveAndCaptureIfEnemyExists(janggi, routes, position);
         if (janggi.isNoneEnemyUnit()) {
             return GameState.QUIT;
         }
@@ -58,7 +57,7 @@ public class Game {
         return GameState.PLAY;
     }
 
-    private Position getPosition() {
+    private Position getPosition(Janggi janggi) {
         List<Integer> positionValue = handleInputException(() ->
                 inputView.readPosition(janggi.getTurn()), Game::getPosition);
         if (positionValue.size() != POSITION_INPUT_SIZE) {
@@ -78,7 +77,7 @@ public class Game {
         }
     }
 
-    private void moveAndCaptureIfEnemyExists(List<Route> routes, Position startPoint) {
+    private void moveAndCaptureIfEnemyExists(Janggi janggi, List<Route> routes, Position startPoint) {
         int selectedRouteNumber = handleInputException(inputView::readRoute,
                 (inputValue) -> parseSelectNumber(inputValue, routes.size()));
         Route route = routes.get(selectedRouteNumber - 1);
