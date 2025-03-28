@@ -1,5 +1,7 @@
 package janggi.piece;
 
+import janggi.position.Path;
+import janggi.position.Position;
 import janggi.team.TeamType;
 import java.util.List;
 
@@ -7,6 +9,16 @@ public class Po extends Piece {
 
     public Po(TeamType teamType) {
         super(PieceType.PO, teamType);
+    }
+
+    @Override
+    public Path makePath(Position currentPosition, Position arrivalPosition) {
+        int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
+        int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
+
+        validateDistanceAndDirection(differenceForY, differenceForX);
+
+        return new Path(calculateMovingPositions(currentPosition, arrivalPosition, differenceForY, differenceForX));
     }
 
     @Override

@@ -1,11 +1,23 @@
 package janggi.piece;
 
+import janggi.position.Path;
+import janggi.position.Position;
 import janggi.team.TeamType;
 
 public class Cha extends Piece {
 
     public Cha(TeamType teamType) {
         super(PieceType.CHA, teamType);
+    }
+
+    @Override
+    public Path makePath(Position currentPosition, Position arrivalPosition) {
+        int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
+        int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
+
+        validateDistanceAndDirection(differenceForY, differenceForX);
+
+        return new Path(calculateMovingPositions(currentPosition, arrivalPosition, differenceForY, differenceForX));
     }
 
     @Override
