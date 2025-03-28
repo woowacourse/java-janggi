@@ -6,13 +6,13 @@ import domain.piece.Piece;
 import domain.piece.PieceColor;
 import domain.piece.PieceType;
 
-public abstract class Playing implements State {
-    protected final Board board;
-    protected final PieceColor pieceColor;
+public abstract class Playing extends Started {
 
-    protected Playing(Board board, PieceColor pieceColor) {
-        this.board = board;
-        this.pieceColor = pieceColor;
+    protected final PieceColor turnColor;
+
+    protected Playing(Board board, PieceColor turnColor) {
+        super(board);
+        this.turnColor = turnColor;
     }
 
     @Override
@@ -25,14 +25,14 @@ public abstract class Playing implements State {
         boolean isGeneral = destinationPiece.isSamePieceType(PieceType.GENERAL);
 
         if (isGeneral) {
-            return new Finished(pieceColor);
+            return new Finished(board);
         }
         return nextTurn(board);
     }
 
     @Override
-    public PieceColor getColor() {
-        return this.pieceColor;
+    public PieceColor getTurnColor() {
+        return this.turnColor;
     }
 
     @Override
@@ -41,9 +41,14 @@ public abstract class Playing implements State {
     }
 
     private void validateIsMyPieceColor(Piece sourcePiece) {
-        if (sourcePiece.isOtherTeam(pieceColor)) {
+        if (sourcePiece.isOtherTeam(turnColor)) {
             throw new IllegalArgumentException("움직이려는 기물이 본인팀이 아닙니다.");
         }
+    }
+
+    @Override
+    public PieceColor determineWinner() {
+        throw new UnsupportedOperationException("게임이 종료되지 않아 승자를 판별할 수 없습니다.");
     }
 
     protected abstract State nextTurn(Board board);

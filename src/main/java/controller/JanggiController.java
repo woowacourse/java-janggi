@@ -6,6 +6,7 @@ import domain.board.BoardFactory;
 import domain.board.Column;
 import domain.board.Position;
 import domain.board.Row;
+import domain.piece.PieceColor;
 import domain.piece.PieceType;
 import domain.state.BlueTurn;
 import dto.MoveCommandDTO;
@@ -36,7 +37,9 @@ public class JanggiController {
             }
         }
 
-        outputView.printWinner(janggiGame.getTurnColor());
+        outputView.printWinner(janggiGame.getWinner());
+        outputView.printTeamScore(janggiGame.getRedTeamScore(), PieceColor.RED);
+        outputView.printTeamScore(janggiGame.getBlueTeamScore(), PieceColor.BLUE);
     }
 
     private void playTurn(JanggiGame janggiGame, Board board) {

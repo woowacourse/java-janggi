@@ -7,7 +7,13 @@ import domain.piece.PieceType;
 public interface State {
     State movePiece(PieceType pieceType, Position source, Position destination);
 
-    PieceColor getColor();
+    PieceColor getTurnColor();
 
     boolean isFinished();
+
+    double getRedTeamScore();
+
+    double getBlueTeamScore();
+
+    PieceColor determineWinner();
 }

@@ -13,4 +13,6 @@ public class BlueTurn extends Playing {
     protected State nextTurn(Board board) {
         return new RedTurn(board);
     }
+
+
 }

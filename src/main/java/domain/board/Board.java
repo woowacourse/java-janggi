@@ -34,6 +34,11 @@ public class Board {
                 toList();
     }
 
+    public boolean isGeneralKilledByColor(PieceColor color) {
+        return board.values().stream()
+                .noneMatch(piece -> piece.getColor() == color);
+    }
+
     private void validateMove(Position source, Position destination) {
         Piece sourcePiece = getPieceByPosition(source);
         Piece destinationPiece = getPieceByPosition(destination);

@@ -17,10 +17,22 @@ public class JanggiGame {
     }
 
     public PieceColor getTurnColor() {
-        return this.state.getColor();
+        return this.state.getTurnColor();
     }
 
     public boolean isFinished() {
         return state.isFinished();
+    }
+
+    public PieceColor getWinner() {
+        return state.determineWinner();
+    }
+
+    public double getRedTeamScore() {
+        return this.state.getRedTeamScore();
+    }
+
+    public double getBlueTeamScore() {
+        return state.getBlueTeamScore();
     }
 }
