@@ -1,5 +1,6 @@
 package controller;
 
+import dao.ConnectionProvider;
 import domain.board.BoardPosition;
 import domain.janggi.Janggi;
 import domain.janggi.Team;
@@ -27,6 +28,16 @@ public class JanggiController {
 
     public void run() {
         try {
+            ConnectionProvider.getConnection();
+        } catch (RuntimeException e) {
+            outputView.printExceptionMessage(e);
+            return;
+        }
+        selectJanggiGame();
+    }
+
+    private void selectJanggiGame() {
+        try {
             outputView.printAllJanggiGames(janggiManager.findAllJanggiDtos());
             final String selectJanggiInput = inputView.inputSelectJanggi();
 
@@ -41,7 +52,7 @@ public class JanggiController {
             throw new IllegalArgumentException("잘못된 입력입니다. 재입력해주세요.");
         } catch (RuntimeException e) {
             outputView.printInputExceptionMessage(e);
-            run();
+            selectJanggiGame();
         }
     }
 

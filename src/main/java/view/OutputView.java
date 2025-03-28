@@ -44,6 +44,10 @@ public class OutputView {
         }
     }
 
+    public void printExceptionMessage(final Exception e) {
+        System.out.println(e.getMessage());
+    }
+
     public void printInputExceptionMessage(final Exception e) {
         System.out.println(e.getMessage());
         System.out.println("다시 입력해주세요.");
