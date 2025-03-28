@@ -1,7 +1,9 @@
 package janggi.piece;
 
 import static janggi.Team.GREEN;
+import static janggi.Team.RED;
 import static janggi.board.Board.GREEN_CASTLE;
+import static janggi.board.Board.RED_CASTLE;
 import static janggi.moving.Movement.DOWN;
 import static janggi.moving.Movement.LEFT;
 import static janggi.moving.Movement.RIGHT;
@@ -28,7 +30,8 @@ public class General extends Piece {
     @Override
     protected void validatePath(Board board, Path path) {
         for (Position position : path.getPath()) {
-            if (team == GREEN && GREEN_CASTLE.contains(position) == false) {
+            if (team == GREEN && GREEN_CASTLE.contains(position) == false ||
+                    team == RED && RED_CASTLE.contains(position) == false) {
                 throw new IllegalArgumentException("[ERROR] 궁은 궁성을 벗어날 수 없습니다.");
             }
         }

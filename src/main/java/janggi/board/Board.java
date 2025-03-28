@@ -16,6 +16,12 @@ public class Board {
      * TODO
      * List? Set?
      */
+    public static final List<Position> RED_CASTLE = List.of(new Position(Row.SEVEN, Column.THREE),
+            new Position(Row.SEVEN, Column.FOUR), new Position(Row.SEVEN, Column.FIVE),
+            new Position(Row.EIGHT, Column.THREE), new Position(Row.EIGHT, Column.FOUR),
+            new Position(Row.EIGHT, Column.FIVE), new Position(Row.NINE, Column.THREE),
+            new Position(Row.NINE, Column.FOUR), new Position(Row.NINE, Column.FIVE));
+
     public static final List<Position> GREEN_CASTLE = List.of(new Position(Row.ZERO, Column.THREE),
             new Position(Row.ZERO, Column.FOUR), new Position(Row.ZERO, Column.FIVE),
             new Position(Row.ONE, Column.THREE), new Position(Row.ONE, Column.FOUR), new Position(Row.ONE, Column.FIVE),
