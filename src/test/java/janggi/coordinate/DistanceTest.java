@@ -95,10 +95,7 @@ class DistanceTest {
 
         // when
         // then
-        assertAll(() -> {
-            assertThat(distance.isVertical()).isTrue();
-            assertThat(distance.isStraight()).isTrue();
-        });
+        assertThat(distance.isStraight()).isTrue();
     }
 
     @Test
@@ -109,10 +106,7 @@ class DistanceTest {
 
         // when
         // then
-        assertAll(() -> {
-            assertThat(distance.isHorizontal()).isTrue();
-            assertThat(distance.isStraight()).isTrue();
-        });
+        assertThat(distance.isStraight()).isTrue();
     }
 
     @Test

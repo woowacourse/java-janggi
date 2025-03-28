@@ -46,19 +46,19 @@ public record Distance(int rowDistance, int columnDistance) {
         return Math.min(rowDistance, columnDistance);
     }
 
-    public boolean isVertical() {
-        return rowDistance != 0 && columnDistance == 0;
-    }
-
-    public boolean isHorizontal() {
-        return rowDistance == 0 && columnDistance != 0;
-    }
-
     public boolean isStraight() {
         return isVertical() || isHorizontal();
     }
 
     public boolean isDiagonal() {
         return Math.abs(rowDistance) == Math.abs(columnDistance);
+    }
+
+    private boolean isVertical() {
+        return rowDistance != 0 && columnDistance == 0;
+    }
+
+    private boolean isHorizontal() {
+        return rowDistance == 0 && columnDistance != 0;
     }
 }
