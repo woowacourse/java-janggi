@@ -32,14 +32,15 @@ public class Soldier extends AbstractPiece {
         if (isUpMovement(direction) || isHorizontalMovement(direction)) {
             return true;
         }
-        return fromPoint.isRedPalace() && toPoint.isRedPalace() && isDiagonalMovement(direction, 1);
+        return fromPoint.isRedDiagonalPalace() && toPoint.isRedDiagonalPalace() && isDiagonalMovement(direction, 1);
     }
 
     private boolean isRedMovement(final Direction direction, final Point fromPoint, final Point toPoint) {
         if (isDownMovement(direction) || isHorizontalMovement(direction)) {
             return true;
         }
-        return fromPoint.isGreenPalace() && toPoint.isGreenPalace() && isDiagonalMovement(direction, -1);
+        return fromPoint.isGreenDiagonalPalace() && toPoint.isGreenDiagonalPalace() && isDiagonalMovement(direction,
+                -1);
     }
 
     private static boolean isHorizontalMovement(final Direction direction) {
