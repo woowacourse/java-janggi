@@ -50,7 +50,7 @@ public class Cannon extends Piece {
                 .anyMatch(position -> board.getPiece(position).getType().isCannon());
 
         if (containsCannon) {
-            throw new IllegalArgumentException("이동 경로에 포가 존재합니다.");
+            throw new IllegalArgumentException("포는 경로에 포가 존재할 때, 이동할 수 없습니다.");
         }
     }
 
