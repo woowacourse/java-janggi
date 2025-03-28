@@ -6,9 +6,9 @@ import static model.janggiboard.JanggiBoardSetUp.INNER_ELEPHANT;
 import static model.janggiboard.JanggiBoardSetUp.LEFT_ELEPHANT;
 import static model.janggiboard.JanggiBoardSetUp.OUTER_ELEPHANT;
 import static model.janggiboard.JanggiBoardSetUp.RIGHT_ELEPHANT;
-import static view.InputView.inputGameId;
 import static view.InputView.choiceLoadOrNewGame;
 import static view.InputView.choiceSetUp;
+import static view.InputView.inputGameId;
 import static view.InputView.movePointInput;
 import static view.OutputVIew.displayJanggiBoard;
 import static view.OutputVIew.displayTotalScore;
@@ -17,7 +17,6 @@ import static view.OutputVIew.printErrorMessage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import model.Point;
 import model.Team;
 import model.dao.JanggiBoardDao;
@@ -53,10 +52,13 @@ public class Janggi {
 
     private int decideGameId() {
         int gameId;
-        do {
+        while (true) {
             gameId = inputGameId();
-        } while (janggiBoardDao.existJanggiGame(gameId));
-        return gameId;
+            if (janggiBoardDao.existJanggiGame(gameId)) {
+                return gameId;
+            }
+            System.out.println("[ERROR] 존재하지 않는 게임 ID 입니다.");
+        }
     }
 
 

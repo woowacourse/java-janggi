@@ -88,11 +88,11 @@ public class JanggiBoard {
 
     public List<PieceDto> getAlivePieces() {
         List<PieceDto> alivePieces = new ArrayList<>();
-        for (int i = 0; i < janggiBoard.size(); i++) {
-            for (int j = 0; j < janggiBoard.get(i).size(); j++) {
-                if (janggiBoard.get(i).get(j).isPlaced()) {
-                    Piece piece = getPieceFromDot(janggiBoard.get(i).get(j));
-                    alivePieces.add(new PieceDto(i, j, piece.getTeam().getTeamName(), piece.getPieceName()));
+        for (int y_pos = 0; y_pos < janggiBoard.size(); y_pos++) {
+            for (int x_pos = 0; x_pos < janggiBoard.get(y_pos).size(); x_pos++) {
+                if (janggiBoard.get(y_pos).get(x_pos).isPlaced()) {
+                    Piece piece = getPieceFromDot(janggiBoard.get(y_pos).get(x_pos));
+                    alivePieces.add(new PieceDto(x_pos, y_pos, piece.getTeam().getTeamName(), piece.getPieceName()));
                 }
             }
         }

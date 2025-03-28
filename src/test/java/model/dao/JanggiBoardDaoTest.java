@@ -28,14 +28,14 @@ class JanggiBoardDaoTest {
     }
 
     @Test
-    void deleteJanggiGameTest() throws SQLException {
-        janggiboardDao.deleteJanggiGame(TEST_GAME_ID);
-    }
-
-    @Test
     @DisplayName("게임 정보 존재 여부 테스트")
     void existJanggiGameTest() throws SQLException {
         assertThat(janggiboardDao.existJanggiGame(TEST_GAME_ID)).isTrue();
+    }
+
+    @Test
+    void deleteJanggiGameTest() throws SQLException {
+        janggiboardDao.deleteJanggiGame(TEST_GAME_ID);
     }
 
 }
