@@ -5,10 +5,17 @@ public record Position(
         int column
 ) {
 
+    // 장기 최대 - 최소 좌표
     public static final int MIN_ROW = 1;
     public static final int MIN_COLUMN = 1;
     public static final int MAX_ROW = 9;
     public static final int MAX_COLUMN = 10;
+
+    // 궁성 최대 - 최소 좌표
+    public static final int PALACE_MIN_ROW = 4;
+    public static final int PALACE_MAX_ROW = 6;
+    public static final int PALACE_MAX_COLUMN_LEFT = 3;
+    public static final int PALACE_MIN_COLUMN_RIGHT = 8;
 
     public Position {
         validateRange(row, column);
@@ -36,6 +43,8 @@ public record Position(
     }
 
     public boolean isWithinPalace() {
-        return (this.row >= 4 && this.row <= 6) && (this.column <= 3 || this.column >= 8);
+        boolean isWithinPalaceRow = this.row >= PALACE_MIN_ROW && this.row <= PALACE_MAX_ROW;
+        boolean isWithinPalaceColumn = this.column <= PALACE_MAX_COLUMN_LEFT || this.column >= PALACE_MIN_COLUMN_RIGHT;
+        return isWithinPalaceRow && isWithinPalaceColumn;
     }
 }
