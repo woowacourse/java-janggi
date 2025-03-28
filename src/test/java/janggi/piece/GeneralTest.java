@@ -24,9 +24,9 @@ class GeneralTest {
         void general() {
             // given
             final Piece generalPiece = new General(Country.CHO);
-            final Position now = new Position(1, 1);
-            final Position ableDest = new Position(1, 2);
-            final Position notAbleDest = new Position(1, 3);
+            final Position now = new Position(9, 4);
+            final Position ableDest = new Position(9, 5);
+            final Position notAbleDest = new Position(8, 5);
             final Board board = new Board(new HashMap<>());
             // when
             final boolean actual1 = generalPiece.isAbleToMove(now, ableDest, board);
@@ -74,6 +74,30 @@ class GeneralTest {
             return Stream.of(
                     Arguments.of(new Position(9, 5), new Position(8, 6)),
                     Arguments.of(new Position(8, 4), new Position(9, 5))
+            );
+        }
+
+        @DisplayName("General은 자신의 나라 궁성 밖으로 이동할 수 없다.")
+        @ParameterizedTest
+        @MethodSource
+        void general3(final Position source, final Position destination, final Country country) {
+            // given
+            final Piece generalPiece = new General(country);
+            final Board board = new Board(new HashMap<>());
+
+            // when
+            final boolean actual = generalPiece.canMove(source, destination, board);
+
+            // then
+            assertThat(actual).isFalse();
+        }
+
+        static Stream<Arguments> general3(){
+            return Stream.of(
+                    Arguments.of(new Position(9, 5), new Position(1, 6), Country.CHO),
+                    Arguments.of(new Position(8, 6), new Position(2, 5), Country.CHO),
+                    Arguments.of(new Position(2, 5), new Position(8, 6), Country.HAN),
+                    Arguments.of(new Position(1, 4), new Position(9, 5), Country.HAN)
             );
         }
     }

@@ -20,12 +20,12 @@ public class Guard extends Piece{
 
     @Override
     protected boolean canMove(final Position now, final Position destination, final VisibleBoard visibleBoard) {
-        if(!destination.isInsidePalace()){
+        if(!destination.isInsidePalace(country)){
             return false;
         }
 
-        if (now.isCornerInPalace() && destination.isCenterInPalace()
-                || now.isCenterInPalace() && destination.isCornerInPalace()) {
+        if ((now.isCornerInPalace(country) && destination.isCenterInPalace(country))
+                || (now.isCenterInPalace(country) && destination.isCornerInPalace(country))) {
             return true;
         }
 

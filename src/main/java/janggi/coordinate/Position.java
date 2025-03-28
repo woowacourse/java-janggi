@@ -1,6 +1,7 @@
 package janggi.coordinate;
 
 
+import janggi.piece.Country;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -86,9 +87,11 @@ public record Position(int x, int y) {
         betweenPositions.removeLast();
     }
 
-    public boolean isInsidePalace(){
-        return isYInsidePalace() && (isXInsideChoPalace() || isXInsideHanPalace());
-
+    public boolean isInsidePalace(final Country country){
+        if(country == Country.HAN){
+            return isYInsidePalace() && isXInsideHanPalace();
+        }
+        return isYInsidePalace() && isXInsideChoPalace();
     }
 
     private boolean isYInsidePalace() {
@@ -111,14 +114,20 @@ public record Position(int x, int y) {
         return y <= position.y;
     }
     
-    public boolean isCenterInPalace(){
-        return this.equals(PALACE_CENTER_HAN) || this.equals(PALACE_CENTER_CHO);
+    public boolean isCenterInPalace(final Country country){
+        if(country == Country.HAN){
+            return this.equals(PALACE_CENTER_HAN);
+        }
+        return this.equals(PALACE_CENTER_CHO);
     }
 
-    public boolean isCornerInPalace(){
+    public boolean isCornerInPalace(final Country country){
+        if(country == Country.HAN){
+            return (y == PALACE_TOP_LEFT_CHO.y || y == PALACE_BOTTOM_RIGHT_CHO.y)
+                    && (x == PALACE_TOP_LEFT_HAN.x || x == PALACE_BOTTOM_RIGHT_HAN.x);
+        }
         return (y == PALACE_TOP_LEFT_CHO.y || y == PALACE_BOTTOM_RIGHT_CHO.y)
-                && ((x == PALACE_TOP_LEFT_HAN.x || x == PALACE_BOTTOM_RIGHT_HAN.x)
-                || (x == PALACE_TOP_LEFT_CHO.x || x == PALACE_BOTTOM_RIGHT_CHO.x));
+                && (x == PALACE_TOP_LEFT_CHO.x || x == PALACE_BOTTOM_RIGHT_CHO.x);
     }
 
 }
