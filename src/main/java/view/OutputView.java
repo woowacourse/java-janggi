@@ -25,30 +25,24 @@ public class OutputView {
                 """, gameRoomName);
     }
 
-    public static void printBoard(Map<Point, Piece> pieceByPoint) {
+    public static void printBoard(Map<Point, Piece> pieces) {
         List<List<String>> boardString = new ArrayList<>();
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
             List<String> rowString = new ArrayList<>(List.of(String.format("%02d", row), "|"));
             for (int column = MIN_COLUMN_INDEX; column <= MAX_COLUMN_INDEX; column++) {
                 Point point = Point.of(row, column);
-                if (!pieceByPoint.containsKey(point)) {
-                    rowString.add(Painter.paintWhite("ㅁ"));
-                    continue;
-                }
-                Piece piece = pieceByPoint.get(point);
-                rowString.add(paintPieceByTeam(piece.team(), piece.type()));
+                pieceToString(pieces, point, rowString);
             }
             boardString.add(rowString);
         }
+        List<String> lastRowString = new ArrayList<>(List.of("", "|"));
+        IntStream.range(MIN_COLUMN_INDEX, MAX_COLUMN_INDEX + 1)
+                .forEach(column -> lastRowString.add(String.format("%02d", column)));
 
         System.out.println();
         for (List<String> rowString : boardString) {
             System.out.println(String.join(TAB, rowString));
         }
-
-        List<String> lastRowString = new ArrayList<>(List.of("", "|"));
-        IntStream.range(MIN_COLUMN_INDEX, MAX_COLUMN_INDEX + 1)
-                .forEach(column -> lastRowString.add(String.format("%02d", column)));
         System.out.println(String.join(TAB, lastRowString));
     }
 
@@ -61,6 +55,23 @@ public class OutputView {
 
     public static void printMatchResult(Team winTeam) {
         System.out.printf("%n%s나라의 승리입니다.", teamToString(winTeam));
+    }
+
+    private static void pieceToString(Map<Point, Piece> pieces, Point point, List<String> rowString) {
+        if (!pieces.containsKey(point)) {
+            String emptyPoint = emptyPointToString(point);
+            rowString.add(Painter.paintWhite(emptyPoint));
+            return;
+        }
+        Piece piece = pieces.get(point);
+        rowString.add(paintPieceByTeam(piece.team(), piece.type()));
+    }
+
+    private static String emptyPointToString(Point point) {
+        if (point.isInPalace()) {
+            return "△";
+        }
+        return "ㅁ";
     }
 
     private static String paintPieceByTeam(Team team, PieceType pieceType) {
