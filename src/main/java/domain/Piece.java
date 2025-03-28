@@ -25,8 +25,16 @@ public class Piece {
             .orElseThrow(() -> new IllegalArgumentException("해당 말은 이동할 수 없습니다."));
     }
 
-    public boolean isObstacleCountAllowed(final int obstacleCount) {
-        return pieceType.getAllowObstacleCount() == obstacleCount;
+    public boolean isSameObstacleCount(final int other) {
+        return pieceType.getAllowObstacleCount() == other;
+    }
+
+    public boolean isSamePieceType(final PieceType other) {
+        return pieceType == other;
+    }
+
+    public boolean isSameTeam(final Team other) {
+        return team == other;
     }
 
     public PieceType getPieceType() {

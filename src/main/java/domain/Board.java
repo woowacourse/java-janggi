@@ -78,7 +78,7 @@ public class Board {
         final Team currentTeam,
         final Piece selectedPiece
     ) {
-        if (selectedPiece.getTeam() != currentTeam) {
+        if (!selectedPiece.isSameTeam(currentTeam)) {
             throw new IllegalArgumentException("다른 팀의 기물을 움직일 수 없습니다.");
         }
     }
@@ -87,7 +87,7 @@ public class Board {
         final Team currentTeam,
         final Piece destinationPiece
     ) {
-        if (destinationPiece != null && currentTeam == destinationPiece.getTeam()) {
+        if (destinationPiece != null && destinationPiece.isSameTeam(currentTeam)) {
             throw new IllegalArgumentException("이동하려는 위치에 아군 기물이 존재합니다.");
         }
     }
@@ -100,11 +100,11 @@ public class Board {
     ) {
         int obstacleCount = calculateObstacleCount(movementRule, destinationBoardPosition,
             selectBoardPosition);
-        if (!movePiece.isObstacleCountAllowed(obstacleCount)) {
+        if (!movePiece.isSameObstacleCount(obstacleCount)) {
             throw new IllegalArgumentException("이동경로에 적합하지 않은 장애물이 있습니다.");
         }
 
-        if (movePiece.getPieceType() == PieceType.CANNON) {
+        if (movePiece.isSamePieceType(PieceType.CANNON)) {
             validateCannonMovementRule(movementRule, selectBoardPosition);
         }
     }
