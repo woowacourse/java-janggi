@@ -39,7 +39,7 @@ public class Janggi {
     }
 
     private void loadGame() {
-        int gameId = decideGameId();
+        int gameId = selectLoadGameId();
         List<PieceDto> loadPieceDto = janggiBoardDao.findByGameId(gameId);
         Map<Point, Piece> loadMap = new HashMap<>();
         for (PieceDto pieceDto : loadPieceDto) {
@@ -50,20 +50,20 @@ public class Janggi {
         playGame(gameId, janggiBoard, true);
     }
 
-    private int decideGameId() {
+    private int selectLoadGameId() {
         int gameId;
         while (true) {
             gameId = inputGameId();
             if (janggiBoardDao.existJanggiGame(gameId)) {
                 return gameId;
             }
-            System.out.println("[ERROR] 존재하지 않는 게임 ID 입니다.");
+            System.out.println("[ERROR] 존재하지 않는 게임 ID 입니다. gameId: " + gameId);
         }
     }
 
 
     private void startNewGame() {
-        int gameId = inputGameId();
+        int gameId = selectNewGameId();
         int setUpChoice = choiceSetUp();
         JanggiBoard janggiBoard = switch (setUpChoice) {
             case 1 -> new JanggiBoard(INNER_ELEPHANT);
@@ -75,6 +75,17 @@ public class Janggi {
         playGame(gameId, janggiBoard, true);
     }
 
+    private int selectNewGameId() {
+        int gameId;
+        while (true) {
+            gameId = inputGameId();
+            if (!janggiBoardDao.existJanggiGame(gameId)) {
+                return gameId;
+            }
+            System.out.println("[ERROR] 이미 존재하는 게임 ID 입니다. gameId: " + gameId);
+        }
+    }
+
 
     private void playGame(int gameId, JanggiBoard janggiBoard, boolean choTurn) {
         boolean isGameOver = false;
@@ -84,6 +95,10 @@ public class Janggi {
             Team team = decideTeam(choTurn);
             try {
                 List<Point> movePoints = movePointInput(team);
+                if (movePoints == null) {
+                    saveGame(gameId, janggiBoard);
+                    return;
+                }
                 if (janggiBoard.isNotMyTeamPoint(movePoints.getFirst(), team)) {
                     throw new IllegalArgumentException("아군 장기말만 움직일 수 있습니다.");
                 }
@@ -100,6 +115,9 @@ public class Janggi {
 
     }
 
+    private void saveGame(int gameId, JanggiBoard janggiBoard) {
+        janggiBoardDao.updateJanggiGame(gameId, janggiBoard.getAlivePieces());
+    }
 
     private Team decideTeam(boolean choTurn) {
         if (choTurn) {

@@ -29,6 +29,12 @@ public class InputView {
         return Integer.parseInt(sc.nextLine());
     }
 
+    public static String getUserInput() {
+        Scanner sc = new Scanner(System.in);
+        String userInput = sc.nextLine();
+        return userInput;
+    }
+
     public static int choiceSetUp() {
         sc = new Scanner(System.in);
         System.out.println("""
@@ -46,12 +52,38 @@ public class InputView {
         sc = new Scanner(System.in);
         System.out.printf("%s 나라의 차례\n", team.getTeamName());
         System.out.println("이동할 기물의 위치를 선택하세요. 입력 형식 : 가로(공백)세로 ex)1 2");
-        List<Integer> beforePointInput = Arrays.stream(sc.nextLine().split(" ")).map(Integer::parseInt).toList();
-        Point beforePoint = Point.of(beforePointInput.getFirst() - 1, beforePointInput.getLast() - 1);
+        System.out.println("wq : 저장 후 종료");
+        String userInput = sc.nextLine();
+        if (saveAndExitCheck(userInput)) {
+            return null;
+        }
+        Point beforePoint = getBeforePoint(team, userInput);
         System.out.println("이동될 위치를 선택하세요. 입력 형식 : 가로(공백)세로 ex)1 2");
-        List<Integer> targetPointInput = Arrays.stream(sc.nextLine().split(" ")).map(Integer::parseInt).toList();
-        Point targetPoint = Point.of(targetPointInput.getFirst() - 1, targetPointInput.getLast() - 1);
-
+        System.out.println("wq : 저장 후 종료");
+        userInput = sc.nextLine();
+        if (saveAndExitCheck(userInput)) {
+            return null;
+        }
+        Point targetPoint = getTargetPoint(userInput);
         return List.of(beforePoint, targetPoint);
+    }
+
+    private static boolean saveAndExitCheck(String userInput) {
+        if (userInput.equals("wq")) {
+            return true;
+        }
+        return false;
+    }
+
+    private static Point getBeforePoint(Team team, String userInput) {
+        List<Integer> beforePointInput = Arrays.stream(userInput.split(" ")).map(Integer::parseInt).toList();
+        Point beforePoint = Point.of(beforePointInput.getFirst() - 1, beforePointInput.getLast() - 1);
+        return beforePoint;
+    }
+
+    private static Point getTargetPoint(String userInput) {
+        List<Integer> targetPointInput = Arrays.stream(userInput.split(" ")).map(Integer::parseInt).toList();
+        Point targetPoint = Point.of(targetPointInput.getFirst() - 1, targetPointInput.getLast() - 1);
+        return targetPoint;
     }
 }
