@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Board {
+    private static final double BONUS_POINT = 1.5;
     private final Map<Position, Piece> survivedPieces = new HashMap<>();
 
     public Board(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
@@ -86,7 +87,7 @@ public class Board {
                 .sum();
 
         if (dynasty == Dynasty.HAN) {
-            totalPoints += 1.5;
+            totalPoints += BONUS_POINT;
         }
 
         return totalPoints;
