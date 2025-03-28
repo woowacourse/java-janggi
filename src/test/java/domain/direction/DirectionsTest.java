@@ -18,7 +18,7 @@ class DirectionsTest {
 
         List<Vector> vectors = List.of(new Vector(0, -1), new Vector(1, -1));
         List<Direction> directionElements = List.of(new Direction(vectors, false));
-        Directions directions = new Directions(directionElements);
+        Directions directions = new Directions(directionElements, false);
 
         // when
         List<Position> result = directions.getPaths(start, target);
@@ -36,7 +36,7 @@ class DirectionsTest {
 
         List<Vector> vectors = List.of(new Vector(1, 0));
         List<Direction> directionElements = List.of(new Direction(vectors, true));
-        Directions directions = new Directions(directionElements);
+        Directions directions = new Directions(directionElements, true);
 
         // when
         List<Position> result = directions.getPaths(start, target);

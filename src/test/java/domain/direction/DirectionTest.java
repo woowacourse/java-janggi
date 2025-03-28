@@ -1,13 +1,13 @@
 package domain.direction;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import domain.spatial.Position;
 import domain.spatial.Vector;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class DirectionTest {
 
@@ -22,7 +22,7 @@ class DirectionTest {
         Direction direction = new Direction(vectors, false);
 
         // when
-        List<Position> result = direction.createPath(start, target);
+        List<Position> result = direction.createPath(start, target, false);
 
         // then
         assertThat(result).containsAll(expected);
@@ -39,7 +39,7 @@ class DirectionTest {
         Direction direction = new Direction(vectors, true);
 
         // when
-        List<Position> result = direction.createPath(start, target);
+        List<Position> result = direction.createPath(start, target, true);
 
         // then
         assertThat(result).containsAll(expected);
@@ -59,7 +59,7 @@ class DirectionTest {
         Direction direction = new Direction(vectors, false);
 
         // when
-        boolean result = direction.canReach(start, target);
+        boolean result = direction.canReach(start, target, false);
 
         // then
         assertThat(result).isEqualTo(expectedResult);
@@ -79,7 +79,7 @@ class DirectionTest {
         Direction direction = new Direction(vectors, true);
 
         // when
-        boolean result = direction.canReach(start, target);
+        boolean result = direction.canReach(start, target, true);
 
         // then
         assertThat(result).isEqualTo(expectedResult);

@@ -7,18 +7,20 @@ import java.util.Objects;
 public class Directions {
 
     private final List<Direction> directions;
+    private final boolean repeatable;
 
-    public Directions(final List<Direction> directions) {
+    public Directions(final List<Direction> directions, final boolean repeatable) {
         this.directions = directions;
+        this.repeatable = repeatable;
     }
 
     public List<Position> getPaths(final Position start, final Position target) {
         Direction direction = directions.stream()
-                .filter(element -> element.canReach(start, target))
+                .filter(element -> element.canReach(start, target, repeatable))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이동할 수 없는 좌표입니다. 다시 확인해주세요."));
 
-        return direction.createPath(start, target);
+        return direction.createPath(start, target, repeatable);
     }
 
     @Override

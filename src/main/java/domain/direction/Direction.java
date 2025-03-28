@@ -8,21 +8,21 @@ import java.util.List;
 public class Direction {
 
     private final List<Vector> direction;
-    private final boolean repeatable;
+    private final boolean isPalaceCoordinate;
 
-    public Direction(final List<Vector> direction, final boolean repeatable) {
+    public Direction(final List<Vector> direction, final boolean isPalaceCoordinate) {
         this.direction = direction;
-        this.repeatable = repeatable;
+        this.isPalaceCoordinate = isPalaceCoordinate;
     }
 
-    public boolean canReach(final Position start, final Position target) {
+    public boolean canReach(final Position start, final Position target, final boolean repeatable) {
         if (repeatable) {
             return canReachWithRepeat(start, target);
         }
         return canReachWithoutRepeat(start, target);
     }
 
-    public List<Position> createPath(final Position start, final Position target) {
+    public List<Position> createPath(final Position start, final Position target, final boolean repeatable) {
         if (repeatable) {
             return createPathWithRepeat(start, target);
         }
@@ -30,6 +30,15 @@ public class Direction {
     }
 
     private boolean canReachWithRepeat(final Position start, final Position target) {
+        Position current = start;
+        Vector vector = direction.getFirst();
+        while (current.isMoveValid(vector) && !current.equals(target)) {
+            current = current.moveBy(vector);
+        }
+        return current.equals(target);
+    }
+
+    private boolean canReachWithPalaceCoordinate(final Position start, final Position target) {
         Position current = start;
         Vector vector = direction.getFirst();
         while (current.isMoveValid(vector) && !current.equals(target)) {
