@@ -8,7 +8,7 @@ import pieceProperty.Positions;
 import view.ErrorMessage;
 
 public abstract sealed class OmniDirectionalMover
-        implements Piece
+        implements PieceRule
         permits Sa, Janggun{
 
     private Position position;
@@ -23,8 +23,8 @@ public abstract sealed class OmniDirectionalMover
     }
 
     @Override
-    public void updateChessPiecePositionBy(final Position position) {
-        this.position = position;
+    public void updateChessPiecePositionBy(final Position destination) {
+        this.position = destination;
     }
 
     @Override

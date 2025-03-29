@@ -38,6 +38,17 @@ public class Position {
     private static final int PALACE_END_ROW = 2;
     private static final int PALACE_START_COLUMN = 3;
     private static final int PALACE_END_COLUMN = 5;
+    private static final Position TOP_LEFT = new Position(0, 3);
+    private static final Position TOP_RIGHT = new Position(0, 5);
+    private static final Position TOP_BOTTOM_LEFT = new Position(2, 3);
+    private static final Position TOP_BOTTOM_RIGHT = new Position(2, 5);
+    private static final Position TOP_CENTER = new Position(1, 4);
+
+    private static final Position BOTTOM_TOP_LEFT = new Position(7, 3);
+    private static final Position BOTTOM_TOP_RIGHT = new Position(7, 5);
+    private static final Position BOTTOM_CENTER = new Position(8, 4);
+    private static final Position BOTTOM_LEFT = new Position(9, 3);
+    private static final Position BOTTOM_RIGHT = new Position(9, 5);
 
     private final int row;
     private final int col;
@@ -46,6 +57,20 @@ public class Position {
         validateOutOfBound(row, col);
         this.row = row;
         this.col = col;
+    }
+
+    public boolean isOneStepDiagonalMoveValidForOmniDirectionMover(Position destination) {
+        return this.equals(TOP_LEFT) && destination.equals(TOP_CENTER) ||
+                this.equals(TOP_CENTER) && destination.equals(TOP_LEFT) ||
+
+                this.equals(TOP_CENTER) && destination.equals(TOP_RIGHT) ||
+                this.equals(TOP_RIGHT) && destination.equals(TOP_CENTER) ||
+
+                this.equals(TOP_CENTER) && destination.equals(TOP_BOTTOM_LEFT) ||
+                this.equals(TOP_BOTTOM_LEFT) && destination.equals(TOP_CENTER) ||
+
+                this.equals(TOP_CENTER) && destination.equals(TOP_BOTTOM_RIGHT) ||
+                this.equals(TOP_BOTTOM_RIGHT) && destination.equals(TOP_CENTER);
     }
 
     public boolean isInPalace() {

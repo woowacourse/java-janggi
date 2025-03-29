@@ -4,7 +4,7 @@ import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 
-public interface Piece {
+public interface PieceRule {
 
     boolean isSamePosition(Position startPosition);
 

@@ -11,7 +11,7 @@ import static pieceProperty.PieceType.SANG;
 
 import java.util.HashMap;
 import java.util.Map;
-import piece.Piece;
+import piece.PieceRule;
 import pieceProperty.PieceType;
 import player.Pieces;
 
@@ -33,17 +33,17 @@ public class OutputView {
 
         System.out.println(ROW);
 
-        for (Piece piece : hanPieces.getPieces()) {
-            int row = piece.currentPosition().getRow();
-            int col = piece.currentPosition().getCol();
-            PieceType pieceType = piece.getPieceType();
+        for (PieceRule pieceRule : hanPieces.getPieces()) {
+            int row = pieceRule.currentPosition().getRow();
+            int col = pieceRule.currentPosition().getCol();
+            PieceType pieceType = pieceRule.getPieceType();
             janggiPan[row][col] = RED_COLOR_CODE +  PIECE_TYPE_NAME_MAP.get(pieceType) + EXIT_CODE + PIECE_DELIMITER;
         }
 
-        for (Piece piece : choPieces.getPieces()) {
-            int row = piece.currentPosition().getRow();
-            int col = piece.currentPosition().getCol();
-            PieceType pieceType = piece.getPieceType();
+        for (PieceRule pieceRule : choPieces.getPieces()) {
+            int row = pieceRule.currentPosition().getRow();
+            int col = pieceRule.currentPosition().getCol();
+            PieceType pieceType = pieceRule.getPieceType();
             janggiPan[row][col] = GREEN_COLOR_CODE +  PIECE_TYPE_NAME_MAP.get(pieceType) + EXIT_CODE + PIECE_DELIMITER;
         }
 

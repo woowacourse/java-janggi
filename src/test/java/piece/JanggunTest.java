@@ -91,4 +91,25 @@ class JanggunTest {
 
         assertThat(janggun.getPieceType().isPo()).isFalse();
     }
+
+    @DisplayName("장성 움직임 테스트")
+    @ParameterizedTest
+    @MethodSource("providePositionForPalaceTest")
+    void palaceMovementTest() {
+
+    }
+
+    private static Stream<Arguments> providePositionForPalaceTest() {
+        return Stream.of(
+                Arguments.of(new Position(0, 3), new Position(1, 4)),
+                Arguments.of(new Position(0, 4), new Position(2, 2)),
+                Arguments.of(new Position(0, 5)),
+                Arguments.of(new Position(1, 3)),
+                Arguments.of(new Position(1, 4)),
+                Arguments.of(new Position(1, 5)),
+                Arguments.of(new Position(2, 3)),
+                Arguments.of(new Position(2, 4)),
+                Arguments.of(new Position(2, 5))
+        );
+    }
 }

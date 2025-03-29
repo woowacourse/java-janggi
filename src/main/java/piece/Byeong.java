@@ -9,7 +9,7 @@ import pieceProperty.Position;
 import pieceProperty.Positions;
 import view.ErrorMessage;
 
-public class Byeong implements Piece {
+public class Byeong implements PieceRule {
 
     private Position position;
 

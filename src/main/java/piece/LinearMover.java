@@ -8,7 +8,7 @@ import pieceProperty.Positions;
 import view.ErrorMessage;
 
 public abstract sealed class LinearMover
-        implements Piece
+        implements PieceRule
         permits Po, Cha{
 
     private Position position;
