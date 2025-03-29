@@ -48,6 +48,7 @@ public class GameDao {
         final var query = "UPDATE game SET turn = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, turn.getTeam().name());
+            stmt.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

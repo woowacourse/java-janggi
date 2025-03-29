@@ -42,26 +42,19 @@ public class JanggiController {
             try {
                 consoleView.showScore(janggiGame.getTotalScore(Team.HAN), janggiGame.getTotalScore(Team.CHO));
                 consoleView.showTurn(janggiGame.getTurn());
-                int selectNumber = consoleView.showSelect();
-                if (selectNumber == 2){
-                    gameService.saveTurn(janggiGame);
-                    pieceService.updateBoardPieceLocation(janggiGame);
-                    break;
-                }
                 BoardLocation current = consoleView.requestCurrent();
                 BoardLocation destination = consoleView.requestDestination();
 
                 janggiGame.process(current, destination);
+                pieceService.movePiece(current, destination);
+                gameService.saveTurn(janggiGame);
                 isGameStopped = janggiGame.isGameStopped();
-
                 consoleView.showBoard(janggiGame.getBoard().getPieces());
             } catch (RuntimeException e) {
                 consoleView.showMessage(e.getMessage());
             }
         }
-        if (isGameStopped){
-            consoleView.showWinner(janggiGame.getTurn());
-        }
+        consoleView.showWinner(janggiGame.getTurn());
     }
 
     private JanggiGame initializeJanggiGame() {

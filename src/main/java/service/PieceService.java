@@ -1,6 +1,7 @@
 package service;
 
 import dao.PieceDao;
+import domain.board.BoardLocation;
 import domain.game.JanggiGame;
 import dto.BoardDto;
 import java.util.Optional;
@@ -20,7 +21,8 @@ public class PieceService {
         return pieceDao.findByAllAlivePieces();
     }
 
-    public void updateBoardPieceLocation(JanggiGame janggiGame){
-        pieceDao.updateBoard(janggiGame);
+    public void movePiece(BoardLocation current, BoardLocation destination){
+        pieceDao.deleteBoard(destination);
+        pieceDao.updateBoard(current, destination);
     }
 }
