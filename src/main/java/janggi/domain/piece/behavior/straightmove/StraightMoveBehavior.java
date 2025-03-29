@@ -38,12 +38,12 @@ public abstract class StraightMoveBehavior implements PieceBehavior {
         Set<Position> result = new HashSet<>();
 
         for (Vector vector : getVectors(movements)) {
-            exploreSearchMove(position, board, team, vector, result);
+            searchMove(position, board, team, vector, result);
         }
         return result;
     }
 
-    private void exploreSearchMove(Position position, Board board, Team team, Vector vector, Set<Position> result) {
+    private void searchMove(Position position, Board board, Team team, Vector vector, Set<Position> result) {
         if (position.canNotMove(vector)) {
             return;
         }

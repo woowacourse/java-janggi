@@ -12,12 +12,14 @@ import java.util.Set;
 
 public abstract class OrthogonalRotateMoveBehavior implements PieceBehavior {
 
+    private static final int TOTAL_ROTATIONS = 4;
+
     @Override
     public final Set<Position> generateAvailableMovePositions(Board board, Team team, Position position) {
         Set<Position> result = new HashSet<>();
         List<Vectors> rotatedVectors = new ArrayList<>(getVectorsList());
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < TOTAL_ROTATIONS; i++) {
             rotatedVectors = Vectors.rotate(rotatedVectors);
             searchAvailableMoves(result, board, position, rotatedVectors, team);
         }
