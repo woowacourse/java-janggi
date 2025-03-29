@@ -44,6 +44,11 @@ public class OutputView {
         return BLANK_CELL;
     }
 
+    public void printTeamScore(final Map<Team, Double> teamScore) {
+        teamScore.forEach((key, value) -> System.out.printf("%s: %.1f점%n", key, value));
+        System.out.println();
+    }
+
     private void appendHeader(final CustomStringBuilder stringBuilder) {
         stringBuilder.appendBlankCell();
         IntStream.range(1, 10).forEach(columnIndex -> stringBuilder.appendHeader(

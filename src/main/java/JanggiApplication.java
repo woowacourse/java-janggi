@@ -17,6 +17,7 @@ public class JanggiApplication {
         Board board = new Board(boardInitializer.init());
         Turn turn = new Turn();
         outputView.printBoard(board.getPieces());
+        outputView.printTeamScore(board.calculateTotalScore());
         playGame(board, turn);
     }
 
@@ -24,6 +25,7 @@ public class JanggiApplication {
         Position startPosition = retry(() -> readStartPosition(board, turn));
         retry(() -> movePosition(board, startPosition));
         outputView.printBoard(board.getPieces());
+        outputView.printTeamScore(board.calculateTotalScore());
         turn.increaseRound();
         if (inputView.inputExitGame()) {
             return;
