@@ -18,7 +18,7 @@ public class ChoPawn extends PawnPiece {
 
     @Override
     public PieceType type() {
-        return PieceType.PAWN;
+        return PieceType.CHOPAWN;
     }
 
     @Override

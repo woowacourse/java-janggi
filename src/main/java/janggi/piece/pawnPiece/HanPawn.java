@@ -18,7 +18,7 @@ public class HanPawn extends PawnPiece {
 
     @Override
     public PieceType type() {
-        return PieceType.PAWN;
+        return PieceType.HANPAWN;
     }
 
     @Override

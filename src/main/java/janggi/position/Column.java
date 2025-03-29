@@ -11,6 +11,10 @@ public enum Column {
     H,
     I;
 
+    public static Column convert(String columnIndex) {
+        return values()[Integer.parseInt(columnIndex)];
+    }
+
     public boolean canMove(int step) {
         final int movedIndex = ordinal() + step;
         return values().length > movedIndex && movedIndex >= 0;

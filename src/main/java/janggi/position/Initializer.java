@@ -49,7 +49,14 @@ import repository.dao.PieceDao;
 import repository.entity.PieceEntity;
 
 class Initializer {
+    private final PieceDao pieceDao = new PieceDao();
+
     public Set<Piece> generate() {
+        Set<Piece> byPiece = pieceDao.findByPiece();
+        if(!byPiece.isEmpty()){
+            return byPiece;
+        }
+
         Set<Piece> pieces = new HashSet<>();
         pieces.add(new King(Team.HAN, E8));
         pieces.add(new King(Team.CHO, E1));
@@ -90,7 +97,6 @@ class Initializer {
         pieces.add(new ChoPawn(G3));
         pieces.add(new ChoPawn(I3));
 
-        PieceDao pieceDao = new PieceDao();
         for (Piece piece : pieces) {
             pieceDao.addPiece(PieceEntity.toEntity(piece));
         }

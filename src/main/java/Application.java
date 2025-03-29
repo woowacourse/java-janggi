@@ -4,7 +4,6 @@ import console.Output;
 import console.util.PositionConverter;
 import janggi.position.Board;
 import janggi.position.Position;
-import java.sql.Connection;
 import java.util.function.Supplier;
 import repository.Schema;
 import repository.connection.ConnectMysql;

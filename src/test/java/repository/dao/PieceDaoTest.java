@@ -1,0 +1,22 @@
+package repository.dao;
+
+import static janggi.piece.Team.CHO;
+import static position.PositionFixtures.E1;
+
+import janggi.piece.Piece;
+import janggi.piece.palacePiece.King;
+import org.junit.jupiter.api.Test;
+import repository.entity.PieceEntity;
+
+public class PieceDaoTest {
+
+    // TODO: 2025. 3. 29. 20:06: 메인 db에 영향이 가지 않는 방법 찾아보기
+//    PieceDao pieceDao = new PieceDao();
+//
+//    @Test
+//    public void addUser() {
+//        Piece king = new King(CHO, E1);
+//        pieceDao.addPiece(PieceEntity.toEntity(king));
+//    }
+
+}
