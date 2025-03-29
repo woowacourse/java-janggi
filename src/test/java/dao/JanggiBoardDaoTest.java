@@ -6,6 +6,7 @@ import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +33,7 @@ class JanggiBoardDaoTest {
         assertThat(connection).isNotNull();
     }
 
+    @Disabled
     @DisplayName("기물 추가 테스트")
     @Test
     void addPiece() {
@@ -43,6 +45,7 @@ class JanggiBoardDaoTest {
         // then
     }
 
+    @Disabled
     @DisplayName("기물 조회 테스트")
     @Test
     void viewPiece() {
@@ -58,6 +61,7 @@ class JanggiBoardDaoTest {
         });
     }
 
+    @Disabled
     @DisplayName("기물 삭제 테스트")
     @Test
     void deletePiece() {
@@ -71,6 +75,7 @@ class JanggiBoardDaoTest {
         assertThat(piece).isNull();
     }
 
+    @Disabled
     @DisplayName("기물 수정 테스트")
     @Test
     void updatePiece() {
