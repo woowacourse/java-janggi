@@ -38,15 +38,6 @@ public class Direction {
         return current.equals(target);
     }
 
-    private boolean canReachWithPalaceCoordinate(final Position start, final Position target) {
-        Position current = start;
-        Vector vector = direction.getFirst();
-        while (current.isMoveValid(vector) && !current.equals(target)) {
-            current = current.moveBy(vector);
-        }
-        return current.equals(target);
-    }
-
     private boolean canReachWithoutRepeat(final Position start, final Position target) {
         Position current = start;
         for (Vector vector : direction) {
