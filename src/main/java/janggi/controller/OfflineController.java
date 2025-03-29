@@ -34,14 +34,11 @@ public final class OfflineController implements Controller {
         Judge judge = new Judge();
         Camp currentTurnCamp = FIRST_TURN_CAMP;
         while (!judge.isGameOver(board)) {
-            view.displayPoint(judge.calculateScore(board));
-            view.displayBoard(board.getPlacedPieces());
+            displayCurrentBoard(board, judge);
             playTurnUntilSuccess(currentTurnCamp, board);
             currentTurnCamp = currentTurnCamp.reverse();
         }
-        view.displayPoint(judge.calculateScore(board));
-        view.displayBoard(board.getPlacedPieces());
-        view.displayEndBanner();
+        displayGameEnd(board, judge);
     }
 
     private void playTurnUntilSuccess(Camp currentTurnCamp, Board board) {
@@ -64,5 +61,15 @@ public final class OfflineController implements Controller {
     private void validateSelectedPiece(Board board, Point from, Camp baseCamp) {
         Piece piece = board.getPiece(from);
         piece.validateSelect(baseCamp);
+    }
+
+    private void displayCurrentBoard(Board board, Judge judge) {
+        view.displayPoint(judge.calculateScore(board));
+        view.displayBoard(board.getPlacedPieces());
+    }
+
+    private void displayGameEnd(Board board, Judge judge) {
+        displayCurrentBoard(board, judge);
+        view.displayEndBanner();
     }
 }

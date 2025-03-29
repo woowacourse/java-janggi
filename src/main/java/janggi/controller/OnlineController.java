@@ -56,14 +56,11 @@ public final class OnlineController implements Controller {
         Judge judge = new Judge();
         Camp currentTurnCamp = boardDao.findCurrentTurnCamp();
         while (!judge.isGameOver(board)) {
-            view.displayPoint(judge.calculateScore(board));
-            view.displayBoard(board.getPlacedPieces());
+            displayCurrentBoard(board, judge);
             playTurnUntilSuccess(currentTurnCamp, board);
             currentTurnCamp = turnChange(currentTurnCamp);
         }
-        view.displayPoint(judge.calculateScore(board));
-        view.displayBoard(board.getPlacedPieces());
-        view.displayEndBanner();
+        displayGameEnd(board, judge);
         boardDao.endGame();
     }
 
@@ -126,5 +123,15 @@ public final class OnlineController implements Controller {
     private void validateSelectedPiece(Board board, Point from, Camp baseCamp) {
         Piece piece = board.getPiece(from);
         piece.validateSelect(baseCamp);
+    }
+
+    private void displayCurrentBoard(Board board, Judge judge) {
+        view.displayPoint(judge.calculateScore(board));
+        view.displayBoard(board.getPlacedPieces());
+    }
+
+    private void displayGameEnd(Board board, Judge judge) {
+        displayCurrentBoard(board, judge);
+        view.displayEndBanner();
     }
 }
