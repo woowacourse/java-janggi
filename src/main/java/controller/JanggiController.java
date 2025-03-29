@@ -6,25 +6,36 @@ import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.piece.Piece;
 import domain.piece.Team;
+import dto.BoardDto;
+import dto.TurnDto;
 import java.util.Map;
+import java.util.Optional;
 import service.GameService;
+import service.PieceService;
 import view.ConsoleView;
 
 public class JanggiController {
 
     private final ConsoleView consoleView;
     private final GameService gameService;
+    private final PieceService pieceService;
 
-    public JanggiController(ConsoleView consoleView, GameService gameService) {
+    public JanggiController(ConsoleView consoleView, GameService gameService, PieceService pieceService) {
         this.consoleView = consoleView;
         this.gameService = gameService;
+        this.pieceService = pieceService;
     }
 
-    public void start(JanggiGame janggiGame) {
-        if (!gameService.isGameContinuing()){
-            janggiGame = createJanggiGame();
-            gameService.initializeGame();
+    public void start() {
+        Optional<BoardDto> boardDto = pieceService.getAlivePieces();
+        Optional<TurnDto> turnDto = gameService.findTurn();
+        JanggiGame janggiGame;
+        if (boardDto.isEmpty() || turnDto.isEmpty()){
+            janggiGame = initializeJanggiGame();
+        } else {
+            janggiGame = new JanggiGame(boardDto.get().toBoard(), turnDto.get().toTurn());
         }
+
         consoleView.showBoard(janggiGame.getBoard().getPieces());
         boolean isGameStopped = false;
         while (!isGameStopped) {
@@ -50,6 +61,15 @@ public class JanggiController {
         if (isGameStopped){
             consoleView.showWinner(janggiGame.getTurn());
         }
+    }
+
+    private JanggiGame initializeJanggiGame() {
+        JanggiGame janggiGame = createJanggiGame();
+        gameService.createGame();
+        gameService.insertInitializeGameTurn();
+        pieceService.createPieceTable();
+        pieceService.insertInitializePieceIfNotExists(janggiGame);
+        return janggiGame;
     }
 
     private JanggiGame createJanggiGame() {
