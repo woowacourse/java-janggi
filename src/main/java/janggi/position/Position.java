@@ -20,21 +20,21 @@ public record Position(int row, int col) {
     }
 
     public boolean isBehind(final Position position) {
-        final int dx = position.row - row;
-        final int dy = calculateDifferenceCol(position.col);
+        final int dx = this.row - position.row;
+        final int dy = Math.abs(this.col - position.col);
 
-        return dx == 0 && dy == 1 || dx == 1 && dy == 0;
-    }
-
-    public int calculateDifferenceRow(final int row) {
-        return Math.abs(row - this.row);
-    }
-
-    public int calculateDifferenceCol(final int col) {
-        return Math.abs(col - this.col);
+        return (dx >= 1 && dy == 0) || (dx >= 1 && dy >= 1);
     }
 
     public boolean isOneDiagonal(final Position targetPosition) {
         return (calculateDifferenceRow(targetPosition.row) == 1 && calculateDifferenceCol(targetPosition.col) == 1);
+    }
+
+    public int calculateDifferenceRow(final int row) {
+        return Math.abs(this.row - row);
+    }
+
+    public int calculateDifferenceCol(final int col) {
+        return Math.abs(this.col - col);
     }
 }

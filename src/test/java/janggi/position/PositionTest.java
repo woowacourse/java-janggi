@@ -90,15 +90,29 @@ class PositionTest {
         assertThat(actual).isEqualTo(2);
     }
 
-    @DisplayName("자신의 위치를 기준으로 한 칸 뒤에 있다면 true를 반환한다.")
+    @DisplayName("자신의 위치를 기준으로 목적지가 뒤에 있다면 true를 반환한다.")
     @Test
     void isBehindWhenOneStepBackwards() {
         // given
-        final Position currentPosition = new Position(3, 3);
-        final Position behindPosition = new Position(3, 2);
+        final Position currentPosition = new Position(3, 2);
+        final Position targetPosition = new Position(2, 2);
 
         // when
-        final boolean actual = currentPosition.isBehind(behindPosition);
+        final boolean actual = currentPosition.isBehind(targetPosition);
+
+        // then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("자신의 위치를 기준으로 목적지가 뒤에 있다면 true를 반환한다.")
+    @Test
+    void isBehindWhenOneStepBackwards2() {
+        // given
+        final Position currentPosition = new Position(2, 2);
+        final Position targetPosition = new Position(3, 2);
+
+        // when
+        final boolean actual = targetPosition.isBehind(currentPosition);
 
         // then
         assertThat(actual).isTrue();
@@ -121,7 +135,7 @@ class PositionTest {
 
     @DisplayName("현재 위치와 목적위치의 Row 차이와 Col 의 차이가 1이 아니라면 한칸 대각선으로 판단하지 않는다.")
     @ParameterizedTest
-    @CsvSource(value = {"3:3", "5:5", "3:4", "4:3", "1:2"}, delimiter = ':')
+    @CsvSource(value = {"3:3", "3:5", "5:3", "4:3", "3:2"}, delimiter = ':')
     void isNotOneDiagonal(final int row, final int col) {
         //given
         final Position currentPosition = new Position(3, 3);
