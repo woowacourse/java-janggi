@@ -1,19 +1,24 @@
 package janggi.temp;
 
-import static janggi.temp.Movement.DOWN;
-import static janggi.temp.Movement.LEFT;
-import static janggi.temp.Movement.LEFT_DOWN;
-import static janggi.temp.Movement.LEFT_UP;
-import static janggi.temp.Movement.RIGHT;
-import static janggi.temp.Movement.RIGHT_DOWN;
-import static janggi.temp.Movement.RIGHT_UP;
-import static janggi.temp.Movement.UP;
-import static org.assertj.core.api.Assertions.assertThat;
+import static janggi.temp.movement.Movement.DOWN;
+import static janggi.temp.movement.Movement.LEFT;
+import static janggi.temp.movement.Movement.LEFT_DOWN;
+import static janggi.temp.movement.Movement.LEFT_UP;
+import static janggi.temp.movement.Movement.RIGHT;
+import static janggi.temp.movement.Movement.RIGHT_DOWN;
+import static janggi.temp.movement.Movement.RIGHT_UP;
+import static janggi.temp.movement.Movement.UP;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.temp.movement.Movement;
+import janggi.temp.piece.Elephant;
+import janggi.temp.position.Column;
+import janggi.temp.position.Position;
+import janggi.temp.position.Row;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,11 +46,11 @@ class ElephantTest {
         // given
         Position current = new Position(Column.FOUR, Row.FOUR);
         Position destination = current.move(first).move(second).move(third);
-        Elephant elephant = new Elephant(current, Team.HAN);
+        Elephant elephant = new Elephant(Team.HAN);
         // when
-        Piece moved = elephant.move(destination, Set.of(elephant));
         // then
-        assertThat(moved).isEqualTo(new Elephant(destination, Team.HAN));
+        assertThatCode(() -> elephant.validateMove(current, destination, new Board(Map.of(current, elephant))))
+                .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> elephantMovements() {
@@ -60,10 +65,10 @@ class ElephantTest {
         // given
         Position current = new Position(Column.FOUR, Row.FOUR);
         Position destination = current.move(movement);
-        Elephant elephant = new Elephant(current, Team.HAN);
+        Elephant elephant = new Elephant(Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> elephant.move(destination, Set.of(elephant)))
+        assertThatThrownBy(() -> elephant.validateMove(current, destination, new Board(Map.of(current, elephant))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
@@ -81,11 +86,12 @@ class ElephantTest {
         Position current = new Position(Column.FOUR, Row.FOUR);
         Position firstMoved = current.move(first);
         Position destination = current.move(first).move(second).move(third);
-        Elephant blockedElephant = new Elephant(firstMoved, Team.HAN);
-        Elephant moveingElephant = new Elephant(current, Team.HAN);
+        Elephant blockedElephant = new Elephant(Team.HAN);
+        Elephant moveingElephant = new Elephant(Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> moveingElephant.move(destination, Set.of(moveingElephant, blockedElephant)))
+        assertThatThrownBy(() -> moveingElephant.validateMove(current, destination,
+                new Board(Map.of(current, blockedElephant, firstMoved, blockedElephant))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
     }
@@ -98,11 +104,13 @@ class ElephantTest {
         Position current = new Position(Column.FOUR, Row.FOUR);
         Position secondMoved = current.move(first).move(second);
         Position destination = secondMoved.move(third);
-        Elephant blockedElephant = new Elephant(secondMoved, Team.HAN);
-        Elephant moveingElephant = new Elephant(current, Team.HAN);
+        Elephant blockedElephant = new Elephant(Team.HAN);
+        Elephant moveingElephant = new Elephant(Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> moveingElephant.move(destination, Set.of(moveingElephant, blockedElephant)))
+        assertThatThrownBy(
+                () -> moveingElephant.validateMove(current, destination,
+                        new Board(Map.of(current, blockedElephant, secondMoved, blockedElephant))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
     }

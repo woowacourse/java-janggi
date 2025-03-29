@@ -2,10 +2,10 @@ package janggi.view;
 
 import janggi.board.Board;
 import janggi.piece.Piece;
-import janggi.piece.Type;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import janggi.temp.piece.Type;
 import java.util.Map;
 
 public final class BoardView {

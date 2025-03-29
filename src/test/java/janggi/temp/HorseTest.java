@@ -1,19 +1,24 @@
 package janggi.temp;
 
-import static janggi.temp.Movement.DOWN;
-import static janggi.temp.Movement.LEFT;
-import static janggi.temp.Movement.LEFT_DOWN;
-import static janggi.temp.Movement.LEFT_UP;
-import static janggi.temp.Movement.RIGHT;
-import static janggi.temp.Movement.RIGHT_DOWN;
-import static janggi.temp.Movement.RIGHT_UP;
-import static janggi.temp.Movement.UP;
-import static org.assertj.core.api.Assertions.assertThat;
+import static janggi.temp.movement.Movement.DOWN;
+import static janggi.temp.movement.Movement.LEFT;
+import static janggi.temp.movement.Movement.LEFT_DOWN;
+import static janggi.temp.movement.Movement.LEFT_UP;
+import static janggi.temp.movement.Movement.RIGHT;
+import static janggi.temp.movement.Movement.RIGHT_DOWN;
+import static janggi.temp.movement.Movement.RIGHT_UP;
+import static janggi.temp.movement.Movement.UP;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.temp.movement.Movement;
+import janggi.temp.piece.Horse;
+import janggi.temp.position.Column;
+import janggi.temp.position.Position;
+import janggi.temp.position.Row;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,11 +46,11 @@ class HorseTest {
         // given
         Position current = new Position(Column.FOUR, Row.FOUR);
         Position destination = current.move(first).move(second);
-        Horse horse = new Horse(current, Team.HAN);
+        Horse horse = new Horse(Team.HAN);
         // when
-        Piece moved = horse.move(destination, Set.of(horse));
         // then
-        assertThat(moved).isEqualTo(new Horse(destination, Team.HAN));
+        assertThatCode(() -> horse.validateMove(current, destination, new Board(Map.of(current, horse))))
+                .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> horseMovements() {
@@ -60,10 +65,10 @@ class HorseTest {
         // given
         Position current = new Position(Column.FOUR, Row.FOUR);
         Position destination = current.move(movement);
-        Horse horse = new Horse(current, Team.HAN);
+        Horse horse = new Horse(Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> horse.move(destination, Set.of(horse)))
+        assertThatThrownBy(() -> horse.validateMove(current, destination, new Board(Map.of(current, horse))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
@@ -81,11 +86,11 @@ class HorseTest {
         Position current = new Position(Column.FOUR, Row.FOUR);
         Position firstMoved = current.move(first);
         Position destination = current.move(first).move(second);
-        Horse movingHorse = new Horse(current, Team.HAN);
-        Horse blockedHorse = new Horse(firstMoved, Team.HAN);
+        Horse horse = new Horse(Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> movingHorse.move(destination, Set.of(movingHorse, blockedHorse)))
+        assertThatThrownBy(
+                () -> horse.validateMove(current, destination, new Board(Map.of(current, horse, firstMoved, horse))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
     }

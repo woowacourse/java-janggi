@@ -4,6 +4,7 @@ import janggi.position.Position;
 import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
 import janggi.temp.Team;
+import janggi.temp.piece.Type;
 import java.util.Map;
 
 public final class General extends Piece {

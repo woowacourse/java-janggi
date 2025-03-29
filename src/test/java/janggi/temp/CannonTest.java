@@ -3,7 +3,7 @@ package janggi.temp;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.temp.piece.Chariot;
+import janggi.temp.piece.Cannon;
 import janggi.temp.position.Column;
 import janggi.temp.position.Position;
 import janggi.temp.position.Row;
@@ -16,20 +16,36 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("차(Chariot) 테스트")
-class ChariotTest {
+@DisplayName("포(Cannon) 테스트")
+class CannonTest {
 
-    @DisplayName("오른쪽 직선으로 원하는 만큼 움직일 수 있다.")
+    @DisplayName("포는 포를 잡을 수 없다.")
+    @Test
+    void testPhoTakePho() {
+        // given
+        Position current = new Position(Column.THREE, Row.ZERO);
+        Position destination = new Position(Column.FIVE, Row.ZERO);
+        Cannon hanCannon = new Cannon(Team.HAN);
+        Cannon choCannon = new Cannon(Team.CHO);
+        // when
+        // then
+        assertThatThrownBy(() -> hanCannon.validateMove(current, destination, new Board(
+                Map.of(current, hanCannon, destination, choCannon))))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
+    }
+
+    @DisplayName("하나의 기물을 뛰어넘어서 오른쪽 직선으로 원하는 만큼 움직일 수 있다.")
     @ParameterizedTest(name = "{0}열로 이동")
     @MethodSource
     void testMoveRight(Column destinationColumn) {
         // given
         Position current = new Position(Column.ZERO, Row.ZERO);
         Position destination = new Position(destinationColumn, Row.ZERO);
-        Chariot chariot = new Chariot(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN);
         // when
         // then
-        assertThatCode(() -> chariot.validateMove(current, destination, new Board(Map.of(current, chariot))))
+        assertThatCode(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
                 .doesNotThrowAnyException();
     }
 
@@ -39,17 +55,17 @@ class ChariotTest {
                 .map(Arguments::of);
     }
 
-    @DisplayName("왼쪽 직선으로 원하는 만큼 움직일 수 있다.")
+    @DisplayName("하나의 기물을 뛰어넘어서 왼쪽 직선으로 원하는 만큼 움직일 수 있다.")
     @ParameterizedTest(name = "{0}열로 이동")
     @MethodSource
     void testMoveLeft(Column destinationColumn) {
         // given
         Position current = new Position(Column.EIGHT, Row.ZERO);
         Position destination = new Position(destinationColumn, Row.ZERO);
-        Chariot chariot = new Chariot(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN);
         // when
         // then
-        assertThatCode(() -> chariot.validateMove(current, destination, new Board(Map.of(current, chariot))))
+        assertThatCode(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
                 .doesNotThrowAnyException();
     }
 
@@ -59,17 +75,17 @@ class ChariotTest {
                 .map(Arguments::of);
     }
 
-    @DisplayName("위쪽 직선으로 원하는 만큼 움직일 수 있다.")
+    @DisplayName("하나의 기물을 뛰어넘어서 위쪽 직선으로 원하는 만큼 움직일 수 있다.")
     @ParameterizedTest(name = "{0}행으로 이동")
     @MethodSource
     void testMoveUp(Row destinationRow) {
         // given
         Position current = new Position(Column.ZERO, Row.NINE);
         Position destination = new Position(Column.ZERO, destinationRow);
-        Chariot chariot = new Chariot(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN);
         // when
         // then
-        assertThatCode(() -> chariot.validateMove(current, destination, new Board(Map.of(current, chariot))))
+        assertThatCode(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
                 .doesNotThrowAnyException();
     }
 
@@ -79,17 +95,17 @@ class ChariotTest {
                 .map(Arguments::of);
     }
 
-    @DisplayName("아래 직선으로 원하는 만큼 움직일 수 있다.")
+    @DisplayName("하나의 기물을 뛰어넘어서 아래 직선으로 원하는 만큼 움직일 수 있다.")
     @ParameterizedTest(name = "{0}행으로 이동")
     @MethodSource
     void testMoveDown(Row destinationRow) {
         // given
         Position current = new Position(Column.ZERO, Row.ZERO);
         Position destination = new Position(Column.ZERO, destinationRow);
-        Chariot chariot = new Chariot(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN);
         // when
         // then
-        assertThatCode(() -> chariot.validateMove(current, destination, new Board(Map.of(current, chariot))))
+        assertThatCode(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
                 .doesNotThrowAnyException();
     }
 
@@ -111,15 +127,15 @@ class ChariotTest {
      * (3, 9) (4, 9) (5, 9)
      */
 
-    @DisplayName("궁성의 대각선을 따라 원하는 만큼 움직일 수 있다.")
+    @DisplayName("가운데에 하나의 기물이 존재할 때 궁성의 대각선을 따라 움직일 수 있다.")
     @ParameterizedTest
     @MethodSource
     void testMoveDiagonal(Position current, Position destination) {
         // given
-        Chariot chariot = new Chariot(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN);
         // when
         // then
-        assertThatCode(() -> chariot.validateMove(current, destination, new Board(Map.of(current, chariot))))
+        assertThatCode(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
                 .doesNotThrowAnyException();
     }
 
@@ -130,10 +146,6 @@ class ChariotTest {
                 Arguments.of(new Position(Column.FIVE, Row.ZERO), new Position(Column.THREE, Row.TWO)),
                 Arguments.of(new Position(Column.THREE, Row.TWO), new Position(Column.FIVE, Row.ZERO)),
                 Arguments.of(new Position(Column.FIVE, Row.TWO), new Position(Column.THREE, Row.ZERO)),
-                Arguments.of(new Position(Column.THREE, Row.ZERO), new Position(Column.FOUR, Row.ONE)),
-                Arguments.of(new Position(Column.FIVE, Row.ZERO), new Position(Column.FOUR, Row.ONE)),
-                Arguments.of(new Position(Column.THREE, Row.TWO), new Position(Column.FOUR, Row.ONE)),
-                Arguments.of(new Position(Column.FIVE, Row.TWO), new Position(Column.FOUR, Row.ONE)),
                 // 초궁
                 Arguments.of(new Position(Column.THREE, Row.SEVEN), new Position(Column.FIVE, Row.NINE)),
                 Arguments.of(new Position(Column.FIVE, Row.SEVEN), new Position(Column.THREE, Row.NINE)),
@@ -147,45 +159,79 @@ class ChariotTest {
         // given
         Position current = new Position(Column.ZERO, Row.ZERO);
         Position destination = new Position(Column.ONE, Row.ONE);
-        Chariot chariot = new Chariot(Team.HAN);
+        Cannon cannon = new Cannon(Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> chariot.validateMove(current, destination, new Board(Map.of(current, chariot))))
+        assertThatThrownBy(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
 
-    @DisplayName("직선으로 이동할 때 다른 기물을 뛰어넘어서 이동할 수 없다.")
+    @DisplayName("직선으로 이동할 때 다른 기물을 뛰어넘지 않고 이동할 수 없다.")
+    @Test
+    void testNonBlockingPiece() {
+        // given
+        Position current = new Position(Column.THREE, Row.ZERO);
+        Position blocking = new Position(Column.FOUR, Row.ZERO);
+        Position destination = new Position(Column.FIVE, Row.ZERO);
+        Cannon movingCannon = new Cannon(Team.HAN);
+        Cannon blockingCannon = new Cannon(Team.HAN);
+        // when
+        // then
+        assertThatThrownBy(() -> movingCannon.validateMove(current, destination,
+                new Board(Map.of(current, movingCannon, blocking, blockingCannon))))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 다른 기물을 뛰어 넘어서 이동해야 합니다.");
+    }
+
+    @DisplayName("직선으로 이동할 때 2개 이상의 기물을 뛰어넘어서 이동할 수 없다.")
     @Test
     void testBlockingPiece() {
         // given
         Position current = new Position(Column.THREE, Row.ZERO);
         Position blocking = new Position(Column.FOUR, Row.ZERO);
         Position destination = new Position(Column.FIVE, Row.ZERO);
-        Chariot movingChariot = new Chariot(Team.HAN);
-        Chariot blockingChariot = new Chariot(Team.HAN);
+        Cannon movingCannon = new Cannon(Team.HAN);
+        Cannon blockingCannon = new Cannon(Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> movingChariot.validateMove(current, destination,
-                new Board(Map.of(current, movingChariot, blocking, blockingChariot))))
+        assertThatThrownBy(() -> movingCannon.validateMove(current, destination,
+                new Board(Map.of(current, movingCannon, blocking, blockingCannon))))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
+                .hasMessage("[ERROR] 포는 하나의 기물만 뛰어넘을 수 있습니다.");
     }
 
-    @DisplayName("궁성에서 대각선으로 이동할 때 다른 기물을 뛰어넘어서 이동할 수 없다.")
+    @DisplayName("직선으로 이동할 때 포를 뛰어넘어서 이동할 수 없다.")
+    @Test
+    void testBlockingPho() {
+        // given
+        Position current = new Position(Column.THREE, Row.ZERO);
+        Position blocking = new Position(Column.FOUR, Row.ZERO);
+        Position destination = new Position(Column.FIVE, Row.ZERO);
+        Cannon movingCannon = new Cannon(Team.HAN);
+        Cannon blockingCannon = new Cannon(Team.HAN);
+        // when
+        // then
+        assertThatThrownBy(() -> movingCannon.validateMove(current, destination,
+                new Board(Map.of(current, movingCannon, blocking, blockingCannon))))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 포는 포를 넘을 수 없습니다.");
+    }
+
+    @DisplayName("궁성에서 대각선으로 이동할 때 포를 뛰어넘어서 이동할 수 없다.")
     @Test
     void test7() {
         // given
         Position current = new Position(Column.THREE, Row.ZERO);
         Position blocking = new Position(Column.FOUR, Row.ONE);
         Position destination = new Position(Column.FIVE, Row.TWO);
-        Chariot movingChariot = new Chariot(Team.HAN);
-        Chariot blockingChariot = new Chariot(Team.HAN);
+        Cannon movingCannon = new Cannon(Team.HAN);
+        Cannon blockingCannon = new Cannon(Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> movingChariot.validateMove(current, destination,
-                new Board(Map.of(current, movingChariot, blocking, blockingChariot))))
+        assertThatThrownBy(() -> movingCannon.validateMove(current, destination,
+                new Board(Map.of(current, movingCannon, blocking, blockingCannon))))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
+                .hasMessage("[ERROR] 포는 포를 넘을 수 없습니다.");
     }
 }

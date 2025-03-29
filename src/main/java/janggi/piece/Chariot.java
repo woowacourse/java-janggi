@@ -6,6 +6,7 @@ import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
 import janggi.rule.Vector;
 import janggi.temp.Team;
+import janggi.temp.piece.Type;
 import java.util.Map;
 
 public final class Chariot extends Piece {

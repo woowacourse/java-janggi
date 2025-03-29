@@ -1,17 +1,22 @@
 package janggi.temp;
 
-import static janggi.temp.Movement.DOWN;
-import static janggi.temp.Movement.LEFT;
-import static janggi.temp.Movement.LEFT_DOWN;
-import static janggi.temp.Movement.LEFT_UP;
-import static janggi.temp.Movement.RIGHT;
-import static janggi.temp.Movement.RIGHT_DOWN;
-import static janggi.temp.Movement.RIGHT_UP;
-import static janggi.temp.Movement.UP;
-import static org.assertj.core.api.Assertions.assertThat;
+import static janggi.temp.movement.Movement.DOWN;
+import static janggi.temp.movement.Movement.LEFT;
+import static janggi.temp.movement.Movement.LEFT_DOWN;
+import static janggi.temp.movement.Movement.LEFT_UP;
+import static janggi.temp.movement.Movement.RIGHT;
+import static janggi.temp.movement.Movement.RIGHT_DOWN;
+import static janggi.temp.movement.Movement.RIGHT_UP;
+import static janggi.temp.movement.Movement.UP;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.Set;
+import janggi.temp.movement.Movement;
+import janggi.temp.piece.General;
+import janggi.temp.position.Column;
+import janggi.temp.position.Position;
+import janggi.temp.position.Row;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,11 +46,12 @@ class GeneralTest {
         // given
         Position current = new Position(Column.FOUR, Row.ONE);
         Position destination = current.move(movement);
-        General generalInCenter = new General(current, Team.HAN);
+        General generalInCenter = new General(Team.HAN);
         // when
-        Piece movedGeneral = generalInCenter.move(destination, Set.of(generalInCenter));
         // then
-        assertThat(movedGeneral).isEqualTo(new General(destination, Team.HAN));
+        assertThatCode(
+                () -> generalInCenter.validateMove(current, destination, new Board(Map.of(current, generalInCenter))))
+                .doesNotThrowAnyException();
     }
 
     @DisplayName("초궁의 궁은 궁성의 가운데에서 모든 방향으로 이동할 수 있다.")
@@ -55,11 +61,12 @@ class GeneralTest {
         // given
         Position current = new Position(Column.FOUR, Row.EIGHT);
         Position destination = current.move(movement);
-        General generalInCenter = new General(current, Team.CHO);
+        General generalInCenter = new General(Team.CHO);
         // when
-        Piece movedGeneral = generalInCenter.move(destination, Set.of(generalInCenter));
         // then
-        assertThat(movedGeneral).isEqualTo(new General(destination, Team.CHO));
+        assertThatCode(
+                () -> generalInCenter.validateMove(current, destination, new Board(Map.of(current, generalInCenter))))
+                .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> generalMovements() {
@@ -71,10 +78,13 @@ class GeneralTest {
     @Test
     void testMovingRuleValidation() {
         // given
-        General general = new General(new Position(Column.THREE, Row.ZERO), Team.HAN);
+        Position current = new Position(Column.THREE, Row.ZERO);
+        General general = new General(Team.HAN);
+        Position destination = new Position(Column.FIVE, Row.TWO);
         // when
         // then
-        assertThatThrownBy(() -> general.move(new Position(Column.FIVE, Row.TWO), Set.of(general)))
+        assertThatThrownBy(() -> general.validateMove(current, destination,
+                new Board(Map.of(current, general))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
@@ -83,10 +93,13 @@ class GeneralTest {
     @Test
     void testValidatePalaceDestination() {
         // given
-        General general = new General(new Position(Column.FOUR, Row.TWO), Team.HAN);
+        Position current = new Position(Column.FOUR, Row.TWO);
+        General general = new General(Team.HAN);
+        Position destination = new Position(Column.FOUR, Row.THREE);
         // when
         // then
-        assertThatThrownBy(() -> general.move(new Position(Column.FOUR, Row.THREE), Set.of(general)))
+        assertThatThrownBy(() -> general.validateMove(current, destination,
+                new Board(Map.of(current, general))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 궁성 밖으로 이동할 수 없습니다.");
     }
@@ -97,28 +110,14 @@ class GeneralTest {
         // given
         Position current = new Position(Column.FOUR, Row.TWO);
         Position destination = new Position(Column.THREE, Row.ONE);
-        General general = new General(current, Team.HAN);
+        General general = new General(Team.HAN);
         // when
         // then
-        assertThatThrownBy(() -> general.move(destination, Set.of(general)))
+        assertThatThrownBy(() -> general.validateMove(current, destination,
+                new Board(Map.of(current, general))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 규칙에 어긋나는 움직입입니다.");
     }
-
-//    @DisplayName("자기 위치로 이동할 수 없다.")
-//    @Test
-//    void testMoveToCurrentPosition() {
-//        // given
-//        Position current = new Position(Column.FOUR, Row.TWO);
-//        General general = new General(current, Team.HAN);
-//        // when
-//        // then
-//        assertThatThrownBy(() -> general.move(current, Set.of(general)))
-//                .isInstanceOf(IllegalArgumentException.class)
-//                .hasMessage("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
-//    }
-
-    // TODO 같은 팀이 있는 위치로 이동할 수 없다
 
     private static Stream<Arguments> testMoveHanGeneral() {
         return Stream.of(

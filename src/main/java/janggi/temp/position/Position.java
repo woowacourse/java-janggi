@@ -1,5 +1,8 @@
-package janggi.temp;
+package janggi.temp.position;
 
+import janggi.temp.movement.ElephantMovement;
+import janggi.temp.movement.HorseMovement;
+import janggi.temp.movement.Movement;
 import java.util.List;
 
 public record Position(Column column, Row row) {
@@ -143,5 +146,13 @@ public record Position(Column column, Row row) {
 
     public boolean isPalaceSide() {
         return palaceSide.contains(this);
+    }
+
+    public int getRowValue() {
+        return row.getValue();
+    }
+
+    public int getColumnValue() {
+        return column.getValue();
     }
 }

@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.temp.piece;
 
 public enum Type {
 

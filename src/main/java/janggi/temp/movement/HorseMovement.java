@@ -1,13 +1,13 @@
-package janggi.temp;
+package janggi.temp.movement;
 
-import static janggi.temp.Movement.DOWN;
-import static janggi.temp.Movement.LEFT;
-import static janggi.temp.Movement.LEFT_DOWN;
-import static janggi.temp.Movement.LEFT_UP;
-import static janggi.temp.Movement.RIGHT;
-import static janggi.temp.Movement.RIGHT_DOWN;
-import static janggi.temp.Movement.RIGHT_UP;
-import static janggi.temp.Movement.UP;
+import static janggi.temp.movement.Movement.DOWN;
+import static janggi.temp.movement.Movement.LEFT;
+import static janggi.temp.movement.Movement.LEFT_DOWN;
+import static janggi.temp.movement.Movement.LEFT_UP;
+import static janggi.temp.movement.Movement.RIGHT;
+import static janggi.temp.movement.Movement.RIGHT_DOWN;
+import static janggi.temp.movement.Movement.RIGHT_UP;
+import static janggi.temp.movement.Movement.UP;
 
 public enum HorseMovement {
 

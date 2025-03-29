@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.position.Position;
 import janggi.rule.MovingRules;
 import janggi.temp.Team;
+import janggi.temp.piece.Type;
 import java.util.Map;
 
 public abstract class Piece {

@@ -1,4 +1,4 @@
-package janggi.temp;
+package janggi.temp.position;
 
 import java.util.Arrays;
 
@@ -38,5 +38,9 @@ public enum Row {
 
     public int difference(Row other) {
         return this.value - other.value;
+    }
+
+    public int getValue() {
+        return value;
     }
 }

@@ -5,10 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.fixture.TestBoardGenerator;
 import janggi.piece.Piece;
-import janggi.piece.Type;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import janggi.temp.piece.Type;
 import janggi.view.SetupOption;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package janggi.temp;
+package janggi.temp.movement;
 
 public enum Movement {
 
