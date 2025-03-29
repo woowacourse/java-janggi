@@ -1,10 +1,10 @@
 package janggi;
 
-import janggi.board.BoardOrder;
 import janggi.board.Board;
+import janggi.board.BoardOrder;
 import janggi.piece.PiecesFactory;
-import janggi.piece.Team;
 import janggi.piece.Players;
+import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.turn.Turn;
 import janggi.utils.ExceptionHandler;
@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class JanggiConsole {
 
+    private static final String EXIT = "exit";
     private final InputView inputView;
     private final ResultView resultView;
 
@@ -28,10 +29,12 @@ public class JanggiConsole {
         final Players players = makePlayers();
         Turn turn = Turn.initialize();
 
-        while (players.canContinue()) {
+        while (players.canContinue() && !turn.canExit()) {
             final Team currentTeam = turn.getTeam();
             resultView.printOrder(currentTeam);
-            movePieces(players, currentTeam);
+            if (!movePiece(players, currentTeam)) {
+                turn.wantExit();
+            }
             resultView.printBoard(players.getChoPieces(), players.getHanPieces());
             turn = turn.moveNextTurn();
         }
@@ -50,10 +53,22 @@ public class JanggiConsole {
         return players;
     }
 
-    private void movePieces(final Players players, final Team currentTeam) {
-        ExceptionHandler.retry(() -> {
-            final List<Integer> positions = inputView.readMovingPosition();
-            players.move(Position.from(positions.getFirst()), Position.from(positions.getLast()), currentTeam);
-        });
+    private boolean movePiece(final Players players, final Team currentTeam) {
+        return ExceptionHandler.retry(() -> moveOnePiece(players, currentTeam));
+    }
+
+    private Boolean moveOnePiece(final Players players, final Team currentTeam) {
+        final String input = inputView.readMovingPosition();
+        if (input.equals(EXIT)) {
+            return false;
+        }
+        final List<Integer> positions = readPositions(input);
+        players.move(Position.from(positions.getFirst()), Position.from(positions.getLast()), currentTeam);
+        return true;
+    }
+
+    private List<Integer> readPositions(final String input) {
+        final List<String> tokens = StringParser.split(input);
+        return StringParser.parseInt(tokens);
     }
 }

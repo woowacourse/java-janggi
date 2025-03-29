@@ -13,7 +13,7 @@ class TurnTest {
         // Given
 
         // When & Then
-        Assertions.assertThatCode(() -> new Turn(Team.HAN))
+        Assertions.assertThatCode(() -> new Turn(Team.HAN, false, false))
                 .doesNotThrowAnyException();
     }
 
@@ -33,5 +33,27 @@ class TurnTest {
 
         // When & Then
         assertThat(turn.moveNextTurn().getTeam()).isEqualTo(Team.HAN);
+    }
+
+    @Test
+    void 두_팀_모두_종료를_원하는지_확인한다() {
+        // Given
+        Turn turn = Turn.initialize();
+        turn.wantExit();
+        turn = turn.moveNextTurn();
+        turn.wantExit();
+
+        // When & Then
+        assertThat(turn.canExit()).isTrue();
+    }
+
+    @Test
+    void 한_팀이라도_종료를_원하지_않으면_게임은_계속된다() {
+        // Given
+        Turn turn = Turn.initialize();
+        turn.wantExit();
+
+        // When & Then
+        assertThat(turn.canExit()).isFalse();
     }
 }

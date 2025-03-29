@@ -40,11 +40,9 @@ public class Players {
     }
 
     public Team findWinningTeam() {
-        // TODO : 점수 계산하는 로직으로 수정
-        if (calculateExistKing() != 1) {
-            throw new IllegalStateException("[ERROR] 왕이 하나가 아니라면 접근할 수 없습니다.");
+        if (calculateExistKing() == TOTAL_KING_COUNT) {
+            return compareByScore();
         }
-
         return players.entrySet().stream()
                 .filter(entry -> entry.getValue().hasKing())
                 .map(Entry::getKey)
@@ -73,12 +71,23 @@ public class Players {
         return score + board.calculateScore();
     }
 
+    private Team compareByScore() {
+        final Map<Team, Double> teamScore = calculateScore();
+        final double hanScore = teamScore.get(Team.HAN);
+        final double choScore = teamScore.get(Team.CHO);
+        if (hanScore < choScore) {
+            return Team.CHO;
+        }
+        if (hanScore == choScore) {
+            return Team.NONE;
+        }
+        return Team.HAN;
+    }
+
     private void catchPiece(final Position arrivalPosition,
                             final Board currentTeamBoard,
                             final Board oppositeBoard) {
-        // 도착 위치에 자신의 팀 기물일 경우 움직일 수 없음
         validateNotCatchingCurrentTeamPiece(currentTeamBoard, arrivalPosition);
-        // 도착 위치에는 다른 팀의 기물이어야함
         if (oppositeBoard.hasPiece(arrivalPosition)) {
             oppositeBoard.removePiece(arrivalPosition);
         }

@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.direction.PieceType;
 import janggi.board.Board;
+import janggi.direction.PieceType;
 import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.position.Position;
@@ -15,9 +15,8 @@ public class ResultView {
     private static final String HEADER = "   1    2    3    4    5    6   7    8    9%n";
     private static final String BOARD_LINE = "   |    |    |    |    |    |    |    |   |%n";
     private static final String DASH = " ㅡ ";
-    private static final String TITLE_RESULT = """
-            왕이 잡혔습니다.
-            %s나라의 승리입니다!""";
+    private static final String TITLE_WIN_RESULT = "%s나라의 승리입니다!";
+    private static final String TITLE_DRAW_RESULT = "무승부입니다!";
     private static final String TITLE_ORDER = "%s나라의 순서입니다.";
 
     private static final String BLUE_CODE = "\u001B[34m";
@@ -78,8 +77,20 @@ public class ResultView {
         System.out.printf(LINE + TITLE_ORDER + LINE, team.getTitle());
     }
 
-    public void printJanggiResult(final Team team, final Map<Team, Double> teamIntegerMap) {
-        System.out.printf(LINE + TITLE_RESULT + LINE, team.getTitle());
+    public void printJanggiResult(final Team team, final Map<Team, Double> teamScores) {
+        showWinTeam(team);
+        showScore(teamScores);
+    }
+
+    private void showWinTeam(final Team team) {
+        if (team == Team.NONE) {
+            System.out.printf(LINE + TITLE_DRAW_RESULT + LINE, team.getTitle());
+            return;
+        }
+        System.out.printf(LINE + TITLE_WIN_RESULT + LINE, team.getTitle());
+    }
+
+    private void showScore(final Map<Team, Double> teamIntegerMap) {
         final Double hanScore = teamIntegerMap.get(Team.HAN);
         final Double choScore = teamIntegerMap.get(Team.CHO);
         System.out.printf(LINE + SCORE_TITLE + LINE, hanScore, choScore);

@@ -3,7 +3,8 @@ package janggi.piece;
 public enum Team {
 
     HAN("한"),
-    CHO("초");
+    CHO("초"),
+    NONE("해당없음");
 
     private final String title;
 

@@ -58,22 +58,21 @@ class PlayersTest {
         assertThat(players.findWinningTeam()).isEqualTo(team.getOppositeTeam());
     }
 
-    // TODO : 왕이 두 팀 모두 존재하면 점수로 판단하도록 수정
     @Test
-    void 왕이_두_팀_모두_존재하면_승리팀을_판별할_수_없다() {
+    void 왕이_두_팀_모두_존재하면_점수로_판단한다() {
         // Given
         final Position position1 = new Position(1, 1);
         final Position position2 = new Position(1, 2);
         final Piece king1 = new Piece(new PieceMoveRule(PieceType.KING, new ObstacleBlockStrategy()), position1);
-        final Board choBoard = new Board(Map.of(king1.getPosition(), king1));
+        final Piece soldier = new Piece(new PieceMoveRule(PieceType.CHO_SOLDIER, new ObstacleBlockStrategy()),
+                new Position(1, 3));
+        final Board choBoard = Board.from(Set.of(king1, soldier));
         final Piece king2 = new Piece(new PieceMoveRule(PieceType.KING, new ObstacleBlockStrategy()), position2);
         final Board hanBoard = new Board(Map.of(king2.getPosition(), king2));
         final Players players = new Players(Map.of(Team.CHO, choBoard, Team.HAN, hanBoard));
 
         // When & Then
-        assertThatThrownBy(players::findWinningTeam)
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("[ERROR] 왕이 하나가 아니라면 접근할 수 없습니다.");
+        assertThat(players.findWinningTeam()).isEqualTo(Team.CHO);
     }
 
     @Test
