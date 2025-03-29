@@ -8,6 +8,7 @@ import domain.spatial.Position;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 class KingTest {
@@ -44,8 +45,11 @@ class KingTest {
 
         Position target = new Position(4, 2);
 
-        // when && then
-        piece.getPaths(target);
+        // when
+        List<Position> paths = piece.getPaths(target);
+
+        // then
+        assertThat(paths).contains(target);
     }
 
     @Test
@@ -55,7 +59,7 @@ class KingTest {
 
         Position target = new Position(6, 4);
 
-        // when && then
+        // when & then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> piece.getPaths(target))
                 .withMessage("궁성 이동의 경우 밖으로 이동할 수 없습니다.");
