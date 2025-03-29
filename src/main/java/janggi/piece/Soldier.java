@@ -7,6 +7,8 @@ import java.util.Set;
 public final class Soldier extends Piece {
 
     private static final int SOLDIER_MOVE_DISTANCE = 1;
+    private static final String HAN_NAME = "병";
+    private static final String CHU_NAME = "졸";
 
     public Soldier(Camp camp) {
         super(camp);
@@ -14,55 +16,37 @@ public final class Soldier extends Piece {
 
     @Override
     public void validateMovementRule(MoveType moveType, Point from, Point to) {
+        String name = getName();
         if (moveType.isPalace()) {
-            if (isSameCamp(Camp.CHU)) {
-                validatePalaceJolMove(from, to);
-                return;
-            }
-            validatePalaceByeongMove(from, to);
+            validatePalaceSoldierMove(name, from, to);
             return;
         }
+        validateNormalSoldierMove(name, from, to);
+    }
+
+    private void validateNormalSoldierMove(String name, Point from, Point to) {
+        if (isMovingBackward(from, to)) {
+            throw new IllegalArgumentException("%s은 뒤로 갈 수 없습니다.".formatted(name));
+        }
+        if (!isSoldierMove(from, to)) {
+            throw new IllegalArgumentException("%s은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.".formatted(name));
+        }
+    }
+
+    private void validatePalaceSoldierMove(String name, Point from, Point to) {
+        if (isMovingBackward(from, to)) {
+            throw new IllegalArgumentException("%s은 뒤로 갈 수 없습니다.".formatted(name));
+        }
+        if (!isSoldierPalaceMove(from, to)) {
+            throw new IllegalArgumentException("%s은 궁성 안에서 앞 또는 양 옆, 대각선으로 한 칸만 움직여야 합니다.".formatted(name));
+        }
+    }
+
+    private boolean isMovingBackward(Point from, Point to) {
         if (isSameCamp(Camp.CHU)) {
-            validateJolMove(from, to);
-            return;
+            return from.isYGreaterThan(to);
         }
-        validateByeongMove(from, to);
-    }
-
-    private void validateJolMove(Point from, Point to) {
-        if (from.isYGreaterThan(to)) {
-            throw new IllegalArgumentException("졸은 뒤로 갈 수 없습니다.");
-        }
-        if (!isSoldierMove(from, to)) {
-            throw new IllegalArgumentException("졸은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
-        }
-    }
-
-    private void validateByeongMove(Point from, Point to) {
-        if (to.isYGreaterThan(from)) {
-            throw new IllegalArgumentException("병은 뒤로 갈 수 없습니다.");
-        }
-        if (!isSoldierMove(from, to)) {
-            throw new IllegalArgumentException("병은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
-        }
-    }
-
-    private void validatePalaceJolMove(Point from, Point to) {
-        if (from.isYGreaterThan(to)) {
-            throw new IllegalArgumentException("졸은 뒤로 갈 수 없습니다.");
-        }
-        if (!isSoldierMove(from, to) || !from.isDiagonallyAlignedWith(to)) {
-            throw new IllegalArgumentException("졸은 궁성 안에서 앞 또는 양 옆, 대각선으로 한 칸만 움직여야 합니다.");
-        }
-    }
-
-    private void validatePalaceByeongMove(Point from, Point to) {
-        if (to.isYGreaterThan(from)) {
-            throw new IllegalArgumentException("병은 뒤로 갈 수 없습니다.");
-        }
-        if (!isSoldierMove(from, to) || !from.isDiagonallyAlignedWith(to)) {
-            throw new IllegalArgumentException("병은 궁성 안에서 앞 또는 양 옆, 대각선으로 한 칸만 움직여야 합니다.");
-        }
+        return to.isYGreaterThan(from);
     }
 
     private boolean isSoldierMove(Point from, Point to) {
@@ -70,9 +54,22 @@ public final class Soldier extends Piece {
         return moveDistance == SOLDIER_MOVE_DISTANCE;
     }
 
+    private boolean isSoldierPalaceMove(Point from, Point to) {
+        if (from.isDiagonallyAlignedWith(to)) {
+            return from.xDistanceTo(to) == SOLDIER_MOVE_DISTANCE && from.yDistanceTo(to) == SOLDIER_MOVE_DISTANCE;
+        }
+        return isSoldierMove(from, to);
+    }
+
+    public String getName() {
+        if (isSameCamp(Camp.CHU)) {
+            return CHU_NAME;
+        }
+        return HAN_NAME;
+    }
+
     @Override
     public void validateRouteObstacles(Set<Piece> piecesOnRoute) {
-
     }
 
     @Override
