@@ -46,6 +46,11 @@ public class JanggiBoard {
         return dynasty.score(totalScore);
     }
 
+    public boolean isDeadKing(Dynasty dynasty) {
+        return pieces.values().stream()
+                .noneMatch(piece -> piece.isDynastyKing(dynasty));
+    }
+
     private Piece findPiece(Point point) {
         return pieces.getOrDefault(point, new EmptyPiece());
     }

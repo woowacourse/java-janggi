@@ -34,8 +34,8 @@ public enum Palace {
             return false;
         }
 
-        if (direction.isDiagonal() && !canMoveDiagonal(from, to)) {
-            return false;
+        if (direction.isDiagonal()) {
+            return canMoveDiagonal(from, to);
         }
 
         return true;

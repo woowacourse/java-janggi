@@ -30,6 +30,11 @@ public class General extends Piece {
     }
 
     @Override
+    protected boolean isKing() {
+        return true;
+    }
+
+    @Override
     public boolean isSameType(Piece piece) {
         return piece instanceof General;
     }

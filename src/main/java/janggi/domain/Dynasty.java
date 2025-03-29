@@ -12,4 +12,14 @@ public enum Dynasty {
     public double score(int currentScore) {
         return additionalScore + currentScore;
     }
+
+    public Dynasty opposite() {
+        if (this == CHU) {
+            return HAN;
+        }
+        if (this == HAN) {
+            return CHU;
+        }
+        return EMPTY;
+    }
 }

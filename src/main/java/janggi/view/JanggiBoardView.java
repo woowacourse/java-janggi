@@ -59,7 +59,6 @@ public class JanggiBoardView {
         System.out.println("""
                 장기게임을 시작합니다.
                 게임 이동: move source위치 target위치 예) move ㄱ2 ㄴ3
-                게임 종료를 원하시면 end를 입력해주세요.
                 """);
     }
 
@@ -68,9 +67,6 @@ public class JanggiBoardView {
         printPlayerMoveGuide(player);
 
         String command = readLine().trim();
-        if (command.equals("end")) {
-            return new Movement(command);
-        }
         String[] splitCommands = command.split(" ");
         if (MOVE_PATTERN.matcher(command).matches()) {
             int startY = VERTICAL_INPUT_MAP.get(Character.toString(splitCommands[1].charAt(0)));
@@ -134,17 +130,15 @@ public class JanggiBoardView {
         System.out.println("초나라 점수: " + janggiBoard.dynastyScore(Dynasty.CHU));
     }
 
+    public void printResult(Player winPlayer, JanggiBoard janggiBoard) {
+        System.out.println(winPlayer.getNickname() + "님이 이겼습니다!");
+        System.out.println("==최종 점수==");
+        printScore(janggiBoard);
+    }
+
     public record Movement(
             String command, int startX, int startY, int endX, int endY
     ) {
-        public Movement(String command) {
-            this(command, -1, -1, -1, -1);
-        }
-
-        public boolean isEnd() {
-            return this.command.equals("end");
-        }
-
         public boolean isMove() {
             return this.command.equals("move");
         }

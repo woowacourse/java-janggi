@@ -30,4 +30,9 @@ public abstract class Soldier extends Piece {
     public int score() {
         return 2;
     }
+
+    @Override
+    protected boolean isKing() {
+        return false;
+    }
 }

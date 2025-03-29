@@ -23,48 +23,41 @@ public class JanggiGame {
 
     public void start() {
         try {
-            play();
+            Players players = createPlayers();
+            JanggiBoard janggiBoard = createJanggiBoard(players);
+            play(players, janggiBoard);
         } catch (IllegalArgumentException e) {
             System.out.println("[ERROR] " + e.getMessage());
         }
     }
 
-    private void play() {
-        Players players = createPlayers();
-        JanggiBoard janggiBoard = createJanggiBoard(players);
-        playJanggi(players, janggiBoard);
-    }
-
-    private void playJanggi(Players players, JanggiBoard janggiBoard) {
+    private void play(Players players, JanggiBoard janggiBoard) {
         Dynasty currentTurnDynasty = Dynasty.CHU;
+        Player winPlayer = null;
         boolean gameEnded = false;
 
         while (!gameEnded) {
             Player currentTurnPlayer = players.findDynastyPlayer(currentTurnDynasty);
             try {
                 Movement movement = janggiBoardView.readPlayerMove(currentTurnPlayer);
-                if (movement.isEnd()) {
+                janggiBoard.move(
+                        currentTurnDynasty,
+                        new Point(movement.startX(), movement.startY()),
+                        new Point(movement.endX(), movement.endY()));
+                if (janggiBoard.isDeadKing(currentTurnDynasty.opposite())) {
+                    winPlayer = currentTurnPlayer;
                     gameEnded = true;
                 }
-                if (movement.isMove()) {
-                    janggiBoard.move(currentTurnDynasty, new Point(movement.startX(), movement.startY()),
-                            new Point(movement.endX(), movement.endY()));
-                    janggiBoardView.printBoard(janggiBoard.getPieces());
-                    janggiBoardView.printScore(janggiBoard);
-                    currentTurnDynasty = changePlayerTurn(currentTurnDynasty);
-                }
+                currentTurnDynasty = currentTurnDynasty.opposite();
+                janggiBoardView.printBoard(janggiBoard.getPieces());
+                janggiBoardView.printScore(janggiBoard);
             } catch (IllegalArgumentException e) {
                 System.out.println("[ERROR] " + e.getMessage());
             }
         }
-    }
-
-
-    private Dynasty changePlayerTurn(Dynasty currentTurnDynasty) {
-        if (currentTurnDynasty == Dynasty.HAN) {
-            return Dynasty.CHU;
+        if (winPlayer != null) {
+            janggiBoardView.printResult(winPlayer, janggiBoard);
         }
-        return Dynasty.HAN;
     }
 
     private Players createPlayers() {

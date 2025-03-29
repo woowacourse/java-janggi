@@ -23,6 +23,10 @@ public abstract class Piece {
         return movePath.movePoints(from, to);
     }
 
+    public boolean isDynastyKing(Dynasty dynasty) {
+        return isDynasty(dynasty) && isKing();
+    }
+
     public final boolean isDynasty(Dynasty dynasty) {
         return this.dynasty == dynasty;
     }
@@ -50,7 +54,8 @@ public abstract class Piece {
 
     abstract public int score();
 
-    abstract protected Set<MovePath> paths();
+    abstract protected boolean isKing();
 
+    abstract protected Set<MovePath> paths();
 }
 
