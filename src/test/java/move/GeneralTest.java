@@ -13,7 +13,7 @@ public class GeneralTest {
     int y = 3;
 
     @Test
-    @DisplayName("궁성 내 기물은 위로 한 칸 이동할 수 있다.")
+    @DisplayName("장군은 위로 한 칸 이동할 수 있다.")
     void test1() {
         // given
         Position from = new Position(x, y);
@@ -28,7 +28,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 위로 두 칸 이상 이동할 수 없다.")
+    @DisplayName("장군은 위로 두 칸 이상 이동할 수 없다.")
     void test2() {
         // given
         Position from = new Position(x, y);
@@ -43,7 +43,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 아래로 한 칸 이동할 수 있다.")
+    @DisplayName("장군은 아래로 한 칸 이동할 수 있다.")
     void test3() {
         // given
         Position from = new Position(x, y);
@@ -58,7 +58,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 아래로 두 칸 이상 이동할 수 없다.")
+    @DisplayName("장군은 아래로 두 칸 이상 이동할 수 없다.")
     void test4() {
         // given
         Position from = new Position(x, y);
@@ -73,7 +73,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 왼쪽으로 한 칸 이동할 수 있다.")
+    @DisplayName("장군은 왼쪽으로 한 칸 이동할 수 있다.")
     void test5() {
         // given
         Position from = new Position(x, y);
@@ -88,7 +88,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 왼쪽으로 두 칸 이상 이동할 수 없다.")
+    @DisplayName("장군은 왼쪽으로 두 칸 이상 이동할 수 없다.")
     void test6() {
         // given
         Position from = new Position(x, y);
@@ -103,7 +103,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 오른쪽으로 한 칸 이동할 수 있다.")
+    @DisplayName("장군은 오른쪽으로 한 칸 이동할 수 있다.")
     void test7() {
         // given
         Position from = new Position(x, y);
@@ -118,7 +118,7 @@ public class GeneralTest {
     }
 
     @Test
-    @DisplayName("궁성 내 기물은 오른쪽으로 두 칸 이상 이동할 수 없다.")
+    @DisplayName("장군은 오른쪽으로 두 칸 이상 이동할 수 없다.")
     void test8() {
         // given
         Position from = new Position(x, y);
@@ -131,4 +131,36 @@ public class GeneralTest {
         assertThatThrownBy(() -> general.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("초 장군은 궁성 밖으로 이동할 수 없다")
+    void test9() {
+        // given
+        Position from = new Position(4, 1);
+        Position notPalace = new Position(3, 1);
+        General general = new General(from);
+
+        //when
+
+        //then
+        assertThatThrownBy(() -> general.validateDestination(notPalace))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("한 장군은 궁성 밖으로 이동할 수 없다")
+    void test10() {
+        // given
+        Position from = new Position(4, 8);
+        Position notPalace = new Position(3, 8);
+        General general = new General(from);
+
+        //when
+
+        //then
+        assertThatThrownBy(() -> general.validateDestination(notPalace))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    // 궁성 내 대각선 1칸 이동
 }
