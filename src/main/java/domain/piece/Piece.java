@@ -24,7 +24,7 @@ public abstract class Piece {
     }
 
     public int getScore() {
-        return type.getScore();
+        return Score.getScore(this.type);
     }
 
     public boolean isHan() {

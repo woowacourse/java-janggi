@@ -1,27 +1,22 @@
 package domain.piece;
 
 public enum PieceType {
-    BYEONG("병", 2),
-    CHA("차", 13),
-    GUNG("궁", 0),
-    MA("마", 5),
-    PHO("포", 7),
-    SA("사", 3),
-    SANG("상", 3);
+    BYEONG("병"),
+    CHA("차"),
+    GUNG("궁"),
+    MA("마"),
+    PHO("포"),
+    SA("사"),
+    SANG("상");
 
     private final String pieceName;
-    private final int score;
 
-    PieceType(String type, int score) {
+    PieceType(String type) {
         this.pieceName = type;
-        this.score = score;
     }
 
     public String getPieceName() {
         return pieceName;
     }
 
-    public int getScore() {
-        return score;
-    }
 }
