@@ -1,8 +1,11 @@
 package view;
 
+import controller.GameCommand;
 import controller.JanggiController;
 import domain.JanggiCoordinate;
+import domain.dto.GameRoomDTO;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
@@ -49,5 +52,34 @@ public class InputView {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 숫자만 입력 가능합니다. 예시) 23, 35");
         }
+    }
+
+    public GameCommand getCreateCommand() {
+        System.out.println("게임을 새로 만드시려면 1, 게임을 불러오려면 2를 입력하세요");
+        String input = scanner.nextLine();
+        if (input.equals("1")) {
+            return GameCommand.CREATE_NEW_GAME_COMMAND;
+        }
+        if (input.equals("2")) {
+            return GameCommand.LOAD_GAME_COMMAND;
+        }
+        throw new IllegalArgumentException("[ERROR] 유효하지 않은 커맨드 입니다.");
+    }
+
+    public String getGameName(List<GameRoomDTO> gameRoomDTOs) {
+        try {
+            String input = scanner.nextLine();
+            if (gameRoomDTOs.stream().noneMatch(gameRoomDTO -> gameRoomDTO.gameRoomName().equals(input))) {
+                throw new IllegalArgumentException("[ERROR] 존재하지 않는 게임 이름입니다.");
+            }
+            return input;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 숫자만 입력 가능합니다.");
+        }
+    }
+
+    public String getCreateGameName() {
+        System.out.println("생성할 게임의 이름을 입력해 주세요 : ");
+        return scanner.nextLine();
     }
 }
