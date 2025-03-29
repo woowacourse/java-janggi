@@ -6,7 +6,6 @@ import domain.hurdlePolicy.UnpassableHurdlePolicy;
 import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
-import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class Guard extends JanggiChessPiece {
     }
 
     @Override
-    public JanggiPieceType getChessPieceType() {
-        return JanggiPieceType.GUARD;
+    public Piece getChessPieceType() {
+        return Piece.GUARD;
     }
 }

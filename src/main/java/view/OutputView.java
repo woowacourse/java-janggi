@@ -1,12 +1,12 @@
 package view;
 
 import domain.janggiPiece.JanggiChessPiece;
+import domain.janggiPiece.Piece;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
 import domain.position.vo.Column;
 import domain.position.vo.Row;
 import domain.score.Score;
-import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
 import java.util.List;
@@ -148,7 +148,7 @@ public class OutputView {
         };
     }
 
-    private String getPieceSymbol(JanggiPieceType type) {
+    private String getPieceSymbol(Piece type) {
         return switch (type) {
             case KING -> "왕";
             case PAWN -> "졸";

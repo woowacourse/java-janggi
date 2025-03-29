@@ -4,7 +4,6 @@ import domain.hurdlePolicy.HurdlePolicy;
 import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.score.Score;
-import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public abstract class JanggiChessPiece {
 
     abstract public HurdlePolicy getHurdlePolicy();
 
-    abstract public JanggiPieceType getChessPieceType();
+    abstract public Piece getChessPieceType();
 
     public final JanggiTeam getTeam() {
         return team;

@@ -2,11 +2,11 @@ package domain;
 
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.janggiPiece.JanggiChessPiece;
+import domain.janggiPiece.Piece;
 import domain.path.Path;
 import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
 import domain.score.Score;
-import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
 import java.util.Collections;
@@ -26,7 +26,7 @@ public class JanggiBoard {
             return false;
         }
         JanggiChessPiece piece = janggiPiecePositions.getJanggiPieceByPosition(position);
-        return piece.getChessPieceType() == JanggiPieceType.KING;
+        return piece.getChessPieceType() == Piece.KING;
     }
 
     public boolean isExistPieceAt(JanggiPosition position) {

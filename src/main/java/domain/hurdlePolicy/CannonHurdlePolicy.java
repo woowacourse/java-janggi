@@ -1,10 +1,10 @@
 package domain.hurdlePolicy;
 
 import domain.janggiPiece.JanggiChessPiece;
+import domain.janggiPiece.Piece;
 import domain.path.Path;
 import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
-import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class CannonHurdlePolicy implements HurdlePolicy {
             return false;
         }
         JanggiChessPiece other = positions.getJanggiPieceByPosition(targetPosition);
-        return other.getChessPieceType() == JanggiPieceType.CANNON;
+        return other.getChessPieceType() == Piece.CANNON;
     }
 
     private List<JanggiPosition> getOverHurdleDestinations(

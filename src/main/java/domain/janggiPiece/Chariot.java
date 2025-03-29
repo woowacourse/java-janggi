@@ -6,7 +6,6 @@ import domain.hurdlePolicy.StopAtHurdlePolicy;
 import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
-import domain.type.JanggiPieceType;
 import domain.type.JanggiTeam;
 
 import java.util.ArrayList;
@@ -68,7 +67,7 @@ public class Chariot extends JanggiChessPiece {
     }
 
     @Override
-    public JanggiPieceType getChessPieceType() {
-        return JanggiPieceType.CHARIOT;
+    public Piece getChessPieceType() {
+        return Piece.CHARIOT;
     }
 }
