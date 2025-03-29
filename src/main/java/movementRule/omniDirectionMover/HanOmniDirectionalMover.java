@@ -15,7 +15,7 @@ public abstract class HanOmniDirectionalMover implements PieceRule {
         }
 
         if (!startPosition.isInHanPalace() || !destination.isInHanPalace()) {
-            throw new IllegalArgumentException(ErrorMessage.formatMessage("초나라 궁성을 벗어날 수 없습니다."));
+            throw new IllegalArgumentException(ErrorMessage.formatMessage("한나라 궁성을 벗어날 수 없습니다."));
         }
     }
 

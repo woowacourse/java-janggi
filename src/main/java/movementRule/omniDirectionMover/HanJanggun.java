@@ -4,7 +4,7 @@ import static pieceProperty.PieceType.JANGGUN;
 
 import pieceProperty.PieceType;
 
-public class HanJanggun extends ChoOmniDirectionalMover {
+public class HanJanggun extends HanOmniDirectionalMover {
 
     @Override
     public boolean isPo() {
