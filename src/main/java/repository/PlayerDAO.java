@@ -47,7 +47,7 @@ public final class PlayerDAO {
     }
 
     public Player findById(final int id) {
-        final var query = "SELECT * FROM player WHERE id = ?";
+        final String query = "SELECT * FROM player WHERE id = ?";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
@@ -59,11 +59,11 @@ public final class PlayerDAO {
         }
     }
 
-    public int findNextId() {
+    public int getNextId() {
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT MAX(id) AS last_id FROM player");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            return getNextId(resultSet);
+            return incrementLastId(resultSet);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -82,6 +82,13 @@ public final class PlayerDAO {
         }
     }
 
+    private int incrementLastId(final ResultSet resultSet) throws SQLException {
+        if (resultSet.next()) {
+            return counter.addAndGet(resultSet.getInt("last_id"));
+        }
+        return counter.get();
+    }
+
     private List<Player> convertResultSetToPlayers(ResultSet resultSet) throws SQLException {
         final List<Player> players = new ArrayList<>();
         while (resultSet.next()) {
@@ -89,13 +96,6 @@ public final class PlayerDAO {
             players.add(player);
         }
         return players;
-    }
-
-    private int getNextId(final ResultSet resultSet) throws SQLException {
-        if (resultSet.next()) {
-            return counter.addAndGet(resultSet.getInt("last_id"));
-        }
-        return counter.get();
     }
 
     private Player convertResultSetToPlayer(final ResultSet resultSet) throws SQLException {
