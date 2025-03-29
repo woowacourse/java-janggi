@@ -1,4 +1,4 @@
-package piece;
+package movementRule;
 
 import static pieceProperty.PieceType.SANG;
 

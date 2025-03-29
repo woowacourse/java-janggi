@@ -1,4 +1,4 @@
-package piece;
+package movementRule;
 
 import pieceProperty.PieceType;
 import pieceProperty.Position;

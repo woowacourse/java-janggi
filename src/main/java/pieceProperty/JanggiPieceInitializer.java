@@ -2,15 +2,15 @@ package pieceProperty;
 
 import java.util.ArrayList;
 import java.util.List;
-import piece.Byeong;
-import piece.linearMover.Cha;
-import piece.omniDirectionMover.Janggun;
-import piece.Jol;
-import piece.Ma;
-import piece.PieceRule;
-import piece.linearMover.Po;
-import piece.omniDirectionMover.Sa;
-import piece.Sang;
+import movementRule.Byeong;
+import movementRule.linearMover.Cha;
+import movementRule.omniDirectionMover.Janggun;
+import movementRule.Jol;
+import movementRule.Ma;
+import movementRule.PieceRule;
+import movementRule.linearMover.Po;
+import movementRule.omniDirectionMover.Sa;
+import movementRule.Sang;
 import player.Pieces;
 
 public class JanggiPieceInitializer {

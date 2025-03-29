@@ -1,4 +1,4 @@
-package piece.omniDirectionMover;
+package movementRule.omniDirectionMover;
 
 import static pieceProperty.PieceType.JANGGUN;
 

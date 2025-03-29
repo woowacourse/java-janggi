@@ -1,7 +1,7 @@
 package player;
 
 import java.util.ArrayList;
-import piece.PieceRule;
+import movementRule.PieceRule;
 import java.util.List;
 import pieceProperty.Position;
 import pieceProperty.Positions;

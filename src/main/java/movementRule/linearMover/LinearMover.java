@@ -1,8 +1,8 @@
-package piece.linearMover;
+package movementRule.linearMover;
 
 import java.util.List;
 import java.util.Objects;
-import piece.PieceRule;
+import movementRule.PieceRule;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;

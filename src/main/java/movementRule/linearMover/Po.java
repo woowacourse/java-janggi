@@ -1,4 +1,4 @@
-package piece.linearMover;
+package movementRule.linearMover;
 
 import static pieceProperty.PieceType.PO;
 

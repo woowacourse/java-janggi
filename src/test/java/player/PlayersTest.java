@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Byeong;
-import piece.linearMover.Cha;
-import piece.omniDirectionMover.Janggun;
-import piece.Jol;
-import piece.Ma;
-import piece.linearMover.Po;
+import movementRule.Byeong;
+import movementRule.linearMover.Cha;
+import movementRule.omniDirectionMover.Janggun;
+import movementRule.Jol;
+import movementRule.Ma;
+import movementRule.linearMover.Po;
 import pieceProperty.Position;
 
 class PlayersTest {

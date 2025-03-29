@@ -1,8 +1,8 @@
-package piece.omniDirectionMover;
+package movementRule.omniDirectionMover;
 
 import java.util.List;
 import java.util.Objects;
-import piece.PieceRule;
+import movementRule.PieceRule;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;

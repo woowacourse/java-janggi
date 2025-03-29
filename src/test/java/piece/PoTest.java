@@ -6,7 +6,7 @@ import static pieceProperty.PieceType.PO;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.linearMover.Po;
+import movementRule.linearMover.Po;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 

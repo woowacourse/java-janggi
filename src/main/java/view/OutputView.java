@@ -11,7 +11,7 @@ import static pieceProperty.PieceType.SANG;
 
 import java.util.HashMap;
 import java.util.Map;
-import piece.PieceRule;
+import movementRule.PieceRule;
 import pieceProperty.PieceType;
 import player.Pieces;
 
