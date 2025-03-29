@@ -22,9 +22,9 @@ public class JanggiRepositoryImpl implements JanggiRepository {
     }
 
     @Override
-    public void save(final JanggiGame janggiGame) {
+    public void save(final JanggiGame janggiGame, final GameStatus gameStatus) {
         JanggiEntity janggiEntity = JanggiEntity.from(janggiGame, 0);
-        janggiDao.save(janggiEntity);
+        janggiDao.save(janggiEntity, gameStatus);
     }
 
     @Override

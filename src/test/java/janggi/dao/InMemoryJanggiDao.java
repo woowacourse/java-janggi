@@ -1,5 +1,6 @@
 package janggi.dao;
 
+import janggi.domain.GameStatus;
 import janggi.entity.JanggiEntity;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,9 +17,9 @@ public class InMemoryJanggiDao implements JanggiDao {
     }
 
     @Override
-    public JanggiEntity save(final JanggiEntity janggiEntity) {
+    public JanggiEntity save(final JanggiEntity janggiEntity, final GameStatus gameStatus) {
         Optional<JanggiEntity> existEntity = findByRedAndGreenPlayerNameAndGameStatus(
-                janggiEntity.redPlayerName(), janggiEntity.greenPlayerName(), janggiEntity.gameStatus());
+                janggiEntity.redPlayerName(), janggiEntity.greenPlayerName(), gameStatus.name());
         if (existEntity.isPresent()) {
             idToJanggi.put(existEntity.get().janggiId(), new JanggiEntity(existEntity.get().janggiId(),
                     janggiEntity.redPlayerName(),

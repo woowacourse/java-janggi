@@ -5,7 +5,7 @@ import janggi.domain.JanggiGame;
 import java.util.Optional;
 
 public interface JanggiRepository {
-    void save(JanggiGame janggiGame);
+    void save(JanggiGame janggiGame, GameStatus gameStatus);
 
     boolean existsByRedAndGreenPlayerNameAndGameStatus(String redPlayerName,
                                                        String greenPlayerName,

@@ -44,7 +44,7 @@ public class JanggiService {
                 new Board(Pieces.createPieces(redSetupType, greenSetupType).getPieces()),
                 new Player(redPlayerName, Team.RED),
                 new Player(greenPlayerName, Team.GREEN));
-        janggiRepository.save(janggiGame);
+        janggiRepository.save(janggiGame, GameStatus.CONTINUE);
         long janggiId = findJanggiId(redPlayerName, greenPlayerName);
         boardRepository.saveAll(janggiId, janggiGame.getBoard());
         return janggiGame;
@@ -69,7 +69,7 @@ public class JanggiService {
     }
 
     public void saveJanggiGame(final JanggiGame janggiGame) {
-        janggiRepository.save(janggiGame);
+        janggiRepository.save(janggiGame, GameStatus.CONTINUE);
     }
 
     private long findJanggiId(final String redPlayerName, final String greenPlayerName) {

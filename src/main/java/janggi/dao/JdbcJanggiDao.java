@@ -1,5 +1,6 @@
 package janggi.dao;
 
+import janggi.domain.GameStatus;
 import janggi.entity.JanggiEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,9 +11,9 @@ import java.util.Optional;
 
 public class JdbcJanggiDao extends AbstractJdbcDao implements JanggiDao {
     @Override
-    public JanggiEntity save(final JanggiEntity janggiEntity) {
+    public JanggiEntity save(final JanggiEntity janggiEntity, final GameStatus targetStatus) {
         Optional<JanggiEntity> janggiEntityOptional = findByRedAndGreenPlayerNameAndGameStatus(
-                janggiEntity.redPlayerName(), janggiEntity.greenPlayerName(), janggiEntity.gameStatus());
+                janggiEntity.redPlayerName(), janggiEntity.greenPlayerName(), targetStatus.name());
         if (janggiEntityOptional.isEmpty()) {
             insert(janggiEntity);
             return findByRedAndGreenPlayerNameAndGameStatus(
