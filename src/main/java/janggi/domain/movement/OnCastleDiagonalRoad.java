@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-public class FollowingCastleRoad implements Movement {
+public class OnCastleDiagonalRoad implements Movement {
 
     private static final Map<Coordinate, Set<Coordinate>> CONNECTIONS = Map.of(
         new Coordinate(4, 1), Set.of(new Coordinate(5, 2), new Coordinate(6, 3)),
@@ -28,7 +28,7 @@ public class FollowingCastleRoad implements Movement {
 
     private final Movement movement;
 
-    public FollowingCastleRoad(final Movement movement) {
+    public OnCastleDiagonalRoad(final Movement movement) {
         this.movement = movement;
     }
 

@@ -17,14 +17,14 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @DisplayName("궁성의 연결된 길을 따라 움직일 수 있다.")
-class FollowingCastleRoadTest {
+class OnCastleDiagonalRoadTest {
 
     @ParameterizedTest
     @DisplayName("궁성 정중앙에 있을 때 대각선 4개의 방향으로 이동할 수 있다.")
     @CsvSource({"4,1", "4,3", "6,1", "6,3"})
     void test1(int x, int y) {
         // given
-        final var movement = new FollowingCastleRoad(
+        final var movement = new OnCastleDiagonalRoad(
             new OnceMovement(LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN));
         final var departure = new Coordinate(5, 2);
         final var arrival = new Coordinate(x, y);
@@ -41,7 +41,7 @@ class FollowingCastleRoadTest {
     @CsvSource({"4,1", "4,3", "6,1", "6,3"})
     void test2(int x, int y) {
         // given
-        final var movement = new FollowingCastleRoad(
+        final var movement = new OnCastleDiagonalRoad(
             new OnceMovement(LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN)
         );
         final var departure = new Coordinate(x, y);
@@ -63,7 +63,7 @@ class FollowingCastleRoadTest {
         @CsvSource({"4,8", "6,8"})
         void test1(int x, int y) {
             //given
-            final var movement = new FollowingCastleRoad(
+            final var movement = new OnCastleDiagonalRoad(
                 new OnceMovement(LEFT_DOWN, RIGHT_DOWN)
             );
 
@@ -82,7 +82,7 @@ class FollowingCastleRoadTest {
         @CsvSource({"4,10", "6,10"})
         void test2(int x, int y) {
             //given
-            final var movement = new FollowingCastleRoad(
+            final var movement = new OnCastleDiagonalRoad(
                 new OnceMovement(LEFT_UP, RIGHT_UP)
             );
 
@@ -101,7 +101,7 @@ class FollowingCastleRoadTest {
         @MethodSource("provideEdgeToEdge")
         void test3(Coordinate departure, Coordinate arrival) {
             // given
-            final var movement = new FollowingCastleRoad(
+            final var movement = new OnCastleDiagonalRoad(
                 new OnceMovement(LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN)
             );
 
@@ -117,7 +117,7 @@ class FollowingCastleRoadTest {
         @MethodSource("provideEdgeToEdge")
         void test4(Coordinate departure, Coordinate arrival) {
             // given
-            final var movement = new FollowingCastleRoad(
+            final var movement = new OnCastleDiagonalRoad(
                 new SeveralMovement(
                     new InfiniteMoveProcess(LEFT_UP),
                     new InfiniteMoveProcess(RIGHT_UP),
