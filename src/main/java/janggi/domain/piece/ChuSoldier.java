@@ -3,6 +3,8 @@ package janggi.domain.piece;
 import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
 import janggi.domain.board.Point;
+import janggi.domain.piece.move.MoveStrategy;
+import janggi.domain.piece.move.strategy.NoObstacleStrategy;
 import java.util.List;
 import java.util.Set;
 
@@ -14,12 +16,10 @@ public class ChuSoldier extends Soldier {
             List.of(Direction.RIGHT)
     );
 
-    public ChuSoldier() {
-        super(Dynasty.CHU);
-    }
+    private static final MoveStrategy movestrategy = new NoObstacleStrategy(
+            ((start, end) -> Path.calculatePath(start, end, PATHS)));
 
-    @Override
-    public Path calculatePath(Point start, Point end) {
-        return Path.calculatePath(start, end, PATHS);
+    public ChuSoldier() {
+        super(Dynasty.CHU, movestrategy);
     }
 }

@@ -105,6 +105,24 @@ class CannonTest {
                 .isTrue();
     }
 
+    @DisplayName("궁성 내에서는 대각선으로 이동가능하다.")
+    @ParameterizedTest
+    @CsvSource({
+            "1, 4, 3, 6",
+            "1, 6, 3, 4",
+            "2, 4, 2, 6"
+    })
+    void isMovable_InPalace(int startX, int startY, int endX, int endY) {
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(2, 5), new Horse(Dynasty.CHU)
+        ));
+        boolean canMove = cannon.canMove(janggiBoard, currentTurnDynasty, new Point(startX, startY),
+                new Point(endX, endY));
+
+        assertThat(canMove)
+                .isTrue();
+    }
+
     @DisplayName("같은 나라인지 확인한다")
     @ParameterizedTest
     @CsvSource({

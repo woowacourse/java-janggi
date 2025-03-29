@@ -5,8 +5,10 @@ import janggi.domain.board.Direction;
 import janggi.domain.board.Point;
 import janggi.domain.piece.move.AndMoveStrategy;
 import janggi.domain.piece.move.MoveStrategy;
+import janggi.domain.piece.move.OrMoveStrategy;
 import janggi.domain.piece.move.strategy.AvoidPieceOnPathStrategy;
 import janggi.domain.piece.move.strategy.JumpObstacleStrategy;
+import janggi.domain.piece.move.strategy.PalaceAreaStrategy;
 import java.util.List;
 
 public class Cannon extends Piece {
@@ -15,19 +17,24 @@ public class Cannon extends Piece {
             Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT
     );
 
+    private static final List<Direction> PALACE_DIRECTIONS = List.of(
+            Direction.UP_RIGHT, Direction.UP_LEFT, Direction.DOWN_LEFT, Direction.DOWN_RIGHT
+    );
+
     private static final PieceType AVOID_PIECETYPE = PieceType.CANNON;
 
-    private static final MoveStrategy MOVE_STRATEGY = new AndMoveStrategy(
-            List.of(new JumpObstacleStrategy(),
-                    new AvoidPieceOnPathStrategy(AVOID_PIECETYPE)
-            ));
+    private static final MoveStrategy MOVE_STRATEGY = new OrMoveStrategy(
+            List.of(new AndMoveStrategy(List.of(
+                    new JumpObstacleStrategy((start, end) -> Path.calculatePath(start, end, DIRECTIONS)),
+                    new AvoidPieceOnPathStrategy(AVOID_PIECETYPE, (start, end) -> Path.calculatePath(start, end, DIRECTIONS)))
+            ), new AndMoveStrategy(List.of(
+                    new JumpObstacleStrategy((start, end) -> Path.calculatePath(start, end, PALACE_DIRECTIONS)),
+                    new AvoidPieceOnPathStrategy(AVOID_PIECETYPE, (start, end) -> Path.calculatePath(start, end, PALACE_DIRECTIONS)),
+                    new PalaceAreaStrategy((start, end) -> Path.calculatePath(start, end, PALACE_DIRECTIONS)))
+            ))
+    );
 
     public Cannon(Dynasty dynasty) {
         super(PieceType.CANNON, dynasty, MOVE_STRATEGY);
-    }
-
-    @Override
-    public Path calculatePath(Point start, Point end) {
-        return Path.calculatePath(start, end, DIRECTIONS);
     }
 }

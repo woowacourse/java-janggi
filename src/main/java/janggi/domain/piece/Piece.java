@@ -18,8 +18,6 @@ public abstract class Piece {
         this.moveStrategy = moveStrategy;
     }
 
-    public abstract Path calculatePath(Point start, Point end);
-
     public final boolean canMove(JanggiBoard janggiBoard, Dynasty currentTurnDynasty, Point start, Point end) {
         if (!isSameDynasty(currentTurnDynasty)) {
             throw new IllegalArgumentException("자신의 나라 기물이 아닙니다.");
@@ -40,10 +38,6 @@ public abstract class Piece {
 
     public final boolean isEqualPieceType(PieceType piece) {
         return this.pieceType == piece;
-    }
-
-    public Path calculatePalacePath(Point start, Point end) {
-        return calculatePath(start, end);
     }
 
     @Override

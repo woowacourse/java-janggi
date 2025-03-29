@@ -19,15 +19,11 @@ public class Guard extends Piece {
     );
 
     private static final MoveStrategy MOVE_STRATEGY = new AndMoveStrategy(
-            List.of(new PalaceAreaStrategy(), new NoObstacleStrategy())
+            List.of(new PalaceAreaStrategy((start, end) -> Path.calculatePath(start, end, PATHS)),
+                    new NoObstacleStrategy((start, end) -> Path.calculatePath(start, end, PATHS)))
     );
 
     public Guard(Dynasty dynasty) {
         super(PieceType.GUARD, dynasty, MOVE_STRATEGY);
-    }
-
-    @Override
-    public Path calculatePath(Point start, Point end) {
-        return Path.calculatePath(start, end, PATHS);
     }
 }

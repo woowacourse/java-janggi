@@ -37,6 +37,23 @@ class ChariotTest {
         assertThat(canMove).isTrue();
     }
 
+    @DisplayName("궁성 내에서는 대각선으로 이동가능하다.")
+    @ParameterizedTest
+    @CsvSource({
+            "1, 4, 3, 6",
+            "1, 6, 3, 4"
+    })
+    void isMovable_InPalace(int startX, int startY, int endX, int endY) {
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(2, 5), new Horse(Dynasty.CHU)
+        ));
+        boolean canMove = chariot.canMove(janggiBoard, currentTurnDynasty, new Point(startX, startY),
+                new Point(endX, endY));
+
+        assertThat(canMove)
+                .isTrue();
+    }
+
     @DisplayName("차가 규칙 상 갈 수 없는 목적지는 갈 수 없다.")
     @Test
     void isNotMovable_WhenImpossibleEndPoint() {

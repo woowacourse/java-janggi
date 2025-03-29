@@ -24,14 +24,9 @@ public class Horse extends Piece {
             List.of(Direction.LEFT, Direction.DOWN_LEFT)
     );
 
-    private final static MoveStrategy MOVE_STRATEGY = new NoObstacleStrategy();
+    private final static MoveStrategy MOVE_STRATEGY = new NoObstacleStrategy((start, end) -> Path.calculatePath(start, end, PATHS));
 
     public Horse(Dynasty dynasty) {
         super(PieceType.HORSE, dynasty, MOVE_STRATEGY);
-    }
-
-    @Override
-    public Path calculatePath(Point start, Point end) {
-        return Path.calculatePath(start, end, PATHS);
     }
 }

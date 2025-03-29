@@ -25,14 +25,10 @@ public class Elephant extends Piece {
     );
 
 
-    private static final MoveStrategy MOVE_STRATEGY = new NoObstacleStrategy();
+    private static final MoveStrategy MOVE_STRATEGY = new NoObstacleStrategy(
+            (start, end) -> Path.calculatePath(start, end, PATHS));
 
     public Elephant(Dynasty dynasty) {
         super(PieceType.ELEPHANT, dynasty, MOVE_STRATEGY);
-    }
-
-    @Override
-    public Path calculatePath(Point start, Point end) {
-        return Path.calculatePath(start, end, PATHS);
     }
 }
