@@ -81,4 +81,17 @@ class GuardTest {
         // then
         assertThat(guard.canMove(start, end, board)).isFalse();
     }
+
+    @DisplayName("사는 궁 밖으로 움직일 수 없다.")
+    @Test
+    void testCannotEscapePalace() {
+        // given
+        final Board board = TestBoardGenerator.generateEmpty();
+        final Position start = new Position(Row.TWO, Column.THREE);
+        final Position end = new Position(Row.THREE, Column.THREE);
+        final Guard guard = Guard.of(Team.CHO);
+        // when
+        // then
+        assertThat(guard.canMove(start, end, board)).isFalse();
+    }
 }
