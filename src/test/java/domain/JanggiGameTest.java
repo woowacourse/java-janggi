@@ -30,7 +30,7 @@ class JanggiGameTest {
             JanggiCoordinate pieceCoordinate = new JanggiCoordinate(5, 5);
             map.put(pieceCoordinate, piece);
 
-            JanggiGame janggiGame = new JanggiGame(map);
+            JanggiGame janggiGame = new JanggiGame(map, Country.CHO);
 
             assertDoesNotThrow(() -> janggiGame.movePlayerPiece(pieceCoordinate, dstCoordinate));
         }
@@ -64,7 +64,7 @@ class JanggiGameTest {
             JanggiCoordinate pieceCoordinate = new JanggiCoordinate(5, 5);
             map.put(pieceCoordinate, piece);
 
-            JanggiGame janggiGame = new JanggiGame(map);
+            JanggiGame janggiGame = new JanggiGame(map, Country.CHO);
 
             assertThatThrownBy(() -> janggiGame.movePlayerPiece(pieceCoordinate, dstCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
@@ -94,7 +94,7 @@ class JanggiGameTest {
             JanggiCoordinate pieceCoordinate = new JanggiCoordinate(5, 5);
             map.put(pieceCoordinate, piece);
 
-            JanggiGame janggiGame = new JanggiGame(map);
+            JanggiGame janggiGame = new JanggiGame(map, Country.CHO);
 
             assertThatThrownBy(() -> janggiGame.movePlayerPiece(pieceCoordinate, dstCoordinate))
                     .isInstanceOf(IllegalArgumentException.class);
@@ -129,7 +129,7 @@ class JanggiGameTest {
             JanggiCoordinate hanCoordinate = new JanggiCoordinate(3, 3);
             map.put(hanCoordinate, hanPiece);
 
-            JanggiGame janggiGame = new JanggiGame(map);
+            JanggiGame janggiGame = new JanggiGame(map, Country.CHO);
 
             Country firstTurn = janggiGame.getCurrTurn();
             janggiGame.movePlayerPiece(choCoordinate, new JanggiCoordinate(5, 6));
@@ -163,7 +163,7 @@ class JanggiGameTest {
             JanggiCoordinate hanCoordinate = new JanggiCoordinate(1, 4);
             map.put(hanCoordinate, hanPiece);
 
-            JanggiGame janggiGame = new JanggiGame(map);
+            JanggiGame janggiGame = new JanggiGame(map, Country.CHO);
 
             janggiGame.movePlayerPiece(choCoordinate, hanCoordinate);
 
@@ -191,7 +191,7 @@ class JanggiGameTest {
             map.put(choChaCoordinate, choChaPiece);
             map.put(choMaCoordinate, choMaPiece);
 
-            JanggiGame janggiGame = new JanggiGame(map);
+            JanggiGame janggiGame = new JanggiGame(map, Country.CHO);
 
             assertThat(janggiGame.getCountryScore(Country.CHO)).isEqualTo(18);
         }

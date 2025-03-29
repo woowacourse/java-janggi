@@ -10,9 +10,9 @@ public class JanggiGame {
     private final JanggiBoard board;
     private Country currTurn;
 
-    public JanggiGame(Map<JanggiCoordinate, Piece> initBoard) {
-        board = new JanggiBoard(initBoard);
-        currTurn = Country.CHO;
+    public JanggiGame(Map<JanggiCoordinate, Piece> initBoard, Country currTurn) {
+        this.board = new JanggiBoard(initBoard);
+        this.currTurn = currTurn;
     }
 
     public void movePlayerPiece(JanggiCoordinate from, JanggiCoordinate to) {

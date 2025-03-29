@@ -110,4 +110,8 @@ public class JanggiBoard {
     private List<Direction> findCastleDirectionByCoordinate(JanggiCoordinate coordinate) {
         return castleDirection.getOrDefault(coordinate, new ArrayList<>());
     }
+
+    public Map<JanggiCoordinate, Piece> getBoard() {
+        return board;
+    }
 }
