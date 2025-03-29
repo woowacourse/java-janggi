@@ -16,6 +16,7 @@ public class JanggiGame {
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
+    private final BoardRepository boardRepository = new BoardRepository();
 
     private Country currentTurn = Country.HAN;
 
@@ -33,18 +34,22 @@ public class JanggiGame {
 
         while (!isEndGame(board)) {
             takeTurn(board, this::movePiece);
+            updateBoard(board);
             showScore(board);
             nextTurn();
         }
     }
 
+    private void updateBoard(Board board) {
+        boardRepository.deleteAll();
+        saveBoard(board);
+    }
+
     private Map<Coordinate, Piece> findBoard() {
-        BoardRepository boardRepository = new BoardRepository();
         return boardRepository.findAll();
     }
 
     private void saveBoard(Board board) {
-        BoardRepository boardRepository = new BoardRepository();
         boardRepository.save(board);
     }
 
@@ -76,6 +81,7 @@ public class JanggiGame {
         boolean isChoGungDead = board.isChoGungDead();
         boolean isHanGungDead = board.isHanGungDead();
         if (isChoGungDead || isHanGungDead) {
+            boardRepository.deleteAll();
             outputView.printEndGame(isChoGungDead, isHanGungDead);
             return true;
         }

@@ -71,4 +71,15 @@ public class BoardRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public void deleteAll() {
+        String query = "DELETE FROM board";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
