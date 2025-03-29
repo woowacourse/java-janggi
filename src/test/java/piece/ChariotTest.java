@@ -45,7 +45,7 @@ public class ChariotTest {
     void test9() {
         //given
         Position from = new Position(2, 2);
-        Position to = new Position(6, 3);
+        Position to = new Position(3, 3);
         Chariot chariot = new Chariot(from);
 
         //when
@@ -69,5 +69,20 @@ public class ChariotTest {
         //then
         assertThatThrownBy(() -> chariot.validatePaths(pieces, to))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("궁성 내에서는 대각선으로 이동할 수 있다.")
+    void test11() {
+        //given
+        Position from = new Position(4, 1);
+        Position to = new Position(6, 3);
+        Chariot chariot = new Chariot(from);
+
+        //when
+
+        //then
+        assertThatCode(() -> chariot.validateDestination(to))
+                .doesNotThrowAnyException();
     }
 }
