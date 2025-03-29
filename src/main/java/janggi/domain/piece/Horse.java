@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
-import janggi.domain.Dynasty;
+import janggi.domain.board.Dynasty;
 import janggi.domain.board.Direction;
-import janggi.domain.board.Point;
 import janggi.domain.piece.move.MoveStrategy;
+import janggi.domain.piece.move.Path;
 import janggi.domain.piece.move.strategy.NoObstacleStrategy;
 import java.util.List;
 import java.util.Set;

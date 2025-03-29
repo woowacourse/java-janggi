@@ -1,11 +1,11 @@
 package janggi.domain.piece;
 
-import janggi.domain.Dynasty;
+import janggi.domain.board.Dynasty;
 import janggi.domain.board.Direction;
-import janggi.domain.board.Point;
 import janggi.domain.piece.move.AndMoveStrategy;
 import janggi.domain.piece.move.MoveStrategy;
 import janggi.domain.piece.move.OrMoveStrategy;
+import janggi.domain.piece.move.Path;
 import janggi.domain.piece.move.strategy.AvoidPieceOnPathStrategy;
 import janggi.domain.piece.move.strategy.JumpObstacleStrategy;
 import janggi.domain.piece.move.strategy.PalaceAreaStrategy;

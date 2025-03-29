@@ -1,6 +1,5 @@
 package janggi.domain.board;
 
-import janggi.domain.Dynasty;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;

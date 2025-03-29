@@ -1,6 +1,6 @@
 package janggi;
 
-import janggi.domain.Dynasty;
+import janggi.domain.board.Dynasty;
 import janggi.domain.board.BoardSetUp;
 import janggi.domain.board.GameState;
 import janggi.domain.board.JanggiBoard;

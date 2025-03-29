@@ -3,7 +3,7 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Dynasty;
+import janggi.domain.board.Dynasty;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Point;
 import java.util.Map;

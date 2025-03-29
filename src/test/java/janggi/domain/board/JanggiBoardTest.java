@@ -3,7 +3,6 @@ package janggi.domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.domain.Dynasty;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.ChuSoldier;
 import janggi.domain.piece.General;

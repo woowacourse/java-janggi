@@ -3,7 +3,7 @@ package janggi.domain.piece.move.strategy;
 import janggi.domain.board.Direction;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Point;
-import janggi.domain.piece.Path;
+import janggi.domain.piece.move.Path;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.move.MoveStrategy;
 import janggi.domain.piece.move.PathCalculator;

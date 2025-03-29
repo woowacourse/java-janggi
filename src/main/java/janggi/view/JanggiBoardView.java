@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.Dynasty;
+import janggi.domain.board.Dynasty;
 import janggi.domain.board.Point;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;

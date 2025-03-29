@@ -1,10 +1,7 @@
 package janggi.domain.piece;
 
-import janggi.domain.Dynasty;
-import janggi.domain.board.Direction;
+import janggi.domain.board.Dynasty;
 import janggi.domain.piece.move.MoveStrategy;
-import java.util.List;
-import java.util.Set;
 
 public abstract class Soldier extends Piece {
 

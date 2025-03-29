@@ -1,4 +1,4 @@
-package janggi.domain.piece;
+package janggi.domain.piece.move;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.Point;

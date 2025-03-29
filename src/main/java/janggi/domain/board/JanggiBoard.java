@@ -1,6 +1,5 @@
 package janggi.domain.board;
 
-import janggi.domain.Dynasty;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.ChuSoldier;

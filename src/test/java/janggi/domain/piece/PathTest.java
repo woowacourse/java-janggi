@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.board.Direction;
 import janggi.domain.board.Point;
+import janggi.domain.piece.move.Path;
 import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
