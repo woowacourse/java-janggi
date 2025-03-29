@@ -14,27 +14,31 @@ public class Board {
         pieces.put(destination, piece);
     }
 
-    public OccupiedPositions generateOccupiedPositions() {
-        return new OccupiedPositions(convertOccupiedMap());
+    public Piece findPieceByPositionAndColor(Position position, Color color) {
+        validateExistPiecePosition(position);
+        Piece piece = pieces.get(position);
+        validateSameColorPiece(color, piece);
+        return pieces.get(position);
     }
 
     public void  putPiece(Position position, Piece piece) {
         pieces.put(position, piece);
     }
 
-    public Piece findPieceByPositionAndColor(Position position, Color color) {
-        validateExistPiecePosition(position);
-        Piece piece = pieces.get(position);
-        if (piece.identity().getColor() != color) {
-            throw new IllegalArgumentException("같은 팀의 기물이 아닙니다.");
-        }
-        return pieces.get(position);
+    public OccupiedPositions generateOccupiedPositions() {
+        return new OccupiedPositions(convertOccupiedMap());
     }
 
     public double calculateScore(Color color) {
         return pieces.values().stream()
                 .filter(piece -> piece.isEqualsColor(color))
                 .mapToDouble(Piece::getScore).sum();
+    }
+
+    private void validateSameColorPiece(Color color, Piece piece) {
+        if (piece.identity().getColor() != color) {
+            throw new IllegalArgumentException("같은 팀의 기물이 아닙니다.");
+        }
     }
 
     private void validateExistPiecePosition(Position departure) {

@@ -2,6 +2,7 @@ package janggi.controller;
 
 import janggi.dao.BoardDao;
 import janggi.dao.TurnDao;
+import janggi.db.DBConnection;
 import janggi.model.Color;
 import janggi.model.JanggiGame;
 import janggi.view.Parser;
@@ -14,8 +15,8 @@ import java.util.List;
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final BoardDao boardDao = new BoardDao();
-    private final TurnDao turnDao = new TurnDao();
+    private final BoardDao boardDao = new BoardDao(new DBConnection());
+    private final TurnDao turnDao = new TurnDao(new DBConnection());
 
     public JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;

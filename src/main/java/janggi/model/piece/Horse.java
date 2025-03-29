@@ -3,14 +3,14 @@ package janggi.model.piece;
 import janggi.model.Color;
 import janggi.model.Direction;
 import janggi.model.OccupiedPositions;
-import janggi.model.PathDirections;
+import janggi.model.Directions;
 import janggi.model.PieceIdentity;
 import janggi.model.PieceType;
 import janggi.model.Position;
+import janggi.model.PositionsInDirection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import janggi.model.Path;
 
 public class Horse extends Piece {
 
@@ -22,9 +22,9 @@ public class Horse extends Piece {
     public Set<Position> calculateMovablePositions(Position start, OccupiedPositions occupied) {
         return horseDirections().stream()
                 .filter(start::canMove)
-                .map(pathDirections -> pathDirections.convertPath(start))
-                .filter(path -> occupied.isCornerEmpty(path.getCornerPositions()))
-                .map(Path::getDestinationPosition)
+                .map(directions -> directions.convertPositionsInDirections(start))
+                .filter(positionsInDirection -> !positionsInDirection.hasHuddleInCorner(occupied))
+                .map(PositionsInDirection::lastPosition)
                 .filter(destination -> destinationIsNotSameColor(destination, occupied))
                 .collect(Collectors.toSet());
     }
@@ -34,10 +34,10 @@ public class Horse extends Piece {
         return 5;
     }
 
-    private static List<PathDirections> horseDirections() {
+    private static List<Directions> horseDirections() {
         return Direction.getStraightDirection().stream()
                 .flatMap(straightDirection -> straightDirection.nextCrossDirection().stream()
-                        .map(crossDirection -> new PathDirections(List.of(straightDirection, crossDirection)))
+                        .map(crossDirection -> new Directions(List.of(straightDirection, crossDirection)))
                 ).toList();
     }
 

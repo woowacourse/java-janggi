@@ -22,9 +22,13 @@ import java.sql.SQLException;
 import java.util.Map.Entry;
 
 public class TurnDao {
+    private final DBConnection dbConnection;
+
+    public TurnDao(DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
 
     public void updateCurrentTurn(Color color) {
-        DBConnection dbConnection = new DBConnection();
         try (Connection janggiConnection = dbConnection.getJanggiConnection()) {
             PreparedStatement statement = janggiConnection.prepareStatement("UPDATE turn set currentTeamColor = ?");
             statement.setString(1, color.name());
@@ -35,7 +39,6 @@ public class TurnDao {
     }
 
     public Color findCurrentTurn() {
-        DBConnection dbConnection = new DBConnection();
         try (Connection janggiConnection = dbConnection.getJanggiConnection()) {
             ResultSet resultSet = janggiConnection.prepareStatement("SELECT * FROM turn").executeQuery();
             resultSet.next();

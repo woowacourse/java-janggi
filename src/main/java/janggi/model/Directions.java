@@ -3,10 +3,10 @@ package janggi.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PathDirections {
+public class Directions {
     private final List<Direction> directions;
 
-    public PathDirections(List<Direction> directions) {
+    public Directions(List<Direction> directions) {
         this.directions = directions;
     }
 
@@ -18,7 +18,7 @@ public class PathDirections {
         return directions.stream().mapToInt(Direction::deltaColumn).sum();
     }
 
-    public Path convertPath(Position startPosition) {
+    public PositionsInDirection convertPositionsInDirections(Position startPosition) {
         validateMovableDestinationPosition(startPosition);
         List<Position> positions = new ArrayList<>();
         Position currentPosition = startPosition;
@@ -26,9 +26,7 @@ public class PathDirections {
             currentPosition = currentPosition.move(direction);
             positions.add(currentPosition);
         }
-        Position destinationPosition = positions.getLast();
-        positions.removeLast();
-        return new Path(destinationPosition, positions);
+        return new PositionsInDirection(positions);
     }
 
     private void validateMovableDestinationPosition(Position startPosition) {

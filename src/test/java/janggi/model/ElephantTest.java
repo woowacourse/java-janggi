@@ -19,7 +19,7 @@ class ElephantTest {
     Position position = new Position(10, 3);
 
     @Test
-    void 마가_움직일_수_있는_위치들을_반환한다() {
+    void 상이_움직일_수_있는_위치들을_반환한다() {
         Board board = new Board();
         Piece elephant = new Elephant(Color.BLUE);
         board.putPiece(position, elephant);

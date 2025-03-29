@@ -21,9 +21,9 @@ public record Position(int row, int column) {
         return !isInValidPosition(row + direction.deltaRow(), column + direction.deltaColumn());
     }
 
-    public boolean canMove(final PathDirections pathDirections) {
-        int deltaRow = row + pathDirections.calculateTotalDeltaRow();
-        int deltaColumn = column + pathDirections.calculateTotalDeltaColumn();
+    public boolean canMove(final Directions directions) {
+        int deltaRow = row + directions.calculateTotalDeltaRow();
+        int deltaColumn = column + directions.calculateTotalDeltaColumn();
         return !isInValidPosition(deltaRow, deltaColumn);
     }
 

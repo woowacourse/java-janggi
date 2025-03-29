@@ -21,17 +21,16 @@ public class PositionsInDirection {
         return new PositionsInDirection(positions.subList(0, firstHuddlePositionIndex + 1));
     }
 
-    public PositionsInDirection getPositionsAfterHuddle(OccupiedPositions occupied) {
-        if (!hasHuddle(occupied)) {
-            return new PositionsInDirection(Collections.emptyList());
-        }
-        Position firstHuddle = findFirstHuddle(occupied);
-        int firstHuddlePositionIndex = positions.indexOf(firstHuddle);
-        return new PositionsInDirection(positions.subList(firstHuddlePositionIndex, positions.size()));
-    }
-
     public boolean hasHuddle(OccupiedPositions occupied) {
         return positions.stream().anyMatch(occupied::existPosition);
+    }
+
+    public boolean hasHuddleInCorner(OccupiedPositions occupied) {
+        if (positions.size() <= 1) {
+            return false;
+        }
+        PositionsInDirection corner = new PositionsInDirection(positions.subList(0, positions.size() - 1));
+        return corner.hasHuddle(occupied);
     }
 
     public Position findFirstHuddle(OccupiedPositions occupied) {
@@ -50,13 +49,6 @@ public class PositionsInDirection {
             throw new IllegalArgumentException("위치가 존재하지 않습니다.");
         }
         return positions.getLast();
-    }
-
-    public Position firstPosition() {
-        if (positions.isEmpty()) {
-            throw new IllegalArgumentException("위치가 존재하지 않습니다.");
-        }
-        return positions.getFirst();
     }
 
     public Set<Position> getCornerPositions() {

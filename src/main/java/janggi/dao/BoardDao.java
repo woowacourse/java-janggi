@@ -22,9 +22,13 @@ import java.sql.SQLException;
 import java.util.Map.Entry;
 
 public class BoardDao {
+    private final DBConnection dbConnection;
+
+    public BoardDao(DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
 
     public void updateBoard(OccupiedPositions occupiedPositions) {
-        DBConnection dbConnection = new DBConnection();
         try (Connection janggiConnection = dbConnection.getJanggiConnection()) {
             janggiConnection.prepareStatement("DELETE FROM board").executeUpdate();
             for (Entry<Position, PieceIdentity> entry : occupiedPositions.getPositions().entrySet()) {
@@ -42,7 +46,6 @@ public class BoardDao {
 
     public Board findBoard() {
         Board board = new Board();
-        DBConnection dbConnection = new DBConnection();
         try (Connection janggiConnection = dbConnection.getJanggiConnection()) {
             ResultSet resultSet = janggiConnection.prepareStatement("SELECT * FROM board").executeQuery();
             while(resultSet.next()) {
@@ -57,7 +60,7 @@ public class BoardDao {
         }
     }
 
-    public Piece convertPiece(PieceType pieceType, Color color) {
+    private Piece convertPiece(PieceType pieceType, Color color) {
         return switch (pieceType) {
             case CANNON -> new Cannon(color);
             case CHARIOT -> new Chariot(color);

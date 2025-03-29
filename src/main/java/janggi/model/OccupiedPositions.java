@@ -1,6 +1,5 @@
 package janggi.model;
 
-import java.util.List;
 import java.util.Map;
 
 public class OccupiedPositions {
@@ -27,10 +26,6 @@ public class OccupiedPositions {
         }
         return positions.get(position).getPieceType() == pieceType;
 
-    }
-
-    public boolean isCornerEmpty(List<Position> positions) {
-        return positions.stream().noneMatch(this.positions::containsKey);
     }
 
     public boolean existSameColor(Position position, Color color) {
