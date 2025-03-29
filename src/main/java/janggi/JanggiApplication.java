@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.board.Board;
 import janggi.coordinate.JanggiPosition;
+import janggi.database.JanggiDatabase;
 import janggi.piece.Country;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -13,8 +14,16 @@ public class JanggiApplication {
 
     public static void main(String[] args) {
         OutputView.printIntroduce();
+        final JanggiDatabase janggiDatabase = new JanggiDatabase();
+        createTablesIfNotExistsJanggiTables(janggiDatabase);
         final Board board = Board.createInitializedJanggiBoard();
         startJanggi(board);
+    }
+
+    private static void createTablesIfNotExistsJanggiTables(final JanggiDatabase janggiDatabase) {
+        if(!janggiDatabase.existsJanggiTable()){
+            janggiDatabase.createJanggiTables();
+        }
     }
 
     private static void startJanggi(final Board board) {
