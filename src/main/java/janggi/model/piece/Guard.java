@@ -17,9 +17,7 @@ public class Guard extends Piece {
 
     @Override
     public Set<Position> calculateMovablePositions(Position start, OccupiedPositions occupied) {
-        return CastleArea.calculateMovableDirections(start).stream()
-                .filter(start::canMove)
-                .map(start::move)
+        return CastleArea.fromCastleMovablePositions(start).stream()
                 .filter(destination -> destinationIsNotSameColor(occupied, destination))
                 .collect(Collectors.toSet());
     }

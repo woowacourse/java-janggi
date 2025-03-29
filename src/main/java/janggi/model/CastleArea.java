@@ -1,5 +1,6 @@
 package janggi.model;
 
+import java.lang.invoke.CallSite;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,14 +29,6 @@ public enum CastleArea {
         return movableDirections.stream().filter(Direction::isCrossDirection).toList();
     }
 
-    public static List<Direction> calculateMovableDirections(Position position) {
-        return Arrays.stream(CastleArea.values())
-                .filter(castleArea -> castleArea.position.equals(position))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치는 궁성이 아닙니다."))
-                .movableDirections;
-    }
-
     public static CastleArea fromByPosition(Position position) {
         return Arrays.stream(CastleArea.values())
                 .filter(castleArea -> castleArea.position.equals(position))
@@ -45,5 +38,41 @@ public enum CastleArea {
 
     public Position getPosition() {
         return position;
+    }
+
+    public static List<Position> fromCastleMovablePositions(Position position) {
+        if (!isInnerCastle(position)) {
+            throw new IllegalArgumentException("궁성 영역이 아닙니다.");
+        }
+        return castleDirection(position).stream()
+                .filter(position::canMove)
+                .map(position::move)
+                .filter(CastleArea::isInnerCastle)
+                .toList();
+    }
+
+    public static boolean isCrossMovableArea(Position position) {
+        return Arrays.stream(values()).anyMatch(area -> area.position.equals(position));
+    }
+
+    public static boolean isInnerCastle(Position position) {
+        int row = position.row();
+        int column = position.column();
+        return isBlueCastleArea(row, column) || isRedCastleArea(row, column);
+    }
+
+    private static List<Direction> castleDirection(Position position) {
+        if (isCrossMovableArea(position)) {
+            return fromByPosition(position).movableDirections;
+        }
+        return Direction.getStraightDirection();
+    }
+
+    private static boolean isBlueCastleArea(int row, int column) {
+        return row >= 8 && row <= 10 && column >= 4 && column <= 6;
+    }
+
+    private static boolean isRedCastleArea(int row, int column) {
+        return row >= 1 && row <= 3 && column >= 4 && column <= 6;
     }
 }
