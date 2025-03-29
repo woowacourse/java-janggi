@@ -89,6 +89,6 @@ public class KoreaChess {
 
     private void printWinner(final Board board) {
         Player winner = board.getWinner();
-        outputView.printWinner(winner);
+        outputView.printWinner(board, winner);
     }
 }

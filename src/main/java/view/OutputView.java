@@ -39,9 +39,11 @@ public class OutputView {
         printBoardDetails(defaultBoard);
         System.out.println("=====================");
         System.out.println();
+        printPlayerScores(board);
     }
 
-    public void printWinner(final Player winner) {
+    public void printWinner(final Board board, final Player winner) {
+        printPlayerScores(board);
         System.out.println(winner.getTeam().getName() + "의 승리로 게임이 종료되었습니다.");
         System.out.println("우승자 : " + winner.getTeam().getName());
     }
@@ -81,6 +83,16 @@ public class OutputView {
             rows.set(row, color + PieceView.findNameByClass(piece) + COLOR_RESET);
             defaultBoard.set(column, rows);
         }
+    }
+
+    private void printPlayerScores(final Board board) {
+        System.out.println("===== 장기 한/초 점수 =====");
+        Map<Player, Pieces> playerPiecesMap = board.playerPiecesMap();
+        for (Player player : playerPiecesMap.keySet()) {
+            System.out.println(player.getTeam().getName() + " : " + player.getScore().value() + "점");
+        }
+        System.out.println("========================");
+        System.out.println();
     }
 
     private void printBoardDetails(final List<ArrayList<String>> board) {
