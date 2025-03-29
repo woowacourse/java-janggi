@@ -20,6 +20,10 @@ public class Player {
         this.score = this.score.sum(score);
     }
 
+    public int compareScoreTo(final Player other) {
+        return this.score.compareTo(other.score);
+    }
+
     public Team getTeam() {
         return team;
     }
