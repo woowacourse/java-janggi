@@ -1,7 +1,6 @@
 package domain.piece;
 
 import static domain.piece.Team.CHO;
-import static domain.piece.Team.DEFAULT;
 import static domain.piece.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -21,7 +20,7 @@ public class CannonTest {
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(1, 2);
 
-        Piece cannon = new Cannon(DEFAULT);
+        Piece cannon = new Cannon(CHO);
         // when & then
         assertThatCode(
                 () -> cannon.validateArrival(current, destination)
@@ -35,7 +34,7 @@ public class CannonTest {
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(2, 2);
 
-        Piece cannon = new Cannon(DEFAULT);
+        Piece cannon = new Cannon(HAN);
         // when & then
         assertThatThrownBy(() -> {
             cannon.validateArrival(current, destination);
@@ -49,7 +48,7 @@ public class CannonTest {
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(4, 1);
 
-        Piece cannon = new Cannon(DEFAULT);
+        Piece cannon = new Cannon(HAN);
         // when
         List<BoardLocation> allPath = cannon.createAllPath(current, destination);
 
@@ -61,8 +60,8 @@ public class CannonTest {
     @Test
     void test6() {
         // given
-        List<Piece> pieces = List.of(new Pawn(DEFAULT), new Horse(DEFAULT));
-        Piece cannon = new Cannon(DEFAULT);
+        List<Piece> pieces = List.of(new Pawn(HAN), new Horse(HAN));
+        Piece cannon = new Cannon(HAN);
 
         assertThatThrownBy(() -> {
             cannon.validateMovePath(pieces);
@@ -74,7 +73,7 @@ public class CannonTest {
     void test7() {
         // given
         List<Piece> pieces = List.of();
-        Piece cannon = new Cannon(DEFAULT);
+        Piece cannon = new Cannon(HAN);
 
         // when & then
         assertThatThrownBy(() -> {
@@ -86,8 +85,8 @@ public class CannonTest {
     @Test
     void test8() {
         // given
-        List<Piece> pieces = List.of(new Cannon(DEFAULT));
-        Piece cannon = new Cannon(DEFAULT);
+        List<Piece> pieces = List.of(new Cannon(HAN));
+        Piece cannon = new Cannon(HAN);
 
         // when & then
         assertThatThrownBy(() -> {
@@ -99,8 +98,8 @@ public class CannonTest {
     @Test
     void test9() {
         // given
-        List<Piece> pieces = List.of(new Pawn(DEFAULT));
-        Piece cannon = new Cannon(DEFAULT);
+        List<Piece> pieces = List.of(new Pawn(HAN));
+        Piece cannon = new Cannon(HAN);
 
         // when & then
         assertThatCode(
@@ -112,8 +111,8 @@ public class CannonTest {
     @Test
     void test10() {
         // given
-        Piece destination = new Cannon(DEFAULT);
-        Piece cannon = new Cannon(DEFAULT);
+        Piece destination = new Cannon(HAN);
+        Piece cannon = new Cannon(HAN);
 
         // when & then
         assertThatThrownBy(() -> {
@@ -134,7 +133,7 @@ public class CannonTest {
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("목표 위치에 적군 기물이 있다면 true를 반환한다")
+    @DisplayName("목표 위치에 적군 기물이 있다면 예외를 발생시킨다")
     @Test
     void test12() {
         // given
@@ -145,5 +144,70 @@ public class CannonTest {
         assertThatCode(
                 () -> cannon.validateKillable(destination)
         ).doesNotThrowAnyException();
+    }
+
+    @DisplayName("(4,3)궁성 좌표에서 (6,1)궁성 대각선 이동 가능")
+    @Test
+    void test15() {
+        // give n
+        BoardLocation current = new BoardLocation(4, 3);
+        BoardLocation destination = new BoardLocation(6, 1);
+        Piece cannon = new Cannon(HAN);
+        // when & then
+        assertThatCode(()->
+                cannon.validateArrival(current, destination)
+        ).doesNotThrowAnyException();
+    }
+
+    @DisplayName("한나라 궁성에서 (4,3) 좌표에서 (6,1) 좌표 대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test16() {
+        // give n
+        BoardLocation current = new BoardLocation(4, 3);
+        BoardLocation destination = new BoardLocation(6, 1);
+        Piece cannon = new Cannon(HAN);
+        // when & then
+        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
+    }
+
+    @DisplayName("한나라 궁성에서 (6,3) 좌표에서 (4,1) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test17() {
+        // give n
+        BoardLocation current = new BoardLocation(6, 3);
+        BoardLocation destination = new BoardLocation(4, 1);
+        Piece cannon = new Cannon(HAN);
+        // when & then
+        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
+    }
+
+    @DisplayName("한나라 궁성에서 (4,1) 좌표에서 (6,3) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test18() {
+        // give n
+        BoardLocation current = new BoardLocation(4, 1);
+        BoardLocation destination = new BoardLocation(6, 3);
+        Piece cannon = new Cannon(HAN);
+        // when & then
+        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
+    }
+
+    @DisplayName("한나라 궁성에서 (6,1) 좌표에서 (4,3) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test19() {
+        // give n
+        BoardLocation current = new BoardLocation(6, 1);
+        BoardLocation destination = new BoardLocation(4, 3);
+        Piece cannon = new Cannon(HAN);
+        // when & then
+        List<BoardLocation> allPath = cannon.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
     }
 }

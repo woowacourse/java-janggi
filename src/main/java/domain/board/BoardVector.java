@@ -11,16 +11,20 @@ public record BoardVector(
         return new BoardVector(destination.x() - current.x(), destination.y() - current.y());
     }
 
-    public boolean isNotAxis() {
-        return dx != 0 && dy != 0;
-    }
-
     public boolean isAxis() {
         return dx == 0 || dy == 0;
     }
 
+    public boolean isQuadrant() {
+        return Math.abs(dx) == Math.abs(dy);
+    }
+
     public boolean isStepAxisMove(int step) {
         return Math.abs(dx) == step || Math.abs(dy) == step;
+    }
+
+    public boolean isStepQuadrantMove(int step) {
+        return Math.abs(dx) == step && Math.abs(dy) == step;
     }
 
     @Override

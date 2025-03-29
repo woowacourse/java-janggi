@@ -1,18 +1,24 @@
 package domain.board;
 
-import domain.piece.King;
-import domain.piece.Piece;
-import domain.piece.Team;
+import static domain.piece.Team.CHO;
+import static domain.piece.Team.HAN;
+
 import domain.piece.Cannon;
 import domain.piece.Chariot;
+import domain.piece.King;
 import domain.piece.Pawn;
+import domain.piece.Piece;
 import domain.piece.Scholar;
+import domain.piece.Score;
+import domain.piece.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class Board {
+
+    private static final long REQUIRED_ALIVE_COUNT = 2;
 
     private final Map<BoardLocation, Piece> pieces;
 
@@ -43,6 +49,22 @@ public class Board {
                 .toList();
     }
 
+    public Score calculateScoreByTeam(Team team) {
+        return pieces.keySet().stream()
+                .filter(location -> pieces.get(location).getTeam() == team)
+                .map(location -> pieces.get(location).getScore())
+                .reduce(Score::plus)
+                .orElse(new Score(0));
+    }
+
+    public boolean isGameStopped() {
+        long requiredAliveCount = pieces.keySet().stream()
+                .filter(location -> pieces.get(location).isStoppedGameIfDie())
+                .count();
+
+        return requiredAliveCount != REQUIRED_ALIVE_COUNT;
+    }
+
     public Map<BoardLocation, Piece> getPieces() {
         return pieces;
     }
@@ -50,31 +72,31 @@ public class Board {
     public static Board createWithPieces(Map<BoardLocation, Piece> placements) {
         Map<BoardLocation, Piece> pieces = new HashMap<>(placements);
 
-        pieces.put(new BoardLocation(1, 1), new Chariot(Team.HAN));
-        pieces.put(new BoardLocation(4, 1), new Scholar(Team.HAN));
-        pieces.put(new BoardLocation(6, 1), new Scholar(Team.HAN));
-        pieces.put(new BoardLocation(9, 1), new Chariot(Team.HAN));
-        pieces.put(new BoardLocation(5, 2), new King(Team.HAN));
-        pieces.put(new BoardLocation(2, 3), new Cannon(Team.HAN));
-        pieces.put(new BoardLocation(8, 3), new Cannon(Team.HAN));
-        pieces.put(new BoardLocation(1, 4), new Pawn(Team.HAN));
-        pieces.put(new BoardLocation(3, 4), new Pawn(Team.HAN));
-        pieces.put(new BoardLocation(5, 4), new Pawn(Team.HAN));
-        pieces.put(new BoardLocation(7, 4), new Pawn(Team.HAN));
-        pieces.put(new BoardLocation(9, 4), new Pawn(Team.HAN));
+        pieces.put(new BoardLocation(1, 1), new Chariot(HAN));
+        pieces.put(new BoardLocation(4, 1), new Scholar(HAN));
+        pieces.put(new BoardLocation(6, 1), new Scholar(HAN));
+        pieces.put(new BoardLocation(9, 1), new Chariot(HAN));
+        pieces.put(new BoardLocation(5, 2), new King(HAN, new Score(1.5)));
+        pieces.put(new BoardLocation(2, 3), new Cannon(HAN));
+        pieces.put(new BoardLocation(8, 3), new Cannon(HAN));
+        pieces.put(new BoardLocation(1, 4), new Pawn(HAN));
+        pieces.put(new BoardLocation(3, 4), new Pawn(HAN));
+        pieces.put(new BoardLocation(5, 4), new Pawn(HAN));
+        pieces.put(new BoardLocation(7, 4), new Pawn(HAN));
+        pieces.put(new BoardLocation(9, 4), new Pawn(HAN));
 
-        pieces.put(new BoardLocation(1, 10), new Chariot(Team.CHO));
-        pieces.put(new BoardLocation(4, 10), new Scholar(Team.CHO));
-        pieces.put(new BoardLocation(6, 10), new Scholar(Team.CHO));
-        pieces.put(new BoardLocation(9, 10), new Chariot(Team.CHO));
-        pieces.put(new BoardLocation(5, 9), new King(Team.CHO));
-        pieces.put(new BoardLocation(2, 8), new Cannon(Team.CHO));
-        pieces.put(new BoardLocation(8, 8), new Cannon(Team.CHO));
-        pieces.put(new BoardLocation(1, 7), new Pawn(Team.CHO));
-        pieces.put(new BoardLocation(3, 7), new Pawn(Team.CHO));
-        pieces.put(new BoardLocation(5, 7), new Pawn(Team.CHO));
-        pieces.put(new BoardLocation(7, 7), new Pawn(Team.CHO));
-        pieces.put(new BoardLocation(9, 7), new Pawn(Team.CHO));
+        pieces.put(new BoardLocation(1, 10), new Chariot(CHO));
+        pieces.put(new BoardLocation(4, 10), new Scholar(CHO));
+        pieces.put(new BoardLocation(6, 10), new Scholar(CHO));
+        pieces.put(new BoardLocation(9, 10), new Chariot(CHO));
+        pieces.put(new BoardLocation(5, 9), new King(CHO, new Score(0)));
+        pieces.put(new BoardLocation(2, 8), new Cannon(CHO));
+        pieces.put(new BoardLocation(8, 8), new Cannon(CHO));
+        pieces.put(new BoardLocation(1, 7), new Pawn(CHO));
+        pieces.put(new BoardLocation(3, 7), new Pawn(CHO));
+        pieces.put(new BoardLocation(5, 7), new Pawn(CHO));
+        pieces.put(new BoardLocation(7, 7), new Pawn(CHO));
+        pieces.put(new BoardLocation(9, 7), new Pawn(CHO));
         return new Board(pieces);
     }
 }

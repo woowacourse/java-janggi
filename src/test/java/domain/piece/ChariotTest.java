@@ -1,7 +1,6 @@
 package domain.piece;
 
 import static domain.piece.Team.CHO;
-import static domain.piece.Team.DEFAULT;
 import static domain.piece.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 class ChariotTest {
 
-    Chariot chariot = new Chariot(Team.DEFAULT);
+    Chariot chariot = new Chariot(HAN);
 
     @DisplayName("차(車)는 현재 위치에서 한 방향으로 목적지에 도착할 수 있다면 예외를 발생시키지 않는다")
     @Test
@@ -23,7 +22,7 @@ class ChariotTest {
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(1, 2);
 
-        Piece cannon = new Cannon(DEFAULT);
+        Piece cannon = new Cannon(HAN);
         // when & then
         assertThatCode(
                 () -> cannon.validateArrival(current, destination)
@@ -37,7 +36,7 @@ class ChariotTest {
         BoardLocation current = new BoardLocation(1, 1);
         BoardLocation destination = new BoardLocation(2, 2);
 
-        Piece cannon = new Cannon(DEFAULT);
+        Piece cannon = new Cannon(HAN);
         // when & then
         assertThatThrownBy(() -> {
             cannon.validateArrival(current, destination);
@@ -62,8 +61,8 @@ class ChariotTest {
     @Test
     void test4() {
         // given
-        List<Piece> pathPiece = List.of(new Pawn(Team.DEFAULT));
-        Piece piece = new Chariot(Team.DEFAULT);
+        List<Piece> pathPiece = List.of(new Pawn(HAN));
+        Piece piece = new Chariot(HAN);
 
         // when & then
         assertThatThrownBy(() -> {
@@ -76,7 +75,7 @@ class ChariotTest {
     void test5() {
         // given
         List<Piece> pathPiece = List.of();
-        Piece piece = new Chariot(Team.DEFAULT);
+        Piece piece = new Chariot(HAN);
 
         // when & then
         assertThatCode(
@@ -108,5 +107,70 @@ class ChariotTest {
         assertThatCode(
                 () -> start.validateKillable(destination)
         ).doesNotThrowAnyException();
+    }
+
+    @DisplayName("궁성 좌표라면 궁성 대각선으로 이동 가능")
+    @Test
+    void test13() {
+        // give n
+        BoardLocation current = new BoardLocation(4, 3);
+        BoardLocation destination = new BoardLocation(6, 1);
+        Piece chariot = new Chariot(HAN);
+        // when & then
+        assertThatCode(()->
+                chariot.validateArrival(current, destination)
+        ).doesNotThrowAnyException();
+    }
+
+    @DisplayName("한나라 궁성에서 (4,3) 좌표에서 (6,1) 좌표 대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test14() {
+        // give n
+        BoardLocation current = new BoardLocation(4, 3);
+        BoardLocation destination = new BoardLocation(6, 1);
+        Piece chariot = new Chariot(HAN);
+        // when & then
+        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
+    }
+
+    @DisplayName("한나라 궁성에서 (6,3) 좌표에서 (4,1) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test15() {
+        // give n
+        BoardLocation current = new BoardLocation(6, 3);
+        BoardLocation destination = new BoardLocation(4, 1);
+        Piece chariot = new Chariot(HAN);
+        // when & then
+        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
+    }
+
+    @DisplayName("한나라 궁성에서 (4,1) 좌표에서 (6,3) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test16() {
+        // give n
+        BoardLocation current = new BoardLocation(4, 1);
+        BoardLocation destination = new BoardLocation(6, 3);
+        Piece chariot = new Chariot(HAN);
+        // when & then
+        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
+    }
+
+    @DisplayName("한나라 궁성에서 (6,1) 좌표에서 (4,3) 좌표대각선으로 2칸 이동했을 경우 이동경로 1을 반환한다 ")
+    @Test
+    void test17() {
+        // give n
+        BoardLocation current = new BoardLocation(6, 1);
+        BoardLocation destination = new BoardLocation(4, 3);
+        Piece chariot = new Chariot(HAN);
+        // when & then
+        List<BoardLocation> allPath = chariot.createAllPath(current, destination);
+
+        assertThat(allPath.size()).isEqualTo(1);
     }
 }

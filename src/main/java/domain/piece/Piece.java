@@ -8,12 +8,19 @@ import java.util.List;
 public abstract class Piece {
 
     protected final Team team;
+    protected final Score score;
 
-    public Piece(Team team) {
+    public Piece(Team team, Score score) {
         this.team = team;
+        this.score = score;
     }
 
-    public void validateMovable(BoardLocation current, BoardLocation destination, PieceExtractor pieceExtractor, PieceFinder pieceFinder) {
+    public void validateMovable(
+            BoardLocation current,
+            BoardLocation destination,
+            PieceExtractor pieceExtractor,
+            PieceFinder pieceFinder
+    ) {
         validateArrival(current, destination);
         List<BoardLocation> allPath = createAllPath(current, destination);
         List<Piece> pathPiece = pieceExtractor.extract(allPath);
@@ -36,7 +43,7 @@ public abstract class Piece {
         }
     }
 
-    public final void validateEqualTeam(Team team){
+    public final void validateEqualTeam(Team team) {
         if (isNotEqualTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다");
         }
@@ -46,11 +53,19 @@ public abstract class Piece {
         return this.team;
     }
 
+    public Score getScore() {
+        return score;
+    }
+
     private boolean isNotEqualTeam(Team team) {
         return this.team != team;
     }
 
     private boolean isEqualTeam(Piece piece) {
         return this.team == piece.team;
+    }
+
+    public boolean isStoppedGameIfDie() {
+        return false;
     }
 }

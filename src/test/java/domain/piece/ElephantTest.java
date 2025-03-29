@@ -1,7 +1,6 @@
 package domain.piece;
 
 import static domain.piece.Team.CHO;
-import static domain.piece.Team.DEFAULT;
 import static domain.piece.Team.HAN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 public class ElephantTest {
 
-    Elephant elephant = new Elephant(DEFAULT);
+    Elephant elephant = new Elephant(HAN);
 
     @DisplayName("상은 상하좌우 한 칸 그리고 대각선 두 칸 움직일 때의 목적지 좌표로 위치 가능하다면 예와를 발생시키지않는다")
     @Test
@@ -60,8 +59,8 @@ public class ElephantTest {
     @Test
     void test4() {
         // given
-        List<Piece> pathPiece = List.of(new Pawn(Team.DEFAULT));
-        Piece piece = new Elephant(Team.DEFAULT);
+        List<Piece> pathPiece = List.of(new Pawn(Team.HAN));
+        Piece piece = new Elephant(Team.HAN);
         // when & then
         assertThatThrownBy(() -> {
             piece.validateMovePath(pathPiece);
@@ -73,7 +72,7 @@ public class ElephantTest {
     void test5() {
         // given
         List<Piece> pathPiece = List.of();
-        Piece piece = new Elephant(Team.DEFAULT);
+        Piece piece = new Elephant(Team.HAN);
 
         // when & then
         assertThatCode(

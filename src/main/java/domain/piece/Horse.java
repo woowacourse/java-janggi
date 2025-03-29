@@ -25,7 +25,7 @@ public class Horse extends Piece {
     );
 
     public Horse(Team team) {
-        super(team);
+        super(team, new Score(5));
     }
 
     @Override

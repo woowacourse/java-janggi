@@ -17,18 +17,6 @@ public record BoardLocation(
         validateYRange(y);
     }
 
-    private void validateYRange(int y) {
-        if (y < START_Y || y > END_Y) {
-            throw new IllegalArgumentException("[ERROR] 보드판 y값이 범위 밖에 위치합니다. y :" + y);
-        }
-    }
-
-    private void validateXRange(int x) {
-        if (x < START_X || x > END_X) {
-            throw new IllegalArgumentException("[ERROR] 보드판 x값이 범위 밖에 위치합니다. x :" + x);
-        }
-    }
-
     public boolean isDown(BoardLocation current) {
         return current.y - y < 0;
     }
@@ -41,16 +29,28 @@ public record BoardLocation(
         return new BoardLocation(this.x + x, this.y + y);
     }
 
-    public BoardLocation moveY(int dy) {
+    public BoardLocation moveVertical(int dy) {
         return new BoardLocation(x, y + dy);
     }
 
-    public BoardLocation moveX(int dx) {
+    public BoardLocation moveHorizon(int dx) {
         return new BoardLocation(x + dx, y);
     }
 
     public BoardLocation moveDirection(Direction direction) {
         return this.move(direction.x(), direction.y());
+    }
+
+    private void validateYRange(int y) {
+        if (y < START_Y || y > END_Y) {
+            throw new IllegalArgumentException("[ERROR] 보드판 y값이 범위 밖에 위치합니다. y :" + y);
+        }
+    }
+
+    private void validateXRange(int x) {
+        if (x < START_X || x > END_X) {
+            throw new IllegalArgumentException("[ERROR] 보드판 x값이 범위 밖에 위치합니다. x :" + x);
+        }
     }
 
     @Override
