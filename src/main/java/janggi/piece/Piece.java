@@ -18,7 +18,7 @@ public abstract class Piece {
 
     public abstract Set<Point> findRoute(MoveType moveType, Point from, Point to);
 
-    public abstract PieceCategory getPieceCategory();
+    public abstract PieceType getPieceCategory();
 
     public void validateCatch(Piece targetPiece) {
         if (this.camp == targetPiece.camp) {

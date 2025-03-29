@@ -66,7 +66,7 @@ public final class Guard extends Piece {
     }
 
     @Override
-    public PieceCategory getPieceCategory() {
-        return PieceCategory.GUARD;
+    public PieceType getPieceCategory() {
+        return PieceType.GUARD;
     }
 }

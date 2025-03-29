@@ -3,7 +3,7 @@ package janggi.board;
 import janggi.camp.Camp;
 import janggi.piece.MoveType;
 import janggi.piece.Piece;
-import janggi.piece.PieceCategory;
+import janggi.piece.PieceType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -98,13 +98,13 @@ public class Board {
 
     public boolean isGameOver() {
         return placedPieces.values().stream()
-                .filter(piece -> piece.getPieceCategory() == PieceCategory.GENERAL)
+                .filter(piece -> piece.getPieceCategory() == PieceType.GENERAL)
                 .count() != GENERAL_PIECE_COUNT;
     }
 
     public Camp findWinningCamp() {
         return placedPieces.values().stream()
-                .filter(piece -> piece.getPieceCategory() == PieceCategory.GENERAL)
+                .filter(piece -> piece.getPieceCategory() == PieceType.GENERAL)
                 .map(Piece::getCamp)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("생존한 장군이 없습니다."));

@@ -1,6 +1,6 @@
 package janggi.piece;
 
-public enum PieceCategory {
+public enum PieceType {
 
     GENERAL(0),
     CHARIOT(13),
@@ -12,7 +12,7 @@ public enum PieceCategory {
 
     private final int score;
 
-    PieceCategory(int score) {
+    PieceType(int score) {
         this.score = score;
     }
 

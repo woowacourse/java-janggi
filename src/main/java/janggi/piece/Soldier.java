@@ -78,7 +78,7 @@ public final class Soldier extends Piece {
     }
 
     @Override
-    public PieceCategory getPieceCategory() {
-        return PieceCategory.SOLDIER;
+    public PieceType getPieceCategory() {
+        return PieceType.SOLDIER;
     }
 }

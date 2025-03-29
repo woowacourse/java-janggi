@@ -66,7 +66,7 @@ public final class General extends Piece {
     }
 
     @Override
-    public PieceCategory getPieceCategory() {
-        return PieceCategory.GENERAL;
+    public PieceType getPieceCategory() {
+        return PieceType.GENERAL;
     }
 }

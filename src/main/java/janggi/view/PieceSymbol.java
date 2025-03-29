@@ -1,11 +1,11 @@
 package janggi.view;
 
 import janggi.camp.Camp;
-import janggi.piece.PieceCategory;
+import janggi.piece.PieceType;
 
 public enum PieceSymbol {
 
-    CANNON(PieceCategory.CANNON) {
+    CANNON(PieceType.CANNON) {
         @Override
         public String getDisplayAttributes(Camp camp) {
             if (camp == Camp.CHU) {
@@ -14,7 +14,7 @@ public enum PieceSymbol {
             return colorHanAttribute("포");
         }
     },
-    CHARIOT(PieceCategory.CHARIOT) {
+    CHARIOT(PieceType.CHARIOT) {
         @Override
         public String getDisplayAttributes(Camp camp) {
             if (camp == Camp.CHU) {
@@ -23,7 +23,7 @@ public enum PieceSymbol {
             return colorHanAttribute("차");
         }
     },
-    ELEPHANT(PieceCategory.ELEPHANT) {
+    ELEPHANT(PieceType.ELEPHANT) {
         @Override
         public String getDisplayAttributes(Camp camp) {
             if (camp == Camp.CHU) {
@@ -32,7 +32,7 @@ public enum PieceSymbol {
             return colorHanAttribute("상");
         }
     },
-    GENERAL(PieceCategory.GENERAL) {
+    GENERAL(PieceType.GENERAL) {
         @Override
         public String getDisplayAttributes(Camp camp) {
             if (camp == Camp.CHU) {
@@ -41,7 +41,7 @@ public enum PieceSymbol {
             return colorHanAttribute("왕");
         }
     },
-    GUARD(PieceCategory.GUARD) {
+    GUARD(PieceType.GUARD) {
         @Override
         public String getDisplayAttributes(Camp camp) {
             if (camp == Camp.CHU) {
@@ -50,7 +50,7 @@ public enum PieceSymbol {
             return colorHanAttribute("사");
         }
     },
-    HORSE(PieceCategory.HORSE) {
+    HORSE(PieceType.HORSE) {
         @Override
         public String getDisplayAttributes(Camp camp) {
             if (camp == Camp.CHU) {
@@ -59,7 +59,7 @@ public enum PieceSymbol {
             return colorHanAttribute("마");
         }
     },
-    SOLDIER(PieceCategory.SOLDIER) {
+    SOLDIER(PieceType.SOLDIER) {
         @Override
         public String getDisplayAttributes(Camp camp) {
             if (camp == Camp.CHU) {
@@ -74,10 +74,10 @@ public enum PieceSymbol {
     private static final String GREEN_COLOR_CODE = "\u001B[32m";
     private static final String EXIT_CODE = "\u001B[0m";
 
-    private final PieceCategory pieceCategory;
+    private final PieceType pieceType;
 
-    PieceSymbol(PieceCategory pieceCategory) {
-        this.pieceCategory = pieceCategory;
+    PieceSymbol(PieceType pieceType) {
+        this.pieceType = pieceType;
     }
 
     public abstract String getDisplayAttributes(Camp camp);
@@ -90,7 +90,7 @@ public enum PieceSymbol {
         return RED_COLOR_CODE + value + EXIT_CODE;
     }
 
-    public PieceCategory getPieceCategory() {
-        return pieceCategory;
+    public PieceType getPieceCategory() {
+        return pieceType;
     }
 }

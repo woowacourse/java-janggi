@@ -77,7 +77,7 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public PieceCategory getPieceCategory() {
-        return PieceCategory.CANNON;
+    public PieceType getPieceCategory() {
+        return PieceType.CANNON;
     }
 }
