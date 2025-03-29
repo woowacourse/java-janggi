@@ -33,7 +33,7 @@ public class JanggiJdbcDao implements JanggiDao {
 
     @Override
     public void saveInitialGame(final int setupOption) {
-        final String gameSaveQuery = "INSERT INTO game(setup_option, finished) value (?,false)";
+        final String gameSaveQuery = "INSERT INTO game(setup_option, finished) value (?, false)";
         try (final var preparedStatement = connection.prepareStatement(gameSaveQuery)) {
             preparedStatement.setInt(1, setupOption);
             preparedStatement.executeUpdate();
