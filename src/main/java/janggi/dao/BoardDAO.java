@@ -83,16 +83,20 @@ public class BoardDAO {
         try {
             conn.setAutoCommit(false);
 
-            for (Entry<Position, Piece> entry : pieces.entrySet()) {
-                Position position = entry.getKey();
-                Piece piece = entry.getValue();
-                save(conn, gameRoomName, position, piece);
-            }
+            saveBoard(gameRoomName, conn, pieces);
 
             conn.commit();
         } catch (SQLException e) {
             conn.rollback();
             throw new IllegalArgumentException("saveAll 중 오류 발생, 롤백 수행됨", e);
+        }
+    }
+
+    private void saveBoard(String gameRoomName, Connection conn, Map<Position, Piece> pieces) throws SQLException {
+        for (Entry<Position, Piece> entry : pieces.entrySet()) {
+            Position position = entry.getKey();
+            Piece piece = entry.getValue();
+            save(conn, gameRoomName, position, piece);
         }
     }
 
