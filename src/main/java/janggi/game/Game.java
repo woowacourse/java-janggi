@@ -12,7 +12,7 @@ public class Game {
     private final Board board;
     private final List<AttackedPiece> attackedPieces;
     private Team turn;
-    private final LocalDateTime createdAt; //TODO 이게맞나.
+    private final LocalDateTime createdAt; //TODO dao로 옮길수 이씅면 좋겠다..
 
     public Game() {
         this(Board.init(), new ArrayList<>(), Team.CHO, LocalDateTime.now());

@@ -1,6 +1,7 @@
 package janggi.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.game.Game;
 import janggi.game.Team;
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GameDaoTest {
-    private final GameDao gameDao = new GameDao();
+    private Game createdGame = new Game();
 
     @AfterEach
     void cleanUp() {
@@ -30,14 +31,24 @@ class GameDaoTest {
     @Test
     @DisplayName("하나의 게임 투플을 추가한다.")
     void createGameTuple() {
-        gameDao.createGame(new Game());
+        GameDao.createGame(createdGame);
     }
 
     @Test
     @DisplayName("가장 최근에 만들어진 게임 투플을 조회한다.")
     void findGameLastCreated() {
-        Game game = gameDao.findLastCreated();
+        Game game = GameDao.findLastCreated();
         assertThat(game.getTurn()).isEqualTo(Team.CHO);
     }
 
+    @Test
+    @DisplayName("게임 객체를 삭제한다.")
+    void deleteGame() {
+        GameDao gameDao = GameDao.createGame(createdGame);
+
+        gameDao.deleteGame();
+        assertThatThrownBy(gameDao::deleteGame)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("게임이 삭제되지 않았습니다.");
+    }
 }
