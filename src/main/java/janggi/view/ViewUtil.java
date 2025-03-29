@@ -43,8 +43,8 @@ public class ViewUtil {
         if (piece.isEmpty() || country.isEmpty()) {
             return ".\t";
         }
-        final String pieceName = piece.get().getPieceType().name();
-        return applyColor(pieceName, country.get()) + "\t";
+        final String pieceValue = parsePieceValue(piece.get());
+        return applyColor(pieceValue, country.get()) + "\t";
     }
 
     private static Optional<Piece> getPieceOf(final Map<Country, List<Piece>> board, final Position position) {
@@ -59,6 +59,19 @@ public class ViewUtil {
                 .filter(entry -> entry.getValue().stream().anyMatch(piece -> piece.getPosition().equals(position)))
                 .map(Map.Entry::getKey)
                 .findFirst();
+    }
+
+    private static String parsePieceValue(final Piece piece) {
+        return switch (piece.getPieceType()) {
+            case CHA -> "차";
+            case PO -> "포";
+            case MA -> "마";
+            case SANG -> "상";
+            case SA -> "사";
+            case JOL -> "졸";
+            case BYEONG -> "병";
+            case GUNG -> "궁";
+        };
     }
 
     private static String applyColor(final String value, final Country country) {
