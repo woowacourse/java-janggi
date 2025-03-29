@@ -20,8 +20,16 @@ public abstract class Piece {
 
     public abstract PieceCategory getPieceCategory();
 
-    protected boolean isJol() {
-        return camp.isChu();
+    public void validatePalaceMove(Point from, Point to) {
+        validateMove(from, to);
+    }
+
+    public Set<Point> findPalaceRoute(Point from, Point to) {
+        return findRoute(from, to);
+    }
+
+    protected boolean isSameCamp(Camp other) {
+        return this.camp == other;
     }
 
     public void validateCatch(Piece targetPiece) {
