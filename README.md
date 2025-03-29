@@ -71,7 +71,47 @@
 - [x] 서로가 게임 종료에 동의하면 남아있는 기물의 점수를 계산 후 출력한다.
     - [x] 해당 턴이 아닌 사람은 1.5의 가산 점수를 받는다.
 
-## 출력 예시
+## 데이터베이스 사용법
+
+- [x] 도커 컴포즈를 실행시켜 컨테이너를 구성한다.
+- [x] 아래 테이블을 추가한다.
+
+```
+CREATE DATABASE janggi DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE Team (
+team_id INT PRIMARY KEY,
+team_name VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE Position (
+position_id INT AUTO_INCREMENT PRIMARY KEY,
+x INT NOT NULL,
+y INT NOT NULL,
+UNIQUE (x, y)
+);
+
+
+CREATE TABLE Piece (
+piece_id INT AUTO_INCREMENT PRIMARY KEY,
+piece_type VARCHAR(50) NOT NULL,
+team_id INT,
+position_id INT,
+FOREIGN KEY (position_id) REFERENCES Position (position_id),
+FOREIGN KEY (team_id) REFERENCES Team (team_id)
+);
+
+CREATE TABLE Turn (
+team_id int PRIMARY KEY
+);
+
+INSERT INTO Team (team_id, team_name)
+VALUES
+(1, 'RED'),
+(2, 'BLUE');
+```
+
+- [x] 이후 인텔리제이와의 연결 후 사용한다.
 
 ```
 차마상사．사상마차
