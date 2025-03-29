@@ -11,11 +11,11 @@ public record JanggiEntity(long janggiId,
                            String gameStatus,
                            String gameTurn) {
 
-    public static JanggiEntity from(JanggiGame janggiGame) {
+    public static JanggiEntity from(JanggiGame janggiGame, long janggiId) {
         Player redPlayer = janggiGame.getRedPlayer();
         Player greenPlayer = janggiGame.getGreenPlayer();
 
-        return new JanggiEntity(0,
+        return new JanggiEntity(janggiId,
                 redPlayer.getName(),
                 greenPlayer.getName(),
                 redPlayer.getScore().value(),
