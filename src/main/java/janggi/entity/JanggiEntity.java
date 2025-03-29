@@ -1,0 +1,26 @@
+package janggi.entity;
+
+import janggi.domain.JanggiGame;
+import janggi.domain.Player;
+
+public record JanggiEntity(long janggiId,
+                           String redPlayerName,
+                           String greenPlayerName,
+                           double redScore,
+                           double greenScore,
+                           String gameStatus,
+                           String gameTurn) {
+
+    public static JanggiEntity from(JanggiGame janggiGame) {
+        Player redPlayer = janggiGame.getRedPlayer();
+        Player greenPlayer = janggiGame.getGreenPlayer();
+
+        return new JanggiEntity(0,
+                redPlayer.getName(),
+                greenPlayer.getName(),
+                redPlayer.getScore().value(),
+                greenPlayer.getScore().value(),
+                janggiGame.getGameStatus().name(),
+                janggiGame.getTurn().name());
+    }
+}
