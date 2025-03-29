@@ -26,6 +26,11 @@ public enum Direction {
                 Integer.signum(to.y() - from.y()));
     }
 
+    public static boolean isDiagonal(Position from, Position to) {
+        Direction direction = Direction.find(from, to);
+        return direction.getX() != 0 && direction.getY() != 0;
+    }
+
     public int getX() {
         return row;
     }

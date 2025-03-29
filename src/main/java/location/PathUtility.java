@@ -2,16 +2,16 @@ package location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PathUtility {
-
     public static void checkStraightMovement(Position from, Position to) {
         if (from.x() != to.x() && from.y() != to.y()) {
             throw new IllegalArgumentException("[ERROR] 직선 이동만 가능합니다.");
         }
     }
 
-    public static void checkStraightOneMovement(Position from, Position to) {
+    public static void checkOneMovement(Position from, Position to) {
         if (from.x() + 1 < to.x() || from.x() - 1 > to.x()
                 || from.y() + 1 < to.y() || from.y() - 1 > to.y()) {
             throw new IllegalArgumentException("[ERROR] 1칸만 이동 가능합니다.");

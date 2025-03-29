@@ -13,7 +13,8 @@ public class Guard implements Piece{
 
     @Override
     public void validateDestination(Position destination) {
-        PathUtility.checkStraightOneMovement(currentPosition, destination);
+        PathUtility.checkStraightMovement(currentPosition, destination);
+        PathUtility.checkOneMovement(currentPosition, destination);
     }
 
     @Override
