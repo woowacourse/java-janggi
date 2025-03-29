@@ -70,9 +70,4 @@ public class InputView {
         }
         return PLACEMENT_SELECTION_SET_UP.get(selectNumber).getCho();
     }
-
-    public int showSelect() {
-        System.out.println("1. 기물이동 2. 게임중단");
-        return Integer.parseInt(scanner.nextLine());
-    }
 }
