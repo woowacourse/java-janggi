@@ -1,10 +1,8 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.board.Position;
-import janggi.domain.piece.King;
-import janggi.domain.piece.Side;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +12,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class KingTest {
+public class GuardTest {
 
     @DisplayName("궁성 내에서 상하좌우 대각 한 칸 이동하면 true를 반환한다.")
     @ParameterizedTest
@@ -30,12 +28,12 @@ class KingTest {
     })
     void shouldReturnTrueWhenFollowMovingRule(int destX, int destY) {
         // given
-        King king = new King(Side.RED);
+        Guard guard = new Guard(Side.RED);
         Position start = new Position(5, 2);
         Position end = new Position(destX, destY);
 
         // when
-        boolean canMove = king.canMove(start, end, Map.of());
+        boolean canMove = guard.canMove(start, end, Map.of());
 
         // then
         assertThat(canMove).isTrue();
@@ -46,10 +44,10 @@ class KingTest {
     @MethodSource("invalidMovePositionOverOneStep")
     void shouldReturnFalseWhenUnfollowMovingRule(Position start, Position end) {
         // given
-        King king = new King(Side.RED);
+        Guard guard = new Guard(Side.RED);
 
         // when
-        boolean canMove = king.canMove(start, end, Map.of());
+        boolean canMove = guard.canMove(start, end, Map.of());
 
         // then
         assertThat(canMove).isFalse();
@@ -69,12 +67,12 @@ class KingTest {
     @Test
     void shouldReturnFalseWhenOutOfPalace() {
         // given
-        King king = new King(Side.RED);
+        Guard guard = new Guard(Side.RED);
         Position start = new Position(4, 1);
         Position end = new Position(3, 1);
 
         // when
-        boolean canMove = king.canMove(start, end, Map.of());
+        boolean canMove = guard.canMove(start, end, Map.of());
 
         // then
         assertThat(canMove).isFalse();

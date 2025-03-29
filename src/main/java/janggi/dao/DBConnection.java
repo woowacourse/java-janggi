@@ -20,7 +20,8 @@ public class DBConnection {
 
     public static void commit() {
         try {
-            DBConnection.getInstance().commit();
+//            DBConnection.getInstance().commit();
+            connection.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -1,12 +1,10 @@
-package janggi.board;
+package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.domain.board.Board;
-import janggi.domain.board.Position;
 import janggi.domain.game.Score;
 import janggi.domain.game.Turn;
 import janggi.domain.piece.Cannon;

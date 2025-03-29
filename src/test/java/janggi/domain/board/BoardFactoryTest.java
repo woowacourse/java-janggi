@@ -1,9 +1,7 @@
-package janggi.board;
+package janggi.domain.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.board.Board;
-import janggi.domain.board.BoardFactory;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Side;
 import java.util.List;
