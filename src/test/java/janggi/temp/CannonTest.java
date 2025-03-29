@@ -3,6 +3,8 @@ package janggi.temp;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.temp.game.Board;
+import janggi.temp.game.Team;
 import janggi.temp.piece.Cannon;
 import janggi.temp.piece.Soldier;
 import janggi.temp.position.Column;

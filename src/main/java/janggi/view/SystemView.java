@@ -1,6 +1,6 @@
 package janggi.view;
 
-public final class WelcomeView {
+public final class SystemView {
 
     public void display() {
         System.out.println("=== 기물표기법 ===\n"
@@ -17,5 +17,16 @@ public final class WelcomeView {
                 + "2. 바깥상\n"
                 + "3. 오른상\n"
                 + "4. 왼상");
+
+        /*
+         * TODO
+         *  이동법 설명
+         *  점수 설명
+         *   팀 설명
+         */
+    }
+
+    public void outGame() {
+        System.out.println("게임을 종료합니다...");
     }
 }

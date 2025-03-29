@@ -24,6 +24,13 @@ public enum Row {
         this.value = value;
     }
 
+    public static Row of(final int value) {
+        return Arrays.stream(values())
+                .filter(column -> column.getValue() == value)
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 보드를 벗어난 값입니다."));
+    }
+
     public Row move(final int movement) {
         return Arrays.stream(Row.values())
                 .filter(row -> this.value + movement == row.value)

@@ -1,4 +1,4 @@
-package janggi.temp;
+package janggi.temp.game;
 
 import janggi.temp.piece.Piece;
 import janggi.temp.position.Position;
@@ -18,6 +18,16 @@ public final class Game {
         validateTurn(piece);
         validatePositions(source, destination, piece);
         piece.validateMove(source, destination, board);
+        board.move(source, destination, piece);
+        turn = turn.opposite();
+    }
+
+    public boolean hasPieceAt(final Position position) {
+        return board.hasPieceAt(position);
+    }
+
+    public Piece getPieceAt(final Position position) {
+        return board.get(position);
     }
 
     private void validateTurn(final Piece piece) {

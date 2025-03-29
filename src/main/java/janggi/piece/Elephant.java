@@ -5,7 +5,7 @@ import janggi.rule.MovingRule;
 import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
 import janggi.rule.Vector;
-import janggi.temp.Team;
+import janggi.temp.game.Team;
 import janggi.temp.piece.Type;
 import java.util.Map;
 

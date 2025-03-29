@@ -1,4 +1,4 @@
-package janggi.temp;
+package janggi.temp.game;
 
 import janggi.temp.piece.Piece;
 import janggi.temp.piece.Type;
@@ -16,7 +16,7 @@ public final class Board {
     public Piece get(final Position position) {
         if (!pieces.containsKey(position)) {
             throw new IllegalArgumentException(
-                    String.format("[ERROR] %d%d 위치에 기물이 없습니다.", position.getRowValue(), position.getColumnValue()));
+                    String.format("[ERROR] %d%d 위치에 기물이 없습니다.", position.getColumnValue(), position.getRowValue()));
         }
         return pieces.get(position);
     }
@@ -31,5 +31,10 @@ public final class Board {
 
     public boolean hasPieceAt(final Position destination, final Type type) {
         return hasPieceAt(destination) && get(destination).type() == type;
+    }
+
+    public void move(final Position source, final Position destination, final Piece piece) {
+        pieces.remove(source);
+        pieces.put(destination, piece);
     }
 }

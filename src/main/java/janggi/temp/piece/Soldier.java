@@ -5,8 +5,8 @@ import static janggi.temp.movement.Movement.LEFT;
 import static janggi.temp.movement.Movement.RIGHT;
 import static janggi.temp.movement.Movement.UP;
 
-import janggi.temp.Board;
-import janggi.temp.Team;
+import janggi.temp.game.Board;
+import janggi.temp.game.Team;
 import janggi.temp.movement.Movement;
 import janggi.temp.position.Position;
 import java.util.List;

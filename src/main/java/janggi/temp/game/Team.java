@@ -1,4 +1,4 @@
-package janggi.temp;
+package janggi.temp.game;
 
 public enum Team {
 

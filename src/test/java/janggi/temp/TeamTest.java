@@ -2,6 +2,7 @@ package janggi.temp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.temp.game.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
