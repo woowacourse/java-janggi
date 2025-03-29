@@ -15,16 +15,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class PieceDAO {
+public class BoardDAO {
 
-    private static final String SELECT_BOARD_QUERY = "SELECT PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN FROM PIECE WHERE GAME_ROOM_NAME = ?";
-    private static final String INSERT_PIECE_QUERY = "INSERT INTO PIECE(PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN, GAME_ROOM_NAME) VALUES (?, ?, ?, ?, ?)";
-    private static final String MOVE_PIECE_QUERY = "UPDATE PIECE SET POSITION_ROW = ?, POSITION_COLUMN = ? WHERE POSITION_ROW = ? AND POSITION_COLUMN = ? AND GAME_ROOM_NAME = ?";
-    private static final String DELETE_PIECE_QUERY = "DELETE FROM PIECE WHERE POSITION_ROW = ? AND POSITION_COLUMN = ? AND GAME_ROOM_NAME = ?";
+    private static final String SELECT_BOARD_QUERY = "SELECT PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN FROM BOARD WHERE GAME_ROOM_NAME = ?";
+    private static final String INSERT_PIECE_QUERY = "INSERT INTO BOARD(PIECE_NAME, TEAM, POSITION_ROW, POSITION_COLUMN, GAME_ROOM_NAME) VALUES (?, ?, ?, ?, ?)";
+    private static final String MOVE_PIECE_QUERY = "UPDATE BOARD SET POSITION_ROW = ?, POSITION_COLUMN = ? WHERE POSITION_ROW = ? AND POSITION_COLUMN = ? AND GAME_ROOM_NAME = ?";
+    private static final String DELETE_PIECE_QUERY = "DELETE FROM BOARD WHERE POSITION_ROW = ? AND POSITION_COLUMN = ? AND GAME_ROOM_NAME = ?";
 
     private final DatabaseManager databaseManager;
 
-    public PieceDAO(DatabaseManager databaseManager) {
+    public BoardDAO(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
     }
 

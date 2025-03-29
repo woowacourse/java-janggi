@@ -8,7 +8,7 @@ import java.sql.Statement;
 public final class DatabaseManager {
 
     private static final String GAME_ROOM_TABLE = "GAME_ROOM";
-    private static final String PIECE_TABLE = "PIECE";
+    private static final String BOARD_TABLE = "BOARD";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "1234";
@@ -46,7 +46,7 @@ public final class DatabaseManager {
     }
 
     private String createPieceTable() {
-        return createTableIfNotExist(PIECE_TABLE) +
+        return createTableIfNotExist(BOARD_TABLE) +
                 "ID INT PRIMARY KEY AUTO_INCREMENT," +
                 "PIECE_NAME VARCHAR(10) NOT NULL," +
                 "TEAM VARCHAR(10) NOT NULL CHECK(TEAM IN('HAN', 'CHO'))," +

@@ -2,7 +2,7 @@ package janggi;
 
 import janggi.config.DatabaseConfig;
 import janggi.dao.GameRoomDAO;
-import janggi.dao.PieceDAO;
+import janggi.dao.BoardDAO;
 import janggi.manager.DatabaseManager;
 import janggi.manager.JanggiGame;
 import janggi.service.JanggiService;
@@ -18,7 +18,7 @@ public class Application {
 
             Viewer viewer = new Viewer();
             JanggiService janggiService = new JanggiService(new GameRoomDAO(databaseManager),
-                    new PieceDAO(databaseManager));
+                    new BoardDAO(databaseManager));
 
             JanggiGame janggiGame = new JanggiGame(viewer, janggiService);
 

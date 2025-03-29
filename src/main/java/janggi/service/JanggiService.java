@@ -1,7 +1,7 @@
 package janggi.service;
 
 import janggi.dao.GameRoomDAO;
-import janggi.dao.PieceDAO;
+import janggi.dao.BoardDAO;
 import janggi.domain.Board;
 import janggi.domain.GameRoom;
 import janggi.domain.Team;
@@ -16,11 +16,11 @@ import java.util.Map;
 public class JanggiService {
 
     private final GameRoomDAO gameRoomDAO;
-    private final PieceDAO pieceDAO;
+    private final BoardDAO boardDAO;
 
-    public JanggiService(GameRoomDAO gameRoomDAO, PieceDAO pieceDAO) {
+    public JanggiService(GameRoomDAO gameRoomDAO, BoardDAO boardDAO) {
         this.gameRoomDAO = gameRoomDAO;
-        this.pieceDAO = pieceDAO;
+        this.boardDAO = boardDAO;
     }
 
     public void checkExistRoom() {
@@ -38,7 +38,7 @@ public class JanggiService {
         gameRoomDAO.create(gameRoomName);
 
         Board board = initializeBoard(maSangPositionByCho, maSangPositionByHan);
-        pieceDAO.saveAll(gameRoomName, board);
+        boardDAO.saveAll(gameRoomName, board);
 
         return new GameRoom(gameRoomName, board, Team.CHO);
     }
@@ -48,7 +48,7 @@ public class JanggiService {
             throw new IllegalArgumentException("존재하지 않는 방입니다. 다시 입력해주세요!");
         }
 
-        Board board = pieceDAO.toDomain(gameRoomName);
+        Board board = boardDAO.toDomain(gameRoomName);
         Team turn = gameRoomDAO.findTurn(gameRoomName);
         return new GameRoom(gameRoomName, board, turn);
     }
@@ -86,6 +86,6 @@ public class JanggiService {
         String gameRoomName = gameRoom.name();
 
         board.movePiece(currentPosition, targetPosition);
-        pieceDAO.movePiece(gameRoomName, currentPosition, targetPosition);
+        boardDAO.movePiece(gameRoomName, currentPosition, targetPosition);
     }
 }
