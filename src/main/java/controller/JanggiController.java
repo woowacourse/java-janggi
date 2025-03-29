@@ -7,14 +7,17 @@ import domain.game.Turn;
 import domain.piece.Piece;
 import domain.piece.Team;
 import java.util.Map;
+import service.GameService;
 import view.ConsoleView;
 
 public class JanggiController {
 
     private final ConsoleView consoleView;
+    private final GameService gameService;
 
-    public JanggiController(ConsoleView consoleView) {
+    public JanggiController(ConsoleView consoleView, GameService gameService) {
         this.consoleView = consoleView;
+        this.gameService = gameService;
     }
 
     public void start() {
@@ -25,6 +28,11 @@ public class JanggiController {
             try {
                 consoleView.showScore(janggiGame.getTotalScore(Team.HAN), janggiGame.getTotalScore(Team.CHO));
                 consoleView.showTurn(janggiGame.getTurn());
+                int selectNumber = consoleView.showSelect();
+                if (selectNumber == 1){
+                    gameService.saveTurn(janggiGame.getTurn());
+                    break;
+                }
                 BoardLocation current = consoleView.requestCurrent();
                 BoardLocation destination = consoleView.requestDestination();
 
@@ -36,8 +44,9 @@ public class JanggiController {
                 consoleView.showMessage(e.getMessage());
             }
         }
-
-        consoleView.showWinner(janggiGame.getTurn());
+        if (isGameStopped){
+            consoleView.showWinner(janggiGame.getTurn());
+        }
     }
 
     private JanggiGame createJanggiGame() {
