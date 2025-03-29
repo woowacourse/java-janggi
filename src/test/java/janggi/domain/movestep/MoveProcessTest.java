@@ -1,11 +1,9 @@
-package janggi.domain.movement;
+package janggi.domain.movestep;
 
 import static janggi.domain.movestep.MoveStep.DOWN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.domain.movestep.MoveProcess;
-import janggi.domain.movestep.MoveStep;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

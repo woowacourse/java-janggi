@@ -1,11 +1,7 @@
-package janggi.domain.movement;
+package janggi.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Coordinate;
-import janggi.domain.Piece;
-import janggi.domain.PieceType;
-import janggi.domain.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
