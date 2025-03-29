@@ -132,5 +132,34 @@ class SoldierTest {
                 .doesNotThrowAnyException();
     }
 
-    // 대각선 후퇴 불가능
+    @Test
+    @DisplayName("졸은 궁성 내에서 전진 대각선으로 2칸 이동할 수 없다.")
+    void test10() {
+        // given
+        Position from = new Position(6, 3);
+        Position to = new Position(4, 1);
+        GreenSoldier soldier = new GreenSoldier(from);
+
+        //when
+
+        //then
+        assertThatThrownBy(() -> soldier.validateDestination(to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("졸은 궁성 내에서 후진 대각선으로 1칸 이동할 수 없다.")
+    void test11() {
+        // given
+        Position from = new Position(5, 2);
+        Position to = new Position(4, 3);
+        GreenSoldier soldier = new GreenSoldier(from);
+
+        //when
+
+        //then
+        assertThatThrownBy(() -> soldier.validateDestination(to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }
