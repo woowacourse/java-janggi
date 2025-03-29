@@ -74,4 +74,25 @@ class GeneralTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 선이 존재하는 경우에만 이동할 수 있습니다.");
     }
+
+    @DisplayName("한나라_궁이_선이_없는데_대각으로_이동하면_예외를_발생한다")
+    @CsvSource(value = {"4:9:3:8", "4:9:5:8", "3:8:4:9", "3:8:4:7", "4:7:3:8", "4:7:5:8", "5:8:4:7", "5:8:4:9"},
+            delimiterString = ":")
+    @ParameterizedTest
+    void should_ThrowException_WhenInvalidDiagonalPath2(int startColumn, int startRow, int goalColumn, int goalRow) {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = createPosition(startColumn, startRow);
+        Position goal = createPosition(goalColumn, goalRow);
+        Path path = new Path(List.of(start, goal));
+        General piece = new General(Team.RED);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(initialBoard);
+
+        // then
+        assertThatThrownBy(() -> piece.validatePath(board, path))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 선이 존재하는 경우에만 이동할 수 있습니다.");
+    }
 }
