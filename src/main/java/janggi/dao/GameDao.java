@@ -10,7 +10,7 @@ public class GameDao {
     private static final DateTimeFormatter createdAtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private final int id;
-    private final Game game;
+    private Game game;
 
     public GameDao(int id, Game game) {
         this.id = id;
@@ -38,15 +38,18 @@ public class GameDao {
         }
     }
 
-    public static Game findLastCreated() {
+    public static GameDao findLastCreated() {
         final var query = "SELECT * FROM game ORDER BY created_at DESC LIMIT 1;";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return new Game(
-                        LocalDateTime.parse(resultSet.getString("created_at"), createdAtFormatter)
-                ); //TODO : 새객체로 진행하는데 DB반영 안돼도 되나?
+                return new GameDao(
+                        resultSet.getInt("id"),
+                        new Game(LocalDateTime.parse(
+                                resultSet.getString("created_at"), createdAtFormatter)
+                        )
+                );
                 //TODO piece도 반영
             }
             throw new IllegalStateException("게임 기록이 존재하지 않습니다.");

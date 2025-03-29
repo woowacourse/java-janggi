@@ -1,6 +1,6 @@
 package janggi.dao;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.game.Board;
 import janggi.game.Game;
@@ -29,4 +29,28 @@ class PieceDaoTest {
         PieceDao.createPiece(piece, gameDao);
     }
 
+    @Test
+    @DisplayName("기물 투플의 위치를 수정할 수 있다.")
+    void updatePieceTuplePoint() {
+        Piece piece = new Byeong(Team.HAN, new Point(5, 5));
+        GameDao gameDao = GameDao.createGame(new Game(new Board(List.of(piece))));
+        Piece movedPiece = piece.updatePoint(new Point(4, 4));
+
+        PieceDao beforePiece = PieceDao.createPiece(piece, gameDao);
+        beforePiece.updatePiecePoint(movedPiece);
+
+        assertThat(beforePiece.getPiece().getPoint()).isEqualTo(new Point(4, 4));
+    }
+
+    @Test
+    @DisplayName("기물이 공격받았을 때 수정할 수 있다.")
+    void updatePieceTupleIfAttacked() {
+        Piece piece = new Byeong(Team.HAN, new Point(5, 5));
+        Game game = new Game(new Board(List.of(piece)));
+        GameDao gameDao = GameDao.createGame(game);
+
+        PieceDao pieceDao = PieceDao.createPiece(piece, gameDao);
+        pieceDao.updateToAttacked();
+        //TODO 검증가능?
+    }
 }

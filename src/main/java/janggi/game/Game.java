@@ -6,6 +6,7 @@ import janggi.point.Point;
 import janggi.score.ScoreResult;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Game {
@@ -84,5 +85,9 @@ public class Game {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public List<AttackedPiece> getAttackedPieces() {
+        return Collections.unmodifiableList(attackedPieces);
     }
 }

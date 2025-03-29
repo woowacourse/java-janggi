@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.game.Game;
-import janggi.game.Team;
 import java.sql.SQLException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,8 +36,10 @@ class GameDaoTest {
     @Test
     @DisplayName("가장 최근에 만들어진 게임 투플을 조회한다.")
     void findGameLastCreated() {
-        Game game = GameDao.findLastCreated();
-        assertThat(game.getTurn()).isEqualTo(Team.CHO);
+        GameDao beforeDao = GameDao.createGame(createdGame);
+
+        GameDao sameDao = GameDao.findLastCreated();
+        assertThat(beforeDao.getId()).isEqualTo(sameDao.getId());
     }
 
     @Test
