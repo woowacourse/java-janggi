@@ -1,4 +1,6 @@
-package janggi.domain.piece;
+package janggi.domain.direction;
+
+import janggi.domain.piece.Position;
 
 enum Direction {
 

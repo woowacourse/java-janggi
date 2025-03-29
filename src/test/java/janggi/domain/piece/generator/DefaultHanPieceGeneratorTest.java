@@ -3,7 +3,7 @@ package janggi.domain.piece.generator;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.ReplaceUnderBar;
-import janggi.domain.Side;
+import janggi.domain.piece.Side;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Guard;

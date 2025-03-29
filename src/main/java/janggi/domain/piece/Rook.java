@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Side;
 import java.util.List;
 
 public class Rook extends Piece {

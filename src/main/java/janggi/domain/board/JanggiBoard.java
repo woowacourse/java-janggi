@@ -1,6 +1,6 @@
 package janggi.domain.board;
 
-import janggi.domain.Side;
+import janggi.domain.piece.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
 import janggi.domain.piece.Position;

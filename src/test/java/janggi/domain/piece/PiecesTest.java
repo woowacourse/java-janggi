@@ -1,7 +1,6 @@
 package janggi.domain.piece;
 
 import janggi.domain.ReplaceUnderBar;
-import janggi.domain.Side;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package janggi.domain.piece.generator;
 
-import janggi.domain.Side;
+import janggi.domain.piece.Side;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.Guard;

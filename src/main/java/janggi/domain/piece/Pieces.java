@@ -1,7 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Side;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
