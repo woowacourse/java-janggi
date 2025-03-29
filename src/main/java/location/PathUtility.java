@@ -60,11 +60,26 @@ public class PathUtility {
         return true;
     }
 
-    public static void checkValidPalaceDiagonal(Position from, Position to) {
+    public static void checkValidOneDiagonalMovementInPalace(Position from, Position to) {
         List<Position> validDiagonalDestinations = PALACE_DIAGONAL.getOrDefault(from, Collections.emptyList());
 
         if(validDiagonalDestinations.isEmpty() || !validDiagonalDestinations.contains(to)) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 궁성 내 대각선 움직임입니다.");
+        }
+    }
+
+    public static void checkValidTwoDiagonalMovementInPalace(Position from, Position to) {
+        List<Position> validDiagonalPaths = PALACE_DIAGONAL.getOrDefault(from, Collections.emptyList());
+
+        if(validDiagonalPaths.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 궁성 내 대각선 움직임입니다.");
+        }
+
+        for(Position position : validDiagonalPaths) {
+            List<Position> validDiagonalDestinations = PALACE_DIAGONAL.get(position);
+            if(!validDiagonalDestinations.contains(to)) {
+                throw new IllegalArgumentException("[ERROR] 유효하지 않은 궁성 내 대각선 움직임입니다.");
+            }
         }
     }
 }

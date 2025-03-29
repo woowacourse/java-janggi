@@ -1,5 +1,6 @@
 package piece;
 
+import location.Direction;
 import location.PathUtility;
 import location.Position;
 import java.util.List;
@@ -14,6 +15,11 @@ public class Chariot implements Piece {
 
     @Override
     public void validateDestination(Position destination) {
+        if(PathUtility.isPalacePosition(currentPosition)
+                && Direction.isDiagonal(currentPosition, destination)) {
+            PathUtility.checkValidTwoDiagonalMovementInPalace(currentPosition, destination);
+            return;
+        }
         PathUtility.checkStraightMovement(currentPosition, destination);
     }
 

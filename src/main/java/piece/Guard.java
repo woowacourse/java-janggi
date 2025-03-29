@@ -18,7 +18,7 @@ public class Guard implements Piece{
 
         if(PathUtility.isPalacePosition(currentPosition)
                 && Direction.isDiagonal(currentPosition, destination)) {
-            PathUtility.checkValidPalaceDiagonal(currentPosition, destination);
+            PathUtility.checkValidOneDiagonalMovementInPalace(currentPosition, destination);
             return;
         }
         PathUtility.checkStraightMovement(currentPosition, destination);

@@ -85,4 +85,6 @@ public class ChariotTest {
         assertThatCode(() -> chariot.validateDestination(to))
                 .doesNotThrowAnyException();
     }
+
+    // 궁성 내 대각선 이동 시 기물 있는 경우
 }

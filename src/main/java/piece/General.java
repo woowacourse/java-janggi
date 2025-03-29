@@ -18,7 +18,7 @@ public class General implements Piece {
         PathUtility.checkOneMovement(currentPosition, destination);
 
         if(Direction.isDiagonal(currentPosition, destination)) {
-            PathUtility.checkValidPalaceDiagonal(currentPosition, destination);
+            PathUtility.checkValidOneDiagonalMovementInPalace(currentPosition, destination);
         }
     }
 
