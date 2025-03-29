@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import janggi.domain.path.Path;
 import janggi.domain.path.path_filter.PathFilter;
+import janggi.domain.path.path_filter.PathFilterRequest;
 import janggi.domain.path.path_provider.PathProvider;
 import janggi.domain.position.Position;
 
@@ -26,7 +27,7 @@ public final class Piece {
             paths.addAll(pathProvider.get(position));
         }
         for (final PathFilter pathFilter : pieceType.getPathFilters()) {
-            paths = pathFilter.filter(this, paths, allyPieces, enemyPieces);
+            paths = pathFilter.filter(paths, new PathFilterRequest(this, allyPieces, enemyPieces));
         }
 
         if (!isNewPositionExistInMoveablePath(newPosition, paths)) {

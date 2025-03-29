@@ -24,10 +24,12 @@ class LastPositionSameTypePathFilterTest {
 
         // when
         final Set<Path> result = sut.filter(
-                new Piece(PieceType.JOL, POSITION_1_1),
                 paths,
-                List.of(),
-                List.of(new Piece(PieceType.JOL, POSITION_3_8), new Piece(PieceType.BYEONG, POSITION_2_8))
+                new PathFilterRequest(
+                        new Piece(PieceType.JOL, POSITION_1_1),
+                        List.of(),
+                        List.of(new Piece(PieceType.JOL, POSITION_3_8), new Piece(PieceType.BYEONG, POSITION_2_8))
+                )
         );
 
         // then

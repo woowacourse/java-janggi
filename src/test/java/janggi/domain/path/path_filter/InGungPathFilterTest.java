@@ -25,10 +25,12 @@ class InGungPathFilterTest {
 
         // when
         final Set<Path> result = sut.filter(
-                null,
                 paths,
-                List.of(),
-                List.of()
+                new PathFilterRequest(
+                        null,
+                        List.of(),
+                        List.of()
+                )
         );
 
         // then

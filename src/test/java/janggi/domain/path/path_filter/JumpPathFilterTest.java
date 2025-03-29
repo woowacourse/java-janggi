@@ -25,10 +25,12 @@ class JumpPathFilterTest {
 
         // when
         final Set<Path> result = sut.filter(
-                null,
                 paths,
-                List.of(),
-                List.of(new Piece(PieceType.JOL, POSITION_5_6), new Piece(PieceType.BYEONG, POSITION_2_6))
+                new PathFilterRequest(
+                        null,
+                        List.of(),
+                        List.of(new Piece(PieceType.JOL, POSITION_5_6), new Piece(PieceType.BYEONG, POSITION_2_6))
+                )
         );
 
         // then
@@ -49,10 +51,12 @@ class JumpPathFilterTest {
 
         // when
         final Set<Path> result = sut.filter(
-                null,
                 paths,
-                List.of(),
-                List.of(new Piece(PieceType.JOL, POSITION_5_6), new Piece(PieceType.BYEONG, POSITION_2_6))
+                new PathFilterRequest(
+                        null,
+                        List.of(),
+                        List.of(new Piece(PieceType.JOL, POSITION_5_6), new Piece(PieceType.BYEONG, POSITION_2_6))
+                )
         );
 
         // then

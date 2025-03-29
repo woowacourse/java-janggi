@@ -24,10 +24,12 @@ class BlockPathFilterTest {
 
         // when
         final Set<Path> result = sut.filter(
-                null,
                 paths,
-                List.of(),
-                List.of(new Piece(PieceType.JOL, POSITION_3_6))
+                new PathFilterRequest(
+                        null,
+                        List.of(),
+                        List.of(new Piece(PieceType.JOL, POSITION_3_6))
+                )
         );
 
         // then
