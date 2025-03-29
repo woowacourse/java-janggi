@@ -1,6 +1,6 @@
 package janggi.domain.path.path_provider;
 
-import janggi.domain.gung.Gung;
+import janggi.domain.gungsung.Gungsung;
 import janggi.domain.path.Path;
 import janggi.domain.position.Position;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,13 +14,13 @@ import java.util.stream.Stream;
 import static janggi.test_util.TestConstant.*;
 import static org.assertj.core.api.Assertions.*;
 
-class GungPathProviderTest {
+class GungsungOneStepPathProviderTest {
 
     @ParameterizedTest
     @MethodSource("provideGungStartPositionAndResult")
-    void 궁에서_움직인_위치들을_반환한다(Position start, List<Path> expectedResult) {
+    void 궁에서_한번_움직인_위치들을_반환한다(Position start, List<Path> expectedResult) {
         // given
-        final GungOneStepPathProvider sut = new GungOneStepPathProvider(new Gung());
+        final GungsungOneStepPathProvider sut = new GungsungOneStepPathProvider(new Gungsung());
 
         // when
         final Set<Path> result = sut.get(start);

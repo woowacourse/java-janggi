@@ -1,4 +1,4 @@
-package janggi.domain.gung;
+package janggi.domain.gungsung;
 
 import janggi.domain.path.Path;
 import janggi.domain.position.Position;
@@ -15,7 +15,7 @@ import static janggi.domain.position.PositionFile.FILE_4;
 import static janggi.domain.position.PositionFile.FILE_6;
 import static janggi.domain.position.PositionRank.*;
 
-public final class Gung {
+public final class Gungsung {
 
     private static final Set<Path> PATHS = initializePaths();
     private static final PositionFile MIN_FILE = FILE_4;
@@ -67,6 +67,7 @@ public final class Gung {
 
     /**
      * 랭크 1~3, 파일 1~3 기준으로 궁의 모든 길을 만드는 메서드입니다.
+     *
      * @return 기본 궁의 모든 길
      */
     private static Set<Path> getDefaultGungPaths() {

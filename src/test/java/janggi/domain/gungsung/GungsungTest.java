@@ -1,4 +1,4 @@
-package janggi.domain.gung;
+package janggi.domain.gungsung;
 
 import janggi.domain.path.Path;
 import janggi.test_util.BaseTest;
@@ -10,15 +10,15 @@ import java.util.Set;
 import static janggi.test_util.TestConstant.*;
 import static org.assertj.core.api.Assertions.*;
 
-class GungTest extends BaseTest {
+class GungsungTest extends BaseTest {
 
     @Test
     void 궁은_해당_위치에서_시작하는_모든_일직선_Path를_반환할_수_있다() {
         // given
-        final Gung gung = new Gung();
+        final Gungsung gungSung = new Gungsung();
 
         // when
-        final Set<Path> result = gung.getAllPathsFrom(POSITION_6_1);
+        final Set<Path> result = gungSung.getAllPathsFrom(POSITION_6_1);
 
         // then
         assertThat(result).containsExactlyInAnyOrder(
