@@ -13,8 +13,10 @@ public abstract class AbstractJdbcDao {
     private static final String PASSWORD = "password1234";
 
     public Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION,
+                USERNAME,
+                PASSWORD)) {
+            return connection;
         } catch (final SQLException e) {
             throw new RuntimeException("DB 연결 오류", e);
         }
