@@ -28,11 +28,10 @@ public class JanggiBoard {
         hanPieces.movePiece(choPieces.getPieces(), targetPiecePosition, destination);
     }
 
-    public List<Piece> getChoPieces() {
-        return choPieces.getPieces();
-    }
-
-    public List<Piece> getHanPieces() {
+    public List<Piece> getPieces(CampType campType) {
+        if (campType == CampType.CHO) {
+            return choPieces.getPieces();
+        }
         return hanPieces.getPieces();
     }
 }

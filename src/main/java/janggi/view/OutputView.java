@@ -15,6 +15,7 @@ public class OutputView {
 
     public void writeStartMessage() {
         System.out.println("장기 게임을 시작하겠습니다!");
+        System.out.println();
     }
 
     public void writeJanggiBoard(final List<Piece> choPieces, final List<Piece> hanPieces) {
@@ -38,6 +39,10 @@ public class OutputView {
     public void writeTurn(CampType campType) {
         String turnContent = String.format("%s의 턴입니다.", campType.getName());
         System.out.println(turnContent);
+    }
+
+    public void printExceptionMessage(String message) {
+        System.out.println(message);
     }
 
     private void writeOneLineInBoard(int y, List<Piece> pieces) {

@@ -23,7 +23,7 @@ public class Pieces {
         pieces.add(movedTarget);
     }
 
-    private Piece searchPiece(Position targetPiecePosition) {
+    public Piece searchPiece(Position targetPiecePosition) {
         return pieces.stream().filter(piece -> piece.getPosition().equals(targetPiecePosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다."));
