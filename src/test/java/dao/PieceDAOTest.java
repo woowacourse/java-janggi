@@ -5,7 +5,7 @@ import dao.init.DatabaseSetting;
 import domain.piece.character.PieceType;
 import domain.piece.character.Team;
 import domain.point.Point;
-import fixture.TestConnectionFactory;
+import fixture.TestMySQLConnectionFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -19,7 +19,7 @@ class PieceDaoTest {
 
     private static final String GAME_ROOM_NAME = "room1";
 
-    private final ConnectionFactory connectionFactory = new TestConnectionFactory();
+    private final ConnectionFactory connectionFactory = new TestMySQLConnectionFactory();
     private Connection testConnection;
     private PieceDao pieceDAO;
     private GameRoomDao gameRoomDAO;

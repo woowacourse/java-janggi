@@ -3,7 +3,7 @@ package dao;
 import dao.init.ConnectionFactory;
 import dao.init.DatabaseSetting;
 import domain.piece.character.Team;
-import fixture.TestConnectionFactory;
+import fixture.TestMySQLConnectionFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 class GameRoomDaoTest {
 
-    private final ConnectionFactory connectionFactory = new TestConnectionFactory();
+    private final ConnectionFactory connectionFactory = new TestMySQLConnectionFactory();
     private Connection testConnection;
     private GameRoomDao gameRoomDao;
 

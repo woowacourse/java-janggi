@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-public class TestConnectionFactory implements ConnectionFactory {
+public class TestMySQLConnectionFactory implements ConnectionFactory {
 
     public static final String TEST_PORT = "23306";
     private static final String IP = "localhost";
