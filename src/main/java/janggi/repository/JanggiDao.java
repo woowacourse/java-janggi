@@ -27,6 +27,12 @@ public class JanggiDao {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
+    private Connection connection;
+
+    public JanggiDao() {
+        this.connection = getConnection();
+    }
+
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
@@ -43,11 +49,12 @@ public class JanggiDao {
             "x_position INT NOT NULL," +
             "y_position INT NOT NULL," +
             "side VARCHAR(10) NOT NULL)";
-        try (Connection connection = getConnection()) {
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.execute();
         } catch (SQLException e) {
             System.out.println("piece 테이블을 생성할 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -55,18 +62,19 @@ public class JanggiDao {
         String query = "CREATE TABLE IF NOT EXISTS turn(" +
             "id INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
             "turn VARCHAR(10) NOT NULL)";
-        try (Connection connection = getConnection()) {
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.execute();
         } catch (SQLException e) {
             System.out.println("turn 테이블을 생성할 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
     public void insertPiece(Piece piece) {
         String query = "INSERT INTO piece (piece_type, x_position, y_position, side) " +
             "VALUES(?, ?, ?, ?)";
-        try (Connection connection = getConnection();) {
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, piece.getClass().getSimpleName());
             preparedStatement.setInt(2, piece.getXPosition());
@@ -75,24 +83,25 @@ public class JanggiDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("piece 정보를 삽입할 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
     public void insertTurn(Side turn) {
         String query = "INSERT INTO turn (turn) VALUES(?)";
-        try (Connection connection = getConnection();) {
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, turn.name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("turn 정보를 삽입할 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
     public boolean hasGamePiece() {
         String query = "SELECT EXISTS (SELECT 1 FROM piece)";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
                 return resultSet.getString(1).equals("1");
@@ -109,8 +118,7 @@ public class JanggiDao {
 
         String query = "SELECT piece_type, x_position, y_position, side FROM piece";
 
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 String pieceType = resultSet.getString(1);
@@ -122,14 +130,13 @@ public class JanggiDao {
             return loadedPieces;
         } catch (SQLException e) {
             System.out.println("piece 정보를 읽어 올 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
-        return loadedPieces;
     }
 
     public Side loadTurn() {
         String query = "SELECT turn FROM turn";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
                 String turn = resultSet.getString(1);
@@ -137,26 +144,26 @@ public class JanggiDao {
             }
         } catch (SQLException e) {
             System.out.println("turn 정보를 읽어 올 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
         return null;
     }
 
     public void removeDestinationPiece(Position destination) {
         String query = "DELETE FROM piece WHERE x_position = ? AND y_position = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);) {
             preparedStatement.setInt(1, destination.getX());
             preparedStatement.setInt(2, destination.getY());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("piece를 삭제 할 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
     public void updateMovingPiece(Position start, Position destination) {
         String query = "UPDATE piece SET x_position = ?, y_position = ? WHERE x_position = ? AND y_position = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);) {
             preparedStatement.setInt(1, destination.getX());
             preparedStatement.setInt(2, destination.getY());
             preparedStatement.setInt(3, start.getX());
@@ -164,38 +171,39 @@ public class JanggiDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("piece를 수정 할 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
     public void updateTurn(Side turn) {
         String query = "UPDATE turn SET turn = ? WHERE turn = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);) {
             preparedStatement.setString(1, Side.opposite(turn).name());
             preparedStatement.setString(2, turn.name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("turn을 수정 할 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
     public void removePieces() {
         String query = "DELETE FROM piece";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);) {
             preparedStatement.executeUpdate(query);
         } catch (SQLException e) {
             System.out.println("pieces를 삭제 할 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
     public void removeTurn() {
         String query = "DELETE FROM turn";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query);) {
             preparedStatement.executeUpdate(query);
         } catch (SQLException e) {
             System.out.println("turn을 삭제 할 수 없습니다." + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
