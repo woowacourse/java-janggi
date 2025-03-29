@@ -1,10 +1,9 @@
-package store;
+package piece;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import location.Position;
 import java.util.List;
-import piece.Piece;
 
 public class Pieces {
 
@@ -12,10 +11,6 @@ public class Pieces {
 
     public Pieces(List<Piece> pieces) {
         this.pieces = new ArrayList<>(pieces);
-    }
-
-    public static Pieces createBeforeCatching() {
-        return new Pieces(new ArrayList<>());
     }
 
     public void add(Piece piece) {
@@ -33,16 +28,7 @@ public class Pieces {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다."));
     }
 
-    public void delete(Piece piece) {
-        pieces.remove(piece);
-    }
-
     public boolean isContainedPieceAtPosition(Position targetPosition) {
-        return pieces.stream()
-                .anyMatch(piece -> piece.isPlacedAt(targetPosition));
-    }
-
-    public boolean isAlreadyPieceInPosition(Position targetPosition) {
         return pieces.stream()
                 .anyMatch(piece -> piece.isPlacedAt(targetPosition));
     }

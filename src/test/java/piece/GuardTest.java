@@ -3,6 +3,7 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import game.Team;
 import location.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ public class GuardTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x, y - 1);
-        Guard guard = new Guard(from);
+        Guard guard = new Guard(1, Team.GREEN, from);
 
         //when
 
@@ -33,7 +34,7 @@ public class GuardTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x, y - 2);
-        Guard guard = new Guard(from);
+        Guard guard = new Guard(1, Team.GREEN, from);
 
         //when
 
@@ -48,7 +49,7 @@ public class GuardTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x, y + 1);
-        Guard guard = new Guard(from);
+        Guard guard = new Guard(1, Team.GREEN, from);
 
         //when
 
@@ -63,7 +64,7 @@ public class GuardTest {
         // given
         Position from = new Position(5, 8);
         Position to = new Position(5, 10);
-        Guard guard = new Guard(from);
+        Guard guard = new Guard(1, Team.GREEN, from);
 
         //when
 
@@ -78,7 +79,7 @@ public class GuardTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x - 1, y);
-        Guard guard = new Guard(from);
+        Guard guard = new Guard(1, Team.GREEN, from);
 
         //when
 
@@ -93,7 +94,7 @@ public class GuardTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x - 2, y);
-        Guard guard = new Guard(from);
+        Guard guard = new Guard(1, Team.GREEN, from);
 
         //when
 
@@ -108,7 +109,7 @@ public class GuardTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x + 1, y);
-        Guard guard = new Guard(from);
+        Guard guard = new Guard(1, Team.GREEN, from);
 
         //when
 
@@ -123,7 +124,7 @@ public class GuardTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x + 2, y);
-        Guard guard = new Guard(from);
+        Guard guard = new Guard(1, Team.GREEN, from);
 
         //when
 
@@ -138,7 +139,7 @@ public class GuardTest {
         // given
         Position from = new Position(5, 9);
         Position to = new Position(6, 10);
-        Guard guard = new Guard(from);
+        Guard guard = new Guard(1, Team.GREEN, from);
 
         //when
 
@@ -153,7 +154,7 @@ public class GuardTest {
         // given
         Position from = new Position(3, 3);
         Position to = new Position(4, 4);
-        Guard guard = new Guard(from);
+        Guard guard = new Guard(1, Team.GREEN, from);
 
         //when
 

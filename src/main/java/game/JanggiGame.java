@@ -1,12 +1,12 @@
 package game;
 
+import dao.BoardDao;
+import dao.PieceDao;
 import piece.Piece;
 import piece.PieceType;
-import store.Board;
 import location.Position;
 import location.PathUtility;
-import store.Pieces;
-import store.Player;
+import piece.Pieces;
 import view.AnswerType;
 import view.InputView;
 import view.OutputView;
@@ -17,49 +17,56 @@ public class JanggiGame {
     private static final int VERTICAL_START = 1;
     private static final int VERTICAL_END = 10;
 
-    private final Board gameBoard;
+    private final BoardDao boardDao;
+    private final PieceDao pieceDao;
 
-    public JanggiGame(Board gameBoard) {
-        this.gameBoard = gameBoard;
+    public JanggiGame(BoardDao boardDao, PieceDao pieceDao) {
+        this.boardDao = boardDao;
+        this.pieceDao = pieceDao;
     }
 
     public void showInitialBoard() {
-        OutputView.displayBoard(gameBoard);
+        OutputView.displayBoard(pieceDao);
     }
 
     public void run() {
         Team winTeam = play();
-        double greenPlayerTotalScore = gameBoard.findPlayerBy(Team.GREEN).calculateTotalScore();
-        double redPlayerTotalScore = gameBoard.findPlayerBy(Team.RED).calculateTotalScore();
+
+        Pieces catchPiecesByGreen = pieceDao.findCatchAllBy(Team.GREEN);
+        Pieces catchPiecesByRed = pieceDao.findCatchAllBy(Team.RED);
+        double greenPlayerTotalScore = Team.calculateFinalScore(Team.GREEN, catchPiecesByGreen);
+        double redPlayerTotalScore = Team.calculateFinalScore(Team.RED, catchPiecesByRed);
 
         if(winTeam.isNotDecided()) {
             winTeam = decideWinTeam(greenPlayerTotalScore, redPlayerTotalScore);
+            OutputView.displayResult(winTeam, greenPlayerTotalScore, redPlayerTotalScore);
+            return;
         }
-
-        OutputView.displayResult(winTeam, greenPlayerTotalScore, redPlayerTotalScore);
+        pieceDao.resetPieces();
+        boardDao.resetCurrentTeam();
     }
 
     private Team play() {
-        Team currentTeam = Team.findLatter();
         while (true) {
-            currentTeam = Team.findOpponentBy(currentTeam);
-            Player currentPlayer = gameBoard.findPlayerBy(currentTeam);
+            Team currentTeam = boardDao.findCurrentTeam();
+            Pieces currentPieces = pieceDao.findByTeam(currentTeam);
 
             if(requestEndGame().isPositive()) {
                 return Team.NONE;
             }
-
-            Position start = requestMovementStartPosition(currentPlayer);
+            Position start = requestMovementStartPosition(currentPieces);
             Position end = requestMovementEndPosition();
 
-            move(currentPlayer, start, end);
+            move(currentPieces, start, end);
 
             Team opponent = Team.findOpponentBy(currentTeam);
-            boolean isGeneralCatch = catchPiece(currentPlayer, opponent, end);
+            boolean isGeneralCatch = catchPiece(opponent, end);
+            boardDao.updateCurrentTeam(opponent);
+
             if(isGeneralCatch) {
                 return currentTeam;
             }
-            OutputView.displayBoard(gameBoard);
+            OutputView.displayBoard(pieceDao);
         }
     }
 
@@ -67,12 +74,12 @@ public class JanggiGame {
         return InputView.requestEndGame();
     }
 
-    private Position requestMovementStartPosition(Player player) {
+    private Position requestMovementStartPosition(Pieces currentPieces) {
         while (true) {
             Position start = InputView.requestMoveStartPosition();
             validateRange(start);
 
-            if (player.isContainedPiece(start)) {
+            if (currentPieces.isContainedPieceAtPosition(start)) {
                 return start;
             }
             OutputView.displayWrongPoint();
@@ -85,26 +92,25 @@ public class JanggiGame {
         return end;
     }
 
-    public void move(Player currentPlayer, Position start, Position end) {
-        currentPlayer.checkPlayerPieceAlreadyInDestination(end);
+    public void move(Pieces currentPieces, Position start, Position end) {
+        currentPieces.checkNotExistedPieceInPosition(end);
         PathUtility.checkNotSameStartWithEnd(start, end);
 
-        Pieces allPieces = gameBoard.findAllPieces();
-        Piece piece = currentPlayer.getPieceByPoint(start);
+        Pieces allPieces = pieceDao.findAll();
+        Piece piece = currentPieces.getByPosition(start);
 
         piece.validateDestination(end);
         piece.validatePaths(allPieces, end);
-        Piece movedPiece = piece.move(end);
+        piece.move(end);
 
-        currentPlayer.replace(piece, movedPiece);
+        pieceDao.update(piece, end);
     }
 
-    private boolean catchPiece(Player currentPlayer, Team opponent, Position end) {
-        Player opponentPlayer = gameBoard.findPlayerBy(opponent);
-        if (opponentPlayer.isContainedPiece(end)) {
-            Piece opponentPiece = opponentPlayer.getPieceByPoint(end);
-            currentPlayer.catchPiece(opponentPiece);
-            opponentPlayer.delete(opponentPiece);
+    private boolean catchPiece(Team opponent, Position end) {
+        Pieces opponentPieces = pieceDao.findByTeam(opponent);
+        if (opponentPieces.isContainedPieceAtPosition(end)) {
+            Piece opponentPiece = opponentPieces.getByPosition(end);
+            opponentPiece.catchByOpponent();
             return PieceType.isGeneral(opponentPiece);
         }
         return false;

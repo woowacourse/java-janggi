@@ -1,21 +1,17 @@
 package view;
 
+import dao.PieceDao;
 import game.Team;
 import java.util.List;
 import location.Position;
 import piece.Piece;
 import piece.PieceType;
-import store.Board;
-import store.Player;
 
 public class OutputView {
 
-    public static void displayBoard(Board gameBoard) {
-        Player greenPlayer = gameBoard.findPlayerBy(Team.GREEN);
-        List<Piece> greenPieces = greenPlayer.getMyPieces();
-
-        Player redPlayer = gameBoard.findPlayerBy(Team.RED);
-        List<Piece> redPieces = redPlayer.getMyPieces();
+    public static void displayBoard(PieceDao pieceDao) {
+        List<Piece> greenPieces = pieceDao.findByTeam(Team.GREEN).getPieces();
+        List<Piece> redPieces = pieceDao.findByTeam(Team.RED).getPieces();
 
         String[][] pieceName = new String[11][10];
 

@@ -2,11 +2,11 @@ package piece;
 
 import static org.assertj.core.api.Assertions.*;
 
+import game.Team;
 import location.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import store.Pieces;
 
 class CannonTest {
 
@@ -16,7 +16,7 @@ class CannonTest {
         //given
         Position from = new Position(2, 3);
         Position to = new Position(3, 3);
-        Cannon cannon = new Cannon(from);
+        Cannon cannon = new Cannon(1, Team.GREEN, from);
 
         //when
 
@@ -31,7 +31,7 @@ class CannonTest {
         //given
         Position from = new Position(2, 3);
         Position to = new Position(2, 10);
-        Cannon cannon = new Cannon(from);
+        Cannon cannon = new Cannon(1, Team.GREEN, from);
 
         //when
 
@@ -46,7 +46,7 @@ class CannonTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(6, 3);
-        Cannon cannon = new Cannon(from);
+        Cannon cannon = new Cannon(1, Team.GREEN, from);
 
         //when
         //then
@@ -60,10 +60,10 @@ class CannonTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(2, 8);
-        Cannon cannon = new Cannon(from);
+        Cannon cannon = new Cannon(1, Team.GREEN, from);
         Pieces pieces = new Pieces(List.of(
                 cannon,
-                new Guard(new Position(2, 4))));
+                new Guard(2, Team.GREEN, new Position(2, 4))));
 
         //when
         //then
@@ -77,11 +77,11 @@ class CannonTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(2, 8);
-        Cannon cannon = new Cannon(from);
+        Cannon cannon = new Cannon(1, Team.GREEN, from);
         Pieces pieces = new Pieces(List.of(
                 cannon,
-                new Guard(new Position(2, 4)),
-                new Guard(new Position(2, 5))));
+                new Guard(2, Team.GREEN, new Position(2, 4)),
+                new Guard(3, Team.GREEN, new Position(2, 5))));
 
         //when
         //then
@@ -95,10 +95,10 @@ class CannonTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(2, 8);
-        Cannon cannon = new Cannon(from);
+        Cannon cannon = new Cannon(1, Team.GREEN, from);
         Pieces pieces = new Pieces(List.of(
                 cannon,
-                new Cannon(new Position(2, 4))));
+                new Cannon(2, Team.GREEN, new Position(2, 4))));
 
         //when
         //then

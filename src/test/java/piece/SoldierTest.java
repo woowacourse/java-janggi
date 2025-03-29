@@ -3,6 +3,7 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import game.Team;
 import location.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ class SoldierTest {
 
         Position from = new Position(x, y);
         Position to = new Position(x, y - 1);
-        GreenSoldier soldier = new GreenSoldier(from);
+        GreenSoldier soldier = new GreenSoldier(1, Team.GREEN, from);
 
         //when
 
@@ -33,7 +34,7 @@ class SoldierTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x, y - 2);
-        GreenSoldier soldier = new GreenSoldier(from);
+        GreenSoldier soldier = new GreenSoldier(1, Team.GREEN, from);
 
         //when
 
@@ -48,7 +49,7 @@ class SoldierTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x, y + 1);
-        GreenSoldier soldier = new GreenSoldier(from);
+        GreenSoldier soldier = new GreenSoldier(1, Team.GREEN, from);
 
         //when
 
@@ -63,7 +64,7 @@ class SoldierTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x - 1, y);
-        GreenSoldier soldier = new GreenSoldier(from);
+        GreenSoldier soldier = new GreenSoldier(1, Team.GREEN, from);
 
         //when
 
@@ -78,7 +79,7 @@ class SoldierTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x - 2, y);
-        GreenSoldier soldier = new GreenSoldier(from);
+        GreenSoldier soldier = new GreenSoldier(1, Team.GREEN, from);
 
         //when
 
@@ -93,7 +94,7 @@ class SoldierTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x + 1, y);
-        GreenSoldier soldier = new GreenSoldier(from);
+        GreenSoldier soldier = new GreenSoldier(1, Team.GREEN, from);
 
         //when
 
@@ -108,7 +109,7 @@ class SoldierTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x + 2, y);
-        GreenSoldier soldier = new GreenSoldier(from);
+        GreenSoldier soldier = new GreenSoldier(1, Team.GREEN, from);
 
         //when
 
@@ -123,7 +124,7 @@ class SoldierTest {
         // given
         Position from = new Position(5, 2);
         Position to = new Position(4, 1);
-        GreenSoldier soldier = new GreenSoldier(from);
+        GreenSoldier soldier = new GreenSoldier(1, Team.GREEN, from);
 
         //when
 
@@ -138,7 +139,7 @@ class SoldierTest {
         // given
         Position from = new Position(6, 3);
         Position to = new Position(4, 1);
-        GreenSoldier soldier = new GreenSoldier(from);
+        GreenSoldier soldier = new GreenSoldier(1, Team.GREEN, from);
 
         //when
 
@@ -153,7 +154,7 @@ class SoldierTest {
         // given
         Position from = new Position(5, 2);
         Position to = new Position(4, 3);
-        GreenSoldier soldier = new GreenSoldier(from);
+        GreenSoldier soldier = new GreenSoldier(1, Team.GREEN, from);
 
         //when
 

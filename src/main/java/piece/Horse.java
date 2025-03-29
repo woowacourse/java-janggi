@@ -5,13 +5,13 @@ import static location.Direction.LEFT;
 import static location.Direction.RIGHT;
 import static location.Direction.UP;
 
+import game.Team;
 import java.util.Collections;
 import location.Direction;
 import location.Distance;
 import location.Position;
 import java.util.List;
 import java.util.Map;
-import store.Pieces;
 
 public class Horse implements Piece {
     private static final Map<Distance, List<Direction>> HORSE_PATH_INFO = Map.of(
@@ -25,10 +25,16 @@ public class Horse implements Piece {
             new Distance(2, 1), List.of(RIGHT)
     );
 
+    private final Integer pieceId;
+    private final Team team;
+    private boolean isCatch;
     private final PieceType pieceType;
-    private final Position currentPosition;
+    private Position currentPosition;
 
-    public Horse(Position currentPosition) {
+    public Horse(int pieceId, Team team, Position currentPosition) {
+        this.pieceId = pieceId;
+        this.team = team;
+        this.isCatch = false;
         this.pieceType = PieceType.HORSE;
         this.currentPosition = currentPosition;
     }
@@ -53,13 +59,28 @@ public class Horse implements Piece {
     }
 
     @Override
-    public Piece move(Position destination) {
-        return new Horse(destination);
+    public void move(Position destination) {
+        currentPosition = destination;
+    }
+
+    @Override
+    public void catchByOpponent() {
+        isCatch = true;
     }
 
     @Override
     public boolean isPlacedAt(Position targetPosition) {
         return currentPosition.equals(targetPosition);
+    }
+
+    @Override
+    public int getId() {
+        return pieceId;
+    }
+
+    @Override
+    public Team getTeam() {
+        return team;
     }
 
     @Override
@@ -75,6 +96,11 @@ public class Horse implements Piece {
     @Override
     public int getScore() {
         return pieceType.getScore();
+    }
+
+    @Override
+    public boolean isCatch() {
+        return isCatch;
     }
 
     private List<Direction> findPathsBy(Distance distance) {

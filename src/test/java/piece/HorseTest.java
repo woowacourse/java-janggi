@@ -3,11 +3,11 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import game.Team;
 import location.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import store.Pieces;
 
 class HorseTest {
 
@@ -17,7 +17,7 @@ class HorseTest {
         //given
         Position from = new Position(3, 3);
         Position to = new Position(2, 1);
-        Horse horse = new Horse(from);
+        Horse horse = new Horse(1, Team.GREEN, from);
 
         //when
 
@@ -32,7 +32,7 @@ class HorseTest {
         //given
         Position from = new Position(3, 3);
         Position to = new Position(4, 1);
-        Horse horse = new Horse(from);
+        Horse horse = new Horse(1, Team.GREEN, from);
 
         //when
 
@@ -47,7 +47,7 @@ class HorseTest {
         //given
         Position from = new Position(3, 3);
         Position to = new Position(1, 2);
-        Horse horse = new Horse(from);
+        Horse horse = new Horse(1, Team.GREEN, from);
 
         //when
 
@@ -62,7 +62,7 @@ class HorseTest {
         //given
         Position from = new Position(3, 3);
         Position to = new Position(1, 4);
-        Horse horse = new Horse(from);
+        Horse horse = new Horse(1, Team.GREEN, from);
 
         //when
 
@@ -77,7 +77,7 @@ class HorseTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(1, 4);
-        Horse horse = new Horse(from);
+        Horse horse = new Horse(1, Team.GREEN, from);
 
         //when
 
@@ -92,7 +92,7 @@ class HorseTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(3, 4);
-        Horse horse = new Horse(from);
+        Horse horse = new Horse(1, Team.GREEN, from);
 
         //when
 
@@ -107,7 +107,7 @@ class HorseTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(4, 1);
-        Horse horse = new Horse(from);
+        Horse horse = new Horse(1, Team.GREEN, from);
 
         //when
 
@@ -122,7 +122,7 @@ class HorseTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(4, 3);
-        Horse horse = new Horse(from);
+        Horse horse = new Horse(1, Team.GREEN, from);
 
         //when
 
@@ -137,7 +137,7 @@ class HorseTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(6, 3);
-        Horse horse = new Horse(from);
+        Horse horse = new Horse(1, Team.GREEN, from);
 
         //when
 
@@ -152,10 +152,10 @@ class HorseTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(4, 3);
-        Horse horse = new Horse(from);
+        Horse horse = new Horse(1, Team.GREEN, from);
         Pieces pieces = new Pieces(List.of(
                 horse,
-                new Guard(new Position(3, 2))));
+                new Guard(2, Team.GREEN, new Position(3, 2))));
 
         //when
         //then

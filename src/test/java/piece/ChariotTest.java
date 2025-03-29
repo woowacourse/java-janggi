@@ -3,11 +3,11 @@ package piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import game.Team;
 import java.util.List;
 import location.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import store.Pieces;
 
 public class ChariotTest {
     @Test
@@ -16,7 +16,7 @@ public class ChariotTest {
         //given
         Position from = new Position(2, 3);
         Position to = new Position(3, 3);
-        Chariot chariot = new Chariot(from);
+        Chariot chariot = new Chariot(1, Team.GREEN, from);
 
         //when
 
@@ -31,7 +31,7 @@ public class ChariotTest {
         //given
         Position from = new Position(2, 3);
         Position to = new Position(2, 10);
-        Chariot chariot = new Chariot(from);
+        Chariot chariot = new Chariot(1, Team.GREEN, from);
 
         //when
 
@@ -46,7 +46,7 @@ public class ChariotTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(3, 3);
-        Chariot chariot = new Chariot(from);
+        Chariot chariot = new Chariot(1, Team.GREEN, from);
 
         //when
         //then
@@ -60,10 +60,10 @@ public class ChariotTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(2, 8);
-        Chariot chariot = new Chariot(from);
+        Chariot chariot = new Chariot(1, Team.GREEN, from);
         Pieces pieces = new Pieces(List.of(
                 chariot,
-                new Guard(new Position(2, 4))));
+                new Guard(2, Team.GREEN, new Position(2, 4))));
 
         //when
         //then
@@ -77,7 +77,7 @@ public class ChariotTest {
         //given
         Position from = new Position(4, 1);
         Position to = new Position(6, 3);
-        Chariot chariot = new Chariot(from);
+        Chariot chariot = new Chariot(1, Team.GREEN, from);
 
         //when
 
@@ -92,10 +92,10 @@ public class ChariotTest {
         //given
         Position from = new Position(4, 1);
         Position to = new Position(6, 3);
-        Chariot chariot = new Chariot(from);
+        Chariot chariot = new Chariot(1, Team.GREEN, from);
         Pieces pieces = new Pieces(List.of(
                 chariot,
-                new Guard(new Position(5, 2))));
+                new Guard(2, Team.GREEN, new Position(5, 2))));
 
         //when
         //then

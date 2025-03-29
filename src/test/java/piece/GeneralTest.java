@@ -2,6 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.*;
 
+import game.Team;
 import location.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ public class GeneralTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x, y - 1);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -32,7 +33,7 @@ public class GeneralTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x, y - 2);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -47,7 +48,7 @@ public class GeneralTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x, y + 1);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -62,7 +63,7 @@ public class GeneralTest {
         // given
         Position from = new Position(5, 8);
         Position to = new Position(5, 10);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -77,7 +78,7 @@ public class GeneralTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x - 1, y);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -92,7 +93,7 @@ public class GeneralTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x - 2, y);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -107,7 +108,7 @@ public class GeneralTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x + 1, y);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -122,7 +123,7 @@ public class GeneralTest {
         // given
         Position from = new Position(x, y);
         Position to = new Position(x + 2, y);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -137,7 +138,7 @@ public class GeneralTest {
         // given
         Position from = new Position(4, 1);
         Position notPalace = new Position(3, 1);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -152,7 +153,7 @@ public class GeneralTest {
         // given
         Position from = new Position(4, 8);
         Position notPalace = new Position(3, 8);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -167,7 +168,7 @@ public class GeneralTest {
         // given
         Position from = new Position(5, 9);
         Position to = new Position(4, 8);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 
@@ -182,7 +183,7 @@ public class GeneralTest {
         //given
         Position from = new Position(4, 9);
         Position notPalaceDiagonal = new Position(5, 8);
-        General general = new General(from);
+        General general = new General(1, Team.GREEN, from);
 
         //when
 

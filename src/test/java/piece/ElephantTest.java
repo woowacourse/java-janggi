@@ -3,11 +3,11 @@ package piece;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import game.Team;
 import location.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import store.Pieces;
 
 class ElephantTest {
 
@@ -17,7 +17,7 @@ class ElephantTest {
         //given
         Position from = new Position(5, 5);
         Position to = new Position(3, 2);
-        Elephant elephant = new Elephant(from);
+        Elephant elephant = new Elephant(1, Team.GREEN, from);
 
         //when
 
@@ -32,7 +32,7 @@ class ElephantTest {
         //given
         Position from = new Position(4, 4);
         Position to = new Position(6, 1);
-        Elephant elephant = new Elephant(from);
+        Elephant elephant = new Elephant(1, Team.GREEN, from);
 
         //when
 
@@ -47,7 +47,7 @@ class ElephantTest {
         //given
         Position from = new Position(5, 5);
         Position to = new Position(2, 3);
-        Elephant elephant = new Elephant(from);
+        Elephant elephant = new Elephant(1, Team.GREEN, from);
 
         //when
 
@@ -62,7 +62,7 @@ class ElephantTest {
         //given
         Position from = new Position(5, 5);
         Position to = new Position(2, 7);
-        Elephant elephant = new Elephant(from);
+        Elephant elephant = new Elephant(1, Team.GREEN, from);
 
         //when
 
@@ -77,7 +77,7 @@ class ElephantTest {
         //given
         Position from = new Position(5, 5);
         Position to = new Position(3, 8);
-        Elephant elephant = new Elephant(from);
+        Elephant elephant = new Elephant(1, Team.GREEN, from);
 
         //when
 
@@ -92,7 +92,7 @@ class ElephantTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(4, 5);
-        Elephant elephant = new Elephant(from);
+        Elephant elephant = new Elephant(1, Team.GREEN, from);
 
         //when
 
@@ -107,7 +107,7 @@ class ElephantTest {
         //given
         Position from = new Position(5, 5);
         Position to = new Position(8, 3);
-        Elephant elephant = new Elephant(from);
+        Elephant elephant = new Elephant(1, Team.GREEN, from);
 
         //when
 
@@ -122,7 +122,7 @@ class ElephantTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(5, 4);
-        Elephant elephant = new Elephant(from);
+        Elephant elephant = new Elephant(1, Team.GREEN, from);
 
         //when
 
@@ -137,7 +137,7 @@ class ElephantTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(8, 3);
-        Elephant elephant = new Elephant(from);
+        Elephant elephant = new Elephant(1, Team.GREEN, from);
 
         //when
 
@@ -152,10 +152,10 @@ class ElephantTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(5, 4);
-        Elephant elephant = new Elephant(from);
+        Elephant elephant = new Elephant(1, Team.GREEN, from);
         Pieces pieces = new Pieces(List.of(
                 elephant,
-                new Guard(new Position(3, 2))));
+                new Guard(2, Team.GREEN, new Position(3, 2))));
 
         //when
         //then
