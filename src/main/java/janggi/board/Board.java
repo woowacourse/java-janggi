@@ -11,8 +11,10 @@ import java.util.Map;
 public class Board {
 
     private final Map<Position, Piece> janggiBoard;
+    private final Palace palace;
 
     public Board() {
+        this.palace = new PalaceGenerator().generate();
         this.janggiBoard = new HashMap<>();
     }
 
@@ -22,7 +24,7 @@ public class Board {
 
     public GameState pieceMove(final Position currentPosition, final Position targetPosition) {
         final Piece piece = janggiBoard.get(currentPosition);
-        piece.moveTo(currentPosition, targetPosition, janggiBoard);
+        piece.moveTo(currentPosition, targetPosition, janggiBoard, palace);
         return updatePiecePosition(currentPosition, targetPosition);
     }
 

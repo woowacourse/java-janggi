@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.board.Palace;
 import janggi.position.Position;
 import java.util.List;
 import java.util.Map;
@@ -15,20 +16,14 @@ public abstract class Piece {
         this.team = team;
     }
 
-    public void moveTo(final Position currentPosition, final Position targetPosition,
-                       final Map<Position, Piece> janggiBoard) {
-        canMoveBy(currentPosition, targetPosition);
-        validateTeam(janggiBoard.get(targetPosition));
-        checkObstacle(currentPosition, targetPosition, janggiBoard);
-    }
+    public abstract void moveTo(final Position currentPosition, final Position targetPosition,
+                                final Map<Position, Piece> janggiBoard, final Palace palace);
 
     protected void checkObstacle(final Position currentPosition, final Position targetPosition,
                                  final Map<Position, Piece> janggiBoard) {
     }
 
     public abstract List<Position> makeRoute(final Position currentPosition, final Position targetPosition);
-
-    protected abstract void canMoveBy(final Position currentPosition, final Position targetPosition);
 
     protected void validateTeam(final Piece other) {
         if (isSameTeam(other)) {

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.board.Palace;
+import janggi.board.PalaceGenerator;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
@@ -38,12 +40,14 @@ class ChariotTest {
         //given
         final Chariot chariot = new Chariot(Team.HAN);
 
+        final Palace palace = new PalaceGenerator().generate();
+
         //when
         final Position currnetPosition = new Position(0, 0);
         final Position targetPosition = new Position(1, 1);
 
         //then
-        assertThatThrownBy(() -> chariot.canMoveBy(currnetPosition, targetPosition))
+        assertThatThrownBy(() -> chariot.canMoveBy(currnetPosition, targetPosition, palace))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -51,19 +55,22 @@ class ChariotTest {
     @DisplayName("차는 움직임을 제공된 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 예외를 던지지 않는다.")
     @ParameterizedTest
     @MethodSource("chariotCanMoveByPositionProvider")
-    void canMoveBy(final Position currentPosition, final Position targetPosition) {
+    void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
         final Chariot chariot = new Chariot(Team.HAN);
 
         //when //then
-        assertThatCode(() -> chariot.canMoveBy(currentPosition, targetPosition))
+        assertThatCode(() -> chariot.canMoveBy(currentPosition, targetPosition, palace))
                 .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> chariotCanMoveByPositionProvider() {
+        final Palace palace = new PalaceGenerator().generate();
+
         return Stream.of(
-                Arguments.of(new Position(0, 0), new Position(0, 1)),
-                Arguments.of(new Position(0, 0), new Position(1, 0)));
+                Arguments.of(new Position(0, 0), new Position(0, 1), palace),
+                Arguments.of(new Position(0, 0), new Position(1, 0), palace)
+        );
     }
 
     @Nested

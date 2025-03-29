@@ -1,12 +1,13 @@
 package janggi.piece.onemovepiece;
 
-import janggi.piece.Piece;
+import janggi.board.Palace;
+import janggi.piece.PalaceAwarePiece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 
-public class Guard extends Piece {
+public class Guard extends PalaceAwarePiece {
 
     public Guard(final Team team) {
         super(PieceType.GUARD, team);

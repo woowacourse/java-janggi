@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.board.Palace;
+import janggi.board.PalaceGenerator;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
@@ -31,40 +33,44 @@ class PawnTest {
     @DisplayName("제공된 위치를 기준으로 이동할 수 없다면 예외를 반환한다.")
     @ParameterizedTest
     @MethodSource("pawnNonCanMoveByPositionProvider")
-    void nonCanMoveBy(final Position currentPosition, final Position targetPosition) {
+    void nonCanMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
         final Pawn pawn = new Pawn(Team.HAN);
 
         //when //then
-        assertThatThrownBy(() -> pawn.canMoveBy(currentPosition, targetPosition))
+        assertThatThrownBy(() -> pawn.canMoveBy(currentPosition, targetPosition, palace))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     private static Stream<Arguments> pawnNonCanMoveByPositionProvider() {
+        final Palace palace = new PalaceGenerator().generate();
+
         return Stream.of(
-                Arguments.of(new Position(5, 5), new Position(6, 5)),
-                Arguments.of(new Position(5, 5), new Position(6, 3)),
-                Arguments.of(new Position(5, 5), new Position(6, 6)));
+                Arguments.of(new Position(6, 5), new Position(6, 5), palace),
+                Arguments.of(new Position(5, 5), new Position(6, 3), palace),
+                Arguments.of(new Position(5, 5), new Position(6, 6), palace));
     }
 
     @DisplayName("제공된 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동이 가능하다면 예외를 반환하지 않는다.")
     @ParameterizedTest
     @MethodSource("pawnCanMoveByPositionProvider")
-    void canMoveBy(final Position currentPosition, final Position targetPosition) {
+    void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
         final Pawn pawn = new Pawn(Team.HAN);
 
         //when //then
-        assertThatCode(() -> pawn.canMoveBy(currentPosition, targetPosition))
+        assertThatCode(() -> pawn.canMoveBy(currentPosition, targetPosition, palace))
                 .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> pawnCanMoveByPositionProvider() {
+        final Palace palace = new PalaceGenerator().generate();
+
         return Stream.of(
-                Arguments.of(new Position(5, 5), new Position(5, 4)),
-                Arguments.of(new Position(5, 5), new Position(5, 6)),
-                Arguments.of(new Position(5, 5), new Position(4, 5)));
+                Arguments.of(new Position(5, 5), new Position(5, 4), palace),
+                Arguments.of(new Position(5, 5), new Position(5, 6), palace),
+                Arguments.of(new Position(5, 5), new Position(4, 5), palace));
     }
 
     @DisplayName("졸은 제공된 위치에서 목적지까지의 경로를 계산하여 반환한다.")

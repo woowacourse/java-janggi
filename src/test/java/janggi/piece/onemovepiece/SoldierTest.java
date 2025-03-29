@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.board.Palace;
+import janggi.board.PalaceGenerator;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
@@ -31,41 +33,45 @@ class SoldierTest {
     @DisplayName("제공된 위치를 기준으로 이동할 수 없다면(가로,세로 한칸을 제외한 경로) 예외를 던진다.")
     @ParameterizedTest
     @MethodSource("soldierNonCanMoveByPositionProvider")
-    void nonCanMoveBy(final Position currentPosition, final Position targetPosition) {
+    void nonCanMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
         final Soldier soldier = new Soldier(Team.HAN);
 
         //when
-        assertThatThrownBy(() -> soldier.canMoveBy(currentPosition, targetPosition))
+        assertThatThrownBy(() -> soldier.canMoveBy(currentPosition, targetPosition, palace))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
     private static Stream<Arguments> soldierNonCanMoveByPositionProvider() {
+        final Palace palace = new PalaceGenerator().generate();
+
         return Stream.of(
-                Arguments.of(new Position(5, 5), new Position(4, 5)),
-                Arguments.of(new Position(5, 5), new Position(6, 3)),
-                Arguments.of(new Position(5, 5), new Position(6, 6))
+                Arguments.of(new Position(5, 5), new Position(4, 5), palace),
+                Arguments.of(new Position(5, 5), new Position(6, 3), palace),
+                Arguments.of(new Position(5, 5), new Position(6, 6), palace)
         );
     }
 
     @DisplayName("제공된 위치를 기준으로 뒤를 제외한 가로,세로 한칸 이동을 할 수 있다면 예외를 던지지 않는다.")
     @ParameterizedTest
     @MethodSource("soldierCanMoveByPositionProvider")
-    void canMoveBy(final Position currentPosition, final Position targetPosition) {
+    void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
         final Soldier soldier = new Soldier(Team.HAN);
 
         //when //then
-        assertThatCode(() -> soldier.canMoveBy(currentPosition, targetPosition))
+        assertThatCode(() -> soldier.canMoveBy(currentPosition, targetPosition, palace))
                 .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> soldierCanMoveByPositionProvider() {
+        final Palace palace = new PalaceGenerator().generate();
+
         return Stream.of(
-                Arguments.of(new Position(5, 5), new Position(6, 5)),
-                Arguments.of(new Position(5, 5), new Position(5, 6)),
-                Arguments.of(new Position(5, 5), new Position(5, 4))
+                Arguments.of(new Position(5, 5), new Position(6, 5), palace),
+                Arguments.of(new Position(5, 5), new Position(5, 6), palace),
+                Arguments.of(new Position(5, 5), new Position(5, 4), palace)
         );
     }
 

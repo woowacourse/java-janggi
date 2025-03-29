@@ -1,12 +1,13 @@
 package janggi.piece.onemovepiece;
 
-import janggi.piece.Piece;
+import janggi.board.Palace;
+import janggi.piece.PalaceAwarePiece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
 
-public class Pawn extends Piece {
+public class Pawn extends PalaceAwarePiece {
 
     public Pawn(final Team team) {
         super(PieceType.PAWN, team);
@@ -18,7 +19,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public void canMoveBy(final Position currentPosition, final Position targetPosition) {
+    public void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         if (isNotMove(currentPosition, targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 졸이 움직일 수 없는 위치입니다.");
         }

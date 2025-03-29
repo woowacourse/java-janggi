@@ -1,5 +1,7 @@
 package janggi.piece.multiplemovepiece;
 
+import janggi.board.Palace;
+import janggi.piece.PalaceAwarePiece;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Cannon extends Piece {
+public class Cannon extends PalaceAwarePiece {
 
     public Cannon(final Team team) {
         super(PieceType.CANNON, team);
@@ -116,7 +118,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public void canMoveBy(final Position currentPosition, final Position targetPosition) {
+    public void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         if (isNotMove(currentPosition, targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
         }

@@ -1,5 +1,6 @@
 package janggi.piece.multiplemovepiece;
 
+import janggi.piece.PalaceIgnorantPiece;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Elephant extends Piece {
+public class Elephant extends PalaceIgnorantPiece {
 
     public Elephant(final Team team) {
         super(PieceType.ELEPHANT, team);

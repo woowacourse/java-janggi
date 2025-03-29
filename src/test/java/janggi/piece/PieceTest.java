@@ -2,8 +2,10 @@ package janggi.piece;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.board.Palace;
 import janggi.position.Position;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -42,13 +44,13 @@ class PieceTest {
         }
 
         @Override
-        public List<Position> makeRoute(final Position currentPosition, final Position targetPosition) {
-            return List.of();
+        public void moveTo(final Position currentPosition, final Position targetPosition,
+                           final Map<Position, Piece> janggiBoard, final Palace palace) {
         }
 
         @Override
-        protected void canMoveBy(final Position currentPosition, final Position targetPosition) {
-
+        public List<Position> makeRoute(final Position currentPosition, final Position targetPosition) {
+            return List.of();
         }
     }
 }
