@@ -1,9 +1,7 @@
-package piece;
+package movementRule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import movementRule.Jol;
-import movementRule.PieceRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pieceProperty.Position;
