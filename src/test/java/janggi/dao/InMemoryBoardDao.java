@@ -2,6 +2,7 @@ package janggi.dao;
 
 import janggi.domain.Position;
 import janggi.entity.BoardEntity;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,11 +58,12 @@ public class InMemoryBoardDao implements BoardDao {
     @Override
     public List<BoardEntity> findAllByJanggiIdAndIsAlive(final long janggiId, boolean isAlive) {
         return idToBoard.values().stream()
-                .filter(boardEntity -> boardEntity.janggiId() == janggiId)
+                .filter(boardEntity -> boardEntity.janggiId() == janggiId
+                        && boardEntity.isAlive() == isAlive)
                 .toList();
     }
 
     public Map<Long, BoardEntity> getIdToBoard() {
-        return idToBoard;
+        return Collections.unmodifiableMap(idToBoard);
     }
 }

@@ -57,7 +57,7 @@ class GeneralTest {
     void checkCanMoveToPalaceCenter(int positionRow, int positionColumn) {
         // given
         Position position = Position.of(positionRow, positionColumn);
-        Piece guard = new Guard(Team.RED);
+        Piece guard = new General(Team.RED);
         Board board = new Board(Map.of(position, guard));
 
         Position movedPosition = Position.of(2, 5);
