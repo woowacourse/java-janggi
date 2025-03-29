@@ -4,14 +4,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
+import repository.connection.ConnectDatabase;
+import repository.connection.ConnectMysql;
 
-class UserDaoTest {
+public class ConnectMysqlTest {
 
-    private final UserDao userDao = new UserDao();
+    private final ConnectDatabase connectMysql = new ConnectMysql();
 
     @Test
     public void connection() {
-        try (final var connection = userDao.getConnection()) {
+        try (final var connection = connectMysql.create()) {
             assertThat(connection).isNotNull();
         } catch (SQLException e) {
             throw new RuntimeException(e);
