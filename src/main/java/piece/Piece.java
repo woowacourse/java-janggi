@@ -18,6 +18,7 @@ public abstract class Piece {
 
     @Override
     public boolean equals(final Object object) {
+    public abstract int score();
         return object != null && getClass() == object.getClass();
     }
 }

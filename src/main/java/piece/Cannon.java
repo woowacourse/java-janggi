@@ -5,6 +5,9 @@ import direction.Point;
 
 public class Cannon extends Piece {
 
+    public Cannon() {
+    }
+
     public Cannon(final Point current) {
         super(current);
     }
@@ -29,6 +32,11 @@ public class Cannon extends Piece {
         validateOverOnePiece(count);
 
         current = new Point(destination.column(), destination.row());
+    }
+
+    @Override
+    public int score() {
+        return 7;
     }
 
     private static void validateOverOnePiece(final int count) {

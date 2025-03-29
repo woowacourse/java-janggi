@@ -18,6 +18,9 @@ public class Horse extends Piece {
             Movement.LEFT_LEFT_DOWN, List.of(Movement.LEFT)
     );
 
+    public Horse() {
+    }
+
     public Horse(final Point current) {
         super(current);
     }
@@ -33,6 +36,11 @@ public class Horse extends Piece {
         }
 
         current = current.move(destinationMovement);
+    }
+
+    @Override
+    public int score() {
+        return 5;
     }
 
     private Movement getDestinationMovement(final Point destination) {

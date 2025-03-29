@@ -11,6 +11,10 @@ public class Soldier extends Piece {
 
     private final Team team;
 
+    public Soldier(Team team) {
+        this.team = team;
+    }
+
     public Soldier(final Point current, final Team team) {
         super(current);
         this.team = team;
@@ -19,9 +23,13 @@ public class Soldier extends Piece {
     @Override
     public void move(final Pieces allPieces, final Point destination) {
         Movement destinationMovement = getDestinationMovement(destination);
-        validateIsExistPieceInPoint(allPieces, current.move(destinationMovement));
 
         current = current.move(destinationMovement);
+    }
+
+    @Override
+    public int score() {
+        return 2;
     }
 
     private Movement getDestinationMovement(final Point destination) {
@@ -37,11 +45,5 @@ public class Soldier extends Piece {
         }
 
         throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
-    }
-
-    private static void validateIsExistPieceInPoint(final Pieces pieces, Point nextPoint) {
-        if (pieces.isExistPieceIn(nextPoint)) {
-            throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
-        }
     }
 }

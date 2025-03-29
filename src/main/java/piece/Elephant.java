@@ -18,6 +18,9 @@ public class Elephant extends Piece {
             Movement.UP_UP_UP_RIGHT_RIGHT, List.of(Movement.UP, Movement.UP_UP_RIGHT)
     );
 
+    public Elephant() {
+    }
+
     public Elephant(final Point current) {
         super(current);
     }
@@ -33,6 +36,11 @@ public class Elephant extends Piece {
         }
 
         current = current.move(destinationMovement);
+    }
+
+    @Override
+    public int score() {
+        return 3;
     }
 
     private Movement getDestinationMovement(final Point destination) {

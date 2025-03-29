@@ -8,6 +8,9 @@ public class General extends Piece  {
 
     private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP, Movement.DOWN);
 
+    public General() {
+    }
+
     public General(final Point current) {
         super(current);
     }
@@ -18,6 +21,11 @@ public class General extends Piece  {
         validateIsExistPieceInPoint(allPieces, current.move(destinationMovement));
 
         current = current.move(destinationMovement);
+    }
+
+    @Override
+    public int score() {
+        return 0;
     }
 
     private Movement getDestinationMovement(final Point destination) {
