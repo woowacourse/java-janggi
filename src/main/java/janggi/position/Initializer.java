@@ -45,6 +45,8 @@ import janggi.piece.palacePiece.Soldier;
 import janggi.piece.straightPiece.Chariot;
 import java.util.HashSet;
 import java.util.Set;
+import repository.dao.PieceDao;
+import repository.entity.PieceEntity;
 
 class Initializer {
     public Set<Piece> generate() {
@@ -87,6 +89,11 @@ class Initializer {
         pieces.add(new ChoPawn(E3));
         pieces.add(new ChoPawn(G3));
         pieces.add(new ChoPawn(I3));
+
+        PieceDao pieceDao = new PieceDao();
+        for (Piece piece : pieces) {
+            pieceDao.addPiece(PieceEntity.toEntity(piece));
+        }
 
         return pieces;
     }

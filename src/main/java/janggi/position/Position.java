@@ -80,4 +80,11 @@ public final class Position {
         return Objects.hash(column, row);
     }
 
+    public Row row() {
+        return row;
+    }
+
+    public Column column(){
+        return column;
+    }
 }

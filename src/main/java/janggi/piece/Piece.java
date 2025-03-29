@@ -1,7 +1,9 @@
 package janggi.piece;
 
 import janggi.position.Board;
+import janggi.position.Column;
 import janggi.position.Position;
+import janggi.position.Row;
 import java.util.Set;
 
 public abstract class Piece {
@@ -13,6 +15,14 @@ public abstract class Piece {
 
     public Team team() {
         return team;
+    }
+
+    public Row row() {
+        return position().row();
+    }
+
+    public Column column() {
+        return position().column();
     }
 
     public boolean isDifferentTeam(Team currentTeam) {
@@ -32,4 +42,5 @@ public abstract class Piece {
     public double score() {
         return type().score();
     }
+
 }
