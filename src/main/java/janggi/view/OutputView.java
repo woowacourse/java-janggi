@@ -28,7 +28,7 @@ public class OutputView {
         }
     }
 
-    public void printPieces(HashMap<Position, Piece> pieces) {
+    public void printPieces(Map<Position, Piece> pieces) {
         String[][] board = initialBoard(pieces);
         String[][] teamInfo = initialTeamBoard(pieces);
 

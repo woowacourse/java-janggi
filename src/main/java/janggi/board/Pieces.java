@@ -74,7 +74,7 @@ public class Pieces {
         return route.stream().anyMatch(this::isCannonPiece);
     }
 
-    public HashMap<Position, Piece> getPieces() {
+    public Map<Position, Piece> getPieces() {
         return new HashMap<>(pieces);
     }
 }
