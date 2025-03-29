@@ -1,5 +1,6 @@
 package janggi.game;
 
+import janggi.board.Pieces;
 import janggi.piece.Team;
 import janggi.piece.pieces.Piece;
 import janggi.position.Position;

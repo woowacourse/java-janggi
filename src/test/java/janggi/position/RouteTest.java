@@ -1,6 +1,6 @@
 package janggi.position;
 
-import janggi.game.Pieces;
+import janggi.board.Pieces;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package janggi.game;
+package janggi.board;
 
 import janggi.piece.Team;
 import janggi.piece.pieces.Piece;
@@ -7,11 +7,11 @@ import janggi.position.Route;
 import java.util.HashMap;
 import java.util.List;
 
-public class Janggi {
+public class Board {
     private final Pieces pieces;
     private Team turn;
 
-    public Janggi(Pieces pieces, Team startTurn) {
+    public Board(Pieces pieces, Team startTurn) {
         this.pieces = pieces;
         this.turn = startTurn;
     }

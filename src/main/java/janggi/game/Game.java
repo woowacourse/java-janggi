@@ -1,5 +1,7 @@
 package janggi.game;
 
+import janggi.board.Board;
+import janggi.board.Pieces;
 import janggi.position.Position;
 import janggi.position.Route;
 import janggi.piece.Team;
@@ -25,10 +27,10 @@ public class Game {
 
     public void play() {
         GameState gameState = GameState.PLAY;
-        Janggi janggi = new Janggi(new Pieces(), Team.CHO);
+        Board board = new Board(new Pieces(), Team.CHO);
 
         while (gameState == GameState.PLAY) {
-            gameState = handleGameState(() -> controlGame(janggi));
+            gameState = handleGameState(() -> controlGame(board));
         }
         inputView.close();
     }
@@ -42,29 +44,29 @@ public class Game {
         }
     }
 
-    private GameState controlGame(Janggi janggi) {
-        outputView.printPieces(janggi.getPieces());
+    private GameState controlGame(Board board) {
+        outputView.printPieces(board.getPieces());
 
-        Position position = getPosition(janggi);
+        Position position = getPosition(board);
         if (position == null) {
             return GameState.QUIT;
         }
-        janggi.judgeUnitTurn(position);
+        board.judgeUnitTurn(position);
 
-        List<Route> routes = janggi.searchAvailableRoutes(position);
+        List<Route> routes = board.searchAvailableRoutes(position);
         outputView.printAvailableRoute(routes, position);
 
-        moveAndCaptureIfEnemyExists(janggi, routes, position);
-        if (janggi.isNoneEnemyGeneralUnit()) {
+        moveAndCaptureIfEnemyExists(board, routes, position);
+        if (board.isNoneEnemyGeneralUnit()) {
             return GameState.QUIT;
         }
-        janggi.changeTurn();
+        board.changeTurn();
         return GameState.PLAY;
     }
 
-    private Position getPosition(Janggi janggi) {
+    private Position getPosition(Board board) {
         List<Integer> positionValue = handleInputException(() ->
-                inputView.readPosition(janggi.getTurn()), Game::getPosition);
+                inputView.readPosition(board.getTurn()), Game::getPosition);
         if (positionValue == null) {
             return null;
         }
@@ -88,11 +90,11 @@ public class Game {
         }
     }
 
-    private void moveAndCaptureIfEnemyExists(Janggi janggi, List<Route> routes, Position startPoint) {
+    private void moveAndCaptureIfEnemyExists(Board board, List<Route> routes, Position startPoint) {
         int selectedRouteNumber = handleInputException(inputView::readRoute,
                 (inputValue) -> parseSelectNumber(inputValue, routes.size()));
         Route route = routes.get(selectedRouteNumber - 1);
-        janggi.moveAndCaptureIfEnemyExists(route, startPoint);
+        board.moveAndCaptureIfEnemyExists(route, startPoint);
     }
 
     private int parseSelectNumber(String input, int selectBoxMaxSize) {
