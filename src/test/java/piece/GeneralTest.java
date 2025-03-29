@@ -1,51 +1,46 @@
 package piece;
 
 import board.Board;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import position.LineDirection;
 import position.Position;
+import position.PositionFactory;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 class GeneralTest {
 
-    @DisplayName("출발지에서 도착지까지의 거리는 1이여야 한다.")
+    @DisplayName("인접 노드 한칸을 움직인다.")
     @Test
-    void distance() {
+    void adjacentPosition() {
         // given
+        PositionFactory positionFactory = new PositionFactory();
+        positionFactory.basicSettingGraph();
+
         Country dumyCountry = Country.HAN;
         Country.assignDirection(dumyCountry, LineDirection.UP);
+
         Position dumyPosition = new Position(2, 3);
-        final General general = new General(dumyPosition, dumyCountry);
-        double expected = 1.0;
-
-        // when
-        double actual = general.getExpectedDistance();
-        // then
-        Assertions.assertThat(actual).isEqualTo(expected);
-    }
-
-    @DisplayName("General은 주변 한칸으로 이동할 수 있다.")
-    @Test
-    void validateMove() {
-        // given
-        final Position src = new Position(1, 1);
-        final Piece general = new General(src, Country.HAN);
-        final Board board = new Board(new HashMap<>());
+        Position src = dumyPosition;
+        final General general = new General(src, dumyCountry);
+        Board board = new Board(Map.of(
+                src, general
+        ));
 
         // when & then : 1 : success
-        Position validDest = new Position(1, 2);
-        assertThatCode(() -> general.validateMove(src, validDest, board))
-                .doesNotThrowAnyException();
+        Position canReachDestPosition = new Position(3, 3);
+        assertThatCode(
+                () -> general.validateMove(src, canReachDestPosition, board)
+        ).doesNotThrowAnyException();
 
         // when & then : 2 : failure
-        Position invalidDest = new Position(1, 3);
-        assertThatThrownBy(() -> general.validateMove(src, invalidDest, board))
-                .isInstanceOf(IllegalArgumentException.class);
+        Position canNotReachDestPosition = new Position(4, 3);
+        assertThatThrownBy(
+                () -> general.validateMove(src, canNotReachDestPosition, board)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 }
