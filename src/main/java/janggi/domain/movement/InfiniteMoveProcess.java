@@ -1,5 +1,7 @@
 package janggi.domain.movement;
 
+import janggi.domain.movestep.MoveProcess;
+import janggi.domain.movestep.MoveStep;
 import java.util.Iterator;
 import java.util.List;
 

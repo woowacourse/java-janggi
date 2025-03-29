@@ -4,8 +4,8 @@ import static janggi.view.ViewTools.FULL_WIDTH_BAR;
 import static janggi.view.ViewTools.FULL_WIDTH_SPACE;
 
 import janggi.domain.Coordinate;
-import janggi.domain.Team;
 import janggi.domain.Piece;
+import janggi.domain.Team;
 import java.util.Map;
 import java.util.Optional;
 
@@ -70,8 +70,8 @@ public class OutputView {
     }
 
     private String applyColor(Piece piece) {
-        Team team = piece.getTeam();
-        return ViewTools.applyColor(TEAM_COLORS.get(team), piece.getName());
+        Team team = piece.team();
+        return ViewTools.applyColor(TEAM_COLORS.get(team), piece.name());
     }
 
     private String applyColor(Team team) {

@@ -1,4 +1,4 @@
-package janggi.domain.movement;
+package janggi.domain.movestep;
 
 public enum MoveStep {
 

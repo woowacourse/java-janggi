@@ -2,6 +2,7 @@ package janggi.domain.movement;
 
 import janggi.domain.Coordinate;
 import janggi.domain.board.PieceSearcher;
+import janggi.domain.movestep.MoveStep;
 import java.util.Set;
 
 public final class OnceMovement implements Movement {

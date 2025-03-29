@@ -85,21 +85,21 @@ public class Board implements PieceSearcher {
     public double sumScore(final Team team) {
         return pieces.stream()
             .filter(p -> p.isTeam(team))
-            .map(Piece::getType)
+            .map(Piece::pieceType)
             .mapToDouble(PieceType::getScore)
             .sum();
     }
 
     public boolean isAnyGoongDead() {
         return getPieces().values().stream()
-            .map(Piece::getType)
+            .map(Piece::pieceType)
             .filter(type -> type == PieceType.GOONG)
             .count() < 2;
     }
 
     public Map<Coordinate, Piece> getPieces() {
         final var coordinatePieceMap = pieces.stream()
-            .collect(Collectors.toMap(Piece::getCoordinate, identity()));
+            .collect(Collectors.toMap(Piece::coordinate, identity()));
         return Collections.unmodifiableMap(coordinatePieceMap);
     }
 }

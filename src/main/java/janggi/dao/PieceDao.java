@@ -1,9 +1,9 @@
 package janggi.dao;
 
 import janggi.domain.Coordinate;
+import janggi.domain.Piece;
 import janggi.domain.PieceType;
 import janggi.domain.Team;
-import janggi.domain.Piece;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -32,10 +32,10 @@ public final class PieceDao {
 
         try (final var connection = getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, piece.getCoordinate().x());
-            preparedStatement.setInt(2, piece.getCoordinate().y());
-            preparedStatement.setString(3, piece.getType().name());
-            preparedStatement.setString(4, piece.getTeam().name());
+            preparedStatement.setInt(1, piece.coordinate().x());
+            preparedStatement.setInt(2, piece.coordinate().y());
+            preparedStatement.setString(3, piece.name());
+            preparedStatement.setString(4, piece.team().name());
 
             preparedStatement.executeUpdate();
 

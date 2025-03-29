@@ -1,6 +1,6 @@
 package janggi.domain;
 
-import janggi.domain.movement.MoveStep;
+import janggi.domain.movestep.MoveStep;
 
 public record Coordinate(int x, int y) {
 

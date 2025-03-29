@@ -1,9 +1,9 @@
 package janggi.domain.movement;
 
-import static janggi.domain.movement.MoveStep.LEFT_DOWN;
-import static janggi.domain.movement.MoveStep.LEFT_UP;
-import static janggi.domain.movement.MoveStep.RIGHT_DOWN;
-import static janggi.domain.movement.MoveStep.RIGHT_UP;
+import static janggi.domain.movestep.MoveStep.LEFT_DOWN;
+import static janggi.domain.movestep.MoveStep.LEFT_UP;
+import static janggi.domain.movestep.MoveStep.RIGHT_DOWN;
+import static janggi.domain.movestep.MoveStep.RIGHT_UP;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.BoardFixture;

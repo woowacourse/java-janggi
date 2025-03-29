@@ -1,23 +1,23 @@
 package janggi.domain;
 
-import static janggi.domain.movement.MoveStep.DOWN;
-import static janggi.domain.movement.MoveStep.LEFT;
-import static janggi.domain.movement.MoveStep.LEFT_DOWN;
-import static janggi.domain.movement.MoveStep.LEFT_UP;
-import static janggi.domain.movement.MoveStep.RIGHT;
-import static janggi.domain.movement.MoveStep.RIGHT_DOWN;
-import static janggi.domain.movement.MoveStep.RIGHT_UP;
-import static janggi.domain.movement.MoveStep.UP;
+import static janggi.domain.movestep.MoveStep.DOWN;
+import static janggi.domain.movestep.MoveStep.LEFT;
+import static janggi.domain.movestep.MoveStep.LEFT_DOWN;
+import static janggi.domain.movestep.MoveStep.LEFT_UP;
+import static janggi.domain.movestep.MoveStep.RIGHT;
+import static janggi.domain.movestep.MoveStep.RIGHT_DOWN;
+import static janggi.domain.movestep.MoveStep.RIGHT_UP;
+import static janggi.domain.movestep.MoveStep.UP;
 
 import janggi.domain.board.PieceSearcher;
 import janggi.domain.movement.CastleBounded;
 import janggi.domain.movement.InfiniteMoveProcess;
-import janggi.domain.movement.MoveProcess;
 import janggi.domain.movement.Movement;
 import janggi.domain.movement.OnCastleDiagonalRoad;
 import janggi.domain.movement.OnceMovement;
 import janggi.domain.movement.PoMovement;
 import janggi.domain.movement.SeveralMovement;
+import janggi.domain.movestep.MoveProcess;
 import java.util.Set;
 
 public enum PieceType {

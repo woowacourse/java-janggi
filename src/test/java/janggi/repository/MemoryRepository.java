@@ -1,9 +1,9 @@
 package janggi.repository;
 
-import janggi.domain.board.Board;
-import janggi.service.PlayingTurn;
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
+import janggi.domain.board.Board;
+import janggi.service.PlayingTurn;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public void save(final Piece piece) {
-        pieces.put(piece.getCoordinate(), piece);
+        pieces.put(piece.coordinate(), piece);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MemoryRepository implements Repository {
         final var beforePiece = pieces.remove(from);
 
         final var afterPiece = beforePiece.moveTo(to);
-        pieces.put(afterPiece.getCoordinate(), afterPiece);
+        pieces.put(afterPiece.coordinate(), afterPiece);
     }
 
     @Override

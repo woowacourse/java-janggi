@@ -63,7 +63,7 @@ public class OnlineGameService implements GameService {
 
     public Map<Coordinate, Piece> allPieces() {
         final var coordinatePieceMap = repository.findAll().stream()
-            .collect(Collectors.toMap(Piece::getCoordinate, identity()));
+            .collect(Collectors.toMap(Piece::coordinate, identity()));
         return Collections.unmodifiableMap(coordinatePieceMap);
     }
 

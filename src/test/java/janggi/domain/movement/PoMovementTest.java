@@ -7,6 +7,7 @@ import janggi.domain.Coordinate;
 import janggi.domain.PieceType;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
+import janggi.domain.movestep.MoveStep;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -2,6 +2,7 @@ package janggi.domain.movement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.domain.movestep.MoveStep;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
