@@ -20,7 +20,8 @@ public class General implements Piece {
     public List<Route> calculateRoutes(Position position) {
         List<Route> routes = new ArrayList<>();
 
-        for (Direction direction : Direction.getAllDirection()) {
+        List<Direction> allDirection = Direction.getAllDirection();
+        for (Direction direction : allDirection) {
             applyGeneralProperty(position, direction, routes);
         }
         return routes;
@@ -28,11 +29,14 @@ public class General implements Piece {
 
     private static void applyGeneralProperty(Position position, Direction direction, List<Route> routes) {
         int column = direction.moveColumn(position.getColumn());
-        int row = direction.moveColumn(position.getRow());
+        int row = direction.moveRow(position.getRow());
+        if (position.isSamePoint(new Position(column, row))) {
+            return;
+        }
         if (!Palace.isInPalace(column, row)) {
             return;
         }
-        if (direction.idDiagonal() && !Palace.canDiagonalInPalace(column, row)) {
+        if (direction.idDiagonal() && !Palace.canDiagonalInPalace(position.getColumn(), position.getRow())) {
             return;
         }
         routes.add(Route.of(List.of(new Position(column, row))));
