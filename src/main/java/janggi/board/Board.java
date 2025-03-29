@@ -28,11 +28,11 @@ public class Board {
             new Position(Row.TWO, Column.THREE), new Position(Row.TWO, Column.FOUR),
             new Position(Row.TWO, Column.FIVE));
 
-    public static final List<Position> CENTRAL_OF_GREEN_CASTLE_BORDER = List.of(new Position(Column.FOUR, Row.ZERO),
+    private static final List<Position> CENTRAL_OF_GREEN_CASTLE_BORDER = List.of(new Position(Column.FOUR, Row.ZERO),
             new Position(Column.FOUR, Row.TWO), new Position(Column.THREE, Row.ONE),
             new Position(Column.FIVE, Row.ONE));
 
-    public static final List<Position> CENTRAL_OF_RED_CASTLE_BORDER = List.of(new Position(Column.FOUR, Row.NINE),
+    private static final List<Position> CENTRAL_OF_RED_CASTLE_BORDER = List.of(new Position(Column.FOUR, Row.NINE),
             new Position(Column.FOUR, Row.SEVEN), new Position(Column.THREE, Row.EIGHT),
             new Position(Column.FIVE, Row.EIGHT));
 
@@ -88,5 +88,9 @@ public class Board {
 
     public boolean isPieceExists(Position position) {
         return board.containsKey(position);
+    }
+
+    public boolean isCentralOfCastleBorder(Position position) {
+        return CENTRAL_OF_GREEN_CASTLE_BORDER.contains(position) || CENTRAL_OF_RED_CASTLE_BORDER.contains(position);
     }
 }

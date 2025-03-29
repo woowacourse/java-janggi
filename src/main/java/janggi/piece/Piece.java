@@ -22,8 +22,18 @@ public abstract class Piece {
 
     public void validateMovable(Board board, Position start, Position goal) {
         Path path = calculatePath(start, goal);
+        validateInvalidCastleDiagonalMove(board, start, goal, path);
         validatePath(board, path);
         validatePieceOnGoal(board, goal);
+    }
+
+    private void validateInvalidCastleDiagonalMove(Board board, Position start, Position goal, Path path) {
+        boolean isStartPositionCentralOfCastleBoard = board.isCentralOfCastleBorder(start);
+        boolean isGoalPositionCentralOfCastleBoard = board.isCentralOfCastleBorder(goal);
+        boolean isPathOneStep = path.isOneStep();
+        if (isStartPositionCentralOfCastleBoard && isGoalPositionCentralOfCastleBoard && isPathOneStep) {
+            throw new IllegalArgumentException("[ERROR] 선이 존재하는 경우에만 대각으로 이동할 수 있습니다.");
+        }
     }
 
     protected void validateNonPieceOnPath(Board board, Path path) {

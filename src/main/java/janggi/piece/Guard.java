@@ -1,8 +1,6 @@
 package janggi.piece;
 
 import static janggi.Team.RED;
-import static janggi.board.Board.CENTRAL_OF_GREEN_CASTLE_BORDER;
-import static janggi.board.Board.CENTRAL_OF_RED_CASTLE_BORDER;
 import static janggi.board.Board.GREEN_CASTLE;
 import static janggi.board.Board.RED_CASTLE;
 import static janggi.moving.Movement.DOWN;
@@ -37,7 +35,6 @@ public class Guard extends Piece {
     @Override
     protected void validatePath(Board board, Path path) {
         validateOutOfCastle(path);
-        validateInvalidDiagonalPath(path);
         validateNonPieceOnPath(board, path);
     }
 
@@ -50,18 +47,6 @@ public class Guard extends Piece {
             if (!castle.contains(position)) {
                 throw new IllegalArgumentException("[ERROR] 사는 궁성을 벗어날 수 없습니다.");
             }
-        }
-    }
-
-    private void validateInvalidDiagonalPath(Path path) {
-        List<Position> castleBorder = CENTRAL_OF_GREEN_CASTLE_BORDER;
-        if (team == RED) {
-            castleBorder = CENTRAL_OF_RED_CASTLE_BORDER;
-        }
-        boolean isOneStep = path.isOneStep();
-        boolean isFirstAndLastInCastleBorder = path.firstAndLastIn(castleBorder);
-        if (isOneStep && isFirstAndLastInCastleBorder) {
-            throw new IllegalArgumentException("[ERROR] 선이 존재하는 경우에만 이동할 수 있습니다.");
         }
     }
 

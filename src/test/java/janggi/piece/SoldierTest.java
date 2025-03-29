@@ -57,12 +57,12 @@ class SoldierTest {
             "GREEN:4:8:5:7", "GREEN:5:9:4:8", "GREEN:4:8:3:7"}, delimiterString = ":")
     @ParameterizedTest
     void should_ThrowException_WhenMoveDiagonalBackward(
-                    Team team,
-                    int startColumn,
-                    int startRow,
-                    int goalColumn,
-                    int goalRow
-            ) {
+            Team team,
+            int startColumn,
+            int startRow,
+            int goalColumn,
+            int goalRow
+    ) {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);
@@ -82,7 +82,7 @@ class SoldierTest {
     @CsvSource(value = {"RED:3:2:4:1", "RED:4:1:5:0", "RED:5:2:4:1", "RED:4:1:3:0", "GREEN:3:7:4:8",
             "GREEN:4:8:5:9", "GREEN:5:7:4:8", "GREEN:4:8:3:9"}, delimiterString = ":")
     @ParameterizedTest
-    void should_Not_ThrowException_WhenMoveDiagonalForward(
+    void should_Not_ThrowException_WhenMoveDiagonalForwardInCastle(
             Team team,
             int startColumn,
             int startRow,
