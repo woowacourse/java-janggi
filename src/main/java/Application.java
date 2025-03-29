@@ -9,7 +9,6 @@ public class Application {
 
     public static void main(String[] args) {
         ConnectionFactory connectionFactory = new MySQLConnectionFactory();
-//        DatabaseSetting.settingTable(connectionFactory.createConnection());
 
         GameManager gameManager = new GameManager(
                 new GameService(

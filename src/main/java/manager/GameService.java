@@ -40,23 +40,6 @@ public class GameService {
         janggiGame = loadGameByGameRoomName(gameRoomName);
     }
 
-    private JanggiGame loadGameByGameRoomName(String gameRoomName) {
-        GameRoomEntity gameRoom = findGameRoomEntityByName(gameRoomName);
-        return new JanggiGame(gameRoom.name(), loadBoardByGameRoomName(gameRoomName), gameRoom.turn());
-    }
-
-    private GameRoomEntity findGameRoomEntityByName(String name) {
-        Optional<GameRoomEntity> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
-        if (maybeGameRoom.isEmpty()) {
-            throw new IllegalStateException("해당 게임방이 존재 하지 않습니다.");
-        }
-        return maybeGameRoom.get();
-    }
-
-    private Board loadBoardByGameRoomName(String gameRoomName) {
-        return BoardConverter.convertToBoard(pieceDao.findByGameRoomName(getConnection(), gameRoomName));
-    }
-
     public void setNewGame(String gameRoomName,
                            BoardGenerator boardGenerator,
                            SangMaOrderCommand choSangMaOrderCommand,
@@ -85,7 +68,7 @@ public class GameService {
         try (final Connection connection = getConnection()) {
             connection.setAutoCommit(false);
 
-            final String gameRoomName = getGameOrThrow().getName();
+            final String gameRoomName = getGameOrThrow().getGameRoomName();
             final Team turn = janggiGame.currentTurn();
 
             pieceDao.deleteByGameRoomNameAndPoint(connection, gameRoomName, destination);
@@ -100,18 +83,7 @@ public class GameService {
     }
 
     public void endGame() {
-        gameRoomDao.deleteByGameRoomName(getConnection(), getGameOrThrow().getName());
-    }
-
-    private JanggiGame getGameOrThrow() {
-        if (janggiGame == null) {
-            throw new IllegalStateException("게임이 로드되지 않았습니다.");
-        }
-        return janggiGame;
-    }
-
-    private Connection getConnection() {
-        return connectionFactory.createConnection();
+        gameRoomDao.deleteByGameRoomName(getConnection(), getGameOrThrow().getGameRoomName());
     }
 
     public boolean isPlaying() {
@@ -132,5 +104,33 @@ public class GameService {
 
     public Team currentTurn() {
         return getGameOrThrow().currentTurn();
+    }
+
+    private JanggiGame loadGameByGameRoomName(String gameRoomName) {
+        GameRoomEntity gameRoom = findGameRoomEntityByName(gameRoomName);
+        return new JanggiGame(gameRoom.name(), loadBoardByGameRoomName(gameRoomName), gameRoom.turn());
+    }
+
+    private GameRoomEntity findGameRoomEntityByName(String name) {
+        Optional<GameRoomEntity> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
+        if (maybeGameRoom.isEmpty()) {
+            throw new IllegalStateException("해당 게임방이 존재 하지 않습니다.");
+        }
+        return maybeGameRoom.get();
+    }
+
+    private Board loadBoardByGameRoomName(String gameRoomName) {
+        return BoardConverter.convertToBoard(pieceDao.findByGameRoomName(getConnection(), gameRoomName));
+    }
+
+    private Connection getConnection() {
+        return connectionFactory.createConnection();
+    }
+
+    private JanggiGame getGameOrThrow() {
+        if (janggiGame == null) {
+            throw new IllegalStateException("게임이 로드되지 않았습니다.");
+        }
+        return janggiGame;
     }
 }

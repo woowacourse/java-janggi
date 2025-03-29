@@ -27,7 +27,6 @@ class PieceDaoTest {
     void setupConnection() throws SQLException {
         testConnection = connectionFactory.createConnection();
         testConnection.setAutoCommit(false);
-//        DatabaseSetting.settingTable(testConnection);
         pieceDAO = new PieceDao();
         gameRoomDAO = new GameRoomDao();
         gameRoomDAO.insert(testConnection, new GameRoomEntity(GAME_ROOM_NAME, Team.CHO));

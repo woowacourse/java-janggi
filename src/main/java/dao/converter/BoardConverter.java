@@ -28,7 +28,7 @@ public class BoardConverter {
                 .toList();
     }
 
-    public static PieceEntity convertToPieceEntity(Map.Entry<Point, Piece> pieceByPoint, String gameRoomName) {
+    private static PieceEntity convertToPieceEntity(Map.Entry<Point, Piece> pieceByPoint, String gameRoomName) {
         Point point = pieceByPoint.getKey();
         Piece piece = pieceByPoint.getValue();
         return new PieceEntity(null, point.row(), point.column(), piece.type(), piece.team(), gameRoomName);

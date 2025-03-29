@@ -13,11 +13,11 @@ import java.util.List;
 public class PieceDao {
 
     private boolean executeSql(Connection connection, String sql, List<Object> params) {
-        try (PreparedStatement pstmpreparedStatement = connection.prepareStatement(sql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (int i = 0; i < params.size(); i++) {
-                pstmpreparedStatement.setObject(i + 1, params.get(i));
+                preparedStatement.setObject(i + 1, params.get(i));
             }
-            pstmpreparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
             throw new RuntimeException(sql + ": 실행에 실패했습니다.");

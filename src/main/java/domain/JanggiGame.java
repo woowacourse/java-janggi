@@ -8,12 +8,12 @@ import java.util.Map;
 
 public class JanggiGame {
 
-    private final String name;
+    private final String gameRoomName;
     private final Board board;
     private Team turn;
 
-    public JanggiGame(String name, Board board, Team startTeam) {
-        this.name = name;
+    public JanggiGame(String gameRoomName, Board board, Team startTeam) {
+        this.gameRoomName = gameRoomName;
         this.board = board;
         this.turn = startTeam;
     }
@@ -57,7 +57,7 @@ public class JanggiGame {
         return board.getPieceByPoint();
     }
 
-    public String getName() {
-        return name;
+    public String getGameRoomName() {
+        return gameRoomName;
     }
 }
