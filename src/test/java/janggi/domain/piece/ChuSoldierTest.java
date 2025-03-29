@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.domain.Dynasty;
 import janggi.domain.Fixtures;
 import java.util.List;
 import java.util.stream.Stream;

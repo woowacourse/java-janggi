@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Dynasty;
 import java.util.ArrayList;
 import java.util.List;
 

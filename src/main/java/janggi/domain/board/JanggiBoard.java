@@ -1,6 +1,6 @@
 package janggi.domain.board;
 
-import janggi.domain.Dynasty;
+import janggi.domain.piece.Dynasty;
 import janggi.domain.piece.EmptyPiece;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PiecesOnPath;

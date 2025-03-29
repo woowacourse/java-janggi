@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Dynasty;
 import janggi.domain.piece.movepath.EndlessMovePath;
 import janggi.domain.piece.movepath.EndlessPalaceMovePath;
 import janggi.domain.piece.movepath.MovePath;

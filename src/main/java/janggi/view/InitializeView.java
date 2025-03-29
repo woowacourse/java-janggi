@@ -1,10 +1,9 @@
 package janggi.view;
 
-import janggi.domain.Dynasty;
-import janggi.domain.Player;
 import janggi.domain.board.BoardSetUp;
 import janggi.domain.board.ChuBoardSetUp;
 import janggi.domain.board.HanBoardSetUp;
+import janggi.domain.piece.Dynasty;
 import java.util.Scanner;
 
 public class InitializeView {
@@ -20,11 +19,11 @@ public class InitializeView {
         return readLine();
     }
 
-    public BoardSetUp readBoardSetUp(Player player) {
-        System.out.println("\n" + player.getNickname() + "의 상차림을 선택해 주세요.");
+    public BoardSetUp readBoardSetUp(Dynasty dynasty) {
+        System.out.println("\n" + toDynastyName(dynasty) + "의 상차림을 선택해 주세요.");
         printBoardSetUpGuide();
         String menu = readLine();
-        if (player.getDynasty() == Dynasty.HAN) {
+        if (dynasty == Dynasty.HAN) {
             if (menu.equals("1")) {
                 return HanBoardSetUp.RIGHT_ELEPHANT;
             }
@@ -46,6 +45,13 @@ public class InitializeView {
             return ChuBoardSetUp.OUTER_ELEPHANT;
         }
         return ChuBoardSetUp.INNER_ELEPHANT;
+    }
+
+    private String toDynastyName(Dynasty dynasty) {
+        if (dynasty == Dynasty.HAN) {
+            return "한나라";
+        }
+        return "초나라";
     }
 
     private void printBoardSetUpGuide() {

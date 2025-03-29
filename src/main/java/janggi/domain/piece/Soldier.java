@@ -1,7 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Dynasty;
-
 public abstract class Soldier extends Piece {
 
     public Soldier(Dynasty dynasty) {

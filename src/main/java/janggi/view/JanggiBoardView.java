@@ -1,11 +1,10 @@
 package janggi.view;
 
-import janggi.domain.Dynasty;
-import janggi.domain.Player;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.ChuSoldier;
+import janggi.domain.piece.Dynasty;
 import janggi.domain.piece.Elephant;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
@@ -62,9 +61,9 @@ public class JanggiBoardView {
                 """);
     }
 
-    public Movement readPlayerMove(Player player) {
+    public Movement readPlayerMove(Dynasty dynasty) {
         System.out.println();
-        printPlayerMoveGuide(player);
+        printPlayerMoveGuide(dynasty);
 
         String command = readLine().trim();
         String[] splitCommands = command.split(" ");
@@ -79,12 +78,12 @@ public class JanggiBoardView {
         throw new IllegalArgumentException("입력 형식이 틀렸습니다.");
     }
 
-    private void printPlayerMoveGuide(Player player) {
-        if (player.getDynasty() == Dynasty.HAN) {
-            System.out.println(convertHanColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
+    private void printPlayerMoveGuide(Dynasty dynasty) {
+        if (dynasty == Dynasty.HAN) {
+            System.out.println(convertHanColor(toDynastyName(dynasty)) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
             return;
         }
-        System.out.println(convertChuColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
+        System.out.println(convertChuColor(toDynastyName(dynasty)) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
     }
 
     public void printBoard(Map<Point, Piece> boardPieces) {
@@ -130,8 +129,8 @@ public class JanggiBoardView {
         System.out.println("초나라 점수: " + janggiBoard.dynastyScore(Dynasty.CHU));
     }
 
-    public void printResult(Player winPlayer, JanggiBoard janggiBoard) {
-        System.out.println(winPlayer.getNickname() + "님이 이겼습니다!");
+    public void printResult(Dynasty winDynasty, JanggiBoard janggiBoard) {
+        System.out.println(toDynastyName(winDynasty) + "님이 이겼습니다!");
         System.out.println("==최종 점수==");
         printScore(janggiBoard);
     }
@@ -139,8 +138,12 @@ public class JanggiBoardView {
     public record Movement(
             String command, int startX, int startY, int endX, int endY
     ) {
-        public boolean isMove() {
-            return this.command.equals("move");
+    }
+
+    private String toDynastyName(Dynasty dynasty) {
+        if (dynasty == Dynasty.HAN) {
+            return "한나라";
         }
+        return "초나라";
     }
 }

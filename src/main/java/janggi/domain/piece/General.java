@@ -1,6 +1,5 @@
 package janggi.domain.piece;
 
-import janggi.domain.Dynasty;
 import janggi.domain.piece.movepath.MovePath;
 import janggi.domain.piece.movepath.PalaceMovePath;
 import java.util.Set;

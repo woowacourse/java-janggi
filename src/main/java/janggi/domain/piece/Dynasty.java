@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.piece;
 
 public enum Dynasty {
     CHU(0), HAN(1.5), EMPTY(0);
