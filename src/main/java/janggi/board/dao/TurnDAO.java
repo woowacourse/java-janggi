@@ -1,4 +1,4 @@
-package janggi.board;
+package janggi.board.dao;
 
 import janggi.database.DBConnector;
 import janggi.setting.CampType;

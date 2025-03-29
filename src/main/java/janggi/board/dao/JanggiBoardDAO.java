@@ -1,5 +1,6 @@
-package janggi.board;
+package janggi.board.dao;
 
+import janggi.board.JanggiBoard;
 import janggi.database.DBConnector;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
@@ -67,7 +68,7 @@ public class JanggiBoardDAO {
             throw new IllegalArgumentException("[ERROR] Pieces 테이블 삭제 중 에러 발생했습니다.");
         }
     }
-    //TODO : 게임이 종료되기 전에 종료되었을 때 SELECT를 먼저 해와서 JanggiBoard 체인지 시켜주기.
+
     public void updateRecords(JanggiPosition current, JanggiPosition destination, int teamId) {
         try (final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(UPDATE_QUERY)) {
             preparedStatement.setInt(1, destination.x());
