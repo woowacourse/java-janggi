@@ -10,6 +10,10 @@ import janggi.piece.normalPiece.Blank;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import repository.dao.PieceDao;
+import repository.dao.TurnDao;
+import repository.entity.PieceEntity;
+import repository.entity.TurnEntity;
 
 public final class Board {
     private static final double AFTER_TURN_BONUS_SCORE = 1.5;
@@ -17,7 +21,8 @@ public final class Board {
     private final Map<Position, Piece> pieceOfPosition;
 
     public static Board generate() {
-        return new Board(new Initializer().generate());
+        Initializer initializer = new Initializer();
+        return new Board(initializer.setTurn(), initializer.generate());
     }
 
     public Board(Team team, Set<Piece> pieces) {
@@ -82,7 +87,17 @@ public final class Board {
         movePiece(destination, pieces, piece);
         catchPiece(destination, piece, pieces);
 
-        return new Board(pieces, nextTurn());
+        PieceDao pieceDao = new PieceDao();
+        pieceDao.deleteAll();
+        for (Piece pieceForDB : pieces) {
+            pieceDao.addPiece(PieceEntity.toEntity(pieceForDB));
+        }
+
+        TurnDao turnDao = new TurnDao();
+        Team nextTurn = nextTurn();
+        turnDao.updateTurn(TurnEntity.toEntity(nextTurn));
+
+        return new Board(pieces, nextTurn);
     }
 
     private void movePiece(Position destination, Set<Piece> pieces, Piece piece) {

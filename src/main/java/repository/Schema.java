@@ -39,8 +39,17 @@ public class Schema {
                       ON DELETE CASCADE
              );""";
 
+    public static final String CREATE_TURN = """
+            CREATE TABLE IF NOT EXISTS TURN (
+                turn VARCHAR(20) UNIQUE NOT NULL PRIMARY KEY,
+                
+                FOREIGN KEY (turn) REFERENCES TEAM(name)
+                      ON UPDATE CASCADE
+                      ON DELETE CASCADE
+            );""";
+
     public static final String CREATE_TABLE = CREATE_TEAM + CREATE_PIECE_TYPE
-            + CREATE_PIECE;
+            + CREATE_PIECE + CREATE_TURN;
 
     public static void setTable(Connection connection) {
         try {

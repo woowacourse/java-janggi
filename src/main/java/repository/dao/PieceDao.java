@@ -47,5 +47,15 @@ public class PieceDao {
         return pieces;
     }
 
+    public void deleteAll() {
+        final var query = "DELETE FROM PIECE";
 
+        try (final var connection = new ConnectMysql().create();
+             final var preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

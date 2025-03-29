@@ -46,10 +46,13 @@ import janggi.piece.straightPiece.Chariot;
 import java.util.HashSet;
 import java.util.Set;
 import repository.dao.PieceDao;
+import repository.dao.TurnDao;
 import repository.entity.PieceEntity;
+import repository.entity.TurnEntity;
 
 class Initializer {
     private final PieceDao pieceDao = new PieceDao();
+    private final TurnDao turnDao = new TurnDao();
 
     public Set<Piece> generate() {
         Set<Piece> byPiece = pieceDao.findByPiece();
@@ -102,5 +105,14 @@ class Initializer {
         }
 
         return pieces;
+    }
+
+    public Team setTurn() {
+        String turn = turnDao.findTurn();
+        if(turn==null){
+            turnDao.addTurn(TurnEntity.toEntity(Team.CHO));
+            return Team.CHO;
+        }
+        return Team.convert(turn);
     }
 }
