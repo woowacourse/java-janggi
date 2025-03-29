@@ -35,7 +35,7 @@ public class Moves {
     public boolean isPossibleToArrive(Position startPosition, Position targetPosition) {
         Position positionInPath = startPosition;
         for (Move move : moves) {
-            if (!positionInPath.canApplyMove(move)) {
+            if (!positionInPath.hasLine(move)) {
                 return false;
             }
             positionInPath = positionInPath.movePosition(move);

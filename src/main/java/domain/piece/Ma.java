@@ -1,33 +1,23 @@
 package domain.piece;
 
-import domain.Move;
 import domain.Moves;
 import domain.Position;
 import domain.Team;
+import domain.movement.MaMovement;
 import java.util.List;
 
-public class Ma extends FixedMovePiece {
+public class Ma extends Piece {
 
     private static final int SCORE = 5;
-
-    private static final List<Moves> movesOptions = List.of(
-            Moves.create(Move.FRONT, Move.FRONT_LEFT),
-            Moves.create(Move.FRONT, Move.FRONT_RIGHT),
-            Moves.create(Move.BACK, Move.BACK_LEFT),
-            Moves.create(Move.BACK, Move.BACK_RIGHT),
-            Moves.create(Move.RIGHT, Move.FRONT_RIGHT),
-            Moves.create(Move.RIGHT, Move.BACK_RIGHT),
-            Moves.create(Move.LEFT, Move.FRONT_LEFT),
-            Moves.create(Move.LEFT, Move.BACK_LEFT)
-    );
+    private static final MaMovement movement = new MaMovement();
 
     public Ma(Team team, Position position) {
         super(team, position);
     }
 
     @Override
-    protected List<Moves> getMovesOptions(Position startPosition) {
-        return movesOptions;
+    public List<Moves> getMoveOptions(Position src, Position dest) {
+        return movement.findPossibleMoves();
     }
 
     @Override

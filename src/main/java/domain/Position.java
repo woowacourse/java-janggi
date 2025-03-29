@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Position {
@@ -43,16 +44,48 @@ public class Position {
     }
 
     public boolean isInPalace() {
-        return checkInPalace(row, column);
+        return isInChoPalace(this.row, this.column) || isInHanPalace(this.row, this.column);
     }
 
-    private boolean checkInPalace(int row, int column) {
-        return (row >= 1 && row <= 3 && column >= 4 && column <= 6) ||
-                (row >= 8 && row <= 10 && column >= 4 && column <= 6);
+    private boolean isInChoPalace(int row, int column) {
+        return row >= 8 && row <= 10 && column >= 4 && column <= 6;
+    }
+
+    private boolean isInHanPalace(int row, int column) {
+        return row >= 1 && row <= 3 && column >= 4 && column <= 6;
+    }
+
+    public boolean hasLine(Move move) {
+        if (!canApplyMove(move)) {
+            return false;
+        }
+        if (!List.of(Move.BACK_LEFT, Move.BACK_RIGHT, Move.FRONT_LEFT, Move.FRONT_RIGHT).contains(move)) {
+            return true;
+        }
+        if (isPalaceTopLeft() && move == Move.BACK_RIGHT) {
+            return true;
+        }
+        if (isPalaceTopRight() && move == Move.BACK_LEFT) {
+            return true;
+        }
+        if (isPalaceBottomLeft() && move == Move.FRONT_RIGHT) {
+            return true;
+        }
+        if (isPalaceBottomRight() && move == Move.FRONT_LEFT) {
+            return true;
+        }
+        if (isPalaceCenter() && List.of(Move.BACK_LEFT, Move.BACK_RIGHT, Move.FRONT_LEFT, Move.FRONT_RIGHT)
+                .contains(move)) {
+            return true;
+        }
+        return false;
     }
 
     public boolean canMoveInPalace(Move move) {
-        return checkInPalace(this.row + move.getDy(), this.column + move.getDx());
+        if (isInHanPalace(this.row, this.column)) {
+            return isInHanPalace(this.row + move.getDy(), this.column + move.getDx());
+        }
+        return isInChoPalace(this.row + move.getDy(), this.column + move.getDx());
     }
 
     public Position movePosition(Move move) {

@@ -1,14 +1,23 @@
 package domain.piece;
 
+import domain.Moves;
 import domain.Position;
 import domain.Team;
+import domain.movement.StraightMovement;
+import java.util.List;
 
-public class Po extends RangeMovePiece {
+public class Po extends Piece {
 
-    public static final int SCORE = 7;
+    private static final int SCORE = 7;
+    private static final StraightMovement movement = new StraightMovement();
 
     public Po(Team team, Position position) {
         super(team, position);
+    }
+
+    @Override
+    public List<Moves> getMoveOptions(Position src, Position dest) {
+        return List.of(movement.findPossibleMove(src, dest));
     }
 
     @Override

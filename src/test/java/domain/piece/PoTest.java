@@ -92,7 +92,7 @@ class PoTest {
         // when & then
         assertThatThrownBy(() -> po.calculatePath(src, dest))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이 위치로는 움직일 수 없습니다.");
+                .hasMessage("이 위치로 이동할 수 없습니다.");
     }
 
     @ParameterizedTest

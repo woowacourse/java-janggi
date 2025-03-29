@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.Moves;
 import domain.Position;
 import domain.Team;
 import java.util.List;
@@ -15,7 +16,16 @@ public abstract class Piece {
         this.position = position;
     }
 
-    public abstract List<Position> calculatePath(Position startPosition, Position targetPosition);
+    public abstract List<Moves> getMoveOptions(Position startPosition, Position targetPosition);
+
+    public List<Position> calculatePath(Position src, Position dest) {
+        Moves possibleMoves = getMoveOptions(src, dest).stream()
+                .filter(moves -> moves.isPossibleToArrive(src, dest))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("이 위치로 이동할 수 없습니다."));
+
+        return possibleMoves.convertToPath(src);
+    }
 
     public abstract int getScore();
 
