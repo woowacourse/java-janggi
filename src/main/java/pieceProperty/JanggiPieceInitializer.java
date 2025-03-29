@@ -1,75 +1,75 @@
 package pieceProperty;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import movementRule.Byeong;
-import movementRule.linearMover.Cha;
-import movementRule.omniDirectionMover.Janggun;
-import movementRule.Jol;
 import movementRule.Ma;
-import movementRule.PieceRule;
-import movementRule.linearMover.Po;
-import movementRule.omniDirectionMover.Sa;
 import movementRule.Sang;
-import player.Pieces;
+import movementRule.linearMover.Cha;
+import movementRule.linearMover.Po;
+import movementRule.omniDirectionMover.Janggun;
+import movementRule.omniDirectionMover.Sa;
+import piece.Piece;
+import player.JanggiPan;
 
 public class JanggiPieceInitializer {
 
-    public Pieces hanInit() {
-        List<PieceRule> pieceRules = new ArrayList<>();
+    public JanggiPan hanInit() {
+        Map<Position, Piece> janggiPan = new HashMap<>();
 
-        pieceRules.add(new Cha(new Position(0, 0)));
-        pieceRules.add(new Cha(new Position(0, 8)));
+        janggiPan.put(new Position(0, 0), new Piece(new Cha()));
+        janggiPan.put(new Position(0, 8), new Piece(new Cha()));
 
-        pieceRules.add(new Sang(new Position(0, 1)));
-        pieceRules.add(new Sang(new Position(0, 7)));
+        janggiPan.put(new Position(0, 1), new Piece(new Sang()));
+        janggiPan.put(new Position(0, 7), new Piece(new Sang()));
 
-        pieceRules.add(new Ma(new Position(0, 2)));
-        pieceRules.add(new Ma(new Position(0, 6)));
+        janggiPan.put(new Position(0, 2), new Piece(new Ma()));
+        janggiPan.put(new Position(0, 6), new Piece(new Ma()));
 
-        pieceRules.add(new Sa(new Position(0, 3)));
-        pieceRules.add(new Sa(new Position(0, 5)));
+        janggiPan.put(new Position(0, 3), new Piece(new Sa()));
+        janggiPan.put(new Position(0, 5), new Piece(new Sa()));
 
-        pieceRules.add(new Janggun(new Position(1, 4)));
+        janggiPan.put(new Position(1, 4), new Piece(new Janggun()));
 
-        pieceRules.add(new Po(new Position(2, 1)));
-        pieceRules.add(new Po(new Position(2, 7)));
+        janggiPan.put(new Position(2, 1), new Piece(new Po()));
+        janggiPan.put(new Position(2, 7), new Piece(new Po()));
 
-        pieceRules.add(new Byeong(new Position(3, 0)));
-        pieceRules.add(new Byeong(new Position(3, 2)));
-        pieceRules.add(new Byeong(new Position(3, 4)));
-        pieceRules.add(new Byeong(new Position(3, 6)));
-        pieceRules.add(new Byeong(new Position(3, 8)));
+        janggiPan.put(new Position(3, 0), new Piece(new Byeong()));
+        janggiPan.put(new Position(3, 2), new Piece(new Byeong()));
+        janggiPan.put(new Position(3, 4), new Piece(new Byeong()));
+        janggiPan.put(new Position(3, 6), new Piece(new Byeong()));
+        janggiPan.put(new Position(3, 8), new Piece(new Byeong()));
 
-        return new Pieces(pieceRules);
+        return new JanggiPan(janggiPan);
     }
 
-    public Pieces choInit() {
-        List<PieceRule> pieceRules = new ArrayList<>();
+    public JanggiPan choInit() {
 
-        pieceRules.add(new Cha(new Position(9, 0)));
-        pieceRules.add(new Cha(new Position(9, 8)));
+        Map<Position, Piece> janggiPan = new HashMap<>();
 
-        pieceRules.add(new Sang(new Position(9, 1)));
-        pieceRules.add(new Sang(new Position(9, 7)));
+        janggiPan.put(new Position(9, 0), new Piece(new Cha()));
+        janggiPan.put(new Position(9, 8), new Piece(new Cha()));
 
-        pieceRules.add(new Ma(new Position(9, 2)));
-        pieceRules.add(new Ma(new Position(9, 6)));
+        janggiPan.put(new Position(9, 1), new Piece(new Sang()));
+        janggiPan.put(new Position(9, 7), new Piece(new Sang()));
 
-        pieceRules.add(new Sa(new Position(9, 3)));
-        pieceRules.add(new Sa(new Position(9, 5)));
+        janggiPan.put(new Position(9, 2), new Piece(new Ma()));
+        janggiPan.put(new Position(9, 6), new Piece(new Ma()));
 
-        pieceRules.add(new Janggun(new Position(8, 4)));
+        janggiPan.put(new Position(9, 3), new Piece(new Sa()));
+        janggiPan.put(new Position(9, 5), new Piece(new Sa()));
 
-        pieceRules.add(new Po(new Position(7, 1)));
-        pieceRules.add(new Po(new Position(7, 7)));
+        janggiPan.put(new Position(8, 4), new Piece(new Janggun()));
 
-        pieceRules.add(new Jol(new Position(6, 0)));
-        pieceRules.add(new Jol(new Position(6, 2)));
-        pieceRules.add(new Jol(new Position(6, 4)));
-        pieceRules.add(new Jol(new Position(6, 6)));
-        pieceRules.add(new Jol(new Position(6, 8)));
+        janggiPan.put(new Position(7, 1), new Piece(new Po()));
+        janggiPan.put(new Position(7, 7), new Piece(new Po()));
 
-        return new Pieces(pieceRules);
+        janggiPan.put(new Position(6, 0), new Piece(new Byeong()));
+        janggiPan.put(new Position(6, 2), new Piece(new Byeong()));
+        janggiPan.put(new Position(6, 4), new Piece(new Byeong()));
+        janggiPan.put(new Position(6, 6), new Piece(new Byeong()));
+        janggiPan.put(new Position(6, 8), new Piece(new Byeong()));
+
+        return new JanggiPan(janggiPan);
     }
 }

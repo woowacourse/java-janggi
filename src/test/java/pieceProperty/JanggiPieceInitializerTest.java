@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import player.Pieces;
+import player.JanggiPan;
 
-class PieceRuleInitializerTest {
+class JanggiPieceInitializerTest {
 
     @DisplayName("초나라 기물의 위치를 초기화 할 수 있다.")
     @Test
@@ -15,10 +15,10 @@ class PieceRuleInitializerTest {
         JanggiPieceInitializer janggiPieceInitializer = new JanggiPieceInitializer();
 
         //when
-        Pieces actual = janggiPieceInitializer.choInit();
+        JanggiPan actual = janggiPieceInitializer.choInit();
 
         //then
-        assertThat(actual.getPieces()).hasSize(16);
+        assertThat(actual.getPieces().keySet()).hasSize(16);
     }
 
     @DisplayName("한나라 기물의 위치를 초기화 할 수 있다.")
@@ -28,7 +28,7 @@ class PieceRuleInitializerTest {
         JanggiPieceInitializer janggiPieceInitializer = new JanggiPieceInitializer();
 
         //when
-        Pieces actual = janggiPieceInitializer.hanInit();
+        JanggiPan actual = janggiPieceInitializer.hanInit();
 
         //then
         assertThat(actual.getPieces()).hasSize(16);
