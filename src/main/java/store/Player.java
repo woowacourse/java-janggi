@@ -17,8 +17,9 @@ public class Player {
         this.team = team;
     }
 
-    public void add(Piece piece) {
-        pieces.add(piece);
+    public void replace(Piece piece, Piece movedPiece) {
+        pieces.delete(piece);
+        pieces.add(movedPiece);
     }
 
     public void catchPiece(Piece piece) {

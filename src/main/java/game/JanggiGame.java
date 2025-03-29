@@ -29,44 +29,42 @@ public class JanggiGame {
 
     public void run() {
         Team winTeam = play();
-        Player greenPlayer = gameBoard.findPlayerBy(Team.GREEN);
-        Player redPlayer = gameBoard.findPlayerBy(Team.RED);
+        double greenPlayerTotalScore = gameBoard.findPlayerBy(Team.GREEN).calculateTotalScore();
+        double redPlayerTotalScore = gameBoard.findPlayerBy(Team.RED).calculateTotalScore();
+
         if(winTeam.isNotDecided()) {
-            if(greenPlayer.calculateTotalScore() > redPlayer.calculateTotalScore()) {
-                winTeam = Team.GREEN;
-            }
-            if (greenPlayer.calculateTotalScore() < redPlayer.calculateTotalScore()) {
-                winTeam = Team.RED;
-            }
+            winTeam = decideWinTeam(greenPlayerTotalScore, redPlayerTotalScore);
         }
-        OutputView.displayResult(winTeam, greenPlayer.calculateTotalScore(), redPlayer.calculateTotalScore());
+
+        OutputView.displayResult(winTeam, greenPlayerTotalScore, redPlayerTotalScore);
     }
 
     private Team play() {
-        Team currentTeam = Team.RED;
+        Team currentTeam = Team.findLatter();
         while (true) {
             currentTeam = Team.findOpponentBy(currentTeam);
             Player currentPlayer = gameBoard.findPlayerBy(currentTeam);
 
-            AnswerType isEndAnswer = InputView.requestEndGame();
-            if(isEndAnswer.isPositive()) {
+            if(requestEndGame().isPositive()) {
                 return Team.NONE;
             }
 
             Position start = requestMovementStartPosition(currentPlayer);
-            Position end = InputView.requestMovementEndPosition();
-            validateRange(end);
-
-            currentPlayer.checkPlayerPieceAlreadyInDestination(end);
-            PathUtility.checkNotSameStartWithEnd(start, end);
+            Position end = requestMovementEndPosition();
 
             move(currentPlayer, start, end);
-            boolean isGeneralCatched = catchPiece(currentPlayer, Team.findOpponentBy(currentTeam), end);
-            if(isGeneralCatched) {
+
+            Team opponent = Team.findOpponentBy(currentTeam);
+            boolean isGeneralCatch = catchPiece(currentPlayer, opponent, end);
+            if(isGeneralCatch) {
                 return currentTeam;
             }
             OutputView.displayBoard(gameBoard);
         }
+    }
+
+    private AnswerType requestEndGame() {
+        return InputView.requestEndGame();
     }
 
     private Position requestMovementStartPosition(Player player) {
@@ -81,7 +79,16 @@ public class JanggiGame {
         }
     }
 
+    private Position requestMovementEndPosition() {
+        Position end = InputView.requestMovementEndPosition();
+        validateRange(end);
+        return end;
+    }
+
     public void move(Player currentPlayer, Position start, Position end) {
+        currentPlayer.checkPlayerPieceAlreadyInDestination(end);
+        PathUtility.checkNotSameStartWithEnd(start, end);
+
         Pieces allPieces = gameBoard.findAllPieces();
         Piece piece = currentPlayer.getPieceByPoint(start);
 
@@ -89,8 +96,7 @@ public class JanggiGame {
         piece.validatePaths(allPieces, end);
         Piece movedPiece = piece.move(end);
 
-        currentPlayer.delete(piece);
-        currentPlayer.add(movedPiece);
+        currentPlayer.replace(piece, movedPiece);
     }
 
     private boolean catchPiece(Player currentPlayer, Team opponent, Position end) {
@@ -102,6 +108,13 @@ public class JanggiGame {
             return PieceType.isGeneral(opponentPiece);
         }
         return false;
+    }
+
+    private Team decideWinTeam(double greenPlayerTotalScore, double redPlayerTotalScore) {
+        if(greenPlayerTotalScore > redPlayerTotalScore) {
+            return Team.GREEN;
+        }
+        return Team.RED;
     }
 
     private void validateRange(Position position) {

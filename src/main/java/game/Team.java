@@ -11,10 +11,6 @@ public enum Team {
         this.initialScore = initialScore;
     }
 
-    public double getInitialScore() {
-        return initialScore;
-    }
-
     public static Team findOpponentBy(Team team) {
         if(team == RED) {
             return GREEN;
@@ -23,6 +19,14 @@ public enum Team {
             return RED;
         }
         throw new IllegalStateException("[ERROR] 유효하지 않은 팀입니다.");
+    }
+
+    public static Team findLatter() {
+        return Team.RED;
+    }
+
+    public double getInitialScore() {
+        return initialScore;
     }
 
     public boolean isNotDecided() {
