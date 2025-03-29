@@ -115,6 +115,17 @@ public class JanggiBoardView {
         return scanner.nextLine().trim();
     }
 
+    public void printScoreAndWinner(int hanScore, int chuScore) {
+        System.out.println("한나라 점수는 " + hanScore + "점 입니다.");
+        System.out.println("초나라 점수는 " + chuScore + "점 입니다.");
+        Dynasty winnerDynasty = hanScore > chuScore ? Dynasty.HAN : Dynasty.CHU;
+        printWinDynasty(winnerDynasty);
+    }
+
+    public void printWinDynasty(Dynasty winnerDynasty) {
+        System.out.println(winnerDynasty  + "나라가 우승하였습니다.");
+    }
+
     public record Movement(
             String command, int startX, int startY, int endX, int endY
     ) {

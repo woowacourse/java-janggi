@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 
 public class JanggiBoard {
@@ -84,15 +85,19 @@ public class JanggiBoard {
         return new JanggiBoard(pieceMap);
     }
 
-    public void move(Dynasty dynasty, Point start, Point end) {
+    public GameState move(Dynasty dynasty, Point start, Point end) {
         Piece startPiece = getStartPiece(start);
         if (isPointSameDynasty(end, dynasty)) {
             throw new IllegalArgumentException("이미 놓여져 있는 기물이 존재합니다.");
         }
         if (startPiece.canMove(this, dynasty, start, end)) {
-            boardPieces.remove(start);
+            Piece removed = boardPieces.remove(start);
             boardPieces.put(end, startPiece);
+            if (removed.isEqualPieceType(PieceType.GENERAL)) {
+                return GameState.GAME_END;
+            }
         }
+        return GameState.RUN;
     }
 
     public boolean isExistPiece(Point point) {
@@ -151,6 +156,27 @@ public class JanggiBoard {
             return endPointPiece.isSameDynasty(currentTurnDynasty);
         }
         return false;
+    }
+
+    public int calculateScore(Dynasty dynasty) {
+        int score = 0;
+        for (Entry<Point, Piece> entry : boardPieces.entrySet()) {
+            Piece piece = entry.getValue();
+            if (entry.getValue().isSameDynasty(dynasty)) {
+                score += piece.getScore();
+            }
+        }
+        return score;
+    }
+
+    public Dynasty getWinnerDynasty() {
+        for (Piece piece : boardPieces.values()) {
+            if (piece.getPieceType() == PieceType.GENERAL && piece.getDynasty() == Dynasty.HAN) {
+                return Dynasty.CHU;
+
+            }
+        }
+        return Dynasty.HAN;
     }
 
     @Override

@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.BoardSetUp;
+import janggi.domain.board.GameState;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Point;
 import janggi.domain.player.Player;
@@ -37,15 +38,17 @@ public class JanggiGame {
 
     private void playJanggi(Players players, JanggiBoard janggiBoard) {
         Dynasty currentTurnDynasty = Dynasty.CHU;
-        while (true) {
+        GameState gameState = GameState.RUN;
+        while (gameState.isRun()) {
             Player currentTurnPlayer = players.findDynastyPlayer(currentTurnDynasty);
             try {
                 Movement movement = janggiBoardView.readPlayerMove(currentTurnPlayer);
                 if (movement.isEnd()) {
-                    break;
+                    gameState = GameState.USER_END;
                 }
                 if (movement.isMove()) {
-                    janggiBoard.move(currentTurnDynasty, new Point(movement.startX(), movement.startY()),
+                    gameState = janggiBoard.move(currentTurnDynasty,
+                            new Point(movement.startX(), movement.startY()),
                             new Point(movement.endX(), movement.endY()));
                     janggiBoardView.printBoard(janggiBoard.getBoardPieces());
                     currentTurnDynasty = changePlayerTurn(currentTurnDynasty);
@@ -53,6 +56,14 @@ public class JanggiGame {
             } catch (RuntimeException e) {
                 janggiBoardView.printException(e.getMessage());
             }
+        }
+        if(gameState == GameState.USER_END) {
+            int hanScore = janggiBoard.calculateScore(Dynasty.HAN);
+            int chuScore = janggiBoard.calculateScore(Dynasty.CHU);
+            janggiBoardView.printScoreAndWinner(hanScore, chuScore);
+        }
+        if(gameState == GameState.GAME_END) {
+            janggiBoardView.printWinDynasty(janggiBoard.getWinnerDynasty());
         }
     }
 

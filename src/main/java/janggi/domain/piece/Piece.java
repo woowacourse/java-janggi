@@ -64,4 +64,8 @@ public abstract class Piece {
     public Dynasty getDynasty() {
         return dynasty;
     }
+
+    public int getScore() {
+        return pieceType.getScore();
+    }
 }
