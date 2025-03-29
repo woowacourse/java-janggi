@@ -16,7 +16,7 @@ public enum Column {
 
     private static final int MAXIMUM = 8;
     private static final int MINIMUM = 0;
-    
+
     private final int value;
 
     Column(final int value) {
@@ -33,5 +33,9 @@ public enum Column {
     public boolean canMove(int movement) {
         int movedColumn = value + movement;
         return movedColumn >= MINIMUM && movedColumn <= MAXIMUM;
+    }
+
+    public int difference(Column other) {
+        return this.value - other.value;
     }
 }

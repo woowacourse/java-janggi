@@ -35,4 +35,8 @@ public enum Row {
         int movedColumn = value + movement;
         return movedColumn >= MINIMUM && movedColumn <= MAXIMUM;
     }
+
+    public int difference(Row other) {
+        return this.value - other.value;
+    }
 }

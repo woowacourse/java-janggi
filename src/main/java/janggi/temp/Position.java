@@ -83,6 +83,60 @@ public record Position(Column column, Row row) {
         return canMoveColumn && canMoveRow;
     }
 
+    public boolean isOrthogonallyAligned(final Position other) {
+        return this.row == other.row || this.column == other.column;
+    }
+
+    public boolean isDiagonallyAlignedInPalace(final Position other) {
+        return isPalace() && other.isPalace() && isDiagonallyAligned(other);
+    }
+
+    public Movement getMovement(final Position to) {
+        if (this.equals(to)) {
+            throw new IllegalStateException("[ERROR] 같은 위치입니다.");
+        }
+
+        if (this.column == to.column) { // 같은 열
+            if (this.row.difference(to.row) < 0) { // to의 행번호가 더 크다
+                return Movement.DOWN;
+            }
+            if (this.row.difference(to.row) > 0) { // to의 열번호가 더 작다
+                return Movement.UP;
+            }
+        }
+        if (this.row == to.row) { // 같은 행
+            if (this.column.difference(to.column) < 0) { // to의 행번호가 더 크다
+                return Movement.RIGHT;
+            }
+            if (this.column.difference(to.column) > 0) { // to의 행번호가 더 작다
+                return Movement.LEFT;
+            }
+        }
+        if (isDiagonallyAligned(to)) { // 대각선
+            if (this.column.difference(to.column) < 0) { // to가 열 번호가 더 크다
+                if (this.row.difference(to.row) < 0) { // to가 행 번호가 더 크다
+                    return Movement.RIGHT_DOWN;
+                }
+                if (this.row.difference(to.row) > 0) { // to가 행 번호가 더 작다
+                    return Movement.RIGHT_UP;
+                }
+            }
+            if (this.column.difference(to.column) > 0) { // to가 열 번호가 더 작다
+                if (this.row.difference(to.row) < 0) { // to가 행 번호가 더 크다
+                    return Movement.LEFT_DOWN;
+                }
+                if (this.row.difference(to.row) > 0) { // to가 행 번호가 더 작다
+                    return Movement.LEFT_UP;
+                }
+            }
+        }
+        throw new IllegalStateException("[ERROR] 직선 혹은 대각선 이동으로 갈 수 없는 위치입니다.");
+    }
+
+    private boolean isDiagonallyAligned(final Position other) {
+        return Math.abs(this.row.difference(other.row)) == Math.abs(this.column.difference(other.column));
+    }
+
     public boolean isPalace() {
         return palace.contains(this);
     }
