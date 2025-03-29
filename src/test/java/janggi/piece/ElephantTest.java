@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.piece.pieces.Elephant;
 import janggi.position.Position;
 import janggi.position.Route;
 import java.util.List;
@@ -7,15 +8,15 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class ElephantUnitRuleTest {
+class ElephantTest {
     @Test
     @DisplayName("상은 직선-대각선-대각선으로만 움직일 수 있다")
     void test1() {
         // given
-        ElephantUnitRule elephantUnitRule = new ElephantUnitRule();
+        Elephant elephantUnitRule = new Elephant(Team.CHO);
 
         // when
-        List<Route> routes = elephantUnitRule.calculateAllRoute(new Position(0, 0));
+        List<Route> routes = elephantUnitRule.calculateRoutes(new Position(0, 0));
 
         // then
         Assertions.assertThat(routes).isNotEmpty();
