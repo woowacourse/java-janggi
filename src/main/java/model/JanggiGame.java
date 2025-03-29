@@ -11,29 +11,39 @@ import utils.InputParser;
 
 public class JanggiGame {
 
+    private static final PieceDao pieceDao = new PieceDao();
+    private static final GameDao gameDao = new GameDao();
     private final Pieces pieces;
     private Team turn;
-    private final PieceDao pieceDao;
-    private final GameDao gameDao;
 
-    public JanggiGame() {
-        Map<Position, Piece> pieces;
-        pieceDao = new PieceDao();
-        gameDao = new GameDao();
+    private JanggiGame(Map<Position, Piece> pieces, Team turn) {
+        this.pieces = new Pieces(pieces);
+        this.turn = turn;
+    }
+
+    public static JanggiGame initPiecesFrom() {
+        Map<Position, Piece> pieces = initPieces();
+        Team turn = initTeam();
+        return new JanggiGame(pieces, turn);
+    }
+
+    private static Map<Position, Piece> initPieces() {
         Map<Position, Piece> allPieces = pieceDao.getAllPieces();
         if (allPieces.isEmpty()) {
-            pieces = PieceInitializer.generate();
-            this.pieces = new Pieces(pieces);
-            pieceDao.addPieces(pieces);
-        } else {
-            this.pieces = new Pieces(allPieces);
+            Map<Position, Piece> generatePieces = PieceInitializer.generate();
+            pieceDao.addPieces(generatePieces);
+            return generatePieces;
         }
+        return allPieces;
+    }
+
+    private static Team initTeam() {
         if (gameDao.getTurn() == null) {
-            turn = Team.GREEN;
+            Team turn = Team.GREEN;
             gameDao.addTurn(turn);
-        } else {
-            turn = gameDao.getTurn();
+            return turn;
         }
+        return gameDao.getTurn();
     }
 
     public Map<Position, Piece> getPieces() {

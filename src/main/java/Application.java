@@ -11,7 +11,7 @@ public class Application {
 
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
-    private static final JanggiGame janggiGame = new JanggiGame();
+    private static final JanggiGame janggiGame = JanggiGame.initPiecesFrom();
 
     public static void main(String[] args) {
         outputView.printJanggiStart();
