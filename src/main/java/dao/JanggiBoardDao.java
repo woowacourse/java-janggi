@@ -48,7 +48,7 @@ public class JanggiBoardDao implements BoardDao {
     }
 
     private int findPieceTypeId(Piece type) {
-        final String query = "SELECT id FROM pieceType WHERE name = ?";
+        final String query = "SELECT id FROM piece_type WHERE name = ?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, type.name);
@@ -124,7 +124,7 @@ public class JanggiBoardDao implements BoardDao {
     }
 
     private Piece findPieceType(final int typeId) {
-        final String query = "SELECT name FROM pieceType WHERE id = ?";
+        final String query = "SELECT name FROM piece_type WHERE id = ?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, typeId);
