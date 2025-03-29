@@ -54,8 +54,6 @@ class CannonTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-
-
     @Test
     @DisplayName("기물 하나를 넘으면 이동할 수 있다.")
     void test11() {
