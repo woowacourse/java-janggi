@@ -47,8 +47,8 @@ public class Janggi {
                 .toList();
     }
 
-    public boolean isNoneEnemyUnit() {
-        return pieces.isNoneSameTeamUnit(turn);
+    public boolean isNoneEnemyGeneralUnit() {
+        return pieces.isNoneTeamGeneralUnit(turn);
     }
 
     private List<Route> findAvailableRoute(List<Route> routes, Position startPoint) {

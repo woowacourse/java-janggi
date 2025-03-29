@@ -1,5 +1,6 @@
 package janggi.game;
 
+import janggi.piece.PieceType;
 import janggi.piece.pieces.Piece;
 import janggi.position.Position;
 import janggi.piece.DefaultPosition;
@@ -59,8 +60,10 @@ public class Pieces {
         return piece.getTeam();
     }
 
-    public boolean isNoneSameTeamUnit(Team turn) {
-        return pieces.values().stream().noneMatch(unit -> unit.getTeam() != turn);
+    public boolean isNoneTeamGeneralUnit(Team turn) {
+        return pieces.values().stream()
+                .filter(piece -> piece.getTeam() != turn)
+                .noneMatch(piece -> piece.getType() == PieceType.KING);
     }
 
     public boolean isEmptyPoint(Position pick) {

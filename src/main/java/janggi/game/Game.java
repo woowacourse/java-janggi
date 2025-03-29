@@ -46,13 +46,16 @@ public class Game {
         outputView.printPieces(janggi.getPieces());
 
         Position position = getPosition(janggi);
+        if (position == null) {
+            return GameState.QUIT;
+        }
         janggi.judgeUnitTurn(position);
 
         List<Route> routes = janggi.searchAvailableRoutes(position);
         outputView.printAvailableRoute(routes, position);
 
         moveAndCaptureIfEnemyExists(janggi, routes, position);
-        if (janggi.isNoneEnemyUnit()) {
+        if (janggi.isNoneEnemyGeneralUnit()) {
             return GameState.QUIT;
         }
         janggi.changeTurn();
@@ -62,6 +65,9 @@ public class Game {
     private Position getPosition(Janggi janggi) {
         List<Integer> positionValue = handleInputException(() ->
                 inputView.readPosition(janggi.getTurn()), Game::getPosition);
+        if (positionValue == null) {
+            return null;
+        }
         if (positionValue.size() != POSITION_INPUT_SIZE) {
             throw new IllegalArgumentException("column, row 형태로 입력해주세요.");
         }
@@ -70,6 +76,9 @@ public class Game {
 
     private static List<Integer> getPosition(String rawPosition) {
         try {
+            if (rawPosition.equalsIgnoreCase("end")) {
+                return null;
+            }
             return Arrays.stream(rawPosition.split(","))
                     .map(String::trim)
                     .map(Integer::parseInt)
