@@ -1,8 +1,9 @@
 package dao;
 
+import dao.init.ConnectionFactory;
 import dao.init.DatabaseSetting;
 import domain.piece.character.Team;
-import fixture.DatabaseConnectionFixture;
+import fixture.TestConnectionFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
@@ -14,12 +15,13 @@ import org.junit.jupiter.api.Test;
 
 class GameRoomDaoTest {
 
+    private final ConnectionFactory connectionFactory = new TestConnectionFactory();
     private Connection testConnection;
     private GameRoomDao gameRoomDao;
 
     @BeforeEach
     void setupConnection() throws SQLException {
-        testConnection = DatabaseConnectionFixture.getTestConnection();
+        testConnection = connectionFactory.createConnection();
         testConnection.setAutoCommit(false);
         DatabaseSetting.settingTable(testConnection);
         gameRoomDao = new GameRoomDao();

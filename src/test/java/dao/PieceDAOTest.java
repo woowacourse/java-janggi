@@ -1,10 +1,11 @@
 package dao;
 
+import dao.init.ConnectionFactory;
 import dao.init.DatabaseSetting;
 import domain.piece.character.PieceType;
 import domain.piece.character.Team;
 import domain.point.Point;
-import fixture.DatabaseConnectionFixture;
+import fixture.TestConnectionFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,13 +19,14 @@ class PieceDaoTest {
 
     private static final String GAME_ROOM_NAME = "room1";
 
+    private final ConnectionFactory connectionFactory = new TestConnectionFactory();
     private Connection testConnection;
     private PieceDao pieceDAO;
     private GameRoomDao gameRoomDAO;
 
     @BeforeEach
     void setupConnection() throws SQLException {
-        testConnection = DatabaseConnectionFixture.getTestConnection();
+        testConnection = connectionFactory.createConnection();
         testConnection.setAutoCommit(false);
         DatabaseSetting.settingTable(testConnection);
         pieceDAO = new PieceDao();

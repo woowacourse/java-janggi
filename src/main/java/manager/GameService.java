@@ -4,7 +4,7 @@ import dao.GameRoomDao;
 import dao.GameRoomEntity;
 import dao.PieceDao;
 import dao.converter.BoardConverter;
-import dao.init.ConnectionGenerator;
+import dao.init.ConnectionFactory;
 import domain.JanggiGame;
 import domain.board.Board;
 import domain.board.BoardGenerator;
@@ -21,11 +21,14 @@ public class GameService {
 
     private final GameRoomDao gameRoomDao;
     private final PieceDao pieceDao;
+    private final ConnectionFactory connectionFactory;
+
     private JanggiGame janggiGame;
 
-    public GameService(GameRoomDao gameRoomDao, PieceDao pieceDao) {
+    public GameService(GameRoomDao gameRoomDao, PieceDao pieceDao, ConnectionFactory connectionFactory) {
         this.gameRoomDao = gameRoomDao;
         this.pieceDao = pieceDao;
+        this.connectionFactory = connectionFactory;
     }
 
     public boolean existsGameRoom(final String gameRoomName) {
@@ -108,7 +111,7 @@ public class GameService {
     }
 
     private Connection getConnection() {
-        return ConnectionGenerator.getConnection();
+        return connectionFactory.createConnection();
     }
 
     public boolean isPlaying() {

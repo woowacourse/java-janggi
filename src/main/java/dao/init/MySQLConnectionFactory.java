@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ConnectionGenerator {
+public class MySQLConnectionFactory implements ConnectionFactory {
 
     private static final String IP = "localhost";
     private static final String DATABASE_NAME = "janggi";
@@ -15,7 +15,8 @@ public class ConnectionGenerator {
     private static final String PASSWORD = "root";
     private static final String PORT = "13306";
 
-    public static Connection getConnection() {
+    @Override
+    public Connection createConnection() {
         try {
             return DriverManager.getConnection(
                     "jdbc:mysql://" + joinURL(IP, PORT) + "/" + DATABASE_NAME
@@ -25,7 +26,7 @@ public class ConnectionGenerator {
         }
     }
 
-    private static String joinURL(String ip, String port) {
+    private String joinURL(String ip, String port) {
         return String.join(":", List.of(ip, port));
     }
 }

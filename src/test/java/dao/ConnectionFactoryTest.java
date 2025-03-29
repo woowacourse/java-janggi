@@ -1,16 +1,17 @@
 package dao;
 
 import dao.init.ConnectionFactory;
-import dao.init.DatabaseSetting;
 import fixture.TestConnectionFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class DatabaseSettingTest {
+class ConnectionFactoryTest {
+
     private final ConnectionFactory connectionFactory = new TestConnectionFactory();
 
     @Test
-    void 데이터베이스_테이블_생성_초기화_테스트() {
-        Assertions.assertThatCode(() -> DatabaseSetting.settingTable(connectionFactory.createConnection()));
+    void 데이터베이스_네트워크_연결_테스트() {
+        Assertions.assertThatCode(connectionFactory::createConnection)
+                .doesNotThrowAnyException();
     }
 }
