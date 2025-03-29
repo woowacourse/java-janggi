@@ -4,9 +4,9 @@ import pieceProperty.Position;
 import pieceProperty.Positions;
 
 public class Player {
-    private final Pieces pieces;
+    private final JanggiPan pieces;
 
-    public Player(final Pieces pieces) {
+    public Player(JanggiPan pieces) {
         this.pieces = pieces;
     }
 
@@ -34,10 +34,6 @@ public class Player {
         return pieces.makeRoute(presentPosition, destination);
     }
 
-    public void removePiece(final Position destination) {
-        pieces.removePiece(destination);
-    }
-
     public boolean isJanggunDie() {
         return pieces.hasJanggun();
     }
@@ -50,7 +46,7 @@ public class Player {
         return pieces.isExistPoInRoute(route);
     }
 
-    public Pieces getPieces() {
+    public JanggiPan getPieces() {
         return pieces;
     }
 
