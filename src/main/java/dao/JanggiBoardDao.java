@@ -3,6 +3,7 @@ package dao;
 import domain.janggiPiece.JanggiChessPiece;
 import domain.janggiPiece.Piece;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 
 import java.sql.Connection;
@@ -10,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JanggiBoardDao implements BoardDao {
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
@@ -69,6 +72,26 @@ public class JanggiBoardDao implements BoardDao {
                 return resultSet.getInt("id");
             }
             throw new RuntimeException(team + " 팀이 존재하지 않습니다.");
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Map<JanggiPosition, JanggiChessPiece> findAll() {
+        final var query = "SELECT * FROM piece";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            final var resultSet = preparedStatement.executeQuery();
+            Map<JanggiPosition, JanggiChessPiece> result = new HashMap<>();
+            while (resultSet.next()) {
+                final int row = resultSet.getInt("position_row");
+                final int col = resultSet.getInt("position_col");
+                final int typeId = resultSet.getInt("type_id");
+                final int teamId = resultSet.getInt("team_id");
+                result.put(JanggiPositionFactory.of(row, col), createPiece(typeId, teamId));
+            }
+            return result;
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -153,6 +176,17 @@ public class JanggiBoardDao implements BoardDao {
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, position.getRow());
             preparedStatement.setInt(2, position.getCol());
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        final var query = "TRUNCATE piece";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
