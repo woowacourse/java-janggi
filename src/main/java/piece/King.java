@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import board.Board;
 import board.Position;
+import piece.movement.PalaceMovement;
 
 public class King extends Piece {
 
@@ -13,10 +14,13 @@ public class King extends Piece {
     }
 
     @Override
-    protected Set<Position> getMovablePositions(final Position position, final Board board) {
-        return Direction.getStraightDirection().stream()
-                .map(position::moveByDirection)
-                .filter(movePosition -> isMovable(movePosition, board))
+    protected Set<Position> getMovablePositions(final Position startPosition, final Board board) {
+        if (!startPosition.isPalacePosition()) {
+            throw new IllegalStateException("궁은 궁성 영역 밖에 존재할 수 없습니다.");
+        }
+        return PalaceMovement.applyMovement(startPosition)
+                .stream()
+                .filter(candidatePosition -> isMovable(candidatePosition, board))
                 .collect(Collectors.toSet());
     }
 
@@ -26,7 +30,7 @@ public class King extends Piece {
     }
 
     private boolean isMovable(final Position position, final Board board) {
-        return !board.isExists(position) || !board.isSameTeamPosition(this.team, position);
+        return position.isPalacePosition() && !board.isSameTeamPosition(this.team, position);
     }
 
 }
