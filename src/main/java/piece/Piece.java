@@ -15,4 +15,6 @@ public interface Piece {
     Position getCurrentPosition();
 
     PieceType getPieceType();
+
+    int getScore();
 }

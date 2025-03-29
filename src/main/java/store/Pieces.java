@@ -14,6 +14,10 @@ public class Pieces {
         this.pieces = new ArrayList<>(pieces);
     }
 
+    public static Pieces createBeforeCatching() {
+        return new Pieces(new ArrayList<>());
+    }
+
     public void add(Piece piece) {
         pieces.add(piece);
     }
@@ -47,5 +51,11 @@ public class Pieces {
         if (isContainedPieceAtPosition(position)) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
+    }
+
+    public int calculateTotalScore() {
+        return pieces.stream()
+                .mapToInt(Piece::getScore)
+                .sum();
     }
 }

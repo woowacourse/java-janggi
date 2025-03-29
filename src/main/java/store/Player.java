@@ -8,15 +8,21 @@ import piece.Piece;
 public class Player {
 
     private final Pieces pieces;
+    private final Pieces catchedPieces;
     private final Team team;
 
-    public Player(Pieces pieces, Team team) {
+    public Player(Pieces pieces, Pieces catchedPieces, Team team) {
         this.pieces = pieces;
+        this.catchedPieces = catchedPieces;
         this.team = team;
     }
 
     public void add(Piece piece) {
         pieces.add(piece);
+    }
+
+    public void catchPiece(Piece piece) {
+        catchedPieces.add(piece);
     }
 
     public Piece getPieceByPoint(Position position) {
@@ -25,6 +31,10 @@ public class Player {
 
     public List<Piece> getPieces() {
         return pieces.getPieces();
+    }
+
+    public double calculateTotalScore() {
+        return team.getInitialScore() - catchedPieces.calculateTotalScore();
     }
 
     public void delete(Piece piece) {
@@ -43,7 +53,7 @@ public class Player {
         return pieces.isAlreadyPieceInPosition(position);
     }
 
-    public void validateAlreadyPlayerPieceInDestination(Position end) {
+    public void checkPlayerPieceAlreadyInDestination(Position end) {
         if (isAlreadyPlayerPieceInPosition(end)) {
             throw new IllegalArgumentException("[ERROR] 목적지에 본인의 기물이 존재합니다.");
         }

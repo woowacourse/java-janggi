@@ -25,9 +25,11 @@ public class Horse implements Piece {
             new Distance(2, 1), List.of(RIGHT)
     );
 
+    private final PieceType pieceType;
     private final Position currentPosition;
 
     public Horse(Position currentPosition) {
+        this.pieceType = PieceType.HORSE;
         this.currentPosition = currentPosition;
     }
 
@@ -67,7 +69,12 @@ public class Horse implements Piece {
 
     @Override
     public PieceType getPieceType() {
-        return PieceType.HORSE;
+        return pieceType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 
     private List<Direction> findPathsBy(Distance distance) {

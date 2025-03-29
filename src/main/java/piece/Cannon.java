@@ -6,9 +6,11 @@ import java.util.List;
 import store.Pieces;
 
 public class Cannon implements Piece {
+    private final PieceType pieceType;
     private final Position currentPosition;
 
     public Cannon(Position currentPosition) {
+        this.pieceType = PieceType.CANNON;
         this.currentPosition = currentPosition;
     }
 
@@ -44,7 +46,12 @@ public class Cannon implements Piece {
 
     @Override
     public PieceType getPieceType() {
-        return PieceType.CANNON;
+        return pieceType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 
     private int calculateNotCannonCountInPaths(Pieces pieces, Position destination) {

@@ -6,9 +6,11 @@ import location.Position;
 import store.Pieces;
 
 public class General implements Piece {
+    private final PieceType pieceType;
     private final Position currentPosition;
 
     public General(Position currentPosition) {
+        this.pieceType = PieceType.GENERAL;
         this.currentPosition = currentPosition;
     }
 
@@ -44,7 +46,12 @@ public class General implements Piece {
 
     @Override
     public PieceType getPieceType() {
-        return PieceType.GENERAL;
+        return pieceType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 
     private static void checkInPalace(Position destination) {

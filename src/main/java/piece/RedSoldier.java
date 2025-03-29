@@ -14,9 +14,11 @@ public class RedSoldier implements Piece {
     private static final Position DIAGONAL_POSSIBLE_POSITON = new Position(5, 9);
     private static final List<Position> VALID_PALACE_DIAGONAL_MOVEMENT = List.of(new Position(4, 10), new Position(6, 10));
 
+    private final PieceType pieceType;
     private final Position currentPosition;
 
     public RedSoldier(Position currentPosition) {
+        this.pieceType = PieceType.SOLIDER;
         this.currentPosition = currentPosition;
     }
 
@@ -52,7 +54,12 @@ public class RedSoldier implements Piece {
 
     @Override
     public PieceType getPieceType() {
-        return PieceType.SOLIDER;
+        return pieceType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 
     private void checkStraightForwardOneMovement(Position destination) {

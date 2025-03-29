@@ -51,4 +51,11 @@ public class OutputView {
     public static void displayWrongPoint() {
         System.out.println("자신의 기물이 위치한 좌표를 선택해주세요.");
     }
+
+    public static void displayResult(Team winTeam, double greenPlayerTotalScore, double redPlayerTotalScore) {
+        System.out.println("---------- 게임 결과 ----------");
+        System.out.println("승: " + OutputFormatter.getTeamPrintFormatBy(winTeam));
+        System.out.println(OutputFormatter.getTeamPrintFormatBy(Team.GREEN) + "점수: " + greenPlayerTotalScore);
+        System.out.println(OutputFormatter.getTeamPrintFormatBy(Team.RED) + "점수: " + redPlayerTotalScore);
+    }
 }

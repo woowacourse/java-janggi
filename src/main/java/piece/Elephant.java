@@ -29,9 +29,11 @@ public class Elephant implements Piece {
             new Distance(3, 2), List.of(RIGHT, DOWN_RIGHT_DIAGONAL)
     );
 
+    private final PieceType pieceType;
     private final Position currentPosition;
 
     public Elephant(Position currentPosition) {
+        this.pieceType = PieceType.ELEPHANT;
         this.currentPosition = currentPosition;
     }
 
@@ -71,7 +73,12 @@ public class Elephant implements Piece {
 
     @Override
     public PieceType getPieceType() {
-        return PieceType.ELEPHANT;
+        return pieceType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 
     private List<Direction> findPathsBy(Distance distance) {

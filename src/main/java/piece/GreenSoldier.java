@@ -16,9 +16,11 @@ public class GreenSoldier implements Piece {
     private static final Position DIAGONAL_POSSIBLE_POSITON = new Position(5, 2);
     private static final List<Position> VALID_PALACE_DIAGONAL_MOVEMENT = List.of(new Position(4, 1), new Position(6, 3));
 
+    private final PieceType pieceType;
     private final Position currentPosition;
 
     public GreenSoldier(Position currentPosition) {
+        this.pieceType = PieceType.SOLIDER;
         this.currentPosition = currentPosition;
     }
 
@@ -54,7 +56,12 @@ public class GreenSoldier implements Piece {
 
     @Override
     public PieceType getPieceType() {
-        return PieceType.SOLIDER;
+        return pieceType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 
     private void checkStraightForwardOneMovement(Position destination) {

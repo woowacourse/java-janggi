@@ -7,9 +7,11 @@ import java.util.List;
 import store.Pieces;
 
 public class Chariot implements Piece {
+    private final PieceType pieceType;
     private final Position currentPosition;
 
-    public Chariot( Position currentPosition) {
+    public Chariot(Position currentPosition) {
+        this.pieceType = PieceType.CHARIOT;
         this.currentPosition = currentPosition;
     }
 
@@ -46,6 +48,11 @@ public class Chariot implements Piece {
 
     @Override
     public PieceType getPieceType() {
-        return PieceType.CHARIOT;
+        return pieceType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 }

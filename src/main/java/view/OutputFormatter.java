@@ -1,5 +1,6 @@
 package view;
 
+import game.Team;
 import java.util.Map;
 import piece.PieceType;
 
@@ -24,11 +25,20 @@ public class OutputFormatter {
             PieceType.SOLIDER, "S"
     );
 
+    private static final Map<Team, String> TEAM_PRINT_FORMAT = Map.of(
+            Team.GREEN, "초",
+            Team.RED, "한"
+    );
+
     public static String getGreenPiecePrintFormatBy(PieceType pieceType) {
         return GREEN_PIECE_PRINT_FORMAT.get(pieceType);
     }
 
     public static String getRedPiecePrintFormatBy(PieceType pieceType) {
         return RED_PIECE_PRINT_FORMAT.get(pieceType);
+    }
+
+    public static String getTeamPrintFormatBy(Team team) {
+        return TEAM_PRINT_FORMAT.get(team);
     }
 }

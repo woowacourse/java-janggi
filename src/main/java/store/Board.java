@@ -72,8 +72,8 @@ public class Board {
         redPieces.add(new RedSoldier(new Position(9, 4)));
 
         this.players = new ArrayList<>(List.of(
-                new Player(new Pieces(greenPieces), GREEN),
-                new Player(new Pieces(redPieces), RED)
+                new Player(new Pieces(greenPieces), Pieces.createBeforeCatching(), GREEN),
+                new Player(new Pieces(redPieces), Pieces.createBeforeCatching(), RED)
         ));
     }
 

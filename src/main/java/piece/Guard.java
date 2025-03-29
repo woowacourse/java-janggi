@@ -6,9 +6,11 @@ import location.Position;
 import store.Pieces;
 
 public class Guard implements Piece{
+    private final PieceType pieceType;
     private final Position currentPosition;
 
     public Guard(Position currentPosition) {
+        this.pieceType = PieceType.GUARD;
         this.currentPosition = currentPosition;
     }
 
@@ -46,6 +48,11 @@ public class Guard implements Piece{
 
     @Override
     public PieceType getPieceType() {
-        return PieceType.GUARD;
+        return pieceType;
+    }
+
+    @Override
+    public int getScore() {
+        return pieceType.getScore();
     }
 }
