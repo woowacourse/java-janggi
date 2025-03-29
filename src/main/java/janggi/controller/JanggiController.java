@@ -54,15 +54,15 @@ public class JanggiController {
     }
 
     private Board initializeBoard() {
-        final GameStartType type = inputView.getStartType();
+        final GameStartType type = inputView.inputStartType();
         return switch (type) {
             case NEW_GAME -> {
-                final StartingPosition choStartingPosition = inputView.getStartPositionOf(Country.CHO);
-                final StartingPosition hanStartingPosition = inputView.getStartPositionOf(Country.HAN);
+                final StartingPosition choStartingPosition = inputView.inputStartPositionOf(Country.CHO);
+                final StartingPosition hanStartingPosition = inputView.inputStartPositionOf(Country.HAN);
                 yield Board.start(choStartingPosition, hanStartingPosition);
             }
             case CONTINUE -> {
-                final int number = inputView.getStartFileNumber();
+                final int number = inputView.inputStartFileNumber();
                 final Map<Country, List<Piece>> allPieces = pieceRepository.findAllPieces(number);
                 final Country turn = turnRepository.findNextTurn(number);
                 yield Board.continueWith(allPieces, turn);
@@ -71,7 +71,7 @@ public class JanggiController {
     }
 
     private void saveGame(final Board board) {
-        final int number = inputView.getSaveNumber();
+        final int number = inputView.inputSaveNumber();
         final Map<Country, List<Piece>> result = board.getBoard();
         pieceRepository.saveAllPieces(number, Country.CHO, result.get(Country.CHO));
         pieceRepository.saveAllPieces(number, Country.HAN, result.get(Country.HAN));
