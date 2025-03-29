@@ -21,15 +21,22 @@ public class General extends Piece  {
         Movement destinationMovement = getDestinationMovement(destination);
         validateIsExistPieceInPoint(allPieces, current.move(destinationMovement));
 
+        validateOnlyMoveInPalace(destination);
         if (destinationMovement.isDiagonalMove()) {
-            validateIsPalace(destination);
+            validatePossibleDiagonalMovePoint();
         }
 
         current = current.move(destinationMovement);
     }
 
-    private void validateIsPalace(Point destination) {
-        if ((!current.isPalaceCenter() && !current.isPalaceCorner()) || !destination.isPalace()) {
+    private static void validateOnlyMoveInPalace(Point destination) {
+        if (!destination.isPalace()) {
+            throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
+        }
+    }
+
+    private void validatePossibleDiagonalMovePoint() {
+        if ((!current.isPalaceCenter() && !current.isPalaceCorner())) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }
