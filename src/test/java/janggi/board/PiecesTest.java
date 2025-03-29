@@ -1,10 +1,9 @@
-package janggi.game;
+package janggi.board;
 
-import janggi.board.Pieces;
 import janggi.piece.Team;
 import janggi.piece.pieces.Piece;
 import janggi.position.Position;
-import java.util.HashMap;
+import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ class PiecesTest {
         Pieces pieces = new Pieces();
 
         // when
-        HashMap<Position, Piece> piecesInPosition = pieces.getPieces();
+        Map<Position, Piece> piecesInPosition = pieces.getPieces();
 
         // then
         Assertions.assertThat(piecesInPosition).hasSize(DEFAULT_UNIT_SIZE);

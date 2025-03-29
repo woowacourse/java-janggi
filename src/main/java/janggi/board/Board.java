@@ -4,8 +4,8 @@ import janggi.piece.Team;
 import janggi.piece.pieces.Piece;
 import janggi.position.Position;
 import janggi.position.Route;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Board {
     private final Pieces pieces;
@@ -83,7 +83,7 @@ public class Board {
         return turn;
     }
 
-    public HashMap<Position, Piece> getPieces() {
+    public Map<Position, Piece> getPieces() {
         return pieces.getPieces();
     }
 }
