@@ -24,7 +24,7 @@ public class Janggi {
     }
 
     public void changeTurn() {
-        turn = turn.getOppositie();
+        turn = turn.getOpposite();
     }
 
     public List<Route> searchAvailableRoutes(Position pickedPosition) {

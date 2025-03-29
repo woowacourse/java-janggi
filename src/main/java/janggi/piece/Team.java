@@ -5,7 +5,7 @@ public enum Team {
     CHO,
     ;
 
-    public Team getOppositie() {
+    public Team getOpposite() {
         if (this == HAN) {
             return CHO;
         }
