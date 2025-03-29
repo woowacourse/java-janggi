@@ -103,7 +103,7 @@ public class JanggiGame {
         final String input = janggiView.read();
         try {
             command = Command.of(input);
-            moveUntilStop(command, board, input);
+            moveIfNotStop(command, board, input);
         } catch (IllegalArgumentException e) {
             janggiView.displayError("명령을 실행하지 못했습니다.");
             return executeCommand(command, board);
@@ -111,7 +111,7 @@ public class JanggiGame {
         return command;
     }
 
-    private void moveUntilStop(final Command command, final Board board, final String input) {
+    private void moveIfNotStop(final Command command, final Board board, final String input) {
         if (!command.equals(Command.STOP)) {
             final List<Integer> moveCommand = CommandParser.parseMoveCommand(input);
             final Position start = new Position(Row.of(moveCommand.get(0)), Column.of(moveCommand.get(1)));
