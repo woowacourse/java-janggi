@@ -2,7 +2,7 @@ package dao.init;
 
 import java.sql.Connection;
 
-public interface ConnectionFactory {
+public interface ConnectionGenerator {
 
     Connection createConnection();
 }

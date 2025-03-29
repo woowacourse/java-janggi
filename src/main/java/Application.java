@@ -1,20 +1,20 @@
 import dao.GameRoomDao;
 import dao.PieceDao;
-import dao.init.ConnectionFactory;
-import dao.init.MySQLConnectionFactory;
+import dao.init.ConnectionGenerator;
+import dao.init.MySQLConnectionGenerator;
 import manager.GameManager;
 import service.GameService;
 
 public class Application {
 
     public static void main(String[] args) {
-        ConnectionFactory connectionFactory = new MySQLConnectionFactory();
+        ConnectionGenerator connectionGenerator = new MySQLConnectionGenerator();
 
         GameManager gameManager = new GameManager(
                 new GameService(
                         new GameRoomDao(),
                         new PieceDao(),
-                        connectionFactory
+                        connectionGenerator
                 )
         );
         gameManager.startGame();

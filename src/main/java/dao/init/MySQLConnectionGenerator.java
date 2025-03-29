@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MySQLConnectionFactory implements ConnectionFactory {
+public class MySQLConnectionGenerator implements ConnectionGenerator {
 
     private static final String IP = "localhost";
     private static final String DATABASE_NAME = "janggi";

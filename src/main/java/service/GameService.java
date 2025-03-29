@@ -4,7 +4,7 @@ import dao.GameRoomDao;
 import dao.GameRoomEntity;
 import dao.PieceDao;
 import dao.converter.BoardConverter;
-import dao.init.ConnectionFactory;
+import dao.init.ConnectionGenerator;
 import domain.JanggiGame;
 import domain.board.Board;
 import domain.board.BoardGenerator;
@@ -21,14 +21,14 @@ public class GameService {
 
     private final GameRoomDao gameRoomDao;
     private final PieceDao pieceDao;
-    private final ConnectionFactory connectionFactory;
+    private final ConnectionGenerator connectionGenerator;
 
     private JanggiGame janggiGame;
 
-    public GameService(GameRoomDao gameRoomDao, PieceDao pieceDao, ConnectionFactory connectionFactory) {
+    public GameService(GameRoomDao gameRoomDao, PieceDao pieceDao, ConnectionGenerator connectionGenerator) {
         this.gameRoomDao = gameRoomDao;
         this.pieceDao = pieceDao;
-        this.connectionFactory = connectionFactory;
+        this.connectionGenerator = connectionGenerator;
     }
 
     public void executeDelayedQueries() {
@@ -122,7 +122,7 @@ public class GameService {
 
     private Connection getConnection() {
         try {
-            return connectionFactory.createConnection();
+            return connectionGenerator.createConnection();
         } catch (RuntimeException e) {
             throw new IllegalStateException("[ERROR] DB 연결에 실패했습니다. 게임이 저장/로드되지 않을 수 있습니다.");
         }
