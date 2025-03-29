@@ -6,6 +6,7 @@ import domain.board.BoardSettingUpStrategy;
 import domain.piece.Country;
 import domain.piece.Piece;
 import infrastructure.BoardRepository;
+import infrastructure.GameRepository;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -17,27 +18,46 @@ public class JanggiGame {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final BoardRepository boardRepository = new BoardRepository();
+    private final GameRepository gameRepository = new GameRepository();
 
-    private Country currentTurn = Country.HAN;
+    private Country currentTurn = Country.CHO;
 
-    public void start() {
+    public void play() {
+        Board board = start();
+
+        while (!isEndGame(board)) {
+            takeTurn(board, this::movePiece);
+            showScore(board);
+            nextTurn();
+        }
+    }
+
+    private Board start() {
         Map<Coordinate, Piece> foundBoard = findBoard();
         Board board;
         if (foundBoard.isEmpty()) {
             board = settingUp();
             saveBoard(board);
+            saveTurn();
             outputView.printNewGameMessage();
         } else {
             board = new Board(foundBoard);
+            currentTurn = findTurn();
             outputView.printPreviousGameMessage();
         }
+        return board;
+    }
 
-        while (!isEndGame(board)) {
-            takeTurn(board, this::movePiece);
-            updateBoard(board);
-            showScore(board);
-            nextTurn();
-        }
+    private void saveTurn() {
+        gameRepository.save(currentTurn);
+    }
+
+    private Country findTurn() {
+        return gameRepository.findTurn();
+    }
+
+    private void updateTurn() {
+        gameRepository.updateTurn(currentTurn);
     }
 
     private void updateBoard(Board board) {
@@ -54,15 +74,12 @@ public class JanggiGame {
     }
 
     private Board settingUp() {
-        BoardSettingUpStrategy hanSettingUpStrategy = retryUntilValid(() -> {
-            String settingUp = inputView.readSettingUp(Country.HAN);
-            return BoardSettingUpStrategy.selectStrategy(settingUp);
-        });
+        BoardSettingUpStrategy hanSettingUpStrategy = retryUntilValid(() ->
+                BoardSettingUpStrategy.selectStrategy(inputView.readSettingUp(Country.HAN))
+        );
 
-        BoardSettingUpStrategy choSettingUpStrategy = retryUntilValid(() -> {
-            String settingUp = inputView.readSettingUp(Country.CHO);
-            return BoardSettingUpStrategy.selectStrategy(settingUp);
-        });
+        BoardSettingUpStrategy choSettingUpStrategy = retryUntilValid(() ->
+                BoardSettingUpStrategy.selectStrategy(inputView.readSettingUp(Country.CHO)));
 
         return new Board(hanSettingUpStrategy, choSettingUpStrategy);
     }
@@ -75,6 +92,8 @@ public class JanggiGame {
         Coordinate to = retryUntilValid(inputView::readMoveTo);
 
         board.movePiece(from, to);
+
+        updateBoard(board);
     }
 
     private boolean isEndGame(Board board) {
@@ -97,6 +116,7 @@ public class JanggiGame {
 
     private void nextTurn() {
         currentTurn = currentTurn.convertCountry();
+        updateTurn();
     }
 
     private <T> void takeTurn(T value, Consumer<T> consumer) {
