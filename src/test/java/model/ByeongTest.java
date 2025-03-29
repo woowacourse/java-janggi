@@ -50,6 +50,20 @@ class ByeongTest {
         }
 
         @Test
+        @DisplayName("초나라 병 상대 궁에서 대각선 이동 가능")
+        void test4() {
+            Byeong byeong = new Byeong(Team.BLUE);
+            assertAll(
+                    () -> assertThat(byeong.isValidPoint(Point.of(3, 7), Point.of(4, 8))).isTrue(),
+                    () -> assertThat(byeong.isValidPoint(Point.of(3, 8), Point.of(4, 8))).isTrue(),
+                    () -> assertThatThrownBy(() -> byeong.isValidPoint(Point.of(3, 8), Point.of(4, 9))).isInstanceOf(
+                            IllegalArgumentException.class),
+                    () -> assertThatThrownBy(() -> byeong.isValidPoint(Point.of(3, 9), Point.of(4, 8))).isInstanceOf(
+                            IllegalArgumentException.class)
+            );
+        }
+
+        @Test
         @DisplayName("병 이동 불가능")
         void test3() {
             Byeong byeong = new Byeong(Team.RED);
