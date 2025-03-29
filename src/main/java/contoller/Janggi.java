@@ -2,6 +2,7 @@ package contoller;
 
 import static view.InputView.choiceSetUp;
 import static view.InputView.movePointInput;
+import static view.OutputVIew.displayGameIsOver;
 import static view.OutputVIew.displayJanggiBoard;
 import static view.OutputVIew.displayJanggiScore;
 
@@ -42,6 +43,10 @@ public class Janggi {
             }
             displayJanggiBoard(janggiBoard);
             displayJanggiScore(janggiBoard.getTeamScore(Team.BLUE), janggiBoard.getTeamScore(Team.RED));
+            if (janggiBoard.isKingDead()) {
+                displayGameIsOver(janggiBoard.getWinner());
+                break;
+            }
         }
     }
 }

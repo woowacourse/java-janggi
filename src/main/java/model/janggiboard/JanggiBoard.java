@@ -10,6 +10,7 @@ import model.Path;
 import model.Point;
 import model.Team;
 import model.piece.Piece;
+import model.piece.PieceName;
 
 public class JanggiBoard {
     public static final int VERTICAL_SIZE = 10;
@@ -119,8 +120,37 @@ public class JanggiBoard {
         return score;
     }
 
+    public boolean isKingDead() {
+        int kingCount = 0;
+        for (List<Dot> dots : janggiBoard) {
+            for (Dot dot : dots) {
+                if (dot.isPlaced()) {
+                    Piece piece = dot.getPiece();
+                    if (piece.getPieceName() == PieceName.JANG) {
+                        kingCount += 1;
+                    }
+                }
+            }
+        }
+        return kingCount == 2;
+    }
+
+    public Team getWinner() {
+        Team winner = null;
+        for (List<Dot> dots : janggiBoard) {
+            for (Dot dot : dots) {
+                if (dot.isPlaced()) {
+                    Piece piece = dot.getPiece();
+                    if (piece.getPieceName() == PieceName.JANG) {
+                        return piece.getTeam();
+                    }
+                }
+            }
+        }
+        return winner;
+    }
+
     public List<List<Dot>> getJanggiBoard() {
         return janggiBoard;
     }
-
 }
