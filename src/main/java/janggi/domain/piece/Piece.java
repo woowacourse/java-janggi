@@ -30,6 +30,14 @@ public abstract class Piece {
         return this.dynasty == dynasty;
     }
 
+    public boolean isSameType(Piece piece) {
+        return piece.pieceType() == pieceType();
+    }
+
+    public Dynasty getDynasty() {
+        return dynasty;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
@@ -47,9 +55,9 @@ public abstract class Piece {
 
     abstract public boolean canMove(PiecesOnPath piecesOnPath);
 
-    abstract public boolean isSameType(Piece piece);
-
     abstract public boolean isEmptyPiece();
+
+    abstract public PieceType pieceType();
 
     abstract public int score();
 

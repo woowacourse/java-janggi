@@ -20,8 +20,8 @@ public abstract class Soldier extends Piece {
     }
 
     @Override
-    public boolean isSameType(Piece piece) {
-        return piece instanceof Soldier;
+    public PieceType pieceType() {
+        return PieceType.SOLDIER;
     }
 
     @Override

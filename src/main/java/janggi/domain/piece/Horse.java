@@ -24,6 +24,11 @@ public class Horse extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.HORSE;
+    }
+
+    @Override
     public int score() {
         return 5;
     }
@@ -31,11 +36,6 @@ public class Horse extends Piece {
     @Override
     protected boolean isKing() {
         return false;
-    }
-
-    @Override
-    public boolean isSameType(Piece piece) {
-        return piece instanceof Horse;
     }
 
     @Override

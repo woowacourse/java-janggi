@@ -24,6 +24,11 @@ public class Elephant extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.ELEPHANT;
+    }
+
+    @Override
     public int score() {
         return 3;
     }
@@ -31,11 +36,6 @@ public class Elephant extends Piece {
     @Override
     protected boolean isKing() {
         return false;
-    }
-
-    @Override
-    public boolean isSameType(Piece piece) {
-        return piece instanceof Elephant;
     }
 
     @Override

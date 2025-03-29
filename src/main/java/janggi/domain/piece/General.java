@@ -24,6 +24,11 @@ public class General extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.GENERAL;
+    }
+
+    @Override
     public int score() {
         return 0;
     }
@@ -31,11 +36,6 @@ public class General extends Piece {
     @Override
     protected boolean isKing() {
         return true;
-    }
-
-    @Override
-    public boolean isSameType(Piece piece) {
-        return piece instanceof General;
     }
 
     @Override

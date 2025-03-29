@@ -25,6 +25,11 @@ public class Chariot extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.CHARIOT;
+    }
+
+    @Override
     public int score() {
         return 13;
     }
@@ -32,11 +37,6 @@ public class Chariot extends Piece {
     @Override
     protected boolean isKing() {
         return false;
-    }
-
-    @Override
-    public boolean isSameType(Piece piece) {
-        return piece instanceof Chariot;
     }
 
     @Override

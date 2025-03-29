@@ -20,6 +20,11 @@ public class EmptyPiece extends Piece {
     }
 
     @Override
+    public PieceType pieceType() {
+        return PieceType.EMPTY;
+    }
+
+    @Override
     public int score() {
         return 0;
     }
@@ -27,11 +32,6 @@ public class EmptyPiece extends Piece {
     @Override
     protected boolean isKing() {
         return false;
-    }
-
-    @Override
-    public boolean isSameType(Piece piece) {
-        return piece instanceof EmptyPiece;
     }
 
     @Override

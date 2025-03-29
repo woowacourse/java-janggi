@@ -34,13 +34,13 @@ public class Cannon extends Piece {
     }
 
     @Override
-    protected boolean isKing() {
-        return false;
+    public PieceType pieceType() {
+        return PieceType.CANNON;
     }
 
     @Override
-    public boolean isSameType(Piece piece) {
-        return piece instanceof Cannon;
+    protected boolean isKing() {
+        return false;
     }
 
     @Override

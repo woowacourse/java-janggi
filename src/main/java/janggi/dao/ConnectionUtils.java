@@ -13,7 +13,6 @@ public class ConnectionUtils {
     private static final String PASSWORD = "root";
 
     public static Connection getConnection() {
-        // 드라이버 연결
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
