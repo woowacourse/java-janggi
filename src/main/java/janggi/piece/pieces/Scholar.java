@@ -14,16 +14,19 @@ public record Scholar(Team team) implements Piece {
     public List<Route> calculateRoutes(Position position) {
         List<Route> routes = new ArrayList<>();
 
-        List<Direction> allDirection = Direction.getAllDirection();
-        for (Direction direction : allDirection) {
-            applyGeneralProperty(position, direction, routes);
+        for (Direction direction : Direction.getAllDirection()) {
+            addRouteCanBeMove(position, direction, routes);
         }
         return routes;
     }
 
-    private static void applyGeneralProperty(Position position, Direction direction, List<Route> routes) {
+    private void addRouteCanBeMove(Position position, Direction direction, List<Route> routes) {
         int column = direction.moveColumn(position.getColumn());
         int row = direction.moveRow(position.getRow());
+
+        if (!Position.isCanBePosition(column, row)) {
+            return;
+        }
         if (position.isSamePoint(new Position(column, row))) {
             return;
         }
