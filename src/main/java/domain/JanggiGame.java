@@ -13,18 +13,16 @@ import java.util.Map;
 
 public class JanggiGame {
 
+    private static final Team START_TEAM = Team.CHO;
+
     private final Board board;
-    private final Turn turn;
-    private final ScoreCalculator scoreCalculator;
+    private Team team;
 
     public JanggiGame(final BoardGenerator boardGenerator,
                       final SangMaOrderCommand hanSangMaOrderCommand,
-                      final SangMaOrderCommand choSangMaOrderCommand,
-                      final Turn turn,
-                      final ScoreCalculator scoreCalculator) {
+                      final SangMaOrderCommand choSangMaOrderCommand) {
         this.board = boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
-        this.turn = turn;
-        this.scoreCalculator = scoreCalculator;
+        this.team = START_TEAM;
     }
 
     public void movePiece(final MoveCommand moveCommand) {
@@ -41,11 +39,11 @@ public class JanggiGame {
     }
 
     public void changeTurn() {
-        turn.changeTurn();
+        team = team.inverse();
     }
 
     public Map<Team, Score> calculateTotalScoreByTeam() {
-        return board.calculateTotalScoreByTeam(scoreCalculator);
+        return board.calculateTotalScoreByTeam(new ScoreCalculator());
     }
 
     public Team findWinTeam() {
@@ -63,6 +61,6 @@ public class JanggiGame {
     }
 
     public Team turnTeam() {
-        return turn.team();
+        return team;
     }
 }

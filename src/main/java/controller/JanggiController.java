@@ -1,11 +1,9 @@
 package controller;
 
 import domain.JanggiGame;
-import domain.Turn;
 import domain.board.BoardGenerator;
 import domain.piece.Team;
 import domain.score.Score;
-import domain.score.ScoreCalculator;
 import util.ErrorHandler;
 import view.InputView;
 import view.MoveCommand;
@@ -21,8 +19,7 @@ public class JanggiController {
         OutputView.printStart();
         SangMaOrderCommand hanSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.HAN);
         SangMaOrderCommand choSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.CHO);
-        JanggiGame janggiGame = new JanggiGame(new BoardGenerator(), hanSangMaOrderCommand, choSangMaOrderCommand,
-                                                new Turn(), new ScoreCalculator());
+        JanggiGame janggiGame = new JanggiGame(new BoardGenerator(), hanSangMaOrderCommand, choSangMaOrderCommand);
         play(janggiGame);
     }
 
