@@ -127,9 +127,17 @@ public class Viewer {
     private PositionDto parsePosition(String input) {
         String[] values = input.split(",");
         try {
-            return new PositionDto(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
+            return new PositionDto(parseNumber(values[0]), parseNumber(values[1]));
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_NUMBER_INPUT.getMessage());
+        }
+    }
+
+    private int parseNumber(String value) {
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(e);
         }
     }
 
