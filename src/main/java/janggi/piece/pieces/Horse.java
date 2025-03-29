@@ -8,14 +8,8 @@ import janggi.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Horse implements Piece {
+public record Horse(Team team) implements Piece {
     public static final int MAX_DEPTH = 2;
-
-    private final Team team;
-
-    public Horse(Team team) {
-        this.team = team;
-    }
 
     @Override
     public List<Route> calculateRoutes(Position position) {
@@ -50,10 +44,5 @@ public class Horse implements Piece {
     @Override
     public PieceType getType() {
         return PieceType.HORSE;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
     }
 }

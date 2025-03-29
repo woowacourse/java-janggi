@@ -9,13 +9,7 @@ import janggi.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public class General implements Piece {
-    private final Team team;
-
-    public General(Team team) {
-        this.team = team;
-    }
-
+public record General(Team team) implements Piece {
     @Override
     public List<Route> calculateRoutes(Position position) {
         List<Route> routes = new ArrayList<>();
@@ -45,10 +39,5 @@ public class General implements Piece {
     @Override
     public PieceType getType() {
         return PieceType.KING;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
     }
 }

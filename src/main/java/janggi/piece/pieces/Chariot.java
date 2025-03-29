@@ -7,13 +7,7 @@ import janggi.position.Route;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Chariot implements Piece {
-    private final Team team;
-
-    public Chariot(Team team) {
-        this.team = team;
-    }
-
+public record Chariot(Team team) implements Piece {
     @Override
     public List<Route> calculateRoutes(Position start) {
         List<Position> positions = calculateEndPoints(start);
@@ -41,10 +35,5 @@ public class Chariot implements Piece {
     @Override
     public PieceType getType() {
         return PieceType.CHARIOT;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
     }
 }

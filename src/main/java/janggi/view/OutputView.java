@@ -81,7 +81,7 @@ public class OutputView {
             Arrays.fill(board[i], ".");
         }
         pieces.forEach(
-                (position, piece) -> board[position.getRow()][position.getColumn()] = teamToName(piece.getTeam()));
+                (position, piece) -> board[position.getRow()][position.getColumn()] = teamToName(piece.team()));
         return board;
     }
 

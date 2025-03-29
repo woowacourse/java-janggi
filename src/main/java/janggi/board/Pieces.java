@@ -57,12 +57,12 @@ public class Pieces {
 
     public Team findTeamByPosition(Position endPosition) {
         Piece piece = findPieceByPosition(endPosition);
-        return piece.getTeam();
+        return piece.team();
     }
 
     public boolean isNoneTeamGeneralUnit(Team turn) {
         return pieces.values().stream()
-                .filter(piece -> piece.getTeam() != turn)
+                .filter(piece -> piece.team() != turn)
                 .noneMatch(piece -> piece.getType() == PieceType.KING);
     }
 
