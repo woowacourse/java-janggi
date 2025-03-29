@@ -54,10 +54,10 @@ class PiecesTest {
         Pieces pieces = new Pieces();
 
         // when
-        boolean bombPiece = pieces.isCannonPiece(new Position(1, 2));
+        boolean cannonPiece = pieces.isCannonPiece(new Position(1, 2));
 
         // then
-        Assertions.assertThat(bombPiece).isTrue();
+        Assertions.assertThat(cannonPiece).isTrue();
     }
 
     @Test
