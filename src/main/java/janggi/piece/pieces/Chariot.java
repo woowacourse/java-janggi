@@ -16,14 +16,19 @@ public record Chariot(Team team) implements Piece {
         List<Position> positions = calculateEndPoints(start);
 
         List<Route> straightRoutes = positions.stream()
-                .map(end -> calculateRoute(start, end))
+                .map(end -> calculateStraightRoute(start, end))
                 .toList();
 
+        List<Route> routesInPalace = calculateRoutesInPalace(start);
+        return Stream.concat(straightRoutes.stream(), routesInPalace.stream()).toList();
+    }
+
+    private List<Route> calculateRoutesInPalace(Position start) {
         List<Route> routesInPalace = new ArrayList<>();
         if (Palace.canDiagonalInPalace(start)) {
             routesInPalace = calculateRouteInPalace(start);
         }
-        return Stream.concat(straightRoutes.stream(), routesInPalace.stream()).toList();
+        return routesInPalace;
     }
 
     private List<Position> calculateEndPoints(Position start) {
@@ -33,7 +38,7 @@ public record Chariot(Team team) implements Piece {
                 .toList();
     }
 
-    private Route calculateRoute(Position start, Position end) {
+    private Route calculateStraightRoute(Position start, Position end) {
         if (start.isParallel(end)) {
             return Route.of(start.creatParallelPosition(start.getColumn(), end.getColumn()));
         }
@@ -53,21 +58,27 @@ public record Chariot(Team team) implements Piece {
 
     private void createDiagonalRoute(Direction direction, Position position, List<Position> positions,
                                      List<Route> routes) {
-        if (Position.isCanBePosition(direction.moveColumn(position.getColumn()),
-                direction.moveRow(position.getRow()))) {
-            Position next = direction.move(position);
+        if (Position.isCanBePosition(position.getColumn() + direction.getX(),
+                position.getRow() + direction.getY())) {
+            Position next = position.move(direction);
 
-            while (Palace.isInPalace(next) && !next.equals(position)) {
-                positions.add(next);
-                routes.add(Route.of(new ArrayList<>(positions)));
-                position = next;
-                if (Position.isCanBePosition(direction.moveColumn(position.getColumn()),
-                        direction.moveRow(position.getRow()))) {
-                    next = direction.move(position);
-                    continue;
-                }
-                break;
+            createRouteInPalace(direction, position, positions, routes, next);
+        }
+    }
+
+    private void createRouteInPalace(Direction direction, Position position, List<Position> positions,
+                                     List<Route> routes,
+                                     Position next) {
+        while (Palace.isInPalace(next) && !next.equals(position)) {
+            positions.add(next);
+            routes.add(Route.of(new ArrayList<>(positions)));
+            position = next;
+            if (Position.isCanBePosition(position.getColumn() + direction.getX(),
+                    position.getRow() + direction.getY())) {
+                next = position.move(direction);
+                continue;
             }
+            break;
         }
     }
 

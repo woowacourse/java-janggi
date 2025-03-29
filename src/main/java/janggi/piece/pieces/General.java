@@ -21,8 +21,8 @@ public record General(Team team) implements Piece {
     }
 
     private void addRouteCanBeMove(Position position, Direction direction, List<Route> routes) {
-        int column = direction.moveColumn(position.getColumn());
-        int row = direction.moveRow(position.getRow());
+        int column = position.getColumn() + direction.getX();
+        int row = position.getRow() + direction.getY();
 
         if (!Position.isCanBePosition(column, row)) {
             return;
