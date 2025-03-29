@@ -15,6 +15,10 @@ public record BoardVector(
         return dx == 0 || dy == 0;
     }
 
+    public boolean isNotAxis() {
+        return dx != 0 && dy != 0;
+    }
+
     public boolean isDiagonal() {
         return Math.abs(dx) == Math.abs(dy);
     }
