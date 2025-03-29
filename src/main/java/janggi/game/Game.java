@@ -25,7 +25,7 @@ public class Game {
 
     public void play() {
         GameState gameState = GameState.PLAY;
-        Janggi janggi = new Janggi(new Units(), Team.CHO);
+        Janggi janggi = new Janggi(new Pieces(), Team.CHO);
 
         while (gameState == GameState.PLAY) {
             gameState = handleGameState(() -> controlGame(janggi));
@@ -43,7 +43,7 @@ public class Game {
     }
 
     private GameState controlGame(Janggi janggi) {
-        outputView.printUnits(janggi.getUnits());
+        outputView.printPieces(janggi.getPieces());
 
         Position position = getPosition(janggi);
         janggi.judgeUnitTurn(position);

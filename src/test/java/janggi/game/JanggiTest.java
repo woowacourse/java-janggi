@@ -13,7 +13,7 @@ class JanggiTest {
     @DisplayName("졸의 이동경로를 구한다.")
     void test1() {
         // given
-        Janggi janggi = new Janggi(new Units(), Team.CHO);
+        Janggi janggi = new Janggi(new Pieces(), Team.CHO);
 
         // when
         List<Route> routes = janggi.searchAvailableRoutes(new Position(0, 3));
@@ -26,7 +26,7 @@ class JanggiTest {
     @DisplayName("포의 이동경로를 구한다.")
     void test2() {
         // given
-        Janggi janggi = new Janggi(new Units(), Team.CHO);
+        Janggi janggi = new Janggi(new Pieces(), Team.CHO);
 
         // when
         List<Route> routes = janggi.searchAvailableRoutes(new Position(1, 7));
@@ -39,7 +39,7 @@ class JanggiTest {
     @DisplayName("경로 중에 기물이 있다면 거짓이다")
     void test3() {
         // given
-        Janggi janggi = new Janggi(new Units(), Team.CHO);
+        Janggi janggi = new Janggi(new Pieces(), Team.CHO);
 
         // when
         boolean isFalse = janggi.isAvailablePath(Route.of(List.of
@@ -53,7 +53,7 @@ class JanggiTest {
     @DisplayName("경로 중에 기물이 없다면 참이다")
     void test4() {
         // given
-        Janggi janggi = new Janggi(new Units(), Team.CHO);
+        Janggi janggi = new Janggi(new Pieces(), Team.CHO);
 
         // when
         boolean isTrue = janggi.isAvailablePath(Route.of(List.of

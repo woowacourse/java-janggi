@@ -1,39 +1,41 @@
 package janggi.position;
 
 import janggi.piece.Direction;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class Position {
-    public static final int X_MAX = 8;
-    public static final int Y_MAX = 9;
+    public static final int COLUMN_MAX = 8;
+    public static final int ROW_MAX = 9;
 
-    private final int x;
-    private final int y;
+    private final int column;
+    private final int row;
 
-    public Position(int x, int y) {
-        validate(x, y);
-        this.x = x;
-        this.y = y;
+    public Position(int column, int row) {
+        validate(column, row);
+        this.column = column;
+        this.row = row;
     }
 
-    public static boolean isCanBePosition(int x, int y) {
-        if (x < 0 || x > X_MAX) {
+    public static boolean isCanBePosition(int column, int row) {
+        if (column < 0 || column > COLUMN_MAX) {
             return false;
         }
-        return !(y < 0 || y > Y_MAX);
+        return !(row < 0 || row > ROW_MAX);
     }
 
-    private void validate(int x, int y) {
-        if (x < 0 || x > X_MAX) {
-            throw new IllegalArgumentException("column이 장기판 범위를 벗어났습니다: " + x);
+    private void validate(int column, int row) {
+        if (column < 0 || column > COLUMN_MAX) {
+            throw new IllegalArgumentException("column이 장기판 범위를 벗어났습니다: " + column);
         }
-        if (y < 0 || y > Y_MAX) {
-            throw new IllegalArgumentException("row가 장기판 범위를 벗어났습니다: " + y);
+        if (row < 0 || row > ROW_MAX) {
+            throw new IllegalArgumentException("row가 장기판 범위를 벗어났습니다: " + row);
         }
     }
 
     public boolean isStraightLine(Position opposite) {
-        return (this.x == opposite.x || this.y == opposite.y);
+        return (this.column == opposite.column || this.row == opposite.row);
     }
 
     public boolean isSamePoint(Position position) {
@@ -41,19 +43,43 @@ public class Position {
     }
 
     public boolean canMove(Direction direction) {
-        return isCanBePosition(direction.moveColumn(x), direction.moveRow(y));
+        return isCanBePosition(direction.moveColumn(column), direction.moveRow(row));
     }
 
     public Position move(Direction direction) {
-        return new Position(direction.moveColumn(x), direction.moveRow(y));
+        return new Position(direction.moveColumn(column), direction.moveRow(row));
     }
 
-    public int getX() {
-        return this.x;
+    public boolean isParallel(Position end) {
+        return this.row == end.row;
     }
 
-    public int getY() {
-        return this.y;
+    public List<Position> creatParallelPosition(int startColumn, int endColumn) {
+        int minColumn = Math.min(startColumn, endColumn);
+        int maxColumn = Math.max(startColumn, endColumn);
+
+        return IntStream.range(minColumn, maxColumn + 1)
+                .filter(column -> column != this.column)
+                .mapToObj(column -> new Position(column, this.row))
+                .toList();
+    }
+
+    public List<Position> createVerticalPosition(int startRow, int endRow) {
+        int minRow = Math.min(startRow, endRow);
+        int maxRow = Math.max(startRow, endRow);
+
+        return IntStream.range(minRow, maxRow + 1)
+                .filter(row -> row != this.row)
+                .mapToObj(row -> new Position(this.column, row))
+                .toList();
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public int getRow() {
+        return row;
     }
 
     @Override
@@ -62,11 +88,11 @@ public class Position {
             return false;
         }
         Position position = (Position) object;
-        return x == position.x && y == position.y;
+        return column == position.column && row == position.row;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(column, row);
     }
 }

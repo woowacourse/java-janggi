@@ -1,13 +1,13 @@
 package janggi.piece;
 
-public enum UnitType {
+public enum PieceType {
     KING,
     SCHOLAR,
-    CAR,
+    CHARIOT,
     HORSE,
     ELEPHANT,
-    BOMB,
-    JOL,
+    CANNON,
+    SOLDIER,
     NONE,
     ;
 }

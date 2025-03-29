@@ -1,10 +1,11 @@
 package janggi.view;
 
 import janggi.piece.Team;
-import janggi.piece.UnitType;
+import janggi.piece.PieceType;
+import janggi.piece.pieces.Chariot;
+import janggi.piece.pieces.Piece;
 import janggi.position.Position;
 import janggi.position.Route;
-import janggi.piece.Unit;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,64 +24,64 @@ public class OutputView {
         for (Route route : routes) {
             Position endPoint = route.searchEndPoint(startPoint);
             System.out.printf("%d) x = %d, y = %d\n"
-                    , index, endPoint.getX(), endPoint.getY());
+                    , index, endPoint.getColumn(), endPoint.getRow());
             index++;
         }
     }
 
-    public void printUnits(HashMap<Position, Unit> units) {
-        String[][] board = initialBoard(units);
-        String[][] teamInfo = initialTeamBoard(units);
+    public void printPieces(HashMap<Position, Piece> pieces) {
+        String[][] board = initialBoard(pieces);
+        String[][] teamInfo = initialTeamBoard(pieces);
 
         System.out.println("   | 0 1 2 3 4 5 6 7 8");
         System.out.println("----------------------");
         printBoard(board, teamInfo);
     }
 
-    private String[][] initialBoard(Map<Position, Unit> units) {
+    private String[][] initialBoard(Map<Position, Piece> units) {
         String[][] board = new String[MAX_ROW][MAX_COLUM];
 
         for (int i = 0; i < MAX_ROW; i++) {
             Arrays.fill(board[i], ".");
         }
-        units.forEach((position, unit) ->
-                board[position.getY()][position.getX()] = typeToName(unit.getType()));
+        units.forEach((position, piece) ->
+                board[position.getRow()][position.getColumn()] = typeToName(piece.getType()));
 
         return board;
     }
 
-    private String typeToName(UnitType unitType) {
-        if (unitType == UnitType.KING) {
+    private String typeToName(PieceType type) {
+        if (type == PieceType.KING) {
             return "K";
         }
-        if (unitType == UnitType.SCHOLAR) {
+        if (type == PieceType.SCHOLAR) {
             return "S";
         }
-        if (unitType == UnitType.CAR) {
+        if (type == PieceType.CHARIOT) {
             return "C";
         }
-        if (unitType == UnitType.HORSE) {
+        if (type == PieceType.HORSE) {
             return "H";
         }
-        if (unitType == UnitType.ELEPHANT) {
+        if (type == PieceType.ELEPHANT) {
             return "E";
         }
-        if (unitType == UnitType.BOMB) {
+        if (type == PieceType.CANNON) {
             return "B";
         }
-        if (unitType == UnitType.JOL) {
+        if (type == PieceType.SOLDIER) {
             return "J";
         }
         return "N";
     }
 
-    private String[][] initialTeamBoard(Map<Position, Unit> units) {
+    private String[][] initialTeamBoard(Map<Position, Piece> pieces) {
         String[][] board = new String[MAX_ROW][MAX_COLUM];
 
         for (int i = 0; i < MAX_ROW; i++) {
             Arrays.fill(board[i], ".");
         }
-        units.forEach((position, unit) -> board[position.getY()][position.getX()] = teamToName(unit.getTeam()));
+        pieces.forEach((position, piece) -> board[position.getRow()][position.getColumn()] = teamToName(piece.getTeam()));
         return board;
     }
 

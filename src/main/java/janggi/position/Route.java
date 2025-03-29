@@ -1,6 +1,6 @@
 package janggi.position;
 
-import janggi.game.Units;
+import janggi.game.Pieces;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -20,13 +20,13 @@ public class Route {
         return new Route(positions);
     }
 
-    public boolean canBombJump(Units units) {
-        if (units.isExistBombInRoute(positions)) {
+    public boolean canBombJump(Pieces pieces) {
+        if (pieces.isExistBombInRoute(positions)) {
             return false;
         }
         long count = getPointsExceptEndPoint().stream()
-                .filter(units::isExistUnit)
-                .filter(position -> !units.isBombUnit(position))
+                .filter(pieces::isExistPiece)
+                .filter(position -> !pieces.isBombPiece(position))
                 .count();
 
         return count == 1;
@@ -40,12 +40,16 @@ public class Route {
     }
 
     private int calculateDistance(Position startPoint, Position now) {
-        return Math.abs(now.getX() - startPoint.getX())
-                + Math.abs(now.getY() - startPoint.getY());
+        return Math.abs(now.getColumn() - startPoint.getColumn())
+                + Math.abs(now.getRow() - startPoint.getRow());
     }
 
     public List<Position> getPointsExceptEndPoint() {
         return positions.subList(0, positions.size() - 1);
+    }
+
+    public int length() {
+        return this.positions.size();
     }
 
     public List<Position> getPoints() {

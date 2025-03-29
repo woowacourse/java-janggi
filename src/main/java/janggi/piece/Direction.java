@@ -24,9 +24,9 @@ public enum Direction {
 
     public static List<Direction> getStraight(Team team) {
         if (team == Team.CHO) {
-            return List.of(Direction.UPPER, Direction.LEFT, Direction.RIGHT);
+            return List.of(Direction.UNDER, Direction.LEFT, Direction.RIGHT);
         }
-        return List.of(Direction.UNDER, Direction.LEFT, Direction.RIGHT);
+        return List.of(Direction.UPPER, Direction.LEFT, Direction.RIGHT);
     }
 
     public List<Direction> getNextWithDiagonal() {
