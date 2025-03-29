@@ -64,4 +64,12 @@ public class OutputView {
         System.out.println("한나라 점수: " + hanScore);
         System.out.println("조나라 점수: " + choScore);
     }
+
+    public void printPreviousGameMessage() {
+        System.out.println("이전 게임을 불러왔습니다.");
+    }
+
+    public void printNewGameMessage() {
+        System.out.println("새로운 게임을 시작합니다.");
+    }
 }

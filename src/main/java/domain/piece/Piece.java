@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Coordinate;
 import domain.board.Board;
+import domain.piece.jump.Pho;
 import java.util.List;
 
 public abstract class Piece {
@@ -11,6 +12,18 @@ public abstract class Piece {
     protected Piece(Country country, PieceType type) {
         this.country = country;
         this.type = type;
+    }
+
+    public static Piece of(Country country, PieceType type) {
+        return switch (type) {
+            case PHO -> new Pho(country);
+            case SA -> new Sa(country);
+            case GUNG -> new Gung(country);
+            case BYEONG -> new Byeong(country);
+            case MA -> new Ma(country);
+            case SANG -> new Sang(country);
+            case CHA -> new Cha(country);
+        };
     }
 
     public abstract List<Coordinate> findAvailablePaths(Coordinate from, Board board);

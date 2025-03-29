@@ -4,7 +4,9 @@ import domain.Coordinate;
 import domain.board.Board;
 import domain.board.BoardSettingUpStrategy;
 import domain.piece.Country;
+import domain.piece.Piece;
 import infrastructure.BoardRepository;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import view.InputView;
@@ -18,14 +20,27 @@ public class JanggiGame {
     private Country currentTurn = Country.HAN;
 
     public void start() {
-        Board board = settingUp();
+        Map<Coordinate, Piece> foundBoard = findBoard();
+        Board board;
+        if (foundBoard.isEmpty()) {
+            board = settingUp();
+            saveBoard(board);
+            outputView.printNewGameMessage();
+        } else {
+            board = new Board(foundBoard);
+            outputView.printPreviousGameMessage();
+        }
 
         while (!isEndGame(board)) {
             takeTurn(board, this::movePiece);
-            saveBoard(board);
             showScore(board);
             nextTurn();
         }
+    }
+
+    private Map<Coordinate, Piece> findBoard() {
+        BoardRepository boardRepository = new BoardRepository();
+        return boardRepository.findAll();
     }
 
     private void saveBoard(Board board) {

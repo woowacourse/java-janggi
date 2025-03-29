@@ -11,8 +11,8 @@ public enum PieceType {
 
     private final String pieceName;
 
-    PieceType(String type) {
-        this.pieceName = type;
+    PieceType(String pieceName) {
+        this.pieceName = pieceName;
     }
 
     public String getPieceName() {
