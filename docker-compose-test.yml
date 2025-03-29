@@ -13,4 +13,4 @@ services:
       MYSQL_PASSWORD: password
       TZ: Asia/Seoul
     volumes:
-      - ./db/test/mysql/init:/docker-entrypoint-initdb.d
+      - ./db/mysql/init:/docker-entrypoint-initdb.d

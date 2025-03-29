@@ -52,6 +52,7 @@
 - [x] 보드는 도착점이 보드 내에 있는지 확인해야 한다
 - [x] 기물은 도착점으로 이동 가능한지 확인해야 한다
 - [x] 보드는 이동 후 도착점의 기물을 처리해야 한다
+- [x] 기물을 잡을 경우, 해당 플레이어는 득점한다.
 
 ### 4. 기물별 이동 규칙
 
@@ -71,6 +72,20 @@
 - [x] 포는 두 개 이상의 기물을 넘어 이동할 수 없다
 - [x] 포는 다른 포를 넘어 이동할 수 없다
 
+#### 궁성 이동 제한 사항
+
+- [x] 궁과 사는 궁 밖으로 이동할 수 없다.
+- [x] 졸,차,포는 궁성 내에서 이동 시 이동 규칙이 변한다.
+
+### 5. 게임 승리
+
+- [x] 궁을 잡을 경우 상대팀이 승리한다.
+
+### 6. DB 연결
+
+- [ ] 게임 이어하기가 가능하다.
+- [ ] 장기 게임방을 만들고 장기 게임방에 입장할 수 있다.
+
 ## 메시지 명 정의 (메서드 네이밍)
 
 ![장기_메세징(미션_제출).png](docs/images/장기_메세징(미션_제출).png)
@@ -87,14 +102,16 @@ docker-compose -p main-db -f docker-compose.yml up -d
 docker-compose -p test-db -f docker-compose-test.yml up -d
 ```
 
-### 종료 및 삭제
+### 종료
 
 ```
 # 원본 DB 종료 및 삭제
-docker-compose -p main-db -f docker-compose.yml down -v
+docker-compose -p main-db -f docker-compose.yml down
 
 # 테스트 DB 종료 및 삭제
 docker-compose -p test-db -f docker-compose-test.yml down -v
+
+- 테스트 DB의 데이터 초기화를 원치 않다면 마지막 `-v` 없이 명령어를 실행하면 됩니다.
 ```
 
-볼륨 삭제를 원치 않다면 마지막 `-v` 없이 명령어를 실행하면 됩니다.
+
