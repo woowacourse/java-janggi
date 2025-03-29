@@ -17,4 +17,8 @@ public enum PieceCategory {
     PieceCategory(final Score score) {
         this.score = score;
     }
+
+    public Score getScore() {
+        return score;
+    }
 }

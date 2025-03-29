@@ -21,6 +21,7 @@ public record Board(
 
         player.movePiece(start, target, moveInfos);
         PieceCategory removed = opponent.removePieceIfExists(target);
+        current.increaseScore(removed.getScore());
         return removed;
     }
 
