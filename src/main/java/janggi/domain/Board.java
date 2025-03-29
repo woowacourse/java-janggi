@@ -85,18 +85,18 @@ public final class Board {
     public Country getWinner() {
         if (team1.isEnd()) return team2.getCountry();
         if (team2.isEnd()) return team1.getCountry();
-        throw new IllegalStateException();
+        throw new IllegalStateException("아직 승자가 없습니다.");
     }
 
     public int getWinnerScore() {
         if (team1.isEnd()) return team2.getScore();
         if (team2.isEnd()) return team1.getScore();
-        throw new IllegalStateException();
+        throw new IllegalStateException("아직 승자가 없습니다.");
     }
 
     public int getLooserScore() {
         if (team1.isEnd()) return team1.getScore();
         if (team2.isEnd()) return team2.getScore();
-        throw new IllegalStateException();
+        throw new IllegalStateException("아직 승자가 없습니다.");
     }
 }

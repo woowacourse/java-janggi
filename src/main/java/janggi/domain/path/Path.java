@@ -86,7 +86,7 @@ public record Path(
                 .allMatch(position -> position.isValidToAdd(fileAmount, rankAmount));
 
         if (!isValidToMove) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("해당 수치 만큼 움직일 수 없습니다. (%d, %d)".formatted(fileAmount, rankAmount));
         }
 
         final List<Position> positions = this.pathPositions.stream()
