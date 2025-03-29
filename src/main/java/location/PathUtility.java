@@ -1,10 +1,24 @@
 package location;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class PathUtility {
+    private static final Map<Position, List<Position>> PALACE_DIAGONAL = Map.of(
+            new Position(5, 2), List.of(new Position(4, 1), new Position(6, 1), new Position(4, 3), new Position(6, 3)),
+            new Position(6, 3), List.of(new Position(5, 2)),
+            new Position(4, 3), List.of(new Position(5, 2)),
+            new Position(6, 1), List.of(new Position(5, 2)),
+            new Position(4, 1), List.of(new Position(5, 2)),
+            new Position(5, 9), List.of(new Position(4, 8), new Position(6, 8), new Position(4, 10), new Position(6, 10)),
+            new Position(6, 10), List.of(new Position(5, 9)),
+            new Position(4, 10), List.of(new Position(5, 9)),
+            new Position(6, 8), List.of(new Position(5, 9)),
+            new Position(4, 8), List.of(new Position(5, 9))
+    );
+
     public static void checkStraightMovement(Position from, Position to) {
         if (from.x() != to.x() && from.y() != to.y()) {
             throw new IllegalArgumentException("[ERROR] 직선 이동만 가능합니다.");
@@ -34,5 +48,23 @@ public class PathUtility {
             current = current.apply(direction);
         }
         return paths;
+    }
+
+    public static boolean isPalacePosition(Position destination) {
+        if (destination.x() < 4 || 6 < destination.x()) {
+            return false;
+        }
+        if (4 <= destination.y() && destination.y() <= 7) {
+            return false;
+        }
+        return true;
+    }
+
+    public static void checkValidPalaceDiagonal(Position from, Position to) {
+        List<Position> validDiagonalDestinations = PALACE_DIAGONAL.getOrDefault(from, Collections.emptyList());
+
+        if(validDiagonalDestinations.isEmpty() || !validDiagonalDestinations.contains(to)) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 궁성 내 대각선 움직임입니다.");
+        }
     }
 }

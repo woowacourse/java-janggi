@@ -1,5 +1,6 @@
 package piece;
 
+import location.Direction;
 import location.PathUtility;
 import location.Position;
 import store.Pieces;
@@ -13,8 +14,14 @@ public class Guard implements Piece{
 
     @Override
     public void validateDestination(Position destination) {
-        PathUtility.checkStraightMovement(currentPosition, destination);
         PathUtility.checkOneMovement(currentPosition, destination);
+
+        if(PathUtility.isPalacePosition(currentPosition)
+                && Direction.isDiagonal(currentPosition, destination)) {
+            PathUtility.checkValidPalaceDiagonal(currentPosition, destination);
+            return;
+        }
+        PathUtility.checkStraightMovement(currentPosition, destination);
     }
 
     @Override
