@@ -12,7 +12,7 @@ public class OutputFormatter {
             PieceType.GUARD, "r",
             PieceType.ELEPHANT, "e",
             PieceType.HORSE, "h",
-            PieceType.SOLIDER, "s"
+            PieceType.SOLDIER, "s"
     );
 
     private static final Map<PieceType, String> RED_PIECE_PRINT_FORMAT = Map.of(
@@ -22,7 +22,7 @@ public class OutputFormatter {
             PieceType.GUARD, "R",
             PieceType.ELEPHANT, "E",
             PieceType.HORSE, "H",
-            PieceType.SOLIDER, "S"
+            PieceType.SOLDIER, "S"
     );
 
     private static final Map<Team, String> TEAM_PRINT_FORMAT = Map.of(

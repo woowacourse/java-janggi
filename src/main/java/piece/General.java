@@ -10,7 +10,7 @@ public class General extends Piece {
     private Position currentPosition;
 
     public General(int pieceId, Team team, Position currentPosition) {
-        super(pieceId, team, PieceType.ELEPHANT);
+        super(pieceId, team, PieceType.GENERAL);
         this.isCatch = false;
         this.currentPosition = currentPosition;
     }

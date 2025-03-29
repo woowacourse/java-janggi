@@ -16,9 +16,7 @@ public class BoardDao {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            System.err.println("[ERROR] DB 연결 오류: " + e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("[ERROR] DB 연결 오류: " + e.getMessage(), e);
         }
     }
 

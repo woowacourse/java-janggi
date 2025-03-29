@@ -20,7 +20,7 @@ public class GreenSoldier extends Piece {
     private Position currentPosition;
 
     public GreenSoldier(int pieceId, Team team, Position currentPosition) {
-        super(pieceId, team, PieceType.SOLIDER);
+        super(pieceId, team, PieceType.SOLDIER);
         this.isCatch = false;
         this.currentPosition = currentPosition;
     }

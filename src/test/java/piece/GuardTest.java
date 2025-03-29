@@ -149,7 +149,7 @@ public class GuardTest {
     }
 
     @Test
-    @DisplayName("사는 궁성 외에서 대각선으로 이동할 수 있다.")
+    @DisplayName("사는 궁성 외에서 대각선으로 이동할 수 없다.")
     void test10() {
         // given
         Position from = new Position(3, 3);

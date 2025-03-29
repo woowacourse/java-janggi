@@ -30,9 +30,7 @@ public class PieceDao {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            System.err.println("[ERROR] DB 연결 오류: " + e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("[ERROR] DB 연결 오류: " + e.getMessage(), e);
         }
     }
 
@@ -209,7 +207,7 @@ public class PieceDao {
         if (pieceType == PieceType.GENERAL) {
             return new General(pieceId, team, position);
         }
-        if (pieceType == PieceType.SOLIDER) {
+        if (pieceType == PieceType.SOLDIER) {
             if (team == Team.GREEN) {
                 return new GreenSoldier(pieceId, team, position);
             }

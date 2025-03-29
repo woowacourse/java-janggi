@@ -7,7 +7,7 @@ public enum PieceType {
     CHARIOT(2, 13),
     ELEPHANT(3, 3),
     GENERAL(4, 0),
-    SOLIDER(5, 2),
+    SOLDIER(5, 2),
     GUARD(6, 3),
     HORSE(7, 5);
 
@@ -31,7 +31,7 @@ public enum PieceType {
         return Arrays.stream(PieceType.values())
                 .filter(pieceType -> pieceType.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] id에 해당하는 팀이 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] id에 해당하는 기물 타입이 없습니다."));
     }
 
     public static boolean isCannon(Piece piece) {
