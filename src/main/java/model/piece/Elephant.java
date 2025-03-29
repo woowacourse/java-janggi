@@ -10,6 +10,7 @@ import model.position.Position;
 public class Elephant extends Piece {
 
     private static final int SCORE = 3;
+    private static final String TYPE = "ELEPHANT";
 
     private final List<List<Movement>> movements = List.of(
         List.of(UP, UP_AND_DIAGONAL_UP_LEFT, UP_AND_DOUBLE_DIAGONAL_UP_LEFT),
@@ -23,7 +24,7 @@ public class Elephant extends Piece {
     private final JumpMoveNavigator jumpMoveNavigator;
 
     public Elephant(Team team) {
-        super(team, SCORE);
+        super(team, SCORE, TYPE);
         this.jumpMoveNavigator = new JumpMoveNavigator();
     }
 

@@ -10,6 +10,7 @@ import model.position.Position;
 public class Horse extends Piece {
 
     private static final int SCORE = 5;
+    private static final String TYPE = "HORSE";
 
     private final List<List<Movement>> movements = List.of(
         List.of(UP, UP_AND_DIAGONAL_UP_LEFT), List.of(UP, UP_AND_DIAGONAL_UP_RIGHT),
@@ -19,7 +20,7 @@ public class Horse extends Piece {
     private final JumpMoveNavigator jumpMoveNavigator;
 
     public Horse(Team team) {
-        super(team, SCORE);
+        super(team, SCORE, TYPE);
         this.jumpMoveNavigator = new JumpMoveNavigator();
     }
 

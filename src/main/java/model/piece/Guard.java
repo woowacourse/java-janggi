@@ -11,6 +11,7 @@ import model.position.Position;
 public class Guard extends Piece {
 
     private static final int SCORE = 3;
+    private static final String TYPE = "GUARD";
 
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(
@@ -20,7 +21,7 @@ public class Guard extends Piece {
     private final LimitedBasicMoveNavigator limitedBasicMoveNavigator;
 
     public Guard(Team team) {
-        super(team, SCORE);
+        super(team, SCORE, TYPE);
         this.area = new Area();
         this.limitedBasicMoveNavigator = new LimitedBasicMoveNavigator();
     }

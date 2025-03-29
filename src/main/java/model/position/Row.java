@@ -61,4 +61,7 @@ public enum Row {
         return this.value + increaseAmount <= MAX_VALUE;
     }
 
+    public static Row getRowFromString(String input) {
+        return Row.valueOf(input);
+    }
 }

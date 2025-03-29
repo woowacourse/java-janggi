@@ -11,6 +11,7 @@ import model.position.Position;
 public class Cannon extends Piece {
 
     private static final int SCORE = 7;
+    private static final String TYPE = "CANNON";
 
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
     private final UnLimitedBasicMoveNavigator unLimitedBasicMoveNavigator;
@@ -20,7 +21,7 @@ public class Cannon extends Piece {
     private final Area area;
 
     public Cannon(Team team) {
-        super(team, SCORE);
+        super(team, SCORE, TYPE);
         this.area = new Area();
         this.unLimitedBasicMoveNavigator = new UnLimitedBasicMoveNavigator();
     }

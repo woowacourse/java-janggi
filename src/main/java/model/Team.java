@@ -1,5 +1,8 @@
 package model;
 
+import java.util.Arrays;
+import model.position.Column;
+
 public enum Team {
     RED("레드"),
     GREEN("그린");
@@ -15,6 +18,10 @@ public enum Team {
             return GREEN;
         }
         return RED;
+    }
+
+    public static Team getTeamFromString(String input) {
+        return Team.valueOf(input);
     }
 
     public String getValue() {

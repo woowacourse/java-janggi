@@ -122,6 +122,14 @@ public class Position {
         return column.canUp() && row.canDown();
     }
 
+    public Column getColumn() {
+        return column;
+    }
+
+    public Row getRow() {
+        return row;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

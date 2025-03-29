@@ -11,6 +11,7 @@ import model.position.Position;
 public class Chariot extends Piece {
 
     private static final int SCORE = 13;
+    private static final String TYPE = "CHARIOT";
 
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(
@@ -20,7 +21,7 @@ public class Chariot extends Piece {
     private final UnLimitedBasicMoveNavigator unLimitedBasicMoveNavigator;
 
     public Chariot(Team team) {
-        super(team, SCORE);
+        super(team, SCORE, TYPE);
         this.area = new Area();
         this.unLimitedBasicMoveNavigator = new UnLimitedBasicMoveNavigator();
     }

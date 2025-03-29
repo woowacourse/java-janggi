@@ -1,4 +1,3 @@
-import java.util.Collections;
 import java.util.function.Supplier;
 import model.JanggiGame;
 import model.piece.Piece;

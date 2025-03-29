@@ -62,6 +62,10 @@ public enum Column {
         return this.value - Math.abs(decreaseAmount) >= MIN_VALUE;
     }
 
+    public static Column getColumnFromString(String input) {
+        return Column.valueOf(input);
+    }
+
     public int getValue() {
         return value;
     }

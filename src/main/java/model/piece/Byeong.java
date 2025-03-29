@@ -14,6 +14,7 @@ public class Byeong extends Piece {
      * Area를 각각의 piece가 들고있을 필요는 없을 것 같음. 책임 분리를 생각해보자.
      */
     private static final int SCORE = 2;
+    private static final String TYPE = "BYEONG";
 
     private final List<Movement> movements = List.of(DOWN, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(DIAGONAL_DOWN_LEFT, DIAGONAL_DOWN_RIGHT);
@@ -21,7 +22,7 @@ public class Byeong extends Piece {
     private final LimitedBasicMoveNavigator limitedBasicMoveNavigator;
 
     public Byeong() {
-        super(Team.RED, SCORE);
+        super(Team.RED, SCORE, TYPE);
         this.area = new Area();
         this.limitedBasicMoveNavigator = new LimitedBasicMoveNavigator();
     }

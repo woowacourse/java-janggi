@@ -11,6 +11,8 @@ import model.position.Position;
 public class General extends Piece {
 
     private static final int SCORE = 0;
+    private static final String TYPE = "GENERAL";
+
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(
         DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT,
@@ -19,7 +21,7 @@ public class General extends Piece {
     private final LimitedBasicMoveNavigator limitedBasicMoveNavigator;
 
     public General(Team team) {
-        super(team, SCORE);
+        super(team, SCORE, TYPE);
         this.area = new Area();
         this.limitedBasicMoveNavigator = new LimitedBasicMoveNavigator();
     }

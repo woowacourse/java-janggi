@@ -6,12 +6,18 @@ import model.position.Position;
 
 public abstract class Piece {
 
+    private final String type;
     private final Team team;
     private final int score;
 
-    public Piece(Team team, int score) {
+    public Piece(Team team, int score, String type) {
         this.team = team;
         this.score = score;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void checkOfTurn(Team turn) {
@@ -44,5 +50,4 @@ public abstract class Piece {
     public Team getTeam() {
         return team;
     }
-
 }

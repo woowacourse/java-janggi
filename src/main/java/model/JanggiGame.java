@@ -1,5 +1,6 @@
 package model;
 
+import dao.PieceDao;
 import java.util.List;
 import java.util.Map;
 import model.piece.Piece;
@@ -11,10 +12,19 @@ public class JanggiGame {
 
     private final Pieces pieces;
     private Team turn;
+    private final PieceDao pieceDao;
 
     public JanggiGame() {
-        Map<Position, Piece> pieces = PieceInitializer.generate();
-        this.pieces = new Pieces(pieces);
+        Map<Position, Piece> pieces;
+        pieceDao = new PieceDao();
+        Map<Position, Piece> allPieces = pieceDao.getAllPieces();
+        if (allPieces.isEmpty()) {
+            pieces = PieceInitializer.generate();
+            this.pieces = new Pieces(pieces);
+            pieceDao.addPieces(pieces);
+        } else {
+            this.pieces = new Pieces(allPieces);
+        }
         turn = Team.GREEN;
     }
 
