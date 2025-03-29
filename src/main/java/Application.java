@@ -33,8 +33,10 @@ public class Application {
                 double hanTotalScore = board.calculateTotalPoints(Dynasty.HAN);
                 double choTotalScore = board.calculateTotalPoints(Dynasty.CHO);
 
+                outputView.printScore(hanTotalScore, choTotalScore);
+
                 if (board.isKingDead(Dynasty.CHO)) {
-                    outputView.printScore(hanTotalScore, choTotalScore);
+
                     outputView.printWinner(Dynasty.HAN);
                     BoardDao.deleteBoardEntity();
                     BoardDao.resetTurnEntity();
@@ -42,7 +44,6 @@ public class Application {
                 }
 
                 if (board.isKingDead(Dynasty.HAN)) {
-                    outputView.printScore(hanTotalScore, choTotalScore);
                     outputView.printWinner(Dynasty.CHO);
                     BoardDao.deleteBoardEntity();
                     BoardDao.resetTurnEntity();
