@@ -21,10 +21,6 @@ public class Route {
         return calculate(true, true);
     }
 
-    public List<Position> calculateWithDeparture() {
-        return calculate(false, true);
-    }
-
     public List<Position> calculateWithDestination() {
         return calculate(true, false);
     }
@@ -56,7 +52,7 @@ public class Route {
     }
 
     private void excludeDepartureAndDestination(final List<Position> route, final boolean shouldExcludeDeparture, final boolean shouldExcludeDestination) {
-        if (shouldExcludeDeparture && !route.isEmpty()) {
+        if (shouldExcludeDeparture) {
             route.removeFirst();
         }
 
