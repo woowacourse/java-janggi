@@ -177,7 +177,18 @@ public class GeneralTest {
                 .doesNotThrowAnyException();
     }
 
-    // 궁성 아닌 대각선
+    @Test
+    @DisplayName("장군은 궁성이 아닌 대각선으로 이동할 수 없다")
+    void test12() {
+        //given
+        Position from = new Position(4, 9);
+        Position notPalaceDiagonal = new Position(5, 8);
+        General general = new General(from);
 
-    // 대각선 2칸
+        //when
+
+        //then
+        assertThatThrownBy(() -> general.validateDestination(notPalaceDiagonal))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }
