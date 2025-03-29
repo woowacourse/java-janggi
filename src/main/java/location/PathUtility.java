@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PathUtility {
-    private static final Map<Position, List<Position>> PALACE_DIAGONAL = Map.of(
+    private static final Map<Position, List<Position>> PALACE_DIAGONAL_MOVEMENT = Map.of(
             new Position(5, 2), List.of(new Position(4, 1), new Position(6, 1), new Position(4, 3), new Position(6, 3)),
             new Position(6, 3), List.of(new Position(5, 2)),
             new Position(4, 3), List.of(new Position(5, 2)),
@@ -61,7 +61,7 @@ public class PathUtility {
     }
 
     public static void checkValidOneDiagonalMovementInPalace(Position from, Position to) {
-        List<Position> validDiagonalDestinations = PALACE_DIAGONAL.getOrDefault(from, Collections.emptyList());
+        List<Position> validDiagonalDestinations = PALACE_DIAGONAL_MOVEMENT.getOrDefault(from, Collections.emptyList());
 
         if(validDiagonalDestinations.isEmpty() || !validDiagonalDestinations.contains(to)) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 궁성 내 대각선 움직임입니다.");
@@ -69,14 +69,14 @@ public class PathUtility {
     }
 
     public static void checkValidTwoDiagonalMovementInPalace(Position from, Position to) {
-        List<Position> validDiagonalPaths = PALACE_DIAGONAL.getOrDefault(from, Collections.emptyList());
+        List<Position> validDiagonalPaths = PALACE_DIAGONAL_MOVEMENT.getOrDefault(from, Collections.emptyList());
 
         if(validDiagonalPaths.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 궁성 내 대각선 움직임입니다.");
         }
 
         for(Position position : validDiagonalPaths) {
-            List<Position> validDiagonalDestinations = PALACE_DIAGONAL.get(position);
+            List<Position> validDiagonalDestinations = PALACE_DIAGONAL_MOVEMENT.get(position);
             if(!validDiagonalDestinations.contains(to)) {
                 throw new IllegalArgumentException("[ERROR] 유효하지 않은 궁성 내 대각선 움직임입니다.");
             }

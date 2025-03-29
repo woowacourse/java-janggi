@@ -26,9 +26,7 @@ public class GreenSoldier implements Piece {
     public void validateDestination(Position destination) {
         if (currentPosition.equals(DIAGONAL_POSSIBLE_POSITON)
                 && Direction.isDiagonal(currentPosition, destination)) {
-            if(!VALID_PALACE_DIAGONAL_MOVEMENT.contains(destination)) {
-                throw new IllegalArgumentException("[ERROR] 유효하지 않은 궁성 내 대각선 움직임입니다.");
-            }
+            checkValidDiagonalOneMovement(destination);
             return;
         }
         checkStraightForwardOneMovement(destination);
@@ -64,5 +62,11 @@ public class GreenSoldier implements Piece {
                 .filter(direction -> currentPosition.apply(direction).equals(destination))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다."));
+    }
+
+    private void checkValidDiagonalOneMovement(Position destination) {
+        if(!VALID_PALACE_DIAGONAL_MOVEMENT.contains(destination)) {
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 궁성 내 대각선 움직임입니다.");
+        }
     }
 }
