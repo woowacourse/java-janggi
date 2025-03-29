@@ -16,7 +16,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,11 +28,12 @@ public class BoardDao {
         Map<Position, Piece> alivePieces = board.getAlivePieces();
         String sql = "insert into board(row_index, column_index, piece_type, team) values (?,?,?,?)";
         Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
         for (Entry<Position, Piece> positionPieceEntry : alivePieces.entrySet()) {
             try {
                 Position position = positionPieceEntry.getKey();
                 Piece piece = positionPieceEntry.getValue();
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setInt(1, position.getRow());
                 preparedStatement.setInt(2, position.getColumn());
                 preparedStatement.setString(3, piece.getType().name());
@@ -43,14 +43,16 @@ public class BoardDao {
                 throw new RuntimeException(e);
             }
         }
+        close(connection, preparedStatement, null);
     }
 
     public Optional<Board> findBoard() {
         Map<Position, Piece> alivePieces = new HashMap<>();
         String sql = "select * from board";
         Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int rowIndex = resultSet.getInt("row_index");
@@ -65,31 +67,83 @@ public class BoardDao {
             return Optional.of(new Board(alivePieces));
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(connection, preparedStatement, null);
         }
     }
 
     public void updateBoard(Position startPosition, Position endPosition) {
         Connection connection = getConnection();
-        safeModeQuit(connection);
-        deletePieceInfo(connection, endPosition);
-        updatePieceInfo(connection, startPosition, endPosition);
-        safeModeSet(connection);
+        try {
+            connection.setAutoCommit(false);
+            safeModeQuit(connection);
+            deletePieceInfo(connection, endPosition);
+            updatePieceInfo(connection, startPosition, endPosition);
+            safeModeSet(connection);
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        close(connection, null, null);
+    }
+
+    public void deleteBoard() {
+        Connection connection = getConnection();
+        try {
+            connection.setAutoCommit(false);
+            safeModeQuit(connection);
+            deleteAll(connection);
+            safeModeSet(connection);
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        close(connection, null, null);
+    }
+
+    private void deleteAll(Connection connection) {
+        String sql = "delete from board";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(null, preparedStatement, null);
+        }
     }
 
     private void safeModeQuit(Connection connection) {
         String safeModeQuit = "SET SQL_SAFE_UPDATES = 0";
+        PreparedStatement preparedStatement = null;
         try {
-            Statement statement = connection.createStatement();
-            statement.execute(safeModeQuit);
+            preparedStatement = connection.prepareStatement(safeModeQuit);
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(null, preparedStatement, null);
         }
     }
 
     private void updatePieceInfo(Connection connection, Position startPosition, Position endPosition) {
         String updateSql = "update board set row_index = ?, column_index = ? where row_index = ? and column_index = ?";
+        PreparedStatement preparedStatement = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(updateSql);
+            preparedStatement = connection.prepareStatement(updateSql);
             preparedStatement.setInt(1, endPosition.getRow());
             preparedStatement.setInt(2, endPosition.getColumn());
             preparedStatement.setInt(3, startPosition.getRow());
@@ -97,16 +151,21 @@ public class BoardDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(null, preparedStatement, null);
         }
     }
 
     private void safeModeSet(Connection connection) {
         String safeModeSet = "SET SQL_SAFE_UPDATES = 1";
+        PreparedStatement preparedStatement = null;
         try {
-            Statement statement = connection.createStatement();
-            statement.execute(safeModeSet);
+            preparedStatement = connection.prepareStatement(safeModeSet);
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(null, preparedStatement, null);
         }
     }
 
@@ -145,6 +204,33 @@ public class BoardDao {
             return new Horse(teamType);
         }
         throw new IllegalArgumentException("존재 하지 않은 말입니다.");
+    }
+
+    private void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private Connection getConnection() {

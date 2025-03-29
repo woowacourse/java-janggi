@@ -1,6 +1,7 @@
 package domain;
 
 import domain.dao.BoardDao;
+import domain.dao.GameStatusDao;
 import domain.dao.PlayerDao;
 import domain.participants.Player;
 import domain.participants.Players;
@@ -16,7 +17,8 @@ import view.InputView;
 import view.OutputView;
 
 public class JanggiRunner {
-    private static final String ROOM_NAME = "JANGGI_ROOM";
+    private static final String ROOM_NAME = "GAME_ROOM";
+
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -29,6 +31,7 @@ public class JanggiRunner {
         JanggiGame janggiGame = initializeGame();
         showInitializedBoardResult(janggiGame);
         startGame(janggiGame);
+        deleteData();
     }
 
     private void showInitializedBoardResult(JanggiGame janggiGame) {
@@ -51,7 +54,21 @@ public class JanggiRunner {
             janggiGame.movePiece(startPosition, endPosition);
             outputView.printBoard(janggiGame.getAlivePiecesInfo());
             outputView.printScore(janggiGame.getScoreInfo());
+            nowTurn = janggiGame.getTurn();
+            BoardDao boardDao = new BoardDao();
+            boardDao.updateBoard(startPosition, endPosition);
+            GameStatusDao gameStatusDao = new GameStatusDao();
+            gameStatusDao.updateTurn(ROOM_NAME,nowTurn);
         }
+    }
+
+    private void deleteData(){
+        BoardDao boardDao = new BoardDao();
+        PlayerDao playerDao = new PlayerDao();
+        GameStatusDao gameStatusDao = new GameStatusDao();
+        playerDao.deletePlayer();
+        boardDao.deleteBoard();
+        gameStatusDao.deleteGame();
     }
 
     private void showWinner(JanggiGame janggiGame) {
@@ -61,15 +78,9 @@ public class JanggiRunner {
 
     private JanggiGame initializeGame() {
         Players players = createPlayers();
-        BoardDao boardDao = new BoardDao();
-        Optional<Board> board = boardDao.findBoard();
-        if(board.isPresent()){
-            return new JanggiGame(players,board.get(),new GameStatus(ROOM_NAME));
-        }
-        HorseElephantSetupStrategy choPlayerStrategy = chooseStrategy(players.getChoPlayerName());
-        HorseElephantSetupStrategy hanPlayerStrategy = chooseStrategy(players.getHanPlayerName());
-        Map<Position, Piece> allPieces = createAllPieces(choPlayerStrategy, hanPlayerStrategy);
-        return new JanggiGame(players, allPieces,new GameStatus(ROOM_NAME));
+        GameStatus gameStatus = createGameStatus();
+        Board board = createBoard(players);
+        return new JanggiGame(players, board, gameStatus);
     }
 
     private Map<Position, Piece> createAllPieces(HorseElephantSetupStrategy firstPlayerStrategy,
@@ -94,6 +105,31 @@ public class JanggiRunner {
         Players players = Players.createFrom(usernames, startPlayerName);
         playerDao.savePlayers(players);
         return players;
+    }
+    
+    private Board createBoard(Players players){
+        BoardDao boardDao = new BoardDao();
+        Optional<Board> boardOptional = boardDao.findBoard();
+        if(boardOptional.isPresent()){
+            return boardOptional.get();
+        }
+        HorseElephantSetupStrategy choPlayerStrategy = chooseStrategy(players.getChoPlayerName());
+        HorseElephantSetupStrategy hanPlayerStrategy = chooseStrategy(players.getHanPlayerName());
+        Map<Position, Piece> allPieces = createAllPieces(choPlayerStrategy, hanPlayerStrategy);
+        Board board = new Board(allPieces);
+        boardDao.save(board);
+        return board;
+    }
+
+    private GameStatus createGameStatus(){
+        GameStatusDao gameStatusDao = new GameStatusDao();
+        Optional<GameStatus> gameStatusOptional = gameStatusDao.findGameStatusByRoomName(ROOM_NAME);
+        if(gameStatusOptional.isPresent()){
+            return gameStatusOptional.get();
+        }
+        GameStatus gameStatus = new GameStatus(ROOM_NAME);
+        gameStatusDao.save(gameStatus);
+        return gameStatus;
     }
 
     private Usernames createUsernames() {

@@ -12,50 +12,143 @@ import util.DBConnectionUtil;
 
 public class PlayerDao {
 
-    public void save(Player player){
+    public void save(Player player) {
         Connection connection = getConnection();
         String sql = "insert into player(username,team) values (?,?)";
+        PreparedStatement preparedStatement = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,player.getName());
-            preparedStatement.setString(2,player.getTeamType().name());
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, player.getName());
+            preparedStatement.setString(2, player.getTeamType().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(connection,preparedStatement,null);
         }
     }
 
-    public void savePlayers(Players players){
+    public void savePlayers(Players players) {
         save(players.getChoPlayer());
         save(players.getHanPlayer());
     }
 
-    public Optional<Players> findPlayers(){
+    public Optional<Players> findPlayers() {
         Player choPlayer = findPlayer(TeamType.CHO);
         Player hanPlayer = findPlayer(TeamType.HAN);
-        if(choPlayer!=null && hanPlayer != null){
-            return Optional.of(Players.initialize(choPlayer,hanPlayer));
+        if (choPlayer != null && hanPlayer != null) {
+            return Optional.of(Players.initialize(choPlayer, hanPlayer));
         }
         return Optional.empty();
     }
 
-    private Player findPlayer(TeamType teamType){
+    private Player findPlayer(TeamType teamType) {
         Connection connection = getConnection();
         String sql = "select * from player where team = ?";
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, teamType.name());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                return new Player(resultSet.getString("username"),TeamType.valueOf(resultSet.getString("team")));
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return new Player(resultSet.getString("username"), TeamType.valueOf(resultSet.getString("team")));
             }
             return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            close(connection, preparedStatement, resultSet);
         }
     }
 
-    private Connection getConnection(){
+    public void deletePlayer() {
+        Connection connection = getConnection();
+        try {
+            connection.setAutoCommit(false);
+            safeModeQuit(connection);
+            deleteAll(connection);
+            safeModeSet(connection);
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            throw new RuntimeException(e);
+        }
+        close(connection, null, null);
+    }
+
+    private void deleteAll(Connection connection) {
+        String sql = "delete from player";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(null, preparedStatement, null);
+        }
+    }
+
+    private void safeModeQuit(Connection connection) {
+        String safeModeQuit = "SET SQL_SAFE_UPDATES = 0";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(safeModeQuit);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(null, preparedStatement, null);
+        }
+    }
+
+    private void safeModeSet(Connection connection) {
+        String safeModeSet = "SET SQL_SAFE_UPDATES = 1";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(safeModeSet);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(null, preparedStatement, null);
+        }
+    }
+
+    private void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
+
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private Connection getConnection() {
         return DBConnectionUtil.getConnection();
     }
 }

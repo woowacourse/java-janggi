@@ -1,8 +1,6 @@
 package domain;
 
 
-import domain.dao.BoardDao;
-import domain.dao.GameStatusDao;
 import domain.participants.Player;
 import domain.participants.Players;
 import domain.piece.Piece;
@@ -29,10 +27,7 @@ public class JanggiGame {
 
     public void movePiece(Position startPosition, Position endPosition) {
         board.movePiece(startPosition, endPosition, gameStatus.getTurn());
-        BoardDao boardDao = new BoardDao();
-        boardDao.updateBoard(startPosition, endPosition);
         gameStatus.changeTurn();
-        GameStatusDao gameStatusDao = new GameStatusDao();
     }
 
     public Player findWinner() {
