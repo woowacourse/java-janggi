@@ -69,4 +69,18 @@ class GuardTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("이동할 수 없는 지점입니다.");
     }
+
+    @Test
+    @DisplayName("사는 궁성을 나갈 수 없다")
+    void cannotExitPalace() {
+        // given
+        final Guard guard = Guard.of(Position.of(8, 5), Team.CHO);
+        final Board board = Board.from(Pieces.empty().add(guard));
+
+        // when
+        // then
+        assertThatThrownBy(() -> guard.move(board, Position.of(7, 5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("사는 궁성 밖으로 나갈 수 없습니다");
+    }
 }

@@ -91,4 +91,18 @@ class GeneralTest {
             assertThat(movedPiece4.getPosition()).isEqualTo(movedPosition4);
         });
     }
+
+    @Test
+    @DisplayName("궁은 궁성을 나갈 수 없다")
+    void cannotExitPalace() {
+        // given
+        final General general = General.of(Position.of(8, 5), Team.CHO);
+        final Board board = Board.from(Pieces.empty().add(general));
+
+        // when
+        // then
+        assertThatThrownBy(() -> general.move(board, Position.of(7, 5)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("궁은 궁성 밖으로 나갈 수 없습니다");
+    }
 }
