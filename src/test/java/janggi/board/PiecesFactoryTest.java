@@ -9,7 +9,7 @@ import janggi.piece.PiecesFactory;
 import janggi.position.Position;
 import org.junit.jupiter.api.Test;
 
-class MoveRulesFactoryTest {
+class PiecesFactoryTest {
 
     @Test
     void 상마상마_보드_생성_테스트() {
