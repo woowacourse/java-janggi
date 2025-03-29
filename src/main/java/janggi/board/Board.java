@@ -92,6 +92,10 @@ public final class Board {
         return calculateScoreBoard().getWinner();
     }
 
+    public int getSetupOption() {
+        return setupOption;
+    }
+
     private void validateStartPosition(final Position start) {
         if (!board.containsKey(start)) {
             throw new IllegalArgumentException(
@@ -111,9 +115,5 @@ public final class Board {
             throw new IllegalArgumentException(
                     String.format("[ERROR] %d%d 위치로 이동할 수 없습니다.", end.getRowValue(), end.getColumnValue()));
         }
-    }
-
-    public int getSetupOption() {
-        return setupOption;
     }
 }
