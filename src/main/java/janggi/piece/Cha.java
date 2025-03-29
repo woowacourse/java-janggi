@@ -46,7 +46,6 @@ public class Cha extends Piece {
         }
         List<JanggiPosition> pathPositions = FourDirection.from(destination, janggiPosition);
         if (!enemyPieces.isNotBlockedBy(destination)) {
-            // 목적지에 적이 있는 경우, 경로 상에 아군이 없어야 함
             return allyPieces.isPathBlockedBy(pathPositions);
         }
         return allyPieces.isPathBlockedBy(pathPositions)
@@ -63,13 +62,8 @@ public class Cha extends Piece {
         int dx = Math.abs(end.x() - start.x());
         int dy = Math.abs(end.y() - start.y());
 
-        // 1칸 직선 이동
         boolean isOneStepStraight = (dx == 0 && dy == 0);
-
-        // 2칸 직선 이동
         boolean isTwoStepStraight = (dx == 1 && dy == 0) || (dx == 0 && dy == 1);
-
-        // 2칸 대각선 이동
         boolean isTwoStepDiagonal = (dx == 1 && dy == 1);
 
         return isOneStepStraight || isTwoStepStraight || isTwoStepDiagonal;

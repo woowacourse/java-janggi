@@ -1,9 +1,9 @@
 package janggi.manager;
 
 import janggi.board.JanggiBoard;
-import janggi.board.JanggiBoardDAO;
-import janggi.board.TeamDAO;
-import janggi.board.TurnDAO;
+import janggi.board.dao.JanggiBoardDAO;
+import janggi.board.dao.TeamDAO;
+import janggi.board.dao.TurnDAO;
 import janggi.database.DBConnector;
 import janggi.piece.Piece;
 import janggi.setting.AssignType;

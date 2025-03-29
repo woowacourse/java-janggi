@@ -38,32 +38,25 @@ public class Po extends Piece {
             List<JanggiPosition> gungPathPositions = GungDirection.of(janggiPosition, destination);
             return isValidMoveInCastle(gungPathPositions, enemy, allies);
         }
-        // 목적지가 직선 상에 있는지 확인
         if (!isValidMove(destination)) {
             return false;
         }
-        // 목적지에 아군이 있는지 확인
         if (!allies.isNotBlockedBy(destination)) {
             return false;
         }
-        // 현재 위치와 목적지 사이의 경로 계산
         List<JanggiPosition> pathPositions = FourDirection.from(destination, janggiPosition);
-
         List<Piece> alliesInPath = allies.searchPiecesInPath(pathPositions);
         List<Piece> enemyInPath = enemy.searchPiecesInPath(pathPositions);
 
         if (isPoInPath(alliesInPath) || isPoInPath(enemyInPath)) {
             return false;
         }
-
         if (enemy.isNotBlockedBy(destination) && alliesInPath.size() + enemyInPath.size() > 1) {
             return false;
         }
-
         if (!enemy.isNotBlockedBy(destination) && alliesInPath.size() + enemyInPath.size() > 2) {
             return false;
         }
-
         return alliesInPath.size() + enemyInPath.size() == 1 || alliesInPath.size() + enemyInPath.size() == 2;
     }
 
