@@ -28,11 +28,11 @@ public record Position(int x, int y) {
         return isVertical(dest) || isHorizontal(dest);
     }
 
-    public boolean isVertical(final Position dest) {
+    private boolean isVertical(final Position dest) {
         return x == dest.x && y != dest.y;
     }
 
-    public boolean isHorizontal(final Position dest) {
+    private boolean isHorizontal(final Position dest) {
         return x != dest.x && y == dest.y;
     }
 
