@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public final class DatabaseConnection {
 
     private static final String DRIVER = "jdbc:mysql";
-    private static final String SERVER = "localhost:133026";
+    private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root";

@@ -117,7 +117,6 @@ public final class OnlineController implements Controller {
         board.movePiece(fromPoint, toPoint);
         pieceDao.delete(toPoint);
         pieceDao.move(fromPoint, toPoint);
-        pieceDao.delete(fromPoint);
     }
 
     private void validateSelectedPiece(Board board, Point from, Camp baseCamp) {
