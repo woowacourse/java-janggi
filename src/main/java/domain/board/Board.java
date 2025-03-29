@@ -65,4 +65,8 @@ public class Board {
                 .map(this::getPieceByPosition)
                 .toList();
     }
+
+    public Map<Position, Piece> getBoard() {
+        return board;
+    }
 }

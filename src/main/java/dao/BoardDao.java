@@ -67,7 +67,9 @@ public class BoardDao {
         return board;
     }
 
-    public void updatePosition(Position source, Position destination, Piece piece) {
+    public void updatePosition(Position source, Position destination) {
+
+        String[] pieceInfo = getPieceInfoByPosition(source);
         try (Connection connection = userDao.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_PIECE)) {
             statement.setInt(1, source.rowValue());
@@ -97,9 +99,25 @@ public class BoardDao {
              PreparedStatement statement = connection.prepareStatement(INSERT_PIECE)) {
             statement.setInt(1, destination.rowValue());
             statement.setInt(2, destination.columnValue());
-            statement.setString(3, piece.getType().toString());
-            statement.setString(4, piece.getColor().toString());
+            statement.setString(3, pieceInfo[0]);
+            statement.setString(4, pieceInfo[1]);
             statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String[] getPieceInfoByPosition(Position position) {
+        String query = "SELECT piece_type, piece_color FROM board WHERE position_row = ? AND position_column = ?";
+        try (Connection connection = userDao.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, position.rowValue());
+            statement.setInt(2, position.columnValue());
+            ResultSet resultSet = statement.executeQuery();
+            String pieceType = resultSet.getString("piece_type");
+            String pieceColor = resultSet.getString("piece_color");
+            return new String[]{pieceType, pieceColor};
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
