@@ -15,13 +15,9 @@ public class Chariot extends Piece {
     @Override
     protected void validateArrival(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
-        if (boardVector.isAxis()) {
-            return;
+        if (boardVector.isNotAxis() && canNotMoveDiagonal(current, destination, boardVector)) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
-        if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isDiagonal()) {
-            return;
-        }
-        throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
     }
 
     @Override
@@ -42,5 +38,9 @@ public class Chariot extends Piece {
     @Override
     public PieceType getType() {
         return PieceType.CHARIOT;
+    }
+
+    private boolean canNotMoveDiagonal(BoardLocation current, BoardLocation destination, BoardVector boardVector) {
+        return Palace.isNotDiagonalMoveAllowed(current, destination) && boardVector.isNotDiagonal();
     }
 }

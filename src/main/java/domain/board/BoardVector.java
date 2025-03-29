@@ -23,11 +23,15 @@ public record BoardVector(
         return Math.abs(dx) == Math.abs(dy);
     }
 
-    public boolean isStepAxisMove(int step) {
+    public boolean isNotDiagonal() {
+        return Math.abs(dx) != Math.abs(dy);
+    }
+
+    public boolean hasStepAxisMove(int step) {
         return Math.abs(dx) == step || Math.abs(dy) == step;
     }
 
-    public boolean isStepDiagonalMove(int step) {
+    public boolean hasStepDiagonalMove(int step) {
         return Math.abs(dx) == step && Math.abs(dy) == step;
     }
 

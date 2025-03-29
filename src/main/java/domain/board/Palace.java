@@ -37,15 +37,15 @@ public enum Palace {
         this.endLocation = endLocation;
     }
 
-    public static boolean isDiagonalMoveAllowed(BoardLocation current, BoardLocation destination) {
+    public static boolean isNotDiagonalMoveAllowed(BoardLocation current, BoardLocation destination) {
         Optional<Palace> currentPalace = findByDiagonalMovableLocation(current);
         Optional<Palace> destinationPalace = findByDiagonalMovableLocation(destination);
 
         if (currentPalace.isPresent() && destinationPalace.isPresent()) {
-            return currentPalace.get() == destinationPalace.get();
+            return currentPalace.get() != destinationPalace.get();
         }
 
-        return false;
+        return true;
     }
 
     public void validateInPalace(BoardLocation current, BoardLocation destination) {

@@ -17,7 +17,7 @@ public class King extends Piece {
         BoardVector boardVector = BoardVector.between(current, destination);
         validateInPalace(current, destination);
 
-        if (boardVector.isNotAxis() && !(canMoveDiagonal(current, destination, boardVector))) {
+        if (boardVector.isNotAxis() && canNotMoveDiagonal(current, destination, boardVector)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
     }
@@ -49,7 +49,7 @@ public class King extends Piece {
         palace.validateInPalace(current, destination);
     }
 
-    private boolean canMoveDiagonal(BoardLocation current, BoardLocation destination, BoardVector boardVector) {
-        return Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isDiagonal();
+    private boolean canNotMoveDiagonal(BoardLocation current, BoardLocation destination, BoardVector boardVector) {
+        return Palace.isNotDiagonalMoveAllowed(current, destination) || boardVector.isNotDiagonal();
     }
 }

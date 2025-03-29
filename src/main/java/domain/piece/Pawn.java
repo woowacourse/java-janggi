@@ -17,28 +17,10 @@ public class Pawn extends Piece {
     @Override
     protected void validateArrival(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
-        boolean isAxis = boardVector.isAxis();
-        boolean isStepAxisMove = boardVector.isStepAxisMove(PAWN_STEP);
-        boolean isStepDiagonalMove = boardVector.isStepDiagonalMove(PAWN_STEP);
 
-        if ((this.team == Team.HAN)  && !destination.isUp(current)) {
-            if (isAxis && isStepAxisMove){
-                return;
-            }
-            if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isDiagonal() && isStepDiagonalMove){
-                return;
-            }
+        if (isNotValidMoveDirection(current, destination) || canNotMoveAxis(boardVector) || canNotMoveDiagonal(current, destination, boardVector)) {
+            throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
-        if ((this.team == Team.CHO) && !destination.isDown(current)) {
-            if (isAxis && isStepAxisMove){
-                return;
-            }
-            if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isDiagonal() && isStepDiagonalMove){
-                return;
-            }
-        }
-
-        throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
     }
 
     @Override
@@ -56,5 +38,22 @@ public class Pawn extends Piece {
     @Override
     public PieceType getType() {
         return PieceType.PAWN;
+    }
+
+    private boolean isNotValidMoveDirection(BoardLocation current, BoardLocation destination) {
+        if (this.team == Team.HAN) {
+            return destination.isUp(current);
+        }
+        return destination.isDown(current);
+    }
+
+    private boolean canNotMoveDiagonal(BoardLocation current, BoardLocation destination, BoardVector boardVector) {
+        return Palace.isNotDiagonalMoveAllowed(current, destination)
+                || boardVector.isNotDiagonal()
+                || !boardVector.hasStepDiagonalMove(PAWN_STEP);
+    }
+
+    private boolean canNotMoveAxis(BoardVector boardVector) {
+        return boardVector.isNotAxis() || !boardVector.hasStepAxisMove(PAWN_STEP);
     }
 }
