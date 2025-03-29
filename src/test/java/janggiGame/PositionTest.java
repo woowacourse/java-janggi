@@ -78,19 +78,6 @@ class PositionTest {
         );
     }
 
-    @DisplayName("row 와 column 좌표를 가지고 있는 점을 생성한다.")
-    @Test
-    void createPosition() {
-        // given
-        int row = 1;
-        int column = 2;
-
-        // when // then
-        assertThatCode(() -> new Position(row, column))
-                .doesNotThrowAnyException();
-
-    }
-
     @DisplayName("row 좌표가 0부터 8까지의 범위를 가진다")
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7, 8})
