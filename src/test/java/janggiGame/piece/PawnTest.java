@@ -23,6 +23,20 @@ class PawnTest {
         );
     }
 
+    private static Stream<Arguments> providePositionInPalaceDiagonal() {
+        return Stream.of(
+                Arguments.of(Position.of(3, 7), Position.of(4, 8)),
+                Arguments.of(Position.of(3, 9), Position.of(4, 8)),
+                Arguments.of(Position.of(5, 7), Position.of(4, 8)),
+                Arguments.of(Position.of(5, 9), Position.of(4, 8)),
+
+                Arguments.of(Position.of(4, 8), Position.of(3, 7)),
+                Arguments.of(Position.of(4, 8), Position.of(3, 9)),
+                Arguments.of(Position.of(4, 8), Position.of(5, 7)),
+                Arguments.of(Position.of(4, 8), Position.of(5, 9))
+        );
+    }
+
     @DisplayName("병은 뒤로 이동할 수 없다.")
     @ParameterizedTest
     @MethodSource("providePawnAndOriginAndDestination")
@@ -71,5 +85,31 @@ class PawnTest {
         // when // then
         assertThatCode(() -> pawn.validateMove(intermediatePointsWithPiece, new Advisor(Dynasty.CHO)))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("병의 위치가 궁성 안 대각선의 위치인 경우, 대각선 이동이 가능하다.")
+    @ParameterizedTest
+    @MethodSource("providePositionInPalaceDiagonal")
+    void pawnCanMoveDiagonalInPalaceDiagonal(Position origin, Position destination) {
+        // given
+        Pawn pawn = new Pawn(Dynasty.HAN);
+
+        // when
+        List<Position> actual = pawn.getIntermediatePoints(origin, destination);
+
+        // then
+        assertThat(actual).isEmpty();
+    }
+
+    @DisplayName("병은 같은 위치로 이동할 수 없다.")
+    @Test
+    void pawnCannotMoveToSamePosition_Test() {
+        // given
+        Pawn pawn = new Pawn(Dynasty.HAN);
+
+        // when // then
+        assertThatCode(() -> pawn.getIntermediatePoints(Position.of(1, 1), Position.of(1, 1)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageStartingWith("[ERROR] ");
     }
 }
