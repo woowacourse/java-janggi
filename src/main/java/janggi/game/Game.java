@@ -18,6 +18,10 @@ public class Game {
         this(Board.init(), new ArrayList<>(), Team.CHO, LocalDateTime.now());
     }
 
+    public Game(Board board) {
+        this(board, new ArrayList<>(), Team.CHO, LocalDateTime.now());
+    }
+
     public Game(LocalDateTime createdAt) {
         this(Board.init(), new ArrayList<>(), Team.CHO, createdAt);
     }

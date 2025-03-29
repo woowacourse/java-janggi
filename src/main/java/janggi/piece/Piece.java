@@ -46,4 +46,8 @@ public abstract class Piece {
     public Score getScore() {
         return information.getScore();
     }
+
+    public PieceInformation getType() {
+        return information;
+    }
 }

@@ -47,6 +47,7 @@ public class GameDao {
                 return new Game(
                         LocalDateTime.parse(resultSet.getString("created_at"), createdAtFormatter)
                 ); //TODO : 새객체로 진행하는데 DB반영 안돼도 되나?
+                //TODO piece도 반영
             }
             throw new IllegalStateException("게임 기록이 존재하지 않습니다.");
         } catch (final SQLException e) {
