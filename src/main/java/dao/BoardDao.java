@@ -87,4 +87,24 @@ public final class BoardDao {
 
         return pieceEntities;
     }
+
+    public static int readTurnEntity() {
+        final var query = "SELECT turn FROM Turn";
+
+        try (final var connection = BoardDao.getConnection()) {
+            if (connection == null) {
+                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
+            }
+            try (final var statement = connection.createStatement();
+                 final var resultSet = statement.executeQuery(query)) {
+
+                if (resultSet.next()) {
+                    return resultSet.getInt("turn");
+                }
+                throw new SQLException("Turn 테이블에서 데이터를 찾을 수 없습니다.");
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
