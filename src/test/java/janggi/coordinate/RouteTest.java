@@ -128,4 +128,42 @@ public class RouteTest {
         final List<Position> expected = List.of(Position.of(5, 3), Position.of(6, 4));
         assertThat(actual).containsExactlyElementsOf(expected);
     }
+
+    @Test
+    @DisplayName("경로를 계산할 때, 출발지와 도착지를 포함할 수 있다")
+    void canIncludeDepartureAndDestination() {
+        // given
+        final Position departure = Position.of(1, 1);
+        final Position destination = Position.of(5, 5);
+        final Route route = Route.of(departure, destination);
+
+        // when
+        final List<Position> withoutDepartureAndDestination = route.calculate();
+        final List<Position> withoutDeparture = route.calculateWithDestination();
+        final List<Position> all = route.calculateWithDepartureAndDestination();
+
+        // then
+        assertThat(withoutDepartureAndDestination).doesNotContain(departure, destination);
+        assertThat(withoutDeparture).doesNotContain(departure);
+        assertThat(all).contains(departure, destination);
+    }
+
+    @Test
+    @DisplayName("출발지와 도착지가 같은 경우와 같이 경로 길이가 짧을 때, 시작지와 도착지를 제외하려 해도 안전하게 처리된다")
+    void canExcludeDepartureAndDestinationWhenShortRoute() {
+        // given
+        final Position departure = Position.of(1, 1);
+        final Position destination = Position.of(1, 1);
+        final Route route = Route.of(departure, destination);
+
+        // when
+        final List<Position> withoutDepartureAndDestination = route.calculate();
+        final List<Position> withoutDeparture = route.calculateWithDestination();
+        final List<Position> all = route.calculateWithDepartureAndDestination();
+
+        // then
+        assertThat(withoutDepartureAndDestination).doesNotContain(departure, destination);
+        assertThat(withoutDeparture).doesNotContain(departure);
+        assertThat(all).contains(departure, destination);
+    }
 }

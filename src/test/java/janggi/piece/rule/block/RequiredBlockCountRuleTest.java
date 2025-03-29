@@ -18,6 +18,17 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class RequiredBlockCountRuleTest {
 
     @Test
+    @DisplayName("허용하는 기물의 숫자로 음수를 설정할 수 없다")
+    void cannotSetNegativeValue() {
+        // given
+        // when
+        // then
+        assertThatThrownBy(() -> RequiredBlockCountRule.withBlock(-1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("요구되는 블록 수는 음수가 될 수 없습니다");
+    }
+
+    @Test
     @DisplayName("withNonBlock()은 0개의 기물이 있어야 하는 블로킹 전략을 반환한다")
     void withNonBlockReturnsZeroBlockStrategy() {
         // given

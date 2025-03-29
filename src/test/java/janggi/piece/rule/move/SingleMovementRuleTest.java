@@ -234,4 +234,16 @@ class SingleMovementRuleTest {
                     .isInstanceOf(IllegalArgumentException.class);
         });
     }
+
+    @DisplayName("궁성 내 대각선 이동이고, 궁성의 중앙을 지나지만, 2칸 이상 움직이면 예외 발생")
+    @Test
+    void validate_failsWhenDiagonalMoveOverOneStep() {
+        final MovementRule strategy = SingleMovementRule.withNonBlock();
+        final Board board = Board.from(Pieces.empty());
+
+        assertAll(() -> {
+            assertThatThrownBy(() -> strategy.validate(board, Position.of(8, 4), Position.of(10, 6)))
+                    .isInstanceOf(IllegalArgumentException.class);
+        });
+    }
 }

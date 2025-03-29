@@ -39,15 +39,21 @@ public class SingleMovementRule extends MovementRule {
     }
 
     private boolean isValidPalaceDiagonalMove(final Board board, final Position departure, final Position destination, final Distance distance) {
-        if (board.isPalace(departure)) {
-            final Route route = Route.of(departure, destination);
-
-            for (final Position position : route.calculateWithDepartureAndDestination()) {
-                if (board.isCenterOfPalace(position) && distance.isDiagonal() && distance.getDiagonal() == SINGLE_STEP) {
-                    return true;
-                }
-            }
+        if (!board.isPalace(departure)) {
+            return false;
         }
-        return false;
+
+        if (!distance.isDiagonal()) {
+            return false;
+        }
+
+        if (!(distance.getDiagonal() == SINGLE_STEP)) {
+            return false;
+        }
+
+        final Route route = Route.of(departure, destination);
+
+        return route.calculateWithDepartureAndDestination().stream()
+                .anyMatch(board::isCenterOfPalace);
     }
 }

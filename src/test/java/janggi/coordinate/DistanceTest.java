@@ -37,11 +37,23 @@ class DistanceTest {
     }
 
     @Test
-    @DisplayName("같은 축의 거리끼리는 결합할 수 없다")
-    void combineSameAxis_shouldThrow() {
+    @DisplayName("같은 축의 거리끼리는 결합할 수 없다 (행)")
+    void combineSameAxis_shouldThrow_row() {
         // given
         final Distance d1 = new Distance(2, 0);
         final Distance d2 = new Distance(4, 0);
+
+        // when
+        // then
+        assertThrows(IllegalArgumentException.class, () -> d1.combine(d2));
+    }
+
+    @Test
+    @DisplayName("같은 축의 거리끼리는 결합할 수 없다 (열)")
+    void combineSameAxis_shouldThrow_column() {
+        // given
+        final Distance d1 = new Distance(0, 2);
+        final Distance d2 = new Distance(0, 4);
 
         // when
         // then

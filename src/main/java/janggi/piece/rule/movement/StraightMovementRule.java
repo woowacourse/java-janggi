@@ -35,7 +35,10 @@ public class StraightMovementRule extends MovementRule {
         throw new IllegalArgumentException(EXCEPTION_MESSAGE);
     }
 
-    private boolean isValidPalaceDiagonalMove(final Board board, final Position departure, final Position destination, final Distance distance) {
+    private boolean isValidPalaceDiagonalMove(final Board board,
+                                              final Position departure,
+                                              final Position destination,
+                                              final Distance distance) {
         if (!board.isPalace(departure)) {
             return false;
         }

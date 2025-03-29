@@ -45,7 +45,24 @@ class StraightMovementRuleTest {
     }
 
     @Test
-    @DisplayName("대각선 이동 시 예외가 발생한다")
+    @DisplayName("직선이나 대각선 이동이 아니라면, 예외가 발생한다")
+    void validate_throwsWhenIsNotStraightOrDiagonal() {
+        // given
+        final MovementRule strategy = StraightMovementRule.withNonBlock();
+        final Position departure = Position.of(3, 3);
+        final Position destination = Position.of(6, 5);
+
+        final Board board = Board.from(Pieces.empty());
+
+        // when
+        // then
+        assertThatThrownBy(() -> strategy.validate(board, departure, destination))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("이동할 수 없는 지점입니다.");
+    }
+
+    @Test
+    @DisplayName("궁성 외부 대각선 이동 시 예외가 발생한다")
     void validate_throwsWhenMovingDiagonally() {
         // given
         final MovementRule strategy = StraightMovementRule.withNonBlock();
@@ -272,5 +289,25 @@ class StraightMovementRuleTest {
             assertThatThrownBy(() -> strategy.validate(board, Position.of(10, 5), Position.of(9, 6)))
                     .isInstanceOf(IllegalArgumentException.class);
         });
+    }
+
+    @DisplayName("출발지가 궁성이기에 궁성 중앙을 통과하는 대각선 이동을 시도하지만, 도착지가 궁성 외부라면 예외 발생")
+    @Test
+    void validate_failsWhenDepartureIsPalaceButDestinationIsNotPalace() {
+        final MovementRule strategy = StraightMovementRule.withNonBlock();
+        final Board board = Board.from(Pieces.empty());
+
+        assertThatThrownBy(() -> strategy.validate(board, Position.of(10, 4), Position.of(7, 1)))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("출발지와 도착지가 궁성이지만, 대각선 이동이 아니라면 예외 발생")
+    @Test
+    void validate_failsWhenDepartureIsPalaceButIsNotDiagonalMovement() {
+        final MovementRule strategy = StraightMovementRule.withNonBlock();
+        final Board board = Board.from(Pieces.empty());
+
+        assertThatThrownBy(() -> strategy.validate(board, Position.of(10, 4), Position.of(9, 6)))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
