@@ -30,7 +30,7 @@ public class JanggiBoardDao implements BoardDao {
     }
 
     @Override
-    public void addPiece(JanggiPosition position, JanggiChessPiece piece) {
+    public void save(JanggiPosition position, JanggiChessPiece piece) {
         final String query = "INSERT INTO piece(position_row, position_col, type_id, team_id) VALUES(?, ?, ?, ?)";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
@@ -144,11 +144,6 @@ public class JanggiBoardDao implements BoardDao {
                 .filter(team -> team.name.equals(teamName))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException(teamName + "은 올바르지 않은 팀 이름입니다."));
-    }
-
-    @Override
-    public void save(JanggiPosition position, JanggiChessPiece piece) {
-
     }
 
     @Override

@@ -35,7 +35,7 @@ class JanggiBoardDaoTest {
         // given
 
         // when
-        dao.addPiece(JanggiPositionFactory.of(1, 1), new Cannon(team));
+        dao.save(JanggiPositionFactory.of(1, 1), new Cannon(team));
 
         // then
     }
