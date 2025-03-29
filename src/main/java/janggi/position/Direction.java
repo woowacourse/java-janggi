@@ -25,7 +25,7 @@ public enum Direction {
     }
 
     public static List<Direction> getAllDirection() {
-        return Arrays.stream(values()).toList();
+        return List.of(UPPER, UPPER_RIGHT, RIGHT, UNDER_RIGHT, UNDER, UNDER_LEFT, LEFT, UPPER_LEFT);
     }
 
     public static List<Direction> getStraight(Team team) {
