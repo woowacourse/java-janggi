@@ -32,23 +32,18 @@ public class Application {
 
                 board.processTurn(currentDynasty, movement.getFirst(), movement.getLast());
 
-                double hanTotalScore = board.calculateTotalPoints(Dynasty.HAN);
-                double choTotalScore = board.calculateTotalPoints(Dynasty.CHO);
-
-                outputView.printScore(hanTotalScore, choTotalScore);
+                printTotalScoreByDynasty(board, outputView);
 
                 if (board.isKingDead(Dynasty.CHO)) {
 
                     outputView.printWinner(Dynasty.HAN);
-                    boardDao.deleteBoardEntity();
-                    turnDao.resetTurnEntity();
+                    resetGameStatus(boardDao, turnDao);
                     break;
                 }
 
                 if (board.isKingDead(Dynasty.HAN)) {
                     outputView.printWinner(Dynasty.CHO);
-                    boardDao.deleteBoardEntity();
-                    turnDao.resetTurnEntity();
+                    resetGameStatus(boardDao, turnDao);
                     break;
                 }
 
@@ -85,5 +80,17 @@ public class Application {
     private static ArrangementStrategy choiceArrangementStrategy(Dynasty dynasty, InputView inputView) {
         int option = inputView.readArrangementStrategyByDynasty(dynasty);
         return ArrangementOption.findBy(option).getArrangementStrategy();
+    }
+
+    private static void printTotalScoreByDynasty(Board board, OutputView outputView) {
+        double hanTotalScore = board.calculateTotalPoints(Dynasty.HAN);
+        double choTotalScore = board.calculateTotalPoints(Dynasty.CHO);
+
+        outputView.printScore(hanTotalScore, choTotalScore);
+    }
+
+    private static void resetGameStatus(BoardDao boardDao, TurnDao turnDao) {
+        boardDao.deleteBoardEntity();
+        turnDao.resetTurnEntity();
     }
 }
