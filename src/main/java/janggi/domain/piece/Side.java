@@ -6,7 +6,7 @@ public enum Side {
 
     CHO("초나라"),
     HAN("한나라"),
-    NONE("");
+    NONE("게임 종료");
 
     private final String name;
 

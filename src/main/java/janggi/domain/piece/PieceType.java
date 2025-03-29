@@ -29,15 +29,16 @@ public enum PieceType {
         this.constructor = constructor;
     }
 
+    public static Piece createPiece(final String symbol, final Side side) {
+        PieceType pieceType = findPieceTypeBySymbol(symbol);
+        return pieceType.constructor.apply(side);
+    }
+
     public static PieceType findPieceTypeBySymbol(final String symbol) {
         return Arrays.stream(values())
                 .filter(pieceType -> pieceType.getSymbol().equals(symbol))
                 .findFirst()
                 .orElse(EMPTY);
-    }
-
-    public Piece createPiece(final Side side) {
-        return constructor.apply(side);
     }
 
     public static List<PieceType> valuesNotEmpty() {

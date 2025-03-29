@@ -24,6 +24,16 @@ public class JanggiBoard {
         return new JanggiBoard(board);
     }
 
+    public static JanggiBoard fillEmptyPiece(Map<Position, Piece> positionPieces) {
+        for (int i = 0; i < X_LIMIT; i++) {
+            for (int j = 0; j < Y_LIMIT; j++) {
+                Position position = new Position(i, j);
+                positionPieces.putIfAbsent(position, new Empty());
+            }
+        }
+        return new JanggiBoard(positionPieces);
+    }
+
     public List<Position> computeReachableDestination(final Side side, final Position position) {
         validatePieceSelect(side, position);
 
@@ -88,5 +98,9 @@ public class JanggiBoard {
 
     public Map<Position, Piece> getBoard() {
         return new HashMap<>(board);
+    }
+
+    public Piece getPieceByPosition(final Position position) {
+        return board.get(position);
     }
 }

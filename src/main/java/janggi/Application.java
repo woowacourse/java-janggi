@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.domain.board.JanggiBoard;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -10,6 +11,8 @@ public class Application {
         OutputView outputView = new OutputView();
         JanggiGame janggiGame = new JanggiGame(inputView, outputView);
 
-        janggiGame.play();
+        JanggiBoard board = janggiGame.setUpGame();
+        janggiGame.play(board);
+
     }
 }

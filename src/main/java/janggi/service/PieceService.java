@@ -13,23 +13,22 @@ public class PieceService {
 
     private final PieceDao pieceDao;
 
-    public PieceService(PieceDao pieceDao) {
-        this.pieceDao = pieceDao;
+    public PieceService() {
+        this.pieceDao = new PieceDao();
     }
 
     public void initializePieceTable() {
-        for (PieceType pieceType : PieceType.valuesNotEmpty()) {
-            for (Side side : Side.getSides()) {
-                pieceDao.addPiece(pieceType, side);
+        if (findAllPieces().isEmpty()) {
+            for (PieceType pieceType : PieceType.valuesNotEmpty()) {
+                for (Side side : Side.getSides()) {
+                    pieceDao.addPiece(pieceType, side);
+                }
             }
         }
     }
 
     public Piece createPiece(String pieceSymbol, String side) {
-        PieceType pieceType = PieceType.findPieceTypeBySymbol(pieceSymbol);
-        Side sideByName = Side.findSideByName(side);
-
-        return pieceType.createPiece(sideByName);
+        return PieceType.createPiece(pieceSymbol, Side.findSideByName(side));
     }
 
     public List<Piece> findAllPieces() {

@@ -25,10 +25,27 @@ import janggi.domain.piece.limit.King;
 import janggi.domain.piece.limit.Soldier;
 import janggi.domain.piece.unlimit.Cannon;
 import janggi.domain.piece.unlimit.Chariot;
+import janggi.service.BoardService;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class BoardInitializer {
+
+    private final BoardService boardService;
+
+    public BoardInitializer(final BoardService boardService) {
+        this.boardService = boardService;
+    }
+
+    public void initializeBoard(final int gameId, final JanggiBoard board) {
+        Map<Position, Piece> initialPositionPieces = board.getBoard();
+        for (Map.Entry<Position, Piece> entry : initialPositionPieces.entrySet()) {
+            Position position = entry.getKey();
+            Piece piece = entry.getValue();
+            savePieceToDatabase(gameId, position, piece);
+        }
+    }
 
     public static Map<Position, Piece> initialPieces(final int xLimit, final int yLimit) {
         Map<Position, Piece> board = new HashMap<>();
@@ -46,6 +63,12 @@ public class BoardInitializer {
         initializeGuard(board);
         initializeKing(board);
         return board;
+    }
+
+    private void savePieceToDatabase(final int gameId, final Position position, final Piece piece) {
+        if (piece.isOccupied()) {
+            boardService.addBoardPiece(gameId, position, piece);
+        }
     }
 
     private static void initializeSoldier(final Map<Position, Piece> board) {

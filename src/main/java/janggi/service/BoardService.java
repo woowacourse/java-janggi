@@ -1,6 +1,6 @@
 package janggi.service;
 
-import janggi.dao.MySqlBoardDao;
+import janggi.dao.BoardDao;
 import janggi.dao.dto.BoardPieceFindResponse;
 import janggi.dao.dto.PieceFindResponse;
 import janggi.domain.board.Position;
@@ -14,10 +14,10 @@ import java.util.Map;
 
 public class BoardService {
 
-    private final MySqlBoardDao boardDao;
+    private final BoardDao boardDao;
 
-    public BoardService(final MySqlBoardDao boardDao) {
-        this.boardDao = boardDao;
+    public BoardService() {
+        this.boardDao = new BoardDao();
     }
 
     public Map<Position, Piece> findAllBoardPieces() {
@@ -44,7 +44,7 @@ public class BoardService {
         return PieceType.createPiece(pieceType, Side.findSideByName(side)); //FIXME: PieceType에서 아예 만들기
     }
 
-    public void addBoardPiece(final Position position, final Piece piece) {
+    public void addBoardPiece(final int gameId, final Position position, final Piece piece) {
         Side side = Side.NONE;
         if(piece.isCho()) {
             side = Side.CHO;
@@ -52,6 +52,12 @@ public class BoardService {
         if(piece.isHan()) {
             side = Side.HAN;
         }
-        boardDao.addPositionPiece(position.getX(), position.getY(), piece.getType().getSymbol(), side);
+        boardDao.addPositionPiece(gameId, position.getX(), position.getY(), piece, side);
+    }
+
+    public void updatePiecePosition(final Position selectedPiecePosition, final Position destination) {
+        int i = boardDao.deletePositionIfExists(destination);
+        int boardId = boardDao.findBoardIdByPosition(selectedPiecePosition);
+        boardDao.updatePiecePosition(boardId, destination);
     }
 }

@@ -29,8 +29,8 @@ public class GameDao {
         }
     }
 
-    public String findStatusById(int boardId) {
-        final String query = "select status from Game where game_id=?";
+    public String findStateById(int boardId) {
+        final String query = "select state from Game where game_id=?";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -47,7 +47,7 @@ public class GameDao {
     }
 
     public void addGame(Side side) {
-        final String query = "INSERT INTO Game(status) VALUES(?)";
+        final String query = "INSERT INTO Game(state) VALUES(?)";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -58,13 +58,13 @@ public class GameDao {
         }
     }
 
-    public void updateStatus(int gameId, String status) {
-        final String query = "UPDATE Game SET status = ? WHERE id = ?";
+    public void updateState(int gameId, String state) {
+        final String query = "UPDATE Game SET state = ? WHERE game_id = ?";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            preparedStatement.setString(1, status);
+            preparedStatement.setString(1, state);
             preparedStatement.setInt(2, gameId);
+
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new IllegalStateException("[ERROR] 게임 상태 업데이트가 성공적으로 진행되지 않았습니다.");

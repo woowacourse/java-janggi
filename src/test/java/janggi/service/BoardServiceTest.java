@@ -1,6 +1,5 @@
 package janggi.service;
 
-import janggi.dao.MySqlBoardDao;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.unlimit.Cannon;
@@ -15,16 +14,14 @@ class BoardServiceTest {
     @Test
     @DisplayName("보드 위의 모든 기물 조회 테스트")
     void findAllBoardPieces() {
-        MySqlBoardDao boardDao = new MySqlBoardDao();
-        BoardService boardService = new BoardService(boardDao);
+        BoardService boardService = new BoardService();
 
         assertThatCode(boardService::findAllBoardPieces).doesNotThrowAnyException();
     }
 
     @Test
     void findBoardPieceByPosition() {
-        MySqlBoardDao boardDao = new MySqlBoardDao();
-        BoardService boardService = new BoardService(boardDao);
+        BoardService boardService = new BoardService();
 
         Position position = new Position(0, 0);
         Piece boardPiece = boardService.findBoardPieceByPosition(position);

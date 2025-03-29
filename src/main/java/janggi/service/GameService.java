@@ -26,7 +26,7 @@ public class GameService {
         return gameDao.findAllGames();
     }
 
-    public void updateGameStatus(int gameId, String status) {
-        gameDao.updateStatus(gameId, status);
+    public void updateGameState(int gameId, String state) {
+        gameDao.updateState(gameId, state);
     }
 }
