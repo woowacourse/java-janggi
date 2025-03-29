@@ -6,9 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.List;
 import java.util.Map;
+import movementRule.Ma;
+import movementRule.omniDirectionMover.ChoJanggun;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import movementRule.omniDirectionMover.Janggun;
 import movementRule.Jol;
 import movementRule.linearMover.Po;
 import piece.Piece;
@@ -39,7 +40,7 @@ class PlayerTest {
     @DisplayName("왕이 살았는지 판단 테스트")
     void isKingNotDieTest() {
         //given
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(new Janggun())));
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(8, 5), new Piece(new ChoJanggun())));
         Player player = new Player(janggiPan);
 
         //when - then
@@ -51,8 +52,8 @@ class PlayerTest {
     void validateAllyPieceAtStartTest() {
         //given
         Jol jol = new Jol();
-        Janggun janggun = new Janggun();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 4), new Piece(janggun)));
+        ChoJanggun choJanggun = new ChoJanggun();
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(8, 4), new Piece(choJanggun)));
 
         Player player = new Player(janggiPan);
 
@@ -70,8 +71,8 @@ class PlayerTest {
     void validateAllyPieceAtDestination() {
         //given
         Jol jol = new Jol();
-        Janggun janggun = new Janggun();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 4), new Piece(janggun)));
+        Ma ma = new Ma();
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 4), new Piece(ma)));
 
         Player player = new Player(janggiPan);
 
@@ -88,8 +89,8 @@ class PlayerTest {
     void canPieceMoveToTest() {
         //given
         Jol jol = new Jol();
-        Janggun janggun = new Janggun();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 4), new Piece(janggun)));
+        Ma ma = new Ma();
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 4), new Piece(ma)));
 
         Player player = new Player(janggiPan);
 
@@ -124,9 +125,9 @@ class PlayerTest {
     void countObstacleTest() {
         //given
         Jol jol = new Jol();
-        Janggun janggun = new Janggun();
+        Ma ma = new Ma();
         Po po = new Po();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(janggun),
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(ma),
                 new Position(4, 3), new Piece(po)));
 
         Player player = new Player(janggiPan);
@@ -148,9 +149,8 @@ class PlayerTest {
         //given
         //given
         Jol jol = new Jol();
-        Janggun janggun = new Janggun();
         Po po = new Po();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(janggun),
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(jol),
                 new Position(4, 3), new Piece(po)));
 
         Player player = new Player(janggiPan);
@@ -168,9 +168,8 @@ class PlayerTest {
         //given
         //given
         Jol jol = new Jol();
-        Janggun janggun = new Janggun();
         Po po = new Po();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(janggun),
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(jol),
                 new Position(4, 3), new Piece(po)));
 
         Player player = new Player(janggiPan);
@@ -184,9 +183,8 @@ class PlayerTest {
     void isExistPoInRoute() {
         //given
         Jol jol = new Jol();
-        Janggun janggun = new Janggun();
         Po po = new Po();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(janggun),
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(jol),
                 new Position(4, 3), new Piece(po)));
 
         Player player = new Player(janggiPan);
@@ -209,9 +207,8 @@ class PlayerTest {
     void removePieceTest() {
         //given
         Jol jol = new Jol();
-        Janggun janggun = new Janggun();
         Po po = new Po();
-        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(janggun),
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(jol),
                 new Position(4, 3), new Piece(po)));
 
         Player player = new Player(janggiPan);

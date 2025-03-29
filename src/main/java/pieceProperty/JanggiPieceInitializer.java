@@ -8,8 +8,10 @@ import movementRule.Ma;
 import movementRule.Sang;
 import movementRule.linearMover.Cha;
 import movementRule.linearMover.Po;
-import movementRule.omniDirectionMover.Janggun;
-import movementRule.omniDirectionMover.Sa;
+import movementRule.omniDirectionMover.ChoJanggun;
+import movementRule.omniDirectionMover.ChoSa;
+import movementRule.omniDirectionMover.HanJanggun;
+import movementRule.omniDirectionMover.HanSa;
 import piece.Piece;
 import player.JanggiPan;
 
@@ -27,10 +29,10 @@ public class JanggiPieceInitializer {
         janggiPan.put(new Position(0, 2), new Piece(new Ma()));
         janggiPan.put(new Position(0, 6), new Piece(new Ma()));
 
-        janggiPan.put(new Position(0, 3), new Piece(new Sa()));
-        janggiPan.put(new Position(0, 5), new Piece(new Sa()));
+        janggiPan.put(new Position(0, 3), new Piece(new HanSa()));
+        janggiPan.put(new Position(0, 5), new Piece(new HanSa()));
 
-        janggiPan.put(new Position(1, 4), new Piece(new Janggun()));
+        janggiPan.put(new Position(1, 4), new Piece(new HanJanggun()));
 
         janggiPan.put(new Position(2, 1), new Piece(new Po()));
         janggiPan.put(new Position(2, 7), new Piece(new Po()));
@@ -57,10 +59,10 @@ public class JanggiPieceInitializer {
         janggiPan.put(new Position(9, 2), new Piece(new Ma()));
         janggiPan.put(new Position(9, 6), new Piece(new Ma()));
 
-        janggiPan.put(new Position(9, 3), new Piece(new Sa()));
-        janggiPan.put(new Position(9, 5), new Piece(new Sa()));
+        janggiPan.put(new Position(9, 3), new Piece(new ChoSa()));
+        janggiPan.put(new Position(9, 5), new Piece(new ChoSa()));
 
-        janggiPan.put(new Position(8, 4), new Piece(new Janggun()));
+        janggiPan.put(new Position(8, 4), new Piece(new ChoJanggun()));
 
         janggiPan.put(new Position(7, 1), new Piece(new Po()));
         janggiPan.put(new Position(7, 7), new Piece(new Po()));

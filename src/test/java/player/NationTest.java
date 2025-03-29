@@ -13,7 +13,6 @@ class NationTest {
     @Test
     @DisplayName("수비 팀 선정 테스트")
     void getDefenseTeamTest() {
-
         //when-then
         assertThat(CHO.getDefenseNation()).isEqualTo(HAN);
         assertThat(HAN.getDefenseNation()).isEqualTo(CHO);

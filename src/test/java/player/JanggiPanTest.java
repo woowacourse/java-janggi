@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 import movementRule.Byeong;
 import movementRule.Jol;
+import movementRule.Ma;
 import movementRule.linearMover.Cha;
 import movementRule.linearMover.Po;
-import movementRule.omniDirectionMover.Janggun;
+import movementRule.omniDirectionMover.HanSa;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
@@ -96,12 +97,12 @@ class JanggiPanTest {
 
         Jol jol = new Jol();
         Byeong byeong = new Byeong();
-        Janggun janggun = new Janggun();
+        Ma ma = new Ma();
         Cha cha = new Cha();
 
         JanggiPan janggiPan = new JanggiPan(
                 Map.of(
-                        position, new Piece(cha), position1, new Piece(janggun), position2, new Piece(byeong)
+                        position, new Piece(cha), position1, new Piece(ma), position2, new Piece(byeong)
                         , position3, new Piece(jol)
                 )
         );
