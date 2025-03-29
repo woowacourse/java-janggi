@@ -50,6 +50,18 @@ public class Janggi {
         currentTeam = currentTeam.nextTeam();
     }
 
+    public boolean isGameOver() {
+        return board.isOnlyOneKingLeft();
+    }
+
+    public Team calculateWinner() {
+        if (!isGameOver()) {
+            throw new IllegalStateException("게임이 종료되지 않았습니다.");
+        }
+        
+        return currentTeam.nextTeam();
+    }
+
     public Map<BoardPosition, Piece> getPieces() {
         return board.getPieces();
     }

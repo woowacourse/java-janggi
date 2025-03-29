@@ -5,6 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import domain.piece.Cannon;
+import domain.piece.General;
 import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.Jju;
@@ -112,6 +113,27 @@ class BoardTest {
                         .get(new BoardPosition(0, 4))
                         .getPieceType())
                     .isEqualTo(new Cannon(Team.RED).getPieceType());
+            });
+        }
+
+        @DisplayName("왕이 하나만 남은 경우를 확인한다.")
+        @Test
+        void isOnlyOneKingLeft() {
+            // given
+            Board boardWithOneKing = new Board(Map.of(
+                new BoardPosition(0, 0), new General(Team.GREEN)
+            ));
+            Board boardWithTwoKings = new Board(Map.of(
+                new BoardPosition(0, 0), new General(Team.GREEN),
+                new BoardPosition(1, 0), new General(Team.RED)
+            ));
+
+            // when & then
+            assertSoftly(softly -> {
+                softly.assertThat(boardWithOneKing.isOnlyOneKingLeft())
+                    .isTrue();
+                softly.assertThat(boardWithTwoKings.isOnlyOneKingLeft())
+                    .isFalse();
             });
         }
     }

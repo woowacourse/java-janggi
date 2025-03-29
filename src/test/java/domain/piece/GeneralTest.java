@@ -48,6 +48,32 @@ class GeneralTest {
                 .doesNotThrowAnyException();
         }
 
+        @DisplayName("기물의 타입이 같은지 여부를 반환한다.")
+        @ParameterizedTest
+        @MethodSource("providePieceTypeMatchCases")
+        void isSamePieceType(
+            PieceType comparedType,
+            boolean expected
+        ) {
+            // given
+            General general = new General(Team.RED);
+
+            // when
+            boolean result = general.isSamePieceType(comparedType);
+
+            // then
+            assertThat(result).isEqualTo(expected);
+        }
+
+        static Stream<Arguments> providePieceTypeMatchCases() {
+            // given
+            return Stream.of(
+                Arguments.of(PieceType.GENERAL, true),
+                Arguments.of(PieceType.JJU, false),
+                Arguments.of(PieceType.ELEPHANT, false)
+            );
+        }
+
         @DisplayName("팀이 같거나 다른지를 반환한다.")
         @ParameterizedTest
         @MethodSource("provideTeamMatchCases")

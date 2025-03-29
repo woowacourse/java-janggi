@@ -24,7 +24,8 @@ public class JanggiController {
 
     public void run() {
         final Janggi janggi = Janggi.initialize();
-        while (true) {
+
+        while (!janggi.isGameOver()) {
             outputView.printBoard(janggi.getPieces(), janggi.getCurrentTeam());
 
             final List<Integer> selectPosition = inputView.inputSelectPosition();
@@ -36,6 +37,8 @@ public class JanggiController {
 
             janggi.processTurn(selectBoardPosition, destinationBoardPosition);
         }
+
+        outputView.printGameOver(janggi.calculateWinner());
     }
 
     public BoardPosition createBoardPosition(final List<Integer> coordinates) {

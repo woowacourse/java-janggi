@@ -59,4 +59,9 @@ public class OutputView {
 
         return GREEN;
     }
+
+    public void printGameOver(final Team currentTeam) {
+        System.out.println("게임 종료");
+        System.out.println(currentTeam.getTitle() + "팀의 승리입니다.");
+    }
 }

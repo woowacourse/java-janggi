@@ -1,6 +1,7 @@
 package domain.board;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Team;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,6 +140,15 @@ public class Board {
 
         pieces.remove(selectBoardPosition);
         pieces.put(destinationBoardPosition, selectedPiece);
+    }
+
+    public boolean isOnlyOneKingLeft() {
+        return pieces.values()
+            .stream()
+            .filter(piece -> piece.isSamePieceType(PieceType.GENERAL))
+            .map(Piece::getTeam)
+            .distinct()
+            .count() == 1;
     }
 
     public Map<BoardPosition, Piece> getPieces() {

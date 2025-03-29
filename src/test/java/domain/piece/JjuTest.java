@@ -59,6 +59,32 @@ class JjuTest {
             );
         }
 
+        @DisplayName("기물의 타입이 같은지 여부를 반환한다.")
+        @ParameterizedTest
+        @MethodSource("providePieceTypeMatchCases")
+        void isSamePieceType(
+            PieceType comparedType,
+            boolean expected
+        ) {
+            // given
+            Jju jju = new Jju(Team.RED);
+
+            // when
+            boolean result = jju.isSamePieceType(comparedType);
+
+            // then
+            assertThat(result).isEqualTo(expected);
+        }
+
+        static Stream<Arguments> providePieceTypeMatchCases() {
+            // given
+            return Stream.of(
+                Arguments.of(PieceType.JJU, true),
+                Arguments.of(PieceType.ELEPHANT, false),
+                Arguments.of(PieceType.GENERAL, false)
+            );
+        }
+
         @DisplayName("팀이 같거나 다른지를 반환한다.")
         @ParameterizedTest
         @MethodSource("provideTeamMatchCases")

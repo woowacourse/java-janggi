@@ -7,6 +7,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import domain.board.Board;
 import domain.board.BoardPosition;
+import domain.piece.General;
 import domain.piece.Jju;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -77,6 +78,38 @@ class JanggiTest {
             // then
             assertThat(janggi.getCurrentTeam()).isEqualTo(Team.RED);
         }
+
+        @DisplayName("왕이 하나만 남으면 게임은 종료된다.")
+        @Test
+        void isGameOver() {
+            // given
+            Board board = new Board(Map.of(
+                new BoardPosition(0, 0), new General(Team.GREEN)
+            ));
+            Janggi janggi = new Janggi(board, Team.RED);
+
+            // when
+            boolean isGameOver = janggi.isGameOver();
+
+            // then
+            assertThat(isGameOver).isTrue();
+        }
+
+        @DisplayName("왕이 하나만 남았을 때 현재 팀의 상대 팀이 승리한다.")
+        @Test
+        void calculateWinner() {
+            // given
+            Board board = new Board(Map.of(
+                new BoardPosition(0, 0), new General(Team.GREEN)
+            ));
+            Janggi janggi = new Janggi(board, Team.RED);
+
+            // when
+            Team winner = janggi.calculateWinner();
+
+            // then
+            assertThat(winner).isEqualTo(Team.GREEN);
+        }
     }
 
     @Nested
@@ -117,6 +150,22 @@ class JanggiTest {
             assertThatThrownBy(() -> janggi.validateSelectedPiece(new BoardPosition(0, 0)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치에 말이 없거나 상대팀의 말입니다.");
+        }
+
+        @DisplayName("게임이 종료되지 않은 상태에서 승자를 계산하지 못한다.")
+        @Test
+        void calculateWinner_notYetGameOver() {
+            // given
+            Board board = new Board(Map.of(
+                new BoardPosition(0, 0), new General(Team.GREEN),
+                new BoardPosition(0, 1), new General(Team.RED)
+            ));
+            Janggi janggi = new Janggi(board, Team.RED);
+
+            // when & then
+            assertThatThrownBy(janggi::calculateWinner)
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("게임이 종료되지 않았습니다.");
         }
     }
 }

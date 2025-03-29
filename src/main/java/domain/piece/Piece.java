@@ -43,6 +43,10 @@ public abstract class Piece {
         }
     }
 
+    public boolean isSamePieceType(final PieceType pieceType) {
+        return this.pieceType == pieceType;
+    }
+
     public boolean isSameTeam(final Team other) {
         return team == other;
     }

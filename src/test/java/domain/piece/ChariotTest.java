@@ -39,6 +39,32 @@ class ChariotTest {
             ));
         }
 
+        @DisplayName("기물의 타입이 같은지 여부를 반환한다.")
+        @ParameterizedTest
+        @MethodSource("providePieceTypeMatchCases")
+        void isSamePieceType(
+            PieceType comparedType,
+            boolean expected
+        ) {
+            // given
+            Chariot chariot = new Chariot(Team.RED);
+
+            // when
+            boolean result = chariot.isSamePieceType(comparedType);
+
+            // then
+            assertThat(result).isEqualTo(expected);
+        }
+
+        static Stream<Arguments> providePieceTypeMatchCases() {
+            // given
+            return Stream.of(
+                Arguments.of(PieceType.CHARIOT, true),
+                Arguments.of(PieceType.JJU, false),
+                Arguments.of(PieceType.GENERAL, false)
+            );
+        }
+
         @DisplayName("팀이 같거나 다른지를 반환한다.")
         @ParameterizedTest
         @MethodSource("provideTeamMatchCases")
