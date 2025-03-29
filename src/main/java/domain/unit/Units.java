@@ -1,7 +1,7 @@
 package domain.unit;
 
 import domain.position.Position;
-import domain.position.Route;
+import domain.position.Routes;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +29,11 @@ public class Units {
         units.put(destination, sourceUnit);
     }
 
-    public List<Route> getUnitRoutes(Position pick) {
+    public Routes getUnitRoutes(Position pick) {
         if (isNotEmptyPosition(pick)) {
             return units.get(pick).calculateRoutes(pick);
         }
-        return List.of();
+        return Routes.of(List.of());
     }
 
     public void removeUnitAt(Position position) {
@@ -50,13 +50,6 @@ public class Units {
             return false;
         }
         return units.get(position).isOppositeTeamWith(units.get(other));
-    }
-
-    public boolean isUnitTeamEqualAt(Position position, Team compare) {
-        if (isNotEmptyPosition(position)) {
-            return units.get(position).isSameTeam(compare);
-        }
-        return false;
     }
 
     public boolean isUnitTeamNotEqualAt(Position position, Team compare) {

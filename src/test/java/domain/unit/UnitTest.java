@@ -3,13 +3,12 @@ package domain.unit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.position.Position;
-import domain.position.Route;
+import domain.position.Routes;
 import domain.unit.rule.CannonUnitRule;
 import domain.unit.rule.ChariotUnitRule;
 import domain.unit.rule.ElephantUnitRule;
 import domain.unit.rule.HorseUnitRule;
 import domain.unit.rule.SoldierUnitRule;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,12 +20,12 @@ class UnitTest {
         Unit unit = Unit.of(Team.CHO, new ElephantUnitRule());
 
         // when
-        List<Route> routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
-        List<Route> routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
+        Routes routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
+        Routes routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
 
         // then
-        assertThat(routesOfCenter).hasSize(8);
-        assertThat(routesOfCorner).hasSize(2);
+        assertThat(routesOfCenter.getRoutes()).hasSize(8);
+        assertThat(routesOfCorner.getRoutes()).hasSize(2);
     }
 
     @Test
@@ -36,12 +35,12 @@ class UnitTest {
         Unit unit = Unit.of(Team.CHO, new HorseUnitRule());
 
         // when
-        List<Route> routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
-        List<Route> routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
+        Routes routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
+        Routes routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
 
         // then
-        assertThat(routesOfCenter).hasSize(8);
-        assertThat(routesOfCorner).hasSize(2);
+        assertThat(routesOfCenter.getRoutes()).hasSize(8);
+        assertThat(routesOfCorner.getRoutes()).hasSize(2);
     }
 
     @Test
@@ -51,12 +50,12 @@ class UnitTest {
         Unit unit = Unit.of(Team.CHO, new ChariotUnitRule());
 
         // when
-        List<Route> routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
-        List<Route> routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
+        Routes routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
+        Routes routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
 
         // then
-        assertThat(routesOfCenter).hasSize(17);
-        assertThat(routesOfCorner).hasSize(17);
+        assertThat(routesOfCenter.getRoutes()).hasSize(17);
+        assertThat(routesOfCorner.getRoutes()).hasSize(17);
     }
 
     @Test
@@ -66,12 +65,12 @@ class UnitTest {
         Unit unit = Unit.of(Team.CHO, new CannonUnitRule());
 
         // when
-        List<Route> routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
-        List<Route> routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
+        Routes routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
+        Routes routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
 
         // then
-        assertThat(routesOfCenter).hasSize(13);
-        assertThat(routesOfCorner).hasSize(15);
+        assertThat(routesOfCenter.getRoutes()).hasSize(13);
+        assertThat(routesOfCorner.getRoutes()).hasSize(15);
     }
 
     @Test
@@ -81,11 +80,11 @@ class UnitTest {
         Unit unit = Unit.of(Team.CHO, new SoldierUnitRule());
 
         // when
-        List<Route> routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
-        List<Route> routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
+        Routes routesOfCenter = unit.calculateRoutes(Position.of(4, 5));
+        Routes routesOfCorner = unit.calculateRoutes(Position.of(0, 0));
 
         // then
-        assertThat(routesOfCenter).hasSize(4);
-        assertThat(routesOfCorner).hasSize(2);
+        assertThat(routesOfCenter.getRoutes()).hasSize(4);
+        assertThat(routesOfCorner.getRoutes()).hasSize(2);
     }
 }

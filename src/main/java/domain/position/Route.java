@@ -1,5 +1,6 @@
 package domain.position;
 
+import domain.unit.Team;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -14,6 +15,11 @@ public class Route {
 
     public static Route of(List<Position> positions) {
         return new Route(positions);
+    }
+
+    public boolean isMovingForward(Position source, Team team) {
+        Position destination = searchDestination(source);
+        return destination.isForwardOf(source, team);
     }
 
     public Position searchDestination(Position position) {

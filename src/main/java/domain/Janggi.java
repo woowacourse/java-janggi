@@ -2,6 +2,7 @@ package domain;
 
 import domain.position.Position;
 import domain.position.Route;
+import domain.position.Routes;
 import domain.unit.Team;
 import domain.unit.Unit;
 import domain.unit.UnitType;
@@ -35,21 +36,15 @@ public class Janggi {
             totalUnits.removeUnitAt(destination);
         }
         totalUnits.moveUnit(pick, destination);
-        switchTurn();
-    }
-
-    private boolean canMove(Position pick, Position destination) {
-        List<Route> movableRoutes = findMovableRoutesFrom(pick);
-        return movableRoutes.stream()
-                .map(route -> route.searchDestination(pick))
-                .anyMatch(position -> position.equals(destination));
-    }
-
-    private void switchTurn() {
         turn = turn.getOpposite();
     }
 
-    public List<Route> findMovableRoutesFrom(Position pick) {
+    private boolean canMove(Position pick, Position destination) {
+        Routes movableRoutes = findMovableRoutesFrom(pick);
+        return movableRoutes.hasRouteTo(pick, destination);
+    }
+
+    public Routes findMovableRoutesFrom(Position pick) {
         if (totalUnits.isEmptyPosition(pick)) {
             throw new IllegalArgumentException(EMPTY_POINT_EXCEPTION);
         }
@@ -57,35 +52,22 @@ public class Janggi {
             throw new IllegalArgumentException(PICK_OPPOSITE_UNIT_EXCEPTION);
         }
 
-        List<Route> unitRoutes = calculateRoutesByUnitType(pick);
+        Routes unitRoutes = calculateRoutesByUnitType(pick);
         if (totalUnits.isUnitSameType(pick, UnitType.CANNON)) {
             return unitRoutes;
         }
         return filterBlockedRoutes(pick, unitRoutes);
     }
 
-    private List<Route> calculateRoutesByUnitType(Position pick) {
-        List<Route> routes = totalUnits.getUnitRoutes(pick);
+    private Routes calculateRoutesByUnitType(Position pick) {
+        Routes routes = totalUnits.getUnitRoutes(pick);
         if (totalUnits.isUnitSameType(pick, UnitType.CANNON)) {
-            return routes.stream()
-                    .filter(route -> canCannonJump(pick, route))
-                    .toList();
+            return routes.filterByCondition(route -> canCannonJump(pick, route));
         }
         if (totalUnits.isUnitSameType(pick, UnitType.SOLDIER)) {
-            return filterSoldierMoves(pick, routes);
+            return routes.filterByCondition(route -> route.isMovingForward(pick, turn));
         }
         return routes;
-    }
-
-    private List<Route> filterSoldierMoves(Position pick, List<Route> totalRoutes) {
-        if (totalUnits.isUnitTeamEqualAt(pick, Team.HAN)) {
-            return totalRoutes.stream()
-                    .filter(route -> route.getPositions().getFirst().getY() >= pick.getY())
-                    .toList();
-        }
-        return totalRoutes.stream()
-                .filter(route -> route.getPositions().getFirst().getY() <= pick.getY())
-                .toList();
     }
 
     private boolean canCannonJump(Position current, Route route) {
@@ -112,11 +94,8 @@ public class Janggi {
                 .count() == 1;
     }
 
-    private List<Route> filterBlockedRoutes(Position pick, List<Route> routes) {
-        return routes.stream()
-                .filter(route -> isClearRoute(pick, route))
-                .filter(route -> isClearDestination(pick, route))
-                .toList();
+    private Routes filterBlockedRoutes(Position pick, Routes routes) {
+        return routes.filterByCondition(route -> isClearRoute(pick, route) && isClearDestination(pick, route));
     }
 
     private boolean isClearRoute(Position pick, Route route) {

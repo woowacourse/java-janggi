@@ -2,10 +2,10 @@ package view;
 
 import domain.position.Position;
 import domain.position.Route;
+import domain.position.Routes;
 import domain.unit.Team;
 import domain.unit.Unit;
 import domain.unit.UnitType;
-import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -40,9 +40,9 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printAvailableRoute(Position current, List<Route> routes) {
+    public void printAvailableRoute(Position current, Routes routes) {
         System.out.println("\n이동 가능한 위치");
-        for (Route route : routes) {
+        for (Route route : routes.getRoutes()) {
             Position endPoint = route.searchDestination(current);
             System.out.printf("x = %d, y = %d\n"
                     , endPoint.getX(), endPoint.getY());

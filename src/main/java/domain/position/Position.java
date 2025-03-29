@@ -1,6 +1,7 @@
 package domain.position;
 
 import domain.unit.Direction;
+import domain.unit.Team;
 import java.util.Objects;
 
 public class Position {
@@ -43,6 +44,13 @@ public class Position {
 
     public boolean isHorizontalOrVertical(Position opposite) {
         return (this.x == opposite.x || this.y == opposite.y);
+    }
+
+    public boolean isForwardOf(Position compare, Team team) {
+        if (team == Team.HAN) {
+            return this.y >= compare.y;
+        }
+        return this.y <= compare.y;
     }
 
     public int getX() {

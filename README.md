@@ -76,8 +76,8 @@
 - [X] HorseUnitRule, ElephantUnitRule에서 DFS 사용 제거하는 방향으로 수정
 - [X] Point 객체 제거
 - [x] Janggi의 캐논 메서드 책임 분리
+- [X] Janggi에서 Routes 필터링에 대한 고민
 - [ ] DefaultUnitPosition 인스턴스 필드 개수에 대한 고민
-- [ ] Janggi에서 Routes 필터링에 대한 고민
 
 ## 2단계 기능 구현
 

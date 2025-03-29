@@ -2,6 +2,7 @@ package domain.unit;
 
 import domain.position.Position;
 import domain.position.Route;
+import domain.position.Routes;
 import domain.unit.rule.UnitRule;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class Unit {
         return new Unit(team, unitRule);
     }
 
-    public List<Route> calculateRoutes(Position position) {
+    public Routes calculateRoutes(Position position) {
         List<Route> routes = new ArrayList<>();
         List<Movement> movements = unitRule.generatePossibleMovement();
         for (Movement movement : movements) {
@@ -31,7 +32,7 @@ public class Unit {
             } catch (IllegalArgumentException ignored) {
             }
         }
-        return routes;
+        return Routes.of(routes);
     }
 
 

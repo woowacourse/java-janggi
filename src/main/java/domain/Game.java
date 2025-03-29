@@ -2,7 +2,7 @@ package domain;
 
 import domain.position.DefaultUnitPosition;
 import domain.position.Position;
-import domain.position.Route;
+import domain.position.Routes;
 import domain.unit.Team;
 import domain.unit.Unit;
 import domain.unit.Units;
@@ -44,7 +44,7 @@ public class Game {
         outputView.printJanggiUnits(janggi.getUnits());
         Position pick = parsePosition(inputView.readUnitPosition(janggi.getTurn()));
 
-        List<Route> routes = janggi.findMovableRoutesFrom(pick);
+        Routes routes = janggi.findMovableRoutesFrom(pick);
         outputView.printAvailableRoute(pick, routes);
 
         Position destination = parsePosition(inputView.readDestinationPosition(janggi.getTurn()));
