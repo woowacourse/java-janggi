@@ -39,6 +39,10 @@ public final class Point {
         return this.x == other.x;
     }
 
+    public boolean isDiagonallyAlignedWith(Point other) {
+        return xDistanceTo(other) == yDistanceTo(other);
+    }
+
     public int xDistanceTo(Point other) {
         return Math.abs(this.x - other.x);
     }
@@ -87,6 +91,18 @@ public final class Point {
         return verticalPoints;
     }
 
+    public Set<Point> findDiagonalPointsBetween(Point to) {
+        Set<Point> diagonalPoints = new HashSet<>();
+        Point next = this.nextDiagonalPointTo(to);
+
+        while (!next.equals(to)) {
+            diagonalPoints.add(next);
+            next = next.nextDiagonalPointTo(to);
+        }
+
+        return diagonalPoints;
+    }
+
     public Point nextHorizontalPointTo(Point to) {
         if (this.x == to.x) {
             throw new IllegalArgumentException("x좌표가 같습니다.");
@@ -105,6 +121,22 @@ public final class Point {
             return new Point(this.x, this.y + 1);
         }
         return new Point(this.x, this.y - 1);
+    }
+
+    public Point nextDiagonalPointTo(Point to) {
+        if (this.x == to.x || this.y == to.y) {
+            throw new IllegalArgumentException("두 지점의 좌표가 같습니다.");
+        }
+        if ((this.x < to.x) && (this.y < to.y)) {
+            return new Point(this.x + 1, this.y + 1);
+        }
+        if ((this.x > to.x) && (this.y < to.y)) {
+            return new Point(this.x - 1, this.y + 1);
+        }
+        if ((this.x < to.x) && (this.y > to.y)) {
+            return new Point(this.x + 1, this.y - 1);
+        }
+        return new Point(this.x - 1, this.y - 1);
     }
 
     public Point midPointBetween(Point other) {
