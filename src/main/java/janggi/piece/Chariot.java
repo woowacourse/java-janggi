@@ -12,12 +12,23 @@ public final class Chariot extends Piece {
 
     @Override
     public void validateMovementRule(MoveType moveType, Point from, Point to) {
-        validateLinearMove(from, to);
+        if (moveType.isPalace()) {
+            validateStraightAndDiagonalMove(from, to);
+            return;
+        }
+        validateStraightMove(from, to);
     }
 
-    private void validateLinearMove(Point from, Point to) {
+    private void validateStraightMove(Point from, Point to) {
         if (!from.isHorizontallyAlignedWith(to) && !from.isVerticallyAlignedWith(to)) {
             throw new IllegalArgumentException("차는 수평 혹은 수직으로만 움직여야 합니다.");
+        }
+    }
+
+    public void validateStraightAndDiagonalMove(Point from, Point to) {
+        if (!from.isHorizontallyAlignedWith(to) && !from.isVerticallyAlignedWith(to)
+                && !from.isDiagonallyAlignedWith(to)) {
+            throw new IllegalArgumentException("차는 궁성안에서 수평, 수직 대각선으로만 움직여야 합니다.");
         }
     }
 
@@ -30,6 +41,9 @@ public final class Chariot extends Piece {
 
     @Override
     public Set<Point> findRoute(MoveType moveType, Point from, Point to) {
+        if (moveType.isPalace() && from.isDiagonallyAlignedWith(to)) {
+            return from.findDiagonalPointsBetween(to);
+        }
         if (from.isHorizontallyAlignedWith(to)) {
             return from.findHorizontalPointsBetween(to);
         }

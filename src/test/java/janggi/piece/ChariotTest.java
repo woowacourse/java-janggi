@@ -72,12 +72,39 @@ class ChariotTest {
     @Test
     void findRouteTest() {
         // given
-        Piece chariot = new Chariot(Camp.CHU);
+        Chariot chariot = new Chariot(Camp.CHU);
         Point from = new Point(5, 5);
         Point to = new Point(5, 9);
 
         // when & then
         assertThat(chariot.findRoute(MoveType.NORMAL, from, to))
                 .containsExactlyInAnyOrder(new Point(5, 6), new Point(5, 7), new Point(5, 8));
+    }
+
+    @DisplayName("차는 궁성 안에서 대각선으로 움직일 수 있다.")
+    @ParameterizedTest
+    @CsvSource({"3, 0", "4, 1"})
+    void palaceMoveTest(int toX, int toY) {
+        // given
+        Chariot chariot = new Chariot(Camp.CHU);
+        Point from = new Point(5, 2);
+        Point to = new Point(toX, toY);
+
+        // when & then
+        assertThatCode(() -> chariot.validateMovementRule(MoveType.PALACE, from, to))
+                .doesNotThrowAnyException();
+    }
+
+    @DisplayName("차가 궁성 안에 있을 때의 경로를 찾는다.")
+    @Test
+    void findPalaceRouteTest() {
+        // given
+        Chariot chariot = new Chariot(Camp.CHU);
+        Point from = new Point(5, 2);
+        Point to = new Point(3, 0);
+
+        // when & then
+        assertThat(chariot.findRoute(MoveType.PALACE, from, to))
+                .containsExactlyInAnyOrder(new Point(4, 1));
     }
 }
