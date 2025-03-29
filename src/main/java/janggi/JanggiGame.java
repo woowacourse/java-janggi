@@ -5,7 +5,7 @@ import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Side;
-import janggi.service.BoardService;
+import janggi.service.BoardPieceService;
 import janggi.service.GameService;
 import janggi.service.PieceService;
 import janggi.view.InputView;
@@ -18,24 +18,16 @@ public class JanggiGame {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final BoardService boardService;
+    private final BoardPieceService boardPieceService;
     private final PieceService pieceService;
     private final GameService gameService;
 
     public JanggiGame(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.boardService = new BoardService();
+        this.boardPieceService = new BoardPieceService();
         this.pieceService = new PieceService();
         this.gameService = new GameService();
-    }
-
-    public int getGameId() {
-        Map<Integer, String> allGames = gameService.findAllGames();
-        return allGames.keySet().stream()
-                .mapToInt(Integer::intValue)
-                .max()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] 진행 중인 게임을 찾을 수 없습니다."));
     }
 
     public JanggiBoard setUpGame() {
@@ -46,29 +38,39 @@ public class JanggiGame {
             pieceService.initializePieceTable();
 
             board = JanggiBoard.initializeWithPieces();
-            BoardInitializer boardInitializer = new BoardInitializer(boardService);
+            BoardInitializer boardInitializer = new BoardInitializer(boardPieceService);
             boardInitializer.initializeBoard(newGameId, board);
         } else {
-            Map<Position, Piece> positionPieces = boardService.findAllBoardPieces();
+            Map<Position, Piece> positionPieces = boardPieceService.findAllBoardPieces();
             board = JanggiBoard.fillEmptyPiece(positionPieces);
         }
         return board;
     }
 
     public void play(JanggiBoard board) {
+        List<Side> turns = getTurns();
+        if (turns.contains(Side.NONE)) {
+            System.out.println("이미 게임이 종료되었습니다.");
+            return ;
+        }
         while (true) {
-            for (Side side : Side.getSides()) {
-                gameService.updateGameState(getGameId(), side.getName());
-                Piece catchedPiece = playTurn(side, board);
+            for (Side turn : turns) {
+                gameService.updateGameState(getGameId(), turn);
+                Piece catchedPiece = playTurn(turn, board);
 
-                if (board.checkGameIsOver(side)) {
-                    outputView.printEndMessage(side, catchedPiece);
+                if (board.checkGameIsOver(turn)) {
+                    outputView.printEndMessage(turn, catchedPiece);
                     printTotalScores(board);
-                    gameService.updateGameState(getGameId(), Side.NONE.getName());
+                    gameService.updateGameState(getGameId(), Side.NONE);
                     return ;
                 }
             }
         }
+    }
+
+    private List<Side> getTurns() {
+        Side turn = gameService.getState(getGameId());
+        return turn.getSideByState();
     }
 
     private Piece playTurn(final Side side, JanggiBoard board) {
@@ -97,7 +99,7 @@ public class JanggiGame {
         validateSelectedDestination(destination, reachableDestinations);
 
         Piece catchedPiece = board.moveOrCatchPiece(selectedPiecePosition, destination);
-        boardService.updatePiecePosition(selectedPiecePosition, destination);
+        boardPieceService.updatePiecePosition(selectedPiecePosition, destination);
         outputView.printMoveResult(catchedPiece);
         return catchedPiece;
     }
@@ -112,5 +114,13 @@ public class JanggiGame {
         if (!reachableDestinations.contains(destination)) {
             throw new IllegalArgumentException("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
         }
+    }
+
+    private int getGameId() {
+        Map<Integer, String> allGames = gameService.findAllGames();
+        return allGames.keySet().stream()
+                .mapToInt(Integer::intValue)
+                .max()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 진행 중인 게임을 찾을 수 없습니다."));
     }
 }

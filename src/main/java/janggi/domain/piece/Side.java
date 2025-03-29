@@ -14,7 +14,11 @@ public enum Side {
         this.name = name;
     }
 
-    public static Side findSideByName(String name) {
+    public static List<Side> getSides() {
+        return List.of(Side.CHO, Side.HAN);
+    }
+
+    public static Side getSideByName(String name) {
         return Side.getSides().stream()
                 .filter(side -> name.equals(side.getName()))
                 .findFirst()
@@ -31,8 +35,14 @@ public enum Side {
         return Side.NONE;
     }
 
-    public static List<Side> getSides() {
-        return List.of(Side.CHO, Side.HAN);
+    public List<Side> getSideByState() {
+        if(this == Side.HAN) {
+            return List.of(Side.HAN, Side.CHO);
+        }
+        if(this == Side.CHO) {
+            return List.of(Side.CHO, Side.HAN);
+        }
+        return List.of(Side.NONE);
     }
 
     public String getName() {

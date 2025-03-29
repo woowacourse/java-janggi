@@ -26,7 +26,12 @@ public class GameService {
         return gameDao.findAllGames();
     }
 
-    public void updateGameState(int gameId, String state) {
-        gameDao.updateState(gameId, state);
+    public void updateGameState(int gameId, Side side) {
+        gameDao.updateState(gameId, side);
+    }
+
+    public Side getState(int gameId) {
+        String state = gameDao.findStateById(gameId);
+        return Side.getSideByName(state);
     }
 }

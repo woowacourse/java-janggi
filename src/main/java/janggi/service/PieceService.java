@@ -28,7 +28,7 @@ public class PieceService {
     }
 
     public Piece createPiece(String pieceSymbol, String side) {
-        return PieceType.createPiece(pieceSymbol, Side.findSideByName(side));
+        return PieceType.createPiece(pieceSymbol, Side.getSideByName(side));
     }
 
     public List<Piece> findAllPieces() {

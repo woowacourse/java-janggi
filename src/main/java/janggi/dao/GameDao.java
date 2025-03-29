@@ -29,18 +29,18 @@ public class GameDao {
         }
     }
 
-    public String findStateById(int boardId) {
+    public String findStateById(int gameId) {
         final String query = "select state from Game where game_id=?";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setInt(1, boardId);
+            preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (!resultSet.next()) {
-                throw new IllegalStateException("[ERROR] 보드 조회 중 오류가 발생했습니다.");
+                throw new IllegalStateException("[ERROR] 게임 조회 중 오류가 발생했습니다.");
             }
-            return resultSet.getString("status");
+            return resultSet.getString("state");
         } catch (final SQLException e) {
             throw new IllegalStateException("[ERROR] 게임 조회가 성공적으로 진행되지 않았습니다.");
         }
@@ -58,11 +58,11 @@ public class GameDao {
         }
     }
 
-    public void updateState(int gameId, String state) {
+    public void updateState(int gameId, Side side) {
         final String query = "UPDATE Game SET state = ? WHERE game_id = ?";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, state);
+            preparedStatement.setString(1, side.getName());
             preparedStatement.setInt(2, gameId);
 
             preparedStatement.executeUpdate();
