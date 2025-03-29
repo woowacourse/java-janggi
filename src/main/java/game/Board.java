@@ -9,7 +9,6 @@ import position.Position;
 public class Board {
 
     private final Map<Position, Piece> board;
-    private Country turn = Country.Cho;
 
     public Board(final Map<Position, Piece> board) {
         this.board = board;
@@ -23,25 +22,23 @@ public class Board {
         this.board = board;
     }
 
-    public void movePiece(Position fromPosition, Position toPosition) {
+    public void movePiece(Position fromPosition, Position toPosition,Country country) {
         if (!board.containsKey(fromPosition)) {
             throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
         }
         Piece piece = board.get(fromPosition);
+        if (piece.getCountry() != country) {
+            throw new IllegalArgumentException("같은 팀의 기물이 아닙니다.");
+        }
         piece.validateMove(fromPosition, toPosition, this);
         board.remove(fromPosition);
         board.put(toPosition, piece);
+
     }
 
     public Map<Position, Piece> getBoard() {
         return board;
     }
 
-    public Country getTurn() {
-        return turn;
-    }
 
-    public void setTurn(final Country turn) {
-        this.turn = turn;
-    }
 }

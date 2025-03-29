@@ -12,7 +12,7 @@ public class JanggiGame {
     private final InputView inputView;
     private final OutputView outputView;
 
-    private Country turn = Country.Cho;
+    private Country turnCountry = Country.Cho;
 
     public JanggiGame(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -25,17 +25,24 @@ public class JanggiGame {
 
         while (true) {
             try {
+                outputView.printTurn(turnCountry);
                 List<String> moveInfo = inputView.readMoveCommand();
 
                 Position source = Position.of(moveInfo.get(0), moveInfo.get(1));
                 Position target = Position.of(moveInfo.get(2), moveInfo.get(3));
 
-                board.movePiece(source, target);
+                board.movePiece(source, target,turnCountry);
                 outputView.displayBoard(board);
+                changeTurn();
             } catch (IllegalArgumentException e) {
                 System.out.println("ERROR"+e.getMessage());
             }
         }
     }
+
+    private void changeTurn() {
+        turnCountry = turnCountry.reverseCountry();
+    }
+
 
 }
