@@ -106,8 +106,7 @@ public final class View {
         System.out.print("\n-----------------------");
     }
 
-    public void displayEndBanner(Map<Point, Piece> placedPieces) {
-        displayBoard(placedPieces);
+    public void displayEndBanner() {
         System.out.println("""
                 
                 

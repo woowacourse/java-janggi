@@ -39,7 +39,8 @@ public final class OfflineController implements Controller {
             currentTurnCamp = currentTurnCamp.reverse();
         }
         view.displayPoint(judge.calculateScore(board));
-        view.displayEndBanner(board.getPlacedPieces());
+        view.displayBoard(board.getPlacedPieces());
+        view.displayEndBanner();
     }
 
     private void playTurnUntilSuccess(Camp currentTurnCamp, Board board) {

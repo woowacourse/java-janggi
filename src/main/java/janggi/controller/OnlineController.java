@@ -61,7 +61,8 @@ public final class OnlineController implements Controller {
             currentTurnCamp = turnChange(currentTurnCamp);
         }
         view.displayPoint(judge.calculateScore(board));
-        view.displayEndBanner(board.getPlacedPieces());
+        view.displayBoard(board.getPlacedPieces());
+        view.displayEndBanner();
         boardDao.endGame();
     }
 
