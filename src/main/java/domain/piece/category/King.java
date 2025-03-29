@@ -2,8 +2,10 @@ package domain.piece.category;
 
 import domain.MoveInfos;
 import domain.direction.Directions;
+import domain.direction.PieceDirection;
 import domain.piece.Piece;
 import domain.spatial.Position;
+import java.util.List;
 
 public class King extends Piece {
 
@@ -11,6 +13,19 @@ public class King extends Piece {
 
     public King(final Position position, final Directions directions) {
         super(position, directions);
+    }
+
+    @Override
+    public List<Position> getPaths(final Position target) {
+        List<Position> paths = directions.getPaths(position, target);
+        if (position.isWithinPalace()) {
+            paths = PieceDirection.DIAGONAL.get().getPaths(position, target);
+        }
+        validatePaths(paths);
+        if (position.isWithinPalace()) {
+            validateDiagonalPaths(paths);
+        }
+        return paths;
     }
 
     @Override
