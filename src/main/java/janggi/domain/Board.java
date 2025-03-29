@@ -4,11 +4,11 @@ import janggi.domain.piece.None;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Position;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class Board {
+
     private final Map<Position, Piece> pieces;
     private Turn turn;
 
@@ -30,7 +30,7 @@ public class Board {
         validateTurn(piece);
         try {
             validateMove(beforePosition, afterPosition);
-            pieces.put(beforePosition, new None());
+            pieces.put(beforePosition, new None(beforePosition));
             Piece movedPiece = piece.move(getPieces(), afterPosition);
             pieces.put(afterPosition, movedPiece);
             turn = turn.getNextTurn();
@@ -41,7 +41,7 @@ public class Board {
     }
 
     private void validateTurn(Piece piece) {
-        if(piece.getTeam() != turn.getTeam()) {
+        if (piece.getTeam() != turn.getTeam()) {
             throw new IllegalArgumentException("현재 이동가능한 팀 기물이 아닙니다");
         }
     }
@@ -59,7 +59,7 @@ public class Board {
 
     public TotalScore getScore(Team team) {
         return TotalScore.from(
-                pieces.values()
+            pieces.values()
                 .stream()
                 .filter(piece -> piece.getTeam() == team)
                 .mapToInt(Piece::getScore)
@@ -69,17 +69,20 @@ public class Board {
 
     public boolean isKingAlive(Team team) {
         return pieces.values()
-                .stream()
-                .filter(piece -> piece.getPieceType() == PieceType.GENERAL)
-                .anyMatch(piece ->
-                        piece.getTeam() == team);
+            .stream()
+            .filter(piece -> piece.getPieceType() == PieceType.GENERAL)
+            .anyMatch(piece ->
+                piece.getTeam() == team);
     }
 
     public Team getWinner() {
-        if(isKingAlive(Team.BLUE)) {
+        if (isGameNotEnd()) {
+            return Team.NONE;
+        }
+        if (isKingAlive(Team.BLUE)) {
             return Team.BLUE;
         }
-        if(isKingAlive(Team.RED)) {
+        if (isKingAlive(Team.RED)) {
             return Team.RED;
         }
         return Team.NONE;
@@ -87,5 +90,13 @@ public class Board {
 
     public boolean isGameNotEnd() {
         return isKingAlive(Team.BLUE) && isKingAlive(Team.RED);
+    }
+
+    public boolean isGameEnd() {
+        return !isGameNotEnd();
+    }
+
+    public Turn getTurn() {
+        return turn;
     }
 }

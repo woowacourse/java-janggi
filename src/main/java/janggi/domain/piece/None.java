@@ -1,12 +1,12 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
-
 import java.util.Map;
 
 public class None extends Piece {
-    public None() {
-        super(PieceType.NONE, null, Team.NONE);
+
+    public None(Position position) {
+        super(PieceType.NONE, position, Team.NONE);
     }
 
     @Override

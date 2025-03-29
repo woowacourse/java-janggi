@@ -3,6 +3,7 @@ package janggi.view;
 import java.util.Scanner;
 
 public class InputView {
+
     Scanner scanner;
 
     public InputView(Scanner scanner) {
@@ -21,6 +22,17 @@ public class InputView {
 
     public String getPieceMovement() {
         System.out.println("이동 할 기물의 위치와 이동 시킬 위치를 입력해주세요(기물좌표 이동할좌표 ex: 108 88");
+        return scanner.nextLine();
+    }
+
+    public String getGameQuitInput() {
+        System.out.println("게임을 중단 하시겠습니까? (Y/N)");
+        return scanner.nextLine();
+    }
+
+    public String getLoadOrCreate() {
+        System.out.println("1. 게임 불러오기\n"
+            + "2. 새로운 게임 생성하기");
         return scanner.nextLine();
     }
 }
