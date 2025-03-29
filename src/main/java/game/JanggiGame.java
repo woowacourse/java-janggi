@@ -12,6 +12,7 @@ import view.InputView;
 import view.OutputView;
 
 public class JanggiGame {
+
     private static final int HORIZONTAL_START = 1;
     private static final int HORIZONTAL_END = 9;
     private static final int VERTICAL_START = 1;
