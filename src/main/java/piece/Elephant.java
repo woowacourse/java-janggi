@@ -17,7 +17,7 @@ import location.Position;
 import java.util.List;
 import java.util.Map;
 
-public class Elephant implements Piece {
+public class Elephant extends Piece {
     public static final Map<Distance, List<Direction>> ELEPHANT_PATH_INFO = Map.of(
             new Distance(-2, -3), List.of(UP, UP_LEFT_DIAGONAL),
             new Distance(2, -3), List.of(UP, UP_RIGHT_DIAGONAL),
@@ -29,18 +29,23 @@ public class Elephant implements Piece {
             new Distance(3, 2), List.of(RIGHT, DOWN_RIGHT_DIAGONAL)
     );
 
-    private final Integer pieceId;
-    private final Team team;
     private boolean isCatch;
-    private final PieceType pieceType;
     private Position currentPosition;
 
     public Elephant(int pieceId, Team team, Position currentPosition) {
-        this.pieceId = pieceId;
-        this.team = team;
+        super(pieceId, team, PieceType.ELEPHANT);
         this.isCatch = false;
-        this.pieceType = PieceType.ELEPHANT;
         this.currentPosition = currentPosition;
+    }
+
+    @Override
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
+
+    @Override
+    public boolean isCatch() {
+        return isCatch;
     }
 
     @Override
@@ -54,9 +59,7 @@ public class Elephant implements Piece {
     @Override
     public void validatePaths(Pieces pieces, Position destination) {
         Distance distance = Distance.createBy(currentPosition, destination);
-        boolean isOtherPieceExistedInPaths = findPathsBy(distance).stream()
-                .anyMatch(direction -> pieces.isContainedPieceAtPosition(
-                        currentPosition.apply(direction)));
+        boolean isOtherPieceExistedInPaths = isOtherPieceExistedInPaths(pieces, distance);
         if (isOtherPieceExistedInPaths) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
@@ -77,37 +80,13 @@ public class Elephant implements Piece {
         return currentPosition.equals(targetPosition);
     }
 
-    @Override
-    public int getId() {
-        return pieceId;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
-    }
-
-    @Override
-    public Position getCurrentPosition() {
-        return currentPosition;
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    @Override
-    public int getScore() {
-        return pieceType.getScore();
-    }
-
-    @Override
-    public boolean isCatch() {
-        return isCatch;
-    }
-
     private List<Direction> findPathsBy(Distance distance) {
         return ELEPHANT_PATH_INFO.getOrDefault(distance, Collections.emptyList());
+    }
+
+    private boolean isOtherPieceExistedInPaths(Pieces pieces, Distance distance) {
+        return findPathsBy(distance).stream()
+                .anyMatch(direction -> pieces.isContainedPieceAtPosition(
+                        currentPosition.apply(direction)));
     }
 }

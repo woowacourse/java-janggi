@@ -3,26 +3,44 @@ package piece;
 import game.Team;
 import location.Position;
 
-public interface Piece {
-    void validateDestination(Position destination);
+public abstract class Piece {
+    private final Integer pieceId;
+    private final Team team;
+    private final PieceType pieceType;
 
-    void validatePaths(Pieces pieces, Position destination);
+    protected Piece(Integer pieceId, Team team, PieceType pieceType) {
+        this.pieceId = pieceId;
+        this.team = team;
+        this.pieceType = pieceType;
+    }
 
-    void move(Position destination);
+    public int getId() {
+        return pieceId;
+    }
 
-    void catchByOpponent();
+    public Team getTeam() {
+        return team;
+    }
 
-    boolean isPlacedAt(Position targetPosition);
+    public PieceType getPieceType() {
+        return pieceType;
+    }
 
-    int getId();
+    public int getScore() {
+        return pieceType.getScore();
+    }
 
-    Team getTeam();
+    public abstract Position getCurrentPosition();
 
-    Position getCurrentPosition();
+    public abstract boolean isCatch();
 
-    PieceType getPieceType();
+    public abstract void validateDestination(Position destination);
 
-    int getScore();
+    public abstract void validatePaths(Pieces pieces, Position destination);
 
-    boolean isCatch();
+    public abstract void move(Position destination);
+
+    public abstract void catchByOpponent();
+
+    public abstract boolean isPlacedAt(Position targetPosition);
 }

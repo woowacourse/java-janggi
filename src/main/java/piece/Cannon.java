@@ -5,19 +5,24 @@ import location.PathUtility;
 import location.Position;
 import java.util.List;
 
-public class Cannon implements Piece {
-    private final Integer pieceId;
-    private final Team team;
+public class Cannon extends Piece {
     private boolean isCatch;
-    private final PieceType pieceType;
     private Position currentPosition;
 
     public Cannon(int pieceId, Team team, Position currentPosition) {
-        this.pieceId = pieceId;
-        this.team = team;
+        super(pieceId, team, PieceType.CANNON);
         this.isCatch = false;
-        this.pieceType = PieceType.CANNON;
         this.currentPosition = currentPosition;
+    }
+
+    @Override
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
+
+    @Override
+    public boolean isCatch() {
+        return isCatch;
     }
 
     @Override
@@ -48,36 +53,6 @@ public class Cannon implements Piece {
     @Override
     public boolean isPlacedAt(Position targetPosition) {
         return currentPosition.equals(targetPosition);
-    }
-
-    @Override
-    public int getId() {
-        return pieceId;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
-    }
-
-    @Override
-    public Position getCurrentPosition() {
-        return currentPosition;
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    @Override
-    public int getScore() {
-        return pieceType.getScore();
-    }
-
-    @Override
-    public boolean isCatch() {
-        return isCatch;
     }
 
     private int calculateNotCannonCountInPaths(Pieces pieces, Position destination) {

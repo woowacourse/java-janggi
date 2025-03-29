@@ -37,10 +37,6 @@ public enum Team {
         return team.initialScore - catchPieces.calculateTotalScore();
     }
 
-    public static Team findLatter() {
-        return Team.RED;
-    }
-
     public int getId() {
         return id;
     }

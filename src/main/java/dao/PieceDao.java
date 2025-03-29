@@ -63,15 +63,15 @@ public class PieceDao {
         return new Pieces(pieces);
     }
 
-    public Pieces findAll() {
+    public Pieces findCatchAllBy(Team team) {
         List<Piece> pieces = new ArrayList<>();
-        String query = "SELECT * FROM piece";
+        String query = "SELECT * FROM piece WHERE team_id = ? AND is_catch = true";
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, team.getId());
             try (var resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     int pieceId = resultSet.getInt("piece_id");
-                    Team team = Team.findById(resultSet.getInt("team_id"));
                     PieceType pieceType = PieceType.findById(resultSet.getInt("piece_type_id"));
                     Position position = new Position(resultSet.getInt("x"), resultSet.getInt("y"));
 
@@ -85,15 +85,15 @@ public class PieceDao {
         return new Pieces(pieces);
     }
 
-    public Pieces findCatchAllBy(Team team) {
+    public Pieces findAll() {
         List<Piece> pieces = new ArrayList<>();
-        String query = "SELECT * FROM piece WHERE team_id = ? AND is_catch = true";
+        String query = "SELECT * FROM piece";
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, team.getId());
             try (var resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     int pieceId = resultSet.getInt("piece_id");
+                    Team team = Team.findById(resultSet.getInt("team_id"));
                     PieceType pieceType = PieceType.findById(resultSet.getInt("piece_type_id"));
                     Position position = new Position(resultSet.getInt("x"), resultSet.getInt("y"));
 

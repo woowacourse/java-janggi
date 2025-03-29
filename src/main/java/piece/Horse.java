@@ -13,7 +13,7 @@ import location.Position;
 import java.util.List;
 import java.util.Map;
 
-public class Horse implements Piece {
+public class Horse extends Piece {
     private static final Map<Distance, List<Direction>> HORSE_PATH_INFO = Map.of(
             new Distance(-1, -2), List.of(UP),
             new Distance(1, -2), List.of(UP),
@@ -25,18 +25,23 @@ public class Horse implements Piece {
             new Distance(2, 1), List.of(RIGHT)
     );
 
-    private final Integer pieceId;
-    private final Team team;
     private boolean isCatch;
-    private final PieceType pieceType;
     private Position currentPosition;
 
     public Horse(int pieceId, Team team, Position currentPosition) {
-        this.pieceId = pieceId;
-        this.team = team;
+        super(pieceId, team, PieceType.HORSE);
         this.isCatch = false;
-        this.pieceType = PieceType.HORSE;
         this.currentPosition = currentPosition;
+    }
+
+    @Override
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
+
+    @Override
+    public boolean isCatch() {
+        return isCatch;
     }
 
     @Override
@@ -50,9 +55,7 @@ public class Horse implements Piece {
     @Override
     public void validatePaths(Pieces pieces, Position destination) {
         Distance distance = Distance.createBy(currentPosition, destination);
-        boolean isOtherPieceExistedInPaths = findPathsBy(distance).stream()
-                .anyMatch(direction -> pieces.isContainedPieceAtPosition(
-                        currentPosition.apply(direction)));
+        boolean isOtherPieceExistedInPaths = isOtherPieceExistedInPaths(pieces, distance);
         if (isOtherPieceExistedInPaths) {
             throw new IllegalArgumentException("[ERROR] 경로에 기물이 존재합니다.");
         }
@@ -73,37 +76,13 @@ public class Horse implements Piece {
         return currentPosition.equals(targetPosition);
     }
 
-    @Override
-    public int getId() {
-        return pieceId;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
-    }
-
-    @Override
-    public Position getCurrentPosition() {
-        return currentPosition;
-    }
-
-    @Override
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    @Override
-    public int getScore() {
-        return pieceType.getScore();
-    }
-
-    @Override
-    public boolean isCatch() {
-        return isCatch;
-    }
-
     private List<Direction> findPathsBy(Distance distance) {
         return HORSE_PATH_INFO.getOrDefault(distance, Collections.emptyList());
+    }
+
+    private boolean isOtherPieceExistedInPaths(Pieces pieces, Distance distance) {
+        return findPathsBy(distance).stream()
+                .anyMatch(direction -> pieces.isContainedPieceAtPosition(
+                        currentPosition.apply(direction)));
     }
 }
