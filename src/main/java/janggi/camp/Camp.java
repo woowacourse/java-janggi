@@ -24,10 +24,6 @@ public enum Camp {
 
     public abstract Camp reverse();
 
-    public boolean isChu() {
-        return this == CHU;
-    }
-
     public String getName() {
         return name;
     }

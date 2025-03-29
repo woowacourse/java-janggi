@@ -14,7 +14,7 @@ public final class Soldier extends Piece {
 
     @Override
     public void validateMove(Point from, Point to) {
-        if (isJol()) {
+        if (isSameCamp(Camp.CHU)) {
             validateJolMove(from, to);
             return;
         }
@@ -53,7 +53,7 @@ public final class Soldier extends Piece {
     public Set<Point> findRoute(Point from, Point to) {
         return Set.of();
     }
-    
+
     @Override
     public PieceCategory getPieceCategory() {
         return PieceCategory.SOLDIER;

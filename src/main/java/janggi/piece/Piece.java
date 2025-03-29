@@ -28,10 +28,6 @@ public abstract class Piece {
         return findRoute(from, to);
     }
 
-    protected boolean isSameCamp(Camp other) {
-        return this.camp == other;
-    }
-
     public void validateCatch(Piece targetPiece) {
         if (this.camp == targetPiece.camp) {
             throw new IllegalArgumentException("같은 진영의 기물을 잡을 수 없습니다.");
@@ -42,6 +38,10 @@ public abstract class Piece {
         if (this.camp != baseCamp) {
             throw new IllegalArgumentException("다른 진영의 기물을 선택할 수 없습니다.");
         }
+    }
+
+    protected boolean isSameCamp(Camp other) {
+        return this.camp == other;
     }
 
     public Camp getCamp() {
