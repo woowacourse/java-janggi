@@ -2,7 +2,7 @@ package janggi.board;
 
 import janggi.position.Position;
 
-public class PlaceGenerator {
+public class PalaceGenerator {
 
     public Palace generate() {
         final Palace palace = new Palace();

@@ -12,10 +12,10 @@ class PalaceTest {
     @Test
     void palaceArea() {
         //given
-        final PlaceGenerator placeGenerator = new PlaceGenerator();
+        final PalaceGenerator palaceGenerator = new PalaceGenerator();
 
         //when
-        final Palace actual = placeGenerator.generate();
+        final Palace actual = palaceGenerator.generate();
 
         //then
         assertThat(actual.getArea()).hasSize(18);
@@ -25,8 +25,8 @@ class PalaceTest {
     @Test
     void isInPalaceByPosition() {
         //given
-        final PlaceGenerator placeGenerator = new PlaceGenerator();
-        final Palace palace = placeGenerator.generate();
+        final PalaceGenerator palaceGenerator = new PalaceGenerator();
+        final Palace palace = palaceGenerator.generate();
 
         final Position currentPosition = new Position(0, 3);
 
@@ -41,8 +41,8 @@ class PalaceTest {
     @Test
     void isOutPalaceByPosition() {
         //given
-        final PlaceGenerator placeGenerator = new PlaceGenerator();
-        final Palace palace = placeGenerator.generate();
+        final PalaceGenerator palaceGenerator = new PalaceGenerator();
+        final Palace palace = palaceGenerator.generate();
 
         final Position currentPosition = new Position(3, 3);
 
