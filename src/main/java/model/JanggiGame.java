@@ -1,5 +1,6 @@
 package model;
 
+import dao.DaoConfiguration;
 import dao.GameDao;
 import dao.PieceDao;
 import java.util.List;
@@ -11,8 +12,9 @@ import utils.InputParser;
 
 public class JanggiGame {
 
-    private static final PieceDao pieceDao = new PieceDao();
-    private static final GameDao gameDao = new GameDao();
+    private static final DaoConfiguration daoConfiguration = new DaoConfiguration();
+    private static final PieceDao pieceDao = new PieceDao(daoConfiguration);
+    private static final GameDao gameDao = new GameDao(daoConfiguration);
     private final Pieces pieces;
     private Team turn;
 

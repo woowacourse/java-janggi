@@ -7,28 +7,27 @@ import org.junit.jupiter.api.Test;
 
 public class GameDaoTest {
 
+    private final DaoConfiguration daoConfiguration = new DaoConfiguration();
+    private GameDao gameDao = new GameDao(daoConfiguration);
+
     @Test
     public void addTurn() {
-        GameDao gameDao = new GameDao();
         gameDao.addTurn(Team.GREEN);
     }
 
     @Test
     public void deleteTurn() {
-        GameDao gameDao = new GameDao();
         gameDao.deleteTurn();
     }
 
     @Test
     public void getTurn() {
-        GameDao gameDao = new GameDao();
         Team turn = gameDao.getTurn();
         assertThat(turn).isNotNull();
     }
 
     @Test
     public void updateTurn() {
-        GameDao gameDao = new GameDao();
         gameDao.updateTurn(Team.RED);
         assertThat(gameDao.getTurn()).isEqualTo(Team.RED);
     }

@@ -1,7 +1,5 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -22,27 +20,15 @@ import model.position.Row;
 
 public class PieceDao {
 
-    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
+    private final DaoConfiguration daoConfiguration;
 
-    public Connection getConnection() {
-        // 드라이버 연결
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION,
-                USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
+    public PieceDao(DaoConfiguration daoConfiguration) {
+        this.daoConfiguration = daoConfiguration;
     }
 
     public Map<Position, Piece> getAllPieces() {
         final var query = "SELECT `column`, `row`, `team`, `type` FROM piece";
-        try (final var connection = getConnection();
+        try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {
             ResultSet result = preparedStatement.executeQuery();
             Map<Position, Piece> pieces = new HashMap<>();
@@ -101,7 +87,7 @@ public class PieceDao {
 
     public void addPiece(final Position position, Piece piece) {
         final var query = "INSERT INTO piece(`column`, `row`, team, type) VALUES(?, ?, ?, ?)";
-        try (final var connection = getConnection();
+        try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, position.getColumn().name());
             preparedStatement.setString(2, position.getRow().name());
@@ -115,7 +101,7 @@ public class PieceDao {
 
     public int findPieceByPosition(Position position) {
         final var query = "SELECT piece_id FROM piece WHERE `column` = ? AND `row` = ?";
-        try (final var connection = getConnection();
+        try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, position.getColumn().name());
             preparedStatement.setString(2, position.getRow().name());
@@ -132,7 +118,7 @@ public class PieceDao {
 
     public boolean deletePiece(Position position) {
         final var query = "DELETE FROM piece WHERE piece_id = ?";
-        try (final var connection = getConnection();
+        try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {
             int pieceIdFromPosition = findPieceByPosition(position);
             preparedStatement.setInt(1, pieceIdFromPosition);
@@ -144,7 +130,7 @@ public class PieceDao {
 
     public boolean updatePiece(Position departure, Position arrival) {
         final var query = "UPDATE piece SET `column` = ?, `row` = ? WHERE piece_id = ?";
-        try (final var connection = getConnection();
+        try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {
             int pieceIdFromPosition = findPieceByPosition(departure);
             preparedStatement.setString(1, arrival.getColumn().name());
@@ -158,7 +144,7 @@ public class PieceDao {
 
     public void deleteAllPieces() {
         final var query = "TRUNCATE TABLE piece;";
-        try (final var connection = getConnection();
+        try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {

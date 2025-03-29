@@ -12,9 +12,11 @@ import org.junit.jupiter.api.Test;
 
 public class PieceDaoTest {
 
+    private final DaoConfiguration daoConfiguration = new DaoConfiguration();
+    private final PieceDao pieceDao = new PieceDao(daoConfiguration);
+
     @Test
     public void addPiece() {
-        PieceDao pieceDao = new PieceDao();
         Position position = new Position(Column.ONE, Row.TWO);
         Piece piece = new Cannon(Team.RED);
         pieceDao.addPiece(position, piece);
@@ -22,7 +24,6 @@ public class PieceDaoTest {
 
     @Test
     public void findPieceByPosition() {
-        PieceDao pieceDao = new PieceDao();
         Position position = new Position(Column.TEN, Row.THREE);
         int pieceByPosition = pieceDao.findPieceByPosition(position);
         assertThat(pieceByPosition).isEqualTo(26);
@@ -30,7 +31,6 @@ public class PieceDaoTest {
 
     @Test
     public void deleteAllPiece() {
-        PieceDao pieceDao = new PieceDao();
         pieceDao.deleteAllPieces();
     }
 
