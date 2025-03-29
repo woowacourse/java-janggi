@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PiecesInitializer;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
 import java.util.Set;
@@ -21,7 +22,9 @@ class GameTest {
     void selectPieceTest() {
 
         // given
-        final Game game = new Game(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+        final Game game = new Game(
+                new Pieces(PiecesInitializer.initializePieces(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP)),
+                new Turn(BLUE));
         final Position position = new Position(0, 0);
 
         // when
@@ -36,7 +39,9 @@ class GameTest {
     void findPossibleRoutesTest() {
 
         // given
-        final Game game = new Game(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+        final Game game = new Game(
+                new Pieces(PiecesInitializer.initializePieces(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP)),
+                new Turn(BLUE));
         final Piece chariot = new Chariot(new Position(0, 0), BLUE);
 
         // when
@@ -51,7 +56,9 @@ class GameTest {
     void movePieceTest() {
 
         // given
-        final Game game = new Game(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+        final Game game = new Game(
+                new Pieces(PiecesInitializer.initializePieces(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP)),
+                new Turn(BLUE));
         final Piece chariot = game.selectPiece(new Position(0, 0));
 
         // when
@@ -67,16 +74,16 @@ class GameTest {
     void changeTurnTest() {
 
         // given
-        final Game game = new Game(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+        final Game game = new Game(
+                new Pieces(PiecesInitializer.initializePieces(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP)),
+                Turn.initialize());
 
         // when
-        final Team currentTurn = game.getTurn();
         game.changeTurn();
-        final Team nextTurn = game.getTurn();
+        final Turn nextTurn = game.getTurn();
 
         assertAll(() -> {
-            assertThat(currentTurn).isEqualTo(BLUE);
-            assertThat(nextTurn).isEqualTo(RED);
+            assertThat(nextTurn.getCurrentTurn()).isEqualTo(RED);
         });
     }
 
@@ -85,7 +92,9 @@ class GameTest {
     void getScoreByTeamTest() {
 
         // given
-        final Game game = new Game(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP);
+        final Game game = new Game(
+                new Pieces(PiecesInitializer.initializePieces(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP)),
+                new Turn(BLUE));
 
         // when
         final double redResult = game.getScoreByTeam(RED);

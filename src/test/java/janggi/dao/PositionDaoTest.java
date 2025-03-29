@@ -53,6 +53,6 @@ class PositionDaoTest {
         positionDao.addPosition(new Position(x, y));
         int findPositionId = positionDao.findIdByXY(x, y);
         assertThat(findPositionId).isEqualTo(1);
-        positionDao.deletePosition(findPositionId);
+        positionDao.deletePositionById(findPositionId);
     }
 }
