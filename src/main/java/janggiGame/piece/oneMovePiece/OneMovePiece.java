@@ -1,9 +1,10 @@
 package janggiGame.piece.oneMovePiece;
 
-import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
+import janggiGame.position.Palace;
+import janggiGame.position.Position;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +18,11 @@ public abstract class OneMovePiece extends Piece {
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
 
-        validateRoute(dx, dy);
+        if (Palace.isPalaceDiagonalMove(origin, destination)) {
+            return List.of();
+        }
 
+        validateRoute(dx, dy);
         return List.of();
     }
 
@@ -32,5 +36,11 @@ public abstract class OneMovePiece extends Piece {
     @Override
     public void validateMove(Map<Position, Piece> routesWithPiece, Piece destinationPiece) {
         validateSameDynasty(destinationPiece);
+    }
+
+    protected void validateDestinationInPalace(Position destination) {
+        if (!Palace.isInPalace(destination)) {
+            throw new UnsupportedOperationException("[ERROR] 궁성 밖으로 나갈 수 없는 기물입니다.");
+        }
     }
 }
