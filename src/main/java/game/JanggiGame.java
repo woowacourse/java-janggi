@@ -2,9 +2,7 @@ package game;
 
 import domain.JanggiBoard;
 import domain.janggiPiece.JanggiChessPiece;
-import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
-import domain.position.generator.InitJanggiPiecePositionsGenerator;
 import domain.type.JanggiTeam;
 import view.InputView;
 import view.OutputView;
@@ -21,8 +19,7 @@ public class JanggiGame {
     public JanggiGame(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
-        JanggiPiecePositions positions = new JanggiPiecePositions(new InitJanggiPiecePositionsGenerator());
-        this.board = new JanggiBoard(positions);
+        this.board = new JanggiBoard();
         this.currentTeam = JanggiTeam.firstTurn();
     }
 
@@ -35,7 +32,6 @@ public class JanggiGame {
                 showAvailableDestinations(startPosition);
                 JanggiPosition destinationPosition = getDestinationPosition(startPosition);
                 if (board.isExistBossAt(destinationPosition)) {
-                    showFinalScore();
                     break;
                 }
                 board.move(currentTeam, startPosition, destinationPosition);
@@ -44,6 +40,8 @@ public class JanggiGame {
                 outputView.printErrorMessage(e.getMessage());
             }
         }
+        showFinalScore();
+        board.reset();
     }
 
     private void showBoard() {

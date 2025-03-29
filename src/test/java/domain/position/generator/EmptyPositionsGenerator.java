@@ -5,7 +5,7 @@ import domain.position.JanggiPosition;
 
 import java.util.Map;
 
-public class EmptyPositionsGenerator implements JanggiPiecePositionsGenerator {
+public class EmptyPositionsGenerator implements DefaultPositionsGenerator {
 
     @Override
     public Map<JanggiPosition, JanggiChessPiece> generate() {

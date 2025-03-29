@@ -1,5 +1,6 @@
 package domain.hurdlePolicy;
 
+import dao.EmptyJanggiBoardDao;
 import domain.path.Path;
 import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
@@ -47,7 +48,7 @@ class CannonHurdlePolicyTest {
                         JanggiPositionFactory.of(9, 4)
                 ))
         );
-        JanggiPiecePositions positions = new JanggiPiecePositions(new EmptyPositionsGenerator());
+        JanggiPiecePositions positions = new JanggiPiecePositions(new EmptyPositionsGenerator(), new EmptyJanggiBoardDao());
 
         // when
         List<JanggiPosition> destinations = policy.pickDestinations(JanggiTeam.BLUE, coordinates, positions);

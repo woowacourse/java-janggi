@@ -6,7 +6,7 @@ import domain.position.JanggiPosition;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InitJanggiPiecePositionsGenerator implements JanggiPiecePositionsGenerator {
+public class InitDefaultPositionsGenerator implements DefaultPositionsGenerator {
     @Override
     public Map<JanggiPosition, JanggiChessPiece> generate() {
         Map<JanggiPosition, JanggiChessPiece> chessPieces = new HashMap<>();

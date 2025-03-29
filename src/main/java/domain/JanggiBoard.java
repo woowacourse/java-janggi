@@ -1,11 +1,13 @@
 package domain;
 
+import dao.JanggiBoardDao;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.janggiPiece.JanggiChessPiece;
 import domain.janggiPiece.Piece;
 import domain.path.Path;
 import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
+import domain.position.generator.InitDefaultPositionsGenerator;
 import domain.score.Score;
 import domain.type.JanggiTeam;
 
@@ -17,8 +19,11 @@ import java.util.Map;
 public class JanggiBoard {
     private final JanggiPiecePositions janggiPiecePositions;
 
-    public JanggiBoard(final JanggiPiecePositions janggiPiecePositions) {
-        this.janggiPiecePositions = janggiPiecePositions;
+    public JanggiBoard() {
+        this.janggiPiecePositions = new JanggiPiecePositions(
+                new InitDefaultPositionsGenerator(),
+                new JanggiBoardDao()
+        );
     }
 
     public boolean isExistBossAt(JanggiPosition position) {
@@ -65,6 +70,10 @@ public class JanggiBoard {
         List<Path> coordinatePaths = chessPiece.getCoordinatePaths(position);
         HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
         return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, janggiPiecePositions);
+    }
+
+    public void reset() {
+        janggiPiecePositions.reset();
     }
 
     public Map<JanggiPosition, JanggiChessPiece> getPositions() {

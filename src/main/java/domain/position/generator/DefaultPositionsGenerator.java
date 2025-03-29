@@ -5,6 +5,6 @@ import domain.position.JanggiPosition;
 
 import java.util.Map;
 
-public interface JanggiPiecePositionsGenerator {
+public interface DefaultPositionsGenerator {
     Map<JanggiPosition, JanggiChessPiece> generate();
 }
