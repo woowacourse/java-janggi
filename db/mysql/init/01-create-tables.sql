@@ -16,12 +16,12 @@ CREATE TABLE IF NOT EXISTS player
     FOREIGN KEY (game_id) REFERENCES game (id)
 );
 
-CREATE TABLE IF NOT EXISTS piece
+CREATE TABLE IF NOT EXISTS location
 (
-    id           INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    piece_type   VARCHAR(50) NOT NULL,
-    piece_row    INT         NOT NULL,
-    piece_column INT         NOT NULL,
-    player_id    INT,
+    id              INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    location_piece  VARCHAR(50) NOT NULL,
+    location_row    INT         NOT NULL,
+    location_column INT         NOT NULL,
+    player_id       INT,
     FOREIGN KEY (player_id) REFERENCES player (id)
 );

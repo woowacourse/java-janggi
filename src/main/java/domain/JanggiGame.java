@@ -7,6 +7,7 @@ import domain.pieces.Piece;
 import domain.player.Player;
 import domain.player.Score;
 import domain.player.Team;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -68,6 +69,10 @@ public final class JanggiGame {
 
     public int getId() {
         return id;
+    }
+
+    public List<Player> getPlayers() {
+        return new ArrayList<>(players);
     }
 
     private Player retrievePlayerOnCurrentTurn() {

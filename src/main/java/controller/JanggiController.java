@@ -37,27 +37,11 @@ public final class JanggiController {
     private void initGame() {
         try {
             final JanggiGame game = initialJanggiGame();
+            daoService.registerLocations(game.getBoard());
             outputView.printBoard(game.getBoard());
             playJanggi(game);
         } catch (RuntimeException e) {
             outputView.printError(e.getMessage());
-        }
-    }
-
-    private void playJanggi(final JanggiGame game) {
-        while (true) {
-            final Team currentTeam = game.getTeamOnCurrentTurn();
-            final List<List<Choice>> moveRequest = handleInput(() -> inputView.readMovementRequest(currentTeam));
-            final Point start = Point.generateStartPoint(moveRequest);
-            final Point arrival = Point.generateArrivalPoint(moveRequest);
-            if (!canProcessMove(start, arrival, game)) {
-                outputView.printWinner(currentTeam);
-                break;
-            }
-            game.movePieceOnBoard(start, arrival);
-            game.switchTurn();
-            outputView.printBoard(game.getBoard());
-            outputView.printScores(game.wrapPlayersScore());
         }
     }
 
@@ -77,6 +61,36 @@ public final class JanggiController {
         }
         final List<Player> players = new ArrayList<>(elephantLocatorByTeam.keySet());
         return JanggiGame.setup(gameId, elephantLocatorByTeam, players);
+    }
+
+    private void playJanggi(final JanggiGame game) {
+        while (true) {
+            final Team currentTeam = game.getTeamOnCurrentTurn();
+            final List<List<Choice>> moveRequest = handleInput(() -> inputView.readMovementRequest(currentTeam));
+            final Point start = Point.generateStartPoint(moveRequest);
+            final Point arrival = Point.generateArrivalPoint(moveRequest);
+            if (!canProcessMove(start, arrival, game)) {
+                gameOver(game, currentTeam);
+                break;
+            }
+            handleMove(game, start, arrival);
+        }
+    }
+
+    private void handleMove(JanggiGame game, Point start, Point arrival) {
+        game.movePieceOnBoard(start, arrival);
+        daoService.changeLocation(start, arrival, game.getId());
+
+        game.switchTurn();
+        daoService.switchTurn(game.getPlayers());
+
+        outputView.printBoard(game.getBoard());
+        outputView.printScores(game.wrapPlayersScore());
+    }
+
+    private void gameOver(final JanggiGame game, final Team team) {
+        daoService.deactivateGame(game.getId());
+        outputView.printWinner(team);
     }
 
     private boolean canProcessMove(final Point start, final Point arrival, final JanggiGame game) {

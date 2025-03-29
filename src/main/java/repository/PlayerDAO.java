@@ -35,14 +35,19 @@ public final class PlayerDAO {
         }
     }
 
-    public void update(final Player player) {
+    public void updateBatch(final List<Player> players) {
         final String query = "UPDATE player SET score = ?, is_turn = ? WHERE id = ?";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setDouble(1, player.getScore().value());
-            preparedStatement.setBoolean(2, player.isTurn());
-            preparedStatement.setInt(3, player.getId());
-            preparedStatement.executeUpdate();
+
+            for (Player player : players) {
+                preparedStatement.setDouble(1, player.getScore().value());
+                preparedStatement.setBoolean(2, player.isTurn());
+                preparedStatement.setInt(3, player.getId());
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
