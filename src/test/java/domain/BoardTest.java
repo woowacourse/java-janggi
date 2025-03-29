@@ -3,6 +3,7 @@ package domain;
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
 import domain.piece.Pieces;
+import domain.piece.Score;
 import domain.piece.category.King;
 import domain.piece.category.PieceCategory;
 import domain.piece.category.Soldier;
@@ -27,8 +28,8 @@ class BoardTest {
 
         Piece expected = new Soldier(new Position(1, 5), PieceDirection.HAN_SOLDIER.get());
 
-        Player han = new Player(Team.HAN);
-        Player cho = new Player(Team.CHO);
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
 
         Pieces hanPieces = createPiecesByPlayer(han);
         Pieces choPieces = createPiecesByPlayer(cho);
@@ -54,8 +55,8 @@ class BoardTest {
 
         Piece expected = new King(new Position(6, 3), PieceDirection.KING.get());
 
-        Player han = new Player(Team.HAN);
-        Player cho = new Player(Team.CHO);
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
 
         Pieces hanPieces = createPiecesByPlayer(han);
         Pieces choPieces = createPiecesByPlayer(cho);
@@ -79,8 +80,8 @@ class BoardTest {
         Position startPosition = new Position(1, 1);
         Position targetPosition = new Position(1, 4);
 
-        Player han = new Player(Team.HAN);
-        Player cho = new Player(Team.CHO);
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
 
         Pieces hanPieces = createPiecesByPlayer(han);
         Pieces choPieces = createPiecesByPlayer(cho);
@@ -104,8 +105,8 @@ class BoardTest {
         Position targetPosition1 = new Position(4, 3);
         Position targetPosition2 = new Position(7, 3);
 
-        Player han = new Player(Team.HAN);
-        Player cho = new Player(Team.CHO);
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
 
         Pieces hanPieces = createPiecesByPlayer(han);
         Pieces choPieces = createPiecesByPlayer(cho);
@@ -136,8 +137,8 @@ class BoardTest {
         Position startPosition = new Position(2, 3);
         Position targetPosition = new Position(2, 8);
 
-        Player han = new Player(Team.HAN);
-        Player cho = new Player(Team.CHO);
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
 
         Pieces hanPieces = createPiecesByPlayer(han);
         Pieces choPieces = createPiecesByPlayer(cho);
@@ -161,8 +162,8 @@ class BoardTest {
         Position startPosition = new Position(2, 3);
         Position targetPosition = new Position(2, 9);
 
-        Player han = new Player(Team.HAN);
-        Player cho = new Player(Team.CHO);
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
 
         Pieces hanPieces = createPiecesByPlayer(han);
         Pieces choPieces = createPiecesByPlayer(cho);
@@ -185,8 +186,8 @@ class BoardTest {
         Position startPosition = new Position(1, 1);
         Position targetPosition = new Position(1, 7);
 
-        Player han = new Player(Team.HAN);
-        Player cho = new Player(Team.CHO);
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
 
         Pieces hanPieces = createPiecesByPlayer(han);
         Pieces choPieces = createPiecesByPlayer(cho);
@@ -214,8 +215,8 @@ class BoardTest {
     @Test
     void 게임_종료_여부를_판단한다() {
         // given
-        Player han = new Player(Team.HAN);
-        Player cho = new Player(Team.CHO);
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(List.of()));
@@ -233,8 +234,8 @@ class BoardTest {
     @Test
     void 우승자를_반환한다() {
         // given
-        Player han = new Player(Team.HAN);
-        Player cho = new Player(Team.CHO);
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, createPiecesByPlayer(han));

@@ -2,6 +2,7 @@ import domain.Board;
 import domain.Player;
 import domain.Team;
 import domain.piece.Pieces;
+import domain.piece.Score;
 import domain.spatial.Position;
 import domain.strategy.SettingUp;
 import domain.strategy.SettingUpInitializer;
@@ -24,8 +25,8 @@ public class KoreaChess {
     public void run() {
         outputView.printGameStart();
 
-        Player han = new Player(Team.HAN);
-        Player cho = new Player(Team.CHO);
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
         Board board = initializeGame(han, cho);
 
         while (!board.isFinish()) {

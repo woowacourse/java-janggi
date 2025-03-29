@@ -42,8 +42,8 @@ public class OutputView {
     }
 
     public void printWinner(final Player winner) {
-        System.out.println(winner.team().getName() + "의 승리로 게임이 종료되었습니다.");
-        System.out.println("우승자 : " + winner.team().getName());
+        System.out.println(winner.getTeam().getName() + "의 승리로 게임이 종료되었습니다.");
+        System.out.println("우승자 : " + winner.getTeam().getName());
     }
 
     public void printErrorMessage(final String message) {
@@ -62,7 +62,7 @@ public class OutputView {
 
     private void updateDefaultBoard(final Map<Player, Pieces> board, final List<ArrayList<String>> defaultBoard) {
         for (Player player : board.keySet()) {
-            String color = player.team().getColor();
+            String color = player.getTeam().getColor();
 
             List<Piece> pieces = board.get(player).pieces();
             updatePiecesToDefaultBoard(defaultBoard, pieces, color);

@@ -1,10 +1,10 @@
 package domain.piece;
 
-public class Score {
+public record Score(
+        int value
+) {
 
-    private final int score;
-
-    public Score(final int score) {
-        this.score = score;
+    public Score sum(final Score other) {
+        return new Score(this.value + other.value);
     }
 }

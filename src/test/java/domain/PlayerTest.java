@@ -15,6 +15,6 @@ class PlayerTest {
         player.increaseScore(new Score(10));
 
         // then
-        Assertions.assertThat(player.getScore().getValue()).isEqualTo(10);
+        Assertions.assertThat(player.getScore().value()).isEqualTo(10);
     }
 }
