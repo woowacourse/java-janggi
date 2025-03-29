@@ -4,15 +4,12 @@ public class Player {
 
     private final String name;
     private final Team team;
-    private int score = 0;
+    private float score;
 
-    public Player(final String name, final Team team) {
+    public Player(final String name, final Team team, final float score) {
         this.name = name;
         this.team = team;
-    }
-
-    public void addScore(final int score) {
-        this.score += score;
+        this.score = score;
     }
 
     public String name() {
@@ -23,7 +20,11 @@ public class Player {
         return team;
     }
 
-    public int score() {
+    public float score() {
         return score;
+    }
+
+    public void addScore(int score) {
+        this.score += score;
     }
 }

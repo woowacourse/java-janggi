@@ -89,8 +89,7 @@ public record Board(
     private void catchOppositePieceIfExistsTargetPosition(final Player player, final Position targetPosition) {
         Pieces oppositePieces = getOppositePieces(player);
         if (oppositePieces.existByPosition(targetPosition)) {
-            int score = oppositePieces.catchByPosition(targetPosition);
-            player.addScore(score);
+            oppositePieces.deleteByPosition(targetPosition);
         }
     }
 
@@ -102,5 +101,15 @@ public record Board(
                 .orElseThrow(RuntimeException::new);
 
         return board.get(oppositePlayer);
+    }
+
+    public void calculateScores() {
+        board.keySet()
+                .stream()
+                .peek(player -> player.addScore(calculatePlayerScore(board.get(player))));
+    }
+
+    private int calculatePlayerScore(final Pieces pieces) {
+        return pieces.calculateTotalScore();
     }
 }
