@@ -2,6 +2,7 @@ package domain.piece.category;
 
 import domain.MoveInfo;
 import domain.MoveInfos;
+import domain.direction.Directions;
 import domain.direction.PieceDirection;
 import domain.piece.Piece;
 import domain.spatial.Position;
@@ -12,9 +13,49 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 class CannonTest {
+
+    @Test
+    void 이동_경로가_아닌_경우_예외가_발생한다() {
+        // given
+        Piece piece = new Cannon(new Position(1, 2), PieceDirection.CANNON.get());
+        Position target = new Position(2, 3);
+
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> piece.getPaths(target))
+                .withMessage("이동할 수 없는 좌표입니다. 다시 확인해주세요.");
+    }
+
+    @Test
+    void 궁성_내부_대각선_이동이_가능하다() {
+        // given
+        Piece piece = new Cannon(new Position(4, 3), new Directions(List.of(), false));
+
+        List<Position> excepted = List.of(new Position(5, 2), new Position(6, 1));
+
+        // when
+        List<Position> paths = piece.getPaths(new Position(6, 1));
+
+        // then
+        assertThat(paths).containsAll(excepted);
+    }
+
+    @Test
+    void 궁성_대각선_이동인_경우에_외부로_이동할_경우_예외가_발생한다() {
+        // given
+        Piece piece = new Cannon(new Position(5, 3), new Directions(List.of(), false));
+
+        Position target = new Position(6, 4);
+
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> piece.getPaths(target))
+                .withMessage("궁성 이동의 경우 밖으로 이동할 수 없습니다.");
+    }
 
     @ParameterizedTest
     @MethodSource
