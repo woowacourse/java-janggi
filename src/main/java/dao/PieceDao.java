@@ -2,6 +2,7 @@ package dao;
 
 import domain.board.Board;
 import domain.board.BoardLocation;
+import domain.game.JanggiGame;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Elephant;
@@ -33,8 +34,7 @@ public class PieceDao {
                 "team VARCHAR(10) NOT NULL, " +
                 "location_x INT NOT NULL, " +
                 "location_y INT NOT NULL, " +
-                "is_alive BOOLEAN NOT NULL, " +
-                "PRIMARY KEY (game_id, piece_type, team, location_x, location_y))";
+                "is_alive BOOLEAN NOT NULL, ";
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(sql);
@@ -69,7 +69,7 @@ public class PieceDao {
 
     public Optional<BoardDto> findByAllAlivePieces() {
         String query = "SELECT piece_type,team, location_x, location_y "
-                + "FROM piece_status WHERE game_id = ? AND is_alive = true";
+                + "FROM piece WHERE is_alive = true";
         Map<BoardLocation, Piece> pieces = new HashMap<>();
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             try (ResultSet rs = stmt.executeQuery()) {
@@ -86,6 +86,35 @@ public class PieceDao {
             }
             return Optional.of(new BoardDto(pieces));
         } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateBoard(JanggiGame janggiGame) {
+        String updateAliveQuery = "UPDATE piece SET is_alive = false";
+        try (PreparedStatement stmt = connection.prepareStatement(updateAliveQuery)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        Map<BoardLocation, Piece> pieces = janggiGame.getBoard().getPieces();
+        String updatePieceQuery = "UPDATE piece SET is_alive = true, location_x = ?, location_y = ? " +
+                "WHERE piece_type = ? AND team = ? AND location_x = ? AND location_y = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(updatePieceQuery)) {
+            for (Entry<BoardLocation, Piece> entry : pieces.entrySet()) {
+                BoardLocation location = entry.getKey();
+                Piece piece = entry.getValue();
+                stmt.setInt(1, location.x());
+                stmt.setInt(2, location.y());
+                stmt.setString(3, piece.getType().name());
+                stmt.setString(4, piece.getTeam().name());
+                stmt.setInt(5, location.x());
+                stmt.setInt(6, location.y());
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -118,5 +147,6 @@ public class PieceDao {
         }
         return piece;
     }
+
 
 }

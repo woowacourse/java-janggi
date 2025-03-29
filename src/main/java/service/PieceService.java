@@ -23,4 +23,8 @@ public class PieceService {
     public Optional<BoardDto> getAlivePieces(){
         return pieceDao.findByAllAlivePieces();
     }
+
+    public void updateBoardPieceLocation(JanggiGame janggiGame){
+        pieceDao.updateBoard(janggiGame);
+    }
 }
