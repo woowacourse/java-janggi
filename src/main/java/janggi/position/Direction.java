@@ -1,6 +1,7 @@
 package janggi.position;
 
 import janggi.piece.Team;
+import java.util.Arrays;
 import java.util.List;
 
 public enum Direction {
@@ -21,6 +22,10 @@ public enum Direction {
     Direction(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public static List<Direction> getAllDirection() {
+        return Arrays.stream(values()).toList();
     }
 
     public static List<Direction> getStraight(Team team) {
@@ -47,6 +52,22 @@ public enum Direction {
             return List.of(UPPER_RIGHT, UNDER_RIGHT);
         }
         return List.of(this);
+    }
+
+    public boolean idDiagonal() {
+        if (this == UPPER_RIGHT) {
+            return true;
+        }
+        if (this == UNDER_RIGHT) {
+            return true;
+        }
+        if (this == UNDER_LEFT) {
+            return true;
+        }
+        if (this == UPPER_LEFT) {
+            return true;
+        }
+        return false;
     }
 
     public int moveColumn(int x) {
