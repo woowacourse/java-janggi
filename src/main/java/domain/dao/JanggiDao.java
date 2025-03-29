@@ -14,6 +14,7 @@ public class JanggiDao {
     private final static Connection connect = null;
 
     private JanggiDao() {
+
     }
 
     public static Connection getConnection() {
