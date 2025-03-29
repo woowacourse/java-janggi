@@ -50,7 +50,7 @@ public class OutputView {
     }
 
     private String typeToName(PieceType type) {
-        if (type == PieceType.KING) {
+        if (type == PieceType.GENERAL) {
             return "K";
         }
         if (type == PieceType.SCHOLAR) {
