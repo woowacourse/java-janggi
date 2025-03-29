@@ -1,13 +1,16 @@
 package view;
 
 import domain.Board;
+import domain.GameResult;
 import domain.Player;
+import domain.Result;
 import domain.piece.Piece;
 import domain.piece.Pieces;
 import domain.spatial.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -35,17 +38,22 @@ public class OutputView {
         System.out.println("===== 장기판 상태 =====");
         System.out.println("   1 2 3 4 5 6 7 8 9");
         List<ArrayList<String>> defaultBoard = createDefaultBoard();
-        updateDefaultBoard(board.playerPiecesMap(), defaultBoard);
+        updateDefaultBoard(board.gamePlayers(), defaultBoard);
         printBoardDetails(defaultBoard);
         System.out.println("=====================");
         System.out.println();
         printPlayerScores(board);
     }
 
-    public void printWinner(final Board board, final Player winner) {
+    public void printGameResult(final Board board, final GameResult result) {
+        System.out.println("게임이 종료되었습니다.");
         printPlayerScores(board);
-        System.out.println(winner.getTeam().getName() + "의 승리로 게임이 종료되었습니다.");
-        System.out.println("우승자 : " + winner.getTeam().getName());
+
+        System.out.println("===== 장기 게임 결과 =====");
+        Map<Player, Result> map = result.getResultMap();
+        for (Entry<Player, Result> entry : map.entrySet()) {
+            System.out.println(entry.getKey().getTeam().getName() + " : " + entry.getValue().getMessage());
+        }
     }
 
     public void printErrorMessage(final String message) {
@@ -87,7 +95,7 @@ public class OutputView {
 
     private void printPlayerScores(final Board board) {
         System.out.println("===== 장기 한/초 점수 =====");
-        Map<Player, Pieces> playerPiecesMap = board.playerPiecesMap();
+        Map<Player, Pieces> playerPiecesMap = board.gamePlayers();
         for (Player player : playerPiecesMap.keySet()) {
             System.out.println(player.getTeam().getName() + " : " + player.getScore().value() + "점");
         }

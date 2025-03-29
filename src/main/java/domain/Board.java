@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 public record Board(
-        Map<Player, Pieces> playerPiecesMap
+        Map<Player, Pieces> gamePlayers
 ) {
 
     public PieceCategory moveAndCapture(final Player current, final Position start, final Position target) {
-        Pieces player = playerPiecesMap.get(current);
+        Pieces player = gamePlayers.get(current);
         Pieces opponent = getOppositePieces(current);
 
         List<Position> paths = player.getPiecePaths(start, target);
@@ -25,29 +25,24 @@ public record Board(
         return removed;
     }
 
-    public boolean isFinish() {
-        long kingCount = playerPiecesMap.values().stream()
+    public boolean isGameFinished() {
+        long kingCount = gamePlayers.values().stream()
                 .filter(Pieces::existKing)
                 .count();
-
         return kingCount != 2;
     }
 
-    public Player getWinner() {
-        return playerPiecesMap.keySet().stream()
-                .filter(player -> playerPiecesMap.get(player).existKing())
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("서버에 문제가 발생했습니다. - 우승자 플레이어가 없습니다."));
+    public GameResult getGameResult() {
+        return new GameResult(gamePlayers);
     }
 
     private Pieces getOppositePieces(final Player current) {
-        Player opposite = playerPiecesMap.keySet()
+        Player opposite = gamePlayers.keySet()
                 .stream()
                 .filter(player -> !player.equals(current))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("서버에 문제가 발생했습니다. - 상대 플레이어가 없습니다."));
-
-        return playerPiecesMap.get(opposite);
+        return gamePlayers.get(opposite);
     }
 
     private static void validatePlayerPieceCapture(final Position target, final Pieces current) {
@@ -64,7 +59,7 @@ public record Board(
     }
 
     private PieceCategory getPieceCategoryAtPosition(final Position position) {
-        return playerPiecesMap.values().stream()
+        return gamePlayers.values().stream()
                 .filter(pieces -> pieces.existByPosition(position))
                 .map(pieces -> pieces.getCategoryAtPosition(position))
                 .findFirst()

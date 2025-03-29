@@ -276,29 +276,10 @@ class BoardTest {
         Board board = new Board(boardElements);
 
         // when
-        boolean result = board.isFinish();
+        boolean result = board.isGameFinished();
 
         // then
         assertThat(result).isTrue();
-    }
-
-    @Test
-    void 우승자를_반환한다() {
-        // given
-        Player han = new Player(Team.HAN, new Score(0));
-        Player cho = new Player(Team.CHO, new Score(0));
-
-        Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, createPiecesByPlayer(han));
-        boardElements.put(cho, new Pieces(List.of()));
-
-        Board board = new Board(boardElements);
-
-        // when
-        Player winner = board.getWinner();
-
-        // then
-        assertThat(winner).isEqualTo(han);
     }
 
     private Pieces createPiecesByPlayer(final Player player) {

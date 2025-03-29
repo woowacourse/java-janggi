@@ -32,4 +32,11 @@ public class InputView {
         System.out.println("기물이 도착할 위치를 입력해주세요. (ex. 1,2)");
         return console.nextLine();
     }
+
+    public boolean isGameTurnEnd() {
+        System.out.println("한 턴을 시작하려면 아무런 키를 입력하세요. [중단 : N]");
+        String command = console.nextLine().toUpperCase();
+        System.out.println();
+        return command.equals("N");
+    }
 }

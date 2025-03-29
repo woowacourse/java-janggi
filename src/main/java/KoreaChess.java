@@ -29,14 +29,14 @@ public class KoreaChess {
         Player cho = new Player(Team.CHO, new Score(0));
         Board board = initializeGame(han, cho);
 
-        while (!board.isFinish()) {
+        while (!board.isGameFinished() && !inputView.isGameTurnEnd()) {
             processTurn(han, board);
-            if (board.isFinish()) {
+            if (board.isGameFinished()) {
                 break;
             }
             processTurn(cho, board);
         }
-        printWinner(board);
+        printGameResult(board);
     }
 
     private Board initializeGame(final Player han, final Player cho) {
@@ -87,8 +87,7 @@ public class KoreaChess {
         return new Position(row, column);
     }
 
-    private void printWinner(final Board board) {
-        Player winner = board.getWinner();
-        outputView.printWinner(board, winner);
+    private void printGameResult(final Board board) {
+        outputView.printGameResult(board, board.getGameResult());
     }
 }
