@@ -73,6 +73,14 @@ public class Position {
         return choPalacePositions.contains(this);
     }
 
+    public boolean isCenterOfHanPalace() {
+        return this == Position.of(4, 8);
+    }
+
+    public boolean isCenterOfChoPalace() {
+        return this == Position.of(4, 1);
+    }
+
     public Position getReverse() {
         return POSITIONS.stream()
                 .filter(d -> d.row == MAX_ROW_RANGE - this.row)
