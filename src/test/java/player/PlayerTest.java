@@ -183,7 +183,6 @@ class PlayerTest {
     @DisplayName("경로에 포 존재 확인 테스트")
     void isExistPoInRoute() {
         //given
-        //given
         Jol jol = new Jol();
         Janggun janggun = new Janggun();
         Po po = new Po();
@@ -203,6 +202,25 @@ class PlayerTest {
         //when-then
         assertThat(player.isExistPoInRoute(route1)).isTrue();
         assertThat(player.isExistPoInRoute(route2)).isFalse();
+    }
+
+    @Test
+    @DisplayName("기물 삭제 테스트")
+    void removePieceTest() {
+        //given
+        Jol jol = new Jol();
+        Janggun janggun = new Janggun();
+        Po po = new Po();
+        JanggiPan janggiPan = new JanggiPan(Map.of(new Position(5, 5), new Piece(jol), new Position(6, 5), new Piece(janggun),
+                new Position(4, 3), new Piece(po)));
+
+        Player player = new Player(janggiPan);
+
+        //when
+        player.removePiece(new Position(5, 5));
+
+        //then
+        assertThat(player.getPieces().getPieces().containsKey(new Position(5, 5))).isFalse();
     }
 
 }

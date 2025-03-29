@@ -137,14 +137,14 @@ class JanggiPanTest {
 
     @Test
     @DisplayName("장군 사망 테스트")
-    void isJanggunDieTest() {
+    void hasJanggunTest() {
         //given
         JanggiPan janggiPan = new JanggiPan(
                 Map.of(new Position(5, 5), new Piece(new Cha()))
         );
 
         //when - then
-        assertThat(janggiPan.isJanggunDie()).isTrue();
+        assertThat(janggiPan.hasJanggun()).isTrue();
     }
 
     @Test
@@ -178,6 +178,21 @@ class JanggiPanTest {
         //when - then
         assertThat(janggiPan.isExistPoInRoute(route)).isTrue();
         assertThat(janggiPan.isExistPoInRoute(route1)).isFalse();
+    }
+
+    @Test
+    @DisplayName("기물 삭제 테스트")
+    void removePieceTest() {
+        //given
+        JanggiPan janggiPan = new JanggiPan(
+                Map.of(new Position(5, 5), new Piece(new Po()))
+        );
+
+        //when
+        janggiPan.removePiece(new Position(5, 5));
+
+        //then
+        assertThat(janggiPan.getPieces().containsKey(new Position(5, 5))).isFalse();
     }
 
 }

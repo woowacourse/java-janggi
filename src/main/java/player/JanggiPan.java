@@ -47,7 +47,7 @@ public class JanggiPan {
         return pieces.get(presentPosition).makeRoute(presentPosition, destination);
     }
 
-    public boolean isJanggunDie() {
+    public boolean hasJanggun() {
         return pieces.values().stream()
                 .noneMatch(Piece::isJanggun);
     }
@@ -63,5 +63,9 @@ public class JanggiPan {
 
     public Map<Position, Piece> getPieces() {
         return pieces;
+    }
+
+    public void removePiece(Position destination) {
+        pieces.remove(destination);
     }
 }
