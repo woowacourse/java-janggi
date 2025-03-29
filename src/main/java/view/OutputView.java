@@ -3,7 +3,10 @@ package view;
 import domain.Country;
 import domain.JanggiBoard;
 import domain.JanggiCoordinate;
+import domain.dto.GameRoomDTO;
 import domain.piece.Piece;
+
+import java.util.List;
 
 import static domain.JanggiBoard.COL_SIZE;
 import static domain.JanggiBoard.ROW_SIZE;
@@ -75,5 +78,15 @@ public class OutputView {
             return String.valueOf((int) score);
         }
         return String.valueOf(score);
+    }
+
+    public void printGameNames(List<GameRoomDTO> allGames) {
+        System.out.println("현재 세이브 되어있는 게임을 출력합니다.");
+        for (GameRoomDTO dto : allGames) {
+            System.out.println(
+                    "게임 이름 : " + dto.gameRoomName() +
+                            " 현재 턴 : " + dto.currTurn() +
+                            " 저장된 시간 " + dto.creationDate());
+        }
     }
 }
