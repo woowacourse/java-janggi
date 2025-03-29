@@ -25,9 +25,16 @@ public final class OutputView {
 
         System.out.print("  ");
         for (Column column : Column.values()) {
-            System.out.print(column.name());
+            displayColumnName(column);
         }
         System.out.println();
+    }
+
+    private static void displayColumnName(final Column column) {
+        String name = column.name();
+        char ch = name.charAt(0);
+        char fullWidthChar = (char)(ch - 0x20 + 0xFF00);
+        System.out.print(fullWidthChar);
     }
 
     private void displayRow(Map<Position, Piece> boardMap, Row row) {
@@ -60,9 +67,6 @@ public final class OutputView {
         System.out.print(color + piece.getPieceType().getDisplayName() + RESET);
     }
 
-    public void printMessage(String message) {
-        System.out.println(message);
-    }
 
     public void printTurn(Country country) {
         if (country == Country.CHO) {
