@@ -14,6 +14,24 @@
   - [x] chariots: 각 2개, 상하좌우 n칸, 막히지 않았을 시 이동 가능
   - [x] cannons: 각 2개, 상하좌우 n칸, 반드시 기물 하나만 넘어야 이동 가능, 동일한 기물은 불가
   - [x] soldiers: 각 5개, 상좌우 1칸, 막히지 않았을 시 이동 가능
+- 게임 규칙
+  - [x] 본인의 기물을 제외하곤 이동이 불가능하다.
+  - [x] 각 기물은 점수를 가진다.
+    - Chariot - 13 point
+    - Cannon - 7 point
+    - Horse - 5 point
+    - Elephant - 3 point
+    - Guard - 3 point
+    - Soldier - 2 point
+  - [ ] 한(Han)은 1.5 point 추가로 받고 게임을 시작한다. (덤)
+- 궁성
+  - [x] General는 궁성 내에서만 이동이 가능하다.
+  - [ ] Guard는 궁성 내에서만 이동이 가능하다.
+  - [ ] Chariot의 경우 궁성 내 대각선 이동이 가능하다.
+    - Chariot의 이동 규칙은 그대로 적용된다.
+  - [ ] Cannon의 경우 궁성 내 대각선 이동이 가능하다.
+    - Cannon의 이동 규칙은 그대로 적용된다.
+  - [ ] Soldier의 경우 궁성 내 대각선 이동이 가능하다.
 
 ### 실행 예시 결과
 ```
