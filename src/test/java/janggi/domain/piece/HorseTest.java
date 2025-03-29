@@ -1,26 +1,27 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import janggi.domain.Team;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 class HorseTest {
+
     Map<Position, Piece> pieces;
+
     @BeforeEach
     void setUp() {
         pieces = new HashMap<>();
-        for(int i = 1; i <= 10; i ++) {
-            for(int j = 1; j <= 9; j ++) {
-                pieces.put(new Position(i, j), new None());
+        for (int i = 1; i <= 10; i++) {
+            for (int j = 1; j <= 9; j++) {
+                pieces.put(new Position(i, j), new None(new Position(i, j)));
             }
         }
     }
@@ -41,7 +42,7 @@ class HorseTest {
         Horse horse = new Horse(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> horse.move(pieces, positionToMove))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("마의 초기 위치와 이동 위치 사이에 기물이 존재하는 경우 예외를 던진다.")
@@ -51,8 +52,8 @@ class HorseTest {
         Soldier otherSoldier = new Soldier(new Position(4, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
-                horse.move(pieces, new Position(3, 4)))
-                .isInstanceOf(IllegalArgumentException.class);
+            horse.move(pieces, new Position(3, 4)))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("마의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
@@ -62,20 +63,20 @@ class HorseTest {
         Soldier otherSoldier = new Soldier(new Position(3, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
-                horse.move(pieces, otherSoldier.getPosition()))
-                .isInstanceOf(IllegalArgumentException.class);
+            horse.move(pieces, otherSoldier.getPosition()))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("마의 모든 이동 경로가 가능하다")
     @CsvSource(value = {
-            "3,4",
-            "3,6",
-            "4,3",
-            "4,7",
-            "6,3",
-            "6,7",
-            "7,4",
-            "7,6",
+        "3,4",
+        "3,6",
+        "4,3",
+        "4,7",
+        "6,3",
+        "6,7",
+        "7,4",
+        "7,6",
     })
     @ParameterizedTest
     void move6(int x, int y) {

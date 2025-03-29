@@ -1,6 +1,11 @@
 package janggi.domain.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import janggi.domain.Team;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,13 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 class GuardTest {
+
     Map<Position, Piece> pieces;
 
     @BeforeEach
@@ -22,7 +22,7 @@ class GuardTest {
         pieces = new HashMap<>();
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 9; j++) {
-                pieces.put(new Position(i, j), new None());
+                pieces.put(new Position(i, j), new None(new Position(i, j)));
             }
         }
     }
@@ -43,7 +43,7 @@ class GuardTest {
         Guard guard = new Guard(new Position(9, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> guard.move(pieces, positionToMove))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("사는 궁성 내부에서만 이동이 가능하다")
@@ -52,10 +52,10 @@ class GuardTest {
         Guard guard = new Guard(new Position(8, 4), Team.BLUE);
         pieces.put(guard.getPosition(), guard);
         Assertions.assertAll(
-                () -> assertThatThrownBy(() -> guard.move(pieces, new Position(7, 4)))
-                        .isInstanceOf(IllegalArgumentException.class),
-                () -> assertThatThrownBy(() -> guard.move(pieces, new Position(8, 3)))
-                        .isInstanceOf(IllegalArgumentException.class)
+            () -> assertThatThrownBy(() -> guard.move(pieces, new Position(7, 4)))
+                .isInstanceOf(IllegalArgumentException.class),
+            () -> assertThatThrownBy(() -> guard.move(pieces, new Position(8, 3)))
+                .isInstanceOf(IllegalArgumentException.class)
         );
     }
 

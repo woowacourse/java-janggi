@@ -4,16 +4,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Team;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.HashMap;
-import java.util.Map;
-
 class SoldierTest {
+
     Map<Position, Piece> pieces;
 
     @BeforeEach
@@ -21,7 +21,7 @@ class SoldierTest {
         pieces = new HashMap<>();
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 9; j++) {
-                pieces.put(new Position(i, j), new None());
+                pieces.put(new Position(i, j), new None(new Position(i, j)));
             }
         }
     }
@@ -43,7 +43,7 @@ class SoldierTest {
         Soldier soldier = new Soldier(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> soldier.move(pieces, positionToMove))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("홍졸의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
@@ -53,8 +53,8 @@ class SoldierTest {
         Soldier soldier = new Soldier(new Position(5, 5), Team.RED);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() ->
-                soldier.move(pieces, positionToMove))
-                .isInstanceOf(IllegalArgumentException.class);
+            soldier.move(pieces, positionToMove))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("청졸은 홍팀의 궁성에서 간선을 타고 이동이 가능하다")
@@ -72,7 +72,7 @@ class SoldierTest {
     void move5(int soldierX, int soldierY, int targetX, int targetY) {
         Soldier soldier = new Soldier(new Position(soldierX, soldierY), Team.BLUE);
         assertThatThrownBy(
-                () -> soldier.move(pieces, new Position(targetX, targetY))
+            () -> soldier.move(pieces, new Position(targetX, targetY))
         ).isInstanceOf(IllegalArgumentException.class);
     }
 }

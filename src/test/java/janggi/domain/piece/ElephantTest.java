@@ -3,10 +3,9 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.domain.Team;
 import java.util.HashMap;
 import java.util.Map;
-
-import janggi.domain.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class ElephantTest {
+
     Map<Position, Piece> pieces;
 
     @BeforeEach
@@ -21,7 +21,7 @@ class ElephantTest {
         pieces = new HashMap<>();
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 9; j++) {
-                pieces.put(new Position(i, j), new None());
+                pieces.put(new Position(i, j), new None(new Position(i, j)));
             }
         }
     }
@@ -42,7 +42,7 @@ class ElephantTest {
         Elephant elephant = new Elephant(new Position(5, 5), Team.BLUE);
         Position positionToMove = new Position(x, y);
         assertThatThrownBy(() -> elephant.move(pieces, positionToMove))
-                .isInstanceOf(IllegalArgumentException.class);
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("상의 초기 위치와 이동 위치 사이에 기물이 존재하는 경우 예외를 던진다.")
@@ -52,8 +52,8 @@ class ElephantTest {
         Soldier otherSoldier = new Soldier(new Position(3, 4), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
-                elephant.move(pieces, new Position(2, 3)))
-                .isInstanceOf(IllegalArgumentException.class);
+            elephant.move(pieces, new Position(2, 3)))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("상의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
@@ -63,20 +63,20 @@ class ElephantTest {
         Soldier otherSoldier = new Soldier(new Position(3, 5), Team.BLUE);
         pieces.put(otherSoldier.getPosition(), otherSoldier);
         assertThatThrownBy(() ->
-                elephant.move(pieces, otherSoldier.getPosition()))
-                .isInstanceOf(IllegalArgumentException.class);
+            elephant.move(pieces, otherSoldier.getPosition()))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     @DisplayName("상의 모든 이동 경로가 가능하다")
     @CsvSource(value = {
-            "2,3",
-            "2,7",
-            "8,7",
-            "8,3",
-            "7,2",
-            "7,8",
-            "3,2",
-            "3,8",
+        "2,3",
+        "2,7",
+        "8,7",
+        "8,3",
+        "7,2",
+        "7,8",
+        "3,2",
+        "3,8",
     })
     @ParameterizedTest
     void move6(int x, int y) {
