@@ -15,6 +15,7 @@ public class PossibleMovements {
     public Path calculatePath(Position start, Position goal) {
         return filterMovements(start, goal).stream()
                 .map(movements -> makePath(start, goal, movements))
+                .filter(Path::isValidPath)
                 .filter(path -> path.lastEquals(goal))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 선택하신 기물은 해당 목적지로 이동할 수 없습니다."));

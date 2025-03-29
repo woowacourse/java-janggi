@@ -35,7 +35,7 @@ public class Movements {
         for (Movement movement : movements) {
             boolean canNotMove = movement.cannotMove(position);
             if (canNotMove) {
-                return null;
+                return new Path(new ArrayList<>());
             }
             position = movement.movePosition(position);
             path.add(position);
@@ -51,7 +51,7 @@ public class Movements {
         while (!position.equals(goal)) {
             boolean canNotMove = movement.cannotMove(position);
             if (canNotMove) {
-                return null;
+                return new Path(new ArrayList<>());
             }
             position = movement.movePosition(position);
             path.add(position);

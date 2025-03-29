@@ -21,19 +21,32 @@ public class Path {
         return new ArrayList<>();
     }
 
+    public boolean isValidPath() {
+        return path.size() >= 2;
+    }
+
     public boolean lastEquals(Position position) {
-        Position last = path.getLast();
-        return last.equals(position);
+        if (isValidPath()) {
+            Position last = path.getLast();
+            return last.equals(position);
+        }
+        return false;
     }
 
     public boolean isOneStep() {
-        return path.size() == 2;
+        if (isValidPath()) {
+            return path.size() == 2;
+        }
+        return false;
     }
 
     public boolean firstAndLastIn(List<Position> positions) {
-        Position first = path.getFirst();
-        Position last = path.getLast();
-        return positions.contains(first) && positions.contains(first);
+        if (isValidPath()) {
+            Position first = path.getFirst();
+            Position last = path.getLast();
+            return positions.contains(first) && positions.contains(last);
+        }
+        return false;
     }
 
     public List<Position> getPath() {

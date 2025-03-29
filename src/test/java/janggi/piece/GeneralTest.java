@@ -122,6 +122,26 @@ class GeneralTest {
                     .doesNotThrowAnyException();
         }
 
+        @DisplayName("초나라_궁이_두칸_이동_시_예외를_발생한다")
+        @CsvSource(value = {"3:0:5:2", "3:0:5:0", "3:0:3:2", "3:2:5:0", "3:2:3:0", "3:2:5:2", "5:0:3:2", "5:0:3:0",
+                "5:0:5:2", "5:2:3:0", "5:2:3:2", "5:2:5:0"}, delimiterString = ":")
+        @ParameterizedTest
+        void validateMovable11(int startColumn, int startRow, int goalColumn, int goalRow) {
+            // given
+            Map<Position, Piece> initialBoard = new HashMap<>();
+            Position start = createPosition(startColumn, startRow);
+            Position goal = createPosition(goalColumn, goalRow);
+            General piece = new General(Team.GREEN);
+
+            initialBoard.put(start, piece);
+            Board board = new Board(initialBoard);
+
+            // then
+            assertThatThrownBy(() -> piece.validateMovable(board, start, goal))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("[ERROR] 선택하신 기물은 해당 목적지로 이동할 수 없습니다.");
+        }
+
         @DisplayName("한나라_궁은_궁성_내_선을_따라_대각으로_한칸_움직일_수_있다")
         @CsvSource(value = {"3:9:4:8", "3:7:4:8", "5:9:4:8", "5:7:4:8", "4:8:3:9", "4:8:3:7", "4:8:5:9", "4:8:5:7"},
                 delimiterString = ":")
@@ -139,6 +159,26 @@ class GeneralTest {
             // then
             assertThatCode(() -> piece.validateMovable(board, start, goal))
                     .doesNotThrowAnyException();
+        }
+
+        @DisplayName("한나라_궁이_두칸_이동_시_예외를_발생한다")
+        @CsvSource(value = {"3:9:5:7", "3:9:5:9", "3:9:3:7", "3:7:5:9", "3:7:3:9", "3:7:5:7", "5:9:3:7", "5:9:3:9",
+                "5:9:5:7", "5:7:3:9", "5:7:3:2", "5:7:5:9"}, delimiterString = ":")
+        @ParameterizedTest
+        void validateMovable22(int startColumn, int startRow, int goalColumn, int goalRow) {
+            // given
+            Map<Position, Piece> initialBoard = new HashMap<>();
+            Position start = createPosition(startColumn, startRow);
+            Position goal = createPosition(goalColumn, goalRow);
+            General piece = new General(Team.RED);
+
+            initialBoard.put(start, piece);
+            Board board = new Board(initialBoard);
+
+            // then
+            assertThatThrownBy(() -> piece.validateMovable(board, start, goal))
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessage("[ERROR] 선택하신 기물은 해당 목적지로 이동할 수 없습니다.");
         }
     }
 }
