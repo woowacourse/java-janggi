@@ -22,10 +22,10 @@ public final class Piece {
 
     public void move(final Position newPosition, final List<Piece> allyPieces, final List<Piece> enemyPieces) {
         Set<Path> paths = new HashSet<>();
-        for (final PathProvider pathProvider : pieceType.pathProviders) {
+        for (final PathProvider pathProvider : pieceType.getPathProviders()) {
             paths.addAll(pathProvider.get(position));
         }
-        for (final PathFilter pathFilter : pieceType.pathFilters) {
+        for (final PathFilter pathFilter : pieceType.getPathFilters()) {
             paths = pathFilter.filter(this, paths, allyPieces, enemyPieces);
         }
 
@@ -52,6 +52,6 @@ public final class Piece {
     }
 
     public int getScore() {
-        return pieceType.score;
+        return pieceType.getScore();
     }
 }

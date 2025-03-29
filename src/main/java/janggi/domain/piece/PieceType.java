@@ -53,13 +53,25 @@ public enum PieceType {
     ),
     ;
 
-    public final int score;
-    public final List<PathProvider> pathProviders;
-    public final List<PathFilter> pathFilters;
+    private final int score;
+    private final List<PathProvider> pathProviders;
+    private final List<PathFilter> pathFilters;
 
     PieceType(final int score, final List<PathProvider> pathProviders, final List<PathFilter> pathFilters) {
         this.score = score;
         this.pathProviders = pathProviders;
         this.pathFilters = pathFilters;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public List<PathProvider> getPathProviders() {
+        return pathProviders;
+    }
+
+    public List<PathFilter> getPathFilters() {
+        return pathFilters;
     }
 }
