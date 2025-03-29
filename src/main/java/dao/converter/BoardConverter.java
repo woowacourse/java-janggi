@@ -1,12 +1,20 @@
 package dao.converter;
 
 import dao.PieceEntity;
+import janggiGame.Board;
 import janggiGame.Position;
-import janggiGame.piece.Chariot
+import janggiGame.piece.Advisor;
+import janggiGame.piece.Cannon;
+import janggiGame.piece.Chariot;
+import janggiGame.piece.Elephant;
+import janggiGame.piece.Horse;
+import janggiGame.piece.King;
+import janggiGame.piece.Pawn;
 import janggiGame.piece.Piece;
 import janggiGame.piece.character.Dynasty;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BoardConverter {
     public static List<PieceEntity> convertToPieceEntities(final Map<Position, Piece> survivedPieces) {
@@ -26,5 +34,36 @@ public class BoardConverter {
 
         return new PieceEntity(position.getRow(), position.getColumn(),
                 piece.getType().name(), dynasty);
+    }
+
+    public static Board convertToBoard(List<PieceEntity> pieceEntities) {
+        Map<Position, Piece> survivedPieces = convertToPieceEntities(pieceEntities);
+        return new Board(survivedPieces);
+    }
+
+    private static Map<Position, Piece> convertToPieceEntities(List<PieceEntity> pieceEntities) {
+        return pieceEntities.stream()
+                .collect(Collectors.toMap(
+                        pieceEntity -> Position.of(pieceEntity.row(), pieceEntity.column()),
+                        pieceEntity -> BoardConverter.convertToPiece(pieceEntity.type(), pieceEntity.dynasty())
+                ));
+    }
+
+    private static Piece convertToPiece(String pieceType, String dynastyName) {
+        Dynasty dynasty = Dynasty.HAN;
+
+        if ("CHO".equals(dynastyName)) {
+            dynasty = Dynasty.CHO;
+        }
+        return switch (pieceType) {
+            case "HORSE" -> new Horse(dynasty);
+            case "PAWN" -> new Pawn(dynasty);
+            case "CANNON" -> new Cannon(dynasty);
+            case "ADVISOR" -> new Advisor(dynasty);
+            case "CHARIOT" -> new Chariot(dynasty);
+            case "ELEPHANT" -> new Elephant(dynasty);
+            case "KING" -> new King(dynasty);
+            default -> throw new IllegalArgumentException("존재하지 않는 기물의 종류 입니다: " + pieceType);
+        };
     }
 }
