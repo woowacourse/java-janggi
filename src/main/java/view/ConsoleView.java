@@ -55,6 +55,7 @@ public class ConsoleView {
     }
 
     public void showWinner(Turn turn) {
+        turn.opposite();
         outputView.showWinner(turn);
     }
 }
