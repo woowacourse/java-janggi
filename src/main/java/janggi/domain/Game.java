@@ -1,7 +1,6 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PiecesInitializer;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
 import java.util.List;
@@ -14,9 +13,9 @@ public class Game {
     private final Pieces pieces;
     private final Turn turn;
 
-    public Game(final BoardSetup redBoardSetup, final BoardSetup blueBoardSetup) {
-        this.pieces = new Pieces(PiecesInitializer.initializePieces(redBoardSetup, blueBoardSetup));
-        this.turn = Turn.initialize();
+    public Game(final Pieces pieces, final Turn turn) {
+        this.pieces = pieces;
+        this.turn = turn;
     }
 
     public Piece selectPiece(final Position position) {
@@ -36,8 +35,8 @@ public class Game {
         return pieces.getPieces();
     }
 
-    public Team getTurn() {
-        return turn.getCurrentTurn();
+    public Turn getTurn() {
+        return turn;
     }
 
     public void changeTurn() {

@@ -1,15 +1,22 @@
 package janggi.controller;
 
+import static janggi.domain.Function.GIVE_UP;
 import static janggi.domain.Function.MOVE;
 import static janggi.domain.GameStatus.PROGRESS;
-import static janggi.domain.StopInput.Y;
+import static janggi.domain.Input.Y;
 import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 
+import janggi.dao.PieceDao;
+import janggi.dao.TurnDao;
 import janggi.domain.BoardSetup;
+import janggi.domain.Function;
 import janggi.domain.Game;
+import janggi.domain.Pieces;
 import janggi.domain.Team;
+import janggi.domain.Turn;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PiecesInitializer;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
 import janggi.view.InputView;
@@ -21,6 +28,8 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final PieceDao pieceDao = new PieceDao();
+    private final TurnDao turnDao = new TurnDao();
 
     public JanggiController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
@@ -41,15 +50,34 @@ public class JanggiController {
         outputView.printGameResult(game.getStatus(), game.getScoreByTeam(RED), game.getScoreByTeam(BLUE));
     }
 
+    private Game generateBoard() {
+        if (pieceDao.findAllPieces().isEmpty()) {
+            pieceDao.deleteAllPieces();
+            turnDao.deleteTurn();
+            return generateNewBoard();
+        }
+        if (inputView.inputNewGame() == Y) {
+            pieceDao.deleteAllPieces();
+            turnDao.deleteTurn();
+            return generateNewBoard();
+        }
+        return new Game(new Pieces(pieceDao.findAllPieces()), turnDao.findTurn());
+    }
+
     private boolean startGame(final Game game, final List<Piece> pieces) {
-        displayGameState(game.getTurn(), pieces);
-        if (inputView.inputSelectFunction() == MOVE) {
+        displayGameState(game.getTurn().getCurrentTurn(), pieces);
+        Function input = inputView.inputSelectFunction();
+        if (input == MOVE) {
             final Piece selectedPiece = selectPieceToMove(game);
             final Set<Route> possibleRoutes = findPossibleRoutesForPiece(game, selectedPiece);
             movePieceIfValid(game, selectedPiece, possibleRoutes);
             return checkGameOver(game);
         }
-        return stopGame();
+        if (input == GIVE_UP) {
+            return stopGame();
+        }
+        return false;
+
     }
 
     private boolean checkGameOver(final Game game) {
@@ -76,8 +104,12 @@ public class JanggiController {
         final Position destination = inputView.inputDestination();
 
         if (canMove(possibleRoutes, destination)) {
+            pieceDao.deletePieceByPosition(selectedPiece.getPosition());
+            pieceDao.deletePieceByPosition(destination);
             game.movePiece(destination, selectedPiece);
+            pieceDao.addPiece(selectedPiece);
             game.changeTurn();
+            turnDao.updateTurn(game.getTurn());
             return;
         }
         throw new IllegalArgumentException("해당 위치로 갈 수 없습니다.");
@@ -88,12 +120,16 @@ public class JanggiController {
                 .anyMatch(route -> route.isDestination(destination));
     }
 
-    private Game generateBoard() {
+    private Game generateNewBoard() {
         while (true) {
             try {
                 final BoardSetup redBoardSetup = inputView.inputBoardSetup(RED);
                 final BoardSetup blueBoardSetup = inputView.inputBoardSetup(BLUE);
-                return new Game(redBoardSetup, blueBoardSetup);
+                final List<Piece> pieces = PiecesInitializer.initializePieces(redBoardSetup, blueBoardSetup);
+                final Turn turn = new Turn(BLUE);
+                pieceDao.addPieces(pieces);
+                turnDao.addTurn(turn);
+                return new Game(new Pieces(pieces), new Turn(BLUE));
             } catch (final IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
@@ -101,6 +137,11 @@ public class JanggiController {
     }
 
     private boolean stopGame() {
-        return !(inputView.inputStopGame() == Y & inputView.inputStopGame() == Y);
+        if (inputView.inputStopGame() == Y & inputView.inputStopGame() == Y) {
+            pieceDao.deleteAllPieces();
+            turnDao.deleteTurn();
+            return true;
+        }
+        return false;
     }
 }

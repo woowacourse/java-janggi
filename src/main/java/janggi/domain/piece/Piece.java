@@ -57,4 +57,12 @@ public abstract class Piece {
     public boolean isGeneral() {
         return false;
     }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
 }

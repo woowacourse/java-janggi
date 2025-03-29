@@ -2,5 +2,6 @@ package janggi.domain;
 
 public enum Function {
     MOVE,
-    GIVE_UP;
+    GIVE_UP,
+    STOP;
 }

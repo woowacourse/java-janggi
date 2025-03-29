@@ -1,6 +1,6 @@
 package janggi.domain;
 
-public enum StopInput {
+public enum Input {
 
     Y,
     N;
