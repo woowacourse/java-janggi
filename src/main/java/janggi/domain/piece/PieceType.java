@@ -1,21 +1,49 @@
 package janggi.domain.piece;
 
+import janggi.domain.piece.limit.*;
+import janggi.domain.piece.unlimit.Cannon;
+import janggi.domain.piece.unlimit.Chariot;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
 public enum PieceType {
-    KING("G", 0),
-    GUARD("S", 3),
-    HORSE("M", 5),
-    ELEPHANT("E", 3),
-    CANNON("P", 7),
-    CHARIOT("C", 13),
-    SOLDIER("J", 2),
-    EMPTY("·", 0);
+    KING("G", 0, King::new),
+    GUARD("S", 3, Guard::new),
+    HORSE("M", 5, Horse::new),
+    ELEPHANT("E", 3, Elephant::new),
+    CANNON("P", 7, Cannon::new),
+    CHARIOT("C", 13, Chariot::new),
+    SOLDIER("J", 2, Soldier::new),
+    EMPTY("·", 0, Empty::new);
 
     private final String symbol;
     private final int score;
+    private final Function<Side, Piece> constructor;
 
-    PieceType(final String symbol, final int score) {
+    PieceType(final String symbol, final int score, final Function<Side, Piece> constructor) {
         this.symbol = symbol;
         this.score = score;
+        this.constructor = constructor;
+    }
+
+    public static PieceType findPieceTypeBySymbol(final String symbol) {
+        return Arrays.stream(values())
+                .filter(pieceType -> pieceType.getSymbol().equals(symbol))
+                .findFirst()
+                .orElse(EMPTY);
+    }
+
+    public Piece createPiece(final Side side) {
+        return constructor.apply(side);
+    }
+
+    public static List<PieceType> valuesNotEmpty() {
+        List<PieceType> pieceTypes = new ArrayList<>(List.of(values()));
+        pieceTypes.remove(EMPTY);
+        return pieceTypes;
     }
 
     public String getSymbol() {

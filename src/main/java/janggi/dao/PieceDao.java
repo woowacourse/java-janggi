@@ -1,5 +1,6 @@
 package janggi.dao;
 
+import janggi.dao.dto.PieceFindResponse;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Side;
 
@@ -12,21 +13,22 @@ import java.util.List;
 
 public class PieceDao {
 
-    public List<String> findAllPieces() {
+    public List<PieceFindResponse> findAllPieces() {
         final String query = "SELECT * FROM Piece";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            List<String> pieces = new ArrayList<>();
+            List<PieceFindResponse> findPieceResponses = new ArrayList<>();
             while (resultSet.next()) {
                 String type = resultSet.getString("type");
                 String side = resultSet.getString("side");
-                pieces.add(type + " " + side);
+
+                findPieceResponses.add(new PieceFindResponse(type, side));
             }
 
-            return pieces;
+            return findPieceResponses;
         } catch (final SQLException e) {
             throw new IllegalStateException("[ERROR] 기물 조회가 성공적으로 진행되지 않았습니다.");
         }
@@ -63,7 +65,7 @@ public class PieceDao {
     }
 
     public void resetTable() {
-        final String query = "TRUNCATE TABLE Piece"; // 모든 데이터 삭제 + AUTO_INCREMENT 초기화
+        final String query = "Delete FROM Piece WHERE piece_id > 0"; // 모든 데이터 삭제 + AUTO_INCREMENT 초기화
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();

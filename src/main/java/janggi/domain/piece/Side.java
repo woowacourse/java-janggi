@@ -14,12 +14,11 @@ public enum Side {
         this.name = name;
     }
 
-    public static List<Side> getSides() {
-        return List.of(Side.CHO, Side.HAN);
-    }
-
-    public String getName() {
-        return name;
+    public static Side findSideByName(String name) {
+        return Side.getSides().stream()
+                .filter(side -> name.equals(side.getName()))
+                .findFirst()
+                .orElse(NONE);
     }
 
     public Side getEnemySide() {
@@ -30,5 +29,13 @@ public enum Side {
             return Side.HAN;
         }
         return Side.NONE;
+    }
+
+    public static List<Side> getSides() {
+        return List.of(Side.CHO, Side.HAN);
+    }
+
+    public String getName() {
+        return name;
     }
 }
