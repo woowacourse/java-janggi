@@ -1,9 +1,3 @@
-create user 'user'@'localhost' identified by 'password';
-
-grant all privileges on *.* to 'user'@'localhost';
-
-flush privileges;
-
 CREATE DATABASE janggi DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 USE janggi;
