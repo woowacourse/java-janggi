@@ -1,5 +1,6 @@
 import dao.BoardDao;
 import dao.PieceEntity;
+import dao.TurnDao;
 import dao.converter.BoardConverter;
 import janggiGame.Board;
 import janggiGame.Position;
@@ -19,7 +20,7 @@ public class Application {
         Board board = createBoard(inputView);
 
         Dynasty[] dynasties = Dynasty.values();
-        int turn = BoardDao.readTurnEntity();
+        int turn = TurnDao.readTurnEntity();
 
         while (true) {
             outputView.printBoard(board.getSurvivedPieces());
@@ -39,14 +40,14 @@ public class Application {
 
                     outputView.printWinner(Dynasty.HAN);
                     BoardDao.deleteBoardEntity();
-                    BoardDao.resetTurnEntity();
+                    TurnDao.resetTurnEntity();
                     break;
                 }
 
                 if (board.isKingDead(Dynasty.HAN)) {
                     outputView.printWinner(Dynasty.CHO);
                     BoardDao.deleteBoardEntity();
-                    BoardDao.resetTurnEntity();
+                    TurnDao.resetTurnEntity();
                     break;
                 }
 
@@ -54,8 +55,8 @@ public class Application {
                 BoardDao.deleteBoardEntity(); // 전체 삭제
                 BoardDao.addPieceEntitiesToBoardEntity(survivedPiece); // 전체 추가
 
-                BoardDao.incrementTurn();
-                turn = BoardDao.readTurnEntity();
+                TurnDao.incrementTurn();
+                turn = TurnDao.readTurnEntity();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
