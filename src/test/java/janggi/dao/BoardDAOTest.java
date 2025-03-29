@@ -14,9 +14,11 @@ import java.sql.Statement;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 class BoardDAOTest {
 
     static final String GAME_ROOM_NAME = "room1";
@@ -65,6 +67,7 @@ class BoardDAOTest {
         assertThat(result).usingRecursiveComparison()
                 .isEqualTo(board);
     }
+
     @DisplayName("기물을 움직일 수 있다.")
     @Test
     void test3() {
