@@ -2,7 +2,6 @@ package dao;
 
 import domain.janggiPiece.Cannon;
 import domain.janggiPiece.JanggiChessPiece;
-import domain.janggiPiece.Piece;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
@@ -18,6 +17,8 @@ class JanggiBoardDaoTest {
     private final JanggiBoardDao dao = new JanggiBoardDao();
     private final JanggiPosition position = JanggiPositionFactory.of(1, 1);
     private final JanggiTeam team = JanggiTeam.BLUE;
+    private final Cannon piece = new Cannon(team);
+
 
     @DisplayName("드라이버 연결 테스트")
     @Test
@@ -37,7 +38,7 @@ class JanggiBoardDaoTest {
         // given
 
         // when
-        dao.save(position, new Cannon(team));
+        dao.save(position, piece);
 
         // then
     }
@@ -48,12 +49,12 @@ class JanggiBoardDaoTest {
         // given
 
         // when
-        JanggiChessPiece piece = dao.findByPosition(position);
+        JanggiChessPiece actual = dao.findByPosition(position);
 
         // then
         SoftAssertions.assertSoftly((softly) -> {
-            softly.assertThat(piece.getTeam()).isSameAs(team);
-            softly.assertThat(piece.getChessPieceType()).isSameAs(Piece.CANNON);
+            softly.assertThat(actual.getTeam()).isSameAs(team);
+            softly.assertThat(actual.getChessPieceType()).isSameAs(piece.getChessPieceType());
         });
     }
 
@@ -68,5 +69,23 @@ class JanggiBoardDaoTest {
 
         // then
         assertThat(piece).isNull();
+    }
+
+    @DisplayName("기물 수정 테스트")
+    @Test
+    void updatePiece() {
+        // given
+        dao.save(position, piece);
+
+        // when
+        JanggiPosition afterPosition = JanggiPositionFactory.of(5, 5);
+        dao.updatePosition(position, afterPosition);
+
+        // then
+        JanggiChessPiece actual = dao.findByPosition(afterPosition);
+        SoftAssertions.assertSoftly((softly) -> {
+            softly.assertThat(actual.getTeam()).isSameAs(team);
+            softly.assertThat(actual.getChessPieceType()).isSameAs(piece.getChessPieceType());
+        });
     }
 }
