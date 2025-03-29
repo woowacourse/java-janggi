@@ -22,7 +22,7 @@ public class OutputView {
         int index = 1;
         for (Route route : routes) {
             Position endPoint = route.searchEndPoint(startPoint);
-            System.out.printf("%d) x = %d, y = %d\n"
+            System.out.printf("%d) x = %d, y = %d%n"
                     , index, endPoint.getColumn(), endPoint.getRow());
             index++;
         }
