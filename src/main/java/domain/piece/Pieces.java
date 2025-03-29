@@ -35,10 +35,11 @@ public record Pieces(
                 .anyMatch(Piece::isKing);
     }
 
-    public void removePieceIfExists(final Position targetPosition) {
+    public PieceCategory removePieceIfExists(final Position targetPosition) {
         if (existByPosition(targetPosition)) {
-            deleteByPosition(targetPosition);
+            return deleteByPosition(targetPosition);
         }
+        return PieceCategory.NONE;
     }
 
     public boolean existByPosition(final Position position) {
@@ -46,8 +47,10 @@ public record Pieces(
                 .anyMatch(piece -> piece.isSamePosition(position));
     }
 
-    private void deleteByPosition(final Position position) {
-        pieces.remove(findByPosition(position));
+    private PieceCategory deleteByPosition(final Position position) {
+        Piece piece = findByPosition(position);
+        pieces.remove(piece);
+        return piece.getCategory();
     }
 
     private Piece findByPosition(final Position position) {

@@ -10,7 +10,7 @@ public record Board(
         Map<Player, Pieces> playerPiecesMap
 ) {
 
-    public void moveAndCapture(final Player current, final Position start, final Position target) {
+    public PieceCategory moveAndCapture(final Player current, final Position start, final Position target) {
         Pieces player = playerPiecesMap.get(current);
         Pieces opponent = getOppositePieces(current);
 
@@ -20,7 +20,8 @@ public record Board(
         MoveInfos moveInfos = createMoveInfos(paths);
 
         player.movePiece(start, target, moveInfos);
-        opponent.removePieceIfExists(target);
+        PieceCategory removed = opponent.removePieceIfExists(target);
+        return removed;
     }
 
     public boolean isFinish() {
