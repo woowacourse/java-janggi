@@ -27,16 +27,17 @@ public record General(Team team) implements Piece {
         if (!Position.isCanBePosition(column, row)) {
             return;
         }
-        if (position.isSamePoint(new Position(column, row))) {
+        Position nextPosition = new Position(column, row);
+        if (position.isSamePoint(nextPosition)) {
             return;
         }
-        if (!Palace.isInPalace(column, row)) {
+        if (!Palace.isInPalace(nextPosition)) {
             return;
         }
         if (direction.isDiagonal() && !Palace.canDiagonalInPalace(position)) {
             return;
         }
-        routes.add(Route.of(List.of(new Position(column, row))));
+        routes.add(Route.of(List.of(nextPosition)));
     }
 
     @Override

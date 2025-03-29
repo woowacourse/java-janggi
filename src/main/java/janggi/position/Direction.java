@@ -34,6 +34,10 @@ public enum Direction {
         return List.of(Direction.UPPER, Direction.LEFT, Direction.RIGHT, UPPER_LEFT, UPPER_RIGHT);
     }
 
+    public static List<Direction> getDiagonal() {
+        return List.of(UPPER_RIGHT, UPPER_LEFT, UNDER_LEFT, UNDER_RIGHT);
+    }
+
     public List<Direction> getNextWithDiagonal() {
         if (this == NONE) {
             return List.of(UPPER, UNDER, LEFT, RIGHT);
@@ -75,6 +79,10 @@ public enum Direction {
 
     public int moveRow(int y) {
         return this.y + y;
+    }
+
+    public Position move(Position prevPosition) {
+        return new Position(prevPosition.getColumn() + this.x, prevPosition.getRow() + this.y);
     }
 
     public int getX() {

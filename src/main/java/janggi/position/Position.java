@@ -1,5 +1,6 @@
 package janggi.position;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -71,6 +72,25 @@ public class Position {
                 .toList();
     }
 
+    public List<Position> createDiagonalPosition(Position end) {
+        List<Position> route = new ArrayList<>();
+
+        int column = Integer.signum(end.getColumn() - this.column);
+        int row = Integer.signum(end.getRow() - this.row);
+
+        int currentColumn = this.column + column;
+        int currentRow = this.row + row;
+
+        while (currentColumn != end.getColumn() || currentRow != end.getRow()) {
+            route.add(new Position(currentColumn, currentRow));
+            currentColumn += column;
+            currentRow += row;
+        }
+
+        route.add(end);
+        return route;
+    }
+
     public int getColumn() {
         return column;
     }
@@ -91,5 +111,13 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(column, row);
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "column=" + column +
+                ", row=" + row +
+                '}';
     }
 }

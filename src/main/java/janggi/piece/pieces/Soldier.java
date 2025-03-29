@@ -22,7 +22,7 @@ public record Soldier(Team team) implements Piece {
 
     private void addRouteIfCanBePosition(Direction direction, Position startPoint, List<Route> routes) {
         if (direction.isDiagonal()) {
-            addIfcanMoveDiagonal(direction, startPoint, routes);
+            addIfCanMoveDiagonal(direction, startPoint, routes);
             return;
         }
         if (startPoint.canMove(direction)) {
@@ -30,7 +30,7 @@ public record Soldier(Team team) implements Piece {
         }
     }
 
-    private static void addIfcanMoveDiagonal(Direction direction, Position startPoint, List<Route> routes) {
+    private static void addIfCanMoveDiagonal(Direction direction, Position startPoint, List<Route> routes) {
         if (Palace.canDiagonalInPalace(startPoint)) {
             routes.add(Route.of(List.of(startPoint.move(direction))));
         }
