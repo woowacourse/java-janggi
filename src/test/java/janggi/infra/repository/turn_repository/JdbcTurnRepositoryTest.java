@@ -1,7 +1,7 @@
 package janggi.infra.repository.turn_repository;
 
 import janggi.domain.Country;
-import janggi.infra.connector.InMemoryConnector;
+import janggi.test_util.InMemoryConnector;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Consumer;

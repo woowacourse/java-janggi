@@ -1,4 +1,6 @@
-package janggi.infra.connector;
+package janggi.test_util;
+
+import janggi.infra.connector.DatabaseConnector;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

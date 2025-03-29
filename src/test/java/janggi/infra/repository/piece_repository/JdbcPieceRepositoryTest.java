@@ -3,7 +3,7 @@ package janggi.infra.repository.piece_repository;
 import janggi.domain.Country;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.infra.connector.InMemoryConnector;
+import janggi.test_util.InMemoryConnector;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

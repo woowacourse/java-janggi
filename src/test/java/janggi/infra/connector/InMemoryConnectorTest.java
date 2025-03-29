@@ -1,5 +1,6 @@
 package janggi.infra.connector;
 
+import janggi.test_util.InMemoryConnector;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
