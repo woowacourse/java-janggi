@@ -20,8 +20,11 @@ public class JanggiController {
         this.gameService = gameService;
     }
 
-    public void start() {
-        JanggiGame janggiGame = createJanggiGame();
+    public void start(JanggiGame janggiGame) {
+        if (!gameService.isGameContinuing()){
+            janggiGame = createJanggiGame();
+            gameService.initializeGame();
+        }
         consoleView.showBoard(janggiGame.getBoard().getPieces());
         boolean isGameStopped = false;
         while (!isGameStopped) {
