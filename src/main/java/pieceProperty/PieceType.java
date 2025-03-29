@@ -1,6 +1,7 @@
 package pieceProperty;
 
 public enum PieceType {
+
     BYEONG,
     CHA,
     JANGGUN,
@@ -10,14 +11,4 @@ public enum PieceType {
     SA,
     SANG;
 
-    PieceType() {
-    }
-
-    public boolean isPo() {
-        return this.equals(PO);
-    }
-
-    public boolean isJanggun() {
-        return this.equals(JANGGUN);
-    }
 }
