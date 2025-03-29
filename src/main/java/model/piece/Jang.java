@@ -1,22 +1,16 @@
 package model.piece;
 
 import java.util.Map;
-import model.Path;
+import model.Moving;
 import model.Point;
 import model.Team;
 
-public class Jang extends Piece {
+public class Jang extends FixedPalacePieces {
+
+    private static final int JANG_DISTANCE = 1;
 
     public Jang(Team team) {
         super(team, PieceName.JANG);
-    }
-
-    @Override
-    public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        int vectorX = getVectorX(beforePoint, targetPoint);
-        int vectorY = getVectorY(beforePoint, targetPoint);
-
-        return Math.pow(vectorX,2) + Math.pow(vectorY,2) == 1;
     }
 
     @Override
@@ -29,5 +23,24 @@ public class Jang extends Piece {
                     .getTeam() != this.team;
         }
         return true;
+    }
+
+    @Override
+    public void validateGungMove(Point beforePoint, Point targetPoint) {
+        Moving moving = new Moving(beforePoint, targetPoint);
+        Palace palace = Palace.wherePalace(beforePoint);
+        if ((palace.getPoints().contains(beforePoint))) {
+            if (moving.getVectorXSize() == JANG_DISTANCE && moving.getVectorYSize() == JANG_DISTANCE) {
+                return;
+            }
+            if (moving.isDistance(JANG_DISTANCE)) {
+                return;
+            }
+        }
+
+        if (moving.isDistance(JANG_DISTANCE)) {
+            return;
+        }
+        throw new IllegalArgumentException("잘못된 이동입니다.");
     }
 }

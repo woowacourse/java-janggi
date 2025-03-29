@@ -1,6 +1,7 @@
 package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,15 +30,23 @@ class JangTest {
         @Test
         @DisplayName("장 이동 가능 테스트")
         void test2() {
-            Jang jang = new Jang(Team.RED);
-            assertThat(jang.isValidPoint(Point.of(0, 0), Point.of(1, 0))).isTrue();
+            Jang jang = new Jang(Team.BLUE);
+            assertThat(jang.isValidPoint(Point.of(3, 0), Point.of(4, 0))).isTrue();
         }
 
         @Test
         @DisplayName("장 이동 불가능 테스트")
         void test3() {
-            Jang jang = new Jang(Team.RED);
-            assertThat(jang.isValidPoint(Point.of(0, 0), Point.of(2, 0))).isFalse();
+            Jang jang = new Jang(Team.BLUE);
+            assertThatThrownBy(() -> jang.isValidPoint(Point.of(3, 0), Point.of(5, 0))).isInstanceOf(
+                    IllegalArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("장 이동 가능 테스트")
+        void test4() {
+            Jang jang = new Jang(Team.BLUE);
+            assertThat(jang.isValidPoint(Point.of(4, 1), Point.of(5, 2))).isTrue();
         }
     }
 
