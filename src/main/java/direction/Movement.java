@@ -51,7 +51,23 @@ public enum Movement {
             return UP;
         }
 
-        return DOWN;
+        if (DOWN.column == columnDirection && DOWN.row == rowDirection) {
+            return DOWN;
+        }
+
+        if (LEFT_UP.column == columnDirection && LEFT_UP.row == rowDirection) {
+            return LEFT_UP;
+        }
+
+        if (LEFT_DOWN.column == columnDirection && LEFT_DOWN.row == rowDirection) {
+            return LEFT_DOWN;
+        }
+
+        if (RIGHT_UP.column == columnDirection && RIGHT_UP.row == rowDirection) {
+            return RIGHT_UP;
+        }
+
+        return RIGHT_DOWN;
     }
 
     public int getColumn() {

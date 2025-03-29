@@ -21,6 +21,10 @@ public class Chariot extends Piece {
         Point distance = destination.minus(current);
 
         Movement direction = Movement.toDirection(distance);
+        if (direction.isDiagonalMove()) {
+            validatePossibleDiagonalMovePoint();
+        }
+
         Point tempCurrent = new Point(current.column(), current.row());
         for (int moveCount = 1; moveCount < distance.moveCount(distance); moveCount++) {
             tempCurrent = tempCurrent.move(direction);
@@ -30,13 +34,19 @@ public class Chariot extends Piece {
         current = new Point(destination.column(), destination.row());
     }
 
+    private void validatePossibleDiagonalMovePoint() {
+        if ((!current.isPalaceCenter() && !current.isPalaceCorner())) {
+            throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
+        }
+    }
+
     @Override
     public int score() {
         return 13;
     }
 
-    private void validateInvalidDestination(final Point distance) {
-        if (current.isDifferentColumn(distance) && current.isDifferentRow(distance)) {
+    private void validateInvalidDestination(final Point destination) {
+        if ((!current.isPalace() || !destination.isPalace()) && current.isDifferentColumn(destination) && current.isDifferentRow(destination)) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }
