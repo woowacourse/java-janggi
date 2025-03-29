@@ -200,7 +200,7 @@
 ---
 
 ### 테이블 생성 시에 사용한 쿼리 
-
+```
 CREATE TABLE Piece (
 piece_id INT AUTO_INCREMENT NOT NULL,
 type VARCHAR(20) NOT NULL,
@@ -225,3 +225,4 @@ game_id INT AUTO_INCREMENT NOT NULL,
 state VARCHAR(10) NOT NULL,
 PRIMARY KEY (game_id)
 );
+```
