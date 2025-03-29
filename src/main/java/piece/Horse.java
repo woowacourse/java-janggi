@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Horse extends Piece implements DistanceCheckable, ObstructionCheckable {
 
+    // TODO 2025. 3. 29. 17:22: 간선 필요 없이 movePaths 그대로 나아간다
     private static final int EXPECTED_INTERNAL_POSITION_COUNT = 0;
     private static final MovePaths movePaths;
     private static final double DISTANCE;
