@@ -1,7 +1,7 @@
 package janggi.piece;
 
-import static janggi.Team.GREEN;
 import static janggi.Team.RED;
+import static janggi.board.Board.*;
 import static janggi.board.Board.GREEN_CASTLE;
 import static janggi.board.Board.RED_CASTLE;
 import static janggi.moving.Movement.DOWN;
@@ -9,8 +9,6 @@ import static janggi.moving.Movement.LEFT;
 import static janggi.moving.Movement.RIGHT;
 import static janggi.moving.Movement.UP;
 
-import janggi.board.position.Column;
-import janggi.board.position.Row;
 import janggi.moving.Movements;
 import janggi.moving.Path;
 import janggi.moving.PossibleMovements;
@@ -31,6 +29,12 @@ public class General extends Piece {
 
     @Override
     protected void validatePath(Board board, Path path) {
+        validateOutOfCastle(path);
+        validateInvalidDiagonalPath(path);
+        validateNonPieceOnPath(board, path);
+    }
+
+    private void validateOutOfCastle(Path path) {
         List<Position> castle = GREEN_CASTLE;
         if (team == RED) {
             castle = RED_CASTLE;
@@ -40,15 +44,14 @@ public class General extends Piece {
                 throw new IllegalArgumentException("[ERROR] 궁은 궁성을 벗어날 수 없습니다.");
             }
         }
-        List<Position> centralOfGreenCastleBorder = List.of(new Position(Column.FOUR, Row.ZERO),
-                new Position(Column.FOUR, Row.TWO), new Position(Column.THREE, Row.ONE),
-                new Position(Column.FIVE, Row.ONE));
+    }
+
+    private static void validateInvalidDiagonalPath(Path path) {
         boolean isOneStep = path.isOneStep();
-        boolean isFirstAndLastInCastleBorder = path.firstAndLastIn(centralOfGreenCastleBorder);
+        boolean isFirstAndLastInCastleBorder = path.firstAndLastIn(CENTRAL_OF_GREEN_CASTLE_BORDER);
         if (isOneStep && isFirstAndLastInCastleBorder) {
             throw new IllegalArgumentException("[ERROR] 선이 존재하는 경우에만 이동할 수 있습니다.");
         }
-        validateNonPieceOnPath(board, path);
     }
 
     @Override

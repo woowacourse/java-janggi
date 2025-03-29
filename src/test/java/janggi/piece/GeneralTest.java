@@ -58,7 +58,7 @@ class GeneralTest {
     @CsvSource(value = {"4:0:3:1", "4:0:5:1", "3:1:4:0", "3:1:4:2", "4:2:3:1", "4:2:5:1", "5:1:4:2", "5:1:4:0"},
             delimiterString = ":")
     @ParameterizedTest
-    void aaaa(int startColumn, int startRow, int goalColumn, int goalRow) {
+    void should_ThrowException_WhenInvalidDiagonalPath(int startColumn, int startRow, int goalColumn, int goalRow) {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);

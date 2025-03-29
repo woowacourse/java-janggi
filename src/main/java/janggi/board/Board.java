@@ -28,6 +28,10 @@ public class Board {
             new Position(Row.TWO, Column.THREE), new Position(Row.TWO, Column.FOUR),
             new Position(Row.TWO, Column.FIVE));
 
+    public static final List<Position> CENTRAL_OF_GREEN_CASTLE_BORDER = List.of(new Position(Column.FOUR, Row.ZERO),
+            new Position(Column.FOUR, Row.TWO), new Position(Column.THREE, Row.ONE),
+            new Position(Column.FIVE, Row.ONE));
+
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {
