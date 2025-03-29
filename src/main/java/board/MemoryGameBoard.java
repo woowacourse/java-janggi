@@ -21,8 +21,8 @@ public class MemoryGameBoard implements GameBoard {
 
     public MemoryGameBoard() {
         this.players = new ArrayList<>(List.of(
-                new Player(makeGreenPieces(), Team.CHO),
-                new Player(makeRedPieces(), Team.HAN)
+                new Player(new Pieces(makeGreenPieces()), 0, Team.CHO),
+                new Player(new Pieces(makeRedPieces()), 0, Team.HAN)
         ));
     }
 

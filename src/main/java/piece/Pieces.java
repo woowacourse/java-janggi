@@ -26,4 +26,9 @@ public class Pieces {
     public List<Piece> getPieces() {
         return pieces;
     }
+
+    public boolean isKingDead() {
+        return pieces.stream()
+                .noneMatch(piece -> piece.isSameType(new General()));
+    }
 }

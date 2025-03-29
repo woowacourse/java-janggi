@@ -35,6 +35,10 @@ public class Player {
         }
     }
 
+    public boolean isKingDead() {
+        return pieces.isKingDead();
+    }
+
     public boolean isContainPiece(Point point) {
         return pieces.isExistPieceIn(point);
     }
