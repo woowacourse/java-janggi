@@ -46,9 +46,13 @@ public class General extends Piece {
         }
     }
 
-    private static void validateInvalidDiagonalPath(Path path) {
+    private void validateInvalidDiagonalPath(Path path) {
+        List<Position> castleBorder = CENTRAL_OF_GREEN_CASTLE_BORDER;
+        if (team == RED) {
+            castleBorder = CENTRAL_OF_RED_CASTLE_BORDER;
+        }
         boolean isOneStep = path.isOneStep();
-        boolean isFirstAndLastInCastleBorder = path.firstAndLastIn(CENTRAL_OF_GREEN_CASTLE_BORDER);
+        boolean isFirstAndLastInCastleBorder = path.firstAndLastIn(castleBorder);
         if (isOneStep && isFirstAndLastInCastleBorder) {
             throw new IllegalArgumentException("[ERROR] 선이 존재하는 경우에만 이동할 수 있습니다.");
         }

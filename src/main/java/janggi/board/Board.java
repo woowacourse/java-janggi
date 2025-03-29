@@ -32,6 +32,10 @@ public class Board {
             new Position(Column.FOUR, Row.TWO), new Position(Column.THREE, Row.ONE),
             new Position(Column.FIVE, Row.ONE));
 
+    public static final List<Position> CENTRAL_OF_RED_CASTLE_BORDER = List.of(new Position(Column.FOUR, Row.NINE),
+            new Position(Column.FOUR, Row.SEVEN), new Position(Column.THREE, Row.EIGHT),
+            new Position(Column.FIVE, Row.EIGHT));
+
     private final Map<Position, Piece> board;
 
     public Board(Map<Position, Piece> board) {
