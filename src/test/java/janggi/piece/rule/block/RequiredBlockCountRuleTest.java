@@ -1,4 +1,4 @@
-package janggi.piece.strategy.block;
+package janggi.piece.rule.block;
 
 import fixture.PieceFixture;
 import janggi.Board;
@@ -15,14 +15,14 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class RequiredBlockCountStrategyTest {
+class RequiredBlockCountRuleTest {
 
     @Test
-    @DisplayName("common()은 0개의 기물이 있어야 하는 블로킹 전략을 반환한다")
-    void commonReturnsZeroBlockStrategy() {
+    @DisplayName("withNonBlock()은 0개의 기물이 있어야 하는 블로킹 전략을 반환한다")
+    void withNonBlockReturnsZeroBlockStrategy() {
         // given
-        RequiredBlockCountStrategy strategy = RequiredBlockCountStrategy.common();
-        Board board = Board.from(Pieces.empty());
+        final RequiredBlockCountRule strategy = RequiredBlockCountRule.withNonBlock();
+        final Board board = Board.from(Pieces.empty());
 
         // when
         // then
@@ -35,15 +35,15 @@ class RequiredBlockCountStrategyTest {
     @DisplayName("경로상 기물이 요구된 개수와 같으면 검증이 통과된다")
     void validate_successWhenBlockCountMatches() {
         // given
-        Position departure = Position.of(1, 1);
-        Position destination = Position.of(1, 5);
+        final Position departure = Position.of(1, 1);
+        final Position destination = Position.of(1, 5);
 
-        List<Piece> pieces = List.of(
+        final List<Piece> pieces = List.of(
                 PieceFixture.createPiece(1, 2, PieceType.SOLDIER, Team.HAN),
                 PieceFixture.createPiece(1, 3, PieceType.SOLDIER, Team.HAN)
         );
-        Board board = Board.from(Pieces.empty().addAll(pieces));
-        RequiredBlockCountStrategy strategy = new RequiredBlockCountStrategy(2);
+        final Board board = Board.from(Pieces.empty().addAll(pieces));
+        final RequiredBlockCountRule strategy = RequiredBlockCountRule.withBlock(2);
 
         // when
         // then
@@ -56,14 +56,14 @@ class RequiredBlockCountStrategyTest {
     @DisplayName("경로상 기물 수가 요구와 다르면 예외가 발생한다")
     void validate_throwsWhenBlockCountNotMatch() {
         // given
-        Position departure = Position.of(1, 1);
-        Position destination = Position.of(1, 5);
+        final Position departure = Position.of(1, 1);
+        final Position destination = Position.of(1, 5);
 
-        List<Piece> pieces = List.of(
+        final List<Piece> pieces = List.of(
                 PieceFixture.createPiece(1, 2, PieceType.SOLDIER, Team.HAN)
         );
-        Board board = Board.from(Pieces.empty().addAll(pieces));
-        RequiredBlockCountStrategy strategy = new RequiredBlockCountStrategy(2);
+        final Board board = Board.from(Pieces.empty().addAll(pieces));
+        final RequiredBlockCountRule strategy = RequiredBlockCountRule.withBlock(2);
 
         // when
         // then

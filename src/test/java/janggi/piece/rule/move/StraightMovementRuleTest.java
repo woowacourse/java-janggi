@@ -1,8 +1,10 @@
-package janggi.piece.strategy.move;
+package janggi.piece.rule.move;
 
 import janggi.Board;
 import janggi.coordinate.Position;
 import janggi.piece.Pieces;
+import janggi.piece.rule.movement.MovementRule;
+import janggi.piece.rule.movement.StraightMovementRule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,17 +12,17 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-class SingleMoveStrategyTest {
+class StraightMovementRuleTest {
 
     @Test
-    @DisplayName("총 이동 거리가 1일 경우 검증을 통과한다")
-    void validate_passesWhenTotalDistanceIsOne() {
+    @DisplayName("수직 이동 시 검증을 통과한다")
+    void validate_passesWhenMovingVertically() {
         // given
-        MoveStrategy strategy = new SingleMoveStrategy();
-        Position departure = Position.of(3, 3);
-        Position destination = Position.of(3, 4); // column +1
+        final MovementRule strategy = StraightMovementRule.withNonBlock();
+        final Position departure = Position.of(2, 5);
+        final Position destination = Position.of(5, 5); // column 동일, row만 변경
 
-        Board board = Board.from(Pieces.empty());
+        final Board board = Board.from(Pieces.empty());
 
         // when
         // then
@@ -28,14 +30,29 @@ class SingleMoveStrategyTest {
     }
 
     @Test
-    @DisplayName("총 이동 거리가 1이 아니면 예외가 발생한다")
-    void validate_throwsWhenTotalDistanceIsNotOne() {
+    @DisplayName("수평 이동 시 검증을 통과한다")
+    void validate_passesWhenMovingHorizontally() {
         // given
-        MoveStrategy strategy = new SingleMoveStrategy();
-        Position departure = Position.of(3, 3);
-        Position destination = Position.of(3, 5); // column +2
+        final MovementRule strategy = StraightMovementRule.withNonBlock();
+        final Position departure = Position.of(4, 2);
+        final Position destination = Position.of(4, 7); // row 동일, column만 변경
 
-        Board board = Board.from(Pieces.empty());
+        final Board board = Board.from(Pieces.empty());
+
+        // when
+        // then
+        assertDoesNotThrow(() -> strategy.validate(board, departure, destination));
+    }
+
+    @Test
+    @DisplayName("대각선 이동 시 예외가 발생한다")
+    void validate_throwsWhenMovingDiagonally() {
+        // given
+        final MovementRule strategy = StraightMovementRule.withNonBlock();
+        final Position departure = Position.of(3, 3);
+        final Position destination = Position.of(5, 5); // row/column 모두 변경
+
+        final Board board = Board.from(Pieces.empty());
 
         // when
         // then
@@ -48,30 +65,36 @@ class SingleMoveStrategyTest {
     @Test
     void validate_passesWhenMovingVerticallyInPalace() {
         // given
-        MoveStrategy strategy = new StraightMoveStrategy();
-        Board board = Board.from(Pieces.empty());
+        final MovementRule strategy = StraightMovementRule.withNonBlock();
+        final Board board = Board.from(Pieces.empty());
 
         // when
         // then
         assertAll(() -> {
             // 상궁 내부
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 4), Position.of(2, 4)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 4), Position.of(3, 4)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(2, 4), Position.of(3, 4)));
 
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 5), Position.of(2, 5)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 5), Position.of(3, 5)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(2, 5), Position.of(3, 5)));
 
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 6), Position.of(2, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 6), Position.of(3, 6)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(2, 6), Position.of(3, 6)));
 
             // 하궁 내부
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 4), Position.of(9, 4)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 4), Position.of(10, 4)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(9, 4), Position.of(10, 4)));
 
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 5), Position.of(9, 5)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 5), Position.of(10, 5)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(9, 5), Position.of(10, 5)));
 
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 6), Position.of(9, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 6), Position.of(10, 6)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(9, 6), Position.of(10, 6)));
 
             // 상궁 내부 -> 외부
@@ -100,8 +123,8 @@ class SingleMoveStrategyTest {
     @Test
     void validate_passesWhenMovingHorizontallyInAndOutOfPalace() {
         // given
-        MoveStrategy strategy = new SingleMoveStrategy();
-        Board board = Board.from(Pieces.empty());
+        final MovementRule strategy = StraightMovementRule.withNonBlock();
+        final Board board = Board.from(Pieces.empty());
 
         // when
         // then
@@ -109,22 +132,28 @@ class SingleMoveStrategyTest {
             // 상궁 내부
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 4), Position.of(1, 5)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 5), Position.of(1, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 4), Position.of(1, 6)));
 
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(2, 4), Position.of(2, 5)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(2, 5), Position.of(2, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(2, 4), Position.of(2, 6)));
 
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(3, 4), Position.of(3, 5)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(3, 5), Position.of(3, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(3, 4), Position.of(3, 6)));
 
             // 하궁 내부
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 4), Position.of(8, 5)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 5), Position.of(8, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 4), Position.of(8, 6)));
 
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(9, 4), Position.of(9, 5)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(9, 5), Position.of(9, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(9, 4), Position.of(9, 6)));
 
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(10, 4), Position.of(10, 5)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(10, 5), Position.of(10, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(10, 4), Position.of(10, 6)));
 
             // 상궁 내부 -> 외부
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 6), Position.of(1, 7)));
@@ -168,8 +197,8 @@ class SingleMoveStrategyTest {
     @Test
     void validate_passesWhenMovingDiagonallyInPalaceWithCenter() {
         // given
-        MoveStrategy strategy = new SingleMoveStrategy();
-        Board board = Board.from(Pieces.empty());
+        final MovementRule strategy = StraightMovementRule.withNonBlock();
+        final Board board = Board.from(Pieces.empty());
 
         // when
         // then
@@ -180,11 +209,17 @@ class SingleMoveStrategyTest {
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(3, 4), Position.of(2, 5)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(3, 6), Position.of(2, 5)));
 
-            // from 상궁 중앙
+            // withBlock 상궁 중앙
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(2, 5), Position.of(1, 4)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(2, 5), Position.of(1, 6)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(2, 5), Position.of(3, 4)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(2, 5), Position.of(3, 6)));
+
+            // pass 상궁 중앙
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 4), Position.of(3, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(1, 6), Position.of(3, 4)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(3, 4), Position.of(1, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(3, 6), Position.of(1, 4)));
 
             // to 하궁 중앙
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 4), Position.of(9, 5)));
@@ -192,19 +227,25 @@ class SingleMoveStrategyTest {
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(10, 4), Position.of(9, 5)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(10, 6), Position.of(9, 5)));
 
-            // from 하궁 중앙
+            // withBlock 하궁 중앙
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(9, 5), Position.of(8, 4)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(9, 5), Position.of(8, 6)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(9, 5), Position.of(10, 4)));
             assertDoesNotThrow(() -> strategy.validate(board, Position.of(9, 5), Position.of(10, 6)));
+
+            // pass 하궁 중앙
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 4), Position.of(10, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(8, 6), Position.of(10, 4)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(10, 4), Position.of(8, 6)));
+            assertDoesNotThrow(() -> strategy.validate(board, Position.of(10, 6), Position.of(8, 4)));
         });
     }
 
     @DisplayName("궁성 내 대각선 이동이지만 중앙을 지나지 않으면 예외 발생")
     @Test
     void validate_failsWhenDiagonalNotPassingThroughPalaceCenter() {
-        MoveStrategy strategy = new SingleMoveStrategy();
-        Board board = Board.from(Pieces.empty());
+        final MovementRule strategy = StraightMovementRule.withNonBlock();
+        final Board board = Board.from(Pieces.empty());
 
         assertAll(() -> {
             assertThatThrownBy(() -> strategy.validate(board, Position.of(1, 5), Position.of(2, 4)))

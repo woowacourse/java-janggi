@@ -1,14 +1,14 @@
-package janggi.piece.strategy.block;
+package janggi.piece.rule.block;
 
 import janggi.Board;
 import janggi.coordinate.Position;
 import janggi.coordinate.Route;
 
-public class RequiredBlockCountStrategy {
+public class RequiredBlockCountRule {
 
     private final int requireBlockCount;
 
-    public RequiredBlockCountStrategy(final int requireBlockCount) {
+    private RequiredBlockCountRule(final int requireBlockCount) {
         validateNegativeValue(requireBlockCount);
         this.requireBlockCount = requireBlockCount;
     }
@@ -19,8 +19,12 @@ public class RequiredBlockCountStrategy {
         }
     }
 
-    public static RequiredBlockCountStrategy common() {
-        return new RequiredBlockCountStrategy(0);
+    public static RequiredBlockCountRule withBlock(final int requireBlockCount) {
+        return new RequiredBlockCountRule(requireBlockCount);
+    }
+
+    public static RequiredBlockCountRule withNonBlock() {
+        return new RequiredBlockCountRule(0);
     }
 
     public void validate(final Board board, final Position departure, final Position destination) {
@@ -29,7 +33,7 @@ public class RequiredBlockCountStrategy {
         }
     }
 
-    private int countPieceInRoute(Board board, Position departure, Position destination) {
+    private int countPieceInRoute(final Board board, final Position departure, final Position destination) {
         return (int) Route.of(departure, destination).calculate().stream()
                 .filter(board::isExists)
                 .count();
