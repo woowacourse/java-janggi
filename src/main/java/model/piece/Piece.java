@@ -4,10 +4,12 @@ import java.util.Map;
 import model.Path;
 import model.Point;
 import model.Team;
+import model.Moving;
 
 public abstract class Piece {
     Team team;
     PieceName pieceName;
+    int score;
 
     protected Piece(Team team, PieceName pieceName) {
         this.team = team;
@@ -21,16 +23,13 @@ public abstract class Piece {
     public abstract boolean isValidPoint(Point beforePoint, Point targetPoint);
 
     public Path calculatePath(Point beforePoint, Point targetPoint) {
-        int vectorX = getVectorX(beforePoint, targetPoint);
-        int vectorY = getVectorY(beforePoint, targetPoint);
 
-        int unitVectorX = getUnitVector(vectorX);
-        int unitVectorY = getUnitVector(vectorY);
-
+        Moving moving = new Moving(beforePoint, targetPoint);
         Path path = new Path();
 
-        for (int i = 0; i < Math.max(Math.abs(vectorX), Math.abs(vectorY)); i++) {
-            path.addPoint(new Point(targetPoint.x() - unitVectorX * i, targetPoint.y() - unitVectorY * i));
+        for (int i = 0; i < moving.getBiggerVector(); i++) {
+            path.addPoint(new Point(targetPoint.x() - moving.getUnitVectorX() * i,
+                    targetPoint.y() - moving.getUnitVectorY() * i));
         }
 
         return path;
@@ -41,17 +40,7 @@ public abstract class Piece {
         return pieceName;
     }
 
-    protected int getVectorX(Point beforePoint, Point targetPoint){
-        return targetPoint.x() - beforePoint.x();
-    }
-    protected int getVectorY(Point beforePoint, Point targetPoint){
-        return targetPoint.y() - beforePoint.y();
-    }
-
-    protected int getUnitVector(int vector){
-        if(vector==0){
-            return 0;
-        }
-        return vector/Math.abs(vector);
+    public int getScore() {
+        return score;
     }
 }

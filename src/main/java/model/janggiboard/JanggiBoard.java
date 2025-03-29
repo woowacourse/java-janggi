@@ -104,6 +104,21 @@ public class JanggiBoard {
         return getDot(beforePoint).getPiece().getTeam() != team;
     }
 
+    public double getTeamScore(Team team) {
+        double score = team.getDefaultScore();
+        for (List<Dot> dots : janggiBoard) {
+            for (Dot dot : dots) {
+                if (dot.isPlaced()) {
+                    Piece piece = dot.getPiece();
+                    if (piece.getTeam() == team) {
+                        score += piece.getScore();
+                    }
+                }
+            }
+        }
+        return score;
+    }
+
     public List<List<Dot>> getJanggiBoard() {
         return janggiBoard;
     }

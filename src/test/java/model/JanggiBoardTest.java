@@ -15,4 +15,13 @@ class JanggiBoardTest {
 
         assertThat(janggiBoard.countPiece()).isEqualTo(32);
     }
+
+    @Test
+    @DisplayName("기물들의 점수 합산 반환 확인")
+    void test2() {
+        JanggiBoard janggiBoard = new JanggiBoard(INNER_SANG);
+
+        assertThat(janggiBoard.getTeamScore(Team.BLUE)).isEqualTo(72);
+        assertThat(janggiBoard.getTeamScore(Team.RED)).isEqualTo(73.5);
+    }
 }
