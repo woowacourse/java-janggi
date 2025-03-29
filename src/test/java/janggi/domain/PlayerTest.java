@@ -26,8 +26,8 @@ class PlayerTest {
     }
 
     @Test
-    @DisplayName("플레이어는 점수를 더할 수 있다")
-    void addScore() {
+    @DisplayName("플레이어는 점수를 뺄 수 있다")
+    void subtractScore() {
         //given
         int scoreValue = 20;
         Player player = new Player("flint", Team.RED, scoreValue);
@@ -38,6 +38,6 @@ class PlayerTest {
         player.subtractScore(score);
 
         //then
-        assertThat(player.getScore()).isEqualTo(new Score(scoreValue + addValue));
+        assertThat(player.getScore()).isEqualTo(new Score(scoreValue - addValue));
     }
 }
