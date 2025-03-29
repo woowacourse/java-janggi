@@ -3,7 +3,7 @@ package domain.unit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.position.Position;
-import domain.unit.rule.ElephantUnitRule;
+import domain.unit.rule.ElephantMovingStrategy;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ class UnitsTest {
     @DisplayName("해당 위치가 비어있는지 비어있지 않은지 검사한다")
     void test1() {
         // given
-        Unit unit = Unit.of(Team.CHO, new ElephantUnitRule());
+        Unit unit = Unit.of(Team.CHO, new ElephantMovingStrategy());
         Position position = Position.of(4, 5);
         Map<Position, Unit> units = Map.of(position, unit);
         Units totalUnits = Units.of(units, Map.of());
@@ -32,7 +32,7 @@ class UnitsTest {
     @DisplayName("해당 위치에 있는 장기말을 삭제한다")
     void test2() {
         // given
-        Unit unit = Unit.of(Team.CHO, new ElephantUnitRule());
+        Unit unit = Unit.of(Team.CHO, new ElephantMovingStrategy());
         Position position = Position.of(4, 5);
         Map<Position, Unit> units = Map.of(position, unit);
         Units totalUnits = Units.of(units, Map.of());
@@ -48,7 +48,7 @@ class UnitsTest {
     @DisplayName("해당 위치의 장기말의 팀과 일치하는지 확인한다")
     void test3() {
         // given
-        Unit unit = Unit.of(Team.CHO, new ElephantUnitRule());
+        Unit unit = Unit.of(Team.CHO, new ElephantMovingStrategy());
         Position position = Position.of(4, 5);
         Map<Position, Unit> units = Map.of(position, unit);
         Units totalUnits = Units.of(units, Map.of());
@@ -66,7 +66,7 @@ class UnitsTest {
     @DisplayName("장기말의 위치를 이동한다")
     void test5() {
         // given
-        Unit unit = Unit.of(Team.CHO, new ElephantUnitRule());
+        Unit unit = Unit.of(Team.CHO, new ElephantMovingStrategy());
         Position position = Position.of(4, 5);
         Map<Position, Unit> units = Map.of(position, unit);
         Units totalUnits = Units.of(units, Map.of());

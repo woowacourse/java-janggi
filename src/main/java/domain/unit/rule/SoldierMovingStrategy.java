@@ -1,0 +1,64 @@
+package domain.unit.rule;
+
+import static domain.unit.Direction.LEFT;
+import static domain.unit.Direction.LOWER;
+import static domain.unit.Direction.RIGHT;
+import static domain.unit.Direction.UPPER;
+
+import domain.position.Position;
+import domain.unit.Direction;
+import domain.unit.Movement;
+import domain.unit.UnitType;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SoldierMovingStrategy implements MovingStrategy {
+
+    @Override
+    public List<Movement> generatePossibleMovement(Position position) {
+        List<Movement> movements = getMovements().stream()
+                .toList();
+        List<Movement> possibleMovements = new ArrayList<>(movements);
+        possibleMovements.addAll(createPalaceMovement(position));
+        return possibleMovements.stream()
+                .filter(movement -> movement.canBeRoute(position))
+                .toList();
+
+    }
+
+    private static List<Movement> getMovements() {
+        return List.of(
+                Movement.of(UPPER),
+                Movement.of(LOWER),
+                Movement.of(LEFT),
+                Movement.of(RIGHT));
+    }
+
+    private List<Movement> createPalaceMovement(Position position) {
+        List<Movement> movements = new ArrayList<>();
+        if (position.equals(Position.of(3, 0)) || position.equals(Position.of(3, 7))) {
+            movements.add(Movement.of(Direction.UPPER_RIGHT));
+        }
+        if (position.equals(Position.of(5, 0)) || position.equals(Position.of(5, 7))) {
+            movements.add(Movement.of(Direction.UPPER_LEFT));
+        }
+        if (position.equals(Position.of(3, 2)) || position.equals(Position.of(3, 9))) {
+            movements.add(Movement.of(Direction.LOWER_RIGHT));
+        }
+        if (position.equals(Position.of(5, 2)) || position.equals(Position.of(5, 9))) {
+            movements.add(Movement.of(Direction.LOWER_LEFT));
+        }
+        if (position.equals(Position.of(4, 1)) || position.equals(Position.of(4, 8))) {
+            movements.add(Movement.of(Direction.LOWER_LEFT));
+            movements.add(Movement.of(Direction.LOWER_RIGHT));
+            movements.add(Movement.of(Direction.UPPER_LEFT));
+            movements.add(Movement.of(Direction.UPPER_RIGHT));
+        }
+        return movements;
+    }
+
+    @Override
+    public UnitType getType() {
+        return UnitType.SOLDIER;
+    }
+}

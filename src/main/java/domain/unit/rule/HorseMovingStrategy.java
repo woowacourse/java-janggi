@@ -9,14 +9,21 @@ import static domain.unit.Direction.UPPER;
 import static domain.unit.Direction.UPPER_LEFT;
 import static domain.unit.Direction.UPPER_RIGHT;
 
+import domain.position.Position;
 import domain.unit.Movement;
 import domain.unit.UnitType;
 import java.util.List;
 
-public class HorseUnitRule implements UnitRule {
+public class HorseMovingStrategy implements MovingStrategy {
 
     @Override
-    public List<Movement> generatePossibleMovement() {
+    public List<Movement> generatePossibleMovement(Position position) {
+        return getMovements().stream()
+                .filter(movement -> movement.canBeRoute(position))
+                .toList();
+    }
+
+    private static List<Movement> getMovements() {
         return List.of(
                 Movement.of(UPPER, UPPER_RIGHT),
                 Movement.of(UPPER, UPPER_LEFT),

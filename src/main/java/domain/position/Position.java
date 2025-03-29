@@ -42,6 +42,16 @@ public class Position {
         return Math.sqrt(Math.pow(xDifference, 2) + Math.pow(yDifference, 2));
     }
 
+    public boolean canBePosition(Direction direction) {
+        int nextX = this.x + direction.getX();
+        int nextY = this.y + direction.getY();
+        return nextX >= 0 && nextX <= X_MAX && nextY >= 0 && nextY <= Y_MAX;
+    }
+
+    public boolean isPalace() {
+        return (3 <= x && x <= 5) && ((0 <= y && y <= 2) || (7 <= y && y <= 9));
+    }
+
     public boolean isHorizontalOrVertical(Position opposite) {
         return (this.x == opposite.x || this.y == opposite.y);
     }

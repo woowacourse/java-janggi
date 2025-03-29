@@ -3,38 +3,32 @@ package domain.unit;
 import domain.position.Position;
 import domain.position.Route;
 import domain.position.Routes;
-import domain.unit.rule.UnitRule;
+import domain.unit.rule.MovingStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Unit {
 
     private final Team team;
-    private final UnitRule unitRule;
+    private final MovingStrategy movingStrategy;
 
-
-    public Unit(Team team, UnitRule unitRule) {
+    public Unit(Team team, MovingStrategy movingStrategy) {
         this.team = team;
-        this.unitRule = unitRule;
+        this.movingStrategy = movingStrategy;
     }
 
-    public static Unit of(Team team, UnitRule unitRule) {
-        return new Unit(team, unitRule);
+    public static Unit of(Team team, MovingStrategy movingStrategy) {
+        return new Unit(team, movingStrategy);
     }
 
     public Routes calculateRoutes(Position position) {
         List<Route> routes = new ArrayList<>();
-        List<Movement> movements = unitRule.generatePossibleMovement();
+        List<Movement> movements = movingStrategy.generatePossibleMovement(position);
         for (Movement movement : movements) {
-            try {
-                Route route = movement.calculateRouteBy(position);
-                routes.add(route);
-            } catch (IllegalArgumentException ignored) {
-            }
+            routes.add(movement.calculateRouteBy(position));
         }
         return Routes.of(routes);
     }
-
 
     public boolean isSameTeam(Team team) {
         return (this.team == team);
@@ -45,11 +39,11 @@ public class Unit {
     }
 
     public boolean isSameType(UnitType type) {
-        return unitRule.getType() == type;
+        return movingStrategy.getType() == type;
     }
 
     public UnitType getType() {
-        return this.unitRule.getType();
+        return this.movingStrategy.getType();
     }
 
     public Team getTeam() {

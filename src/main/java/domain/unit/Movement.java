@@ -16,6 +16,16 @@ public class Movement {
         return new Movement(List.of(directions));
     }
 
+    public boolean canBeRoute(Position position) {
+        for (Direction direction : directions) {
+            if (!position.canBePosition(direction)) {
+                return false;
+            }
+            position = position.calculatePositionWithDirection(direction);
+        }
+        return true;
+    }
+
     public Route calculateRouteBy(Position position) {
         List<Position> routes = new ArrayList<>();
         for (Direction direction : directions) {
