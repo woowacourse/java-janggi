@@ -50,6 +50,10 @@ public abstract class Piece {
         return this.color != color;
     }
 
+    public PieceType getType() {
+        return type;
+    }
+
     public PieceColor getColor() {
         return color;
     }
