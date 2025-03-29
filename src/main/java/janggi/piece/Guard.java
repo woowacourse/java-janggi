@@ -3,6 +3,8 @@ package janggi.piece;
 import janggi.board.Board;
 import janggi.board.Position;
 
+import java.util.List;
+
 public class Guard extends Piece {
     private final PieceType pieceType;
 
@@ -54,6 +56,24 @@ public class Guard extends Piece {
         if (!board.isInnerUpperPalace(goal)) {
             throw new IllegalArgumentException("[ERROR] 한나라 사의 목적 지점은 상단부 궁성 내 좌표여야 합니다.");
         }
+    }
+
+    @Override
+    public List<Position> findPositionsInPath(Position start, Position goal) {
+        int columnDifference = Math.abs(start.calculatesColumnDifference(goal));
+        int rowDifference = Math.abs(start.calculatesRowDifference(goal));
+
+        if (!isValidDistance(columnDifference, rowDifference)) {
+            throw new IllegalArgumentException("[ERROR] 사의 이동 규칙에 어긋나는 움직임입니다.");
+        }
+
+        return List.of(goal);
+    }
+
+    private boolean isValidDistance(int columnDifference, int rowDifference) {
+        int sumMoveDistance = Math.abs(columnDifference) + Math.abs(rowDifference);
+        boolean isDiagonal = (columnDifference == rowDifference);
+        return sumMoveDistance == 1 || (isDiagonal && sumMoveDistance == 2);
     }
 
     @Override
