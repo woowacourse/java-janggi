@@ -20,7 +20,7 @@ public final class BoardDao {
         }
     }
 
-    public void addPieceEntitiesToBoardEntity(final List<PieceEntity> pieceEntities) {
+    public void createBoardEntity(final List<PieceEntity> pieceEntities) {
         pieceEntities.forEach(this::addPieceEntityToBoardEntity);
     }
 
@@ -44,7 +44,7 @@ public final class BoardDao {
         }
     }
 
-    public List<PieceEntity> readPieceEntitiesFromBoardEntity() {
+    public List<PieceEntity> readBoardEntity() {
         final var query = "SELECT row_value, column_value, type, dynasty FROM Board";
         final List<PieceEntity> pieceEntities = new ArrayList<>();
 

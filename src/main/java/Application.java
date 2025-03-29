@@ -54,7 +54,7 @@ public class Application {
 
                 List<PieceEntity> survivedPiece = BoardConverter.convertToPieceEntities(board.getSurvivedPieces());
                 boardDao.deleteBoardEntity(); // 전체 삭제
-                boardDao.addPieceEntitiesToBoardEntity(survivedPiece); // 전체 추가
+                boardDao.createBoardEntity(survivedPiece); // 전체 추가
 
                 turnDao.incrementTurn();
                 turn = turnDao.readTurnEntity();
@@ -65,12 +65,12 @@ public class Application {
     }
 
     private static Board createBoard(BoardDao boardDao, InputView inputView) {
-        List<PieceEntity> pieceEntities = boardDao.readPieceEntitiesFromBoardEntity();
+        List<PieceEntity> pieceEntities = boardDao.readBoardEntity();
 
         if (pieceEntities.isEmpty()) {
             Board newBoard = settingJanggiGame(inputView);
             List<PieceEntity> settingPieces = BoardConverter.convertToPieceEntities(newBoard.getSurvivedPieces());
-            boardDao.addPieceEntitiesToBoardEntity(settingPieces);
+            boardDao.createBoardEntity(settingPieces);
             return newBoard;
         }
         return BoardConverter.convertToBoard(pieceEntities);
