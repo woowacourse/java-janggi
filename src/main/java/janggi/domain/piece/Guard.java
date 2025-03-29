@@ -1,9 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.Direction;
-import janggi.domain.PalaceMovement;
-import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.movement.Direction;
+import janggi.domain.movement.PalaceMovement;
+import janggi.domain.movement.Position;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

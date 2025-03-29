@@ -1,9 +1,10 @@
 package janggi.domain.piece;
 
-import janggi.domain.Direction;
-import janggi.domain.Directions;
-import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.movement.Direction;
+import janggi.domain.movement.Directions;
+import janggi.domain.movement.Position;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

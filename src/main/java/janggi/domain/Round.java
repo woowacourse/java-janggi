@@ -1,8 +1,11 @@
 package janggi.domain;
 
+import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceName;
 import janggi.dto.PieceDto;
 import janggi.dto.PositionDto;
+
 import java.util.Map;
 import java.util.function.BiConsumer;
 

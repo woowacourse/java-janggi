@@ -1,10 +1,11 @@
 package janggi.view;
 
 import janggi.common.ErrorMessage;
-import janggi.domain.Position;
 import janggi.domain.Side;
+import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
+
 import java.util.Map;
 import java.util.Scanner;
 import java.util.StringJoiner;

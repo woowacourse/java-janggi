@@ -1,11 +1,12 @@
 package janggi;
 
 import janggi.dao.ChessDao;
-import janggi.domain.PieceName;
-import janggi.domain.Position;
+import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceName;
 import janggi.dto.PieceDto;
 import janggi.dto.PositionDto;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

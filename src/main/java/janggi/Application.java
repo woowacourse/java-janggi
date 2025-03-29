@@ -2,13 +2,14 @@ package janggi;
 
 import janggi.dao.ChessDao;
 import janggi.domain.Board;
-import janggi.domain.Position;
+import janggi.domain.PieceFactory;
 import janggi.domain.Round;
+import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.PieceDto;
-import janggi.factory.PieceFactory;
 import janggi.manager.JanggiGame;
 import janggi.view.Viewer;
+
 import java.util.List;
 import java.util.Map;
 

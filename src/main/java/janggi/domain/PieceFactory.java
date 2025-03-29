@@ -1,7 +1,6 @@
-package janggi.factory;
+package janggi.domain;
 
-import janggi.domain.Position;
-import janggi.domain.Side;
+import janggi.domain.movement.Position;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.Elephant;
@@ -10,6 +9,7 @@ import janggi.domain.piece.Guard;
 import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,13 +1,14 @@
 package janggi.domain;
 
 import janggi.common.ErrorMessage;
+import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
-import janggi.factory.PieceFactory;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;

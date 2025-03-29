@@ -1,8 +1,8 @@
 package janggi.manager;
 
 import janggi.DatabaseController;
-import janggi.domain.Position;
 import janggi.domain.Round;
+import janggi.domain.movement.Position;
 import janggi.dto.PositionDto;
 import janggi.util.RecoveryUtil;
 import janggi.view.Viewer;
