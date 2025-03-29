@@ -19,7 +19,7 @@ class KingTest {
     public static final Position ALLY_KING_START_POSITION = new Position(4, 1);
     public static final Position ENEMY_KING_START_POSITION = new Position(4, 8);
     public static final King ALLY_KING = new King(ALLY_SIDE, ALLY_KING_START_POSITION.getX(), ALLY_KING_START_POSITION.getY());
-    public static final King ENEMY_KING = new King(ALLY_SIDE, ENEMY_KING_START_POSITION.getX(), ENEMY_KING_START_POSITION.getY());
+    public static final King ENEMY_KING = new King(ENEMY_SIDE, ENEMY_KING_START_POSITION.getX(), ENEMY_KING_START_POSITION.getY());
 
     public static Stream<Arguments> 왕은_궁성_내에서_상하좌우_대각선_한칸을_이동할_수_있다_테스트_케이스() {
         return Stream.of(
