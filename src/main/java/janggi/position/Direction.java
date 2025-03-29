@@ -1,7 +1,6 @@
 package janggi.position;
 
 import janggi.piece.Team;
-import java.util.Arrays;
 import java.util.List;
 
 public enum Direction {
@@ -28,11 +27,11 @@ public enum Direction {
         return List.of(UPPER, UPPER_RIGHT, RIGHT, UNDER_RIGHT, UNDER, UNDER_LEFT, LEFT, UPPER_LEFT);
     }
 
-    public static List<Direction> getStraight(Team team) {
+    public static List<Direction> getTeamDirection(Team team) {
         if (team == Team.CHO) {
-            return List.of(Direction.UNDER, Direction.LEFT, Direction.RIGHT);
+            return List.of(Direction.UNDER, Direction.LEFT, Direction.RIGHT, UNDER_LEFT, UNDER_RIGHT);
         }
-        return List.of(Direction.UPPER, Direction.LEFT, Direction.RIGHT);
+        return List.of(Direction.UPPER, Direction.LEFT, Direction.RIGHT, UPPER_LEFT, UPPER_RIGHT);
     }
 
     public List<Direction> getNextWithDiagonal() {
@@ -54,7 +53,7 @@ public enum Direction {
         return List.of(this);
     }
 
-    public boolean idDiagonal() {
+    public boolean isDiagonal() {
         if (this == UPPER_RIGHT) {
             return true;
         }
