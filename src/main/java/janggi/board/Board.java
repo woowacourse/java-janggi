@@ -15,9 +15,11 @@ public class Board {
     public static final int GENERAL_PIECE_COUNT = 2;
 
     private final Map<Point, Piece> placedPieces;
+    private final PalaceArea palaceArea;
 
     public Board() {
         this.placedPieces = new HashMap<>();
+        this.palaceArea = new PalaceArea();
     }
 
     public void placePiece(Point point, Piece piece) {
@@ -34,6 +36,13 @@ public class Board {
     public void move(Point from, Point to) {
         validateMoveRequest(from, to);
         Piece movingPiece = peek(from);
+        if (isInPalace(from) && isInPalace(to)) {
+            validatePalaceMovable(movingPiece, from, to);
+            validatePalaceRoute(movingPiece, from, to);
+            validateCatchable(movingPiece, to);
+            executeMove(movingPiece, from, to);
+            return;
+        }
         validateMovable(movingPiece, from, to);
         validateRoute(movingPiece, from, to);
         validateCatchable(movingPiece, to);
@@ -55,12 +64,26 @@ public class Board {
         return placedPieces.get(point);
     }
 
+    private boolean isInPalace(Point point) {
+        return palaceArea.contains(point);
+    }
+
     private void validateMovable(Piece movingPiece, Point from, Point to) {
         movingPiece.validateMove(from, to);
     }
 
     private void validateRoute(Piece movingPiece, Point from, Point to) {
         Set<Point> route = movingPiece.findRoute(from, to);
+        Set<Piece> piecesByPoint = findPiecesByPoint(route);
+        movingPiece.validateRouteObstacles(piecesByPoint);
+    }
+
+    private void validatePalaceMovable(Piece movingPiece, Point from, Point to) {
+        movingPiece.validatePalaceMove(from, to);
+    }
+
+    private void validatePalaceRoute(Piece movingPiece, Point from, Point to) {
+        Set<Point> route = movingPiece.findPalaceRoute(from, to);
         Set<Piece> piecesByPoint = findPiecesByPoint(route);
         movingPiece.validateRouteObstacles(piecesByPoint);
     }
