@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 public class CountryTest {
 
     @Nested
-    @DisplayName("팀 타입 생성")
+    @DisplayName("나라 생성")
     class Construct {
 
-        @DisplayName("팀 타입의 사이즈가 올바른지 테스트한다.")
+        @DisplayName("나라의 수가 올바른지 테스트")
         @Test
         void teamType() {
             // given
@@ -24,8 +24,10 @@ public class CountryTest {
             );
 
             // when
+            final List<Country> actual = Arrays.asList(Country.values());
+
             // then
-            Assertions.assertThat(Arrays.asList(Country.values()))
+            Assertions.assertThat(actual)
                     .containsAll(expectedTypes)
                     .hasSize(expectedSize);
         }
