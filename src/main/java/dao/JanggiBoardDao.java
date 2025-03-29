@@ -148,7 +148,15 @@ public class JanggiBoardDao implements BoardDao {
 
     @Override
     public void delete(JanggiPosition position) {
-
+        final var query = "DELETE FROM piece WHERE position_row=? AND position_col=?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, position.getRow());
+            preparedStatement.setInt(2, position.getCol());
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
