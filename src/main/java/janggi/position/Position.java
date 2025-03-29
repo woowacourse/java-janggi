@@ -1,6 +1,5 @@
 package janggi.position;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
@@ -41,11 +40,7 @@ public class Position {
     }
 
     public boolean canMove(Direction direction) {
-        return isCanBePosition(direction.moveColumn(column), direction.moveRow(row));
-    }
-
-    public Position move(Direction direction) {
-        return new Position(direction.moveColumn(column), direction.moveRow(row));
+        return isCanBePosition(column + direction.getX(), row + direction.getY());
     }
 
     public boolean isParallel(Position end) {
@@ -72,23 +67,8 @@ public class Position {
                 .toList();
     }
 
-    public List<Position> createDiagonalPosition(Position end) {
-        List<Position> route = new ArrayList<>();
-
-        int column = Integer.signum(end.getColumn() - this.column);
-        int row = Integer.signum(end.getRow() - this.row);
-
-        int currentColumn = this.column + column;
-        int currentRow = this.row + row;
-
-        while (currentColumn != end.getColumn() || currentRow != end.getRow()) {
-            route.add(new Position(currentColumn, currentRow));
-            currentColumn += column;
-            currentRow += row;
-        }
-
-        route.add(end);
-        return route;
+    public Position move(Direction direction) {
+        return new Position(this.column + direction.getX(), this.row + direction.getY());
     }
 
     public int getColumn() {

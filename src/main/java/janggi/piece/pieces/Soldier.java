@@ -14,7 +14,7 @@ public record Soldier(Team team) implements Piece {
     public List<Route> calculateRoutes(Position start) {
         List<Route> routes = new ArrayList<>();
 
-        for (Direction direction : Direction.getTeamDirection(team)) {
+        for (Direction direction : team.getTeamDirection()) {
             addRouteIfCanBePosition(direction, start, routes);
         }
         return routes;
