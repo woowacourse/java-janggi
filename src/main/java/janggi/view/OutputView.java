@@ -18,8 +18,8 @@ public class OutputView {
         System.out.println("장기 게임을 시작하겠습니다!");
     }
 
-    public void writeChoStart() {
-        System.out.println("초나라 먼저 시작");
+    public void writeStart(String currentTurn) {
+        System.out.printf("%s나라 먼저 시작%n", currentTurn);
         System.out.println();
     }
 

@@ -21,15 +21,14 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class JanggiBoardDAO {
-    private final DBConnector dbConnector;
-
-    //ID는 auto_increment니까 넣어 줄 필요가 없군
-    //외래키에 team을 넣을 때, team 테이블에 값이 있어야함!! 그래야 가능
     private static final String INSERT_PIECES = "INSERT INTO pieces(team_id, piece_type, x, y) values(?, ?, ?, ?)";
     private static final String DROP_PIECES_TABLE = "DROP TABLE IF EXISTS pieces";
-    //UPDATE 사용시 where절을 생략하면 해당 테이블의 전체 행을 수정함
     private static final String UPDATE_QUERY = "UPDATE pieces SET x = ?, y = ? WHERE team_id = ? AND x = ? AND y = ?";
     private static final String DELETE_QUERY = "DELETE FROM pieces WHERE x = ? AND y = ? AND team_id = ?";
+    private static final String SELECT_QUERY = "SELECT piece_type, x, y FROM pieces WHERE team_id = ?";
+
+    private final DBConnector dbConnector;
+
     public JanggiBoardDAO(DBConnector dbConnector) {
         this.dbConnector = dbConnector;
     }
@@ -38,22 +37,22 @@ public class JanggiBoardDAO {
         try (final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(INSERT_PIECES)) {
             List<Piece> choPieces = janggiBoard.getChoPieces();
             for (Piece piece : choPieces) {
-                preparedStatement.setInt(1, 1); //1이 초나라
+                preparedStatement.setInt(1, 1);
                 preparedStatement.setString(2, piece.getPieceType().getName());
                 preparedStatement.setInt(3, piece.getPosition().x());
                 preparedStatement.setInt(4, piece.getPosition().y());
 
-                preparedStatement.executeUpdate(); // 쿼리 실행!
+                preparedStatement.executeUpdate();
             }
 
             List<Piece> hanPieces = janggiBoard.getHanPieces();
             for (Piece piece : hanPieces) {
-                preparedStatement.setInt(1, 2); //2가 한나라
+                preparedStatement.setInt(1, 2);
                 preparedStatement.setString(2, piece.getPieceType().getName());
                 preparedStatement.setInt(3, piece.getPosition().x());
                 preparedStatement.setInt(4, piece.getPosition().y());
 
-                preparedStatement.executeUpdate(); // 쿼리 실행!
+                preparedStatement.executeUpdate();
             }
 
         } catch (final SQLException e) {
@@ -77,10 +76,6 @@ public class JanggiBoardDAO {
             preparedStatement.setInt(4, current.x());
             preparedStatement.setInt(5, current.y());
 
-            //한나라가 목적지로 이동을 했는데, 해당 목적지에 초나라 장기말이 있을 경우 해당 장기말은 사라지게됨.
-            //그러면 DB에서 어떻게 처리를 해야할 것인가.
-            //DB에서 한나라인데, 목적지의 x,y인 piece를 찾아서 삭제를 해야한다.
-
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new IllegalArgumentException("[ERROR] Pieces 테이블에 값 업데이트 중 에러 발생했습니다.");
@@ -100,9 +95,8 @@ public class JanggiBoardDAO {
 
     private List<Piece> selectRecords(int teamId) {
         List<Piece> pieces = new ArrayList<>();
-        String query = "SELECT piece_type, x, y FROM pieces WHERE team_id = ?";
 
-        try (final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(query)) {
+        try (final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(SELECT_QUERY)) {
             preparedStatement.setInt(1, teamId);
 
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {

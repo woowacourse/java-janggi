@@ -20,7 +20,7 @@ public class TeamDAO {
             preparedStatement.setString(1, CampType.HAN.getName());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new IllegalArgumentException("[ERROR] team 테이블에 값 추가 중 에러 발생", e);
+            throw new IllegalArgumentException("[ERROR] team 테이블에 값 추가 중 에러 발생했습니다.");
         }
     }
 }

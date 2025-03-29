@@ -29,6 +29,7 @@ public class DBConnector {
         try (final Statement stmt = getConnection().createStatement()) {
             stmt.executeUpdate(createTeamTable());
             stmt.executeUpdate(createPiecesTable());
+            stmt.executeUpdate(createTurnTable());
         } catch (final SQLException e) {
             throw new IllegalArgumentException("[ERROR] 테이블 생성 중 에러 발생");
         }
@@ -47,6 +48,12 @@ public class DBConnector {
                 + "y INT NOT NULL, "
                 + "FOREIGN KEY (team_id) REFERENCES team(id) ON DELETE CASCADE"
                 + ")";
+    }
+
+    private String createTurnTable() {
+        return "CREATE TABLE IF NOT EXISTS turn ("
+                + "id INT AUTO_INCREMENT PRIMARY KEY, "
+                + "current_turn CHAR(1) NOT NULL)";
     }
 
 }
