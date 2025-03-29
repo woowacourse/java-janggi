@@ -25,4 +25,16 @@ class ElephantTest {
                 .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
                 .withMessage("상은 중간에 기물이 0개여야 합니다.");
     }
+
+    @Test
+    void 상이_이동할_경로가_아닌_경우_예외가_발생한다() {
+        // given
+        Piece piece = new Elephant(new Position(1, 2), PieceDirection.ELEPHANT.get());
+        Position target = new Position(2, 3);
+
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> piece.getPaths(target))
+                .withMessage("이동할 수 없는 좌표입니다. 다시 확인해주세요.");
+    }
 }
