@@ -27,6 +27,14 @@ public record BoardVector(
         return Math.abs(dx) == step && Math.abs(dy) == step;
     }
 
+    public int getAbsDx() {
+        return Math.abs(dx);
+    }
+
+    public int getAbsDy() {
+        return Math.abs(dy);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

@@ -16,7 +16,7 @@ public enum Axis {
         @Override
         public List<BoardLocation> createAllPath(BoardLocation current, BoardVector boardVector) {
             List<BoardLocation> path = new ArrayList<>();
-            for (int i = 1; i < boardVector.dx(); i++) {
+            for (int i = 1; i < boardVector.getAbsDx(); i++) {
                 path.add(current.moveHorizon(i));
             }
             return path;
@@ -26,7 +26,7 @@ public enum Axis {
         @Override
         public List<BoardLocation> createAllPath(BoardLocation current, BoardVector boardVector) {
             List<BoardLocation> path = new ArrayList<>();
-            for (int i = 1; i < boardVector.dy(); i++) {
+            for (int i = 1; i < boardVector.getAbsDy(); i++) {
                 path.add(current.moveVertical(i));
             }
             return path;
@@ -36,8 +36,8 @@ public enum Axis {
         @Override
         public List<BoardLocation> createAllPath(BoardLocation current, BoardVector boardVector) {
             List<BoardLocation> path = new ArrayList<>();
-            for (int i = -1; i > boardVector.dx(); i--) {
-                path.add(current.moveHorizon(i));
+            for (int i = 1; i < boardVector.getAbsDx(); i++) {
+                path.add(current.moveHorizon(-i));
             }
             return path;
         }
@@ -46,8 +46,8 @@ public enum Axis {
         @Override
         public List<BoardLocation> createAllPath(BoardLocation current, BoardVector boardVector) {
             List<BoardLocation> path = new ArrayList<>();
-            for (int i = -1; i > boardVector.dy(); i--) {
-                path.add(current.moveVertical(i));
+            for (int i = 1; i < boardVector.getAbsDy(); i++) {
+                path.add(current.moveVertical(-i));
             }
             return path;
         }

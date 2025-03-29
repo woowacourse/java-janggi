@@ -12,8 +12,8 @@ public enum Quadrant {
         @Override
         public List<BoardLocation> createAllPath(BoardLocation current, BoardVector boardVector) {
             List<BoardLocation> path = new ArrayList<>();
-            int absDy = Math.abs(boardVector.dy());
-            for (int i = 1; i < absDy; i++) {
+
+            for (int i = 1; i < boardVector.getAbsDy(); i++) {
                 path.add(current.move(i, i));
             }
             return path;
@@ -23,9 +23,8 @@ public enum Quadrant {
         @Override
         public List<BoardLocation> createAllPath(BoardLocation current, BoardVector boardVector) {
             List<BoardLocation> path = new ArrayList<>();
-            int absDy = Math.abs(boardVector.dy());
 
-            for (int i = 1; i < absDy; i++) {
+            for (int i = 1; i < boardVector.getAbsDy(); i++) {
                 path.add(current.move(-i, i));
             }
             return path;
@@ -47,9 +46,8 @@ public enum Quadrant {
         @Override
         public List<BoardLocation> createAllPath(BoardLocation current, BoardVector boardVector) {
             List<BoardLocation> path = new ArrayList<>();
-            int absDy = Math.abs(boardVector.dy());
 
-            for (int i = 1; i < absDy; i++) {
+            for (int i = 1; i < boardVector.getAbsDy(); i++) {
                 path.add(current.move(i, -i));
             }
             return path;
