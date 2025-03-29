@@ -162,5 +162,22 @@ public class GeneralTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    // 궁성 내 대각선 1칸 이동
+    @Test
+    @DisplayName("장군은 대각선으로 1칸 이동할 수 있다")
+    void test11() {
+        // given
+        Position from = new Position(5, 9);
+        Position to = new Position(4, 8);
+        General general = new General(from);
+
+        //when
+
+        //then
+        assertThatCode(() -> general.validateDestination(to))
+                .doesNotThrowAnyException();
+    }
+
+    // 궁성 아닌 대각선
+
+    // 대각선 2칸
 }
