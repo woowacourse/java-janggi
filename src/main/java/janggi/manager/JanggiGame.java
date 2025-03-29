@@ -36,18 +36,8 @@ public class JanggiGame {
         outputView.writeStartMessage();
 
         JanggiBoardDAO janggiBoardDAO = new JanggiBoardDAO(dbConnector);
-        final List<Piece> choPieces = janggiBoardDAO.selectChoRecords();
-        final List<Piece> hanPieces = janggiBoardDAO.selectHanRecords();
 
-        final JanggiBoard janggiBoard;
-        if (!choPieces.isEmpty() && !hanPieces.isEmpty()) {
-            janggiBoard = new JanggiBoard(choPieces, hanPieces);
-        } else {
-            AssignType choAnswer = inputView.readAnswer(CampType.CHO);
-            AssignType hanAnswer = inputView.readAnswer(CampType.HAN);
-            janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
-            turnDAO.insertQuery(CampType.CHO);
-        }
+        final JanggiBoard janggiBoard = generateJanggiBoard(janggiBoardDAO, turnDAO);
         currentCampType = turnDAO.selectQuery();
 
         janggiBoardDAO.insertPieces(janggiBoard);
@@ -56,23 +46,55 @@ public class JanggiGame {
 
         while (true) {
             currentCampType = turnDAO.selectQuery();
-            if (currentCampType == CampType.CHO) {
-                boolean isChoNotCollapse = playChoTurn(janggiBoard, janggiBoardDAO);
-                if (!isChoNotCollapse) {
-                    break;
-                }
-                turnDAO.updateQuery(CampType.HAN);
+            if (isChoTurn(currentCampType, janggiBoard, janggiBoardDAO, turnDAO)) {
+                break;
             }
-            if (currentCampType == CampType.HAN) {
-                boolean isHanNotCollapse = playHanTurn(janggiBoard, janggiBoardDAO);
-                if (!isHanNotCollapse) {
-                    break;
-                }
-                turnDAO.updateQuery(CampType.CHO);
+            if (isHanTurn(currentCampType, janggiBoard, janggiBoardDAO, turnDAO)) {
+                break;
             }
         }
 
         outputView.writeTotalScore(janggiBoard.requestChoTotalScore(), janggiBoard.requestHanTotalScore());
+        closeGame(turnDAO, janggiBoardDAO);
+    }
+
+    private boolean isHanTurn(CampType currentCampType, JanggiBoard janggiBoard, JanggiBoardDAO janggiBoardDAO,
+                              TurnDAO turnDAO) {
+        if (currentCampType == CampType.HAN) {
+            boolean isHanNotCollapse = playHanTurn(janggiBoard, janggiBoardDAO);
+            if (!isHanNotCollapse) {
+                return true;
+            }
+            turnDAO.updateQuery(CampType.CHO);
+        }
+        return false;
+    }
+
+    private boolean isChoTurn(CampType currentCampType, JanggiBoard janggiBoard, JanggiBoardDAO janggiBoardDAO,
+                              TurnDAO turnDAO) {
+        if (currentCampType == CampType.CHO) {
+            boolean isChoNotCollapse = playChoTurn(janggiBoard, janggiBoardDAO);
+            if (!isChoNotCollapse) {
+                return true;
+            }
+            turnDAO.updateQuery(CampType.HAN);
+        }
+        return false;
+    }
+
+    private JanggiBoard generateJanggiBoard(JanggiBoardDAO janggiBoardDAO, TurnDAO turnDAO) {
+        final List<Piece> choPieces = janggiBoardDAO.selectChoRecords();
+        final List<Piece> hanPieces = janggiBoardDAO.selectHanRecords();
+        if (!choPieces.isEmpty() && !hanPieces.isEmpty()) {
+            return new JanggiBoard(choPieces, hanPieces);
+        }
+        AssignType choAnswer = inputView.readAnswer(CampType.CHO);
+        AssignType hanAnswer = inputView.readAnswer(CampType.HAN);
+        turnDAO.insertQuery(CampType.CHO);
+        return new JanggiBoard(choAnswer, hanAnswer);
+    }
+
+    private void closeGame(TurnDAO turnDAO, JanggiBoardDAO janggiBoardDAO) {
         turnDAO.dropTurnTable();
         janggiBoardDAO.dropTables();
     }
