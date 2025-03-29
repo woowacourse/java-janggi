@@ -25,30 +25,42 @@ public class PiecesTest {
     @DisplayName("계산")
     class Calculate {
 
-        @DisplayName("주어진 나라에 해당하는 총 점수를 반환한다.")
+        @DisplayName("주어진 나라에 해당하는 총 점수를 계산하여 반환한다.")
         @ParameterizedTest
         @MethodSource
-        void calculateAllScoreByCountry(final Piece piece, final JanggiScore expectedScore) {
+        void calculateAllScoreByCountry(final Piece piece, final JanggiScore expected, final Country country) {
             // given
             final Pieces pieces = new Pieces(List.of(piece));
 
             // when
-            final JanggiScore actual = pieces.calculateAllScoreByCountry(Country.CHO);
+            final JanggiScore actual = pieces.calculateAllScoreByCountry(country);
 
             // then
-            assertThat(actual).isEqualTo(expectedScore);
+            assertThat(actual).isEqualTo(expected);
         }
 
         static Stream<Arguments> calculateAllScoreByCountry() {
+            final double MAX_SCORE_OF_HAN = 73.5;
             final double MAX_SCORE_OF_CHO = 72;
+            final Country HAN = Country.HAN;
+            final Country CHO = Country.CHO;
+
             return Stream.of(
-                    Arguments.of(new Cannon(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 7)),
-                    Arguments.of(new Chariot(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 13)),
-                    Arguments.of(new Elephant(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 3)),
-                    Arguments.of(new General(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 0)),
-                    Arguments.of(new Guard(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 3)),
-                    Arguments.of(new Horse(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 5)),
-                    Arguments.of(new Soldier(Country.HAN), new JanggiScore(MAX_SCORE_OF_CHO - 2))
+                    Arguments.of(new Cannon(HAN), new JanggiScore(MAX_SCORE_OF_CHO - 7), CHO),
+                    Arguments.of(new Chariot(HAN), new JanggiScore(MAX_SCORE_OF_CHO - 13), CHO),
+                    Arguments.of(new Elephant(HAN), new JanggiScore(MAX_SCORE_OF_CHO - 3), CHO),
+                    Arguments.of(new General(HAN), new JanggiScore(MAX_SCORE_OF_CHO - 0), CHO),
+                    Arguments.of(new Guard(HAN), new JanggiScore(MAX_SCORE_OF_CHO - 3), CHO),
+                    Arguments.of(new Horse(HAN), new JanggiScore(MAX_SCORE_OF_CHO - 5), CHO),
+                    Arguments.of(new Soldier(HAN), new JanggiScore(MAX_SCORE_OF_CHO - 2), CHO),
+
+                    Arguments.of(new Cannon(CHO), new JanggiScore(MAX_SCORE_OF_HAN - 7), HAN),
+                    Arguments.of(new Chariot(CHO), new JanggiScore(MAX_SCORE_OF_HAN - 13), HAN),
+                    Arguments.of(new Elephant(CHO), new JanggiScore(MAX_SCORE_OF_HAN - 3), HAN),
+                    Arguments.of(new General(CHO), new JanggiScore(MAX_SCORE_OF_HAN - 0), HAN),
+                    Arguments.of(new Guard(CHO), new JanggiScore(MAX_SCORE_OF_HAN - 3), HAN),
+                    Arguments.of(new Horse(CHO), new JanggiScore(MAX_SCORE_OF_HAN - 5), HAN),
+                    Arguments.of(new Soldier(CHO), new JanggiScore(MAX_SCORE_OF_HAN - 2), HAN)
             );
         }
     }
