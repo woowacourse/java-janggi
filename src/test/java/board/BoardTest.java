@@ -16,6 +16,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import game.Turn;
 import piece.Cannon;
 import piece.Chariot;
+import piece.Elephant;
+import piece.Guard;
+import piece.Horse;
+import piece.King;
 import piece.Piece;
 import piece.Soldier;
 import piece.Team;
@@ -149,6 +153,68 @@ class BoardTest {
         return Stream.of(
                 Arguments.of(new Cannon(Team.RED), true),
                 Arguments.of(new Chariot(Team.RED), false)
+        );
+    }
+
+    @Test
+    void 후수인_한나라는_추가_점수가_존재한다() {
+        Board board = new Board(Map.of());
+        Map<Team, Double> scores = board.calculateTotalScore();
+
+        assertThat(scores).containsExactlyInAnyOrderEntriesOf(
+                Map.of(
+                        Team.BLUE, 0.0,
+                        Team.RED, 1.5
+                )
+        );
+    }
+
+    @MethodSource
+    @ParameterizedTest
+    void 현재_존재하는_기물에_따라_점수를_계산한다(Map<Position, Piece> pieces, double blueScore, double redScore) {
+        Board board = new Board(pieces);
+
+        assertThat(board.calculateTotalScore())
+                .containsExactlyInAnyOrderEntriesOf(
+                        Map.of(
+                                Team.BLUE, blueScore,
+                                Team.RED, redScore
+                        )
+                );
+    }
+
+    private static Stream<Arguments> 현재_존재하는_기물에_따라_점수를_계산한다() {
+        Position redPosition = new Position(1, 5);
+        Position bluePosition = new Position(10, 5);
+        return Stream.of(
+                Arguments.of(
+                        Map.of(redPosition, new King(Team.RED), bluePosition, new King(Team.BLUE)),
+                        0.0, 1.5
+                ),
+                Arguments.of(
+                        Map.of(redPosition, new Chariot(Team.RED), bluePosition, new Chariot(Team.BLUE)),
+                        13.0, 14.5
+                ),
+                Arguments.of(
+                        Map.of(redPosition, new Cannon(Team.RED), bluePosition, new Cannon(Team.BLUE)),
+                        7.0, 8.5
+                ),
+                Arguments.of(
+                        Map.of(redPosition, new Horse(Team.RED), bluePosition, new Horse(Team.BLUE)),
+                        5.0, 6.5
+                ),
+                Arguments.of(
+                        Map.of(redPosition, new Elephant(Team.RED), bluePosition, new Elephant(Team.BLUE)),
+                        3.0, 4.5
+                ),
+                Arguments.of(
+                        Map.of(redPosition, new Guard(Team.RED), bluePosition, new Guard(Team.BLUE)),
+                        3.0, 4.5
+                ),
+                Arguments.of(
+                        Map.of(redPosition, new Soldier(Team.RED), bluePosition, new Soldier(Team.BLUE)),
+                        2.0, 3.5
+                )
         );
     }
 

@@ -63,6 +63,17 @@ public class Board {
         throw new IllegalArgumentException("올바른 기물의 위치를 입력해주세요.");
     }
 
+    public Map<Team, Double> calculateTotalScore() {
+        Map<Team, Double> scoreBoard = Team.initializeScoreBoard();
+        for (Piece piece : pieces.values()) {
+            scoreBoard.keySet()
+                    .stream()
+                    .filter(piece::isSameTeam)
+                    .forEach(team -> scoreBoard.computeIfPresent(team, (key, value) -> value + piece.getScore()));
+        }
+        return scoreBoard;
+    }
+
     public Map<Position, Piece> getPieces() {
         return Collections.unmodifiableMap(pieces);
     }

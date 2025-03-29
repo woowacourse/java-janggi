@@ -32,6 +32,10 @@ public abstract class Piece {
         return team;
     }
 
+    public int getScore() {
+        return pieceType.getScore();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
