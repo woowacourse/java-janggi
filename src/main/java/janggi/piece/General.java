@@ -9,6 +9,8 @@ import static janggi.moving.Movement.LEFT;
 import static janggi.moving.Movement.RIGHT;
 import static janggi.moving.Movement.UP;
 
+import janggi.board.position.Column;
+import janggi.board.position.Row;
 import janggi.moving.Movements;
 import janggi.moving.Path;
 import janggi.moving.PossibleMovements;
@@ -37,6 +39,14 @@ public class General extends Piece {
             if (!castle.contains(position)) {
                 throw new IllegalArgumentException("[ERROR] 궁은 궁성을 벗어날 수 없습니다.");
             }
+        }
+        List<Position> centralOfGreenCastleBorder = List.of(new Position(Column.FOUR, Row.ZERO),
+                new Position(Column.FOUR, Row.TWO), new Position(Column.THREE, Row.ONE),
+                new Position(Column.FIVE, Row.ONE));
+        boolean isOneStep = path.isOneStep();
+        boolean isFirstAndLastInCastleBorder = path.firstAndLastIn(centralOfGreenCastleBorder);
+        if (isOneStep && isFirstAndLastInCastleBorder) {
+            throw new IllegalArgumentException("[ERROR] 선이 존재하는 경우에만 이동할 수 있습니다.");
         }
         validateNonPieceOnPath(board, path);
     }

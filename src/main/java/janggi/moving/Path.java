@@ -26,6 +26,16 @@ public class Path {
         return last.equals(position);
     }
 
+    public boolean isOneStep() {
+        return path.size() == 2;
+    }
+
+    public boolean firstAndLastIn(List<Position> positions) {
+        Position first = path.getFirst();
+        Position last = path.getLast();
+        return positions.contains(first) && positions.contains(first);
+    }
+
     public List<Position> getPath() {
         return path;
     }
