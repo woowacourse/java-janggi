@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 class CannonTest {
     @Test
-    @DisplayName("포는 수평/수직으로만 움직일 수 있고 한칸 이상 이동해야 한다")
+    @DisplayName("포는 수평/수직으로만 움직일 수 있다")
     void test1() {
         // given
         Cannon cannonUnitRule = new Cannon(Team.CHO);
@@ -38,6 +38,7 @@ class CannonTest {
                 Route.of(List.of(
                         new Position(1, 0), new Position(2, 0), new Position(3, 0))),
                 Route.of(List.of(new Position(1, 0), new Position(2, 0))),
+                Route.of(List.of(new Position(1, 0))),
                 Route.of(List.of(
                         new Position(0, 1), new Position(0, 2), new Position(0, 3), new Position(0, 4),
                         new Position(0, 5), new Position(0, 6), new Position(0, 7), new Position(0, 8),
@@ -59,6 +60,7 @@ class CannonTest {
                 Route.of(List.of(
                         new Position(0, 1), new Position(0, 2), new Position(0, 3))),
                 Route.of(List.of(
-                        new Position(0, 1), new Position(0, 2))));
+                        new Position(0, 1), new Position(0, 2))),
+                Route.of(List.of(new Position(0, 1))));
     }
 }

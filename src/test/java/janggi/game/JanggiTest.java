@@ -28,11 +28,10 @@ class JanggiTest {
         // given
         Janggi janggi = new Janggi(new Pieces(), Team.CHO);
 
-        // when
-        List<Route> routes = janggi.searchAvailableRoutes(new Position(1, 7));
-
-        // then
-        Assertions.assertThat(routes).hasSize(0);
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggi.searchAvailableRoutes(new Position(1, 7)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 기물의 이동 가능한 경로가 없습니다.");
     }
 
     @Test
