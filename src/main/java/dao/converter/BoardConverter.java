@@ -38,11 +38,11 @@ public class BoardConverter {
         PathFinderFactory pathFinderFactory = new PathFinderFactory();
         PathFinder pathFinder = pathFinderFactory.createDefaultPathFinder();
 
-        Map<Point, Piece> boardPieces = convertToPieceEntities(pieceEntities);
+        Map<Point, Piece> boardPieces = convertToPieceByPoint(pieceEntities);
         return new Board(boardPieces, pathFinder);
     }
 
-    private static Map<Point, Piece> convertToPieceEntities(List<PieceEntity> pointPieces) {
+    private static Map<Point, Piece> convertToPieceByPoint(List<PieceEntity> pointPieces) {
         return pointPieces.stream()
                 .collect(Collectors.toMap(
                         pointPiece -> Point.of(pointPiece.rowIndex(), pointPiece.columnIndex()),
