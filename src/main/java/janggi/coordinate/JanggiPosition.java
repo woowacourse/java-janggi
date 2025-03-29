@@ -37,7 +37,7 @@ public record JanggiPosition(int x, int y) {
     }
 
     public boolean isSamePalace(final JanggiPosition janggiPosition){
-        if(this.isInsidePalace() && janggiPosition.isInsidePalace()){
+        if(!(this.isInsidePalace() && janggiPosition.isInsidePalace())){
             return false;
         }
         return this.calculateDistance(janggiPosition) <= MAX_DISTANCE_OF_SAME_PALACE;
