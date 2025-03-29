@@ -66,12 +66,6 @@ public final class Position {
         return source;
     }
 
-    public void print(){
-        System.out.print("row = " + row);
-        System.out.println("   column = " + column);
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

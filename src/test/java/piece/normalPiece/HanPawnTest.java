@@ -37,10 +37,6 @@ public class HanPawnTest {
         // when
         Set<Position> positions = hanPawn.possibleRoutes(board);
 
-        for (Position position : positions) {
-            position.print();
-        }
-
         // then
         assertThat(positions).containsOnly(E0, D1, F1, D0, F0);
     }

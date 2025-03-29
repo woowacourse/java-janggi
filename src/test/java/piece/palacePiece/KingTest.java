@@ -39,9 +39,6 @@ public class KingTest {
         // when
         Set<Position> positions = king.possibleRoutes(board);
 
-        for (Position position : positions) {
-            position.print();
-        }
         // then
         assertThat(positions).containsOnly(D0, D1, D2, E0, E2, F0, F1, F2);
     }
