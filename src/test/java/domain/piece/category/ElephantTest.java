@@ -27,7 +27,7 @@ class ElephantTest {
     }
 
     @Test
-    void 상이_이동할_경로가_아닌_경우_예외가_발생한다() {
+    void 이동_경로가_아닌_경우_예외가_발생한다() {
         // given
         Piece piece = new Elephant(new Position(1, 2), PieceDirection.ELEPHANT.get());
         Position target = new Position(2, 3);
