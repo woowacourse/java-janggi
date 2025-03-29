@@ -21,6 +21,10 @@ public class Player {
         return name;
     }
 
+    public TeamType getTeamType() {
+        return teamType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

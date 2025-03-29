@@ -17,6 +17,10 @@ public class Players {
                 new Player(usernames.getAnotherPlayerName(startPlayerName), TeamType.HAN));
     }
 
+    public static Players initialize(Player choPlayer, Player hanPlayer){
+        return new Players(choPlayer,hanPlayer);
+    }
+
     private static void validateHasName(Usernames usernames, String startPlayerName) {
         if (isNameNotExist(usernames, startPlayerName)) {
             throw new IllegalArgumentException("존재하지 않은 이름입니다.");
@@ -25,6 +29,14 @@ public class Players {
 
     private static boolean isNameNotExist(Usernames usernames, String startPlayerName) {
         return !usernames.hasUsername(startPlayerName);
+    }
+
+    public Player getChoPlayer() {
+        return choPlayer;
+    }
+
+    public Player getHanPlayer() {
+        return hanPlayer;
     }
 
     public String getChoPlayerName() {
