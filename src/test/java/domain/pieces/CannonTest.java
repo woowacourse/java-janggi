@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
+import domain.player.Player;
 import domain.player.Team;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,7 @@ public final class CannonTest {
     @DisplayName("같은 팀인지 확인한다.")
     void test_hasEqualTeam() {
         //given
-        final Piece cannon = new Cannon(Team.CHO);
+        final Piece cannon = new Cannon(new Player(0, Team.CHO));
 
         //when&then
         assertThat(cannon.hasEqualTeam(Team.CHO)).isTrue();
@@ -27,7 +28,7 @@ public final class CannonTest {
     @DisplayName("도착할 수 있는지 확인한다.")
     void test_IsAbleToArrive() {
         // given
-        final Cannon cannon = new Cannon(Team.CHO);
+        final Cannon cannon = new Cannon(new Player(0, Team.CHO));
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(0, 9);
 
@@ -42,7 +43,7 @@ public final class CannonTest {
     @DisplayName("도착할 수 없는지 확인한다.")
     void test_IsNotAbleToArrive() {
         // given
-        final Cannon cannon = new Cannon(Team.CHO);
+        final Cannon cannon = new Cannon(new Player(0, Team.CHO));
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(3, 3);
 
@@ -58,7 +59,7 @@ public final class CannonTest {
     @DisplayName("도착점까지의 경로를 모두 반환한다.")
     void test_searchRoutePoints() {
         // given
-        final Cannon cannon = new Cannon(Team.CHO);
+        final Cannon cannon = new Cannon(new Player(0, Team.CHO));
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(0, 3);
 
@@ -77,8 +78,8 @@ public final class CannonTest {
     @DisplayName("경로 상 기물이 하나 있어야 이동 할 수 있다.")
     void test_isMovableOnRouteWhenPieceOnRoute() {
         //given
-        final Cannon cannon = new Cannon(Team.CHO);
-        final Chariot chariot = new Chariot(Team.CHO);
+        final Cannon cannon = new Cannon(new Player(0, Team.CHO));
+        final Chariot chariot = new Chariot(new Player(0, Team.CHO));
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, null, null));
 
         //when&then
@@ -89,7 +90,7 @@ public final class CannonTest {
     @DisplayName("경로 상 포가 있으면 이동할 수 없다.")
     void test_isMovableOnRouteWhenCannonOnRoute() {
         //given
-        final Cannon cannon = new Cannon(Team.CHO);
+        final Cannon cannon = new Cannon(new Player(0, Team.CHO));
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(cannon, null, null));
 
         //when&then
@@ -100,7 +101,7 @@ public final class CannonTest {
     @DisplayName("경로 상 기물이 없으면 이동할 수 없다.")
     void test_isMovableOnRoute() {
         //given
-        final Cannon Cannon = new Cannon(Team.CHO);
+        final Cannon Cannon = new Cannon(new Player(0, Team.CHO));
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, null));
 
         //when&then
@@ -111,8 +112,8 @@ public final class CannonTest {
     @DisplayName("경로 상 기물이 둘이면 이동할 수 없다.")
     void test_isMovableOnRouteWhenPiecesOnRoute() {
         //given
-        final Cannon Cannon = new Cannon(Team.CHO);
-        final Chariot chariot = new Chariot(Team.CHO);
+        final Cannon Cannon = new Cannon(new Player(0, Team.CHO));
+        final Chariot chariot = new Chariot(new Player(0, Team.CHO));
 
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, chariot, null));
 
@@ -124,8 +125,8 @@ public final class CannonTest {
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceIsInOtherTeamOnRoute() {
         //given
-        final Piece cannon = new Cannon(Team.HAN);
-        final Piece chariot = new Chariot(Team.HAN);
+        final Piece cannon = new Cannon(new Player(0, Team.HAN));
+        final Piece chariot = new Chariot(new Player(0, Team.HAN));
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(chariot, null, chariot));
 
         //when&then
@@ -136,8 +137,8 @@ public final class CannonTest {
     @DisplayName("포는 팀에 따라 다르게 이름을 반환한다.")
     void test_toString() {
         //given
-        final Piece pieceForCho = new Cannon(Team.CHO);
-        final Piece pieceForHan = new Cannon(Team.HAN);
+        final Piece pieceForCho = new Cannon(new Player(0, Team.CHO));
+        final Piece pieceForHan = new Cannon(new Player(0, Team.HAN));
 
         //when&then
         assertThat(pieceForCho.getName()).isEqualTo("포");

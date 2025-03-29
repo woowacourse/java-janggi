@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.board.PiecesOnRoute;
 import domain.board.Point;
+import domain.player.Player;
 import domain.player.Team;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,7 @@ public final class ElephantTest {
     @DisplayName("같은 팀인지 확인한다.")
     void test_hasEqualTeam() {
         //given
-        final Piece piece = new Elephant(Team.CHO);
+        final Piece piece = new Elephant(new Player(0, Team.CHO));
 
         //when&then
         assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
@@ -27,7 +28,7 @@ public final class ElephantTest {
     @DisplayName("피스가 이동할 수 있는 지점들을 전부 반환한다")
     void test_isAbleToArrive() {
         // given
-        final Elephant elephant = new Elephant(Team.CHO);
+        final Elephant elephant = new Elephant(new Player(0, Team.CHO));
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(3, 2);
 
@@ -42,7 +43,7 @@ public final class ElephantTest {
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
     void test_searchRoutePoints() {
         // given
-        final Elephant elephant = new Elephant(Team.CHO);
+        final Elephant elephant = new Elephant(new Player(0, Team.CHO));
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(3, 2);
 
@@ -61,7 +62,7 @@ public final class ElephantTest {
     @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
     void test_isMovableOnRouteWhenPieceOnRoute() {
         //given
-        final Elephant elephant = new Elephant(Team.CHO);
+        final Elephant elephant = new Elephant(new Player(0, Team.CHO));
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(elephant, null, null));
 
         //when&then
@@ -72,7 +73,7 @@ public final class ElephantTest {
     @DisplayName("경로 상 기물이 없으면 이동할 수 있다.")
     void test_isMovableOnRoute() {
         //given
-        final Elephant elephant = new Elephant(Team.CHO);
+        final Elephant elephant = new Elephant(new Player(0, Team.CHO));
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, null));
 
         //when&then
@@ -83,7 +84,7 @@ public final class ElephantTest {
     @DisplayName("도착점에 아군 기물이 있을 경우, 이동할 수 없다.")
     void test_isMovableWhenPieceIsInMyTeamOnRoute() {
         //given
-        final Elephant elephant = new Elephant(Team.CHO);
+        final Elephant elephant = new Elephant(new Player(0, Team.CHO));
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, elephant));
 
         //when&then
@@ -94,8 +95,8 @@ public final class ElephantTest {
     @DisplayName("도착점에 적군 기물이 있을 경우, 이동할 수 있다.")
     void test_isMovableWhenPieceIsInOtherTeamOnRoute() {
         //given
-        final Elephant elephantHan = new Elephant(Team.HAN);
-        final Elephant elephantCho = new Elephant(Team.CHO);
+        final Elephant elephantHan = new Elephant(new Player(0, Team.HAN));
+        final Elephant elephantCho = new Elephant(new Player(0, Team.CHO));
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, elephantCho));
 
         //when&then
@@ -106,8 +107,8 @@ public final class ElephantTest {
     @DisplayName("상은 팀에 따라 다르게 이름을 반환한다.")
     void test_toString() {
         //given
-        final Piece pieceForCho = new Elephant(Team.CHO);
-        final Piece pieceForHan = new Elephant(Team.HAN);
+        final Piece pieceForCho = new Elephant(new Player(0, Team.CHO));
+        final Piece pieceForHan = new Elephant(new Player(0, Team.HAN));
 
         //when&then
         assertThat(pieceForCho.getName()).isEqualTo("상");

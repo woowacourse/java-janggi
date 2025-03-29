@@ -20,6 +20,10 @@ public interface Piece {
 
     Score getScore();
 
+    PieceName getType();
+
+    int getPlayerId();
+
     default boolean canNotJumpOver() {
         return false;
     }

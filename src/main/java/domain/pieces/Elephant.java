@@ -6,26 +6,27 @@ import domain.movements.DefaultMovement;
 import domain.movements.Direction;
 import domain.movements.PieceMovement;
 import domain.movements.Route;
+import domain.player.Player;
 import domain.player.Score;
 import domain.player.Team;
 import java.util.List;
 import java.util.Objects;
 
 public final class Elephant implements Piece {
-
+    private static final PieceName ELEPHANT = PieceName.ELEPHANT;
     private static final Score score = new Score(7.0);
 
-    private final Team team;
+    private final Player player;
     private final PieceMovement movement;
 
-    public Elephant(final Team team) {
-        this.team = Objects.requireNonNull(team, "Team 정보가 NULL일 수 없습니다.");
+    public Elephant(final Player player) {
+        this.player = Objects.requireNonNull(player, "Team 정보가 NULL일 수 없습니다.");
         this.movement = generateMovementForElephant();
     }
 
     @Override
     public boolean hasEqualTeam(final Team team) {
-        return this.team.equals(team);
+        return this.player.getTeam().equals(team);
     }
 
     @Override
@@ -35,7 +36,7 @@ public final class Elephant implements Piece {
 
     @Override
     public boolean isMovableOnRoute(final PiecesOnRoute piecesOnRoute) {
-        if (piecesOnRoute.hasSameTeamOnArrivalPoint(team)) {
+        if (piecesOnRoute.hasSameTeamOnArrivalPoint(player.getTeam())) {
             return false;
         }
         return piecesOnRoute.hasNotPieceOnRoute();
@@ -48,12 +49,22 @@ public final class Elephant implements Piece {
 
     @Override
     public String getName() {
-        return PieceName.ELEPHANT.getNameForTeam(team);
+        return ELEPHANT.getNameForTeam(player.getTeam());
     }
 
     @Override
     public Score getScore() {
         return score;
+    }
+
+    @Override
+    public PieceName getType() {
+        return ELEPHANT;
+    }
+
+    @Override
+    public int getPlayerId() {
+        return player.getId();
     }
 
     private DefaultMovement generateMovementForElephant() {

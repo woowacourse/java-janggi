@@ -6,6 +6,7 @@ import domain.movements.DefaultMovement;
 import domain.movements.Direction;
 import domain.movements.PieceMovement;
 import domain.movements.Route;
+import domain.player.Player;
 import domain.player.Score;
 import domain.player.Team;
 import java.util.ArrayList;
@@ -13,25 +14,25 @@ import java.util.List;
 import java.util.Objects;
 
 public final class Soldier implements Piece {
-
+    private static final PieceName SOLDIER = PieceName.SOLDIER;
     private static final Score score = new Score(2.0);
 
-    private final Team team;
+    private final Player player;
     private final PieceMovement movement;
 
-    public Soldier(final Team team) {
-        this.team = Objects.requireNonNull(team, "Team 정보가 NULL일 수 없습니다.");
-        this.movement = getDefaultMovementByTeam(team);
+    public Soldier(final Player player) {
+        this.player = Objects.requireNonNull(player, "Team 정보가 NULL일 수 없습니다.");
+        this.movement = getDefaultMovementByTeam(player.getTeam());
     }
 
-    public Soldier(Team team, PieceMovement movement) {
-        this.team = team;
+    public Soldier(final Player player, final PieceMovement movement) {
+        this.player = player;
         this.movement = movement;
     }
 
     @Override
     public boolean hasEqualTeam(final Team team) {
-        return this.team.equals(team);
+        return this.player.getTeam().equals(team);
     }
 
     @Override
@@ -41,7 +42,7 @@ public final class Soldier implements Piece {
 
     @Override
     public boolean isMovableOnRoute(final PiecesOnRoute piecesOnRoute) {
-        return !piecesOnRoute.hasSameTeamOnArrivalPoint(team);
+        return !piecesOnRoute.hasSameTeamOnArrivalPoint(player.getTeam());
     }
 
     @Override
@@ -51,7 +52,7 @@ public final class Soldier implements Piece {
 
     @Override
     public String getName() {
-        return PieceName.SOLDIER.getNameForTeam(team);
+        return SOLDIER.getNameForTeam(player.getTeam());
     }
 
     @Override
@@ -60,8 +61,18 @@ public final class Soldier implements Piece {
     }
 
     @Override
+    public PieceName getType() {
+        return SOLDIER;
+    }
+
+    @Override
+    public int getPlayerId() {
+        return player.getId();
+    }
+
+    @Override
     public Piece inRangeOfPalace() {
-        return new Soldier(team, generateMovementInPalaceByTeam(team));
+        return new Soldier(player, generateMovementInPalaceByTeam(player.getTeam()));
     }
 
     private PieceMovement getDefaultMovementByTeam(final Team team) {

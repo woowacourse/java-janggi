@@ -4,32 +4,33 @@ import domain.board.PiecesOnRoute;
 import domain.board.Point;
 import domain.movements.PieceMovement;
 import domain.movements.StraightLineMovement;
+import domain.player.Player;
 import domain.player.Score;
 import domain.player.Team;
 import java.util.List;
 import java.util.Objects;
 
 public final class Cannon implements Piece {
-
     private static final int VALID_BETWEEN_PIECE_COUNT = 1;
+    private static final PieceName CANNON = PieceName.CANNON;
     private static final Score score = new Score(2.0);
 
-    private final Team team;
+    private final Player player;
     private final PieceMovement movement;
 
-    public Cannon(final Team team) {
-        this.team = Objects.requireNonNull(team, "Team 정보가 NULL일 수 없습니다.");
+    public Cannon(final Player player) {
+        this.player = Objects.requireNonNull(player, "Team 정보가 NULL일 수 없습니다.");
         this.movement = new StraightLineMovement();
     }
 
-    public Cannon(Team team, PieceMovement movement) {
-        this.team = team;
+    public Cannon(Player player, PieceMovement movement) {
+        this.player = player;
         this.movement = movement;
     }
 
     @Override
     public boolean hasEqualTeam(final Team team) {
-        return this.team.equals(team);
+        return this.player.getTeam().equals(team);
     }
 
     @Override
@@ -47,7 +48,7 @@ public final class Cannon implements Piece {
         if (piecesOnRoute.canNotJumpOverFirstPiece()) {
             return false;
         }
-        return !piecesOnRoute.hasSameTeamOnArrivalPoint(team);
+        return !piecesOnRoute.hasSameTeamOnArrivalPoint(player.getTeam());
     }
 
     @Override
@@ -62,7 +63,7 @@ public final class Cannon implements Piece {
 
     @Override
     public String getName() {
-        return PieceName.CANNON.getNameForTeam(team);
+        return CANNON.getNameForTeam(player.getTeam());
     }
 
     @Override
@@ -71,7 +72,17 @@ public final class Cannon implements Piece {
     }
 
     @Override
+    public PieceName getType() {
+        return CANNON;
+    }
+
+    @Override
+    public int getPlayerId() {
+        return player.getId();
+    }
+
+    @Override
     public Piece inRangeOfPalace() {
-        return new Cannon(team, StraightLineMovement.generateInRangeOfPalace());
+        return new Cannon(player, StraightLineMovement.generateInRangeOfPalace());
     }
 }
