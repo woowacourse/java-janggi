@@ -12,9 +12,9 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       TZ: Asia/Seoul
+    command: --bind-address=0.0.0.0
     volumes:
       - ./production/db/mysql/data:/var/lib/mysql
-      - ./production/db/mysql/config:/etc/mysql/conf.d
       - ./production/db/mysql/init:/docker-entrypoint-initdb.d
 
   test_db:
@@ -25,11 +25,11 @@ services:
       - "23306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: janggi_test
+      MYSQL_DATABASE: janggi
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       TZ: Asia/Seoul
+    command: --bind-address=0.0.0.0
     volumes:
       - ./test/db/mysql/data:/var/lib/mysql
-      - ./test/db/mysql/config:/etc/mysql/conf.d
       - ./test/db/mysql/init:/docker-entrypoint-initdb.d
