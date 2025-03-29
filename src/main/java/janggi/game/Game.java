@@ -4,6 +4,7 @@ import janggi.movement.target.AttackedPiece;
 import janggi.piece.Piece;
 import janggi.point.Point;
 import janggi.score.ScoreResult;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +12,21 @@ public class Game {
     private final Board board;
     private final List<AttackedPiece> attackedPieces;
     private Team turn;
+    private final LocalDateTime createdAt; //TODO 이게맞나.
 
     public Game() {
-        this.board = Board.init();
-        this.attackedPieces = new ArrayList<>();
-        this.turn = Team.CHO;
+        this(Board.init(), new ArrayList<>(), Team.CHO, LocalDateTime.now());
+    }
+
+    public Game(LocalDateTime createdAt) {
+        this(Board.init(), new ArrayList<>(), Team.CHO, createdAt);
+    }
+
+    private Game(Board board, List<AttackedPiece> attackedPieces, Team turn, LocalDateTime createdAt) {
+        this.board = board;
+        this.attackedPieces = attackedPieces;
+        this.createdAt = createdAt;
+        this.turn = turn;
     }
 
     public Piece findMovingPiece(Point movingPoint) {
@@ -65,5 +76,9 @@ public class Game {
 
     public Team getTurn() {
         return turn;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

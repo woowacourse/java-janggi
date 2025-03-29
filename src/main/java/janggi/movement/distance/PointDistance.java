@@ -1,6 +1,5 @@
 package janggi.movement.distance;
 
-
 import janggi.point.Point;
 
 public class PointDistance {
