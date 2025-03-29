@@ -2,14 +2,30 @@ package janggi.game;
 
 import janggi.piece.pieces.Piece;
 import janggi.position.Position;
+import java.util.HashMap;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PiecesTest {
+    public static final int DEFAULT_UNIT_SIZE = 32;
+
+    @Test
+    @DisplayName("Pieces 생성 시 기물을 초기화한다")
+    void test() {
+        // given
+        Pieces pieces = new Pieces();
+
+        // when
+        HashMap<Position, Piece> piecesInPosition = pieces.getPieces();
+
+        // then
+        Assertions.assertThat(piecesInPosition).hasSize(DEFAULT_UNIT_SIZE);
+    }
+
     @Test
     @DisplayName("해당 위치에 기물이 있다면 반환한다.")
-    void test() {
+    void test1() {
         // given
         Pieces pieces = new Pieces();
 
@@ -56,7 +72,7 @@ class PiecesTest {
 
         // then
         Assertions.assertThat(pieces.isExistPiece(endPosition)).isTrue();
-        Assertions.assertThat(pieces.getPieces()).hasSize(32);
+        Assertions.assertThat(pieces.getPieces()).hasSize(DEFAULT_UNIT_SIZE);
     }
 
     @Test
@@ -72,6 +88,6 @@ class PiecesTest {
 
         // then
         Assertions.assertThat(pieces.isExistPiece(endPosition)).isTrue();
-        Assertions.assertThat(pieces.getPieces()).hasSize(31);
+        Assertions.assertThat(pieces.getPieces()).hasSize(DEFAULT_UNIT_SIZE - 1);
     }
 }
