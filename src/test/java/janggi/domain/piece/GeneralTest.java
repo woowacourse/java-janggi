@@ -12,53 +12,39 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-@DisplayName("차 테스트")
-class ChariotTest {
+@DisplayName("궁 테스트")
+class GeneralTest {
 
     Dynasty currentTurnDynasty = Dynasty.HAN;
-    Piece chariot = new Chariot(currentTurnDynasty);
+    Piece general = new General(currentTurnDynasty);
 
-    @DisplayName("차가 가는 방향에 기물이 없다면 이동할 수 있다.")
+    @DisplayName("궁이 가는 방향에 기물이 없다면 이동할 수 있다.")
     @ParameterizedTest
     @CsvSource({
-            "4, 4, 4, 1",
-            "4, 4, 1, 4",
-            "4, 4, 8, 4",
-            "4, 4, 4, 8"
+            "2, 5, 1, 4",
+            "2, 5, 1, 5",
+            "2, 5, 3, 5",
+            "2, 5, 3, 5"
     })
     void canMove(int x1, int y1, int x2, int y2) {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
 
         // when
-        boolean canMove = chariot.canMove(janggiBoard, currentTurnDynasty, new Point(x1, y1), new Point(x2, y2));
+        boolean canMove = general.canMove(janggiBoard, currentTurnDynasty, new Point(x1, y1), new Point(x2, y2));
 
         // then
         assertThat(canMove).isTrue();
     }
 
-    @DisplayName("차가 규칙 상 갈 수 없는 목적지는 갈 수 없다.")
+    @DisplayName("궁이 규칙 상 갈 수 없는 목적지는 갈 수 없다.")
     @Test
     void isNotMovable_WhenImpossibleEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
 
         // when, then
-        assertThatThrownBy(() -> chariot.canMove(janggiBoard, currentTurnDynasty, new Point(1, 1), new Point(2, 2)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 위치로 이동할 수 없습니다.");
-    }
-
-    @DisplayName("차가 가는 방향에 기물이 있다면 이동할 수 없다.")
-    @Test
-    void isNotMovable_WhenPieceInPath() {
-        // given
-        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(1, 2), new Horse(Dynasty.HAN)
-        ));
-
-        // when, then
-        assertThatThrownBy(() -> chariot.canMove(janggiBoard, currentTurnDynasty, new Point(1, 1), new Point(1, 4)))
+        assertThatThrownBy(() -> general.canMove(janggiBoard, currentTurnDynasty, new Point(2, 4), new Point(2, 3)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
@@ -68,15 +54,41 @@ class ChariotTest {
     void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(1, 4), new Horse(Dynasty.CHU)
+                new Point(2, 4), new Horse(Dynasty.CHU)
         ));
 
         // when
-        boolean canMove = chariot.canMove(janggiBoard, currentTurnDynasty, new Point(1, 1), new Point(1, 4));
+        boolean canMove = general.canMove(janggiBoard, currentTurnDynasty, new Point(2, 5), new Point(2, 4));
 
         // then
         assertThat(canMove)
                 .isTrue();
+    }
+
+    @DisplayName("궁은 자신의 궁성안에서만 움직일 수 있다")
+    @Test
+    void isMovable_InPalace() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
+
+        // when
+        boolean canMove = general.canMove(janggiBoard, currentTurnDynasty, new Point(2, 5), new Point(2, 4));
+
+        // then
+        assertThat(canMove)
+                .isTrue();
+    }
+
+    @DisplayName("궁은 자신의 궁성밖에서는 움직일 수 없다")
+    @Test
+    void isNotMovable_InPalace() {
+        // given
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of());
+
+        // then
+        assertThatThrownBy(() -> general.canMove(janggiBoard, currentTurnDynasty, new Point(1,4), new Point(1, 3)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
 
     @DisplayName("같은 나라인지 확인한다")
@@ -88,7 +100,7 @@ class ChariotTest {
     })
     void isSameDynasty(Dynasty pieceDynasty, Dynasty compareDynasty, boolean expected) {
         // given
-        Chariot dynastyChariot = new Chariot(pieceDynasty);
+        General dynastyChariot = new General(pieceDynasty);
 
         // when
         assertThat(dynastyChariot.isSameDynasty(compareDynasty))
@@ -98,14 +110,14 @@ class ChariotTest {
     @DisplayName("같은 피스인지 확인한다")
     @Test
     void isEqualPieceType_True() {
-        assertThat(chariot.isEqualPieceType(PieceType.CHARIOT))
+        assertThat(general.isEqualPieceType(PieceType.GENERAL))
                 .isTrue();
     }
 
     @DisplayName("다른 피스인지 확인한다")
     @Test
     void isEqualPieceType_False() {
-        assertThat(chariot.isEqualPieceType(PieceType.CANNON))
+        assertThat(general.isEqualPieceType(PieceType.CANNON))
                 .isFalse();
     }
 }

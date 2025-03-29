@@ -82,4 +82,37 @@ public class SoldierTest {
         assertThat(canMove)
                 .isTrue();
     }
+
+    @DisplayName("같은 나라인지 확인한다")
+    @ParameterizedTest
+    @CsvSource({
+            "HAN, true",
+            "CHU, false"
+    })
+    void isSameDynasty(Dynasty compareDynasty, boolean expected) {
+        // given
+        Soldier dynastySoldier = new HanSoldier();
+
+        // when
+        assertThat(dynastySoldier.isSameDynasty(compareDynasty))
+                .isSameAs(expected);
+    }
+
+    @DisplayName("같은 피스인지 확인한다")
+    @Test
+    void isEqualPieceType_True() {
+        Piece soldier = new ChuSoldier();
+
+        assertThat(soldier.isEqualPieceType(PieceType.SOLIDER))
+                .isTrue();
+    }
+
+    @DisplayName("다른 피스인지 확인한다")
+    @Test
+    void isEqualPieceType_False() {
+        Piece soldier = new ChuSoldier();
+
+        assertThat(soldier.isEqualPieceType(PieceType.CANNON))
+                .isFalse();
+    }
 }

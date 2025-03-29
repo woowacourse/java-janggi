@@ -9,6 +9,8 @@ import janggi.domain.board.Point;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @DisplayName("포 테스트")
 class CannonTest {
@@ -101,5 +103,35 @@ class CannonTest {
         // then
         assertThat(isMovable)
                 .isTrue();
+    }
+
+    @DisplayName("같은 나라인지 확인한다")
+    @ParameterizedTest
+    @CsvSource({
+            "HAN, HAN, true",
+            "CHU, CHU, true",
+            "HAN, CHU, false"
+    })
+    void isSameDynasty(Dynasty pieceDynasty, Dynasty compareDynasty, boolean expected) {
+        // given
+        Cannon dynastyCannon = new Cannon(pieceDynasty);
+
+        // when
+        assertThat(dynastyCannon.isSameDynasty(compareDynasty))
+                .isSameAs(expected);
+    }
+
+    @DisplayName("같은 피스인지 확인한다")
+    @Test
+    void isEqualPieceType_True() {
+        assertThat(cannon.isEqualPieceType(PieceType.CANNON))
+                .isTrue();
+    }
+
+    @DisplayName("다른 피스인지 확인한다")
+    @Test
+    void isEqualPieceType_False() {
+        assertThat(cannon.isEqualPieceType(PieceType.CHARIOT))
+                .isFalse();
     }
 }
