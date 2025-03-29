@@ -90,4 +90,12 @@ public class Board {
     public boolean isUpperPalaceCorner(Position other) {
         return palace.isUpperPalaceCorner(other);
     }
+
+    public Position getBottomPalaceCenter() {
+        return palace.getBottomPalaceCenter();
+    }
+
+    public Position getUpperPalaceCenter() {
+        return palace.getUpperPalaceCenter();
+    }
 }

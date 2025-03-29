@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.board.Board;
 import janggi.board.Position;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -72,5 +73,123 @@ class ChariotTest {
         assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
                 .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("[ERROR] 차는 상하좌우 일직선으로만 이동 가능합니다.");
+    }
+
+    @CsvSource(value = {"3:7:4:8", "3:7:5:9", "5:7:3:9", "5:7:4:8", "3:9:4:8", "3:9:5:7", "5:9:3:7", "5:9:4:8"}, delimiterString = ":")
+    @ParameterizedTest
+    void 상단부_궁성_내부에서_대각이동을_한다(int startColumn, int startRow, int goalColumn, int goalRow) {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = new Position(startColumn, startRow);
+        Position goal = createPosition(goalColumn, goalRow);
+        Chariot piece = new Chariot(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(() -> initialBoard);
+
+        // when
+        board.movePiece(start, goal, Team.GREEN);
+
+        // then
+        Assertions.assertThat(board).extracting("board")
+                .asInstanceOf(MAP)
+                .containsEntry(goal, piece);
+    }
+
+    @CsvSource(value = {"3:9:6:6", "5:9:2:6"}, delimiterString = ":")
+    @ParameterizedTest
+    void 상단부_궁성에서_대각이동을_할_때_목적지가_궁성_밖이면_예외를_발생한다(int startColumn, int startRow, int goalColumn, int goalRow) {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = new Position(startColumn, startRow);
+        Position goal = createPosition(goalColumn, goalRow);
+        Chariot piece = new Chariot(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(() -> initialBoard);
+
+        // when && then
+        assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 차는 상하좌우 일직선으로만 이동 가능합니다.");
+    }
+
+    @Test
+    void 상단부_궁성에서_직선이동을_할_때_궁성_밖으로_나갈_수_있다() {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = new Position(4, 9);
+        Position goal = createPosition(4, 4);
+        Chariot piece = new Chariot(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(() -> initialBoard);
+
+        // when
+        board.movePiece(start, goal, Team.GREEN);
+
+        // then
+        Assertions.assertThat(board).extracting("board")
+                .asInstanceOf(MAP)
+                .containsEntry(goal, piece);
+    }
+
+    @CsvSource(value = {"3:0:4:1", "3:0:5:2", "5:0:3:2", "5:0:4:1", "3:2:4:1", "3:2:5:0", "5:2:3:0", "5:2:4:1"}, delimiterString = ":")
+    @ParameterizedTest
+    void 하단부_궁성_내부에서_대각이동을_한다(int startColumn, int startRow, int goalColumn, int goalRow) {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = new Position(startColumn, startRow);
+        Position goal = createPosition(goalColumn, goalRow);
+        Chariot piece = new Chariot(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(() -> initialBoard);
+
+        // when
+        board.movePiece(start, goal, Team.GREEN);
+
+        // then
+        Assertions.assertThat(board).extracting("board")
+                .asInstanceOf(MAP)
+                .containsEntry(goal, piece);
+    }
+
+    @CsvSource(value = {"3:0:6:3", "5:0:2:3"}, delimiterString = ":")
+    @ParameterizedTest
+    void 하단부_궁성에서_대각이동을_할_때_목적지가_궁성_밖이면_예외를_발생한다(int startColumn, int startRow, int goalColumn, int goalRow) {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = new Position(startColumn, startRow);
+        Position goal = createPosition(goalColumn, goalRow);
+        Chariot piece = new Chariot(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(() -> initialBoard);
+
+        // when && then
+        assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 차는 상하좌우 일직선으로만 이동 가능합니다.");
+    }
+
+    @Test
+    void 하단부_궁성에서_직선이동을_할_때_궁성_밖으로_나갈_수_있다() {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = new Position(4, 0);
+        Position goal = createPosition(4, 5);
+        Chariot piece = new Chariot(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(() -> initialBoard);
+
+        // when
+        board.movePiece(start, goal, Team.GREEN);
+
+        // then
+        Assertions.assertThat(board).extracting("board")
+                .asInstanceOf(MAP)
+                .containsEntry(goal, piece);
     }
 }
