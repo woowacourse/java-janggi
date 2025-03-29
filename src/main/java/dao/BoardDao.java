@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class BoardDao {
-    public static void deleteBoardEntity() {
+    public void deleteBoardEntity() {
         final var query = "DELETE FROM Board";
 
         try (final var connection = Connector.getConnection()) {
@@ -20,11 +20,11 @@ public final class BoardDao {
         }
     }
 
-    public static void addPieceEntitiesToBoardEntity(final List<PieceEntity> pieceEntities) {
-        pieceEntities.forEach(BoardDao::addPieceEntityToBoardEntity);
+    public void addPieceEntitiesToBoardEntity(final List<PieceEntity> pieceEntities) {
+        pieceEntities.forEach(this::addPieceEntityToBoardEntity);
     }
 
-    private static void addPieceEntityToBoardEntity(final PieceEntity pieceEntity) {
+    private void addPieceEntityToBoardEntity(final PieceEntity pieceEntity) {
         final var query = "INSERT INTO Board VALUES(?, ?, ?, ?)";
 
         try (final var connection = Connector.getConnection()) {
@@ -44,7 +44,7 @@ public final class BoardDao {
         }
     }
 
-    public static List<PieceEntity> readPieceEntitiesFromBoardEntity() {
+    public List<PieceEntity> readPieceEntitiesFromBoardEntity() {
         final var query = "SELECT row_value, column_value, type, dynasty FROM Board";
         final List<PieceEntity> pieceEntities = new ArrayList<>();
 

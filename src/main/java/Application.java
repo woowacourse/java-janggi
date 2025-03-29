@@ -12,15 +12,16 @@ import view.InputView;
 import view.OutputView;
 
 public class Application {
-
     public static void main(String[] args) {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
+        BoardDao boardDao = new BoardDao();
+        TurnDao turnDao = new TurnDao();
 
-        Board board = createBoard(inputView);
+        Board board = createBoard(boardDao, inputView);
 
         Dynasty[] dynasties = Dynasty.values();
-        int turn = TurnDao.readTurnEntity();
+        int turn = turnDao.readTurnEntity();
 
         while (true) {
             outputView.printBoard(board.getSurvivedPieces());
@@ -39,37 +40,37 @@ public class Application {
                 if (board.isKingDead(Dynasty.CHO)) {
 
                     outputView.printWinner(Dynasty.HAN);
-                    BoardDao.deleteBoardEntity();
-                    TurnDao.resetTurnEntity();
+                    boardDao.deleteBoardEntity();
+                    turnDao.resetTurnEntity();
                     break;
                 }
 
                 if (board.isKingDead(Dynasty.HAN)) {
                     outputView.printWinner(Dynasty.CHO);
-                    BoardDao.deleteBoardEntity();
-                    TurnDao.resetTurnEntity();
+                    boardDao.deleteBoardEntity();
+                    turnDao.resetTurnEntity();
                     break;
                 }
 
                 List<PieceEntity> survivedPiece = BoardConverter.convertToPieceEntities(board.getSurvivedPieces());
-                BoardDao.deleteBoardEntity(); // 전체 삭제
-                BoardDao.addPieceEntitiesToBoardEntity(survivedPiece); // 전체 추가
+                boardDao.deleteBoardEntity(); // 전체 삭제
+                boardDao.addPieceEntitiesToBoardEntity(survivedPiece); // 전체 추가
 
-                TurnDao.incrementTurn();
-                turn = TurnDao.readTurnEntity();
+                turnDao.incrementTurn();
+                turn = turnDao.readTurnEntity();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    private static Board createBoard(InputView inputView) {
-        List<PieceEntity> pieceEntities = BoardDao.readPieceEntitiesFromBoardEntity();
+    private static Board createBoard(BoardDao boardDao, InputView inputView) {
+        List<PieceEntity> pieceEntities = boardDao.readPieceEntitiesFromBoardEntity();
 
         if (pieceEntities.isEmpty()) {
             Board newBoard = settingJanggiGame(inputView);
             List<PieceEntity> settingPieces = BoardConverter.convertToPieceEntities(newBoard.getSurvivedPieces());
-            BoardDao.addPieceEntitiesToBoardEntity(settingPieces);
+            boardDao.addPieceEntitiesToBoardEntity(settingPieces);
             return newBoard;
         }
         return BoardConverter.convertToBoard(pieceEntities);

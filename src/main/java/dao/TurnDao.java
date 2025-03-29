@@ -3,7 +3,7 @@ package dao;
 import java.sql.SQLException;
 
 public class TurnDao {
-    public static int readTurnEntity() {
+    public int readTurnEntity() {
         final var query = "SELECT turn FROM Turn";
 
         try (final var connection = Connector.getConnection()) {
@@ -23,7 +23,7 @@ public class TurnDao {
         }
     }
 
-    public static void resetTurnEntity() {
+    public void resetTurnEntity() {
         final var query = "UPDATE Turn SET turn = 0";
 
         try (final var connection = Connector.getConnection()) {
@@ -41,7 +41,7 @@ public class TurnDao {
         }
     }
 
-    public static void incrementTurn() {
+    public void incrementTurn() {
         final var query = "UPDATE Turn SET turn = turn + 1";
 
         try (final var connection = Connector.getConnection()) {
