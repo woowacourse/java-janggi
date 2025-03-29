@@ -34,7 +34,7 @@ public class General implements Piece {
         PathUtility.checkOneMovement(currentPosition, destination);
 
         if(Direction.isDiagonal(currentPosition, destination)) {
-            checkPalaceDiagonal(currentPosition, destination);
+            checkValidPalaceDiagonal(currentPosition, destination);
         }
     }
 
@@ -79,7 +79,7 @@ public class General implements Piece {
         return true;
     }
 
-    private static void checkPalaceDiagonal(Position from, Position to) {
+    private static void checkValidPalaceDiagonal(Position from, Position to) {
         List<Position> validDiagonalDestinations = PALACE_DIAGONAL.getOrDefault(from, Collections.emptyList());
 
         if(validDiagonalDestinations.isEmpty() || !validDiagonalDestinations.contains(to)) {
