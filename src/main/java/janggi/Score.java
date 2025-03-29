@@ -41,4 +41,8 @@ public record Score(int value) {
     public boolean isGreaterThan(final Score other) {
         return value > other.value;
     }
+
+    public boolean isLessThan(final Score other) {
+        return value < other.value;
+    }
 }

@@ -34,7 +34,7 @@ public class Janggi {
                         moveCommand.getDeparturePosition(),
                         moveCommand.getDestinationPosition());
 
-                processScore(players);
+                checkWinner(players);
             } catch (final GameOverException e) {
                 outputView.display(e.getMessage());
                 return;
@@ -50,14 +50,12 @@ public class Janggi {
         }
     }
 
-    private void processScore(final Players players) {
-        if (players.getScore(Team.CHO).isGreaterThan(WIN)) {
-            outputView.displayWinner(players.getPlayer(Team.CHO));
-            throw new GameOverException();
-        }
-
-        if (players.getScore(Team.HAN).isGreaterThan(WIN)) {
-            outputView.displayWinner(players.getPlayer(Team.HAN));
+    private void checkWinner(final Players players) {
+        for (final Team team : Team.values()) {
+            if (players.getScore(team).isLessThan(WIN)) {
+                continue;
+            }
+            outputView.displayWinner(players.getPlayer(team));
             throw new GameOverException();
         }
     }
