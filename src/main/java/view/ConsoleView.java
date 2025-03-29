@@ -32,6 +32,7 @@ public class ConsoleView {
         return new BoardLocation(x, y);
     }
 
+
     public void printTurn(Turn turn) {
         outputView.printTurn(turn);
     }
