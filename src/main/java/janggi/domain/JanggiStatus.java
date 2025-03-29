@@ -1,5 +1,6 @@
 package janggi.domain;
 
+import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Dynasty;
 import janggi.domain.piece.Point;
 
@@ -12,4 +13,6 @@ public interface JanggiStatus {
     Dynasty currentTurn();
 
     Dynasty winner();
+
+    JanggiBoard janggiBoard();
 }

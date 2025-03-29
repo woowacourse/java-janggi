@@ -37,4 +37,9 @@ public class JanggiRuned implements JanggiStatus {
     public Dynasty winner() {
         throw new IllegalStateException("우승자가 아직 없습니다.");
     }
+
+    @Override
+    public JanggiBoard janggiBoard() {
+        return janggiBoard;
+    }
 }

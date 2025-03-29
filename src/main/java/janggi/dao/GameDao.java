@@ -27,6 +27,26 @@ public class GameDao {
         return null;
     }
 
+    public Game findById(Long gameId) {
+        final var query = "SELECT * FROM game WHERE id = ?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, gameId);
+
+            final var resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return new Game(
+                        resultSet.getLong("id"),
+                        Status.from(resultSet.getInt("status")),
+                        Dynasty.valueOf(resultSet.getString("current_turn"))
+                );
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
     public void addGame(Game game) {
         final var query = "INSERT INTO game (status, current_turn) VALUES(?, ?)";
         try (final var connection = getConnection();

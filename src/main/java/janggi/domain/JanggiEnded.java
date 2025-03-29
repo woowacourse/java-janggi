@@ -33,4 +33,9 @@ public class JanggiEnded implements JanggiStatus {
     public Dynasty winner() {
         return winnerDynasty;
     }
+
+    @Override
+    public JanggiBoard janggiBoard() {
+        return janggiBoard;
+    }
 }

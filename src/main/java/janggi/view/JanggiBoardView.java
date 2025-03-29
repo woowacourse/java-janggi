@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.domain.JanggiEnded;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
@@ -86,8 +87,8 @@ public class JanggiBoardView {
         System.out.println(convertChuColor(toDynastyName(dynasty)) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
     }
 
-    public void printBoard(Map<Point, Piece> boardPieces) {
-
+    public void printBoard(JanggiBoard janggiBoard) {
+        Map<Point, Piece> boardPieces = janggiBoard.getPieces();
         for (int x = 1; x <= 10; x++) {
             for (int y = 1; y <= 9; y++) {
                 Point point = new Point(x, y);
@@ -129,10 +130,10 @@ public class JanggiBoardView {
         System.out.println("초나라 점수: " + janggiBoard.dynastyScore(Dynasty.CHU));
     }
 
-    public void printResult(Dynasty winDynasty, JanggiBoard janggiBoard) {
-        System.out.println(toDynastyName(winDynasty) + "님이 이겼습니다!");
+    public void printResult(JanggiEnded janggiEnded) {
+        System.out.println(toDynastyName(janggiEnded.winner()) + "님이 이겼습니다!");
         System.out.println("==최종 점수==");
-        printScore(janggiBoard);
+        printScore(janggiEnded.janggiBoard());
     }
 
     public record Movement(
