@@ -11,9 +11,9 @@ import static pieceProperty.PieceType.SANG;
 
 import java.util.HashMap;
 import java.util.Map;
-import movementRule.PieceRule;
 import pieceProperty.PieceType;
-import player.Pieces;
+import pieceProperty.Position;
+import player.JanggiPan;
 
 public class OutputView {
 
@@ -27,23 +27,24 @@ public class OutputView {
     private static final String PIECE_DELIMITER = " | ";
     private static final String ROW = "  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9";
 
-    public void printJanggiPan(final Pieces hanPieces, final Pieces choPieces) {
+    public void printJanggiPan(final JanggiPan hanPieces, final JanggiPan choPieces) {
         String[][] janggiPan = new String[10][9];
 
 
         System.out.println(ROW);
 
-        for (PieceRule pieceRule : hanPieces.getPieces()) {
-            int row = pieceRule.currentPosition().getRow();
-            int col = pieceRule.currentPosition().getCol();
-            PieceType pieceType = pieceRule.getPieceType();
+        for (Position position : hanPieces.getPieces().keySet()) {
+            int row = position.getRow();
+            int col = position.getCol();
+            PieceType pieceType = hanPieces.getPieces().get(position).getPieceType();
             janggiPan[row][col] = RED_COLOR_CODE +  PIECE_TYPE_NAME_MAP.get(pieceType) + EXIT_CODE + PIECE_DELIMITER;
+
         }
 
-        for (PieceRule pieceRule : choPieces.getPieces()) {
-            int row = pieceRule.currentPosition().getRow();
-            int col = pieceRule.currentPosition().getCol();
-            PieceType pieceType = pieceRule.getPieceType();
+        for (Position position : choPieces.getPieces().keySet()) {
+            int row = position.getRow();
+            int col = position.getCol();
+            PieceType pieceType = choPieces.getPieces().get(position).getPieceType();
             janggiPan[row][col] = GREEN_COLOR_CODE +  PIECE_TYPE_NAME_MAP.get(pieceType) + EXIT_CODE + PIECE_DELIMITER;
         }
 

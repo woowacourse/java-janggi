@@ -4,7 +4,7 @@ import static player.Nation.HAN;
 import java.util.Map;
 import pieceProperty.Position;
 import pieceProperty.JanggiPieceInitializer;
-import player.Pieces;
+import player.JanggiPan;
 import player.Player;
 import player.Players;
 import view.InputView;
@@ -14,8 +14,8 @@ public class Application {
     public static void main(String[] args) {
 
         JanggiPieceInitializer janggiPieceInitializer = new JanggiPieceInitializer();
-        Pieces choPieces = janggiPieceInitializer.choInit();
-        Pieces hanPieces = janggiPieceInitializer.hanInit();
+        JanggiPan choPieces = janggiPieceInitializer.choInit();
+        JanggiPan hanPieces = janggiPieceInitializer.hanInit();
         Player hanPlayer = new Player(hanPieces);
         Player choPlayer = new Player(choPieces);
         Players players = new Players(Map.of(HAN, hanPlayer, CHO, choPlayer));
