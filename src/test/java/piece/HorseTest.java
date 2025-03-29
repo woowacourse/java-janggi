@@ -1,4 +1,4 @@
-package move;
+package piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -7,8 +7,6 @@ import location.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Guard;
-import piece.Horse;
 import store.Pieces;
 
 class HorseTest {

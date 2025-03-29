@@ -1,12 +1,9 @@
-package move;
+package location;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import location.PathUtility;
-import location.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Cannon;
 
 public class PathUtilityTest {
     @Test

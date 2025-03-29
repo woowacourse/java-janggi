@@ -1,4 +1,4 @@
-package move;
+package piece;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -7,8 +7,6 @@ import location.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Elephant;
-import piece.Guard;
 import store.Pieces;
 
 class ElephantTest {

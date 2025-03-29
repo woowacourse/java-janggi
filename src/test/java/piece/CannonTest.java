@@ -1,4 +1,4 @@
-package move;
+package piece;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -6,8 +6,6 @@ import location.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Cannon;
-import piece.Guard;
 import store.Pieces;
 
 class CannonTest {

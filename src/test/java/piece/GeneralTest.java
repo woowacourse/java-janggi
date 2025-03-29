@@ -1,11 +1,10 @@
-package move;
+package piece;
 
 import static org.assertj.core.api.Assertions.*;
 
 import location.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.General;
 
 public class GeneralTest {
 
