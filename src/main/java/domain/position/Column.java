@@ -48,4 +48,8 @@ public class Column {
     public int hashCode() {
         return Objects.hashCode(column);
     }
+
+    public int getColumn() {
+        return column;
+    }
 }

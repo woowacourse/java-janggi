@@ -48,4 +48,8 @@ public class Row {
     public int hashCode() {
         return Objects.hashCode(row);
     }
+
+    public int getRow() {
+        return row;
+    }
 }

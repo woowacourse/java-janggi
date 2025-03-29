@@ -1,5 +1,6 @@
 package domain.position;
 
+import java.util.Collections;
 import java.util.Objects;
 
 public class Position {
@@ -57,5 +58,13 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
+    }
+
+    public int getColumn(){
+        return column.getColumn();
+    }
+
+    public int getRow(){
+        return row.getRow();
     }
 }
