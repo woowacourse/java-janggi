@@ -33,7 +33,7 @@ public record Scholar(Team team) implements Piece {
         if (!Palace.isInPalace(column, row)) {
             return;
         }
-        if (direction.idDiagonal() && !Palace.canDiagonalInPalace(position.getColumn(), position.getRow())) {
+        if (direction.isDiagonal() && !Palace.canDiagonalInPalace(position)) {
             return;
         }
         routes.add(Route.of(List.of(new Position(column, row))));

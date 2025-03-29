@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.position.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -50,7 +51,7 @@ class PalaceTest {
         boolean expected = Boolean.getBoolean(position[2]);
 
         // when
-        boolean inPalace = Palace.canDiagonalInPalace(column, row);
+        boolean inPalace = Palace.canDiagonalInPalace(new Position(column, row));
 
         // then
         Assertions.assertThat(inPalace).isEqualTo(expected);

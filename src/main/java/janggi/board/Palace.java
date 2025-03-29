@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.position.Position;
 import java.util.Arrays;
 
 public enum Palace {
@@ -18,23 +19,32 @@ public enum Palace {
         this.startRow = startRow;
     }
 
-    public static boolean canDiagonalInPalace(int pickedColumn, int pickedRow) {
+    public static boolean canDiagonalInPalace(Position picked) {
+        int pickedColumn = picked.getColumn();
+        int pickedRow = picked.getRow();
+
         if (!isInPalace(pickedColumn, pickedRow)) {
             return false;
         }
         for (Palace team : values()) {
-            if (extracted(pickedColumn, pickedRow, team)) {
-                return true;
-            }
-            if (team.startColumn + WIDTH - 1 == pickedColumn || team.startRow + HEIGHT - 1 == pickedRow) {
+            if (isVertex(team, pickedColumn, pickedRow)) {
                 return true;
             }
         }
         return isCenterInPalace(pickedColumn, pickedRow);
     }
 
-    private static boolean extracted(int pickedColumn, int pickedRow, Palace team) {
-        if (team.startColumn == pickedColumn || team.startRow == pickedRow) {
+    private static boolean isVertex(Palace team, int pickedColumn, int pickedRow) {
+        if (team.startColumn == pickedColumn && team.startRow == pickedRow) {
+            return true;
+        }
+        if (team.startColumn + WIDTH - 1 == pickedColumn && team.startRow + HEIGHT - 1 == pickedRow) {
+            return true;
+        }
+        if (team.startColumn == pickedColumn && team.startRow + HEIGHT - 1 == pickedRow) {
+            return true;
+        }
+        if (team.startColumn + WIDTH - 1 == pickedColumn && team.startRow == pickedRow) {
             return true;
         }
         return false;
