@@ -57,4 +57,8 @@ public class ConsoleView {
     public void showWinner(Turn turn) {
         outputView.showWinner(turn);
     }
+
+    public int showSelect() {
+        return inputView.showSelect();
+    }
 }
