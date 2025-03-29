@@ -39,6 +39,10 @@ public class Horse extends Piece implements DistanceCheckable, ObstructionChecka
     @Override
     public void validateMoveCondition(Position src, Position dest, Board board) {
         List<Position> internalPositions = getInternalPositions(getInternalMovePaths(findCorrectMovePath(dest)));
+        validateNonObstruction(board, internalPositions);
+    }
+
+    private void validateNonObstruction(Board board, List<Position> internalPositions) {
         validateObstruction(board, internalPositions, EXPECTED_INTERNAL_POSITION_COUNT);
     }
 
