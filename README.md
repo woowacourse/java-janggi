@@ -6,6 +6,8 @@
 
 DB 실행을 위해 `docker`를 설치해야 합니다.
 
+초기 DB 및 테이블 생성 로직은 `/docker/init.sql`에 작성하였습니다. 아래의 docker 명령어로 최초 실행 시, 자동으로 생성됩니다.
+
 1. **프로젝트 디렉터리 내 `docker` 디렉터리로 이동**
 
 2. **아래의 커맨드 실행**
@@ -13,6 +15,10 @@ DB 실행을 위해 `docker`를 설치해야 합니다.
 
 3. **종료시 아래의 커맨드 실행**
    > docker-compose -p janggi down
+
+### ER-Diagram
+
+<img src="./img/erd.png" width="80%" height="80%" alter="erd 이미지">
 
 ---
 
