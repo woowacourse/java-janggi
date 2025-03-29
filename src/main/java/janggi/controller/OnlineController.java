@@ -70,22 +70,25 @@ public final class OnlineController implements Controller {
         if (boardDao.existsActiveGame()) {
             return loadBoard();
         }
+        return createNewBoard();
+    }
+
+    private Board loadBoard() {
+        Map<Point, Piece> placedPieces = boardDao.findCurrentBoardPieces();
+        Board board = new Board();
+        for (Point point : placedPieces.keySet()) {
+            Piece piece = placedPieces.get(point);
+            board.placePiece(point, piece);
+        }
+        return board;
+    }
+
+    private Board createNewBoard() {
         Board board = BoardGenerator.generate();
         boardDao.createBoard();
         for (Point point : board.getPlacedPieces().keySet()) {
             Piece piece = board.getPlacedPieces().get(point);
             pieceDao.save(point, piece);
-        }
-        return board;
-    }
-
-    private Board loadBoard() {
-        int currentBoardId = boardDao.findCurrentBoardId();
-        Map<Point, Piece> placedPieces = boardDao.findPlacedPiecesById(currentBoardId);
-        Board board = new Board();
-        for (Point point : placedPieces.keySet()) {
-            Piece piece = placedPieces.get(point);
-            board.placePiece(point, piece);
         }
         return board;
     }

@@ -112,7 +112,7 @@ public final class BoardDao {
         }
     }
 
-    public Map<Point, Piece> findPlacedPiecesById(int boardId) {
+    public Map<Point, Piece> findCurrentBoardPieces() {
         final String query = """
                 SELECT p.x, p.y, ps.name AS piece_name, c.name AS camp_name
                 FROM piece p
@@ -122,12 +122,11 @@ public final class BoardDao {
                 """;
         try (final var connection = DatabaseConnection.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, boardId);
+            preparedStatement.setInt(1, findCurrentBoardId());
             final var resultSet = preparedStatement.executeQuery();
-
             Map<Point, Piece> pieceMap = new HashMap<>();
             while (resultSet.next()) {
-                var point = new Point(resultSet.getInt("x"), resultSet.getInt("y"));
+                Point point = new Point(resultSet.getInt("x"), resultSet.getInt("y"));
                 Piece piece = createPiece(resultSet);
                 pieceMap.put(point, piece);
             }
