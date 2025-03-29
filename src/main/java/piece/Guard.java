@@ -6,7 +6,8 @@ import java.util.List;
 
 public class Guard extends Piece {
 
-    private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP, Movement.DOWN);
+    private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP, Movement.DOWN,
+            Movement.LEFT_UP, Movement.LEFT_DOWN, Movement.RIGHT_UP, Movement.RIGHT_DOWN);
 
     public Guard() {
     }
@@ -20,7 +21,24 @@ public class Guard extends Piece {
         Movement destinationMovement = getDestinationMovement(destination);
         validateIsExistPieceInPoint(allPieces, current.move(destinationMovement));
 
+        validateOnlyMoveInPalace(destination);
+        if (destinationMovement.isDiagonalMove()) {
+            validatePossibleDiagonalMovePoint();
+        }
+
         current = current.move(destinationMovement);
+    }
+
+    private static void validateOnlyMoveInPalace(Point destination) {
+        if (!destination.isPalace()) {
+            throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
+        }
+    }
+
+    private void validatePossibleDiagonalMovePoint() {
+        if ((!current.isPalaceCenter() && !current.isPalaceCorner())) {
+            throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
+        }
     }
 
     @Override
