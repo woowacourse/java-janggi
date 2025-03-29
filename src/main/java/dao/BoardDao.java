@@ -22,6 +22,21 @@ public final class BoardDao {
         }
     }
 
+    public static void deleteBoardEntity() {
+        final var query = "DELETE FROM Board";
+
+        try (final var connection = BoardDao.getConnection()) {
+            if (connection == null) {
+                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
+            }
+            try (final var statement = connection.createStatement()) {
+                statement.executeUpdate(query);
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void addPieceEntitiesToBoardEntity(final List<PieceEntity> pieceEntities) {
         pieceEntities.forEach(BoardDao::addPieceEntityToBoardEntity);
     }
