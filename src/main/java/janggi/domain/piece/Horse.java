@@ -1,8 +1,10 @@
 package janggi.domain.piece;
 
+import janggi.domain.Dynasty;
 import janggi.domain.board.Direction;
-import janggi.domain.piece.moveStrategy.FixedRangeMoveStrategy;
-import janggi.domain.piece.moveStrategy.MoveStrategy;
+import janggi.domain.board.Point;
+import janggi.domain.piece.move.MoveStrategy;
+import janggi.domain.piece.move.strategy.NoObstacleStrategy;
 import java.util.List;
 import java.util.Set;
 
@@ -22,9 +24,14 @@ public class Horse extends Piece {
             List.of(Direction.LEFT, Direction.DOWN_LEFT)
     );
 
-    private static final MoveStrategy MOVE_STRATEGY = new FixedRangeMoveStrategy();
+    private final static MoveStrategy MOVE_STRATEGY = new NoObstacleStrategy();
 
-    public Horse() {
-        super(PATHS, MOVE_STRATEGY);
+    public Horse(Dynasty dynasty) {
+        super(PieceType.HORSE, dynasty, MOVE_STRATEGY);
+    }
+
+    @Override
+    public Path calculatePath(Point start, Point end) {
+        return Path.calculatePath(start, end, PATHS);
     }
 }

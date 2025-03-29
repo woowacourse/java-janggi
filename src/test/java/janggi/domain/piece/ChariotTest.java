@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
@@ -14,6 +15,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 @DisplayName("차 테스트")
 class ChariotTest {
 
+    Dynasty currentTurnDynasty = Dynasty.HAN;
+    Piece chariot = new Chariot(currentTurnDynasty);
+
     @DisplayName("차가 가는 방향에 기물이 없다면 이동할 수 있다.")
     @ParameterizedTest
     @CsvSource({
@@ -22,16 +26,15 @@ class ChariotTest {
             "4, 4, 8, 4",
             "4, 4, 4, 8"
     })
-    void isMovable(int x1, int y1, int x2, int y2) {
+    void canMove(int x1, int y1, int x2, int y2) {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
-        Piece chariot = new Chariot();
 
         // when
-        boolean isMovable = chariot.isMovable(janggiBoard, new Point(x1, y1), new Point(x2, y2));
+        boolean canMove = chariot.canMove(janggiBoard, currentTurnDynasty, new Point(x1, y1), new Point(x2, y2));
 
         // then
-        assertThat(isMovable).isTrue();
+        assertThat(canMove).isTrue();
     }
 
     @DisplayName("차가 규칙 상 갈 수 없는 목적지는 갈 수 없다.")
@@ -39,14 +42,11 @@ class ChariotTest {
     void isNotMovable_WhenImpossibleEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
-        Piece chariot = new Chariot();
 
-        // when
-        boolean isMovable = chariot.isMovable(janggiBoard, new Point(1, 1), new Point(2, 2));
-
-        // then
-        assertThat(isMovable)
-                .isFalse();
+        // when, then
+        assertThatThrownBy(() -> chariot.canMove(janggiBoard, currentTurnDynasty, new Point(1, 1), new Point(2, 2)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
 
     @DisplayName("차가 가는 방향에 기물이 있다면 이동할 수 없다.")
@@ -54,16 +54,13 @@ class ChariotTest {
     void isNotMovable_WhenPieceInPath() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(1, 2), new BoardPiece(new Horse(), Dynasty.HAN)
+                new Point(1, 2), new Horse(Dynasty.HAN)
         ));
-        Piece chariot = new Chariot();
 
-        // when
-        boolean isMovable = chariot.isMovable(janggiBoard, new Point(1, 1), new Point(1, 4));
-
-        // then
-        assertThat(isMovable)
-                .isFalse();
+        // when, then
+        assertThatThrownBy(() -> chariot.canMove(janggiBoard, currentTurnDynasty, new Point(1, 1), new Point(1, 4)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
 
     @DisplayName("목적지에 상대편의 기물이 있는 경우에는 갈 수 있다.")
@@ -71,15 +68,14 @@ class ChariotTest {
     void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(1, 4), new BoardPiece(new Horse(), Dynasty.CHU)
+                new Point(1, 4), new Horse(Dynasty.CHU)
         ));
-        Piece chariot = new Chariot();
 
         // when
-        boolean isMovable = chariot.isMovable(janggiBoard, new Point(1, 1), new Point(1, 4));
+        boolean canMove = chariot.canMove(janggiBoard, currentTurnDynasty, new Point(1, 1), new Point(1, 4));
 
         // then
-        assertThat(isMovable)
+        assertThat(canMove)
                 .isTrue();
     }
 }

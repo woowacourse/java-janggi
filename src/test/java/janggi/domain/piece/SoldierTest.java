@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
@@ -27,7 +28,7 @@ public class SoldierTest {
         Soldier soldier = new HanSoldier();
 
         //when
-        boolean result = soldier.isMovable(janggiBoard, new Point(x1, y1), new Point(x2, y2));
+        boolean result = soldier.canMove(janggiBoard, Dynasty.HAN, new Point(x1, y1), new Point(x2, y2));
 
         //then
         assertThat(result).isTrue();
@@ -46,7 +47,7 @@ public class SoldierTest {
         Soldier soldier = new ChuSoldier();
 
         //when
-        boolean result = soldier.isMovable(janggiBoard, new Point(x1, y1), new Point(x2, y2));
+        boolean result = soldier.canMove(janggiBoard, Dynasty.CHU, new Point(x1, y1), new Point(x2, y2));
 
         //then
         assertThat(result).isTrue();
@@ -59,12 +60,10 @@ public class SoldierTest {
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
         Piece soldier = new ChuSoldier();
 
-        // when
-        boolean isMovable = soldier.isMovable(janggiBoard, new Point(1, 1), new Point(2, 2));
-
         // then
-        assertThat(isMovable)
-                .isFalse();
+        assertThatThrownBy(() -> soldier.canMove(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(2, 2)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
 
     @DisplayName("목적지에 상대편의 기물이 있는 경우에는 갈 수 있다.")
@@ -72,15 +71,15 @@ public class SoldierTest {
     void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(1, 2), new BoardPiece(new ChuSoldier(), Dynasty.CHU)
+                new Point(1, 2), new ChuSoldier()
         ));
         Piece soldier = new ChuSoldier();
 
         // when
-        boolean isMovable = soldier.isMovable(janggiBoard, new Point(1, 1), new Point(1, 2));
+        boolean canMove = soldier.canMove(janggiBoard, Dynasty.CHU, new Point(1, 1), new Point(1, 2));
 
         // then
-        assertThat(isMovable)
+        assertThat(canMove)
                 .isTrue();
     }
 }

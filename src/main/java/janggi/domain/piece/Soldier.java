@@ -1,13 +1,14 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.Direction;
-import janggi.domain.piece.moveStrategy.MoveStrategy;
-import java.util.List;
-import java.util.Set;
+import janggi.domain.Dynasty;
+import janggi.domain.piece.move.MoveStrategy;
+import janggi.domain.piece.move.strategy.NoObstacleStrategy;
 
 public abstract class Soldier extends Piece {
 
-    public Soldier(Set<List<Direction>> paths, MoveStrategy moveStrategy) {
-        super(paths, moveStrategy);
+    private static final MoveStrategy MOVE_STRATEGY = new NoObstacleStrategy();
+
+    public Soldier(Dynasty dynasty) {
+        super(PieceType.SOLIDER, dynasty, MOVE_STRATEGY);
     }
 }

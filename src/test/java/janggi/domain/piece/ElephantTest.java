@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
@@ -12,18 +13,20 @@ import org.junit.jupiter.api.Test;
 @DisplayName("상 테스트")
 class ElephantTest {
 
+    Dynasty currentTurnDynasty = Dynasty.HAN;
+    Piece elephant = new Elephant(currentTurnDynasty);
+
     @DisplayName("상이 가는 방향에 기물이 없다면 이동할 수 있다.")
     @Test
-    void isMovable() {
+    void canMove() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
-        Piece elephant = new Elephant();
 
         // when
-        boolean isMovable = elephant.isMovable(janggiBoard, new Point(1, 1), new Point(4, 3));
+        boolean canMove = elephant.canMove(janggiBoard, currentTurnDynasty, new Point(1, 1), new Point(4, 3));
 
         // then
-        assertThat(isMovable).isTrue();
+        assertThat(canMove).isTrue();
     }
 
     @DisplayName("상이 규칙 상 갈 수 없는 목적지는 갈 수 없다.")
@@ -31,14 +34,11 @@ class ElephantTest {
     void isNotMovable_WhenImpossibleEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of());
-        Piece elephant = new Elephant();
-
-        // when
-        boolean isMovable = elephant.isMovable(janggiBoard, new Point(1, 1), new Point(4, 2));
 
         // then
-        assertThat(isMovable)
-                .isFalse();
+        assertThatThrownBy(() -> elephant.canMove(janggiBoard, currentTurnDynasty, new Point(1, 1), new Point(4, 2)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
 
     @DisplayName("상이 가는 방향에 기물이 있다면 이동할 수 없다.")
@@ -46,16 +46,13 @@ class ElephantTest {
     void isNotMovable_WhenPieceInPath() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(2, 1), new BoardPiece(new Horse(), Dynasty.HAN)
+                new Point(2, 1), new Horse(Dynasty.HAN)
         ));
-        Piece elephant = new Elephant();
-
-        // when
-        boolean isMovable = elephant.isMovable(janggiBoard, new Point(1, 1), new Point(4, 3));
 
         // then
-        assertThat(isMovable)
-                .isFalse();
+        assertThatThrownBy(() -> elephant.canMove(janggiBoard, currentTurnDynasty, new Point(1, 1), new Point(4, 3)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
 
     @DisplayName("목적지에 상대편의 기물이 있는 경우에는 갈 수 있다.")
@@ -63,15 +60,14 @@ class ElephantTest {
     void isNotMovable_WhenOtherPieceInEndPoint() {
         // given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(4, 3), new BoardPiece(new Horse(), Dynasty.CHU)
+                new Point(4, 3), new Horse(Dynasty.CHU)
         ));
-        Elephant elephant = new Elephant();
 
         // when
-        boolean isMovable = elephant.isMovable(janggiBoard, new Point(1, 1), new Point(4, 3));
+        boolean canMove = elephant.canMove(janggiBoard, currentTurnDynasty, new Point(1, 1), new Point(4, 3));
 
         // then
-        assertThat(isMovable)
+        assertThat(canMove)
                 .isTrue();
     }
 }

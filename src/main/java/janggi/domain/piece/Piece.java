@@ -1,25 +1,49 @@
 package janggi.domain.piece;
 
-import janggi.domain.board.Direction;
+import janggi.domain.Dynasty;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Point;
-import janggi.domain.piece.moveStrategy.MoveStrategy;
-import java.util.List;
+import janggi.domain.piece.move.MoveStrategy;
 import java.util.Objects;
-import java.util.Set;
 
 public abstract class Piece {
 
-    protected final Set<List<Direction>> paths;
+    protected final PieceType pieceType;
+    protected final Dynasty dynasty;
     protected final MoveStrategy moveStrategy;
 
-    public Piece(Set<List<Direction>> paths, MoveStrategy moveStrategy) {
-        this.paths = paths;
+    public Piece(PieceType pieceType, Dynasty dynasty, MoveStrategy moveStrategy) {
+        this.pieceType = pieceType;
+        this.dynasty = dynasty;
         this.moveStrategy = moveStrategy;
     }
 
-    public final boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
-        return moveStrategy.isMovable(janggiBoard, start, end, paths);
+    public abstract Path calculatePath(Point start, Point end);
+
+    public final boolean canMove(JanggiBoard janggiBoard, Dynasty currentTurnDynasty, Point start, Point end) {
+        if (!isSameDynasty(currentTurnDynasty)) {
+            throw new IllegalArgumentException("자신의 나라 기물이 아닙니다.");
+        }
+        if (!isMovable(janggiBoard, start, end)) {
+            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        }
+        return true;
+    }
+
+    public final boolean isSameDynasty(Dynasty dynasty) {
+        return this.dynasty == dynasty;
+    }
+
+    private boolean isMovable(JanggiBoard janggiBoard, Point start, Point end) {
+        return moveStrategy.isMovable(janggiBoard, this, start, end);
+    }
+
+    public final boolean isEqualPieceType(PieceType piece) {
+        return this.pieceType == piece;
+    }
+
+    public Path calculatePalacePath(Point start, Point end) {
+        return calculatePath(start, end);
     }
 
     @Override
@@ -27,15 +51,23 @@ public abstract class Piece {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Piece that)) {
+        if (!(o instanceof Piece piece)) {
             return false;
         }
-        return getClass() == o.getClass() && Objects.equals(paths, that.paths) && Objects.equals(moveStrategy,
-                that.moveStrategy);
+        return pieceType == piece.pieceType && dynasty == piece.dynasty && Objects.equals(moveStrategy,
+                piece.moveStrategy);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getClass());
+        return Objects.hash(pieceType, dynasty, moveStrategy);
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
+    }
+
+    public Dynasty getDynasty() {
+        return dynasty;
     }
 }
