@@ -10,6 +10,7 @@ import domain.player.Score;
 import domain.player.Team;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public final class Soldier implements Piece {
 
@@ -19,7 +20,7 @@ public final class Soldier implements Piece {
     private final PieceMovement movement;
 
     public Soldier(final Team team) {
-        this.team = team;
+        this.team = Objects.requireNonNull(team, "Team 정보가 NULL일 수 없습니다.");
         this.movement = getDefaultMovementByTeam(team);
     }
 

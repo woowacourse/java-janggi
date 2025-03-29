@@ -4,7 +4,6 @@ public record Score(Double value) {
     private static final Score INITIAL_SCORE_FOR_CHO = new Score(0.0);
     private static final Score INITIAL_SCORE_FOR_HAN = new Score(1.5);
 
-
     public static Score generateInitialScoreByTeam(Team team) {
         if (team == Team.CHO) {
             return INITIAL_SCORE_FOR_CHO;

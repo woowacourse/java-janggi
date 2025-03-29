@@ -7,6 +7,7 @@ import exceptions.JanggiGameRuleWarningException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public final class Board {
@@ -16,7 +17,9 @@ public final class Board {
     private final Map<Point, Piece> locations;
 
     public Board(final Map<Point, Piece> locations) {
-        this.locations = new HashMap<>(locations);
+        final Map<Point, Piece> locationsNotNull = Objects.requireNonNull(locations,
+                "위치 정보가 NULL일 수 없습니다.");
+        this.locations = new HashMap<>(locationsNotNull);
     }
 
     public boolean canMovePiece(

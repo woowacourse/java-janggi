@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public final class StraightLineMovement implements PieceMovement {
 
     private static final int MAX_DIRECTION_COUNT = 10;
 
     public StraightLineMovement(List<Route> routes) {
-        this.routes = routes;
+        this.routes = Objects.requireNonNull(routes, "경로 정보가 NULL일 수 없습니다.");
     }
 
     private final List<Route> routes;

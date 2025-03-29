@@ -3,13 +3,14 @@ package domain.movements;
 import domain.board.Point;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.List;
+import java.util.Objects;
 
 public final class DefaultMovement implements PieceMovement {
 
     private final List<Route> routes;
 
     public DefaultMovement(final List<Route> routes) {
-        this.routes = routes;
+        this.routes = Objects.requireNonNull(routes, "경로 정보가 NULL일 수 없습니다.");
     }
 
     @Override

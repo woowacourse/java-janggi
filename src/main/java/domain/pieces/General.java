@@ -7,6 +7,7 @@ import domain.movements.PieceMovement;
 import domain.player.Score;
 import domain.player.Team;
 import java.util.List;
+import java.util.Objects;
 
 public final class General implements Piece {
 
@@ -16,7 +17,7 @@ public final class General implements Piece {
     private final PieceMovement movement;
 
     public General(final Team team) {
-        this.team = team;
+        this.team = Objects.requireNonNull(team, "Team 정보가 NULL일 수 없습니다.");
         this.movement = new PalaceMovement();
     }
 

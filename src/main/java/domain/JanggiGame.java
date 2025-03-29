@@ -10,7 +10,9 @@ import domain.player.Team;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import repository.IdFactory;
 import vo.Choice;
 
 public final class JanggiGame {
@@ -19,14 +21,15 @@ public final class JanggiGame {
     private final List<Player> players;
 
     public JanggiGame(final Board board, final List<Player> players) {
-        this.board = board;
-        this.players = players;
+        this.board = Objects.requireNonNull(board, "Board가 NULL일 수 없습니다.");
+        this.players = Objects.requireNonNull(players, "플레이어 정보가 NULL일 수 없습니다.");
     }
 
     public static JanggiGame setup(final EnumMap<Team, Choice> elephantLocatorByTeam) {
         final Board board = BoardFactory.generateBoard(elephantLocatorByTeam);
+        final IdFactory IdFactory = new IdFactory();
         final List<Player> players = elephantLocatorByTeam.keySet().stream()
-                .map(Player::new)
+                .map(team -> new Player(IdFactory.nextId(), team))
                 .collect(Collectors.toList());
         return new JanggiGame(board, players);
     }
