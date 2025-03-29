@@ -1,7 +1,9 @@
 package piece;
 
 import board.Board;
+import movement.Movement;
 import position.Position;
+import position.PositionFactory;
 import validator.DirectionCheckable;
 import validator.ObstructionCheckable;
 
@@ -20,13 +22,14 @@ public class Cannon extends Piece implements DirectionCheckable, ObstructionChec
     @Override
     public void validateMoveCondition(Position src, Position dest, Board board) {
         validateDirection(src, dest);
-        List<Position> internalPositions = getInternalPositions(dest);
-        validateNonObstruction(board, internalPositions);
+        List<Position> allPositions = getAllPositions(dest);
+        validateExistNode(allPositions);
+        validateNonObstruction(board, allPositions);
 
-        List<Position> existPositions = board.findExistPositions(internalPositions);
+        List<Position> existPositions = board.findExistPositions(allPositions); // TODO 2025. 3. 29. 20:53: allPosition에는 src, dest도 포함되어 있음
         Piece findPiece = board.getPieceBy(existPositions.getFirst());
         if (this.equalsType(findPiece)) {
-            throw new IllegalArgumentException("포는 포를 죽일 수 없습니다.");
+            throw new IllegalArgumentException("포는 포를 뛰어 넘을 수 없습니다.");
         }
     }
 
@@ -34,20 +37,28 @@ public class Cannon extends Piece implements DirectionCheckable, ObstructionChec
         validateObstruction(board, internalPositions, EXPECTED_INTERNAL_POSITION_COUNT);
     }
 
-    @Override
-    public BiPredicate<Position, Position> directionRule() {
-        return Position::isSameLine;
+    private void validateExistNode(List<Position> allPositions) {
+        for (int i = 0; i < allPositions.size() - 1; i++) {
+            PositionFactory.validateAdjacentPositionBy(allPositions.get(i), allPositions.get(i + 1));
+        }
     }
 
-    private List<Position> getInternalPositions(Position destination) {
+    private List<Position> getAllPositions(Position destination) {
+        Movement movement = Movement.findByPositions(position, destination);
+
         List<Position> positions = new ArrayList<>();
-        for (int x = Math.min(position.x(), destination.x()); x <= Math.max(position.x(), destination.x()); x++) {
-            for (int y = Math.min(position.y(), destination.y()); y <= Math.max(position.y(), destination.y()); y++) {
-                positions.add(new Position(x, y));
-            }
+        Position buffer = position;
+        positions.add(buffer);
+        while (buffer.x() != destination.x() || buffer.y() != destination.y()) {
+            buffer = buffer.move(movement);
+            positions.add(buffer);
         }
-        positions.removeLast();
         return positions;
+    }
+
+    @Override
+    public BiPredicate<Position, Position> directionRule() {
+        return (src, dest) -> src.isSameLine(dest) || src.isDiagonal(dest);
     }
 
     @Override
