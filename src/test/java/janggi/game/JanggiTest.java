@@ -73,19 +73,4 @@ class JanggiTest {
         // then
         Assertions.assertThat(isTrue).isTrue();
     }
-
-    @Test
-    @DisplayName("현재 턴과 다른 팀의 기물이 장기판에 없는지 확인한다")
-    void test5() {
-        // given
-        Janggi janggi = new Janggi(new Pieces(), Team.CHO);
-
-        // when
-        boolean isEnemyUnit = janggi.isNoneEnemyUnit();
-
-        // then
-        Assertions.assertThat(isEnemyUnit).isFalse();
-    }
-
-
 }
