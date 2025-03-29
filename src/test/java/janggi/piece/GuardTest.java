@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.board.Board;
 import janggi.coordinate.JanggiPosition;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -15,27 +17,37 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class GuardTest {
 
+    private final Guard guard = new Guard(Country.CHO);
+    private final Map<JanggiPosition, Piece> janggiBoard = new HashMap<>();
+
+    @BeforeEach
+    void initJanggiBoard() {
+        janggiBoard.clear();
+    }
+
     @Nested
     @DisplayName("사 이동")
     class CanMove {
         @DisplayName("guard는 주변 한칸으로 이동할 수 있다.")
-        @Test
-        void guard() {
+        @ParameterizedTest
+        @MethodSource
+        void guard(final JanggiPosition dest, final boolean expected) {
             // given
-            final Piece guardPiece = new Guard(Country.CHO);
             final JanggiPosition now = new JanggiPosition(9, 4);
-            final JanggiPosition ableDest = new JanggiPosition(9, 5);
-            final JanggiPosition notAbleDest = new JanggiPosition(8, 5);
-            final Board board = new Board(new HashMap<>());
+
+            final Board board = new Board(janggiBoard);
 
             // when
-            final boolean actual1 = guardPiece.isAbleToMove(now, ableDest, board);
-            final boolean actual2 = guardPiece.isAbleToMove(now, notAbleDest, board);
+            final boolean actual = guard.canMove(now, dest, board);
 
             // then
-            org.junit.jupiter.api.Assertions.assertAll(
-                    () -> assertThat(actual1).isTrue(),
-                    () -> assertThat(actual2).isFalse()
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        static Stream<Arguments> guard() {
+            return Stream.of(
+                    Arguments.of(new JanggiPosition(9, 5), true),
+                    Arguments.of(new JanggiPosition(8, 5), false)
             );
         }
 
@@ -43,13 +55,13 @@ class GuardTest {
         @Test
         void guard1() {
             // given
-            final Piece guardPiece = new Guard(Country.HAN);
-            final JanggiPosition now = new JanggiPosition(2, 4);
-            final JanggiPosition notAbleDest = new JanggiPosition(2, 3);
-            final Board board = new Board(new HashMap<>());
+            final JanggiPosition now = new JanggiPosition(9, 4);
+            final JanggiPosition dest = new JanggiPosition(9, 3);
+
+            final Board board = new Board(janggiBoard);
 
             // when
-            final boolean actual = guardPiece.canMove(now, notAbleDest, board);
+            final boolean actual = guard.canMove(now, dest, board);
 
             // then
             assertThat(actual).isFalse();
@@ -60,17 +72,16 @@ class GuardTest {
         @MethodSource
         void guard2(final JanggiPosition source, final JanggiPosition destination) {
             // given
-            final Piece generalPiece = new Guard(Country.CHO);
-            final Board board = new Board(new HashMap<>());
+            final Board board = new Board(janggiBoard);
 
             // when
-            final boolean actual = generalPiece.canMove(source, destination, board);
+            final boolean actual = guard.canMove(source, destination, board);
 
             // then
             assertThat(actual).isTrue();
         }
 
-        static Stream<Arguments> guard2(){
+        static Stream<Arguments> guard2() {
             return Stream.of(
                     Arguments.of(new JanggiPosition(9, 5), new JanggiPosition(8, 6)),
                     Arguments.of(new JanggiPosition(8, 4), new JanggiPosition(9, 5))
