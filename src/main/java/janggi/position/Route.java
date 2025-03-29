@@ -8,7 +8,7 @@ import java.util.Objects;
 public class Route {
     private final List<Position> positions;
 
-    private Route(List<Position> positions) {
+    Route(List<Position> positions) {
         if (positions.isEmpty()) {
             throw new IllegalArgumentException("빈 경로는 존재할 수 없습니다.");
         }
