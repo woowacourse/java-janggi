@@ -12,33 +12,38 @@ public class GameDao {
     private final Connection connection = JdbcConnection.getInstance();
 
     public void createGameTableIfNotExists() {
-        final var createTableQuery = "CREATE TABLE IF NOT EXISTS game ("
+        final var query = "CREATE TABLE IF NOT EXISTS game ("
                 + "game_id INT AUTO_INCREMENT PRIMARY KEY, "
                 + "turn VARCHAR(64) NOT NULL)";
 
         try (Statement stmt = connection.createStatement()) {
-            stmt.execute(createTableQuery);
+            stmt.execute(query);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void initializeGameIfNotExists() {
-        final var insertInitialTurnQuery = "INSERT INTO game (turn) VALUES (?)";
-
-        String checkQuery = "SELECT COUNT(*) FROM game";
-        try (PreparedStatement pstmt = connection.prepareStatement(checkQuery);
+    public boolean isGameContinuing() {
+        final var query = "SELECT COUNT(*) FROM game";
+        try (PreparedStatement pstmt = connection.prepareStatement(query);
              ResultSet rs = pstmt.executeQuery()) {
-            if (rs.next() && rs.getInt(1) == 0) {
-                try (PreparedStatement insertStmt = connection.prepareStatement(insertInitialTurnQuery)) {
-                    insertStmt.setString(1, Team.CHO.name());  // 초기 턴을 "CHO"로 설정
-                    insertStmt.executeUpdate();
-                }
-            }
+            return rs.next() && rs.getInt(1) > 0;
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public void insertGameTurn(Team team) {
+        final var query = "INSERT INTO game (turn) VALUES (?)";
+
+        try (PreparedStatement insertStmt = connection.prepareStatement(query)) {
+            insertStmt.setString(1, team.name());
+            insertStmt.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public void saveTurn(Turn turn) {
         final var query = "UPDATE game SET turn = ?";
