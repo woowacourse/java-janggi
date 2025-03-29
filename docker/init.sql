@@ -25,5 +25,6 @@ CREATE TABLE `board` (
     team VARCHAR(64) NOT NULL,
     row_num INT NOT NULL,
     column_num INT NOT NULL,
-    is_alive BOOLEAN NOT NULL
+    is_alive BOOLEAN NOT NULL,
+    CONSTRAINT fk_janggi FOREIGN KEY (janggi_id) REFERENCES janggi(janggi_id)
 );
