@@ -1,5 +1,6 @@
 package janggi.view;
 
+import static janggi.view.SetupOption.EXIST_SETUP;
 import static janggi.view.SetupOption.INNER_SETUP;
 import static janggi.view.SetupOption.LEFT_SETUP;
 import static janggi.view.SetupOption.OUTER_SETUP;
@@ -29,6 +30,7 @@ class SetupOptionTest {
 
     private static Stream<Arguments> testSetupOption() {
         return Stream.of(
+                Arguments.of("0", EXIST_SETUP),
                 Arguments.of("1", INNER_SETUP),
                 Arguments.of("2", OUTER_SETUP),
                 Arguments.of("3", RIGHT_SETUP),
