@@ -38,7 +38,7 @@ public class Byeong implements PieceRule {
     }
 
     private boolean isInvalidByeongMove(final Position startPosition, final Position destination) {
-        return !startPosition.isDownMovementTo(destination)
+        return !startPosition.isUpMovementTo(destination)
                 && !startPosition.isLeftMovementTo(destination)
                 && !startPosition.isRightMovementTo(destination);
     }

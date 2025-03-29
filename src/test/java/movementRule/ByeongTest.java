@@ -47,7 +47,7 @@ class ByeongTest {
 
     private static Stream<Arguments> byeongNonCanMoveToPositionProvider() {
         return Stream.of(
-                Arguments.of(new Position(4, 5)),
+                Arguments.of(new Position(6, 5)),
                 Arguments.of(new Position(6, 3)),
                 Arguments.of(new Position(6, 6))
         );

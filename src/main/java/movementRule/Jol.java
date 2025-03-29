@@ -38,7 +38,7 @@ public class Jol implements PieceRule {
     }
 
     private boolean isInvalidJolMove(final Position startPosition, final Position destination) {
-        return !startPosition.isUpMovementTo(destination)
+        return !startPosition.isDownMovementTo(destination)
                 && !startPosition.isLeftMovementTo(destination)
                 && !startPosition.isRightMovementTo(destination);
     }
