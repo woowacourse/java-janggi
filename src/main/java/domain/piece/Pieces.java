@@ -28,7 +28,7 @@ public record Pieces(List<Piece> pieces) {
                 .anyMatch(piece -> piece.isSamePosition(position));
     }
 
-    public int catchByPosition(final Position position) {
+    public int deleteByPosition(final Position position) {
         Piece catchedPiece = findByPosition(position);
         pieces.remove(catchedPiece);
         return catchedPiece.getScore();

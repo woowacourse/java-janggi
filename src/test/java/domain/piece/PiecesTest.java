@@ -110,7 +110,7 @@ class PiecesTest {
         Pieces pieces = new Pieces(pieceElements);
 
         // when
-        int pieceScore = pieces.catchByPosition(position);
+        int pieceScore = pieces.deleteByPosition(position);
 
         // then
         assertAll(() -> {
