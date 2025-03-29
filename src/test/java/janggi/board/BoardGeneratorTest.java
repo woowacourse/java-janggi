@@ -131,7 +131,7 @@ class BoardGeneratorTest {
         assertThat(board.findWinner()).isEqualTo(Team.CHO);
     }
 
-    @DisplayName("두 장이 살아있을 때 승리팀을 계산한다.")
+    @DisplayName("한 팀의 장군이 죽었을 때 살아남은 장군의 팀이 승리한다.")
     @Test
     void testFindWinnerWhenOneGeneralIsDead() {
         // given
