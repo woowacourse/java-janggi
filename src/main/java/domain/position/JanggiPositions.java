@@ -10,34 +10,34 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class JanggiPiecePositions {
-    private final Map<JanggiPosition, JanggiChessPiece> chessPieces;
+public class JanggiPositions {
+    private final Map<JanggiPosition, JanggiChessPiece> pieces;
     private final BoardDao janggiBoardDao;
 
-    public JanggiPiecePositions(DefaultPositionsGenerator generator, BoardDao boardDao) {
+    public JanggiPositions(DefaultPositionsGenerator generator, BoardDao boardDao) {
         this.janggiBoardDao = boardDao;
         Map<JanggiPosition, JanggiChessPiece> all = doDatabaseWorkWithReturn(janggiBoardDao::findAll);
         if (all == null || all.isEmpty()) {
-            chessPieces = generator.generate();
+            pieces = generator.generate();
             saveAllPositions();
             return;
         }
-        chessPieces = all;
+        pieces = all;
     }
 
     private void saveAllPositions() {
-        for (JanggiPosition position : chessPieces.keySet()) {
-            doDatabaseWork(() -> janggiBoardDao.save(position, chessPieces.get(position)));
+        for (JanggiPosition position : pieces.keySet()) {
+            doDatabaseWork(() -> janggiBoardDao.save(position, pieces.get(position)));
         }
     }
 
     public boolean existChessPieceByPosition(final JanggiPosition position) {
-        return chessPieces.containsKey(position);
+        return pieces.containsKey(position);
     }
 
     public JanggiChessPiece getJanggiPieceByPosition(final JanggiPosition position) {
         validateExistPiece(position);
-        return chessPieces.get(position);
+        return pieces.get(position);
     }
 
     public void move(final JanggiPosition from, final JanggiPosition to) {
@@ -62,23 +62,23 @@ public class JanggiPiecePositions {
 
     public void removeJanggiPieceByPosition(final JanggiPosition position) {
         validateExistPiece(position);
-        chessPieces.remove(position);
+        pieces.remove(position);
         doDatabaseWork(() -> janggiBoardDao.delete(position));
     }
 
     private void putJanggiPiece(final JanggiPosition position, final JanggiChessPiece chessPiece) {
         validateEmptyPosition(position);
-        chessPieces.put(position, chessPiece);
+        pieces.put(position, chessPiece);
         doDatabaseWork(() -> janggiBoardDao.save(position, chessPiece));
     }
 
     public void reset() {
-        chessPieces.clear();
+        pieces.clear();
         doDatabaseWork(janggiBoardDao::deleteAll);
     }
 
     public Score calculateScoreWith(JanggiTeam team) {
-        final int total = chessPieces.values().stream()
+        final int total = pieces.values().stream()
                 .filter(p -> p.getTeam() == team)
                 .map(JanggiChessPiece::getScore)
                 .mapToInt(Score::value)
@@ -87,7 +87,7 @@ public class JanggiPiecePositions {
     }
 
     public Map<JanggiPosition, JanggiChessPiece> getJanggiPieces() {
-        return Collections.unmodifiableMap(chessPieces);
+        return Collections.unmodifiableMap(pieces);
     }
 
     private void doDatabaseWork(Runnable runnable) {

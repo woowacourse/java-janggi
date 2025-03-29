@@ -2,9 +2,9 @@ package domain.hurdlePolicy;
 
 import dao.EmptyJanggiBoardDao;
 import domain.path.Path;
-import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
+import domain.position.JanggiPositions;
 import domain.position.generator.EmptyPositionsGenerator;
 import domain.type.JanggiTeam;
 import org.junit.jupiter.api.DisplayName;
@@ -48,7 +48,7 @@ class CannonHurdlePolicyTest {
                         JanggiPositionFactory.of(9, 4)
                 ))
         );
-        JanggiPiecePositions positions = new JanggiPiecePositions(new EmptyPositionsGenerator(), new EmptyJanggiBoardDao());
+        JanggiPositions positions = new JanggiPositions(new EmptyPositionsGenerator(), new EmptyJanggiBoardDao());
 
         // when
         List<JanggiPosition> destinations = policy.pickDestinations(JanggiTeam.BLUE, coordinates, positions);

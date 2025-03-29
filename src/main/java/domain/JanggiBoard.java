@@ -5,8 +5,8 @@ import domain.hurdlePolicy.HurdlePolicy;
 import domain.janggiPiece.JanggiChessPiece;
 import domain.janggiPiece.Piece;
 import domain.path.Path;
-import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositions;
 import domain.position.generator.InitDefaultPositionsGenerator;
 import domain.score.Score;
 import domain.type.JanggiTeam;
@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 public class JanggiBoard {
-    private final JanggiPiecePositions janggiPiecePositions;
+    private final JanggiPositions janggiPositions;
 
     public JanggiBoard() {
-        this.janggiPiecePositions = new JanggiPiecePositions(
+        this.janggiPositions = new JanggiPositions(
                 new InitDefaultPositionsGenerator(),
                 new JanggiBoardDao()
         );
@@ -30,25 +30,25 @@ public class JanggiBoard {
         if (!isExistPieceAt(position)) {
             return false;
         }
-        JanggiChessPiece piece = janggiPiecePositions.getJanggiPieceByPosition(position);
+        JanggiChessPiece piece = janggiPositions.getJanggiPieceByPosition(position);
         return piece.getChessPieceType() == Piece.KING;
     }
 
     public boolean isExistPieceAt(JanggiPosition position) {
-        return janggiPiecePositions.existChessPieceByPosition(position);
+        return janggiPositions.existChessPieceByPosition(position);
     }
 
     public void move(final JanggiTeam currentTeam, final JanggiPosition from, final JanggiPosition to) {
         validateTeam(currentTeam, from);
         validateDestination(from, to);
-        if (janggiPiecePositions.existChessPieceByPosition(to)) {
+        if (janggiPositions.existChessPieceByPosition(to)) {
             killTarget(to);
         }
-        janggiPiecePositions.move(from, to);
+        janggiPositions.move(from, to);
     }
 
     public void validateTeam(final JanggiTeam currentTeam, final JanggiPosition from) {
-        JanggiChessPiece chessPiece = janggiPiecePositions.getJanggiPieceByPosition(from);
+        JanggiChessPiece chessPiece = janggiPositions.getJanggiPieceByPosition(from);
         if (currentTeam != chessPiece.getTeam()) {
             throw new IllegalArgumentException("상대편의 기물을 움직일 수 없습니다.");
         }
@@ -62,28 +62,28 @@ public class JanggiBoard {
     }
 
     private void killTarget(JanggiPosition to) {
-        janggiPiecePositions.removeJanggiPieceByPosition(to);
+        janggiPositions.removeJanggiPieceByPosition(to);
     }
 
     public List<JanggiPosition> getAvailableDestination(final JanggiPosition position) {
-        JanggiChessPiece chessPiece = janggiPiecePositions.getJanggiPieceByPosition(position);
+        JanggiChessPiece chessPiece = janggiPositions.getJanggiPieceByPosition(position);
         List<Path> coordinatePaths = chessPiece.getCoordinatePaths(position);
         HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
-        return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, janggiPiecePositions);
+        return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, janggiPositions);
     }
 
     public void reset() {
-        janggiPiecePositions.reset();
+        janggiPositions.reset();
     }
 
     public Map<JanggiPosition, JanggiChessPiece> getPositions() {
-        return janggiPiecePositions.getJanggiPieces();
+        return janggiPositions.getJanggiPieces();
     }
 
     public Map<JanggiTeam, Score> getScores() {
         Map<JanggiTeam, Score> scores = new EnumMap<>(JanggiTeam.class);
         for (JanggiTeam team : JanggiTeam.values()) {
-            scores.put(team, janggiPiecePositions.calculateScoreWith(team));
+            scores.put(team, janggiPositions.calculateScoreWith(team));
         }
         return Collections.unmodifiableMap(scores);
     }

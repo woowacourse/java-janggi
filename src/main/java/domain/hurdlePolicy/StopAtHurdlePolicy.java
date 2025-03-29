@@ -2,8 +2,8 @@ package domain.hurdlePolicy;
 
 import domain.janggiPiece.JanggiChessPiece;
 import domain.path.Path;
-import domain.position.JanggiPiecePositions;
 import domain.position.JanggiPosition;
+import domain.position.JanggiPositions;
 import domain.type.JanggiTeam;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class StopAtHurdlePolicy implements HurdlePolicy {
     @Override
-    public List<JanggiPosition> pickDestinations(JanggiTeam team, List<Path> coordinates, JanggiPiecePositions positions) {
+    public List<JanggiPosition> pickDestinations(JanggiTeam team, List<Path> coordinates, JanggiPositions positions) {
         List<JanggiPosition> destinations = new ArrayList<>();
         for (Path path : coordinates) {
             destinations.addAll(getAvailablePosition(team, positions, path));
@@ -21,7 +21,7 @@ public class StopAtHurdlePolicy implements HurdlePolicy {
 
     private List<JanggiPosition> getAvailablePosition(
             final JanggiTeam team,
-            final JanggiPiecePositions positions,
+            final JanggiPositions positions,
             final Path path
     ) {
         final List<JanggiPosition> chessPositions = new ArrayList<>();
@@ -36,7 +36,7 @@ public class StopAtHurdlePolicy implements HurdlePolicy {
         return chessPositions;
     }
 
-    private boolean canMove(JanggiTeam team, JanggiPosition targetPosition, JanggiPiecePositions positions) {
+    private boolean canMove(JanggiTeam team, JanggiPosition targetPosition, JanggiPositions positions) {
         if (!positions.existChessPieceByPosition(targetPosition)) {
             return true;
         }
