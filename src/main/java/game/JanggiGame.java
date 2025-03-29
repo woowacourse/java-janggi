@@ -18,30 +18,41 @@ public class JanggiGame {
         this.outputView = outputView;
     }
 
-    public void start() {
-        Board board = new Board(StartPosition.MA_SANG_SANG_MA, StartPosition.MA_SANG_MA_SANG);
-        outputView.displayBoard(board);
-
-        while (true) {
-            try {
-                outputView.printTurn(turnCountry);
-                List<String> moveInfo = inputView.readMoveCommand();
-
-                Position source = Position.of(moveInfo.get(0), moveInfo.get(1));
-                Position target = Position.of(moveInfo.get(2), moveInfo.get(3));
-
-                board.movePiece(source, target,turnCountry);
-                outputView.displayBoard(board);
-                changeTurn();
-            } catch (IllegalArgumentException e) {
-                System.out.println("ERROR"+e.getMessage());
-            }
+    public void run() {
+        Board board = setGame();
+        while (!isGameFinished(board)) {
+            playTurn(board);
         }
     }
 
-    private void changeTurn() {
-        turnCountry = turnCountry.reverseCountry();
+    private void playTurn(final Board board) {
+        try {
+            outputView.printTurn(turnCountry);
+            List<String> moveInfo = inputView.readMoveCommand();
+
+            Position fromPosition = Position.of(moveInfo.get(0), moveInfo.get(1));
+            Position toPosition = Position.of(moveInfo.get(2), moveInfo.get(3));
+
+            board.movePiece(fromPosition, toPosition, turnCountry);
+            outputView.displayBoard(board);
+            turnCountry = turnCountry.reverseCountry();
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("ERROR" + e.getMessage());
+        }
     }
 
+    private Board setGame() {
+        StartPosition choStartingPosition = inputView.getStartingPosition(Country.CHO);
+        StartPosition hanStartingPosition = inputView.getStartingPosition(Country.HAN);
+        Board board = new Board(choStartingPosition, hanStartingPosition);
+        outputView.displayBoard(board);
+        return board;
+    }
+
+
+    private boolean isGameFinished(Board board) {
+        return board.isGeneralDead();
+    }
 
 }

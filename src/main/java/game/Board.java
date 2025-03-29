@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import piece.Country;
 import piece.Piece;
+import piece.PieceType;
 import position.Position;
 
 public class Board {
@@ -41,4 +42,16 @@ public class Board {
     }
 
 
+    private boolean isChoGeneralDead() {
+        return board.values().stream()
+                .noneMatch(piece -> piece.getPieceType() == PieceType.GENERAL && piece.getCountry() == Country.CHO);
+    }
+    private boolean isHanGeneralDead() {
+        return board.values().stream()
+                .noneMatch(piece -> piece.getPieceType() == PieceType.GENERAL && piece.getCountry() == Country.HAN);
+    }
+
+    public boolean isGeneralDead() {
+        return (isChoGeneralDead() || isHanGeneralDead());
+    }
 }

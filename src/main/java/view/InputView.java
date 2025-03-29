@@ -1,26 +1,28 @@
 package view;
 
+import game.StartPosition;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import piece.Country;
 
 public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public int getStartingPosition() {
+    public StartPosition getStartingPosition(Country country) {
+        System.out.print(country.name());
         System.out.println("상차림을 입력하세요.\n"
                 + "1 : 마상마상\n"
                 + "2 : 상마상마\n"
                 + "3 : 상마마상\n"
                 + "4 : 마상상마");
-
-        try {
-            return Integer.parseInt(scanner.nextLine().trim());
-        } catch (NumberFormatException e) {
-            System.out.println("잘못된 입력입니다. 숫자를 입력해주세요.");
-            return getStartingPosition();
+        final String pattern = "[1-4]";
+        String input = scanner.nextLine().trim();
+        if (!input.matches(pattern)) {
+            throw new IllegalArgumentException("올바른 형식으로 입력해주세요. (예: 1)");
         }
+        return StartPosition.fromOption(Integer.parseInt(input));
     }
 
     public List<String> readMoveCommand() {
