@@ -1,13 +1,14 @@
 package janggi.piece.position;
 
-import janggi.position.Position;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import janggi.position.Position;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class PositionTest {
 
@@ -55,5 +56,28 @@ class PositionTest {
 
         // When & Then
         assertThat(position1.calculateDifferenceForX(position2)).isEqualTo(3);
+    }
+
+    @Test
+    void 궁성_안에_존재하는지_확인한다() {
+        // Given
+        final Position currentPosition = new Position(8, 4);
+        final Position arrivalPosition = new Position(9, 5);
+
+        // When & Then
+        assertThatCode(() -> currentPosition.validateIsInPalace(arrivalPosition))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void 궁성_밖에_있으면_예외가_발생한다() {
+        // Given
+        final Position currentPosition = new Position(8, 4);
+        final Position arrivalPosition = new Position(8, 3);
+
+        // When & Then
+        Assertions.assertThatThrownBy(() -> currentPosition.validateIsInPalace(arrivalPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[ERROR] 궁성 밖을 나갔습니다.");
     }
 }

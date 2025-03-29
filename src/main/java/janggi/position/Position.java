@@ -12,6 +12,12 @@ public class Position {
     private static final int X_MIN_THRESHOLD = 1;
     private static final int X_MAX_THRESHOLD = 9;
     private static final List<Position> POSITIONS = initialize();
+    private static final int HAN_PALACE_START_Y = 1;
+    private static final int HAN_PALACE_END_Y = 3;
+    private static final int PALACE_START_X = 4;
+    private static final int PALACE_END_X = 6;
+    private static final int CHO_PALACE_START_Y = 8;
+    private static final int CHO_PALACE_END_Y = 10;
 
     private final int y;
     private final int x;
@@ -70,6 +76,28 @@ public class Position {
 
     public Position move(final Direction direction) {
         return new Position(y + direction.getY(), x + direction.getX());
+    }
+
+    public void validateIsInPalace(final Position arrivalPosition) {
+        if (!isInPalace(arrivalPosition)) {
+            throw new IllegalArgumentException("[ERROR] 궁성 밖을 나갔습니다.");
+        }
+    }
+
+    private boolean isInPalace(final Position arrivalPosition) {
+        return isInPalace(y, x) && isInPalace(arrivalPosition.getY(), arrivalPosition.getX());
+    }
+
+    private boolean isInPalace(final int currentY, final int currentX) {
+        if ((HAN_PALACE_START_Y <= currentY && currentY <= HAN_PALACE_END_Y) &&
+                (PALACE_START_X <= currentX && currentX <= PALACE_END_X)) {
+            return true;
+        }
+        if ((CHO_PALACE_START_Y <= currentY && currentY <= CHO_PALACE_END_Y) && (
+                PALACE_START_X <= currentX && currentX <= PALACE_END_X)) {
+            return true;
+        }
+        return false;
     }
 
     @Override

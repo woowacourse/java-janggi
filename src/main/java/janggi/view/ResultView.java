@@ -2,7 +2,7 @@ package janggi.view;
 
 import janggi.direction.PieceMovement;
 import janggi.piece.Piece;
-import janggi.piece.Pieces;
+import janggi.piece.Board;
 import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
@@ -35,7 +35,7 @@ public class ResultView {
             PieceMovement.HAN_SOLDIER, List.of("兵")
     );
 
-    public void printBoard(final Pieces choPieces, final Pieces hanPieces) {
+    public void printBoard(final Board choBoard, final Board hanBoard) {
         System.out.printf(HEADER);
         for (int y = 1; y <= 10; y++) {
             // TODO: 리스트로 스트링 넣고 팀에 따라 색깔 조합 + 한자 받아오기
@@ -48,11 +48,11 @@ public class ResultView {
                 if (x == 5) {
                     sb.append(BLANK);
                 }
-                if (!hanPieces.hasPiece(currentPosition) && !choPieces.hasPiece(currentPosition)) {
+                if (!hanBoard.hasPiece(currentPosition) && !choBoard.hasPiece(currentPosition)) {
                     sb.append(BLANK);
                     continue;
                 }
-                sb.append(makeTeamMessage(hanPieces, choPieces, currentPosition));
+                sb.append(makeTeamMessage(hanBoard, choBoard, currentPosition));
             }
             System.out.println(sb);
             if (y != 10) {
@@ -61,12 +61,12 @@ public class ResultView {
         }
     }
 
-    public String makeTeamMessage(final Pieces hanPieces, final Pieces choPieces, final Position currentPosition) {
-        if (hanPieces.hasPiece(currentPosition)) {
-            final Piece piece = hanPieces.findPieceByPosition(currentPosition);
+    public String makeTeamMessage(final Board hanBoard, final Board choBoard, final Position currentPosition) {
+        if (hanBoard.hasPiece(currentPosition)) {
+            final Piece piece = hanBoard.findPieceByPosition(currentPosition);
             return getValue(piece.getPieceMovement(), Team.HAN);
         }
-        final Piece piece = choPieces.findPieceByPosition(currentPosition);
+        final Piece piece = choBoard.findPieceByPosition(currentPosition);
         return getValue(piece.getPieceMovement(), Team.CHO);
     }
 

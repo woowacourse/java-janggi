@@ -74,6 +74,14 @@ public enum PieceMovement {
         this.movements = movements;
     }
 
+    public boolean doesLiveInPalace() {
+        return this == KING || this == GUARD;
+    }
+
+    public boolean canNotMoveDiagonal() {
+        return !(this == PieceMovement.HORSE || this == PieceMovement.ELEPHANT);
+    }
+
     public Movements getMovements() {
         return movements;
     }

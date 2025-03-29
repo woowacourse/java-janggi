@@ -27,10 +27,22 @@ public class Movements {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 적절한 움직임이 아닙니다."));
     }
 
+    public void add(final Movements givenMovements) {
+        movements.addAll(givenMovements.getMovements());
+    }
+
+    public void delete(final Movements givenMovements) {
+        movements.removeAll(givenMovements.getMovements());
+    }
+
     private int calculateUnit(final int difference) {
         if (difference == 0) {
             return difference;
         }
         return difference / Math.abs(difference);
+    }
+
+    public List<Movement> getMovements() {
+        return movements;
     }
 }

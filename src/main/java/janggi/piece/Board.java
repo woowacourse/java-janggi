@@ -9,24 +9,23 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-// 기물들을 관리한다.
-public class Pieces {
+public class Board {
 
     private final Map<Position, Piece> pieces;
 
-    public Pieces(final Map<Position, Piece> pieces) {
+    public Board(final Map<Position, Piece> pieces) {
         this.pieces = new HashMap<>(pieces);
     }
 
-    public static Pieces from(final Set<Piece> givenPieces) {
-        return new Pieces(givenPieces.stream()
+    public static Board from(final Set<Piece> givenPieces) {
+        return new Board(givenPieces.stream()
                 .collect(Collectors.toMap(Piece::getPosition, Function.identity())));
     }
 
     public void validatePath(final Position currentPosition, final Position arrivalPosition,
-                             final Pieces totalPieces) {
+                             final Board totalBoard) {
         final Piece piece = findPieceByPosition(currentPosition);
-        piece.validateMovement(currentPosition, arrivalPosition, totalPieces);
+        piece.validateMovement(currentPosition, arrivalPosition, totalBoard);
     }
 
     public Piece findPieceByPosition(final Position position) {
@@ -65,6 +64,16 @@ public class Pieces {
 
         pieces.put(firstPosition, secondPiece);
         pieces.put(secondPosition, firstPiece);
+    }
+
+    public boolean isInPalace(final int currentY, final int currentX) {
+        if ((1 <= currentY && currentY <= 3) && (4 <= currentX && currentX <= 6)) {
+            return true;
+        }
+        if ((8 <= currentY && currentY <= 10) && (4 <= currentX && currentX <= 6)) {
+            return true;
+        }
+        return false;
     }
 
     public List<Piece> getPieces() {

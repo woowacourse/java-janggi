@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.direction.PieceMovement;
-import janggi.piece.Pieces;
+import janggi.piece.Board;
 import janggi.piece.PiecesFactory;
 import janggi.position.Position;
 import org.junit.jupiter.api.Test;
@@ -19,27 +19,27 @@ class MoveRulesFactoryTest {
         // When
         final BoardOrder hanBoardOrder = BoardOrder.ELEPHANT_HORSE_ELEPHANT_HORSE;
         final BoardOrder choBoardOrder = BoardOrder.ELEPHANT_HORSE_ELEPHANT_HORSE;
-        final Pieces hanPieces = piecesFactory.makeHanPieces(hanBoardOrder);
-        final Pieces choPieces = piecesFactory.makeChoPieces(choBoardOrder);
+        final Board hanBoard = piecesFactory.makeHanPieces(hanBoardOrder);
+        final Board choBoard = piecesFactory.makeChoPieces(choBoardOrder);
 
         // Then
         assertAll(
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 2)).getPieceMovement()).
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 2)).getPieceMovement()).
                         isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 3)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 3)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 7)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 7)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 8)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 8)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE),
 
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 2)).getPieceMovement()).
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 2)).getPieceMovement()).
                         isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 3)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 3)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 7)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 7)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 8)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 8)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE)
         );
     }
@@ -52,27 +52,27 @@ class MoveRulesFactoryTest {
         // When
         final BoardOrder hanBoardOrder = BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
         final BoardOrder choBoardOrder = BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
-        final Pieces hanPieces = piecesFactory.makeHanPieces(hanBoardOrder);
-        final Pieces choPieces = piecesFactory.makeChoPieces(choBoardOrder);
+        final Board hanBoard = piecesFactory.makeHanPieces(hanBoardOrder);
+        final Board choBoard = piecesFactory.makeChoPieces(choBoardOrder);
 
         // Then
         assertAll(
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 2)).getPieceMovement()).
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 2)).getPieceMovement()).
                         isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 3)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 3)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 7)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 7)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 8)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 8)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT),
 
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 2)).getPieceMovement()).
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 2)).getPieceMovement()).
                         isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 3)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 3)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 7)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 7)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 8)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 8)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT)
         );
     }
@@ -85,27 +85,27 @@ class MoveRulesFactoryTest {
         // When
         final BoardOrder hanBoardOrder = BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
         final BoardOrder choBoardOrder = BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
-        final Pieces hanPieces = piecesFactory.makeHanPieces(hanBoardOrder);
-        final Pieces choPieces = piecesFactory.makeChoPieces(choBoardOrder);
+        final Board hanBoard = piecesFactory.makeHanPieces(hanBoardOrder);
+        final Board choBoard = piecesFactory.makeChoPieces(choBoardOrder);
 
         // Then
         assertAll(
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 2)).getPieceMovement()).
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 2)).getPieceMovement()).
                         isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 3)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 3)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 7)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 7)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 8)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 8)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT),
 
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 2)).getPieceMovement()).
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 2)).getPieceMovement()).
                         isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 3)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 3)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 7)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 7)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 8)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 8)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT)
         );
     }
@@ -118,27 +118,27 @@ class MoveRulesFactoryTest {
         // When
         final BoardOrder hanBoardOrder = BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
         final BoardOrder choBoardOrder = BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
-        final Pieces hanPieces = piecesFactory.makeHanPieces(hanBoardOrder);
-        final Pieces choPieces = piecesFactory.makeChoPieces(choBoardOrder);
+        final Board hanBoard = piecesFactory.makeHanPieces(hanBoardOrder);
+        final Board choBoard = piecesFactory.makeChoPieces(choBoardOrder);
 
         // Then
         assertAll(
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 2)).getPieceMovement()).
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 2)).getPieceMovement()).
                         isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 3)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 3)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 7)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 7)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(hanPieces.findPieceByPosition(new Position(1, 8)).getPieceMovement())
+                () -> assertThat(hanBoard.findPieceByPosition(new Position(1, 8)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE),
 
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 2)).getPieceMovement()).
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 2)).getPieceMovement()).
                         isEqualTo(PieceMovement.HORSE),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 3)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 3)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 7)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 7)).getPieceMovement())
                         .isEqualTo(PieceMovement.ELEPHANT),
-                () -> assertThat(choPieces.findPieceByPosition(new Position(10, 8)).getPieceMovement())
+                () -> assertThat(choBoard.findPieceByPosition(new Position(10, 8)).getPieceMovement())
                         .isEqualTo(PieceMovement.HORSE)
         );
     }

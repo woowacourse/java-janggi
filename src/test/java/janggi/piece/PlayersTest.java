@@ -5,7 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.direction.PieceMovement;
 import janggi.position.Position;
-import janggi.strategy.WalkingStrategy;
+import janggi.direction.PieceMoveRule;
+import janggi.strategy.ObstacleBlockStrategy;
 import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -18,12 +19,12 @@ class PlayersTest {
     @ParameterizedTest
     @MethodSource
     void 게임을_계속_진행하기_위해_두_나라의_왕이_모두_존재하면_true를_반환한다(
-            final Pieces hanPieces,
-            final Pieces choPieces,
+            final Board hanBoard,
+            final Board choBoard,
             final boolean expected
     ) {
         // Given
-        final Players players = new Players(Map.of(Team.HAN, hanPieces, Team.CHO, choPieces));
+        final Players players = new Players(Map.of(Team.HAN, hanBoard, Team.CHO, choBoard));
 
         // When & Then
         assertThat(players.canContinue()).isEqualTo(expected);
@@ -32,12 +33,12 @@ class PlayersTest {
     private static Stream<Arguments> 게임을_계속_진행하기_위해_두_나라의_왕이_모두_존재하면_true를_반환한다() {
         final Position position1 = new Position(1, 1);
         final Position position2 = new Position(1, 2);
-        final Piece king1 = new Piece(new WalkingStrategy(PieceMovement.KING), position1);
-        final Piece king2 = new Piece(new WalkingStrategy(PieceMovement.KING), position2);
+        final Piece king1 = new Piece(new PieceMoveRule(PieceMovement.KING, new ObstacleBlockStrategy()), position1);
+        final Piece king2 = new Piece(new PieceMoveRule(PieceMovement.KING, new ObstacleBlockStrategy()), position2);
         return Stream.of(
-                Arguments.of(new Pieces(Map.of(position1, king1)),
-                        new Pieces(Map.of(position2, king2)), true),
-                Arguments.of(new Pieces(Map.of(position1, king1)), new Pieces(Map.of()), false)
+                Arguments.of(new Board(Map.of(position1, king1)),
+                        new Board(Map.of(position2, king2)), true),
+                Arguments.of(new Board(Map.of(position1, king1)), new Board(Map.of()), false)
         );
     }
 
@@ -46,9 +47,9 @@ class PlayersTest {
         // Given
         final Team team = Team.HAN;
         final Position position = new Position(1, 1);
-        final Piece king = new Piece(new WalkingStrategy(PieceMovement.KING), position);
-        final Pieces pieces = new Pieces(Map.of(position, king));
-        final Players players = new Players(Map.of(Team.CHO, pieces, Team.HAN, new Pieces(Map.of())));
+        final Piece king = new Piece(new PieceMoveRule(PieceMovement.KING, new ObstacleBlockStrategy()), position);
+        final Board board = new Board(Map.of(position, king));
+        final Players players = new Players(Map.of(Team.CHO, board, Team.HAN, new Board(Map.of())));
 
         // When & Then
         assertThat(players.findWinningTeam()).isEqualTo(team.getOppositeTeam());
@@ -60,11 +61,11 @@ class PlayersTest {
         // Given
         final Position position1 = new Position(1, 1);
         final Position position2 = new Position(1, 2);
-        final Piece king1 = new Piece(new WalkingStrategy(PieceMovement.KING), position1);
-        final Pieces choPieces = new Pieces(Map.of(king1.getPosition(), king1));
-        final Piece king2 = new Piece(new WalkingStrategy(PieceMovement.KING), position2);
-        final Pieces hanPieces = new Pieces(Map.of(king2.getPosition(), king2));
-        final Players players = new Players(Map.of(Team.CHO, choPieces, Team.HAN, hanPieces));
+        final Piece king1 = new Piece(new PieceMoveRule(PieceMovement.KING, new ObstacleBlockStrategy()), position1);
+        final Board choBoard = new Board(Map.of(king1.getPosition(), king1));
+        final Piece king2 = new Piece(new PieceMoveRule(PieceMovement.KING, new ObstacleBlockStrategy()), position2);
+        final Board hanBoard = new Board(Map.of(king2.getPosition(), king2));
+        final Players players = new Players(Map.of(Team.CHO, choBoard, Team.HAN, hanBoard));
 
         // When & Then
         assertThatThrownBy(players::findWinningTeam)
@@ -77,12 +78,12 @@ class PlayersTest {
         // Given
         final Position currentPosition = new Position(10, 1);
         final Position arrivalPosition = new Position(9, 1);
-        final Piece choSoldier = new Piece(new WalkingStrategy(PieceMovement.CHO_SOLDIER), currentPosition);
+        final Piece choSoldier = new Piece(new PieceMoveRule(PieceMovement.CHO_SOLDIER, new ObstacleBlockStrategy()), currentPosition);
         final Team otherTeam = Team.HAN;
 
-        final Pieces choPieces = new Pieces(Map.of(currentPosition, choSoldier));
-        final Pieces hanPieces = new Pieces(Map.of());
-        final Players players = new Players(Map.of(Team.CHO, choPieces, Team.HAN, hanPieces));
+        final Board choBoard = new Board(Map.of(currentPosition, choSoldier));
+        final Board hanBoard = new Board(Map.of());
+        final Players players = new Players(Map.of(Team.CHO, choBoard, Team.HAN, hanBoard));
 
         // When & Then
         assertThatThrownBy(
@@ -96,11 +97,11 @@ class PlayersTest {
         // Given
         final Position currentPosition = new Position(8, 1);
         final Position arrivalPosition = new Position(9, 1);
-        final Piece choSoldier = new Piece(new WalkingStrategy(PieceMovement.CHO_SOLDIER), new Position(10, 1));
+        final Piece choSoldier = new Piece(new PieceMoveRule(PieceMovement.CHO_SOLDIER, new ObstacleBlockStrategy()), new Position(10, 1));
 
-        final Pieces choPieces = new Pieces(Map.of(currentPosition, choSoldier));
-        final Pieces hanPieces = new Pieces(Map.of());
-        final Players players = new Players(Map.of(Team.CHO, choPieces, Team.HAN, hanPieces));
+        final Board choBoard = new Board(Map.of(currentPosition, choSoldier));
+        final Board hanBoard = new Board(Map.of());
+        final Players players = new Players(Map.of(Team.CHO, choBoard, Team.HAN, hanBoard));
 
         // When & Then
         assertThatThrownBy(() -> players.move(currentPosition, arrivalPosition, Team.HAN))
@@ -112,12 +113,12 @@ class PlayersTest {
     void 두_좌표를_입력받아_다른_팀의_기물을_잡는다() {
         // Given
         final Position choPosition = new Position(10, 1);
-        final Piece choSoldier = new Piece(new WalkingStrategy(PieceMovement.CHO_SOLDIER), choPosition);
+        final Piece choSoldier = new Piece(new PieceMoveRule(PieceMovement.CHO_SOLDIER, new ObstacleBlockStrategy()), choPosition);
         final Position hanPosition = new Position(9, 1);
-        final Piece hanSoldier = new Piece(new WalkingStrategy(PieceMovement.HAN_SOLDIER), hanPosition);
+        final Piece hanSoldier = new Piece(new PieceMoveRule(PieceMovement.HAN_SOLDIER, new ObstacleBlockStrategy()), hanPosition);
         final Players players = new Players(
-                Map.of(Team.CHO, new Pieces(Map.of(choPosition, choSoldier)), Team.HAN,
-                        new Pieces(Map.of(hanPosition, hanSoldier))));
+                Map.of(Team.CHO, new Board(Map.of(choPosition, choSoldier)), Team.HAN,
+                        new Board(Map.of(hanPosition, hanSoldier))));
 
         // When
         players.move(choPosition, hanPosition, Team.CHO);
@@ -131,11 +132,11 @@ class PlayersTest {
         // Given
         final Position soldierPosition = new Position(10, 1);
         final Position guardPosition = new Position(9, 1);
-        final Piece soldier = new Piece(new WalkingStrategy(PieceMovement.CHO_SOLDIER), soldierPosition);
-        final Piece guard = new Piece(new WalkingStrategy(PieceMovement.GUARD), guardPosition);
+        final Piece soldier = new Piece(new PieceMoveRule(PieceMovement.CHO_SOLDIER, new ObstacleBlockStrategy()), soldierPosition);
+        final Piece guard = new Piece(new PieceMoveRule(PieceMovement.GUARD, new ObstacleBlockStrategy()), guardPosition);
         final Players players = new Players(
-                Map.of(Team.CHO, new Pieces(Map.of(soldierPosition, soldier, guardPosition, guard)), Team.HAN,
-                        new Pieces(Map.of())));
+                Map.of(Team.CHO, new Board(Map.of(soldierPosition, soldier, guardPosition, guard)), Team.HAN,
+                        new Board(Map.of())));
 
         // When & Then
         assertThatThrownBy(() -> players.move(soldierPosition, guardPosition, Team.CHO))
@@ -147,8 +148,8 @@ class PlayersTest {
     void 같은_위치로_이동을_시도하는_경우_예외가_발생한다() {
         // Given
         final Position position = new Position(10, 1);
-        final Piece piece = new Piece(new WalkingStrategy(PieceMovement.CHO_SOLDIER), position);
-        final Players players = new Players(Map.of(Team.CHO, new Pieces(Map.of(position, piece))));
+        final Piece piece = new Piece(new PieceMoveRule(PieceMovement.CHO_SOLDIER, new ObstacleBlockStrategy()), position);
+        final Players players = new Players(Map.of(Team.CHO, new Board(Map.of(position, piece))));
 
         // When & Then
         assertThatThrownBy(() -> players.move(position, position, Team.CHO))

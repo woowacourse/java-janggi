@@ -1,17 +1,18 @@
 package janggi.piece;
 
+import janggi.direction.Movements;
 import janggi.direction.PieceMovement;
 import janggi.position.Position;
-import janggi.strategy.MoveStrategy;
-import java.util.Set;
+import janggi.direction.PieceMoveRule;
+import java.util.Optional;
 
 public class Piece {
 
-    private final MoveStrategy moveStrategy;
+    private final PieceMoveRule pieceMoveRule;
     private Position position;
 
-    public Piece(final MoveStrategy moveStrategy, final Position position) {
-        this.moveStrategy = moveStrategy;
+    public Piece(final PieceMoveRule pieceMoveRule, final Position position) {
+        this.pieceMoveRule = pieceMoveRule;
         this.position = position;
     }
 
@@ -24,19 +25,31 @@ public class Piece {
     }
 
     public void validateMovement(final Position currentPosition, final Position arrivalPosition,
-                                 final Pieces pieces) {
-        moveStrategy.validatePath(currentPosition, arrivalPosition, pieces);
+                                 final Board board) {
+        if (getPieceMovement().canNotMoveDiagonal()) {
+            final Optional<Movements> optionalMovements = PalaceMovement.getMovements(currentPosition);
+            optionalMovements.ifPresent(pieceMoveRule::addMovement);
+            pieceMoveRule.validatePath(currentPosition, arrivalPosition, board);
+            optionalMovements.ifPresent(pieceMoveRule::deleteMovement);
+            return;
+        }
+        pieceMoveRule.validatePath(currentPosition, arrivalPosition, board);
+    }
+
+    public boolean isObstacleJumping() {
+        return getPieceMovement() == PieceMovement.CANNON;
     }
 
     public boolean matchPieceMovement(final PieceMovement givenPieceMovement) {
         return getPieceMovement() == givenPieceMovement;
     }
 
+
     public Position getPosition() {
         return position;
     }
 
     public PieceMovement getPieceMovement() {
-        return moveStrategy.getPieceMovement();
+        return pieceMoveRule.getPieceMovement();
     }
 }

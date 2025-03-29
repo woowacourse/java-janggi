@@ -1,7 +1,7 @@
 package janggi;
 
 import janggi.board.BoardOrder;
-import janggi.piece.Pieces;
+import janggi.piece.Board;
 import janggi.piece.PiecesFactory;
 import janggi.piece.Team;
 import janggi.piece.Players;
@@ -43,9 +43,9 @@ public class JanggiConsole {
         final PiecesFactory piecesFactory = new PiecesFactory();
         final int choOrder = StringParser.parseInt(inputView.readChoBoardOrder());
         final int hanOrder = StringParser.parseInt(inputView.readHanBoardOrder());
-        final Pieces choPieces = piecesFactory.makeChoPieces(BoardOrder.from(choOrder));
-        final Pieces hanPieces = piecesFactory.makeHanPieces(BoardOrder.from(hanOrder));
-        final Players players = new Players(Map.of(Team.CHO, choPieces, Team.HAN, hanPieces));
+        final Board choBoard = piecesFactory.makeChoPieces(BoardOrder.from(choOrder));
+        final Board hanBoard = piecesFactory.makeHanPieces(BoardOrder.from(hanOrder));
+        final Players players = new Players(Map.of(Team.CHO, choBoard, Team.HAN, hanBoard));
         resultView.printBoard(players.getChoPieces(), players.getHanPieces());
         return players;
     }
