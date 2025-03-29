@@ -1,7 +1,6 @@
 package dao;
 
 import dao.init.ConnectionFactory;
-import dao.init.DatabaseSetting;
 import domain.piece.character.Team;
 import fixture.TestMySQLConnectionFactory;
 import java.sql.Connection;
@@ -23,7 +22,7 @@ class GameRoomDaoTest {
     void setupConnection() throws SQLException {
         testConnection = connectionFactory.createConnection();
         testConnection.setAutoCommit(false);
-        DatabaseSetting.settingTable(testConnection);
+//        DatabaseSetting.settingTable(testConnection);
         gameRoomDao = new GameRoomDao();
     }
 

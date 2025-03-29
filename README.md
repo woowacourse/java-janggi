@@ -2,11 +2,18 @@
 
 ## 실행 환경 구축
 
-./docker/docker-compose.yml가 존재하는 경로에서
-아래의 명령어를 먼저 입력해야 데이터베이스 관련 로직이 동작합니다.
+./docker/docker-compose.yml가 존재하는 경로에서 아래의 명령어를 먼저 입력해야 데이터베이스 관련 로직이 동작합니다.
+
+docker 컨테이너 실행
 
 ```shell
 docker-compose -p janggi up -d
+```
+
+docker 컨테이너를 종료
+
+```shell
+docker-compose -p janggi down
 ```
 
 ## 프로그램 실행 흐름

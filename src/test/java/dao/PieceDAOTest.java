@@ -1,7 +1,6 @@
 package dao;
 
 import dao.init.ConnectionFactory;
-import dao.init.DatabaseSetting;
 import domain.piece.character.PieceType;
 import domain.piece.character.Team;
 import domain.point.Point;
@@ -28,7 +27,7 @@ class PieceDaoTest {
     void setupConnection() throws SQLException {
         testConnection = connectionFactory.createConnection();
         testConnection.setAutoCommit(false);
-        DatabaseSetting.settingTable(testConnection);
+//        DatabaseSetting.settingTable(testConnection);
         pieceDAO = new PieceDao();
         gameRoomDAO = new GameRoomDao();
         gameRoomDAO.insert(testConnection, new GameRoomEntity(GAME_ROOM_NAME, Team.CHO));

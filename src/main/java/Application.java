@@ -1,7 +1,6 @@
 import dao.GameRoomDao;
 import dao.PieceDao;
 import dao.init.ConnectionFactory;
-import dao.init.DatabaseSetting;
 import dao.init.MySQLConnectionFactory;
 import manager.GameManager;
 import manager.GameService;
@@ -10,7 +9,7 @@ public class Application {
 
     public static void main(String[] args) {
         ConnectionFactory connectionFactory = new MySQLConnectionFactory();
-        DatabaseSetting.settingTable(connectionFactory.createConnection());
+//        DatabaseSetting.settingTable(connectionFactory.createConnection());
 
         GameManager gameManager = new GameManager(
                 new GameService(
