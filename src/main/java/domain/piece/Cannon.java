@@ -1,11 +1,9 @@
 package domain.piece;
 
-import domain.board.Axis;
 import domain.board.BoardLocation;
 import domain.board.BoardVector;
 import domain.board.Palace;
-import domain.board.Quadrant;
-import java.util.Collections;
+import domain.board.PathDirection;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,17 +30,8 @@ public class Cannon extends Piece {
     @Override
     protected List<BoardLocation> createAllPath(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
-        if (boardVector.isAxis()) {
-            Axis axis = Axis.findAxis(boardVector);
-            return axis.createAllPath(current, boardVector);
-        }
-
-        if (boardVector.isDiagonal()) {
-            Quadrant quadrant = Quadrant.findQuadrant(boardVector);
-            return quadrant.createAllPath(current, boardVector);
-        }
-
-        return Collections.emptyList();
+        PathDirection pathDirection = PathDirection.findPathDirection(boardVector);
+        return pathDirection.createPaths(current, boardVector);
     }
 
     @Override
