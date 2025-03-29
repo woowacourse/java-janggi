@@ -14,10 +14,6 @@ public class GameService {
         this.gameDao = gameDao;
     }
 
-    public void createGame(){
-        gameDao.createGameTableIfNotExists();
-    }
-
     public void insertInitializeGameTurn(){
         gameDao.insertGameTurn(Team.CHO);
     }

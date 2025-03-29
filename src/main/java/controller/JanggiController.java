@@ -43,7 +43,7 @@ public class JanggiController {
                 consoleView.showScore(janggiGame.getTotalScore(Team.HAN), janggiGame.getTotalScore(Team.CHO));
                 consoleView.showTurn(janggiGame.getTurn());
                 int selectNumber = consoleView.showSelect();
-                if (selectNumber == 1){
+                if (selectNumber == 2){
                     gameService.saveTurn(janggiGame);
                     pieceService.updateBoardPieceLocation(janggiGame);
                     break;
@@ -66,9 +66,7 @@ public class JanggiController {
 
     private JanggiGame initializeJanggiGame() {
         JanggiGame janggiGame = createJanggiGame();
-        gameService.createGame();
         gameService.insertInitializeGameTurn();
-        pieceService.createPieceTable();
         pieceService.insertInitializePieceIfNotExists(janggiGame);
         return janggiGame;
     }

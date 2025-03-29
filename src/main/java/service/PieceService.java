@@ -12,10 +12,6 @@ public class PieceService {
         this.pieceDao = pieceDao;
     }
 
-    public void createPieceTable(){
-        pieceDao.createPieceTableIfNotExists();
-    }
-
     public void insertInitializePieceIfNotExists(JanggiGame janggiGame){
         pieceDao.initializePieceIfNotExists(janggiGame.getBoard());
     }

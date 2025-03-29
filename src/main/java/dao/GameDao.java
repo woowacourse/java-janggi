@@ -13,18 +13,6 @@ import java.util.Optional;
 public class GameDao {
     private final Connection connection = JdbcConnection.getInstance();
 
-    public void createGameTableIfNotExists() {
-        final var query = "CREATE TABLE IF NOT EXISTS game ("
-                + "game_id INT AUTO_INCREMENT PRIMARY KEY, "
-                + "turn VARCHAR(64) NOT NULL)";
-
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute(query);
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void insertGameTurn(Team team) {
         final var query = "INSERT INTO game (turn) VALUES (?)";
 
@@ -37,6 +25,7 @@ public class GameDao {
     }
 
     public Optional<TurnDto> findTurnByGameId(int game_id) {
+        createGameTableIfNotExists();
         final var query = "SELECT turn FROM game WHERE game_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -59,6 +48,18 @@ public class GameDao {
         final var query = "UPDATE game SET turn = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, turn.getTeam().name());
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void createGameTableIfNotExists() {
+        final var query = "CREATE TABLE IF NOT EXISTS game ("
+                + "game_id INT AUTO_INCREMENT PRIMARY KEY, "
+                + "turn VARCHAR(64) NOT NULL)";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(query);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

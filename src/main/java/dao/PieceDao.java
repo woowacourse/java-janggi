@@ -27,23 +27,6 @@ import java.util.Optional;
 public class PieceDao {
     private final Connection connection = JdbcConnection.getInstance();
 
-    public void createPieceTableIfNotExists() {
-        String sql = "CREATE TABLE IF NOT EXISTS piece (" +
-                "piece_id INT AUTO_INCREMENT PRIMARY KEY, " +
-                "piece_type VARCHAR(50) NOT NULL, " +
-                "team VARCHAR(10) NOT NULL, " +
-                "location_x INT NOT NULL, " +
-                "location_y INT NOT NULL, " +
-                "is_alive BOOLEAN NOT NULL, ";
-
-        try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate(sql);
-            System.out.println("테이블이 생성되었습니다.");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void initializePieceIfNotExists(Board board) {
         Map<BoardLocation, Piece> pieces = board.getPieces();
         String query = "INSERT INTO piece ("
@@ -61,6 +44,7 @@ public class PieceDao {
                 stmt.setInt(3, entry.getKey().x());
                 stmt.setInt(4, entry.getKey().y());
                 stmt.setBoolean(5, true);
+                stmt.executeUpdate();
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -68,21 +52,23 @@ public class PieceDao {
     }
 
     public Optional<BoardDto> findByAllAlivePieces() {
-        String query = "SELECT piece_type,team, location_x, location_y "
+        createPieceTableIfNotExists();
+        String query = "SELECT piece_type, team, location_x, location_y "
                 + "FROM piece WHERE is_alive = true";
         Map<BoardLocation, Piece> pieces = new HashMap<>();
+
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.wasNull()) {
+                if (!rs.next()) {
                     return Optional.empty();
                 }
-                while (rs.next()) {
+                do {
                     String pieceType = rs.getString("piece_type");
                     String team = rs.getString("team");
                     int locationX = rs.getInt("location_x");
                     int locationY = rs.getInt("location_y");
                     pieces.put(new BoardLocation(locationX, locationY), createPieceByType(pieceType, team));
-                }
+                } while (rs.next());
             }
             return Optional.of(new BoardDto(pieces));
         } catch (final SQLException e) {
@@ -119,6 +105,23 @@ public class PieceDao {
         }
     }
 
+    private void createPieceTableIfNotExists() {
+        String sql = "CREATE TABLE IF NOT EXISTS piece (" +
+                "piece_id INT AUTO_INCREMENT PRIMARY KEY, " +
+                "piece_type VARCHAR(50) NOT NULL, " +
+                "team VARCHAR(10) NOT NULL, " +
+                "location_x INT NOT NULL, " +
+                "location_y INT NOT NULL, " +
+                "is_alive BOOLEAN NOT NULL" +
+                ")";
+
+        try (Statement stmt = connection.createStatement()) {
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Piece createPieceByType(String pieceType, String teamName) throws SQLException {
         Piece piece;
         Team team = Team.getTeamByName(teamName);
@@ -147,6 +150,4 @@ public class PieceDao {
         }
         return piece;
     }
-
-
 }
