@@ -60,4 +60,31 @@ public final class BoardDao {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<PieceEntity> readPieceEntitiesFromBoardEntity() {
+        final var query = "SELECT row_value, column_value, type, dynasty FROM Board";
+        final List<PieceEntity> pieceEntities = new ArrayList<>();
+
+        try (final var connection = BoardDao.getConnection()) {
+            if (connection == null) {
+                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
+            }
+            try (final var statement = connection.createStatement();
+                 final var resultSet = statement.executeQuery(query)) {
+
+                while (resultSet.next()) {
+                    final int row = resultSet.getInt("row_value");
+                    final int column = resultSet.getInt("column_value");
+                    final String type = resultSet.getString("type");
+                    final String dynasty = resultSet.getString("dynasty");
+
+                    pieceEntities.add(new PieceEntity(row, column, type, dynasty));
+                }
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return pieceEntities;
+    }
 }
