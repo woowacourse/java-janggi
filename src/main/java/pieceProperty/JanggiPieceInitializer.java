@@ -3,6 +3,7 @@ package pieceProperty;
 import java.util.HashMap;
 import java.util.Map;
 import movementRule.Byeong;
+import movementRule.Jol;
 import movementRule.Ma;
 import movementRule.Sang;
 import movementRule.linearMover.Cha;
@@ -34,11 +35,11 @@ public class JanggiPieceInitializer {
         janggiPan.put(new Position(2, 1), new Piece(new Po()));
         janggiPan.put(new Position(2, 7), new Piece(new Po()));
 
-        janggiPan.put(new Position(3, 0), new Piece(new Byeong()));
-        janggiPan.put(new Position(3, 2), new Piece(new Byeong()));
-        janggiPan.put(new Position(3, 4), new Piece(new Byeong()));
-        janggiPan.put(new Position(3, 6), new Piece(new Byeong()));
-        janggiPan.put(new Position(3, 8), new Piece(new Byeong()));
+        janggiPan.put(new Position(3, 0), new Piece(new Jol()));
+        janggiPan.put(new Position(3, 2), new Piece(new Jol()));
+        janggiPan.put(new Position(3, 4), new Piece(new Jol()));
+        janggiPan.put(new Position(3, 6), new Piece(new Jol()));
+        janggiPan.put(new Position(3, 8), new Piece(new Jol()));
 
         return new JanggiPan(janggiPan);
     }
