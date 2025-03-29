@@ -12,6 +12,16 @@ public final class Cha extends LinearMover {
     }
 
     @Override
+    public boolean isPo() {
+        return false;
+    }
+
+    @Override
+    public boolean isJanggun() {
+        return false;
+    }
+
+    @Override
     public PieceType getPieceType() {
         return CHA;
     }

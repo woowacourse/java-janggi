@@ -89,7 +89,7 @@ class SangTest {
     void isJanggunTest() {
         Sang sang = new Sang(new Position(5, 5));
 
-        assertThat(sang.getPieceType().isJanggun()).isFalse();
+        assertThat(sang.isJanggun()).isFalse();
     }
 
     @Test
@@ -97,7 +97,7 @@ class SangTest {
     void isPoTest() {
         Sang sang = new Sang(new Position(5, 5));
 
-        assertThat(sang.getPieceType().isPo()).isFalse();
+        assertThat(sang.isPo()).isFalse();
     }
 
 }

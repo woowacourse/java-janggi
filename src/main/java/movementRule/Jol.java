@@ -23,6 +23,16 @@ public class Jol implements PieceRule {
     }
 
     @Override
+    public boolean isPo() {
+        return false;
+    }
+
+    @Override
+    public boolean isJanggun() {
+        return false;
+    }
+
+    @Override
     public void updateChessPiecePositionBy(final Position destination) {
         position = destination;
     }

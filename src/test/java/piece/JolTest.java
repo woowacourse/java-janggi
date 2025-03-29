@@ -76,7 +76,7 @@ class JolTest {
     void isJanggunTest() {
         Jol jol = new Jol(new Position(5, 5));
 
-        assertThat(jol.getPieceType().isJanggun()).isFalse();
+        assertThat(jol.isJanggun()).isFalse();
     }
 
     @Test
@@ -84,6 +84,6 @@ class JolTest {
     void isPoTest() {
         Jol jol = new Jol(new Position(5, 5));
 
-        assertThat(jol.getPieceType().isPo()).isFalse();
+        assertThat(jol.isPo()).isFalse();
     }
 }

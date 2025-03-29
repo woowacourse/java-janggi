@@ -77,7 +77,7 @@ class ByeongTest {
     void isJanggunTest() {
         Byeong byeong = new Byeong(new Position(5, 5));
 
-        assertThat(byeong.getPieceType().isJanggun()).isFalse();
+        assertThat(byeong.isJanggun()).isFalse();
     }
 
     @Test
@@ -85,6 +85,6 @@ class ByeongTest {
     void isPoTest() {
         Byeong byeong = new Byeong(new Position(5, 5));
 
-        assertThat(byeong.getPieceType().isPo()).isFalse();
+        assertThat(byeong.isPo()).isFalse();
     }
 }

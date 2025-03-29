@@ -76,7 +76,7 @@ class MaTest {
     void isJanggunTest() {
         Ma ma = new Ma(new Position(5, 5));
 
-        assertThat(ma.getPieceType().isJanggun()).isFalse();
+        assertThat(ma.isJanggun()).isFalse();
     }
 
     @Test
@@ -84,7 +84,7 @@ class MaTest {
     void isPoTest() {
         Ma ma = new Ma(new Position(5, 5));
 
-        assertThat(ma.getPieceType().isPo()).isFalse();
+        assertThat(ma.isPo()).isFalse();
     }
 
 }

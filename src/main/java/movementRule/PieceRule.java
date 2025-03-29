@@ -8,6 +8,10 @@ public interface PieceRule {
 
     boolean isSamePosition(Position startPosition);
 
+    boolean isPo();
+
+    boolean isJanggun();
+
     void updateChessPiecePositionBy(Position destination);
 
     PieceType getPieceType();

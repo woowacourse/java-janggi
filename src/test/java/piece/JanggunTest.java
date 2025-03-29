@@ -82,7 +82,7 @@ class JanggunTest {
     void isJanggunTest() {
         Janggun janggun = new Janggun(new Position(5, 5));
 
-        assertThat(janggun.getPieceType().isJanggun()).isTrue();
+        assertThat(janggun.isJanggun()).isTrue();
     }
 
     @Test
@@ -90,7 +90,7 @@ class JanggunTest {
     void isPoTest() {
         Janggun janggun = new Janggun(new Position(5, 5));
 
-        assertThat(janggun.getPieceType().isPo()).isFalse();
+        assertThat(janggun.isPo()).isFalse();
     }
 
     @DisplayName("장성 움직임 테스트")

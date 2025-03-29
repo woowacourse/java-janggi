@@ -69,7 +69,7 @@ class PoTest {
     void isJanggunTest() {
         Po po = new Po(new Position(5, 5));
 
-        assertThat(po.getPieceType().isJanggun()).isFalse();
+        assertThat(po.isJanggun()).isFalse();
     }
 
     @Test
@@ -77,7 +77,7 @@ class PoTest {
     void isPoTest() {
         Po po = new Po(new Position(5, 5));
 
-        assertThat(po.getPieceType().isPo()).isTrue();
+        assertThat(po.isPo()).isTrue();
     }
 
 }
