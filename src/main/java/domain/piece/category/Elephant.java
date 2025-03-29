@@ -4,6 +4,7 @@ import domain.MoveInfos;
 import domain.direction.Directions;
 import domain.piece.Piece;
 import domain.spatial.Position;
+import java.util.List;
 
 public class Elephant extends Piece {
 
@@ -12,6 +13,13 @@ public class Elephant extends Piece {
 
     public Elephant(final Position position, final Directions directions) {
         super(position, directions);
+    }
+
+    @Override
+    public List<Position> getPaths(final Position target) {
+        List<Position> paths = directions.getPaths(position, target);
+        validatePaths(paths);
+        return paths;
     }
 
     @Override
