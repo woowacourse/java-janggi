@@ -1,14 +1,26 @@
 package janggi.game;
 
+import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.position.Route;
-import janggi.piece.Team;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JanggiTest {
+    @Test
+    @DisplayName("현재 차례가 아닌 기물을 선택하면 예외를 뱉는다.")
+    void test() {
+        // given
+        Janggi janggi = new Janggi(new Pieces(), Team.CHO);
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> janggi.judgeUnitTurn(new Position(0, 0)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("현재 차례가 아닙니다.");
+    }
+
     @Test
     @DisplayName("졸의 이동경로를 구한다.")
     void test1() {
