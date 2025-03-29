@@ -1,10 +1,10 @@
 package janggiGame.state.Running;
 
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
+import janggiGame.position.Position;
 import janggiGame.state.GameResult;
 import janggiGame.state.GameScore;
 import janggiGame.state.State;

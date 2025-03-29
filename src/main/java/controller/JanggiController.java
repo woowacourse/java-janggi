@@ -6,10 +6,10 @@ import janggiGame.arrangement.ArrangementStrategy;
 import janggiGame.position.Position;
 import janggiGame.state.GameResult;
 import janggiGame.state.GameScore;
-import view.InputView;
-import view.OutputView;
 import java.util.List;
 import java.util.Map;
+import view.InputView;
+import view.OutputView;
 
 public class JanggiController {
 

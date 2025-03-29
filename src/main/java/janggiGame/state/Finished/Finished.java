@@ -1,9 +1,9 @@
 package janggiGame.state.Finished;
 
 import janggiGame.arrangement.ArrangementStrategy;
-import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
+import janggiGame.position.Position;
 import janggiGame.state.GameScore;
 import janggiGame.state.State;
 import java.util.Map;

@@ -36,6 +36,4 @@ public abstract class Piece {
     public abstract void validateMove(Map<Position, Piece> routesWithPiece, Piece destinationPiece);
 
     protected abstract void validateRoute(int dx, int dy);
-
-
 }

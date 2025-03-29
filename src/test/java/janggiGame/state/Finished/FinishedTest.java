@@ -3,9 +3,9 @@ package janggiGame.state.Finished;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.position.Position;
 import janggiGame.arrangement.InnerElephantStrategy;
 import janggiGame.arrangement.OuterElephantStrategy;
+import janggiGame.position.Position;
 import janggiGame.state.GameResult;
 import janggiGame.state.State;
 import java.util.stream.Stream;
@@ -70,7 +70,8 @@ class FinishedTest {
                 Arguments.of((ThrowingCallable) () -> finished.takeTurn(
                         Position.getInstanceBy(1, 1), Position.getInstanceBy(2, 2))),
                 Arguments.of((ThrowingCallable) finished::skipTurn),
-                Arguments.of((ThrowingCallable) () -> finished.arrangePieces(new OuterElephantStrategy(), new InnerElephantStrategy())),
+                Arguments.of((ThrowingCallable) () -> finished.arrangePieces(new OuterElephantStrategy(),
+                        new InnerElephantStrategy())),
                 Arguments.of((ThrowingCallable) finished::getGameScore),
                 Arguments.of((ThrowingCallable) finished::getPieces),
                 Arguments.of((ThrowingCallable) finished::getCurrentDynasty)

@@ -2,10 +2,10 @@ package janggiGame.state.Running;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.oneMovePiece.King;
 import janggiGame.piece.straightMovePiece.Chariot;
+import janggiGame.position.Position;
 import janggiGame.state.Finished.ChoWin;
 import janggiGame.state.Finished.Draw;
 import janggiGame.state.State;
@@ -49,7 +49,8 @@ class ChoTurnTest {
         // given
         Position origin = Position.getInstanceBy(0, 0);
         Position destination = Position.getInstanceBy(0, 1);
-        State choTurn = new ChoTurn(Map.of(origin, new Chariot(Dynasty.CHO), destination, new King(Dynasty.HAN)), false);
+        State choTurn = new ChoTurn(Map.of(origin, new Chariot(Dynasty.CHO), destination, new King(Dynasty.HAN)),
+                false);
 
         // when
         State actual = choTurn.takeTurn(origin, destination);

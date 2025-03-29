@@ -2,10 +2,10 @@ package janggiGame.state.Running;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.oneMovePiece.King;
 import janggiGame.piece.straightMovePiece.Chariot;
+import janggiGame.position.Position;
 import janggiGame.state.Finished.Draw;
 import janggiGame.state.Finished.HanWin;
 import janggiGame.state.State;
@@ -49,7 +49,8 @@ class HanTurnTest {
         // given
         Position origin = Position.getInstanceBy(0, 0);
         Position destination = Position.getInstanceBy(0, 1);
-        State hanTurn = new HanTurn(Map.of(origin, new Chariot(Dynasty.HAN), destination, new King(Dynasty.CHO)), false);
+        State hanTurn = new HanTurn(Map.of(origin, new Chariot(Dynasty.HAN), destination, new King(Dynasty.CHO)),
+                false);
 
         // when
         State actual = hanTurn.takeTurn(origin, destination);

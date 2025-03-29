@@ -21,9 +21,15 @@ public class Elephant extends CurveMovePiece {
     }
 
     private Function<Position, Position> getDiagonalMove(int dx, int dy) {
-        if (dx > 0 && dy > 0) return Position::upRight;
-        if (dx > 0) return Position::downRight;
-        if (dy > 0) return Position::upLeft;
+        if (dx > 0 && dy > 0) {
+            return Position::upRight;
+        }
+        if (dx > 0) {
+            return Position::downRight;
+        }
+        if (dy > 0) {
+            return Position::upLeft;
+        }
         return Position::downLeft;
     }
 

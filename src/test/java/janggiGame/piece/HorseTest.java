@@ -3,9 +3,9 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.position.Position;
 import janggiGame.piece.curveMovePiece.Horse;
-import java.util.LinkedHashMap;
+import janggiGame.position.Position;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -33,15 +33,20 @@ class HorseTest {
     public static Stream<Arguments> provideHorseOriginAndDestinationAndExpected() {
         return Stream.of(
                 Arguments.of(
-                        Position.getInstanceBy(5, 6), Position.getInstanceBy(6, 8), List.of(Position.getInstanceBy(5, 7))),
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(6, 8),
+                        List.of(Position.getInstanceBy(5, 7))),
                 Arguments.of(
-                        Position.getInstanceBy(5, 6), Position.getInstanceBy(4, 8), List.of(Position.getInstanceBy(5, 7))),
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(4, 8),
+                        List.of(Position.getInstanceBy(5, 7))),
                 Arguments.of(
-                        Position.getInstanceBy(5, 6), Position.getInstanceBy(7, 7), List.of(Position.getInstanceBy(6, 6))),
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(7, 7),
+                        List.of(Position.getInstanceBy(6, 6))),
                 Arguments.of(
-                        Position.getInstanceBy(5, 6), Position.getInstanceBy(7, 5), List.of(Position.getInstanceBy(6, 6))),
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(7, 5),
+                        List.of(Position.getInstanceBy(6, 6))),
                 Arguments.of(
-                        Position.getInstanceBy(5, 6), Position.getInstanceBy(4, 4), List.of(Position.getInstanceBy(5, 5)))
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(4, 4),
+                        List.of(Position.getInstanceBy(5, 5)))
         );
     }
 
@@ -63,7 +68,7 @@ class HorseTest {
     @Test
     void horseJudgeMovable() {
         // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new HashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
         routesWithPiece.put(Position.getInstanceBy(5, 7), null);
@@ -77,7 +82,7 @@ class HorseTest {
     @Test
     void horseJudgeMovable2() {
         // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new HashMap<>();
         Horse horse = new Horse(Dynasty.HAN);
 
         routesWithPiece.put(Position.getInstanceBy(6, 8), new Horse(Dynasty.HAN));

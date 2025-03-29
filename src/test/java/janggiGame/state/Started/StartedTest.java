@@ -4,9 +4,9 @@ package janggiGame.state.Started;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.position.Position;
 import janggiGame.arrangement.ArrangementStrategy;
 import janggiGame.arrangement.InnerElephantStrategy;
+import janggiGame.position.Position;
 import janggiGame.state.Running.ChoTurn;
 import janggiGame.state.State;
 import java.util.stream.Stream;

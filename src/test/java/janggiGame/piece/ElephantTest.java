@@ -3,9 +3,9 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.position.Position;
 import janggiGame.piece.curveMovePiece.Elephant;
-import java.util.LinkedHashMap;
+import janggiGame.position.Position;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -33,15 +33,20 @@ class ElephantTest {
     public static Stream<Arguments> provideElephantOriginAndDestinationAndExpected() {
         return Stream.of(
                 Arguments.of(
-                        Position.getInstanceBy(5, 6), Position.getInstanceBy(7, 9), List.of(Position.getInstanceBy(5, 7), Position.getInstanceBy(6, 8))),
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(7, 9),
+                        List.of(Position.getInstanceBy(5, 7), Position.getInstanceBy(6, 8))),
                 Arguments.of(
-                        Position.getInstanceBy(5, 6), Position.getInstanceBy(3, 9), List.of(Position.getInstanceBy(5, 7), Position.getInstanceBy(4, 8))),
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(3, 9),
+                        List.of(Position.getInstanceBy(5, 7), Position.getInstanceBy(4, 8))),
                 Arguments.of(
-                        Position.getInstanceBy(5, 6), Position.getInstanceBy(8, 8), List.of(Position.getInstanceBy(6, 6), Position.getInstanceBy(7, 7))),
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(8, 8),
+                        List.of(Position.getInstanceBy(6, 6), Position.getInstanceBy(7, 7))),
                 Arguments.of(
-                        Position.getInstanceBy(5, 6), Position.getInstanceBy(8, 4), List.of(Position.getInstanceBy(6, 6), Position.getInstanceBy(7, 5))),
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(8, 4),
+                        List.of(Position.getInstanceBy(6, 6), Position.getInstanceBy(7, 5))),
                 Arguments.of(
-                        Position.getInstanceBy(5, 6), Position.getInstanceBy(3, 3), List.of(Position.getInstanceBy(5, 5), Position.getInstanceBy(4, 4)))
+                        Position.getInstanceBy(5, 6), Position.getInstanceBy(3, 3),
+                        List.of(Position.getInstanceBy(5, 5), Position.getInstanceBy(4, 4)))
 
         );
     }
@@ -65,7 +70,7 @@ class ElephantTest {
     @Test
     void elephantJudgeMovable() {
         // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new HashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
         routesWithPiece.put(Position.getInstanceBy(5, 7), null);
@@ -80,7 +85,7 @@ class ElephantTest {
     @Test
     void elephantJudgeMovable2() {
         // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new HashMap<>();
         Elephant elephant = new Elephant(Dynasty.HAN);
 
         routesWithPiece.put(Position.getInstanceBy(5, 7), null);

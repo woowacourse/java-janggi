@@ -48,7 +48,7 @@ public class JanggiGame {
     }
 
     private void validateHistory() {
-        if(history.isEmpty()) {
+        if (history.isEmpty()) {
             throw new IllegalStateException("[ERROR] 무를 수 있는 턴이 없습니다.");
         }
     }
