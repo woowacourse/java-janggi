@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class GameRepository {
+public class TurnRepository {
 
     private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";

@@ -6,7 +6,7 @@ import domain.board.BoardSettingUpStrategy;
 import domain.piece.Country;
 import domain.piece.Piece;
 import infrastructure.BoardRepository;
-import infrastructure.GameRepository;
+import infrastructure.TurnRepository;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -18,7 +18,7 @@ public class JanggiGame {
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
     private final BoardRepository boardRepository = new BoardRepository();
-    private final GameRepository gameRepository = new GameRepository();
+    private final TurnRepository turnRepository = new TurnRepository();
 
     private Country currentTurn = Country.CHO;
 
@@ -38,11 +38,11 @@ public class JanggiGame {
         if (foundBoard.isEmpty()) {
             board = settingUp();
             boardRepository.save(board);
-            gameRepository.save(currentTurn);
+            turnRepository.save(currentTurn);
             outputView.printNewGameMessage();
         } else {
             board = new Board(foundBoard);
-            currentTurn = gameRepository.findTurn();
+            currentTurn = turnRepository.findTurn();
             outputView.printPreviousGameMessage();
         }
         return board;
@@ -96,7 +96,7 @@ public class JanggiGame {
 
     private void nextTurn() {
         currentTurn = currentTurn.convertCountry();
-        gameRepository.updateTurn(currentTurn);
+        turnRepository.updateTurn(currentTurn);
     }
 
     private <T> void takeTurn(T value, Consumer<T> consumer) {
