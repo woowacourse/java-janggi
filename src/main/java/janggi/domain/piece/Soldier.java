@@ -5,7 +5,7 @@ import janggi.domain.piece.moveStrategy.MoveStrategy;
 import java.util.List;
 import java.util.Set;
 
-public abstract class Soldier extends PieceAbstractInterface {
+public abstract class Soldier extends Piece {
 
     public Soldier(Set<List<Direction>> paths, MoveStrategy moveStrategy) {
         super(paths, moveStrategy);

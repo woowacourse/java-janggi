@@ -6,7 +6,7 @@ import janggi.domain.piece.moveStrategy.MoveStrategy;
 import java.util.List;
 import java.util.Set;
 
-public class Chariot extends PieceAbstractInterface {
+public class Chariot extends Piece {
 
     private static final Set<List<Direction>> PATHS = Set.of(
             List.of(Direction.UP), List.of(Direction.DOWN), List.of(Direction.RIGHT), List.of(Direction.LEFT)
