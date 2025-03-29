@@ -2,10 +2,13 @@ package controller;
 
 import domain.JanggiGame;
 import domain.board.Point;
+import domain.player.Player;
 import domain.player.Team;
 import exceptions.JanggiGameRuleWarningException;
-import java.util.EnumMap;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -21,6 +24,11 @@ public final class JanggiController {
     }
 
     public void run() {
+        // 룸 생성하기 OR 룸 불러오기
+        initGame();
+    }
+
+    private void initGame() {
         final JanggiGame game = initialJanggiGame();
         outputView.printBoard(game.getBoard());
         playJanggi(game);
@@ -49,12 +57,14 @@ public final class JanggiController {
     }
 
     private JanggiGame setupGame() {
-        final EnumMap<Team, Choice> elephantLocatorByTeam = new EnumMap<>(Team.class);
+        final Map<Player, Choice> elephantLocatorByTeam = new LinkedHashMap<>();
         for (final Team team : Team.values()) {
             final Choice choice = inputView.readChoiceForElephantLocation(team.toString());
-            elephantLocatorByTeam.put(team, choice);
+            final Player player = new Player(0, team);//todo
+            elephantLocatorByTeam.put(player, choice);
         }
-        return JanggiGame.setup(elephantLocatorByTeam);
+        final List<Player> players = new ArrayList<>(elephantLocatorByTeam.keySet());
+        return JanggiGame.setup(elephantLocatorByTeam, players);
     }
 
     private boolean canProcessMove(final Point start, final Point arrival, final JanggiGame game) {

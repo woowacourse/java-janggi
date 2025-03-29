@@ -11,9 +11,10 @@ import domain.pieces.Piece;
 import domain.player.Player;
 import domain.player.Score;
 import domain.player.Team;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -26,11 +27,12 @@ public final class JanggiGameTest {
     @DisplayName("보드를 초기화할 경우, 플레이어 당 16개의 기물을 가진다.")
     void test_setup() {
         //given
-        final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
-        given.put(Team.HAN, new Choice(1));
+        final Map<Player, Choice> given = new LinkedHashMap<>();
+        given.put(new Player(0, HAN), new Choice(1));
+        final List<Player> players = new ArrayList<>(given.keySet());
 
         //when
-        final JanggiGame janggiGame = JanggiGame.setup(given);
+        final JanggiGame janggiGame = JanggiGame.setup(given, players);
 
         //then
         assertThat(janggiGame.getBoard().size()).isEqualTo(16);
@@ -40,10 +42,8 @@ public final class JanggiGameTest {
     @DisplayName("시작점과 도착점을 입력할 경우, 기물을 움직일 수 있는 지 반환한다.")
     void test_canMovePieceOnBoard() {
         //given
-        final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
-        given.put(Team.CHO, new Choice(1));
-        given.put(Team.HAN, new Choice(1));
-        final JanggiGame janggiGame = JanggiGame.setup(given);
+        final JanggiGame janggiGame = getJanggiGame();
+
         final Point start = new Point(0, 0);
         final Point arrival = new Point(2, 0);
 
@@ -55,10 +55,7 @@ public final class JanggiGameTest {
     @DisplayName("시작점과 도착점을 입력할 경우, 기물을 움직일 수 있다.")
     void test_movePieceOnBoard() {
         //given
-        final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
-        given.put(Team.CHO, new Choice(1));
-        given.put(Team.HAN, new Choice(1));
-        final JanggiGame janggiGame = JanggiGame.setup(given);
+        final JanggiGame janggiGame = getJanggiGame();
         final Map<Point, Piece> givenBoard = janggiGame.getBoard();
         final Point start = new Point(0, 0);
         final Point arrival = new Point(2, 0);
@@ -81,8 +78,8 @@ public final class JanggiGameTest {
         final Point start = new Point(0, 0);
         final Point arrival = new Point(2, 0);
         final Map<Point, Piece> locations = new HashMap<>();
-        locations.put(start, new Chariot(CHO));
-        locations.put(arrival, new Chariot(HAN));
+        locations.put(start, new Chariot(new Player(0, CHO)));
+        locations.put(arrival, new Chariot(new Player(0, HAN)));
 
         final Board board = new Board(locations);
         final JanggiGame janggiGame = new JanggiGame(board, players);
@@ -101,10 +98,7 @@ public final class JanggiGameTest {
     @DisplayName("플레이어 턴이 교체한다.(초나라 선공)")
     void test_switchTurn() {
         //given
-        final EnumMap<Team, Choice> given = new EnumMap<>(Team.class);
-        given.put(Team.CHO, new Choice(1));
-        given.put(Team.HAN, new Choice(1));
-        final JanggiGame janggiGame = JanggiGame.setup(given);
+        final JanggiGame janggiGame = getJanggiGame();
         final Team startTurn = janggiGame.getTeamOnCurrentTurn();
 
         //when
@@ -115,5 +109,14 @@ public final class JanggiGameTest {
         assertThat(startTurn).isEqualTo(Team.CHO);
         assertThat(startTurn).isNotEqualTo(nextTurn);
         assertThat(nextTurn).isEqualTo(Team.HAN);
+    }
+
+    private static JanggiGame getJanggiGame() {
+        final Map<Player, Choice> given = new LinkedHashMap<>();
+        given.put(new Player(0, CHO), new Choice(1));
+        given.put(new Player(0, HAN), new Choice(1));
+        final List<Player> players = new ArrayList<>(given.keySet());
+
+        return JanggiGame.setup(given, players);
     }
 }

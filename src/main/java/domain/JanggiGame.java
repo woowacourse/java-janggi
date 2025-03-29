@@ -7,7 +7,6 @@ import domain.pieces.Piece;
 import domain.player.Player;
 import domain.player.Score;
 import domain.player.Team;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -24,11 +23,9 @@ public final class JanggiGame {
         this.players = Objects.requireNonNull(players, "플레이어 정보가 NULL일 수 없습니다.");
     }
 
-    public static JanggiGame setup(final EnumMap<Team, Choice> elephantLocatorByTeam) {
+    public static JanggiGame setup(final Map<Player, Choice> elephantLocatorByTeam,
+                                   final List<Player> players) {
         final Board board = BoardFactory.generateBoard(elephantLocatorByTeam);
-        final List<Player> players = elephantLocatorByTeam.keySet().stream()
-                .map(team -> new Player(0, team))
-                .collect(Collectors.toList());
         return new JanggiGame(board, players);
     }
 
