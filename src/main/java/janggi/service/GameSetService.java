@@ -16,11 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GameSetDBService {
+public class GameSetService {
     private final BoardDao boardDao;
     private final GameRoomDao gameRoomDao;
 
-    public GameSetDBService(Connection connection) {
+    public GameSetService(Connection connection) {
         this.gameRoomDao = new GameRoomDao(connection);
         this.boardDao = new BoardDao(connection);
     }
@@ -36,7 +36,7 @@ public class GameSetDBService {
     }
 
     public void saveInitialBoard(int roomId, Map<Position, Piece> board) {
-        boardDao.saveBoardInRoom(roomId, board);
+        boardDao.save(roomId, board);
     }
 
     public JanggiGame getGameByRoomId(int gameRoomId) {
@@ -55,7 +55,7 @@ public class GameSetDBService {
     }
 
     public PlayingBoard getBoardById(int boardId) {
-        List<BoardDto> boardDtos = boardDao.selectBoardById(boardId);
+        List<BoardDto> boardDtos = boardDao.selectById(boardId);
 
         Map<Position, Piece> board = new HashMap<>();
         for (BoardDto dto : boardDtos) {

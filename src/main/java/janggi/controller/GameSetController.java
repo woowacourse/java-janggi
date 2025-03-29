@@ -8,20 +8,19 @@ import janggi.domain.gameState.BlueTurn;
 import janggi.domain.piece.TeamColor;
 import janggi.dto.GameRoomDto;
 import janggi.dto.SetInfoDto;
-import janggi.service.GameSetDBService;
+import janggi.service.GameSetService;
 import janggi.view.GameSettingView;
 import java.util.HashMap;
 import java.util.List;
 
 public class GameSetController {
     private final GameSettingView gameSettingView;
+    private final GameSetService gameSetService;
 
-    public GameSetController(GameSettingView gameSettingView, GameSetDBService gameSetDBService) {
+    public GameSetController(GameSettingView gameSettingView, GameSetService gameSetService) {
         this.gameSettingView = gameSettingView;
-        this.gameSetDBService = gameSetDBService;
+        this.gameSetService = gameSetService;
     }
-
-    private final GameSetDBService gameSetDBService;
 
     public SetInfoDto setJanggiGame() {
         return RetryUtil.getWithRetry(() -> {
@@ -39,9 +38,9 @@ public class GameSetController {
         PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
         JanggiGame newGame = new JanggiGame(new BlueTurn(playingBoard), new HashMap<>());
 
-        int roomId = gameSetDBService.createNewGameRoomAndGetId(TeamColor.BLUE);
+        int roomId = gameSetService.createNewGameRoomAndGetId(TeamColor.BLUE);
 
-        gameSetDBService.saveInitialBoard(roomId, initialBoard.getInitialBoard());
+        gameSetService.saveInitialBoard(roomId, initialBoard.getInitialBoard());
 
         return new SetInfoDto(newGame, roomId);
     }
@@ -63,13 +62,13 @@ public class GameSetController {
 
         int selectedIndex = RetryUtil.getWithRetry(() -> getSelectedIndexFromUser(allPlayingRooms));
         int selectedRoomId = allPlayingRooms.get(selectedIndex).roomId();
-        JanggiGame game = gameSetDBService.getGameByRoomId(selectedRoomId);
+        JanggiGame game = gameSetService.getGameByRoomId(selectedRoomId);
 
         return new SetInfoDto(game, selectedRoomId);
     }
 
     private List<GameRoomDto> getGameRoomDtos() {
-        List<GameRoomDto> allPlayingRooms = gameSetDBService.getAllPlayingRooms();
+        List<GameRoomDto> allPlayingRooms = gameSetService.getAllPlayingRooms();
         if (allPlayingRooms.isEmpty()) {
             throw new IllegalArgumentException("진행 중인 게임이 없습니다.");
         }

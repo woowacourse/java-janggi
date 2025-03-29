@@ -3,8 +3,8 @@ package janggi;
 import janggi.controller.GameSetController;
 import janggi.controller.GamePlayController;
 import janggi.dto.SetInfoDto;
-import janggi.service.GameSetDBService;
-import janggi.service.JanggiDBService;
+import janggi.service.GameSetService;
+import janggi.service.JanggiService;
 import janggi.dao.ConnectionUtil;
 import janggi.view.GameRunningView;
 import janggi.view.GameSettingView;
@@ -17,14 +17,13 @@ public class Application {
 
         Connection connection = ConnectionUtil.getConnection();
 
-        GameSetDBService gameSetDBService = new GameSetDBService(connection);
-        GameSetController gameSetController = new GameSetController(gameSettingView, gameSetDBService);
+        GameSetService gameSetService = new GameSetService(connection);
+        GameSetController gameSetController = new GameSetController(gameSettingView, gameSetService);
         SetInfoDto setInfoDto = gameSetController.setJanggiGame();
 
-        JanggiDBService janggiDBService = new JanggiDBService(connection, setInfoDto.roomId());
+        JanggiService janggiService = new JanggiService(connection, setInfoDto.roomId());
 
-        GamePlayController controller = new GamePlayController(gameRunningView, janggiDBService, setInfoDto.janggiGame());
+        GamePlayController controller = new GamePlayController(gameRunningView, janggiService, setInfoDto.janggiGame());
         controller.run();
     }
-
 }

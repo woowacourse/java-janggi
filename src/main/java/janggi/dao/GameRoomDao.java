@@ -68,14 +68,14 @@ public class GameRoomDao {
         }
     }
 
-    public void updateGameRoom(int rooId, TeamColor turnColor, int redScore, int blueScore) {
+    public void updateGameRoom(int roomId, TeamColor turnColor, int redScore, int blueScore) {
         String query = "UPDATE GameRoom SET turn_color = ?, red_score = ?, blue_score = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, turnColor.name());
             preparedStatement.setInt(2, redScore);
             preparedStatement.setInt(3, blueScore);
-            preparedStatement.setInt(4, rooId);
+            preparedStatement.setInt(4, roomId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

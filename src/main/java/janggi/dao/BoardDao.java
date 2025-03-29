@@ -20,7 +20,7 @@ public final class BoardDao {
         this.connection = connection;
     }
 
-    public void saveBoardInRoom(int roomId, Map<Position, Piece> board) {
+    public void save(int roomId, Map<Position, Piece> board) {
         for (Map.Entry<Position, Piece> entry : board.entrySet()) {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
@@ -28,7 +28,7 @@ public final class BoardDao {
         }
     }
 
-    public List<BoardDto> selectBoardById(int roomId) {
+    public List<BoardDto> selectById(int roomId) {
         final String query = "SELECT position_row, position_col, piece_type, piece_color FROM Board WHERE gameroom_id = ?";
         List<BoardDto> BoardDtos = new ArrayList<>();
 
@@ -68,8 +68,8 @@ public final class BoardDao {
         }
     }
 
-    public void updateBoard(int roomId, Position source, Position destination, PieceType pieceType,
-                                    TeamColor teamColor) {
+    public void update(int roomId, Position source, Position destination, PieceType pieceType,
+                       TeamColor teamColor) {
         String deleteSourceQuery = "DELETE FROM Board WHERE gameroom_id = ? AND position_row = ? AND position_col = ?";
         String insertDestinationQuery = "INSERT INTO Board (gameroom_id, position_row, position_col, piece_type, piece_color) VALUES (?, ?, ?, ?, ?)";
 

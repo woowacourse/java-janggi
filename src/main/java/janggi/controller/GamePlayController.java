@@ -8,21 +8,21 @@ import janggi.domain.board.Row;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
 import janggi.dto.MoveCommandDto;
-import janggi.service.JanggiDBService;
+import janggi.service.JanggiService;
 import janggi.view.GameRunningView;
 import janggi.view.PieceTypeName;
 import java.util.Map;
 
 public class GamePlayController {
     private final GameRunningView gameRunningView;
-    private final JanggiDBService janggiDBService;
+    private final JanggiService janggiService;
     private final JanggiGame janggiGame;
     private final PlayingBoard playingBoard;
 
     public GamePlayController(GameRunningView gameRunningView,
-                              JanggiDBService janggiDBService, JanggiGame janggiGame) {
+                              JanggiService janggiService, JanggiGame janggiGame) {
         this.gameRunningView = gameRunningView;
-        this.janggiDBService = janggiDBService;
+        this.janggiService = janggiService;
         this.janggiGame = janggiGame;
         this.playingBoard = janggiGame.getPlayingBoard();
     }
@@ -35,7 +35,7 @@ public class GamePlayController {
         }
         displayGameResult(janggiGame);
 
-        janggiDBService.finishGame(janggiGame.getTurnColor());
+        janggiService.finishGame(janggiGame.getTurnColor());
     }
 
     private void playSingleCommand(JanggiGame janggiGame) {
@@ -61,8 +61,8 @@ public class GamePlayController {
 
         gameRunningView.printBoard(playingBoard);
 
-        janggiDBService.updateMoveResult(source, destination, pieceType, turnColor);
-        janggiDBService.updateGameRoom(janggiGame.getTurnColor(), janggiGame.getTeamScore());
+        janggiService.updateMoveResult(source, destination, pieceType, turnColor);
+        janggiService.updateGameRoom(janggiGame.getTurnColor(), janggiGame.getTeamScore());
     }
 
     private Position createPosition(char rowInput, char colInput) {
