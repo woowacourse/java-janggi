@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class BoardDao {
@@ -102,6 +103,42 @@ public final class BoardDao {
                     return resultSet.getInt("turn");
                 }
                 throw new SQLException("Turn 테이블에서 데이터를 찾을 수 없습니다.");
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void resetTurnEntity() {
+        final var query = "UPDATE Turn SET turn = 0";
+
+        try (final var connection = BoardDao.getConnection()) {
+            if (connection == null) {
+                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
+            }
+            try (final var statement = connection.createStatement()) {
+                int rowsAffected = statement.executeUpdate(query);
+                if (rowsAffected == 0) {
+                    throw new SQLException("Turn 테이블에서 값을 리셋할 수 없습니다.");
+                }
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void incrementTurn() {
+        final var query = "UPDATE Turn SET turn = turn + 1";
+
+        try (final var connection = BoardDao.getConnection()) {
+            if (connection == null) {
+                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
+            }
+            try (final var statement = connection.createStatement()) {
+                int rowsAffected = statement.executeUpdate(query);
+                if (rowsAffected == 0) {
+                    throw new SQLException("Turn 테이블에서 값을 증가시킬 수 없습니다.");
+                }
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
