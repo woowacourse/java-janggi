@@ -15,8 +15,12 @@ public class OrMoveStrategy implements MoveStrategy {
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Piece piece, Point start, Point end) {
         for (MoveStrategy strategy : strategies) {
-            if (strategy.isMovable(janggiBoard, piece, start, end)) {
-                return true;
+            try {
+                if (strategy.isMovable(janggiBoard, piece, start, end)) {
+                    return true;
+                }
+            } catch (Exception ex) {
+                // 무시하고 다음 전략 진행
             }
         }
         return false;

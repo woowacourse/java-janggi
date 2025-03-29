@@ -6,6 +6,7 @@ import janggi.domain.board.Point;
 import janggi.domain.piece.Path;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.move.MoveStrategy;
+import janggi.domain.piece.move.PathCalculator;
 import java.util.List;
 import java.util.Set;
 
@@ -16,13 +17,19 @@ public class PalaceAreaStrategy implements MoveStrategy {
             new Point(9, 5)
     );
 
+    private final PathCalculator pathCalculator;
+
+    public PalaceAreaStrategy(PathCalculator pathCalculator) {
+        this.pathCalculator = pathCalculator;
+    }
+
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Piece piece, Point start, Point end) {
         List<Point> area = janggiBoard.getPalaceArea(piece.getDynasty());
         if (!area.contains(start) || !area.contains(end)) {
             return false;
         }
-        Path path = piece.calculatePalacePath(start, end);
+        Path path = pathCalculator.calculate(start, end);
         if (isAvailableDiagonal(start, end, path)) {
             return false;
         }
