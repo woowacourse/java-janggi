@@ -26,7 +26,7 @@ public class InputView {
     }
 
     public String getGameQuitInput() {
-        System.out.println("게임을 중단 하시겠습니까? (Y/N)");
+        System.out.println("게임을 중단하려면 Y, 계속 하시려면 아무 입력을 해주세요");
         return scanner.nextLine();
     }
 

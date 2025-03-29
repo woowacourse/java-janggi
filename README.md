@@ -84,3 +84,19 @@ __# 🚀 장기 미션
 - 게임 시작 시 저장된 게임을 불러올지, 새로운 게임을 시작할 지 선택한다.
 - 게임을 중단했을 시 해당 게임을 저장한다.
 - 게임이 종료되면 게임이 저장되지 않는다.
+- 데이터베이스 테이블은 아래와 같다
+
+```azure
+CREATE TABLE pieces
+(
+    position_x int         NOT NULL,
+    position_y int         NOT NULL,
+    piece_type VARCHAR(10) NOT NULL,
+    team       VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE turn
+(
+    team VARCHAR(10) NOT NULL
+);
+```
