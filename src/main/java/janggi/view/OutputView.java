@@ -11,6 +11,10 @@ public class OutputView {
 
     public static final String EMPTY_POSITION = "＿";
 
+    public void printExistBeforeGame(Player redPlayer, Player greenPlayer) {
+        System.out.printf("진행중인 게임이 존재합니다:%s vs %s%n", redPlayer.getName(), greenPlayer.getName());
+    }
+
     public void printBoard(final Map<Position, Piece> board) {
         for (int row = Position.MIN_ROW; row <= Position.MAX_ROW; row++) {
             System.out.printf("%-2d", row);

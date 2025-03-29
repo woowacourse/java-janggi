@@ -1,12 +1,13 @@
 package janggi.controller;
 
-import janggi.domain.Board;
 import janggi.domain.JanggiGame;
 import janggi.domain.Player;
 import janggi.domain.Position;
 import janggi.domain.SetupType;
 import janggi.domain.Team;
-import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Piece;
+import janggi.dto.PieceDto;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.Map;
@@ -17,14 +18,16 @@ public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
     private final Map<Command, Consumer<JanggiGame>> command;
+    private final JanggiService janggiService;
 
-    public JanggiController(final InputView inputView, final OutputView outputView) {
+    public JanggiController(final InputView inputView, final OutputView outputView, final JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.command = Map.of(
                 Command.MOVE, this::movePiece,
                 Command.END, this::end
         );
+        this.janggiService = janggiService;
     }
 
     public void run() {
@@ -42,15 +45,13 @@ public class JanggiController {
     private JanggiGame initiateJanggiGame() {
         Player redPlayer = createPlayer(Team.RED);
         Player greenPlayer = createPlayer(Team.GREEN);
-        Board board = initiateBoard();
-        return new JanggiGame(board, redPlayer, greenPlayer);
-    }
-
-    private Board initiateBoard() {
+        if (janggiService.existsContinuedJanggiGame(redPlayer.getName(), greenPlayer.getName())) {
+            outputView.printExistBeforeGame(redPlayer, greenPlayer);
+            return janggiService.loadJanggiGame(redPlayer.getName(), greenPlayer.getName());
+        }
         SetupType redSetupType = inputView.readSetupType(Team.RED);
         SetupType greenSetupType = inputView.readSetupType(Team.GREEN);
-        Pieces pieces = Pieces.createPieces(redSetupType, greenSetupType);
-        return new Board(pieces.getPieces());
+        return janggiService.initJanggiGame(redPlayer.getName(), greenPlayer.getName(), redSetupType, greenSetupType);
     }
 
     private Player createPlayer(Team team) {
@@ -80,7 +81,27 @@ public class JanggiController {
     private void movePiece(JanggiGame janggiGame) {
         Position departure = inputView.readStartPosition();
         Position destination = inputView.readMovePosition();
-        janggiGame.moveByPlayer(departure, destination);
+        PieceDto pieceDto = janggiGame.moveByPlayer(departure, destination);
+        if (pieceDto.removed().isPresent()) {
+            removePiece(janggiGame.getRedPlayer().getName(),
+                    janggiGame.getGreenPlayer().getName(),
+                    destination,
+                    pieceDto.removed().get());
+        }
+        janggiService.savePiece(janggiGame.getRedPlayer().getName(),
+                janggiGame.getGreenPlayer().getName(),
+                departure,
+                destination,
+                pieceDto.moved(),
+                true);
+        janggiService.saveJanggiGame(janggiGame);
+    }
+
+    private void removePiece(final String redPlayerName,
+                             final String greenPlayerName,
+                             final Position destination,
+                             final Piece removed) {
+        janggiService.updateDiedPiece(redPlayerName, greenPlayerName, destination, removed);
     }
 
     private void end(JanggiGame janggiGame) {

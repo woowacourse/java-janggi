@@ -1,7 +1,9 @@
 package janggi.domain;
 
 import janggi.domain.piece.Piece;
+import janggi.dto.PieceDto;
 import java.util.Map;
+import java.util.Optional;
 
 public class JanggiGame {
 
@@ -19,15 +21,29 @@ public class JanggiGame {
         this.gameStatus = GameStatus.CONTINUE;
     }
 
-    public void moveByPlayer(final Position departure, final Position destination) {
+    public JanggiGame(final Board board,
+                      final Player redPlayer,
+                      final Player greenPlayer,
+                      Team turn,
+                      GameStatus gameStatus) {
+        this.board = board;
+        this.redPlayer = redPlayer;
+        this.greenPlayer = greenPlayer;
+        this.turn = turn;
+        this.gameStatus = gameStatus;
+    }
+
+    public PieceDto moveByPlayer(final Position departure, final Position destination) {
+        Optional<Piece> removed = Optional.empty();
         if (turn.isRed()) {
-            board.movePiece(redPlayer, greenPlayer, departure, destination);
+            removed = board.movePiece(redPlayer, greenPlayer, departure, destination);
         }
         if (turn.isGreen()) {
-            board.movePiece(greenPlayer, redPlayer, departure, destination);
+            removed = board.movePiece(greenPlayer, redPlayer, departure, destination);
         }
         checkWinCondition();
         changeTurn(this.turn);
+        return new PieceDto(board.getPiece(destination), removed);
     }
 
     private void changeTurn(final Team currentTurn) {
@@ -68,5 +84,21 @@ public class JanggiGame {
 
     public GameStatus getGameStatus() {
         return gameStatus;
+    }
+
+    public Player getRedPlayer() {
+        return redPlayer;
+    }
+
+    public Player getGreenPlayer() {
+        return greenPlayer;
+    }
+
+    public Team getTurn() {
+        return turn;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

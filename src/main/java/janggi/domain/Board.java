@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board {
 
@@ -19,25 +20,27 @@ public class Board {
         return positionToPiece.containsKey(position);
     }
 
-    public void movePiece(final Player player,
-                          final Player enemy,
-                          final Position departure,
-                          final Position destination) {
+    public Optional<Piece> movePiece(final Player player,
+                                     final Player enemy,
+                                     final Position departure,
+                                     final Position destination) {
         validateSamePosition(departure, destination);
         Piece targetPiece = getPiece(departure);
         validateDepartureIsAlly(player, targetPiece);
         validateDestinationIsEnemy(destination, targetPiece.getTeam());
         Placement placement = new Placement(this, departure, destination);
         targetPiece.checkCanMove(placement, departure, destination);
-        removeEnemyPiece(enemy, destination);
+        Optional<Piece> removed = removeEnemyPiece(enemy, destination);
         positionToPiece.remove(departure);
         updateBoard(destination, targetPiece);
+        return removed;
     }
 
-    private void removeEnemyPiece(final Player player, final Position destination) {
+    private Optional<Piece> removeEnemyPiece(final Player player, final Position destination) {
         if (exists(destination)) {
             player.subtractScore(getPiece(destination).getScore());
         }
+        return Optional.ofNullable(positionToPiece.get(destination));
     }
 
     private void validateSamePosition(final Position departure, final Position destination) {
