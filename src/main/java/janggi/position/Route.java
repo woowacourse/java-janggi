@@ -1,7 +1,6 @@
 package janggi.position;
 
 import janggi.game.Pieces;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -50,10 +49,6 @@ public class Route {
 
     public int length() {
         return this.positions.size();
-    }
-
-    public List<Position> getPoints() {
-        return new ArrayList<>(positions);
     }
 
     @Override
