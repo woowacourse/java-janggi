@@ -3,7 +3,6 @@ package domain.direction;
 import domain.piece.Palace;
 import domain.piece.Position;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,9 +26,7 @@ public class Directions {
     }
 
     public List<Position> getPalacePath(final Position start, final Position target) {
-        Set<Direction> tempDirections = new HashSet<>(List.copyOf(directions));
-        tempDirections.addAll(Palace.getMovableDirectionInPalace(start));
-        Optional<Direction> direction = tempDirections.stream()
+        Optional<Direction> direction = Palace.getMovableDirectionInPalace(start).stream()
                 .filter(element -> element.canReach(start, target, repeatable))
                 .findFirst();
 
