@@ -1,10 +1,17 @@
 package janggi.database;
 
+import janggi.board.Board;
+import janggi.coordinate.JanggiPosition;
+import janggi.piece.Country;
+import janggi.piece.Piece;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class JanggiDatabase {
 
@@ -15,22 +22,15 @@ public class JanggiDatabase {
     private static final String PASSWORD = "password"; // MySQL 서버 비밀번호
     private static final String PIECE_TABLE = "CREATE TABLE PIECE ("
             + "ID INT AUTO_INCREMENT PRIMARY KEY,"
-            + "TYPE VARCHAR(20) NOT NULL,"
-            + "COUNTRY VARCHAR(20) NOT NULL"
-            + ")";
-    private static final String POSITION_TABLE = "CREATE TABLE POSITION ("
-            + "ID INT AUTO_INCREMENT PRIMARY KEY,"
             + "X INT NOT NULL,"
             + "Y INT NOT NULL,"
-            + "PIECE_ID INT,"
-            + "FOREIGN KEY (PIECE_ID)"
-            + "REFERENCES PIECE(ID)"
+            + "TYPE VARCHAR(20) NOT NULL,"
+            + "COUNTRY VARCHAR(20) NOT NULL"
             + ")";
     private static final String EXISTS_TABLES_QUERY = "SELECT COUNT(*) "
             + "FROM INFORMATION_SCHEMA.TABLES "
             + "WHERE TABLE_SCHEMA='" + DATABASE + "' "
-            + "AND (TABLE_NAME='PIECE' "
-            + "OR TABLE_NAME='POSITION')";
+            + "AND (TABLE_NAME='PIECE')";
 
 
     public Connection getConnection() {
@@ -44,11 +44,12 @@ public class JanggiDatabase {
 
     public void createJanggiTables() {
         try (final Connection connection = getConnection()) {
-            final PreparedStatement pieceTable = connection.prepareStatement(PIECE_TABLE);
-            final PreparedStatement positionTable = connection.prepareStatement(POSITION_TABLE);
+            if(existsJanggiTable()){
+                return;
+            }
 
+            final PreparedStatement pieceTable = connection.prepareStatement(PIECE_TABLE);
             pieceTable.execute();
-            positionTable.execute();
         } catch (final SQLException e) {
             throw new IllegalStateException();
         }
@@ -60,7 +61,128 @@ public class JanggiDatabase {
 
             final ResultSet rs = tableExists.executeQuery();
             rs.next();
-            return rs.getInt(1) == 2;
+            return rs.getInt(1) == 1;
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void saveBoard(final Board board) {
+        try (final Connection connection = getConnection()) {
+            final String insertQuery = "INSERT INTO PIECE VALUES(DEFAULT, ?, ?, ?, ?)";
+            final PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            for (final Map.Entry<JanggiPosition, Piece> value : board.getJanggiBoard().entrySet()) {
+                savePiece(preparedStatement, value);
+            }
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
+    }
+
+    private void savePiece(final PreparedStatement preparedStatement, final Entry<JanggiPosition, Piece> value)
+            throws SQLException {
+        final JanggiPosition position = value.getKey();
+        final Piece piece = value.getValue();
+        final String pieceName = PieceName.convertPieceName(piece);
+        preparedStatement.setString(1, String.valueOf(position.x()));
+        preparedStatement.setString(2, String.valueOf(position.y()));
+        preparedStatement.setString(3, pieceName);
+        preparedStatement.setString(4, piece.getCountry().name());
+
+        preparedStatement.executeUpdate();
+    }
+
+    public Board readBoard() {
+        try (final Connection connection = getConnection()) {
+            final String readQuery = "SELECT * FROM PIECE";
+            final PreparedStatement preparedStatement = connection.prepareStatement(readQuery);
+
+            final ResultSet rs = preparedStatement.executeQuery();
+            final Map<JanggiPosition, Piece> janggiBoard = new HashMap<>();
+
+            while(rs.next()){
+                readPiece(rs, janggiBoard);
+            }
+
+            return new Board(janggiBoard);
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
+    }
+
+    private void readPiece(final ResultSet rs, final Map<JanggiPosition, Piece> janggiBoard)
+            throws SQLException {
+        final int x = rs.getInt(2);
+        final int y = rs.getInt(3);
+        final String pieceName = rs.getString(4);
+        final String countryText = rs.getString(5);
+
+
+        final JanggiPosition janggiPosition = new JanggiPosition(x, y);
+        final Country country = Country.StringToCountry(countryText);
+        final Piece piece = PieceName.convertPiece(pieceName, country);
+        janggiBoard.put(janggiPosition, piece);
+    }
+
+    public boolean existsJanggiRows() {
+        try (final Connection connection = getConnection()) {
+            final String readCountQuery = "SELECT COUNT(*) FROM PIECE";
+            final PreparedStatement preparedStatement = connection.prepareStatement(readCountQuery);
+
+            final ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+
+            return rs.getInt(1) > 0;
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
+    }
+
+    public void removeAllJanggiRows() {
+        try (final Connection connection = getConnection()) {
+            final String removeAllQuery = "DELETE FROM PIECE WHERE ID >= 0";
+            final PreparedStatement preparedStatement = connection.prepareStatement(removeAllQuery);
+
+            preparedStatement.execute();
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
+    }
+
+    public boolean removeJanggiRowByPosition(final JanggiPosition janggiPosition) {
+        try (final Connection connection = getConnection()) {
+            final String removeByPosition = "DELETE FROM PIECE WHERE X=? AND Y=?";
+            final PreparedStatement preparedStatement = connection.prepareStatement(removeByPosition);
+
+            preparedStatement.setString(1, String.valueOf(janggiPosition.x()));
+            preparedStatement.setString(2, String.valueOf(janggiPosition.y()));
+
+            return preparedStatement.executeUpdate() == 1;
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateJanggiRowByPosition(final JanggiPosition janggiPosition, final Piece piece) {
+        try (final Connection connection = getConnection()) {
+            removeJanggiRowByPosition(janggiPosition);
+            final String insertByPosition = "INSERT INTO PIECE VALUES(DEFAULT, ?, ?, ?, ?)";
+            final PreparedStatement preparedStatement = connection.prepareStatement(insertByPosition);
+
+            preparedStatement.setString(1, String.valueOf(janggiPosition.x()));
+            preparedStatement.setString(2, String.valueOf(janggiPosition.y()));
+            preparedStatement.setString(3, PieceName.convertPieceName(piece));
+            preparedStatement.setString(4, piece.getCountry().name());
+
+            return preparedStatement.executeUpdate() == 1;
         } catch (final SQLException e) {
             e.printStackTrace();
             return false;
