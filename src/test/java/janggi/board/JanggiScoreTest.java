@@ -23,12 +23,13 @@ public class JanggiScoreTest {
             // given
             final JanggiScore janggiScore1 = new JanggiScore(25.5);
             final JanggiScore janggiScore2 = new JanggiScore(10.5);
+            final JanggiScore expected = new JanggiScore(36);
 
             // when
             final JanggiScore actual = janggiScore1.plus(janggiScore2);
 
             // then
-            assertThat(actual).isEqualTo(new JanggiScore(36));
+            assertThat(actual).isEqualTo(expected);
         }
 
         @DisplayName("뺄셈 연산을 올바르게 수행한다.")
@@ -37,18 +38,19 @@ public class JanggiScoreTest {
             // given
             final JanggiScore janggiScore1 = new JanggiScore(25.5);
             final JanggiScore janggiScore2 = new JanggiScore(10.5);
+            final JanggiScore expected = new JanggiScore(15);
 
             // when
             final JanggiScore actual = janggiScore1.minus(janggiScore2);
 
             // then
-            assertThat(actual).isEqualTo(new JanggiScore(15));
+            assertThat(actual).isEqualTo(expected);
         }
 
         @DisplayName("나라의 최대 점수에서 현재 점수를 뺀 값을 반환한다.")
         @ParameterizedTest
         @MethodSource
-        void calculateScoreByCountry(final Country country, final JanggiScore expectedJanggiScore) {
+        void calculateScoreByCountry(final Country country, final JanggiScore expected) {
             // given
             final JanggiScore janggiScore = new JanggiScore(0);
 
@@ -56,7 +58,7 @@ public class JanggiScoreTest {
             final JanggiScore actual = janggiScore.calculateScoreByCountry(country);
 
             // then
-            assertThat(actual).isEqualTo(expectedJanggiScore);
+            assertThat(actual).isEqualTo(expected);
         }
 
         static Stream<Arguments> calculateScoreByCountry(){
