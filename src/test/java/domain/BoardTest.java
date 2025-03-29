@@ -4,6 +4,7 @@ import domain.direction.PieceDirection;
 import domain.piece.Piece;
 import domain.piece.Pieces;
 import domain.piece.category.King;
+import domain.piece.category.PieceCategory;
 import domain.piece.category.Soldier;
 import domain.spatial.Position;
 import domain.strategy.InnerElephantInitializer;
@@ -179,7 +180,7 @@ class BoardTest {
     }
 
     @Test
-    void 이동한_위치에_존재하는_상대_기물을_삭제한다() {
+    void 이동한_위치에_존재하는_상대_기물을_삭제하고_카테고리를_반환한다() {
         // given
         Position startPosition = new Position(1, 1);
         Position targetPosition = new Position(1, 7);
@@ -199,13 +200,14 @@ class BoardTest {
         board.moveAndCapture(han, new Position(1, 4), new Position(2, 4));
 
         // when
-        board.moveAndCapture(han, startPosition, targetPosition);
+        PieceCategory removed = board.moveAndCapture(han, startPosition, targetPosition);
 
         // then
         assertAll(() -> {
             assertThat(choPieces.pieces()).hasSize(15);
             assertThat(choPieces.pieces()).doesNotContain(
                     new Soldier(new Position(1, 7), PieceDirection.CHO_SOLDIER.get()));
+            assertThat(removed).isEqualTo(PieceCategory.SOLDIER);
         });
     }
 
