@@ -3,7 +3,7 @@ package game;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static piece.Country.Cho;
+import static piece.Country.CHO;
 import static piece.PieceType.ELEPHANT;
 import static piece.PieceType.HORSE;
 import static testutil.TestConstant.B1;
@@ -142,7 +142,7 @@ public class BoardTest {
         void 보드의_기물을_움직인다() {
             // given
             Map<Position, Piece> boardMap = new HashMap<>();
-            boardMap.put(E5, new Rook(Cho));
+            boardMap.put(E5, new Rook(CHO));
             Board board = new Board(boardMap);
 
             // then

@@ -2,8 +2,8 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static piece.Country.Cho;
-import static piece.Country.Han;
+import static piece.Country.CHO;
+import static piece.Country.HAN;
 import static testutil.TestConstant.B3;
 import static testutil.TestConstant.B7;
 import static testutil.TestConstant.C2;
@@ -56,7 +56,7 @@ public class ElephantTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 상은_정해진_루트로_이동_가능하다(Position fromPosition, Position toPosition) {
         // given
-        Elephant elephant = new Elephant(Cho);
+        Elephant elephant = new Elephant(CHO);
         Board board = new Board(Map.of());
 
         // then
@@ -67,7 +67,7 @@ public class ElephantTest {
     @MethodSource("INVALID_MOVE_POSITIONS")
     void 상은_정해진_루트가_아니면_이동할_수_없다(Position fromPosition, Position toPosition) {
         // given
-        Elephant elephant = new Elephant(Cho);
+        Elephant elephant = new Elephant(CHO);
         Board board = new Board(Map.of());
 
         // then
@@ -80,12 +80,12 @@ public class ElephantTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 상은_중간에_기물이_있으면_이동할_수_없다(Position fromPosition, Position toPosition) {
         // given
-        Elephant elephant = new Elephant(Cho);
+        Elephant elephant = new Elephant(CHO);
         Board board = new Board(Map.of(
-                D5, new Elephant(Cho),
-                F5, new Elephant(Cho),
-                E4, new Elephant(Cho),
-                E6, new Elephant(Cho)
+                D5, new Elephant(CHO),
+                F5, new Elephant(CHO),
+                E4, new Elephant(CHO),
+                E6, new Elephant(CHO)
         ));
 
         // then
@@ -98,9 +98,9 @@ public class ElephantTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 상은_마지막에_아군이_있으면_이동할_수_없다(Position fromPosition, Position toPosition) {
         // given
-        Elephant elephant = new Elephant(Cho);
+        Elephant elephant = new Elephant(CHO);
         Board board = new Board(Map.of(
-                toPosition, new Elephant(Cho)
+                toPosition, new Elephant(CHO)
         ));
 
         // then
@@ -113,9 +113,9 @@ public class ElephantTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 상은_마지막에_상대_기물이_있으면_이동할_수_있다(Position fromPosition, Position toPosition) {
         // given
-        Elephant elephant = new Elephant(Cho);
+        Elephant elephant = new Elephant(CHO);
         Board board = new Board(Map.of(
-                toPosition, new Elephant(Han)
+                toPosition, new Elephant(HAN)
         ));
 
         // then

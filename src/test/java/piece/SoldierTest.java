@@ -58,7 +58,7 @@ public class SoldierTest {
     @ParameterizedTest
     @MethodSource("CHO_VALID_MOVE_POSITIONS")
     void 초나라_병사는_앞_또는_좌우로_한칸_이동할_수_있다(Position from, Position to) {
-        Soldier soldier = new Soldier(Country.Cho);
+        Soldier soldier = new Soldier(Country.CHO);
         Board board = new Board(Map.of());
 
         assertThatCode(() -> soldier.validateMove(from, to, board)).doesNotThrowAnyException();
@@ -67,7 +67,7 @@ public class SoldierTest {
     @ParameterizedTest
     @MethodSource("CHO_INVALID_MOVE_POSITIONS")
     void 초나라_병사는_뒤쪽이나_대각선으로_이동할_수_없다(Position from, Position to) {
-        Soldier soldier = new Soldier(Country.Cho);
+        Soldier soldier = new Soldier(Country.CHO);
         Board board = new Board(Map.of());
 
         assertThatThrownBy(() -> soldier.validateMove(from, to, board))
@@ -78,7 +78,7 @@ public class SoldierTest {
     @ParameterizedTest
     @MethodSource("HAN_VALID_POSITIONS")
     void 한나라_병사는_앞_또는_좌우로_한칸_이동할_수_있다(Position from, Position to) {
-        Soldier soldier = new Soldier(Country.Han);
+        Soldier soldier = new Soldier(Country.HAN);
         Board board = new Board(Map.of());
 
         assertThatCode(() -> soldier.validateMove(from, to, board)).doesNotThrowAnyException();
@@ -87,7 +87,7 @@ public class SoldierTest {
     @ParameterizedTest
     @MethodSource("HAN_INVALID_POSITIONS")
     void 한나라_병사는_뒤쪽이나_대각선으로_이동할_수_없다(Position from, Position to) {
-        Soldier soldier = new Soldier(Country.Han);
+        Soldier soldier = new Soldier(Country.HAN);
         Board board = new Board(Map.of());
 
         assertThatThrownBy(() -> soldier.validateMove(from, to, board))

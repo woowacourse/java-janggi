@@ -2,8 +2,8 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static piece.Country.Cho;
-import static piece.Country.Han;
+import static piece.Country.CHO;
+import static piece.Country.HAN;
 import static testutil.TestConstant.A5;
 import static testutil.TestConstant.B3;
 import static testutil.TestConstant.B5;
@@ -54,12 +54,12 @@ public class CannonTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 포는_중간에_기물이_하나가_있으면상하좌우_방향으로_이동할_수_있다(Position from, Position to) {
         // given
-        Cannon cannon = new Cannon(Cho);
+        Cannon cannon = new Cannon(CHO);
         Board board = new Board(Map.of(
-                D5, new Elephant(Cho),
-                F5, new Elephant(Cho),
-                E4, new Elephant(Cho),
-                E6, new Elephant(Cho)
+                D5, new Elephant(CHO),
+                F5, new Elephant(CHO),
+                E4, new Elephant(CHO),
+                E6, new Elephant(CHO)
         ));
 
         // when & then
@@ -70,12 +70,12 @@ public class CannonTest {
     @MethodSource("INVALID_MOVE_POSITIONS")
     void 포는_상하좌우가_아닌_경로로는_이동할_수_없다(Position from, Position to) {
         // given
-        Cannon cannon = new Cannon(Cho);
+        Cannon cannon = new Cannon(CHO);
         Board board = new Board(Map.of(
-                D5, new Elephant(Cho),
-                F5, new Elephant(Cho),
-                E4, new Elephant(Cho),
-                E6, new Elephant(Cho)
+                D5, new Elephant(CHO),
+                F5, new Elephant(CHO),
+                E4, new Elephant(CHO),
+                E6, new Elephant(CHO)
         ));
 
         // when & then
@@ -88,16 +88,16 @@ public class CannonTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 포는_중간에_기물이_두_개_이상_있으면_이동할_수_없다(Position from, Position to) {
         // given
-        Cannon cannon = new Cannon(Cho);
+        Cannon cannon = new Cannon(CHO);
         Board board = new Board(Map.of(
-                E4, new Horse(Cho),
-                E6, new Horse(Cho),
-                C5, new Horse(Cho),
-                G5, new Horse(Cho),
-                E3, new Horse(Cho),
-                E7, new Horse(Cho),
-                B5, new Horse(Cho),
-                F5, new Horse(Cho)
+                E4, new Horse(CHO),
+                E6, new Horse(CHO),
+                C5, new Horse(CHO),
+                G5, new Horse(CHO),
+                E3, new Horse(CHO),
+                E7, new Horse(CHO),
+                B5, new Horse(CHO),
+                F5, new Horse(CHO)
 
         ));
 
@@ -111,12 +111,12 @@ public class CannonTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 포는_중간에_기물이_포면_이동할_수_없다(Position from, Position to) {
         // given
-        Cannon cannon = new Cannon(Cho);
+        Cannon cannon = new Cannon(CHO);
         Board board = new Board(Map.of(
-                E4, new Cannon(Cho),
-                E6, new Cannon(Cho),
-                C5, new Cannon(Cho),
-                F5, new Cannon(Cho)
+                E4, new Cannon(CHO),
+                E6, new Cannon(CHO),
+                C5, new Cannon(CHO),
+                F5, new Cannon(CHO)
 
         ));
 
@@ -130,13 +130,13 @@ public class CannonTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 포는_마지막에_아군이_있으면_이동할_수_없다(Position fromPosition, Position toPosition) {
         // given
-        Cannon cannon = new Cannon(Cho);
+        Cannon cannon = new Cannon(CHO);
         Board board = new Board(Map.of(
-                E4, new Elephant(Cho),
-                E6, new Elephant(Cho),
-                C5, new Elephant(Cho),
-                F5, new Elephant(Cho),
-                toPosition, new Elephant(Cho)
+                E4, new Elephant(CHO),
+                E6, new Elephant(CHO),
+                C5, new Elephant(CHO),
+                F5, new Elephant(CHO),
+                toPosition, new Elephant(CHO)
         ));
 
         // then
@@ -149,13 +149,13 @@ public class CannonTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 포는_마지막에_상대_포가_있으면_이동할_수_없다(Position fromPosition, Position toPosition) {
         // given
-        Cannon cannon = new Cannon(Cho);
+        Cannon cannon = new Cannon(CHO);
         Board board = new Board(Map.of(
-                E4, new Elephant(Cho),
-                E6, new Elephant(Cho),
-                D5, new Elephant(Cho),
-                F5, new Elephant(Cho),
-                toPosition, new Cannon(Han)
+                E4, new Elephant(CHO),
+                E6, new Elephant(CHO),
+                D5, new Elephant(CHO),
+                F5, new Elephant(CHO),
+                toPosition, new Cannon(HAN)
         ));
 
         // then

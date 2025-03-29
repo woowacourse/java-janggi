@@ -2,7 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static piece.Country.Cho;
+import static piece.Country.CHO;
 import static testutil.TestConstant.C4;
 import static testutil.TestConstant.C6;
 import static testutil.TestConstant.D3;
@@ -47,7 +47,7 @@ public class HorseTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 말은_시작지와_목적지에_따른_이동경로를_반환한다(Position fromPosition, Position toPosition) {
         // given
-        Horse horse = new Horse(Country.Cho);
+        Horse horse = new Horse(Country.CHO);
         Board board = new Board(Map.of());
 
         // then
@@ -57,7 +57,7 @@ public class HorseTest {
     @Test
     void 말은_정해진_루트가_아니면_이동할_수_없다() {
         // given
-        Horse horse = new Horse(Country.Cho);
+        Horse horse = new Horse(Country.CHO);
         Board board = new Board(Map.of());
 
         // then
@@ -78,12 +78,12 @@ public class HorseTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 말은_중간에_기물이_있으면_이동할_수_없다(Position fromPosition, Position toPosition) {
         // given
-        Horse horse = new Horse(Country.Cho);
+        Horse horse = new Horse(Country.CHO);
         Board board = new Board(Map.of(
-                D5, new Elephant(Cho),
-                F5, new Elephant(Cho),
-                E4, new Elephant(Cho),
-                E6, new Elephant(Cho)
+                D5, new Elephant(CHO),
+                F5, new Elephant(CHO),
+                E4, new Elephant(CHO),
+                E6, new Elephant(CHO)
         ));
 
         // then

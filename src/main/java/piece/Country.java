@@ -1,13 +1,13 @@
 package piece;
 
 public enum Country {
-    Cho,
-    Han;
+    CHO,
+    HAN;
 
     public Country reverseCountry() {
-        if (this == Cho) {
-            return Han;
+        if (this == CHO) {
+            return HAN;
         }
-        return Cho;
+        return CHO;
     }
 }

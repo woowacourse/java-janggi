@@ -75,7 +75,7 @@ public class BoardSetting {
 
 
     private Position reverseByCountry(Position position, Country country) {
-        return country == Country.Cho ? position : position.reverse();
+        return country == Country.CHO ? position : position.reverse();
     }
 }
 

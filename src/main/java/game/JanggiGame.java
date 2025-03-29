@@ -1,6 +1,5 @@
 package game;
 
-import java.sql.SQLOutput;
 import java.util.List;
 import piece.Country;
 import position.Position;
@@ -12,7 +11,7 @@ public class JanggiGame {
     private final InputView inputView;
     private final OutputView outputView;
 
-    private Country turnCountry = Country.Cho;
+    private Country turnCountry = Country.CHO;
 
     public JanggiGame(InputView inputView, OutputView outputView) {
         this.inputView = inputView;

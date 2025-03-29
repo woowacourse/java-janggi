@@ -2,7 +2,7 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static piece.Country.Cho;
+import static piece.Country.CHO;
 import static testutil.TestConstant.A5;
 import static testutil.TestConstant.B3;
 import static testutil.TestConstant.B5;
@@ -51,7 +51,7 @@ public class RookTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 차는_상하좌우_방향으로_이동할_수_있다(Position from, Position to) {
         // given
-        Rook rook = new Rook(Cho);
+        Rook rook = new Rook(CHO);
         Board board = new Board(Map.of());
 
         // when & then
@@ -62,7 +62,7 @@ public class RookTest {
     @MethodSource("INVALID_MOVE_POSITIONS")
     void 차는_상하좌우가_아닌_경로로는_이동할_수_없다(Position from, Position to) {
         // given
-        Rook rook = new Rook(Cho);
+        Rook rook = new Rook(CHO);
         Board board = new Board(Map.of());
 
         // when & then
@@ -75,12 +75,12 @@ public class RookTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 차는_중간에_기물이_있으면_이동할_수_없다(Position from, Position to) {
         // given
-        Rook rook = new Rook(Cho);
+        Rook rook = new Rook(CHO);
         Board board = new Board(Map.of(
-                E4, new Horse(Cho),
-                E6, new Horse(Cho),
-                C5, new Horse(Cho),
-                G5, new Horse(Cho)
+                E4, new Horse(CHO),
+                E6, new Horse(CHO),
+                C5, new Horse(CHO),
+                G5, new Horse(CHO)
         ));
 
         // when & then
@@ -93,12 +93,12 @@ public class RookTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 차는_중간에_기물이_있으면_이동할_수_없다2(Position from, Position to) {
         // given
-        Rook rook = new Rook(Cho);
+        Rook rook = new Rook(CHO);
         Board board = new Board(Map.of(
-                B5, new Horse(Cho),
-                G5, new Horse(Cho),
-                E2, new Horse(Cho),
-                E8, new Horse(Cho)
+                B5, new Horse(CHO),
+                G5, new Horse(CHO),
+                E2, new Horse(CHO),
+                E8, new Horse(CHO)
         ));
 
         // when & then

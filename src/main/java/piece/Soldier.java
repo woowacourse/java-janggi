@@ -22,7 +22,7 @@ public class Soldier extends Piece {
 
     public List<Position> getPathForMoving(Position fromPosition, Position toPosition) {
         Set<List<Movement>> pieceMovements;
-        if (this.getCountry() == Country.Cho) {
+        if (this.getCountry() == Country.CHO) {
             pieceMovements = ChoPieceMovements;
         } else {
             pieceMovements = HanPieceMovements;

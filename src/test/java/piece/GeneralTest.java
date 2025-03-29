@@ -39,7 +39,7 @@ public class GeneralTest {
     @MethodSource("VALID_MOVE_POSITIONS")
     void 장군은_위_아래_왼쪽_오른쪽_으로_움직일_수_있다(Position fromPosition, Position toPosition) {
         // given
-        General general = new General(Country.Cho);
+        General general = new General(Country.CHO);
         Board board = new Board(Map.of());
 
         // then
@@ -54,7 +54,7 @@ public class GeneralTest {
         Board board = new Board(Map.of());
 
         // given
-        General general = new General(Country.Cho);
+        General general = new General(Country.CHO);
 
         // then
         assertThatThrownBy(() -> general.validateMove(A1, A3, board))

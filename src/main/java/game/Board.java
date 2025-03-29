@@ -17,8 +17,8 @@ public class Board {
     public Board(StartPosition choStartPosition, StartPosition hanStartPosition) {
         BoardSetting boardSetting = new BoardSetting();
         Map<Position, Piece> board = new HashMap<>();
-        board.putAll(boardSetting.setting(Country.Cho, choStartPosition));
-        board.putAll(boardSetting.setting(Country.Han, hanStartPosition));
+        board.putAll(boardSetting.setting(Country.CHO, choStartPosition));
+        board.putAll(boardSetting.setting(Country.HAN, hanStartPosition));
         this.board = board;
     }
 

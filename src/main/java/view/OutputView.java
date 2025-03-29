@@ -56,7 +56,7 @@ public final class OutputView {
     }
 
     private void displayPiece(Piece piece) {
-        String color = piece.getCountry() == Country.Cho ? BLUE : RED;
+        String color = piece.getCountry() == Country.CHO ? BLUE : RED;
         System.out.print(color + piece.getPieceType().getDisplayName() + RESET);
     }
 
@@ -65,7 +65,7 @@ public final class OutputView {
     }
 
     public void printTurn(Country country) {
-        if (country == Country.Cho) {
+        if (country == Country.CHO) {
             System.out.println("\n[초나라 턴입니다.]");
         } else {
             System.out.println("\n[한나라 턴입니다.]");
