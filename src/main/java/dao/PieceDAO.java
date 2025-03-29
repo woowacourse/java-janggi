@@ -27,8 +27,7 @@ public class PieceDao {
             preparedStatement.setString(4, piece.team().name());
             preparedStatement.setString(5, piece.gameRoomName());
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected == 1;
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(sql + ": 실행에 실패했습니다.");
         }
@@ -78,9 +77,7 @@ public class PieceDao {
             preparedStatement.setLong(3, oldPoint.row());
             preparedStatement.setLong(4, oldPoint.column());
             preparedStatement.setString(5, gameRoomName);
-
-            int rowAffected = preparedStatement.executeUpdate();
-            return rowAffected == 1;
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(sql + ": 실행에 실패했습니다.");
         }
@@ -96,9 +93,7 @@ public class PieceDao {
             preparedStatement.setString(1, gameRoomName);
             preparedStatement.setInt(2, point.row());
             preparedStatement.setInt(3, point.column());
-
-            int rowAffected = preparedStatement.executeUpdate();
-            return rowAffected == 1;
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(sql + ": 실행에 실패했습니다.");
         }

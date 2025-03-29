@@ -15,8 +15,7 @@ public class GameRoomDao {
             preparedStatement.setString(1, gameRoom.name());
             preparedStatement.setString(2, gameRoom.turn().name());
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected == 1;
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -55,8 +54,8 @@ public class GameRoomDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, turn.name());
             preparedStatement.setString(2, gameRoomName);
-            int rowAffected = preparedStatement.executeUpdate();
-            return rowAffected == 1;
+
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(sql + ": 실행에 실패했습니다.");
         }
@@ -69,8 +68,8 @@ public class GameRoomDao {
                 """;
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, gameRoomName);
-            int rowAffected = preparedStatement.executeUpdate();
-            return rowAffected == 1;
+
+            return true;
         } catch (SQLException e) {
             throw new RuntimeException(sql + ": 실행에 실패했습니다.");
         }
