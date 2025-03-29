@@ -32,19 +32,3 @@ public abstract class Piece {
         return this.country.equals(country);
     }
 }
-// 상속은 쓰레기
-
-// Horse is Piece
-
-// Piece has a rule(Horse)
-// Piece
-// - PieceRule rule; // horse, king, elephant
-// - Team team;
-//
-
-// PieceRule interface -> 루트를 찾는 메서드 searchRoutes()
-/**
- * public List<Position> findExistPositions(List<Position> positions) {
- *         return 조합클래스.뭐시기();
- * }
- */
