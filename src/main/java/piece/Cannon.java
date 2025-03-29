@@ -18,6 +18,10 @@ public class Cannon extends Piece {
         Point distance = destination.minus(current);
 
         Movement direction = Movement.toDirection(distance);
+        if (direction.isDiagonalMove()) {
+            validatePossibleDiagonalMovePoint();
+        }
+
         Point tempCurrent = new Point(current.column(), current.row());
         int count = 0;
         for (int moveCount = 0; moveCount < distance.moveCount(distance); moveCount++) {
@@ -32,6 +36,12 @@ public class Cannon extends Piece {
         validateOverOnePiece(count);
 
         current = new Point(destination.column(), destination.row());
+    }
+
+    private void validatePossibleDiagonalMovePoint() {
+        if ((!current.isPalaceCenter() && !current.isPalaceCorner())) {
+            throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
+        }
     }
 
     @Override
@@ -52,7 +62,7 @@ public class Cannon extends Piece {
     }
 
     private void validateInvalidDestination(final Point destination) {
-        if (current.isDifferentColumn(destination) && current.isDifferentRow(destination)) {
+        if ((!current.isPalace() || !destination.isPalace()) && current.isDifferentColumn(destination) && current.isDifferentRow(destination)) {
             throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
         }
     }
