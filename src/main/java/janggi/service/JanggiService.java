@@ -36,9 +36,10 @@ public class JanggiService {
         }
 
         gameRoomDAO.create(gameRoomName);
-        Board board = initializeBoard(maSangPositionByCho, maSangPositionByHan);
 
+        Board board = initializeBoard(maSangPositionByCho, maSangPositionByHan);
         pieceDAO.saveAll(gameRoomName, board);
+
         return new GameRoom(gameRoomName, board, Team.CHO);
     }
 
@@ -83,6 +84,7 @@ public class JanggiService {
     public void movePiece(GameRoom gameRoom, Position currentPosition, Position targetPosition) {
         Board board = gameRoom.board();
         String gameRoomName = gameRoom.name();
+
         board.movePiece(currentPosition, targetPosition);
         pieceDAO.movePiece(gameRoomName, currentPosition, targetPosition);
     }

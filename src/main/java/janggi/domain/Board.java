@@ -104,7 +104,7 @@ public class Board {
             return "＿";
         }
 
-        return pieceMap.get(position).toName();
+        return getPiece(position).toName();
     }
 
     public Map<Position, Piece> getPieceMap() {
