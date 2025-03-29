@@ -2,6 +2,9 @@ package service;
 
 import dao.GameDao;
 import domain.game.Turn;
+import domain.piece.Team;
+import dto.TurnDto;
+import java.util.Optional;
 
 public class GameService {
     private final GameDao gameDao;
@@ -10,11 +13,19 @@ public class GameService {
         this.gameDao = gameDao;
     }
 
-    public void initializeGame(){
-        gameDao.initializeGameTable();
+    public void createGame(){
+        gameDao.createGameTableIfNotExists();
+    }
+
+    public void insertInitializeGameTurn(){
+        gameDao.insertGameTurn(Team.CHO);
     }
 
     public void saveTurn(Turn turn){
         gameDao.saveTurn(turn);
+    }
+
+    public Optional<TurnDto> findTurn(){
+        return gameDao.findTurnByGameId(1);
     }
 }
