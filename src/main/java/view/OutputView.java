@@ -1,8 +1,8 @@
 package view;
 
-import domain.BoardPosition;
-import domain.Piece;
-import domain.Team;
+import domain.board.BoardPosition;
+import domain.piece.Piece;
+import domain.piece.Team;
 import java.util.Map;
 
 public class OutputView {

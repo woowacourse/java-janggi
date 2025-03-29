@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 public record BoardPosition(
     int x,
@@ -28,7 +28,7 @@ public record BoardPosition(
         return new BoardPosition(this.x + offset.x(), this.y + offset.y());
     }
 
-    public Offset calculateOffset(final BoardPosition before) {
-        return new Offset(this.x - before.x, this.y - before.y);
+    public Offset calculateOffset(final BoardPosition source) {
+        return new Offset(this.x - source.x, this.y - source.y);
     }
 }

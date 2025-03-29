@@ -1,4 +1,4 @@
-package domain;
+package domain.board;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -14,18 +14,32 @@ class BoardPositionTest {
     @Nested
     class ValidCases {
 
+        @DisplayName("오프셋만큼 이동한 위치를 반환한다.")
+        @Test
+        void calculatePosition() {
+            // given
+            BoardPosition from = new BoardPosition(3, 4);
+            Offset offset = new Offset(2, -1);
+
+            // when
+            BoardPosition result = from.calculatePosition(offset);
+
+            // then
+            assertThat(result).isEqualTo(new BoardPosition(5, 3));
+        }
+
         @DisplayName("위치 사이의 거리를 계산한다.")
         @Test
         void calculateOffset() {
             // given
-            BoardPosition before = new BoardPosition(0, 0);
+            BoardPosition source = new BoardPosition(0, 0);
             BoardPosition after = new BoardPosition(1, 2);
 
             // when
-            Offset offset = after.calculateOffset(before);
+            Offset result = after.calculateOffset(source);
 
             // then
-            assertThat(offset).isEqualTo(new Offset(1, 2));
+            assertThat(result).isEqualTo(new Offset(1, 2));
         }
     }
 
@@ -35,21 +49,21 @@ class BoardPositionTest {
         @DisplayName("포지션의 범위를 벗어나면 예외가 발생한다.")
         @ParameterizedTest
         @CsvSource(
-                value = {
-                        "-1, 0",
-                        "9, 0",
-                        "0, -1",
-                        "0, 10"
-                }
+            value = {
+                "-1, 0",
+                "9, 0",
+                "0, -1",
+                "0, 10"
+            }
         )
         void validateRange(
-                int x,
-                int y
+            int x,
+            int y
         ) {
             // when & then
             assertThatThrownBy(() -> new BoardPosition(x, y))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("장기판의 범위를 벗어났습니다.");
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("장기판의 범위를 벗어났습니다.");
         }
     }
 }

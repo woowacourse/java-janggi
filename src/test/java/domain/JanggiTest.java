@@ -1,23 +1,73 @@
 package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import domain.board.Board;
+import domain.board.BoardPosition;
+import domain.piece.Jju;
+import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Team;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class JanggiTest {
 
     @Nested
     class ValidCases {
 
+        @DisplayName("장기를 초기화하면 보드와 팀이 초기값으로 설정된다.")
+        @Test
+        void initialize() {
+            // when
+            Janggi janggi = Janggi.initialize();
+
+            // then
+            Set<PieceType> pieceTypes = janggi.getPieces()
+                .values()
+                .stream()
+                .map(Piece::getPieceType)
+                .collect(Collectors.toSet());
+
+            assertSoftly(softly -> {
+                softly.assertThat(pieceTypes)
+                    .containsExactlyInAnyOrder(PieceType.values());
+                softly.assertThat(janggi.getCurrentTeam())
+                    .isEqualTo(Team.GREEN);
+            });
+        }
+
+        @DisplayName("현재 팀의 기물이 선택된 위치에 있다.")
+        @Test
+        void validateSelectedPiece() {
+            // given
+            Board board = new Board(Map.of(
+                new BoardPosition(0, 0), new Jju(Team.GREEN)
+            ));
+            Janggi janggi = new Janggi(board, Team.GREEN);
+
+            // when & then
+            assertThatCode(() -> janggi.validateSelectedPiece(new BoardPosition(0, 0)))
+                .doesNotThrowAnyException();
+        }
+
         @DisplayName("기물 이동을 성공하면 턴이 바뀐다.")
         @Test
         void processTurn() {
             // given
             Board board = new Board(Map.of(
-                new BoardPosition(0, 0), new Piece(PieceType.JJU, Team.GREEN)
+                new BoardPosition(0, 0), new Jju(Team.GREEN)
             ));
             Janggi janggi = new Janggi(board, Team.GREEN);
 
@@ -26,6 +76,47 @@ class JanggiTest {
 
             // then
             assertThat(janggi.getCurrentTeam()).isEqualTo(Team.RED);
+        }
+    }
+
+    @Nested
+    class InvalidCases {
+
+        @DisplayName("장기는 보드나 현재 팀을 반드시 가져야 한다.")
+        @ParameterizedTest
+        @MethodSource("provideNullArguments")
+        void validateNotNull(
+            Board board,
+            Team team
+        ) {
+            // when & then
+            assertThatThrownBy(() -> new Janggi(board, team))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("보드는 보드와 현재 팀을 가져야합니다.");
+        }
+
+        static Stream<Arguments> provideNullArguments() {
+            // given
+            return Stream.of(
+                Arguments.of(null, null),
+                Arguments.of(null, Team.GREEN),
+                Arguments.of(new Board(Map.of()), null)
+            );
+        }
+
+        @DisplayName("해당 위치에 말이 없거나 상대 팀의 말이면 예외가 발생한다.")
+        @Test
+        void validateSelectedPiece() {
+            // given
+            Board board = new Board(Map.of(
+                new BoardPosition(0, 0), new Jju(Team.RED)
+            ));
+            Janggi janggi = new Janggi(board, Team.GREEN);
+
+            // when & then
+            assertThatThrownBy(() -> janggi.validateSelectedPiece(new BoardPosition(0, 0)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치에 말이 없거나 상대팀의 말입니다.");
         }
     }
 }

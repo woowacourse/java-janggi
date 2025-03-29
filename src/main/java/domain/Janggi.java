@@ -1,5 +1,10 @@
 package domain;
 
+import domain.board.Board;
+import domain.board.BoardFactory;
+import domain.board.BoardPosition;
+import domain.piece.Piece;
+import domain.piece.Team;
 import java.util.Map;
 
 public class Janggi {
@@ -26,7 +31,7 @@ public class Janggi {
     }
 
     public static Janggi initialize() {
-        final Board board = Board.initialize();
+        final Board board = BoardFactory.createInitialBoard();
         final Team currentTeam = Team.GREEN;
 
         return new Janggi(board, currentTeam);

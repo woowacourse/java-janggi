@@ -1,14 +1,14 @@
 package view;
 
-import domain.BoardPosition;
+import domain.board.BoardPosition;
 import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
 
     private static final String POSITION_DELIMITER = ",";
-    private static final int ROW_INDEX = 0;
-    private static final int COLUMN_INDEX = 1;
+    private static final int COLUMN_INDEX = 0;
+    private static final int ROW_INDEX = 1;
 
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -43,8 +43,8 @@ public class InputView {
 
     private List<Integer> validateAndParse(final String[] parts) {
         try {
-            final int x = Integer.parseInt(parts[ROW_INDEX].trim());
-            final int y = Integer.parseInt(parts[COLUMN_INDEX].trim());
+            final int x = Integer.parseInt(parts[COLUMN_INDEX].trim());
+            final int y = Integer.parseInt(parts[ROW_INDEX].trim());
 
             return List.of(x, y);
         } catch (NumberFormatException e) {

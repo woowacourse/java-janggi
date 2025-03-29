@@ -1,15 +1,15 @@
 package controller;
 
-import domain.BoardPosition;
 import domain.Janggi;
+import domain.board.BoardPosition;
 import java.util.List;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
 
-    private static final int ROW_INDEX = 0;
-    private static final int COLUMN_INDEX = 1;
+    private static final int COLUMN_INDEX = 0;
+    private static final int ROW_INDEX = 1;
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -40,7 +40,7 @@ public class JanggiController {
 
     public BoardPosition createBoardPosition(final List<Integer> coordinates) {
         validateSize(coordinates);
-        return new BoardPosition(coordinates.get(ROW_INDEX), coordinates.get(COLUMN_INDEX));
+        return new BoardPosition(coordinates.get(COLUMN_INDEX), coordinates.get(ROW_INDEX));
     }
 
     private void validateSize(final List<Integer> coordinates) {
