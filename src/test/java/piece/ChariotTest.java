@@ -86,5 +86,20 @@ public class ChariotTest {
                 .doesNotThrowAnyException();
     }
 
-    // 궁성 내 대각선 이동 시 기물 있는 경우
+    @Test
+    @DisplayName("궁성 내에서는 대각선 경로에 기물이 있는 경우 이동할 수 없다.")
+    void test12() {
+        //given
+        Position from = new Position(4, 1);
+        Position to = new Position(6, 3);
+        Chariot chariot = new Chariot(from);
+        Pieces pieces = new Pieces(List.of(
+                chariot,
+                new Guard(new Position(5, 2))));
+
+        //when
+        //then
+        assertThatThrownBy(() -> chariot.validatePaths(pieces, to))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
 }

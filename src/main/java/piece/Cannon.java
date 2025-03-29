@@ -48,7 +48,7 @@ public class Cannon implements Piece {
     }
 
     private int calculateNotCannonCountInPaths(Pieces pieces, Position destination) {
-        List<Position> paths = PathUtility.calculateStraightPaths(currentPosition, destination);
+        List<Position> paths = PathUtility.calculateOneDirectionPaths(currentPosition, destination);
         return (int) paths.stream()
                 .filter(pieces::isContainedPieceAtPosition)
                 .map(pieces::getByPosition)
@@ -57,7 +57,7 @@ public class Cannon implements Piece {
     }
 
     private int calculateCannonCountInPaths(Pieces pieces, Position destination) {
-        List<Position> paths = PathUtility.calculateStraightPaths(currentPosition, destination);
+        List<Position> paths = PathUtility.calculateOneDirectionPaths(currentPosition, destination);
         return (int) paths.stream()
                 .filter(pieces::isContainedPieceAtPosition)
                 .map(pieces::getByPosition)

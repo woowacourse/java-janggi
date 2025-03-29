@@ -38,7 +38,7 @@ public class PathUtility {
         }
     }
 
-    public static List<Position> calculateStraightPaths(Position from, Position to) {
+    public static List<Position> calculateOneDirectionPaths(Position from, Position to) {
         Direction direction = Direction.find(from, to);
         List<Position> paths = new ArrayList<>();
         Position current = from.apply(direction);

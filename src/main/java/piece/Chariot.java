@@ -25,7 +25,7 @@ public class Chariot implements Piece {
 
     @Override
     public void validatePaths(Pieces pieces, Position destination) {
-        List<Position> paths = PathUtility.calculateStraightPaths(currentPosition, destination);
+        List<Position> paths = PathUtility.calculateOneDirectionPaths(currentPosition, destination);
         paths.forEach(pieces::checkNotExistedPieceInPosition);
     }
 
