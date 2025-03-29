@@ -24,8 +24,8 @@ public enum GungSung {
     }
 
     public boolean isInGungSung(Position position) {
-        boolean isXInOfRange = position.x() >= minX || position.x() <= maxX;
-        boolean isYInOfRange = position.y() >= minY || position.y() <= maxY;
+        boolean isXInOfRange = position.x() >= minX && position.x() <= maxX;
+        boolean isYInOfRange = position.y() >= minY && position.y() <= maxY;
         return isXInOfRange && isYInOfRange;
     }
 }

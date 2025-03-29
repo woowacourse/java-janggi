@@ -2,6 +2,7 @@ package janggi.starategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.fixture.GungsungPositionFixture;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.value.Position;
@@ -41,6 +42,54 @@ class PoStrategyTest {
                 Arguments.of(
                         new Position(START_POSITION.x(), START_POSITION.y() - 1),
                         new Position(START_POSITION.x(), 0))
+        );
+    }
+
+    @DisplayName("궁성 내에서는 동서남북에 추가로 대각선 이동도 가능하다.")
+    @ParameterizedTest
+    @MethodSource()
+    void canMoveInGungsung(Position start, Position destination) {
+        Piece jumpPad = new Piece(PieceType.JOL, GungsungPositionFixture.CENTER);
+        boolean canMove = strategy.ableToMove(start, destination, List.of(), List.of(jumpPad));
+        assertThat(canMove).isTrue();
+    }
+
+    static Stream<Arguments> canMoveInGungsung() {
+        return Stream.of(
+                Arguments.of(GungsungPositionFixture.DOWN, GungsungPositionFixture.UP),
+                Arguments.of(GungsungPositionFixture.UP, GungsungPositionFixture.DOWN),
+                Arguments.of(GungsungPositionFixture.LEFT, GungsungPositionFixture.RIGHT),
+                Arguments.of(GungsungPositionFixture.RIGHT, GungsungPositionFixture.LEFT),
+                Arguments.of(GungsungPositionFixture.DOWN_RIGHT, GungsungPositionFixture.UP_LEFT),
+                Arguments.of(GungsungPositionFixture.DOWN_LEFT, GungsungPositionFixture.UP_RIGHT),
+                Arguments.of(GungsungPositionFixture.UP_RIGHT, GungsungPositionFixture.DOWN_LEFT),
+                Arguments.of(GungsungPositionFixture.UP_LEFT, GungsungPositionFixture.DOWN_RIGHT)
+        );
+    }
+
+    @DisplayName("궁성 영역 밖에서는 대각선 이동이 불가능하다.")
+    @ParameterizedTest
+    @MethodSource()
+    void canNotMoveOutOfGungsung(Position jumpPadPosition, Position destination) {
+        Piece jumpPad = new Piece(PieceType.JOL, jumpPadPosition);
+        boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(), List.of(jumpPad));
+        assertThat(canMove).isFalse();
+    }
+
+    static Stream<Arguments> canNotMoveOutOfGungsung() {
+        return Stream.of(
+                Arguments.of(
+                        new Position(START_POSITION.x() + 1, START_POSITION.y() + 1),
+                        new Position(START_POSITION.x() + 2, START_POSITION.y() + 2)),
+                Arguments.of(
+                        new Position(START_POSITION.x() + 1, START_POSITION.y() - 1),
+                        new Position(START_POSITION.x() + 2, START_POSITION.y() - 2)),
+                Arguments.of(
+                        new Position(START_POSITION.x() - 1, START_POSITION.y() + 1),
+                        new Position(START_POSITION.x() - 2, START_POSITION.y() + 2)),
+                Arguments.of(
+                        new Position(START_POSITION.x() - 1, START_POSITION.y() - 1),
+                        new Position(START_POSITION.x() - 2, START_POSITION.y() - 2))
         );
     }
 

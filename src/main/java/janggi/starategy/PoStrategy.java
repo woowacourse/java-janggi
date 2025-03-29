@@ -1,45 +1,54 @@
 package janggi.starategy;
 
-import janggi.direction.BeelineDirection;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
+import janggi.setting.GungSung;
+import janggi.value.Direction;
+import janggi.value.Path;
 import janggi.value.Position;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
+import java.util.Optional;
 
 public class PoStrategy implements MoveStrategy {
 
+    private final static List<Direction> DIRECTIONS_OUT_OF_GUNGSUNG =
+            List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT);
+    private final static List<Direction> DIRECTIONS_IN_OF_GUNGSUNG =
+            List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT,
+                    Direction.UP_LEFT, Direction.UP_RIGHT, Direction.DOWN_LEFT, Direction.DOWN_RIGHT);
+
     @Override
     public boolean ableToMove(Position start, Position destination, List<Piece> enemy, List<Piece> allies) {
-        BeelineDirection direction = BeelineDirection.parse(start, destination);
-        List<Position> positionsInPath = calculatePositionsInPath(start, direction, destination);
-        List<Piece> piecesInPath = searchPieceInPath(enemy, allies, positionsInPath);
-
-        boolean followRuleOfMove = checkRuleOfMove(direction);
+        Optional<Path> optionalPath = calculatePath(start, destination);
+        if (optionalPath.isEmpty()) {
+            return false;
+        }
+        Path path = optionalPath.get();
+        List<Piece> piecesInPath = searchPieceInPath(path, enemy, allies);
         boolean existOnlyOnePieceInPath = existOnlyOnePieceInPath(piecesInPath);
         boolean existPoInPath = existPoInPath(piecesInPath);
         boolean existAlliesInDestination = existPieceInPosition(destination, allies);
-        return followRuleOfMove && existOnlyOnePieceInPath && !existPoInPath && !existAlliesInDestination;
+        return existOnlyOnePieceInPath && !existPoInPath && !existAlliesInDestination;
     }
 
-    private List<Position> calculatePositionsInPath(Position start, BeelineDirection direction, Position destination) {
-        BiFunction<Position, Position, List<Position>> calculationMethod = direction.getCalculatePositionsInPath();
-        return calculationMethod.apply(start, destination);
+    private Optional<Path> calculatePath(Position start, Position destination) {
+        boolean isPathInGungsung = isPathInGungsung(start, destination);
+        Direction direction = Direction.parse(start, destination);
+        if (!isPossibleDirection(direction, isPathInGungsung)) {
+            return Optional.empty();
+        }
+        List<Position> positionsInDirection = direction.calculatePositionInDirection(start, destination);
+        return Optional.of(new Path(positionsInDirection));
     }
 
-    private List<Piece> searchPieceInPath(List<Piece> enemy, List<Piece> allies,
-            List<Position> positionsInPath) {
+    private List<Piece> searchPieceInPath(Path path, List<Piece> enemy, List<Piece> allies) {
         ArrayList<Piece> allPieces = new ArrayList<>();
         allPieces.addAll(enemy);
         allPieces.addAll(allies);
         return allPieces.stream()
-                .filter(piece -> positionsInPath.contains(piece.getPosition()))
+                .filter(piece -> path.isInMiddle(piece.getPosition()))
                 .toList();
-    }
-
-    private boolean checkRuleOfMove(BeelineDirection direction) {
-        return direction != BeelineDirection.NONE;
     }
 
     private boolean existOnlyOnePieceInPath(List<Piece> piecesInPath) {
@@ -54,7 +63,17 @@ public class PoStrategy implements MoveStrategy {
     }
 
     private boolean existPieceInPosition(Position position, List<Piece> pieces) {
-        return pieces.stream()
-                .anyMatch(alliesPiece -> alliesPiece.getPosition().equals(position));
+        return pieces.stream().anyMatch(piece -> position.equals(piece.getPosition()));
+    }
+
+    private boolean isPathInGungsung(Position start, Position destination) {
+        return GungSung.isInAnyGungSung(start) && GungSung.isInAnyGungSung(destination);
+    }
+
+    private boolean isPossibleDirection(Direction direction, boolean isPathInGungsung) {
+        if (isPathInGungsung) {
+            return DIRECTIONS_IN_OF_GUNGSUNG.contains(direction);
+        }
+        return DIRECTIONS_OUT_OF_GUNGSUNG.contains(direction);
     }
 }

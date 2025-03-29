@@ -1,46 +1,60 @@
 package janggi.starategy;
 
-import janggi.direction.BeelineDirection;
 import janggi.piece.Piece;
+import janggi.setting.GungSung;
+import janggi.value.Direction;
+import janggi.value.Path;
 import janggi.value.Position;
 import java.util.List;
-import java.util.function.BiFunction;
+import java.util.Optional;
 
 public class ChaStrategy implements MoveStrategy {
 
+    private static List<Direction> DIRECTIONS_OUT_OF_GUNGSUNG =
+            List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT);
+    private static List<Direction> DIRECTIONS_IN_OF_GUNGSUNG =
+            List.of(Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT,
+                    Direction.UP_LEFT, Direction.UP_RIGHT, Direction.DOWN_LEFT, Direction.DOWN_RIGHT);
+
     @Override
     public boolean ableToMove(Position start, Position destination, List<Piece> enemy, List<Piece> allies) {
-        BeelineDirection direction = BeelineDirection.parse(start, destination);
-        List<Position> positionsInPath = calculatePositionsInPath(start, direction, destination);
-
-        boolean followRuleOfMove = checkRuleOfMove(direction);
-        boolean existHurdleInPath = existHurdleInPath(positionsInPath, enemy, allies);
+        Optional<Path> optionalPath = calculatePath(start, destination);
+        if (optionalPath.isEmpty()) {
+            return false;
+        }
+        Path path = optionalPath.get();
+        boolean existEnemyInPath = existPieceInPath(path, enemy);
+        boolean existAlliesInPath = existPieceInPath(path, allies);
         boolean existAlliesInDestination = existPieceInPosition(destination, allies);
-        return followRuleOfMove && !existHurdleInPath && !existAlliesInDestination;
+        return !existAlliesInPath && !existEnemyInPath && !existAlliesInDestination;
     }
 
-    private List<Position> calculatePositionsInPath(Position start, BeelineDirection direction, Position destination) {
-        BiFunction<Position, Position, List<Position>> calculationMethod = direction.getCalculatePositionsInPath();
-        return calculationMethod.apply(start, destination);
+    private Optional<Path> calculatePath(Position start, Position destination) {
+        boolean isPathInGungsung = isPathInGungsung(start, destination);
+        Direction direction = Direction.parse(start, destination);
+        if (!isPossibleDirection(direction, isPathInGungsung)) {
+            return Optional.empty();
+        }
+        List<Position> positionsInDirection = direction.calculatePositionInDirection(start, destination);
+        return Optional.of(new Path(positionsInDirection));
     }
 
-    private boolean checkRuleOfMove(BeelineDirection direction) {
-        return direction != BeelineDirection.NONE;
-    }
-
-    private boolean existHurdleInPath(List<Position> positionsInPath, List<Piece> enemy, List<Piece> allies) {
-        boolean existEnemyInPath = existPieceInPath(positionsInPath, enemy);
-        boolean existAlliesInPath = existPieceInPath(positionsInPath, allies);
-        return existEnemyInPath || existAlliesInPath;
-    }
-
-    private boolean existPieceInPath(List<Position> positions, List<Piece> pieces) {
-        return positions.stream()
-                .anyMatch(position -> existPieceInPosition(position, pieces));
+    private boolean existPieceInPath(Path path, List<Piece> pieces) {
+        return pieces.stream().anyMatch(piece -> path.isInMiddle(piece.getPosition()));
     }
 
     private boolean existPieceInPosition(Position position, List<Piece> pieces) {
-        return pieces.stream()
-                .anyMatch(piece -> position.equals(piece.getPosition()));
+        return pieces.stream().anyMatch(piece -> position.equals(piece.getPosition()));
+    }
+
+    private boolean isPathInGungsung(Position start, Position destination) {
+        return GungSung.isInAnyGungSung(start) && GungSung.isInAnyGungSung(destination);
+    }
+
+    private boolean isPossibleDirection(Direction direction, boolean isPathInGungsung) {
+        if (isPathInGungsung) {
+            return DIRECTIONS_IN_OF_GUNGSUNG.contains(direction);
+        }
+        return DIRECTIONS_OUT_OF_GUNGSUNG.contains(direction);
     }
 }

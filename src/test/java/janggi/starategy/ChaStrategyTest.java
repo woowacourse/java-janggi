@@ -3,6 +3,7 @@ package janggi.starategy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.fixture.GungsungPositionFixture;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.value.Position;
@@ -44,20 +45,40 @@ class ChaStrategyTest {
         );
     }
 
-
-    @DisplayName("이동 불가능한 위치로는 이동이 불가능하다.")
+    @DisplayName("궁성 내에서는 동서남북에 추가로 대각선 이동도 가능하다.")
     @ParameterizedTest
     @MethodSource()
-    void canNotMove(Position destination) {
+    void canMoveInGungsung(Position start, Position destination) {
+        boolean canMove = chaStrategy.ableToMove(start, destination, List.of(), List.of());
+        assertThat(canMove).isTrue();
+    }
+
+    static Stream<Arguments> canMoveInGungsung() {
+        return Stream.of(
+                Arguments.of(GungsungPositionFixture.DOWN, GungsungPositionFixture.UP),
+                Arguments.of(GungsungPositionFixture.UP, GungsungPositionFixture.DOWN),
+                Arguments.of(GungsungPositionFixture.LEFT, GungsungPositionFixture.RIGHT),
+                Arguments.of(GungsungPositionFixture.RIGHT, GungsungPositionFixture.LEFT),
+                Arguments.of(GungsungPositionFixture.DOWN_RIGHT, GungsungPositionFixture.UP_LEFT),
+                Arguments.of(GungsungPositionFixture.DOWN_LEFT, GungsungPositionFixture.UP_RIGHT),
+                Arguments.of(GungsungPositionFixture.UP_RIGHT, GungsungPositionFixture.DOWN_LEFT),
+                Arguments.of(GungsungPositionFixture.UP_LEFT, GungsungPositionFixture.DOWN_RIGHT)
+        );
+    }
+
+    @DisplayName("궁성 영역 밖에서는 대각선 이동이 불가능하다.")
+    @ParameterizedTest
+    @MethodSource()
+    void canNotMoveOutOfGungsung(Position destination) {
         boolean canMove = chaStrategy.ableToMove(START_POSITION, destination, List.of(), List.of());
         assertThat(canMove).isFalse();
     }
 
-    static Stream<Arguments> canNotMove() {
+    static Stream<Arguments> canNotMoveOutOfGungsung() {
         return Stream.of(
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() + 1)),
-                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() - 1)),
                 Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() - 1)),
                 Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() - 1))
         );
     }
