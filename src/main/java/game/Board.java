@@ -28,11 +28,20 @@ public class Board {
             throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
         }
         Piece piece = board.get(fromPosition);
-        piece.canMove(fromPosition, toPosition, this);
-
+        piece.validateMove(fromPosition, toPosition, this);
+        board.remove(fromPosition);
+        board.put(toPosition, piece);
     }
 
     public Map<Position, Piece> getBoard() {
         return board;
+    }
+
+    public Country getTurn() {
+        return turn;
+    }
+
+    public void setTurn(final Country turn) {
+        this.turn = turn;
     }
 }

@@ -17,14 +17,11 @@ public abstract class Piece {
     public void validateMove(final Position fromPosition, final Position toPosition, Board board) {
         List<Position> route = getPathForMoving(fromPosition, toPosition);
         validateNormalTargetPosition(toPosition, board);
-        validateRoute(route, board);
         validateSpecialPieceTargetPosition(toPosition, board);
+        validateRoute(route, board);
     }
 
     public abstract List<Position> getPathForMoving(Position fromPosition, Position toPosition);
-
-    public void isThereValidateTarget(final Position toPosition, final Board board) {
-    }
 
     public abstract void validateRoute(List<Position> positions, Board board);
 
