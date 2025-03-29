@@ -18,7 +18,7 @@ public class Schema {
                 name VARCHAR(20) UNIQUE NOT NULL PRIMARY KEY
             );
             
-            INSERT IGNORE INTO PIECE_TYPE (name) VALUES ('KING'), ('CHARIOT'), ('CANNON'), ('HORSE'), ('ELEPHANT'), ('SOLDIER'), ('PAWN'), ('BLANK');
+            INSERT IGNORE INTO PIECE_TYPE (name) VALUES ('KING'), ('CHARIOT'), ('CANNON'), ('HORSE'), ('ELEPHANT'), ('SOLDIER'), ('HANPAWN'), ('CHOPAWN'), ('BLANK');
             
             """;
 

@@ -14,4 +14,10 @@ public enum Team {
         }
         return BLANK;
     }
+
+    public static Team convert(String teamName) {
+        if(teamName.equals("HAN"))return HAN;
+        if(teamName.equals("CHO"))return CHO;
+        return BLANK;
+    }
 }

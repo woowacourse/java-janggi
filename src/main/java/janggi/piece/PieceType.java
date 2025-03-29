@@ -7,7 +7,8 @@ public enum PieceType {
     HORSE(5),
     ELEPHANT(3),
     SOLDIER(3),
-    PAWN(2),
+    HANPAWN(2),
+    CHOPAWN(2),
     BLANK(0);
 
     private final int score;

@@ -13,6 +13,11 @@ public final class Position {
         this.row = row;
     }
 
+    public Position(String columnIndex, String rowIndex) {
+        this.column = Column.convert(columnIndex);
+        this.row = Row.convert(rowIndex);
+    }
+
     public boolean canMove(Direction direction, Board board) {
         if (column.canMove(direction.column()) && row.canMove(direction.row())) {
             return board.isBlank(new Position(column.move(direction.column()), row.move(direction.row())));

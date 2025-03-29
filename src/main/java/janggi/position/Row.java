@@ -13,6 +13,10 @@ public enum Row {
     NINE,
     ;
 
+    public static Row convert(String rowIndex) {
+        return values()[Integer.parseInt(rowIndex)];
+    }
+
     public boolean canMove(int step) {
         final var movedIndex = ordinal() + step;
         return values().length > movedIndex && movedIndex >= 0;

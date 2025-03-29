@@ -11,7 +11,8 @@ public enum PieceSymbol {
     HORSE("마", PieceType.HORSE),
     CHARIOT("차", PieceType.CHARIOT),
     PAO("포", PieceType.CANNON),
-    PAWN("병", PieceType.PAWN),
+    HANPAWN("병", PieceType.HANPAWN),
+    CHOPAWN("병", PieceType.CHOPAWN),
     EMPTY("＿", PieceType.BLANK);
 
     private final String name;
