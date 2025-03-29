@@ -59,6 +59,9 @@ public class Janggi {
     }
 
     public boolean isAvailablePath(Route route) {
+        if (route.length() == 0) {
+            return false;
+        }
         return route.getPointsExceptEndPoint().stream()
                 .allMatch(pieces::isEmptyPoint);
     }

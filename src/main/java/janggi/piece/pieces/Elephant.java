@@ -21,29 +21,24 @@ public class Elephant implements Piece {
     public List<Route> calculateRoutes(Position start) {
         List<Route> routes = new ArrayList<>();
 
-        findPath(0, MAX_DEPTH, Direction.NONE, new ArrayList<>(), start, routes);
+        findPath(0, Direction.NONE, new ArrayList<>(), start, routes);
         return routes;
     }
 
-    private void findPath(int depth, int maxDepth, Direction beforeDirection, ArrayList<Position> route,
-                          Position beforePosition,
-                          List<Route> routes) {
-        if (depth == maxDepth) {
-            if (route.stream()
-                    .allMatch(position -> Position.isCanBePosition(position.getColumn(), position.getRow()))) {
-                routes.add(Route.of(route));
-            }
+    private void findPath(int depth, Direction before, List<Position> route, Position prevPoint, List<Route> routes) {
+        if (depth == 3) {
+            routes.add(Route.of(route.stream().toList()));
             return;
         }
-        for (Direction direction : beforeDirection.getNextWithDiagonal()) {
-            if (!Position.isCanBePosition(beforePosition.getColumn() + direction.getX(),
-                    beforePosition.getRow() + direction.getY())) {
-                return;
+        for (Direction direction : before.getNextWithDiagonal()) {
+            if (!Position.isCanBePosition(prevPoint.getColumn() + direction.getX(),
+                    prevPoint.getRow() + direction.getY())) {
+                continue;
             }
-            Position next = new Position(beforePosition.getColumn() + direction.getX(),
-                    beforePosition.getRow() + direction.getY());
+            Position next = new Position(prevPoint.getColumn() + direction.getX(),
+                    prevPoint.getRow() + direction.getY());
             route.add(next);
-            findPath(depth + 1, maxDepth, direction, route, next, routes);
+            findPath(depth + 1, direction, route, next, routes);
             route.remove(next);
         }
     }

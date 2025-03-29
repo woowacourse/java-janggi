@@ -19,10 +19,8 @@ public class Position {
     }
 
     public static boolean isCanBePosition(int column, int row) {
-        if (column < 0 || column > COLUMN_MAX) {
-            return false;
-        }
-        return !(row < 0 || row > ROW_MAX);
+        return !(row < 0 || row > ROW_MAX)
+                && !(column < 0 || column > COLUMN_MAX);
     }
 
     private void validate(int column, int row) {
