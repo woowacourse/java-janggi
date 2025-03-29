@@ -11,12 +11,7 @@ public class Application {
     public static void main(String[] args) {
         final InputView inputView = new InputView();
         final OutputView outputView = new OutputView();
-        final DBConnector dbConnector = new DBConnector();
-        try {
-            final JanggiGame janggiGame = new JanggiGame(inputView, outputView);
-            janggiGame.start();
-        } catch (IllegalArgumentException illegalArgumentException) {
-            outputView.writeErrorMessage(illegalArgumentException.getMessage());
-        }
+        final JanggiGame janggiGame = new JanggiGame(inputView, outputView);
+        janggiGame.start();
     }
 }

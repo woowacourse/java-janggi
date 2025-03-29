@@ -13,9 +13,14 @@ public class JanggiBoard {
     private final Pieces choPieces;
     private final Pieces hanPieces;
 
-    public JanggiBoard(AssignType choAssignType, AssignType hanAssignType) {
+    public JanggiBoard(final AssignType choAssignType, final AssignType hanAssignType) {
         this.choPieces = new Pieces(choAssignType.makeAssign(CampType.CHO));
         this.hanPieces = new Pieces(hanAssignType.makeAssign(CampType.HAN));
+    }
+
+    public JanggiBoard(final List<Piece> choPieces, final List<Piece> hanPieces) {
+        this.choPieces = new Pieces(choPieces);
+        this.hanPieces = new Pieces(hanPieces);
     }
 
     public void startTurn(final JanggiPosition targetJanggiPosition, final JanggiPosition destination, final CampType campType) {

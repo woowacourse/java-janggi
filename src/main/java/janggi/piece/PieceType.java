@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import java.util.Arrays;
 import java.util.List;
 
 public enum PieceType {
@@ -22,6 +23,13 @@ public enum PieceType {
         this.score = score;
         this.height = height;
         this.defaultXPositions = defaultXPositions;
+    }
+
+    public static PieceType findEqualPieceType(final String typeName) {
+        return Arrays.stream(PieceType.values())
+                .filter(pieceType -> pieceType.name.equals(typeName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당하는 장기말 타입이 없습니다."));
     }
 
     public String getName() {

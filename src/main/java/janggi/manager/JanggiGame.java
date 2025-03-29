@@ -1,13 +1,16 @@
 package janggi.manager;
 
 import janggi.board.JanggiBoard;
+import janggi.board.JanggiBoardDAO;
+import janggi.board.TeamDAO;
+import janggi.database.DBConnector;
 import janggi.piece.Piece;
-import janggi.piece.Pieces;
 import janggi.setting.AssignType;
 import janggi.setting.CampType;
 import janggi.value.JanggiPosition;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.List;
 
 public class JanggiGame {
 
@@ -20,30 +23,47 @@ public class JanggiGame {
     }
 
     public void start() {
+        DBConnector dbConnector = new DBConnector();
+        dbConnector.createTable();
+        TeamDAO teamDAO = new TeamDAO(dbConnector);
+        teamDAO.insertTeam();
+
         outputView.writeStartMessage();
 
-        AssignType choAnswer = inputView.readAnswer(CampType.CHO);
-        AssignType hanAnswer = inputView.readAnswer(CampType.HAN);
+        JanggiBoardDAO janggiBoardDAO = new JanggiBoardDAO(dbConnector);
+        final List<Piece> choPieces = janggiBoardDAO.selectChoRecords();
+        final List<Piece> hanPieces = janggiBoardDAO.selectHanRecords();
 
-        final JanggiBoard janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
+        final JanggiBoard janggiBoard;
+        if (!choPieces.isEmpty() && !hanPieces.isEmpty()) {
+            janggiBoard = new JanggiBoard(choPieces, hanPieces);
+        } else {
+            AssignType choAnswer = inputView.readAnswer(CampType.CHO);
+            AssignType hanAnswer = inputView.readAnswer(CampType.HAN);
+            janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
+        }
+
+        janggiBoardDAO.insertPieces(janggiBoard);
+
         outputView.writeJanggiBoard(janggiBoard.getChoPieces(), janggiBoard.getHanPieces());
         outputView.writeChoStart();
 
         while (true) {
-            boolean isChoNotCollapse = playChoTurn(janggiBoard);
+            boolean isChoNotCollapse = playChoTurn(janggiBoard, janggiBoardDAO);
             if (!isChoNotCollapse) {
                 break;
             }
-            boolean isHanNotCollapse = playHanTurn(janggiBoard);
+            boolean isHanNotCollapse = playHanTurn(janggiBoard, janggiBoardDAO);
             if (!isHanNotCollapse) {
                 break;
             }
         }
 
         outputView.writeTotalScore(janggiBoard.requestChoTotalScore(), janggiBoard.requestHanTotalScore());
+        janggiBoardDAO.dropTables();
     }
 
-    private boolean playHanTurn(final JanggiBoard janggiBoard) {
+    private boolean playHanTurn(final JanggiBoard janggiBoard, final JanggiBoardDAO janggiBoardDAO) {
         outputView.writeTurn(CampType.HAN);
 
         boolean isValid = false;
@@ -52,6 +72,8 @@ public class JanggiGame {
                 JanggiPosition movedPieceJanggiPosition = inputView.readMovedPiecePosition();
                 JanggiPosition destination = inputView.readDestinationPosition();
                 janggiBoard.startTurn(movedPieceJanggiPosition, destination, CampType.HAN);
+                janggiBoardDAO.deleteRecords(destination, 1);
+                janggiBoardDAO.updateRecords(movedPieceJanggiPosition, destination, 2);
             });
         }
 
@@ -60,7 +82,7 @@ public class JanggiGame {
         return !janggiBoard.isChoCampCollapse();
     }
 
-    private boolean playChoTurn(final JanggiBoard janggiBoard) {
+    private boolean playChoTurn(final JanggiBoard janggiBoard, final JanggiBoardDAO janggiBoardDAO) {
         outputView.writeTurn(CampType.CHO);
 
         boolean isValid = false;
@@ -69,6 +91,8 @@ public class JanggiGame {
                 JanggiPosition movedPieceJanggiPosition = inputView.readMovedPiecePosition();
                 JanggiPosition destination = inputView.readDestinationPosition();
                 janggiBoard.startTurn(movedPieceJanggiPosition, destination, CampType.CHO);
+                janggiBoardDAO.deleteRecords(destination, 2);
+                janggiBoardDAO.updateRecords(movedPieceJanggiPosition, destination, 1);
             });
         }
 
