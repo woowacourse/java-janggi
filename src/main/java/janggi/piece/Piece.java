@@ -20,14 +20,6 @@ public abstract class Piece {
 
     public abstract PieceCategory getPieceCategory();
 
-    public void validatePalaceMovementRule(MoveType moveType, Point from, Point to) {
-        validateMovementRule(moveType, from, to);
-    }
-
-    public Set<Point> findPalaceRoute(MoveType moveType, Point from, Point to) {
-        return findRoute(moveType, from, to);
-    }
-
     public void validateCatch(Piece targetPiece) {
         if (this.camp == targetPiece.camp) {
             throw new IllegalArgumentException("같은 진영의 기물을 잡을 수 없습니다.");

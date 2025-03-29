@@ -116,7 +116,7 @@ class CannonTest {
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> cannon.validatePalaceMovementRule(MoveType.PALACE, from, to))
+        assertThatCode(() -> cannon.validateMovementRule(MoveType.PALACE, from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -129,7 +129,7 @@ class CannonTest {
         Point to = new Point(3, 0);
 
         // when & then
-        assertThat(cannon.findPalaceRoute(MoveType.PALACE, from, to))
+        assertThat(cannon.findRoute(MoveType.PALACE, from, to))
                 .containsExactlyInAnyOrder(new Point(4, 1));
     }
 }
