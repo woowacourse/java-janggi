@@ -28,6 +28,12 @@ public record Position(int x, int y) {
         return isVertical(dest) || isHorizontal(dest);
     }
 
+    public boolean isDiagonal(final Position dest) {
+        int diffX = Math.abs(this.x - dest.x);
+        int diffY = Math.abs(this.y - dest.y);
+        return diffX == diffY;
+    }
+
     private boolean isVertical(final Position dest) {
         return x == dest.x && y != dest.y;
     }

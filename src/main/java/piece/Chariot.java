@@ -1,7 +1,9 @@
 package piece;
 
 import board.Board;
+import movement.Movement;
 import position.Position;
+import position.PositionFactory;
 import validator.DirectionCheckable;
 import validator.ObstructionCheckable;
 
@@ -20,24 +22,33 @@ public class Chariot extends Piece implements DirectionCheckable, ObstructionChe
     @Override
     public void validateMoveCondition(Position src, Position dest, Board board) {
         validateDirection(src, dest);
-        List<Position> internalPositions = getInternalPositions(dest);
-        validateObstruction(board, internalPositions, EXPECTED_INTERNAL_POSITION_COUNT);
+        List<Position> allPositions = getAllPositions(dest);
+        validateExistNode(allPositions);
+        validateObstruction(board, allPositions, EXPECTED_INTERNAL_POSITION_COUNT);
     }
 
-    private List<Position> getInternalPositions(Position destination) {
-        List<Position> positions = new ArrayList<>();
-        for (int x = Math.min(position.x(), destination.x()); x <= Math.max(position.x(), destination.x()); x++) {
-            for (int y = Math.min(position.y(), destination.y()); y <= Math.max(position.y(), destination.y()); y++) {
-                positions.add(new Position(x, y));
-            }
+    private void validateExistNode(List<Position> allPositions) {
+        for (int i = 0; i < allPositions.size() - 1; i++) {
+            PositionFactory.validateAdjacentPositionBy(allPositions.get(i), allPositions.get(i + 1));
         }
-        positions.removeLast();
+    }
+
+    private List<Position> getAllPositions(Position destination) {
+        Movement movement = Movement.findByPositions(position, destination);
+
+        List<Position> positions = new ArrayList<>();
+        Position buffer = position;
+        positions.add(buffer);
+        while (buffer.x() != destination.x() || buffer.y() != destination.y()) {
+            buffer = buffer.move(movement);
+            positions.add(buffer);
+        }
         return positions;
     }
 
     @Override
     public BiPredicate<Position, Position> directionRule() {
-        return Position::isSameLine;
+        return (src, dest) -> src.isSameLine(dest) || src.isDiagonal(dest);
     }
 
     @Override
