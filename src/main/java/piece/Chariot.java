@@ -28,7 +28,7 @@ public class Chariot extends Piece {
 
     @Override
     public void validateDestination(Position destination) {
-        if(PathUtility.isPalacePosition(currentPosition)
+        if (PathUtility.isPalacePosition(currentPosition)
                 && Direction.isDiagonal(currentPosition, destination)) {
             PathUtility.checkValidTwoDiagonalMovementInPalace(currentPosition, destination);
             return;

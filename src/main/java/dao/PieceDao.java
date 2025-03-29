@@ -197,27 +197,27 @@ public class PieceDao {
     }
 
     private Piece createByPieceType(int pieceId, Team team, PieceType pieceType, Position position) {
-        if(pieceType == PieceType.CANNON) {
+        if (pieceType == PieceType.CANNON) {
             return new Cannon(pieceId, team, position);
         }
-        if(pieceType == PieceType.CHARIOT) {
+        if (pieceType == PieceType.CHARIOT) {
             return new Chariot(pieceId, team, position);
         }
-        if(pieceType == PieceType.ELEPHANT) {
+        if (pieceType == PieceType.ELEPHANT) {
             return new Elephant(pieceId, team, position);
         }
-        if(pieceType == PieceType.GENERAL) {
+        if (pieceType == PieceType.GENERAL) {
             return new General(pieceId, team, position);
         }
-        if(pieceType == PieceType.SOLIDER) {
-            if(team == Team.GREEN) {
+        if (pieceType == PieceType.SOLIDER) {
+            if (team == Team.GREEN) {
                 return new GreenSoldier(pieceId, team, position);
             }
-            if(team == Team.RED) {
+            if (team == Team.RED) {
                 return new RedSoldier(pieceId, team, position);
             }
         }
-        if(pieceType == PieceType.GUARD) {
+        if (pieceType == PieceType.GUARD) {
             return new Guard(pieceId, team, position);
         }
         if (pieceType == PieceType.HORSE) {

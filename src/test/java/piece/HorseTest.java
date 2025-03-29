@@ -158,6 +158,7 @@ class HorseTest {
                 new Guard(2, Team.GREEN, new Position(3, 2))));
 
         //when
+
         //then
         assertThatThrownBy(() -> horse.validatePaths(pieces, to))
                 .isInstanceOf(IllegalArgumentException.class);

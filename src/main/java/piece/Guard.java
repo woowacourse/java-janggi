@@ -5,7 +5,7 @@ import location.Direction;
 import location.PathUtility;
 import location.Position;
 
-public class Guard extends Piece{
+public class Guard extends Piece {
     private boolean isCatch;
     private Position currentPosition;
 
@@ -29,7 +29,7 @@ public class Guard extends Piece{
     public void validateDestination(Position destination) {
         PathUtility.checkOneMovement(currentPosition, destination);
 
-        if(PathUtility.isPalacePosition(currentPosition)
+        if (PathUtility.isPalacePosition(currentPosition)
                 && Direction.isDiagonal(currentPosition, destination)) {
             PathUtility.checkValidOneDiagonalMovementInPalace(currentPosition, destination);
             return;

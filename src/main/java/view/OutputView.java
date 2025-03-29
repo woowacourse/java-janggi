@@ -21,13 +21,13 @@ public class OutputView {
             }
         }
 
-        for(Piece piece : greenPieces) {
+        for (Piece piece : greenPieces) {
             PieceType pieceType = piece.getPieceType();
             Position position = piece.getCurrentPosition();
             pieceName[position.y()][position.x()] = OutputFormatter.getGreenPiecePrintFormatBy(pieceType);
         }
 
-        for(Piece piece : redPieces) {
+        for (Piece piece : redPieces) {
             PieceType pieceType = piece.getPieceType();
             Position position = piece.getCurrentPosition();
             pieceName[position.y()][position.x()] = OutputFormatter.getRedPiecePrintFormatBy(pieceType);

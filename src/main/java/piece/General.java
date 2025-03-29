@@ -30,7 +30,7 @@ public class General extends Piece {
         checkInPalace(destination);
         PathUtility.checkOneMovement(currentPosition, destination);
 
-        if(Direction.isDiagonal(currentPosition, destination)) {
+        if (Direction.isDiagonal(currentPosition, destination)) {
             PathUtility.checkValidOneDiagonalMovementInPalace(currentPosition, destination);
         }
     }

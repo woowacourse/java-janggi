@@ -37,7 +37,7 @@ public class JanggiGame {
         double greenPlayerTotalScore = Team.calculateFinalScore(Team.GREEN, catchPiecesByGreen);
         double redPlayerTotalScore = Team.calculateFinalScore(Team.RED, catchPiecesByRed);
 
-        if(winTeam.isNotDecided()) {
+        if (winTeam.isNotDecided()) {
             winTeam = decideWinTeam(greenPlayerTotalScore, redPlayerTotalScore);
             OutputView.displayResult(winTeam, greenPlayerTotalScore, redPlayerTotalScore);
             return;
@@ -51,7 +51,7 @@ public class JanggiGame {
             Team currentTeam = boardDao.findCurrentTeam();
             Pieces currentPieces = pieceDao.findByTeam(currentTeam);
 
-            if(requestEndGame().isPositive()) {
+            if (requestEndGame().isPositive()) {
                 return Team.NONE;
             }
             Position start = requestMovementStartPosition(currentPieces);
@@ -63,7 +63,7 @@ public class JanggiGame {
             boolean isGeneralCatch = catchPiece(opponent, end);
             boardDao.updateCurrentTeam(opponent);
 
-            if(isGeneralCatch) {
+            if (isGeneralCatch) {
                 return currentTeam;
             }
             OutputView.displayBoard(pieceDao);
@@ -117,7 +117,7 @@ public class JanggiGame {
     }
 
     private Team decideWinTeam(double greenPlayerTotalScore, double redPlayerTotalScore) {
-        if(greenPlayerTotalScore > redPlayerTotalScore) {
+        if (greenPlayerTotalScore > redPlayerTotalScore) {
             return Team.GREEN;
         }
         return Team.RED;

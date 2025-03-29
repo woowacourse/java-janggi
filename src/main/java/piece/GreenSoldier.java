@@ -12,7 +12,9 @@ import java.util.List;
 public class GreenSoldier extends Piece {
     private static final List<Direction> VALID_STRAIGHT_DIRECTION = List.of(LEFT, RIGHT, UP);
     private static final Position DIAGONAL_POSSIBLE_POSITON = new Position(5, 2);
-    private static final List<Position> VALID_PALACE_DIAGONAL_MOVEMENT = List.of(new Position(4, 1), new Position(6, 3));
+    private static final List<Position> VALID_PALACE_DIAGONAL_MOVEMENT = List.of(
+            new Position(4, 1),
+            new Position(6, 3));
 
     private boolean isCatch;
     private Position currentPosition;
@@ -71,7 +73,7 @@ public class GreenSoldier extends Piece {
     }
 
     private void checkValidDiagonalOneMovement(Position destination) {
-        if(!VALID_PALACE_DIAGONAL_MOVEMENT.contains(destination)) {
+        if (!VALID_PALACE_DIAGONAL_MOVEMENT.contains(destination)) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 궁성 내 대각선 움직임입니다.");
         }
     }

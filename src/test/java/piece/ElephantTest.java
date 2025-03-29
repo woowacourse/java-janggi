@@ -158,6 +158,7 @@ class ElephantTest {
                 new Guard(2, Team.GREEN, new Position(3, 2))));
 
         //when
+
         //then
         assertThatThrownBy(() -> elephant.validatePaths(pieces, to))
                 .isInstanceOf(IllegalArgumentException.class);
