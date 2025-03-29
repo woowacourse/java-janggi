@@ -44,7 +44,8 @@ public class JanggiController {
                 consoleView.showTurn(janggiGame.getTurn());
                 int selectNumber = consoleView.showSelect();
                 if (selectNumber == 1){
-                    gameService.saveTurn(janggiGame.getTurn());
+                    gameService.saveTurn(janggiGame);
+                    pieceService.updateBoardPieceLocation(janggiGame);
                     break;
                 }
                 BoardLocation current = consoleView.requestCurrent();
