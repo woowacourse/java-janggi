@@ -37,7 +37,7 @@ public class JanggiGame {
         return turn;
     }
 
-    private void validateMovable(BoardLocation current, BoardLocation destination, Piece piece){
+    private void validateMovable(BoardLocation current, BoardLocation destination, Piece piece) {
         PieceExtractor pieceExtractor = board::extractPathPiece;
         PieceFinder pieceFinder = board::findByLocation;
         piece.validateMovable(current, destination, pieceExtractor, pieceFinder);

@@ -43,7 +43,7 @@ public abstract class Piece {
         }
     }
 
-    public final void validateEqualTeam(Team team){
+    public final void validateEqualTeam(Team team) {
         if (isNotEqualTeam(team)) {
             throw new IllegalArgumentException("[ERROR] 자신의 팀 기물만 움직일 수 있습니다");
         }

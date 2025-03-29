@@ -13,15 +13,15 @@ public class PieceService {
         this.pieceDao = pieceDao;
     }
 
-    public void insertInitializePieceIfNotExists(JanggiGame janggiGame){
+    public void insertInitializePieceIfNotExists(JanggiGame janggiGame) {
         pieceDao.initializePieceIfNotExists(janggiGame.getBoard());
     }
 
-    public Optional<BoardDto> getAlivePieces(){
+    public Optional<BoardDto> getAlivePieces() {
         return pieceDao.findByAllAlivePieces();
     }
 
-    public void movePiece(BoardLocation current, BoardLocation destination){
+    public void movePiece(BoardLocation current, BoardLocation destination) {
         pieceDao.deleteBoard(destination);
         pieceDao.updateBoard(current, destination);
     }

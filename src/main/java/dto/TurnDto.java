@@ -13,5 +13,4 @@ public class TurnDto {
     public Turn toTurn() {
         return new Turn(team);
     }
-
 }

@@ -30,7 +30,7 @@ public class JanggiController {
         Optional<BoardDto> boardDto = pieceService.getAlivePieces();
         Optional<TurnDto> turnDto = gameService.findTurn();
         JanggiGame janggiGame;
-        if (boardDto.isEmpty() || turnDto.isEmpty()){
+        if (boardDto.isEmpty() || turnDto.isEmpty()) {
             janggiGame = initializeJanggiGame();
         } else {
             janggiGame = new JanggiGame(boardDto.get().toBoard(), turnDto.get().toTurn());

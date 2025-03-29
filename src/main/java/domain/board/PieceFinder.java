@@ -5,6 +5,5 @@ import java.util.Optional;
 
 @FunctionalInterface
 public interface PieceFinder {
-
     Optional<Piece> findByLocation(BoardLocation boardLocation);
 }

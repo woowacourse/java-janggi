@@ -21,19 +21,19 @@ public class Pawn extends Piece {
         boolean isStepAxisMove = boardVector.isStepAxisMove(PAWN_STEP);
         boolean isStepQuadrantMove = boardVector.isStepQuadrantMove(PAWN_STEP);
 
-        if ((this.team == Team.HAN)  && !destination.isUp(current)) {
-            if (isAxis && isStepAxisMove){
+        if ((this.team == Team.HAN) && !destination.isUp(current)) {
+            if (isAxis && isStepAxisMove) {
                 return;
             }
-            if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isQuadrant() && isStepQuadrantMove){
+            if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isQuadrant() && isStepQuadrantMove) {
                 return;
             }
         }
         if ((this.team == Team.CHO) && !destination.isDown(current)) {
-            if (isAxis && isStepAxisMove){
+            if (isAxis && isStepAxisMove) {
                 return;
             }
-            if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isQuadrant() && isStepQuadrantMove){
+            if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isQuadrant() && isStepQuadrantMove) {
                 return;
             }
         }

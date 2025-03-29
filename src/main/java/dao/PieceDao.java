@@ -2,7 +2,6 @@ package dao;
 
 import domain.board.Board;
 import domain.board.BoardLocation;
-import domain.game.JanggiGame;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Elephant;
@@ -35,7 +34,6 @@ public class PieceDao {
                 + "location_x,"
                 + "location_y) " +
                 "VALUES (?, ?, ?, ?)";
-
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             for (Entry<BoardLocation, Piece> entry : pieces.entrySet()) {
                 stmt.setString(1, entry.getValue().getType().name());
@@ -53,10 +51,9 @@ public class PieceDao {
         createPieceTableIfNotExists();
         String query = "SELECT piece_type, team, location_x, location_y FROM piece";
         Map<BoardLocation, Piece> pieces = new HashMap<>();
-
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()){
+                while (rs.next()) {
                     String pieceType = rs.getString("piece_type");
                     String team = rs.getString("team");
                     int locationX = rs.getInt("location_x");
@@ -73,18 +70,16 @@ public class PieceDao {
     public void updateBoard(BoardLocation current, BoardLocation destination) {
         String updatePieceQuery = "UPDATE piece SET location_x = ?, location_y = ? " +
                 "WHERE location_x = ? AND location_y = ?";
-
         try (PreparedStatement stmt = connection.prepareStatement(updatePieceQuery)) {
-                stmt.setInt(1, destination.x());
-                stmt.setInt(2, destination.y());
-                stmt.setInt(3, current.x());
-                stmt.setInt(4, current.y());
-                stmt.executeUpdate();
+            stmt.setInt(1, destination.x());
+            stmt.setInt(2, destination.y());
+            stmt.setInt(3, current.x());
+            stmt.setInt(4, current.y());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
 
     public void deleteBoard(BoardLocation destination) {
         String deletePieceQuery = "DELETE FROM piece WHERE location_x = ? AND location_y = ?";
@@ -97,18 +92,16 @@ public class PieceDao {
         }
     }
 
-
     private void createPieceTableIfNotExists() {
-        String sql = "CREATE TABLE IF NOT EXISTS piece (" +
+        String query = "CREATE TABLE IF NOT EXISTS piece (" +
                 "piece_id INT AUTO_INCREMENT PRIMARY KEY, " +
                 "piece_type VARCHAR(50) NOT NULL, " +
                 "team VARCHAR(10) NOT NULL, " +
                 "location_x INT NOT NULL, " +
                 "location_y INT NOT NULL" +
                 ")";
-
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate(sql);
+            stmt.executeUpdate(query);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

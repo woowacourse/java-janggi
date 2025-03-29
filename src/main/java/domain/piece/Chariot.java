@@ -42,7 +42,6 @@ public class Chariot extends Piece {
         return Collections.emptyList();
     }
 
-
     @Override
     protected void validateMovePath(List<Piece> pathPiece) {
         if (!pathPiece.isEmpty()) {

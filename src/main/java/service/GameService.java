@@ -2,7 +2,6 @@ package service;
 
 import dao.GameDao;
 import domain.game.JanggiGame;
-import domain.game.Turn;
 import domain.piece.Team;
 import dto.TurnDto;
 import java.util.Optional;
@@ -14,15 +13,15 @@ public class GameService {
         this.gameDao = gameDao;
     }
 
-    public void insertInitializeGameTurn(){
+    public void insertInitializeGameTurn() {
         gameDao.insertGameTurn(Team.CHO);
     }
 
-    public void saveTurn(JanggiGame janggiGame){
+    public void saveTurn(JanggiGame janggiGame) {
         gameDao.saveTurn(janggiGame.getTurn());
     }
 
-    public Optional<TurnDto> findTurn(){
+    public Optional<TurnDto> findTurn() {
         return gameDao.findTurnByGameId(1);
     }
 }

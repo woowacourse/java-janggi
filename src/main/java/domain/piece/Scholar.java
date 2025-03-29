@@ -37,6 +37,7 @@ public class Scholar extends Piece {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 도착지로 이동할 수 없습니다.");
         }
     }
+
     @Override
     public PieceType getType() {
         return PieceType.SCHOLAR;

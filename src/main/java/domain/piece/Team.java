@@ -17,7 +17,7 @@ public enum Team {
         return palace;
     }
 
-    public static Team getTeamByName(String name){
+    public static Team getTeamByName(String name) {
         return Arrays.stream(Team.values())
                 .filter(team -> team.name().equals(name)).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 존재하지않는 팀의 이름입니다."));
