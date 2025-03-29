@@ -37,16 +37,21 @@ public class Cannon extends Piece {
     }
 
     private static void throwIfJumpingOverCannon(final PieceType pieceType) {
-        if (pieceType == PieceType.CANNON) {
-            throw new IllegalArgumentException("포는 포를 먹거나 넘을 수 없습니다. ");
-        }
+        CannonSpecialRule(pieceType);
     }
 
     @Override
     public void validateTargetSpecialRule(Position toPosition, Board board) {
+        if (board.hasPieceAt(toPosition)) {
             PieceType pieceType =  board.findPieceTypeByPosition(toPosition);
-            if (pieceType== PieceType.CANNON) {
-                throw new IllegalArgumentException("포는 포를 먹을 수 없습니다.");
-            }
+            CannonSpecialRule(pieceType);
+        }
+
+    }
+
+    private static void CannonSpecialRule(final PieceType pieceType) {
+        if (pieceType == PieceType.CANNON) {
+            throw new IllegalArgumentException("포는 포를 먹거나 넘을 수 없습니다. ");
+        }
     }
 }

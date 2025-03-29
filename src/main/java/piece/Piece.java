@@ -34,7 +34,6 @@ public abstract class Piece {
         }
     }
 
-
     public void validateTargetSpecialRule(Position toPosition, Board board) {}
 
     public PieceType getPieceType() {
