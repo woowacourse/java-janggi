@@ -2,7 +2,6 @@ package domain.piece;
 
 import domain.MoveInfos;
 import domain.direction.Directions;
-import domain.direction.PieceDirection;
 import domain.piece.category.PieceCategory;
 import domain.spatial.Position;
 import java.util.List;
@@ -18,18 +17,11 @@ public abstract class Piece {
         this.directions = directions;
     }
 
-    public abstract PieceCategory getCategory();
+    public abstract List<Position> getPaths(final Position target);
 
     public abstract Piece move(final Position target, final MoveInfos moveInfos);
 
-    public List<Position> getPaths(final Position target) {
-        List<Position> paths = getPrimaryPaths(target);
-        if (paths.isEmpty()) {
-            paths = getDiagonalPaths(target);
-            validateDiagonalPaths(paths);
-        }
-        return paths;
-    }
+    public abstract PieceCategory getCategory();
 
     public boolean isKing() {
         return false;
@@ -39,18 +31,13 @@ public abstract class Piece {
         return this.position.equals(position);
     }
 
-    private List<Position> getPrimaryPaths(final Position target) {
-        return directions.getPaths(position, target);
-    }
-
-    private List<Position> getDiagonalPaths(final Position target) {
-        return PieceDirection.DIAGONAL.get().getPaths(position, target);
-    }
-
-    private void validateDiagonalPaths(List<Position> paths) {
+    protected void validatePaths(final List<Position> paths) {
         if (paths.isEmpty()) {
             throw new IllegalArgumentException("이동할 수 없는 좌표입니다. 다시 확인해주세요.");
         }
+    }
+
+    protected void validateDiagonalPaths(List<Position> paths) {
         if (!paths.getLast().isWithinPalace()) {
             throw new IllegalArgumentException("궁성 이동의 경우 밖으로 이동할 수 없습니다.");
         }
