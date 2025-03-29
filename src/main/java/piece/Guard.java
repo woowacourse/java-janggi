@@ -1,42 +1,19 @@
 package piece;
 
 import board.Board;
-import movement.MovePath;
-import movement.MovePaths;
-import movement.Movement;
 import position.Position;
-import validator.DistanceCheckable;
+import position.PositionFactory;
 
-import java.util.List;
-
-public class Guard extends Piece implements DistanceCheckable {
-
-    private static final MovePaths moveActions;
-    private static final double DISTANCE;
-
-    static {
-        moveActions = new MovePaths(List.of(
-                new MovePath(Movement.UP),
-                new MovePath(Movement.DOWN),
-                new MovePath(Movement.LEFT),
-                new MovePath(Movement.RIGHT)
-        ));
-
-        DISTANCE = moveActions.calculateDistance();
-    }
+public class Guard extends Piece {
 
     public Guard(final Position position, final Country country) {
         super(position, country);
     }
 
+    // TODO 2025. 3. 29. 17:35: PositionFactory에 Position들을 넘기는 게 올바른 책임인가?
     @Override
     public void validateMoveCondition(Position src, Position dest, Board board) {
-        validateDistance(src, dest);
-    }
-
-    @Override
-    public double getExpectedDistance() {
-        return DISTANCE;
+        PositionFactory.validateAdjacentPositionBy(src, dest);
     }
 
     @Override
