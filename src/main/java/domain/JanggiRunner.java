@@ -1,5 +1,7 @@
 package domain;
 
+import domain.dao.BoardDao;
+import domain.dao.PlayerDao;
 import domain.participants.Player;
 import domain.participants.Players;
 import domain.participants.Usernames;
@@ -9,10 +11,12 @@ import domain.piece.TeamType;
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.position.Position;
 import java.util.Map;
+import java.util.Optional;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiRunner {
+    private static final String ROOM_NAME = "JANGGI_ROOM";
     private final InputView inputView;
     private final OutputView outputView;
 
@@ -39,15 +43,14 @@ public class JanggiRunner {
     }
 
     private void executeGame(JanggiGame janggiGame) {
-        TeamType nowTurn = TeamType.CHO;
+        TeamType nowTurn = janggiGame.getTurn();
         while (isGameInProgress(janggiGame)) {
             Player nowPlayer = janggiGame.findPlayerByTeam(nowTurn);
             Position startPosition = inputView.getStartPosition(nowPlayer);
             Position endPosition = inputView.getEndPosition(nowPlayer);
-            janggiGame.movePiece(startPosition, endPosition, nowTurn);
+            janggiGame.movePiece(startPosition, endPosition);
             outputView.printBoard(janggiGame.getAlivePiecesInfo());
             outputView.printScore(janggiGame.getScoreInfo());
-            nowTurn = findNextTurn(nowTurn);
         }
     }
 
@@ -58,10 +61,15 @@ public class JanggiRunner {
 
     private JanggiGame initializeGame() {
         Players players = createPlayers();
+        BoardDao boardDao = new BoardDao();
+        Optional<Board> board = boardDao.findBoard();
+        if(board.isPresent()){
+            return new JanggiGame(players,board.get(),new GameStatus(ROOM_NAME));
+        }
         HorseElephantSetupStrategy choPlayerStrategy = chooseStrategy(players.getChoPlayerName());
         HorseElephantSetupStrategy hanPlayerStrategy = chooseStrategy(players.getHanPlayerName());
         Map<Position, Piece> allPieces = createAllPieces(choPlayerStrategy, hanPlayerStrategy);
-        return new JanggiGame(players, allPieces);
+        return new JanggiGame(players, allPieces,new GameStatus(ROOM_NAME));
     }
 
     private Map<Position, Piece> createAllPieces(HorseElephantSetupStrategy firstPlayerStrategy,
@@ -76,9 +84,16 @@ public class JanggiRunner {
     }
 
     private Players createPlayers() {
+        PlayerDao playerDao = new PlayerDao();
+        Optional<Players> optionalPlayers = playerDao.findPlayers();
+        if(optionalPlayers.isPresent()){
+            return optionalPlayers.get();
+        }
         Usernames usernames = createUsernames();
         String startPlayerName = inputView.getStartPlayerName();
-        return Players.createFrom(usernames, startPlayerName);
+        Players players = Players.createFrom(usernames, startPlayerName);
+        playerDao.savePlayers(players);
+        return players;
     }
 
     private Usernames createUsernames() {
@@ -89,12 +104,5 @@ public class JanggiRunner {
 
     private boolean isGameInProgress(JanggiGame janggiGame) {
         return !janggiGame.isFinished();
-    }
-
-    private TeamType findNextTurn(TeamType nowTurn) {
-        if (nowTurn == TeamType.CHO) {
-            return TeamType.HAN;
-        }
-        return TeamType.CHO;
     }
 }
