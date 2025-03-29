@@ -1,4 +1,4 @@
-package domain.piece.dao;
+package domain.dao;
 
 import domain.Country;
 import domain.JanggiCoordinate;
@@ -8,25 +8,14 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JanggiDao {
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+public class JanggiBoardDao {
+    private final Connection connection;
 
-    public Connection getConnection() {
-        // 드라이버 연결
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
+    public JanggiBoardDao(Connection connection) {
+        this.connection = connection;
     }
 
-    public void createTableIfNotExist() {
+    public void createBoardTableIfNotExist() {
         String pieceCreateSql = """
                 create table if not exists piece(
                 piece_id int primary key auto_increment,
@@ -41,12 +30,11 @@ public class JanggiDao {
                 row_coordinate int not null,
                 col_coordinate int not null,
                 piece_id int unique,
-                foreign key (piece_id) references piece(piece_id) on delete cascade
+                constraint fk_piece_id foreign key (piece_id) references piece(piece_id) on delete cascade
                 );
                 """;
 
-        try (Connection connection = getConnection()) {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             statement.execute(pieceCreateSql);
             statement.execute(coordinateCreateSql);
         } catch (SQLException e) {
@@ -56,27 +44,22 @@ public class JanggiDao {
 
     public void addPiece(JanggiCoordinate coordinate, Piece piece) {
         String pieceInsertSql = "insert into piece (country, piece_type) values(?,?);";
-        String coordinateInsertSql = "insert into coordinate (row_coordinate, col_coordinate, piece_id) values(?, ?, last_insert_id());";
+        String coordinateInsertSql = "insert into coordinate (piece_id, row_coordinate, col_coordinate) values(?, ?, ?);";
 
-        try (Connection connection = getConnection();
-             PreparedStatement pieceStmt = connection.prepareStatement(pieceInsertSql, Statement.RETURN_GENERATED_KEYS);
+        try (PreparedStatement pieceStmt = connection.prepareStatement(pieceInsertSql, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement coordinateStmt = connection.prepareStatement(coordinateInsertSql)) {
 
-            // piece 테이블에 데이터 삽입
             pieceStmt.setString(1, piece.getCountry().getName());
             pieceStmt.setString(2, piece.getPieceType().getName());
 
-            // piece 데이터 삽입
             pieceStmt.executeUpdate();
 
-            // piece_id를 얻기 위한 처리
             try (ResultSet generatedKeys = pieceStmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    // 좌표 데이터 삽입
-                    coordinateStmt.setInt(1, coordinate.row());
-                    coordinateStmt.setInt(2, coordinate.col());
+                    coordinateStmt.setInt(1, generatedKeys.getInt(1));
+                    coordinateStmt.setInt(2, coordinate.row());
+                    coordinateStmt.setInt(3, coordinate.col());
 
-                    // coordinate 데이터 삽입 실행
                     coordinateStmt.executeUpdate();
                 }
             }
@@ -93,8 +76,7 @@ public class JanggiDao {
                 join coordinate c on p.piece_id = c.piece_id
                 where c.row_coordinate = ? and c.col_coordinate = ?;
                 """;
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(findPieceSql)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(findPieceSql)) {
             preparedStatement.setInt(1, coordinate.row());
             preparedStatement.setInt(2, coordinate.col());
 
@@ -112,21 +94,6 @@ public class JanggiDao {
         return null;
     }
 
-    public void deleteTable() {
-        String foreignKeyConstraints = "ALTER TABLE coordinate DROP FOREIGN KEY coordinate_ibfk_1";
-        String coordinateDropSql = "drop table coordinate";
-        String pieceDropSql = "drop table piece;";
-
-        try (Connection connection = getConnection()) {
-            Statement statement = connection.createStatement();
-            statement.execute(foreignKeyConstraints);
-            statement.execute(pieceDropSql);
-            statement.execute(coordinateDropSql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public Map<JanggiCoordinate, Piece> loadBoard() {
         String loadGameSql = """
                     SELECT c.row_coordinate, c.col_coordinate, p.country, p.piece_type
@@ -136,8 +103,7 @@ public class JanggiDao {
 
         Map<JanggiCoordinate, Piece> board = new HashMap<>();
 
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(loadGameSql);
+        try (PreparedStatement statement = connection.prepareStatement(loadGameSql);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
@@ -146,10 +112,8 @@ public class JanggiDao {
                 String countryString = resultSet.getString("country");
                 String pieceType = resultSet.getString("piece_type");
 
-                // ✅ PieceType 변환 및 객체 생성
                 Piece piece = createPiece(pieceType, countryString);
 
-                // ✅ Map에 추가
                 board.put(new JanggiCoordinate(row, col), piece);
             }
         } catch (SQLException e) {
@@ -185,8 +149,7 @@ public class JanggiDao {
 
         Map<JanggiCoordinate, Piece> board = new HashMap<>();
 
-        try (Connection connection = getConnection()) {
-            Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(deleteCoordinatesSql);
             statement.executeUpdate(deletePiecesSql);
         } catch (SQLException e) {

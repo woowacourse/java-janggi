@@ -3,6 +3,8 @@ package domain.piece.dao;
 import domain.Country;
 import domain.JanggiCoordinate;
 import domain.PieceInitializer;
+import domain.dao.JanggiBoardDao;
+import domain.dao.JanggiDao;
 import domain.piece.Cha;
 import domain.piece.Piece;
 import org.junit.jupiter.api.Test;
@@ -11,16 +13,11 @@ import java.util.Map;
 
 class JanggiDaoTest {
 
-    private JanggiDao dao = new JanggiDao();
-
-    @Test
-    void deleteTest() {
-        dao.deleteTable();
-    }
+    private JanggiBoardDao dao = new JanggiBoardDao(JanggiDao.getConnection());
 
     @Test
     void createTable() {
-        dao.createTableIfNotExist();
+        dao.createBoardTableIfNotExist();
     }
 
     @Test

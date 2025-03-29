@@ -1,8 +1,9 @@
 package controller;
 
 import domain.*;
+import domain.dao.JanggiBoardDao;
+import domain.dao.JanggiDao;
 import domain.piece.Piece;
-import domain.piece.dao.JanggiDao;
 import view.InputView;
 import view.OutputView;
 
@@ -13,7 +14,8 @@ import static domain.JanggiBoard.ROW_SIZE;
 
 public class JanggiController {
     public final static JanggiCoordinate GAME_STOP_COORDINATE = new JanggiCoordinate(-1, -1);
-    private final static JanggiDao dao = new JanggiDao();
+
+    private final static JanggiBoardDao boardDao = new JanggiBoardDao(JanggiDao.getConnection());
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -47,7 +49,7 @@ public class JanggiController {
         outputView.printWinner(game.getWinner());
         outputView.printScore(Country.CHO, game.getCountryScore(Country.CHO));
         outputView.printScore(Country.HAN, game.getCountryScore(Country.HAN));
-        dao.clearBoard();
+        boardDao.clearBoard();
     }
 
     private void saveGame(JanggiBoard board) {
@@ -56,14 +58,15 @@ public class JanggiController {
                 JanggiCoordinate coordinate = new JanggiCoordinate(row, col);
                 if (board.isOccupied(coordinate)) {
                     Piece piece = board.findPieceByCoordinate(coordinate);
-                    dao.addPiece(coordinate, piece);
+                    boardDao.addPiece(coordinate, piece);
                 }
             }
         }
     }
 
     private Map<JanggiCoordinate, Piece> loadGame() {
-        Map<JanggiCoordinate, Piece> board = dao.loadBoard();
+        boardDao.createBoardTableIfNotExist();
+        Map<JanggiCoordinate, Piece> board = boardDao.loadBoard();
         if (board.isEmpty()) {
             return PieceInitializer.init();
         }
@@ -71,7 +74,7 @@ public class JanggiController {
     }
 
     private void updateGame(JanggiBoard board) {
-        dao.clearBoard();
+        boardDao.clearBoard();
         saveGame(board);
     }
 }
