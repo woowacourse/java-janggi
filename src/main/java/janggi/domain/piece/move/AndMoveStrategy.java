@@ -16,7 +16,6 @@ public class AndMoveStrategy implements MoveStrategy {
     @Override
     public boolean isMovable(JanggiBoard janggiBoard, Piece piece, Point start, Point end) {
         for (MoveStrategy strategy : strategies) {
-            System.out.println(strategy.getClass().getName());
             if (!strategy.isMovable(janggiBoard, piece, start, end)) {
                 return false;
             }

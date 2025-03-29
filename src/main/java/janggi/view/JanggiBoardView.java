@@ -123,7 +123,11 @@ public class JanggiBoardView {
     }
 
     public void printWinDynasty(Dynasty winnerDynasty) {
-        System.out.println(winnerDynasty  + "나라가 우승하였습니다.");
+        if(winnerDynasty == Dynasty.HAN) {
+            System.out.println("초나라가 우승하였습니다.");
+            return;
+        }
+        System.out.println("한나라가 우승하였습니다.");
     }
 
     public record Movement(

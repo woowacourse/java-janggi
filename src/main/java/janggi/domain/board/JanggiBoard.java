@@ -91,13 +91,23 @@ public class JanggiBoard {
             throw new IllegalArgumentException("이미 놓여져 있는 기물이 존재합니다.");
         }
         if (startPiece.canMove(this, dynasty, start, end)) {
-            Piece removed = boardPieces.remove(start);
+            boardPieces.remove(start);
             boardPieces.put(end, startPiece);
-            if (removed.isEqualPieceType(PieceType.GENERAL)) {
+            if (isGeneralDie()) {
                 return GameState.GAME_END;
             }
         }
         return GameState.RUN;
+    }
+
+    private boolean isGeneralDie() {
+        int totalGeneralCount = 0;
+        for (Piece piece : boardPieces.values()) {
+            if(piece.isEqualPieceType(PieceType.GENERAL)) {
+                totalGeneralCount++;
+            }
+        }
+        return totalGeneralCount < 2;
     }
 
     public boolean isExistPiece(Point point) {
@@ -172,11 +182,10 @@ public class JanggiBoard {
     public Dynasty getWinnerDynasty() {
         for (Piece piece : boardPieces.values()) {
             if (piece.getPieceType() == PieceType.GENERAL && piece.getDynasty() == Dynasty.HAN) {
-                return Dynasty.CHU;
-
+                return Dynasty.HAN;
             }
         }
-        return Dynasty.HAN;
+        return Dynasty.CHU;
     }
 
     @Override
