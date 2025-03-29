@@ -1,6 +1,6 @@
 USE `wodnd0131`;
 
-CREATE TABLE IF NOT EXISTS room
+CREATE TABLE IF NOT EXISTS game
 (
     id        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     is_active BOOLEAN Default true
@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS player
     team    VARCHAR(50) NOT NULL,
     score   DOUBLE      NOT NULL,
     is_turn BOOLEAN     NOT NULL,
-    room_id INT,
-    FOREIGN KEY (room_id) REFERENCES room (id)
+    game_id INT,
+    FOREIGN KEY (game_id) REFERENCES game (id)
 );
 
 CREATE TABLE IF NOT EXISTS piece

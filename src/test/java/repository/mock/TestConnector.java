@@ -26,8 +26,8 @@ public final class TestConnector implements Connector {
         }
     }
 
-    public static void createRoomForTest(Connection connection) {
-        final String query = "INSERT INTO room (id,is_active) VALUES (?,?)";
+    public static void createGameForTest(Connection connection) {
+        final String query = "INSERT INTO game (id,is_active) VALUES (?,?)";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, 1);
             preparedStatement.setBoolean(2, true);

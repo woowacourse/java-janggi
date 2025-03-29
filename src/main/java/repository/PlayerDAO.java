@@ -17,17 +17,19 @@ public final class PlayerDAO {
 
     public PlayerDAO(final Connector connector) {
         this.connector = connector;
+        getNextId();
     }
 
-    public void createWithRoomId(final Player player, final int roomId) {
-        final String query = "INSERT INTO player(team,score,is_turn,room_id) VALUES(?, ?, ?, ?)";
+    public int createWithGameId(final Team team, final int gameId) {
+        final String query = "INSERT INTO player(team,score,is_turn,game_id) VALUES(?, ?, ?, ?)";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, player.getTeam().name());
-            preparedStatement.setDouble(2, player.getScore().value());
-            preparedStatement.setBoolean(3, player.isTurn());
-            preparedStatement.setInt(4, roomId);
+            preparedStatement.setString(1, team.name());
+            preparedStatement.setDouble(2, Score.generateInitialScoreByTeam(team).value());
+            preparedStatement.setBoolean(3, team.isFirst());
+            preparedStatement.setInt(4, gameId);
             preparedStatement.executeUpdate();
+            return counter.incrementAndGet();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -59,22 +61,12 @@ public final class PlayerDAO {
         }
     }
 
-    public int getNextId() {
-        try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT MAX(id) AS last_id FROM player");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-            return incrementLastId(resultSet);
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public List<Player> findAllByRoomId(final int roomId) {
-        final String query = "SELECT * FROM player WHERE room_id = ?";
+    public List<Player> findAllByGameId(final int gameId) {
+        final String query = "SELECT * FROM player WHERE game_id = ?";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setInt(1, roomId);
+            preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
             return convertResultSetToPlayers(resultSet);
         } catch (final SQLException e) {
@@ -82,11 +74,20 @@ public final class PlayerDAO {
         }
     }
 
-    private int incrementLastId(final ResultSet resultSet) throws SQLException {
-        if (resultSet.next()) {
-            return counter.addAndGet(resultSet.getInt("last_id"));
+    private void getNextId() {
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT MAX(id) AS last_id FROM player");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            incrementLastId(resultSet);
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
         }
-        return counter.get();
+    }
+
+    private void incrementLastId(final ResultSet resultSet) throws SQLException {
+        if (resultSet.next()) {
+            counter.addAndGet(resultSet.getInt("last_id"));
+        }
     }
 
     private List<Player> convertResultSetToPlayers(ResultSet resultSet) throws SQLException {

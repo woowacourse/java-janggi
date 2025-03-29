@@ -21,6 +21,10 @@ public final class OutputView {
     private static final int MAX_ROW = 10;
 
     public void printError(final String message) {
+        System.out.println("[ERROR] " + message);
+    }
+
+    public void printWarring(final String message) {
         System.out.println(message);
     }
 

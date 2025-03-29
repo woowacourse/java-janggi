@@ -1,47 +1,47 @@
 package repository;
 
-import domain.Room;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public final class RoomDAO {
+public final class GameDAO {
     private final Connector connector;
     private final AtomicInteger counter = new AtomicInteger(0);
 
-    public RoomDAO(final Connector connector) {
+    public GameDAO(final Connector connector) {
         this.connector = connector;
+        getNextId();
     }
 
-    public void create(final Room room) {
-        final String query = "INSERT INTO room (is_active) VALUES (?)";
+    public int create() {
+        final String query = "INSERT INTO Game (is_active) VALUES (true)";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setBoolean(1, room.isActive());
+            preparedStatement.executeUpdate();
+            return counter.incrementAndGet();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deactivate(final int gameId) {
+        final String query = "UPDATE Game SET is_active = false WHERE id = ?";
+        try (final Connection connection = connector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void deactivateRoom(final Room room) {
-        final String query = "UPDATE room SET is_active = false WHERE id = ?";
+    public boolean existsActiveGameById(final int gameId) {
+        final String query = "SELECT EXISTS(SELECT 1 FROM Game WHERE id = ? AND is_active=true)";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, room.id());
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean existsActiveRoomById(final int id) {
-        final String query = "SELECT EXISTS(SELECT 1 FROM room WHERE id = ? AND is_active=true)";
-        try (final Connection connection = connector.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, gameId);
 
             final ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next() && resultSet.getBoolean(1);
@@ -50,20 +50,19 @@ public final class RoomDAO {
         }
     }
 
-    public int getNextId() {
+    private void getNextId() {
         try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT MAX(id) AS last_id FROM room");
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT MAX(id) AS last_id FROM game");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            return incrementLastId(resultSet);
+            incrementLastId(resultSet);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private int incrementLastId(final ResultSet resultSet) throws SQLException {
+    private void incrementLastId(final ResultSet resultSet) throws SQLException {
         if (resultSet.next()) {
-            return counter.addAndGet(resultSet.getInt("last_id"));
+            counter.addAndGet(resultSet.getInt("last_id"));
         }
-        return counter.get();
     }
 }

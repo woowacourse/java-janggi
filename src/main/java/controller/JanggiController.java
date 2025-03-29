@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import repository.DAOService;
 import view.InputView;
 import view.OutputView;
 import vo.Choice;
@@ -17,10 +18,15 @@ import vo.Choice;
 public final class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
+    private final DAOService daoService;
 
-    public JanggiController(final InputView inputView, final OutputView outputView) {
+    public JanggiController(final InputView inputView,
+                            final OutputView outputView,
+                            final DAOService daoService
+    ) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.daoService = daoService;
     }
 
     public void run() {
@@ -29,9 +35,13 @@ public final class JanggiController {
     }
 
     private void initGame() {
-        final JanggiGame game = initialJanggiGame();
-        outputView.printBoard(game.getBoard());
-        playJanggi(game);
+        try {
+            final JanggiGame game = initialJanggiGame();
+            outputView.printBoard(game.getBoard());
+            playJanggi(game);
+        } catch (RuntimeException e) {
+            outputView.printError(e.getMessage());
+        }
     }
 
     private void playJanggi(final JanggiGame game) {
@@ -57,21 +67,23 @@ public final class JanggiController {
     }
 
     private JanggiGame setupGame() {
+        final int gameId = daoService.createGameRoom();
+
         final Map<Player, Choice> elephantLocatorByTeam = new LinkedHashMap<>();
         for (final Team team : Team.values()) {
             final Choice choice = inputView.readChoiceForElephantLocation(team.toString());
-            final Player player = new Player(0, team);//todo
+            final Player player = daoService.createPlayer(team, gameId);
             elephantLocatorByTeam.put(player, choice);
         }
         final List<Player> players = new ArrayList<>(elephantLocatorByTeam.keySet());
-        return JanggiGame.setup(elephantLocatorByTeam, players);
+        return JanggiGame.setup(gameId, elephantLocatorByTeam, players);
     }
 
     private boolean canProcessMove(final Point start, final Point arrival, final JanggiGame game) {
         try {
             return game.canMove(start, arrival);
         } catch (JanggiGameRuleWarningException e) {
-            outputView.printError(e.getMessage());
+            outputView.printWarring(e.getMessage());
             return true;
         }
     }
@@ -80,7 +92,7 @@ public final class JanggiController {
         try {
             return inputSupplier.get();
         } catch (JanggiGameRuleWarningException e) {
-            outputView.printError(e.getMessage());
+            outputView.printWarring(e.getMessage());
             return handleInput(inputSupplier);
         }
     }

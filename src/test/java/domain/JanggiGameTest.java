@@ -32,7 +32,7 @@ public final class JanggiGameTest {
         final List<Player> players = new ArrayList<>(given.keySet());
 
         //when
-        final JanggiGame janggiGame = JanggiGame.setup(given, players);
+        final JanggiGame janggiGame = JanggiGame.setup(0, given, players);
 
         //then
         assertThat(janggiGame.getBoard().size()).isEqualTo(16);
@@ -82,7 +82,7 @@ public final class JanggiGameTest {
         locations.put(arrival, new Chariot(new Player(0, HAN)));
 
         final Board board = new Board(locations);
-        final JanggiGame janggiGame = new JanggiGame(board, players);
+        final JanggiGame janggiGame = new JanggiGame(0, board, players);
 
         final Score expected = new Score(13.0);
 
@@ -117,6 +117,6 @@ public final class JanggiGameTest {
         given.put(new Player(0, HAN), new Choice(1));
         final List<Player> players = new ArrayList<>(given.keySet());
 
-        return JanggiGame.setup(given, players);
+        return JanggiGame.setup(0, given, players);
     }
 }

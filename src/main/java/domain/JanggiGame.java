@@ -15,18 +15,24 @@ import vo.Choice;
 
 public final class JanggiGame {
 
+    private final int id;
+
     private final Board board;
     private final List<Player> players;
 
-    public JanggiGame(final Board board, final List<Player> players) {
+    public JanggiGame(final int id, final Board board, final List<Player> players) {
+        this.id = Objects.requireNonNull(id, "게임의 Id가 NULL일 수 없습니다.");
         this.board = Objects.requireNonNull(board, "Board가 NULL일 수 없습니다.");
         this.players = Objects.requireNonNull(players, "플레이어 정보가 NULL일 수 없습니다.");
     }
 
-    public static JanggiGame setup(final Map<Player, Choice> elephantLocatorByTeam,
-                                   final List<Player> players) {
+    public static JanggiGame setup(
+            final int id,
+            final Map<Player, Choice> elephantLocatorByTeam,
+            final List<Player> players
+    ) {
         final Board board = BoardFactory.generateBoard(elephantLocatorByTeam);
-        return new JanggiGame(board, players);
+        return new JanggiGame(id, board, players);
     }
 
     public boolean canMove(final Point start, final Point arrival) {
@@ -58,6 +64,10 @@ public final class JanggiGame {
 
     public Map<Point, Piece> getBoard() {
         return board.getLocations();
+    }
+
+    public int getId() {
+        return id;
     }
 
     private Player retrievePlayerOnCurrentTurn() {
