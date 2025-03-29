@@ -1,5 +1,6 @@
 package janggi.game;
 
+import janggi.piece.Team;
 import janggi.piece.pieces.Piece;
 import janggi.position.Position;
 import java.util.HashMap;
@@ -89,5 +90,18 @@ class PiecesTest {
         // then
         Assertions.assertThat(pieces.isExistPiece(endPosition)).isTrue();
         Assertions.assertThat(pieces.getPieces()).hasSize(DEFAULT_UNIT_SIZE - 1);
+    }
+
+    @Test
+    @DisplayName("상대팀 궁 기물이 없는지 확인한다.")
+    void test6() {
+        // given
+        Pieces pieces = new Pieces();
+
+        // when
+        boolean noneTeamGeneralUnit = pieces.isNoneTeamGeneralUnit(Team.CHO);
+
+        // then
+        Assertions.assertThat(noneTeamGeneralUnit).isFalse();
     }
 }

@@ -5,7 +5,6 @@ import janggi.piece.pieces.Chariot;
 import janggi.piece.pieces.Elephant;
 import janggi.piece.pieces.General;
 import janggi.piece.pieces.Horse;
-import janggi.piece.pieces.None;
 import janggi.piece.pieces.Piece;
 import janggi.piece.pieces.Scholar;
 import janggi.piece.pieces.Soldier;
