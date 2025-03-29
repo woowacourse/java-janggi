@@ -213,6 +213,57 @@ class BoardTest {
     }
 
     @Test
+    void 상대_기물을_잡은_경우_플레이어_점수가_증가한다() {
+        // given
+        Position startPosition = new Position(1, 1);
+        Position targetPosition = new Position(1, 7);
+
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
+
+        Pieces hanPieces = createPiecesByPlayer(han);
+        Pieces choPieces = createPiecesByPlayer(cho);
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(han, hanPieces);
+        boardElements.put(cho, choPieces);
+
+        Board board = new Board(boardElements);
+        board.moveAndCapture(han, new Position(1, 4), new Position(2, 4));
+
+        // when
+        board.moveAndCapture(han, startPosition, targetPosition);
+
+        // then
+        assertThat(han.getScore().value()).isEqualTo(PieceCategory.SOLDIER.getScore().value());
+    }
+
+    @Test
+    void 상대_기물을_잡지_못한_경우_플레이어_점수가_증가하지_않는다() {
+        // given
+        Position startPosition = new Position(1, 1);
+        Position targetPosition = new Position(1, 2);
+
+        Player han = new Player(Team.HAN, new Score(0));
+        Player cho = new Player(Team.CHO, new Score(0));
+
+        Pieces hanPieces = createPiecesByPlayer(han);
+        Pieces choPieces = createPiecesByPlayer(cho);
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(han, hanPieces);
+        boardElements.put(cho, choPieces);
+
+        Board board = new Board(boardElements);
+
+        // when
+        board.moveAndCapture(han, startPosition, targetPosition);
+
+        // then
+        assertThat(han.getScore().value()).isEqualTo(0);
+    }
+
+    @Test
     void 게임_종료_여부를_판단한다() {
         // given
         Player han = new Player(Team.HAN, new Score(0));
