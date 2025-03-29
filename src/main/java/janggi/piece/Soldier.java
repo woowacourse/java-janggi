@@ -1,31 +1,50 @@
 package janggi.piece;
 
+import static janggi.movement.Movement.DOWN;
+import static janggi.movement.Movement.LEFT;
+import static janggi.movement.Movement.RIGHT;
+import static janggi.movement.Movement.UP;
+
+import janggi.game.Board;
 import janggi.position.Position;
-import janggi.rule.MovingRules;
-import janggi.rule.MovingRulesGenerator;
-import janggi.temp.game.Team;
-import janggi.temp.piece.Type;
-import java.util.Map;
+import janggi.game.Team;
+import janggi.movement.Movement;
+import java.util.List;
+import java.util.Set;
 
-public final class Soldier extends Piece {
+public final class Soldier implements Piece {
 
-    private Soldier(final Team team, final MovingRules movingRules) {
-        super(team, movingRules);
-    }
+    private final Team team;
 
-    public static Soldier of(final Team team) {
-        if (team == Team.HAN) {
-            return new Soldier(Team.HAN, MovingRulesGenerator.hanSoldier());
-        }
-        return new Soldier(Team.CHO, MovingRulesGenerator.choSoldier());
+    public Soldier(final Team team) {
+        this.team = team;
     }
 
     @Override
-    public void validateMove(final Position start, final Position end, final Map<Position, Piece> board) {
+    public void validateMove(final Position source, final Position destination, final Board board) {
+        final List<Position> movablePositions = movements().stream()
+                .filter(source::canMove)
+                .map(source::move)
+                .toList();
+        if (!movablePositions.contains(destination)) {
+            throw new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다.");
+        }
+    }
+
+    private Set<Movement> movements() {
+        if (team() == Team.HAN) {
+            return Set.of(DOWN, RIGHT, LEFT);
+        }
+        return Set.of(UP, RIGHT, LEFT);
     }
 
     @Override
     public Type type() {
         return Type.SOLDIER;
+    }
+
+    @Override
+    public Team team() {
+        return team;
     }
 }

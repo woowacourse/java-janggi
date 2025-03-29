@@ -1,12 +1,12 @@
 package janggi.view;
 
-import janggi.temp.game.Game;
-import janggi.temp.game.Team;
-import janggi.temp.piece.Piece;
-import janggi.temp.piece.Type;
-import janggi.temp.position.Column;
-import janggi.temp.position.Position;
-import janggi.temp.position.Row;
+import janggi.game.Game;
+import janggi.game.Team;
+import janggi.piece.Piece;
+import janggi.piece.Type;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
 import java.util.Map;
 
 public final class BoardView {

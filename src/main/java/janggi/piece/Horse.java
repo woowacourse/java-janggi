@@ -1,39 +1,40 @@
 package janggi.piece;
 
+import janggi.game.Board;
+import janggi.movement.HorseMovement;
 import janggi.position.Position;
-import janggi.rule.MovingRule;
-import janggi.rule.MovingRules;
-import janggi.rule.MovingRulesGenerator;
-import janggi.rule.Vector;
-import janggi.temp.game.Team;
-import janggi.temp.piece.Type;
-import java.util.Map;
+import janggi.game.Team;
+import java.util.Arrays;
 
-public final class Horse extends Piece {
+public final class Horse implements Piece {
 
-    private Horse(final Team team, final MovingRules movingRules) {
-        super(team, movingRules);
-    }
+    private final Team team;
 
-    public static Horse of(final Team team) {
-        final MovingRules movingRules = MovingRulesGenerator.horse();
-        return new Horse(team, movingRules);
+    public Horse(final Team team) {
+        this.team = team;
     }
 
     @Override
-    public void validateMove(final Position start, final Position end, final Map<Position, Piece> board) {
-        final MovingRule matchRule = movingRules.findMatchRule(start, end);
-        Position route = start;
-        for (Vector vector : matchRule.getVectorsWithoutLast()) {
-            route = route.add(vector);
-            if (board.containsKey(route)) {
-                throw new IllegalArgumentException("[ERROR] 기물의 이동 경로에 다른 기물이 있습니다.");
-            }
+    public void validateMove(final Position source, final Position destination, final Board board) {
+        // 도착지 판단
+        HorseMovement targetMovement = Arrays.stream(HorseMovement.values())
+                .filter(source::canMove)
+                .filter(movement -> source.move(movement).equals(destination))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다."));
+        // 첫 번째 위치 판단
+        if (board.hasPieceAt(source.move(targetMovement.getFirst()))) {
+            throw new IllegalArgumentException("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
         }
     }
 
     @Override
     public Type type() {
         return Type.HORSE;
+    }
+
+    @Override
+    public Team team() {
+        return team;
     }
 }

@@ -1,11 +1,11 @@
 package janggi;
 
-import janggi.temp.game.Board;
-import janggi.temp.game.BoardGenerator;
-import janggi.temp.game.Game;
-import janggi.temp.position.Column;
-import janggi.temp.position.Position;
-import janggi.temp.position.Row;
+import janggi.game.Board;
+import janggi.game.BoardGenerator;
+import janggi.game.Game;
+import janggi.position.Column;
+import janggi.position.Position;
+import janggi.position.Row;
 import janggi.view.BoardView;
 import janggi.view.InputView;
 import janggi.view.SetupOption;

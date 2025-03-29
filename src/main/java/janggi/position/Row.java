@@ -15,27 +15,39 @@ public enum Row {
     EIGHT(8),
     NINE(9);
 
+    private static final int MAXIMUM = 9;
+    private static final int MINIMUM = 0;
+
     private final int value;
 
     Row(final int value) {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
-
-    public Row add(final int dx) {
-        return Arrays.stream(values())
-                .filter(newValue -> newValue.getValue() == value + dx)
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] 보드를 벗어난 값입니다."));
-    }
-
     public static Row of(final int value) {
         return Arrays.stream(values())
-                .filter(row -> row.getValue() == value)
+                .filter(column -> column.getValue() == value)
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("[ERROR] 보드를 벗어난 값입니다."));
+    }
+
+    public Row move(final int movement) {
+        return Arrays.stream(Row.values())
+                .filter(row -> this.value + movement == row.value)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 보드를 벗어나는 위치입니다."));
+    }
+
+    public boolean canMove(int movement) {
+        int movedColumn = value + movement;
+        return movedColumn >= MINIMUM && movedColumn <= MAXIMUM;
+    }
+
+    public int difference(Row other) {
+        return this.value - other.value;
+    }
+
+    public int getValue() {
+        return value;
     }
 }

@@ -1,39 +1,41 @@
 package janggi.piece;
 
+import janggi.game.Board;
+import janggi.movement.Movement;
 import janggi.position.Position;
-import janggi.rule.MovingRule;
-import janggi.rule.MovingRules;
-import janggi.rule.MovingRulesGenerator;
-import janggi.rule.Vector;
-import janggi.temp.game.Team;
-import janggi.temp.piece.Type;
-import java.util.Map;
+import janggi.game.Team;
 
-public final class Chariot extends Piece {
+public final class Chariot implements Piece {
 
-    private Chariot(final Team team, final MovingRules movingRules) {
-        super(team, movingRules);
-    }
+    private final Team team;
 
-    public static Chariot of(final Team team) {
-        final MovingRules movingRules = MovingRulesGenerator.cannonOrChariot();
-        return new Chariot(team, movingRules);
+    public Chariot(final Team team) {
+        this.team = team;
     }
 
     @Override
-    public void validateMove(final Position start, final Position end, final Map<Position, Piece> board) {
-        final MovingRule matchRule = movingRules.findMatchRule(start, end);
-        Position route = start;
-        for (Vector vector : matchRule.getVectorsWithoutLast()) {
-            route = route.add(vector);
-            if (board.containsKey(route)) {
-                throw new IllegalArgumentException("[ERROR] 기물의 이동 경로에 다른 기물이 있습니다.");
+    public void validateMove(final Position source, final Position destination, final Board board) {
+        // 움직임 규칙에 안 맞는 경우
+        if (!destination.isOrthogonallyAligned(source) && !destination.isDiagonallyAlignedInPalace(source)) {
+            throw new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다.");
+        }
+        Movement targetMovement = source.getMovement(destination); // 이동 방향
+        Position current = source.move(targetMovement);
+        while (!current.equals(destination)) { // 도착지로 갈 때까지
+            if (board.hasPieceAt(current)) {
+                throw new IllegalArgumentException("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
             }
+            current = current.move(targetMovement); // 1 칸 이동
         }
     }
 
     @Override
     public Type type() {
         return Type.CHARIOT;
+    }
+
+    @Override
+    public Team team() {
+        return team;
     }
 }

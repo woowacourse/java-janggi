@@ -1,30 +1,15 @@
 package janggi.piece;
 
+import janggi.game.Board;
 import janggi.position.Position;
-import janggi.rule.MovingRules;
-import janggi.temp.game.Team;
-import janggi.temp.piece.Type;
-import java.util.Map;
+import janggi.game.Team;
 
-public abstract class Piece {
+public interface Piece {
 
-    protected final Team team;
-    protected final MovingRules movingRules;
-
-    public Piece(final Team team, final MovingRules movingRules) {
-        this.team = team;
-        this.movingRules = movingRules;
-    }
-
-    public abstract void validateMove(final Position start, final Position end, final Map<Position, Piece> board);
+    public abstract void validateMove(final Position source, final Position destination,
+                                      final Board board);
 
     public abstract Type type();
 
-    public final boolean isHan() {
-        return team == Team.HAN;
-    }
-
-    public final boolean isSameTeam(final Piece other) {
-        return other.team == this.team;
-    }
+    public abstract Team team();
 }
