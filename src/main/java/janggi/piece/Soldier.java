@@ -15,8 +15,10 @@ import java.util.List;
 
 public class Soldier extends Piece {
     private static final String NAME = "졸";
-    private static final PossibleMovements possibleMovements = new PossibleMovements(List.of(new Movements(UP),
-            new Movements(LEFT), new Movements(RIGHT), new Movements(DOWN)));
+    private static final PossibleMovements GREEN_POSSIBLE_MOVEMENTS = new PossibleMovements(List.of(new Movements(UP),
+            new Movements(LEFT), new Movements(RIGHT)));
+    private static final PossibleMovements RED_POSSIBLE_MOVEMENTS = new PossibleMovements(
+            List.of(new Movements(LEFT), new Movements(RIGHT), new Movements(DOWN)));
 
     public Soldier(Team team) {
         super(team);
@@ -34,7 +36,10 @@ public class Soldier extends Piece {
 
     @Override
     protected Path calculatePath(Position start, Position goal) {
-        return possibleMovements.calculatePath(start, goal);
+        if (team == Team.RED) {
+            return RED_POSSIBLE_MOVEMENTS.calculatePath(start, goal);
+        }
+        return GREEN_POSSIBLE_MOVEMENTS.calculatePath(start, goal);
     }
 
     @Override
