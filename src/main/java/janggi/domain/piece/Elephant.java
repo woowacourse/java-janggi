@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.direction.Vector;
+import janggi.domain.position.Position;
 
 import java.util.List;
 

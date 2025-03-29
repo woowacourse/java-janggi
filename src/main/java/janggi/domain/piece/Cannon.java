@@ -1,5 +1,7 @@
 package janggi.domain.piece;
 
+import janggi.domain.position.Position;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.function.IntFunction;

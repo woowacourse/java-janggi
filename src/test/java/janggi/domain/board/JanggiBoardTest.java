@@ -2,7 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Side;
 import janggi.domain.piece.Elephant;
-import janggi.domain.piece.Position;
+import janggi.domain.position.Position;
 import janggi.domain.piece.Rook;
 import janggi.domain.piece.generator.ChoPieceGenerator;
 import janggi.domain.piece.generator.DefaultChoPieceGenerator;

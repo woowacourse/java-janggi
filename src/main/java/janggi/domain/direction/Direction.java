@@ -1,8 +1,8 @@
 package janggi.domain.direction;
 
-import janggi.domain.piece.Position;
+import janggi.domain.position.Position;
 
-enum Direction {
+public enum Direction {
 
     NONE(0, 0),
     UP(0, 1),
@@ -22,7 +22,7 @@ enum Direction {
         this.y = y;
     }
 
-    static Direction get(Position origin, Position destination) {
+    public static Direction get(Position origin, Position destination) {
         int xOffset = Integer.compare(destination.getX(), origin.getX());
         int yOffset = Integer.compare(destination.getY(), origin.getY());
 
@@ -34,11 +34,11 @@ enum Direction {
         throw new IllegalArgumentException("잘못된 방향입니다.");
     }
 
-    int getX() {
+    public int getX() {
         return x;
     }
 
-    int getY() {
+    public int getY() {
         return y;
     }
 }

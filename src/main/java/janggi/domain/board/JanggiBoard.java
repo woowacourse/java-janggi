@@ -3,7 +3,7 @@ package janggi.domain.board;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
-import janggi.domain.piece.Position;
+import janggi.domain.position.Position;
 import janggi.domain.piece.generator.ChoPieceGenerator;
 import janggi.domain.piece.generator.HanPieceGenerator;
 import janggi.domain.piece.generator.KnightElephantSetting;

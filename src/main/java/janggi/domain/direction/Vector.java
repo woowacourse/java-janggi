@@ -1,7 +1,6 @@
 package janggi.domain.direction;
 
-import janggi.domain.piece.Direction;
-import janggi.domain.piece.Position;
+import janggi.domain.position.Position;
 
 public record Vector(int x, int y) {
 

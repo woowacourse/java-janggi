@@ -8,7 +8,7 @@ import janggi.domain.piece.King;
 import janggi.domain.piece.Knight;
 import janggi.domain.piece.Pawn;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Position;
+import janggi.domain.position.Position;
 import janggi.domain.piece.Rook;
 
 import java.sql.Connection;

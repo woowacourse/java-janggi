@@ -4,7 +4,7 @@ import janggi.domain.piece.Side;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
-import janggi.domain.piece.Position;
+import janggi.domain.position.Position;
 import janggi.repository.JanggiDao;
 
 import java.util.List;

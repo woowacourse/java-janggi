@@ -1,4 +1,4 @@
-package janggi.domain.piece;
+package janggi.domain.position;
 
 import java.util.Objects;
 import java.util.function.Predicate;

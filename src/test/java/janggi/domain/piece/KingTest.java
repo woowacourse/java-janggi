@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.ReplaceUnderBar;
+import janggi.domain.position.Position;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

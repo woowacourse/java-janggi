@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.piece.Position;
+import janggi.domain.position.Position;
 import janggi.domain.piece.Side;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Cannon;
