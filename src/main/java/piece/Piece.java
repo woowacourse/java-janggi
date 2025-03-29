@@ -27,8 +27,8 @@ public abstract class Piece {
 
     public void validateTarget(Position toPosition, Board board) {
         if (board.hasPieceAt(toPosition)) {
-            Piece toPiece = board.getBoard().get(toPosition);
-            if (country == toPiece.getCountry()) {
+            Country targetCountry = board.findCountryByPosition(toPosition);
+            if (country == targetCountry) {
                 throw new IllegalArgumentException("아군 기물이 위치해 있습니다. ");
             }
         }
