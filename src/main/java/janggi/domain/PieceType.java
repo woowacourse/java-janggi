@@ -11,31 +11,31 @@ import static janggi.domain.movestep.MoveStep.UP;
 
 import janggi.domain.board.PieceSearcher;
 import janggi.domain.movement.CastleBounded;
-import janggi.domain.movement.FollowsCastleRoadMovement;
-import janggi.domain.movement.InfiniteMoveProcess;
+import janggi.domain.movement.FollowsCastleRoad;
 import janggi.domain.movement.Movement;
 import janggi.domain.movement.OnceMovement;
 import janggi.domain.movement.PoMovement;
 import janggi.domain.movement.SeveralMovement;
+import janggi.domain.movestep.InfiniteMoveProcess;
 import janggi.domain.movestep.MoveProcess;
 import java.util.Set;
 
 public enum PieceType {
     BYEONG("병", 2,
         new OnceMovement(LEFT, RIGHT, DOWN),
-        new FollowsCastleRoadMovement(new OnceMovement(LEFT_DOWN, RIGHT_DOWN))
+        new FollowsCastleRoad(new OnceMovement(LEFT_DOWN, RIGHT_DOWN))
     ),
     JOL("졸", 2,
         new OnceMovement(LEFT, RIGHT, UP),
-        new FollowsCastleRoadMovement(new OnceMovement(LEFT_UP, RIGHT_UP))
+        new FollowsCastleRoad(new OnceMovement(LEFT_UP, RIGHT_UP))
     ),
     GOONG("궁", 0,
         new CastleBounded(new OnceMovement(LEFT, RIGHT, UP, DOWN)),
-        new FollowsCastleRoadMovement(new OnceMovement(LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN))
+        new FollowsCastleRoad(new OnceMovement(LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN))
     ),
     SA("사", 3,
         new CastleBounded(new OnceMovement(LEFT, RIGHT, UP, DOWN)),
-        new FollowsCastleRoadMovement(new OnceMovement(LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN))
+        new FollowsCastleRoad(new OnceMovement(LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN))
     ),
     CHA("차", 13,
         new SeveralMovement(
@@ -44,7 +44,7 @@ public enum PieceType {
             new InfiniteMoveProcess(UP),
             new InfiniteMoveProcess(DOWN)
         ),
-        new FollowsCastleRoadMovement(
+        new FollowsCastleRoad(
             new SeveralMovement(
                 new InfiniteMoveProcess(LEFT_UP),
                 new InfiniteMoveProcess(LEFT_DOWN),
@@ -74,7 +74,7 @@ public enum PieceType {
                 new InfiniteMoveProcess(DOWN)
             )
         ),
-        new FollowsCastleRoadMovement(
+        new FollowsCastleRoad(
             new PoMovement(
                 new SeveralMovement(
                     new InfiniteMoveProcess(LEFT_UP),

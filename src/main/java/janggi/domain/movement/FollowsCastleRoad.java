@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-public class FollowsCastleRoadMovement implements Movement {
+public class FollowsCastleRoad implements Movement {
 
     private static final Map<Coordinate, Set<Coordinate>> CONNECTIONS = Map.of(
         new Coordinate(4, 1), Set.of(new Coordinate(5, 2), new Coordinate(6, 3)),
@@ -28,7 +28,7 @@ public class FollowsCastleRoadMovement implements Movement {
 
     private final Movement movement;
 
-    public FollowsCastleRoadMovement(final Movement movement) {
+    public FollowsCastleRoad(final Movement movement) {
         this.movement = movement;
     }
 
