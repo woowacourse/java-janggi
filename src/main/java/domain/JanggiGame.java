@@ -1,7 +1,9 @@
 package domain;
 
+import db.JanggiDao;
 import domain.piece.PieceType;
 import domain.position.Point;
+import domain.position.PointValue;
 import domain.position.Position;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +13,15 @@ import view.OutputView;
 public class JanggiGame {
 
     private final Board board;
-    private Team turn = Team.GREEN;
+    private Team turn;
 
-    public JanggiGame(final Board board) {
+    public JanggiGame(final Board board, final Team turn) {
+        this.turn = turn;
         this.board = board;
     }
 
     public void start() {
+        final JanggiDao janggiDao = new JanggiDao();
         while (true) {
             OutputView.printBoard(board);
             printTurn();
@@ -25,22 +29,26 @@ public class JanggiGame {
             final Position prevPosition = readStartPosition();
             if (isInvalidPiece(prevPosition)) {
                 OutputView.printEndTurn();
-                changeTurn();
+                changeTurn(janggiDao);
                 continue;
             }
 
             final Point nextPoint = readEndPoint();
             if (isInvalidEndPoint(prevPosition, nextPoint)) {
-                changeTurn();
+                changeTurn(janggiDao);
                 continue;
             }
 
             board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
+            final PointValue pointValue = nextPoint.value();
+            janggiDao.deletePosition(pointValue);
+            janggiDao.updatePoint(prevPosition.getPointValue(), pointValue);
+
             if (board.hasOnlyOneGeneral()) {
                 processGameResult();
                 break;
             }
-            changeTurn();
+            changeTurn(janggiDao);
         }
     }
 
@@ -78,8 +86,9 @@ public class JanggiGame {
         return (isGreenTurn() && !prevPosition.isGreenTeam()) || (isRedTurn() && prevPosition.isGreenTeam());
     }
 
-    private void changeTurn() {
+    private void changeTurn(final JanggiDao janggiDao) {
         turn = turn.opposite();
+        janggiDao.changeTurn(turn);
     }
 
     private Point readEndPoint() {
