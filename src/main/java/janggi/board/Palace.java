@@ -22,7 +22,6 @@ public class Palace {
     }
 
     public boolean isInPalace(final Position currentPosition) {
-        return area.stream()
-                .anyMatch(position -> position.equals(currentPosition));
+        return area.contains(currentPosition);
     }
 }
