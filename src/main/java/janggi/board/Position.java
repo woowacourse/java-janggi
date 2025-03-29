@@ -87,4 +87,14 @@ public class Position {
             throw new IllegalArgumentException("[ERROR] 좌표의 Column이 제한 범위를 벗어났습니다.");
         }
     }
+
+    public boolean isConnectedTo(Position other) {
+        int columnDiff = Math.abs(this.column - other.column);
+        int rowDiff = Math.abs(this.row - other.row);
+
+        if (columnDiff == 0 || rowDiff == 0) {
+            return true;
+        }
+        return columnDiff == rowDiff;
+    }
 }
