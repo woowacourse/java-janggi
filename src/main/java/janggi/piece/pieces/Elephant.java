@@ -26,21 +26,26 @@ public class Elephant implements Piece {
     }
 
     private void findPath(int depth, Direction before, List<Position> route, Position prevPoint, List<Route> routes) {
-        if (depth == 3) {
+        if (depth == MAX_DEPTH) {
             routes.add(Route.of(route.stream().toList()));
             return;
         }
         for (Direction direction : before.getNextWithDiagonal()) {
-            if (!Position.isCanBePosition(prevPoint.getColumn() + direction.getX(),
-                    prevPoint.getRow() + direction.getY())) {
-                continue;
-            }
-            Position next = new Position(prevPoint.getColumn() + direction.getX(),
-                    prevPoint.getRow() + direction.getY());
-            route.add(next);
-            findPath(depth + 1, direction, route, next, routes);
-            route.remove(next);
+            move(depth, route, prevPoint, routes, direction);
         }
+    }
+
+    private void move(int depth, List<Position> route, Position prevPoint, List<Route> routes,
+                      Direction direction) {
+        if (!Position.isCanBePosition(prevPoint.getColumn() + direction.getX(),
+                prevPoint.getRow() + direction.getY())) {
+            return;
+        }
+        Position next = new Position(prevPoint.getColumn() + direction.getX(),
+                prevPoint.getRow() + direction.getY());
+        route.add(next);
+        findPath(depth + 1, direction, route, next, routes);
+        route.remove(next);
     }
 
     @Override
