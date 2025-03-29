@@ -28,7 +28,8 @@ public class JanggiApplication {
             inputView,
             outputView,
             piecesDao,
-            turnDao);
+            turnDao
+        );
         janggiController.startJanggi();
     }
 

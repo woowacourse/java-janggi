@@ -25,13 +25,13 @@ public class TurnDao {
         final var preparedStatement = connection.prepareStatement(query);
         final var resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
-            Team team = Team.valueOf(resultSet.getString("turn"));
+            Team team = Team.valueOf(resultSet.getString("team"));
             return new Turn(team);
         }
         throw new IllegalArgumentException("턴이 존재하지 않습니다");
     }
 
-    public void deletePieces() throws SQLException {
+    public void deleteTurn() throws SQLException {
         final var query = "DELETE FROM turn";
         final var preparedStatement = connection.prepareStatement(query);
         preparedStatement.executeUpdate();

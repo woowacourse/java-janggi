@@ -22,7 +22,6 @@ public class PiecesDao {
         final var query = "INSERT INTO pieces(position_x, position_y, piece_type, team) VALUES(?, ?, ?, ?)";
         final var preparedStatement = connection.prepareStatement(query);
         for (Piece piece : pieces.values()) {
-            System.out.println(piece.getPosition());
             preparedStatement.setInt(1, piece.getPosition().x());
             preparedStatement.setInt(2, piece.getPosition().y());
             preparedStatement.setString(3, piece.getPieceType().name());

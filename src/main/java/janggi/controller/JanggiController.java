@@ -38,33 +38,21 @@ public class JanggiController {
 
     public void startJanggi() throws SQLException {
         Board board = loadOrCreateBoard();
-        System.out.println(board.getPieces());
-        while (board.isGameNotEnd()) {
-            outputView.printBoard(board);
-            if (getGameQuitInput()) {
-                break;
-            }
-            movePieceByInput(board);
-        }
+        boolean quitGame = false;
         outputView.printBoard(board);
-        if (board.isGameEnd()) {
-            outputView.printWinner(board);
-            piecesDao.deletePieces();
-        } else {
-            piecesDao.savePieces(board.getPieces());
-            turnDao.saveTurn(board.getTurn());
+        while (board.isGameNotEnd() && !quitGame) {
+            outputView.printTurn(board.getTurn());
+            movePieceByInput(board);
+            outputView.printBoard(board);
+            quitGame = getGameQuitInput();
         }
-    }
-
-    private boolean getGameQuitInput() {
-        String gameQuitInput = inputView.getGameQuitInput();
-        return gameQuitInput.equals("Y");
+        endJanggi(board);
     }
 
     private Board loadOrCreateBoard() throws SQLException {
         String loadOrCreate = inputView.getLoadOrCreate();
         if (loadOrCreate.equals("1")) {
-            return getLoadedBoard();
+            return getSavedBoard();
         }
         if (loadOrCreate.equals("2")) {
             return getInitializedBoardByInput();
@@ -72,10 +60,10 @@ public class JanggiController {
         throw new IllegalArgumentException("1, 2 만 입력 가능합니다");
     }
 
-    private Board getLoadedBoard() throws SQLException {
+    private Board getSavedBoard() throws SQLException {
         Map<Position, Piece> savedBoard = piecesDao.loadPieces();
         if (savedBoard.isEmpty()) {
-            return getInitializedBoardByInput();
+            throw new IllegalArgumentException("저장된 게임이 없습니다");
         }
         return new Board(savedBoard, turnDao.loadTurn());
     }
@@ -101,6 +89,28 @@ public class JanggiController {
             movePieceByPieceMovement(pieceMovement, board);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private boolean getGameQuitInput() {
+        String gameQuitInput = inputView.getGameQuitInput();
+        return gameQuitInput.equals("Y");
+    }
+
+    private void endJanggi(Board board) throws SQLException {
+        if (board.isGameEnd()) {
+            outputView.printWinner(board);
+        }
+        piecesDao.deletePieces();
+        turnDao.deleteTurn();
+        saveBoardIfGameNotEnd(board);
+    }
+
+    private void saveBoardIfGameNotEnd(Board board) throws SQLException {
+        if (board.isGameNotEnd()) {
+            piecesDao.savePieces(board.getPieces());
+            turnDao.saveTurn(board.getTurn());
+            outputView.printSaved();
         }
     }
 
