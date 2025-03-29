@@ -65,10 +65,17 @@ public enum PieceDirection {
             new Direction(List.of(new Vector(1, -1)), false),
             new Direction(List.of(new Vector(-1, 1)), false)
     ), false)),
+    REPEATED_DIAGONAL(new Directions(List.of(
+            new Direction(List.of(new Vector(1, -1)), false),
+            new Direction(List.of(new Vector(-1, 1)), false),
+            new Direction(List.of(new Vector(1, 1)), false),
+            new Direction(List.of(new Vector(-1, -1)), false)
+    ), true)),
     HAN_DIAGONAL(new Directions(List.of(
             new Direction(List.of(new Vector(1, 1)), false),
             new Direction(List.of(new Vector(-1, 1)), false)
-    ), false)), CHO_DIAGONAL(new Directions(List.of(
+    ), false)),
+    CHO_DIAGONAL(new Directions(List.of(
             new Direction(List.of(new Vector(1, -1)), false),
             new Direction(List.of(new Vector(-1, -1)), false)
     ), false));

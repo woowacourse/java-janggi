@@ -2,8 +2,10 @@ package domain.piece.category;
 
 import domain.MoveInfos;
 import domain.direction.Directions;
+import domain.direction.PieceDirection;
 import domain.piece.Piece;
 import domain.spatial.Position;
+import java.util.List;
 
 public class Chariot extends Piece {
 
@@ -12,6 +14,19 @@ public class Chariot extends Piece {
 
     public Chariot(final Position position, final Directions directions) {
         super(position, directions);
+    }
+
+    @Override
+    public List<Position> getPaths(final Position target) {
+        List<Position> paths = directions.getPaths(position, target);
+        if (position.isWithinPalace()) {
+            paths = PieceDirection.REPEATED_DIAGONAL.get().getPaths(position, target);
+        }
+        validatePaths(paths);
+        if (position.isWithinPalace()) {
+            validateDiagonalPaths(paths);
+        }
+        return paths;
     }
 
     @Override
