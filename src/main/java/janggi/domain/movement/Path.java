@@ -1,4 +1,4 @@
-package janggi.domain.movement.path;
+package janggi.domain.movement;
 
 import janggi.domain.Coordinate;
 import java.util.Collections;

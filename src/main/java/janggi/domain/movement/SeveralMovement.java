@@ -1,16 +1,16 @@
-package janggi.domain.movement.path;
+package janggi.domain.movement;
 
 import janggi.domain.Coordinate;
-import janggi.domain.movement.MoveProcess;
 import janggi.domain.board.PieceSearcher;
-import janggi.domain.movement.Movement;
 import java.util.ArrayList;
 import java.util.Set;
 
-public abstract class PathMovement extends Movement {
+public class SeveralMovement implements Movement {
 
-    public PathMovement(final Set<MoveProcess> moveProcesses) {
-        super(moveProcesses);
+    private final Set<MoveProcess> moveProcesses;
+
+    public SeveralMovement(final MoveProcess... moveProcesses) {
+        this.moveProcesses = Set.of(moveProcesses);
     }
 
     @Override
@@ -26,7 +26,7 @@ public abstract class PathMovement extends Movement {
     }
 
     protected final Path findPath(final Coordinate departure, final Coordinate arrival) {
-        for (final var moveProcess : moveProcessesAt(departure)) {
+        for (final var moveProcess : moveProcesses) {
             var current = departure;
             final var path = new ArrayList<Coordinate>();
 

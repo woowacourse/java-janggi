@@ -4,14 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.movement.MoveStep;
-import java.util.Set;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 
 public class CoordinateTest {
 
@@ -106,54 +100,5 @@ public class CoordinateTest {
         // when
         assertThatThrownBy(() -> coordinate.move(MoveStep.UP))
             .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @ParameterizedTest
-    @DisplayName("현재 좌표가 궁성 내부인 지 알 수 있다.")
-    @CsvSource({
-        "4,1","5,1","6,1",
-        "4,2","5,2","6,2",
-        "4,3","5,3","6,3",
-
-        "4,8","5,8","6,8",
-        "4,9","5,9","6,9",
-        "4,10","5,10","6,10",
-    })
-    void test10(int x, int y) {
-        //given
-        Coordinate coordinate = new Coordinate(x, y);
-
-        //when
-        boolean inCastle = coordinate.isInCastle();
-
-        //then
-        assertThat(inCastle).isTrue();
-    }
-
-    @ParameterizedTest
-    @DisplayName("현재 좌표와 연결되어 있는 좌표들을 반환한다.")
-    @MethodSource("provideCoordinatesAndConnections")
-    void test11(Coordinate coordinate, Set<Coordinate> coordinates) {
-        //when
-        Set<Coordinate> connections = coordinate.findCastleConnections();
-
-        //then
-        assertThat(connections).containsExactlyElementsOf(coordinates);
-    }
-
-    public static Stream<Arguments> provideCoordinatesAndConnections() {
-        return Stream.of(
-            Arguments.of(new Coordinate(4, 1), Set.of(new Coordinate(5, 2))),
-            Arguments.of(new Coordinate(4, 3), Set.of(new Coordinate(5, 2))),
-            Arguments.of(new Coordinate(6, 1), Set.of(new Coordinate(5, 2))),
-            Arguments.of(new Coordinate(6, 3), Set.of(new Coordinate(5, 2))),
-            Arguments.of(new Coordinate(5, 2), Set.of(new Coordinate(4,1), new Coordinate(4, 3), new Coordinate(6, 1), new Coordinate(6, 3))),
-
-            Arguments.of(new Coordinate(4, 8), Set.of(new Coordinate(5, 9))),
-            Arguments.of(new Coordinate(4, 10), Set.of(new Coordinate(5, 9))),
-            Arguments.of(new Coordinate(6, 8), Set.of(new Coordinate(5, 9))),
-            Arguments.of(new Coordinate(6, 10), Set.of(new Coordinate(5, 9))),
-            Arguments.of(new Coordinate(5, 9), Set.of(new Coordinate(4, 8), new Coordinate(4, 10), new Coordinate(6, 8), new Coordinate(6, 10))
-        ));
     }
 }

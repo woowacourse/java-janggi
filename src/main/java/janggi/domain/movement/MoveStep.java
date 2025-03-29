@@ -1,7 +1,5 @@
 package janggi.domain.movement;
 
-import java.util.Arrays;
-
 public enum MoveStep {
 
     LEFT(-1, 0),
@@ -35,12 +33,5 @@ public enum MoveStep {
 
     public int deltaY() {
         return deltaY;
-    }
-
-    public static MoveStep computeMoveStep(final int deltaX, final int deltaY) {
-        return Arrays.stream(values())
-            .filter(moveUnit -> moveUnit.deltaX == deltaX && moveUnit.deltaY == deltaY)
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Movement unit not found"));
     }
 }
