@@ -23,7 +23,7 @@ class ElephantTest {
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> elephant.validateMove(from, to))
+        assertThatCode(() -> elephant.validateMovementRule(MoveType.NORMAL, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("상은 직선으로 한 칸, 대각선으로 두 칸 움직여야 합니다.");
     }
@@ -31,14 +31,14 @@ class ElephantTest {
     @DisplayName("상은 직선으로 한 칸, 대각선으로 두 칸 움직일 수 있다.")
     @ParameterizedTest
     @CsvSource({"7, 8", "8, 7", "7, 2", "2, 7", "8, 3", "3, 8", "3, 2", "2, 3"})
-    void validateMoveTest(int toX, int toY) {
+    void validateMovementRuleTest(int toX, int toY) {
         // given
         Elephant elephant = new Elephant(Camp.HAN);
         Point from = new Point(5, 5);
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> elephant.validateMove(from, to))
+        assertThatCode(() -> elephant.validateMovementRule(MoveType.NORMAL, from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -65,7 +65,7 @@ class ElephantTest {
         Point to = new Point(7, 8);
 
         // when & then
-        assertThat(elephant.findRoute(from, to))
+        assertThat(elephant.findRoute(MoveType.NORMAL, from, to))
                 .containsExactlyInAnyOrder(new Point(5, 6), new Point(6, 7));
     }
 }

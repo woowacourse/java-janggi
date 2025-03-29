@@ -1,6 +1,7 @@
 package janggi.board;
 
 import janggi.camp.Camp;
+import janggi.piece.MoveType;
 import janggi.piece.Piece;
 import janggi.piece.PieceCategory;
 import java.util.HashMap;
@@ -36,15 +37,12 @@ public class Board {
     public void move(Point from, Point to) {
         validateMoveRequest(from, to);
         Piece movingPiece = peek(from);
+        MoveType moveType = MoveType.NORMAL;
         if (isInPalace(from) && isInPalace(to)) {
-            validatePalaceMovable(movingPiece, from, to);
-            validatePalaceRoute(movingPiece, from, to);
-            validateCatchable(movingPiece, to);
-            executeMove(movingPiece, from, to);
-            return;
+            moveType = MoveType.PALACE;
         }
-        validateMovable(movingPiece, from, to);
-        validateRoute(movingPiece, from, to);
+        validateMovementRule(moveType, movingPiece, from, to);
+        validateRoute(moveType, movingPiece, from, to);
         validateCatchable(movingPiece, to);
         executeMove(movingPiece, from, to);
     }
@@ -68,22 +66,12 @@ public class Board {
         return palaceArea.contains(point);
     }
 
-    private void validateMovable(Piece movingPiece, Point from, Point to) {
-        movingPiece.validateMove(from, to);
+    private void validateMovementRule(MoveType moveType, Piece movingPiece, Point from, Point to) {
+        movingPiece.validateMovementRule(moveType, from, to);
     }
 
-    private void validateRoute(Piece movingPiece, Point from, Point to) {
-        Set<Point> route = movingPiece.findRoute(from, to);
-        Set<Piece> piecesByPoint = findPiecesByPoint(route);
-        movingPiece.validateRouteObstacles(piecesByPoint);
-    }
-
-    private void validatePalaceMovable(Piece movingPiece, Point from, Point to) {
-        movingPiece.validatePalaceMove(from, to);
-    }
-
-    private void validatePalaceRoute(Piece movingPiece, Point from, Point to) {
-        Set<Point> route = movingPiece.findPalaceRoute(from, to);
+    private void validateRoute(MoveType moveType, Piece movingPiece, Point from, Point to) {
+        Set<Point> route = movingPiece.findRoute(moveType, from, to);
         Set<Piece> piecesByPoint = findPiecesByPoint(route);
         movingPiece.validateRouteObstacles(piecesByPoint);
     }

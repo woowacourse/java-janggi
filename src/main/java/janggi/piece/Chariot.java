@@ -11,7 +11,7 @@ public final class Chariot extends Piece {
     }
 
     @Override
-    public void validateMove(Point from, Point to) {
+    public void validateMovementRule(MoveType moveType, Point from, Point to) {
         validateLinearMove(from, to);
     }
 
@@ -29,7 +29,7 @@ public final class Chariot extends Piece {
     }
 
     @Override
-    public Set<Point> findRoute(Point from, Point to) {
+    public Set<Point> findRoute(MoveType moveType, Point from, Point to) {
         if (from.isHorizontallyAlignedWith(to)) {
             return from.findHorizontalPointsBetween(to);
         }

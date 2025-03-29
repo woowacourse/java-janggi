@@ -23,7 +23,7 @@ class ChariotTest {
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> chariot.validateMove(from, to))
+        assertThatCode(() -> chariot.validateMovementRule(MoveType.NORMAL, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("차는 수평 혹은 수직으로만 움직여야 합니다.");
     }
@@ -31,14 +31,14 @@ class ChariotTest {
     @DisplayName("차는 상하좌우 무제한으로 움직일 수 있다.")
     @ParameterizedTest
     @CsvSource({"3, 0", "3, 5", "0, 3", "5, 3"})
-    void validateMoveTest(int toX, int toY) {
+    void validateMovementRuleTest(int toX, int toY) {
         // given
         Chariot chariot = new Chariot(Camp.HAN);
         Point from = new Point(3, 3);
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> chariot.validateMove(from, to))
+        assertThatCode(() -> chariot.validateMovementRule(MoveType.NORMAL, from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -77,7 +77,7 @@ class ChariotTest {
         Point to = new Point(5, 9);
 
         // when & then
-        assertThat(chariot.findRoute(from, to))
+        assertThat(chariot.findRoute(MoveType.NORMAL, from, to))
                 .containsExactlyInAnyOrder(new Point(5, 6), new Point(5, 7), new Point(5, 8));
     }
 }

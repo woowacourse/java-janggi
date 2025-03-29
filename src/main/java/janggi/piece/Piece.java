@@ -12,20 +12,20 @@ public abstract class Piece {
         this.camp = camp;
     }
 
-    public abstract void validateMove(Point from, Point to);
+    public abstract void validateMovementRule(MoveType moveType, Point from, Point to);
 
     public abstract void validateRouteObstacles(Set<Piece> piecesOnRoute);
 
-    public abstract Set<Point> findRoute(Point from, Point to);
+    public abstract Set<Point> findRoute(MoveType moveType, Point from, Point to);
 
     public abstract PieceCategory getPieceCategory();
 
-    public void validatePalaceMove(Point from, Point to) {
-        validateMove(from, to);
+    public void validatePalaceMovementRule(MoveType moveType, Point from, Point to) {
+        validateMovementRule(moveType, from, to);
     }
 
-    public Set<Point> findPalaceRoute(Point from, Point to) {
-        return findRoute(from, to);
+    public Set<Point> findPalaceRoute(MoveType moveType, Point from, Point to) {
+        return findRoute(moveType, from, to);
     }
 
     public void validateCatch(Piece targetPiece) {

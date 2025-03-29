@@ -16,7 +16,7 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public void validateMove(Point from, Point to) {
+    public void validateMovementRule(MoveType moveType, Point from, Point to) {
         validateElephantMove(from, to);
     }
 
@@ -41,7 +41,7 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public Set<Point> findRoute(Point from, Point to) {
+    public Set<Point> findRoute(MoveType moveType, Point from, Point to) {
         Point firstStepPoint = getFirstStepPoint(from, to);
         Point secondStepPoint = getSecondStepPoint(firstStepPoint, to);
         return buildRoute(firstStepPoint, secondStepPoint);

@@ -23,7 +23,7 @@ class HorseTest {
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> horse.validateMove(from, to))
+        assertThatCode(() -> horse.validateMovementRule(MoveType.NORMAL, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("마는 직선으로 한 칸, 대각선으로 한 칸 움직여야 합니다.");
     }
@@ -31,14 +31,14 @@ class HorseTest {
     @DisplayName("마는 직선으로 한 칸, 대각선으로 한 칸 움직일 수 있다.")
     @ParameterizedTest
     @CsvSource({"6, 7", "7, 6", "7, 4", "6, 3", "4, 7", "3, 6", "3, 4", "4, 3"})
-    void validateMoveTest(int toX, int toY) {
+    void validateMovementRuleTest(int toX, int toY) {
         // given
         Horse horse = new Horse(Camp.HAN);
         Point from = new Point(5, 5);
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> horse.validateMove(from, to))
+        assertThatCode(() -> horse.validateMovementRule(MoveType.NORMAL, from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -64,7 +64,7 @@ class HorseTest {
         Point to = new Point(6, 7);
 
         // when & then
-        assertThat(horse.findRoute(from, to))
+        assertThat(horse.findRoute(MoveType.NORMAL, from, to))
                 .containsExactlyInAnyOrder(new Point(5, 6));
     }
 }

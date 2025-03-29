@@ -11,14 +11,19 @@ public final class General extends Piece {
     }
 
     @Override
-    public void validateMove(Point from, Point to) {
-        if (isSameCamp(Camp.CHU)) {
-            validateChuArea(from, to);
-        }
-        validateHanArea(from, to);
+    public void validateMovementRule(MoveType moveType, Point from, Point to) {
         if (!isGeneralMove(from, to)) {
             throw new IllegalArgumentException("장군은 상하좌우, 대각선으로 한 칸만 움직일 수 있습니다.");
         }
+        validateArea(from, to);
+    }
+
+    private void validateArea(Point from, Point to) {
+        if (isSameCamp(Camp.CHU)) {
+            validateChuArea(from, to);
+            return;
+        }
+        validateHanArea(from, to);
     }
 
     private void validateChuArea(Point from, Point to) {
@@ -56,7 +61,7 @@ public final class General extends Piece {
     }
 
     @Override
-    public Set<Point> findRoute(Point from, Point to) {
+    public Set<Point> findRoute(MoveType moveType, Point from, Point to) {
         return Set.of();
     }
 

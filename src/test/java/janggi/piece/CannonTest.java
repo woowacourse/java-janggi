@@ -23,7 +23,7 @@ class CannonTest {
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> cannon.validateMove(from, to))
+        assertThatCode(() -> cannon.validateMovementRule(MoveType.NORMAL, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 수평 혹은 수직으로만 움직여야 합니다.");
     }
@@ -31,14 +31,14 @@ class CannonTest {
     @DisplayName("포는 수평 혹은 수직으로 움직일 수 있다.")
     @ParameterizedTest
     @CsvSource({"3, 0", "3, 5", "0, 3", "5, 3"})
-    void validateMoveTest(int toX, int toY) {
+    void validateMovementRuleTest(int toX, int toY) {
         // given
         Cannon cannon = new Cannon(Camp.HAN);
         Point from = new Point(3, 3);
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> cannon.validateMove(from, to)).doesNotThrowAnyException();
+        assertThatCode(() -> cannon.validateMovementRule(MoveType.NORMAL, from, to)).doesNotThrowAnyException();
     }
 
     @DisplayName("포는 다른 포를 잡을 경우 예외가 발생한다.")
@@ -102,7 +102,7 @@ class CannonTest {
         Point to = new Point(5, 9);
 
         // when & then
-        assertThat(cannon.findRoute(from, to))
+        assertThat(cannon.findRoute(MoveType.NORMAL, from, to))
                 .containsExactlyInAnyOrder(new Point(5, 6), new Point(5, 7), new Point(5, 8));
     }
 
@@ -116,7 +116,7 @@ class CannonTest {
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> cannon.validatePalaceMove(from, to))
+        assertThatCode(() -> cannon.validatePalaceMovementRule(MoveType.PALACE, from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -129,7 +129,7 @@ class CannonTest {
         Point to = new Point(3, 0);
 
         // when & then
-        assertThat(cannon.findPalaceRoute(from, to))
+        assertThat(cannon.findPalaceRoute(MoveType.PALACE, from, to))
                 .containsExactlyInAnyOrder(new Point(4, 1));
     }
 }

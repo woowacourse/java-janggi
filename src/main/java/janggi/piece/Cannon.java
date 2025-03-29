@@ -13,7 +13,7 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public void validateMove(Point from, Point to) {
+    public void validateMovementRule(MoveType moveType, Point from, Point to) {
         validateLinearMove(from, to);
     }
 
@@ -47,7 +47,7 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public Set<Point> findRoute(Point from, Point to) {
+    public Set<Point> findRoute(MoveType moveType, Point from, Point to) {
         if (from.isHorizontallyAlignedWith(to)) {
             return from.findHorizontalPointsBetween(to);
         }
@@ -63,7 +63,7 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public void validatePalaceMove(Point from, Point to) {
+    public void validatePalaceMovementRule(MoveType moveType, Point from, Point to) {
         if (!from.isHorizontallyAlignedWith(to) && !from.isVerticallyAlignedWith(to) && !from.isDiagonallyAlignedWith(
                 to)) {
             throw new IllegalArgumentException("포는 궁성안에서 수평, 수직 대각선으로만 움직여야 합니다.");
@@ -71,7 +71,7 @@ public final class Cannon extends Piece {
     }
 
     @Override
-    public Set<Point> findPalaceRoute(Point from, Point to) {
+    public Set<Point> findPalaceRoute(MoveType moveType, Point from, Point to) {
         if (from.isHorizontallyAlignedWith(to)) {
             return from.findHorizontalPointsBetween(to);
         }

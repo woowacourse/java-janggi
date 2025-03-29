@@ -21,7 +21,7 @@ class SoldierTest {
         Point to = new Point(0, toY);
 
         // when & then
-        assertThatCode(() -> soldier.validateMove(from, to))
+        assertThatCode(() -> soldier.validateMovementRule(MoveType.NORMAL, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("뒤로 갈 수 없습니다.");
     }
@@ -36,7 +36,7 @@ class SoldierTest {
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> soldier.validateMove(from, to))
+        assertThatCode(() -> soldier.validateMovementRule(MoveType.NORMAL, from, to))
                 .doesNotThrowAnyException();
     }
 
@@ -50,7 +50,7 @@ class SoldierTest {
         Point to = new Point(toX, toY);
 
         // when & then
-        assertThatCode(() -> soldier.validateMove(from, to))
+        assertThatCode(() -> soldier.validateMovementRule(MoveType.NORMAL, from, to))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
     }
