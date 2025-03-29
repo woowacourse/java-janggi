@@ -11,25 +11,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PieceDAO {
+public class PieceDao {
 
-    private final Connection connection;
-
-    public PieceDAO(Connection connection) {
-        this.connection = connection;
-    }
-
-    public boolean insert(PieceEntity piece) {
+    public boolean insert(Connection connection, PieceEntity piece) {
         String sql = """
                 INSERT INTO piece (row_index, column_index, piece_type_name, team_name, game_room_name)
-                VALUES (?, ?,
-                        (SELECT name 
-                            FROM piece_type 
-                            WHERE name = ?),
-                        (SELECT name 
-                            FROM team 
-                            WHERE name = ?),
-                ?)
+                VALUES (?, ?, ?, ?, ?);
                 """;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -47,7 +34,7 @@ public class PieceDAO {
         }
     }
 
-    public List<PieceEntity> findByGameRoomName(String gameRoomName) {
+    public List<PieceEntity> findByGameRoomName(Connection connection, String gameRoomName) {
         String sql = """               
                 SELECT row_index, column_index, piece_type_name, team_name, game_room_name
                 FROM piece p
@@ -61,6 +48,7 @@ public class PieceDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     pieces.add(new PieceEntity(
+                            null,
                             resultSet.getInt("row_index"),
                             resultSet.getInt("column_index"),
                             PieceType.valueOf(resultSet.getString("piece_type_name")),
@@ -75,7 +63,8 @@ public class PieceDAO {
         return pieces;
     }
 
-    public boolean updatePointByGameRoomNameAndPoint(String gameRoomName,
+    public boolean updatePointByGameRoomNameAndPoint(Connection connection,
+                                                     String gameRoomName,
                                                      Point oldPoint, Point newPoint) {
         String sql = """
                 UPDATE piece 
@@ -97,7 +86,7 @@ public class PieceDAO {
         }
     }
 
-    public boolean deleteByGameRoomNameAndPoint(String gameRoomName, Point point) {
+    public boolean deleteByGameRoomNameAndPoint(Connection connection, String gameRoomName, Point point) {
         String sql = """
                 DELETE FROM piece 
                 WHERE game_room_name = ? && row_index = ? && column_index = ?
@@ -113,5 +102,9 @@ public class PieceDAO {
         } catch (SQLException e) {
             throw new RuntimeException(sql + ": 실행에 실패했습니다.");
         }
+    }
+
+    public void insertAll(Connection connection, List<PieceEntity> pieceEntities) {
+        pieceEntities.forEach(pieceEntity -> insert(connection, pieceEntity));
     }
 }

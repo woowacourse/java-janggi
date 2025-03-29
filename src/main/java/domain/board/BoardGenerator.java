@@ -23,23 +23,23 @@ public class BoardGenerator {
 
     private final PathFinderFactory pathFinderFactory = new PathFinderFactory();
 
-    public Board generateInitialBoard(final SangMaOrderCommand hanSangMaOrderCommand,
-                                      final SangMaOrderCommand choSangMaOrderCommand) {
+    public Board generateInitialBoard(final SangMaOrderCommand choSangMaOrderCommand,
+                                      final SangMaOrderCommand hanSangMaOrderCommand) {
         PathFinder pathFinder = pathFinderFactory.createDefaultPathFinder();
-        Map<Point, Piece> pieceByPoint = createPieces(hanSangMaOrderCommand, choSangMaOrderCommand);
+        Map<Point, Piece> pieceByPoint = createPieces(choSangMaOrderCommand, hanSangMaOrderCommand);
 
         return new Board(pieceByPoint, pathFinder);
     }
 
     private Map<Point, Piece> createPieces(
-            final SangMaOrderCommand hanSangMaOrderCommand,
-            final SangMaOrderCommand choSangMaOrderCommand) {
+            final SangMaOrderCommand choSangMaOrderCommand,
+            final SangMaOrderCommand hanSangMaOrderCommand) {
         Map<Point, Piece> pieceByPoint = new HashMap<>();
-        List<Point> hanSangMaPoints = List.of(Point.of(1, 2), Point.of(1, 3), Point.of(1, 7), Point.of(1, 8));
-        initializeHanPieces(hanSangMaPoints, hanSangMaOrderCommand, pieceByPoint);
-
         List<Point> choSangMaPoints = List.of(Point.of(10, 2), Point.of(10, 3), Point.of(10, 7), Point.of(10, 8));
         initializeChoPieces(choSangMaPoints, choSangMaOrderCommand, pieceByPoint);
+
+        List<Point> hanSangMaPoints = List.of(Point.of(1, 2), Point.of(1, 3), Point.of(1, 7), Point.of(1, 8));
+        initializeHanPieces(hanSangMaPoints, hanSangMaOrderCommand, pieceByPoint);
 
         return pieceByPoint;
     }

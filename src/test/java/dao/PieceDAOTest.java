@@ -14,22 +14,22 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PieceDAOTest {
+class PieceDaoTest {
 
     private static final String GAME_ROOM_NAME = "room1";
 
     private Connection testConnection;
-    private PieceDAO pieceDAO;
-    private GameRoomDAO gameRoomDAO;
+    private PieceDao pieceDAO;
+    private GameRoomDao gameRoomDAO;
 
     @BeforeEach
     void setupConnection() throws SQLException {
         testConnection = DatabaseConnectionFixture.getTestConnection();
         testConnection.setAutoCommit(false);
         DatabaseSetting.settingTable(testConnection);
-        pieceDAO = new PieceDAO(testConnection);
-        gameRoomDAO = new GameRoomDAO(testConnection);
-        gameRoomDAO.insert(new GameRoomEntity(GAME_ROOM_NAME, Team.CHO));
+        pieceDAO = new PieceDao();
+        gameRoomDAO = new GameRoomDao();
+        gameRoomDAO.insert(testConnection, new GameRoomEntity(GAME_ROOM_NAME, Team.CHO));
     }
 
     @AfterEach
@@ -39,27 +39,27 @@ class PieceDAOTest {
     }
 
     @Test
-    void PieceEntity를_추가한다() {
+    void row를_추가한다() {
         // given
-        final PieceEntity piece = new PieceEntity(1, 1, PieceType.CHA, Team.HAN, GAME_ROOM_NAME);
+        final PieceEntity piece = new PieceEntity(null, 1, 1, PieceType.CHA, Team.HAN, GAME_ROOM_NAME);
 
         // when
-        boolean actual = pieceDAO.insert(piece);
+        boolean actual = pieceDAO.insert(testConnection, piece);
 
         // then
         Assertions.assertThat(actual).isTrue();
     }
 
     @Test
-    void PieceEntity를_불러온다() {
+    void 방_이름으로_모든_row를_조회한다() {
         // given
-        final PieceEntity piece1 = new PieceEntity(1, 1, PieceType.CHA, Team.HAN, GAME_ROOM_NAME);
-        final PieceEntity piece2 = new PieceEntity(1, 2, PieceType.CHA, Team.HAN, GAME_ROOM_NAME);
-        pieceDAO.insert(piece1);
-        pieceDAO.insert(piece2);
+        final PieceEntity piece1 = new PieceEntity(null, 1, 1, PieceType.CHA, Team.HAN, GAME_ROOM_NAME);
+        final PieceEntity piece2 = new PieceEntity(null, 1, 2, PieceType.CHA, Team.HAN, GAME_ROOM_NAME);
+        pieceDAO.insert(testConnection, piece1);
+        pieceDAO.insert(testConnection, piece2);
 
         // when
-        final List<PieceEntity> pieces = pieceDAO.findByGameRoomName(GAME_ROOM_NAME);
+        final List<PieceEntity> pieces = pieceDAO.findByGameRoomName(testConnection, GAME_ROOM_NAME);
 
         // then
         SoftAssertions.assertSoftly(softly -> {
@@ -69,31 +69,32 @@ class PieceDAOTest {
     }
 
     @Test
-    void PieceEntity를_업데이트한다() {
+    void 방_이름과_좌표로_조회하여_좌표_정보를_업데이트한다() {
         // given
         final Point oldPoint = Point.of(1, 1);
         final Point newPoint = Point.of(3, 3);
-        final PieceEntity piece = new PieceEntity(oldPoint.row(), oldPoint.column(),
+        final PieceEntity piece = new PieceEntity(null, oldPoint.row(), oldPoint.column(),
                 PieceType.CHA, Team.HAN, GAME_ROOM_NAME);
-        pieceDAO.insert(piece);
+        pieceDAO.insert(testConnection, piece);
 
         // when
-        boolean actual = pieceDAO.updatePointByGameRoomNameAndPoint(GAME_ROOM_NAME, oldPoint, newPoint);
+        boolean actual = pieceDAO.updatePointByGameRoomNameAndPoint(testConnection, GAME_ROOM_NAME, oldPoint, newPoint);
 
         // then
         Assertions.assertThat(actual).isTrue();
     }
 
     @Test
-    void PieceEntity를_삭제한다() {
+    void 방_이름과_좌표로_조회하여_row를_삭제한다() {
         // given
         final Point point = Point.of(1, 1);
-        final PieceEntity piece = new PieceEntity(point.row(), point.column(),
+        final PieceEntity piece = new PieceEntity(null, point.row(), point.column(),
                 PieceType.CHA, Team.HAN, GAME_ROOM_NAME);
-        pieceDAO.insert(piece);
+        pieceDAO.insert(testConnection, piece);
 
         // when
-        boolean actual = pieceDAO.deleteByGameRoomNameAndPoint(GAME_ROOM_NAME, point);
+        boolean actual = pieceDAO.deleteByGameRoomNameAndPoint(testConnection, GAME_ROOM_NAME, point);
+
         // then
         Assertions.assertThat(actual).isTrue();
     }

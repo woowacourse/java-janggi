@@ -12,17 +12,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class GameRoomDAOTest {
+class GameRoomDaoTest {
 
     private Connection testConnection;
-    private GameRoomDAO gameRoomDAO;
+    private GameRoomDao gameRoomDao;
 
     @BeforeEach
     void setupConnection() throws SQLException {
         testConnection = DatabaseConnectionFixture.getTestConnection();
         testConnection.setAutoCommit(false);
         DatabaseSetting.settingTable(testConnection);
-        gameRoomDAO = new GameRoomDAO(testConnection);
+        gameRoomDao = new GameRoomDao();
     }
 
     @AfterEach
@@ -32,49 +32,64 @@ class GameRoomDAOTest {
     }
 
     @Test
-    void GameRoomEntity를_추가한다() {
+    void row를_추가한다() {
         // given
         final String name = "room2";
-        final Team team = Team.HAN;
-        final GameRoomEntity gameRoom = new GameRoomEntity(name, team);
+        final Team turn = Team.HAN;
+        final GameRoomEntity gameRoom = new GameRoomEntity(name, turn);
 
         // when
-        boolean actual = gameRoomDAO.insert(gameRoom);
+        boolean actual = gameRoomDao.insert(testConnection, gameRoom);
 
         // then
         Assertions.assertThat(actual).isTrue();
     }
 
     @Test
-    void GameRoomEntity를_불러온다() {
+    void 방_이름으로_조회한다() {
         // given
         final String name = "room2";
-        final Team team = Team.CHO;
+        final Team turn = Team.CHO;
 
-        final GameRoomEntity gameRoom = new GameRoomEntity(name, team);
-        gameRoomDAO.insert(gameRoom);
+        final GameRoomEntity gameRoom = new GameRoomEntity(name, turn);
+        gameRoomDao.insert(testConnection, gameRoom);
 
         // when
-        Optional<GameRoomEntity> maybeGameRoom = gameRoomDAO.findByGameRoomName(name);
+        Optional<GameRoomEntity> maybeGameRoom = gameRoomDao.findByName(testConnection, name);
 
         // then
         SoftAssertions.assertSoftly(soflty -> {
             soflty.assertThat(maybeGameRoom.isPresent()).isTrue();
             soflty.assertThat(maybeGameRoom.get().name()).isEqualTo(name);
-            soflty.assertThat(maybeGameRoom.get().turn()).isEqualTo(team);
+            soflty.assertThat(maybeGameRoom.get().turn()).isEqualTo(turn);
         });
     }
 
     @Test
-    void GameRoomEntity를_제거한다() {
+    void 방_이름으로_조회하여_턴을_바꾼다() {
         // given
         final String name = "room1";
-        final Team team = Team.HAN;
-        final GameRoomEntity gameRoom = new GameRoomEntity(name, team);
-        gameRoomDAO.insert(gameRoom);
+        final Team turn = Team.HAN;
+        final GameRoomEntity gameRoom = new GameRoomEntity(name, turn);
+        gameRoomDao.insert(testConnection, gameRoom);
 
         // when
-        boolean actual = gameRoomDAO.deleteByGameRoomName(name);
+        boolean actual = gameRoomDao.updateTurnByGameRoomName(testConnection, name, Team.CHO);
+
+        // then
+        Assertions.assertThat(actual).isTrue();
+    }
+
+    @Test
+    void 방_이름으로_조회하여_row를_제거한다() {
+        // given
+        final String name = "room1";
+        final Team turn = Team.HAN;
+        final GameRoomEntity gameRoom = new GameRoomEntity(name, turn);
+        gameRoomDao.insert(testConnection, gameRoom);
+
+        // when
+        boolean actual = gameRoomDao.deleteByGameRoomName(testConnection, name);
 
         // then
         Assertions.assertThat(actual).isTrue();

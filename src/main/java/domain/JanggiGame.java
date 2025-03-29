@@ -8,10 +8,12 @@ import java.util.Map;
 
 public class JanggiGame {
 
+    private final String name;
     private final Board board;
     private Team turn;
 
-    public JanggiGame(Board board, Team startTeam) {
+    public JanggiGame(String name, Board board, Team startTeam) {
+        this.name = name;
         this.board = board;
         this.turn = startTeam;
     }
@@ -20,7 +22,7 @@ public class JanggiGame {
         return board.isPlaying();
     }
 
-    public void move(Point source, Point destination) {
+    public void movePiece(Point source, Point destination) {
         validateMove(source, destination);
 
         board.movePiece(source, destination);
@@ -51,7 +53,11 @@ public class JanggiGame {
         return turn;
     }
 
-    public Map<Point, Piece> pieces() {
-        return board.getPieces();
+    public Map<Point, Piece> getPieceByPoint() {
+        return board.getPieceByPoint();
+    }
+
+    public String getName() {
+        return name;
     }
 }

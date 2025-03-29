@@ -7,15 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class GameRoomDAO {
+public class GameRoomDao {
 
-    private final Connection connection;
-
-    public GameRoomDAO(Connection connection) {
-        this.connection = connection;
-    }
-
-    public boolean insert(GameRoomEntity gameRoom) {
+    public boolean insert(Connection connection, GameRoomEntity gameRoom) {
         final var query = "INSERT INTO game_room VALUES(?, ?)";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, gameRoom.name());
@@ -28,7 +22,7 @@ public class GameRoomDAO {
         }
     }
 
-    public Optional<GameRoomEntity> findByGameRoomName(String gameRoomName) {
+    public Optional<GameRoomEntity> findByName(Connection connection, String gameRoomName) {
         String sql = """               
                 SELECT name, turn
                 FROM game_room gr
@@ -36,7 +30,6 @@ public class GameRoomDAO {
                 """;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
             preparedStatement.setString(1, gameRoomName);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -53,7 +46,23 @@ public class GameRoomDAO {
         return Optional.empty();
     }
 
-    public boolean deleteByGameRoomName(String gameRoomName) {
+    public boolean updateTurnByGameRoomName(Connection connection, String gameRoomName, Team turn) {
+        String sql = """
+                UPDATE game_room
+                SET turn = ?
+                WHERE name = ?
+                """;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, turn.name());
+            preparedStatement.setString(2, gameRoomName);
+            int rowAffected = preparedStatement.executeUpdate();
+            return rowAffected == 1;
+        } catch (SQLException e) {
+            throw new RuntimeException(sql + ": 실행에 실패했습니다.");
+        }
+    }
+
+    public boolean deleteByGameRoomName(Connection connection, String gameRoomName) {
         String sql = """
                 DELETE FROM game_room
                 WHERE name = ?
@@ -61,7 +70,6 @@ public class GameRoomDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, gameRoomName);
             int rowAffected = preparedStatement.executeUpdate();
-            System.out.println("rowAffected: " + rowAffected);
             return rowAffected == 1;
         } catch (SQLException e) {
             throw new RuntimeException(sql + ": 실행에 실패했습니다.");

@@ -18,14 +18,22 @@ public class OutputView {
 
     private static final String TAB = "\t";
 
+    public static void printLoadingSavedGame(String gameRoomName) {
+        System.out.printf("%n'%s'방의 저장된 게임을 불러옵니다.", gameRoomName);
+    }
+
+    public static void printCreatingNewGame(String gameRoomName) {
+        System.out.printf("%n'%s'방을 새로 생성하고 있습니다. %n게임을 이어서 하려면 다음에 접속할 때 동일한 방 이름을 입력해 접속해 주세요.", gameRoomName);
+    }
+
     public static void printStart(String gameRoomName) {
         System.out.printf("""
                 %n장기 게임에 오신 것을 환영합니다.
-                '%s'에 입장하셨습니다.
+                방 '%s'에 연결되었습니다.
                 """, gameRoomName);
     }
 
-    public static void printBoard(Map<Point, Piece> pieces) {
+    public static void printPieceByPoint(Map<Point, Piece> pieces) {
         List<List<String>> boardString = new ArrayList<>();
         for (int row = MIN_ROW_INDEX; row <= MAX_ROW_INDEX; row++) {
             List<String> rowString = new ArrayList<>(List.of(String.format("%02d", row), "|"));

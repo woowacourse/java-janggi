@@ -164,7 +164,7 @@ public class Board implements PieceVisibleBoard {
         return pieceByPoint.get(point);
     }
 
-    public Map<Point, Piece> getPieces() {
+    public Map<Point, Piece> getPieceByPoint() {
         return pieceByPoint;
     }
 }

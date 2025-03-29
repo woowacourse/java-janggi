@@ -21,7 +21,7 @@ public class ConnectionGenerator {
                     "jdbc:mysql://" + joinURL(IP, PORT) + "/" + DATABASE_NAME
                             + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            throw new RuntimeException("DB 연결 오류:" + e.getMessage());
+            throw new RuntimeException("DB 연결에 실패했습니다.");
         }
     }
 
