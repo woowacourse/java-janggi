@@ -4,9 +4,8 @@ import janggi.Board;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Route;
-import janggi.piece.strategy.block.RequiredBlockCountStrategy;
-import janggi.piece.strategy.move.MoveStrategy;
-import janggi.piece.strategy.move.StraightMoveStrategy;
+import janggi.piece.rule.movement.MovementRule;
+import janggi.piece.rule.movement.StraightMovementRule;
 
 import java.util.List;
 
@@ -16,22 +15,17 @@ public class Cannon extends Piece {
 
     private Cannon(final Position position,
                    final Team team,
-                   final MoveStrategy moveStrategy,
-                   final RequiredBlockCountStrategy blockStrategy) {
-        super(position, team, moveStrategy, blockStrategy);
+                   final MovementRule movementRule) {
+        super(position, team, movementRule);
     }
 
     public static Cannon of(final Position position, final Team team) {
-        return new Cannon(
-                position,
-                team,
-                new StraightMoveStrategy(),
-                new RequiredBlockCountStrategy(REQUIRE_BLOCK_COUNT));
+        return new Cannon(position, team, StraightMovementRule.withBlock(REQUIRE_BLOCK_COUNT));
     }
 
-    public static List<Cannon> defaultsOf(Team team) {
-        int defaultRow = Team.decideRow(3, team);
-        List<Integer> defaultColumns = List.of(2, 8);
+    public static List<Cannon> defaultsOf(final Team team) {
+        final int defaultRow = Team.decideRow(3, team);
+        final List<Integer> defaultColumns = List.of(2, 8);
 
         return defaultColumns.stream()
                 .map(defaultColumn -> Cannon.of(Position.of(defaultRow, defaultColumn), team))
@@ -44,12 +38,16 @@ public class Cannon extends Piece {
     }
 
     @Override
-    protected void validateSpecialRule(Board board, Position destination) {
-        boolean containsCannon = Route.of(position, destination).calculateWithDestination().stream()
+    protected void validateSpecialRule(final Board board, final Position destination) {
+        validateNoCannonInRoute(board, destination);
+    }
+
+    private void validateNoCannonInRoute(final Board board, final Position destination) {
+        final boolean hasCannonInRoute = Route.of(position, destination).calculateWithDestination().stream()
                 .filter(board::isExists)
                 .anyMatch(position -> board.getPiece(position).getType().isCannon());
 
-        if (containsCannon) {
+        if (hasCannonInRoute) {
             throw new IllegalArgumentException("포는 경로에 포가 존재할 때, 이동할 수 없습니다.");
         }
     }

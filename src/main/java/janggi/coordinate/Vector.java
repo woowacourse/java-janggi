@@ -5,9 +5,9 @@ import java.util.List;
 
 public record Vector(int deltaRow, int deltaColumn) {
 
-    public static Vector of(Position from, Position to) {
-        Vector deltaRow = from.row().vectorTo(to.row());
-        Vector deltaColumn = from.column().vectorTo(to.column());
+    public static Vector of(final Position from, final Position to) {
+        final Vector deltaRow = from.row().vectorTo(to.row());
+        final Vector deltaColumn = from.column().vectorTo(to.column());
         return deltaRow.add(deltaColumn);
     }
 
@@ -31,12 +31,12 @@ public record Vector(int deltaRow, int deltaColumn) {
         return new Vector(deltaRow, deltaColumn + 1);
     }
 
-    public Vector add(Vector other) {
+    public Vector add(final Vector other) {
         return new Vector(this.deltaRow + other.deltaRow,
                 this.deltaColumn + other.deltaColumn);
     }
 
-    public Vector subtract(Vector other) {
+    public Vector subtract(final Vector other) {
         return new Vector(this.deltaRow - other.deltaRow,
                 this.deltaColumn - other.deltaColumn);
     }
@@ -46,9 +46,9 @@ public record Vector(int deltaRow, int deltaColumn) {
             return new Vector(0, 0);
         }
 
-        int absRow = Math.abs(deltaRow);
-        int absColumn = Math.abs(deltaColumn);
-        int overDistance = Math.abs(absRow - absColumn);
+        final int absRow = Math.abs(deltaRow);
+        final int absColumn = Math.abs(deltaColumn);
+        final int overDistance = Math.abs(absRow - absColumn);
 
         if (absRow > absColumn) {
             return new Vector(Integer.signum(deltaRow) * overDistance, 0);
@@ -57,17 +57,17 @@ public record Vector(int deltaRow, int deltaColumn) {
     }
 
     public List<Vector> splitToUnitVectors() {
-        int rowStep = Integer.signum(deltaRow);
-        int columnStep = Integer.signum(deltaColumn);
+        final int rowStep = Integer.signum(deltaRow);
+        final int columnStep = Integer.signum(deltaColumn);
 
-        int absRow = Math.abs(deltaRow);
-        int absColumn = Math.abs(deltaColumn);
+        final int absRow = Math.abs(deltaRow);
+        final int absColumn = Math.abs(deltaColumn);
 
-        int diagonalSteps = Math.min(absRow, absColumn);
-        int rowSteps = absRow - diagonalSteps;
-        int columnSteps = absColumn - diagonalSteps;
+        final int diagonalSteps = Math.min(absRow, absColumn);
+        final int rowSteps = absRow - diagonalSteps;
+        final int columnSteps = absColumn - diagonalSteps;
 
-        List<Vector> unitVectors = new ArrayList<>();
+        final List<Vector> unitVectors = new ArrayList<>();
 
         for (int i = 0; i < rowSteps; i++) {
             unitVectors.add(new Vector(rowStep, 0));
@@ -82,6 +82,14 @@ public record Vector(int deltaRow, int deltaColumn) {
         }
 
         return unitVectors;
+    }
+
+    public boolean isUpward() {
+        return deltaRow < 0;
+    }
+
+    public boolean isDownward() {
+        return deltaRow > 0;
     }
 
     private boolean isDiagonal() {

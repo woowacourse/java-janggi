@@ -4,25 +4,26 @@ import janggi.Board;
 import janggi.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
-import janggi.piece.strategy.block.RequiredBlockCountStrategy;
-import janggi.piece.strategy.move.MoveStrategy;
-import janggi.piece.strategy.move.SingleMoveStrategy;
+import janggi.piece.rule.movement.MovementRule;
+import janggi.piece.rule.movement.SingleMovementRule;
 
 import java.util.List;
 
 public class Soldier extends Piece {
 
-    public Soldier(final Position position, final Team team, final MoveStrategy moveStrategy, final RequiredBlockCountStrategy blockStrategy) {
-        super(position, team, moveStrategy, blockStrategy);
+    public Soldier(final Position position,
+                   final Team team,
+                   final MovementRule movementRule) {
+        super(position, team, movementRule);
     }
 
-    public static Soldier of(Position position, Team team) {
-        return new Soldier(position, team, new SingleMoveStrategy(), RequiredBlockCountStrategy.common());
+    public static Soldier of(final Position position, final Team team) {
+        return new Soldier(position, team, SingleMovementRule.withNonBlock());
     }
 
-    public static List<Soldier> defaultsOf(Team team) {
-        int defaultRow = Team.decideRow(4, team);
-        List<Integer> defaultColumns = List.of(1, 3, 5, 7, 9);
+    public static List<Soldier> defaultsOf(final Team team) {
+        final int defaultRow = Team.decideRow(4, team);
+        final List<Integer> defaultColumns = List.of(1, 3, 5, 7, 9);
 
         return defaultColumns.stream()
                 .map(defaultColumn -> Soldier.of(Position.of(defaultRow, defaultColumn), team))
@@ -36,13 +37,13 @@ public class Soldier extends Piece {
 
     @Override
     protected void validateSpecialRule(final Board board, final Position destination) {
-        Vector vector = Vector.of(position, destination);
+        final Vector vector = Vector.of(position, destination);
 
-        if (team.isHan() && vector.deltaRow() < 0) {
+        if (team.isHan() && vector.isUpward()) {
             throw new IllegalArgumentException("병은 본진을 향할 수 없습니다.");
         }
 
-        if (team.isCho() && vector.deltaRow() > 0) {
+        if (team.isCho() && vector.isDownward()) {
             throw new IllegalArgumentException("졸은 본진을 향할 수 없습니다.");
         }
     }
