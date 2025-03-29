@@ -112,4 +112,8 @@ public class View {
     public void displayEndingMessage(Camp camp) {
         System.out.printf("%n%s의 장군이 쓰러졌습니다. %s의 승리입니다.%n", camp.reverse().getName(), camp.getName());
     }
+
+    public void displayScore(Camp camp, double score) {
+        System.out.printf("%s나라의 점수는 %.1f점 입니다.%n", camp.getName(), score);
+    }
 }

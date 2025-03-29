@@ -28,6 +28,9 @@ public class Application {
             currentTurnCamp = tryPlayTurn(view, currentTurnCamp, board);
         }
         handleGameEnd(view, board);
+        view.displayScore(Camp.CHU, board.calculateChuScore());
+        view.displayScore(Camp.HAN, board.calculateHanScore());
+
     }
 
     private static Camp tryPlayTurn(View view, Camp currentTurnCamp, Board board) {

@@ -13,6 +13,7 @@ public class Board {
 
     private static final int COLUMN = 9;
     private static final int ROW = 10;
+    public static final double LATE_START_BONUS_SCORE = 1.5;
     public static final int GENERAL_PIECE_COUNT = 2;
 
     private final Map<Point, Piece> placedPieces;
@@ -107,6 +108,21 @@ public class Board {
                 .map(Piece::getCamp)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("생존한 장군이 없습니다."));
+    }
+
+    public double calculateHanScore() {
+        double hanScore = placedPieces.values().stream()
+                .filter(piece -> piece.getCamp() == Camp.HAN)
+                .mapToInt(piece -> piece.getPieceCategory().getScore())
+                .sum();
+        return hanScore + LATE_START_BONUS_SCORE;
+    }
+
+    public double calculateChuScore() {
+        return placedPieces.values().stream()
+                .filter(piece -> piece.getCamp() == Camp.CHU)
+                .mapToInt(piece -> piece.getPieceCategory().getScore())
+                .sum();
     }
 
     public Map<Point, Piece> getPlacedPieces() {
