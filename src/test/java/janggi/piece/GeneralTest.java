@@ -6,7 +6,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
+import janggi.moving.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,13 +21,14 @@ class GeneralTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 2);
         Position goal = createPosition(4, 3);
+        Path path = new Path(List.of(start, goal));
         General piece = new General(Team.GREEN);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
 
         // then
-        assertThatThrownBy(() -> board.movePiece(start, goal, Team.GREEN))
+        assertThatThrownBy(() -> piece.validatePath(board, path))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 궁은 궁성을 벗어날 수 없습니다.");
     }
@@ -37,13 +40,14 @@ class GeneralTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(3, 7);
         Position goal = createPosition(2, 7);
+        Path path = new Path(List.of(start, goal));
         General piece = new General(Team.RED);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
 
         // then
-        assertThatThrownBy(() -> board.movePiece(start, goal, Team.RED))
+        assertThatThrownBy(() -> piece.validatePath(board, path))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 궁은 궁성을 벗어날 수 없습니다.");
     }

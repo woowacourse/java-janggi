@@ -29,9 +29,12 @@ public class General extends Piece {
 
     @Override
     protected void validatePath(Board board, Path path) {
+        List<Position> castle = GREEN_CASTLE;
+        if (team == RED) {
+            castle = RED_CASTLE;
+        }
         for (Position position : path.getPath()) {
-            if (team == GREEN && GREEN_CASTLE.contains(position) == false ||
-                    team == RED && RED_CASTLE.contains(position) == false) {
+            if (!castle.contains(position)) {
                 throw new IllegalArgumentException("[ERROR] 궁은 궁성을 벗어날 수 없습니다.");
             }
         }
