@@ -23,15 +23,12 @@ public enum Direction {
         this.y = y;
     }
 
-    public static List<Direction> getAllDirection() {
-        return List.of(UPPER, UPPER_RIGHT, RIGHT, UNDER_RIGHT, UNDER, UNDER_LEFT, LEFT, UPPER_LEFT);
+    public boolean isDiagonal() {
+        return this == UPPER_RIGHT || this == UNDER_RIGHT || this == UNDER_LEFT || this == UPPER_LEFT;
     }
 
-    public static List<Direction> getTeamDirection(Team team) {
-        if (team == Team.CHO) {
-            return List.of(Direction.UNDER, Direction.LEFT, Direction.RIGHT, UNDER_LEFT, UNDER_RIGHT);
-        }
-        return List.of(Direction.UPPER, Direction.LEFT, Direction.RIGHT, UPPER_LEFT, UPPER_RIGHT);
+    public static List<Direction> getAllDirection() {
+        return List.of(UPPER, UPPER_RIGHT, RIGHT, UNDER_RIGHT, UNDER, UNDER_LEFT, LEFT, UPPER_LEFT);
     }
 
     public static List<Direction> getDiagonal() {
@@ -57,32 +54,12 @@ public enum Direction {
         return List.of(this);
     }
 
-    public boolean isDiagonal() {
-        if (this == UPPER_RIGHT) {
-            return true;
-        }
-        if (this == UNDER_RIGHT) {
-            return true;
-        }
-        if (this == UNDER_LEFT) {
-            return true;
-        }
-        if (this == UPPER_LEFT) {
-            return true;
-        }
-        return false;
+    public static List<Direction> getFrontDirection() {
+        return List.of(Direction.UPPER, Direction.LEFT, Direction.RIGHT, UPPER_LEFT, UPPER_RIGHT);
     }
 
-    public int moveColumn(int x) {
-        return this.x + x;
-    }
-
-    public int moveRow(int y) {
-        return this.y + y;
-    }
-
-    public Position move(Position prevPosition) {
-        return new Position(prevPosition.getColumn() + this.x, prevPosition.getRow() + this.y);
+    public static List<Direction> getBackDirection() {
+        return List.of(Direction.UNDER, Direction.LEFT, Direction.RIGHT, UNDER_LEFT, UNDER_RIGHT);
     }
 
     public int getX() {
