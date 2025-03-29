@@ -22,15 +22,15 @@ public class ConsoleView {
     }
 
     public BoardLocation requestCurrent() {
-        int x = inputView.requestStartX();
-        int y = inputView.requestStartY();
-        return new BoardLocation(x, y);
+        String location = inputView.requestStartLocation();
+        String[] locationPart = location.split(",");
+        return new BoardLocation(Integer.parseInt(locationPart[0]), Integer.parseInt(locationPart[1]));
     }
 
     public BoardLocation requestDestination() {
-        int x = inputView.requestDestinationX();
-        int y = inputView.requestDestinationY();
-        return new BoardLocation(x, y);
+        String location = inputView.requestDestination();
+        String[] locationPart = location.split(",");
+        return new BoardLocation(Integer.parseInt(locationPart[0]), Integer.parseInt(locationPart[1]));
     }
 
     public void showTurn(Turn turn) {

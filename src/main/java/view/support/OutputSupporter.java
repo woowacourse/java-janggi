@@ -25,8 +25,8 @@ public class OutputSupporter {
     }
 
     static {
-        TEAM_FORMATTER.put(Team.CHO, "楚");
-        TEAM_FORMATTER.put(Team.HAN, "漢");
+        TEAM_FORMATTER.put(Team.CHO, "초");
+        TEAM_FORMATTER.put(Team.HAN, "한");
     }
 
     public Map<BoardLocation, Piece> fillBoard(Map<BoardLocation, Piece> boardPieces) {

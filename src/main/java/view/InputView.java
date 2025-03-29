@@ -21,24 +21,14 @@ public class InputView {
             4, EHHE
     );
 
-    public int requestStartX() {
-        System.out.println("움직일 기물의 X좌표를 입력해주세요");
-        return Integer.parseInt(scanner.nextLine());
+    public String requestStartLocation() {
+        System.out.println("움직일 기물의 좌표를 입력해주세요. ex) 1,2");
+        return scanner.nextLine();
     }
 
-    public int requestStartY() {
-        System.out.println("움직일 기물의 Y좌표를 입력해주세요");
-        return Integer.parseInt(scanner.nextLine());
-    }
-
-    public int requestDestinationX() {
-        System.out.println("목표 위치의 X좌표를 입력해주세요");
-        return Integer.parseInt(scanner.nextLine());
-    }
-
-    public int requestDestinationY() {
-        System.out.println("목표 위치의 Y좌표를 입력해주세요");
-        return Integer.parseInt(scanner.nextLine());
+    public String requestDestination() {
+        System.out.println("목표 좌표를 입력해주세요. ex) 1,2");
+        return scanner.nextLine();
     }
 
     public Map<BoardLocation, Piece> requestHanPlacements() {
