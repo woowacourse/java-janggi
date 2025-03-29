@@ -8,22 +8,22 @@ import java.util.Optional;
 
 public class PieceMoveRule {
 
-    protected final PieceMovement pieceMovement;
+    protected final PieceType pieceType;
     protected final Movements movements; // TODO : 불변 필드가 가변인 문제 해결
     private final ObstacleMoveStrategy obstacleMoveStrategy;
 
-    public PieceMoveRule(final PieceMovement pieceMovement, final ObstacleMoveStrategy givenObstacleMoveStrategy) {
-        this.pieceMovement = pieceMovement;
-        this.movements = pieceMovement.getMovements();
+    public PieceMoveRule(final PieceType pieceType, final ObstacleMoveStrategy givenObstacleMoveStrategy) {
+        this.pieceType = pieceType;
+        this.movements = pieceType.getMovements();
         this.obstacleMoveStrategy = givenObstacleMoveStrategy;
     }
 
     // TODO : 상대 위치로 움직이는 기물 vs 그냥 위치로 움직이는 기물 구분하기
     public void validatePath(final Position currentPosition, final Position arrivalPosition, final Board board) {
-        if (pieceMovement.doesLiveInPalace()) {
+        if (pieceType.doesLiveInPalace()) {
             currentPosition.validateIsInPalace(arrivalPosition);
         }
-        if (pieceMovement.canNotMoveDiagonal()) {
+        if (pieceType.canNotMoveDiagonal()) {
             final Optional<Movements> optionalMovements = PalaceMovement.getMovements(currentPosition);
 
             optionalMovements.ifPresent(this::addMovement);
@@ -37,8 +37,8 @@ public class PieceMoveRule {
         obstacleMoveStrategy.checkObstacle(currentPosition, arrivalPosition, movement, board);
     }
 
-    public PieceMovement getPieceMovement() {
-        return pieceMovement;
+    public PieceType getPieceType() {
+        return pieceType;
     }
 
     public void addMovement(final Movements givenMovements) {

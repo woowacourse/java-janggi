@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.direction.PieceMovement;
+import janggi.direction.PieceType;
 import janggi.position.Position;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +41,7 @@ public class Board {
 
     public boolean hasKing() {
         return pieces.values().stream()
-                .anyMatch(piece -> piece.matchPieceMovement(PieceMovement.KING));
+                .anyMatch(piece -> piece.matchPieceMovement(PieceType.KING));
     }
 
     public void removePiece(final Position position) {
@@ -66,14 +66,10 @@ public class Board {
         pieces.put(secondPosition, firstPiece);
     }
 
-    public boolean isInPalace(final int currentY, final int currentX) {
-        if ((1 <= currentY && currentY <= 3) && (4 <= currentX && currentX <= 6)) {
-            return true;
-        }
-        if ((8 <= currentY && currentY <= 10) && (4 <= currentX && currentX <= 6)) {
-            return true;
-        }
-        return false;
+    public Double calculateScore() {
+        return pieces.values().stream()
+                .mapToDouble(piece -> piece.getPieceType().getScore())
+                .sum();
     }
 
     public List<Piece> getPieces() {

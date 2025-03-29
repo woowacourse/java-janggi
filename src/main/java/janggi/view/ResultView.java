@@ -1,8 +1,8 @@
 package janggi.view;
 
-import janggi.direction.PieceMovement;
-import janggi.piece.Piece;
+import janggi.direction.PieceType;
 import janggi.piece.Board;
+import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.position.Position;
 import java.util.List;
@@ -23,16 +23,20 @@ public class ResultView {
     private static final String BLUE_CODE = "\u001B[34m";
     private static final String RED_CODE = "\u001B[31m";
     private static final String EXIT_CODE = "\u001B[0m";
+    private static final String SCORE_TITLE = """
+            점수
+            한나라 : %.1f점\s
+            초나라 : %.1f점\s""";
 
-    private static final Map<PieceMovement, List<String>> PIECE_TYPE_KOREAN = Map.of(
-            PieceMovement.KING, List.of("漢", "楚"),
-            PieceMovement.GUARD, List.of("士"),
-            PieceMovement.HORSE, List.of("馬"),
-            PieceMovement.ELEPHANT, List.of("象"),
-            PieceMovement.CHARIOT, List.of("車"),
-            PieceMovement.CANNON, List.of("包"),
-            PieceMovement.CHO_SOLDIER, List.of("卒"),
-            PieceMovement.HAN_SOLDIER, List.of("兵")
+    private static final Map<PieceType, List<String>> PIECE_TYPE_KOREAN = Map.of(
+            PieceType.KING, List.of("漢", "楚"),
+            PieceType.GUARD, List.of("士"),
+            PieceType.HORSE, List.of("馬"),
+            PieceType.ELEPHANT, List.of("象"),
+            PieceType.CHARIOT, List.of("車"),
+            PieceType.CANNON, List.of("包"),
+            PieceType.CHO_SOLDIER, List.of("卒"),
+            PieceType.HAN_SOLDIER, List.of("兵")
     );
 
     public void printBoard(final Board choBoard, final Board hanBoard) {
@@ -64,22 +68,25 @@ public class ResultView {
     public String makeTeamMessage(final Board hanBoard, final Board choBoard, final Position currentPosition) {
         if (hanBoard.hasPiece(currentPosition)) {
             final Piece piece = hanBoard.findPieceByPosition(currentPosition);
-            return getValue(piece.getPieceMovement(), Team.HAN);
+            return getValue(piece.getPieceType(), Team.HAN);
         }
         final Piece piece = choBoard.findPieceByPosition(currentPosition);
-        return getValue(piece.getPieceMovement(), Team.CHO);
+        return getValue(piece.getPieceType(), Team.CHO);
     }
 
     public void printOrder(final Team team) {
         System.out.printf(LINE + TITLE_ORDER + LINE, team.getTitle());
     }
 
-    public void printJanggiResult(final Team team) {
-        System.out.printf(LINE + TITLE_RESULT, team.getTitle());
+    public void printJanggiResult(final Team team, final Map<Team, Double> teamIntegerMap) {
+        System.out.printf(LINE + TITLE_RESULT + LINE, team.getTitle());
+        final Double hanScore = teamIntegerMap.get(Team.HAN);
+        final Double choScore = teamIntegerMap.get(Team.CHO);
+        System.out.printf(LINE + SCORE_TITLE + LINE, hanScore, choScore);
     }
 
-    public String getValue(final PieceMovement pieceMovement, final Team team) {
-        final List<String> values = PIECE_TYPE_KOREAN.get(pieceMovement);
+    public String getValue(final PieceType pieceType, final Team team) {
+        final List<String> values = PIECE_TYPE_KOREAN.get(pieceType);
         if (team == Team.HAN) {
             return RED_CODE + values.getFirst() + EXIT_CODE;
         }

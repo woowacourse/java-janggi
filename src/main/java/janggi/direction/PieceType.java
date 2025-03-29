@@ -11,30 +11,30 @@ import static janggi.direction.Direction.UP_RIGHT;
 
 import java.util.List;
 
-public enum PieceMovement {
+public enum PieceType {
 
     CANNON(new Movements(List.of(
             new Movement(UP),
             new Movement(RIGHT),
             new Movement(LEFT),
             new Movement(DOWN)
-    ))),
+    )), 7),
     CHARIOT(new Movements(List.of(
             new Movement(UP),
             new Movement(DOWN),
             new Movement(RIGHT),
             new Movement(LEFT)
-    ))),
+    )), 13),
     CHO_SOLDIER(new Movements(List.of(
             new Movement(UP),
             new Movement(RIGHT),
             new Movement(LEFT)
-    ))),
+    )), 2),
     HAN_SOLDIER(new Movements(List.of(
             new Movement(DOWN),
             new Movement(RIGHT),
             new Movement(LEFT)
-    ))),
+    )), 2),
     ELEPHANT(new Movements(List.of(
             new Movement(DOWN, DOWN_RIGHT, DOWN_RIGHT),
             new Movement(DOWN, DOWN_LEFT, DOWN_LEFT),
@@ -44,13 +44,13 @@ public enum PieceMovement {
             new Movement(LEFT, DOWN_LEFT, DOWN_LEFT),
             new Movement(RIGHT, UP_RIGHT, UP_RIGHT),
             new Movement(LEFT, UP_LEFT, UP_LEFT)
-    ))),
+    )), 3),
     GUARD(new Movements(List.of(
             new Movement(UP),
             new Movement(RIGHT),
             new Movement(LEFT),
             new Movement(DOWN)
-    ))),
+    )), 3),
     HORSE(new Movements(List.of(
             new Movement(DOWN, DOWN_RIGHT),
             new Movement(DOWN, DOWN_LEFT),
@@ -60,18 +60,20 @@ public enum PieceMovement {
             new Movement(LEFT, DOWN_LEFT),
             new Movement(RIGHT, UP_RIGHT),
             new Movement(LEFT, UP_LEFT)
-    ))),
+    )), 5),
     KING(new Movements(List.of(
             new Movement(UP),
             new Movement(RIGHT),
             new Movement(LEFT),
             new Movement(DOWN)
-    )));
+    )), 0);
 
     private final Movements movements;
+    private final int score;
 
-    PieceMovement(final Movements movements) {
+    PieceType(final Movements movements, final int score) {
         this.movements = movements;
+        this.score = score;
     }
 
     public boolean doesLiveInPalace() {
@@ -79,10 +81,14 @@ public enum PieceMovement {
     }
 
     public boolean canNotMoveDiagonal() {
-        return !(this == PieceMovement.HORSE || this == PieceMovement.ELEPHANT);
+        return !(this == PieceType.HORSE || this == PieceType.ELEPHANT);
     }
 
     public Movements getMovements() {
         return movements;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

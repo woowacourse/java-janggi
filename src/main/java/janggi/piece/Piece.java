@@ -1,7 +1,7 @@
 package janggi.piece;
 
 import janggi.direction.Movements;
-import janggi.direction.PieceMovement;
+import janggi.direction.PieceType;
 import janggi.position.Position;
 import janggi.direction.PieceMoveRule;
 import java.util.Optional;
@@ -26,7 +26,7 @@ public class Piece {
 
     public void validateMovement(final Position currentPosition, final Position arrivalPosition,
                                  final Board board) {
-        if (getPieceMovement().canNotMoveDiagonal()) {
+        if (getPieceType().canNotMoveDiagonal()) {
             final Optional<Movements> optionalMovements = PalaceMovement.getMovements(currentPosition);
             optionalMovements.ifPresent(pieceMoveRule::addMovement);
             pieceMoveRule.validatePath(currentPosition, arrivalPosition, board);
@@ -37,11 +37,11 @@ public class Piece {
     }
 
     public boolean isObstacleJumping() {
-        return getPieceMovement() == PieceMovement.CANNON;
+        return getPieceType() == PieceType.CANNON;
     }
 
-    public boolean matchPieceMovement(final PieceMovement givenPieceMovement) {
-        return getPieceMovement() == givenPieceMovement;
+    public boolean matchPieceMovement(final PieceType givenPieceType) {
+        return getPieceType() == givenPieceType;
     }
 
 
@@ -49,7 +49,7 @@ public class Piece {
         return position;
     }
 
-    public PieceMovement getPieceMovement() {
-        return pieceMoveRule.getPieceMovement();
+    public PieceType getPieceType() {
+        return pieceMoveRule.getPieceType();
     }
 }

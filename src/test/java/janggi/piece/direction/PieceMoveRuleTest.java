@@ -6,7 +6,7 @@ import janggi.direction.Direction;
 import janggi.direction.Movement;
 import janggi.direction.Movements;
 import janggi.direction.PieceMoveRule;
-import janggi.direction.PieceMovement;
+import janggi.direction.PieceType;
 import janggi.piece.Board;
 import janggi.piece.Piece;
 import janggi.position.Position;
@@ -39,12 +39,12 @@ class PieceMoveRuleTest {
             "KING",
             "GUARD"
     })
-    void 궁성_안에_존재하는_기물이_궁성_밖을_나가면_예외가_발생한다(final PieceMovement pieceMovement) {
+    void 궁성_안에_존재하는_기물이_궁성_밖을_나가면_예외가_발생한다(final PieceType pieceType) {
         // Given
         final Position currentPosition = new Position(3, 5);
-        final Piece king = new Piece(new PieceMoveRule(pieceMovement, new ObstacleBlockStrategy()), currentPosition);
+        final Piece king = new Piece(new PieceMoveRule(pieceType, new ObstacleBlockStrategy()), currentPosition);
         final Position arrivalPosition = new Position(4, 5);
-        final PieceMoveRule pieceMoveRule = new PieceMoveRule(PieceMovement.KING, new ObstacleBlockStrategy());
+        final PieceMoveRule pieceMoveRule = new PieceMoveRule(PieceType.KING, new ObstacleBlockStrategy());
 
         // When & Then
         Assertions.assertThatThrownBy(
@@ -62,9 +62,9 @@ class PieceMoveRuleTest {
             "GUARD",
             "KING"
     })
-    void 마와_상을_제외한_기물이_궁성_안에_있으면_대각선으로_움직일_수_있다(final PieceMovement pieceMovement) {
+    void 마와_상을_제외한_기물이_궁성_안에_있으면_대각선으로_움직일_수_있다(final PieceType pieceType) {
         // Given
-        final PieceMoveRule pieceMoveRule = new PieceMoveRule(pieceMovement, new ObstacleBlockStrategy());
+        final PieceMoveRule pieceMoveRule = new PieceMoveRule(pieceType, new ObstacleBlockStrategy());
         final Position currentPosition = new Position(9, 4);
         final Piece piece = new Piece(pieceMoveRule, currentPosition);
 
@@ -79,9 +79,9 @@ class PieceMoveRuleTest {
             "HORSE, 8, 5",
             "ELEPHANT, 7, 6"
     })
-    void 마와_상은_궁성에_영향을_받지_않는다(final PieceMovement pieceMovement, final int arrivalY, final int arrivalX) {
+    void 마와_상은_궁성에_영향을_받지_않는다(final PieceType pieceType, final int arrivalY, final int arrivalX) {
         // Given
-        final PieceMoveRule pieceMoveRule = new PieceMoveRule(pieceMovement, new ObstacleBlockStrategy());
+        final PieceMoveRule pieceMoveRule = new PieceMoveRule(pieceType, new ObstacleBlockStrategy());
         final Position currentPosition = new Position(10, 4);
         final Piece piece = new Piece(pieceMoveRule, currentPosition);
 

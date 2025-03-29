@@ -36,7 +36,7 @@ public class JanggiConsole {
             turn = turn.moveNextTurn();
         }
 
-        resultView.printJanggiResult(players.findWinningTeam());
+        resultView.printJanggiResult(players.findWinningTeam(), players.calculateScore());
     }
 
     private Players makePlayers() {

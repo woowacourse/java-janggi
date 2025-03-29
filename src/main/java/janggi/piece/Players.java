@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 // 팀마다의 기물들을 관리한다
 public class Players {
@@ -56,6 +57,19 @@ public class Players {
             totalPieces.addAll(board.getPieces());
         }
         return Board.from(totalPieces);
+    }
+
+    public Map<Team, Double> calculateScore() {
+        return players.entrySet().stream()
+                .collect(Collectors.toMap(Entry::getKey, entry -> calculateScore(entry.getKey(), entry.getValue())));
+    }
+
+    private Double calculateScore(final Team team, final Board board) {
+        double score = 0;
+        if (team == Team.HAN) {
+            score += 1.5;
+        }
+        return score + board.calculateScore();
     }
 
     private void catchPiece(final Position arrivalPosition,

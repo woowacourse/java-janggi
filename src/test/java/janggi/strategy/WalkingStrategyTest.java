@@ -3,7 +3,7 @@ package janggi.strategy;
 import janggi.direction.Direction;
 import janggi.direction.Movement;
 import janggi.direction.PieceMoveRule;
-import janggi.direction.PieceMovement;
+import janggi.direction.PieceType;
 import janggi.piece.Board;
 import janggi.piece.Piece;
 import janggi.position.Position;
@@ -20,7 +20,7 @@ class WalkingStrategyTest {
         // Given
         final Position currentPosition = new Position(3, 3);
         final Position arrivalPosition = new Position(6, 5);
-        final Piece piece = new Piece(new PieceMoveRule(PieceMovement.ELEPHANT, walkingStrategy), currentPosition);
+        final Piece piece = new Piece(new PieceMoveRule(PieceType.ELEPHANT, walkingStrategy), currentPosition);
 
         // When & Then
         Assertions.assertThatCode(() ->
