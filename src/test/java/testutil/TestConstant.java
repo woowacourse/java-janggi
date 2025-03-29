@@ -97,5 +97,14 @@ public class TestConstant {
     public static final Position I8 = new Position(Column.I, Row.EIGHT);
     public static final Position I9 = new Position(Column.I, Row.NINE);
 
+    public static final Position A0 = new Position(Column.A, Row.TEN);
+    public static final Position B0 = new Position(Column.B, Row.TEN);
+    public static final Position C0 = new Position(Column.C, Row.TEN);
+    public static final Position D0 = new Position(Column.D, Row.TEN);
+    public static final Position E0 = new Position(Column.E, Row.TEN);
+    public static final Position F0 = new Position(Column.F, Row.TEN);
+    public static final Position G0 = new Position(Column.G, Row.TEN);
+    public static final Position H0 = new Position(Column.H, Row.TEN);
+    public static final Position I0 = new Position(Column.I, Row.TEN);
 
 }

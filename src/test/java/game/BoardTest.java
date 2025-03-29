@@ -7,15 +7,15 @@ import static piece.Country.CHO;
 import static piece.PieceType.ELEPHANT;
 import static piece.PieceType.HORSE;
 import static testutil.TestConstant.B1;
-import static testutil.TestConstant.B9;
+import static testutil.TestConstant.B0;
 import static testutil.TestConstant.C1;
-import static testutil.TestConstant.C9;
+import static testutil.TestConstant.C0;
 import static testutil.TestConstant.E1;
 import static testutil.TestConstant.E5;
 import static testutil.TestConstant.G1;
-import static testutil.TestConstant.G9;
+import static testutil.TestConstant.G0;
 import static testutil.TestConstant.H1;
-import static testutil.TestConstant.H9;
+import static testutil.TestConstant.H0;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,10 +53,10 @@ public class BoardTest {
 
             // when & then
             assertAll(
-                    () -> assertThat(boardMap.get(H9).getPieceType()).isEqualTo(HORSE),
-                    () -> assertThat(boardMap.get(G9).getPieceType()).isEqualTo(ELEPHANT),
-                    () -> assertThat(boardMap.get(C9).getPieceType()).isEqualTo(HORSE),
-                    () -> assertThat(boardMap.get(B9).getPieceType()).isEqualTo(ELEPHANT)
+                    () -> assertThat(boardMap.get(H0).getPieceType()).isEqualTo(HORSE),
+                    () -> assertThat(boardMap.get(G0).getPieceType()).isEqualTo(ELEPHANT),
+                    () -> assertThat(boardMap.get(C0).getPieceType()).isEqualTo(HORSE),
+                    () -> assertThat(boardMap.get(B0).getPieceType()).isEqualTo(ELEPHANT)
             );
         }
 
@@ -79,10 +79,10 @@ public class BoardTest {
             Map<Position, Piece> boardMap = board.getBoard();
 
             assertAll(
-                    () -> assertThat(boardMap.get(H9).getPieceType()).isEqualTo(ELEPHANT),
-                    () -> assertThat(boardMap.get(G9).getPieceType()).isEqualTo(HORSE),
-                    () -> assertThat(boardMap.get(C9).getPieceType()).isEqualTo(ELEPHANT),
-                    () -> assertThat(boardMap.get(B9).getPieceType()).isEqualTo(HORSE)
+                    () -> assertThat(boardMap.get(H0).getPieceType()).isEqualTo(ELEPHANT),
+                    () -> assertThat(boardMap.get(G0).getPieceType()).isEqualTo(HORSE),
+                    () -> assertThat(boardMap.get(C0).getPieceType()).isEqualTo(ELEPHANT),
+                    () -> assertThat(boardMap.get(B0).getPieceType()).isEqualTo(HORSE)
             );
         }
 
@@ -105,10 +105,10 @@ public class BoardTest {
             Map<Position, Piece> boardMap = board.getBoard();
 
             assertAll(
-                    () -> assertThat(boardMap.get(H9).getPieceType()).isEqualTo(ELEPHANT),
-                    () -> assertThat(boardMap.get(G9).getPieceType()).isEqualTo(HORSE),
-                    () -> assertThat(boardMap.get(C9).getPieceType()).isEqualTo(HORSE),
-                    () -> assertThat(boardMap.get(B9).getPieceType()).isEqualTo(ELEPHANT)
+                    () -> assertThat(boardMap.get(H0).getPieceType()).isEqualTo(ELEPHANT),
+                    () -> assertThat(boardMap.get(G0).getPieceType()).isEqualTo(HORSE),
+                    () -> assertThat(boardMap.get(C0).getPieceType()).isEqualTo(HORSE),
+                    () -> assertThat(boardMap.get(B0).getPieceType()).isEqualTo(ELEPHANT)
             );
         }
 
@@ -131,10 +131,10 @@ public class BoardTest {
             Map<Position, Piece> boardMap = board.getBoard();
 
             assertAll(
-                    () -> assertThat(boardMap.get(H9).getPieceType()).isEqualTo(HORSE),
-                    () -> assertThat(boardMap.get(G9).getPieceType()).isEqualTo(ELEPHANT),
-                    () -> assertThat(boardMap.get(C9).getPieceType()).isEqualTo(ELEPHANT),
-                    () -> assertThat(boardMap.get(B9).getPieceType()).isEqualTo(HORSE)
+                    () -> assertThat(boardMap.get(H0).getPieceType()).isEqualTo(HORSE),
+                    () -> assertThat(boardMap.get(G0).getPieceType()).isEqualTo(ELEPHANT),
+                    () -> assertThat(boardMap.get(C0).getPieceType()).isEqualTo(ELEPHANT),
+                    () -> assertThat(boardMap.get(B0).getPieceType()).isEqualTo(HORSE)
             );
         }
 
@@ -146,7 +146,7 @@ public class BoardTest {
             Board board = new Board(boardMap);
 
             // then
-            assertThatCode(() -> board.movePiece(E5, E1))
+            assertThatCode(() -> board.movePiece(E5, E1,CHO))
                     .doesNotThrowAnyException();
         }
 
@@ -159,7 +159,7 @@ public class BoardTest {
             // when
 
             // then
-            Assertions.assertThatThrownBy(() -> board.movePiece(E5, E1))
+            Assertions.assertThatThrownBy(() -> board.movePiece(E5, E1,CHO))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("해당 위치에 기물이 없습니다.");
         }
