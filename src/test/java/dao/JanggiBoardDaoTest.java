@@ -1,5 +1,8 @@
 package dao;
 
+import domain.janggiPiece.Cannon;
+import domain.position.JanggiPositionFactory;
+import domain.type.JanggiTeam;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,5 +23,16 @@ class JanggiBoardDaoTest {
 
         // then
         assertThat(connection).isNotNull();
+    }
+
+    @DisplayName("기물 추가 테스트")
+    @Test
+    void addPiece() {
+        // given
+
+        // when
+        dao.addPiece(JanggiPositionFactory.of(1, 1), new Cannon(JanggiTeam.BLUE));
+
+        // then
     }
 }
