@@ -232,4 +232,29 @@ class BoardTest {
         // then
         assertThat(winner).isEqualTo(han);
     }
+
+    @Test
+    void 플레이어들의_기물_총_점수를_계산한다() {
+        // given
+        Player han = new Player("한", Team.HAN, 1.5F);
+        Player cho = new Player("초", Team.CHO, 0);
+
+        Pieces choPieces = new Pieces(PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT));
+        choPieces.deleteByPosition(Position.of(4, 10));
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(han, new Pieces(PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT)));
+        boardElements.put(cho, choPieces);
+
+        Board board = new Board(boardElements);
+
+        // when
+        board.calculateScores();
+
+        // then
+        assertAll(() -> {
+            assertThat(han.score()).isEqualTo(73.5f);
+            assertThat(cho.score()).isEqualTo(69.0f);
+        });
+    }
 }

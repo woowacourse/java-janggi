@@ -104,12 +104,8 @@ public record Board(
     }
 
     public void calculateScores() {
-        board.keySet()
-                .stream()
-                .peek(player -> player.addScore(calculatePlayerScore(board.get(player))));
-    }
-
-    private int calculatePlayerScore(final Pieces pieces) {
-        return pieces.calculateTotalScore();
+        for (Player player : board.keySet()) {
+            player.addScore(board.get(player).calculateTotalScore());
+        }
     }
 }
