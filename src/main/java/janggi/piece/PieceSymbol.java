@@ -21,4 +21,17 @@ public enum PieceSymbol {
     public int getPoint() {
         return point;
     }
+
+    public Piece createPiece(Camp camp) {
+        return switch (this) {
+            case CANNON -> new Cannon(camp);
+            case CHARIOT -> new Chariot(camp);
+            case ELEPHANT -> new Elephant(camp);
+            case GENERAL -> new General(camp);
+            case GUARD -> new Guard(camp);
+            case HORSE -> new Horse(camp);
+            case SOLDIER_JOL -> new SoldierJol();
+            case SOLDIER_BYEONG -> new SoldierByeong();
+        };
+    }
 }

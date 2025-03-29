@@ -1,4 +1,4 @@
-package janggi.board.controller;
+package janggi.controller;
 
 public interface Controller {
 

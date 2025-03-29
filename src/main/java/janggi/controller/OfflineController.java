@@ -1,4 +1,4 @@
-package janggi.board.controller;
+package janggi.controller;
 
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
