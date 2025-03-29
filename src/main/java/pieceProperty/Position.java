@@ -30,8 +30,8 @@ import view.ErrorMessage;
 
 public class Position {
 
-    private static final int MAX_ROW = 9;
-    private static final int MAX_COL = 10;
+    private static final int MAX_ROW = 10;
+    private static final int MAX_COL = 9;
     private static final int MIN_ROW = 0;
     private static final int MIN_COL = 0;
     private static final int PALACE_START_ROW = 0;
