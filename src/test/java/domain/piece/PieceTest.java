@@ -17,6 +17,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class PieceTest {
@@ -53,20 +54,29 @@ class PieceTest {
     }
 
     @Test
-    void 궁성에_위치한_기물이_대각선_이동_경로를_반환한다() {
+    void 이동_경로가_유효하지_않은_경우_예외가_발생한다() {
         // given
-        final Position target = new Position(6, 3);
-        List<Position> expected = List.of(new Position(6, 3));
+        Piece piece = new TestPiece(new Position(4, 1), new Directions(List.of(), false));
 
-        Directions directions = new Directions(List.of(), false);
+        Position target = new Position(6, 6);
 
-        Piece piece = new TestPiece(new Position(5, 2), directions);
+        // when && then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> piece.getPaths(target))
+                .withMessage("이동할 수 없는 좌표입니다. 다시 확인해주세요.");
+    }
 
-        // when
-        List<Position> result = piece.getPaths(target);
+    @Test
+    void 궁성_이동_경로가_궁성_외부인_경우_예외가_발생한다() {
+        // given
+        Piece piece = new TestPiece(new Position(5, 3), new Directions(List.of(), false));
 
-        // then
-        assertThat(result).containsAll(expected);
+        Position target = new Position(6, 4);
+
+        // when && then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> piece.getPaths(target))
+                .withMessage("궁성 이동의 경우 밖으로 이동할 수 없습니다.");
     }
 
     @Test
