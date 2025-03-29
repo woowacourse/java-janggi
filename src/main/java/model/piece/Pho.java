@@ -2,20 +2,17 @@ package model.piece;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import model.Moving;
 import model.Point;
 import model.Team;
 
-public class Pho extends Piece {
+public class Pho extends PalaceMovablePieces {
+
+    private static final int PO_SCORE = 7;
 
     public Pho(Team team) {
-        super(team,PieceName.PHO);
-    }
-
-    @Override
-    public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        int vectorX = getVectorX(beforePoint, targetPoint);
-        int vectorY = getVectorY(beforePoint, targetPoint);
-        return (vectorX == 0) ^ (vectorY == 0);
+        super(team, PieceName.PO);
+        score = PO_SCORE;
     }
 
     @Override
@@ -56,6 +53,28 @@ public class Pho extends Piece {
             }
             return true;
         }
-        return true;
+        return false;
+    }
+
+    @Override
+    public void validateGungCross(Point beforePoint, Point targetPoint) {
+        Moving moving = new Moving(beforePoint, targetPoint);
+        Palace palace = Palace.wherePalace(beforePoint);
+        if (palace.getPoints().contains(targetPoint)) {
+            if (moving.isDistance(8)) {
+                return;
+            }
+        }
+        if (!moving.isUpDownMoving()) {
+            throw new IllegalArgumentException("잘못된 이동입니다.");
+        }
+    }
+
+    @Override
+    public void validateMovement(Point beforePoint, Point targetPoint) {
+        Moving moving = new Moving(beforePoint, targetPoint);
+        if (!moving.isUpDownMoving()) {
+            throw new IllegalArgumentException("잘못된 이동입니다.");
+        }
     }
 }

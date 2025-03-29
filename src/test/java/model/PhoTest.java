@@ -1,6 +1,7 @@
 package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.HashMap;
@@ -20,9 +21,9 @@ class PhoTest {
     void test1() {
         Team team = Team.RED;
 
-        Pho Pho = new Pho(team);
+        Pho pho = new Pho(team);
 
-        assertThat(Pho.getTeam()).isEqualTo(team);
+        assertThat(pho.getTeam()).isEqualTo(team);
     }
 
     @Nested
@@ -36,10 +37,40 @@ class PhoTest {
         }
 
         @Test
+        @DisplayName("포 이동 가능 여부 판별 테스트")
+        void test4() {
+            Pho Pho = new Pho(Team.RED);
+            assertThat(Pho.isValidPoint(Point.of(0, 0), Point.of(100, 0))).isTrue();
+        }
+
+        @Test
         @DisplayName("포 이동 불가능 여부 판별 테스트")
         void test3() {
             Pho Pho = new Pho(Team.RED);
-            assertThat(Pho.isValidPoint(Point.of(0,0), Point.of(10,10))).isFalse();
+            assertThatThrownBy(() -> Pho.isValidPoint(Point.of(0, 0), Point.of(10, 10))).isInstanceOf(
+                    IllegalArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("궁성 안에서 포 이동 가능 여부 판별 테스트")
+        void test5() {
+            Pho Pho = new Pho(Team.BLUE);
+            assertThat(Pho.isValidPoint(Point.of(3, 0), Point.of(5, 2))).isTrue();
+        }
+
+        @Test
+        @DisplayName("궁성 안에서 포 이동 불가능 여부 판별 테스트")
+        void test6() {
+            Pho Pho = new Pho(Team.BLUE);
+            assertThatThrownBy(() -> Pho.isValidPoint(Point.of(3, 1), Point.of(4, 2))).isInstanceOf(
+                    IllegalArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("궁성 안에서 포 이동 가능 여부 판별 테스트")
+        void test7() {
+            Pho Pho = new Pho(Team.BLUE);
+            assertThat(Pho.isValidPoint(Point.of(3, 1), Point.of(3, 9))).isTrue();
         }
     }
 
@@ -49,14 +80,14 @@ class PhoTest {
         @Test
         @DisplayName("수직으로 이동 가능 테스트")
         void test1() {
-            Pho Pho = new Pho(Team.RED);
+            Pho pho = new Pho(Team.RED);
             Point point1 = new Point(0, 1);
             Point point2 = new Point(0, 2);
             Point point3 = new Point(0, 3);
             Point point4 = new Point(0, 4);
             Point point5 = new Point(0, 7);
 
-            Path path = Pho.calculatePath(Point.of(0,0), Point.of(0,7));
+            Path path = pho.calculatePath(Point.of(0, 0), Point.of(0, 7));
 
             assertAll(
                     () -> assertThat(path.contains(point1)).isTrue(),
@@ -70,14 +101,14 @@ class PhoTest {
         @Test
         @DisplayName("수평으로 이동 가능 테스트")
         void test2() {
-            Pho Pho = new Pho(Team.RED);
+            Pho pho = new Pho(Team.RED);
             Point point1 = new Point(1, 0);
             Point point2 = new Point(2, 0);
             Point point3 = new Point(3, 0);
             Point point4 = new Point(6, 0);
             Point point5 = new Point(7, 0);
 
-            Path path = Pho.calculatePath(Point.of(0,0), Point.of(7,0));
+            Path path = pho.calculatePath(Point.of(0, 0), Point.of(7, 0));
 
             assertAll(
                     () -> assertThat(path.contains(point1)).isTrue(),
@@ -99,7 +130,7 @@ class PhoTest {
             void test1(){
                 Pho pho = new Pho(Team.RED);
                 Map<Piece, Boolean> pieces = new HashMap<>();
-                assertThat(pho.canMove(pieces)).isTrue();
+                assertThat(pho.canMove(pieces)).isFalse();
             }
         }
         @Nested
