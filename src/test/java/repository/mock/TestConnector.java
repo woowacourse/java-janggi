@@ -2,6 +2,7 @@ package repository.mock;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import repository.Connector;
 
@@ -15,10 +16,24 @@ public final class TestConnector implements Connector {
     @Override
     public Connection getConnection() throws SQLException {
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+            final Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION,
+                    USERNAME, PASSWORD);
+            return connection;
         } catch (final SQLException e) {
             System.err.println("DB 연결 오류:" + e.getMessage());
             throw new SQLException(e);
+        }
+    }
+
+    public static void createRoomForTest(Connection connection) {
+        final String query = "INSERT INTO room (id,is_active) VALUES (?,?)";
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, 1);
+            preparedStatement.setBoolean(2, true);
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

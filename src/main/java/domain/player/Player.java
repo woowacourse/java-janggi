@@ -10,6 +10,13 @@ public final class Player {
     private Score score;
     private boolean isTurn;
 
+    public Player(final int id, final Team team, final Score score, final boolean isTurn) {
+        this.id = id;
+        this.team = team;
+        this.score = score;
+        this.isTurn = isTurn;
+    }
+
     public Player(final int id, final Team team) {
         this.id = validateId(id);
         this.team = Objects.requireNonNull(team, "Team 정보가 NULL일 수 없습니다.");
