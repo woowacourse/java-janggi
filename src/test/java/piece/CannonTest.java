@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import position.LineDirection;
 import position.Position;
+import position.PositionFactory;
 
 import java.util.Map;
 
@@ -13,89 +14,97 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CannonTest {
 
-    @DisplayName("Cannon은 동서남북 방향 내에 dest가 존재해야 한다")
+    @DisplayName("Cannon은 같은 라인에 있는 모든 곳을 이동할 수 있다.")
     @Test
     void validateMove() {
         // given
-        Country dumyCountry = Country.HAN;
-        Country.assignDirection(dumyCountry, LineDirection.UP);
-        Position dumyPosition = new Position(1, 1);
-        Position src = dumyPosition;
-        final Piece cannon = new Cannon(src, dumyCountry);
+        PositionFactory positionFactory = new PositionFactory();
+        positionFactory.basicSettingGraph();
 
-        Position obstructionPosition = new Position(1, 2);
-        Piece obstructionPiece = new General(obstructionPosition, dumyCountry);
-        final Board board = new Board(Map.of(obstructionPosition, obstructionPiece));
+        Country turnCountry = Country.HAN;
+        Country.assignDirection(turnCountry, LineDirection.UP);
+        Position dumyPosition = new Position(1, 1);
+        final Position src = dumyPosition;
+        final Piece cannon = new Cannon(src, turnCountry);
+
+
+        final Position obstructionPosition = new Position(1, 2);
+        final Piece obstructionPiece = new General(obstructionPosition, turnCountry);
+        final Board board = new Board(Map.of(
+                obstructionPosition, obstructionPiece
+        ));
 
         // when & then: 1 : success
-        final Position ableDest = new Position(1, 4);
+        final Position ableDest = new Position(1, 5);
         assertThatCode(
                 () -> cannon.validateMove(src, ableDest, board)
         ).doesNotThrowAnyException();
 
         // when & then : 2 : failure
-        final Position notAbleDest = new Position(2, 2);
+        final Position notAbleDest = new Position(2, 4);
         assertThatThrownBy(
                 () -> cannon.validateMove(src, notAbleDest, board)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("Cannon은 목적지까지 기물이 하나만 존재해야 한다.")
+    @DisplayName("Cannon은 목적지까지의 라인에서 하나의 장애물이 존재해야 한다.")
     @Test
     void validateMoveWithObstruction() {
         // given
+        PositionFactory positionFactory = new PositionFactory();
+        positionFactory.basicSettingGraph();
+
         Country turnCountry = Country.HAN;
         Country.assignDirection(turnCountry, LineDirection.UP);
-        Position dumyPosition = new Position(2, 2);
+        Position dumyPosition = new Position(1, 1);
         final Position src = dumyPosition;
         final Piece cannon = new Cannon(src, turnCountry);
 
-        final Position obstructionPosition1 = new Position(2, 3);
-        final Piece obstructionPiece1 = new General(obstructionPosition1, turnCountry);
-        final Position dest = new Position(2, 5);
 
-        // when & then : 1 : success
-        final Board ableBoard = new Board(Map.of(
-                obstructionPosition1, obstructionPiece1
+        final Position obstructionPosition = new Position(1, 2);
+        final Piece obstructionPiece = new General(obstructionPosition, turnCountry);
+        final Board board = new Board(Map.of(
+                obstructionPosition, obstructionPiece
         ));
+
+        // when & then: 1 : success
+        final Position ableDest = new Position(1, 5);
         assertThatCode(
-                () -> cannon.validateMove(src, dest, ableBoard)
+                () -> cannon.validateMove(src, ableDest, board)
         ).doesNotThrowAnyException();
 
         // when & then : 2 : failure
-        final Position obstructionPosition2 = new Position(2, 4);
-        final Piece obstructionPiece2 = new Cannon(obstructionPosition2, turnCountry);
-        final Board notAbleBoard = new Board(Map.of(
-                obstructionPosition2, obstructionPiece2
-        ));
+        final Position notAbleDest = new Position(2, 3);
         assertThatThrownBy(
-                () -> cannon.validateMove(src, dest, notAbleBoard)
+                () -> cannon.validateMove(src, notAbleDest, board)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
 
-    @DisplayName("포는 포를 죽일 수 없다.")
+    @DisplayName("Cannon은 Cannon을 뛰어 넘을 수 없다.")
     @Test
-    void canMoveFailureThatDestinationCantCannon() {
+    void validateMoveWithObstructionLikeCannon() {
         // given
+        PositionFactory positionFactory = new PositionFactory();
+        positionFactory.basicSettingGraph();
+
         Country turnCountry = Country.HAN;
         Country.assignDirection(turnCountry, LineDirection.UP);
-        Position dumyPosition = new Position(2, 2);
+        Position dumyPosition = new Position(1, 1);
         final Position src = dumyPosition;
         final Piece cannon = new Cannon(src, turnCountry);
 
-        final Position obstructionPosition1 = new Position(2, 3);
-        final Piece obstructionPiece1 = new General(obstructionPosition1, turnCountry);
-        final Position destPosition = new Position(2, 5);
-        final Piece dest = new Cannon(destPosition, turnCountry);
 
-        // when & then : 1 : success
-        final Board ableBoard = new Board(Map.of(
-                obstructionPosition1, obstructionPiece1,
-                destPosition, dest
+        final Position obstructionPosition = new Position(1, 2);
+        final Piece obstructionPiece = new Cannon(obstructionPosition, turnCountry);
+        final Board board = new Board(Map.of(
+                obstructionPosition, obstructionPiece
         ));
+
+        // when & then : 1 : failure
+        final Position notAbleDest = new Position(1, 5);
         assertThatThrownBy(
-                () -> cannon.validateMove(src, destPosition, ableBoard)
+                () -> cannon.validateMove(src, notAbleDest, board)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 }
