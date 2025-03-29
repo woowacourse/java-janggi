@@ -1,21 +1,25 @@
 package model.piece;
 
 import java.util.Map;
-import model.Path;
 import model.Point;
 import model.Team;
+import model.Moving;
 
 public class Sang extends Piece {
+
+    private static final int SANG_SCORE = 3;
+    private static final int SNG_DISTANCE = 13;
+
     public Sang(Team team) {
         super(team, PieceName.SANG);
+        score = SANG_SCORE;
     }
 
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        int vectorX = getVectorX(beforePoint, targetPoint);
-        int vectorY = getVectorY(beforePoint, targetPoint);
+        Moving moving = new Moving(beforePoint, targetPoint);
 
-        return Math.pow(vectorX,2) + Math.pow(vectorY,2) == 13;
+        return moving.isDistance(SNG_DISTANCE);
     }
 
     @Override
