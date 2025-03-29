@@ -9,8 +9,8 @@ class BoardDaoTest {
     private final BoardDao boardDao = new BoardDao();
 
     @Test
-    public void connection() throws SQLException {
-        try (final var connection = boardDao.getConnection()) {
+    void connection() throws SQLException {
+        try (final var connection = Connector.getConnection()) {
             assertThat(connection).isNotNull();
         }
     }

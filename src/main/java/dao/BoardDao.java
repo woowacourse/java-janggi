@@ -1,32 +1,14 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class BoardDao {
-    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "root"; // MySQL 서버 비밀 번호
-
-    public static Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public static void deleteBoardEntity() {
         final var query = "DELETE FROM Board";
 
-        try (final var connection = BoardDao.getConnection()) {
+        try (final var connection = Connector.getConnection()) {
             if (connection == null) {
                 throw new SQLException("데이터 베이스 연결에 실패했습니다.");
             }
@@ -45,7 +27,7 @@ public final class BoardDao {
     private static void addPieceEntityToBoardEntity(final PieceEntity pieceEntity) {
         final var query = "INSERT INTO Board VALUES(?, ?, ?, ?)";
 
-        try (final var connection = BoardDao.getConnection()) {
+        try (final var connection = Connector.getConnection()) {
             if (connection == null) {
                 throw new SQLException("데이터 베이스 연결에 실패했습니다.");
             }
@@ -66,7 +48,7 @@ public final class BoardDao {
         final var query = "SELECT row_value, column_value, type, dynasty FROM Board";
         final List<PieceEntity> pieceEntities = new ArrayList<>();
 
-        try (final var connection = BoardDao.getConnection()) {
+        try (final var connection = Connector.getConnection()) {
             if (connection == null) {
                 throw new SQLException("데이터 베이스 연결에 실패했습니다.");
             }
@@ -92,7 +74,7 @@ public final class BoardDao {
     public static int readTurnEntity() {
         final var query = "SELECT turn FROM Turn";
 
-        try (final var connection = BoardDao.getConnection()) {
+        try (final var connection = Connector.getConnection()) {
             if (connection == null) {
                 throw new SQLException("데이터 베이스 연결에 실패했습니다.");
             }
@@ -112,7 +94,7 @@ public final class BoardDao {
     public static void resetTurnEntity() {
         final var query = "UPDATE Turn SET turn = 0";
 
-        try (final var connection = BoardDao.getConnection()) {
+        try (final var connection = Connector.getConnection()) {
             if (connection == null) {
                 throw new SQLException("데이터 베이스 연결에 실패했습니다.");
             }
@@ -130,7 +112,7 @@ public final class BoardDao {
     public static void incrementTurn() {
         final var query = "UPDATE Turn SET turn = turn + 1";
 
-        try (final var connection = BoardDao.getConnection()) {
+        try (final var connection = Connector.getConnection()) {
             if (connection == null) {
                 throw new SQLException("데이터 베이스 연결에 실패했습니다.");
             }
