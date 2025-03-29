@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Soldier extends PalaceAwarePiece {
 
-    public Soldier(final Team team) {
-        super(PieceType.SOLDIER, team);
+    public Soldier() {
+        super(PieceType.SOLDIER, Team.HAN);
     }
 
     @Override

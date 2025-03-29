@@ -155,7 +155,7 @@ class ChariotTest {
             final Chariot chariot = new Chariot(Team.HAN);
 
             final Map<Position, Piece> board = Map.of(
-                    new Position(6, 5), new Soldier(Team.HAN)
+                    new Position(6, 5), new Soldier()
             );
 
             final Position currentPosition = new Position(5, 5);
@@ -174,7 +174,7 @@ class ChariotTest {
             final Chariot chariot = new Chariot(Team.HAN);
 
             final Map<Position, Piece> board = Map.of(
-                    new Position(7, 5), new Soldier(Team.HAN)
+                    new Position(7, 5), new Soldier()
             );
 
             final Position currentPosition = new Position(5, 5);

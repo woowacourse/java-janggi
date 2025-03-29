@@ -23,7 +23,7 @@ class SoldierTest {
     @Test
     void soldierBoardPosition() {
         //given //when
-        final Soldier soldier = new Soldier(Team.HAN);
+        final Soldier soldier = new Soldier();
 
         //then
         assertThat(soldier.getPieceType()).isEqualTo(PieceType.SOLDIER);
@@ -35,7 +35,7 @@ class SoldierTest {
     @MethodSource("soldierNonCanMoveByPositionProvider")
     void nonCanMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
-        final Soldier soldier = new Soldier(Team.HAN);
+        final Soldier soldier = new Soldier();
 
         //when
         assertThatThrownBy(() -> soldier.canMoveBy(currentPosition, targetPosition, palace))
@@ -59,7 +59,7 @@ class SoldierTest {
     @MethodSource("soldierCanMoveByPositionProvider")
     void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
-        final Soldier soldier = new Soldier(Team.HAN);
+        final Soldier soldier = new Soldier();
 
         //when //then
         assertThatCode(() -> soldier.canMoveBy(currentPosition, targetPosition, palace))
@@ -81,7 +81,7 @@ class SoldierTest {
     @MethodSource("soldierPalaceMovePositionProvider")
     void inPalaceMove(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
-        final Soldier soldier = new Soldier(Team.HAN);
+        final Soldier soldier = new Soldier();
 
         //when //then
         assertThatCode(() -> soldier.canMoveBy(currentPosition, targetPosition, palace))
@@ -103,7 +103,7 @@ class SoldierTest {
     @MethodSource("soldierPalaceBehindMovePositionProvider")
     void inPalaceNotBehindMove(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
-        final Soldier soldier = new Soldier(Team.HAN);
+        final Soldier soldier = new Soldier();
 
         //when //then
         assertThatThrownBy(() -> soldier.canMoveBy(currentPosition, targetPosition, palace))
@@ -125,7 +125,7 @@ class SoldierTest {
     @Test
     void makeRoute() {
         //given
-        final Soldier soldier = new Soldier(Team.HAN);
+        final Soldier soldier = new Soldier();
 
         final Position currentPosition = new Position(3, 5);
         final Position targetPosition = new Position(4, 5);

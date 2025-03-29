@@ -33,11 +33,11 @@ public class BoardGenerator {
         board.deployPiece(new Position(2, 1), new Cannon(Team.HAN));
         board.deployPiece(new Position(2, 7), new Cannon(Team.HAN));
 
-        board.deployPiece(new Position(3, 0), new Soldier(Team.HAN));
-        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN));
-        board.deployPiece(new Position(3, 4), new Soldier(Team.HAN));
-        board.deployPiece(new Position(3, 6), new Soldier(Team.HAN));
-        board.deployPiece(new Position(3, 8), new Soldier(Team.HAN));
+        board.deployPiece(new Position(3, 0), new Soldier());
+        board.deployPiece(new Position(3, 2), new Soldier());
+        board.deployPiece(new Position(3, 4), new Soldier());
+        board.deployPiece(new Position(3, 6), new Soldier());
+        board.deployPiece(new Position(3, 8), new Soldier());
 
         board.deployPiece(new Position(9, 0), new Chariot(Team.CHU));
         board.deployPiece(new Position(9, 8), new Chariot(Team.CHU));
@@ -56,11 +56,11 @@ public class BoardGenerator {
         board.deployPiece(new Position(7, 1), new Cannon(Team.CHU));
         board.deployPiece(new Position(7, 7), new Cannon(Team.CHU));
 
-        board.deployPiece(new Position(6, 0), new Pawn(Team.CHU));
-        board.deployPiece(new Position(6, 2), new Pawn(Team.CHU));
-        board.deployPiece(new Position(6, 4), new Pawn(Team.CHU));
-        board.deployPiece(new Position(6, 6), new Pawn(Team.CHU));
-        board.deployPiece(new Position(6, 8), new Pawn(Team.CHU));
+        board.deployPiece(new Position(6, 0), new Pawn());
+        board.deployPiece(new Position(6, 2), new Pawn());
+        board.deployPiece(new Position(6, 4), new Pawn());
+        board.deployPiece(new Position(6, 6), new Pawn());
+        board.deployPiece(new Position(6, 8), new Pawn());
 
         return board;
     }

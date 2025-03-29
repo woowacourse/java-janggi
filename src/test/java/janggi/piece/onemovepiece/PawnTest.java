@@ -23,7 +23,7 @@ class PawnTest {
     @Test
     void pawnBoardPosition() {
         //given //when
-        final Pawn pawn = new Pawn(Team.CHU);
+        final Pawn pawn = new Pawn();
 
         //then
         assertThat(pawn.getPieceType()).isEqualTo(PieceType.PAWN);
@@ -35,7 +35,7 @@ class PawnTest {
     @MethodSource("pawnNonCanMoveByPositionProvider")
     void nonCanMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
-        final Pawn pawn = new Pawn(Team.CHU);
+        final Pawn pawn = new Pawn();
 
         //when
         assertThatThrownBy(() -> pawn.canMoveBy(currentPosition, targetPosition, palace))
@@ -58,7 +58,7 @@ class PawnTest {
     @MethodSource("pawnCanMoveByPositionProvider")
     void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
-        final Pawn pawn = new Pawn(Team.CHU);
+        final Pawn pawn = new Pawn();
 
         //when //then
         assertThatCode(() -> pawn.canMoveBy(currentPosition, targetPosition, palace))
@@ -79,7 +79,7 @@ class PawnTest {
     @MethodSource("pawnPalaceMovePositionProvider")
     void inPalaceMove(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
-        final Pawn pawn = new Pawn(Team.CHU);
+        final Pawn pawn = new Pawn();
 
         //when //then
         assertThatCode(() -> pawn.canMoveBy(currentPosition, targetPosition, palace))
@@ -103,7 +103,7 @@ class PawnTest {
     @MethodSource("pawnPalaceBehindMovePositionProvider")
     void inPalaceNotBehindMove(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
-        final Pawn pawn = new Pawn(Team.CHU);
+        final Pawn pawn = new Pawn();
 
         //when //then
         assertThatThrownBy(() -> pawn.canMoveBy(currentPosition, targetPosition, palace))
@@ -125,7 +125,7 @@ class PawnTest {
     @Test
     void makeRoute() {
         //given
-        final Pawn pawn = new Pawn(Team.CHU);
+        final Pawn pawn = new Pawn();
 
         final Position currentPosition = new Position(3, 5);
         final Position targetPosition = new Position(4, 5);

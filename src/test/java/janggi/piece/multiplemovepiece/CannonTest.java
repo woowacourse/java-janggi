@@ -181,7 +181,7 @@ class CannonTest {
 
             final Map<Position, Piece> janggiBoard = Map.of(
                     new Position(3, 2), cannon,
-                    new Position(4, 2), new Soldier(Team.HAN)
+                    new Position(4, 2), new Soldier()
             );
 
             final Position currentPosition = new Position(3, 2);
@@ -200,7 +200,7 @@ class CannonTest {
 
             final Map<Position, Piece> janggiBoard = Map.of(
                     new Position(3, 2), cannon,
-                    new Position(3, 4), new Soldier(Team.HAN)
+                    new Position(3, 4), new Soldier()
             );
 
             final Position currentPosition = new Position(3, 2);
@@ -287,8 +287,8 @@ class CannonTest {
         void notCannonMovingHorizontalInFrontTwoPiece() {
             final Board board = new Board();
             board.deployPiece(new Position(3, 2), new Cannon(Team.HAN));
-            board.deployPiece(new Position(3, 3), new Pawn(Team.HAN));
-            board.deployPiece(new Position(3, 4), new Soldier(Team.HAN));
+            board.deployPiece(new Position(3, 3), new Pawn());
+            board.deployPiece(new Position(3, 4), new Soldier());
 
             final Position currentPosition = new Position(3, 2);
             final Position targetPosition = new Position(3, 5);

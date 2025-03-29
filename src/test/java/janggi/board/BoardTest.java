@@ -34,7 +34,7 @@ class BoardTest {
         //given
         final Board board = new Board();
 
-        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN));
+        board.deployPiece(new Position(3, 2), new Soldier());
 
         final Position presentPosition = new Position(4, 2);
         assertThatThrownBy(() -> board.validateEmptyPieceBy(presentPosition))
@@ -49,7 +49,7 @@ class BoardTest {
         final Board board = new Board();
 
         board.deployPiece(new Position(4, 2), new Chariot(Team.HAN));
-        board.deployPiece(new Position(7, 2), new Soldier(Team.HAN));
+        board.deployPiece(new Position(7, 2), new Soldier());
 
         final Position presentPosition = new Position(4, 2);
         final Position futurePosition = new Position(8, 2);
@@ -66,7 +66,7 @@ class BoardTest {
         //given
         final Board board = new Board();
 
-        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN));
+        board.deployPiece(new Position(3, 2), new Soldier());
 
         final Position presentPosition = new Position(3, 2);
         final Position futurePosition = new Position(4, 2);
@@ -76,7 +76,7 @@ class BoardTest {
 
         //then
         final Piece actual = board.getJanggiBoard().get(futurePosition);
-        assertThat(actual).isEqualTo(new Soldier(Team.HAN));
+        assertThat(actual).isEqualTo(new Soldier());
     }
 
     @DisplayName("기물을 이동했을 때 왕이 죽으면 게임이 종료 상태가 된다.")
@@ -85,7 +85,7 @@ class BoardTest {
         //given
         final Board board = new Board();
 
-        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN));
+        board.deployPiece(new Position(3, 2), new Soldier());
         board.deployPiece(new Position(4, 2), new King(Team.CHU));
 
         final Position presentPosition = new Position(3, 2);
@@ -104,7 +104,7 @@ class BoardTest {
         //given
         final Board board = new Board();
 
-        board.deployPiece(new Position(3, 2), new Soldier(Team.HAN));
+        board.deployPiece(new Position(3, 2), new Soldier());
         board.deployPiece(new Position(5, 2), new King(Team.CHU));
 
         final Position presentPosition = new Position(3, 2);

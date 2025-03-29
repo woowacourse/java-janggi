@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Pawn extends PalaceAwarePiece {
 
-    public Pawn(final Team team) {
-        super(PieceType.PAWN, team);
+    public Pawn() {
+        super(PieceType.PAWN, Team.CHU);
     }
 
     @Override
