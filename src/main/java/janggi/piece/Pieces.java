@@ -17,13 +17,13 @@ public class Pieces {
     }
 
     public Pieces add(final Piece piece) {
-        List<Piece> newPieces = new ArrayList<>(this.elements);
+        final List<Piece> newPieces = new ArrayList<>(this.elements);
         newPieces.add(piece);
         return new Pieces(newPieces);
     }
 
     public Pieces addAll(final List<Piece> pieces) {
-        List<Piece> newPieces = new ArrayList<>(this.elements);
+        final List<Piece> newPieces = new ArrayList<>(this.elements);
         newPieces.addAll(pieces);
         return new Pieces(newPieces);
     }

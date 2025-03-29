@@ -22,8 +22,8 @@ class ElephantTest {
     void defaultsOf() {
         // given
         // when
-        List<Elephant> ChoElephants = Elephant.defaultsOf(Team.CHO);
-        List<Elephant> HanElephants = Elephant.defaultsOf(Team.HAN);
+        final List<Elephant> ChoElephants = Elephant.defaultsOf(Team.CHO);
+        final List<Elephant> HanElephants = Elephant.defaultsOf(Team.HAN);
 
         // then
         assertAll(() -> {
@@ -38,14 +38,14 @@ class ElephantTest {
     @DisplayName("상은 수직/수평으로 1칸 이동 후, 진행 방향의 대각선으로 2칸 이동할 수 있다")
     void move() {
         // given
-        Position position = Position.of(5, 5);
-        Piece elephant = Elephant.of(position, Team.HAN);
-        Board board = Board.from(Pieces.empty().addAll(List.of(elephant)));
+        final Position position = Position.of(5, 5);
+        final Piece elephant = Elephant.of(position, Team.HAN);
+        final Board board = Board.from(Pieces.empty().addAll(List.of(elephant)));
 
-        Position movedPosition = position.add(new Vector(2, 3));
+        final Position movedPosition = position.add(new Vector(2, 3));
 
         // when
-        Piece move = elephant.move(board, movedPosition);
+        final Piece move = elephant.move(board, movedPosition);
 
         // then
         assertThat(move.getPosition()).isEqualTo(movedPosition);
@@ -54,13 +54,13 @@ class ElephantTest {
     @ParameterizedTest
     @CsvSource(value = {"2, 4", "4, 2", "3,3", "1,1"})
     @DisplayName("상은 규칙에 어긋나게 움직일 수 없다")
-    void move(int rowDirection, int columnDirection) {
+    void move(final int rowDirection, final int columnDirection) {
         // given
-        Position position = Position.of(5, 5);
-        Piece elephant = Elephant.of(position, Team.HAN);
-        Board board = Board.from(Pieces.empty().addAll(List.of(elephant)));
+        final Position position = Position.of(5, 5);
+        final Piece elephant = Elephant.of(position, Team.HAN);
+        final Board board = Board.from(Pieces.empty().addAll(List.of(elephant)));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then

@@ -22,8 +22,8 @@ class CannonTest {
     void defaultsOf() {
         // given
         // when
-        List<Cannon> ChoCannons = Cannon.defaultsOf(Team.CHO);
-        List<Cannon> HanCannons = Cannon.defaultsOf(Team.HAN);
+        final List<Cannon> ChoCannons = Cannon.defaultsOf(Team.CHO);
+        final List<Cannon> HanCannons = Cannon.defaultsOf(Team.HAN);
 
         // then
         assertAll(() -> {
@@ -37,20 +37,20 @@ class CannonTest {
     @ParameterizedTest
     @CsvSource(value = {"2,0", "3,0", "4,0", "5,0", "0,2", "0,3", "0,4"})
     @DisplayName("포는 수직/수평으로 포가 아닌 기물 하나를 넘고 보드판 내부를 자유롭게 이동할 수 있다")
-    void move(int rowDirection, int columnDirection) {
+    void move(final int rowDirection, final int columnDirection) {
         // given
-        Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.HAN);
-        Piece soldier1 = Soldier.of(position.add(new Vector(1, 0)), Team.HAN);
-        Piece soldier2 = Soldier.of(position.add(new Vector(0, 1)), Team.HAN);
-        Piece soldier3 = Soldier.of(position.add(new Vector(-1, 0)), Team.HAN);
-        Piece soldier4 = Soldier.of(position.add(new Vector(0, -1)), Team.HAN);
-        Board board = Board.from(Pieces.empty().addAll(List.of(cannon, soldier1, soldier2, soldier3, soldier4)));
+        final Position position = Position.of(5, 5);
+        final Piece cannon = Cannon.of(position, Team.HAN);
+        final Piece soldier1 = Soldier.of(position.add(new Vector(1, 0)), Team.HAN);
+        final Piece soldier2 = Soldier.of(position.add(new Vector(0, 1)), Team.HAN);
+        final Piece soldier3 = Soldier.of(position.add(new Vector(-1, 0)), Team.HAN);
+        final Piece soldier4 = Soldier.of(position.add(new Vector(0, -1)), Team.HAN);
+        final Board board = Board.from(Pieces.empty().addAll(List.of(cannon, soldier1, soldier2, soldier3, soldier4)));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
-        Piece move = cannon.move(board, movedPosition);
+        final Piece move = cannon.move(board, movedPosition);
 
         // then
         assertThat(move.getPosition()).isEqualTo(movedPosition);
@@ -59,13 +59,13 @@ class CannonTest {
     @ParameterizedTest
     @CsvSource(value = {"1, 1", "2, 2", "-1,-2", "-2,-3"})
     @DisplayName("포는 규칙에 어긋나게 움직일 수 없다")
-    void cannotMoveToInvalidDirection(int rowDirection, int columnDirection) {
+    void cannotMoveToInvalidDirection(final int rowDirection, final int columnDirection) {
         // given
-        Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.HAN);
-        Board board = Board.from(Pieces.empty().addAll(List.of(cannon)));
+        final Position position = Position.of(5, 5);
+        final Piece cannon = Cannon.of(position, Team.HAN);
+        final Board board = Board.from(Pieces.empty().addAll(List.of(cannon)));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then
@@ -78,11 +78,11 @@ class CannonTest {
     @DisplayName("포는 기물 하나를 넘지 않으면 이동할 수 없다")
     void cannotMoveWhenNotExistOtherPieceInRoute() {
         // given
-        Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.HAN);
-        Board board = Board.from(Pieces.empty().addAll(List.of(cannon)));
+        final Position position = Position.of(5, 5);
+        final Piece cannon = Cannon.of(position, Team.HAN);
+        final Board board = Board.from(Pieces.empty().addAll(List.of(cannon)));
 
-        Position movedPosition = position.add(new Vector(3, 0));
+        final Position movedPosition = position.add(new Vector(3, 0));
 
         // when
         // then
@@ -94,18 +94,18 @@ class CannonTest {
     @ParameterizedTest
     @CsvSource(value = {"2,0", "3,0", "4,0", "5,0", "0,2", "0,3", "0,4"})
     @DisplayName("포의 경로에 포가 포함되면 이동할 수 없다")
-    void cannotMoveWhenExistCannonInRoute(int rowDirection, int columnDirection) {
+    void cannotMoveWhenExistCannonInRoute(final int rowDirection, final int columnDirection) {
         // given
-        Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.HAN);
-        Piece otherAllyCannon1 = Cannon.of(position.add(new Vector(1, 0)), Team.HAN);
-        Piece otherAllyCannon2 = Cannon.of(position.add(new Vector(-1, 0)), Team.HAN);
-        Piece otherEnemyCannon1 = Cannon.of(position.add(new Vector(0, 1)), Team.CHO);
-        Piece otherEnemyCannon2 = Cannon.of(position.add(new Vector(0, -1)), Team.CHO);
-        Board board = Board.from(
+        final Position position = Position.of(5, 5);
+        final Piece cannon = Cannon.of(position, Team.HAN);
+        final Piece otherAllyCannon1 = Cannon.of(position.add(new Vector(1, 0)), Team.HAN);
+        final Piece otherAllyCannon2 = Cannon.of(position.add(new Vector(-1, 0)), Team.HAN);
+        final Piece otherEnemyCannon1 = Cannon.of(position.add(new Vector(0, 1)), Team.CHO);
+        final Piece otherEnemyCannon2 = Cannon.of(position.add(new Vector(0, -1)), Team.CHO);
+        final Board board = Board.from(
                 Pieces.empty().addAll(List.of(cannon, otherAllyCannon1, otherAllyCannon2, otherEnemyCannon1, otherEnemyCannon2)));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then
@@ -117,22 +117,22 @@ class CannonTest {
     @ParameterizedTest
     @CsvSource(value = {"3,0", "-3,0", "0,3", "0,-3"})
     @DisplayName("포의 경로에 1개 초과의 기물이 존재하면 이동할 수 없다")
-    void cannotMoveWhenExistOtherPieceMoreThanOneInRoute(int rowDirection, int columnDirection) {
+    void cannotMoveWhenExistOtherPieceMoreThanOneInRoute(final int rowDirection, final int columnDirection) {
         // given
-        Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.HAN);
-        Piece soldier1 = Soldier.of(position.add(new Vector(1, 0)), Team.CHO);
-        Piece soldier2 = Soldier.of(position.add(new Vector(2, 0)), Team.CHO);
-        Piece soldier3 = Soldier.of(position.add(new Vector(-1, 0)), Team.CHO);
-        Piece soldier4 = Soldier.of(position.add(new Vector(-2, 0)), Team.CHO);
-        Piece soldier5 = Soldier.of(position.add(new Vector(0, 1)), Team.CHO);
-        Piece soldier6 = Soldier.of(position.add(new Vector(0, 2)), Team.CHO);
-        Piece soldier7 = Soldier.of(position.add(new Vector(0, -1)), Team.CHO);
-        Piece soldier8 = Soldier.of(position.add(new Vector(0, -2)), Team.CHO);
-        Board board = Board.from(
+        final Position position = Position.of(5, 5);
+        final Piece cannon = Cannon.of(position, Team.HAN);
+        final Piece soldier1 = Soldier.of(position.add(new Vector(1, 0)), Team.CHO);
+        final Piece soldier2 = Soldier.of(position.add(new Vector(2, 0)), Team.CHO);
+        final Piece soldier3 = Soldier.of(position.add(new Vector(-1, 0)), Team.CHO);
+        final Piece soldier4 = Soldier.of(position.add(new Vector(-2, 0)), Team.CHO);
+        final Piece soldier5 = Soldier.of(position.add(new Vector(0, 1)), Team.CHO);
+        final Piece soldier6 = Soldier.of(position.add(new Vector(0, 2)), Team.CHO);
+        final Piece soldier7 = Soldier.of(position.add(new Vector(0, -1)), Team.CHO);
+        final Piece soldier8 = Soldier.of(position.add(new Vector(0, -2)), Team.CHO);
+        final Board board = Board.from(
                 Pieces.empty().addAll(List.of(cannon, soldier1, soldier2, soldier3, soldier4, soldier5, soldier6, soldier7, soldier8)));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then
@@ -145,14 +145,14 @@ class CannonTest {
     @DisplayName("포의 도착지에 적의 포가 포함되면 이동할 수 없다")
     void cannotMoveWhenExistCannonInDestination() {
         // given
-        Position position = Position.of(5, 5);
-        Piece cannon = Cannon.of(position, Team.HAN);
-        Piece soldier = Soldier.of(position.add(new Vector(1, 0)), Team.CHO);
-        Piece otherEnemyCannon = Cannon.of(position.add(new Vector(2, 0)), Team.CHO);
-        Board board = Board.from(
+        final Position position = Position.of(5, 5);
+        final Piece cannon = Cannon.of(position, Team.HAN);
+        final Piece soldier = Soldier.of(position.add(new Vector(1, 0)), Team.CHO);
+        final Piece otherEnemyCannon = Cannon.of(position.add(new Vector(2, 0)), Team.CHO);
+        final Board board = Board.from(
                 Pieces.empty().addAll(List.of(cannon, soldier, otherEnemyCannon)));
 
-        Position movedPosition = position.add(new Vector(2, 0));
+        final Position movedPosition = position.add(new Vector(2, 0));
 
         // when
         // then

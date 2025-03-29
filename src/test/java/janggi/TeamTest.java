@@ -12,7 +12,7 @@ class TeamTest {
     @DisplayName("팀을 기준으로 배치될 행을 계산할 수  있다")
     void canCalculateCorrectRow() {
         // given
-        int originalRow = 2;
+        final int originalRow = 2;
 
         // when
         // then

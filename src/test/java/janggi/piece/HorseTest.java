@@ -22,8 +22,8 @@ class HorseTest {
     void defaultsOf() {
         // given
         // when
-        List<Horse> ChoHorses = Horse.defaultsOf(Team.CHO);
-        List<Horse> HanHorses = Horse.defaultsOf(Team.HAN);
+        final List<Horse> ChoHorses = Horse.defaultsOf(Team.CHO);
+        final List<Horse> HanHorses = Horse.defaultsOf(Team.HAN);
 
         // then
         assertAll(() -> {
@@ -38,14 +38,14 @@ class HorseTest {
     @DisplayName("마는 수직/수평으로 1칸 이동 후, 진행 방향의 대각선으로 1칸 이동할 수 있다")
     void move() {
         // given
-        Position position = Position.of(5, 5);
-        Piece horse = Horse.of(position, Team.HAN);
-        Board board = Board.from(Pieces.empty().addAll(List.of(horse)));
+        final Position position = Position.of(5, 5);
+        final Piece horse = Horse.of(position, Team.HAN);
+        final Board board = Board.from(Pieces.empty().addAll(List.of(horse)));
 
-        Position movedPosition = position.add(new Vector(1, 2));
+        final Position movedPosition = position.add(new Vector(1, 2));
 
         // when
-        Piece move = horse.move(board, movedPosition);
+        final Piece move = horse.move(board, movedPosition);
 
         // then
         assertThat(move.getPosition()).isEqualTo(movedPosition);
@@ -54,13 +54,13 @@ class HorseTest {
     @ParameterizedTest
     @CsvSource(value = {"1, 3", "3, 1", "2,2"})
     @DisplayName("마는 규칙에 어긋나게 움직일 수 없다")
-    void move(int rowDirection, int columnDirection) {
+    void move(final int rowDirection, final int columnDirection) {
         // given
-        Position position = Position.of(5, 5);
-        Piece horse = Horse.of(position, Team.HAN);
-        Board board = Board.from(Pieces.empty().addAll(List.of(horse)));
+        final Position position = Position.of(5, 5);
+        final Piece horse = Horse.of(position, Team.HAN);
+        final Board board = Board.from(Pieces.empty().addAll(List.of(horse)));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then

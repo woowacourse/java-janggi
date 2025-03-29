@@ -11,11 +11,11 @@ public class PositionTest {
     @DisplayName("Position에 Vector를 더할 수 있다")
     void canAddVectorToPosition() {
         //given
-        Position position = Position.of(2, 1);
-        Vector vector = new Vector(1, 1);
+        final Position position = Position.of(2, 1);
+        final Vector vector = new Vector(1, 1);
 
         //when
-        Position actual = position.add(vector);
+        final Position actual = position.add(vector);
 
         //then
         assertThat(actual).isEqualTo(Position.of(3, 2));

@@ -22,8 +22,8 @@ class GuardTest {
     void defaultsOf() {
         // given
         // when
-        List<Guard> ChoGuards = Guard.defaultsOf(Team.CHO);
-        List<Guard> HanGuards = Guard.defaultsOf(Team.HAN);
+        final List<Guard> ChoGuards = Guard.defaultsOf(Team.CHO);
+        final List<Guard> HanGuards = Guard.defaultsOf(Team.HAN);
 
         // then
         assertAll(() -> {
@@ -38,15 +38,15 @@ class GuardTest {
     @DisplayName("사는 수직/수평으로 1칸 이동할 수 있다")
     void move() {
         // given
-        Piece guard = Guard.defaultsOf(Team.CHO).getFirst();
+        final Piece guard = Guard.defaultsOf(Team.CHO).getFirst();
 
-        Position position = guard.getPosition();
-        Board board = Board.from(Pieces.empty().add(guard));
+        final Position position = guard.getPosition();
+        final Board board = Board.from(Pieces.empty().add(guard));
 
-        Position movedPosition = position.add(new Vector(-1, 0));
+        final Position movedPosition = position.add(new Vector(-1, 0));
 
         // when
-        Piece move = guard.move(board, movedPosition);
+        final Piece move = guard.move(board, movedPosition);
 
         // then
         assertThat(move.getPosition()).isEqualTo(movedPosition);
@@ -55,13 +55,13 @@ class GuardTest {
     @ParameterizedTest
     @CsvSource(value = {"1, 1", "2, 0"})
     @DisplayName("사는 2칸 이상 움직일 수 없다")
-    void move(int rowDirection, int columnDirection) {
+    void move(final int rowDirection, final int columnDirection) {
         // given
-        Position position = Position.of(5, 5);
-        Piece guard = Guard.of(position, Team.HAN);
-        Board board = Board.from(Pieces.empty().add(guard));
+        final Position position = Position.of(5, 5);
+        final Piece guard = Guard.of(position, Team.HAN);
+        final Board board = Board.from(Pieces.empty().add(guard));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then

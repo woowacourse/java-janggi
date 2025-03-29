@@ -33,7 +33,7 @@ public class OutputView {
         return pieceName;
     }
 
-    private static String processRedColorString(String pieceName) {
+    private static String processRedColorString(final String pieceName) {
         return "\u001B[31m" + pieceName + "\u001B[0m";
     }
 
@@ -42,16 +42,16 @@ public class OutputView {
     }
 
     public void displayBoard(final Board board) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String space = " ";
-        String blank = " ＿ ";
+        final StringBuilder stringBuilder = new StringBuilder();
+        final String space = " ";
+        final String blank = " ＿ ";
 
         stringBuilder
                 .append(space)
                 .append(space)
                 .append(space);
 
-        for (String number : List.of("１", "２", "３", "４", "５", "６", "７", "８", "９")) {
+        for (final String number : List.of("１", "２", "３", "４", "５", "６", "７", "８", "９")) {
             stringBuilder
                     .append(space)
                     .append(number)
@@ -59,16 +59,16 @@ public class OutputView {
         }
         stringBuilder.append("\n");
 
-        for (Row row : Row.defaults()) {
+        for (final Row row : Row.defaults()) {
             stringBuilder
                     .append(String.format("%2d", row.value()))
                     .append(space);
-            for (Column column : Column.defaults()) {
-                Position position = new Position(row, column);
+            for (final Column column : Column.defaults()) {
+                final Position position = new Position(row, column);
 
                 if (board.isExists(position)) {
-                    Piece piece = board.getPiece(position);
-                    String pieceName = getPieceName(piece);
+                    final Piece piece = board.getPiece(position);
+                    final String pieceName = getPieceName(piece);
 
                     stringBuilder
                             .append(space)
@@ -86,7 +86,7 @@ public class OutputView {
     }
 
     public void displayScore(final Players players) {
-        for (Team team : Team.values()) {
+        for (final Team team : Team.values()) {
             display(String.format("%s나라 점수: %d",
                     team.getDescription(),
                     players.getPlayer(team).getScore().value()));

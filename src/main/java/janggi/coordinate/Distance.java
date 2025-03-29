@@ -8,9 +8,9 @@ public record Distance(int rowDistance, int columnDistance) {
         validateSign();
     }
 
-    public static Distance of(Position from, Position to) {
-        Distance rowDistance = from.row().distanceTo(to.row());
-        Distance columnDistance = from.column().distanceTo(to.column());
+    public static Distance of(final Position from, final Position to) {
+        final Distance rowDistance = from.row().distanceTo(to.row());
+        final Distance columnDistance = from.column().distanceTo(to.column());
         return rowDistance.combine(columnDistance);
     }
 
@@ -20,9 +20,9 @@ public record Distance(int rowDistance, int columnDistance) {
         }
     }
 
-    public Distance combine(Distance other) {
-        boolean isNotRowConflict = this.rowDistance == 0 || other.rowDistance == 0;
-        boolean isNotColumnConflict = this.columnDistance == 0 || other.columnDistance == 0;
+    public Distance combine(final Distance other) {
+        final boolean isNotRowConflict = this.rowDistance == 0 || other.rowDistance == 0;
+        final boolean isNotColumnConflict = this.columnDistance == 0 || other.columnDistance == 0;
 
         if (isNotRowConflict && isNotColumnConflict) {
             return new Distance(

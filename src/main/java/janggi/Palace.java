@@ -19,9 +19,9 @@ public class Palace {
         this.positions = positions;
     }
 
-    public static Palace from(Team team) {
-        Position center = decideCenter(team);
-        Vector standard = Vector.create();
+    public static Palace from(final Team team) {
+        final Position center = decideCenter(team);
+        final Vector standard = Vector.create();
         return new Palace(
                 team,
                 List.of(center,
@@ -42,18 +42,18 @@ public class Palace {
         return HAN_PALACE_CENTER;
     }
 
-    public boolean isPalace(Position position) {
+    public boolean isPalace(final Position position) {
         return positions.contains(position);
     }
 
-    public boolean isCenter(Position position) {
+    public boolean isCenter(final Position position) {
         if (team == Team.CHO) {
             return position.equals(CHO_PALACE_CENTER);
         }
         return position.equals(HAN_PALACE_CENTER);
     }
 
-    public boolean isSameTeam(Team team) {
+    public boolean isSameTeam(final Team team) {
         return this.team == team;
     }
 

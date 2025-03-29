@@ -22,8 +22,8 @@ class SoldierTest {
     void defaultsOf() {
         // given
         // when
-        List<Soldier> ChoSoldiers = Soldier.defaultsOf(Team.CHO);
-        List<Soldier> HanSoldiers = Soldier.defaultsOf(Team.HAN);
+        final List<Soldier> ChoSoldiers = Soldier.defaultsOf(Team.CHO);
+        final List<Soldier> HanSoldiers = Soldier.defaultsOf(Team.HAN);
 
         // then
         assertAll(() -> {
@@ -43,17 +43,17 @@ class SoldierTest {
     @ParameterizedTest
     @CsvSource(value = {"1, 0, HAN", "0, 1, HAN", "0,-1, HAN", "0, -1, CHO", "0, 1, CHO", "-1, 0, CHO"})
     @DisplayName("졸/병은 적진을 향한 수직 혹은 수평으로 1칸 이동할 수 있다")
-    void move(int rowDirection, int columnDirection, Team team) {
+    void move(final int rowDirection, final int columnDirection, final Team team) {
         // given
-        Position position = Position.of(5, 5);
-        Piece soldier = Soldier.of(position, team);
-        Pieces pieces = new Pieces(List.of());
-        Board board = Board.from(pieces.add(soldier));
+        final Position position = Position.of(5, 5);
+        final Piece soldier = Soldier.of(position, team);
+        final Pieces pieces = new Pieces(List.of());
+        final Board board = Board.from(pieces.add(soldier));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
-        Piece move = soldier.move(board, movedPosition);
+        final Piece move = soldier.move(board, movedPosition);
 
         // then
         assertThat(move.getPosition()).isEqualTo(movedPosition);
@@ -62,14 +62,14 @@ class SoldierTest {
     @ParameterizedTest
     @CsvSource(value = {"HAN, -1", "CHO, 1"})
     @DisplayName("졸/병은 본진 방향으로 이동할 수 없다")
-    void cannotMoveToAllyBase(Team team, int deltaRow) {
+    void cannotMoveToAllyBase(final Team team, final int deltaRow) {
         // given
-        Position position = Position.of(5, 5);
-        Piece soldier = Soldier.of(position, team);
-        Pieces pieces = new Pieces(List.of());
-        Board board = Board.from(pieces.add(soldier));
+        final Position position = Position.of(5, 5);
+        final Piece soldier = Soldier.of(position, team);
+        final Pieces pieces = new Pieces(List.of());
+        final Board board = Board.from(pieces.add(soldier));
 
-        Position movedPosition = position.add(new Vector(deltaRow, 0));
+        final Position movedPosition = position.add(new Vector(deltaRow, 0));
 
         // when
         // then
@@ -81,14 +81,14 @@ class SoldierTest {
     @ParameterizedTest
     @CsvSource(value = {"1, 1", "2, 0"})
     @DisplayName("졸/병은 2칸 이상 움직일 수 없다")
-    void move(int rowDirection, int columnDirection) {
+    void move(final int rowDirection, final int columnDirection) {
         // given
-        Position position = Position.of(5, 5);
-        Piece soldier = Soldier.of(position, Team.HAN);
-        Pieces pieces = new Pieces(List.of());
-        Board board = Board.from(pieces.add(soldier));
+        final Position position = Position.of(5, 5);
+        final Piece soldier = Soldier.of(position, Team.HAN);
+        final Pieces pieces = new Pieces(List.of());
+        final Board board = Board.from(pieces.add(soldier));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then

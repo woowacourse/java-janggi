@@ -17,17 +17,17 @@ public class Janggi {
     }
 
     public void play() {
-        Turn turn = Turn.start();
-        Players players = Players.create(turn);
-        Board board = players.createBoard();
+        final Turn turn = Turn.start();
+        final Players players = Players.create(turn);
+        final Board board = players.createBoard();
 
         while (true) {
             outputView.displayBoard(board);
             outputView.displayScore(players);
 
             try {
-                Player player = players.getCurrentPlayer();
-                MoveCommand moveCommand = inputView.inputMoveCommand(player);
+                final Player player = players.getCurrentPlayer();
+                final MoveCommand moveCommand = inputView.inputMoveCommand(player);
 
                 board.movePiece(
                         player,
@@ -35,13 +35,13 @@ public class Janggi {
                         moveCommand.getDestinationPosition());
 
                 processScore(players);
-            } catch (GameOverException e) {
+            } catch (final GameOverException e) {
                 outputView.display(e.getMessage());
                 return;
-            } catch (IllegalArgumentException e) {
+            } catch (final IllegalArgumentException e) {
                 outputView.displayError(e.getMessage());
                 continue;
-            } catch (RuntimeException e) {
+            } catch (final RuntimeException e) {
                 outputView.displayError();
                 continue;
             }

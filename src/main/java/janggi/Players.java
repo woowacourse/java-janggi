@@ -14,9 +14,9 @@ public class Players {
         this.turn = turn;
     }
 
-    public static Players create(Turn turn) {
-        Player cho = Player.from(Team.CHO);
-        Player han = Player.from(Team.HAN);
+    public static Players create(final Turn turn) {
+        final Player cho = Player.from(Team.CHO);
+        final Player han = Player.from(Team.HAN);
 
         return new Players(cho, han, turn);
     }
@@ -36,14 +36,14 @@ public class Players {
         return cho.getPieces().addAll(han.getPieces());
     }
 
-    public Player getPlayer(Team team) {
+    public Player getPlayer(final Team team) {
         if (team.isCho()) {
             return cho;
         }
         return han;
     }
 
-    public Score getScore(Team team) {
+    public Score getScore(final Team team) {
         if (team.isCho()) {
             return cho.getScore();
         }

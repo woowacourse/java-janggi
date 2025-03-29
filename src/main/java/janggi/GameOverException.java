@@ -6,7 +6,7 @@ public class GameOverException extends RuntimeException {
         super("게임을 종료합니다");
     }
 
-    public GameOverException(String message) {
+    public GameOverException(final String message) {
         super(message);
     }
 }

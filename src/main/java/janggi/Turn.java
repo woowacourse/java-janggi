@@ -13,7 +13,7 @@ public class Turn {
     }
 
     public Team getCurrentTeam() {
-        boolean isChoTurn = accumulatedCount % 2 == 0;
+        final boolean isChoTurn = accumulatedCount % 2 == 0;
 
         if (isChoTurn) {
             return Team.CHO;

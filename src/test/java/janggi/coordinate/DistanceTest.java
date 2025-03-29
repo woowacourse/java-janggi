@@ -26,11 +26,11 @@ class DistanceTest {
     @DisplayName("같은 축이 아닌 두 거리는 결합할 수 있다")
     void combineDistance() {
         // given
-        Distance vertical = new Distance(3, 0);
-        Distance horizontal = new Distance(0, 2);
+        final Distance vertical = new Distance(3, 0);
+        final Distance horizontal = new Distance(0, 2);
 
         // when
-        Distance combined = vertical.combine(horizontal);
+        final Distance combined = vertical.combine(horizontal);
 
         // then
         assertThat(combined).isEqualTo(new Distance(3, 2));
@@ -40,8 +40,8 @@ class DistanceTest {
     @DisplayName("같은 축의 거리끼리는 결합할 수 없다")
     void combineSameAxis_shouldThrow() {
         // given
-        Distance d1 = new Distance(2, 0);
-        Distance d2 = new Distance(4, 0);
+        final Distance d1 = new Distance(2, 0);
+        final Distance d2 = new Distance(4, 0);
 
         // when
         // then
@@ -52,10 +52,10 @@ class DistanceTest {
     @DisplayName("getTotal()은 row와 column 거리의 합을 반환한다")
     void getTotal() {
         // given
-        Distance distance = new Distance(3, 4);
+        final Distance distance = new Distance(3, 4);
 
         // when
-        int total = distance.getTotal();
+        final int total = distance.getTotal();
 
         // then
         assertThat(total).isEqualTo(7);
@@ -65,10 +65,10 @@ class DistanceTest {
     @DisplayName("getStraight()는 row/column 거리의 차이를 반환한다")
     void getStraight() {
         // given
-        Distance distance = new Distance(5, 3);
+        final Distance distance = new Distance(5, 3);
 
         // when
-        int straight = distance.getStraight();
+        final int straight = distance.getStraight();
 
         // then
         assertThat(straight).isEqualTo(2);
@@ -78,10 +78,10 @@ class DistanceTest {
     @DisplayName("getDiagonal()은 row/column 거리 중 더 작은 값을 반환한다")
     void getDiagonal() {
         // given
-        Distance distance = new Distance(5, 3);
+        final Distance distance = new Distance(5, 3);
 
         // when
-        int diagonal = distance.getDiagonal();
+        final int diagonal = distance.getDiagonal();
 
         // then
         assertThat(diagonal).isEqualTo(3);
@@ -91,7 +91,7 @@ class DistanceTest {
     @DisplayName("isVertical은 세로 거리일 경우 true를 반환한다")
     void isVertical() {
         // given
-        Distance distance = new Distance(2, 0);
+        final Distance distance = new Distance(2, 0);
 
         // when
         // then
@@ -102,7 +102,7 @@ class DistanceTest {
     @DisplayName("isHorizontal은 가로 거리일 경우 true를 반환한다")
     void isHorizontal() {
         // given
-        Distance distance = new Distance(0, 3);
+        final Distance distance = new Distance(0, 3);
 
         // when
         // then
@@ -113,7 +113,7 @@ class DistanceTest {
     @DisplayName("row와 column이 모두 존재하면 직선이 아니다")
     void notStraight() {
         // given
-        Distance distance = new Distance(2, 2);
+        final Distance distance = new Distance(2, 2);
 
         // when
         // then

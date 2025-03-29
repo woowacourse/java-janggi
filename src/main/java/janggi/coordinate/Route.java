@@ -33,12 +33,12 @@ public class Route {
         return calculate(false, false);
     }
 
-    private List<Position> calculate(boolean shouldExcludeDeparture, boolean shouldExcludeDestination) {
-        List<Position> route = new ArrayList<>(List.of(departure));
+    private List<Position> calculate(final boolean shouldExcludeDeparture, final boolean shouldExcludeDestination) {
+        final List<Position> route = new ArrayList<>(List.of(departure));
 
-        Vector origin = departure.vectorTo(destination);
-        Vector straightPart = origin.extractStraightForDiagonal();
-        Vector diagonalPart = origin.subtract(straightPart);
+        final Vector origin = departure.vectorTo(destination);
+        final Vector straightPart = origin.extractStraightForDiagonal();
+        final Vector diagonalPart = origin.subtract(straightPart);
 
         calculatePart(straightPart, route);
         calculatePart(diagonalPart, route);
@@ -49,8 +49,8 @@ public class Route {
     }
 
     private void calculatePart(final Vector part, final List<Position> route) {
-        for (Vector step : part.splitToUnitVectors()) {
-            Position next = route.getLast().add(step);
+        for (final Vector step : part.splitToUnitVectors()) {
+            final Position next = route.getLast().add(step);
             route.add(next);
         }
     }

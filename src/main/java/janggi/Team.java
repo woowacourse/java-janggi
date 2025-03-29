@@ -13,7 +13,7 @@ public enum Team {
 
     public static int decideRow(final int row, final Team team) {
         if (team.isCho()) {
-            int sumOfEachTeamPieceRow = 11;
+            final int sumOfEachTeamPieceRow = 11;
             return sumOfEachTeamPieceRow - row;
         }
         return row;

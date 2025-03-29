@@ -13,11 +13,11 @@ class VectorTest {
     @DisplayName("Position 두 개로부터 방향 벡터를 생성할 수 있다")
     void createVectorFromPositions() {
         // given
-        Position from = Position.of(2, 3);
-        Position to = Position.of(5, 6);
+        final Position from = Position.of(2, 3);
+        final Position to = Position.of(5, 6);
 
         // when
-        Vector vector = Vector.of(from, to);
+        final Vector vector = Vector.of(from, to);
 
         // then
         assertThat(vector).isEqualTo(new Vector(3, 3));
@@ -27,11 +27,11 @@ class VectorTest {
     @DisplayName("벡터 덧셈은 각각의 delta를 더한 결과이다")
     void addVector() {
         // given
-        Vector v1 = new Vector(2, 3);
-        Vector v2 = new Vector(-1, 4);
+        final Vector v1 = new Vector(2, 3);
+        final Vector v2 = new Vector(-1, 4);
 
         // when
-        Vector result = v1.add(v2);
+        final Vector result = v1.add(v2);
 
         // then
         assertThat(result).isEqualTo(new Vector(1, 7));
@@ -41,11 +41,11 @@ class VectorTest {
     @DisplayName("벡터 뺄셈은 각각의 delta를 뺀 결과이다")
     void subtractVector() {
         // given
-        Vector v1 = new Vector(5, 6);
-        Vector v2 = new Vector(2, 3);
+        final Vector v1 = new Vector(5, 6);
+        final Vector v2 = new Vector(2, 3);
 
         // when
-        Vector result = v1.subtract(v2);
+        final Vector result = v1.subtract(v2);
 
         // then
         assertThat(result).isEqualTo(new Vector(3, 3));
@@ -55,10 +55,10 @@ class VectorTest {
     @DisplayName("대각선이 아닐 경우 대각선 이동이 가능하도록 직선 방향을 추출할 수 있다")
     void extractStraightForDiagonal() {
         // given
-        Vector vector = new Vector(5, 3);
+        final Vector vector = new Vector(5, 3);
 
         // when
-        Vector straight = vector.extractStraightForDiagonal();
+        final Vector straight = vector.extractStraightForDiagonal();
 
         // then
         assertThat(straight).isEqualTo(new Vector(2, 0));
@@ -68,10 +68,10 @@ class VectorTest {
     @DisplayName("이미 대각선인 경우 보정 벡터는 (0,0)이다")
     void extractStraightForPerfectDiagonal() {
         // given
-        Vector diagonal = new Vector(3, 3);
+        final Vector diagonal = new Vector(3, 3);
 
         // when
-        Vector straight = diagonal.extractStraightForDiagonal();
+        final Vector straight = diagonal.extractStraightForDiagonal();
 
         // then
         assertThat(straight).isEqualTo(new Vector(0, 0));
@@ -81,10 +81,10 @@ class VectorTest {
     @DisplayName("벡터를 단위 벡터들로 분해할 수 있다 (양수)")
     void splitToUnitVectors() {
         // given
-        Vector vector = new Vector(3, 2);
+        final Vector vector = new Vector(3, 2);
 
         // when
-        List<Vector> units = vector.splitToUnitVectors();
+        final List<Vector> units = vector.splitToUnitVectors();
 
         // then
         assertThat(units).containsExactly(
@@ -98,10 +98,10 @@ class VectorTest {
     @DisplayName("벡터를 단위 벡터들로 분해할 수 있다 (음수)")
     void splitToNegativeUnitVectors() {
         // given
-        Vector vector = new Vector(-2, -3);
+        final Vector vector = new Vector(-2, -3);
 
         // when
-        List<Vector> units = vector.splitToUnitVectors();
+        final List<Vector> units = vector.splitToUnitVectors();
 
         // then
         assertThat(units).containsExactly(
@@ -115,10 +115,10 @@ class VectorTest {
     @DisplayName("벡터를 단위 벡터들로 분해할 수 있다 (양수, 음수)")
     void splitToMixedUnitVectors() {
         // given
-        Vector vector = new Vector(2, -3);
+        final Vector vector = new Vector(2, -3);
 
         // when
-        List<Vector> units = vector.splitToUnitVectors();
+        final List<Vector> units = vector.splitToUnitVectors();
 
         // then
         assertThat(units).containsExactly(

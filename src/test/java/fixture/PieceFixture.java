@@ -2,11 +2,19 @@ package fixture;
 
 import janggi.Team;
 import janggi.coordinate.Position;
-import janggi.piece.*;
+import janggi.piece.Cannon;
+import janggi.piece.Chariot;
+import janggi.piece.Elephant;
+import janggi.piece.General;
+import janggi.piece.Guard;
+import janggi.piece.Horse;
+import janggi.piece.Piece;
+import janggi.piece.PieceType;
+import janggi.piece.Soldier;
 
 public class PieceFixture {
 
-    public static Piece createPiece(int row, int column, PieceType pieceType, Team team) {
+    public static Piece createPiece(final int row, final int column, final PieceType pieceType, final Team team) {
         return switch (pieceType) {
             case SOLDIER -> Soldier.of(Position.of(row, column), team);
             case GUARD -> Guard.of(Position.of(row, column), team);

@@ -34,11 +34,11 @@ public record Score(int value) {
         return new Score(10000);
     }
 
-    public Score add(Score score) {
+    public Score add(final Score score) {
         return new Score(this.value + score.value);
     }
 
-    public boolean isGreaterThan(Score other) {
+    public boolean isGreaterThan(final Score other) {
         return value > other.value;
     }
 }

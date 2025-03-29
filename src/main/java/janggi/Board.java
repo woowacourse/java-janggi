@@ -19,7 +19,7 @@ public class Board {
     }
 
     public static Board from(final Pieces pieces) {
-        HashMap<Position, Piece> positionToPiece = new HashMap<>();
+        final HashMap<Position, Piece> positionToPiece = new HashMap<>();
 
         pieces.getPieces().forEach(piece ->
                 positionToPiece.put(piece.getPosition(), piece));
@@ -31,7 +31,7 @@ public class Board {
         return positionToPiece.containsKey(position);
     }
 
-    public boolean isAlly(final Position position, final Team team) {
+    public boolean isAllyAt(final Position position, final Team team) {
         return isExists(position) && getPiece(position).isAlly(team);
     }
 
@@ -43,19 +43,19 @@ public class Board {
     }
 
     public void movePiece(final Player player, final Position departure, final Position destination) {
-        Piece selectedPiece = getPiece(departure);
+        final Piece selectedPiece = getPiece(departure);
         validatePieceOwner(selectedPiece, player);
-        Piece movedPiece = selectedPiece.move(this, destination);
+        final Piece movedPiece = selectedPiece.move(this, destination);
 
         updateScore(player, destination);
         updateBoard(departure, destination, movedPiece);
     }
 
-    public boolean isPalace(Position position) {
+    public boolean isPalace(final Position position) {
         return palaces.isPalace(position);
     }
 
-    public boolean isCenterOfPalace(Position position) {
+    public boolean isCenterOfPalace(final Position position) {
         return palaces.isCenter(position);
     }
 
@@ -68,7 +68,7 @@ public class Board {
 
     private void updateScore(final Player player, final Position destination) {
         if (isExists(destination)) {
-            Piece capturedPiece = positionToPiece.get(destination);
+            final Piece capturedPiece = positionToPiece.get(destination);
             player.addScore(capturedPiece.getScore());
         }
     }

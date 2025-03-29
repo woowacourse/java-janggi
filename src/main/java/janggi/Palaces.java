@@ -18,15 +18,15 @@ public class Palaces {
                         Palace.from(Team.HAN)));
     }
 
-    public boolean isPalace(Position position) {
+    public boolean isPalace(final Position position) {
         return getPalace(Team.CHO).isPalace(position) || getPalace(Team.HAN).isPalace(position);
     }
 
-    public boolean isCenter(Position position) {
+    public boolean isCenter(final Position position) {
         return getPalace(Team.CHO).isCenter(position) || getPalace(Team.HAN).isCenter(position);
     }
 
-    public Palace getPalace(Team team) {
+    public Palace getPalace(final Team team) {
         return palaces.stream()
                 .filter(palace -> palace.isSameTeam(team))
                 .findAny()

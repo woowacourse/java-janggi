@@ -18,7 +18,7 @@ public record MoveCommand(int departureRow,
                     Integer.parseInt(departureColumn),
                     Integer.parseInt(destinationRow),
                     Integer.parseInt(destinationColumn));
-        } catch (NumberFormatException e) {
+        } catch (final NumberFormatException e) {
             throw new IllegalArgumentException("좌표는 숫자 형식이어야 합니다.", e);
         }
     }

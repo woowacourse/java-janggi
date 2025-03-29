@@ -14,7 +14,7 @@ public record Row(int value) {
     }
 
     public static List<Row> defaults() {
-        List<Row> rows = new ArrayList<>();
+        final List<Row> rows = new ArrayList<>();
         for (int row = MIN_ROW; row <= MAX_ROW; row++) {
             rows.add(new Row(row));
         }
@@ -32,11 +32,11 @@ public record Row(int value) {
         return new Row(this.value + delta);
     }
 
-    public Distance distanceTo(Row other) {
+    public Distance distanceTo(final Row other) {
         return new Distance(Math.abs(this.value - other.value), 0);
     }
 
-    public Vector vectorTo(Row other) {
+    public Vector vectorTo(final Row other) {
         return new Vector(other.value - this.value, 0);
     }
 }

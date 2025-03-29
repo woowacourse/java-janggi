@@ -12,15 +12,15 @@ public class InputView {
     public MoveCommand inputMoveCommand(final Player player) {
         System.out.println(processColor(player.getTeam(), player.getTeam().getDescription() + "나라") + ", " + "자신의 기물을 움직이세요. (예시) 1,1 2,1");
 
-        String move = scanner.nextLine();
+        final String move = scanner.nextLine();
 
-        String[] departureAndDestination = move.trim().split(" ");
+        final String[] departureAndDestination = move.trim().split(" ");
         if (departureAndDestination.length != 2) {
             throw new IllegalArgumentException("이동 명령은 출발 위치와 목적지 위치로 구성되어야 합니다. 예: '1,1 2,1'");
         }
 
-        String[] departurePosition = departureAndDestination[0].split(",");
-        String[] destinationPosition = departureAndDestination[1].split(",");
+        final String[] departurePosition = departureAndDestination[0].split(",");
+        final String[] destinationPosition = departureAndDestination[1].split(",");
         if (departurePosition.length != 2 || destinationPosition.length != 2) {
             throw new IllegalArgumentException("위치는 행과 열로 구성되어야 합니다. 예: '1,1'");
         }

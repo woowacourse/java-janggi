@@ -22,8 +22,8 @@ class ChariotTest {
     void defaultsOf() {
         // given
         // when
-        List<Chariot> ChoChariots = Chariot.defaultsOf(Team.CHO);
-        List<Chariot> HanChariots = Chariot.defaultsOf(Team.HAN);
+        final List<Chariot> ChoChariots = Chariot.defaultsOf(Team.CHO);
+        final List<Chariot> HanChariots = Chariot.defaultsOf(Team.HAN);
 
         // then
         assertAll(() -> {
@@ -38,16 +38,16 @@ class ChariotTest {
     @ParameterizedTest
     @CsvSource(value = {"1,0", "2,0", "3,0", "4,0", "5,0", "0,1", "0,2", "0,3", "0,4"})
     @DisplayName("차는 수직/수평으로 보드판 내부를 자유롭게 이동할 수 있다")
-    void move(int rowDirection, int columnDirection) {
+    void move(final int rowDirection, final int columnDirection) {
         // given
-        Position position = Position.of(5, 5);
-        Piece chariot = Chariot.of(position, Team.HAN);
-        Board board = Board.from(Pieces.empty().addAll(List.of(chariot)));
+        final Position position = Position.of(5, 5);
+        final Piece chariot = Chariot.of(position, Team.HAN);
+        final Board board = Board.from(Pieces.empty().addAll(List.of(chariot)));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
-        Piece move = chariot.move(board, movedPosition);
+        final Piece move = chariot.move(board, movedPosition);
 
         // then
         assertThat(move.getPosition()).isEqualTo(movedPosition);
@@ -56,13 +56,13 @@ class ChariotTest {
     @ParameterizedTest
     @CsvSource(value = {"1, 1", "2, 2", "-1,-2", "-2,-3"})
     @DisplayName("차는 규칙에 어긋나게 움직일 수 없다")
-    void cannotMoveToInvalidDirection(int rowDirection, int columnDirection) {
+    void cannotMoveToInvalidDirection(final int rowDirection, final int columnDirection) {
         // given
-        Position position = Position.of(5, 5);
-        Piece chariot = Chariot.of(position, Team.HAN);
-        Board board = Board.from(Pieces.empty().addAll(List.of(chariot)));
+        final Position position = Position.of(5, 5);
+        final Piece chariot = Chariot.of(position, Team.HAN);
+        final Board board = Board.from(Pieces.empty().addAll(List.of(chariot)));
 
-        Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
+        final Position movedPosition = position.add(new Vector(rowDirection, columnDirection));
 
         // when
         // then

@@ -14,7 +14,7 @@ public record Column(int value) {
     }
 
     public static List<Column> defaults() {
-        List<Column> columns = new ArrayList<>();
+        final List<Column> columns = new ArrayList<>();
         for (int column = MIN_COLUMN; column <= MAX_COLUMN; column++) {
             columns.add(new Column(column));
         }
@@ -32,11 +32,11 @@ public record Column(int value) {
         return new Column(this.value + delta);
     }
 
-    public Distance distanceTo(Column other) {
+    public Distance distanceTo(final Column other) {
         return new Distance(0, Math.abs(this.value - other.value));
     }
 
-    public Vector vectorTo(Column other) {
+    public Vector vectorTo(final Column other) {
         return new Vector(0, other.value - this.value);
     }
 }

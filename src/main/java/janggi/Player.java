@@ -1,6 +1,14 @@
 package janggi;
 
-import janggi.piece.*;
+import janggi.piece.Cannon;
+import janggi.piece.Chariot;
+import janggi.piece.Elephant;
+import janggi.piece.General;
+import janggi.piece.Guard;
+import janggi.piece.Horse;
+import janggi.piece.Piece;
+import janggi.piece.Pieces;
+import janggi.piece.Soldier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +26,7 @@ public class Player {
     }
 
     public static Player from(final Team team) {
-        List<Piece> pieces = new ArrayList<>();
+        final List<Piece> pieces = new ArrayList<>();
 
         pieces.add(General.defaultOf(team));
         pieces.addAll(Guard.defaultsOf(team));
