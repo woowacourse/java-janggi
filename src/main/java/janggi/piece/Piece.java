@@ -17,7 +17,7 @@ public sealed abstract class Piece permits Cannon, Chariot, Elephant, General, G
     }
 
     public boolean canMove(final Position start, final Position end, final Board board) {
-        if (movingRules.cannotFindRule(start, end)) {
+        if (!movingRules.findRule(start, end)) {
             return false;
         }
         if (cannotMoveThrough(start, end, board)) {
@@ -27,7 +27,7 @@ public sealed abstract class Piece permits Cannon, Chariot, Elephant, General, G
     }
 
     protected boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
-        final MovingRule matchRule = movingRules.findMatchRule(start, end);
+        final MovingRule matchRule = movingRules.getMatchedRule();
         Position route = start;
         for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
             route = route.add(vector);

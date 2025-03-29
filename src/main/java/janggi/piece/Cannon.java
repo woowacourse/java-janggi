@@ -22,7 +22,7 @@ public final class Cannon extends Piece {
 
     @Override
     protected boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
-        final MovingRule matchRule = movingRules.findMatchRule(start, end);
+        final MovingRule matchRule = movingRules.getMatchedRule();
         Position route = start;
         int count = 0;
         for (MoveVector vector : matchRule.getVectorsWithoutLast()) {

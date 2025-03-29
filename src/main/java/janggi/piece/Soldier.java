@@ -24,7 +24,7 @@ public final class Soldier extends Piece {
 
     @Override
     protected boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
-        final MovingRule matchRule = movingRules.findMatchRule(start, end);
+        final MovingRule matchRule = movingRules.getMatchedRule();
         if (matchRule.isDiagonal()) {
             return !start.isCenterOfPalace() && !end.isCenterOfPalace();
         }

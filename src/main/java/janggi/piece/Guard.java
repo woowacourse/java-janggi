@@ -22,7 +22,7 @@ public final class Guard extends Piece {
         if (!end.isPalace()) {
             return true;
         }
-        final MovingRule matchRule = movingRules.findMatchRule(start, end);
+        final MovingRule matchRule = movingRules.getMatchedRule();
         if (matchRule.isDiagonal()) {
             return !start.isCenterOfPalace() && !end.isCenterOfPalace();
         }
