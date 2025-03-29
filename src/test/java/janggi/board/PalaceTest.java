@@ -26,7 +26,7 @@ class PalaceTest {
         boolean expected = Boolean.getBoolean(position[2]);
 
         // when
-        boolean inPalace = Palace.isInPalace(column, row);
+        boolean inPalace = Palace.isInPalace(new Position(column, row));
 
         // then
         Assertions.assertThat(inPalace).isEqualTo(expected);

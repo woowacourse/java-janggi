@@ -64,4 +64,11 @@ public class Route {
     public int hashCode() {
         return Objects.hashCode(positions);
     }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "positions=" + positions +
+                '}';
+    }
 }

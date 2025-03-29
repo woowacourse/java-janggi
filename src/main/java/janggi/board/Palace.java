@@ -1,7 +1,11 @@
 package janggi.board;
 
+import janggi.position.Direction;
 import janggi.position.Position;
+import janggi.position.Route;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public enum Palace {
     HAN(3, 0),
@@ -23,7 +27,7 @@ public enum Palace {
         int pickedColumn = picked.getColumn();
         int pickedRow = picked.getRow();
 
-        if (!isInPalace(pickedColumn, pickedRow)) {
+        if (!isInPalace(picked)) {
             return false;
         }
         for (Palace team : values()) {
@@ -55,9 +59,9 @@ public enum Palace {
                 .anyMatch(team -> team.startColumn + 1 == pickedColumn && team.startRow + 1 == pickedRow);
     }
 
-    public static boolean isInPalace(int pickedColumn, int pickedRow) {
+    public static boolean isInPalace(Position position) {
         for (Palace team : values()) {
-            if (isInsidePalace(team, pickedColumn, pickedRow)) {
+            if (isInsidePalace(team, position.getColumn(), position.getRow())) {
                 return true;
             }
         }
