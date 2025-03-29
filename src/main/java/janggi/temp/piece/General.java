@@ -16,10 +16,12 @@ import janggi.temp.position.Position;
 import java.util.List;
 import java.util.Set;
 
-public final class General extends Piece {
+public final class General implements Piece {
+
+    private final Team team;
 
     public General(final Team team) {
-        super(team);
+        this.team = team;
     }
 
     @Override
@@ -47,5 +49,10 @@ public final class General extends Piece {
     @Override
     public Type type() {
         return Type.GENERAL;
+    }
+
+    @Override
+    public Team team() {
+        return team;
     }
 }

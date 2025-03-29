@@ -27,7 +27,7 @@ public final class Game {
     }
 
     private void validatePositions(final Position source, final Position destination, final Piece piece) {
-        if (board.hasSameTeam(destination, piece.team())) {
+        if (board.hasPieceAt(destination, piece.team())) {
             throw new IllegalArgumentException("[ERROR] 같은 팀의 기물은 잡을 수 없습니다.");
         }
         if (source.equals(destination)) {

@@ -6,10 +6,12 @@ import janggi.temp.movement.HorseMovement;
 import janggi.temp.position.Position;
 import java.util.Arrays;
 
-public final class Horse extends Piece {
+public final class Horse implements Piece {
+
+    private final Team team;
 
     public Horse(final Team team) {
-        super(team);
+        this.team = team;
     }
 
     @Override
@@ -29,5 +31,10 @@ public final class Horse extends Piece {
     @Override
     public Type type() {
         return Type.HORSE;
+    }
+
+    @Override
+    public Team team() {
+        return team;
     }
 }

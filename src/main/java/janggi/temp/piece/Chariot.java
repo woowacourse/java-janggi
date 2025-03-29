@@ -5,10 +5,12 @@ import janggi.temp.Team;
 import janggi.temp.movement.Movement;
 import janggi.temp.position.Position;
 
-public final class Chariot extends Piece {
+public final class Chariot implements Piece {
+
+    private final Team team;
 
     public Chariot(final Team team) {
-        super(team);
+        this.team = team;
     }
 
     @Override
@@ -20,9 +22,6 @@ public final class Chariot extends Piece {
         Movement targetMovement = source.getMovement(destination); // 이동 방향
         Position current = source.move(targetMovement);
         while (!current.equals(destination)) { // 도착지로 갈 때까지
-//            boolean hasBlockingPiece = pieces.stream()
-//                    .map(Piece::position)
-//                    .anyMatch(position -> position.equals(finalCurrent));
             if (board.hasPieceAt(current)) {
                 throw new IllegalArgumentException("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
             }
@@ -33,5 +32,10 @@ public final class Chariot extends Piece {
     @Override
     public Type type() {
         return Type.CHARIOT;
+    }
+
+    @Override
+    public Team team() {
+        return team;
     }
 }

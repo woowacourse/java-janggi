@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.temp.piece.Cannon;
+import janggi.temp.piece.Soldier;
 import janggi.temp.position.Column;
 import janggi.temp.position.Position;
 import janggi.temp.position.Row;
@@ -24,13 +25,15 @@ class CannonTest {
     void testPhoTakePho() {
         // given
         Position current = new Position(Column.THREE, Row.ZERO);
+        Position blocking = new Position(Column.FOUR, Row.ZERO);
         Position destination = new Position(Column.FIVE, Row.ZERO);
         Cannon hanCannon = new Cannon(Team.HAN);
         Cannon choCannon = new Cannon(Team.CHO);
+        Soldier soldier = new Soldier(Team.CHO);
+        Board board = new Board(Map.of(current, hanCannon, blocking, soldier, destination, choCannon));
         // when
         // then
-        assertThatThrownBy(() -> hanCannon.validateMove(current, destination, new Board(
-                Map.of(current, hanCannon, destination, choCannon))))
+        assertThatThrownBy(() -> hanCannon.validateMove(current, destination, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 포를 잡을 수 없습니다.");
     }
@@ -41,17 +44,20 @@ class CannonTest {
     void testMoveRight(Column destinationColumn) {
         // given
         Position current = new Position(Column.ZERO, Row.ZERO);
+        Position blocking = new Position(Column.ONE, Row.ZERO);
         Position destination = new Position(destinationColumn, Row.ZERO);
         Cannon cannon = new Cannon(Team.HAN);
+        Soldier soldier = new Soldier(Team.CHO);
+        Board board = new Board(Map.of(current, cannon, blocking, soldier, destination, soldier));
         // when
         // then
-        assertThatCode(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
+        assertThatCode(() -> cannon.validateMove(current, destination, board))
                 .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> testMoveRight() {
         return Arrays.stream(Column.values())
-                .skip(1)
+                .skip(2)
                 .map(Arguments::of);
     }
 
@@ -61,17 +67,20 @@ class CannonTest {
     void testMoveLeft(Column destinationColumn) {
         // given
         Position current = new Position(Column.EIGHT, Row.ZERO);
+        Position blocking = new Position(Column.SEVEN, Row.ZERO);
         Position destination = new Position(destinationColumn, Row.ZERO);
         Cannon cannon = new Cannon(Team.HAN);
+        Soldier soldier = new Soldier(Team.CHO);
+        Board board = new Board(Map.of(current, cannon, blocking, soldier, destination, soldier));
         // when
         // then
-        assertThatCode(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
+        assertThatCode(() -> cannon.validateMove(current, destination, board))
                 .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> testMoveLeft() {
         return Arrays.stream(Column.values())
-                .limit(8)
+                .limit(7)
                 .map(Arguments::of);
     }
 
@@ -81,17 +90,20 @@ class CannonTest {
     void testMoveUp(Row destinationRow) {
         // given
         Position current = new Position(Column.ZERO, Row.NINE);
+        Position blocking = new Position(Column.ZERO, Row.EIGHT);
         Position destination = new Position(Column.ZERO, destinationRow);
         Cannon cannon = new Cannon(Team.HAN);
+        Soldier soldier = new Soldier(Team.CHO);
+        Board board = new Board(Map.of(current, cannon, blocking, soldier, destination, soldier));
         // when
         // then
-        assertThatCode(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
+        assertThatCode(() -> cannon.validateMove(current, destination, board))
                 .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> testMoveUp() {
         return Arrays.stream(Row.values())
-                .limit(9)
+                .limit(8)
                 .map(Arguments::of);
     }
 
@@ -101,17 +113,20 @@ class CannonTest {
     void testMoveDown(Row destinationRow) {
         // given
         Position current = new Position(Column.ZERO, Row.ZERO);
+        Position blocking = new Position(Column.ZERO, Row.ONE);
         Position destination = new Position(Column.ZERO, destinationRow);
         Cannon cannon = new Cannon(Team.HAN);
+        Soldier soldier = new Soldier(Team.CHO);
+        Board board = new Board(Map.of(current, cannon, blocking, soldier, destination, soldier));
         // when
         // then
-        assertThatCode(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
+        assertThatCode(() -> cannon.validateMove(current, destination, board))
                 .doesNotThrowAnyException();
     }
 
     private static Stream<Arguments> testMoveDown() {
         return Arrays.stream(Row.values())
-                .skip(1)
+                .skip(2)
                 .map(Arguments::of);
     }
 
@@ -133,9 +148,12 @@ class CannonTest {
     void testMoveDiagonal(Position current, Position destination) {
         // given
         Cannon cannon = new Cannon(Team.HAN);
+        Soldier soldier = new Soldier(Team.CHO);
+        Board board = new Board(Map.of(current, cannon, new Position(Column.FOUR, Row.ONE), soldier,
+                new Position(Column.FOUR, Row.EIGHT), soldier));
         // when
         // then
-        assertThatCode(() -> cannon.validateMove(current, destination, new Board(Map.of(current, cannon))))
+        assertThatCode(() -> cannon.validateMove(current, destination, board))
                 .doesNotThrowAnyException();
     }
 
@@ -172,14 +190,12 @@ class CannonTest {
     void testNonBlockingPiece() {
         // given
         Position current = new Position(Column.THREE, Row.ZERO);
-        Position blocking = new Position(Column.FOUR, Row.ZERO);
         Position destination = new Position(Column.FIVE, Row.ZERO);
         Cannon movingCannon = new Cannon(Team.HAN);
-        Cannon blockingCannon = new Cannon(Team.HAN);
         // when
         // then
         assertThatThrownBy(() -> movingCannon.validateMove(current, destination,
-                new Board(Map.of(current, movingCannon, blocking, blockingCannon))))
+                new Board(Map.of(current, movingCannon))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 다른 기물을 뛰어 넘어서 이동해야 합니다.");
     }
@@ -189,14 +205,15 @@ class CannonTest {
     void testBlockingPiece() {
         // given
         Position current = new Position(Column.THREE, Row.ZERO);
-        Position blocking = new Position(Column.FOUR, Row.ZERO);
-        Position destination = new Position(Column.FIVE, Row.ZERO);
-        Cannon movingCannon = new Cannon(Team.HAN);
-        Cannon blockingCannon = new Cannon(Team.HAN);
+        Position blocking1 = new Position(Column.FOUR, Row.ZERO);
+        Position blocking2 = new Position(Column.FIVE, Row.ZERO);
+        Position destination = new Position(Column.SIX, Row.ZERO);
+        Cannon cannon = new Cannon(Team.HAN);
+        Soldier soldier = new Soldier(Team.HAN);
+        Board board = new Board(Map.of(current, cannon, blocking1, soldier, blocking2, soldier));
         // when
         // then
-        assertThatThrownBy(() -> movingCannon.validateMove(current, destination,
-                new Board(Map.of(current, movingCannon, blocking, blockingCannon))))
+        assertThatThrownBy(() -> cannon.validateMove(current, destination, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 포는 하나의 기물만 뛰어넘을 수 있습니다.");
     }

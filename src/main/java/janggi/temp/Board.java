@@ -1,6 +1,7 @@
 package janggi.temp;
 
 import janggi.temp.piece.Piece;
+import janggi.temp.piece.Type;
 import janggi.temp.position.Position;
 import java.util.Map;
 
@@ -24,7 +25,11 @@ public final class Board {
         return pieces.containsKey(position);
     }
 
-    public boolean hasSameTeam(final Position destination, final Team team) {
-        return pieces.containsKey(destination) && get(destination).team() == team;
+    public boolean hasPieceAt(final Position destination, final Team team) {
+        return hasPieceAt(destination) && get(destination).team() == team;
+    }
+
+    public boolean hasPieceAt(final Position destination, final Type type) {
+        return hasPieceAt(destination) && get(destination).type() == type;
     }
 }

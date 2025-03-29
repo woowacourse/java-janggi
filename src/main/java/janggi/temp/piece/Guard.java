@@ -16,10 +16,12 @@ import janggi.temp.position.Position;
 import java.util.List;
 import java.util.Set;
 
-public final class Guard extends Piece {
+public final class Guard implements Piece {
+
+    private final Team team;
 
     public Guard(final Team team) {
-        super(team);
+        this.team = team;
     }
 
     @Override
@@ -46,5 +48,10 @@ public final class Guard extends Piece {
     @Override
     public Type type() {
         return Type.GUARD;
+    }
+
+    @Override
+    public Team team() {
+        return team;
     }
 }

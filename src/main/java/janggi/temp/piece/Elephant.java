@@ -6,10 +6,12 @@ import janggi.temp.movement.ElephantMovement;
 import janggi.temp.position.Position;
 import java.util.Arrays;
 
-public final class Elephant extends Piece {
+public final class Elephant implements Piece {
+
+    private final Team team;
 
     public Elephant(final Team team) {
-        super(team);
+        this.team = team;
     }
 
     @Override
@@ -21,17 +23,10 @@ public final class Elephant extends Piece {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다."));
         // 첫 번째 위치 판단
-//        boolean hasBlockingPiece = pieces.stream()
-//                .map(Piece::position)
-//                .anyMatch(blockingPiece -> position().move(targetMovement.getFirst()).equals(blockingPiece));
         if (board.hasPieceAt(source.move(targetMovement.getFirst()))) {
             throw new IllegalArgumentException("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
         }
         // 두 번째 위치 판단
-//        boolean hasBlockingPiece2 = pieces.stream()
-//                .map(Piece::position)
-//                .anyMatch(blockingPiece -> position().move(targetMovement.getFirst()).move(targetMovement.getSecond())
-//                        .equals(blockingPiece));
         if (board.hasPieceAt(source.move(targetMovement.getFirst()).move(targetMovement.getSecond()))) {
             throw new IllegalArgumentException("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
         }
@@ -40,5 +35,10 @@ public final class Elephant extends Piece {
     @Override
     public Type type() {
         return Type.ELEPHANT;
+    }
+
+    @Override
+    public Team team() {
+        return team;
     }
 }
