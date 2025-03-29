@@ -40,7 +40,7 @@ class JanggiGameTest {
                 D4, new King(TeamType.CHO),
                 C3, new King(TeamType.HAN)
         );
-        janggiGame = new JanggiGame(players, pieces);
+        janggiGame = new JanggiGame(players, pieces, new GameStatus("a"));
     }
 
     @Test
@@ -57,7 +57,7 @@ class JanggiGameTest {
         Position startPosition = B1;
         Position endPosition = C3;
 
-        janggiGame.movePiece(startPosition, endPosition, TeamType.CHO);
+        janggiGame.movePiece(startPosition, endPosition);
 
         Player winner = janggiGame.findWinner();
 
