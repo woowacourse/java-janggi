@@ -33,7 +33,7 @@ public class BoardTest {
         @Test
         void MA_SANG_MA_SANG_초나라_상차림이_정확하게_배치된다() {
             // given
-            Board board = new Board(StartPosition.MA_SANG_MA_SANG, StartPosition.MA_SANG_MA_SANG);
+            Board board = new Board(StartSet.MA_SANG_MA_SANG, StartSet.MA_SANG_MA_SANG);
             Map<Position, Piece> boardMap = board.getBoard();
 
             // when & then
@@ -48,7 +48,7 @@ public class BoardTest {
         @Test
         void MA_SANG_MA_SANG_한나라_상차림이_정확하게_배치된다() {
             // given
-            Board board = new Board(StartPosition.MA_SANG_MA_SANG, StartPosition.MA_SANG_MA_SANG);
+            Board board = new Board(StartSet.MA_SANG_MA_SANG, StartSet.MA_SANG_MA_SANG);
             Map<Position, Piece> boardMap = board.getBoard();
 
             // when & then
@@ -62,7 +62,7 @@ public class BoardTest {
 
         @Test
         void SANG_MA_SANG_MA_초나라_상차림이_정확하게_배치된다() {
-            Board board = new Board(StartPosition.SANG_MA_SANG_MA, StartPosition.SANG_MA_SANG_MA);
+            Board board = new Board(StartSet.SANG_MA_SANG_MA, StartSet.SANG_MA_SANG_MA);
             Map<Position, Piece> boardMap = board.getBoard();
 
             assertAll(
@@ -75,7 +75,7 @@ public class BoardTest {
 
         @Test
         void SANG_MA_SANG_MA_한나라_상차림이_정확하게_배치된다() {
-            Board board = new Board(StartPosition.SANG_MA_SANG_MA, StartPosition.SANG_MA_SANG_MA);
+            Board board = new Board(StartSet.SANG_MA_SANG_MA, StartSet.SANG_MA_SANG_MA);
             Map<Position, Piece> boardMap = board.getBoard();
 
             assertAll(
@@ -88,7 +88,7 @@ public class BoardTest {
 
         @Test
         void SANG_MA_MA_SANG_초나라_상차림이_정확하게_배치된다() {
-            Board board = new Board(StartPosition.SANG_MA_MA_SANG, StartPosition.SANG_MA_MA_SANG);
+            Board board = new Board(StartSet.SANG_MA_MA_SANG, StartSet.SANG_MA_MA_SANG);
             Map<Position, Piece> boardMap = board.getBoard();
 
             assertAll(
@@ -101,7 +101,7 @@ public class BoardTest {
 
         @Test
         void SANG_MA_MA_SANG_한나라_상차림이_정확하게_배치된다() {
-            Board board = new Board(StartPosition.SANG_MA_MA_SANG, StartPosition.SANG_MA_MA_SANG);
+            Board board = new Board(StartSet.SANG_MA_MA_SANG, StartSet.SANG_MA_MA_SANG);
             Map<Position, Piece> boardMap = board.getBoard();
 
             assertAll(
@@ -114,7 +114,7 @@ public class BoardTest {
 
         @Test
         void MA_SANG_SANG_MA_초나라_상차림이_정확하게_배치된다() {
-            Board board = new Board(StartPosition.MA_SANG_SANG_MA, StartPosition.MA_SANG_SANG_MA);
+            Board board = new Board(StartSet.MA_SANG_SANG_MA, StartSet.MA_SANG_SANG_MA);
             Map<Position, Piece> boardMap = board.getBoard();
 
             assertAll(
@@ -127,7 +127,7 @@ public class BoardTest {
 
         @Test
         void MA_SANG_SANG_MA_한나라_상차림이_정확하게_배치된다() {
-            Board board = new Board(StartPosition.MA_SANG_SANG_MA, StartPosition.MA_SANG_SANG_MA);
+            Board board = new Board(StartSet.MA_SANG_SANG_MA, StartSet.MA_SANG_SANG_MA);
             Map<Position, Piece> boardMap = board.getBoard();
 
             assertAll(

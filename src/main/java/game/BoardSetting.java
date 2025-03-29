@@ -18,7 +18,7 @@ import position.Row;
 public class BoardSetting {
 
 
-    public Map<Position, Piece> setting(Country country, StartPosition startPosition) {
+    public Map<Position, Piece> setting(Country country, StartSet startSet) {
         Map<Position, Piece> board = new HashMap<>();
         board.put(reverseByCountry(new Position(Column.A, Row.ONE), country), new Rook(country));
         board.put(reverseByCountry(new Position(Column.D, Row.ONE), country), new Guard(country));
@@ -35,7 +35,7 @@ public class BoardSetting {
         board.put(reverseByCountry(new Position(Column.G, Row.FOUR), country), new Soldier(country));
         board.put(reverseByCountry(new Position(Column.I, Row.FOUR), country), new Soldier(country));
 
-        switch (startPosition) {
+        switch (startSet) {
             case MA_SANG_MA_SANG -> MaSangMaSangPosition(board, country);
             case MA_SANG_SANG_MA -> MaSangSangMaPosition(board, country);
             case SANG_MA_MA_SANG -> SangMaMaSangPosition(board, country);

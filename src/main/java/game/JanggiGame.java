@@ -43,8 +43,8 @@ public class JanggiGame {
     }
 
     private Board setGame() {
-        StartPosition choStartingPosition = inputView.getStartingPosition(Country.CHO);
-        StartPosition hanStartingPosition = inputView.getStartingPosition(Country.HAN);
+        StartSet choStartingPosition = inputView.getStartingPosition(Country.CHO);
+        StartSet hanStartingPosition = inputView.getStartingPosition(Country.HAN);
         Board board = new Board(choStartingPosition, hanStartingPosition);
         outputView.displayBoard(board);
         return board;

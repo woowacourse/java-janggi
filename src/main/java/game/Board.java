@@ -15,11 +15,11 @@ public class Board {
         this.board = board;
     }
 
-    public Board(StartPosition choStartPosition, StartPosition hanStartPosition) {
+    public Board(StartSet choStartSet, StartSet hanStartSet) {
         BoardSetting boardSetting = new BoardSetting();
         Map<Position, Piece> board = new HashMap<>();
-        board.putAll(boardSetting.setting(Country.CHO, choStartPosition));
-        board.putAll(boardSetting.setting(Country.HAN, hanStartPosition));
+        board.putAll(boardSetting.setting(Country.CHO, choStartSet));
+        board.putAll(boardSetting.setting(Country.HAN, hanStartSet));
         this.board = board;
     }
 
