@@ -1,6 +1,6 @@
 package janggi.service;
 
-import janggi.dao.BoardDao;
+import janggi.dao.BoardPieceDao;
 import janggi.dao.dto.BoardPieceFindResponse;
 import janggi.dao.dto.PieceFindResponse;
 import janggi.domain.board.Position;
@@ -12,23 +12,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BoardService {
+public class BoardPieceService {
 
-    private final BoardDao boardDao;
+    private final BoardPieceDao boardPieceDao;
 
-    public BoardService() {
-        this.boardDao = new BoardDao();
+    public BoardPieceService() {
+        this.boardPieceDao = new BoardPieceDao();
     }
 
     public Map<Position, Piece> findAllBoardPieces() {
-        List<BoardPieceFindResponse> boardPieces = boardDao.findAllPieces();
+        List<BoardPieceFindResponse> boardPieces = boardPieceDao.findAllPieces();
 
         Map<Position, Piece> positionPieces = new HashMap<>();
         for (BoardPieceFindResponse boardPiece : boardPieces) {
             Position position = new Position(boardPiece.x(), boardPiece.y());
             String pieceType = boardPiece.pieceType();
             String side = boardPiece.side();
-            Piece piece = PieceType.createPiece(pieceType, Side.findSideByName(side));
+            Piece piece = PieceType.createPiece(pieceType, Side.getSideByName(side));
 
             positionPieces.put(position, piece);
         }
@@ -36,12 +36,12 @@ public class BoardService {
     }
 
     public Piece findBoardPieceByPosition(final Position position) {
-        PieceFindResponse pieceByPosition = boardDao.findPieceByPosition(position.getX(), position.getY());
+        PieceFindResponse pieceByPosition = boardPieceDao.findPieceByPosition(position.getX(), position.getY());
 
         String pieceType = pieceByPosition.pieceType();
         String side = pieceByPosition.side();
 
-        return PieceType.createPiece(pieceType, Side.findSideByName(side)); //FIXME: PieceType에서 아예 만들기
+        return PieceType.createPiece(pieceType, Side.getSideByName(side));
     }
 
     public void addBoardPiece(final int gameId, final Position position, final Piece piece) {
@@ -52,12 +52,11 @@ public class BoardService {
         if(piece.isHan()) {
             side = Side.HAN;
         }
-        boardDao.addPositionPiece(gameId, position.getX(), position.getY(), piece, side);
+        boardPieceDao.addPositionPiece(gameId, position.getX(), position.getY(), piece, side);
     }
 
     public void updatePiecePosition(final Position selectedPiecePosition, final Position destination) {
-        int i = boardDao.deletePositionIfExists(destination);
-        int boardId = boardDao.findBoardIdByPosition(selectedPiecePosition);
-        boardDao.updatePiecePosition(boardId, destination);
+        int boardId = boardPieceDao.findBoardPieceIdByPosition(selectedPiecePosition);
+        boardPieceDao.updatePiecePosition(boardId, destination);
     }
 }

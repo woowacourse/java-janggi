@@ -9,22 +9,22 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-class BoardServiceTest {
+class BoardPieceServiceTest {
 
     @Test
     @DisplayName("보드 위의 모든 기물 조회 테스트")
     void findAllBoardPieces() {
-        BoardService boardService = new BoardService();
+        BoardPieceService boardPieceService = new BoardPieceService();
 
-        assertThatCode(boardService::findAllBoardPieces).doesNotThrowAnyException();
+        assertThatCode(boardPieceService::findAllBoardPieces).doesNotThrowAnyException();
     }
 
     @Test
     void findBoardPieceByPosition() {
-        BoardService boardService = new BoardService();
+        BoardPieceService boardPieceService = new BoardPieceService();
 
         Position position = new Position(0, 0);
-        Piece boardPiece = boardService.findBoardPieceByPosition(position);
+        Piece boardPiece = boardPieceService.findBoardPieceByPosition(position);
 
         assertThat(boardPiece).isInstanceOf(Cannon.class);
     }

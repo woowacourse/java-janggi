@@ -60,7 +60,6 @@ public class JanggiBoard {
                 .noneMatch(Piece::isKing);
     }
 
-    //FIXME: 메서드명 수정
     public int sumSideTotalScore(Side side) {
         return board.values().stream()
                 .filter(piece -> piece.isSameSide(side))
@@ -98,9 +97,5 @@ public class JanggiBoard {
 
     public Map<Position, Piece> getBoard() {
         return new HashMap<>(board);
-    }
-
-    public Piece getPieceByPosition(final Position position) {
-        return board.get(position);
     }
 }

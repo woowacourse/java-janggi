@@ -25,17 +25,17 @@ import janggi.domain.piece.limit.King;
 import janggi.domain.piece.limit.Soldier;
 import janggi.domain.piece.unlimit.Cannon;
 import janggi.domain.piece.unlimit.Chariot;
-import janggi.service.BoardService;
+import janggi.service.BoardPieceService;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class BoardInitializer {
 
-    private final BoardService boardService;
+    private final BoardPieceService boardPieceService;
 
-    public BoardInitializer(final BoardService boardService) {
-        this.boardService = boardService;
+    public BoardInitializer(final BoardPieceService boardPieceService) {
+        this.boardPieceService = boardPieceService;
     }
 
     public void initializeBoard(final int gameId, final JanggiBoard board) {
@@ -67,7 +67,7 @@ public class BoardInitializer {
 
     private void savePieceToDatabase(final int gameId, final Position position, final Piece piece) {
         if (piece.isOccupied()) {
-            boardService.addBoardPiece(gameId, position, piece);
+            boardPieceService.addBoardPiece(gameId, position, piece);
         }
     }
 

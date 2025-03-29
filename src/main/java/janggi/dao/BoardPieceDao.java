@@ -13,10 +13,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardDao {
+public class BoardPieceDao {
 
     public List<BoardPieceFindResponse> findAllPieces() {
-        final String query = "SELECT B.x, B.y, P.type, P.side FROM Board B JOIN Piece P ON B.piece_id = P.piece_id";
+        final String query = "SELECT B.x, B.y, P.type, P.side FROM BoardPiece B JOIN Piece P ON B.piece_id = P.piece_id";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -38,7 +38,7 @@ public class BoardDao {
     }
 
     public PieceFindResponse findPieceByPosition(final int x, final int y) {
-        final String query = "SELECT P.type, P.side FROM Board B JOIN Piece P ON B.piece_id = P.piece_id WHERE B.x = ? AND B.y = ?";
+        final String query = "SELECT P.type, P.side FROM BoardPiece B JOIN Piece P ON B.piece_id = P.piece_id WHERE B.x = ? AND B.y = ?";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -60,7 +60,7 @@ public class BoardDao {
 
     public void addPositionPiece(final int gameId, final int x, final int y, final Piece piece, final Side side) {
         final String selectPieceIdQuery = "SELECT piece_id FROM Piece WHERE type = ? AND side = ?";
-        final String insertPieceQuery = "INSERT INTO Board(x, y, piece_id, game_id) VALUES(?,?,?,?)";
+        final String insertPieceQuery = "INSERT INTO BoardPiece(x, y, piece_id, game_id) VALUES(?,?,?,?)";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement selectPieceStatement = connection.prepareStatement(selectPieceIdQuery);
              final PreparedStatement insertPieceStatement = connection.prepareStatement(insertPieceQuery)) {
@@ -84,13 +84,13 @@ public class BoardDao {
         }
     }
 
-    public void updatePiecePosition(final int boardId, final Position destination) {
-        final String updateQuery = "UPDATE Board SET x = ?, y = ? WHERE board_id = ?";
+    public void updatePiecePosition(final int boardPieceId, final Position destination) {
+        final String updateQuery = "UPDATE BoardPiece SET x = ?, y = ? WHERE board_piece_id = ?";
         try (Connection connection = DatabaseConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
             preparedStatement.setInt(1, destination.getX());
             preparedStatement.setInt(2, destination.getY());
-            preparedStatement.setInt(3, boardId);
+            preparedStatement.setInt(3, boardPieceId);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -98,8 +98,8 @@ public class BoardDao {
         }
     }
 
-    public int findBoardIdByPosition(final Position position) {
-        final String query = "SELECT board_id FROM Board WHERE x = ? AND y = ?";
+    public int findBoardPieceIdByPosition(final Position position) {
+        final String query = "SELECT board_piece_id FROM BoardPiece WHERE x = ? AND y = ?";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, position.getX());
@@ -110,14 +110,14 @@ public class BoardDao {
                 throw new IllegalStateException("[ERROR] 기물 조회에 실패했습니다.");
             }
 
-            return resultSet.getInt("board_id");
+            return resultSet.getInt("board_piece_id");
         } catch (final SQLException e) {
             throw new IllegalStateException("[ERROR] 기물 조회가 성공적으로 진행되지 않았습니다.", e);
         }
     }
 
     public int deletePositionIfExists(final Position destination) {
-        final String deleteQuery = "DELETE FROM Board WHERE x = ? AND y = ?";
+        final String deleteQuery = "DELETE FROM BoardPiece WHERE x = ? AND y = ?";
         try (Connection connection = DatabaseConnectionManager.getConnection();
              PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery)) {
 
@@ -131,7 +131,7 @@ public class BoardDao {
     }
 
     public void resetTable() {
-        final String query = "Delete FROM Board WHERE board_id > 0"; // 모든 데이터 삭제 + AUTO_INCREMENT 초기화
+        final String query = "Delete FROM BoardPiece WHERE board_piece_id > 0"; // 모든 데이터 삭제 + AUTO_INCREMENT 초기화
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
