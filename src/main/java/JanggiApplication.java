@@ -1,5 +1,4 @@
 import janggi.game.Game;
-import janggi.game.Janggi;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 

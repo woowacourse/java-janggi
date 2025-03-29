@@ -1,8 +1,7 @@
 package janggi.view;
 
-import janggi.piece.Team;
 import janggi.piece.PieceType;
-import janggi.piece.pieces.Chariot;
+import janggi.piece.Team;
 import janggi.piece.pieces.Piece;
 import janggi.position.Position;
 import janggi.position.Route;
@@ -81,7 +80,8 @@ public class OutputView {
         for (int i = 0; i < MAX_ROW; i++) {
             Arrays.fill(board[i], ".");
         }
-        pieces.forEach((position, piece) -> board[position.getRow()][position.getColumn()] = teamToName(piece.getTeam()));
+        pieces.forEach(
+                (position, piece) -> board[position.getRow()][position.getColumn()] = teamToName(piece.getTeam()));
         return board;
     }
 
