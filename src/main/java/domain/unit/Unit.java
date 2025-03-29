@@ -50,6 +50,10 @@ public class Unit {
         return this.type == type;
     }
 
+    public int getScore() {
+        return type.getScore();
+    }
+
     public UnitType getType() {
         return this.type;
     }

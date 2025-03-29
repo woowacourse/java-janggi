@@ -13,24 +13,28 @@ import java.util.stream.Collectors;
 
 public enum UnitType {
 
-    GENERAL(1, 8, List.of(4), OneStepMovingStrategy::new),
-    GUARD(0, 9, List.of(3, 5), OneStepMovingStrategy::new),
-    CHARIOT(0, 9, List.of(0, 8), StraightMovingStrategy::new),
-    CANNON(2, 7, List.of(1, 7), StraightMovingStrategy::new),
-    SOLDIER(3, 6, List.of(0, 2, 4, 6, 8), OneStepMovingStrategy::new),
-    HORSE(0, 9, List.of(2, 7), HorseMovingStrategy::new),
-    ELEPHANT(0, 9, List.of(1, 6), ElephantMovingStrategy::new),
+    GENERAL(1, 8, List.of(4), 0, OneStepMovingStrategy::new),
+    GUARD(0, 9, List.of(3, 5), 3, OneStepMovingStrategy::new),
+    CHARIOT(0, 9, List.of(0, 8), 13, StraightMovingStrategy::new),
+    CANNON(2, 7, List.of(1, 7), 7, StraightMovingStrategy::new),
+    SOLDIER(3, 6, List.of(0, 2, 4, 6, 8), 2, OneStepMovingStrategy::new),
+    HORSE(0, 9, List.of(2, 7), 5, HorseMovingStrategy::new),
+    ELEPHANT(0, 9, List.of(1, 6), 3, ElephantMovingStrategy::new),
     ;
 
     private final int hanY;
     private final int choY;
     private final List<Integer> xPositions;
+
+    private final int score;
+
     private final Supplier<MovingStrategy> rule;
 
-    UnitType(int hanY, int choY, List<Integer> xPositions, Supplier<MovingStrategy> rule) {
+    UnitType(int hanY, int choY, List<Integer> xPositions, int score, Supplier<MovingStrategy> rule) {
         this.hanY = hanY;
         this.choY = choY;
         this.xPositions = xPositions;
+        this.score = score;
         this.rule = rule;
     }
 
@@ -49,5 +53,9 @@ public enum UnitType {
 
     public boolean canNotMoveOutOfPalace() {
         return (this == GENERAL || this == GUARD);
+    }
+
+    public int getScore() {
+        return score;
     }
 }

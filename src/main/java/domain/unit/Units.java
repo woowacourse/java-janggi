@@ -40,9 +40,17 @@ public class Units {
         units.remove(position);
     }
 
-    public boolean isTeamNonExist(Team team) {
+    public int calculateScoreOf(Team team) {
         return units.values().stream()
-                .noneMatch(unit -> unit.isSameTeam(team));
+                .filter(unit -> unit.isSameTeam(team))
+                .mapToInt(Unit::getScore)
+                .sum();
+    }
+
+    public boolean isAllGeneralExist() {
+        return units.values().stream()
+                .filter(unit -> unit.isSameType(UnitType.GENERAL))
+                .count() == Team.values().length;
     }
 
     public boolean isOppositeTeam(Position position, Position other) {

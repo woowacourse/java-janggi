@@ -29,7 +29,7 @@ class JanggiTest {
                 Position.of(4, 4), Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.SOLDIER)
         );
         Units totalUnits = Units.of(units, Map.of());
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when
         Routes routes = janggi.findMovableRoutesFrom(targetPosition);
@@ -49,7 +49,7 @@ class JanggiTest {
                 Position.of(4, 4), Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.SOLDIER)
         );
         Units totalUnits = Units.of(units, Map.of());
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when
         Routes routes = janggi.findMovableRoutesFrom(targetPosition);
@@ -69,7 +69,7 @@ class JanggiTest {
                 Position.of(4, 4), Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.SOLDIER)
         );
         Units totalUnits = Units.of(units, Map.of());
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when
         Routes routes = janggi.findMovableRoutesFrom(targetPosition);
@@ -89,7 +89,7 @@ class JanggiTest {
                 Position.of(4, 4), Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.SOLDIER)
         );
         Units totalUnits = Units.of(units, Map.of());
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when
         Routes routes = janggi.findMovableRoutesFrom(targetPosition);
@@ -109,7 +109,7 @@ class JanggiTest {
                 Position.of(4, 4), Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.SOLDIER)
         );
         Units totalUnits = Units.of(units, Map.of());
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when
         Routes routes = janggi.findMovableRoutesFrom(targetPosition);
@@ -129,7 +129,7 @@ class JanggiTest {
                 Position.of(4, 4), Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.SOLDIER)
         );
         Units totalUnits = Units.of(units, Map.of());
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when
         Position destination = Position.of(3, 5);
@@ -153,7 +153,7 @@ class JanggiTest {
                 Position.of(4, 4), Unit.of(Team.HAN, new OneStepMovingStrategy(), UnitType.SOLDIER)
         );
         Units totalUnits = Units.of(units, oppositeUnits);
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when
         Position destination = Position.of(4, 4);
@@ -178,7 +178,7 @@ class JanggiTest {
                 oppositePosition, Unit.of(Team.HAN, new OneStepMovingStrategy(), UnitType.SOLDIER)
         );
         Units totalUnits = Units.of(units, oppositeUnits);
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when & then
         assertThatThrownBy(() -> janggi.doTurn(oppositePosition, targetPosition))
@@ -200,7 +200,7 @@ class JanggiTest {
                 oppositePosition, Unit.of(Team.HAN, new OneStepMovingStrategy(), UnitType.SOLDIER)
         );
         Units totalUnits = Units.of(units, oppositeUnits);
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when & then
         assertThatThrownBy(() -> janggi.doTurn(Position.of(0, 0), oppositePosition))
@@ -218,7 +218,7 @@ class JanggiTest {
                 targetPosition, target
         );
         Units totalUnits = Units.of(units, Map.of());
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when & then
         assertThatThrownBy(() -> janggi.doTurn(targetPosition, Position.of(0, 0)))
@@ -227,27 +227,49 @@ class JanggiTest {
     }
 
     @Test
-    @DisplayName("두 진영 중 말이 하나도 남지 않았다면 게임은 끝났다.")
+    @DisplayName("두 진영 중 하나의 궁이 없다면 게임은 끝났다.")
     void test11() {
         // given
-        Unit target = Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.SOLDIER);
+        Unit target = Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.GENERAL);
         Position targetPosition = Position.of(4, 5);
         Map<Position, Unit> units = Map.of(
                 targetPosition, target
         );
         Units totalUnits = Units.of(units, Map.of());
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when
-        boolean oneOfTeamNonExist = janggi.isOneOfTeamNonExist();
+        boolean isNotPlaying = janggi.isPlaying();
 
         // then
-        assertThat(oneOfTeamNonExist).isTrue();
+        assertThat(isNotPlaying).isFalse();
+    }
+
+    @Test
+    @DisplayName("두 궁이 모두 존재하면 게임은 진행중이다")
+    void test12() {
+        // given
+        Unit target1 = Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.GENERAL);
+        Unit target2 = Unit.of(Team.HAN, new OneStepMovingStrategy(), UnitType.GENERAL);
+        Position targetPosition1 = Position.of(4, 5);
+        Position targetPosition2 = Position.of(4, 6);
+        Map<Position, Unit> units = Map.of(
+                targetPosition1, target1,
+                targetPosition2, target2
+        );
+        Units totalUnits = Units.of(units, Map.of());
+        Janggi janggi = Janggi.of(totalUnits);
+
+        // when
+        boolean isPlaying = janggi.isPlaying();
+
+        // then
+        assertThat(isPlaying).isTrue();
     }
 
     @Test
     @DisplayName("포가 포를 잡을 수 없다")
-    void test12() {
+    void test13() {
         // given
         Unit target = Unit.of(Team.CHO, new StraightMovingStrategy(), UnitType.CANNON);
         Position targetPosition = Position.of(0, 0);
@@ -261,7 +283,7 @@ class JanggiTest {
                 oppositePosition, oppositeCannon
         );
         Units totalUnits = Units.of(units, oppositeUnits);
-        Janggi janggi = Janggi.of(totalUnits, Team.CHO);
+        Janggi janggi = Janggi.of(totalUnits);
 
         // when
         Routes movableRoutesFrom = janggi.findMovableRoutesFrom(targetPosition);

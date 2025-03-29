@@ -30,7 +30,7 @@ public class JanggiGameFlow {
         Map<Position, Unit> hanUnits = settingUnits(Team.HAN);
         Map<Position, Unit> choUnits = settingUnits(Team.CHO);
         Units totalUnits = Units.of(hanUnits, choUnits);
-        return Janggi.of(totalUnits, Team.CHO);
+        return Janggi.of(totalUnits);
     }
 
     private Map<Position, Unit> settingUnits(Team team) {
@@ -54,8 +54,8 @@ public class JanggiGameFlow {
         outputView.printJanggiUnits(janggi.getUnits());
     }
 
-    public boolean isEnd() {
-        return janggi.isOneOfTeamNonExist();
+    public boolean isPlaying() {
+        return janggi.isPlaying();
     }
 
     private List<Integer> parseInteger(String rawPosition) {

@@ -16,6 +16,8 @@ public class Janggi {
     public static final String PICK_OPPOSITE_UNIT_EXCEPTION = "상대팀 말은 고를 수 없습니다.";
     public static final String CANNOT_MOVE_EXCEPTION = "이동할 수 없는 도착지입니다.";
 
+    public static final Team FIRST_ATTACK_TEAM = Team.CHO;
+
     private final Units totalUnits;
     private Team turn;
 
@@ -24,8 +26,8 @@ public class Janggi {
         this.turn = turn;
     }
 
-    public static Janggi of(Units totalUnits, Team turn) {
-        return new Janggi(totalUnits, turn);
+    public static Janggi of(Units totalUnits) {
+        return new Janggi(totalUnits, FIRST_ATTACK_TEAM);
     }
 
     public void doTurn(Position pick, Position destination) {
@@ -111,8 +113,17 @@ public class Janggi {
         return totalUnits.isUnitTeamNotEqualAt(endPosition, turn);
     }
 
-    public boolean isOneOfTeamNonExist() { // TODO: 궁, 사 구현 완료 시 게임 종료 조건 변경
-        return totalUnits.isTeamNonExist(Team.HAN) || totalUnits.isTeamNonExist(Team.CHO);
+    public boolean isPlaying() {
+        return totalUnits.isAllGeneralExist();
+    }
+
+    public Team getWinner() {
+        double firstAttackScore = totalUnits.calculateScoreOf(FIRST_ATTACK_TEAM);
+        double afterAttackScore = totalUnits.calculateScoreOf(FIRST_ATTACK_TEAM.getOpposite()) + 1.5;
+        if (firstAttackScore > afterAttackScore) {
+            return FIRST_ATTACK_TEAM;
+        }
+        return FIRST_ATTACK_TEAM.getOpposite();
     }
 
     public Team getTurn() {

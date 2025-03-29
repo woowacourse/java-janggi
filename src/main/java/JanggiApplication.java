@@ -9,7 +9,7 @@ public class JanggiApplication {
         final OutputView outputView = new OutputView();
         final JanggiGameFlow janggiGameFlow = new JanggiGameFlow(inputView, outputView);
 
-        while (!janggiGameFlow.isEnd()) {
+        while (janggiGameFlow.isPlaying()) {
             try {
                 janggiGameFlow.doTurn();
             } catch (IllegalArgumentException e) {
