@@ -15,17 +15,17 @@ public abstract class Piece {
     }
 
     public void validateMove(final Position fromPosition, final Position toPosition, Board board) {
-        List<Position> route = getPathForMoving(fromPosition, toPosition);
-        validateNormalTargetPosition(toPosition, board);
-        validateSpecialPieceTargetPosition(toPosition, board);
-        validateRoute(route, board);
+        List<Position> route = findPathForMove(fromPosition, toPosition);
+        validateTarget(toPosition, board);
+        validateTargetSpecialRule(toPosition, board);
+        validatePath(route, board);
     }
 
-    public abstract List<Position> getPathForMoving(Position fromPosition, Position toPosition);
+    public abstract List<Position> findPathForMove(Position fromPosition, Position toPosition);
 
-    public abstract void validateRoute(List<Position> positions, Board board);
+    public abstract void validatePath(List<Position> positions, Board board);
 
-    public void validateNormalTargetPosition(Position toPosition, Board board) {
+    public void validateTarget(Position toPosition, Board board) {
         if (board.getBoard().containsKey(toPosition)) {
             Piece toPiece = board.getBoard().get(toPosition);
             if (country == toPiece.getCountry()) {
@@ -35,9 +35,7 @@ public abstract class Piece {
     }
 
 
-    public void validateSpecialPieceTargetPosition(Position toPosition, Board board) {
-
-    }
+    public void validateTargetSpecialRule(Position toPosition, Board board) {}
 
     public PieceType getPieceType() {
         return pieceType;

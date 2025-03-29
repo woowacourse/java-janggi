@@ -9,40 +9,44 @@ public class Cannon extends Piece {
         super(PieceType.CANNON, country);
     }
 
-    public List<Position> getPathForMoving(Position fromPosition, Position toPosition) {
+    public List<Position> findPathForMove(Position fromPosition, Position toPosition) {
         if (!fromPosition.isStraight(toPosition)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
         return fromPosition.findStraightPositions(toPosition);
     }
 
-    // 애초에 루트를 따로 중간 기물 계산이랑 최종 위치 계산이랑 따로 하자
     @Override
-    public void validateRoute(final List<Position> positions, Board board) {
-        boolean existCannon = positions.stream()
-                .filter(position -> board.getBoard().containsKey(position))
-                .anyMatch(position -> board.getBoard().get(position).getPieceType() == PieceType.CANNON);
-        if (existCannon) {
-            throw new IllegalArgumentException("포는 포를 먹거나 넘을 수 없습니다. ");
+    public void validatePath(final List<Position> path, Board board) {
+        int pieceCount = 0;
+        for (Position position : path) {
+            if (!board.hasPieceAt(position)) {
+                continue;
+            }
+            PieceType pieceType = board.findPieceTypeByPosition(position);
+            throwIfJumpingOverCannon(pieceType);
+            pieceCount++;
         }
+        validateJump(pieceCount);
+    }
 
-        List<Piece> list = positions.stream()
-                .filter(position -> board.getBoard().containsKey(position))
-                .map(position -> board.getBoard().get(position))
-                .toList();
-        if (list.size() != 1) {
+    private static void validateJump(final int pieceCount) {
+        if (pieceCount != 1) {
             throw new IllegalArgumentException("포는 해당 위치로 이동할 수 없습니다.");
         }
+    }
 
+    private static void throwIfJumpingOverCannon(final PieceType pieceType) {
+        if (pieceType == PieceType.CANNON) {
+            throw new IllegalArgumentException("포는 포를 먹거나 넘을 수 없습니다. ");
+        }
     }
 
     @Override
-    public void validateSpecialPieceTargetPosition(Position toPosition, Board board) {
-        if (board.getBoard().containsKey(toPosition)) {
-            Piece toPiece = board.getBoard().get(toPosition);
-            if (toPiece.getPieceType() == PieceType.CANNON) {
+    public void validateTargetSpecialRule(Position toPosition, Board board) {
+            PieceType pieceType =  board.findPieceTypeByPosition(toPosition);
+            if (pieceType== PieceType.CANNON) {
                 throw new IllegalArgumentException("포는 포를 먹을 수 없습니다.");
             }
-        }
     }
 }

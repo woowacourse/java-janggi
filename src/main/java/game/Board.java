@@ -37,10 +37,9 @@ public class Board {
 
     }
 
-    public Map<Position, Piece> getBoard() {
-        return board;
+    public boolean isGeneralDead() {
+        return (isChoGeneralDead() || isHanGeneralDead());
     }
-
 
     private boolean isChoGeneralDead() {
         return board.values().stream()
@@ -51,7 +50,18 @@ public class Board {
                 .noneMatch(piece -> piece.getPieceType() == PieceType.GENERAL && piece.getCountry() == Country.HAN);
     }
 
-    public boolean isGeneralDead() {
-        return (isChoGeneralDead() || isHanGeneralDead());
+    public PieceType findPieceTypeByPosition(final Position position) {
+        if (!board.containsKey(position)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
+        }
+        return board.get(position).getPieceType();
+    }
+
+    public boolean hasPieceAt(final Position position) {
+        return board.containsKey(position);
+    }
+
+    public Map<Position, Piece> getBoard() {
+        return board;
     }
 }

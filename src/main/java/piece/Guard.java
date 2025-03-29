@@ -3,6 +3,7 @@ package piece;
 import game.Board;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import position.Movement;
 import position.Position;
 
@@ -17,20 +18,23 @@ public class Guard extends Piece {
         super(PieceType.GUARD, country);
     }
 
-    public List<Position> getPathForMoving(Position fromPosition, Position toPosition) {
-
-        List<Position> pathPosition = pieceMovements.stream()
-                .map(route -> fromPosition.findMovablePositions(route))
-                .filter(path -> !path.isEmpty() && path.getLast().equals(toPosition))
+    public List<Position> findPathForMove(Position fromPosition, Position toPosition) {
+        List<Position> path = pieceMovements.stream()
+                .map(fromPosition::findMovablePositions)
+                .filter(findPathByDestination(toPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
-        return pathPosition.subList(0, pathPosition.size() - 1);
+        return path.subList(0, path.size() - 1);
+    }
+
+    private static Predicate<List<Position>> findPathByDestination(final Position toPosition) {
+        return path -> !path.isEmpty() && path.getLast().equals(toPosition);
     }
 
     @Override
-    public void validateRoute(final List<Position> positions, Board board) {
+    public void validatePath(final List<Position> positions, Board board) {
         if (positions.stream()
-                .anyMatch(position -> board.getBoard().containsKey(position))) {
+                .anyMatch(board::hasPieceAt)) {
             throw new IllegalArgumentException("중간에 기물이 있어 갈 수 없습니다.");
         }
     }
