@@ -21,10 +21,8 @@ public record JanggiPosition(int x, int y) {
     private static final JanggiPosition PALACE_TOP_LEFT_CHO = new JanggiPosition(8, 4);
     private static final JanggiPosition PALACE_BOTTOM_RIGHT_CHO = new JanggiPosition(10, 6);
 
-    public JanggiPosition(final int x, final int y) {
+    public JanggiPosition {
         validatePositionRange(x, y);
-        this.x = x;
-        this.y = y;
     }
 
     private void validatePositionRange(final int x, final int y) {
