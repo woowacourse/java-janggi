@@ -44,4 +44,10 @@ public record Pieces(List<Piece> pieces) {
                 .filter(piece -> piece.isSamePosition(position))
                 .anyMatch(piece -> piece.isEqualType(PieceType.CANNON));
     }
+
+    public int calculateTotalScore() {
+        return pieces.stream()
+                .mapToInt(Piece::getScore)
+                .sum();
+    }
 }

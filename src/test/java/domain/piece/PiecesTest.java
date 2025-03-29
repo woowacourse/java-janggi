@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import domain.direction.Directions;
 import domain.direction.PieceDirections;
 import domain.piece.category.Cannon;
+import domain.piece.category.Elephant;
 import domain.piece.category.General;
 import domain.piece.category.Guard;
 import domain.piece.category.Horse;
@@ -145,5 +146,21 @@ class PiecesTest {
                 () -> assertThat(pieces.isCannonByPosition(position1)).isTrue(),
                 () -> assertThat(pieces.isCannonByPosition(position2)).isFalse()
         );
+    }
+
+    @Test
+    void 기물들의_점수_총_합산을_계산한다() {
+        // given
+        Pieces pieces = new Pieces(List.of(
+                new Elephant(Position.of(2, 4), PieceDirections.ELEPHANT.get()),
+                new Guard(Position.of(2, 4), PieceDirections.ELEPHANT.get()),
+                new Soldier(Position.of(2, 4), PieceDirections.ELEPHANT.get())
+        ));
+
+        // when
+        int result = pieces.calculateTotalScore();
+
+        // then
+        assertThat(result).isEqualTo(8);
     }
 }
