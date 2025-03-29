@@ -74,3 +74,27 @@
 ## 메시지 명 정의 (메서드 네이밍)
 
 ![장기_메세징(미션_제출).png](docs/images/장기_메세징(미션_제출).png)
+
+# DB 실행 방식
+
+### 실행
+
+```
+# 원본 DB 실행
+docker-compose -p main-db -f docker-compose.yml up -d
+
+# 테스트 DB 실행
+docker-compose -p test-db -f docker-compose-test.yml up -d
+```
+
+### 종료 및 삭제
+
+```
+# 원본 DB 종료 및 삭제
+docker-compose -p main-db -f docker-compose.yml down -v
+
+# 테스트 DB 종료 및 삭제
+docker-compose -p test-db -f docker-compose-test.yml down -v
+```
+
+볼륨 삭제를 원치 않다면 마지막 `-v` 없이 명령어를 실행하면 됩니다.

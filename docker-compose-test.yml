@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  test-db:
+    image: mysql:8.0.28
+    platform: linux/x86_64
+    restart: always
+    ports:
+      - "13307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wodnd0131
+      MYSQL_USER: test
+      MYSQL_PASSWORD: password
+      TZ: Asia/Seoul
+    volumes:
+      - ./db/test/mysql/init:/docker-entrypoint-initdb.d
