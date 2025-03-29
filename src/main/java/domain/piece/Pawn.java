@@ -18,7 +18,7 @@ public class Pawn extends Piece {
     protected void validateArrival(BoardLocation current, BoardLocation destination) {
         BoardVector boardVector = BoardVector.between(current, destination);
 
-        if (isNotValidMoveDirection(current, destination) || canNotMoveAxis(boardVector) || canNotMoveDiagonal(current, destination, boardVector)) {
+        if (isNotValidMoveDirection(current, destination) || canNotMoveAxis(boardVector) && canNotMoveDiagonal(current, destination, boardVector)) {
             throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");
         }
     }

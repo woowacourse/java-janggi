@@ -37,8 +37,8 @@ public record BoardLocation(
         return new BoardLocation(x + dx, y);
     }
 
-    public BoardLocation moveDirection(Direction direction) {
-        return this.move(direction.x(), direction.y());
+    public BoardLocation moveDirection(MoveDirection moveDirection) {
+        return this.move(moveDirection.x(), moveDirection.y());
     }
 
     private void validateYRange(int y) {

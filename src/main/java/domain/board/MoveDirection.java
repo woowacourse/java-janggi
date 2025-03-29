@@ -1,6 +1,6 @@
 package domain.board;
 
-public enum Direction {
+public enum MoveDirection {
     UP(0, -1),
     DOWN(0, 1),
     LEFT(-1, 0),
@@ -13,7 +13,7 @@ public enum Direction {
     private final int x;
     private final int y;
 
-    Direction(int x, int y) {
+    MoveDirection(int x, int y) {
         this.x = x;
         this.y = y;
     }

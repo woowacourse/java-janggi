@@ -55,6 +55,6 @@ public class Cannon extends Piece {
     }
 
     private boolean canNotMoveDiagonal(BoardLocation current, BoardLocation destination, BoardVector boardVector) {
-        return Palace.isNotDiagonalMoveAllowed(current, destination) && boardVector.isNotDiagonal();
+        return Palace.isNotDiagonalMoveAllowed(current, destination) || boardVector.isNotDiagonal();
     }
 }
