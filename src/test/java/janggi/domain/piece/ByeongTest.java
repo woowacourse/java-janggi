@@ -18,7 +18,7 @@ class ByeongTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 병은_전진_대각선으로_움직인다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.병, POSITION_5_5);
+        final Piece piece = new Piece(PieceType.BYEONG, POSITION_5_5);
 
         // expected
         assertThatCode(() -> piece.move(newPosition, List.of(), List.of()))
@@ -29,7 +29,7 @@ class ByeongTest extends BaseTest {
     @MethodSource("provideInvalidPositions")
     void 그_외의_위치로는_이동할_수_없다(final Position invalidPosition) {
         // given
-        final Piece piece = new Piece(PieceType.병, POSITION_5_5);
+        final Piece piece = new Piece(PieceType.BYEONG, POSITION_5_5);
 
         // expected
         assertThatThrownBy(() -> piece.move(invalidPosition, List.of(), List.of()))
@@ -40,14 +40,14 @@ class ByeongTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 중간에_기물로_가로막힌다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.병, POSITION_5_5);
+        final Piece piece = new Piece(PieceType.BYEONG, POSITION_5_5);
 
         // expected
         assertThatThrownBy(() -> piece.move(newPosition, List.of(
-                new Piece(PieceType.졸, POSITION_4_5),
-                new Piece(PieceType.졸, POSITION_6_5),
-                new Piece(PieceType.졸, POSITION_5_4),
-                new Piece(PieceType.졸, POSITION_5_6)
+                new Piece(PieceType.JOL, POSITION_4_5),
+                new Piece(PieceType.JOL, POSITION_6_5),
+                new Piece(PieceType.JOL, POSITION_5_4),
+                new Piece(PieceType.JOL, POSITION_5_6)
         ), List.of())).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -55,10 +55,10 @@ class ByeongTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 마지막에_적_기물이_있으면_먹는다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.병, POSITION_5_5);
+        final Piece piece = new Piece(PieceType.BYEONG, POSITION_5_5);
 
         // expected
-        assertThatCode(() -> piece.move(newPosition, List.of(), List.of(new Piece(PieceType.졸, newPosition))))
+        assertThatCode(() -> piece.move(newPosition, List.of(), List.of(new Piece(PieceType.JOL, newPosition))))
                 .doesNotThrowAnyException();
     }
 

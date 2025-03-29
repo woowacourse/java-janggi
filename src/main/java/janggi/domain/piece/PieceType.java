@@ -11,42 +11,42 @@ import janggi.domain.path.path_provider.movement_path_provider.*;
 import java.util.List;
 
 public enum PieceType {
-    차(
+    CHA(
             13,
             List.of(new CrossPathProvider(), new GungPathProvider(new Gung())),
             List.of(new BlockPathFilter(), new LastPositionAllyPathFilter())
     ),
-    포(
+    PO(
             7,
             List.of(new CrossPathProvider(), new GungPathProvider(new Gung())),
             List.of(new BlockSameTypePathFilter(), new JumpPathFilter(1), new LastPositionAllyPathFilter(), new LastPositionSameTypePathFilter())
     ),
-    마(
+    MA(
             5,
             List.of(new StraightDiagonalPathProvider()),
             List.of(new BlockPathFilter(), new LastPositionAllyPathFilter())
     ),
-    상(
+    SANG(
             3,
             List.of(new StraightDiagonalDiagonalPathProvider()),
             List.of(new BlockPathFilter(), new LastPositionAllyPathFilter())
     ),
-    사(
+    SA(
             3,
             List.of(new CrossOneStepPathProvider(), new GungOneStepPathProvider(new Gung())),
             List.of(new InGungPathFilter(new Gung()), new BlockPathFilter(), new LastPositionAllyPathFilter())
     ),
-    졸(
+    JOL(
             2,
             List.of(new UpLeftRightPathProvider(), new GungOneStepPathProvider(new Gung())),
             List.of(new LastPositionAllyPathFilter())
     ),
-    병(
+    BYEONG(
             2,
             List.of(new DownLeftRightPathProvider(), new GungOneStepPathProvider(new Gung())),
             List.of(new LastPositionAllyPathFilter())
     ),
-    장(
+    GUNG(
             0,
             List.of(new CrossOneStepPathProvider(), new GungOneStepPathProvider(new Gung())),
             List.of(new InGungPathFilter(new Gung()), new BlockPathFilter(), new LastPositionAllyPathFilter())

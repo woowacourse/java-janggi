@@ -27,9 +27,9 @@ class JdbcPieceRepositoryTest {
         runWithPieceRepository((repository) -> {
             // given
             final List<Piece> pieces = List.of(
-                    new Piece(PieceType.포, POSITION_5_5),
-                    new Piece(PieceType.장, POSITION_3_3),
-                    new Piece(PieceType.졸, POSITION_2_2)
+                    new Piece(PieceType.PO, POSITION_5_5),
+                    new Piece(PieceType.GUNG, POSITION_3_3),
+                    new Piece(PieceType.JOL, POSITION_2_2)
             );
 
             // expected
@@ -43,13 +43,13 @@ class JdbcPieceRepositoryTest {
         runWithPieceRepository((repository) -> {
             // given
             repository.saveAllPieces(5, Country.CHO, List.of(
-                    new Piece(PieceType.포, POSITION_5_5),
-                    new Piece(PieceType.장, POSITION_3_3),
-                    new Piece(PieceType.졸, POSITION_2_2)
+                    new Piece(PieceType.PO, POSITION_5_5),
+                    new Piece(PieceType.GUNG, POSITION_3_3),
+                    new Piece(PieceType.JOL, POSITION_2_2)
             ));
             repository.saveAllPieces(5, Country.HAN, List.of(
-                    new Piece(PieceType.상, POSITION_7_7),
-                    new Piece(PieceType.마, POSITION_8_8)
+                    new Piece(PieceType.SANG, POSITION_7_7),
+                    new Piece(PieceType.MA, POSITION_8_8)
             ));
 
             // when

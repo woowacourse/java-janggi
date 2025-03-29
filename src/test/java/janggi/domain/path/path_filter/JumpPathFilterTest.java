@@ -28,7 +28,7 @@ class JumpPathFilterTest {
                 null,
                 paths,
                 List.of(),
-                List.of(new Piece(PieceType.졸, POSITION_5_6), new Piece(PieceType.병, POSITION_2_6))
+                List.of(new Piece(PieceType.JOL, POSITION_5_6), new Piece(PieceType.BYEONG, POSITION_2_6))
         );
 
         // then
@@ -52,7 +52,7 @@ class JumpPathFilterTest {
                 null,
                 paths,
                 List.of(),
-                List.of(new Piece(PieceType.졸, POSITION_5_6), new Piece(PieceType.병, POSITION_2_6))
+                List.of(new Piece(PieceType.JOL, POSITION_5_6), new Piece(PieceType.BYEONG, POSITION_2_6))
         );
 
         // then

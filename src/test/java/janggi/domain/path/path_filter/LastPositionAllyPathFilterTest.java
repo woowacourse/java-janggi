@@ -26,8 +26,8 @@ class LastPositionAllyPathFilterTest {
         final Set<Path> result = sut.filter(
                 null,
                 paths,
-                List.of(new Piece(PieceType.졸, POSITION_3_8)),
-                List.of(new Piece(PieceType.병, POSITION_2_8))
+                List.of(new Piece(PieceType.JOL, POSITION_3_8)),
+                List.of(new Piece(PieceType.BYEONG, POSITION_2_8))
         );
 
         // then

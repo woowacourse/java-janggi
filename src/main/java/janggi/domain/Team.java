@@ -110,6 +110,6 @@ public final class Team {
 
     public boolean isEnd() {
         return pieces.values().stream()
-                .noneMatch(piece -> piece.getPieceType().equals(PieceType.장));
+                .noneMatch(piece -> piece.getPieceType().equals(PieceType.GUNG));
     }
 }

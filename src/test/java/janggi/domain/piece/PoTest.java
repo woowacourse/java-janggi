@@ -19,10 +19,10 @@ class PoTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 포는_기물을_하나_뛰어넘어_이동한다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.포, POSITION_5_5);
+        final Piece piece = new Piece(PieceType.PO, POSITION_5_5);
 
         // expected
-        assertThatCode(() -> piece.move(newPosition, List.of(new Piece(PieceType.졸, POSITION_3_5)), List.of()))
+        assertThatCode(() -> piece.move(newPosition, List.of(new Piece(PieceType.JOL, POSITION_3_5)), List.of()))
                 .doesNotThrowAnyException();
     }
 
@@ -30,7 +30,7 @@ class PoTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 포는_중간_기물이_없으면_뛰어넘을_수_없다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.포, POSITION_5_5);
+        final Piece piece = new Piece(PieceType.PO, POSITION_5_5);
 
         // expected
         assertThatThrownBy(() -> piece.move(newPosition, List.of(), List.of()))
@@ -41,10 +41,10 @@ class PoTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 포는_포를_뛰어넘을_수_없다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.포, POSITION_5_5);
+        final Piece piece = new Piece(PieceType.PO, POSITION_5_5);
 
         // expected
-        assertThatThrownBy(() -> piece.move(newPosition, List.of(new Piece(PieceType.포, POSITION_3_5)), List.of()))
+        assertThatThrownBy(() -> piece.move(newPosition, List.of(new Piece(PieceType.PO, POSITION_3_5)), List.of()))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -52,10 +52,10 @@ class PoTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 포는_기물을_하나_뛰어넘어_상대_기물을_먹을_수_있다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.포, POSITION_5_5);
+        final Piece piece = new Piece(PieceType.PO, POSITION_5_5);
 
         // expected
-        assertThatCode(() -> piece.move(newPosition, List.of(new Piece(PieceType.졸, POSITION_3_5)), List.of(new Piece(PieceType.졸, newPosition))))
+        assertThatCode(() -> piece.move(newPosition, List.of(new Piece(PieceType.JOL, POSITION_3_5)), List.of(new Piece(PieceType.JOL, newPosition))))
                 .doesNotThrowAnyException();
     }
 
@@ -63,20 +63,20 @@ class PoTest extends BaseTest {
     @MethodSource("provideValidPositions")
     void 포는_포를_먹을_수_없다(final Position newPosition) {
         // given
-        final Piece piece = new Piece(PieceType.포, POSITION_5_5);
+        final Piece piece = new Piece(PieceType.PO, POSITION_5_5);
 
         // expected
-        assertThatThrownBy(() -> piece.move(newPosition, List.of(new Piece(PieceType.졸, POSITION_3_5)), List.of(new Piece(PieceType.포, newPosition))))
+        assertThatThrownBy(() -> piece.move(newPosition, List.of(new Piece(PieceType.JOL, POSITION_3_5)), List.of(new Piece(PieceType.PO, newPosition))))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 포는_궁에서_대각선으로_움직일_수_있다() {
         // given
-        final Piece piece = new Piece(PieceType.포, POSITION_6_1);
+        final Piece piece = new Piece(PieceType.PO, POSITION_6_1);
 
         // expected
-        assertThatCode(() -> piece.move(POSITION_4_3, List.of(new Piece(PieceType.졸, POSITION_5_2)), List.of()))
+        assertThatCode(() -> piece.move(POSITION_4_3, List.of(new Piece(PieceType.JOL, POSITION_5_2)), List.of()))
                 .doesNotThrowAnyException();
     }
 

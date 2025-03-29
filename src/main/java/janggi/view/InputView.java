@@ -53,10 +53,10 @@ public class InputView {
         sb.append("마상마상 : 1 / 상마상마 : 2 / 마상상마 : 3 / 상마마상 : 4");
         System.out.println(sb);
         final int input = Integer.parseInt(readLine());
-        if (input == 1) return StartingPosition.마상마상;
-        if (input == 2) return StartingPosition.상마상마;
-        if (input == 3) return StartingPosition.마상상마;
-        if (input == 4) return StartingPosition.상마마상;
+        if (input == 1) return StartingPosition.MA_SANG_MA_SANG;
+        if (input == 2) return StartingPosition.SAMG_MA_SANG_MA;
+        if (input == 3) return StartingPosition.MA_SANG_SANG_MA;
+        if (input == 4) return StartingPosition.SANG_MA_MA_SANG;
         throw new IllegalArgumentException();
     }
 

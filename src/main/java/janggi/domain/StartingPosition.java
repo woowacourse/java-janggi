@@ -1,8 +1,8 @@
 package janggi.domain;
 
 public enum StartingPosition {
-    마상마상,
-    상마상마,
-    마상상마,
-    상마마상,
+    MA_SANG_MA_SANG,
+    SAMG_MA_SANG_MA,
+    MA_SANG_SANG_MA,
+    SANG_MA_MA_SANG,
 }

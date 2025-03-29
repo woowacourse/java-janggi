@@ -27,7 +27,7 @@ class BlockPathFilterTest {
                 null,
                 paths,
                 List.of(),
-                List.of(new Piece(PieceType.졸, POSITION_3_6))
+                List.of(new Piece(PieceType.JOL, POSITION_3_6))
         );
 
         // then
