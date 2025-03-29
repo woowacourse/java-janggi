@@ -6,6 +6,9 @@ public abstract class Piece {
 
     protected Point current;
 
+    public Piece() {
+    }
+
     public Piece(final Point current) {
         this.current = current;
     }
@@ -16,9 +19,12 @@ public abstract class Piece {
         return current.equals(point);
     }
 
-    @Override
-    public boolean equals(final Object object) {
     public abstract int score();
+
+    public int killableToKill(Pieces oppositeTeamPieces) {
+        return oppositeTeamPieces.diePieceInPoint(current);
+    }
+
         return object != null && getClass() == object.getClass();
     }
 }

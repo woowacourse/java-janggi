@@ -1,30 +1,39 @@
 package team;
 
 import direction.Point;
+import java.util.ArrayList;
 import java.util.List;
 import piece.Piece;
 import piece.Pieces;
 
 public class Player {
 
-    private final Pieces pieces;
+    private Pieces pieces;
+    private int score;
     private final Team team;
 
-    public Player(List<Piece> pieces, Team team) {
-        this.pieces = new Pieces(pieces);
+    public Player(Pieces pieces, int score, Team team) {
+        this.pieces = pieces;
+        this.score = score;
         this.team = team;
     }
 
-    public void move(Pieces allPieces, Point start, Point end) {
+    public Pieces move(Pieces oppositeTeamPieces, Point start, Point end) {
         validateExistMyPieceOnDestination(end);
-        validateExistPieceOnSelectPoint(allPieces, start);
+        validateExistPieceOnSelectPoint(start);
 
         Piece piece = pieces.findByPoint(start);
-        piece.move(allPieces, end);
+        List<Piece> allPieces = new ArrayList<>(oppositeTeamPieces.getPieces());
+        allPieces.addAll(pieces.getPieces());
+        piece.move(new Pieces(allPieces), end);
+
+        score += piece.killableToKill(oppositeTeamPieces);
+
+        return oppositeTeamPieces;
     }
 
-    private void validateExistPieceOnSelectPoint(Pieces allPieces, Point start) {
-        if (!allPieces.isExistPieceIn(start)) {
+    private void validateExistPieceOnSelectPoint(Point start) {
+        if (!pieces.isExistPieceIn(start)) {
             throw new IllegalArgumentException("[ERROR] 해당 위치에 기물이 존재하지 않습니다.");
         }
     }
@@ -49,5 +58,9 @@ public class Player {
 
     public List<Piece> getPieces() {
         return pieces.getPieces();
+    }
+
+    public void updatePieceStatus(final Pieces oppositeTeamPieces) {
+        pieces = oppositeTeamPieces;
     }
 }

@@ -31,4 +31,14 @@ public class Pieces {
         return pieces.stream()
                 .noneMatch(piece -> piece.isSameType(new General()));
     }
+
+    public int diePieceInPoint(Point point) {
+        if (isExistPieceIn(point)) {
+            Piece diePiece = findByPoint(point);
+            pieces.remove(diePiece);
+            return diePiece.score();
+        }
+
+        return 0;
+    }
 }
