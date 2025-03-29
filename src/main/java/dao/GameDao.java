@@ -2,11 +2,13 @@ package dao;
 
 import domain.game.Turn;
 import domain.piece.Team;
+import dto.TurnDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 public class GameDao {
     private final Connection connection = JdbcConnection.getInstance();
@@ -23,16 +25,6 @@ public class GameDao {
         }
     }
 
-    public boolean isGameContinuing() {
-        final var query = "SELECT COUNT(*) FROM game";
-        try (PreparedStatement pstmt = connection.prepareStatement(query);
-             ResultSet rs = pstmt.executeQuery()) {
-            return rs.next() && rs.getInt(1) > 0;
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void insertGameTurn(Team team) {
         final var query = "INSERT INTO game (turn) VALUES (?)";
 
@@ -44,6 +36,24 @@ public class GameDao {
         }
     }
 
+    public Optional<TurnDto> findTurnByGameId(int game_id) {
+        final var query = "SELECT turn FROM game WHERE game_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, game_id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.next()) {
+                    return Optional.empty();
+                }
+                String turn = rs.getString("turn");
+                TurnDto turnDto = new TurnDto(Team.getTeamByName(turn));
+                return Optional.of(turnDto);
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void saveTurn(Turn turn) {
         final var query = "UPDATE game SET turn = ?";
