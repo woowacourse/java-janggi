@@ -14,6 +14,14 @@ public final class Soldier extends Piece {
 
     @Override
     public void validateMovementRule(MoveType moveType, Point from, Point to) {
+        if (moveType.isPalace()) {
+            if (isSameCamp(Camp.CHU)) {
+                validatePalaceJolMove(from, to);
+                return;
+            }
+            validatePalaceByeongMove(from, to);
+            return;
+        }
         if (isSameCamp(Camp.CHU)) {
             validateJolMove(from, to);
             return;
@@ -36,6 +44,24 @@ public final class Soldier extends Piece {
         }
         if (!isSoldierMove(from, to)) {
             throw new IllegalArgumentException("병은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
+        }
+    }
+
+    private void validatePalaceJolMove(Point from, Point to) {
+        if (from.isYGreaterThan(to)) {
+            throw new IllegalArgumentException("졸은 뒤로 갈 수 없습니다.");
+        }
+        if (!isSoldierMove(from, to) || !from.isDiagonallyAlignedWith(to)) {
+            throw new IllegalArgumentException("졸은 궁성 안에서 앞 또는 양 옆, 대각선으로 한 칸만 움직여야 합니다.");
+        }
+    }
+
+    private void validatePalaceByeongMove(Point from, Point to) {
+        if (to.isYGreaterThan(from)) {
+            throw new IllegalArgumentException("병은 뒤로 갈 수 없습니다.");
+        }
+        if (!isSoldierMove(from, to) || !from.isDiagonallyAlignedWith(to)) {
+            throw new IllegalArgumentException("병은 궁성 안에서 앞 또는 양 옆, 대각선으로 한 칸만 움직여야 합니다.");
         }
     }
 
