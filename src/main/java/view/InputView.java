@@ -39,7 +39,7 @@ public class InputView {
     }
 
     private String getDynastyName(Dynasty currentDynasty) {
-        if(currentDynasty == Dynasty.CHO) {
+        if (currentDynasty == Dynasty.CHO) {
             return "초나라";
         }
         return "한나라";

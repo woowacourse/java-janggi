@@ -1,9 +1,10 @@
 package view;
 
-import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
+import janggiGame.position.Palace;
+import janggiGame.position.Position;
 import janggiGame.state.GameResult;
 import janggiGame.state.GameScore;
 import java.util.Map;
@@ -19,6 +20,10 @@ public class OutputView {
             }
 
             if (!pieces.containsKey(position)) {
+                if (Palace.isInPalace(position)) {
+                    System.out.print("\u001B[38;5;226m" + " " + BLANK + "\u001B[0m");
+                    continue;
+                }
                 System.out.printf("%2s", BLANK);
                 continue;
             }
