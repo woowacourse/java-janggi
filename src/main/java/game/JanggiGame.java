@@ -3,6 +3,7 @@ package game;
 import board.GameBoard;
 import direction.Point;
 import java.util.Objects;
+import piece.Pieces;
 import team.Player;
 import team.Team;
 import view.InputView;
@@ -25,19 +26,28 @@ public class JanggiGame {
 
     public void run() {
         Team currentTeam = Team.getFirstTurnTeam();
-        while (true) {
+        while (!isGameOver()) {
             OutputView.printBoard(gameBoard);
             Player player = gameBoard.findPlayer(currentTeam);
+            Player oppositePlayer = gameBoard.findPlayer(currentTeam.oppsite());
             try {
                 Point start = requestMoveStartPosition(player);
                 Point end = requestMoveEndPosition(start);
 
-                player.move(gameBoard.findAllPieces(), start, end);
+                Pieces oppositeTeamPieces = player.move(gameBoard.findTeamPieces(currentTeam.oppsite()), start, end);
+                oppositePlayer.updatePieceStatus(oppositeTeamPieces);
                 currentTeam = currentTeam.oppsite();
             } catch (IllegalArgumentException e) {
                 System.err.println(e.getMessage());
             }
         }
+    }
+
+    private boolean isGameOver() {
+        Player han = gameBoard.findPlayer(Team.HAN);
+        Player cho = gameBoard.findPlayer(Team.CHO);
+
+        return han.isKingDead() || cho.isKingDead();
     }
 
     private Point requestMoveStartPosition(Player player) {
