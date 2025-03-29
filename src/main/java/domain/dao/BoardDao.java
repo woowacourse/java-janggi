@@ -59,7 +59,7 @@ public class BoardDao {
                 int colIndex = resultSet.getInt("column_index");
                 PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
                 TeamType team = TeamType.valueOf(resultSet.getString("team"));
-                alivePieces.put(Position.of(rowIndex, colIndex), makePiece(pieceType, team));
+                alivePieces.put(Position.of(rowIndex, colIndex), PieceType.createPiece(pieceType,team));
             }
             if (alivePieces.isEmpty()) {
                 return Optional.empty();
@@ -179,31 +179,6 @@ public class BoardDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private Piece makePiece(PieceType pieceType, TeamType teamType) {
-        if (pieceType == PieceType.CANNON) {
-            return new Cannon(teamType);
-        }
-        if (pieceType == PieceType.SOLDIER) {
-            return new Soldier(teamType);
-        }
-        if (pieceType == PieceType.ELEPHANT) {
-            return new Elephant(teamType);
-        }
-        if (pieceType == PieceType.GUARD) {
-            return new Guard(teamType);
-        }
-        if (pieceType == PieceType.CHARIOT) {
-            return new Chariot(teamType);
-        }
-        if (pieceType == PieceType.KING) {
-            return new King(teamType);
-        }
-        if (pieceType == PieceType.HORSE) {
-            return new Horse(teamType);
-        }
-        throw new IllegalArgumentException("존재 하지 않은 말입니다.");
     }
 
     private void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
