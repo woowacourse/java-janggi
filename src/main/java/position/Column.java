@@ -14,6 +14,10 @@ public enum Column {
     H,
     I;
 
+    public static Column of(final String s) {
+        return Column.valueOf(s);
+    }
+
     public Column move(int amount) {
         if (!canMove(amount)) {
             throw new IllegalArgumentException("이동할 수 없는 열입니다. ");

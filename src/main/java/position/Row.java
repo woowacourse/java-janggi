@@ -12,7 +12,12 @@ public enum Row {
     SIX,
     SEVEN,
     EIGHT,
-    NINE;
+    NINE,
+    TEN;
+
+    public static Row of(final String row) {
+        return values()[Integer.parseInt(row)-1];
+    }
 
     public Row move(int amount) {
         if (!canMove(amount)) {

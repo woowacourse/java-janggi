@@ -13,6 +13,10 @@ public record Position(
         this.row = row;
     }
 
+    public static Position of(final String column, final String row) {
+        return new Position(Column.of(column), Row.of(row));
+    }
+
     public Position move(Movement movement) {
         return new Position(column.move(movement.x()), row.move(movement.y()));
     }
