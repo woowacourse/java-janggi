@@ -3,6 +3,7 @@ package contoller;
 import static view.InputView.choiceSetUp;
 import static view.InputView.movePointInput;
 import static view.OutputVIew.displayJanggiBoard;
+import static view.OutputVIew.displayJanggiScore;
 
 import java.util.List;
 import model.Point;
@@ -22,7 +23,7 @@ public class Janggi {
             default -> throw new IllegalArgumentException("다시 입력하세요.");
         };
         displayJanggiBoard(janggiBoard);
-
+        displayJanggiScore(janggiBoard.getTeamScore(Team.BLUE), janggiBoard.getTeamScore(Team.RED));
         for (int i = 0; true; i++) {
             Team team = Team.RED;
             if (i % 2 == 0) {
@@ -40,6 +41,7 @@ public class Janggi {
                 continue;
             }
             displayJanggiBoard(janggiBoard);
+            displayJanggiScore(janggiBoard.getTeamScore(Team.BLUE), janggiBoard.getTeamScore(Team.RED));
         }
     }
 }

@@ -1,7 +1,5 @@
 package model;
 
-import java.util.List;
-
 public enum Team {
     RED("한", 1.5, 7, 9),
     BLUE("초", 0, 0, 2);
@@ -9,14 +7,14 @@ public enum Team {
 
     private final String team;
     private final double defaultScore;
-    private final int yGoongMinimum;
-    private final int yGoongMaximum;
+    private final int yPalaceMinimum;
+    private final int yPalaceMaximum;
 
-    Team(String team, double defaultScore, int yGoongMinimum, int yGoongMaximum) {
+    Team(String team, double defaultScore, int yPalaceMinimum, int yPalaceMaximum) {
         this.team = team;
         this.defaultScore = defaultScore;
-        this.yGoongMinimum = yGoongMinimum;
-        this.yGoongMaximum = yGoongMaximum;
+        this.yPalaceMinimum = yPalaceMinimum;
+        this.yPalaceMaximum = yPalaceMaximum;
     }
 
     public boolean isRed() {
@@ -31,11 +29,11 @@ public enum Team {
         return defaultScore;
     }
 
-    public int getyGoongMinimum() {
-        return yGoongMinimum;
+    public int getYPalaceMinimum() {
+        return yPalaceMinimum;
     }
 
-    public int getyGoongMaximum() {
-        return yGoongMaximum;
+    public int getYPalaceMaximum() {
+        return yPalaceMaximum;
     }
 }

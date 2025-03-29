@@ -23,7 +23,7 @@ public abstract class FixedPalacePieces extends Piece {
         if (targetPoint.x() < PALACE_MIN_POINT_X || targetPoint.x() > PALACE_MAX_POINT_X) {
             throw new IllegalArgumentException("궁 밖에 나갈 수 없습니다.");
         }
-        if (targetPoint.y() < team.getyGoongMinimum() || targetPoint.y() > team.getyGoongMaximum()) {
+        if (targetPoint.y() < team.getYPalaceMinimum() || targetPoint.y() > team.getYPalaceMaximum()) {
             throw new IllegalArgumentException("궁 밖에 나갈 수 없습니다.");
         }
     }

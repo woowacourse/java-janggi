@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import model.Team;
 import model.janggiboard.Dot;
 import model.janggiboard.JanggiBoard;
 
@@ -68,6 +67,10 @@ public class OutputVIew {
         return newStrings;
     }
 
+    public static void displayJanggiScore(double blueTeamScore, double redTeamScore) {
+        System.out.printf("초나라 점수:%.1f 한나라 점수:%.1f", blueTeamScore, redTeamScore);
+        System.out.println();
+    }
     public static void displayErrorMessage(String e) {
         System.out.println(FONT_RED + e + RESET);
     }
