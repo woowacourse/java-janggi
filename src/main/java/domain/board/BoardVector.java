@@ -15,7 +15,7 @@ public record BoardVector(
         return dx == 0 || dy == 0;
     }
 
-    public boolean isQuadrant() {
+    public boolean isDiagonal() {
         return Math.abs(dx) == Math.abs(dy);
     }
 
@@ -23,7 +23,7 @@ public record BoardVector(
         return Math.abs(dx) == step || Math.abs(dy) == step;
     }
 
-    public boolean isStepQuadrantMove(int step) {
+    public boolean isStepDiagonalMove(int step) {
         return Math.abs(dx) == step && Math.abs(dy) == step;
     }
 

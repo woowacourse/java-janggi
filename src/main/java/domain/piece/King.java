@@ -20,7 +20,7 @@ public class King extends Piece {
         if (boardVector.isAxis()) {
             return;
         }
-        if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isQuadrant()) {
+        if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isDiagonal()) {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 해당 기물은 목표 위치로 이동할 수 없습니다");

@@ -20,7 +20,7 @@ public class Scholar extends Piece {
         if (boardVector.isAxis()) {
             return;
         }
-        if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isQuadrant()) {
+        if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isDiagonal()) {
             return;
         }
         throw new IllegalArgumentException("[ERROR] 킹은 궁성 안에서 움직여야 합니다.");
