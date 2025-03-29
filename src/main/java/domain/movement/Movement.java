@@ -1,4 +1,4 @@
-package domain.unit;
+package domain.movement;
 
 import domain.position.Position;
 import domain.position.Route;

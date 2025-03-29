@@ -71,9 +71,6 @@ public class OutputView {
         if (unitType == UnitType.SOLDIER) {
             return "SD";
         }
-        if (unitType == UnitType.NONE) {
-            return "..";
-        }
         throw new IllegalStateException("예기치 못한 예외가 발생하였습니다.");
     }
 }

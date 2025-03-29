@@ -1,4 +1,4 @@
-import domain.Game;
+import gameflow.JanggiGameFlow;
 import view.InputView;
 import view.OutputView;
 
@@ -7,11 +7,11 @@ public class JanggiApplication {
     public static void main(String[] args) {
         final InputView inputView = new InputView();
         final OutputView outputView = new OutputView();
-        final Game game = new Game(inputView, outputView);
+        final JanggiGameFlow janggiGameFlow = new JanggiGameFlow(inputView, outputView);
 
-        while (!game.isEnd()) {
+        while (!janggiGameFlow.isEnd()) {
             try {
-                game.doTurn();
+                janggiGameFlow.doTurn();
             } catch (IllegalArgumentException e) {
                 System.out.println("[ERROR] " + e.getMessage());
             }

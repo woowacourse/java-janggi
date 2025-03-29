@@ -1,15 +1,14 @@
-package domain.unit.rule;
+package domain.unit.move;
 
+import domain.movement.Direction;
+import domain.movement.Movement;
 import domain.position.Position;
-import domain.unit.Direction;
-import domain.unit.Movement;
-import domain.unit.UnitType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class CannonMovingStrategy implements MovingStrategy {
+public class StraightMovingStrategy implements MovingStrategy {
 
     @Override
     public List<Movement> generatePossibleMovement(Position position) {
@@ -22,7 +21,6 @@ public class CannonMovingStrategy implements MovingStrategy {
                 .filter(movement -> movement.canBeRoute(position))
                 .toList();
     }
-
 
     private List<Movement> createMovementsInDirection(Direction direction) {
         int maxSteps = calculateMaxSteps(direction);
@@ -69,10 +67,5 @@ public class CannonMovingStrategy implements MovingStrategy {
             movements.add(Movement.of(Direction.UPPER_RIGHT));
         }
         return movements;
-    }
-
-    @Override
-    public UnitType getType() {
-        return UnitType.CANNON;
     }
 }

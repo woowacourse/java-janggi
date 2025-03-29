@@ -1,17 +1,16 @@
-package domain.unit.rule;
+package domain.unit.move;
 
-import static domain.unit.Direction.LEFT;
-import static domain.unit.Direction.LOWER;
-import static domain.unit.Direction.LOWER_LEFT;
-import static domain.unit.Direction.LOWER_RIGHT;
-import static domain.unit.Direction.RIGHT;
-import static domain.unit.Direction.UPPER;
-import static domain.unit.Direction.UPPER_LEFT;
-import static domain.unit.Direction.UPPER_RIGHT;
+import static domain.movement.Direction.LEFT;
+import static domain.movement.Direction.LOWER;
+import static domain.movement.Direction.LOWER_LEFT;
+import static domain.movement.Direction.LOWER_RIGHT;
+import static domain.movement.Direction.RIGHT;
+import static domain.movement.Direction.UPPER;
+import static domain.movement.Direction.UPPER_LEFT;
+import static domain.movement.Direction.UPPER_RIGHT;
 
+import domain.movement.Movement;
 import domain.position.Position;
-import domain.unit.Movement;
-import domain.unit.UnitType;
 import java.util.List;
 
 public class HorseMovingStrategy implements MovingStrategy {
@@ -37,10 +36,5 @@ public class HorseMovingStrategy implements MovingStrategy {
                 Movement.of(RIGHT, UPPER_RIGHT),
                 Movement.of(RIGHT, LOWER_RIGHT)
         );
-    }
-
-    @Override
-    public UnitType getType() {
-        return UnitType.HORSE;
     }
 }

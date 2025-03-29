@@ -1,10 +1,11 @@
-package domain;
+package gameflow;
 
-import domain.position.DefaultUnitPosition;
+import domain.Janggi;
 import domain.position.Position;
 import domain.position.Routes;
 import domain.unit.Team;
 import domain.unit.Unit;
+import domain.unit.UnitType;
 import domain.unit.Units;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,13 +14,13 @@ import java.util.Map;
 import view.InputView;
 import view.OutputView;
 
-public class Game {
+public class JanggiGameFlow {
 
     private final Janggi janggi;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public Game(InputView inputView, OutputView outputView) {
+    public JanggiGameFlow(InputView inputView, OutputView outputView) {
         this.janggi = createJanggi();
         this.inputView = inputView;
         this.outputView = outputView;
@@ -34,8 +35,8 @@ public class Game {
 
     private Map<Position, Unit> settingUnits(Team team) {
         Map<Position, Unit> units = new HashMap<>();
-        for (DefaultUnitPosition value : DefaultUnitPosition.values()) {
-            units.putAll(DefaultUnitPosition.createDefaultUnits(value, team));
+        for (UnitType value : UnitType.values()) {
+            units.putAll(UnitType.createDefaultUnits(value, team));
         }
         return units;
     }

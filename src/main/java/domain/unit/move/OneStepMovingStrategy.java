@@ -1,18 +1,17 @@
-package domain.unit.rule;
+package domain.unit.move;
 
-import static domain.unit.Direction.LEFT;
-import static domain.unit.Direction.LOWER;
-import static domain.unit.Direction.RIGHT;
-import static domain.unit.Direction.UPPER;
+import static domain.movement.Direction.LEFT;
+import static domain.movement.Direction.LOWER;
+import static domain.movement.Direction.RIGHT;
+import static domain.movement.Direction.UPPER;
 
+import domain.movement.Direction;
+import domain.movement.Movement;
 import domain.position.Position;
-import domain.unit.Direction;
-import domain.unit.Movement;
-import domain.unit.UnitType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoldierMovingStrategy implements MovingStrategy {
+public class OneStepMovingStrategy implements MovingStrategy {
 
     @Override
     public List<Movement> generatePossibleMovement(Position position) {
@@ -23,7 +22,6 @@ public class SoldierMovingStrategy implements MovingStrategy {
         return possibleMovements.stream()
                 .filter(movement -> movement.canBeRoute(position))
                 .toList();
-
     }
 
     private static List<Movement> getMovements() {
@@ -55,10 +53,5 @@ public class SoldierMovingStrategy implements MovingStrategy {
             movements.add(Movement.of(Direction.UPPER_RIGHT));
         }
         return movements;
-    }
-
-    @Override
-    public UnitType getType() {
-        return UnitType.SOLDIER;
     }
 }

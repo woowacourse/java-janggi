@@ -1,6 +1,6 @@
 package domain.position;
 
-import domain.unit.Direction;
+import domain.movement.Direction;
 import domain.unit.Team;
 import java.util.Objects;
 
