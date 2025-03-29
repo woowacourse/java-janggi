@@ -12,27 +12,15 @@ import pieceProperty.Positions;
 
 class PoTest {
 
-    @DisplayName("포는 위치 정보를 가진다,")
-    @Test
-    void poBoardPosition() {
-        //given
-        Position position = new Position(4, 5);
-
-        //when
-        Po po = new Po(position);
-
-        //then
-        assertThat(po.currentPosition()).isEqualTo(new Position(4, 5));
-    }
-
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @Test
     void nonCanMoveTo() {
         //given
-        Po po = new Po(new Position(0, 0));
+        Po po = new Po();
+        Position startPosition = new Position(0, 0);
 
         //when //then
-        assertThatThrownBy(() -> po.canMoveTo(new Position(1, 1)))
+        assertThatThrownBy(() -> po.canMoveTo(startPosition, new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -41,11 +29,13 @@ class PoTest {
     @Test
     void makeRoute() {
         //given
-        Po po = new Po(new Position(0, 0));
+        Po po = new Po();
+        Position startPosition = new Position(0, 0);
+
         Position futurePosition = new Position(5, 0);
 
         //when
-        Positions actual = po.makeRoute(futurePosition);
+        Positions actual = po.makeRoute(startPosition, futurePosition);
 
         //then
         assertThat(actual.getPositions()).containsExactly(
@@ -59,7 +49,7 @@ class PoTest {
     @Test
     @DisplayName("자신의 타입 리턴 테스트")
     void pieceTypeTest() {
-        Po po = new Po(new Position(5, 5));
+        Po po = new Po();
 
         assertThat(po.getPieceType().equals(PO)).isTrue();
     }
@@ -67,7 +57,7 @@ class PoTest {
     @Test
     @DisplayName("왕인지 물어보는 테스트")
     void isJanggunTest() {
-        Po po = new Po(new Position(5, 5));
+        Po po = new Po();
 
         assertThat(po.isJanggun()).isFalse();
     }
@@ -75,7 +65,7 @@ class PoTest {
     @Test
     @DisplayName("포 판별 테스트")
     void isPoTest() {
-        Po po = new Po(new Position(5, 5));
+        Po po = new Po();
 
         assertThat(po.isPo()).isTrue();
     }

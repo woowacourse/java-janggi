@@ -1,7 +1,6 @@
 package movementRule.omniDirectionMover;
 
 import java.util.List;
-import java.util.Objects;
 import movementRule.PieceRule;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
@@ -12,61 +11,26 @@ public abstract sealed class OmniDirectionalMover
         implements PieceRule
         permits Sa, Janggun {
 
-    private Position position;
-
-    public OmniDirectionalMover(Position position) {
-        this.position = position;
-    }
-
     @Override
-    public boolean isSamePosition(final Position position) {
-        return position.equals(this.position);
-    }
-
-    @Override
-    public void updateChessPiecePositionBy(final Position destination) {
-        this.position = destination;
-    }
-
-    @Override
-    public void canMoveTo(Position destination) {
-        if (isOmniDirectionalMover(destination)) {
+    public void canMoveTo(final Position startPosition, Position destination) {
+        if (isOmniDirectionalMover(startPosition, destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("기물이 움직일 수 없는 위치 입니다."));
         }
     }
 
     @Override
-    public Positions makeRoute(Position destination) {
+    public Positions makeRoute(final Position startPosition, Position destination) {
         return new Positions(List.of());
     }
 
     @Override
     public abstract PieceType getPieceType();
 
-    private boolean isOmniDirectionalMover(Position destination) {
-        return !position.isUpMovementTo(destination)
-                && !position.isDownMovementTo(destination)
-                && !position.isLeftMovementTo(destination)
-                && !position.isRightMovementTo(destination);
-    }
-
-    @Override
-    public Position currentPosition() {
-        return position;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        OmniDirectionalMover that = (OmniDirectionalMover) o;
-        return Objects.equals(position, that.position);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(position);
+    private boolean isOmniDirectionalMover(final Position startPosition, Position destination) {
+        return !startPosition.isUpMovementTo(destination)
+                && !startPosition.isDownMovementTo(destination)
+                && !startPosition.isLeftMovementTo(destination)
+                && !startPosition.isRightMovementTo(destination);
     }
 
 }

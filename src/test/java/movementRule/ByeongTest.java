@@ -15,29 +15,17 @@ import pieceProperty.Position;
 import pieceProperty.Positions;
 
 class ByeongTest {
-    @DisplayName("볃은 이름과 위치를 가진다.")
-    @Test
-    void byenogBoardPosition() {
-        //given
-        Position position = new Position(0, 0);
-
-        //when
-        Byeong byeong = new Byeong(position);
-
-        //then
-        assertThat(byeong.currentPosition().getCol()).isEqualTo(0);
-        assertThat(byeong.currentPosition().getRow()).isEqualTo(0);
-    }
 
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @ParameterizedTest
     @MethodSource("byeongNonCanMoveToPositionProvider")
     void nonCanMoveTo(Position position) {
         //given
-        Byeong byeong = new Byeong(new Position(5, 5));
+        Byeong byeong = new Byeong();
+        Position startPosition = new Position(5, 5);
 
         //when
-        assertThatThrownBy(() -> byeong.canMoveTo(position))
+        assertThatThrownBy(() -> byeong.canMoveTo(startPosition, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -46,11 +34,12 @@ class ByeongTest {
     @Test
     void makeRoute() {
         //given
-        Byeong byeong = new Byeong(new Position(5, 5));
+        Byeong byeong = new Byeong();
+        Position startPosition = new Position(5, 5);
         Position futurePosition = new Position(4, 5);
 
         //when
-        Positions actual = byeong.makeRoute(futurePosition);
+        Positions actual = byeong.makeRoute(startPosition, futurePosition);
 
         //then
         assertThat(actual.getPositions().contains(futurePosition)).isFalse();
@@ -67,7 +56,8 @@ class ByeongTest {
     @Test
     @DisplayName("자신의 타입 리턴 테스트")
     void pieceTypeTest() {
-        Byeong byeong = new Byeong(new Position(5, 5));
+        Byeong byeong = new Byeong();
+        Position startPosition = new Position(5, 5);
 
         assertThat(byeong.getPieceType().equals(BYEONG)).isTrue();
     }
@@ -75,7 +65,7 @@ class ByeongTest {
     @Test
     @DisplayName("왕인지 물어보는 테스트")
     void isJanggunTest() {
-        Byeong byeong = new Byeong(new Position(5, 5));
+        Byeong byeong = new Byeong();
 
         assertThat(byeong.isJanggun()).isFalse();
     }
@@ -83,7 +73,7 @@ class ByeongTest {
     @Test
     @DisplayName("포 판별 테스트")
     void isPoTest() {
-        Byeong byeong = new Byeong(new Position(5, 5));
+        Byeong byeong = new Byeong();
 
         assertThat(byeong.isPo()).isFalse();
     }

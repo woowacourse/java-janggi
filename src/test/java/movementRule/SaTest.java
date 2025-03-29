@@ -16,28 +16,16 @@ import pieceProperty.Positions;
 
 class SaTest {
 
-    @DisplayName("사는 위치 정보를 가진다,")
-    @Test
-    void saBoardPosition() {
-        //given
-        Position position = new Position(4, 5);
-
-        //when
-        Sa sa = new Sa(position);
-
-        //then
-        assertThat(sa.currentPosition()).isEqualTo(new Position(4, 5));
-    }
-
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
     @MethodSource("saNonCanMoveToPositionProvider")
     void canMoveToValidate(Position position) {
         //given
-        Sa sa = new Sa(new Position(5, 5));
+        Sa sa = new Sa();
+        Position startPosition = new Position(5, 5);
 
         //when //then
-        assertThatThrownBy(() -> sa.canMoveTo(position))
+        assertThatThrownBy(() -> sa.canMoveTo(startPosition, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -46,11 +34,12 @@ class SaTest {
     @Test
     void makeRoute() {
         //given
-        Sa sa = new Sa(new Position(5, 5));
+        Sa sa = new Sa();
+        Position startPosition = new Position(5, 5);
         Position futurePosition = new Position(4, 5);
 
         //when
-        Positions actual = sa.makeRoute(futurePosition);
+        Positions actual = sa.makeRoute(startPosition, futurePosition);
 
         //then
         assertThat(actual.getPositions().contains(futurePosition)).isFalse();
@@ -72,7 +61,7 @@ class SaTest {
     @Test
     @DisplayName("자신의 타입 리턴 테스트")
     void pieceTypeTest() {
-        Sa sa = new Sa(new Position(5, 5));
+        Sa sa = new Sa();
 
         assertThat(sa.getPieceType().equals(SA)).isTrue();
     }
@@ -80,7 +69,7 @@ class SaTest {
     @Test
     @DisplayName("왕인지 물어보는 테스트")
     void isJanggunTest() {
-        Sa sa  = new Sa(new Position(5, 5));
+        Sa sa  = new Sa();
 
         assertThat(sa.isJanggun()).isFalse();
     }
@@ -88,7 +77,7 @@ class SaTest {
     @Test
     @DisplayName("포 판별 테스트")
     void isPoTest() {
-        Sa sa = new Sa(new Position(5, 5));
+        Sa sa = new Sa();
 
         assertThat(sa.isPo()).isFalse();
     }

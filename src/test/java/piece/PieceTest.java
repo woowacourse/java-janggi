@@ -2,7 +2,6 @@ package piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static pieceProperty.PieceType.CHA;
 
 import movementRule.linearMover.Cha;
@@ -13,25 +12,15 @@ import pieceProperty.Positions;
 
 class PieceTest {
 
-    @DisplayName("차은 위치 정보를 가진다,")
-    @Test
-    void chaBoardPosition() {
-        //given
-        Position position = new Position(4, 5);
-        Piece piece = new Piece(new Cha(position));
-
-        //when - then
-        assertThat(piece.currentPosition()).isEqualTo(new Position(4, 5));
-    }
-
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @Test
     void nonCanMoveTo() {
         //given
-        Piece piece = new Piece(new Cha(new Position(0, 0)));
+        Piece piece = new Piece(new Cha());
+        Position position = new Position(0, 0);
 
         //when //then
-        assertThatThrownBy(() -> piece.canMoveTo(new Position(1, 1)))
+        assertThatThrownBy(() -> piece.canMoveTo(position, new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -40,12 +29,13 @@ class PieceTest {
     @Test
     void makeRoute() {
         //given
-        Cha cha = new Cha(new Position(5, 5));
+        Cha cha = new Cha();
+        Position startPosition = new Position(5, 5);
         Piece piece = new Piece(cha);
         Position futurePosition = new Position(0, 5);
 
         //when
-        Positions actual = piece.makeRoute(futurePosition);
+        Positions actual = piece.makeRoute(startPosition, futurePosition);
 
         //then
         assertThat(actual.getPositions()).containsExactly(
@@ -59,7 +49,7 @@ class PieceTest {
     @Test
     @DisplayName("자신의 타입 리턴 테스트")
     void pieceTypeTest() {
-        Cha cha = new Cha(new Position(5, 5));
+        Cha cha = new Cha();
         Piece piece = new Piece(cha);
 
         assertThat(piece.getPieceType().equals(CHA)).isTrue();
@@ -68,7 +58,7 @@ class PieceTest {
     @Test
     @DisplayName("왕인지 물어보는 테스트")
     void isJanggunTest() {
-        Cha cha = new Cha(new Position(5, 5));
+        Cha cha = new Cha();
         Piece piece = new Piece(cha);
 
         assertThat(piece.isJanggun()).isFalse();
@@ -77,7 +67,7 @@ class PieceTest {
     @Test
     @DisplayName("포 판별 테스트")
     void isPoTest() {
-        Cha cha = new Cha(new Position(5, 5));
+        Cha cha = new Cha();
         Piece piece = new Piece(cha);
 
         assertThat(piece.isPo()).isFalse();

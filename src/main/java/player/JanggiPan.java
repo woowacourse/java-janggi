@@ -34,7 +34,7 @@ public class JanggiPan {
     }
 
     public void canPieceMoveTo(final Position presentPosition, final Position destination) {
-        pieces.get(presentPosition).canMoveTo(destination);
+        pieces.get(presentPosition).canMoveTo(presentPosition, destination);
     }
 
     public int countObstacle(final Positions route) {
@@ -44,7 +44,7 @@ public class JanggiPan {
     }
 
     public Positions makeRoute(final Position presentPosition, final Position destination) {
-        return pieces.get(presentPosition).makeRoute(destination);
+        return pieces.get(presentPosition).makeRoute(presentPosition, destination);
     }
 
     public boolean isJanggunDie() {

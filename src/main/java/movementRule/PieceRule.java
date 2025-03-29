@@ -6,19 +6,14 @@ import pieceProperty.Positions;
 
 public interface PieceRule {
 
-    boolean isSamePosition(Position startPosition);
-
     boolean isPo();
 
     boolean isJanggun();
 
-    void updateChessPiecePositionBy(Position destination);
-
     PieceType getPieceType();
 
-    void canMoveTo(final Position destination);
+    void canMoveTo(final Position startPosition, final Position destination);
 
-    Positions makeRoute(final Position destination);
+    Positions makeRoute(final Position startPosition, final Position destination);
 
-    Position currentPosition();
 }

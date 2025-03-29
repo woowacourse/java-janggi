@@ -16,28 +16,16 @@ import pieceProperty.Positions;
 
 class SangTest {
 
-    @DisplayName("상은 위치 정보를 가진다,")
-    @Test
-    void sangBoardPosition() {
-        //given
-        Position position = new Position(4, 5);
-
-        //when
-        Sang sang = new Sang(position);
-
-        //then
-        assertThat(sang.currentPosition()).isEqualTo(new Position(4, 5));
-    }
-
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
     @ParameterizedTest
     @MethodSource("sangNonCanMoveToPositionProvider")
     void nonCanMoveTo(Position position) {
         //given
-        Sang sang = new Sang(new Position(5, 5));
+        Sang sang = new Sang();
+        Position startPosition = new Position(5, 5);
 
         //when //then
-        assertThatThrownBy(() -> sang.canMoveTo(position))
+        assertThatThrownBy(() -> sang.canMoveTo(startPosition, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -46,11 +34,12 @@ class SangTest {
     @Test
     void makeRoute() {
         //given
-        Sang sang = new Sang(new Position(5, 5));
+        Sang sang = new Sang();
+        Position startPosition = new Position(5, 5);
         Position futurePosition = new Position(3, 2);
 
         //when
-        Positions actual = sang.makeRoute(futurePosition);
+        Positions actual = sang.makeRoute(startPosition, futurePosition);
 
         //then
         assertThat(actual.getPositions()).containsExactly(
@@ -79,7 +68,7 @@ class SangTest {
     @Test
     @DisplayName("자신의 타입 리턴 테스트")
     void pieceTypeTest() {
-        Sang sang = new Sang(new Position(5, 5));
+        Sang sang = new Sang();
 
         assertThat(sang.getPieceType().equals(SANG)).isTrue();
     }
@@ -87,7 +76,7 @@ class SangTest {
     @Test
     @DisplayName("왕인지 물어보는 테스트")
     void isJanggunTest() {
-        Sang sang = new Sang(new Position(5, 5));
+        Sang sang = new Sang();
 
         assertThat(sang.isJanggun()).isFalse();
     }
@@ -95,7 +84,7 @@ class SangTest {
     @Test
     @DisplayName("포 판별 테스트")
     void isPoTest() {
-        Sang sang = new Sang(new Position(5, 5));
+        Sang sang = new Sang();
 
         assertThat(sang.isPo()).isFalse();
     }

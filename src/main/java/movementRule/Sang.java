@@ -3,24 +3,12 @@ package movementRule;
 import static pieceProperty.PieceType.SANG;
 
 import java.util.List;
-import java.util.Objects;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 import view.ErrorMessage;
 
 public class Sang implements PieceRule {
-
-    private Position position;
-
-    public Sang(Position position) {
-        this.position = position;
-    }
-
-    @Override
-    public boolean isSamePosition(final Position startPosition) {
-        return startPosition.equals(position);
-    }
 
     @Override
     public boolean isPo() {
@@ -33,59 +21,54 @@ public class Sang implements PieceRule {
     }
 
     @Override
-    public void updateChessPiecePositionBy(final Position destination) {
-        position = destination;
-    }
-
-    @Override
-    public void canMoveTo(final Position destination) {
-        if (isInvalidSangMove(destination)) {
+    public void canMoveTo(final Position startPosition, final Position destination) {
+        if (isInvalidSangMove(startPosition, destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("기물이 움직일 수 없는 위치입니다."));
         }
     }
 
     @Override
-    public Positions makeRoute(final Position destination) {
+    public Positions makeRoute(final Position startPosition, final Position destination) {
         Positions route = new Positions(List.of());
 
-        if (position.isUpLeftUpLeftUpMovementTo(destination)) {
-            route.addPosition(position.calculateUpMovement());
-            route.addPosition(position.calculateUpLeftUpMovement());
+        if (startPosition.isUpLeftUpLeftUpMovementTo(destination)) {
+            route.addPosition(startPosition.calculateUpMovement());
+            route.addPosition(startPosition.calculateUpLeftUpMovement());
         }
 
-        if (position.isUpRightUpRightUpMovementTo(destination)) {
-            route.addPosition(position.calculateUpMovement());
-            route.addPosition(position.calculateUpRightUPMovement());
+        if (startPosition.isUpRightUpRightUpMovementTo(destination)) {
+            route.addPosition(startPosition.calculateUpMovement());
+            route.addPosition(startPosition.calculateUpRightUPMovement());
         }
 
-        if (position.isRightRightUpRightUpMovementTo(destination)) {
-            route.addPosition(position.calculateRightMovement());
-            route.addPosition(position.calculateRightRightUpMovement());
+        if (startPosition.isRightRightUpRightUpMovementTo(destination)) {
+            route.addPosition(startPosition.calculateRightMovement());
+            route.addPosition(startPosition.calculateRightRightUpMovement());
         }
 
-        if (position.isRightRightDownRightDownMovementTo(destination)) {
-            route.addPosition(position.calculateRightMovement());
-            route.addPosition(position.calculateRightRightDownMovement());
+        if (startPosition.isRightRightDownRightDownMovementTo(destination)) {
+            route.addPosition(startPosition.calculateRightMovement());
+            route.addPosition(startPosition.calculateRightRightDownMovement());
         }
 
-        if (position.isDownLeftDownLeftDownMovementTo(destination)) {
-            route.addPosition(position.calculateDownMovement());
-            route.addPosition(position.calculateDownLeftDownMovement());
+        if (startPosition.isDownLeftDownLeftDownMovementTo(destination)) {
+            route.addPosition(startPosition.calculateDownMovement());
+            route.addPosition(startPosition.calculateDownLeftDownMovement());
         }
 
-        if (position.isDownRightDownRightDownMovementTo(destination)) {
-            route.addPosition(position.calculateDownMovement());
-            route.addPosition(position.calculateDownRightDownMovement());
+        if (startPosition.isDownRightDownRightDownMovementTo(destination)) {
+            route.addPosition(startPosition.calculateDownMovement());
+            route.addPosition(startPosition.calculateDownRightDownMovement());
         }
 
-        if (position.isLeftLeftUpLeftUpMovementTo(destination)) {
-            route.addPosition(position.calculateLeftMovement());
-            route.addPosition(position.calculateLeftLeftUpMovement());
+        if (startPosition.isLeftLeftUpLeftUpMovementTo(destination)) {
+            route.addPosition(startPosition.calculateLeftMovement());
+            route.addPosition(startPosition.calculateLeftLeftUpMovement());
         }
 
-        if (position.isLeftLeftDownLeftDownMovementTo(destination)) {
-            route.addPosition(position.calculateLeftMovement());
-            route.addPosition(position.calculateLeftLeftDownMovement());
+        if (startPosition.isLeftLeftDownLeftDownMovementTo(destination)) {
+            route.addPosition(startPosition.calculateLeftMovement());
+            route.addPosition(startPosition.calculateLeftLeftDownMovement());
         }
 
         return route;
@@ -96,33 +79,15 @@ public class Sang implements PieceRule {
         return SANG;
     }
 
-    @Override
-    public Position currentPosition() {
-        return position;
+    private boolean isInvalidSangMove(Position startPosition, final Position destination) {
+        return !startPosition.isUpRightUpRightUpMovementTo(destination)
+                && !startPosition.isUpLeftUpLeftUpMovementTo(destination)
+                && !startPosition.isRightRightUpRightUpMovementTo(destination)
+                && !startPosition.isRightRightDownRightDownMovementTo(destination)
+                && !startPosition.isDownRightDownRightDownMovementTo(destination)
+                && !startPosition.isDownLeftDownLeftDownMovementTo(destination)
+                && !startPosition.isLeftLeftUpLeftUpMovementTo(destination)
+                && !startPosition.isLeftLeftDownLeftDownMovementTo(destination);
     }
 
-    private boolean isInvalidSangMove(final Position destination) {
-        return !position.isUpRightUpRightUpMovementTo(destination)
-                && !position.isUpLeftUpLeftUpMovementTo(destination)
-                && !position.isRightRightUpRightUpMovementTo(destination)
-                && !position.isRightRightDownRightDownMovementTo(destination)
-                && !position.isDownRightDownRightDownMovementTo(destination)
-                && !position.isDownLeftDownLeftDownMovementTo(destination)
-                && !position.isLeftLeftUpLeftUpMovementTo(destination)
-                && !position.isLeftLeftDownLeftDownMovementTo(destination);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Sang sang = (Sang) o;
-        return Objects.equals(position, sang.position);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(position);
-    }
 }

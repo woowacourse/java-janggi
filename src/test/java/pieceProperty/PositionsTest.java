@@ -38,20 +38,6 @@ class PositionsTest {
     }
 
     @Test
-    @DisplayName("경로 상에 같은 위치 기물 확인 테스트")
-    void containsPositionTest() {
-        //given
-        List<Position> positionsList = new ArrayList<>(List.of(new Position(5, 5)));
-        Positions positions = new Positions(positionsList);
-        Jol jol = new Jol(new Position(5, 5));
-        Byeong byeong = new Byeong(new Position(5, 6));
-
-        //when-then
-        assertThat(positions.containsPosition(jol)).isTrue();
-        assertThat(positions.containsPosition(byeong)).isFalse();
-    }
-
-    @Test
     @DisplayName("위치 보유 테스트")
     void containsTest() {
         //given

@@ -15,10 +15,6 @@ public class Positions {
         positions.add(position);
     }
 
-    public boolean containsPosition(final PieceRule pieceRule) {
-        return positions.stream().anyMatch(pieceRule::isSamePosition);
-    }
-
     public boolean contains(final Position position) {
         return positions.contains(position);
     }

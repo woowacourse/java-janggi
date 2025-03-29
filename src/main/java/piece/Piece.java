@@ -14,12 +14,12 @@ public class Piece {
         this.pieceRule = pieceRule;
     }
 
-    public Positions makeRoute(Position destination) {
-        return pieceRule.makeRoute(destination);
+    public Positions makeRoute(final Position startPosition, final Position destination) {
+        return pieceRule.makeRoute(startPosition, destination);
     }
 
-    public void canMoveTo(Position destination) {
-        pieceRule.canMoveTo(destination);
+    public void canMoveTo(final Position startPosition, final Position destination) {
+        pieceRule.canMoveTo(startPosition, destination);
     }
 
     public boolean isPo() {
@@ -28,10 +28,6 @@ public class Piece {
 
     public boolean isJanggun() {
         return pieceRule.isJanggun();
-    }
-
-    public Position currentPosition() {
-        return pieceRule.currentPosition();
     }
 
     public PieceType getPieceType() {

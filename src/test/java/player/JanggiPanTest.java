@@ -24,8 +24,9 @@ class JanggiPanTest {
     @DisplayName("장기 기물 이동 테스트")
     void moveTest() {
         //given
+        Piece piece = new Piece(new Cha());
         JanggiPan janggiPan = new JanggiPan(
-                Map.of(new Position(5, 5), new Piece(new Cha(new Position(5, 5))))
+                Map.of(new Position(5, 5), piece)
         );
 
         //when
@@ -34,7 +35,7 @@ class JanggiPanTest {
         //then
         assertThat(
                 janggiPan.getPieces().get(new Position(6, 5))
-                        .equals(new Piece(new Cha(new Position(5, 5)))))
+                        .equals(piece))
                 .isTrue();
     }
 
@@ -43,7 +44,7 @@ class JanggiPanTest {
     void validateAllyPieceAtStartTest() {
         //given
         JanggiPan janggiPan = new JanggiPan(
-                Map.of(new Position(5, 5), new Piece(new Cha(new Position(5, 5))))
+                Map.of(new Position(5, 5), new Piece(new Cha()))
         );
 
         //when - then
@@ -58,7 +59,7 @@ class JanggiPanTest {
     void validateAllyPieceAtDestinationTest() {
         //given
         JanggiPan janggiPan = new JanggiPan(
-                Map.of(new Position(5, 5), new Piece(new Cha(new Position(5, 5))))
+                Map.of(new Position(5, 5), new Piece(new Cha()))
         );
 
         //when - then
@@ -73,7 +74,7 @@ class JanggiPanTest {
     void canPieceMoveToTest() {
         //given
         JanggiPan janggiPan = new JanggiPan(
-                Map.of(new Position(5, 5), new Piece(new Cha(new Position(5, 5))))
+                Map.of(new Position(5, 5), new Piece(new Cha()))
         );
 
         //when - then
@@ -93,10 +94,10 @@ class JanggiPanTest {
         Position position2 = new Position(5, 7);
         Position position3 = new Position(5, 8);
 
-        Jol jol = new Jol(position3);
-        Byeong byeong = new Byeong(position2);
-        Janggun janggun = new Janggun(position1);
-        Cha cha = new Cha(position);
+        Jol jol = new Jol();
+        Byeong byeong = new Byeong();
+        Janggun janggun = new Janggun();
+        Cha cha = new Cha();
 
         JanggiPan janggiPan = new JanggiPan(
                 Map.of(
@@ -119,7 +120,7 @@ class JanggiPanTest {
     void makeRoutTest() {
         //given
         JanggiPan janggiPan = new JanggiPan(
-                Map.of(new Position(5, 5), new Piece(new Cha(new Position(5, 5))))
+                Map.of(new Position(5, 5), new Piece(new Cha()))
         );
 
         //when
@@ -139,7 +140,7 @@ class JanggiPanTest {
     void isJanggunDieTest() {
         //given
         JanggiPan janggiPan = new JanggiPan(
-                Map.of(new Position(5, 5), new Piece(new Cha(new Position(5, 5))))
+                Map.of(new Position(5, 5), new Piece(new Cha()))
         );
 
         //when - then
@@ -151,7 +152,7 @@ class JanggiPanTest {
     void isPoAtTest() {
         //given
         JanggiPan janggiPan = new JanggiPan(
-                Map.of(new Position(5, 5), new Piece(new Po(new Position(5, 5))))
+                Map.of(new Position(5, 5), new Piece(new Po()))
         );
 
         //when - then
@@ -163,7 +164,7 @@ class JanggiPanTest {
     void isExistPoInRouteTest() {
         //given
         JanggiPan janggiPan = new JanggiPan(
-                Map.of(new Position(5, 5), new Piece(new Po(new Position(5, 5))))
+                Map.of(new Position(5, 5), new Piece(new Po()))
         );
         Positions route = new Positions(List.of(
                 new Position(1, 5), new Position(5, 5), new Position(4, 5), new Position(3, 5)

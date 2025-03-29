@@ -16,28 +16,16 @@ import pieceProperty.Positions;
 
 class JolTest {
 
-    @DisplayName("졸병은 이름과 위치 정보를 가진다,")
-    @Test
-    void jolByeongBoardPosition() {
-        //given
-        Position position = new Position(4, 5);
-
-        //when
-        Jol jol = new Jol(position);
-
-        //then
-        assertThat(jol.currentPosition()).isEqualTo(new Position(4, 5));
-    }
-
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
     @MethodSource("jolNonCanMoveToPositionProvider")
     void nonCanMoveTo(Position position) {
         //given
-        Jol jol = new Jol(new Position(5, 5));
+        Jol jol = new Jol();
+        Position startPosition = new Position(5, 5);
 
         //when //then
-        assertThatThrownBy(() -> jol.canMoveTo(position))
+        assertThatThrownBy(() -> jol.canMoveTo(startPosition, position))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
@@ -46,11 +34,12 @@ class JolTest {
     @Test
     void makeRoute() {
         //given
-        Jol jol = new Jol(new Position(5, 5));
+        Jol jol = new Jol();
+        Position startPosition = new Position(5, 5);
         Position futurePosition = new Position(4, 5);
 
         //when
-        Positions actual = jol.makeRoute(futurePosition);
+        Positions actual = jol.makeRoute(startPosition, futurePosition);
 
         //then
         assertThat(actual.getPositions().contains(futurePosition)).isFalse();
@@ -66,7 +55,7 @@ class JolTest {
     @Test
     @DisplayName("자신의 타입 리턴 테스트")
     void pieceTypeTest() {
-        Jol jol = new Jol(new Position(5, 5));
+        Jol jol = new Jol();
 
         assertThat(jol.getPieceType().equals(JOL)).isTrue();
     }
@@ -74,7 +63,7 @@ class JolTest {
     @Test
     @DisplayName("왕인지 물어보는 테스트")
     void isJanggunTest() {
-        Jol jol = new Jol(new Position(5, 5));
+        Jol jol = new Jol();
 
         assertThat(jol.isJanggun()).isFalse();
     }
@@ -82,7 +71,7 @@ class JolTest {
     @Test
     @DisplayName("포 판별 테스트")
     void isPoTest() {
-        Jol jol = new Jol(new Position(5, 5));
+        Jol jol = new Jol();
 
         assertThat(jol.isPo()).isFalse();
     }

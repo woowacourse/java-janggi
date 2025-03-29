@@ -16,28 +16,16 @@ import pieceProperty.Positions;
 
 class MaTest {
 
-    @DisplayName("마는 위치 정보를 가진다,")
-    @Test
-    void maBoardPosition() {
-        //given
-        Position position = new Position(4, 5);
-
-        //when
-        Ma ma = new Ma(position);
-
-        //then
-        assertThat(ma.currentPosition()).isEqualTo(new Position(4, 5));
-    }
-
     @DisplayName("자신의 위치를 기준으로 이동할 수 없다면 false를 반환한다.")
     @ParameterizedTest
     @MethodSource("maNonCanMoveToPositionProvider")
     void nonCanMoveTo(Position position) {
         //given
-        Ma ma = new Ma(new Position(5, 5));
+        Ma ma = new Ma();
+        Position startPosition = new Position(5, 5);
 
         //when //then
-        assertThatThrownBy(() -> ma.canMoveTo(position)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> ma.canMoveTo(startPosition, position)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageStartingWith("[ERROR]");
     }
 
@@ -45,11 +33,12 @@ class MaTest {
     @Test
     void makeRoute() {
         //given
-        Ma ma = new Ma(new Position(5, 5));
+        Ma ma = new Ma();
+        Position startPosition = new Position(5, 5);
         Position futurePosition = new Position(3, 6);
 
         //when
-        Positions actual = ma.makeRoute(futurePosition);
+        Positions actual = ma.makeRoute(startPosition, futurePosition);
 
         //then
         assertThat(actual.getPositions()).containsExactly(new Position(4, 5));
@@ -66,7 +55,7 @@ class MaTest {
     @Test
     @DisplayName("자신의 타입 리턴 테스트")
     void pieceTypeTest() {
-        Ma ma = new Ma(new Position(5, 5));
+        Ma ma = new Ma();
 
         assertThat(ma.getPieceType().equals(MA)).isTrue();
     }
@@ -74,7 +63,7 @@ class MaTest {
     @Test
     @DisplayName("왕인지 물어보는 테스트")
     void isJanggunTest() {
-        Ma ma = new Ma(new Position(5, 5));
+        Ma ma = new Ma();
 
         assertThat(ma.isJanggun()).isFalse();
     }
@@ -82,7 +71,7 @@ class MaTest {
     @Test
     @DisplayName("포 판별 테스트")
     void isPoTest() {
-        Ma ma = new Ma(new Position(5, 5));
+        Ma ma = new Ma();
 
         assertThat(ma.isPo()).isFalse();
     }
