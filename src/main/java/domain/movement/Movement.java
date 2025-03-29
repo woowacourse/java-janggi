@@ -3,6 +3,7 @@ package domain.movement;
 import domain.position.Position;
 import domain.position.Route;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Movement {
@@ -14,6 +15,12 @@ public class Movement {
 
     public static Movement of(Direction... directions) {
         return new Movement(List.of(directions));
+    }
+
+    public static Movement of(Direction direction, int steps) {
+        Direction[] directions = new Direction[steps];
+        Arrays.fill(directions, direction);
+        return Movement.of(directions);
     }
 
     public boolean canBeRoute(Position position) {

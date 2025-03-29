@@ -32,6 +32,16 @@ public class Position {
         }
     }
 
+    public int calculateMaxStep(Direction direction) {
+        int maxMovement = 0;
+        Position current = this;
+        while (current.canBePosition(direction)) {
+            current = current.calculatePositionWithDirection(direction);
+            maxMovement++;
+        }
+        return maxMovement;
+    }
+
     public Position calculatePositionWithDirection(Direction direction) {
         return Position.of(this.x + direction.getX(), this.y + direction.getY());
     }

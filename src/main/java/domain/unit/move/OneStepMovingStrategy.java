@@ -15,9 +15,7 @@ public class OneStepMovingStrategy implements MovingStrategy {
 
     @Override
     public List<Movement> generatePossibleMovement(Position position) {
-        List<Movement> movements = getMovements().stream()
-                .toList();
-        List<Movement> possibleMovements = new ArrayList<>(movements);
+        List<Movement> possibleMovements = new ArrayList<>(getMovements());
         possibleMovements.addAll(createPalaceMovement(position));
         return possibleMovements.stream()
                 .filter(movement -> movement.canBeRoute(position))
