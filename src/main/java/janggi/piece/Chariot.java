@@ -39,9 +39,9 @@ public class Chariot extends Piece {
     }
 
     private boolean isDiagonalMove(Position start, Position goal) {
-        int colDiff = Math.abs(start.calculatesColumnDifference(goal));
-        int rowDiff = Math.abs(start.calculatesRowDifference(goal));
-        return colDiff == rowDiff;
+        int columnDifference = Math.abs(start.calculatesColumnDifference(goal));
+        int rowDifference = Math.abs(start.calculatesRowDifference(goal));
+        return columnDifference == rowDifference;
     }
 
     private boolean passThroughPalaceCenter(Board board, Position start, Position goal) {

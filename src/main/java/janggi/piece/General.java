@@ -60,8 +60,8 @@ public class General extends Piece {
 
     @Override
     public List<Position> findPositionsInPath(Position start, Position goal) {
-        int columnDifference = start.calculatesColumnDifference(goal);
-        int rowDifference = start.calculatesRowDifference(goal);
+        int columnDifference = Math.abs(start.calculatesColumnDifference(goal));
+        int rowDifference = Math.abs(start.calculatesRowDifference(goal));
 
         if (!isValidDistance(columnDifference, rowDifference)) {
             throw new IllegalArgumentException("[ERROR] 장의 이동 규칙에 어긋나는 움직임입니다.");
@@ -71,7 +71,9 @@ public class General extends Piece {
     }
 
     private boolean isValidDistance(int columnDifference, int rowDifference) {
-        return Math.abs(columnDifference) + Math.abs(rowDifference) == 1;
+        int sumMoveDistance = Math.abs(columnDifference) + Math.abs(rowDifference);
+        boolean isDiagonal = columnDifference == rowDifference;
+        return sumMoveDistance == 1 || (isDiagonal && sumMoveDistance == 2);
     }
 
     @Override
