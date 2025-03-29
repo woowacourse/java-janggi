@@ -1,21 +1,17 @@
 package model.piece;
 
 import java.util.Map;
-import model.Path;
+import model.Moving;
 import model.Point;
 import model.Team;
 
-public class Cha extends Piece {
+public class Cha extends PalaceMovablePieces {
+
+    private static final int CHA_SCORE = 13;
 
     public Cha(Team team) {
         super(team,PieceName.CHA);
-    }
-
-    @Override
-    public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        int vectorX = getVectorX(beforePoint, targetPoint);
-        int vectorY = getVectorY(beforePoint, targetPoint);
-        return (vectorX == 0) ^ (vectorY == 0);
+        score = CHA_SCORE;
     }
 
     @Override
@@ -23,6 +19,7 @@ public class Cha extends Piece {
         if (piecesOnPathWithTargetOrNot.isEmpty()) {
             return true;
         }
+
         if (piecesOnPathWithTargetOrNot.size() == 1) {
             if (!piecesOnPathWithTargetOrNot.values()
                     .stream()
@@ -37,5 +34,29 @@ public class Cha extends Piece {
                     .getTeam() != this.team;
         }
         return false;
+    }
+
+    @Override
+    public void validateGungCross(Point beforePoint, Point targetPoint) {
+        Moving moving = new Moving(beforePoint, targetPoint);
+
+        if (Palace.ALL_PALACE.getPoints().contains(targetPoint)) {
+            if (moving.isDistanceLessThanOrEqualTo(8)) {
+                return;
+            }
+            throw new IllegalArgumentException("잘못 된 이동입니다.");
+        }
+        if (!moving.isUpDownMoving()) {
+            throw new IllegalArgumentException("잘못 된 이동입니다.");
+        }
+    }
+
+    @Override
+    public void validateMovement(Point beforePoint, Point targetPoint) {
+        Moving moving = new Moving(beforePoint, targetPoint);
+
+        if (!moving.isUpDownMoving()) {
+            throw new IllegalArgumentException("잘못 된 이동입니다.");
+        }
     }
 }

@@ -1,6 +1,7 @@
 package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.HashMap;
@@ -36,8 +37,40 @@ class ChaTest {
         @Test
         @DisplayName("차 이동 불가능 여부 판별 테스트")
         void test3() {
-            Cha cha = new Cha(Team.RED);
-            assertThat(cha.isValidPoint(Point.of(0, 0), Point.of(10, 10))).isFalse();
+            Cha cha = new Cha(Team.BLUE);
+            assertThatThrownBy(() -> cha.isValidPoint(Point.of(0, 0), Point.of(10, 10))).isInstanceOf(
+                    IllegalArgumentException.class
+            );
+        }
+
+        @Test
+        @DisplayName("궁 영역 안에 있는 차의 이동 가능 테스트")
+        void test4() {
+            Cha cha = new Cha(Team.BLUE);
+            assertThat(cha.isValidPoint(Point.of(4, 1), Point.of(3, 0))).isTrue();
+        }
+
+        @Test
+        @DisplayName("궁 영역 안에 있는 차의 이동 가능 테스트")
+        void test7() {
+            Cha cha = new Cha(Team.BLUE);
+            assertThat(cha.isValidPoint(Point.of(4, 1), Point.of(4, 3))).isTrue();
+        }
+
+        @Test
+        @DisplayName("궁 영역 안에 있는 차의 이동 불가능 테스트")
+        void test5() {
+            Cha cha = new Cha(Team.BLUE);
+            assertThatThrownBy(() -> cha.isValidPoint(Point.of(5, 1), Point.of(4, 0))).isInstanceOf(
+                    IllegalArgumentException.class);
+        }
+
+        @Test
+        @DisplayName("궁 영역 안에 있는 차의 이동 불가능 테스트")
+        void test6() {
+            Cha cha = new Cha(Team.BLUE);
+            assertThatThrownBy(() -> cha.isValidPoint(Point.of(4, 1), Point.of(2, 3))).isInstanceOf(
+                    IllegalArgumentException.class);
         }
     }
 
