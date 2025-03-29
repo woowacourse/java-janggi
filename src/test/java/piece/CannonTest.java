@@ -107,4 +107,38 @@ class CannonTest {
                 () -> cannon.validateMove(src, notAbleDest, board)
         ).isInstanceOf(IllegalArgumentException.class);
     }
+
+    @DisplayName("Cannon은 같은 라인에 있는 모든 곳을 이동할 수 있다. : 대각선 간선")
+    @Test
+    void validateMoveWithDiagonalSetting() {
+        // given
+        PositionFactory positionFactory = new PositionFactory();
+        positionFactory.basicSettingGraph();
+        positionFactory.diagonalSettingGraph();
+
+        Country turnCountry = Country.HAN;
+        Country.assignDirection(turnCountry, LineDirection.UP);
+        Position dumyPosition = new Position(4, 1);
+        final Position src = dumyPosition;
+        final Piece cannon = new Cannon(src, turnCountry);
+
+
+        final Position obstructionPosition = new Position(5, 2);
+        final Piece obstructionPiece = new General(obstructionPosition, turnCountry);
+        final Board board = new Board(Map.of(
+                obstructionPosition, obstructionPiece
+        ));
+
+        // when & then: 1 : success
+        final Position ableDest = new Position(6, 3);
+        assertThatCode(
+                () -> cannon.validateMove(src, ableDest, board)
+        ).doesNotThrowAnyException();
+
+        // when & then : 2 : failure
+        final Position notAbleDest = new Position(3, 2);
+        assertThatThrownBy(
+                () -> cannon.validateMove(src, notAbleDest, board)
+        ).isInstanceOf(IllegalArgumentException.class);
+    }
 }
