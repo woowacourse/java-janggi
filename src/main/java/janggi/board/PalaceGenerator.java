@@ -16,6 +16,7 @@ public class PalaceGenerator {
         palace.addArea(new Position(2, 3));
         palace.addArea(new Position(2, 4));
         palace.addArea(new Position(2, 5));
+
         palace.addArea(new Position(7, 3));
         palace.addArea(new Position(7, 4));
         palace.addArea(new Position(7, 5));
