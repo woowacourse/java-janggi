@@ -71,6 +71,10 @@ public final class Position {
         return piece;
     }
 
+    public PointValue getPointValue() {
+        return point.value();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {

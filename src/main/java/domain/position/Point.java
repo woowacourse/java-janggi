@@ -118,6 +118,10 @@ public final class Point {
         return new Point(x - 1, y - 1);
     }
 
+    public PointValue value() {
+        return new PointValue(x, y);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) {
