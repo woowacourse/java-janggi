@@ -18,7 +18,7 @@ public final class PlayerTest {
         @DisplayName("한나라와 초나라 중 하나의 팀을 갖는다")
         void test_NewTeam() {
             // given
-            final Player player = new Player(Team.CHO);
+            final Player player = new Player(1, Team.CHO);
 
             // when
             final Team team = player.getTeam();
@@ -31,8 +31,8 @@ public final class PlayerTest {
         @DisplayName("초기 상태에서는 초나라가 턴을 갖는다")
         void test_teamHanIsFirst() {
             // given
-            final Player han = new Player(Team.HAN);
-            final Player cho = new Player(Team.CHO);
+            final Player han = new Player(1, Team.HAN);
+            final Player cho = new Player(2, Team.CHO);
 
             // when&then
             assertAll(
@@ -46,8 +46,8 @@ public final class PlayerTest {
         @DisplayName("턴을 일괄적으로 교체할 수 있다.")
         void test_switchTurn() {
             // given
-            final Player han = new Player(Team.HAN);
-            final Player cho = new Player(Team.CHO);
+            final Player han = new Player(1, Team.HAN);
+            final Player cho = new Player(2, Team.CHO);
             final List<Player> players = List.of(han, cho);
 
             // when

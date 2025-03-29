@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import repository.IdFactory;
 import vo.Choice;
 
 public final class JanggiGame {
@@ -27,9 +26,8 @@ public final class JanggiGame {
 
     public static JanggiGame setup(final EnumMap<Team, Choice> elephantLocatorByTeam) {
         final Board board = BoardFactory.generateBoard(elephantLocatorByTeam);
-        final IdFactory IdFactory = new IdFactory();
         final List<Player> players = elephantLocatorByTeam.keySet().stream()
-                .map(team -> new Player(IdFactory.nextId(), team))
+                .map(team -> new Player(0, team))
                 .collect(Collectors.toList());
         return new JanggiGame(board, players);
     }

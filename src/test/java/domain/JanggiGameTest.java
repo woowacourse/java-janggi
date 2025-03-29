@@ -75,7 +75,7 @@ public final class JanggiGameTest {
     void test_getScoreWhenMovePieceOnBoard() {
         //given
         final List<Player> players = Arrays.stream(Team.values())
-                .map(Player::new)
+                .map(team -> new Player(0, team))
                 .toList();
 
         final Point start = new Point(0, 0);
