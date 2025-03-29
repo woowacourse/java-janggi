@@ -11,6 +11,9 @@ import java.util.Map;
 
 public class OutputView {
 
+    private static final int BOARD_RANK_SIZE = 11;
+    private static final int BOARD_FILE_SIZE = 10;
+
     private final ViewUtil viewUtil;
 
     public OutputView(final ViewUtil viewUtil) {
@@ -18,33 +21,42 @@ public class OutputView {
     }
 
     public void outputBoard(final Map<Country, List<Piece>> board) {
-        final String[][] output = new String[11][10];
-        for (int i = 0; i < 11; i++) {
-            for (int j = 0; j < 10; j++) {
-                output[i][j] = "\t";
-            }
-        }
-        for (PositionRank rank : PositionRank.values()) {
-            output[rank.amount][0] = rank.amount + "\t";
-        }
-        for (PositionFile file : PositionFile.values()) {
-            output[0][file.amount] = file.amount + "\t";
-        }
-        for (PositionRank rank : PositionRank.values()) {
-            for (PositionFile file : PositionFile.values()) {
-                Position position = new Position(file, rank);
-                output[rank.amount][file.amount] = viewUtil.parsePieceOf(board, position);
-            }
-        }
+        final String[][] boardValue = initializeBoard();
+        insertPieces(board, boardValue);
 
         final StringBuilder sb = new StringBuilder();
-        for (int i = 10; i >= 0; i--) {
-            for (int j = 0; j < 10; j++) {
-                sb.append(output[i][j]);
+        for (int i = BOARD_RANK_SIZE - 1; i >= 0; i--) {
+            for (int j = 0; j < BOARD_FILE_SIZE; j++) {
+                sb.append(boardValue[i][j]);
             }
             sb.append("\n");
         }
         System.out.print(sb);
+    }
+
+    private static String[][] initializeBoard() {
+        final String[][] boardValue = new String[BOARD_RANK_SIZE][BOARD_FILE_SIZE];
+        for (int i = 0; i < BOARD_RANK_SIZE; i++) {
+            for (int j = 0; j < BOARD_FILE_SIZE; j++) {
+                boardValue[i][j] = "\t";
+            }
+        }
+        for (PositionRank rank : PositionRank.values()) {
+            boardValue[rank.amount][0] = rank.amount + "\t";
+        }
+        for (PositionFile file : PositionFile.values()) {
+            boardValue[0][file.amount] = file.amount + "\t";
+        }
+        return boardValue;
+    }
+
+    private void insertPieces(final Map<Country, List<Piece>> board, final String[][] boardValue) {
+        for (PositionRank rank : PositionRank.values()) {
+            for (PositionFile file : PositionFile.values()) {
+                Position position = new Position(file, rank);
+                boardValue[rank.amount][file.amount] = viewUtil.parsePieceOf(board, position);
+            }
+        }
     }
 
     public void outputWinner(final Country winner, final int winnerScore, final int looserScore) {
