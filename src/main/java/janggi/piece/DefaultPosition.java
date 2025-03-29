@@ -18,7 +18,7 @@ public enum DefaultPosition {
     KING(1, 8, List.of(4), General::new),
     SCHOLAR(0, 9, List.of(3, 5), Scholar::new),
     CAR(0, 9, List.of(0, 8), Chariot::new),
-    BOMB(2, 7, List.of(1, 7), Cannon::new),
+    CANNON(2, 7, List.of(1, 7), Cannon::new),
     JOL(3, 6, List.of(0, 2, 4, 6, 8), Soldier::new),
     HORSE(0, 9, List.of(2, 7), Horse::new),
     ELEPHANT(0, 9, List.of(1, 6), Elephant::new),
