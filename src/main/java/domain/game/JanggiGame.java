@@ -33,44 +33,19 @@ public class JanggiGame {
     }
 
     private Board start() {
-        Map<Coordinate, Piece> foundBoard = findBoard();
+        Map<Coordinate, Piece> foundBoard = boardRepository.findAll();
         Board board;
         if (foundBoard.isEmpty()) {
             board = settingUp();
-            saveBoard(board);
-            saveTurn();
+            boardRepository.save(board);
+            gameRepository.save(currentTurn);
             outputView.printNewGameMessage();
         } else {
             board = new Board(foundBoard);
-            currentTurn = findTurn();
+            currentTurn = gameRepository.findTurn();
             outputView.printPreviousGameMessage();
         }
         return board;
-    }
-
-    private void saveTurn() {
-        gameRepository.save(currentTurn);
-    }
-
-    private Country findTurn() {
-        return gameRepository.findTurn();
-    }
-
-    private void updateTurn() {
-        gameRepository.updateTurn(currentTurn);
-    }
-
-    private void updateBoard(Board board) {
-        boardRepository.deleteAll();
-        saveBoard(board);
-    }
-
-    private Map<Coordinate, Piece> findBoard() {
-        return boardRepository.findAll();
-    }
-
-    private void saveBoard(Board board) {
-        boardRepository.save(board);
     }
 
     private Board settingUp() {
@@ -96,6 +71,11 @@ public class JanggiGame {
         updateBoard(board);
     }
 
+    private void updateBoard(Board board) {
+        boardRepository.deleteAll();
+        boardRepository.save(board);
+    }
+
     private boolean isEndGame(Board board) {
         boolean isChoGungDead = board.isChoGungDead();
         boolean isHanGungDead = board.isHanGungDead();
@@ -116,7 +96,7 @@ public class JanggiGame {
 
     private void nextTurn() {
         currentTurn = currentTurn.convertCountry();
-        updateTurn();
+        gameRepository.updateTurn(currentTurn);
     }
 
     private <T> void takeTurn(T value, Consumer<T> consumer) {
