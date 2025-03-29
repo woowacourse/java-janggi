@@ -1,29 +1,14 @@
 package domain.unit.rule;
 
 import domain.position.Position;
-import domain.position.Route;
 import domain.unit.Direction;
 import domain.unit.Movement;
 import domain.unit.UnitType;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class CannonUnitRule implements UnitRule {
-
-    public List<Route> calculateAllRoute(Position start) {
-        List<Route> routes = new ArrayList<>();
-        List<Movement> movements = generatePossibleMovement();
-        for (Movement movement : movements) {
-            try {
-                Route route = movement.calculateRouteBy(start);
-                routes.add(route);
-            } catch (IllegalArgumentException ignored) {
-            }
-        }
-        return routes;
-    }
 
     @Override
     public List<Movement> generatePossibleMovement() {
