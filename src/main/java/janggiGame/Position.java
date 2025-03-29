@@ -40,6 +40,39 @@ public class Position {
         return List.copyOf(POSITIONS);
     }
 
+    public boolean isInPalace() {
+        List<Position> palacePositions = List.of(
+                Position.of(3, 7), Position.of(3, 8), Position.of(3, 9),
+                Position.of(4, 7), Position.of(4, 8), Position.of(4, 9),
+                Position.of(5, 7), Position.of(5, 8), Position.of(5, 9),
+
+                Position.of(3, 0), Position.of(3, 1), Position.of(3, 2),
+                Position.of(4, 0), Position.of(4, 1), Position.of(4, 2),
+                Position.of(5, 0), Position.of(5, 1), Position.of(5, 2)
+        );
+        return palacePositions.contains(this);
+    }
+
+    public boolean isInHanPalaceDiagonal() {
+        List<Position> hanPalacePositions = List.of(
+                Position.of(3, 9), Position.of(4, 8),
+                Position.of(5, 7), Position.of(3, 7),
+                Position.of(4, 8), Position.of(5, 9)
+        );
+
+        return hanPalacePositions.contains(this);
+    }
+
+    public boolean isInChoPalaceDiagonal() {
+        List<Position> choPalacePositions = List.of(
+                Position.of(3, 2), Position.of(4, 1),
+                Position.of(5, 0), Position.of(3, 0),
+                Position.of(4, 1), Position.of(5, 2)
+        );
+
+        return choPalacePositions.contains(this);
+    }
+
     public Position getReverse() {
         return POSITIONS.stream()
                 .filter(d -> d.row == MAX_ROW_RANGE - this.row)

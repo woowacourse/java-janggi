@@ -20,6 +20,64 @@ class PositionTest {
         );
     }
 
+    private static Stream<Arguments> providePositionInPalace() {
+        return Stream.of(
+                Arguments.of(3, 0), Arguments.of(3, 1), Arguments.of(3, 2),
+                Arguments.of(3, 7), Arguments.of(3, 8), Arguments.of(3, 9),
+                Arguments.of(4, 0), Arguments.of(4, 1), Arguments.of(4, 2),
+                Arguments.of(4, 7), Arguments.of(4, 8), Arguments.of(4, 9),
+                Arguments.of(5, 0), Arguments.of(5, 1), Arguments.of(5, 2),
+                Arguments.of(5, 7), Arguments.of(5, 8), Arguments.of(5, 9)
+        );
+    }
+
+    private static Stream<Arguments> providePositionOutOfPalace() {
+        return Stream.of(
+                Arguments.of(2, 0), Arguments.of(2, 1), Arguments.of(2, 2),
+                Arguments.of(2, 3), Arguments.of(2, 6), Arguments.of(2, 7),
+                Arguments.of(2, 8), Arguments.of(2, 9), Arguments.of(3, 3),
+                Arguments.of(3, 6), Arguments.of(4, 3), Arguments.of(4, 6),
+                Arguments.of(5, 3), Arguments.of(5, 6), Arguments.of(6, 0),
+                Arguments.of(6, 1), Arguments.of(6, 2), Arguments.of(6, 3),
+                Arguments.of(6, 6), Arguments.of(6, 7), Arguments.of(6, 8),
+                Arguments.of(6, 9)
+        );
+    }
+
+    private static Stream<Arguments> providePositionInChoPalaceDiagonal() {
+        return Stream.of(
+                Arguments.of(3, 0),
+                Arguments.of(3, 2),
+                Arguments.of(4, 1),
+                Arguments.of(5, 0),
+                Arguments.of(5, 2)
+        );
+    }
+
+    private static Stream<Arguments> providePositionInHanPalaceDiagonal() {
+        return Stream.of(
+                Arguments.of(3, 7),
+                Arguments.of(3, 9),
+                Arguments.of(4, 8),
+                Arguments.of(5, 7),
+                Arguments.of(5, 9)
+        );
+    }
+
+    private static Stream<Arguments> providePositionOutOfChoPalaceDiagonal() {
+        return Stream.of(
+                Arguments.of(3, 1), Arguments.of(4, 0),
+                Arguments.of(4, 2), Arguments.of(5, 1)
+        );
+    }
+
+    private static Stream<Arguments> providePositionOutOfHanPalaceDiagonal() {
+        return Stream.of(
+                Arguments.of(3, 8), Arguments.of(4, 7),
+                Arguments.of(4, 9), Arguments.of(5, 8)
+        );
+    }
+
     @DisplayName("row 와 column 좌표를 가지고 있는 점을 생성한다.")
     @Test
     void createPosition() {
@@ -192,5 +250,71 @@ class PositionTest {
 
         // then
         assertThat(actual).isEqualTo(expected);
+    }
+
+    @DisplayName("해당 위치는 궁성 안이다.")
+    @ParameterizedTest
+    @MethodSource("providePositionInPalace")
+    void positionIsInPalace_Test(int row, int column) {
+        // given
+        Position position = Position.of(row, column);
+
+        // when // then
+        assertThat(position.isInPalace()).isTrue();
+    }
+
+    @DisplayName("해당 위치는 궁성 밖이다.")
+    @ParameterizedTest
+    @MethodSource("providePositionOutOfPalace")
+    void positionIsOutOfPalace_Test() {
+        // given
+        Position position = Position.of(2, 0);
+
+        // when // then
+        assertThat(position.isInPalace()).isFalse();
+    }
+
+    @DisplayName("해당 위치는 초나라 궁성 대각선에 포함되어 있다.")
+    @ParameterizedTest
+    @MethodSource("providePositionInChoPalaceDiagonal")
+    void isInChoPalaceDiagonal_Test(int row, int column) {
+        // given
+        Position palacePosition = Position.of(row, column);
+
+        // when // then
+        assertThat(palacePosition.isInChoPalaceDiagonal()).isTrue();
+    }
+
+    @DisplayName("해당 위치는 한나라 궁성 대각선에 포함되어 있다.")
+    @ParameterizedTest
+    @MethodSource("providePositionInHanPalaceDiagonal")
+    void isInHanPalaceDiagonal_Test(int row, int column) {
+        // given
+        Position palacePosition = Position.of(row, column);
+
+        // when // then
+        assertThat(palacePosition.isInHanPalaceDiagonal()).isTrue();
+    }
+
+    @DisplayName("해당 위치는 초나라 궁성 대각선에 포함되어 있지 않다.")
+    @ParameterizedTest
+    @MethodSource("providePositionOutOfChoPalaceDiagonal")
+    void isOutOfChoPalaceDiagonal_Test(int row, int column) {
+        // given
+        Position palacePosition = Position.of(row, column);
+
+        // when // then
+        assertThat(palacePosition.isInChoPalaceDiagonal()).isFalse();
+    }
+
+    @DisplayName("해당 위치는 한나라 궁성 대각선에 포함되어 있지 않다.")
+    @ParameterizedTest
+    @MethodSource("providePositionOutOfHanPalaceDiagonal")
+    void isOutOfHanPalaceDiagonal_Test(int row, int column) {
+        // given
+        Position palacePosition = Position.of(row, column);
+
+        // when // then
+        assertThat(palacePosition.isInHanPalaceDiagonal()).isFalse();
     }
 }
