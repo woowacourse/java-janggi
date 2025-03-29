@@ -26,6 +26,10 @@ public class Player {
         pieces.canPieceMoveTo(presentPosition, destination);
     }
 
+    public void removePiece(Position destination) {
+        pieces.removePiece(destination);
+    }
+
     public int countObstacle(final Positions route) {
         return pieces.countObstacle(route);
     }
