@@ -30,6 +30,10 @@ public record Position(int row, int col) {
         return (calculateDifferenceRow(targetPosition.row) == 1 && calculateDifferenceCol(targetPosition.col) == 1);
     }
 
+    public boolean isDiagonal(final Position targetPosition) {
+        return (calculateDifferenceRow(targetPosition.row) >= 1 && calculateDifferenceCol(targetPosition.col) >= 1);
+    }
+
     public int calculateDifferenceRow(final int row) {
         return Math.abs(this.row - row);
     }

@@ -133,7 +133,22 @@ class PositionTest {
         assertThat(actual).isTrue();
     }
 
-    @DisplayName("현재 위치와 목적위치의 Row 차이와 Col 의 차이가 1이 아니라면 한칸 대각선으로 판단하지 않는다.")
+    @DisplayName("현재 위치와 목적위치의 Row 차이와 Col 의 차이가 1이상이라면 대각선으로 판단한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"4:2", "1:1", "4:2", "2:2"}, delimiter = ':')
+    void isDiagonal(final int row, final int col) {
+        //given
+        final Position currentPosition = new Position(3, 3);
+        final Position targetPosition = new Position(row, col);
+
+        //when
+        final boolean actual = currentPosition.isDiagonal(targetPosition);
+
+        //then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("현재 위치와 목적위치의 Row 차이와 Col 의 차이가 1이 아니라면 대각선으로 판단하지 않는다.")
     @ParameterizedTest
     @CsvSource(value = {"3:3", "3:5", "5:3", "4:3", "3:2"}, delimiter = ':')
     void isNotOneDiagonal(final int row, final int col) {
