@@ -7,7 +7,8 @@ import team.Team;
 
 public class Soldier extends Piece {
 
-    private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP);
+    private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP,
+        Movement.LEFT_UP, Movement.RIGHT_UP);
 
     private final Team team;
 
@@ -24,7 +25,17 @@ public class Soldier extends Piece {
     public void move(final Pieces allPieces, final Point destination) {
         Movement destinationMovement = getDestinationMovement(destination);
 
+        if (destinationMovement.isDiagonalMove()) {
+            validatePossibleDiagonalMovePoint();
+        }
+
         current = current.move(destinationMovement);
+    }
+
+    private void validatePossibleDiagonalMovePoint() {
+        if ((!current.isPalaceCenter() && !current.isPalaceCorner())) {
+            throw new IllegalArgumentException("[ERROR] 선택할 수 없는 목적지입니다.");
+        }
     }
 
     @Override
@@ -36,6 +47,14 @@ public class Soldier extends Piece {
         for (Movement destinationMovement : PATH) {
             if (destinationMovement.equals(Movement.UP) && team.equals(Team.HAN)) {
                 destinationMovement = Movement.DOWN;
+            }
+
+            if (destinationMovement.equals(Movement.LEFT_UP) && team.equals(Team.HAN)) {
+                destinationMovement = Movement.LEFT_DOWN;
+            }
+
+            if (destinationMovement.equals(Movement.RIGHT_UP) && team.equals(Team.HAN)) {
+                destinationMovement = Movement.RIGHT_DOWN;
             }
 
             Point predictDestination = current.move(destinationMovement);
