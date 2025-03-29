@@ -6,6 +6,7 @@ import static pieceProperty.PieceType.CHA;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import piece.linearMover.Cha;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 

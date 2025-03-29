@@ -1,7 +1,8 @@
-package piece;
+package piece.omniDirectionMover;
 
 import java.util.List;
 import java.util.Objects;
+import piece.PieceRule;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -9,7 +10,7 @@ import view.ErrorMessage;
 
 public abstract sealed class OmniDirectionalMover
         implements PieceRule
-        permits Sa, Janggun{
+        permits Sa, Janggun {
 
     private Position position;
 

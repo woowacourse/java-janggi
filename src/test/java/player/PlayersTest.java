@@ -11,11 +11,11 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Byeong;
-import piece.Cha;
-import piece.Janggun;
+import piece.linearMover.Cha;
+import piece.omniDirectionMover.Janggun;
 import piece.Jol;
 import piece.Ma;
-import piece.Po;
+import piece.linearMover.Po;
 import pieceProperty.Position;
 
 class PlayersTest {

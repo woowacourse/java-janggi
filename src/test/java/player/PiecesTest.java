@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Janggun;
+import piece.omniDirectionMover.Janggun;
 import piece.Jol;
-import piece.Po;
+import piece.linearMover.Po;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 

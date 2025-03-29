@@ -1,7 +1,5 @@
 package player;
 
-import piece.Cha;
-
 public enum Nation {
     HAN,
     CHO;

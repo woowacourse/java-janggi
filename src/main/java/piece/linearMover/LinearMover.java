@@ -1,7 +1,8 @@
-package piece;
+package piece.linearMover;
 
 import java.util.List;
 import java.util.Objects;
+import piece.PieceRule;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import pieceProperty.Positions;
@@ -9,7 +10,7 @@ import view.ErrorMessage;
 
 public abstract sealed class LinearMover
         implements PieceRule
-        permits Po, Cha{
+        permits Po, Cha {
 
     private Position position;
 

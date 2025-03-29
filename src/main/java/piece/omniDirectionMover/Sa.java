@@ -1,4 +1,4 @@
-package piece;
+package piece.omniDirectionMover;
 
 import static pieceProperty.PieceType.SA;
 

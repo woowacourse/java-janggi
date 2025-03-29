@@ -1,4 +1,4 @@
-package piece;
+package piece.linearMover;
 
 import static pieceProperty.PieceType.CHA;
 

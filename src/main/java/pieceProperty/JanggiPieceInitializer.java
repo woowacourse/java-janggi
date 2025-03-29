@@ -3,13 +3,13 @@ package pieceProperty;
 import java.util.ArrayList;
 import java.util.List;
 import piece.Byeong;
-import piece.Cha;
-import piece.Janggun;
+import piece.linearMover.Cha;
+import piece.omniDirectionMover.Janggun;
 import piece.Jol;
 import piece.Ma;
 import piece.PieceRule;
-import piece.Po;
-import piece.Sa;
+import piece.linearMover.Po;
+import piece.omniDirectionMover.Sa;
 import piece.Sang;
 import player.Pieces;
 
