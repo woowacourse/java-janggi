@@ -26,9 +26,6 @@ public class Application {
     private void run() {
         systemView.display();
         final Game game = setupGame();
-        systemView.inGame();
-        boardView.displayBoard(game);
-
         while (true) {
             String command = inputView.readCommand();
             if (command.equals("end")) {
@@ -36,6 +33,11 @@ public class Application {
                 return;
             }
             move(game, command);
+            if (game.isEnd()) {
+                boardView.displayBoard(game);
+                systemView.win(game.getTurn().opposite());
+                return;
+            }
             systemView.displayPoints(game);
             boardView.displayBoard(game);
         }
@@ -44,7 +46,10 @@ public class Application {
     private Game setupGame() {
         final String input = inputView.readSetupOption();
         final Board board = BoardGenerator.generate(SetupOption.of(input));
-        return new Game(board);
+        Game game = new Game(board);
+        systemView.inGame();
+        boardView.displayBoard(game);
+        return game;
     }
 
 

@@ -27,6 +27,10 @@ public final class Game {
         return board.getTeamPoints();
     }
 
+    public boolean isEnd() {
+        return !board.hasGeneralOf(Team.HAN) || !board.hasGeneralOf(Team.CHO);
+    }
+
     public boolean hasPieceAt(final Position position) {
         return board.hasPieceAt(position);
     }

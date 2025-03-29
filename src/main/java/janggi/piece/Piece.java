@@ -6,12 +6,12 @@ import janggi.position.Position;
 
 public interface Piece {
 
-    public abstract void validateMove(final Position source, final Position destination,
-                                      final Board board);
+    void validateMove(final Position source, final Position destination,
+                      final Board board);
 
-    public abstract int point();
+    int point();
 
-    public abstract Type type();
+    Type type();
 
-    public abstract Team team();
+    Team team();
 }

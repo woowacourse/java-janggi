@@ -38,6 +38,12 @@ public final class Board {
         return pieces.get(position);
     }
 
+    public boolean hasGeneralOf(final Team team) {
+        return pieces.values().stream()
+                .filter(piece -> piece.team() == team)
+                .anyMatch(piece -> piece.type() == Type.GENERAL);
+    }
+
     public boolean hasPieceAt(final Position position) {
         return pieces.containsKey(position);
     }

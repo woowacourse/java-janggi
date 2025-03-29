@@ -21,7 +21,7 @@ public final class BoardView {
             Type.SOLDIER, "s");
 
     public void displayBoard(final Game game) {
-        System.out.printf("%s의 턴입니다.", game.getTurn().getName());
+        System.out.printf("%s나라의 턴입니다.", game.getTurn().getName());
         System.out.println("\n  012345678");
         for (Row row : Row.values()) {
             displayRow(game, row);
