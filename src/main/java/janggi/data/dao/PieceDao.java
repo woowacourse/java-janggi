@@ -12,7 +12,7 @@ public final class PieceDao {
                 INSERT INTO piece (camp_id, piece_symbol_id, board_id, x, y)
                 VALUES (?, ?, ?, ?, ?)
                 """;
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             var campId = new CampDao().findIdByName(piece.getCamp().name());
             var pieceSymbolId = new PieceSymbolDao().findIdByName(piece.getPieceSymbol().name());
@@ -34,7 +34,7 @@ public final class PieceDao {
                 SET x = ?, y = ?
                 WHERE x = ? AND y = ? AND board_id = ?
                 """;
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, to.x());
             preparedStatement.setInt(2, to.y());
@@ -52,7 +52,7 @@ public final class PieceDao {
                 DELETE FROM piece
                 WHERE x = ? AND y = ? AND board_id = ?
                 """;
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, point.x());
             preparedStatement.setInt(2, point.y());

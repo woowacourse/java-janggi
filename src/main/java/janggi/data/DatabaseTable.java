@@ -4,8 +4,11 @@ import java.sql.Connection;
 
 public final class DatabaseTable {
 
+    private DatabaseTable() {
+    }
+
     public static void create() {
-        try (final var connection = DatabaseConnection.getConnection()) {
+        try (final var connection = DatabaseConnection.createConnection()) {
             createCampTable(connection);
             createPieceSymbolTable(connection);
             createBoardTable(connection);

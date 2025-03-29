@@ -3,10 +3,10 @@ package janggi.controller;
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
 import janggi.board.Judge;
+import janggi.board.point.Point;
 import janggi.data.dao.BoardDao;
 import janggi.data.dao.CampDao;
 import janggi.data.dao.PieceDao;
-import janggi.board.point.Point;
 import janggi.data.dao.PieceSymbolDao;
 import janggi.piece.Camp;
 import janggi.piece.Piece;
@@ -38,6 +38,7 @@ public final class OnlineController implements Controller {
     @Override
     public void gameStart() {
         view.displayStartBanner();
+        view.displayOnlineModeBanner();
         boolean startGame = view.readStartGame();
         if (startGame) {
             initializeData();

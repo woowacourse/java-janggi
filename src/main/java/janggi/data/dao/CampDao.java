@@ -15,9 +15,9 @@ public final class CampDao {
     public void save(Camp camp) {
         final String query = """
                 INSERT IGNORE INTO camp (name)
-                       VALUES (?)
+                VALUES (?)
                 """;
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, camp.name());
             preparedStatement.executeUpdate();
@@ -32,7 +32,7 @@ public final class CampDao {
                 FROM camp
                 WHERE name = ?
                 """;
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);
             final var resultSet = preparedStatement.executeQuery();

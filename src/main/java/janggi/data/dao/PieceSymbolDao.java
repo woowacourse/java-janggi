@@ -15,9 +15,9 @@ public final class PieceSymbolDao {
     public void save(PieceSymbol pieceSymbol) {
         final String query = """
                 INSERT IGNORE INTO piece_symbol (name)
-                       VALUES (?)
+                VALUES (?)
                 """;
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, pieceSymbol.name());
             preparedStatement.executeUpdate();
@@ -28,7 +28,7 @@ public final class PieceSymbolDao {
 
     public int findIdByName(String name) {
         final String query = "SELECT * FROM piece_symbol WHERE name = ?";
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);
             final var resultSet = preparedStatement.executeQuery();

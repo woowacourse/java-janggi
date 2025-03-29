@@ -17,7 +17,7 @@ public final class BoardDao {
                 INSERT INTO board (is_end, turn_camp_id)
                 VALUES (false, ?)
                 """;
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, new CampDao().findIdByName(Camp.CHU.name()));
             preparedStatement.executeUpdate();
@@ -33,7 +33,7 @@ public final class BoardDao {
                     JOIN camp c ON board.turn_camp_id = c.id
                 WHERE board.id = ?
                 """;
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, findCurrentBoardId());
             final var resultSet = preparedStatement.executeQuery();
@@ -57,7 +57,7 @@ public final class BoardDao {
                 END)
                 WHERE b.id = ?;
                 """;
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             int boardId = findCurrentBoardId();
             preparedStatement.setInt(1, boardId);
@@ -69,7 +69,7 @@ public final class BoardDao {
 
     public void endGame() {
         final String query = "UPDATE board SET is_end = 1 WHERE id = ?";
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, findCurrentBoardId());
             preparedStatement.executeUpdate();
@@ -80,7 +80,7 @@ public final class BoardDao {
 
     public boolean existsActiveGame() {
         final String query = "SELECT COUNT(*) as count FROM board";
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query);
              final var resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next() && resultSet.getInt("count") > 0) {
@@ -100,7 +100,7 @@ public final class BoardDao {
 
     public int findCurrentBoardId() {
         final String query = "SELECT MAX(id) AS current_id FROM board";
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query);
              final var resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
@@ -120,7 +120,7 @@ public final class BoardDao {
                     JOIN camp c ON p.camp_id = c.id
                 WHERE p.board_id = ?
                 """;
-        try (final var connection = DatabaseConnection.getConnection();
+        try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, findCurrentBoardId());
             final var resultSet = preparedStatement.executeQuery();

@@ -22,6 +22,7 @@ public final class OfflineController implements Controller {
     @Override
     public void gameStart() {
         view.displayStartBanner();
+        view.displayOfflineModeBanner();
         boolean startGame = view.readStartGame();
         if (startGame) {
             playGame();

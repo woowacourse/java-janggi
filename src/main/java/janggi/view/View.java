@@ -18,7 +18,7 @@ public final class View {
     private final Scanner scanner = new Scanner(System.in);
 
     public void displayStartBanner() {
-        System.out.println("""
+        System.out.print("""
                 
                 ====================================
                     Welcome to the Janggi Game!
@@ -27,6 +27,23 @@ public final class View {
                     예) 41은 왼쪽에서 4번째 아래에서
                         첫번째 기물을 의미합니다.
                       게임은 초나라부터 시작됩니다.
+                ====================================
+                """);
+    }
+
+    public void displayOfflineModeBanner() {
+        System.out.println("""
+                           < 오프라인 모드 >
+                 게임을 종료하면 진행상황이 저장되지 않습니다.
+                  저장을 원하시면, DB 연결을 확인해주세요.
+                ====================================
+                """);
+    }
+
+    public void displayOnlineModeBanner() {
+        System.out.println("""
+                          < 온라인 모드 >
+                    게임을 종료하면 진행상황이 저장됩니다.
                 ====================================
                 """);
     }
