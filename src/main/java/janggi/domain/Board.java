@@ -76,7 +76,7 @@ public class Board {
 
     public boolean hasGeneral(Team team) {
         return pieceMap.values().stream()
-                .anyMatch(piece -> piece.isGeneral(team));
+                .anyMatch(piece -> piece.isGeneralOnSameTeam(team));
     }
 
     public boolean isCannon(Position position) {
@@ -86,7 +86,7 @@ public class Board {
     public double getScore(Team team) {
         int sum = pieceMap.values().stream()
                 .filter(piece -> piece.isSameSide(team))
-                .filter(piece -> !piece.isGeneral(team))
+                .filter(piece -> !piece.isGeneralOnSameTeam(team))
                 .mapToInt(Piece::toScore)
                 .sum();
 

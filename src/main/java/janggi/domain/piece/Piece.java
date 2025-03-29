@@ -20,7 +20,7 @@ public class Piece {
         return team.isSameSide(compareTeam);
     }
 
-    public boolean isGeneral(Team compareTeam) {
+    public boolean isGeneralOnSameTeam(Team compareTeam) {
         return team.isSameSide(compareTeam) && pieceBehavior.isGeneral();
     }
 
