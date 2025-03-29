@@ -1,0 +1,20 @@
+create user 'user'@'localhost' identified by 'password';
+
+grant all privileges on *.* to 'user'@'localhost';
+
+flush privileges;
+
+CREATE DATABASE janggi DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+USE janggi;
+
+DROP TABLE IF EXISTS `pieces`;
+
+CREATE TABLE IF NOT EXISTS `pieces` (
+	`name` VARCHAR(12) NOT NULL,
+	`side` ENUM('CHO', 'HAN') NOT NULL,
+	`position_row` INT NOT NULL,
+	`position_column` INT NOT NULL,
+	`last_moved` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY(`position_row`, `position_column`)
+);
