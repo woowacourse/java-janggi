@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -10,37 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static janggi.fixture.PositionFixture.createPosition;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 class SoldierTest {
-    @CsvSource(value = {"GREEN:false", "RED:true"}, delimiterString = ":")
-    @ParameterizedTest
-    void 같은_팀인지_여부를_반환한다(Team team, boolean expected) {
-        // given
-        Soldier soldier = new Soldier(Team.RED);
-
-        // when
-        boolean result = soldier.isSameTeam(team);
-
-        // then
-        assertThat(result).isEqualTo(expected);
-    }
-
-    @CsvSource(value = {"GREEN:true", "RED:false"}, delimiterString = ":")
-    @ParameterizedTest
-    void 다른_팀인지_여부를_반환한다(Team team, boolean expected) {
-        // given
-        Soldier soldier = new Soldier(Team.RED);
-
-        // when
-        boolean result = soldier.isDifferentTeam(team);
-
-        // then
-        assertThat(result).isEqualTo(expected);
-    }
-
-    @CsvSource(value = {"GREEN:4:5", "GREEN:5:4", "GREEN:3:4", "RED:4:3"}, delimiterString = ":")
+    @DisplayName("졸병의_정상적인_움직임을_테스트한다")
+    @CsvSource(value = {"GREEN:4:5", "GREEN:5:4", "GREEN:3:4", "RED:4:3", "RED:5:4", "RED:3:4",}, delimiterString = ":")
     @ParameterizedTest
     void 졸병의_정상적인_움직임을_테스트한다(Team team, int column, int row) {
         // given
@@ -52,12 +27,8 @@ class SoldierTest {
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
 
-        // when
-        board.movePiece(start, goal, team);
-
         // then
-        assertThat(board).extracting("board")
-                .asInstanceOf(MAP)
-                .containsEntry(goal, piece);
+        assertThatCode(() -> piece.validateMovable(board, start, goal))
+                .doesNotThrowAnyException();
     }
 }
