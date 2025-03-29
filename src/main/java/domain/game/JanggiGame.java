@@ -4,6 +4,7 @@ import domain.Coordinate;
 import domain.board.Board;
 import domain.board.BoardSettingUpStrategy;
 import domain.piece.Country;
+import infrastructure.BoardRepository;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import view.InputView;
@@ -21,9 +22,15 @@ public class JanggiGame {
 
         while (!isEndGame(board)) {
             takeTurn(board, this::movePiece);
+            saveBoard(board);
             showScore(board);
             nextTurn();
         }
+    }
+
+    private void saveBoard(Board board) {
+        BoardRepository boardRepository = new BoardRepository();
+        boardRepository.save(board);
     }
 
     private Board settingUp() {

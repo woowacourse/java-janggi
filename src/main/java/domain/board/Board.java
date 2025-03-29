@@ -96,4 +96,8 @@ public final class Board {
                 .mapToInt(Piece::getScore)
                 .sum();
     }
+
+    public Map<Coordinate, Piece> getBoard() {
+        return board;
+    }
 }
