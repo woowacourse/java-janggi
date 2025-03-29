@@ -19,7 +19,7 @@ public class Chariot extends StraightMovePiece {
 
         boolean isBlocked = routesWithPiece.values().stream().anyMatch(Objects::nonNull);
 
-        if(isBlocked) {
+        if (isBlocked) {
             throw new UnsupportedOperationException("[ERROR] 차는 경로에 말이 존재하면 이동할 수 없습니다.");
         }
     }

@@ -1,9 +1,10 @@
 package janggiGame.piece.straightMovePiece;
 
-import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
+import janggiGame.position.Palace;
+import janggiGame.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -19,6 +20,16 @@ public abstract class StraightMovePiece extends Piece {
 
         int dx = origin.getDx(destination);
         int dy = origin.getDy(destination);
+
+        if (Palace.isPalaceDiagonalMove(origin, destination)) {
+            if (dy > 0) {
+                route.addAll(getDirectionalRoute(origin, dx, Position::upRight, Position::upLeft));
+                return route;
+            }
+
+            route.addAll(getDirectionalRoute(origin, dx, Position::downRight, Position::downLeft));
+            return route;
+        }
 
         validateRoute(dx, dy);
 
@@ -42,7 +53,7 @@ public abstract class StraightMovePiece extends Piece {
 
         int steps = Math.abs(delta) - 1;
 
-        for(int i = 0; i < steps; i++) {
+        for (int i = 0; i < steps; i++) {
             origin = moveFunction.apply(origin);
             route.add(origin);
         }

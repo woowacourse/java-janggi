@@ -3,13 +3,13 @@ package janggiGame.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggiGame.position.Position;
 import janggiGame.piece.straightMovePiece.Chariot;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import java.util.LinkedHashMap;
+import janggiGame.position.Position;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class ChariotTest {
     @DisplayName("차는 목적지로 가는 경로를 구할 수 있다.")
@@ -48,7 +48,7 @@ class ChariotTest {
     @Test
     void chariotJudgeMovable() {
         // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new HashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         routesWithPiece.put(Position.getInstanceBy(1, 2), null);
@@ -63,7 +63,7 @@ class ChariotTest {
     @Test
     void chariotJudgeMovable2() {
         // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new HashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         routesWithPiece.put(Position.getInstanceBy(1, 2), null);
@@ -79,7 +79,7 @@ class ChariotTest {
     @Test
     void chariotJudgeMovable3() {
         // given
-        Map<Position, Piece> routesWithPiece = new LinkedHashMap<>();
+        Map<Position, Piece> routesWithPiece = new HashMap<>();
         Chariot chariot = new Chariot(Dynasty.HAN);
 
         routesWithPiece.put(Position.getInstanceBy(1, 2), null);
@@ -89,5 +89,18 @@ class ChariotTest {
         assertThatCode(() -> chariot.validateMove(routesWithPiece, new Chariot(Dynasty.HAN)))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageStartingWith("[ERROR] ");
+    }
+
+    @DisplayName("차는 궁성 안에서 중심을 포함한 대각선 이동이 가능하다")
+    @Test
+    void canMoveDiagonalThroughCenter() {
+        // given
+        Chariot chariot = new Chariot(Dynasty.HAN);
+        Position origin = Position.getInstanceBy(3, 7);
+        Position destination = Position.getInstanceBy(5, 9);
+
+        // when // then
+        assertThatCode(() -> chariot.getRoute(origin, destination))
+                .doesNotThrowAnyException();
     }
 }
