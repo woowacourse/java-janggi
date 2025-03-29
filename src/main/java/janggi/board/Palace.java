@@ -1,5 +1,6 @@
-package janggi;
+package janggi.board;
 
+import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
 

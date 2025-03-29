@@ -1,7 +1,7 @@
 package janggi.piece;
 
-import janggi.Board;
-import janggi.Team;
+import janggi.board.Board;
+import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
 import org.junit.jupiter.api.DisplayName;

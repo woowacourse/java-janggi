@@ -1,5 +1,7 @@
 package janggi;
 
+import janggi.player.Team;
+import janggi.player.Turn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

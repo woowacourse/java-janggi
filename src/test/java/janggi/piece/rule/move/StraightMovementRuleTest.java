@@ -1,6 +1,6 @@
 package janggi.piece.rule.move;
 
-import janggi.Board;
+import janggi.board.Board;
 import janggi.coordinate.Position;
 import janggi.piece.Pieces;
 import janggi.piece.rule.movement.MovementRule;

@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.player.Score;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

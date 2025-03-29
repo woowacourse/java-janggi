@@ -1,4 +1,4 @@
-package janggi;
+package janggi.player;
 
 public record Score(int value) {
 

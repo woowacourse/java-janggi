@@ -1,4 +1,4 @@
-package janggi;
+package janggi.player;
 
 public enum Team {
     HAN("한"), // RED

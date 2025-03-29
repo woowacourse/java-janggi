@@ -1,6 +1,12 @@
 package janggi;
 
+import janggi.board.Board;
 import janggi.piece.Pieces;
+import janggi.player.Player;
+import janggi.player.Players;
+import janggi.player.Score;
+import janggi.player.Team;
+import janggi.player.Turn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

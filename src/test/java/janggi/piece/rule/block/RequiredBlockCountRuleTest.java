@@ -1,8 +1,8 @@
 package janggi.piece.rule.block;
 
 import fixture.PieceFixture;
-import janggi.Board;
-import janggi.Team;
+import janggi.board.Board;
+import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;

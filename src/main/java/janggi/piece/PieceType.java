@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.Score;
+import janggi.player.Score;
 
 public enum PieceType {
     GENERAL("장"),

@@ -1,6 +1,6 @@
 package janggi.piece.rule.movement;
 
-import janggi.Board;
+import janggi.board.Board;
 import janggi.coordinate.Distance;
 import janggi.coordinate.Position;
 import janggi.piece.rule.block.RequiredBlockCountRule;

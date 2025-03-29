@@ -1,5 +1,6 @@
-package janggi;
+package janggi.player;
 
+import janggi.board.Board;
 import janggi.piece.Pieces;
 
 public class Players {

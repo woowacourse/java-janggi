@@ -1,12 +1,16 @@
 package janggi;
 
 import fixture.PieceFixture;
+import janggi.board.Board;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Pieces;
 import janggi.piece.Soldier;
+import janggi.player.Player;
+import janggi.player.Score;
+import janggi.player.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

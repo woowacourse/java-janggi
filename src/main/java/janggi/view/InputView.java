@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.Player;
-import janggi.Team;
+import janggi.player.Player;
+import janggi.player.Team;
 
 import java.util.Scanner;
 

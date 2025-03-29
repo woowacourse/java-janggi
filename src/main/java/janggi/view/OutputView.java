@@ -1,9 +1,9 @@
 package janggi.view;
 
-import janggi.Board;
-import janggi.Player;
-import janggi.Players;
-import janggi.Team;
+import janggi.board.Board;
+import janggi.player.Player;
+import janggi.player.Players;
+import janggi.player.Team;
 import janggi.coordinate.Column;
 import janggi.coordinate.Position;
 import janggi.coordinate.Row;

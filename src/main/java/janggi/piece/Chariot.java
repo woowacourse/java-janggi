@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.Team;
+import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.piece.rule.movement.MovementRule;
 import janggi.piece.rule.movement.StraightMovementRule;

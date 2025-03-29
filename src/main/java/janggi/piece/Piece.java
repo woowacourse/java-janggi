@@ -1,8 +1,8 @@
 package janggi.piece;
 
-import janggi.Board;
-import janggi.Score;
-import janggi.Team;
+import janggi.board.Board;
+import janggi.player.Score;
+import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.piece.rule.movement.MovementRule;
 

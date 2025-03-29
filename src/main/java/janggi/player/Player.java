@@ -1,4 +1,4 @@
-package janggi;
+package janggi.player;
 
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;

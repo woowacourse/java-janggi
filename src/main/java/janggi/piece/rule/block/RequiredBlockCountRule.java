@@ -1,6 +1,6 @@
 package janggi.piece.rule.block;
 
-import janggi.Board;
+import janggi.board.Board;
 import janggi.coordinate.Position;
 import janggi.coordinate.Route;
 

@@ -1,5 +1,11 @@
 package janggi;
 
+import janggi.board.Board;
+import janggi.player.Player;
+import janggi.player.Players;
+import janggi.player.Score;
+import janggi.player.Team;
+import janggi.player.Turn;
 import janggi.view.InputView;
 import janggi.view.MoveCommand;
 import janggi.view.OutputView;

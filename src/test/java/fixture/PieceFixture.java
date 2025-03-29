@@ -1,6 +1,6 @@
 package fixture;
 
-import janggi.Team;
+import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
