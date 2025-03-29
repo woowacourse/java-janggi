@@ -80,6 +80,7 @@ public class JanggiGame {
         boolean isHanGungDead = board.isHanGungDead();
         if (isChoGungDead || isHanGungDead) {
             boardRepository.deleteAll();
+            turnRepository.delete();
             outputView.printEndGame(isChoGungDead, isHanGungDead);
             return true;
         }
