@@ -50,10 +50,10 @@ class PositionTest {
     @DisplayName("현재 위치와 목적 위치의 차가 1이 아니라면 false를 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {"2:2", "4:3", "4:2", "3:3", "1:1"}, delimiter = ':')
-    void isNotOneStep() {
+    void isNotOneStep(final int row, final int col) {
         //given
         final Position currentPosition = new Position(2, 2);
-        final Position targetPosition = new Position(4, 2);
+        final Position targetPosition = new Position(row, col);
 
         //when
         final boolean actual = currentPosition.isOneStep(targetPosition);
@@ -102,6 +102,36 @@ class PositionTest {
 
         // then
         assertThat(actual).isTrue();
+    }
+
+    @DisplayName("현재 위치와 목적위치의 Row 차이와 Col 의 차이가 1이라면 한칸 대각선으로 판단한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"4:4", "2:4", "4:2", "2:2"}, delimiter = ':')
+    void isOneDiagonal(final int row, final int col) {
+        //given
+        final Position currentPosition = new Position(3, 3);
+        final Position targetPosition = new Position(row, col);
+
+        //when
+        final boolean actual = currentPosition.isOneDiagonal(targetPosition);
+
+        //then
+        assertThat(actual).isTrue();
+    }
+
+    @DisplayName("현재 위치와 목적위치의 Row 차이와 Col 의 차이가 1이 아니라면 한칸 대각선으로 판단하지 않는다.")
+    @ParameterizedTest
+    @CsvSource(value = {"3:3", "5:5", "3:4", "4:3", "1:2"}, delimiter = ':')
+    void isNotOneDiagonal(final int row, final int col) {
+        //given
+        final Position currentPosition = new Position(3, 3);
+        final Position targetPosition = new Position(row, col);
+
+        //when
+        final boolean actual = currentPosition.isOneDiagonal(targetPosition);
+
+        //then
+        assertThat(actual).isFalse();
     }
 }
 

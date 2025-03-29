@@ -19,14 +19,21 @@ public class King extends PalaceAwarePiece {
     }
 
     @Override
-    public void canMoveBy(final Position currentPosition, final Position targetPosition) {
+    public void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
+        validateInPalace(palace, targetPosition);
         if (isNotMove(currentPosition, targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 왕이 움직일 수 없는 위치 입니다.");
         }
     }
 
-    private boolean isNotMove(final Position presentPosition, final Position position) {
-        return !presentPosition.isOneStep(position);
+    private void validateInPalace(final Palace palace, final Position targetPosition) {
+        if (!palace.isInPalace(targetPosition)) {
+            throw new IllegalArgumentException("[ERROR] 왕은 궁성을 벗어날 수 없습니다.");
+        }
+    }
+
+    private boolean isNotMove(final Position currentPosition, final Position targetPosition) {
+        return !currentPosition.isOneStep(targetPosition) && !currentPosition.isOneDiagonal(targetPosition);
     }
 
 }

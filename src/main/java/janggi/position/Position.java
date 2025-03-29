@@ -34,4 +34,7 @@ public record Position(int row, int col) {
         return Math.abs(col - this.col);
     }
 
+    public boolean isOneDiagonal(final Position targetPosition) {
+        return (calculateDifferenceRow(targetPosition.row) == 1 && calculateDifferenceCol(targetPosition.col) == 1);
+    }
 }
