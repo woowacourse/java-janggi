@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class GeneralTest {
     @DisplayName("초나라_궁이_궁성_밖으로_이동하면_예외를_발생한다")
@@ -50,5 +52,26 @@ class GeneralTest {
         assertThatThrownBy(() -> piece.validatePath(board, path))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 궁은 궁성을 벗어날 수 없습니다.");
+    }
+
+    @DisplayName("초나라_궁이_선이_없는데_대각으로_이동하면_예외를_발생한다")
+    @CsvSource(value = {"4:0:3:1", "4:0:5:1", "3:1:4:0", "3:1:4:2", "4:2:3:1", "4:2:5:1", "5:1:4:2", "5:1:4:0"},
+            delimiterString = ":")
+    @ParameterizedTest
+    void aaaa(int startColumn, int startRow, int goalColumn, int goalRow) {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = createPosition(startColumn, startRow);
+        Position goal = createPosition(goalColumn, goalRow);
+        Path path = new Path(List.of(start, goal));
+        General piece = new General(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(initialBoard);
+
+        // then
+        assertThatThrownBy(() -> piece.validatePath(board, path))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 선이 존재하는 경우에만 이동할 수 있습니다.");
     }
 }
