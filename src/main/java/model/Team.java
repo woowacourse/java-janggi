@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Arrays;
-import model.position.Column;
 
 public enum Team {
     RED("레드"),

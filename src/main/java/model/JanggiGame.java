@@ -1,5 +1,6 @@
 package model;
 
+import dao.GameDao;
 import dao.PieceDao;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +14,12 @@ public class JanggiGame {
     private final Pieces pieces;
     private Team turn;
     private final PieceDao pieceDao;
+    private final GameDao gameDao;
 
     public JanggiGame() {
         Map<Position, Piece> pieces;
         pieceDao = new PieceDao();
+        gameDao = new GameDao();
         Map<Position, Piece> allPieces = pieceDao.getAllPieces();
         if (allPieces.isEmpty()) {
             pieces = PieceInitializer.generate();
@@ -25,7 +28,12 @@ public class JanggiGame {
         } else {
             this.pieces = new Pieces(allPieces);
         }
-        turn = Team.GREEN;
+        if (gameDao.getTurn() == null) {
+            turn = Team.GREEN;
+            gameDao.addTurn(turn);
+        } else {
+            turn = gameDao.getTurn();
+        }
     }
 
     public Map<Position, Piece> getPieces() {
@@ -63,6 +71,7 @@ public class JanggiGame {
         Piece piece = pieces.findPieceBy(departure);
         piece.checkOfTurn(turn);
         turn = turn.change();
+        gameDao.updateTurn(turn);
     }
 
     public Team getCurrentTurn() {
@@ -74,7 +83,8 @@ public class JanggiGame {
         return Score.calculateScoreFrom(pieces);
     }
 
-    public void removePiecesInfo() {
+    public void removeGameInfo() {
         pieceDao.deleteAllPieces();
+        gameDao.deleteTurn();
     }
 }

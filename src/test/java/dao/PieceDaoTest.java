@@ -42,6 +42,5 @@ public class PieceDaoTest {
         PieceDao pieceDao = new PieceDao();
         pieceDao.updatePiece(departure, arrival);
     }
-
      */
 }

@@ -21,12 +21,12 @@ public class Application {
             outputView.printCurrentTurnOfTeam(currentTurn);
             Position departure = createDeparture();
             if (departure == null) {
-                janggiGame.removePiecesInfo();
+                janggiGame.removeGameInfo();
                 break;
             }
             createArrivalAndMove(departure);
             if (janggiGame.isEnd()) {
-                janggiGame.removePiecesInfo();
+                janggiGame.removeGameInfo();
                 outputView.printGeneralDie(currentTurn);
                 break;
             }
