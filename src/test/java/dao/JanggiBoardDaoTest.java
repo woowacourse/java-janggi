@@ -3,6 +3,7 @@ package dao;
 import domain.janggiPiece.Cannon;
 import domain.janggiPiece.JanggiChessPiece;
 import domain.janggiPiece.Piece;
+import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 import org.assertj.core.api.SoftAssertions;
@@ -15,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JanggiBoardDaoTest {
     private final JanggiBoardDao dao = new JanggiBoardDao();
+    private final JanggiPosition position = JanggiPositionFactory.of(1, 1);
     private final JanggiTeam team = JanggiTeam.BLUE;
 
     @DisplayName("드라이버 연결 테스트")
@@ -35,7 +37,7 @@ class JanggiBoardDaoTest {
         // given
 
         // when
-        dao.save(JanggiPositionFactory.of(1, 1), new Cannon(team));
+        dao.save(position, new Cannon(team));
 
         // then
     }
@@ -46,12 +48,25 @@ class JanggiBoardDaoTest {
         // given
 
         // when
-        JanggiChessPiece piece = dao.findByPosition(JanggiPositionFactory.of(1, 1));
+        JanggiChessPiece piece = dao.findByPosition(position);
 
         // then
         SoftAssertions.assertSoftly((softly) -> {
             softly.assertThat(piece.getTeam()).isSameAs(team);
             softly.assertThat(piece.getChessPieceType()).isSameAs(Piece.CANNON);
         });
+    }
+
+    @DisplayName("기물 삭제 테스트")
+    @Test
+    void deletePiece() {
+        // given
+
+        // when
+        dao.delete(position);
+        JanggiChessPiece piece = dao.findByPosition(position);
+
+        // then
+        assertThat(piece).isNull();
     }
 }
