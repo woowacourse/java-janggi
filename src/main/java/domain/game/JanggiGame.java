@@ -8,7 +8,6 @@ import domain.piece.Piece;
 import infrastructure.BoardRepository;
 import infrastructure.TurnRepository;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -20,13 +19,13 @@ public class JanggiGame {
     private final BoardRepository boardRepository = new BoardRepository();
     private final TurnRepository turnRepository = new TurnRepository();
 
-    private Country currentTurn = Country.CHO;
+    private Turn turn = new Turn(Country.CHO);
 
     public void play() {
         Board board = start();
 
         while (!isEndGame(board)) {
-            takeTurn(board, this::movePiece);
+            turn.take(board, this::movePiece);
             showScore(board);
             nextTurn();
         }
@@ -38,11 +37,11 @@ public class JanggiGame {
         if (foundBoard.isEmpty()) {
             board = settingUp();
             boardRepository.save(board);
-            turnRepository.save(currentTurn);
+            turnRepository.save(turn);
             outputView.printNewGameMessage();
         } else {
             board = new Board(foundBoard);
-            currentTurn = turnRepository.findTurn();
+            turn = turnRepository.findTurn();
             outputView.printPreviousGameMessage();
         }
         return board;
@@ -62,8 +61,8 @@ public class JanggiGame {
     private void movePiece(Board board) {
         outputView.printJanggiBoard(board);
 
-        Coordinate from = retryUntilValid(() -> inputView.readMoveFrom(currentTurn.getCountryName()));
-        board.validateIsMyPiece(from, currentTurn);
+        Coordinate from = retryUntilValid(() -> inputView.readMoveFrom(turn.getCurrentName()));
+        board.validateIsMyPiece(from, turn.getCountry());
         Coordinate to = retryUntilValid(inputView::readMoveTo);
 
         board.movePiece(from, to);
@@ -95,19 +94,8 @@ public class JanggiGame {
     }
 
     private void nextTurn() {
-        currentTurn = currentTurn.convertCountry();
-        turnRepository.updateTurn(currentTurn);
-    }
-
-    private <T> void takeTurn(T value, Consumer<T> consumer) {
-        while (true) {
-            try {
-                consumer.accept(value);
-                return;
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        turn.next();
+        turnRepository.updateTurn(turn);
     }
 
     private <T> T retryUntilValid(Supplier<T> supplier) {
