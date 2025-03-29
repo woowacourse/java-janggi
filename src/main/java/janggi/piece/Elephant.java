@@ -39,4 +39,9 @@ public class Elephant extends Piece {
     public boolean isSameType(PieceType pieceType) {
         return this.pieceType == pieceType;
     }
+
+    @Override
+    public PieceType getType() {
+        return pieceType;
+    }
 }

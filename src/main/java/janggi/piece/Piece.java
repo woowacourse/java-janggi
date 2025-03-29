@@ -97,4 +97,6 @@ public abstract class Piece {
     protected abstract String getName();
 
     public abstract boolean isSameType(PieceType pieceType);
+
+    public abstract PieceType getType();
 }

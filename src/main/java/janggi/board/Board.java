@@ -98,4 +98,18 @@ public class Board {
     public Position getUpperPalaceCenter() {
         return palace.getUpperPalaceCenter();
     }
+
+    public double calculateGreenScore() {
+        return board.keySet().stream()
+                .filter(position -> board.get(position).getTeam() == Team.GREEN)
+                .mapToInt(position -> board.get(position).getType().getPoint())
+                .sum();
+    }
+
+    public double calculateRedScore() {
+        return Team.RED.getBonusPoint() + board.keySet().stream()
+                .filter(position -> board.get(position).getTeam() == Team.RED)
+                .mapToInt(position -> board.get(position).getType().getPoint())
+                .sum();
+    }
 }

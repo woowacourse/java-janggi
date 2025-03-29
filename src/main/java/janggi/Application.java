@@ -20,6 +20,7 @@ public class Application {
         outputView.printGameStartMessage(attackTeam);
         while (true) {
             outputView.printBoard(board);
+            outputView.printGameScore(board);
             if (!playTurn(board, attackTeam)) {
                 break;
             }

@@ -56,4 +56,9 @@ public class OutputView {
     public void printErrorMessage(IllegalArgumentException e) {
         System.out.println(e.getMessage());
     }
+
+    public void printGameScore(Board board) {
+        System.out.println("초나라 점수: " + board.calculateGreenScore());
+        System.out.println("한나라 점수: " + board.calculateRedScore());
+    }
 }
