@@ -161,6 +161,16 @@ public class JanggiBoardDao implements BoardDao {
 
     @Override
     public void updatePosition(JanggiPosition before, JanggiPosition after) {
-
+        final var query = "UPDATE piece SET position_row=?, position_col=? WHERE position_row=? AND position_col=?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, after.getRow());
+            preparedStatement.setInt(2, after.getCol());
+            preparedStatement.setInt(3, before.getRow());
+            preparedStatement.setInt(4, before.getCol());
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
