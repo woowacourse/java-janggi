@@ -24,30 +24,38 @@ public class GameManager {
                 Command command = InputView.inputCommand();
 
                 if (command.isEnd()) {
-                    OutputView.printStatus(gameService.calculateScore(Team.CHO), gameService.calculateScore(Team.HAN));
-                    OutputView.printMatchResult(gameService.findWinTeam());
-                    gameService.endGame();
+                    processEnd();
                     return;
                 }
 
-                playByCommand(command);
+                if (command.isMove()) {
+                    processMove();
+                    return;
+                }
+
+                if (command.isStatus()) {
+                    processStatus();
+                }
             }
         });
     }
 
-    private void playByCommand(Command command) {
-        if (command.isMove()) {
-            OutputView.printPieceByPoint(gameService.findPieceByPoint());
+    private void processEnd() {
+        OutputView.printStatus(gameService.calculateScore(Team.CHO), gameService.calculateScore(Team.HAN));
+        OutputView.printMatchResult(gameService.findWinTeam());
+        gameService.endGame();
+    }
 
-            MoveCommand moveCommand = InputView.inputMoveCommand(gameService.currentTurn());
-            gameService.movePiece(moveCommand.source(), moveCommand.destination());
-            OutputView.printPieceByPoint(gameService.findPieceByPoint());
-            return;
-        }
+    private void processMove() {
+        OutputView.printPieceByPoint(gameService.findPieceByPoint());
 
-        if (command.isStatus()) {
-            OutputView.printStatus(gameService.calculateScore(Team.CHO), gameService.calculateScore(Team.HAN));
-        }
+        MoveCommand moveCommand = InputView.inputMoveCommand(gameService.currentTurn());
+        gameService.movePiece(moveCommand.source(), moveCommand.destination());
+        OutputView.printPieceByPoint(gameService.findPieceByPoint());
+    }
+
+    private void processStatus() {
+        OutputView.printStatus(gameService.calculateScore(Team.CHO), gameService.calculateScore(Team.HAN));
     }
 
     private void loadGameRoom() {

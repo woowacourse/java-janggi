@@ -41,11 +41,11 @@ public class GameService {
     }
 
     private JanggiGame loadGameByGameRoomName(String gameRoomName) {
-        GameRoomEntity gameRoom = loadGameRoomByName(gameRoomName);
+        GameRoomEntity gameRoom = findGameRoomEntityByName(gameRoomName);
         return new JanggiGame(gameRoom.name(), loadBoardByGameRoomName(gameRoomName), gameRoom.turn());
     }
 
-    private GameRoomEntity loadGameRoomByName(String name) {
+    private GameRoomEntity findGameRoomEntityByName(String name) {
         Optional<GameRoomEntity> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
         if (maybeGameRoom.isEmpty()) {
             throw new IllegalStateException("해당 게임방이 존재 하지 않습니다.");
