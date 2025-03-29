@@ -63,6 +63,25 @@ public final class Cannon extends Piece {
     }
 
     @Override
+    public void validatePalaceMove(Point from, Point to) {
+        if (!from.isHorizontallyAlignedWith(to) && !from.isVerticallyAlignedWith(to) && !from.isDiagonallyAlignedWith(
+                to)) {
+            throw new IllegalArgumentException("포는 궁성안에서 수평, 수직 대각선으로만 움직여야 합니다.");
+        }
+    }
+
+    @Override
+    public Set<Point> findPalaceRoute(Point from, Point to) {
+        if (from.isHorizontallyAlignedWith(to)) {
+            return from.findHorizontalPointsBetween(to);
+        }
+        if (from.isVerticallyAlignedWith(to)) {
+            return from.findVerticalPointsBetween(to);
+        }
+        return from.findDiagonalPointsBetween(to);
+    }
+
+    @Override
     public PieceCategory getPieceCategory() {
         return PieceCategory.CANNON;
     }

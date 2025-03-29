@@ -105,4 +105,31 @@ class CannonTest {
         assertThat(cannon.findRoute(from, to))
                 .containsExactlyInAnyOrder(new Point(5, 6), new Point(5, 7), new Point(5, 8));
     }
+
+    @DisplayName("포는 궁성 안에서 대각선으로 움직일 수 있다.")
+    @ParameterizedTest
+    @CsvSource({"3, 0", "4, 1"})
+    void palaceMoveTest(int toX, int toY) {
+        // given
+        Piece cannon = new Cannon(Camp.CHU);
+        Point from = new Point(5, 2);
+        Point to = new Point(toX, toY);
+
+        // when & then
+        assertThatCode(() -> cannon.validatePalaceMove(from, to))
+                .doesNotThrowAnyException();
+    }
+
+    @DisplayName("포가 궁성 안에 있을 때의 경로를 찾는다.")
+    @Test
+    void findPalaceRouteTest() {
+        // given
+        Piece cannon = new Cannon(Camp.CHU);
+        Point from = new Point(5, 2);
+        Point to = new Point(3, 0);
+
+        // when & then
+        assertThat(cannon.findPalaceRoute(from, to))
+                .containsExactlyInAnyOrder(new Point(4, 1));
+    }
 }
