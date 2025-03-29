@@ -50,6 +50,7 @@ public abstract class Piece {
     }
 
     private void validateSamePosition(Position destination) {
+        if (isKing()) return;
         if (position.equals(destination)) {
             throw new IllegalArgumentException("현재 위치로 이동할 수 없습니다.");
         }
