@@ -31,15 +31,15 @@ public class Pho extends Piece {
             boolean isJumped = false;
 
             while (movement.isDiagonal() ? next.isInGungBoundary() : next.isInBoundary()) {
-                StepDecision decision = decide(board, next, isJumped);
+                StepDecision step = decide(board, next, isJumped);
 
-                if (decision.shouldAdd()) {
+                if (step.shouldAdd()) {
                     availablePositions.add(next);
                 }
-                if (decision.shouldStop()) {
+                if (step.shouldStop()) {
                     break;
                 }
-                if (decision.shouldJump()) {
+                if (step.shouldJump()) {
                     isJumped = true;
                 }
 
