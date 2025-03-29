@@ -135,6 +135,6 @@ public final class JanggiView {
     }
 
     public void displayError(final String message) {
-        System.out.println(message);
+        System.out.println("[ERROR] " + message);
     }
 }

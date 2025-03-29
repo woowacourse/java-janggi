@@ -46,7 +46,7 @@ public class JanggiGame {
         try {
             return findBoard();
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            janggiView.displayError("보드를 생성하지 못했습니다.");
             return generateBoard();
         }
     }
@@ -65,7 +65,7 @@ public class JanggiGame {
 
     private Board findUnfinishedBoard() {
         if (!janggiDao.existNotFinishedGame()) {
-            janggiView.displayError("[ERROR] 게임 기록이 없습니다.");
+            janggiView.displayError("게임 기록이 없습니다.");
             return generateBoard();
         }
         final List<Integer> notFinishedGameIds = janggiDao.findNotFinishedGameIds();
@@ -80,12 +80,12 @@ public class JanggiGame {
         try {
             final int id = Integer.parseInt(input);
             if (!notFinishedGameIds.contains(id)) {
-                janggiView.displayError("[ERROR] 목록에 있는 숫자를 입력해주세요.");
+                janggiView.displayError("목록에 있는 숫자를 입력해주세요.");
                 return readUnfinishedGame(notFinishedGameIds);
             }
             return id;
         } catch (IllegalArgumentException e) {
-            janggiView.displayError("[ERROR] 숫자 형식으로 입력해주세요.");
+            janggiView.displayError("숫자 형식으로 입력해주세요.");
             return readUnfinishedGame(notFinishedGameIds);
         }
     }
@@ -94,7 +94,7 @@ public class JanggiGame {
         try {
             return SetupOption.of(janggiView.read());
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            janggiView.displayError("옵션을 선택하지 못했습니다.");
             return readSetupOption();
         }
     }
@@ -105,7 +105,7 @@ public class JanggiGame {
             command = Command.of(input);
             moveUntilStop(command, board, input);
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            janggiView.displayError("명령을 실행하지 못했습니다.");
             return executeCommand(command, board);
         }
         return command;
@@ -130,7 +130,7 @@ public class JanggiGame {
                 janggiView.displayTurn(board);
             }
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            janggiView.displayError("기물을 이동시키지 못했습니다.");
         }
     }
 }
