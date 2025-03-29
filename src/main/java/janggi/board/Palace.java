@@ -24,4 +24,8 @@ public class Palace {
     public boolean isInPalace(final Position currentPosition) {
         return area.contains(currentPosition);
     }
+
+    public boolean isInPalace(final Position currentPosition, final Position targerPosition) {
+        return area.contains(currentPosition) && area.contains(targerPosition);
+    }
 }

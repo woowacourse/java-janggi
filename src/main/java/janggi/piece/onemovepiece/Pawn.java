@@ -20,12 +20,22 @@ public class Pawn extends PalaceAwarePiece {
 
     @Override
     public void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
+        if (palace.isInPalace(currentPosition, targetPosition)) {
+            validatePalaceMove(currentPosition, targetPosition);
+            return;
+        }
         if (isNotMove(currentPosition, targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 졸이 움직일 수 없는 위치입니다.");
         }
     }
 
-    private boolean isNotMove(final Position presentPosition, final Position position) {
-        return !position.isBehind(presentPosition);
+    private void validatePalaceMove(final Position currentPosition, final Position targetPosition) {
+        if (targetPosition.isBehind(currentPosition)) {
+            throw new IllegalArgumentException("[ERROR] 졸이 움직일 수 없는 위치 입니다.");
+        }
+    }
+
+    private boolean isNotMove(final Position currentPosition, final Position targetPosition) {
+        return targetPosition.isBehind(currentPosition) || currentPosition.isDiagonal(targetPosition);
     }
 }
