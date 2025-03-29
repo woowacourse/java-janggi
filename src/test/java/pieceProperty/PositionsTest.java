@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import piece.Byeong;
-import piece.Jol;
+import movementRule.Byeong;
+import movementRule.Jol;
 
 class PositionsTest {
 
@@ -49,6 +49,17 @@ class PositionsTest {
         //when-then
         assertThat(positions.containsPosition(jol)).isTrue();
         assertThat(positions.containsPosition(byeong)).isFalse();
+    }
+
+    @Test
+    @DisplayName("위치 보유 테스트")
+    void containsTest() {
+        //given
+        List<Position> positionsList = new ArrayList<>(List.of(new Position(5, 5)));
+        Position position = new Position(5, 5);
+
+        //when - then
+        assertThat(positionsList.contains(position)).isTrue();
     }
 
 
