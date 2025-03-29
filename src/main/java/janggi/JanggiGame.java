@@ -5,6 +5,8 @@ import janggi.dao.GameDao;
 import janggi.dao.PieceDao;
 import janggi.dao.PieceEntity;
 import janggi.dao.Status;
+import janggi.domain.JanggiRuned;
+import janggi.domain.JanggiStatus;
 import janggi.domain.board.BoardSetUp;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Cannon;
@@ -49,7 +51,7 @@ public class JanggiGame {
             if (game == null) {
                 gameDao.addGame(new Game(Status.RUN, Dynasty.CHU));
                 game = gameDao.findByStatus(Status.RUN);
-                createJanggiBoard(game);
+                initializeJanggiBoard(game);
             }
             play(game);
         } catch (IllegalArgumentException e) {
@@ -63,43 +65,34 @@ public class JanggiGame {
         janggiBoardView.printGameStartMessage();
         janggiBoardView.printBoard(janggiBoard.getPieces());
 
-        Dynasty currentTurnDynasty = game.getCurrentTurn();
-        Dynasty winDynasty = Dynasty.EMPTY;
-        boolean gameEnded = false;
-
-        while (!gameEnded) {
+        JanggiStatus janggiStatus = new JanggiRuned(game.getCurrentTurn(), janggiBoard);
+        while (!janggiStatus.isEndGame()) {
             try {
-                Movement movement = janggiBoardView.readPlayerMove(currentTurnDynasty);
+                Movement movement = janggiBoardView.readPlayerMove(janggiStatus.currentTurn());
                 Point from = new Point(movement.startX(), movement.startY());
                 Point to = new Point(movement.endX(), movement.endY());
-                janggiBoard.move(currentTurnDynasty, from, to);
-                if (janggiBoard.isDeadKing(currentTurnDynasty.opposite())) {
-                    winDynasty = currentTurnDynasty;
-                    gameEnded = true;
-                    gameDao.updateStatus(game.getId(), Status.END);
-                }
-                currentTurnDynasty = currentTurnDynasty.opposite();
-                janggiBoardView.printBoard(janggiBoard.getPieces());
-                janggiBoardView.printScore(janggiBoard);
 
+                janggiStatus = janggiStatus.play(from, to);
                 pieceDao.updatePiece(game.getId(), from, to);
                 pieceDao.deletePiece(game.getId(), from);
-                gameDao.updateCurrentTurn(game.getId(), currentTurnDynasty);
+                if (!janggiStatus.isEndGame()) {
+                    gameDao.updateCurrentTurn(game.getId(), janggiStatus.currentTurn());
+                }
+                janggiBoardView.printBoard(janggiBoard.getPieces());
+                janggiBoardView.printScore(janggiBoard);
             } catch (IllegalArgumentException e) {
                 System.out.println("[ERROR] " + e.getMessage());
             }
         }
-        if (winDynasty != Dynasty.EMPTY) {
-            janggiBoardView.printResult(winDynasty, janggiBoard);
-        }
+
+        janggiBoardView.printResult(janggiStatus.winner(), janggiBoard);
     }
 
-    private JanggiBoard createJanggiBoard(Game game) {
+    private void initializeJanggiBoard(Game game) {
         BoardSetUp chuPlayerBoardSetUp = initializeView.readBoardSetUp(Dynasty.CHU);
         BoardSetUp hanPlayerBoardSetUp = initializeView.readBoardSetUp(Dynasty.HAN);
         JanggiBoard janggiBoard = JanggiBoard.of(hanPlayerBoardSetUp, chuPlayerBoardSetUp);
         pieceDao.addPieces(createPieceEntities(game, janggiBoard));
-        return janggiBoard;
     }
 
     private JanggiBoard createJanggiBoard(List<PieceEntity> pieceEntities) {
@@ -130,7 +123,7 @@ public class JanggiGame {
         return new JanggiBoard(pieces);
     }
 
-    private static Soldier toSoldier(PieceEntity pieceEntity) {
+    private Soldier toSoldier(PieceEntity pieceEntity) {
         if (pieceEntity.getDynasty() == Dynasty.HAN) {
             return new HanSoldier();
         }
