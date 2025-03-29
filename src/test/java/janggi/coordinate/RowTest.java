@@ -3,11 +3,34 @@ package janggi.coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RowTest {
+
+    @Test
+    @DisplayName("defaults를 통해서 기본 행들을 생성할 수 있다")
+    void defaults() {
+        // given
+        // when
+        final List<Row> defaults = Row.defaults();
+
+        // then
+        assertThat(defaults).containsExactlyElementsOf(
+                List.of(new Row(1),
+                        new Row(2),
+                        new Row(3),
+                        new Row(4),
+                        new Row(5),
+                        new Row(6),
+                        new Row(7),
+                        new Row(8),
+                        new Row(9),
+                        new Row(10)));
+    }
 
     @Test
     @DisplayName("Row는 1부터 10까지의 정수만 허용한다")

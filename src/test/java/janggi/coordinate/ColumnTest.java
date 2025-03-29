@@ -3,11 +3,33 @@ package janggi.coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ColumnTest {
+
+    @Test
+    @DisplayName("defaults를 통해서 기본 열들을 생성할 수 있다")
+    void defaults() {
+        // given
+        // when
+        final List<Column> defaults = Column.defaults();
+
+        // then
+        assertThat(defaults).containsExactlyElementsOf(
+                List.of(new Column(1),
+                        new Column(2),
+                        new Column(3),
+                        new Column(4),
+                        new Column(5),
+                        new Column(6),
+                        new Column(7),
+                        new Column(8),
+                        new Column(9)));
+    }
 
     @Test
     @DisplayName("Column은 1부터 9까지의 정수만 허용한다")
