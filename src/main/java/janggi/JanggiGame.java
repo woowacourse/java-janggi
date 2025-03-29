@@ -50,7 +50,7 @@ public class JanggiGame {
     public void play(JanggiBoard board) {
         List<Side> turns = getTurns();
         if (turns.contains(Side.NONE)) {
-            System.out.println("이미 게임이 종료되었습니다.");
+            outputView.printAlreadyEnded();
             return ;
         }
         while (true) {

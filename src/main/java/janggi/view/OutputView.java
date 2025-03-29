@@ -72,4 +72,8 @@ public class OutputView {
         System.out.println("초나라의 점수는 " + choTotalScore + "입니다.");
         System.out.println("한나라의 점수는 " + hanTotalScore + "입니다.");
     }
+
+    public void printAlreadyEnded() {
+        System.out.println("이미 게임이 종료되었습니다.");
+    }
 }

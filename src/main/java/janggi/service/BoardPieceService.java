@@ -56,6 +56,7 @@ public class BoardPieceService {
     }
 
     public void updatePiecePosition(final Position selectedPiecePosition, final Position destination) {
+        boardPieceDao.deletePositionIfExists(destination);
         int boardId = boardPieceDao.findBoardPieceIdByPosition(selectedPiecePosition);
         boardPieceDao.updatePiecePosition(boardId, destination);
     }

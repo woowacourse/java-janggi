@@ -116,7 +116,7 @@ public class BoardPieceDao {
         }
     }
 
-    public int deletePositionIfExists(final Position destination) {
+    public void deletePositionIfExists(final Position destination) {
         final String deleteQuery = "DELETE FROM BoardPiece WHERE x = ? AND y = ?";
         try (Connection connection = DatabaseConnectionManager.getConnection();
              PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery)) {
@@ -124,19 +124,10 @@ public class BoardPieceDao {
             deleteStmt.setInt(1, destination.getX());
             deleteStmt.setInt(2, destination.getY());
 
-            return deleteStmt.executeUpdate();
+            deleteStmt.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] 데이터베이스에 문제가 발생했습니다.");
         }
     }
 
-    public void resetTable() {
-        final String query = "Delete FROM BoardPiece WHERE board_piece_id > 0"; // 모든 데이터 삭제 + AUTO_INCREMENT 초기화
-        try (final Connection connection = DatabaseConnectionManager.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new IllegalStateException("[ERROR] 데이터베이스 초기화를 실패했습니다.");
-        }
-    }
 }
