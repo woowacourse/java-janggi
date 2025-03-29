@@ -27,7 +27,18 @@ public class PositionFactory {
     }
 
     public void diagonalSettingGraph() {
-        settingGraph(DIAGONAL_DX, DIAGONAL_DY);
+        Position[] positions = new Position[2];
+        positions[0] = new Position(5, 2);
+        positions[1] = new Position(5, 9);
+        for (int i = 0; i < positions.length; i++) {
+            for (int dir = 0; dir < DIAGONAL_DX.length; dir++) {
+                int nextX = positions[i].x() + DIAGONAL_DX[dir];
+                int nextY = positions[i].y() + DIAGONAL_DY[dir];
+                Position neighbor = new Position(nextX, nextY);
+                graph.get(positions[i]).add(neighbor);
+                graph.get(neighbor).add(positions[i]);
+            }
+        }
     }
 
     private void settingGraph(int[] DX, int[] DY) {
@@ -37,7 +48,6 @@ public class PositionFactory {
 
         for (Position pos : CACHE) {
             for (int dir = 0; dir < DX.length; dir++) {
-
                 int nextX = pos.x() + DX[dir];
                 int nextY = pos.y() + DY[dir];
                 if (isCoordinate(nextX, nextY)) {
