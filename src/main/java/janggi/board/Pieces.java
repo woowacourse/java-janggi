@@ -1,4 +1,4 @@
-package janggi.game;
+package janggi.board;
 
 import janggi.piece.PieceType;
 import janggi.piece.pieces.Piece;

@@ -1,6 +1,6 @@
 package janggi.piece.pieces;
 
-import janggi.piece.Direction;
+import janggi.position.Direction;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
