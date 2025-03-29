@@ -1,5 +1,7 @@
 package janggi.domain;
 
+import java.util.Arrays;
+
 public enum Team {
     RED(73.5),
     GREEN(72),
@@ -26,6 +28,13 @@ public enum Team {
 
     public boolean isGreen() {
         return this == GREEN;
+    }
+
+    public static Team convert(String teamName) {
+        return Arrays.stream(Team.values())
+                .filter(team -> team.name().equals(teamName))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 팀명입니다: " + teamName));
     }
 
     public Team getEnemy() {

@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import janggi.domain.Score;
+import java.util.Arrays;
 
 public enum PieceType {
     CHARIOT(new Score(13)),
@@ -16,6 +17,13 @@ public enum PieceType {
 
     PieceType(final Score score) {
         this.score = score;
+    }
+
+    public static PieceType convert(final String pieceTypeName) {
+        return Arrays.stream(PieceType.values())
+                .filter(pieceType -> pieceType.name().equals(pieceTypeName))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 기물명입니다: " + pieceTypeName));
     }
 
     public Score getScore() {

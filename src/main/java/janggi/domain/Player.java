@@ -6,7 +6,7 @@ public class Player {
     private final Team team;
     private Score score;
 
-    public Player(final String name, final Team team, final int scoreValue) {
+    public Player(final String name, final Team team, final double scoreValue) {
         this.name = name;
         this.team = team;
         this.score = new Score(scoreValue);
