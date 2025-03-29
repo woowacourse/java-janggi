@@ -116,4 +116,21 @@ class SoldierTest {
         assertThatThrownBy(() -> soldier.validateDestination(to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("졸은 궁성 내에서 전진 대각선으로 1칸 이동할 수 있다.")
+    void test9() {
+        // given
+        Position from = new Position(5, 2);
+        Position to = new Position(4, 1);
+        GreenSoldier soldier = new GreenSoldier(from);
+
+        //when
+
+        //then
+        assertThatCode(() -> soldier.validateDestination(to))
+                .doesNotThrowAnyException();
+    }
+
+    // 대각선 후퇴 불가능
 }
