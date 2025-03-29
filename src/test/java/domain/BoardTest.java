@@ -29,8 +29,8 @@ class BoardTest {
 
         Piece expected = new Soldier(Position.of(1, 5), PieceDirections.HAN_SOLDIER.get());
 
-        Player han = new Player("한", Team.HAN, 1.5F);
-        Player cho = new Player("초", Team.CHO, 0);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
         List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
@@ -54,8 +54,8 @@ class BoardTest {
         Position startPosition = Position.of(1, 1);
         Position targetPosition = Position.of(1, 4);
 
-        Player han = new Player("한", Team.HAN, 1.5F);
-        Player cho = new Player("초", Team.CHO, 0);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
         List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
@@ -79,8 +79,8 @@ class BoardTest {
         Position targetPosition1 = Position.of(4, 3);
         Position targetPosition2 = Position.of(7, 3);
 
-        Player han = new Player("한", Team.HAN, 1.5F);
-        Player cho = new Player("초", Team.CHO, 0);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
         List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
@@ -111,8 +111,8 @@ class BoardTest {
         Position startPosition = Position.of(2, 3);
         Position targetPosition = Position.of(2, 8);
 
-        Player han = new Player("한", Team.HAN, 1.5f);
-        Player cho = new Player("초", Team.CHO, 0);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
         List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
@@ -137,8 +137,8 @@ class BoardTest {
         Position startPosition = Position.of(2, 3);
         Position targetPosition = Position.of(2, 9);
 
-        Player han = new Player("한", Team.HAN, 1.5F);
-        Player cho = new Player("초", Team.CHO, 0);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
         List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
@@ -161,8 +161,8 @@ class BoardTest {
         Position startPosition = Position.of(1, 1);
         Position targetPosition = Position.of(1, 7);
 
-        Player han = new Player("한", Team.HAN, 1.5F);
-        Player cho = new Player("초", Team.CHO, 0);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
         List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
@@ -188,8 +188,8 @@ class BoardTest {
     @Test
     void 게임_종료_여부를_판단한다() {
         // given
-        Player han = new Player("한", Team.HAN, 1.5F);
-        Player cho = new Player("초", Team.CHO, 0);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         Position kingPosition = Position.of(5, 9);
 
@@ -212,8 +212,8 @@ class BoardTest {
     @Test
     void 우승자를_반환한다() {
         // given
-        Player han = new Player("한", Team.HAN, 1.5F);
-        Player cho = new Player("초", Team.CHO, 0);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         Position kingPosition = Position.of(5, 9);
 
@@ -236,8 +236,8 @@ class BoardTest {
     @Test
     void 플레이어들의_기물_총_점수를_계산한다() {
         // given
-        Player han = new Player("한", Team.HAN, 1.5F);
-        Player cho = new Player("초", Team.CHO, 0);
+        Player han = new Player("한", Team.HAN);
+        Player cho = new Player("초", Team.CHO);
 
         Pieces choPieces = new Pieces(PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT));
         choPieces.deleteByPosition(Position.of(4, 10));

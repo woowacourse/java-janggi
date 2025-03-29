@@ -21,8 +21,8 @@ public class KoreaChess {
     }
 
     public void run() {
-        Player han = new Player(inputView.getName(Team.HAN), Team.HAN, 1.5F);
-        Player cho = new Player(inputView.getName(Team.CHO), Team.CHO, 0);
+        Player han = new Player(inputView.getName(Team.HAN), Team.HAN);
+        Player cho = new Player(inputView.getName(Team.CHO), Team.CHO);
 
         SetUp hanSetUp = inputView.readSetUp(Team.HAN);
         SetUp choSetUp = inputView.readSetUp(Team.CHO);

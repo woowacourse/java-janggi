@@ -1,23 +1,23 @@
 package domain.player;
 
 public enum Team {
-    HAN("한", TeamColor.RED),
-    CHO("초", TeamColor.BLUE),
+    HAN("한", 1.5F),
+    CHO("초", 0F),
     ;
 
     private final String name;
-    private final TeamColor color;
+    private final float defaultScore;
 
-    Team(String name, TeamColor color) {
+    Team(String name, float defaultScore) {
         this.name = name;
-        this.color = color;
-    }
-
-    public TeamColor getColor() {
-        return color;
+        this.defaultScore = defaultScore;
     }
 
     public String getName() {
         return name;
+    }
+
+    public float getDefaultScore() {
+        return defaultScore;
     }
 }

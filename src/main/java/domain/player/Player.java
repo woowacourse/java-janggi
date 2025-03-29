@@ -6,10 +6,10 @@ public class Player {
     private final Team team;
     private float score;
 
-    public Player(final String name, final Team team, final float score) {
+    public Player(final String name, final Team team) {
         this.name = name;
         this.team = team;
-        this.score = score;
+        this.score = team.getDefaultScore();
     }
 
     public String name() {
