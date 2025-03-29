@@ -3,9 +3,11 @@ package janggi.piece;
 import janggi.piece.pieces.Cannon;
 import janggi.piece.pieces.Chariot;
 import janggi.piece.pieces.Elephant;
+import janggi.piece.pieces.General;
 import janggi.piece.pieces.Horse;
 import janggi.piece.pieces.None;
 import janggi.piece.pieces.Piece;
+import janggi.piece.pieces.Scholar;
 import janggi.piece.pieces.Soldier;
 import janggi.position.Position;
 import java.util.HashMap;
@@ -14,8 +16,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 public enum DefaultPosition {
-    KING(1, 8, List.of(4), None::new),
-    SCHOLAR(0, 9, List.of(3, 5), None::new),
+    KING(1, 8, List.of(4), General::new),
+    SCHOLAR(0, 9, List.of(3, 5), Scholar::new),
     CAR(0, 9, List.of(0, 8), Chariot::new),
     BOMB(2, 7, List.of(1, 7), Cannon::new),
     JOL(3, 6, List.of(0, 2, 4, 6, 8), Soldier::new),
