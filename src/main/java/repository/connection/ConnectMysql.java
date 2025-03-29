@@ -3,6 +3,7 @@ package repository.connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import repository.Schema;
 
 public class ConnectMysql implements ConnectDatabase{
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
@@ -13,9 +14,10 @@ public class ConnectMysql implements ConnectDatabase{
 
     @Override
     public Connection create() {
-        // 드라이버 연결
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+            Connection connection = DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+            Schema.setTable(connection);
+            return connection;
         } catch (final SQLException e) {
             throw new RuntimeException("[ERROR] DB 연결 오류");
         }

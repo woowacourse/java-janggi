@@ -4,11 +4,14 @@ import console.Output;
 import console.util.PositionConverter;
 import janggi.position.Board;
 import janggi.position.Position;
+import java.sql.Connection;
 import java.util.function.Supplier;
+import repository.connection.ConnectMysql;
 
 public class Application {
     private final Console console = new Console(new Input(), new Output());
     private final PositionConverter positionConverter = new PositionConverter();
+    private final Connection connection = new ConnectMysql().create();
 
     public static void main(String[] args) {
         final Application janggi = new Application();
