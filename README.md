@@ -39,6 +39,12 @@
     - 포 : 7
     - 졸, 병 : 2
 
+## Docker-compose를 통한 Mysql 실행
+
+1. /java-janggi/docker 경로로 이동
+2. 터미널에 `docker-compose up -d` 명령어 입력
+3. 애플리케이션 실행
+
 ## 기능 요구 사항
 
 ```
