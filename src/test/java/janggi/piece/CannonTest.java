@@ -160,7 +160,7 @@ class CannonTest {
                 .containsEntry(goal, piece);
     }
 
-    @CsvSource(value = {"3:9:6:6", "5:9:2:6"}, delimiterString = ":")
+    @CsvSource(value = {"3:9:5:5", "3:9:6:6", "3:9:7:7", "5:9:1:7", "5:9:2:6", "5:9:3:5"}, delimiterString = ":")
     @ParameterizedTest
     void 상단부_궁성에서_대각이동을_할_때_목적지가_궁성_밖이면_예외를_발생한다(int startColumn, int startRow, int goalColumn, int goalRow) {
         // given
@@ -222,7 +222,7 @@ class CannonTest {
                 .containsEntry(goal, piece);
     }
 
-    @CsvSource(value = {"3:0:6:3", "5:0:2:3"}, delimiterString = ":")
+    @CsvSource(value = {"3:0:5:4", "3:0:6:3", "3:0:7:2", "5:0:1:2", "5:0:2:3", "5:0:3:4"}, delimiterString = ":")
     @ParameterizedTest
     void 하단부_궁성에서_대각이동을_할_때_목적지가_궁성_밖이면_예외를_발생한다(int startColumn, int startRow, int goalColumn, int goalRow) {
         // given

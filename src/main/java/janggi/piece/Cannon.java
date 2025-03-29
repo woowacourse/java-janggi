@@ -25,7 +25,6 @@ public class Cannon extends Piece {
     private boolean isPalaceCorner(Board board, Position start, Position goal) {
         return (board.isBottomPalaceCorner(start) && board.isBottomPalaceCorner(goal)) ||
                 (board.isUpperPalaceCorner(start) && board.isUpperPalaceCorner(goal));
-
     }
 
     private void validateStraightMove(Position start, Position goal) {
