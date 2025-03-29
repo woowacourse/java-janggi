@@ -51,7 +51,7 @@ public class OutputView {
 
     public static void printCurrentPlayerTurn(Player player) {
         System.out.println();
-        System.out.println("이번 차례는 " + changePlayer(player) + "의 차례입니다. (예시 : 10 18)");
+        System.out.println("이번 차례는 " + changePlayer(player) + "의 차례입니다.");
     }
 
     private static String changePlayer(Player player) {

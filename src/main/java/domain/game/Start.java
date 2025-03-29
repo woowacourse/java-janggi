@@ -1,20 +1,24 @@
 package domain.game;
 
+import dao.JanggiDao;
 import domain.JanggiBoard;
+import domain.JanggiBoardFactory;
 import domain.JanggiPosition;
 import domain.piece.Piece;
 import domain.piece.Side;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Start implements GameState {
-    //    JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
-    JanggiBoard janggiBoard;
+    private JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardFactory.createJanggiBoard());
+    private final JanggiDao janggiDao = new JanggiDao();
 
     @Override
-    public GameState start(Map<JanggiPosition, Piece> initialBoard) {
-        Map<JanggiPosition, Piece> savedJanggiBoard = new HashMap<>(initialBoard);
-        this.janggiBoard = new JanggiBoard(savedJanggiBoard);
+    public GameState start() {
+        // 초기화 하고, 만약 Map이 비어있지 않으면 이어하도록 보드 재설정
+        Map<JanggiPosition, Piece> savedJanggiBoard = janggiDao.loadJanggiBoard();
+        if (!savedJanggiBoard.isEmpty()) {
+            this.janggiBoard = new JanggiBoard(savedJanggiBoard);
+        }
         return new Run(janggiBoard, new Player(Side.CHO));
     }
 

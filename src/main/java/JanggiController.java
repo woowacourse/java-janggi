@@ -16,8 +16,7 @@ public class JanggiController {
     }
 
     private void startJanggiGame(JanggiGame game) {
-        Map<JanggiPosition, Piece> board = janggiDao.loadBoard();
-        game.start(board);
+        Map<JanggiPosition, Piece> board = game.start();
         OutputView.printJanggiBoard(board);
 
         while (!game.isEnd()) {
@@ -29,10 +28,17 @@ public class JanggiController {
     private void doJanggiGame(JanggiGame game) {
         boolean validInput = false;
         while (!validInput) {
-            try {
-                OutputView.printCurrentPlayerTurn(game.getPlayer());
-                List<JanggiPosition> positions = InputView.inputPositionsWithBlank();
+            OutputView.printCurrentPlayerTurn(game.getPlayer());
+            String input = InputView.input();
 
+            if (input.equalsIgnoreCase("q")) {
+                System.out.println("게임이 중단되었습니다.");
+                System.exit(0);
+                return;
+            }
+
+            try {
+                List<JanggiPosition> positions = InputView.parsePositions(input);
                 Map<JanggiPosition, Piece> board = game.move(positions.get(0), positions.get(1));
 
                 OutputView.printJanggiBoard(board);

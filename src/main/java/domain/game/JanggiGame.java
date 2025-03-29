@@ -1,14 +1,20 @@
 package domain.game;
 
+import dao.JanggiDao;
 import domain.JanggiPosition;
 import domain.piece.Piece;
 import java.util.Map;
 
 public class JanggiGame {
     private GameState state = new Start();
+    private final JanggiDao janggiDao = new JanggiDao();
 
-    public Map<JanggiPosition, Piece> start(Map<JanggiPosition, Piece> board) {
-        state = state.start(board);
+    public JanggiGame() {
+        janggiDao.initializeJanggiBoard();
+    }
+
+    public Map<JanggiPosition, Piece> start() {
+        state = state.start();
         return state.getBoard();
     }
 

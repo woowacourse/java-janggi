@@ -10,10 +10,14 @@ public class InputView {
     private static final int BOARD_HEIGHT = 10;
     private static final int BOARD_WIDTH = 10;
 
-    public static List<JanggiPosition> inputPositionsWithBlank() {
-        String string = scanner.nextLine();
-        validateWithBlank(string);
-        String[] positions = string.split(" ");
+    public static String input() {
+        System.out.println("이동할 기물의 위치와 도착 위치를 입력하세요 (예: 10 12, 종료: q):");
+        return scanner.nextLine();
+    }
+
+    public static List<JanggiPosition> parsePositions(String input) {
+        validateWithBlank(input);
+        String[] positions = input.split(" ");
         validatePositionsRange(positions);
 
         JanggiPosition beforePosition = new JanggiPosition(Character.getNumericValue(positions[0].charAt(0)),
@@ -46,7 +50,7 @@ public class InputView {
             int file = Character.getNumericValue(positionStr.charAt(0));
             int rank = Character.getNumericValue(positionStr.charAt(1));
 
-            if (file < 0 || file >= BOARD_HEIGHT || rank < 1 || rank >= BOARD_WIDTH) {
+            if (rank < 0 || rank >= BOARD_WIDTH || file < 1 || file >= BOARD_HEIGHT) {
                 throw new IllegalArgumentException(
                         String.format("좌표가 장기판 범위를 벗어났습니다. 세로는 0-9, 가로는 1-9여야 합니다. 입력된 좌표 : %d%d", file, rank));
             }
