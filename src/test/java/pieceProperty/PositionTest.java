@@ -377,25 +377,69 @@ class PositionTest {
         assertThat(future).isEqualTo(new Position(7, 2));
     }
 
-    @DisplayName("장성 위치 판단 테스트")
+    @Test
+    @DisplayName("초나라 궁성 판단")
+    void isInChoPalace() {
+        //given
+        Position position = new Position(7, 3);
+        Position position1 = new Position(9, 6);
+
+        //when - then
+        assertThat(position.isInChoPalace()).isTrue();
+        assertThat(position1.isInChoPalace()).isFalse();
+    }
+
+    @Test
+    @DisplayName("한나라 궁성 판단")
+    void isInHanPalace() {
+        //given
+        Position position = new Position(0, 3);
+        Position position1 = new Position(2, 6);
+
+        //when - then
+        assertThat(position.isInHanPalace()).isTrue();
+        assertThat(position1.isInHanPalace()).isFalse();
+    }
+
+    @DisplayName("한나라 한 칸 움직임 기물 테스트")
     @ParameterizedTest
     @MethodSource("providePositionForPalaceTest")
-    void isInPalaceTest(Position position) {
-        //when - then
-        assertThat(position.isInPalace()).isTrue();
+    void isOneStepDiagonalMoveForHanOmniDirectionMoverTest(Position start, Position end) {
+        assertThat(start.isOneStepDiagonalMoveForHanOmniDirectionMover(end)).isTrue();
     }
 
     private static Stream<Arguments> providePositionForPalaceTest() {
         return Stream.of(
-                Arguments.of(new Position(0, 3)),
-                Arguments.of(new Position(0, 4)),
-                Arguments.of(new Position(0, 5)),
-                Arguments.of(new Position(1, 3)),
-                Arguments.of(new Position(1, 4)),
-                Arguments.of(new Position(1, 5)),
-                Arguments.of(new Position(2, 3)),
-                Arguments.of(new Position(2, 4)),
-                Arguments.of(new Position(2, 5))
+                Arguments.of(new Position(0, 3), new Position(1, 4)),
+                Arguments.of(new Position(0, 5), new Position(1, 4)),
+                Arguments.of(new Position(2, 3), new Position(1, 4)),
+                Arguments.of(new Position(2, 5), new Position(1, 4)),
+
+                Arguments.of(new Position(1, 4), new Position(0, 3)),
+                Arguments.of(new Position(1, 4), new Position(0, 5)),
+                Arguments.of(new Position(1, 4), new Position(2, 3)),
+                Arguments.of(new Position(1, 4), new Position(2, 5))
+        );
+    }
+
+    @DisplayName("초나라 한 칸 움직임 기물 테스트")
+    @ParameterizedTest
+    @MethodSource("providePositionForChoPalaceTest")
+    void isOneStepDiagonalMoveForChoOmniDirectionMoverTest(Position start, Position end) {
+        assertThat(start.isOneStepDiagonalMoveForChoOmniDirectionMover(end)).isTrue();
+    }
+
+    private static Stream<Arguments> providePositionForChoPalaceTest() {
+        return Stream.of(
+                Arguments.of(new Position(7, 3), new Position(8, 4)),
+                Arguments.of(new Position(7, 5), new Position(8, 4)),
+                Arguments.of(new Position(9, 3), new Position(8, 4)),
+                Arguments.of(new Position(9, 5), new Position(8, 4)),
+
+                Arguments.of(new Position(8, 4), new Position(7, 3)),
+                Arguments.of(new Position(8, 4), new Position(7, 5)),
+                Arguments.of(new Position(8, 4), new Position(9, 3)),
+                Arguments.of(new Position(8, 4), new Position(9, 5))
         );
     }
 

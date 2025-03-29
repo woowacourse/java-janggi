@@ -26,6 +26,7 @@ import static pieceProperty.Movement.UP_RIGHT_UP_DIAGONAL;
 import static pieceProperty.Movement.UP_RIGHT_UP_DIAGONAL_RIGHT_UP_DIAGONAL;
 
 import java.util.Objects;
+import movementRule.linearMover.Po;
 import view.ErrorMessage;
 
 public class Position {
@@ -34,20 +35,25 @@ public class Position {
     private static final int MAX_COL = 9;
     private static final int MIN_ROW = 0;
     private static final int MIN_COL = 0;
-    private static final int PALACE_START_ROW = 0;
-    private static final int PALACE_END_ROW = 2;
-    private static final int PALACE_START_COLUMN = 3;
-    private static final int PALACE_END_COLUMN = 5;
+
     private static final Position TOP_LEFT = new Position(0, 3);
+    private static final Position TOP_MID = new Position(0, 4);
     private static final Position TOP_RIGHT = new Position(0, 5);
     private static final Position TOP_BOTTOM_LEFT = new Position(2, 3);
+    private static final Position TOP_BOTTOM_MID = new Position(2, 4);
     private static final Position TOP_BOTTOM_RIGHT = new Position(2, 5);
+    private static final Position TOP_MID_LEFT = new Position(1, 3);
     private static final Position TOP_CENTER = new Position(1, 4);
+    private static final Position TOP_MID_RIGHT = new Position(1, 5);
 
     private static final Position BOTTOM_TOP_LEFT = new Position(7, 3);
+    private static final Position BOTTOM_TOP_MID = new Position(7, 4);
     private static final Position BOTTOM_TOP_RIGHT = new Position(7, 5);
+    private static final Position BOTTOM_MID_LEFT = new Position(8, 3);
     private static final Position BOTTOM_CENTER = new Position(8, 4);
+    private static final Position BOTTOM_MID_RIGHT = new Position(8, 5);
     private static final Position BOTTOM_LEFT = new Position(9, 3);
+    private static final Position BOTTOM_MID = new Position(9, 4);
     private static final Position BOTTOM_RIGHT = new Position(9, 5);
 
     private final int row;
@@ -59,7 +65,31 @@ public class Position {
         this.col = col;
     }
 
-    public boolean isOneStepDiagonalMoveValidForOmniDirectionMover(Position destination) {
+    public boolean isInHanPalace() {
+        return this.equals(TOP_LEFT)
+                || this.equals(TOP_MID)
+                || this.equals(TOP_RIGHT)
+                || this.equals(TOP_BOTTOM_LEFT)
+                || this.equals(TOP_BOTTOM_MID)
+                || this.equals(TOP_BOTTOM_RIGHT)
+                || this.equals(TOP_MID_LEFT)
+                || this.equals(TOP_MID_RIGHT)
+                || this.equals(TOP_CENTER);
+    }
+
+    public boolean isInChoPalace() {
+        return this.equals(BOTTOM_TOP_LEFT)
+                || this.equals(BOTTOM_TOP_MID)
+                || this.equals(BOTTOM_TOP_RIGHT)
+                || this.equals(BOTTOM_MID_LEFT)
+                || this.equals(BOTTOM_CENTER)
+                || this. equals(BOTTOM_MID_RIGHT)
+                || this.equals(BOTTOM_LEFT)
+                || this.equals(BOTTOM_MID)
+                || this.equals(BOTTOM_RIGHT);
+    }
+
+    public boolean isOneStepDiagonalMoveForHanOmniDirectionMover(Position destination) {
         return this.equals(TOP_LEFT) && destination.equals(TOP_CENTER) ||
                 this.equals(TOP_CENTER) && destination.equals(TOP_LEFT) ||
 
@@ -73,8 +103,18 @@ public class Position {
                 this.equals(TOP_BOTTOM_RIGHT) && destination.equals(TOP_CENTER);
     }
 
-    public boolean isInPalace() {
-        return row >= PALACE_START_ROW && row <= PALACE_END_ROW && col >= PALACE_START_COLUMN && col <= PALACE_END_COLUMN;
+    public boolean isOneStepDiagonalMoveForChoOmniDirectionMover(Position destination) {
+        return this.equals(BOTTOM_TOP_LEFT) && destination.equals(BOTTOM_CENTER)
+                || this.equals(BOTTOM_CENTER) && destination.equals(BOTTOM_TOP_LEFT)
+
+                || this.equals(BOTTOM_CENTER) && destination.equals(BOTTOM_TOP_RIGHT)
+                || this.equals(BOTTOM_TOP_RIGHT) && destination.equals(BOTTOM_CENTER)
+
+                || this. equals(BOTTOM_CENTER) && destination.equals(BOTTOM_LEFT)
+                || this.equals(BOTTOM_LEFT) && destination.equals(BOTTOM_CENTER)
+
+                || this.equals(BOTTOM_CENTER) && destination.equals(BOTTOM_RIGHT)
+                || this.equals(BOTTOM_RIGHT) && destination.equals(BOTTOM_CENTER);
     }
 
     public Position calculateMovement(final int dRow, final int dCol) {
@@ -111,22 +151,6 @@ public class Position {
 
     public boolean isLeftMovementTo(Position destination) {
         return new Position(row + LEFT.getDRow(), col + LEFT.getDCol()).equals(destination);
-    }
-
-    public boolean isRightUpMovementTo(Position destination) {
-        return new Position(row + RIGHT_UP_DIAGONAL.getDRow(), col + RIGHT_UP_DIAGONAL.getDCol()).equals(destination);
-    }
-
-    public boolean isRightDownMovementTo(Position destination) {
-        return new Position(row + RIGHT_DOWN_DIAGONAL.getDRow(), col + RIGHT_DOWN_DIAGONAL.getDCol()).equals(destination);
-    }
-
-    public boolean isLeftUpMovementTo(Position destination) {
-        return new Position(row + LEFT_UP_DIAGONAL.getDRow(), col + LEFT_UP_DIAGONAL.getDCol()).equals(destination);
-    }
-
-    public boolean isLeftDownMovementTo(Position destination) {
-        return new Position(row + LEFT_DOWN_DIAGONAL.getDRow(), col + LEFT_DOWN_DIAGONAL.getDCol()).equals(destination);
     }
 
     public boolean isUpRightUpMovementTo(Position destination) {
