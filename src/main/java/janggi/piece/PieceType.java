@@ -7,7 +7,7 @@ public enum PieceType {
     ELEPHANT(3),
     SCHOLAR(3),
     SOLDIER(2),
-    KING(0),
+    GENERAL(0),
     NONE(0),
     ;
 

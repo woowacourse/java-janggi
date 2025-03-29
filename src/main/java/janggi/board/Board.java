@@ -41,7 +41,7 @@ public class Board {
     }
 
     private List<Route> applyCannonProperty(List<Route> totalRoutes, Position pick) {
-        totalRoutes = totalRoutes.stream().filter(route -> route.canBombJump(pieces)).toList();
+        totalRoutes = totalRoutes.stream().filter(route -> route.canCannonJump(pieces)).toList();
         return totalRoutes.stream()
                 .filter(route -> isAvailableEndPoint(route, pick))
                 .toList();

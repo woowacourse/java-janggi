@@ -42,6 +42,6 @@ public record General(Team team) implements Piece {
 
     @Override
     public PieceType getType() {
-        return PieceType.KING;
+        return PieceType.GENERAL;
     }
 }

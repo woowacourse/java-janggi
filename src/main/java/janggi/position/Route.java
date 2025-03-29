@@ -19,13 +19,13 @@ public class Route {
         return new Route(positions);
     }
 
-    public boolean canBombJump(Pieces pieces) {
-        if (pieces.isExistBombInRoute(positions)) {
+    public boolean canCannonJump(Pieces pieces) {
+        if (pieces.isExistCannonInRoute(positions)) {
             return false;
         }
         long count = getPointsExceptEndPoint().stream()
                 .filter(pieces::isExistPiece)
-                .filter(position -> !pieces.isBombPiece(position))
+                .filter(position -> !pieces.isCannonPiece(position))
                 .count();
 
         return count == 1;

@@ -24,7 +24,7 @@ class RouteTest {
         Pieces pieces = new Pieces();
 
         // when
-        boolean canCannonJump = route.canBombJump(pieces);
+        boolean canCannonJump = route.canCannonJump(pieces);
 
         // then
         Assertions.assertThat(canCannonJump).isFalse();
@@ -38,7 +38,7 @@ class RouteTest {
         Pieces pieces = new Pieces();
 
         // when
-        boolean canCannonJump = route.canBombJump(pieces);
+        boolean canCannonJump = route.canCannonJump(pieces);
 
         // then
         Assertions.assertThat(canCannonJump).isTrue();

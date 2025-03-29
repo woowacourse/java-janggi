@@ -37,7 +37,7 @@ public class Pieces {
         return piece != null;
     }
 
-    public boolean isBombPiece(Position position) {
+    public boolean isCannonPiece(Position position) {
         Piece piece = pieces.getOrDefault(position, null);
         if (piece == null) {
             return false;
@@ -63,15 +63,15 @@ public class Pieces {
     public boolean isNoneTeamGeneralUnit(Team turn) {
         return pieces.values().stream()
                 .filter(piece -> piece.team() != turn)
-                .noneMatch(piece -> piece.getType() == PieceType.KING);
+                .noneMatch(piece -> piece.getType() == PieceType.GENERAL);
     }
 
     public boolean isEmptyPoint(Position pick) {
         return pieces.keySet().stream().noneMatch(position -> position.isSamePoint(pick));
     }
 
-    public boolean isExistBombInRoute(List<Position> route) {
-        return route.stream().anyMatch(this::isBombPiece);
+    public boolean isExistCannonInRoute(List<Position> route) {
+        return route.stream().anyMatch(this::isCannonPiece);
     }
 
     public HashMap<Position, Piece> getPieces() {

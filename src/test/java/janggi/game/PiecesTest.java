@@ -55,7 +55,7 @@ class PiecesTest {
         Pieces pieces = new Pieces();
 
         // when
-        boolean bombPiece = pieces.isBombPiece(new Position(1, 2));
+        boolean bombPiece = pieces.isCannonPiece(new Position(1, 2));
 
         // then
         Assertions.assertThat(bombPiece).isTrue();
