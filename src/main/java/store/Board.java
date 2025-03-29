@@ -88,7 +88,7 @@ public class Board {
         List<Piece> pieces = new ArrayList<>();
 
         for (Player player : players) {
-            pieces.addAll(player.getPieces());
+            pieces.addAll(player.getMyPieces());
         }
 
         return new Pieces(pieces);

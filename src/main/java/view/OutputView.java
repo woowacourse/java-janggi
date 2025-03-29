@@ -12,10 +12,10 @@ public class OutputView {
 
     public static void displayBoard(Board gameBoard) {
         Player greenPlayer = gameBoard.findPlayerBy(Team.GREEN);
-        List<Piece> greenPieces = greenPlayer.getPieces();
+        List<Piece> greenPieces = greenPlayer.getMyPieces();
 
         Player redPlayer = gameBoard.findPlayerBy(Team.RED);
-        List<Piece> redPieces = redPlayer.getPieces();
+        List<Piece> redPieces = redPlayer.getMyPieces();
 
         String[][] pieceName = new String[11][10];
 

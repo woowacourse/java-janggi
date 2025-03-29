@@ -7,43 +7,43 @@ import piece.Piece;
 
 public class Player {
 
-    private final Pieces pieces;
-    private final Pieces catchedPieces;
+    private final Pieces myPieces;
+    private final Pieces catchPieces;
     private final Team team;
 
-    public Player(Pieces pieces, Pieces catchedPieces, Team team) {
-        this.pieces = pieces;
-        this.catchedPieces = catchedPieces;
+    public Player(Pieces myPieces, Pieces catchPieces, Team team) {
+        this.myPieces = myPieces;
+        this.catchPieces = catchPieces;
         this.team = team;
     }
 
     public void replace(Piece piece, Piece movedPiece) {
-        pieces.delete(piece);
-        pieces.add(movedPiece);
+        myPieces.delete(piece);
+        myPieces.add(movedPiece);
     }
 
     public void catchPiece(Piece piece) {
-        catchedPieces.add(piece);
+        catchPieces.add(piece);
     }
 
     public Piece getPieceByPoint(Position position) {
-        return pieces.getByPosition(position);
+        return myPieces.getByPosition(position);
     }
 
-    public List<Piece> getPieces() {
-        return pieces.getPieces();
+    public List<Piece> getMyPieces() {
+        return myPieces.getPieces();
     }
 
     public double calculateTotalScore() {
-        return team.getInitialScore() - catchedPieces.calculateTotalScore();
+        return team.getInitialScore() - catchPieces.calculateTotalScore();
     }
 
     public void delete(Piece piece) {
-        pieces.delete(piece);
+        myPieces.delete(piece);
     }
 
     public boolean isContainedPiece(Position position) {
-        return pieces.isContainedPieceAtPosition(position);
+        return myPieces.isContainedPieceAtPosition(position);
     }
 
     public boolean isSameTeam(Team targetTeam) {
@@ -51,7 +51,7 @@ public class Player {
     }
 
     private boolean isAlreadyPlayerPieceInPosition(Position position) {
-        return pieces.isAlreadyPieceInPosition(position);
+        return myPieces.isAlreadyPieceInPosition(position);
     }
 
     public void checkPlayerPieceAlreadyInDestination(Position end) {
