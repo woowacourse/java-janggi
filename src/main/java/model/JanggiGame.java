@@ -55,6 +55,8 @@ public class JanggiGame {
 
     public void move(Position departure, Position arrival) {
         pieces.move(departure, arrival);
+        pieceDao.deletePiece(arrival);
+        pieceDao.updatePiece(departure, arrival);
     }
 
     private void validateTurnAndChange(Position departure) {
@@ -70,5 +72,9 @@ public class JanggiGame {
     public Score showGameResult() {
         Map<Position, Piece> pieces = this.pieces.getPieces();
         return Score.calculateScoreFrom(pieces);
+    }
+
+    public void removePiecesInfo() {
+        pieceDao.deleteAllPieces();
     }
 }

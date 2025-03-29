@@ -113,6 +113,49 @@ public class PieceDao {
         }
     }
 
+    public int findPieceByPosition(Position position) {
+        final var query = "SELECT piece_id FROM piece WHERE `column` = ? AND `row` = ?";
+        try (final var connection = getConnection();
+            final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, position.getColumn().name());
+            preparedStatement.setString(2, position.getRow().name());
+            ResultSet result = preparedStatement.executeQuery();
+            if (result.next()) {
+                return result.getInt("piece_id");
+            } else {
+                return 0;
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean deletePiece(Position position) {
+        final var query = "DELETE FROM piece WHERE piece_id = ?";
+        try (final var connection = getConnection();
+            final var preparedStatement = connection.prepareStatement(query)) {
+            int pieceIdFromPosition = findPieceByPosition(position);
+            preparedStatement.setInt(1, pieceIdFromPosition);
+            return preparedStatement.execute();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean updatePiece(Position departure, Position arrival) {
+        final var query = "UPDATE piece SET `column` = ?, `row` = ? WHERE piece_id = ?";
+        try (final var connection = getConnection();
+            final var preparedStatement = connection.prepareStatement(query)) {
+            int pieceIdFromPosition = findPieceByPosition(departure);
+            preparedStatement.setString(1, arrival.getColumn().name());
+            preparedStatement.setString(2, arrival.getRow().name());
+            preparedStatement.setInt(3, pieceIdFromPosition);
+            return preparedStatement.execute();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void deleteAllPieces() {
         final var query = "TRUNCATE TABLE piece;";
         try (final var connection = getConnection();
