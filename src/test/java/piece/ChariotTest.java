@@ -88,8 +88,37 @@ class ChariotTest {
                 () -> chariot.validateMove(src, ableDest, board)
         ).doesNotThrowAnyException();
 
-        // when & then : 2 : success
+        // when & then : 2 : failure
         final Position notAbleDest = new Position(2, 1);
+        assertThatThrownBy(
+                () -> chariot.validateMove(src, notAbleDest, board)
+        ).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("Chariot은 같은 대각선에 있는 모든 곳을 이동할 수 있다.")
+    @Test
+    void validateMoveWithDiagonalSetting() {
+        // given
+        PositionFactory positionFactory = new PositionFactory();
+        positionFactory.basicSettingGraph();
+        positionFactory.diagonalSettingGraph();
+
+        Country dumyCountry = Country.HAN;
+        Country.assignDirection(dumyCountry, LineDirection.UP);
+        Position dumyPosition = new Position(4, 8);
+        final Piece chariot = new Chariot(dumyPosition, dumyCountry);
+
+        final Position src = dumyPosition;
+        final Board board = new Board(new HashMap<>());
+
+        // when & then: 1 : success
+        final Position ableDest = new Position(6, 10);
+        assertThatCode(
+                () -> chariot.validateMove(src, ableDest, board)
+        ).doesNotThrowAnyException();
+
+        // when & then : 2 : failure
+        final Position notAbleDest = new Position(3, 7);
         assertThatThrownBy(
                 () -> chariot.validateMove(src, notAbleDest, board)
         ).isInstanceOf(IllegalArgumentException.class);
