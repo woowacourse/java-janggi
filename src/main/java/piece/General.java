@@ -14,6 +14,13 @@ public class General implements Piece {
     @Override
     public void validateDestination(Position destination) {
         PathUtility.checkStraightOneMovement(currentPosition, destination);
+        // 궁성 내 좌표인지 체크
+        if(destination.x() < 4 || 6 < destination.x()) {
+            throw new IllegalArgumentException("[ERROR] 장군은 궁성 외로 이동할 수 없습니다.");
+        }
+        if(4 <= destination.y() && destination.y() <= 7 ) {
+            throw new IllegalArgumentException("[ERROR] 장군은 궁성 외로 이동할 수 없습니다.");
+        }
     }
 
     @Override

@@ -9,8 +9,8 @@ import piece.General;
 
 public class GeneralTest {
 
-    int x = 3;
-    int y = 3;
+    int x = 5;
+    int y = 9;
 
     @Test
     @DisplayName("장군은 위로 한 칸 이동할 수 있다.")
@@ -61,8 +61,8 @@ public class GeneralTest {
     @DisplayName("장군은 아래로 두 칸 이상 이동할 수 없다.")
     void test4() {
         // given
-        Position from = new Position(x, y);
-        Position to = new Position(x, y + 2);
+        Position from = new Position(5, 8);
+        Position to = new Position(5, 10);
         General general = new General(from);
 
         //when
