@@ -1,9 +1,9 @@
 package janggi.piece;
 
 import janggi.game.Board;
+import janggi.game.Team;
 import janggi.movement.HorseMovement;
 import janggi.position.Position;
-import janggi.game.Team;
 import java.util.Arrays;
 
 public final class Horse implements Piece {
@@ -26,6 +26,11 @@ public final class Horse implements Piece {
         if (board.hasPieceAt(source.move(targetMovement.getFirst()))) {
             throw new IllegalArgumentException("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
         }
+    }
+
+    @Override
+    public int point() {
+        return 5;
     }
 
     @Override

@@ -1,9 +1,9 @@
 package janggi.piece;
 
 import janggi.game.Board;
-import janggi.position.Position;
 import janggi.game.Team;
 import janggi.movement.ElephantMovement;
+import janggi.position.Position;
 import java.util.Arrays;
 
 public final class Elephant implements Piece {
@@ -30,6 +30,11 @@ public final class Elephant implements Piece {
         if (board.hasPieceAt(source.move(targetMovement.getFirst()).move(targetMovement.getSecond()))) {
             throw new IllegalArgumentException("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
         }
+    }
+
+    @Override
+    public int point() {
+        return 3;
     }
 
     @Override

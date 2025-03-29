@@ -26,7 +26,9 @@ public class Application {
     private void run() {
         systemView.display();
         final Game game = setupGame();
-        boardView.displaySetUp(game);
+        systemView.inGame();
+        boardView.displayBoard(game);
+
         while (true) {
             String command = inputView.readCommand();
             if (command.equals("end")) {
@@ -34,6 +36,7 @@ public class Application {
                 return;
             }
             move(game, command);
+            systemView.displayPoints(game);
             boardView.displayBoard(game);
         }
     }

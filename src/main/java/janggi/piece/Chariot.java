@@ -1,9 +1,9 @@
 package janggi.piece;
 
 import janggi.game.Board;
+import janggi.game.Team;
 import janggi.movement.Movement;
 import janggi.position.Position;
-import janggi.game.Team;
 
 public final class Chariot implements Piece {
 
@@ -27,6 +27,11 @@ public final class Chariot implements Piece {
             }
             current = current.move(targetMovement); // 1 칸 이동
         }
+    }
+
+    @Override
+    public int point() {
+        return 13;
     }
 
     @Override

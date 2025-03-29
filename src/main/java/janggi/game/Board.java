@@ -3,6 +3,7 @@ package janggi.game;
 import janggi.piece.Piece;
 import janggi.piece.Type;
 import janggi.position.Position;
+import java.util.EnumMap;
 import java.util.Map;
 
 public final class Board {
@@ -11,6 +12,22 @@ public final class Board {
 
     public Board(final Map<Position, Piece> pieces) {
         this.pieces = pieces;
+    }
+
+    public void move(final Position source, final Position destination, final Piece piece) {
+        pieces.remove(source);
+        pieces.put(destination, piece);
+    }
+
+    public EnumMap<Team, Double> getTeamPoints() {
+        EnumMap<Team, Double> teamPoints = new EnumMap<>(Team.class);
+        for (Piece piece : pieces.values()) {
+            Team team = piece.team();
+            int point = piece.point();
+            teamPoints.put(team, teamPoints.getOrDefault(team, 0.0) + point);
+        }
+        teamPoints.put(Team.HAN, teamPoints.get(Team.HAN) + 1.5);
+        return teamPoints;
     }
 
     public Piece get(final Position position) {
@@ -31,10 +48,5 @@ public final class Board {
 
     public boolean hasPieceAt(final Position destination, final Type type) {
         return hasPieceAt(destination) && get(destination).type() == type;
-    }
-
-    public void move(final Position source, final Position destination, final Piece piece) {
-        pieces.remove(source);
-        pieces.put(destination, piece);
     }
 }

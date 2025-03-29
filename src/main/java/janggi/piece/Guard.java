@@ -38,6 +38,11 @@ public final class Guard implements Piece {
         }
     }
 
+    @Override
+    public int point() {
+        return 3;
+    }
+
     private Set<Movement> movements(final Position position) {
         if (position.isPalaceSide()) {
             return Set.of(RIGHT, LEFT, UP, DOWN);

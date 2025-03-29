@@ -2,6 +2,7 @@ package janggi.game;
 
 import janggi.piece.Piece;
 import janggi.position.Position;
+import java.util.EnumMap;
 
 public final class Game {
 
@@ -20,6 +21,10 @@ public final class Game {
         piece.validateMove(source, destination, board);
         board.move(source, destination, piece);
         turn = turn.opposite();
+    }
+
+    public EnumMap<Team, Double> getTeamPoints() {
+        return board.getTeamPoints();
     }
 
     public boolean hasPieceAt(final Position position) {
@@ -43,5 +48,9 @@ public final class Game {
         if (source.equals(destination)) {
             throw new IllegalArgumentException("[ERROR] 본인의 위치로는 이동할 수 없습니다.");
         }
+    }
+
+    public Team getTurn() {
+        return turn;
     }
 }

@@ -20,15 +20,8 @@ public final class BoardView {
             Type.GUARD, "g",
             Type.SOLDIER, "s");
 
-    public void displaySetUp(final Game game) {
-        System.out.println("\n게임을 시작합니다...");
-        System.out.println("  012345678");
-        for (Row row : Row.values()) {
-            displayRow(game, row);
-        }
-    }
-
     public void displayBoard(final Game game) {
+        System.out.printf("%s의 턴입니다.", game.getTurn().getName());
         System.out.println("\n  012345678");
         for (Row row : Row.values()) {
             displayRow(game, row);

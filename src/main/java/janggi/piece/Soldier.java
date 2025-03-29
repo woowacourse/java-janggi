@@ -6,9 +6,9 @@ import static janggi.movement.Movement.RIGHT;
 import static janggi.movement.Movement.UP;
 
 import janggi.game.Board;
-import janggi.position.Position;
 import janggi.game.Team;
 import janggi.movement.Movement;
+import janggi.position.Position;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +29,11 @@ public final class Soldier implements Piece {
         if (!movablePositions.contains(destination)) {
             throw new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다.");
         }
+    }
+
+    @Override
+    public int point() {
+        return 2;
     }
 
     private Set<Movement> movements() {

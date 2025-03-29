@@ -1,9 +1,9 @@
 package janggi.piece;
 
 import janggi.game.Board;
-import janggi.position.Position;
 import janggi.game.Team;
 import janggi.movement.Movement;
+import janggi.position.Position;
 
 public final class Cannon implements Piece {
 
@@ -41,6 +41,11 @@ public final class Cannon implements Piece {
         if (board.hasPieceAt(destination, Type.CANNON)) {
             throw new IllegalArgumentException("[ERROR] 포는 포를 잡을 수 없습니다.");
         }
+    }
+
+    @Override
+    public int point() {
+        return 7;
     }
 
     @Override
