@@ -2,16 +2,8 @@ package janggi.view;
 
 import janggi.domain.Dynasty;
 import janggi.domain.board.Point;
-import janggi.domain.piece.BoardPiece;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.ChuSoldier;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.HanSoldier;
-import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.player.Player;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,15 +16,14 @@ public class JanggiBoardView {
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
-    private static final Map<Piece, String> PIECE_LABELS = Map.of(
-            new General(), "궁",
-            new Guard(), "사",
-            new Chariot(), "차",
-            new Cannon(), "포",
-            new Horse(), "마",
-            new Elephant(), "상",
-            new ChuSoldier(), "졸",
-            new HanSoldier(), "병"
+    private static final Map<PieceType, String> PIECE_LABELS = Map.of(
+            PieceType.GENERAL, "궁",
+            PieceType.GUARD, "사",
+            PieceType.CHARIOT, "차",
+            PieceType.CANNON, "포",
+            PieceType.HORSE, "마",
+            PieceType.ELEPHANT, "상",
+            PieceType.SOLIDER, "졸"
     );
     private static final Map<String, Integer> VERTICAL_INPUT_MAP = Map.of(
             "ㄱ", 1,
@@ -74,12 +65,12 @@ public class JanggiBoardView {
         throw new IllegalArgumentException("입력 형식이 틀렸습니다.");
     }
 
-    public void printBoard(Map<Point, BoardPiece> boardPieceMap) {
+    public void printBoard(Map<Point, Piece> boardPieceMap) {
         for (int x = 1; x <= 10; x++) {
             for (int y = 1; y <= 9; y++) {
                 Point point = new Point(x, y);
                 if (boardPieceMap.containsKey(point)) {
-                    BoardPiece boardPiece = boardPieceMap.get(point);
+                    Piece boardPiece = boardPieceMap.get(point);
                     printPointPiece(boardPiece);
                     continue;
                 }
@@ -103,8 +94,8 @@ public class JanggiBoardView {
         System.out.println(convertChuColor(player.getNickname()) + "의 차례입니다. 이동할 위치를 입력해주세요. 예) move ㄱ2 ㄴ3");
     }
 
-    private void printPointPiece(BoardPiece boardPiece) {
-        String pieceLabel = PIECE_LABELS.get(boardPiece.getPiece());
+    private void printPointPiece(Piece boardPiece) {
+        String pieceLabel = PIECE_LABELS.get(boardPiece.getPieceType());
         if (boardPiece.getDynasty() == Dynasty.HAN) {
             System.out.print(convertHanColor(pieceLabel) + " ");
             return;

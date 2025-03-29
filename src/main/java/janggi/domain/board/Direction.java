@@ -30,4 +30,8 @@ public enum Direction {
         }
         return true;
     }
+
+    public boolean isDiagonal() {
+        return this == DOWN_LEFT || this == DOWN_RIGHT || this == UP_LEFT || this == UP_RIGHT;
+    }
 }
