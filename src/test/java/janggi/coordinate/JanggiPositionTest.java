@@ -2,16 +2,17 @@ package janggi.coordinate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import janggi.piece.Country;
 import java.util.List;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class JanggiPositionTest {
@@ -29,16 +30,16 @@ public class JanggiPositionTest {
             final int y = 1;
 
             // when
-            final var p = new JanggiPosition(x, y);
+            final JanggiPosition janggiPosition = new JanggiPosition(x, y);
 
             // then
-            Assertions.assertAll(
-                    () -> assertThat(p.x()).isEqualTo(x),
-                    () -> assertThat(p.y()).isEqualTo(y)
-            );
+            assertSoftly(s -> {
+                s.assertThat(janggiPosition.x()).isEqualTo(x);
+                s.assertThat(janggiPosition.y()).isEqualTo(y);
+            });
         }
 
-        @DisplayName("포지션의 범위가 벗어나면 예외가 발생한다.")
+        @DisplayName("장기 판의 범위가 벗어나면 예외가 발생한다.")
         @Test
         void construct2() {
             // given
@@ -68,68 +69,56 @@ public class JanggiPositionTest {
             final double distance = srcJanggiPosition.calculateDistance(descJanggiPosition);
 
             // then
-            org.assertj.core.api.Assertions.assertThat(distance).isEqualTo(expected);
+            assertThat(distance).isEqualTo(expected);
         }
 
         @DisplayName("두 개의 포지션이 같은 라인 내에 있는 지 계산한다.")
-        @Test
-        void isSameLine() {
+        @ParameterizedTest
+        @CsvSource(value = {"1:5:true", "2:2:false"}, delimiter = ':')
+        void isSameLine(final int x, final int y, final boolean expected) {
             // given
             final JanggiPosition srcJanggiPosition = new JanggiPosition(1, 1);
-            final JanggiPosition ableJanggiPosition = new JanggiPosition(1, 5);
-            final JanggiPosition unableJanggiPosition = new JanggiPosition(2, 2);
+            final JanggiPosition target = new JanggiPosition(x, y);
 
             // when
-            final boolean ableResult = srcJanggiPosition.isSameLine(ableJanggiPosition);
-            final boolean unableResult = srcJanggiPosition.isSameLine(unableJanggiPosition);
+            final boolean actual = srcJanggiPosition.isSameLine(target);
 
             // then
-            Assertions.assertAll(
-                    () -> org.assertj.core.api.Assertions.assertThat(ableResult).isTrue(),
-                    () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
-            );
+            assertThat(actual).isEqualTo(expected);
         }
 
         @DisplayName("x가 더 큰지 검사할 수 있다.")
-        @Test
-        void isXGreaterThan() {
+        @ParameterizedTest
+        @CsvSource(value = {"2:1:true", "4:1:false"}, delimiter = ':')
+        void isXGreaterThan(final int x, final int y, final boolean expected) {
             // given
             final JanggiPosition srcJanggiPosition = new JanggiPosition(3, 1);
-            final JanggiPosition ableJanggiPosition = new JanggiPosition(2, 1);
-            final JanggiPosition unableJanggiPosition = new JanggiPosition(4, 1);
+            final JanggiPosition target = new JanggiPosition(x, y);
 
             // when
-            final boolean ableResult = srcJanggiPosition.isXGreaterThan(ableJanggiPosition);
-            final boolean unableResult = srcJanggiPosition.isXGreaterThan(unableJanggiPosition);
+            final boolean actual = srcJanggiPosition.isXGreaterThan(target);
 
             // then
-            Assertions.assertAll(
-                    () -> org.assertj.core.api.Assertions.assertThat(ableResult).isTrue(),
-                    () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
-            );
+            assertThat(actual).isEqualTo(expected);
         }
 
         @DisplayName("x가 더 작거나 같은지 검사할 수 있다.")
-        @Test
-        void isXLessThan() {
+        @ParameterizedTest
+        @CsvSource(value = {"3:1:true", "1:1:false"}, delimiter = ':')
+        void isXLessThan(final int x, final int y, final boolean expected) {
             // given
             final JanggiPosition srcJanggiPosition = new JanggiPosition(2, 1);
-            final JanggiPosition ableJanggiPosition = new JanggiPosition(3, 1);
-            final JanggiPosition unableJanggiPosition = new JanggiPosition(1, 1);
+            final JanggiPosition target = new JanggiPosition(x, y);
 
             // when
-            final boolean ableResult = srcJanggiPosition.isXLessThan(ableJanggiPosition);
-            final boolean unableResult = srcJanggiPosition.isXLessThan(unableJanggiPosition);
+            final boolean actual = srcJanggiPosition.isXLessThan(target);
 
             // then
-            Assertions.assertAll(
-                    () -> org.assertj.core.api.Assertions.assertThat(ableResult).isTrue(),
-                    () -> org.assertj.core.api.Assertions.assertThat(unableResult).isFalse()
-            );
+            assertThat(actual).isEqualTo(expected);
         }
 
         @Test
-        @DisplayName("같은 라인의 position간의 모든 position을 반환한다.")
+        @DisplayName("직선상의 src, dest 사이의 position을 반환한다.(src, dest은 포함하지 않는다.)")
         void calculateBetweenPositions() {
             // given
             final JanggiPosition srcJanggiPosition = new JanggiPosition(1, 1);
@@ -140,7 +129,11 @@ public class JanggiPositionTest {
                     destJanggiPosition);
 
             // then
-            assertThat(betweenJanggiPositions).hasSize(3);
+            assertThat(betweenJanggiPositions)
+                    .hasSize(3)
+                    .contains(new JanggiPosition(2, 1))
+                    .contains(new JanggiPosition(3, 1))
+                    .contains(new JanggiPosition(4, 1));
         }
 
         @DisplayName("Position에 대한 덧셈 연산")
