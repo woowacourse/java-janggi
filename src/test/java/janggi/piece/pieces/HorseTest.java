@@ -1,6 +1,6 @@
-package janggi.piece;
+package janggi.piece.pieces;
 
-import janggi.piece.pieces.Horse;
+import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.position.Route;
 import java.util.List;
