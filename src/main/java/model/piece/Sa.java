@@ -1,32 +1,48 @@
 package model.piece;
 
 import java.util.Map;
-import model.Path;
+import model.Moving;
 import model.Point;
 import model.Team;
 
-public class Sa extends Piece {
+public class Sa extends FixedPalacePieces {
+
+    private static final int SA_SCORE = 3;
+    private static final int SA_DISTANCE = 1;
 
     public Sa(Team team) {
         super(team,PieceName.SA);
-    }
-
-    @Override
-    public boolean isValidPoint(Point beforePoint, Point targetPoint) {
-        int vectorX = getVectorX(beforePoint, targetPoint);
-        int vectorY = getVectorY(beforePoint, targetPoint);
-
-        return Math.pow(vectorX,2) + Math.pow(vectorY,2) == 1;
+        score = SA_SCORE;
     }
 
     @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (piecesOnPathWithTargetOrNot.size() == 1) {
-            return piecesOnPathWithTargetOrNot.keySet().stream()
+            return piecesOnPathWithTargetOrNot.keySet()
+                    .stream()
                     .findFirst()
                     .get()
                     .getTeam() != this.team;
         }
         return true;
+    }
+
+    @Override
+    public void validateGungMove(Point beforePoint, Point targetPoint) {
+        Moving moving = new Moving(beforePoint, targetPoint);
+        Palace palace = Palace.wherePalace(beforePoint);
+        if ((palace.getPoints().contains(beforePoint))) {
+            if (moving.getVectorXSize() == SA_DISTANCE && moving.getVectorYSize() == SA_DISTANCE) {
+                return;
+            }
+            if (moving.isDistance(SA_DISTANCE)) {
+                return;
+            }
+        }
+
+        if (moving.isDistance(SA_DISTANCE)) {
+            return;
+        }
+        throw new IllegalArgumentException("잘못된 이동입니다.");
     }
 }
