@@ -3,6 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.board.Board;
 import janggi.direction.PieceMoveRule;
 import janggi.direction.PieceType;
 import janggi.position.Position;

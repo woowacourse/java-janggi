@@ -7,7 +7,7 @@ import janggi.direction.Movement;
 import janggi.direction.Movements;
 import janggi.direction.PieceMoveRule;
 import janggi.direction.PieceType;
-import janggi.piece.Board;
+import janggi.board.Board;
 import janggi.piece.Piece;
 import janggi.position.Position;
 import janggi.strategy.ObstacleBlockStrategy;

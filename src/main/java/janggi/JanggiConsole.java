@@ -1,7 +1,7 @@
 package janggi;
 
 import janggi.board.BoardOrder;
-import janggi.piece.Board;
+import janggi.board.Board;
 import janggi.piece.PiecesFactory;
 import janggi.piece.Team;
 import janggi.piece.Players;

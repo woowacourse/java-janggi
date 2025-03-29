@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.direction.PieceType;
-import janggi.piece.Board;
+import janggi.board.Board;
 import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.position.Position;

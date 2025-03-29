@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.board.Board;
 import janggi.direction.Movements;
 import janggi.direction.PieceType;
 import janggi.position.Position;

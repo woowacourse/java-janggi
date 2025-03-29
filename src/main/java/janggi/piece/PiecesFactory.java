@@ -4,6 +4,7 @@ import static janggi.board.BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
 import static janggi.board.BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
 import static janggi.board.BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
 
+import janggi.board.Board;
 import janggi.board.BoardOrder;
 import janggi.direction.PieceType;
 import janggi.position.Position;

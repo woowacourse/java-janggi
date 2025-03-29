@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.direction.PieceType;
-import janggi.piece.Board;
 import janggi.piece.PiecesFactory;
 import janggi.position.Position;
 import org.junit.jupiter.api.Test;

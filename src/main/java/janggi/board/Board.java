@@ -1,6 +1,7 @@
-package janggi.piece;
+package janggi.board;
 
 import janggi.direction.PieceType;
+import janggi.piece.Piece;
 import janggi.position.Position;
 import java.util.HashMap;
 import java.util.List;

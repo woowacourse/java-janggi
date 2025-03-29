@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.board.Board;
 import janggi.direction.PieceMoveRule;
 import janggi.direction.PieceType;
 import janggi.position.Position;

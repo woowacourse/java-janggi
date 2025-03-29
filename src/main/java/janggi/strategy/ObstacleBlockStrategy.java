@@ -1,7 +1,7 @@
 package janggi.strategy;
 
 import janggi.direction.Movement;
-import janggi.piece.Board;
+import janggi.board.Board;
 import janggi.position.Path;
 import janggi.position.Position;
 import java.util.ArrayList;

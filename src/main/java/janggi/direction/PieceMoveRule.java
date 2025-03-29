@@ -1,6 +1,6 @@
 package janggi.direction;
 
-import janggi.piece.Board;
+import janggi.board.Board;
 import janggi.piece.PalaceMovement;
 import janggi.position.Position;
 import janggi.strategy.ObstacleMoveStrategy;

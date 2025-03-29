@@ -1,7 +1,7 @@
 package janggi.strategy;
 
 import janggi.direction.Movement;
-import janggi.piece.Board;
+import janggi.board.Board;
 import janggi.piece.Piece;
 import janggi.position.Path;
 import janggi.position.Position;
