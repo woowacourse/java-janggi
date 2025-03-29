@@ -37,13 +37,13 @@ public class JanggiGame {
         return turn;
     }
 
+    public Score calculateScoreByTeam(Team team) {
+        return board.calculateScoreByTeam(team);
+    }
+
     private void validateMovable(BoardLocation current, BoardLocation destination, Piece piece){
         PieceExtractor pieceExtractor = board::extractPathPiece;
         PieceFinder pieceFinder = board::findByLocation;
         piece.validateMovable(current, destination, pieceExtractor, pieceFinder);
-    }
-
-    public Score getTotalScore(Team team) {
-        return board.calculateScoreByTeam(team);
     }
 }

@@ -23,7 +23,7 @@ public class JanggiController {
         boolean isGameStopped = false;
         while (!isGameStopped) {
             try {
-                consoleView.showScore(janggiGame.getTotalScore(Team.HAN), janggiGame.getTotalScore(Team.CHO));
+                consoleView.showScore(janggiGame.calculateScoreByTeam(Team.HAN), janggiGame.calculateScoreByTeam(Team.CHO));
                 consoleView.showTurn(janggiGame.getTurn());
                 BoardLocation current = consoleView.requestCurrent();
                 BoardLocation destination = consoleView.requestDestination();
