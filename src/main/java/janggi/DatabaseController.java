@@ -1,12 +1,12 @@
 package janggi;
 
-import janggi.dao.ChessDao;
+import janggi.dao.JanggiDao;
+import janggi.domain.Side;
 import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceName;
 import janggi.dto.PieceDto;
 import janggi.dto.PositionDto;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,19 +14,26 @@ import java.util.Map;
 
 public class DatabaseController {
 
-    private final ChessDao chessDao;
+    private final JanggiDao janggiDao;
 
-    public DatabaseController(ChessDao chessDao) {
-        this.chessDao = chessDao;
+    public DatabaseController(JanggiDao janggiDao) {
+        this.janggiDao = janggiDao;
     }
 
     public void setupDatabase(Map<Position, Piece> initialData) {
         List<PieceDto> pieceDtos = convertToData(initialData);
-        chessDao.addPieces(pieceDtos);
+        janggiDao.addPieces(pieceDtos);
     }
 
     public List<PieceDto> loadFromDatabase() {
-        return chessDao.getPieces();
+        return janggiDao.getPieces();
+    }
+
+    public Side loadCurrentTurn() {
+        PieceDto lastMovedPieceDto = janggiDao.getLastMovedPiece();
+        Piece lastMovedPiece = PieceName.getPiece(lastMovedPieceDto.name(), lastMovedPieceDto.side());
+        Side lastTurn = lastMovedPiece.getSide();
+        return lastTurn.reverse();
     }
 
     public Map<Position, Piece> convertFromData(List<PieceDto> pieceDtos) {
@@ -51,6 +58,6 @@ public class DatabaseController {
     }
 
     public void update(PositionDto oldPosition, PieceDto pieceDto) {
-        chessDao.updatePiece(oldPosition, pieceDto);
+        janggiDao.updatePiece(oldPosition, pieceDto);
     }
 }

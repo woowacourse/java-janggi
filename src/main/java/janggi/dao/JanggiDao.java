@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChessDao {
+public class JanggiDao {
 
     private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "chess";
+    private static final String DATABASE = "janggi";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
@@ -51,8 +51,30 @@ public class ChessDao {
         }
     }
 
+    public PieceDto getLastMovedPiece() {
+        String query = "SELECT * FROM pieces ORDER BY last_moved DESC LIMIT 1";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return new PieceDto(
+                        resultSet.getString("name"),
+                        resultSet.getString("side"),
+                        resultSet.getInt("position_row"),
+                        resultSet.getInt("position_column")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
+
     public void addPieces(List<PieceDto> piece) {
-        String query = "INSERT INTO pieces VALUES(?, ?, ?, ?)";
+        String query = "INSERT INTO pieces(name, side, position_row, position_column) VALUES(?, ?, ?, ?)";
 
         Connection connection = getConnection();
         try {
@@ -82,7 +104,7 @@ public class ChessDao {
 
     public void updatePiece(PositionDto oldPosition, PieceDto pieceDto) {
         String deleteQuery = "DELETE FROM pieces WHERE position_row = ? AND position_column = ?";
-        String insertQuery = "INSERT INTO pieces VALUES(?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO pieces(name, side, position_row, position_column) VALUES(?, ?, ?, ?)";
 
         Connection connection = getConnection();
         try {
@@ -116,7 +138,7 @@ public class ChessDao {
         }
     }
 
-    public void deleteAll() {
+    public void deleteAllPieces() {
         String query = "DELETE FROM pieces";
 
         try (Connection connection = getConnection();

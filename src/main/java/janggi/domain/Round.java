@@ -5,7 +5,6 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceName;
 import janggi.dto.PieceDto;
 import janggi.dto.PositionDto;
-
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -14,10 +13,11 @@ public class Round {
     private final static double HANDICAP_POINTS = 1.5;
 
     private final Board board;
-    private Side currentTurn = Side.CHO;
+    private Side currentTurn;
 
-    public Round(Board board) {
+    public Round(Board board, Side side) {
         this.board = board;
+        this.currentTurn = side;
     }
 
     public void commence(Position selectedPosition, Position targetPosition, BiConsumer<PositionDto, PieceDto> dataConsumer) {
