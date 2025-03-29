@@ -9,4 +9,6 @@ public interface GameBoard {
     Player findPlayer(Team team);
 
     Pieces findAllPieces();
+
+    Pieces findTeamPieces(Team team);
 }

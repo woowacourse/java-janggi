@@ -46,7 +46,7 @@ public class Cannon extends Piece {
     }
 
     private void validateIsNotCannon(final Piece piece) {
-        if (piece.equals(this)) {
+        if (piece.isSameType(this)) {
             throw new IllegalArgumentException("[ERROR] 포가 존재하여 움직일 수 없습니다.");
         }
     }

@@ -2,6 +2,12 @@ package view;
 
 import board.GameBoard;
 import direction.Point;
+import piece.Cannon;
+import piece.Chariot;
+import piece.Elephant;
+import piece.General;
+import piece.Guard;
+import piece.Horse;
 import piece.Piece;
 import piece.Pieces;
 
@@ -38,11 +44,39 @@ public class OutputView {
     private static void printPieceInPosition(final Pieces pieces, final Point point) {
         if (pieces.isExistPieceIn(point)) {
             Piece findPiece = pieces.findByPoint(point);
-            System.out.print(findPiece.getNickname());
+            System.out.print(pieceToString(findPiece));
             return;
         }
 
         System.out.print(".");
+    }
+
+    private static String pieceToString(Piece findPiece) {
+        if (findPiece.isSameType(new Chariot())) {
+            return "c";
+        }
+
+        if (findPiece.isSameType(new Cannon())) {
+            return "n";
+        }
+
+        if (findPiece.isSameType(new Horse())) {
+            return "h";
+        }
+
+        if (findPiece.isSameType(new Elephant())) {
+            return "e";
+        }
+
+        if (findPiece.isSameType(new Guard())) {
+            return "u";
+        }
+
+        if (findPiece.isSameType(new General())) {
+            return "g";
+        }
+
+        return "s";
     }
 
     public static void displayWrongPoint() {

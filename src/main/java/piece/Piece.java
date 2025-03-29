@@ -25,6 +25,7 @@ public abstract class Piece {
         return oppositeTeamPieces.diePieceInPoint(current);
     }
 
+    public boolean isSameType(final Object object) {
         return object != null && getClass() == object.getClass();
     }
 }
