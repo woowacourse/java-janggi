@@ -3,7 +3,7 @@ import dao.PieceDao;
 import dao.init.ConnectionFactory;
 import dao.init.MySQLConnectionFactory;
 import manager.GameManager;
-import manager.GameService;
+import service.GameService;
 
 public class Application {
 

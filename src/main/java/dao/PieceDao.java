@@ -9,54 +9,41 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import queue.DelayedQuery;
+import queue.MessageQueue;
 
 public class PieceDao {
 
-    private boolean executeSql(Connection connection, String sql, List<Object> params) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            for (int i = 0; i < params.size(); i++) {
-                preparedStatement.setObject(i + 1, params.get(i));
-            }
-            preparedStatement.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            throw new RuntimeException(sql + ": 실행에 실패했습니다.");
-        }
-    }
-
-    public boolean insert(Connection connection, PieceEntity piece) {
+    public void insert(PieceEntity piece) {
         String sql = """
                 INSERT INTO piece (row_index, column_index, piece_type_name, team_name, game_room_name)
                 VALUES (?, ?, ?, ?, ?);
                 """;
-        return executeSql(connection, sql,
-                List.of(piece.rowIndex(), piece.columnIndex(),
-                        piece.pieceType().name(), piece.team().name(), piece.gameRoomName()));
+        addToMessageQueue(sql, List.of(piece.rowIndex(), piece.columnIndex(),
+                piece.pieceType().name(), piece.team().name(), piece.gameRoomName()));
     }
 
-    public void insertAll(Connection connection, List<PieceEntity> pieceEntities) {
-        pieceEntities.forEach(pieceEntity -> insert(connection, pieceEntity));
+    public void insertAll(List<PieceEntity> pieceEntities) {
+        pieceEntities.forEach(this::insert);
     }
 
-    public boolean updatePointByGameRoomNameAndPoint(Connection connection,
-                                                     String gameRoomName,
-                                                     Point oldPoint, Point newPoint) {
+    public void updatePointByGameRoomNameAndPoint(String gameRoomName,
+                                                  Point oldPoint, Point newPoint) {
         String sql = """
                 UPDATE piece
                 SET row_index = ?, column_index = ?
                 WHERE row_index = ? && column_index = ? && game_room_name = ?
                 """;
-        return executeSql(connection, sql,
+        addToMessageQueue(sql,
                 List.of(newPoint.row(), newPoint.column(), oldPoint.row(), oldPoint.column(), gameRoomName));
     }
 
-    public boolean deleteByGameRoomNameAndPoint(Connection connection, String gameRoomName, Point point) {
+    public void deleteByGameRoomNameAndPoint(String gameRoomName, Point point) {
         String sql = """
                 DELETE FROM piece
                 WHERE game_room_name = ? && row_index = ? && column_index = ?
                 """;
-        return executeSql(connection, sql,
-                List.of(gameRoomName, point.row(), point.column()));
+        addToMessageQueue(sql, List.of(gameRoomName, point.row(), point.column()));
     }
 
     public List<PieceEntity> findByGameRoomName(Connection connection, String gameRoomName) {
@@ -82,8 +69,12 @@ public class PieceDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(sql + ": 실행에 실패했습니다.");
+            throw new RuntimeException("[ERROR] DB 조회에 실패했습니다");
         }
         return pieces;
+    }
+
+    private void addToMessageQueue(String sql, List<Object> params) {
+        MessageQueue.addLast(new DelayedQuery(sql, params));
     }
 }

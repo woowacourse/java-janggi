@@ -1,4 +1,4 @@
-package manager;
+package service;
 
 import dao.GameRoomDao;
 import dao.GameRoomEntity;
@@ -12,9 +12,9 @@ import domain.piece.Piece;
 import domain.piece.character.Team;
 import domain.point.Point;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
+import queue.MessageQueue;
 import view.SangMaOrderCommand;
 
 public class GameService {
@@ -31,9 +31,17 @@ public class GameService {
         this.connectionFactory = connectionFactory;
     }
 
+    public void executeDelayedQueries() {
+        MessageQueue.executeDelayedQueries(getConnection());
+    }
+
     public boolean existsGameRoom(final String gameRoomName) {
-        Optional<GameRoomEntity> gameRoomEntity = gameRoomDao.findByName(getConnection(), gameRoomName);
-        return gameRoomEntity.isPresent();
+        try {
+            Optional<GameRoomEntity> gameRoomEntity = gameRoomDao.findByName(getConnection(), gameRoomName);
+            return gameRoomEntity.isPresent();
+        } catch (RuntimeException e) {
+            return false;
+        }
     }
 
     public void loadGame(String gameRoomName) {
@@ -44,50 +52,39 @@ public class GameService {
                            BoardGenerator boardGenerator,
                            SangMaOrderCommand choSangMaOrderCommand,
                            SangMaOrderCommand hanSangMaOrderCommand) {
-        try (final Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
+        final Team firstTurn = Team.CHO;
+        JanggiGame newGame = new JanggiGame(
+                gameRoomName,
+                boardGenerator.generateInitialBoard(choSangMaOrderCommand, hanSangMaOrderCommand),
+                firstTurn
+        );
+        gameRoomDao.insert(new GameRoomEntity(gameRoomName, firstTurn));
+        pieceDao.insertAll(BoardConverter.convertToPieceEntities(newGame.getPieceByPoint(), gameRoomName));
 
-            final Team firstTurn = Team.CHO;
-            JanggiGame newGame = new JanggiGame(
-                    gameRoomName,
-                    boardGenerator.generateInitialBoard(choSangMaOrderCommand, hanSangMaOrderCommand),
-                    firstTurn
-            );
-            gameRoomDao.insert(connection, new GameRoomEntity(gameRoomName, firstTurn));
-            pieceDao.insertAll(connection,
-                    BoardConverter.convertToPieceEntities(newGame.getPieceByPoint(), gameRoomName));
-
-            connection.commit();
-            janggiGame = newGame;
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 새로운 게임방 '" + gameRoomName + "' 생성에 실패했습니다.");
-        }
+        executeDelayedQueries();
+        janggiGame = newGame;
     }
 
     public void movePiece(final Point source, final Point destination) {
-        try (final Connection connection = getConnection()) {
-            connection.setAutoCommit(false);
+        getGameOrThrow().movePiece(source, destination);
 
-            final String gameRoomName = getGameOrThrow().getGameRoomName();
-            final Team turn = janggiGame.currentTurn();
+        final String gameRoomName = getGameOrThrow().getGameRoomName();
+        final Team turn = janggiGame.currentTurn();
+        pieceDao.deleteByGameRoomNameAndPoint(gameRoomName, destination);
+        pieceDao.updatePointByGameRoomNameAndPoint(gameRoomName, source, destination);
+        gameRoomDao.updateTurnByGameRoomName(gameRoomName, turn.inverse());
 
-            pieceDao.deleteByGameRoomNameAndPoint(connection, gameRoomName, destination);
-            pieceDao.updatePointByGameRoomNameAndPoint(connection, gameRoomName, source, destination);
-            gameRoomDao.updateTurnByGameRoomName(connection, gameRoomName, turn.inverse());
-
-            connection.commit();
-            getGameOrThrow().movePiece(source, destination);
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 기물의 위치를 옮기는 데 실패했습니다.");
-        }
+        executeDelayedQueries();
     }
 
     public void endGame() {
         gameRoomDao.deleteByGameRoomName(getConnection(), getGameOrThrow().getGameRoomName());
+
+        executeDelayedQueries();
     }
 
     public boolean isPlaying() {
-        return getGameOrThrow().isPlaying();
+        return isGameLoaded() && janggiGame.isPlaying();
     }
 
     public double calculateScore(Team team) {
@@ -114,7 +111,7 @@ public class GameService {
     private GameRoomEntity findGameRoomEntityByName(String name) {
         Optional<GameRoomEntity> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
         if (maybeGameRoom.isEmpty()) {
-            throw new IllegalStateException("해당 게임방이 존재 하지 않습니다.");
+            throw new IllegalStateException("[ERROR] '" + name + "' 방이 존재 하지 않습니다.");
         }
         return maybeGameRoom.get();
     }
@@ -124,13 +121,21 @@ public class GameService {
     }
 
     private Connection getConnection() {
-        return connectionFactory.createConnection();
+        try {
+            return connectionFactory.createConnection();
+        } catch (RuntimeException e) {
+            throw new IllegalStateException("[ERROR] DB 연결에 실패했습니다. 게임이 저장/로드되지 않을 수 있습니다.");
+        }
     }
 
     private JanggiGame getGameOrThrow() {
         if (janggiGame == null) {
-            throw new IllegalStateException("게임이 로드되지 않았습니다.");
+            throw new IllegalStateException("[ERROR] 게임이 로드되지 않았습니다.");
         }
         return janggiGame;
+    }
+
+    private boolean isGameLoaded() {
+        return janggiGame != null;
     }
 }

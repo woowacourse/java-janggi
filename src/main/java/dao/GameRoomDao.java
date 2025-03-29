@@ -7,41 +7,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import queue.DelayedQuery;
+import queue.MessageQueue;
 
 public class GameRoomDao {
 
-    private boolean executeSql(Connection connection, String sql, List<Object> params) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            for (int i = 0; i < params.size(); i++) {
-                preparedStatement.setObject(i + 1, params.get(i));
-            }
-            preparedStatement.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            throw new RuntimeException(sql + ": 실행에 실패했습니다.");
-        }
-    }
-
-    public boolean insert(Connection connection, GameRoomEntity gameRoom) {
+    public void insert(GameRoomEntity gameRoom) {
         String sql = "INSERT INTO game_room VALUES(?, ?)";
-        return executeSql(connection, sql, List.of(gameRoom.name(), gameRoom.turn().name()));
+        addToMessageQueue(sql, List.of(gameRoom.name(), gameRoom.turn().name()));
     }
 
-    public boolean updateTurnByGameRoomName(Connection connection, String gameRoomName, Team turn) {
+    public void updateTurnByGameRoomName(String gameRoomName, Team turn) {
         String sql = """
                 UPDATE game_room
                 SET turn = ?
                 WHERE name = ?
                 """;
-        return executeSql(connection, sql, List.of(turn.name(), gameRoomName));
+        addToMessageQueue(sql, List.of(turn.name(), gameRoomName));
     }
 
-    public boolean deleteByGameRoomName(Connection connection, String gameRoomName) {
+    public void deleteByGameRoomName(Connection connection, String gameRoomName) {
         String sql = """
                 DELETE FROM game_room
                 WHERE name = ?
                 """;
-        return executeSql(connection, sql, List.of(gameRoomName));
+        addToMessageQueue(sql, List.of(gameRoomName));
     }
 
     public Optional<GameRoomEntity> findByName(Connection connection, String gameRoomName) {
@@ -64,8 +54,12 @@ public class GameRoomDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(sql + ": 실행에 실패했습니다.");
+            throw new RuntimeException("[ERROR] DB 조회에 실패했습니다");
         }
         return Optional.empty();
+    }
+
+    private void addToMessageQueue(String sql, List<Object> params) {
+        MessageQueue.addLast(new DelayedQuery(sql, params));
     }
 }

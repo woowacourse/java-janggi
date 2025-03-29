@@ -29,4 +29,9 @@ public record Point(int row, int column) {
         return ((1 <= row && row <= 3) || (8 <= row && row <= 10))
                 && (4 <= column && column <= 6);
     }
+
+    @Override
+    public String toString() {
+        return "(" + row + "," + column + ")";
+    }
 }

@@ -2,6 +2,7 @@ package manager;
 
 import domain.board.BoardGenerator;
 import domain.piece.character.Team;
+import service.GameService;
 import util.ErrorHandler;
 import view.Command;
 import view.InputView;
@@ -17,27 +18,24 @@ public class GameManager {
     }
 
     public void startGame() {
-        loadGameRoom();
+        ErrorHandler.catchException(this::loadGameRoom);
 
-        ErrorHandler.retryUntilSuccess(() -> {
-            while (gameService.isPlaying()) {
-                Command command = InputView.inputCommand();
-
-                if (command.isEnd()) {
-                    processEnd();
-                    return;
-                }
-
-                if (command.isMove()) {
-                    processMove();
-                    return;
-                }
-
-                if (command.isStatus()) {
-                    processStatus();
-                }
+        while (gameService.isPlaying()) {
+            Command command = InputView.inputCommand();
+            if (command.isEnd()) {
+                ErrorHandler.catchException(this::processEnd);
+                return;
             }
-        });
+
+            if (command.isMove()) {
+                ErrorHandler.catchException(this::processMove);
+                continue;
+            }
+
+            if (command.isStatus()) {
+                ErrorHandler.catchException(this::processStatus);
+            }
+        }
     }
 
     private void processEnd() {

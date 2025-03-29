@@ -13,7 +13,7 @@ public class TestMySQLConnectionFactory implements ConnectionFactory {
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
-    private static final String TEST_DATABASE_NAME = "janggi_test";
+    private static final String TEST_DATABASE_NAME = "janggi";
 
     private static String joinURL(String ip, String port) {
         return String.join(":", List.of(ip, port));
@@ -26,7 +26,7 @@ public class TestMySQLConnectionFactory implements ConnectionFactory {
                     "jdbc:mysql://" + joinURL(IP, TEST_PORT) + "/" + TEST_DATABASE_NAME
                             + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            throw new RuntimeException("DB 연결 오류:" + e.getMessage());
+            throw new RuntimeException("[ERROR] DB 연결 오류: " + e.getMessage());
         }
     }
 }
