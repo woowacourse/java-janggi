@@ -2,8 +2,6 @@ package domain.board;
 
 import domain.piece.Cha;
 import domain.piece.Piece;
-import domain.piece.Po;
-import domain.piece.character.PieceType;
 import domain.piece.character.Team;
 import domain.point.Point;
 import fixture.BoardFixture;
@@ -100,42 +98,6 @@ class BoardTest {
             // when
 
             final boolean actual = board.matchTeam(point, team);
-
-            // then
-            Assertions.assertThat(actual).isFalse();
-        }
-
-        @Test
-        void 특정_위치에_특정_종류의_기물이_존재하면_true를_반환한다() {
-            // given
-            Team team = Team.CHO;
-            PieceType pieceType = PieceType.PO;
-            Point point = Point.of(1, 1);
-
-            Map<Point, Piece> pieceByPoint = new HashMap<>();
-            pieceByPoint.put(point, new Po(team.inverse()));
-            Board board = BoardFixture.createTestBoard(pieceByPoint);
-
-            // when
-            final boolean actual = board.matchPieceType(point, pieceType);
-
-            // then
-            Assertions.assertThat(actual).isTrue();
-        }
-
-        @Test
-        void 특정_위치에_특정_종류의_기물이_존재하지_않으면_false를_반환한다() {
-            // given
-            Team team = Team.CHO;
-            PieceType pieceType = PieceType.PO;
-            Point point = Point.of(1, 1);
-
-            Map<Point, Piece> pieceByPoint = new HashMap<>();
-            pieceByPoint.put(point, new Cha(team.inverse()));
-            Board board = BoardFixture.createTestBoard(pieceByPoint);
-
-            // when
-            final boolean actual = board.matchPieceType(point, pieceType);
 
             // then
             Assertions.assertThat(actual).isFalse();

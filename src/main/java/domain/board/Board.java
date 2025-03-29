@@ -72,14 +72,6 @@ public class Board implements PieceVisibleBoard {
         return piece.team() == team;
     }
 
-    public boolean matchPieceType(final Point point, final PieceType pieceType) {
-        if (!existsPiece(point)) {
-            return false;
-        }
-        Piece piece = getPiece(point);
-        return piece.type() == pieceType;
-    }
-
     public boolean existsNextPoint(final Point point, final Direction direction) {
         if (!existsPoint(point)) {
             return false;
