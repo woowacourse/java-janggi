@@ -7,13 +7,7 @@ import janggi.position.Route;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Cannon implements Piece {
-    private final Team team;
-
-    public Cannon(Team team) {
-        this.team = team;
-    }
-
+public record Cannon(Team team) implements Piece {
     @Override
     public List<Route> calculateRoutes(Position start) {
         List<Position> positions = calculateEndPoints(start);
@@ -45,10 +39,5 @@ public class Cannon implements Piece {
     @Override
     public PieceType getType() {
         return PieceType.CANNON;
-    }
-
-    @Override
-    public Team getTeam() {
-        return team;
     }
 }
