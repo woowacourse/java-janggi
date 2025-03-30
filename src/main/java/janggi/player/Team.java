@@ -19,6 +19,10 @@ public enum Team {
         return row;
     }
 
+    public static Team from(final String team) {
+        return Team.valueOf(team);
+    }
+
     public boolean isHan() {
         return this == HAN;
     }

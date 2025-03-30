@@ -18,6 +18,10 @@ public enum PieceType {
         this.description = description;
     }
 
+    public static PieceType from(final String pieceType) {
+        return PieceType.valueOf(pieceType);
+    }
+
     public Score score() {
         return switch (this) {
             case SOLDIER -> Score.soldier();
