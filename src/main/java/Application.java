@@ -1,14 +1,11 @@
-import dao.DaoConfiguration;
-import dao.GameDao;
-import dao.PieceDao;
-import dao.ProdDaoConfiguration;
+import config.JanggiConfig;
 import java.util.Optional;
 import java.util.function.Supplier;
-import model.JanggiGame;
 import model.piece.Piece;
 import model.position.Position;
 import model.Team;
 import model.position.Score;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
@@ -16,26 +13,23 @@ public class Application {
 
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
-    private static final DaoConfiguration daoConfiguration = new ProdDaoConfiguration();
-    private static final GameDao gameDao = new GameDao(daoConfiguration);
-    private static final PieceDao pieceDao = new PieceDao(daoConfiguration);
-    private static final JanggiGame janggiGame = JanggiGame.initPiecesFrom(gameDao, pieceDao);
+    private static final JanggiService janggiService = JanggiConfig.createJanggiService();
 
     public static void main(String[] args) {
         outputView.printJanggiStart();
         while (true) {
-            outputView.showCurrentPositionOfPieces(janggiGame.getPieces());
-            Team currentTurn = janggiGame.getCurrentTurn();
+            outputView.showCurrentPositionOfPieces(janggiService.getPieces());
+            Team currentTurn = janggiService.getCurrentTurn();
             outputView.printCurrentTurnOfTeam(currentTurn);
             Optional<Position> departureOfNullable = createDeparture();
             if (departureOfNullable.isEmpty()) {
-                janggiGame.removeGameInfo();
+                janggiService.removeGameInfo();
                 break;
             }
             Position departure = departureOfNullable.get();
             createArrivalAndMove(departure);
-            if (janggiGame.isEnd()) {
-                janggiGame.removeGameInfo();
+            if (janggiService.isEnd()) {
+                janggiService.removeGameInfo();
                 outputView.printGeneralDie(currentTurn);
                 break;
             }
@@ -44,10 +38,10 @@ public class Application {
 
     private static void createArrivalAndMove(Position departure) {
         retryOnInvalidInput(() -> {
-            Piece pieceOfDeparture = janggiGame.findPieceBy(departure);
+            Piece pieceOfDeparture = janggiService.findPieceBy(departure);
             String choiceArrival = inputView.choiceArrivalOf(pieceOfDeparture);
-            Position arrival = janggiGame.createPositionFrom(choiceArrival);
-            janggiGame.move(departure, arrival);
+            Position arrival = janggiService.createPosition(choiceArrival);
+            janggiService.move(departure, arrival);
             return null;
         });
     }
@@ -56,11 +50,11 @@ public class Application {
         return retryOnInvalidInput(() -> {
             String choiceDeparture = inputView.choiceDeparture();
             if (choiceDeparture.equals("종료")) {
-                Score score = janggiGame.showGameResult();
+                Score score = janggiService.showGameResult();
                 outputView.printGameResult(score);
                 return Optional.empty();
             }
-            return Optional.ofNullable(janggiGame.createPositionAndCheckTurn(choiceDeparture));
+            return Optional.ofNullable(janggiService.createPosition(choiceDeparture));
         });
     }
 

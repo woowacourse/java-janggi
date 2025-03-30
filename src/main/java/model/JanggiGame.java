@@ -1,7 +1,5 @@
 package model;
 
-import dao.GameDao;
-import dao.PieceDao;
 import java.util.List;
 import java.util.Map;
 import model.piece.Piece;
@@ -13,39 +11,30 @@ public class JanggiGame {
 
     private final Pieces pieces;
     private Team turn;
-    private final GameDao gameDao;
-    private final PieceDao pieceDao;
 
-    private JanggiGame(Map<Position, Piece> pieces, Team turn, GameDao gameDao, PieceDao pieceDao) {
+    private JanggiGame(Map<Position, Piece> pieces, Team turn) {
         this.pieces = new Pieces(pieces);
         this.turn = turn;
-        this.gameDao = gameDao;
-        this.pieceDao = pieceDao;
     }
 
-    public static JanggiGame initPiecesFrom(GameDao gameDao, PieceDao pieceDao) {
-        Map<Position, Piece> pieces = initPieces(pieceDao);
-        Team turn = initTeam(gameDao);
-        return new JanggiGame(pieces, turn, gameDao, pieceDao);
+    public static JanggiGame initPiecesFrom(Map<Position, Piece> currentPieces, Team currentTeam) {
+        Map<Position, Piece> pieces = initPieces(currentPieces);
+        Team turn = initTeam(currentTeam);
+        return new JanggiGame(pieces, turn);
     }
 
-    private static Map<Position, Piece> initPieces(PieceDao pieceDao) {
-        Map<Position, Piece> allPieces = pieceDao.getAllPieces();
-        if (allPieces.isEmpty()) {
-            Map<Position, Piece> generatePieces = PieceInitializer.generate();
-            pieceDao.addPieces(generatePieces);
-            return generatePieces;
+    private static Map<Position, Piece> initPieces(Map<Position, Piece> currentPieces) {
+        if (currentPieces.isEmpty()) {
+            return PieceInitializer.generate();
         }
-        return allPieces;
+        return currentPieces;
     }
 
-    private static Team initTeam(GameDao gameDao) {
-        if (gameDao.getTurn() == null) {
-            Team turn = Team.GREEN;
-            gameDao.addTurn(turn);
-            return turn;
+    private static Team initTeam(Team currentTurn) {
+        if (currentTurn == null) {
+            return Team.GREEN;
         }
-        return gameDao.getTurn();
+        return currentTurn;
     }
 
     public Map<Position, Piece> getPieces() {
@@ -56,13 +45,11 @@ public class JanggiGame {
         return !pieces.isGeneralAlive();
     }
 
-    public Position createPositionAndCheckTurn(String choiceDeparture) {
-        Position position = createPositionFrom(choiceDeparture);
-        validateTurnAndChange(position);
-        return position;
+    public Position createPosition(String choiceDeparture) {
+        return createPositionFrom(choiceDeparture);
     }
 
-    public Position createPositionFrom(String choiceDeparture) {
+    private Position createPositionFrom(String choiceDeparture) {
         List<Integer> columnAndRowOfDeparture = InputParser.splitAndConvert(choiceDeparture);
         int column = columnAndRowOfDeparture.get(0);
         int row = columnAndRowOfDeparture.get(1);
@@ -75,15 +62,7 @@ public class JanggiGame {
 
     public void move(Position departure, Position arrival) {
         pieces.move(departure, arrival);
-        pieceDao.deletePiece(arrival);
-        pieceDao.updatePiece(departure, arrival);
-    }
-
-    private void validateTurnAndChange(Position departure) {
-        Piece piece = pieces.findPieceBy(departure);
-        piece.checkOfTurn(turn);
-        turn = turn.change();
-        gameDao.updateTurn(turn);
+        this.turn = turn.change();
     }
 
     public Team getCurrentTurn() {
@@ -93,10 +72,5 @@ public class JanggiGame {
     public Score showGameResult() {
         Map<Position, Piece> pieces = this.pieces.getPieces();
         return Score.calculateScoreFrom(pieces);
-    }
-
-    public void removeGameInfo() {
-        pieceDao.deletePieces();
-        gameDao.deleteTurn();
     }
 }
