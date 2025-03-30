@@ -10,4 +10,11 @@ public enum Nation {
         }
         return HAN;
     }
+
+    public static Nation getNationBy(String nation) {
+        if (nation.equals("CHO")) {
+            return CHO;
+        }
+        return HAN;
+    }
 }
