@@ -3,6 +3,7 @@ package janggi.data.dao.mysql;
 import janggi.board.point.Point;
 import janggi.data.DatabaseConnection;
 import janggi.data.dao.BoardDao;
+import janggi.data.dao.CampDao;
 import janggi.data.dao.PieceDao;
 import janggi.data.dao.PieceSymbolDao;
 import janggi.piece.Piece;
@@ -10,10 +11,12 @@ import java.sql.SQLException;
 
 public final class MySqlPieceDao implements PieceDao {
 
+    private final CampDao campDao;
     private final BoardDao boardDao;
     private final PieceSymbolDao pieceSymbolDao;
 
-    public MySqlPieceDao(BoardDao boardDao, PieceSymbolDao pieceSymbolDao) {
+    public MySqlPieceDao(CampDao campDao, BoardDao boardDao, PieceSymbolDao pieceSymbolDao) {
+        this.campDao = campDao;
         this.boardDao = boardDao;
         this.pieceSymbolDao = pieceSymbolDao;
     }
@@ -26,7 +29,7 @@ public final class MySqlPieceDao implements PieceDao {
                 """;
         try (final var connection = DatabaseConnection.createConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            var campId = new MySqlCampDao().findIdByName(piece.getCamp().name());
+            var campId = campDao.findIdByName(piece.getCamp().name());
             var pieceSymbolId = pieceSymbolDao.findIdByName(piece.getPieceSymbol().name());
             var boardId = boardDao.findCurrentBoardId();
             preparedStatement.setInt(1, campId);

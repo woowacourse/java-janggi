@@ -32,7 +32,7 @@ enum GameMode {
         CampDao campDao = new MySqlCampDao();
         PieceSymbolDao pieceSymbolDao = new MySqlPieceSymbolDao();
         BoardDao boardDao = new MySqlBoardDao(campDao);
-        PieceDao pieceDao = new MySqlPieceDao(boardDao, pieceSymbolDao);
+        PieceDao pieceDao = new MySqlPieceDao(campDao, boardDao, pieceSymbolDao);
         return switch (this) {
             case ONLINE -> new OnlineController(new View(), campDao, pieceSymbolDao, boardDao, pieceDao);
             case OFFLINE -> new OfflineController(new View());
