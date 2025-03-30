@@ -1,12 +1,23 @@
 import board.Board;
 import board.BoardFactory;
-import position.Position;
+import board.Palace;
 import piece.Country;
-import position.LineDirection;
+import position.Position;
+import position.PositionFactory;
 import view.InputView;
+import view.LineSettingDto;
 import view.OutputView;
 
 import java.util.List;
+
+// TODO 2025. 3. 29. 13:33: <전역>
+// TODO 2025. 3. 29. 13:32: 테스트 코드 제네릭
+// TODO 2025. 3. 29. 13:32: y up, down 방향 바꿀 때 한번에 바꿀 수 있도록 코드 결합도 고려
+// TODO 2025. 3. 29. 13:33: row, column 처리
+// TODO 2025. 3. 29. 13:34: turn 처리 좀 더 설계적으로
+
+// TODO 2025. 3. 29. 13:34: <점수>
+// TODO 2025. 3. 29. 13:34: player 생성?
 
 public class Application {
 
@@ -14,9 +25,12 @@ public class Application {
 
     public static void main(String[] args) {
         OutputView.printIntroduce();
-
-        final BoardFactory boardFactory = new BoardFactory(Country.HAN, LineDirection.UP);
+        LineSettingDto settingDto = InputView.readLineSettingByCountry();
+        final BoardFactory boardFactory = new BoardFactory(settingDto.country(), settingDto.direction());
         final Board board = boardFactory.generateBoard();
+        PositionFactory positionFactory = new PositionFactory();
+        positionFactory.basicSettingGraph();
+        positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
         Country type = Country.getDefaultTeam();
 
         int count = 0;
