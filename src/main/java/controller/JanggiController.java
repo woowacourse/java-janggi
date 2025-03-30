@@ -15,20 +15,24 @@ import java.util.Map;
 
 public class JanggiController {
 
+    private final InputView inputView;
+    private final OutputView outputView;
     private final JanggiDaoService janggiDaoService;
 
-    public JanggiController(JanggiDaoService janggiDaoService) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiDaoService janggiDaoService) {
+        this.inputView = inputView;
+        this.outputView = outputView;
         this.janggiDaoService = janggiDaoService;
     }
 
     public void run() {
-        OutputView.printStart();
+        outputView.printStart();
         final JanggiGame janggiGame = initializeJanggiGame();
         play(janggiGame);
     }
 
     private JanggiGame initializeJanggiGame() {
-        if (janggiDaoService.hasSavedGame() && InputView.selectLoadGame()) {
+        if (janggiDaoService.hasSavedGame() && inputView.selectLoadGame()) {
             return new JanggiGame(janggiDaoService.findBoard(), janggiDaoService.findTurn());
         }
         final SangMaOrderCommand hanSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.HAN);
@@ -37,14 +41,14 @@ public class JanggiController {
     }
 
     private SangMaOrderCommand createSangMaOrderCommandByTeam(final Team team) {
-        return ErrorHandler.retryUntilSuccess(() -> InputView.inputSangMaOrder(team));
+        return ErrorHandler.retryUntilSuccess(() -> inputView.inputSangMaOrder(team));
     }
 
     private void play(final JanggiGame janggiGame) {
         boolean isPlayable = true;
         while (isPlayable) {
             printBoardAndTurn(janggiGame);
-            final ProgressCommand progressCommand = ErrorHandler.retryUntilSuccess(InputView::inputProgress);
+            final ProgressCommand progressCommand = ErrorHandler.retryUntilSuccess(inputView::inputProgress);
             if (progressCommand.isMove()) {
                 isPlayable = executeMove(janggiGame);
             }
@@ -64,18 +68,18 @@ public class JanggiController {
     }
 
     private void printBoardAndTurn(final JanggiGame janggiGame) {
-        OutputView.printBoard(janggiGame.board());
-        OutputView.printTurn(janggiGame.turnTeam());
+        outputView.printBoard(janggiGame.board());
+        outputView.printTurn(janggiGame.turnTeam());
     }
 
     private boolean executeMove(final JanggiGame janggiGame) {
         ErrorHandler.retryUntilSuccess(() -> {
-            final MoveCommand moveCommand = InputView.inputMoveCommand();
+            final MoveCommand moveCommand = inputView.inputMoveCommand();
             janggiGame.movePiece(moveCommand);
         });
         if (janggiGame.isStop()) {
-            OutputView.printBoard(janggiGame.board());
-            OutputView.printMatchResult(janggiGame.turnTeam());
+            outputView.printBoard(janggiGame.board());
+            outputView.printMatchResult(janggiGame.turnTeam());
             janggiDaoService.removeAllData();
             return false;
         }
@@ -84,19 +88,19 @@ public class JanggiController {
     }
 
     private void executeSave(final JanggiGame janggiGame) {
-        OutputView.printSaveResult();
+        outputView.printSaveResult();
         janggiDaoService.saveAllData(janggiGame.board(), janggiGame.turnTeam());
     }
 
     private void printScore(final JanggiGame janggiGame) {
         final Map<Team, Score> totalScoreByTeam = janggiGame.calculateTotalScoreByTeam();
-        OutputView.printScore(totalScoreByTeam);
+        outputView.printScore(totalScoreByTeam);
     }
 
     private void executeExit(final JanggiGame janggiGame) {
         printScore(janggiGame);
-        OutputView.printMatchResult(janggiGame.findWinTeam());
-        OutputView.printExit();
+        outputView.printMatchResult(janggiGame.findWinTeam());
+        outputView.printExit();
         janggiDaoService.removeAllData();
     }
 }

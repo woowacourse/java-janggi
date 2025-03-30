@@ -12,11 +12,11 @@ import java.util.Map;
 
 public class OutputView {
 
-    public static void printStart() {
+    public void printStart() {
         System.out.println("장기 게임에 오신 것을 환영합니다.");
     }
 
-    public static void printBoard(final Map<Point, Piece> board) {
+    public void printBoard(final Map<Point, Piece> board) {
         List<List<String>> boardString = new ArrayList<>();
         for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {
 
@@ -44,15 +44,15 @@ public class OutputView {
         Painter.clean();
     }
 
-    public static void printTurn(final Team team) {
+    public void printTurn(final Team team) {
         System.out.printf("%n> 현재 턴: %s나라", TeamView.title(team));
     }
 
-    public static void printMatchResult(final Team winTeam) {
+    public void printMatchResult(final Team winTeam) {
         System.out.printf("%s나라의 승리입니다.%n", TeamView.title(winTeam));
     }
 
-    public static void printScore(final Map<Team, Score> totalScoreByTeam) {
+    public void printScore(final Map<Team, Score> totalScoreByTeam) {
         System.out.println();
         for (Team team : totalScoreByTeam.keySet()) {
             System.out.printf("%s나라 : %.1f점%n", TeamView.title(team), totalScoreByTeam.get(team).score());
@@ -60,11 +60,11 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void printSaveResult() {
+    public void printSaveResult() {
         System.out.printf("%n장기 게임을 저장 후 종료합니다.");
     }
 
-    public static void printExit() {
+    public void printExit() {
         System.out.print("장기 게임을 종료합니다.");
     }
 }

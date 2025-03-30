@@ -4,6 +4,8 @@ import dao.TurnDaoImpl;
 import db.DatabaseConnector;
 import db.ProductionDatabaseConnector;
 import service.JanggiDaoService;
+import view.InputView;
+import view.OutputView;
 
 public class Application {
 
@@ -13,7 +15,8 @@ public class Application {
                 new TurnDaoImpl(databaseConnector.getConnection()),
                 new BoardDaoImpl(databaseConnector.getConnection())
         );
-        final JanggiController janggiController = new JanggiController(janggiDaoService);
+
+        final JanggiController janggiController = new JanggiController(new InputView(), new OutputView(), janggiDaoService);
         janggiController.run();
     }
 }
