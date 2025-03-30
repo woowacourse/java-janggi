@@ -28,23 +28,35 @@ public class SeveralMovement implements Movement {
 
     protected final Path findPath(final Coordinate departure, final Coordinate arrival) {
         for (final var moveProcess : moveProcesses) {
-            var current = departure;
-            final var path = new ArrayList<Coordinate>();
+            final var path = computePath(departure, arrival, moveProcess);
 
-            for (final var moveStep : moveProcess) {
-                if (current.canMove(moveStep)) {
-                    var next = current.move(moveStep);
-                    if (next.equals(arrival)) {
-                        return new Path(path);
-                    }
-
-                    path.add(next);
-                    current = next;
-                } else {
-                    break;
-                }
+            if (path.isReachable()) {
+                return path;
             }
         }
+        return Path.unreachable();
+    }
+
+    private static Path computePath(
+        final Coordinate departure,
+        final Coordinate arrival,
+        final MoveProcess moveProcess
+    ) {
+        var current = departure;
+        final var coordinates = new ArrayList<Coordinate>();
+
+        for (final var moveStep : moveProcess) {
+            if (!current.canMove(moveStep)) {
+                break;
+            }
+            current = current.move(moveStep);
+
+            if (current.equals(arrival)) {
+                return new Path(coordinates);
+            }
+            coordinates.add(current);
+        }
+
         return Path.unreachable();
     }
 }
