@@ -11,6 +11,23 @@ public class InputView {
         this.console = console;
     }
 
+    public boolean readGameSelection() {
+        System.out.println("""
+                진행 중인 게임이 존재합니다.
+                1. 진행 중인 게임 선택
+                2. 새로운 게임 만들기
+                번호를 선택해 입력해주세요.
+                """);
+        String command = console.nextLine();
+        System.out.println();
+        return command.equals("1");
+    }
+
+    public String readGameName() {
+        System.out.println("진행할 게임 이름을 입력하세요.");
+        return console.nextLine();
+    }
+
     public int readSettingUpStrategyCommand(final Player player) {
         System.out.println(System.lineSeparator() + player.getTeam().getName() + " 팀의 초기 전략을 선택하십시오.");
         System.out.print("""
