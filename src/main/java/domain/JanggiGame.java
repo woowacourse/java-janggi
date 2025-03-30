@@ -7,6 +7,7 @@ import domain.position.PointValue;
 import domain.position.Position;
 import java.util.List;
 import java.util.Map;
+import util.Loop;
 import view.InputView;
 import view.OutputView;
 
@@ -22,34 +23,42 @@ public class JanggiGame {
 
     public void start() {
         final JanggiDao janggiDao = new JanggiDao();
-        while (true) {
+
+        Loop.run(() -> {
             OutputView.printBoard(board);
             printTurn();
 
             final Position prevPosition = readStartPosition();
             if (isInvalidPiece(prevPosition)) {
-                OutputView.printEndTurn();
-                changeTurn(janggiDao);
-                continue;
+                return processTurnChange(janggiDao, OutputView::printInvalidFromPoint);
             }
 
             final Point nextPoint = readEndPoint();
             if (isInvalidEndPoint(prevPosition, nextPoint)) {
-                changeTurn(janggiDao);
-                continue;
+                return processTurnChange(janggiDao, OutputView::printInvalidEndPoint);
             }
 
-            board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
-            final PointValue pointValue = nextPoint.value();
-            janggiDao.deletePosition(pointValue);
-            janggiDao.updatePoint(prevPosition.getPointValue(), pointValue);
+            processMove(prevPosition, nextPoint, janggiDao);
 
             if (board.hasOnlyOneGeneral()) {
                 processGameResult();
-                break;
+                return false;
             }
-            changeTurn(janggiDao);
-        }
+            return processTurnChange(janggiDao, OutputView::printEndTurn);
+        });
+    }
+
+    private boolean processTurnChange(final JanggiDao janggiDao, final Runnable messagePrinter) {
+        messagePrinter.run();
+        changeTurn(janggiDao);
+        return true;
+    }
+
+    private void processMove(final Position prevPosition, final Point nextPoint, final JanggiDao janggiDao) {
+        board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
+        final PointValue pointValue = nextPoint.value();
+        janggiDao.deletePosition(pointValue);
+        janggiDao.updatePoint(prevPosition.getPointValue(), pointValue);
     }
 
     private void processGameResult() {
@@ -83,7 +92,15 @@ public class JanggiGame {
     }
 
     private boolean isInvalidPiece(final Position prevPosition) {
-        return (isGreenTurn() && !prevPosition.isGreenTeam()) || (isRedTurn() && prevPosition.isGreenTeam());
+        return isGreenTurnWhenPickRedPiece(prevPosition) || isRedTurnWhenPickGreenPiece(prevPosition);
+    }
+
+    private boolean isGreenTurnWhenPickRedPiece(final Position prevPosition) {
+        return isGreenTurn() && !prevPosition.isGreenTeam();
+    }
+
+    private boolean isRedTurnWhenPickGreenPiece(final Position prevPosition) {
+        return isRedTurn() && prevPosition.isGreenTeam();
     }
 
     private void changeTurn(final JanggiDao janggiDao) {
