@@ -1,6 +1,6 @@
 package domain.board;
 
-public record Path(
+public record Step(
         BoardPoint firstPoint,
         BoardPoint secondPoint
 ) {

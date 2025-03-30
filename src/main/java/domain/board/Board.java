@@ -15,11 +15,11 @@ public final class Board {
 
     private final Map<BoardPoint, Piece> locations;
 
-    private static final List<Path> UNABLE_BOARD_PATHS = List.of(
-            new Path(new BoardPoint(0, 4), new BoardPoint(1, 3)),
-            new Path(new BoardPoint(0, 4), new BoardPoint(1, 5)),
-            new Path(new BoardPoint(1, 3), new BoardPoint(2, 4)),
-            new Path(new BoardPoint(1, 5), new BoardPoint(2, 4))
+    private static final List<Step> UNABLE_BOARD_STEPS = List.of(
+            new Step(new BoardPoint(0, 4), new BoardPoint(1, 3)),
+            new Step(new BoardPoint(0, 4), new BoardPoint(1, 5)),
+            new Step(new BoardPoint(1, 3), new BoardPoint(2, 4)),
+            new Step(new BoardPoint(1, 5), new BoardPoint(2, 4))
     );
 
     public Board(final Map<BoardPoint, Piece> locations) {
@@ -75,8 +75,8 @@ public final class Board {
     }
 
     private void validateBoardRoutes(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
-        for (final Path path : UNABLE_BOARD_PATHS) {
-            if (path.equals(new Path(startBoardPoint, arrivalBoardPoint))) {
+        for (final Step step : UNABLE_BOARD_STEPS) {
+            if (step.equals(new Step(startBoardPoint, arrivalBoardPoint))) {
                 throw new JanggiArgumentException("이동 불가능한 경로입니다.");
             }
         }
