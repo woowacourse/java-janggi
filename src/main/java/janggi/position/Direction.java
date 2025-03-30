@@ -8,6 +8,11 @@ public record Direction(int x, int y) {
     public static final Direction LEFT = new Direction(-1, 0);
     public static final Direction RIGHT = new Direction(1, 0);
 
+    public static final Direction LEFT_UP = new Direction(-1, -1);
+    public static final Direction LEFT_DOWN = new Direction(-1, 1);
+    public static final Direction RIGHT_UP = new Direction(1, -1);
+    public static final Direction RIGHT_DOWN = new Direction(1, 1);
+
     public static List<Direction> getCardinalDirections() {
         return List.of(UP, DOWN, LEFT, RIGHT);
     }
