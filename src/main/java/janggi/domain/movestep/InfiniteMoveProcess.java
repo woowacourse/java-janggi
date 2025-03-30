@@ -11,25 +11,17 @@ public class InfiniteMoveProcess extends MoveProcess {
 
     @Override
     public Iterator<MoveStep> iterator() {
-        return new InfiniteIterator(moveSteps.getFirst());
-    }
+        return new Iterator<>() {
 
-    private static class InfiniteIterator implements Iterator<MoveStep> {
+            @Override
+            public boolean hasNext() {
+                return true;
+            }
 
-        private final MoveStep moveStep;
-
-        public InfiniteIterator(final MoveStep moveStep) {
-            this.moveStep = moveStep;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return true;
-        }
-
-        @Override
-        public MoveStep next() {
-            return moveStep;
-        }
+            @Override
+            public MoveStep next() {
+                return moveSteps.getFirst();
+            }
+        };
     }
 }
