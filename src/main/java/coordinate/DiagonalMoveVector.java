@@ -1,17 +1,17 @@
 package coordinate;
 
-public enum Direction implements MoveVector {
+public enum DiagonalMoveVector implements MoveVector {
 
-    UP(0, -1),
-    DOWN(0, 1),
-    LEFT(-1, 0),
-    RIGHT(1, 0),
+    RIGHT_UP(1, -1),
+    RIGHT_DOWN(1, 1),
+    LEFT_UP(-1, -1),
+    LEFT_DOWN(-1, 1),
     ;
 
     private final int deltaX;
     private final int deltaY;
 
-    Direction(int deltaX, int deltaY) {
+    DiagonalMoveVector(int deltaX, int deltaY) {
         this.deltaX = deltaX;
         this.deltaY = deltaY;
     }
