@@ -8,14 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Cha implements Piece {
+public class Cha extends Piece {
 
     private static final List<Direction> CHA_MOVABLE_DIRECTIONS = Arrays.stream(Direction.values()).toList();
 
-    private final Team team;
-
     public Cha(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -48,10 +46,5 @@ public class Cha implements Piece {
     @Override
     public PieceType type() {
         return PieceType.CHA;
-    }
-
-    @Override
-    public boolean hasTeam(final Team team) {
-        return this.team == team;
     }
 }

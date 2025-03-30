@@ -7,12 +7,10 @@ import domain.board.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Po implements Piece {
-
-    private final Team team;
+public class Po extends Piece {
 
     public Po(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -60,10 +58,5 @@ public class Po implements Piece {
     @Override
     public PieceType type() {
         return PieceType.PO;
-    }
-
-    @Override
-    public boolean hasTeam(Team team) {
-        return this.team == team;
     }
 }

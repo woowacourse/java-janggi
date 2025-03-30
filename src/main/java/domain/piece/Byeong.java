@@ -15,7 +15,7 @@ import domain.board.Node;
 import java.util.List;
 import java.util.Map;
 
-public class Byeong implements Piece {
+public class Byeong extends Piece {
 
     private static final List<Direction> CHO_BYEONG_MOVABLE_DIRECTIONS
             = List.of(LEFT, UP_LEFT, UP, UP_RIGHT, RIGHT);
@@ -26,10 +26,8 @@ public class Byeong implements Piece {
             Map.entry(Team.HAN, HAN_BYEONG_MOVABLE_DIRECTIONS)
     );
 
-    private final Team team;
-
     public Byeong(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -45,10 +43,5 @@ public class Byeong implements Piece {
     @Override
     public PieceType type() {
         return PieceType.BYEONG;
-    }
-
-    @Override
-    public boolean hasTeam(final Team team) {
-        return this.team == team;
     }
 }

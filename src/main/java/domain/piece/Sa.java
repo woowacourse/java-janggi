@@ -6,14 +6,12 @@ import domain.board.Node;
 import java.util.Arrays;
 import java.util.List;
 
-public class Sa implements Piece {
+public class Sa extends Piece {
 
     private static final List<Direction> SA_MOVABLE_DIRECTIONS = Arrays.stream(Direction.values()).toList();
 
-    private final Team team;
-
     public Sa(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -30,10 +28,5 @@ public class Sa implements Piece {
     @Override
     public PieceType type() {
         return PieceType.SA;
-    }
-
-    @Override
-    public boolean hasTeam(final Team team) {
-        return this.team == team;
     }
 }

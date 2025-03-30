@@ -12,7 +12,7 @@ import domain.board.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sang implements Piece {
+public class Sang extends Piece {
 
     private static final List<PiecePath> PIECE_PATHS = List.of(
             new PiecePath(
@@ -49,10 +49,8 @@ public class Sang implements Piece {
             )
     );
 
-    private final Team team;
-
     public Sang(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -92,10 +90,5 @@ public class Sang implements Piece {
     @Override
     public PieceType type() {
         return PieceType.SANG;
-    }
-
-    @Override
-    public boolean hasTeam(final Team team) {
-        return this.team == team;
     }
 }

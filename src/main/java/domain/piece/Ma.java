@@ -12,7 +12,7 @@ import domain.board.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ma implements Piece {
+public class Ma extends Piece {
 
     private static final List<PiecePath> PIECE_PATHS = List.of(
             new PiecePath(
@@ -41,10 +41,8 @@ public class Ma implements Piece {
             )
     );
 
-    private final Team team;
-
     public Ma(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -84,10 +82,5 @@ public class Ma implements Piece {
     @Override
     public PieceType type() {
         return PieceType.MA;
-    }
-
-    @Override
-    public boolean hasTeam(final Team team) {
-        return this.team == team;
     }
 }
