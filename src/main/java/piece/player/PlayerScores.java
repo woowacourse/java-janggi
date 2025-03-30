@@ -1,25 +1,25 @@
 package piece.player;
 
+import java.util.Collections;
 import java.util.Map;
 import piece.Piece;
 import piece.PieceScore;
 
 public class PlayerScores {
 
-    private int blueScore = 0;
-    private int redScore = 0;
+    private final Map<Team, Integer> scores;
+
+    public PlayerScores() {
+        scores = Map.of(Team.BLUE, 0, Team.RED, 0);
+    }
 
     public void addScore(Piece deadPiece) {
-        Team team = deadPiece.team();
+        Team deaePieceTeam = deadPiece.team();
         PieceScore deadPieceScore = deadPiece.pieceScore();
-        if (team == Team.BLUE) {
-            redScore += deadPieceScore.getPoint();
-            return;
-        }
-        blueScore += deadPieceScore.getPoint();
+        scores.compute(deaePieceTeam.opposite(), (team, currentPoint) -> currentPoint + deadPieceScore.getPoint());
     }
 
     public Map<Team, Integer> getCurrentPlayersScores() {
-        return Map.of(Team.BLUE, blueScore, Team.RED, redScore);
+        return Collections.unmodifiableMap(scores);
     }
 }
