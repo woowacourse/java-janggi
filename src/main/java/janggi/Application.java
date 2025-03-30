@@ -1,7 +1,7 @@
 package janggi;
 
-import janggi.dao.GameDao;
-import janggi.dao.PieceDao;
+import janggi.dao.JdbcGameDao;
+import janggi.dao.JdbcPieceDao;
 import janggi.service.JanggiService;
 import janggi.view.InitializeView;
 import janggi.view.JanggiBoardView;
@@ -10,9 +10,8 @@ public class Application {
     public static void main(String[] args) {
         InitializeView initializeView = new InitializeView();
         JanggiBoardView janggiBoardView = new JanggiBoardView();
-        JanggiGame janggiGame = new JanggiGame(initializeView, janggiBoardView,
-                new JanggiService(new GameDao(), new PieceDao()));
-
+        JanggiService janggiService = new JanggiService(new JdbcGameDao(), new JdbcPieceDao());
+        JanggiGame janggiGame = new JanggiGame(initializeView, janggiBoardView, janggiService);
         janggiGame.start();
     }
 }

@@ -1,6 +1,6 @@
 package janggi;
 
-import janggi.dao.Game;
+import janggi.dao.entity.GameEntity;
 import janggi.domain.JanggiEnded;
 import janggi.domain.JanggiStatus;
 import janggi.domain.piece.Dynasty;
@@ -24,21 +24,21 @@ public class JanggiGame {
 
     public void start() {
         try {
-            Game game = janggiService.findRunningGame();
-            if (game == null) {
+            GameEntity gameEntity = janggiService.findRunningGame();
+            if (gameEntity == null) {
                 janggiService.createGame(
                         initializeView.readBoardSetUp(Dynasty.CHU),
                         initializeView.readBoardSetUp(Dynasty.HAN));
-                game = janggiService.findRunningGame();
+                gameEntity = janggiService.findRunningGame();
             }
-            play(game);
+            play(gameEntity);
         } catch (IllegalArgumentException e) {
             System.out.println("[ERROR] " + e.getMessage());
         }
     }
 
-    private void play(Game game) {
-        JanggiStatus janggiStatus = janggiService.findJaggiStatusByGameId(game.getId());
+    private void play(GameEntity gameEntity) {
+        JanggiStatus janggiStatus = janggiService.findJaggiStatusByGameId(gameEntity.getId());
 
         janggiBoardView.printGameStartMessage();
         janggiBoardView.printBoard(janggiStatus.janggiBoard());
@@ -49,7 +49,7 @@ public class JanggiGame {
                 Point from = new Point(movement.startX(), movement.startY());
                 Point to = new Point(movement.endX(), movement.endY());
 
-                janggiStatus = janggiService.move(game.getId(), from, to);
+                janggiStatus = janggiService.move(gameEntity.getId(), from, to);
 
                 janggiBoardView.printBoard(janggiStatus.janggiBoard());
                 janggiBoardView.printScore(janggiStatus.janggiBoard());

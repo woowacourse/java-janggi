@@ -1,4 +1,4 @@
-package janggi.dao;
+package janggi.dao.entity;
 
 import java.util.Arrays;
 

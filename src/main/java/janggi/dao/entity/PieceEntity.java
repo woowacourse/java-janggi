@@ -1,4 +1,4 @@
-package janggi.dao;
+package janggi.dao.entity;
 
 import janggi.domain.piece.Dynasty;
 import janggi.domain.piece.PieceType;

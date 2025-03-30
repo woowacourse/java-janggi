@@ -1,10 +1,10 @@
 package janggi.service;
 
-import janggi.dao.Game;
 import janggi.dao.GameDao;
 import janggi.dao.PieceDao;
-import janggi.dao.PieceEntity;
-import janggi.dao.Status;
+import janggi.dao.entity.GameEntity;
+import janggi.dao.entity.PieceEntity;
+import janggi.dao.entity.Status;
 import janggi.domain.JanggiRuned;
 import janggi.domain.JanggiStatus;
 import janggi.domain.board.BoardSetUp;
@@ -37,33 +37,33 @@ public class JanggiService {
         this.pieceDao = pieceDao;
     }
 
-    public Game findRunningGame() {
+    public GameEntity findRunningGame() {
         return gameDao.findByStatus(Status.RUN);
     }
 
     public void createGame(BoardSetUp hanBoardSetUp, BoardSetUp chuBoardSetUp) {
-        gameDao.addGame(new Game(Status.RUN, Dynasty.CHU));
-        Game game = gameDao.findByStatus(Status.RUN);
+        gameDao.addGame(new GameEntity(Status.RUN, Dynasty.CHU));
+        GameEntity gameEntity = gameDao.findByStatus(Status.RUN);
         JanggiBoard janggiBoard = JanggiBoard.of(hanBoardSetUp, chuBoardSetUp);
-        pieceDao.addPieces(createPieceEntities(game, janggiBoard));
+        pieceDao.addPieces(createPieceEntities(gameEntity, janggiBoard));
     }
 
     public JanggiStatus findJaggiStatusByGameId(Long gameId) {
-        Game game = gameDao.findById(gameId);
-        if (game == null) {
+        GameEntity gameEntity = gameDao.findById(gameId);
+        if (gameEntity == null) {
             throw new IllegalStateException("실행중인 게임이 존재하지 않습니다.");
         }
-        return new JanggiRuned(game.getCurrentTurn(), findJanggiBoardByGameId(game.getId()));
+        return new JanggiRuned(gameEntity.getCurrentTurn(), findJanggiBoardByGameId(gameEntity.getId()));
     }
 
     public JanggiStatus move(Long gameId, Point from, Point to) {
-        Game game = gameDao.findById(gameId);
-        if (game == null) {
+        GameEntity gameEntity = gameDao.findById(gameId);
+        if (gameEntity == null) {
             throw new IllegalStateException("게임이 존재하지 않습니다.");
         }
         JanggiBoard janggiBoard = findJanggiBoardByGameId(gameId);
 
-        JanggiStatus janggiStatus = new JanggiRuned(game.getCurrentTurn(), janggiBoard).play(from, to);
+        JanggiStatus janggiStatus = new JanggiRuned(gameEntity.getCurrentTurn(), janggiBoard).play(from, to);
         if (janggiStatus.isEndGame()) {
             gameDao.updateStatus(gameId, Status.END);
             return janggiStatus;
@@ -80,12 +80,12 @@ public class JanggiService {
         return toJanggiBoard(pieceEntities);
     }
 
-    private List<PieceEntity> createPieceEntities(Game game, JanggiBoard janggiBoard) {
+    private List<PieceEntity> createPieceEntities(GameEntity gameEntity, JanggiBoard janggiBoard) {
         Map<Point, Piece> pieces = janggiBoard.getPieces();
         List<PieceEntity> pieceEntities = new ArrayList<>();
         for (Point point : pieces.keySet()) {
             Piece piece = pieces.get(point);
-            pieceEntities.add(new PieceEntity(point, piece.getDynasty(), piece.pieceType(), game.getId()));
+            pieceEntities.add(new PieceEntity(point, piece.getDynasty(), piece.pieceType(), gameEntity.getId()));
         }
         return pieceEntities;
     }
