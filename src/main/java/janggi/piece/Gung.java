@@ -8,7 +8,6 @@ import janggi.point.Point;
 import janggi.game.Team;
 import janggi.movement.distance.PointDistance;
 import janggi.movement.middleRoute.Route;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Gung extends Piece {
@@ -18,9 +17,14 @@ public class Gung extends Piece {
     }
 
     public static List<Gung> init(Team team) {
-        List<Gung> gungs = new ArrayList<>();
-        gungs.add(new Gung(team, new Point(team.calculateRowForwarding(1), 4)));
-        return gungs;
+        if (team.isCho()) {
+            return List.of(
+                    new Gung(team, new Point(8,4))
+            );
+        }
+        return List.of(
+                new Gung(team, new Point(1,4))
+        );
     }
 
     @Override

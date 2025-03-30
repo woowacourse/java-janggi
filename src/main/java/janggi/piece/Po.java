@@ -20,11 +20,16 @@ public class Po extends Piece {
     }
 
     public static List<Po> init(Team team) {
-        List<Po> pos = new ArrayList<>();
-        for (int column = 1; column < MAX_COLUMN_LOCATION; column += 6) {
-            pos.add(new Po(team, new Point(team.calculateRowForwarding(2), column)));
+        if (team.isCho()) {
+            return List.of(
+                    new Po(team, new Point(7,1)),
+                    new Po(team, new Point(7,7))
+            );
         }
-        return pos;
+        return List.of(
+                new Po(team, new Point(2,1)),
+                new Po(team, new Point(2,7))
+        );
     }
 
     @Override

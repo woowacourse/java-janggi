@@ -8,17 +8,27 @@ import janggi.point.Point;
 import janggi.game.Team;
 import janggi.movement.distance.PointDistance;
 import janggi.movement.middleRoute.Route;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Byeong extends Piece {
 
     public static List<Byeong> init(Team team) {
-        List<Byeong> byeongs = new ArrayList<>();
-        for (int column = 0; column < MAX_COLUMN_LOCATION; column += 2) {
-            byeongs.add(new Byeong(team, new Point(team.calculateRowForwarding(3), column)));
+        if (team.isCho()) {
+            return List.of(
+                    new Byeong(team, new Point(6,0)),
+                    new Byeong(team, new Point(6,2)),
+                    new Byeong(team, new Point(6,4)),
+                    new Byeong(team, new Point(6,6)),
+                    new Byeong(team, new Point(6,8))
+            );
         }
-        return byeongs;
+        return List.of(
+                new Byeong(team, new Point(3,0)),
+                new Byeong(team, new Point(3,2)),
+                new Byeong(team, new Point(3,4)),
+                new Byeong(team, new Point(3,6)),
+                new Byeong(team, new Point(3,8))
+        );
     }
 
     public Byeong(Team team, Point point) {

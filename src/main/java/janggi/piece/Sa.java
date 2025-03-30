@@ -18,11 +18,16 @@ public class Sa extends Piece {
     }
 
     public static List<Sa> init(Team team) {
-        List<Sa> sas = new ArrayList<>();
-        for (int column = 3; column < 6; column += 2) {
-            sas.add(new Sa(team, new Point(team.calculateRowForwarding(0), column)));
+        if (team.isCho()) {
+            return List.of(
+                    new Sa(team, new Point(9,3)),
+                    new Sa(team, new Point(9,5))
+            );
         }
-        return sas;
+        return List.of(
+                new Sa(team, new Point(0,3)),
+                new Sa(team, new Point(0,5))
+        );
     }
 
     @Override

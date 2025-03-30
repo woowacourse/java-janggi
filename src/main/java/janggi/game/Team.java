@@ -24,11 +24,6 @@ public enum Team {
         }
         return HAN;
     }
-
-    public int calculateRowForwarding(int times) {
-        return backwardRow + forward.getRowOffset() * times;
-    }
-
     public boolean isCho() {
         return this == CHO;
     }

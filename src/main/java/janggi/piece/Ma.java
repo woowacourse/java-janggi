@@ -7,7 +7,6 @@ import janggi.point.Point;
 import janggi.game.Team;
 import janggi.movement.distance.PointDistance;
 import janggi.movement.middleRoute.Route;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Ma extends Piece {
@@ -19,17 +18,16 @@ public class Ma extends Piece {
     }
 
     public static List<Ma> init(Team team) {
-        List<Ma> mas = new ArrayList<>();
         if (team.isCho()) {
-            for (int column = 2; column < MAX_COLUMN_LOCATION; column += 4) {
-                mas.add(new Ma(team, new Point(team.calculateRowForwarding(0), column)));
-            }
-            return mas;
+            return List.of(
+                    new Ma(team, new Point(9,2)),
+                    new Ma(team, new Point(9,6))
+            );
         }
-        for (int column = 1; column < MAX_COLUMN_LOCATION; column += 6) {
-            mas.add(new Ma(team, new Point(team.calculateRowForwarding(0), column)));
-        }
-        return mas;
+        return List.of(
+                new Ma(team, new Point(0,1)),
+                new Ma(team, new Point(0,7))
+        );
     }
 
     @Override

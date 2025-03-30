@@ -19,17 +19,16 @@ public class Sang extends Piece {
     }
 
     public static List<Sang> init(Team team) {
-        List<Sang> sangs = new ArrayList<>();
         if (team.isCho()) {
-            for (int column = 1; column < MAX_COLUMN_LOCATION; column += 6) {
-                sangs.add(new Sang(team, new Point(team.calculateRowForwarding(0), column)));
-            }
-            return sangs;
+            return List.of(
+                    new Sang(team, new Point(9,1)),
+                    new Sang(team, new Point(9,7))
+            );
         }
-        for (int column = 2; column < MAX_COLUMN_LOCATION; column += 4) {
-            sangs.add(new Sang(team, new Point(team.calculateRowForwarding(0), column)));
-        }
-        return sangs;
+        return List.of(
+                new Sang(team, new Point(0,2)),
+                new Sang(team, new Point(0,6))
+        );
     }
 
     @Override
