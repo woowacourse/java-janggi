@@ -36,4 +36,8 @@ public class InputView {
         int column = Integer.parseInt(positions[1].trim());
         return List.of(row, column);
     }
+
+    public int readGameId() {
+        return Integer.parseInt(scanner.nextLine());
+    }
 }
