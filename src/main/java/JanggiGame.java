@@ -1,14 +1,14 @@
-package domain.game;
-
 import domain.Coordinate;
 import domain.board.Board;
-import domain.board.ChoSettingUpStrategy;
-import domain.board.HanSettingUpStrategy;
+import domain.board.setting.ChoSettingUpStrategy;
+import domain.board.setting.HanSettingUpStrategy;
+import domain.game.Turn;
 import domain.piece.Country;
 import domain.piece.Piece;
 import infrastructure.BoardRepository;
 import infrastructure.TurnRepository;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -36,7 +36,7 @@ public class JanggiGame {
         Board board = start();
 
         while (!isEndGame(board)) {
-            turn.take(board, this::movePiece);
+            takeTurn(board, this::movePiece);
             showScore(board);
             nextTurn();
         }
@@ -63,6 +63,17 @@ public class JanggiGame {
         turn = turnRepository.findTurn();
         outputView.printPreviousGameMessage();
         return board;
+    }
+
+    public void takeTurn(Board board, Consumer<Board> consumer) {
+        while (true) {
+            try {
+                consumer.accept(board);
+                return;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private Board settingUp() {

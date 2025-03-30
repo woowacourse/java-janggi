@@ -1,4 +1,4 @@
-package domain.board;
+package domain.board.setting;
 
 import static domain.piece.Country.CHO;
 import static domain.piece.Country.HAN;

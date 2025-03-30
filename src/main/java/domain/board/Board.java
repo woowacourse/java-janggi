@@ -1,6 +1,9 @@
 package domain.board;
 
 import domain.Coordinate;
+import domain.board.setting.BoardFactory;
+import domain.board.setting.ChoSettingUpStrategy;
+import domain.board.setting.HanSettingUpStrategy;
 import domain.piece.Country;
 import domain.piece.Paths;
 import domain.piece.Piece;

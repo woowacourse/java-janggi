@@ -1,17 +1,17 @@
-package domain.board;
+package domain.board.setting;
 
 import domain.Coordinate;
-import domain.board.strategy.MaSangMaSang;
-import domain.board.strategy.MaSangSangMa;
-import domain.board.strategy.SangMaMaSang;
-import domain.board.strategy.SangMaSangMa;
+import domain.board.setting.strategy.MaSangMaSang;
+import domain.board.setting.strategy.MaSangSangMa;
+import domain.board.setting.strategy.SangMaMaSang;
+import domain.board.setting.strategy.SangMaSangMa;
 import domain.piece.Piece;
 import java.util.Map;
 
 public interface ChoSettingUpStrategy {
 
     Map<Coordinate, Piece> setUpCho();
-    
+
     static ChoSettingUpStrategy selectStrategy(String settingUp) {
         return switch (settingUp) {
             case SangMaMaSang.SANG_MA_MA_SANG -> new SangMaMaSang();

@@ -1,10 +1,10 @@
 package view;
 
 import domain.Coordinate;
-import domain.board.strategy.MaSangMaSang;
-import domain.board.strategy.MaSangSangMa;
-import domain.board.strategy.SangMaMaSang;
-import domain.board.strategy.SangMaSangMa;
+import domain.board.setting.strategy.MaSangMaSang;
+import domain.board.setting.strategy.MaSangSangMa;
+import domain.board.setting.strategy.SangMaMaSang;
+import domain.board.setting.strategy.SangMaSangMa;
 import domain.piece.Country;
 import java.util.Scanner;
 
