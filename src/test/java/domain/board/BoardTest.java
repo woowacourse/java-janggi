@@ -179,6 +179,34 @@ class BoardTest {
         }
 
         @Test
+        void 해당_위치가_궁성_내부라면_true를_반환한다() {
+            // given
+            Point point = Point.of(1, 4);
+            Node node = new Node(point);
+            Board board = BoardFixture.createEmptyBoard();
+
+            // when
+            final boolean actual = board.isPalaceArea(node);
+
+            // then
+            assertThat(actual).isTrue();
+        }
+
+        @Test
+        void 해당_위치가_궁성_내부가_아니라면_false를_반환한다() {
+            // given
+            Point point = Point.of(1, 3);
+            Node node = new Node(point);
+            Board board = BoardFixture.createEmptyBoard();
+
+            // when
+            final boolean actual = board.isPalaceArea(node);
+
+            // then
+            assertThat(actual).isFalse();
+        }
+
+        @Test
         void 팀별_기물들의_총점수를_반환한다() {
             // given
             ScoreCalculator scoreCalculator = new ScoreCalculator();
