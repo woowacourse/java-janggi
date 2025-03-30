@@ -7,6 +7,7 @@
 - OOP의 개념과 원리 이해하기
 - 좋은 객체지향 설계의 원칙 적용하기
 - 객체지향 설계 능력 향상을 위한 실천 방법 습득하기
+- fake 객체로 DAO 단위 테스트 진행하기
 
 ## 설계 방법
 
@@ -83,8 +84,8 @@
 
 ### 6. DB 연결
 
-- [ ] 게임 이어하기가 가능하다.
-- [ ] 장기 게임방을 만들고 장기 게임방에 입장할 수 있다.
+- [x] 게임 이어하기가 가능하다.
+- [x] 장기 게임방을 만들고 장기 게임방에 입장할 수 있다.
 
 ## 메시지 명 정의 (메서드 네이밍)
 
@@ -97,21 +98,15 @@
 ```
 # 원본 DB 실행
 docker-compose -p main-db -f docker-compose.yml up -d
-
-# 테스트 DB 실행
-docker-compose -p test-db -f docker-compose-test.yml up -d
 ```
 
 ### 종료
 
 ```
-# 원본 DB 종료 및 삭제
+# 원본 DB 종료
 docker-compose -p main-db -f docker-compose.yml down
 
-# 테스트 DB 종료 및 삭제
-docker-compose -p test-db -f docker-compose-test.yml down -v
-
-- 테스트 DB의 데이터 초기화를 원치 않다면 마지막 `-v` 없이 명령어를 실행하면 됩니다.
+- DB의 완전 삭제를 원한다면, 명령어 마지막에 `-v` 명령어를 추가하여 실행하면 됩니다.
 ```
 
 
