@@ -4,11 +4,6 @@ import java.util.Objects;
 
 public final class Point {
 
-    private static final int HORIZONTAL_START = 1;
-    private static final int HORIZONTAL_END = 9;
-    private static final int VERTICAL_START = 1;
-    private static final int VERTICAL_END = 10;
-
     private static final int PALACE_START_X = 4;
     private static final int PALACE_END_X = 6;
 
