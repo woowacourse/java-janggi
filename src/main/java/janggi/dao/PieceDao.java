@@ -23,9 +23,9 @@ public class PieceDao {
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final Position position = piece.getPosition();
             positionDao.addPosition(position);
-            final int positionId = positionDao.findIdByXY(position.x(), position.y());
-            final int teamId = teamDao.findTeamIdByName(piece.getTeam());
-            PieceType pieceType = piece.getPieceType();
+            final int positionId = positionDao.findIdByPosition(position);
+            final int teamId = teamDao.findIdByTeam(piece.getTeam());
+            final PieceType pieceType = piece.getPieceType();
             preparedStatement.setString(1, pieceType.name());
             preparedStatement.setInt(2, teamId);
             preparedStatement.setInt(3, positionId);
@@ -40,31 +40,51 @@ public class PieceDao {
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, pieceId);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    int teamId = resultSet.getInt("team_id");
-                    int positionId = resultSet.getInt("position_id");
-                    PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
-                    Position position = positionDao.findByPositionId(positionId);
-                    Team team = teamDao.findTeamById(teamId);
+                    final int teamId = resultSet.getInt("team_id");
+                    final int positionId = resultSet.getInt("position_id");
+                    final PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
+                    final Position position = positionDao.findPositionById(positionId);
+                    final Team team = teamDao.findTeamById(teamId);
                     return PieceFactory.createPiece(position, team, pieceType);
                 }
             }
-        } catch (SQLException e) {
+            throw new RuntimeException("해당 기물을 찾을 수 없습니다.");
+        } catch (final SQLException e) {
             throw new RuntimeException();
         }
-        return null;
     }
 
-    public void addPieces(List<Piece> pieces) {
-        for (Piece piece : pieces) {
+    public int findIdByPiece(final Piece piece) {
+        final String query = "SELECT * FROM piece WHERE team_id = ? AND position_id = ? AND piece_type = ?";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            final int teamId = teamDao.findIdByTeam(piece.getTeam());
+            preparedStatement.setInt(1, teamId);
+            final int positionId = positionDao.findIdByPosition(piece.getPosition());
+            preparedStatement.setInt(2, positionId);
+            preparedStatement.setString(3, piece.getPieceType().name());
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("piece_id");
+                }
+            }
+            throw new RuntimeException("해당 기물을 찾을 수 없습니다.");
+        } catch (final SQLException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public void addPieces(final List<Piece> pieces) {
+        for (final Piece piece : pieces) {
             addPiece(piece);
         }
     }
 
     public boolean deletePieceByPosition(final Position position) {
 
-        final int positionId = positionDao.findIdByXY(position.x(), position.y());
+        final int positionId = positionDao.findIdByPosition(position);
         if (positionId <= 0) {
             return false;
         }
@@ -74,7 +94,7 @@ public class PieceDao {
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, positionId);
 
-            int rowsAffected = preparedStatement.executeUpdate();
+            final int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
                 positionDao.deletePosition(position);
@@ -88,39 +108,24 @@ public class PieceDao {
         }
     }
 
-    public boolean deletePieceByPosition(final int x, final int y) {
-        Position position = new Position(x, y);
-        return deletePieceByPosition(position);
-    }
-
-    public boolean deletePieceById(final int pieceId) {
-        Piece piece = findPieceById(pieceId);
-        if (piece == null) {
-            return false;
-        }
-
-        final Position position = piece.getPosition();
-        return deletePieceByPosition(position);
-    }
-
     public List<Piece> findAllPieces() {
         final String query = "SELECT * FROM piece";
-        List<Piece> pieces = new ArrayList<>();
+        final List<Piece> pieces = new ArrayList<>();
 
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query);
-             ResultSet resultSet = preparedStatement.executeQuery(query)) {
+             final ResultSet resultSet = preparedStatement.executeQuery(query)) {
 
             while (resultSet.next()) {
-                int teamId = resultSet.getInt("team_id");
-                int positionId = resultSet.getInt("position_id");
-                PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
-                Position position = positionDao.findByPositionId(positionId);
-                Team team = teamDao.findTeamById(teamId);
-                Piece piece = PieceFactory.createPiece(position, team, pieceType);
+                final int teamId = resultSet.getInt("team_id");
+                final int positionId = resultSet.getInt("position_id");
+                final PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
+                final Position position = positionDao.findPositionById(positionId);
+                final Team team = teamDao.findTeamById(teamId);
+                final Piece piece = PieceFactory.createPiece(position, team, pieceType);
                 pieces.add(piece);
             }
-        } catch (SQLException e) {
+        } catch (final SQLException e) {
             throw new RuntimeException("Failed to retrieve all pieces", e);
         }
         return pieces;
@@ -133,9 +138,7 @@ public class PieceDao {
             preparedStatement.executeUpdate(query);
             positionDao.deleteAllPositions();
         } catch (final SQLException e) {
-            System.err.println("모든 Piece 삭제 오류: " + e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("Failed to delete all pieces", e);
+            throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 }

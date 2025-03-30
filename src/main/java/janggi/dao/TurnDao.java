@@ -17,7 +17,7 @@ public class TurnDao {
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final Team currentTeam = turn.getCurrentTurn();
-            final int teamId = teamDao.findTeamIdByName(currentTeam);
+            final int teamId = teamDao.findIdByTeam(currentTeam);
 
             preparedStatement.setInt(1, teamId);
             preparedStatement.executeUpdate();
@@ -51,7 +51,7 @@ public class TurnDao {
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             final Team currentTeam = turn.getCurrentTurn();
-            final int teamId = teamDao.findTeamIdByName(currentTeam);
+            final int teamId = teamDao.findIdByTeam(currentTeam);
 
             preparedStatement.setInt(1, teamId);
             final int rowsAffected = preparedStatement.executeUpdate();

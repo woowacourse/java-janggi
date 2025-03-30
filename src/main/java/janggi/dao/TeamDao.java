@@ -27,7 +27,7 @@ public class TeamDao {
         }
     }
 
-    public int findTeamIdByName(final Team currentTeam) {
+    public int findIdByTeam(final Team currentTeam) {
         final String query = "SELECT * FROM team WHERE team_name = ?";
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {

@@ -5,6 +5,7 @@ import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public abstract class Piece {
@@ -66,5 +67,19 @@ public abstract class Piece {
 
     public Team getTeam() {
         return team;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final Piece piece = (Piece) o;
+        return Objects.equals(position, piece.position) && team == piece.team;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(position, team);
     }
 }

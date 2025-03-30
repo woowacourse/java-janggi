@@ -42,9 +42,9 @@ class PositionDaoTest {
         }).doesNotThrowAnyException();
     }
 
-    @DisplayName("positionId로 포지션 객체를 찾는다.")
+    @DisplayName("포지션을 찾는다.")
     @Test
-    void findIdByPositionTest() {
+    void findPositionTest() {
 
         // given
         final Position position = new Position(1, 1);

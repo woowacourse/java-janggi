@@ -54,7 +54,7 @@ class TeamDaoTest {
         // given
 
         // when & then
-        assertThat(teamDao.findTeamIdByName(RED)).isEqualTo(1);
+        assertThat(teamDao.findIdByTeam(RED)).isEqualTo(1);
     }
 
     @DisplayName("초나라의 id를 찾는다.")
@@ -64,6 +64,6 @@ class TeamDaoTest {
         // given
 
         // when & then
-        assertThat(teamDao.findTeamIdByName(BLUE)).isEqualTo(2);
+        assertThat(teamDao.findIdByTeam(BLUE)).isEqualTo(2);
     }
 }
