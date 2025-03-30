@@ -26,7 +26,7 @@ public class BoardGenerator {
         board.deployPiece(new Position(0, 6), new Horse(Team.HAN));
 
         board.deployPiece(new Position(0, 3), new Guard(Team.HAN));
-        board.deployPiece(new Position(0, 5), new Guard(Team.HAN));
+        board.deployPiece(new Position(0, 4), new Guard(Team.HAN));
 
         board.deployPiece(new Position(1, 4), new King(Team.HAN));
 

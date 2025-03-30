@@ -59,7 +59,17 @@ public class Cannon extends PalaceAwarePiece {
 
         verticalRoute(dx, dy, route, currentRow, currentCol);
         horizontalRoute(dy, dx, route, currentRow, currentCol);
+        diagonalRoute(dx, dy, route, currentPosition, targetPosition);
         return route;
+    }
+
+    private void diagonalRoute(final int dx, final int dy, final List<Position> route, final Position currentPosition,
+                               final Position targetPosition) {
+        if (Math.abs(dx) >= 2 && Math.abs(dy) >= 2) {
+            final int row = (currentPosition.row() + targetPosition.row()) / 2;
+            final int col = (currentPosition.col() + targetPosition.col()) / 2;
+            route.add(new Position(row, col));
+        }
     }
 
     private void verticalRoute(final int dx, final int dy, final List<Position> route, final int currentRow,
@@ -119,6 +129,13 @@ public class Cannon extends PalaceAwarePiece {
 
     @Override
     public void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
+        if (palace.isInPalace(currentPosition, targetPosition)) {
+            if (isNotMove(currentPosition, targetPosition) && !currentPosition.isDiagonal(targetPosition)) {
+                throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치 입니다.");
+            }
+            return;
+        }
+
         if (isNotMove(currentPosition, targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 포가 움직일 수 없는 위치입니다.");
         }
