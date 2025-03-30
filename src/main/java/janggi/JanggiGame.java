@@ -1,8 +1,8 @@
 package janggi;
 
 import janggi.dao.entity.GameEntity;
-import janggi.domain.GameEnded;
-import janggi.domain.GameStatus;
+import janggi.domain.gamestatus.GameEnded;
+import janggi.domain.gamestatus.GameStatus;
 import janggi.domain.piece.Dynasty;
 import janggi.domain.piece.Point;
 import janggi.service.JanggiService;

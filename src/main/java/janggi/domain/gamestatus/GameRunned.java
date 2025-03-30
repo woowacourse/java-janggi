@@ -1,4 +1,4 @@
-package janggi.domain;
+package janggi.domain.gamestatus;
 
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Dynasty;

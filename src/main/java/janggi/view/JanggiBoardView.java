@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.domain.GameEnded;
 import janggi.domain.board.JanggiBoard;
+import janggi.domain.gamestatus.GameEnded;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
 import janggi.domain.piece.ChuSoldier;
