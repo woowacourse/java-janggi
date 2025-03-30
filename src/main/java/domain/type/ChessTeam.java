@@ -2,11 +2,17 @@ package domain.type;
 
 public enum ChessTeam {
 
-    RED,
-    BLUE,
+    RED("한나라"),
+    BLUE("초나라"),
     ;
 
-    public static ChessTeam firstTurn() {
-        return BLUE;
+    private final String name;
+
+    ChessTeam(final String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }
