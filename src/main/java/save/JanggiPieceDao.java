@@ -12,9 +12,9 @@ public class JanggiPieceDao {
 
     private static final String CANNOT_CREATE_TABLE = "테이블을 생성하는데 실패하였습니다";
 
-    private final MySQLConnection connection;
+    private final DatabaseConnection connection;
 
-    public JanggiPieceDao(MySQLConnection mySQConnection) {
+    public JanggiPieceDao(DatabaseConnection mySQConnection) {
         this.connection = mySQConnection;
         initiateTable();
     }

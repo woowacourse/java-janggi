@@ -9,8 +9,8 @@ import piece.initiate.TableSetting;
 import piece.player.PlayerPieces;
 import piece.player.Team;
 import piece.position.JanggiPosition;
-import save.JanggiConnection;
 import save.JanggiSaveService;
+import save.MySQLConnection;
 import save.SaveFailException;
 
 public class KoreanChessApplication {
@@ -34,7 +34,7 @@ public class KoreanChessApplication {
 
     private static void initiateJanggiService(GameView gameView) {
         try {
-            janggiSaveService = new JanggiSaveService(new JanggiConnection());
+            janggiSaveService = new JanggiSaveService(new MySQLConnection());
         } catch (SaveFailException e) {
             gameView.printCanNotApplySave();
         }

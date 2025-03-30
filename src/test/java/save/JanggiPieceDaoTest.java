@@ -1,8 +1,8 @@
 package save;
 
 import move.JolMoveBehavior;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.Pieces;
@@ -11,14 +11,12 @@ import piece.position.JanggiPosition;
 
 class JanggiPieceDaoTest {
 
-    private JanggiPieceDao janggiPieceDao;
-    private JanggiTurnDao janggiTurnDao;
+    private DatabaseConnection connection = new TestMySQLConnection();
+    private JanggiPieceDao janggiPieceDao = new JanggiPieceDao(connection);
+    private JanggiTurnDao janggiTurnDao = new JanggiTurnDao(connection);
 
-    @BeforeEach
-    void setUp() {
-        MySQLConnection connection = new TestJanggiConnection();
-        janggiTurnDao = new JanggiTurnDao(connection);
-        janggiPieceDao = new JanggiPieceDao(connection);
+    @AfterEach
+    void clearDatabases() {
         janggiPieceDao.deleteAll();
         janggiTurnDao.deleteAll();
     }
