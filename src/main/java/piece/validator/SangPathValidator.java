@@ -1,58 +1,31 @@
-package piece;
+package piece.validator;
 
-import static coordinate.DiagonalDirection.LEFT_DOWN;
-import static coordinate.DiagonalDirection.LEFT_UP;
-import static coordinate.DiagonalDirection.RIGHT_DOWN;
-import static coordinate.DiagonalDirection.RIGHT_UP;
-import static coordinate.Direction.DOWN;
-import static coordinate.Direction.LEFT;
-import static coordinate.Direction.RIGHT;
-import static coordinate.Direction.UP;
+import static coordinate.CrossMoveVector.DOWN;
+import static coordinate.CrossMoveVector.LEFT;
+import static coordinate.CrossMoveVector.RIGHT;
+import static coordinate.CrossMoveVector.UP;
+import static coordinate.DiagonalMoveVector.LEFT_DOWN;
+import static coordinate.DiagonalMoveVector.LEFT_UP;
+import static coordinate.DiagonalMoveVector.RIGHT_DOWN;
+import static coordinate.DiagonalMoveVector.RIGHT_UP;
 
 import board.Board;
 import coordinate.Coordinate;
 import coordinate.MoveVector;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import team.Team;
 
-public class Sang extends Piece {
-
-    private static final List<List<MoveVector>> MOVABLE_VECTORS = List.of(
-            List.of(UP, RIGHT_UP, RIGHT_UP),
-            List.of(UP, LEFT_UP, LEFT_UP),
-            List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN),
-            List.of(DOWN, LEFT_DOWN, LEFT_DOWN),
-            List.of(RIGHT, RIGHT_UP, RIGHT_UP),
-            List.of(RIGHT, RIGHT_DOWN, RIGHT_DOWN),
-            List.of(LEFT, LEFT_UP, LEFT_UP),
-            List.of(LEFT, LEFT_DOWN, LEFT_DOWN)
-    );
-
-    public Sang(Team team) {
-        super(team);
-    }
+public class SangPathValidator implements PathValidator {
 
     @Override
-    protected Set<Coordinate> findMovableCandidates(Coordinate departure) {
-        return MOVABLE_VECTORS.stream()
-                .map(departure::moveBy)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-    }
-
-    @Override
-    protected boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival) {
+    public boolean validate(Board board, Coordinate departure, Coordinate arrival) {
         return findPaths(departure, arrival)
                 .stream()
                 .noneMatch(board::hasPiece);
     }
 
-    @Override
-    protected Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
+    private Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival) {
         return Stream.<List<MoveVector>>of(
                         List.of(LEFT, LEFT_UP),
                         List.of(LEFT, LEFT_DOWN),
@@ -91,10 +64,5 @@ public class Sang extends Piece {
                 departure.moveBy(List.of(moveVectors.getFirst())),
                 departure.moveBy(List.of(moveVectors.getFirst(), moveVectors.getLast()))
         );
-    }
-
-    @Override
-    public String getName() {
-        return "상";
     }
 }
