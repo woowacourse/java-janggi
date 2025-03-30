@@ -53,9 +53,8 @@ public class KoreaChess {
     }
 
     private void loadSelectedGame(final String gameName) {
-        Game game = new GameLoadService(new GameRepositoryImpl(), new PlayerRepositoryImpl(),
-                new PieceRepositoryImpl()).loadGame(
-                gameName);
+        Game game = new GameLoadService(new PlayerRepositoryImpl(), new PieceRepositoryImpl())
+                .loadGame(gameName);
         playGame(game);
     }
 
