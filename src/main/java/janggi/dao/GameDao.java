@@ -85,6 +85,18 @@ public class GameDao {
         }
     }
 
+    public void updateTurn() {
+        final var query = "UPDATE game SET turn=? WHERE id = ?";
+        try (final var connection = JangiDatabase.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, game.getTurn().name());
+            preparedStatement.setInt(2, this.id);
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public int getId() {
         return id;
     }

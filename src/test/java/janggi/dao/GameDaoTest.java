@@ -57,11 +57,22 @@ class GameDaoTest {
     }
 
     @Test
+    @DisplayName("게임의 턴을 수정한다.")
+    void updateGameTurn() {
+        GameDao gameDao = GameDao.createGame(createdGame);
+        createdGame.reverseTurn();
+
+        gameDao.updateTurn();
+        //TODO : 검증가능?
+    }
+
+    @Test
     @DisplayName("게임 객체를 삭제한다.")
     void deleteGame() {
         GameDao gameDao = GameDao.createGame(createdGame);
 
         gameDao.deleteGame();
+
         assertThatThrownBy(gameDao::deleteGame)
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("게임이 삭제되지 않았습니다.");
