@@ -2,10 +2,12 @@ package contoller;
 
 import static view.InputView.choiceSetUp;
 import static view.InputView.movePointInput;
+import static view.InputView.selectGameVersiong;
 import static view.OutputVIew.displayGameIsOver;
 import static view.OutputVIew.displayJanggiBoard;
 import static view.OutputVIew.displayJanggiScore;
 
+import dao.JanggiDao;
 import java.util.List;
 import model.Point;
 import model.Team;
@@ -14,18 +16,28 @@ import model.janggiboard.JanggiBoardSetUp;
 import view.OutputVIew;
 
 public class Janggi {
+
+    JanggiDao janggiDao = new JanggiDao();
+    JanggiBoard janggiBoard;
     public void play() {
+        int k = selectGameVersiong();
+        if (k == 1) {
         int setUpChoice = choiceSetUp();
-        JanggiBoard janggiBoard = switch (setUpChoice) {
+            janggiBoard = switch (setUpChoice) {
             case 1 -> new JanggiBoard(JanggiBoardSetUp.INNER_SANG);
             case 2 -> new JanggiBoard(JanggiBoardSetUp.OUTER_SANG);
             case 3 -> new JanggiBoard(JanggiBoardSetUp.LEFT_SANG);
             case 4 -> new JanggiBoard(JanggiBoardSetUp.RIGHT_SANG);
             default -> throw new IllegalArgumentException("다시 입력하세요.");
-        };
+            };
+        }
+        if (k == 2) {
+            janggiBoard = new JanggiBoard(true);
+        }
+
         displayJanggiBoard(janggiBoard);
         displayJanggiScore(janggiBoard.getTeamScore(Team.BLUE), janggiBoard.getTeamScore(Team.RED));
-        for (int i = 0; true; i++) {
+        for (int i = janggiDao.getGameTurn(); true; i++) {
             Team team = Team.RED;
             if (i % 2 == 0) {
                 team = Team.BLUE;
@@ -36,6 +48,10 @@ public class Janggi {
                     throw new IllegalArgumentException("아군 장기말만 움직일 수 있습니다.");
                 }
                 janggiBoard.move(movePoints.getFirst(), movePoints.getLast());
+                if (janggiBoard.isKingDead()) {
+                    displayGameIsOver(janggiBoard.getWinner());
+                    break;
+                }
             } catch (Exception e) {
                 OutputVIew.displayErrorMessage(e.getMessage());
                 i--;
@@ -43,10 +59,6 @@ public class Janggi {
             }
             displayJanggiBoard(janggiBoard);
             displayJanggiScore(janggiBoard.getTeamScore(Team.BLUE), janggiBoard.getTeamScore(Team.RED));
-            if (janggiBoard.isKingDead()) {
-                displayGameIsOver(janggiBoard.getWinner());
-                break;
-            }
         }
     }
 }
