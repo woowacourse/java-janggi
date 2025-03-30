@@ -20,18 +20,16 @@ public final class JanggiBoardDao {
         try {
             Properties properties = new Properties();
             properties.load(getClass().getClassLoader().getResourceAsStream("database.properties"));
-            String SERVER = properties.getProperty("SERVER");
-            String DATABASE = properties.getProperty("DATABASE");
-            String OPTION = properties.getProperty("OPTION");
-            String USERNAME = properties.getProperty("USERNAME");
-            String PASSWORD = properties.getProperty("PASSWORD");
-
             Connection janggiBoardDBConnection = DriverManager.getConnection(
-                    "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+                    "jdbc:mysql://" + properties.getProperty("SERVER") + "/"
+                            + properties.getProperty("DATABASE")
+                            + properties.getProperty("OPTION"),
+                    properties.getProperty("USERNAME"),
+                    properties.getProperty("PASSWORD"));
             janggiBoardDBConnection.setAutoCommit(false);
             return janggiBoardDBConnection;
         } catch (final SQLException sqlException) {
-            System.err.println("[ERROR] DB 연결 오류:" + sqlException.getMessage());
+            System.err.println("[ERROR] DB 연결 오류");
             sqlException.printStackTrace();
             return null;
         } catch (IOException ioException) {
