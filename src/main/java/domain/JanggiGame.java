@@ -68,10 +68,8 @@ public final class JanggiGame {
         locations.put(new BoardPoint(9, 1), new Elephant(Team.HAN, elephantMovement));
         locations.put(new BoardPoint(9, 7), new Elephant(Team.HAN, elephantMovement));
 
-        final PieceMovement horseMovement = generateHorseMovement();
-
-        locations.put(new BoardPoint(9, 2), new Horse(Team.HAN, horseMovement));
-        locations.put(new BoardPoint(9, 6), new Horse(Team.HAN, horseMovement));
+        locations.put(new BoardPoint(9, 2), new Horse(Team.HAN));
+        locations.put(new BoardPoint(9, 6), new Horse(Team.HAN));
 
         locations.put(new BoardPoint(8, 4), new General(Team.HAN));
         locations.put(new BoardPoint(9, 3), new Guard(Team.HAN));
@@ -82,11 +80,7 @@ public final class JanggiGame {
 
     private Map<BoardPoint, Piece> generateLocationsForCho() {
         final Map<BoardPoint, Piece> locations = new HashMap<>();
-        final PieceMovement soldierMovement = new DefaultMovement(List.of(
-                new Route(List.of(Direction.NORTH)),
-                new Route(List.of(Direction.EAST)),
-                new Route(List.of(Direction.WEST))
-        ));
+
         locations.put(new BoardPoint(3, 0), new Soldier(Team.CHO));
         locations.put(new BoardPoint(3, 2), new Soldier(Team.CHO));
         locations.put(new BoardPoint(3, 4), new Soldier(Team.CHO));
@@ -106,8 +100,8 @@ public final class JanggiGame {
 
         final PieceMovement horseMovement = generateHorseMovement();
 
-        locations.put(new BoardPoint(0, 2), new Horse(Team.CHO, horseMovement));
-        locations.put(new BoardPoint(0, 6), new Horse(Team.CHO, horseMovement));
+        locations.put(new BoardPoint(0, 2), new Horse(Team.CHO));
+        locations.put(new BoardPoint(0, 6), new Horse(Team.CHO));
 
         locations.put(new BoardPoint(1, 4), new General(Team.CHO));
         locations.put(new BoardPoint(0, 3), new Guard(Team.CHO));

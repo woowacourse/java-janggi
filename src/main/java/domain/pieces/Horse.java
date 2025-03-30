@@ -1,9 +1,12 @@
 package domain.pieces;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
 import domain.board.BoardPoint;
+import domain.board.PieceOnRoute;
+import domain.movements.DefaultMovement;
+import domain.movements.Direction;
 import domain.movements.PieceMovement;
+import domain.movements.Route;
 import static domain.pieces.PieceNames.HORSE;
 import java.util.List;
 
@@ -11,9 +14,19 @@ public final class Horse implements Piece {
     private final Team team;
     private final PieceMovement defaultMovement;
 
-    public Horse(final Team team, final PieceMovement defaultMovement) {
+    public Horse(final Team team) {
         this.team = team;
-        this.defaultMovement = defaultMovement;
+        this.defaultMovement = new DefaultMovement(List.of(
+                new Route(List.of(Direction.NORTH, Direction.NORTHWEST)),
+                new Route(List.of(Direction.NORTH, Direction.NORTHEAST)),
+                new Route(List.of(Direction.EAST, Direction.NORTHEAST)),
+                new Route(List.of(Direction.EAST, Direction.SOUTHEAST)),
+                new Route(List.of(Direction.SOUTH, Direction.SOUTHEAST)),
+                new Route(List.of(Direction.SOUTH, Direction.SOUTHWEST)),
+                new Route(List.of(Direction.WEST, Direction.SOUTHWEST)),
+                new Route(List.of(Direction.WEST, Direction.NORTHWEST))
+        ));
+        ;
     }
 
     @Override

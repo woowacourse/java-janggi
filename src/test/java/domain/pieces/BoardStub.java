@@ -42,10 +42,8 @@ public class BoardStub {
         locations.put(new BoardPoint(9, 1), new Elephant(Team.HAN, elephantMovement));
         locations.put(new BoardPoint(9, 7), new Elephant(Team.HAN, elephantMovement));
 
-        PieceMovement horseMovement = generateHorseMovement();
-
-        locations.put(new BoardPoint(9, 2), new Horse(Team.HAN, horseMovement));
-        locations.put(new BoardPoint(9, 6), new Horse(Team.HAN, horseMovement));
+        locations.put(new BoardPoint(9, 2), new Horse(Team.HAN));
+        locations.put(new BoardPoint(9, 6), new Horse(Team.HAN));
 
         locations.put(new BoardPoint(8, 4), new General(Team.HAN));
         locations.put(new BoardPoint(9, 3), new Guard(Team.HAN));
@@ -82,24 +80,14 @@ public class BoardStub {
         locations.put(new BoardPoint(0, 1), new Elephant(Team.CHO, elephantMovement));
         locations.put(new BoardPoint(0, 7), new Elephant(Team.CHO, elephantMovement));
 
-        PieceMovement horseMovement = generateHorseMovement();
-
-        locations.put(new BoardPoint(0, 2), new Horse(Team.CHO, horseMovement));
-        locations.put(new BoardPoint(0, 6), new Horse(Team.CHO, horseMovement));
+        locations.put(new BoardPoint(0, 2), new Horse(Team.CHO));
+        locations.put(new BoardPoint(0, 6), new Horse(Team.CHO));
 
         locations.put(new BoardPoint(1, 4), new General(Team.CHO));
         locations.put(new BoardPoint(0, 3), new Guard(Team.CHO));
         locations.put(new BoardPoint(0, 5), new Guard(Team.CHO));
 
         return locations;
-    }
-
-    public static PieceMovement generateSoldierMovementForCho() {
-        return new DefaultMovement(List.of(
-                new Route(List.of(Direction.NORTH)),
-                new Route(List.of(Direction.EAST)),
-                new Route(List.of(Direction.WEST))
-        ));
     }
 
     public static PieceMovement generateHorseMovement() {
