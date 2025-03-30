@@ -79,6 +79,10 @@ public class Position {
         return directions;
     }
 
+    public List<Direction> getCandidateDirections() {
+        return new ArrayList<>(candidateDirections);
+    }
+
     public int getX() {
         return x;
     }

@@ -4,6 +4,7 @@ import janggi.board.Direction;
 import janggi.board.JanggiBoard;
 import janggi.board.Position;
 import janggi.board.Route;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Piece {
@@ -24,12 +25,11 @@ public abstract class Piece {
                                                                final JanggiBoard board);
 
     protected List<Route> computeStraightRoutes(final Position position, int distance) {
-        return List.of(
-                computeStraightLimitRoute(position, Direction.RIGHT, distance),
-                computeStraightLimitRoute(position, Direction.LEFT, distance),
-                computeStraightLimitRoute(position, Direction.UP, distance),
-                computeStraightLimitRoute(position, Direction.DOWN, distance)
-        );
+        List<Route> candidateRoutes = new ArrayList<>();
+        for (Direction direction : position.getCandidateDirections()) {
+            computeStraightLimitRoute(position, direction, distance);
+        }
+        return candidateRoutes;
     }
 
     protected List<Route> computeDiagonalRoutes(final Position position, int diagonalCount) {
