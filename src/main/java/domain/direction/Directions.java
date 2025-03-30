@@ -28,11 +28,11 @@ public class Directions {
         List<ChessPosition> positions = new ArrayList<>();
         for (Direction direction : directions) {
             validatePosition(currentPosition, direction);
-            currentPosition = currentPosition.move(direction);
-            if (currentPosition.isCastlePosition() && !currentPosition.canCastleMove(direction)) {
+            final ChessPosition newPosition = currentPosition.move(direction);
+            if (newPosition.isCastlePosition() && !currentPosition.canCastleMove(direction)) {
                 continue;
             }
-            positions.add(currentPosition);
+            positions.add(newPosition);
         }
         return new Path(positions);
     }
