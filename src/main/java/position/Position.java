@@ -1,5 +1,6 @@
 package position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record Position(
@@ -61,6 +62,34 @@ public record Position(
         }
         return new Path(positions);
     }
+    public boolean isDiagonal(Position toPosition) {
+        return Math.abs(column.ordinal() - toPosition.column().ordinal()) ==
+                Math.abs(row.ordinal() - toPosition.row().ordinal());
+    }
+    public Path findPalaceDiagonalPath(Position toPosition) {
+        List<Position> diagonalPositions = createDiagonalPath(toPosition);
+        validatePassesThroughCenter(diagonalPositions, toPosition);
+        return new Path(diagonalPositions);
+    }
+
+    private List<Position> createDiagonalPath(Position toPosition) {
+        List<Row> betweenRows = row.findBetweenRows(toPosition.row());
+        List<Column> betweenColumns = column.findBetweenColumn(toPosition.column());
+        List<Position> path = new ArrayList<>();
+        for (int i = 0; i < betweenRows.size(); i++) {
+            path.add(new Position(betweenColumns.get(i), betweenRows.get(i)));
+        }
+        return path;
+    }
+
+    private void validatePassesThroughCenter(List<Position> path, Position toPosition) {
+        boolean passedThroughCenter = this.isCenterOfPalace() || toPosition.isCenterOfPalace()
+                || path.stream().anyMatch(Position::isCenterOfPalace);
+        if (!passedThroughCenter) {
+            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        }
+    }
+
 
     public Position reverse() {
         return new Position(column.reverse(), row.reverse());
