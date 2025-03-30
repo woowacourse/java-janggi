@@ -18,4 +18,9 @@ public class InputView {
         System.out.println("목적지 위치를 입력하세요. (yx축 순서 예: 01)");
         return scanner.nextLine();
     }
+
+    public String inputIsNewGame() {
+        System.out.println("새로운 게임을 시작하시겠습니까? (new/continue)");
+        return scanner.nextLine();
+    }
 }

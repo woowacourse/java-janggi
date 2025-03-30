@@ -49,4 +49,12 @@ public class OutputView {
     public void printScore(final double redScore, final double blueScore) {
         System.out.printf("%nScore: %.1f - %.1f%n", redScore, blueScore);
     }
+
+    public void printNewGame() {
+        System.out.println("새로운 게임을 시작합니다");
+    }
+
+    public void printContinueGame() {
+        System.out.println("이전 게임을 이어서 진행합니다");
+    }
 }

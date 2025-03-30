@@ -18,7 +18,15 @@ public class JanggiController {
     }
 
     public void start() {
-        JanggiGame janggiGame = new JanggiGame();
+        String isNewGame = inputView.inputIsNewGame();
+        JanggiGame janggiGame;
+        if (isNewGame.equals("new")) {
+            janggiGame = startNewGame();
+            outputView.printNewGame();
+        } else {
+            janggiGame = startContinueGame();
+            outputView.printContinueGame();
+        }
 
         while (true) {
             printBoard(janggiGame.getBoard(), janggiGame.getScore(Color.RED), janggiGame.getScore(Color.BLUE));
@@ -28,6 +36,14 @@ public class JanggiController {
 
             janggiGame.move(Position.from(startPosition), Position.from(endPosition));
         }
+    }
+
+    private JanggiGame startNewGame() {
+        return new JanggiGame();
+    }
+
+    private JanggiGame startContinueGame() {
+        return JanggiGame.continueGame();
     }
 
     private void printBoard(final Map<Position, Piece> board, final double redScore, final double blueScore) {
