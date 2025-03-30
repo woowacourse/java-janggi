@@ -16,4 +16,8 @@ public enum PieceType {
     PieceType(int score) {
         this.score = score;
     }
+
+    public int getScore() {
+        return this.score;
+    }
 }

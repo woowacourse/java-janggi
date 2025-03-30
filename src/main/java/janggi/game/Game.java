@@ -2,18 +2,19 @@ package janggi.game;
 
 import janggi.board.Board;
 import janggi.board.Pieces;
+import janggi.piece.Team;
 import janggi.position.Position;
 import janggi.position.Route;
-import janggi.piece.Team;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class Game {
-    private static final int MAX_PLAY_TIME = 900_000;
+    private static final int MAX_PLAY_TIME = 50_000;
     private static final int POSITION_INPUT_SIZE = 2;
     private static final int INPUT_COLUMN_INDEX = 0;
     private static final int INPUT_ROW_INDEX = 1;
@@ -34,6 +35,7 @@ public class Game {
         while (gameState == GameState.PLAY && !isTimeOver(playTime)) {
             gameState = handleGameState(() -> controlGame(board));
         }
+        determineWinner(board);
         inputView.close();
     }
 
@@ -68,6 +70,16 @@ public class Game {
         }
         board.changeTurn();
         return GameState.PLAY;
+    }
+
+    private void determineWinner(Board board) {
+        Optional<Team> winner = board.determineWinner();
+        int choScore = board.calculateScore(Team.CHO);
+        int hanScore = board.calculateScore(Team.HAN);
+
+        winner.ifPresentOrElse(
+                team -> outputView.printWinner(team, choScore, hanScore),
+                () -> outputView.printDraw(choScore, hanScore));
     }
 
     private Position getPosition(Board board) {

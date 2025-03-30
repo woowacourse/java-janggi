@@ -9,7 +9,7 @@ import janggi.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Scholar(Team team) implements Piece {
+public record Scholar(Team getTeam) implements Piece {
     @Override
     public List<Route> calculateRoutes(Position position) {
         List<Route> routes = new ArrayList<>();
@@ -43,5 +43,10 @@ public record Scholar(Team team) implements Piece {
     @Override
     public PieceType getType() {
         return PieceType.SCHOLAR;
+    }
+
+    @Override
+    public int getScore() {
+        return this.getScore();
     }
 }

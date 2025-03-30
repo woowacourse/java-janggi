@@ -15,5 +15,7 @@ public interface Piece {
 
     PieceType getType();
 
-    Team team();
+    int getScore();
+
+    Team getTeam();
 }
