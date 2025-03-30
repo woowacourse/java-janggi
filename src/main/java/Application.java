@@ -1,9 +1,9 @@
 import board.Board;
-import board.create.strategy.MaSangMaSang;
-import board.create.strategy.MaSangSangMa;
-import board.create.strategy.SangMaMaSang;
-import board.create.strategy.SangMaSangMa;
-import board.create.strategy.TableSettingStrategy;
+import board.creator.MaSangMaSangCreator;
+import board.creator.MaSangSangMaCreator;
+import board.creator.SangMaMaSangCreator;
+import board.creator.SangMaSangMaCreator;
+import board.creator.TableSettingCreator;
 import java.util.Map;
 import java.util.function.Supplier;
 import team.Team;
@@ -13,15 +13,15 @@ import view.OutputView;
 
 public class Application {
 
-    private static final Map<Integer, TableSettingStrategy> boardCreateStrategy = Map.of(
-            1, new MaSangSangMa(),
-            2, new MaSangMaSang(),
-            3, new SangMaSangMa(),
-            4, new SangMaMaSang()
+    private static final Map<Integer, TableSettingCreator> boardCreateStrategy = Map.of(
+            1, new MaSangSangMaCreator(),
+            2, new MaSangMaSangCreator(),
+            3, new SangMaSangMaCreator(),
+            4, new SangMaMaSangCreator()
     );
 
-    private final InputView inputView = new InputView();
-    private final OutputView outputView = new OutputView();
+    private static final InputView inputView = new InputView();
+    private static final OutputView outputView = new OutputView();
 
     public static void main(String[] args) {
         new Application().run();
@@ -63,9 +63,7 @@ public class Application {
                 runnable.run();
                 return;
             } catch (RuntimeException e) {
-                System.out.println();
-                System.out.println("[ERROR] " + e.getMessage());
-                System.out.println();
+                outputView.printErrorMessage(e.getMessage());
             }
         }
     }
@@ -75,8 +73,7 @@ public class Application {
             try {
                 return supplier.get();
             } catch (RuntimeException e) {
-                System.out.println("[ERROR] " + e.getMessage());
-                System.out.println();
+                outputView.printErrorMessage(e.getMessage());
             }
         }
     }

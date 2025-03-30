@@ -52,4 +52,10 @@ public class OutputView {
     private void printNewLine() {
         System.out.println();
     }
+
+    public void printErrorMessage(String message) {
+        printNewLine();
+        System.out.println("[ERROR] " + message);
+        printNewLine();
+    }
 }
