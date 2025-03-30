@@ -59,10 +59,15 @@ public class Board {
         return Team.NONE;
     }
 
-    public int calculateScoreByTeam(final Team team) {
-        return board.values().stream()
+    public double calculateScoreByTeam(final Team team, final Team firstTurn) {
+        int sum = board.values().stream()
                 .filter(piece -> piece.getTeam() == team)
                 .mapToInt(Piece::getScore)
                 .sum();
+
+        if (team == firstTurn) {
+            return sum;
+        }
+        return sum + 1.5;
     }
 }

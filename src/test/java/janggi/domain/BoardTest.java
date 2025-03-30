@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import janggi.domain.piece.Chariot;
 import janggi.domain.piece.General;
 import janggi.domain.piece.HorseSide;
 import janggi.domain.piece.None;
@@ -55,6 +56,24 @@ class BoardTest {
         assertAll(
                 () -> assertThat(board.checkGameOver()).isFalse(),
                 () -> assertThat(oneGeneralBoard.checkGameOver()).isTrue()
+        );
+    }
+
+    @DisplayName("선후수와 남은 기물들을 바탕으로 팀별 점수를 계산한다")
+    @Test
+    void getScoreByTeam() {
+        Chariot blueChariot = new Chariot(Team.BLUE);
+        int expectedChariotScore = blueChariot.getScore();
+        Board chariotBoard = new Board(Map.of(new Position(5, 5), blueChariot), Set.of());
+
+        double blueScore = board.calculateScoreByTeam(Team.BLUE, Team.BLUE);
+        double redScore = board.calculateScoreByTeam(Team.RED, Team.BLUE);
+        double chariotScore = chariotBoard.calculateScoreByTeam(Team.BLUE, Team.BLUE);
+
+        assertAll(
+                () -> assertThat(blueScore).isEqualTo(72),
+                () -> assertThat(redScore).isEqualTo(73.5),
+                () -> assertThat(chariotScore).isEqualTo(expectedChariotScore)
         );
     }
 }
