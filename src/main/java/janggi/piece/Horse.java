@@ -10,7 +10,11 @@ public class Horse extends Piece {
         this.teamName = teamName;
         this.position = position;
         this.pieceName = PieceName.HORSE;
-        this.pieceStatus = PieceStatus.ALIVE;
+    }
+
+    public Horse(TeamName teamName, Position position, PieceStatus pieceStatus) {
+        this(teamName, position);
+        this.pieceStatus = pieceStatus;
     }
 
     @Override
@@ -18,10 +22,16 @@ public class Horse extends Piece {
         int offsetX = currentPosition.distanceX(destination);
         int offsetY = currentPosition.distanceY(destination);
 
-        boolean isValidMove = offsetX == OFFSET_ONE && offsetY == OFFSET_TWO
-                || offsetX == OFFSET_TWO && offsetY == OFFSET_ONE;
-        if (!isValidMove) {
-            throw new IllegalArgumentException(INVALID_MOVEMENT);
+        isDiagonalMove(offsetX, offsetY);
+    }
+
+    private void isDiagonalMove(int offsetX, int offsetY) {
+        if (offsetX == OFFSET_ONE && offsetY == OFFSET_TWO) {
+            return;
         }
+        if (offsetX == OFFSET_TWO && offsetY == OFFSET_ONE) {
+            return;
+        }
+        throw new IllegalArgumentException(INVALID_MOVEMENT);
     }
 }

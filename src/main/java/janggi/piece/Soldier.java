@@ -10,7 +10,11 @@ public class Soldier extends Piece {
         this.teamName = teamName;
         this.position = position;
         this.pieceName = PieceName.SOLDIER;
-        this.pieceStatus = PieceStatus.ALIVE;
+    }
+
+    public Soldier(TeamName teamName, Position position, PieceStatus pieceStatus) {
+        this(teamName, position);
+        this.pieceStatus = pieceStatus;
     }
 
     @Override
@@ -18,24 +22,42 @@ public class Soldier extends Piece {
         int offsetX = currentPosition.distanceX(destination);
         int offsetY = currentPosition.distanceY(destination);
 
-        boolean isValidMove = true;
-        if (this.teamName == TeamName.HAN && currentPosition.y() < destination.y()) {
-            isValidMove = false;
-        }
-        if (this.teamName == TeamName.CHO || currentPosition.y() > destination.y()) {
-            isValidMove = false;
-        }
-        if (palaceArea == PalaceArea.OUTSIDE) {
-            isValidMove = offsetX == OFFSET_ONE && offsetY == OFFSET_ZERO
-                    || offsetX == OFFSET_ZERO && offsetY == OFFSET_ONE;
-        }
-        if (palaceArea == PalaceArea.INSIDE) {
-            isValidMove = offsetX == OFFSET_ONE && offsetY == OFFSET_ONE
-                    || offsetX == OFFSET_ONE && offsetY == OFFSET_ZERO
-                    || offsetX == OFFSET_ZERO && offsetY == OFFSET_ONE;
-        }
-        if (!isValidMove) {
+        if (!isForwardMove(currentPosition.y(), destination.y())) {
             throw new IllegalArgumentException(INVALID_MOVEMENT);
         }
+
+        if (palaceArea.equals(PalaceArea.OUTSIDE) && isValidMoveOutsidePalace(offsetX, offsetY)) {
+            return;
+        }
+        if (palaceArea.equals(PalaceArea.INSIDE) && isValidMoveInsidePalace(offsetX, offsetY)) {
+            return;
+        }
+        throw new IllegalArgumentException(INVALID_MOVEMENT);
+    }
+
+    private boolean isForwardMove(int currentY, int destinationY) {
+        return (this.teamName.equals(TeamName.HAN) && currentY > destinationY) ||
+                (this.teamName.equals(TeamName.CHO) && currentY < destinationY);
+    }
+
+    private boolean isValidMoveOutsidePalace(int offsetX, int offsetY) {
+        return isHorizontalMove(offsetX, offsetY) || isVerticalMove(offsetX, offsetY);
+    }
+
+    private boolean isValidMoveInsidePalace(int offsetX, int offsetY) {
+        return isDiagonalMove(offsetX, offsetY)
+                || isHorizontalMove(offsetX, offsetY) || isVerticalMove(offsetX, offsetY);
+    }
+
+    private boolean isHorizontalMove(int offsetX, int offsetY) {
+        return offsetX == OFFSET_ONE && offsetY == OFFSET_ZERO;
+    }
+
+    private boolean isVerticalMove(int offsetX, int offsetY) {
+        return offsetX == OFFSET_ZERO && offsetY == OFFSET_ONE;
+    }
+
+    private boolean isDiagonalMove(int offsetX, int offsetY) {
+        return offsetX == OFFSET_ONE && offsetY == OFFSET_ONE;
     }
 }

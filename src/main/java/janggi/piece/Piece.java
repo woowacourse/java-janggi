@@ -20,6 +20,10 @@ public abstract class Piece {
     protected Position position;
     protected PieceStatus pieceStatus;
 
+    public Piece() {
+        this.pieceStatus = PieceStatus.ALIVE;
+    }
+
     public abstract void validateMovement(Position currentPosition, Position destination, PalaceArea palaceArea);
 
     public void updateStatusIfCaught(Position opponentPosition) {
@@ -58,6 +62,14 @@ public abstract class Piece {
 
     public String getName() {
         return pieceName.getName();
+    }
+
+    public String getTeamName() {
+        return teamName.getName();
+    }
+
+    public PieceStatus getStatus() {
+        return pieceStatus;
     }
 
     public double getScore() {

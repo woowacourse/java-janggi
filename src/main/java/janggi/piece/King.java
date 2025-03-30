@@ -10,7 +10,11 @@ public class King extends Piece {
         this.teamName = teamName;
         this.position = position;
         this.pieceName = PieceName.KING;
-        this.pieceStatus = PieceStatus.ALIVE;
+    }
+
+    public King(TeamName teamName, Position position, PieceStatus pieceStatus) {
+        this(teamName, position);
+        this.pieceStatus = pieceStatus;
     }
 
     @Override
@@ -18,18 +22,33 @@ public class King extends Piece {
         int offsetX = currentPosition.distanceX(destination);
         int offsetY = currentPosition.distanceY(destination);
 
-        boolean isValidMove = true;
-        if (palaceArea == PalaceArea.OUTSIDE) {
-            isValidMove = offsetX == OFFSET_ONE && offsetY == OFFSET_ZERO
-                    || offsetX == OFFSET_ZERO && offsetY == OFFSET_ONE;
+        if (palaceArea.equals(PalaceArea.OUTSIDE) && isValidMoveOutsidePalace(offsetX, offsetY)) {
+            return;
         }
-        if (palaceArea == PalaceArea.INSIDE) {
-            isValidMove = offsetX == OFFSET_ONE && offsetY == OFFSET_ONE
-                    || offsetX == OFFSET_ONE && offsetY == OFFSET_ZERO
-                    || offsetX == OFFSET_ZERO && offsetY == OFFSET_ONE;
+        if (palaceArea.equals(PalaceArea.INSIDE) && isValidMoveInsidePalace(offsetX, offsetY)) {
+            return;
         }
-        if (!isValidMove) {
-            throw new IllegalArgumentException(INVALID_MOVEMENT);
-        }
+        throw new IllegalArgumentException(INVALID_MOVEMENT);
+    }
+
+    private boolean isValidMoveOutsidePalace(int offsetX, int offsetY) {
+        return isHorizontalMove(offsetX, offsetY) || isVerticalMove(offsetX, offsetY);
+    }
+
+    private boolean isValidMoveInsidePalace(int offsetX, int offsetY) {
+        return isDiagonalMove(offsetX, offsetY)
+                || isHorizontalMove(offsetX, offsetY) || isVerticalMove(offsetX, offsetY);
+    }
+
+    private boolean isHorizontalMove(int offsetX, int offsetY) {
+        return offsetX == OFFSET_ONE && offsetY == OFFSET_ZERO;
+    }
+
+    private boolean isVerticalMove(int offsetX, int offsetY) {
+        return offsetX == OFFSET_ZERO && offsetY == OFFSET_ONE;
+    }
+
+    private boolean isDiagonalMove(int offsetX, int offsetY) {
+        return offsetX == OFFSET_ONE && offsetY == OFFSET_ONE;
     }
 }
