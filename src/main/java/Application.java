@@ -24,13 +24,10 @@ public class Application {
     private static final int MAX_TRY_COUNT = 150;
 
     public static void main(String[] args) {
-        OutputView.printIntroduce();
+        initSetting();
         LineSettingDto settingDto = InputView.readLineSettingByCountry();
         final BoardFactory boardFactory = new BoardFactory(settingDto.country(), settingDto.direction());
         final Board board = boardFactory.generateBoard();
-        PositionFactory positionFactory = new PositionFactory();
-        positionFactory.basicSettingGraph();
-        positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
         Country type = Country.getDefaultTeam();
 
         int count = 0;
@@ -40,5 +37,12 @@ public class Application {
             final List<Position> positions = InputView.readPositions();
             board.updatePosition(positions.get(0), positions.get(1), type);
         }
+    }
+
+    private static void initSetting() {
+        OutputView.printIntroduce();
+        PositionFactory positionFactory = new PositionFactory();
+        positionFactory.basicSettingGraph();
+        positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
     }
 }
