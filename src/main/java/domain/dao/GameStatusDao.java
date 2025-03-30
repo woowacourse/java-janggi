@@ -1,59 +1,61 @@
 package domain.dao;
 
+import static util.DBConnectionUtil.close;
+import static util.DBConnectionUtil.getConnection;
+
 import domain.GameStatus;
 import domain.piece.TeamType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Optional;
-import util.DBConnectionUtil;
 
 public class GameStatusDao {
 
-    public void save(GameStatus gameStatus){
+    public void save(GameStatus gameStatus) {
         String sql = "insert into game(room_name,turn) values(?,?)";
         Connection connection = getConnection();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,gameStatus.getRoomName());
-            preparedStatement.setString(2,gameStatus.getTurn().name());
+            preparedStatement.setString(1, gameStatus.getRoomName());
+            preparedStatement.setString(2, gameStatus.getTurn().name());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            close(connection,preparedStatement,null);
+        } finally {
+            close(connection, preparedStatement, null);
         }
     }
 
-    public Optional<GameStatus> findGameStatusByRoomName(String roomName){
+    public Optional<GameStatus> findGameStatusByRoomName(String roomName) {
         String sql = "select * from game where room_name = ?";
         Connection connection = getConnection();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement= connection.prepareStatement(sql);
-            preparedStatement.setString(1,roomName);
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, roomName);
             resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
-                return Optional.of(new GameStatus(resultSet.getString("room_name"),TeamType.valueOf(resultSet.getString("turn"))));
+            if (resultSet.next()) {
+                return Optional.of(new GameStatus(resultSet.getString("room_name"),
+                        TeamType.valueOf(resultSet.getString("turn"))));
             }
             return Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            close(connection,preparedStatement,resultSet);
+        } finally {
+            close(connection, preparedStatement, resultSet);
         }
     }
 
-    public void updateTurn(String roomName, TeamType turn){
+    public void updateTurn(String roomName, TeamType turn) {
         Connection connection = getConnection();
         safeModeQuit(connection);
-        updateGameStatus(connection,roomName,turn);
+        updateGameStatus(connection, roomName, turn);
         safeModeSet(connection);
-        close(connection,null,null);
+        close(connection, null, null);
     }
 
     public void deleteGame() {
@@ -89,18 +91,18 @@ public class GameStatusDao {
         }
     }
 
-    private void updateGameStatus(Connection connection,String roomName, TeamType turn){
+    private void updateGameStatus(Connection connection, String roomName, TeamType turn) {
         String sql = "update game set turn = ? where room_name = ?";
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,turn.name());
-            preparedStatement.setString(2,roomName);
+            preparedStatement.setString(1, turn.name());
+            preparedStatement.setString(2, roomName);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            close(null,preparedStatement,null);
+        } finally {
+            close(null, preparedStatement, null);
         }
     }
 
@@ -128,36 +130,5 @@ public class GameStatusDao {
         } finally {
             close(null, preparedStatement, null);
         }
-    }
-
-    private void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
-
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (preparedStatement != null) {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private Connection getConnection(){
-        return DBConnectionUtil.getConnection();
     }
 }

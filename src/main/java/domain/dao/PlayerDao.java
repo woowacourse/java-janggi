@@ -1,5 +1,8 @@
 package domain.dao;
 
+import static util.DBConnectionUtil.close;
+import static util.DBConnectionUtil.getConnection;
+
 import domain.participants.Player;
 import domain.participants.Players;
 import domain.piece.TeamType;
@@ -8,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
-import util.DBConnectionUtil;
 
 public class PlayerDao {
 
@@ -24,7 +26,7 @@ public class PlayerDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            close(connection,preparedStatement,null);
+            close(connection, preparedStatement, null);
         }
     }
 
@@ -121,34 +123,4 @@ public class PlayerDao {
         }
     }
 
-    private void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
-
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (preparedStatement != null) {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private Connection getConnection() {
-        return DBConnectionUtil.getConnection();
-    }
 }

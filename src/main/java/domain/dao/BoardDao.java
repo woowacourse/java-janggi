@@ -1,15 +1,11 @@
 package domain.dao;
 
+import static util.DBConnectionUtil.close;
+import static util.DBConnectionUtil.getConnection;
+
 import domain.Board;
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.Elephant;
-import domain.piece.Guard;
-import domain.piece.Horse;
-import domain.piece.King;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.piece.Soldier;
 import domain.piece.TeamType;
 import domain.position.Position;
 import java.sql.Connection;
@@ -20,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import util.DBConnectionUtil;
 
 public class BoardDao {
 
@@ -59,7 +54,7 @@ public class BoardDao {
                 int colIndex = resultSet.getInt("column_index");
                 PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
                 TeamType team = TeamType.valueOf(resultSet.getString("team"));
-                alivePieces.put(Position.of(rowIndex, colIndex), PieceType.createPiece(pieceType,team));
+                alivePieces.put(Position.of(rowIndex, colIndex), PieceType.createPiece(pieceType, team));
             }
             if (alivePieces.isEmpty()) {
                 return Optional.empty();
@@ -181,34 +176,4 @@ public class BoardDao {
         }
     }
 
-    private void close(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) {
-
-        if (resultSet != null) {
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (preparedStatement != null) {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private Connection getConnection() {
-        return DBConnectionUtil.getConnection();
-    }
 }
