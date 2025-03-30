@@ -29,6 +29,12 @@ public class OutputView {
     }
 
     public static void printBoard(final Board board, final Country country) {
+        System.out.println("------점수판------");
+        String scoreFormat = "%s나라: %d";
+        Map<Country, Integer> scoreByCountry = board.getScoreByCountry();
+        for (Country countryValue : scoreByCountry.keySet()) {
+            System.out.println(String.format(scoreFormat, countryValue, scoreByCountry.get(countryValue)));
+        }
         System.out.println("현재 보드 상태입니다.");
         System.out.println("현재 턴은 " + country + "나라의 것입니다.");
 

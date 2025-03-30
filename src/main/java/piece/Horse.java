@@ -77,7 +77,7 @@ public class Horse extends Piece implements DistanceCheckable, ObstructionChecka
     }
 
     @Override
-    protected int getScore() {
+    public int getScore() {
         return 5;
     }
 }
