@@ -126,7 +126,7 @@ public class BoardDao {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(safeModeQuit);
-            preparedStatement.setInt(1,0);
+            preparedStatement.setInt(1, 0);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -157,7 +157,7 @@ public class BoardDao {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(safeModeSet);
-            preparedStatement.setInt(1,1);
+            preparedStatement.setInt(1, 1);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);

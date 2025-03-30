@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.position.Position;
 import domain.piece.path.PathFinder;
 import domain.piece.path.PathValidator;
+import domain.position.Position;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public abstract class Piece {
         this.pathFinder = pathFinder;
         this.pathValidator = pathValidator;
     }
-    
+
     public boolean isSameTeam(TeamType teamType) {
         return this.teamType.equals(teamType);
     }

@@ -21,7 +21,7 @@ public class Usernames {
     }
 
     public String getAnotherPlayerName(String username) {
-        if(!hasUsername(username)){
+        if (!hasUsername(username)) {
             throw new IllegalArgumentException("없는 이름입니다.");
         }
         if (playerAName.equals(username)) {

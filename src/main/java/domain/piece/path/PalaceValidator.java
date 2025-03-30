@@ -6,20 +6,20 @@ import domain.position.Position;
 import java.util.List;
 import java.util.Map;
 
-public class PalaceValidator implements PathValidator{
+public class PalaceValidator implements PathValidator {
     @Override
     public void validatePath(TeamType teamType, Position to, List<Position> intermediatePositions,
                              Map<Position, Piece> alivePieces) {
         boolean destinationInPalace = isDestinationInPalace(teamType, to);
         boolean teamAtPosition = isTeamAtPosition(teamType, to, alivePieces);
         boolean hasBlockedPieces = hasBlockedPieces(intermediatePositions, alivePieces);
-        if(!destinationInPalace || teamAtPosition || hasBlockedPieces){
+        if (!destinationInPalace || teamAtPosition || hasBlockedPieces) {
             throw new IllegalArgumentException("해당 좌표로 이동시킬 수 없습니다.");
         }
     }
 
     private boolean isDestinationInPalace(TeamType teamType, Position destination) {
-        if(teamType == TeamType.CHO){
+        if (teamType == TeamType.CHO) {
             return destination.isInChoPalace();
         }
         return destination.isInHanPalace();

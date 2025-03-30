@@ -1,12 +1,11 @@
 package view;
 
 import domain.ScoreCalculator;
-import domain.position.Column;
 import domain.participants.Player;
+import domain.piece.Piece;
+import domain.position.Column;
 import domain.position.Position;
 import domain.position.Row;
-import domain.piece.TeamType;
-import domain.piece.Piece;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,9 +19,9 @@ public class OutputView {
         printBoardInfo(alivePiecesInfo);
     }
 
-    public void printScore(ScoreCalculator scoreCalculator){
-        System.out.printf("현재 초 점수 : %.1f\n",scoreCalculator.calculateChoScore());
-        System.out.printf("현재 한 점수 : %.1f\n",scoreCalculator.calculateHanScore());
+    public void printScore(ScoreCalculator scoreCalculator) {
+        System.out.printf("현재 초 점수 : %.1f\n", scoreCalculator.calculateChoScore());
+        System.out.printf("현재 한 점수 : %.1f\n", scoreCalculator.calculateHanScore());
     }
 
     public void printWinner(Player player) {

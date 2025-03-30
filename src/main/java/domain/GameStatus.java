@@ -4,9 +4,8 @@ import domain.piece.TeamType;
 
 public class GameStatus {
     private static final TeamType START_TEAM = TeamType.CHO;
-
-    private TeamType turn;
     private final String roomName;
+    private TeamType turn;
 
     public GameStatus(String roomName) {
         this.roomName = roomName;
@@ -18,7 +17,7 @@ public class GameStatus {
         this.turn = turn;
     }
 
-    public void changeTurn(){
+    public void changeTurn() {
         turn = findNextTurn(turn);
     }
 

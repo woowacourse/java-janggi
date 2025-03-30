@@ -1,9 +1,9 @@
 package domain.piece.path;
 
-import domain.piece.TeamType;
-import domain.position.Position;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import domain.piece.TeamType;
+import domain.position.Position;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +22,8 @@ public class CannonPathValidator implements PathValidator {
         }
     }
 
-    private boolean isTeamOrCannonAtPosition(TeamType teamType, Position destination, Map<Position, Piece> alivePieces) {
+    private boolean isTeamOrCannonAtPosition(TeamType teamType, Position destination,
+                                             Map<Position, Piece> alivePieces) {
         Piece destinationPiece = alivePieces.getOrDefault(destination, null);
         if (destinationPiece == null) {
             return false;

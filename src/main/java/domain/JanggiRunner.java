@@ -62,7 +62,7 @@ public class JanggiRunner {
         gameStatusDao.updateTurn(ROOM_NAME, nowTurn);
     }
 
-    private void deleteData(){
+    private void deleteData() {
         playerDao.deletePlayer();
         boardDao.deleteBoard();
         gameStatusDao.deleteGame();
@@ -93,7 +93,7 @@ public class JanggiRunner {
 
     private Players createPlayers() {
         Optional<Players> optionalPlayers = playerDao.findPlayers();
-        if(optionalPlayers.isPresent()){
+        if (optionalPlayers.isPresent()) {
             return optionalPlayers.get();
         }
         Usernames usernames = createUsernames();
@@ -102,10 +102,10 @@ public class JanggiRunner {
         playerDao.savePlayers(players);
         return players;
     }
-    
-    private Board createBoard(Players players){
+
+    private Board createBoard(Players players) {
         Optional<Board> boardOptional = boardDao.findBoard();
-        if(boardOptional.isPresent()){
+        if (boardOptional.isPresent()) {
             return boardOptional.get();
         }
         HorseElephantSetupStrategy choPlayerStrategy = chooseStrategy(players.getChoPlayerName());
@@ -116,9 +116,9 @@ public class JanggiRunner {
         return board;
     }
 
-    private GameStatus createGameStatus(){
+    private GameStatus createGameStatus() {
         Optional<GameStatus> gameStatusOptional = gameStatusDao.findGameStatusByRoomName(ROOM_NAME);
-        if(gameStatusOptional.isPresent()){
+        if (gameStatusOptional.isPresent()) {
             return gameStatusOptional.get();
         }
         GameStatus gameStatus = new GameStatus(ROOM_NAME);

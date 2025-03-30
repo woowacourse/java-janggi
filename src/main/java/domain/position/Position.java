@@ -1,6 +1,5 @@
 package domain.position;
 
-import java.util.Collections;
 import java.util.Objects;
 
 public class Position {
@@ -27,16 +26,18 @@ public class Position {
         return new Position(row.moveRow(deltaRow), column.moveColumn(deltaColumn));
     }
 
-    public boolean isInPalace(){
+    public boolean isInPalace() {
         return isInChoPalace() || isInHanPalace();
     }
 
-    public boolean isInChoPalace(){
-        return row.isInRange(CHO_PALACE_MIN_ROW,CHO_PALACE_MAX_ROW) && column.isInRange(PALACE_MIN_COLUMN,PALACE_MAX_COLUMN);
+    public boolean isInChoPalace() {
+        return row.isInRange(CHO_PALACE_MIN_ROW, CHO_PALACE_MAX_ROW) && column.isInRange(PALACE_MIN_COLUMN,
+                PALACE_MAX_COLUMN);
     }
 
-    public boolean isInHanPalace(){
-        return row.isInRange(HAN_PALACE_MIN_ROW,HAN_PALACE_MAX_ROW) && column.isInRange(PALACE_MIN_COLUMN,PALACE_MAX_COLUMN);
+    public boolean isInHanPalace() {
+        return row.isInRange(HAN_PALACE_MIN_ROW, HAN_PALACE_MAX_ROW) && column.isInRange(PALACE_MIN_COLUMN,
+                PALACE_MAX_COLUMN);
     }
 
     public boolean canMovePosition(int deltaRow, int deltaColumn) {
@@ -60,11 +61,11 @@ public class Position {
         return Objects.hash(row, column);
     }
 
-    public int getColumn(){
+    public int getColumn() {
         return column.getColumn();
     }
 
-    public int getRow(){
+    public int getRow() {
         return row.getRow();
     }
 }

@@ -1,9 +1,9 @@
 package domain.piece.strategy;
 
-import domain.position.Position;
-import domain.piece.TeamType;
 import domain.piece.Elephant;
 import domain.piece.Horse;
+import domain.piece.TeamType;
+import domain.position.Position;
 import java.util.Map;
 
 public class RightElephantStrategy extends HorseElephantSetupStrategy {

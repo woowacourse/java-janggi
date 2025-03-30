@@ -19,7 +19,7 @@ public enum PieceType {
         this.createPiece = createPiece;
     }
 
-    public static Piece createPiece(PieceType pieceType, TeamType teamType){
+    public static Piece createPiece(PieceType pieceType, TeamType teamType) {
         return pieceType.createPiece.apply(teamType);
     }
 

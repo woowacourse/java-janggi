@@ -13,16 +13,16 @@ public class ScoreCalculator {
         this.alivePieces = alivePieces;
     }
 
-    public double calculateChoScore(){
+    public double calculateChoScore() {
         return calculateScore(TeamType.CHO);
     }
 
-    public double calculateHanScore(){
+    public double calculateHanScore() {
         double score = calculateScore(TeamType.HAN);
         return score + HAN_BONUS_SCORE;
     }
 
-    private double calculateScore(TeamType teamType){
+    private double calculateScore(TeamType teamType) {
         return alivePieces.stream()
                 .filter(piece -> piece.getTeamType().equals(teamType))
                 .mapToDouble(piece -> piece.getType().getScore())

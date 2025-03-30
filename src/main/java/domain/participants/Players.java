@@ -17,8 +17,8 @@ public class Players {
                 new Player(usernames.getAnotherPlayerName(startPlayerName), TeamType.HAN));
     }
 
-    public static Players initialize(Player choPlayer, Player hanPlayer){
-        return new Players(choPlayer,hanPlayer);
+    public static Players initialize(Player choPlayer, Player hanPlayer) {
+        return new Players(choPlayer, hanPlayer);
     }
 
     private static void validateHasName(Usernames usernames, String startPlayerName) {

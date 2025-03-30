@@ -1,7 +1,7 @@
 package domain.piece;
 
-import domain.position.Position;
 import domain.piece.strategy.HorseElephantSetupStrategy;
+import domain.position.Position;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

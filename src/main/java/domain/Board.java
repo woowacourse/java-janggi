@@ -39,7 +39,7 @@ public class Board {
         return winnerKing.getTeamType();
     }
 
-    public ScoreCalculator getScoreResult(){
+    public ScoreCalculator getScoreResult() {
         List<Piece> alivePieces = this.alivePieces.values().stream().toList();
         return new ScoreCalculator(alivePieces);
     }

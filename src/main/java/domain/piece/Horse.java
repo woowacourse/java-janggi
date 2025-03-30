@@ -1,9 +1,9 @@
 package domain.piece;
 
-import domain.position.Direction;
-import domain.piece.path.Movement;
 import domain.piece.path.DefaultPathValidator;
 import domain.piece.path.FixedMultiStepPathFinder;
+import domain.piece.path.Movement;
+import domain.position.Direction;
 import java.util.List;
 
 public class Horse extends Piece {
