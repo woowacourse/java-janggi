@@ -3,6 +3,8 @@ package janggi.dao;
 import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
 import janggi.dto.PiecesOnBoardDto;
+import janggi.entity.GameEntity;
+import janggi.entity.PieceEntity;
 import janggi.game.Game;
 import janggi.game.Team;
 import janggi.movement.target.AttackedPiece;
@@ -21,26 +23,26 @@ public class PieceDao {
         final var createQuery = "INSERT INTO piece (name,is_running,row_index,column_index,team,game_id) VALUES(?,?,?,?,?,?)";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedCreateStatement = connection.prepareStatement(createQuery)) {
-            GameRecord gameRecord = GameRecord.findByGame(game);
+            GameEntity gameEntity = GameEntity.findByGame(game);
             preparedCreateStatement.setString(1, piece.getType().name());
             preparedCreateStatement.setBoolean(2, true);
             preparedCreateStatement.setInt(3, piece.getPoint().row());
             preparedCreateStatement.setInt(4, piece.getPoint().column());
             preparedCreateStatement.setString(5, piece.getTeam().name());
-            preparedCreateStatement.setInt(6, gameRecord.getId());
+            preparedCreateStatement.setInt(6, gameEntity.getId());
             preparedCreateStatement.executeUpdate();
 
-            PieceRecord.addRecord(findCreatedPieceId(piece, gameRecord), piece);
+            PieceEntity.addRecord(findCreatedPieceId(piece, gameEntity), piece);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static int findCreatedPieceId(Piece piece, GameRecord gameRecord) {
+    private static int findCreatedPieceId(Piece piece, GameEntity gameEntity) {
         final var checkQuery = "SELECT * FROM piece WHERE game_id=? AND row_index=? AND column_index=?";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedCheckStatement = connection.prepareStatement(checkQuery)) {
-            preparedCheckStatement.setInt(1, gameRecord.getId());
+            preparedCheckStatement.setInt(1, gameEntity.getId());
             preparedCheckStatement.setInt(2, piece.getPoint().row());
             preparedCheckStatement.setInt(3, piece.getPoint().column());
             ResultSet resultSet = preparedCheckStatement.executeQuery();
@@ -98,13 +100,13 @@ public class PieceDao {
         final var query = "UPDATE piece SET row_index=?, column_index=? WHERE id=? ";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            PieceRecord pieceRecord = PieceRecord.findByPiece(movingPiece);
+            PieceEntity pieceEntity = PieceEntity.findByPiece(movingPiece);
             preparedStatement.setInt(1, newPiece.getPoint().row());
             preparedStatement.setInt(2, newPiece.getPoint().column());
-            preparedStatement.setInt(3, pieceRecord.getId());
+            preparedStatement.setInt(3, pieceEntity.getId());
             preparedStatement.executeUpdate();
 
-            pieceRecord.updatePiece(newPiece);
+            pieceEntity.updatePiece(newPiece);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -114,9 +116,9 @@ public class PieceDao {
         final var query = "UPDATE piece SET is_running=? WHERE id=? ";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            PieceRecord pieceRecord = PieceRecord.findByAttackedPiece(piece);
+            PieceEntity pieceEntity = PieceEntity.findByAttackedPiece(piece);
             preparedStatement.setBoolean(1, false);
-            preparedStatement.setInt(2, pieceRecord.getId());
+            preparedStatement.setInt(2, pieceEntity.getId());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);

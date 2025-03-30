@@ -1,6 +1,7 @@
 package janggi.dao;
 
 import janggi.dto.GameDto;
+import janggi.entity.GameEntity;
 import janggi.exception.GameNotDeletedException;
 import janggi.game.Game;
 import janggi.game.Team;
@@ -21,7 +22,7 @@ public class GameDao {
             preparedCreateStatement.setString(2, game.getCreatedAt().format(createdAtFormatter));
             preparedCreateStatement.executeUpdate();
 
-            GameRecord.addRecord(findCreatedGameId(game), game);
+            GameEntity.addRecord(findCreatedGameId(game), game);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -64,9 +65,9 @@ public class GameDao {
         final var query = "UPDATE game SET turn=? WHERE id = ?";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)){
-            GameRecord gameRecord = GameRecord.findByGame(game);
-            preparedStatement.setString(1, gameRecord.getTurn());
-            preparedStatement.setInt(2, gameRecord.getId());
+            GameEntity gameEntity = GameEntity.findByGame(game);
+            preparedStatement.setString(1, gameEntity.getTurn());
+            preparedStatement.setInt(2, gameEntity.getId());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -77,8 +78,8 @@ public class GameDao {
         final var query = "DELETE FROM game WHERE id = ?";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)){
-            GameRecord gameRecord = GameRecord.findByGame(game);
-            preparedStatement.setInt(1, gameRecord.getId());
+            GameEntity gameEntity = GameEntity.findByGame(game);
+            preparedStatement.setInt(1, gameEntity.getId());
             int affectedCount = preparedStatement.executeUpdate();
             if (affectedCount == 0) {
                 throw new GameNotDeletedException();

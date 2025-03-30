@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.dto.GameDto;
 import janggi.dto.PiecesOnBoardDto;
+import janggi.entity.PieceEntity;
 import janggi.exception.GameNotDeletedException;
 import janggi.game.Board;
 import janggi.game.Game;
@@ -42,7 +43,7 @@ class PieceDaoTest {
     @Test
     @DisplayName("기물 투플을 생성할 수 있다.")
     void createPieceTuple() {
-        assertThatCode(() -> PieceRecord.findByPiece(piece)).doesNotThrowAnyException();
+        assertThatCode(() -> PieceEntity.findByPiece(piece)).doesNotThrowAnyException();
     }
 
     @Test
@@ -52,7 +53,7 @@ class PieceDaoTest {
 
         PieceDao.updatePointFrom(piece, movedPiece);
 
-        assertThatCode(() -> PieceRecord.findByPiece(movedPiece)).doesNotThrowAnyException();
+        assertThatCode(() -> PieceEntity.findByPiece(movedPiece)).doesNotThrowAnyException();
     }
 
     @Test
