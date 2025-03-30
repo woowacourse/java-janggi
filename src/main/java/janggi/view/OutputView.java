@@ -45,4 +45,8 @@ public class OutputView {
         System.out.println();
         System.out.println("1\t2\t3\t4\t5\t6\t7\t8\t9");
     }
+
+    public void printScore(final double redScore, final double blueScore) {
+        System.out.printf("%nScore: %.1f - %.1f%n", redScore, blueScore);
+    }
 }

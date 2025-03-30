@@ -1,6 +1,7 @@
 package janggi.controller;
 
 import janggi.JanggiGame;
+import janggi.piece.Color;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -16,5 +17,6 @@ public class JanggiController {
     public void start() {
         JanggiGame janggiGame = new JanggiGame();
         outputView.printBoard(janggiGame.getBoard());
+        outputView.printScore(janggiGame.getScore(Color.RED), janggiGame.getScore(Color.BLUE));
     }
 }
