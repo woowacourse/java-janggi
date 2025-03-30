@@ -50,10 +50,11 @@ public class JanggiController {
                 isPlayable = move(janggiGame);
             }
             if (progressCommand == ProgressCommand.STATUS) {
-                printStatus(janggiGame);
+                printScore(janggiGame);
                 continue;
             }
             if (progressCommand == ProgressCommand.SAVE) {
+                OutputView.printSaveResult();
                 janggiDaoService.saveAllData(janggiGame.board(), janggiGame.turnTeam());
                 break;
             }
@@ -80,13 +81,13 @@ public class JanggiController {
         return true;
     }
 
-    private void printStatus(final JanggiGame janggiGame) {
+    private void printScore(final JanggiGame janggiGame) {
         Map<Team, Score> totalScoreByTeam = janggiGame.calculateTotalScoreByTeam();
         OutputView.printScore(totalScoreByTeam);
     }
 
     private void printResult(JanggiGame janggiGame) {
-        printStatus(janggiGame);
+        printScore(janggiGame);
         OutputView.printMatchResult(janggiGame.findWinTeam());
         OutputView.printExit();
     }
