@@ -1,18 +1,25 @@
 package janggi.board;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
+import janggi.piece.Cannon;
+import janggi.piece.Chariot;
+import janggi.piece.Elephant;
+import janggi.piece.Empty;
+import janggi.piece.Guard;
+import janggi.piece.Horse;
+import janggi.piece.King;
+import janggi.piece.Piece;
 import janggi.piece.Side;
-import janggi.piece.*;
+import janggi.piece.Soldier;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.List;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class JanggiBoardTest {
 
@@ -102,7 +109,6 @@ class JanggiBoardTest {
         Position position = new Position(2, 6);
         List<Position> positions = janggiBoard.computeReachableDestination(position);
 
-
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(3),
                 () -> assertThat(positions).contains(new Position(1, 6)),
@@ -118,7 +124,6 @@ class JanggiBoardTest {
 
         Position position = new Position(8, 6);
         List<Position> positions = janggiBoard.computeReachableDestination(position);
-
 
         assertAll(
                 () -> assertThat(positions.size()).isEqualTo(2),
@@ -274,6 +279,30 @@ class JanggiBoardTest {
         janggiBoard.checkGameIsOver(catchedPiece);
 
         assertThat(janggiBoard.isGameProgress()).isFalse();
+    }
+
+    @Test
+    @DisplayName("각 나라의 초기 점수를 계산한다.")
+    void test21() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        assertThat(janggiBoard.calculateScore(Side.CHO)).isEqualTo(72);
+        assertThat(janggiBoard.calculateScore(Side.HAN)).isEqualTo(72);
+    }
+
+    @Test
+    @DisplayName("각 나라의 점수를 계산한다.")
+    void test22() {
+        JanggiBoard janggiBoard = JanggiBoard.initialize();
+
+        janggiBoard.moveOrCatchPiece(new Position(0, 6), new Position(1, 6));
+        janggiBoard.moveOrCatchPiece(new Position(0, 3), new Position(1, 3));
+
+        Piece hanChariot = janggiBoard.moveOrCatchPiece(new Position(0, 9), new Position(0, 0));
+        Piece choSoldier = janggiBoard.moveOrCatchPiece(new Position(1, 2), new Position(1, 6));
+
+        assertThat(janggiBoard.calculateScore(Side.CHO)).isEqualTo(70);
+        assertThat(janggiBoard.calculateScore(Side.HAN)).isEqualTo(59);
     }
 
 }

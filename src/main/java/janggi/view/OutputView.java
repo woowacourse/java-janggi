@@ -47,11 +47,11 @@ public class OutputView {
     public void printCurrentBoardStatus(JanggiBoard board) {
         BoardStatus status = board.getStatus();
         if (status.getSide() == Side.CHO) {
-            System.out.println(ANSI_GREEN + status.getMessage() + ANSI_RESET);
+            System.out.println(ANSI_GREEN + status.getMessage() + ANSI_RESET + " : " + board.calculateScore(Side.CHO) + "점");
             return;
         }
         if (status.getSide() == Side.HAN) {
-            System.out.println(ANSI_RED + status.getMessage() + ANSI_RESET);
+            System.out.println(ANSI_RED + status.getMessage() + ANSI_RESET + " : " + board.calculateScore(Side.HAN) + "점");
         }
     }
 

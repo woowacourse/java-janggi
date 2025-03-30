@@ -85,6 +85,10 @@ public abstract class Piece {
         return side == Side.HAN;
     }
 
+    public boolean isSameSide(final Side side) {
+        return this.side == side;
+    }
+
     public boolean isKing() {
         return symbol == Symbol.KING;
     }
@@ -99,6 +103,10 @@ public abstract class Piece {
 
     public String getSymbol() {
         return symbol.getSymbol();
+    }
+
+    public int getScore() {
+        return symbol.getScore();
     }
 
 }

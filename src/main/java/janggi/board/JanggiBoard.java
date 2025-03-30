@@ -45,6 +45,16 @@ public class JanggiBoard {
         return destinationPiece;
     }
 
+    public int calculateScore(final Side side) {
+        int currentScore = 0;
+        for (Piece piece : board.values()) {
+            if (piece.isSameSide(side)) {
+                currentScore += piece.getScore();
+            }
+        }
+        return currentScore;
+    }
+
     public void checkGameIsOver(final Piece catchedPiece) {
         if (catchedPiece.isKing() && catchedPiece.isHan()) {
             status = BoardStatus.CHO_WIN;
@@ -128,5 +138,4 @@ public class JanggiBoard {
     public BoardStatus getStatus() {
         return status;
     }
-
 }
