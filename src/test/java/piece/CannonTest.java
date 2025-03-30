@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import board.Board;
@@ -128,6 +129,45 @@ class CannonTest {
         Board board = new Board(Map.of(initPosition, piece));
 
         assertThat(piece.getMovablePositions(initPosition, board)).isEmpty();
+    }
+
+    @CsvSource(value = {
+            "1,4,3,6", "1,6,3,4",
+            "3,4,1,6", "3,6,1,4",
+            "8,4,10,6", "8,6,10,4",
+            "10,4,8,6", "10,6,8,4"
+    })
+    @ParameterizedTest
+    void 포는_궁성_영역에서_대각선으로_움직일_수_있다(int row, int column, int movableRow, int movableColumn) {
+        Piece piece = new Cannon(Team.BLUE);
+        Position cannonPosition = new Position(row, column);
+        Board board = new Board(Map.of(
+                cannonPosition, piece,
+                new Position(2, 5), new King(Team.RED),
+                new Position(9, 5), new King(Team.BLUE)
+        ));
+
+        assertThat(piece.getMovablePositions(cannonPosition, board))
+                .containsOnly(new Position(movableRow, movableColumn));
+    }
+
+    @CsvSource(value = {
+            "1,4,3,6", "1,6,3,4",
+            "3,4,1,6", "3,6,1,4",
+            "8,4,10,6", "8,6,10,4",
+            "10,4,8,6", "10,6,8,4"
+    })
+    @ParameterizedTest
+    void 포는_궁성_영역에서_중앙에_허들이_없으면_대각선으로_움직일_수_없다(int row, int column, int hurdleRow, int hurdleColumn) {
+        Piece piece = new Cannon(Team.BLUE);
+        Position cannonPosition = new Position(row, column);
+        Board board = new Board(Map.of(
+                cannonPosition, piece,
+                new Position(hurdleRow, hurdleColumn), piece
+        ));
+
+        assertThat(piece.getMovablePositions(cannonPosition, board))
+                .isEmpty();
     }
 
 }

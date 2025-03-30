@@ -5,9 +5,11 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import board.Board;
 import board.Position;
+import piece.movement.PalaceMovement;
 
 public class Cannon extends Piece {
 
@@ -31,12 +33,20 @@ public class Cannon extends Piece {
 
     private Map<Direction, Position> findHurdlePositions(final Position position, final Board board) {
         Map<Direction, Position> hurdlePositions = new EnumMap<>(Direction.class);
-        for (Direction straightDirection : Direction.getStraightDirection()) {
+        if (position.isPalacePosition() && PalaceMovement.hasDiagonalDirectionPosition(position)) {
+            PalaceMovement.getMatchedDiagonalDirections(position).forEach(diagonalDirection -> {
+                Position hurdlePosition = findHurdlePosition(position, board, diagonalDirection);
+                if (hasHurdle(position, hurdlePosition)) {
+                    hurdlePositions.put(diagonalDirection, hurdlePosition);
+                }
+            });
+        }
+        Direction.getStraightDirection().forEach(straightDirection -> {
             Position hurdlePosition = findHurdlePosition(position, board, straightDirection);
             if (hasHurdle(position, hurdlePosition)) {
                 hurdlePositions.put(straightDirection, hurdlePosition);
             }
-        }
+        });
         return hurdlePositions;
     }
 
@@ -60,6 +70,10 @@ public class Cannon extends Piece {
         for (Direction direction : hurdlePositions.keySet()) {
             Position hurdlePosition = hurdlePositions.get(direction);
             Position startPosition = hurdlePosition.moveByDirection(direction);
+            if (direction.isDiagonal()) {
+                movablePositions.addAll(findMovablePositionsInDiagonalDirection(board, startPosition, direction));
+                continue;
+            }
             movablePositions.addAll(findMovablePositionsEachDirection(board, startPosition, direction));
         }
         return movablePositions;
@@ -77,6 +91,15 @@ public class Cannon extends Piece {
             movablePosition = movablePosition.moveByDirection(direction);
         }
         return movablePositionsEachDirection;
+    }
+
+    private Set<Position> findMovablePositionsInDiagonalDirection(
+            final Board board, final Position position, final Direction direction
+    ) {
+        return findMovablePositionsEachDirection(board, position, direction)
+                .stream()
+                .filter(Position::isPalacePosition)
+                .collect(Collectors.toSet());
     }
 
     private boolean isMovablePosition(final Board board, final Position position, final Team team) {
