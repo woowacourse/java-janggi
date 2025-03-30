@@ -40,19 +40,27 @@ public class Pieces {
         dyingEnemy.ifPresent(this.dyingEnemy::add);
     }
 
+    public boolean existGung() {
+        return pieces.stream().anyMatch(piece -> piece.checkPieceType(PieceType.GUNG));
+    }
+
     public Optional<Piece> searchPiece(Position targetPiecePosition) {
         return pieces.stream().filter(piece -> piece.getPosition().equals(targetPiecePosition))
                 .findFirst();
+    }
+
+    public boolean checkCamp(CampType campType) {
+        return this.campType == campType;
+    }
+
+    public CampType getCampType() {
+        return campType;
     }
 
     public Piece getPiece(Position targetPiecePosition) {
         return pieces.stream().filter(piece -> piece.getPosition().equals(targetPiecePosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다."));
-    }
-
-    public boolean checkCamp(CampType campType) {
-        return this.campType == campType;
     }
 
     public List<Piece> getPieces() {

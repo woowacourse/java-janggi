@@ -140,4 +140,35 @@ public class JanggiBoardTest {
                 () -> assertThat(janggiBoard.getScore(CampType.HAN)).isEqualTo(0.5)
         );
     }
+
+    @Test
+    @DisplayName("궁이 잡혀 게임이 끝났는지 확인할 수 있다.")
+    void checkGameEndByGung() {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
+        janggiBoard.movePiece(CampType.CHO, new Position(0, 9), new Position(0, 8));
+        janggiBoard.movePiece(CampType.CHO, new Position(0, 8), new Position(3, 8));
+        janggiBoard.movePiece(CampType.CHO, new Position(3, 8), new Position(3, 1));
+        janggiBoard.movePiece(CampType.CHO, new Position(3, 1), new Position(4, 1));
+
+        assertThat(janggiBoard.isGameEnd()).isTrue();
+    }
+
+    @Test
+    @DisplayName("궁이 잡힌 경우 승패를 계산할 수 있다.")
+    void checkWinningByGung() {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
+        janggiBoard.movePiece(CampType.CHO, new Position(0, 9), new Position(0, 8));
+        janggiBoard.movePiece(CampType.CHO, new Position(0, 8), new Position(3, 8));
+        janggiBoard.movePiece(CampType.CHO, new Position(3, 8), new Position(3, 1));
+        janggiBoard.movePiece(CampType.CHO, new Position(3, 1), new Position(4, 1));
+
+        assertThat(janggiBoard.whoWin()).isEqualTo(CampType.CHO);
+    }
+
+    @Test
+    @DisplayName("게임이 중간에 종료된 경우 점수로 승패를 계산할 수 있다.")
+    void checkWinningByScore() {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
+        assertThat(janggiBoard.whoWin()).isEqualTo(CampType.HAN);
+    }
 }

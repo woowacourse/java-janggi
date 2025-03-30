@@ -17,9 +17,9 @@ public enum PieceAssignTypeAnswer {
         this.pieceAssignType = pieceAssignType;
     }
 
-    public static PieceAssignType from(final String number) {
+    public static PieceAssignType parse(final String number) {
         return Arrays.stream(PieceAssignTypeAnswer.values())
-                .filter(command -> command.command.equals(number))
+                .filter(answer -> answer.command.equals(number))
                 .findFirst()
                 .map(value -> value.pieceAssignType)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 적절하지 않은 입력값입니다."));

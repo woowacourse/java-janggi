@@ -6,6 +6,7 @@ import janggi.setting.PieceAssignType;
 import janggi.value.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import janggi.view.TurnMenuAnswer;
 
 public class JanggiGame {
 
@@ -18,12 +19,26 @@ public class JanggiGame {
     }
 
     public void start() {
-        // TODO: 현재 단계에서는 종료조건 없음, 2단계에서 승패 구현할때 구현 예정
         JanggiBoard janggiBoard = prepareGame();
-        for (int i = 0; i < 3; i++) {
-            playTurn(janggiBoard, CampType.CHO);
-            playTurn(janggiBoard, CampType.HAN);
+
+        CampType campTypeInturn = CampType.HAN;
+        while (true) {
+            campTypeInturn = campTypeInturn.getEnemyCampType();
+            TurnMenuAnswer turnMenuAnswer = readTurnMenuAnswer(campTypeInturn);
+            if (turnMenuAnswer == TurnMenuAnswer.ONE) {
+                movePiece(janggiBoard, campTypeInturn);
+                if (janggiBoard.isGameEnd()) {
+                    break;
+                }
+            }
+            if (turnMenuAnswer == TurnMenuAnswer.TWO) {
+                continue;
+            }
+            if (turnMenuAnswer == TurnMenuAnswer.THREE) {
+                break;
+            }
         }
+        printGameResult(janggiBoard);
     }
 
     private JanggiBoard prepareGame() {
@@ -36,7 +51,7 @@ public class JanggiGame {
         return janggiBoard;
     }
 
-    private void playTurn(JanggiBoard janggiBoard, CampType campType) {
+    private void movePiece(JanggiBoard janggiBoard, CampType campType) {
         while (true) {
             try {
                 outputView.writeTurn(campType);
@@ -60,5 +75,20 @@ public class JanggiGame {
                 outputView.printExceptionMessage(exception.getMessage());
             }
         }
+    }
+
+    private TurnMenuAnswer readTurnMenuAnswer(CampType campType) {
+        while (true) {
+            try {
+                return inputView.readTurnMenuAnswer(campType);
+            } catch (IllegalArgumentException exception) {
+                outputView.printExceptionMessage(exception.getMessage());
+            }
+        }
+    }
+
+    private void printGameResult(JanggiBoard board) {
+        outputView.writeGameEndMessage();
+        outputView.writeWinning(board.whoWin());
     }
 }

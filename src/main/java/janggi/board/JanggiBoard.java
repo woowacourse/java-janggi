@@ -6,10 +6,12 @@ import janggi.setting.CampType;
 import janggi.setting.PieceAssignType;
 import janggi.value.Position;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class JanggiBoard {
-    
+
     private final List<Pieces> piecesInCamp;
 
     public JanggiBoard(PieceAssignType choPieceAssignType, PieceAssignType hanPieceAssignType) {
@@ -27,6 +29,15 @@ public class JanggiBoard {
         alliesPieces.movePiece(enemyPieces.getPieces(), targetPiecePosition, destination);
         alliesPieces.killEnemyPiece(enemyPieces.getPieces(), destination);
         enemyPieces.removeDyingPiece(destination);
+    }
+
+    public boolean isGameEnd() {
+        return piecesInCamp.stream().anyMatch(pieces -> !pieces.existGung());
+    }
+
+    public CampType whoWin() {
+        Optional<CampType> winningCampByGung = checkWiningByGung();
+        return winningCampByGung.orElseGet(this::checkWiningByScore);
     }
 
     public List<Piece> getPieces(CampType campType) {
@@ -49,5 +60,20 @@ public class JanggiBoard {
                 .filter(pieces -> pieces.checkCamp(campType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("진영에 해당하는 장기물 세트가 존재하지 않습니다."));
+    }
+
+    private Optional<CampType> checkWiningByGung() {
+        Optional<Pieces> optionalPieces = piecesInCamp.stream()
+                .filter(pieces -> !pieces.existGung())
+                .findFirst();
+        return optionalPieces.map(pieces -> pieces.getCampType().getEnemyCampType());
+    }
+
+    private CampType checkWiningByScore() {
+        Pieces piecesInWinningCamp = piecesInCamp.stream()
+                .sorted(Comparator.comparing(Pieces::getScore).reversed())
+                .toList()
+                .getFirst();
+        return piecesInWinningCamp.getCampType();
     }
 }

@@ -41,11 +41,21 @@ public class OutputView {
             writeOneLineInBoard(y, pieces);
         }
         System.out.println("--------------------");
+        System.out.println();
     }
 
     public void writeTurn(CampType campType) {
         String turnContent = String.format("%s의 턴입니다.", campType.getName());
         System.out.println(turnContent);
+    }
+
+    public void writeGameEndMessage() {
+        System.out.println("게임이 종료되었습니다!");
+    }
+
+    public void writeWinning(CampType campType) {
+        String content = String.format("%s의 승리입니다.", campType.getName());
+        System.out.println(content);
     }
 
     public void printExceptionMessage(String message) {
