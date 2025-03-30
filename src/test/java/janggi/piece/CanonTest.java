@@ -4,6 +4,7 @@ import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 
 class CanonTest {
@@ -116,5 +118,30 @@ class CanonTest {
         assertThat(board).extracting("board")
                 .asInstanceOf(MAP)
                 .containsEntry(goal, piece);
+    }
+
+    @DisplayName("포는_궁성_내부에서_대각으로_움직일_수_있다")
+    @CsvSource(value = {"5:0:3:2", "3:0:5:2", "5:2:3:0", "3:2:5:0"},
+            delimiterString = ":")
+    @ParameterizedTest
+    void validateMovable(
+            int startColumn,
+            int startRow,
+            int goalColumn,
+            int goalRow
+    ) {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = createPosition(startColumn, startRow);
+        Position goal = createPosition(goalColumn, goalRow);
+        Canon piece = new Canon(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        initialBoard.put(createPosition(4, 1), new Soldier(Team.GREEN)); // 포가 뛰어넘을 기물
+        Board board = new Board(initialBoard);
+
+        // then
+        assertThatCode(() -> piece.validateMovable(board, start, goal))
+                .doesNotThrowAnyException();
     }
 }

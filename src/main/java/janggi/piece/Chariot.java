@@ -22,7 +22,6 @@ public class Chariot extends Piece {
     private static final PossibleMovements POSSIBLE_MOVEMENTS = new PossibleMovements(
             List.of(new Movements(UP_STRAIGHT), new Movements(DOWN_STRAIGHT), new Movements(LEFT_STRAIGHT),
                     new Movements(RIGHT_STRAIGHT)));
-
     private static final PossibleMovements POSSIBLE_CASTLE_MOVEMENTS = new PossibleMovements(
             List.of(new Movements(UP_STRAIGHT), new Movements(DOWN_STRAIGHT), new Movements(LEFT_STRAIGHT),
                     new Movements(RIGHT_STRAIGHT), new Movements(RIGHT_UP), new Movements(RIGHT_UP, RIGHT_UP),
