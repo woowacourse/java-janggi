@@ -1,5 +1,11 @@
 import controller.JanggiController;
-import janggiGame.JanggiGame;
+import db.MySQLConnection;
+import db.dao.JanggiGameDao;
+import db.dao.JanggiGameDao.GameEntity;
+import janggiGame.arrangement.ArrangementOption;
+import java.util.List;
+import service.JanggiGameService;
+import service.initializer.JanggiGameInitializer;
 import view.InputView;
 import view.OutputView;
 
@@ -7,18 +13,34 @@ public class Application {
     public static void main(String[] args) {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
-        JanggiGame janggiGame = new JanggiGame();
-        JanggiController controller = new JanggiController(janggiGame, inputView, outputView);
+        JanggiGameService gameService;
+        Long gameId;
 
-        controller.arrangePieces();
+        int startOption = inputView.readStartOption();
 
-        while (!janggiGame.isFinished()) {
+        if (startOption == 1) {
+            JanggiGameDao gameDao = new JanggiGameDao(MySQLConnection.getInstance());
+            List<GameEntity> games = gameDao.findNotFinishedGames();
+            gameId = inputView.readSavedGameId(games);
+        } else if (startOption == 2) {
+            JanggiGameInitializer initializer = new JanggiGameInitializer();
+            gameId = initializer.getNewGameId(
+                    ArrangementOption.findBy(inputView.readHanArrangement()).getArrangementStrategy(),
+                    ArrangementOption.findBy(inputView.readChoArrangement()).getArrangementStrategy()
+            );
+        } else {
+            throw new IllegalArgumentException("[ERROR] 알맞은 옵션이 아닙니다.");
+        }
+
+        gameService = new JanggiGameService(gameId);
+
+        JanggiController controller = new JanggiController(gameService, inputView, outputView);
+
+        while (!gameService.isFinished()) {
             try {
-                outputView.printBoard(janggiGame.getPieces());
-
-                int option = inputView.getTurnOption(janggiGame.getCurrentDynasty());
+                outputView.printBoard(gameService.getGame().getPieces());
+                int option = inputView.getTurnOption(gameService.getGame().getCurrentDynasty());
                 controller.selectOption(option);
-
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

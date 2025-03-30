@@ -1,7 +1,8 @@
 package view;
 
-import janggiGame.position.Position;
+import db.dao.JanggiGameDao.GameEntity;
 import janggiGame.piece.Dynasty;
+import janggiGame.position.Position;
 import java.util.List;
 import java.util.Scanner;
 
@@ -69,4 +70,22 @@ public class InputView {
         return List.of(origin, destination);
     }
 
+    public int readStartOption() {
+        System.out.println("1. 이전 게임 불러오기");
+        System.out.println("2. 새 게임 시작하기");
+        return Integer.parseInt(scanner.nextLine()); // 기본적인 int 입력
+    }
+
+    public Long readSavedGameId(List<GameEntity> games) {
+        if (games.isEmpty()) {
+            throw new IllegalStateException("[ERROR] 저장된 게임이 없습니다.");
+        }
+        for (GameEntity game : games) {
+            System.out.printf("게임 ID: %d | 마지막 턴: %s | 저장 시간: %s\n",
+                    game.id(), game.currentDynasty(), game.updatedAt());
+        }
+        System.out.println("==========================\n");
+        System.out.println("불러올 게임 ID를 입력하세요");
+        return Long.parseLong(scanner.nextLine());
+    }
 }
