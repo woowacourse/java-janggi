@@ -1,17 +1,17 @@
 package domain.pieces;
 
-import static domain.pieces.PieceNames.CHARIOT;
-
 import domain.Team;
-import domain.board.PieceOnRoute;
 import domain.board.BoardPoint;
+import domain.board.PieceOnRoute;
 import domain.movements.PieceMovement;
+import static domain.pieces.PieceNames.CHARIOT;
 import java.util.List;
 
 public final class Chariot implements Piece {
 
     private final Team team;
     private final PieceMovement movements;
+//    private final PieceMovement movementInPalace;
 
     public Chariot(final Team team, final PieceMovement pieceMovement) {
         this.movements = pieceMovement;
