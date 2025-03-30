@@ -16,7 +16,7 @@ public class Node {
     }
 
     public boolean isSameNode(final Node destination) {
-        return this == destination;
+        return this.equals(destination);
     }
 
     public boolean hasEdgeByDirection(final Direction direction) {
