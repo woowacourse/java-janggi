@@ -17,8 +17,16 @@ public record Direction(int x, int y) {
         return List.of(UP, DOWN, LEFT, RIGHT);
     }
 
+    public static List<Direction> getDiagonalDirections() {
+        return List.of(LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN);
+    }
+
     public boolean isReverseFrontVerticalDirection(Direction direction) {
         int reverseVerticalDirection = -y;
         return direction.y == reverseVerticalDirection;
+    }
+
+    public Direction reverse(){
+        return new Direction(-x, -y);
     }
 }

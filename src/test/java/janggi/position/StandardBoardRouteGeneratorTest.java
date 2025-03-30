@@ -33,4 +33,28 @@ class StandardBoardRouteGeneratorTest {
                 () -> assertThat(boardEdge.get(new Position(5,5)).getDirections()).hasSize(4)
         );
     }
+
+    @Test
+    @DisplayName("장기판 왕궁 내 대각선 이동 가능 경로가 잘 생성됐는지 확인한다")
+    void check_palace_directions_of_created_board_route() {
+        // given & when
+        Map<Position, Directions> boardEdge = new StandardBoardRouteGenerator().generate();
+
+        // then
+        assertAll(
+                // NOTE: RED의 왕궁 내 이동 경로가 잘 생성되었는지 확인한다.
+                () -> assertThat(boardEdge.get(new Position(5,2)).getDirections()).hasSize(8),
+                () -> assertThat(boardEdge.get(new Position(4,1)).getDirections()).hasSize(4),
+                () -> assertThat(boardEdge.get(new Position(6,1)).getDirections()).hasSize(4),
+                () -> assertThat(boardEdge.get(new Position(4,3)).getDirections()).hasSize(5),
+                () -> assertThat(boardEdge.get(new Position(6,3)).getDirections()).hasSize(5),
+
+                // NOTE: BLUE의 왕궁 내 이동 경로가 잘 생성되었는지 확인한다.
+                () -> assertThat(boardEdge.get(new Position(5,9)).getDirections()).hasSize(8),
+                () -> assertThat(boardEdge.get(new Position(4,8)).getDirections()).hasSize(5),
+                () -> assertThat(boardEdge.get(new Position(6,8)).getDirections()).hasSize(5),
+                () -> assertThat(boardEdge.get(new Position(4,10)).getDirections()).hasSize(4),
+                () -> assertThat(boardEdge.get(new Position(6,10)).getDirections()).hasSize(4)
+        );
+    }
 }
