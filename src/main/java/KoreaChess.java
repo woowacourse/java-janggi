@@ -39,7 +39,7 @@ public class KoreaChess {
         outputView.printScores(han, cho);
         outputView.printWinner(winner);
 
-        // TODO: 데이터 모두 삭제하기
+        end();
     }
 
     private Player getPlayer(final Team team) {
@@ -136,5 +136,15 @@ public class KoreaChess {
         }
 
         return Optional.empty();
+    }
+
+    private void end() {
+        BoardDao boardDao = new BoardDao();
+        PlayerDao playerDao = new PlayerDao();
+        PieceDao pieceDao = new PieceDao();
+
+        boardDao.clear();
+        playerDao.clear();
+        pieceDao.clear();
     }
 }

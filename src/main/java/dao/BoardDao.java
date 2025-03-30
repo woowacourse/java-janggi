@@ -57,4 +57,14 @@ public class BoardDao {
             throw new RuntimeException(e);
         }
     }
+
+    public void clear() {
+        final var query = "DELETE FROM board";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

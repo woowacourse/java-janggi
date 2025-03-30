@@ -56,4 +56,14 @@ public class PlayerDao {
 
         return Optional.empty();
     }
+
+    public void clear() {
+        final var query = "DELETE FROM player";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

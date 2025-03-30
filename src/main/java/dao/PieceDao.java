@@ -102,6 +102,16 @@ public class PieceDao {
         }
     }
 
+    public void clear() {
+        final var query = "DELETE FROM Piece";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Piece getPiece(final Position position, final PieceType type, final Team team) {
         if (type == PieceType.CANNON) {
             return new Cannon(position, PieceDirections.CANNON.get());
