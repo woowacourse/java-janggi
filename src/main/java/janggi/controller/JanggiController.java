@@ -74,7 +74,7 @@ public class JanggiController {
             return checkGameOver(game);
         }
         if (input == GIVE_UP) {
-            return stopGame();
+            return stopGameIfAgreeEachOther();
         }
         return false;
 
@@ -136,7 +136,7 @@ public class JanggiController {
         }
     }
 
-    private boolean stopGame() {
+    private boolean stopGameIfAgreeEachOther() {
         if (inputView.inputStopGame() == Y & inputView.inputStopGame() == Y) {
             pieceDao.deleteAllPieces();
             turnDao.deleteTurn();
