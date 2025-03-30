@@ -51,17 +51,20 @@ public class JanggiController {
     }
 
     private Game generateBoard() {
-        if (pieceDao.findAllPieces().isEmpty()) {
-            pieceDao.deleteAllPieces();
-            turnDao.deleteTurn();
-            return generateNewBoard();
+        final List<Piece> pieces = pieceDao.findAllPieces();
+        if (pieces.isEmpty()) {
+            return setNewGame();
         }
         if (inputView.inputNewGame() == Y) {
-            pieceDao.deleteAllPieces();
-            turnDao.deleteTurn();
-            return generateNewBoard();
+            return setNewGame();
         }
-        return new Game(new Pieces(pieceDao.findAllPieces()), turnDao.findTurn());
+        return new Game(new Pieces(pieces), turnDao.findTurn());
+    }
+
+    private Game setNewGame() {
+        pieceDao.deleteAllPieces();
+        turnDao.deleteTurn();
+        return generateNewBoard();
     }
 
     private boolean startGame(final Game game, final List<Piece> pieces) {
