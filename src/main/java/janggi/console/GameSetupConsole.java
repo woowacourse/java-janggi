@@ -1,6 +1,5 @@
 package janggi.console;
 
-import janggi.dao.GameDao;
 import janggi.domain.game.Board;
 import janggi.domain.game.BoardGenerator;
 import janggi.domain.game.Game;
@@ -19,15 +18,13 @@ public final class GameSetupConsole {
     private final InputView inputView;
     private final SystemView systemView;
     private final BoardView boardView;
-    private final GameDao gameDao;
     private final GameService gameService;
 
     public GameSetupConsole(final InputView inputView, final SystemView systemView, final BoardView boardView,
-                            final GameDao gameDao, final GameService gameService) {
+                            final GameService gameService) {
         this.inputView = inputView;
         this.systemView = systemView;
         this.boardView = boardView;
-        this.gameDao = gameDao;
         this.gameService = gameService;
     }
 
@@ -36,7 +33,7 @@ public final class GameSetupConsole {
     }
 
     public int selectGameId() {
-        List<GameDto> allGames = gameDao.getAllGames();
+        List<GameDto> allGames = gameService.getAllGames();
         systemView.displayStoredGames(allGames);
         List<Integer> gameIds = allGames.stream()
                 .map(GameDto::id)

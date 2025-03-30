@@ -14,7 +14,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.domain.game.Board;
 import janggi.domain.game.Team;
 import janggi.domain.movement.Movement;
-import janggi.domain.piece.Elephant;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
@@ -31,14 +30,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 class ElephantTest {
 
     private static final List<List<Movement>> legalMovements = List.of(
-            List.of(UP, UP, LEFT_UP),
-            List.of(UP, UP, RIGHT_UP),
-            List.of(DOWN, DOWN, LEFT_DOWN),
-            List.of(DOWN, DOWN, RIGHT_DOWN),
-            List.of(LEFT, LEFT, LEFT_UP),
-            List.of(LEFT, LEFT, LEFT_DOWN),
-            List.of(RIGHT, RIGHT, RIGHT_UP),
-            List.of(RIGHT, RIGHT, RIGHT_DOWN)
+            List.of(UP, LEFT_UP, LEFT_UP),
+            List.of(UP, RIGHT_UP, RIGHT_UP),
+            List.of(DOWN, LEFT_DOWN, LEFT_DOWN),
+            List.of(DOWN, RIGHT_DOWN, RIGHT_DOWN),
+            List.of(LEFT, LEFT_UP, LEFT_UP),
+            List.of(LEFT, LEFT_DOWN, LEFT_DOWN),
+            List.of(RIGHT, RIGHT_UP, RIGHT_UP),
+            List.of(RIGHT, RIGHT_DOWN, RIGHT_DOWN)
     );
 
     @DisplayName("직선으로 두 칸, 45도 대각선으로 한 칸 이동할 수 있다.")

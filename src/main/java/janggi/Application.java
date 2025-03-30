@@ -25,10 +25,10 @@ public class Application {
 
     private final GameService gameService = new GameService(gameDao, pieceDao);
 
-    private final GameSetupConsole gameSetupConsole = new GameSetupConsole(inputView, systemView, boardView, gameDao,
+    private final GameSetupConsole gameSetupConsole = new GameSetupConsole(inputView, systemView, boardView,
             gameService);
     private final GamePlayConsole gamePlayConsole = new GamePlayConsole(inputView, systemView, boardView);
-    private final GameExitConsole gameExitConsole = new GameExitConsole(systemView, gameDao);
+    private final GameExitConsole gameExitConsole = new GameExitConsole(systemView, gameService);
 
     public static void main(String[] args) {
         new Application().run();

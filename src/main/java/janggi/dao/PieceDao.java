@@ -16,20 +16,40 @@ public final class PieceDao {
         this.mysqlConnection = mysqlConnection;
     }
 
-    public List<PieceDto> getPiecesByGameId(final int gameId) {
+    public List<PieceDto> findPiecesByGameId(final int gameId) {
         final String selectQuery = "SELECT pieceType, team, col_num, row_num FROM piece WHERE game_id = ?";
-        
+
         try (final Connection connection = mysqlConnection.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
             preparedStatement.setInt(1, gameId);
-            final ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             List<PieceDto> pieceDtos = new ArrayList<>();
             while (resultSet.next()) {
                 PieceDto pieceDto = toPieceDto(resultSet);
                 pieceDtos.add(pieceDto);
             }
             return pieceDtos;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addPieces(final int gameId, final List<PieceDto> pieceDtos) {
+        final String insertPieceQuery = "INSERT INTO piece (game_id, pieceType, team, col_num, row_num) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertPieceQuery)) {
+
+            for (PieceDto pieceDto : pieceDtos) {
+                preparedStatement.setInt(1, gameId);
+                preparedStatement.setString(2, pieceDto.pieceType());
+                preparedStatement.setString(3, pieceDto.team());
+                preparedStatement.setInt(4, pieceDto.colNum());
+                preparedStatement.setInt(5, pieceDto.rowNum());
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

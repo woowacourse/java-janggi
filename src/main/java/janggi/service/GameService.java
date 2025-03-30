@@ -12,6 +12,7 @@ import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +28,20 @@ public final class GameService {
     }
 
     public Game loadGameByGameId(final int gameId) {
-        GameDto gameDto = gameDao.getGameById(gameId);
+        GameDto gameDto = gameDao.findGameById(gameId);
         Team turn = Team.valueOf(gameDto.turn());
-        List<PieceDto> pieceDtos = pieceDao.getPiecesByGameId(gameId);
+        List<PieceDto> pieceDtos = pieceDao.findPiecesByGameId(gameId);
         Board board = createBoardFrom(pieceDtos);
         return new Game(turn, board);
+    }
+
+    public List<GameDto> getAllGames() {
+        return gameDao.findAllGames();
+    }
+
+    public void saveGame(final Game game) {
+        int gameId = gameDao.addGame(game.getTurn());
+        pieceDao.addPieces(gameId, toPieceDtos(game));
     }
 
     private Board createBoardFrom(final List<PieceDto> pieceDtos) {
@@ -54,5 +64,27 @@ public final class GameService {
         Team pieceTeam = Team.valueOf(pieceDto.team());
         Type type = Type.valueOf(pieceDto.pieceType());
         return type.getConstructor().apply(pieceTeam);
+    }
+
+    private List<PieceDto> toPieceDtos(Game game) {
+        return allPositions().stream()
+                .filter(game::hasPieceAt)
+                .map(position -> createPieceDto(game, position))
+                .toList();
+    }
+
+    private List<Position> allPositions() {
+        return Arrays.stream(Column.values())
+                .flatMap(column -> Arrays.stream(Row.values())
+                        .map(row -> new Position(column, row)))
+                .toList();
+    }
+
+    private PieceDto createPieceDto(final Game game, final Position position) {
+        Piece piece = game.getPieceAt(position);
+        return new PieceDto(piece.type().name(),
+                piece.team().name(),
+                position.column().getValue(),
+                position.row().getValue());
     }
 }

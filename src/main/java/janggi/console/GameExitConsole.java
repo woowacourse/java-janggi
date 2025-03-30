@@ -1,29 +1,25 @@
 package janggi.console;
 
-import janggi.dao.GameDao;
 import janggi.domain.game.Game;
 import janggi.domain.game.Team;
-import janggi.dto.PieceDto;
-import janggi.dto.PieceDtoMapper;
+import janggi.service.GameService;
 import janggi.view.SystemView;
-import java.util.List;
 
 public final class GameExitConsole {
 
     private static final int NEW_GAME = 0;
 
     private final SystemView systemView;
-    private final GameDao gameDao;
+    private final GameService gameService;
 
-    public GameExitConsole(final SystemView systemView, final GameDao gameDao) {
+    public GameExitConsole(final SystemView systemView, final GameService gameService) {
         this.systemView = systemView;
-        this.gameDao = gameDao;
+        this.gameService = gameService;
     }
 
     public void saveGame(final int gameId, final Game game) {
         if (gameId == NEW_GAME) {
-            List<PieceDto> pieceDtos = PieceDtoMapper.toPieceDtos(game);
-            gameDao.saveGame(game.getTurn(), pieceDtos);
+            gameService.saveGame(game);
         }
     }
 

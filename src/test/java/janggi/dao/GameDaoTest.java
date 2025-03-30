@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.game.Team;
 import janggi.dto.GameDto;
-import janggi.dto.PieceDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,13 +24,6 @@ class GameDaoTest {
     @BeforeEach
     void setUp() {
         cleanUp();
-        String insertQuery = "INSERT INTO game (turn) VALUES ('CHO');";
-        try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @AfterEach
@@ -41,10 +33,11 @@ class GameDaoTest {
 
     @DisplayName("저장된 게임 목록을 가져올 수 있다.")
     @Test
-    void testGetAllGames() {
+    void testFindAllGames() {
         // given
+        setupGame();
         // when
-        List<GameDto> allGames = gameDao.getAllGames();
+        List<GameDto> allGames = gameDao.findAllGames();
         // then
         assertAll(
                 () -> assertThat(allGames).hasSize(1),
@@ -55,11 +48,12 @@ class GameDaoTest {
 
     @DisplayName("id로 게임을 가져올 수 있다.")
     @Test
-    void testGetGameById() {
+    void testFindGameById() {
         // given
+        setupGame();
         int gameId = 1;
         // when
-        GameDto gameDto = gameDao.getGameById(gameId);
+        GameDto gameDto = gameDao.findGameById(gameId);
         // then
         assertAll(
                 () -> assertThat(gameDto).isNotNull(),
@@ -68,40 +62,33 @@ class GameDaoTest {
         );
     }
 
-    @DisplayName("새로운 게임을 저장할 수 있다.")
+    @DisplayName("새로운 게임을 추가할 수 있다.")
     @Test
-    void testSaveGame() {
+    void testAddGame() {
         // given
-        cleanUp();
         Team turn = Team.CHO;
-        List<PieceDto> pieceDtos = List.of(
-                new PieceDto("GENERAL", "CHO", 3, 0),
-                new PieceDto("GENERAL", "HAN", 3, 7)
-        );
         // when
-        gameDao.saveGame(turn, pieceDtos);
+        int savedGameId = gameDao.addGame(turn);
         // then
+        String selectQuery = "SELECT * FROM game WHERE id = ?";
         try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement selectGameQuery = connection.prepareStatement("SELECT * FROM game");
-             PreparedStatement selectPieceQuery = connection.prepareStatement("SELECT * FROM piece")) {
-
-            ResultSet gameResultSet = selectGameQuery.executeQuery();
-            ResultSet pieceResultSet = selectPieceQuery.executeQuery();
-
-            int gameCount = 0;
-            while (gameResultSet.next()) {
-                gameCount++;
-            }
-            int pieceCount = 0;
-            while (pieceResultSet.next()) {
-                pieceCount++;
-            }
-            final int finalGameCount = gameCount;
-            final int finalPieceCount = pieceCount;
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+            preparedStatement.setInt(1, savedGameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
             assertAll(
-                    () -> assertThat(finalGameCount).isEqualTo(1),
-                    () -> assertThat(finalPieceCount).isEqualTo(2)
+                    () -> assertThat(resultSet.next()).isTrue(),
+                    () -> assertThat(resultSet.getString("turn")).isEqualTo("CHO")
             );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setupGame() {
+        String insertQuery = "INSERT INTO game (turn) VALUES ('CHO');";
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

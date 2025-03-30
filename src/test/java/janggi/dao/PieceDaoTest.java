@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import janggi.dto.PieceDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -22,19 +23,7 @@ class PieceDaoTest {
     @BeforeEach
     void setUp() {
         cleanUp();
-        String gameInsertQuery = "INSERT INTO game (turn) VALUES ('CHO');";
-        String insertQuery1 = "INSERT INTO piece (game_id, pieceType, team, col_num, row_num) VALUES (1, 'GENERAL', 'CHO', 3, 0);";
-        String insertQuery2 = "INSERT INTO piece (game_id, pieceType, team, col_num, row_num) VALUES (1, 'GENERAL', 'HAN', 3, 7);";
-        try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement1 = connection.prepareStatement(gameInsertQuery);
-             PreparedStatement preparedStatement2 = connection.prepareStatement(insertQuery1);
-             PreparedStatement preparedStatement3 = connection.prepareStatement(insertQuery2)) {
-            preparedStatement1.executeUpdate();
-            preparedStatement2.executeUpdate();
-            preparedStatement3.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        setupGame();
     }
 
     @AfterEach
@@ -44,11 +33,12 @@ class PieceDaoTest {
 
     @DisplayName("gameId를 이용해 해당 게임의 모든 기물 정보를 가져올 수 있다.")
     @Test
-    void testGetPiecesByGameId() {
+    void testFindPiecesByGameId() {
         // given
+        setupPieces();
         int gameId = 1;
         // when
-        List<PieceDto> pieceDtos = pieceDao.getPiecesByGameId(gameId);
+        List<PieceDto> pieceDtos = pieceDao.findPiecesByGameId(gameId);
         // then
         assertAll(
                 () -> assertThat(pieceDtos).hasSize(2),
@@ -57,11 +47,61 @@ class PieceDaoTest {
         );
     }
 
+    @DisplayName("gameId에 해당하는 기물들 정보를 저장할 수 있다.")
+    @Test
+    void testAddPieces() {
+        // given
+        int gameId = 1;
+        List<PieceDto> pieceDtos = List.of(
+                new PieceDto("GENERAL", "CHO", 3, 0),
+                new PieceDto("GENERAL", "HAN", 3, 7)
+        );
+        // when
+        pieceDao.addPieces(gameId, pieceDtos);
+        // then
+        String selectQuery = "SELECT * FROM piece WHERE game_id = ?";
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+            preparedStatement.setInt(1, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int count = 0;
+            while (resultSet.next()) {
+                count++;
+            }
+            assertThat(count).isEqualTo(2);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void cleanUp() {
         try (Connection connection = mysqlConnection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute("TRUNCATE TABLE piece");
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setupPieces() {
+        String insertQuery1 = "INSERT INTO piece (game_id, pieceType, team, col_num, row_num) VALUES (1, 'GENERAL', 'CHO', 3, 0);";
+        String insertQuery2 = "INSERT INTO piece (game_id, pieceType, team, col_num, row_num) VALUES (1, 'GENERAL', 'HAN', 3, 7);";
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement1 = connection.prepareStatement(insertQuery1);
+             PreparedStatement preparedStatement2 = connection.prepareStatement(insertQuery2)) {
+            preparedStatement1.executeUpdate();
+            preparedStatement2.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void setupGame() {
+        String insertQuery = "INSERT INTO game (turn) VALUES ('CHO');";
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

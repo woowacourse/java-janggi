@@ -2,7 +2,6 @@ package janggi.dao;
 
 import janggi.domain.game.Team;
 import janggi.dto.GameDto;
-import janggi.dto.PieceDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,14 +19,14 @@ public final class GameDao {
         this.mysqlConnection = mysqlConnection;
     }
 
-    public List<GameDto> getAllGames() {
-        final String query = "SELECT id, turn, created_at FROM game ORDER BY created_at";
-        final List<GameDto> games = new ArrayList<>();
+    public List<GameDto> findAllGames() {
+        String query = "SELECT id, turn, created_at FROM game ORDER BY created_at";
+        List<GameDto> games = new ArrayList<>();
 
-        try (final Connection connection = mysqlConnection.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
 
-            final ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 games.add(toGameDto(resultSet));
             }
@@ -38,11 +37,11 @@ public final class GameDao {
         return games;
     }
 
-    public GameDto getGameById(final int gameId) {
-        final String query = "SELECT id, turn, created_at FROM game WHERE id = ?";
+    public GameDto findGameById(final int gameId) {
+        String query = "SELECT id, turn, created_at FROM game WHERE id = ?";
 
-        try (final Connection connection = mysqlConnection.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -55,65 +54,27 @@ public final class GameDao {
         }
     }
 
-    public void saveGame(final Team turn, final List<PieceDto> pieceDtos) {
-        final String insertGameQuery = "INSERT INTO game (turn) VALUES(?)";
-        final String insertPieceQuery = "INSERT INTO piece (game_id, pieceType, team, col_num, row_num) VALUES (?, ?, ?, ?, ?)";
+    public int addGame(final Team turn) {
+        String insertGameQuery = "INSERT INTO game (turn) VALUES(?)";
 
-        Connection connection = null;
-        try {
-            connection = mysqlConnection.getConnection();
-            connection.setAutoCommit(false);
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertGameQuery,
+                     Statement.RETURN_GENERATED_KEYS)) {
 
-            try (final PreparedStatement insertGameStatement = connection.prepareStatement(insertGameQuery,
-                    Statement.RETURN_GENERATED_KEYS);
-                 final PreparedStatement insertPieceStatement = connection.prepareStatement(insertPieceQuery)) {
+            preparedStatement.setString(1, turn.name());
+            preparedStatement.executeUpdate();
 
-                insertGameStatement.setString(1, turn.name());
-                insertGameStatement.executeUpdate();
-
-                final ResultSet keys = insertGameStatement.getGeneratedKeys();
-                int gameId;
-                if (keys.next()) {
-                    gameId = keys.getInt(1);
-                } else {
-                    throw new SQLException("게임 생성 후 키가 반환되지 않았습니다.");
-                }
-
-                for (PieceDto pieceDto : pieceDtos) {
-                    insertPieceStatement.setInt(1, gameId);
-                    insertPieceStatement.setString(2, pieceDto.pieceType());
-                    insertPieceStatement.setString(3, pieceDto.team());
-                    insertPieceStatement.setInt(4, pieceDto.colNum());
-                    insertPieceStatement.setInt(5, pieceDto.rowNum());
-                    insertPieceStatement.addBatch();
-                }
-                insertPieceStatement.executeBatch();
-
-                connection.commit();
+            ResultSet keys = preparedStatement.getGeneratedKeys();
+            if (keys.next()) {
+                return keys.getInt(1);
             }
+            throw new SQLException("게임 생성 후 키가 반환되지 않았습니다.");
         } catch (SQLException e) {
-            if (connection != null) {
-                try {
-                    connection.rollback();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
             throw new RuntimeException(e);
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
-    /* 기존 게임 업데이트하기 */
-
-    private final GameDto toGameDto(final ResultSet resultSet) throws SQLException {
+    private GameDto toGameDto(final ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String turn = resultSet.getString("turn");
         Timestamp createdAt = resultSet.getTimestamp("created_at");
