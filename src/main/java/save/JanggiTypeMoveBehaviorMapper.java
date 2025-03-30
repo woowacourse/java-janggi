@@ -12,28 +12,29 @@ import move.SangMoveBehavior;
 import piece.PieceType;
 
 public enum JanggiTypeMoveBehaviorMapper {
-    CHA(PieceType.CHA.name(), new ChaMoveBehavior()),
-    FO(PieceType.FO.name(), new FoMoveBehavior()),
-    JOL(PieceType.JOL.name(), new JolMoveBehavior()),
-    GUNG(PieceType.GUNG.name(), new GungMoveBehavior()),
-    MA(PieceType.MA.name(), new MaMoveBehavior()),
-    SANG(PieceType.SANG.name(), new SangMoveBehavior()),
-    SA(PieceType.SA.name(), new SaMoveBehavior()),
+    CHA(PieceType.CHA, new ChaMoveBehavior()),
+    FO(PieceType.FO, new FoMoveBehavior()),
+    JOL(PieceType.JOL, new JolMoveBehavior()),
+    GUNG(PieceType.GUNG, new GungMoveBehavior()),
+    MA(PieceType.MA, new MaMoveBehavior()),
+    SANG(PieceType.SANG, new SangMoveBehavior()),
+    SA(PieceType.SA, new SaMoveBehavior()),
     ;
 
     private static final String INVALID_TYPE = "지원하지 않는 타입입니다.";
 
-    private final String pieceType;
+    private final PieceType pieceType;
     private final JanggiMoveBehavior janggiMoveBehavior;
 
-    JanggiTypeMoveBehaviorMapper(String pieceType, JanggiMoveBehavior janggiMoveBehavior) {
+    JanggiTypeMoveBehaviorMapper(PieceType pieceType, JanggiMoveBehavior janggiMoveBehavior) {
         this.pieceType = pieceType;
         this.janggiMoveBehavior = janggiMoveBehavior;
     }
 
     public static JanggiMoveBehavior from(String pieceType) {
         JanggiTypeMoveBehaviorMapper findMoveBehaviorMapper = Arrays.stream(JanggiTypeMoveBehaviorMapper.values())
-                .filter((janggiTypeMoveBehaviorMapper) -> janggiTypeMoveBehaviorMapper.pieceType.equals(pieceType))
+                .filter((janggiTypeMoveBehaviorMapper) -> janggiTypeMoveBehaviorMapper.pieceType.name()
+                        .equals(pieceType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_TYPE));
         return findMoveBehaviorMapper.janggiMoveBehavior;
