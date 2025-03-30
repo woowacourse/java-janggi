@@ -2,23 +2,23 @@ CREATE DATABASE IF NOT EXISTS `janggi` DEFAULT CHARACTER SET utf8 COLLATE utf8_g
 
 USE `janggi`;
 
-CREATE TABLE `Team` (
+CREATE TABLE `team` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(10),
   `current` TINYINT(1)
 );
 
-CREATE TABLE `PieceType` (
+CREATE TABLE `piece_type` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` VARCHAR(10)
 );
 
-CREATE TABLE `Piece` (
+CREATE TABLE `piece` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `teamId` int unsigned,
-  `pieceTypeId` int unsigned,
+  `team_id` int unsigned,
+  `piece_type_id` int unsigned,
   `x` int(2) unsigned,
   `y` int(2) unsigned,
-  foreign key (`teamId`) references `Team`(`id`),
-  foreign key (`pieceTypeId`) references `PieceType`(`id`)
+  foreign key (`team_id`) references `team`(`id`),
+  foreign key (`piece_type_id`) references `piece_type`(`id`)
 );
