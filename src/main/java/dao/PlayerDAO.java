@@ -1,4 +1,4 @@
-package repository;
+package dao;
 
 import domain.player.Player;
 import domain.player.Score;
@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class PlayerDAO {
@@ -16,7 +17,7 @@ public final class PlayerDAO {
     private final AtomicInteger counter = new AtomicInteger(0);
 
     public PlayerDAO(final Connector connector) {
-        this.connector = connector;
+        this.connector = Objects.requireNonNull(connector, "connecter가 null일 수 없습니다.");
         getNextId();
     }
 
@@ -31,7 +32,7 @@ public final class PlayerDAO {
             preparedStatement.executeUpdate();
             return counter.incrementAndGet();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 플레이어를 생성하는 데 실패했습니다.");
         }
     }
 
@@ -49,7 +50,7 @@ public final class PlayerDAO {
 
             preparedStatement.executeBatch();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 플레이어를 수정하는 데 실패했습니다.");
         }
     }
 
@@ -69,9 +70,9 @@ public final class PlayerDAO {
                 );
             }
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 플레이어를 조회하는 데 실패했습니다.");
         }
-        throw new RuntimeException("Player 정보를 찾을 수 없습니다디: " + id);
+        throw new RuntimeException("플레이어 정보를 찾을 수 없습니다: " + id);
     }
 
     public List<Player> findAllByGameId(final int gameId) {
@@ -83,7 +84,7 @@ public final class PlayerDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             return convertResultSetToPlayers(resultSet);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 복수의 플레이어를 조회하는 데 실패했습니다.");
         }
     }
 
@@ -93,7 +94,7 @@ public final class PlayerDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
             incrementLastId(resultSet);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 플레이어의 Id를 조회하는 데 실패했습니다.");
         }
     }
 

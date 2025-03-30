@@ -1,9 +1,10 @@
-package repository;
+package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class GameDAO {
@@ -11,7 +12,7 @@ public final class GameDAO {
     private final AtomicInteger counter = new AtomicInteger(0);
 
     public GameDAO(final Connector connector) {
-        this.connector = connector;
+        this.connector = Objects.requireNonNull(connector, "connecter가 null일 수 없습니다.");
         getNextId();
     }
 
@@ -22,7 +23,7 @@ public final class GameDAO {
             preparedStatement.executeUpdate();
             return counter.incrementAndGet();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 게임을 생성하는 데 실패했습니다.");
         }
     }
 
@@ -33,7 +34,7 @@ public final class GameDAO {
             preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 게임을 비활성화하는 데 실패했습니다.");
         }
     }
 
@@ -46,7 +47,7 @@ public final class GameDAO {
             final ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next() && resultSet.getBoolean(1);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 활성화된 게임를 조회하는 데 실패했습니다.");
         }
     }
 
@@ -56,7 +57,7 @@ public final class GameDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
             incrementLastId(resultSet);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 게임 ID를 초기화하는 데 실패했습니다.");
         }
     }
 

@@ -1,9 +1,9 @@
-package repository;
+package dao;
 
+import dao.mock.TestConnector;
 import java.sql.SQLException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import repository.mock.TestConnector;
 
 public final class PlayerDAOTest {
     private static final Connector CONNECTOR = new TestConnector();

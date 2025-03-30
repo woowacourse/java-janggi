@@ -1,4 +1,4 @@
-package repository;
+package dao;
 
 import domain.board.Point;
 import domain.pieces.PieceDefinition;
@@ -10,12 +10,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public final class BoardLocationDAO {
     private final Connector connector;
 
     public BoardLocationDAO(final Connector connector) {
-        this.connector = connector;
+        this.connector = Objects.requireNonNull(connector, "connecter가 null일 수 없습니다.");
     }
 
     public void createBatch(final BoardLocations boardLocations) {
@@ -34,7 +35,7 @@ public final class BoardLocationDAO {
 
             preparedStatement.executeBatch();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 위치 정보를 생성하는 데 실패했습니다.");
         }
     }
 
@@ -48,7 +49,7 @@ public final class BoardLocationDAO {
             deleteStatement.setInt(3, gameId);
             deleteStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 위치 정보를 삭제하는 데 실패했습니다.");
         }
     }
 
@@ -65,7 +66,7 @@ public final class BoardLocationDAO {
             updateStatement.setInt(5, gameId);
             updateStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 위치 정보를 수정하는 데 실패했습니다.");
         }
     }
 
@@ -81,7 +82,7 @@ public final class BoardLocationDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             return convertResultSetToLocations(resultSet);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("데이터베이스에서 위치 정보를 조회하는 데 실패했습니다.");
         }
     }
 

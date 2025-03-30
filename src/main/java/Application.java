@@ -1,10 +1,10 @@
 import controller.JanggiController;
-import repository.BoardLocationDAO;
-import repository.Connector;
-import repository.DAOService;
-import repository.GameDAO;
-import repository.MySQLConnector;
-import repository.PlayerDAO;
+import dao.BoardLocationDAO;
+import dao.Connector;
+import dao.DAOService;
+import dao.GameDAO;
+import dao.MySQLConnector;
+import dao.PlayerDAO;
 import view.InputView;
 import view.OutputView;
 
@@ -20,7 +20,6 @@ public final class Application {
                     new BoardLocationDAO(connector),
                     new PlayerDAO(connector)
             );
-
             final JanggiController controller = new JanggiController(inputView, outputView, service);
             controller.run();
         } catch (RuntimeException e) {

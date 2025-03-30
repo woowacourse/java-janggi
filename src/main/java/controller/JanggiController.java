@@ -1,5 +1,6 @@
 package controller;
 
+import dao.DAOService;
 import domain.JanggiGame;
 import domain.board.Board;
 import domain.board.Point;
@@ -13,7 +14,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import repository.DAOService;
 import view.InputView;
 import view.OutputView;
 

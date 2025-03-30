@@ -1,4 +1,4 @@
-package repository;
+package dao;
 
 import domain.board.Point;
 import domain.player.Player;

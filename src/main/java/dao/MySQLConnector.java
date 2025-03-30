@@ -1,4 +1,4 @@
-package repository;
+package dao;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,8 +19,8 @@ public final class MySQLConnector implements Connector {
     }
 
     private void loadProperties() {
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
-            Properties prop = new Properties();
+        try (final InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
+            final Properties prop = new Properties();
             prop.load(input);
 
             server = prop.getProperty("db.server");
@@ -38,8 +38,7 @@ public final class MySQLConnector implements Connector {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + option, username, password);
         } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            throw new SQLException(e);
+            throw new SQLException("DB 연결 오류 : " + e.getMessage());
         }
     }
 }

@@ -1,12 +1,12 @@
-package repository.mock;
+package dao.mock;
 
+import dao.Connector;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-import repository.Connector;
 
 public final class TestConnector implements Connector {
     private String server;
@@ -20,8 +20,8 @@ public final class TestConnector implements Connector {
     }
 
     private void loadProperties() {
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
-            Properties prop = new Properties();
+        try (final InputStream input = getClass().getClassLoader().getResourceAsStream("database.properties")) {
+            final Properties prop = new Properties();
             prop.load(input);
 
             server = prop.getProperty("db.server");
