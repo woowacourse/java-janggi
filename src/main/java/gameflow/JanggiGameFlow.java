@@ -16,17 +16,18 @@ import view.OutputView;
 
 public class JanggiGameFlow {
 
+    private static final String SURRENDER_COMMAND = "GG";
     private final Janggi janggi;
     private final InputView inputView;
     private final OutputView outputView;
 
     public JanggiGameFlow(InputView inputView, OutputView outputView) {
-        this.janggi = createJanggi();
+        this.janggi = initGame();
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
-    private Janggi createJanggi() {
+    private Janggi initGame() {
         Map<Position, Unit> hanUnits = settingUnits(Team.HAN);
         Map<Position, Unit> choUnits = settingUnits(Team.CHO);
         Units totalUnits = Units.of(hanUnits, choUnits);
@@ -41,10 +42,24 @@ public class JanggiGameFlow {
         return units;
     }
 
-    public void doTurn() {
+    public void playGame() {
         outputView.printJanggiUnits(janggi.getUnits());
-        Position pick = parsePosition(inputView.readUnitPosition(janggi.getTurn()));
+        while (isPlaying()) {
+            String rawPosition = inputView.readUnitPosition(janggi.getTurn());
+            if (rawPosition.equals(SURRENDER_COMMAND)) {
+                janggi.surrender();
+                break;
+            }
+            Position position = parsePosition(rawPosition);
+            processTurn(position);
+        }
+    }
 
+    private boolean isPlaying() {
+        return !janggi.isEnd();
+    }
+
+    private void processTurn(Position pick) {
         Routes routes = janggi.findMovableRoutesFrom(pick);
         outputView.printAvailableRoute(pick, routes);
 
@@ -54,8 +69,9 @@ public class JanggiGameFlow {
         outputView.printJanggiUnits(janggi.getUnits());
     }
 
-    public boolean isPlaying() {
-        return janggi.isPlaying();
+    public void endGame() {
+        Team winner = janggi.getWinner();
+        outputView.printWinner(winner, janggi.getScoreOf(Team.CHO), janggi.getScoreOf(Team.HAN));
     }
 
     private List<Integer> parseInteger(String rawPosition) {

@@ -239,10 +239,10 @@ class JanggiTest {
         Janggi janggi = Janggi.of(totalUnits);
 
         // when
-        boolean isNotPlaying = janggi.isPlaying();
+        boolean isEnd = janggi.isEnd();
 
         // then
-        assertThat(isNotPlaying).isFalse();
+        assertThat(isEnd).isTrue();
     }
 
     @Test
@@ -251,20 +251,23 @@ class JanggiTest {
         // given
         Unit target1 = Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.GENERAL);
         Unit target2 = Unit.of(Team.HAN, new OneStepMovingStrategy(), UnitType.GENERAL);
+        Unit soldier = Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.SOLDIER);
         Position targetPosition1 = Position.of(4, 5);
         Position targetPosition2 = Position.of(4, 6);
+        Position position = Position.of(4, 7);
         Map<Position, Unit> units = Map.of(
                 targetPosition1, target1,
-                targetPosition2, target2
+                targetPosition2, target2,
+                position, soldier
         );
         Units totalUnits = Units.of(units, Map.of());
         Janggi janggi = Janggi.of(totalUnits);
 
         // when
-        boolean isPlaying = janggi.isPlaying();
+        boolean isEnd = janggi.isEnd();
 
         // then
-        assertThat(isPlaying).isTrue();
+        assertThat(isEnd).isFalse();
     }
 
     @Test
@@ -290,5 +293,30 @@ class JanggiTest {
 
         // then
         assertThat(movableRoutesFrom.getRoutes()).hasSize(1);
+    }
+
+    @Test
+    @DisplayName("궁이 잡힌 상황의 우승자를 반환한다")
+    void test14() {
+        // given
+        Unit choGeneral = Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.GENERAL);
+        Position targetPosition = Position.of(0, 0);
+        Map<Position, Unit> units = Map.of(
+                targetPosition, choGeneral,
+                Position.of(0, 1), Unit.of(Team.CHO, new OneStepMovingStrategy(), UnitType.SOLDIER)
+        );
+        Unit oppositeCannon = Unit.of(Team.HAN, new StraightMovingStrategy(), UnitType.CANNON);
+        Position oppositePosition = Position.of(0, 3);
+        Map<Position, Unit> oppositeUnits = Map.of(
+                oppositePosition, oppositeCannon
+        );
+        Units totalUnits = Units.of(units, oppositeUnits);
+        Janggi janggi = Janggi.of(totalUnits);
+
+        // when
+        Team winner = janggi.getWinner();
+
+        // then
+        assertThat(winner).isEqualTo(Team.CHO);
     }
 }

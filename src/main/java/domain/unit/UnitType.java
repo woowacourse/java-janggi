@@ -25,9 +25,7 @@ public enum UnitType {
     private final int hanY;
     private final int choY;
     private final List<Integer> xPositions;
-
     private final int score;
-
     private final Supplier<MovingStrategy> rule;
 
     UnitType(int hanY, int choY, List<Integer> xPositions, int score, Supplier<MovingStrategy> rule) {

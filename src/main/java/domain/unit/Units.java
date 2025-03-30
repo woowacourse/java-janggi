@@ -40,6 +40,13 @@ public class Units {
         units.remove(position);
     }
 
+    public void killGeneralOf(Team team) {
+        units.entrySet().removeIf(entry -> {
+            Unit unit = entry.getValue();
+            return unit.getTeam() == team && unit.getType() == UnitType.GENERAL;
+        });
+    }
+
     public int calculateScoreOf(Team team) {
         return units.values().stream()
                 .filter(unit -> unit.isSameTeam(team))
@@ -47,10 +54,15 @@ public class Units {
                 .sum();
     }
 
-    public boolean isAllGeneralExist() {
+    public boolean isGeneralNotExistIn(Team team) {
         return units.values().stream()
-                .filter(unit -> unit.isSameType(UnitType.GENERAL))
-                .count() == Team.values().length;
+                .noneMatch(unit -> unit.isSameTeam(team) && unit.isSameType(UnitType.GENERAL));
+    }
+
+    public boolean existOnlyGeneralAndGuard() {
+        return units.values().stream()
+                .noneMatch(unit -> !unit.isSameType(UnitType.GENERAL) &&
+                        !unit.isSameType(UnitType.GUARD));
     }
 
     public boolean isOppositeTeam(Position position, Position other) {

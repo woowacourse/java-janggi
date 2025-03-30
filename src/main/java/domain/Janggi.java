@@ -17,6 +17,7 @@ public class Janggi {
     public static final String CANNOT_MOVE_EXCEPTION = "이동할 수 없는 도착지입니다.";
 
     public static final Team FIRST_ATTACK_TEAM = Team.CHO;
+    public static final double AFTER_ATTACK_HANDICAP = 1.5;
 
     private final Units totalUnits;
     private Team turn;
@@ -28,6 +29,10 @@ public class Janggi {
 
     public static Janggi of(Units totalUnits) {
         return new Janggi(totalUnits, FIRST_ATTACK_TEAM);
+    }
+
+    public void surrender() {
+        totalUnits.killGeneralOf(turn);
     }
 
     public void doTurn(Position pick, Position destination) {
@@ -113,17 +118,37 @@ public class Janggi {
         return totalUnits.isUnitTeamNotEqualAt(endPosition, turn);
     }
 
-    public boolean isPlaying() {
-        return totalUnits.isAllGeneralExist();
+    public boolean isEnd() {
+        return totalUnits.isGeneralNotExistIn(FIRST_ATTACK_TEAM) ||
+                totalUnits.isGeneralNotExistIn(FIRST_ATTACK_TEAM.getOpposite()) ||
+                totalUnits.existOnlyGeneralAndGuard();
     }
 
     public Team getWinner() {
-        double firstAttackScore = totalUnits.calculateScoreOf(FIRST_ATTACK_TEAM);
-        double afterAttackScore = totalUnits.calculateScoreOf(FIRST_ATTACK_TEAM.getOpposite()) + 1.5;
+        if (totalUnits.isGeneralNotExistIn(FIRST_ATTACK_TEAM)) {
+            return FIRST_ATTACK_TEAM.getOpposite();
+        }
+        if (totalUnits.isGeneralNotExistIn(FIRST_ATTACK_TEAM.getOpposite())) {
+            return FIRST_ATTACK_TEAM;
+        }
+        return getHigherScoreTeam();
+    }
+
+    private Team getHigherScoreTeam() {
+        double firstAttackScore = getScoreOf(FIRST_ATTACK_TEAM);
+        double afterAttackScore = getScoreOf(FIRST_ATTACK_TEAM.getOpposite());
         if (firstAttackScore > afterAttackScore) {
             return FIRST_ATTACK_TEAM;
         }
         return FIRST_ATTACK_TEAM.getOpposite();
+    }
+
+    public double getScoreOf(Team team) {
+        double score = totalUnits.calculateScoreOf(team);
+        if (team == FIRST_ATTACK_TEAM.getOpposite()) {
+            score += AFTER_ATTACK_HANDICAP;
+        }
+        return score;
     }
 
     public Team getTurn() {

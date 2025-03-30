@@ -49,6 +49,11 @@ public class OutputView {
         }
     }
 
+    public void printWinner(Team team, double choScore, double hanScore) {
+        System.out.println(teamToName(team) + "가 승리하였습니다.");
+        System.out.println("초나라 점수 : " + choScore + ", 한나라 점수 : " + hanScore);
+    }
+
     private String typeToName(UnitType unitType) {
         if (unitType == UnitType.GENERAL) {
             return "GN";
@@ -70,6 +75,16 @@ public class OutputView {
         }
         if (unitType == UnitType.SOLDIER) {
             return "SD";
+        }
+        throw new IllegalStateException("예기치 못한 예외가 발생하였습니다.");
+    }
+
+    private String teamToName(Team team) {
+        if (team == Team.HAN) {
+            return "한나라";
+        }
+        if (team == Team.CHO) {
+            return "초나라";
         }
         throw new IllegalStateException("예기치 못한 예외가 발생하였습니다.");
     }
