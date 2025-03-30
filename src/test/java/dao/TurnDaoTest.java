@@ -32,15 +32,6 @@ class TurnDaoTest {
     }
 
     @Test
-    void 턴을_업데이트할_수_있다() {
-        TurnDao turnDao = new FakeTurnDao();
-
-        turnDao.update(Team.HAN);
-
-        assertThat(turnDao.load()).isEqualTo(Team.HAN);
-    }
-
-    @Test
     void 턴_전체를_삭제할_수_있다() {
         TurnDao turnDao = new FakeTurnDao();
 

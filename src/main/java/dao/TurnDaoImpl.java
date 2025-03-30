@@ -42,18 +42,6 @@ public class TurnDaoImpl implements TurnDao {
     }
 
     @Override
-    public void update(final Team turn) {
-        final String query = "UPDATE turn SET turn = ? WHERE turn = ?";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, turn.name());
-            preparedStatement.setString(2, turn.inverse().name());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public void remove() {
         final String query = "DELETE FROM turn";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {

@@ -8,7 +8,5 @@ public interface TurnDao {
 
     void save(final Team turn);
 
-    void update(final Team turn);
-
     void remove();
 }

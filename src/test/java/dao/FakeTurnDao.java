@@ -20,11 +20,6 @@ class FakeTurnDao implements TurnDao {
     }
 
     @Override
-    public void update(final Team turn) {
-        turns.set(0, turn);
-    }
-
-    @Override
     public void remove() {
         turns.clear();
     }
