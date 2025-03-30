@@ -36,14 +36,10 @@ public final class JanggiController {
     }
 
     private void initGame() {
-        try {
-            final JanggiGame game = initialJanggiGame();
-            daoService.registerLocations(BoardLocation.convertToLocations(game.getBoard()));
-            outputView.printBoard(game.getBoard());
-            playJanggi(game);
-        } catch (RuntimeException e) {
-            outputView.printError(e.getMessage());
-        }
+        final JanggiGame game = initialJanggiGame();
+        daoService.registerLocations(BoardLocation.convertToLocations(game.getBoard()));
+        outputView.printBoard(game.getBoard());
+        playJanggi(game);
     }
 
     private JanggiGame initialJanggiGame() {
@@ -65,17 +61,34 @@ public final class JanggiController {
     }
 
     private void playJanggi(final JanggiGame game) {
-        while (true) {
-            final Team currentTeam = game.getTeamOnCurrentTurn();
-            final List<List<Choice>> moveRequest = handleInput(() -> inputView.readMovementRequest(currentTeam));
-            final Point start = Point.generateStartPoint(moveRequest);
-            final Point arrival = Point.generateArrivalPoint(moveRequest);
-            if (!canProcessMove(start, arrival, game)) {
-                gameOver(game, currentTeam);
-                break;
-            }
-            handleMove(game, start, arrival);
+        boolean gameInProgress = true;
+        while (gameInProgress) {
+            gameInProgress = isGameInProgress(game, gameInProgress);
         }
+    }
+
+    private boolean isGameInProgress(final JanggiGame game, boolean gameInProgress) {
+        try {
+            gameInProgress = processTurn(game);
+        } catch (JanggiGameRuleWarningException e) {
+            outputView.printWarring(e.getMessage());
+        }
+        return gameInProgress;
+    }
+
+    private boolean processTurn(final JanggiGame game) {
+        final Team currentTeam = game.getTeamOnCurrentTurn();
+        final List<List<Choice>> moveRequest = handleInput(() -> inputView.readMovementRequest(currentTeam));
+        final Point start = Point.generateStartPoint(moveRequest);
+        final Point arrival = Point.generateArrivalPoint(moveRequest);
+
+        if (!game.canMovePiece(start, arrival)) {
+            gameOver(game, currentTeam);
+            return false;
+        }
+
+        handleMove(game, start, arrival);
+        return true;
     }
 
     private void handleMove(JanggiGame game, Point start, Point arrival) {
@@ -92,15 +105,6 @@ public final class JanggiController {
     private void gameOver(final JanggiGame game, final Team team) {
         daoService.deactivateGame(game.getId());
         outputView.printWinner(team);
-    }
-
-    private boolean canProcessMove(final Point start, final Point arrival, final JanggiGame game) {
-        try {
-            return game.canMove(start, arrival);
-        } catch (JanggiGameRuleWarningException e) {
-            outputView.printWarring(e.getMessage());
-            return true;
-        }
     }
 
     private <T> T handleInput(Supplier<T> inputSupplier) {

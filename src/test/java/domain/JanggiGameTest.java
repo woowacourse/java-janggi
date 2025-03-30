@@ -40,7 +40,7 @@ public final class JanggiGameTest {
 
     @Test
     @DisplayName("시작점과 도착점을 입력할 경우, 기물을 움직일 수 있는 지 반환한다.")
-    void test_canMovePieceOnBoard() {
+    void test_canMovePiecePieceOnBoard() {
         //given
         final JanggiGame janggiGame = getJanggiGame();
 
@@ -48,7 +48,7 @@ public final class JanggiGameTest {
         final Point arrival = new Point(2, 0);
 
         //when&then
-        assertThat(janggiGame.canMove(start, arrival)).isTrue();
+        assertThat(janggiGame.canMovePiece(start, arrival)).isTrue();
     }
 
     @Test

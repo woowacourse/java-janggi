@@ -36,7 +36,7 @@ public final class JanggiGame {
         return new JanggiGame(id, board, players);
     }
 
-    public boolean canMove(final Point start, final Point arrival) {
+    public boolean canMovePiece(final Point start, final Point arrival) {
         final Team currentTeam = getTeamOnCurrentTurn();
         return board.canMovePiece(start, arrival, currentTeam);
     }
