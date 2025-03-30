@@ -33,7 +33,8 @@ class SoldierTest {
         Position afterPosition = new Position(5, 6);
 
         assertThatCode(() ->
-                SoldierTest.this.soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map))).doesNotThrowAnyException();
+                SoldierTest.this.soldier.getMovableValidator(beforePosition, afterPosition)
+                        .accept(new Pieces(map))).doesNotThrowAnyException();
     }
 
     @DisplayName("청졸의 이동 위치 값이 불가능한 값인 경우 예외를 던진다.")
@@ -51,8 +52,9 @@ class SoldierTest {
     @ParameterizedTest
     void move3(final int x, final int y) {
         Position afterPosition = new Position(x, y);
+        Soldier redSoldier = new Soldier(Team.RED);
 
-        assertThatThrownBy(() -> soldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
+        assertThatThrownBy(() -> redSoldier.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
