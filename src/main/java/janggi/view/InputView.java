@@ -9,13 +9,13 @@ public class InputView {
     private static final String ERROR_SUFFIX = " 다시 입력해주세요.";
     private static final Scanner scanner = new Scanner(System.in);
 
-    public boolean readGameStart() {
+    public boolean readGameRestart() {
         try {
-            System.out.println("게임을 시작하시겠습니까? (y/n)");
+            System.out.println("이전 게임을 재시작하시겠습니까? (y/n)");
             return YorN.fromText(scanner.nextLine()).toBoolean();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage() + ERROR_SUFFIX);
-            return readGameStart();
+            return readGameRestart();
         }
     }
 

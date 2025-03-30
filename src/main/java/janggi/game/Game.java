@@ -1,15 +1,19 @@
 package janggi.game;
 
+import janggi.dao.GameDao;
+import janggi.dao.PieceDao;
+import janggi.dto.MovementDto;
 import janggi.movement.target.AttackedPiece;
 import janggi.piece.Piece;
 import janggi.point.Point;
 import janggi.score.ScoreResult;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Game {
+    //TODO DAO를 쓴다면 여기서 씀
+
     private final Board board;
     private final List<AttackedPiece> attackedPieces;
     private Team turn;
@@ -43,9 +47,12 @@ public class Game {
     }
 
     public void move(Piece movingPiece, Point targetPoint) {
-        AttackedPiece attackedPiece = board.move(movingPiece, targetPoint);
-        if (attackedPiece.exists()) {
+        MovementDto movement = board.move(movingPiece, targetPoint);
+        PieceDao.updatePointFrom(movingPiece, movement.movedPiece()); //TODO dAO 호출..
+        if (movement.attackedPiece().exists()) {
+            AttackedPiece attackedPiece = movement.attackedPiece();
             attackedPieces.add(attackedPiece);
+            PieceDao.updateToAttacked(attackedPiece); //TODO DAO 호출
         }
     }
 
@@ -57,6 +64,7 @@ public class Game {
 
     public void reverseTurn() {
         this.turn = turn.reverse();
+        GameDao.updateTurn(this); //TODO DAO
     }
 
     public boolean canContinue() {
@@ -81,9 +89,5 @@ public class Game {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public List<AttackedPiece> getAttackedPieces() {
-        return Collections.unmodifiableList(attackedPieces);
     }
 }

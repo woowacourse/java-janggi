@@ -1,5 +1,6 @@
 package janggi.game;
 
+import janggi.dto.MovementDto;
 import janggi.movement.target.AttackedPiece;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
@@ -50,12 +51,12 @@ public class Board {
                 .anyMatch(piece -> piece.getPoint().equals(point));
     }
 
-    public AttackedPiece move(Piece movingPiece, Point afterPoint) {
+    public MovementDto move(Piece movingPiece, Point afterPoint) {
         validatePieceMovable(afterPoint, movingPiece);
-        Piece updatedMoving = movingPiece.updatePoint(afterPoint);
+        Piece updatedMovingPiece = movingPiece.updatePoint(afterPoint);
         AttackedPiece attackedPiece = removePieceIfAttacked(afterPoint);
-        updateMovedPiece(movingPiece, updatedMoving);
-        return attackedPiece;
+        updateMovedPiece(movingPiece, updatedMovingPiece);
+        return new MovementDto(updatedMovingPiece, attackedPiece);
     }
 
     private void validatePieceMovable(Point afterPoint, Piece movingPiece) {

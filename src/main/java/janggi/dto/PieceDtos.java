@@ -4,6 +4,7 @@ import janggi.movement.target.AttackedPiece;
 import janggi.piece.Piece;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public record PieceDtos(List<RunningPieceDto> runningPieces, List<AttackedPieceDto> attackedPieces){
 
@@ -18,11 +19,11 @@ public record PieceDtos(List<RunningPieceDto> runningPieces, List<AttackedPieceD
     }
 
     public List<Piece> getRunningPieces() {
-        return runningPieces.stream().map(dto -> dto.piece).toList();
+        return runningPieces.stream().map(dto -> dto.piece).collect(Collectors.toList()); // 불변 안됨
     }
 
     public List<AttackedPiece> getAttackedPieces() {
-        return attackedPieces.stream().map(dto -> dto.piece).toList();
+        return attackedPieces.stream().map(dto -> dto.piece).collect(Collectors.toList());
     }
 
     public record RunningPieceDto(int id, Piece piece) {

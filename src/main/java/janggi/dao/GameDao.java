@@ -9,9 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameDao {
     private static final DateTimeFormatter createdAtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final List<GameDao> gameDaos = new ArrayList<>();
 
     private final int id;
     private Game game;
@@ -34,12 +37,26 @@ public class GameDao {
             preparedCheckStatement.setString(1, game.getCreatedAt().format(createdAtFormatter));
             ResultSet resultSet = preparedCheckStatement.executeQuery();
             if (resultSet.next()) {
-                return new GameDao(resultSet.getInt("id"), game);
+                GameDao gameDao = new GameDao(resultSet.getInt("id"), game);
+                gameDaos.add(gameDao);
+                return gameDao;
             }
             throw new IllegalStateException("게임이 생성되지 않았습니다.");
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static GameDao recreateGameFrom(PieceDtos pieceDtos, GameDto gameDto) {
+        Game game = new Game(
+                new Board(pieceDtos.getRunningPieces()),
+                pieceDtos.getAttackedPieces(),
+                gameDto.turn(),
+                gameDto.createdAt()
+        );
+        GameDao gameDao = new GameDao(gameDto.id(), game);
+        gameDaos.add(gameDao);
+        return gameDao;
     }
 
     public static GameDto findLastCreated() {
@@ -61,17 +78,35 @@ public class GameDao {
         }
     }
 
-    public static GameDao recreateGameFrom(PieceDtos pieceDtos, GameDto gameDto) {
-        Game game = new Game(
-                new Board(pieceDtos.getRunningPieces()),
-                pieceDtos.getAttackedPieces(),
-                gameDto.turn(),
-                gameDto.createdAt()
-        );
-        return new GameDao(gameDto.id(), game);
+    public static void updateTurn(Game game) {
+        GameDao updatingGameDao = gameDaos.stream().
+                filter(dao -> dao.game.equals(game))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+        updatingGameDao.updateTurn();
     }
 
-    public void deleteGame() {
+    private void updateTurn() {
+        final var query = "UPDATE game SET turn=? WHERE id = ?";
+        try (final var connection = JangiDatabase.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, game.getTurn().name());
+            preparedStatement.setInt(2, this.id);
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteGame(Game game) {
+        GameDao deletingGameDao = gameDaos.stream().
+                filter(dao -> dao.game.equals(game))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+        deletingGameDao.deleteGame();
+    }
+
+    private void deleteGame() {
         final var query = "DELETE FROM game WHERE id = ?";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)){
@@ -85,19 +120,11 @@ public class GameDao {
         }
     }
 
-    public void updateTurn() {
-        final var query = "UPDATE game SET turn=? WHERE id = ?";
-        try (final var connection = JangiDatabase.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)){
-            preparedStatement.setString(1, game.getTurn().name());
-            preparedStatement.setInt(2, this.id);
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public int getId() {
         return id;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }

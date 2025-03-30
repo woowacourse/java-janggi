@@ -1,5 +1,9 @@
 package janggi.game;
 
+import janggi.dao.GameDao;
+import janggi.dao.PieceDao;
+import janggi.dto.GameDto;
+import janggi.dto.PieceDtos;
 import janggi.piece.Piece;
 import janggi.point.Point;
 import janggi.view.BoardView;
@@ -26,37 +30,56 @@ public class JanggiApplication {
     }
 
     private void run() {
-        if (inputView.readGameStart()) {
-            Game game = new Game();
+        Game game = retryUntilSuccessAndReturn(this::startGame);
 
-            while (game.canContinue()) {
-                boardView.displayBoard(game.getBoard());
-                boardView.printTeam(game.getTurn());
+        while (game.canContinue()) {
+            boardView.displayBoard(game.getBoard());
+            boardView.printTeam(game.getTurn());
 
-                Piece movingPiece = choosePieceUntilSuccess(() -> {
-                    Point startPoint = inputView.readStartPoint();
-                    return game.findMovingPiece(startPoint);
-                });
+            Piece movingPiece = retryUntilSuccessAndReturn(() -> {
+                Point startPoint = inputView.readStartPoint();
+                return game.findMovingPiece(startPoint);
+            });
 
-                movePieceUntilSuccess(piece -> {
-                    Point targetPoint = inputView.readTargetPoint();
-                    game.move(piece, targetPoint);
-                }
-                , movingPiece);
-
-                game.reverseTurn();
+            movePieceUntilSuccess(piece -> {
+                Point targetPoint = inputView.readTargetPoint();
+                game.move(piece, targetPoint);
             }
+            , movingPiece);
 
-            resultView.printResult(game, game.calculateScore());
+            game.reverseTurn();
         }
+
+        resultView.printResult(game, game.calculateScore());
+        GameDao.deleteGame(game); //TODO DAO
     }
 
-    private <T> T choosePieceUntilSuccess(Supplier<T> action) {
+    private Game startGame() { //TODO DAO
+        if (inputView.readGameRestart()) {
+            GameDto lastGameData = GameDao.findLastCreated();
+            PieceDtos lastPiecesData = PieceDao.findPiecesBy(lastGameData);
+            GameDao lastGame = GameDao.recreateGameFrom(lastPiecesData, lastGameData);
+            PieceDao.recreatePiecesFrom(lastPiecesData);
+
+            return lastGame.getGame();
+        }
+
+        Game game = new Game();
+        GameDao gameDao = GameDao.createGame(game);
+        for (Piece piece : gameDao.getGame().getBoard().getRunningPieces()) { //TODO 체이닝
+            PieceDao.createPiece(piece, gameDao);
+        }
+        return game;
+    }
+
+    private <T> T retryUntilSuccessAndReturn(Supplier<T> action) {
         while (true) {
             try {
                 return action.get();
-            } catch (RuntimeException e) {
+            } catch (IllegalArgumentException | IllegalStateException e) {
                 System.out.println(e.getMessage());
+            } catch (RuntimeException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -66,8 +89,10 @@ public class JanggiApplication {
             try {
                 action.accept(input);
                 return;
-            } catch (RuntimeException e) {
+            } catch (IllegalArgumentException | IllegalStateException e) {
                 System.out.println(e.getMessage());
+            } catch (RuntimeException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -7,6 +7,7 @@ import janggi.dto.PieceDtos;
 import janggi.game.Board;
 import janggi.game.Game;
 import janggi.game.Team;
+import janggi.movement.target.AttackedPiece;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Piece;
@@ -40,7 +41,7 @@ class PieceDaoTest {
         Piece movedPiece = piece.updatePoint(new Point(4, 4));
 
         PieceDao beforePiece = PieceDao.createPiece(piece, gameDao);
-        beforePiece.updatePiecePoint(movedPiece);
+        PieceDao.updatePointFrom(piece, movedPiece);
 
         assertThat(beforePiece.getPiece().getPoint()).isEqualTo(new Point(4, 4));
     }
@@ -52,8 +53,8 @@ class PieceDaoTest {
         Game game = new Game(new Board(List.of(piece)));
         GameDao gameDao = GameDao.createGame(game);
 
-        PieceDao pieceDao = PieceDao.createPiece(piece, gameDao);
-        pieceDao.updateToAttacked();
+        PieceDao.createPiece(piece, gameDao);
+        PieceDao.updateToAttacked(new AttackedPiece(piece));
         //TODO 검증가능?
     }
 
@@ -63,9 +64,9 @@ class PieceDaoTest {
         Piece piece1 = new Byeong(Team.HAN, new Point(5, 5));
         Piece piece2 = new Cha(Team.CHO, new Point(4, 4));
         GameDao gameDao = GameDao.createGame(new Game(new Board(List.of(piece1, piece2))));
-        PieceDao pieceDao1 = PieceDao.createPiece(piece1, gameDao);
-        PieceDao pieceDao2 = PieceDao.createPiece(piece2, gameDao);
-        pieceDao2.updateToAttacked();
+        PieceDao.createPiece(piece1, gameDao);
+        PieceDao.createPiece(piece2, gameDao);
+        PieceDao.updateToAttacked(new AttackedPiece(piece2));
         GameDto lastCreated = GameDao.findLastCreated();
 
         PieceDtos pieceDtos = PieceDao.findPiecesBy(lastCreated);

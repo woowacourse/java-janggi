@@ -13,7 +13,7 @@ public class ResultView {
 
         System.out.printf("%n%s팀이 우승했습니다.%n", winner.getText());
         for (Entry<Team, Score> result : scoreResult.getResult().entrySet()) {
-            System.out.printf("%s팀 : %f점%n", result.getKey().getText(), result.getValue().value());
+            System.out.printf("%s팀 : %.1f점%n", result.getKey().getText(), result.getValue().value());
         }
     }
 }

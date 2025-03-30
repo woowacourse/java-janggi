@@ -17,6 +17,8 @@ import java.util.Map;
 
 public class PieceDao {
 
+    private static final List<PieceDao> pieceDaos = new ArrayList<>();
+
     private final int id;
     private Piece piece;
 
@@ -32,7 +34,7 @@ public class PieceDao {
              final var preparedCreateStatement = connection.prepareStatement(createQuery);
              final var preparedCheckStatement = connection.prepareStatement(checkQuery)) {
             preparedCreateStatement.setString(1, piece.getType().name());
-            preparedCreateStatement.setBoolean(2, true); //TINYINT : 1
+            preparedCreateStatement.setBoolean(2, true);
             preparedCreateStatement.setInt(3, piece.getPoint().row());
             preparedCreateStatement.setInt(4, piece.getPoint().column());
             preparedCreateStatement.setString(5, piece.getTeam().name());
@@ -44,12 +46,28 @@ public class PieceDao {
             preparedCheckStatement.setInt(3, piece.getPoint().column());
             ResultSet resultSet = preparedCheckStatement.executeQuery();
             if (resultSet.next()) {
-                return new PieceDao(resultSet.getInt("id"), piece);
+                PieceDao pieceDao = new PieceDao(resultSet.getInt("id"), piece);
+                pieceDaos.add(pieceDao);
+                return pieceDao;
             }
             throw new IllegalStateException("기물이 생성되지 않았습니다.");
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static List<PieceDao> recreatePiecesFrom(PieceDtos pieceDtos) {
+        List<PieceDao> createdPieceDaos = new ArrayList<>();
+
+        for (RunningPieceDto running : pieceDtos.runningPieces()) {
+            createdPieceDaos.add(new PieceDao(running.id(), running.piece()));
+        }
+        for (AttackedPieceDto attacked : pieceDtos.attackedPieces()) {
+            createdPieceDaos.add(new PieceDao(attacked.id(), attacked.getPieceValue()));
+        }
+
+        pieceDaos.addAll(createdPieceDaos);
+        return createdPieceDaos;
     }
 
     public static PieceDtos findPiecesBy(GameDto gameDto) {
@@ -82,22 +100,41 @@ public class PieceDao {
         }
     }
 
-    public void updatePiecePoint(Piece newPiece) {
-        final var query = "UPDATE piece SET row_index=?, column_index=? WHERE team=? ";
+    private static Piece createBy(PieceInformation information, int rowIndex, int columnIndex, Team team) {
+        return information.createPiece(team, rowIndex, columnIndex);
+    }
+
+    public static void updatePointFrom(Piece currentPiece, Piece newPiece) {
+        PieceDao updatingPieceDao = pieceDaos.stream()
+                .filter(dao -> dao.piece.equals(currentPiece))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+        updatingPieceDao.updatePointTo(newPiece);
+    }
+
+    private void updatePointTo(Piece newPiece) {
+        final var query = "UPDATE piece SET row_index=?, column_index=? WHERE id=? ";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, newPiece.getPoint().row());
             preparedStatement.setInt(2, newPiece.getPoint().column());
-            preparedStatement.setString(3, newPiece.getTeam().name());
+            preparedStatement.setInt(3, this.id);
             preparedStatement.executeUpdate();
-
             this.piece = newPiece;
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateToAttacked() {
+    public static void updateToAttacked(AttackedPiece attackedPiece) {
+        PieceDao updatingPieceDao = pieceDaos.stream()
+                .filter(dao -> dao.piece.equals(attackedPiece.getPiece()))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+        updatingPieceDao.updateToAttacked();
+    }
+
+    private void updateToAttacked() {
         final var query = "UPDATE piece SET is_running=? WHERE id=? ";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
@@ -107,23 +144,6 @@ public class PieceDao {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public List<PieceDao> createNewPiecesFrom(PieceDtos pieceDtos) {
-        List<PieceDao> pieceDaos = new ArrayList<>();
-
-        for (RunningPieceDto running : pieceDtos.runningPieces()) {
-            pieceDaos.add(new PieceDao(running.id(), running.piece()));
-        }
-        for (AttackedPieceDto attacked : pieceDtos.attackedPieces()) {
-            pieceDaos.add(new PieceDao(attacked.id(), attacked.getPieceValue()));
-        }
-
-        return pieceDaos;
-    }
-
-    private static Piece createBy(PieceInformation information, int rowIndex, int columnIndex, Team team) {
-        return information.createPiece(team, rowIndex, columnIndex);
     }
 
     public Piece getPiece() {
