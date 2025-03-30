@@ -69,4 +69,9 @@ public class Elephant extends Piece {
                     ElephantPathMovement.findPathMovements(beforePosition, afterPosition));
         };
     }
+
+    @Override
+    public int getScore() {
+        return 3;
+    }
 }

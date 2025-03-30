@@ -69,4 +69,8 @@ public class Chariot extends PalacePiece {
         }
     }
 
+    @Override
+    public int getScore() {
+        return 13;
+    }
 }

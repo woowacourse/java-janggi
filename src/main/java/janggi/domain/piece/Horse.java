@@ -75,4 +75,9 @@ public class Horse extends Piece {
                     HorsePathMovement.findPathMovements(beforePosition, afterPosition));
         };
     }
+
+    @Override
+    public int getScore() {
+        return 5;
+    }
 }

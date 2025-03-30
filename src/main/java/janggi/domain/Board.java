@@ -26,7 +26,8 @@ public class Board {
         Piece piece = board.get(beforePosition);
 
         validateTurn(team, piece);
-        if (piece.isPalacePiece() && palacePositions.contains(beforePosition) && palacePositions.contains(afterPosition)) {
+        if (piece.isPalacePiece() && palacePositions.contains(beforePosition) && palacePositions.contains(
+                afterPosition)) {
             piece.getPalaceMovableValidator(beforePosition, afterPosition).accept(new Pieces(board));
         }
         piece.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(board));
@@ -38,5 +39,30 @@ public class Board {
         if (!piece.is(team)) {
             throw new IllegalArgumentException("지금은 " + team.getName() + "팀 기물만 이동할 수 있습니다.");
         }
+    }
+
+    public boolean checkGameOver() {
+        return board.values().stream()
+                .filter(Piece::isGeneral)
+                .count() != 2;
+    }
+
+    public Team getWinner() {
+        if (board.values().stream()
+                .noneMatch(piece -> piece.isGeneral() && piece.getTeam() == Team.RED)) {
+            return Team.BLUE;
+        }
+        if (board.values().stream()
+                .noneMatch(piece -> piece.isGeneral() && piece.getTeam() == Team.BLUE)) {
+            return Team.RED;
+        }
+        return Team.NONE;
+    }
+
+    public int calculateScoreByTeam(final Team team) {
+        return board.values().stream()
+                .filter(piece -> piece.getTeam() == team)
+                .mapToInt(Piece::getScore)
+                .sum();
     }
 }

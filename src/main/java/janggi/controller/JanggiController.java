@@ -29,6 +29,11 @@ public class JanggiController {
             outputView.printBoard(board);
             String pieceMovement = inputView.readPieceMovement(nowTeam);
             movePieceByPieceMovement(nowTeam, pieceMovement, board);
+
+            if (board.checkGameOver()) {
+                Team winner = board.getWinner();
+                Team firstTurn = turn.getFirstTurn();
+            }
         }
     }
 

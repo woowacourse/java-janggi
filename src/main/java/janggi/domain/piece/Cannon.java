@@ -119,4 +119,9 @@ public class Cannon extends PalacePiece {
     public boolean isCannon() {
         return true;
     }
+
+    @Override
+    public int getScore() {
+        return 7;
+    }
 }

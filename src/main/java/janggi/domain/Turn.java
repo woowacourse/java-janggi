@@ -3,9 +3,11 @@ package janggi.domain;
 import janggi.domain.piece.Team;
 
 public class Turn {
+    private final Team firstTurn;
     private Team turn;
 
     private Turn(final Team turn) {
+        this.firstTurn = turn;
         this.turn = turn;
     }
 
@@ -26,5 +28,9 @@ public class Turn {
         if (turn == Team.BLUE) {
             turn = Team.RED;
         }
+    }
+
+    public Team getFirstTurn() {
+        return firstTurn;
     }
 }

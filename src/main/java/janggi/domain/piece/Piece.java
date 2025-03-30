@@ -55,4 +55,10 @@ public abstract class Piece {
     public boolean isPalacePiece() {
         return false;
     }
+
+    public boolean isGeneral() {
+        return false;
+    }
+
+    public abstract int getScore();
 }

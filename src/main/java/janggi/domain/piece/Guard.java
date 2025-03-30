@@ -23,4 +23,9 @@ public class Guard extends PalacePiece {
             validateNoSameTeamPieceAt(afterPosition, team, pieces);
         };
     }
+
+    @Override
+    public int getScore() {
+        return 3;
+    }
 }

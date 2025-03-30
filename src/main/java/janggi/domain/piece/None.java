@@ -18,4 +18,9 @@ public class None extends Piece {
             final Position afterPosition) {
         throw new IllegalArgumentException("빈 칸은 이동할 수 없습니다.");
     }
+
+    @Override
+    public int getScore() {
+        throw new IllegalStateException("빈 칸의 점수를 구할 수 없습니다");
+    }
 }

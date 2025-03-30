@@ -52,4 +52,9 @@ public class Soldier extends PalacePiece {
             throw new IllegalArgumentException("홍졸은 윗 방향으로 이동할 수 없는 기물입니다.");
         }
     }
+
+    @Override
+    public int getScore() {
+        return 2;
+    }
 }

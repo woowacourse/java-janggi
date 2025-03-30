@@ -23,4 +23,14 @@ public class General extends PalacePiece {
             validateNoSameTeamPieceAt(afterPosition, team, pieces);
         };
     }
+
+    @Override
+    public boolean isGeneral() {
+        return true;
+    }
+
+    @Override
+    public int getScore() {
+        return 0;
+    }
 }
