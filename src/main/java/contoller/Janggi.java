@@ -52,13 +52,16 @@ public class Janggi {
 
     private int selectLoadGameId() {
         int gameId;
-        while (true) {
+        boolean existGameId;
+        do {
             gameId = inputGameId();
             if (janggiBoardDao.existJanggiGame(gameId)) {
-                return gameId;
+                break;
             }
             System.out.println("[ERROR] 존재하지 않는 게임 ID 입니다. gameId: " + gameId);
-        }
+            existGameId = false;
+        } while (!existGameId);
+        return gameId;
     }
 
 
@@ -77,13 +80,16 @@ public class Janggi {
 
     private int selectNewGameId() {
         int gameId;
-        while (true) {
+        boolean existGameId;
+        do {
             gameId = inputGameId();
             if (!janggiBoardDao.existJanggiGame(gameId)) {
-                return gameId;
+                break;
             }
             System.out.println("[ERROR] 이미 존재하는 게임 ID 입니다. gameId: " + gameId);
-        }
+            existGameId = true;
+        } while (existGameId);
+        return gameId;
     }
 
 
