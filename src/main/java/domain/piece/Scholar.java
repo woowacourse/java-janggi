@@ -23,7 +23,7 @@ public class Scholar extends Piece {
         if (Palace.isDiagonalMoveAllowed(current, destination) && boardVector.isQuadrant()) {
             return;
         }
-        throw new IllegalArgumentException("[ERROR] 킹은 궁성 안에서 움직여야 합니다.");
+        throw new IllegalArgumentException("[ERROR] 사는 궁성 안에서 움직여야 합니다.");
     }
 
     @Override
