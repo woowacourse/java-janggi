@@ -26,6 +26,11 @@ public final class JanggiGame {
         players = List.of(new Player(Team.HAN), new Player(Team.CHO));
     }
 
+    public JanggiGame(Board board) {
+        this.board = board;
+        players = List.of(new Player(Team.HAN), new Player(Team.CHO));
+    }
+
     public Map<BoardPoint, Piece> getBoard() {
         return board.getLocations();
     }

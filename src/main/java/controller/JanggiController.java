@@ -1,5 +1,6 @@
 package controller;
 
+import dao.BoardDao;
 import domain.JanggiGame;
 import domain.board.BoardPoint;
 import domain.board.Score;
@@ -17,7 +18,9 @@ public class JanggiController {
     }
 
     public void run() {
-        final JanggiGame game = new JanggiGame();
+        BoardDao boardDao = new BoardDao();
+
+        final JanggiGame game = new JanggiGame(boardDao.getBoard());
         outputView.printBoard(game.getBoard());
         while (true) {
             if (game.isGeneralDied()) {
