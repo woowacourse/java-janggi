@@ -1,9 +1,11 @@
 package janggi.game;
 
 import janggi.dao.GameDao;
+import janggi.dao.GameRecord;
 import janggi.dao.PieceDao;
+import janggi.dao.PieceRecord;
 import janggi.dto.GameDto;
-import janggi.dto.PieceDtos;
+import janggi.dto.PiecesOnBoardDto;
 import janggi.piece.Piece;
 import janggi.point.Point;
 import janggi.view.BoardView;
@@ -56,18 +58,19 @@ public class JanggiApplication {
 
     private Game startGame() { //TODO DAO
         if (inputView.readGameRestart()) {
+            //TODO 더줄이기
             GameDto lastGameData = GameDao.findLastCreated();
-            PieceDtos lastPiecesData = PieceDao.findPiecesBy(lastGameData);
-            GameDao lastGame = GameDao.recreateGameFrom(lastPiecesData, lastGameData);
-            PieceDao.recreatePiecesFrom(lastPiecesData);
+            PiecesOnBoardDto lastPiecesData = PieceDao.findPieceDataBy(lastGameData);
+            Game lastGame = GameRecord.recreateGameFrom(lastPiecesData, lastGameData);
+            PieceRecord.recreatePieceRecordsFrom(lastPiecesData);
 
-            return lastGame.getGame();
+            return lastGame;
         }
 
         Game game = new Game();
-        GameDao gameDao = GameDao.createGame(game);
-        for (Piece piece : gameDao.getGame().getBoard().getRunningPieces()) { //TODO 체이닝
-            PieceDao.createPiece(piece, gameDao);
+        GameDao.createGame(game);
+        for (Piece piece : game.getRunningPieces()) {
+            PieceDao.createPiece(piece, game);
         }
         return game;
     }

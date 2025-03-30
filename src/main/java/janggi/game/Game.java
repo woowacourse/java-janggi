@@ -48,7 +48,7 @@ public class Game {
 
     public void move(Piece movingPiece, Point targetPoint) {
         MovementDto movement = board.move(movingPiece, targetPoint);
-        PieceDao.updatePointFrom(movingPiece, movement.movedPiece()); //TODO dAO 호출..
+        PieceDao.updatePointFrom(movingPiece, movement.movedPiece()); //TODO DAO
         if (movement.attackedPiece().exists()) {
             AttackedPiece attackedPiece = movement.attackedPiece();
             attackedPieces.add(attackedPiece);
@@ -79,14 +79,18 @@ public class Game {
                 .orElseThrow(IllegalStateException::new);
     }
 
+    public List<Piece> getRunningPieces() {
+        return board.getRunningPieces();
+    }
+
     public Board getBoard() {
         return board;
     }
 
     public Team getTurn() {
         return turn;
-    }
 
+    }
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }

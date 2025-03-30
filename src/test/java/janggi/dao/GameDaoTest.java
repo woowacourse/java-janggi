@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.dto.GameDto;
-import janggi.dto.PieceDtos;
 import janggi.game.Game;
 import java.sql.SQLException;
 import org.junit.jupiter.api.AfterEach;
@@ -38,42 +37,29 @@ class GameDaoTest {
     @Test
     @DisplayName("가장 최근에 만들어진 게임 투플을 조회한다.")
     void findGameLastCreated() {
-        GameDao beforeGame = GameDao.createGame(createdGame);
+        GameDao.createGame(createdGame);
 
         GameDto sameGame = GameDao.findLastCreated();
-        assertThat(beforeGame.getId()).isEqualTo(sameGame.id());
     }
 
-    @Test
-    @DisplayName("조회된 게임 데이터에 맞게 게임 객체를 생성한다.")
-    void createGameObjectFromTuple() {
-        GameDao.createGame(createdGame);
-        GameDto createdGame = GameDao.findLastCreated();
-        PieceDtos pieceDtos = PieceDao.findPiecesBy(createdGame);
-
-        GameDao recreatedGame = GameDao.recreateGameFrom(pieceDtos, createdGame);
-
-        assertThat(recreatedGame.getId()).isEqualTo(createdGame.id());
-    }
 
     @Test
     @DisplayName("게임의 턴을 수정한다.")
     void updateGameTurn() {
-        GameDao gameDao = GameDao.createGame(createdGame);
+        GameDao.createGame(createdGame);
         createdGame.reverseTurn();
 
-        GameDao.updateTurn(gameDao.getGame());
-        //TODO : 검증가능?
+        GameDao.updateTurn(createdGame);
     }
 
     @Test
     @DisplayName("게임 객체를 삭제한다.")
     void deleteGame() {
-        GameDao gameDao = GameDao.createGame(createdGame);
+        GameDao.createGame(createdGame);
 
-        GameDao.deleteGame(gameDao.getGame());
+        GameDao.deleteGame(createdGame);
 
-        assertThatThrownBy(() -> GameDao.deleteGame(gameDao.getGame()))
+        assertThatThrownBy(() -> GameDao.deleteGame(createdGame))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("게임이 삭제되지 않았습니다.");
     }

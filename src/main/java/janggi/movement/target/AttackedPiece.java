@@ -32,6 +32,9 @@ public class AttackedPiece {
     }
 
     public Piece getPiece() {
+        if (attackedPiece == null) {
+            throw new IllegalArgumentException("공격 받은 기물이 아닙니다.");
+        }
         return attackedPiece;
     }
 }
