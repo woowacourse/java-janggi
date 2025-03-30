@@ -25,29 +25,43 @@ public class InputView {
 
     public static int inputGameId() {
         sc = new Scanner(System.in);
+        int gameId = -1;
         boolean isValid;
         do {
             System.out.println("게임 번호를 선택하세요");
             try {
-                return Integer.parseInt(sc.nextLine());
-            } catch (NumberFormatException e) {
-                isValid = false;
+                gameId = Integer.parseInt(sc.nextLine());
+                break;
+            } catch (NumberFormatException numberFormatException) {
+                System.out.println("[ERROR] 잘못된 번호 형식입니다." + numberFormatException.getMessage());
             }
+            isValid = false;
         } while (!isValid);
-        return 0;
+        return gameId;
     }
 
     public static int choiceSetUp() {
         sc = new Scanner(System.in);
-        System.out.println("""
-                상차림을 선택하세요,
-                1. 안상차림 (마상상마)
-                2. 바깥상차림 (상마마상)
-                3. 왼상차림 (상마상마)
-                4. 오른상차림 (마상마상)
-                입력 형식 : 번호 ex)1
-                """);
-        return Integer.parseInt(sc.nextLine());
+        int setUp = -1;
+        boolean isValid;
+        do {
+            try {
+                System.out.println("""
+                        상차림을 선택하세요,
+                        1. 안상차림 (마상상마)
+                        2. 바깥상차림 (상마마상)
+                        3. 왼상차림 (상마상마)
+                        4. 오른상차림 (마상마상)
+                        입력 형식 : 번호 ex)1
+                        """);
+                setUp = Integer.parseInt(sc.nextLine());
+                break;
+            } catch (NumberFormatException numberFormatException) {
+                System.out.println("[ERROR] 잘못된 번호 형식입니다." + numberFormatException.getMessage());
+            }
+            isValid = false;
+        } while (!isValid);
+        return setUp;
     }
 
     public static List<Point> movePointInput(Team team) {
