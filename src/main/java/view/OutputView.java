@@ -7,7 +7,10 @@ import static board.Board.BOARD_MIN_WIDTH;
 
 import coordinate.Coordinate;
 import java.util.Map;
+import java.util.Map.Entry;
 import piece.Piece;
+import team.Country;
+import team.Team;
 
 public class OutputView {
 
@@ -35,6 +38,19 @@ public class OutputView {
             return;
         }
         print(piece.colorName() + FULL_WIDTH_SPACE);
+    }
+
+    public void printScore(Map<Team, Integer> scores) {
+        for (Entry<Team, Integer> entry : scores.entrySet()) {
+            printf("%s나라: %d점", entry.getKey().getCountry().applyColorCountryName(), entry.getValue());
+            printNewLine();
+        }
+        printNewLine();
+    }
+
+    public void printWinner(Country country) {
+        printf("%s나라 승!", country.applyColorCountryName());
+        printNewLine();
     }
 
     private void print(String message) {

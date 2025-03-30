@@ -6,7 +6,7 @@ import board.creator.SangMaSangMaCreator;
 import board.creator.TableSettingCreator;
 import java.util.Map;
 import java.util.function.Supplier;
-import team.Team;
+import team.Country;
 import view.InputView;
 import view.InputView.CoordinatesPair;
 import view.OutputView;
@@ -32,11 +32,12 @@ public class Application {
         outputView.printBoard(board.getUnmodifiablePieces());
 
         startGame(board);
+        judgeWinner(board);
     }
 
     private Board initializeBoard() {
-        int hanTableSetting = executeWithRetry(() -> inputView.readTableSetting(Team.HAN));
-        int choTableSetting = executeWithRetry(() -> inputView.readTableSetting(Team.CHO));
+        int hanTableSetting = executeWithRetry(() -> inputView.readTableSetting(Country.HAN));
+        int choTableSetting = executeWithRetry(() -> inputView.readTableSetting(Country.CHO));
         return Board.create(
                 boardCreateStrategy.get(hanTableSetting),
                 boardCreateStrategy.get(choTableSetting)
@@ -44,17 +45,22 @@ public class Application {
     }
 
     private void startGame(Board board) {
-        while (true) {
-            for (Team team : Team.values()) {
-                executeWithRetry(() -> playTurn(board, team));
+        while (!board.isEnd()) {
+            for (Country country : Country.values()) {
+                executeWithRetry(() -> playTurn(board, country));
             }
         }
     }
 
-    private void playTurn(Board board, Team team) {
-        CoordinatesPair coordinatesPair = inputView.readMoveCoordinate(team);
-        board.move(coordinatesPair.departure(), coordinatesPair.arrival());
+    private void playTurn(Board board, Country country) {
+        CoordinatesPair coordinatesPair = inputView.readMoveCoordinate(country);
+        board.move(country, coordinatesPair.departure(), coordinatesPair.arrival());
         outputView.printBoard(board.getUnmodifiablePieces());
+        outputView.printScore(board.getUnmodifiableScores());
+    }
+
+    private void judgeWinner(Board board) {
+        outputView.printWinner(board.judgeWinner());
     }
 
     private void executeWithRetry(Runnable runnable) {
