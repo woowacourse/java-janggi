@@ -146,4 +146,17 @@ public class BoardTest {
                 Arguments.arguments(new Position(10, 4), new King(Team.CHO, new Position(10, 5)), new Position(8, 6))
         );
     }
+
+    @Test
+    @DisplayName("차 궁성 내 대각선 이동 테스트")
+    void moveCrossWithinPalaceTest() {
+        //given
+        Board board = new Board(List.of(
+                new Chariot(Team.CHO, new Position(10,4))
+        ));
+        //when & then
+        assertThatCode(
+                () -> board.move(Team.CHO, new Position(10,4), new Position(8,6))
+        ).doesNotThrowAnyException();
+    }
 }

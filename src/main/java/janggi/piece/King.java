@@ -35,6 +35,13 @@ public class King implements Piece {
         this.pieceType = PieceType.KING;
     }
 
+    public King(Team team, Position position, boolean isLive) {
+        this.team = team;
+        this.position = position;
+        this.isLive = isLive;
+        this.pieceType = PieceType.KING;
+    }
+
     @Override
     public void move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
@@ -104,7 +111,7 @@ public class King implements Piece {
     }
 
     @Override
-    public PieceType getpieceType() {
+    public PieceType getPieceType() {
         return pieceType;
     }
 

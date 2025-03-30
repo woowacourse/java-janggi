@@ -39,7 +39,7 @@ public class Output {
             int column = piece.getPosition().column();
             String color = piece.getTeam().equals(Team.CHO) ? CHO_BLUE : HAN_RED;
             Map.Entry<PieceType,String> findEntry = PIECE_VIEWS.entrySet().stream()
-                    .filter(entry -> entry.getKey() == piece.getpieceType())
+                    .filter(entry -> entry.getKey() == piece.getPieceType())
                     .findFirst()
                     .orElseThrow();
             locatedPieces[row - 1][column - 1] = color + findEntry.getValue() + RESET;

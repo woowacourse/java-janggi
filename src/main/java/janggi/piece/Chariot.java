@@ -18,14 +18,7 @@ public class Chariot implements Piece {
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.LEFT)
     );
 
-    private static final List<List<Movement>> PALACE_EDGE_MOVEMENTS = List.of(
-            Collections.nCopies(2, Movement.RIGHT_UP),
-            Collections.nCopies(2, Movement.RIGHT_DOWN),
-            Collections.nCopies(2, Movement.LEFT_UP),
-            Collections.nCopies(2, Movement.LEFT_DOWN)
-    );
-
-    private static final List<List<Movement>> PALACE_CENTER_MOVEMENTS = List.of(
+    private static final List<List<Movement>> PALACE_MOVEMENTS = List.of(
             List.of(Movement.RIGHT_UP),
             List.of(Movement.RIGHT_DOWN),
             List.of(Movement.LEFT_UP),
@@ -44,6 +37,13 @@ public class Chariot implements Piece {
         this.pieceType = PieceType.CHARIOT;
     }
 
+    public Chariot(Team team, Position position, boolean isLive) {
+        this.team = team;
+        this.position = position;
+        this.isLive = isLive;
+        this.pieceType = PieceType.CHARIOT;
+    }
+
     @Override
     public void move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
@@ -54,12 +54,12 @@ public class Chariot implements Piece {
         List<List<Movement>> totalMovements = new ArrayList<>();
         if (PalacePosition.isContains(position) && PalacePosition.CENTER_POSITION.contains(position)) {
             totalMovements.addAll(MOVEMENTS);
-            totalMovements.addAll(PALACE_CENTER_MOVEMENTS);
+            totalMovements.addAll(PALACE_MOVEMENTS);
             return totalMovements;
         }
         if (PalacePosition.isContains(position) && !PalacePosition.CENTER_POSITION.contains(position)) {
             totalMovements.addAll(MOVEMENTS);
-            totalMovements.addAll(PALACE_CENTER_MOVEMENTS);
+            totalMovements.addAll(PALACE_MOVEMENTS);
             return totalMovements;
         }
         return MOVEMENTS;
@@ -170,7 +170,7 @@ public class Chariot implements Piece {
     }
 
     @Override
-    public PieceType getpieceType() {
+    public PieceType getPieceType() {
         return pieceType;
     }
 

@@ -27,12 +27,14 @@ public class Board {
         move(attackerPiece, arrivedPosition);
     }
 
-    private void attackToTarget(Piece attackerPiece, Position arrivedPosition) {
+    // todo 공격 성공 시 디비에 존재하는 공격 받은 기물 상태 변경
+    private Piece attackToTarget(Piece attackerPiece, Position arrivedPosition) {
         Piece targetPiece = findByPosition(arrivedPosition);
         validateAttackingSameTeam(attackerPiece, targetPiece);
         validateObstacle(attackerPiece, arrivedPosition);
         targetPiece.receiveAttack();
         attackerPiece.move(arrivedPosition);
+        return targetPiece;
     }
 
     private void move(Piece attackerPiece, Position arrivedPosition) {
@@ -64,7 +66,7 @@ public class Board {
         List<Piece> obstacles = locatedPieces.stream()
                 .filter(piece -> piece.isObstacle(pathPositions))
                 .toList();
-        if (attackerPiece.getpieceType() == PieceType.CANNON) {
+        if (attackerPiece.getPieceType() == PieceType.CANNON) {
             if (obstacles.size() != 1) {
                 return true;
             }
@@ -103,14 +105,14 @@ public class Board {
 
     public boolean isGameOver() {
         long liveKingCount = locatedPieces.stream()
-                .filter(piece -> piece.isLive() && piece.getpieceType() == PieceType.KING)
+                .filter(piece -> piece.isLive() && piece.getPieceType() == PieceType.KING)
                 .count();
         return liveKingCount == 2;
     }
 
     public Piece extractWinnerKing() {
         return locatedPieces.stream()
-                .filter(piece -> piece.isLive() && piece.getpieceType() == PieceType.KING)
+                .filter(piece -> piece.isLive() && piece.getPieceType() == PieceType.KING)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("살아있는 왕이 존재하지 않습니다"));
     }
@@ -118,7 +120,7 @@ public class Board {
     public int calculateScore(Team team) {
         return locatedPieces.stream()
                 .filter(piece -> piece.isSameTeam(team) && piece.isLive())
-                .mapToInt(piece -> piece.getpieceType().getScore())
+                .mapToInt(piece -> piece.getPieceType().getScore())
                 .sum();
     }
 }

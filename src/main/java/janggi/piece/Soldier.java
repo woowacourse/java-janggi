@@ -10,11 +10,11 @@ import java.util.Objects;
 
 public class Soldier implements Piece {
     private final Team team;
-    private final List<List<Movement>> movements;
-    private final List<List<Movement>> palaceMovements;
     private Position position;
     private boolean isLive;
     private PieceType pieceType;
+    private final List<List<Movement>> movements;
+    private final List<List<Movement>> palaceMovements;
 
     public Soldier(Team team, Position position) {
         this.team = team;
@@ -23,6 +23,15 @@ public class Soldier implements Piece {
         this.palaceMovements = choicePalaceMovementsByTeam(team);
         this.isLive = true;
         this.pieceType = PieceType.SOLDIER;
+    }
+
+    public Soldier(Team team, Position position, boolean isLive) {
+        this.team = team;
+        this.position = position;
+        this.isLive = isLive;
+        this.pieceType = PieceType.SOLDIER;
+        this.movements = choiceMovementsByTeam(team);
+        this.palaceMovements = choicePalaceMovementsByTeam(team);
     }
 
     private List<List<Movement>> choiceMovementsByTeam(Team team) {
@@ -130,7 +139,7 @@ public class Soldier implements Piece {
     }
 
     @Override
-    public PieceType getpieceType() {
+    public PieceType getPieceType() {
         return pieceType;
     }
 

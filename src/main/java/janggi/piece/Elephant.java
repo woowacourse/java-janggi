@@ -31,6 +31,13 @@ public class Elephant implements Piece {
         this.pieceType = PieceType.ELEPHANT;
     }
 
+    public Elephant(Team team, Position position, boolean isLive) {
+        this.team = team;
+        this.position = position;
+        this.isLive = isLive;
+        this.pieceType = PieceType.ELEPHANT;
+    }
+
     @Override
     public void move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
@@ -99,7 +106,7 @@ public class Elephant implements Piece {
     }
 
     @Override
-    public PieceType getpieceType() {
+    public PieceType getPieceType() {
         return pieceType;
     }
 

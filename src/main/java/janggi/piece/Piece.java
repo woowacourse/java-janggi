@@ -24,7 +24,7 @@ public interface Piece {
 
     Team getTeam();
 
-    PieceType getpieceType();
+    PieceType getPieceType();
 
     void receiveAttack();
 

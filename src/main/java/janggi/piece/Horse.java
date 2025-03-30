@@ -31,6 +31,13 @@ public class Horse implements Piece {
         this.pieceType = PieceType.HORSE;
     }
 
+    public Horse(Team team, Position position, boolean isLive) {
+        this.team = team;
+        this.position = position;
+        this.isLive = isLive;
+        this.pieceType = PieceType.HORSE;
+    }
+
     @Override
     public void move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
@@ -99,7 +106,7 @@ public class Horse implements Piece {
     }
 
     @Override
-    public PieceType getpieceType() {
+    public PieceType getPieceType() {
         return pieceType;
     }
 
