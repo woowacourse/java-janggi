@@ -2,6 +2,7 @@ package dao;
 
 import domain.TeamType;
 import domain.player.Player;
+import domain.player.Username;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,7 +56,7 @@ public class PlayerDao {
             while (resultSet.next()) {
                 String name = resultSet.getString("name");
                 TeamType teamType = TeamType.valueOf(resultSet.getString("team_type"));
-                players.add(new Player(name, teamType));
+                players.add(new Player(new Username(name), teamType));
             }
             return players;
         } catch (SQLException e) {

@@ -5,6 +5,7 @@ import domain.piece.Piece;
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.player.Player;
 import domain.player.Players;
+import domain.player.Username;
 import domain.player.Usernames;
 import domain.position.Position;
 import java.util.List;
@@ -108,13 +109,13 @@ public class JanggiRunner {
 
     private Players createPlayers() {
         Usernames usernames = createUsernames();
-        String startPlayerName = inputView.getStartPlayerName();
+        Username startPlayerName = new Username(inputView.getStartPlayerName());
         return Players.createFrom(usernames, startPlayerName);
     }
 
     private Usernames createUsernames() {
-        String firstPlayerName = inputView.getFirstPlayerName();
-        String secondPlayerName = inputView.getSecondPlayerName();
+        Username firstPlayerName = handleError(() -> new Username(inputView.getFirstPlayerName()));
+        Username secondPlayerName = handleError(() -> new Username(inputView.getSecondPlayerName()));
         return new Usernames(firstPlayerName, secondPlayerName);
     }
 

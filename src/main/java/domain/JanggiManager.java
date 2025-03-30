@@ -9,6 +9,7 @@ import domain.piece.Piece;
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.player.Player;
 import domain.player.Players;
+import domain.player.Username;
 import domain.player.Usernames;
 import domain.position.Position;
 import domain.turn.GameState;
@@ -124,11 +125,11 @@ public class JanggiManager {
     }
 
     private Players toPlayers(List<Player> players) {
-        Player choPlayer = getTeamPlayer(players, TeamType.CHO);
-        Player hanPlayer = getTeamPlayer(players, TeamType.HAN);
+        Username choPlayerName = new Username(getTeamPlayer(players, TeamType.CHO).getName());
+        Username hanPlayerName = new Username(getTeamPlayer(players, TeamType.HAN).getName());
 
-        Usernames usernames = new Usernames(choPlayer.getName(), hanPlayer.getName());
-        return Players.createFrom(usernames, choPlayer.getName());
+        Usernames usernames = new Usernames(choPlayerName, hanPlayerName);
+        return Players.createFrom(usernames, choPlayerName);
     }
 
     private JanggiGameResponseDto getInProgressGameInfo(Long gameId) {

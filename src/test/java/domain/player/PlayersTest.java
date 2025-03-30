@@ -18,8 +18,8 @@ class PlayersTest {
     @DisplayName("플레이어들의 이름과 시작할 플레이어의 이름으로 객체를 생성한다")
     void createFromTest() {
         // given
-        Usernames usernames = new Usernames("루키", "피케이");
-        String startPlayerName = "루키";
+        Usernames usernames = new Usernames(new Username("루키"), new Username("피케이"));
+        Username startPlayerName = new Username("루키");
 
         // when & then
         assertThatCode(() -> Players.createFrom(usernames, startPlayerName))
@@ -30,8 +30,8 @@ class PlayersTest {
     @DisplayName("입력받은 플레이어의 이름들에 시작할 플레이어의 이름이 없으면 예외가 발생한다")
     void validateHasNameTest() {
         // given
-        Usernames usernames = new Usernames("루키", "피케이");
-        String startPlayerName = "루키페어코기";
+        Usernames usernames = new Usernames(new Username("루키"), new Username("피케이"));
+        Username startPlayerName = new Username("루키페어코기");
 
         // when & then
         assertThatThrownBy(() -> Players.createFrom(usernames, startPlayerName))
@@ -43,8 +43,8 @@ class PlayersTest {
     @DisplayName("초의 팀에 해당하는 플레이어의 이름을 반환한다")
     void getChoPlayerNameTest() {
         // given
-        Usernames usernames = new Usernames("루키", "피케이");
-        String startPlayerName = "루키";
+        Usernames usernames = new Usernames(new Username("루키"), new Username("피케이"));
+        Username startPlayerName = new Username("루키");
         Players players = Players.createFrom(usernames, startPlayerName);
 
         // when
@@ -56,8 +56,8 @@ class PlayersTest {
     @DisplayName("한의 팀에 해당하는 플레이어의 이름을 반환한다")
     void getHanPlayerNameTest() {
         // given
-        Usernames usernames = new Usernames("루키", "피케이");
-        String startPlayerName = "루키";
+        Usernames usernames = new Usernames(new Username("루키"), new Username("피케이"));
+        Username startPlayerName = new Username("루키");
         Players players = Players.createFrom(usernames, startPlayerName);
 
         // when
@@ -67,8 +67,8 @@ class PlayersTest {
 
     static Stream<Arguments> getTeamPlayerTest() {
         return Stream.of(
-                Arguments.of(TeamType.CHO, new Player("루키", TeamType.CHO)),
-                Arguments.of(TeamType.HAN, new Player("피케이", TeamType.HAN))
+                Arguments.of(TeamType.CHO, new Player(new Username("루키"), TeamType.CHO)),
+                Arguments.of(TeamType.HAN, new Player(new Username("피케이"), TeamType.HAN))
         );
     }
 
@@ -78,8 +78,8 @@ class PlayersTest {
     @DisplayName("각 팀에 맞는 플레이어를 반환한다")
     void getTeamPlayerTest(TeamType teamType, Player expected) {
         // given
-        Usernames usernames = new Usernames("루키", "피케이");
-        String startPlayerName = "루키";
+        Usernames usernames = new Usernames(new Username("루키"), new Username("피케이"));
+        Username startPlayerName = new Username("루키");
         Players players = Players.createFrom(usernames, startPlayerName);
 
         // when

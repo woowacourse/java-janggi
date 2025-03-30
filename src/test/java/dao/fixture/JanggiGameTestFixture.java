@@ -6,6 +6,7 @@ import dao.PlayerDao;
 import domain.TeamType;
 import domain.piece.Piece;
 import domain.player.Players;
+import domain.player.Username;
 import domain.player.Usernames;
 import domain.position.Position;
 import domain.turn.GameState;
@@ -44,8 +45,8 @@ public class JanggiGameTestFixture {
 
     private static long saveNewGame(JanggiGameDao janggiGameDao, PlayerDao playerDao, TurnState turnState,
                                     GameState gameState) {
-        String choPlayerName = "테스트1";
-        String hanPlayerName = "테스트2";
+        Username choPlayerName = new Username("테스트1");
+        Username hanPlayerName = new Username("테스트2");
         Usernames usernames = new Usernames(choPlayerName, hanPlayerName);
         Players players = Players.createFrom(usernames, choPlayerName);
 

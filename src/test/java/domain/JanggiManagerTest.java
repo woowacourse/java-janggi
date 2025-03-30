@@ -17,6 +17,7 @@ import domain.piece.strategy.LeftElephantStrategy;
 import domain.piece.strategy.RightElephantStrategy;
 import domain.player.Player;
 import domain.player.Players;
+import domain.player.Username;
 import domain.player.Usernames;
 import domain.position.Position;
 import domain.turn.GameState;
@@ -75,8 +76,8 @@ class JanggiManagerTest {
     @DisplayName("새로운 게임을 생성하여 저장한다")
     void saveNewGameTest() {
         // given
-        String choPlayerName = "루키";
-        String hanPlayerName = "피케이";
+        Username choPlayerName = new Username("루키");
+        Username hanPlayerName = new Username("피케이");
         Usernames usernames = new Usernames(choPlayerName, hanPlayerName);
         Players players = Players.createFrom(usernames, choPlayerName);
         LeftElephantStrategy choStrategy = new LeftElephantStrategy();
@@ -176,7 +177,7 @@ class JanggiManagerTest {
         Player currentPlayer = janggiManager.getCurrentPlayer(gameId);
 
         // then
-        Player expected = new Player("테스트1", TeamType.CHO);
+        Player expected = new Player(new Username("테스트1"), TeamType.CHO);
         assertThat(currentPlayer).isEqualTo(expected);
     }
 

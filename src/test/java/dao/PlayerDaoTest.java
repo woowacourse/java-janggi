@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import dao.fixture.JanggiGameTestFixture;
 import domain.TeamType;
 import domain.player.Player;
+import domain.player.Username;
 import domain.turn.GameState;
 import domain.turn.TurnState;
 import java.sql.Connection;
@@ -41,7 +42,7 @@ class PlayerDaoTest {
     void savePlayerTest() throws SQLException {
         // given
         long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
-        String name = "루키";
+        Username name = new Username("루키");
         TeamType team = TeamType.HAN;
         Player player = new Player(name, team);
 
@@ -57,11 +58,11 @@ class PlayerDaoTest {
         JanggiGameDao janggiGameDao = new JanggiGameDao(connection);
         long gameId = janggiGameDao.saveJanggiGame(new TurnState(false, TeamType.CHO), GameState.IN_PROGRESS);
 
-        String choPlayerName = "루키";
+        Username choPlayerName = new Username("루키");
         TeamType choPlayerTeam = TeamType.CHO;
         Player choPlayer = new Player(choPlayerName, choPlayerTeam);
 
-        String hanPlayerName = "코기";
+        Username hanPlayerName = new Username("코기");
         TeamType hanPlayerTeam = TeamType.HAN;
         Player hanPlayer = new Player(hanPlayerName, hanPlayerTeam);
 

@@ -15,7 +15,7 @@ class PlayerTest {
     @DisplayName("이름과 팀으로 사용자를 생성한다")
     void createPlayer() {
         // given
-        String name = "루키";
+        Username name = new Username("루키");
         TeamType teamType = TeamType.CHO;
 
         // when & then
@@ -33,7 +33,7 @@ class PlayerTest {
     @DisplayName("같은 팀 여부를 반환한다")
     void isSameTeamTest(TeamType playerTeam, TeamType otherTeam, boolean expected) {
         // given
-        String name = "루키";
+        Username name = new Username("루키");
         TeamType teamType = playerTeam;
         Player player = new Player(name, teamType);
 

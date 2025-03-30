@@ -10,6 +10,7 @@ import domain.piece.Piece;
 import domain.piece.Soldier;
 import domain.player.Player;
 import domain.player.Players;
+import domain.player.Username;
 import domain.player.Usernames;
 import domain.position.Position;
 import domain.turn.Playing;
@@ -26,8 +27,8 @@ class JanggiGameTest {
 
     @BeforeEach
     void beforeEach() {
-        Usernames usernames = new Usernames("a", "b");
-        String startUsername = "a";
+        Usernames usernames = new Usernames(new Username("a"), new Username("b"));
+        Username startUsername = new Username("a");
         Players players = Players.createFrom(usernames, startUsername);
         Map<Position, Piece> pieces = Map.of(
                 Position.of(1, 1), new Horse(TeamType.CHO),
@@ -64,6 +65,6 @@ class JanggiGameTest {
         Player winner = janggiGame.findWinner();
 
         // then
-        assertThat(winner).isEqualTo(new Player("a", TeamType.CHO));
+        assertThat(winner).isEqualTo(new Player(new Username("a"), TeamType.CHO));
     }
 }

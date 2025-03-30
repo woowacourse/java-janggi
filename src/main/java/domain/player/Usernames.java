@@ -2,16 +2,16 @@ package domain.player;
 
 public class Usernames {
 
-    private final String playerAName;
-    private final String playerBName;
+    private final Username playerAName;
+    private final Username playerBName;
 
-    public Usernames(String playerAName, String playerBName) {
+    public Usernames(Username playerAName, Username playerBName) {
         validateDuplicate(playerAName, playerBName);
         this.playerAName = playerAName;
         this.playerBName = playerBName;
     }
 
-    public String getAnotherPlayerName(String username) {
+    public Username getAnotherPlayerName(Username username) {
         if (!hasUsername(username)) {
             throw new IllegalArgumentException("없는 이름입니다.");
         }
@@ -21,13 +21,13 @@ public class Usernames {
         return playerAName;
     }
 
-    private void validateDuplicate(String playerAName, String playerBName) {
+    private void validateDuplicate(Username playerAName, Username playerBName) {
         if (playerAName.equals(playerBName)) {
             throw new IllegalArgumentException("중복된 이름은 불가합니다.");
         }
     }
 
-    public boolean hasUsername(String username) {
+    public boolean hasUsername(Username username) {
         return playerAName.equals(username) || playerBName.equals(username);
     }
 
