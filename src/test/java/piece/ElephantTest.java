@@ -170,7 +170,7 @@ class ElephantTest {
 
     @Test
     @DisplayName("경로 상 기물이 있으면 움직일 수 없다.")
-    void elephant_dont_move_to_exist_piece_in_path() {
+    void dont_move_to_exist_piece_in_path() {
         // given
         Elephant elephant = new Elephant(new Point(2, 2));
         Pieces pieces = new Pieces(List.of(elephant, new Horse(new Point(2, 3))));
