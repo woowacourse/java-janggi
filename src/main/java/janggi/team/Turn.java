@@ -12,6 +12,10 @@ public class Turn {
         this.orders = new ArrayDeque<>(INITIAL_ORDERS);
     }
 
+    public Turn(List<TeamType> orders) {
+        this.orders = new ArrayDeque<>(orders);
+    }
+
     public TeamType getCurrentTeam() {
         return orders.peek();
     }
