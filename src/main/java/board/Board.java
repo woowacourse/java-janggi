@@ -4,6 +4,7 @@ import piece.Country;
 import piece.Piece;
 import position.Position;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +12,13 @@ import java.util.Map;
 public class Board {
 
     private final Map<Position, Piece> pieces;
+    private final Map<Country, Integer> scoreByCountry;
 
     public Board(final Map<Position, Piece> pieces) {
         this.pieces = new HashMap<>(pieces);
+        this.scoreByCountry = new HashMap<>();
+        Arrays.stream(Country.values())
+                .forEach(country -> scoreByCountry.put(country, 0));
     }
 
     public List<Position> findExistPositions(List<Position> positions) {
@@ -45,6 +50,9 @@ public class Board {
         Piece piece = pieces.get(src);
         piece.validateMove(src, dest,this);
         pieces.remove(src);
+        if (pieces.containsKey(dest)) {
+            scoreByCountry.put(country, scoreByCountry.get(country) + pieces.get(dest).getScore());
+        }
         pieces.put(dest, piece);
     }
 
@@ -55,6 +63,10 @@ public class Board {
         if (!equalsTeamTypeByPosition(src, country)) {
             throw new IllegalArgumentException("시작 위치의 기물은 현재 턴의 나라여야 합니다.");
         }
+    }
+
+    public Map<Country, Integer> getScoreByCountry() {
+        return scoreByCountry;
     }
 
     public boolean existPieceByPosition(Position position) {

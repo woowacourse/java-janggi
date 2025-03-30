@@ -32,5 +32,5 @@ public abstract class Piece {
         return country;
     }
 
-    protected abstract int getScore();
+    public abstract int getScore();
 }

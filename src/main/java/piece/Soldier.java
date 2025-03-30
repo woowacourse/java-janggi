@@ -68,7 +68,7 @@ public class Soldier extends Piece implements DirectionCheckable {
     }
 
     @Override
-    protected int getScore() {
+    public int getScore() {
         return 2;
     }
 }
