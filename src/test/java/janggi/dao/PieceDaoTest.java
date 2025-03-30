@@ -142,7 +142,7 @@ class PieceDaoTest {
     @Test
     void existsPieces() {
         // given
-        Map<Position, Piece> map = Map.of(new Position(0, 0), new King(Side.RED));
+        Map<Position, Piece> map = Map.of(new Position(1, 1), new King(Side.RED));
         Board board = new Board(map);
         pieceDao.save(board, connection);
 
@@ -157,7 +157,7 @@ class PieceDaoTest {
     @Test
     void clear() {
         // given
-        Map<Position, Piece> map = Map.of(new Position(0, 0), new King(Side.RED));
+        Map<Position, Piece> map = Map.of(new Position(1, 1), new King(Side.RED));
         Board board = new Board(map);
         pieceDao.save(board, connection);
 
