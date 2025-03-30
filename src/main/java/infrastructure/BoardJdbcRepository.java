@@ -1,5 +1,7 @@
 package infrastructure;
 
+import application.persistence.BoardRepository;
+import application.persistence.DbConnector;
 import domain.Coordinate;
 import domain.board.Board;
 import domain.piece.Country;
@@ -12,19 +14,20 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BoardRepository {
+public class BoardJdbcRepository implements BoardRepository {
 
-    private final DbConnection dbConnection;
+    private final DbConnector dbConnector;
 
-    public BoardRepository(DbConnection dbConnection) {
-        this.dbConnection = dbConnection;
+    public BoardJdbcRepository(DbConnector dbConnector) {
+        this.dbConnector = dbConnector;
     }
 
+    @Override
     public void save(Board board) {
         Map<Coordinate, Piece> pieces = board.getBoard();
 
         String query = "INSERT INTO board (piece_name, x, y, country) VALUES(?, ?, ?, ?)";
-        try (Connection connection = dbConnection.getConnection();
+        try (Connection connection = dbConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             for (Map.Entry<Coordinate, Piece> entry : pieces.entrySet()) {
                 Coordinate coordinate = entry.getKey();
@@ -41,10 +44,11 @@ public class BoardRepository {
         }
     }
 
+    @Override
     public Map<Coordinate, Piece> findAll() {
         String query = "SELECT * FROM board";
 
-        try (Connection connection = dbConnection.getConnection();
+        try (Connection connection = dbConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             Map<Coordinate, Piece> pieces = new HashMap<>();
 
@@ -63,10 +67,11 @@ public class BoardRepository {
         }
     }
 
+    @Override
     public void deleteAll() {
         String query = "DELETE FROM board";
 
-        try (Connection connection = dbConnection.getConnection();
+        try (Connection connection = dbConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

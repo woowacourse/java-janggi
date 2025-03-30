@@ -1,3 +1,7 @@
+package application;
+
+import application.persistence.BoardRepository;
+import application.persistence.TurnRepository;
 import domain.Coordinate;
 import domain.board.Board;
 import domain.board.setting.ChoSettingUpStrategy;
@@ -5,8 +9,6 @@ import domain.board.setting.HanSettingUpStrategy;
 import domain.game.Turn;
 import domain.piece.Country;
 import domain.piece.Piece;
-import infrastructure.BoardRepository;
-import infrastructure.TurnRepository;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
