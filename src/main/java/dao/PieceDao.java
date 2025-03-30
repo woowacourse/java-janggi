@@ -73,6 +73,21 @@ public class PieceDao {
         return pieces;
     }
 
+    public void updatePosition(final Piece piece, final Position targetPosition) {
+        final var query = "UPDATE piece SET `row` = ?, `column` = ? "
+                + "WHERE `row` = ? AND `column` = ?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, targetPosition.getRow());
+            preparedStatement.setInt(2, targetPosition.getColumn());
+            preparedStatement.setInt(3, piece.getPosition().getRow());
+            preparedStatement.setInt(4, piece.getPosition().getColumn());
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Piece getPiece(final Position position, final PieceType type, final Team team) {
         if (type == PieceType.CANNON) {
             return new Cannon(position, PieceDirections.CANNON.get());

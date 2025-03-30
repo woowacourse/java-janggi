@@ -1,5 +1,6 @@
 package domain.piece;
 
+import dao.PieceDao;
 import java.util.List;
 
 public record Pieces(List<Piece> pieces) {
@@ -19,8 +20,10 @@ public record Pieces(List<Piece> pieces) {
     }
 
     public void updatePosition(final Piece piece, final Position position) {
+        PieceDao pieceDao = new PieceDao();
         pieces.remove(piece);
         pieces.add(piece.updatePosition(position));
+        pieceDao.updatePosition(piece, position);
     }
 
     public boolean existByPosition(final Position position) {

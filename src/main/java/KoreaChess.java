@@ -42,30 +42,6 @@ public class KoreaChess {
         // TODO: 데이터 모두 삭제하기
     }
 
-    private void process(final Board board, final Player han, final Player cho) {
-        BoardDao boardDao = new BoardDao();
-        Team team = boardDao.findCurrentTurn()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 잘못된 턴 정보입니다."));
-        while (!board.isFinish()) {
-            Player currentPlayer = getCurrentTurn(han, cho, team);
-            processTurn(currentPlayer, board);
-            team = switchTurn(team, boardDao);
-        }
-    }
-
-    private Team switchTurn(final Team team, final BoardDao boardDao) {
-        Team other = Team.getOtherTeam(team);
-        boardDao.updateCurrentTurn(other);
-        return other;
-    }
-
-    private Player getCurrentTurn(final Player han, final Player cho, final Team team) {
-        if (han.team() == team) {
-            return han;
-        }
-        return cho;
-    }
-
     private Player getPlayer(final Team team) {
         PlayerDao playerDao = new PlayerDao();
 
@@ -94,6 +70,30 @@ public class KoreaChess {
             outputView.printBoard(board);
         }
         return board;
+    }
+
+    private void process(final Board board, final Player han, final Player cho) {
+        BoardDao boardDao = new BoardDao();
+        Team team = boardDao.findCurrentTurn()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 잘못된 턴 정보입니다."));
+        while (!board.isFinish()) {
+            Player currentPlayer = getCurrentTurn(han, cho, team);
+            processTurn(currentPlayer, board);
+            team = switchTurn(team, boardDao);
+        }
+    }
+
+    private Team switchTurn(final Team team, final BoardDao boardDao) {
+        Team other = Team.getOtherTeam(team);
+        boardDao.updateCurrentTurn(other);
+        return other;
+    }
+
+    private Player getCurrentTurn(final Player han, final Player cho, final Team team) {
+        if (han.team() == team) {
+            return han;
+        }
+        return cho;
     }
 
     private void processTurn(final Player player, final Board board) {
