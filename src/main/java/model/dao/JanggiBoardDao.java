@@ -1,39 +1,44 @@
 package model.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import model.dto.PieceDto;
 
 public final class JanggiBoardDao {
-
-    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "user"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "password"; // MySQL 서버 비밀번호
 
     private final Connection connection;
 
     public JanggiBoardDao() {
         this.connection = getConnection();
-
     }
 
 
     public Connection getConnection() {
-        // 드라이버 연결
         try {
-            System.out.println("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION);
+            Properties properties = new Properties();
+            properties.load(getClass().getClassLoader().getResourceAsStream("database.properties"));
+            String SERVER = properties.getProperty("SERVER");
+            String DATABASE = properties.getProperty("DATABASE");
+            String OPTION = properties.getProperty("OPTION");
+            String USERNAME = properties.getProperty("USERNAME");
+            String PASSWORD = properties.getProperty("PASSWORD");
+
             Connection janggiBoardDBConnection = DriverManager.getConnection(
                     "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
             janggiBoardDBConnection.setAutoCommit(false);
             return janggiBoardDBConnection;
-        } catch (final SQLException e) {
-            System.err.println("[ERROR] DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
+        } catch (final SQLException sqlException) {
+            System.err.println("[ERROR] DB 연결 오류:" + sqlException.getMessage());
+            sqlException.printStackTrace();
+            return null;
+        } catch (IOException ioException) {
+            System.out.println("[ERROR] DB 정보 파일 읽기 오류");
+            ioException.printStackTrace();
             return null;
         }
     }
