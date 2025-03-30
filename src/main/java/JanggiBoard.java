@@ -1,4 +1,7 @@
-import dao.*;
+import dao.DatabaseConnector;
+import dao.JanggiBoardDao;
+import dao.JanggiTurnDao;
+import dao.TurnDao;
 import domain.hurdlePolicy.HurdlePolicy;
 import domain.janggiPiece.JanggiChessPiece;
 import domain.janggiPiece.Piece;
@@ -22,13 +25,12 @@ public class JanggiBoard {
     private JanggiTeam currentTeam;
     private final TurnDao turnDao;
 
-    public JanggiBoard() {
-        DatabaseConnector connector = new JanggiDatabaseConnector();
+    public JanggiBoard(DatabaseConnector connector) {
+        this.turnDao = new JanggiTurnDao(connector);
         this.janggiPositions = new JanggiPositions(
                 new InitDefaultPositionsGenerator(),
                 new JanggiBoardDao(connector)
         );
-        this.turnDao = new JanggiTurnDao(connector);
         JanggiTeam lastTurn = Database.doDatabaseWorkWithReturn(turnDao::findTurn);
         if (lastTurn == null) {
             this.currentTeam = JanggiTeam.firstTurn();
