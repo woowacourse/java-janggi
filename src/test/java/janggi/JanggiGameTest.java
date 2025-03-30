@@ -97,8 +97,10 @@ public class JanggiGameTest {
 
             // then
             assertAll(
-                    () -> assertThat(janggiGame.getBoard().get(end)).isEqualTo(piece),
-                    () -> assertThat(janggiGame.getBoard().get(start)).isNull()
+                    () -> assertThat(janggiGame.getBoard()
+                            .get(end)).isEqualTo(piece),
+                    () -> assertThat(janggiGame.getBoard()
+                            .get(start)).isNull()
             );
         }
 
@@ -122,8 +124,10 @@ public class JanggiGameTest {
 
             // then
             assertAll(
-                    () -> assertThat(janggiGame.getBoard().get(end)).isEqualTo(piece),
-                    () -> assertThat(janggiGame.getBoard().get(start)).isNull()
+                    () -> assertThat(janggiGame.getBoard()
+                            .get(end)).isEqualTo(piece),
+                    () -> assertThat(janggiGame.getBoard()
+                            .get(start)).isNull()
             );
         }
 
@@ -282,8 +286,9 @@ public class JanggiGameTest {
         double blueScore = janggiGame.getScore(Color.BLUE);
 
         // then
+        final double AFTER_PLAYER_DEOM_SCORE = 1.5;
         assertAll(
-                () -> assertThat(redScore).isEqualTo(72 + 1.5),
+                () -> assertThat(redScore).isEqualTo(72 + AFTER_PLAYER_DEOM_SCORE),
                 () -> assertThat(blueScore).isEqualTo(72)
         );
     }
