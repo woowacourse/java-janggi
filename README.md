@@ -41,6 +41,33 @@ t e h g . g h e t 1
 1 2 3 4 5 6 7 8 9
 ```
 
+## DB
+
+### 테이블 생성 DDL
+
+Turn 테이블
+
+```mariadb
+CREATE TABLE IF NOT EXISTS turn
+(
+    id   INT AUTO_INCREMENT PRIMARY KEY,
+    turn VARCHAR(64) NOT NULL
+);
+```
+
+Piece 테이블
+
+```mariadb
+CREATE TABLE IF NOT EXISTS piece
+(
+    id   INT AUTO_INCREMENT PRIMARY KEY,
+    type VARCHAR(64) NOT NULL,
+    side VARCHAR(62) NOT NULL,
+    x    INT         NOT NULL,
+    y    INT         NOT NULL
+);
+```
+
 ## 기능 요구사항
 
 ### 보드 초기화
