@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.PieceType;
-import team.Team;
+import team.Country;
 
 class PoPathValidatorTest {
 
@@ -18,7 +18,7 @@ class PoPathValidatorTest {
     void test1() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Team.HAN, PieceType.포))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.포))
                 .build();
         PoPathValidator validator = new PoPathValidator();
 
@@ -34,9 +34,9 @@ class PoPathValidatorTest {
     void test2() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Team.HAN, PieceType.포))
-                .addPiece(6, 5, new Piece(Team.CHO, PieceType.마))
-                .addPiece(7, 5, new Piece(Team.CHO, PieceType.상)).build();
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.포))
+                .addPiece(6, 5, new Piece(Country.CHO, PieceType.마))
+                .addPiece(7, 5, new Piece(Country.CHO, PieceType.상)).build();
         PoPathValidator validator = new PoPathValidator();
 
         // when
@@ -51,8 +51,8 @@ class PoPathValidatorTest {
     void test3() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Team.HAN, PieceType.포))
-                .addPiece(6, 5, new Piece(Team.CHO, PieceType.포))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.포))
+                .addPiece(6, 5, new Piece(Country.CHO, PieceType.포))
                 .build();
         PoPathValidator validator = new PoPathValidator();
 
@@ -68,9 +68,9 @@ class PoPathValidatorTest {
     void test4() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Team.HAN, PieceType.포))
-                .addPiece(6, 5, new Piece(Team.CHO, PieceType.마))
-                .addPiece(8, 5, new Piece(Team.CHO, PieceType.포))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.포))
+                .addPiece(6, 5, new Piece(Country.CHO, PieceType.마))
+                .addPiece(8, 5, new Piece(Country.CHO, PieceType.포))
                 .build();
         PoPathValidator validator = new PoPathValidator();
 
@@ -86,9 +86,9 @@ class PoPathValidatorTest {
     void test5() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Team.HAN, PieceType.포))
-                .addPiece(6, 5, new Piece(Team.CHO, PieceType.마))
-                .addPiece(8, 5, new Piece(Team.CHO, PieceType.상))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.포))
+                .addPiece(6, 5, new Piece(Country.CHO, PieceType.마))
+                .addPiece(8, 5, new Piece(Country.CHO, PieceType.상))
                 .build();
         PoPathValidator validator = new PoPathValidator();
 
@@ -104,8 +104,8 @@ class PoPathValidatorTest {
     void test6() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Team.HAN, PieceType.포))
-                .addPiece(6, 5, new Piece(Team.CHO, PieceType.상))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.포))
+                .addPiece(6, 5, new Piece(Country.CHO, PieceType.상))
                 .build();
         PoPathValidator validator = new PoPathValidator();
 

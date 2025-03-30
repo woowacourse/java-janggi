@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.PieceType;
-import team.Team;
+import team.Country;
 
 public class BoardTest {
 
@@ -39,7 +39,7 @@ public class BoardTest {
         void test2() {
             // given
             Board board = new BoardFixture()
-                    .addPiece(5, 5, new Piece(Team.CHO, PieceType.졸))
+                    .addPiece(5, 5, new Piece(Country.CHO, PieceType.졸))
                     .build();
 
             // when & then
@@ -56,8 +56,8 @@ public class BoardTest {
         void test3() {
             // given
             Board board = new BoardFixture()
-                    .addPiece(5, 5, new Piece(Team.HAN, PieceType.차))
-                    .addPiece(5, 6, new Piece(Team.HAN, PieceType.마))
+                    .addPiece(5, 5, new Piece(Country.HAN, PieceType.차))
+                    .addPiece(5, 6, new Piece(Country.HAN, PieceType.마))
                     .build();
 
             // when & then
@@ -73,10 +73,10 @@ public class BoardTest {
         @DisplayName("도착 좌표에 다른 팀 기물이 있고 정상적으로 이동됐을 경우, 출발 좌표는 비어있고 도착 좌표의 기물을 대체한다.")
         void test4() {
             // given
-            Piece cha = new Piece(Team.HAN, PieceType.차);
+            Piece cha = new Piece(Country.HAN, PieceType.차);
             Board board = new BoardFixture()
                     .addPiece(5, 5, cha)
-                    .addPiece(5, 6, new Piece(Team.CHO, PieceType.졸))
+                    .addPiece(5, 6, new Piece(Country.CHO, PieceType.졸))
                     .build();
             Coordinate departure = new Coordinate(5, 5);
             Coordinate arrival = new Coordinate(5, 6);
@@ -87,7 +87,7 @@ public class BoardTest {
             // then
             assertAll(
                     () -> assertThat(board.hasPiece(departure)).isFalse(),
-                    () -> assertThat(board.getPiece(arrival)).isEqualTo(cha)
+                    () -> assertThat(board.findPiece(arrival)).isEqualTo(cha)
             );
         }
 
@@ -95,7 +95,7 @@ public class BoardTest {
         @DisplayName("도착 좌표에 다른 팀 기물이 없고 정상적으로 이동됐을 경우, 출발 좌표는 비어있고 도착 좌표에 이동한 기물이 위치한다.")
         void test5() {
             // given
-            Piece cha = new Piece(Team.HAN, PieceType.차);
+            Piece cha = new Piece(Country.HAN, PieceType.차);
             Board board = new BoardFixture()
                     .addPiece(5, 5, cha)
                     .build();
@@ -108,7 +108,7 @@ public class BoardTest {
             // then
             assertAll(
                     () -> assertThat(board.hasPiece(departure)).isFalse(),
-                    () -> assertThat(board.getPiece(arrival)).isEqualTo(cha)
+                    () -> assertThat(board.findPiece(arrival)).isEqualTo(cha)
             );
         }
     }
@@ -122,7 +122,7 @@ public class BoardTest {
         void test1() {
             // given
             Board board = new BoardFixture()
-                    .addPiece(5, 5, new Piece(Team.HAN, PieceType.차))
+                    .addPiece(5, 5, new Piece(Country.HAN, PieceType.차))
                     .build();
 
             // when
@@ -158,7 +158,7 @@ public class BoardTest {
             Board board = new BoardFixture().build();
 
             // when
-            Piece piece = board.getPiece(new Coordinate(5, 5));
+            Piece piece = board.findPiece(new Coordinate(5, 5));
 
             // then
             assertThat(piece).isNull();
@@ -168,13 +168,13 @@ public class BoardTest {
         @DisplayName("기물이 있는 경우 기물을 찾아 반환한다.")
         void test2() {
             // given
-            Piece ma = new Piece(Team.HAN, PieceType.마);
+            Piece ma = new Piece(Country.HAN, PieceType.마);
             Board board = new BoardFixture()
                     .addPiece(5, 5, ma)
                     .build();
 
             // when
-            Piece piece = board.getPiece(new Coordinate(5, 5));
+            Piece piece = board.findPiece(new Coordinate(5, 5));
 
             // then
             assertThat(piece).isEqualTo(ma);

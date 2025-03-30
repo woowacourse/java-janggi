@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.PieceType;
-import team.Team;
+import team.Country;
 
 class SangPathValidatorTest {
 
@@ -18,8 +18,8 @@ class SangPathValidatorTest {
     void test1() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Team.HAN, PieceType.상))
-                .addPiece(5, 4, new Piece(Team.CHO, PieceType.상))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.상))
+                .addPiece(5, 4, new Piece(Country.CHO, PieceType.상))
                 .build();
         SangPathValidator validator = new SangPathValidator();
 
@@ -35,7 +35,7 @@ class SangPathValidatorTest {
     void test2() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Team.HAN, PieceType.상))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.상))
                 .build();
         SangPathValidator validator = new SangPathValidator();
 

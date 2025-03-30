@@ -5,7 +5,7 @@ import coordinate.Coordinate;
 import java.util.HashMap;
 import java.util.Map;
 import piece.Piece;
-import team.Team;
+import team.Country;
 
 public class BoardFixture {
 
@@ -23,7 +23,7 @@ public class BoardFixture {
     public Board build() {
         TableSettingCreator creator = new TableSettingCreator() {
             @Override
-            public Map<Coordinate, Piece> create(Team team) {
+            public Map<Coordinate, Piece> create(Country team) {
                 return pieces;
             }
         };

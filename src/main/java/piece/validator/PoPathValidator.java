@@ -17,10 +17,10 @@ public class PoPathValidator implements PathValidator {
         if (obstacles.size() != 1) {
             return false;
         }
-        if (board.getPiece(obstacles.getFirst()).isPo()) {
+        if (board.findPiece(obstacles.getFirst()).isPo()) {
             return false;
         }
-        if (board.hasPiece(arrival) && board.getPiece(arrival).isPo()) {
+        if (board.hasPiece(arrival) && board.findPiece(arrival).isPo()) {
             return false;
         }
         return true;

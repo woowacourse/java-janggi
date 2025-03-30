@@ -9,7 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.PieceType;
-import team.Team;
+import team.Country;
 
 class MaPathValidatorTest {
 
@@ -18,8 +18,8 @@ class MaPathValidatorTest {
     void test1() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Team.HAN, PieceType.마))
-                .addPiece(5, 4, new Piece(Team.CHO, PieceType.상))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.마))
+                .addPiece(5, 4, new Piece(Country.CHO, PieceType.상))
                 .build();
         MaPathValidator validator = new MaPathValidator();
 
@@ -35,7 +35,7 @@ class MaPathValidatorTest {
     void test2() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Team.HAN, PieceType.마))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.마))
                 .build();
         MaPathValidator validator = new MaPathValidator();
 

@@ -2,14 +2,14 @@ package view;
 
 import coordinate.Coordinate;
 import java.util.Scanner;
-import team.Team;
+import team.Country;
 
 public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public int readTableSetting(Team team) {
-        println("%s 나라의 상차림을 선택해 주세요.", team.applyColorTeamName());
+    public int readTableSetting(Country country) {
+        println("%s 나라의 상차림을 선택해 주세요.", country.applyColorCountryName());
         println("1. 마상상마");
         println("2. 마상마상");
         println("3. 상마상마");
@@ -21,8 +21,8 @@ public class InputView {
         return parseInteger(rawTableSetting);
     }
 
-    public CoordinatesPair readMoveCoordinate(Team team) {
-        println("%s 나라의 차례입니다.", team.applyColorTeamName());
+    public CoordinatesPair readMoveCoordinate(Country country) {
+        println("%s 나라의 차례입니다.", country.applyColorCountryName());
 
         println("출발 좌표를 입력해 주세요. 예) 1,4");
         String rawDeparture = scanner.nextLine();
