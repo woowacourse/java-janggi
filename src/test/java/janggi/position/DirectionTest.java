@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class DirectionTest {
 
     @ParameterizedTest
-    @DisplayName("올바른 방향을 계산해 반환한다")
+    @DisplayName("시작점과 도착점이 주어질 때 올바른 방향을 계산해 반환한다")
     @MethodSource("calculateDirectionArguments")
     void should_return_direction_by_start_end_position(Position start, Position end, Direction expected) {
         // when
@@ -68,9 +68,9 @@ class DirectionTest {
     }
 
     @ParameterizedTest
-    @DisplayName("잘못된 방향을 계산하려 하면 예외가 발생한다")
+    @DisplayName("상하좌우,대각 방향이 아닌 잘못된 방향을 계산하려 하면 예외가 발생한다")
     @MethodSource("calculateDirectionExceptionArguments")
-    void should_return_direction_by_start_end_position(Position start, Position end) {
+    void should_throw_exception_when_invalid_start_and_end_position(Position start, Position end) {
         // when & then
         assertThatThrownBy(() -> Direction.calculateDirection(start, end))
                 .isInstanceOf(IllegalArgumentException.class);
