@@ -13,6 +13,8 @@ public abstract class Finished extends Turn {
 
     public abstract boolean isFinishedByCheckmate();
 
+    public abstract GameState getGameState();
+
     @Override
     public Turn undo() {
         throw new IllegalStateException("게임이 종료된 상태에서는 무르기를 요청할 수 없습니다.");

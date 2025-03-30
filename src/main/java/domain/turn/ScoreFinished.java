@@ -12,4 +12,9 @@ public class ScoreFinished extends Finished {
     public boolean isFinishedByCheckmate() {
         return false;
     }
+
+    @Override
+    public GameState getGameState() {
+        return GameState.FINISHED_SCORE;
+    }
 }

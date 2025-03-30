@@ -13,4 +13,9 @@ public class CheckmateFinished extends Finished {
     public boolean isFinishedByCheckmate() {
         return true;
     }
+
+    @Override
+    public GameState getGameState() {
+        return GameState.FINISHED_CHECKMATE;
+    }
 }

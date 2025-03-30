@@ -21,6 +21,9 @@ public abstract class Turn {
     public abstract Map<TeamType, Double> calculateTeamScore();
     public abstract TeamType findWinTeam();
     public abstract boolean isFinished();
+
+    public abstract GameState getGameState();
+
     public abstract Finished getFinished();
 
     public static Turn start(Map<Position, Piece> pieces){

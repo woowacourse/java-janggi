@@ -1,4 +1,4 @@
- package domain.turn;
+package domain.turn;
 
 import domain.Board;
 import domain.TeamType;
@@ -13,7 +13,7 @@ public class Playing extends Turn {
 
     @Override
     public Turn undo() {
-        if(turnState.undoLast()){
+        if (turnState.undoLast()) {
             return new ScoreFinished(board, new TurnState(true, getNextPlayerTeam()));
         }
         return new Playing(board, new TurnState(true, getNextPlayerTeam()));
@@ -22,7 +22,7 @@ public class Playing extends Turn {
     @Override
     public Turn movePiece(Position moveFrom, Position moveTo) {
         board.movePiece(moveFrom, moveTo, turnState.playerTeam());
-        if(board.isInProgress()){
+        if (board.isInProgress()) {
             return new Playing(board, new TurnState(false, getNextPlayerTeam()));
         }
         return new CheckmateFinished(board, new TurnState(false, getNextPlayerTeam()));
@@ -41,6 +41,11 @@ public class Playing extends Turn {
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public GameState getGameState() {
+        return GameState.IN_PROGRESS;
     }
 
     @Override
