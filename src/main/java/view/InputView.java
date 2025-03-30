@@ -15,7 +15,8 @@ public class InputView {
                 %n> 원하는 진행 커맨드를 입력해주세요. (예: move)
                 - 기물 이동: move
                 - 점수 확인: status
-                - 게임 종료: exit
+                - 저장 후 종료: save
+                - 저장하지 않고 게임 종료: exit
                 """);
         String input = scanner.nextLine();
         return ProgressCommand.from(input);
@@ -65,7 +66,10 @@ public class InputView {
     }
 
     public static boolean selectLoadGame() {
-        System.out.println("> 저장된 게임이 있습니다. 다시 시작하시겠습니까?");
+        System.out.println("""
+        > 저장된 게임이 있습니다. 다시 시작하시겠습니까? (예: y/n)
+        > n 입력 시 저장된 게임은 사라지고, 새 게임을 시작합니다.
+        """);
         String input = scanner.nextLine();
 
         return RestartCommand.select(input);

@@ -30,6 +30,14 @@ public class JanggiDaoService {
         return turnDao.load();
     }
 
+    public void saveAllData(Map<Point, Piece> board, Team turn) {
+        removeAllData();
+        turnDao.save(turn);
+        for (Point point : board.keySet()) {
+            boardDao.save(point, board.get(point));
+        }
+    }
+
     public void removeAllData() {
         turnDao.remove();
         boardDao.removeAll();

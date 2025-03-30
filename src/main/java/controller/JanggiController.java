@@ -53,6 +53,10 @@ public class JanggiController {
                 printStatus(janggiGame);
                 continue;
             }
+            if (progressCommand == ProgressCommand.SAVE) {
+                janggiDaoService.saveAllData(janggiGame.board(), janggiGame.turnTeam());
+                break;
+            }
             if (progressCommand == ProgressCommand.EXIT) {
                 printResult(janggiGame);
                 janggiDaoService.removeAllData();

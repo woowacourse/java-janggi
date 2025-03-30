@@ -16,21 +16,20 @@ public class OutputView {
         System.out.println("장기 게임에 오신 것을 환영합니다.");
     }
 
-    public static void printBoard(final Board board) {
+    public static void printBoard(final Map<Point, Piece> board) {
         List<List<String>> boardString = new ArrayList<>();
         for (int row = Board.START_ROW_INDEX; row <= Board.END_ROW_INDEX; row++) {
 
             List<String> rowString = new ArrayList<>();
             boardString.add(rowString);
             for (int column = Board.START_COLUMN_INDEX; column <= Board.END_COLUMN_INDEX; column++) {
-                Node node = board.findNodeByPoint(Point.of(row, column));
-                if (!board.existsPieceByNode(node)) {
+                if (!board.containsKey(Point.of(row, column))) {
                     rowString.add(Painter.paintWhite("ㅁ"));
                     continue;
                 }
 
-                Piece piece = board.findPieceByNode(node);
-                if (board.hasPieceTeamByNode(node, Team.CHO)) {
+                Piece piece = board.get(Point.of(row, column));
+                if (piece.team() == Team.CHO) {
                     rowString.add(Painter.paintGreen(PieceTypeView.title(piece.type())));
                     continue;
                 }

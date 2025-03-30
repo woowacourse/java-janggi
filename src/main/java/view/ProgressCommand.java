@@ -6,6 +6,7 @@ public enum ProgressCommand {
 
     MOVE("move"),
     STATUS("status"),
+    SAVE("save"),
     EXIT("exit"),
     ;
 

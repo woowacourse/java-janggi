@@ -17,7 +17,7 @@ public class TurnDaoImpl implements TurnDao {
 
     @Override
     public Team load() {
-        final String query = "SELECT turn FROM turns LIMIT 1";
+        final String query = "SELECT turn FROM turn LIMIT 1";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

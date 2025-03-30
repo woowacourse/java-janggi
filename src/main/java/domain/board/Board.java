@@ -154,4 +154,13 @@ public class Board {
                 .map(this::findPieceByNode)
                 .toList();
     }
+
+    public Map<Point, Piece> currentBoard() {
+        Map<Point, Piece> pieceByPoint = new HashMap<>();
+        for (Node node : board.keySet()) {
+            Point point = node.point();
+            pieceByPoint.put(point, board.get(node));
+        }
+        return pieceByPoint;
+    }
 }

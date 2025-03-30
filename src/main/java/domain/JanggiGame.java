@@ -62,8 +62,8 @@ public class JanggiGame {
         return Team.HAN;
     }
 
-    public Board board() {
-        return board;
+    public Map<Point, Piece> board() {
+        return board.currentBoard();
     }
 
     public Team turnTeam() {

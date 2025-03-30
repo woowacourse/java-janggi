@@ -79,4 +79,8 @@ public class Node {
     public String toString() {
         return point.toString();
     }
+
+    public Point point() {
+        return point;
+    }
 }
