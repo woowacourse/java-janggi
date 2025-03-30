@@ -30,7 +30,7 @@ class BoardTest {
     void 보드판_말_32개_올바르게_생성() {
 
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
 
         // when
         final int pieceCount = board.countPieces();
@@ -43,7 +43,7 @@ class BoardTest {
     void 좌표에_해당되는_포지션_반환() {
 
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
         final Point point = Point.newInstance(0, 0);
 
         // when
@@ -57,7 +57,7 @@ class BoardTest {
     void 상의_이동_경로에_말이_있으면_true_없으면_false_반환() {
 
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
 
         // when
         final Position truePosition = board.findPositionBy(Point.newInstance(1, 0));
@@ -74,7 +74,7 @@ class BoardTest {
     void 특정_위치에_말이_있다면_true_없다면_false_반환() {
 
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
 
         // when
         // then
@@ -88,7 +88,7 @@ class BoardTest {
     void 이동할_위치에_같은_팀_말이_있으면_예외_발생() {
 
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
 
         // when
         final Position position = board.findPositionBy(Point.newInstance(2, 0));
@@ -103,7 +103,7 @@ class BoardTest {
     void 이동할_위치에_같은_팀_말이_없으면_정상_동작() {
 
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
 
         // when
         final Position position = board.findPositionBy(Point.newInstance(2, 0));
@@ -117,7 +117,7 @@ class BoardTest {
     @Test
     void 말이_올바른_이동을_한다() {
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
 
         // when
         final Position position = board.findPositionBy(Point.newInstance(2, 0));
@@ -131,7 +131,7 @@ class BoardTest {
     @Test
     void 말이_상대_말을_잡을_수_있다() {
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
         final Point expectedPoint = Point.newInstance(1, 6);
 
         // when
@@ -161,7 +161,7 @@ class BoardTest {
     @Test
     void 포가_포를_잡지_못한다() {
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
         final Point expectedPoint = Point.newInstance(1, 7);
 
         // when
@@ -188,7 +188,7 @@ class BoardTest {
     @Test
     void 포가_포를_넘지_못한다() {
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
 
         // when
         final Position position = board.findPositionBy(Point.newInstance(1, 2));
@@ -207,7 +207,7 @@ class BoardTest {
     @Test
     void 포가_포를_제외한_말을_넘어서_잡는다() {
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
 
         // when
         final Position notCannonPosition = board.findPositionBy(Point.newInstance(2, 3));
@@ -237,7 +237,7 @@ class BoardTest {
     void 보드판에_궁이_1개가_아니다() {
 
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
 
         // when
         // then
@@ -288,7 +288,7 @@ class BoardTest {
     void 초나라_남은_기물_개수_반환() {
 
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
         final Map<PieceType, Integer> pieceTypeIntegerMap = board.countPieces(Team.GREEN);
 
         // when
@@ -307,7 +307,7 @@ class BoardTest {
     void 한나라_남은_기물_개수_반환() {
 
         // given
-        final Board board = BoardFactory.create();
+        final Board board = new Board(BoardFactory.create());
         final Map<PieceType, Integer> pieceTypeIntegerMap = board.countPieces(Team.RED);
 
         // when
