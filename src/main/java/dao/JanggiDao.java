@@ -1,0 +1,207 @@
+package dao;
+
+import static model.janggiboard.JanggiBoard.HORIZONTAL_SIZE;
+import static model.janggiboard.JanggiBoard.VERTICAL_SIZE;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import model.Point;
+import model.Team;
+import model.janggiboard.Dot;
+import model.piece.Byeong;
+import model.piece.Cha;
+import model.piece.Jang;
+import model.piece.Ma;
+import model.piece.Pho;
+import model.piece.Piece;
+import model.piece.Sa;
+import model.piece.Sang;
+
+public final class JanggiDao {
+
+    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
+    private static final String DATABASE = "chess"; // MySQL DATABASE 이름
+    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String USERNAME = "root"; //  MySQL 서버 아이디
+    private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
+
+    public Connection getConnection() {
+        // 드라이버 연결
+        try {
+            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+        } catch (final SQLException e) {
+            System.err.println("DB 연결 오류:" + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public int settingNewJanggiBoard(List<List<Dot>> janggiBoard) {
+        final var insertGameStateQuery = "INSERT INTO game_state VALUES(null,0)";  // game_state 테이블에 첫 번째 레코드 삽입
+        final var insertPieceQuery = "INSERT INTO pieces VALUES(null, ?, ?, ?, ?, ?)";
+
+        try (final var connection = getConnection();
+             final var preparedStatementGameState = connection.prepareStatement(insertGameStateQuery,
+                     Statement.RETURN_GENERATED_KEYS);
+             final var preparedStatementPiece = connection.prepareStatement(insertPieceQuery)) {
+
+            // 1. game_state 테이블에 데이터 삽입
+            preparedStatementGameState.executeUpdate();
+            try (final var generatedKeys = preparedStatementGameState.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int gameStateId = generatedKeys.getInt(1);
+
+                    // 2. pieces 테이블에 데이터 삽입
+                    for (int i = 0; i < janggiBoard.size(); i++) {
+                        for (int j = 0; j < 9; j++) {
+                            if (janggiBoard.get(i).get(j).isPlaced()) {
+                                Piece piece = janggiBoard.get(i).get(j).getPiece();
+                                String pieceName = piece.getPieceName().getName();
+                                String pieceTeam = piece.getTeam().getTeam();
+
+                                preparedStatementPiece.setInt(1, gameStateId);
+                                preparedStatementPiece.setString(2, pieceName);
+                                preparedStatementPiece.setString(3, pieceTeam);
+                                preparedStatementPiece.setInt(4, j);
+                                preparedStatementPiece.setInt(5, i);
+                                preparedStatementPiece.addBatch();
+                            }
+                        }
+                    }
+                    preparedStatementPiece.executeBatch();
+                    return gameStateId;
+                } else {
+                    throw new SQLException("game_state의 자동 생성된 키를 가져오지 못했습니다.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("장기 보드 설정 중 오류 발생", e);
+        }
+    }
+
+    public List<List<Dot>> settingBeforeJanggiBoard() {
+        final String getGameStateQuery = "SELECT * FROM game_state ORDER BY game_id DESC LIMIT 1"; // 가장 최근 게임 상태
+        final String getPiecesQuery = "SELECT * FROM pieces WHERE game_id = ?";
+
+        List<List<Dot>> board = initializeJanggiBoard();
+
+        try (Connection connection = getConnection();
+             Statement stmtGameState = connection.createStatement();
+             ResultSet gameStateResultSet = stmtGameState.executeQuery(getGameStateQuery)) {
+
+            if (gameStateResultSet.next()) {
+                int gameStateId = gameStateResultSet.getInt("game_id"); // 가장 최근 game_state의 ID
+
+                try (PreparedStatement stmtPieces = connection.prepareStatement(getPiecesQuery)) {
+                    stmtPieces.setInt(1, gameStateId);
+                    try (ResultSet piecesResultSet = stmtPieces.executeQuery()) {
+                        while (piecesResultSet.next()) {
+                            int x = piecesResultSet.getInt("x_position");
+                            int y = piecesResultSet.getInt("y_position");
+                            String pieceName = piecesResultSet.getString("piece_name");
+                            String teamName = piecesResultSet.getString("team");
+
+                            Piece piece = null;
+                            switch (pieceName) {
+                                case "漢" -> piece = new Jang(Team.findTeamByName(teamName));
+                                case "士" -> piece = new Sa(Team.findTeamByName(teamName));
+                                case "象" -> piece = new Sang(Team.findTeamByName(teamName));
+                                case "馬" -> piece = new Ma(Team.findTeamByName(teamName));
+                                case "車" -> piece = new Cha(Team.findTeamByName(teamName));
+                                case "包" -> piece = new Pho(Team.findTeamByName(teamName));
+                                case "兵" -> piece = new Byeong(Team.findTeamByName(teamName));
+                            }
+                            Dot dot = new Dot(piece);
+                            board.get(y).set(x, dot);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("기존 게임을 불러오는 중 오류 발생", e);
+        }
+        return board;
+    }
+
+    private List<List<Dot>> initializeJanggiBoard() {
+        List<List<Dot>> dots = new ArrayList<>();
+        for (int i = 0; i < VERTICAL_SIZE; i++) {
+            List<Dot> dotLine = getHorizontalDotsLine();
+            dots.add(dotLine);
+        }
+        return dots;
+    }
+
+    private static List<Dot> getHorizontalDotsLine() {
+        List<Dot> dotLine = new ArrayList<>();
+        for (int i = 0; i < HORIZONTAL_SIZE; i++) {
+            dotLine.add(new Dot());
+        }
+        return dotLine;
+    }
+
+    public void deletePiece(Point targetPoint, int janggiBoardNumber) {
+        final String deletePieceQuery = "DELETE FROM pieces WHERE x_position = ? AND y_position = ? AND game_id=?";
+        try (final var connection = getConnection();
+             final var preparedStatementGameState = connection.prepareStatement(deletePieceQuery,
+                     Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatementGameState.setInt(1, targetPoint.x());
+            preparedStatementGameState.setInt(2, targetPoint.y());
+            preparedStatementGameState.setInt(3, janggiBoardNumber);
+            preparedStatementGameState.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("기물 삭제 중 오류 발생", e);
+
+        }
+    }
+
+    public void changePieceLocation(Piece beforePiece, Point targetPoint, int janggiBoardNumber) {
+        final String updatePieceLocationQuery = "UPDATE pieces SET x_position = ?, y_position = ? WHERE piece_name = ? AND team = ? AND game_id=?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(updatePieceLocationQuery)) {
+
+            preparedStatement.setInt(1, targetPoint.x());
+            preparedStatement.setInt(2, targetPoint.y());
+            preparedStatement.setString(3, beforePiece.getPieceName().getName());
+            preparedStatement.setString(4, beforePiece.getTeam().getTeam());
+            preparedStatement.setInt(5, janggiBoardNumber);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("기물 위치 업데이트 중 오류 발생", e);
+        }
+    }
+
+    public void updateTurn(int janggiBoardNumber) {
+        final String updateTurnQuery = "UPDATE game_state SET turn= turn+1 WHERE game_id=?";
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(
+                updateTurnQuery)) {
+            preparedStatement.setInt(1, janggiBoardNumber);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("장기 턴 업데이트 중 오류 발생", e);
+        }
+    }
+
+    public int getGameTurn() {
+        final String query = "SELECT turn FROM game_state ORDER BY game_id DESC LIMIT 1";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1); // 최신 turn 값 반환
+            } else {
+                throw new IllegalArgumentException("game_state 테이블에 데이터가 없습니다.");
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("게임 차례를 가져오는 중 오류가 발생", e);
+        }
+    }
+}

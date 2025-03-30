@@ -2,6 +2,7 @@ package model.janggiboard;
 
 import static model.janggiboard.JanggiBoardSetUp.DEFAULT_SETUP;
 
+import dao.JanggiDao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +19,18 @@ public class JanggiBoard {
     private static final int HORIZONTAL_MINIMUM_SIZE = 0;
     private static final int VERTICAL_MINIMUM_SIZE = 0;
     private final List<List<Dot>> janggiBoard;
+    private JanggiDao janggiDao = new JanggiDao();
+    private int janggiBoardNumber;
 
     public JanggiBoard(JanggiBoardSetUp elephantSetup) {
         janggiBoard = initializeJanggiBoard();
         placePiece(elephantSetup);
         placePiece(DEFAULT_SETUP);
+        janggiBoardNumber = janggiDao.settingNewJanggiBoard(janggiBoard);
+    }
+
+    public JanggiBoard(Boolean o) {
+        janggiBoard = janggiDao.settingBeforeJanggiBoard();
     }
 
     private List<List<Dot>> initializeJanggiBoard() {
@@ -62,8 +70,15 @@ public class JanggiBoard {
         Map<Piece, Boolean> piecesOnPathWithTargetOrNot = getPiecesOnPath(path, targetPoint);
 
         if (piece.canMove(piecesOnPathWithTargetOrNot)) {
+            if (getDot(targetPoint).isPlaced()) {
+                janggiDao.deletePiece(targetPoint, janggiBoardNumber);
+            }
+            Piece beforePiece = getDot(beforePoint).getPiece();
+            System.out.println(janggiBoardNumber);
+            janggiDao.changePieceLocation(beforePiece, targetPoint, janggiBoardNumber);
             janggiBoard.get(targetPoint.y()).set(targetPoint.x(), new Dot(piece));
             janggiBoard.get(beforePoint.y()).set(beforePoint.x(), new Dot());
+            janggiDao.updateTurn(janggiBoardNumber);
             return;
         }
 
@@ -132,7 +147,7 @@ public class JanggiBoard {
                 }
             }
         }
-        return kingCount == 2;
+        return kingCount != 2;
     }
 
     public Team getWinner() {
@@ -152,5 +167,9 @@ public class JanggiBoard {
 
     public List<List<Dot>> getJanggiBoard() {
         return janggiBoard;
+    }
+
+    public int getJanggiBoardNumber() {
+        return janggiBoardNumber;
     }
 }
