@@ -21,7 +21,8 @@ public class JanggiController {
     }
 
     public void start() {
-        JanggiGame janggiGame = transactionManager.find()
+        Long janggiGameId = 1L; // 추후 사용자에게 입력받기
+        JanggiGame janggiGame = transactionManager.findById(janggiGameId)
                 .orElse(createJanggiGame());
 
         consoleView.showBoard(janggiGame.getBoard().getPieces());
@@ -37,7 +38,7 @@ public class JanggiController {
                 isGameStopped = janggiGame.isGameStopped();
 
                 consoleView.showBoard(janggiGame.getBoard().getPieces());
-                transactionManager.update(janggiGame);
+                transactionManager.update(janggiGameId, janggiGame);
             } catch (RuntimeException e) {
                 consoleView.showMessage(e.getMessage());
             }

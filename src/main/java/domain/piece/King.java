@@ -1,5 +1,7 @@
 package domain.piece;
 
+import static domain.piece.Team.*;
+
 import domain.board.BoardLocation;
 import domain.board.BoardVector;
 import domain.board.Palace;
@@ -10,6 +12,13 @@ public class King extends Piece {
 
     public King(Team team, Score score) {
         super(team, score);
+    }
+
+    public static King createByTeam(Team team) {
+        if (team == CHO) {
+            return new King(team, new Score(0));
+        }
+        return new King(team, new Score(1.5));
     }
 
     @Override

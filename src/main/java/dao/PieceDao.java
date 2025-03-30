@@ -1,11 +1,15 @@
 package dao;
 
 import dao.dto.CreatePieceDto;
+import domain.entity.PieceEntity;
 import domain.game.JanggiGame;
+import domain.piece.PieceType;
+import domain.piece.Score;
+import domain.piece.Team;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class PieceDao {
 
@@ -50,7 +54,28 @@ public class PieceDao {
 
     }
 
-    public Optional<JanggiGame> find() {
-        return Optional.empty();
+    public List<PieceEntity> findAllByJanggiGameId(Connection connection, Long id) throws SQLException {
+        final var findByIdQuery = "SELECT * FROM piece WHERE janggi_game_id = ?";
+        List<PieceEntity> pieces = new ArrayList<>();
+
+        try (final var preparedStatement = connection.prepareStatement(findByIdQuery)) {
+            preparedStatement.setLong(1, id);
+
+            try (final var resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    PieceEntity piece = new PieceEntity(
+                            resultSet.getLong("id"),
+                            resultSet.getInt("x"),
+                            resultSet.getInt("y"),
+                            PieceType.valueOf(resultSet.getString("type")),
+                            Team.valueOf(resultSet.getString("team")),
+                            new Score(resultSet.getDouble("score")),
+                            resultSet.getLong("janggi_game_id")
+                    );
+                    pieces.add(piece);
+                }
+            }
+        }
+        return pieces;
     }
 }

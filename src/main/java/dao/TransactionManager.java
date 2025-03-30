@@ -8,7 +8,7 @@ public interface TransactionManager<T> {
 
     void create(T t);
 
-    void update(T t);
+    void update(Long id, T t);
 
-    Optional<T> find();
+    Optional<T> findById(Long id);
 }

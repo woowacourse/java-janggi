@@ -76,7 +76,7 @@ public class Board {
         pieces.put(new BoardLocation(4, 1), new Scholar(HAN));
         pieces.put(new BoardLocation(6, 1), new Scholar(HAN));
         pieces.put(new BoardLocation(9, 1), new Chariot(HAN));
-        pieces.put(new BoardLocation(5, 2), new King(HAN, new Score(1.5)));
+        pieces.put(new BoardLocation(5, 2), King.createByTeam(HAN));
         pieces.put(new BoardLocation(2, 3), new Cannon(HAN));
         pieces.put(new BoardLocation(8, 3), new Cannon(HAN));
         pieces.put(new BoardLocation(1, 4), new Pawn(HAN));
@@ -89,7 +89,7 @@ public class Board {
         pieces.put(new BoardLocation(4, 10), new Scholar(CHO));
         pieces.put(new BoardLocation(6, 10), new Scholar(CHO));
         pieces.put(new BoardLocation(9, 10), new Chariot(CHO));
-        pieces.put(new BoardLocation(5, 9), new King(CHO, new Score(0)));
+        pieces.put(new BoardLocation(5, 9), King.createByTeam(CHO));
         pieces.put(new BoardLocation(2, 8), new Cannon(CHO));
         pieces.put(new BoardLocation(8, 8), new Cannon(CHO));
         pieces.put(new BoardLocation(1, 7), new Pawn(CHO));

@@ -1,6 +1,8 @@
 package dao;
 
+import domain.entity.JanggiGameEntity;
 import domain.game.JanggiGame;
+import domain.game.Turn;
 import domain.piece.Team;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -41,7 +43,21 @@ public class JanggiGameDao {
 
     }
 
-    public Optional<JanggiGame> find() {
+    public Optional<JanggiGameEntity> findById(Connection connection, Long id) throws SQLException {
+        final var findByIdQuery = "SELECT * FROM janggi_game WHERE id = ?";
+
+        try (final var preparedStatement = connection.prepareStatement(findByIdQuery)) {
+            preparedStatement.setLong(1, id);
+
+            final var resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(new JanggiGameEntity(
+                        resultSet.getLong("id"),
+                        new Turn(Team.valueOf(resultSet.getString("turn")))
+                        )
+                );
+            }
+        }
         return Optional.empty();
     }
 }
