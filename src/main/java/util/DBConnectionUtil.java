@@ -15,7 +15,6 @@ public class DBConnectionUtil {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new RuntimeException("데이터베이스 커넥션 획득에 실패했습니다.");
         }
     }

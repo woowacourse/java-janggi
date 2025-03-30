@@ -5,7 +5,7 @@ import domain.piece.move.area.MoveAreaConstraint;
 import domain.position.Position;
 import java.util.List;
 
-public class FixedMoveRule implements MoveRule{
+public class FixedMoveRule implements MoveRule {
 
     private final List<Path> paths;
     private final MoveAreaConstraint moveAreaConstraint;

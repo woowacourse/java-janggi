@@ -7,7 +7,7 @@ public enum TeamType {
     CHO,
     HAN;
 
-    public TeamType otherTeam(){
+    public TeamType otherTeam() {
         return Arrays.stream(values())
                 .filter(otherTeam -> otherTeam != this)
                 .findAny()

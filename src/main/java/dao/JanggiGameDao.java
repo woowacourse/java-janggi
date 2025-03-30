@@ -72,7 +72,6 @@ public class JanggiGameDao {
             generatedKeys.next();
             return generatedKeys.getLong(1);
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
         }
     }
@@ -86,7 +85,6 @@ public class JanggiGameDao {
             preparedStatement.setLong(2, gameId);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
         }
     }
@@ -140,6 +138,5 @@ public class JanggiGameDao {
         } catch (SQLException e) {
             throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
         }
-
     }
 }

@@ -1,5 +1,5 @@
-import domain.JanggiRunner;
 import domain.JanggiManager;
+import domain.JanggiRunner;
 import util.DBConnectionUtil;
 import view.InputView;
 import view.OutputView;

@@ -36,16 +36,15 @@ public class PieceDao {
             generatedKeys.next();
             return generatedKeys.getLong(1);
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
         }
     }
 
-    public int savePieces(Map<Position, Piece> pieces, Long gameId){
+    public int savePieces(Map<Position, Piece> pieces, Long gameId) {
         int saveCount = 0;
         for (Entry<Position, Piece> positionPiece : pieces.entrySet()) {
             savePiece(positionPiece.getValue(), positionPiece.getKey(), gameId);
-            saveCount ++;
+            saveCount++;
         }
         return saveCount;
     }
@@ -75,7 +74,6 @@ public class PieceDao {
             preparedStatement.setInt(5, from.getColumn().getValue());
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
         }
     }
@@ -90,7 +88,6 @@ public class PieceDao {
             preparedStatement.setInt(3, position.getColumn().getValue());
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
         }
     }

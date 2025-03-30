@@ -95,10 +95,7 @@ public class JanggiRunner {
     }
 
     private boolean isInProgressGameResumed(List<JanggiGameResponseDto> inProgressGames) {
-        if (inProgressGames.isEmpty() || !inputView.askToPlayInProgressGame()) {
-            return false;
-        }
-        return true;
+        return !inProgressGames.isEmpty() && inputView.askToPlayInProgressGame();
     }
 
 
@@ -129,7 +126,8 @@ public class JanggiRunner {
             return handleError(supplier);
         }
     }
-    private void handleError(Runnable runnable){
+
+    private void handleError(Runnable runnable) {
         try {
             runnable.run();
         } catch (IllegalArgumentException e) {

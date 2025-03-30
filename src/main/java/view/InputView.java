@@ -64,7 +64,8 @@ public class InputView {
     public long getInProgressGameId(List<JanggiGameResponseDto> inProgressGames) {
         System.out.printf("진행중인 게임이 %d개 있습니다. 계속 진행할 게임의 번호를 입력해주세요.%n", inProgressGames.size());
         for (JanggiGameResponseDto inProgressGame : inProgressGames) {
-            System.out.printf("%d. %s : %s%n", inProgressGame.gameId(), inProgressGame.choPlayerName(), inProgressGame.hanPlayerName());
+            System.out.printf("%d. %s : %s%n", inProgressGame.gameId(), inProgressGame.choPlayerName(),
+                    inProgressGame.hanPlayerName());
         }
 
         int gameId = parseInt(nextLine());
@@ -79,26 +80,26 @@ public class InputView {
                     .filter(gameId -> gameId == inputGameId)
                     .findAny()
                     .orElseThrow(() -> new IllegalArgumentException("해당하는 게임 번호가 없습니다. 다시 입력해주세요."));
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             validateGameId(inProgressGames, inputGameId);
         }
 
     }
 
-    private boolean parseBoolean(String input){
-        if(input.equalsIgnoreCase("Y")){
+    private boolean parseBoolean(String input) {
+        if (input.equalsIgnoreCase("Y")) {
             return true;
         }
-        if(input.equalsIgnoreCase("N")){
+        if (input.equalsIgnoreCase("N")) {
             return false;
         }
         throw new IllegalArgumentException("Y/N 중 하나만 입력해주세요.");
     }
 
-    private int parseInt(String input){
-        try{
+    private int parseInt(String input) {
+        try {
             return Integer.parseInt(input);
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException("숫자만 입력해주세요.");
         }
 
