@@ -13,4 +13,8 @@ public class Directions {
     public Set<Direction> getDirections() {
         return new HashSet<>(directions);
     }
+
+    public boolean contains(Direction direction) {
+        return directions.contains(direction);
+    }
 }

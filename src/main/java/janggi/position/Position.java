@@ -7,6 +7,8 @@ public record Position(int x, int y) {
     private static final int BOARD_Y_LOWER_BOUND = 1;
     private static final int BOARD_Y_UPPER_BOUND = 10;
 
+    private static final BoardRoute boardRoute = new BoardRoute(new StandardBoardRouteGenerator());
+
     public Position {
         validateBoardBound(x, y);
     }
@@ -52,5 +54,14 @@ public record Position(int x, int y) {
             return false;
         }
         return true;
+    }
+
+    public boolean hasDirection(final Direction direction) {
+        return isInBounds(direction) && boardRoute.hasDirection(this, direction);
+    }
+
+    public boolean isMoveDistanceOneBlock(final Position end) {
+        final int maxMoveDistance = Math.max(calculateAbsoluteDifferenceX(end), calculateAbsoluteDifferenceY(end));
+        return maxMoveDistance == 1;
     }
 }
