@@ -33,7 +33,6 @@ public class JanggiCoordinateDao {
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] COORDINATE 테이블을 생성할 수 없음");
         }
-        throw new IllegalStateException("[ERROR] COORDINATE 테이블을 생성할 수 없음");
     }
 
     public void insertPieceToCoordinate(int pieceId, JanggiCoordinate coordinate, int gameId) {
@@ -49,7 +48,6 @@ public class JanggiCoordinateDao {
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] COORDINATE INSERT 실패");
         }
-        throw new IllegalStateException("[ERROR] COORDINATE INSERT 실패");
     }
 
     public Map<JanggiCoordinate, Piece> finaAllPieces(int gameId) {
@@ -79,7 +77,7 @@ public class JanggiCoordinateDao {
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] PIECE 정보들을 불러올 수 없습니다.");
         }
-        throw new IllegalStateException("[ERROR] PIECE 정보들을 불러올 수 없습니다.");
+        return board;
     }
 
 

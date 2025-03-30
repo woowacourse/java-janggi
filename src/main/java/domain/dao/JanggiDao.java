@@ -25,6 +25,6 @@ public class JanggiDao {
                 throw new IllegalStateException("[ERROR] DB 연결 오류");
             }
         }
-        throw new IllegalStateException("[ERROR] DB 연결 오류");
+        return connect;
     }
 }

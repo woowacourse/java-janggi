@@ -31,11 +31,9 @@ public class JanggiGameDao {
 
         try (Statement statement = connection.createStatement()) {
             statement.execute(createGameTableSQL);
-
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] GAME TABLE 생성 실패");
         }
-        throw new IllegalStateException("[ERROR] GAME TABLE 생성 실패");
     }
 
     public int createGame(String roomName, Country country) {
@@ -65,7 +63,6 @@ public class JanggiGameDao {
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] GAME DELETE 실패");
         }
-        throw new IllegalStateException("[ERROR] GAME DELETE 실패");
     }
 
     public List<GameRoomDTO> findAllGames() {
@@ -142,7 +139,5 @@ public class JanggiGameDao {
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] TURN 업데이트 실패");
         }
-        throw new IllegalStateException("[ERROR] TURN 업데이트 실패");
-
     }
 }

@@ -28,7 +28,6 @@ public class JanggiPieceDao {
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] PIECE TABLE 생성 실패");
         }
-        throw new IllegalStateException("[ERROR] PIECE TABLE 생성 실패");
     }
 
     public int addPiece(int gameId, Piece piece) {
@@ -60,6 +59,5 @@ public class JanggiPieceDao {
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] PIECE 삭제 실패");
         }
-        throw new IllegalStateException("[ERROR] PIECE 삭제 실패");
     }
 }
