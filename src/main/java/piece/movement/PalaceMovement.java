@@ -72,4 +72,19 @@ public enum PalaceMovement {
                 .collect(Collectors.toSet());
     }
 
+    public static boolean hasDiagonalDirectionPosition(final Position position) {
+        return !PALACE_MID_POINT.palaceMovementPositions.contains(position);
+    }
+
+    public static List<Direction> getMatchedDiagonalDirections(final Position position) {
+        PalaceMovement matchedMovement = Arrays.stream(values())
+                .filter(palaceMovement -> palaceMovement.palaceMovementPositions.contains(position))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("궁성 영역의 위치가 아닙니다."));
+        return matchedMovement.directions
+                .stream()
+                .filter(Direction::isDiagonal)
+                .toList();
+    }
+
 }

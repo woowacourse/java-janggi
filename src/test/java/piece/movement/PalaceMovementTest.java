@@ -1,15 +1,25 @@
 package piece.movement;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static piece.Direction.LEFT_BOTTOM;
+import static piece.Direction.LEFT_TOP;
+import static piece.Direction.RIGHT_BOTTOM;
+import static piece.Direction.RIGHT_TOP;
+import static piece.movement.PalaceMovement.getMatchedDiagonalDirections;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import board.Position;
+import piece.Direction;
 
 class PalaceMovementTest {
 
@@ -166,6 +176,50 @@ class PalaceMovementTest {
                 Arguments.of(new Position(9, 7)),
                 Arguments.of(new Position(7, 5))
         );
+    }
+
+    @CsvSource(value = {
+            "2,5,true", "9,5,true",
+            "1,4,true", "8,4,true",
+            "1,6,true", "8,6,true",
+            "3,4,true", "10,4,true",
+            "3,6,true", "10,6,true",
+            "1,5,false", "2,4,false", "2,6,false", "3,5,false",
+            "8,5,false", "9,4,false", "9,6,false", "10,5,false"
+    })
+    @ParameterizedTest
+    void 궁성_영역의_위치가_대각선_방향_움직임을_가지고_있는지_알려준다(int row, int column, boolean expected) {
+        assertThat(PalaceMovement.hasDiagonalDirectionPosition(new Position(row, column)))
+                .isEqualTo(expected);
+    }
+
+    @MethodSource
+    @ParameterizedTest
+    void 위치와_맞는_궁성_영역의_대각선_방향을_돌려준다(int row, int column, List<Direction> expected) {
+        assertThat(getMatchedDiagonalDirections(new Position(row, column)))
+                .containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    private static Stream<Arguments> 위치와_맞는_궁성_영역의_대각선_방향을_돌려준다() {
+        return Stream.of(
+                Arguments.of(2, 5, List.of(LEFT_TOP, RIGHT_TOP, LEFT_BOTTOM, RIGHT_BOTTOM)),
+                Arguments.of(9, 5, List.of(LEFT_TOP, RIGHT_TOP, LEFT_BOTTOM, RIGHT_BOTTOM)),
+                Arguments.of(1, 4, List.of(RIGHT_BOTTOM)),
+                Arguments.of(8, 4, List.of(RIGHT_BOTTOM)),
+                Arguments.of(1, 6, List.of(LEFT_BOTTOM)),
+                Arguments.of(8, 6, List.of(LEFT_BOTTOM)),
+                Arguments.of(3, 4, List.of(RIGHT_TOP)),
+                Arguments.of(10, 4, List.of(RIGHT_TOP)),
+                Arguments.of(3, 6, List.of(LEFT_TOP)),
+                Arguments.of(10, 6, List.of(LEFT_TOP)),
+                Arguments.of(1, 5, List.of())
+        );
+    }
+
+    @Test
+    void 궁성_영역이_아닌_위치는_대각선_방향을_돌려줄_수_없다() {
+        assertThatThrownBy(() -> getMatchedDiagonalDirections(new Position(1, 1)))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }

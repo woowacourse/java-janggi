@@ -29,6 +29,10 @@ public enum Direction {
                 .toList();
     }
 
+    public boolean isDiagonal() {
+        return this.row != 0 && this.column != 0;
+    }
+
     public int getRow() {
         return row;
     }
