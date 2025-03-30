@@ -1,6 +1,6 @@
 package board;
 
-import board.create.strategy.TableSettingStrategy;
+import board.creator.TableSettingCreator;
 import coordinate.Coordinate;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import piece.Piece;
 import team.Team;
 
 public class Board {
-    
+
     public static final int BOARD_MIN_WIDTH = 1;
     public static final int BOARD_MAX_WIDTH = 9;
     public static final int BOARD_MIN_HEIGHT = 1;
@@ -21,7 +21,7 @@ public class Board {
         this.pieces = pieces;
     }
 
-    public static Board create(TableSettingStrategy hanStrategy, TableSettingStrategy choStrategy) {
+    public static Board create(TableSettingCreator hanStrategy, TableSettingCreator choStrategy) {
         Map<Coordinate, Piece> pieces = new HashMap<>();
         pieces.putAll(hanStrategy.create(Team.HAN));
         pieces.putAll(choStrategy.create(Team.CHO));
@@ -31,11 +31,8 @@ public class Board {
     public void move(Coordinate departure, Coordinate arrival) {
         Piece piece = getPiece(departure);
 
-        if (piece == null) {
-            throw new IllegalStateException("해당 좌표에는 기물이 없습니다.");
-        }
-        if (!piece.canMove(this, departure, arrival)) {
-            throw new IllegalStateException("해당 기물이 이동할 수 없는 좌표입니다.");
+        if (piece == null || !piece.canMove(this, departure, arrival)) {
+            throw new IllegalStateException("이동할 수 없는 좌표입니다.");
         }
         if (hasPiece(arrival) && getPiece(arrival).isSameTeam(piece)) {
             throw new IllegalStateException("도착 좌표에 같은 팀 말이 있습니다.");
