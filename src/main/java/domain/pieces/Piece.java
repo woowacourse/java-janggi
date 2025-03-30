@@ -20,7 +20,7 @@ public interface Piece {
 
     Score getScore();
 
-    PieceName getType();
+    PieceDefinition getType();
 
     int getPlayerId();
 

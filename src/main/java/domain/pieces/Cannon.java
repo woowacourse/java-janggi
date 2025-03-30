@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public final class Cannon implements Piece {
     private static final int VALID_BETWEEN_PIECE_COUNT = 1;
-    private static final PieceName CANNON = PieceName.CANNON;
+    private static final PieceDefinition CANNON = PieceDefinition.CANNON;
     private static final Score score = new Score(2.0);
 
     private final Player player;
@@ -72,7 +72,7 @@ public final class Cannon implements Piece {
     }
 
     @Override
-    public PieceName getType() {
+    public PieceDefinition getType() {
         return CANNON;
     }
 

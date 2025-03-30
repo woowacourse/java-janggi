@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class Guard implements Piece {
-    private static final PieceName GUARD = PieceName.GUARD;
+    private static final PieceDefinition GUARD = PieceDefinition.GUARD;
     private static final Score score = new Score(3.0);
 
     private final Player player;
@@ -53,7 +53,7 @@ public final class Guard implements Piece {
     }
 
     @Override
-    public PieceName getType() {
+    public PieceDefinition getType() {
         return GUARD;
     }
 

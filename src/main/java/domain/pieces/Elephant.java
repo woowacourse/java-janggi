@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class Elephant implements Piece {
-    private static final PieceName ELEPHANT = PieceName.ELEPHANT;
+    private static final PieceDefinition ELEPHANT = PieceDefinition.ELEPHANT;
     private static final Score score = new Score(7.0);
 
     private final Player player;
@@ -58,7 +58,7 @@ public final class Elephant implements Piece {
     }
 
     @Override
-    public PieceName getType() {
+    public PieceDefinition getType() {
         return ELEPHANT;
     }
 

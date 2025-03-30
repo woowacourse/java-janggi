@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class Chariot implements Piece {
-    private static final PieceName CHARIOT = PieceName.CHARIOT;
+    private static final PieceDefinition CHARIOT = PieceDefinition.CHARIOT;
     private static final Score score = new Score(13.0);
 
     private final Player player;
@@ -63,7 +63,7 @@ public final class Chariot implements Piece {
     }
 
     @Override
-    public PieceName getType() {
+    public PieceDefinition getType() {
         return CHARIOT;
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class Soldier implements Piece {
-    private static final PieceName SOLDIER = PieceName.SOLDIER;
+    private static final PieceDefinition SOLDIER = PieceDefinition.SOLDIER;
     private static final Score score = new Score(2.0);
 
     private final Player player;
@@ -61,7 +61,7 @@ public final class Soldier implements Piece {
     }
 
     @Override
-    public PieceName getType() {
+    public PieceDefinition getType() {
         return SOLDIER;
     }
 

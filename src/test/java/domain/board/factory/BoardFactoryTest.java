@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import domain.board.Board;
 import domain.board.Point;
 import domain.pieces.Piece;
-import domain.pieces.PieceName;
+import domain.pieces.PieceDefinition;
 import domain.player.Player;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.LinkedHashMap;
@@ -34,7 +34,7 @@ public final class BoardFactoryTest {
 
             final Point pointLeft = new Point(HAN.getInitialRow(), 1);
             final Point pointRight = new Point(HAN.getInitialRow(), 7);
-            final String expected = PieceName.ELEPHANT.getNameForTeam(HAN);
+            final String expected = PieceDefinition.ELEPHANT.getNameForTeam(HAN);
 
             //when
             final Board board = BoardFactory.generateBoard(given);
@@ -56,7 +56,7 @@ public final class BoardFactoryTest {
 
             final Point pointLeft = new Point(HAN.getInitialRow(), 2);
             final Point pointRight = new Point(HAN.getInitialRow(), 6);
-            final String expected = PieceName.ELEPHANT.getNameForTeam(HAN);
+            final String expected = PieceDefinition.ELEPHANT.getNameForTeam(HAN);
 
             //when
             final Board board = BoardFactory.generateBoard(given);
@@ -78,7 +78,7 @@ public final class BoardFactoryTest {
 
             final Point pointLeft = new Point(HAN.getInitialRow(), 1);
             final Point pointRight = new Point(HAN.getInitialRow(), 6);
-            final String expected = PieceName.ELEPHANT.getNameForTeam(HAN);
+            final String expected = PieceDefinition.ELEPHANT.getNameForTeam(HAN);
 
             //when
             final Board board = BoardFactory.generateBoard(given);
@@ -100,7 +100,7 @@ public final class BoardFactoryTest {
 
             final Point pointLeft = new Point(HAN.getInitialRow(), 2);
             final Point pointRight = new Point(HAN.getInitialRow(), 7);
-            final String expected = PieceName.ELEPHANT.getNameForTeam(HAN);
+            final String expected = PieceDefinition.ELEPHANT.getNameForTeam(HAN);
 
             //when
             final Board board = BoardFactory.generateBoard(given);
@@ -122,13 +122,13 @@ public final class BoardFactoryTest {
 
             final Point pointLeftForHan = new Point(HAN.getInitialRow(), 1);
             final Point pointRightForHan = new Point(HAN.getInitialRow(), 6);
-            final String expectedForHan = PieceName.ELEPHANT.getNameForTeam(HAN);
+            final String expectedForHan = PieceDefinition.ELEPHANT.getNameForTeam(HAN);
 
             given.put(new Player(0, CHO), new Choice(4));
 
             final Point pointLeftForCho = new Point(CHO.getInitialRow(), 2);
             final Point pointRightForCho = new Point(CHO.getInitialRow(), 7);
-            final String expectedForCho = PieceName.ELEPHANT.getNameForTeam(CHO);
+            final String expectedForCho = PieceDefinition.ELEPHANT.getNameForTeam(CHO);
 
             //when
             final Board board = BoardFactory.generateBoard(given);

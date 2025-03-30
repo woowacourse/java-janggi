@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class General implements Piece {
-    private static final PieceName GENERAL = PieceName.GENERAL;
+    private static final PieceDefinition GENERAL = PieceDefinition.GENERAL;
     private static final Score score = new Score(Double.MAX_VALUE);
 
     private final Player player;
@@ -54,7 +54,7 @@ public final class General implements Piece {
     }
 
     @Override
-    public PieceName getType() {
+    public PieceDefinition getType() {
         return GENERAL;
     }
 

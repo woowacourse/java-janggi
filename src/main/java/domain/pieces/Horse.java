@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 public final class Horse implements Piece {
-    private static final PieceName HORSE = PieceName.HORSE;
+    private static final PieceDefinition HORSE = PieceDefinition.HORSE;
     private static final Score score = new Score(5.0);
 
     private final Player player;
@@ -58,7 +58,7 @@ public final class Horse implements Piece {
     }
 
     @Override
-    public PieceName getType() {
+    public PieceDefinition getType() {
         return HORSE;
     }
 
