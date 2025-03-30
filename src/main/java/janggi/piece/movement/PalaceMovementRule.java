@@ -1,9 +1,21 @@
 package janggi.piece.movement;
 
+import janggi.position.Direction;
 import janggi.position.Position;
 import java.util.List;
+import java.util.Set;
 
 public class PalaceMovementRule implements MovementRule {
+    private static final Set<Position> RED_PALACE_POSITIONS = Set.of(
+            new Position(4, 1), new Position(5, 1), new Position(6, 1),
+            new Position(4, 2), new Position(5, 2), new Position(6, 2),
+            new Position(4, 3), new Position(5, 3), new Position(6, 3)
+    );
+    private static final Set<Position> BLUE_PALACE_POSITIONS = Set.of(
+            new Position(4, 8), new Position(5, 8), new Position(6, 8),
+            new Position(4, 9), new Position(5, 9), new Position(6, 9),
+            new Position(4, 10), new Position(5, 10), new Position(6, 10)
+    );
 
     @Override
     public List<Position> calculatePath(final Position start, final Position end) {
@@ -12,10 +24,28 @@ public class PalaceMovementRule implements MovementRule {
 
     @Override
     public void validateMovementRule(final Position start, final Position end) {
-        final int absDifferenceX = start.calculateAbsoluteDifferenceX(end);
-        final int absDifferenceY = start.calculateAbsoluteDifferenceY(end);
-        if ((absDifferenceX == 1 && absDifferenceY == 0)
-                || (absDifferenceX == 0 && absDifferenceY == 1)) {
+        validateDirection(start, end);
+        validateMoveDistance(start, end);
+        validatePalacePosition(end);
+    }
+
+    private void validateDirection(final Position start, final Position end) {
+        final Direction direction = start.calculateDirection(end);
+        if (start.hasDirection(direction)) {
+            return;
+        }
+        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
+    }
+
+    private void validateMoveDistance(final Position start, final Position end) {
+        if (start.isMoveDistanceOneBlock(end)) {
+            return;
+        }
+        throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
+    }
+
+    private void validatePalacePosition(final Position end) {
+        if (RED_PALACE_POSITIONS.contains(end) || BLUE_PALACE_POSITIONS.contains(end)) {
             return;
         }
         throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
