@@ -18,12 +18,12 @@ public class Chariot extends Piece {
         DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT,
         DIAGONAL_DOWN_LEFT, DIAGONAL_DOWN_RIGHT);
     private final Area area;
-    private final UnLimitedBasicMoveNavigator unLimitedBasicMoveNavigator;
+    private final UnlimitedBasicMoveNavigator unLimitedBasicMoveNavigator;
 
     public Chariot(Team team) {
         super(team, SCORE, TYPE);
         this.area = new Area();
-        this.unLimitedBasicMoveNavigator = new UnLimitedBasicMoveNavigator();
+        this.unLimitedBasicMoveNavigator = new UnlimitedBasicMoveNavigator();
     }
 
     @Override

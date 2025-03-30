@@ -5,7 +5,7 @@ import java.util.List;
 import model.Movement;
 import model.position.Position;
 
-public class UnLimitedBasicMoveNavigator {
+public class UnlimitedBasicMoveNavigator {
 
     public List<Position> find(Position departure, Position arrival, List<Movement> movements) {
         return movements.stream()

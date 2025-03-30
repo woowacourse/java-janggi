@@ -14,7 +14,7 @@ public class Cannon extends Piece {
     private static final String TYPE = "CANNON";
 
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
-    private final UnLimitedBasicMoveNavigator unLimitedBasicMoveNavigator;
+    private final UnlimitedBasicMoveNavigator unLimitedBasicMoveNavigator;
     private final List<Movement> movementsInCastle = List.of(
         DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT,
         DIAGONAL_DOWN_LEFT, DIAGONAL_DOWN_RIGHT);
@@ -23,7 +23,7 @@ public class Cannon extends Piece {
     public Cannon(Team team) {
         super(team, SCORE, TYPE);
         this.area = new Area();
-        this.unLimitedBasicMoveNavigator = new UnLimitedBasicMoveNavigator();
+        this.unLimitedBasicMoveNavigator = new UnlimitedBasicMoveNavigator();
     }
 
     @Override
