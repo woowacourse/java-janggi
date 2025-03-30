@@ -1,6 +1,7 @@
 package janggi.domain.movement;
 
 import janggi.domain.Coordinate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,15 +15,12 @@ public class Path {
     }
 
     public Path(final List<Coordinate> coordinates, final boolean isReachable) {
-        this.coordinates = coordinates;
+        this.coordinates = new ArrayList<>(coordinates);
         this.isReachable = isReachable;
     }
 
     public List<Coordinate> coordinates() {
-        if (isReachable()) {
-            return List.copyOf(coordinates);
-        }
-        return Collections.emptyList();
+        return Collections.unmodifiableList(coordinates);
     }
 
     public boolean isReachable() {
@@ -30,6 +28,6 @@ public class Path {
     }
 
     public static Path unreachable() {
-        return new Path(null, false);
+        return new Path(Collections.emptyList(), false);
     }
 }
