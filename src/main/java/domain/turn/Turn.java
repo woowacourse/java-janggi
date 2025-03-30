@@ -1,6 +1,6 @@
 package domain.turn;
 
-import domain.Board;
+import domain.piece.Board;
 import domain.TeamType;
 import domain.piece.Piece;
 import domain.position.Position;

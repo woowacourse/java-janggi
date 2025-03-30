@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.game.JanggiGame;
+import domain.piece.Board;
 import domain.piece.Horse;
 import domain.piece.King;
 import domain.piece.Piece;

@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.Board;
 import domain.TeamType;
 import domain.piece.move.MoveRule;
 import domain.piece.path.PathValidator;

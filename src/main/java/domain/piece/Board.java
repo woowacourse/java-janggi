@@ -1,5 +1,6 @@
-package domain;
+package domain.piece;
 
+import domain.TeamType;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.position.Position;

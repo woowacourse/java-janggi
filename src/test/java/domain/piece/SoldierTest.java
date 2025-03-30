@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.piece.Board;
 import domain.piece.Piece;
 import domain.piece.Soldier;
 import domain.position.Position;

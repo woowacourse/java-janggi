@@ -3,7 +3,7 @@ package domain.piece.path;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Board;
+import domain.piece.Board;
 import domain.TeamType;
 import domain.piece.Cannon;
 import domain.piece.Elephant;

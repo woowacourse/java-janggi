@@ -1,6 +1,6 @@
 package domain.turn;
 
-import domain.Board;
+import domain.piece.Board;
 
 public class ScoreFinished extends Finished {
 

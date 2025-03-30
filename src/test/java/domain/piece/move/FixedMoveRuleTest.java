@@ -3,7 +3,6 @@ package domain.piece.move;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.Path;
 import domain.piece.move.area.FreeMoveConstraint;
 import domain.position.Direction;
 import domain.position.Position;

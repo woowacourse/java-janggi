@@ -1,6 +1,5 @@
 package domain.piece.move;
 
-import domain.Path;
 import domain.piece.move.area.MoveAreaConstraint;
 import domain.position.Position;
 import java.util.List;

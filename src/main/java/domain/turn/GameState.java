@@ -1,6 +1,6 @@
 package domain.turn;
 
-import domain.Board;
+import domain.piece.Board;
 import java.util.function.BiFunction;
 
 public enum GameState {

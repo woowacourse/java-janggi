@@ -1,6 +1,6 @@
 package domain.turn;
 
-import domain.Board;
+import domain.piece.Board;
 import domain.TeamType;
 import domain.position.Position;
 import java.util.Map;

@@ -2,7 +2,7 @@ package domain.turn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Board;
+import domain.piece.Board;
 import domain.TeamType;
 import domain.piece.Piece;
 import domain.position.Position;

@@ -3,6 +3,7 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.piece.Board;
 import domain.piece.Cannon;
 import domain.piece.Horse;
 import domain.piece.King;

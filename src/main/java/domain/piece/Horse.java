@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Path;
+import domain.piece.move.Path;
 import domain.TeamType;
 import domain.piece.move.FixedMoveRule;
 import domain.piece.move.area.FreeMoveConstraint;

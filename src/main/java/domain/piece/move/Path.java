@@ -1,4 +1,4 @@
-package domain;
+package domain.piece.move;
 
 import domain.position.Direction;
 import domain.position.Position;

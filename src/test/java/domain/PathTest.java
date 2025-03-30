@@ -2,6 +2,7 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.piece.move.Path;
 import domain.position.Direction;
 import domain.position.Position;
 import java.util.List;

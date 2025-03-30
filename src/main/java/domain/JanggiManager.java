@@ -5,6 +5,7 @@ import dao.PieceDao;
 import dao.PlayerDao;
 import domain.game.JanggiGame;
 import domain.game.dto.JanggiGameResponseDto;
+import domain.piece.Board;
 import domain.piece.Piece;
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.player.Player;
