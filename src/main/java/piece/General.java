@@ -24,7 +24,7 @@ public class General extends Piece implements PalaceCheckable {
     }
 
     @Override
-    protected int getScore() {
+    public int getScore() {
         return 3;
     }
 }

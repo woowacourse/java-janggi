@@ -77,7 +77,7 @@ public class Elephant extends Piece implements DistanceCheckable, ObstructionChe
     }
 
     @Override
-    protected int getScore() {
+    public int getScore() {
         return 3;
     }
 }
