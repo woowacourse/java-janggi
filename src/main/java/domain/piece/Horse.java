@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.BoardPosition;
+import domain.board.Movement;
 import domain.board.Offset;
 import java.util.List;
 import java.util.Map;
@@ -8,14 +8,14 @@ import java.util.Map;
 public class Horse extends Piece {
 
     private static final Map<Offset, List<Offset>> MOVEMENT_RULES = Map.of(
-        new Offset(2, 1), List.of(new Offset(1, 0), new Offset(1, 1)),
-        new Offset(2, -1), List.of(new Offset(1, 0), new Offset(1, -1)),
-        new Offset(-2, 1), List.of(new Offset(-1, 0), new Offset(-1, 1)),
-        new Offset(-2, -1), List.of(new Offset(-1, 0), new Offset(-1, -1)),
-        new Offset(1, 2), List.of(new Offset(0, 1), new Offset(1, 1)),
-        new Offset(1, -2), List.of(new Offset(0, -1), new Offset(1, -1)),
-        new Offset(-1, 2), List.of(new Offset(0, 1), new Offset(-1, 1)),
-        new Offset(-1, -2), List.of(new Offset(0, -1), new Offset(-1, -1))
+        new Offset(2, 1), List.of(Offset.RIGHT, Offset.RIGHT_UP),
+        new Offset(2, -1), List.of(Offset.RIGHT, Offset.RIGHT_DOWN),
+        new Offset(-2, 1), List.of(Offset.LEFT, Offset.LEFT_UP),
+        new Offset(-2, -1), List.of(Offset.LEFT, Offset.LEFT_DOWN),
+        new Offset(1, 2), List.of(Offset.UP, Offset.RIGHT_UP),
+        new Offset(1, -2), List.of(Offset.DOWN, Offset.RIGHT_DOWN),
+        new Offset(-1, 2), List.of(Offset.UP, Offset.LEFT_UP),
+        new Offset(-1, -2), List.of(Offset.DOWN, Offset.LEFT_DOWN)
     );
 
     public Horse(final Team team) {
@@ -23,11 +23,8 @@ public class Horse extends Piece {
     }
 
     @Override
-    public List<Offset> findMovementRule(
-        final BoardPosition selectBoardPosition,
-        final BoardPosition destinationBoardPosition
-    ) {
-        final Offset totalOffset = destinationBoardPosition.calculateOffset(selectBoardPosition);
+    public List<Offset> findMovementRule(final Movement movement) {
+        final Offset totalOffset = movement.calculateOffset();
 
         if (!MOVEMENT_RULES.containsKey(totalOffset)) {
             throw new IllegalArgumentException("해당 말은 이동할 수 없습니다.");

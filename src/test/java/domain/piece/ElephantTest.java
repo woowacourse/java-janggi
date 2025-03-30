@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.BoardPosition;
+import domain.board.Movement;
 import domain.board.Offset;
 import java.util.List;
 import java.util.stream.Stream;
@@ -20,16 +21,17 @@ class ElephantTest {
     @Nested
     class ValidCases {
 
-        @DisplayName("상은 직선이 아니면 이동할 수 없다.")
+        @DisplayName("상은 정해진 경로로 이동할 수 있다.")
         @Test
         void findMovementRule() {
             // given
             Elephant elephant = new Elephant(Team.RED);
             BoardPosition from = new BoardPosition(4, 4);
             BoardPosition to = new BoardPosition(7, 6);
+            Movement movement = new Movement(from, to);
 
             // when
-            List<Offset> result = elephant.findMovementRule(from, to);
+            List<Offset> result = elephant.findMovementRule(movement);
 
             // then
             assertThat(result).isEqualTo(List.of(
@@ -128,10 +130,11 @@ class ElephantTest {
             // given
             Elephant elephant = new Elephant(Team.RED);
             BoardPosition from = new BoardPosition(0, 0);
-            BoardPosition to = new BoardPosition(1, 1); // Offset(1, 1) → 정의되지 않은 방향
+            BoardPosition to = new BoardPosition(1, 1);
+            Movement movement = new Movement(from, to);
 
             // when & then
-            assertThatThrownBy(() -> elephant.findMovementRule(from, to))
+            assertThatThrownBy(() -> elephant.findMovementRule(movement))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 이동할 수 없습니다.");
         }

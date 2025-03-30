@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.BoardPosition;
+import domain.board.Movement;
 import domain.board.Offset;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
@@ -28,10 +28,7 @@ public abstract class Piece {
         }
     }
 
-    public abstract List<Offset> findMovementRule(
-        final BoardPosition selectBoardPosition,
-        final BoardPosition destinationBoardPosition
-    );
+    public abstract List<Offset> findMovementRule(final Movement movement);
 
     public void validateMovementConditions(
         final List<Piece> obstacles,

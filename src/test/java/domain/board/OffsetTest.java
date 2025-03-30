@@ -23,6 +23,7 @@ class OffsetTest {
             Offset horizontal = new Offset(3, 0);
             Offset vertical = new Offset(0, -5);
             Offset diagonal = new Offset(3, 3);
+            Offset zero = new Offset(0, 0);
 
             // when & then
             assertSoftly(softly -> {
@@ -32,17 +33,41 @@ class OffsetTest {
                     .isTrue();
                 softly.assertThat(diagonal.isLinear())
                     .isFalse();
+                softly.assertThat(zero.isLinear())
+                    .isFalse();
+            });
+        }
+
+        @DisplayName("대각선 일 때 대각선 여부를 판별할 수 있다.")
+        @Test
+        void isDiagonal() {
+            // given
+            Offset diagonal = new Offset(3, 3);
+            Offset horizontal = new Offset(3, 0);
+            Offset vertical = new Offset(0, -5);
+            Offset zero = new Offset(0, 0);
+
+            // when & then
+            assertSoftly(softly -> {
+                softly.assertThat(diagonal.isDiagonal())
+                    .isTrue();
+                softly.assertThat(horizontal.isDiagonal())
+                    .isFalse();
+                softly.assertThat(vertical.isDiagonal())
+                    .isFalse();
+                softly.assertThat(zero.isDiagonal())
+                    .isFalse();
             });
         }
 
         @DisplayName("수평 오프셋일 때 단위 오프셋을 계산할 수 있다.")
         @Test
-        void calculateLinearOffsets_horizontal() {
+        void calculateUnitSteps_horizontal() {
             // given
             Offset offset = new Offset(0, 3);
 
             // when
-            List<Offset> result = offset.calculateLinearOffsets();
+            List<Offset> result = offset.calculateUnitSteps();
 
             // then
             assertThat(result).isEqualTo(List.of(
@@ -54,12 +79,12 @@ class OffsetTest {
 
         @DisplayName("수직 오프셋일 때 단위 오프셋을 계산할 수 있다.")
         @Test
-        void calculateLinearOffsets_vertical() {
+        void calculateUnitSteps_vertical() {
             // given
             Offset offset = new Offset(-4, 0);
 
             // when
-            List<Offset> result = offset.calculateLinearOffsets();
+            List<Offset> result = offset.calculateUnitSteps();
 
             // then
             assertThat(result).isEqualTo(List.of(
@@ -68,6 +93,40 @@ class OffsetTest {
                 new Offset(-1, 0),
                 new Offset(-1, 0)
             ));
+        }
+
+        @DisplayName("대각선 오프셋일 때 단위 오프셋을 계산할 수 있다.")
+        @Test
+        void calculateUnitSteps_diagonal() {
+            // given
+            Offset offset = new Offset(-4, -4);
+
+            // when
+            List<Offset> result = offset.calculateUnitSteps();
+
+            // then
+            assertThat(result).isEqualTo(List.of(
+                new Offset(-1, -1),
+                new Offset(-1, -1),
+                new Offset(-1, -1),
+                new Offset(-1, -1)
+            ));
+        }
+
+        @DisplayName("단일 오프셋임을 판별할 수 있다.")
+        @Test
+        void isSingleStep() {
+            // given
+            Offset singleStep = new Offset(1, 0);
+            Offset multiStep = new Offset(2, 0);
+
+            // when & then
+            assertSoftly(softly -> {
+                softly.assertThat(singleStep.isSingleStep())
+                    .isTrue();
+                softly.assertThat(multiStep.isSingleStep())
+                    .isFalse();
+            });
         }
     }
 
@@ -94,16 +153,16 @@ class OffsetTest {
                 .hasMessage("오프셋의 범위를 벗어났습니다.");
         }
 
-        @DisplayName("직선이 아닌 오프셋에서 단위 오프셋을 계산할 수 없다.")
+        @DisplayName("직선또는 대각선이 아닌 오프셋에서 단위 오프셋을 계산할 수 없다.")
         @Test
-        void calculateLinearOffsets() {
+        void calculateUnitSteps() {
             // given
-            Offset offset = new Offset(1, 1);
+            Offset offset = new Offset(1, 2);
 
             // when & then
-            assertThatThrownBy(offset::calculateLinearOffsets)
+            assertThatThrownBy(offset::calculateUnitSteps)
                 .isInstanceOf(IllegalStateException.class)
-                .hasMessage("해당 오프셋은 직선이 아닙니다.");
+                .hasMessage("해당 오프셋은 직선또는 대각선이 아닙니다.");
         }
     }
 }

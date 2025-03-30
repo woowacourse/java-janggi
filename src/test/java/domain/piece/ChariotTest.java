@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.BoardPosition;
+import domain.board.Movement;
 import domain.board.Offset;
 import java.util.List;
 import java.util.stream.Stream;
@@ -21,14 +22,15 @@ class ChariotTest {
 
         @DisplayName("차는 직선 경로로 이동할 수 있다.")
         @Test
-        void findMovementRule() {
+        void findMovementRule_outPalace() {
             // given
             Chariot chariot = new Chariot(Team.RED);
             BoardPosition from = new BoardPosition(0, 0);
             BoardPosition to = new BoardPosition(0, 4);
+            Movement movement = new Movement(from, to);
 
             // when
-            List<Offset> result = chariot.findMovementRule(from, to);
+            List<Offset> result = chariot.findMovementRule(movement);
 
             // then
             assertThat(result).isEqualTo(List.of(
@@ -36,6 +38,25 @@ class ChariotTest {
                 new Offset(0, 1),
                 new Offset(0, 1),
                 new Offset(0, 1)
+            ));
+        }
+
+        @DisplayName("차는 궁성 내부에서 대각선으로 이동할 수 있다.")
+        @Test
+        void findMovementRule_inPalace() {
+            // given
+            Chariot chariot = new Chariot(Team.GREEN);
+            BoardPosition from = BoardPosition.GREEN_PALACE_SOUTH_WEST; // (3, 0)
+            BoardPosition to = BoardPosition.GREEN_PALACE_NORTH_EAST;   // (5, 2)
+            Movement movement = new Movement(from, to);
+
+            // when
+            List<Offset> result = chariot.findMovementRule(movement);
+
+            // then
+            assertThat(result).isEqualTo(List.of(
+                new Offset(1, 1),
+                new Offset(1, 1)
             ));
         }
 
@@ -116,9 +137,10 @@ class ChariotTest {
             Chariot chariot = new Chariot(Team.RED);
             BoardPosition from = new BoardPosition(0, 0);
             BoardPosition to = new BoardPosition(2, 2);
+            Movement movement = new Movement(from, to);
 
             // when & then
-            assertThatThrownBy(() -> chariot.findMovementRule(from, to))
+            assertThatThrownBy(() -> chariot.findMovementRule(movement))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 이동할 수 없습니다.");
         }

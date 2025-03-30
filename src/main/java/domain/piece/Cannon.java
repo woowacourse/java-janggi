@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.board.BoardPosition;
+import domain.board.Movement;
 import domain.board.Offset;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
@@ -14,17 +14,21 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public List<Offset> findMovementRule(
-        final BoardPosition selectBoardPosition,
-        final BoardPosition destinationBoardPosition
-    ) {
-        final Offset totalOffset = destinationBoardPosition.calculateOffset(selectBoardPosition);
+    public List<Offset> findMovementRule(final Movement movement) {
+        final Offset totalOffset = movement.calculateOffset();
 
+        if (movement.isPalaceMovement()) {
+            return totalOffset.calculateUnitSteps();
+        }
+
+        validateNonPalaceMovement(totalOffset);
+        return totalOffset.calculateUnitSteps();
+    }
+
+    private void validateNonPalaceMovement(final Offset totalOffset) {
         if (!totalOffset.isLinear()) {
             throw new IllegalArgumentException("해당 말은 이동할 수 없습니다.");
         }
-
-        return totalOffset.calculateLinearOffsets();
     }
 
     @Override

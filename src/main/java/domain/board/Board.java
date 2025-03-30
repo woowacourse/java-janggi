@@ -86,8 +86,8 @@ public class Board {
         final BoardPosition destinationBoardPosition
     ) {
         final Piece selectedPiece = pieces.get(selectBoardPosition);
-        final List<Offset> movementRule = selectedPiece.findMovementRule(selectBoardPosition,
-            destinationBoardPosition);
+        final Movement movement = new Movement(selectBoardPosition, destinationBoardPosition);
+        final List<Offset> movementRule = selectedPiece.findMovementRule(movement);
 
         final List<Piece> obstacles = calculateObstacles(selectBoardPosition,
             destinationBoardPosition, movementRule);

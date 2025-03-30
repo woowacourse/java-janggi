@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.BoardPosition;
+import domain.board.Movement;
 import domain.board.Offset;
 import java.util.List;
 import java.util.stream.Stream;
@@ -20,16 +21,17 @@ class GeneralTest {
     @Nested
     class ValidCases {
 
-        @DisplayName("왕은 상하좌우 한 칸 이동할 수 있다.")
+        @DisplayName("왕은 궁성 내부에서 선을 타고 이동할 수 있다.")
         @Test
         void findMovementRule() {
             // given
             General general = new General(Team.RED);
-            BoardPosition from = new BoardPosition(4, 4);
-            BoardPosition to = new BoardPosition(4, 5);
+            BoardPosition from = BoardPosition.RED_PALACE_MIDDLE_CENTER;
+            BoardPosition to = BoardPosition.RED_PALACE_NORTH_CENTER;
+            Movement movement = new Movement(from, to);
 
             // when
-            List<Offset> result = general.findMovementRule(from, to);
+            List<Offset> result = general.findMovementRule(movement);
 
             // then
             assertThat(result).isEqualTo(List.of(new Offset(0, 1)));
@@ -118,16 +120,32 @@ class GeneralTest {
                 .hasMessage("기물은 타입과 팀을 반드시 가져야 합니다.");
         }
 
-        @DisplayName("왕은 정의되지 않은 방향으로 이동할 수 없다.")
+        @DisplayName("왕은 궁성 내부에서 정의되지 않은 방향으로 이동할 수 없다.")
         @Test
-        void findMovementRule() {
+        void findMovementRule_inPalace() {
             // given
             General general = new General(Team.RED);
-            BoardPosition from = new BoardPosition(0, 0);
-            BoardPosition to = new BoardPosition(1, 1);
+            BoardPosition from = BoardPosition.RED_PALACE_NORTH_CENTER;
+            BoardPosition to = BoardPosition.RED_PALACE_MIDDLE_WEST;
+            Movement movement = new Movement(from, to);
 
             // when & then
-            assertThatThrownBy(() -> general.findMovementRule(from, to))
+            assertThatThrownBy(() -> general.findMovementRule(movement))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 말은 이동할 수 없습니다.");
+        }
+
+        @DisplayName("왕은 궁성 외부에서는 이동할 수 없다.")
+        @Test
+        void findMovementRule_outPalace() {
+            // given
+            General general = new General(Team.RED);
+            BoardPosition from = new BoardPosition(1, 1);
+            BoardPosition to = new BoardPosition(1, 2);
+            Movement movement = new Movement(from, to);
+
+            // when & then
+            assertThatThrownBy(() -> general.findMovementRule(movement))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 이동할 수 없습니다.");
         }

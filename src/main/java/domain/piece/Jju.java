@@ -1,42 +1,46 @@
 package domain.piece;
 
-import domain.board.BoardPosition;
+import domain.board.Movement;
 import domain.board.Offset;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Jju extends Piece {
 
-    private static final Map<Team, Map<Offset, List<Offset>>> MOVEMENT_RULES_BY_TEAM = Map.of(
-        Team.GREEN, Map.of(
-            new Offset(1, 0), List.of(new Offset(1, 0)),
-            new Offset(-1, 0), List.of(new Offset(-1, 0)),
-            new Offset(0, 1), List.of(new Offset(0, 1))
-        ),
-        Team.RED, Map.of(
-            new Offset(1, 0), List.of(new Offset(1, 0)),
-            new Offset(-1, 0), List.of(new Offset(-1, 0)),
-            new Offset(0, -1), List.of(new Offset(0, -1))
-        )
+    // @formatter:off
+    private static final Map<Team, Set<Offset>> PALACE_OFFSETS_BY_TEAM = Map.of(
+        Team.GREEN, Set.of(Offset.RIGHT, Offset.LEFT, Offset.UP, Offset.RIGHT_UP, Offset.LEFT_UP),
+        Team.RED, Set.of(Offset.RIGHT, Offset.LEFT, Offset.DOWN, Offset.RIGHT_DOWN, Offset.LEFT_DOWN)
     );
+
+    private static final Map<Team, Set<Offset>> NORMAL_OFFSETS_BY_TEAM = Map.of(
+        Team.GREEN, Set.of(Offset.RIGHT, Offset.LEFT, Offset.UP),
+        Team.RED, Set.of(Offset.RIGHT, Offset.LEFT, Offset.DOWN)
+    );
+    // @formatter:on
 
     public Jju(final Team team) {
         super(PieceType.JJU, team);
     }
 
     @Override
-    public List<Offset> findMovementRule(
-        final BoardPosition selectBoardPosition,
-        final BoardPosition destinationBoardPosition
-    ) {
-        final Offset totalOffset = destinationBoardPosition.calculateOffset(selectBoardPosition);
-        final Map<Offset, List<Offset>> movementRules = MOVEMENT_RULES_BY_TEAM.get(super.team);
+    public List<Offset> findMovementRule(final Movement movement) {
+        final Offset offset = movement.calculateOffset();
+        final Set<Offset> allowedOffsets = getAllowedOffsets(movement);
 
-        if (!movementRules.containsKey(totalOffset)) {
+        if (!allowedOffsets.contains(offset)) {
             throw new IllegalArgumentException("해당 말은 이동할 수 없습니다.");
         }
 
-        return movementRules.get(totalOffset);
+        return List.of(offset);
     }
 
+    private Set<Offset> getAllowedOffsets(final Movement movement) {
+        if (movement.isPalaceMovement()) {
+            return PALACE_OFFSETS_BY_TEAM.get(team);
+        }
+
+        return NORMAL_OFFSETS_BY_TEAM.get(team);
+    }
 }

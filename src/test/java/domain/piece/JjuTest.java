@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.BoardPosition;
+import domain.board.Movement;
 import domain.board.Offset;
 import java.util.List;
 import java.util.stream.Stream;
@@ -21,8 +22,8 @@ class JjuTest {
 
         @DisplayName("쭈는 팀에 따라 정해진 방향으로만 이동할 수 있다.")
         @ParameterizedTest
-        @MethodSource("provideMovementCases")
-        void findMovementRule(
+        @MethodSource("provideMovementCasesOutPalace")
+        void findMovementRule_outPalace(
             Team team,
             BoardPosition from,
             BoardPosition to,
@@ -30,15 +31,16 @@ class JjuTest {
         ) {
             // given
             Jju jju = new Jju(team);
+            Movement movement = new Movement(from, to);
 
             // when
-            List<Offset> result = jju.findMovementRule(from, to);
+            List<Offset> result = jju.findMovementRule(movement);
 
             // then
             assertThat(result).isEqualTo(List.of(expected));
         }
 
-        static Stream<Arguments> provideMovementCases() {
+        static Stream<Arguments> provideMovementCasesOutPalace() {
             // given
             return Stream.of(
                 // GREEN
@@ -56,6 +58,59 @@ class JjuTest {
                     new Offset(-1, 0)),
                 Arguments.of(Team.RED, new BoardPosition(4, 4), new BoardPosition(4, 3),
                     new Offset(0, -1))
+            );
+        }
+
+        @DisplayName("쭈는 궁성 내부에서 대각선 이동할 수 있다.")
+        @ParameterizedTest
+        @MethodSource("provideMovementCasesInPalace")
+        void findMovementRule_inPalace(
+            Team team,
+            BoardPosition from,
+            BoardPosition to,
+            Offset expected
+        ) {
+            // given
+            Jju jju = new Jju(team);
+            Movement movement = new Movement(from, to);
+
+            // when
+            List<Offset> result = jju.findMovementRule(movement);
+
+            // then
+            assertThat(result).isEqualTo(List.of(expected));
+        }
+
+        static Stream<Arguments> provideMovementCasesInPalace() {
+            // given
+            return Stream.of(
+                // GREEN
+                Arguments.of(
+                    Team.GREEN,
+                    BoardPosition.GREEN_PALACE_SOUTH_WEST,
+                    BoardPosition.GREEN_PALACE_MIDDLE_CENTER,
+                    new Offset(1, 1)
+                ),
+                Arguments.of(
+                    Team.GREEN,
+                    BoardPosition.RED_PALACE_MIDDLE_CENTER,
+                    BoardPosition.RED_PALACE_NORTH_WEST,
+                    new Offset(-1, 1)
+                ),
+
+                // RED
+                Arguments.of(
+                    Team.RED,
+                    BoardPosition.RED_PALACE_NORTH_EAST,
+                    BoardPosition.RED_PALACE_MIDDLE_CENTER,
+                    new Offset(-1, -1)
+                ),
+                Arguments.of(
+                    Team.RED,
+                    BoardPosition.GREEN_PALACE_MIDDLE_CENTER,
+                    BoardPosition.GREEN_PALACE_SOUTH_EAST,
+                    new Offset(1, -1)
+                )
             );
         }
 
@@ -131,17 +186,65 @@ class JjuTest {
 
         @DisplayName("쭈는 정의되지 않은 방향으로 이동할 수 없다.")
         @Test
-        void findMovementRule() {
+        void findMovementRule_outPalace() {
             // given
             Jju jju = new Jju(Team.RED);
 
             BoardPosition from = new BoardPosition(0, 0);
             BoardPosition to = new BoardPosition(1, 1);
+            Movement movement = new Movement(from, to);
 
             // when & then
-            assertThatThrownBy(() -> jju.findMovementRule(from, to))
+            assertThatThrownBy(() -> jju.findMovementRule(movement))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 이동할 수 없습니다.");
+        }
+
+        @DisplayName("쭈는 궁성 내부에서 정의되지 않은 방향으로 이동할 수 없다.")
+        @ParameterizedTest
+        @MethodSource("provideInvalidMovementInPalace")
+        void findMovementRule_inPalace(
+            Team team,
+            BoardPosition from,
+            BoardPosition to
+        ) {
+            // given
+            Jju jju = new Jju(team);
+            Movement movement = new Movement(from, to);
+
+            // when & then
+            assertThatThrownBy(() -> jju.findMovementRule(movement))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 말은 이동할 수 없습니다.");
+        }
+
+        static Stream<Arguments> provideInvalidMovementInPalace() {
+            // given
+            return Stream.of(
+                // GREEN
+                Arguments.of(
+                    Team.GREEN,
+                    BoardPosition.GREEN_PALACE_SOUTH_CENTER,
+                    BoardPosition.GREEN_PALACE_MIDDLE_WEST
+                ),
+                Arguments.of(
+                    Team.GREEN,
+                    BoardPosition.RED_PALACE_NORTH_CENTER,
+                    BoardPosition.RED_PALACE_MIDDLE_EAST
+                ),
+
+                // RED
+                Arguments.of(
+                    Team.RED,
+                    BoardPosition.RED_PALACE_NORTH_CENTER,
+                    BoardPosition.RED_PALACE_MIDDLE_WEST
+                ),
+                Arguments.of(
+                    Team.RED,
+                    BoardPosition.GREEN_PALACE_SOUTH_CENTER,
+                    BoardPosition.GREEN_PALACE_MIDDLE_EAST
+                )
+            );
         }
 
         @DisplayName("쭈는 장애물을 넘을 수 없다.")

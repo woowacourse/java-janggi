@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import domain.board.BoardPosition;
+import domain.board.Movement;
 import domain.board.Offset;
 import java.util.List;
 import java.util.stream.Stream;
@@ -27,9 +28,10 @@ class HorseTest {
             Horse horse = new Horse(Team.RED);
             BoardPosition from = new BoardPosition(4, 4);
             BoardPosition to = new BoardPosition(6, 5);
+            Movement movement = new Movement(from, to);
 
             // when
-            List<Offset> result = horse.findMovementRule(from, to);
+            List<Offset> result = horse.findMovementRule(movement);
 
             // then
             assertThat(result).isEqualTo(List.of(
@@ -128,9 +130,10 @@ class HorseTest {
             Horse horse = new Horse(Team.RED);
             BoardPosition from = new BoardPosition(0, 0);
             BoardPosition to = new BoardPosition(1, 1);
+            Movement movement = new Movement(from, to);
 
             // when & then
-            assertThatThrownBy(() -> horse.findMovementRule(from, to))
+            assertThatThrownBy(() -> horse.findMovementRule(movement))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 이동할 수 없습니다.");
         }
