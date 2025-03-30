@@ -57,12 +57,16 @@ public class JanggiGame {
 
             final Position targetPosition = readTargetPosition();
 
-            gameState = janggiBoard.pieceMove(currentPosition, targetPosition);
-            outputView.printSuccessMove();
+            pieceMove(janggiBoard, currentPosition, targetPosition);
         } catch (IllegalArgumentException exception) {
             outputView.printErrorMessage(exception.getMessage());
             playTurn(janggiBoard, currentTurnTeam);
         }
+    }
+
+    private void pieceMove(final Board janggiBoard, final Position currentPosition, final Position targetPosition) {
+        gameState = janggiBoard.pieceMove(currentPosition, targetPosition);
+        outputView.printSuccessMove();
     }
 
     private void showScore(final Board janggiBoard) {
