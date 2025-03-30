@@ -20,10 +20,12 @@ public class JanggiGame {
 
     private final BoardDao boardDao;
     private final PieceDao pieceDao;
+    private final BoardInitializer boardInitializer;
 
     public JanggiGame(BoardDao boardDao, PieceDao pieceDao) {
         this.boardDao = boardDao;
         this.pieceDao = pieceDao;
+        this.boardInitializer = new BoardInitializer(pieceDao);
     }
 
     public void showInitialBoard() {
@@ -43,7 +45,7 @@ public class JanggiGame {
             OutputView.displayResult(winTeam, greenPlayerTotalScore, redPlayerTotalScore);
             return;
         }
-        pieceDao.resetPieces();
+        boardInitializer.initialize();
         boardDao.resetCurrentTeam();
     }
 
