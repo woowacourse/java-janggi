@@ -51,8 +51,8 @@ class PositionDaoTest {
 
         // when
         positionDao.addPosition(position);
-        int positionId = positionDao.findIdByPosition(position);
-        Position findPosition = positionDao.findPositionById(positionId);
+        final int positionId = positionDao.findIdByPosition(position);
+        final Position findPosition = positionDao.findPositionById(positionId);
 
         // then
         assertThat(findPosition).isEqualTo(position);
@@ -72,6 +72,6 @@ class PositionDaoTest {
         // then
         assertThatCode(() -> positionDao.findIdByPosition(position))
                 .isInstanceOf(RuntimeException.class)
-                .hasMessage("오류가 발생했습니다.");
+                .hasMessage("위치를 찾을 수 없습니다.");
     }
 }

@@ -34,7 +34,7 @@ public class PositionDao {
                     return new Position(x, y);
                 }
             }
-            throw new RuntimeException("오류가 발생했습니다.");
+            throw new RuntimeException("위치를 찾을 수 없습니다.");
         } catch (final SQLException e) {
             throw new RuntimeException("오류가 발생했습니다.");
         }
@@ -51,7 +51,7 @@ public class PositionDao {
                     return resultSet.getInt("position_id");
                 }
             }
-            throw new RuntimeException("오류가 발생했습니다.");
+            throw new RuntimeException("위치를 찾을 수 없습니다.");
         } catch (final SQLException e) {
             throw new RuntimeException("오류가 발생했습니다.");
         }
