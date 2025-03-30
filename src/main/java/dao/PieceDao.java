@@ -32,7 +32,7 @@ public class PieceDao {
         String sql = """
                 UPDATE piece
                 SET row_index = ?, column_index = ?
-                WHERE row_index = ? && column_index = ? && game_room_name = ?
+                WHERE row_index = ? AND column_index = ? AND game_room_name = ?
                 """;
         addToMessageQueue(sql,
                 List.of(newPoint.row(), newPoint.column(), oldPoint.row(), oldPoint.column(), gameRoomName));
@@ -41,7 +41,7 @@ public class PieceDao {
     public void deleteByGameRoomNameAndPoint(String gameRoomName, Point point) {
         String sql = """
                 DELETE FROM piece
-                WHERE game_room_name = ? && row_index = ? && column_index = ?
+                WHERE game_room_name = ? AND row_index = ? AND column_index = ?
                 """;
         addToMessageQueue(sql, List.of(gameRoomName, point.row(), point.column()));
     }
