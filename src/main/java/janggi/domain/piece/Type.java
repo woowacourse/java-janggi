@@ -9,7 +9,7 @@ public enum Type {
     CHARIOT(Chariot::new),
     ELEPHANT(Elephant::new),
     GENERAL(General::new),
-    GUARD(General::new),
+    GUARD(Guard::new),
     HORSE(Horse::new),
     SOLDIER(Soldier::new);
 

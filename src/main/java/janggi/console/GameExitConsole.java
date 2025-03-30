@@ -18,9 +18,15 @@ public final class GameExitConsole {
     }
 
     public void saveOrDeleteGame(final GameStatus gameStatus, final int gameId, final Game game) {
-        if (gameStatus == GameStatus.ENDED) { // 게임을 저장하고 종료
+        if (gameStatus == GameStatus.ENDED) {
             saveGame(gameId, game);
+            return;
         }
+        if (gameStatus == GameStatus.CHO_WIN || gameStatus == GameStatus.HAN_WIN) {
+            deleteGame(gameId);
+            return;
+        }
+        throw new IllegalStateException("[ERROR] 게임이 비정상 종료되었습니다.");
     }
 
     private void saveGame(final int gameId, final Game game) {
@@ -29,6 +35,12 @@ public final class GameExitConsole {
             return;
         }
         gameService.updateGame(gameId, game);
+    }
+
+    private void deleteGame(final int gameId) {
+        if (gameId != NEW_GAME) {
+            gameService.deleteGame(gameId);
+        }
     }
 
     public void displayGameResult(final GameStatus gameStatus) {
