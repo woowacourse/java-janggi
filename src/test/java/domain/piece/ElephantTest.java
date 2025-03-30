@@ -41,14 +41,14 @@ class ElephantTest {
 
         @DisplayName("상은 장애물이 없으면 이동할 수 있다.")
         @Test
-        void validateMoveRule() {
+        void validateMovementConditions() {
             // given
             Elephant elephant = new Elephant(Team.RED);
             List<Piece> obstacles = List.of();
             Piece destination = new Jju(Team.GREEN);
 
             // when & then
-            assertThatCode(() -> elephant.validateMoveRule(obstacles, destination))
+            assertThatCode(() -> elephant.validateMovementConditions(obstacles, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -138,14 +138,14 @@ class ElephantTest {
 
         @DisplayName("상은 장애물을 넘을 수 없다.")
         @Test
-        void validateMoveRule() {
+        void validateMovementConditions() {
             // given
             Elephant elephant = new Elephant(Team.RED);
             List<Piece> obstacles = List.of(new Jju(Team.GREEN));
             Piece destination = new Jju(Team.GREEN);
 
             // when & then
-            assertThatThrownBy(() -> elephant.validateMoveRule(obstacles, destination))
+            assertThatThrownBy(() -> elephant.validateMovementConditions(obstacles, destination))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 장애물을 넘을 수 앖습니다.");
         }

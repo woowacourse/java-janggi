@@ -15,10 +15,10 @@ public class Cannon extends Piece {
 
     @Override
     public List<Offset> findMovementRule(
-        final BoardPosition selectedPosition,
+        final BoardPosition selectBoardPosition,
         final BoardPosition destinationBoardPosition
     ) {
-        final Offset totalOffset = destinationBoardPosition.calculateOffset(selectedPosition);
+        final Offset totalOffset = destinationBoardPosition.calculateOffset(selectBoardPosition);
 
         if (!totalOffset.isLinear()) {
             throw new IllegalArgumentException("해당 말은 이동할 수 없습니다.");
@@ -28,7 +28,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public void validateMoveRule(
+    public void validateMovementConditions(
         final List<Piece> obstacles,
         @Nullable
         final Piece destinationPiece

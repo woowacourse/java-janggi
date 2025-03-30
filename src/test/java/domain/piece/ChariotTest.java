@@ -125,14 +125,14 @@ class ChariotTest {
 
         @DisplayName("차는 장애물을 넘을 수 없다.")
         @Test
-        void validateMoveRule() {
+        void validateMovementConditions() {
             // given
             Chariot chariot = new Chariot(Team.RED);
             List<Piece> obstacles = List.of(new Jju(Team.GREEN));
             Piece destination = new Jju(Team.GREEN);
 
             // when & then
-            assertThatThrownBy(() -> chariot.validateMoveRule(obstacles, destination))
+            assertThatThrownBy(() -> chariot.validateMovementConditions(obstacles, destination))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 장애물을 넘을 수 앖습니다.");
         }

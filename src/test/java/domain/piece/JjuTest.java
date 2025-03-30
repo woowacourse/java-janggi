@@ -146,14 +146,14 @@ class JjuTest {
 
         @DisplayName("쭈는 장애물을 넘을 수 없다.")
         @Test
-        void validateMoveRule() {
+        void validateMovementConditions() {
             // given
             Jju jju = new Jju(Team.RED);
             List<Piece> obstacles = List.of(new Guard(Team.GREEN));
             Piece destination = new Guard(Team.GREEN);
 
             // when & then
-            assertThatThrownBy(() -> jju.validateMoveRule(obstacles, destination))
+            assertThatThrownBy(() -> jju.validateMovementConditions(obstacles, destination))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 장애물을 넘을 수 앖습니다.");
         }

@@ -29,11 +29,11 @@ public abstract class Piece {
     }
 
     public abstract List<Offset> findMovementRule(
-        final BoardPosition selectedPosition,
+        final BoardPosition selectBoardPosition,
         final BoardPosition destinationBoardPosition
     );
 
-    public void validateMoveRule(
+    public void validateMovementConditions(
         final List<Piece> obstacles,
         @Nullable
         final Piece destinationPiece

@@ -93,7 +93,7 @@ public class Board {
             destinationBoardPosition, movementRule);
         final Piece destinationPiece = pieces.get(destinationBoardPosition);
 
-        selectedPiece.validateMoveRule(obstacles, destinationPiece);
+        selectedPiece.validateMovementConditions(obstacles, destinationPiece);
     }
 
     private List<Piece> calculateObstacles(

@@ -26,10 +26,10 @@ public class Jju extends Piece {
 
     @Override
     public List<Offset> findMovementRule(
-        final BoardPosition selectedPosition,
+        final BoardPosition selectBoardPosition,
         final BoardPosition destinationBoardPosition
     ) {
-        final Offset totalOffset = destinationBoardPosition.calculateOffset(selectedPosition);
+        final Offset totalOffset = destinationBoardPosition.calculateOffset(selectBoardPosition);
         final Map<Offset, List<Offset>> movementRules = MOVEMENT_RULES_BY_TEAM.get(super.team);
 
         if (!movementRules.containsKey(totalOffset)) {

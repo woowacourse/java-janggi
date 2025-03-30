@@ -37,14 +37,14 @@ class GeneralTest {
 
         @DisplayName("왕은 장애물이 없으면 이동할 수 있다.")
         @Test
-        void validateMoveRule() {
+        void validateMovementConditions() {
             // given
             General general = new General(Team.RED);
             List<Piece> obstacles = List.of();
             Piece destination = new Jju(Team.GREEN);
 
             // when & then
-            assertThatCode(() -> general.validateMoveRule(obstacles, destination))
+            assertThatCode(() -> general.validateMovementConditions(obstacles, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -134,14 +134,14 @@ class GeneralTest {
 
         @DisplayName("왕은 장애물을 넘을 수 없다.")
         @Test
-        void validateMoveRule() {
+        void validateMovementConditions() {
             // given
             General general = new General(Team.RED);
             List<Piece> obstacles = List.of(new Jju(Team.GREEN));
             Piece destination = new Jju(Team.GREEN);
 
             // when & then
-            assertThatThrownBy(() -> general.validateMoveRule(obstacles, destination))
+            assertThatThrownBy(() -> general.validateMovementConditions(obstacles, destination))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 장애물을 넘을 수 앖습니다.");
         }

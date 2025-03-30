@@ -40,14 +40,14 @@ class HorseTest {
 
         @DisplayName("마는 장애물이 없으면 이동할 수 있다.")
         @Test
-        void validateMoveRule() {
+        void validateMovementConditions() {
             // given
             Horse horse = new Horse(Team.RED);
             List<Piece> obstacles = List.of();
             Piece destination = new Jju(Team.GREEN);
 
             // when & then
-            assertThatCode(() -> horse.validateMoveRule(obstacles, destination))
+            assertThatCode(() -> horse.validateMovementConditions(obstacles, destination))
                 .doesNotThrowAnyException();
         }
 
@@ -137,14 +137,14 @@ class HorseTest {
 
         @DisplayName("마는 장애물을 넘을 수 없다.")
         @Test
-        void validateMoveRule() {
+        void validateMovementConditions() {
             // given
             Horse horse = new Horse(Team.RED);
             List<Piece> obstacles = List.of(new Jju(Team.GREEN));
             Piece destination = new Jju(Team.GREEN);
 
             // when & then
-            assertThatThrownBy(() -> horse.validateMoveRule(obstacles, destination))
+            assertThatThrownBy(() -> horse.validateMovementConditions(obstacles, destination))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 말은 장애물을 넘을 수 앖습니다.");
         }
