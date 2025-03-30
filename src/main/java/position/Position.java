@@ -61,4 +61,12 @@ public record Position(
     public Position reverse() {
         return new Position(column.reverse(), row.reverse());
     }
+
+    public boolean onPalace() {
+        return (row.isInChoPalaceRow() || row.isInHanPalaceRow()) && column.isInPalaceColumn();
+    }
+
+    public boolean isCenterOfPalace() {
+        return (column == Column.E && row == Row.TWO) || (column == Column.E && row == Row.NINE);
+    }
 }

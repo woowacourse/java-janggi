@@ -46,4 +46,8 @@ public enum Column {
         int reversedIndex = values().length - 1 - this.ordinal();
         return values()[reversedIndex];
     }
+
+    public boolean isInPalaceColumn() {
+        return this.ordinal() >= Column.D.ordinal() && this.ordinal() <= Column.F.ordinal();
+    }
 }

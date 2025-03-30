@@ -1,9 +1,11 @@
 package piece;
 
 import game.Board;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 import position.Movement;
 import position.Position;
 
@@ -13,13 +15,27 @@ public class General extends Piece {
             List.of(Movement.DOWN),
             List.of(Movement.LEFT),
             List.of(Movement.RIGHT));
-
+    private static final Set<List<Movement>> palaceMovements = Set.of(
+            List.of(Movement.UP_LEFT),
+            List.of(Movement.UP_RIGHT),
+            List.of(Movement.DOWN_LEFT),
+            List.of(Movement.DOWN_RIGHT)
+    );
     public General(final Country country) {
         super(PieceType.GENERAL, country);
     }
 
     public List<Position> findPathForMove(Position fromPosition, Position toPosition) {
-        List<Position> path = pieceMovements.stream()
+        if (!toPosition.onPalace()) {
+            throw new IllegalArgumentException("왕은 궁성 내에서만 이동할 수 있습니다.");
+        }
+        Set<List<Movement>> combinedMovements = new HashSet<>(pieceMovements);
+
+        if (fromPosition.isCenterOfPalace() || toPosition.isCenterOfPalace()) {
+            combinedMovements.addAll(palaceMovements);
+        }
+
+        List<Position> path = combinedMovements.stream()
                 .map(fromPosition::findMovablePositions)
                 .filter(findPathByDestination(toPosition))
                 .findFirst()

@@ -46,4 +46,12 @@ public enum Row {
         int reversedIndex = values().length - 1 - this.ordinal();
         return values()[reversedIndex];
     }
+
+    public boolean isInChoPalaceRow() {
+        return this.ordinal() <= Row.THREE.ordinal();
+    }
+
+    public boolean isInHanPalaceRow() {
+        return this.ordinal() >= Row.EIGHT.ordinal() && this.ordinal() <= Row.TEN.ordinal(); // EIGHT ~ TEN
+    }
 }
