@@ -32,7 +32,7 @@ public class TurnDaoImpl implements TurnDao {
 
     @Override
     public void save(Team turn) {
-        final String query = "INSERT INTO turn VALUES(?)";
+        final String query = "INSERT INTO turn (turn) VALUES(?)";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, turn.name());
             preparedStatement.executeUpdate();

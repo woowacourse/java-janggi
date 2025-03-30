@@ -55,7 +55,7 @@ public class BoardDaoImpl implements BoardDao {
 
     @Override
     public void save(final Point point, final Piece piece) {
-        final String query = "INSERT INTO board VALUES(?, ?, ?, ?)";
+        final String query = "INSERT INTO board (point_row, point_column, team, piece_type) VALUES(?, ?, ?, ?)";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, point.row());
             preparedStatement.setInt(2, point.column());
