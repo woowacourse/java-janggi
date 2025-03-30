@@ -12,35 +12,35 @@ import java.util.Map;
 public class Janggi {
 
     private final Board board;
-    private Team currentTeam;
+    private final Turn turn;
 
     public Janggi(
         final Board board,
-        final Team currentTeam
+        final Turn turn
     ) {
-        validateNotNull(board, currentTeam);
+        validateNotNull(board, turn);
         this.board = board;
-        this.currentTeam = currentTeam;
+        this.turn = turn;
     }
 
     private void validateNotNull(
         final Board board,
-        final Team currentTeam
+        final Turn turn
     ) {
-        if (board == null || currentTeam == null) {
-            throw new IllegalArgumentException("보드는 보드와 현재 팀을 가져야합니다.");
+        if (board == null || turn == null) {
+            throw new IllegalArgumentException("장기는 보드와 턴을 가져야합니다.");
         }
     }
 
     public static Janggi initialize() {
         final Board board = BoardFactory.createInitialBoard();
-        final Team currentTeam = Team.GREEN;
+        final Turn turn = new Turn(Team.GREEN);
 
-        return new Janggi(board, currentTeam);
+        return new Janggi(board, turn);
     }
 
     public void validateSelectedPiece(final BoardPosition selectBoardPosition) {
-        board.findSelectedPiece(selectBoardPosition, currentTeam)
+        board.findSelectedPiece(selectBoardPosition, turn.getCurrentTeam())
             .orElseThrow(() -> new IllegalArgumentException("해당 위치에 말이 없거나 상대팀의 말입니다."));
     }
 
@@ -48,8 +48,8 @@ public class Janggi {
         final BoardPosition selectBoardPosition,
         final BoardPosition destinationBoardPosition
     ) {
-        board.movePiece(selectBoardPosition, destinationBoardPosition, currentTeam);
-        currentTeam = currentTeam.nextTeam();
+        board.movePiece(selectBoardPosition, destinationBoardPosition, turn.getCurrentTeam());
+        turn.proceed();
     }
 
     public Map<Team, Score> calculateTeamScores() {
@@ -70,7 +70,8 @@ public class Janggi {
             throw new IllegalStateException("게임이 종료되지 않았습니다.");
         }
 
-        return currentTeam.nextTeam();
+        return turn.getCurrentTeam()
+            .nextTeam();
     }
 
     public Map<BoardPosition, Piece> getPieces() {
@@ -78,6 +79,6 @@ public class Janggi {
     }
 
     public Team getCurrentTeam() {
-        return currentTeam;
+        return turn.getCurrentTeam();
     }
 }

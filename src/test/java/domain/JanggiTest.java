@@ -57,7 +57,8 @@ class JanggiTest {
             Board board = new Board(Map.of(
                 new BoardPosition(0, 0), new Jju(Team.GREEN)
             ));
-            Janggi janggi = new Janggi(board, Team.GREEN);
+            Turn turn = new Turn(Team.GREEN);
+            Janggi janggi = new Janggi(board, turn);
 
             // when & then
             assertThatCode(() -> janggi.validateSelectedPiece(new BoardPosition(0, 0)))
@@ -71,7 +72,8 @@ class JanggiTest {
             Board board = new Board(Map.of(
                 new BoardPosition(0, 0), new Jju(Team.GREEN)
             ));
-            Janggi janggi = new Janggi(board, Team.GREEN);
+            Turn turn = new Turn(Team.GREEN);
+            Janggi janggi = new Janggi(board, turn);
 
             // when
             janggi.processTurn(new BoardPosition(0, 0), new BoardPosition(0, 1));
@@ -91,7 +93,8 @@ class JanggiTest {
                 new BoardPosition(1, 0), new Jju(Team.RED),
                 new BoardPosition(1, 1), new General(Team.RED)
             ));
-            Janggi janggi = new Janggi(board, Team.GREEN);
+            Turn turn = new Turn(Team.GREEN);
+            Janggi janggi = new Janggi(board, turn);
 
             // when
             Map<Team, Score> result = janggi.calculateTeamScores();
@@ -114,7 +117,8 @@ class JanggiTest {
             Board board = new Board(Map.of(
                 new BoardPosition(0, 0), new General(Team.GREEN)
             ));
-            Janggi janggi = new Janggi(board, Team.RED);
+            Turn turn = new Turn(Team.RED);
+            Janggi janggi = new Janggi(board, turn);
 
             // when
             boolean isGameOver = janggi.isGameOver();
@@ -130,7 +134,8 @@ class JanggiTest {
             Board board = new Board(Map.of(
                 new BoardPosition(0, 0), new General(Team.GREEN)
             ));
-            Janggi janggi = new Janggi(board, Team.RED);
+            Turn turn = new Turn(Team.RED);
+            Janggi janggi = new Janggi(board, turn);
 
             // when
             Team winner = janggi.calculateWinner();
@@ -143,24 +148,24 @@ class JanggiTest {
     @Nested
     class InvalidCases {
 
-        @DisplayName("장기는 보드나 현재 팀을 반드시 가져야 한다.")
+        @DisplayName("장기는 보드나 턴을 반드시 가져야 한다.")
         @ParameterizedTest
         @MethodSource("provideNullArguments")
         void validateNotNull(
             Board board,
-            Team team
+            Turn turn
         ) {
             // when & then
-            assertThatThrownBy(() -> new Janggi(board, team))
+            assertThatThrownBy(() -> new Janggi(board, turn))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("보드는 보드와 현재 팀을 가져야합니다.");
+                .hasMessage("장기는 보드와 턴을 가져야합니다.");
         }
 
         static Stream<Arguments> provideNullArguments() {
             // given
             return Stream.of(
                 Arguments.of(null, null),
-                Arguments.of(null, Team.GREEN),
+                Arguments.of(null, new Turn(Team.GREEN)),
                 Arguments.of(new Board(Map.of()), null)
             );
         }
@@ -172,7 +177,8 @@ class JanggiTest {
             Board board = new Board(Map.of(
                 new BoardPosition(0, 0), new Jju(Team.RED)
             ));
-            Janggi janggi = new Janggi(board, Team.GREEN);
+            Turn turn = new Turn(Team.GREEN);
+            Janggi janggi = new Janggi(board, turn);
 
             // when & then
             assertThatThrownBy(() -> janggi.validateSelectedPiece(new BoardPosition(0, 0)))
@@ -188,7 +194,8 @@ class JanggiTest {
                 new BoardPosition(0, 0), new General(Team.GREEN),
                 new BoardPosition(0, 1), new General(Team.RED)
             ));
-            Janggi janggi = new Janggi(board, Team.RED);
+            Turn turn = new Turn(Team.RED);
+            Janggi janggi = new Janggi(board, turn);
 
             // when & then
             assertThatThrownBy(janggi::calculateWinner)
