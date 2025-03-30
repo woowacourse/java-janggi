@@ -19,6 +19,10 @@ public class JanggiController {
         final JanggiGame game = new JanggiGame();
         outputView.printBoard(game.getBoard());
         while (true) {
+            if (game.isGeneralDied()) {
+                OutputView.printGameEndMessage();
+                break;
+            }
             processMove(game);
         }
     }

@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.Team;
 import domain.pieces.Piece;
+import domain.pieces.PieceNames;
 import execptions.JanggiArgumentException;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,16 @@ public final class Board {
         processMovement(startBoardPoint, arrivalBoardPoint, team);
     }
 
+    public boolean isGeneralDied() {
+        for (BoardPoint boardPoint : locations.keySet()) {
+            String name = locations.get(boardPoint).getName();
+            if (name.equals(PieceNames.GENERAL.name())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void validateBoardRoutes(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
         for (final List<BoardPoint> boardPoints : UNABLE_BOARD_ROUTES) {
             if (boardPoints.contains(startBoardPoint) && boardPoints.contains(arrivalBoardPoint)) {
@@ -73,7 +84,8 @@ public final class Board {
                                         final Piece pieceAtStartPoint) {
         checkOutOfRoute(startBoardPoint, arrivalBoardPoint, pieceAtStartPoint);
 
-        final List<BoardPoint> routeBoardPoints = pieceAtStartPoint.getRoutePoints(startBoardPoint, arrivalBoardPoint);
+        final List<BoardPoint> routeBoardPoints = pieceAtStartPoint.getRoutePoints(startBoardPoint,
+                arrivalBoardPoint);
         final PieceOnRoute pieceOnRoute = getAllPieceOnRoute(routeBoardPoints);
 
         checkPieceOnRoute(pieceAtStartPoint, pieceOnRoute);

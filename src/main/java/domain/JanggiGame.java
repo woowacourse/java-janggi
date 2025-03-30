@@ -44,6 +44,10 @@ public final class JanggiGame {
         return new Board(locations);
     }
 
+    public boolean isGeneralDied() {
+        return board.isGeneralDied();
+    }
+
     private Map<BoardPoint, Piece> generateLocationsForHan() {
         final Map<BoardPoint, Piece> locations = new HashMap<>();
 

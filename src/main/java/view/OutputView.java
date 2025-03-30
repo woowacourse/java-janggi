@@ -9,6 +9,10 @@ public final class OutputView {
     private static final int MAX_COLUMN = 9;
     private static final int MAX_ROW = 10;
 
+    public static void printGameEndMessage() {
+        System.out.println("궁이 쓰러졌기에 게임을 종료합니다.");
+    }
+
     public void printBoard(final Map<BoardPoint, Piece> locations) {
         System.out.println(boardToString(locations));
     }
