@@ -1,8 +1,6 @@
 package dao;
 
 import domain.TeamType;
-import domain.game.dto.JanggiGameResponseDto;
-import domain.player.Players;
 import domain.turn.GameState;
 import domain.turn.TurnState;
 import java.sql.Connection;
@@ -21,21 +19,21 @@ public class JanggiGameDao {
         this.connection = connection;
     }
 
-    public List<JanggiGameResponseDto> findInProgressGames() {
-        String query = "SELECT game_id, cho_player_name, han_player_name FROM janggi_game WHERE game_status = ?";
+    public List<Long> findInProgressGameIds() {
+        String query = "SELECT game_id FROM janggi_games WHERE game_status = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, GameState.IN_PROGRESS.name());
             ResultSet resultSet = preparedStatement.executeQuery();
-            return mapInProgressGameResultSet(resultSet);
+            return mapInProgressGameIds(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
         }
     }
 
     public Optional<TurnState> findTurnStateById(Long gameId) {
-        String query = "SELECT * FROM janggi_game WHERE game_id = ?";
+        String query = "SELECT undo_last, turn FROM janggi_games WHERE game_id = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -47,16 +45,27 @@ public class JanggiGameDao {
         }
     }
 
-    public long saveJanggiGame(Players players, TurnState turnState, GameState gameState) {
-        String query = "INSERT INTO janggi_game (game_status, turn, cho_player_name, han_player_name, undo_last) VALUES (?, ?, ?, ?, ?)";
+    public Optional<GameState> findGameStateById(Long gameId) {
+        String query = "SELECT game_status FROM janggi_games WHERE game_id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return mapGameState(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
+        }
+    }
+
+    public long saveJanggiGame(TurnState turnState, GameState gameState) {
+        String query = "INSERT INTO janggi_games (game_status, turn, undo_last) VALUES (?, ?, ?)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, gameState.name());
             preparedStatement.setString(2, turnState.playerTeam().name());
-            preparedStatement.setString(3, players.getChoPlayerName());
-            preparedStatement.setString(4, players.getHanPlayerName());
-            preparedStatement.setBoolean(5, turnState.undoLast());
+            preparedStatement.setBoolean(3, turnState.undoLast());
             preparedStatement.executeUpdate();
 
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
@@ -68,18 +77,29 @@ public class JanggiGameDao {
         }
     }
 
-    private List<JanggiGameResponseDto> mapInProgressGameResultSet(ResultSet resultSet) {
-        List<JanggiGameResponseDto> inProgressGames = new ArrayList<>();
+    public int updateGameState(Long gameId, GameState gameState) {
+        String query = "UPDATE janggi_games SET game_status = ? WHERE game_id = ?";
+
         try {
-            while (resultSet.next()) {
-                Long gameId = resultSet.getLong("game_id");
-                String choPlayerName = resultSet.getString("cho_player_name");
-                String hanPlayerName = resultSet.getString("han_player_name");
-                inProgressGames.add(
-                        new JanggiGameResponseDto(gameId, choPlayerName, hanPlayerName)
-                );
-            }
-            return inProgressGames;
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, gameState.name());
+            preparedStatement.setLong(2, gameId);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
+        }
+    }
+
+    public int updateTurnState(Long gameId, TurnState turnState) {
+        String query = "UPDATE janggi_games SET turn = ?, undo_last = ? WHERE game_id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, turnState.playerTeam().name());
+            preparedStatement.setBoolean(2, turnState.undoLast());
+            preparedStatement.setLong(3, gameId);
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
         }
@@ -96,5 +116,30 @@ public class JanggiGameDao {
         } catch (SQLException e) {
             throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
         }
+    }
+
+    private Optional<GameState> mapGameState(ResultSet resultSet) {
+        try {
+            if (resultSet.next()) {
+                GameState gameState = GameState.valueOf(resultSet.getString("game_status"));
+                return Optional.of(gameState);
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
+        }
+    }
+
+    private List<Long> mapInProgressGameIds(ResultSet resultSet) {
+        List<Long> gameIds = new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                gameIds.add(resultSet.getLong("game_id"));
+            }
+            return gameIds;
+        } catch (SQLException e) {
+            throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
+        }
+
     }
 }

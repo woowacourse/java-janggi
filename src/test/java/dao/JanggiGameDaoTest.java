@@ -5,9 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.TeamType;
-import domain.game.dto.JanggiGameResponseDto;
-import domain.player.Players;
-import domain.player.Usernames;
 import domain.turn.GameState;
 import domain.turn.TurnState;
 import java.sql.Connection;
@@ -41,15 +38,11 @@ class JanggiGameDaoTest {
     @DisplayName("장기 게임의 정보를 저장한다")
     void saveJanggiGameTest() {
         // given
-        String choPlayerName = "루키";
-        String hanPlayerName = "코기";
-        Usernames usernames = new Usernames(choPlayerName, hanPlayerName);
-        Players players = Players.createFrom(usernames, choPlayerName);
         TurnState turnState = new TurnState(false, TeamType.CHO);
         GameState gameState = GameState.IN_PROGRESS;
 
         // when & then
-        assertThatCode(() -> janggiGameDao.saveJanggiGame(players, turnState, gameState))
+        assertThatCode(() -> janggiGameDao.saveJanggiGame(turnState, gameState))
                 .doesNotThrowAnyException();
     }
 
@@ -57,39 +50,17 @@ class JanggiGameDaoTest {
     @DisplayName("진행중인 게임의 정보들을 반환한다")
     void findInProgressGamesTest() {
         // given
-        int gameCount = 3;
-        for (int i = 0; i < gameCount; i++) {
+        int savedCount = janggiGameDao.findInProgressGameIds().size();
+        int newGameCount = 3;
+        for (int i = 0; i < newGameCount; i++) {
             saveNewGame();
         }
 
         // when
-        List<JanggiGameResponseDto> inProgressGames = janggiGameDao.findInProgressGames();
+        List<Long> inProgressGames = janggiGameDao.findInProgressGameIds();
 
         // then
-        assertThat(inProgressGames).hasSize(3);
-    }
-
-    @Test
-    @DisplayName("진행중인 게임의 정보를 반환한다")
-    void findInProgressGameTest() {
-        // given
-        String choPlayerName = "피케이";
-        String hanPlayerName = "PK";
-        Usernames usernames = new Usernames(choPlayerName, hanPlayerName);
-        Players players = Players.createFrom(usernames, choPlayerName);
-        TurnState turnState = new TurnState(true, TeamType.HAN);
-        GameState gameState = GameState.IN_PROGRESS;
-        janggiGameDao.saveJanggiGame(players, turnState, gameState);
-
-        // when
-        List<JanggiGameResponseDto> inProgressGames = janggiGameDao.findInProgressGames();
-        JanggiGameResponseDto inProgressGame = inProgressGames.getFirst();
-
-        // then
-        assertAll(
-                () -> assertThat(inProgressGame.hanPlayerName()).isEqualTo("PK"),
-                () -> assertThat(inProgressGame.choPlayerName()).isEqualTo("피케이")
-        );
+        assertThat(inProgressGames).hasSize(savedCount + 3);
     }
 
     @Test
@@ -108,14 +79,52 @@ class JanggiGameDaoTest {
         );
     }
 
+    @Test
+    @DisplayName("게임 진행 상태를 변경한다")
+    void updateGameStateTest() {
+        // given
+        long gameId = saveNewGame();
+
+        // when
+        GameState gameState = GameState.FINISHED_SCORE;
+        int resultRowCount = janggiGameDao.updateGameState(gameId, gameState);
+
+        // then
+        assertThat(resultRowCount).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("게임 턴 상황을 변경한다")
+    void updateTurnStateTest() {
+        // given
+        long gameId = saveNewGame();
+
+        // when
+        TurnState turnState = new TurnState(true, TeamType.HAN);
+        int resultRowCount = janggiGameDao.updateTurnState(gameId, turnState);
+
+        // then
+        assertThat(resultRowCount).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("게임의 종료 상황을 반환한다")
+    void findGameStateByIdTest() {
+        // given
+        long gameId = saveNewGame();
+
+        // when
+        GameState actual = janggiGameDao.findGameStateById(gameId).get();
+
+        // then
+        GameState expected = GameState.IN_PROGRESS;
+        assertThat(actual).isEqualTo(expected);
+    }
+
     private long saveNewGame() {
-        String choPlayerName = "루키";
-        String hanPlayerName = "코기";
-        Usernames usernames = new Usernames(choPlayerName, hanPlayerName);
-        Players players = Players.createFrom(usernames, choPlayerName);
         TurnState turnState = new TurnState(false, TeamType.CHO);
         GameState gameState = GameState.IN_PROGRESS;
 
-        return janggiGameDao.saveJanggiGame(players, turnState, gameState);
+        return janggiGameDao.saveJanggiGame(turnState, gameState);
     }
 }
