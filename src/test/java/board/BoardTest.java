@@ -110,7 +110,7 @@ public class BoardTest {
 
 
             // when & then
-            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, country))
+            Assertions.assertThatThrownBy(() -> board.updatePosition(src, dest, country.opposite()))
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }

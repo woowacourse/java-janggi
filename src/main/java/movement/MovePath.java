@@ -48,6 +48,7 @@ public class MovePath {
         return new MovePaths(moveActions);
     }
 
+    // TODO 2025. 3. 30. 11:56: try - catch -> boolean
     public boolean canReachDestination(Position src, Position destination) {
         for (Movement movement : movements) {
             try {
