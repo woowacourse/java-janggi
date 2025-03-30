@@ -26,17 +26,14 @@ public class PositionFactory {
         settingGraph(BASIC_DX, BASIC_DY);
     }
 
-    public void diagonalSettingGraph() {
-        Position[] positions = new Position[2];
-        positions[0] = new Position(5, 2);
-        positions[1] = new Position(5, 9);
-        for (int i = 0; i < positions.length; i++) {
+    public void diagonalSettingGraph(Set<Position> diagonalPositions) {
+        for (Position diagonalPosition : diagonalPositions) {
             for (int dir = 0; dir < DIAGONAL_DX.length; dir++) {
-                int nextX = positions[i].x() + DIAGONAL_DX[dir];
-                int nextY = positions[i].y() + DIAGONAL_DY[dir];
+                int nextX = diagonalPosition.x() + DIAGONAL_DX[dir];
+                int nextY = diagonalPosition.y() + DIAGONAL_DY[dir];
                 Position neighbor = new Position(nextX, nextY);
-                graph.get(positions[i]).add(neighbor);
-                graph.get(neighbor).add(positions[i]);
+                graph.get(diagonalPosition).add(neighbor);
+                graph.get(neighbor).add(diagonalPosition);
             }
         }
     }

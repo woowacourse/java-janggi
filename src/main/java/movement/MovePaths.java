@@ -10,6 +10,7 @@ public class MovePaths {
 
     private final Set<MovePath> movePaths;
 
+    // TODO 2025. 3. 30. 11:56: Set 주입
     public MovePaths(List<MovePath> moveActions) {
         this.movePaths = new HashSet<>(moveActions);
     }
@@ -17,7 +18,7 @@ public class MovePaths {
     public static MovePaths of(MovePaths existing, MovePath additional) {
         Set<MovePath> combinedPaths = new HashSet<>(existing.movePaths);
         combinedPaths.add(additional);
-        return new MovePaths(List.copyOf(combinedPaths));
+        return new MovePaths(List.copyOf(combinedPaths)); // TODO 2025. 3. 30. 11:56: Set 주입
     }
 
     public double calculateDistance() {
