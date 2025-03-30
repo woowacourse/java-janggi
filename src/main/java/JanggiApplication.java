@@ -1,11 +1,15 @@
 import controller.JanggiController;
+import domain.game.GameService;
+import domain.player.PlayerService;
+import java.sql.SQLException;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiApplication {
 
-    public static void main(String[] args) {
-        JanggiController janggiController = new JanggiController(new InputView(), new OutputView());
+    public static void main(String[] args) throws SQLException {
+        JanggiController janggiController = new JanggiController(new InputView(), new OutputView(),
+                new PlayerService(), new GameService());
         janggiController.run();
     }
 }
