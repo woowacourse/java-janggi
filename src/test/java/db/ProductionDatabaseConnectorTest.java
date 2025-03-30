@@ -1,4 +1,4 @@
-package domain.db;
+package db;
 
 import db.ProductionDatabaseConnector;
 import org.junit.jupiter.api.DisplayName;
