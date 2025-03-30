@@ -1,15 +1,55 @@
 package piece;
 
+import game.Team;
 import java.util.Arrays;
+import location.Position;
 
 public enum PieceType {
-    CANNON(1, 7),
-    CHARIOT(2, 13),
-    ELEPHANT(3, 3),
-    GENERAL(4, 0),
-    SOLDIER(5, 2),
-    GUARD(6, 3),
-    HORSE(7, 5);
+    CANNON(1, 7) {
+        @Override
+        public Piece createPiece(int pieceId, Team team, Position currentPosition) {
+            return new Cannon(pieceId, team, currentPosition);
+        }
+    },
+    CHARIOT(2, 13) {
+        @Override
+        public Piece createPiece(int pieceId, Team team, Position currentPosition) {
+            return new Chariot(pieceId, team, currentPosition);
+        }
+    },
+    ELEPHANT(3, 3) {
+        @Override
+        public Piece createPiece(int pieceId, Team team, Position currentPosition) {
+            return new Elephant(pieceId, team, currentPosition);
+        }
+    },
+    GENERAL(4, 0) {
+        @Override
+        public Piece createPiece(int pieceId, Team team, Position currentPosition) {
+            return new General(pieceId, team, currentPosition);
+        }
+    },
+    SOLDIER(5, 2) {
+        @Override
+        public Piece createPiece(int pieceId, Team team, Position currentPosition) {
+            if (team == Team.GREEN) {
+                return new GreenSoldier(pieceId, team, currentPosition);
+            }
+            return new RedSoldier(pieceId, team, currentPosition);
+        }
+    },
+    GUARD(6, 3) {
+        @Override
+        public Piece createPiece(int pieceId, Team team, Position currentPosition) {
+            return new Guard(pieceId, team, currentPosition);
+        }
+    },
+    HORSE(7, 5) {
+        @Override
+        public Piece createPiece(int pieceId, Team team, Position currentPosition) {
+            return new Horse(pieceId, team, currentPosition);
+        }
+    };
 
     private final int id;
     private final int score;
@@ -17,14 +57,6 @@ public enum PieceType {
     PieceType(int id, int score) {
         this.id = id;
         this.score = score;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getScore() {
-        return score;
     }
 
     public static PieceType findById(int id) {
@@ -44,5 +76,15 @@ public enum PieceType {
 
     public static boolean isGeneral(Piece piece) {
         return piece.getPieceType() == GENERAL;
+    }
+
+    public abstract Piece createPiece(int pieceId, Team team, Position currentPosition);
+
+    public int getId() {
+        return id;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

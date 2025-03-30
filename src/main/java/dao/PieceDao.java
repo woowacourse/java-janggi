@@ -51,7 +51,7 @@ public class PieceDao {
                     PieceType pieceType = PieceType.findById(resultSet.getInt("piece_type_id"));
                     Position position = new Position(resultSet.getInt("x"), resultSet.getInt("y"));
 
-                    Piece piece = createByPieceType(pieceId, team, pieceType, position);
+                    Piece piece = pieceType.createPiece(pieceId, team, position);
                     pieces.add(piece);
                 }
             }
@@ -73,7 +73,7 @@ public class PieceDao {
                     PieceType pieceType = PieceType.findById(resultSet.getInt("piece_type_id"));
                     Position position = new Position(resultSet.getInt("x"), resultSet.getInt("y"));
 
-                    Piece piece = createByPieceType(pieceId, team, pieceType, position);
+                    Piece piece = pieceType.createPiece(pieceId, team, position);
                     pieces.add(piece);
                 }
             }
@@ -95,7 +95,7 @@ public class PieceDao {
                     PieceType pieceType = PieceType.findById(resultSet.getInt("piece_type_id"));
                     Position position = new Position(resultSet.getInt("x"), resultSet.getInt("y"));
 
-                    Piece piece = createByPieceType(pieceId, team, pieceType, position);
+                    Piece piece = pieceType.createPiece(pieceId, team, position);
                     pieces.add(piece);
                 }
             }
@@ -192,35 +192,5 @@ public class PieceDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private Piece createByPieceType(int pieceId, Team team, PieceType pieceType, Position position) {
-        if (pieceType == PieceType.CANNON) {
-            return new Cannon(pieceId, team, position);
-        }
-        if (pieceType == PieceType.CHARIOT) {
-            return new Chariot(pieceId, team, position);
-        }
-        if (pieceType == PieceType.ELEPHANT) {
-            return new Elephant(pieceId, team, position);
-        }
-        if (pieceType == PieceType.GENERAL) {
-            return new General(pieceId, team, position);
-        }
-        if (pieceType == PieceType.SOLDIER) {
-            if (team == Team.GREEN) {
-                return new GreenSoldier(pieceId, team, position);
-            }
-            if (team == Team.RED) {
-                return new RedSoldier(pieceId, team, position);
-            }
-        }
-        if (pieceType == PieceType.GUARD) {
-            return new Guard(pieceId, team, position);
-        }
-        if (pieceType == PieceType.HORSE) {
-            return new Horse(pieceId, team, position);
-        }
-        throw new IllegalArgumentException("[ERROR] 해당하는 기물 종류가 없습니다.");
     }
 }
