@@ -68,6 +68,9 @@ public record ChessPosition(
     }
 
     public boolean canCastleMove(Direction direction) {
+        if (direction.isDiagonal() && !isCastlePosition()) {
+            return false;
+        }
         return DIRECTION_FILTERS.get(direction).test(this.move(direction));
     }
 
