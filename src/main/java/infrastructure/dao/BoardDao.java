@@ -28,6 +28,8 @@ public class BoardDao {
                 preparedStatement.setInt(2, boardEntity.getX());
                 preparedStatement.setInt(3, boardEntity.getY());
                 preparedStatement.setString(4, boardEntity.getCountry());
+
+                preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

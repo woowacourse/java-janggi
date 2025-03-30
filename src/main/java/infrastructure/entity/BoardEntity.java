@@ -19,7 +19,8 @@ public class BoardEntity {
     public BoardEntity(
             Long id,
             String pieceName,
-            int x, int y,
+            int x,
+            int y,
             String country
     ) {
         this.id = id;

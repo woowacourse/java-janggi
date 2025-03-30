@@ -11,7 +11,7 @@ import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
-public final class Board implements ReadableBoard, WritableBoard {
+public class Board implements ReadableBoard, WritableBoard {
 
     private final Map<Coordinate, Piece> board;
 
