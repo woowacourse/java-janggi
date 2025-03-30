@@ -27,15 +27,9 @@ public final class JanggiGame {
     private final BoardDao boardDao;
 
     public JanggiGame() {
-        board = generateBoard();
-        players = List.of(new Player(Team.HAN), new Player(Team.CHO));
         this.boardDao = new BoardDao();
-    }
-
-    public JanggiGame(Board board, List<Player> players) {
-        this.board = board;
-        this.players = players;
-        this.boardDao = new BoardDao();
+        this.board = boardDao.getBoard();
+        this.players = boardDao.getPlayers();
     }
 
     public Map<BoardPoint, Piece> getBoard() {

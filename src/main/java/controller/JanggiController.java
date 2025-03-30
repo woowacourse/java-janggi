@@ -1,12 +1,8 @@
 package controller;
 
-import dao.BoardDao;
 import domain.JanggiGame;
-import domain.Player;
-import domain.board.Board;
 import domain.board.Score;
 import dto.MovementRequestDto;
-import java.util.List;
 import view.InputView;
 import view.OutputView;
 
@@ -20,12 +16,7 @@ public class JanggiController {
     }
 
     public void run() {
-        BoardDao boardDao = new BoardDao();
-
-        final Board board = boardDao.getBoard();
-        final List<Player> players = boardDao.getPlayers();
-
-        final JanggiGame game = new JanggiGame(board, players);
+        final JanggiGame game = new JanggiGame();
 
         outputView.printBoard(game.getBoard());
         while (true) {
