@@ -56,6 +56,8 @@ class MessageQueueTest {
         verify(testConnection, times(2)).prepareStatement(sql);
         verify(testPreparedStatement, times(1)).setObject(1, "room1");
         verify(testPreparedStatement, times(1)).setObject(2, Team.CHO.name());
+        verify(testPreparedStatement, times(1)).setObject(1, "room2");
+        verify(testPreparedStatement, times(1)).setObject(2, Team.HAN.name());
         verify(testPreparedStatement, times(2)).executeUpdate();
     }
 
