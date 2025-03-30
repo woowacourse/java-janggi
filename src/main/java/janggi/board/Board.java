@@ -98,13 +98,13 @@ public class Board {
 
     public boolean isGameOver() {
         return placedPieces.values().stream()
-                .filter(piece -> piece.getPieceCategory() == PieceType.GENERAL)
+                .filter(piece -> piece.getPieceType() == PieceType.GENERAL)
                 .count() != GENERAL_PIECE_COUNT;
     }
 
     public Camp findWinningCamp() {
         return placedPieces.values().stream()
-                .filter(piece -> piece.getPieceCategory() == PieceType.GENERAL)
+                .filter(piece -> piece.getPieceType() == PieceType.GENERAL)
                 .map(Piece::getCamp)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("생존한 장군이 없습니다."));
@@ -113,7 +113,7 @@ public class Board {
     public double calculateHanScore() {
         double hanScore = placedPieces.values().stream()
                 .filter(piece -> piece.getCamp() == Camp.HAN)
-                .mapToInt(piece -> piece.getPieceCategory().getScore())
+                .mapToInt(piece -> piece.getPieceType().getScore())
                 .sum();
         return hanScore + LATE_START_BONUS_SCORE;
     }
@@ -121,7 +121,7 @@ public class Board {
     public double calculateChuScore() {
         return placedPieces.values().stream()
                 .filter(piece -> piece.getCamp() == Camp.CHU)
-                .mapToInt(piece -> piece.getPieceCategory().getScore())
+                .mapToInt(piece -> piece.getPieceType().getScore())
                 .sum();
     }
 

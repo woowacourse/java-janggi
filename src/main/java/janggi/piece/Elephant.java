@@ -70,7 +70,7 @@ public final class Elephant extends Piece {
     }
 
     @Override
-    public PieceType getPieceCategory() {
+    public PieceType getPieceType() {
         return PieceType.ELEPHANT;
     }
 }

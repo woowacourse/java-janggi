@@ -54,7 +54,7 @@ public final class Cannon extends Piece {
 
     private boolean hasCannon(Set<Piece> pieces) {
         return pieces.stream()
-                .anyMatch(piece -> piece.getPieceCategory() == this.getPieceCategory());
+                .anyMatch(piece -> piece.getPieceType() == this.getPieceType());
     }
 
     @Override
@@ -71,13 +71,13 @@ public final class Cannon extends Piece {
     @Override
     public void validateCatch(Piece targetPiece) {
         super.validateCatch(targetPiece);
-        if (getPieceCategory() == targetPiece.getPieceCategory()) {
+        if (getPieceType() == targetPiece.getPieceType()) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
     }
 
     @Override
-    public PieceType getPieceCategory() {
+    public PieceType getPieceType() {
         return PieceType.CANNON;
     }
 }

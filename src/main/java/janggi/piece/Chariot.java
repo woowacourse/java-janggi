@@ -51,7 +51,7 @@ public final class Chariot extends Piece {
     }
 
     @Override
-    public PieceType getPieceCategory() {
+    public PieceType getPieceType() {
         return PieceType.CHARIOT;
     }
 }

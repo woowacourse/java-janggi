@@ -4,7 +4,6 @@ import janggi.board.Point;
 import janggi.camp.Camp;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -19,7 +18,8 @@ public class View {
     private final Scanner scanner = new Scanner(System.in);
 
     public void displayStartBanner() {
-        System.out.println("""
+        String firstTurnCampName = ColorFormatter.getColoredCampName(Camp.CHU);
+        System.out.printf("""
                 
                 ====================================
                     Welcome to the Janggi Game!
@@ -27,9 +27,9 @@ public class View {
                  {가로축 번호}{세로축 번호} 좌표를 사용합니다.
                     예) 41은 왼쪽에서 4번째 아래에서
                         첫번째 기물을 의미합니다.
-                      게임은 초나라부터 시작됩니다.
-                ====================================
-                """);
+                      게임은 %s나라부터 시작됩니다.
+                ====================================%n
+                """, firstTurnCampName);
     }
 
     public boolean readStartGame() {
@@ -49,7 +49,7 @@ public class View {
     }
 
     public String readFromPoint(Camp camp) {
-        System.out.printf("%n%n[%s의 차례입니다.]%n", camp.getName());
+        System.out.printf("%n%n[%s의 차례입니다.]%n", ColorFormatter.getColoredCampName(camp));
         System.out.println("이동시킬 기물의 출발 좌표를 입력해 주세요. 예) 03");
         String input = scanner.nextLine();
         validateInput(input);
@@ -91,12 +91,8 @@ public class View {
     }
 
     private String formatPiece(Piece piece) {
-        PieceType pieceType = piece.getPieceCategory();
-        PieceSymbol pieceSymbol = Arrays.stream(PieceSymbol.values())
-                .filter(symbol -> symbol.getPieceCategory() == pieceType)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("일치하는 기물 종류가 없습니다."));
-        return pieceSymbol.getDisplayAttributes(piece.getCamp());
+        PieceType pieceType = piece.getPieceType();
+        return ColorFormatter.getColoredPieceAttributes(piece.getCamp(), pieceType);
     }
 
     private void validateInput(String input) {
@@ -110,10 +106,12 @@ public class View {
     }
 
     public void displayEndingMessage(Camp camp) {
-        System.out.printf("%n%s의 장군이 쓰러졌습니다. %s의 승리입니다.%n", camp.reverse().getName(), camp.getName());
+        String winningCampName = ColorFormatter.getColoredCampName(camp);
+        String losingCampName = ColorFormatter.getColoredCampName(camp.reverse());
+        System.out.printf("%n%s의 장군이 쓰러졌습니다. %s의 승리입니다.%n", losingCampName, winningCampName);
     }
 
     public void displayScore(Camp camp, double score) {
-        System.out.printf("%s나라의 점수는 %.1f점 입니다.%n", camp.getName(), score);
+        System.out.printf("%s나라의 점수는 %.1f점 입니다.%n", ColorFormatter.getColoredCampName(camp), score);
     }
 }

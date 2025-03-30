@@ -52,7 +52,7 @@ public final class Horse extends Piece {
     }
 
     @Override
-    public PieceType getPieceCategory() {
+    public PieceType getPieceType() {
         return PieceType.HORSE;
     }
 }
