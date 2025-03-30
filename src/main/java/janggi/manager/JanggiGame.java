@@ -1,6 +1,5 @@
 package janggi.manager;
 
-import janggi.DatabaseController;
 import janggi.domain.Round;
 import janggi.domain.movement.Position;
 import janggi.dto.PositionDto;
@@ -9,23 +8,18 @@ import janggi.view.Viewer;
 
 public class JanggiGame {
 
-    private final DatabaseController databaseController;
+    private final JanggiData janggiData;
     private final Viewer viewer;
     private final Round round;
 
-    public JanggiGame(DatabaseController databaseController, Viewer viewer, Round round) {
-        this.databaseController = databaseController;
+    public JanggiGame(JanggiData janggiData, Viewer viewer, Round round) {
+        this.janggiData = janggiData;
         this.viewer = viewer;
         this.round = round;
     }
 
     public void start() {
         repeatGameTurns();
-
-        viewer.printBoard(round.getCurrentPieces());
-        viewer.printWinner(round.getCurrentTurn());
-
-        databaseController.resetDatabase();
     }
 
     private void repeatGameTurns() {
@@ -42,7 +36,7 @@ public class JanggiGame {
         Position selectedPosition = getSelectedPosition();
         Position targetPosition = getTargetPosition();
 
-        round.commence(selectedPosition, targetPosition, databaseController::update);
+        round.commence(selectedPosition, targetPosition, janggiData::update);
     }
 
     private Position getSelectedPosition() {
@@ -53,5 +47,12 @@ public class JanggiGame {
     private Position getTargetPosition() {
         PositionDto positionDto = viewer.readMove();
         return Position.of(positionDto.row(), positionDto.column());
+    }
+
+    public void finish() {
+        viewer.printBoard(round.getCurrentPieces());
+        viewer.printWinner(round.getCurrentTurn());
+
+        janggiData.resetDatabase();
     }
 }

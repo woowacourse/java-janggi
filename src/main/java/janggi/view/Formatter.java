@@ -1,8 +1,8 @@
 package janggi.view;
 
+import janggi.domain.PieceName;
 import janggi.domain.Side;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceName;
 
 public final class Formatter {
 

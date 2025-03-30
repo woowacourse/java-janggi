@@ -1,7 +1,6 @@
 package janggi.util;
 
 import janggi.view.Viewer;
-import java.util.function.Supplier;
 
 public class RecoveryUtil {
 
@@ -15,16 +14,6 @@ public class RecoveryUtil {
             try {
                 runnable.run();
                 return;
-            } catch (IllegalArgumentException e) {
-                VIEWER.printErrorMessage(e);
-            }
-        }
-    }
-
-    public static <T> T executeWithRetry(Supplier<T> inputSupplier) {
-        while (true) {
-            try {
-                return inputSupplier.get();
             } catch (IllegalArgumentException e) {
                 VIEWER.printErrorMessage(e);
             }
