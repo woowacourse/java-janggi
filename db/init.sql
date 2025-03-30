@@ -19,3 +19,8 @@ CREATE TABLE piece (
     foreign key (type_id) references piece_type(id),
     foreign key (team_id) references team(id)
 );
+
+CREATE TABLE turn (
+    team_id INT NOT NULL PRIMARY KEY,
+    foreign key (team_id) references team(id)
+);
