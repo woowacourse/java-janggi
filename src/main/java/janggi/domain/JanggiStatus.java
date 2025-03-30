@@ -6,7 +6,7 @@ import janggi.domain.piece.Point;
 
 public interface JanggiStatus {
 
-    JanggiStatus play(Point from, Point to);
+    JanggiStatus move(Point from, Point to);
 
     boolean isEndGame();
 
@@ -15,4 +15,14 @@ public interface JanggiStatus {
     Dynasty winner();
 
     JanggiBoard janggiBoard();
+
+    static JanggiStatus of(Dynasty currentTurn, JanggiBoard janggiBoard) {
+        if (janggiBoard.isDeadKing(currentTurn.opposite())) {
+            return new JanggiEnded(currentTurn, janggiBoard);
+        }
+        if (janggiBoard.isDeadKing(currentTurn)) {
+            return new JanggiEnded(currentTurn.opposite(), janggiBoard);
+        }
+        return new JanggiRunned(currentTurn, janggiBoard);
+    }
 }

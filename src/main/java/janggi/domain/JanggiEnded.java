@@ -3,6 +3,7 @@ package janggi.domain;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Dynasty;
 import janggi.domain.piece.Point;
+import java.util.Objects;
 
 public class JanggiEnded implements JanggiStatus {
 
@@ -15,7 +16,7 @@ public class JanggiEnded implements JanggiStatus {
     }
 
     @Override
-    public JanggiStatus play(Point from, Point to) {
+    public JanggiStatus move(Point from, Point to) {
         throw new IllegalStateException("게임이 끝났습니다.");
     }
 
@@ -37,5 +38,22 @@ public class JanggiEnded implements JanggiStatus {
     @Override
     public JanggiBoard janggiBoard() {
         return janggiBoard;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        JanggiEnded that = (JanggiEnded) o;
+        return winnerDynasty == that.winnerDynasty && Objects.equals(janggiBoard, that.janggiBoard);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(winnerDynasty);
+        result = 31 * result + Objects.hashCode(janggiBoard);
+        return result;
     }
 }

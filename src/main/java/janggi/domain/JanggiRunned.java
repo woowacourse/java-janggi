@@ -3,24 +3,25 @@ package janggi.domain;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Dynasty;
 import janggi.domain.piece.Point;
+import java.util.Objects;
 
-public class JanggiRuned implements JanggiStatus {
+public class JanggiRunned implements JanggiStatus {
 
     private final Dynasty currentTurnDynasty;
     private final JanggiBoard janggiBoard;
 
-    public JanggiRuned(Dynasty currentTurnDynasty, JanggiBoard janggiBoard) {
+    public JanggiRunned(Dynasty currentTurnDynasty, JanggiBoard janggiBoard) {
         this.currentTurnDynasty = currentTurnDynasty;
         this.janggiBoard = janggiBoard;
     }
 
     @Override
-    public JanggiStatus play(Point from, Point to) {
+    public JanggiStatus move(Point from, Point to) {
         janggiBoard.move(currentTurnDynasty, from, to);
         if (janggiBoard.isDeadKing(currentTurnDynasty.opposite())) {
             return new JanggiEnded(currentTurnDynasty, janggiBoard);
         }
-        return new JanggiRuned(currentTurnDynasty.opposite(), janggiBoard);
+        return new JanggiRunned(currentTurnDynasty.opposite(), janggiBoard);
     }
 
     @Override
@@ -41,5 +42,22 @@ public class JanggiRuned implements JanggiStatus {
     @Override
     public JanggiBoard janggiBoard() {
         return janggiBoard;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        JanggiRunned that = (JanggiRunned) o;
+        return currentTurnDynasty == that.currentTurnDynasty && Objects.equals(janggiBoard, that.janggiBoard);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(currentTurnDynasty);
+        result = 31 * result + Objects.hashCode(janggiBoard);
+        return result;
     }
 }

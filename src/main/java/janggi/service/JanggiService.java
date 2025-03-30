@@ -5,7 +5,6 @@ import janggi.dao.PieceDao;
 import janggi.dao.entity.GameEntity;
 import janggi.dao.entity.PieceEntity;
 import janggi.dao.entity.Status;
-import janggi.domain.JanggiRuned;
 import janggi.domain.JanggiStatus;
 import janggi.domain.board.BoardSetUp;
 import janggi.domain.board.JanggiBoard;
@@ -48,29 +47,24 @@ public class JanggiService {
         pieceDao.addPieces(createPieceEntities(gameEntity, janggiBoard));
     }
 
-    public JanggiStatus findJaggiStatusByGameId(Long gameId) {
-        GameEntity gameEntity = gameDao.findById(gameId);
-        if (gameEntity == null) {
-            throw new IllegalStateException("실행중인 게임이 존재하지 않습니다.");
-        }
-        return new JanggiRuned(gameEntity.getCurrentTurn(), findJanggiBoardByGameId(gameEntity.getId()));
+    public JanggiStatus findJanggiStatusByGameId(Long gameId) {
+        GameEntity gameEntity = findByIdOrThrow(gameId);
+        return JanggiStatus.of(gameEntity.getCurrentTurn(), findJanggiBoardByGameId(gameEntity.getId()));
     }
 
     public JanggiStatus move(Long gameId, Point from, Point to) {
-        GameEntity gameEntity = gameDao.findById(gameId);
-        if (gameEntity == null) {
-            throw new IllegalStateException("게임이 존재하지 않습니다.");
-        }
+        GameEntity gameEntity = findByIdOrThrow(gameId);
         JanggiBoard janggiBoard = findJanggiBoardByGameId(gameId);
 
-        JanggiStatus janggiStatus = new JanggiRuned(gameEntity.getCurrentTurn(), janggiBoard).play(from, to);
+        JanggiStatus janggiStatus = JanggiStatus.of(gameEntity.getCurrentTurn(), janggiBoard).move(from, to);
+
+        pieceDao.deletePiece(gameId, to);
+        pieceDao.updatePiece(gameId, from, to);
+        pieceDao.deletePiece(gameId, from);
         if (janggiStatus.isEndGame()) {
             gameDao.updateStatus(gameId, Status.END);
             return janggiStatus;
         }
-
-        pieceDao.updatePiece(gameId, from, to);
-        pieceDao.deletePiece(gameId, from);
         gameDao.updateCurrentTurn(gameId, janggiStatus.currentTurn());
         return janggiStatus;
     }
@@ -123,5 +117,13 @@ public class JanggiService {
             return new HanSoldier();
         }
         return new ChuSoldier();
+    }
+
+    private GameEntity findByIdOrThrow(Long gameId) {
+        GameEntity gameEntity = gameDao.findById(gameId);
+        if (gameEntity == null) {
+            throw new IllegalArgumentException("id에 해당하는 게임이 존재하지 않습니다.");
+        }
+        return gameEntity;
     }
 }

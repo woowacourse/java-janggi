@@ -38,7 +38,7 @@ public class JanggiGame {
     }
 
     private void play(GameEntity gameEntity) {
-        JanggiStatus janggiStatus = janggiService.findJaggiStatusByGameId(gameEntity.getId());
+        JanggiStatus janggiStatus = janggiService.findJanggiStatusByGameId(gameEntity.getId());
 
         janggiBoardView.printGameStartMessage();
         janggiBoardView.printBoard(janggiStatus.janggiBoard());
