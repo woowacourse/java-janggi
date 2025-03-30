@@ -1,5 +1,6 @@
 package controller;
 
+import dao.TransactionManager;
 import domain.board.Board;
 import domain.board.BoardLocation;
 import domain.game.JanggiGame;
@@ -12,13 +13,17 @@ import view.ConsoleView;
 public class JanggiController {
 
     private final ConsoleView consoleView;
+    private final TransactionManager<JanggiGame> transactionManager;
 
-    public JanggiController(ConsoleView consoleView) {
+    public JanggiController(ConsoleView consoleView, TransactionManager<JanggiGame> transactionManager) {
         this.consoleView = consoleView;
+        this.transactionManager = transactionManager;
     }
 
     public void start() {
-        JanggiGame janggiGame = createJanggiGame();
+        JanggiGame janggiGame = transactionManager.find()
+                .orElse(createJanggiGame());
+
         consoleView.showBoard(janggiGame.getBoard().getPieces());
         boolean isGameStopped = false;
         while (!isGameStopped) {
@@ -32,6 +37,7 @@ public class JanggiController {
                 isGameStopped = janggiGame.isGameStopped();
 
                 consoleView.showBoard(janggiGame.getBoard().getPieces());
+                transactionManager.update(janggiGame);
             } catch (RuntimeException e) {
                 consoleView.showMessage(e.getMessage());
             }
@@ -44,6 +50,9 @@ public class JanggiController {
         Map<BoardLocation, Piece> placements = consoleView.requestPlacements();
         Board board = Board.createWithPieces(placements);
         Turn turn = Turn.getStartingTurn();
-        return new JanggiGame(board, turn);
+        JanggiGame janggiGame = new JanggiGame(board, turn);
+        transactionManager.createTable();
+        transactionManager.create(janggiGame);
+        return janggiGame;
     }
 }
