@@ -1,10 +1,11 @@
 package dao;
 
+import dto.PieceDto;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public final class UserDao {
+public final class BoardDao {
 
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
     private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
@@ -20,6 +21,18 @@ public final class UserDao {
             System.err.println("DB 연결 오류:" + e.getMessage());
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public void addUser(final PieceDto pieceDto) {
+        final var query = "INSERT INTO janggi VALUES(?, ?)";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, pieceDto.column());
+            preparedStatement.setString(2, pieceDto.row());
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
