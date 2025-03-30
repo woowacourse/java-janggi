@@ -24,7 +24,7 @@ public class GamesDaoImpl implements GamesDao {
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 long gameId = generatedKeys.getLong(1);
-                return new JanggiGame(new GameDaoImpl(gameId), new JanggiBoard(new PieceDaoImpl(gameId)));
+                return new JanggiGame(new GameDaoImpl(gameId), JanggiBoard.init(new PieceDaoImpl(gameId)));
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -41,7 +41,7 @@ public class GamesDaoImpl implements GamesDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 long gameId = resultSet.getLong("game_id");
-                return new JanggiGame(new GameDaoImpl(gameId), new JanggiBoard(new PieceDaoImpl(gameId)));
+                return new JanggiGame(new GameDaoImpl(gameId), JanggiBoard.of(new PieceDaoImpl(gameId)));
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);

@@ -27,7 +27,7 @@ public class JanggiBoardTest {
         Piece pawn2 = new Piece(Team.HAN, PieceType.PAWN, new Position(5, 1));
         afterBoard.add(pawn2);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(5, 1);
@@ -53,7 +53,7 @@ public class JanggiBoardTest {
         Piece choCha2 = new Piece(Team.CHO, PieceType.CHA, new Position(8, 1));
         afterBoard.add(choCha2);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(8, 1);
@@ -75,7 +75,7 @@ public class JanggiBoardTest {
         beforeBoard.add(choCha1);
         beforeBoard.add(choCha2);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(8, 1);
 
@@ -93,7 +93,7 @@ public class JanggiBoardTest {
         List<Piece> beforeBoard = new ArrayList<>();
         beforeBoard.add(choPo);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(8, 1);
@@ -114,7 +114,7 @@ public class JanggiBoardTest {
         beforeBoard.add(choCha);
         beforeBoard.add(choPawn);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
 
         Position startPosition = new Position(1, 1);
         Position targetPosition = new Position(8, 1);
@@ -135,7 +135,7 @@ public class JanggiBoardTest {
         beforeBoard.add(choPo1);
         beforeBoard.add(choPo2);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
 
         Position startPosition = new Position(8, 2);
         Position targetPosition = new Position(8, 9);
@@ -158,7 +158,7 @@ public class JanggiBoardTest {
         beforeBoard.add(choGung);
         beforeBoard.add(choPo2);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
 
         Position startPosition = new Position(8, 2);
         Position targetPosition = new Position(8, 8);
@@ -184,7 +184,7 @@ public class JanggiBoardTest {
         afterBoard.add(choPo2);
         afterBoard.add(choGung);
 
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
 
         Position startPosition = new Position(8, 2);
         Position targetPosition = new Position(8, 8);
@@ -205,7 +205,7 @@ public class JanggiBoardTest {
         //given
         List<Piece> board = new ArrayList<>();
         board.add(new Piece(gungTeam, PieceType.GUNG, new Position(1, 1)));
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(board));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(board));
 
         // when
         boolean actual = janggiBoard.existGung(team);
@@ -216,7 +216,7 @@ public class JanggiBoardTest {
     @Test
     void 시작_위치에_기물이_존재하지_않는_경우_예외를_발생시킨다() {
         List<Piece> board = new ArrayList<>();
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(board));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(board));
 
         assertThatThrownBy(() -> janggiBoard.move(new Position(1, 1), new Position(1, 2)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -228,7 +228,7 @@ public class JanggiBoardTest {
         List<Piece> board = new ArrayList<>();
         Piece pawn = new Piece(Team.CHO, PieceType.PAWN, new Position(1, 1));
         board.add(pawn);
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(board));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(board));
 
         Piece selectedPiece = janggiBoard.findSelectedPiece(new Position(1, 1));
 
@@ -238,7 +238,7 @@ public class JanggiBoardTest {
     @Test
     void 시작_위치가_기물이_없는_위치라면_예외를_발생시킨다() {
         List<Piece> board = new ArrayList<>();
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(board));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(board));
         assertThatThrownBy(() -> janggiBoard.findSelectedPiece(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("기물이 존재하지 않는 위치입니다.");
@@ -258,7 +258,7 @@ public class JanggiBoardTest {
         board.add(new Piece(Team.HAN, PieceType.GUNG, new Position(2, 2)));
         board.add(new Piece(Team.HAN, PieceType.SANG, new Position(2, 3)));
 
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(board));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(board));
         int scoreSum = janggiBoard.calculateTeamScore(team);
 
         assertThat(scoreSum).isEqualTo(score);

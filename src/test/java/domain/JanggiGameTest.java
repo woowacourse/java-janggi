@@ -24,7 +24,7 @@ public class JanggiGameTest {
         List<Piece> beforeBoard = new ArrayList<>();
         Piece choCha = new Piece(Team.CHO, PieceType.CHA, new Position(1, 1));
         beforeBoard.add(choCha);
-        JanggiBoard board = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiBoard board = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
         JanggiGame game = new JanggiGame(new MemoryGameDao(), board);
 
         List<Piece> afterBoard = new ArrayList<>();
@@ -43,7 +43,7 @@ public class JanggiGameTest {
         List<Piece> beforeBoard = new ArrayList<>();
         Piece choCha = new Piece(Team.CHO, PieceType.CHA, new Position(1, 1));
         beforeBoard.add(choCha);
-        JanggiBoard board = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiBoard board = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
         JanggiGame game = new JanggiGame(new MemoryGameDao(), board);
 
         assertThatThrownBy(() -> game.move(List.of(1, 1), List.of(1, 1)))
@@ -58,7 +58,7 @@ public class JanggiGameTest {
         List<Piece> pieces = new ArrayList<>();
         pieces.add(new Piece(Team.HAN, PieceType.GUNG, new Position(1, 1)));
         pieces.add(new Piece(Team.CHO, PieceType.GUNG, new Position(1, 2)));
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(pieces));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(pieces));
         JanggiGame game = new JanggiGame(new MemoryGameDao(), janggiBoard);
 
         // when
@@ -74,7 +74,7 @@ public class JanggiGameTest {
         // given
         List<Piece> pieces = new ArrayList<>();
         pieces.add(new Piece(Team.HAN, PieceType.GUNG, new Position(1, 1)));
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(pieces));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(pieces));
         JanggiGame game = new JanggiGame(new MemoryGameDao(), janggiBoard);
 
         // when
@@ -94,7 +94,7 @@ public class JanggiGameTest {
         pieces.add(new Piece(Team.HAN, PieceType.PAWN, new Position(2, 1)));
         pieces.add(new Piece(Team.HAN, PieceType.GUNG, new Position(2, 2)));
         pieces.add(new Piece(Team.HAN, PieceType.SANG, new Position(2, 3)));
-        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(pieces));
+        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(pieces));
         JanggiGame game = new JanggiGame(new MemoryGameDao(), janggiBoard);
 
         // when

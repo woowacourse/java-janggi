@@ -1,5 +1,6 @@
 package domain;
 
+import domain.boardgenerator.JanggiBoardGenerator;
 import domain.dao.PieceDao;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -12,8 +13,17 @@ public class JanggiBoard {
 
     private final PieceDao pieceDao;
 
-    public JanggiBoard(PieceDao pieceDao) {
+    private JanggiBoard(PieceDao pieceDao) {
         this.pieceDao = pieceDao;
+    }
+
+    public static JanggiBoard of(PieceDao pieceDao) {
+        return new JanggiBoard(pieceDao);
+    }
+
+    public static JanggiBoard init(PieceDao pieceDao) {
+        pieceDao.addAll(new JanggiBoardGenerator().generateBoard());
+        return new JanggiBoard(pieceDao);
     }
 
     public void move(final Position startPosition, final Position targetPosition) {
