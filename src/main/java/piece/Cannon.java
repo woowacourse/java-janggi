@@ -24,7 +24,8 @@ public class Cannon extends Piece implements DirectionCheckable, ObstructionChec
         validateDirection(src, dest);
         List<Position> allPositions = getAllPositions(dest);
         validateExistNode(allPositions);
-        validateNonObstruction(board, allPositions);
+        List<Position> internalPositions = List.of(allPositions.removeLast());
+        validateNonObstruction(board, internalPositions);
 
         List<Position> existPositions = board.findExistPositions(allPositions); // TODO 2025. 3. 29. 20:53: allPosition에는 src, dest도 포함되어 있음
         Piece findPiece = board.getPieceBy(existPositions.getFirst());
@@ -67,7 +68,7 @@ public class Cannon extends Piece implements DirectionCheckable, ObstructionChec
     }
 
     @Override
-    protected int getScore() {
+    public int getScore() {
         return 7;
     }
 }

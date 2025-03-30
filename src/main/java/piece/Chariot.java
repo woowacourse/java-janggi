@@ -24,13 +24,18 @@ public class Chariot extends Piece implements DirectionCheckable, ObstructionChe
         validateDirection(src, dest);
         List<Position> allPositions = getAllPositions(dest);
         validateExistNode(allPositions);
-        validateObstruction(board, allPositions, EXPECTED_INTERNAL_POSITION_COUNT);
+        List<Position> internalPositions = List.of(allPositions.removeLast());
+        validateNonObstruction(board, internalPositions);
     }
 
     private void validateExistNode(List<Position> allPositions) {
         for (int i = 0; i < allPositions.size() - 1; i++) {
             PositionFactory.validateAdjacentPositionBy(allPositions.get(i), allPositions.get(i + 1));
         }
+    }
+
+    private void validateNonObstruction(Board board, List<Position> internalPositions) {
+        validateObstruction(board, internalPositions, EXPECTED_INTERNAL_POSITION_COUNT);
     }
 
     private List<Position> getAllPositions(Position destination) {
@@ -57,7 +62,7 @@ public class Chariot extends Piece implements DirectionCheckable, ObstructionChe
     }
 
     @Override
-    protected int getScore() {
+    public int getScore() {
         return 13;
     }
 }
