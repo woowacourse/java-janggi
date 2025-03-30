@@ -63,4 +63,12 @@ public class Position {
         }
         return row >= 8 && row <= 10 && column >= 4 && column <= 6;
     }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
 }
