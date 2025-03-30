@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.domain.piece.ChuSoldier;
 import janggi.domain.piece.Dynasty;
+import janggi.domain.piece.General;
 import janggi.domain.piece.Point;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
@@ -53,5 +54,20 @@ public class JanggiBoardTest {
         assertThatThrownBy(() -> janggiBoard.move(Dynasty.HAN, new Point(9, 5), new Point(9, 4)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("자신의 나라 기물만 움직일 수 있습니다.");
+    }
+
+    @DisplayName("특정 나라의 국가가 죽었는지 확인할 수 있다.")
+    @Test
+    void isDeadKing() {
+        //given
+        JanggiBoard janggiBoard = new JanggiBoard(Map.of(
+                new Point(1, 4), new General(Dynasty.HAN)
+        ));
+
+        //when
+        boolean result = janggiBoard.isDeadKing(Dynasty.CHU);
+
+        //then
+        assertThat(result).isTrue();
     }
 }
