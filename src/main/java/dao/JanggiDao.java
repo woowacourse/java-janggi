@@ -43,7 +43,7 @@ public final class JanggiDao {
     }
 
     public int settingNewJanggiBoard(List<List<Dot>> janggiBoard) {
-        final var insertGameStateQuery = "INSERT INTO game_state VALUES(null,0)";  // game_state 테이블에 첫 번째 레코드 삽입
+        final var insertGameStateQuery = "INSERT INTO game_state VALUES(null,0)";
         final var insertPieceQuery = "INSERT INTO pieces VALUES(null, ?, ?, ?, ?, ?)";
 
         try (final var connection = getConnection();
@@ -51,7 +51,6 @@ public final class JanggiDao {
                      Statement.RETURN_GENERATED_KEYS);
              final var preparedStatementPiece = connection.prepareStatement(insertPieceQuery)) {
 
-            // 1. game_state 테이블에 데이터 삽입
             preparedStatementGameState.executeUpdate();
             try (final var generatedKeys = preparedStatementGameState.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -86,7 +85,7 @@ public final class JanggiDao {
     }
 
     public List<List<Dot>> settingBeforeJanggiBoard() {
-        final String getGameStateQuery = "SELECT * FROM game_state ORDER BY game_id DESC LIMIT 1"; // 가장 최근 게임 상태
+        final String getGameStateQuery = "SELECT * FROM game_state ORDER BY game_id DESC LIMIT 1";
         final String getPiecesQuery = "SELECT * FROM pieces WHERE game_id = ?";
 
         List<List<Dot>> board = initializeJanggiBoard();
@@ -96,7 +95,7 @@ public final class JanggiDao {
              ResultSet gameStateResultSet = stmtGameState.executeQuery(getGameStateQuery)) {
 
             if (gameStateResultSet.next()) {
-                int gameStateId = gameStateResultSet.getInt("game_id"); // 가장 최근 game_state의 ID
+                int gameStateId = gameStateResultSet.getInt("game_id");
 
                 try (PreparedStatement stmtPieces = connection.prepareStatement(getPiecesQuery)) {
                     stmtPieces.setInt(1, gameStateId);
@@ -196,7 +195,7 @@ public final class JanggiDao {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             if (resultSet.next()) {
-                return resultSet.getInt(1); // 최신 turn 값 반환
+                return resultSet.getInt(1);
             } else {
                 throw new IllegalArgumentException("game_state 테이블에 데이터가 없습니다.");
             }
