@@ -30,7 +30,10 @@ public class DBConnection {
     private static Connection getConnection() {
         // 드라이버 연결
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+            Connection conn = DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION,
+                    USERNAME, PASSWORD);
+            conn.setAutoCommit(false);
+            return conn;
         } catch (final SQLException e) {
             System.err.println("DB 연결 오류:" + e.getMessage());
             e.printStackTrace();
