@@ -13,13 +13,9 @@ public class Guard extends Piece {
     }
 
     @Override
-    public List<Route> computeCandidateRoutes(final Position position) {
-        List<Position> positions = position.moveToCandidate();
-        return Route.createRoutes(positions);
-    }
-
-    @Override
-    public List<Position> filterReachableDestinations(final List<Route> candidateRoutes, final JanggiBoard board) {
+    public List<Position> filterReachableDestinations(final Position selectedPosition, final JanggiBoard board) {
+        List<Position> positions = selectedPosition.moveToCandidate();
+        List<Route> candidateRoutes = Route.createRoutes(positions);
         List<Position> reachablePositions = new ArrayList<>();
         for (Route route : candidateRoutes) {
             Position destination = route.getDestination();

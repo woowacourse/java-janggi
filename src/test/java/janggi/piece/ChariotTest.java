@@ -1,14 +1,13 @@
 package janggi.piece;
 
-import janggi.board.Position;
-import janggi.board.Route;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+
+import janggi.board.JanggiBoard;
+import janggi.board.Position;
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class ChariotTest {
 
@@ -16,12 +15,13 @@ class ChariotTest {
     @DisplayName("차 이동 가능 후보군 리턴 테스트")
     void test1() {
         Chariot chariot = new Chariot(Side.CHO);
+        JanggiBoard board = JanggiBoard.initialize();
 
-        List<Route> candidatePositions = chariot.computeCandidateRoutes(new Position(2, 9));
+        List<Position> destinations = chariot.filterReachableDestinations(new Position(0, 9), board);
 
         assertAll(
-                () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getFirst().getDestination()).isEqualTo(new Position(-8, 9))
+                () -> assertThat(destinations).hasSize(2),
+                () -> assertThat(destinations.getFirst()).isEqualTo(new Position(0, 8))
         );
     }
 

@@ -1,14 +1,13 @@
 package janggi.piece;
 
-import janggi.board.Position;
-import janggi.board.Route;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+
+import janggi.board.JanggiBoard;
+import janggi.board.Position;
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class ElephantTest {
 
@@ -16,12 +15,12 @@ class ElephantTest {
     @DisplayName("상 이동 가능 후보군 리턴 테스트")
     void test1() {
         Elephant elephant = new Elephant(Side.CHO);
+        JanggiBoard board = JanggiBoard.initialize();
 
-        List<Route> candidatePositions = elephant.computeCandidateRoutes(new Position(2, 9));
+        List<Position> destinations = elephant.filterReachableDestinations(new Position(2, 9), board);
 
         assertAll(
-                () -> assertThat(candidatePositions).hasSize(8),
-                () -> assertThat(candidatePositions.getFirst().getDestination()).isEqualTo(new Position(5, 11))
+                () -> assertThat(destinations).isEmpty()
         );
     }
 

@@ -1,14 +1,13 @@
 package janggi.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
+import janggi.board.JanggiBoard;
 import janggi.board.Position;
-import janggi.board.Route;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class KingTest {
 
@@ -17,12 +16,13 @@ class KingTest {
     void computeCandidateRoutes() {
 
         King king = new King(Side.CHO);
-        Position currentPosition = new Position(4, 8);
-        List<Route> candidatePositions = king.computeCandidateRoutes(currentPosition);
+        JanggiBoard board = JanggiBoard.initialize();
+
+        List<Position> destinations = king.filterReachableDestinations(new Position(4, 8), board);
 
         assertAll(
-                () -> assertThat(candidatePositions).hasSize(8),
-                () -> assertThat(candidatePositions.getLast().getDestination()).isEqualTo(new Position(5, 9))
+                () -> assertThat(destinations).hasSize(6),
+                () -> assertThat(destinations.getFirst()).isEqualTo(new Position(3, 8))
         );
     }
 

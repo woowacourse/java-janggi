@@ -12,12 +12,7 @@ public class Empty extends Piece {
     }
 
     @Override
-    public List<Route> computeCandidateRoutes(final Position position) {
-        throw new IllegalArgumentException("[ERROR] 이 위치에는 말이 존재하지 않습니다.");
-    }
-
-    @Override
-    public List<Position> filterReachableDestinations(final List<Route> candidateRoutes, final JanggiBoard board) {
+    public List<Position> filterReachableDestinations(final Position selectedPosition, final JanggiBoard board) {
         throw new IllegalArgumentException("[ERROR] 이 위치에는 말이 존재하지 않습니다.");
     }
 

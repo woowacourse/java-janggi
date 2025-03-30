@@ -13,12 +13,8 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public List<Route> computeCandidateRoutes(final Position position) {
-        return computeStraightRoutes(position, MOVE_LIMIT);
-    }
-
-    @Override
-    public List<Position> filterReachableDestinations(final List<Route> candidateRoutes, final JanggiBoard board) {
+    public List<Position> filterReachableDestinations(final Position selectedPosition, final JanggiBoard board) {
+        List<Route> candidateRoutes = computeStraightRoutes(selectedPosition, MOVE_LIMIT);
         List<Position> reachablePositions = new ArrayList<>();
         for (Route route : candidateRoutes) {
             List<Position> positions = route.getPositions();

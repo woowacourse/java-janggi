@@ -1,14 +1,13 @@
 package janggi.piece;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
+import janggi.board.JanggiBoard;
 import janggi.board.Position;
-import janggi.board.Route;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CannonTest {
 
@@ -16,12 +15,12 @@ class CannonTest {
     @DisplayName("포 이동 가능 후보군 리턴 테스트")
     void test1() {
         Cannon cannon = new Cannon(Side.CHO);
+        JanggiBoard board = JanggiBoard.initialize();
 
-        List<Route> candidatePositions = cannon.computeCandidateRoutes(new Position(1, 7));
+        List<Position> destinations = cannon.filterReachableDestinations(new Position(1, 7), board);
 
         assertAll(
-                () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getFirst().getDestination()).isEqualTo(new Position(-9, 7))
+                () -> assertThat(destinations).isEmpty()
         );
     }
 
