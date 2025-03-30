@@ -6,7 +6,7 @@ import java.util.EnumMap;
 
 public final class SystemView {
 
-    public void display() {
+    public void displayGameDescriptions() {
         System.out.println("""
                 === 기물표기법 ===
                   한 초
@@ -35,6 +35,9 @@ public final class SystemView {
                     - 병(S): 2점
                 - 한은 후공이기 때문에 추가 점수 1.5점을 받습니다.
                 ================""");
+    }
+
+    public void displaySetupMenus() {
         System.out.println("""
 
                 상차림을 입력하세요.

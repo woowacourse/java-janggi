@@ -1,5 +1,6 @@
 package janggi.game;
 
+import janggi.console.GameStatus;
 import janggi.piece.Piece;
 import janggi.position.Position;
 import java.util.EnumMap;
@@ -27,7 +28,17 @@ public final class Game {
         return board.getTeamPoints();
     }
 
-    public boolean isEnd() {
+    public GameStatus getStatus() {
+        if (isEnd() && turn == Team.CHO) {
+            return GameStatus.HAN_WIN;
+        }
+        if (isEnd() && turn == Team.HAN) {
+            return GameStatus.CHO_WIN;
+        }
+        return GameStatus.PLAYING;
+    }
+
+    private boolean isEnd() {
         return !board.hasGeneralOf(Team.HAN) || !board.hasGeneralOf(Team.CHO);
     }
 
