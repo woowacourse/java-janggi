@@ -2,7 +2,6 @@ package dao.fake;
 
 import dao.Connector;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class FakeConnector implements Connector {
     private final InMemoryDatabase database;
@@ -12,7 +11,7 @@ public class FakeConnector implements Connector {
     }
 
     @Override
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() {
         return new InMemoryConnection(database);
     }
 }

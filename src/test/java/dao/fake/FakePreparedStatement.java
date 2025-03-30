@@ -66,7 +66,7 @@ public final class FakePreparedStatement implements PreparedStatement {
         if (sql.contains("select * from player where game_id = ?")) {
             final int gameId = (int) parameters.get(1);
             final List<Player> players = database.findAllPlayersByGameId(gameId);
-            List<Map<String, Object>> values = new ArrayList<>();
+            final List<Map<String, Object>> values = new ArrayList<>();
             for (final Player player : players) {
                 value.put("id", player.getId());
                 value.put("team", player.getTeam().name());
@@ -88,7 +88,7 @@ public final class FakePreparedStatement implements PreparedStatement {
         }
 
         if (sql.contains("update game set is_active = false")) {
-            int gameId = (Integer) parameters.get(1);
+            final int gameId = (Integer) parameters.get(1);
             database.deactivateGame(gameId);
             return 1;
         }
@@ -112,13 +112,13 @@ public final class FakePreparedStatement implements PreparedStatement {
     }
 
     @Override
-    public void addBatch() throws SQLException {
+    public void addBatch() {
         batchParameters.add(new HashMap<>(parameters));
         parameters = new HashMap<>();
     }
 
     @Override
-    public int[] executeBatch() throws SQLException {
+    public int[] executeBatch() {
         final int[] results = new int[batchParameters.size()];
         for (int i = 0; i < batchParameters.size(); i++) {
             parameters = batchParameters.get(i);
@@ -135,22 +135,22 @@ public final class FakePreparedStatement implements PreparedStatement {
     }
 
     @Override
-    public void setInt(int parameterIndex, int x) throws SQLException {
+    public void setInt(int parameterIndex, int x) {
         parameters.put(parameterIndex, x);
     }
 
     @Override
-    public void setDouble(int parameterIndex, double x) throws SQLException {
+    public void setDouble(int parameterIndex, double x) {
         parameters.put(parameterIndex, x);
     }
 
     @Override
-    public void setString(int parameterIndex, String x) throws SQLException {
+    public void setString(int parameterIndex, String x) {
         parameters.put(parameterIndex, x);
     }
 
     @Override
-    public void setBoolean(int parameterIndex, boolean x) throws SQLException {
+    public void setBoolean(int parameterIndex, boolean x) {
         parameters.put(parameterIndex, x);
     }
 

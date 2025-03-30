@@ -23,12 +23,12 @@ import java.util.concurrent.Executor;
 public class InMemoryConnection implements Connection {
     private final InMemoryDatabase database;
 
-    public InMemoryConnection(InMemoryDatabase database) {
+    public InMemoryConnection(final InMemoryDatabase database) {
         this.database = database;
     }
 
     @Override
-    public PreparedStatement prepareStatement(String sql) throws SQLException {
+    public PreparedStatement prepareStatement(final String sql) {
         return new FakePreparedStatement(sql, database);
     }
 

@@ -27,12 +27,12 @@ public class FakeResultSet implements ResultSet {
     private final List<Map<String, Object>> values;
     private int hasNextCount = -1;
 
-    public FakeResultSet(List<Map<String, Object>> values) {
+    public FakeResultSet(final List<Map<String, Object>> values) {
         this.values = values;
     }
 
     @Override
-    public boolean next() throws SQLException {
+    public boolean next() {
         hasNextCount++;
         return hasNextCount < values.size();
     }
@@ -65,7 +65,7 @@ public class FakeResultSet implements ResultSet {
     }
 
     @Override
-    public boolean getBoolean(int columnIndex) throws SQLException {
+    public boolean getBoolean(final int columnIndex) throws SQLException {
         final Object o = values.get(hasNextCount).get(columnIndex + "");
         if (o instanceof Boolean) {
             return (boolean) o;

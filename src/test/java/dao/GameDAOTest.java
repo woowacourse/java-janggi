@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import dao.fake.FakeConnector;
 import dao.fake.InMemoryDatabase;
-import java.sql.SQLException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,7 @@ public final class GameDAOTest {
 
     @Test
     @DisplayName("Game 생성을 요청한다.")
-    void test_create() throws SQLException {
+    void test_create() {
         //given
         assertThat(database.getGames().isEmpty()).isTrue();
 
@@ -28,7 +27,7 @@ public final class GameDAOTest {
 
     @Test
     @DisplayName("Game을 비활성화 상태로 수정한다.")
-    void test_deactivate() throws SQLException {
+    void test_deactivate() {
         //given
         final int gameId = 1;
         gameDAO.create();
@@ -43,7 +42,7 @@ public final class GameDAOTest {
 
     @Test
     @DisplayName("Game의 활성화 여부를 반환한다.")
-    void test_existsActiveGameById() throws SQLException {
+    void test_existsActiveGameById() {
         //given
         gameDAO.create();
         gameDAO.create();

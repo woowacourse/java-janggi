@@ -7,10 +7,8 @@ import dao.fake.InMemoryDatabase;
 import domain.player.Player;
 import domain.player.Score;
 import domain.player.Team;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,14 +17,9 @@ public final class PlayerDAOTest {
     private final Connector connector = new FakeConnector(database);
     private final PlayerDAO playerDAO = new PlayerDAO(connector);
 
-    @AfterEach
-    void after() {
-        database.rollback();
-    }
-
     @Test
     @DisplayName("Player 추가를 요청한다.")
-    void test_createWithGameId() throws SQLException {
+    void test_createWithGameId() {
         //given
         assertThat(database.getGames().isEmpty()).isTrue();
         final Team team = Team.HAN;
@@ -42,7 +35,7 @@ public final class PlayerDAOTest {
 
     @Test
     @DisplayName("Player 정보를 일괄 수정한다.")
-    void test_updateBatch() throws SQLException {
+    void test_updateBatch() {
         //given
         final int gameId = 1;
         playerDAO.createWithGameId(Team.CHO, gameId);
@@ -72,7 +65,7 @@ public final class PlayerDAOTest {
 
     @Test
     @DisplayName("Player 정보를 조회한다.")
-    void test_findById() throws SQLException {
+    void test_findById() {
         //given
         final Team team = Team.HAN;
         final int gameId = 1;
@@ -87,7 +80,7 @@ public final class PlayerDAOTest {
 
     @Test
     @DisplayName("같은 게임에 속한 플레이어들을 조회한다.")
-    void test_findAllByGameId() throws SQLException {
+    void test_findAllByGameId() {
         //given
         final int gameId = 1;
         playerDAO.createWithGameId(Team.CHO, gameId);
