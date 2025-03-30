@@ -65,10 +65,18 @@ public final class OnlineController implements Controller {
     }
 
     private Board initializeBoard() {
-        if (boardDao.existsActiveGame()) {
+        if (boardDao.existsActiveGame() && isContinueGame()) {
             return loadBoard();
         }
         return createNewBoard();
+    }
+
+    private boolean isContinueGame() {
+        if (view.readContinueGame(boardDao.findCurrentBoardCreatedAt())) {
+            return true;
+        }
+        boardDao.endGame();
+        return false;
     }
 
     private Board loadBoard() {

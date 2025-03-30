@@ -7,6 +7,8 @@ import janggi.piece.Piece;
 import janggi.piece.PieceSymbol;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,24 @@ public final class BoardDao {
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, new CampDao().findIdByName(Camp.CHU.name()));
             preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public LocalDateTime findCurrentBoardCreatedAt() {
+        final String query = "SELECT created_at FROM board WHERE id = ?";
+        try (final var connection = DatabaseConnection.createConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, findCurrentBoardId());
+            final var resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getTimestamp("created_at")
+                        .toInstant()
+                        .atZone(ZoneId.of("Asia/Seoul"))
+                        .toLocalDateTime();
+            }
+            throw new IllegalArgumentException("게임이 시작되지 않았습니다.");
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

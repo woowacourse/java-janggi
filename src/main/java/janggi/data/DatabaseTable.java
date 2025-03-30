@@ -52,6 +52,7 @@ public final class DatabaseTable {
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     is_end BOOLEAN NOT NULL DEFAULT FALSE,
                     turn_camp_id INT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (turn_camp_id) REFERENCES camp(id)
                 );
                 """;

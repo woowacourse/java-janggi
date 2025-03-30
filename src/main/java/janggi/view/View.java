@@ -4,6 +4,8 @@ import janggi.board.point.Point;
 import janggi.piece.Camp;
 import janggi.piece.Piece;
 import janggi.piece.PieceSymbol;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -14,6 +16,8 @@ public final class View {
     private static final String EMPTY_SPACE = "ㅤ";
     private static final String BOARD_DELIMITER_LINE = " | ";
     private static final String ERROR_MESSAGE_FORMAT = "%n[ERROR] %s";
+    private static final DateTimeFormatter LAST_SAVED_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 E요일 HH:mm");
 
     private final Scanner scanner = new Scanner(System.in);
 
@@ -50,6 +54,13 @@ public final class View {
 
     public boolean readStartGame() {
         System.out.println("게임을 시작하시겠습니까? (y/n)");
+        String response = scanner.nextLine();
+        return parseYesOrNo(response);
+    }
+
+    public boolean readContinueGame(LocalDateTime lastSavedTime) {
+        System.out.printf("%n저장된 게임이 있습니다. (%s)%n저장된 게임을 불러오시겠습니까? (y/n)%n",
+                lastSavedTime.format(LAST_SAVED_TIME_FORMATTER));
         String response = scanner.nextLine();
         return parseYesOrNo(response);
     }
