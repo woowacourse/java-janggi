@@ -138,6 +138,11 @@ class PieceTest {
         }
 
         @Override
+        public PieceType getType() {
+            return PieceType.GENERAL;
+        }
+
+        @Override
         public String getName() {
             return "";
         }
