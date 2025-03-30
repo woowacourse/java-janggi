@@ -44,6 +44,11 @@ public class Chariot extends Piece {
     }
 
     @Override
+    public boolean isChariot() {
+        return true;
+    }
+
+    @Override
     protected PossibleMovements getPossibleMovements(Board board, Position start) {
         if (board.isInCastle(start)) {
             return POSSIBLE_CASTLE_MOVEMENTS;

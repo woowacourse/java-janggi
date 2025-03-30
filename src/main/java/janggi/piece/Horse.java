@@ -39,6 +39,11 @@ public class Horse extends Piece {
     }
 
     @Override
+    public boolean isHorse() {
+        return true;
+    }
+
+    @Override
     protected PossibleMovements getPossibleMovements(Board board, Position start) {
         return possibleMovements;
     }

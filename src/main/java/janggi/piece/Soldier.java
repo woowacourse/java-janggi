@@ -48,6 +48,11 @@ public class Soldier extends Piece {
     }
 
     @Override
+    public boolean isSoldier() {
+        return true;
+    }
+
+    @Override
     protected PossibleMovements getPossibleMovements(Board board, Position start) {
         if (team == Team.RED && board.isInCastle(start)) {
             return RED_POSSIBLE_CASTLE_MOVEMENTS;

@@ -61,6 +61,25 @@ public abstract class Piece {
     public boolean isCanon() {
         return false;
     }
+    public boolean isGuard() {
+        return false;
+    }
+
+    public boolean isSoldier() {
+        return false;
+    }
+
+    public boolean isChariot() {
+        return false;
+    }
+
+    public boolean isElephant() {
+        return false;
+    }
+
+    public boolean isHorse() {
+        return false;
+    }
 
     protected abstract PossibleMovements getPossibleMovements(Board board, Position start);
     protected abstract void validatePath(Board board, Path path);

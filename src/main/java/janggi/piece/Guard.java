@@ -56,6 +56,11 @@ public class Guard extends Piece {
     }
 
     @Override
+    public boolean isGuard() {
+        return true;
+    }
+
+    @Override
     protected PossibleMovements getPossibleMovements(Board board, Position start) {
         return possibleMovements;
     }

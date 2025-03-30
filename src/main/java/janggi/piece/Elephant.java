@@ -40,6 +40,11 @@ public class Elephant extends Piece {
     }
 
     @Override
+    public boolean isElephant() {
+        return true;
+    }
+
+    @Override
     protected PossibleMovements getPossibleMovements(Board board, Position start) {
         return possibleMovements;
     }
