@@ -108,19 +108,19 @@ public class OutputView {
         }
     }
 
-    public void printWinner(Team team, int choScore, int hanScore) {
+    public void printWinner(Team team, double choScore, double hanScore) {
         System.out.println(System.lineSeparator() + "게임 종료");
         System.out.println("승자: " + teamToName(team));
         printScore(choScore, hanScore);
     }
 
-    public void printDraw(int choScore, int hanScore) {
+    public void printDraw(double choScore, double hanScore) {
         System.out.println(System.lineSeparator() + "게임 종료");
         System.out.println("무승부");
         printScore(choScore, hanScore);
     }
 
-    private void printScore(int choScore, int hanScore) {
+    private void printScore(double choScore, double hanScore) {
         System.out.println("한나라: " + hanScore);
         System.out.println("초나라: " + choScore);
     }

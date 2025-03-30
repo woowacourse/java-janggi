@@ -92,8 +92,8 @@ public class Board {
     }
 
     private Optional<Team> compareScore() {
-        int hanScore = calculateScore(Team.HAN);
-        int choScore = calculateScore(Team.CHO);
+        double hanScore = calculateScore(Team.HAN);
+        double choScore = calculateScore(Team.CHO);
 
         if (hanScore < choScore) {
             return Optional.of(Team.CHO);
@@ -104,7 +104,7 @@ public class Board {
         return Optional.empty();
     }
 
-    public int calculateScore(Team team) {
+    public double calculateScore(Team team) {
         return pieces.calculatePieceScore(team);
     }
 
