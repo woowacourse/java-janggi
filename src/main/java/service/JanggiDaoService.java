@@ -29,4 +29,9 @@ public class JanggiDaoService {
     public Team findTurn() {
         return turnDao.load();
     }
+
+    public void removeAllData() {
+        turnDao.remove();
+        boardDao.removeAll();
+    }
 }

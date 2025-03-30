@@ -55,6 +55,7 @@ public class JanggiController {
             }
             if (progressCommand == ProgressCommand.EXIT) {
                 printResult(janggiGame);
+                janggiDaoService.removeAllData();
                 break;
             }
         }
@@ -68,6 +69,7 @@ public class JanggiController {
         if (janggiGame.isStop()) {
             OutputView.printBoard(janggiGame.board());
             OutputView.printMatchResult(janggiGame.turnTeam());
+            janggiDaoService.removeAllData();
             return false;
         }
         janggiGame.changeTurn();
