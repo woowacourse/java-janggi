@@ -55,8 +55,6 @@ class PieceDaoTest {
         assertThatCode(() -> {
             pieceDao.addPieces(pieces);
         }).doesNotThrowAnyException();
-
-
     }
 
 }

@@ -2,6 +2,8 @@ package janggi.dao;
 
 import janggi.domain.Team;
 import janggi.domain.Turn;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -11,9 +13,9 @@ public class TurnDao {
     private final TeamDao teamDao = new TeamDao();
 
     public void addTurn(Turn turn) {
-        final var query = "INSERT INTO turn (team_id) VALUES (?)";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "INSERT INTO turn (team_id) VALUES (?)";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             Team currentTeam = turn.getCurrentTurn();
             int teamId = teamDao.findTeamIdByName(currentTeam);
@@ -26,9 +28,9 @@ public class TurnDao {
     }
 
     public Turn findTurn() {
-        final var query = "SELECT * FROM turn";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "SELECT * FROM turn";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -44,9 +46,9 @@ public class TurnDao {
     }
 
     public void updateTurn(Turn turn) {
-        final var query = "UPDATE turn SET team_id = ?";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "UPDATE turn SET team_id = ?";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             Team currentTeam = turn.getCurrentTurn();
             int teamId = teamDao.findTeamIdByName(currentTeam);
@@ -63,11 +65,10 @@ public class TurnDao {
     }
 
     public void deleteTurn() {
-        final var query = "DELETE FROM turn";
-        try (final var connection = databaseConnection.getConnection();
-             final var statement = connection.createStatement()) {
-
-            statement.executeUpdate(query);
+        final String query = "DELETE FROM turn";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate(query);
         } catch (final SQLException e) {
             throw new RuntimeException("Failed to delete turn", e);
         }

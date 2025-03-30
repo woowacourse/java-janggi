@@ -4,6 +4,8 @@ import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.direction.Position;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,9 +18,9 @@ public class PieceDao {
     private final TeamDao teamDao = new TeamDao();
 
     public void addPiece(final Piece piece) {
-        final var query = "INSERT INTO piece (piece_type, team_id, position_id) VALUES (?, ?, ?)";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "INSERT INTO piece (piece_type, team_id, position_id) VALUES (?, ?, ?)";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final Position position = piece.getPosition();
             positionDao.addPosition(position);
             final int positionId = positionDao.findIdByXY(position.x(), position.y());
@@ -34,9 +36,9 @@ public class PieceDao {
     }
 
     public Piece findPieceById(final int pieceId) {
-        final var query = "SELECT * FROM piece WHERE piece_id = ?";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "SELECT * FROM piece WHERE piece_id = ?";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, pieceId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -67,9 +69,9 @@ public class PieceDao {
             return false;
         }
 
-        final var query = "DELETE FROM piece WHERE position_id = ?";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "DELETE FROM piece WHERE position_id = ?";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, positionId);
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -102,12 +104,12 @@ public class PieceDao {
     }
 
     public List<Piece> findAllPieces() {
-        final var query = "SELECT * FROM piece";
+        final String query = "SELECT * FROM piece";
         List<Piece> pieces = new ArrayList<>();
 
-        try (final var connection = databaseConnection.getConnection();
-             final var statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery(query)) {
 
             while (resultSet.next()) {
                 int teamId = resultSet.getInt("team_id");
@@ -125,10 +127,10 @@ public class PieceDao {
     }
 
     public void deleteAllPieces() {
-        final var query = "DELETE FROM piece";
-        try (final var connection = databaseConnection.getConnection();
-             final var statement = connection.createStatement()) {
-            statement.executeUpdate(query);
+        final String query = "DELETE FROM piece";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate(query);
             positionDao.deleteAllPositions();
         } catch (final SQLException e) {
             System.err.println("모든 Piece 삭제 오류: " + e.getMessage());

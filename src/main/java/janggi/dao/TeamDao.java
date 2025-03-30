@@ -1,6 +1,9 @@
 package janggi.dao;
 
 import janggi.domain.Team;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TeamDao {
@@ -9,12 +12,12 @@ public class TeamDao {
 
     public Team findTeamById(final int teamId) {
 
-        final var query = "SELECT * FROM team WHERE team_id = ?";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "SELECT * FROM team WHERE team_id = ?";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, teamId);
 
-            final var resultSet = preparedStatement.executeQuery();
+            final ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return Team.valueOf(resultSet.getString("team_name"));
             }
@@ -25,12 +28,12 @@ public class TeamDao {
     }
 
     public int findTeamIdByName(final Team currentTeam) {
-        final var query = "SELECT * FROM team WHERE team_name = ?";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "SELECT * FROM team WHERE team_name = ?";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, currentTeam.name());
 
-            final var resultSet = preparedStatement.executeQuery();
+            final ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("team_id");
             }

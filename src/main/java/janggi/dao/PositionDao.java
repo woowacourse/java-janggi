@@ -1,6 +1,9 @@
 package janggi.dao;
 
 import janggi.domain.piece.direction.Position;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PositionDao {
@@ -8,9 +11,9 @@ public class PositionDao {
     private final DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
 
     public void addPosition(final Position position) {
-        final var query = "INSERT INTO position (x,y) VALUES(?, ?)";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "INSERT INTO position (x,y) VALUES(?, ?)";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, position.x());
             preparedStatement.setInt(2, position.y());
             preparedStatement.executeUpdate();
@@ -20,9 +23,9 @@ public class PositionDao {
     }
 
     public Position findByPositionId(final int positionId) {
-        final var query = "SELECT * FROM position WHERE position_id = ?";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "SELECT * FROM position WHERE position_id = ?";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, positionId);
 
             final var resultSet = preparedStatement.executeQuery();
@@ -39,12 +42,12 @@ public class PositionDao {
     }
 
     public int findIdByXY(final int x, final int y) {
-        final var query = "SELECT position_id FROM position WHERE x = ? AND y = ?";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "SELECT position_id FROM position WHERE x = ? AND y = ?";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, x);
             preparedStatement.setInt(2, y);
-            final var resultSet = preparedStatement.executeQuery();
+            final ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("position_id");
             }
@@ -55,9 +58,9 @@ public class PositionDao {
     }
 
     public boolean deletePositionById(final int positionId) {
-        final var query = "DELETE FROM position WHERE position_id = ?";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "DELETE FROM position WHERE position_id = ?";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, positionId);
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
@@ -68,9 +71,9 @@ public class PositionDao {
     }
 
     public boolean deletePositionByXY(final int x, final int y) {
-        final var query = "DELETE FROM position WHERE x = ? AND y = ?";
-        try (final var connection = databaseConnection.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        final String query = "DELETE FROM position WHERE x = ? AND y = ?";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, x);
             preparedStatement.setInt(2, y);
             int rowsAffected = preparedStatement.executeUpdate();
@@ -87,9 +90,9 @@ public class PositionDao {
     }
 
     public void deleteAllPositions() {
-        final var query = "DELETE FROM position";
-        try (final var connection = databaseConnection.getConnection();
-             final var statement = connection.createStatement()) {
+        final String query = "DELETE FROM position";
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(query)) {
             statement.executeUpdate(query);
         } catch (final SQLException e) {
             throw new RuntimeException("Failed to delete all positions", e);
