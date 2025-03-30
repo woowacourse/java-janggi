@@ -133,4 +133,11 @@ public class Pieces {
                         pieces.get(position).isCannon());
     }
 
+    public int calculatePieceScore(final Color color) {
+        return pieces.values()
+                .stream()
+                .filter(piece -> piece.getSide() == color)
+                .mapToInt(Piece::getScore)
+                .sum();
+    }
 }

@@ -267,4 +267,21 @@ class PiecesTest {
         // then
         assertThat(isCannonOnPath).isEqualTo(false);
     }
+
+    @Test
+    @DisplayName("색상이 주어질 때 해당 색상의 장기말 점수를 반환한다")
+    void should_return_piece_score_by_color() {
+        // given
+        Pieces pieces = Pieces.init();
+
+        // when
+        int redScore = pieces.calculatePieceScore(Color.RED);
+        int blueScore = pieces.calculatePieceScore(Color.BLUE);
+
+        // then
+        assertAll(
+                () -> assertThat(redScore).isEqualTo(72),
+                () -> assertThat(blueScore).isEqualTo(72)
+        );
+    }
 }
