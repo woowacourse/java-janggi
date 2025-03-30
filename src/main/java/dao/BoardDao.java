@@ -20,6 +20,7 @@ public class BoardDao {
     private static final String SELECT_BOARD = "SELECT position_row, position_column, piece_type, piece_color FROM board";
     private static final String DELETE_PIECE = "DELETE FROM board WHERE position_row = ? AND position_column = ?";
     private static final String COUNT_POSITION = "SELECT COUNT(*) FROM board WHERE position_row = ? AND position_column = ?";
+    private static final String SELECT_TYPE_COLOR = "SELECT piece_type, piece_color FROM board WHERE position_row = ? AND position_column = ?";
 
     private final UserDao userDao;
 
@@ -108,18 +109,18 @@ public class BoardDao {
     }
 
     private String[] getPieceInfoByPosition(Position position) {
-        String query = "SELECT piece_type, piece_color FROM board WHERE position_row = ? AND position_column = ?";
+        String[] pieceInfo = new String[2];
         try (Connection connection = userDao.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(SELECT_TYPE_COLOR)) {
             statement.setInt(1, position.rowValue());
             statement.setInt(2, position.columnValue());
             ResultSet resultSet = statement.executeQuery();
-            String pieceType = resultSet.getString("piece_type");
-            String pieceColor = resultSet.getString("piece_color");
-            return new String[]{pieceType, pieceColor};
-
+            pieceInfo[0] = resultSet.getString("piece_type");
+            pieceInfo[1] = resultSet.getString("piece_color");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return pieceInfo;
     }
 }

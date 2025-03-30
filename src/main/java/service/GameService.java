@@ -10,6 +10,7 @@ import domain.board.Row;
 import domain.piece.Piece;
 import domain.piece.PieceColor;
 import domain.piece.PieceType;
+import domain.state.BlueTurn;
 import dto.MoveCommandDTO;
 import java.util.Map;
 import view.PieceName;
@@ -19,9 +20,20 @@ public class GameService {
     private final BoardDao boardDao;
     private final JanggiGame janggiGame;
 
-    public GameService(BoardDao boardDao, JanggiGame janggiGame) {
+    public GameService(BoardDao boardDao) {
         this.boardDao = boardDao;
-        this.janggiGame = janggiGame;
+        janggiGame = loadOrCreateGame();
+    }
+
+    private JanggiGame loadOrCreateGame() {
+        // 1. DB에서 저장된 보드를 불러옴
+        Map<Position, Piece> boardData = boardDao.loadBoard();
+
+        // 2. 저장된 보드가 있으면 그대로 사용, 없으면 새로 생성
+        Board board = boardData.isEmpty() ? new BoardFactory().createBoard() : new Board(boardData);
+
+        // 3. JanggiGame을 생성하여 반환
+        return new JanggiGame(new BlueTurn(board));
     }
 
     public void startGame() {
@@ -66,5 +78,9 @@ public class GameService {
 
     public double getBlueTeamScore() {
         return janggiGame.getBlueTeamScore();
+    }
+
+    public Board getBoard() {
+        return janggiGame.getBoard();
     }
 }

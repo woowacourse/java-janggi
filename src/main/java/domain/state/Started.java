@@ -25,6 +25,11 @@ public abstract class Started implements State {
         return calculateTeamScore(PieceColor.BLUE, BLUE_HANDICAP);
     }
 
+    @Override
+    public Board getBoard() {
+        return board;
+    }
+
     private Double calculateTeamScore(PieceColor teamColor, double handicap) {
         List<Piece> remainPieces = board.getPieceByColor(teamColor);
 

@@ -1,11 +1,13 @@
 package domain;
 
+import domain.board.Board;
 import domain.board.Position;
 import domain.piece.PieceColor;
 import domain.piece.PieceType;
 import domain.state.State;
 
 public class JanggiGame {
+
     private State state;
 
     public JanggiGame(State state) {
@@ -34,5 +36,9 @@ public class JanggiGame {
 
     public double getBlueTeamScore() {
         return state.getBlueTeamScore();
+    }
+
+    public Board getBoard() {
+        return this.state.getBoard();
     }
 }

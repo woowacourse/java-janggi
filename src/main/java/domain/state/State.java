@@ -1,5 +1,6 @@
 package domain.state;
 
+import domain.board.Board;
 import domain.board.Position;
 import domain.piece.PieceColor;
 import domain.piece.PieceType;
@@ -16,4 +17,6 @@ public interface State {
     double getBlueTeamScore();
 
     PieceColor determineWinner();
+
+    Board getBoard();
 }

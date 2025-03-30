@@ -1,57 +1,53 @@
 package controller;
 
-import domain.JanggiGame;
 import domain.board.Board;
-import domain.board.BoardFactory;
-import domain.board.Column;
-import domain.board.Position;
-import domain.board.Row;
 import domain.piece.PieceColor;
-import domain.piece.PieceType;
-import domain.state.BlueTurn;
 import dto.MoveCommandDTO;
+import service.GameService;
 import view.InputView;
 import view.OutputView;
-import view.PieceName;
 
 public class JanggiController {
+
+    private final GameService gameService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(GameService gameService, InputView inputView, OutputView outputView) {
+        this.gameService = gameService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
     public void run() {
-        BoardFactory boardFactory = new BoardFactory();
-        Board board = boardFactory.createBoard();
+        gameService.startGame();
+
+        Board board = gameService.getBoard();
         outputView.printBorad(board);
 
-        JanggiGame janggiGame = new JanggiGame(new BlueTurn(board));
-        while (!janggiGame.isFinished()) {
+        while (!gameService.isGameFinished()) {
             try {
-                playTurn(janggiGame, board);
+                playTurn(gameService.getTurnColor(), board);
             } catch (Exception e) {
                 outputView.printError("[ERROR] " + e.getMessage());
             }
         }
 
-        outputView.printWinner(janggiGame.getWinner());
-        outputView.printTeamScore(janggiGame.getRedTeamScore(), PieceColor.RED);
-        outputView.printTeamScore(janggiGame.getBlueTeamScore(), PieceColor.BLUE);
+        printResult();
     }
 
-    private void playTurn(JanggiGame janggiGame, Board board) {
-        outputView.printTurnNotice(janggiGame.getTurnColor());
+    private void printResult() {
+        outputView.printWinner(gameService.getWinner());
+        outputView.printTeamScore(gameService.getRedTeamScore(), PieceColor.RED);
+        outputView.printTeamScore(gameService.getBlueTeamScore(), PieceColor.BLUE);
+    }
+
+    private void playTurn(PieceColor turnColor, Board board) {
+        outputView.printTurnNotice(turnColor);
         MoveCommandDTO commands = inputView.readMoveCommand();
 
-        Position source = new Position(Row.from(commands.sourceRow()), Column.from(commands.sourceColumn()));
-        Position destination = new Position(Row.from(commands.destinationRow()),
-                Column.from(commands.destinationColumn()));
+        gameService.playTurn(commands);
 
-        PieceType pieceType = PieceName.getPieceTypeFromName(commands.pieceName());
-        janggiGame.move(pieceType, source, destination);
         outputView.printBorad(board);
     }
 }
