@@ -1,20 +1,12 @@
 package vo;
 
 import domain.board.Point;
-import domain.pieces.Piece;
-import java.util.List;
-import java.util.Map;
+import domain.pieces.PieceDefinition;
 
-public record BoardLocation(Point point, Piece piece) {
-
-    public static List<BoardLocation> convertToLocations(Map<Point, Piece> board) {
-        return board.entrySet().stream()
-                .map(entry -> new BoardLocation(entry.getKey(), entry.getValue()))
-                .toList();
-    }
+public record BoardLocation(Point point, PieceDefinition piece, int playerId) {
 
     public String getPiece() {
-        return piece.getType().name();
+        return piece.name();
     }
 
     public int getRow() {
@@ -26,6 +18,6 @@ public record BoardLocation(Point point, Piece piece) {
     }
 
     public int getPlayerId() {
-        return piece.getPlayerId();
+        return playerId;
     }
 }

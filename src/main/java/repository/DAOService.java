@@ -4,7 +4,8 @@ import domain.board.Point;
 import domain.player.Player;
 import domain.player.Team;
 import java.util.List;
-import vo.BoardLocation;
+import vo.BoardLocations;
+import vo.Choice;
 
 public final class DAOService {
 
@@ -25,25 +26,38 @@ public final class DAOService {
         return gameDAO.create();
     }
 
-    public Player createPlayer(final Team team, final int gameId) {
-        final int id = playerDAO.createWithGameId(team, gameId);
-        return playerDAO.findById(id);
+    public boolean existsGame(final Choice choice) {
+        return gameDAO.existsActiveGameById(choice.value());
     }
 
     public void deactivateGame(int id) {
         gameDAO.deactivate(id);
     }
 
-    public void registerLocations(List<BoardLocation> boardLocations) {
-        boardLocationDAO.createBatch(boardLocations);
-    }
-
-    public void changeLocation(Point start, Point arrival, int gameId) {
-        boardLocationDAO.deleteLocationAt(start, gameId);
-        boardLocationDAO.updateLocation(start, arrival, gameId);
+    public Player createPlayer(final Team team, final int gameId) {
+        final int id = playerDAO.createWithGameId(team, gameId);
+        return playerDAO.findById(id);
     }
 
     public void switchTurn(List<Player> players) {
         playerDAO.updateBatch(players);
+    }
+
+
+    public List<Player> findPlayersByGameId(final Choice choice) {
+        return playerDAO.findAllByGameId(choice.value());
+    }
+
+    public void registerLocations(BoardLocations boardLocations) {
+        boardLocationDAO.createBatch(boardLocations);
+    }
+
+    public void changeLocation(Point start, Point arrival, int gameId) {
+        boardLocationDAO.deleteLocationAt(arrival, gameId);
+        boardLocationDAO.updateLocation(start, arrival, gameId);
+    }
+
+    public BoardLocations findLocationByGameId(final Choice choice) {
+        return boardLocationDAO.findAllByGameId(choice.value());
     }
 }

@@ -1,11 +1,15 @@
 package repository;
 
 import domain.board.Point;
+import domain.pieces.PieceDefinition;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import vo.BoardLocation;
+import vo.BoardLocations;
 
 public final class BoardLocationDAO {
     private final Connector connector;
@@ -14,7 +18,7 @@ public final class BoardLocationDAO {
         this.connector = connector;
     }
 
-    public void createBatch(final List<BoardLocation> boardLocations) {
+    public void createBatch(final BoardLocations boardLocations) {
         final String query = "INSERT INTO board_location (location_piece, location_row, location_column, player_id) "
                 + "VALUES (?,?,?,?)";
         try (final Connection connection = connector.getConnection();
@@ -63,5 +67,44 @@ public final class BoardLocationDAO {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public BoardLocations findAllByGameId(int gameId) {
+        final String query = "SELECT l.*, p.*, g.id FROM board_location l "
+                + "JOIN player p ON l.player_id = p.id "
+                + "JOIN game g ON p.game_id = g.id "
+                + "WHERE g.id = ?";
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return convertResultSetToLocations(resultSet);
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private BoardLocations convertResultSetToLocations(ResultSet resultSet) throws SQLException {
+        final List<BoardLocation> locations = new ArrayList<>();
+        while (resultSet.next()) {
+            BoardLocation location = convertResultSetToLocation(resultSet);
+            locations.add(location);
+        }
+        return new BoardLocations(locations);
+    }
+
+    private BoardLocation convertResultSetToLocation(final ResultSet resultSet) throws SQLException {
+        if (resultSet.next()) {
+            final Point point = new Point(resultSet.getInt("location_row"),
+                    resultSet.getInt("location_column"));
+            final PieceDefinition pieceDefinition = PieceDefinition.valueOf(resultSet.getString("location_piece"));
+            return new BoardLocation(
+                    point,
+                    pieceDefinition,
+                    resultSet.getInt("player_id")
+            );
+        }
+        throw new NullPointerException("Location 값이 잘못되었습니다.");
     }
 }
