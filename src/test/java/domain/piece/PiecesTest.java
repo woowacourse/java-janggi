@@ -110,13 +110,10 @@ class PiecesTest {
         Pieces pieces = new Pieces(pieceElements);
 
         // when
-        int pieceScore = pieces.deleteByPosition(position);
+        pieces.deleteByPosition(position);
 
         // then
-        assertAll(() -> {
-            assertThat(pieceElements).doesNotContain(piece);
-            assertThat(pieceScore).isEqualTo(PieceType.GUARD.getScore());
-        });
+        assertThat(pieceElements).doesNotContain(piece);
     }
 
     @Test
