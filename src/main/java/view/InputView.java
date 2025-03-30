@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 import model.Point;
 import model.Team;
-import model.janggiboard.JanggiBoard;
 
 public class InputView {
     private static Scanner sc;
@@ -34,5 +33,11 @@ public class InputView {
         Point targetPoint = Point.of(targetPointInput.get(0) - 1, targetPointInput.get(1) - 1);
 
         return List.of(beforePoint, targetPoint);
+    }
+
+    public static int selectGameVersiong() {
+        sc = new Scanner(System.in);
+        System.out.println("새로운 게임은 1번 전에 하던 게임은 2번");
+        return Integer.parseInt(sc.nextLine());
     }
 }
