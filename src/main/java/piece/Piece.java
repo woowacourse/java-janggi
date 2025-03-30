@@ -3,15 +3,15 @@ package piece;
 import board.Board;
 import coordinate.Coordinate;
 import java.util.stream.Collectors;
-import team.Team;
+import team.Country;
 
 public class Piece {
 
-    private final Team team;
+    private final Country country;
     private final PieceType pieceType;
 
-    public Piece(Team team, PieceType pieceType) {
-        this.team = team;
+    public Piece(Country country, PieceType pieceType) {
+        this.country = country;
         this.pieceType = pieceType;
     }
 
@@ -41,11 +41,15 @@ public class Piece {
         return pieceType.equals(PieceType.포);
     }
 
-    public boolean isSameTeam(Piece piece) {
-        return this.team.equals(piece.team);
+    public boolean isGoong() {
+        return pieceType.equals(PieceType.궁);
+    }
+
+    public int getScore() {
+        return this.pieceType.getScore();
     }
 
     public String colorName() {
-        return this.team.applyColor(this.pieceType.name());
+        return this.country.applyColor(this.pieceType.name());
     }
 }

@@ -793,4 +793,66 @@ public class PieceTest {
             assertThat(result).isTrue();
         }
     }
+
+    @Nested
+    @DisplayName("포인지 확인하는 테스트")
+    class IsPoTest {
+
+        @Test
+        @DisplayName("기물이 포라면 true를 반환한다.")
+        void test1() {
+            // given
+            Piece po = new Piece(Country.CHO, PieceType.포);
+
+            // when
+            boolean result = po.isPo();
+
+            // then
+            assertThat(result).isTrue();
+        }
+
+        @Test
+        @DisplayName("기물이 포가 아니라면 false를 반환한다.")
+        void test2() {
+            // given
+            Piece sa = new Piece(Country.CHO, PieceType.사);
+
+            // when
+            boolean result = sa.isPo();
+
+            // then
+            assertThat(result).isFalse();
+        }
+    }
+
+    @Nested
+    @DisplayName("궁인지 확인하는 테스트")
+    class IsGoongTest {
+
+        @Test
+        @DisplayName("기물이 궁이라면 true를 반환한다.")
+        void test1() {
+            // given
+            Piece goong = new Piece(Country.CHO, PieceType.궁);
+
+            // when
+            boolean result = goong.isGoong();
+
+            // then
+            assertThat(result).isTrue();
+        }
+
+        @Test
+        @DisplayName("기물이 궁이 아니라면 false를 반환한다.")
+        void test2() {
+            // given
+            Piece sa = new Piece(Country.CHO, PieceType.사);
+
+            // when
+            boolean result = sa.isPo();
+
+            // then
+            assertThat(result).isFalse();
+        }
+    }
 }
