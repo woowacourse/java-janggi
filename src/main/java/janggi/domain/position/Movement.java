@@ -2,7 +2,6 @@ package janggi.domain.position;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public enum Movement {
 
@@ -41,15 +40,15 @@ public enum Movement {
         this.directions = directions;
     }
 
-    public List<Position> getPositionsWith(Position startPosition) {
-        List<Position> positions = new ArrayList<>();
+    public List<Position> getPositionsWith(final Position startPosition) {
+        final List<Position> positions = new ArrayList<>();
         positions.add(startPosition);
         for (Direction direction : directions) {
-            final Optional<Position> nextPosition = direction.move(positions.getLast());
-            if (nextPosition.isEmpty()) {
+            final Position currentPosition = positions.getLast();
+            if (!currentPosition.isValidToMove(direction)) {
                 return List.of();
             }
-            positions.add(nextPosition.get());
+            positions.add(currentPosition.move(direction));
         }
         return positions;
     }

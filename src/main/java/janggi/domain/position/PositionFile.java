@@ -22,6 +22,10 @@ public enum PositionFile {
         this.amount = amount;
     }
 
+    public static List<PositionFile> getAllFiles() {
+        return Arrays.stream(values()).toList();
+    }
+
     public PositionFile add(final int i) {
         return findByAmount(amount + i);
     }
@@ -33,24 +37,18 @@ public enum PositionFile {
                 .orElseThrow(() -> new IllegalArgumentException("해당 파일을 찾을 수 없습니다."));
     }
 
-    public boolean validateAdd(final int fileAmount) {
+    public boolean isValidToAdd(final int fileAmount) {
         return Arrays.stream(PositionFile.values())
                 .anyMatch(p -> p.amount == this.amount + fileAmount);
     }
-    /*
-    public List<PositionRank> getBetweenRanks(final PositionRank rank) {
-        if (this.ordinal() > rank.ordinal()) {
-            return rank.getBetweenRanks(this).reversed();
-        }
 
-        List<PositionRank> betweenRanks = new ArrayList<>();
-        for (int newAmount = amount + 1; newAmount < rank.amount; newAmount++) {
-            betweenRanks.add(findByAmount(newAmount));
-        }
-        return betweenRanks;
-    }
+    /**
+     * 두 파일 사이의 파일들을 반환하는 기능입니다.
+     * 첫 파일와 끝 파일를 포함하지 않습니다.
+     *
+     * @param file 끝 파일
+     * @return 두 파일 사이의 파일들
      */
-
     public List<PositionFile> getBetweenFiles(final PositionFile file) {
         if (this.ordinal() > file.ordinal()) {
             return file.getBetweenFiles(this).reversed();

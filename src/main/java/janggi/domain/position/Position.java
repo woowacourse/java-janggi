@@ -1,7 +1,6 @@
 package janggi.domain.position;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public record Position(
@@ -14,28 +13,32 @@ public record Position(
     }
 
     private void validateFile(final PositionFile file) {
-        if (file == null) {
-            throw new IllegalArgumentException("파일은 필수값입니다.");
-        }
+        if (file == null) throw new IllegalArgumentException("파일은 필수값입니다.");
     }
 
     private void validateRank(final PositionRank rank) {
-        if (rank == null) {
-            throw new IllegalArgumentException("랭크는 필수값입니다.");
-        }
+        if (rank == null) throw new IllegalArgumentException("랭크는 필수값입니다.");
+    }
+
+    public boolean isValidToMove(final Direction direction) {
+        return isValidToAdd(direction.getFileToAdd(), direction.getRankToAdd());
+    }
+
+    public Position move(final Direction direction) {
+        return add(direction.getFileToAdd(), direction.getRankToAdd());
+    }
+
+    public boolean isValidToAdd(final int fileAmount, final int rankAmount) {
+        return file.isValidToAdd(fileAmount) && rank.isValidToAdd(rankAmount);
     }
 
     public Position add(final int fileAmount, final int rankAmount) {
         return new Position(file.add(fileAmount), rank.add(rankAmount));
     }
 
-    public boolean isValidToAdd(final int fileAmount, final int rankAmount) {
-        return file.validateAdd(fileAmount) && rank.validateAdd(rankAmount);
-    }
-
     public List<Position> getAllCrossPositions() {
-        List<Position> positions = new ArrayList<>();
-        Arrays.stream(PositionFile.values())
+        final List<Position> positions = new ArrayList<>();
+        PositionFile.getAllFiles().stream()
                 .filter(f -> !f.equals(file))
                 .forEach(f -> positions.add(new Position(f, rank)));
         PositionRank.getAllRanks().stream()
@@ -44,17 +47,23 @@ public record Position(
         return positions;
     }
 
-    public List<Position> createPositionsUntil(final Position nextPosition) {
+    /**
+     * 두 위치 사이의 위치들을 반환하는 기능입니다.
+     * 첫 위치와 끝 위치를 포함하지 않습니다.
+     *
+     * @param nextPosition 현재 위치와 같은 선상의 다른 위치
+     * @return 두 위치 사이의 위치들
+     * @throws IllegalArgumentException 두 위치가 같은 선상에 위치하지 않은 경우 예외가 발생합니다.
+     */
+    public List<Position> createPositionsBetween(final Position nextPosition) {
         if (this.file == nextPosition.file) {
-            List<PositionRank> ranks = this.rank.getBetweenRanks(nextPosition.rank);
-            return ranks.stream()
+            return this.rank.getBetweenRanks(nextPosition.rank).stream()
                     .map(newRank -> new Position(file, newRank))
                     .toList();
         }
 
         if (this.rank == nextPosition.rank) {
-            List<PositionFile> files = this.file.getBetweenFiles(nextPosition.file);
-            return files.stream()
+            return this.file.getBetweenFiles(nextPosition.file).stream()
                     .map(newFile -> new Position(newFile, rank))
                     .toList();
         }

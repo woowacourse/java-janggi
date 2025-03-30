@@ -1,7 +1,5 @@
 package janggi.domain.position;
 
-import java.util.Optional;
-
 public enum Direction {
 
     UP(0, 1),
@@ -23,10 +21,11 @@ public enum Direction {
         this.dRank = dRank;
     }
 
-    public Optional<Position> move(Position from) {
-        if (!from.isValidToAdd(dFile, dRank)) {
-            return Optional.empty();
-        }
-        return Optional.of(from.add(dFile, dRank));
+    public int getFileToAdd() {
+        return dFile;
+    }
+
+    public int getRankToAdd() {
+        return dRank;
     }
 }

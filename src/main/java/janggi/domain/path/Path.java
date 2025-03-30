@@ -18,16 +18,16 @@ public record Path(
         return new Path(paths);
     }
 
-    public Optional<Path> nextPath(Movement movement) {
-        final List<Position> result = movement.getPositionsWith(finalPosition());
-        if (result.isEmpty()) return Optional.empty();
-        return Optional.of(new Path(new ArrayList<>(result)));
+    public Optional<Path> nextPath(final Movement movement) {
+        final List<Position> positions = movement.getPositionsWith(finalPosition());
+        if (positions.isEmpty()) return Optional.empty();
+        return Optional.of(new Path(new ArrayList<>(positions)));
     }
 
-    public Path nextPath(Position position) {
+    public Path nextPath(final Position position) {
         final List<Position> positions = new ArrayList<>();
         positions.addAll(pathPositions);
-        positions.addAll(finalPosition().createPositionsUntil(position));
+        positions.addAll(finalPosition().createPositionsBetween(position));
         positions.addLast(position);
         return new Path(new ArrayList<>(positions));
     }

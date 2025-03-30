@@ -58,11 +58,18 @@ public enum PositionRank {
         return findByAmount(amount + i);
     }
 
-    public boolean validateAdd(final int rankAmount) {
+    public boolean isValidToAdd(final int rankAmount) {
         return Arrays.stream(PositionRank.values())
                 .anyMatch(r -> r.amount == this.amount + rankAmount);
     }
 
+    /**
+     * 두 랭크 사이의 랭크들을 반환하는 기능입니다.
+     * 첫 랭크와 끝 랭크를 포함하지 않습니다.
+     *
+     * @param rank 끝 랭크
+     * @return 두 랭크 사이의 랭크들
+     */
     public List<PositionRank> getBetweenRanks(final PositionRank rank) {
         if (this.ordinal() > rank.ordinal()) {
             return rank.getBetweenRanks(this).reversed();
