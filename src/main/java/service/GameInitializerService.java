@@ -45,7 +45,7 @@ public class GameInitializerService {
         Player han = new Player(Team.HAN, new Score(0));
         Player cho = new Player(Team.CHO, new Score(0));
 
-        Board board = setupBoardForPlayers(han, cho);
+        Board board = createBoard(han, cho);
         Game newGame = new Game(gameName, GameStatus.PLAYING, board);
         gameRepository.save(newGame);
 
@@ -60,12 +60,6 @@ public class GameInitializerService {
         }
 
         return newGame;
-    }
-
-    private Board setupBoardForPlayers(final Player han, final Player cho) {
-        Board board = createBoard(han, cho);
-        outputView.printBoard(board);
-        return board;
     }
 
     private Board createBoard(final Player han, final Player cho) {
