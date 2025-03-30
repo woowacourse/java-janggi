@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.board.JanggiBoard;
 import janggi.fixture.ChoPiecePositionFixture;
 import janggi.fixture.HanPiecePositionFixture;
+import janggi.game.JanggiBoard;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.setting.CampType;
