@@ -6,13 +6,9 @@ import domain.position.JanggiPositionFactory;
 import java.util.Scanner;
 
 public class InputView {
-    private final Scanner scanner;
+    private static final Scanner scanner = new Scanner(System.in);
 
-    public InputView() {
-        this.scanner = new Scanner(System.in);
-    }
-
-    public JanggiPosition readStartPosition() {
+    public static JanggiPosition readStartPosition() {
         while (true) {
             try {
                 System.out.println("움직이려는 기물의 행 번호를 입력해주세요.");
@@ -26,7 +22,7 @@ public class InputView {
         }
     }
 
-    public JanggiPosition readDestinationPosition() {
+    public static JanggiPosition readDestinationPosition() {
         while (true) {
             try {
                 System.out.println("목적지의 행 번호를 입력해주세요.");
@@ -40,7 +36,7 @@ public class InputView {
         }
     }
 
-    private int readNumber() {
+    private static int readNumber() {
         while (true) {
             try {
                 return Integer.parseInt(scanner.nextLine());

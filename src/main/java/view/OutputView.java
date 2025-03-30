@@ -13,14 +13,13 @@ import java.util.List;
 import java.util.Map;
 
 public class OutputView {
-
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
     public static final String YELLOW = "\u001B[33m";
     public static final String GREEN = "\u001B[32m";
     private static final String EXIT = "\u001B[0m";
 
-    public void printErrorMessage(String message) {
+    public static void printErrorMessage(String message) {
         printNewLine();
         System.out.print(YELLOW);
         System.out.printf("[ERROR] %s\n", message);
@@ -28,7 +27,7 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printBoard(Map<JanggiPosition, JanggiChessPiece> boardPositions) {
+    public static void printBoard(Map<JanggiPosition, JanggiChessPiece> boardPositions) {
         printGridValue(" ");
         for (int col = Column.MIN_COL; col <= Column.MAX_COL; ++col) {
             printGridValue(String.valueOf(col));
@@ -44,7 +43,7 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printCurrentTeam(JanggiTeam currentTeam) {
+    public static void printCurrentTeam(JanggiTeam currentTeam) {
         String color = getTeamColor(currentTeam);
         System.out.print(color);
         System.out.printf("%s의 차례입니다.", getTeamText(currentTeam));
@@ -52,33 +51,33 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printNotExistPieceAt(JanggiPosition position) {
+    public static void printNotExistPieceAt(JanggiPosition position) {
         System.out.print(YELLOW);
         System.out.printf("(%d, %d) 위치에는 기물이 존재하지 않습니다.\n", position.getRow(), position.getCol());
         System.out.print(EXIT);
         printNewLine();
     }
 
-    public void printNotExistPath() {
+    public static void printNotExistPath() {
         System.out.print(YELLOW);
         System.out.println("해당 기물은 움직일 수 없습니다.");
         System.out.print(EXIT);
         printNewLine();
     }
 
-    public void printAvailableDestinations(List<JanggiPosition> destinations) {
+    public static void printAvailableDestinations(List<JanggiPosition> destinations) {
         printNewLine();
         System.out.print(GREEN);
         System.out.println("해당 기물이 이동 가능한 위치는 다음과 같습니다.");
         String joined = String.join(", ", destinations.stream()
-                .map(this::getFormattedPosition)
+                .map(OutputView::getFormattedPosition)
                 .toList());
         System.out.println(joined);
         System.out.print(EXIT);
         printNewLine();
     }
 
-    public void printInvalidDestination(JanggiPosition destinationPosition) {
+    public static void printInvalidDestination(JanggiPosition destinationPosition) {
         printNewLine();
         System.out.print(YELLOW);
         System.out.printf("%s 는 이동할 수 없는 위치입니다. 이동 가능한 위치 중에서 선택해주세요.\n", getFormattedPosition(destinationPosition));
@@ -86,7 +85,7 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printGameResult(JanggiTeam winner, Map<JanggiTeam, Score> scores) {
+    public static void printGameResult(JanggiTeam winner, Map<JanggiTeam, Score> scores) {
         printNewLine();
         System.out.print(YELLOW);
         System.out.println("경기가 종료되었습니다.");
@@ -101,17 +100,17 @@ public class OutputView {
         printNewLine();
     }
 
-    private String getFormattedPosition(JanggiPosition position) {
+    private static String getFormattedPosition(JanggiPosition position) {
         return String.format("(%d, %d)", position.getRow(), position.getCol());
     }
 
-    private void printGridValue(String value) {
+    private static void printGridValue(String value) {
         // 한글이 아닌 경우 전각으로 변환
         String fullWidthValue = toFullWidth(value);
         System.out.printf("%-3s", fullWidthValue); // 전각은 2칸 차지하므로 너비 약간 조정
     }
 
-    private String toFullWidth(String s) {
+    private static String toFullWidth(String s) {
         StringBuilder result = new StringBuilder();
         for (char ch : s.toCharArray()) {
             // 숫자/알파벳/기호 -> 전각 변환
@@ -124,7 +123,7 @@ public class OutputView {
         return result.toString();
     }
 
-    private void printChessPiece(JanggiPosition currentPosition, Map<JanggiPosition, JanggiChessPiece> boardPositions) {
+    private static void printChessPiece(JanggiPosition currentPosition, Map<JanggiPosition, JanggiChessPiece> boardPositions) {
         if (!boardPositions.containsKey(currentPosition)) {
             printGridValue("ㅡ");
             return;
@@ -133,7 +132,7 @@ public class OutputView {
         printPiece(piece);
     }
 
-    private void printPiece(JanggiChessPiece piece) {
+    private static void printPiece(JanggiChessPiece piece) {
         String symbol = getPieceSymbol(piece.getChessPieceType());
         String color = getTeamColor(piece.getTeam());
         System.out.print(color);
@@ -141,14 +140,14 @@ public class OutputView {
         System.out.print(EXIT);
     }
 
-    private String getTeamColor(JanggiTeam team) {
+    private static String getTeamColor(JanggiTeam team) {
         return switch (team) {
             case BLUE -> BLUE;
             case RED -> RED;
         };
     }
 
-    private String getPieceSymbol(Piece type) {
+    private static String getPieceSymbol(Piece type) {
         return switch (type) {
             case KING -> "왕";
             case PAWN -> "졸";
@@ -160,11 +159,11 @@ public class OutputView {
         };
     }
 
-    private void printNewLine() {
+    private static void printNewLine() {
         System.out.println();
     }
 
-    private String getTeamText(JanggiTeam team) {
+    private static String getTeamText(JanggiTeam team) {
         return switch (team) {
             case RED -> "한나라";
             case BLUE -> "초나라";
