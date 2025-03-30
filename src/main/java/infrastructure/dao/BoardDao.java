@@ -46,7 +46,6 @@ public class BoardDao {
             List<BoardEntity> boardEntities = new ArrayList<>();
             while (resultSet.next()) {
                 boardEntities.add(new BoardEntity(
-                        resultSet.getLong("id"),
                         resultSet.getString("piece_name"),
                         resultSet.getInt("x"),
                         resultSet.getInt("y"),

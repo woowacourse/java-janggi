@@ -13,7 +13,8 @@ public class Application {
         MysqlConnector mysqlConnector = new MysqlConnector();
 
         JanggiGame janggiGame = new JanggiGame(
-                new InputView(), new OutputView(),
+                new InputView(),
+                new OutputView(),
                 new BoardJdbcRepository(new BoardDao(mysqlConnector)),
                 new TurnJdbcRepository(new TurnDao(mysqlConnector))
         );
