@@ -25,14 +25,6 @@ public enum Direction {
         this.columnOffset = columnOffset;
     }
 
-    public static Direction toCardinalFrom(Point startPoint, Point targetPoint) {
-        Direction direction = findCardinalDirection(startPoint, targetPoint);
-        if (direction == REST) {
-            throw new IllegalArgumentException("이동이 불가능한 방향입니다.");
-        }
-        return direction;
-    }
-
     public static Direction toCardinalOrDiagonalFrom(Point startPoint, Point targetPoint) {
         Direction cardinalDirection = findCardinalDirection(startPoint, targetPoint);
         if (cardinalDirection != REST) {

@@ -9,9 +9,10 @@ import java.util.List;
 
 public class BoardView {
 
-    public static final String EXIT_COLOR_CODE = "\u001B[0m";
+    private static final String EXIT_COLOR_CODE = "\u001B[0m";
     private static final String BLACK_CODE = "\u001B[30m";
     private static final String WHITE_CODE = "\u001B[37m";
+    private static final String EXPRESSION = " %2s |";
 
     private static final int ROW_SIZE = 10;
     private static final int COLUMN_SIZE = 9;
@@ -28,16 +29,16 @@ public class BoardView {
         List<Piece> pieces = board.getRunningPieces();
         placePieces(pieces);
         for (int row = 0; row < ROW_SIZE; row++) {
-            String line = String.format(" %2s |", WHITE_CODE + toFullWidthNumber(row) + EXIT_COLOR_CODE);
+            String line = String.format(EXPRESSION, WHITE_CODE + toFullWidthNumber(row) + EXIT_COLOR_CODE);
             for (String token : matrix[row]) {
-                line += String.format(" %2s |", token);
+                line += String.format(EXPRESSION, token);
             }
             System.out.println(line);
         }
 
-        String line = String.format(" %2s |", " ");
+        StringBuilder line = new StringBuilder(String.format(EXPRESSION, " "));
         for (int column = 0; column < COLUMN_SIZE; column++) {
-            line += String.format(" %2s |", WHITE_CODE + toFullWidthNumber(column) + EXIT_COLOR_CODE);
+            line.append(String.format(EXPRESSION, WHITE_CODE + toFullWidthNumber(column) + EXIT_COLOR_CODE));
         }
         System.out.println(line);
     }
@@ -51,9 +52,9 @@ public class BoardView {
         StringBuilder sb = new StringBuilder();
         for (char c : value.toCharArray()) {
             if (Character.isDigit(c)) {
-                sb.append((char) (c - '0' + '\uFF10')); // 전각 문자로 변환
+                sb.append((char) (c - '0' + '\uFF10'));
             } else {
-                sb.append(c); // 숫자가 아니면 그대로
+                sb.append(c);
             }
         }
         return sb.toString();
