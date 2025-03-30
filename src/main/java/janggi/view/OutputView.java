@@ -38,4 +38,12 @@ public class OutputView {
         }
         return COLOR_CODE_YELLOW;
     }
+
+    public void printWinner(final Team winner) {
+        System.out.println(winner.getName() + "팀이 승리했습니다!");
+    }
+
+    public void printScore(final Team team, final double score) {
+        System.out.println(team.getName() + "팀: " + score + "점");
+    }
 }

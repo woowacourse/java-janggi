@@ -31,10 +31,19 @@ public class JanggiController {
             movePieceByPieceMovement(nowTeam, pieceMovement, board);
 
             if (board.checkGameOver()) {
-                Team winner = board.getWinner();
-                Team firstTurn = turn.getFirstTurn();
+                printResult(board);
+                break;
             }
         }
+    }
+
+    private void printResult(final Board board) {
+        Team winner = board.getWinner();
+        Team firstTurn = turn.getFirstTurn();
+
+        outputView.printWinner(winner);
+        outputView.printScore(Team.RED, board.calculateScoreByTeam(Team.RED, firstTurn));
+        outputView.printScore(Team.BLUE, board.calculateScoreByTeam(Team.BLUE, firstTurn));
     }
 
     private Board getInitializedBoardByInput() {
