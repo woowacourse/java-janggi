@@ -139,7 +139,7 @@ public class JanggiManager {
         Player choPlayer = getTeamPlayer(players, TeamType.CHO);
         Player hanPlayer = getTeamPlayer(players, TeamType.HAN);
 
-        return new JanggiGameResponseDto(gameId, choPlayer.getName(), hanPlayer.getName());
+        return new JanggiGameResponseDto(gameId, choPlayer, hanPlayer);
     }
 
     private Player getTeamPlayer(List<Player> players, TeamType teamType) {

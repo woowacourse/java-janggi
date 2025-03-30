@@ -45,6 +45,7 @@ class JanggiManagerTest {
     @BeforeEach
     void setup() throws SQLException {
         connection = H2ConnectionUtil.getConnection();
+        H2ConnectionUtil.initializeTable(connection);
         connection.setAutoCommit(false);
         janggiManager = new JanggiManager(connection);
     }
@@ -66,9 +67,11 @@ class JanggiManagerTest {
         List<JanggiGameResponseDto> inProgressGames = janggiManager.findInProgressGames();
 
         // then
+        Player choPlayer = new Player(new Username("테스트1"), TeamType.CHO);
+        Player hanPlayer = new Player(new Username("테스트2"), TeamType.HAN);
         assertAll(
-                () -> assertThat(inProgressGames).contains(new JanggiGameResponseDto(savedGameId1, "테스트1", "테스트2")),
-                () -> assertThat(inProgressGames).contains(new JanggiGameResponseDto(savedGameId2, "테스트1", "테스트2"))
+                () -> assertThat(inProgressGames).contains(new JanggiGameResponseDto(savedGameId1, choPlayer, hanPlayer)),
+                () -> assertThat(inProgressGames).contains(new JanggiGameResponseDto(savedGameId2, choPlayer, hanPlayer))
         );
     }
 

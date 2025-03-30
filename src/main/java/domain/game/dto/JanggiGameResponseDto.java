@@ -1,4 +1,6 @@
 package domain.game.dto;
 
-public record JanggiGameResponseDto(Long gameId, String choPlayerName, String hanPlayerName) {
+import domain.player.Player;
+
+public record JanggiGameResponseDto(Long gameId, Player choPlayer, Player hanPlayer) {
 }

@@ -1,6 +1,7 @@
 package view;
 
 import domain.CommandOption;
+import domain.TeamType;
 import domain.game.dto.JanggiGameResponseDto;
 import domain.player.Player;
 import domain.position.Position;
@@ -64,13 +65,25 @@ public class InputView {
     public long getInProgressGameId(List<JanggiGameResponseDto> inProgressGames) {
         System.out.printf("진행중인 게임이 %d개 있습니다. 계속 진행할 게임의 번호를 입력해주세요.%n", inProgressGames.size());
         for (JanggiGameResponseDto inProgressGame : inProgressGames) {
-            System.out.printf("%d. %s : %s%n", inProgressGame.gameId(), inProgressGame.choPlayerName(),
-                    inProgressGame.hanPlayerName());
+            System.out.printf("%d. %s : %s %n",
+                    inProgressGame.gameId(),
+                    getPlayerTeamDescription(inProgressGame.choPlayer()),
+                    getPlayerTeamDescription(inProgressGame.hanPlayer()));
         }
-
         int gameId = parseInt(nextLine());
         validateGameId(inProgressGames, gameId);
         return gameId;
+    }
+
+    private String getPlayerTeamDescription(Player player) {
+        String format = "%s (%s나라)";
+        if (player.getTeamType() == TeamType.HAN) {
+            return String.format(format, player.getName(), "한");
+        }
+        if (player.getTeamType() == TeamType.CHO) {
+            return String.format(format, player.getName(), "초");
+        }
+        throw new IllegalStateException("알 수 없는 팀입니다.");
     }
 
     private void validateGameId(List<JanggiGameResponseDto> inProgressGames, int inputGameId) {
