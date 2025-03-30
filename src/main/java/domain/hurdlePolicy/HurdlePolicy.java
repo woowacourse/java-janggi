@@ -4,7 +4,6 @@ import domain.path.Path;
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
 import domain.type.ChessTeam;
-
 import java.util.List;
 
 public interface HurdlePolicy {
