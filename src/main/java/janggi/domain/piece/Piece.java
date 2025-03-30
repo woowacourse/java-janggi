@@ -2,7 +2,6 @@ package janggi.domain.piece;
 
 import janggi.domain.Side;
 import janggi.domain.movement.Position;
-
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;

@@ -3,7 +3,6 @@ package janggi.domain;
 import janggi.common.ErrorMessage;
 import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;

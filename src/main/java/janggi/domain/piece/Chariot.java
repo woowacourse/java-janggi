@@ -5,7 +5,6 @@ import janggi.domain.movement.Direction;
 import janggi.domain.movement.PalaceMovement;
 import janggi.domain.movement.Position;
 import janggi.domain.movement.Vector;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +23,7 @@ public class Chariot extends Piece {
         Set<Position> result = new HashSet<>();
         for (Direction direction : MOVEMENT_DIRECTIONS) {
             Vector vector = direction.getVector();
-            currentPosition.calculateNextPosition(vector)
-                    .ifPresent(movePosition -> searchAvailableMoves(result, pieces, movePosition, vector));
+            currentPosition.calculateNextPosition(vector).ifPresent(movePosition -> searchAvailableMoves(result, pieces, movePosition, vector));
         }
         if (PalaceMovement.isInsidePalace(currentPosition) && PalaceMovement.isCorner(currentPosition)) {
             Set<Position> palaceMovePositions = generatePalaceMovePositions(pieces, currentPosition);
@@ -74,10 +72,8 @@ public class Chariot extends Piece {
             return;
         }
         Position midPosition = currentPosition.moveToNextPosition(vector);
-        if (pieces.containsKey(midPosition)) {
-            if (pieces.get(midPosition).isSameSide(side)) {
-                return;
-            }
+        if (pieces.containsKey(midPosition) && pieces.get(midPosition).isSameSide(side)) {
+            return;
         }
         result.add(midPosition);
         Position finalPosition = midPosition.moveToNextPosition(vector);

@@ -2,7 +2,6 @@ package janggi.domain.movement;
 
 import janggi.common.ErrorMessage;
 import janggi.dto.PositionDto;
-
 import java.util.Objects;
 import java.util.Optional;
 

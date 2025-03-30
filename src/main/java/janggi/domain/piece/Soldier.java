@@ -5,7 +5,6 @@ import janggi.domain.movement.Direction;
 import janggi.domain.movement.PalaceMovement;
 import janggi.domain.movement.Position;
 import janggi.domain.movement.Vector;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
