@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PieceDaoTest {
+    Connection connection = new Connection();
 
     @Disabled
     @DisplayName("기물이 테이블에 제대로 들어가는지 확인합니다.")
@@ -20,7 +21,7 @@ class PieceDaoTest {
                 .getPieces();
 
         for (Piece initialPiece : initialPieces) {
-            PieceDao pieceDao = new PieceDao();
+            PieceDao pieceDao = new PieceDao(connection);
             pieceDao.addPiece(initialPiece);
         }
     }
@@ -32,7 +33,7 @@ class PieceDaoTest {
         List<Piece> expected = PiecesInitializer.initializePieces(InitialElephantSetting.INNER_ELEPHANT)
                 .getPieces();
 
-        PieceDao pieceDao = new PieceDao();
+        PieceDao pieceDao = new PieceDao(connection);
         List<Piece> initialPieces = pieceDao.readAllPiece();
 
         assertThat(initialPieces).isEqualTo(expected);
@@ -42,7 +43,7 @@ class PieceDaoTest {
     @DisplayName("piece 테이블을 데이터를 전체 삭제하는지 확인합니다.")
     @Test
     void deleteAllPieceTest() {
-        PieceDao pieceDao = new PieceDao();
+        PieceDao pieceDao = new PieceDao(connection);
         pieceDao.deleteAllPiece();
     }
 }

@@ -16,10 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PieceDao {
+    private final Connection connection;
+
+    public PieceDao(Connection connection) {
+        this.connection = connection;
+    }
+
     public void addPiece(final Piece piece) {
         final var query = "INSERT INTO piece VALUES(NULL, ?, ? ,?, ?)";
-        try (final var connection = new Connection().getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var conn = connection.getConnection();
+             final var preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, piece.getPieceType().name());
             preparedStatement.setInt(2, piece.getPosition().x());
             preparedStatement.setInt(3, piece.getPosition().y());
@@ -32,8 +38,8 @@ public class PieceDao {
 
     public List<Piece> readAllPiece() {
         final var query = "SELECT * FROM piece";
-        try (final var connection = new Connection().getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var conn = connection.getConnection();
+             final var preparedStatement = conn.prepareStatement(query)) {
             List<Piece> pieces = new ArrayList<>();
             ResultSet resultSet = preparedStatement.executeQuery(query);
 
@@ -84,13 +90,11 @@ public class PieceDao {
 
     public void deleteAllPiece() {
         final var query = "TRUNCATE TABLE piece;";
-        try (final var connection = new Connection().getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var conn = connection.getConnection();
+             final var preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
-
 }
