@@ -19,13 +19,11 @@ import view.OutputView;
 public class JanggiRunner {
     private static final String ROOM_NAME = "GAME_ROOM";
 
-    private final InputView inputView;
-    private final OutputView outputView;
-
-    public JanggiRunner(InputView inputView, OutputView outputView) {
-        this.inputView = inputView;
-        this.outputView = outputView;
-    }
+    private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
+    private final BoardDao boardDao = new BoardDao();
+    private final GameStatusDao gameStatusDao = new GameStatusDao();
+    private final PlayerDao playerDao = new PlayerDao();
 
     public void run() {
         JanggiGame janggiGame = initializeGame();
@@ -55,17 +53,16 @@ public class JanggiRunner {
             outputView.printBoard(janggiGame.getAlivePiecesInfo());
             outputView.printScore(janggiGame.getScoreInfo());
             nowTurn = janggiGame.getTurn();
-            BoardDao boardDao = new BoardDao();
-            boardDao.updateBoard(startPosition, endPosition);
-            GameStatusDao gameStatusDao = new GameStatusDao();
-            gameStatusDao.updateTurn(ROOM_NAME,nowTurn);
+            updateGameStatus(startPosition, endPosition, nowTurn);
         }
     }
 
+    private void updateGameStatus(Position startPosition, Position endPosition, TeamType nowTurn) {
+        boardDao.updateBoard(startPosition, endPosition);
+        gameStatusDao.updateTurn(ROOM_NAME, nowTurn);
+    }
+
     private void deleteData(){
-        BoardDao boardDao = new BoardDao();
-        PlayerDao playerDao = new PlayerDao();
-        GameStatusDao gameStatusDao = new GameStatusDao();
         playerDao.deletePlayer();
         boardDao.deleteBoard();
         gameStatusDao.deleteGame();
@@ -95,7 +92,6 @@ public class JanggiRunner {
     }
 
     private Players createPlayers() {
-        PlayerDao playerDao = new PlayerDao();
         Optional<Players> optionalPlayers = playerDao.findPlayers();
         if(optionalPlayers.isPresent()){
             return optionalPlayers.get();
@@ -108,7 +104,6 @@ public class JanggiRunner {
     }
     
     private Board createBoard(Players players){
-        BoardDao boardDao = new BoardDao();
         Optional<Board> boardOptional = boardDao.findBoard();
         if(boardOptional.isPresent()){
             return boardOptional.get();
@@ -122,7 +117,6 @@ public class JanggiRunner {
     }
 
     private GameStatus createGameStatus(){
-        GameStatusDao gameStatusDao = new GameStatusDao();
         Optional<GameStatus> gameStatusOptional = gameStatusDao.findGameStatusByRoomName(ROOM_NAME);
         if(gameStatusOptional.isPresent()){
             return gameStatusOptional.get();
