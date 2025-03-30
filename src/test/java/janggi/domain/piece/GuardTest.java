@@ -62,9 +62,9 @@ class GuardTest {
     @DisplayName("사는 궁선 내 간선을 통해서 이동이 가능하다")
     @Test
     void move4() {
-        General general = new General(new Position(1, 4), Team.RED);
+        Guard guard = new Guard(new Position(1, 4), Team.RED);
         Position afterPosition = new Position(2, 5);
-        Piece movedGeneral = general.move(pieces, afterPosition);
-        assertThat(movedGeneral.getPosition()).isEqualTo(afterPosition);
+        Piece movedGuard = guard.move(pieces, afterPosition);
+        assertThat(movedGuard.getPosition()).isEqualTo(afterPosition);
     }
 }

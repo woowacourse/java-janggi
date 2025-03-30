@@ -65,8 +65,9 @@ class TurnDaoTest {
         SoftAssertions softly = new SoftAssertions();
         softly.assertThat(turnDao.loadTurn().getTeam()).isEqualTo(Team.RED);
         turnDao.deleteTurn();
-        Assertions.assertThatThrownBy(
+        softly.assertThatThrownBy(
                 () -> turnDao.loadTurn())
             .isInstanceOf(IllegalArgumentException.class);
+        softly.assertAll();
     }
 }
