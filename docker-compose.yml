@@ -9,7 +9,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: janggi
-      MYSQL_USER: user
+      MYSQL_USER: sa
       MYSQL_PASSWORD: password
       TZ: Asia/Seoul
     volumes:
