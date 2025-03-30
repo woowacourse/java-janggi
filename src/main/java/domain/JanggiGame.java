@@ -7,12 +7,12 @@ import domain.pieces.Piece;
 import domain.player.Player;
 import domain.player.Score;
 import domain.player.Team;
+import dto.Choice;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import vo.Choice;
 
 public final class JanggiGame {
 

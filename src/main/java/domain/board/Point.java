@@ -1,8 +1,8 @@
 package domain.board;
 
 import domain.movements.Direction;
+import dto.Choice;
 import java.util.List;
-import vo.Choice;
 
 public record Point(int row, int column) {
 

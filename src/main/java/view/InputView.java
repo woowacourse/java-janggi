@@ -1,11 +1,11 @@
 package view;
 
 import domain.player.Team;
+import dto.Choice;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import vo.Choice;
 
 public final class InputView {
     private static final Scanner scanner = new Scanner(System.in);

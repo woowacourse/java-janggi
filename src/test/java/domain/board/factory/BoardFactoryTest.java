@@ -10,6 +10,7 @@ import domain.board.Point;
 import domain.pieces.Piece;
 import domain.pieces.PieceDefinition;
 import domain.player.Player;
+import dto.Choice;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -17,7 +18,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import vo.Choice;
 
 public final class BoardFactoryTest {
 

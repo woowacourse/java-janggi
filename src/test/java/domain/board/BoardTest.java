@@ -12,6 +12,7 @@ import domain.pieces.Piece;
 import domain.pieces.Soldier;
 import domain.player.Player;
 import domain.player.Team;
+import dto.Choice;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -19,7 +20,6 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import vo.Choice;
 
 public final class BoardTest {
 

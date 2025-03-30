@@ -60,10 +60,18 @@ public final class PlayerDAO {
             preparedStatement.setInt(1, id);
 
             final ResultSet resultSet = preparedStatement.executeQuery();
-            return convertResultSetToPlayer(resultSet);
+            if (resultSet.next()) {
+                return new Player(
+                        resultSet.getInt("id"),
+                        Team.valueOf(resultSet.getString("team")),
+                        new Score(resultSet.getDouble("score")),
+                        resultSet.getBoolean("is_turn")
+                );
+            }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+        throw new RuntimeException("Player 정보를 찾을 수 없습니다디: " + id);
     }
 
     public List<Player> findAllByGameId(final int gameId) {
@@ -98,21 +106,14 @@ public final class PlayerDAO {
     private List<Player> convertResultSetToPlayers(ResultSet resultSet) throws SQLException {
         final List<Player> players = new ArrayList<>();
         while (resultSet.next()) {
-            Player player = convertResultSetToPlayer(resultSet);
-            players.add(player);
-        }
-        return players;
-    }
-
-    private Player convertResultSetToPlayer(final ResultSet resultSet) throws SQLException {
-        if (resultSet.next()) {
-            return new Player(
+            final Player player = new Player(
                     resultSet.getInt("id"),
                     Team.valueOf(resultSet.getString("team")),
                     new Score(resultSet.getDouble("score")),
                     resultSet.getBoolean("is_turn")
             );
+            players.add(player);
         }
-        return null;
+        return players;
     }
 }

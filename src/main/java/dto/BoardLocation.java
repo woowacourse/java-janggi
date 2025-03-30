@@ -1,4 +1,4 @@
-package vo;
+package dto;
 
 import domain.board.Point;
 import domain.pieces.PieceDefinition;

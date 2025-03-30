@@ -5,6 +5,8 @@ import domain.board.Board;
 import domain.board.Point;
 import domain.player.Player;
 import domain.player.Team;
+import dto.BoardLocations;
+import dto.Choice;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,8 +16,6 @@ import java.util.function.Supplier;
 import repository.DAOService;
 import view.InputView;
 import view.OutputView;
-import vo.BoardLocations;
-import vo.Choice;
 
 public final class JanggiController {
     private final InputView inputView;

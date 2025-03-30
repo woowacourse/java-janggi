@@ -15,13 +15,13 @@ import domain.pieces.Piece;
 import domain.pieces.Soldier;
 import domain.player.Player;
 import domain.player.Team;
+import dto.Choice;
 import exceptions.JanggiGameRuleWarningException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import vo.Choice;
 
 public final class BoardFactory {
     private static final int MAX_SOLDIER_COUNT = 5;

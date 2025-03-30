@@ -2,14 +2,14 @@ package repository;
 
 import domain.board.Point;
 import domain.pieces.PieceDefinition;
+import dto.BoardLocation;
+import dto.BoardLocations;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import vo.BoardLocation;
-import vo.BoardLocations;
 
 public final class BoardLocationDAO {
     private final Connector connector;
@@ -95,16 +95,13 @@ public final class BoardLocationDAO {
     }
 
     private BoardLocation convertResultSetToLocation(final ResultSet resultSet) throws SQLException {
-        if (resultSet.next()) {
-            final Point point = new Point(resultSet.getInt("location_row"),
-                    resultSet.getInt("location_column"));
-            final PieceDefinition pieceDefinition = PieceDefinition.valueOf(resultSet.getString("location_piece"));
-            return new BoardLocation(
-                    point,
-                    pieceDefinition,
-                    resultSet.getInt("player_id")
-            );
-        }
-        throw new NullPointerException("Location 값이 잘못되었습니다.");
+        final Point point = new Point(resultSet.getInt("location_row"),
+                resultSet.getInt("location_column"));
+        final PieceDefinition pieceDefinition = PieceDefinition.valueOf(resultSet.getString("location_piece"));
+        return new BoardLocation(
+                point,
+                pieceDefinition,
+                resultSet.getInt("player_id")
+        );
     }
 }

@@ -3,9 +3,9 @@ package repository;
 import domain.board.Point;
 import domain.player.Player;
 import domain.player.Team;
+import dto.BoardLocations;
+import dto.Choice;
 import java.util.List;
-import vo.BoardLocations;
-import vo.Choice;
 
 public final class DAOService {
 
