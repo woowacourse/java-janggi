@@ -22,6 +22,13 @@ public enum Team {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 잘못된 팀 값입니다."));
     }
 
+    public static Team getOtherTeam(final Team team) {
+        if (team == HAN) {
+            return CHO;
+        }
+        return HAN;
+    }
+
     public String getName() {
         return name;
     }

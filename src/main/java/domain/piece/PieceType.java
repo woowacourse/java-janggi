@@ -1,5 +1,7 @@
 package domain.piece;
 
+import java.util.Arrays;
+
 public enum PieceType {
 
     CANNON("C", 7),
@@ -17,6 +19,13 @@ public enum PieceType {
     PieceType(final String name, final int score) {
         this.name = name;
         this.score = score;
+    }
+
+    public static PieceType getValue(String pieceType) {
+        return Arrays.stream(values())
+                .filter(type -> type.name().equals(pieceType))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 잘못된 종류의 기물입니다."));
     }
 
     public String getName() {
