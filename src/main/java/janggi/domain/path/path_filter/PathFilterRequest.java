@@ -3,8 +3,9 @@ package janggi.domain.path.path_filter;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 public record PathFilterRequest(
         Piece piece,
@@ -12,17 +13,15 @@ public record PathFilterRequest(
         List<Piece> enemyPieces
 ) {
     public List<Piece> allPieces() {
-        final List<Piece> pieces = new ArrayList<>();
-        pieces.addAll(allyPieces);
-        pieces.addAll(enemyPieces);
-        return pieces;
+        return Stream.of(allyPieces, enemyPieces)
+                .flatMap(Collection::stream)
+                .toList();
     }
 
     public List<Position> allPositions() {
-        final List<Position> positions = new ArrayList<>();
-        positions.addAll(allyPieces.stream().map(Piece::getPosition).toList());
-        positions.addAll(enemyPieces.stream().map(Piece::getPosition).toList());
-        return positions;
+        return allPieces().stream()
+                .map(Piece::getPosition)
+                .toList();
     }
 
     public List<Position> sameTypePositions() {
