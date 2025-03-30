@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import util.DBConnectionUtil;
+import util.H2ConnectionUtil;
 
 class JanggiManagerTest {
 
@@ -44,7 +44,7 @@ class JanggiManagerTest {
 
     @BeforeEach
     void setup() throws SQLException {
-        connection = DBConnectionUtil.getConnection();
+        connection = H2ConnectionUtil.getConnection();
         connection.setAutoCommit(false);
         janggiManager = new JanggiManager(connection);
     }

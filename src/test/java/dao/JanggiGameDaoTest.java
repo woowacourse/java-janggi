@@ -14,7 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import util.DBConnectionUtil;
+import util.H2ConnectionUtil;
 
 class JanggiGameDaoTest {
 
@@ -23,7 +23,8 @@ class JanggiGameDaoTest {
 
     @BeforeEach
     void setup() throws SQLException {
-        connection = DBConnectionUtil.getConnection();
+        connection = H2ConnectionUtil.getConnection();
+        H2ConnectionUtil.initializeTable(connection);
         connection.setAutoCommit(false);
         janggiGameDao = new JanggiGameDao(connection);
     }
