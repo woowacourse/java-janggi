@@ -2,12 +2,15 @@ package janggi.game;
 
 import janggi.dao.GameDao;
 import janggi.setting.CampType;
+import janggi.setting.GameState;
 import janggi.setting.PieceAssignType;
 import janggi.value.Position;
 import janggi.view.GameMenuAnswer;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.TurnMenuAnswer;
+import java.util.List;
+import java.util.Optional;
 
 public class JanggiGame {
 
@@ -23,13 +26,29 @@ public class JanggiGame {
     }
 
     public void start() {
-        GameMenuAnswer gameMenuAnswer = readGameMenuAnswer();
-        if (gameMenuAnswer == GameMenuAnswer.ONE) {
-            JanggiBoard janggiBoard = prepareNewGame();
-            playGame(janggiBoard);
-        }
-        if (gameMenuAnswer == GameMenuAnswer.TWO) {
-
+        while (true) {
+            GameMenuAnswer gameMenuAnswer = readGameMenuAnswer();
+            if (gameMenuAnswer == GameMenuAnswer.ONE) {
+                JanggiBoard janggiBoard = prepareNewGame();
+                playGame(janggiBoard);
+                gameDao.updateGameInformationToEnd(gameInformation.getGameId());
+                break;
+            }
+            if (gameMenuAnswer == GameMenuAnswer.TWO) {
+                List<GameInformation> allGameInformation = gameDao.findAllGameInformation();
+                Optional<GameInformation> optionalGameInformation = selectGame(allGameInformation);
+                if (optionalGameInformation.isEmpty()) {
+                    continue;
+                }
+                this.gameInformation = optionalGameInformation.get();
+                JanggiBoard janggiBoard = prepareExistingGame();
+                playGame(janggiBoard);
+                gameDao.updateGameInformationToEnd(gameInformation.getGameId());
+                break;
+            }
+            if (gameMenuAnswer == GameMenuAnswer.QUIT) {
+                break;
+            }
         }
     }
 
@@ -39,13 +58,22 @@ public class JanggiGame {
         PieceAssignType choAnswer = readPieceAssignType(CampType.CHO);
         PieceAssignType hanAnswer = readPieceAssignType(CampType.HAN);
         JanggiBoard janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
-        printJanggiBoardState(janggiBoard);
-        int gameId = gameDao.addNewGame(gameTitle, choAnswer, hanAnswer);
-        gameInformation = new GameInformation(gameId, gameTitle);
+        int gameId = gameDao.addNewGameInformation(gameTitle, choAnswer, hanAnswer);
+        gameInformation = new GameInformation(gameId, gameTitle, choAnswer, hanAnswer, GameState.PLAY);
+        return janggiBoard;
+    }
+
+    private JanggiBoard prepareExistingGame() {
+        JanggiBoard janggiBoard = new JanggiBoard(
+                gameInformation.getChoAssignType(),
+                gameInformation.getHanAssignType());
+        List<MovePieceCommand> commands = gameDao.finaAllMovePieceCommand(gameInformation.getGameId());
+        commands.forEach(janggiBoard::movePiece);
         return janggiBoard;
     }
 
     private void playGame(JanggiBoard janggiBoard) {
+        printJanggiBoardState(janggiBoard);
         CampType campTypeInturn = CampType.HAN;
         while (true) {
             campTypeInturn = campTypeInturn.getEnemyCampType();
@@ -66,13 +94,17 @@ public class JanggiGame {
         printGameResult(janggiBoard);
     }
 
+    private void endGame() {
+
+    }
+
     private void movePiece(JanggiBoard janggiBoard, CampType campType) {
         while (true) {
             try {
                 outputView.writeTurn(campType);
                 MovePieceCommand movePieceCommand = readMoveInformation(campType);
                 janggiBoard.movePiece(movePieceCommand);
-                gameDao.addMovePieceCommand(gameInformation.gameId(), movePieceCommand);
+                gameDao.addMovePieceCommand(gameInformation.getGameId(), movePieceCommand);
                 printJanggiBoardState(janggiBoard);
                 return;
             } catch (IllegalArgumentException exception) {
@@ -89,6 +121,21 @@ public class JanggiGame {
                 outputView.printExceptionMessage(exception.getMessage());
             }
         }
+    }
+
+    private Optional<GameInformation> selectGame(List<GameInformation> gameInformations) {
+        while (true) {
+            try {
+                int command = inputView.selectGame(gameInformations);
+                if (gameInformations.size() <= command) {
+                    break;
+                }
+                return Optional.of(gameInformations.get(command));
+            } catch (IllegalArgumentException exception) {
+                outputView.printExceptionMessage(exception.getMessage());
+            }
+        }
+        return Optional.empty();
     }
 
     private String readNewGameTitle() {
@@ -122,9 +169,15 @@ public class JanggiGame {
     }
 
     private MovePieceCommand readMoveInformation(CampType campType) {
-        Position movedPiecePosition = inputView.readMovedPiecePosition();
-        Position destination = inputView.readDestinationPosition();
-        return new MovePieceCommand(campType, movedPiecePosition, destination);
+        while (true) {
+            try {
+                Position movedPiecePosition = inputView.readMovedPiecePosition();
+                Position destination = inputView.readDestinationPosition();
+                return new MovePieceCommand(campType, movedPiecePosition, destination);
+            } catch (IllegalArgumentException exception) {
+                outputView.printExceptionMessage(exception.getMessage());
+            }
+        }
     }
 
     private void printJanggiBoardState(JanggiBoard board) {

@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.game.GameInformation;
 import janggi.setting.CampType;
 import janggi.setting.PieceAssignType;
 import janggi.value.Position;
@@ -20,6 +21,24 @@ public class InputView {
         System.out.println();
         return gameMenuAnswer;
     }
+
+    public int selectGame(List<GameInformation> gameInformations) {
+        System.out.println("이어서 할 게임을 선택해주세요.");
+        int index;
+        for (index = 0; index < gameInformations.size(); index++) {
+            String content = String.format("%d. %s", index, gameInformations.get(index).getGameTitle());
+            System.out.println(content);
+        }
+        System.out.println(index + ". 뒤로가기");
+        try {
+            int input = Integer.parseInt(scanner.nextLine());
+            System.out.println();
+            return input;
+        } catch (NumberFormatException exception) {
+            throw new IllegalArgumentException("[ERROR] 적절하지 않은 입력값입니다.");
+        }
+    }
+
 
     public String readNewGameTitle() {
         System.out.println("생성할 게임의 이름을 입력해주세요.(50자 이내)");
