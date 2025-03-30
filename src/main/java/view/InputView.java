@@ -12,18 +12,24 @@ public class InputView {
     }
 
     public boolean readGameSelection() {
+        System.out.println();
         System.out.println("""
                 진행 중인 게임이 존재합니다.
                 1. 진행 중인 게임 선택
                 2. 새로운 게임 만들기
-                번호를 선택해 입력해주세요.
-                """);
+                번호를 선택해 입력해주세요.""");
         String command = console.nextLine();
-        System.out.println();
         return command.equals("1");
     }
 
+    public String readCreateGameName() {
+        System.out.println();
+        System.out.println("생성할 게임 이름을 입력하세요.");
+        return console.nextLine();
+    }
+
     public String readGameName() {
+        System.out.println();
         System.out.println("진행할 게임 이름을 입력하세요.");
         return console.nextLine();
     }

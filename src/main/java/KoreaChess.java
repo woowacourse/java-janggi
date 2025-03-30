@@ -66,6 +66,8 @@ public class KoreaChess {
 
     private void playGame(final Game game) {
         Board board = game.getBoard();
+        outputView.printBoard(board);
+
         Player han = board.getHanPlayer();
         Player cho = board.getChoPlayer();
 

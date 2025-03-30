@@ -36,7 +36,7 @@ public class OutputView {
     public void printGameList(final List<String> gameNames) {
         System.out.println("===== 진행중인 게임 목록 =====");
         for (int i = 1; i <= gameNames.size(); i++) {
-            System.out.println(i + gameNames.get(i - 1));
+            System.out.println(i + " : " + gameNames.get(i - 1));
         }
         System.out.println("===========================");
     }

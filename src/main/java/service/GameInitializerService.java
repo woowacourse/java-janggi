@@ -40,7 +40,7 @@ public class GameInitializerService {
     }
 
     public Game initializeGame() {
-        String gameName = "Game";
+        String gameName = inputView.readCreateGameName();
 
         Player han = new Player(Team.HAN, new Score(0));
         Player cho = new Player(Team.CHO, new Score(0));
