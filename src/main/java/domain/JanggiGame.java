@@ -1,7 +1,10 @@
 package domain;
 
 import domain.boardgenerator.BoardGenerator;
+import domain.dao.GameDao;
 import domain.piece.Piece;
+import domain.piece.Position;
+import domain.piece.Team;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +13,19 @@ import java.util.stream.Collectors;
 public class JanggiGame {
 
     private final JanggiBoard janggiBoard;
-    private Team turn;
+    private final GameDao gameDao;
 
-    public JanggiGame(BoardGenerator boardGenerator) {
-        this.janggiBoard = new JanggiBoard(boardGenerator);
-        this.turn = Team.CHO;
+    private JanggiGame(Long id, JanggiBoard board) {
+        this.janggiBoard = board;
+        this.gameDao = new GameDao(id);
+    }
+
+    public static JanggiGame createById(Long id) {
+        return new JanggiGame(id, new JanggiBoard(id));
+    }
+
+    public static JanggiGame initJanggiGame(Long gameId, BoardGenerator boardGenerator) {
+        return new JanggiGame(gameId, JanggiBoard.initBoard(boardGenerator, gameId));
     }
 
     public void move(List<Integer> startRowAndColumn, List<Integer> targetRowAndColumn) {
@@ -26,7 +37,8 @@ public class JanggiGame {
     }
 
     private void nextTurn() {
-        turn = this.turn.getEnemy();
+        Team thisTurn = gameDao.findTurn();
+        gameDao.changeTurn(thisTurn.getEnemy());
     }
 
     public boolean isEnd() {
@@ -38,7 +50,7 @@ public class JanggiGame {
 
     private void validateSelectedPiece(Position startPosition, Position targetPosition) {
         Piece selectedPiece = janggiBoard.findSelectedPiece(startPosition);
-        if (!selectedPiece.isTeam(turn)) {
+        if (!selectedPiece.isTeam(getThisTurnTeam())) {
             throw new IllegalArgumentException("자신의 말만 움직일 수 있습니다.");
         }
         if (startPosition.equals(targetPosition)) {
@@ -47,7 +59,7 @@ public class JanggiGame {
     }
 
     public Team getThisTurnTeam() {
-        return turn;
+        return gameDao.findTurn();
     }
 
     public Map<Team, Double> calculateScore() {

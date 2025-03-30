@@ -3,12 +3,10 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.piece.Cha;
-import domain.piece.Gung;
-import domain.piece.Ma;
-import domain.piece.Pawn;
 import domain.piece.Piece;
-import domain.piece.Sang;
+import domain.piece.PieceType;
+import domain.piece.Position;
+import domain.piece.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +20,12 @@ public class JanggiGameTest {
     void test2() {
         // given
         List<Piece> beforeBoard = new ArrayList<>();
-        Cha choCha = new Cha(Team.CHO, new Position(1, 1));
+        Piece choCha = new Piece(Team.CHO, PieceType.CHA, new Position(1, 1));
         beforeBoard.add(choCha);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard));
+        JanggiGame game = JanggiGame.initJanggiGame(1L, new FakeBoardGenerator(beforeBoard));
 
         List<Piece> afterBoard = new ArrayList<>();
-        afterBoard.add(new Cha(Team.CHO, new Position(2, 1)));
+        afterBoard.add(new Piece(Team.CHO, PieceType.CHA, new Position(2, 1)));
 
         // when
         game.move(List.of(1, 1), List.of(2, 1));
@@ -40,9 +38,9 @@ public class JanggiGameTest {
     @Test
     void test3() {
         List<Piece> beforeBoard = new ArrayList<>();
-        Cha choCha = new Cha(Team.CHO, new Position(1, 1));
+        Piece choCha = new Piece(Team.CHO, PieceType.CHA, new Position(1, 1));
         beforeBoard.add(choCha);
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(beforeBoard));
+        JanggiGame game = JanggiGame.initJanggiGame(1L, new FakeBoardGenerator(beforeBoard));
 
         assertThatThrownBy(() -> game.move(List.of(1, 1), List.of(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -54,9 +52,9 @@ public class JanggiGameTest {
     void test5() {
         // given
         List<Piece> board = new ArrayList<>();
-        board.add(new Gung(Team.HAN, new Position(1, 1)));
-        board.add(new Gung(Team.CHO, new Position(1, 2)));
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(board));
+        board.add(new Piece(Team.HAN, PieceType.GUNG, new Position(1, 1)));
+        board.add(new Piece(Team.CHO, PieceType.GUNG, new Position(1, 2)));
+        JanggiGame game = JanggiGame.initJanggiGame(1L, new FakeBoardGenerator(board));
 
         // when
         boolean actual = game.isEnd();
@@ -70,8 +68,8 @@ public class JanggiGameTest {
     void test6() {
         // given
         List<Piece> board = new ArrayList<>();
-        board.add(new Gung(Team.HAN, new Position(1, 1)));
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(board));
+        board.add(new Piece(Team.HAN, PieceType.GUNG, new Position(1, 1)));
+        JanggiGame game = JanggiGame.initJanggiGame(1L, new FakeBoardGenerator(board));
 
         // when
         boolean actual = game.isEnd();
@@ -84,13 +82,13 @@ public class JanggiGameTest {
     void 모든팀의_점수을_계산할_수_있다() {
         // given
         List<Piece> board = new ArrayList<>();
-        board.add(new Pawn(Team.CHO, new Position(1, 1)));
-        board.add(new Ma(Team.CHO, new Position(1, 2)));
-        board.add(new Sang(Team.CHO, new Position(1, 3)));
-        board.add(new Pawn(Team.HAN, new Position(2, 1)));
-        board.add(new Gung(Team.HAN, new Position(2, 2)));
-        board.add(new Sang(Team.HAN, new Position(2, 3)));
-        JanggiGame game = new JanggiGame(new FakeBoardGenerator(board));
+        board.add(new Piece(Team.CHO, PieceType.PAWN, new Position(1, 1)));
+        board.add(new Piece(Team.CHO, PieceType.MA, new Position(1, 2)));
+        board.add(new Piece(Team.CHO, PieceType.SANG, new Position(1, 3)));
+        board.add(new Piece(Team.HAN, PieceType.PAWN, new Position(2, 1)));
+        board.add(new Piece(Team.HAN, PieceType.GUNG, new Position(2, 2)));
+        board.add(new Piece(Team.HAN, PieceType.SANG, new Position(2, 3)));
+        JanggiGame game = JanggiGame.initJanggiGame(1L, new FakeBoardGenerator(board));
 
         // when
         Map<Team, Double> teamDoubleMap = game.calculateScore();

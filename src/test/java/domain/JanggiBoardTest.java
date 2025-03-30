@@ -3,13 +3,10 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.piece.Cha;
-import domain.piece.Gung;
-import domain.piece.Ma;
-import domain.piece.Pawn;
 import domain.piece.Piece;
-import domain.piece.Po;
-import domain.piece.Sang;
+import domain.piece.PieceType;
+import domain.piece.Position;
+import domain.piece.Team;
 import java.util.ArrayList;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -21,16 +18,16 @@ public class JanggiBoardTest {
 
     @Test
     void 장기말은_이동시_목표_좌표로_위치가_바뀐다() {
-        Pawn pawn = new Pawn(Team.HAN, new Position(4, 1));
+        Piece pawn = new Piece(Team.HAN, PieceType.PAWN, new Position(4, 1));
         // given
         List<Piece> beforeBoard = new ArrayList<>();
         beforeBoard.add(pawn);
         List<Piece> afterBoard = new ArrayList<>();
-        Pawn pawn2 = new Pawn(Team.HAN, new Position(5, 1));
+        Piece pawn2 = new Piece(Team.HAN, PieceType.PAWN, new Position(5, 1));
         afterBoard.add(pawn2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(boardGenerator, 1L);
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(5, 1);
@@ -45,19 +42,19 @@ public class JanggiBoardTest {
     @Test
     void 최종_좌표에_상대_말이_있으면_상대말을_없애고_해당_위치로_이동한다() {
         //given
-        Cha choCha = new Cha(Team.CHO, new Position(4, 1));
-        Cha hanCha = new Cha(Team.HAN, new Position(8, 1));
+        Piece choCha = new Piece(Team.CHO, PieceType.CHA, new Position(4, 1));
+        Piece hanCha = new Piece(Team.HAN, PieceType.CHA, new Position(8, 1));
 
         List<Piece> beforeBoard = new ArrayList<>();
         beforeBoard.add(choCha);
         beforeBoard.add(hanCha);
 
         List<Piece> afterBoard = new ArrayList<>();
-        Cha choCha2 = new Cha(Team.CHO, new Position(8, 1));
+        Piece choCha2 = new Piece(Team.CHO, PieceType.CHA, new Position(8, 1));
         afterBoard.add(choCha2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(boardGenerator, 1L);
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(8, 1);
@@ -72,15 +69,15 @@ public class JanggiBoardTest {
     @Test
     void 최종_좌표에_아군_말이_있으면_위치로_이동하지_못한다() {
         //given
-        Cha choCha1 = new Cha(Team.CHO, new Position(4, 1));
-        Cha choCha2 = new Cha(Team.CHO, new Position(8, 1));
+        Piece choCha1 = new Piece(Team.CHO, PieceType.CHA, new Position(4, 1));
+        Piece choCha2 = new Piece(Team.CHO, PieceType.CHA, new Position(8, 1));
 
         List<Piece> beforeBoard = new ArrayList<>();
         beforeBoard.add(choCha1);
         beforeBoard.add(choCha2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(boardGenerator, 1L);
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(8, 1);
@@ -94,13 +91,13 @@ public class JanggiBoardTest {
     @Test
     void 포가_건너뛸_말이_없으면_예외를_발생시킨다() {
         //given
-        Po choPo = new Po(Team.CHO, new Position(4, 1));
+        Piece choPo = new Piece(Team.CHO, PieceType.PO, new Position(4, 1));
 
         List<Piece> beforeBoard = new ArrayList<>();
         beforeBoard.add(choPo);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(boardGenerator, 1L);
 
         Position startPosition = new Position(4, 1);
         Position targetPosition = new Position(8, 1);
@@ -114,15 +111,15 @@ public class JanggiBoardTest {
     @Test
     void 장기말_이동중_다른_장기말을_만나면_예외를_발생한다() {
         //given
-        Cha choCha = new Cha(Team.CHO, new Position(1, 1));
-        Pawn choPawn = new Pawn(Team.CHO, new Position(4, 1));
+        Piece choCha = new Piece(Team.CHO, PieceType.CHA, new Position(1, 1));
+        Piece choPawn = new Piece(Team.CHO, PieceType.CHA, new Position(4, 1));
 
         List<Piece> beforeBoard = new ArrayList<>();
         beforeBoard.add(choCha);
         beforeBoard.add(choPawn);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(boardGenerator, 1L);
 
         Position startPosition = new Position(1, 1);
         Position targetPosition = new Position(8, 1);
@@ -136,15 +133,15 @@ public class JanggiBoardTest {
     @Test
     void 뛰어넘을_장기말이_포라면_예외를_발생한다() {
         //given
-        Po choPo1 = new Po(Team.CHO, new Position(8, 2));
-        Po choPo2 = new Po(Team.CHO, new Position(8, 8));
+        Piece choPo1 = new Piece(Team.CHO, PieceType.PO, new Position(8, 2));
+        Piece choPo2 = new Piece(Team.CHO, PieceType.PO, new Position(8, 8));
 
         List<Piece> beforeBoard = new ArrayList<>();
         beforeBoard.add(choPo1);
         beforeBoard.add(choPo2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(boardGenerator, 1L);
 
         Position startPosition = new Position(8, 2);
         Position targetPosition = new Position(8, 9);
@@ -158,9 +155,9 @@ public class JanggiBoardTest {
     @Test
     void 목표_좌표의_장기말이_포라면_예외를_발생한다() {
         //given
-        Po choPo1 = new Po(Team.CHO, new Position(8, 2));
-        Po choPo2 = new Po(Team.HAN, new Position(8, 8));
-        Gung choGung = new Gung(Team.HAN, new Position(8, 5));
+        Piece choPo1 = new Piece(Team.CHO, PieceType.PO, new Position(8, 2));
+        Piece choPo2 = new Piece(Team.HAN, PieceType.PO, new Position(8, 8));
+        Piece choGung = new Piece(Team.HAN, PieceType.GUNG, new Position(8, 5));
 
         List<Piece> beforeBoard = new ArrayList<>();
         beforeBoard.add(choPo1);
@@ -168,7 +165,7 @@ public class JanggiBoardTest {
         beforeBoard.add(choPo2);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(boardGenerator, 1L);
 
         Position startPosition = new Position(8, 2);
         Position targetPosition = new Position(8, 8);
@@ -182,20 +179,20 @@ public class JanggiBoardTest {
     @Test
     void 포는_장기말을_뛰어넘어_이동한다() {
         //given
-        Po choPo = new Po(Team.CHO, new Position(8, 2));
-        Gung choGung = new Gung(Team.CHO, new Position(8, 5));
+        Piece choPo = new Piece(Team.CHO, PieceType.PO, new Position(8, 2));
+        Piece choGung = new Piece(Team.CHO, PieceType.GUNG, new Position(8, 5));
 
         List<Piece> beforeBoard = new ArrayList<>();
 
         List<Piece> afterBoard = new ArrayList<>();
-        Po choPo2 = new Po(Team.CHO, new Position(8, 8));
+        Piece choPo2 = new Piece(Team.CHO, PieceType.PO, new Position(8, 8));
         beforeBoard.add(choPo);
         beforeBoard.add(choGung);
         afterBoard.add(choPo2);
         afterBoard.add(choGung);
 
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(beforeBoard);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(boardGenerator, 1L);
 
         Position startPosition = new Position(8, 2);
         Position targetPosition = new Position(8, 8);
@@ -215,9 +212,9 @@ public class JanggiBoardTest {
     void 특정_팀의_궁이_생존했는지_알_수_있다(Team gungTeam, Team team, boolean expected) {
         //given
         List<Piece> board = new ArrayList<>();
-        board.add(new Gung(gungTeam, new Position(1, 1)));
+        board.add(new Piece(gungTeam, PieceType.GUNG, new Position(1, 1)));
         FakeBoardGenerator boardGenerator = new FakeBoardGenerator(board);
-        JanggiBoard janggiBoard = new JanggiBoard(boardGenerator);
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(boardGenerator, 1L);
 
         // when
         boolean actual = janggiBoard.existGung(team);
@@ -228,7 +225,7 @@ public class JanggiBoardTest {
     @Test
     void 시작_위치에_기물이_존재하지_않는_경우_예외를_발생시킨다() {
         List<Piece> board = new ArrayList<>();
-        JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(new FakeBoardGenerator(board), 1L);
 
         assertThatThrownBy(() -> janggiBoard.move(new Position(1, 1), new Position(1, 2)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -238,9 +235,9 @@ public class JanggiBoardTest {
     @Test
     void 시작_위치에_있는_기물을_찾는다() {
         List<Piece> board = new ArrayList<>();
-        Pawn pawn = new Pawn(Team.CHO, new Position(1, 1));
+        Piece pawn = new Piece(Team.CHO, PieceType.PAWN, new Position(1, 1));
         board.add(pawn);
-        JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(new FakeBoardGenerator(board), 1L);
 
         Piece selectedPiece = janggiBoard.findSelectedPiece(new Position(1, 1));
 
@@ -250,7 +247,7 @@ public class JanggiBoardTest {
     @Test
     void 시작_위치가_기물이_없는_위치라면_예외를_발생시킨다() {
         List<Piece> board = new ArrayList<>();
-        JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(new FakeBoardGenerator(board), 1L);
 
         assertThatThrownBy(() -> janggiBoard.findSelectedPiece(new Position(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -264,14 +261,14 @@ public class JanggiBoardTest {
     })
     void 특정팀의_기물의_점수합을_계산할_수_있다(Team team, int score) {
         List<Piece> board = new ArrayList<>();
-        board.add(new Pawn(Team.CHO, new Position(1, 1)));
-        board.add(new Ma(Team.CHO, new Position(1, 2)));
-        board.add(new Sang(Team.CHO, new Position(1, 3)));
-        board.add(new Pawn(Team.HAN, new Position(2, 1)));
-        board.add(new Gung(Team.HAN, new Position(2, 2)));
-        board.add(new Sang(Team.HAN, new Position(2, 3)));
+        board.add(new Piece(Team.CHO, PieceType.PAWN, new Position(1, 1)));
+        board.add(new Piece(Team.CHO, PieceType.MA, new Position(1, 2)));
+        board.add(new Piece(Team.CHO, PieceType.SANG, new Position(1, 3)));
+        board.add(new Piece(Team.HAN, PieceType.PAWN, new Position(2, 1)));
+        board.add(new Piece(Team.HAN, PieceType.GUNG, new Position(2, 2)));
+        board.add(new Piece(Team.HAN, PieceType.SANG, new Position(2, 3)));
 
-        JanggiBoard janggiBoard = new JanggiBoard(new FakeBoardGenerator(board));
+        JanggiBoard janggiBoard = JanggiBoard.initBoard(new FakeBoardGenerator(board), 1L);
 
         int scoreSum = janggiBoard.calculateTeamScore(team);
 

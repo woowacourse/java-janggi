@@ -2,12 +2,13 @@ package domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import domain.piece.Team;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class TeamTest {
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "{0}의 적팀은 {1}다")
     @CsvSource({
             "CHO, HAN", "HAN, CHO"
     })

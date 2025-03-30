@@ -1,7 +1,7 @@
 package controller;
 
+import domain.GameRooms;
 import domain.JanggiGame;
-import domain.boardgenerator.JanggiBoardGenerator;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -17,7 +17,8 @@ public class JanggiController {
     }
 
     public void run() {
-        JanggiGame game = new JanggiGame(new JanggiBoardGenerator());
+        GameRooms gameRooms = new GameRooms();
+        JanggiGame game = retry(() -> startGame(gameRooms));
         outputView.printJanggiBoard(game);
         while (!game.isEnd()) {
             Command command = retry(() -> Command.find(inputView.readCommand(game.getThisTurnTeam())));
@@ -34,6 +35,18 @@ public class JanggiController {
         if (game.isEnd()) {
             outputView.printGameEnd();
         }
+    }
+
+    private JanggiGame startGame(GameRooms gameRooms) {
+        if (gameRooms.isEmpty()) {
+            return gameRooms.createRoom(inputView.readNewRoomName());
+        }
+        NewOrContinue newOrContinue = NewOrContinue.find(inputView.readNewOrContinueGame());
+        if (newOrContinue == NewOrContinue.NEW) {
+            return gameRooms.createRoom(inputView.readNewRoomName());
+        }
+        outputView.printAllRoomNames(gameRooms.findAllRoomNames());
+        return gameRooms.findByName(inputView.readRoomName());
     }
 
     private <T> T retry(Supplier<T> supplier) {

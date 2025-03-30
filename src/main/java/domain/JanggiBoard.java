@@ -1,18 +1,29 @@
 package domain;
 
 import domain.boardgenerator.BoardGenerator;
-import domain.piece.Gung;
+import domain.dao.PieceDao;
 import domain.piece.Piece;
-import domain.piece.Po;
+import domain.piece.PieceType;
+import domain.piece.Position;
+import domain.piece.Team;
 import java.util.List;
 import java.util.Optional;
 
 public class JanggiBoard {
 
-    private final List<Piece> board;
+    private final PieceDao pieceDao;
 
-    public JanggiBoard(BoardGenerator boardGenerator) {
-        this.board = boardGenerator.generateBoard();
+    private JanggiBoard(BoardGenerator generator, Long gameId) {
+        pieceDao = new PieceDao(gameId);
+        pieceDao.addAll(generator.generateBoard());
+    }
+
+    public JanggiBoard(Long gameId) {
+        pieceDao = new PieceDao(gameId);
+    }
+
+    public static JanggiBoard initBoard(BoardGenerator generator, Long gameId) {
+        return new JanggiBoard(generator, gameId);
     }
 
     public void move(final Position startPosition, final Position targetPosition) {
@@ -21,12 +32,13 @@ public class JanggiBoard {
         List<Position> path = selectedPiece.calculatePath(startPosition, targetPosition);
         validatePath(path, selectedPiece, targetPiece);
 
-        targetPiece.ifPresent(board::remove);
+        targetPiece.ifPresent((piece) -> pieceDao.removeByPosition(targetPosition));
+        pieceDao.changePosition(startPosition, targetPosition);
         selectedPiece.moveTo(targetPosition);
     }
 
     public int calculateTeamScore(Team team) {
-        return board.stream().filter(piece -> piece.isTeam(team)).mapToInt(Piece::getScore).sum();
+        return pieceDao.findAll().stream().filter(piece -> piece.isTeam(team)).mapToInt(Piece::getScore).sum();
     }
 
     public Piece findSelectedPiece(Position startPosition) {
@@ -35,10 +47,10 @@ public class JanggiBoard {
     }
 
     private void validatePath(List<Position> path, Piece selectedPiece, Optional<Piece> targetPiece) {
-        if (selectedPiece instanceof Po) {
+        if (selectedPiece.isType(PieceType.PO)) {
             validatePoRule(path, targetPiece);
         }
-        if (!(selectedPiece instanceof Po)) {
+        if (!(selectedPiece.isType(PieceType.PO))) {
             validateEmptyPath(path);
         }
         validateSameTeamAttack(selectedPiece, targetPiece);
@@ -68,14 +80,14 @@ public class JanggiBoard {
                 .map(this::findPiece)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .anyMatch(piece -> piece instanceof Po);
+                .anyMatch(piece -> piece.isType(PieceType.PO));
         if (jumpPo) {
             throw new IllegalArgumentException("포는 포끼리 건너뛸 수 없습니다.");
         }
     }
 
     private void validateAttackPo(Optional<Piece> optionalTargetPiece) {
-        if (optionalTargetPiece.isPresent() && optionalTargetPiece.get() instanceof Po) {
+        if (optionalTargetPiece.isPresent() && optionalTargetPiece.get().isType(PieceType.PO)) {
             throw new IllegalArgumentException("포는 포끼리 잡을 수 없습니다");
         }
     }
@@ -88,10 +100,10 @@ public class JanggiBoard {
     }
 
     public boolean existGung(Team team) {
-        return board.stream().anyMatch(piece -> piece instanceof Gung && piece.isTeam(team));
+        return pieceDao.findAll().stream().anyMatch(piece -> piece.isType(PieceType.GUNG) && piece.isTeam(team));
     }
 
     public Optional<Piece> findPiece(Position position) {
-        return board.stream().filter(piece -> piece.isSamePosition(position)).findFirst();
+        return pieceDao.findByPosition(position);
     }
 }

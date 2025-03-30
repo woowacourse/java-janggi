@@ -1,16 +1,17 @@
-package domain;
+package domain.piece;
 
+import domain.Move;
 import java.util.List;
 import java.util.Objects;
 
 public class Position {
-    private final int row;
-    private final int column;
+    private final int y;
+    private final int x;
 
-    public Position(int row, int column) {
-        validatePosition(row, column);
-        this.row = row;
-        this.column = column;
+    public Position(int y, int x) {
+        validatePosition(y, x);
+        this.y = y;
+        this.x = x;
     }
 
     private void validatePosition(int row, int column) {
@@ -24,27 +25,27 @@ public class Position {
     }
 
     public boolean isPalaceTopLeft() {
-        return (row == 1 || row == 8) && column == 4;
+        return (y == 1 || y == 8) && x == 4;
     }
 
     public boolean isPalaceTopRight() {
-        return (row == 1 || row == 8) && column == 6;
+        return (y == 1 || y == 8) && x == 6;
     }
 
     public boolean isPalaceBottomLeft() {
-        return (row == 3 || row == 10) && column == 4;
+        return (y == 3 || y == 10) && x == 4;
     }
 
     public boolean isPalaceBottomRight() {
-        return (row == 3 || row == 10) && column == 6;
+        return (y == 3 || y == 10) && x == 6;
     }
 
     public boolean isPalaceCenter() {
-        return (row == 9 && column == 5) || (row == 2 && column == 5);
+        return (y == 9 && x == 5) || (y == 2 && x == 5);
     }
 
     public boolean isInPalace() {
-        return isInChoPalace(this.row, this.column) || isInHanPalace(this.row, this.column);
+        return isInChoPalace(this.y, this.x) || isInHanPalace(this.y, this.x);
     }
 
     private boolean isInChoPalace(int row, int column) {
@@ -82,28 +83,36 @@ public class Position {
     }
 
     public boolean canMoveInPalace(Move move) {
-        if (isInHanPalace(this.row, this.column)) {
-            return isInHanPalace(this.row + move.getDy(), this.column + move.getDx());
+        if (isInHanPalace(this.y, this.x)) {
+            return isInHanPalace(this.y + move.getDy(), this.x + move.getDx());
         }
-        return isInChoPalace(this.row + move.getDy(), this.column + move.getDx());
+        return isInChoPalace(this.y + move.getDy(), this.x + move.getDx());
     }
 
     public Position movePosition(Move move) {
-        return new Position(row + move.getDy(), column + move.getDx());
+        return new Position(y + move.getDy(), x + move.getDx());
     }
 
     public boolean canApplyMove(Move move) {
-        int movedRow = row + move.getDy();
-        int movedColumn = column + move.getDx();
+        int movedRow = y + move.getDy();
+        int movedColumn = x + move.getDx();
         return isValidPosition(movedRow, movedColumn);
     }
 
     public int compareRow(Position position) {
-        return this.row - position.row;
+        return this.y - position.y;
     }
 
     public int compareColumn(Position position) {
-        return this.column - position.column;
+        return this.x - position.x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
     }
 
     @Override
@@ -115,11 +124,11 @@ public class Position {
             return false;
         }
         Position position = (Position) o;
-        return row == position.row && column == position.column;
+        return y == position.y && x == position.x;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(row, column);
+        return Objects.hash(y, x);
     }
 }

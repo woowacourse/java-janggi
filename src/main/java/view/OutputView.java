@@ -2,10 +2,12 @@ package view;
 
 import domain.JanggiBoard;
 import domain.JanggiGame;
-import domain.Position;
-import domain.Team;
 import domain.piece.Piece;
+import domain.piece.PieceType;
+import domain.piece.Position;
+import domain.piece.Team;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -14,7 +16,6 @@ public class OutputView {
     public static final String red = "\u001B[31m";
     public static final String green = "\u001B[32m";
     public static final String white = "\u001B[37m";
-
     public static final String exit = "\u001B[0m";
 
     public void printJanggiBoard(JanggiGame game) {
@@ -42,33 +43,30 @@ public class OutputView {
 
     private String convertToString(String color, Piece piece) {
         String result = "";
-        switch (piece.getClass().getSimpleName()) {
-            case "Pawn":
+        switch (piece.getType()) {
+            case PieceType.PAWN:
                 if (piece.getTeam() == Team.CHO) {
                     result = "졸";
                     break;
                 }
                 result = "병";
                 break;
-            case "Jol":
-                result = "졸";
-                break;
-            case "Cha":
+            case PieceType.CHA:
                 result = "차";
                 break;
-            case "Sang":
+            case PieceType.SANG:
                 result = "상";
                 break;
-            case "Sa":
+            case PieceType.SA:
                 result = "사";
                 break;
-            case "Ma":
+            case PieceType.MA:
                 result = "마";
                 break;
-            case "Gung":
+            case PieceType.GUNG:
                 result = "궁";
                 break;
-            case "Po":
+            case PieceType.PO:
                 result = "포";
                 break;
         }
@@ -95,5 +93,15 @@ public class OutputView {
 
     public void printGameEnd() {
         System.out.println("궁이 사망해서 게임이 종료되었습니다.");
+    }
+
+    public void printAllRoomNames(List<String> allRoomNames) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("장기 게임방 목록입니다. (").append(allRoomNames.size()).append("개)\n");
+        for (String name : allRoomNames) {
+            sb.append(" -").append(name).append("\n");
+        }
+
+        System.out.println(sb);
     }
 }
