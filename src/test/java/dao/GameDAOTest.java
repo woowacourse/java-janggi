@@ -9,21 +9,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public final class GameDAOTest {
-    private static final InMemoryDatabase DATABASE = new InMemoryDatabase();
-    private static final Connector CONNECTOR = new FakeConnector(DATABASE);
-    private static final GameDAO GAME_DAO = new GameDAO(CONNECTOR);
+    private final InMemoryDatabase database = new InMemoryDatabase();
+    private final Connector connector = new FakeConnector(database);
+    private final GameDAO gameDAO = new GameDAO(connector);
 
     @Test
     @DisplayName("Game 생성을 요청한다.")
     void test_create() throws SQLException {
         //given
-        assertThat(DATABASE.getGames().isEmpty()).isTrue();
+        assertThat(database.getGames().isEmpty()).isTrue();
 
         //when
-        GAME_DAO.create();
+        gameDAO.create();
 
         //then
-        assertThat(DATABASE.getGames().size()).isEqualTo(1);
+        assertThat(database.getGames().size()).isEqualTo(1);
     }
 
     @Test
@@ -31,28 +31,28 @@ public final class GameDAOTest {
     void test_deactivate() throws SQLException {
         //given
         final int gameId = 1;
-        GAME_DAO.create();
-        assertThat(DATABASE.getGames().get(gameId)).isTrue();
+        gameDAO.create();
+        assertThat(database.getGames().get(gameId)).isTrue();
 
         //when
-        GAME_DAO.deactivate(gameId);
+        gameDAO.deactivate(gameId);
 
         //then
-        assertThat(DATABASE.getGames().get(gameId)).isFalse();
+        assertThat(database.getGames().get(gameId)).isFalse();
     }
 
     @Test
     @DisplayName("Game의 활성화 여부를 반환한다.")
     void test_existsActiveGameById() throws SQLException {
         //given
-        GAME_DAO.create();
-        GAME_DAO.create();
-        GAME_DAO.deactivate(2);
-        assertThat(DATABASE.getGames().get(1)).isTrue();
-        assertThat(DATABASE.getGames().get(2)).isFalse();
+        gameDAO.create();
+        gameDAO.create();
+        gameDAO.deactivate(2);
+        assertThat(database.getGames().get(1)).isTrue();
+        assertThat(database.getGames().get(2)).isFalse();
 
-        //when
-        assertThat(GAME_DAO.existsActiveGameById(1)).isTrue();
-        assertThat(GAME_DAO.existsActiveGameById(2)).isFalse();
+        //when&then
+        assertThat(gameDAO.existsActiveGameById(1)).isTrue();
+        assertThat(gameDAO.existsActiveGameById(2)).isFalse();
     }
 }

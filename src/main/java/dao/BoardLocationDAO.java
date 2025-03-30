@@ -35,7 +35,7 @@ public final class BoardLocationDAO {
 
             preparedStatement.executeBatch();
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스에서 위치 정보를 생성하는 데 실패했습니다.");
+            throw new RuntimeException("데이터베이스에서 위치 정보를 생성하는 데 실패했습니다: " + e);
         }
     }
 
@@ -49,7 +49,7 @@ public final class BoardLocationDAO {
             deleteStatement.setInt(3, gameId);
             deleteStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스에서 위치 정보를 삭제하는 데 실패했습니다.");
+            throw new RuntimeException("데이터베이스에서 위치 정보를 삭제하는 데 실패했습니다: " + e);
         }
     }
 
@@ -66,7 +66,7 @@ public final class BoardLocationDAO {
             updateStatement.setInt(5, gameId);
             updateStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스에서 위치 정보를 수정하는 데 실패했습니다.");
+            throw new RuntimeException("데이터베이스에서 위치 정보를 수정하는 데 실패했습니다: " + e);
         }
     }
 
@@ -82,7 +82,7 @@ public final class BoardLocationDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             return convertResultSetToLocations(resultSet);
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스에서 위치 정보를 조회하는 데 실패했습니다.");
+            throw new RuntimeException("데이터베이스에서 위치 정보를 조회하는 데 실패했습니다: " + e);
         }
     }
 

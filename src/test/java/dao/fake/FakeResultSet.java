@@ -20,53 +20,66 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 public class FakeResultSet implements ResultSet {
-    private final Object value;
-    private boolean hasNext = true;
+    private final List<Map<String, Object>> values;
+    private int hasNextCount = -1;
 
-    public FakeResultSet(Object value) {
-        this.value = value;
+    public FakeResultSet(List<Map<String, Object>> values) {
+        this.values = values;
     }
 
     @Override
     public boolean next() throws SQLException {
-        boolean result = hasNext;
-        hasNext = false;
-        return result;
+        hasNextCount++;
+        return hasNextCount < values.size();
     }
 
     @Override
-    public int getInt(String columnLabel) throws SQLException {
-        if (value instanceof Integer) {
-            return (Integer) value;
+    public int getInt(final String columnLabel) throws SQLException {
+        final Object o = values.get(hasNextCount).get(columnLabel);
+        if (o instanceof Integer) {
+            return (Integer) o;
         }
         throw new SQLException("값이 정수가 아닙니다");
     }
 
     @Override
-    public String getString(String columnLabel) throws SQLException {
-        if (value instanceof String) {
-            return (String) value;
+    public String getString(final String columnLabel) throws SQLException {
+        final Object o = values.get(hasNextCount).get(columnLabel);
+        if (o instanceof String) {
+            return (String) o;
         }
-        throw new SQLException("값이 정수가 아닙니다");
+        throw new SQLException("값이 문자가 아닙니다");
     }
 
     @Override
-    public boolean getBoolean(String columnLabel) throws SQLException {
-        if (value instanceof Boolean) {
-            return (boolean) value;
+    public boolean getBoolean(final String columnLabel) throws SQLException {
+        final Object o = values.get(hasNextCount).get(columnLabel);
+        if (o instanceof Boolean) {
+            return (boolean) o;
         }
-        throw new SQLException("값이 정수가 아닙니다");
+        throw new SQLException("값이 boolean이 아닙니다");
     }
 
     @Override
-    public double getDouble(String columnLabel) throws SQLException {
-        if (value instanceof Double) {
-            return (Integer) value;
+    public boolean getBoolean(int columnIndex) throws SQLException {
+        final Object o = values.get(hasNextCount).get(columnIndex + "");
+        if (o instanceof Boolean) {
+            return (boolean) o;
         }
-        throw new SQLException("값이 정수가 아닙니다");
+        throw new SQLException("값이 boolean이 아닙니다");
+    }
+
+    @Override
+    public double getDouble(final String columnLabel) throws SQLException {
+        final Object o = values.get(hasNextCount).get(columnLabel);
+        if (o instanceof Double) {
+            return (Double) o;
+        }
+        throw new SQLException("값이 Double가 아닙니다");
     }
 
     // 이하는 미사용 인터페이스
@@ -888,14 +901,6 @@ public class FakeResultSet implements ResultSet {
     @Override
     public <T> T getObject(String columnLabel, Class<T> type) throws SQLException {
         return null;
-    }
-
-    @Override
-    public boolean getBoolean(int columnIndex) throws SQLException {
-        if (value instanceof Boolean) {
-            return (Boolean) value;
-        }
-        throw new SQLException("값이 불리언이 아닙니다");
     }
 
     @Override

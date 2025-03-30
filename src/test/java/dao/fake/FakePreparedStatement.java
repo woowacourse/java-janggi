@@ -1,5 +1,6 @@
 package dao.fake;
 
+import domain.player.Player;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -21,29 +22,60 @@ import java.sql.SQLWarning;
 import java.sql.SQLXML;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class FakePreparedStatement implements PreparedStatement {
+public final class FakePreparedStatement implements PreparedStatement {
     private final String sql;
     private final InMemoryDatabase database;
-    private final Map<Integer, Object> parameters = new HashMap<>();
+    private final List<Map<Integer, Object>> batchParameters = new ArrayList<>();
 
-    public FakePreparedStatement(String sql, InMemoryDatabase database) {
+    private Map<Integer, Object> parameters = new HashMap<>();
+
+    public FakePreparedStatement(final String sql, final InMemoryDatabase database) {
         this.sql = sql.toLowerCase();
         this.database = database;
     }
 
     @Override
     public ResultSet executeQuery() throws SQLException {
+        Map<String, Object> value = new HashMap<>();
         if (sql.contains("select exists") && sql.contains("where id = ? and is_active=true")) {
-            int gameId = (Integer) parameters.get(1);
-            boolean exists = database.isGameActive(gameId);
-            return new FakeResultSet(exists);
+            final int gameId = (Integer) parameters.get(1);
+            final boolean exists = database.isGameActive(gameId);
+            value.put("1", exists);
+            return new FakeResultSet(List.of(value));
         }
         if (sql.contains("select max(id)")) {
-            return new FakeResultSet(database.getLastGameId());
+            value.put("last_id", database.getLastId());
+            return new FakeResultSet(List.of(value));
+        }
+
+        if (sql.contains("select * from player where id = ?")) {
+            final int gameId = (Integer) parameters.get(1);
+            final Player player = database.findPlayerById(gameId);
+            value.put("id", player.getId());
+            value.put("team", player.getTeam().name());
+            value.put("score", player.getScore().value());
+            value.put("is_turn", player.isTurn());
+            return new FakeResultSet(List.of(value));
+        }
+        if (sql.contains("select * from player where game_id = ?")) {
+            final int gameId = (int) parameters.get(1);
+            final List<Player> players = database.findAllPlayersByGameId(gameId);
+            List<Map<String, Object>> values = new ArrayList<>();
+            for (final Player player : players) {
+                value.put("id", player.getId());
+                value.put("team", player.getTeam().name());
+                value.put("score", player.getScore().value());
+                value.put("is_turn", player.isTurn());
+                values.add(new HashMap<>(value));
+                value = new HashMap<>();
+            }
+            return new FakeResultSet(values);
         }
         throw new SQLException("지원하지 않는 쿼리: " + sql);
     }
@@ -61,12 +93,45 @@ public class FakePreparedStatement implements PreparedStatement {
             return 1;
         }
 
-        if (sql.contains("insert into player(team,score,is_turn,game_id)")) {
-            int gameId = (Integer) parameters.get(1);
-            database.createPlayer(gameId);
-            return 1;
+        if (sql.contains("insert into player")) {
+            final String team = (String) parameters.get(1);
+            final Double score = (Double) parameters.get(2);
+            final boolean isTurn = (boolean) parameters.get(3);
+            final int gameId = (int) parameters.get(4);
+
+            return database.createPlayer(team, score, isTurn, gameId);
+        }
+        if (sql.contains("update player set score = ?, is_turn = ? where id = ?")) {
+            final Double score = (Double) parameters.get(1);
+            final boolean isTurn = (boolean) parameters.get(2);
+            final int id = (int) parameters.get(3);
+
+            return database.updatePlayer(score, isTurn, id);
         }
         throw new SQLException("지원하지 않는 쿼리: " + sql);
+    }
+
+    @Override
+    public void addBatch() throws SQLException {
+        batchParameters.add(new HashMap<>(parameters));
+        parameters = new HashMap<>();
+    }
+
+    @Override
+    public int[] executeBatch() throws SQLException {
+        final int[] results = new int[batchParameters.size()];
+        for (int i = 0; i < batchParameters.size(); i++) {
+            parameters = batchParameters.get(i);
+            try {
+                results[i] = executeUpdate();
+            } catch (SQLException e) {
+                results[i] = EXECUTE_FAILED;
+            }
+        }
+
+        batchParameters.clear();
+        parameters = new HashMap<>();
+        return results;
     }
 
     @Override
@@ -159,11 +224,6 @@ public class FakePreparedStatement implements PreparedStatement {
     @Override
     public boolean execute() throws SQLException {
         return false;
-    }
-
-    @Override
-    public void addBatch() throws SQLException {
-
     }
 
     @Override
@@ -466,10 +526,6 @@ public class FakePreparedStatement implements PreparedStatement {
 
     }
 
-    @Override
-    public int[] executeBatch() throws SQLException {
-        return new int[0];
-    }
 
     @Override
     public Connection getConnection() throws SQLException {

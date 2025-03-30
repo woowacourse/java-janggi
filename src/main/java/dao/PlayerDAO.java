@@ -32,7 +32,7 @@ public final class PlayerDAO {
             preparedStatement.executeUpdate();
             return counter.incrementAndGet();
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스에서 플레이어를 생성하는 데 실패했습니다.");
+            throw new RuntimeException("데이터베이스에서 플레이어를 생성하는 데 실패했습니다: " + e);
         }
     }
 
@@ -50,7 +50,7 @@ public final class PlayerDAO {
 
             preparedStatement.executeBatch();
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스에서 플레이어를 수정하는 데 실패했습니다.");
+            throw new RuntimeException("데이터베이스에서 플레이어를 수정하는 데 실패했습니다: " + e);
         }
     }
 
@@ -70,7 +70,7 @@ public final class PlayerDAO {
                 );
             }
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스에서 플레이어를 조회하는 데 실패했습니다.");
+            throw new RuntimeException("데이터베이스에서 플레이어를 조회하는 데 실패했습니다: " + e);
         }
         throw new RuntimeException("플레이어 정보를 찾을 수 없습니다: " + id);
     }
@@ -84,7 +84,7 @@ public final class PlayerDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             return convertResultSetToPlayers(resultSet);
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스에서 복수의 플레이어를 조회하는 데 실패했습니다.");
+            throw new RuntimeException("데이터베이스에서 복수의 플레이어를 조회하는 데 실패했습니다: " + e);
         }
     }
 
@@ -94,7 +94,7 @@ public final class PlayerDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
             incrementLastId(resultSet);
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스에서 플레이어의 Id를 조회하는 데 실패했습니다.");
+            throw new RuntimeException("데이터베이스에서 플레이어의 Id를 조회하는 데 실패했습니다: " + e);
         }
     }
 
