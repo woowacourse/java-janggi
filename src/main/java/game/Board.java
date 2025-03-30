@@ -2,6 +2,7 @@ package game;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import piece.Country;
 import piece.Piece;
 import piece.PieceType;
@@ -56,11 +57,9 @@ public class Board {
         }
         return board.get(position).getPieceType();
     }
-    public Country findCountryByPosition(final Position position) {
-        if (!board.containsKey(position)) {
-            throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
-        }
-        return board.get(position).getCountry();
+    public Optional<Country> findCountryByPosition(final Position position) {
+        return Optional.ofNullable(board.get(position))
+                .map(Piece::getCountry);
     }
     public boolean hasPieceAt(final Position position) {
         return board.containsKey(position);

@@ -26,12 +26,11 @@ public abstract class Piece {
     public abstract void validatePath(List<Position> positions, Board board);
 
     public void validateTarget(Position toPosition, Board board) {
-        if (board.hasPieceAt(toPosition)) {
-            Country targetCountry = board.findCountryByPosition(toPosition);
+        board.findCountryByPosition(toPosition).ifPresent(targetCountry -> {
             if (country == targetCountry) {
-                throw new IllegalArgumentException("아군 기물이 위치해 있습니다. ");
+                throw new IllegalArgumentException("아군 기물이 위치해 있습니다.");
             }
-        }
+        });
     }
 
     public void validateTargetSpecialRule(Position toPosition, Board board) {}
