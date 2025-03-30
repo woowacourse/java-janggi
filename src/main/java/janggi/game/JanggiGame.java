@@ -14,7 +14,6 @@ public class JanggiGame {
 
     private final GameInputOutput gameInputOutput;
     private final GameDao gameDao;
-    private GameInformation gameInformation;
 
     public JanggiGame(GameInputOutput gameInputOutput, GameDao gameDao) {
         this.gameInputOutput = gameInputOutput;
@@ -22,60 +21,68 @@ public class JanggiGame {
     }
 
     public void start() {
+        GameInformation gameInformation = registerGameInformation();
+        List<MovePieceCommand> existingCommands = loadMovePieceCommand(gameInformation.getGameId());
+        CampType campTypeInInitialTurn = calculateLastTurn(existingCommands);
+        JanggiBoard board = prepareBoard(gameInformation, existingCommands);
+        playGame(gameInformation.getGameId(), board, campTypeInInitialTurn);
+        endGame(gameInformation.getGameId());
+    }
+
+    private GameInformation registerGameInformation() {
         while (true) {
             GameMenuAnswer gameMenuAnswer = gameInputOutput.readGameMenuAnswer();
             if (gameMenuAnswer == GameMenuAnswer.ONE) {
-                JanggiBoard janggiBoard = prepareNewGame();
-                playGame(janggiBoard);
-                endGame();
-                break;
+                return registerNewGameInformation();
             }
             if (gameMenuAnswer == GameMenuAnswer.TWO) {
-                List<GameInformation> allGameInformation = gameDao.findAllGameInformation();
-                Optional<GameInformation> optionalGameInformation = gameInputOutput.selectGame(allGameInformation);
-                if (optionalGameInformation.isEmpty()) {
-                    continue;
+                Optional<GameInformation> optionalGameInformation = registerExistingGameInformation();
+                if (optionalGameInformation.isPresent()) {
+                    return optionalGameInformation.get();
                 }
-                this.gameInformation = optionalGameInformation.get();
-                JanggiBoard janggiBoard = prepareExistingGame();
-                playGame(janggiBoard);
-                endGame();
-                break;
-            }
-            if (gameMenuAnswer == GameMenuAnswer.QUIT) {
-                break;
             }
         }
     }
 
-    private JanggiBoard prepareNewGame() {
+    private GameInformation registerNewGameInformation() {
         String gameTitle = gameInputOutput.readNewGameTitle();
         gameInputOutput.printStartMessage();
         PieceAssignType choAnswer = gameInputOutput.readPieceAssignType(CampType.CHO);
         PieceAssignType hanAnswer = gameInputOutput.readPieceAssignType(CampType.HAN);
-        JanggiBoard janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
         int gameId = gameDao.addNewGameInformation(gameTitle, choAnswer, hanAnswer);
-        gameInformation = new GameInformation(gameId, gameTitle, choAnswer, hanAnswer, GameState.PLAY);
-        return janggiBoard;
+        return new GameInformation(gameId, gameTitle, choAnswer, hanAnswer, GameState.PLAY);
     }
 
-    private JanggiBoard prepareExistingGame() {
-        JanggiBoard janggiBoard = new JanggiBoard(
-                gameInformation.getChoAssignType(),
-                gameInformation.getHanAssignType());
-        List<MovePieceCommand> commands = gameDao.finaAllMovePieceCommand(gameInformation.getGameId());
-        commands.forEach(janggiBoard::movePiece);
-        return janggiBoard;
+    private Optional<GameInformation> registerExistingGameInformation() {
+        List<GameInformation> allGameInformation = gameDao.findAllGameInformation();
+        return gameInputOutput.selectGame(allGameInformation);
     }
 
-    private void playGame(JanggiBoard janggiBoard) {
+    private List<MovePieceCommand> loadMovePieceCommand(int gameId) {
+        return gameDao.finaAllMovePieceCommand(gameId);
+    }
+
+    private JanggiBoard prepareBoard(GameInformation gameInformation, List<MovePieceCommand> commands) {
+        JanggiBoard board = new JanggiBoard(gameInformation.getChoAssignType(), gameInformation.getHanAssignType());
+        commands.forEach(board::movePiece);
+        return board;
+    }
+
+    private CampType calculateLastTurn(List<MovePieceCommand> commands) {
+        if (commands.isEmpty()) {
+            return CampType.HAN;
+        }
+        return commands.getLast().getCampType();
+    }
+
+    private void playGame(int gameId, JanggiBoard janggiBoard, CampType campTypeInLastTurn) {
         gameInputOutput.printJanggiBoardState(janggiBoard);
-        CampType campTypeInturn = CampType.HAN;
+        CampType campTypeInTurn = campTypeInLastTurn;
         while (true) {
-            campTypeInturn = campTypeInturn.getEnemyCampType();
-            TurnMenuAnswer turnMenuAnswer = gameInputOutput.readTurnMenuAnswer(campTypeInturn);
+            campTypeInTurn = campTypeInTurn.getEnemyCampType();
+            TurnMenuAnswer turnMenuAnswer = gameInputOutput.readTurnMenuAnswer(campTypeInTurn);
             if (turnMenuAnswer == TurnMenuAnswer.ONE) {
-                movePiece(janggiBoard, campTypeInturn);
+                movePiece(gameId, janggiBoard, campTypeInTurn);
                 if (janggiBoard.isGameEnd()) {
                     break;
                 }
@@ -90,13 +97,13 @@ public class JanggiGame {
         gameInputOutput.printGameResult(janggiBoard);
     }
 
-    private void movePiece(JanggiBoard janggiBoard, CampType campType) {
+    private void movePiece(int gameId, JanggiBoard janggiBoard, CampType campType) {
         while (true) {
             try {
                 gameInputOutput.printTurn(campType);
                 MovePieceCommand movePieceCommand = gameInputOutput.readMoveInformation(campType);
                 janggiBoard.movePiece(movePieceCommand);
-                gameDao.addMovePieceCommand(gameInformation.getGameId(), movePieceCommand);
+                gameDao.addMovePieceCommand(gameId, movePieceCommand);
                 gameInputOutput.printJanggiBoardState(janggiBoard);
                 return;
             } catch (IllegalArgumentException exception) {
@@ -105,7 +112,7 @@ public class JanggiGame {
         }
     }
 
-    private void endGame() {
-        gameDao.updateGameInformationToEnd(gameInformation.getGameId());
+    private void endGame(int gameId) {
+        gameDao.updateGameInformationToEnd(gameId);
     }
 }
