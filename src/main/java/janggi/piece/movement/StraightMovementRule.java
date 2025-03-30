@@ -12,8 +12,9 @@ public class StraightMovementRule implements MovementRule {
         final Direction direction = start.calculateDirection(end);
         final List<Position> result = new ArrayList<>();
         for (Position path = start.move(direction);
-             !path.equals(end) && path.hasDirection(direction);
+             !path.equals(end);
              path = path.move(direction)) {
+            validateDirection(path, end);
             result.add(path);
         }
         return result;

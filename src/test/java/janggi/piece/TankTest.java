@@ -7,6 +7,7 @@ import janggi.position.Position;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -219,5 +220,31 @@ class TankTest {
                         List.of()
                 )
         );
+    }
+
+    @Test
+    @DisplayName("차가 왕궁 밖으로 나갈 때 대각선으로 이동하는 경우 예외가 발생한다")
+    void should_throw_exception_when_tank_move_diagonally_out_of_palace() {
+        // given
+        Tank tank = new Tank(Color.RED);
+        Position start = new Position(5, 2);
+        Position end = new Position(7, 4);
+
+        // when
+        assertThatThrownBy(() -> tank.calculatePath(start, end))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("차가 밖에서 왕궁 안으로 들어올 때 대각선으로 이동하는 경우 예외가 발생한다")
+    void should_throw_exception_when_tank_move_diagonally_into_palace() {
+        // given
+        Tank tank = new Tank(Color.RED);
+        Position start = new Position(7, 4);
+        Position end = new Position(5, 2);
+
+        // when
+        assertThatThrownBy(() -> tank.calculatePath(start, end))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
