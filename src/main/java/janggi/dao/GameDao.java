@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 public class GameDao {
     private static final DateTimeFormatter createdAtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public static void createGame(final Game game) {
+    public void createGame(final Game game) {
         final var createQuery = "INSERT INTO game (turn,created_at) VALUES(?,?)";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedCreateStatement = connection.prepareStatement(createQuery)) {
@@ -28,7 +28,7 @@ public class GameDao {
         }
     }
 
-    private static int findCreatedGameId(Game game) {
+    private int findCreatedGameId(Game game) {
         final var checkQuery = "SELECT * FROM game WHERE created_at=?";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedCheckStatement = connection.prepareStatement(checkQuery)) {
@@ -43,7 +43,7 @@ public class GameDao {
         }
     }
 
-    public static GameDto findLastCreated() {
+    public GameDto findLastCreated() {
         final var gameQuery = "SELECT * FROM game ORDER BY id DESC LIMIT 1;";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedGameStatement = connection.prepareStatement(gameQuery)) {
@@ -61,7 +61,7 @@ public class GameDao {
         }
     }
 
-    public static void updateTurn(Game game) {
+    public void updateTurn(Game game) {
         final var query = "UPDATE game SET turn=? WHERE id = ?";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)){
@@ -74,7 +74,7 @@ public class GameDao {
         }
     }
 
-    public static void deleteGame(Game game) {
+    public void deleteGame(Game game) {
         final var query = "DELETE FROM game WHERE id = ?";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)){

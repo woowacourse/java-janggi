@@ -1,7 +1,5 @@
 package janggi.game;
 
-import janggi.dao.GameDao;
-import janggi.dao.PieceDao;
 import janggi.dto.MovementDto;
 import janggi.movement.target.AttackedPiece;
 import janggi.piece.Piece;
@@ -12,12 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    //TODO DAO를 쓴다면 여기서 씀
-
     private final Board board;
     private final List<AttackedPiece> attackedPieces;
     private Team turn;
-    private final LocalDateTime createdAt; //TODO dao로 옮길수 이씅면 좋겠다..
+    private final LocalDateTime createdAt;
 
     public Game() {
         this(Board.init(), new ArrayList<>(), Team.CHO, LocalDateTime.now());
@@ -46,14 +42,13 @@ public class Game {
         }
     }
 
-    public void move(Piece movingPiece, Point targetPoint) {
+    public MovementDto move(Piece movingPiece, Point targetPoint) {
         MovementDto movement = board.move(movingPiece, targetPoint);
-        PieceDao.updatePointFrom(movingPiece, movement.movedPiece()); //TODO DAO
         if (movement.attackedPiece().exists()) {
             AttackedPiece attackedPiece = movement.attackedPiece();
             attackedPieces.add(attackedPiece);
-            PieceDao.updateToAttacked(attackedPiece); //TODO DAO 호출
         }
+        return movement;
     }
 
     public ScoreResult calculateScore() {

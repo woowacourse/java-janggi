@@ -1,6 +1,7 @@
 package janggi.game;
 
 import janggi.dao.GameDao;
+import janggi.dto.MovementDto;
 import janggi.entity.GameEntity;
 import janggi.dao.PieceDao;
 import janggi.entity.PieceEntity;
@@ -12,6 +13,7 @@ import janggi.view.BoardView;
 import janggi.view.InputView;
 import janggi.view.ResultView;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class JanggiApplication {
@@ -19,11 +21,15 @@ public class JanggiApplication {
     private final InputView inputView;
     private final BoardView boardView;
     private final ResultView resultView;
+    private final GameDao gameDao;
+    private final PieceDao pieceDao;
 
     private JanggiApplication() {
         inputView = new InputView();
         boardView = new BoardView();
         resultView = new ResultView();
+        gameDao = new GameDao();
+        pieceDao = new PieceDao();
     }
 
     public static void main(String[] args) {
@@ -43,25 +49,32 @@ public class JanggiApplication {
                 return game.findMovingPiece(startPoint);
             });
 
-            movePieceUntilSuccess(piece -> {
+            MovementDto movement = retryUntilSuccessAndReturn(piece -> {
                 Point targetPoint = inputView.readTargetPoint();
-                game.move(piece, targetPoint);
+                return game.move(piece, targetPoint);
             }
             , movingPiece);
+            updatePieceData(movingPiece, movement);
 
             game.reverseTurn();
-            GameDao.updateTurn(game); //TODO DAO
+            gameDao.updateTurn(game);
         }
 
         resultView.printResult(game, game.calculateScore());
-        GameDao.deleteGame(game); //TODO DAO
+        gameDao.deleteGame(game);
     }
 
-    private Game startGame() { //TODO DAO
+    private void updatePieceData(Piece movingPiece, MovementDto movement) {
+        pieceDao.updatePointFrom(movingPiece, movement.movedPiece());
+        if (movement.attackedPiece().exists()) {
+            pieceDao.updateToAttacked(movement.attackedPiece());
+        }
+    }
+
+    private Game startGame() {
         if (inputView.readGameRestart()) {
-            //TODO 더줄이기
-            GameDto lastGameData = GameDao.findLastCreated();
-            PiecesOnBoardDto lastPiecesData = PieceDao.findPieceDataBy(lastGameData);
+            GameDto lastGameData = gameDao.findLastCreated();
+            PiecesOnBoardDto lastPiecesData = pieceDao.findPieceDataBy(lastGameData);
             Game lastGame = GameEntity.recreateGameFrom(lastPiecesData, lastGameData);
             PieceEntity.recreatePieceRecordsFrom(lastPiecesData);
 
@@ -69,9 +82,9 @@ public class JanggiApplication {
         }
 
         Game game = new Game();
-        GameDao.createGame(game);
+        gameDao.createGame(game);
         for (Piece piece : game.getRunningPieces()) {
-            PieceDao.createPiece(piece, game);
+            pieceDao.createPiece(piece, game);
         }
         return game;
     }
@@ -88,11 +101,10 @@ public class JanggiApplication {
         }
     }
 
-    private <T> void movePieceUntilSuccess(Consumer<T> action, T input) {
+    private <T, R> R retryUntilSuccessAndReturn(Function<T, R> action, T input) {
         while (true) {
             try {
-                action.accept(input);
-                return;
+                return action.apply(input);
             } catch (IllegalArgumentException | IllegalStateException e) {
                 System.out.println(e.getMessage());
             } catch (RuntimeException e) {

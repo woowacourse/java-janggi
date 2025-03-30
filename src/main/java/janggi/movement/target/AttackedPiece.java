@@ -12,7 +12,7 @@ public class AttackedPiece {
     }
 
     public static AttackedPiece notAttacked() {
-        return new AttackedPiece(null); //TODO 해결
+        return new AttackedPiece(null);
     }
 
     public boolean isGung() {
