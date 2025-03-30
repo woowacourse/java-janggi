@@ -4,11 +4,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JangiDatabase {
-    private static final String SERVER = "localhost:3306"; // MySQL 서버 주소
-    private static final String DATABASE = "jangi"; // MySQL DATABASE 이름
+    private static final String SERVER = "localhost:3306";
+    private static final String DATABASE = "jangi";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "db_chaeyoung"; // MySQL 서버 비밀번호
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "db_chaeyoung";
 
     public static java.sql.Connection getConnection() {
         try {

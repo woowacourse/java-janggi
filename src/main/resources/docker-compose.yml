@@ -1,0 +1,18 @@
+ervices:
+  mysql:
+    container_name: mysql
+    image: mysql
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ~/DockerContainers/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "db_chaeyoung"
+      TZ: Asia/Seoul
+    networks:
+      - localnet
+
+networks:
+  localnet:
+    driver: bridge
