@@ -27,8 +27,8 @@ class PlayerDaoTest {
     }
 
     @Test
-    void 플레이어의_이름과_팀으로_정보를_불러온다() {
-        Optional<Player> optionalPlayer = playerDao.findByPlayerNameAndTeam("name", Team.HAN);
+    void 플레이어의_팀으로_정보를_불러온다() {
+        Optional<Player> optionalPlayer = playerDao.findPlayerByTeam(Team.HAN);
         assertThat(optionalPlayer.isEmpty()).isFalse();
     }
 }

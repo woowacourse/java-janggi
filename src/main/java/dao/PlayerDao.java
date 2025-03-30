@@ -26,24 +26,22 @@ public class PlayerDao {
     }
 
     public void addPlayer(final Player player) {
-        final var query = "INSERT INTO player (name, team, score) VALUES(?, ?, ?)";
+        final var query = "INSERT INTO player (name, team) VALUES(?, ?)";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, player.name());
             preparedStatement.setString(2, player.team().name());
-            preparedStatement.setFloat(3, player.score());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Optional<Player> findByPlayerNameAndTeam(final String name, final Team team) {
-        final var query = "SELECT * FROM player WHERE name = ? AND team = ?";
+    public Optional<Player> findPlayerByTeam(final Team team) {
+        final var query = "SELECT * FROM player WHERE team = ?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, team.name());
+            preparedStatement.setString(1, team.name());
 
             final var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
