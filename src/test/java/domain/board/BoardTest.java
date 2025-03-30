@@ -10,6 +10,7 @@ import domain.piece.Guard;
 import domain.piece.Horse;
 import domain.piece.Jju;
 import domain.piece.Piece;
+import domain.piece.Score;
 import domain.piece.Team;
 import java.util.Map;
 import java.util.Optional;
@@ -114,6 +115,24 @@ class BoardTest {
                         .getPieceType())
                     .isEqualTo(new Cannon(Team.RED).getPieceType());
             });
+        }
+
+        @DisplayName("팀의 점수를 계산한다.")
+        @Test
+        void calculateScore() {
+            // given
+            Board board = new Board(Map.of(
+                new BoardPosition(0, 0), new Jju(Team.GREEN),
+                new BoardPosition(1, 0), new Guard(Team.GREEN),
+                new BoardPosition(2, 0), new Horse(Team.GREEN),
+                new BoardPosition(3, 0), new Cannon(Team.GREEN)
+            ));
+
+            // when
+            Score result = board.calculateScore(Team.GREEN);
+
+            // then
+            assertThat(result.value()).isEqualTo(17.0f);
         }
 
         @DisplayName("왕이 하나만 남은 경우를 확인한다.")

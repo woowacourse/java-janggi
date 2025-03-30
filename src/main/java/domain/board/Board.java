@@ -2,6 +2,7 @@ package domain.board;
 
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import domain.piece.Score;
 import domain.piece.Team;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -140,6 +141,24 @@ public class Board {
 
         pieces.remove(selectBoardPosition);
         pieces.put(destinationBoardPosition, selectedPiece);
+    }
+
+    public Score calculateScore(final Team team) {
+        final List<Piece> teamPieces = pieces.values()
+            .stream()
+            .filter(piece -> piece.isSameTeam(team))
+            .toList();
+
+        return calculatePiecesScore(teamPieces);
+    }
+
+    private Score calculatePiecesScore(final List<Piece> pieces) {
+        Score totalScore = new Score(0);
+        for (final Piece piece : pieces) {
+            totalScore = totalScore.add(piece.getScore());
+        }
+
+        return totalScore;
     }
 
     public boolean isOnlyOneKingLeft() {

@@ -17,6 +17,7 @@ public class Elephant extends Piece {
         new Offset(-2, 3), List.of(Offset.UP, Offset.LEFT_UP, Offset.LEFT_UP),
         new Offset(-2, -3), List.of(Offset.DOWN, Offset.LEFT_DOWN, Offset.LEFT_DOWN)
     );
+    private static final Score SCORE = new Score(3.0f);
 
     public Elephant(final Team team) {
         super(PieceType.ELEPHANT, team);
@@ -31,5 +32,10 @@ public class Elephant extends Piece {
         }
 
         return MOVEMENT_RULES.get(totalOffset);
+    }
+
+    @Override
+    public Score getScore() {
+        return SCORE;
     }
 }

@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Chariot extends Piece {
 
+    private static final Score SCORE = new Score(13.0f);
+
     public Chariot(final Team team) {
         super(PieceType.CHARIOT, team);
     }
@@ -26,5 +28,10 @@ public class Chariot extends Piece {
         if (!totalOffset.isLinear()) {
             throw new IllegalArgumentException("해당 말은 이동할 수 없습니다.");
         }
+    }
+
+    @Override
+    public Score getScore() {
+        return SCORE;
     }
 }

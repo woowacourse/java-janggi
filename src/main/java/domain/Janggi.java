@@ -4,7 +4,9 @@ import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.BoardPosition;
 import domain.piece.Piece;
+import domain.piece.Score;
 import domain.piece.Team;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class Janggi {
@@ -50,6 +52,15 @@ public class Janggi {
         currentTeam = currentTeam.nextTeam();
     }
 
+    public Map<Team, Score> calculateTeamScores() {
+        final Map<Team, Score> teamScore = new EnumMap<>(Team.class);
+        for (final Team team : Team.values()) {
+            teamScore.put(team, board.calculateScore(team));
+        }
+
+        return teamScore;
+    }
+
     public boolean isGameOver() {
         return board.isOnlyOneKingLeft();
     }
@@ -58,7 +69,7 @@ public class Janggi {
         if (!isGameOver()) {
             throw new IllegalStateException("게임이 종료되지 않았습니다.");
         }
-        
+
         return currentTeam.nextTeam();
     }
 

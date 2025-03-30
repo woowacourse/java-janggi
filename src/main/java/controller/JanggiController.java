@@ -26,6 +26,7 @@ public class JanggiController {
         final Janggi janggi = Janggi.initialize();
 
         while (!janggi.isGameOver()) {
+            outputView.printTeamScores(janggi.calculateTeamScores());
             outputView.printBoard(janggi.getPieces(), janggi.getCurrentTeam());
 
             final List<Integer> selectPosition = inputView.inputSelectPosition();

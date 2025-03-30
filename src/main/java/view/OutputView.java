@@ -2,6 +2,7 @@ package view;
 
 import domain.board.BoardPosition;
 import domain.piece.Piece;
+import domain.piece.Score;
 import domain.piece.Team;
 import java.util.Map;
 
@@ -10,6 +11,14 @@ public class OutputView {
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
     private static final String GREEN = "\u001B[32m";
+
+    public void printTeamScores(final Map<Team, Score> teamScores) {
+        System.out.println("팀 점수");
+        teamScores.forEach((team, score) ->
+            System.out.printf("%s: %.1f점%n", team.getTitle(), score.value())
+        );
+        System.out.println();
+    }
 
     public void printBoard(
         final Map<BoardPosition, Piece> pieces,

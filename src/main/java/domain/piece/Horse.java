@@ -17,6 +17,7 @@ public class Horse extends Piece {
         new Offset(-1, 2), List.of(Offset.UP, Offset.LEFT_UP),
         new Offset(-1, -2), List.of(Offset.DOWN, Offset.LEFT_DOWN)
     );
+    private static final Score SCORE = new Score(5.0f);
 
     public Horse(final Team team) {
         super(PieceType.HORSE, team);
@@ -31,5 +32,10 @@ public class Horse extends Piece {
         }
 
         return MOVEMENT_RULES.get(totalOffset);
+    }
+
+    @Override
+    public Score getScore() {
+        return SCORE;
     }
 }

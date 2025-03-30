@@ -11,6 +11,7 @@ import domain.piece.General;
 import domain.piece.Jju;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import domain.piece.Score;
 import domain.piece.Team;
 import java.util.Map;
 import java.util.Set;
@@ -77,6 +78,33 @@ class JanggiTest {
 
             // then
             assertThat(janggi.getCurrentTeam()).isEqualTo(Team.RED);
+        }
+
+
+        @DisplayName("각 팀의 점수를 계산한다.")
+        @Test
+        void calculateTeamScores() {
+            // given
+            Board board = new Board(Map.of(
+                new BoardPosition(0, 0), new Jju(Team.GREEN),
+                new BoardPosition(0, 1), new Jju(Team.GREEN),
+                new BoardPosition(1, 0), new Jju(Team.RED),
+                new BoardPosition(1, 1), new General(Team.RED)
+            ));
+            Janggi janggi = new Janggi(board, Team.GREEN);
+
+            // when
+            Map<Team, Score> result = janggi.calculateTeamScores();
+
+            // then
+            assertSoftly(softly -> {
+                softly.assertThat(result.get(Team.GREEN)
+                        .value())
+                    .isEqualTo(4.0f);
+                softly.assertThat(result.get(Team.RED)
+                        .value())
+                    .isEqualTo(3.5f);
+            });
         }
 
         @DisplayName("왕이 하나만 남으면 게임은 종료된다.")

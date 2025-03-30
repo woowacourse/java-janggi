@@ -19,6 +19,7 @@ public class Jju extends Piece {
         Team.RED, Set.of(Offset.RIGHT, Offset.LEFT, Offset.DOWN)
     );
     // @formatter:on
+    private static final Score SCORE = new Score(2.0f);
 
     public Jju(final Team team) {
         super(PieceType.JJU, team);
@@ -42,5 +43,10 @@ public class Jju extends Piece {
         }
 
         return NORMAL_OFFSETS_BY_TEAM.get(team);
+    }
+
+    @Override
+    public Score getScore() {
+        return SCORE;
     }
 }

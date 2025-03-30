@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 public class Cannon extends Piece {
 
     private static final int ALLOWED_OBSTACLE_COUNT = 1;
+    private static final Score SCORE = new Score(7.0f);
 
     public Cannon(final Team team) {
         super(PieceType.CANNON, team);
@@ -49,5 +50,10 @@ public class Cannon extends Piece {
         if (destinationPiece != null && destinationPiece.getPieceType() == PieceType.CANNON) {
             throw new IllegalArgumentException("포는 포를 잡을 수 없습니다.");
         }
+    }
+
+    @Override
+    public Score getScore() {
+        return SCORE;
     }
 }

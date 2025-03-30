@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Guard extends Piece {
 
+    private static final Score SCORE = new Score(3.0f);
+
     public Guard(final Team team) {
         super(PieceType.GUARD, team);
     }
@@ -25,5 +27,10 @@ public class Guard extends Piece {
         }
 
         return List.of(totalOffset);
+    }
+
+    @Override
+    public Score getScore() {
+        return SCORE;
     }
 }
