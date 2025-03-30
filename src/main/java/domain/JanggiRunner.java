@@ -1,13 +1,15 @@
 package domain;
 
-import domain.game.JanggiGame;
+import domain.game.dto.JanggiGameResponseDto;
 import domain.piece.Piece;
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.player.Player;
 import domain.player.Players;
 import domain.player.Usernames;
 import domain.position.Position;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
 
@@ -15,81 +17,96 @@ public class JanggiRunner {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiManager janggiManager;
 
-    public JanggiRunner(InputView inputView, OutputView outputView) {
+    public JanggiRunner(InputView inputView, OutputView outputView, JanggiManager janggiManager) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiManager = janggiManager;
     }
 
     public void run() {
-        JanggiGame janggiGame = initializeGame();
-        showInitializedBoardResult(janggiGame);
-        startGame(janggiGame);
+        Long gameId = getPlayingGameId();
+        showCurrentBoard(gameId);
+        executeGame(gameId);
+        showWinner(gameId);
     }
 
-    private void showInitializedBoardResult(JanggiGame janggiGame) {
-        Map<Position, Piece> alivePieces = janggiGame.getAlivePieces();
+    private void showCurrentBoard(Long gameId) {
+        Map<Position, Piece> alivePieces = janggiManager.getGamePieces(gameId);
         outputView.printBoard(alivePieces);
     }
 
-    private void startGame(JanggiGame janggiGame) {
-        executeGame(janggiGame);
-        showWinner(janggiGame);
-    }
-
-    private void executeGame(JanggiGame janggiGame) {
-        while (janggiGame.isInProgress()) {
-            Player currentPlayer = janggiGame.getCurrentPlayer();
-            if (inputCommand(currentPlayer) == CommandOption.UNDO) {
-                janggiGame.undo();
-                continue;
-            }
-            playerTurn(janggiGame);
+    private void executeGame(Long gameId) {
+        while (janggiManager.isInProgress(gameId)) {
+            playTurn(gameId);
         }
     }
 
-    private void playerTurn(JanggiGame janggiGame) {
-        try {
-            Player nowPlayer = janggiGame.getCurrentPlayer();
-            Position startPosition = inputView.getStartPosition(nowPlayer);
-            Position endPosition = inputView.getEndPosition(nowPlayer);
-            janggiGame.movePiece(startPosition, endPosition);
-            outputView.printBoard(janggiGame.getAlivePieces());
-        } catch (IllegalArgumentException e) {
-            outputView.printError(e.getMessage());
-            playerTurn(janggiGame);
+    private void playTurn(Long gameId) {
+        Player currentPlayer = janggiManager.getCurrentPlayer(gameId);
+        if (inputCommand(currentPlayer) == CommandOption.UNDO) {
+            janggiManager.undo(gameId);
+            return;
         }
+        handleError(() -> movePiece(gameId));
+    }
+
+    private void movePiece(Long gameId) {
+        handleError(() -> {
+            Player nowPlayer = janggiManager.getCurrentPlayer(gameId);
+            Position from = handleError(() -> inputView.getStartPosition(nowPlayer));
+            Position to = handleError(() -> inputView.getEndPosition(nowPlayer));
+            janggiManager.movePiece(gameId, from, to);
+            showCurrentBoard(gameId);
+        });
     }
 
     private CommandOption inputCommand(Player player) {
-        try {
-            return inputView.getOptionCommand(player);
-        } catch (IllegalArgumentException e) {
-            outputView.printError(e.getMessage());
-            return inputCommand(player);
-        }
+        return handleError(
+                () -> inputView.getOptionCommand(player)
+        );
     }
 
-    private void showWinner(JanggiGame janggiGame) {
-        Player winner = janggiGame.findWinner();
-        if (janggiGame.isFinishedByCheckmate()) {
+    private void showWinner(Long gameId) {
+        Player winner = janggiManager.findWinner(gameId);
+        if (janggiManager.isFinishedByCheckmate(gameId)) {
             outputView.printWinner(winner);
             return;
         }
-        Map<Player, Double> playerScore = janggiGame.calculatePlayerScore();
+        Map<Player, Double> playerScore = janggiManager.calculatePlayerScore(gameId);
         outputView.printScoreWinner(winner, playerScore);
     }
 
-    private JanggiGame initializeGame() {
-        Players players = createPlayers();
-        HorseElephantSetupStrategy choPlayerStrategy = chooseStrategy(players.getChoPlayerName());
-        HorseElephantSetupStrategy hanPlayerStrategy = chooseStrategy(players.getHanPlayerName());
-        return JanggiGame.start(players, choPlayerStrategy, hanPlayerStrategy);
+    private long getPlayingGameId() {
+        List<JanggiGameResponseDto> inProgressGames = janggiManager.findInProgressGames();
+        if (isInProgressGameResumed(inProgressGames)) {
+            return inputView.getInProgressGameId(inProgressGames);
+        }
+
+        return getNewGameId();
     }
 
+    private long getNewGameId() {
+        Players players = handleError(this::createPlayers);
+        HorseElephantSetupStrategy choPlayerStrategy = chooseStrategy(players.getChoPlayerName());
+        HorseElephantSetupStrategy hanPlayerStrategy = chooseStrategy(players.getHanPlayerName());
+        return janggiManager.saveNewGame(players, choPlayerStrategy, hanPlayerStrategy);
+    }
+
+    private boolean isInProgressGameResumed(List<JanggiGameResponseDto> inProgressGames) {
+        if (inProgressGames.isEmpty() || !inputView.askToPlayInProgressGame()) {
+            return false;
+        }
+        return true;
+    }
+
+
     private HorseElephantSetupStrategy chooseStrategy(String players) {
-        String firstPlayerOption = inputView.getSetupNumber(players);
-        return SetupOption.findSetupStrategy(firstPlayerOption);
+        return handleError(() -> {
+            String playerOption = inputView.getSetupNumber(players);
+            return SetupOption.findSetupStrategy(playerOption);
+        });
     }
 
     private Players createPlayers() {
@@ -102,5 +119,22 @@ public class JanggiRunner {
         String firstPlayerName = inputView.getFirstPlayerName();
         String secondPlayerName = inputView.getSecondPlayerName();
         return new Usernames(firstPlayerName, secondPlayerName);
+    }
+
+    private <T> T handleError(Supplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            return handleError(supplier);
+        }
+    }
+    private void handleError(Runnable runnable){
+        try {
+            runnable.run();
+        } catch (IllegalArgumentException e) {
+            outputView.printError(e.getMessage());
+            handleError(runnable);
+        }
     }
 }
