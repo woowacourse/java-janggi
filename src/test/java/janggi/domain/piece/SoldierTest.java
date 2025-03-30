@@ -28,7 +28,7 @@ class SoldierTest {
     @DisplayName("해당 기물이 졸 기물인지 확인한다.")
     @Test
     void isSoliderTest() {
-        Assertions.assertThat(soldier.isSameType(PieceType.SOLIDER)).isTrue();
+        Assertions.assertThat(soldier.isSameType(PieceType.SOLDIER)).isTrue();
     }
 
     @DisplayName("기물이 움직이는 지 확인한다.")

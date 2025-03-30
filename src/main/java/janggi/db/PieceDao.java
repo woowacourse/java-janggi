@@ -45,7 +45,7 @@ public class PieceDao {
 
             while (resultSet.next()) {
                 switch (resultSet.getString("pieceType")) {
-                    case "SOLIDER":
+                    case "SOLDIER":
                         pieces.add(
                                 new Soldier(new Position(resultSet.getInt("positionX"), resultSet.getInt("positionY")),
                                         Team.valueOf(resultSet.getString("team"))));

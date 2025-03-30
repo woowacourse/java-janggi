@@ -14,7 +14,7 @@ public class Score {
             PieceType.ELEPHANT, 3,
             PieceType.GUARD, 3,
             PieceType.HORSE, 5,
-            PieceType.SOLIDER, 2
+            PieceType.SOLDIER, 2
     );
 
     private final List<Piece> pieces;

@@ -7,5 +7,5 @@ public enum PieceType {
     ELEPHANT,
     GUARD,
     HORSE,
-    SOLIDER
+    SOLDIER
 }

@@ -21,7 +21,7 @@ public class Soldier extends Piece {
     );
 
     public Soldier(final Position position, final Team team) {
-        super(team, position, PieceType.SOLIDER, new RoutePolicyForNormal());
+        super(team, position, PieceType.SOLDIER, new RoutePolicyForNormal());
     }
 
     @Override
