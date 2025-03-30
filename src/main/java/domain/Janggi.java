@@ -3,9 +3,9 @@ package domain;
 import domain.board.Board;
 import domain.board.BoardFactory;
 import domain.board.BoardPosition;
-import domain.piece.Piece;
 import domain.piece.Score;
 import domain.piece.Team;
+import domain.turn.Turn;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -74,11 +74,11 @@ public class Janggi {
             .nextTeam();
     }
 
-    public Map<BoardPosition, Piece> getPieces() {
-        return board.getPieces();
+    public Board getBoard() {
+        return board;
     }
 
-    public Team getCurrentTeam() {
-        return turn.getCurrentTeam();
+    public Turn getTurn() {
+        return turn;
     }
 }

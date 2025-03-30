@@ -13,6 +13,7 @@ import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Score;
 import domain.piece.Team;
+import domain.turn.Turn;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,17 +37,16 @@ class JanggiTest {
             Janggi janggi = Janggi.initialize();
 
             // then
-            Set<PieceType> pieceTypes = janggi.getPieces()
+            Set<PieceType> pieceTypes = janggi.getBoard()
+                .getPieces()
                 .values()
                 .stream()
                 .map(Piece::getPieceType)
                 .collect(Collectors.toSet());
 
             assertSoftly(softly -> {
-                softly.assertThat(pieceTypes)
-                    .containsExactlyInAnyOrder(PieceType.values());
-                softly.assertThat(janggi.getCurrentTeam())
-                    .isEqualTo(Team.GREEN);
+                softly.assertThat(pieceTypes).containsExactlyInAnyOrder(PieceType.values());
+                softly.assertThat(janggi.getTurn().getCurrentTeam()).isEqualTo(Team.GREEN);
             });
         }
 
@@ -79,7 +79,7 @@ class JanggiTest {
             janggi.processTurn(new BoardPosition(0, 0), new BoardPosition(0, 1));
 
             // then
-            assertThat(janggi.getCurrentTeam()).isEqualTo(Team.RED);
+            assertThat(janggi.getTurn().getCurrentTeam()).isEqualTo(Team.RED);
         }
 
 
@@ -101,12 +101,8 @@ class JanggiTest {
 
             // then
             assertSoftly(softly -> {
-                softly.assertThat(result.get(Team.GREEN)
-                        .value())
-                    .isEqualTo(4.0f);
-                softly.assertThat(result.get(Team.RED)
-                        .value())
-                    .isEqualTo(3.5f);
+                softly.assertThat(result.get(Team.GREEN).value()).isEqualTo(4.0f);
+                softly.assertThat(result.get(Team.RED).value()).isEqualTo(3.5f);
             });
         }
 

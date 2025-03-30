@@ -1,8 +1,11 @@
 package controller;
 
 import domain.Janggi;
+import domain.board.Board;
 import domain.board.BoardPosition;
+import domain.turn.Turn;
 import java.util.List;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
@@ -13,21 +16,26 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
     public JanggiController(
         final InputView inputView,
-        final OutputView outputView
+        final OutputView outputView,
+        final JanggiService janggiService
     ) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
     }
 
     public void run() {
-        final Janggi janggi = Janggi.initialize();
+        Janggi janggi = janggiService.startGame();
 
         while (!janggi.isGameOver()) {
             outputView.printTeamScores(janggi.calculateTeamScores());
-            outputView.printBoard(janggi.getPieces(), janggi.getCurrentTeam());
+            final Board board = janggi.getBoard();
+            final Turn turn = janggi.getTurn();
+            outputView.printBoard(board.getPieces(), turn.getCurrentTeam());
 
             final List<Integer> selectPosition = inputView.inputSelectPosition();
             final BoardPosition selectBoardPosition = createBoardPosition(selectPosition);
@@ -36,13 +44,14 @@ public class JanggiController {
             final List<Integer> destinationPosition = inputView.inputDestinationPosition();
             final BoardPosition destinationBoardPosition = createBoardPosition(destinationPosition);
 
-            janggi.processTurn(selectBoardPosition, destinationBoardPosition);
+            janggi = janggiService.playTurn(selectBoardPosition, destinationBoardPosition);
         }
 
         outputView.printGameOver(janggi.calculateWinner());
+        janggiService.deleteSavedGame();
     }
 
-    public BoardPosition createBoardPosition(final List<Integer> coordinates) {
+    private BoardPosition createBoardPosition(final List<Integer> coordinates) {
         validateSize(coordinates);
         return new BoardPosition(coordinates.get(COLUMN_INDEX), coordinates.get(ROW_INDEX));
     }
