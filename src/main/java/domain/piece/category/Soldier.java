@@ -40,4 +40,9 @@ public class Soldier extends Piece {
     public boolean canMoveInPalace() {
         return true;
     }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.SOLDIER;
+    }
 }

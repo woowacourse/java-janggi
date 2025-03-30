@@ -31,6 +31,8 @@ public abstract class Piece {
 
     public abstract boolean canMoveInPalace();
 
+    public abstract PieceType getType();
+
     public List<Position> getPath(final Position targetPosition) {
         List<Position> path = directions.getPath(position, targetPosition); // 일단 기본 이동 방향들로 먼저 경로 찾기
         // 궁성을 이동할 수 있는 기물이고, 궁성이 목적지일 경우

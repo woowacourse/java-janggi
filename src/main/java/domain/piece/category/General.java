@@ -40,4 +40,9 @@ public class General extends Piece {
     public boolean canMoveInPalace() {
         return true;
     }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.GENERAL;
+    }
 }

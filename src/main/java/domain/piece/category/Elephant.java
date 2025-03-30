@@ -40,4 +40,9 @@ public class Elephant extends Piece {
     public boolean canMoveInPalace() {
         return false;
     }
+
+    @Override
+    public PieceType getType() {
+        return PieceType.ELEPHANT;
+    }
 }
