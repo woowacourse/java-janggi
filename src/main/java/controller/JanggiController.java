@@ -1,9 +1,9 @@
 package controller;
 
 import domain.JanggiGame;
-import domain.board.BoardGenerator;
 import domain.piece.Team;
 import domain.score.Score;
+import service.JanggiDaoService;
 import util.ErrorHandler;
 import view.InputView;
 import view.MoveCommand;
@@ -15,12 +15,25 @@ import java.util.Map;
 
 public class JanggiController {
 
+    private final JanggiDaoService janggiDaoService;
+
+    public JanggiController(JanggiDaoService janggiDaoService) {
+        this.janggiDaoService = janggiDaoService;
+    }
+
     public void run() {
         OutputView.printStart();
+        JanggiGame janggiGame = createJanggiGame();
+        play(janggiGame);
+    }
+
+    private JanggiGame createJanggiGame() {
+        if (janggiDaoService.hasSavedGame() && InputView.selectLoadGame()) {
+            return new JanggiGame(janggiDaoService.findBoard(), janggiDaoService.findTurn());
+        }
         SangMaOrderCommand hanSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.HAN);
         SangMaOrderCommand choSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.CHO);
-        JanggiGame janggiGame = new JanggiGame(new BoardGenerator(), hanSangMaOrderCommand, choSangMaOrderCommand);
-        play(janggiGame);
+        return new JanggiGame(hanSangMaOrderCommand, choSangMaOrderCommand);
     }
 
     private SangMaOrderCommand createSangMaOrderCommandByTeam(final Team team) {

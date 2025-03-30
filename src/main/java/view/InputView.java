@@ -63,4 +63,11 @@ public class InputView {
             throw new IllegalArgumentException(input + ": [ERROR] 위치 정보는 정수로 입력해주세요.");
         }
     }
+
+    public static boolean selectLoadGame() {
+        System.out.println("> 저장된 게임이 있습니다. 다시 시작하시겠습니까?");
+        String input = scanner.nextLine();
+
+        return RestartCommand.select(input);
+    }
 }

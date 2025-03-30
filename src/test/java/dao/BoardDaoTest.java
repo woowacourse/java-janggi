@@ -11,9 +11,25 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Piece Dao 테스트")
+@DisplayName("Board Dao 테스트")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class BoardDaoTest {
+
+    @Test
+    void 저장된_데이터가_있다면_true를_반환한다() {
+        BoardDao boardDao = new FakeBoardDao();
+
+        assertThat(boardDao.hasRecords()).isTrue();
+    }
+
+    @Test
+    void 저장된_데이터가_없다면_false를_반환한다() {
+        BoardDao boardDao = new FakeBoardDao();
+
+        boardDao.removeAll();
+
+        assertThat(boardDao.hasRecords()).isFalse();
+    }
 
     @Test
     void 보드를_조회할_수_있다() {

@@ -21,6 +21,8 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import view.SangMaOrderCommand;
 
 public class BoardGenerator {
@@ -185,5 +187,16 @@ public class BoardGenerator {
             case MA -> new Ma(team);
             default -> throw new IllegalArgumentException("[ERROR] 상 또는 마가 아닙니다.");
         };
+    }
+
+    public Board loadBoard(final Map<Point, Piece> savedBoard) {
+        Map<Point, Node> nodeByPoint = initializeNodesAndEdges();
+        Map<Node, Piece> pieceByNode = new HashMap<>();
+        Set<Point> points = savedBoard.keySet();
+        for (Point point : points) {
+            Node node = nodeByPoint.get(point);
+            pieceByNode.put(node, savedBoard.get(point));
+        }
+        return new Board(pieceByNode, nodeByPoint);
     }
 }

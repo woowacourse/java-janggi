@@ -3,6 +3,8 @@ package domain;
 import domain.board.Board;
 import domain.board.BoardGenerator;
 import domain.board.Node;
+import domain.board.Point;
+import domain.piece.Piece;
 import domain.piece.Team;
 import domain.score.Score;
 import domain.score.ScoreCalculator;
@@ -18,11 +20,15 @@ public class JanggiGame {
     private final Board board;
     private Team team;
 
-    public JanggiGame(final BoardGenerator boardGenerator,
-                      final SangMaOrderCommand hanSangMaOrderCommand,
+    public JanggiGame(final SangMaOrderCommand hanSangMaOrderCommand,
                       final SangMaOrderCommand choSangMaOrderCommand) {
-        this.board = boardGenerator.generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
+        this.board = new BoardGenerator().generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
         this.team = START_TEAM;
+    }
+
+    public JanggiGame(final Map<Point, Piece> savedBoard, Team savedTurn) {
+        this.board = new BoardGenerator().loadBoard(savedBoard);
+        this.team = savedTurn;
     }
 
     public void movePiece(final MoveCommand moveCommand) {

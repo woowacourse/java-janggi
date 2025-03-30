@@ -17,6 +17,11 @@ public class FakeBoardDao implements BoardDao {
     ));
 
     @Override
+    public boolean hasRecords() {
+        return !pieces.isEmpty();
+    }
+
+    @Override
     public Map<Point, Piece> load() {
         return pieces;
     }

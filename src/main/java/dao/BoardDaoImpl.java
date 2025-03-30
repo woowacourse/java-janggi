@@ -27,6 +27,21 @@ public class BoardDaoImpl implements BoardDao {
     }
 
     @Override
+    public boolean hasRecords() {
+        final String query = "SELECT COUNT(*) FROM board";
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    @Override
     public Map<Point, Piece> load() {
         Map<Point, Piece> board = new HashMap<>();
         final String query = "SELECT * FROM board";
