@@ -1,14 +1,17 @@
 package domain.player;
 
+import database.DbConnection;
 import domain.Team;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 public class PlayerService {
     private final PlayerDao playerDao;
 
-    public PlayerService() {
-        this.playerDao = new PlayerDao();
+    public PlayerService() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        this.playerDao = new PlayerDao(connection);
     }
 
     public Players savePlayer(List<String> playerNames, int gameId) throws SQLException {

@@ -1,6 +1,5 @@
 package domain.player;
 
-import database.DbConnection;
 import domain.Team;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,18 +8,18 @@ import java.sql.SQLException;
 
 public class PlayerDao {
 
-    private final DbConnection dbConnection;
+    private final Connection connection;
 
-    public PlayerDao() {
-        this.dbConnection = DbConnection.getInstance();
+    public PlayerDao(Connection connection) {
+        this.connection = connection;
     }
 
     public Player insertPlayer(String playerName, int gameId, Team team) {
         String insertPlayerSql = "INSERT INTO player (name, game_id,team_color) VALUES (?,?,?)";
 
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(insertPlayerSql,
-                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (
+                PreparedStatement preparedStatement = connection.prepareStatement(insertPlayerSql,
+                        PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, playerName);
             preparedStatement.setInt(2, gameId);
