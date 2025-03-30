@@ -34,7 +34,7 @@ class ChariotTest {
         assertThat(chariot.getTeam()).isEqualTo(Team.HAN);
     }
 
-    @DisplayName("제공된 위치를 기준으로 이동할 수 없다면 예외를 던진다.")
+    @DisplayName("궁성의 영역이 아닐 때 목적지로 이동할 수 없다면(대각선으로 이동하는 경우) 예외를 던진다.")
     @Test
     void nonCanMoveBy() {
         //given
@@ -52,7 +52,7 @@ class ChariotTest {
                 .hasMessageStartingWith("[ERROR]");
     }
 
-    @DisplayName("차는 움직임을 제공된 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 예외를 던지지 않는다.")
+    @DisplayName("궁성이 아닐 때 제공된 위치를 기준으로 가로, 세로 방향으로 무제한 이동할 수 있다면 예외를 던지지 않는다.")
     @ParameterizedTest
     @MethodSource("chariotCanMoveByPositionProvider")
     void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
@@ -74,7 +74,7 @@ class ChariotTest {
     }
 
     @Nested
-    @DisplayName("차는 제공된 위치에서 목적지까지의 경로를 계산하여 반환한다.")
+    @DisplayName("제공된 위치에서 목적지까지의 경로를 계산하여 반환한다.")
     class makeRoute {
 
         @DisplayName("수직으로 아래로 이동할 때 경로를 계산한다.")
@@ -148,7 +148,7 @@ class ChariotTest {
             );
         }
 
-        @DisplayName("차의 이동 경로에 장애물이 있다면 예외를 던진다.")
+        @DisplayName("이동 경로에 장애물이 있다면 예외를 던진다.")
         @Test
         void hasObstacle() {
             //given
@@ -167,7 +167,7 @@ class ChariotTest {
                     .hasMessageStartingWith("[ERROR]");
         }
 
-        @DisplayName("차의 이동 경로에 장애물이 없다면 예외를 던지지 않는다.")
+        @DisplayName("이동 경로에 장애물이 없다면 예외를 던지지 않는다.")
         @Test
         void nonObstacle() {
             //given
@@ -185,4 +185,59 @@ class ChariotTest {
                     .doesNotThrowAnyException();
         }
     }
+
+    @DisplayName("궁성의 영역에서 직선으로 좌우전후 궁성의 간선을 타고 궁성의 영역을 벗어나지 않는 곳에서 무제한 이동할 수 있다.")
+    @ParameterizedTest
+    @MethodSource("chariotPalaceMovePositionProvider")
+    void palaceMove(final Position currentPosition, final Position targetPosition, final Palace palace) {
+        //given
+        final Chariot chariot = new Chariot(Team.CHU);
+
+        //when //then
+        assertThatCode(() -> chariot.canMoveBy(currentPosition, targetPosition, palace))
+                .doesNotThrowAnyException();
+    }
+
+    private static Stream<Arguments> chariotPalaceMovePositionProvider() {
+        final Palace palace = new PalaceGenerator().generate();
+
+        return Stream.of(
+                Arguments.of(new Position(9, 5), new Position(8, 5), palace),
+                Arguments.of(new Position(9, 5), new Position(7, 5), palace),
+                Arguments.of(new Position(9, 5), new Position(9, 4), palace),
+                Arguments.of(new Position(9, 5), new Position(9, 3), palace),
+                Arguments.of(new Position(9, 5), new Position(7, 4), palace),
+                Arguments.of(new Position(9, 5), new Position(7, 3), palace)
+        );
+    }
+
+    @DisplayName("궁성의 영역 내에서도 장애물을 넘을 수 없다.")
+    @ParameterizedTest
+    @MethodSource("chariotNonMoveObstacleInPalacePositionProvider")
+    void nonMoveObstacleInPalace(final Position currentPosition, final Position targetPosition, final Palace palace) {
+        //given
+        final Chariot chariot = new Chariot(Team.CHU);
+
+        final Map<Position, Piece> janggiBoard = Map.of(
+                new Position(8, 4), new Soldier(),
+                new Position(8, 5), new Soldier(),
+                new Position(9, 4), new Soldier()
+        );
+
+        //when //then
+        assertThatThrownBy(() -> chariot.moveTo(currentPosition, targetPosition, janggiBoard, palace))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 차를 이동할 수 없습니다. 차는 다른 기물을 넘어 다닐 수 없습니다.");
+    }
+
+    private static Stream<Arguments> chariotNonMoveObstacleInPalacePositionProvider() {
+        final Palace palace = new PalaceGenerator().generate();
+
+        return Stream.of(
+                Arguments.of(new Position(9, 5), new Position(7, 3), palace),
+                Arguments.of(new Position(9, 5), new Position(7, 5), palace),
+                Arguments.of(new Position(9, 5), new Position(9, 3), palace)
+        );
+    }
+
 }

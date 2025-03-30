@@ -41,6 +41,7 @@ public class Chariot extends PalaceAwarePiece {
 
         verticalRoute(dx, dy, route, currentRow, currentCol);
         horizontalRoute(dy, dx, route, currentRow, currentCol);
+        diagonalRoute(dx, dy, route, currentRow, currentCol);
 
         return route;
     }
@@ -97,12 +98,31 @@ public class Chariot extends PalaceAwarePiece {
         }
     }
 
+    private void diagonalRoute(final int dx, final int dy, final List<Position> route, final int currentRow,
+                               final int currentCol) {
+        if (dx >= 1 && dy >= 1) {
+            for (int i = 1; i < dy; i++) {
+                insertRoute(route, currentRow - i, currentCol - i);
+            }
+        }
+
+        if (dy <= -1 && dx <= -1) {
+            for (int i = 1; i < Math.abs(dy); i++) {
+                insertRoute(route, currentRow + i, currentCol + i);
+            }
+        }
+    }
+
     private void insertRoute(final List<Position> route, final int currentRow, final int currentCol) {
         route.add(new Position(currentRow, currentCol));
     }
 
     @Override
     public void canMoveBy(final Position currentPosition, final Position targetPosition, final Palace palace) {
+        if (palace.isInPalace(currentPosition, targetPosition)) {
+            return;
+        }
+
         if (isNotMove(currentPosition, targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 차가 움직일 수 없는 위치 입니다.");
         }
