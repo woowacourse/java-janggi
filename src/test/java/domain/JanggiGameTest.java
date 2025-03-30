@@ -3,6 +3,8 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import domain.dao.MemoryGameDao;
+import domain.dao.MemoryPieceDao;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
@@ -22,7 +24,8 @@ public class JanggiGameTest {
         List<Piece> beforeBoard = new ArrayList<>();
         Piece choCha = new Piece(Team.CHO, PieceType.CHA, new Position(1, 1));
         beforeBoard.add(choCha);
-        JanggiGame game = JanggiGame.initJanggiGame(1L, new FakeBoardGenerator(beforeBoard));
+        JanggiBoard board = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiGame game = new JanggiGame(new MemoryGameDao(), board);
 
         List<Piece> afterBoard = new ArrayList<>();
         afterBoard.add(new Piece(Team.CHO, PieceType.CHA, new Position(2, 1)));
@@ -40,7 +43,8 @@ public class JanggiGameTest {
         List<Piece> beforeBoard = new ArrayList<>();
         Piece choCha = new Piece(Team.CHO, PieceType.CHA, new Position(1, 1));
         beforeBoard.add(choCha);
-        JanggiGame game = JanggiGame.initJanggiGame(1L, new FakeBoardGenerator(beforeBoard));
+        JanggiBoard board = new JanggiBoard(new MemoryPieceDao(beforeBoard));
+        JanggiGame game = new JanggiGame(new MemoryGameDao(), board);
 
         assertThatThrownBy(() -> game.move(List.of(1, 1), List.of(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -51,10 +55,11 @@ public class JanggiGameTest {
     @Test
     void test5() {
         // given
-        List<Piece> board = new ArrayList<>();
-        board.add(new Piece(Team.HAN, PieceType.GUNG, new Position(1, 1)));
-        board.add(new Piece(Team.CHO, PieceType.GUNG, new Position(1, 2)));
-        JanggiGame game = JanggiGame.initJanggiGame(1L, new FakeBoardGenerator(board));
+        List<Piece> pieces = new ArrayList<>();
+        pieces.add(new Piece(Team.HAN, PieceType.GUNG, new Position(1, 1)));
+        pieces.add(new Piece(Team.CHO, PieceType.GUNG, new Position(1, 2)));
+        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(pieces));
+        JanggiGame game = new JanggiGame(new MemoryGameDao(), janggiBoard);
 
         // when
         boolean actual = game.isEnd();
@@ -67,9 +72,10 @@ public class JanggiGameTest {
     @Test
     void test6() {
         // given
-        List<Piece> board = new ArrayList<>();
-        board.add(new Piece(Team.HAN, PieceType.GUNG, new Position(1, 1)));
-        JanggiGame game = JanggiGame.initJanggiGame(1L, new FakeBoardGenerator(board));
+        List<Piece> pieces = new ArrayList<>();
+        pieces.add(new Piece(Team.HAN, PieceType.GUNG, new Position(1, 1)));
+        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(pieces));
+        JanggiGame game = new JanggiGame(new MemoryGameDao(), janggiBoard);
 
         // when
         boolean actual = game.isEnd();
@@ -81,14 +87,15 @@ public class JanggiGameTest {
     @Test
     void 모든팀의_점수을_계산할_수_있다() {
         // given
-        List<Piece> board = new ArrayList<>();
-        board.add(new Piece(Team.CHO, PieceType.PAWN, new Position(1, 1)));
-        board.add(new Piece(Team.CHO, PieceType.MA, new Position(1, 2)));
-        board.add(new Piece(Team.CHO, PieceType.SANG, new Position(1, 3)));
-        board.add(new Piece(Team.HAN, PieceType.PAWN, new Position(2, 1)));
-        board.add(new Piece(Team.HAN, PieceType.GUNG, new Position(2, 2)));
-        board.add(new Piece(Team.HAN, PieceType.SANG, new Position(2, 3)));
-        JanggiGame game = JanggiGame.initJanggiGame(1L, new FakeBoardGenerator(board));
+        List<Piece> pieces = new ArrayList<>();
+        pieces.add(new Piece(Team.CHO, PieceType.PAWN, new Position(1, 1)));
+        pieces.add(new Piece(Team.CHO, PieceType.MA, new Position(1, 2)));
+        pieces.add(new Piece(Team.CHO, PieceType.SANG, new Position(1, 3)));
+        pieces.add(new Piece(Team.HAN, PieceType.PAWN, new Position(2, 1)));
+        pieces.add(new Piece(Team.HAN, PieceType.GUNG, new Position(2, 2)));
+        pieces.add(new Piece(Team.HAN, PieceType.SANG, new Position(2, 3)));
+        JanggiBoard janggiBoard = new JanggiBoard(new MemoryPieceDao(pieces));
+        JanggiGame game = new JanggiGame(new MemoryGameDao(), janggiBoard);
 
         // when
         Map<Team, Double> teamDoubleMap = game.calculateScore();

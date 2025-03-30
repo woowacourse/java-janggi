@@ -2,6 +2,7 @@ package controller;
 
 import domain.GameRooms;
 import domain.JanggiGame;
+import domain.dao.GamesDaoImpl;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -17,7 +18,7 @@ public class JanggiController {
     }
 
     public void run() {
-        GameRooms gameRooms = new GameRooms();
+        GameRooms gameRooms = new GameRooms(new GamesDaoImpl());
         JanggiGame game = retry(() -> startGame(gameRooms));
         outputView.printJanggiBoard(game);
         while (!game.isEnd()) {

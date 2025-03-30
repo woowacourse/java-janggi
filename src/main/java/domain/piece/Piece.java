@@ -41,6 +41,10 @@ public class Piece {
         return this.type == type;
     }
 
+    public void changePosition(Position position) {
+        this.position = position;
+    }
+
     public int getScore() {
         return type.getScore();
     }

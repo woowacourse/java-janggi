@@ -8,8 +8,8 @@ public class GameRooms {
 
     private final GamesDao gamesDao;
 
-    public GameRooms() {
-        gamesDao = new GamesDao();
+    public GameRooms(GamesDao gamesDao) {
+        this.gamesDao = gamesDao;
     }
 
     public JanggiGame createRoom(String roomName) {

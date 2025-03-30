@@ -1,6 +1,5 @@
 package domain;
 
-import domain.boardgenerator.BoardGenerator;
 import domain.dao.GameDao;
 import domain.piece.Piece;
 import domain.piece.Position;
@@ -12,20 +11,12 @@ import java.util.stream.Collectors;
 
 public class JanggiGame {
 
-    private final JanggiBoard janggiBoard;
     private final GameDao gameDao;
+    private final JanggiBoard janggiBoard;
 
-    private JanggiGame(Long id, JanggiBoard board) {
+    public JanggiGame(GameDao gamesDao, JanggiBoard board) {
         this.janggiBoard = board;
-        this.gameDao = new GameDao(id);
-    }
-
-    public static JanggiGame createById(Long id) {
-        return new JanggiGame(id, new JanggiBoard(id));
-    }
-
-    public static JanggiGame initJanggiGame(Long gameId, BoardGenerator boardGenerator) {
-        return new JanggiGame(gameId, JanggiBoard.initBoard(boardGenerator, gameId));
+        this.gameDao = gamesDao;
     }
 
     public void move(List<Integer> startRowAndColumn, List<Integer> targetRowAndColumn) {

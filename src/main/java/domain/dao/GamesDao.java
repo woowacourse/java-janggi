@@ -1,84 +1,17 @@
 package domain.dao;
 
 import domain.JanggiGame;
-import domain.boardgenerator.JanggiBoardGenerator;
 import domain.piece.Team;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-import util.DBConnectionUtil;
 
-public class GamesDao {
+public interface GamesDao {
 
-    public JanggiGame add(final String name, final Team team) {
-        final var query = "INSERT INTO game (name, turn) VALUES(?, ?)";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)
-        ) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, team.toString());
-            preparedStatement.executeUpdate();
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                return JanggiGame.initJanggiGame(generatedKeys.getLong(1), new JanggiBoardGenerator());
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalArgumentException("게임을 생성하는데 실패했습니다.");
-    }
+    JanggiGame add(final String name, final Team team);
 
-    public JanggiGame findByName(final String name) {
-        final var query = "SELECT * FROM game WHERE name = ?";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)
-        ) {
-            preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return JanggiGame.createById(resultSet.getLong("game_id"));
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalArgumentException("게임이 존재하지 않습니다.");
-    }
+    JanggiGame findByName(final String name);
 
-    public List<String> findAllName() {
-        final var query = "SELECT * FROM game";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)
-        ) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<String> games = new ArrayList<>();
-            while (resultSet.next()) {
-                games.add(resultSet.getString("name"));
-            }
-            return games;
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    List<String> findAllName();
 
-    public Long countAll() {
-        final var query = "SELECT COUNT(*) AS row_count FROM game";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)
-        ) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getLong("row_count");
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-        throw new IllegalArgumentException("조회에 실패했습니다.");
-    }
+    Long countAll();
 
-    private Connection getConnection() {
-        return DBConnectionUtil.createConnection();
-    }
 }
