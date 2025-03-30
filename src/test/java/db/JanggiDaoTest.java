@@ -6,11 +6,11 @@ import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 
 class JanggiDaoTest {
-    private final JanggiDao userJanggiDao = new JanggiDao();
+    private final JanggiDao janggiDao = new JanggiDao();
 
     @Test
     public void connection() throws SQLException {
-        try (final var connection = userJanggiDao.getConnection()) {
+        try (final var connection = janggiDao.getConnection()) {
             assertThat(connection).isNotNull();
         }
     }
