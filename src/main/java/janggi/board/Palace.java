@@ -1,11 +1,7 @@
 package janggi.board;
 
-import janggi.position.Direction;
 import janggi.position.Position;
-import janggi.position.Route;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public enum Palace {
     HAN(3, 0),
@@ -30,33 +26,26 @@ public enum Palace {
         if (!isInPalace(picked)) {
             return false;
         }
-        for (Palace team : values()) {
-            if (isVertex(team, pickedColumn, pickedRow)) {
-                return true;
-            }
-        }
-        return isCenterInPalace(pickedColumn, pickedRow);
+        return Arrays.stream(values())
+                .anyMatch(team -> isVertex(team, pickedColumn, pickedRow) ||
+                        isCenterInPalace(team, pickedColumn, pickedRow));
     }
 
     private static boolean isVertex(Palace team, int pickedColumn, int pickedRow) {
-        if (team.startColumn == pickedColumn && team.startRow == pickedRow) {
-            return true;
-        }
-        if (team.startColumn + WIDTH - 1 == pickedColumn && team.startRow + HEIGHT - 1 == pickedRow) {
-            return true;
-        }
-        if (team.startColumn == pickedColumn && team.startRow + HEIGHT - 1 == pickedRow) {
-            return true;
-        }
-        if (team.startColumn + WIDTH - 1 == pickedColumn && team.startRow == pickedRow) {
-            return true;
-        }
-        return false;
+        int endColumn = team.startColumn + WIDTH - 1;
+        int endRow = team.startRow + HEIGHT - 1;
+
+        return (pickedColumn == team.startColumn && pickedRow == team.startRow) ||
+                (pickedColumn == endColumn && pickedRow == team.startRow) ||
+                (pickedColumn == team.startColumn && pickedRow == endRow) ||
+                (pickedColumn == endColumn && pickedRow == endRow);
     }
 
-    private static boolean isCenterInPalace(int pickedColumn, int pickedRow) {
-        return Arrays.stream(values())
-                .anyMatch(team -> team.startColumn + 1 == pickedColumn && team.startRow + 1 == pickedRow);
+    private static boolean isCenterInPalace(Palace team, int pickedColumn, int pickedRow) {
+        int centerColumn = team.startColumn + (WIDTH / 2);
+        int centerRow = team.startRow + (HEIGHT / 2);
+
+        return pickedColumn == centerColumn && pickedRow == centerRow;
     }
 
     public static boolean isInPalace(Position position) {
