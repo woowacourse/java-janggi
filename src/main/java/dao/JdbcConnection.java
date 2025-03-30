@@ -17,7 +17,18 @@ public class JdbcConnection {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
             System.err.println("DB 연결 오류:" + e.getMessage());
-            e.getStackTrace();
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            StringBuilder filteredStackTrace = new StringBuilder();
+
+            for (StackTraceElement element : stackTrace) {
+                // 중요한 정보만 로깅: 클래스명, 메서드명, 파일명, 라인번호
+                filteredStackTrace.append("Class: ").append(element.getClassName())
+                        .append(", Method: ").append(element.getMethodName())
+                        .append(", Line: ").append(element.getLineNumber())
+                        .append("\n");
+            }
+
+            System.err.println("Filtered StackTrace: " + filteredStackTrace);
             return null;
         }
     }
