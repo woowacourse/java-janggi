@@ -28,7 +28,7 @@ public class JanggiDao {
         try (final Connection connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             for (PieceType pieceType : PieceType.values()) {
-                preparedStatement.setString(1, pieceType.toString());
+                preparedStatement.setString(1, pieceType.getTitle());
                 preparedStatement.addBatch();
             }
 
@@ -39,13 +39,13 @@ public class JanggiDao {
         }
     }
 
-    public void insertInitialTeam(List<TeamType> teamTypes, TeamType currentTeam) {
+    public void insertInitialTeam(TeamType currentTeam) {
         final String query = "INSERT INTO team(name, current) VALUES(?, ?)";
 
         try (final Connection connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
 
-            for (TeamType teamType : teamTypes) {
+            for (TeamType teamType : TeamType.values()) {
                 preparedStatement.setString(1, teamType.getTitle());
                 preparedStatement.setBoolean(2, teamType == currentTeam);
                 preparedStatement.addBatch();
@@ -75,7 +75,7 @@ public class JanggiDao {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
                 preparedStatement.setString(1, piece.getTeamType().getTitle());
-                preparedStatement.setString(2, piece.getPieceType().toString());
+                preparedStatement.setString(2, piece.getPieceType().getTitle());
                 preparedStatement.setInt(3, position.getX());
                 preparedStatement.setInt(4, position.getY());
                 preparedStatement.addBatch();
@@ -207,7 +207,7 @@ public class JanggiDao {
     }
 
     private void deleteAllByTableNameIfExists(String table) {
-        final String query = "DELETE FROM " + table + "WHERE EXISTS (SELECT 1 FROM " + table + ")";
+        final String query = "DELETE FROM " + table;
         try (final Connection connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();

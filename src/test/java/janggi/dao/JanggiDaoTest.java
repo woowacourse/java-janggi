@@ -8,7 +8,6 @@ import janggi.dto.TeamTypeDto;
 import janggi.manager.ConnectionManager;
 import janggi.piece.PieceType;
 import janggi.team.TeamType;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -37,7 +36,7 @@ class JanggiDaoTest {
 
         @Test
         void 초기_팀을_추가한다() {
-            janggiDao.insertInitialTeam(List.of(TeamType.CHO, TeamType.HAN), TeamType.CHO);
+            janggiDao.insertInitialTeam(TeamType.CHO);
         }
 
         @Test
