@@ -1,6 +1,8 @@
 import static player.Nation.CHO;
 import static player.Nation.HAN;
 
+import Dao.GameStateDao;
+import Dao.JanggiGimulDao;
 import java.util.Map;
 import pieceProperty.Position;
 import pieceProperty.JanggiPieceInitializer;
@@ -24,11 +26,29 @@ public class Application {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
 
+        JanggiGimulDao janggiGimulDao = new JanggiGimulDao();
+        janggiGimulDao.getConnection();
+
+        GameStateDao gameStateDao = new GameStateDao();
+        gameStateDao.insertGameState();
+
         while (!janggiGameState.isGameOver()) {
             try{
-                outputView.printJanggiPan(hanPieces, choPieces);
-                Position presentPosition = inputView.getPresentPosition(janggiGameState.getAttackNation());
+                outputView.printJanggiPan(janggiGimulDao.findHanAllGimul(), janggiGimulDao.findChoAllGimul());
+                Position presentPosition = inputView.getPresentPosition(gameStateDao.getCurrentTurn());
                 Position destination = inputView.getDestination();
+
+                if (janggiGameState.getAttackNation().equals(HAN)) {
+                    janggiGimulDao.updateAttackGimul(presentPosition, destination,  1);
+                    janggiGimulDao.updateDefenceGimul(destination, 2);
+                    gameStateDao.changeAttackNation(janggiGameState.getAttackNation().getDefenseNation());
+                }
+
+                if (janggiGameState.getAttackNation().equals(CHO)) {
+                    janggiGimulDao.updateAttackGimul(presentPosition, destination, 2);
+                    janggiGimulDao.updateDefenceGimul(destination, 1);
+                    gameStateDao.changeAttackNation(janggiGameState.getAttackNation().getDefenseNation());
+                }
 
                 janggiGameState.movePiece(presentPosition, destination);
             } catch (IllegalArgumentException e) {

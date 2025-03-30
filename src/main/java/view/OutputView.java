@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
-import player.JanggiPan;
 
 public class OutputView {
 
@@ -27,24 +26,24 @@ public class OutputView {
     private static final String PIECE_DELIMITER = " | ";
     private static final String ROW = "  | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9";
 
-    public void printJanggiPan(final JanggiPan hanPieces, final JanggiPan choPieces) {
+    public void printJanggiPan(final Map<Position, PieceType> hanPieces, Map<Position, PieceType> choPieces) {
         String[][] janggiPan = new String[10][9];
 
 
         System.out.println(ROW);
 
-        for (Position position : hanPieces.getPieces().keySet()) {
+        for (Position position : hanPieces.keySet()) {
             int row = position.getRow();
             int col = position.getCol();
-            PieceType pieceType = hanPieces.getPieces().get(position).getPieceType();
+            PieceType pieceType = hanPieces.get(position);
             janggiPan[row][col] = RED_COLOR_CODE +  PIECE_TYPE_NAME_MAP.get(pieceType) + EXIT_CODE + PIECE_DELIMITER;
 
         }
 
-        for (Position position : choPieces.getPieces().keySet()) {
+        for (Position position : choPieces.keySet()) {
             int row = position.getRow();
             int col = position.getCol();
-            PieceType pieceType = choPieces.getPieces().get(position).getPieceType();
+            PieceType pieceType = choPieces.get(position);
             janggiPan[row][col] = GREEN_COLOR_CODE +  PIECE_TYPE_NAME_MAP.get(pieceType) + EXIT_CODE + PIECE_DELIMITER;
         }
 
