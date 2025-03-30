@@ -81,6 +81,20 @@ public class JanggiBoard {
         }
     }
 
+    private void validateTeam(final JanggiTeam currentTeam, final JanggiPosition from) {
+        JanggiChessPiece chessPiece = janggiPositions.getJanggiPieceByPosition(from);
+        if (currentTeam != chessPiece.getTeam()) {
+            throw new IllegalArgumentException("상대편의 기물을 움직일 수 없습니다.");
+        }
+    }
+
+    private List<JanggiPosition> getAvailableDestination(final JanggiPosition position) {
+        JanggiChessPiece chessPiece = janggiPositions.getJanggiPieceByPosition(position);
+        List<Path> coordinatePaths = chessPiece.getCoordinatePaths(position);
+        HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
+        return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, janggiPositions);
+    }
+
     private JanggiPosition getDestinationPosition(JanggiPosition startPosition) {
         while (true) {
             JanggiPosition destinationPosition = InputView.readDestinationPosition();
@@ -90,19 +104,6 @@ public class JanggiBoard {
             }
             OutputView.printInvalidDestination(destinationPosition);
         }
-    }
-
-    private void switchTeam() {
-        switch (currentTeam) {
-            case RED -> currentTeam = JanggiTeam.BLUE;
-            case BLUE -> currentTeam = JanggiTeam.RED;
-        }
-        Database.doDatabaseWork(() -> turnDao.save(currentTeam));
-    }
-
-    private void reset() {
-        janggiPositions.reset();
-        turnDao.deleteAll();
     }
 
     private boolean isExistBossAt(JanggiPosition position) {
@@ -122,13 +123,6 @@ public class JanggiBoard {
         janggiPositions.move(from, to);
     }
 
-    private void validateTeam(final JanggiTeam currentTeam, final JanggiPosition from) {
-        JanggiChessPiece chessPiece = janggiPositions.getJanggiPieceByPosition(from);
-        if (currentTeam != chessPiece.getTeam()) {
-            throw new IllegalArgumentException("상대편의 기물을 움직일 수 없습니다.");
-        }
-    }
-
     private void validateDestination(final JanggiPosition from, final JanggiPosition to) {
         List<JanggiPosition> destinations = getAvailableDestination(from);
         if (!destinations.contains(to)) {
@@ -140,11 +134,17 @@ public class JanggiBoard {
         janggiPositions.removeJanggiPieceByPosition(to);
     }
 
-    private List<JanggiPosition> getAvailableDestination(final JanggiPosition position) {
-        JanggiChessPiece chessPiece = janggiPositions.getJanggiPieceByPosition(position);
-        List<Path> coordinatePaths = chessPiece.getCoordinatePaths(position);
-        HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
-        return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, janggiPositions);
+    private void switchTeam() {
+        switch (currentTeam) {
+            case RED -> currentTeam = JanggiTeam.BLUE;
+            case BLUE -> currentTeam = JanggiTeam.RED;
+        }
+        Database.doDatabaseWork(() -> turnDao.save(currentTeam));
+    }
+
+    private void reset() {
+        janggiPositions.reset();
+        turnDao.deleteAll();
     }
 
     private Map<JanggiTeam, Score> getScores() {
