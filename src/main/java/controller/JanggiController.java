@@ -87,14 +87,14 @@ public class JanggiController {
         return true;
     }
 
-    private void executeSave(final JanggiGame janggiGame) {
-        outputView.printSaveResult();
-        janggiDaoService.saveAllData(janggiGame.board(), janggiGame.turnTeam());
-    }
-
     private void printScore(final JanggiGame janggiGame) {
         final Map<Team, Score> totalScoreByTeam = janggiGame.calculateTotalScoreByTeam();
         outputView.printScore(totalScoreByTeam);
+    }
+
+    private void executeSave(final JanggiGame janggiGame) {
+        outputView.printSaveResult();
+        janggiDaoService.saveAllData(janggiGame.board(), janggiGame.turnTeam());
     }
 
     private void executeExit(final JanggiGame janggiGame) {
