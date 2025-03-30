@@ -22,16 +22,19 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    PieceDao pieceDao = new PieceDao();
-    TurnDao turnDao = new TurnDao();
+    private final PieceDao pieceDao;
+    private final TurnDao turnDao;
+    private final Connection connection;
 
-    public JanggiController(final InputView inputView, final OutputView outputView) {
+    public JanggiController(InputView inputView, OutputView outputView, Connection connection) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.connection = connection;
+        this.pieceDao = new PieceDao(connection);
+        this.turnDao = new TurnDao(connection);
     }
 
     public void run() throws SQLException {
-        Connection connection = new Connection();
         Table table = new Table(connection);
         initializeDatabase(table);
 
@@ -96,19 +99,17 @@ public class JanggiController {
             if (table.isTableExist("turn")) {
                 table.dropTable("turn");
             }
-            
+
             table.createPieceTable();
             table.createTurnTable();
 
             List<Piece> initialPieces = PiecesInitializer.initializePieces(InitialElephantSetting.INNER_ELEPHANT)
                     .getPieces();
 
-            // 피스 테이블에 초기 장기말 저장
             for (Piece initialPiece : initialPieces) {
                 pieceDao.addPiece(initialPiece);
             }
 
-            // 턴 테이블에 블루팀 저장
             turnDao.addTeam(Team.BLUE);
         }
     }
