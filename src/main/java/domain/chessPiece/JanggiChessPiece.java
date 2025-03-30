@@ -30,4 +30,14 @@ public abstract class JanggiChessPiece implements ChessPiece {
     public final Score getScore() {
         return getChessPieceType().score;
     }
+
+    @Override
+    public boolean matchPosition(final ChessPosition position) {
+        return Objects.equals(position, this.position);
+    }
+
+    @Override
+    public ChessPosition getPosition() {
+        return position;
+    }
 }

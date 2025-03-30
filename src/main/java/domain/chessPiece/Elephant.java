@@ -8,6 +8,7 @@ import domain.position.ChessPosition;
 import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
 import java.util.List;
+import java.util.Objects;
 
 public class Elephant extends LimitedMoveChessPiece {
     private static final List<Directions> directions = List.of(
@@ -57,5 +58,18 @@ public class Elephant extends LimitedMoveChessPiece {
     @Override
     protected boolean canMove(final ChessPosition position, final Directions direction) {
         return true;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final Elephant elephant)) {
+            return false;
+        }
+        return Objects.equals(getPosition(), elephant.getPosition()) && Objects.equals(getTeam(), elephant.getTeam());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPosition(), getTeam());
     }
 }

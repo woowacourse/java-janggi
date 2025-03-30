@@ -6,9 +6,8 @@ import domain.hurdlePolicy.StopAtHurdlePolicy;
 import domain.position.ChessPosition;
 import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
-
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class Chariot extends UnlimitedMoveChessPiece {
 
@@ -56,5 +55,18 @@ public class Chariot extends UnlimitedMoveChessPiece {
     @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.CHARIOT;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final Chariot chariot)) {
+            return false;
+        }
+        return Objects.equals(getPosition(), chariot.getPosition());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getPosition());
     }
 }

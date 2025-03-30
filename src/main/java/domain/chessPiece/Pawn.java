@@ -10,6 +10,7 @@ import domain.type.ChessTeam;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Pawn extends LimitedMoveChessPiece {
 
@@ -31,9 +32,6 @@ public class Pawn extends LimitedMoveChessPiece {
     );
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
-    public Pawn(ChessTeam chessTeam) {
-        super(chessTeam, DIRECTIONS.get(chessTeam));
-    }
 
     public Pawn(final ChessPosition position, final ChessTeam team) {
         super(position, team, DIRECTIONS.get(team));
@@ -65,12 +63,25 @@ public class Pawn extends LimitedMoveChessPiece {
     }
 
     @Override
+    public ChessPiece from(final ChessPosition position) {
+        return new Pawn(position, getTeam());
+    }
+
+    @Override
     protected boolean canMove(final ChessPosition position, final Directions directions) {
         return position.canCastleMove(directions.getFirstDirection());
     }
 
     @Override
-    public ChessPiece from(final ChessPosition position) {
-        return new Pawn(position, getTeam());
+    public boolean equals(final Object o) {
+        if (!(o instanceof final Pawn pawn)) {
+            return false;
+        }
+        return Objects.equals(getPosition(), pawn.getPosition());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getPosition());
     }
 }

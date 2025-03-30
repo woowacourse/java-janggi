@@ -7,6 +7,7 @@ import domain.position.ChessPosition;
 import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
 import java.util.List;
+import java.util.Objects;
 
 public class Cannon extends UnlimitedMoveChessPiece {
     private static final List<Direction> directions = List.of(
@@ -47,5 +48,18 @@ public class Cannon extends UnlimitedMoveChessPiece {
     @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.CANNON;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final Cannon cannon)) {
+            return false;
+        }
+        return Objects.equals(getPosition(), cannon.getPosition());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getPosition());
     }
 }
