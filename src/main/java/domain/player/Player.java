@@ -25,7 +25,7 @@ public final class Player {
     }
 
     public static int validateId(int value) {
-        if (value < 0) {
+        if (value <= 0) {
             throw new IllegalArgumentException("Player ID는 음수일 수 없습니다.");
         }
         return value;

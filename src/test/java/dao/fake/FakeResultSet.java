@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-public class FakeResultSet implements ResultSet {
+public final class FakeResultSet implements ResultSet {
     private final List<Map<String, Object>> values;
     private int hasNextCount = -1;
 

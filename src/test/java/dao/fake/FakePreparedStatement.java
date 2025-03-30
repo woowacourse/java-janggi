@@ -1,6 +1,8 @@
 package dao.fake;
 
 import domain.player.Player;
+import dto.BoardLocation;
+import dto.BoardLocations;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -50,10 +52,9 @@ public final class FakePreparedStatement implements PreparedStatement {
             return new FakeResultSet(List.of(value));
         }
         if (sql.contains("select max(id)")) {
-            value.put("last_id", database.getLastId());
+            value.put("last_id", database.getLastPlayerId());
             return new FakeResultSet(List.of(value));
         }
-
         if (sql.contains("select * from player where id = ?")) {
             final int gameId = (Integer) parameters.get(1);
             final Player player = database.findPlayerById(gameId);
@@ -72,6 +73,21 @@ public final class FakePreparedStatement implements PreparedStatement {
                 value.put("team", player.getTeam().name());
                 value.put("score", player.getScore().value());
                 value.put("is_turn", player.isTurn());
+                values.add(new HashMap<>(value));
+                value = new HashMap<>();
+            }
+            return new FakeResultSet(values);
+        }
+        if (sql.contains("select l.*, p.*, g.id from board_location l")) {
+            final int gameId = (int) parameters.get(1);
+
+            final BoardLocations players = database.findAllLocationsByGameId(gameId);
+            final List<Map<String, Object>> values = new ArrayList<>();
+            for (final BoardLocation location : players) {
+                value.put("location_row", location.getRow());
+                value.put("location_column", location.getColumn());
+                value.put("location_piece", location.getPiece());
+                value.put("player_id", location.playerId());
                 values.add(new HashMap<>(value));
                 value = new HashMap<>();
             }
@@ -108,6 +124,29 @@ public final class FakePreparedStatement implements PreparedStatement {
 
             return database.updatePlayer(score, isTurn, id);
         }
+        if (sql.contains("insert into board_location (location_piece, location_row,")) {
+            final String piece = (String) parameters.get(1);
+            final int row = (int) parameters.get(2);
+            final int column = (int) parameters.get(3);
+            final int playerId = (int) parameters.get(4);
+            return database.createLocation(piece, row, column, playerId);
+        }
+        if (sql.contains("delete l from board_location")) {
+            final int row = (int) parameters.get(1);
+            final int column = (int) parameters.get(2);
+            final int gameId = (int) parameters.get(3);
+
+            return database.deleteLocationAt(row, column, gameId);
+        }
+        if (sql.contains("update board_location l join player pl on")) {
+            final int startRow = (int) parameters.get(1);
+            final int startColumn = (int) parameters.get(2);
+            final int arrivalRow = (int) parameters.get(3);
+            final int arrivalColumn = (int) parameters.get(4);
+            final int gameId = (int) parameters.get(5);
+            return database.updateLocation(startRow, startColumn, arrivalRow, arrivalColumn, gameId);
+        }
+
         throw new SQLException("지원하지 않는 쿼리: " + sql);
     }
 

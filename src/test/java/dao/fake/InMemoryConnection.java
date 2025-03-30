@@ -20,7 +20,7 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 
-public class InMemoryConnection implements Connection {
+public final class InMemoryConnection implements Connection {
     private final InMemoryDatabase database;
 
     public InMemoryConnection(final InMemoryDatabase database) {

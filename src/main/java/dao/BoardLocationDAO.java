@@ -53,16 +53,16 @@ public final class BoardLocationDAO {
         }
     }
 
-    public void updateLocation(final Point from, final Point to, final int gameId) {
+    public void updateLocation(final Point start, final Point arrival, final int gameId) {
         final String updateQuery = "UPDATE board_location l JOIN player pl ON l.player_id = pl.id "
                 + "SET l.location_row = ?, l.location_column = ? "
                 + "WHERE l.location_row = ? AND l.location_column = ? AND pl.game_id = ?";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-            updateStatement.setInt(1, to.row());
-            updateStatement.setInt(2, to.column());
-            updateStatement.setInt(3, from.row());
-            updateStatement.setInt(4, from.column());
+            updateStatement.setInt(1, start.row());
+            updateStatement.setInt(2, start.column());
+            updateStatement.setInt(3, arrival.row());
+            updateStatement.setInt(4, arrival.column());
             updateStatement.setInt(5, gameId);
             updateStatement.executeUpdate();
         } catch (final SQLException e) {

@@ -21,7 +21,7 @@ public final class PlayerDAOTest {
     @DisplayName("Player 추가를 요청한다.")
     void test_createWithGameId() {
         //given
-        assertThat(database.getGames().isEmpty()).isTrue();
+        assertThat(database.getPlayers().isEmpty()).isTrue();
         final Team team = Team.HAN;
         final int gameId = 1;
 
