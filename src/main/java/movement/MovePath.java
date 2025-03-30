@@ -48,10 +48,6 @@ public class MovePath {
         return new MovePaths(moveActions);
     }
 
-    public List<Movement> getMovements() {
-        return movements;
-    }
-
     public boolean canReachDestination(Position src, Position destination) {
         for (Movement movement : movements) {
             try {
@@ -61,6 +57,10 @@ public class MovePath {
             }
         }
         return src.equals(destination);
+    }
+
+    public List<Movement> getMovements() {
+        return movements;
     }
 
     @Override
