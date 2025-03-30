@@ -39,15 +39,15 @@ public final class OutputView {
         System.out.println(boardToString(locations));
     }
 
-    public void printWinner(final Team currentTeam) {
-        System.out.println(currentTeam.toString() + "가 승리했습니다!");
+    public void printWinner(final Team team) {
+        System.out.println(team + "가 승리했습니다!");
     }
 
     public void printScores(final Map<Team, Score> scores) {
         for (final Entry<Team, Score> scoresByTeam : scores.entrySet()) {
             final Team team = scoresByTeam.getKey();
             final Score score = scoresByTeam.getValue();
-            System.out.printf("%s : %.1f 점", team.toString(), score.value());
+            System.out.printf("%s : %.1f 점" + NEW_LINE, team, score.value());
         }
 
     }

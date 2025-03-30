@@ -1,25 +1,23 @@
 package repository;
 
 import domain.board.Point;
-import domain.pieces.Piece;
 import domain.player.Player;
 import domain.player.Team;
 import java.util.List;
-import java.util.Map;
-import vo.Location;
+import vo.BoardLocation;
 
 public final class DAOService {
 
     private final GameDAO gameDAO;
-    private final LocationDAO locationDAO;
+    private final BoardLocationDAO boardLocationDAO;
     private final PlayerDAO playerDAO;
 
     public DAOService(final GameDAO gameDAO,
-                      final LocationDAO locationDAO,
+                      final BoardLocationDAO boardLocationDAO,
                       final PlayerDAO playerDAO
     ) {
         this.gameDAO = gameDAO;
-        this.locationDAO = locationDAO;
+        this.boardLocationDAO = boardLocationDAO;
         this.playerDAO = playerDAO;
     }
 
@@ -36,16 +34,13 @@ public final class DAOService {
         gameDAO.deactivate(id);
     }
 
-    public void registerLocations(Map<Point, Piece> board) {
-        final List<Location> locations = board.entrySet().stream()
-                .map(entry -> new Location(entry.getKey(), entry.getValue()))
-                .toList();
-        locationDAO.createBatch(locations);
+    public void registerLocations(List<BoardLocation> boardLocations) {
+        boardLocationDAO.createBatch(boardLocations);
     }
 
     public void changeLocation(Point start, Point arrival, int gameId) {
-        locationDAO.deleteLocationAt(start, gameId);
-        locationDAO.updateLocation(start, arrival, gameId);
+        boardLocationDAO.deleteLocationAt(start, gameId);
+        boardLocationDAO.updateLocation(start, arrival, gameId);
     }
 
     public void switchTurn(List<Player> players) {

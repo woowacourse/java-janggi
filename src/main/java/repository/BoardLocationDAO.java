@@ -5,28 +5,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import vo.Location;
+import vo.BoardLocation;
 
-public final class LocationDAO {
+public final class BoardLocationDAO {
     private final Connector connector;
-    private final AtomicInteger counter = new AtomicInteger(0);
 
-    public LocationDAO(final Connector connector) {
+    public BoardLocationDAO(final Connector connector) {
         this.connector = connector;
     }
 
-    public void createBatch(final List<Location> locations) {
-        final String query = "INSERT INTO location (location_piece, location_row, location_column, player_id) "
+    public void createBatch(final List<BoardLocation> boardLocations) {
+        final String query = "INSERT INTO board_location (location_piece, location_row, location_column, player_id) "
                 + "VALUES (?,?,?,?)";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            for (Location location : locations) {
-                preparedStatement.setString(1, location.getPiece());
-                preparedStatement.setInt(2, location.getRow());
-                preparedStatement.setInt(3, location.getColumn());
-                preparedStatement.setInt(4, location.getPlayerId());
+            for (final BoardLocation boardLocation : boardLocations) {
+                preparedStatement.setString(1, boardLocation.getPiece());
+                preparedStatement.setInt(2, boardLocation.getRow());
+                preparedStatement.setInt(3, boardLocation.getColumn());
+                preparedStatement.setInt(4, boardLocation.getPlayerId());
                 preparedStatement.addBatch();
             }
 
@@ -37,7 +35,7 @@ public final class LocationDAO {
     }
 
     public void deleteLocationAt(final Point point, final int gameId) {
-        final String deleteQuery = "DELETE l FROM location l JOIN player pl ON l.player_id = pl.id "
+        final String deleteQuery = "DELETE l FROM board_location l JOIN player pl ON l.player_id = pl.id "
                 + "WHERE l.location_row = ? AND l.location_column = ? AND pl.game_id = ?";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
@@ -51,7 +49,7 @@ public final class LocationDAO {
     }
 
     public void updateLocation(final Point from, final Point to, final int gameId) {
-        final String updateQuery = "UPDATE location l JOIN player pl ON l.player_id = pl.id "
+        final String updateQuery = "UPDATE board_location l JOIN player pl ON l.player_id = pl.id "
                 + "SET l.location_row = ?, l.location_column = ? "
                 + "WHERE l.location_row = ? AND l.location_column = ? AND pl.game_id = ?";
         try (final Connection connection = connector.getConnection();

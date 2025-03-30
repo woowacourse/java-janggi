@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS player
     FOREIGN KEY (game_id) REFERENCES game (id)
 );
 
-CREATE TABLE IF NOT EXISTS location
+CREATE TABLE IF NOT EXISTS board_location
 (
     id              INT         NOT NULL AUTO_INCREMENT PRIMARY KEY,
     location_piece  VARCHAR(50) NOT NULL,

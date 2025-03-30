@@ -1,8 +1,8 @@
 import controller.JanggiController;
+import repository.BoardLocationDAO;
 import repository.Connector;
 import repository.DAOService;
 import repository.GameDAO;
-import repository.LocationDAO;
 import repository.MySQLConnector;
 import repository.PlayerDAO;
 import view.InputView;
@@ -17,7 +17,7 @@ public final class Application {
             final Connector connector = new MySQLConnector();
             final DAOService service = new DAOService(
                     new GameDAO(connector),
-                    new LocationDAO(connector),
+                    new BoardLocationDAO(connector),
                     new PlayerDAO(connector)
             );
 

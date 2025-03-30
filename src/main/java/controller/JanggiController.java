@@ -13,6 +13,7 @@ import java.util.function.Supplier;
 import repository.DAOService;
 import view.InputView;
 import view.OutputView;
+import vo.BoardLocation;
 import vo.Choice;
 
 public final class JanggiController {
@@ -37,7 +38,7 @@ public final class JanggiController {
     private void initGame() {
         try {
             final JanggiGame game = initialJanggiGame();
-            daoService.registerLocations(game.getBoard());
+            daoService.registerLocations(BoardLocation.convertToLocations(game.getBoard()));
             outputView.printBoard(game.getBoard());
             playJanggi(game);
         } catch (RuntimeException e) {

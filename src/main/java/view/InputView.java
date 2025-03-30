@@ -26,7 +26,7 @@ public final class InputView {
     }
 
     public List<List<Choice>> readMovementRequest(final Team team) {
-        System.out.println(team.toString() + "의 입력 차례입니다.");
+        System.out.println(team + "의 입력 차례입니다.");
         System.out.println("출발점과 도착점의 위치를 입력해주세요 ex. (A,1) (B,2)");
         final String input = scanner.nextLine();
         final String[] splitInput = input.split(" ");
