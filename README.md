@@ -2,6 +2,22 @@
 
 장기 미션 저장소
 
+## 실행 방법
+
+실행 전, 아래 명령어를 통해 DB 실행
+
+```text
+# Docker 실행하기
+docker-compose -p chess up -d
+```
+
+실행 후, 아래 명령어를 통해 DB 종료
+
+```text
+# Docker 정지하기
+docker-compose -p chess down
+```
+
 ## 장기 규칙
 
 ### 장기 말 종류
