@@ -99,7 +99,7 @@ public class OutputView {
         StringBuilder sb = new StringBuilder();
         sb.append("장기 게임방 목록입니다. (").append(allRoomNames.size()).append("개)\n");
         for (String name : allRoomNames) {
-            sb.append(" -").append(name).append("\n");
+            sb.append("-").append(name).append("\n");
         }
 
         System.out.println(sb);
