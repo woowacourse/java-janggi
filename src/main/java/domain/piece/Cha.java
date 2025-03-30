@@ -3,7 +3,7 @@ package domain.piece;
 import static domain.piece.PieceType.CHA;
 
 import domain.Coordinate;
-import domain.board.BoardContext;
+import domain.board.ReadableBoard;
 import domain.piece.movement.Movement;
 import domain.piece.movement.Movements;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class Cha extends Piece {
     }
 
     @Override
-    public List<Coordinate> findAvailablePaths(Coordinate from, BoardContext boardContext) {
+    public List<Coordinate> findAvailablePaths(Coordinate from, ReadableBoard readableBoard) {
         movements.addMovementIfInGung(from);
 
         List<Coordinate> availablePositions = new ArrayList<>();
@@ -28,8 +28,8 @@ public class Cha extends Piece {
             Coordinate next = from.move(movement);
 
             while (movement.isDiagonal() ? next.isInGungBoundary() : next.isInBoundary()) {
-                if (boardContext.hasPiece(next)) {
-                    if (!boardContext.isMyTeam(country, next)) {
+                if (readableBoard.hasPiece(next)) {
+                    if (!readableBoard.isMyTeam(country, next)) {
                         availablePositions.add(next);
                     }
                     break;

@@ -8,7 +8,7 @@ import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
-public final class Board implements BoardContext {
+public final class Board implements ReadableBoard, WritableBoard {
 
     private final Map<Coordinate, Piece> board;
 
@@ -58,7 +58,6 @@ public final class Board implements BoardContext {
         return board.containsKey(coordinate);
     }
 
-    @Override
     public boolean isMyTeam(Country country, Coordinate to) {
         return hasPiece(to) && country == findPieceByCoordinate(to).getCountry();
     }

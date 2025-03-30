@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.Coordinate;
-import domain.board.BoardContext;
+import domain.board.ReadableBoard;
 import domain.piece.movement.Movement;
 import domain.piece.movement.Movements;
 import java.util.List;
@@ -16,13 +16,13 @@ public class Gung extends Piece {
     }
 
     @Override
-    public List<Coordinate> findAvailablePaths(Coordinate from, BoardContext boardContext) {
+    public List<Coordinate> findAvailablePaths(Coordinate from, ReadableBoard readableBoard) {
         movements.addMovementIfInGung(from);
 
         return movements.getMovements().stream()
                 .map(from::move)
                 .filter(Coordinate::isInGungBoundary)
-                .filter(to -> !boardContext.isMyTeam(country, to))
+                .filter(to -> !readableBoard.isMyTeam(country, to))
                 .toList();
     }
 

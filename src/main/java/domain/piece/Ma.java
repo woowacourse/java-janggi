@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.Coordinate;
-import domain.board.BoardContext;
+import domain.board.ReadableBoard;
 import domain.piece.movement.Movement;
 import domain.piece.movement.Movements;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class Ma extends Piece {
     }
 
     @Override
-    public List<Coordinate> findAvailablePaths(Coordinate from, BoardContext boardContext) {
+    public List<Coordinate> findAvailablePaths(Coordinate from, ReadableBoard readableBoard) {
         List<Coordinate> availables = new ArrayList<>();
 
         for (Movements movements : movements) {
@@ -35,11 +35,11 @@ public class Ma extends Piece {
             if (first.isOutOfBoundary() || to.isOutOfBoundary()) {
                 continue;
             }
-            if (boardContext.hasPiece(first)) {
+            if (readableBoard.hasPiece(first)) {
                 continue;
             }
 
-            if (!boardContext.hasPiece(to) || !boardContext.isMyTeam(country, to)) {
+            if (!readableBoard.hasPiece(to) || !readableBoard.isMyTeam(country, to)) {
                 availables.add(to);
             }
         }
