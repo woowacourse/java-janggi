@@ -3,6 +3,7 @@ package view;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 import model.Point;
 import model.Team;
 
@@ -64,31 +65,44 @@ public class InputView {
         return setUp;
     }
 
-    public static List<Point> movePointInput(Team team) {
+    public static String getBeforePointInput(Team team) {
         sc = new Scanner(System.in);
-        System.out.printf("%s 나라의 차례\n", team.getTeamName());
-        System.out.println("이동할 기물의 위치를 선택하세요. 입력 형식 : 가로(공백)세로 ex)1 2");
-        System.out.println("wq : 저장 후 종료");
-        String userInput = sc.nextLine();
-        if (saveAndExitCheck(userInput)) {
-            return null;
-        }
-        Point beforePoint = getBeforePoint(team, userInput);
-        System.out.println("이동될 위치를 선택하세요. 입력 형식 : 가로(공백)세로 ex)1 2");
-        System.out.println("wq : 저장 후 종료");
-        userInput = sc.nextLine();
-        if (saveAndExitCheck(userInput)) {
-            return null;
-        }
-        Point targetPoint = getTargetPoint(userInput);
-        return List.of(beforePoint, targetPoint);
+        String userInput = "";
+        do {
+            System.out.printf("%s 나라의 차례\n", team.getTeamName());
+            System.out.println("이동할 기물의 위치를 선택하세요. 입력 형식 : 가로(공백)세로 ex)1 2");
+            System.out.println("엔터 : 건너뛰기, wq : 저장 후 종료");
+            userInput = sc.nextLine();
+            if (!inValidBeforePointInput(userInput)) {
+                return userInput;
+            }
+            System.out.println("[ERROR] 입력 형식이 올바르지 않습니다.");
+        } while (inValidBeforePointInput(userInput));
+        return userInput;
     }
 
-    private static boolean saveAndExitCheck(String userInput) {
-        if (userInput.equals("wq")) {
-            return true;
-        }
-        return false;
+    private static boolean inValidBeforePointInput(String userInput) {
+        return !userInput.isEmpty() && !userInput.equals("wq") && !Pattern.matches("^\\d{1,2} \\d{1,2}$", userInput);
+    }
+
+    private static boolean inValidTargetPointInput(String userInput) {
+        return !Pattern.matches("^\\d{1,2} \\d{1,2}$", userInput);
+    }
+
+    public static List<Point> getTargetPointInput(Team team, String beforePointInput) {
+        Point beforePoint = getBeforePoint(team, beforePointInput);
+        String targetPointInput;
+        do {
+            System.out.println("이동될 위치를 선택하세요. 입력 형식 : 가로(공백)세로 ex)1 2");
+            System.out.println("wq : 저장 후 종료");
+            targetPointInput = sc.nextLine();
+            if (!inValidTargetPointInput(targetPointInput)) {
+                Point targetPoint = getTargetPoint(targetPointInput);
+                return List.of(beforePoint, targetPoint);
+            }
+            System.out.println("[ERROR] 입력 형식이 올바르지 않습니다.");
+        } while (inValidTargetPointInput(targetPointInput));
+        return null;
     }
 
     private static Point getBeforePoint(Team team, String userInput) {

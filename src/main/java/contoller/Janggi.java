@@ -8,11 +8,11 @@ import static model.janggiboard.JanggiBoardSetUp.OUTER_ELEPHANT;
 import static model.janggiboard.JanggiBoardSetUp.RIGHT_ELEPHANT;
 import static view.InputView.choiceLoadOrNewGame;
 import static view.InputView.choiceSetUp;
+import static view.InputView.getBeforePointInput;
+import static view.InputView.getTargetPointInput;
 import static view.InputView.inputGameId;
-import static view.InputView.movePointInput;
 import static view.OutputVIew.displayJanggiBoard;
 import static view.OutputVIew.displayTotalScore;
-import static view.OutputVIew.printErrorMessage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +64,6 @@ public class Janggi {
         return gameId;
     }
 
-
     private void startNewGame() {
         int gameId = selectNewGameId();
         int setUpChoice = choiceSetUp();
@@ -92,31 +91,33 @@ public class Janggi {
         return gameId;
     }
 
-
-    private void playGame(int gameId, JanggiBoard janggiBoard, boolean choTurn) {
+    private void playGame(int gameId, JanggiBoard janggiBoard, boolean turn) {
         boolean isGameOver = false;
         do {
             displayTotalScore(janggiBoard.getTotalScore(BLUE), janggiBoard.getTotalScore(RED));
             displayJanggiBoard(janggiBoard);
-            Team team = decideTeam(choTurn);
-            try {
-                List<Point> movePoints = movePointInput(team);
-                if (movePoints == null) {
-                    saveGame(gameId, janggiBoard);
-                    return;
-                }
-                if (janggiBoard.isNotMyTeamPoint(movePoints.getFirst(), team)) {
-                    throw new IllegalArgumentException("아군 장기말만 움직일 수 있습니다.");
-                }
-                boolean isCriticalPoint = janggiBoard.isCriticalPoint(movePoints.getLast(), team);
-                boolean moveSuccess = janggiBoard.movePiece(movePoints.getFirst(), movePoints.getLast());
-                if (isCriticalPoint && moveSuccess) {
-                    isGameOver = true;
-                }
-                choTurn = !choTurn;
-            } catch (IllegalArgumentException e) {
-                printErrorMessage(e.getMessage());
+            Team team = decideTeam(turn);
+
+            String userInput = getBeforePointInput(team);
+            if (userInput.isEmpty()) {
+                turn = !turn;
+                continue;
             }
+            if (userInput.equals("wq")) {
+                saveGame(gameId, janggiBoard);
+                return;
+            }
+            List<Point> movePoints = getTargetPointInput(team, userInput);
+            if (janggiBoard.isNotMyTeamPoint(movePoints.getFirst(), team)) {
+                throw new IllegalArgumentException("아군 장기말만 움직일 수 있습니다.");
+            }
+            boolean isCriticalPoint = janggiBoard.isCriticalPoint(movePoints.getLast(), team);
+            boolean moveSuccess = janggiBoard.movePiece(movePoints.getFirst(), movePoints.getLast());
+            if (isCriticalPoint && moveSuccess) {
+                isGameOver = true;
+            }
+            turn = !turn;
+
         } while (!isGameOver);
 
     }
