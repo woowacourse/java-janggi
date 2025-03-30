@@ -59,11 +59,8 @@ public final class GameDao {
                         Integer.parseInt(resultSet.getString("column_index"))
                 );
 
-                String type = resultSet.getString("type");
-                String teamName = resultSet.getString("name");
-
-                Team team = teamName.equals("HAN") ? Team.HAN : Team.CHO;
-                Piece piece = getPieceByType(type, team);
+                Team team = getTeam(resultSet);
+                Piece piece = getPieceByType(resultSet, team);
 
                 locations.put(boardPoint, piece);
             }
@@ -74,7 +71,13 @@ public final class GameDao {
         }
     }
 
-    private static Piece getPieceByType(String type, Team team) {
+    private static Team getTeam(ResultSet resultSet) throws SQLException {
+        String teamName = resultSet.getString("name");
+        return teamName.equals("HAN") ? Team.HAN : Team.CHO;
+    }
+
+    private static Piece getPieceByType(ResultSet resultSet, Team team) throws SQLException {
+        String type = resultSet.getString("type");
         return switch (type) {
             case "Soldier" -> new Soldier(team);
             case "Elephant" -> new Elephant(team);
@@ -98,13 +101,11 @@ public final class GameDao {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             List<Player> players = new ArrayList<>();
-
             while (resultSet.next()) {
-                String teamName = resultSet.getString("name");
-                Team team = teamName.equals("HAN") ? Team.HAN : Team.CHO;
-
+                Team team = getTeam(resultSet);
                 players.add(new Player(team));
             }
+
             return players;
 
         } catch (final SQLException e) {
@@ -121,6 +122,7 @@ public final class GameDao {
 
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
+
             for (SwitchPlayerTurnRequestDto requestDto : requestDtos) {
                 preparedStatement.setString(1, requestDto.team().name());
                 preparedStatement.setString(2, String.valueOf(requestDto.isTurn()));
