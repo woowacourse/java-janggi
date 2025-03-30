@@ -1,9 +1,11 @@
 package model.piece;
 
 import model.Team;
-import model.piece.goongsungpiece.*;
-
-import java.util.Arrays;
+import model.piece.goongsungpiece.Byeong;
+import model.piece.goongsungpiece.Cha;
+import model.piece.goongsungpiece.Jang;
+import model.piece.goongsungpiece.Pho;
+import model.piece.goongsungpiece.Sa;
 
 public enum PieceInfo {
     JANG("漢", 0),
@@ -20,14 +22,6 @@ public enum PieceInfo {
     PieceInfo(String name, long score) {
         this.name = name;
         this.score = score;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getScore() {
-        return score;
     }
 
     public static Piece createPieceWithName(String pieceName, String teamName) {
@@ -49,6 +43,17 @@ public enum PieceInfo {
         if (pieceName.equals(PHO.getName())) {
             return new Pho(Team.getTeamWithName(teamName));
         }
-        return new Byeong(Team.getTeamWithName(teamName));
+        if (pieceName.equals(BYEONG.getName())) {
+            return new Byeong(Team.getTeamWithName(teamName));
+        }
+        throw new IllegalArgumentException("[ERROR] Unknown piece name: " + pieceName);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getScore() {
+        return score;
     }
 }
