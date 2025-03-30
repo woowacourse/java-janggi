@@ -3,50 +3,109 @@ package janggi;
 import janggi.board.Board;
 import janggi.board.BoardFactory;
 import janggi.board.SangSetting;
+import janggi.manager.JanggiManager;
+import janggi.piece.Piece;
+import janggi.position.Position;
 import janggi.team.TeamType;
 import janggi.team.Turn;
 import janggi.utils.ExceptionHandler;
 import janggi.view.InputView;
+import janggi.view.Menu;
 import janggi.view.ResultView;
+import java.util.Map;
 
 public class JanggiConsole {
 
     private final InputView inputView;
     private final ResultView resultView;
+    private final JanggiManager janggiManager;
 
-    public JanggiConsole(final InputView inputView, final ResultView resultView) {
+    public JanggiConsole(InputView inputView, ResultView resultView, JanggiManager janggiManager) {
         this.inputView = inputView;
         this.resultView = resultView;
+        this.janggiManager = janggiManager;
     }
 
     public void start() {
-        JanggiGame janggiGame = createInitialGame();
+        JanggiGame janggiGame = createJanggiGame();
 
-        resultView.printBoard(janggiGame.getPieces());
+        printGameState(janggiGame);
 
         while (janggiGame.canContinueGame()) {
-            final TeamType currentTeamType = janggiGame.getCurrentTeam();
-            resultView.printScoreBoard(janggiGame.getScoreEachTeam());
-            resultView.printOrder(currentTeamType);
-            ExceptionHandler.retry(() -> janggiGame.move(inputView.readMovingPosition()));
-            resultView.printBoard(janggiGame.getPieces());
+            Menu menu = ExceptionHandler.repeat(inputView::readMenu);
+            if (menu == Menu.MOVE) {
+                move(janggiGame);
+            }
+            if (menu == Menu.SAVE) {
+                save(janggiGame);
+                return;
+            }
+            if (menu == Menu.QUIT) {
+                quit(janggiGame);
+                return;
+            }
         }
 
+        resultView.printCatchingGungMessage();
         resultView.printJanggiResult(janggiGame.getWinningTeam());
+        janggiManager.endGame();
+    }
+
+    private JanggiGame createJanggiGame() {
+        Map<Position, Piece> piecesForProgressingGame = janggiManager.loadPiecesForProgressingGame();
+
+        if (piecesForProgressingGame.isEmpty()) {
+            return createInitialGame();
+        }
+
+        return loadProgressingGame(piecesForProgressingGame);
     }
 
     private JanggiGame createInitialGame() {
         final BoardFactory boardFactory = new BoardFactory();
 
         resultView.printSetting();
-
         SangSetting choSangSetting = ExceptionHandler.repeat(() -> SangSetting.selectSetting((
                 inputView.readElephantSetting(TeamType.CHO))));
         SangSetting hanSangSetting = ExceptionHandler.repeat(() -> SangSetting.selectSetting((
                 inputView.readElephantSetting(TeamType.HAN))));
+
         final Turn turn = new Turn();
         final Board board = boardFactory.makeBoard(choSangSetting, hanSangSetting);
 
         return new JanggiGame(board, turn);
+    }
+
+    private JanggiGame loadProgressingGame(Map<Position, Piece> piecesForProgressingGame) {
+        final BoardFactory boardFactory = new BoardFactory();
+        final Turn turn = new Turn(janggiManager.loadOrdersForProgressingGame());
+        final Board board;
+
+        board = boardFactory.loadProgressingBoard(piecesForProgressingGame);
+        resultView.printLoadingDoneMessage();
+
+        return new JanggiGame(board, turn);
+    }
+
+    private void move(JanggiGame janggiGame) {
+        final TeamType currentTeamType = janggiGame.getCurrentTeam();
+        resultView.printOrder(currentTeamType);
+        ExceptionHandler.retry(() -> janggiGame.move(inputView.readMovingPosition()));
+        printGameState(janggiGame);
+    }
+
+    private void save(JanggiGame janggiGame) {
+        janggiManager.saveGame(janggiGame.getCurrentTeam(), janggiGame.getPieces());
+    }
+
+    private void quit(JanggiGame janggiGame) {
+        resultView.printScoreBoard(janggiGame.getScoreEachTeam());
+        resultView.printJanggiResult(janggiGame.getWinningTeam());
+        janggiManager.endGame();
+    }
+
+    private void printGameState(JanggiGame janggiGame) {
+        resultView.printBoard(janggiGame.getPieces());
+        resultView.printScoreBoard(janggiGame.getScoreEachTeam());
     }
 }

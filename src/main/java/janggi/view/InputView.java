@@ -22,6 +22,16 @@ public class InputView {
         return scanner.nextLine();
     }
 
+    public Menu readMenu() {
+        System.out.println(LINE + """
+                메뉴를 선택해주세요.
+                1. MOVE (기물 이동)
+                2. SAVE (저장 후 중단)
+                3. QUIT (종료 및 결과 확인)
+                """);
+        return Menu.of(scanner.nextLine());
+    }
+
     public List<Position> readMovingPosition() {
         System.out.println(LINE + """
                 이동을 희망하는 기물의 현재 위치와 해당 기물이 이동할 위치를 입력해주세요.

@@ -17,6 +17,10 @@ public class ResultView {
     private static final String RED_CODE = "\u001B[31m";
     private static final String EXIT_CODE = "\u001B[0m";
 
+    public void printLoadingDoneMessage() {
+        System.out.println("진행 중인 게임 정보를 불러왔습니다.");
+    }
+
     public void printSetting() {
         System.out.println("""
                 마와 상을 배치할 수 있는 경우의 수는 다음과 같습니다.
@@ -72,10 +76,12 @@ public class ResultView {
         });
     }
 
+    public void printCatchingGungMessage() {
+        System.out.println("궁이 잡혔습니다.");
+    }
+
     public void printJanggiResult(final TeamType teamType) {
-        System.out.printf(LINE + """
-                궁이 잡혔습니다.
-                %s나라의 승리입니다!""", teamType.getTitle());
+        System.out.printf(LINE + "%s나라의 승리입니다!", teamType.getTitle());
     }
 
     private String convertColor(TeamType teamType, String input) {
