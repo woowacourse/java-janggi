@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.domain.game.Score;
 import janggi.domain.game.Turn;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Piece;
@@ -270,45 +269,6 @@ public class BoardTest {
                     () -> assertThat(board.getBoard().get(end)).isEqualTo(piece),
                     () -> assertThat(board.getBoard().get(start)).isNull()
             );
-        }
-    }
-
-    @Nested
-    @DisplayName("말 점수 테스트")
-    class PieceScoreTest {
-
-        @DisplayName("RED 팀 기물 점수를 계산한다.")
-        @Test
-        void returnScoreByRedSidePieces() {
-            // given
-            Board board = new Board(Map.of(
-                    new Position(1, 1), new Tank(Side.RED),
-                    new Position(1, 2), new Cannon(Side.RED),
-                    new Position(1, 3), new Soldier(Side.RED)
-            ));
-
-            // when
-            Score score = board.calculatePiecesScoreBySide(Side.RED);
-
-            // then
-            assertThat(score).isEqualTo(new Score(22));
-        }
-
-        @DisplayName("BLUE 팀 기물 점수를 계산한다.")
-        @Test
-        void returnScoreByBlueSidePieces() {
-            // given
-            Board board = new Board(Map.of(
-                    new Position(1, 1), new Tank(Side.BLUE),
-                    new Position(1, 2), new Cannon(Side.BLUE),
-                    new Position(1, 3), new Soldier(Side.BLUE)
-            ));
-
-            // when
-            Score score = board.calculatePiecesScoreBySide(Side.BLUE);
-
-            // then
-            assertThat(score).isEqualTo(new Score(22));
         }
     }
 }

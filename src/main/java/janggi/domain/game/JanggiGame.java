@@ -8,6 +8,7 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Side;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
@@ -35,7 +36,11 @@ public class JanggiGame {
     }
 
     public Score scoreBySide(final Side side) {
-        Score scoreBySide = board.calculatePiecesScoreBySide(side);
+        List<Piece> pieces = board.piecesBySide(side);
+        Score scoreBySide = pieces.stream()
+                .map(Piece::getScore)
+                .reduce(Score::plus)
+                .orElse(Score.zero());
         return Score.initBySide(side).plus(scoreBySide);
     }
 

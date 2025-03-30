@@ -1,11 +1,11 @@
 package janggi.domain.board;
 
-import janggi.domain.game.Score;
 import janggi.domain.game.Turn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Side;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -31,13 +31,11 @@ public class Board {
         throw new IllegalArgumentException("이동할 수 없습니다.");
     }
 
-    public Score calculatePiecesScoreBySide(final Side side) {
+    public List<Piece> piecesBySide(final Side side) {
         return board.values()
                 .stream()
                 .filter(piece -> piece.isSameSide(side))
-                .map(Piece::getScore)
-                .reduce(Score::plus)
-                .orElse(Score.zero());
+                .toList();
     }
 
     private void validateEndPosition(final Position end, final Piece pickedPiece) {
