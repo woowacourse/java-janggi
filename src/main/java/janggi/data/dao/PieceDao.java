@@ -1,65 +1,13 @@
 package janggi.data.dao;
 
 import janggi.board.point.Point;
-import janggi.data.DatabaseConnection;
 import janggi.piece.Piece;
-import java.sql.SQLException;
 
-public final class PieceDao {
+public interface PieceDao {
 
-    public void save(Point point, Piece piece) {
-        final String query = """
-                INSERT INTO piece (camp_id, piece_symbol_id, board_id, x, y)
-                VALUES (?, ?, ?, ?, ?)
-                """;
-        try (final var connection = DatabaseConnection.createConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            var campId = new CampDao().findIdByName(piece.getCamp().name());
-            var pieceSymbolId = new PieceSymbolDao().findIdByName(piece.getPieceSymbol().name());
-            var boardId = new BoardDao().findCurrentBoardId();
-            preparedStatement.setInt(1, campId);
-            preparedStatement.setInt(2, pieceSymbolId);
-            preparedStatement.setInt(3, boardId);
-            preparedStatement.setInt(4, point.x());
-            preparedStatement.setInt(5, point.y());
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    void save(Point point, Piece piece);
 
-    public void move(Point from, Point to) {
-        final String query = """
-                UPDATE piece
-                SET x = ?, y = ?
-                WHERE x = ? AND y = ? AND board_id = ?
-                """;
-        try (final var connection = DatabaseConnection.createConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, to.x());
-            preparedStatement.setInt(2, to.y());
-            preparedStatement.setInt(3, from.x());
-            preparedStatement.setInt(4, from.y());
-            preparedStatement.setInt(5, new BoardDao().findCurrentBoardId());
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    void move(Point from, Point to);
 
-    public void delete(Point point) {
-        final String query = """
-                DELETE FROM piece
-                WHERE x = ? AND y = ? AND board_id = ?
-                """;
-        try (final var connection = DatabaseConnection.createConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, point.x());
-            preparedStatement.setInt(2, point.y());
-            preparedStatement.setInt(3, new BoardDao().findCurrentBoardId());
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    void delete(Point point);
 }

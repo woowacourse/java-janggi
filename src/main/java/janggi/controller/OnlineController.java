@@ -91,7 +91,7 @@ public final class OnlineController implements Controller {
 
     private Board createNewBoard() {
         Board board = BoardGenerator.generate();
-        boardDao.createBoard();
+        boardDao.create();
         for (Point point : board.getPlacedPieces().keySet()) {
             Piece piece = board.getPlacedPieces().get(point);
             pieceDao.save(point, piece);
