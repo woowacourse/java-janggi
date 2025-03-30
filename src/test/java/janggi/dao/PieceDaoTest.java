@@ -94,6 +94,5 @@ class PieceDaoTest {
 
         // then
         assertThat(pieceDao.findAllPieces().size()).isEqualTo(0);
-
     }
 }

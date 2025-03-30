@@ -58,21 +58,20 @@ public class PositionDao {
         }
     }
 
-    public boolean deletePositionByXY(final int x, final int y) {
+    public void deletePositionByXY(final int x, final int y) {
         final String query = "DELETE FROM position WHERE x = ? AND y = ?";
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, x);
             preparedStatement.setInt(2, y);
             final int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;
         } catch (final SQLException e) {
             throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 
-    public boolean deletePosition(final Position position) {
-        return deletePositionByXY(position.x(), position.y());
+    public void deletePosition(final Position position) {
+        deletePositionByXY(position.x(), position.y());
     }
 
     public void deleteAllPositions() {
@@ -81,7 +80,7 @@ public class PositionDao {
              final PreparedStatement statement = connection.prepareStatement(query)) {
             statement.executeUpdate(query);
         } catch (final SQLException e) {
-            throw new RuntimeException("오류가 발생했습니다.");
+            throw new RuntimeException("오류가 발생했습니다.", e);
         }
     }
 }

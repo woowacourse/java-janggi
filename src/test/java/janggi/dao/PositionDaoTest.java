@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.domain.piece.direction.Position;
+import java.util.Optional;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 class PositionDaoTest {
 
     private final PositionDao positionDao = new PositionDao();
+    private final PieceDao pieceDao = new PieceDao();
 
     @BeforeAll
     static void setUpClass() {
@@ -21,6 +23,7 @@ class PositionDaoTest {
 
     @BeforeEach
     void setUp() {
+        pieceDao.deleteAllPieces();
         positionDao.deleteAllPositions();
     }
 
@@ -51,8 +54,8 @@ class PositionDaoTest {
 
         // when
         positionDao.addPosition(position);
-        final int positionId = positionDao.findIdByPosition(position);
-        final Position findPosition = positionDao.findPositionById(positionId);
+        final Optional<Integer> positionId = positionDao.findIdByPosition(position);
+        final Position findPosition = positionDao.findPositionById(positionId.get());
 
         // then
         assertThat(findPosition).isEqualTo(position);
@@ -70,8 +73,6 @@ class PositionDaoTest {
         positionDao.deletePosition(position);
 
         // then
-        assertThatCode(() -> positionDao.findIdByPosition(position))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("위치를 찾을 수 없습니다.");
+        assertThat(positionDao.findIdByPosition(position)).isEmpty();
     }
 }
