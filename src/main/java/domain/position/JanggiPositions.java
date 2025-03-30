@@ -5,10 +5,10 @@ import domain.janggiPiece.JanggiChessPiece;
 import domain.position.generator.DefaultPositionsGenerator;
 import domain.score.Score;
 import domain.type.JanggiTeam;
+import util.Database;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class JanggiPositions {
     private final Map<JanggiPosition, JanggiChessPiece> pieces;
@@ -16,7 +16,7 @@ public class JanggiPositions {
 
     public JanggiPositions(DefaultPositionsGenerator generator, BoardDao boardDao) {
         this.janggiBoardDao = boardDao;
-        Map<JanggiPosition, JanggiChessPiece> all = doDatabaseWorkWithReturn(janggiBoardDao::findAll);
+        Map<JanggiPosition, JanggiChessPiece> all = Database.doDatabaseWorkWithReturn(janggiBoardDao::findAll);
         if (all == null || all.isEmpty()) {
             pieces = generator.generate();
             saveAllPositions();
@@ -27,7 +27,7 @@ public class JanggiPositions {
 
     private void saveAllPositions() {
         for (JanggiPosition position : pieces.keySet()) {
-            doDatabaseWork(() -> janggiBoardDao.save(position, pieces.get(position)));
+            Database.doDatabaseWork(() -> janggiBoardDao.save(position, pieces.get(position)));
         }
     }
 
@@ -63,18 +63,18 @@ public class JanggiPositions {
     public void removeJanggiPieceByPosition(final JanggiPosition position) {
         validateExistPiece(position);
         pieces.remove(position);
-        doDatabaseWork(() -> janggiBoardDao.delete(position));
+        Database.doDatabaseWork(() -> janggiBoardDao.delete(position));
     }
 
     private void putJanggiPiece(final JanggiPosition position, final JanggiChessPiece chessPiece) {
         validateEmptyPosition(position);
         pieces.put(position, chessPiece);
-        doDatabaseWork(() -> janggiBoardDao.save(position, chessPiece));
+        Database.doDatabaseWork(() -> janggiBoardDao.save(position, chessPiece));
     }
 
     public void reset() {
         pieces.clear();
-        doDatabaseWork(janggiBoardDao::deleteAll);
+        Database.doDatabaseWork(janggiBoardDao::deleteAll);
     }
 
     public Score calculateScoreWith(JanggiTeam team) {
@@ -88,22 +88,5 @@ public class JanggiPositions {
 
     public Map<JanggiPosition, JanggiChessPiece> getJanggiPieces() {
         return Collections.unmodifiableMap(pieces);
-    }
-
-    private void doDatabaseWork(Runnable runnable) {
-        try {
-            runnable.run();
-        } catch (Exception e) {
-            System.out.println("데이터베이스 작업에 실패했습니다: " + e.getMessage());
-        }
-    }
-
-    private <T> T doDatabaseWorkWithReturn(Supplier<T> runnable) {
-        try {
-            return runnable.get();
-        } catch (Exception e) {
-            System.out.println("데이터베이스 작업에 실패했습니다: " + e.getMessage());
-        }
-        return null;
     }
 }
