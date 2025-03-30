@@ -28,8 +28,7 @@ public class General extends Piece {
 
     @Override
     public Path findPathForMove(Position fromPosition, Position toPosition) {
-        moveOnPalace(toPosition);
-
+        validateMoveInPalace(toPosition);
         Set<List<Movement>> combinedMovements = new HashSet<>(pieceMovements);
         if (fromPosition.isCenterOfPalace() || toPosition.isCenterOfPalace()) {
             combinedMovements.addAll(palaceMovements);
@@ -43,7 +42,7 @@ public class General extends Piece {
                 .withoutLast();
     }
 
-    private void moveOnPalace(final Position toPosition) {
+    private void validateMoveInPalace(final Position toPosition) {
         if (!toPosition.onPalace()) {
             throw new IllegalArgumentException("궁성 내에서만 이동할 수 있습니다.");
         }
