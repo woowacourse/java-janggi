@@ -1,6 +1,7 @@
 import domain.Board;
 import domain.Game;
 import domain.Player;
+import domain.piece.Piece;
 import domain.spatial.Position;
 import java.util.List;
 import repository.GameRepositoryImpl;
@@ -9,6 +10,7 @@ import repository.PlayerRepositoryImpl;
 import service.GameInitializerService;
 import service.GameLoadService;
 import service.GameService;
+import service.PieceService;
 import view.InputView;
 import view.OutputView;
 
@@ -72,21 +74,23 @@ public class KoreaChess {
         Player cho = board.getChoPlayer();
 
         while (!board.isGameFinished() && !inputView.isGameTurnEnd()) {
-            processTurn(han, board);
+            processTurn(game, han, board);
             if (board.isGameFinished()) {
                 break;
             }
-            processTurn(cho, board);
+            processTurn(game, cho, board);
         }
         printGameResult(board);
     }
 
-    private void processTurn(final Player player, final Board board) {
+    private void processTurn(final Game game, final Player player, final Board board) {
         while (true) {
             try {
-                Position movingHanPosition = parseToPosition(inputView.readMovingPiecePosition(player));
-                Position targetHanPosition = parseToPosition(inputView.readTargetPiecePosition());
-                board.moveAndCapture(player, movingHanPosition, targetHanPosition);
+                Position start = parseToPosition(inputView.readMovingPiecePosition(player));
+                Position target = parseToPosition(inputView.readTargetPiecePosition());
+                Piece moved = board.moveAndCapture(player, start, target);
+                new PieceService(new PieceRepositoryImpl()).delete(game.getName(), player.getTeam(), target);
+                new PieceService(new PieceRepositoryImpl()).update(game.getName(), player.getTeam(), start, moved);
                 outputView.printBoard(board);
                 return;
             } catch (Exception e) {

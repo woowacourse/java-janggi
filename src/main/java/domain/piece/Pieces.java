@@ -22,12 +22,13 @@ public record Pieces(
                 .orElse(PieceCategory.NONE);
     }
 
-    public void movePiece(final Position startPosition, final Position targetPosition, final MoveInfos moveInfos) {
+    public Piece movePiece(final Position startPosition, final Position targetPosition, final MoveInfos moveInfos) {
         Piece pieceToMove = findByPosition(startPosition);
         Piece movedPiece = pieceToMove.move(targetPosition, moveInfos);
 
         pieces.remove(pieceToMove);
         pieces.add(movedPiece);
+        return movedPiece;
     }
 
     public boolean existKing() {

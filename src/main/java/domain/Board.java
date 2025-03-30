@@ -1,5 +1,6 @@
 package domain;
 
+import domain.piece.Piece;
 import domain.piece.Pieces;
 import domain.piece.category.PieceCategory;
 import domain.spatial.Position;
@@ -10,7 +11,7 @@ public record Board(
         Map<Player, Pieces> gamePlayers
 ) {
 
-    public PieceCategory moveAndCapture(final Player current, final Position start, final Position target) {
+    public Piece moveAndCapture(final Player current, final Position start, final Position target) {
         Pieces player = gamePlayers.get(current);
         Pieces opponent = getOppositePieces(current);
 
@@ -19,10 +20,10 @@ public record Board(
         validatePlayerPieceCapture(target, player);
         MoveInfos moveInfos = createMoveInfos(paths);
 
-        player.movePiece(start, target, moveInfos);
+        Piece moved = player.movePiece(start, target, moveInfos);
         PieceCategory removed = opponent.removePieceIfExists(target);
         current.increaseScore(removed.getScore());
-        return removed;
+        return moved;
     }
 
     public boolean isGameFinished() {

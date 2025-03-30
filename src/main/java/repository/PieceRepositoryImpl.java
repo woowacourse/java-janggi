@@ -66,6 +66,21 @@ public class PieceRepositoryImpl implements PieceRepository {
         }
     }
 
+    @Override
+    public void deleteByPosition(final String gameName, final Team team, final Position position) {
+        final String query = "DELETE FROM piece WHERE game_name = ? AND player_team = ? AND row_value = ? AND column_value = ?";
+        try (final Connection connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, gameName);
+            preparedStatement.setString(2, team.name());
+            preparedStatement.setInt(3, position.row());
+            preparedStatement.setInt(4, position.column());
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Pieces mapResultSetToPieces(final ResultSet resultSet, final Team team) {
         try {
             final List<Piece> pieces = new ArrayList<>();
