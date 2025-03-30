@@ -32,16 +32,23 @@ public final class JanggiController {
     }
 
     public void run() {
+        List<Integer> activeGameIds = daoService.findAllActivateGames();
+        if (activeGameIds.isEmpty()) {
+            initNewGame();
+            return;
+        }
+
+        outputView.printActivateGames(activeGameIds);
         final Choice choice = inputView.readChoiceForLoadOrInitialize();
-        if (daoService.existsGame(choice)) {
+        if (activeGameIds.contains(choice.value())) {
             loadGame(choice);
             return;
         }
-        initGame();
+        initNewGame();
     }
 
     private void loadGame(final Choice choice) {
-        outputView.printLoadGame();
+        outputView.printLoadGame(choice);
         final JanggiGame game = loadJanggiGame(choice);
         outputView.printBoard(game.getBoard());
         playJanggi(game);
@@ -54,7 +61,7 @@ public final class JanggiController {
         return new JanggiGame(choice.value(), board, players);
     }
 
-    private void initGame() {
+    private void initNewGame() {
         final JanggiGame game = initialJanggiGame();
         daoService.registerLocations(new BoardLocations(game.getBoard()));
         outputView.printBoard(game.getBoard());

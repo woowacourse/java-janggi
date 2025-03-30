@@ -4,6 +4,7 @@ import domain.board.Point;
 import domain.pieces.Piece;
 import domain.player.Score;
 import domain.player.Team;
+import dto.Choice;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,6 +29,16 @@ public final class OutputView {
         System.out.println(message);
     }
 
+    public void printActivateGames(List<Integer> gameIds) {
+        final StringBuilder builder = new StringBuilder();
+        for (Integer gameId : gameIds) {
+            builder.append(gameId)
+                    .append("번 게임방이 진행 중입니다!")
+                    .append(NEW_LINE);
+        }
+        System.out.println(builder);
+    }
+
     public void printTurnGuide() {
         System.out.println("""
                 활성화된 방이 없습니다.
@@ -38,8 +49,8 @@ public final class OutputView {
                 """);
     }
 
-    public void printLoadGame() {
-        System.out.println("게임을 불러오는 중입니다.");
+    public void printLoadGame(final Choice choice) {
+        System.out.println(choice.value() + "번 게임방을 불러오는 중입니다.");
     }
 
     public void printBoard(final Map<Point, Piece> locations) {
@@ -101,6 +112,4 @@ public final class OutputView {
             builder.append(SPACE);
         }
     }
-
-
 }
