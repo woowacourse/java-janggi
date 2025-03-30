@@ -4,11 +4,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class JangiDatabase {
-    private static final String SERVER = "localhost:3306";
+    private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "jangi";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "db_chaeyoung";
+    private static final String PASSWORD = "moda";
 
     public static java.sql.Connection getConnection() {
         try {
