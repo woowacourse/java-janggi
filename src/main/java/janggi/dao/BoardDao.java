@@ -44,22 +44,6 @@ public class BoardDao {
         }
     }
 
-    public void addBoardPiece(Piece piece) {
-        final String query = "INSERT INTO board_piece (`piece_type`, `live_status`, `team`, `column_position`, `row_position`) VALUES(?, ?, ?, ?, ?)";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ) {
-            preparedStatement.setString(1, PIECE_TYPES.get(piece.getPieceType()));
-            preparedStatement.setBoolean(2, piece.isLive());
-            preparedStatement.setString(3, TEAMS.get(piece.getTeam()));
-            preparedStatement.setInt(4, piece.getPosition().column());
-            preparedStatement.setInt(5, piece.getPosition().row());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void addAllBoardPiece(List<Piece> pieces) {
         final String query = "INSERT INTO board_piece (`piece_type`, `live_status`, `team`, `column_position`, `row_position`) VALUES(?, ?, ?, ?, ?)";
         try (Connection connection = getConnection();
@@ -78,6 +62,23 @@ public class BoardDao {
         }
     }
 
+    public void updateBoardPiece(Piece previousPiece, Piece updatePiece) {
+        final var query = "UPDATE board_piece SET column_position = ?, row_position = ?, live_status = ? WHERE column_position = ? AND row_position = ? AND team = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setInt(1, updatePiece.getPosition().column());
+            preparedStatement.setInt(2, updatePiece.getPosition().row());
+            preparedStatement.setBoolean(3, updatePiece.isLive());
+            preparedStatement.setInt(4, previousPiece.getPosition().column());
+            preparedStatement.setInt(5, previousPiece.getPosition().row());
+            preparedStatement.setString(6, TEAMS.get(previousPiece.getTeam()));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public boolean existsBoardPiece() {
         final String query = "SELECT COUNT(*) FROM board_piece";
         try (Connection connection = getConnection();
@@ -85,7 +86,7 @@ public class BoardDao {
         ) {
             ResultSet result = preparedStatement.executeQuery();
             int count = 0;
-            if(result.next()) {
+            if (result.next()) {
                 count = result.getInt(1);
             }
             return count != 0;
@@ -101,7 +102,7 @@ public class BoardDao {
         ) {
             ResultSet result = preparedStatement.executeQuery();
             List<Piece> pieces = new ArrayList<>();
-            while(result.next()) {
+            while (result.next()) {
                 String pieceTypeData = result.getString("piece_type");
                 PieceType pieceType = PIECE_TYPES.entrySet().stream()
                         .filter(entry -> entry.getValue().equals(pieceTypeData))
@@ -125,5 +126,6 @@ public class BoardDao {
             throw new RuntimeException(e);
         }
     }
+
 
 }

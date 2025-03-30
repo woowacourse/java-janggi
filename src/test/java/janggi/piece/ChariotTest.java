@@ -21,9 +21,9 @@ public class ChariotTest {
         Chariot chariot = new Chariot(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(3, 3);
         //when
-        chariot.move(arrivedPosition);
+        Piece movedPiece = chariot.move(arrivedPosition);
         //then
-        assertThat(chariot.matchesPosition(new Position(3, 3))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(3, 3))).isTrue();
     }
 
     @Test
@@ -33,9 +33,9 @@ public class ChariotTest {
         Chariot chariot = new Chariot(Team.CHO, new Position(10, 1));
         Position arrivedPosition = new Position(7, 1);
         //when
-        chariot.move(arrivedPosition);
+        Piece movedPiece = chariot.move(arrivedPosition);
         //then
-        assertThat(chariot.matchesPosition(new Position(7, 1))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(7, 1))).isTrue();
     }
 
     @Test
@@ -45,9 +45,9 @@ public class ChariotTest {
         Chariot chariot = new Chariot(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(9, 3);
         //when
-        chariot.move(arrivedPosition);
+        Piece movedPiece = chariot.move(arrivedPosition);
         //then
-        assertThat(chariot.matchesPosition(new Position(9, 3))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(9, 3))).isTrue();
     }
 
     @Test
@@ -57,9 +57,9 @@ public class ChariotTest {
         Chariot chariot = new Chariot(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(7, 8);
         //when
-        chariot.move(arrivedPosition);
+        Piece movedPiece = chariot.move(arrivedPosition);
         //then
-        assertThat(chariot.matchesPosition(new Position(7, 8))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(7, 8))).isTrue();
     }
 
     @Test
@@ -69,9 +69,9 @@ public class ChariotTest {
         Chariot chariot = new Chariot(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(7, 1);
         //when
-        chariot.move(arrivedPosition);
+        Piece movedPiece = chariot.move(arrivedPosition);
         //then
-        assertThat(chariot.matchesPosition(new Position(7, 1))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(7, 1))).isTrue();
     }
 
     @Test
@@ -91,9 +91,9 @@ public class ChariotTest {
         //given
         Chariot chariot = new Chariot(Team.CHO, chariotPosition);
         //when
-        chariot.move(arrivedPosition);
+        Piece movedPiece = chariot.move(arrivedPosition);
         //then
-        assertThat(chariot.matchesPosition(arrivedPosition)).isTrue();
+        assertThat(movedPiece.matchesPosition(arrivedPosition)).isTrue();
     }
 
     static Stream<Arguments> makeChariotInPalaceForLeftUpCrossTest() {
@@ -127,9 +127,9 @@ public class ChariotTest {
         //given
         Chariot chariot = new Chariot(Team.CHO, chariotPosition);
         //when
-        chariot.move(arrivedPosition);
+        Piece movedPiece = chariot.move(arrivedPosition);
         //then
-        assertThat(chariot.matchesPosition(arrivedPosition)).isTrue();
+        assertThat(movedPiece.matchesPosition(arrivedPosition)).isTrue();
     }
 
     static Stream<Arguments> makeChariotInPalaceForRightUpCrossTest() {
@@ -164,9 +164,9 @@ public class ChariotTest {
         //given
         Chariot chariot = new Chariot(Team.CHO, chariotPosition);
         //when
-        chariot.move(arrivedPosition);
+        Piece movedPiece = chariot.move(arrivedPosition);
         //then
-        assertThat(chariot.matchesPosition(arrivedPosition)).isTrue();
+        assertThat(movedPiece.matchesPosition(arrivedPosition)).isTrue();
     }
 
     static Stream<Arguments> makeChariotInPalaceForLeftDownCrossTest() {
@@ -200,9 +200,9 @@ public class ChariotTest {
         //given
         Chariot chariot = new Chariot(Team.CHO, chariotPosition);
         //when
-        chariot.move(arrivedPosition);
+        Piece movedPiece = chariot.move(arrivedPosition);
         //then
-        assertThat(chariot.matchesPosition(arrivedPosition)).isTrue();
+        assertThat(movedPiece.matchesPosition(arrivedPosition)).isTrue();
     }
 
     static Stream<Arguments> makeChariotInPalaceForRightDownCrossTest() {

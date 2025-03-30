@@ -17,30 +17,39 @@ public class Board {
         this.locatedPieces = locatedPieces;
     }
 
-    public void move(Team turn, Position startPosition, Position arrivedPosition, BoardDao boardDao) {
+    public void dropPiece(Team turn, Position startPosition, Position arrivedPosition, BoardDao boardDao) {
         Piece attackerPiece = findByPosition(startPosition);
         checkTurn(turn, attackerPiece);
         boolean isOccupy = isOccupiedPosition(arrivedPosition);
         if (isOccupy) {
-            attackToTarget(attackerPiece, arrivedPosition);
+            attackToTarget(attackerPiece, arrivedPosition ,boardDao);
             return;
         }
-        move(attackerPiece, arrivedPosition);
+        move(attackerPiece, arrivedPosition, boardDao);
     }
 
     // todo 공격 성공 시 디비에 존재하는 공격 받은 기물 상태 변경
-    private Piece attackToTarget(Piece attackerPiece, Position arrivedPosition) {
+    private Piece attackToTarget(Piece attackerPiece, Position arrivedPosition, BoardDao boardDao) {
         Piece targetPiece = findByPosition(arrivedPosition);
         validateAttackingSameTeam(attackerPiece, targetPiece);
-        validateObstacle(attackerPiece, arrivedPosition);
-        targetPiece.receiveAttack();
-        attackerPiece.move(arrivedPosition);
-        return targetPiece;
+        // todo targetPiece 업데이트
+        Piece updatedPiece = targetPiece.receiveAttack();
+        updatePiece(targetPiece,updatedPiece,boardDao);
+        return move(attackerPiece, arrivedPosition, boardDao);
     }
 
-    private void move(Piece attackerPiece, Position arrivedPosition) {
+    private Piece move(Piece attackerPiece, Position arrivedPosition, BoardDao boardDao) {
+        // todo attackerPiece
         validateObstacle(attackerPiece, arrivedPosition);
-        attackerPiece.move(arrivedPosition);
+        Piece movedPiece = attackerPiece.move(arrivedPosition);
+        updatePiece(attackerPiece, movedPiece, boardDao);
+        return movedPiece;
+    }
+
+    private void updatePiece(Piece previousPiece, Piece updatePiece,  BoardDao boardDao) {
+        locatedPieces.remove(previousPiece);
+        locatedPieces.add(updatePiece);
+        boardDao.updateBoardPiece(previousPiece, updatePiece);
     }
 
     private void validateAttackingSameTeam(Piece attakerPiece, Piece targetPiece) {
@@ -100,7 +109,7 @@ public class Board {
 
     public List<Piece> extractLocatedLivePicecs() {
         return locatedPieces.stream()
-                .filter(piece -> piece.isLive())
+                .filter(Piece::isLive)
                 .toList();
     }
 

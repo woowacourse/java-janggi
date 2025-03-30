@@ -19,9 +19,7 @@ public class JanggiGame {
         Output output = new Output();
         BoardDao boardDao = new BoardDao();
 
-        // todo 장기말 데이터가 존재하지 않으면 초기화부터 진행한다.
-        // todo 장기말 데이터가 존재하면 장기말 데이터를 모두 가져와서 게임을 이어서 진행한다.
-            // todo 해당 게임의 턴에 따라서 게임을 진행한다.
+        // todo 해당 게임의 턴에 따라서 게임을 진행한다.
 
         List<Piece> initialPieces;
 
@@ -33,7 +31,6 @@ public class JanggiGame {
             boardDao.addAllBoardPiece(initialPieces);
         }
 
-        // todo 게임 상태가 진행 중 상태가 아니면 초기값에 맞게 초기화
         // todo 기물이 이동하면 기물 정보를 업데이트 해준다.
         // todo 기물 이동 완료되면 턴을 업데이트한다.
         // todo 게임이 종료되는 조건을 만나면 보유하고 있는 모든 장기말 데이터 삭제
@@ -45,7 +42,7 @@ public class JanggiGame {
             try {
                 output.printScore(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
                 Map.Entry<Position, Position> moveableInfo = input.readMoveablePiece();
-                board.move(turn, moveableInfo.getKey(), moveableInfo.getValue(), boardDao);
+                board.dropPiece(turn, moveableInfo.getKey(), moveableInfo.getValue(), boardDao);
                 output.printBoard(board.extractLocatedLivePicecs());
                 turn = changeTurn(turn);
             } catch (Exception e) {

@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class Soldier implements Piece {
     private final Team team;
-    private Position position;
+    private final Position position;
     private boolean isLive;
     private PieceType pieceType;
     private final List<List<Movement>> movements;
@@ -20,10 +20,19 @@ public class Soldier implements Piece {
     public Soldier(Team team, Position position) {
         this.team = team;
         this.position = position;
-        this.movements = choiceMovementsByTeam(team);
-        this.palaceMovements = choicePalaceMovementsByTeam(team);
         this.isLive = true;
         this.pieceType = PieceType.SOLDIER;
+        this.movements = choiceMovementsByTeam(team);
+        this.palaceMovements = choicePalaceMovementsByTeam(team);
+    }
+
+    public Soldier(Team team, Position position, boolean isLive) {
+        this.team = team;
+        this.position = position;
+        this.isLive = isLive;
+        this.pieceType = PieceType.SOLDIER;
+        this.movements = choiceMovementsByTeam(team);
+        this.palaceMovements = choicePalaceMovementsByTeam(team);
     }
 
     public Soldier(BoardPieceDto boardPieceDto) {
@@ -64,9 +73,9 @@ public class Soldier implements Piece {
     }
 
     @Override
-    public void move(Position arrivedPosition) {
+    public Piece move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        position = step(availableMovement);
+        return new Soldier(team, step(availableMovement), isLive);
     }
 
     // todo 졸/병 궁성 내 움직임 확인
@@ -145,8 +154,8 @@ public class Soldier implements Piece {
     }
 
     @Override
-    public void receiveAttack() {
-        isLive = false;
+    public Piece receiveAttack() {
+        return new Soldier(team, position, false);
     }
 
     @Override

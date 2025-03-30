@@ -17,12 +17,11 @@ public class ElephantTest {
     void elephantUpRightUpRightUpTest() {
         //given
         Elephant elephant = new Elephant(Team.CHO, new Position(7, 4));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(4, 6);
         //when
-        elephant.move(arrivedPosition);
+        Piece movedPiece = elephant.move(arrivedPosition);
         //then
-        assertThat(elephant.matchesPosition(new Position(4, 6))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(4, 6))).isTrue();
     }
 
     @Test
@@ -30,12 +29,11 @@ public class ElephantTest {
     void elephantUpLeftUpLeftUpTest() {
         //given
         Elephant elephant = new Elephant(Team.CHO, new Position(7, 4));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(4, 2);
         //when
-        elephant.move(arrivedPosition);
+        Piece movedPiece = elephant.move(arrivedPosition);
         //then
-        assertThat(elephant.matchesPosition(new Position(4, 2))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(4, 2))).isTrue();
     }
 
     @Test
@@ -43,12 +41,11 @@ public class ElephantTest {
     void elephantLeftLeftUpLeftUpTest() {
         //given
         Elephant elephant = new Elephant(Team.CHO, new Position(7, 4));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(5, 1);
         //when
-        elephant.move(arrivedPosition);
+        Piece movedPiece = elephant.move(arrivedPosition);
         //then
-        assertThat(elephant.matchesPosition(new Position(5, 1))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(5, 1))).isTrue();
     }
 
     @Test
@@ -56,12 +53,11 @@ public class ElephantTest {
     void elephantLeftLeftDownLeftDownTest() {
         //given
         Elephant elephant = new Elephant(Team.CHO, new Position(7, 4));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(9, 1);
         //when
-        elephant.move(arrivedPosition);
+        Piece movedPiece = elephant.move(arrivedPosition);
         //then
-        assertThat(elephant.matchesPosition(new Position(9, 1))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(9, 1))).isTrue();
     }
 
     @Test
@@ -69,12 +65,11 @@ public class ElephantTest {
     void elephantRightRightUpRightUpTest() {
         //given
         Elephant elephant = new Elephant(Team.CHO, new Position(7, 4));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(5, 7);
         //when
-        elephant.move(arrivedPosition);
+        Piece movedPiece = elephant.move(arrivedPosition);
         //then
-        assertThat(elephant.matchesPosition(new Position(5, 7))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(5, 7))).isTrue();
     }
 
     @Test
@@ -82,12 +77,11 @@ public class ElephantTest {
     void elephantRightRightDownRightDownTest() {
         //given
         Elephant elephant = new Elephant(Team.CHO, new Position(7, 4));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(9, 7);
         //when
-        elephant.move(arrivedPosition);
+        Piece movedPiece = elephant.move(arrivedPosition);
         //then
-        assertThat(elephant.matchesPosition(new Position(9, 7))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(9, 7))).isTrue();
     }
 
     @Test
@@ -95,12 +89,11 @@ public class ElephantTest {
     void elephantDownRightDownRightDownTest() {
         //given
         Elephant elephant = new Elephant(Team.CHO, new Position(7, 4));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(10, 6);
         //when
-        elephant.move(arrivedPosition);
+        Piece movedPiece = elephant.move(arrivedPosition);
         //then
-        assertThat(elephant.matchesPosition(new Position(10, 6))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(10, 6))).isTrue();
     }
 
     @Test
@@ -108,12 +101,11 @@ public class ElephantTest {
     void elephantDownLeftDownLeftDownTest() {
         //given
         Elephant elephant = new Elephant(Team.CHO, new Position(7, 4));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(10, 2);
         //when
-        elephant.move(arrivedPosition);
+        Piece movedPiece = elephant.move(arrivedPosition);
         //then
-        assertThat(elephant.matchesPosition(new Position(10, 2))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(10, 2))).isTrue();
     }
 
     @Test
@@ -121,7 +113,6 @@ public class ElephantTest {
     void outOfBoardTest() {
         //given
         Elephant elephant = new Elephant(Team.CHO, new Position(8, 4));
-        List<Piece> positioningPiece = List.of(new King(Team.CHO, new Position(2, 5)));
         Position arrivedPosition = new Position(11, 2);
         //when & then
         assertThatThrownBy(() -> elephant.move(arrivedPosition)).isInstanceOf(IllegalArgumentException.class);

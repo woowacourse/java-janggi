@@ -5,8 +5,6 @@ import janggi.team.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -18,9 +16,9 @@ public class CannonTest {
         Cannon cannon = new Cannon(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(3, 3);
         //when
-        cannon.move(arrivedPosition);
+        Piece movedPiece = cannon.move(arrivedPosition);
         //then
-        assertThat(cannon.matchesPosition(new Position(3, 3))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(3, 3))).isTrue();
     }
 
     @Test
@@ -30,9 +28,9 @@ public class CannonTest {
         Cannon cannon = new Cannon(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(9, 3);
         //when
-        cannon.move(arrivedPosition);
+        Piece movedPiece = cannon.move(arrivedPosition);
         //then
-        assertThat(cannon.matchesPosition(new Position(9, 3))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(9, 3))).isTrue();
     }
 
     @Test
@@ -42,9 +40,9 @@ public class CannonTest {
         Cannon cannon = new Cannon(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(7, 5);
         //when
-        cannon.move(arrivedPosition);
+        Piece movedPiece = cannon.move(arrivedPosition);
         //then
-        assertThat(cannon.matchesPosition(new Position(7, 5))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(7, 5))).isTrue();
     }
 
     @Test
@@ -54,9 +52,9 @@ public class CannonTest {
         Cannon cannon = new Cannon(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(7, 1);
         //when
-        cannon.move(arrivedPosition);
+        Piece movedPiece = cannon.move(arrivedPosition);
         //then
-        assertThat(cannon.matchesPosition(new Position(7, 1))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(7, 1))).isTrue();
     }
 
     @Test

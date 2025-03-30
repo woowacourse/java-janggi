@@ -8,7 +8,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,9 +21,9 @@ public class KingTest {
         King king = new King(Team.CHO, new Position(9, 5));
         Position arrivedPosition = new Position(8, 5);
         //when
-        king.move(arrivedPosition);
+        Piece movedPiece = king.move(arrivedPosition);
         //then
-        assertThat(king.matchesPosition(new Position(8, 5))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(8, 5))).isTrue();
     }
 
     @Test
@@ -34,9 +33,9 @@ public class KingTest {
         King king = new King(Team.CHO, new Position(9, 5));
         Position arrivedPosition = new Position(10, 5);
         //when
-        king.move(arrivedPosition);
+        Piece movedPiece = king.move(arrivedPosition);
         //then
-        assertThat(king.matchesPosition(new Position(10, 5))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(10, 5))).isTrue();
     }
 
     @Test
@@ -46,9 +45,9 @@ public class KingTest {
         King king = new King(Team.CHO, new Position(9, 5));
         Position arrivedPosition = new Position(9, 6);
         //when
-        king.move(arrivedPosition);
+        Piece movedPiece = king.move(arrivedPosition);
         //then
-        assertThat(king.matchesPosition(new Position(9, 6))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(9, 6))).isTrue();
     }
 
     @Test
@@ -58,9 +57,9 @@ public class KingTest {
         King king = new King(Team.CHO, new Position(9, 5));
         Position arrivedPosition = new Position(9, 4);
         //when
-        king.move(arrivedPosition);
+        Piece movedPiece = king.move(arrivedPosition);
         //then
-        assertThat(king.matchesPosition(new Position(9, 4))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(9, 4))).isTrue();
     }
 
     @Test
@@ -70,9 +69,9 @@ public class KingTest {
         King king = new King(Team.CHO, new Position(9, 5));
         Position arrivedPosition = new Position(8, 6);
         //when
-        king.move(arrivedPosition);
+        Piece movedPiece = king.move(arrivedPosition);
         //then
-        assertThat(king.matchesPosition(new Position(8, 6))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(8, 6))).isTrue();
     }
 
     @Test
@@ -82,9 +81,9 @@ public class KingTest {
         King king = new King(Team.CHO, new Position(9, 5));
         Position arrivedPosition = new Position(10, 6);
         //when
-        king.move(arrivedPosition);
+        Piece movedPiece = king.move(arrivedPosition);
         //then
-        assertThat(king.matchesPosition(new Position(10, 6))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(10, 6))).isTrue();
     }
 
     @Test
@@ -94,9 +93,9 @@ public class KingTest {
         King king = new King(Team.CHO, new Position(9, 5));
         Position arrivedPosition = new Position(8, 4);
         //when
-        king.move(arrivedPosition);
+        Piece movedPiece = king.move(arrivedPosition);
         //then
-        assertThat(king.matchesPosition(new Position(8, 4))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(8, 4))).isTrue();
     }
 
     @Test
@@ -106,9 +105,9 @@ public class KingTest {
         King king = new King(Team.CHO, new Position(9, 5));
         Position arrivedPosition = new Position(10, 4);
         //when
-        king.move(arrivedPosition);
+        Piece movedPiece = king.move(arrivedPosition);
         //then
-        assertThat(king.matchesPosition(new Position(10, 4))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(10, 4))).isTrue();
     }
 
     @Test

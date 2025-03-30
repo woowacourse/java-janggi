@@ -26,11 +26,18 @@ public class Cannon implements Piece {
     );
 
     private final Team team;
-    private Position position;
+    private final Position position;
     private boolean isLive;
     private PieceType pieceType;
 
     public Cannon(Team team, Position position) {
+        this.team = team;
+        this.position = position;
+        this.isLive = true;
+        this.pieceType = PieceType.CANNON;
+    }
+
+    public Cannon(Team team, Position position, boolean isLive) {
         this.team = team;
         this.position = position;
         this.isLive = true;
@@ -45,9 +52,9 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public void move(Position arrivedPosition) {
+    public Piece move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        position = step(availableMovement, arrivedPosition);
+        return new Cannon(team, step(availableMovement, arrivedPosition), isLive);
     }
 
     private List<List<Movement>> generateMovements() {
@@ -156,8 +163,8 @@ public class Cannon implements Piece {
     }
 
     @Override
-    public void receiveAttack() {
-        isLive = false;
+    public Piece receiveAttack() {
+        return new Cannon(team, position, false);
     }
 
     @Override

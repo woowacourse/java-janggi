@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.dao.BoardDao;
 import janggi.piece.*;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -10,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -18,6 +20,7 @@ import static org.assertj.core.api.Assertions.*;
 public class BoardTest {
 
     private static final PieceGenerator pieceGenerator = new PieceGenerator();
+    private static final BoardDao boardDao = new BoardDao();
 
     @Test
     @DisplayName("보드에서 선택한 기물을 다른 기물로 이동 시킬 수 있는지 확인")
@@ -27,7 +30,7 @@ public class BoardTest {
         Position startPosition = new Position(10, 1);
         Position arrivedPosition = new Position(8, 1);
         //when
-        board.move(Team.CHO, startPosition, arrivedPosition);
+        board.dropPiece(Team.CHO, startPosition, arrivedPosition, boardDao);
         List<Piece> positionedPieces = board.extractLocatedLivePicecs();
         Piece findPiece = positionedPieces.stream()
                 .filter(piece -> piece.matchesPosition(arrivedPosition))
@@ -45,7 +48,7 @@ public class BoardTest {
         Position startPosition = new Position(10, 1);
         Position arrivedPosition = new Position(8, 1);
         //when & then
-        Assertions.assertThatThrownBy(() -> board.move(Team.HAN, startPosition, arrivedPosition))
+        Assertions.assertThatThrownBy(() -> board.dropPiece(Team.HAN, startPosition, arrivedPosition, boardDao))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -57,19 +60,18 @@ public class BoardTest {
         Position startPosition = new Position(9, 1);
         Position arrivedPosition = new Position(8, 1);
         //when & then
-        Assertions.assertThatThrownBy(() -> board.move(Team.CHO, startPosition, arrivedPosition));
+        Assertions.assertThatThrownBy(() -> board.dropPiece(Team.CHO, startPosition, arrivedPosition, boardDao));
     }
 
     @Test
     @DisplayName("포 이동 경로에 넘을 수 있는 장애물이 존재하는 경우 이동")
     void cannonMoveTest() {
-        Board board = new Board(List.of(
+        Board board = new Board(new ArrayList<>(List.of(
                 new Cannon(Team.CHO, new Position(8, 2)),
-                new Elephant(Team.CHO, new Position(8, 3))
-        ));
+                new Elephant(Team.CHO, new Position(8, 3)))));
 
         assertThatCode(
-                () -> board.move(Team.CHO, new Position(8, 2), new Position(8, 5))
+                () -> board.dropPiece(Team.CHO, new Position(8, 2), new Position(8, 5), boardDao)
         ).doesNotThrowAnyException();
     }
 
@@ -82,21 +84,20 @@ public class BoardTest {
         ));
 
         assertThatThrownBy(
-                () -> board.move(Team.CHO, new Position(8, 2), new Position(8, 5))
+                () -> board.dropPiece(Team.CHO, new Position(8, 2), new Position(8, 5), boardDao)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("포 이동 경로에 장애물이 여러개 존재하는 경우 예외 발생")
     void hasManyObstacleExceptionTest() {
-        Board board = new Board(List.of(
+        Board board = new Board(new ArrayList<>(List.of(
                 new Cannon(Team.CHO, new Position(8, 2)),
                 new Elephant(Team.CHO, new Position(8, 3)),
-                new Elephant(Team.CHO, new Position(8, 4))
-        ));
+                new Elephant(Team.CHO, new Position(8, 4)))));
 
         assertThatThrownBy(
-                () -> board.move(Team.CHO, new Position(8, 2), new Position(8, 5))
+                () -> board.dropPiece(Team.CHO, new Position(8, 2), new Position(8, 5), boardDao)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -105,13 +106,12 @@ public class BoardTest {
     @DisplayName("포 궁성 내 대각선 이동 테스트")
     void moveCrossWithinPalaceTest(Position cannonPosition, Position abstaclePosition, Position arrivedPosition) {
         //given
-        Board board = new Board(List.of(
+        Board board = new Board(new ArrayList<>(List.of(
                 new Cannon(Team.CHO, cannonPosition),
-                new King(Team.CHO, abstaclePosition)
-        ));
+                new King(Team.CHO, abstaclePosition))));
         //when & then
         assertThatCode(
-                () -> board.move(Team.CHO, cannonPosition, arrivedPosition)
+                () -> board.dropPiece(Team.CHO, cannonPosition, arrivedPosition, boardDao)
         ).doesNotThrowAnyException();
     }
 
@@ -128,14 +128,10 @@ public class BoardTest {
     @DisplayName("포 궁성 내 대각선 이동 불가 테스트")
     void moveCrossWithinPalaceExceptionTest(Position cannonPosition, Piece abstacle, Position arrivedPosition) {
         //given
-        Board board = new Board(List.of(
-                new Cannon(Team.CHO, cannonPosition),
-                abstacle
-        ));
-
+        Board board = new Board(new ArrayList<>(List.of(new Cannon(Team.CHO, cannonPosition), abstacle)));
         //when & then
         assertThatThrownBy(
-                () -> board.move(Team.CHO, cannonPosition, arrivedPosition)
+                () -> board.dropPiece(Team.CHO, cannonPosition, arrivedPosition, boardDao)
         ).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -151,12 +147,10 @@ public class BoardTest {
     @DisplayName("차 궁성 내 대각선 이동 테스트")
     void moveCrossWithinPalaceTest() {
         //given
-        Board board = new Board(List.of(
-                new Chariot(Team.CHO, new Position(10,4))
-        ));
+        Board board = new Board(new ArrayList<>(List.of(new Chariot(Team.CHO, new Position(10, 4)))));
         //when & then
         assertThatCode(
-                () -> board.move(Team.CHO, new Position(10,4), new Position(8,6))
+                () -> board.dropPiece(Team.CHO, new Position(10, 4), new Position(8, 6), boardDao)
         ).doesNotThrowAnyException();
     }
 }

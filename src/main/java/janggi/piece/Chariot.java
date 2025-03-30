@@ -27,7 +27,7 @@ public class Chariot implements Piece {
     );
 
     private final Team team;
-    private Position position;
+    private final Position position;
     private boolean isLive;
     private PieceType pieceType;
 
@@ -35,6 +35,13 @@ public class Chariot implements Piece {
         this.team = team;
         this.position = position;
         this.isLive = true;
+        this.pieceType = PieceType.CHARIOT;
+    }
+
+    public Chariot(Team team, Position position, boolean isLive) {
+        this.team = team;
+        this.position = position;
+        this.isLive = isLive;
         this.pieceType = PieceType.CHARIOT;
     }
 
@@ -46,9 +53,9 @@ public class Chariot implements Piece {
     }
 
     @Override
-    public void move(Position arrivedPosition) {
+    public Piece move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        position = step(availableMovement, arrivedPosition);
+        return new Chariot(team, step(availableMovement, arrivedPosition), isLive);
     }
 
     private List<List<Movement>> generateMovements() {
@@ -176,8 +183,9 @@ public class Chariot implements Piece {
     }
 
     @Override
-    public void receiveAttack() {
+    public Piece receiveAttack() {
         isLive = false;
+        return new Chariot(team, position, false);
     }
 
     @Override

@@ -2,11 +2,8 @@ package janggi.piece;
 
 import janggi.position.Position;
 import janggi.team.Team;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -18,9 +15,9 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(6, 3);
         //when
-        soldier.move(arrivedPosition);
+        Piece movedPiece = soldier.move(arrivedPosition);
         //then
-        assertThat(soldier.matchesPosition(new Position(6, 3))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(6, 3))).isTrue();
     }
 
     @Test
@@ -30,9 +27,9 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Team.HAN, new Position(4, 3));
         Position arrivedPosition = new Position(5, 3);
         //when
-        soldier.move(arrivedPosition);
+        Piece movedPiece = soldier.move(arrivedPosition);
         //then
-        assertThat(soldier.matchesPosition(new Position(5, 3))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(5, 3))).isTrue();
     }
 
     @Test
@@ -42,9 +39,9 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(7, 4);
         //when
-        soldier.move(arrivedPosition);
+        Piece movedPiece = soldier.move(arrivedPosition);
         //then
-        assertThat(soldier.matchesPosition(new Position(7, 4))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(7, 4))).isTrue();
     }
 
     @Test
@@ -54,9 +51,9 @@ public class SoldierTest {
         Soldier soldier = new Soldier(Team.CHO, new Position(7, 3));
         Position arrivedPosition = new Position(7, 2);
         //when
-        soldier.move(arrivedPosition);
+        Piece movedPiece = soldier.move(arrivedPosition);
         //then
-        assertThat(soldier.matchesPosition(new Position(7, 2))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(7, 2))).isTrue();
     }
 
     @Test
@@ -97,8 +94,8 @@ public class SoldierTest {
         Position arrivedPosition = new Position(3, 4);
 
         //when
-        soldier.move(arrivedPosition);
+        Piece movedPiece = soldier.move(arrivedPosition);
         //then
-        assertThat(soldier.matchesPosition(new Position(3, 4))).isTrue();
+        assertThat(movedPiece.matchesPosition(new Position(3, 4))).isTrue();
     }
 }

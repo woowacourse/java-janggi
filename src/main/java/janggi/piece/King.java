@@ -25,7 +25,7 @@ public class King implements Piece {
     );
 
     private final Team team;
-    private Position position;
+    private final Position position;
     private boolean isLive;
     private PieceType pieceType;
 
@@ -33,6 +33,13 @@ public class King implements Piece {
         this.team = team;
         this.position = position;
         this.isLive = true;
+        this.pieceType = PieceType.KING;
+    }
+
+    public King(Team team, Position position, boolean isLive) {
+        this.team = team;
+        this.position = position;
+        this.isLive = isLive;
         this.pieceType = PieceType.KING;
     }
 
@@ -44,9 +51,9 @@ public class King implements Piece {
     }
 
     @Override
-    public void move(Position arrivedPosition) {
+    public Piece move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        position = step(availableMovement);
+        return new King(team, step(availableMovement), isLive);
     }
 
     private List<List<Movement>> generateMovements(Position arrivedPosition) {
@@ -117,8 +124,8 @@ public class King implements Piece {
     }
 
     @Override
-    public void receiveAttack() {
-        isLive = false;
+    public Piece receiveAttack() {
+        return new King(team, position, false);
     }
 
     @Override
