@@ -16,3 +16,20 @@ services:
       - ./mysql-db/data:/var/lib/mysql
       - ./mysql-db/config:/etc/mysql/conf.d
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  test-db:
+    image: mysql:8.0.28
+    platform: linux/x86_64
+    restart: always
+    ports:
+      - "13307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: chess
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      TZ: Asia/Seoul
+    volumes:
+      - ./mysql-test-db/data:/var/lib/mysql
+      - ./mysql-test-db/config:/etc/mysql/conf.d
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

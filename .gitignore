@@ -32,3 +32,4 @@ out/
 .vscode/
 
 mysql-db
+mysql-test-db
