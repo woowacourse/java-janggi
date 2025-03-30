@@ -183,7 +183,6 @@ class BoardTest {
     @Test
     void 이동한_위치에_존재하는_상대_기물을_삭제하고_카테고리를_반환한다() {
         // given
-        Position startPosition = new Position(1, 1);
         Position targetPosition = new Position(1, 7);
 
         Player han = new Player(Team.HAN, new Score(0));
@@ -201,7 +200,7 @@ class BoardTest {
         board.moveAndCapture(han, new Position(1, 4), new Position(2, 4));
 
         // when
-        PieceCategory removed = board.moveAndCapture(han, startPosition, targetPosition);
+        PieceCategory removed = choPieces.removePieceIfExists(targetPosition);
 
         // then
         assertAll(() -> {
