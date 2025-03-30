@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import move.JolMoveBehavior;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import piece.Piece;
 import piece.Pieces;
@@ -15,12 +15,10 @@ import piece.position.JanggiPosition;
 
 class JanggiServiceTest {
 
-    private JanggiSaveService janggiSaveService;
+    private final JanggiSaveService janggiSaveService = new JanggiSaveService(new TestMySQLConnection());
 
-    @BeforeEach
-    void setUp() {
-        MySQLConnection connection = new TestJanggiConnection();
-        janggiSaveService = new JanggiSaveService(connection);
+    @AfterEach
+    void clearDatabases() {
         janggiSaveService.resetJanggi();
     }
 

@@ -13,9 +13,9 @@ public class JanggiSaveService {
     private final JanggiPieceDao janggiPieceDao;
     private final String PIECES_DOESNT_EXIST = "피스 정보가 존재하지 않습니다";
 
-    public JanggiSaveService(MySQLConnection mySQLConnection) {
-        janggiTurnDao = new JanggiTurnDao(mySQLConnection);
-        janggiPieceDao = new JanggiPieceDao(mySQLConnection);
+    public JanggiSaveService(DatabaseConnection databaseConnection) {
+        janggiTurnDao = new JanggiTurnDao(databaseConnection);
+        janggiPieceDao = new JanggiPieceDao(databaseConnection);
     }
 
     public void saveJanggi(PlayerPieces playerPieces, int turn, Team team) {

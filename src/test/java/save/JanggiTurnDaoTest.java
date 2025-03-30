@@ -8,12 +8,11 @@ import piece.player.Team;
 
 class JanggiTurnDaoTest {
 
-    private JanggiTurnDao janggiTurnDao;
+    private final DatabaseConnection connection = new TestMySQLConnection();
+    private final JanggiTurnDao janggiTurnDao = new JanggiTurnDao(connection);
 
     @AfterEach
-    void clearDatabase() {
-        MySQLConnection connection = new TestJanggiConnection();
-        janggiTurnDao = new JanggiTurnDao(connection);
+    void clearDatabases() {
         janggiTurnDao.deleteAll();
     }
 
