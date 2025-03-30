@@ -26,18 +26,7 @@ public record Position(int x, int y) {
     }
 
     public Direction calculateDirection(final Position end) {
-        int differenceX = calculateDifferenceX(end);
-        int differenceY = calculateDifferenceY(end);
-        if (differenceX > 0) {
-            return Direction.RIGHT;
-        }
-        if (differenceX < 0) {
-            return Direction.LEFT;
-        }
-        if (differenceY < 0) {
-            return Direction.UP;
-        }
-        return Direction.DOWN;
+        return Direction.calculateDirection(this, end);
     }
 
     public int calculateAbsoluteDifferenceX(final Position end) {
