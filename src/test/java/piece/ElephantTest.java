@@ -106,7 +106,7 @@ public class ElephantTest {
         // then
         assertThatThrownBy(() -> elephant.validateMove(fromPosition, toPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("아군 기물이 위치해 있습니다. ");
+                .hasMessage( "아군 기물이 위치해 있습니다.");
     }
 
     @ParameterizedTest

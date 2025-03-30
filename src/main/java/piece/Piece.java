@@ -1,13 +1,12 @@
 package piece;
 
 import game.Board;
-import java.util.List;
+import position.Path;
 import position.Position;
 
 public abstract class Piece {
     private final PieceType pieceType;
     private final Country country;
-
 
     protected Piece(final PieceType pieceType, final Country country) {
         this.pieceType = pieceType;
@@ -15,15 +14,15 @@ public abstract class Piece {
     }
 
     public void validateMove(final Position fromPosition, final Position toPosition, Board board) {
-        List<Position> route = findPathForMove(fromPosition, toPosition);
+        Path path = findPathForMove(fromPosition, toPosition);
         validateTarget(toPosition, board);
         validateTargetSpecialRule(toPosition, board);
-        validatePath(route, board);
+        validatePath(path, board);
     }
 
-    public abstract List<Position> findPathForMove(Position fromPosition, Position toPosition);
+    public abstract Path findPathForMove(Position fromPosition, Position toPosition);
 
-    public abstract void validatePath(List<Position> positions, Board board);
+    public abstract void validatePath(Path path, Board board);
 
     public void validateTarget(Position toPosition, Board board) {
         board.findCountryByPosition(toPosition).ifPresent(targetCountry -> {

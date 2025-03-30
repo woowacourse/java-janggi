@@ -131,7 +131,7 @@ public class GeneralTest {
 
         assertThatThrownBy(() -> general.validateMove(fromPosition, toPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage( "왕은 궁성 내에서만 이동할 수 있습니다.");
+                .hasMessage( "궁성 내에서만 이동할 수 있습니다.");
 
     }
 

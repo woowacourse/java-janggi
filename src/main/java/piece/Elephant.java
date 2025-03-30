@@ -1,11 +1,12 @@
 package piece;
 
 import game.Board;
+import position.Movement;
+import position.Path;
+import position.Position;
+
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
-import position.Movement;
-import position.Position;
 
 public class Elephant extends Piece {
     private static final Set<List<Movement>> pieceMovements = Set.of(
@@ -23,24 +24,18 @@ public class Elephant extends Piece {
         super(PieceType.ELEPHANT, country);
     }
 
-    public List<Position> findPathForMove(Position fromPosition, Position toPosition) {
-        List<Position> path = pieceMovements.stream()
-                .map(fromPosition::findMovablePositions)
-                .filter(findPathByDestination(toPosition))
+    @Override
+    public Path findPathForMove(Position fromPosition, Position toPosition) {
+        return pieceMovements.stream()
+                .map(fromPosition::findMovablePath)
+                .filter(path -> !path.isEmpty() && path.isDestination(toPosition))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
-        return path.subList(0, path.size() - 1);
-    }
-
-    private static Predicate<List<Position>> findPathByDestination(final Position toPosition) {
-        return path -> !path.isEmpty() && path.getLast().equals(toPosition);
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."))
+                .withoutLast();
     }
 
     @Override
-    public void validatePath(final List<Position> positions, Board board) {
-        if (positions.stream()
-                .anyMatch(board::hasPieceAt)) {
-            throw new IllegalArgumentException("중간에 기물이 있어 갈 수 없습니다.");
-        }
+    public void validatePath(final Path path, Board board) {
+        path.validateNoObstacles(board);
     }
 }

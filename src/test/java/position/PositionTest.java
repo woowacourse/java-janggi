@@ -15,6 +15,7 @@ import static testutil.TestConstant.E4;
 import static testutil.TestConstant.E5;
 
 import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +32,6 @@ public class PositionTest {
                 .containsExactly(Column.A, Row.ONE);
     }
 
-
     @Test
     void 포지션을_움직일_수_있다() {
         // given
@@ -42,29 +42,25 @@ public class PositionTest {
 
         // then
         assertThat(resultPosition).isEqualTo(new Position(Column.E, Row.SIX));
-
     }
 
     @Test
     void 행이나_열이_같으면_직선상으로_판단한다() {
-        // given
+        // given & then
         assertThat(A1.isStraight(A6)).isTrue();
         assertThat(E5.isStraight(A5)).isTrue();
     }
 
     @Test
-    void 직선상의_두_포지션_간의_포지션들을_구한다() {
-        // given && when
-        List<Position> straightPositions = E5.findStraightPositions(A5);
-        List<Position> straightPositions2 = E5.findStraightPositions(E1);
+    void 직선상의_두_포지션_간의_포지션들을_Path_로_구한다() {
+        // given & when
+        List<Position> straightPositions = E5.findStraightPath(A5).positions();
+        List<Position> straightPositions2 = E5.findStraightPath(E1).positions();
 
         // then
         assertAll(
                 () -> Assertions.assertThat(straightPositions).containsExactly(B5, C5, D5),
                 () -> Assertions.assertThat(straightPositions2).containsExactly(E2, E3, E4)
-
         );
     }
-
-
 }

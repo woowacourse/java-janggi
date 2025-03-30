@@ -1,11 +1,12 @@
 package piece;
 
 import game.Board;
+import position.Movement;
+import position.Path;
+import position.Position;
+
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
-import position.Movement;
-import position.Position;
 
 public class Soldier extends Piece {
     private static final Set<List<Movement>> ChoPieceMovements = Set.of(
@@ -17,41 +18,27 @@ public class Soldier extends Piece {
             List.of(Movement.LEFT),
             List.of(Movement.RIGHT));
 
-
     public Soldier(final Country country) {
         super(PieceType.SOLDIER, country);
     }
 
-    public List<Position> findPathForMove(Position fromPosition, Position toPosition) {
+    @Override
+    public Path findPathForMove(Position fromPosition, Position toPosition) {
         Set<List<Movement>> pieceMovements = movementsByCountry();
-        List<Position> path = pieceMovements.stream()
-                .map(fromPosition::findMovablePositions)
-                .filter(findPathByDestination(toPosition))
+        return pieceMovements.stream()
+                .map(fromPosition::findMovablePath)
+                .filter(path -> !path.isEmpty() && path.isDestination(toPosition))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
-        return path.subList(0, path.size() - 1);
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."))
+                .withoutLast();
     }
 
     private Set<List<Movement>> movementsByCountry() {
-        Set<List<Movement>> pieceMovements;
-        if (this.getCountry() == Country.CHO) {
-            pieceMovements = ChoPieceMovements;
-        } else {
-            pieceMovements = HanPieceMovements;
-        }
-        return pieceMovements;
-    }
-
-    private static Predicate<List<Position>> findPathByDestination(final Position toPosition) {
-        return path -> !path.isEmpty() && path.getLast().equals(toPosition);
+        return (this.getCountry() == Country.CHO) ? ChoPieceMovements : HanPieceMovements;
     }
 
     @Override
-    public void validatePath(final List<Position> positions, Board board) {
-        if (positions.stream()
-                .anyMatch(board::hasPieceAt)) {
-            throw new IllegalArgumentException("중간에 기물이 있어 갈 수 없습니다.");
-        }
+    public void validatePath(final Path path, Board board) {
+        path.validateNoObstacles(board);
     }
-
 }

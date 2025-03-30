@@ -1,13 +1,13 @@
 package piece;
 
 import game.Board;
+import position.Movement;
+import position.Path;
+import position.Position;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-import position.Movement;
-import position.Position;
 
 public class General extends Piece {
     private static final Set<List<Movement>> pieceMovements = Set.of(
@@ -21,38 +21,36 @@ public class General extends Piece {
             List.of(Movement.DOWN_LEFT),
             List.of(Movement.DOWN_RIGHT)
     );
+
     public General(final Country country) {
         super(PieceType.GENERAL, country);
     }
 
-    public List<Position> findPathForMove(Position fromPosition, Position toPosition) {
-        if (!toPosition.onPalace()) {
-            throw new IllegalArgumentException("왕은 궁성 내에서만 이동할 수 있습니다.");
-        }
-        Set<List<Movement>> combinedMovements = new HashSet<>(pieceMovements);
+    @Override
+    public Path findPathForMove(Position fromPosition, Position toPosition) {
+        moveOnPalace(toPosition);
 
+        Set<List<Movement>> combinedMovements = new HashSet<>(pieceMovements);
         if (fromPosition.isCenterOfPalace() || toPosition.isCenterOfPalace()) {
             combinedMovements.addAll(palaceMovements);
         }
 
-        List<Position> path = combinedMovements.stream()
-                .map(fromPosition::findMovablePositions)
-                .filter(findPathByDestination(toPosition))
+        return combinedMovements.stream()
+                .map(fromPosition::findMovablePath)
+                .filter(path -> !path.isEmpty() && path.isDestination(toPosition))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."));
-        return path.subList(0, path.size() - 1);
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치로 이동할 수 없습니다."))
+                .withoutLast();
     }
 
-    private static Predicate<List<Position>> findPathByDestination(final Position toPosition) {
-        return path -> !path.isEmpty() && path.getLast().equals(toPosition);
-    }
-
-    @Override
-    public void validatePath(final List<Position> positions, Board board) {
-        if (positions.stream()
-                .anyMatch(board::hasPieceAt)) {
-            throw new IllegalArgumentException("중간에 기물이 있어 갈 수 없습니다.");
+    private void moveOnPalace(final Position toPosition) {
+        if (!toPosition.onPalace()) {
+            throw new IllegalArgumentException("궁성 내에서만 이동할 수 있습니다.");
         }
     }
 
+    @Override
+    public void validatePath(final Path path, Board board) {
+        path.validateNoObstacles(board);
+    }
 }
