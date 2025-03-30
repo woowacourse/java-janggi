@@ -132,6 +132,6 @@ public class JanggiBoardTest {
         //when
         assertThatThrownBy(() -> janggiBoard.move(Dynasty.HAN, new Point(3, 4), new Point(4, 3)))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("이미 놓여져 있는 기물이 존재합니다.");
+                .hasMessage("해당 위치로 이동할 수 없습니다.");
     }
 }
