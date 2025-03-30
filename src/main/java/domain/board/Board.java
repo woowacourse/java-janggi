@@ -14,6 +14,13 @@ public final class Board {
 
     private final Map<BoardPoint, Piece> locations;
 
+    private static final List<List<BoardPoint>> UNABLE_BOARD_POINTS = List.of(
+            List.of(new BoardPoint(0, 4), new BoardPoint(1, 3)),
+            List.of(new BoardPoint(0, 4), new BoardPoint(1, 5)),
+            List.of(new BoardPoint(1, 3), new BoardPoint(2, 4)),
+            List.of(new BoardPoint(1, 5), new BoardPoint(2, 4))
+    );
+
     public Board(final Map<BoardPoint, Piece> locations) {
         validateRange(locations);
         this.locations = locations;
@@ -32,23 +39,40 @@ public final class Board {
     }
 
     public void movePiece(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint, final Team team) {
+        validatePoint(startBoardPoint, arrivalBoardPoint);
         processMovement(startBoardPoint, arrivalBoardPoint, team);
+    }
+
+    private void validatePoint(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
+        for (final List<BoardPoint> boardPoints : UNABLE_BOARD_POINTS) {
+            if (boardPoints.contains(startBoardPoint) && boardPoints.contains(arrivalBoardPoint)) {
+                throw new JanggiArgumentException("이동 불가능한 경로입니다.");
+            }
+        }
     }
 
     private void processMovement(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint,
                                  final Team team) {
-        final Piece pieceAtStartPoint = locations.get(startBoardPoint);
         checkStartPoint(startBoardPoint, team);
+        final Piece pieceAtStartPoint = locations.get(startBoardPoint);
+        checkPieceIsAbleToMove(startBoardPoint, arrivalBoardPoint, pieceAtStartPoint);
+        movePiece(startBoardPoint, arrivalBoardPoint, pieceAtStartPoint);
+    }
 
+    private void movePiece(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint,
+                           final Piece pieceAtStartPoint) {
+        locations.put(arrivalBoardPoint, pieceAtStartPoint);
+        locations.remove(startBoardPoint);
+    }
+
+    private void checkPieceIsAbleToMove(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint,
+                                        final Piece pieceAtStartPoint) {
         checkOutOfRoute(startBoardPoint, arrivalBoardPoint, pieceAtStartPoint);
 
         final List<BoardPoint> routeBoardPoints = pieceAtStartPoint.getRoutePoints(startBoardPoint, arrivalBoardPoint);
         final PieceOnRoute pieceOnRoute = getAllPieceOnRoute(routeBoardPoints);
 
         checkPieceOnRoute(pieceAtStartPoint, pieceOnRoute);
-
-        locations.put(arrivalBoardPoint, pieceAtStartPoint);
-        locations.remove(startBoardPoint);
     }
 
     private void checkStartPoint(final BoardPoint startBoardPoint, final Team team) {
