@@ -24,8 +24,15 @@ public class Chariot extends Piece implements DirectionCheckable, ObstructionChe
         validateDirection(src, dest);
         List<Position> allPositions = getAllPositions(dest);
         validateExistNode(allPositions);
-        List<Position> internalPositions = List.of(allPositions.removeLast());
+        List<Position> internalPositions = getInternalPositions(allPositions);
         validateNonObstruction(board, internalPositions);
+    }
+
+    private static List<Position> getInternalPositions(List<Position> allPositions) {
+        List<Position> internalPositions = new ArrayList<>(allPositions);
+        internalPositions.removeFirst();
+        internalPositions.removeLast();
+        return internalPositions;
     }
 
     private void validateExistNode(List<Position> allPositions) {
