@@ -1,6 +1,7 @@
 package janggi.dao;
 
 import janggi.dto.GameDto;
+import janggi.exception.GameNotDeletedException;
 import janggi.game.Game;
 import janggi.game.Team;
 import java.sql.ResultSet;
@@ -80,7 +81,7 @@ public class GameDao {
             preparedStatement.setInt(1, gameRecord.getId());
             int affectedCount = preparedStatement.executeUpdate();
             if (affectedCount == 0) {
-                throw new IllegalStateException("게임이 삭제되지 않았습니다.");
+                throw new GameNotDeletedException();
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);

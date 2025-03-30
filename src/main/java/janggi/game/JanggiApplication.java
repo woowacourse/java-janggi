@@ -50,6 +50,7 @@ public class JanggiApplication {
             , movingPiece);
 
             game.reverseTurn();
+            GameDao.updateTurn(game); //TODO DAO
         }
 
         resultView.printResult(game, game.calculateScore());

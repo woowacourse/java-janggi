@@ -64,7 +64,6 @@ public class Game {
 
     public void reverseTurn() {
         this.turn = turn.reverse();
-        GameDao.updateTurn(this); //TODO DAO
     }
 
     public boolean canContinue() {

@@ -2,20 +2,33 @@ package janggi.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.within;
 
 import janggi.dto.GameDto;
+import janggi.exception.GameNotDeletedException;
 import janggi.game.Game;
+import janggi.game.Team;
 import java.sql.SQLException;
+import java.time.temporal.ChronoUnit;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GameDaoTest {
-    private Game createdGame = new Game();
+    private Game createdGame;
 
+    @BeforeEach
+    void setUp() {
+        createdGame = new Game();
+        GameDao.createGame(createdGame);
+    }
     @AfterEach
     void cleanUp() {
-        //TODO 데이터 정리
+        try {
+            GameDao.deleteGame(createdGame);
+        } catch (GameNotDeletedException ignore) {
+        }
     }
 
     @Test
@@ -37,19 +50,21 @@ class GameDaoTest {
     @Test
     @DisplayName("가장 최근에 만들어진 게임 투플을 조회한다.")
     void findGameLastCreated() {
-        GameDao.createGame(createdGame);
+        GameDto lastCreatedGame = GameDao.findLastCreated();
 
-        GameDto sameGame = GameDao.findLastCreated();
+        assertThat(lastCreatedGame.createdAt())
+                .isCloseTo(createdGame.getCreatedAt(), within(1, ChronoUnit.SECONDS));
     }
 
 
     @Test
     @DisplayName("게임의 턴을 수정한다.")
     void updateGameTurn() {
-        GameDao.createGame(createdGame);
         createdGame.reverseTurn();
 
         GameDao.updateTurn(createdGame);
+
+        assertThat(GameDao.findLastCreated().turn()).isEqualTo(Team.HAN);
     }
 
     @Test
