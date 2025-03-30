@@ -91,4 +91,9 @@ public abstract class Running implements State {
 
         return nextTurnPieces;
     }
+
+    @Override
+    public boolean wasLastTurnPassed() {
+        return wasLastTurnPassed;
+    }
 }

@@ -22,4 +22,6 @@ public interface State {
     Map<Position, Piece> getPieces();
 
     Dynasty getCurrentDynasty();
+
+    boolean wasLastTurnPassed();
 }

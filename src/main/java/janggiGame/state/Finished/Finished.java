@@ -45,4 +45,9 @@ public abstract class Finished implements State {
     public Dynasty getCurrentDynasty() {
         throw new IllegalStateException(ERROR_MESSAGE);
     }
+
+    @Override
+    public boolean wasLastTurnPassed() {
+        throw new IllegalStateException(ERROR_MESSAGE);
+    }
 }

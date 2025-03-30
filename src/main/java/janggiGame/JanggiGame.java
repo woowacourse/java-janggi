@@ -49,7 +49,7 @@ public class JanggiGame {
 
     private void validateHistory() {
         if (history.isEmpty()) {
-            throw new IllegalStateException("[ERROR] 무를 수 있는 턴이 없습니다.");
+            throw new IllegalStateException("[ERROR] 무를 수 있는 턴이 없습니다. (불러온 게임의 첫 턴은 무를 수 없습니다.)");
         }
     }
 
@@ -59,5 +59,13 @@ public class JanggiGame {
 
     public Dynasty getCurrentDynasty() {
         return currentState.getCurrentDynasty();
+    }
+
+    public boolean wasLastTurnPassed() {
+        return currentState.wasLastTurnPassed();
+    }
+
+    public void restoreGameWith(State state) {
+        currentState = state;
     }
 }
