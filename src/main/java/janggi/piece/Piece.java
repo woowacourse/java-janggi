@@ -4,6 +4,7 @@ import janggi.moving.Path;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
+import janggi.moving.PossibleMovements;
 
 public abstract class Piece {
     protected final Team team;
@@ -21,7 +22,8 @@ public abstract class Piece {
     }
 
     public void validateMovable(Board board, Position start, Position goal) {
-        Path path = calculatePath(start, goal);
+        PossibleMovements possibleMovements = getPossibleMovements(board, start);
+        Path path = possibleMovements.calculatePath(start, goal);
         validateInvalidCastleDiagonalMove(board, start, goal, path);
         validatePath(board, path);
         validatePieceOnGoal(board, goal);
@@ -60,8 +62,7 @@ public abstract class Piece {
         return false;
     }
 
-
-    protected abstract Path calculatePath(Position start, Position goal);
+    protected abstract PossibleMovements getPossibleMovements(Board board, Position start);
     protected abstract void validatePath(Board board, Path path);
     protected abstract void validatePieceOnGoal(Board board, Position goal);
     public abstract String getName();

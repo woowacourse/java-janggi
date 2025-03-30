@@ -93,4 +93,8 @@ public class Board {
     public boolean isCentralOfCastleBorder(Position position) {
         return CENTRAL_OF_GREEN_CASTLE_BORDER.contains(position) || CENTRAL_OF_RED_CASTLE_BORDER.contains(position);
     }
+
+    public boolean isInCastle(Position position) {
+        return GREEN_CASTLE.contains(position) || RED_CASTLE.contains(position);
+    }
 }

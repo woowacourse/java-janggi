@@ -57,13 +57,13 @@ public class Canon extends Piece {
     }
 
     @Override
-    protected Path calculatePath(Position start, Position goal) {
-        return possibleMovements.calculatePath(start, goal);
+    public boolean isCanon() {
+        return true;
     }
 
     @Override
-    public boolean isCanon() {
-        return true;
+    protected PossibleMovements getPossibleMovements(Board board, Position start) {
+        return possibleMovements;
     }
 
     @Override

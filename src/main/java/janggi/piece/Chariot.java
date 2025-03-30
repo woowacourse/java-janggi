@@ -35,8 +35,8 @@ public class Chariot extends Piece {
     }
 
     @Override
-    protected Path calculatePath(Position start, Position goal) {
-        return possibleMovements.calculatePath(start, goal);
+    protected PossibleMovements getPossibleMovements(Board board, Position start) {
+        return possibleMovements;
     }
 
     @Override

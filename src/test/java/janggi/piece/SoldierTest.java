@@ -4,6 +4,7 @@ import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -101,5 +102,23 @@ class SoldierTest {
         // then
         assertThatCode(() -> piece.validateMovable(board, start, goal))
                 .doesNotThrowAnyException();
+    }
+
+    @DisplayName("졸병은_궁성_밖에서_대각으로_움직일_수_없다")
+    @Test
+    void should_ThrowException_WhenMoveDiagonalOutOfCastle() {
+        // given
+        Map<Position, Piece> initialBoard = new HashMap<>();
+        Position start = createPosition(4, 4);
+        Position goal = createPosition(5, 5);
+        Soldier piece = new Soldier(Team.GREEN);
+
+        initialBoard.put(start, piece);
+        Board board = new Board(initialBoard);
+
+        // then
+        assertThatThrownBy(() -> piece.validateMovable(board, start, goal))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 선택하신 기물은 해당 목적지로 이동할 수 없습니다.");
     }
 }
