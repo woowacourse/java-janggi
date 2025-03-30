@@ -66,8 +66,8 @@ public final class SystemView {
         System.out.printf("초나라: %.1f점%n", teamPoints.get(Team.CHO));
     }
 
-    public void inGame() {
-        System.out.println("\n게임을 시작합니다...");
+    public void inGame(final int gameId) {
+        System.out.printf("%d번 게임을 시작합니다...%n", gameId);
     }
 
     public void outGame() {

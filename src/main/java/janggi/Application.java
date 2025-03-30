@@ -28,10 +28,9 @@ public class Application {
 
     private void run() {
         gameSetupConsole.displayGameDescriptions();
-        gameSetupConsole.selectGame();
-
-        Game game = gameSetupConsole.setupGame();
-        gameSetupConsole.displayGameSetup(game);
+        int gameId = gameSetupConsole.selectGameId();
+        Game game = gameSetupConsole.setupGame(gameId);
+        gameSetupConsole.displayGameSetup(gameId, game);
 
         GameStatus gameStatus = GameStatus.PLAYING;
         while (!gameStatus.isGameFinished()) {
