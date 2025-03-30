@@ -14,7 +14,7 @@ public final class Board {
 
     private final Map<BoardPoint, Piece> locations;
 
-    private static final List<List<BoardPoint>> UNABLE_BOARD_POINTS = List.of(
+    private static final List<List<BoardPoint>> UNABLE_BOARD_ROUTES = List.of(
             List.of(new BoardPoint(0, 4), new BoardPoint(1, 3)),
             List.of(new BoardPoint(0, 4), new BoardPoint(1, 5)),
             List.of(new BoardPoint(1, 3), new BoardPoint(2, 4)),
@@ -28,9 +28,13 @@ public final class Board {
 
     private void validateRange(final Map<BoardPoint, Piece> locations) {
         for (BoardPoint boardPoint : locations.keySet()) {
-            if (boardPoint.row() >= VALID_ROW_SIZE || boardPoint.column() >= VALID_COLUMN_SIZE) {
-                throw new JanggiArgumentException("보드의 크기 범위에 맞지 않습니다.");
-            }
+            validateRangeOfPoint(boardPoint);
+        }
+    }
+
+    private void validateRangeOfPoint(BoardPoint boardPoint) {
+        if (boardPoint.row() >= VALID_ROW_SIZE || boardPoint.column() >= VALID_COLUMN_SIZE) {
+            throw new JanggiArgumentException("보드의 크기 범위에 맞지 않습니다.");
         }
     }
 
@@ -39,12 +43,12 @@ public final class Board {
     }
 
     public void movePiece(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint, final Team team) {
-        validatePoint(startBoardPoint, arrivalBoardPoint);
+        validateBoardRoutes(startBoardPoint, arrivalBoardPoint);
         processMovement(startBoardPoint, arrivalBoardPoint, team);
     }
 
-    private void validatePoint(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
-        for (final List<BoardPoint> boardPoints : UNABLE_BOARD_POINTS) {
+    private void validateBoardRoutes(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
+        for (final List<BoardPoint> boardPoints : UNABLE_BOARD_ROUTES) {
             if (boardPoints.contains(startBoardPoint) && boardPoints.contains(arrivalBoardPoint)) {
                 throw new JanggiArgumentException("이동 불가능한 경로입니다.");
             }
