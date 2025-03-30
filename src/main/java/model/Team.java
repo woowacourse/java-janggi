@@ -36,4 +36,13 @@ public enum Team {
     public int getYPalaceMaximum() {
         return yPalaceMaximum;
     }
+
+    public static Team findTeamByName(String teamName) {
+        for (Team team : Team.values()) {
+            if (team.getTeam().equals(teamName)) {
+                return team;
+            }
+        }
+        return null;
+    }
 }
