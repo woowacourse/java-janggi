@@ -44,110 +44,60 @@ public final class FakePreparedStatement implements PreparedStatement {
 
     @Override
     public ResultSet executeQuery() throws SQLException {
-        Map<String, Object> value = new HashMap<>();
-        if (sql.contains("select exists") && sql.contains("where id = ? and is_active=true")) {
-            final int gameId = (Integer) parameters.get(1);
-            final boolean exists = database.isGameActive(gameId);
-            value.put("1", exists);
-            return new FakeResultSet(List.of(value));
+        if (isGameActiveQuery(sql)) {
+            return executeGameActiveQuery();
         }
-        if (sql.contains("select max(id)")) {
-            value.put("last_id", database.getLastPlayerId());
-            return new FakeResultSet(List.of(value));
-        }
-        if (sql.contains("select * from player where id = ?")) {
-            final int gameId = (Integer) parameters.get(1);
-            final Player player = database.findPlayerById(gameId);
-            value.put("id", player.getId());
-            value.put("team", player.getTeam().name());
-            value.put("score", player.getScore().value());
-            value.put("is_turn", player.isTurn());
-            return new FakeResultSet(List.of(value));
-        }
-        if (sql.contains("select * from player where game_id = ?")) {
-            final int gameId = (int) parameters.get(1);
-            final List<Player> players = database.findAllPlayersByGameId(gameId);
-            final List<Map<String, Object>> values = new ArrayList<>();
-            for (final Player player : players) {
-                value.put("id", player.getId());
-                value.put("team", player.getTeam().name());
-                value.put("score", player.getScore().value());
-                value.put("is_turn", player.isTurn());
-                values.add(new HashMap<>(value));
-                value = new HashMap<>();
-            }
-            return new FakeResultSet(values);
-        }
-        if (sql.contains("select l.*, p.*, g.id from board_location l")) {
-            final int gameId = (int) parameters.get(1);
 
-            final BoardLocations players = database.findAllLocationsByGameId(gameId);
-            final List<Map<String, Object>> values = new ArrayList<>();
-            for (final BoardLocation location : players) {
-                value.put("location_row", location.getRow());
-                value.put("location_column", location.getColumn());
-                value.put("location_piece", location.getPiece());
-                value.put("player_id", location.playerId());
-                values.add(new HashMap<>(value));
-                value = new HashMap<>();
-            }
-            return new FakeResultSet(values);
+        if (isMaxIdQuery(sql)) {
+            return executeMaxIdQuery();
         }
-        throw new SQLException("지원하지 않는 쿼리: " + sql);
+
+        if (isPlayerByIdQuery(sql)) {
+            return executePlayerByIdQuery();
+        }
+
+        if (isPlayersByGameIdQuery(sql)) {
+            return executePlayersByGameIdQuery();
+        }
+
+        if (isLocationsByGameIdQuery(sql)) {
+            return executeLocationsByGameIdQuery();
+        }
+
+        throw new SQLException("선언되지 않은 쿼리 형식입니다: " + sql);
     }
 
     @Override
     public int executeUpdate() throws SQLException {
-        if (sql.contains("insert into game")) {
-            database.createGame();
-            return 1;
+        if (isInsertGameQuery(sql)) {
+            return executeInsertGameQuery();
         }
 
-        if (sql.contains("update game set is_active = false")) {
-            final int gameId = (Integer) parameters.get(1);
-            database.deactivateGame(gameId);
-            return 1;
+        if (isDeactivateGameQuery(sql)) {
+            return executeDeactivateGameQuery();
         }
 
-        if (sql.contains("insert into player")) {
-            final String team = (String) parameters.get(1);
-            final Double score = (Double) parameters.get(2);
-            final boolean isTurn = (boolean) parameters.get(3);
-            final int gameId = (int) parameters.get(4);
-
-            return database.createPlayer(team, score, isTurn, gameId);
-        }
-        if (sql.contains("update player set score = ?, is_turn = ? where id = ?")) {
-            final Double score = (Double) parameters.get(1);
-            final boolean isTurn = (boolean) parameters.get(2);
-            final int id = (int) parameters.get(3);
-
-            return database.updatePlayer(score, isTurn, id);
-        }
-        if (sql.contains("insert into board_location (location_piece, location_row,")) {
-            final String piece = (String) parameters.get(1);
-            final int row = (int) parameters.get(2);
-            final int column = (int) parameters.get(3);
-            final int playerId = (int) parameters.get(4);
-            return database.createLocation(piece, row, column, playerId);
-        }
-        if (sql.contains("delete l from board_location")) {
-            final int row = (int) parameters.get(1);
-            final int column = (int) parameters.get(2);
-            final int gameId = (int) parameters.get(3);
-
-            return database.deleteLocationAt(row, column, gameId);
-        }
-        if (sql.contains("update board_location l join player pl on")) {
-            final int startRow = (int) parameters.get(1);
-            final int startColumn = (int) parameters.get(2);
-            final int arrivalRow = (int) parameters.get(3);
-            final int arrivalColumn = (int) parameters.get(4);
-            final int gameId = (int) parameters.get(5);
-            return database.updateLocation(startRow, startColumn, arrivalRow, arrivalColumn, gameId);
+        if (isInsertPlayerQuery(sql)) {
+            return executeInsertPlayerQuery();
         }
 
-        throw new SQLException("지원하지 않는 쿼리: " + sql);
+        if (isUpdatePlayerQuery(sql)) {
+            return executeUpdatePlayerQuery();
+        }
+
+        if (isInsertLocationQuery(sql)) {
+            return executeInsertLocationQuery();
+        }
+
+        if (isDeleteLocationQuery(sql)) {
+            return executeDeleteLocationQuery();
+        }
+
+        if (isUpdateLocationQuery(sql)) {
+            return executeUpdateLocationQuery();
+        }
+
+        throw new SQLException("선언되지 않은 쿼리 형식입니다: " + sql);
     }
 
     @Override
@@ -174,23 +124,189 @@ public final class FakePreparedStatement implements PreparedStatement {
     }
 
     @Override
-    public void setInt(int parameterIndex, int x) {
+    public void setInt(final int parameterIndex, final int x) {
         parameters.put(parameterIndex, x);
     }
 
     @Override
-    public void setDouble(int parameterIndex, double x) {
+    public void setDouble(final int parameterIndex, final double x) {
         parameters.put(parameterIndex, x);
     }
 
     @Override
-    public void setString(int parameterIndex, String x) {
+    public void setString(final int parameterIndex, final String x) {
         parameters.put(parameterIndex, x);
     }
 
     @Override
-    public void setBoolean(int parameterIndex, boolean x) {
+    public void setBoolean(final int parameterIndex, final boolean x) {
         parameters.put(parameterIndex, x);
+    }
+
+    private boolean isGameActiveQuery(final String sql) {
+        return sql.contains("select exists") && sql.contains("where id = ? and is_active=true");
+    }
+
+    private boolean isMaxIdQuery(final String sql) {
+        return sql.contains("select max(id)");
+    }
+
+    private boolean isPlayerByIdQuery(final String sql) {
+        return sql.contains("select * from player where id = ?");
+    }
+
+    private boolean isPlayersByGameIdQuery(final String sql) {
+        return sql.contains("select * from player where game_id = ?");
+    }
+
+    private boolean isLocationsByGameIdQuery(final String sql) {
+        return sql.contains("select l.*, p.*, g.id from board_location l");
+    }
+
+    private boolean isInsertGameQuery(final String sql) {
+        return sql.contains("insert into game");
+    }
+
+    private boolean isDeactivateGameQuery(final String sql) {
+        return sql.contains("update game set is_active = false");
+    }
+
+    private boolean isInsertPlayerQuery(final String sql) {
+        return sql.contains("insert into player");
+    }
+
+    private boolean isUpdatePlayerQuery(final String sql) {
+        return sql.contains("update player set score = ?, is_turn = ? where id = ?");
+    }
+
+    private boolean isInsertLocationQuery(final String sql) {
+        return sql.contains("insert into board_location (location_piece, location_row,");
+    }
+
+    private boolean isDeleteLocationQuery(final String sql) {
+        return sql.contains("delete l from board_location");
+    }
+
+    private boolean isUpdateLocationQuery(final String sql) {
+        return sql.contains("update board_location l join player pl on");
+    }
+
+    private ResultSet executeGameActiveQuery() {
+        final int gameId = (Integer) parameters.get(1);
+        final boolean exists = database.isGameActive(gameId);
+
+        final Map<String, Object> value = new HashMap<>();
+        value.put("1", exists);
+        return new FakeResultSet(List.of(value));
+    }
+
+    private ResultSet executeMaxIdQuery() {
+        final Map<String, Object> value = new HashMap<>();
+        value.put("last_id", database.getLastPlayerId());
+        return new FakeResultSet(List.of(value));
+    }
+
+    private ResultSet executePlayerByIdQuery() {
+        final int gameId = (Integer) parameters.get(1);
+        final Player player = database.findPlayerById(gameId);
+
+        final Map<String, Object> value = createPlayerResultMap(player);
+        return new FakeResultSet(List.of(value));
+    }
+
+    private ResultSet executePlayersByGameIdQuery() {
+        final int gameId = (int) parameters.get(1);
+        final List<Player> players = database.findAllPlayersByGameId(gameId);
+
+        final List<Map<String, Object>> values = new ArrayList<>();
+        for (final Player player : players) {
+            values.add(createPlayerResultMap(player));
+        }
+        return new FakeResultSet(values);
+    }
+
+    private ResultSet executeLocationsByGameIdQuery() {
+        final int gameId = (int) parameters.get(1);
+        final BoardLocations locations = database.findAllLocationsByGameId(gameId);
+
+        final List<Map<String, Object>> values = new ArrayList<>();
+        for (final BoardLocation location : locations) {
+            values.add(createLocationResultMap(location));
+        }
+        return new FakeResultSet(values);
+    }
+
+    private int executeInsertGameQuery() {
+        database.createGame();
+        return 1;
+    }
+
+    private int executeDeactivateGameQuery() {
+        final int gameId = (Integer) parameters.get(1);
+        database.deactivateGame(gameId);
+        return 1;
+    }
+
+    private int executeInsertPlayerQuery() {
+        final String team = (String) parameters.get(1);
+        final Double score = (Double) parameters.get(2);
+        final boolean isTurn = (boolean) parameters.get(3);
+        final int gameId = (int) parameters.get(4);
+
+        return database.createPlayer(team, score, isTurn, gameId);
+    }
+
+    private int executeUpdatePlayerQuery() {
+        final Double score = (Double) parameters.get(1);
+        final boolean isTurn = (boolean) parameters.get(2);
+        final int id = (int) parameters.get(3);
+
+        return database.updatePlayer(score, isTurn, id);
+    }
+
+    private int executeInsertLocationQuery() {
+        final String piece = (String) parameters.get(1);
+        final int row = (int) parameters.get(2);
+        final int column = (int) parameters.get(3);
+        final int playerId = (int) parameters.get(4);
+
+        return database.createLocation(piece, row, column, playerId);
+    }
+
+    private int executeDeleteLocationQuery() {
+        final int row = (int) parameters.get(1);
+        final int column = (int) parameters.get(2);
+        final int gameId = (int) parameters.get(3);
+
+        return database.deleteLocationAt(row, column, gameId);
+    }
+
+    private int executeUpdateLocationQuery() {
+        final int startRow = (int) parameters.get(1);
+        final int startColumn = (int) parameters.get(2);
+        final int arrivalRow = (int) parameters.get(3);
+        final int arrivalColumn = (int) parameters.get(4);
+        final int gameId = (int) parameters.get(5);
+
+        return database.updateLocation(startRow, startColumn, arrivalRow, arrivalColumn, gameId);
+    }
+
+    private Map<String, Object> createPlayerResultMap(final Player player) {
+        final Map<String, Object> value = new HashMap<>();
+        value.put("id", player.getId());
+        value.put("team", player.getTeam().name());
+        value.put("score", player.getScore().value());
+        value.put("is_turn", player.isTurn());
+        return value;
+    }
+
+    private Map<String, Object> createLocationResultMap(final BoardLocation location) {
+        final Map<String, Object> value = new HashMap<>();
+        value.put("location_row", location.getRow());
+        value.put("location_column", location.getColumn());
+        value.put("location_piece", location.getPiece());
+        value.put("player_id", location.playerId());
+        return value;
     }
 
     // 이하는 미사용 인터페이스
