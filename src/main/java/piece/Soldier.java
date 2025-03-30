@@ -12,7 +12,6 @@ import java.util.function.BiPredicate;
 
 public class Soldier extends Piece implements DirectionCheckable {
 
-    // TODO 2025. 3. 29. 17:23: 간선을 따르긴 하나, team에 따라 앞으로 나가는 방향이 다름
     private static final MovePaths basicMoveActions;
 
     private final MovePaths moveActions;
@@ -40,6 +39,7 @@ public class Soldier extends Piece implements DirectionCheckable {
         return (src, dest) -> canCorrectDiff(dest);
     }
 
+    // TODO 2025. 3. 30. 13:37: 하드코딩
     private boolean canCorrectDiff(Position destination) {
         int diffX = position.x() - destination.x();
         int diffY = position.y() - destination.y();
@@ -65,5 +65,10 @@ public class Soldier extends Piece implements DirectionCheckable {
     @Override
     public boolean equalsType(final Piece piece) {
         return piece instanceof Soldier;
+    }
+
+    @Override
+    protected int getScore() {
+        return 2;
     }
 }

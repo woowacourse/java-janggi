@@ -55,4 +55,9 @@ public class Chariot extends Piece implements DirectionCheckable, ObstructionChe
     public boolean equalsType(final Piece piece) {
         return piece instanceof Chariot;
     }
+
+    @Override
+    protected int getScore() {
+        return 13;
+    }
 }

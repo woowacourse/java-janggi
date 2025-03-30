@@ -24,11 +24,13 @@ public abstract class Piece {
 
     public abstract boolean equalsType(final Piece piece);
 
+    public boolean equalsCountry(Country country) {
+        return this.country.equals(country);
+    }
+
     public Country getTeamType() {
         return country;
     }
 
-    public boolean equalsCountry(Country country) {
-        return this.country.equals(country);
-    }
+    protected abstract int getScore();
 }
