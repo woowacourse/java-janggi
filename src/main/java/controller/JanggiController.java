@@ -23,7 +23,7 @@ public class JanggiController {
 
     public void run() {
         OutputView.printStart();
-        JanggiGame janggiGame = initializeJanggiGame();
+        final JanggiGame janggiGame = initializeJanggiGame();
         play(janggiGame);
     }
 
@@ -31,8 +31,8 @@ public class JanggiController {
         if (janggiDaoService.hasSavedGame() && InputView.selectLoadGame()) {
             return new JanggiGame(janggiDaoService.findBoard(), janggiDaoService.findTurn());
         }
-        SangMaOrderCommand hanSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.HAN);
-        SangMaOrderCommand choSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.CHO);
+        final SangMaOrderCommand hanSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.HAN);
+        final SangMaOrderCommand choSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.CHO);
         return new JanggiGame(hanSangMaOrderCommand, choSangMaOrderCommand);
     }
 
@@ -44,19 +44,19 @@ public class JanggiController {
         boolean isPlayable = true;
         while (isPlayable) {
             printBoardAndTurn(janggiGame);
-            ProgressCommand progressCommand = ErrorHandler.retryUntilSuccess(InputView::inputProgress);
-            if (progressCommand == ProgressCommand.MOVE) {
+            final ProgressCommand progressCommand = ErrorHandler.retryUntilSuccess(InputView::inputProgress);
+            if (progressCommand.isMove()) {
                 isPlayable = executeMove(janggiGame);
             }
-            if (progressCommand == ProgressCommand.STATUS) {
+            if (progressCommand.isStatus()) {
                 printScore(janggiGame);
                 continue;
             }
-            if (progressCommand == ProgressCommand.SAVE) {
+            if (progressCommand.isSave()) {
                 executeSave(janggiGame);
                 break;
             }
-            if (progressCommand == ProgressCommand.EXIT) {
+            if (progressCommand.isExit()) {
                 executeExit(janggiGame);
                 break;
             }
