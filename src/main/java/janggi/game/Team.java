@@ -24,6 +24,7 @@ public enum Team {
         }
         return HAN;
     }
+
     public boolean isCho() {
         return this == CHO;
     }

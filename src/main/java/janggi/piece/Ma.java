@@ -20,13 +20,13 @@ public class Ma extends Piece {
     public static List<Ma> init(Team team) {
         if (team.isCho()) {
             return List.of(
-                    new Ma(team, new Point(9,2)),
-                    new Ma(team, new Point(9,6))
+                    new Ma(team, new Point(9, 2)),
+                    new Ma(team, new Point(9, 6))
             );
         }
         return List.of(
-                new Ma(team, new Point(0,1)),
-                new Ma(team, new Point(0,7))
+                new Ma(team, new Point(0, 1)),
+                new Ma(team, new Point(0, 7))
         );
     }
 

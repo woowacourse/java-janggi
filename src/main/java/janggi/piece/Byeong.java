@@ -15,19 +15,19 @@ public class Byeong extends Piece {
     public static List<Byeong> init(Team team) {
         if (team.isCho()) {
             return List.of(
-                    new Byeong(team, new Point(6,0)),
-                    new Byeong(team, new Point(6,2)),
-                    new Byeong(team, new Point(6,4)),
-                    new Byeong(team, new Point(6,6)),
-                    new Byeong(team, new Point(6,8))
+                    new Byeong(team, new Point(6, 0)),
+                    new Byeong(team, new Point(6, 2)),
+                    new Byeong(team, new Point(6, 4)),
+                    new Byeong(team, new Point(6, 6)),
+                    new Byeong(team, new Point(6, 8))
             );
         }
         return List.of(
-                new Byeong(team, new Point(3,0)),
-                new Byeong(team, new Point(3,2)),
-                new Byeong(team, new Point(3,4)),
-                new Byeong(team, new Point(3,6)),
-                new Byeong(team, new Point(3,8))
+                new Byeong(team, new Point(3, 0)),
+                new Byeong(team, new Point(3, 2)),
+                new Byeong(team, new Point(3, 4)),
+                new Byeong(team, new Point(3, 6)),
+                new Byeong(team, new Point(3, 8))
         );
     }
 

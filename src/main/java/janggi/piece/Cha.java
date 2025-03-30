@@ -18,13 +18,13 @@ public class Cha extends Piece {
     public static List<Cha> init(Team team) {
         if (team.isCho()) {
             return List.of(
-                    new Cha(team, new Point(9,0)),
-                    new Cha(team, new Point(9,8))
+                    new Cha(team, new Point(9, 0)),
+                    new Cha(team, new Point(9, 8))
             );
         }
         return List.of(
-                new Cha(team, new Point(0,0)),
-                new Cha(team, new Point(0,8))
+                new Cha(team, new Point(0, 0)),
+                new Cha(team, new Point(0, 8))
         );
     }
 

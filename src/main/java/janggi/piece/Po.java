@@ -22,13 +22,13 @@ public class Po extends Piece {
     public static List<Po> init(Team team) {
         if (team.isCho()) {
             return List.of(
-                    new Po(team, new Point(7,1)),
-                    new Po(team, new Point(7,7))
+                    new Po(team, new Point(7, 1)),
+                    new Po(team, new Point(7, 7))
             );
         }
         return List.of(
-                new Po(team, new Point(2,1)),
-                new Po(team, new Point(2,7))
+                new Po(team, new Point(2, 1)),
+                new Po(team, new Point(2, 7))
         );
     }
 

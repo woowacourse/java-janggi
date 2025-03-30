@@ -19,7 +19,7 @@ public class PieceEntity {
         this.piece = piece;
     }
 
-    public static PieceEntity addRecord(int id, Piece piece){
+    public static PieceEntity addRecord(int id, Piece piece) {
         PieceEntity pieceEntity = new PieceEntity(id, piece);
         pieceDaos.add(pieceEntity);
         return pieceEntity;

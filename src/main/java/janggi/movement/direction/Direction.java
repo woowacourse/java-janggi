@@ -74,7 +74,8 @@ public enum Direction {
         return diagonalDirection;
     }
 
-    private static List<Direction> buildDirectionalPath(int repeatCount, Direction firstDirection, Direction repeatingDirection) {
+    private static List<Direction> buildDirectionalPath(int repeatCount, Direction firstDirection,
+                                                        Direction repeatingDirection) {
         List<Direction> directions = new ArrayList<>();
         directions.add(firstDirection);
         for (int i = 0; i < repeatCount; i++) {

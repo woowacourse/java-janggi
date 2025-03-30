@@ -50,10 +50,10 @@ public class JanggiApplication {
             });
 
             MovementDto movement = retryUntilSuccessAndReturn(piece -> {
-                Point targetPoint = inputView.readTargetPoint();
-                return game.move(piece, targetPoint);
-            }
-            , movingPiece);
+                        Point targetPoint = inputView.readTargetPoint();
+                        return game.move(piece, targetPoint);
+                    }
+                    , movingPiece);
             updatePieceData(movingPiece, movement);
 
             game.reverseTurn();

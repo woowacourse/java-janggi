@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public record PiecesOnBoardDto(List<RunningPieceDto> runningPieces, List<AttackedPieceDto> attackedPieces){
+public record PiecesOnBoardDto(List<RunningPieceDto> runningPieces, List<AttackedPieceDto> attackedPieces) {
 
     public static PiecesOnBoardDto from(Map<Integer, Piece> runningPieces, Map<Integer, AttackedPiece> attackedPieces) {
         List<RunningPieceDto> runnings = runningPieces.entrySet().stream()

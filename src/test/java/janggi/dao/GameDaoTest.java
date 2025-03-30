@@ -24,6 +24,7 @@ class GameDaoTest {
         createdGame = new Game();
         gameDao.createGame(createdGame);
     }
+
     @AfterEach
     void cleanUp() {
         try {

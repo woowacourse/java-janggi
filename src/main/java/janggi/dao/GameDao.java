@@ -64,7 +64,7 @@ public class GameDao {
     public void updateTurn(Game game) {
         final var query = "UPDATE game SET turn=? WHERE id = ?";
         try (final var connection = JangiDatabase.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)){
+             final var preparedStatement = connection.prepareStatement(query)) {
             GameEntity gameEntity = GameEntity.findByGame(game);
             preparedStatement.setString(1, gameEntity.getTurn());
             preparedStatement.setInt(2, gameEntity.getId());
@@ -77,7 +77,7 @@ public class GameDao {
     public void deleteGame(Game game) {
         final var query = "DELETE FROM game WHERE id = ?";
         try (final var connection = JangiDatabase.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)){
+             final var preparedStatement = connection.prepareStatement(query)) {
             GameEntity gameEntity = GameEntity.findByGame(game);
             preparedStatement.setInt(1, gameEntity.getId());
             int affectedCount = preparedStatement.executeUpdate();

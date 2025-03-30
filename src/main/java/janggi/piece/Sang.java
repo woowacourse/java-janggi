@@ -21,13 +21,13 @@ public class Sang extends Piece {
     public static List<Sang> init(Team team) {
         if (team.isCho()) {
             return List.of(
-                    new Sang(team, new Point(9,1)),
-                    new Sang(team, new Point(9,7))
+                    new Sang(team, new Point(9, 1)),
+                    new Sang(team, new Point(9, 7))
             );
         }
         return List.of(
-                new Sang(team, new Point(0,2)),
-                new Sang(team, new Point(0,6))
+                new Sang(team, new Point(0, 2)),
+                new Sang(team, new Point(0, 6))
         );
     }
 

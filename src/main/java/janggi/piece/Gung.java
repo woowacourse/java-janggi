@@ -19,11 +19,11 @@ public class Gung extends Piece {
     public static List<Gung> init(Team team) {
         if (team.isCho()) {
             return List.of(
-                    new Gung(team, new Point(8,4))
+                    new Gung(team, new Point(8, 4))
             );
         }
         return List.of(
-                new Gung(team, new Point(1,4))
+                new Gung(team, new Point(1, 4))
         );
     }
 

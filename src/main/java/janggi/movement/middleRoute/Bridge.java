@@ -18,7 +18,7 @@ public class Bridge {
         }
         return new Bridge(bridge, movingPiece);
     }
-    
+
     public boolean cannotPass() {
         if (bridge == null) {
             return true;
