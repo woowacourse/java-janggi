@@ -1,8 +1,8 @@
 package domain.pieces;
 
 import domain.Team;
-import domain.board.BoardPoint;
 import domain.board.PieceOnRoute;
+import domain.board.BoardPoint;
 import domain.movements.DefaultMovement;
 import domain.movements.Direction;
 import domain.movements.PieceMovement;
