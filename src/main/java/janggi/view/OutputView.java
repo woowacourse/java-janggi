@@ -6,7 +6,6 @@ import janggi.piece.pieces.Piece;
 import janggi.position.Position;
 import janggi.position.Route;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -81,7 +80,7 @@ public class OutputView {
             Arrays.fill(board[i], ".");
         }
         pieces.forEach(
-                (position, piece) -> board[position.getRow()][position.getColumn()] = teamToName(piece.team()));
+                (position, piece) -> board[position.getRow()][position.getColumn()] = teamToName(piece.getTeam()));
         return board;
     }
 
@@ -107,5 +106,22 @@ public class OutputView {
             }
             System.out.println();
         }
+    }
+
+    public void printWinner(Team team, int choScore, int hanScore) {
+        System.out.println(System.lineSeparator() + "게임 종료");
+        System.out.println("승자: " + teamToName(team));
+        printScore(choScore, hanScore);
+    }
+
+    public void printDraw(int choScore, int hanScore) {
+        System.out.println(System.lineSeparator() + "게임 종료");
+        System.out.println("무승부");
+        printScore(choScore, hanScore);
+    }
+
+    private void printScore(int choScore, int hanScore) {
+        System.out.println("한나라: " + hanScore);
+        System.out.println("초나라: " + choScore);
     }
 }
