@@ -40,6 +40,15 @@ public class PieceDao {
         }
     }
 
+    public int savePieces(Map<Position, Piece> pieces, Long gameId){
+        int saveCount = 0;
+        for (Entry<Position, Piece> positionPiece : pieces.entrySet()) {
+            savePiece(positionPiece.getValue(), positionPiece.getKey(), gameId);
+            saveCount ++;
+        }
+        return saveCount;
+    }
+
     public Map<Position, Piece> findBoardPiecesByGameId(Long gameId) {
         String query = "SELECT * FROM piece WHERE game_id = ?";
 

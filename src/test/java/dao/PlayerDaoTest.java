@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import dao.fixture.JanggiGameTestFixture;
 import domain.TeamType;
 import domain.player.Player;
+import domain.turn.GameState;
+import domain.turn.TurnState;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -52,7 +54,8 @@ class PlayerDaoTest {
     @DisplayName("게임에 해당하는 플레이어들의 데이터를 조회한다")
     void findPlayersByGameIdTest() throws SQLException {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
+        JanggiGameDao janggiGameDao = new JanggiGameDao(connection);
+        long gameId = janggiGameDao.saveJanggiGame(new TurnState(false, TeamType.CHO), GameState.IN_PROGRESS);
 
         String choPlayerName = "루키";
         TeamType choPlayerTeam = TeamType.CHO;

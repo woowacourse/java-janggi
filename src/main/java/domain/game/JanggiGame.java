@@ -8,7 +8,9 @@ import domain.player.Player;
 import domain.player.Players;
 import domain.position.Position;
 import domain.turn.Finished;
+import domain.turn.GameState;
 import domain.turn.Turn;
+import domain.turn.TurnState;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,5 +80,13 @@ public class JanggiGame {
     public boolean isFinishedByCheckmate() {
         Finished finished = turn.getFinished();
         return finished.isFinishedByCheckmate();
+    }
+
+    public GameState getGameState() {
+        return turn.getGameState();
+    }
+
+    public TurnState getTurnState() {
+        return turn.getTurnState();
     }
 }
