@@ -1,10 +1,7 @@
 package janggi.piece;
 
 import janggi.dto.BoardPieceDto;
-import janggi.position.Position;
-import janggi.team.Team;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public enum PieceType {

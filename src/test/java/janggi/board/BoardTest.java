@@ -1,6 +1,7 @@
 package janggi.board;
 
 import janggi.dao.BoardDao;
+import janggi.dao.DatabaseConnector;
 import janggi.piece.*;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -20,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 public class BoardTest {
 
     private static final PieceGenerator pieceGenerator = new PieceGenerator();
-    private static final BoardDao boardDao = new BoardDao();
+    private static final BoardDao boardDao = new BoardDao(new DatabaseConnector());
 
     @Test
     @DisplayName("보드에서 선택한 기물을 다른 기물로 이동 시킬 수 있는지 확인")
