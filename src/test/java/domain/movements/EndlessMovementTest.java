@@ -1,6 +1,7 @@
 package domain.movements;
 
 import domain.board.BoardPoint;
+import java.util.Collections;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -12,7 +13,14 @@ public class EndlessMovementTest {
     @DisplayName("도착할 수 있는 지점들을 모두 반환한다")
     void test_calculateTotalArrivalPoints() {
         // given
-        EndlessMovement endlessMovement = new EndlessMovement();
+        EndlessMovement endlessMovement = new EndlessMovement(
+                List.of(
+                        new Route(Collections.nCopies(10, Direction.NORTH)),
+                        new Route(Collections.nCopies(10, Direction.EAST)),
+                        new Route(Collections.nCopies(10, Direction.SOUTH)),
+                        new Route(Collections.nCopies(10, Direction.WEST))
+                )
+        );
 
         // when
         List<BoardPoint> boardPoints = endlessMovement.calculateTotalArrivalPoints(new BoardPoint(3, 3));
@@ -43,7 +51,14 @@ public class EndlessMovementTest {
     @DisplayName("경로 상의 모든 지점들을 반환한다")
     void test_calculateRoutePoints() {
         // given
-        EndlessMovement endlessMovement = new EndlessMovement();
+        EndlessMovement endlessMovement = new EndlessMovement(
+                List.of(
+                        new Route(Collections.nCopies(10, Direction.NORTH)),
+                        new Route(Collections.nCopies(10, Direction.EAST)),
+                        new Route(Collections.nCopies(10, Direction.SOUTH)),
+                        new Route(Collections.nCopies(10, Direction.WEST))
+                )
+        );
 
         // when
         List<BoardPoint> boardPoints = endlessMovement.calculateRoutePoints(new BoardPoint(3, 3), new BoardPoint(3, 6));
@@ -60,7 +75,14 @@ public class EndlessMovementTest {
     @DisplayName("이동할 수 없는 위치로 경로를 반환할 것을 요청하는 경우 예외를 던진다")
     void test_calculateRoutePointsThrowsException() {
         // given
-        EndlessMovement endlessMovement = new EndlessMovement();
+        EndlessMovement endlessMovement = new EndlessMovement(
+                List.of(
+                        new Route(Collections.nCopies(10, Direction.NORTH)),
+                        new Route(Collections.nCopies(10, Direction.EAST)),
+                        new Route(Collections.nCopies(10, Direction.SOUTH)),
+                        new Route(Collections.nCopies(10, Direction.WEST))
+                )
+        );
 
         BoardPoint startBoardPoint = new BoardPoint(0, 0);
         BoardPoint invalidArrivalBoardPoint = new BoardPoint(1, 1);

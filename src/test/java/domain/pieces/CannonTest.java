@@ -1,9 +1,8 @@
 package domain.pieces;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
 import domain.board.BoardPoint;
-import domain.movements.EndlessMovement;
+import domain.board.PieceOnRoute;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +13,7 @@ class CannonTest {
     @DisplayName("도착할 수 있는지 확인한다.")
     void test_IsAbleToArrive() {
         // given
-        Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
+        Cannon cannon = new Cannon(Team.CHO);
         BoardPoint startBoardPoint = new BoardPoint(0, 0);
         BoardPoint arrivalBoardPoint = new BoardPoint(0, 3);
 
@@ -29,7 +28,7 @@ class CannonTest {
     @DisplayName("도착할 수 없는지 확인한다.")
     void test_IsNotAbleToArrive() {
         // given
-        Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
+        Cannon cannon = new Cannon(Team.CHO);
         BoardPoint startBoardPoint = new BoardPoint(0, 0);
         BoardPoint arrivalBoardPoint = new BoardPoint(3, 3);
 
@@ -45,7 +44,7 @@ class CannonTest {
     @DisplayName("도착점까지의 경로를 모두 반환한다.")
     void test_getRoutePoints() {
         // given
-        Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
+        Cannon cannon = new Cannon(Team.CHO);
         BoardPoint startBoardPoint = new BoardPoint(0, 0);
         BoardPoint arrivalBoardPoint = new BoardPoint(0, 3);
 
@@ -64,8 +63,8 @@ class CannonTest {
     @DisplayName("경로 상 기물이 하나 있어야 이동 할 수 있다.")
     void test_isMovableWhenPieceOnRoute() {
         //given
-        Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
-        Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
+        Cannon cannon = new Cannon(Team.CHO);
+        Chariot chariot = new Chariot(Team.CHO);
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot), null);
 
         //when&then
@@ -76,7 +75,7 @@ class CannonTest {
     @DisplayName("경로 상 포가 있으면 이동할 수 없다.")
     void test_isMovableWhenCannonOnRoute() {
         //given
-        Cannon cannon = new Cannon(Team.CHO, new EndlessMovement());
+        Cannon cannon = new Cannon(Team.CHO);
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(cannon), null);
 
         //when&then
@@ -87,7 +86,7 @@ class CannonTest {
     @DisplayName("경로 상 기물이 없으면 이동할 수 없다.")
     void test_isMovable() {
         //given
-        Cannon Cannon = new Cannon(Team.CHO, new EndlessMovement());
+        Cannon Cannon = new Cannon(Team.CHO);
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), null);
 
         //when&then
@@ -98,8 +97,8 @@ class CannonTest {
     @DisplayName("경로 상 기물이 둘이면 이동할 수 없다.")
     void test_isMovableWhenPiecesOnRoute() {
         //given
-        Cannon Cannon = new Cannon(Team.CHO, new EndlessMovement());
-        Chariot chariot = new Chariot(Team.CHO, new EndlessMovement());
+        Cannon Cannon = new Cannon(Team.CHO);
+        Chariot chariot = new Chariot(Team.CHO);
 
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot, chariot), null);
 
@@ -111,8 +110,8 @@ class CannonTest {
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceIsInOtherTeam() {
         //given
-        Cannon cannon = new Cannon(Team.HAN, new EndlessMovement());
-        Chariot chariot = new Chariot(Team.HAN, new EndlessMovement());
+        Cannon cannon = new Cannon(Team.HAN);
+        Chariot chariot = new Chariot(Team.HAN);
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot), chariot);
 
         //when&then

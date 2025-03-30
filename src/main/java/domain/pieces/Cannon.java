@@ -1,10 +1,14 @@
 package domain.pieces;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
 import domain.board.BoardPoint;
+import domain.board.PieceOnRoute;
+import domain.movements.Direction;
+import domain.movements.EndlessMovement;
 import domain.movements.PieceMovement;
+import domain.movements.Route;
 import static domain.pieces.PieceNames.CANNON;
+import java.util.Collections;
 import java.util.List;
 
 public final class Cannon implements Piece {
@@ -13,8 +17,15 @@ public final class Cannon implements Piece {
     private final Team team;
     private final PieceMovement movements;
 
-    public Cannon(final Team team, final PieceMovement pieceMovement) {
-        this.movements = pieceMovement;
+    public Cannon(final Team team) {
+        this.movements = new EndlessMovement(
+                List.of(
+                        new Route(Collections.nCopies(10, Direction.NORTH)),
+                        new Route(Collections.nCopies(10, Direction.EAST)),
+                        new Route(Collections.nCopies(10, Direction.SOUTH)),
+                        new Route(Collections.nCopies(10, Direction.WEST))
+                )
+        );
         this.team = team;
     }
 

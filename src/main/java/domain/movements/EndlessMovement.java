@@ -2,21 +2,14 @@ package domain.movements;
 
 import domain.board.BoardPoint;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public final class EndlessMovement implements PieceMovement {
-    private static final int MAX_DIRECTION_COUNT = 10;
 
     private final List<Route> routes;
 
-    public EndlessMovement() {
-        this.routes = List.of(
-                new Route(Collections.nCopies(MAX_DIRECTION_COUNT, Direction.NORTH)),
-                new Route(Collections.nCopies(MAX_DIRECTION_COUNT, Direction.EAST)),
-                new Route(Collections.nCopies(MAX_DIRECTION_COUNT, Direction.SOUTH)),
-                new Route(Collections.nCopies(MAX_DIRECTION_COUNT, Direction.WEST))
-        );
+    public EndlessMovement(List<Route> routes) {
+        this.routes = routes;
     }
 
     @Override

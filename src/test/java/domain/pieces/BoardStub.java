@@ -5,7 +5,6 @@ import domain.board.Board;
 import domain.board.BoardPoint;
 import domain.movements.DefaultMovement;
 import domain.movements.Direction;
-import domain.movements.EndlessMovement;
 import domain.movements.PieceMovement;
 import domain.movements.Route;
 import java.util.HashMap;
@@ -33,13 +32,11 @@ public class BoardStub {
         locations.put(new BoardPoint(6, 6), new Soldier(Team.HAN, soldierMovement));
         locations.put(new BoardPoint(6, 8), new Soldier(Team.HAN, soldierMovement));
 
-        PieceMovement endlessMovement = new EndlessMovement();
+        locations.put(new BoardPoint(9, 0), new Chariot(Team.HAN));
+        locations.put(new BoardPoint(9, 8), new Chariot(Team.HAN));
 
-        locations.put(new BoardPoint(9, 0), new Chariot(Team.HAN, endlessMovement));
-        locations.put(new BoardPoint(9, 8), new Chariot(Team.HAN, endlessMovement));
-
-        locations.put(new BoardPoint(7, 1), new Cannon(Team.HAN, endlessMovement));
-        locations.put(new BoardPoint(7, 7), new Cannon(Team.HAN, endlessMovement));
+        locations.put(new BoardPoint(7, 1), new Cannon(Team.HAN));
+        locations.put(new BoardPoint(7, 7), new Cannon(Team.HAN));
 
         PieceMovement elephantMovement = generateElephantMovement();
 
@@ -75,13 +72,11 @@ public class BoardStub {
         locations.put(new BoardPoint(3, 6), new Soldier(Team.CHO, soldierMovement));
         locations.put(new BoardPoint(3, 8), new Soldier(Team.CHO, soldierMovement));
 
-        PieceMovement endlessMovement = new EndlessMovement();
+        locations.put(new BoardPoint(0, 0), new Chariot(Team.CHO));
+        locations.put(new BoardPoint(0, 8), new Chariot(Team.CHO));
 
-        locations.put(new BoardPoint(0, 0), new Chariot(Team.CHO, endlessMovement));
-        locations.put(new BoardPoint(0, 8), new Chariot(Team.CHO, endlessMovement));
-
-        locations.put(new BoardPoint(2, 1), new Cannon(Team.CHO, endlessMovement));
-        locations.put(new BoardPoint(2, 7), new Cannon(Team.CHO, endlessMovement));
+        locations.put(new BoardPoint(2, 1), new Cannon(Team.CHO));
+        locations.put(new BoardPoint(2, 7), new Cannon(Team.CHO));
 
         PieceMovement elephantMovement = generateElephantMovement();
 
