@@ -63,15 +63,6 @@ public class Cannon extends PalaceAwarePiece {
         return route;
     }
 
-    private void diagonalRoute(final int dx, final int dy, final List<Position> route, final Position currentPosition,
-                               final Position targetPosition) {
-        if (Math.abs(dx) >= 2 && Math.abs(dy) >= 2) {
-            final int row = (currentPosition.row() + targetPosition.row()) / 2;
-            final int col = (currentPosition.col() + targetPosition.col()) / 2;
-            route.add(new Position(row, col));
-        }
-    }
-
     private void verticalRoute(final int dx, final int dy, final List<Position> route, final int currentRow,
                                final int currentCol) {
         if (dx == 0) {
@@ -120,6 +111,15 @@ public class Cannon extends PalaceAwarePiece {
             for (int i = 1; i < Math.abs(dx); i++) {
                 insertRoute(route, currentRow + i, currentCol);
             }
+        }
+    }
+
+    private void diagonalRoute(final int dx, final int dy, final List<Position> route, final Position currentPosition,
+                               final Position targetPosition) {
+        if (Math.abs(dx) >= 2 && Math.abs(dy) >= 2) {
+            final int row = (currentPosition.row() + targetPosition.row()) / 2;
+            final int col = (currentPosition.col() + targetPosition.col()) / 2;
+            insertRoute(route, row, col);
         }
     }
 

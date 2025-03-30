@@ -292,7 +292,7 @@ class CannonTest {
     @DisplayName("궁성의 영역에서 좌우 대각선으로 움직일 수 있다.")
     @ParameterizedTest
     @MethodSource("cannonPalaceMovePositionProvider")
-    void palaceMove(final Position currentPosition, final Position targetPosition, final Palace palace) {
+    void inPalaceMove(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
         final Cannon cannon = new Cannon(Team.HAN);
 
@@ -313,7 +313,7 @@ class CannonTest {
 
     @DisplayName("궁성의 영역에서도 반드시 포를 제외한 하나의 기물을 넘어야 한다.")
     @Test
-    void palaceMove2() {
+    void inPalaceMove2() {
         //given
         final Cannon cannon = new Cannon(Team.HAN);
 
@@ -335,7 +335,7 @@ class CannonTest {
     @DisplayName("궁성의 영역에서 포를 제외한 다른 기물을 뛰어넘지 않으면 예외를 던진다.")
     @ParameterizedTest
     @MethodSource("cannonNonMovePalacePositionProvider")
-    void palaceMove3(final Position currentPosition, final Position targetPosition, final Palace palace) {
+    void nonInPalaceMove(final Position currentPosition, final Position targetPosition, final Palace palace) {
         //given
         final Cannon cannon = new Cannon(Team.HAN);
 
