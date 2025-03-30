@@ -5,7 +5,6 @@ import domain.path.Path;
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
 import domain.type.ChessTeam;
-
 import java.util.List;
 
 public class UnpassableHurdlePolicy implements HurdlePolicy {
@@ -19,10 +18,10 @@ public class UnpassableHurdlePolicy implements HurdlePolicy {
     }
 
     private boolean existChessPiece(final ChessPiecePositions positions, final Path path) {
-        List<ChessPosition> pathPositions = path.getPath();
+        List<ChessPosition> pathPositions = path.path();
         for (int i = 0; i < pathPositions.size() - 1; i++) {
             ChessPosition currentPosition = pathPositions.get(i);
-            if (positions.existChessPieceByPosition(currentPosition)) {
+            if (positions.existPieceByPosition(currentPosition)) {
                 return true;
             }
         }
@@ -30,10 +29,10 @@ public class UnpassableHurdlePolicy implements HurdlePolicy {
     }
 
     private boolean isAbleToCatch(ChessTeam team, ChessPosition targetPosition, ChessPiecePositions positions) {
-        if (!positions.existChessPieceByPosition(targetPosition)) {
+        if (!positions.existPieceByPosition(targetPosition)) {
             return true;
         }
-        ChessPiece targetPiece = positions.getChessPieceByPosition(targetPosition);
+        ChessPiece targetPiece = positions.findPieceByPosition(targetPosition);
         return targetPiece.getTeam() != team;
     }
 }

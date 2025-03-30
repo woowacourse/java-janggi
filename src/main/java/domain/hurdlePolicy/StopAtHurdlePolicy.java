@@ -5,7 +5,6 @@ import domain.path.Path;
 import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
 import domain.type.ChessTeam;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +24,11 @@ public class StopAtHurdlePolicy implements HurdlePolicy {
             final Path path
     ) {
         final List<ChessPosition> chessPositions = new ArrayList<>();
-        for (ChessPosition targetPosition : path.getPath()) {
+        for (ChessPosition targetPosition : path.path()) {
             if (canMove(team, targetPosition, positions)) {
                 chessPositions.add(targetPosition);
             }
-            if (positions.existChessPieceByPosition(targetPosition)) {
+            if (positions.existPieceByPosition(targetPosition)) {
                 return chessPositions;
             }
         }
@@ -37,10 +36,10 @@ public class StopAtHurdlePolicy implements HurdlePolicy {
     }
 
     private boolean canMove(ChessTeam team, ChessPosition targetPosition, ChessPiecePositions positions) {
-        if (!positions.existChessPieceByPosition(targetPosition)) {
+        if (!positions.existPieceByPosition(targetPosition)) {
             return true;
         }
-        ChessPiece targetPiece = positions.getChessPieceByPosition(targetPosition);
+        ChessPiece targetPiece = positions.findPieceByPosition(targetPosition);
         return targetPiece.getTeam() != team;
     }
 }

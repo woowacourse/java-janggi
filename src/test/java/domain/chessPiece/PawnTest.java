@@ -1,54 +1,30 @@
 package domain.chessPiece;
 
-import domain.position.ChessPiecePositions;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import domain.path.Path;
 import domain.position.ChessPosition;
-import domain.position.EmptyChessPiecePositionsGenerator;
 import domain.type.ChessTeam;
-import domain.chessPiece.Pawn;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class PawnTest {
-    private final ChessPiecePositions emptyPositions = new ChessPiecePositions(new EmptyChessPiecePositionsGenerator());
 
     @Test
     @DisplayName("폰이 이동 가능한 경로를 반환한다")
     void test1() {
-        //given
-        final ChessPosition chessPosition = new ChessPosition(0, 0);
-        final List<ChessPosition> expectDestinations = List.of(
-                new ChessPosition(1,0),
-                new ChessPosition(0,1)
-        );
+        // given
+        final ChessPosition chessPosition = new ChessPosition(4, 4);
+        final Path expected = new Path(List.of(
+                new ChessPosition(3, 4)
+        ));
 
         //when
-        final Pawn pawn = new Pawn(ChessTeam.RED);
-        final List<ChessPosition> destinations = pawn.getDestinations(chessPosition, emptyPositions);
+        final Pawn pawn = new Pawn(chessPosition, ChessTeam.BLUE);
+        final List<Path> coordinatePaths = pawn.getCoordinatePaths(chessPosition);
 
         //then
-        assertThat(destinations).containsExactlyInAnyOrderElementsOf(expectDestinations);
-    }
-
-    @Test
-    @DisplayName("궁안에 있는 폰의 이동 가능한 경로를 반환한다")
-    void test2() {
-        //given
-        final ChessPosition chessPosition = new ChessPosition(2, 3);
-//        final List<ChessPosition> expectDestinations = List.of(
-//                new ChessPosition(1,0),
-//                new ChessPosition(0,1)
-//        );
-
-        //when
-        final Pawn pawn = new Pawn(ChessTeam.BLUE);
-        final List<ChessPosition> destinations = pawn.getDestinations(chessPosition, emptyPositions);
-
-        //then
-        System.out.println(destinations);
-
+        assertThat(coordinatePaths).contains(expected);
     }
 }

@@ -35,18 +35,22 @@ public class Pawn extends LimitedMoveChessPiece {
         super(chessTeam, DIRECTIONS.get(chessTeam));
     }
 
-    public static Map<ChessPosition, ChessPiece> initPieces() {
-        return Map.of(
-                new ChessPosition(3, 0), new Pawn(ChessTeam.RED),
-                new ChessPosition(3, 2), new Pawn(ChessTeam.RED),
-                new ChessPosition(3, 4), new Pawn(ChessTeam.RED),
-                new ChessPosition(3, 6), new Pawn(ChessTeam.RED),
-                new ChessPosition(3, 8), new Pawn(ChessTeam.RED),
-                new ChessPosition(6, 0), new Pawn(ChessTeam.BLUE),
-                new ChessPosition(6, 2), new Pawn(ChessTeam.BLUE),
-                new ChessPosition(6, 4), new Pawn(ChessTeam.BLUE),
-                new ChessPosition(6, 6), new Pawn(ChessTeam.BLUE),
-                new ChessPosition(6, 8), new Pawn(ChessTeam.BLUE)
+    public Pawn(final ChessPosition position, final ChessTeam team) {
+        super(position, team, DIRECTIONS.get(team));
+    }
+
+    public static List<ChessPiece> initPieces() {
+        return List.of(
+                new Pawn(new ChessPosition(3, 0), ChessTeam.RED),
+                new Pawn(new ChessPosition(3, 2), ChessTeam.RED),
+                new Pawn(new ChessPosition(3, 4), ChessTeam.RED),
+                new Pawn(new ChessPosition(3, 6), ChessTeam.RED),
+                new Pawn(new ChessPosition(3, 8), ChessTeam.RED),
+                new Pawn(new ChessPosition(6, 0), ChessTeam.BLUE),
+                new Pawn(new ChessPosition(6, 2), ChessTeam.BLUE),
+                new Pawn(new ChessPosition(6, 4), ChessTeam.BLUE),
+                new Pawn(new ChessPosition(6, 6), ChessTeam.BLUE),
+                new Pawn(new ChessPosition(6, 8), ChessTeam.BLUE)
         );
     }
 
@@ -63,5 +67,10 @@ public class Pawn extends LimitedMoveChessPiece {
     @Override
     protected boolean canMove(final ChessPosition position, final Directions directions) {
         return position.canCastleMove(directions.getFirstDirection());
+    }
+
+    @Override
+    public ChessPiece from(final ChessPosition position) {
+        return new Pawn(position, getTeam());
     }
 }

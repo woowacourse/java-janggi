@@ -14,4 +14,7 @@ public interface ChessPiece {
     Score getScore();
     List<Path> getCoordinatePaths(final ChessPosition startPosition);
     HurdlePolicy getHurdlePolicy();
+    ChessPiece from(final ChessPosition position);
+    boolean matchPosition(final ChessPosition position);
+    ChessPosition getPosition();
 }
