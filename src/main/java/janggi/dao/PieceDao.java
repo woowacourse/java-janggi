@@ -55,6 +55,19 @@ public final class PieceDao {
         }
     }
 
+    public void deletePiecesByGameId(final int gameId) {
+        final String deleteQuery = "DELETE FROM piece WHERE game_id = ?";
+
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+
+            preparedStatement.setInt(1, gameId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private PieceDto toPieceDto(final ResultSet resultSet) throws SQLException {
         String pieceType = resultSet.getString("pieceType");
         String team = resultSet.getString("team");

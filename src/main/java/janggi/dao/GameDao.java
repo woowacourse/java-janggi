@@ -74,6 +74,33 @@ public final class GameDao {
         }
     }
 
+    public void updateGameById(final int gameId, final Team turn) {
+        String updateQuery = "UPDATE game SET turn = ? WHERE id = ?";
+
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+
+            preparedStatement.setString(1, turn.name());
+            preparedStatement.setInt(2, gameId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteGameById(final int id) {
+        String deleteQuery = "DELETE FROM game WHERE id = ?";
+
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private GameDto toGameDto(final ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String turn = resultSet.getString("turn");

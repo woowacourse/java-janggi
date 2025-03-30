@@ -44,6 +44,12 @@ public final class GameService {
         pieceDao.addPieces(gameId, toPieceDtos(game));
     }
 
+    public void updateGame(final int gameId, final Game game) {
+        gameDao.updateGameById(gameId, game.getTurn());
+        pieceDao.deletePiecesByGameId(gameId);
+        pieceDao.addPieces(gameId, toPieceDtos(game));
+    }
+
     private Board createBoardFrom(final List<PieceDto> pieceDtos) {
         Map<Position, Piece> pieces = new HashMap<>();
         for (PieceDto pieceDto : pieceDtos) {

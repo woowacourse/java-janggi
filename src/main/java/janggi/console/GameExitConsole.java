@@ -17,10 +17,18 @@ public final class GameExitConsole {
         this.gameService = gameService;
     }
 
-    public void saveGame(final int gameId, final Game game) {
+    public void saveOrDeleteGame(final GameStatus gameStatus, final int gameId, final Game game) {
+        if (gameStatus == GameStatus.ENDED) { // 게임을 저장하고 종료
+            saveGame(gameId, game);
+        }
+    }
+
+    private void saveGame(final int gameId, final Game game) {
         if (gameId == NEW_GAME) {
             gameService.saveGame(game);
+            return;
         }
+        gameService.updateGame(gameId, game);
     }
 
     public void displayGameResult(final GameStatus gameStatus) {

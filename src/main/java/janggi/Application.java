@@ -39,13 +39,11 @@ public class Application {
         int gameId = gameSetupConsole.selectGameId();
         Game game = gameSetupConsole.setupGame(gameId);
         gameSetupConsole.displayGameSetup(gameId, game);
-
         GameStatus gameStatus = GameStatus.PLAYING;
         while (!gameStatus.isGameFinished()) {
             gameStatus = gamePlayConsole.playTurn(game);
         }
-
-        gameExitConsole.saveGame(gameId, game);
         gameExitConsole.displayGameResult(gameStatus);
+        gameExitConsole.saveOrDeleteGame(gameStatus, gameId, game);
     }
 }

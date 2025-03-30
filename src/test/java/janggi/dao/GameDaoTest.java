@@ -84,6 +84,50 @@ class GameDaoTest {
         }
     }
 
+    @DisplayName("id를 이용해 저장된 게임의 턴을 바꿀 수 있다.")
+    @Test
+    void testUpdateGameById() {
+        // given
+        setupGame();
+        // when
+        int gameId = 1;
+        gameDao.updateGameById(gameId, Team.HAN);
+        // then
+        String selectQuery = "SELECT * FROM game WHERE id = ?";
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+            preparedStatement.setInt(1, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            assertAll(
+                    () -> assertThat(resultSet.next()).isTrue(),
+                    () -> assertThat(resultSet.getString("turn")).isEqualTo("HAN")
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DisplayName("id를 이용해 저장된 게임을 삭제할 수 있다.")
+    @Test
+    void testDeleteGame() {
+        // given
+        setupGame();
+        // when
+        gameDao.deleteGameById(1);
+        // then
+        String selectQuery = "SELECT COUNT(*) FROM game";
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            assertAll(
+                    () -> assertThat(resultSet.next()).isTrue(),
+                    () -> assertThat(resultSet.getInt(1)).isEqualTo(0)
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void setupGame() {
         String insertQuery = "INSERT INTO game (turn) VALUES ('CHO');";
         try (Connection connection = mysqlConnection.getConnection();

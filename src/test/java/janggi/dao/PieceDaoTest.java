@@ -74,6 +74,29 @@ class PieceDaoTest {
         }
     }
 
+    @DisplayName("game id를 이용해 연관된 기물들을 삭제할 수 있다.")
+    @Test
+    void testDeletePiecesByGameId() {
+        // given
+        setupPieces();
+        int gameId = 1;
+        // when
+        pieceDao.deletePiecesByGameId(gameId);
+        // then
+        String selectQuery = "SELECT COUNT(*) FROM piece WHERE game_id = ?";
+        try (Connection connection = mysqlConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+            preparedStatement.setInt(1, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            assertAll(
+                    () -> assertThat(resultSet.next()).isTrue(),
+                    () -> assertThat(resultSet.getInt(1)).isEqualTo(0)
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void cleanUp() {
         try (Connection connection = mysqlConnection.getConnection();
              Statement statement = connection.createStatement()) {
