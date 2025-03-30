@@ -3,43 +3,149 @@ package domain.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.position.Point;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import utils.PieceFactory;
 
 class GeneralTest {
 
-    @ParameterizedTest
-    @CsvSource({"4,8,3,9,true", "4,8,4,7,true", "5,8,4,8,true", "5,9,5,8,true", "4,8,4,6,false", "4,8,2,6,false",
-            "5,7,5,6,false", "4,7,3,8,false", " 3,8,4,9,false", "4,9,5,8,false", "5,8,4,7,false"})
-    void 한나라일_때_말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x1, final int y1, final int x2, final int y2,
-                                                  final boolean expected) {
+    @Nested
+    class HanGeneralTest {
 
-        // given
-        final General general = PieceFactory.createRedTeam(General::new);
+        private General general;
 
-        // when
-        final Point point1 = Point.newInstance(x1, y1);
-        final Point point2 = Point.newInstance(x2, y2);
+        @BeforeEach
+        void setUp() {
+            general = PieceFactory.createRedTeam(General::new);
+        }
 
-        // then
-        assertThat(general.isMovable(point1, point2)).isEqualTo(expected);
+        @DisplayName("궁은 궁성 내부에서 대각선으로 한 칸 이동할 수 있다.")
+        @Test
+        void move_4_8_to_3_9() {
+            assertThat(general.isMovable(Point.newInstance(4, 8), Point.newInstance(3, 9))).isTrue();
+        }
+
+        @DisplayName("궁은 궁성 내부에서 대각선으로 한 칸 이동할 수 있다.")
+        @Test
+        void move_4_8_to_4_7() {
+            assertThat(general.isMovable(Point.newInstance(4, 8), Point.newInstance(4, 7))).isTrue();
+        }
+
+        @DisplayName("궁은 궁성 내부에서 대각선으로 한 칸 이동할 수 있다.")
+        @Test
+        void move_5_8_to_4_8() {
+            assertThat(general.isMovable(Point.newInstance(5, 8), Point.newInstance(4, 8))).isTrue();
+        }
+
+        @DisplayName("궁은 수직으로 한 칸 이동할 수 있다.")
+        @Test
+        void move_5_9_to_5_8() {
+            assertThat(general.isMovable(Point.newInstance(5, 9), Point.newInstance(5, 8))).isTrue();
+        }
+
+        @DisplayName("궁은 2칸 이상 이동할 수 없다.")
+        @Test
+        void cannot_move_4_8_to_4_6() {
+            assertThat(general.isMovable(Point.newInstance(4, 8), Point.newInstance(4, 6))).isFalse();
+        }
+
+        @DisplayName("궁은 2칸 이상 이동할 수 없다.")
+        @Test
+        void cannot_move_4_8_to_2_6() {
+            assertThat(general.isMovable(Point.newInstance(4, 8), Point.newInstance(2, 6))).isFalse();
+        }
+
+        @DisplayName("궁은 2칸 이상 이동할 수 없다.")
+        @Test
+        void cannot_move_5_7_to_5_6() {
+            assertThat(general.isMovable(Point.newInstance(5, 7), Point.newInstance(5, 6))).isFalse();
+        }
+
+        @DisplayName("궁은 대각 경로가 없는 대각선으로 이동할 수 없다.")
+        @Test
+        void cannot_move_4_7_to_3_8() {
+            assertThat(general.isMovable(Point.newInstance(4, 7), Point.newInstance(3, 8))).isFalse();
+        }
+
+        @DisplayName("궁은 궁성 내 대각 경로가 없는 대각선으로 이동할 수 없다.")
+        @Test
+        void cannot_move_3_8_to_4_9() {
+            assertThat(general.isMovable(Point.newInstance(3, 8), Point.newInstance(4, 9))).isFalse();
+        }
+
+        @DisplayName("궁은 궁성 내 대각 경로가 없는 대각선 이동을 할 수 없다.")
+        @Test
+        void cannot_move_4_9_to_5_8() {
+            assertThat(general.isMovable(Point.newInstance(4, 9), Point.newInstance(5, 8))).isFalse();
+        }
+
+        @DisplayName("궁은 궁성 내 대각 경로가 없는 대각선 이동을 할 수 없다.")
+        @Test
+        void cannot_move_5_8_to_4_7() {
+            assertThat(general.isMovable(Point.newInstance(5, 8), Point.newInstance(4, 7))).isFalse();
+        }
     }
 
-    @ParameterizedTest
-    @CsvSource({"4,1,3,0,true", "4,1,4,2,true", "4,2,4,3,false", "5,2,6,3,false",
-            "4,0,3,1,false", " 3,1,4,2,false", "4,2,5,1,false", "5,1,4,0,false"})
-    void 초나라일_때_말이_움직일_수_있으면_true_아니면_false를_반환한다(final int x1, final int y1, final int x2, final int y2,
-                                                  final boolean expected) {
 
-        // given
-        final General general = PieceFactory.createGreenTeam(General::new);
+    @DisplayName("초나라 팀의 장수는 특정 규칙에 따라 움직일 수 있다.")
+    @Nested
+    class ChoGeneralTest {
 
-        // when
-        final Point point1 = Point.newInstance(x1, y1);
-        final Point point2 = Point.newInstance(x2, y2);
+        private General general;
 
-        // then
-        assertThat(general.isMovable(point1, point2)).isEqualTo(expected);
+        @BeforeEach
+        void setUp() {
+            general = PieceFactory.createGreenTeam(General::new);
+        }
+
+        @DisplayName("궁은 궁성 내 대각 경로를 통해 대각선으로 한 칸 이동할 수 있다.")
+        @Test
+        void move_4_1_to_3_0() {
+            assertThat(general.isMovable(Point.newInstance(4, 1), Point.newInstance(3, 0))).isTrue();
+        }
+
+        @DisplayName("궁은 수평으로 한 칸 이동할 수 있다.")
+        @Test
+        void move_4_1_to_4_2() {
+            assertThat(general.isMovable(Point.newInstance(4, 1), Point.newInstance(4, 2))).isTrue();
+        }
+
+        @DisplayName("궁은 2칸 이상 이동할 수 없다.")
+        @Test
+        void cannot_move_4_2_to_4_3() {
+            assertThat(general.isMovable(Point.newInstance(4, 2), Point.newInstance(4, 3))).isFalse();
+        }
+
+        @DisplayName("궁은 2칸 이상 이동할 수 없다.")
+        @Test
+        void cannot_move_5_2_to_6_3() {
+            assertThat(general.isMovable(Point.newInstance(5, 2), Point.newInstance(6, 3))).isFalse();
+        }
+
+        @DisplayName("궁은 대각 경로가 없곳에서 대각선 이동을 할 수 없다.")
+        @Test
+        void cannot_move_4_0_to_3_1() {
+            assertThat(general.isMovable(Point.newInstance(4, 0), Point.newInstance(3, 1))).isFalse();
+        }
+
+        @DisplayName("궁은 대각 경로가 없곳에서 대각선 이동을 할 수 없다.")
+        @Test
+        void cannot_move_3_1_to_4_2() {
+            assertThat(general.isMovable(Point.newInstance(3, 1), Point.newInstance(4, 2))).isFalse();
+        }
+
+        @DisplayName("궁은 대각 경로가 없곳에서 대각선 이동을 할 수 없다.")
+        @Test
+        void cannot_move_4_2_to_5_1() {
+            assertThat(general.isMovable(Point.newInstance(4, 2), Point.newInstance(5, 1))).isFalse();
+        }
+
+        @DisplayName("궁은 대각 경로가 없곳에서 대각선 이동을 할 수 없다.")
+        @Test
+        void cannot_move_5_1_to_4_0() {
+            assertThat(general.isMovable(Point.newInstance(5, 1), Point.newInstance(4, 0))).isFalse();
+        }
     }
 }

@@ -48,35 +48,6 @@ public class JanggiGame {
         });
     }
 
-    private boolean processTurnChange(final JanggiDao janggiDao, final Runnable messagePrinter) {
-        messagePrinter.run();
-        changeTurn(janggiDao);
-        return true;
-    }
-
-    private void processMove(final Position prevPosition, final Point nextPoint, final JanggiDao janggiDao) {
-        board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
-        final PointValue pointValue = nextPoint.value();
-        janggiDao.deletePosition(pointValue);
-        janggiDao.updatePoint(prevPosition.getPointValue(), pointValue);
-    }
-
-    private void processGameResult() {
-        final Team team = board.determineWinTeam();
-        final Map<PieceType, Integer> winnerPieceCounts = board.countPieces(team);
-        double winnerScore = Score.calculate(winnerPieceCounts);
-        final Map<PieceType, Integer> loserPieceCounts = board.countPieces(team.opposite());
-        double loserScore = Score.calculate(loserPieceCounts);
-
-        if (team.isRedTeam()) {
-            winnerScore = Score.adjustScore(winnerScore);
-        }
-        if (team.isGreenTeam()) {
-            loserScore = Score.adjustScore(loserScore);
-        }
-        OutputView.printWinnerTeam(team, winnerScore, loserScore);
-    }
-
     private void printTurn() {
         if (isGreenTurn()) {
             OutputView.printGreenTurn();
@@ -103,14 +74,43 @@ public class JanggiGame {
         return isRedTurn() && prevPosition.isGreenTeam();
     }
 
-    private void changeTurn(final JanggiDao janggiDao) {
-        turn = turn.opposite();
-        janggiDao.changeTurn(turn);
+    private boolean processTurnChange(final JanggiDao janggiDao, final Runnable messagePrinter) {
+        messagePrinter.run();
+        changeTurn(janggiDao);
+        return true;
     }
 
     private Point readEndPoint() {
         final List<String> toNumber = InputView.readToPoint();
         return Point.of(toNumber.getFirst(), toNumber.getLast());
+    }
+
+    private void processMove(final Position prevPosition, final Point nextPoint, final JanggiDao janggiDao) {
+        board.move(prevPosition, nextPoint, OutputView::printCaptureMessage);
+        final PointValue pointValue = nextPoint.value();
+        janggiDao.deletePosition(pointValue);
+        janggiDao.updatePoint(prevPosition.getPointValue(), pointValue);
+    }
+
+    private void processGameResult() {
+        final Team team = board.determineWinTeam();
+        final Map<PieceType, Integer> winnerPieceCounts = board.countPieces(team);
+        double winnerScore = Score.calculate(winnerPieceCounts);
+        final Map<PieceType, Integer> loserPieceCounts = board.countPieces(team.opposite());
+        double loserScore = Score.calculate(loserPieceCounts);
+
+        if (team.isRedTeam()) {
+            winnerScore = Score.adjustScore(winnerScore);
+        }
+        if (team.isGreenTeam()) {
+            loserScore = Score.adjustScore(loserScore);
+        }
+        OutputView.printWinnerTeam(team, winnerScore, loserScore);
+    }
+
+    private void changeTurn(final JanggiDao janggiDao) {
+        turn = turn.opposite();
+        janggiDao.changeTurn(turn);
     }
 
     private boolean isInvalidEndPoint(final Position prevPosition, final Point nextPoint) {
