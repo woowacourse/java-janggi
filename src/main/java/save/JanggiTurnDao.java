@@ -49,7 +49,7 @@ public class JanggiTurnDao {
         }
     }
 
-    public Optional<Integer> getLatestTurnId() {
+    public Optional<Integer> findLatestTurnId() {
         final var query = "SELECT id FROM janggi_turn ORDER BY turn DESC LIMIT 1";
 
         try (final var connection = this.connection.getConnection()) {
@@ -65,7 +65,7 @@ public class JanggiTurnDao {
         return Optional.empty();
     }
 
-    public Optional<Integer> getLatestTurn() {
+    public Optional<Integer> findLatestTurn() {
         final var query = "SELECT turn FROM janggi_turn ORDER BY turn DESC LIMIT 1";
 
         try (final var connection = this.connection.getConnection()) {

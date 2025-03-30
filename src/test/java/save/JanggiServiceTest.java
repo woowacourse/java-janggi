@@ -44,7 +44,7 @@ class JanggiServiceTest {
                                 List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.RED)))
                 ));
         janggiPersistenceService.saveJanggi(playerPieces, 1, Team.BLUE);
-        Optional<Integer> previousTurn = janggiPersistenceService.getPreviousTurn();
+        Optional<Integer> previousTurn = janggiPersistenceService.findPreviousTurn();
         Assertions.assertEquals(previousTurn.get(), 1);
     }
 

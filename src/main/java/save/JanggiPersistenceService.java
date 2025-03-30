@@ -31,7 +31,7 @@ public class JanggiPersistenceService {
     }
 
     public Pieces loadPieces() {
-        Optional<Integer> previousLatestTurnId = janggiTurnDao.getLatestTurnId();
+        Optional<Integer> previousLatestTurnId = janggiTurnDao.findLatestTurnId();
         int previousTurnId = previousLatestTurnId.orElseThrow(() -> new SaveFailException(PIECES_DOESNT_EXIST));
         return janggiPieceDao.findPiecesByTeamTurn(previousTurnId);
     }
@@ -42,11 +42,11 @@ public class JanggiPersistenceService {
     }
 
     public boolean isPreviousGameExist() {
-        Optional<Integer> previousGameTurn = janggiTurnDao.getLatestTurnId();
+        Optional<Integer> previousGameTurn = janggiTurnDao.findLatestTurnId();
         return previousGameTurn.isPresent();
     }
 
-    public Optional<Integer> getPreviousTurn() {
-        return janggiTurnDao.getLatestTurn();
+    public Optional<Integer> findPreviousTurn() {
+        return janggiTurnDao.findLatestTurn();
     }
 }

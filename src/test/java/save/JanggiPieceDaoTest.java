@@ -31,7 +31,7 @@ class JanggiPieceDaoTest {
         janggiTurnDao.addTurnScore(team, turn, score);
         janggiPieceDao.savePiece(createPiece, turn);
 
-        int latestTurnId = janggiTurnDao.getLatestTurnId().get();
+        int latestTurnId = janggiTurnDao.findLatestTurnId().get();
         Pieces piecesByTeamTurn = janggiPieceDao.findPiecesByTeamTurn(latestTurnId);
 
         Piece firstPiece = piecesByTeamTurn.getFirstPiece();

@@ -24,7 +24,7 @@ class JanggiTurnDaoTest {
 
         janggiTurnDao.addTurnScore(team, turn, score);
 
-        Optional<Integer> latestTurnId = janggiTurnDao.getLatestTurnId();
+        Optional<Integer> latestTurnId = janggiTurnDao.findLatestTurnId();
         Assertions.assertTrue(latestTurnId.isPresent());
     }
 
@@ -36,7 +36,7 @@ class JanggiTurnDaoTest {
 
         janggiTurnDao.addTurnScore(team, turn, score);
 
-        Optional<Integer> latestTurnId = janggiTurnDao.getLatestTurnId();
+        Optional<Integer> latestTurnId = janggiTurnDao.findLatestTurnId();
         Assertions.assertTrue(latestTurnId.isPresent());
     }
 
@@ -49,13 +49,13 @@ class JanggiTurnDaoTest {
         janggiTurnDao.addTurnScore(team, turn, score);
         janggiTurnDao.deleteAll();
 
-        Optional<Integer> latestTurnId = janggiTurnDao.getLatestTurnId();
+        Optional<Integer> latestTurnId = janggiTurnDao.findLatestTurnId();
         Assertions.assertTrue(latestTurnId.isEmpty());
     }
 
     @Test
     void 최근_턴이_존재하지않으면_빈값을_반환함() {
-        Optional<Integer> latestTurn = janggiTurnDao.getLatestTurn();
+        Optional<Integer> latestTurn = janggiTurnDao.findLatestTurn();
         Assertions.assertTrue(latestTurn.isEmpty());
     }
 }

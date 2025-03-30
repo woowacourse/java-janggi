@@ -114,7 +114,7 @@ public class KoreanChessApplication {
             return 0;
         }
         try {
-            Optional<Integer> previousTurn = janggiPersistenceService.getPreviousTurn();
+            Optional<Integer> previousTurn = janggiPersistenceService.findPreviousTurn();
             return previousTurn.map(turn -> turn + 1).orElse(0);
         } catch (SaveFailException e) {
             return 0;
