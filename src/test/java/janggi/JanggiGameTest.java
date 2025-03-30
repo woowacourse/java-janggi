@@ -270,4 +270,21 @@ public class JanggiGameTest {
                     .isInstanceOf(IllegalArgumentException.class);
         }
     }
+
+    @Test
+    @DisplayName("색상이 주어질 때 해당 색상의 장기말 점수를 반환한다")
+    void should_return_piece_score_by_color() {
+        // given
+        JanggiGame janggiGame = new JanggiGame(Pieces.init());
+
+        // when
+        double redScore = janggiGame.getScore(Color.RED);
+        double blueScore = janggiGame.getScore(Color.BLUE);
+
+        // then
+        assertAll(
+                () -> assertThat(redScore).isEqualTo(72 + 1.5),
+                () -> assertThat(blueScore).isEqualTo(72)
+        );
+    }
 }

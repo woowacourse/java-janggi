@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.piece.Color;
 import janggi.piece.Piece;
 import janggi.piece.Pieces;
 import janggi.position.Position;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
+    private static final double DEOM_SCORE = 1.5;
 
     private final Pieces pieces;
 
@@ -73,5 +75,12 @@ public class JanggiGame {
 
     public Map<Position, Piece> getBoard() {
         return pieces.getPieces();
+    }
+
+    public double getScore(final Color color) {
+        if (color == Color.RED) {
+            return pieces.calculatePieceScore(color) + DEOM_SCORE;
+        }
+        return pieces.calculatePieceScore(color);
     }
 }
