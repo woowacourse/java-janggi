@@ -1,6 +1,6 @@
 package domain;
 
-import dao.BoardDao;
+import dao.GameDao;
 import domain.board.Board;
 import domain.board.BoardPoint;
 import domain.board.Score;
@@ -24,12 +24,12 @@ public final class JanggiGame {
 
     private final Board board;
     private final List<Player> players;
-    private final BoardDao boardDao;
+    private final GameDao gameDao;
 
     public JanggiGame() {
-        this.boardDao = new BoardDao();
-        this.board = boardDao.getBoard();
-        this.players = boardDao.getPlayers();
+        this.gameDao = new GameDao();
+        this.board = gameDao.getBoard();
+        this.players = gameDao.getPlayers();
     }
 
     public Map<BoardPoint, Piece> getBoard() {
@@ -43,10 +43,10 @@ public final class JanggiGame {
                 .orElseThrow(() -> new JanggiArgumentException("턴을 가진 플레이어가 존재하지 않습니다."));
 
         board.movePiece(startBoardPoint, arrivalBoardPoint, currentPlayer.getTeam());
-        boardDao.saveMovementResult(new MovementResponseDto(startBoardPoint, arrivalBoardPoint));
+        gameDao.saveMovementResult(new MovementResponseDto(startBoardPoint, arrivalBoardPoint));
 
         List<SwitchPlayerTurnRequestDto> switchPlayerTurnRequestDtos = switchTurn();
-        boardDao.saveSwitchedTurn(switchPlayerTurnRequestDtos);
+        gameDao.saveSwitchedTurn(switchPlayerTurnRequestDtos);
     }
 
     private List<SwitchPlayerTurnRequestDto> switchTurn() {

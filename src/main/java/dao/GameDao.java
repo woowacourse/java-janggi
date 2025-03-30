@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class BoardDao {
+public final class GameDao {
     private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
