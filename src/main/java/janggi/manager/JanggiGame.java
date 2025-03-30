@@ -24,6 +24,8 @@ public class JanggiGame {
 
         viewer.printBoard(round.getCurrentPieces());
         viewer.printWinner(round.getCurrentTurn());
+
+        databaseController.resetDatabase();
     }
 
     private void repeatGameTurns() {

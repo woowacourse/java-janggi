@@ -60,4 +60,8 @@ public class DatabaseController {
     public void update(PositionDto oldPosition, PieceDto pieceDto) {
         janggiDao.updatePiece(oldPosition, pieceDto);
     }
+
+    public void resetDatabase() {
+        janggiDao.deleteAllPieces();
+    }
 }
