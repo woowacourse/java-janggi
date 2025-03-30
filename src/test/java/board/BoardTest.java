@@ -29,9 +29,9 @@ public class BoardTest {
             Coordinate departure = new Coordinate(5, 5);
             Coordinate arrival = new Coordinate(5, 6);
 
-            assertThatThrownBy(() -> board.move(departure, arrival))
+            assertThatThrownBy(() -> board.move(Country.HAN, departure, arrival))
                     .isInstanceOf(IllegalStateException.class)
-                    .hasMessage("해당 좌표에는 기물이 없습니다.");
+                    .hasMessage("해당 좌표에 기물이 없습니다.");
         }
 
         @Test
@@ -46,9 +46,9 @@ public class BoardTest {
             Coordinate departure = new Coordinate(5, 5);
             Coordinate arrival = new Coordinate(9, 9);
 
-            assertThatThrownBy(() -> board.move(departure, arrival))
+            assertThatThrownBy(() -> board.move(Country.HAN, departure, arrival))
                     .isInstanceOf(IllegalStateException.class)
-                    .hasMessage("해당 기물이 이동할 수 없는 좌표입니다.");
+                    .hasMessage("이동할 수 없는 좌표입니다.");
         }
 
         @Test
@@ -64,7 +64,7 @@ public class BoardTest {
             Coordinate departure = new Coordinate(5, 5);
             Coordinate arrival = new Coordinate(5, 6);
 
-            assertThatThrownBy(() -> board.move(departure, arrival))
+            assertThatThrownBy(() -> board.move(Country.HAN, departure, arrival))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessage("도착 좌표에 같은 팀 말이 있습니다.");
         }
@@ -82,7 +82,7 @@ public class BoardTest {
             Coordinate arrival = new Coordinate(5, 6);
 
             // when
-            board.move(departure, arrival);
+            board.move(Country.CHO, departure, arrival);
 
             // then
             assertAll(
@@ -103,7 +103,7 @@ public class BoardTest {
             Coordinate arrival = new Coordinate(5, 6);
 
             // when
-            board.move(departure, arrival);
+            board.move(Country.HAN, departure, arrival);
 
             // then
             assertAll(
@@ -157,11 +157,10 @@ public class BoardTest {
             // given
             Board board = new BoardFixture().build();
 
-            // when
-            Piece piece = board.findPiece(new Coordinate(5, 5));
-
-            // then
-            assertThat(piece).isNull();
+            // when & then
+            assertThatThrownBy(() -> board.findPiece(new Coordinate(5, 5)))
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessage("해당 좌표에 기물이 없습니다.");
         }
 
         @Test

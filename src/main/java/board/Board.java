@@ -2,11 +2,11 @@ package board;
 
 import board.creator.TableSettingCreator;
 import coordinate.Coordinate;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import piece.Piece;
+import team.Country;
 import team.Team;
+import team.Teams;
 
 public class Board {
 
@@ -15,46 +15,50 @@ public class Board {
     public static final int BOARD_MIN_HEIGHT = 1;
     public static final int BOARD_MAX_HEIGHT = 10;
 
-    private final Map<Coordinate, Piece> pieces;
+    private final Teams teams;
 
-    private Board(Map<Coordinate, Piece> pieces) {
-        this.pieces = pieces;
+    public Board(Teams teams) {
+        this.teams = teams;
     }
 
     public static Board create(TableSettingCreator hanStrategy, TableSettingCreator choStrategy) {
-        Map<Coordinate, Piece> pieces = new HashMap<>();
-        pieces.putAll(hanStrategy.create(Team.HAN));
-        pieces.putAll(choStrategy.create(Team.CHO));
-        return new Board(pieces);
+        Team han = new Team(Country.HAN, hanStrategy.create(Country.HAN));
+        Team cho = new Team(Country.CHO, choStrategy.create(Country.CHO));
+
+        return new Board(new Teams(han, cho));
     }
 
-    public void move(Coordinate departure, Coordinate arrival) {
-        Piece piece = getPiece(departure);
+    public void move(Country country, Coordinate departure, Coordinate arrival) {
+        Piece piece = findPiece(departure);
 
-        if (piece == null || !piece.canMove(this, departure, arrival)) {
+        if (!piece.canMove(this, departure, arrival)) {
             throw new IllegalStateException("이동할 수 없는 좌표입니다.");
         }
-        if (hasPiece(arrival) && getPiece(arrival).isSameTeam(piece)) {
-            throw new IllegalStateException("도착 좌표에 같은 팀 말이 있습니다.");
-        }
 
-        movePiece(piece, departure, arrival);
+        teams.movePiece(country, piece, departure, arrival);
+    }
+
+    public Piece findPiece(Coordinate coordinate) {
+        return teams.findPiece(coordinate);
     }
 
     public boolean hasPiece(Coordinate coordinate) {
-        return pieces.containsKey(coordinate);
+        return teams.hasPiece(coordinate);
     }
 
-    public Piece getPiece(Coordinate coordinate) {
-        return pieces.get(coordinate);
+    public boolean isEnd() {
+        return teams.isEnd();
     }
 
-    private void movePiece(Piece piece, Coordinate departure, Coordinate arrival) {
-        pieces.remove(departure);
-        pieces.put(arrival, piece);
+    public Country judgeWinner() {
+        return teams.judgeWinner().getCountry();
     }
 
     public Map<Coordinate, Piece> getUnmodifiablePieces() {
-        return Collections.unmodifiableMap(pieces);
+        return teams.getUnmodifiablePieces();
+    }
+
+    public Map<Team, Integer> getUnmodifiableScores() {
+        return teams.getScores();
     }
 }
