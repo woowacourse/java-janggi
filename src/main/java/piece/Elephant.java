@@ -6,6 +6,7 @@ import java.util.Set;
 
 import board.Board;
 import board.Position;
+import piece.movement.Movement;
 
 public class Elephant extends Piece {
 

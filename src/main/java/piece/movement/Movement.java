@@ -1,4 +1,4 @@
-package piece;
+package piece.movement;
 
 import static piece.Direction.BOTTOM;
 import static piece.Direction.LEFT;
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import board.Position;
+import piece.Direction;
 
 public enum Movement {
 

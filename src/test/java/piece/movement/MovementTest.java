@@ -1,14 +1,14 @@
-package piece;
+package piece.movement;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static piece.Movement.BOTTOM_LEFT_BOTTOM;
-import static piece.Movement.BOTTOM_RIGHT_BOTTOM;
-import static piece.Movement.LEFT_LEFT_BOTTOM;
-import static piece.Movement.LEFT_LEFT_TOP;
-import static piece.Movement.RIGHT_RIGHT_BOTTOM;
-import static piece.Movement.RIGHT_RIGHT_TOP;
-import static piece.Movement.TOP_LEFT_TOP;
-import static piece.Movement.TOP_RIGHT_TOP;
+import static piece.movement.Movement.BOTTOM_LEFT_BOTTOM;
+import static piece.movement.Movement.BOTTOM_RIGHT_BOTTOM;
+import static piece.movement.Movement.LEFT_LEFT_BOTTOM;
+import static piece.movement.Movement.LEFT_LEFT_TOP;
+import static piece.movement.Movement.RIGHT_RIGHT_BOTTOM;
+import static piece.movement.Movement.RIGHT_RIGHT_TOP;
+import static piece.movement.Movement.TOP_LEFT_TOP;
+import static piece.movement.Movement.TOP_RIGHT_TOP;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -18,6 +18,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import board.Position;
+import piece.Direction;
 
 class MovementTest {
 
