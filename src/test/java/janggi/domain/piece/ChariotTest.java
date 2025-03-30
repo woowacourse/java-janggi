@@ -55,12 +55,36 @@ class ChariotTest {
         );
     }
 
+    @DisplayName("차는 궁성에서 대각선으로 이동 가능하다.")
+    @ParameterizedTest
+    @MethodSource("provideMovablePositionInPalace")
+    void canMoveDiagonalInPalace(Point from, Point to, List<Point> expectedMovePaths) {
+        //given
+        Chariot chariot = new Chariot(Dynasty.HAN);
+
+        //when
+        List<Point> movePaths = chariot.movePath(from, to);
+
+        //then
+        assertThat(movePaths).isEqualTo(expectedMovePaths);
+    }
+
     private static Stream<Arguments> providePiecesOnPath() {
         return Stream.of(
                 Arguments.of(new PiecesOnPath(), true),
                 Arguments.of(new PiecesOnPath(new EmptyPiece()), true),
                 Arguments.of(new PiecesOnPath(new Horse(Dynasty.CHU)), true),
                 Arguments.of(new PiecesOnPath(new Horse(Dynasty.HAN)), false)
+        );
+    }
+
+    private static Stream<Arguments> provideMovablePositionInPalace() {
+        return Stream.of(
+                Arguments.of(Fixtures.ONE_FOUR, Fixtures.THREE_SIX, List.of(Fixtures.TWO_FIVE, Fixtures.THREE_SIX)),
+                Arguments.of(Fixtures.THREE_SIX, Fixtures.ONE_FOUR, List.of(Fixtures.TWO_FIVE, Fixtures.ONE_FOUR)),
+                Arguments.of(Fixtures.THREE_FOUR, Fixtures.ONE_SIX, List.of(Fixtures.TWO_FIVE, Fixtures.ONE_SIX)),
+                Arguments.of(Fixtures.ONE_SIX, Fixtures.THREE_FOUR, List.of(Fixtures.TWO_FIVE, Fixtures.THREE_FOUR)),
+                Arguments.of(Fixtures.ONE_SIX, Fixtures.TWO_FIVE, List.of(Fixtures.TWO_FIVE))
         );
     }
 }

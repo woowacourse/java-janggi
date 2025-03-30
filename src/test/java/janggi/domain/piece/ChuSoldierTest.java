@@ -40,6 +40,20 @@ class ChuSoldierTest {
         assertThat(actual).isEqualTo(expected);
     }
 
+    @DisplayName("초나라 졸은 궁성에서 윗방향 대각선으로 한칸 이동할 수 있다.")
+    @ParameterizedTest
+    @MethodSource("provideMovablePositionInPalace")
+    void canMoveDiagonalInPalace(Point from, Point to, List<Point> expectedMovePaths) {
+        //given
+        ChuSoldier soldier = new ChuSoldier();
+
+        //when
+        List<Point> movePaths = soldier.movePath(from, to);
+
+        //then
+        assertThat(movePaths).isEqualTo(expectedMovePaths);
+    }
+
     private static Stream<Arguments> provideMovablePosition() {
         return Stream.of(
                 Arguments.of(Fixtures.SIX_FIVE, Fixtures.SIX_FOUR, List.of(Fixtures.SIX_FOUR)),
@@ -54,6 +68,15 @@ class ChuSoldierTest {
                 Arguments.of(new PiecesOnPath(new EmptyPiece()), true),
                 Arguments.of(new PiecesOnPath(new Horse(Dynasty.HAN)), true),
                 Arguments.of(new PiecesOnPath(new Horse(Dynasty.CHU)), false)
+        );
+    }
+
+    private static Stream<Arguments> provideMovablePositionInPalace() {
+        return Stream.of(
+                Arguments.of(Fixtures.THREE_SIX, Fixtures.TWO_FIVE, List.of(Fixtures.TWO_FIVE)),
+                Arguments.of(Fixtures.THREE_FOUR, Fixtures.TWO_FIVE, List.of(Fixtures.TWO_FIVE)),
+                Arguments.of(Fixtures.TWO_FIVE, Fixtures.ONE_SIX, List.of(Fixtures.ONE_SIX)),
+                Arguments.of(Fixtures.TWO_FIVE, Fixtures.ONE_FOUR, List.of(Fixtures.ONE_FOUR))
         );
     }
 }
