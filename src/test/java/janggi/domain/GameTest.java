@@ -4,6 +4,7 @@ import static janggi.domain.BoardSetup.INNER_ELEPHANT_SETUP;
 import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.piece.Chariot;
@@ -33,6 +34,22 @@ class GameTest {
 
         // then
         assertThat(piece).isEqualTo(game.selectPiece(new Position(0, 0)));
+    }
+
+    @DisplayName("보드에서 기물을 선택 시, 내 팀의 기물이 없을 시 예외가 발생한다.")
+    @Test
+    void selectPieceThrowExceptionTest() {
+
+        // given
+        final Game game = new Game(
+                new Pieces(PiecesInitializer.initializePieces(INNER_ELEPHANT_SETUP, INNER_ELEPHANT_SETUP)),
+                new Turn(BLUE));
+        final Position emptyPosition = new Position(5, 5);
+
+        // when & then
+        assertThatThrownBy(() -> game.selectPiece(emptyPosition))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("해당 위치에 우리팀 기물이 없습니다.");
     }
 
     @DisplayName("기물의 이동 가능한 경로를 찾는다.")
