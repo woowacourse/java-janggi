@@ -70,7 +70,7 @@ public class JanggiController {
 
     private boolean executeMove(final JanggiGame janggiGame) {
         ErrorHandler.retryUntilSuccess(() -> {
-            MoveCommand moveCommand = InputView.inputMoveCommand();
+            final MoveCommand moveCommand = InputView.inputMoveCommand();
             janggiGame.movePiece(moveCommand);
         });
         if (janggiGame.isStop()) {
@@ -89,7 +89,7 @@ public class JanggiController {
     }
 
     private void printScore(final JanggiGame janggiGame) {
-        Map<Team, Score> totalScoreByTeam = janggiGame.calculateTotalScoreByTeam();
+        final Map<Team, Score> totalScoreByTeam = janggiGame.calculateTotalScoreByTeam();
         OutputView.printScore(totalScoreByTeam);
     }
 
