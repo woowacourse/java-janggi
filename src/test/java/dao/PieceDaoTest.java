@@ -11,7 +11,6 @@ import model.position.Column;
 import model.position.Position;
 import model.position.Row;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
