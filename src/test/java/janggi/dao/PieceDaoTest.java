@@ -21,21 +21,24 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PieceDaoTest {
+    private Piece piece;
+    private static final PieceDao pieceDao = new PieceDao();
+    private static final GameDao gameDao = new GameDao();
 
-    private static final Piece piece = new Byeong(Team.HAN, new Point(5, 5));
     private Game createdGame;
 
     @BeforeEach
     void setUp() {
+        piece = new Byeong(Team.HAN, new Point(5, 5));
         createdGame = new Game(new Board(List.of(piece)));
-        GameDao.createGame(createdGame);
-        PieceDao.createPiece(piece, createdGame);
+        gameDao.createGame(createdGame);
+        pieceDao.createPiece(piece, createdGame);
     }
 
     @AfterEach
     void cleanUp() {
         try {
-            GameDao.deleteGame(createdGame);
+            gameDao.deleteGame(createdGame);
         } catch (GameNotDeletedException ignore) {
         }
     }
@@ -51,7 +54,7 @@ class PieceDaoTest {
     void updatePieceTuplePoint() {
         Piece movedPiece = piece.updatePoint(new Point(4, 4));
 
-        PieceDao.updatePointFrom(piece, movedPiece);
+        pieceDao.updatePointFrom(piece, movedPiece);
 
         assertThatCode(() -> PieceEntity.findByPiece(movedPiece)).doesNotThrowAnyException();
     }
@@ -59,10 +62,10 @@ class PieceDaoTest {
     @Test
     @DisplayName("기물이 공격받았을 때 수정할 수 있다.")
     void updatePieceTupleIfAttacked() {
-        GameDto lastCreated = GameDao.findLastCreated();
+        GameDto lastCreated = gameDao.findLastCreated();
 
-        PieceDao.updateToAttacked(new AttackedPiece(piece));
-        PiecesOnBoardDto piecesDto = PieceDao.findPieceDataBy(lastCreated);
+        pieceDao.updateToAttacked(new AttackedPiece(piece));
+        PiecesOnBoardDto piecesDto = pieceDao.findPieceDataBy(lastCreated);
 
         assertThat(piecesDto.getRunningPieces()).hasSize(0);
         assertThat(piecesDto.getAttackedPieces()).hasSize(1);
@@ -71,8 +74,8 @@ class PieceDaoTest {
     @Test
     @DisplayName("조회된 기물 데이터에 맞게 기물 객체를 생성한다.")
     void createPieceObjectFromTuple() {
-        GameDto lastCreated = GameDao.findLastCreated();
-        PiecesOnBoardDto piecesDto = PieceDao.findPieceDataBy(lastCreated);
+        GameDto lastCreated = gameDao.findLastCreated();
+        PiecesOnBoardDto piecesDto = pieceDao.findPieceDataBy(lastCreated);
 
         assertThat(piecesDto.getRunningPieces()).hasSize(1);
         assertThat(piecesDto.getAttackedPieces()).hasSize(0);

@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class PieceDao {
 
-    public static void createPiece(Piece piece, Game game) {
+    public void createPiece(Piece piece, Game game) {
         final var createQuery = "INSERT INTO piece (name,is_running,row_index,column_index,team,game_id) VALUES(?,?,?,?,?,?)";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedCreateStatement = connection.prepareStatement(createQuery)) {
@@ -38,7 +38,7 @@ public class PieceDao {
         }
     }
 
-    private static int findCreatedPieceId(Piece piece, GameEntity gameEntity) {
+    private int findCreatedPieceId(Piece piece, GameEntity gameEntity) {
         final var checkQuery = "SELECT * FROM piece WHERE game_id=? AND row_index=? AND column_index=?";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedCheckStatement = connection.prepareStatement(checkQuery)) {
@@ -55,7 +55,7 @@ public class PieceDao {
         }
     }
 
-    public static PiecesOnBoardDto findPieceDataBy(GameDto gameDto) {
+    public PiecesOnBoardDto findPieceDataBy(GameDto gameDto) {
         final var pieceQuery = "SELECT * FROM piece WHERE game_id=?";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedPieceStatement = connection.prepareStatement(pieceQuery)) {
@@ -64,15 +64,13 @@ public class PieceDao {
 
             List<PieceDto> pieceDtos = new ArrayList<>();
             while (pieceResultSet.next()) {
-                int pieceId = pieceResultSet.getInt("id");
-                PieceInformation information = PieceInformation.valueOf(pieceResultSet.getString("name"));
-                boolean isRunning = pieceResultSet.getBoolean("is_running");
-                int rowIndex = pieceResultSet.getInt("row_index");
-                int columnIndex = pieceResultSet.getInt("column_index");
-                Team team = Team.valueOf(pieceResultSet.getString("team"));
-
                 pieceDtos.add(new PieceDto(
-                        pieceId, information, team, rowIndex, columnIndex, isRunning
+                        pieceResultSet.getInt("id"),
+                        PieceInformation.valueOf(pieceResultSet.getString("name")),
+                        Team.valueOf(pieceResultSet.getString("team")),
+                        pieceResultSet.getInt("row_index"),
+                        pieceResultSet.getInt("column_index"),
+                        pieceResultSet.getBoolean("is_running")
                 ));
             }
             return createBoardDtoFrom(pieceDtos);
@@ -81,7 +79,7 @@ public class PieceDao {
         }
     }
 
-    private static PiecesOnBoardDto createBoardDtoFrom(List<PieceDto> pieceDtos) {
+    private PiecesOnBoardDto createBoardDtoFrom(List<PieceDto> pieceDtos) {
         Map<Integer, Piece> runningPieces = new HashMap<>();
         Map<Integer, AttackedPiece> attackedPieces = new HashMap<>();
         for (PieceDto dto : pieceDtos) {
@@ -96,7 +94,7 @@ public class PieceDao {
         return PiecesOnBoardDto.from(runningPieces, attackedPieces);
     }
 
-    public static void updatePointFrom(Piece movingPiece, Piece newPiece) {
+    public void updatePointFrom(Piece movingPiece, Piece newPiece) {
         final var query = "UPDATE piece SET row_index=?, column_index=? WHERE id=? ";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
@@ -112,7 +110,7 @@ public class PieceDao {
         }
     }
 
-    public static void updateToAttacked(AttackedPiece piece) {
+    public void updateToAttacked(AttackedPiece piece) {
         final var query = "UPDATE piece SET is_running=? WHERE id=? ";
         try (final var connection = JangiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {

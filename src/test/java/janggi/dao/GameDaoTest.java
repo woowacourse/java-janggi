@@ -16,17 +16,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class GameDaoTest {
+    private static final GameDao gameDao = new GameDao();
     private Game createdGame;
 
     @BeforeEach
     void setUp() {
         createdGame = new Game();
-        GameDao.createGame(createdGame);
+        gameDao.createGame(createdGame);
     }
     @AfterEach
     void cleanUp() {
         try {
-            GameDao.deleteGame(createdGame);
+            gameDao.deleteGame(createdGame);
         } catch (GameNotDeletedException ignore) {
         }
     }
@@ -44,13 +45,13 @@ class GameDaoTest {
     @Test
     @DisplayName("하나의 게임 투플을 추가한다.")
     void createGameTuple() {
-        GameDao.createGame(createdGame);
+        gameDao.createGame(createdGame);
     }
 
     @Test
     @DisplayName("가장 최근에 만들어진 게임 투플을 조회한다.")
     void findGameLastCreated() {
-        GameDto lastCreatedGame = GameDao.findLastCreated();
+        GameDto lastCreatedGame = gameDao.findLastCreated();
 
         assertThat(lastCreatedGame.createdAt())
                 .isCloseTo(createdGame.getCreatedAt(), within(1, ChronoUnit.SECONDS));
@@ -62,20 +63,19 @@ class GameDaoTest {
     void updateGameTurn() {
         createdGame.reverseTurn();
 
-        GameDao.updateTurn(createdGame);
+        gameDao.updateTurn(createdGame);
 
-        assertThat(GameDao.findLastCreated().turn()).isEqualTo(Team.HAN);
+        assertThat(gameDao.findLastCreated().turn()).isEqualTo(Team.HAN);
     }
 
     @Test
     @DisplayName("게임 객체를 삭제한다.")
     void deleteGame() {
-        GameDao.createGame(createdGame);
+        gameDao.createGame(createdGame);
 
-        GameDao.deleteGame(createdGame);
+        gameDao.deleteGame(createdGame);
 
-        assertThatThrownBy(() -> GameDao.deleteGame(createdGame))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("게임이 삭제되지 않았습니다.");
+        assertThatThrownBy(() -> gameDao.deleteGame(createdGame))
+                .isInstanceOf(GameNotDeletedException.class);
     }
 }
