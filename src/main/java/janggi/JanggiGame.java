@@ -1,25 +1,30 @@
 package janggi;
 
+import janggi.data.PointDao;
 import janggi.domain.board.Dynasty;
 import janggi.domain.board.BoardSetUp;
 import janggi.domain.board.GameState;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Point;
+import janggi.domain.piece.Piece;
 import janggi.domain.player.Player;
 import janggi.domain.player.Players;
 import janggi.view.InitializeView;
 import janggi.view.JanggiBoardView;
 import janggi.view.JanggiBoardView.Movement;
 import java.util.List;
+import java.util.Map;
 
 public class JanggiGame {
 
     private final InitializeView initializeView;
     private final JanggiBoardView janggiBoardView;
+    private final PointDao pointDao;
 
-    public JanggiGame(InitializeView initializeView, JanggiBoardView janggiBoardView) {
+    public JanggiGame(InitializeView initializeView, JanggiBoardView janggiBoardView, PointDao pointDao) {
         this.initializeView = initializeView;
         this.janggiBoardView = janggiBoardView;
+        this.pointDao = pointDao;
     }
 
     public void start() {
@@ -57,13 +62,16 @@ public class JanggiGame {
                 janggiBoardView.printException(e.getMessage());
             }
         }
+        pointDao.deleteAll();
         if(gameState == GameState.USER_END) {
-            int hanScore = janggiBoard.calculateScore(Dynasty.HAN);
-            int chuScore = janggiBoard.calculateScore(Dynasty.CHU);
-            janggiBoardView.printScoreAndWinner(hanScore, chuScore);
+            pointDao.updatePiecePoints(janggiBoard.getBoardPieces());
         }
         if(gameState == GameState.GAME_END) {
+            int hanScore = janggiBoard.calculateScore(Dynasty.HAN);
+            int chuScore = janggiBoard.calculateScore(Dynasty.CHU);
+            janggiBoardView.printScore(hanScore, chuScore);
             janggiBoardView.printWinDynasty(janggiBoard.getWinnerDynasty());
+            pointDao.initializePiecePoints();
         }
     }
 
@@ -81,10 +89,11 @@ public class JanggiGame {
     }
 
     private JanggiBoard createJanggiBoard(Players players) {
+        Map<Point, Piece> pieces = pointDao.getPiecePoints();
         BoardSetUp chuPlayerBoardSetUp = initializeView.readBoardSetUp(players.findDynastyPlayer(Dynasty.CHU));
         BoardSetUp hanPlayerBoardSetUp = initializeView.readBoardSetUp(players.findDynastyPlayer(Dynasty.HAN));
         janggiBoardView.printGameStartMessage();
-        JanggiBoard janggiBoard = JanggiBoard.of(hanPlayerBoardSetUp, chuPlayerBoardSetUp);
+        JanggiBoard janggiBoard = JanggiBoard.of(pieces, hanPlayerBoardSetUp, chuPlayerBoardSetUp);
         janggiBoardView.printBoard(janggiBoard.getBoardPieces());
         return janggiBoard;
     }

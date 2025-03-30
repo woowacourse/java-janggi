@@ -81,8 +81,8 @@ public class JanggiBoardTest {
     void move() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(3, 3), new HanSoldier(),
-                new Point(4, 3), new ChuSoldier()
+                new Point(3, 3), new HanSoldier(Dynasty.HAN),
+                new Point(4, 3), new ChuSoldier(Dynasty.CHU)
         ));
 
         //when
@@ -90,7 +90,7 @@ public class JanggiBoardTest {
 
         //then
         assertThat(janggiBoard).isEqualTo(new JanggiBoard(Map.of(
-                new Point(4, 3), new HanSoldier()
+                new Point(4, 3), new HanSoldier(Dynasty.HAN)
         )));
     }
 
@@ -111,7 +111,7 @@ public class JanggiBoardTest {
     void move_whenOtherDynastyPiece() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(4, 3), new ChuSoldier()
+                new Point(4, 3), new ChuSoldier(Dynasty.CHU)
         ));
 
         //when
@@ -125,8 +125,8 @@ public class JanggiBoardTest {
     void move_whenEndIsSameDynasty() {
         //given
         JanggiBoard janggiBoard = new JanggiBoard(Map.of(
-                new Point(3, 4), new HanSoldier(),
-                new Point(4, 3), new HanSoldier()
+                new Point(3, 4), new HanSoldier(Dynasty.HAN),
+                new Point(4, 3), new HanSoldier(Dynasty.CHU)
         ));
 
         //when

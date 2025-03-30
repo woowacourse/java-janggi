@@ -23,7 +23,8 @@ public class JanggiBoardView {
             PieceType.CANNON, "포",
             PieceType.HORSE, "마",
             PieceType.ELEPHANT, "상",
-            PieceType.SOLIDER, "졸"
+            PieceType.HAN_SOLIDER, "졸",
+            PieceType.CHU_SOLIDER, "병"
     );
     private static final Map<String, Integer> VERTICAL_INPUT_MAP = Map.of(
             "ㄱ", 1,
@@ -115,19 +116,17 @@ public class JanggiBoardView {
         return scanner.nextLine().trim();
     }
 
-    public void printScoreAndWinner(int hanScore, int chuScore) {
-        System.out.println("한나라 점수는 " + hanScore + "점 입니다.");
-        System.out.println("초나라 점수는 " + chuScore + "점 입니다.");
-        Dynasty winnerDynasty = hanScore > chuScore ? Dynasty.HAN : Dynasty.CHU;
-        printWinDynasty(winnerDynasty);
-    }
-
     public void printWinDynasty(Dynasty winnerDynasty) {
         if(winnerDynasty == Dynasty.HAN) {
             System.out.println("초나라가 우승하였습니다.");
             return;
         }
         System.out.println("한나라가 우승하였습니다.");
+    }
+
+    public void printScore(int hanScore, int chuScore) {
+        System.out.println("한나라 점수는 " + hanScore + "점 입니다.");
+        System.out.println("초나라 점수는 " + chuScore + "점 입니다.");
     }
 
     public record Movement(
