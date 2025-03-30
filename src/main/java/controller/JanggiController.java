@@ -18,19 +18,17 @@ public class JanggiController {
     public void run() {
         final JanggiGame game = new JanggiGame();
         outputView.printBoard(game.getBoard());
-        boolean isFirstPlayerTurn = true;
         while (true) {
-            processMove(game, isFirstPlayerTurn);
-            isFirstPlayerTurn = !isFirstPlayerTurn;
+            processMove(game);
         }
     }
 
-    private void processMove(final JanggiGame game, final boolean isFirstPlayerTurn) {
+    private void processMove(final JanggiGame game) {
         final List<BoardPoint> movementRequest = inputView.readMovementRequest();
         final BoardPoint startBoardPoint = movementRequest.getFirst();
         final BoardPoint arrivalBoardPoint = movementRequest.getLast();
 
-        game.move(startBoardPoint, arrivalBoardPoint, isFirstPlayerTurn);
+        game.move(startBoardPoint, arrivalBoardPoint);
 
         outputView.printBoard(game.getBoard());
     }

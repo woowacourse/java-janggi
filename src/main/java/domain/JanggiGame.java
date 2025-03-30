@@ -32,8 +32,7 @@ public final class JanggiGame {
         return board.getLocations();
     }
 
-    public void move(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint,
-                     final boolean isFirstPlayerTurn) {
+    public void move(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
         Player currentPlayer = players.stream()
                 .filter(Player::isTurn)
                 .findFirst()
