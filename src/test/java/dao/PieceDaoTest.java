@@ -8,12 +8,18 @@ import model.piece.Piece;
 import model.position.Column;
 import model.position.Position;
 import model.position.Row;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public class PieceDaoTest {
 
-    private final DaoConfiguration daoConfiguration = new DaoConfiguration();
-    private final PieceDao pieceDao = new PieceDao(daoConfiguration);
+    private final TestDaoConfiguration testdaoConfiguration = new TestDaoConfiguration();
+    private final PieceDao pieceDao = new PieceDao(testdaoConfiguration);
+
+    @AfterEach
+    void clearData() {
+        pieceDao.deletePieces();
+    }
 
     @Test
     public void addPiece() {
@@ -31,7 +37,7 @@ public class PieceDaoTest {
 
     @Test
     public void deleteAllPiece() {
-        pieceDao.deleteAllPieces();
+        pieceDao.deletePieces();
     }
 
     /*

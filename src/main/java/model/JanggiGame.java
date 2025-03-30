@@ -1,6 +1,5 @@
 package model;
 
-import dao.DaoConfiguration;
 import dao.GameDao;
 import dao.PieceDao;
 import java.util.List;
@@ -12,24 +11,25 @@ import utils.InputParser;
 
 public class JanggiGame {
 
-    private static final DaoConfiguration daoConfiguration = new DaoConfiguration();
-    private static final PieceDao pieceDao = new PieceDao(daoConfiguration);
-    private static final GameDao gameDao = new GameDao(daoConfiguration);
     private final Pieces pieces;
     private Team turn;
+    private final GameDao gameDao;
+    private final PieceDao pieceDao;
 
-    private JanggiGame(Map<Position, Piece> pieces, Team turn) {
+    private JanggiGame(Map<Position, Piece> pieces, Team turn, GameDao gameDao, PieceDao pieceDao) {
         this.pieces = new Pieces(pieces);
         this.turn = turn;
+        this.gameDao = gameDao;
+        this.pieceDao = pieceDao;
     }
 
-    public static JanggiGame initPiecesFrom() {
-        Map<Position, Piece> pieces = initPieces();
-        Team turn = initTeam();
-        return new JanggiGame(pieces, turn);
+    public static JanggiGame initPiecesFrom(GameDao gameDao, PieceDao pieceDao) {
+        Map<Position, Piece> pieces = initPieces(pieceDao);
+        Team turn = initTeam(gameDao);
+        return new JanggiGame(pieces, turn, gameDao, pieceDao);
     }
 
-    private static Map<Position, Piece> initPieces() {
+    private static Map<Position, Piece> initPieces(PieceDao pieceDao) {
         Map<Position, Piece> allPieces = pieceDao.getAllPieces();
         if (allPieces.isEmpty()) {
             Map<Position, Piece> generatePieces = PieceInitializer.generate();
@@ -39,7 +39,7 @@ public class JanggiGame {
         return allPieces;
     }
 
-    private static Team initTeam() {
+    private static Team initTeam(GameDao gameDao) {
         if (gameDao.getTurn() == null) {
             Team turn = Team.GREEN;
             gameDao.addTurn(turn);
@@ -96,7 +96,7 @@ public class JanggiGame {
     }
 
     public void removeGameInfo() {
-        pieceDao.deleteAllPieces();
+        pieceDao.deletePieces();
         gameDao.deleteTurn();
     }
 }

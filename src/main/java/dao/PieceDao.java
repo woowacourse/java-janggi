@@ -142,7 +142,7 @@ public class PieceDao {
         }
     }
 
-    public void deleteAllPieces() {
+    public void deletePieces() {
         final var query = "TRUNCATE TABLE piece;";
         try (final var connection = daoConfiguration.getConnection();
             final var preparedStatement = connection.prepareStatement(query)) {

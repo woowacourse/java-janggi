@@ -70,4 +70,14 @@ public class GameDao {
         }
         return null;
     }
+
+    public void deleteGame() {
+        final var query = "TRUNCATE TABLE GAME";
+        try (final var connection = daoConfiguration.getConnection();
+            final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.execute();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
