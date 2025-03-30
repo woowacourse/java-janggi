@@ -85,10 +85,10 @@ class SoldierTest {
         @DisplayName("한나라의 졸이 출발 지점과 도착 지점이 모두 궁 내부이고 도착 가능한 경우 true 를 반환한다")
         void test_IsAbleToArriveInPalaceForHan(BoardPoint startBoardPoint, BoardPoint arrivalBoardPoint) {
             // given
-            Soldier chariot = new Soldier(Team.HAN);
+            Soldier soldier = new Soldier(Team.HAN);
 
             // when
-            boolean actual = chariot.isAbleToArrive(startBoardPoint, arrivalBoardPoint);
+            boolean actual = soldier.isAbleToArrive(startBoardPoint, arrivalBoardPoint);
 
             // then
             assertThat(actual).isTrue();

@@ -16,8 +16,10 @@ public final class Cannon implements Piece {
     private static final int VALID_BETWEEN_PIECE_COUNT = 1;
     private final Team team;
     private final PieceMovement movements;
+    private final PieceMovement movementInPalace;
 
     public Cannon(final Team team) {
+        this.team = team;
         this.movements = new EndlessMovement(
                 List.of(
                         new Route(Collections.nCopies(10, Direction.NORTH)),
@@ -26,7 +28,14 @@ public final class Cannon implements Piece {
                         new Route(Collections.nCopies(10, Direction.WEST))
                 )
         );
-        this.team = team;
+        this.movementInPalace = new EndlessMovement(
+                List.of(
+                        new Route(Collections.nCopies(10, Direction.NORTHEAST)),
+                        new Route(Collections.nCopies(10, Direction.NORTHWEST)),
+                        new Route(Collections.nCopies(10, Direction.SOUTHEAST)),
+                        new Route(Collections.nCopies(10, Direction.SOUTHWEST))
+                )
+        );
     }
 
     @Override
@@ -36,8 +45,11 @@ public final class Cannon implements Piece {
 
     @Override
     public boolean isAbleToArrive(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
-        final List<BoardPoint> arrivalBoardPoints = movements.calculateTotalArrivalPoints(startBoardPoint);
-        return arrivalBoardPoints.contains(arrivalBoardPoint);
+        if (startBoardPoint.isInPalace() && arrivalBoardPoint.isInPalace() &&
+                movementInPalace.calculateTotalArrivalPoints(startBoardPoint).contains(arrivalBoardPoint)) {
+            return true;
+        }
+        return movements.calculateTotalArrivalPoints(startBoardPoint).contains(arrivalBoardPoint);
     }
 
     @Override
