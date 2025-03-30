@@ -1,44 +1,72 @@
 package team;
 
-import java.util.List;
+import coordinate.Coordinate;
+import java.util.Collections;
+import java.util.Map;
+import piece.Piece;
 
-public enum Team {
+public class Team {
 
-    HAN("한", "\u001B[31m", List.of(8, 7, 3, 2), 1),
-    CHO("초", "\u001B[34m", List.of(2, 3, 7, 8), 10),
-    ;
+    private final Country country;
+    private final Map<Coordinate, Piece> pieces;
+    private Score score;
+    private boolean isGoongDead;
 
-    private static final String RESET = "\u001B[0m";
-
-    private final String teamName;
-    private final String colorCode;
-    private final List<Integer> maSangXCoordinates;
-    private final int maSangYCoordinate;
-
-    Team(String teamName, String colorCode, List<Integer> maSangXCoordinates, int maSangYCoordinate) {
-        this.teamName = teamName;
-        this.colorCode = colorCode;
-        this.maSangXCoordinates = maSangXCoordinates;
-        this.maSangYCoordinate = maSangYCoordinate;
+    public Team(Country country, Map<Coordinate, Piece> pieces) {
+        this.country = country;
+        this.pieces = pieces;
+        this.score = new Score(0);
+        this.isGoongDead = false;
     }
 
-    public boolean isSameTeam(Team team) {
-        return this.equals(team);
+    public boolean isMyPiece(Coordinate coordinate) {
+        return pieces.containsKey(coordinate);
     }
 
-    public String applyColor(String text) {
-        return this.colorCode + text + RESET;
+    public Piece getPiece(Coordinate coordinate) {
+        Piece piece = pieces.get(coordinate);
+        if (piece == null) {
+            throw new IllegalStateException("해당 좌표에 기물이 없습니다.");
+        }
+        return piece;
     }
 
-    public String applyColorTeamName() {
-        return applyColor(this.teamName);
+    public void removePiece(Coordinate coordinate) {
+        if (getPiece(coordinate).isGoong()) {
+            isGoongDead = true;
+        }
+        pieces.remove(coordinate);
     }
 
-    public List<Integer> getMaSangXCoordinates() {
-        return maSangXCoordinates;
+    public void putPiece(Coordinate coordinate, Piece piece) {
+        pieces.put(coordinate, piece);
     }
 
-    public int getMaSangYCoordinate() {
-        return maSangYCoordinate;
+    public void addScore(int score) {
+        this.score = this.score.add(score);
+    }
+
+    public boolean isGoongDead() {
+        return isGoongDead;
+    }
+
+    public boolean isSameCountry(Team team) {
+        return this.country.isSameCountry(team.country);
+    }
+
+    public boolean isSameCountry(Country country) {
+        return this.country.isSameCountry(country);
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public Map<Coordinate, Piece> getPieces() {
+        return Collections.unmodifiableMap(pieces);
+    }
+
+    public int getScore() {
+        return score.getScore();
     }
 }
