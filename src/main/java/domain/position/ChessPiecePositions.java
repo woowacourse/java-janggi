@@ -1,58 +1,52 @@
 package domain.position;
 
 import domain.chessPiece.ChessPiece;
-
+import domain.score.Score;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 
 public class ChessPiecePositions {
 
-    private final Map<ChessPosition, ChessPiece> chessPieces;
+    private final List<ChessPiece> chessPieces;
 
-    public ChessPiecePositions(ChessPiecePositionsGenerator generator) {
-        this.chessPieces = generator.generate();
+    public ChessPiecePositions(final List<ChessPiece> chessPieces) {
+        this.chessPieces = new ArrayList<>(chessPieces);
     }
 
-    public boolean existChessPieceByPosition(final ChessPosition position) {
-        return chessPieces.containsKey(position);
+    public static ChessPiecePositions from(final ChessPiecePositionsGenerator chessPiecePositionsGenerator) {
+        return new ChessPiecePositions(chessPiecePositionsGenerator.generate());
     }
 
-    public ChessPiece getChessPieceByPosition(final ChessPosition position) {
-        validateExistPiece(position);
-        return chessPieces.get(position);
+    public boolean existPieceByPosition(final ChessPosition position) {
+        return chessPieces.stream()
+                .anyMatch(chessPiece -> chessPiece.matchPosition(position));
     }
 
-    public void move(final ChessPosition from, final ChessPosition to) {
-        validateExistPiece(from);
-        validateEmptyPosition(to);
-        ChessPiece target = getChessPieceByPosition(from);
-        removeChessPieceByPosition(from);
-        putChessPiece(to, target);
+    public ChessPiece findPieceByPosition(final ChessPosition position) {
+        return chessPieces.stream()
+                .filter(chessPiece -> chessPiece.matchPosition(position))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에는 기물이 존재하지 않습니다."));
     }
 
-    private void validateExistPiece(final ChessPosition position) {
-        if (!existChessPieceByPosition(position)) {
-            throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
-        }
+    public void move(final ChessPiece chessPiece, final ChessPosition to) {
+        chessPieces.remove(chessPiece);
+        killChessPiece(to);
+        chessPieces.add(chessPiece.from(to));
     }
 
-    private void validateEmptyPosition(final ChessPosition position) {
-        if (existChessPieceByPosition(position)) {
-            throw new IllegalArgumentException("해당 위치에 이미 다른 기물이 존재합니다.");
-        }
+    public Score calucalScore() {
+        return chessPieces.stream()
+                .map(ChessPiece::getScore)
+                .reduce(Score.zero(), Score::add);
     }
 
-    public void removeChessPieceByPosition(final ChessPosition position) {
-        validateExistPiece(position);
-        chessPieces.remove(position);
+    public List<ChessPiece> getChessPieces() {
+        return Collections.unmodifiableList(chessPieces);
     }
 
-    private void putChessPiece(final ChessPosition position, final ChessPiece chessPiece) {
-        validateEmptyPosition(position);
-        chessPieces.put(position, chessPiece);
-    }
-
-    public Map<ChessPosition, ChessPiece> getChessPieces() {
-        return Collections.unmodifiableMap(chessPieces);
+    private void killChessPiece(final ChessPosition to) {
+        chessPieces.remove(findPieceByPosition(to));
     }
 }
