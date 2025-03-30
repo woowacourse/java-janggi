@@ -13,8 +13,8 @@ class PlayerTest {
     @Test
     void test() {
         // given
-        Piece piece = new Horse(Team.RED);
         Player player = new Player(1, "짱구", Team.RED);
+        Piece piece = new Horse(player);
         // when
         boolean result = player.isTeam(piece);
         // then

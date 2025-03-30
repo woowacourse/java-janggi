@@ -1,5 +1,6 @@
 package domain.player;
 
+import domain.Team;
 import java.util.List;
 
 public class Players {
@@ -19,5 +20,12 @@ public class Players {
 
     public Player getThisTurnPlayer(int sequence) {
         return players.get(sequence);
+    }
+
+    public Player getPlayerByTeam(Team team) {
+        return players.stream()
+                .filter(player -> player.getTeam() == team)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 팀이 없습니다."));
     }
 }

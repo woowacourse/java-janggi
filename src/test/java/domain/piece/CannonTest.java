@@ -6,6 +6,7 @@ import domain.Position;
 import domain.Team;
 import domain.movestrategy.BasicRangeMoveStrategy;
 import domain.movestrategy.PalaceRangeMoveStrategy;
+import domain.player.Player;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -22,7 +23,8 @@ class CannonTest {
     @MethodSource("providePositions")
     void test1(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
-        Cannon cannon = new Cannon(Team.RED, new BasicRangeMoveStrategy());
+        Player player = new Player(1, "짱구", Team.RED);
+        Cannon cannon = new Cannon(player, new BasicRangeMoveStrategy());
 
         // when
         List<Position> moves = cannon.calculatePath(startPosition, targetPosition);
@@ -61,7 +63,8 @@ class CannonTest {
     @MethodSource("providePositions2")
     void test2(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
-        Cannon cannon = new Cannon(Team.RED, new PalaceRangeMoveStrategy());
+        Player player = new Player(1, "짱구", Team.RED);
+        Cannon cannon = new Cannon(player, new PalaceRangeMoveStrategy());
 
         // when
         List<Position> moves = cannon.calculatePath(startPosition, targetPosition);
@@ -94,7 +97,8 @@ class CannonTest {
     @Test
     void test3() {
         //given
-        Cannon cannon = new Cannon(Team.RED, new BasicRangeMoveStrategy());
+        Player player = new Player(1, "짱구", Team.RED);
+        Cannon cannon = new Cannon(player, new BasicRangeMoveStrategy());
 
         // when & then
         assertThatThrownBy(() -> cannon.calculatePath(new Position(1, 1), new Position(2, 2)))

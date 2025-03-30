@@ -4,6 +4,7 @@ import domain.Position;
 import domain.Team;
 import domain.move.Move;
 import domain.move.Moves;
+import domain.player.Player;
 import java.util.List;
 
 public class PalaceFixedMoveStrategy implements FixedMoveStrategy {
@@ -24,8 +25,8 @@ public class PalaceFixedMoveStrategy implements FixedMoveStrategy {
     );
 
     @Override
-    public List<Position> calculatePath(Position startPosition, Position targetPosition, Team team) {
-        List<Moves> movesList = getMoveList(team);
+    public List<Position> calculatePath(Position startPosition, Position targetPosition, Player player) {
+        List<Moves> movesList = getMoveList(player);
         for (Moves moves : movesList) {
             boolean compareResult = moves.comparePath(startPosition, targetPosition);
             if (compareResult) {
@@ -35,8 +36,8 @@ public class PalaceFixedMoveStrategy implements FixedMoveStrategy {
         throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
     }
 
-    public List<Moves> getMoveList(Team team) {
-        if (team == Team.BLUE) {
+    public List<Moves> getMoveList(Player player) {
+        if (player.getTeam() == Team.BLUE) {
             return blueTeamMoves;
         }
         return redTeamMoves;

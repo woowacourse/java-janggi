@@ -1,27 +1,26 @@
 package domain.piece;
 
 import domain.Team;
+import domain.player.Player;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.api.Test;
 
 public class PieceTest {
 
     @DisplayName("두 기물의 팀이 같은지 판단한다")
-    @ParameterizedTest
-    @CsvSource({
-            "RED, RED, true", "RED, BLUE, false "
-    })
-    void test(Team team1, Team team2, boolean expected) {
+    @Test
+    void test() {
         // given
-        Piece piece1 = new Horse(team1);
-        Piece piece2 = new Horse(team2);
+        Player player = new Player(1, "짱구", Team.RED);
+
+        Piece piece1 = new Horse(player);
+        Piece piece2 = new Horse(player);
 
         // when
-        boolean actual = piece1.compareTeam(piece2);
+        boolean actual = piece1.comparePlayer(piece2);
 
         // then
-        Assertions.assertThat(actual).isEqualTo(expected);
+        Assertions.assertThat(actual).isTrue();
     }
 }

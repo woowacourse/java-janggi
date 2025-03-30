@@ -4,13 +4,14 @@ import domain.Position;
 import domain.Team;
 import domain.move.Move;
 import domain.move.Moves;
+import domain.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Guard extends PalaceFixedMovePiece {
 
-    public Guard(Team team) {
-        super(team);
+    public Guard(Player player) {
+        super(player);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class Guard extends PalaceFixedMovePiece {
         ));
 
         if (isPalaceCenter(startPosition)) {
-            for (Position corner : getPalaceCorners(this.team)) {
+            for (Position corner : getPalaceCorners(this.player)) {
                 Move move = getMove(startPosition, corner);
                 if (move != null && !possibleMoves.contains(Moves.createMoves(move))) {
                     possibleMoves.add(Moves.createMoves(move));
@@ -37,7 +38,7 @@ public class Guard extends PalaceFixedMovePiece {
         }
 
         if (isPalaceCorner(startPosition)) {
-            Move move = getMove(startPosition, getPalaceCenter(this.team));
+            Move move = getMove(startPosition, getPalaceCenter(this.player));
             if (move != null && !possibleMoves.contains(Moves.createMoves(move))) {
                 possibleMoves.add(Moves.createMoves(move));
             }
@@ -51,15 +52,15 @@ public class Guard extends PalaceFixedMovePiece {
     }
 
     private boolean isPalaceCorner(Position position) {
-        return getPalaceCorners(this.team).contains(position);
+        return getPalaceCorners(this.player).contains(position);
     }
 
-    private Position getPalaceCenter(Team team) {
-        return (team == Team.RED) ? new Position(2, 5) : new Position(9, 5);
+    private Position getPalaceCenter(Player player) {
+        return (player.getTeam() == Team.RED) ? new Position(2, 5) : new Position(9, 5);
     }
 
-    private List<Position> getPalaceCorners(Team team) {
-        if (team == Team.RED) {
+    private List<Position> getPalaceCorners(Player player) {
+        if (player.getTeam() == Team.RED) {
             return List.of(new Position(1, 4), new Position(1, 6), new Position(3, 4), new Position(3, 6));
         }
         return List.of(new Position(8, 4), new Position(8, 6), new Position(10, 4), new Position(10, 6));

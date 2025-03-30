@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.Team;
 import domain.move.Move;
 import domain.move.Moves;
+import domain.player.Player;
 import java.util.List;
 
 public class Elephant extends FixedMovePiece {
@@ -18,8 +18,8 @@ public class Elephant extends FixedMovePiece {
             Moves.createMoves(Move.LEFT, Move.BACK_LEFT, Move.BACK_LEFT)
     );
 
-    public Elephant(Team team) {
-        super(team);
+    public Elephant(Player player) {
+        super(player);
     }
 
     @Override

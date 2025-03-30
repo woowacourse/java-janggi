@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
+import domain.player.Player;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,8 @@ public class KingTest {
     void test(int row, int column) {
 
         //given
-        King king = new King(Team.RED);
+        Player player = new Player(1, "짱구", Team.RED);
+        King king = new King(player);
         Position startPosition = new Position(2, 5);
         Position targetPosition = new Position(row, column);
 
@@ -39,13 +41,14 @@ public class KingTest {
     void tes2(int row, int column) {
 
         //given
-        King king = new King(Team.RED);
+        Player player = new Player(1, "짱구", Team.RED);
+        King king = new King(player);
         Position startPosition = new Position(3, 6);
         Position targetPosition = new Position(row, column);
 
         //when
         List<Position> resultMove = king.calculatePath(startPosition, targetPosition);
-        
+
         // then
         Assertions.assertThat(resultMove).isEqualTo(List.of());
     }
@@ -55,7 +58,8 @@ public class KingTest {
     void tes3() {
 
         //given
-        King king = new King(Team.RED);
+        Player player = new Player(1, "짱구", Team.RED);
+        King king = new King(player);
         // when & then
         Assertions.assertThatThrownBy(() -> king.calculatePath(new Position(3, 5), new Position(2, 6)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -68,7 +72,8 @@ public class KingTest {
     void test4() {
 
         //given
-        King king = new King(Team.RED);
+        Player player = new Player(1, "짱구", Team.RED);
+        King king = new King(player);
 
         // when & then
         Assertions.assertThatThrownBy(() -> king.calculatePath(new Position(4, 1), new Position(4, 3)))

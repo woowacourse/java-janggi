@@ -39,7 +39,7 @@ public class JanggiBoard {
     }
 
     private void validateSameTeamAttack(Piece startPiece, Piece targetPositionPiece) {
-        if (targetPositionPiece != null && startPiece.compareTeam(targetPositionPiece)) {
+        if (targetPositionPiece != null && startPiece.comparePlayer(targetPositionPiece)) {
             throw new IllegalArgumentException("해당 위치는 아군의 말이 있으므로 이동 불가능 합니다.");
         }
     }

@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
+import domain.player.Player;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -18,7 +19,8 @@ public class HorseTest {
     @MethodSource("providePositions")
     void test1(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
-        Horse horse = new Horse(Team.RED);
+        Player player = new Player(1, "짱구", Team.RED);
+        Horse horse = new Horse(player);
 
         // when
         List<Position> moves = horse.calculatePath(startPosition, targetPosition);
@@ -51,11 +53,12 @@ public class HorseTest {
                 )
         );
     }
-    
+
     @DisplayName("마로 갈 수 없는 위치일 경우 예외를 발생시킨다")
     @Test
     void test2() {
-        Horse horse = new Horse(Team.RED);
+        Player player = new Player(1, "짱구", Team.RED);
+        Horse horse = new Horse(player);
 
         Assertions.assertThatThrownBy(() -> horse.calculatePath(new Position(4, 4), new Position(4, 5)))
                 .isInstanceOf(IllegalArgumentException.class)

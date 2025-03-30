@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
+import domain.player.Player;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,8 @@ class GuardTest {
     void test(int row, int column) {
 
         //given
-        Guard guard = new Guard(Team.RED);
+        Player player = new Player(1, "짱구", Team.RED);
+        Guard guard = new Guard(player);
         Position startPosition = new Position(2, 5);
         Position targetPosition = new Position(row, column);
 

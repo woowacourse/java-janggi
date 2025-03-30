@@ -4,6 +4,7 @@ import domain.JanggiGame;
 import domain.Position;
 import domain.boardgenerator.JanggiBoardGenerator;
 import domain.game.GameService;
+import domain.game.Games;
 import domain.palace.Palace;
 import domain.player.Player;
 import domain.player.PlayerService;
@@ -39,13 +40,10 @@ public class JanggiController {
         int gameId = inputView.readGameId();
         boolean isGameExist = gameChecker.checkIfGameExists(gameId);
 
-        // 게임이 존재하면 불러오기
         if (isGameExist) {
-            // 기존 게임 데이터를 불러오기
             loadExistingGame(gameId);
         }
         if (!isGameExist) {
-            // 새 게임 시작
             startNewGame(gameId);
         }
 
@@ -57,12 +55,12 @@ public class JanggiController {
 
     private void startNewGame(int gameId) {
         try {
-            gameService.createGame(gameId);
+            Games game = gameService.createGame(gameId);
             List<String> playerNames = inputView.readPlayerNames();
             Players players = playerService.savePlayer(playerNames, gameId);
             outputView.displayPlayerInfo(players);
 
-            JanggiGame janggiGame = new JanggiGame(new JanggiBoardGenerator(), players, new Palace());
+            JanggiGame janggiGame = new JanggiGame(new JanggiBoardGenerator(players), players, new Palace());
             outputView.displayJanggiBoard(janggiGame.getBoardState());
             while (true) {
                 Player thisTurnPlayer = janggiGame.getThisTurnPlayer();

@@ -1,14 +1,14 @@
 package domain.piece;
 
 import domain.Position;
-import domain.Team;
 import domain.move.Moves;
+import domain.player.Player;
 import java.util.List;
 
 public abstract class FixedMovePiece extends Piece {
 
-    public FixedMovePiece(Team team) {
-        super(team);
+    public FixedMovePiece(Player player) {
+        super(player);
     }
 
     public abstract List<Moves> getMoveList();

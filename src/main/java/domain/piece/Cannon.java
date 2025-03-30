@@ -1,17 +1,17 @@
 package domain.piece;
 
 import domain.Position;
-import domain.Team;
 import domain.movestrategy.RangeMoveStrategy;
 import domain.movestrategy.RangeMoveStrategyChangeable;
+import domain.player.Player;
 import java.util.List;
 
 public class Cannon extends Piece implements RangeMoveStrategyChangeable {
 
     private RangeMoveStrategy moveStrategy;
 
-    public Cannon(Team team, RangeMoveStrategy moveStrategy) {
-        super(team);
+    public Cannon(Player player, RangeMoveStrategy moveStrategy) {
+        super(player);
         this.moveStrategy = moveStrategy;
     }
 

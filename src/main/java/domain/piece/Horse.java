@@ -1,8 +1,8 @@
 package domain.piece;
 
-import domain.Team;
 import domain.move.Move;
 import domain.move.Moves;
+import domain.player.Player;
 import java.util.List;
 
 public class Horse extends FixedMovePiece {
@@ -18,8 +18,8 @@ public class Horse extends FixedMovePiece {
                     Moves.createMoves(Move.LEFT, Move.FRONT_LEFT),
                     Moves.createMoves(Move.LEFT, Move.BACK_LEFT));
 
-    public Horse(Team team) {
-        super(team);
+    public Horse(Player player) {
+        super(player);
     }
 
     @Override

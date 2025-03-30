@@ -15,7 +15,7 @@ public class PlayerDao {
     }
 
     public Player insertPlayer(String playerName, int gameId, Team team) {
-        String insertPlayerSql = "INSERT INTO player (name, game_id,team_color) VALUES (?,?,?)";
+        final var insertPlayerSql = "INSERT INTO player (name, game_id,team_color) VALUES (?,?,?)";
 
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(insertPlayerSql,
@@ -32,7 +32,6 @@ public class PlayerDao {
             if (generatedKeys.next()) {
                 generatedId = generatedKeys.getInt(1);
             }
-
             return new Player(generatedId, playerName, team);
         } catch (SQLException sqlException) {
             throw new IllegalArgumentException("플레이어 저장 오류");

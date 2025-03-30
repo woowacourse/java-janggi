@@ -6,6 +6,7 @@ import domain.Position;
 import domain.Team;
 import domain.movestrategy.BasicRangeMoveStrategy;
 import domain.movestrategy.PalaceRangeMoveStrategy;
+import domain.player.Player;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -22,7 +23,8 @@ public class ChariotTest {
     @MethodSource("providePositions")
     void test1(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
-        Chariot chariot = new Chariot(Team.RED, new BasicRangeMoveStrategy());
+        Player player = new Player(1, "짱구", Team.RED);
+        Chariot chariot = new Chariot(player, new BasicRangeMoveStrategy());
 
         // when
         List<Position> moves = chariot.calculatePath(startPosition, targetPosition);
@@ -61,7 +63,8 @@ public class ChariotTest {
     @MethodSource("providePositions2")
     void test2(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
-        Chariot chariot = new Chariot(Team.RED, new PalaceRangeMoveStrategy());
+        Player player = new Player(1, "짱구", Team.RED);
+        Chariot chariot = new Chariot(player, new PalaceRangeMoveStrategy());
 
         // when
         List<Position> moves = chariot.calculatePath(startPosition, targetPosition);
@@ -94,7 +97,8 @@ public class ChariotTest {
     @Test
     void test2() {
         //given
-        Chariot chariot = new Chariot(Team.RED, new BasicRangeMoveStrategy());
+        Player player = new Player(1, "짱구", Team.RED);
+        Chariot chariot = new Chariot(player, new BasicRangeMoveStrategy());
 
         // when & then
         assertThatThrownBy(() -> chariot.calculatePath(new Position(1, 1), new Position(2, 2)))

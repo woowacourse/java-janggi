@@ -14,7 +14,7 @@ public class GameDao {
     }
 
     public Games insertGame(int gameId, String startGame) {
-        String insertGameSql = "INSERT INTO games (game_id, game_status) VALUES (?, ?)";
+        final var insertGameSql = "INSERT INTO games (game_id, game_status) VALUES (?, ?)";
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(insertGameSql,

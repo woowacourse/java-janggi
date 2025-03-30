@@ -22,6 +22,7 @@ public class JanggiGame {
         this.players = players;
     }
 
+
     public void move(Position startPosition, Position targetPosition) {
         validateMovePiece(startPosition, targetPosition);
         janggiBoard.move(startPosition, targetPosition);

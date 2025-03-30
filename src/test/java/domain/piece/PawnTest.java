@@ -4,6 +4,7 @@ import domain.Position;
 import domain.Team;
 import domain.movestrategy.BasicFixedMoveStrategy;
 import domain.movestrategy.PalaceFixedMoveStrategy;
+import domain.player.Player;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -21,7 +22,8 @@ class PawnTest {
     void test(Position startPosition, Position targetPosition, List<Position> expected) {
 
         //given
-        Pawn pawn = new Pawn(Team.RED, new BasicFixedMoveStrategy());
+        Player player = new Player(1, "짱구", Team.RED);
+        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy());
 
         //when
         List<Position> move = pawn.calculatePath(startPosition, targetPosition);
@@ -56,7 +58,8 @@ class PawnTest {
     void test2(Position startPosition, Position targetPosition, List<Position> expected) {
 
         //given
-        Pawn pawn = new Pawn(Team.BLUE, new BasicFixedMoveStrategy());
+        Player player = new Player(1, "짱구", Team.BLUE);
+        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy());
 
         //when
         List<Position> move = pawn.calculatePath(startPosition, targetPosition);
@@ -91,7 +94,8 @@ class PawnTest {
     void test3(Position startPosition, Position targetPosition, List<Position> expected) {
 
         //given
-        Pawn pawn = new Pawn(Team.BLUE, new PalaceFixedMoveStrategy());
+        Player player = new Player(1, "짱구", Team.BLUE);
+        Pawn pawn = new Pawn(player, new PalaceFixedMoveStrategy());
 
         //when
         List<Position> move = pawn.calculatePath(startPosition, targetPosition);
@@ -126,7 +130,8 @@ class PawnTest {
     void test4(Position startPosition, Position targetPosition, List<Position> expected) {
 
         //given
-        Pawn pawn = new Pawn(Team.RED, new PalaceFixedMoveStrategy());
+        Player player = new Player(1, "짱구", Team.RED);
+        Pawn pawn = new Pawn(player, new PalaceFixedMoveStrategy());
 
         //when
         List<Position> move = pawn.calculatePath(startPosition, targetPosition);
@@ -160,7 +165,8 @@ class PawnTest {
     void test5() {
 
         //given
-        Pawn pawn = new Pawn(Team.RED, new BasicFixedMoveStrategy());
+        Player player = new Player(1, "짱구", Team.RED);
+        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy());
 
         // when & then
         Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 1), new Position(4, 3)))
@@ -173,7 +179,8 @@ class PawnTest {
     void test6() {
 
         //given
-        Pawn pawn = new Pawn(Team.BLUE, new BasicFixedMoveStrategy());
+        Player player = new Player(1, "짱구", Team.BLUE);
+        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy());
 
         // when & then
         Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(7, 5), new Position(8, 5)))
@@ -186,7 +193,8 @@ class PawnTest {
     void test7() {
 
         //given
-        Pawn pawn = new Pawn(Team.RED, new BasicFixedMoveStrategy());
+        Player player = new Player(1, "짱구", Team.RED);
+        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy());
 
         // when & then
         Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 5), new Position(3, 5)))

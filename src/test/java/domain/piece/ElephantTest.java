@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.Position;
 import domain.Team;
+import domain.player.Player;
 import java.util.List;
 import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
@@ -18,7 +19,8 @@ class ElephantTest {
     @MethodSource("providePositions")
     void test1(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
-        Elephant elephant = new Elephant(Team.RED);
+        Player player = new Player(1, "짱구", Team.RED);
+        Elephant elephant = new Elephant(player);
 
         // when
         List<Position> moves = elephant.calculatePath(startPosition, targetPosition);
@@ -55,7 +57,8 @@ class ElephantTest {
     @DisplayName("상으로 갈 수 없는 위치일 경우 예외를 발생시킨다")
     @Test
     void test2() {
-        Elephant elephant = new Elephant(Team.RED);
+        Player player = new Player(1, "짱구", Team.RED);
+        Elephant elephant = new Elephant(player);
 
         Assertions.assertThatThrownBy(() -> elephant.calculatePath(new Position(4, 4), new Position(4, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
