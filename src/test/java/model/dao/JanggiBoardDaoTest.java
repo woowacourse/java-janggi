@@ -26,6 +26,7 @@ class JanggiBoardDaoTest {
     }
 
     @Test
+    @DisplayName("DB 연결 테스트")
     void connection() throws SQLException {
         try (final var connection = janggiboardDao.getConnection()) {
             assertThat(connection).isNotNull();
@@ -33,10 +34,12 @@ class JanggiBoardDaoTest {
     }
 
     @Test
+    @DisplayName("게임 정보 등록 테스트")
     void updateJanggiGameTest() {
         JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardSetUp.DEFAULT_SETUP);
 
         janggiboardDao.updateJanggiGame(TEST_GAME_ID, janggiBoard.getAlivePieces());
+        assertThat(janggiboardDao.existJanggiGame(TEST_GAME_ID)).isTrue();
     }
 
     @Test
@@ -50,8 +53,11 @@ class JanggiBoardDaoTest {
     }
 
     @Test
+    @DisplayName("게임 정보 삭제 테스트")
     void deleteJanggiGameTest() {
         janggiboardDao.deleteJanggiGame(TEST_GAME_ID);
+
+        assertThat(janggiboardDao.existJanggiGame(TEST_GAME_ID)).isFalse();
     }
 
 }
