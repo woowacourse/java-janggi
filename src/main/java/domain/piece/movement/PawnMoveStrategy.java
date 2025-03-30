@@ -1,13 +1,15 @@
-package domain.movement;
+package domain.piece.movement;
 
 import domain.Move;
 import domain.Moves;
-import domain.Team;
+import domain.piece.Position;
+import domain.piece.Team;
 import java.util.List;
 
-public class PawnMovement {
+public class PawnMoveStrategy implements MoveStrategy {
 
-    public List<Moves> findPossibleMoves(Team team) {
+    @Override
+    public List<Moves> findPossibleMoves(Position src, Position dest, Team team) {
         return getMovesOptions(team);
     }
 

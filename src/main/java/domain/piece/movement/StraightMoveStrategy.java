@@ -1,16 +1,19 @@
-package domain.movement;
+package domain.piece.movement;
 
 import domain.Move;
 import domain.Moves;
-import domain.Position;
+import domain.piece.Position;
+import domain.piece.Team;
+import java.util.List;
 
-public class StraightMovement {
+public class StraightMoveStrategy implements MoveStrategy {
 
-    public Moves findPossibleMove(Position src, Position dest) {
+    @Override
+    public List<Moves> findPossibleMoves(Position src, Position dest, Team team) {
         validateStraightMove(src, dest);
         int rowDiff = src.compareRow(dest);
         int columnDiff = src.compareColumn(dest);
-        return calculateMoves(rowDiff, columnDiff);
+        return List.of(calculateMoves(rowDiff, columnDiff));
     }
 
     private void validateStraightMove(Position src, Position dest) {
@@ -20,7 +23,7 @@ public class StraightMovement {
         if (src.compareRow(dest) == 0 || src.compareColumn(dest) == 0) {
             return;
         }
-        throw new IllegalArgumentException("이 위치로는 움직일 수 없습니다.");
+        throw new IllegalArgumentException("이 위치로 이동할 수 없습니다.");
     }
 
     private Moves calculateMoves(int rowDiff, int columnDiff) {

@@ -1,10 +1,12 @@
-package domain.movement;
+package domain.piece.movement;
 
 import domain.Move;
 import domain.Moves;
+import domain.piece.Position;
+import domain.piece.Team;
 import java.util.List;
 
-public class SangMovement {
+public class SangMoveStrategy implements MoveStrategy {
 
     private static final List<Moves> movesOptions = List.of(
             Moves.create(Move.FRONT, Move.NO_LINE_FRONT_LEFT, Move.NO_LINE_FRONT_LEFT),
@@ -17,7 +19,8 @@ public class SangMovement {
             Moves.create(Move.LEFT, Move.NO_LINE_BACK_LEFT, Move.NO_LINE_BACK_LEFT)
     );
 
-    public List<Moves> findPossibleMoves() {
+    @Override
+    public List<Moves> findPossibleMoves(Position src, Position dest, Team team) {
         return movesOptions;
     }
 }

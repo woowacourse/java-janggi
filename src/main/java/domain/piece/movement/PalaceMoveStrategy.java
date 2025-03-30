@@ -1,11 +1,12 @@
-package domain.movement;
+package domain.piece.movement;
 
 import domain.Move;
 import domain.Moves;
-import domain.Position;
+import domain.piece.Position;
+import domain.piece.Team;
 import java.util.List;
 
-public class PalaceMovement {
+public class PalaceMoveStrategy implements MoveStrategy {
 
     private static final List<Moves> movesOptions = List.of(
             Moves.create(Move.FRONT),
@@ -18,7 +19,8 @@ public class PalaceMovement {
             Moves.create(Move.BACK_RIGHT)
     );
 
-    public List<Moves> calculatePath(Position src) {
+    @Override
+    public List<Moves> findPossibleMoves(Position src, Position dest, Team team) {
         return movesOptions.stream()
                 .filter(moves -> moves.isPossibleInPalace(src)).toList();
     }

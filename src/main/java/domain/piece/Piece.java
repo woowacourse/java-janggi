@@ -1,25 +1,23 @@
 package domain.piece;
 
 import domain.Moves;
-import domain.Position;
-import domain.Team;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Piece {
+public class Piece {
 
-    protected final Team team;
+    private final Team team;
+    private final PieceType type;
     private Position position;
 
-    public Piece(Team team, Position position) {
+    public Piece(Team team, PieceType type, Position position) {
         this.team = team;
+        this.type = type;
         this.position = position;
     }
 
-    public abstract List<Moves> getMoveOptions(Position startPosition, Position targetPosition);
-
     public List<Position> calculatePath(Position src, Position dest) {
-        Moves possibleMoves = getMoveOptions(src, dest).stream()
+        Moves possibleMoves = type.findPossibleMoves(src, dest, team).stream()
                 .filter(moves -> moves.isPossibleToArrive(src, dest))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이 위치로 이동할 수 없습니다."));
@@ -27,18 +25,8 @@ public abstract class Piece {
         return possibleMoves.convertToPath(src);
     }
 
-    public abstract int getScore();
-
-    public boolean isSamePosition(Position position) {
-        return this.position.equals(position);
-    }
-
     public void moveTo(Position position) {
         this.position = position;
-    }
-
-    public Team getTeam() {
-        return team;
     }
 
     public boolean isTeam(Piece otherPiece) {
@@ -47,6 +35,26 @@ public abstract class Piece {
 
     public boolean isTeam(Team team) {
         return this.team == team;
+    }
+
+    public boolean isType(PieceType type) {
+        return this.type == type;
+    }
+
+    public int getScore() {
+        return type.getScore();
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public PieceType getType() {
+        return type;
     }
 
     @Override
