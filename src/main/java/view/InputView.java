@@ -25,14 +25,16 @@ public class InputView {
 
     public static int inputGameId() {
         sc = new Scanner(System.in);
-        System.out.println("게임 번호를 선택하세요");
-        return Integer.parseInt(sc.nextLine());
-    }
-
-    public static String getUserInput() {
-        Scanner sc = new Scanner(System.in);
-        String userInput = sc.nextLine();
-        return userInput;
+        boolean isValid;
+        do {
+            System.out.println("게임 번호를 선택하세요");
+            try {
+                return Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                isValid = false;
+            }
+        } while (!isValid);
+        return 0;
     }
 
     public static int choiceSetUp() {
