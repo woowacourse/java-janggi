@@ -87,7 +87,7 @@ class TankTest {
 
     @ParameterizedTest
     @DisplayName("RED 왕궁 내 시작점과 끝점이 주어졌을 때, 차의 이동 경로를 반환한다")
-    @MethodSource("pathInBluePalaceArguments")
+    @MethodSource("pathInRedPalaceArguments")
     void should_return_path_when_red_palace_by_start_and_end_position(Position start, Position end,
                                                                       List<Position> expectedPath) {
         // given
@@ -100,7 +100,7 @@ class TankTest {
         assertThat(path).containsExactlyElementsOf(expectedPath);
     }
 
-    private static Stream<Arguments> pathInBluePalaceArguments() {
+    private static Stream<Arguments> pathInRedPalaceArguments() {
         return Stream.of(
                 // 좌상 -> 우하
                 Arguments.of(
@@ -168,7 +168,7 @@ class TankTest {
         assertThat(path).containsExactlyElementsOf(expectedPath);
     }
 
-    private static Stream<Arguments> pathInRedPalaceArguments() {
+    private static Stream<Arguments> pathInBluePalaceArguments() {
         return Stream.of(
                 // 좌상 -> 우하
                 Arguments.of(
