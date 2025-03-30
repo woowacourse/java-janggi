@@ -248,7 +248,7 @@ class CannonTest {
 
     @DisplayName("포 기물은 궁성이며 대각선에 있을 경우 대각선으로 움직일 수 있다.")
     @Test
-    void cannonCanMoveDiagonalIfInPalace() {
+    void cannonCannotMoveDiagonalIfInPalace() {
 
         // given
         final Piece cannon = new Cannon(new Position(3, 0), RED);

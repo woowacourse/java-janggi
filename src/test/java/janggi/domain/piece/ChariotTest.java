@@ -206,7 +206,7 @@ class ChariotTest {
 
     @DisplayName("차 기물은 궁성이며 대각선에 있을 경우 대각선으로 움직일 수 있다.")
     @Test
-    void cannonCanMoveDiagonalIfInPalace() {
+    void cannonCannotMoveDiagonalIfInPalace() {
 
         // given
         final Piece chariot = new Chariot(new Position(3, 0), RED);

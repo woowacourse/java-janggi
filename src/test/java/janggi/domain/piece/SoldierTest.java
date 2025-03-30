@@ -129,7 +129,7 @@ class SoldierTest {
 
     @DisplayName("졸 기물이 궁성에 있을 때 대각선으로 이동할 수 있는 점이 아니라면 대각선으로 움직일 수 없다.")
     @Test
-    void soldierCanNotMoveDiagonalIfInNotSpecialPosition() {
+    void soldierCannotMoveDiagonalIfInNotSpecialPosition() {
 
         // given
         final Piece soldier = new Soldier(new Position(4, 2), RED);

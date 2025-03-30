@@ -56,7 +56,7 @@ public class General extends Piece {
             }
             currentPosition = currentPosition.move(direction);
             if (direction.isDiagonal()) {
-                if (canMoveDiagonal(currentPosition)) {
+                if (cannotMoveDiagonal(currentPosition)) {
                     return null;
                 }
             }
@@ -65,7 +65,7 @@ public class General extends Piece {
         return new Route(positions);
     }
 
-    private boolean canMoveDiagonal(final Position currentPosition) {
+    private boolean cannotMoveDiagonal(final Position currentPosition) {
         return !position.canMoveDiagonalPosition() || !position.isInPalace() || !currentPosition.isInPalace();
     }
 
