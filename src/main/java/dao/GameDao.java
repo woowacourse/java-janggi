@@ -24,12 +24,12 @@ public class GameDao {
         }
     }
 
-    public Optional<TurnDto> findTurnByGameId(int game_id) {
+    public Optional<TurnDto> findTurnByGameId(int gameId) {
         createGameTableIfNotExists();
         final var query = "SELECT turn FROM game WHERE game_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, game_id);
+            stmt.setInt(1, gameId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (!rs.next()) {
