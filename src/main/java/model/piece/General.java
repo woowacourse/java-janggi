@@ -12,17 +12,16 @@ public class General extends Piece {
 
     private static final int SCORE = 0;
     private static final String TYPE = "GENERAL";
-
+    private final Castle castle;
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(
         DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT,
         DIAGONAL_DOWN_LEFT, DIAGONAL_DOWN_RIGHT);
-    private final Area area;
     private final LimitedBasicMoveNavigator limitedBasicMoveNavigator;
 
     public General(Team team) {
         super(team, SCORE, TYPE);
-        this.area = new Area();
+        this.castle = new Castle();
         this.limitedBasicMoveNavigator = new LimitedBasicMoveNavigator();
     }
 
@@ -37,7 +36,7 @@ public class General extends Piece {
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
         validateOutOfCastle(arrival);
-        List<Movement> decidedMovements = decideMovements(departure, arrival);
+        List<Movement> decidedMovements = castle.decideMovements(movements, movementsInCastle, departure, arrival);
         return limitedBasicMoveNavigator.find(departure, arrival, decidedMovements);
     }
 
@@ -47,16 +46,8 @@ public class General extends Piece {
     }
 
     private void validateOutOfCastle(Position arrival) {
-        if (!area.inCastle(arrival)) {
+        if (!castle.inCastle(arrival)) {
             throw new IllegalArgumentException("해당 기물은 궁성 밖으로 이동할 수 없습니다.");
         }
-    }
-
-    private List<Movement> decideMovements(Position departure, Position arrival) {
-        List<Movement> decidedMovements = new ArrayList<>(movements);
-        if (area.canMoveDiagonal(departure) && area.inCastle(arrival)) {
-            decidedMovements.addAll(movementsInCastle);
-        }
-        return decidedMovements;
     }
 }

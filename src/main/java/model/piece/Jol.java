@@ -6,7 +6,6 @@ import static model.Movement.LEFT;
 import static model.Movement.RIGHT;
 import static model.Movement.UP;
 
-import java.util.ArrayList;
 import java.util.List;
 import model.Movement;
 import model.Team;
@@ -16,16 +15,14 @@ public class Jol extends Piece {
 
     private static final int SCORE = 2;
     private static final String TYPE = "JOL";
-
+    private final Castle castle;
     private final List<Movement> movements = List.of(UP, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT);
-    private final Area area;
-
     private final LimitedBasicMoveNavigator limitedBasicMoveNavigator;
 
     public Jol() {
         super(Team.GREEN, SCORE, TYPE);
-        this.area = new Area();
+        this.castle = new Castle();
         this.limitedBasicMoveNavigator = new LimitedBasicMoveNavigator();
     }
 
@@ -36,15 +33,8 @@ public class Jol extends Piece {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        List<Movement> decidedMovements = decideMovements(departure, arrival);
+        List<Movement> decidedMovements = castle.decideMovements(movements, movementsInCastle,
+            departure, arrival);
         return limitedBasicMoveNavigator.find(departure, arrival, decidedMovements);
-    }
-
-    private List<Movement> decideMovements(Position departure, Position arrival) {
-        List<Movement> decidedMovements = new ArrayList<>(movements);
-        if (area.canMoveDiagonal(departure) && area.inCastle(arrival)) {
-            decidedMovements.addAll(movementsInCastle);
-        }
-        return decidedMovements;
     }
 }

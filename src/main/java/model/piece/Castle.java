@@ -1,11 +1,13 @@
 package model.piece;
 
+import java.util.ArrayList;
 import java.util.List;
+import model.Movement;
 import model.position.Column;
 import model.position.Position;
 import model.position.Row;
 
-public class Area {
+public class Castle {
 
     private final List<Position> moveDiagonalArea = List.of(
         new Position(Column.ONE, Row.FOUR),
@@ -38,7 +40,21 @@ public class Area {
         return castle.contains(position);
     }
 
-    public boolean canMoveDiagonal(Position position) {
+    public List<Movement> decideMovements(
+        List<Movement> movements,
+        List<Movement> movementsInCastle,
+        Position departure,
+        Position arrival
+    ) {
+        List<Movement> decidedMovements = new ArrayList<>(movements);
+        if (canMoveDiagonal(departure) && inCastle(arrival)) {
+            decidedMovements.addAll(movementsInCastle);
+        }
+        return decidedMovements;
+    }
+
+    private boolean canMoveDiagonal(Position position) {
         return moveDiagonalArea.contains(position);
     }
+
 }
