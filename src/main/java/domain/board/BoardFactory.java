@@ -4,10 +4,6 @@ import static domain.piece.Country.CHO;
 import static domain.piece.Country.HAN;
 
 import domain.Coordinate;
-import domain.board.strategy.MaSangMaSang;
-import domain.board.strategy.MaSangSangMa;
-import domain.board.strategy.SangMaMaSang;
-import domain.board.strategy.SangMaSangMa;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Gung;
@@ -17,19 +13,9 @@ import domain.piece.jump.Pho;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface BoardSettingUpStrategy {
+public class BoardFactory {
 
-    static BoardSettingUpStrategy selectStrategy(String settingUp) {
-        return switch (settingUp) {
-            case SangMaMaSang.SANG_MA_MA_SANG -> new SangMaMaSang();
-            case MaSangSangMa.MA_SANG_SANG_MA -> new MaSangMaSang();
-            case SangMaSangMa.SANG_MA_SANG_MA -> new SangMaSangMa();
-            case MaSangMaSang.MA_SANG_MA_SANG -> new MaSangSangMa();
-            default -> throw new IllegalArgumentException("[ERROR] 상차림 전략을 다시 입력해주세요.");
-        };
-    }
-
-    static Map<Coordinate, Piece> setUp() {
+    public Map<Coordinate, Piece> setUp() {
         Map<Coordinate, Piece> pieces = new HashMap<>();
 
         pieces.put(new Coordinate(1, 1), new Cha(HAN));
@@ -61,7 +47,4 @@ public interface BoardSettingUpStrategy {
         return pieces;
     }
 
-    Map<Coordinate, Piece> setUpCho();
-
-    Map<Coordinate, Piece> setUpHan();
 }

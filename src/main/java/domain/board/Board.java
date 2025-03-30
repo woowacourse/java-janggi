@@ -5,7 +5,6 @@ import domain.piece.Country;
 import domain.piece.Paths;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +12,10 @@ public final class Board {
 
     private final Map<Coordinate, Piece> board;
 
-    public Board(BoardSettingUpStrategy hanSettingUpStrategy, BoardSettingUpStrategy choSettingUpStrategy) {
-        Map<Coordinate, Piece> pieces = new HashMap<>(BoardSettingUpStrategy.setUp());
-        pieces.putAll(hanSettingUpStrategy.setUpHan());
+    public Board(ChoSettingUpStrategy choSettingUpStrategy, HanSettingUpStrategy hanSettingUpStrategy) {
+        Map<Coordinate, Piece> pieces = new BoardFactory().setUp();
         pieces.putAll(choSettingUpStrategy.setUpCho());
+        pieces.putAll(hanSettingUpStrategy.setUpHan());
         this.board = pieces;
     }
 

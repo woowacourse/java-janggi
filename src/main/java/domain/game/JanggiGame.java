@@ -2,7 +2,8 @@ package domain.game;
 
 import domain.Coordinate;
 import domain.board.Board;
-import domain.board.BoardSettingUpStrategy;
+import domain.board.ChoSettingUpStrategy;
+import domain.board.HanSettingUpStrategy;
 import domain.piece.Country;
 import domain.piece.Piece;
 import infrastructure.BoardRepository;
@@ -58,14 +59,13 @@ public class JanggiGame {
     }
 
     private Board settingUp() {
-        BoardSettingUpStrategy hanSettingUpStrategy = retryUntilValid(() ->
-                BoardSettingUpStrategy.selectStrategy(inputView.readSettingUp(Country.HAN))
-        );
+        HanSettingUpStrategy hanSettingUpStrategy = retryUntilValid(() ->
+                HanSettingUpStrategy.selectStrategy(inputView.readSettingUp(Country.HAN)));
 
-        BoardSettingUpStrategy choSettingUpStrategy = retryUntilValid(() ->
-                BoardSettingUpStrategy.selectStrategy(inputView.readSettingUp(Country.CHO)));
+        ChoSettingUpStrategy choSettingUpStrategy = retryUntilValid(() ->
+                ChoSettingUpStrategy.selectStrategy(inputView.readSettingUp(Country.CHO)));
 
-        return new Board(hanSettingUpStrategy, choSettingUpStrategy);
+        return new Board(choSettingUpStrategy, hanSettingUpStrategy);
     }
 
     private void movePiece(Board board) {
