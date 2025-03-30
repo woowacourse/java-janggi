@@ -65,4 +65,20 @@ public record Board(
                 .findFirst()
                 .orElse(PieceCategory.NONE);
     }
+
+    public Player getHanPlayer() {
+        return gamePlayers.keySet()
+                .stream()
+                .filter(player -> player.getTeam() == Team.HAN)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("서버에 문제가 발생했습니다. - 한 플레이어가 없습니다."));
+    }
+
+    public Player getChoPlayer() {
+        return gamePlayers.keySet()
+                .stream()
+                .filter(player -> player.getTeam() == Team.CHO)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("서버에 문제가 발생했습니다. - 초 플레이어가 없습니다."));
+    }
 }

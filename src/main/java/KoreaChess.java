@@ -1,14 +1,12 @@
 import domain.Board;
+import domain.Game;
 import domain.Player;
-import domain.Team;
-import domain.piece.Pieces;
-import domain.piece.Score;
 import domain.spatial.Position;
-import domain.strategy.SettingUp;
-import domain.strategy.SettingUpInitializer;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import repository.GameRepositoryImpl;
+import repository.PieceRepositoryImpl;
+import repository.PlayerRepositoryImpl;
+import service.GameInitializerService;
 import view.InputView;
 import view.OutputView;
 
@@ -25,9 +23,11 @@ public class KoreaChess {
     public void run() {
         outputView.printGameStart();
 
-        Player han = new Player(Team.HAN, new Score(0));
-        Player cho = new Player(Team.CHO, new Score(0));
-        Board board = initializeGame(han, cho);
+        Game game = new GameInitializerService(outputView, inputView, new GameRepositoryImpl(),
+                new PlayerRepositoryImpl(), new PieceRepositoryImpl()).initializeGame();
+        Board board = game.getBoard();
+        Player han = board.getHanPlayer();
+        Player cho = board.getChoPlayer();
 
         while (!board.isGameFinished() && !inputView.isGameTurnEnd()) {
             processTurn(han, board);
@@ -37,32 +37,6 @@ public class KoreaChess {
             processTurn(cho, board);
         }
         printGameResult(board);
-    }
-
-    private Board initializeGame(final Player han, final Player cho) {
-        Board board = createBoard(han, cho);
-        outputView.printBoard(board);
-        return board;
-    }
-
-    private Board createBoard(final Player han, final Player cho) {
-        Map<Player, Pieces> board = new HashMap<>();
-        board.put(han, createPiecesByPlayer(han));
-        board.put(cho, createPiecesByPlayer(cho));
-
-        return new Board(board);
-    }
-
-    private Pieces createPiecesByPlayer(final Player player) {
-        while (true) {
-            try {
-                int command = inputView.readSettingUpStrategyCommand(player);
-                SettingUpInitializer strategy = SettingUp.findStrategyByCommand(command);
-                return strategy.initPieces(player);
-            } catch (Exception e) {
-                outputView.printErrorMessage(e.getMessage());
-            }
-        }
     }
 
     private void processTurn(final Player player, final Board board) {
