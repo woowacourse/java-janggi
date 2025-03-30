@@ -1,6 +1,6 @@
 package janggi.view;
 
-import janggi.domain.JanggiEnded;
+import janggi.domain.GameEnded;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Chariot;
@@ -130,7 +130,7 @@ public class JanggiBoardView {
         System.out.println("초나라 점수: " + janggiBoard.dynastyScore(Dynasty.CHU));
     }
 
-    public void printResult(JanggiEnded janggiEnded) {
+    public void printResult(GameEnded janggiEnded) {
         System.out.println(toDynastyName(janggiEnded.winner()) + "님이 이겼습니다!");
         System.out.println("==최종 점수==");
         printScore(janggiEnded.janggiBoard());

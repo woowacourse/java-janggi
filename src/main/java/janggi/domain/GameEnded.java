@@ -5,18 +5,18 @@ import janggi.domain.piece.Dynasty;
 import janggi.domain.piece.Point;
 import java.util.Objects;
 
-public class JanggiEnded implements JanggiStatus {
+public class GameEnded implements GameStatus {
 
     private final Dynasty winnerDynasty;
     private final JanggiBoard janggiBoard;
 
-    public JanggiEnded(Dynasty winnerDynasty, JanggiBoard janggiBoard) {
+    public GameEnded(Dynasty winnerDynasty, JanggiBoard janggiBoard) {
         this.winnerDynasty = winnerDynasty;
         this.janggiBoard = janggiBoard;
     }
 
     @Override
-    public JanggiStatus move(Point from, Point to) {
+    public GameStatus move(Point from, Point to) {
         throw new IllegalStateException("게임이 끝났습니다.");
     }
 
@@ -46,7 +46,7 @@ public class JanggiEnded implements JanggiStatus {
             return false;
         }
 
-        JanggiEnded that = (JanggiEnded) o;
+        GameEnded that = (GameEnded) o;
         return winnerDynasty == that.winnerDynasty && Objects.equals(janggiBoard, that.janggiBoard);
     }
 

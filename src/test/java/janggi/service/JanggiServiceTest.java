@@ -9,9 +9,9 @@ import janggi.dao.PieceDao;
 import janggi.dao.entity.GameEntity;
 import janggi.dao.entity.PieceEntity;
 import janggi.dao.entity.Status;
-import janggi.domain.JanggiEnded;
-import janggi.domain.JanggiRunned;
-import janggi.domain.JanggiStatus;
+import janggi.domain.GameEnded;
+import janggi.domain.GameRunned;
+import janggi.domain.GameStatus;
 import janggi.domain.board.ChuBoardSetUp;
 import janggi.domain.board.HanBoardSetUp;
 import janggi.domain.board.JanggiBoard;
@@ -121,10 +121,10 @@ class JanggiServiceTest {
         JanggiService janggiService = new JanggiService(gameDao, pieceDao);
 
         //when
-        JanggiStatus janggiStatus = janggiService.findJanggiStatusByGameId(1L);
+        GameStatus gameStatus = janggiService.findJanggiStatusByGameId(1L);
 
         //then
-        assertThat(janggiStatus).isEqualTo(new JanggiRunned(Dynasty.HAN, new JanggiBoard(Map.of(
+        assertThat(gameStatus).isEqualTo(new GameRunned(Dynasty.HAN, new JanggiBoard(Map.of(
                 new Point(1, 1), new General(Dynasty.HAN),
                 new Point(4, 1), new General(Dynasty.CHU)
         ))));
@@ -144,10 +144,10 @@ class JanggiServiceTest {
         JanggiService janggiService = new JanggiService(gameDao, pieceDao);
 
         //when
-        JanggiStatus result = janggiService.move(1L, new Point(1, 4), new Point(1, 5));
+        GameStatus result = janggiService.move(1L, new Point(1, 4), new Point(1, 5));
 
         //then
-        assertThat(result).isEqualTo(new JanggiRunned(Dynasty.CHU, new JanggiBoard(Map.of(
+        assertThat(result).isEqualTo(new GameRunned(Dynasty.CHU, new JanggiBoard(Map.of(
                 new Point(1, 5), new General(Dynasty.HAN),
                 new Point(10, 4), new General(Dynasty.CHU)
         ))));
@@ -160,7 +160,7 @@ class JanggiServiceTest {
 
     @DisplayName("기물을 움직이고 상대편 말이 죽었다면 게임이 끝난다.")
     @Test
-    void test() {
+    void move_gameEnd() {
         //given
         GameDao gameDao = new FakeGameDao(
                 new GameEntity(1L, Status.RUN, Dynasty.CHU)
@@ -173,10 +173,10 @@ class JanggiServiceTest {
         JanggiService janggiService = new JanggiService(gameDao, pieceDao);
 
         //when
-        JanggiStatus result = janggiService.move(1L, new Point(1, 3), new Point(1, 4));
+        GameStatus result = janggiService.move(1L, new Point(1, 3), new Point(1, 4));
 
         //then
-        assertThat(result).isEqualTo(new JanggiEnded(Dynasty.CHU, new JanggiBoard(Map.of(
+        assertThat(result).isEqualTo(new GameEnded(Dynasty.CHU, new JanggiBoard(Map.of(
                 new Point(1, 4), new Chariot(Dynasty.CHU),
                 new Point(10, 4), new General(Dynasty.CHU)
         ))));

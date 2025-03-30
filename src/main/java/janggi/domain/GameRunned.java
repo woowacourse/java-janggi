@@ -5,23 +5,23 @@ import janggi.domain.piece.Dynasty;
 import janggi.domain.piece.Point;
 import java.util.Objects;
 
-public class JanggiRunned implements JanggiStatus {
+public class GameRunned implements GameStatus {
 
     private final Dynasty currentTurnDynasty;
     private final JanggiBoard janggiBoard;
 
-    public JanggiRunned(Dynasty currentTurnDynasty, JanggiBoard janggiBoard) {
+    public GameRunned(Dynasty currentTurnDynasty, JanggiBoard janggiBoard) {
         this.currentTurnDynasty = currentTurnDynasty;
         this.janggiBoard = janggiBoard;
     }
 
     @Override
-    public JanggiStatus move(Point from, Point to) {
+    public GameStatus move(Point from, Point to) {
         janggiBoard.move(currentTurnDynasty, from, to);
         if (janggiBoard.isDeadKing(currentTurnDynasty.opposite())) {
-            return new JanggiEnded(currentTurnDynasty, janggiBoard);
+            return new GameEnded(currentTurnDynasty, janggiBoard);
         }
-        return new JanggiRunned(currentTurnDynasty.opposite(), janggiBoard);
+        return new GameRunned(currentTurnDynasty.opposite(), janggiBoard);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class JanggiRunned implements JanggiStatus {
             return false;
         }
 
-        JanggiRunned that = (JanggiRunned) o;
+        GameRunned that = (GameRunned) o;
         return currentTurnDynasty == that.currentTurnDynasty && Objects.equals(janggiBoard, that.janggiBoard);
     }
 

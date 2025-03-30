@@ -5,7 +5,7 @@ import janggi.dao.PieceDao;
 import janggi.dao.entity.GameEntity;
 import janggi.dao.entity.PieceEntity;
 import janggi.dao.entity.Status;
-import janggi.domain.JanggiStatus;
+import janggi.domain.GameStatus;
 import janggi.domain.board.BoardSetUp;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Cannon;
@@ -47,26 +47,26 @@ public class JanggiService {
         pieceDao.addPieces(createPieceEntities(gameEntity, janggiBoard));
     }
 
-    public JanggiStatus findJanggiStatusByGameId(Long gameId) {
+    public GameStatus findJanggiStatusByGameId(Long gameId) {
         GameEntity gameEntity = findByIdOrThrow(gameId);
-        return JanggiStatus.of(gameEntity.getCurrentTurn(), findJanggiBoardByGameId(gameEntity.getId()));
+        return GameStatus.of(gameEntity.getCurrentTurn(), findJanggiBoardByGameId(gameEntity.getId()));
     }
 
-    public JanggiStatus move(Long gameId, Point from, Point to) {
+    public GameStatus move(Long gameId, Point from, Point to) {
         GameEntity gameEntity = findByIdOrThrow(gameId);
         JanggiBoard janggiBoard = findJanggiBoardByGameId(gameId);
 
-        JanggiStatus janggiStatus = JanggiStatus.of(gameEntity.getCurrentTurn(), janggiBoard).move(from, to);
+        GameStatus gameStatus = GameStatus.of(gameEntity.getCurrentTurn(), janggiBoard).move(from, to);
 
         pieceDao.deletePiece(gameId, to);
         pieceDao.updatePiece(gameId, from, to);
         pieceDao.deletePiece(gameId, from);
-        if (janggiStatus.isEndGame()) {
+        if (gameStatus.isEndGame()) {
             gameDao.updateStatus(gameId, Status.END);
-            return janggiStatus;
+            return gameStatus;
         }
-        gameDao.updateCurrentTurn(gameId, janggiStatus.currentTurn());
-        return janggiStatus;
+        gameDao.updateCurrentTurn(gameId, gameStatus.currentTurn());
+        return gameStatus;
     }
 
     public JanggiBoard findJanggiBoardByGameId(Long gameId) {

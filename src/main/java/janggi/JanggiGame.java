@@ -1,8 +1,8 @@
 package janggi;
 
 import janggi.dao.entity.GameEntity;
-import janggi.domain.JanggiEnded;
-import janggi.domain.JanggiStatus;
+import janggi.domain.GameEnded;
+import janggi.domain.GameStatus;
 import janggi.domain.piece.Dynasty;
 import janggi.domain.piece.Point;
 import janggi.service.JanggiService;
@@ -38,26 +38,26 @@ public class JanggiGame {
     }
 
     private void play(GameEntity gameEntity) {
-        JanggiStatus janggiStatus = janggiService.findJanggiStatusByGameId(gameEntity.getId());
+        GameStatus gameStatus = janggiService.findJanggiStatusByGameId(gameEntity.getId());
 
         janggiBoardView.printGameStartMessage();
-        janggiBoardView.printBoard(janggiStatus.janggiBoard());
+        janggiBoardView.printBoard(gameStatus.janggiBoard());
 
-        while (!janggiStatus.isEndGame()) {
+        while (!gameStatus.isEndGame()) {
             try {
-                Movement movement = janggiBoardView.readPlayerMove(janggiStatus.currentTurn());
+                Movement movement = janggiBoardView.readPlayerMove(gameStatus.currentTurn());
                 Point from = new Point(movement.startX(), movement.startY());
                 Point to = new Point(movement.endX(), movement.endY());
 
-                janggiStatus = janggiService.move(gameEntity.getId(), from, to);
+                gameStatus = janggiService.move(gameEntity.getId(), from, to);
 
-                janggiBoardView.printBoard(janggiStatus.janggiBoard());
-                janggiBoardView.printScore(janggiStatus.janggiBoard());
+                janggiBoardView.printBoard(gameStatus.janggiBoard());
+                janggiBoardView.printScore(gameStatus.janggiBoard());
             } catch (IllegalArgumentException e) {
                 System.out.println("[ERROR] " + e.getMessage());
             }
         }
 
-        janggiBoardView.printResult((JanggiEnded) janggiStatus);
+        janggiBoardView.printResult((GameEnded) gameStatus);
     }
 }
