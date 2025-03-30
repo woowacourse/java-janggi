@@ -5,6 +5,7 @@ import janggi.piece.Piece;
 import janggi.position.Position;
 import janggi.team.TeamType;
 import janggi.team.Turn;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,11 @@ public class JanggiGame {
     }
 
     public TeamType getWinningTeam() {
+        if (board.hasEachKing()) {
+            return Collections.max(getScoreEachTeam().entrySet(), Map.Entry.comparingByValue())
+                    .getKey();
+        }
+
         return board.findWinningTeam();
     }
 
