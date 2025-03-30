@@ -86,6 +86,15 @@ public class OutputView {
         System.out.println("왕이 죽었음으로 게임이 종료됩니다.");
     }
 
+    public void printScore(final double chuScore, final double hanScore) {
+        System.out.println("초나라 점수: " + chuScore);
+        System.out.println("한나라 점수: " + hanScore);
+    }
+
+    public void printWinner(final String currentTurnTeam) {
+        System.out.println(currentTurnTeam + "가 승리하였습니다.");
+    }
+
     public void printErrorMessage(final String message) {
         System.out.println(message);
     }

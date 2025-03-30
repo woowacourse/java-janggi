@@ -24,15 +24,15 @@ public enum Team {
     public abstract Team changeTeam();
 
     public static boolean isChu(final Team team) {
-        return CHU.equals(team);
+        return CHU == team;
     }
 
     public static boolean isHan(final Team team) {
-        return HAN.equals(team);
+        return HAN == team;
     }
 
     public boolean isSameTeam(final Team team) {
-        return this.equals(team);
+        return this == team;
     }
 
     public String getDescription() {

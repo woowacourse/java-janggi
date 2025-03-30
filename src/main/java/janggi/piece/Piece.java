@@ -19,21 +19,26 @@ public abstract class Piece {
     public abstract void moveTo(final Position currentPosition, final Position targetPosition,
                                 final Map<Position, Piece> janggiBoard, final Palace palace);
 
-    protected void checkObstacle(final Position currentPosition, final Position targetPosition,
-                                 final Map<Position, Piece> janggiBoard) {
-    }
-
     public abstract List<Position> makeRoute(final Position currentPosition, final Position targetPosition);
 
-    protected void validateTeam(final Piece other) {
-        if (isSameTeam(other)) {
-            throw new IllegalArgumentException("[ERROR] 같은 팀의 기물을 잡을 수 없습니다.");
-        }
+    public double sumScore(final double totalScore) {
+        final Score score = this.getPieceType().getScore();
+        return score.sum(totalScore);
+    }
+
+    protected void checkObstacle(final Position currentPosition, final Position targetPosition,
+                                 final Map<Position, Piece> janggiBoard) {
     }
 
     public void validateTeam(final Team currentTurnTeam) {
         if (isNotSameTeam(currentTurnTeam)) {
             throw new IllegalArgumentException("[ERROR] 다른 팀의 기물을 선택할 수 없습니다.");
+        }
+    }
+
+    protected void validateTeam(final Piece other) {
+        if (isSameTeam(other)) {
+            throw new IllegalArgumentException("[ERROR] 같은 팀의 기물을 잡을 수 없습니다.");
         }
     }
 
@@ -78,4 +83,5 @@ public abstract class Piece {
     public int hashCode() {
         return Objects.hash(pieceType, team);
     }
+
 }

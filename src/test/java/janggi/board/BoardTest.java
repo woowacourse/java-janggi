@@ -8,6 +8,7 @@ import janggi.piece.Piece;
 import janggi.piece.Team;
 import janggi.piece.multiplemovepiece.Chariot;
 import janggi.piece.onemovepiece.King;
+import janggi.piece.onemovepiece.Pawn;
 import janggi.piece.onemovepiece.Soldier;
 import janggi.position.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -115,5 +116,52 @@ class BoardTest {
 
         //then
         assertThat(gameState).isEqualTo(GameState.IN_PROGRESS);
+    }
+
+    @DisplayName("초나라 팀의 점수 합계를 계산할 수 있다.")
+    @Test
+    void calculateTotalScoreByChu() {
+        //given
+        final Board board = new BoardGenerator().generate();
+
+        //when
+        final double score = board.calculateTotalScore(Team.CHU);
+
+        //then
+        assertThat(score).isEqualTo(72);
+    }
+
+    @DisplayName("후공인 한나라는 점수 1.5를 추가로 받는다.")
+    @Test
+    void calculateTotalScoreByHan() {
+        //given
+        final Board board = new BoardGenerator().generate();
+
+        //when
+        final double score = board.calculateTotalScore(Team.HAN);
+
+        //then
+        assertThat(score).isEqualTo(73.5);
+    }
+
+    @DisplayName("기물이 잡히면 잡힌 기물의 점수를 뺀 합계를 계산한다.")
+    @Test
+    void calculateTotalScore() {
+        //given
+        final Board board = new Board();
+
+        board.deployPiece(new Position(3, 5), new Soldier());
+        board.deployPiece(new Position(4, 5), new Pawn());
+        board.deployPiece(new Position(5, 5), new Soldier());
+
+        board.pieceMove(new Position(3, 5), new Position(4, 5));
+
+        //when
+        final double hanScore = board.calculateTotalScore(Team.HAN);
+        final double chuScore = board.calculateTotalScore(Team.CHU);
+
+        //then
+        assertThat(hanScore).isEqualTo(5.5);
+        assertThat(chuScore).isEqualTo(0);
     }
 }

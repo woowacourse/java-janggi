@@ -27,6 +27,11 @@ public class JanggiGame {
         playJanggi(board);
     }
 
+    private Board setJanggiBoard() {
+        final BoardGenerator boardGenerator = new BoardGenerator();
+        return boardGenerator.generate();
+    }
+
     private void playJanggi(final Board board) {
         Team currentTurnTeam = FIRST_TURN_TEAM;
 
@@ -34,7 +39,7 @@ public class JanggiGame {
             playTurn(board, currentTurnTeam);
             currentTurnTeam = changeTurn(currentTurnTeam);
         }
-        outputView.printEndGame();
+        showGameResult(board, currentTurnTeam);
     }
 
     private boolean isEnd() {
@@ -44,6 +49,8 @@ public class JanggiGame {
     private void playTurn(final Board janggiBoard, final Team currentTurnTeam) {
         try {
             outputView.printJanggiBoard(janggiBoard.getJanggiBoard());
+            showScore(janggiBoard);
+
             final Position currentPosition = readCurrentPosition(currentTurnTeam.getDescription());
             janggiBoard.validateEmptyPieceBy(currentPosition);
             validateCurrentTeamBy(janggiBoard, currentPosition, currentTurnTeam);
@@ -58,6 +65,12 @@ public class JanggiGame {
         }
     }
 
+    private void showScore(final Board janggiBoard) {
+        final double chuScore = janggiBoard.calculateTotalScore(Team.CHU);
+        final double hanScore = janggiBoard.calculateTotalScore(Team.HAN);
+        outputView.printScore(chuScore, hanScore);
+    }
+
     private void validateCurrentTeamBy(final Board board, final Position currentPosition, final Team currentTurnTeam) {
         final Piece piece = board.getJanggiBoard().get(currentPosition);
         piece.validateTeam(currentTurnTeam);
@@ -67,9 +80,12 @@ public class JanggiGame {
         return currentTurnTeam.changeTeam();
     }
 
-    private Board setJanggiBoard() {
-        final BoardGenerator boardGenerator = new BoardGenerator();
-        return boardGenerator.generate();
+    private void showGameResult(final Board board, final Team currentTurnTeam) {
+        outputView.printJanggiBoard(board.getJanggiBoard());
+        outputView.printEndGame();
+        outputView.printWinner(currentTurnTeam.changeTeam().getDescription());
+        outputView.printScore(board.calculateTotalScore(Team.CHU),
+                board.calculateTotalScore(Team.HAN));
     }
 
     private Position readCurrentPosition(final String currentTurnTeam) {
