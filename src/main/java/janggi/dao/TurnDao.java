@@ -12,13 +12,12 @@ public class TurnDao {
     private final DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
     private final TeamDao teamDao = new TeamDao();
 
-    public void addTurn(Turn turn) {
+    public void addTurn(final Turn turn) {
         final String query = "INSERT INTO turn (team_id) VALUES (?)";
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            Team currentTeam = turn.getCurrentTurn();
-            int teamId = teamDao.findTeamIdByName(currentTeam);
+            final Team currentTeam = turn.getCurrentTurn();
+            final int teamId = teamDao.findTeamIdByName(currentTeam);
 
             preparedStatement.setInt(1, teamId);
             preparedStatement.executeUpdate();
@@ -32,29 +31,30 @@ public class TurnDao {
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    int teamId = resultSet.getInt("team_id");
-                    Team team = teamDao.findTeamById(teamId);
+                    final int teamId = resultSet.getInt("team_id");
+                    final Team team = teamDao.findTeamById(teamId);
                     return new Turn(team);
                 }
             }
-        } catch (SQLException e) {
+            throw new RuntimeException("턴 정보를 찾을 수 없습니다.");
+        } catch (final SQLException e) {
             throw new RuntimeException("턴 정보를 찾을 수 없습니다.");
         }
-        return null;
+
     }
 
-    public void updateTurn(Turn turn) {
+    public void updateTurn(final Turn turn) {
         final String query = "UPDATE turn SET team_id = ?";
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            Team currentTeam = turn.getCurrentTurn();
-            int teamId = teamDao.findTeamIdByName(currentTeam);
+            final Team currentTeam = turn.getCurrentTurn();
+            final int teamId = teamDao.findTeamIdByName(currentTeam);
 
             preparedStatement.setInt(1, teamId);
-            int rowsAffected = preparedStatement.executeUpdate();
+            final int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected == 0) {
                 addTurn(turn);
