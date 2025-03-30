@@ -6,8 +6,6 @@ import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
 import domain.type.JanggiTeam;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -15,27 +13,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JanggiBoardDao implements BoardDao {
-    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
+    private final DatabaseConnector databaseConnector;
 
-    public Connection getConnection() {
-        // 드라이버 연결
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
+    public JanggiBoardDao(DatabaseConnector databaseConnector) {
+        this.databaseConnector = databaseConnector;
     }
 
     @Override
     public void save(JanggiPosition position, JanggiChessPiece piece) {
         final String query = "INSERT INTO piece(position_row, position_col, type_id, team_id) VALUES(?, ?, ?, ?)";
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, position.getRow());
             preparedStatement.setInt(2, position.getCol());
@@ -49,7 +36,7 @@ public class JanggiBoardDao implements BoardDao {
 
     private int findPieceTypeId(Piece type) {
         final String query = "SELECT id FROM piece_type WHERE name = ?";
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, type.name);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -64,7 +51,7 @@ public class JanggiBoardDao implements BoardDao {
 
     private int findTeamId(JanggiTeam team) {
         final String query = "SELECT id FROM team WHERE name = ?";
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, team.name);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -80,7 +67,7 @@ public class JanggiBoardDao implements BoardDao {
     @Override
     public Map<JanggiPosition, JanggiChessPiece> findAll() {
         final var query = "SELECT * FROM piece";
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
             Map<JanggiPosition, JanggiChessPiece> result = new HashMap<>();
@@ -100,7 +87,7 @@ public class JanggiBoardDao implements BoardDao {
     @Override
     public JanggiChessPiece findByPosition(JanggiPosition position) {
         final var query = "SELECT * FROM piece WHERE position_row = ? AND position_col = ?";
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, position.getRow());
             preparedStatement.setInt(2, position.getCol());
@@ -125,7 +112,7 @@ public class JanggiBoardDao implements BoardDao {
 
     private Piece findPieceType(final int typeId) {
         final String query = "SELECT name FROM piece_type WHERE id = ?";
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, typeId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -148,7 +135,7 @@ public class JanggiBoardDao implements BoardDao {
 
     private JanggiTeam findTeam(final int teamId) {
         final String query = "SELECT name FROM team WHERE id = ?";
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, teamId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -172,7 +159,7 @@ public class JanggiBoardDao implements BoardDao {
     @Override
     public void delete(JanggiPosition position) {
         final var query = "DELETE FROM piece WHERE position_row=? AND position_col=?";
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, position.getRow());
             preparedStatement.setInt(2, position.getCol());
@@ -185,7 +172,7 @@ public class JanggiBoardDao implements BoardDao {
     @Override
     public void deleteAll() {
         final var query = "TRUNCATE piece";
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
@@ -196,7 +183,7 @@ public class JanggiBoardDao implements BoardDao {
     @Override
     public void updatePosition(JanggiPosition before, JanggiPosition after) {
         final var query = "UPDATE piece SET position_row=?, position_col=? WHERE position_row=? AND position_col=?";
-        try (final var connection = getConnection();
+        try (final var connection = databaseConnector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, after.getRow());
             preparedStatement.setInt(2, after.getCol());
