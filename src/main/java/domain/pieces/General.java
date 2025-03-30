@@ -1,19 +1,32 @@
 package domain.pieces;
 
-import static domain.pieces.PieceNames.GENERAL;
-
 import domain.Team;
-import domain.board.PieceOnRoute;
 import domain.board.BoardPoint;
-import execptions.JanggiArgumentException;
+import domain.board.PieceOnRoute;
+import domain.movements.DefaultMovement;
+import domain.movements.Direction;
+import domain.movements.PieceMovement;
+import domain.movements.Route;
+import static domain.pieces.PieceNames.GENERAL;
 import java.util.List;
 
 public final class General implements Piece {
 
     private final Team team;
+    private final PieceMovement movement;
 
     public General(final Team team) {
         this.team = team;
+        this.movement = new DefaultMovement(List.of(
+                new Route(List.of(Direction.NORTH)),
+                new Route(List.of(Direction.SOUTH)),
+                new Route(List.of(Direction.EAST)),
+                new Route(List.of(Direction.WEST)),
+                new Route(List.of(Direction.SOUTHEAST)),
+                new Route(List.of(Direction.SOUTHWEST)),
+                new Route(List.of(Direction.NORTHEAST)),
+                new Route(List.of(Direction.NORTHWEST))
+        ));
     }
 
     @Override
@@ -23,17 +36,20 @@ public final class General implements Piece {
 
     @Override
     public boolean isAbleToArrive(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
-        throw new JanggiArgumentException("장군은 이동할 수 없습니다.");
+        if (!arrivalBoardPoint.isInPalace()) {
+            return false;
+        }
+        return movement.calculateTotalArrivalPoints(startBoardPoint).contains(arrivalBoardPoint);
     }
 
     @Override
     public List<BoardPoint> getRoutePoints(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
-        throw new JanggiArgumentException("장군은 이동할 수 없습니다.");
+        return movement.calculateRoutePoints(startBoardPoint, arrivalBoardPoint);
     }
 
     @Override
     public boolean isMovable(final PieceOnRoute pieceOnRoute) {
-        throw new JanggiArgumentException("장군은 이동할 수 없습니다.");
+        return !pieceOnRoute.hasArrivalPointInMyTeam(team);
     }
 
     @Override
