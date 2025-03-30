@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import janggi.fixture.ChoPiecePositionFixture;
 import janggi.fixture.HanPiecePositionFixture;
 import janggi.game.JanggiBoard;
+import janggi.game.MovePieceCommand;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.setting.CampType;
@@ -78,8 +79,9 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
         Position targetPosition = ChoPiecePositionFixture.CHA_POSITIONS.getFirst();
         Position destination = targetPosition.calculateSum(new Position(0, -1));
+        MovePieceCommand moveCommand = new MovePieceCommand(CampType.CHO, targetPosition, destination);
 
-        janggiBoard.movePiece(CampType.CHO, targetPosition, destination);
+        janggiBoard.movePiece(moveCommand);
 
         List<Piece> choPieces = janggiBoard.getPieces(CampType.CHO);
         assertThat(choPieces)
@@ -93,8 +95,9 @@ public class JanggiBoardTest {
     void canNotMoveWithInvalidTargetPosition() {
         JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
         Position targetPosition = new Position(4, 4);
+        MovePieceCommand moveCommand = new MovePieceCommand(CampType.CHO, targetPosition, new Position(5, 4));
 
-        assertThatThrownBy(() -> janggiBoard.movePiece(CampType.CHO, targetPosition, new Position(5, 4)))
+        assertThatThrownBy(() -> janggiBoard.movePiece(moveCommand))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다.");
     }
@@ -105,8 +108,9 @@ public class JanggiBoardTest {
         JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
         Position targetPosition = ChoPiecePositionFixture.CHA_POSITIONS.getFirst();
         Position destination = new Position(4, 4);
+        MovePieceCommand moveCommand = new MovePieceCommand(CampType.CHO, targetPosition, destination);
 
-        assertThatThrownBy(() -> janggiBoard.movePiece(CampType.CHO, targetPosition, destination))
+        assertThatThrownBy(() -> janggiBoard.movePiece(moveCommand))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
     }
@@ -115,8 +119,8 @@ public class JanggiBoardTest {
     @DisplayName("상대방의 말을 잡을 수 있다.")
     void canKillEnemy() {
         JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
-        janggiBoard.movePiece(CampType.CHO, new Position(0, 6), new Position(1, 6));
-        janggiBoard.movePiece(CampType.CHO, new Position(0, 9), new Position(0, 3));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(0, 6), new Position(1, 6)));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(0, 9), new Position(0, 3)));
 
         List<Piece> killedPiecesInCho = janggiBoard.getKilledPieces(CampType.CHO);
         List<Piece> piecesInHan = janggiBoard.getPieces(CampType.HAN);
@@ -132,8 +136,8 @@ public class JanggiBoardTest {
     @DisplayName("현재 진영의 점수를 계산할 수 있다.")
     void canCalculateScore() {
         JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
-        janggiBoard.movePiece(CampType.CHO, new Position(0, 6), new Position(1, 6));
-        janggiBoard.movePiece(CampType.CHO, new Position(0, 9), new Position(0, 3));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(0, 6), new Position(1, 6)));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(0, 9), new Position(0, 3)));
 
         assertAll(
                 () -> assertThat(janggiBoard.getScore(CampType.CHO)).isEqualTo(2),
@@ -145,10 +149,10 @@ public class JanggiBoardTest {
     @DisplayName("궁이 잡혀 게임이 끝났는지 확인할 수 있다.")
     void checkGameEndByGung() {
         JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
-        janggiBoard.movePiece(CampType.CHO, new Position(0, 9), new Position(0, 8));
-        janggiBoard.movePiece(CampType.CHO, new Position(0, 8), new Position(3, 8));
-        janggiBoard.movePiece(CampType.CHO, new Position(3, 8), new Position(3, 1));
-        janggiBoard.movePiece(CampType.CHO, new Position(3, 1), new Position(4, 1));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(0, 9), new Position(0, 8)));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(0, 8), new Position(3, 8)));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(3, 8), new Position(3, 1)));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(3, 1), new Position(4, 1)));
 
         assertThat(janggiBoard.isGameEnd()).isTrue();
     }
@@ -157,10 +161,10 @@ public class JanggiBoardTest {
     @DisplayName("궁이 잡힌 경우 승패를 계산할 수 있다.")
     void checkWinningByGung() {
         JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
-        janggiBoard.movePiece(CampType.CHO, new Position(0, 9), new Position(0, 8));
-        janggiBoard.movePiece(CampType.CHO, new Position(0, 8), new Position(3, 8));
-        janggiBoard.movePiece(CampType.CHO, new Position(3, 8), new Position(3, 1));
-        janggiBoard.movePiece(CampType.CHO, new Position(3, 1), new Position(4, 1));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(0, 9), new Position(0, 8)));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(0, 8), new Position(3, 8)));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(3, 8), new Position(3, 1)));
+        janggiBoard.movePiece(new MovePieceCommand(CampType.CHO, new Position(3, 1), new Position(4, 1)));
 
         assertThat(janggiBoard.whoWin()).isEqualTo(CampType.CHO);
     }

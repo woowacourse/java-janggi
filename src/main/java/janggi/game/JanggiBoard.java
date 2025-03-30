@@ -5,7 +5,6 @@ import janggi.piece.Pieces;
 import janggi.setting.CampType;
 import janggi.setting.PieceAssignType;
 import janggi.setting.PieceAssigner;
-import janggi.value.Position;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -24,12 +23,12 @@ public class JanggiBoard {
         piecesInCamp.add(new Pieces(CampType.HAN, hanInitialPieces));
     }
 
-    public void movePiece(CampType campType, Position targetPiecePosition, Position destination) {
-        Pieces alliesPieces = findPieces(campType);
-        Pieces enemyPieces = findPieces(campType.getEnemyCampType());
-        alliesPieces.movePiece(enemyPieces.getPieces(), targetPiecePosition, destination);
-        alliesPieces.killEnemyPiece(enemyPieces.getPieces(), destination);
-        enemyPieces.removeDyingPiece(destination);
+    public void movePiece(MovePieceCommand command) {
+        Pieces alliesPieces = findPieces(command.getCampType());
+        Pieces enemyPieces = findPieces(command.getCampType().getEnemyCampType());
+        alliesPieces.movePiece(enemyPieces.getPieces(), command.getTargetPiecePosition(), command.getDestination());
+        alliesPieces.killEnemyPiece(enemyPieces.getPieces(), command.getDestination());
+        enemyPieces.removeDyingPiece(command.getDestination());
     }
 
     public boolean isGameEnd() {

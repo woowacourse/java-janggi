@@ -10,6 +10,26 @@ public class InputView {
 
     private final static Scanner scanner = new Scanner(System.in);
 
+    public GameMenuAnswer readGameMenuAnswer() {
+        System.out.println("재밌는 장기를 해봐요!");
+        System.out.println("1. 새로 하기");
+        System.out.println("2. 이어서 하기");
+        System.out.println("q. 종료하기");
+
+        GameMenuAnswer gameMenuAnswer = GameMenuAnswer.parse(scanner.nextLine());
+        System.out.println();
+        return gameMenuAnswer;
+    }
+
+    public String readNewGameTitle() {
+        System.out.println("생성할 게임의 이름을 입력해주세요.(50자 이내)");
+        String title = scanner.nextLine();
+        if (title.length() >= 50) {
+            throw new IllegalArgumentException("[ERROR] 게임제목이 너무 깁니다. 50자 이내로 작성해주세요!");
+        }
+        return title;
+    }
+
     public PieceAssignType readPieceAssignType(CampType campType) {
         System.out.printf("%s의 초기 배치를 선택해주세요.", campType.getName());
         System.out.println();

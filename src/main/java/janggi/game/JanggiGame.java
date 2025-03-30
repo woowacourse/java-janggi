@@ -1,8 +1,10 @@
 package janggi.game;
 
+import janggi.dao.GameDao;
 import janggi.setting.CampType;
 import janggi.setting.PieceAssignType;
 import janggi.value.Position;
+import janggi.view.GameMenuAnswer;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.TurnMenuAnswer;
@@ -11,15 +13,39 @@ public class JanggiGame {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final GameDao gameDao;
+    private GameInformation gameInformation;
 
-    public JanggiGame(final InputView inputView, final OutputView outputView) {
+    public JanggiGame(InputView inputView, OutputView outputView, GameDao gameDao) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameDao = gameDao;
     }
 
     public void start() {
-        JanggiBoard janggiBoard = prepareGame();
+        GameMenuAnswer gameMenuAnswer = readGameMenuAnswer();
+        if (gameMenuAnswer == GameMenuAnswer.ONE) {
+            JanggiBoard janggiBoard = prepareNewGame();
+            playGame(janggiBoard);
+        }
+        if (gameMenuAnswer == GameMenuAnswer.TWO) {
 
+        }
+    }
+
+    private JanggiBoard prepareNewGame() {
+        String gameTitle = readNewGameTitle();
+        outputView.writeStartMessage();
+        PieceAssignType choAnswer = readPieceAssignType(CampType.CHO);
+        PieceAssignType hanAnswer = readPieceAssignType(CampType.HAN);
+        JanggiBoard janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
+        printJanggiBoardState(janggiBoard);
+        int gameId = gameDao.addNewGame(gameTitle, choAnswer, hanAnswer);
+        gameInformation = new GameInformation(gameId, gameTitle);
+        return janggiBoard;
+    }
+
+    private void playGame(JanggiBoard janggiBoard) {
         CampType campTypeInturn = CampType.HAN;
         while (true) {
             campTypeInturn = campTypeInturn.getEnemyCampType();
@@ -40,24 +66,35 @@ public class JanggiGame {
         printGameResult(janggiBoard);
     }
 
-    private JanggiBoard prepareGame() {
-        outputView.writeStartMessage();
-        PieceAssignType choAnswer = readPieceAssignType(CampType.CHO);
-        PieceAssignType hanAnswer = readPieceAssignType(CampType.HAN);
-        JanggiBoard janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
-        printJanggiBoardState(janggiBoard);
-        return janggiBoard;
-    }
-
     private void movePiece(JanggiBoard janggiBoard, CampType campType) {
         while (true) {
             try {
                 outputView.writeTurn(campType);
-                Position movedPiecePosition = inputView.readMovedPiecePosition();
-                Position destination = inputView.readDestinationPosition();
-                janggiBoard.movePiece(campType, movedPiecePosition, destination);
+                MovePieceCommand movePieceCommand = readMoveInformation(campType);
+                janggiBoard.movePiece(movePieceCommand);
+                gameDao.addMovePieceCommand(gameInformation.gameId(), movePieceCommand);
                 printJanggiBoardState(janggiBoard);
                 return;
+            } catch (IllegalArgumentException exception) {
+                outputView.printExceptionMessage(exception.getMessage());
+            }
+        }
+    }
+
+    private GameMenuAnswer readGameMenuAnswer() {
+        while (true) {
+            try {
+                return inputView.readGameMenuAnswer();
+            } catch (IllegalArgumentException exception) {
+                outputView.printExceptionMessage(exception.getMessage());
+            }
+        }
+    }
+
+    private String readNewGameTitle() {
+        while (true) {
+            try {
+                return inputView.readNewGameTitle();
             } catch (IllegalArgumentException exception) {
                 outputView.printExceptionMessage(exception.getMessage());
             }
@@ -82,6 +119,12 @@ public class JanggiGame {
                 outputView.printExceptionMessage(exception.getMessage());
             }
         }
+    }
+
+    private MovePieceCommand readMoveInformation(CampType campType) {
+        Position movedPiecePosition = inputView.readMovedPiecePosition();
+        Position destination = inputView.readDestinationPosition();
+        return new MovePieceCommand(campType, movedPiecePosition, destination);
     }
 
     private void printJanggiBoardState(JanggiBoard board) {
