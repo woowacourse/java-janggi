@@ -62,7 +62,7 @@ public record Board(
         if (count != 1) {
             throw new IllegalArgumentException("[ERROR] 포는 중간에 기물이 1개여야 합니다.");
         }
-        if (getOppositePieces(player).isCannonByPosition(targetPosition)) {
+        if (board.get(getOppositePlayer(player)).isCannonByPosition(targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 포는 상대 포를 잡을 수 없습니다.");
         }
         if (path.stream().anyMatch(this::existsCannon)) {
@@ -87,20 +87,19 @@ public record Board(
     }
 
     private void catchOppositePieceIfExistsTargetPosition(final Player player, final Position targetPosition) {
-        Pieces oppositePieces = getOppositePieces(player);
+        Player oppositePlayer = getOppositePlayer(player);
+        Pieces oppositePieces = board.get(oppositePlayer);
         if (oppositePieces.existByPosition(targetPosition)) {
-            oppositePieces.deleteByPosition(targetPosition);
+            oppositePieces.deleteByPosition(targetPosition, oppositePlayer.team());
         }
     }
 
-    private Pieces getOppositePieces(final Player player) {
-        Player oppositePlayer = board.keySet()
+    private Player getOppositePlayer(final Player player) {
+        return board.keySet()
                 .stream()
                 .filter(opposite -> !opposite.equals(player))
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
-
-        return board.get(oppositePlayer);
     }
 
     public void calculateScores() {

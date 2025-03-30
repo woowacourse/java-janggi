@@ -88,6 +88,20 @@ public class PieceDao {
         }
     }
 
+    public void delete(final Piece piece, final Team team) {
+        final var query = "DELETE FROM piece WHERE `row` = ? AND `column` = ? AND piece_type = ? AND team = ?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, piece.getPosition().getRow());
+            preparedStatement.setInt(2, piece.getPosition().getColumn());
+            preparedStatement.setString(3, piece.getType().name());
+            preparedStatement.setString(4, team.name());
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Piece getPiece(final Position position, final PieceType type, final Team team) {
         if (type == PieceType.CANNON) {
             return new Cannon(position, PieceDirections.CANNON.get());

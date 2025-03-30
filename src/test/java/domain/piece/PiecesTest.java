@@ -11,6 +11,7 @@ import domain.piece.category.General;
 import domain.piece.category.Guard;
 import domain.piece.category.Horse;
 import domain.piece.category.Soldier;
+import domain.player.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -110,7 +111,7 @@ class PiecesTest {
         Pieces pieces = new Pieces(pieceElements);
 
         // when
-        pieces.deleteByPosition(position);
+        pieces.deleteByPosition(position, Team.HAN);
 
         // then
         assertThat(pieceElements).doesNotContain(piece);

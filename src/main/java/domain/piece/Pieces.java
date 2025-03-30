@@ -1,6 +1,7 @@
 package domain.piece;
 
 import dao.PieceDao;
+import domain.player.Team;
 import java.util.List;
 
 public record Pieces(List<Piece> pieces) {
@@ -31,10 +32,12 @@ public record Pieces(List<Piece> pieces) {
                 .anyMatch(piece -> piece.isSamePosition(position));
     }
 
-    public int deleteByPosition(final Position position) {
+    public void deleteByPosition(final Position position, final Team team) {
+        PieceDao pieceDao = new PieceDao();
         Piece catchedPiece = findByPosition(position);
         pieces.remove(catchedPiece);
-        return catchedPiece.getScore();
+
+        pieceDao.delete(catchedPiece, team);
     }
 
     public boolean existGeneral() {
