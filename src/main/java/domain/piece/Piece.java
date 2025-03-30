@@ -22,6 +22,8 @@ public class Piece {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이 위치로 이동할 수 없습니다."));
 
+        type.applyRule(possibleMoves, src, dest);
+
         return possibleMoves.convertToPath(src);
     }
 

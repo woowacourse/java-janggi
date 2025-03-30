@@ -21,7 +21,6 @@ public class PalaceMoveStrategy implements MoveStrategy {
 
     @Override
     public List<Moves> findPossibleMoves(Position src, Position dest, Team team) {
-        return movesOptions.stream()
-                .filter(moves -> moves.isPossibleInPalace(src)).toList();
+        return movesOptions.stream().filter(moves -> moves.isPossibleInPalace(src)).toList();
     }
 }
