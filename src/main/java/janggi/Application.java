@@ -1,10 +1,8 @@
 package janggi;
 
-import janggi.database.DBConnector;
 import janggi.manager.JanggiGame;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import java.sql.Connection;
 
 public class Application {
 

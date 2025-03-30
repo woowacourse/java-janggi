@@ -5,6 +5,8 @@ import janggi.board.dao.JanggiBoardDAO;
 import janggi.board.dao.TeamDAO;
 import janggi.board.dao.TurnDAO;
 import janggi.database.DBConnector;
+import janggi.database.DBInitializer;
+import janggi.database.MySQLDBConnector;
 import janggi.piece.Piece;
 import janggi.setting.AssignType;
 import janggi.setting.CampType;
@@ -24,18 +26,19 @@ public class JanggiGame {
     }
 
     public void start() {
-        final DBConnector dbConnector = new DBConnector();
-        dbConnector.createTable();
+        final DBConnector connector = new MySQLDBConnector();
+        final DBInitializer dbInitializer = new DBInitializer(connector);
+        dbInitializer.createTables();
 
-        final TeamDAO teamDAO = new TeamDAO(dbConnector);
+        final TeamDAO teamDAO = new TeamDAO(connector);
         teamDAO.insertTeam();
 
-        TurnDAO turnDAO = new TurnDAO(dbConnector);
+        TurnDAO turnDAO = new TurnDAO(connector);
         CampType currentCampType;
 
         outputView.writeStartMessage();
 
-        JanggiBoardDAO janggiBoardDAO = new JanggiBoardDAO(dbConnector);
+        JanggiBoardDAO janggiBoardDAO = new JanggiBoardDAO(connector);
 
         final JanggiBoard janggiBoard = generateJanggiBoard(janggiBoardDAO, turnDAO);
         currentCampType = turnDAO.selectQuery();

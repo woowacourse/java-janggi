@@ -2,6 +2,7 @@ package janggi.board.dao;
 
 import janggi.board.JanggiBoard;
 import janggi.database.DBConnector;
+import janggi.database.MySQLDBConnector;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
@@ -28,14 +29,14 @@ public class JanggiBoardDAO {
     private static final String DELETE_QUERY = "DELETE FROM pieces WHERE x = ? AND y = ? AND team_id = ?";
     private static final String SELECT_QUERY = "SELECT piece_type, x, y FROM pieces WHERE team_id = ?";
 
-    private final DBConnector dbConnector;
+    private final DBConnector connector;
 
-    public JanggiBoardDAO(DBConnector dbConnector) {
-        this.dbConnector = dbConnector;
+    public JanggiBoardDAO(DBConnector connector) {
+        this.connector = connector;
     }
 
     public void insertPieces(final JanggiBoard janggiBoard) {
-        try (final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(INSERT_PIECES)) {
+        try (final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(INSERT_PIECES)) {
             List<Piece> choPieces = janggiBoard.getChoPieces();
             for (Piece piece : choPieces) {
                 preparedStatement.setInt(1, 1);
@@ -62,7 +63,7 @@ public class JanggiBoardDAO {
     }
 
     public void dropTables() {
-        try (final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(DROP_PIECES_TABLE)) {
+        try (final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(DROP_PIECES_TABLE)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new IllegalArgumentException("[ERROR] Pieces 테이블 삭제 중 에러 발생했습니다.");
@@ -70,7 +71,7 @@ public class JanggiBoardDAO {
     }
 
     public void updateRecords(JanggiPosition current, JanggiPosition destination, int teamId) {
-        try (final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(UPDATE_QUERY)) {
+        try (final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(UPDATE_QUERY)) {
             preparedStatement.setInt(1, destination.x());
             preparedStatement.setInt(2, destination.y());
             preparedStatement.setInt(3, teamId);
@@ -84,7 +85,7 @@ public class JanggiBoardDAO {
     }
 
     public void deleteRecords(JanggiPosition destination, int teamId) {
-        try (final PreparedStatement deleteStmt = dbConnector.getConnection().prepareStatement(DELETE_QUERY)) {
+        try (final PreparedStatement deleteStmt = connector.getConnection().prepareStatement(DELETE_QUERY)) {
             deleteStmt.setInt(1, destination.x());
             deleteStmt.setInt(2, destination.y());
             deleteStmt.setInt(3, teamId);
@@ -97,7 +98,7 @@ public class JanggiBoardDAO {
     private List<Piece> selectRecords(int teamId) {
         List<Piece> pieces = new ArrayList<>();
 
-        try (final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(SELECT_QUERY)) {
+        try (final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(SELECT_QUERY)) {
             preparedStatement.setInt(1, teamId);
 
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {

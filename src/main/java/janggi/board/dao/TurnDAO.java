@@ -12,14 +12,14 @@ public class TurnDAO {
     private static final String UPDATE_QUERY = "UPDATE turn SET current_turn = ?";
     private static final String DROP_QUERY = "DROP TABLE IF EXISTS turn";
 
-    private final DBConnector dbConnector;
+    private final DBConnector connector;
 
-    public TurnDAO(final DBConnector dbConnector) {
-        this.dbConnector = dbConnector;
+    public TurnDAO(final DBConnector connector) {
+        this.connector = connector;
     }
 
     public void insertQuery(final CampType campType) {
-        try(final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(INSERT_QUERY)) {
+        try(final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(INSERT_QUERY)) {
             String turnName = campType.getName();
             preparedStatement.setString(1, turnName);
 
@@ -30,7 +30,7 @@ public class TurnDAO {
     }
 
     public void updateQuery(final CampType campType) {
-        try(final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(UPDATE_QUERY)) {
+        try(final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(UPDATE_QUERY)) {
             String turnName = campType.getName();
             preparedStatement.setString(1, turnName);
 
@@ -41,7 +41,7 @@ public class TurnDAO {
     }
 
     public CampType selectQuery() {
-        try(final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(SELECT_QUERY)) {
+        try(final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(SELECT_QUERY)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
                 throw new IllegalStateException("[ERROR] turn 테이블에 데이터가 없습니다.");
@@ -53,7 +53,7 @@ public class TurnDAO {
     }
 
     public void dropTurnTable() {
-        try(final PreparedStatement preparedStatement = dbConnector.getConnection().prepareStatement(DROP_QUERY)) {
+        try(final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(DROP_QUERY)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new IllegalArgumentException("[ERROR] turn 테이블 삭제 중 에러가 발생했습니다.");
