@@ -20,13 +20,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class JanggiGameTest {
+public class JanggiGamesTest {
 
     private Players players;
 
     @BeforeEach
     void setUp() {
-        players = new Players(List.of(new Player("플레이어1", Team.BLUE), new Player("플레이어2", Team.RED)));
+        players = new Players(List.of(new Player(1, "플레이어1", Team.BLUE), new Player(2, "플레이어2", Team.RED)));
     }
 
     @DisplayName("장가판을 가져온다")
