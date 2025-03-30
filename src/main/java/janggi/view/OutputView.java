@@ -18,13 +18,21 @@ public class OutputView {
         System.out.println();
     }
 
-    public void writeJanggiBoard(final List<Piece> choPieces, final List<Piece> hanPieces) {
+    public void writeScore(double choScore, double hanScore) {
+        System.out.println("--------------------");
+        String choScoreContent = String.format("초의 점수 : %f점", choScore);
+        String hanScoreContent = String.format("한의 점수 : %f점", hanScore);
+        System.out.println(choScoreContent);
+        System.out.println(hanScoreContent);
+        System.out.println("--------------------");
+    }
+
+    public void writeJanggiBoard(List<Piece> choPieces, List<Piece> hanPieces) {
         writeBoardYHeader();
 
         List<Piece> allPieces = new ArrayList<>();
         allPieces.addAll(choPieces);
         allPieces.addAll(hanPieces);
-
         for (int y = 0; y < 10; y++) {
             int yPosition = y;
             List<Piece> pieces = allPieces.stream()
@@ -32,8 +40,7 @@ public class OutputView {
                     .toList();
             writeOneLineInBoard(y, pieces);
         }
-
-        System.out.println();
+        System.out.println("--------------------");
     }
 
     public void writeTurn(CampType campType) {

@@ -31,6 +31,7 @@ public class JanggiGame {
         PieceAssignType choAnswer = readPieceAssignType(CampType.CHO);
         PieceAssignType hanAnswer = readPieceAssignType(CampType.HAN);
         JanggiBoard janggiBoard = new JanggiBoard(choAnswer, hanAnswer);
+        outputView.writeScore(janggiBoard.getScore(CampType.CHO), janggiBoard.getScore(CampType.HAN));
         outputView.writeJanggiBoard(janggiBoard.getPieces(CampType.CHO), janggiBoard.getPieces(CampType.HAN));
         return janggiBoard;
     }
@@ -42,6 +43,7 @@ public class JanggiGame {
                 Position movedPiecePosition = inputView.readMovedPiecePosition();
                 Position destination = inputView.readDestinationPosition();
                 janggiBoard.movePiece(campType, movedPiecePosition, destination);
+                outputView.writeScore(janggiBoard.getScore(CampType.CHO), janggiBoard.getScore(CampType.HAN));
                 outputView.writeJanggiBoard(janggiBoard.getPieces(CampType.CHO), janggiBoard.getPieces(CampType.HAN));
                 return;
             } catch (IllegalArgumentException exception) {
