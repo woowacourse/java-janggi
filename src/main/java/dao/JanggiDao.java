@@ -32,7 +32,7 @@ public final class JanggiDao {
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
 
     public Connection getConnection() {
-        // 드라이버 연결
+
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
@@ -56,7 +56,6 @@ public final class JanggiDao {
                 if (generatedKeys.next()) {
                     int gameStateId = generatedKeys.getInt(1);
 
-                    // 2. pieces 테이블에 데이터 삽입
                     for (int i = 0; i < janggiBoard.size(); i++) {
                         for (int j = 0; j < 9; j++) {
                             if (janggiBoard.get(i).get(j).isPlaced()) {
