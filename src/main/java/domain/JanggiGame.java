@@ -11,6 +11,7 @@ import domain.pieces.Guard;
 import domain.pieces.Horse;
 import domain.pieces.Piece;
 import domain.pieces.Soldier;
+import execptions.JanggiArgumentException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,15 +34,18 @@ public final class JanggiGame {
         Player currentPlayer = players.stream()
                 .filter(Player::isTurn)
                 .findFirst()
-                .orElseThrow();
+                .orElseThrow(() -> new JanggiArgumentException("턴을 가진 플레이어가 존재하지 않습니다."));
+
         board.movePiece(startBoardPoint, arrivalBoardPoint, currentPlayer.getTeam());
         players.forEach(Player::switchTurn);
     }
 
     private Board generateBoard() {
         final Map<BoardPoint, Piece> locations = new HashMap<>();
+
         locations.putAll(generateLocationsForHan());
         locations.putAll(generateLocationsForCho());
+
         return new Board(locations);
     }
 
