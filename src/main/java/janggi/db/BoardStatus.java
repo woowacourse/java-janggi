@@ -12,18 +12,19 @@ import java.util.List;
 
 public final class BoardStatus {
 
-    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
+    private static final String SERVER = "localhost:13306";
+    private static final String DATABASE = "janggi";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "pazz4321"; // MySQL 서버 비밀번호
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "pazz4321";
+
+    private static final String INVALID_DB_CONNECTION = "[DB 연결 오류] ";
 
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
+            System.out.println(INVALID_DB_CONNECTION + e.getMessage());
             return null;
         }
     }
@@ -40,6 +41,7 @@ public final class BoardStatus {
                       PRIMARY KEY (piece_id, position_x, position_y)
                   );
                 """;
+
         try (final var conn = getConnection();
              PreparedStatement psmt = conn.prepareStatement(sql)) {
             psmt.executeUpdate();
@@ -50,6 +52,7 @@ public final class BoardStatus {
 
     public boolean isBoardStatusEmpty() {
         String sql = "SELECT COUNT(*) FROM board_status";
+
         try (final var conn = getConnection();
              PreparedStatement psmt = conn.prepareStatement(sql);
              ResultSet rs = psmt.executeQuery()) {
@@ -84,8 +87,8 @@ public final class BoardStatus {
 
     public List<Piece> loadBoardStatus() {
         String sql = "SELECT piece_name, team_name, piece_status, position_x, position_y FROM board_status";
-        List<Piece> pieces = new ArrayList<>();
 
+        List<Piece> pieces = new ArrayList<>();
         try (final var conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
