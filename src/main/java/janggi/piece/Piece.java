@@ -27,7 +27,7 @@ public abstract class Piece {
     protected List<Route> computeStraightRoutes(final Position position, int distance) {
         List<Route> candidateRoutes = new ArrayList<>();
         for (Direction direction : position.getCandidateDirections()) {
-            computeStraightLimitRoute(position, direction, distance);
+            candidateRoutes.add(computeStraightLimitRoute(position, direction, distance));
         }
         return candidateRoutes;
     }

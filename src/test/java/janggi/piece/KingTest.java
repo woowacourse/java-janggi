@@ -21,8 +21,8 @@ class KingTest {
         List<Route> candidatePositions = king.computeCandidateRoutes(currentPosition);
 
         assertAll(
-                () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getLast().getDestination()).isEqualTo(new Position(4, 9))
+                () -> assertThat(candidatePositions).hasSize(8),
+                () -> assertThat(candidatePositions.getLast().getDestination()).isEqualTo(new Position(5, 9))
         );
     }
 

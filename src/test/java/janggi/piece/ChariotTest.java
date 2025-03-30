@@ -21,7 +21,7 @@ class ChariotTest {
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getFirst().getDestination()).isEqualTo(new Position(12, 9))
+                () -> assertThat(candidatePositions.getFirst().getDestination()).isEqualTo(new Position(-8, 9))
         );
     }
 

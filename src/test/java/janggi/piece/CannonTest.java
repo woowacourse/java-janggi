@@ -21,7 +21,7 @@ class CannonTest {
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getFirst().getDestination()).isEqualTo(new Position(11, 7))
+                () -> assertThat(candidatePositions.getFirst().getDestination()).isEqualTo(new Position(-9, 7))
         );
     }
 

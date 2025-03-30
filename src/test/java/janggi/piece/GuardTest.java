@@ -21,8 +21,8 @@ class GuardTest {
         List<Route> candidatePositions = guard.computeCandidateRoutes(currentPosition);
 
         assertAll(
-                () -> assertThat(candidatePositions).hasSize(4),
-                () -> assertThat(candidatePositions.getLast().getDestination()).isEqualTo(new Position(3, 10))
+                () -> assertThat(candidatePositions).hasSize(5),
+                () -> assertThat(candidatePositions.getLast().getDestination()).isEqualTo(new Position(4, 8))
         );
     }
 
