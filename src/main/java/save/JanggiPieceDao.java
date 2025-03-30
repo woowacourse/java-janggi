@@ -16,33 +16,6 @@ public class JanggiPieceDao {
 
     public JanggiPieceDao(DatabaseConnection mySQConnection) {
         this.connection = mySQConnection;
-        initiateTable();
-    }
-
-    private void initiateTable() {
-        String createTableQuery = """
-                    CREATE TABLE IF NOT EXISTS piece (
-                        id INT NOT NULL AUTO_INCREMENT,
-                        janggi_turn_fk INT NOT NULL,
-                        `row` INT NOT NULL,
-                        `column` INT NOT NULL,
-                        type VARCHAR(30) NOT NULL,
-                        team VARCHAR(30) NOT NULL,
-                        PRIMARY KEY (id),
-                        KEY piece_janggi_turn_fk (janggi_turn_fk),
-                        CONSTRAINT piece_janggi_turn_fk FOREIGN KEY (janggi_turn_fk) 
-                            REFERENCES janggi_turn(id) 
-                            ON DELETE CASCADE 
-                            ON UPDATE CASCADE
-                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-                """;
-
-        try (final var connection = this.connection.getConnection();
-             final var statement = connection.createStatement()) {
-            statement.executeUpdate(createTableQuery);
-        } catch (SQLException e) {
-            throw new RuntimeException(CANNOT_CREATE_TABLE, e);
-        }
     }
 
     public void savePiece(Piece piece, int turn) {
@@ -68,7 +41,7 @@ public class JanggiPieceDao {
 
     public Pieces findPiecesByTeamTurn(int turnId) {
         List<Piece> resultPieces = new ArrayList<>();
-        final var query = "SELECT * FROM piece WHERE janggi_turn_fk = ?";
+        final var query = "SELECT `row`,`column`,type,team FROM piece WHERE janggi_turn_fk = ?";
         try (final var connection = this.connection.getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, turnId);

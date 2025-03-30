@@ -1,7 +1,5 @@
 package save;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
 import piece.player.Team;
@@ -14,26 +12,6 @@ public class JanggiTurnDao {
 
     public JanggiTurnDao(DatabaseConnection mySQConnection) {
         this.connection = mySQConnection;
-        initiateTable();
-    }
-
-    private void initiateTable() {
-        final String createTableQuery = """
-                    CREATE TABLE IF NOT EXISTS janggi_turn (
-                        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                        team VARCHAR(30) NOT NULL,
-                        turn INT NOT NULL UNIQUE,
-                        score INT NOT NULL
-                    );
-                """;
-
-        try (Connection conn = this.connection.getConnection();
-             PreparedStatement preparedStatement = conn.prepareStatement(createTableQuery)) {
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new SaveFailException(e);
-        }
     }
 
     public void addTurnScore(Team team, int turn, int score) {
