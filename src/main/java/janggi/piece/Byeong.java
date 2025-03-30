@@ -45,7 +45,7 @@ public class Byeong extends Piece {
 
     private boolean isDistanceOutOfRange(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-        return distance.notMatches(1);
+        return distance.notMatches(PointDistance.oneCardinal());
     }
 
     private boolean movesDown(Direction direction) {

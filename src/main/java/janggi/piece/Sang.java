@@ -12,6 +12,8 @@ import java.util.List;
 
 public class Sang extends Piece {
 
+    private static final int DIAGONAL_REPEAT_COUNT = 2;
+
     public Sang(Team team, Point point) {
         super(team, point, PieceInformation.SANG);
     }
@@ -36,7 +38,7 @@ public class Sang extends Piece {
             return false;
         }
         List<Direction> directions = Direction.toInitialCardinalThenDiagonalFrom(
-                point, targetPoint, 2
+                point, targetPoint, DIAGONAL_REPEAT_COUNT
         );
         if (isRouteCrashesHurdle(hurdles, directions)) {
             return false;
@@ -46,7 +48,7 @@ public class Sang extends Piece {
 
     private boolean isDistanceOutOfRange(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-        return distance.notMatches(Math.sqrt(13));
+        return distance.notMatches(PointDistance.oneDiagonalAndTwoCardinal());
     }
 
     private boolean isRouteCrashesHurdle(Hurdles hurdles, List<Direction> directions) {

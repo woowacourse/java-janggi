@@ -12,6 +12,8 @@ import java.util.List;
 
 public class Ma extends Piece {
 
+    private static final int DIAGONAL_REPEAT_COUNT = 1;
+
     public Ma(Team team, Point point) {
         super(team, point, PieceInformation.MA);
     }
@@ -36,7 +38,7 @@ public class Ma extends Piece {
             return false;
         }
         List<Direction> directions = Direction.toInitialCardinalThenDiagonalFrom(
-                point, targetPoint, 1
+                point, targetPoint, DIAGONAL_REPEAT_COUNT
         );
         if (isRouteCrashesHurdle(hurdles, directions)) {
             return false;
@@ -46,7 +48,7 @@ public class Ma extends Piece {
 
     private boolean isDistanceOverflow(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-        return distance.notMatches(Math.sqrt(5));
+        return distance.notMatches(PointDistance.oneDiagonalAndOneCardinal());
     }
 
     private boolean isRouteCrashesHurdle(Hurdles hurdles, List<Direction> directions) {

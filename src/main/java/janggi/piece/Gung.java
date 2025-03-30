@@ -40,7 +40,7 @@ public class Gung extends Piece {
 
     private boolean isDistanceOutOfRange(Point targetPoint) {
         PointDistance distance = PointDistance.calculate(point, targetPoint);
-        return distance.notMatches(1) && distance.notMatches(Math.sqrt(2));
+        return distance.notMatches(PointDistance.oneCardinal()) && distance.notMatches(PointDistance.oneDiagonal());
     }
 
     private boolean isUnavailableDirection(Point targetPoint, Direction direction) {

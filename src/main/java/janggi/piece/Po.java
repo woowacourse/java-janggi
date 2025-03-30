@@ -13,6 +13,8 @@ import java.util.List;
 
 public class Po extends Piece {
 
+    private static final int BRIDGE_COUNT = 1;
+
     public Po(Team team, Point point) {
         super(team, point, PieceInformation.PO);
     }
@@ -46,7 +48,7 @@ public class Po extends Piece {
 
     private boolean isRouteCrashesHurdle(Point targetPoint, Hurdles hurdles, Direction direction) {
         Route route = Route.repeat(direction, point, targetPoint);
-        if (route.countCrashes(hurdles) != 1) {
+        if (route.countCrashes(hurdles) != BRIDGE_COUNT) {
             return true;
         }
         Bridge bridge = Bridge.from(route, hurdles, this);

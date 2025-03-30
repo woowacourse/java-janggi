@@ -53,7 +53,7 @@ public class SaTest {
         }
 
         @Test
-        @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
+        @DisplayName("위로 이동할 수 있다면 true를 반환한다.")
         void checkUpMovable() {
             Sa sa = new Sa(Team.CHO, new Point(8, 4));
             Point targetPoint = new Point(7, 4);
@@ -65,7 +65,7 @@ public class SaTest {
         }
 
         @Test
-        @DisplayName("하으로 이동할 수 있다면 true를 반환한다.")
+        @DisplayName("아래로 이동할 수 있다면 true를 반환한다.")
         void checkDownMovable() {
             Sa sa = new Sa(Team.CHO, new Point(8, 4));
             Point targetPoint = new Point(9, 4);
@@ -137,7 +137,7 @@ public class SaTest {
         }
 
         @Test
-        @DisplayName("상으로 이동할 수 있다면 true를 반환한다.")
+        @DisplayName("위로 이동할 수 있다면 true를 반환한다.")
         void checkUpMovable() {
             Sa sa = new Sa(Team.CHO, new Point(8, 4));
             Point targetPoint = new Point(7, 4);
@@ -150,7 +150,7 @@ public class SaTest {
         }
 
         @Test
-        @DisplayName("하으로 이동할 수 있다면 true를 반환한다.")
+        @DisplayName("아래로 이동할 수 있다면 true를 반환한다.")
         void checkDownMovable() {
             Sa sa = new Sa(Team.CHO, new Point(8, 4));
             Point targetPoint = new Point(9, 4);
