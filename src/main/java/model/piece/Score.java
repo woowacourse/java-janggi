@@ -1,8 +1,7 @@
-package model.position;
+package model.piece;
 
 import java.util.Map;
-import model.Team;
-import model.piece.Piece;
+import model.position.Position;
 
 public class Score {
 

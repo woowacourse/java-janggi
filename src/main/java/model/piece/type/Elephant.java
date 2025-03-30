@@ -1,10 +1,12 @@
-package model.piece;
+package model.piece.type;
 
-import static model.Movement.*;
+import static model.position.Movement.*;
 
 import java.util.List;
-import model.Movement;
-import model.Team;
+import model.position.Movement;
+import model.navigator.JumpMoveNavigator;
+import model.piece.Piece;
+import model.piece.Team;
 import model.position.Position;
 
 public class Elephant extends Piece {

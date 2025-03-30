@@ -2,7 +2,7 @@ package dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import model.Team;
+import model.piece.Team;
 
 public class GameDao {
 

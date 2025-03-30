@@ -1,14 +1,17 @@
-package model.piece;
+package model.piece.type;
 
-import static model.Movement.DIAGONAL_UP_LEFT;
-import static model.Movement.DIAGONAL_UP_RIGHT;
-import static model.Movement.LEFT;
-import static model.Movement.RIGHT;
-import static model.Movement.UP;
+import static model.position.Movement.DIAGONAL_UP_LEFT;
+import static model.position.Movement.DIAGONAL_UP_RIGHT;
+import static model.position.Movement.LEFT;
+import static model.position.Movement.RIGHT;
+import static model.position.Movement.UP;
 
 import java.util.List;
-import model.Movement;
-import model.Team;
+import model.position.Movement;
+import model.navigator.LimitedBasicMoveNavigator;
+import model.piece.Castle;
+import model.piece.Piece;
+import model.piece.Team;
 import model.position.Position;
 
 public class Jol extends Piece {

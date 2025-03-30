@@ -3,8 +3,10 @@ package model;
 import java.util.List;
 import java.util.Map;
 import model.piece.Piece;
+import model.piece.PieceInitializer;
+import model.piece.Team;
 import model.position.Position;
-import model.position.Score;
+import model.piece.Score;
 import utils.InputParser;
 
 public class JanggiGame {

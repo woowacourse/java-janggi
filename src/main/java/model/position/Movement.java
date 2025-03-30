@@ -1,4 +1,4 @@
-package model;
+package model.position;
 
 public enum Movement {
     UP(-1, 0),

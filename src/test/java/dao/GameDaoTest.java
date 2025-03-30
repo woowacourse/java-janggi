@@ -2,7 +2,7 @@ package dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import model.Team;
+import model.piece.Team;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

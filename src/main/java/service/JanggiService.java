@@ -4,10 +4,10 @@ import dao.GameDao;
 import dao.PieceDao;
 import java.util.Map;
 import model.JanggiGame;
-import model.Team;
+import model.piece.Team;
 import model.piece.Piece;
 import model.position.Position;
-import model.position.Score;
+import model.piece.Score;
 
 public class JanggiService {
 

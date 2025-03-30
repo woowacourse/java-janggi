@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import model.piece.General;
+import model.piece.type.General;
+import model.piece.Team;
 import model.position.Column;
 import model.position.Position;
 import model.position.Row;

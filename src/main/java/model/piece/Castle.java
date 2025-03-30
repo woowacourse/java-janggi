@@ -2,7 +2,7 @@ package model.piece;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.Movement;
+import model.position.Movement;
 import model.position.Column;
 import model.position.Position;
 import model.position.Row;

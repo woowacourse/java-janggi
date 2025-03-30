@@ -1,35 +1,43 @@
-package model.piece;
+package model.piece.type;
 
-import static model.Movement.*;
+import static model.position.Movement.*;
 
 import java.util.List;
-import model.Movement;
-import model.Team;
+import model.position.Movement;
+import model.navigator.UnlimitedBasicMoveNavigator;
+import model.piece.Castle;
+import model.piece.Piece;
+import model.piece.Team;
 import model.position.Position;
 
-public class Chariot extends Piece {
+public class Cannon extends Piece {
 
-    private static final int SCORE = 13;
-    private static final String TYPE = "CHARIOT";
+    private static final int SCORE = 7;
+    private static final String TYPE = "CANNON";
     private final Castle castle;
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
+    private final UnlimitedBasicMoveNavigator unlimitedBasicMoveNavigator;
     private final List<Movement> movementsInCastle = List.of(
         DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT,
         DIAGONAL_DOWN_LEFT, DIAGONAL_DOWN_RIGHT);
-    private final UnlimitedBasicMoveNavigator unlimitedBasicMoveNavigator;
 
-    public Chariot(Team team) {
+    public Cannon(Team team) {
         super(team, SCORE, TYPE);
         this.castle = Castle.getInstance();
         this.unlimitedBasicMoveNavigator = UnlimitedBasicMoveNavigator.getInstance();
     }
 
     @Override
+    public boolean isCannon() {
+        return true;
+    }
+
+    @Override
     public String getName() {
         if (getTeam() == Team.RED) {
-            return "車";
+            return "包";
         }
-        return "차";
+        return "포";
     }
 
     @Override

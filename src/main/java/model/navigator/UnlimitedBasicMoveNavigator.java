@@ -1,8 +1,8 @@
-package model.piece;
+package model.navigator;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.Movement;
+import model.position.Movement;
 import model.position.Position;
 
 public class UnlimitedBasicMoveNavigator {

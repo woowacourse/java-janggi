@@ -1,16 +1,15 @@
-package model;
+package model.piece;
 
 import java.util.HashMap;
 import java.util.Map;
-import model.piece.Byeong;
-import model.piece.Cannon;
-import model.piece.Chariot;
-import model.piece.Elephant;
-import model.piece.General;
-import model.piece.Guard;
-import model.piece.Horse;
-import model.piece.Jol;
-import model.piece.Piece;
+import model.piece.type.Byeong;
+import model.piece.type.Cannon;
+import model.piece.type.Chariot;
+import model.piece.type.Elephant;
+import model.piece.type.General;
+import model.piece.type.Guard;
+import model.piece.type.Horse;
+import model.piece.type.Jol;
 import model.position.Column;
 import model.position.Position;
 import model.position.Row;

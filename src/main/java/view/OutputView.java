@@ -5,8 +5,8 @@ import model.position.Column;
 import model.piece.Piece;
 import model.position.Position;
 import model.position.Row;
-import model.Team;
-import model.position.Score;
+import model.piece.Team;
+import model.piece.Score;
 
 public class OutputView {
 

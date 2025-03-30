@@ -1,7 +1,6 @@
 package model.position;
 
 import java.util.Objects;
-import model.Movement;
 
 public class Position {
 

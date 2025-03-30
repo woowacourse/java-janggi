@@ -3,9 +3,9 @@ package dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
-import model.Team;
-import model.piece.Cannon;
-import model.piece.Chariot;
+import model.piece.Team;
+import model.piece.type.Cannon;
+import model.piece.type.Chariot;
 import model.piece.Piece;
 import model.position.Column;
 import model.position.Position;
