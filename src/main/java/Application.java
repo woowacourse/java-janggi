@@ -2,6 +2,7 @@ import dao.DaoConfiguration;
 import dao.GameDao;
 import dao.PieceDao;
 import dao.ProdDaoConfiguration;
+import java.util.Optional;
 import java.util.function.Supplier;
 import model.JanggiGame;
 import model.piece.Piece;
@@ -26,11 +27,12 @@ public class Application {
             outputView.showCurrentPositionOfPieces(janggiGame.getPieces());
             Team currentTurn = janggiGame.getCurrentTurn();
             outputView.printCurrentTurnOfTeam(currentTurn);
-            Position departure = createDeparture();
-            if (departure == null) {
+            Optional<Position> departureOfNullable = createDeparture();
+            if (departureOfNullable.isEmpty()) {
                 janggiGame.removeGameInfo();
                 break;
             }
+            Position departure = departureOfNullable.get();
             createArrivalAndMove(departure);
             if (janggiGame.isEnd()) {
                 janggiGame.removeGameInfo();
@@ -50,15 +52,15 @@ public class Application {
         });
     }
 
-    private static Position createDeparture() {
+    private static Optional<Position> createDeparture() {
         return retryOnInvalidInput(() -> {
             String choiceDeparture = inputView.choiceDeparture();
             if (choiceDeparture.equals("종료")) {
                 Score score = janggiGame.showGameResult();
                 outputView.printGameResult(score);
-                return null;
+                return Optional.empty();
             }
-            return janggiGame.createPositionAndCheckTurn(choiceDeparture);
+            return Optional.ofNullable(janggiGame.createPositionAndCheckTurn(choiceDeparture));
         });
     }
 
