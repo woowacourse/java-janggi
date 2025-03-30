@@ -65,10 +65,11 @@ class BoardTest {
         Chariot blueChariot = new Chariot(Team.BLUE);
         int expectedChariotScore = blueChariot.getScore();
         Board chariotBoard = new Board(Map.of(new Position(5, 5), blueChariot), Set.of());
+        Turn turn = Turn.startWith(Team.BLUE);
 
-        double blueScore = board.calculateScoreByTeam(Team.BLUE, Team.BLUE);
-        double redScore = board.calculateScoreByTeam(Team.RED, Team.BLUE);
-        double chariotScore = chariotBoard.calculateScoreByTeam(Team.BLUE, Team.BLUE);
+        double blueScore = board.calculateScoreByTeam(Team.BLUE, turn);
+        double redScore = board.calculateScoreByTeam(Team.RED, turn);
+        double chariotScore = chariotBoard.calculateScoreByTeam(Team.BLUE, turn);
 
         assertAll(
                 () -> assertThat(blueScore).isEqualTo(72),

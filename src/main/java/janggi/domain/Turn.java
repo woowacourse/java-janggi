@@ -30,7 +30,7 @@ public class Turn {
         }
     }
 
-    public Team getFirstTurn() {
-        return firstTurn;
+    public boolean isFirstTurn(final Team team) {
+        return firstTurn == team;
     }
 }

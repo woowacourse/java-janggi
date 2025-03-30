@@ -39,11 +39,10 @@ public class JanggiController {
 
     private void printResult(final Board board) {
         Team winner = board.getWinner();
-        Team firstTurn = turn.getFirstTurn();
 
         outputView.printWinner(winner);
-        outputView.printScore(Team.RED, board.calculateScoreByTeam(Team.RED, firstTurn));
-        outputView.printScore(Team.BLUE, board.calculateScoreByTeam(Team.BLUE, firstTurn));
+        outputView.printScore(Team.RED, board.calculateScoreByTeam(Team.RED, turn));
+        outputView.printScore(Team.BLUE, board.calculateScoreByTeam(Team.BLUE, turn));
     }
 
     private Board getInitializedBoardByInput() {

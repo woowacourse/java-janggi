@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class Board {
+    private static final double SCORE_SECOND_TURN_BENEFIT = 1.5;
+
     private final Map<Position, Piece> board;
     private final Set<Position> palacePositions;
 
@@ -23,22 +25,31 @@ public class Board {
     }
 
     public void movePiece(final Team team, final Position beforePosition, final Position afterPosition) {
-        Piece piece = board.get(beforePosition);
+        Piece pieceToMove = board.get(beforePosition);
 
-        validateTurn(team, piece);
-        if (piece.isPalacePiece() && palacePositions.contains(beforePosition) && palacePositions.contains(
-                afterPosition)) {
-            piece.getPalaceMovableValidator(beforePosition, afterPosition).accept(new Pieces(board));
-        }
-        piece.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(board));
-        board.put(beforePosition, new None());
-        board.put(afterPosition, piece);
+        validateTurn(team, pieceToMove);
+        validateMovement(beforePosition, afterPosition, pieceToMove);
+        executeMovement(beforePosition, afterPosition, pieceToMove);
     }
 
     private void validateTurn(final Team team, final Piece piece) {
         if (!piece.is(team)) {
             throw new IllegalArgumentException("지금은 " + team.getName() + "팀 기물만 이동할 수 있습니다.");
         }
+    }
+
+    private void validateMovement(final Position beforePosition, final Position afterPosition, final Piece piece) {
+        if (piece.isPalacePiece() && palacePositions.contains(beforePosition) && palacePositions.contains(
+                afterPosition)) {
+            piece.getPalaceMovableValidator(beforePosition, afterPosition).accept(new Pieces(board));
+            return;
+        }
+        piece.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(board));
+    }
+
+    private void executeMovement(final Position beforePosition, final Position afterPosition, final Piece piece) {
+        board.put(beforePosition, new None());
+        board.put(afterPosition, piece);
     }
 
     public boolean checkGameOver() {
@@ -59,15 +70,15 @@ public class Board {
         return Team.NONE;
     }
 
-    public double calculateScoreByTeam(final Team team, final Team firstTurn) {
+    public double calculateScoreByTeam(final Team team, final Turn turn) {
         int sum = board.values().stream()
                 .filter(piece -> piece.getTeam() == team)
                 .mapToInt(Piece::getScore)
                 .sum();
 
-        if (team == firstTurn) {
+        if (turn.isFirstTurn(team)) {
             return sum;
         }
-        return sum + 1.5;
+        return sum + SCORE_SECOND_TURN_BENEFIT;
     }
 }
