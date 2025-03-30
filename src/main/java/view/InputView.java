@@ -2,50 +2,54 @@ package view;
 
 import domain.position.ChessPosition;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+import util.LoopTemplate;
 
 public class InputView {
-    private final Scanner scanner;
 
-    public InputView() {
-        this.scanner = new Scanner(System.in);
+    private static final Pattern POSITION_PATTERN = Pattern.compile("\\d+,\\d+");
+
+    public ChessPosition readFromPosition() {
+        return LoopTemplate.tryCatchLoop(() -> {
+            System.out.println("기물 선택: 기물의 위치를 입력하세요.");
+            final String input = readInput();
+            validatePositionPattern(input);
+            final List<Integer> position = parseToNumbers(input);
+            return new ChessPosition(position.getFirst(), position.getLast());
+        });
     }
 
-    public ChessPosition readStartPosition() {
-        while (true) {
-            try {
-                System.out.println("움직이려는 기물의 행 번호를 입력해주세요.");
-                final int row = readNumber();
-                System.out.println("움직이려는 기물의 열 번호를 입력해주세요.");
-                final int col = readNumber();
-                return new ChessPosition(row, col);
-            } catch (IllegalArgumentException e) {
-                System.out.printf("%s 다시 입력해주세요.\n", e.getMessage());
-            }
+    public ChessPosition readToPosition() {
+        return LoopTemplate.tryCatchLoop(() -> {
+            System.out.println("기물 이동: 기물을 놓을 위치를 입력하세요.");
+            final String input = readInput();
+            validatePositionPattern(input);
+            final List<Integer> position = parseToNumbers(input);
+            return new ChessPosition(position.getFirst(), position.getLast());
+        });
+    }
+
+    public String readInput() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
+    private void validatePositionPattern(final String input) {
+        if (!POSITION_PATTERN.matcher(input).matches()) {
+            throw new IllegalArgumentException("좌표는 (a,b)형식이어야 합니다.");
         }
     }
 
-    public ChessPosition readDestinationPosition() {
-        while (true) {
-            try {
-                System.out.println("목적지의 행 번호를 입력해주세요.");
-                final int row = readNumber();
-                System.out.println("목적지의 열 번호를 입력해주세요.");
-                final int col = readNumber();
-                return new ChessPosition(row, col);
-            } catch (IllegalArgumentException e) {
-                System.out.printf("%s 다시 입력해주세요.\n", e.getMessage());
-            }
-        }
-    }
-
-    private int readNumber() {
-        while (true) {
-            try {
-                return Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("숫자 형식이 올바르지 않습니다. 다시 입력해주세요.");
-            }
+    private List<Integer> parseToNumbers(final String input) {
+        try {
+            return Arrays.stream(input.split(","))
+                    .map(Integer::parseInt)
+                    .toList();
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("좌표는 숫자여야 합니다.");
         }
     }
 }
