@@ -8,7 +8,7 @@ import janggi.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Elephant(Team team) implements Piece {
+public record Elephant(Team getTeam) implements Piece {
     public static final int MAX_DEPTH = 3;
 
     @Override
@@ -45,5 +45,10 @@ public record Elephant(Team team) implements Piece {
     @Override
     public PieceType getType() {
         return PieceType.ELEPHANT;
+    }
+
+    @Override
+    public int getScore() {
+        return this.getScore();
     }
 }

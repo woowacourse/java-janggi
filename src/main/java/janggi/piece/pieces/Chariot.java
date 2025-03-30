@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public record Chariot(Team team) implements Piece {
+public record Chariot(Team getTeam) implements Piece {
     @Override
     public List<Route> calculateRoutes(Position start) {
         List<Position> positions = calculateEndPoints(start);
@@ -85,5 +85,10 @@ public record Chariot(Team team) implements Piece {
     @Override
     public PieceType getType() {
         return PieceType.CHARIOT;
+    }
+
+    @Override
+    public int getScore() {
+        return this.getScore();
     }
 }

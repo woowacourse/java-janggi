@@ -99,7 +99,7 @@ class PiecesTest {
         Pieces pieces = new Pieces();
 
         // when
-        boolean noneTeamGeneralUnit = pieces.isNoneTeamGeneralUnit(Team.CHO);
+        boolean noneTeamGeneralUnit = pieces.isNoneEnemyGeneralUnit(Team.CHO);
 
         // then
         Assertions.assertThat(noneTeamGeneralUnit).isFalse();

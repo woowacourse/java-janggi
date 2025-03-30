@@ -6,6 +6,7 @@ import janggi.position.Position;
 import janggi.position.Route;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Board {
     private final Pieces pieces;
@@ -48,7 +49,7 @@ public class Board {
     }
 
     public boolean isNoneEnemyGeneralUnit() {
-        return pieces.isNoneTeamGeneralUnit(turn);
+        return pieces.isNoneEnemyGeneralUnit(turn);
     }
 
     private List<Route> findAvailableRoute(List<Route> routes, Position startPoint) {
@@ -56,14 +57,6 @@ public class Board {
                 .filter(this::isAvailablePath)
                 .filter(route -> isAvailableEndPoint(route, startPoint))
                 .toList();
-    }
-
-    public boolean isAvailablePath(Route route) {
-        if (route.length() == 0) {
-            return false;
-        }
-        return route.getPointsExceptEndPoint().stream()
-                .allMatch(pieces::isEmptyPoint);
     }
 
     private boolean isAvailableEndPoint(Route route, Position startPoint) {
@@ -74,9 +67,45 @@ public class Board {
         return true;
     }
 
+    public boolean isAvailablePath(Route route) {
+        if (route.length() == 0) {
+            return false;
+        }
+        return route.getPointsExceptEndPoint().stream()
+                .allMatch(pieces::isEmptyPoint);
+    }
+
     public void moveAndCaptureIfEnemyExists(Route route, Position startPoint) {
         Position endPoint = route.searchEndPoint(startPoint);
         pieces.moveAndCaptureIfEnemyExists(startPoint, endPoint);
+    }
+
+    public Optional<Team> determineWinner() {
+        if (pieces.isNoneEnemyGeneralUnit(Team.HAN)) {
+            return Optional.of(Team.HAN);
+        }
+        if (pieces.isNoneEnemyGeneralUnit(Team.CHO)) {
+            return Optional.of(Team.CHO);
+        }
+
+        return compareScore();
+    }
+
+    private Optional<Team> compareScore() {
+        int hanScore = calculateScore(Team.HAN);
+        int choScore = calculateScore(Team.CHO);
+
+        if (hanScore < choScore) {
+            return Optional.of(Team.CHO);
+        }
+        if (hanScore > choScore) {
+            return Optional.of(Team.HAN);
+        }
+        return Optional.empty();
+    }
+
+    public int calculateScore(Team team) {
+        return pieces.calculatePieceScore(team);
     }
 
     public Team getTurn() {

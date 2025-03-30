@@ -1,10 +1,10 @@
 package janggi.board;
 
+import janggi.piece.DefaultPosition;
 import janggi.piece.PieceType;
+import janggi.piece.Team;
 import janggi.piece.pieces.Piece;
 import janggi.position.Position;
-import janggi.piece.DefaultPosition;
-import janggi.piece.Team;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,12 +57,19 @@ public class Pieces {
 
     public Team findTeamByPosition(Position endPosition) {
         Piece piece = findPieceByPosition(endPosition);
-        return piece.team();
+        return piece.getTeam();
     }
 
-    public boolean isNoneTeamGeneralUnit(Team turn) {
+    public int calculatePieceScore(Team team) {
         return pieces.values().stream()
-                .filter(piece -> piece.team() != turn)
+                .filter(piece -> piece.getTeam() == team)
+                .mapToInt(piece -> piece.getType().getScore())
+                .sum();
+    }
+
+    public boolean isNoneEnemyGeneralUnit(Team turn) {
+        return pieces.values().stream()
+                .filter(piece -> piece.getTeam() != turn)
                 .noneMatch(piece -> piece.getType() == PieceType.GENERAL);
     }
 

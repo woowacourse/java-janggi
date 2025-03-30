@@ -9,12 +9,12 @@ import janggi.position.Route;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Soldier(Team team) implements Piece {
+public record Soldier(Team getTeam) implements Piece {
     @Override
     public List<Route> calculateRoutes(Position start) {
         List<Route> routes = new ArrayList<>();
 
-        for (Direction direction : team.getTeamDirection()) {
+        for (Direction direction : getTeam.getTeamDirection()) {
             addRouteIfCanBePosition(direction, start, routes);
         }
         return routes;
@@ -39,5 +39,10 @@ public record Soldier(Team team) implements Piece {
     @Override
     public PieceType getType() {
         return PieceType.SOLDIER;
+    }
+
+    @Override
+    public int getScore() {
+        return this.getScore();
     }
 }
