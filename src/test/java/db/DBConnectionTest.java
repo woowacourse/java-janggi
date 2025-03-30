@@ -10,8 +10,11 @@ class DBConnectionTest {
     @DisplayName("DB 연결 테스트")
     @Test
     void getConnection() {
+        //given
+        DBConnection dbConnection = MySQLConnection.getInstance();
+
         // when // then
-        try (final var connection = DBConnection.getConnection()) {
+        try (final var connection = dbConnection.getConnection()) {
             assertThat(connection).isNotNull();
         } catch (SQLException e) {
             throw new RuntimeException(e);
