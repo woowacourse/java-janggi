@@ -81,7 +81,7 @@ class PathFinderTest {
         Assertions.assertThat(actual).isFalse();
     }
 
-    @ParameterizedTest(name = "시작 위치 : {0}, 도작 위치: {2}")
+    @ParameterizedTest(name = "시작 위치 : {0}, 도착 위치: {2}")
     @MethodSource("getNextPointTestCases")
     void 특정_위치에서_특정_방향으로_이동했을_때_도착_위치를_반환한다(final Point source, final Direction direction,
                                             final Point destination) {
@@ -123,7 +123,7 @@ class PathFinderTest {
         Assertions.assertThat(actual).isFalse();
     }
 
-    @ParameterizedTest(name = "시작 위치 : {0}, 도작 위치: {2}")
+    @ParameterizedTest(name = "시작 위치 : {0}, 도착 위치: {2}")
     @MethodSource("getPointMovedByPathTestCases")
     void 특정_위치에서_경로를_따라_이동한_위치를_반환한다(final Point source, final Path path,
                                      final Point destination) {

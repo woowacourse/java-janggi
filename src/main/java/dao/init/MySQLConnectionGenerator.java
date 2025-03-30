@@ -22,7 +22,7 @@ public class MySQLConnectionGenerator implements ConnectionGenerator {
                     "jdbc:mysql://" + joinURL(IP, PORT) + "/" + DATABASE_NAME
                             + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            throw new RuntimeException("[ERORR] DB 연결에 실패했습니다.");
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
         }
     }
 
