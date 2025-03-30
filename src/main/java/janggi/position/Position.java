@@ -55,4 +55,14 @@ public record Position(int x, int y) {
     public int calculateDifferenceY(final Position end) {
         return end.y() - y;
     }
+
+    public boolean isInBounds(final Direction direction) {
+        try{
+            new Position(x + direction.x(), y + direction.y());
+        }
+        catch (IllegalArgumentException e){
+            return false;
+        }
+        return true;
+    }
 }
