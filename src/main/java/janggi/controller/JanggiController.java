@@ -2,8 +2,11 @@ package janggi.controller;
 
 import janggi.JanggiGame;
 import janggi.piece.Color;
+import janggi.piece.Piece;
+import janggi.position.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.util.Map;
 
 public class JanggiController {
     private final InputView inputView;
@@ -16,7 +19,19 @@ public class JanggiController {
 
     public void start() {
         JanggiGame janggiGame = new JanggiGame();
-        outputView.printBoard(janggiGame.getBoard());
-        outputView.printScore(janggiGame.getScore(Color.RED), janggiGame.getScore(Color.BLUE));
+
+        while (true) {
+            printBoard(janggiGame.getBoard(), janggiGame.getScore(Color.RED), janggiGame.getScore(Color.BLUE));
+
+            String startPosition = inputView.inputMoveStartPosition();
+            String endPosition = inputView.inputMoveEndPosition();
+
+            janggiGame.move(Position.from(startPosition), Position.from(endPosition));
+        }
+    }
+
+    private void printBoard(final Map<Position, Piece> board, final double redScore, final double blueScore) {
+        outputView.printBoard(board);
+        outputView.printScore(redScore, blueScore);
     }
 }

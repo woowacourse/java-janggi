@@ -40,7 +40,7 @@ public class OutputView {
             for (int x = BOARD_LOWER_BOUND_X; x <= BOARD_UPPER_BOUND_X; ++x) {
                 System.out.printf("%s\t", boardData[x][y]);
             }
-            System.out.printf("\t%d%n", y);
+            System.out.printf("\t%d%n", y % BOARD_UPPER_BOUND_Y);
         }
         System.out.println();
         System.out.println("1\t2\t3\t4\t5\t6\t7\t8\t9");

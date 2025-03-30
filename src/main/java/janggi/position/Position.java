@@ -13,6 +13,15 @@ public record Position(int x, int y) {
         validateBoardBound(x, y);
     }
 
+    public static Position from(final String yx) {
+        int y = yx.charAt(0) - '0';
+        if(y == 0) {
+            y = 10;
+        }
+        int x = yx.charAt(1) - '0';
+        return new Position(x, y);
+    }
+
     private void validateBoardBound(final int x, final int y) {
         if (x < BOARD_X_LOWER_BOUND || x > BOARD_X_UPPER_BOUND || y < BOARD_Y_LOWER_BOUND || y > BOARD_Y_UPPER_BOUND) {
             throw new IllegalArgumentException("장기판 밖으로는 이동할 수 없습니다.");
