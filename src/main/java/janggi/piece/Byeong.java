@@ -31,6 +31,13 @@ public class Byeong extends Piece {
         super(PieceType.BYEONG, TeamType.HAN);
     }
 
+    public Byeong(TeamType teamType) {
+        super(PieceType.BYEONG, TeamType.HAN);
+        if (teamType != TeamType.HAN) {
+            throw new IllegalArgumentException("[ERROR] 병은 한나라의 기물입니다.");
+        }
+    }
+
     @Override
     public Path makePath(Position currentPosition, Position arrivalPosition) {
         int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);

@@ -31,6 +31,14 @@ public class Jol extends Piece {
         super(PieceType.JOL, TeamType.CHO);
     }
 
+    public Jol(TeamType teamType) {
+        super(PieceType.JOL, TeamType.CHO);
+
+        if (teamType != TeamType.CHO) {
+            throw new IllegalArgumentException("[ERROR] 졸은 초나라의 기물입니다.");
+        }
+    }
+
     @Override
     public Path makePath(Position currentPosition, Position arrivalPosition) {
         int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
