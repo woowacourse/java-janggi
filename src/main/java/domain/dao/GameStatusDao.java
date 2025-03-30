@@ -107,10 +107,11 @@ public class GameStatusDao {
     }
 
     private void safeModeQuit(Connection connection) {
-        String safeModeQuit = "SET SQL_SAFE_UPDATES = 0";
+        String safeModeQuit = "SET SQL_SAFE_UPDATES = ?";
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(safeModeQuit);
+            preparedStatement.setInt(1,0);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -120,10 +121,11 @@ public class GameStatusDao {
     }
 
     private void safeModeSet(Connection connection) {
-        String safeModeSet = "SET SQL_SAFE_UPDATES = 1";
+        String safeModeSet = "SET SQL_SAFE_UPDATES = ?";
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(safeModeSet);
+            preparedStatement.setInt(1,1);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
