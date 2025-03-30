@@ -18,7 +18,7 @@ public final class GameResultConsole {
         if (gameStatus == GameStatus.CHO_WIN) {
             systemView.win(Team.CHO);
         }
-        if (gameStatus == GameStatus.CHO_WIN) {
+        if (gameStatus == GameStatus.HAN_WIN) {
             systemView.win(Team.HAN);
         }
     }
