@@ -86,7 +86,7 @@ public class JanggiTurnDao {
         final var query = "DELETE FROM janggi_turn";
         try (final var connection = this.connection.getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
-            final var resultSet = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new SaveFailException(e);
         }

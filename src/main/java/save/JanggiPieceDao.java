@@ -91,7 +91,7 @@ public class JanggiPieceDao {
         final var query = "DELETE FROM piece";
         try (final var connection = this.connection.getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
-            final var resultSet = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new SaveFailException(e);
         }
