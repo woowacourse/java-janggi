@@ -1,8 +1,8 @@
 package domain.pieces;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
 import domain.board.BoardPoint;
+import domain.board.PieceOnRoute;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +13,7 @@ class ElephantTest {
     @DisplayName("피스가 이동할 수 있는 지점들을 전부 반환한다")
     void test_isAbleToArrive() {
         // given
-        Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+        Elephant elephant = new Elephant(Team.CHO);
         BoardPoint startBoardPoint = new BoardPoint(0, 0);
         BoardPoint arrivalBoardPoint = new BoardPoint(3, 2);
 
@@ -28,7 +28,7 @@ class ElephantTest {
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
     void test_getRoutePoints() {
         // given
-        Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+        Elephant elephant = new Elephant(Team.CHO);
         BoardPoint startBoardPoint = new BoardPoint(0, 0);
         BoardPoint arrivalBoardPoint = new BoardPoint(3, 2);
 
@@ -47,7 +47,7 @@ class ElephantTest {
     @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceOnRoute() {
         //given
-        Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+        Elephant elephant = new Elephant(Team.CHO);
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(elephant), null);
 
         //when&then
@@ -58,7 +58,7 @@ class ElephantTest {
     @DisplayName("경로 상 기물이 없으면 이동할 수 없다.")
     void test_isMovable() {
         //given
-        Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+        Elephant elephant = new Elephant(Team.CHO);
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), null);
 
         //when&then
@@ -69,7 +69,7 @@ class ElephantTest {
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceIsInMyTeam() {
         //given
-        Elephant elephant = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+        Elephant elephant = new Elephant(Team.CHO);
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), elephant);
 
         //when&then
@@ -80,8 +80,8 @@ class ElephantTest {
     @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
     void test_isMovableWhenPieceIsInOtherTeam() {
         //given
-        Elephant elephantHan = new Elephant(Team.HAN, BoardStub.generateElephantMovement());
-        Elephant elephantCho = new Elephant(Team.CHO, BoardStub.generateElephantMovement());
+        Elephant elephantCho = new Elephant(Team.CHO);
+        Elephant elephantHan = new Elephant(Team.HAN);
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), elephantCho);
 
         //when&then

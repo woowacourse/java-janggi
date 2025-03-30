@@ -2,10 +2,6 @@ package domain;
 
 import domain.board.Board;
 import domain.board.BoardPoint;
-import domain.movements.DefaultMovement;
-import domain.movements.Direction;
-import domain.movements.PieceMovement;
-import domain.movements.Route;
 import domain.pieces.Cannon;
 import domain.pieces.Chariot;
 import domain.pieces.Elephant;
@@ -63,10 +59,8 @@ public final class JanggiGame {
         locations.put(new BoardPoint(7, 1), new Cannon(Team.HAN));
         locations.put(new BoardPoint(7, 7), new Cannon(Team.HAN));
 
-        final PieceMovement elephantMovement = generateElephantMovement();
-
-        locations.put(new BoardPoint(9, 1), new Elephant(Team.HAN, elephantMovement));
-        locations.put(new BoardPoint(9, 7), new Elephant(Team.HAN, elephantMovement));
+        locations.put(new BoardPoint(9, 1), new Elephant(Team.HAN));
+        locations.put(new BoardPoint(9, 7), new Elephant(Team.HAN));
 
         locations.put(new BoardPoint(9, 2), new Horse(Team.HAN));
         locations.put(new BoardPoint(9, 6), new Horse(Team.HAN));
@@ -93,12 +87,8 @@ public final class JanggiGame {
         locations.put(new BoardPoint(2, 1), new Cannon(Team.CHO));
         locations.put(new BoardPoint(2, 7), new Cannon(Team.CHO));
 
-        final PieceMovement elephantMovement = generateElephantMovement();
-
-        locations.put(new BoardPoint(0, 1), new Elephant(Team.CHO, elephantMovement));
-        locations.put(new BoardPoint(0, 7), new Elephant(Team.CHO, elephantMovement));
-
-        final PieceMovement horseMovement = generateHorseMovement();
+        locations.put(new BoardPoint(0, 1), new Elephant(Team.CHO));
+        locations.put(new BoardPoint(0, 7), new Elephant(Team.CHO));
 
         locations.put(new BoardPoint(0, 2), new Horse(Team.CHO));
         locations.put(new BoardPoint(0, 6), new Horse(Team.CHO));
@@ -108,31 +98,5 @@ public final class JanggiGame {
         locations.put(new BoardPoint(0, 5), new Guard(Team.CHO));
 
         return locations;
-    }
-
-    private static PieceMovement generateHorseMovement() {
-        return new DefaultMovement(List.of(
-                new Route(List.of(Direction.NORTH, Direction.NORTHWEST)),
-                new Route(List.of(Direction.NORTH, Direction.NORTHEAST)),
-                new Route(List.of(Direction.EAST, Direction.NORTHEAST)),
-                new Route(List.of(Direction.EAST, Direction.SOUTHEAST)),
-                new Route(List.of(Direction.SOUTH, Direction.SOUTHEAST)),
-                new Route(List.of(Direction.SOUTH, Direction.SOUTHWEST)),
-                new Route(List.of(Direction.WEST, Direction.SOUTHWEST)),
-                new Route(List.of(Direction.WEST, Direction.NORTHWEST))
-        ));
-    }
-
-    private PieceMovement generateElephantMovement() {
-        return new DefaultMovement(List.of(
-                new Route(List.of(Direction.NORTH, Direction.NORTHWEST, Direction.NORTHWEST)),
-                new Route(List.of(Direction.NORTH, Direction.NORTHEAST, Direction.NORTHEAST)),
-                new Route(List.of(Direction.EAST, Direction.NORTHEAST, Direction.NORTHEAST)),
-                new Route(List.of(Direction.EAST, Direction.SOUTHEAST, Direction.SOUTHEAST)),
-                new Route(List.of(Direction.SOUTH, Direction.SOUTHEAST, Direction.SOUTHEAST)),
-                new Route(List.of(Direction.SOUTH, Direction.SOUTHWEST, Direction.SOUTHWEST)),
-                new Route(List.of(Direction.WEST, Direction.SOUTHWEST, Direction.SOUTHWEST)),
-                new Route(List.of(Direction.WEST, Direction.NORTHWEST, Direction.NORTHWEST))
-        ));
     }
 }
