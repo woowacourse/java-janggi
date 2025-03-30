@@ -1,0 +1,37 @@
+CREATE DATABASE IF NOT EXISTS janggi;
+
+USE janggi;
+
+CREATE TABLE IF NOT EXISTS game_state
+(
+    id    INT AUTO_INCREMENT PRIMARY KEY,
+    state ENUM ('END', 'RUNNING') NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS turn
+(
+    id   INT AUTO_INCREMENT PRIMARY KEY,
+    team ENUM ('RED', 'GREEN') NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS point
+(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    x  INT NOT NULL,
+    y  INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS piece
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    pieceType VARCHAR(50) NOT NULL,
+    team      VARCHAR(20) NOT NULL,
+    pointId   INT         NOT NULL,
+    FOREIGN KEY (pointId) REFERENCES point (id)
+);
+
+INSERT INTO game_state (state)
+VALUES ('END');
+
+INSERT INTO turn (team)
+VALUES ('GREEN');
