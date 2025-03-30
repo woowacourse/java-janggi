@@ -9,22 +9,22 @@ import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
 import java.util.List;
 
-public class King extends LimitedMoveChessPiece{
+public class Guard extends LimitedMoveChessPiece {
 
     private static final List<Directions> DIRECTIONS = List.of(
-                    new Directions(List.of(Direction.UP)),
-                    new Directions(List.of(Direction.DOWN)),
-                    new Directions(List.of(Direction.LEFT)),
-                    new Directions(List.of(Direction.RIGHT)),
-                    new Directions(List.of(Direction.LEFT_UP)),
-                    new Directions(List.of(Direction.LEFT_DOWN)),
-                    new Directions(List.of(Direction.RIGHT_UP)),
-                    new Directions(List.of(Direction.RIGHT_DOWN))
+            new Directions(List.of(Direction.UP)),
+            new Directions(List.of(Direction.DOWN)),
+            new Directions(List.of(Direction.LEFT)),
+            new Directions(List.of(Direction.RIGHT)),
+            new Directions(List.of(Direction.LEFT_UP)),
+            new Directions(List.of(Direction.LEFT_DOWN)),
+            new Directions(List.of(Direction.RIGHT_UP)),
+            new Directions(List.of(Direction.RIGHT_DOWN))
     );
 
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
-    public King(final ChessPosition position, final ChessTeam team) {
+    public Guard(final ChessPosition position, final ChessTeam team) {
         super(position, team, DIRECTIONS);
     }
 
@@ -46,6 +46,6 @@ public class King extends LimitedMoveChessPiece{
 
     @Override
     public ChessPiece from(final ChessPosition position) {
-        return new King(position, getTeam());
+        return new Guard(position, getTeam());
     }
 }
