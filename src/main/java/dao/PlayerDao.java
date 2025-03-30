@@ -17,7 +17,7 @@ public class PlayerDao {
     }
 
     public long savePlayer(Player player, Long gameId) {
-        String query = "INSERT INTO player (game_id, name, team_type) VALUES (?, ?, ?)";
+        String query = "INSERT INTO players (game_id, name, team_type) VALUES (?, ?, ?)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query,
@@ -36,7 +36,7 @@ public class PlayerDao {
     }
 
     public List<Player> findPlayersByGameId(Long gameId) {
-        String query = "SELECT * FROM player WHERE game_id = ?";
+        String query = "SELECT * FROM players WHERE game_id = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);

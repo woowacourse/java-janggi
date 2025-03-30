@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class PieceDao {
     private final Connection connection;
@@ -20,7 +21,7 @@ public class PieceDao {
     }
 
     public long savePiece(Piece piece, Position position, Long gameId) {
-        String query = "INSERT INTO piece (game_id, position_row, position_column, team_type, piece_type) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO pieces (game_id, position_row, position_column, team_type, piece_type) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -50,7 +51,7 @@ public class PieceDao {
     }
 
     public Map<Position, Piece> findBoardPiecesByGameId(Long gameId) {
-        String query = "SELECT * FROM piece WHERE game_id = ?";
+        String query = "SELECT * FROM pieces WHERE game_id = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -63,7 +64,7 @@ public class PieceDao {
     }
 
     public int updatePiecePosition(Long gameId, Position from, Position to) {
-        String query = "UPDATE piece SET position_row = ?, position_column = ? WHERE game_id = ? AND position_row = ? AND position_column = ?";
+        String query = "UPDATE pieces SET position_row = ?, position_column = ? WHERE game_id = ? AND position_row = ? AND position_column = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -80,7 +81,7 @@ public class PieceDao {
     }
 
     public int removePiece(Long gameId, Position position) {
-        String query = "DELETE FROM piece WHERE game_id = ? AND position_row = ? AND position_column = ?";
+        String query = "DELETE FROM pieces WHERE game_id = ? AND position_row = ? AND position_column = ?";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
