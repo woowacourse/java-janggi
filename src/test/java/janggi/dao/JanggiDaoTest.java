@@ -92,6 +92,12 @@ class JanggiDaoTest {
         }
 
         @Test
+        void 저장된_팀을_불러온다() {
+            assertThatNoException()
+                    .isThrownBy(janggiDao::findTeams);
+        }
+
+        @Test
         void 해당_팀의_순서로_변경한다() {
             // Given
             final TeamType currentTeam = TeamType.HAN;

@@ -153,6 +153,28 @@ public class JanggiDao {
         }
     }
 
+    public List<TeamTypeDto> findTeams() {
+        final String query = "SELECT * FROM team ORDER BY current desc";
+
+        try (final Connection connection = connectionManager.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            final var resultSet = preparedStatement.executeQuery();
+            List<TeamTypeDto> teamTypes = new ArrayList<>();
+
+            while (resultSet.next()) {
+                teamTypes.add(new TeamTypeDto(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getBoolean("current")
+                ));
+            }
+
+            return teamTypes;
+        } catch (final SQLException e) {
+            throw new RuntimeException("[ERROR] 데이터 조회에 실패하였습니다.");
+        }
+    }
+
     public void updateTeamOrder(TeamType currentTeam) {
         final String query = """
                     UPDATE Team SET current = CASE 
