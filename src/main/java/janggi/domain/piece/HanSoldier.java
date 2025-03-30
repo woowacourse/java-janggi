@@ -19,7 +19,7 @@ public class HanSoldier extends Soldier {
     private static final MoveStrategy movestrategy = new NoObstacleStrategy(
             ((start, end) -> Path.calculatePath(start, end, PATHS)));
 
-    public HanSoldier() {
-        super(Dynasty.HAN, movestrategy);
+    public HanSoldier(Dynasty dynasty) {
+        super(PieceType.HAN_SOLIDER, dynasty, movestrategy);
     }
 }

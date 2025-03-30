@@ -19,7 +19,7 @@ public class ChuSoldier extends Soldier {
     private static final MoveStrategy movestrategy = new NoObstacleStrategy(
             ((start, end) -> Path.calculatePath(start, end, PATHS)));
 
-    public ChuSoldier() {
-        super(Dynasty.CHU, movestrategy);
+    public ChuSoldier (Dynasty dynasty) {
+        super(PieceType.CHU_SOLIDER, dynasty, movestrategy);
     }
 }
