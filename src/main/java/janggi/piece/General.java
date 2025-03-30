@@ -69,4 +69,9 @@ public class General extends Piece {
     public String getName() {
         return NAME;
     }
+
+    @Override
+    public int getScore() {
+        return 0;
+    }
 }

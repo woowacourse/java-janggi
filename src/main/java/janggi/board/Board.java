@@ -97,4 +97,12 @@ public class Board {
     public boolean isInCastle(Position position) {
         return GREEN_CASTLE.contains(position) || RED_CASTLE.contains(position);
     }
+
+    public int calculateScore(Team team) {
+        return board.values()
+                .stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToInt(Piece::getScore)
+                .sum();
+    }
 }

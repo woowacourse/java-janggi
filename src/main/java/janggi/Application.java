@@ -38,7 +38,7 @@ public class Application {
             return playTurn(board, team);
         } catch (GameOverException e) {
             outputView.printBoard(board);
-            outputView.printGameOver(team);
+            outputView.printGameResult(board, team);
             return false;
         }
         return true;

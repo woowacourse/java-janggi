@@ -65,4 +65,9 @@ public class Soldier extends Piece {
     public String getName() {
         return NAME;
     }
+
+    @Override
+    public int getScore() {
+        return 2;
+    }
 }

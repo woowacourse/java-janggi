@@ -66,4 +66,5 @@ public abstract class Piece {
     protected abstract void validatePath(Board board, Path path);
     protected abstract void validatePieceOnGoal(Board board, Position goal);
     public abstract String getName();
+    public abstract int getScore();
 }

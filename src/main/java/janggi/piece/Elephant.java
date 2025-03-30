@@ -48,4 +48,9 @@ public class Elephant extends Piece {
     public String getName() {
         return NAME;
     }
+
+    @Override
+    public int getScore() {
+        return 3;
+    }
 }

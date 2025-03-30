@@ -20,4 +20,8 @@ public enum Team {
         }
         return GREEN;
     }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 }

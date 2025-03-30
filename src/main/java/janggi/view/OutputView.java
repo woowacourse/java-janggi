@@ -20,8 +20,12 @@ public class OutputView {
         System.out.println("ex) 1,1 2,2 (1,1 에 위치한 기물을 2,2로 이동)\n");
     }
 
-    public void printGameOver(Team winningTeam) {
-        System.out.printf("%s가 승리했습니다.\n", winningTeam.getName());
+    public void printGameResult(Board board, Team winningTeam) {
+        for (Team team : Team.values()) {
+            int score = board.calculateScore(team);
+            System.out.printf("%s의 승점 : %d\n", team.getDisplayName(), score);
+        }
+        System.out.printf("\n%s가 승리했습니다.(궁 잡음 혹은 승점 우승)\n", winningTeam.getDisplayName());
     }
 
     public void printBoard(Board currentBoard) {
