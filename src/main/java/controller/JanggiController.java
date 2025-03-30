@@ -2,8 +2,10 @@ package controller;
 
 import dao.BoardDao;
 import domain.JanggiGame;
-import domain.board.BoardPoint;
+import domain.Player;
+import domain.board.Board;
 import domain.board.Score;
+import dto.MovementRequestDto;
 import java.util.List;
 import view.InputView;
 import view.OutputView;
@@ -20,7 +22,11 @@ public class JanggiController {
     public void run() {
         BoardDao boardDao = new BoardDao();
 
-        final JanggiGame game = new JanggiGame(boardDao.getBoard());
+        final Board board = boardDao.getBoard();
+        final List<Player> players = boardDao.getPlayers();
+
+        final JanggiGame game = new JanggiGame(board, players);
+
         outputView.printBoard(game.getBoard());
         while (true) {
             if (game.isGeneralDied()) {
@@ -29,15 +35,14 @@ public class JanggiController {
                 break;
             }
             processMove(game);
+
         }
     }
 
     private void processMove(final JanggiGame game) {
-        final List<BoardPoint> movementRequest = inputView.readMovementRequest();
-        final BoardPoint startBoardPoint = movementRequest.getFirst();
-        final BoardPoint arrivalBoardPoint = movementRequest.getLast();
+        final MovementRequestDto movementRequestDto = inputView.readMovementRequest();
 
-        game.move(startBoardPoint, arrivalBoardPoint);
+        game.move(movementRequestDto.startPoint(), movementRequestDto.arrivalPoint());
 
         outputView.printBoard(game.getBoard());
     }

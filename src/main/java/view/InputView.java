@@ -1,6 +1,7 @@
 package view;
 
 import domain.board.BoardPoint;
+import dto.MovementRequestDto;
 import execptions.JanggiArgumentException;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +14,7 @@ public final class InputView {
     private static final int VALID_POINT_SIZE = 2;
     public static final String SPLITTER = ",";
 
-    public List<BoardPoint> readMovementRequest() {
+    public MovementRequestDto readMovementRequest() {
         System.out.println("출발점과 도착점의 위치를 알려주세요 ex.2,1 3,1");
         final String input = scanner.nextLine();
 
@@ -26,7 +27,7 @@ public final class InputView {
         final List<Integer> rawArrivalPoint = formatToIntegerList(splitInput, ARRIVAL_POINT_INDEX);
         final BoardPoint arrivalBoardPoint = new BoardPoint(rawArrivalPoint.getFirst(), rawArrivalPoint.getLast());
 
-        return List.of(startBoardPoint, arrivalBoardPoint);
+        return new MovementRequestDto(startBoardPoint, arrivalBoardPoint);
     }
 
     private void validateInput(final String input) {

@@ -26,9 +26,9 @@ public final class JanggiGame {
         players = List.of(new Player(Team.HAN), new Player(Team.CHO));
     }
 
-    public JanggiGame(Board board) {
+    public JanggiGame(Board board, List<Player> players) {
         this.board = board;
-        players = List.of(new Player(Team.HAN), new Player(Team.CHO));
+        this.players = players;
     }
 
     public Map<BoardPoint, Piece> getBoard() {

@@ -1,5 +1,6 @@
 package dao;
 
+import domain.Player;
 import domain.Team;
 import domain.board.Board;
 import domain.board.BoardPoint;
@@ -15,7 +16,9 @@ import execptions.JanggiArgumentException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class BoardDao {
@@ -80,7 +83,30 @@ public final class BoardDao {
             case "Guard" -> new Guard(team);
             default -> throw new JanggiArgumentException("타입에 해당하는 기물이 존재하지 않습니다.");
         };
-
     }
 
+    public List<Player> getPlayers() {
+        final var query =
+                "SELECT * FROM player " +
+                        "INNER JOIN team ON team.id = player.team_id ";
+
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Player> players = new ArrayList<>();
+
+            while (resultSet.next()) {
+                String teamName = resultSet.getString("name");
+                Team team = teamName.equals("HAN") ? Team.HAN : Team.CHO;
+
+                players.add(new Player(team));
+            }
+            return players;
+
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
