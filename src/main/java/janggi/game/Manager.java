@@ -3,11 +3,15 @@ package janggi.game;
 import janggi.board.BoardNavigator;
 import janggi.board.BoardSetup;
 import janggi.board.Position;
+import janggi.db.BoardStatus;
+import janggi.palace.PalaceFactory;
+import janggi.piece.Piece;
 import janggi.team.Team;
 import janggi.team.TeamFactory;
 import janggi.team.TeamName;
 import janggi.view.Input;
 import janggi.view.Output;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -18,17 +22,38 @@ public class Manager {
 
     private final Input input;
     private final Output output;
+    private final BoardStatus boardStatus;
 
-    public Manager() {
+    public Manager(BoardStatus boardStatus) {
         this.input = new Input();
         this.output = new Output();
+        this.boardStatus = boardStatus;
     }
 
     public void run() {
-        Team teamCho = repeatInput(
-                () -> TeamFactory.createTeam(BoardSetup.of(input.readPositionOption(TeamName.CHO))));
-        Team teamHan = repeatInput(
-                () -> TeamFactory.createTeam(BoardSetup.of(input.readPositionOption(TeamName.HAN))));
+        Team teamHan = null;
+        Team teamCho = null;
+        if (boardStatus.isBoardStatusEmpty()) {
+            teamCho = repeatInput(() -> TeamFactory.createTeam(BoardSetup.of(input.readSetup(TeamName.CHO))));
+            teamHan = repeatInput(() -> TeamFactory.createTeam(BoardSetup.of(input.readSetup(TeamName.HAN))));
+        }
+        if (!boardStatus.isBoardStatusEmpty()) {
+            String loadData = input.readLoadData();
+
+            if (loadData.equalsIgnoreCase(ANSWER_POSITIVE)) {
+                List<Piece> allPieces = boardStatus.loadBoardStatus();
+                List<Piece> hanPieces = allPieces.stream().filter(piece -> piece.getTeamName().equals("한")).toList();
+                List<Piece> choPieces = allPieces.stream().filter(piece -> piece.getTeamName().equals("초")).toList();
+                teamHan = new Team(hanPieces, PalaceFactory.createPalace(TeamName.HAN), TeamName.HAN);
+                teamCho = new Team(choPieces, PalaceFactory.createPalace(TeamName.CHO), TeamName.CHO);
+            }
+
+            if (!loadData.equalsIgnoreCase(ANSWER_POSITIVE)) {
+                boardStatus.clearBoardStatus();
+                teamCho = repeatInput(() -> TeamFactory.createTeam(BoardSetup.of(input.readSetup(TeamName.CHO))));
+                teamHan = repeatInput(() -> TeamFactory.createTeam(BoardSetup.of(input.readSetup(TeamName.HAN))));
+            }
+        }
 
         BoardNavigator boardNavigator = new BoardNavigator();
         Team oldTeam = teamHan;
@@ -52,6 +77,12 @@ public class Manager {
         teamCho.trackTeamScore(TeamName.CHO);
         teamHan.trackTeamScore(TeamName.HAN);
         output.printTeamScore(teamHan, teamCho);
+
+        boardStatus.clearBoardStatus();
+        List<Piece> allPieces = new ArrayList<>();
+        allPieces.addAll(teamHan.getBoard());
+        allPieces.addAll(teamCho.getBoard());
+        boardStatus.saveBoardStatus(allPieces);
     }
 
     private <T> T repeatInput(Supplier<T> supplier) {

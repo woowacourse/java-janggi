@@ -41,7 +41,15 @@ public class Input {
         System.out.println("[ERROR] " + message);
     }
 
-    public List<String> readPositionOption(TeamName teamName) {
+    public String readLoadData() {
+        System.out.println();
+        System.out.println("지난 번의 게임 데이터를 불러오시겠습니까?");
+        System.out.println(" 선택 옵션 > " + SAMPLE_GREEN + "Y: 예 | N: 아니오" + RESET);
+        System.out.println(" ex) Y");
+        return repeatInput(() -> validatePatternGameOption(scanner.nextLine()));
+    }
+
+    public List<String> readSetup(TeamName teamName) {
         System.out.println();
         System.out.printf("%s의 상차림을 선택해주세요.%n", formatTeamColor(teamName) + teamName.getName() + RESET);
         System.out.println(" 선택 옵션 > " + SAMPLE_GREEN + "EHEH: 상마상마 | HEHE: 마상마상 | HEEH: 마상상마 | EHHE: 상마마상" + RESET);
@@ -100,10 +108,10 @@ public class Input {
         System.out.println("게임을 계속하시겠습니까?");
         System.out.println(" 선택 옵션 > " + SAMPLE_GREEN + "Y: 예 | N: 아니오" + RESET);
         System.out.println(" ex) Y");
-        return repeatInput(() -> validatePatternGameContinue(scanner.nextLine()));
+        return repeatInput(() -> validatePatternGameOption(scanner.nextLine()));
     }
 
-    private String validatePatternGameContinue(String pattern) {
+    private String validatePatternGameOption(String pattern) {
         if (!pattern.matches(PATTERN_GAME_CONTINUE)) {
             throw new IllegalArgumentException(INVALID_PATTERN);
         }
