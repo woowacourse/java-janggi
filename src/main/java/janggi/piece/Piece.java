@@ -27,6 +27,8 @@ public abstract class Piece {
 
     public abstract PieceType getPieceType();
 
+    public abstract int getScore();
+
     public boolean isCannon() {
         return false;
     }

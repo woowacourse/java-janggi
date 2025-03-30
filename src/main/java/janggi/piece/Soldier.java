@@ -17,6 +17,11 @@ public class Soldier extends Piece {
     }
 
     @Override
+    public int getScore() {
+        return PIECE_TYPE.getScore();
+    }
+
+    @Override
     public List<Position> calculatePath(final Position start, final Position end) {
         movementRule.validateMovementRule(start, end);
         validateDirection(start, end);
