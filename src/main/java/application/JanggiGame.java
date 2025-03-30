@@ -8,8 +8,6 @@ import domain.board.setting.ChoSettingUpStrategy;
 import domain.board.setting.HanSettingUpStrategy;
 import domain.game.Turn;
 import domain.piece.Country;
-import domain.piece.Piece;
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import view.InputView;
@@ -45,26 +43,25 @@ public class JanggiGame {
     }
 
     private Board start() {
-        Map<Coordinate, Piece> storedBoard = boardRepository.findAll();
-        if (storedBoard.isEmpty()) {
+        Board stored = boardRepository.findAll();
+        if (stored.isEmpty()) {
             return newGame();
         }
-        return previousGame(storedBoard);
+        return previousGame(stored);
     }
 
     private Board newGame() {
         Board board = settingUp();
-        boardRepository.save(board);
+        boardRepository.saveAll(board);
         turnRepository.save(turn);
         outputView.printNewGameMessage();
         return board;
     }
 
-    private Board previousGame(Map<Coordinate, Piece> savedBoard) {
-        Board board = new Board(savedBoard);
+    private Board previousGame(Board savedBoard) {
         turn = turnRepository.findTurn();
         outputView.printPreviousGameMessage();
-        return board;
+        return savedBoard;
     }
 
     public void takeTurn(Board board, Consumer<Board> consumer) {
@@ -102,7 +99,7 @@ public class JanggiGame {
 
     private void updateBoard(Board board) {
         boardRepository.deleteAll();
-        boardRepository.save(board);
+        boardRepository.saveAll(board);
     }
 
     private boolean isEndGame(Board board) {

@@ -26,6 +26,7 @@ public final class Board implements ReadableBoard, WritableBoard {
         this.board = board;
     }
 
+    @Override
     public void movePiece(Coordinate from, Coordinate to) {
         Piece piece = findPieceByCoordinate(from);
 
@@ -37,14 +38,25 @@ public final class Board implements ReadableBoard, WritableBoard {
         board.remove(from);
     }
 
-    public Piece findPieceByCoordinate(Coordinate coordinate) {
-        validatePieceCoordinate(coordinate);
-        return board.get(coordinate);
+    @Override
+    public boolean isMyTeam(Country country, Coordinate to) {
+        return hasPiece(to) && country == findPieceByCoordinate(to).getCountry();
     }
 
+    @Override
     public PieceType findPieceTypeByCoordinate(Coordinate coordinate) {
         validatePieceCoordinate(coordinate);
         return board.get(coordinate).getType();
+    }
+
+    @Override
+    public boolean hasPiece(Coordinate coordinate) {
+        return board.containsKey(coordinate);
+    }
+
+    public Piece findPieceByCoordinate(Coordinate coordinate) {
+        validatePieceCoordinate(coordinate);
+        return board.get(coordinate);
     }
 
     private void validatePieceCoordinate(Coordinate coordinate) {
@@ -55,14 +67,6 @@ public final class Board implements ReadableBoard, WritableBoard {
 
     public boolean isBlankCoordinate(Coordinate coordinate) {
         return !board.containsKey(coordinate);
-    }
-
-    public boolean hasPiece(Coordinate coordinate) {
-        return board.containsKey(coordinate);
-    }
-
-    public boolean isMyTeam(Country country, Coordinate to) {
-        return hasPiece(to) && country == findPieceByCoordinate(to).getCountry();
     }
 
     public Country findCountryByCoordinate(Coordinate currCoordinate) {
@@ -101,5 +105,9 @@ public final class Board implements ReadableBoard, WritableBoard {
 
     public Map<Coordinate, Piece> getBoard() {
         return board;
+    }
+
+    public boolean isEmpty() {
+        return board.isEmpty();
     }
 }

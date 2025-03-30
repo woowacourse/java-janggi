@@ -1,7 +1,8 @@
 import application.JanggiGame;
-import infrastructure.BoardJdbcRepository;
 import infrastructure.MysqlConnector;
 import infrastructure.TurnJdbcRepository;
+import infrastructure.dao.BoardDao;
+import infrastructure.repository.BoardJdbcRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -12,7 +13,8 @@ public class Application {
 
         JanggiGame janggiGame = new JanggiGame(
                 new InputView(), new OutputView(),
-                new BoardJdbcRepository(mysqlConnector), new TurnJdbcRepository(mysqlConnector)
+                new BoardJdbcRepository(new BoardDao(mysqlConnector)),
+                new TurnJdbcRepository(mysqlConnector)
         );
         janggiGame.play();
     }
