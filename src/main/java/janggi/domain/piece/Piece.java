@@ -1,18 +1,19 @@
 package janggi.domain.piece;
 
 import janggi.domain.Team;
-
 import java.util.Map;
+import java.util.Objects;
 
 public abstract class Piece {
+
     protected final Team team;
     private final Position position;
     private final PieceType pieceType;
 
     public Piece(
-            final PieceType pieceType,
-            final Position position,
-            final Team team
+        final PieceType pieceType,
+        final Position position,
+        final Team team
     ) {
         this.pieceType = pieceType;
         this.position = position;
@@ -52,7 +53,23 @@ public abstract class Piece {
         return pieceType.getName();
     }
 
-    public abstract void validatePositionToMove(Map<Position, Piece> pieces, Position positionToMove);
+    public abstract void validatePositionToMove(Map<Position, Piece> pieces,
+        Position positionToMove);
 
     public abstract Piece from(Position position);
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return team == piece.team && Objects.equals(position, piece.position)
+            && pieceType == piece.pieceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(team, position, pieceType);
+    }
 }

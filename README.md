@@ -87,6 +87,29 @@ __# 🚀 장기 미션
 - 데이터베이스 테이블은 아래와 같다
 
 ```azure
+use chess;
+
+CREATE TABLE pieces
+(
+    position_x int         NOT NULL,
+    position_y int         NOT NULL,
+    piece_type VARCHAR(10) NOT NULL,
+    team       VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE turn
+(
+    team VARCHAR(10) NOT NULL
+);
+```
+
+- 테스트용 데이터베이스
+
+```azure
+create database chess_test;
+
+use chess_test;
+
 CREATE TABLE pieces
 (
     position_x int         NOT NULL,
