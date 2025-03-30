@@ -63,13 +63,15 @@ class CannonTest {
 
 
         final Position obstructionPosition = new Position(1, 2);
+        final Position ableDest = new Position(1, 5);
+        final General destPiece = new General(ableDest, turnCountry.opposite());
         final Piece obstructionPiece = new General(obstructionPosition, turnCountry);
         final Board board = new Board(Map.of(
-                obstructionPosition, obstructionPiece
+                obstructionPosition, obstructionPiece,
+                ableDest, destPiece
         ));
 
         // when & then: 1 : success
-        final Position ableDest = new Position(1, 5);
         assertThatCode(
                 () -> cannon.validateMove(src, ableDest, board)
         ).doesNotThrowAnyException();
