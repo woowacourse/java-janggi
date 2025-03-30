@@ -1,4 +1,4 @@
-package view;
+package view.command;
 
 import java.util.Arrays;
 

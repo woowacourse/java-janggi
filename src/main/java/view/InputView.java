@@ -2,6 +2,11 @@ package view;
 
 import domain.board.Point;
 import domain.piece.Team;
+import view.command.MoveCommand;
+import view.command.ProgressCommand;
+import view.command.RestartCommand;
+import view.command.SangMaOrderCommand;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;

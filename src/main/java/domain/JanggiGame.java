@@ -8,8 +8,8 @@ import domain.piece.Piece;
 import domain.piece.Team;
 import domain.score.Score;
 import domain.score.ScoreCalculator;
-import view.MoveCommand;
-import view.SangMaOrderCommand;
+import view.command.MoveCommand;
+import view.command.SangMaOrderCommand;
 
 import java.util.Map;
 

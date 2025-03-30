@@ -8,7 +8,7 @@ import domain.piece.Po;
 import domain.piece.Sa;
 import domain.piece.Team;
 import domain.piece.Wang;
-import view.SangMaOrderCommand;
+import view.command.SangMaOrderCommand;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

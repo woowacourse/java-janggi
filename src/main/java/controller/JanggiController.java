@@ -6,10 +6,10 @@ import domain.score.Score;
 import service.JanggiDaoService;
 import util.ErrorHandler;
 import view.InputView;
-import view.MoveCommand;
+import view.command.MoveCommand;
 import view.OutputView;
-import view.ProgressCommand;
-import view.SangMaOrderCommand;
+import view.command.ProgressCommand;
+import view.command.SangMaOrderCommand;
 
 import java.util.Map;
 
