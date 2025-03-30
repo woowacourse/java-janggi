@@ -34,7 +34,7 @@ public final class PieceDao {
             final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, piece.coordinate().x());
             preparedStatement.setInt(2, piece.coordinate().y());
-            preparedStatement.setString(3, piece.name());
+            preparedStatement.setString(3, piece.pieceType().name());
             preparedStatement.setString(4, piece.team().name());
 
             preparedStatement.executeUpdate();

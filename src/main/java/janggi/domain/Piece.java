@@ -31,8 +31,4 @@ public record Piece(
     public boolean isPo() {
         return pieceType == PieceType.PO;
     }
-
-    public String name() {
-        return pieceType.getName();
-    }
 }

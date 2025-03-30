@@ -71,7 +71,7 @@ public class OutputView {
 
     private String applyColor(Piece piece) {
         Team team = piece.team();
-        return ViewTools.applyColor(TEAM_COLORS.get(team), piece.name());
+        return ViewTools.applyColor(TEAM_COLORS.get(team), piece.pieceType().canonicalName());
     }
 
     private String applyColor(Team team) {

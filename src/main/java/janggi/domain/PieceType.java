@@ -98,12 +98,12 @@ public enum PieceType {
         )
     );
 
-    private final String name;
+    private final String canonicalName;
     private final int score;
     private final Set<Movement> movements;
 
-    PieceType(String name, int score, Movement... movements) {
-        this.name = name;
+    PieceType(String canonicalName, int score, Movement... movements) {
+        this.canonicalName = canonicalName;
         this.score = score;
         this.movements = Set.of(movements);
     }
@@ -114,8 +114,8 @@ public enum PieceType {
         );
     }
 
-    public String getName() {
-        return name;
+    public String canonicalName() {
+        return canonicalName;
     }
 
     public int getScore() {
