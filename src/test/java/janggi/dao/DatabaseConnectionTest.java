@@ -4,12 +4,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class DatabaseConnectionTest {
 
     private final DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
+
+    @BeforeAll
+    static void setUpClass() {
+        DatabaseConnection.setTestMode(true);
+    }
+
+    @AfterAll
+    static void tearDownClass() {
+        DatabaseConnection.setTestMode(false);
+    }
 
     @DisplayName("커넥션 테스트")
     @Test

@@ -18,55 +18,42 @@ public class PositionDao {
             preparedStatement.setInt(2, position.y());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 
-    public Position findByPositionId(final int positionId) {
+    public Position findPositionById(final int positionId) {
         final String query = "SELECT * FROM position WHERE position_id = ?";
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, positionId);
-
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return new Position(
-                        resultSet.getInt("x"),
-                        resultSet.getInt("y")
-                );
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    final int x = resultSet.getInt("x");
+                    final int y = resultSet.getInt("y");
+                    return new Position(x, y);
+                }
             }
+            throw new RuntimeException("오류가 발생했습니다.");
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("오류가 발생했습니다.");
         }
-        return null;
     }
 
-    public int findIdByXY(final int x, final int y) {
-        final String query = "SELECT position_id FROM position WHERE x = ? AND y = ?";
+    public int findIdByPosition(final Position position) {
+        final String query = "SELECT * FROM position WHERE x = ? AND y = ?";
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, x);
-            preparedStatement.setInt(2, y);
-            final ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt("position_id");
+            preparedStatement.setInt(1, position.x());
+            preparedStatement.setInt(2, position.y());
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("position_id");
+                }
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return -1;
-    }
-
-    public boolean deletePositionById(final int positionId) {
-        final String query = "DELETE FROM position WHERE position_id = ?";
-        try (final Connection connection = databaseConnection.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, positionId);
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;
+            throw new RuntimeException("오류가 발생했습니다.");
         } catch (final SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 
@@ -76,12 +63,10 @@ public class PositionDao {
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, x);
             preparedStatement.setInt(2, y);
-            int rowsAffected = preparedStatement.executeUpdate();
+            final int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
         } catch (final SQLException e) {
-            System.err.println("Position 삭제 오류: " + e.getMessage());
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 
@@ -95,7 +80,7 @@ public class PositionDao {
              final PreparedStatement statement = connection.prepareStatement(query)) {
             statement.executeUpdate(query);
         } catch (final SQLException e) {
-            throw new RuntimeException("Failed to delete all positions", e);
+            throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 }

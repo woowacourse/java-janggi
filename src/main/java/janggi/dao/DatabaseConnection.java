@@ -7,16 +7,22 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
     private static DatabaseConnection instance;
+    private static boolean isTestMode = false;
 
     // DB 연결 정보
     private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";
+    private static final String TEST_DATABASE = "janggi_test";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
     private static final String URL = "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION;
 
     private DatabaseConnection() {
+    }
+
+    public static void setTestMode(final boolean testMode) {
+        isTestMode = testMode;
     }
 
     public static DatabaseConnection getInstance() {
@@ -28,21 +34,20 @@ public class DatabaseConnection {
 
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            final String currentDb = isTestMode ? TEST_DATABASE : DATABASE;
+            final String url = "jdbc:mysql://" + SERVER + "/" + currentDb + OPTION;
+            return DriverManager.getConnection(url, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 
-    public void closeConnection(Connection connection) {
+    public void closeConnection(final Connection connection) {
         if (connection != null) {
             try {
                 connection.close();
-            } catch (SQLException e) {
-                System.err.println("DB 연결 종료 오류:" + e.getMessage());
-                e.printStackTrace();
+            } catch (final SQLException e) {
+                throw new RuntimeException("오류가 발생했습니다.");
             }
         }
     }
