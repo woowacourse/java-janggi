@@ -1,6 +1,7 @@
 package janggi.game;
 
-import janggi.dao.GameDao;
+import janggi.dao.GameInformationDao;
+import janggi.dao.MovePieceCommandDao;
 import janggi.setting.CampType;
 import janggi.setting.GameState;
 import janggi.setting.PieceAssignType;
@@ -13,11 +14,14 @@ import java.util.Optional;
 public class JanggiGame {
 
     private final GameInputOutput gameInputOutput;
-    private final GameDao gameDao;
+    private final GameInformationDao gameInformationDao;
+    private final MovePieceCommandDao movePieceCommandDao;
 
-    public JanggiGame(GameInputOutput gameInputOutput, GameDao gameDao) {
+    public JanggiGame(GameInputOutput gameInputOutput, GameInformationDao gameInformationDao,
+            MovePieceCommandDao movePieceCommandDao) {
         this.gameInputOutput = gameInputOutput;
-        this.gameDao = gameDao;
+        this.gameInformationDao = gameInformationDao;
+        this.movePieceCommandDao = movePieceCommandDao;
     }
 
     public void start() {
@@ -49,17 +53,17 @@ public class JanggiGame {
         gameInputOutput.printStartMessage();
         PieceAssignType choAnswer = gameInputOutput.readPieceAssignType(CampType.CHO);
         PieceAssignType hanAnswer = gameInputOutput.readPieceAssignType(CampType.HAN);
-        int gameId = gameDao.addNewGameInformation(gameTitle, choAnswer, hanAnswer);
+        int gameId = gameInformationDao.addNewGameInformation(gameTitle, choAnswer, hanAnswer);
         return new GameInformation(gameId, gameTitle, choAnswer, hanAnswer, GameState.PLAY);
     }
 
     private Optional<GameInformation> registerExistingGameInformation() {
-        List<GameInformation> allGameInformation = gameDao.findAllGameInformation();
+        List<GameInformation> allGameInformation = gameInformationDao.findAllGameInformation();
         return gameInputOutput.selectGame(allGameInformation);
     }
 
     private List<MovePieceCommand> loadMovePieceCommand(int gameId) {
-        return gameDao.finaAllMovePieceCommand(gameId);
+        return movePieceCommandDao.finaAllMovePieceCommand(gameId);
     }
 
     private JanggiBoard prepareBoard(GameInformation gameInformation, List<MovePieceCommand> commands) {
@@ -103,7 +107,7 @@ public class JanggiGame {
                 gameInputOutput.printTurn(campType);
                 MovePieceCommand movePieceCommand = gameInputOutput.readMoveInformation(campType);
                 janggiBoard.movePiece(movePieceCommand);
-                gameDao.addMovePieceCommand(gameId, movePieceCommand);
+                movePieceCommandDao.addMovePieceCommand(gameId, movePieceCommand);
                 gameInputOutput.printJanggiBoardState(janggiBoard);
                 return;
             } catch (IllegalArgumentException exception) {
@@ -113,6 +117,6 @@ public class JanggiGame {
     }
 
     private void endGame(int gameId) {
-        gameDao.updateGameInformationToEnd(gameId);
+        gameInformationDao.updateGameInformationToEnd(gameId);
     }
 }

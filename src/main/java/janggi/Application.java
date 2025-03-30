@@ -1,6 +1,7 @@
 package janggi;
 
-import janggi.dao.GameDao;
+import janggi.dao.GameInformationDao;
+import janggi.dao.MovePieceCommandDao;
 import janggi.game.JanggiGame;
 import janggi.view.GameInputOutput;
 import janggi.view.InputView;
@@ -10,7 +11,7 @@ public class Application {
 
     public static void main(String[] args) {
         GameInputOutput gameInputOutput = new GameInputOutput(new InputView(), new OutputView());
-        JanggiGame janggiGame = new JanggiGame(gameInputOutput, new GameDao());
+        JanggiGame janggiGame = new JanggiGame(gameInputOutput, new GameInformationDao(), new MovePieceCommandDao());
         janggiGame.start();
     }
 }
