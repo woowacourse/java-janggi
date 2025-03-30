@@ -7,7 +7,7 @@ public interface BoardDAO {
 
     Board toDomain(String gameRoomName);
 
-    void saveAll(String gameRoomName, Board board);
+    void save(String gameRoomName, Board board);
 
     void movePiece(String gameRoomName, Position currentPosition, Position targetPosition);
 }

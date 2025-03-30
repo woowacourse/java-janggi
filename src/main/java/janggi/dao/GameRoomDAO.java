@@ -13,7 +13,7 @@ public interface GameRoomDAO {
 
     void create(String gameRoomName);
 
-    void save(String gameRoomName, Team team);
+    void update(String gameRoomName, Team team);
 
     void delete(String gameRoomName);
 }

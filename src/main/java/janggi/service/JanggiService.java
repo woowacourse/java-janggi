@@ -23,6 +23,12 @@ public class JanggiService {
         this.boardDAO = boardDAO;
     }
 
+    public void validateNewGameRoomName(String gameRoomName) {
+        if (gameRoomDAO.exist(gameRoomName)) {
+            throw new IllegalArgumentException("해당 이름의 방이 존재합니다!");
+        }
+    }
+
     public void checkExistRoom() {
         if (gameRoomDAO.findAllNames().isEmpty()) {
             throw new IllegalArgumentException("방이 존재하지 않습니다.");
@@ -34,13 +40,25 @@ public class JanggiService {
         if (gameRoomDAO.exist(gameRoomName)) {
             throw new IllegalArgumentException("이미 존재하는 방입니다. 다시 입력해주세요!");
         }
+        validateTeamPositionDto(maSangPositionByCho, maSangPositionByHan);
 
         gameRoomDAO.create(gameRoomName);
 
         Board board = initializeBoard(maSangPositionByCho, maSangPositionByHan);
-        boardDAO.saveAll(gameRoomName, board);
+        boardDAO.save(gameRoomName, board);
 
         return new GameRoom(gameRoomName, board, Team.CHO);
+    }
+
+    private void validateTeamPositionDto(TeamMaSangPositionDto maSangPositionByCho,
+                                         TeamMaSangPositionDto maSangPositionByHan) {
+        if (!maSangPositionByCho.team().isSameSide(Team.CHO)) {
+            throw new IllegalArgumentException("초나라의 포지션 정보를 가져와야 합니다!");
+        }
+
+        if (!maSangPositionByHan.team().isSameSide(Team.HAN)) {
+            throw new IllegalArgumentException("한나라의 포지션 정보를 가져와야 합니다!");
+        }
     }
 
     public GameRoom loadGameRoom(String gameRoomName) {
@@ -68,11 +86,10 @@ public class JanggiService {
     }
 
     public void saveGameRoom(String gameRoomName, Team turn) {
-        gameRoomDAO.save(gameRoomName, turn);
+        gameRoomDAO.update(gameRoomName, turn);
     }
 
-    public void deleteGameRoomIfNotEnd(GameRoom gameRoom, boolean isNotClosed) {
-
+    public void deleteGameRoomIfEnd(GameRoom gameRoom, boolean isNotClosed) {
         Board board = gameRoom.board();
         Team turn = gameRoom.turn();
         String gameRoomName = gameRoom.name();
@@ -84,6 +101,7 @@ public class JanggiService {
 
     public void movePiece(GameRoom gameRoom, Position currentPosition, Position targetPosition) {
         Board board = gameRoom.board();
+        System.out.println(board);
         String gameRoomName = gameRoom.name();
 
         board.movePiece(currentPosition, targetPosition);

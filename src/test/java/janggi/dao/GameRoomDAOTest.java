@@ -89,7 +89,7 @@ class GameRoomDAOTest {
         gameRoomDAOImpl.create(roomName);
 
         // when & then
-        assertThatCode(() -> gameRoomDAOImpl.save(roomName, Team.HAN)).doesNotThrowAnyException();
+        assertThatCode(() -> gameRoomDAOImpl.update(roomName, Team.HAN)).doesNotThrowAnyException();
     }
 
     @DisplayName("게임 룸을 삭제한다.")
@@ -109,7 +109,7 @@ class GameRoomDAOTest {
     @Test
     void test7() {
         // give & when & then
-        assertThatThrownBy(() -> gameRoomDAOImpl.save(roomName, Team.HAN)).hasMessage("해당 방이 존재하지 않습니다!")
+        assertThatThrownBy(() -> gameRoomDAOImpl.update(roomName, Team.HAN)).hasMessage("해당 방이 존재하지 않습니다!")
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

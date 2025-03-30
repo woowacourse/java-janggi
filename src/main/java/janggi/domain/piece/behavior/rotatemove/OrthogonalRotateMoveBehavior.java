@@ -3,12 +3,14 @@ package janggi.domain.piece.behavior.rotatemove;
 import janggi.domain.Board;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
+import janggi.domain.move.Vector;
 import janggi.domain.move.Vectors;
 import janggi.domain.piece.PieceBehavior;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 public abstract class OrthogonalRotateMoveBehavior implements PieceBehavior {
 
@@ -37,7 +39,13 @@ public abstract class OrthogonalRotateMoveBehavior implements PieceBehavior {
                                                 Vectors vectors);
 
     protected boolean canNotMove(Vectors vectors, Position currentPosition) {
-        return vectors.vectors()
+        int size = vectors.vectors().size();
+
+        List<Vector> accumulateVectors = IntStream.range(0, size)
+                .mapToObj(vectors::accumulate)
+                .toList();
+
+        return accumulateVectors
                 .stream()
                 .allMatch(currentPosition::canNotMove);
     }

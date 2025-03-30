@@ -92,7 +92,7 @@ public class GameRoomDAOImpl implements GameRoomDAO {
     }
 
     @Override
-    public void save(String gameRoomName, Team team) {
+    public void update(String gameRoomName, Team team) {
         if (!exist(gameRoomName)) {
             throw new IllegalArgumentException("해당 방이 존재하지 않습니다!");
         }

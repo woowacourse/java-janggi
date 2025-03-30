@@ -44,8 +44,8 @@ public class BoardDAOImpl implements BoardDAO {
     }
 
     @Override
-    public void saveAll(String gameRoomName, Board board) {
-        Map<Position, Piece> pieces = board.getPieceMap();
+    public void save(String gameRoomName, Board board) {
+        Map<Position, Piece> pieces = board.getBoard();
 
         try (Connection conn = databaseManager.getConnection()) {
             saveAllWithTransaction(gameRoomName, conn, pieces);

@@ -7,15 +7,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.w3c.dom.ls.LSResourceResolver;
 
 public class Board {
 
     private static final double HAN_BONUS_SCORE = 1.5;
-    private final Map<Position, Piece> pieceMap;
+    private final Map<Position, Piece> board;
 
-    public Board(Map<Position, Piece> pieceMap) {
-        validate(pieceMap);
-        this.pieceMap = new HashMap<>(pieceMap);
+    public Board(Map<Position, Piece> board) {
+        validate(board);
+        this.board = new HashMap<>(board);
     }
 
     public void validate(Map<Position, Piece> pieceMap) {
@@ -25,7 +26,7 @@ public class Board {
     }
 
     public boolean hasPiece(Position position) {
-        return pieceMap.containsKey(position);
+        return board.containsKey(position);
     }
 
     public boolean isSameSide(Team team, Position position) {
@@ -34,7 +35,7 @@ public class Board {
 
     public void checkMoveablePiece(Team team, Position position) {
         validatePositionExists(position);
-        Piece piece = pieceMap.get(position);
+        Piece piece = board.get(position);
         if (!piece.isSameSide(team)) {
             throw new IllegalArgumentException(ErrorMessage.IS_NOT_SAME_SIDE.getMessage());
         }
@@ -45,7 +46,7 @@ public class Board {
     }
 
     private void validatePositionExists(Position position) {
-        if (!pieceMap.containsKey(position)) {
+        if (!board.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.POSITION_DOES_NOT_EXIST.getMessage());
         }
     }
@@ -58,16 +59,20 @@ public class Board {
             throw new IllegalArgumentException(ErrorMessage.CANNOT_MOVE_TO_POSITION.getMessage());
         }
 
-        pieceMap.remove(currentPosition);
-        pieceMap.put(targetPosition, piece);
+        board.remove(currentPosition);
+        board.put(targetPosition, piece);
     }
 
     public Piece getPiece(Position position) {
-        if (!pieceMap.containsKey(position)) {
+        System.out.println(position);
+        System.out.println("board 클래스" + board);
+        System.out.println(board.containsKey(position));
+
+        if (!board.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
         }
 
-        return pieceMap.get(position);
+        return board.get(position);
     }
 
     public boolean canMoveToPosition(Team team, Position position) {
@@ -75,7 +80,7 @@ public class Board {
     }
 
     public boolean hasGeneral(Team team) {
-        return pieceMap.values().stream()
+        return board.values().stream()
                 .anyMatch(piece -> piece.isGeneralOnSameTeam(team));
     }
 
@@ -84,7 +89,7 @@ public class Board {
     }
 
     public double getScore(Team team) {
-        int sum = pieceMap.values().stream()
+        int sum = board.values().stream()
                 .filter(piece -> piece.isSameSide(team))
                 .filter(piece -> !piece.isGeneralOnSameTeam(team))
                 .mapToInt(Piece::toScore)
@@ -107,14 +112,14 @@ public class Board {
         return getPiece(position).toName();
     }
 
-    public Map<Position, Piece> getPieceMap() {
-        return Collections.unmodifiableMap(pieceMap);
+    public Map<Position, Piece> getBoard() {
+        return Collections.unmodifiableMap(board);
     }
 
     @Override
     public String toString() {
         return "Board{" +
-                "pieceMap=" + pieceMap +
+                "pieceMap=" + board +
                 '}';
     }
 }

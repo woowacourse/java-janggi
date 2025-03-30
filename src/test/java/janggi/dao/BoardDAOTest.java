@@ -51,7 +51,7 @@ class BoardDAOTest {
     void test1() {
         Board board = BoardFixture.sangMaSangMa();
 
-        assertThatCode(() -> boardDAOImpl.saveAll(GAME_ROOM_NAME, board))
+        assertThatCode(() -> boardDAOImpl.save(GAME_ROOM_NAME, board))
                 .doesNotThrowAnyException();
     }
 
@@ -60,7 +60,7 @@ class BoardDAOTest {
     void test2() {
         // given
         Board board = BoardFixture.sangMaSangMa();
-        boardDAOImpl.saveAll(GAME_ROOM_NAME, board);
+        boardDAOImpl.save(GAME_ROOM_NAME, board);
 
         // when
         Board result = boardDAOImpl.toDomain(GAME_ROOM_NAME);
@@ -75,7 +75,7 @@ class BoardDAOTest {
     void test3() {
         // given
         Board board = BoardFixture.sangMaSangMa();
-        boardDAOImpl.saveAll(GAME_ROOM_NAME, board);
+        boardDAOImpl.save(GAME_ROOM_NAME, board);
         Position currentPosition = Position.of(7, 1);
         Position targetPosition = Position.of(6, 1);
 

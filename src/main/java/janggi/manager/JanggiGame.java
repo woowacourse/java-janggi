@@ -25,7 +25,8 @@ public class JanggiGame {
     public void start() {
         GameRoom gameRoom = RecoveryUtil.executeWithRetry(this::chooseGameMode);
 
-        repeatGameTurns(gameRoom);
+        boolean isNotClosed = repeatGameTurns(gameRoom);
+        deleteIfEnd(gameRoom, isNotClosed);
 
         result(gameRoom.board());
     }
@@ -54,6 +55,7 @@ public class JanggiGame {
 
     private GameRoom newGameRoom() {
         String gameRoomName = viewer.readGameRoomName();
+        janggiService.validateNewGameRoomName(gameRoomName);
 
         TeamMaSangPositionDto maSangPositionByCho = RecoveryUtil.executeWithRetry(
                 () -> viewer.settingMaSangPlacement(Team.CHO));
@@ -63,7 +65,7 @@ public class JanggiGame {
         return janggiService.newGameRoom(gameRoomName, maSangPositionByCho, maSangPositionByHan);
     }
 
-    private void repeatGameTurns(GameRoom gameRoom) {
+    private boolean repeatGameTurns(GameRoom gameRoom) {
         Board board = gameRoom.board();
         String gameRoomName = gameRoom.name();
         Team turn = gameRoom.turn();
@@ -78,8 +80,11 @@ public class JanggiGame {
             turn = turn.reverse();
         }
 
-        // TODO 게임을 반복하는 건데 장기 게임 삭제 책임이 부여되어 있다. 다른 데로 옮기자
-        janggiService.deleteGameRoomIfNotEnd(gameRoom, isNotClosed);
+        return isNotClosed;
+    }
+
+    private void deleteIfEnd(GameRoom gameRoom, boolean isNotClosed) {
+        janggiService.deleteGameRoomIfEnd(gameRoom, isNotClosed);
     }
 
     private boolean chooseOption(GameRoom gameRoom, Team turn) {
