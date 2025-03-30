@@ -29,7 +29,7 @@ public class JanggiBoard {
         validatePositionHasPiece(piece);
         validateSelectCurrentTurnPiece(piece);
 
-        List<Route> candidatesRoutes = piece.computeCandidatePositions(position);
+        List<Route> candidatesRoutes = piece.computeCandidateRoutes(position);
         List<Position> reachableDestinations = piece.filterReachableDestinations(candidatesRoutes, this);
 
         validateReachableDestinations(reachableDestinations);

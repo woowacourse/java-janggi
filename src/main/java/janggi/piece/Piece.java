@@ -19,7 +19,7 @@ public abstract class Piece {
         this.side = side;
     }
 
-    public abstract List<Route> computeCandidatePositions(final Position position);
+    public abstract List<Route> computeCandidateRoutes(final Position position);
 
     public abstract List<Position> filterReachableDestinations(final List<Route> candidateRoutes,
                                                                final JanggiBoard board);

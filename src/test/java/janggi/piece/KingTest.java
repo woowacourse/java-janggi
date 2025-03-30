@@ -14,11 +14,11 @@ class KingTest {
 
     @Test
     @DisplayName("현재 위치를 받아와 움직일 수 있는 위치 후보군을 반환한다")
-    void computeCandidatePositions() {
+    void computeCandidateRoutes() {
 
         King king = new King(Side.CHO);
         Position currentPosition = new Position(4, 8);
-        List<Route> candidatePositions = king.computeCandidatePositions(currentPosition);
+        List<Route> candidatePositions = king.computeCandidateRoutes(currentPosition);
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(4),

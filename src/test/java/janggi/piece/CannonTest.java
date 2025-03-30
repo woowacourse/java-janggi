@@ -17,7 +17,7 @@ class CannonTest {
     void test1() {
         Cannon cannon = new Cannon(Side.CHO);
 
-        List<Route> candidatePositions = cannon.computeCandidatePositions(new Position(1, 7));
+        List<Route> candidatePositions = cannon.computeCandidateRoutes(new Position(1, 7));
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(4),

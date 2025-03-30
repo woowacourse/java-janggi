@@ -14,11 +14,11 @@ class GuardTest {
 
     @Test
     @DisplayName("현재 위치를 받아와 움직일 수 있는 위치 후보군을 반환한다")
-    void computeCandidatePositions() {
+    void computeCandidateRoutes() {
 
         Guard guard = new Guard(Side.CHO);
         Position currentPosition = new Position(3, 9);
-        List<Route> candidatePositions = guard.computeCandidatePositions(currentPosition);
+        List<Route> candidatePositions = guard.computeCandidateRoutes(currentPosition);
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(4),

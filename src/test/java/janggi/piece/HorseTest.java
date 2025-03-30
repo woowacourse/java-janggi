@@ -17,7 +17,7 @@ class HorseTest {
     void test1() {
         Horse horse = new Horse(Side.CHO);
 
-        List<Route> candidatePositions = horse.computeCandidatePositions(new Position(1, 9));
+        List<Route> candidatePositions = horse.computeCandidateRoutes(new Position(1, 9));
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(8),

@@ -17,7 +17,7 @@ class ElephantTest {
     void test1() {
         Elephant elephant = new Elephant(Side.CHO);
 
-        List<Route> candidatePositions = elephant.computeCandidatePositions(new Position(2, 9));
+        List<Route> candidatePositions = elephant.computeCandidateRoutes(new Position(2, 9));
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(8),

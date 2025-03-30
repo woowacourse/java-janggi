@@ -14,11 +14,11 @@ class SoldierTest {
 
     @Test
     @DisplayName("현재 위치를 받아와 움직일 수 있는 위치 후보군을 반환한다 - 초나라")
-    void computeCandidatePositions() {
+    void computeCandidateRoutes() {
 
         Soldier soldier = new Soldier(Side.CHO);
         Position currentPosition = new Position(0, 6);
-        List<Route> candidatePositions = soldier.computeCandidatePositions(currentPosition);
+        List<Route> candidatePositions = soldier.computeCandidateRoutes(currentPosition);
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(3),
@@ -28,11 +28,11 @@ class SoldierTest {
 
     @Test
     @DisplayName("현재 위치를 받아와 움직일 수 있는 위치 후보군을 반환한다 - 한나라")
-    void computeCandidatePositions2() {
+    void computeCandidateRoutes2() {
 
         Soldier soldier = new Soldier(Side.HAN);
         Position currentPosition = new Position(0, 3);
-        List<Route> candidatePositions = soldier.computeCandidatePositions(currentPosition);
+        List<Route> candidatePositions = soldier.computeCandidateRoutes(currentPosition);
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(3),

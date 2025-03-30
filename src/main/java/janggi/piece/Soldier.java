@@ -14,7 +14,7 @@ public class Soldier extends Piece {
     }
 
     @Override
-    public List<Route> computeCandidatePositions(final Position position) {
+    public List<Route> computeCandidateRoutes(final Position position) {
         List<Position> positions = position.moveToCandidate();
         List<Route> routes = Route.createRoutes(positions);
         if (isCho()) {

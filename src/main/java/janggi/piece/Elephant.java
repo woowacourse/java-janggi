@@ -15,7 +15,7 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public List<Route> computeCandidatePositions(final Position position) {
+    public List<Route> computeCandidateRoutes(final Position position) {
         return computeDiagonalRoutes(position, DIAGONAL_COUNT);
     }
 

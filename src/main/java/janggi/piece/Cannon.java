@@ -13,7 +13,7 @@ public class Cannon extends Piece {
     }
 
     @Override
-    public List<Route> computeCandidatePositions(final Position position) {
+    public List<Route> computeCandidateRoutes(final Position position) {
         return computeStraightRoutes(position, MOVE_LIMIT);
     }
 

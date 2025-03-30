@@ -17,7 +17,7 @@ class ChariotTest {
     void test1() {
         Chariot chariot = new Chariot(Side.CHO);
 
-        List<Route> candidatePositions = chariot.computeCandidatePositions(new Position(2, 9));
+        List<Route> candidatePositions = chariot.computeCandidateRoutes(new Position(2, 9));
 
         assertAll(
                 () -> assertThat(candidatePositions).hasSize(4),
