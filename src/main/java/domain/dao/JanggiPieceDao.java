@@ -26,9 +26,9 @@ public class JanggiPieceDao {
         try (Statement statement = connection.createStatement()) {
             statement.execute(createPieceTableSQL);
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] PIECE TABLE 생성 실패");
+            throw new IllegalStateException("[ERROR] PIECE TABLE 생성 실패");
         }
+        throw new IllegalStateException("[ERROR] PIECE TABLE 생성 실패");
     }
 
     public int addPiece(int gameId, Piece piece) {
@@ -46,11 +46,9 @@ public class JanggiPieceDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] PIECE INSERT 실패");
+            throw new IllegalStateException("[ERROR] PIECE INSERT 실패");
         }
-
-        return -1;
+        throw new IllegalStateException("[ERROR] PIECE INSERT 실패");
     }
 
     public void deletePiecesByGameId(int gameId) {
@@ -60,8 +58,8 @@ public class JanggiPieceDao {
             preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] PIECE 삭제 실패");
+            throw new IllegalStateException("[ERROR] PIECE 삭제 실패");
         }
+        throw new IllegalStateException("[ERROR] PIECE 삭제 실패");
     }
 }

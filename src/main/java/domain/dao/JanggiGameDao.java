@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 public class JanggiGameDao {
-    private final static int CREATE_ERROR_NUMBER = -1;
     private final Connection connection;
 
     public JanggiGameDao(Connection connection) {
@@ -34,9 +33,9 @@ public class JanggiGameDao {
             statement.execute(createGameTableSQL);
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] GAME TABLE 생성 실패");
+            throw new IllegalStateException("[ERROR] GAME TABLE 생성 실패");
         }
+        throw new IllegalStateException("[ERROR] GAME TABLE 생성 실패");
     }
 
     public int createGame(String roomName, Country country) {
@@ -52,10 +51,9 @@ public class JanggiGameDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] GAME CREATE 실패");
+            throw new IllegalStateException("[ERROR] GAME CREATE 실패");
         }
-        return CREATE_ERROR_NUMBER;
+        throw new IllegalStateException("[ERROR] GAME CREATE 실패");
     }
 
     public void deleteGameRoom(int gameId) {
@@ -65,9 +63,9 @@ public class JanggiGameDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] GAME DELETE 실패");
+            throw new IllegalStateException("[ERROR] GAME DELETE 실패");
         }
+        throw new IllegalStateException("[ERROR] GAME DELETE 실패");
     }
 
     public List<GameRoomDTO> findAllGames() {
@@ -84,10 +82,8 @@ public class JanggiGameDao {
             }
             return dtos;
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] GAME 조회 실패!");
+            throw new IllegalStateException("[ERROR] GAME 조회 실패");
         }
-        return null;
     }
 
     public void saveGame(int gameId, Map<JanggiCoordinate, Piece> board) {
@@ -114,10 +110,9 @@ public class JanggiGameDao {
                 return resultSet.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] GAME 조회 실패!");
+            throw new IllegalStateException("[ERROR] GAME 조회 실패");
         }
-        return -1;
+        throw new IllegalStateException("[ERROR] GAME 조회 실패");
     }
 
     public String getCurrTurnById(int gameId) {
@@ -145,8 +140,9 @@ public class JanggiGameDao {
             preparedStatement.setInt(2, gameId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] TURN 업데이트 실패");
+            throw new IllegalStateException("[ERROR] TURN 업데이트 실패");
         }
+        throw new IllegalStateException("[ERROR] TURN 업데이트 실패");
+
     }
 }

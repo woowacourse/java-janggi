@@ -31,9 +31,9 @@ public class JanggiCoordinateDao {
         try (final Statement statement = connection.createStatement()) {
             statement.execute(createTableSQL);
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] COORDINATE 테이블을 생성할 수 없음");
+            throw new IllegalStateException("[ERROR] COORDINATE 테이블을 생성할 수 없음");
         }
+        throw new IllegalStateException("[ERROR] COORDINATE 테이블을 생성할 수 없음");
     }
 
     public void insertPieceToCoordinate(int pieceId, JanggiCoordinate coordinate, int gameId) {
@@ -47,9 +47,9 @@ public class JanggiCoordinateDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] COORDINATE INSERT 실패");
+            throw new IllegalStateException("[ERROR] COORDINATE INSERT 실패");
         }
+        throw new IllegalStateException("[ERROR] COORDINATE INSERT 실패");
     }
 
     public Map<JanggiCoordinate, Piece> finaAllPieces(int gameId) {
@@ -77,10 +77,9 @@ public class JanggiCoordinateDao {
                 board.put(coordinate, piece);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] PIECE 정보들을 불러올 수 없습니다.");
+            throw new IllegalStateException("[ERROR] PIECE 정보들을 불러올 수 없습니다.");
         }
-        return board;
+        throw new IllegalStateException("[ERROR] PIECE 정보들을 불러올 수 없습니다.");
     }
 
 
@@ -114,8 +113,8 @@ public class JanggiCoordinateDao {
             preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("[ERROR] COORDINATE 삭제 실패");
+            throw new IllegalStateException("[ERROR] COORDINATE 삭제 실패");
         }
+        throw new IllegalStateException("[ERROR] COORDINATE 삭제 실패");
     }
 }

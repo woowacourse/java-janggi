@@ -22,11 +22,9 @@ public class JanggiDao {
             try {
                 return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
             } catch (final SQLException e) {
-                System.err.println("DB 연결 오류:" + e.getMessage());
-                e.printStackTrace();
-                return null;
+                throw new IllegalStateException("[ERROR] DB 연결 오류");
             }
         }
-        return connect;
+        throw new IllegalStateException("[ERROR] DB 연결 오류");
     }
 }
