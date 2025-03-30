@@ -43,6 +43,7 @@ public class Board {
         updateBoard(movement);
         currentCamp = currentCamp.switchTurn();
     }
+
     private void validateTurn(Movement movement) {
         Piece originPiece = getOriginPiece(movement);
         if (originPiece.isOppositeCampTo(currentCamp)) {

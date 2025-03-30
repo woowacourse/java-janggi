@@ -14,11 +14,15 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public Command askStartCommand() {
+    public Command askStartOrRecordCommand() {
         String response = prompt(formatCommands());
         Command command = Command.findCommandByCode(response);
-        validateStartCommand(command);
+        validateStartOrRecordCommand(command);
         return command;
+    }
+
+    public String askBoardId() {
+        return prompt("게임 진행을 할 보드 ID를 입력하시오.");
     }
 
     public Command askPlayCommand() {
@@ -48,15 +52,15 @@ public class InputView {
         return parseMovement(response);
     }
 
-    private void validateStartCommand(Command command) {
-        if (command != Command.START) {
-            throw new ErrorException("게임을 시작하려면 START를 입력해야 합니다.");
+    private void validateStartOrRecordCommand(Command command) {
+        if (command != Command.START && command != Command.RESUME) {
+            throw new ErrorException("게임을 시작하지 않은 상태에서 START 또는 RECORD를 입력해야 합니다.");
         }
     }
 
     private void validatePlayCommand(Command command) {
-        if (command == Command.START) {
-            throw new ErrorException("시작한 게임을 START 외 다른 명령어를 입력해야 합니다.");
+        if (command == Command.START || command == Command.RESUME) {
+            throw new ErrorException("시작한 게임을 START와 RESUME 외 다른 명령어를 입력해야 합니다.");
         }
     }
 

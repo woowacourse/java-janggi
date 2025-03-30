@@ -32,8 +32,8 @@ public class InitialBoardGenerator implements BoardGenerator {
 
     private Map<Position, Piece> initializeCells() {
         Map<Position, Piece> cells = new HashMap<>();
-        for (int i = MIN_ROW; i < MAX_ROW; i++) {
-            for (int j = MIN_COLUMN; j < MAX_COLUMN; j++) {
+        for (int i = MIN_COLUMN; i < MAX_COLUMN; i++) {
+            for (int j = MIN_ROW; j < MAX_ROW; j++) {
                 cells.put(Position.of(i, j), Empty.INSTANCE);
             }
         }

@@ -2,13 +2,21 @@ package janggi.controller;
 
 public class GameMode {
 
-    private boolean isPlaying = true;
+    private GameStatus gameStatus;
+
+    public GameMode() {
+        this.gameStatus = GameStatus.PREPARE;
+    }
 
     public boolean isPlaying() {
-        return isPlaying;
+        return gameStatus == GameStatus.PLAY;
+    }
+
+    public void startPlaying() {
+        gameStatus = GameStatus.PLAY;
     }
 
     public void stopPlaying() {
-        isPlaying = false;
+        gameStatus = GameStatus.END;
     }
 }

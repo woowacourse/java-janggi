@@ -1,6 +1,5 @@
 package janggi.piece;
 
-import janggi.position.Movement;
 import janggi.util.ColorConvertor;
 import java.util.function.Function;
 

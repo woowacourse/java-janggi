@@ -7,6 +7,7 @@ import janggi.piece.Camp;
 import janggi.piece.Piece;
 import janggi.piece.Type;
 import janggi.position.Position;
+import java.util.List;
 import java.util.Map;
 
 public class OutputView {
@@ -31,6 +32,15 @@ public class OutputView {
                 .append(DISPLAY_POINT)
                 .append("Welcome to the Janggi Game!").append(System.lineSeparator())
                 .append(DISPLAY_LINE);
+        System.out.println(stringBuilder);
+    }
+
+    public void displayBoardIds(List<Long> boardIds) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(System.lineSeparator())
+                .append("[보드 ID 목록]")
+                .append(System.lineSeparator())
+                .append(formatBoardIds(boardIds));
         System.out.println(stringBuilder);
     }
 
@@ -76,6 +86,17 @@ public class OutputView {
         for (int j = 0; j < MAX_COLUMN; j++) {
             Piece piece = placedPieces.get(Position.of(j, i));
             stringBuilder.append(formatPiece(piece));
+        }
+        return stringBuilder.toString();
+    }
+
+    private String formatBoardIds(List<Long> boardIds) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (boardIds.isEmpty()) {
+            return "없음";
+        }
+        for (Long boardId : boardIds) {
+            stringBuilder.append(boardId).append(System.lineSeparator());
         }
         return stringBuilder.toString();
     }

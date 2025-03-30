@@ -6,11 +6,12 @@ import java.util.Arrays;
 public enum Command {
 
     START("START", "게임 시작"),
+    RESUME("RESUME", "게임 계속"),
     MOVE("MOVE", "기물 이동"),
     END("END", "게임 종료"),
     ;
 
-    private static final String COMMAND_FORMAT = "• %-5s : %s";
+    private static final String COMMAND_FORMAT = "• %-6s : %s";
 
     private final String code;
     private final String name;

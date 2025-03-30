@@ -1,11 +1,11 @@
 package janggi.controller;
 
 import janggi.board.Board;
-import janggi.board.InitialBoardGenerator;
 import janggi.exception.ErrorException;
 import janggi.piece.Camp;
 import janggi.position.Movement;
 import janggi.position.Position;
+import janggi.service.BoardService;
 import janggi.view.Command;
 import janggi.view.InputView;
 import janggi.view.OutputView;
@@ -14,55 +14,69 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public class JanggiGame {
+public class JanggiGameController {
 
-    private static final Camp FIRST_TURN = Camp.CHO;
+    public static final Camp FIRST_TURN = Camp.CHO;
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final BoardService boardService;
 
-    public JanggiGame(InputView inputView, OutputView outputView) {
+    public JanggiGameController(InputView inputView, OutputView outputView, BoardService boardService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.boardService = boardService;
     }
 
     public void runGame() {
         outputView.displayGameBanner();
-        repeatUntilSuccess(inputView::askStartCommand);
-        startGame();
+        GameMode gameMode = new GameMode();
+        Command command = repeatUntilSuccess(inputView::askStartOrRecordCommand);
+
+        if (command == Command.START) {
+            Board board = boardService.createNewBoard();
+            Long boardId = boardService.getLastCreatedBoardId();
+            startGame(gameMode, board, boardId);
+        }
+        if (command == Command.RESUME) {
+            Long boardId = requestBoardId();
+            Board board = boardService.getBoardRecordWithTransaction(boardId);
+            startGame(gameMode, board, boardId);
+        }
     }
 
-    private void startGame() {
-        GameMode gameMode = new GameMode();
-        Camp currentTurn = FIRST_TURN;
-        InitialBoardGenerator initialBoardGenerator = new InitialBoardGenerator();
-        Board board = initialBoardGenerator.generate(currentTurn);
+    private Long requestBoardId() {
+        List<Long> boardIds = boardService.getAllBoardIds();
+        outputView.displayBoardIds(boardIds);
+        return Long.valueOf(repeatUntilSuccess(inputView::askBoardId));
+    }
 
+    private void startGame(GameMode gameMode, Board board, Long boardId) {
+        gameMode.startPlaying();
+        Camp currentTurn = board.getCurrentCamp();
         while (gameMode.isPlaying()) {
             showBoard(board);
-            requestPlayGameUntilEnd(currentTurn, board, gameMode);
+            requestPlayGameUntilEnd(currentTurn, board, gameMode, boardId);
             currentTurn = currentTurn.switchTurn();
         }
     }
 
-    private void requestPlayGameUntilEnd(Camp baseCamp, Board board, GameMode gameMode) {
-        repeatUntilSuccess(() -> {
-            playGame(baseCamp, board, gameMode);
-        });
+    private void requestPlayGameUntilEnd(Camp baseCamp, Board board, GameMode gameMode, Long boardId) {
+        repeatUntilSuccess(() -> playGame(baseCamp, board, gameMode, boardId));
     }
 
-    private void playGame(Camp baseCamp, Board board, GameMode gameMode) {
+    private void playGame(Camp baseCamp, Board board, GameMode gameMode, Long boardId) {
         Command command = repeatUntilSuccess(inputView::askPlayCommand);
         if (command == Command.END) {
             gameMode.stopPlaying();
         }
         if (command == Command.MOVE) {
-            processAndShowGame(inputView.readMovement(baseCamp), board, gameMode);
+            processAndShowGame(inputView.readMovement(baseCamp), board, gameMode, boardId);
         }
     }
 
-    private void processAndShowGame(List<List<Integer>> input, Board board, GameMode gameMode) {
-        processBoard(input, board);
+    private void processAndShowGame(List<List<Integer>> input, Board board, GameMode gameMode, Long boardId) {
+        processBoard(input, board, boardId);
         processAndShowResult(board, gameMode);
     }
 
@@ -76,13 +90,12 @@ public class JanggiGame {
         }
     }
 
-    private void processBoard(List<List<Integer>> input, Board board) {
+    private void processBoard(List<List<Integer>> input, Board board, Long boardId) {
         Position origin = parsePositionOf(input.getFirst());
         Position target = parsePositionOf(input.getLast());
         Movement movement = new Movement(origin, target);
-        board.move(movement);
+        boardService.movePiecesWithTransaction(board, movement, boardId);
     }
-
 
     private void showBoard(Board board) {
         outputView.displayBoard(board.getCells());
@@ -101,7 +114,6 @@ public class JanggiGame {
         return Position.of(input.getFirst(), input.getLast());
     }
 
-    // 재입력 받는 로직
     private void repeatUntilSuccess(Runnable runner) {
         boolean success = false;
         while (!success) {

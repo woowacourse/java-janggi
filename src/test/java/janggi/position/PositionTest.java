@@ -3,11 +3,7 @@ package janggi.position;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-import janggi.board.Board;
 import janggi.exception.ErrorException;
-import janggi.piece.Camp;
-import janggi.piece.Piece;
-import janggi.piece.Soldier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -69,7 +65,7 @@ class PositionTest {
             "8,10",
             "0,10",
             "9,9",
-            "0,9"
+            "9,0"
     })
     void shouldThrowException_WhenInvalidPosition(int x, int y) {
         // given & when & then
