@@ -4,14 +4,15 @@ import static domain.piece.Country.CHO;
 import static domain.piece.Country.HAN;
 
 import domain.Coordinate;
-import domain.board.BoardSettingUpStrategy;
+import domain.board.ChoSettingUpStrategy;
+import domain.board.HanSettingUpStrategy;
 import domain.piece.Ma;
 import domain.piece.Piece;
 import domain.piece.Sang;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MaSangMaSang implements BoardSettingUpStrategy {
+public class MaSangMaSang implements ChoSettingUpStrategy, HanSettingUpStrategy {
 
     public final static String MA_SANG_MA_SANG = "마상마상";
 
