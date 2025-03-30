@@ -9,6 +9,14 @@ import model.position.Row;
 
 public class Castle {
 
+    private static final Castle instance = new Castle();
+
+    private Castle() {}
+
+    public static Castle getInstance() {
+        return instance;
+    }
+
     private final List<Position> moveDiagonalArea = List.of(
         new Position(Column.ONE, Row.FOUR),
         new Position(Column.ONE, Row.SIX),
@@ -56,5 +64,4 @@ public class Castle {
     private boolean canMoveDiagonal(Position position) {
         return moveDiagonalArea.contains(position);
     }
-
 }

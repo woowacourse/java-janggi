@@ -21,8 +21,8 @@ public class Guard extends Piece {
 
     public Guard(Team team) {
         super(team, SCORE, TYPE);
-        this.castle = new Castle();
-        this.limitedBasicMoveNavigator = new LimitedBasicMoveNavigator();
+        this.castle = Castle.getInstance();
+        this.limitedBasicMoveNavigator = LimitedBasicMoveNavigator.getInstance();
     }
 
     @Override

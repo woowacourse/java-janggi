@@ -19,8 +19,8 @@ public class Byeong extends Piece {
 
     public Byeong() {
         super(Team.RED, SCORE, TYPE);
-        this.castle = new Castle();
-        this.limitedBasicMoveNavigator = new LimitedBasicMoveNavigator();
+        this.castle = Castle.getInstance();
+        this.limitedBasicMoveNavigator = LimitedBasicMoveNavigator.getInstance();
     }
 
     @Override

@@ -10,6 +10,14 @@ import model.position.Position;
  */
 public class LimitedBasicMoveNavigator {
 
+    private static final LimitedBasicMoveNavigator instance = new LimitedBasicMoveNavigator();
+
+    private LimitedBasicMoveNavigator() {}
+
+    public static LimitedBasicMoveNavigator getInstance() {
+        return instance;
+    }
+
     public List<Position> find(Position departure, Position arrival, List<Movement> movements) {
         List<Position> arrivedDirection = findDirectionOfArrival(departure, arrival, movements);
         if (arrivedDirection.isEmpty()) {

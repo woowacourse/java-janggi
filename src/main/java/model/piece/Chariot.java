@@ -20,8 +20,8 @@ public class Chariot extends Piece {
 
     public Chariot(Team team) {
         super(team, SCORE, TYPE);
-        this.castle = new Castle();
-        this.unLimitedBasicMoveNavigator = new UnlimitedBasicMoveNavigator();
+        this.castle = Castle.getInstance();
+        this.unLimitedBasicMoveNavigator = UnlimitedBasicMoveNavigator.getInstance();
     }
 
     @Override

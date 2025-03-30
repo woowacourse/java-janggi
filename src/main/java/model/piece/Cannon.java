@@ -20,8 +20,8 @@ public class Cannon extends Piece {
 
     public Cannon(Team team) {
         super(team, SCORE, TYPE);
-        this.castle = new Castle();
-        this.unLimitedBasicMoveNavigator = new UnlimitedBasicMoveNavigator();
+        this.castle = Castle.getInstance();
+        this.unLimitedBasicMoveNavigator = UnlimitedBasicMoveNavigator.getInstance();
     }
 
     @Override

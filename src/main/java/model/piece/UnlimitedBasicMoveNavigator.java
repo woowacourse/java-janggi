@@ -7,6 +7,14 @@ import model.position.Position;
 
 public class UnlimitedBasicMoveNavigator {
 
+    private static final UnlimitedBasicMoveNavigator instance = new UnlimitedBasicMoveNavigator();
+
+    private UnlimitedBasicMoveNavigator() {}
+
+    public static UnlimitedBasicMoveNavigator getInstance() {
+        return instance;
+    }
+
     public List<Position> find(Position departure, Position arrival, List<Movement> movements) {
         return movements.stream()
             .map(movement -> findDirectionByMovement(departure, arrival, movement))

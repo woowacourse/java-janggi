@@ -25,7 +25,7 @@ public class Elephant extends Piece {
 
     public Elephant(Team team) {
         super(team, SCORE, TYPE);
-        this.jumpMoveNavigator = new JumpMoveNavigator();
+        this.jumpMoveNavigator = JumpMoveNavigator.getInstance();
     }
 
     @Override

@@ -21,7 +21,7 @@ public class Horse extends Piece {
 
     public Horse(Team team) {
         super(team, SCORE, TYPE);
-        this.jumpMoveNavigator = new JumpMoveNavigator();
+        this.jumpMoveNavigator = JumpMoveNavigator.getInstance();
     }
 
     @Override
