@@ -39,10 +39,6 @@ public class JanggiGame {
             turnDao.saveTurn(turn);
         }
 
-        // todo 기물이 이동하면 기물 정보를 업데이트 해준다.
-        // todo 기물 이동 완료되면 턴을 업데이트한다.
-        // todo 게임이 종료되는 조건을 만나면 보유하고 있는 모든 장기말 데이터 삭제
-
         Board board = new Board(initialPieces);
         output.printBoard(board.extractLocatedLivePicecs());
         while (board.isGameOver()) {
@@ -57,6 +53,8 @@ public class JanggiGame {
             }
         }
         output.printGameResult(board.extractWinnerKing());
+        boardDao.deleteAll();
+        turnDao.deleteAll();
     }
 
     public static Team changeTurn(Team turn, TurnDao turnDao) {

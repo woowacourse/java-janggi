@@ -54,4 +54,15 @@ public class TurnDao {
             throw new RuntimeException(e);
         }
     }
+
+    public void deleteAll() {
+        String query = "DELETE FROM turn";
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
