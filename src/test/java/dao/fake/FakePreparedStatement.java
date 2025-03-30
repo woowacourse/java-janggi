@@ -44,8 +44,8 @@ public final class FakePreparedStatement implements PreparedStatement {
 
     @Override
     public ResultSet executeQuery() throws SQLException {
-        if (isGameActiveQuery(sql)) {
-            return executeGameActiveQuery();
+        if (isGamesActivateQuery(sql)) {
+            return executeGamesActivateQuery();
         }
 
         if (isMaxIdQuery(sql)) {
@@ -143,8 +143,8 @@ public final class FakePreparedStatement implements PreparedStatement {
         parameters.put(parameterIndex, x);
     }
 
-    private boolean isGameActiveQuery(final String sql) {
-        return sql.contains("select exists") && sql.contains("where id = ? and is_active=true");
+    private boolean isGamesActivateQuery(final String sql) {
+        return sql.contains("select game.id from game where is_activate=true");
     }
 
     private boolean isMaxIdQuery(final String sql) {
@@ -168,7 +168,7 @@ public final class FakePreparedStatement implements PreparedStatement {
     }
 
     private boolean isDeactivateGameQuery(final String sql) {
-        return sql.contains("update game set is_active = false");
+        return sql.contains("update game set is_activate = false");
     }
 
     private boolean isInsertPlayerQuery(final String sql) {
@@ -191,13 +191,16 @@ public final class FakePreparedStatement implements PreparedStatement {
         return sql.contains("update board_location l join player pl on");
     }
 
-    private ResultSet executeGameActiveQuery() {
-        final int gameId = (Integer) parameters.get(1);
-        final boolean exists = database.isGameActive(gameId);
+    private ResultSet executeGamesActivateQuery() {
+        final List<Integer> activateGameIds = database.findAllActivateGames();
 
-        final Map<String, Object> value = new HashMap<>();
-        value.put("1", exists);
-        return new FakeResultSet(List.of(value));
+        final List<Map<String, Object>> values = new ArrayList<>();
+        for (final Integer gameId : activateGameIds) {
+            Map<String, Object> value = new HashMap<>();
+            value.put("id", gameId);
+            values.add(value);
+        }
+        return new FakeResultSet(values);
     }
 
     private ResultSet executeMaxIdQuery() {

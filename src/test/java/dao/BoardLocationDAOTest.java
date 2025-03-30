@@ -75,20 +75,20 @@ public final class BoardLocationDAOTest {
         playerDAO.createWithGameId(team, 1);
 
         final Map<Point, Piece> locations = new HashMap<>();
-        final Point start = new Point(0, 0);
-        final Point arrival = new Point(1, 0);
-        locations.put(start, new Cannon(player));
+        final Point from = new Point(0, 0);
+        final Point to = new Point(1, 0);
+        locations.put(from, new Cannon(player));
         final BoardLocations boardLocations = new BoardLocations(locations);
         boardLocationDAO.createBatch(boardLocations);
         final BoardLocation oldLocation = database.getLocations().get(1);
-        assertThat(oldLocation.getRow()).isEqualTo(start.row());
+        assertThat(oldLocation.getRow()).isEqualTo(from.row());
 
         //when
-        boardLocationDAO.updateLocation(start, arrival, 1);
+        boardLocationDAO.updateLocation(to, from, 1);
 
         //then
         final BoardLocation newLocation = database.getLocations().get(1);
-        assertThat(newLocation.getRow()).isEqualTo(arrival.row());
+        assertThat(newLocation.getRow()).isEqualTo(to.row());
     }
 
     @Test

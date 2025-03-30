@@ -43,8 +43,11 @@ public final class InMemoryDatabase {
         games.put(gameId, false);
     }
 
-    public boolean isGameActive(final int gameId) {
-        return games.getOrDefault(gameId, false);
+    public List<Integer> findAllActivateGames() {
+        return games.entrySet().stream()
+                .filter(Entry::getValue)
+                .map(Entry::getKey)
+                .toList();
     }
 
     public int getLastPlayerId() {

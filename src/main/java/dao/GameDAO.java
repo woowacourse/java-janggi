@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -17,7 +19,7 @@ public final class GameDAO {
     }
 
     public int create() {
-        final String query = "INSERT INTO Game (is_active) VALUES (true)";
+        final String query = "INSERT INTO Game (is_activate) VALUES (true)";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
@@ -28,26 +30,13 @@ public final class GameDAO {
     }
 
     public void deactivate(final int gameId) {
-        final String query = "UPDATE Game SET is_active = false WHERE id = ?";
+        final String query = "UPDATE Game SET is_activate = false WHERE id = ?";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException("데이터베이스에서 게임을 비활성화하는 데 실패했습니다: " + e);
-        }
-    }
-
-    public boolean existsActiveGameById(final int gameId) {
-        final String query = "SELECT EXISTS(SELECT 1 FROM Game WHERE id = ? AND is_active=true)";
-        try (final Connection connection = connector.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, gameId);
-
-            final ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next() && resultSet.getBoolean(1);
-        } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스에서 활성화된 게임를 조회하는 데 실패했습니다: " + e);
         }
     }
 
@@ -65,5 +54,24 @@ public final class GameDAO {
         if (resultSet.next()) {
             counter.addAndGet(resultSet.getInt("last_id"));
         }
+    }
+
+    public List<Integer> findAllActivateGames() {
+        final String query = "SELECT game.id FROM game WHERE is_activate=true";
+        try (Connection connection = connector.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return convertResultSetToGameIds(resultSet);
+        } catch (final SQLException e) {
+            throw new RuntimeException("데이터베이스에서 복수의 플레이어를 조회하는 데 실패했습니다: " + e);
+        }
+    }
+
+    private List<Integer> convertResultSetToGameIds(ResultSet resultSet) throws SQLException {
+        final List<Integer> gameIds = new ArrayList<>();
+        while (resultSet.next()) {
+            gameIds.add(resultSet.getInt("id"));
+        }
+        return gameIds;
     }
 }

@@ -2,8 +2,8 @@ USE `wodnd0131`;
 
 CREATE TABLE IF NOT EXISTS game
 (
-    id        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    is_active BOOLEAN Default true
+    id          INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    is_activate BOOLEAN Default true
 );
 
 CREATE TABLE IF NOT EXISTS player

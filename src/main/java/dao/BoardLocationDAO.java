@@ -59,10 +59,10 @@ public final class BoardLocationDAO {
                 + "WHERE l.location_row = ? AND l.location_column = ? AND pl.game_id = ?";
         try (final Connection connection = connector.getConnection();
              final PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-            updateStatement.setInt(1, start.row());
-            updateStatement.setInt(2, start.column());
-            updateStatement.setInt(3, arrival.row());
-            updateStatement.setInt(4, arrival.column());
+            updateStatement.setInt(1, arrival.row());
+            updateStatement.setInt(2, arrival.column());
+            updateStatement.setInt(3, start.row());
+            updateStatement.setInt(4, start.column());
             updateStatement.setInt(5, gameId);
             updateStatement.executeUpdate();
         } catch (final SQLException e) {

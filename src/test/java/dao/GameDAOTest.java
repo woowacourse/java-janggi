@@ -41,8 +41,8 @@ public final class GameDAOTest {
     }
 
     @Test
-    @DisplayName("Game의 활성화 여부를 반환한다.")
-    void test_existsActiveGameById() {
+    @DisplayName("활성화된 Game의 Id들을 조회한다.")
+    void test_findAllActivateGames() {
         //given
         gameDAO.create();
         gameDAO.create();
@@ -51,7 +51,6 @@ public final class GameDAOTest {
         assertThat(database.getGames().get(2)).isFalse();
 
         //when&then
-        assertThat(gameDAO.existsActiveGameById(1)).isTrue();
-        assertThat(gameDAO.existsActiveGameById(2)).isFalse();
+        assertThat(gameDAO.findAllActivateGames().size()).isEqualTo(1);
     }
 }

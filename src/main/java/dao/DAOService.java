@@ -22,12 +22,12 @@ public final class DAOService {
         this.playerDAO = playerDAO;
     }
 
-    public int createGameRoom() {
-        return gameDAO.create();
+    public List<Integer> findAllActivateGames() {
+        return gameDAO.findAllActivateGames();
     }
 
-    public boolean existsGame(final Choice choice) {
-        return gameDAO.existsActiveGameById(choice.value());
+    public int createGameRoom() {
+        return gameDAO.create();
     }
 
     public void deactivateGame(int id) {
