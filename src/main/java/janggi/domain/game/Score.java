@@ -38,8 +38,4 @@ public record Score(double value) {
     public boolean isGreaterThanZero() {
         return this.value > 0;
     }
-
-    public double getValue() {
-        return value;
-    }
 }

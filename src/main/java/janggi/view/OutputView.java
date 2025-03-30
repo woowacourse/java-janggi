@@ -60,7 +60,7 @@ public class OutputView {
 
     public void printScore(final Score redScore, final Score blueScore) {
         System.out.println("점수 집계");
-        System.out.printf("레드팀: %.1f, 블루팀: %.1f%n", redScore.getValue(), blueScore.getValue());
+        System.out.printf("레드팀: %.1f, 블루팀: %.1f%n", redScore.value(), blueScore.value());
     }
 
     public void printResult(Side side) {

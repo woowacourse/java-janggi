@@ -23,7 +23,7 @@ public class PieceDao {
 
     public void createTableIfAbsent() {
         final var query = """
-                CREATE TABLE IF NOT EXISTS board (
+                CREATE TABLE IF NOT EXISTS piece (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     type VARCHAR(64) NOT NULL,
                     side VARCHAR(62) NOT NULL,
@@ -38,7 +38,7 @@ public class PieceDao {
     }
 
     public void save(final Board board) {
-        final var query = "INSERT INTO board(type, side, x, y) VALUES(?, ?, ?, ?)";
+        final var query = "INSERT INTO piece(type, side, x, y) VALUES(?, ?, ?, ?)";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             Map<Position, Piece> positionPieces = board.getBoard();
             for (Position position : positionPieces.keySet()) {
@@ -56,7 +56,7 @@ public class PieceDao {
     }
 
     public boolean existsPieces() {
-        final var query = "SELECT * FROM board";
+        final var query = "SELECT * FROM piece";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
             return resultSet.next();
@@ -66,7 +66,7 @@ public class PieceDao {
     }
 
     public Piece findByPosition(final Position position) {
-        final var query = "SELECT * FROM board WHERE x = ? AND y = ?";
+        final var query = "SELECT * FROM piece WHERE x = ? AND y = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, position.x());
             preparedStatement.setInt(2, position.y());
@@ -81,7 +81,7 @@ public class PieceDao {
     }
 
     public Map<Position, Piece> findAll() {
-        final var query = "SELECT * FROM board";
+        final var query = "SELECT * FROM piece";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
             Map<Position, Piece> board = new HashMap<>();
@@ -101,7 +101,7 @@ public class PieceDao {
     }
 
     public void updateByPosition(final Piece piece, final Position start, final Position end) {
-        final var query = "UPDATE board SET x = ?, y = ? WHERE type = ? AND x = ? AND y = ?";
+        final var query = "UPDATE piece SET x = ?, y = ? WHERE type = ? AND x = ? AND y = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, end.x());
             preparedStatement.setInt(2, end.y());
@@ -116,7 +116,7 @@ public class PieceDao {
     }
 
     public void deleteByPosition(final Position position) {
-        final var query = "DELETE FROM board WHERE x = ? AND y = ?";
+        final var query = "DELETE FROM piece WHERE x = ? AND y = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, position.x());
             preparedStatement.setInt(2, position.y());
@@ -128,7 +128,7 @@ public class PieceDao {
     }
 
     public void clear() {
-        final var query = "DELETE FROM board";
+        final var query = "DELETE FROM piece";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {

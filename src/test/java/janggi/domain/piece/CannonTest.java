@@ -21,7 +21,7 @@ class CannonTest {
 
         @DisplayName("경로 상 말이 2개 이상인 경우 false를 반환한다.")
         @Test
-        void shouldRetrunFalseWhenExistsOverTwoPieceOnCannonPath() {
+        void shouldReturnFalseWhenExistsOverTwoPieceOnCannonPath() {
             // given
             Cannon cannon = new Cannon(Side.RED);
             Position start = new Position(1, 1);
