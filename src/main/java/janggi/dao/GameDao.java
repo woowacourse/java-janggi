@@ -1,6 +1,10 @@
 package janggi.dao;
 
+import janggi.dto.GameDto;
+import janggi.dto.PieceDtos;
+import janggi.game.Board;
 import janggi.game.Game;
+import janggi.game.Team;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -38,24 +42,33 @@ public class GameDao {
         }
     }
 
-    public static GameDao findLastCreated() {
-        final var query = "SELECT * FROM game ORDER BY created_at DESC LIMIT 1;";
+    public static GameDto findLastCreated() {
+        final var gameQuery = "SELECT * FROM game ORDER BY created_at DESC LIMIT 1;";
         try (final var connection = JangiDatabase.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return new GameDao(
-                        resultSet.getInt("id"),
-                        new Game(LocalDateTime.parse(
-                                resultSet.getString("created_at"), createdAtFormatter)
-                        )
+             final var preparedGameStatement = connection.prepareStatement(gameQuery)) {
+            final var gameResultSet = preparedGameStatement.executeQuery();
+            if (gameResultSet.next()) {
+                return new GameDto(
+                        gameResultSet.getInt("id"),
+                        Team.valueOf(gameResultSet.getString("turn")),
+                        LocalDateTime.parse(
+                                gameResultSet.getString("created_at"), createdAtFormatter)
                 );
-                //TODO piece도 반영
             }
             throw new IllegalStateException("게임 기록이 존재하지 않습니다.");
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static GameDao recreateGameFrom(PieceDtos pieceDtos, GameDto gameDto) {
+        Game game = new Game(
+                new Board(pieceDtos.getRunningPieces()),
+                pieceDtos.getAttackedPieces(),
+                gameDto.turn(),
+                gameDto.createdAt()
+        );
+        return new GameDao(gameDto.id(), game);
     }
 
     public void deleteGame() {

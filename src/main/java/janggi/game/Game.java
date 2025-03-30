@@ -23,11 +23,7 @@ public class Game {
         this(board, new ArrayList<>(), Team.CHO, LocalDateTime.now());
     }
 
-    public Game(LocalDateTime createdAt) {
-        this(Board.init(), new ArrayList<>(), Team.CHO, createdAt);
-    }
-
-    private Game(Board board, List<AttackedPiece> attackedPieces, Team turn, LocalDateTime createdAt) {
+    public Game(Board board, List<AttackedPiece> attackedPieces, Team turn, LocalDateTime createdAt) {
         this.board = board;
         this.attackedPieces = attackedPieces;
         this.createdAt = createdAt;
