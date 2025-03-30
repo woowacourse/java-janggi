@@ -33,6 +33,10 @@ public enum PieceType {
         return name;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     public MoveStrategy getMoveStrategy() {
         return moveStrategy;
     }

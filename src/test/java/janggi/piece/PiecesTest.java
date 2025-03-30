@@ -3,6 +3,7 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +18,7 @@ class PiecesTest {
 
     private static final Position STANDARD_POSITION = new Position(4, 4);
     private static final Position MOVED_POSITION = new Position(5, 4);
-
-    Pieces pieces = new Pieces(List.of(new Piece(PieceType.JOL, STANDARD_POSITION)));
+    Pieces pieces = new Pieces(CampType.CHO, List.of(new Piece(PieceType.JOL, STANDARD_POSITION)));
 
     @DisplayName("장기말을 이동시킬 수 있다.")
     @Test
@@ -102,5 +102,31 @@ class PiecesTest {
 
         List<Piece> dyingEnemy = pieces.getDyingEnemy();
         assertThat(dyingEnemy).containsExactly(enemy);
+    }
+
+    @Test
+    @DisplayName("현재 진영의 점수를 계산할 수 있다.")
+    void canCalculateScore() {
+        List<Piece> enemy = List.of(
+                new Piece(PieceType.JOL, new Position(4, 5)),
+                new Piece(PieceType.CHA, new Position(4, 6)));
+        pieces.killEnemyPiece(enemy, new Position(4, 5));
+        pieces.killEnemyPiece(enemy, new Position(4, 6));
+
+        assertThat(pieces.getScore()).isEqualTo(15.0);
+    }
+
+    @Test
+    @DisplayName("진영에 따라 기본점수를 부여한다.")
+    void canAddDefaultScore() {
+        Pieces pieces = new Pieces(CampType.HAN, List.of(new Piece(PieceType.JOL, STANDARD_POSITION)));
+        List<Piece> enemy = List.of(
+                new Piece(PieceType.JOL, new Position(4, 5)),
+                new Piece(PieceType.CHA, new Position(4, 6)));
+
+        pieces.killEnemyPiece(enemy, new Position(4, 5));
+        pieces.killEnemyPiece(enemy, new Position(4, 6));
+
+        assertThat(pieces.getScore()).isEqualTo(15.5);
     }
 }

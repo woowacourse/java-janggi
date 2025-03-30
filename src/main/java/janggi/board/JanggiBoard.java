@@ -5,44 +5,49 @@ import janggi.piece.Pieces;
 import janggi.setting.CampType;
 import janggi.setting.PieceAssignType;
 import janggi.value.Position;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JanggiBoard {
-
-    private final Pieces choPieces;
-    private final Pieces hanPieces;
+    
+    private final List<Pieces> piecesInCamp;
 
     public JanggiBoard(PieceAssignType choPieceAssignType, PieceAssignType hanPieceAssignType) {
         PieceAssigner assigner = new PieceAssigner();
+        piecesInCamp = new ArrayList<>();
         List<Piece> chaInitialPieces = assigner.assignPieces(CampType.CHO, choPieceAssignType);
+        piecesInCamp.add(new Pieces(CampType.CHO, chaInitialPieces));
         List<Piece> hanInitialPieces = assigner.assignPieces(CampType.HAN, hanPieceAssignType);
-        this.choPieces = new Pieces(chaInitialPieces);
-        this.hanPieces = new Pieces(hanInitialPieces);
+        piecesInCamp.add(new Pieces(CampType.HAN, hanInitialPieces));
     }
 
     public void movePiece(CampType campType, Position targetPiecePosition, Position destination) {
-        if (campType == CampType.CHO) {
-            choPieces.movePiece(hanPieces.getPieces(), targetPiecePosition, destination);
-            choPieces.killEnemyPiece(hanPieces.getPieces(), destination);
-            hanPieces.removeDyingPiece(destination);
-            return;
-        }
-        hanPieces.movePiece(choPieces.getPieces(), targetPiecePosition, destination);
-        hanPieces.killEnemyPiece(choPieces.getPieces(), destination);
-        choPieces.removeDyingPiece(destination);
+        Pieces alliesPieces = findPieces(campType);
+        Pieces enemyPieces = findPieces(campType.getEnemyCampType());
+        alliesPieces.movePiece(enemyPieces.getPieces(), targetPiecePosition, destination);
+        alliesPieces.killEnemyPiece(enemyPieces.getPieces(), destination);
+        enemyPieces.removeDyingPiece(destination);
     }
 
     public List<Piece> getPieces(CampType campType) {
-        if (campType == CampType.CHO) {
-            return choPieces.getPieces();
-        }
-        return hanPieces.getPieces();
+        Pieces alliesPieces = findPieces(campType);
+        return alliesPieces.getPieces();
     }
 
     public List<Piece> getKilledPieces(CampType campType) {
-        if (campType == CampType.CHO) {
-            return choPieces.getDyingEnemy();
-        }
-        return hanPieces.getDyingEnemy();
+        Pieces alliesPieces = findPieces(campType);
+        return alliesPieces.getDyingEnemy();
+    }
+
+    public double getScore(CampType campType) {
+        Pieces alliesPieces = findPieces(campType);
+        return alliesPieces.getScore();
+    }
+
+    private Pieces findPieces(CampType campType) {
+        return piecesInCamp.stream()
+                .filter(pieces -> pieces.checkCamp(campType))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("진영에 해당하는 장기물 세트가 존재하지 않습니다."));
     }
 }

@@ -1,15 +1,24 @@
 package janggi.setting;
 
 public enum CampType {
-    CHO(9, "초"),
-    HAN(0, "한");
+    CHO("초", 9, 0d),
+    HAN("한", 0, 0.5d);
 
-    private final int startYPosition;
     private final String name;
+    private final int startYPosition;
+    private final double defaultScore;
 
-    CampType(final int startYPosition, final String name) {
-        this.startYPosition = startYPosition;
+    CampType(String name, int startYPosition, double defaultScore) {
         this.name = name;
+        this.startYPosition = startYPosition;
+        this.defaultScore = defaultScore;
+    }
+
+    public CampType getEnemyCampType() {
+        if (this == CampType.CHO) {
+            return CampType.HAN;
+        }
+        return CampType.CHO;
     }
 
     public int getStartYPosition() {
@@ -18,5 +27,9 @@ public enum CampType {
 
     public String getName() {
         return name;
+    }
+
+    public double getDefaultScore() {
+        return defaultScore;
     }
 }

@@ -127,4 +127,17 @@ public class JanggiBoardTest {
                 () -> assertThat(byungInHan).hasSize(4)
         );
     }
+
+    @Test
+    @DisplayName("현재 진영의 점수를 계산할 수 있다.")
+    void canCalculateScore() {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
+        janggiBoard.movePiece(CampType.CHO, new Position(0, 6), new Position(1, 6));
+        janggiBoard.movePiece(CampType.CHO, new Position(0, 9), new Position(0, 3));
+
+        assertAll(
+                () -> assertThat(janggiBoard.getScore(CampType.CHO)).isEqualTo(2),
+                () -> assertThat(janggiBoard.getScore(CampType.HAN)).isEqualTo(0.5)
+        );
+    }
 }

@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.setting.BoardCoordinate;
+import janggi.setting.CampType;
 import janggi.value.Position;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,10 +10,12 @@ import java.util.Optional;
 
 public class Pieces {
 
+    private final CampType campType;
     private final List<Piece> pieces;
     private final List<Piece> dyingEnemy;
 
-    public Pieces(final List<Piece> pieces) {
+    public Pieces(CampType campType, List<Piece> pieces) {
+        this.campType = campType;
         this.pieces = new ArrayList<>(pieces);
         this.dyingEnemy = new ArrayList<>();
     }
@@ -48,11 +51,19 @@ public class Pieces {
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 위치에 이동할 말이 존재하지 않습니다."));
     }
 
+    public boolean checkCamp(CampType campType) {
+        return this.campType == campType;
+    }
+
     public List<Piece> getPieces() {
         return Collections.unmodifiableList(pieces);
     }
 
     public List<Piece> getDyingEnemy() {
         return Collections.unmodifiableList(dyingEnemy);
+    }
+
+    public double getScore() {
+        return dyingEnemy.stream().mapToInt(Piece::getScore).sum() + campType.getDefaultScore();
     }
 }

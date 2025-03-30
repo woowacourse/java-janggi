@@ -40,6 +40,10 @@ public final class Piece {
         return type == pieceType;
     }
 
+    public int getScore() {
+        return type.getScore();
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {
