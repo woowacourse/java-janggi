@@ -9,6 +9,7 @@ import janggi.domain.routePolicy.RoutePolicy;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public abstract class Piece {
@@ -89,5 +90,27 @@ public abstract class Piece {
 
     public PieceType getPieceType() {
         return pieceType;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return team == piece.team && Objects.equals(position, piece.position) && pieceType == piece.pieceType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(team, position, pieceType);
     }
 }
