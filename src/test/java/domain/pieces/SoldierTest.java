@@ -18,7 +18,7 @@ public final class SoldierTest {
     @DisplayName("같은 팀인지 확인한다.")
     void test_hasEqualTeam() {
         //given
-        final Piece piece = new Soldier(new Player(0, Team.CHO));
+        final Piece piece = new Soldier(new Player(1, Team.CHO));
 
         //when&then
         assertThat(piece.hasEqualTeam(Team.CHO)).isTrue();
@@ -33,7 +33,7 @@ public final class SoldierTest {
         @DisplayName("한나라인 경우 북쪽으로 이동한 지점이 반환되지 않는다.")
         void test_isAbleToArriveByHan() {
             // given
-            final Soldier soldier = new Soldier(new Player(0, Team.HAN));
+            final Soldier soldier = new Soldier(new Player(1, Team.HAN));
             final Point startPoint = new Point(0, 0);
             final Point arrivalPoint = new Point(1, 0);
 
@@ -48,7 +48,7 @@ public final class SoldierTest {
         @DisplayName("초나라인 경우 남쪽으로 이동한 지점이 반환되지 않는다.")
         void test_isAbleToArriveByCho() {
             // given
-            final Soldier soldier = new Soldier(new Player(0, Team.CHO));
+            final Soldier soldier = new Soldier(new Player(1, Team.CHO));
             final Point startPoint = new Point(0, 0);
             final Point arrivalPoint = new Point(-1, 0);
 
@@ -64,7 +64,7 @@ public final class SoldierTest {
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
     void test_searchRoutePoints() {
         // given
-        final Soldier soldier = new Soldier(new Player(0, Team.CHO));
+        final Soldier soldier = new Soldier(new Player(1, Team.CHO));
         final Point startPoint = new Point(0, 0);
         final Point arrivalPoint = new Point(1, 0);
 
@@ -81,7 +81,7 @@ public final class SoldierTest {
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceIsInMyTeamOnRoute() {
         //given
-        final Soldier soldier = new Soldier(new Player(0, Team.CHO));
+        final Soldier soldier = new Soldier(new Player(1, Team.CHO));
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, soldier));
 
         //when&then
@@ -92,8 +92,8 @@ public final class SoldierTest {
     @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
     void test_isMovableWhenPieceIsInOtherTeamOnRoute() {
         //given
-        final Soldier soldierHan = new Soldier(new Player(0, Team.HAN));
-        final Soldier soldierCho = new Soldier(new Player(0, Team.CHO));
+        final Soldier soldierHan = new Soldier(new Player(1, Team.HAN));
+        final Soldier soldierCho = new Soldier(new Player(1, Team.CHO));
         final PiecesOnRoute piecesOnRoute = new PiecesOnRoute(Arrays.asList(null, null, soldierCho));
 
         //when&then
@@ -104,8 +104,8 @@ public final class SoldierTest {
     @DisplayName("졸은 팀에 따라 다르게 이름을 반환한다.")
     void test_toString() {
         //given
-        final Piece pieceForCho = new Soldier(new Player(0, Team.CHO));
-        final Piece pieceForHan = new Soldier(new Player(0, Team.HAN));
+        final Piece pieceForCho = new Soldier(new Player(1, Team.CHO));
+        final Piece pieceForHan = new Soldier(new Player(1, Team.HAN));
 
         //when&then
         assertThat(pieceForCho.getName()).isEqualTo("졸");

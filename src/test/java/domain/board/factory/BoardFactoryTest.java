@@ -30,7 +30,7 @@ public final class BoardFactoryTest {
         void test_setupOuterElephantLocator() {
             //given
             final Map<Player, Choice> given = new LinkedHashMap<>();
-            given.put(new Player(0, HAN), new Choice(1));
+            given.put(new Player(1, HAN), new Choice(1));
 
             final Point pointLeft = new Point(HAN.getInitialRow(), 1);
             final Point pointRight = new Point(HAN.getInitialRow(), 7);
@@ -52,7 +52,7 @@ public final class BoardFactoryTest {
         void test_setupInnerElephantLocator() {
             //given
             final Map<Player, Choice> given = new LinkedHashMap<>();
-            given.put(new Player(0, HAN), new Choice(2));
+            given.put(new Player(1, HAN), new Choice(2));
 
             final Point pointLeft = new Point(HAN.getInitialRow(), 2);
             final Point pointRight = new Point(HAN.getInitialRow(), 6);
@@ -74,7 +74,7 @@ public final class BoardFactoryTest {
         void test_setupLeftElephantLocator() {
             //given
             final Map<Player, Choice> given = new LinkedHashMap<>();
-            given.put(new Player(0, HAN), new Choice(3));
+            given.put(new Player(1, HAN), new Choice(3));
 
             final Point pointLeft = new Point(HAN.getInitialRow(), 1);
             final Point pointRight = new Point(HAN.getInitialRow(), 6);
@@ -96,7 +96,7 @@ public final class BoardFactoryTest {
         void test_setupRightElephantLocator() {
             //given
             final Map<Player, Choice> given = new LinkedHashMap<>();
-            given.put(new Player(0, HAN), new Choice(4));
+            given.put(new Player(1, HAN), new Choice(4));
 
             final Point pointLeft = new Point(HAN.getInitialRow(), 2);
             final Point pointRight = new Point(HAN.getInitialRow(), 7);
@@ -118,13 +118,13 @@ public final class BoardFactoryTest {
         void test_setupLocatorForEachTeam() {
             //given
             final Map<Player, Choice> given = new LinkedHashMap<>();
-            given.put(new Player(0, HAN), new Choice(3));
+            given.put(new Player(1, HAN), new Choice(3));
 
             final Point pointLeftForHan = new Point(HAN.getInitialRow(), 1);
             final Point pointRightForHan = new Point(HAN.getInitialRow(), 6);
             final String expectedForHan = PieceDefinition.ELEPHANT.getNameForTeam(HAN);
 
-            given.put(new Player(0, CHO), new Choice(4));
+            given.put(new Player(1, CHO), new Choice(4));
 
             final Point pointLeftForCho = new Point(CHO.getInitialRow(), 2);
             final Point pointRightForCho = new Point(CHO.getInitialRow(), 7);
@@ -148,7 +148,7 @@ public final class BoardFactoryTest {
         void error_setupInvalidElephantLocator() {
             //given
             final Map<Player, Choice> given = new LinkedHashMap<>();
-            given.put(new Player(0, HAN), new Choice(Integer.MAX_VALUE));
+            given.put(new Player(1, HAN), new Choice(Integer.MAX_VALUE));
 
             //when&then
             assertThatThrownBy(() -> BoardFactory.generateBoard(given))

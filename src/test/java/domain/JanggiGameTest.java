@@ -28,7 +28,7 @@ public final class JanggiGameTest {
     void test_setup() {
         //given
         final Map<Player, Choice> given = new LinkedHashMap<>();
-        given.put(new Player(0, HAN), new Choice(1));
+        given.put(new Player(1, HAN), new Choice(1));
         final List<Player> players = new ArrayList<>(given.keySet());
 
         //when
@@ -72,14 +72,14 @@ public final class JanggiGameTest {
     void test_getScoreWhenMovePieceOnBoard() {
         //given
         final List<Player> players = Arrays.stream(Team.values())
-                .map(team -> new Player(0, team))
+                .map(team -> new Player(1, team))
                 .toList();
 
         final Point start = new Point(0, 0);
         final Point arrival = new Point(2, 0);
         final Map<Point, Piece> locations = new HashMap<>();
-        locations.put(start, new Chariot(new Player(0, CHO)));
-        locations.put(arrival, new Chariot(new Player(0, HAN)));
+        locations.put(start, new Chariot(new Player(1, CHO)));
+        locations.put(arrival, new Chariot(new Player(1, HAN)));
 
         final Board board = new Board(locations);
         final JanggiGame janggiGame = new JanggiGame(0, board, players);
@@ -113,8 +113,8 @@ public final class JanggiGameTest {
 
     private static JanggiGame getJanggiGame() {
         final Map<Player, Choice> given = new LinkedHashMap<>();
-        given.put(new Player(0, CHO), new Choice(1));
-        given.put(new Player(0, HAN), new Choice(1));
+        given.put(new Player(1, CHO), new Choice(1));
+        given.put(new Player(1, HAN), new Choice(1));
         final List<Player> players = new ArrayList<>(given.keySet());
 
         return JanggiGame.setup(0, given, players);

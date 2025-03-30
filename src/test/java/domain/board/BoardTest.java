@@ -32,8 +32,8 @@ public final class BoardTest {
         void test_throwExceptionWhenPieceIsNotMovable() {
             // given
             final Map<Player, Choice> given = new LinkedHashMap<>();
-            given.put(new Player(0, CHO), new Choice(1));
-            given.put(new Player(0, HAN), new Choice(1));
+            given.put(new Player(1, CHO), new Choice(1));
+            given.put(new Player(1, HAN), new Choice(1));
             final Board board = BoardFactory.generateBoard(given);
             Point startPoint = new Point(0, 0);
             Point arrivalpoint = new Point(5, 0);
@@ -49,8 +49,8 @@ public final class BoardTest {
         void test_throwExceptionWhenPieceIsNotAbleToArrive() {
             // given
             final Map<Player, Choice> given = new LinkedHashMap<>();
-            given.put(new Player(0, CHO), new Choice(1));
-            given.put(new Player(0, HAN), new Choice(1));
+            given.put(new Player(1, CHO), new Choice(1));
+            given.put(new Player(1, HAN), new Choice(1));
             final Board board = BoardFactory.generateBoard(given);
 
             Point startPoint = new Point(0, 0);
@@ -67,8 +67,8 @@ public final class BoardTest {
         void test_NoPieceOnStartPoint() {
             // given
             final Map<Player, Choice> given = new LinkedHashMap<>();
-            given.put(new Player(0, CHO), new Choice(1));
-            given.put(new Player(0, HAN), new Choice(1));
+            given.put(new Player(1, CHO), new Choice(1));
+            given.put(new Player(1, HAN), new Choice(1));
             final Board board = BoardFactory.generateBoard(given);
             Point startPoint = new Point(1, 0);
             Point arrivalpoint = new Point(1, 1);
@@ -89,7 +89,7 @@ public final class BoardTest {
             //given
             final Point centerOfPalace = new Point(1, 4);
             final Map<Point, Piece> locations = new HashMap<>();
-            final Player player = new Player(0, HAN);
+            final Player player = new Player(1, HAN);
             locations.put(centerOfPalace, new Chariot(player));
 
             final Point start = new Point(0, 3);
@@ -111,7 +111,7 @@ public final class BoardTest {
         void test_forChariot() {
             //given
             final Map<Point, Piece> locations = new HashMap<>();
-            final Player player = new Player(0, Team.CHO);
+            final Player player = new Player(1, Team.CHO);
             final Point start = new Point(0, 3);
             final Point arrival = new Point(2, 5);
             final Point arrivalOutOfPalace = new Point(3, 6);
@@ -130,7 +130,7 @@ public final class BoardTest {
         void test_forSoldier() {
             //given
             final Map<Point, Piece> locations = new HashMap<>();
-            final Player player = new Player(0, Team.CHO);
+            final Player player = new Player(1, Team.CHO);
             final Point start = new Point(0, 3);
             final Point arrival = new Point(1, 4);
             final Point arrivalOutOfPalace = new Point(1, 2);
