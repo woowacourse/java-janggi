@@ -1,4 +1,4 @@
-package janggi.board;
+package janggi.board.palace;
 
 import janggi.position.Position;
 import java.util.Collections;

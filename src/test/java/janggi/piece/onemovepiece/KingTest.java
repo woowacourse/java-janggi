@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.board.Palace;
-import janggi.board.PalaceGenerator;
+import janggi.board.palace.Palace;
+import janggi.board.palace.PalaceGenerator;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;

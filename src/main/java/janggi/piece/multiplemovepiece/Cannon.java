@@ -1,6 +1,6 @@
 package janggi.piece.multiplemovepiece;
 
-import janggi.board.Palace;
+import janggi.board.palace.Palace;
 import janggi.piece.PalaceAwarePiece;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;

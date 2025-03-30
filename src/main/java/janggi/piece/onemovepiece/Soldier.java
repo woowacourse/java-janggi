@@ -1,6 +1,6 @@
 package janggi.piece.onemovepiece;
 
-import janggi.board.Palace;
+import janggi.board.palace.Palace;
 import janggi.piece.PalaceAwarePiece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;

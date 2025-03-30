@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.board.Palace;
+import janggi.board.palace.Palace;
 import janggi.position.Position;
 import java.util.List;
 import java.util.Map;

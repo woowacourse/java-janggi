@@ -2,6 +2,8 @@ package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.board.palace.Palace;
+import janggi.board.palace.PalaceGenerator;
 import janggi.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
