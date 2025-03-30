@@ -1,4 +1,4 @@
-package janggi.board;
+package janggi.piece.board;
 
 import janggi.direction.PieceType;
 import janggi.piece.Piece;

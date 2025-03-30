@@ -1,16 +1,17 @@
 package janggi.piece;
 
-import static janggi.board.BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
-import static janggi.board.BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
-import static janggi.board.BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
+import static janggi.piece.board.BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
+import static janggi.piece.board.BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
+import static janggi.piece.board.BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
 
-import janggi.board.Board;
-import janggi.board.BoardOrder;
+import janggi.piece.board.Board;
+import janggi.piece.board.BoardOrder;
 import janggi.direction.PieceType;
+import janggi.piece.players.Team;
 import janggi.position.Position;
-import janggi.strategy.ObstacleJumpingObstacle;
+import janggi.direction.obstacle.ObstacleJumpingObstacle;
 import janggi.direction.PieceMoveRule;
-import janggi.strategy.ObstacleBlockStrategy;
+import janggi.direction.obstacle.ObstacleBlockStrategy;
 import java.util.HashSet;
 import java.util.Set;
 

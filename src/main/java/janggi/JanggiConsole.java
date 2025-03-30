@@ -1,12 +1,12 @@
 package janggi;
 
-import janggi.board.Board;
-import janggi.board.BoardOrder;
+import janggi.piece.board.Board;
+import janggi.piece.board.BoardOrder;
 import janggi.piece.PiecesFactory;
-import janggi.piece.Players;
-import janggi.piece.Team;
+import janggi.piece.players.Players;
+import janggi.piece.players.Team;
 import janggi.position.Position;
-import janggi.turn.Turn;
+import janggi.piece.players.Turn;
 import janggi.utils.ExceptionHandler;
 import janggi.utils.StringParser;
 import janggi.view.InputView;

@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.board.Board;
+import janggi.piece.board.Board;
 import janggi.direction.PieceMoveRule;
 import janggi.direction.PieceType;
 import janggi.position.Position;
-import janggi.strategy.ObstacleBlockStrategy;
+import janggi.direction.obstacle.ObstacleBlockStrategy;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;

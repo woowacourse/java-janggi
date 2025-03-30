@@ -1,7 +1,7 @@
-package janggi.strategy;
+package janggi.direction.obstacle;
 
 import janggi.direction.Movement;
-import janggi.board.Board;
+import janggi.piece.board.Board;
 import janggi.position.Position;
 
 public interface ObstacleMoveStrategy {

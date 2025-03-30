@@ -1,9 +1,9 @@
 package janggi.view;
 
-import janggi.board.Board;
+import janggi.piece.board.Board;
 import janggi.direction.PieceType;
 import janggi.piece.Piece;
-import janggi.piece.Team;
+import janggi.piece.players.Team;
 import janggi.position.Position;
 import java.util.List;
 import java.util.Map;

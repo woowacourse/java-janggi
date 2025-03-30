@@ -2,7 +2,8 @@ package janggi.turn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.piece.Team;
+import janggi.piece.players.Team;
+import janggi.piece.players.Turn;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

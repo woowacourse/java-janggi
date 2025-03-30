@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.direction.PieceType;
 import janggi.position.Position;
 import janggi.direction.PieceMoveRule;
-import janggi.strategy.ObstacleBlockStrategy;
+import janggi.direction.obstacle.ObstacleBlockStrategy;
 import org.junit.jupiter.api.Test;
 
 class PieceTest {

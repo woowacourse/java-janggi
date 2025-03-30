@@ -1,8 +1,6 @@
 package janggi.view;
 
-import janggi.piece.Team;
-import java.util.Arrays;
-import java.util.List;
+import janggi.piece.players.Team;
 import java.util.Map;
 import java.util.Scanner;
 

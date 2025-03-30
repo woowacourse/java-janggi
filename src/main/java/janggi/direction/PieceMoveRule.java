@@ -1,9 +1,9 @@
 package janggi.direction;
 
-import janggi.board.Board;
+import janggi.piece.board.Board;
 import janggi.piece.PalaceMovement;
 import janggi.position.Position;
-import janggi.strategy.ObstacleMoveStrategy;
+import janggi.direction.obstacle.ObstacleMoveStrategy;
 import java.util.Optional;
 
 public class PieceMoveRule {

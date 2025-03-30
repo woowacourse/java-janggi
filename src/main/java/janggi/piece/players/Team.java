@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.piece.players;
 
 public enum Team {
 

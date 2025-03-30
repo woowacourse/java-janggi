@@ -1,6 +1,7 @@
-package janggi.piece;
+package janggi.piece.players;
 
-import janggi.board.Board;
+import janggi.piece.Piece;
+import janggi.piece.board.Board;
 import janggi.position.Position;
 import java.util.HashMap;
 import java.util.HashSet;

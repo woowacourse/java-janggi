@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.direction.PieceType;
 import janggi.piece.PiecesFactory;
+import janggi.piece.board.Board;
+import janggi.piece.board.BoardOrder;
 import janggi.position.Position;
 import org.junit.jupiter.api.Test;
 

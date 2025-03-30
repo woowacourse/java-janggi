@@ -1,6 +1,4 @@
-package janggi.turn;
-
-import janggi.piece.Team;
+package janggi.piece.players;
 
 public class Turn {
 
