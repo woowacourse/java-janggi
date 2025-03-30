@@ -2,12 +2,11 @@ package janggi.domain.piece;
 
 import janggi.domain.Side;
 import janggi.domain.movement.Position;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -56,10 +55,7 @@ class SoldierTest {
         Piece startingPiece = new Soldier(Side.HAN);
         Position endPosition = Position.of(3, 2);
 
-        Map<Position, Piece> startingPieces = Map.of(
-                startingPosition, startingPiece,
-                endPosition, new Soldier(Side.HAN)
-        );
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece, endPosition, new Soldier(Side.HAN));
 
         // when
         boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
@@ -76,10 +72,7 @@ class SoldierTest {
         Piece startingPiece = new Soldier(Side.HAN);
         Position endPosition = Position.of(3, 2);
 
-        Map<Position, Piece> startingPieces = Map.of(
-                startingPosition, startingPiece,
-                endPosition, new Soldier(Side.CHO)
-        );
+        Map<Position, Piece> startingPieces = Map.of(startingPosition, startingPiece, endPosition, new Soldier(Side.CHO));
 
         // when
         boolean actual = startingPiece.canMove(startingPieces, startingPosition, endPosition);
@@ -122,5 +115,20 @@ class SoldierTest {
 
         // then
         assertThat(actual).isFalse();
+    }
+
+    @DisplayName("병은 2점으로 계산한다.")
+    @Test
+    void test7() {
+        // given
+        Side side = Side.CHO;
+        Piece piece = new Soldier(side);
+
+        // when
+        double actual = piece.getPoints();
+        double expected = 2;
+
+        // then
+        assertThat(actual).isEqualTo(expected);
     }
 }

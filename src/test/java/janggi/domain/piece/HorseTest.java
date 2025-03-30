@@ -2,10 +2,9 @@ package janggi.domain.piece;
 
 import janggi.domain.Side;
 import janggi.domain.movement.Position;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -69,5 +68,20 @@ class HorseTest {
 
         // then
         assertThat(actual).isTrue();
+    }
+
+    @DisplayName("마는 5점으로 계산한다.")
+    @Test
+    void test4() {
+        // given
+        Side side = Side.CHO;
+        Piece piece = new Horse(side);
+
+        // when
+        double actual = piece.getPoints();
+        double expected = 5;
+
+        // then
+        assertThat(actual).isEqualTo(expected);
     }
 }

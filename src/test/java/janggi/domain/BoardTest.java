@@ -2,13 +2,17 @@ package janggi.domain;
 
 import janggi.common.ErrorMessage;
 import janggi.domain.movement.Position;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.Guard;
+import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -141,5 +145,28 @@ class BoardTest {
 
         // then
         assertThat(actual).isFalse();
+    }
+
+    @DisplayName("장기판에 남아있는 기물의 점수 합을 구한다.")
+    @Test
+    void test9() {
+        // given
+        Side side = Side.HAN;
+        Map<Position, Piece> startingPieces = Map.of(
+                Position.of(1, 1), new Soldier(side),
+                Position.of(1, 2), new Guard(side),
+                Position.of(1, 3), new Elephant(side),
+                Position.of(1, 4), new Horse(side),
+                Position.of(1, 5), new Cannon(side),
+                Position.of(1, 6), new Chariot(side)
+        );
+        Board board = new Board(startingPieces);
+
+        // when
+        double actual = board.getTotalPoints(side);
+        double expected = 33;
+
+        // then
+        assertThat(actual).isEqualTo(expected);
     }
 }

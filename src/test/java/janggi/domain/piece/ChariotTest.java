@@ -2,12 +2,11 @@ package janggi.domain.piece;
 
 import janggi.domain.Side;
 import janggi.domain.movement.Position;
+import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -87,5 +86,20 @@ class ChariotTest {
 
         // then
         assertThat(actual).isTrue();
+    }
+
+    @DisplayName("차는 13점으로 계산한다.")
+    @Test
+    void test5() {
+        // given
+        Side side = Side.CHO;
+        Piece piece = new Chariot(side);
+
+        // when
+        double actual = piece.getPoints();
+        double expected = 13;
+
+        // then
+        assertThat(actual).isEqualTo(expected);
     }
 }
