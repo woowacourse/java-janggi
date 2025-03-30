@@ -31,6 +31,10 @@ public class BoardFactory {
         return new Board(pieces);
     }
 
+    public Board loadProgressingBoard(Map<Position, Piece> pieces) {
+        return new Board(pieces);
+    }
+
     private static void makeChoInitialPieces(Map<Position, Piece> pieces, SangSetting sangSetting) {
         final TeamType targetTeamType = TeamType.CHO;
         pieces.putAll(getSangSetting(targetTeamType, sangSetting));
