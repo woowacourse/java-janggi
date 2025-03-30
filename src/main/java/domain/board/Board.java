@@ -3,6 +3,7 @@ package domain.board;
 import domain.Team;
 import domain.pieces.Piece;
 import domain.pieces.PieceNames;
+import dto.MovementResponseDto;
 import execptions.JanggiArgumentException;
 import java.util.HashMap;
 import java.util.List;
@@ -43,9 +44,11 @@ public final class Board {
         return new HashMap<>(locations);
     }
 
-    public void movePiece(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint, final Team team) {
+    public MovementResponseDto movePiece(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint,
+                                         final Team team) {
         validateBoardRoutes(startBoardPoint, arrivalBoardPoint);
         processMovement(startBoardPoint, arrivalBoardPoint, team);
+        return new MovementResponseDto(startBoardPoint, arrivalBoardPoint);
     }
 
     public boolean isGeneralDied() {

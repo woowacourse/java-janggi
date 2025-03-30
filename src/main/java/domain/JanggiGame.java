@@ -1,5 +1,6 @@
 package domain;
 
+import dao.BoardDao;
 import domain.board.Board;
 import domain.board.BoardPoint;
 import domain.board.Score;
@@ -11,7 +12,10 @@ import domain.pieces.Guard;
 import domain.pieces.Horse;
 import domain.pieces.Piece;
 import domain.pieces.Soldier;
+import dto.MovementResponseDto;
+import dto.SwitchPlayerTurnRequestDto;
 import execptions.JanggiArgumentException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,15 +24,18 @@ public final class JanggiGame {
 
     private final Board board;
     private final List<Player> players;
+    private final BoardDao boardDao;
 
     public JanggiGame() {
         board = generateBoard();
         players = List.of(new Player(Team.HAN), new Player(Team.CHO));
+        this.boardDao = new BoardDao();
     }
 
     public JanggiGame(Board board, List<Player> players) {
         this.board = board;
         this.players = players;
+        this.boardDao = new BoardDao();
     }
 
     public Map<BoardPoint, Piece> getBoard() {
@@ -42,7 +49,19 @@ public final class JanggiGame {
                 .orElseThrow(() -> new JanggiArgumentException("턴을 가진 플레이어가 존재하지 않습니다."));
 
         board.movePiece(startBoardPoint, arrivalBoardPoint, currentPlayer.getTeam());
-        players.forEach(Player::switchTurn);
+        boardDao.saveMovementResult(new MovementResponseDto(startBoardPoint, arrivalBoardPoint));
+
+        List<SwitchPlayerTurnRequestDto> switchPlayerTurnRequestDtos = switchTurn();
+        boardDao.saveSwitchedTurn(switchPlayerTurnRequestDtos);
+    }
+
+    private List<SwitchPlayerTurnRequestDto> switchTurn() {
+        List<SwitchPlayerTurnRequestDto> switchPlayerTurnRequestDtos = new ArrayList<>();
+        for (Player player : players) {
+            player.switchTurn();
+            switchPlayerTurnRequestDtos.add(new SwitchPlayerTurnRequestDto(player.getTeam(), player.isTurn()));
+        }
+        return switchPlayerTurnRequestDtos;
     }
 
     private Board generateBoard() {
