@@ -1,6 +1,6 @@
 package janggi.console;
 
-import janggi.game.Team;
+import janggi.domain.game.Team;
 import janggi.view.SystemView;
 
 public final class GameResultConsole {

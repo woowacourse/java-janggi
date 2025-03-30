@@ -1,9 +1,9 @@
 package janggi.console;
 
-import janggi.game.Game;
-import janggi.position.Column;
-import janggi.position.Position;
-import janggi.position.Row;
+import janggi.domain.game.Game;
+import janggi.domain.position.Column;
+import janggi.domain.position.Position;
+import janggi.domain.position.Row;
 import janggi.view.BoardView;
 import janggi.view.InputView;
 import janggi.view.SystemView;

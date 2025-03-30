@@ -4,7 +4,7 @@ import janggi.console.GamePlayConsole;
 import janggi.console.GameResultConsole;
 import janggi.console.GameSetupConsole;
 import janggi.console.GameStatus;
-import janggi.game.Game;
+import janggi.domain.game.Game;
 import janggi.view.BoardView;
 import janggi.view.InputView;
 import janggi.view.SystemView;

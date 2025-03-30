@@ -1,8 +1,8 @@
 package janggi.console;
 
-import janggi.game.Board;
-import janggi.game.BoardGenerator;
-import janggi.game.Game;
+import janggi.domain.game.Board;
+import janggi.domain.game.BoardGenerator;
+import janggi.domain.game.Game;
 import janggi.view.BoardView;
 import janggi.view.InputView;
 import janggi.view.SetupOption;

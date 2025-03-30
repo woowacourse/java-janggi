@@ -1,7 +1,7 @@
 package janggi.view;
 
-import janggi.game.Game;
-import janggi.game.Team;
+import janggi.domain.game.Game;
+import janggi.domain.game.Team;
 import java.util.EnumMap;
 
 public final class SystemView {
