@@ -68,8 +68,7 @@ public class InputView {
     public static boolean selectLoadGame() {
         System.out.println("""
         > 저장된 게임이 있습니다. 다시 시작하시겠습니까? (예: y/n)
-        > n 입력 시 저장된 게임은 사라지고, 새 게임을 시작합니다.
-        """);
+        > n 입력 시 저장된 게임은 사라지고, 새 게임을 시작합니다.""");
         String input = scanner.nextLine();
 
         return RestartCommand.select(input);

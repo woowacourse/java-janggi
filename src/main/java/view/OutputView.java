@@ -1,11 +1,11 @@
 package view;
 
-import domain.score.Score;
 import domain.board.Board;
-import domain.board.Node;
 import domain.board.Point;
 import domain.piece.Piece;
 import domain.piece.Team;
+import domain.score.Score;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +58,10 @@ public class OutputView {
             System.out.printf("%s나라 : %.1f점%n", TeamView.title(team), totalScoreByTeam.get(team).score());
         }
         System.out.println();
+    }
+
+    public static void printSaveResult() {
+        System.out.printf("%n장기 게임을 저장 후 종료합니다.");
     }
 
     public static void printExit() {
