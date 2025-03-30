@@ -1,7 +1,7 @@
 package janggi.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
@@ -28,7 +28,7 @@ class RepositoryTest {
 
         repository.save(piece);
 
-        final var pieces = repository.findAll();
+        final var pieces = repository.allPieces();
         assertThat(pieces).contains(piece);
     }
 
@@ -40,7 +40,7 @@ class RepositoryTest {
 
         repository.update(new Coordinate(1, 1), new Coordinate(2, 2));
 
-        final var pieces = repository.findAll();
+        final var pieces = repository.allPieces();
         assertAll(
             () -> assertThat(pieces).noneMatch(savedPiece -> savedPiece.isAt(new Coordinate(1, 1))),
             () -> assertThat(pieces).contains(new Piece(Team.CHO, new Coordinate(2, 2), PieceType.CHA))
@@ -55,7 +55,7 @@ class RepositoryTest {
         repository.save(piece1);
         repository.save(piece2);
 
-        final var pieces = repository.findAll();
+        final var pieces = repository.allPieces();
         assertThat(pieces).contains(piece1, piece2);
     }
 
@@ -67,7 +67,7 @@ class RepositoryTest {
 
         repository.deleteByCoordinate(new Coordinate(1, 1));
 
-        final var pieces = repository.findAll();
+        final var pieces = repository.allPieces();
         assertThat(pieces).doesNotContain(piece);
     }
 
@@ -98,7 +98,7 @@ class RepositoryTest {
         repository.clear();
 
         //then
-        final var pieces = repository.findAll();
+        final var pieces = repository.allPieces();
         final var playingTurn = repository.getTurn();
         assertAll(
             () -> assertThat(pieces).isEmpty(),

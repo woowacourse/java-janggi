@@ -36,7 +36,7 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
-    public Set<Piece> findAll() {
+    public Set<Piece> allPieces() {
         return new HashSet<>(pieces.values());
     }
 

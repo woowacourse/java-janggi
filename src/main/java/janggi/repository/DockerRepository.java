@@ -1,9 +1,9 @@
 package janggi.repository;
 
-import janggi.service.PlayingTurn;
 import janggi.dao.PieceDao;
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
+import janggi.service.PlayingTurn;
 import java.util.Set;
 
 public class DockerRepository implements Repository {
@@ -25,7 +25,7 @@ public class DockerRepository implements Repository {
     }
 
     @Override
-    public Set<Piece> findAll() {
+    public Set<Piece> allPieces() {
         return pieceDao.findAll();
     }
 

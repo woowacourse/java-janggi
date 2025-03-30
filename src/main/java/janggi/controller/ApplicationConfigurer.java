@@ -10,10 +10,9 @@ import janggi.domain.board.maSangStrategy.MaSangStrategy;
 import janggi.domain.board.maSangStrategy.SangMaMaSang;
 import janggi.domain.board.maSangStrategy.SangMaSangMa;
 import janggi.repository.DockerRepository;
+import janggi.repository.MemoryRepository;
 import janggi.repository.Repository;
 import janggi.service.GameService;
-import janggi.service.LocalGameService;
-import janggi.service.OnlineGameService;
 import janggi.service.PlayingTurn;
 import janggi.view.BoardInitiliazeView;
 import java.util.Map;
@@ -36,13 +35,12 @@ public class ApplicationConfigurer {
     public GameService appropriateGameService() {
         if (successfullyConnectedDB()) {
             Repository repository = new DockerRepository(new PieceDao());
-            initializeRepository(repository);
-            return new OnlineGameService(repository);
+            configureRemoteRepository(repository);
+            return new GameService(repository);
         }
 
         boardInitiliazeView.printConnectionFailed();
-        Board board = createBoard();
-        return new LocalGameService(board);
+        return new GameService(new MemoryRepository(createBoard()));
     }
 
     private boolean successfullyConnectedDB() {
@@ -57,7 +55,7 @@ public class ApplicationConfigurer {
         return false;
     }
 
-    private void initializeRepository(Repository repository) {
+    private void configureRemoteRepository(Repository repository) {
         final var continuePreviousGame = boardInitiliazeView.readRenewGame();
         if (continuePreviousGame) {
             boardInitiliazeView.printContinueGame();
@@ -68,7 +66,9 @@ public class ApplicationConfigurer {
         repository.updateTurn(new PlayingTurn());
 
         Board board = createBoard();
-        board.getPieces().values().forEach(repository::save);
+        board.getPieces()
+            .values()
+            .forEach(repository::save);
     }
 
     private Board createBoard() {
