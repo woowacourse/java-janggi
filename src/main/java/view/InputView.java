@@ -26,7 +26,7 @@ public class InputView {
     }
 
     public String getSetupNumber(String playerName) {
-        System.out.printf("%s의 배치를 선택해주세요\n", playerName);
+        System.out.printf("%s의 배치를 선택해주세요%n", playerName);
         System.out.println("1. Inner Elephant Setup");
         System.out.println("2. Outer Elephant Setup");
         System.out.println("3. Right Elephant Setup");
@@ -36,21 +36,21 @@ public class InputView {
     }
 
     public CommandOption getOptionCommand(Player player) {
-        System.out.printf("%s의 턴입니다. 번호를 선택하세요.\n", player.getName());
+        System.out.printf("%s의 턴입니다. 번호를 선택하세요.%n", player.getName());
         for (CommandOption option : CommandOption.values()) {
-            System.out.printf("%s. %s\n", option.getCommand(), option.getDescription());
+            System.out.printf("%s. %s%n", option.getCommand(), option.getDescription());
         }
 
         return CommandOption.of(nextLine());
     }
 
     public Position getStartPosition(Player player) {
-        System.out.printf("%s가 옮기고 싶은 장기의 좌표를 입력해주세요. 예시 -> a4\n", player.getName());
+        System.out.printf("%s가 옮기고 싶은 장기의 좌표를 입력해주세요. 예시 -> a4%n", player.getName());
         return PositionConvertor.changeInputToPosition(nextLine());
     }
 
     public Position getEndPosition(Player player) {
-        System.out.printf("%s가 옮길 위치의 좌표를 입력해주세요. 예시 -> a5\n", player.getName());
+        System.out.printf("%s가 옮길 위치의 좌표를 입력해주세요. 예시 -> a5%n", player.getName());
         return PositionConvertor.changeInputToPosition(nextLine());
     }
 
