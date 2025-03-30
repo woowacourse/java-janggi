@@ -21,7 +21,9 @@ create table piece
     type    varchar(255) not null,
     team    varchar(255) not null,
     game_id int          not null,
-    primary key (y, x, game_id)
+    primary key (y, x, game_id),
+    constraint piece_game_game_id_fk
+        foreign key (game_id) references janggi.game (game_id)
 );
 
 
