@@ -7,7 +7,7 @@ public class TeamDao {
 
     private final DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
 
-    public Team findTeamById(int teamId) {
+    public Team findTeamById(final int teamId) {
 
         final var query = "SELECT * FROM team WHERE team_id = ?";
         try (final var connection = databaseConnection.getConnection();
@@ -18,10 +18,10 @@ public class TeamDao {
             if (resultSet.next()) {
                 return Team.valueOf(resultSet.getString("team_name"));
             }
-        } catch (SQLException e) {
+            throw new IllegalArgumentException("존재하지 않는 팀입니다.");
+        } catch (final SQLException e) {
             throw new RuntimeException();
         }
-        return null;
     }
 
     public int findTeamIdByName(final Team currentTeam) {
@@ -34,9 +34,9 @@ public class TeamDao {
             if (resultSet.next()) {
                 return resultSet.getInt("team_id");
             }
-        } catch (SQLException e) {
+            throw new IllegalArgumentException("존재하지 않는 팀입니다.");
+        } catch (final SQLException e) {
             throw new RuntimeException();
         }
-        return -1;
     }
 }
