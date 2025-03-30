@@ -1,4 +1,4 @@
-package save;
+package persistence;
 
 import java.util.Map;
 import java.util.Optional;
@@ -14,8 +14,13 @@ public class JanggiPersistenceService {
     private final String PIECES_DOESNT_EXIST = "피스 정보가 존재하지 않습니다";
 
     public JanggiPersistenceService(DatabaseConnection databaseConnection) {
-        janggiTurnDao = new JanggiTurnDao(databaseConnection);
-        janggiPieceDao = new JanggiPieceDao(databaseConnection);
+        janggiTurnDao = new MySQLJanggiTurnDao(databaseConnection);
+        janggiPieceDao = new MySQLJanggiPieceDao(databaseConnection);
+    }
+
+    public JanggiPersistenceService(JanggiTurnDao janggiTurnDao, JanggiPieceDao janggiPieceDao) {
+        this.janggiTurnDao = janggiTurnDao;
+        this.janggiPieceDao = janggiPieceDao;
     }
 
     public void saveJanggi(PlayerPieces playerPieces, int turn, Team team) {
@@ -32,7 +37,7 @@ public class JanggiPersistenceService {
 
     public Pieces loadPieces() {
         Optional<Integer> previousLatestTurnId = janggiTurnDao.findLatestTurnId();
-        int previousTurnId = previousLatestTurnId.orElseThrow(() -> new SaveFailException(PIECES_DOESNT_EXIST));
+        int previousTurnId = previousLatestTurnId.orElseThrow(() -> new PersistenceFailException(PIECES_DOESNT_EXIST));
         return janggiPieceDao.findPiecesByTeamTurn(previousTurnId);
     }
 

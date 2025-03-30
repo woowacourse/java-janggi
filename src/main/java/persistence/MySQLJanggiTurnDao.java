@@ -1,16 +1,16 @@
-package save;
+package persistence;
 
 import java.sql.SQLException;
 import java.util.Optional;
 import piece.player.Team;
 
-public class JanggiTurnDao {
+public class MySQLJanggiTurnDao implements JanggiTurnDao {
 
     private static final String CANNOT_CREATE_TABLE = "테이블을 생성하는데 실패하였습니다";
 
     private final DatabaseConnection connection;
 
-    public JanggiTurnDao(DatabaseConnection mySQConnection) {
+    public MySQLJanggiTurnDao(DatabaseConnection mySQConnection) {
         this.connection = mySQConnection;
     }
 
@@ -23,7 +23,7 @@ public class JanggiTurnDao {
             preparedStatement.setInt(3, score);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new SaveFailException(e);
+            throw new PersistenceFailException(e);
         }
     }
 
@@ -38,7 +38,7 @@ public class JanggiTurnDao {
                 return Optional.of(resultSet.getInt("id"));
             }
         } catch (final SQLException e) {
-            throw new SaveFailException(e);
+            throw new PersistenceFailException(e);
         }
         return Optional.empty();
     }
@@ -54,7 +54,7 @@ public class JanggiTurnDao {
                 return Optional.of(resultSet.getInt("turn"));
             }
         } catch (final SQLException e) {
-            throw new SaveFailException(e);
+            throw new PersistenceFailException(e);
         }
         return Optional.empty();
 
@@ -66,7 +66,7 @@ public class JanggiTurnDao {
             final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new SaveFailException(e);
+            throw new PersistenceFailException(e);
         }
     }
 }

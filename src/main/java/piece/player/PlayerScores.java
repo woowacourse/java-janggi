@@ -1,6 +1,7 @@
 package piece.player;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import piece.Piece;
 import piece.PieceScore;
@@ -10,7 +11,7 @@ public class PlayerScores {
     private final Map<Team, Integer> scores;
 
     public PlayerScores() {
-        scores = Map.of(Team.BLUE, 0, Team.RED, 0);
+        scores = new HashMap<>(Map.of(Team.BLUE, 0, Team.RED, 0));
     }
 
     public void addScore(Piece deadPiece) {

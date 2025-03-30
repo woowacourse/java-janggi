@@ -1,4 +1,4 @@
-package save;
+package persistence;
 
 import move.JolMoveBehavior;
 import org.junit.jupiter.api.AfterEach;
@@ -9,11 +9,11 @@ import piece.Pieces;
 import piece.player.Team;
 import piece.position.JanggiPosition;
 
-class JanggiPieceDaoTest {
+class MySQLJanggiPieceDaoTest {
 
-    private DatabaseConnection connection = new TestMySQLConnection();
-    private JanggiPieceDao janggiPieceDao = new JanggiPieceDao(connection);
-    private JanggiTurnDao janggiTurnDao = new JanggiTurnDao(connection);
+    private final DatabaseConnection connection = new TestMySQLConnection();
+    private final MySQLJanggiPieceDao janggiPieceDao = new MySQLJanggiPieceDao(connection);
+    private final MySQLJanggiTurnDao janggiTurnDao = new MySQLJanggiTurnDao(connection);
 
     @AfterEach
     void clearDatabases() {

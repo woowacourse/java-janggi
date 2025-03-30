@@ -1,4 +1,4 @@
-package save;
+package persistence;
 
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import piece.player.Team;
 
-class JanggiTurnDaoTest {
+class MySQLJanggiTurnDaoTest {
 
     private final DatabaseConnection connection = new TestMySQLConnection();
-    private final JanggiTurnDao janggiTurnDao = new JanggiTurnDao(connection);
+    private final MySQLJanggiTurnDao janggiTurnDao = new MySQLJanggiTurnDao(connection);
 
     @AfterEach
     void clearDatabases() {

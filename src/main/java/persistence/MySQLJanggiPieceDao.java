@@ -1,4 +1,4 @@
-package save;
+package persistence;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,13 +8,13 @@ import piece.Pieces;
 import piece.player.Team;
 import piece.position.JanggiPosition;
 
-public class JanggiPieceDao {
+public class MySQLJanggiPieceDao implements JanggiPieceDao {
 
     private static final String CANNOT_CREATE_TABLE = "테이블을 생성하는데 실패하였습니다";
 
     private final DatabaseConnection connection;
 
-    public JanggiPieceDao(DatabaseConnection mySQConnection) {
+    public MySQLJanggiPieceDao(DatabaseConnection mySQConnection) {
         this.connection = mySQConnection;
     }
 
@@ -35,7 +35,7 @@ public class JanggiPieceDao {
             preparedStatement.setString(5, piece.team().name());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new SaveFailException(e);
+            throw new PersistenceFailException(e);
         }
     }
 
@@ -56,7 +56,7 @@ public class JanggiPieceDao {
             }
             return new Pieces(resultPieces);
         } catch (final SQLException e) {
-            throw new SaveFailException(e);
+            throw new PersistenceFailException(e);
         }
     }
 
@@ -66,7 +66,7 @@ public class JanggiPieceDao {
             final var preparedStatement = connection.prepareStatement(query);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new SaveFailException(e);
+            throw new PersistenceFailException(e);
         }
     }
 }

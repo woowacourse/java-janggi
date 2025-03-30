@@ -1,4 +1,4 @@
-package save;
+package persistence;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import piece.position.JanggiPosition;
 class JanggiServiceTest {
 
     private final JanggiPersistenceService janggiPersistenceService = new JanggiPersistenceService(
-            new TestMySQLConnection());
+            new FakeJanggiTurnDao(), new FakeJanggiPieceDao());
 
     @AfterEach
     void clearDatabases() {
