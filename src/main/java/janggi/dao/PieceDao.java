@@ -2,6 +2,7 @@ package janggi.dao;
 
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceType;
 import janggi.domain.piece.direction.Position;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ public class PieceDao {
             positionDao.addPosition(position);
             final int positionId = positionDao.findIdByXY(position.x(), position.y());
             final int teamId = teamDao.findTeamIdByName(piece.getTeam());
-            PieceType pieceType = PieceFactory.getPieceName(piece);
+            PieceType pieceType = piece.getPieceType();
             preparedStatement.setString(1, pieceType.name());
             preparedStatement.setInt(2, teamId);
             preparedStatement.setInt(3, positionId);

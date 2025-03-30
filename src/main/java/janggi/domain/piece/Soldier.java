@@ -1,6 +1,7 @@
 package janggi.domain.piece;
 
 import static janggi.domain.Team.RED;
+import static janggi.domain.piece.PieceType.SOLDIER;
 import static janggi.domain.piece.direction.Direction.DOWN;
 import static janggi.domain.piece.direction.Direction.LEFT;
 import static janggi.domain.piece.direction.Direction.LEFT_DOWN;
@@ -104,6 +105,11 @@ public class Soldier extends Piece {
     @Override
     public double getScore() {
         return SOLDIER_SCORE;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return SOLDIER;
     }
 
 }

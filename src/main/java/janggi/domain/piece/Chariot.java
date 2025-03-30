@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import static janggi.domain.piece.PieceType.CHARIOT;
 import static janggi.domain.piece.direction.Direction.DOWN;
 import static janggi.domain.piece.direction.Direction.LEFT;
 import static janggi.domain.piece.direction.Direction.LEFT_DOWN;
@@ -93,5 +94,10 @@ public class Chariot extends Piece {
     @Override
     public double getScore() {
         return CHARIOT_SCORE;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return CHARIOT;
     }
 }

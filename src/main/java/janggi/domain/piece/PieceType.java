@@ -1,4 +1,4 @@
-package janggi.dao;
+package janggi.domain.piece;
 
 public enum PieceType {
 

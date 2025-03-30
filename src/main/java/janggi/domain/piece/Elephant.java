@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import static janggi.domain.piece.PieceType.ELEPHANT;
 import static janggi.domain.piece.direction.Direction.DOWN;
 import static janggi.domain.piece.direction.Direction.LEFT;
 import static janggi.domain.piece.direction.Direction.LEFT_DOWN;
@@ -85,5 +86,10 @@ public class Elephant extends Piece {
     @Override
     public double getScore() {
         return ELEPHANT_SCORE;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return ELEPHANT;
     }
 }

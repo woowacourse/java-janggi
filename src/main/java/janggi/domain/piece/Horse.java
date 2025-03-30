@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import static janggi.domain.piece.PieceType.HORSE;
 import static janggi.domain.piece.direction.Direction.DOWN;
 import static janggi.domain.piece.direction.Direction.LEFT;
 import static janggi.domain.piece.direction.Direction.LEFT_DOWN;
@@ -85,5 +86,10 @@ public class Horse extends Piece {
     @Override
     public double getScore() {
         return HORSE_SCORE;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return HORSE;
     }
 }

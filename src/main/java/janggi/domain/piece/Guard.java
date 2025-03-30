@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import static janggi.domain.piece.PieceType.GUARD;
 import static janggi.domain.piece.direction.Direction.DOWN;
 import static janggi.domain.piece.direction.Direction.LEFT;
 import static janggi.domain.piece.direction.Direction.LEFT_DOWN;
@@ -91,5 +92,10 @@ public class Guard extends Piece {
     @Override
     public double getScore() {
         return GUARD_SCORE;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return GUARD;
     }
 }

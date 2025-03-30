@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import static janggi.domain.piece.PieceType.GENERAL;
 import static janggi.domain.piece.direction.Direction.DOWN;
 import static janggi.domain.piece.direction.Direction.LEFT;
 import static janggi.domain.piece.direction.Direction.LEFT_DOWN;
@@ -96,5 +97,10 @@ public class General extends Piece {
     @Override
     public double getScore() {
         return GENERAL_SCORE;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return GENERAL;
     }
 }

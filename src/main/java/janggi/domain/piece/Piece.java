@@ -24,6 +24,8 @@ public abstract class Piece {
 
     public abstract double getScore();
 
+    public abstract PieceType getPieceType();
+
     public Set<Route> getPossibleRoutes(final List<Piece> otherPieces) {
         final Set<Route> routes = new HashSet<>();
         for (final Route route : calculateIndependentRoutes()) {
