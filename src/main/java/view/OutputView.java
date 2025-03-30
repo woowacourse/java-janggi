@@ -72,7 +72,15 @@ public final class OutputView {
         System.out.println("상대팀 말을 잡았습니다.\n");
     }
 
-    public static void printEndTurn() {
+    public static void printInvalidFromPoint() {
         System.out.println("우리팀 말이 아닙니다. 턴이 종료되었습니다.\n");
+    }
+
+    public static void printInvalidEndPoint() {
+        System.out.println("말이 이동할 수 없는 위치입니다. 턴이 종료되었습니다.");
+    }
+
+    public static void printEndTurn() {
+        System.out.println("턴이 종료되었습니다.");
     }
 }
