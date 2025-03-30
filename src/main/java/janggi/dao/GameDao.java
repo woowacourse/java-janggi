@@ -14,5 +14,5 @@ public interface GameDao {
 
     void updateGameById(final int gameId, final Team turn);
 
-    public void deleteGameById(final int id);
+    void deleteGameById(final int id);
 }

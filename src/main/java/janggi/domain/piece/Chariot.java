@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
 import janggi.domain.game.Board;
+import janggi.domain.game.Team;
 import janggi.domain.movement.Movement;
 import janggi.domain.position.Position;
-import janggi.domain.game.Team;
 
 public final class Chariot implements Piece {
 
@@ -19,7 +19,7 @@ public final class Chariot implements Piece {
         if (!destination.isOrthogonallyAligned(source) && !destination.isDiagonallyAlignedInPalace(source)) {
             throw new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다.");
         }
-        Movement targetMovement = source.getMovement(destination); // 이동 방향
+        Movement targetMovement = Movement.from(source, destination); // 이동 방향
         Position current = source.move(targetMovement);
         while (!current.equals(destination)) { // 도착지로 갈 때까지
             if (board.hasPieceAt(current)) {

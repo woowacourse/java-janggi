@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
 import janggi.domain.game.Board;
-import janggi.domain.position.Position;
 import janggi.domain.game.Team;
 import janggi.domain.movement.ElephantMovement;
+import janggi.domain.position.Position;
 import java.util.Arrays;
 
 public final class Elephant implements Piece {
@@ -16,17 +16,14 @@ public final class Elephant implements Piece {
 
     @Override
     public void validateMove(final Position source, final Position destination, final Board board) {
-        // 도착지 판단
         ElephantMovement targetMovement = Arrays.stream(ElephantMovement.values())
                 .filter(source::canMove)
                 .filter(movement -> source.move(movement).equals(destination))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다."));
-        // 첫 번째 위치 판단
         if (board.hasPieceAt(source.move(targetMovement.getFirst()))) {
             throw new IllegalArgumentException("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
         }
-        // 두 번째 위치 판단
         if (board.hasPieceAt(source.move(targetMovement.getFirst()).move(targetMovement.getSecond()))) {
             throw new IllegalArgumentException("[ERROR] 경로가 기물에 막혀 이동할 수 없습니다.");
         }

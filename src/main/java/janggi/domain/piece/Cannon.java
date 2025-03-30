@@ -1,9 +1,9 @@
 package janggi.domain.piece;
 
 import janggi.domain.game.Board;
-import janggi.domain.position.Position;
 import janggi.domain.game.Team;
 import janggi.domain.movement.Movement;
+import janggi.domain.position.Position;
 
 public final class Cannon implements Piece {
 
@@ -15,15 +15,13 @@ public final class Cannon implements Piece {
 
     @Override
     public void validateMove(final Position source, final Position destination, final Board board) {
-        // 움직임 규칙에 안 맞는 경우
         if (!destination.isOrthogonallyAligned(source) && !destination.isDiagonallyAlignedInPalace(source)) {
             throw new IllegalArgumentException("[ERROR] 규칙에 어긋나는 움직입입니다.");
         }
-
-        Movement targetMovement = source.getMovement(destination); // 이동 방향
+        Movement targetMovement = Movement.from(source, destination);
         Position current = source.move(targetMovement);
         int blockingCount = 0;
-        while (!current.equals(destination)) { // 도착지로 갈 때까지
+        while (!current.equals(destination)) {
             if (board.hasPieceAt(current)) {
                 blockingCount++;
             }
@@ -33,7 +31,7 @@ public final class Cannon implements Piece {
             if (board.hasPieceAt(current, Type.CANNON)) {
                 throw new IllegalArgumentException("[ERROR] 포는 포를 넘을 수 없습니다.");
             }
-            current = current.move(targetMovement); // 1 칸 이동
+            current = current.move(targetMovement);
         }
         if (blockingCount == 0) {
             throw new IllegalArgumentException("[ERROR] 포는 다른 기물을 뛰어 넘어서 이동해야 합니다.");
