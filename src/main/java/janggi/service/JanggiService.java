@@ -17,25 +17,24 @@ import java.util.Map;
 
 public class JanggiService {
 
-    private final Connection connection;
     private final PieceDao pieceDao;
     private final TurnDao turnDao;
     private final JanggiGame janggiGame;
 
     public JanggiService(PieceDao pieceDao, TurnDao turnDao) {
-        this.connection = DBConnectionUtil.getConnection();
         this.pieceDao = pieceDao;
         this.turnDao = turnDao;
         this.janggiGame = init();
     }
 
     public void movePiece(final Position start, final Position end) {
+        Connection connection = DBConnectionUtil.getConnection();
         janggiGame.movePiece(start, end);
         pieceDao.deleteByPosition(end, connection);
         Piece piece = pieceDao.findByPosition(start, connection);
         pieceDao.updateByPosition(piece, start, end, connection);
         turnDao.update(janggiGame.getTurn(), connection);
-        commit();
+        commit(connection);
     }
 
     public boolean continueGame() {
@@ -43,12 +42,14 @@ public class JanggiService {
     }
 
     public void clearGame() {
+        Connection connection = DBConnectionUtil.getConnection();
         pieceDao.clear(connection);
         turnDao.clear(connection);
-        commit();
+        commit(connection);
     }
 
     public Map<Position, Piece> findPiecesByPosition() {
+        Connection connection = DBConnectionUtil.getConnection();
         return pieceDao.findAll(connection);
     }
 
@@ -61,6 +62,7 @@ public class JanggiService {
     }
 
     private JanggiGame init() {
+        Connection connection = DBConnectionUtil.getConnection();
         pieceDao.createTableIfAbsent(connection);
         turnDao.createTableIfAbsent(connection);
         if (pieceDao.existsPieces(connection)) {
@@ -70,25 +72,29 @@ public class JanggiService {
     }
 
     private JanggiGame loadJanggiGame() {
+        Connection connection = DBConnectionUtil.getConnection();
         Map<Position, Piece> piecesByPosition = pieceDao.findAll(connection);
         Turn turn = turnDao.find(connection);
         return new JanggiGame(new Board(piecesByPosition), turn);
     }
 
     private JanggiGame createJanggiGame() {
+        Connection connection = DBConnectionUtil.getConnection();
         Board board = BoardFactory.initBoard();
         Turn turn = Turn.firstTurn();
         pieceDao.save(board, connection);
         turnDao.save(turn, connection);
+        commit(connection);
         return new JanggiGame(
                 board,
                 turn
         );
     }
 
-    private void commit() {
+    private void commit(final Connection connection) {
         try {
-            this.connection.commit();
+            connection.commit();
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException();
         }
