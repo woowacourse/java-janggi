@@ -1,10 +1,10 @@
-package janggi.dao;
+package janggi.service.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBConnection {
+public class DBConnectionUtil {
 
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
     private static final String DATABASE = "chess"; // MySQL DATABASE 이름
@@ -12,22 +12,7 @@ public class DBConnection {
     private static final String USERNAME = "root"; //  MySQL 서버 아이디
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
 
-    private static final Connection connection = getConnection();
-
-    public static Connection getInstance() {
-        return connection;
-    }
-
-    public static void commit() {
-        try {
-//            DBConnection.getInstance().commit();
-            connection.commit();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static Connection getConnection() {
+    public static Connection getConnection() {
         // 드라이버 연결
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION,

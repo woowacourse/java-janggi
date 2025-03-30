@@ -19,9 +19,7 @@ import java.util.Map;
 
 public class PieceDao {
 
-    private final Connection connection = DBConnection.getInstance();
-
-    public void createTableIfAbsent() {
+    public void createTableIfAbsent(final Connection connection) {
         final var query = """
                 CREATE TABLE IF NOT EXISTS piece (
                     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,7 +35,7 @@ public class PieceDao {
         }
     }
 
-    public void save(final Board board) {
+    public void save(final Board board, Connection connection) {
         final var query = "INSERT INTO piece(type, side, x, y) VALUES(?, ?, ?, ?)";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             Map<Position, Piece> positionPieces = board.getBoard();
@@ -55,7 +53,7 @@ public class PieceDao {
         }
     }
 
-    public boolean existsPieces() {
+    public boolean existsPieces(final Connection connection) {
         final var query = "SELECT * FROM piece";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
@@ -65,7 +63,7 @@ public class PieceDao {
         }
     }
 
-    public Piece findByPosition(final Position position) {
+    public Piece findByPosition(final Position position, final Connection connection) {
         final var query = "SELECT * FROM piece WHERE x = ? AND y = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, position.x());
@@ -80,7 +78,7 @@ public class PieceDao {
         return null;
     }
 
-    public Map<Position, Piece> findAll() {
+    public Map<Position, Piece> findAll(final Connection connection) {
         final var query = "SELECT * FROM piece";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             final var resultSet = preparedStatement.executeQuery();
@@ -100,7 +98,8 @@ public class PieceDao {
         }
     }
 
-    public void updateByPosition(final Piece piece, final Position start, final Position end) {
+    public void updateByPosition(final Piece piece, final Position start, final Position end,
+                                 final Connection connection) {
         final var query = "UPDATE piece SET x = ?, y = ? WHERE type = ? AND x = ? AND y = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, end.x());
@@ -115,7 +114,7 @@ public class PieceDao {
         }
     }
 
-    public void deleteByPosition(final Position position) {
+    public void deleteByPosition(final Position position, final Connection connection) {
         final var query = "DELETE FROM piece WHERE x = ? AND y = ?";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, position.x());
@@ -127,7 +126,7 @@ public class PieceDao {
         }
     }
 
-    public void clear() {
+    public void clear(final Connection connection) {
         final var query = "DELETE FROM piece";
         try (final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
@@ -136,7 +135,7 @@ public class PieceDao {
         }
     }
 
-    private Piece createPieceByType(ResultSet resultSet) throws SQLException {
+    private Piece createPieceByType(final ResultSet resultSet) throws SQLException {
         Piece piece;
         Side side = Side.valueOf(resultSet.getString("side"));
         switch (resultSet.getString("type")) {
@@ -152,3 +151,4 @@ public class PieceDao {
         return piece;
     }
 }
+
