@@ -12,13 +12,7 @@ public class JdbcConnection {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    private static final Connection connection = getConnection();
-
-    public static Connection getInstance() {
-        return connection;
-    }
-
-    public static Connection getConnection() {
+    public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {

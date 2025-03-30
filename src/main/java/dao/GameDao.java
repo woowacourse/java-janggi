@@ -11,12 +11,17 @@ import java.sql.Statement;
 import java.util.Optional;
 
 public class GameDao {
-    private final Connection connection = JdbcConnection.getInstance();
+    private final JdbcConnection jdbcConnection;
+
+    public GameDao(JdbcConnection jdbcConnection) {
+        this.jdbcConnection = jdbcConnection;
+    }
 
     public void insertGameTurn(Team team) {
         final var query = "INSERT INTO game (turn) VALUES (?)";
 
-        try (PreparedStatement insertStmt = connection.prepareStatement(query)) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement insertStmt = connection.prepareStatement(query)) {
             insertStmt.setString(1, team.name());
             insertStmt.executeUpdate();
         } catch (final SQLException e) {
@@ -28,7 +33,8 @@ public class GameDao {
         createGameTableIfNotExists();
         final var query = "SELECT turn FROM game WHERE game_id = ?";
 
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, gameId);
 
             try (ResultSet rs = stmt.executeQuery()) {
@@ -46,7 +52,8 @@ public class GameDao {
 
     public void saveTurn(Turn turn) {
         final var query = "UPDATE game SET turn = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, turn.getTeam().name());
             stmt.executeUpdate();
         } catch (final SQLException e) {
@@ -59,7 +66,8 @@ public class GameDao {
                 + "game_id INT AUTO_INCREMENT PRIMARY KEY, "
                 + "turn VARCHAR(64) NOT NULL)";
 
-        try (Statement stmt = connection.createStatement()) {
+        try (Connection connection = jdbcConnection.getConnection();
+             Statement stmt = connection.createStatement()) {
             stmt.execute(query);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
