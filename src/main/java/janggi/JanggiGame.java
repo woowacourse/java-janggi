@@ -27,7 +27,11 @@ public class JanggiGame {
 
                 Position selectedPiecePosition = inputView.selectPiece();
                 List<Position> reachablePositions = computeReachableDestinations(selectedPiecePosition);
-                Piece catchedPiece = processMove(selectedPiecePosition, reachablePositions);
+
+                Position destination = inputView.askMovableDestination();
+                board.checkPieceCanMoveTo(destination, reachablePositions);
+
+                Piece catchedPiece = processMove(selectedPiecePosition, destination);
 
                 board.checkGameIsOver(catchedPiece);
             } catch (IllegalArgumentException | IllegalStateException e) {
@@ -43,9 +47,8 @@ public class JanggiGame {
         return reachablePositions;
     }
 
-    private Piece processMove(final Position selectedPiecePosition, final List<Position> reachablePositions) {
-        Position destination = inputView.askMovableDestination();
-        Piece catchedPiece = board.moveOrCatchPiece(selectedPiecePosition, destination, reachablePositions);
+    private Piece processMove(final Position selectedPiecePosition, final Position destination) {
+        Piece catchedPiece = board.moveOrCatchPiece(selectedPiecePosition, destination);
         outputView.printMoveResult(catchedPiece);
         board.passTurnToOpponent();
         return catchedPiece;

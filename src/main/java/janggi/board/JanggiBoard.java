@@ -30,19 +30,17 @@ public class JanggiBoard {
         validateSelectCurrentTurnPiece(piece);
 
         List<Position> reachableDestinations = piece.filterReachableDestinations(position, this);
+        validateReachableDestinationsNotEmpty(reachableDestinations);
 
-        validateReachableDestinations(reachableDestinations);
         return reachableDestinations;
     }
 
-    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination,
-                                  final List<Position> reachableDestinations) {
-        validateExistSelectedDestination(destination, reachableDestinations);
-        Piece seletedPiece = board.get(selectedPiecePosition);
+    public Piece moveOrCatchPiece(final Position selectedPiecePosition, final Position destination) {
+        Piece selectedPiece = board.get(selectedPiecePosition);
         board.put(selectedPiecePosition, new Empty());
 
         Piece destinationPiece = board.get(destination);
-        board.put(destination, seletedPiece);
+        board.put(destination, selectedPiece);
 
         return destinationPiece;
     }
@@ -91,6 +89,12 @@ public class JanggiBoard {
                 .anyMatch(this::isPositionHasPiece);
     }
 
+    public void checkPieceCanMoveTo(final Position destination, final List<Position> reachableDestinations) {
+        if (!reachableDestinations.contains(destination)) {
+            throw new IllegalArgumentException("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
+        }
+    }
+
     public Piece findPieceBy(final Position position) {
         return board.get(position);
     }
@@ -111,16 +115,9 @@ public class JanggiBoard {
         }
     }
 
-    private void validateReachableDestinations(final List<Position> reachableDestinations) {
+    private void validateReachableDestinationsNotEmpty(final List<Position> reachableDestinations) {
         if (reachableDestinations.isEmpty()) {
             throw new IllegalArgumentException("[ERROR] 이동 가능한 목적지가 존재하지 않습니다.");
-        }
-    }
-
-    private void validateExistSelectedDestination(final Position destination,
-                                                  final List<Position> reachableDestinations) {
-        if (!reachableDestinations.contains(destination)) {
-            throw new IllegalArgumentException("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
         }
     }
 
@@ -131,4 +128,5 @@ public class JanggiBoard {
     public BoardStatus getStatus() {
         return status;
     }
+
 }

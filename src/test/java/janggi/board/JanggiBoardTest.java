@@ -237,9 +237,8 @@ class JanggiBoardTest {
         Position destination = new Position(5, 0);
         Piece piece = new Chariot(Side.CHO);
         janggiBoard.getBoard().put(position, piece);
-        List<Position> reachableDestinations = janggiBoard.computeReachableDestination(position);
 
-        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination, reachableDestinations);
+        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination);
 
         assertThat(catchedPiece).isInstanceOf(Guard.class);
     }
@@ -254,30 +253,14 @@ class JanggiBoardTest {
 
         Piece piece = new Chariot(Side.CHO);
         janggiBoard.getBoard().put(position, piece);
-        List<Position> reachableDestinations = janggiBoard.computeReachableDestination(position);
 
-        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination, reachableDestinations);
+        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination);
         assertThat(catchedPiece).isInstanceOf(Empty.class);
     }
 
     @Test
-    @DisplayName("이동 불가능한 목적지로 이동하려한 경우 예외를 던진다.")
-    void test20() {
-        JanggiBoard janggiBoard = JanggiBoard.initialize();
-
-        Position position = new Position(0, 9);
-        Position destination = new Position(1, 9);
-        List<Position> reachableDestination = janggiBoard.computeReachableDestination(position);
-
-
-        assertThatThrownBy(() -> janggiBoard.moveOrCatchPiece(position, destination, reachableDestination))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
-    }
-
-    @Test
     @DisplayName("왕을 잡으면 게임 종료")
-    void test21() {
+    void test20() {
         JanggiBoard janggiBoard = JanggiBoard.initialize();
 
         Position position = new Position(5, 1);
@@ -286,9 +269,8 @@ class JanggiBoardTest {
         board.put(position, piece);
 
         Position destination = new Position(4, 1);
-        List<Position> reachableDestinations = janggiBoard.computeReachableDestination(position);
 
-        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination, reachableDestinations);
+        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination);
         janggiBoard.checkGameIsOver(catchedPiece);
 
         assertThat(janggiBoard.isGameProgress()).isFalse();
