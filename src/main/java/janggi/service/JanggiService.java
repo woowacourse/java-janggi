@@ -1,7 +1,7 @@
 package janggi.service;
 
-import janggi.dao.GameRoomDAO;
 import janggi.dao.BoardDAO;
+import janggi.dao.GameRoomDAO;
 import janggi.domain.Board;
 import janggi.domain.GameRoom;
 import janggi.domain.Team;
@@ -72,6 +72,7 @@ public class JanggiService {
     }
 
     public void deleteGameRoomIfNotEnd(GameRoom gameRoom, boolean isNotClosed) {
+
         Board board = gameRoom.board();
         Team turn = gameRoom.turn();
         String gameRoomName = gameRoom.name();

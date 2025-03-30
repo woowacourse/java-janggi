@@ -1,8 +1,8 @@
 package janggi;
 
 import janggi.config.DatabaseConfig;
-import janggi.dao.GameRoomDAO;
-import janggi.dao.BoardDAO;
+import janggi.dao.impl.GameRoomDAOImpl;
+import janggi.dao.impl.BoardDAOImpl;
 import janggi.manager.DatabaseManager;
 import janggi.manager.JanggiGame;
 import janggi.service.JanggiService;
@@ -17,8 +17,8 @@ public class Application {
             databaseManager.createTableIfNotExist();
 
             Viewer viewer = new Viewer();
-            JanggiService janggiService = new JanggiService(new GameRoomDAO(databaseManager),
-                    new BoardDAO(databaseManager));
+            JanggiService janggiService = new JanggiService(new GameRoomDAOImpl(databaseManager),
+                    new BoardDAOImpl(databaseManager));
 
             JanggiGame janggiGame = new JanggiGame(viewer, janggiService);
 

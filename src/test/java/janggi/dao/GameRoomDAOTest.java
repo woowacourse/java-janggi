@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.dao.impl.GameRoomDAOImpl;
 import janggi.domain.Team;
 import janggi.manager.DatabaseManager;
 import janggi.manager.DatabaseTestManager;
@@ -22,12 +23,12 @@ import org.junit.jupiter.api.Test;
 class GameRoomDAOTest {
 
     static DatabaseManager databaseManager = DatabaseTestManager.create();
-    static GameRoomDAO gameRoomDAO;
+    static GameRoomDAO gameRoomDAOImpl;
     String roomName = "room1";
 
     @BeforeAll
     static void setUpDataBase() {
-        gameRoomDAO = new GameRoomDAO(databaseManager);
+        gameRoomDAOImpl = new GameRoomDAOImpl(databaseManager);
     }
 
     @AfterAll
@@ -47,17 +48,17 @@ class GameRoomDAOTest {
     @DisplayName("게임 룸을 생성한다.")
     @Test
     void test1() {
-        assertThatCode(() -> gameRoomDAO.create(roomName)).doesNotThrowAnyException();
+        assertThatCode(() -> gameRoomDAOImpl.create(roomName)).doesNotThrowAnyException();
     }
 
     @DisplayName("게임 룸이 존재하면 true를 반환한다.")
     @Test
     void test2() {
         // given
-        gameRoomDAO.create(roomName);
+        gameRoomDAOImpl.create(roomName);
 
         // when
-        boolean result = gameRoomDAO.exist(roomName);
+        boolean result = gameRoomDAOImpl.exist(roomName);
 
         // then
         assertThat(result).isTrue();
@@ -67,17 +68,17 @@ class GameRoomDAOTest {
     @Test
     void test3() {
         // given & when & then
-        assertThat(gameRoomDAO.exist(roomName)).isFalse();
+        assertThat(gameRoomDAOImpl.exist(roomName)).isFalse();
     }
 
     @DisplayName("게임 룸이 존재하는데 생성을 하면 예외를 반환한다.")
     @Test
     void test4() {
         // given
-        gameRoomDAO.create(roomName);
+        gameRoomDAOImpl.create(roomName);
 
         // when & then
-        assertThatThrownBy(() -> gameRoomDAO.create(roomName)).isInstanceOf(IllegalArgumentException.class)
+        assertThatThrownBy(() -> gameRoomDAOImpl.create(roomName)).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이미 중복된 방 제목입니다.");
     }
 
@@ -85,30 +86,30 @@ class GameRoomDAOTest {
     @Test
     void test5() {
         // given
-        gameRoomDAO.create(roomName);
+        gameRoomDAOImpl.create(roomName);
 
         // when & then
-        assertThatCode(() -> gameRoomDAO.save(roomName, Team.HAN)).doesNotThrowAnyException();
+        assertThatCode(() -> gameRoomDAOImpl.save(roomName, Team.HAN)).doesNotThrowAnyException();
     }
 
     @DisplayName("게임 룸을 삭제한다.")
     @Test
     void test6() {
         // given
-        gameRoomDAO.create(roomName);
+        gameRoomDAOImpl.create(roomName);
 
         // when
-        gameRoomDAO.delete(roomName);
+        gameRoomDAOImpl.delete(roomName);
 
         // then
-        assertThat(gameRoomDAO.exist(roomName)).isFalse();
+        assertThat(gameRoomDAOImpl.exist(roomName)).isFalse();
     }
 
     @DisplayName("해당 게임 방이 존재하지 않는데 저장을 하면 예외가 발생한다")
     @Test
     void test7() {
         // give & when & then
-        assertThatThrownBy(() -> gameRoomDAO.save(roomName, Team.HAN)).hasMessage("해당 방이 존재하지 않습니다!")
+        assertThatThrownBy(() -> gameRoomDAOImpl.save(roomName, Team.HAN)).hasMessage("해당 방이 존재하지 않습니다!")
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -119,11 +120,11 @@ class GameRoomDAOTest {
         List<String> nameList = List.of("방1", "방2", "방3", "방4");
 
         for (String name : nameList) {
-            gameRoomDAO.create(name);
+            gameRoomDAOImpl.create(name);
         }
 
         // when
-        List<String> result = gameRoomDAO.findAllNames();
+        List<String> result = gameRoomDAOImpl.findAllNames();
 
         // then
         assertThat(result).containsExactlyInAnyOrderElementsOf(nameList);

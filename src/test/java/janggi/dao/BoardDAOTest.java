@@ -3,6 +3,8 @@ package janggi.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.dao.impl.BoardDAOImpl;
+import janggi.dao.impl.GameRoomDAOImpl;
 import janggi.domain.Board;
 import janggi.domain.move.Position;
 import janggi.manager.DatabaseManager;
@@ -23,8 +25,8 @@ class BoardDAOTest {
 
     static final String GAME_ROOM_NAME = "room1";
     static DatabaseManager databaseManager = DatabaseTestManager.create();
-    static GameRoomDAO gameRoomDAO = new GameRoomDAO(databaseManager);
-    BoardDAO boardDAO = new BoardDAO(databaseManager);
+    static GameRoomDAO gameRoomDAOImpl = new GameRoomDAOImpl(databaseManager);
+    BoardDAO boardDAOImpl = new BoardDAOImpl(databaseManager);
 
     @BeforeAll
     static void setupDatabase() throws SQLException {
@@ -36,7 +38,7 @@ class BoardDAOTest {
             stmt.executeUpdate("DELETE FROM game_room");
         }
 
-        gameRoomDAO.create(GAME_ROOM_NAME);
+        gameRoomDAOImpl.create(GAME_ROOM_NAME);
     }
 
     @AfterAll
@@ -49,7 +51,7 @@ class BoardDAOTest {
     void test1() {
         Board board = BoardFixture.sangMaSangMa();
 
-        assertThatCode(() -> boardDAO.saveAll(GAME_ROOM_NAME, board))
+        assertThatCode(() -> boardDAOImpl.saveAll(GAME_ROOM_NAME, board))
                 .doesNotThrowAnyException();
     }
 
@@ -58,10 +60,10 @@ class BoardDAOTest {
     void test2() {
         // given
         Board board = BoardFixture.sangMaSangMa();
-        boardDAO.saveAll(GAME_ROOM_NAME, board);
+        boardDAOImpl.saveAll(GAME_ROOM_NAME, board);
 
         // when
-        Board result = boardDAO.toDomain(GAME_ROOM_NAME);
+        Board result = boardDAOImpl.toDomain(GAME_ROOM_NAME);
 
         // then
         assertThat(result).usingRecursiveComparison()
@@ -73,15 +75,15 @@ class BoardDAOTest {
     void test3() {
         // given
         Board board = BoardFixture.sangMaSangMa();
-        boardDAO.saveAll(GAME_ROOM_NAME, board);
+        boardDAOImpl.saveAll(GAME_ROOM_NAME, board);
         Position currentPosition = Position.of(7, 1);
         Position targetPosition = Position.of(6, 1);
 
         // when
-        boardDAO.movePiece(GAME_ROOM_NAME, currentPosition, targetPosition);
+        boardDAOImpl.movePiece(GAME_ROOM_NAME, currentPosition, targetPosition);
 
         // then
-        Board domain = boardDAO.toDomain(GAME_ROOM_NAME);
+        Board domain = boardDAOImpl.toDomain(GAME_ROOM_NAME);
         assertThatCode(() -> domain.getPiece(targetPosition))
                 .doesNotThrowAnyException();
     }

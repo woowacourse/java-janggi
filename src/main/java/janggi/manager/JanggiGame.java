@@ -78,6 +78,7 @@ public class JanggiGame {
             turn = turn.reverse();
         }
 
+        // TODO 게임을 반복하는 건데 장기 게임 삭제 책임이 부여되어 있다. 다른 데로 옮기자
         janggiService.deleteGameRoomIfNotEnd(gameRoom, isNotClosed);
     }
 
