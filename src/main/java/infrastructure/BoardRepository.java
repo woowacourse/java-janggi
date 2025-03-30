@@ -6,7 +6,6 @@ import domain.piece.Country;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,25 +14,17 @@ import java.util.Map;
 
 public class BoardRepository {
 
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "user";
-    private static final String PASSWORD = "password";
+    private final DbConnection dbConnection;
 
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public BoardRepository(DbConnection dbConnection) {
+        this.dbConnection = dbConnection;
     }
 
     public void save(Board board) {
         Map<Coordinate, Piece> pieces = board.getBoard();
 
         String query = "INSERT INTO board (piece_name, x, y, country) VALUES(?, ?, ?, ?)";
-        try (Connection connection = getConnection();
+        try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             for (Map.Entry<Coordinate, Piece> entry : pieces.entrySet()) {
                 Coordinate coordinate = entry.getKey();
@@ -53,7 +44,7 @@ public class BoardRepository {
     public Map<Coordinate, Piece> findAll() {
         String query = "SELECT * FROM board";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             Map<Coordinate, Piece> pieces = new HashMap<>();
 
@@ -75,7 +66,7 @@ public class BoardRepository {
     public void deleteAll() {
         String query = "DELETE FROM board";
 
-        try (Connection connection = getConnection();
+        try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

@@ -14,12 +14,22 @@ import view.OutputView;
 
 public class JanggiGame {
 
-    private final InputView inputView = new InputView();
-    private final OutputView outputView = new OutputView();
-    private final BoardRepository boardRepository = new BoardRepository();
-    private final TurnRepository turnRepository = new TurnRepository();
+    private final InputView inputView;
+    private final OutputView outputView;
+    private final BoardRepository boardRepository;
+    private final TurnRepository turnRepository;
+    private Turn turn;
 
-    private Turn turn = new Turn(Country.CHO);
+    public JanggiGame(
+            InputView inputView, OutputView outputView,
+            BoardRepository boardRepository, TurnRepository turnRepository
+    ) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+        this.boardRepository = boardRepository;
+        this.turnRepository = turnRepository;
+        this.turn = new Turn(Country.CHO);
+    }
 
     public void play() {
         Board board = start();
@@ -39,11 +49,11 @@ public class JanggiGame {
             boardRepository.save(board);
             turnRepository.save(turn);
             outputView.printNewGameMessage();
-        } else {
-            board = new Board(foundBoard);
-            turn = turnRepository.findTurn();
-            outputView.printPreviousGameMessage();
+            return board;
         }
+        board = new Board(foundBoard);
+        turn = turnRepository.findTurn();
+        outputView.printPreviousGameMessage();
         return board;
     }
 
