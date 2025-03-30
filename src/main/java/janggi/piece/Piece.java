@@ -3,6 +3,7 @@ package janggi.piece;
 import janggi.starategy.MoveStrategy;
 import janggi.value.Position;
 import java.util.List;
+import java.util.Objects;
 
 public final class Piece {
 
@@ -37,5 +38,30 @@ public final class Piece {
 
     public boolean checkPieceType(PieceType pieceType) {
         return type == pieceType;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) object;
+        return type == piece.type && Objects.equals(position, piece.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, position);
+    }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "type=" + type +
+                ", position=" + position +
+                '}';
     }
 }

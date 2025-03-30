@@ -2,6 +2,7 @@ package janggi;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.board.JanggiBoard;
 import janggi.fixture.ChoPiecePositionFixture;
@@ -27,7 +28,7 @@ public class JanggiBoardTest {
     void canAssignChoPiece(PieceType pieceType, List<Position> expectedPositions) {
         JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
 
-        List<Piece> allPiecesInCho = janggiBoard.getChoPieces();
+        List<Piece> allPiecesInCho = janggiBoard.getPieces(CampType.CHO);
         List<Piece> piecesByType = allPiecesInCho.stream().filter(piece -> piece.checkPieceType(pieceType)).toList();
 
         assertThat(piecesByType).extracting(Piece::getPosition)
@@ -52,7 +53,7 @@ public class JanggiBoardTest {
     void canAssignHanPiece(PieceType pieceType, List<Position> expectedPositions) {
         JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
 
-        List<Piece> allPiecesInHan = janggiBoard.getHanPieces();
+        List<Piece> allPiecesInHan = janggiBoard.getPieces(CampType.HAN);
         List<Piece> piecesByType = allPiecesInHan.stream().filter(piece -> piece.checkPieceType(pieceType)).toList();
 
         assertThat(piecesByType).extracting(Piece::getPosition)
@@ -80,7 +81,7 @@ public class JanggiBoardTest {
 
         janggiBoard.movePiece(CampType.CHO, targetPosition, destination);
 
-        List<Piece> choPieces = janggiBoard.getChoPieces();
+        List<Piece> choPieces = janggiBoard.getPieces(CampType.CHO);
         assertThat(choPieces)
                 .filteredOn(piece -> piece.checkPieceType(PieceType.CHA))
                 .map(Piece::getPosition)
@@ -108,5 +109,22 @@ public class JanggiBoardTest {
         assertThatThrownBy(() -> janggiBoard.movePiece(CampType.CHO, targetPosition, destination))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 이동이 불가능합니다.");
+    }
+
+    @Test
+    @DisplayName("상대방의 말을 잡을 수 있다.")
+    void canKillEnemy() {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
+        janggiBoard.movePiece(CampType.CHO, new Position(0, 6), new Position(1, 6));
+        janggiBoard.movePiece(CampType.CHO, new Position(0, 9), new Position(0, 3));
+
+        List<Piece> killedPiecesInCho = janggiBoard.getKilledPieces(CampType.CHO);
+        List<Piece> piecesInHan = janggiBoard.getPieces(CampType.HAN);
+        List<Piece> byungInHan = piecesInHan.stream().filter(piece -> piece.checkPieceType(PieceType.BYUNG)).toList();
+
+        assertAll(
+                () -> assertThat(killedPiecesInCho).containsExactly(new Piece(PieceType.BYUNG, new Position(0, 3))),
+                () -> assertThat(byungInHan).hasSize(4)
+        );
     }
 }

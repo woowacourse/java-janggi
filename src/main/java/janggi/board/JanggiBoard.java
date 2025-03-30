@@ -23,9 +23,13 @@ public class JanggiBoard {
     public void movePiece(CampType campType, Position targetPiecePosition, Position destination) {
         if (campType == CampType.CHO) {
             choPieces.movePiece(hanPieces.getPieces(), targetPiecePosition, destination);
+            choPieces.killEnemyPiece(hanPieces.getPieces(), destination);
+            hanPieces.removeDyingPiece(destination);
             return;
         }
         hanPieces.movePiece(choPieces.getPieces(), targetPiecePosition, destination);
+        hanPieces.killEnemyPiece(choPieces.getPieces(), destination);
+        choPieces.removeDyingPiece(destination);
     }
 
     public List<Piece> getPieces(CampType campType) {
@@ -33,5 +37,12 @@ public class JanggiBoard {
             return choPieces.getPieces();
         }
         return hanPieces.getPieces();
+    }
+
+    public List<Piece> getKilledPieces(CampType campType) {
+        if (campType == CampType.CHO) {
+            return choPieces.getDyingEnemy();
+        }
+        return hanPieces.getDyingEnemy();
     }
 }
