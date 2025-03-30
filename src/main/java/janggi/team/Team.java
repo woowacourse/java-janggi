@@ -26,7 +26,7 @@ public class Team {
     private final TeamScore teamScore;
     private final TeamName teamName;
 
-    Team(List<Piece> pieces, Palace palace, TeamName teamName) {
+    public Team(List<Piece> pieces, Palace palace, TeamName teamName) {
         this.pieces = pieces;
         this.palace = palace;
         this.teamName = teamName;

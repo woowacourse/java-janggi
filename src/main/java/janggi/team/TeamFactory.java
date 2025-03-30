@@ -2,8 +2,7 @@ package janggi.team;
 
 import janggi.board.BoardSetup;
 import janggi.board.Position;
-import janggi.palace.PalaceCho;
-import janggi.palace.PalaceHan;
+import janggi.palace.PalaceFactory;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Guard;
@@ -17,9 +16,9 @@ public class TeamFactory {
     public static Team createTeam(BoardSetup boardSetup) {
         TeamName teamName = boardSetup.getTeamName();
         if (teamName.equals(TeamName.HAN)) {
-            return new Team(createDefaultHanPieces(boardSetup), new PalaceHan(), TeamName.HAN);
+            return new Team(createDefaultHanPieces(boardSetup), PalaceFactory.createPalace(TeamName.HAN), TeamName.HAN);
         }
-        return new Team(createDefaultChoPieces(boardSetup), new PalaceCho(), TeamName.CHO);
+        return new Team(createDefaultChoPieces(boardSetup), PalaceFactory.createPalace(TeamName.CHO), TeamName.CHO);
     }
 
     private static List<Piece> createDefaultHanPieces(BoardSetup boardSetup) {
