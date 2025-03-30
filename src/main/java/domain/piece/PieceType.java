@@ -2,6 +2,7 @@ package domain.piece;
 
 import domain.score.Score;
 
+import java.util.EnumSet;
 import java.util.function.Function;
 
 public enum PieceType {
@@ -14,6 +15,8 @@ public enum PieceType {
     PO(new Score(7), Po::new),
     BYEONG(new Score(2), Byeong::new),
     ;
+
+    private static final EnumSet<PieceType> SANG_MA = EnumSet.of(SANG, MA);
 
     private final Score score;
     private final Function<Team, Piece> function;
@@ -29,6 +32,13 @@ public enum PieceType {
 
     public Piece create(Team team) {
         return function.apply(team);
+    }
+
+    public static Piece createSangMaPiece(final Team team, final PieceType pieceType) {
+        if (!SANG_MA.contains(pieceType)) {
+            throw new IllegalArgumentException("[ERROR] 상 또는 마가 아닙니다.");
+        }
+        return pieceType.create(team);
     }
 
     public static Piece createPiece(final String team, final String pieceType) {

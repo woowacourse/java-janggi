@@ -1,20 +1,15 @@
 package domain.board;
 
-import static domain.board.Board.END_COLUMN_INDEX;
-import static domain.board.Board.END_ROW_INDEX;
-import static domain.board.Board.START_COLUMN_INDEX;
-import static domain.board.Board.START_ROW_INDEX;
-
-import domain.piece.PieceType;
 import domain.piece.Byeong;
 import domain.piece.Cha;
-import domain.piece.Ma;
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Po;
 import domain.piece.Sa;
-import domain.piece.Sang;
 import domain.piece.Team;
 import domain.piece.Wang;
+import view.SangMaOrderCommand;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -23,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import view.SangMaOrderCommand;
+import static domain.board.Board.*;
 
 public class BoardGenerator {
 
@@ -176,17 +171,9 @@ public class BoardGenerator {
         List<PieceType> pieceTypes = sangMaOrderCommand.getPieceTypes();
         Deque<Piece> pieces = new ArrayDeque<>();
         for (PieceType pieceType : pieceTypes) {
-            pieces.addLast(createPiece(pieceType, team));
+            pieces.addLast(PieceType.createSangMaPiece(team, pieceType));
         }
         return pieces;
-    }
-
-    private Piece createPiece(final PieceType pieceType, final Team team) {
-        return switch (pieceType) {
-            case SANG -> new Sang(team);
-            case MA -> new Ma(team);
-            default -> throw new IllegalArgumentException("[ERROR] 상 또는 마가 아닙니다.");
-        };
     }
 
     public Board loadBoard(final Map<Point, Piece> savedBoard) {
