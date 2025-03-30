@@ -7,71 +7,55 @@ import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
 import domain.score.Score;
 import domain.type.ChessTeam;
-
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 public class Board {
 
     private final ChessPiecePositions chessPiecePositions;
-    private final Map<ChessTeam, Score> scores = new EnumMap<>(ChessTeam.class);
 
     public Board(final ChessPiecePositions chessPiecePositions) {
         this.chessPiecePositions = chessPiecePositions;
-        scores.putAll(Map.of(
-                ChessTeam.RED, Score.zero(),
-                ChessTeam.BLUE, Score.zero()
-        ));
     }
 
-    public boolean isExistPieceAt(ChessPosition position) {
-        return chessPiecePositions.existChessPieceByPosition(position);
+    public void move(final ChessPosition from, final ChessPosition to) {
+        final ChessPiece chessPiece = chessPiecePositions.findPieceByPosition(from);
+        chessPiecePositions.move(chessPiece, to);
     }
 
-    public void move(final ChessTeam currentTeam, final ChessPosition from, final ChessPosition to) {
-        validateTeam(currentTeam, from);
-        validateDestination(from, to);
-        if (chessPiecePositions.existChessPieceByPosition(to)) {
-            killTarget(currentTeam, to);
-        }
-        chessPiecePositions.move(from, to);
+    public ChessPiece getChessPieceByPosition(final ChessPosition from) {
+        return chessPiecePositions.findPieceByPosition(from);
     }
 
-    public List<ChessPosition> getAvailableDestination(final ChessPosition position) {
-        ChessPiece chessPiece = chessPiecePositions.getChessPieceByPosition(position);
-        final List<Path> coordinatePaths = chessPiece.getCoordinatePaths(position);
+    public List<ChessPosition> getAvailableDestinations(final ChessPosition from, final ChessPiece chessPiece) {
+        final List<Path> coordinatePaths = chessPiece.getCoordinatePaths(from);
         final HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
         return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, chessPiecePositions);
     }
 
-    public void validateTeam(final ChessTeam currentTeam, final ChessPosition from) {
-        ChessPiece chessPiece = chessPiecePositions.getChessPieceByPosition(from);
-        if (currentTeam != chessPiece.getTeam()) {
-            throw new IllegalArgumentException("상대편의 기물을 움직일 수 없습니다.");
+    public void validateExistPieceByPosition(final ChessPosition from) {
+        if (!chessPiecePositions.existPieceByPosition(from)) {
+            throw new IllegalArgumentException("해당 위치는 기물이 존재하지 않습니다.");
         }
     }
 
-    private void killTarget(ChessTeam currentTeam, ChessPosition to) {
-        ChessPiece target = chessPiecePositions.getChessPieceByPosition(to);
-        updateScore(currentTeam, target);
-        chessPiecePositions.removeChessPieceByPosition(to);
-    }
-
-    private void updateScore(ChessTeam currentTeam, ChessPiece target) {
-        Score score = target.getScore();
-        Score updatedScore = scores.get(currentTeam).add(score);
-        scores.put(currentTeam, updatedScore);
-    }
-
-    private void validateDestination(final ChessPosition from, final ChessPosition to) {
-        List<ChessPosition> destinations = getAvailableDestination(from);
-        if (!destinations.contains(to)) {
-            throw new IllegalArgumentException("이동할 수 없는 경로입니다.");
+    public void validateCurrentTeam(final ChessPosition from, final ChessTeam team) {
+        final ChessPiece chessPiece = getChessPieceByPosition(from);
+        if (chessPiece.getTeam() != team) {
+            throw new IllegalArgumentException(String.format("현재 턴은 %s 입니다.", team.getName()));
         }
     }
 
-    public Map<ChessPosition, ChessPiece> getPositions() {
+    public Score calculateTotalScore() {
+        return chessPiecePositions.calucalScore();
+    }
+
+    public void validateToPosition(final List<ChessPosition> chessPositions, final ChessPosition to) {
+        if (!chessPositions.contains(to)) {
+            throw new IllegalArgumentException("해당 위치로는 이동할 수 없습니다.");
+        }
+    }
+
+    public List<ChessPiece> getChessPieces() {
         return chessPiecePositions.getChessPieces();
     }
 }
