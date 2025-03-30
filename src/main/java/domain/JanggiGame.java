@@ -20,13 +20,12 @@ public class JanggiGame {
     private final Board board;
     private Team team;
 
-    public JanggiGame(final SangMaOrderCommand hanSangMaOrderCommand,
-                      final SangMaOrderCommand choSangMaOrderCommand) {
+    public JanggiGame(final SangMaOrderCommand hanSangMaOrderCommand, final SangMaOrderCommand choSangMaOrderCommand) {
         this.board = new BoardGenerator().generateBoard(hanSangMaOrderCommand, choSangMaOrderCommand);
         this.team = START_TEAM;
     }
 
-    public JanggiGame(final Map<Point, Piece> savedBoard, Team savedTurn) {
+    public JanggiGame(final Map<Point, Piece> savedBoard, final Team savedTurn) {
         this.board = new BoardGenerator().loadBoard(savedBoard);
         this.team = savedTurn;
     }
