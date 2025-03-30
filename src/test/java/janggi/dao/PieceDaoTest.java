@@ -2,10 +2,13 @@ package janggi.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.dto.GameDto;
+import janggi.dto.PieceDtos;
 import janggi.game.Board;
 import janggi.game.Game;
 import janggi.game.Team;
 import janggi.piece.Byeong;
+import janggi.piece.Cha;
 import janggi.piece.Piece;
 import janggi.point.Point;
 import java.util.List;
@@ -52,5 +55,22 @@ class PieceDaoTest {
         PieceDao pieceDao = PieceDao.createPiece(piece, gameDao);
         pieceDao.updateToAttacked();
         //TODO 검증가능?
+    }
+
+    @Test
+    @DisplayName("조회된 기물 데이터에 맞게 기물 객체를 생성한다.")
+    void createPieceObjectFromTuple() {
+        Piece piece1 = new Byeong(Team.HAN, new Point(5, 5));
+        Piece piece2 = new Cha(Team.CHO, new Point(4, 4));
+        GameDao gameDao = GameDao.createGame(new Game(new Board(List.of(piece1, piece2))));
+        PieceDao pieceDao1 = PieceDao.createPiece(piece1, gameDao);
+        PieceDao pieceDao2 = PieceDao.createPiece(piece2, gameDao);
+        pieceDao2.updateToAttacked();
+        GameDto lastCreated = GameDao.findLastCreated();
+
+        PieceDtos pieceDtos = PieceDao.findPiecesBy(lastCreated);
+
+        assertThat(pieceDtos.getRunningPieces()).hasSize(1);
+        assertThat(pieceDtos.getAttackedPieces()).hasSize(1);
     }
 }

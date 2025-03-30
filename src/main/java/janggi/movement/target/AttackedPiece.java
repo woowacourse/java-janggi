@@ -30,4 +30,8 @@ public class AttackedPiece {
     public Score getScore() {
         return attackedPiece.getScore();
     }
+
+    public Piece getPiece() {
+        return attackedPiece;
+    }
 }
