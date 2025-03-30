@@ -16,10 +16,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class GameDaoTest {
+class MysqlGameDaoTest {
 
     private final MysqlConnection mysqlConnection = new MysqlConnection("janggi_test");
-    private final GameDao gameDao = new GameDao(mysqlConnection);
+    private final MysqlGameDao mysqlGameDao = new MysqlGameDao(mysqlConnection);
 
     @BeforeEach
     void setUp() {
@@ -37,7 +37,7 @@ class GameDaoTest {
         // given
         setupGame();
         // when
-        List<GameDto> allGames = gameDao.findAllGames();
+        List<GameDto> allGames = mysqlGameDao.findAllGames();
         // then
         assertAll(
                 () -> assertThat(allGames).hasSize(1),
@@ -53,7 +53,7 @@ class GameDaoTest {
         setupGame();
         int gameId = 1;
         // when
-        GameDto gameDto = gameDao.findGameById(gameId);
+        GameDto gameDto = mysqlGameDao.findGameById(gameId);
         // then
         assertAll(
                 () -> assertThat(gameDto).isNotNull(),
@@ -68,7 +68,7 @@ class GameDaoTest {
         // given
         Team turn = Team.CHO;
         // when
-        int savedGameId = gameDao.addGame(turn);
+        int savedGameId = mysqlGameDao.addGame(turn);
         // then
         String selectQuery = "SELECT * FROM game WHERE id = ?";
         try (Connection connection = mysqlConnection.getConnection();
@@ -91,7 +91,7 @@ class GameDaoTest {
         setupGame();
         // when
         int gameId = 1;
-        gameDao.updateGameById(gameId, Team.HAN);
+        mysqlGameDao.updateGameById(gameId, Team.HAN);
         // then
         String selectQuery = "SELECT * FROM game WHERE id = ?";
         try (Connection connection = mysqlConnection.getConnection();
@@ -113,7 +113,7 @@ class GameDaoTest {
         // given
         setupGame();
         // when
-        gameDao.deleteGameById(1);
+        mysqlGameDao.deleteGameById(1);
         // then
         String selectQuery = "SELECT COUNT(*) FROM game";
         try (Connection connection = mysqlConnection.getConnection();

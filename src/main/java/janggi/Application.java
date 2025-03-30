@@ -4,9 +4,9 @@ import janggi.console.GameExitConsole;
 import janggi.console.GamePlayConsole;
 import janggi.console.GameSetupConsole;
 import janggi.console.GameStatus;
-import janggi.dao.GameDao;
 import janggi.dao.MysqlConnection;
-import janggi.dao.PieceDao;
+import janggi.dao.MysqlGameDao;
+import janggi.dao.MysqlPieceDao;
 import janggi.domain.game.Game;
 import janggi.service.GameService;
 import janggi.view.BoardView;
@@ -20,10 +20,10 @@ public class Application {
     private final BoardView boardView = new BoardView();
 
     private final MysqlConnection mysqlConnection = new MysqlConnection();
-    private final GameDao gameDao = new GameDao(mysqlConnection);
-    private final PieceDao pieceDao = new PieceDao(mysqlConnection);
+    private final MysqlGameDao mysqlGameDao = new MysqlGameDao(mysqlConnection);
+    private final MysqlPieceDao mysqlPieceDao = new MysqlPieceDao(mysqlConnection);
 
-    private final GameService gameService = new GameService(gameDao, pieceDao);
+    private final GameService gameService = new GameService(mysqlGameDao, mysqlPieceDao);
 
     private final GameSetupConsole gameSetupConsole = new GameSetupConsole(inputView, systemView, boardView,
             gameService);

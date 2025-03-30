@@ -15,10 +15,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class PieceDaoTest {
+class MysqlPieceDaoTest {
 
     private final MysqlConnection mysqlConnection = new MysqlConnection("janggi_test");
-    private final PieceDao pieceDao = new PieceDao(mysqlConnection);
+    private final MysqlPieceDao mysqlPieceDao = new MysqlPieceDao(mysqlConnection);
 
     @BeforeEach
     void setUp() {
@@ -38,7 +38,7 @@ class PieceDaoTest {
         setupPieces();
         int gameId = 1;
         // when
-        List<PieceDto> pieceDtos = pieceDao.findPiecesByGameId(gameId);
+        List<PieceDto> pieceDtos = mysqlPieceDao.findPiecesByGameId(gameId);
         // then
         assertAll(
                 () -> assertThat(pieceDtos).hasSize(2),
@@ -57,7 +57,7 @@ class PieceDaoTest {
                 new PieceDto("GENERAL", "HAN", 3, 7)
         );
         // when
-        pieceDao.addPieces(gameId, pieceDtos);
+        mysqlPieceDao.addPieces(gameId, pieceDtos);
         // then
         String selectQuery = "SELECT * FROM piece WHERE game_id = ?";
         try (Connection connection = mysqlConnection.getConnection();
@@ -81,7 +81,7 @@ class PieceDaoTest {
         setupPieces();
         int gameId = 1;
         // when
-        pieceDao.deletePiecesByGameId(gameId);
+        mysqlPieceDao.deletePiecesByGameId(gameId);
         // then
         String selectQuery = "SELECT COUNT(*) FROM piece WHERE game_id = ?";
         try (Connection connection = mysqlConnection.getConnection();
