@@ -1,7 +1,7 @@
 import dao.DaoConfiguration;
 import dao.GameDao;
 import dao.PieceDao;
-import dao.TestDaoConfiguration;
+import dao.ProdDaoConfiguration;
 import java.util.function.Supplier;
 import model.JanggiGame;
 import model.piece.Piece;
@@ -15,11 +15,7 @@ public class Application {
 
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
-    /***
-     * 운영 환경 : ProdDaoConfiguration
-     * 테스트 환경 : TestDaoConfiguration
-     */
-    private static final DaoConfiguration daoConfiguration = new TestDaoConfiguration();
+    private static final DaoConfiguration daoConfiguration = new ProdDaoConfiguration();
     private static final GameDao gameDao = new GameDao(daoConfiguration);
     private static final PieceDao pieceDao = new PieceDao(daoConfiguration);
     private static final JanggiGame janggiGame = JanggiGame.initPiecesFrom(gameDao, pieceDao);

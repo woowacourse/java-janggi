@@ -1,6 +1,7 @@
 package model.piece;
 
 import java.util.List;
+import java.util.Objects;
 import model.Team;
 import model.position.Position;
 
@@ -49,5 +50,19 @@ public abstract class Piece {
 
     public Team getTeam() {
         return team;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Piece piece = (Piece) o;
+        return score == piece.score && Objects.equals(type, piece.type) && team == piece.team;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, team, score);
     }
 }

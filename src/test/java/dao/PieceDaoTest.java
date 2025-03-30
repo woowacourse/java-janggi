@@ -2,13 +2,17 @@ package dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Map;
 import model.Team;
 import model.piece.Cannon;
+import model.piece.Chariot;
 import model.piece.Piece;
 import model.position.Column;
 import model.position.Position;
 import model.position.Row;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class PieceDaoTest {
@@ -21,32 +25,48 @@ public class PieceDaoTest {
         pieceDao.deletePieces();
     }
 
+    @DisplayName("피스를 저장할 수 있어야 한다.")
     @Test
-    public void addPiece() {
+    void addPiece() {
         Position position = new Position(Column.ONE, Row.TWO);
         Piece piece = new Cannon(Team.RED);
         pieceDao.addPiece(position, piece);
+        Map<Position, Piece> allPieces = pieceDao.getAllPieces();
+        assertThat(allPieces.get(position)).isEqualTo(piece);
     }
 
+    @DisplayName("모든 피스를 삭제할 수 있어야 한다.")
     @Test
-    public void findPieceByPosition() {
-        Position position = new Position(Column.TEN, Row.THREE);
-        int pieceByPosition = pieceDao.findPieceByPosition(position);
-        assertThat(pieceByPosition).isEqualTo(26);
-    }
+    void deleteAllPiece() {
+        //given
+        Position position1 = new Position(Column.ONE, Row.TWO);
+        Piece piece1 = new Cannon(Team.RED);
+        pieceDao.addPiece(position1, piece1);
 
-    @Test
-    public void deleteAllPiece() {
+        Position position2 = new Position(Column.TWO, Row.THREE);
+        Piece piece2 = new Cannon(Team.RED);
+        pieceDao.addPiece(position2, piece2);
+
+        //when
         pieceDao.deletePieces();
+
+        //then
+        assertThat(pieceDao.getAllPieces().size()).isEqualTo(0);
     }
 
-    /*
+    @DisplayName("특정 피스의 위치를 바꿀 수 있어야 한다.")
     @Test
     public void updatePiece() {
-        Position departure = new Position(Column.SEVEN, Row.FIVE);
-        Position arrival = new Position(Column.SIX, Row.FIVE);
-        PieceDao pieceDao = new PieceDao();
+        //given
+        Position position = new Position(Column.ONE, Row.TWO);
+        Piece piece = new Chariot(Team.RED);
+        pieceDao.addPiece(position, piece);
+
+        Position departure = new Position(Column.ONE, Row.TWO);
+        Position arrival = new Position(Column.FIVE, Row.TWO);
         pieceDao.updatePiece(departure, arrival);
+        Map<Position, Piece> allPieces = pieceDao.getAllPieces();
+        assertThat(allPieces.get(arrival)).isEqualTo(piece);
+        assertThat(allPieces.get(departure)).isNull();
     }
-     */
 }
