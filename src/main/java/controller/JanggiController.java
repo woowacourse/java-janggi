@@ -5,6 +5,7 @@ import domain.dao.JanggiCoordinateDao;
 import domain.dao.JanggiDao;
 import domain.dao.JanggiGameDao;
 import domain.dao.JanggiPieceDao;
+import domain.dto.GameIdDto;
 import domain.dto.GameRoomDTO;
 import domain.piece.Piece;
 import view.InputView;
@@ -32,21 +33,10 @@ public class JanggiController {
 
     public void startJanggiGame() {
         GameCommand command = getCreateGameCommand();
-        JanggiGame game = null;
-        int gameId = 0;
 
-        if (command == GameCommand.CREATE_NEW_GAME_COMMAND) {
-            String gameName = inputView.getCreateGameName();
-            gameId = gameDao.createGame(gameName, Country.CHO);
-            game = new JanggiGame(PieceInitializer.init(), Country.CHO);
-        }
-        if (command == GameCommand.LOAD_GAME_COMMAND) {
-            List<GameRoomDTO> gameRooms = gameDao.findAllGames();
-            String gameName = inputView.getGameName(gameRooms);
-            gameId = gameDao.getGameIdByName(gameName);
-            String currentTurn = gameDao.getCurrTurnById(gameId);
-            game = new JanggiGame(coordinateDao.finaAllPieces(gameId), Country.fromName(currentTurn));
-        }
+        GameIdDto gameIdDto = createGame(command);
+        JanggiGame game = gameIdDto.game();
+        int gameId = gameIdDto.gameId();
 
         while (!game.isGameOver()) {
             try {
@@ -69,6 +59,33 @@ public class JanggiController {
         outputView.printScore(Country.CHO, game.getCountryScore(Country.CHO));
         outputView.printScore(Country.HAN, game.getCountryScore(Country.HAN));
         gameDao.deleteGameRoom(gameId);
+    }
+
+    private GameIdDto createGame(GameCommand command) {
+        if (command == GameCommand.CREATE_NEW_GAME_COMMAND) {
+            return createNewGame();
+        }
+        return loadGame();
+    }
+
+    private GameIdDto createNewGame() {
+        String gameName = inputView.getCreateGameName();
+        return new GameIdDto(
+                gameDao.createGame(gameName, Country.CHO),
+                new JanggiGame(PieceInitializer.init(), Country.CHO)
+        );
+    }
+
+    private GameIdDto loadGame() {
+        List<GameRoomDTO> gameRooms = gameDao.findAllGames();
+        String gameName = inputView.getGameName(gameRooms);
+        int gameId = gameDao.getGameIdByName(gameName);
+        String currentTurn = gameDao.getCurrTurnById(gameId);
+
+        return new GameIdDto(
+                gameDao.getGameIdByName(gameName),
+                new JanggiGame(coordinateDao.finaAllPieces(gameId), Country.fromName(currentTurn))
+        );
     }
 
     private GameCommand getCreateGameCommand() {
