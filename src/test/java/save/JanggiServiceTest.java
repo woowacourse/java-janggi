@@ -15,11 +15,12 @@ import piece.position.JanggiPosition;
 
 class JanggiServiceTest {
 
-    private final JanggiSaveService janggiSaveService = new JanggiSaveService(new TestMySQLConnection());
+    private final JanggiPersistenceService janggiPersistenceService = new JanggiPersistenceService(
+            new TestMySQLConnection());
 
     @AfterEach
     void clearDatabases() {
-        janggiSaveService.resetJanggi();
+        janggiPersistenceService.resetJanggi();
     }
 
     @Test
@@ -30,8 +31,8 @@ class JanggiServiceTest {
                         Team.RED, new Pieces(
                                 List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.RED)))
                 ));
-        janggiSaveService.saveJanggi(playerPieces, 1, Team.BLUE);
-        Assertions.assertTrue(janggiSaveService.isPreviousGameExist());
+        janggiPersistenceService.saveJanggi(playerPieces, 1, Team.BLUE);
+        Assertions.assertTrue(janggiPersistenceService.isPreviousGameExist());
     }
 
     @Test
@@ -42,8 +43,8 @@ class JanggiServiceTest {
                         Team.RED, new Pieces(
                                 List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.RED)))
                 ));
-        janggiSaveService.saveJanggi(playerPieces, 1, Team.BLUE);
-        Optional<Integer> previousTurn = janggiSaveService.getPreviousTurn();
+        janggiPersistenceService.saveJanggi(playerPieces, 1, Team.BLUE);
+        Optional<Integer> previousTurn = janggiPersistenceService.getPreviousTurn();
         Assertions.assertEquals(previousTurn.get(), 1);
     }
 
@@ -55,8 +56,8 @@ class JanggiServiceTest {
                         Team.RED, new Pieces(
                                 List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.RED)))
                 ));
-        janggiSaveService.saveJanggi(playerPieces, 1, Team.BLUE);
-        Pieces pieces = janggiSaveService.loadPieces();
+        janggiPersistenceService.saveJanggi(playerPieces, 1, Team.BLUE);
+        Pieces pieces = janggiPersistenceService.loadPieces();
         Assertions.assertEquals(pieces.size(), 2);
     }
 }

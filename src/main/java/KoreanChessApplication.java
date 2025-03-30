@@ -9,7 +9,7 @@ import piece.initiate.TableSetting;
 import piece.player.PlayerPieces;
 import piece.player.Team;
 import piece.position.JanggiPosition;
-import save.JanggiSaveService;
+import save.JanggiPersistenceService;
 import save.MySQLConnection;
 import save.SaveFailException;
 
@@ -19,7 +19,7 @@ public class KoreanChessApplication {
 
     private static final int PLAYER_SIZE = 2;
     private static final Map<Integer, Team> turnTable;
-    private static JanggiSaveService janggiSaveService;
+    private static JanggiPersistenceService janggiPersistenceService;
 
     static {
         turnTable = Map.of(0, Team.RED, 1, Team.BLUE);
@@ -34,7 +34,7 @@ public class KoreanChessApplication {
 
     private static void initiateJanggiService(GameView gameView) {
         try {
-            janggiSaveService = new JanggiSaveService(new MySQLConnection());
+            janggiPersistenceService = new JanggiPersistenceService(new MySQLConnection());
         } catch (SaveFailException e) {
             gameView.printCanNotApplySave();
         }
@@ -56,10 +56,10 @@ public class KoreanChessApplication {
     }
 
     private static PlayerPieces initiatePiecesFromPreviousGame() {
-        if (janggiSaveService == null) {
+        if (janggiPersistenceService == null) {
             throw new SaveFailException(GAME_SAVE_NOT_AVAILABLE);
         }
-        Pieces previousPieces = janggiSaveService.loadPieces();
+        Pieces previousPieces = janggiPersistenceService.loadPieces();
         Map<Team, Pieces> teamPieces = new InitiateJanggiTeamPieces(previousPieces).janggiInitiatePieces();
         return new PlayerPieces(teamPieces);
     }
@@ -92,29 +92,29 @@ public class KoreanChessApplication {
 
     private static void resetJanggi(GameView gameView) {
         try {
-            janggiSaveService.resetJanggi();
+            janggiPersistenceService.resetJanggi();
         } catch (SaveFailException e) {
             gameView.printError(e.getMessage());
         }
     }
 
     private static void saveJanggi(PlayerPieces playerPieces, int turn, GameView gameView) {
-        if (janggiSaveService == null) {
+        if (janggiPersistenceService == null) {
             return;
         }
         try {
-            janggiSaveService.saveJanggi(playerPieces, turn, determineCurrentPlayTeam(turn));
+            janggiPersistenceService.saveJanggi(playerPieces, turn, determineCurrentPlayTeam(turn));
         } catch (SaveFailException e) {
             gameView.printError(e.getMessage());
         }
     }
 
     private static int initiateTurn() {
-        if (janggiSaveService == null) {
+        if (janggiPersistenceService == null) {
             return 0;
         }
         try {
-            Optional<Integer> previousTurn = janggiSaveService.getPreviousTurn();
+            Optional<Integer> previousTurn = janggiPersistenceService.getPreviousTurn();
             return previousTurn.map(turn -> turn + 1).orElse(0);
         } catch (SaveFailException e) {
             return 0;
