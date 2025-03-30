@@ -6,15 +6,13 @@ import java.sql.SQLException;
 
 public class DBConnectionUtil {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "pjh1227!!!";
+    private static final String URL = PropertiesLoader.load().getProperty("db.url");
+    private static final String USERNAME = PropertiesLoader.load().getProperty("db.username");
+    private static final String PASSWORD = PropertiesLoader.load().getProperty("db.password");
 
     public static Connection createConnection() {
         try {
-            return DriverManager.getConnection(URL + DATABASE + OPTION, USERNAME, PASSWORD);
+            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
