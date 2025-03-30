@@ -14,7 +14,7 @@ CREATE TABLE GameRoom
     blue_score   INT                  DEFAULT 0,
 );
 
-CREATE TABLE Board
+CREATE TABLE BoardPiece
 (
     id           INT AUTO_INCREMENT PRIMARY KEY,
     gameroom_id  INT         NOT NULL,

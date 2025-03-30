@@ -1,12 +1,12 @@
 package janggi.dao;
 
-import janggi.domain.piece.TeamColor;
-import janggi.dto.GameRoomDto;
+import janggi.entity.GameRoomEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +18,10 @@ public class GameRoomDao {
         this.connection = connection;
     }
 
-    public List<GameRoomDto> findPlayingGameRooms() {
+    public List<GameRoomEntity> findPlayingGameRooms() {
         final String query = "SELECT id, turn_color, start_time, last_updated FROM GameRoom WHERE is_finished = FALSE ORDER BY last_updated DESC";
 
-        List<GameRoomDto> gameRooms = new ArrayList<>();
+        List<GameRoomEntity> gameRoomEntities = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -32,21 +32,21 @@ public class GameRoomDao {
                 Timestamp startTime = resultSet.getTimestamp("start_time");
                 Timestamp lastUpdated = resultSet.getTimestamp("last_updated");
 
-                gameRooms.add(GameRoomDto.createForShowRooms(roomId, turnColor, startTime, lastUpdated));
+                gameRoomEntities.add(GameRoomEntity.ofPlaying(roomId, turnColor, startTime.toLocalDateTime(),
+                        lastUpdated.toLocalDateTime()));
             }
         } catch (SQLException e) {
             throw new RuntimeException("진행 중인 게임방 조회 실패", e);
         }
-        return gameRooms;
+        return gameRoomEntities;
     }
 
-    public void saveNewRoom(TeamColor turnColor) {
+    public void saveNewRoom(GameRoomEntity gameRoomEntity) {
         String query = "INSERT INTO GameRoom (turn_color, start_time) VALUES (?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            Timestamp startTime = new Timestamp(System.currentTimeMillis());
-            preparedStatement.setString(1, turnColor.name());
-            preparedStatement.setTimestamp(2, startTime);
+            preparedStatement.setString(1, gameRoomEntity.getTurnColor());
+            preparedStatement.setTimestamp(2, Timestamp.valueOf(gameRoomEntity.getStartTime()));
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -68,14 +68,14 @@ public class GameRoomDao {
         }
     }
 
-    public void updateGameRoom(int roomId, TeamColor turnColor, int redScore, int blueScore) {
+    public void updateGameRoom(GameRoomEntity gameRoomEntity) {
         String query = "UPDATE GameRoom SET turn_color = ?, red_score = ?, blue_score = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, turnColor.name());
-            preparedStatement.setInt(2, redScore);
-            preparedStatement.setInt(3, blueScore);
-            preparedStatement.setInt(4, roomId);
+            preparedStatement.setString(1, gameRoomEntity.getTurnColor());
+            preparedStatement.setInt(2, gameRoomEntity.getRedScore());
+            preparedStatement.setInt(3, gameRoomEntity.getBlueScore());
+            preparedStatement.setInt(4, gameRoomEntity.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -83,15 +83,14 @@ public class GameRoomDao {
         }
     }
 
-    public void finishGame(int roomId, TeamColor winner) {
-        String query = "UPDATE GameRoom SET is_finished = TRUE, winner = ?, end_time = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?";
+    public void finishGame(GameRoomEntity gameRoomEntity) {
+        String query = "UPDATE GameRoom SET is_finished = ?, winner = ?, end_time = ?, last_updated = CURRENT_TIMESTAMP WHERE id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            Timestamp endTime = new Timestamp(System.currentTimeMillis());
-
-            preparedStatement.setString(1, winner.name());
-            preparedStatement.setTimestamp(2, endTime);
-            preparedStatement.setInt(3, roomId);
+            preparedStatement.setBoolean(1, gameRoomEntity.isFinished());
+            preparedStatement.setString(2, gameRoomEntity.getWinner());
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(gameRoomEntity.getEndTime()));
+            preparedStatement.setInt(4, gameRoomEntity.getId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -99,19 +98,31 @@ public class GameRoomDao {
         }
     }
 
-    public Optional<GameRoomDto> findRoomFromId(int roomId) {
-        String query = "SELECT turn_color, red_score, blue_score FROM GameRoom WHERE id = ?";
+    public Optional<GameRoomEntity> findById(int roomId) {
+        String query = "SELECT id, turn_color, start_time, last_updated, is_finished, winner, end_time, red_score, blue_score FROM GameRoom WHERE id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, roomId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                String turnColor = resultSet.getString("turn_color");
-                int redScore = resultSet.getInt("red_score");
-                int blueScore = resultSet.getInt("blue_score");
+                Timestamp endTimeTs = resultSet.getTimestamp("end_time");
+                LocalDateTime endTime = null;
+                if (endTimeTs != null) {
+                    endTime = endTimeTs.toLocalDateTime();
+                }
 
-                return Optional.of(GameRoomDto.createForState(roomId, turnColor, redScore, blueScore));
+                return Optional.of(new GameRoomEntity(
+                        resultSet.getInt("id"),
+                        resultSet.getString("turn_color"),
+                        resultSet.getTimestamp("start_time").toLocalDateTime(),
+                        resultSet.getTimestamp("last_updated").toLocalDateTime(),
+                        resultSet.getBoolean("is_finished"),
+                        resultSet.getString("winner"),
+                        endTime,
+                        resultSet.getInt("red_score"),
+                        resultSet.getInt("blue_score")
+                ));
             }
             return Optional.empty();
         } catch (SQLException e) {

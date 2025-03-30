@@ -1,38 +1,55 @@
 package janggi.service;
 
 
+import janggi.dao.BoardPieceDao;
 import janggi.dao.GameRoomDao;
-import janggi.dao.BoardDao;
 import janggi.domain.board.Position;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
+import janggi.entity.GameRoomEntity;
 import java.sql.Connection;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class JanggiService {
-    private final BoardDao boardDao;
+    private final BoardPieceDao boardPieceDao;
     private final GameRoomDao gameRoomDao;
 
     private final int roomId;
 
     public JanggiService(Connection connection, int roomId) {
-        this.boardDao = new BoardDao(connection);
+        this.boardPieceDao = new BoardPieceDao(connection);
         this.gameRoomDao = new GameRoomDao(connection);
         this.roomId = roomId;
     }
 
     public void updateMoveResult(Position source, Position destination, PieceType pieceType, TeamColor teamColor) {
-        boardDao.update(roomId, source, destination, pieceType, teamColor);
+        boardPieceDao.update(roomId, source, destination, pieceType, teamColor);
     }
 
     public void updateGameRoom(TeamColor teamColor, Map<TeamColor, Integer> teamScore) {
         int redScore = teamScore.getOrDefault(TeamColor.RED, 0);
         int blueScore = teamScore.getOrDefault(TeamColor.BLUE, 0);
 
-        gameRoomDao.updateGameRoom(roomId, teamColor, redScore, blueScore);
+        GameRoomEntity gameRoomEntity = gameRoomDao.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 id의 GameRoom이 존재하지 않습니다, roomId: " + roomId));
+
+        gameRoomEntity.setTurnColor(teamColor.name());
+        gameRoomEntity.setRedScore(redScore);
+        gameRoomEntity.setBlueScore(blueScore);
+        gameRoomEntity.setLastUpdated(LocalDateTime.now());
+
+        gameRoomDao.updateGameRoom(gameRoomEntity);
     }
 
     public void finishGame(TeamColor winnerColor) {
-        gameRoomDao.finishGame(roomId, winnerColor);
+
+        GameRoomEntity gameRoomEntity = gameRoomDao.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 id의 GameRoom이 존재하지 않습니다, roomId: " + roomId));
+
+        gameRoomEntity.setFinished(true);
+        gameRoomEntity.setWinner(winnerColor.name());
+        gameRoomEntity.setEndTime(LocalDateTime.now());
+        gameRoomDao.finishGame(gameRoomEntity);
     }
 }

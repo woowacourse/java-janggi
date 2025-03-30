@@ -1,6 +1,5 @@
 package janggi.dto;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public record GameRoomDto(
@@ -13,10 +12,10 @@ public record GameRoomDto(
         LocalDateTime startTime,
         LocalDateTime last_updated
 ) {
-    public static GameRoomDto createForShowRooms(int roomId, String turnColor, Timestamp startTime,
-                                                 Timestamp lastUpdated) {
-        return new GameRoomDto(roomId, turnColor, null, false, 0, 0, startTime.toLocalDateTime(),
-                lastUpdated.toLocalDateTime());
+    public static GameRoomDto createForShowRooms(int roomId, String turnColor, LocalDateTime startTime,
+                                                 LocalDateTime lastUpdated) {
+        return new GameRoomDto(roomId, turnColor, null, false, 0, 0, startTime,
+                lastUpdated);
     }
 
     public static GameRoomDto createForState(int roomId, String turnColor, int redScore, int blueScore) {

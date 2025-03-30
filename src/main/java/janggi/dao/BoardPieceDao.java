@@ -4,7 +4,7 @@ import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
-import janggi.dto.BoardDto;
+import janggi.entity.BoardPieceEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public final class BoardDao {
+public final class BoardPieceDao {
     private final Connection connection;
 
-    public BoardDao(Connection connection) {
+    public BoardPieceDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -24,35 +24,37 @@ public final class BoardDao {
         for (Map.Entry<Position, Piece> entry : board.entrySet()) {
             Position position = entry.getKey();
             Piece piece = entry.getValue();
-            savePiece(roomId, position, piece);
+            insert(roomId, position, piece);
         }
     }
 
-    public List<BoardDto> selectById(int roomId) {
-        final String query = "SELECT position_row, position_col, piece_type, piece_color FROM Board WHERE gameroom_id = ?";
-        List<BoardDto> BoardDtos = new ArrayList<>();
+    public List<BoardPieceEntity> selectById(int roomId) {
+        final String query = "SELECT id, gameroom_id, position_row, position_col, piece_type, piece_color FROM BoardPiece WHERE gameroom_id = ?";
+        List<BoardPieceEntity> boardPieceEntities = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, roomId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                BoardDto piece = new BoardDto(
+                BoardPieceEntity pieceEntity = new BoardPieceEntity(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("gameroom_id"),
                         resultSet.getInt("position_row"),
                         resultSet.getInt("position_col"),
                         resultSet.getString("piece_type"),
                         resultSet.getString("piece_color")
                 );
-                BoardDtos.add(piece);
+                boardPieceEntities.add(pieceEntity);
             }
-            return BoardDtos;
+            return boardPieceEntities;
         } catch (SQLException e) {
             throw new RuntimeException("Board 데이터 가져오기 실패", e);
         }
     }
 
-    public void savePiece(int roomId, Position position, Piece piece) {
-        final String query = "INSERT INTO Board (gameroom_id, position_row, position_col, piece_type, piece_color) VALUES (?, ?, ?, ?, ?)";
+    public void insert(int roomId, Position position, Piece piece) {
+        final String query = "INSERT INTO BoardPiece (gameroom_id, position_row, position_col, piece_type, piece_color) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, roomId);
@@ -70,8 +72,8 @@ public final class BoardDao {
 
     public void update(int roomId, Position source, Position destination, PieceType pieceType,
                        TeamColor teamColor) {
-        String deleteSourceQuery = "DELETE FROM Board WHERE gameroom_id = ? AND position_row = ? AND position_col = ?";
-        String insertDestinationQuery = "INSERT INTO Board (gameroom_id, position_row, position_col, piece_type, piece_color) VALUES (?, ?, ?, ?, ?)";
+        String deleteSourceQuery = "DELETE FROM BoardPiece WHERE gameroom_id = ? AND position_row = ? AND position_col = ?";
+        String insertDestinationQuery = "INSERT INTO BoardPiece (gameroom_id, position_row, position_col, piece_type, piece_color) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = ConnectionUtil.getConnection()) {
             connection.setAutoCommit(false);  // 트랜잭션 시작

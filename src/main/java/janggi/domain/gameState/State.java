@@ -14,7 +14,7 @@ public interface State {
         if(teamColor == TeamColor.BLUE) {
             return new BlueTurn(playingBoard);
         }
-        return null;
+        throw new IllegalArgumentException("해당하는 정보로 State를 생성할 수 없습니다.");
     }
     State movePiece(PieceType pieceType, Position source, Position destination);
 
