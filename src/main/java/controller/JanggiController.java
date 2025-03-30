@@ -1,6 +1,7 @@
 package controller;
 
 import domain.JanggiGame;
+import domain.board.Board;
 import domain.board.Point;
 import domain.player.Player;
 import domain.player.Team;
@@ -13,7 +14,7 @@ import java.util.function.Supplier;
 import repository.DAOService;
 import view.InputView;
 import view.OutputView;
-import vo.BoardLocation;
+import vo.BoardLocations;
 import vo.Choice;
 
 public final class JanggiController {
@@ -31,13 +32,31 @@ public final class JanggiController {
     }
 
     public void run() {
-        // 룸 생성하기 OR 룸 불러오기
+        final Choice choice = inputView.readChoiceForLoadOrInitialize();
+        if (daoService.existsGame(choice)) {
+            loadGame(choice);
+            return;
+        }
         initGame();
+    }
+
+    private void loadGame(final Choice choice) {
+        outputView.printLoadGame();
+        final JanggiGame game = loadJanggiGame(choice);
+        outputView.printBoard(game.getBoard());
+        playJanggi(game);
+    }
+
+    private JanggiGame loadJanggiGame(final Choice choice) {
+        List<Player> players = daoService.findPlayersByGameId(choice);
+        BoardLocations locations = daoService.findLocationByGameId(choice);
+        Board board = locations.convertToBoard(players);
+        return new JanggiGame(choice.value(), board, players);
     }
 
     private void initGame() {
         final JanggiGame game = initialJanggiGame();
-        daoService.registerLocations(BoardLocation.convertToLocations(game.getBoard()));
+        daoService.registerLocations(new BoardLocations(game.getBoard()));
         outputView.printBoard(game.getBoard());
         playJanggi(game);
     }

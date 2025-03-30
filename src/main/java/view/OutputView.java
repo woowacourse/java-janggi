@@ -30,9 +30,16 @@ public final class OutputView {
 
     public void printTurnGuide() {
         System.out.println("""
+                활성화된 방이 없습니다.
+                새로운 게임을 시작합니다!
+                
                 장기 게임에 오신걸 환영합니다.
                 입력 순서는 초나라 -> 한나라 순서입니다.
                 """);
+    }
+
+    public void printLoadGame() {
+        System.out.println("게임을 불러오는 중입니다.");
     }
 
     public void printBoard(final Map<Point, Piece> locations) {

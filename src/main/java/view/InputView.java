@@ -12,9 +12,17 @@ public final class InputView {
     private static final int START_POINT_INDEX = 0;
     private static final int ARRIVAL_POINT_INDEX = 1;
 
-    public Choice readChoiceForElephantLocation(final String team) {
-        System.out.println(team + "의 입력 차례입니다.");
+    public Choice readChoiceForLoadOrInitialize() {
         System.out.println("""
+                불러올 게임 방의 번호를 입력해 주세요.
+                활성화된 방이 아닐 경우 새로운 게임을 시작합니다.""");
+        int input = parseToInt(scanner.nextLine());
+        return new Choice(input);
+    }
+
+    public Choice readChoiceForElephantLocation(final String team) {
+        System.out.println(team + """
+                의 입력 차례입니다.
                 마와 상의 배치를 선택해주세요.
                 1. 바깥상 차림(상마마상)
                 2. 안상 차림(마상상마)
@@ -26,8 +34,10 @@ public final class InputView {
     }
 
     public List<List<Choice>> readMovementRequest(final Team team) {
-        System.out.println(team + "의 입력 차례입니다.");
-        System.out.println("출발점과 도착점의 위치를 입력해주세요 ex. (A,1) (B,2)");
+        System.out.println(team + """
+                의 입력 차례입니다.
+                출발점과 도착점의 위치를 입력해주세요 ex. (A,1) (B,2)
+                """);
         final String input = scanner.nextLine();
         final String[] splitInput = input.split(" ");
         if (splitInput.length != 2) {
