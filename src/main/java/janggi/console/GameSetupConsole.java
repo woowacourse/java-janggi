@@ -4,7 +4,8 @@ import janggi.dao.GameDao;
 import janggi.domain.game.Board;
 import janggi.domain.game.BoardGenerator;
 import janggi.domain.game.Game;
-import janggi.dto.GameSummary;
+import janggi.dto.GameDto;
+import janggi.service.GameService;
 import janggi.view.BoardView;
 import janggi.view.InputView;
 import janggi.view.SetupOption;
@@ -19,13 +20,15 @@ public final class GameSetupConsole {
     private final SystemView systemView;
     private final BoardView boardView;
     private final GameDao gameDao;
+    private final GameService gameService;
 
     public GameSetupConsole(final InputView inputView, final SystemView systemView, final BoardView boardView,
-                            final GameDao gameDao) {
+                            final GameDao gameDao, final GameService gameService) {
         this.inputView = inputView;
         this.systemView = systemView;
         this.boardView = boardView;
         this.gameDao = gameDao;
+        this.gameService = gameService;
     }
 
     public void displayGameDescriptions() {
@@ -33,10 +36,10 @@ public final class GameSetupConsole {
     }
 
     public int selectGameId() {
-        List<GameSummary> allGames = gameDao.getAllGames();
+        List<GameDto> allGames = gameDao.getAllGames();
         systemView.displayStoredGames(allGames);
         List<Integer> gameIds = allGames.stream()
-                .map(GameSummary::id)
+                .map(GameDto::id)
                 .toList();
         String gameId = inputView.readGameId(gameIds);
         return Integer.parseInt(gameId);
@@ -46,7 +49,7 @@ public final class GameSetupConsole {
         if (gameId == NEW_GAME) {
             return setupNewGame();
         }
-        return null;
+        return gameService.loadGameByGameId(gameId);
     }
 
     public void displayGameSetup(final int gameId, final Game game) {

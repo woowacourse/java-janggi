@@ -2,7 +2,7 @@ package janggi.view;
 
 import janggi.domain.game.Game;
 import janggi.domain.game.Team;
-import janggi.dto.GameSummary;
+import janggi.dto.GameDto;
 import java.time.format.DateTimeFormatter;
 import java.util.EnumMap;
 import java.util.List;
@@ -40,12 +40,12 @@ public final class SystemView {
                 =========================================================""");
     }
 
-    public void displayStoredGames(final List<GameSummary> allGames) {
+    public void displayStoredGames(final List<GameDto> allGames) {
         System.out.println("\n게임 번호를 선택하세요.");
         System.out.println("0: 새 게임 시작하기");
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd a hh:mm:ss");
-        for (GameSummary gameSummary : allGames) {
-            System.out.printf("%d: %s에 시작한 게임%n", gameSummary.id(), dateTimeFormatter.format(gameSummary.createdAt()));
+        for (GameDto gameDto : allGames) {
+            System.out.printf("%d: %s에 시작한 게임%n", gameDto.id(), dateTimeFormatter.format(gameDto.createdAt()));
         }
     }
 

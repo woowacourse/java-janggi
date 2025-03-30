@@ -10,9 +10,13 @@ public final class Game {
     private Team turn;
     private final Board board;
 
-    public Game(final Board board) {
-        this.turn = Team.CHO;
+    public Game(final Team turn, final Board board) {
+        this.turn = turn;
         this.board = board;
+    }
+
+    public Game(final Board board) {
+        this(Team.CHO, board);
     }
 
     public void move(final Position source, final Position destination) {
