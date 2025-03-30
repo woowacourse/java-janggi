@@ -11,14 +11,7 @@ import java.util.Map;
 
 public class BoardFactory {
 
-    // TODO 2025. 3. 30. 11:55: 사용자 입력으로 처리하기
-    private final Country designatedCountry;
-    private final LineDirection designatedLineDirection;
-
     public BoardFactory(Country country, LineDirection direction) {
-        this.designatedCountry = country;
-        this.designatedLineDirection = direction;
-
         Country.assignDirection(country, direction);
     }
 
