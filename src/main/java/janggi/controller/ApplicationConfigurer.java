@@ -1,6 +1,5 @@
 package janggi.controller;
 
-import janggi.dao.PieceDao;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardBuilder;
@@ -9,8 +8,8 @@ import janggi.domain.board.maSangStrategy.MaSangSangMa;
 import janggi.domain.board.maSangStrategy.MaSangStrategy;
 import janggi.domain.board.maSangStrategy.SangMaMaSang;
 import janggi.domain.board.maSangStrategy.SangMaSangMa;
-import janggi.repository.DockerRepository;
-import janggi.repository.MemoryRepository;
+import janggi.repository.GameRepository;
+import janggi.repository.MemoryGameRepository;
 import janggi.repository.Repository;
 import janggi.service.GameService;
 import janggi.service.PlayingTurn;
@@ -32,27 +31,15 @@ public class ApplicationConfigurer {
         this.boardInitiliazeView = view;
     }
 
-    public GameService appropriateGameService() {
-        if (successfullyConnectedDB()) {
-            Repository repository = new DockerRepository(new PieceDao());
+    public GameService configureGameService() {
+        Repository repository = new GameRepository();
+        if (repository.isConnectable()) {
             configureRemoteRepository(repository);
             return new GameService(repository);
         }
 
         boardInitiliazeView.printConnectionFailed();
-        return new GameService(new MemoryRepository(createBoard()));
-    }
-
-    private boolean successfullyConnectedDB() {
-        final var pieceDao = new PieceDao();
-        try {
-            if (pieceDao.getConnection() != null) {
-                return true;
-            }
-
-        } catch (RuntimeException e) {
-        }
-        return false;
+        return new GameService(new MemoryGameRepository(createBoard()));
     }
 
     private void configureRemoteRepository(Repository repository) {

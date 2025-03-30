@@ -8,7 +8,7 @@ import janggi.domain.Coordinate;
 import janggi.domain.Piece;
 import janggi.domain.PieceType;
 import janggi.domain.Team;
-import janggi.repository.MemoryRepository;
+import janggi.repository.MemoryGameRepository;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ class GameServiceTest {
         final var board = new BoardFixture()
             .addPiece(1, 1, PieceType.CHA, Team.CHO)
             .build();
-        final var repository = new MemoryRepository(board);
+        final var repository = new MemoryGameRepository(board);
         GameService service = new GameService(repository);
 
         service.movePiece(new Coordinate(1, 1), new Coordinate(1, 5));
@@ -40,7 +40,7 @@ class GameServiceTest {
             .addPiece(5, 2, PieceType.GOONG, Team.HAN)
             .addPiece(5, 9, PieceType.GOONG, Team.CHO)
             .build();
-        GameService service = new GameService(new MemoryRepository(board));
+        GameService service = new GameService(new MemoryGameRepository(board));
 
         boolean isGameOver = service.isGameOver();
 
@@ -54,7 +54,7 @@ class GameServiceTest {
             .addPiece(5, 2, PieceType.GOONG, Team.HAN)
             .addPiece(5, 9, PieceType.GOONG, Team.CHO)
             .build();
-        GameService service = new GameService(new MemoryRepository(board));
+        GameService service = new GameService(new MemoryGameRepository(board));
 
         service.clearGame();
 
@@ -71,7 +71,7 @@ class GameServiceTest {
             .addPiece(5, 2, PieceType.CHA, Team.HAN)
             .addPiece(5, 9, PieceType.MA, Team.CHO)
             .build();
-        GameService service = new GameService(new MemoryRepository(board));
+        GameService service = new GameService(new MemoryGameRepository(board));
 
         final var team = service.higherScoreTeam();
 
@@ -85,7 +85,7 @@ class GameServiceTest {
             .addPiece(5, 2, PieceType.CHA, Team.HAN)
             .addPiece(5, 9, PieceType.MA, Team.CHO)
             .build();
-        GameService service = new GameService(new MemoryRepository(board));
+        GameService service = new GameService(new MemoryGameRepository(board));
 
         Map<Team, Double> teamScores = service.scoreTeams();
 

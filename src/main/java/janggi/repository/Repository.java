@@ -7,6 +7,8 @@ import java.util.Set;
 
 public interface Repository {
 
+    boolean isConnectable();
+
     void save(Piece piece);
 
     void update(Coordinate from, Coordinate to);

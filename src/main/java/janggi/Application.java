@@ -11,7 +11,7 @@ public class Application {
 
     public static void main(String[] args) {
         ApplicationConfigurer applicationConfigurer = new ApplicationConfigurer(new BoardInitiliazeView());
-        GameService gameService = applicationConfigurer.appropriateGameService();
+        GameService gameService = applicationConfigurer.configureGameService();
 
         GameController gameController =
             new GameController(new InputView(), new OutputView(), gameService);

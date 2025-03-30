@@ -1,16 +1,17 @@
-package janggi.dao;
+package janggi.repository;
 
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
 import janggi.domain.PieceType;
 import janggi.domain.Team;
+import janggi.service.PlayingTurn;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class PieceDao {
+public class GameRepository implements Repository {
 
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
     private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
@@ -21,10 +22,22 @@ public final class PieceDao {
     public Connection getConnection() {
         // 드라이버 연결
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION,
+                USERNAME, PASSWORD);
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean isConnectable() {
+        try {
+            if (getConnection() != null) {
+                return true;
+            }
+        } catch (RuntimeException ignored) {
+        }
+        return false;
     }
 
     public void save(final Piece piece) {
@@ -61,7 +74,7 @@ public final class PieceDao {
         }
     }
 
-    public Set<Piece> findAll() {
+    public Set<Piece> allPieces() {
         String query = "SELECT * FROM piece";
         try (final var connection = getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
@@ -105,12 +118,13 @@ public final class PieceDao {
         }
     }
 
-    public void setTurn(Team team) {
-        String query = "UPDATE turn SET team = ? WHERE team in ('HAN', 'CHO')";
+    public void updateTurn(PlayingTurn playingTurn) {
+        String query = "UPDATE turn SET team = ?, round = ? WHERE team in ('HAN', 'CHO');";
 
         try (final var connection = getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, team.name());
+            preparedStatement.setString(1, playingTurn.currentTeam().name());
+            preparedStatement.setInt(2, playingTurn.currentRound());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -118,42 +132,16 @@ public final class PieceDao {
         }
     }
 
-    public void setRound(int round) {
-        String query = "UPDATE turn SET round = ? WHERE team in ('HAN', 'CHO')";
-
-        try (final var connection = getConnection()) {
-            final var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, round);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Team getTurn() {
-        String query = "SELECT team FROM turn";
+    public PlayingTurn getTurn() {
+        String query = "SELECT team, round FROM turn";
 
         try (final var connection = getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
             final var resultSet = preparedStatement.executeQuery();
             resultSet.next();
             final var team = resultSet.getString("team");
-            return Team.valueOf(team);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public int getRound() {
-        String query = "SELECT round FROM turn";
-
-        try (final var connection = getConnection()) {
-            final var preparedStatement = connection.prepareStatement(query);
-            final var resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            return resultSet.getInt("round");
+            final var round = resultSet.getInt("round");
+            return new PlayingTurn(Team.valueOf(team), round);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

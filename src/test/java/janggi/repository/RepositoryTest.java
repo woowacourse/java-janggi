@@ -18,7 +18,7 @@ class RepositoryTest {
 
     @BeforeEach
     void setUp() {
-        repository = new MemoryRepository();
+        repository = new MemoryGameRepository();
     }
 
     @Test

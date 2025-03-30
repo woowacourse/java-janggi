@@ -9,17 +9,22 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MemoryRepository implements Repository {
+public class MemoryGameRepository implements Repository {
 
     private final Map<Coordinate, Piece> pieces;
     private PlayingTurn playingTurn = new PlayingTurn();
 
-    public MemoryRepository() {
+    public MemoryGameRepository() {
         pieces = new HashMap<>();
     }
 
-    public MemoryRepository(Board board) {
+    public MemoryGameRepository(Board board) {
         pieces = new HashMap<>(board.getPieces());
+    }
+
+    @Override
+    public boolean isConnectable() {
+        return true;
     }
 
     @Override
