@@ -43,11 +43,11 @@ public class JanggiGame {
     }
 
     private Board start() {
-        Map<Coordinate, Piece> savedBoard = boardRepository.findAll();
-        if (savedBoard.isEmpty()) {
+        Map<Coordinate, Piece> storedBoard = boardRepository.findAll();
+        if (storedBoard.isEmpty()) {
             return newGame();
         }
-        return previousGame(savedBoard);
+        return previousGame(storedBoard);
     }
 
     private Board newGame() {

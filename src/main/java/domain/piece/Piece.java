@@ -1,7 +1,7 @@
 package domain.piece;
 
 import domain.Coordinate;
-import domain.board.Board;
+import domain.board.BoardContext;
 import domain.piece.jump.Pho;
 import java.util.List;
 
@@ -26,7 +26,7 @@ public abstract class Piece {
         };
     }
 
-    public abstract List<Coordinate> findAvailablePaths(Coordinate from, Board board);
+    public abstract List<Coordinate> findAvailablePaths(Coordinate from, BoardContext boardContext);
 
     public Country getCountry() {
         return this.country;

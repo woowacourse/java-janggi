@@ -3,7 +3,7 @@ package domain.piece.jump;
 import static domain.piece.PieceType.PHO;
 
 import domain.Coordinate;
-import domain.board.Board;
+import domain.board.BoardContext;
 import domain.piece.Country;
 import domain.piece.Piece;
 import domain.piece.movement.Movement;
@@ -21,7 +21,7 @@ public class Pho extends Piece {
     }
 
     @Override
-    public List<Coordinate> findAvailablePaths(Coordinate from, Board board) {
+    public List<Coordinate> findAvailablePaths(Coordinate from, BoardContext boardContext) {
         movements.addMovementIfInGung(from);
 
         List<Coordinate> availablePositions = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Pho extends Piece {
             boolean isJumped = false;
 
             while (movement.isDiagonal() ? next.isInGungBoundary() : next.isInBoundary()) {
-                StepDecision step = decide(board, next, isJumped);
+                StepDecision step = decide(boardContext, next, isJumped);
 
                 if (step.shouldAdd()) {
                     availablePositions.add(next);
@@ -49,10 +49,10 @@ public class Pho extends Piece {
         return availablePositions;
     }
 
-    public StepDecision decide(Board board, Coordinate to, boolean isJumped) {
+    public StepDecision decide(BoardContext boardContext, Coordinate to, boolean isJumped) {
         if (!isJumped) {
-            if (board.hasPiece(to)) {
-                if (board.findPieceTypeByCoordinate(to) == PHO) {
+            if (boardContext.hasPiece(to)) {
+                if (boardContext.findPieceTypeByCoordinate(to) == PHO) {
                     return StepDecision.stop();
                 }
                 return StepDecision.of(false, false, true);
@@ -60,11 +60,11 @@ public class Pho extends Piece {
             return StepDecision.skip();
         }
 
-        if (!board.hasPiece(to)) {
+        if (!boardContext.hasPiece(to)) {
             return StepDecision.addStep();
         }
 
-        if (!board.isMyTeam(country, to) && board.findPieceTypeByCoordinate(to) != PHO) {
+        if (!boardContext.isMyTeam(country, to) && boardContext.findPieceTypeByCoordinate(to) != PHO) {
             return StepDecision.of(true, true, false);
         }
 
