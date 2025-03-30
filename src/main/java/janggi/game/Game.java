@@ -13,6 +13,7 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class Game {
+    private static final int MAX_PLAY_TIME = 900_000;
     private static final int POSITION_INPUT_SIZE = 2;
     private static final int INPUT_COLUMN_INDEX = 0;
     private static final int INPUT_ROW_INDEX = 1;
@@ -28,11 +29,16 @@ public class Game {
     public void play() {
         GameState gameState = GameState.PLAY;
         Board board = new Board(new Pieces(), Team.CHO);
+        long playTime = System.currentTimeMillis();
 
-        while (gameState == GameState.PLAY) {
+        while (gameState == GameState.PLAY && !isTimeOver(playTime)) {
             gameState = handleGameState(() -> controlGame(board));
         }
         inputView.close();
+    }
+
+    private boolean isTimeOver(long playTime) {
+        return System.currentTimeMillis() - playTime > MAX_PLAY_TIME;
     }
 
     private GameState handleGameState(Supplier<GameState> game) {
