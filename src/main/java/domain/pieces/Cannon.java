@@ -14,6 +14,7 @@ import java.util.List;
 public final class Cannon implements Piece {
 
     private static final int VALID_BETWEEN_PIECE_COUNT = 1;
+
     private final Team team;
     private final PieceMovement movements;
     private final PieceMovement movementInPalace;
@@ -78,4 +79,8 @@ public final class Cannon implements Piece {
         return CANNON.getNameForTeam(team);
     }
 
+    @Override
+    public int getScore() {
+        return 7;
+    }
 }

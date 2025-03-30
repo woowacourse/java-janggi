@@ -61,4 +61,9 @@ public final class General implements Piece {
     public String getName() {
         return GENERAL.getNameForTeam(team);
     }
+
+    @Override
+    public int getScore() {
+        return 0;
+    }
 }

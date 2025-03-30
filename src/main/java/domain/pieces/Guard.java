@@ -62,4 +62,9 @@ public final class Guard implements Piece {
     public String getName() {
         return GUARD.getNameForTeam(team);
     }
+
+    @Override
+    public int getScore() {
+        return 3;
+    }
 }

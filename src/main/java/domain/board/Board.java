@@ -58,6 +58,22 @@ public final class Board {
         return false;
     }
 
+    public int calculateScoreOf(Team team) {
+        int result = 0;
+        for (BoardPoint boardPoint : locations.keySet()) {
+            result = addScore(team, boardPoint, result);
+        }
+        return result;
+    }
+
+    private int addScore(Team team, BoardPoint boardPoint, int result) {
+        Piece piece = locations.get(boardPoint);
+        if (piece.hasEqualTeam(team)) {
+            result += piece.getScore();
+        }
+        return result;
+    }
+
     private void validateBoardRoutes(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
         for (final List<BoardPoint> boardPoints : UNABLE_BOARD_ROUTES) {
             if (boardPoints.contains(startBoardPoint) && boardPoints.contains(arrivalBoardPoint)) {

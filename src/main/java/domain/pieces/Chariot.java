@@ -73,4 +73,9 @@ public final class Chariot implements Piece {
     public String getName() {
         return CHARIOT.getNameForTeam(team);
     }
+
+    @Override
+    public int getScore() {
+        return 13;
+    }
 }

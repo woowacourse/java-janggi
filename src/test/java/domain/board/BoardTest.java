@@ -4,6 +4,7 @@ import domain.Team;
 import domain.pieces.BoardStub;
 import execptions.JanggiArgumentException;
 import java.util.stream.Stream;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -81,6 +82,19 @@ public final class BoardTest {
             assertThatThrownBy(() -> board.movePiece(startPoint, arrivalPoint, Team.HAN))
                     .isInstanceOf(JanggiArgumentException.class);
         }
+    }
+
+    @Test
+    @DisplayName("팀의 점수를 계산한다")
+    void test_CalculateScoreOf() {
+        // given
+        Board board = BoardStub.generateBoard();
+
+        // when
+        int score = board.calculateScoreOf(Team.CHO);
+
+        // then
+        assertThat(score).isEqualTo(72);
     }
 
 }

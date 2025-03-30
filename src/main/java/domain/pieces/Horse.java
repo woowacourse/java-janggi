@@ -61,4 +61,9 @@ public final class Horse implements Piece {
     public String getName() {
         return HORSE.getNameForTeam(team);
     }
+
+    @Override
+    public int getScore() {
+        return 5;
+    }
 }

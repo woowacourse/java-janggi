@@ -83,4 +83,9 @@ public final class Soldier implements Piece {
     public String getName() {
         return SOLDIER.getNameForTeam(team);
     }
+
+    @Override
+    public int getScore() {
+        return 2;
+    }
 }

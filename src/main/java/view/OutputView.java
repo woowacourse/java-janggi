@@ -1,6 +1,7 @@
 package view;
 
 import domain.board.BoardPoint;
+import domain.board.Score;
 import domain.pieces.Piece;
 import java.util.Map;
 
@@ -9,8 +10,11 @@ public final class OutputView {
     private static final int MAX_COLUMN = 9;
     private static final int MAX_ROW = 10;
 
-    public static void printGameEndMessage() {
+    public static void printGameEndMessage(Score score) {
         System.out.println("궁이 쓰러졌기에 게임을 종료합니다.");
+
+        System.out.println("한나라의 점수 : " + score.hanScore());
+        System.out.println("초나라의 점수 : " + score.choScore());
     }
 
     public void printBoard(final Map<BoardPoint, Piece> locations) {

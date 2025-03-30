@@ -2,6 +2,7 @@ package controller;
 
 import domain.JanggiGame;
 import domain.board.BoardPoint;
+import domain.board.Score;
 import java.util.List;
 import view.InputView;
 import view.OutputView;
@@ -20,7 +21,8 @@ public class JanggiController {
         outputView.printBoard(game.getBoard());
         while (true) {
             if (game.isGeneralDied()) {
-                OutputView.printGameEndMessage();
+                Score score = game.calculateScore();
+                OutputView.printGameEndMessage(score);
                 break;
             }
             processMove(game);

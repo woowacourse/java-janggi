@@ -1,8 +1,8 @@
 package domain.pieces;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
 import domain.board.BoardPoint;
+import domain.board.PieceOnRoute;
 import domain.movements.DefaultMovement;
 import domain.movements.Direction;
 import domain.movements.PieceMovement;
@@ -61,5 +61,10 @@ public final class Elephant implements Piece {
     @Override
     public String getName() {
         return ELEPHANT.getNameForTeam(team);
+    }
+
+    @Override
+    public int getScore() {
+        return 3;
     }
 }

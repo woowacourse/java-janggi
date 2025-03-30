@@ -2,6 +2,7 @@ package domain;
 
 import domain.board.Board;
 import domain.board.BoardPoint;
+import domain.board.Score;
 import domain.pieces.Cannon;
 import domain.pieces.Chariot;
 import domain.pieces.Elephant;
@@ -46,6 +47,10 @@ public final class JanggiGame {
 
     public boolean isGeneralDied() {
         return board.isGeneralDied();
+    }
+
+    public Score calculateScore() {
+        return new Score(board.calculateScoreOf(Team.HAN), board.calculateScoreOf(Team.CHO));
     }
 
     private Map<BoardPoint, Piece> generateLocationsForHan() {

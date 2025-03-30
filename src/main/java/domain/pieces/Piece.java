@@ -1,8 +1,8 @@
 package domain.pieces;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
 import domain.board.BoardPoint;
+import domain.board.PieceOnRoute;
 import java.util.List;
 
 public interface Piece {
@@ -18,4 +18,6 @@ public interface Piece {
     boolean canNotJumpOver();
 
     String getName();
+
+    int getScore();
 }
