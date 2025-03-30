@@ -10,13 +10,11 @@ import java.util.Properties;
 import model.dto.PieceDto;
 
 public final class JanggiBoardDao {
-
     private final Connection connection;
 
     public JanggiBoardDao() {
         this.connection = getConnection();
     }
-
 
     public Connection getConnection() {
         try {
@@ -54,8 +52,9 @@ public final class JanggiBoardDao {
         try (final var deleteStatement = connection.prepareStatement(deleteGameQuery)) {
             deleteStatement.setInt(1, gameId);
             deleteStatement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("[ERROR] DB 삭제 오류 :" + e.getMessage());
+        } catch (SQLException sqlException) {
+            System.out.println("[ERROR] DB 삭제 오류");
+            sqlException.printStackTrace();
         }
 
         try (final var preparedStatement = connection.prepareStatement(insertGameQuery)) {
@@ -69,8 +68,9 @@ public final class JanggiBoardDao {
                 preparedStatement.addBatch();
             }
             preparedStatement.executeBatch();
-        } catch (SQLException e) {
-            System.out.println("[ERROR] DB 추가 오류 :" + e.getMessage());
+        } catch (SQLException sqlException) {
+            System.out.println("[ERROR] DB 추가 오류");
+            sqlException.printStackTrace();
         }
     }
 
@@ -80,8 +80,9 @@ public final class JanggiBoardDao {
         try (final var deleteStatement = connection.prepareStatement(deleteGameQuery)) {
             deleteStatement.setInt(1, gameId);
             deleteStatement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("[ERROR] DB 삭제 오류 :" + e.getMessage());
+        } catch (SQLException sqlException) {
+            System.out.println("[ERROR] DB 삭제 오류");
+            sqlException.printStackTrace();
         }
     }
 
@@ -91,8 +92,9 @@ public final class JanggiBoardDao {
         try (final var existStatement = connection.prepareStatement(existGameQuery)) {
             existStatement.setInt(1, gameId);
             return existStatement.executeQuery().next();
-        } catch (SQLException e) {
-            System.out.println("[ERROR] DB 데이터 탐색 오류 :" + e.getMessage());
+        } catch (SQLException sqlException) {
+            System.out.println("[ERROR] DB 데이터 탐색 오류");
+            sqlException.printStackTrace();
         }
         return false;
     }
@@ -114,8 +116,9 @@ public final class JanggiBoardDao {
                     results.add(dto);
                 }
             }
-        } catch (SQLException e) {
-            System.out.println("[ERROR] DB 데이터 탐색 오류 :" + e.getMessage());
+        } catch (SQLException sqlException) {
+            System.out.println("[ERROR] DB 데이터 탐색 오류");
+            sqlException.printStackTrace();
         }
         return results;
     }
