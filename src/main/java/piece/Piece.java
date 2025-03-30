@@ -2,40 +2,50 @@ package piece;
 
 import board.Board;
 import coordinate.Coordinate;
-import java.util.Set;
+import java.util.stream.Collectors;
 import team.Team;
 
-public abstract class Piece {
+public class Piece {
 
-    protected final Team team;
+    private final Team team;
+    private final PieceType pieceType;
 
-    public Piece(Team team) {
+    public Piece(Team team, PieceType pieceType) {
         this.team = team;
+        this.pieceType = pieceType;
     }
 
-    public final boolean canMove(Board board, Coordinate departure, Coordinate arrival) {
-        if (!findMovableCandidates(departure).contains(arrival)) {
+    public boolean canMove(Board board, Coordinate departure, Coordinate arrival) {
+        if (!validateObstacle(board, departure, arrival)) {
             return false;
         }
-        if (!canMoveConsideringObstacles(board, departure, arrival)) {
+        if (!validateMovable(departure, arrival)) {
             return false;
         }
         return true;
     }
 
-    protected abstract Set<Coordinate> findMovableCandidates(Coordinate departure);
-
-    protected abstract boolean canMoveConsideringObstacles(Board board, Coordinate departure, Coordinate arrival);
-
-    protected abstract Set<Coordinate> findPaths(Coordinate departure, Coordinate arrival);
-
-    public final boolean isSameTeam(Piece piece) {
-        return this.team.isSameTeam(piece.team);
+    private boolean validateObstacle(Board board, Coordinate departure, Coordinate arrival) {
+        return pieceType.getObstacleValidators().stream()
+                .allMatch(pathValidator -> pathValidator.validate(board, departure, arrival));
     }
 
-    public final String colorName() {
-        return team.applyColor(getName());
+    private boolean validateMovable(Coordinate departure, Coordinate arrival) {
+        return pieceType.getMovableValidators().stream()
+                .flatMap(pathGenerator -> pathGenerator.generate(departure).stream())
+                .collect(Collectors.toSet())
+                .contains(arrival);
     }
 
-    protected abstract String getName();
+    public boolean isPo() {
+        return pieceType.equals(PieceType.포);
+    }
+
+    public boolean isSameTeam(Piece piece) {
+        return this.team.equals(piece.team);
+    }
+
+    public String colorName() {
+        return this.team.applyColor(this.pieceType.name());
+    }
 }
