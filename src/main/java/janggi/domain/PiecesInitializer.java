@@ -175,13 +175,13 @@ public class PiecesInitializer {
         return new ArrayList<>(List.of(blueElephant1, blueElephant2, blueHorse1, blueHorse2));
     }
 
-    private static void validateInitialize(List<Piece> pieces) {
+    private static void validateInitialize(final List<Piece> pieces) {
         if (isNotInitialize(pieces)) {
             throw new IllegalArgumentException("장기 보드가 초기화되지 않았습니다.");
         }
     }
 
-    private static boolean isNotInitialize(List<Piece> pieces) {
+    private static boolean isNotInitialize(final List<Piece> pieces) {
         return pieces.size() != INITIAL_PIECES_SIZE;
     }
 }

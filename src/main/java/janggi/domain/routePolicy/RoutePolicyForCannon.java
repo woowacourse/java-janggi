@@ -12,17 +12,17 @@ public class RoutePolicyForCannon implements RoutePolicy {
     private static final int REQUIRED_JUMP_PIECES_FOR_CANNON = 1;
 
     @Override
-    public Set<Route> getPossibleRoutes(Piece piece, List<Piece> pieces) {
+    public Set<Route> getPossibleRoutes(final Piece piece, final List<Piece> pieces) {
         return piece.calculateRoutes().stream()
                 .filter(route -> isValidCannonRoute(route, pieces, piece))
                 .collect(Collectors.toSet());
     }
 
-    private boolean isValidCannonRoute(Route route, List<Piece> pieces, Piece piece) {
+    private boolean isValidCannonRoute(final Route route, final List<Piece> pieces, final Piece piece) {
         return countJumpablePiecesInRoute(route, pieces, piece) == REQUIRED_JUMP_PIECES_FOR_CANNON;
     }
 
-    private int countJumpablePiecesInRoute(Route route, List<Piece> pieces, Piece piece) {
+    private int countJumpablePiecesInRoute(final Route route, final List<Piece> pieces, final Piece piece) {
         // 목적지에 있는 기물 확인
         Optional<Piece> destinationPiece = pieces.stream()
                 .filter(route::isDestination)

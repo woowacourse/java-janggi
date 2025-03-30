@@ -19,11 +19,11 @@ public class Score {
 
     private final List<Piece> pieces;
 
-    public Score(List<Piece> pieces) {
+    public Score(final List<Piece> pieces) {
         this.pieces = pieces;
     }
 
-    public double calculateTeamScore(Team team) {
+    public double calculateTeamScore(final Team team) {
         int teamPoint = pieces.stream()
                 .filter(piece -> piece.isSameTeam(team))
                 .map(piece -> scores.get(piece.getPieceType()))

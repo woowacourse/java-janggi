@@ -16,7 +16,7 @@ public class Board {
     private final Pieces pieces;
     private final Turn turn;
 
-    public Board(Pieces pieces, Team currentTeam) {
+    public Board(final Pieces pieces, final Team currentTeam) {
         this.pieces = pieces;
         this.turn = Turn.initialize(currentTeam);
     }
@@ -27,7 +27,7 @@ public class Board {
         return pieces.findPieceByPositionAndTeam(position, team);
     }
 
-    public Set<Position> findDestinations(Piece piece) {
+    public Set<Position> findDestinations(final Piece piece) {
         Set<Route> routes = pieces.classifyPossibleRoutes(piece);
 
         return new Routes(routes).getDestinations();
@@ -53,23 +53,23 @@ public class Board {
         turn.changeTurn();
     }
 
-    public double getTeamScore(Team team) {
+    public double getTeamScore(final Team team) {
         return pieces.calculateTeamScore().calculateTeamScore(team);
     }
 
-    public boolean isGameEnd(Team currentTeam) {
+    public boolean isGameEnd(final Team currentTeam) {
         Team otherTeam = Team.getOtherTeam(currentTeam);
         return turn.isDraw() || isGeneralDead(otherTeam);
     }
 
-    public Team getWinner(Team currentTeam) {
+    public Team getWinner(final Team currentTeam) {
         if (turn.isDraw()) {
             return getWinnerWithScore(currentTeam);
         }
         return currentTeam;
     }
 
-    private Team getWinnerWithScore(Team currentTeam) {
+    private Team getWinnerWithScore(final Team currentTeam) {
         Team otherTeam = Team.getOtherTeam(currentTeam);
         double currentTeamPoint = getTeamScore(currentTeam);
         double otherTeamPoint = getTeamScore(otherTeam);

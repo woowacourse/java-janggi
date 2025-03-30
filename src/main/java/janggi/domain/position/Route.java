@@ -25,7 +25,7 @@ public class Route {
         return getDestination().isPalace();
     }
 
-    public boolean isDestination(Piece piece) {
+    public boolean isDestination(final Piece piece) {
         return piece.isSamePosition(route.getLast());
     }
 

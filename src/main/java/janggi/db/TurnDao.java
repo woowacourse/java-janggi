@@ -36,7 +36,7 @@ public class TurnDao {
         return null;
     }
 
-    public void updateTeam(Team currentTeam) {
+    public void updateTeam(final Team currentTeam) {
         final var query = "UPDATE turn SET team = ? WHERE id = 1";
         try (final var conn = connection.getConnection();
              final var preparedStatement = conn.prepareStatement(query)) {

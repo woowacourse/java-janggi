@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Set;
 
 public interface RoutePolicy {
-    Set<Route> getPossibleRoutes(Piece piece, List<Piece> pieces);
+    Set<Route> getPossibleRoutes(final Piece piece, final List<Piece> pieces);
 }

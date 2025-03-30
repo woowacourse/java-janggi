@@ -20,20 +20,20 @@ public class Turn {
         this.teams = teams;
     }
 
-    public static Turn initialize(Team currentTeam) {
+    public static Turn initialize(final Team currentTeam) {
         if (currentTeam == BLUE) {
             return new Turn(new ArrayList<>(List.of(BLUE, RED)));
         }
         return new Turn(new ArrayList<>(List.of(RED, BLUE)));
     }
 
-    private void validateTeamSize(List<Team> teams) {
+    private void validateTeamSize(final List<Team> teams) {
         if (isInvalidSize(teams)) {
             throw new IllegalStateException("올바른 팀 사이즈가 아닙니다.");
         }
     }
 
-    private boolean isInvalidSize(List<Team> teams) {
+    private boolean isInvalidSize(final List<Team> teams) {
         return teams.size() != VALID_TEAM_SIZE;
     }
 

@@ -119,8 +119,9 @@ public class OutputView {
 
     public void printTeamScore(final double hanScore, final double chuScore) {
         System.out.printf(HAN_DYNASTY + " 점수: %.1f", hanScore);
+        System.out.print(System.lineSeparator());
         System.out.printf(CHU_DYNASTY + " 점수: %.1f", chuScore);
-        System.out.println(System.lineSeparator());
+        System.out.print(System.lineSeparator());
     }
 
     public void printWinnerWithGameEnd(Team team) {

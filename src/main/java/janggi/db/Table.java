@@ -7,11 +7,11 @@ import java.sql.SQLException;
 public class Table {
     private final Connection connection;
 
-    public Table(Connection connection) {
+    public Table(final Connection connection) {
         this.connection = connection;
     }
 
-    public boolean isTableExist(String tableName) throws SQLException {
+    public boolean isTableExist(final String tableName) throws SQLException {
         DatabaseMetaData databaseMetaData = connection.getConnection().getMetaData();
         ResultSet resultSet = databaseMetaData.getTables(null, null, tableName, null);
         return resultSet.next();
@@ -46,7 +46,7 @@ public class Table {
         }
     }
 
-    public void dropTable(String tableName) {
+    public void dropTable(final String tableName) {
         String dropTableQuery = "DROP TABLE ";
         try (final var conn = connection.getConnection();
              final var preparedStatement = conn.prepareStatement(dropTableQuery + tableName)) {

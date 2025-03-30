@@ -16,11 +16,11 @@ public class Pieces {
         this.pieces = new ArrayList<>(pieces);
     }
 
-    public Set<Route> classifyPossibleRoutes(Piece piece) {
+    public Set<Route> classifyPossibleRoutes(final Piece piece) {
         return piece.getMovePolicy().getPossibleRoutes(piece, pieces);
     }
 
-    public Piece findPieceByPositionAndTeam(Position position, Team team) {
+    public Piece findPieceByPositionAndTeam(final Position position, final Team team) {
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
                 .filter(piece -> piece.isSameTeam(team))
@@ -35,17 +35,17 @@ public class Pieces {
         piece.move(position);
     }
 
-    private void kill(int x, int y) {
+    private void kill(final int x, final int y) {
         pieces.remove(findPieceByPosition(x, y));
     }
 
-    private boolean hasPieceByPosition(int x, int y) {
+    private boolean hasPieceByPosition(final int x, final int y) {
         Position position = new Position(x, y);
         return pieces.stream()
                 .anyMatch(piece -> piece.isSamePosition(position));
     }
 
-    private Piece findPieceByPosition(int x, int y) {
+    private Piece findPieceByPosition(final int x, final int y) {
         Position position = new Position(x, y);
         return pieces.stream()
                 .filter(piece -> piece.isSamePosition(position))
@@ -61,7 +61,7 @@ public class Pieces {
         return new Score(pieces);
     }
 
-    public boolean isGeneralDead(Team team) {
+    public boolean isGeneralDead(final Team team) {
         return pieces.stream()
                 .filter(piece -> piece.isSameTeam(team))
                 .noneMatch(piece -> piece.isSameType(PieceType.GENERAL));

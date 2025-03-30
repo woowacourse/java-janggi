@@ -71,11 +71,11 @@ public record Position(int x, int y) {
         return new RawPosition(x - 1, y - 1);
     }
 
-    public RawPosition upOrDownLeftDiagonal(int direction) {
+    public RawPosition upOrDownLeftDiagonal(final int direction) {
         return new RawPosition(x - 1, y + direction);
     }
 
-    public RawPosition upOrDownRightDiagonal(int direction) {
+    public RawPosition upOrDownRightDiagonal(final int direction) {
         return new RawPosition(x + 1, y + direction);
     }
 

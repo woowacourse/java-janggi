@@ -5,7 +5,7 @@ public enum Team {
     RED,
     BLUE;
 
-    public static Team getOtherTeam(Team team) {
+    public static Team getOtherTeam(final Team team) {
         if (team == RED) {
             return BLUE;
         }

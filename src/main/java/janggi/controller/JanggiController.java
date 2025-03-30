@@ -26,7 +26,7 @@ public class JanggiController {
     private final TurnDao turnDao;
     private final Connection connection;
 
-    public JanggiController(InputView inputView, OutputView outputView, Connection connection) {
+    public JanggiController(final InputView inputView, final OutputView outputView, final Connection connection) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.connection = connection;
@@ -75,13 +75,13 @@ public class JanggiController {
         return new Board(currentPieces, currentTurn);
     }
 
-    private void showCurrentState(Board board) {
+    private void showCurrentState(final Board board) {
         outputView.printTeamScore(board.getTeamScore(Team.RED), board.getTeamScore(Team.BLUE));
         outputView.printBoard(board.getPieces());
         outputView.printTurn(board.getTurn());
     }
 
-    private void updateDatabase(Board board) {
+    private void updateDatabase(final Board board) {
         pieceDao.deleteAllPiece();
 
         for (Piece piece : board.getPieces()) {
@@ -90,7 +90,7 @@ public class JanggiController {
         turnDao.updateTeam(board.getTurn());
     }
 
-    private void initializeDatabase(Table table) throws SQLException {
+    private void initializeDatabase(final Table table) throws SQLException {
         if (!table.isTableExist("piece") ||
                 !table.isTableExist("turn")) {
             if (table.isTableExist("piece")) {
@@ -114,7 +114,7 @@ public class JanggiController {
         }
     }
 
-    private void move(Set<Position> possibleDestinations, Board board, Piece selectedPiece) {
+    private void move(final Set<Position> possibleDestinations, final Board board, final Piece selectedPiece) {
         if (possibleDestinations.isEmpty()) {
             outputView.printCannotMove();
         }
@@ -124,12 +124,12 @@ public class JanggiController {
         }
     }
 
-    private Piece selectPiece(Board board) {
+    private Piece selectPiece(final Board board) {
         Position position = inputView.inputPiecePosition();
         return board.selectPiece(position);
     }
 
-    private void movePiece(Board board, Piece selectedPiece) {
+    private void movePiece(final Board board, final Piece selectedPiece) {
         Position destination = inputView.inputDestination();
         board.movePiece(destination, selectedPiece);
     }

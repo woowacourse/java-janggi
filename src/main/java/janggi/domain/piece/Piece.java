@@ -34,7 +34,7 @@ public abstract class Piece {
         return movePolicy;
     }
 
-    public boolean isSameType(PieceType pieceType) {
+    public boolean isSameType(final PieceType pieceType) {
         return this.pieceType == pieceType;
     }
 
