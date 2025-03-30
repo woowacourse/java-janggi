@@ -1,17 +1,20 @@
-CREATE TABLE board
+DROP TABLE IF EXISTS piece;
+DROP TABLE IF EXISTS board;
+
+CREATE TABLE IF NOT EXISTS board
 (
-    board_id BIGINT      NOT NULL AUTO_INCREMENT,
+    board_id VARCHAR(36) NOT NULL,
     turn     VARCHAR(10) NOT NULL,
     PRIMARY KEY (board_id)
 );
 
-CREATE TABLE piece
+CREATE TABLE IF NOT EXISTS piece
 (
-    piece_id BIGINT NOT NULL AUTO_INCREMENT,
-    x INT NOT NULL,
-    y INT NOT NULL,
-    team VARCHAR(10) NOT NULL,
-    board_id BIGINT,
+    piece_id VARCHAR(36) NOT NULL,
+    x        INT         NOT NULL,
+    y        INT         NOT NULL,
+    team     VARCHAR(10) NOT NULL,
+    board_id VARCHAR(255),
     PRIMARY KEY (piece_id),
-    FOREIGN KEY (board_id) REFERENCES board (board_id)
+    FOREIGN KEY (board_id) REFERENCES board (board_id) ON DELETE CASCADE
 );
