@@ -16,7 +16,7 @@ public class MysqlConnection implements DatabaseConnection {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스 연결 오류");
+            throw new RuntimeException("데이터베이스 연결에 실패했습니다.");
         }
     }
 }
