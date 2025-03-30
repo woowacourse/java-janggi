@@ -68,6 +68,7 @@ public class InputView {
 
     public String getGameName(List<GameRoomDTO> gameRoomDTOs) {
         try {
+            System.out.println("불러올 게임 이름을 입력해주세요.");
             String input = scanner.nextLine();
             if (gameRoomDTOs.stream().noneMatch(gameRoomDTO -> gameRoomDTO.gameRoomName().equals(input))) {
                 throw new IllegalArgumentException("[ERROR] 존재하지 않는 게임 이름입니다.");

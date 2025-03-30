@@ -69,23 +69,35 @@ public class JanggiController {
     }
 
     private GameIdDto createNewGame() {
-        String gameName = inputView.getCreateGameName();
-        return new GameIdDto(
-                gameDao.createGame(gameName, Country.CHO),
-                new JanggiGame(PieceInitializer.init(), Country.CHO)
-        );
+        while (true) {
+            try {
+                String gameName = inputView.getCreateGameName();
+                return new GameIdDto(
+                        gameDao.createGame(gameName, Country.CHO),
+                        new JanggiGame(PieceInitializer.init(), Country.CHO)
+                );
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
     }
 
     private GameIdDto loadGame() {
-        List<GameRoomDTO> gameRooms = gameDao.findAllGames();
-        String gameName = inputView.getGameName(gameRooms);
-        int gameId = gameDao.getGameIdByName(gameName);
-        String currentTurn = gameDao.getCurrTurnById(gameId);
+        while (true) {
+            try {
+                List<GameRoomDTO> gameRooms = gameDao.findAllGames();
+                String gameName = inputView.getGameName(gameRooms);
+                int gameId = gameDao.getGameIdByName(gameName);
+                String currentTurn = gameDao.getCurrTurnById(gameId);
 
-        return new GameIdDto(
-                gameDao.getGameIdByName(gameName),
-                new JanggiGame(coordinateDao.finaAllPieces(gameId), Country.fromName(currentTurn))
-        );
+                return new GameIdDto(
+                        gameDao.getGameIdByName(gameName),
+                        new JanggiGame(coordinateDao.finaAllPieces(gameId), Country.fromName(currentTurn))
+                );
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
     }
 
     private GameCommand getCreateGameCommand() {

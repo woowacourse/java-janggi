@@ -6,6 +6,7 @@ import domain.JanggiCoordinate;
 import domain.dto.GameRoomDTO;
 import domain.piece.Piece;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static domain.JanggiBoard.COL_SIZE;
@@ -81,12 +82,14 @@ public class OutputView {
     }
 
     public void printGameNames(List<GameRoomDTO> allGames) {
-        System.out.println("현재 세이브 되어있는 게임을 출력합니다.");
+        System.out.println("현재 세이브 되어있는 게임 목록입니다.");
         for (GameRoomDTO dto : allGames) {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h시 m분");
+            String creationTime = dto.creationDate().format(dateTimeFormatter);
             System.out.println(
                     "게임 이름 : " + dto.gameRoomName() +
                             " 현재 턴 : " + dto.currTurn() +
-                            " 저장된 시간 " + dto.creationDate());
+                            " 저장된 시간 " + creationTime);
         }
     }
 }
