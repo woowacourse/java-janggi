@@ -11,10 +11,16 @@ public class Cannon extends Piece {
 
     @Override
     public Path findPathForMove(Position fromPosition, Position toPosition) {
-        if (!fromPosition.isStraight(toPosition)) {
-            throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
+        if (fromPosition.isStraight(toPosition)) {
+            return fromPosition.findStraightPath(toPosition);
         }
-        return fromPosition.findStraightPath(toPosition);
+        if (fromPosition.onPalace()&&toPosition.onPalace()) {
+            if (fromPosition.isDiagonal(toPosition)) {
+                return fromPosition.findPalaceDiagonalPath(toPosition);
+            }
+        }
+
+        throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
     }
 
     @Override

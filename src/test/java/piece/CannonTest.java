@@ -8,15 +8,22 @@ import static testutil.TestConstant.A5;
 import static testutil.TestConstant.B3;
 import static testutil.TestConstant.B5;
 import static testutil.TestConstant.C5;
+import static testutil.TestConstant.D1;
+import static testutil.TestConstant.D2;
+import static testutil.TestConstant.D3;
 import static testutil.TestConstant.D4;
 import static testutil.TestConstant.D5;
 import static testutil.TestConstant.E1;
+import static testutil.TestConstant.E2;
 import static testutil.TestConstant.E3;
 import static testutil.TestConstant.E4;
 import static testutil.TestConstant.E5;
 import static testutil.TestConstant.E6;
 import static testutil.TestConstant.E7;
 import static testutil.TestConstant.E9;
+import static testutil.TestConstant.F1;
+import static testutil.TestConstant.F2;
+import static testutil.TestConstant.F3;
 import static testutil.TestConstant.F5;
 import static testutil.TestConstant.F6;
 import static testutil.TestConstant.G5;
@@ -48,6 +55,16 @@ public class CannonTest {
                 Arguments.of(E5, F6)
         );
     }
+
+    static Stream<Arguments> VALID_PALACE_MOVE_POSITIONS() {
+        return Stream.of(
+                Arguments.of(D1, F3),
+                Arguments.of(F1, D3),
+                Arguments.of(F1, D3),
+                Arguments.of(D3, F1)
+        );
+    }
+
 
 
     @ParameterizedTest
@@ -162,5 +179,19 @@ public class CannonTest {
         assertThatThrownBy(() -> cannon.validateMove(fromPosition, toPosition, board))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("포는 포를 먹거나 넘을 수 없습니다.");
+    }
+
+    @ParameterizedTest
+    @MethodSource("VALID_PALACE_MOVE_POSITIONS")
+    void 포는_궁에서_중간에_기물이_하나가_있으면상하좌우_방향으로_이동할_수_있다(Position from, Position to) {
+        // given
+        Cannon cannon = new Cannon(CHO);
+        Board board = new Board(Map.of(
+                E2, new Elephant(CHO)
+
+        ));
+
+        // when & then
+        assertThatCode(() -> cannon.validateMove(from, to, board)).doesNotThrowAnyException();
     }
 }
