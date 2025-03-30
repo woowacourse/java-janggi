@@ -1,6 +1,7 @@
 package piece;
 
 import board.Board;
+import board.Palace;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import position.LineDirection;
@@ -61,7 +62,7 @@ class SoldierTest {
         // given
         PositionFactory positionFactory = new PositionFactory();
         positionFactory.basicSettingGraph();
-        positionFactory.diagonalSettingGraph();
+        positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
 
         final Country country = Country.HAN;
         Country.assignDirection(country, LineDirection.UP);

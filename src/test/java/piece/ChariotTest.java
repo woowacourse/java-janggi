@@ -1,6 +1,7 @@
 package piece;
 
 import board.Board;
+import board.Palace;
 import org.assertj.core.api.Assertions;
 import position.LineDirection;
 import position.Position;
@@ -101,7 +102,7 @@ class ChariotTest {
         // given
         PositionFactory positionFactory = new PositionFactory();
         positionFactory.basicSettingGraph();
-        positionFactory.diagonalSettingGraph();
+        positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
 
         Country dumyCountry = Country.HAN;
         Country.assignDirection(dumyCountry, LineDirection.UP);
