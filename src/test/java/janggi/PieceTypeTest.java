@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 class PieceTypeTest {
     @MethodSource("returnPieceAndPieceType")
     @ParameterizedTest
-    void aa(Piece piece, PieceType expected) {
+    void from(Piece piece, PieceType expected) {
         // when
         PieceType actual = PieceType.from(piece);
 
@@ -35,7 +35,17 @@ class PieceTypeTest {
         assertThat(actual).isEqualTo(expected);
     }
 
-    static Stream<Arguments> returnPieceAndPieceType() {
+    @MethodSource("returnPieceAndPieceType")
+    @ParameterizedTest
+    void toPiece(Piece expected, PieceType pieceType) {
+        // when
+        Piece actual = pieceType.toPiece(GREEN);
+
+        // then
+        assertThat(actual).hasSameClassAs(expected);
+    }
+
+    private static Stream<Arguments> returnPieceAndPieceType() {
         return Stream.of(arguments(new Soldier(GREEN), SOLDIER),
                 arguments(new Horse(GREEN), HORSE),
                 arguments(new Guard(GREEN), GUARD),
@@ -43,25 +53,5 @@ class PieceTypeTest {
                 arguments(new Elephant(GREEN), ELEPHANT),
                 arguments(new Chariot(GREEN), CHARIOT),
                 arguments(new Canon(GREEN), CANON));
-    }
-
-    @MethodSource("returnPieceTypeAndGreenTeamPiece")
-    @ParameterizedTest
-    void aaa(PieceType pieceType, Piece expected) {
-        // when
-        Piece actual = pieceType.toPiece(GREEN);
-
-        // then
-        assertThat(actual.getName()).isEqualTo(expected.getName());
-    }
-
-    static Stream<Arguments> returnPieceTypeAndGreenTeamPiece() {
-        return Stream.of(arguments(SOLDIER, new Soldier(GREEN)),
-                arguments(HORSE, new Horse(GREEN)),
-                arguments(GUARD, new Guard(GREEN)),
-                arguments(GENERAL, new General(GREEN)),
-                arguments(ELEPHANT, new Elephant(GREEN)),
-                arguments(CHARIOT, new Chariot(GREEN)),
-                arguments(CANON, new Canon(GREEN)));
     }
 }
