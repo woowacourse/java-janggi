@@ -71,69 +71,69 @@ class ChariotTest {
             // then
             assertThat(actual).isTrue();
         }
+    }
 
-        @Test
-        @DisplayName("도착 위치까지의 경로를 모두 반환한다.")
-        void test_getRoutePoints() {
-            // given
-            Chariot chariot = new Chariot(Team.CHO);
-            BoardPoint startBoardPoint = new BoardPoint(0, 0);
-            BoardPoint arrivalBoardPoint = new BoardPoint(0, 3);
+    @Test
+    @DisplayName("도착 위치까지의 경로를 모두 반환한다.")
+    void test_getRoutePoints() {
+        // given
+        Chariot chariot = new Chariot(Team.CHO);
+        BoardPoint startBoardPoint = new BoardPoint(0, 0);
+        BoardPoint arrivalBoardPoint = new BoardPoint(0, 3);
 
-            // when
-            List<BoardPoint> routeBoardPoints = chariot.getRoutePoints(startBoardPoint, arrivalBoardPoint);
+        // when
+        List<BoardPoint> routeBoardPoints = chariot.getRoutePoints(startBoardPoint, arrivalBoardPoint);
 
-            // then
-            assertThat(routeBoardPoints).containsExactlyInAnyOrder(
-                    new BoardPoint(0, 1),
-                    new BoardPoint(0, 2),
-                    new BoardPoint(0, 3)
-            );
-        }
+        // then
+        assertThat(routeBoardPoints).containsExactlyInAnyOrder(
+                new BoardPoint(0, 1),
+                new BoardPoint(0, 2),
+                new BoardPoint(0, 3)
+        );
+    }
 
-        @Test
-        @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
-        void test_isMovableWhenPieceOnRoute() {
-            //given
-            Chariot chariot = new Chariot(Team.CHO);
-            PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot), null);
+    @Test
+    @DisplayName("경로 상 기물이 있으면 이동할 수 없다.")
+    void test_isMovableWhenPieceOnRoute() {
+        //given
+        Chariot chariot = new Chariot(Team.CHO);
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(chariot), null);
 
-            //when&then
-            assertThat(chariot.isMovable(pieceOnRoute)).isFalse();
-        }
+        //when&then
+        assertThat(chariot.isMovable(pieceOnRoute)).isFalse();
+    }
 
-        @Test
-        @DisplayName("경로 상 기물이 없으면 이동할 수 있다.")
-        void test_isMovable() {
-            //given
-            Chariot chariot = new Chariot(Team.CHO);
-            PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), null);
+    @Test
+    @DisplayName("경로 상 기물이 없으면 이동할 수 있다.")
+    void test_isMovable() {
+        //given
+        Chariot chariot = new Chariot(Team.CHO);
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), null);
 
-            //when&then
-            assertThat(chariot.isMovable(pieceOnRoute)).isTrue();
-        }
+        //when&then
+        assertThat(chariot.isMovable(pieceOnRoute)).isTrue();
+    }
 
-        @Test
-        @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
-        void test_isMovableWhenPieceIsInMyTeam() {
-            //given
-            Chariot chariot = new Chariot(Team.CHO);
-            PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), chariot);
+    @Test
+    @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
+    void test_isMovableWhenPieceIsInMyTeam() {
+        //given
+        Chariot chariot = new Chariot(Team.CHO);
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), chariot);
 
-            //when&then
-            assertThat(chariot.isMovable(pieceOnRoute)).isFalse();
-        }
+        //when&then
+        assertThat(chariot.isMovable(pieceOnRoute)).isFalse();
+    }
 
-        @Test
-        @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
-        void test_isMovableWhenPieceIsInOtherTeam() {
-            //given
-            Chariot chariotHan = new Chariot(Team.HAN);
-            Chariot chariotCho = new Chariot(Team.CHO);
-            PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), chariotCho);
+    @Test
+    @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
+    void test_isMovableWhenPieceIsInOtherTeam() {
+        //given
+        Chariot chariotHan = new Chariot(Team.HAN);
+        Chariot chariotCho = new Chariot(Team.CHO);
+        PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), chariotCho);
 
-            //when&then
-            assertThat(chariotHan.isMovable(pieceOnRoute)).isTrue();
-        }
+        //when&then
+        assertThat(chariotHan.isMovable(pieceOnRoute)).isTrue();
     }
 }

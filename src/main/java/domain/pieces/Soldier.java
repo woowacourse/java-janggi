@@ -12,24 +12,41 @@ import java.util.List;
 
 public final class Soldier implements Piece {
 
-
     private final Team team;
-    private final PieceMovement defaultMovement;
+    private final PieceMovement movement;
+    private final PieceMovement movementInPalace;
 
     public Soldier(Team team) {
         this.team = team;
+        this.movement = getMovements();
+        this.movementInPalace = getMovementInPalace();
+    }
+
+    private PieceMovement getMovements() {
         if (team == Team.CHO) {
-            this.defaultMovement = new DefaultMovement(List.of(
+            return new DefaultMovement(List.of(
                     new Route(List.of(Direction.NORTH)),
                     new Route(List.of(Direction.EAST)),
                     new Route(List.of(Direction.WEST))
             ));
-            return;
         }
-        this.defaultMovement = new DefaultMovement(List.of(
+        return new DefaultMovement(List.of(
                 new Route(List.of(Direction.SOUTH)),
                 new Route(List.of(Direction.EAST)),
                 new Route(List.of(Direction.WEST))
+        ));
+    }
+
+    private PieceMovement getMovementInPalace() {
+        if (team == Team.CHO) {
+            return new DefaultMovement(List.of(
+                    new Route(List.of(Direction.NORTHEAST)),
+                    new Route(List.of(Direction.NORTHWEST))
+            ));
+        }
+        return new DefaultMovement(List.of(
+                new Route(List.of(Direction.SOUTHEAST)),
+                new Route(List.of(Direction.SOUTHWEST))
         ));
     }
 
@@ -40,12 +57,16 @@ public final class Soldier implements Piece {
 
     @Override
     public boolean isAbleToArrive(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
-        return defaultMovement.calculateTotalArrivalPoints(startBoardPoint).contains(arrivalBoardPoint);
+        if (startBoardPoint.isInPalace() && arrivalBoardPoint.isInPalace() &&
+                movementInPalace.calculateTotalArrivalPoints(startBoardPoint).contains(arrivalBoardPoint)) {
+            return true;
+        }
+        return movement.calculateTotalArrivalPoints(startBoardPoint).contains(arrivalBoardPoint);
     }
 
     @Override
     public List<BoardPoint> getRoutePoints(final BoardPoint startBoardPoint, final BoardPoint arrivalBoardPoint) {
-        return defaultMovement.calculateRoutePoints(startBoardPoint, arrivalBoardPoint);
+        return movement.calculateRoutePoints(startBoardPoint, arrivalBoardPoint);
     }
 
     @Override
