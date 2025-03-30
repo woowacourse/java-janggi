@@ -10,7 +10,7 @@ class ConnectionGeneratorTest {
     private final ConnectionGenerator connectionGenerator = new TestMySQLConnectionGenerator();
 
     @Test
-    void 데이터베이스_네트워크_연결_테스트() {
+    void MySQL_데이터베이스_네트워크_연결_테스트() {
         Assertions.assertThatCode(connectionGenerator::createConnection)
                 .doesNotThrowAnyException();
     }

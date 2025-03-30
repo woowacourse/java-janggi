@@ -3,6 +3,7 @@ package queue;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
@@ -22,7 +23,7 @@ public class MessageQueue {
             try {
                 executeQuery(connection, delayedQuery.sql(), delayedQuery.params());
                 delayedQueries.removeFirst();
-            } catch (RuntimeException e) {
+            } catch (Exception e) {
                 break;
             }
         }
@@ -34,8 +35,18 @@ public class MessageQueue {
                 preparedStatement.setObject(i + 1, params.get(i));
             }
             preparedStatement.executeUpdate();
+        } catch (SQLSyntaxErrorException e) {
+            throw new IllegalArgumentException("[ERROR]: 잘못된 형식의 쿼리문입니다. " + sql);
         } catch (SQLException e) {
-            // 의도적 무시
+            throw new IllegalStateException("[ERROR] DB 연결이 끊어졌습니다.");
         }
+    }
+
+    public static int size() {
+        return delayedQueries.size();
+    }
+
+    public static void clear() {
+        delayedQueries.clear();
     }
 }
