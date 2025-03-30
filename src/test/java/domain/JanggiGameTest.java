@@ -43,7 +43,7 @@ class JanggiGameTest {
             Piece originalPieceAtStartPoint = janggiGame.getBoard().get(startBoardPoint);
 
             // when
-            janggiGame.move(startBoardPoint, arrivalBoardPoint, true);
+            janggiGame.move(startBoardPoint, arrivalBoardPoint);
 
             // then
             Piece pieceAtArrivalPoint = janggiGame.getBoard().get(arrivalBoardPoint);

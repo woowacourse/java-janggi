@@ -1,8 +1,8 @@
 package domain.pieces;
 
 import domain.Team;
-import domain.board.PieceOnRoute;
 import domain.board.BoardPoint;
+import domain.board.PieceOnRoute;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ class SoldierTest {
         @DisplayName("한나라인 경우 북쪽으로 이동한 지점이 반환되지 않는다.")
         void test_isAbleToArriveByHan() {
             // given
-            Soldier soldier = new Soldier(Team.HAN, BoardStub.generateSoldierMovementForHan());
+            Soldier soldier = new Soldier(Team.HAN);
             BoardPoint startBoardPoint = new BoardPoint(0, 0);
             BoardPoint arrivalBoardPoint = new BoardPoint(1, 0);
 
@@ -32,7 +32,7 @@ class SoldierTest {
         @DisplayName("초나라인 경우 남쪽으로 이동한 지점이 반환되지 않는다.")
         void test_isAbleToArriveByCho() {
             // given
-            Soldier soldier = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForCho());
+            Soldier soldier = new Soldier(Team.CHO);
             BoardPoint startBoardPoint = new BoardPoint(1, 0);
             BoardPoint arrivalBoardPoint = new BoardPoint(0, 0);
 
@@ -48,7 +48,7 @@ class SoldierTest {
     @DisplayName("경로에 있는 모든 지점들을 반환한다")
     void test_getRoutePoints() {
         // given
-        Soldier soldier = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForCho());
+        Soldier soldier = new Soldier(Team.CHO);
         BoardPoint startBoardPoint = new BoardPoint(0, 0);
         BoardPoint arrivalBoardPoint = new BoardPoint(1, 0);
 
@@ -65,7 +65,7 @@ class SoldierTest {
     @DisplayName("도착점에 아군 기물이 있으면 이동할 수 없다.")
     void test_isMovableWhenPieceIsInMyTeam() {
         //given
-        Soldier soldier = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForHan());
+        Soldier soldier = new Soldier(Team.CHO);
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), soldier);
 
         //when&then
@@ -76,8 +76,8 @@ class SoldierTest {
     @DisplayName("도착점에 아군 기물이 없으면 이동할 수 있다.")
     void test_isMovableWhenPieceIsInOtherTeam() {
         //given
-        Soldier soldierHan = new Soldier(Team.HAN, BoardStub.generateSoldierMovementForCho());
-        Soldier soldierCho = new Soldier(Team.CHO, BoardStub.generateSoldierMovementForHan());
+        Soldier soldierHan = new Soldier(Team.HAN);
+        Soldier soldierCho = new Soldier(Team.CHO);
         PieceOnRoute pieceOnRoute = new PieceOnRoute(List.of(), soldierCho);
 
         //when&then

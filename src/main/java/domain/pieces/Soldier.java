@@ -1,11 +1,13 @@
 package domain.pieces;
 
-import static domain.pieces.PieceNames.SOLDIER;
-
 import domain.Team;
-import domain.board.PieceOnRoute;
 import domain.board.BoardPoint;
+import domain.board.PieceOnRoute;
+import domain.movements.DefaultMovement;
+import domain.movements.Direction;
 import domain.movements.PieceMovement;
+import domain.movements.Route;
+import static domain.pieces.PieceNames.SOLDIER;
 import java.util.List;
 
 public final class Soldier implements Piece {
@@ -14,9 +16,21 @@ public final class Soldier implements Piece {
     private final Team team;
     private final PieceMovement defaultMovement;
 
-    public Soldier(Team team, PieceMovement defaultMovement) {
+    public Soldier(Team team) {
         this.team = team;
-        this.defaultMovement = defaultMovement;
+        if (team == Team.CHO) {
+            this.defaultMovement = new DefaultMovement(List.of(
+                    new Route(List.of(Direction.NORTH)),
+                    new Route(List.of(Direction.EAST)),
+                    new Route(List.of(Direction.WEST))
+            ));
+            return;
+        }
+        this.defaultMovement = new DefaultMovement(List.of(
+                new Route(List.of(Direction.SOUTH)),
+                new Route(List.of(Direction.EAST)),
+                new Route(List.of(Direction.WEST))
+        ));
     }
 
     @Override

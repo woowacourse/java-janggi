@@ -50,16 +50,12 @@ public final class JanggiGame {
 
     private Map<BoardPoint, Piece> generateLocationsForHan() {
         final Map<BoardPoint, Piece> locations = new HashMap<>();
-        final PieceMovement soldierMovement = new DefaultMovement(List.of(
-                new Route(List.of(Direction.SOUTH)),
-                new Route(List.of(Direction.EAST)),
-                new Route(List.of(Direction.WEST))
-        ));
-        locations.put(new BoardPoint(6, 0), new Soldier(Team.HAN, soldierMovement));
-        locations.put(new BoardPoint(6, 2), new Soldier(Team.HAN, soldierMovement));
-        locations.put(new BoardPoint(6, 4), new Soldier(Team.HAN, soldierMovement));
-        locations.put(new BoardPoint(6, 6), new Soldier(Team.HAN, soldierMovement));
-        locations.put(new BoardPoint(6, 8), new Soldier(Team.HAN, soldierMovement));
+
+        locations.put(new BoardPoint(6, 0), new Soldier(Team.HAN));
+        locations.put(new BoardPoint(6, 2), new Soldier(Team.HAN));
+        locations.put(new BoardPoint(6, 4), new Soldier(Team.HAN));
+        locations.put(new BoardPoint(6, 6), new Soldier(Team.HAN));
+        locations.put(new BoardPoint(6, 8), new Soldier(Team.HAN));
 
         locations.put(new BoardPoint(9, 0), new Chariot(Team.HAN));
         locations.put(new BoardPoint(9, 8), new Chariot(Team.HAN));
@@ -91,11 +87,11 @@ public final class JanggiGame {
                 new Route(List.of(Direction.EAST)),
                 new Route(List.of(Direction.WEST))
         ));
-        locations.put(new BoardPoint(3, 0), new Soldier(Team.CHO, soldierMovement));
-        locations.put(new BoardPoint(3, 2), new Soldier(Team.CHO, soldierMovement));
-        locations.put(new BoardPoint(3, 4), new Soldier(Team.CHO, soldierMovement));
-        locations.put(new BoardPoint(3, 6), new Soldier(Team.CHO, soldierMovement));
-        locations.put(new BoardPoint(3, 8), new Soldier(Team.CHO, soldierMovement));
+        locations.put(new BoardPoint(3, 0), new Soldier(Team.CHO));
+        locations.put(new BoardPoint(3, 2), new Soldier(Team.CHO));
+        locations.put(new BoardPoint(3, 4), new Soldier(Team.CHO));
+        locations.put(new BoardPoint(3, 6), new Soldier(Team.CHO));
+        locations.put(new BoardPoint(3, 8), new Soldier(Team.CHO));
 
         locations.put(new BoardPoint(0, 0), new Chariot(Team.CHO));
         locations.put(new BoardPoint(0, 8), new Chariot(Team.CHO));
