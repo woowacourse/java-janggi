@@ -46,13 +46,10 @@ public class JanggiBoard {
     }
 
     public int calculateScore(final Side side) {
-        int currentScore = 0;
-        for (Piece piece : board.values()) {
-            if (piece.isSameSide(side)) {
-                currentScore += piece.getScore();
-            }
-        }
-        return currentScore;
+        return board.values().stream()
+                .filter(piece -> piece.isSameSide(side))
+                .mapToInt(Piece::getScore)
+                .sum();
     }
 
     public void checkGameIsOver(final Piece catchedPiece) {
