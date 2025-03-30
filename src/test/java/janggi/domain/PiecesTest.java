@@ -117,14 +117,15 @@ class PiecesTest {
         Piece soldier3 = new Soldier(new Position(2, 4), RED);
         Piece cannon2 = new Cannon(new Position(4, 2), RED);
         Piece soldier2 = new Soldier(new Position(4, 6), BLUE);
+        Piece soldier4 = new Soldier(new Position(7, 4), BLUE);
 
-        Pieces pieces = new Pieces(List.of(cannon, soldier1, cannon1, soldier3, cannon2, soldier2));
+        Pieces pieces = new Pieces(List.of(cannon, soldier1, cannon1, soldier3, cannon2, soldier2, soldier4));
 
         // when
         Set<Route> possibleRoutes = pieces.classifyPossibleRoutes(cannon);
 
         // then
-        assertThat(possibleRoutes.size()).isEqualTo(6);
+        assertThat(possibleRoutes.size()).isEqualTo(5);
     }
 
     @DisplayName("포 기물이 궁성에서 이동 가능한 경로를 계산한다.")

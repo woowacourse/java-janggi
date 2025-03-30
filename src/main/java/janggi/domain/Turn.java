@@ -20,8 +20,11 @@ public class Turn {
         this.teams = teams;
     }
 
-    public static Turn initialize() {
-        return new Turn(new ArrayList<>(List.of(BLUE, RED)));
+    public static Turn initialize(Team currentTeam) {
+        if (currentTeam == BLUE) {
+            return new Turn(new ArrayList<>(List.of(BLUE, RED)));
+        }
+        return new Turn(new ArrayList<>(List.of(RED, BLUE)));
     }
 
     private void validateTeamSize(List<Team> teams) {

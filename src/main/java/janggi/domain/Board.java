@@ -16,9 +16,9 @@ public class Board {
     private final Pieces pieces;
     private final Turn turn;
 
-    public Board(Pieces pieces) {
+    public Board(Pieces pieces, Team currentTeam) {
         this.pieces = pieces;
-        this.turn = Turn.initialize();
+        this.turn = Turn.initialize(currentTeam);
     }
 
     public Piece selectPiece(final Position position) {
@@ -58,7 +58,7 @@ public class Board {
     }
 
     public boolean isGameEnd(Team currentTeam) {
-        Team otherTeam = Team.getOhterTeam(currentTeam);
+        Team otherTeam = Team.getOtherTeam(currentTeam);
         return turn.isDraw() || isGeneralDead(otherTeam);
     }
 
@@ -70,7 +70,7 @@ public class Board {
     }
 
     private Team getWinnerWithScore(Team currentTeam) {
-        Team otherTeam = Team.getOhterTeam(currentTeam);
+        Team otherTeam = Team.getOtherTeam(currentTeam);
         double currentTeamPoint = getTeamScore(currentTeam);
         double otherTeamPoint = getTeamScore(otherTeam);
 

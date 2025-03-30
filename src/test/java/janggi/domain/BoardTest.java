@@ -28,7 +28,7 @@ class BoardTest {
         Piece cannon = new Cannon(new Position(5, 5), BLUE);
 
         Pieces pieces = new Pieces(List.of(general, guard, solider2, solider1, cannon));
-        board = new Board(pieces);
+        board = new Board(pieces, BLUE);
     }
 
     @DisplayName("왕이 존재하지 않을 시, 게임이 종료됨을 확인한다.")
@@ -48,7 +48,7 @@ class BoardTest {
         Piece general2 = new General(new Position(8, 8), BLUE);
 
         Pieces pieces = new Pieces(List.of(general1, guard, solider2, solider1, cannon, general2));
-        board = new Board(pieces);
+        board = new Board(pieces, BLUE);
         for (int i = 0; i < 29; i++) {
             board.changeTurn();
         }
@@ -72,7 +72,7 @@ class BoardTest {
         Piece general2 = new General(new Position(8, 8), BLUE); //0
 
         Pieces pieces = new Pieces(List.of(general1, guard, solider2, solider1, cannon, general2));
-        board = new Board(pieces);
+        board = new Board(pieces, BLUE);
         for (int i = 0; i < 29; i++) {
             board.changeTurn();
         }
