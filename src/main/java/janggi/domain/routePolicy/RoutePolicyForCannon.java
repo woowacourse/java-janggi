@@ -28,28 +28,37 @@ public class RoutePolicyForCannon implements RoutePolicy {
                 .filter(route::isDestination)
                 .findFirst();
 
-        // 목적지에 적 기물이 있는 경우 - 유효한 경로가 될 수 있음
+        // 목적지에 적 기물이 있는 경우
         if (destinationPiece.isPresent() && piece.isEnemy(destinationPiece.get())) {
+            boolean hasCannonInRoute = pieces.stream()
+                    .filter(route::hasPosition)
+                    .anyMatch(currentPiece -> currentPiece.isSameType(PieceType.CANNON));
+
+            // 포 기물이 있으면 이동 불가능
+            if (hasCannonInRoute) {
+                return 0;
+            }
+
             // 적 기물을 제외한 경로 상의 다른 기물 수 계산
             return (int) pieces.stream()
                     .filter(p -> route.hasPosition(p) && !route.isDestination(p))
                     .count();
         }
 
-        // 목적지에 아군 기물이 있거나 또는 경로상에 포가 있는 경우
-        long cannonOrFriendlyDestination = pieces.stream()
-                .filter(route::hasPosition)
-                .filter(currentPiece ->
-                        currentPiece.isSameType(PieceType.CANNON) ||
-                                (route.isDestination(currentPiece) && !piece.isEnemy(currentPiece))
-                )
-                .count();
-
-        if (cannonOrFriendlyDestination > 0) {
+        // 목적지에 아군 기물이 있는 경우 -> 그냥 이동 불가능
+        if (destinationPiece.isPresent() && !piece.isEnemy(destinationPiece.get())) {
             return 0;
         }
 
-        // 목적지가 비어있는 경우, 경로 상의 기물 수를 반환
+        // 목적지가 비어있는 경우, 경로 상의 기물 수를 반환, 경로에 포가 있으면 이동 불가
+        boolean hasCanonInRoute = pieces.stream()
+                .filter(route::hasPosition)
+                .anyMatch(currentPiece -> currentPiece.isSameType(PieceType.CANNON));
+
+        if (hasCanonInRoute) {
+            return 0;
+        }
+
         return (int) pieces.stream()
                 .filter(route::hasPosition)
                 .count();
