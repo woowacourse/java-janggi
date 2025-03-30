@@ -30,17 +30,23 @@ public abstract class Piece {
         return pieceType.getScore();
     }
 
+    public void move(Pieces pieces, Position destination) {
+        validateDestination(destination);
+        validatePaths(pieces, destination);
+        updateCurrentPosition(destination);
+    }
+
     public abstract Position getCurrentPosition();
 
     public abstract boolean isCatch();
 
-    public abstract void validateDestination(Position destination);
-
-    public abstract void validatePaths(Pieces pieces, Position destination);
-
-    public abstract void move(Position destination);
-
     public abstract void catchByOpponent();
 
     public abstract boolean isPlacedAt(Position targetPosition);
+
+    protected abstract void validateDestination(Position destination);
+
+    protected abstract void validatePaths(Pieces pieces, Position destination);
+
+    protected abstract void updateCurrentPosition(Position destination);
 }

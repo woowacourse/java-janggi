@@ -41,7 +41,7 @@ public class General extends Piece {
     }
 
     @Override
-    public void move(Position destination) {
+    public void updateCurrentPosition(Position destination) {
         currentPosition = destination;
     }
 

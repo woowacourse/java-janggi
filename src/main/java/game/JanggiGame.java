@@ -95,16 +95,14 @@ public class JanggiGame {
         return end;
     }
 
-    public void move(Pieces currentPieces, Position start, Position end) {
+    private void move(Pieces currentPieces, Position start, Position end) {
         currentPieces.checkNotExistedPieceInPosition(end);
         PathUtility.checkNotSameStartWithEnd(start, end);
 
         Pieces allPieces = pieceDao.findAll();
         Piece piece = currentPieces.getByPosition(start);
 
-        piece.validateDestination(end);
-        piece.validatePaths(allPieces, end);
-        piece.move(end);
+        piece.move(allPieces, end);
 
         pieceDao.update(piece, end);
     }
