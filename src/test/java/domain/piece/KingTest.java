@@ -31,7 +31,6 @@ public class KingTest {
         Assertions.assertThat(resultMove).isEqualTo(List.of());
     }
 
-
     @DisplayName("궁은 꼭지점에서 중앙으로 이동할 수 있다.")
     @ParameterizedTest
     @CsvSource({
@@ -46,7 +45,7 @@ public class KingTest {
 
         //when
         List<Position> resultMove = king.calculatePath(startPosition, targetPosition);
-
+        
         // then
         Assertions.assertThat(resultMove).isEqualTo(List.of());
     }
