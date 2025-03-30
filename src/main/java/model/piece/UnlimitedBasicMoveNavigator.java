@@ -7,12 +7,12 @@ import model.position.Position;
 
 public class UnlimitedBasicMoveNavigator {
 
-    private static final UnlimitedBasicMoveNavigator instance = new UnlimitedBasicMoveNavigator();
+    private static final UnlimitedBasicMoveNavigator INSTANCE = new UnlimitedBasicMoveNavigator();
 
     private UnlimitedBasicMoveNavigator() {}
 
     public static UnlimitedBasicMoveNavigator getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public List<Position> find(Position departure, Position arrival, List<Movement> movements) {

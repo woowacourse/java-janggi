@@ -6,12 +6,12 @@ import model.position.Position;
 
 public class JumpMoveNavigator {
 
-    private static final JumpMoveNavigator instance = new JumpMoveNavigator();
+    private static final JumpMoveNavigator INSTANCE = new JumpMoveNavigator();
 
     private JumpMoveNavigator() {}
 
     public static JumpMoveNavigator getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public List<Position> find(Position departure, Position arrival, List<List<Movement>> movements) {

@@ -10,12 +10,12 @@ import model.position.Position;
  */
 public class LimitedBasicMoveNavigator {
 
-    private static final LimitedBasicMoveNavigator instance = new LimitedBasicMoveNavigator();
+    private static final LimitedBasicMoveNavigator INSTANCE = new LimitedBasicMoveNavigator();
 
     private LimitedBasicMoveNavigator() {}
 
     public static LimitedBasicMoveNavigator getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public List<Position> find(Position departure, Position arrival, List<Movement> movements) {

@@ -9,12 +9,12 @@ import model.position.Row;
 
 public class Castle {
 
-    private static final Castle instance = new Castle();
+    private static final Castle INSTANCE = new Castle();
 
     private Castle() {}
 
     public static Castle getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     private final List<Position> moveDiagonalArea = List.of(
