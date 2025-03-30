@@ -2,6 +2,7 @@ package janggi.controller;
 
 import janggi.db.Connection;
 import janggi.db.PieceDao;
+import janggi.db.Table;
 import janggi.db.TurnDao;
 import janggi.domain.Board;
 import janggi.domain.InitialElephantSetting;
@@ -31,7 +32,8 @@ public class JanggiController {
 
     public void run() throws SQLException {
         Connection connection = new Connection();
-        initializeDatabase(connection);
+        Table table = new Table(connection);
+        initializeDatabase(table);
 
         while (true) {
             Board board = readBoardFromDatabase();
@@ -41,8 +43,8 @@ public class JanggiController {
 
             if (userContinueResponse == UserContinueResponse.QUIT) {
                 outputView.printWinnerWithSurrender(board.getTurn());
-                connection.dropTable("piece");
-                connection.dropTable("turn");
+                table.dropTable("piece");
+                table.dropTable("turn");
                 break;
             }
 
@@ -55,8 +57,8 @@ public class JanggiController {
                 Team winner = board.getWinner(board.getTurn());
                 outputView.printWinnerWithGameEnd(winner);
 
-                connection.dropTable("piece");
-                connection.dropTable("turn");
+                table.dropTable("piece");
+                table.dropTable("turn");
                 break;
             }
 
@@ -85,19 +87,18 @@ public class JanggiController {
         turnDao.updateTeam(board.getTurn());
     }
 
-    private void initializeDatabase(Connection connection) throws SQLException {
-        if (!connection.isTableExist("piece") ||
-                !connection.isTableExist("turn")) {
-            if (connection.isTableExist("piece")) {
-                connection.dropTable("piece");
+    private void initializeDatabase(Table table) throws SQLException {
+        if (!table.isTableExist("piece") ||
+                !table.isTableExist("turn")) {
+            if (table.isTableExist("piece")) {
+                table.dropTable("piece");
             }
-            if (connection.isTableExist("turn")) {
-                connection.dropTable("turn");
+            if (table.isTableExist("turn")) {
+                table.dropTable("turn");
             }
-
-            // 피스 테이블 생성, 턴 테이블 생성
-            connection.createPieceTable();
-            connection.createTurnTable();
+            
+            table.createPieceTable();
+            table.createTurnTable();
 
             List<Piece> initialPieces = PiecesInitializer.initializePieces(InitialElephantSetting.INNER_ELEPHANT)
                     .getPieces();
