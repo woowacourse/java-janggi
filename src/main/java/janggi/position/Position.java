@@ -46,10 +46,9 @@ public record Position(int x, int y) {
     }
 
     public boolean isInBounds(final Direction direction) {
-        try{
+        try {
             new Position(x + direction.x(), y + direction.y());
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return false;
         }
         return true;

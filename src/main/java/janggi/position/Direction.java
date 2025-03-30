@@ -69,7 +69,7 @@ public record Direction(int x, int y) {
         return direction.y == reverseVerticalDirection;
     }
 
-    public Direction reverse(){
+    public Direction reverse() {
         return new Direction(-x, -y);
     }
 }
