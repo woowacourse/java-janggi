@@ -65,4 +65,9 @@ public class Cannon extends Piece implements DirectionCheckable, ObstructionChec
     public boolean equalsType(final Piece piece) {
         return piece instanceof Cannon;
     }
+
+    @Override
+    protected int getScore() {
+        return 7;
+    }
 }

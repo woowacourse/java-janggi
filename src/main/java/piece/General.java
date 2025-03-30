@@ -22,4 +22,9 @@ public class General extends Piece implements PalaceCheckable {
     public boolean equalsType(final Piece piece) {
         return piece instanceof General;
     }
+
+    @Override
+    protected int getScore() {
+        return 3;
+    }
 }
