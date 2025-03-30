@@ -26,12 +26,12 @@ public class JanggiGame {
         List<Piece> initialPieces;
 
         if (boardDao.existsBoardPiece()) {
-            initialPieces = generateInitialPieces(input);
+            System.out.println("진행 중인 게임 데이터를 불러옵니다");
+            initialPieces = boardDao.findAllBoardPiece();
         } else {
-            boardDao.findAllBoardPiece();
+            initialPieces = generateInitialPieces(input);
             boardDao.addAllBoardPiece(initialPieces);
         }
-
 
         // todo 게임 상태가 진행 중 상태가 아니면 초기값에 맞게 초기화
         // todo 기물이 이동하면 기물 정보를 업데이트 해준다.

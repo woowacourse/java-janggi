@@ -1,5 +1,6 @@
 package janggi.board;
 
+import janggi.dao.BoardDao;
 import janggi.piece.Movement;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
@@ -16,7 +17,7 @@ public class Board {
         this.locatedPieces = locatedPieces;
     }
 
-    public void move(Team turn, Position startPosition, Position arrivedPosition) {
+    public void move(Team turn, Position startPosition, Position arrivedPosition, BoardDao boardDao) {
         Piece attackerPiece = findByPosition(startPosition);
         checkTurn(turn, attackerPiece);
         boolean isOccupy = isOccupiedPosition(arrivedPosition);

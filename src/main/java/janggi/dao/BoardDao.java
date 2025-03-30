@@ -1,8 +1,10 @@
 package janggi.dao;
 
 import janggi.board.Board;
+import janggi.dto.BoardPieceDto;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
+import janggi.position.Position;
 import janggi.team.Team;
 
 import java.sql.*;
@@ -84,11 +86,44 @@ public class BoardDao {
             ResultSet result = preparedStatement.executeQuery();
             int count = 0;
             if(result.next()) {
-                count = result.getInt(0);
+                count = result.getInt(1);
             }
             return count != 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public List<Piece> findAllBoardPiece() {
+        final String query = "SELECT * FROM board_piece";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            ResultSet result = preparedStatement.executeQuery();
+            List<Piece> pieces = new ArrayList<>();
+            while(result.next()) {
+                String pieceTypeData = result.getString("piece_type");
+                PieceType pieceType = PIECE_TYPES.entrySet().stream()
+                        .filter(entry -> entry.getValue().equals(pieceTypeData))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 기물입니다"))
+                        .getKey();
+                String teamData = result.getString("team");
+                Team team = TEAMS.entrySet().stream()
+                        .filter(entry -> entry.getValue().equals(teamData))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 기물입니다"))
+                        .getKey();
+                int columnPosition = result.getInt("column_position");
+                int rowPosition = result.getInt("row_position");
+                boolean liveStatus = result.getBoolean("live_status");
+                Piece piece = pieceType.createInstance(new BoardPieceDto(team, new Position(rowPosition, columnPosition), liveStatus));
+                pieces.add(piece);
+            }
+            return pieces;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

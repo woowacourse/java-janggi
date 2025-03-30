@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.dto.BoardPieceDto;
 import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -35,10 +36,10 @@ public class King implements Piece {
         this.pieceType = PieceType.KING;
     }
 
-    public King(Team team, Position position, boolean isLive) {
-        this.team = team;
-        this.position = position;
-        this.isLive = isLive;
+    public King(BoardPieceDto boardPieceDto) {
+        this.team = boardPieceDto.team();
+        this.position = boardPieceDto.position();
+        this.isLive = boardPieceDto.isLive();
         this.pieceType = PieceType.KING;
     }
 
