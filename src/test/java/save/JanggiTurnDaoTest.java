@@ -1,8 +1,8 @@
 package save;
 
 import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import piece.player.Team;
 
@@ -10,8 +10,8 @@ class JanggiTurnDaoTest {
 
     private JanggiTurnDao janggiTurnDao;
 
-    @BeforeEach
-    void setUp() {
+    @AfterEach
+    void clearDatabase() {
         MySQLConnection connection = new TestJanggiConnection();
         janggiTurnDao = new JanggiTurnDao(connection);
         janggiTurnDao.deleteAll();
@@ -27,6 +27,31 @@ class JanggiTurnDaoTest {
 
         Optional<Integer> latestTurnId = janggiTurnDao.getLatestTurnId();
         Assertions.assertTrue(latestTurnId.isPresent());
+    }
+
+    @Test
+    void 가장_최근의_턴을_가져올_수_있다() {
+        Team team = Team.BLUE;
+        int turn = 1;
+        int score = 100;
+
+        janggiTurnDao.addTurnScore(team, turn, score);
+
+        Optional<Integer> latestTurnId = janggiTurnDao.getLatestTurnId();
+        Assertions.assertTrue(latestTurnId.isPresent());
+    }
+
+    @Test
+    void 전체_삭제_테스트() {
+        Team team = Team.BLUE;
+        int turn = 1;
+        int score = 100;
+
+        janggiTurnDao.addTurnScore(team, turn, score);
+        janggiTurnDao.deleteAll();
+
+        Optional<Integer> latestTurnId = janggiTurnDao.getLatestTurnId();
+        Assertions.assertTrue(latestTurnId.isEmpty());
     }
 
     @Test
