@@ -3,6 +3,8 @@ package janggi.dao;
 import janggi.board.Board;
 import janggi.board.BoardFactory;
 import janggi.board.SangSetting;
+import janggi.dto.PieceTypeDto;
+import janggi.dto.TeamTypeDto;
 import janggi.manager.ConnectionManager;
 import janggi.piece.PieceType;
 import janggi.team.TeamType;
@@ -40,18 +42,20 @@ class JanggiDaoTest {
 
         @Test
         void 팀_ID를_조회한다() {
-            final var team = janggiDao.findTeamType(TeamType.CHO);
+            final int id = 1;
+            final var team = janggiDao.findTeamById(id);
 
             assertThat(team)
-                    .isEqualTo(1);
+                    .isEqualTo(new TeamTypeDto(id, TeamType.CHO.getTitle(), true));
         }
 
         @Test
         void 기물_타입_ID를_조회한다() {
-            final var pieceType = janggiDao.findPieceType(PieceType.GUNG);
+            final int id = 1;
+            final var pieceType = janggiDao.findPieceTypeById(id);
 
             assertThat(pieceType)
-                    .isEqualTo(1);
+                    .isEqualTo(new PieceTypeDto(id, PieceType.GUNG.toString()));
         }
 
         @Test
@@ -60,25 +64,25 @@ class JanggiDaoTest {
             final Board board = boardFactory.makeBoard(SangSetting.INNER_SANG, SangSetting.INNER_SANG);
 
             assertThatNoException()
-                    .isThrownBy(() -> janggiDao.insertInitialPieces(board.getPieces()));
+                    .isThrownBy(() -> janggiDao.insertPieces(board.getPieces()));
         }
 
         @Test
         void 기물_종류를_모두_삭제한다() {
             assertThatNoException()
-                    .isThrownBy(janggiDao::deleteAllPieceType);
+                    .isThrownBy(janggiDao::deleteAllPieceTypeIfExists);
         }
 
         @Test
         void 팀을_모두_삭제한다() {
             assertThatNoException()
-                    .isThrownBy(janggiDao::deleteAllTeam);
+                    .isThrownBy(janggiDao::deleteAllTeamIfExists);
         }
 
         @Test
         void 기물을_모두_삭제한다() {
             assertThatNoException()
-                    .isThrownBy(janggiDao::deleteAllPiece);
+                    .isThrownBy(janggiDao::deleteAllPieceIfExists);
         }
 
         @Test
@@ -88,9 +92,16 @@ class JanggiDaoTest {
         }
 
         @Test
-        void 다음_턴으로_넘어간다() {
-            assertThatNoException()
-                    .isThrownBy(janggiDao::updateTeamOrder);
+        void 해당_팀의_순서로_변경한다() {
+            // Given
+            final TeamType currentTeam = TeamType.HAN;
+
+            // When
+            janggiDao.updateTeamOrder(currentTeam);
+
+            // Then
+            assertThat(janggiDao.findTeamById(2).current())
+                    .isTrue();
         }
     }
 }
