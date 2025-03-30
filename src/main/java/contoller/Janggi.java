@@ -2,7 +2,7 @@ package contoller;
 
 import static view.InputView.choiceSetUp;
 import static view.InputView.movePointInput;
-import static view.InputView.selectGameVersiong;
+import static view.InputView.selectGameVersion;
 import static view.OutputVIew.displayGameIsOver;
 import static view.OutputVIew.displayJanggiBoard;
 import static view.OutputVIew.displayJanggiScore;
@@ -20,19 +20,19 @@ public class Janggi {
     JanggiDao janggiDao = new JanggiDao();
     JanggiBoard janggiBoard;
     public void play() {
-        int k = selectGameVersiong();
-        if (k == 1) {
+        int gameVersion = selectGameVersion();
+        if (gameVersion == 1) {
         int setUpChoice = choiceSetUp();
             janggiBoard = switch (setUpChoice) {
-            case 1 -> new JanggiBoard(JanggiBoardSetUp.INNER_SANG);
-            case 2 -> new JanggiBoard(JanggiBoardSetUp.OUTER_SANG);
-            case 3 -> new JanggiBoard(JanggiBoardSetUp.LEFT_SANG);
-            case 4 -> new JanggiBoard(JanggiBoardSetUp.RIGHT_SANG);
+                case 1 -> new JanggiBoard(JanggiBoardSetUp.INNER_SANG, janggiDao);
+                case 2 -> new JanggiBoard(JanggiBoardSetUp.OUTER_SANG, janggiDao);
+                case 3 -> new JanggiBoard(JanggiBoardSetUp.LEFT_SANG, janggiDao);
+                case 4 -> new JanggiBoard(JanggiBoardSetUp.RIGHT_SANG, janggiDao);
             default -> throw new IllegalArgumentException("다시 입력하세요.");
             };
         }
-        if (k == 2) {
-            janggiBoard = new JanggiBoard(true);
+        if (gameVersion == 2) {
+            janggiBoard = new JanggiBoard(janggiDao);
         }
 
         displayJanggiBoard(janggiBoard);

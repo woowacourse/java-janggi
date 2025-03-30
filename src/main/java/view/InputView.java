@@ -35,7 +35,7 @@ public class InputView {
         return List.of(beforePoint, targetPoint);
     }
 
-    public static int selectGameVersiong() {
+    public static int selectGameVersion() {
         sc = new Scanner(System.in);
         System.out.println("새로운 게임은 1번 전에 하던 게임은 2번");
         return Integer.parseInt(sc.nextLine());

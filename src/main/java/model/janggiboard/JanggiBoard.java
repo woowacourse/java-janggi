@@ -19,17 +19,17 @@ public class JanggiBoard {
     private static final int HORIZONTAL_MINIMUM_SIZE = 0;
     private static final int VERTICAL_MINIMUM_SIZE = 0;
     private final List<List<Dot>> janggiBoard;
-    private JanggiDao janggiDao = new JanggiDao();
-    private int janggiBoardNumber;
+    private JanggiDao janggiDao;
 
-    public JanggiBoard(JanggiBoardSetUp elephantSetup) {
+    public JanggiBoard(JanggiBoardSetUp elephantSetup, JanggiDao janggiDao) {
         janggiBoard = initializeJanggiBoard();
+        this.janggiDao = janggiDao;
         placePiece(elephantSetup);
         placePiece(DEFAULT_SETUP);
-        janggiBoardNumber = janggiDao.settingNewJanggiBoard(janggiBoard);
     }
 
-    public JanggiBoard(Boolean o) {
+    public JanggiBoard(JanggiDao janggiDao) {
+        this.janggiDao = janggiDao;
         janggiBoard = janggiDao.settingBeforeJanggiBoard();
     }
 
@@ -71,14 +71,13 @@ public class JanggiBoard {
 
         if (piece.canMove(piecesOnPathWithTargetOrNot)) {
             if (getDot(targetPoint).isPlaced()) {
-                janggiDao.deletePiece(targetPoint, janggiBoardNumber);
+                janggiDao.deletePiece(targetPoint);
             }
             Piece beforePiece = getDot(beforePoint).getPiece();
-            System.out.println(janggiBoardNumber);
-            janggiDao.changePieceLocation(beforePiece, targetPoint, janggiBoardNumber);
+            janggiDao.changePieceLocation(beforePiece, targetPoint);
             janggiBoard.get(targetPoint.y()).set(targetPoint.x(), new Dot(piece));
             janggiBoard.get(beforePoint.y()).set(beforePoint.x(), new Dot());
-            janggiDao.updateTurn(janggiBoardNumber);
+            janggiDao.updateTurn();
             return;
         }
 
@@ -167,9 +166,5 @@ public class JanggiBoard {
 
     public List<List<Dot>> getJanggiBoard() {
         return janggiBoard;
-    }
-
-    public int getJanggiBoardNumber() {
-        return janggiBoardNumber;
     }
 }
