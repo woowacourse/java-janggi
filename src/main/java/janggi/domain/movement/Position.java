@@ -1,7 +1,6 @@
 package janggi.domain.movement;
 
 import janggi.common.ErrorMessage;
-import janggi.dto.PositionDto;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -69,8 +68,12 @@ public class Position {
         return new Vector(end.row - start.row, 0);
     }
 
-    public PositionDto getPositionDto() {
-        return new PositionDto(row, column);
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
     }
 
     @Override

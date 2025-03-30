@@ -32,7 +32,8 @@ public class JanggiData {
     public List<PieceDto> convertToDto(Map<Position, Piece> pieces) {
         List<PieceDto> pieceDtos = new ArrayList<>();
         for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {
-            PositionDto positionDto = entry.getKey().getPositionDto();
+            Position position = entry.getKey();
+            PositionDto positionDto = new PositionDto(position.getRow(), position.getColumn());
             Piece piece = entry.getValue();
             PieceDto pieceDto = new PieceDto(PieceName.getDatabaseName(piece), piece.getSide().toString(), positionDto.row(), positionDto.column());
             pieceDtos.add(pieceDto);
@@ -58,7 +59,7 @@ public class JanggiData {
     }
 
     public void update(Position position, Piece piece) {
-        PositionDto positionDto = position.getPositionDto();
+        PositionDto positionDto = new PositionDto(position.getRow(), position.getColumn());
         PieceDto pieceDto = new PieceDto(PieceName.getDatabaseName(piece), piece.getSide().toString(), positionDto.row(), positionDto.column());
         janggiDao.updatePiece(positionDto, pieceDto);
     }
