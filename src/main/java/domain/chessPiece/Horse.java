@@ -7,9 +7,7 @@ import domain.hurdlePolicy.UnpassableHurdlePolicy;
 import domain.position.ChessPosition;
 import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
-
 import java.util.List;
-import java.util.Map;
 
 public class Horse extends LimitedMoveChessPiece {
         private static final List<Directions> directions = List.of(
@@ -29,12 +27,16 @@ public class Horse extends LimitedMoveChessPiece {
         super(team, directions);
     }
 
-    public static Map<ChessPosition, ChessPiece> initPieces() {
-        return Map.of(
-                new ChessPosition(0, 1), new Horse(ChessTeam.RED),
-                new ChessPosition(0, 7), new Horse(ChessTeam.RED),
-                new ChessPosition(9, 1), new Horse(ChessTeam.BLUE),
-                new ChessPosition(9, 7), new Horse(ChessTeam.BLUE)
+    public Horse(final ChessPosition position, final ChessTeam team) {
+        super(position, team, directions);
+    }
+
+    public static List<ChessPiece> initPieces() {
+        return List.of(
+                new Horse(new ChessPosition(0, 1), ChessTeam.RED),
+                new Horse(new ChessPosition(0, 7), ChessTeam.RED),
+                new Horse(new ChessPosition(9, 1),ChessTeam.BLUE),
+                new Horse(new ChessPosition(9, 7), ChessTeam.BLUE)
         );
     }
 
@@ -46,6 +48,11 @@ public class Horse extends LimitedMoveChessPiece {
     @Override
     public ChessPieceType getChessPieceType() {
         return ChessPieceType.HORSE;
+    }
+
+    @Override
+    public ChessPiece from(final ChessPosition position) {
+        return new Horse(position, getTeam());
     }
 
     @Override

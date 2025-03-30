@@ -16,8 +16,7 @@ public abstract class UnlimitedMoveChessPiece extends JanggiChessPiece {
         this.directions = directions;
     }
 
-    protected UnlimitedMoveChessPiece(final ChessPosition position, final ChessTeam team,
-                                   final List<Direction> directions) {
+    protected UnlimitedMoveChessPiece(final ChessTeam team, final ChessPosition position, final List<Direction> directions) {
         super(position, team);
         this.directions = directions;
     }

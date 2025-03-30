@@ -29,13 +29,22 @@ public class Chariot extends UnlimitedMoveChessPiece {
         super(team, directions);
     }
 
+    public Chariot(final ChessTeam team, final ChessPosition position) {
+        super(team, position, directions);
+    }
 
-    public static Map<ChessPosition, ChessPiece> initPieces() {
-        return Map.of(
-                new ChessPosition(0, 0), new Chariot(ChessTeam.RED),
-                new ChessPosition(0, 8), new Chariot(ChessTeam.RED),
-                new ChessPosition(9, 0), new Chariot(ChessTeam.BLUE),
-                new ChessPosition(9, 8), new Chariot(ChessTeam.BLUE)
+    @Override
+    public ChessPiece from(final ChessPosition position) {
+        return new Chariot(getTeam(), position);
+    }
+
+
+    public static List<ChessPiece> initPieces() {
+        return List.of(
+                new Chariot(ChessTeam.RED, new ChessPosition(0, 0)),
+                new Chariot(ChessTeam.RED, new ChessPosition(0, 8)),
+                new Chariot(ChessTeam.BLUE, new ChessPosition(9, 0)),
+                new Chariot(ChessTeam.BLUE, new ChessPosition(9, 8))
         );
     }
 

@@ -6,9 +6,7 @@ import domain.hurdlePolicy.HurdlePolicy;
 import domain.position.ChessPosition;
 import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
-
 import java.util.List;
-import java.util.Map;
 
 public class Cannon extends UnlimitedMoveChessPiece {
     private static final List<Direction> directions = List.of(
@@ -23,16 +21,21 @@ public class Cannon extends UnlimitedMoveChessPiece {
     );
     private final HurdlePolicy hurdlePolicy = new CannonHurdlePolicy();
 
-    public Cannon(final ChessTeam team) {
-        super(team, directions);
+    public Cannon(final ChessTeam team, final ChessPosition position) {
+        super(team, position, directions);
     }
 
-    public static Map<ChessPosition, ChessPiece> initPieces() {
-        return Map.of(
-                new ChessPosition(2, 1), new Cannon(ChessTeam.RED),
-                new ChessPosition(2, 7), new Cannon(ChessTeam.RED),
-                new ChessPosition(7, 1), new Cannon(ChessTeam.BLUE),
-                new ChessPosition(7, 7), new Cannon(ChessTeam.BLUE)
+    @Override
+    public ChessPiece from(final ChessPosition position) {
+        return new Cannon(this.getTeam(), position);
+    }
+
+    public static List<ChessPiece> initPieces() {
+        return List.of(
+                new Cannon(ChessTeam.RED,new ChessPosition(2, 1)),
+                new Cannon(ChessTeam.RED, new ChessPosition(2, 7)),
+                new Cannon(ChessTeam.BLUE, new ChessPosition(7, 1)),
+                new Cannon(ChessTeam.BLUE, new ChessPosition(7, 7))
         );
     }
 

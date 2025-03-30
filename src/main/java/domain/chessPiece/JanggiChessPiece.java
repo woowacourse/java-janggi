@@ -1,36 +1,25 @@
 package domain.chessPiece;
 
-import domain.hurdlePolicy.HurdlePolicy;
-import domain.position.ChessPiecePositions;
 import domain.position.ChessPosition;
 import domain.score.Score;
 import domain.type.ChessTeam;
-import domain.path.Path;
 
-import java.util.List;
+import java.util.Objects;
 
 public abstract class JanggiChessPiece implements ChessPiece {
 
     private final ChessPosition position;
     private final ChessTeam team;
 
-    protected JanggiChessPiece(ChessTeam team) {
-        this.position = null;
-        this.team = team;
-    }
-
-    protected JanggiChessPiece(ChessPosition position, ChessTeam team) {
+    protected JanggiChessPiece(final ChessPosition position, final ChessTeam team) {
         this.position = position;
         this.team = team;
     }
 
-    @Override
-    public final List<ChessPosition> getDestinations(ChessPosition startPosition, ChessPiecePositions positions) {
-        List<Path> coordinates = getCoordinatePaths(startPosition);
-        HurdlePolicy hurdlePolicy = getHurdlePolicy();
-        return hurdlePolicy.pickDestinations(team, coordinates, positions);
+    protected JanggiChessPiece(final ChessTeam team) {
+        this.team = team;
+        this.position = null;
     }
-
 
     @Override
     public final ChessTeam getTeam() {

@@ -7,9 +7,7 @@ import domain.hurdlePolicy.UnpassableHurdlePolicy;
 import domain.position.ChessPosition;
 import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
-
 import java.util.List;
-import java.util.Map;
 
 public class Elephant extends LimitedMoveChessPiece {
     private static final List<Directions> directions = List.of(
@@ -28,12 +26,21 @@ public class Elephant extends LimitedMoveChessPiece {
         super(team, directions);
     }
 
-    public static Map<ChessPosition, ChessPiece> initPieces() {
-        return Map.of(
-                new ChessPosition(0, 2), new Elephant(ChessTeam.RED),
-                new ChessPosition(0, 6), new Elephant(ChessTeam.RED),
-                new ChessPosition(9, 2), new Elephant(ChessTeam.BLUE),
-                new ChessPosition(9, 6), new Elephant(ChessTeam.BLUE)
+    public Elephant(final ChessPosition position, final ChessTeam team) {
+        super(position, team, directions);
+    }
+
+    @Override
+    public ChessPiece from(final ChessPosition position) {
+        return new Elephant(position, getTeam());
+    }
+
+    public static List<ChessPiece> initPieces() {
+        return List.of(
+                new Elephant(new ChessPosition(0, 2), ChessTeam.RED),
+                new Elephant(new ChessPosition(0, 6), ChessTeam.RED),
+                new Elephant(new ChessPosition(9, 2),ChessTeam.BLUE),
+                new Elephant(new ChessPosition(9, 6),ChessTeam.BLUE)
         );
     }
 
