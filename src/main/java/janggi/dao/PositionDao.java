@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class PositionDao {
 
@@ -40,7 +41,7 @@ public class PositionDao {
         }
     }
 
-    public int findIdByPosition(final Position position) {
+    public Optional<Integer> findIdByPosition(final Position position) {
         final String query = "SELECT * FROM position WHERE x = ? AND y = ?";
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -48,10 +49,10 @@ public class PositionDao {
             preparedStatement.setInt(2, position.y());
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return resultSet.getInt("position_id");
+                    return Optional.of(resultSet.getInt("position_id"));
                 }
+                return Optional.empty();
             }
-            throw new RuntimeException("위치를 찾을 수 없습니다.");
         } catch (final SQLException e) {
             throw new RuntimeException("오류가 발생했습니다.");
         }

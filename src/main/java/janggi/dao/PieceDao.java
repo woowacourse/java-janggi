@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PieceDao {
 
@@ -22,8 +23,11 @@ public class PieceDao {
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final Position position = piece.getPosition();
-            positionDao.addPosition(position);
-            final int positionId = positionDao.findIdByPosition(position);
+            final Optional<Integer> findPositionId = positionDao.findIdByPosition(position);
+            if (findPositionId.isEmpty()) {
+                positionDao.addPosition(position);
+            }
+            final int positionId = positionDao.findIdByPosition(position).get();
             final int teamId = teamDao.findIdByTeam(piece.getTeam());
             final PieceType pieceType = piece.getPieceType();
             preparedStatement.setString(1, pieceType.name());
@@ -31,7 +35,7 @@ public class PieceDao {
             preparedStatement.setInt(3, positionId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 
@@ -52,7 +56,7 @@ public class PieceDao {
             }
             throw new RuntimeException("해당 기물을 찾을 수 없습니다.");
         } catch (final SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 
@@ -62,7 +66,7 @@ public class PieceDao {
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final int teamId = teamDao.findIdByTeam(piece.getTeam());
             preparedStatement.setInt(1, teamId);
-            final int positionId = positionDao.findIdByPosition(piece.getPosition());
+            final int positionId = positionDao.findIdByPosition(piece.getPosition()).get();
             preparedStatement.setInt(2, positionId);
             preparedStatement.setString(3, piece.getPieceType().name());
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -72,7 +76,7 @@ public class PieceDao {
             }
             throw new RuntimeException("해당 기물을 찾을 수 없습니다.");
         } catch (final SQLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 
@@ -82,29 +86,24 @@ public class PieceDao {
         }
     }
 
-    public boolean deletePieceByPosition(final Position position) {
+    public void deletePieceByPosition(final Position position) {
 
-        final int positionId = positionDao.findIdByPosition(position);
-        if (positionId <= 0) {
-            return false;
+        final Optional<Integer> positionId = positionDao.findIdByPosition(position);
+        if (positionId.isEmpty()) {
+            return;
         }
 
         final String query = "DELETE FROM piece WHERE position_id = ?";
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, positionId);
-
+            preparedStatement.setInt(1, positionId.get());
             final int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
                 positionDao.deletePosition(position);
-                return true;
             }
-            return false;
         } catch (final SQLException e) {
-            System.err.println("Piece 삭제 오류: " + e.getMessage());
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 
@@ -126,7 +125,7 @@ public class PieceDao {
                 pieces.add(piece);
             }
         } catch (final SQLException e) {
-            throw new RuntimeException("Failed to retrieve all pieces", e);
+            throw new RuntimeException("오류가 발생했습니다.");
         }
         return pieces;
     }

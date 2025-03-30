@@ -66,7 +66,7 @@ public class JanggiController {
 
     private boolean startGame(final Game game, final List<Piece> pieces) {
         displayGameState(game.getTurn().getCurrentTurn(), pieces);
-        Function input = inputView.inputSelectFunction();
+        final Function input = inputView.inputSelectFunction();
         if (input == MOVE) {
             final Piece selectedPiece = selectPieceToMove(game);
             final Set<Route> possibleRoutes = findPossibleRoutesForPiece(game, selectedPiece);
@@ -140,8 +140,8 @@ public class JanggiController {
         if (inputView.inputStopGame() == Y & inputView.inputStopGame() == Y) {
             pieceDao.deleteAllPieces();
             turnDao.deleteTurn();
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }
