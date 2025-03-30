@@ -11,6 +11,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PiecesInitializer;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
+import java.util.List;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,7 +49,15 @@ class GameTest {
         final Set<Route> routes = game.findPossibleRoutes(chariot);
 
         // then
-        assertThat(routes.size()).isEqualTo(2);
+        assertAll(() -> {
+            assertThat(routes).isNotEmpty();
+            assertThat(routes.size()).isEqualTo(2);
+            assertThat(routes).contains(
+                    new Route(List.of(new Position(0, 1), new Position(0, 2))),
+                    new Route(List.of(new Position(0, 1)))
+            );
+        });
+
     }
 
     @DisplayName("기물이 이동한다.")
