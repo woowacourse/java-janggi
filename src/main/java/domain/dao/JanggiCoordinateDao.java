@@ -113,6 +113,5 @@ public class JanggiCoordinateDao {
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] COORDINATE 삭제 실패");
         }
-        throw new IllegalStateException("[ERROR] COORDINATE 삭제 실패");
     }
 }
