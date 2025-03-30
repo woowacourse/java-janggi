@@ -40,4 +40,8 @@ public enum PieceType {
     public int getScore() {
         return score;
     }
+
+    public String getTitle() {
+        return title;
+    }
 }
