@@ -4,6 +4,7 @@ import janggi.board.Board;
 import janggi.board.Pieces;
 import janggi.dao.connection.MysqlConnection;
 import janggi.piece.Team;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,12 +21,13 @@ class BoardDaoTest {
 
     @Test
     @DisplayName("데이터베이스에 board를 저장한다")
-    void test() {
+    void test1() {
         // given
         Board board = new Board(new Pieces(), Team.CHO);
 
-        // when
-        boardDao.addBoard(board);
+        // when & then
+        Assertions.assertThatCode(() -> boardDao.addBoard(board))
+                .doesNotThrowAnyException();
     }
 
     @Test
@@ -33,10 +35,11 @@ class BoardDaoTest {
     void test2() {
         // given
         Board board = new Board(new Pieces(), Team.CHO);
-        boardDao.addBoard(board);
+        String boardId = boardDao.addBoard(board);
 
-        // when
-        boardDao.updateBoardTurn(1, Team.HAN);
+        // when & then
+        Assertions.assertThatCode(() -> boardDao.updateBoardTurn(boardId, Team.HAN))
+                .doesNotThrowAnyException();
     }
 
 }
