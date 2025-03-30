@@ -5,12 +5,8 @@ import static board.Board.BOARD_MAX_WIDTH;
 import static board.Board.BOARD_MIN_HEIGHT;
 import static board.Board.BOARD_MIN_WIDTH;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Coordinate {
 
@@ -52,56 +48,6 @@ public class Coordinate {
             return null;
         }
         return new Coordinate(newX, newY);
-    }
-
-    public Set<Coordinate> moveByCross() {
-        Set<Coordinate> coordinates = new HashSet<>();
-
-        for (int x = BOARD_MIN_WIDTH; x <= BOARD_MAX_WIDTH; x++) {
-            coordinates.add(new Coordinate(x, this.y));
-        }
-
-        for (int y = BOARD_MIN_HEIGHT; y <= BOARD_MAX_HEIGHT; y++) {
-            coordinates.add(new Coordinate(this.x, y));
-        }
-
-        coordinates.remove(this);
-        return coordinates;
-    }
-
-    public Set<Coordinate> moveByCrossOne() {
-        return Arrays.stream(Direction.values())
-                .map(this::moveBy)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-    }
-
-    public Set<Coordinate> moveByDiagonalInCastle() {
-        Set<Coordinate> coordinates = new HashSet<>();
-        for (DiagonalDirection diagonalDirection : DiagonalDirection.values()) {
-            Coordinate current = this;
-            while (true) {
-                Coordinate next = current.moveBy(diagonalDirection);
-                if (Objects.isNull(next) || !next.isInCastle()) {
-                    break;
-                }
-                coordinates.add(next);
-                current = next;
-            }
-        }
-        return coordinates;
-    }
-
-    public Set<Coordinate> moveByDiagonalOneInCastle() {
-        Set<Coordinate> coordinates = new HashSet<>();
-        for (DiagonalDirection diagonalDirection : DiagonalDirection.values()) {
-            Coordinate next = this.moveBy(diagonalDirection);
-            if (Objects.isNull(next) || !next.isInCastle()) {
-                continue;
-            }
-            coordinates.add(next);
-        }
-        return coordinates;
     }
 
     public boolean isInCastle() {

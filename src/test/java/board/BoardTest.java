@@ -8,10 +8,8 @@ import coordinate.Coordinate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import piece.Cha;
-import piece.Jol;
-import piece.Ma;
 import piece.Piece;
+import piece.PieceType;
 import team.Team;
 
 public class BoardTest {
@@ -41,7 +39,7 @@ public class BoardTest {
         void test2() {
             // given
             Board board = new BoardFixture()
-                    .addPiece(5, 5, new Jol())
+                    .addPiece(5, 5, new Piece(Team.CHO, PieceType.졸))
                     .build();
 
             // when & then
@@ -58,8 +56,8 @@ public class BoardTest {
         void test3() {
             // given
             Board board = new BoardFixture()
-                    .addPiece(5, 5, new Cha(Team.HAN))
-                    .addPiece(5, 6, new Ma(Team.HAN))
+                    .addPiece(5, 5, new Piece(Team.HAN, PieceType.차))
+                    .addPiece(5, 6, new Piece(Team.HAN, PieceType.마))
                     .build();
 
             // when & then
@@ -75,10 +73,10 @@ public class BoardTest {
         @DisplayName("도착 좌표에 다른 팀 기물이 있고 정상적으로 이동됐을 경우, 출발 좌표는 비어있고 도착 좌표의 기물을 대체한다.")
         void test4() {
             // given
-            Cha cha = new Cha(Team.HAN);
+            Piece cha = new Piece(Team.HAN, PieceType.차);
             Board board = new BoardFixture()
                     .addPiece(5, 5, cha)
-                    .addPiece(5, 6, new Jol())
+                    .addPiece(5, 6, new Piece(Team.CHO, PieceType.졸))
                     .build();
             Coordinate departure = new Coordinate(5, 5);
             Coordinate arrival = new Coordinate(5, 6);
@@ -97,7 +95,7 @@ public class BoardTest {
         @DisplayName("도착 좌표에 다른 팀 기물이 없고 정상적으로 이동됐을 경우, 출발 좌표는 비어있고 도착 좌표에 이동한 기물이 위치한다.")
         void test5() {
             // given
-            Cha cha = new Cha(Team.HAN);
+            Piece cha = new Piece(Team.HAN, PieceType.차);
             Board board = new BoardFixture()
                     .addPiece(5, 5, cha)
                     .build();
@@ -124,7 +122,7 @@ public class BoardTest {
         void test1() {
             // given
             Board board = new BoardFixture()
-                    .addPiece(5, 5, new Cha(Team.HAN))
+                    .addPiece(5, 5, new Piece(Team.HAN, PieceType.차))
                     .build();
 
             // when
@@ -170,7 +168,7 @@ public class BoardTest {
         @DisplayName("기물이 있는 경우 기물을 찾아 반환한다.")
         void test2() {
             // given
-            Ma ma = new Ma(Team.HAN);
+            Piece ma = new Piece(Team.HAN, PieceType.마);
             Board board = new BoardFixture()
                     .addPiece(5, 5, ma)
                     .build();
