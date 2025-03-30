@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Pieces {
+    public static final double EXTRA_POINT = 1.5;
     private final Map<Position, Piece> pieces;
 
     public Pieces() {
@@ -60,10 +61,16 @@ public class Pieces {
         return piece.getTeam();
     }
 
-    public int calculatePieceScore(Team team) {
+    public double calculatePieceScore(Team team) {
+        if (team == Team.HAN) {
+            return pieces.values().stream()
+                    .filter(piece -> piece.getTeam() == team)
+                    .mapToDouble(piece -> piece.getType().getScore() + EXTRA_POINT)
+                    .sum();
+        }
         return pieces.values().stream()
                 .filter(piece -> piece.getTeam() == team)
-                .mapToInt(piece -> piece.getType().getScore())
+                .mapToDouble(piece -> piece.getType().getScore())
                 .sum();
     }
 
