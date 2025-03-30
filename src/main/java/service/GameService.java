@@ -29,8 +29,12 @@ public class GameService {
         // 1. DB에서 저장된 보드를 불러옴
         Map<Position, Piece> boardData = boardDao.loadBoard();
 
-        // 2. 저장된 보드가 있으면 그대로 사용, 없으면 새로 생성
-        Board board = boardData.isEmpty() ? new BoardFactory().createBoard() : new Board(boardData);
+        if (boardData.isEmpty()) {
+            boardData = new BoardFactory().createBoard().getBoard();
+            boardDao.saveBoard(boardData);
+        }
+
+        Board board = new Board(boardData);
 
         // 3. JanggiGame을 생성하여 반환
         return new JanggiGame(new BlueTurn(board));

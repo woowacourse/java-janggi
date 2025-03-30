@@ -20,8 +20,6 @@ public class JanggiController {
     }
 
     public void run() {
-        gameService.startGame();
-
         Board board = gameService.getBoard();
         outputView.printBorad(board);
 
