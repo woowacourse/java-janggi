@@ -11,6 +11,9 @@ public abstract sealed class LinearMover
         implements PieceRule
         permits Po, Cha {
 
+    private final Position HAN_CENTER = new Position(1, 4);
+    private final Position CHO_CENTER = new Position(8, 4);
+
     @Override
     public void canMoveTo(final Position startPosition, Position destination) {
         if (isInvalidLinearMove(startPosition, destination)) {
@@ -40,11 +43,19 @@ public abstract sealed class LinearMover
             addDownwardRoute(startPosition, dRow, route);
         }
 
+        if (startPosition.isTwoStepDiagonalMoveForLinearMoverInCho(destination)) {
+            route.addPosition(CHO_CENTER);
+        }
+
+        if (startPosition.isTwoStepDiagonalMoveForLinearMoverInHan(destination)) {
+            route.addPosition(HAN_CENTER);
+        }
+
         return route;
     }
 
     private boolean isInvalidLinearMove(final Position startPosition, final Position destination) {
-        return !startPosition.isSameRow(destination) && !startPosition.isSameCol(destination);
+        return !startPosition.isSameRow(destination) && !startPosition.isSameCol(destination) && !startPosition.isDiagonalMoveForLinearMover(destination);
     }
 
     private void addDownwardRoute(final Position startPosition, final int dRow, Positions route) {

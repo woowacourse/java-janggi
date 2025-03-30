@@ -26,15 +26,8 @@ import static pieceProperty.Movement.UP_RIGHT_UP_DIAGONAL;
 import static pieceProperty.Movement.UP_RIGHT_UP_DIAGONAL_RIGHT_UP_DIAGONAL;
 
 import java.util.Objects;
-import movementRule.linearMover.Po;
-import view.ErrorMessage;
 
 public class Position {
-
-    private static final int MAX_ROW = 10;
-    private static final int MAX_COL = 9;
-    private static final int MIN_ROW = 0;
-    private static final int MIN_COL = 0;
 
     private static final Position TOP_LEFT = new Position(0, 3);
     private static final Position TOP_MID = new Position(0, 4);
@@ -60,7 +53,6 @@ public class Position {
     private final int col;
 
     public Position(final int row, final int col) {
-        validateOutOfBound(row, col);
         this.row = row;
         this.col = col;
     }
@@ -115,6 +107,29 @@ public class Position {
 
                 || this.equals(BOTTOM_CENTER) && destination.equals(BOTTOM_RIGHT)
                 || this.equals(BOTTOM_RIGHT) && destination.equals(BOTTOM_CENTER);
+    }
+
+    public boolean isTwoStepDiagonalMoveForLinearMoverInCho(Position destination) {
+        return this.equals(BOTTOM_LEFT) && destination.equals(BOTTOM_TOP_RIGHT)
+                || this.equals(BOTTOM_TOP_RIGHT) && destination.equals(BOTTOM_LEFT)
+
+                || this.equals(BOTTOM_RIGHT) && destination.equals(BOTTOM_TOP_LEFT)
+                || this.equals(BOTTOM_TOP_LEFT) && this.equals(BOTTOM_RIGHT);
+    }
+
+    public boolean isTwoStepDiagonalMoveForLinearMoverInHan(Position destination) {
+        return this.equals(TOP_LEFT) && destination.equals(TOP_BOTTOM_RIGHT)
+                || this.equals(TOP_BOTTOM_RIGHT) && destination.equals(TOP_LEFT)
+
+                || this.equals(TOP_BOTTOM_LEFT) && destination.equals(TOP_RIGHT)
+                || this.equals(TOP_RIGHT) && destination.equals(TOP_BOTTOM_LEFT);
+    }
+
+    public boolean isDiagonalMoveForLinearMover(Position destination) {
+        return this.isOneStepDiagonalMoveForHanOmniDirectionMover(destination)
+                || this.isOneStepDiagonalMoveForChoOmniDirectionMover(destination)
+                || this.isTwoStepDiagonalMoveForLinearMoverInCho(destination)
+                || this.isTwoStepDiagonalMoveForLinearMoverInHan(destination);
     }
 
     public Position calculateMovement(final int dRow, final int dCol) {
@@ -360,12 +375,6 @@ public class Position {
 
     public int getCol() {
         return col;
-    }
-
-    private void validateOutOfBound(final int row, final int col) {
-        if (row > MAX_ROW || col > MAX_COL || row < MIN_ROW || col < MIN_COL) {
-            throw new IllegalArgumentException(ErrorMessage.formatMessage("장기판은 10 x 9 입니다. 범위를 초과하였습니다."));
-        }
     }
 
     @Override

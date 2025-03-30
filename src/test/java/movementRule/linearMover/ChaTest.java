@@ -1,13 +1,11 @@
-package movementRule;
+package movementRule.linearMover;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static pieceProperty.PieceType.CHA;
-import static pieceProperty.PieceType.PO;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import movementRule.linearMover.Cha;
 import pieceProperty.Position;
 import pieceProperty.Positions;
 

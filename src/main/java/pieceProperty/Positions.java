@@ -2,7 +2,6 @@ package pieceProperty;
 
 import java.util.ArrayList;
 import java.util.List;
-import movementRule.PieceRule;
 
 public class Positions {
     private final List<Position> positions;
