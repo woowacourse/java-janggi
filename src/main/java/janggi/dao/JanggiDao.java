@@ -12,15 +12,16 @@ import java.util.List;
 
 public class JanggiDao {
 
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private final DaoSettings daoSettings;
+
+    public JanggiDao(DaoSettings daoSettings) {
+        this.daoSettings = daoSettings;
+    }
 
     public Connection getConnection() {
+        String url = "jdbc:mysql://" + daoSettings.server + "/" + daoSettings.database + daoSettings.option;
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+            return DriverManager.getConnection(url, daoSettings.username, daoSettings.password);
         } catch (SQLException e) {
             System.err.println("DB 연결 오류:" + e.getMessage());
             e.printStackTrace();
