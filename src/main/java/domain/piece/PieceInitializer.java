@@ -8,6 +8,7 @@ import domain.piece.category.General;
 import domain.piece.category.Guard;
 import domain.piece.category.Soldier;
 import domain.player.Team;
+import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;

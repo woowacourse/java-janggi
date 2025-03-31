@@ -1,6 +1,8 @@
 package domain.piece;
 
 import domain.direction.Directions;
+import domain.piece.category.PieceType;
+import domain.position.Position;
 import java.util.List;
 import java.util.Objects;
 

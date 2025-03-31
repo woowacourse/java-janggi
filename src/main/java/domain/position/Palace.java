@@ -1,4 +1,4 @@
-package domain.piece;
+package domain.position;
 
 import domain.direction.Direction;
 import domain.direction.Vector;

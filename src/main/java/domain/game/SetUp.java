@@ -2,7 +2,7 @@ package domain.game;
 
 import domain.direction.PieceDirections;
 import domain.piece.Piece;
-import domain.piece.Position;
+import domain.position.Position;
 import domain.piece.category.Elephant;
 import domain.piece.category.Horse;
 import java.util.ArrayList;

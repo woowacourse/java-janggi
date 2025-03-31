@@ -1,9 +1,9 @@
 package domain.game;
 
 import domain.piece.Piece;
-import domain.piece.PieceType;
+import domain.piece.category.PieceType;
 import domain.piece.Pieces;
-import domain.piece.Position;
+import domain.position.Position;
 import domain.player.Player;
 import java.util.List;
 import java.util.Map;

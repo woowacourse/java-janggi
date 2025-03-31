@@ -1,7 +1,7 @@
 package view;
 
 import domain.game.SetUp;
-import domain.piece.Position;
+import domain.position.Position;
 import domain.player.Player;
 import domain.player.Team;
 import java.util.List;

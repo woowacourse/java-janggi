@@ -3,7 +3,7 @@ package view;
 import domain.game.Board;
 import domain.piece.Piece;
 import domain.piece.Pieces;
-import domain.piece.Position;
+import domain.position.Position;
 import domain.player.Player;
 import domain.player.Team;
 import java.util.ArrayList;

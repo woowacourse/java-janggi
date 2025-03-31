@@ -1,7 +1,9 @@
 package domain.piece;
 
 import dao.PieceDao;
+import domain.piece.category.PieceType;
 import domain.player.Team;
+import domain.position.Position;
 import java.util.List;
 
 public record Pieces(List<Piece> pieces) {

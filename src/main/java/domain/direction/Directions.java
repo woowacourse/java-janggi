@@ -1,7 +1,7 @@
 package domain.direction;
 
-import domain.piece.Palace;
-import domain.piece.Position;
+import domain.position.Palace;
+import domain.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

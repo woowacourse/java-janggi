@@ -2,8 +2,8 @@ package dao;
 
 import domain.direction.PieceDirections;
 import domain.piece.Piece;
-import domain.piece.PieceType;
-import domain.piece.Position;
+import domain.piece.category.PieceType;
+import domain.position.Position;
 import domain.piece.category.Cannon;
 import domain.piece.category.Chariot;
 import domain.piece.category.Elephant;

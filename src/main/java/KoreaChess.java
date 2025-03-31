@@ -6,7 +6,7 @@ import domain.game.SetUp;
 import domain.piece.Piece;
 import domain.piece.PieceInitializer;
 import domain.piece.Pieces;
-import domain.piece.Position;
+import domain.position.Position;
 import domain.player.Player;
 import domain.player.Team;
 import java.util.HashMap;
