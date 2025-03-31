@@ -13,11 +13,15 @@ public record Position(
     }
 
     private void validateFile(final PositionFile file) {
-        if (file == null) throw new IllegalArgumentException("파일은 필수값입니다.");
+        if (file == null) {
+            throw new IllegalArgumentException("파일은 필수값입니다.");
+        }
     }
 
     private void validateRank(final PositionRank rank) {
-        if (rank == null) throw new IllegalArgumentException("랭크는 필수값입니다.");
+        if (rank == null) {
+            throw new IllegalArgumentException("랭크는 필수값입니다.");
+        }
     }
 
     public boolean isValidToMove(final Direction direction) {

@@ -78,25 +78,39 @@ public final class Board {
     }
 
     private Team getCurrentTeam() {
-        if (isTeam1Turn) return team1;
+        if (isTeam1Turn) {
+            return team1;
+        }
         return team2;
     }
 
     public Country getWinner() {
-        if (team1.isEnd()) return team2.getCountry();
-        if (team2.isEnd()) return team1.getCountry();
+        if (team1.isEnd()) {
+            return team2.getCountry();
+        }
+        if (team2.isEnd()) {
+            return team1.getCountry();
+        }
         throw new IllegalStateException("아직 승자가 없습니다.");
     }
 
     public int getWinnerScore() {
-        if (team1.isEnd()) return team2.getScore();
-        if (team2.isEnd()) return team1.getScore();
+        if (team1.isEnd()) {
+            return team2.getScore();
+        }
+        if (team2.isEnd()) {
+            return team1.getScore();
+        }
         throw new IllegalStateException("아직 승자가 없습니다.");
     }
 
     public int getLooserScore() {
-        if (team1.isEnd()) return team1.getScore();
-        if (team2.isEnd()) return team2.getScore();
+        if (team1.isEnd()) {
+            return team1.getScore();
+        }
+        if (team2.isEnd()) {
+            return team2.getScore();
+        }
         throw new IllegalStateException("아직 승자가 없습니다.");
     }
 }

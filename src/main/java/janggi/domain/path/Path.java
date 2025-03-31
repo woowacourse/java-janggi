@@ -20,7 +20,9 @@ public record Path(
 
     public Optional<Path> nextPath(final Movement movement) {
         final List<Position> positions = movement.getPositionsWith(finalPosition());
-        if (positions.isEmpty()) return Optional.empty();
+        if (positions.isEmpty()) {
+            return Optional.empty();
+        }
         return Optional.of(new Path(new ArrayList<>(positions)));
     }
 
@@ -33,7 +35,9 @@ public record Path(
     }
 
     public List<Piece> getBlockedPiece(final List<Piece> pieces) {
-        if (pieces.isEmpty()) return List.of();
+        if (pieces.isEmpty()) {
+            return List.of();
+        }
 
         return pieces.stream()
                 .filter(piece -> pathPositions.subList(0, pathPositions.size() - 1).contains(piece.getPosition()))
@@ -45,7 +49,9 @@ public record Path(
     }
 
     public boolean isBlockedWith(final List<Position> blockedPositions) {
-        if (blockedPositions.isEmpty()) return false;
+        if (blockedPositions.isEmpty()) {
+            return false;
+        }
 
         return pathPositions.subList(0, pathPositions.size() - 1).stream()
                 .anyMatch(blockedPositions::contains);
@@ -56,7 +62,10 @@ public record Path(
     }
 
     public boolean isEndWith(final List<Position> positions) {
-        if (positions.isEmpty()) return false;
+        if (positions.isEmpty()) {
+            return false;
+        }
+        
         return positions.contains(finalPosition());
     }
 

@@ -36,8 +36,12 @@ public class InputView {
         System.out.println(sj);
 
         final int input = Integer.parseInt(readLine());
-        if (input == 1) return GameStartType.NEW_GAME;
-        if (input == 2) return GameStartType.CONTINUE;
+        if (input == 1) {
+            return GameStartType.NEW_GAME;
+        }
+        if (input == 2) {
+            return GameStartType.CONTINUE;
+        }
         throw new IllegalArgumentException("1 또는 2를 입력해야 합니다.");
     }
 
@@ -53,10 +57,18 @@ public class InputView {
         System.out.println(sj);
 
         final int input = Integer.parseInt(readLine());
-        if (input == 1) return StartingPosition.MA_SANG_MA_SANG;
-        if (input == 2) return StartingPosition.SAMG_MA_SANG_MA;
-        if (input == 3) return StartingPosition.MA_SANG_SANG_MA;
-        if (input == 4) return StartingPosition.SANG_MA_MA_SANG;
+        if (input == 1) {
+            return StartingPosition.MA_SANG_MA_SANG;
+        }
+        if (input == 2) {
+            return StartingPosition.SAMG_MA_SANG_MA;
+        }
+        if (input == 3) {
+            return StartingPosition.MA_SANG_SANG_MA;
+        }
+        if (input == 4) {
+            return StartingPosition.SANG_MA_MA_SANG;
+        }
         throw new IllegalArgumentException("1~4를 입력해야 합니다.");
     }
 
@@ -67,8 +79,12 @@ public class InputView {
         System.out.println(sj);
 
         final int input = Integer.parseInt(readLine());
-        if (input == 1) return CommandType.MOVE;
-        if (input == 2) return CommandType.SAVE;
+        if (input == 1) {
+            return CommandType.MOVE;
+        }
+        if (input == 2) {
+            return CommandType.SAVE;
+        }
         throw new IllegalArgumentException("1 또는 2를 입력해야 합니다.");
     }
 

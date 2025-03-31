@@ -86,8 +86,12 @@ public class JdbcTurnRepository implements TurnRepository {
     }
 
     private Country convertToCountry(final String countryString) {
-        if (countryString.equals("CHO")) return Country.CHO;
-        if (countryString.equals("HAN")) return Country.HAN;
+        if (countryString.equals("CHO")) {
+            return Country.CHO;
+        }
+        if (countryString.equals("HAN")) {
+            return Country.HAN;
+        }
         throw new IllegalStateException("CHO 혹은 HAN으로 지정되어야 합니다.");
     }
 }
