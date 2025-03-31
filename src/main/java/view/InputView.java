@@ -8,6 +8,11 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
+    public int readGameId() {
+        System.out.println("게임방 번호를 입력해주세요.");
+        return Integer.parseInt(scanner.nextLine());
+    }
+
     public List<String> readPlayerNames() {
         System.out.println("플레이어 두 명의 이름을 입력하시오. (플레이어1, 플레이어2)");
         String input = scanner.nextLine();
@@ -37,7 +42,4 @@ public class InputView {
         return List.of(row, column);
     }
 
-    public int readGameId() {
-        return Integer.parseInt(scanner.nextLine());
-    }
 }
