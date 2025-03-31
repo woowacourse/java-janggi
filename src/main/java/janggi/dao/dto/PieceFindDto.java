@@ -1,6 +1,6 @@
 package janggi.dao.dto;
 
-public record PieceFindResponse(
+public record PieceFindDto(
         String pieceType,
         String side
 ) {

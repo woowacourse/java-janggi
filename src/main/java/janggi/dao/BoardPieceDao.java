@@ -1,7 +1,7 @@
 package janggi.dao;
 
-import janggi.dao.dto.BoardPieceFindResponse;
-import janggi.dao.dto.PieceFindResponse;
+import janggi.dao.dto.BoardPieceFindDto;
+import janggi.dao.dto.PieceFindDto;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Side;
@@ -15,44 +15,23 @@ import java.util.List;
 
 public class BoardPieceDao {
 
-    public List<BoardPieceFindResponse> findAllPieces() {
+    public List<BoardPieceFindDto> findAllPieces() {
         final String query = "SELECT B.x, B.y, P.type, P.side FROM BoardPiece B JOIN Piece P ON B.piece_id = P.piece_id";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            List<BoardPieceFindResponse> pieces = new ArrayList<>();
+            List<BoardPieceFindDto> pieces = new ArrayList<>();
             while (resultSet.next()) {
                 int x = resultSet.getInt("x");
                 int y = resultSet.getInt("y");
                 String pieceType = resultSet.getString("type");
                 String side = resultSet.getString("side");
 
-                pieces.add(new BoardPieceFindResponse(x, y, pieceType, side));
+                pieces.add(new BoardPieceFindDto(x, y, pieceType, side));
             }
 
             return pieces;
-        } catch (final SQLException e) {
-            throw new IllegalStateException("[ERROR] 기물 조회가 성공적으로 진행되지 않았습니다.");
-        }
-    }
-
-    public PieceFindResponse findPieceByPosition(final int x, final int y) {
-        final String query = "SELECT P.type, P.side FROM BoardPiece B JOIN Piece P ON B.piece_id = P.piece_id WHERE B.x = ? AND B.y = ?";
-        try (final Connection connection = DatabaseConnectionManager.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            preparedStatement.setInt(1, x);
-            preparedStatement.setInt(2, y);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (!resultSet.next()) {
-                throw new IllegalStateException("[ERROR] 기물 조회에 실패했습니다.");
-            }
-            String type = resultSet.getString("type");
-            String side = resultSet.getString("side");
-
-            return new PieceFindResponse(type, side);
         } catch (final SQLException e) {
             throw new IllegalStateException("[ERROR] 기물 조회가 성공적으로 진행되지 않았습니다.");
         }

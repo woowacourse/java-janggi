@@ -1,7 +1,7 @@
 package janggi.service;
 
 import janggi.dao.PieceDao;
-import janggi.dao.dto.PieceFindResponse;
+import janggi.dao.dto.PieceFindDto;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Side;
@@ -32,11 +32,11 @@ public class PieceService {
     }
 
     public List<Piece> findAllPieces() {
-        List<PieceFindResponse> pieceFindResponses = pieceDao.findAllPieces();
+        List<PieceFindDto> pieceFindRespons = pieceDao.findAllPieces();
 
         List<Piece> pieces = new ArrayList<>();
-        for (PieceFindResponse pieceFindResponse : pieceFindResponses) {
-            pieces.add(createPiece(pieceFindResponse.pieceType(), pieceFindResponse.side()));
+        for (PieceFindDto pieceFindDto : pieceFindRespons) {
+            pieces.add(createPiece(pieceFindDto.pieceType(), pieceFindDto.side()));
         }
         return pieces;
     }

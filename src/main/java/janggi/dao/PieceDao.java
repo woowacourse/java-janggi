@@ -1,6 +1,6 @@
 package janggi.dao;
 
-import janggi.dao.dto.PieceFindResponse;
+import janggi.dao.dto.PieceFindDto;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Side;
 
@@ -13,19 +13,19 @@ import java.util.List;
 
 public class PieceDao {
 
-    public List<PieceFindResponse> findAllPieces() {
+    public List<PieceFindDto> findAllPieces() {
         final String query = "SELECT * FROM Piece";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            List<PieceFindResponse> findPieceResponses = new ArrayList<>();
+            List<PieceFindDto> findPieceResponses = new ArrayList<>();
             while (resultSet.next()) {
                 String type = resultSet.getString("type");
                 String side = resultSet.getString("side");
 
-                findPieceResponses.add(new PieceFindResponse(type, side));
+                findPieceResponses.add(new PieceFindDto(type, side));
             }
 
             return findPieceResponses;

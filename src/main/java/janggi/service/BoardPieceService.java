@@ -1,8 +1,7 @@
 package janggi.service;
 
 import janggi.dao.BoardPieceDao;
-import janggi.dao.dto.BoardPieceFindResponse;
-import janggi.dao.dto.PieceFindResponse;
+import janggi.dao.dto.BoardPieceFindDto;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -21,10 +20,10 @@ public class BoardPieceService {
     }
 
     public Map<Position, Piece> findAllBoardPieces() {
-        List<BoardPieceFindResponse> boardPieces = boardPieceDao.findAllPieces();
+        List<BoardPieceFindDto> boardPieces = boardPieceDao.findAllPieces();
 
         Map<Position, Piece> positionPieces = new HashMap<>();
-        for (BoardPieceFindResponse boardPiece : boardPieces) {
+        for (BoardPieceFindDto boardPiece : boardPieces) {
             Position position = new Position(boardPiece.x(), boardPiece.y());
             String pieceType = boardPiece.pieceType();
             String side = boardPiece.side();
