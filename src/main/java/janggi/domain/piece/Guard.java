@@ -4,10 +4,8 @@ import janggi.domain.game.Team;
 
 public final class Guard extends PalacePiece {
 
-    private final Team team;
-
     public Guard(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -18,10 +16,5 @@ public final class Guard extends PalacePiece {
     @Override
     public Type type() {
         return Type.GUARD;
-    }
-
-    @Override
-    public Team team() {
-        return team;
     }
 }

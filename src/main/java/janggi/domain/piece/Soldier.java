@@ -6,18 +6,16 @@ import static janggi.domain.movement.Movement.RIGHT;
 import static janggi.domain.movement.Movement.UP;
 
 import janggi.domain.game.Board;
-import janggi.domain.position.Position;
 import janggi.domain.game.Team;
 import janggi.domain.movement.Movement;
+import janggi.domain.position.Position;
 import java.util.List;
 import java.util.Set;
 
-public final class Soldier implements Piece {
-
-    private final Team team;
+public final class Soldier extends Piece {
 
     public Soldier(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -46,10 +44,5 @@ public final class Soldier implements Piece {
     @Override
     public Type type() {
         return Type.SOLDIER;
-    }
-
-    @Override
-    public Team team() {
-        return team;
     }
 }

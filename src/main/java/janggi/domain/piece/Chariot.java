@@ -5,12 +5,10 @@ import janggi.domain.game.Team;
 import janggi.domain.movement.Movement;
 import janggi.domain.position.Position;
 
-public final class Chariot implements Piece {
-
-    private final Team team;
+public final class Chariot extends Piece {
 
     public Chariot(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -37,10 +35,5 @@ public final class Chariot implements Piece {
     @Override
     public Type type() {
         return Type.CHARIOT;
-    }
-
-    @Override
-    public Team team() {
-        return team;
     }
 }

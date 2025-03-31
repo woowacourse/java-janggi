@@ -10,12 +10,17 @@ import static janggi.domain.movement.Movement.RIGHT_UP;
 import static janggi.domain.movement.Movement.UP;
 
 import janggi.domain.game.Board;
+import janggi.domain.game.Team;
 import janggi.domain.movement.Movement;
 import janggi.domain.position.Position;
 import java.util.List;
 import java.util.Set;
 
-public abstract class PalacePiece implements Piece {
+public abstract class PalacePiece extends Piece {
+
+    public PalacePiece(final Team team) {
+        super(team);
+    }
 
     @Override
     public void validateMove(final Position source, final Position destination, final Board board) {

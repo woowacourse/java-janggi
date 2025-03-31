@@ -6,12 +6,10 @@ import janggi.domain.movement.ElephantMovement;
 import janggi.domain.position.Position;
 import java.util.Arrays;
 
-public final class Elephant implements Piece {
-
-    private final Team team;
+public final class Elephant extends Piece {
 
     public Elephant(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -37,10 +35,5 @@ public final class Elephant implements Piece {
     @Override
     public Type type() {
         return Type.ELEPHANT;
-    }
-
-    @Override
-    public Team team() {
-        return team;
     }
 }

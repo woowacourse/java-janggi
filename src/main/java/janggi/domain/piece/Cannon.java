@@ -5,12 +5,10 @@ import janggi.domain.game.Team;
 import janggi.domain.movement.Movement;
 import janggi.domain.position.Position;
 
-public final class Cannon implements Piece {
-
-    private final Team team;
+public final class Cannon extends Piece {
 
     public Cannon(final Team team) {
-        this.team = team;
+        super(team);
     }
 
     @Override
@@ -49,10 +47,5 @@ public final class Cannon implements Piece {
     @Override
     public Type type() {
         return Type.CANNON;
-    }
-
-    @Override
-    public Team team() {
-        return team;
     }
 }
