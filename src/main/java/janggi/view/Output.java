@@ -72,10 +72,10 @@ public class Output {
         }
     }
 
-    public void printTeamScore(Team teamHan, Team teamCho) {
+    public void printTeamScore(double teamChoScore, double teamHanScore) {
         System.out.println();
         System.out.println("현재 각 팀의 점수는 다음과 같습니다");
-        System.out.println(CHO_BLUE + "초팀 점수: " + teamCho.getTeamScore() + RESET);
-        System.out.println(HAN_RED + "한팀 점수: " + teamHan.getTeamScore() + RESET);
+        System.out.println(CHO_BLUE + "초팀 점수: " + teamChoScore + RESET);
+        System.out.println(HAN_RED + "한팀 점수: " + teamHanScore + RESET);
     }
 }
