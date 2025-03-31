@@ -23,10 +23,9 @@ public class BoardPieceService {
     public JanggiBoard initializeBoardPieces(int newGameId) {
         JanggiBoard board = JanggiBoard.initializeWithPieces();
         Map<Position, Piece> positionPieces = board.getBoard();
-        for (Map.Entry<Position, Piece> positionPieceEntry : positionPieces.entrySet()) {
-            addBoardPiece(newGameId, positionPieceEntry.getKey(), positionPieceEntry.getValue());
+        for (Map.Entry<Position, Piece> positionPiece : positionPieces.entrySet()) {
+            insertDBIfNotEmpty(newGameId, positionPiece.getValue(), positionPiece.getKey());
         }
-
         return new JanggiBoard(positionPieces);
     }
 
@@ -77,5 +76,11 @@ public class BoardPieceService {
             sideTotalScores.put(side, board.sumSideTotalScore(side));
         }
         return sideTotalScores;
+    }
+
+    private void insertDBIfNotEmpty(final int newGameId, final Piece piece, final Position position) {
+        if (piece.isOccupied()) {
+            addBoardPiece(newGameId, position, piece);
+        }
     }
 }
