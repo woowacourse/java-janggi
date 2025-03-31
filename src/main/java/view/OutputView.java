@@ -39,7 +39,7 @@ public class OutputView {
         System.out.println("현재 턴은 " + country + "나라의 것입니다.");
 
         final StringBuilder sb = new StringBuilder("ㅁ 일 이 삼 사 오 육 칠 팔 구\n");
-        final Map<Position, Piece> pieces = board.getPieces();
+        final Map<Position, Piece> pieces = board.getPieceMap();
         for (int y = 1; y <= 10; y++) {
 
             sb.append(NumberFormat.findNumberName(y) + " ");
@@ -48,7 +48,7 @@ public class OutputView {
 
                 if (pieces.containsKey(now)) {
                     final Piece piece = pieces.get(now);
-                    sb.append(TEAM_FORMAT.get(piece.getTeamType()));
+                    sb.append(TEAM_FORMAT.get(piece.getCountry()));
                     sb.append(PIECE_FORMAT.get(piece.getClass()));
                     sb.append(COLOR_RESET + " ");
                     continue;

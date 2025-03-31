@@ -24,7 +24,7 @@ public class BoardFactoryTest {
             final Board board = factory.generateBoard();
 
             // then
-            Assertions.assertThat(board.getPieces()).hasSize(expected);
+            Assertions.assertThat(board.getPieceMap()).hasSize(expected);
         }
     }
 }

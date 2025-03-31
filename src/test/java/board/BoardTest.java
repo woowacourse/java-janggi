@@ -29,7 +29,7 @@ public class BoardTest {
             final var board = new Board(new HashMap<>());
 
             // then
-            assertThat(board.getPieces()).isNotNull();
+            assertThat(board.getPieceMap()).isNotNull();
         }
     }
 
