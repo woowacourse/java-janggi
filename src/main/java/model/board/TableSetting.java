@@ -1,21 +1,37 @@
 package model.board;
 
-import java.util.function.Supplier;
+import java.util.List;
+
+import model.Position;
 
 public enum TableSetting {
-    LEFT(LeftTableSettingInitializer::new),
-    RIGHT(RightTableSettingInitializer::new),
-    INSIDE(InsideTableSettingInitializer::new),
-    OUTSIDE(OutsideTableSettingInitializer::new),
+    LEFT(
+        List.of(new Position(1, 0), new Position(6, 0)),
+        List.of(new Position(2, 0), new Position(7, 0))),
+    RIGHT(
+    List.of(new Position(2, 0), new Position(7, 0)),
+        List.of(new Position(1, 0), new Position(6, 0))),
+    INSIDE(
+    List.of(new Position(2, 0), new Position(6, 0)),
+        List.of(new Position(1, 0), new Position(7, 0))),
+    OUTSIDE(
+    List.of(new Position(1, 0), new Position(7, 0)),
+        List.of(new Position(2, 0), new Position(6, 0))),
     ;
 
-    private final Supplier<Initializer> initializerSupplier;
+    private final List<Position> elephant;
+    private final List<Position> horse;
 
-    TableSetting(Supplier<Initializer> initializerSupplier) {
-        this.initializerSupplier = initializerSupplier;
+    TableSetting(List<Position> elephant, List<Position> horse) {
+        this.elephant = elephant;
+        this.horse = horse;
     }
 
-    Initializer getInitializer() {
-        return initializerSupplier.get();
+    public List<Position> getElephant() {
+        return elephant;
+    }
+
+    public List<Position> getHorse() {
+        return horse;
     }
 }

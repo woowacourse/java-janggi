@@ -3,33 +3,28 @@ package model.board;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Position;
 import model.Team;
 import model.piece.Chariot;
 import model.piece.Pao;
 import model.piece.Piece;
+import model.piece.normal.Elephant;
+import model.piece.normal.Horse;
 import model.piece.normal.Pawn;
 import model.piece.palace.King;
 import model.piece.palace.Soldier;
 
-abstract class Initializer {
+final class Initializer {
 
-    public static List<Piece> settingWith(Team team, TableSetting tableSetting) {
-        return tableSetting.getInitializer().generatePiecesOf(team);
-    }
-
-    protected abstract List<Piece> generateElephant(Team team);
-
-    protected abstract List<Piece> generateHorse(Team team);
-
-    public final List<Piece> generatePiecesOf(Team team) {
+    public List<Piece> generatePiecesOf(Team team, TableSetting tableSetting) {
         List<Piece> pieces = new ArrayList<>();
         pieces.addAll(generatePalace(team));
         pieces.addAll(generateSoldier(team));
         pieces.addAll(generatePao(team));
         pieces.addAll(generatePawn(team));
-        pieces.addAll(generateElephant(team));
-        pieces.addAll(generateHorse(team));
         pieces.addAll(generateChariot(team));
+        pieces.addAll(generateElephant(team, tableSetting));
+        pieces.addAll(generateHorse(team, tableSetting));
         return pieces;
     }
 
@@ -68,5 +63,19 @@ abstract class Initializer {
         pieces.add(new Chariot(team.onBaseX(0), team.onBaseY(0), team));
         pieces.add(new Chariot(team.onBaseX(8), team.onBaseY(0), team));
         return pieces;
+    }
+
+    private List<Piece> generateElephant(Team team, TableSetting tableSetting) {
+        return generatePiecesWithTableSetting(team, tableSetting.getElephant(), Elephant::new);
+    }
+
+    private List<Piece> generateHorse(Team team, TableSetting tableSetting) {
+        return generatePiecesWithTableSetting(team, tableSetting.getHorse(), Horse::new);
+    }
+
+    private List<Piece> generatePiecesWithTableSetting(Team team, List<Position> positions, PieceConstructor constructor) {
+        return positions.stream()
+            .map(position -> constructor.construct(team.onBaseX(position.x()), team.onBaseY(position.y()), team))
+            .toList();
     }
 }

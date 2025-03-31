@@ -19,16 +19,13 @@ public class Board implements BoardSearcher {
 
     private final List<Piece> pieces;
 
-    public Board() {
-        this(new ArrayList<>());
-    }
-
     public Board(List<Piece> pieces) {
         this.pieces = new ArrayList<>(pieces);
     }
 
     public void addTeamPieces(Team team, TableSetting tableSetting) {
-        pieces.addAll(Initializer.settingWith(team, tableSetting));
+        Initializer initializer = new Initializer();
+        pieces.addAll(initializer.generatePiecesOf(team, tableSetting));
     }
 
     public boolean hasPieceOn(Position position) {

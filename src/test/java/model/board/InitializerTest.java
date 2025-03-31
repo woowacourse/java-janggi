@@ -23,7 +23,8 @@ class InitializerTest {
     })
     @DisplayName("팀과 상차림에 맞는 기물들을 생성한다.")
     void settingWithTest(Team team, TableSetting setting, int x, int y) {
-        List<Piece> pieces = Initializer.settingWith(team, setting);
+        Initializer initializer = new Initializer();
+        List<Piece> pieces = initializer.generatePiecesOf(team, setting);
 
         assertThat(pieces.getFirst().getTeam()).isEqualTo(team);
         assertThat(getHorseOf(pieces).getPosition()).isEqualTo(new Position(team.onBaseX(x), team.onBaseY(y)));
