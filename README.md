@@ -81,36 +81,37 @@
 CREATE DATABASE janggi DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE DATABASE janggi_test DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE Team (
-team_id INT PRIMARY KEY,
-team_name VARCHAR(10) NOT NULL
-);
-
-CREATE TABLE Position (
-position_id INT AUTO_INCREMENT PRIMARY KEY,
-x INT NOT NULL,
-y INT NOT NULL,
-UNIQUE (x, y)
-);
-
+USE janggi;
 
 CREATE TABLE Piece (
-piece_id INT AUTO_INCREMENT PRIMARY KEY,
-piece_type VARCHAR(50) NOT NULL,
-team_id INT,
-position_id INT,
-FOREIGN KEY (position_id) REFERENCES Position (position_id),
-FOREIGN KEY (team_id) REFERENCES Team (team_id)
+                       id INT AUTO_INCREMENT PRIMARY KEY,
+                       piece_type VARCHAR(50) NOT NULL,
+                       team VARCHAR(10) NOT NULL,
+                       x INT NOT NULL,
+                       y INT NOT NULL
 );
 
 CREATE TABLE Turn (
-team_id int PRIMARY KEY
+                      id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                      team VARCHAR(10)
 );
 
-INSERT INTO Team (team_id, team_name)
-VALUES
-(1, 'RED'),
-(2, 'BLUE');
+USE janggi_test;
+
+CREATE TABLE Piece (
+                       id INT AUTO_INCREMENT PRIMARY KEY,
+                       piece_type VARCHAR(50) NOT NULL,
+                       team VARCHAR(10) NOT NULL,
+                       x INT NOT NULL,
+                       y INT NOT NULL
+);
+
+CREATE TABLE Turn (
+                      id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                      team VARCHAR(10)
+);
+
+
 ```
 
 - [x] 이후 인텔리제이와의 연결 후 사용한다.
