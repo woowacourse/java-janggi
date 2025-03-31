@@ -13,19 +13,19 @@ public enum Direction {
     DOWN_RIGHT(1, -1),
     ;
 
-    private final int dFile;
-    private final int dRank;
+    private final int fileToAdd;
+    private final int rankToAdd;
 
-    Direction(final int dFile, final int dRank) {
-        this.dFile = dFile;
-        this.dRank = dRank;
+    Direction(final int fileToAdd, final int rankToAdd) {
+        this.fileToAdd = fileToAdd;
+        this.rankToAdd = rankToAdd;
     }
 
     public int getFileToAdd() {
-        return dFile;
+        return fileToAdd;
     }
 
     public int getRankToAdd() {
-        return dRank;
+        return rankToAdd;
     }
 }
