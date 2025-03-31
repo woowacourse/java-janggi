@@ -45,6 +45,14 @@ public class Position {
         return PALACE_POSITIONS.contains(this);
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
