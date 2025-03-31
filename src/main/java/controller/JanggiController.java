@@ -1,5 +1,8 @@
 package controller;
 
+import dao.GameDao;
+import dao.JdbcConnection;
+import dao.PieceDao;
 import domain.board.Board;
 import domain.board.BoardLocation;
 import domain.game.JanggiGame;
@@ -17,18 +20,20 @@ import view.ConsoleView;
 public class JanggiController {
 
     private final ConsoleView consoleView;
-    private final GameService gameService;
-    private final PieceService pieceService;
+    private final GameDao gameDao;
+    private final PieceDao pieceDao;
 
-    public JanggiController(ConsoleView consoleView, GameService gameService, PieceService pieceService) {
+    private static final int GAME_ID = 1;
+
+    public JanggiController(ConsoleView consoleView, GameDao gameDao, PieceDao pieceDao) {
         this.consoleView = consoleView;
-        this.gameService = gameService;
-        this.pieceService = pieceService;
+        this.gameDao = gameDao;
+        this.pieceDao = pieceDao;
     }
 
     public void start() {
-        Optional<BoardDto> boardDto = pieceService.getAlivePieces();
-        Optional<TurnDto> turnDto = gameService.findTurn();
+        Optional<BoardDto> boardDto = pieceDao.findByAllAlivePieces();
+        Optional<TurnDto> turnDto = gameDao.findTurnByGameId(GAME_ID);
         JanggiGame janggiGame;
         if (boardDto.isEmpty() || turnDto.isEmpty()) {
             janggiGame = initializeJanggiGame();
@@ -46,8 +51,9 @@ public class JanggiController {
                 BoardLocation destination = consoleView.requestDestination();
 
                 janggiGame.process(current, destination);
-                pieceService.movePiece(current, destination);
-                gameService.saveTurn(janggiGame);
+                pieceDao.deleteBoard(destination);
+                pieceDao.updateBoard(current, destination);
+                gameDao.saveTurn(janggiGame.getTurn());
                 isGameStopped = janggiGame.isGameStopped();
                 consoleView.showBoard(janggiGame.getBoard().getPieces());
             } catch (RuntimeException e) {
@@ -59,8 +65,8 @@ public class JanggiController {
 
     private JanggiGame initializeJanggiGame() {
         JanggiGame janggiGame = createJanggiGame();
-        gameService.insertInitializeGameTurn();
-        pieceService.insertInitializePieceIfNotExists(janggiGame);
+        gameDao.insertGameTurn(Team.CHO);
+        pieceDao.initializePieceIfNotExists(janggiGame.getBoard());
         return janggiGame;
     }
 
