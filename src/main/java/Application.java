@@ -1,10 +1,10 @@
 import controller.JanggiController;
 import domain.board.repository.BoardRepository;
 import domain.turn.repository.TurnRepository;
-import infrastructure.dao.PieceDao;
-import infrastructure.dao.TurnDao;
-import infrastructure.repository.BoardRepositoryAdapter;
-import infrastructure.repository.TurnRepositoryAdapter;
+import infra.dao.PieceDao;
+import infra.dao.TurnDao;
+import infra.repository.BoardRepositoryAdapter;
+import infra.repository.TurnRepositoryAdapter;
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;

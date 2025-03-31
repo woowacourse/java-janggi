@@ -1,4 +1,4 @@
-package infrastructure.repository;
+package infra.repository;
 
 import domain.board.Board;
 import domain.board.BoardPosition;

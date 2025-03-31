@@ -3,6 +3,7 @@ package domain.piece;
 import domain.board.Movement;
 import domain.board.Offset;
 import java.util.List;
+import java.util.Objects;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class Piece {
@@ -57,4 +58,19 @@ public abstract class Piece {
     }
 
     public abstract Score getScore();
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final Piece piece = (Piece) o;
+        return pieceType == piece.pieceType && team == piece.team;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceType, team);
+    }
 }

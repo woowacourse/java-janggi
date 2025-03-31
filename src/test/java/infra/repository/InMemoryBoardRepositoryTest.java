@@ -1,4 +1,4 @@
-package infrastructure.repository;
+package infra.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,7 +39,7 @@ class InMemoryBoardRepositoryTest {
             // given
             InMemoryBoardRepository repository = new InMemoryBoardRepository();
 
-            // when then
+            // when & then
             assertThat(repository.load().getPieces()).isEmpty();
         }
 

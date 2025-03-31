@@ -1,4 +1,4 @@
-package infrastructure.repository;
+package infra.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
@@ -15,7 +15,7 @@ class InMemoryTurnRepositoryTest {
     class ValidCases {
 
         @Test
-        @DisplayName("턴을 저장하면 조회할 수 있다.")
+        @DisplayName("턴을 저장할 수 있다.")
         void save() {
             // given
             InMemoryTurnRepository repository = new InMemoryTurnRepository();

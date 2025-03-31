@@ -1,4 +1,4 @@
-package infrastructure.repository;
+package infra.repository;
 
 import domain.turn.Turn;
 import domain.turn.repository.TurnRepository;

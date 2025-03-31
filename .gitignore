@@ -32,4 +32,5 @@ out/
 .vscode/
 
 ## DB ###
-docker/db
+docker/db/mysql/data
+docker/db/test-mysql/data

@@ -1,6 +1,7 @@
 package domain.turn;
 
 import domain.piece.Team;
+import java.util.Objects;
 
 public class Turn {
 
@@ -23,5 +24,20 @@ public class Turn {
 
     public Team getCurrentTeam() {
         return currentTeam;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        
+        final Turn turn = (Turn) o;
+        return currentTeam == turn.currentTeam;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(currentTeam);
     }
 }

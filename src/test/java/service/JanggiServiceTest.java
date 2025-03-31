@@ -7,8 +7,8 @@ import domain.board.BoardPosition;
 import domain.piece.Jju;
 import domain.piece.Team;
 import domain.turn.Turn;
-import infrastructure.repository.InMemoryBoardRepository;
-import infrastructure.repository.InMemoryTurnRepository;
+import infra.repository.InMemoryBoardRepository;
+import infra.repository.InMemoryTurnRepository;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,13 +17,13 @@ import org.junit.jupiter.api.Test;
 
 class JanggiServiceTest {
 
-    private InMemoryBoardRepository boardRepository;
-    private InMemoryTurnRepository turnRepository;
+    private final InMemoryBoardRepository boardRepository = new InMemoryBoardRepository();
+    private final InMemoryTurnRepository turnRepository = new InMemoryTurnRepository();
 
     @BeforeEach
     void setUp() {
-        boardRepository = new InMemoryBoardRepository();
-        turnRepository = new InMemoryTurnRepository();
+        boardRepository.deleteAll();
+        turnRepository.deleteAll();
     }
 
     @Nested
