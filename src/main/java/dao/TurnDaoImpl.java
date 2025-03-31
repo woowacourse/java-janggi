@@ -24,10 +24,10 @@ public class TurnDaoImpl implements TurnDao {
                 String turn = resultSet.getString("turn");
                 return Team.valueOf(turn);
             }
+            return null;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 턴 기록 조회 중 오류가 발생했습니다" + e.getMessage(), e);
         }
-        return null;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class TurnDaoImpl implements TurnDao {
             preparedStatement.setString(1, turn.name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 턴 기록 저장 중 오류가 발생했습니다" + e.getMessage(), e);
         }
     }
 
@@ -47,7 +47,7 @@ public class TurnDaoImpl implements TurnDao {
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 턴 기록 삭제 중 오류가 발생했습니다" + e.getMessage(), e);
         }
     }
 }

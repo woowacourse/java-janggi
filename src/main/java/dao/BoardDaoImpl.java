@@ -28,10 +28,10 @@ public class BoardDaoImpl implements BoardDao {
                 int count = resultSet.getInt(1);
                 return count > 0;
             }
+            return false;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 보드 기록 조회 중 오류가 발생했습니다" + e.getMessage(), e);
         }
-        return false;
     }
 
     @Override
@@ -47,10 +47,10 @@ public class BoardDaoImpl implements BoardDao {
                 String pieceType = resultSet.getString("piece_type");
                 board.put(Point.of(row, column), PieceType.createPiece(team, pieceType));
             }
+            return board;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 보드 기록 조회 중 오류가 발생했습니다" + e.getMessage(), e);
         }
-        return board;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class BoardDaoImpl implements BoardDao {
             preparedStatement.setString(4, piece.type().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 보드 기록 저장 중 오류가 발생했습니다" + e.getMessage(), e);
         }
     }
 
@@ -73,7 +73,7 @@ public class BoardDaoImpl implements BoardDao {
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 보드 기록 삭제 중 오류가 발생했습니다" + e.getMessage(), e);
         }
     }
 }
