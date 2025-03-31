@@ -59,3 +59,16 @@
 - 왕, 사는 궁성 영역 내에서만 움직일 수 있다.
 - 왕, 사는 정가운데를 포함한 궁성 영역의 양 꼭짓점에서 대각선 이동이 가능하다.
 - 포, 차는 정가운데를 포함한 궁성 영역의 양 꼭짓점에서 대각선 이동이 가능하다.
+
+## DB 연결
+
+```sql
+CREATE TABLE piece
+(
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    column_name VARCHAR(1)  NOT NULL,
+    row_name    VARCHAR(1)  NOT NULL,
+    country     VARCHAR(3)  NOT NULL,
+    piece_type  VARCHAR(10) NOT NULL
+);
+```

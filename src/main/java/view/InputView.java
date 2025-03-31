@@ -60,5 +60,4 @@ public class InputView {
         String input = scanner.nextLine().trim().toLowerCase();
         return input.equals("y");
     }
-
 }

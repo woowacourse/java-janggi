@@ -1,7 +1,9 @@
 package game;
 
 import dao.BoardDao;
+import dao.TurnDao;
 import dto.PieceDto;
+import dto.TurnDto;
 import java.util.List;
 import piece.Country;
 import position.Position;
@@ -13,6 +15,7 @@ public class JanggiGame {
     private final InputView inputView;
     private final OutputView outputView;
     private final BoardDao boardDao = new BoardDao(); // 추가
+    private final TurnDao turnDao = new TurnDao();
     private Country turnCountry = Country.CHO;
 
     public JanggiGame(InputView inputView, OutputView outputView) {
@@ -21,7 +24,10 @@ public class JanggiGame {
     }
 
     public void run() {
-        Board board = setGame();
+        boolean isLoad = inputView.askLoadSavedGame();
+        Board board = setBoard(isLoad);
+        setTurnCountry(isLoad);
+
         outputView.displayBoard(board);
         while (true) {
             if (isGameFinished(board)) {
@@ -41,7 +47,7 @@ public class JanggiGame {
             outputView.displayCountryScore(turnCountry, board.getCountryScore(turnCountry));
             List<String> moveInfo = inputView.readMoveCommand();
 
-            if (moveInfo.get(0).equalsIgnoreCase("quit")) {
+            if (moveInfo.get(0).equals("quit")) {
                 saveBoard(board);
                 System.out.println("게임을 저장하고 종료합니다.");
                 return false;
@@ -60,8 +66,8 @@ public class JanggiGame {
         return true;
     }
 
-    private Board setGame() {
-        if (inputView.askLoadSavedGame()) {
+    private Board setBoard(boolean isLoad) {
+        if (isLoad) {
             List<PieceDto> saved = boardDao.loadAll();
             if (!saved.isEmpty()) {
                 System.out.println("저장된 게임을 불러옵니다.");
@@ -73,6 +79,13 @@ public class JanggiGame {
         StartSet choSet = inputView.getStartingPosition(Country.CHO);
         StartSet hanSet = inputView.getStartingPosition(Country.HAN);
         return new Board(choSet, hanSet);
+    }
+
+    private void setTurnCountry(boolean isLoad) {
+        if (isLoad) {
+            TurnDto saved = turnDao.loadTurnCountry();
+            turnCountry = Country.of(saved.country());
+        }
     }
 
     private void saveBoard(Board board) {
