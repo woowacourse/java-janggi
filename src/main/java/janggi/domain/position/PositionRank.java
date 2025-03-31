@@ -19,7 +19,7 @@ public enum PositionRank {
     RANK_10(10),
     ;
 
-    public final int amount;
+    private final int amount;
 
     PositionRank(final int amount) {
         this.amount = amount;
@@ -34,7 +34,7 @@ public enum PositionRank {
     }
 
     private static int getReversedRankAmount(final int value) {
-        return 11 - value;
+        return maxRankAmount() - value + 1;
     }
 
     public static PositionRank findByAmount(final int amount) {
@@ -84,5 +84,13 @@ public enum PositionRank {
 
     public boolean isBetween(final PositionRank minRank, final PositionRank maxRank) {
         return minRank.ordinal() <= ordinal() && ordinal() <= maxRank.ordinal();
+    }
+
+    public int amount() {
+        return amount;
+    }
+
+    public static int maxRankAmount() {
+        return RANK_10.amount;
     }
 }

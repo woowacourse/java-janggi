@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class OutputView {
 
-    private static final int BOARD_RANK_SIZE = 11;
     private static final int BOARD_FILE_SIZE = 10;
 
     private final ViewUtil viewUtil;
@@ -25,8 +24,8 @@ public class OutputView {
         insertPieces(board, boardValue);
 
         final StringBuilder sb = new StringBuilder();
-        for (int rankIndex = BOARD_RANK_SIZE - 1; rankIndex >= 0; rankIndex--) {
-            for (int fileIndex = 0; fileIndex < BOARD_FILE_SIZE; fileIndex++) {
+        for (int rankIndex = PositionRank.maxRankAmount(); rankIndex >= 0; rankIndex--) {
+            for (int fileIndex = 0; fileIndex <= PositionFile.maxFileAmount(); fileIndex++) {
                 sb.append(boardValue[rankIndex][fileIndex]);
             }
             sb.append("\n");
@@ -35,17 +34,17 @@ public class OutputView {
     }
 
     private static String[][] initializeBoard() {
-        final String[][] boardValue = new String[BOARD_RANK_SIZE][BOARD_FILE_SIZE];
-        for (int rankIndex = 0; rankIndex < BOARD_RANK_SIZE; rankIndex++) {
-            for (int fileIndex = 0; fileIndex < BOARD_FILE_SIZE; fileIndex++) {
+        final String[][] boardValue = new String[PositionRank.maxRankAmount() + 1][PositionFile.maxFileAmount() + 1];
+        for (int rankIndex = 0; rankIndex <= PositionRank.maxRankAmount(); rankIndex++) {
+            for (int fileIndex = 0; fileIndex <= PositionFile.maxFileAmount(); fileIndex++) {
                 boardValue[rankIndex][fileIndex] = "\t";
             }
         }
         for (PositionRank rank : PositionRank.values()) {
-            boardValue[rank.amount][0] = rank.amount + "\t";
+            boardValue[rank.amount()][0] = rank.amount() + "\t";
         }
         for (PositionFile file : PositionFile.values()) {
-            boardValue[0][file.amount] = file.amount + "\t";
+            boardValue[0][file.amount()] = file.amount() + "\t";
         }
         return boardValue;
     }
@@ -54,7 +53,7 @@ public class OutputView {
         for (PositionRank rank : PositionRank.values()) {
             for (PositionFile file : PositionFile.values()) {
                 Position position = new Position(file, rank);
-                boardValue[rank.amount][file.amount] = viewUtil.parsePieceOf(board, position);
+                boardValue[rank.amount()][file.amount()] = viewUtil.parsePieceOf(board, position);
             }
         }
     }

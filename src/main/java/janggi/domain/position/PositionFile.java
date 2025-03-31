@@ -16,7 +16,7 @@ public enum PositionFile {
     FILE_9(9),
     ;
 
-    public final int amount;
+    private final int amount;
 
     PositionFile(final int amount) {
         this.amount = amount;
@@ -63,5 +63,13 @@ public enum PositionFile {
 
     public boolean isBetween(final PositionFile minFile, final PositionFile maxFile) {
         return minFile.ordinal() <= ordinal() && ordinal() <= maxFile.ordinal();
+    }
+
+    public int amount() {
+        return amount;
+    }
+
+    public static int maxFileAmount() {
+        return FILE_9.amount;
     }
 }
