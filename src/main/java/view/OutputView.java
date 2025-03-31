@@ -74,4 +74,9 @@ public class OutputView {
         System.out.println("초나라 승리!");
     }
 
+    public void printScore(int hanScore, int choScore) {
+        System.out.println("한나라 점수 : " + hanScore);
+        System.out.println("초나라 점수 : " + choScore);
+    }
+
 }

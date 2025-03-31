@@ -29,6 +29,20 @@ public class InputView {
         return getUserPositionUntilValidate();
     }
 
+    public boolean getUserWantToPlayReset() {
+        System.out.println("다시 시작하시겠습니까? (Y or N)");
+        try {
+            String userInput = readLine();
+            if (!userInput.matches("[Y|N]")) {
+                throw new IllegalArgumentException("[ERROR] Y, N 중에 하나만 입력해 주세요.");
+            }
+            return userInput.equals("Y");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return getUserWantToPlayReset();
+        }
+    }
+
     private int parseInt(final String input) {
         try {
             return Integer.parseInt(input);
