@@ -1,6 +1,6 @@
 package janggi;
 
-import janggi.domain.board.BoardInitializer;
+import janggi.domain.GameState;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
@@ -52,29 +52,31 @@ public class JanggiGame {
     }
 
     private void playTurns(JanggiBoard board) {
-        List<Side> turns = getTurns();
-        if (turns.contains(Side.NONE)) {
+        List<GameState> turns = getTurns();
+        if (turns.contains(GameState.ENDED)) {
             outputView.printAlreadyEnded();
             return ;
         }
         while (true) {
-            for (Side turn : turns) {
+            for (GameState turn : turns) {
                 gameService.updateGameState(getGameId(), turn);
-                Piece catchedPiece = playTurn(turn, board);
 
-                if (board.checkGameIsOver(turn)) {
-                    outputView.printEndMessage(turn, catchedPiece);
+                Side side = Side.getSideByName(turn.getName());
+                Piece catchedPiece = playTurn(side, board);
+
+                if (board.checkGameIsOver(side)) {
+                    outputView.printEndMessage(side, catchedPiece);
                     printTotalScores(board);
-                    gameService.updateGameState(getGameId(), Side.NONE);
+                    gameService.updateGameState(getGameId(), GameState.ENDED);
                     return ;
                 }
             }
         }
     }
 
-    private List<Side> getTurns() {
-        Side turn = gameService.getState(getGameId());
-        return turn.getSideByState();
+    private List<GameState> getTurns() {
+        GameState turn = gameService.getState(getGameId());
+        return turn.getTurnsByState();
     }
 
     private Piece playTurn(final Side side, JanggiBoard board) {

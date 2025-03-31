@@ -1,5 +1,6 @@
 package janggi.dao;
 
+import janggi.domain.GameState;
 import janggi.domain.piece.Side;
 
 import java.sql.Connection;
@@ -58,11 +59,11 @@ public class GameDao {
         }
     }
 
-    public void updateState(int gameId, Side side) {
+    public void updateState(int gameId, GameState gameState) {
         final String query = "UPDATE Game SET state = ? WHERE game_id = ?";
         try (final Connection connection = DatabaseConnectionManager.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, side.getName());
+            preparedStatement.setString(1, gameState.getName());
             preparedStatement.setInt(2, gameId);
 
             preparedStatement.executeUpdate();

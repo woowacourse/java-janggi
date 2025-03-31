@@ -6,7 +6,7 @@ public enum Side {
 
     CHO("초나라"),
     HAN("한나라"),
-    NONE("게임 종료");
+    NONE("");
 
     private final String name;
 
@@ -33,16 +33,6 @@ public enum Side {
             return Side.HAN;
         }
         return Side.NONE;
-    }
-
-    public List<Side> getSideByState() {
-        if(this == Side.HAN) {
-            return List.of(Side.HAN, Side.CHO);
-        }
-        if(this == Side.CHO) {
-            return List.of(Side.CHO, Side.HAN);
-        }
-        return List.of(Side.NONE);
     }
 
     public String getName() {

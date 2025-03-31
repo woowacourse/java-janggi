@@ -1,6 +1,7 @@
 package janggi.service;
 
 import janggi.dao.GameDao;
+import janggi.domain.GameState;
 import janggi.domain.piece.Side;
 
 import java.util.Map;
@@ -26,12 +27,12 @@ public class GameService {
         return gameDao.findAllGames();
     }
 
-    public void updateGameState(int gameId, Side side) {
-        gameDao.updateState(gameId, side);
+    public void updateGameState(int gameId, GameState gameState) {
+        gameDao.updateState(gameId, gameState);
     }
 
-    public Side getState(int gameId) {
+    public GameState getState(int gameId) {
         String state = gameDao.findStateById(gameId);
-        return Side.getSideByName(state);
+        return GameState.getStateByName(state);
     }
 }
