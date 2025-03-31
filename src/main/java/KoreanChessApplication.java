@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import persistence.JanggiPersistenceService;
+import persistence.JanggiGamePersistence;
 import persistence.MySQLConnection;
 import persistence.PersistenceFailException;
 import piece.Piece;
@@ -19,7 +19,7 @@ public class KoreanChessApplication {
 
     private static final int PLAYER_SIZE = 2;
     private static final Map<Integer, Team> turnTable;
-    private static JanggiPersistenceService janggiPersistenceService;
+    private static JanggiGamePersistence janggiGamePersistence;
 
     static {
         turnTable = Map.of(0, Team.RED, 1, Team.BLUE);
@@ -34,7 +34,7 @@ public class KoreanChessApplication {
 
     private static void initiateJanggiService(GameView gameView) {
         try {
-            janggiPersistenceService = new JanggiPersistenceService(new MySQLConnection());
+            janggiGamePersistence = new JanggiGamePersistence(new MySQLConnection());
         } catch (PersistenceFailException e) {
             gameView.printCanNotApplySave(e.getMessage());
         }
@@ -56,10 +56,10 @@ public class KoreanChessApplication {
     }
 
     private static PlayerPieces initiatePiecesFromPreviousGame() {
-        if (janggiPersistenceService == null) {
+        if (janggiGamePersistence == null) {
             throw new PersistenceFailException(GAME_SAVE_NOT_AVAILABLE);
         }
-        Pieces previousPieces = janggiPersistenceService.loadPieces();
+        Pieces previousPieces = janggiGamePersistence.loadPieces();
         Map<Team, Pieces> teamPieces = new InitiateJanggiTeamPieces(previousPieces).janggiInitiatePieces();
         return new PlayerPieces(teamPieces);
     }
@@ -93,7 +93,7 @@ public class KoreanChessApplication {
 
     private static void resetJanggi(GameView gameView) {
         try {
-            janggiPersistenceService.resetJanggi();
+            janggiGamePersistence.resetJanggi();
         } catch (PersistenceFailException e) {
             gameView.printError(e.getMessage());
         }
@@ -103,22 +103,22 @@ public class KoreanChessApplication {
         if (!isNextTurn) {
             return;
         }
-        if (janggiPersistenceService == null) {
+        if (janggiGamePersistence == null) {
             return;
         }
         try {
-            janggiPersistenceService.saveJanggi(playerPieces, turn, determineCurrentPlayTeam(turn));
+            janggiGamePersistence.saveJanggi(playerPieces, turn, determineCurrentPlayTeam(turn));
         } catch (PersistenceFailException e) {
             gameView.printError(e.getMessage());
         }
     }
 
     private static int initiateTurn() {
-        if (janggiPersistenceService == null) {
+        if (janggiGamePersistence == null) {
             return 0;
         }
         try {
-            Optional<Integer> previousTurn = janggiPersistenceService.findPreviousTurn();
+            Optional<Integer> previousTurn = janggiGamePersistence.findPreviousTurn();
             return previousTurn.map(turn -> turn + 1).orElse(0);
         } catch (PersistenceFailException e) {
             return 0;

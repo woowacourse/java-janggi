@@ -7,18 +7,18 @@ import piece.Pieces;
 import piece.player.PlayerPieces;
 import piece.player.Team;
 
-public class JanggiPersistenceService {
+public class JanggiGamePersistence {
 
     private final JanggiTurnDao janggiTurnDao;
     private final JanggiPieceDao janggiPieceDao;
     private final String PIECES_DOESNT_EXIST = "피스 정보가 존재하지 않습니다";
 
-    public JanggiPersistenceService(DatabaseConnection databaseConnection) {
+    public JanggiGamePersistence(DatabaseConnection databaseConnection) {
         janggiTurnDao = new MySQLJanggiTurnDao(databaseConnection);
         janggiPieceDao = new MySQLJanggiPieceDao(databaseConnection);
     }
 
-    public JanggiPersistenceService(JanggiTurnDao janggiTurnDao, JanggiPieceDao janggiPieceDao) {
+    public JanggiGamePersistence(JanggiTurnDao janggiTurnDao, JanggiPieceDao janggiPieceDao) {
         this.janggiTurnDao = janggiTurnDao;
         this.janggiPieceDao = janggiPieceDao;
     }

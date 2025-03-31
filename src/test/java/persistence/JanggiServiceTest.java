@@ -15,12 +15,12 @@ import piece.position.JanggiPosition;
 
 class JanggiServiceTest {
 
-    private final JanggiPersistenceService janggiPersistenceService = new JanggiPersistenceService(
+    private final JanggiGamePersistence janggiGamePersistence = new JanggiGamePersistence(
             new FakeJanggiTurnDao(), new FakeJanggiPieceDao());
 
     @AfterEach
     void clearDatabases() {
-        janggiPersistenceService.resetJanggi();
+        janggiGamePersistence.resetJanggi();
     }
 
     @Test
@@ -31,8 +31,8 @@ class JanggiServiceTest {
                         Team.RED, new Pieces(
                                 List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.RED)))
                 ));
-        janggiPersistenceService.saveJanggi(playerPieces, 1, Team.BLUE);
-        Assertions.assertTrue(janggiPersistenceService.isPreviousGameExist());
+        janggiGamePersistence.saveJanggi(playerPieces, 1, Team.BLUE);
+        Assertions.assertTrue(janggiGamePersistence.isPreviousGameExist());
     }
 
     @Test
@@ -43,8 +43,8 @@ class JanggiServiceTest {
                         Team.RED, new Pieces(
                                 List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.RED)))
                 ));
-        janggiPersistenceService.saveJanggi(playerPieces, 1, Team.BLUE);
-        Optional<Integer> previousTurn = janggiPersistenceService.findPreviousTurn();
+        janggiGamePersistence.saveJanggi(playerPieces, 1, Team.BLUE);
+        Optional<Integer> previousTurn = janggiGamePersistence.findPreviousTurn();
         Assertions.assertEquals(previousTurn.get(), 1);
     }
 
@@ -56,8 +56,8 @@ class JanggiServiceTest {
                         Team.RED, new Pieces(
                                 List.of(new Piece(new JanggiPosition(0, 1), new JolMoveBehavior(), Team.RED)))
                 ));
-        janggiPersistenceService.saveJanggi(playerPieces, 1, Team.BLUE);
-        Pieces pieces = janggiPersistenceService.loadPieces();
+        janggiGamePersistence.saveJanggi(playerPieces, 1, Team.BLUE);
+        Pieces pieces = janggiGamePersistence.loadPieces();
         Assertions.assertEquals(pieces.size(), 2);
     }
 }
