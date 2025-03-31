@@ -31,9 +31,9 @@ public final class Board {
     }
 
     public static Board continueWith(final Map<Country, List<Piece>> pieces, final Country turn) {
-        final Team team1 = new Team(pieces.get(Country.CHO), Country.CHO);
-        final Team team2 = new Team(pieces.get(Country.HAN), Country.HAN);
-        return new Board(team1, team2, turn == Country.CHO);
+        final Team team1 = new Team(pieces.get(turn), turn);
+        final Team team2 = new Team(pieces.get(turn.opponent()), turn.opponent());
+        return new Board(team1, team2, true);
     }
 
     private void validateTeamIsNotNull(final Team team1, final Team team2) {
