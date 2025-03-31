@@ -9,6 +9,7 @@ import domain.game.Turn;
 import domain.piece.Piece;
 import domain.piece.Team;
 import java.util.Map;
+import java.util.Optional;
 import view.ConsoleView;
 
 public class JanggiController {
@@ -23,9 +24,7 @@ public class JanggiController {
 
     public void start() {
         Long janggiGameId = 1L; // 추후 사용자에게 입력받기
-        JanggiGame janggiGame = transactionManager.findById(janggiGameId)
-                .orElse(createJanggiGame());
-
+        JanggiGame janggiGame = prepareGame(janggiGameId);
         consoleView.showBoard(janggiGame.getBoard().getPieces());
         boolean isGameStopped = false;
         while (!isGameStopped) {
@@ -48,11 +47,17 @@ public class JanggiController {
         consoleView.showWinner(janggiGame.getTurn());
     }
 
+    private JanggiGame prepareGame(Long janggiGameId) {
+        Optional<JanggiGame> janggiGame = transactionManager.findById(janggiGameId);
+        return janggiGame.orElseGet(this::createJanggiGame);
+    }
+
     private JanggiGame createJanggiGame() {
         Map<BoardLocation, Piece> placements = consoleView.requestPlacements();
         Board board = Board.createWithPieces(placements);
         Turn turn = Turn.getStartingTurn();
         JanggiGame janggiGame = new JanggiGame(board, turn);
+        transactionManager.createTable();
         transactionManager.create(janggiGame);
         return janggiGame;
     }
