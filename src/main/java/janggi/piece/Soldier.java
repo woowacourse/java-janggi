@@ -20,7 +20,7 @@ public class Soldier extends Piece {
 
     @Override
     protected boolean canMove(final JanggiPosition now, final JanggiPosition destination, final VisibleBoard visibleBoard) {
-        if (isDestinationDirectionFront(now, destination, country)) {
+        if (!isDestinationDirectionFront(now, destination, country)) {
             return false;
         }
 
@@ -33,9 +33,9 @@ public class Soldier extends Piece {
 
     private boolean isDestinationDirectionFront(final JanggiPosition now, final JanggiPosition destination, final Country country) {
         if(country == Country.HAN){
-            return now.isXGreaterThan(destination);
+            return now.isXLessThan(destination);
         }
-        return now.isXLessThan(destination);
+        return now.isXGreaterThan(destination);
     }
 
     private boolean isCenterToCorner(final JanggiPosition now, final JanggiPosition destination) {

@@ -19,22 +19,9 @@ public class JanggiDatabase {
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "user"; //  MySQL 서버 아이디
     private static final String PASSWORD = "password"; // MySQL 서버 비밀번호
-    private static final String PIECE_TABLE = "CREATE TABLE PIECE ("
-            + "ID INT AUTO_INCREMENT PRIMARY KEY,"
-            + "X INT NOT NULL,"
-            + "Y INT NOT NULL,"
-            + "TYPE VARCHAR(20) NOT NULL,"
-            + "COUNTRY VARCHAR(20) NOT NULL"
-            + ")";
-    private static final String TURN_TABLE = "CREATE TABLE TURN ("
-            + "ID INT AUTO_INCREMENT PRIMARY KEY,"
-            + "COUNTRY VARCHAR(20) NOT NULL"
-            + ")";
-    private static final String EXISTS_TABLES_QUERY = "SELECT COUNT(*) "
-            + "FROM INFORMATION_SCHEMA.TABLES "
-            + "WHERE TABLE_SCHEMA='" + DATABASE + "' "
-            + "AND (TABLE_NAME='PIECE' OR TABLE_NAME='TURN') ";
 
+    public JanggiDatabase() {
+    }
 
     public Connection getConnection() {
         try {
@@ -42,42 +29,6 @@ public class JanggiDatabase {
         } catch (final SQLException e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    public void createJanggiTables() {
-        try (final Connection connection = getConnection()) {
-            if (existsJanggiTable()) {
-                return;
-            }
-            final String insertFirstTurnCountry = "INSERT INTO TURN VALUES(DEFAULT, ?)";
-
-            final PreparedStatement pieceTable = connection.prepareStatement(PIECE_TABLE);
-            final PreparedStatement turnTable = connection.prepareStatement(TURN_TABLE);
-
-            pieceTable.execute();
-            turnTable.execute();
-
-            final PreparedStatement insertTurn = connection.prepareStatement(insertFirstTurnCountry);
-            insertTurn.setString(1, Country.getFirstTurnCountry().name());
-
-            insertTurn.execute();
-        } catch (final SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
-        }
-    }
-
-    public boolean existsJanggiTable() {
-        try (final Connection connection = getConnection()) {
-            final PreparedStatement tableExists = connection.prepareStatement(EXISTS_TABLES_QUERY);
-
-            final ResultSet rs = tableExists.executeQuery();
-            rs.next();
-            return rs.getInt(1) == 2;
-        } catch (final SQLException e) {
-            e.printStackTrace();
-            return false;
         }
     }
 
@@ -228,6 +179,47 @@ public class JanggiDatabase {
             final Country country = Country.StringToCountry(rs.getString(2));
 
             return country;
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
+    }
+
+    public void removeTurn() {
+        try (final Connection connection = getConnection()) {
+            final String removeQuery = "DELETE FROM TURN";
+            final PreparedStatement preparedStatement = connection.prepareStatement(removeQuery);
+
+            preparedStatement.execute();
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
+    }
+
+    public boolean existsTurn() {
+        try (final Connection connection = getConnection()) {
+            final String readQuery = "SELECT COUNT(*) FROM TURN";
+            final PreparedStatement preparedStatement = connection.prepareStatement(readQuery);
+
+            final ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            return resultSet.getInt(1) == 1;
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
+    }
+
+    public void saveTurn(final Country country) {
+        try (final Connection connection = getConnection()) {
+            final String readQuery = "INSERT INTO TURN VALUES(DEFAULT, ?)";
+            final PreparedStatement preparedStatement = connection.prepareStatement(readQuery);
+
+            preparedStatement.setString(1, country.name());
+
+            preparedStatement.execute();
         } catch (final SQLException e) {
             e.printStackTrace();
             throw new IllegalStateException();

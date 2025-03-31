@@ -13,36 +13,31 @@ import java.util.Map;
 public class JanggiApplication {
     private static final int MOVE_SOURCE = 0;
     private static final int MOVE_DESTINATION = 1;
-    private static final JanggiDatabase janggiDatabase = new JanggiDatabase();
+    private static final JanggiDatabase JANGGI_DATABASE = new JanggiDatabase();
 
     public static void main(String[] args) {
         OutputView.printIntroduce();
-        createTablesIfNotExistsJanggiTables();
-        final Board board = readTablesIfExistsJanggiTable();
-        final Country type = readCurrentTurnIfExistsTurnTable();
+        final Board board = readTablesIfExistsBeforeGame();
+        final Country type = readCurrentTurnIfExistsBeforeGame();
         startJanggi(board, type);
     }
 
-    private static Country readCurrentTurnIfExistsTurnTable() {
-        if(janggiDatabase.existsJanggiTable()){
-            return janggiDatabase.readCurrentTurn();
-        }
-        return Country.getFirstTurnCountry();
-    }
-
-    private static Board readTablesIfExistsJanggiTable() {
-        if (janggiDatabase.existsJanggiRows()) {
-            return janggiDatabase.readBoard();
+    private static Board readTablesIfExistsBeforeGame() {
+        if (JANGGI_DATABASE.existsJanggiRows()) {
+            return JANGGI_DATABASE.readBoard();
         }
         final Board board = Board.createInitializedJanggiBoard();
-        janggiDatabase.saveBoard(board);
+        JANGGI_DATABASE.saveBoard(board);
         return board;
     }
 
-    private static void createTablesIfNotExistsJanggiTables() {
-        if (!janggiDatabase.existsJanggiTable()) {
-            janggiDatabase.createJanggiTables();
+    private static Country readCurrentTurnIfExistsBeforeGame() {
+        if(JANGGI_DATABASE.existsTurn()){
+            return JANGGI_DATABASE.readCurrentTurn();
         }
+        final Country firstTurnCountry = Country.getFirstTurnCountry();
+        JANGGI_DATABASE.saveTurn(firstTurnCountry);
+        return firstTurnCountry ;
     }
 
     private static void startJanggi(final Board board, Country type) {
@@ -52,8 +47,11 @@ public class JanggiApplication {
             board.updatePosition(janggiPositions.get(MOVE_SOURCE), janggiPositions.get(MOVE_DESTINATION), type);
             type = type.toggleCountry();
             updateMoveForDatabase(janggiPositions.get(MOVE_SOURCE), janggiPositions.get(MOVE_DESTINATION), board);
-            janggiDatabase.updateTurn(type);
+            JANGGI_DATABASE.updateTurn(type);
         }
+
+        JANGGI_DATABASE.removeAllJanggiRows();
+        JANGGI_DATABASE.removeTurn();
 
         OutputView.printJanggiWinner(board);
     }
@@ -64,7 +62,7 @@ public class JanggiApplication {
         if (janggiBoard.containsKey(source)) {
             return;
         }
-        janggiDatabase.removeJanggiRowByPosition(source);
-        janggiDatabase.updateJanggiRowByPosition(destination, janggiBoard.get(destination));
+        JANGGI_DATABASE.removeJanggiRowByPosition(source);
+        JANGGI_DATABASE.updateJanggiRowByPosition(destination, janggiBoard.get(destination));
     }
 }

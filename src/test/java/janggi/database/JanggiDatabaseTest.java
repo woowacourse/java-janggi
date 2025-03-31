@@ -40,35 +40,6 @@ public class JanggiDatabaseTest {
         assertThat(connection).isNotNull();
     }
 
-    @DisplayName("테이블 생성")
-    @Test
-    void createTables() {
-        // given & when & then
-        assertThatCode(() -> {
-            database.createJanggiTables();
-        }).doesNotThrowAnyException();
-    }
-
-    @DisplayName("테이블 존재 여부 반환")
-    @Test
-    void existsTable() {
-        // given
-        createTablesForTest();
-
-        // when
-        final boolean actual = database.existsJanggiTable();
-
-        // then
-        assertThat(actual).isTrue();
-    }
-
-    private void createTablesForTest() {
-        try {
-            database.createJanggiTables();
-        } catch (final IllegalStateException e) {
-        }
-    }
-
     @DisplayName("Board 정보를 저장한다.")
     @Test
     void saveBoard() {
@@ -174,7 +145,7 @@ public class JanggiDatabaseTest {
         // when & then
         assertThatCode(() -> {
             database.updateTurn(country);
-        });
+        }).doesNotThrowAnyException();
     }
 
     @DisplayName("trun을 읽어온다.")
@@ -183,7 +154,34 @@ public class JanggiDatabaseTest {
         // given & when & then
         assertThatCode(() -> {
             final Country actual = database.readCurrentTurn();
-        });
+        }).doesNotThrowAnyException();
+    }
+
+    @DisplayName("turn을 제거한다.")
+    @Test
+    void removeTurn() {
+        // given & when & then
+        assertThatCode(() -> {
+            database.removeTurn();
+        }).doesNotThrowAnyException();
+    }
+
+    @DisplayName("turn의 존재 여부를 반환한다.")
+    @Test
+    void existsTurn() {
+        // given & when & then
+        assertThatCode(() -> {
+            final boolean actual = database.existsTurn();
+        }).doesNotThrowAnyException();
+    }
+
+    @DisplayName("turn을 생성한다.")
+    @Test
+    void saveTurn() {
+        // given & when & then
+        assertThatCode(() -> {
+            database.saveTurn(Country.HAN);
+        }).doesNotThrowAnyException();
     }
 
 }
