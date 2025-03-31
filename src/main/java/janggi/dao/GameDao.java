@@ -1,5 +1,7 @@
-package janggi;
+package janggi.dao;
 
+import janggi.AlreadyGameExistsException;
+import janggi.Team;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

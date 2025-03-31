@@ -3,15 +3,16 @@ package janggi;
 import janggi.board.Board;
 import janggi.board.BoardInitializer;
 import janggi.board.GameOverException;
+import janggi.board.position.StartAndGoalPosition;
 import janggi.board.position.Position;
-import janggi.view.InputParser;
+import janggi.dao.BoardPieceDao;
+import janggi.dao.GameDao;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
 public class Application {
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
-    private static final InputParser parser = new InputParser();
     private static final GameDao gameDao = new GameDao();
     private static final BoardPieceDao boardPieceDao = new BoardPieceDao();
 
@@ -44,9 +45,9 @@ public class Application {
 
     private static boolean playTurn(Board board, Team team) {
         try {
-            String startAndGoal = inputView.readStartAndGoalPosition(team);
-            Position startPosition = parser.splitStartPosition(startAndGoal);
-            Position goalPosition = parser.splitGoalPosition(startAndGoal);
+            StartAndGoalPosition startAndGoalPosition = inputView.readStartAndGoalPosition(team);
+            Position startPosition = startAndGoalPosition.getStart();
+            Position goalPosition = startAndGoalPosition.getGoal();
             board.movePiece(startPosition, goalPosition, team);
             boardPieceDao.delete(goalPosition);
             boardPieceDao.updatePiecePosition(startPosition, goalPosition);

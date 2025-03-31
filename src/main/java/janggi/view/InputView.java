@@ -2,13 +2,19 @@ package janggi.view;
 
 import janggi.Team;
 
+import janggi.board.position.Position;
+import janggi.board.position.StartAndGoalPosition;
 import java.util.Scanner;
 
 public class InputView {
+    private final InputParser inputParser = new InputParser();
     private final Scanner scanner = new Scanner(System.in);
 
-    public String readStartAndGoalPosition(Team team) {
+    public StartAndGoalPosition readStartAndGoalPosition(Team team) {
         System.out.printf("\n%s나라의 공격 차례입니다.\n", team.getDisplayName());
-        return scanner.nextLine();
+        String startAndGoalPosition = scanner.nextLine();
+        Position startPosition = inputParser.splitStartPosition(startAndGoalPosition);
+        Position goalPosition = inputParser.splitGoalPosition(startAndGoalPosition);
+        return new StartAndGoalPosition(startPosition, goalPosition);
     }
 }

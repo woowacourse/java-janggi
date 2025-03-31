@@ -1,5 +1,7 @@
-package janggi;
+package janggi.dao;
 
+import janggi.PieceType;
+import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Column;
 import janggi.board.position.Position;
