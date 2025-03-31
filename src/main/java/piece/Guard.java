@@ -13,7 +13,7 @@ public class Guard extends Piece implements PalaceCheckable {
 
     @Override
     public void validateMoveCondition(Position src, Position dest, Board board) {
-        validateBound(dest);
+        validateBound(dest, country);
         PositionFactory.validateAdjacentPositionBy(src, dest);
     }
 

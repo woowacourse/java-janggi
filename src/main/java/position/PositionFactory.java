@@ -26,7 +26,7 @@ public class PositionFactory {
         settingGraph(BASIC_DX, BASIC_DY);
     }
 
-    public void diagonalSettingGraph(Set<Position> diagonalPositions) {
+    public void diagonalSettingGraph(List<Position> diagonalPositions) {
         for (Position diagonalPosition : diagonalPositions) {
             for (int dir = 0; dir < DIAGONAL_DX.length; dir++) {
                 int nextX = diagonalPosition.x() + DIAGONAL_DX[dir];
