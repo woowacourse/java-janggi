@@ -16,59 +16,54 @@ import view.OutputView;
 import java.util.List;
 import java.util.Map;
 
-// TODO 2025. 3. 29. 13:33: <전역>
-// TODO 2025. 3. 29. 13:32: 테스트 코드 제네릭
-// TODO 2025. 3. 29. 13:32: y up, down 방향 바꿀 때 한번에 바꿀 수 있도록 코드 결합도 고려
-// TODO 2025. 3. 29. 13:33: row, column 처리
-// TODO 2025. 3. 29. 13:34: turn 처리 좀 더 설계적으로
-
 public class Application {
 
     private static final int MAX_TRY_COUNT = 150;
 
     public static void main(String[] args) {
-        initSetting();
+        initializeBoardSettings();
 
         PieceDao pieceDao = new PieceDao();
         BoardDao boardDao = new BoardDao();
         CountryDao countryDao = new CountryDao();
 
-        final Board board = getBoardLoad(pieceDao, boardDao, countryDao);
+        final Board board = loadOrInitializeBoard(pieceDao, boardDao, countryDao);
 
-        Country type = Country.getDefaultTeam();
-        int count = 0;
+        Country currentTurn = Country.getDefaultTeam();
+        int turnCount = 0;
 
+        while (++turnCount < MAX_TRY_COUNT) {
+            currentTurn = currentTurn.opposite();
 
-        while (++count < MAX_TRY_COUNT) {
-            type = type.opposite();
-            OutputView.printBoard(board, type);
+            OutputView.printBoard(board, currentTurn);
+
             final List<Position> positions = InputView.readPositions();
-            board.updatePosition(positions.get(0), positions.get(1), type);
+            board.updatePosition(positions.get(0), positions.get(1), currentTurn);
 
-            pieceDao.clearPieces();
-            pieceDao.savePieces(board.getPieceList());
-            boardDao.saveScore(board.getScoreByCountry());
+            saveGameState(pieceDao, boardDao, board);
         }
     }
 
-    private static Board getBoardLoad(PieceDao pieceDao, BoardDao boardDao, CountryDao countryDao) {
-        Map<Country, LineDirection> loadedDirections = countryDao.loadDirections();
+    private static Board loadOrInitializeBoard(PieceDao pieceDao, BoardDao boardDao, CountryDao countryDao) {
+        Map<Country, LineDirection> savedDirections = countryDao.loadDirections();
 
-        if (loadedDirections.isEmpty()) {
-            return getNewGameInitSetting(countryDao);
+        if (savedDirections.isEmpty()) {
+            return startNewGame(countryDao);
         }
-        boolean intent = InputView.readClientIntent();
-        if (intent == Boolean.FALSE) {
-            return getNewGameInitSetting(countryDao);
+
+        boolean useSavedData = InputView.readClientIntent();
+        if (!useSavedData) {
+            return startNewGame(countryDao);
         }
-        loadedDirections.forEach(Country::assignDirection);
+
+        savedDirections.forEach(Country::assignDirection);
 
         List<Piece> loadedPieces = pieceDao.loadPieces();
         Map<Country, Integer> scores = boardDao.loadScore();
-        return BoardFactory.fromDatabase(loadedPieces, scores, loadedDirections);
+        return BoardFactory.fromDatabase(loadedPieces, scores, savedDirections);
     }
 
-    private static Board getNewGameInitSetting(CountryDao countryDao) {
+    private static Board startNewGame(CountryDao countryDao) {
         LineSettingDto settingDto = InputView.readLineSettingByCountry();
 
         Country.assignDirection(settingDto.country(), settingDto.direction());
@@ -78,10 +73,17 @@ public class Application {
         return boardFactory.generateBoard();
     }
 
-    private static void initSetting() {
+    private static void initializeBoardSettings() {
         OutputView.printIntroduce();
+
         PositionFactory positionFactory = new PositionFactory();
         positionFactory.basicSettingGraph();
         positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
+    }
+
+    private static void saveGameState(PieceDao pieceDao, BoardDao boardDao, Board board) {
+        pieceDao.clearPieces();
+        pieceDao.savePieces(board.getPieceList());
+        boardDao.saveScore(board.getScoreByCountry());
     }
 }
