@@ -7,11 +7,13 @@ public abstract class Piece {
     private final Integer pieceId;
     private final Team team;
     private final PieceType pieceType;
+    private boolean isCatch;
 
     protected Piece(Integer pieceId, Team team, PieceType pieceType) {
         this.pieceId = pieceId;
         this.team = team;
         this.pieceType = pieceType;
+        this.isCatch = false;
     }
 
     public int getId() {
@@ -36,11 +38,15 @@ public abstract class Piece {
         updateCurrentPosition(destination);
     }
 
+    public boolean isCatch() {
+        return isCatch;
+    }
+
+    public void catchByOpponent() {
+        isCatch = true;
+    }
+
     public abstract Position getCurrentPosition();
-
-    public abstract boolean isCatch();
-
-    public abstract void catchByOpponent();
 
     public abstract boolean isPlacedAt(Position targetPosition);
 

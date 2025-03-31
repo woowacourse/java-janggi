@@ -16,23 +16,16 @@ public class GreenSoldier extends Piece {
             new Position(4, 1),
             new Position(6, 3));
 
-    private boolean isCatch;
     private Position currentPosition;
 
     public GreenSoldier(int pieceId, Team team, Position currentPosition) {
         super(pieceId, team, PieceType.SOLDIER);
-        this.isCatch = false;
         this.currentPosition = currentPosition;
     }
 
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
-    }
-
-    @Override
-    public boolean isCatch() {
-        return isCatch;
     }
 
     @Override
@@ -53,11 +46,6 @@ public class GreenSoldier extends Piece {
     @Override
     public void updateCurrentPosition(Position destination) {
         currentPosition = destination;
-    }
-
-    @Override
-    public void catchByOpponent() {
-        isCatch = true;
     }
 
     @Override

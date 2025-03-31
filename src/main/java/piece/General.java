@@ -6,23 +6,16 @@ import location.PathUtility;
 import location.Position;
 
 public class General extends Piece {
-    private boolean isCatch;
     private Position currentPosition;
 
     public General(int pieceId, Team team, Position currentPosition) {
         super(pieceId, team, PieceType.GENERAL);
-        this.isCatch = false;
         this.currentPosition = currentPosition;
     }
 
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
-    }
-
-    @Override
-    public boolean isCatch() {
-        return isCatch;
     }
 
     @Override
@@ -43,11 +36,6 @@ public class General extends Piece {
     @Override
     public void updateCurrentPosition(Position destination) {
         currentPosition = destination;
-    }
-
-    @Override
-    public void catchByOpponent() {
-        isCatch = true;
     }
 
     @Override

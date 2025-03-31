@@ -26,23 +26,16 @@ public class Horse extends Piece {
             new Distance(2, 1), List.of(RIGHT)
     );
 
-    private boolean isCatch;
     private Position currentPosition;
 
     public Horse(int pieceId, Team team, Position currentPosition) {
         super(pieceId, team, PieceType.HORSE);
-        this.isCatch = false;
         this.currentPosition = currentPosition;
     }
 
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
-    }
-
-    @Override
-    public boolean isCatch() {
-        return isCatch;
     }
 
     @Override
@@ -65,11 +58,6 @@ public class Horse extends Piece {
     @Override
     public void updateCurrentPosition(Position destination) {
         currentPosition = destination;
-    }
-
-    @Override
-    public void catchByOpponent() {
-        isCatch = true;
     }
 
     @Override

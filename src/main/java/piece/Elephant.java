@@ -30,23 +30,16 @@ public class Elephant extends Piece {
             new Distance(3, 2), List.of(RIGHT, DOWN_RIGHT_DIAGONAL)
     );
 
-    private boolean isCatch;
     private Position currentPosition;
 
     public Elephant(int pieceId, Team team, Position currentPosition) {
         super(pieceId, team, PieceType.ELEPHANT);
-        this.isCatch = false;
         this.currentPosition = currentPosition;
     }
 
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
-    }
-
-    @Override
-    public boolean isCatch() {
-        return isCatch;
     }
 
     @Override
@@ -69,11 +62,6 @@ public class Elephant extends Piece {
     @Override
     public void updateCurrentPosition(Position destination) {
         currentPosition = destination;
-    }
-
-    @Override
-    public void catchByOpponent() {
-        isCatch = true;
     }
 
     @Override
