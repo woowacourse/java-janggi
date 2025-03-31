@@ -24,7 +24,7 @@ public class Application {
         initializeBoardSettings();
 
         PieceDao pieceDao = new PieceDao();
-        BoardDao boardDao = new BoardDao();
+        BoardDao boardDao = new BoardDao(pieceDao);
         CountryDao countryDao = new CountryDao();
 
         final Board board = loadOrInitializeBoard(pieceDao, boardDao, countryDao);

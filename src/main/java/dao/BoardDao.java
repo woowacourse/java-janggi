@@ -8,7 +8,12 @@ import java.util.Map;
 
 public class BoardDao {
 
-    private final PieceDao pieceDao = new PieceDao(); // 커넥션 재활용
+
+    private final PieceDao pieceDao;
+
+    public BoardDao(PieceDao pieceDao) {
+        this.pieceDao = pieceDao;
+    }
 
     public void saveScore(Map<Country, Integer> scoreByCountry) {
         String sql = "REPLACE INTO board_score (country, score) VALUES (?, ?)";
