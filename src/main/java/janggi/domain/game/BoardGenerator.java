@@ -1,17 +1,16 @@
 package janggi.domain.game;
 
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
+import janggi.domain.piece.Elephant;
 import janggi.domain.piece.General;
 import janggi.domain.piece.Guard;
+import janggi.domain.piece.Horse;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
 import janggi.domain.position.Column;
 import janggi.domain.position.Position;
 import janggi.domain.position.Row;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.Horse;
-import janggi.domain.piece.Piece;
-import janggi.view.SetupOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

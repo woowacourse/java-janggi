@@ -3,17 +3,24 @@ package janggi.console;
 import janggi.domain.game.Board;
 import janggi.domain.game.BoardGenerator;
 import janggi.domain.game.Game;
+import janggi.domain.game.SetupOption;
 import janggi.dto.GameDto;
 import janggi.service.GameService;
 import janggi.view.BoardView;
 import janggi.view.InputView;
-import janggi.view.SetupOption;
 import janggi.view.SystemView;
 import java.util.List;
+import java.util.Map;
 
 public final class GameSetupConsole {
 
     private static final int NEW_GAME = 0;
+    private static final Map<String, SetupOption> SETUP_OPTION_MENU = Map.of(
+            "1", SetupOption.INNER_SETUP,
+            "2", SetupOption.OUTER_SETUP,
+            "3", SetupOption.RIGHT_SETUP,
+            "4", SetupOption.LEFT_SETUP
+    );
 
     private final InputView inputView;
     private final SystemView systemView;
@@ -44,7 +51,10 @@ public final class GameSetupConsole {
 
     public Game setupGame(final int gameId) {
         if (gameId == NEW_GAME) {
-            return setupNewGame();
+            systemView.displaySetupMenus();
+            String input = inputView.readSetupOption();
+            Board board = BoardGenerator.generate(SETUP_OPTION_MENU.get(input));
+            return new Game(board);
         }
         return gameService.loadGameByGameId(gameId);
     }
@@ -52,12 +62,5 @@ public final class GameSetupConsole {
     public void displayGameSetup(final int gameId, final Game game) {
         systemView.inGame(gameId);
         boardView.displayBoard(game);
-    }
-
-    private Game setupNewGame() {
-        systemView.displaySetupMenus();
-        final String input = inputView.readSetupOption();
-        final Board board = BoardGenerator.generate(SetupOption.of(input));
-        return new Game(board);
     }
 }

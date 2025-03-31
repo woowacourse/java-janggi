@@ -12,7 +12,7 @@ public class InputView {
     private static final String INTEGER_REGEX = "\\d*";
     private static final int START_GAME = 0;
 
-    private final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     public String readGameId(final List<Integer> storedGameIds) {
         return retryUtilSuccess(() -> {

@@ -1,12 +1,13 @@
 package janggi.view;
 
-import static janggi.view.SetupOption.INNER_SETUP;
-import static janggi.view.SetupOption.LEFT_SETUP;
-import static janggi.view.SetupOption.OUTER_SETUP;
-import static janggi.view.SetupOption.RIGHT_SETUP;
+import static janggi.domain.game.SetupOption.INNER_SETUP;
+import static janggi.domain.game.SetupOption.LEFT_SETUP;
+import static janggi.domain.game.SetupOption.OUTER_SETUP;
+import static janggi.domain.game.SetupOption.RIGHT_SETUP;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.domain.game.SetupOption;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
