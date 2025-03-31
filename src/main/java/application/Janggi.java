@@ -35,11 +35,7 @@ public class Janggi {
     }
 
     public void play() {
-        List<Game> janggiGames = gameRepository.findAll();
-        outputView.printAllGames(janggiGames);
-
-        String gameName = inputView.readJoinGame();
-        game = startGame(janggiGames, gameName);
+        game = startGame();
 
         Board board = setUp();
 
@@ -50,7 +46,15 @@ public class Janggi {
         }
     }
 
-    private Game startGame(List<Game> janggiGames, String gameName) {
+    private Game startGame() {
+        List<Game> janggiGames = gameRepository.findAll();
+        outputView.printAllGames(janggiGames);
+
+        String gameName = inputView.readJoinGame();
+        return findGame(janggiGames, gameName);
+    }
+
+    private Game findGame(List<Game> janggiGames, String gameName) {
         return janggiGames.stream()
                 .filter(janggiGame -> janggiGame.getName().equals(gameName))
                 .findFirst()
