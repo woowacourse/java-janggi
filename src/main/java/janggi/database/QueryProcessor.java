@@ -1,6 +1,5 @@
 package janggi.database;
 
-import janggi.database.dao.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +10,7 @@ import java.util.List;
 
 public class QueryProcessor {
 
-    private static final DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
+    private static final DatabaseConnection databaseConnection = MySQLDatabaseConnection.getInstance();
 
     public static long executeInsert(final String query, final Object... parameters) {
         try (final Connection connection = databaseConnection.getConnection();

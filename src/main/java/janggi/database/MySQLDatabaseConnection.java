@@ -1,46 +1,41 @@
-package janggi.database.dao;
+package janggi.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DatabaseConnection {
+public class MySQLDatabaseConnection implements DatabaseConnection {
 
-    private static DatabaseConnection instance;
-    private static boolean isTestMode = false;
+    private static MySQLDatabaseConnection instance;
 
     private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";
-    private static final String TEST_DATABASE = "janggi_test";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
     private static final String URL = "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION;
 
-    private DatabaseConnection() {
+    private MySQLDatabaseConnection() {
     }
 
-    public static void setTestMode(final boolean testMode) {
-        isTestMode = testMode;
-    }
-
-    public static DatabaseConnection getInstance() {
+    public static MySQLDatabaseConnection getInstance() {
         if (instance == null) {
-            instance = new DatabaseConnection();
+            instance = new MySQLDatabaseConnection();
         }
         return instance;
     }
 
+    @Override
     public Connection getConnection() {
         try {
-            final String currentDb = isTestMode ? TEST_DATABASE : DATABASE;
-            final String url = "jdbc:mysql://" + SERVER + "/" + currentDb + OPTION;
+            final String url = "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION;
             return DriverManager.getConnection(url, USERNAME, PASSWORD);
         } catch (final SQLException e) {
             throw new RuntimeException("오류가 발생했습니다.");
         }
     }
 
+    @Override
     public void closeConnection(final Connection connection) {
         if (connection != null) {
             try {

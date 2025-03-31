@@ -2,27 +2,14 @@ package janggi.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.database.dao.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class DatabaseConnectionTest {
+class MySQLDatabaseConnectionTest {
 
-    private final DatabaseConnection databaseConnection = DatabaseConnection.getInstance();
-
-    @BeforeAll
-    static void setUpClass() {
-        DatabaseConnection.setTestMode(true);
-    }
-
-    @AfterAll
-    static void tearDownClass() {
-        DatabaseConnection.setTestMode(false);
-    }
+    private final MySQLDatabaseConnection mySQLDatabaseConnection = MySQLDatabaseConnection.getInstance();
 
     @DisplayName("커넥션 테스트")
     @Test
@@ -31,7 +18,7 @@ class DatabaseConnectionTest {
         // given
 
         // when & then
-        try (final Connection connection = databaseConnection.getConnection()) {
+        try (final Connection connection = mySQLDatabaseConnection.getConnection()) {
             assertThat(connection).isNotNull();
             assertThat(connection.isClosed()).isFalse();
             assertThat(connection.isValid(1)).isTrue();
@@ -43,10 +30,10 @@ class DatabaseConnectionTest {
     void connectionCloseTest() throws SQLException {
 
         // given
-        final Connection connection = databaseConnection.getConnection();
+        final Connection connection = mySQLDatabaseConnection.getConnection();
 
         // when
-        databaseConnection.closeConnection(connection);
+        mySQLDatabaseConnection.closeConnection(connection);
 
         // then
         assertThat(connection.isClosed()).isTrue();
