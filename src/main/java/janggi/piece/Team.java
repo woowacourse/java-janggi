@@ -29,12 +29,8 @@ public enum Team {
         return Direction.getFrontDirection();
     }
 
-    @Override
-    public String toString() {
-        if (this == HAN) {
-            return "한나라";
-        }
-        return "초나라";
+    public String getName() {
+        return name;
     }
 
     public static Team fromString(String value) {

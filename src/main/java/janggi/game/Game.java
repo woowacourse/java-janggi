@@ -1,7 +1,6 @@
 package janggi.game;
 
 import janggi.board.Board;
-import janggi.board.Pieces;
 import janggi.dao.DatabaseManager;
 import janggi.piece.Team;
 import janggi.position.Position;
@@ -75,8 +74,6 @@ public class Game {
 
     private GameState saveGame(Board board) {
         outputView.printPieces(board.getPieces());
-
-        databaseManager.deleteAll();
         databaseManager.saveGame(board);
         outputView.printSuccessSave();
         return GameState.PLAY;

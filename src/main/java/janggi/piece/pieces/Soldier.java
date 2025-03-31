@@ -1,9 +1,9 @@
 package janggi.piece.pieces;
 
 import janggi.board.Palace;
-import janggi.position.Direction;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
+import janggi.position.Direction;
 import janggi.position.Position;
 import janggi.position.Route;
 import java.util.ArrayList;

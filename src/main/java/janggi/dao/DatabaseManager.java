@@ -26,6 +26,7 @@ public class DatabaseManager {
     }
 
     public void saveGame(Board board) {
+        deleteAll();
         String boardId = boardDao.addBoard(board);
         for (Entry<Position, Piece> entry : board.getPieces().entrySet()) {
             pieceDao.addPiece(entry.getValue(), entry.getKey().getColumn(), entry.getKey().getRow(), boardId);
