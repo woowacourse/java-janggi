@@ -39,7 +39,7 @@ class BoardTest {
     @Test
     @DisplayName("도착 칸에 다른 팀의 기물이 존재할 경우 해당 기물을 잡는다.")
     void takePieceTest() {
-        Piece p = new King(5, 4, Team.CHO);
+        Piece p = new Chariot(5, 4, Team.CHO);
         Board board = new Board(List.of(new Pawn(5, 5, Team.HAN), p));
         board.movePiece(p.getPosition(), new Position(5, 5), Team.CHO);
         assertThat(board.get(new Position(5, 5))).isEqualTo(p);

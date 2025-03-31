@@ -24,17 +24,17 @@ class PieceTest {
     @Test
     @DisplayName("궁은 적절한 이동이 가능하다")
     void palaceMoveTest() {
-        Piece p = new King(5, 5, Team.CHO);
+        Piece p = new King(4, 8, Team.CHO);
         p.move(board, Team.CHO, new Position(1, 0));
-        assertThat(p.getPosition().x()).isEqualTo(6);
-        assertThat(p.getPosition().y()).isEqualTo(5);
+        assertThat(p.getPosition().x()).isEqualTo(5);
+        assertThat(p.getPosition().y()).isEqualTo(8);
     }
 
     @Test
     @DisplayName("궁의 이동 범위를 벗어나면 예외를 반환한다")
     void palaceMoveExceptionTest() {
-        Piece p = new King(5, 5, Team.CHO);
-        assertThatThrownBy(() -> p.move(board, Team.CHO, new Position(2, 0)))
+        Piece p = new King(4, 9, Team.CHO);
+        assertThatThrownBy(() -> p.move(board, Team.CHO, new Position(0, -2)))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
     }
@@ -51,7 +51,7 @@ class PieceTest {
     @Test
     @DisplayName("차의 이동 범위를 벗어나면 예외를 반환한다")
     void chariotMoveExceptionTest() {
-        Piece p = new King(5, 5, Team.CHO);
+        Piece p = new Chariot(5, 5, Team.CHO);
         assertThatThrownBy(() -> p.move(board, Team.CHO, new Position(2, 2)))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
@@ -120,17 +120,17 @@ class PieceTest {
     @Test
     @DisplayName("사는 적절한 이동이 가능하다")
     void soldierMoveTest() {
-        Piece p = new Soldier(5, 5, Team.CHO);
+        Piece p = new Soldier(4, 8, Team.CHO);
         p.move(board, Team.CHO, new Position(1, 0));
-        assertThat(p.getPosition().x()).isEqualTo(6);
-        assertThat(p.getPosition().y()).isEqualTo(5);
+        assertThat(p.getPosition().x()).isEqualTo(5);
+        assertThat(p.getPosition().y()).isEqualTo(8);
     }
 
     @Test
     @DisplayName("사의 이동 범위를 벗어나면 예외를 반환한다")
     void soldierMoveExceptionTest() {
-        Piece p = new Soldier(5, 5, Team.CHO);
-        assertThatThrownBy(() -> p.move(board, Team.CHO, new Position(3, 0)))
+        Piece p = new Soldier(4, 9, Team.CHO);
+        assertThatThrownBy(() -> p.move(board, Team.CHO, new Position(0, -2)))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("[ERROR] 도달할 수 없는 위치입니다.");
     }

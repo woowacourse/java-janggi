@@ -12,7 +12,6 @@ import model.Team;
 import model.board.Board;
 import model.piece.normal.Elephant;
 import model.piece.normal.Pawn;
-import model.piece.palace.King;
 
 class PieceMoveTest {
 
@@ -21,7 +20,7 @@ class PieceMoveTest {
     @Test
     @DisplayName("도착 칸에 같은 팀의 기물이 존재할 경우 예외를 반환한다.")
     void arrivalPositionOnOtherMyPieceTest() {
-        Piece p = new King(5, 4, Team.CHO);
+        Piece p = new Chariot(5, 4, Team.CHO);
         board = new Board(List.of(new Pawn(5, 5, Team.CHO), p));
         assertThatThrownBy(() -> p.move(board, Team.CHO, new Position(0, 1)))
             .isInstanceOf(IllegalArgumentException.class)
