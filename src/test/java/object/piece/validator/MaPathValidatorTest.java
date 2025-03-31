@@ -1,0 +1,48 @@
+package object.piece.validator;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import object.board.Board;
+import object.board.BoardFixture;
+import object.coordinate.Coordinate;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import object.piece.Piece;
+import object.piece.PieceType;
+import object.team.Country;
+
+class MaPathValidatorTest {
+
+    @Test
+    @DisplayName("마가 (5,5) -> (4,3) 으로 이동할 때 (5,4)를 거치기 때문에 이동할 수 없다.")
+    void test1() {
+        // given
+        Board board = new BoardFixture()
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.마))
+                .addPiece(5, 4, new Piece(Country.CHO, PieceType.상))
+                .build();
+        MaPathValidator validator = new MaPathValidator();
+
+        // when
+        boolean result = validator.validate(board, new Coordinate(5, 5), new Coordinate(4, 3));
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("마가 (5,5) -> (4,3) 으로 이동할 때 장애물이 하나도 없을 경우 이동할 수 있다.")
+    void test2() {
+        // given
+        Board board = new BoardFixture()
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.마))
+                .build();
+        MaPathValidator validator = new MaPathValidator();
+
+        // when
+        boolean result = validator.validate(board, new Coordinate(5, 5), new Coordinate(4, 3));
+
+        // then
+        assertThat(result).isTrue();
+    }
+}

@@ -1,8 +1,8 @@
 package view;
 
-import coordinate.Coordinate;
+import object.coordinate.Coordinate;
 import java.util.Scanner;
-import team.Country;
+import object.team.Country;
 
 public class InputView {
 
