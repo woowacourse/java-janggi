@@ -49,7 +49,7 @@ public class Elephant implements Piece {
     @Override
     public Piece move(Position arrivedPosition) {
         List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        return new Chariot(team,step(availableMovement),isLive);
+        return new Elephant(team,step(availableMovement),isLive);
     }
 
     public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
