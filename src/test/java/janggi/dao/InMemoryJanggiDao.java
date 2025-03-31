@@ -1,6 +1,5 @@
 package janggi.dao;
 
-import janggi.domain.GameStatus;
 import janggi.entity.JanggiEntity;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,26 +16,18 @@ public class InMemoryJanggiDao implements JanggiDao {
     }
 
     @Override
-    public JanggiEntity save(final JanggiEntity janggiEntity, final GameStatus gameStatus) {
-        Optional<JanggiEntity> existEntity = findByRedAndGreenPlayerNameAndGameStatus(
-                janggiEntity.redPlayerName(), janggiEntity.greenPlayerName(), gameStatus.name());
-        if (existEntity.isPresent()) {
-            idToJanggi.put(existEntity.get().janggiId(), new JanggiEntity(existEntity.get().janggiId(),
-                    janggiEntity.redPlayerName(),
-                    janggiEntity.greenPlayerName(),
-                    janggiEntity.redScore(),
-                    janggiEntity.greenScore(),
-                    janggiEntity.gameStatus(),
-                    janggiEntity.gameTurn()));
+    public JanggiEntity save(final JanggiEntity janggiEntity) {
+        Optional<Long> janggiIdOptional = findJanggiIdByRedAndGreenPlayerNameAndGameStatus(
+                janggiEntity.redPlayerName(),
+                janggiEntity.greenPlayerName(),
+                janggiEntity.gameStatus());
+        if (janggiIdOptional.isPresent()) {
+            idToJanggi.put(janggiEntity.janggiId(), janggiEntity);
             return janggiEntity;
         }
-        JanggiEntity saved = new JanggiEntity(id, janggiEntity.redPlayerName(),
-                janggiEntity.greenPlayerName(),
-                janggiEntity.redScore(),
-                janggiEntity.greenScore(),
-                janggiEntity.gameStatus(),
-                janggiEntity.gameTurn());
-        idToJanggi.put(id++, saved);
+        long targetId = id++;
+        JanggiEntity saved = janggiEntity.addJanggiId(targetId);
+        idToJanggi.put(targetId, saved);
         return saved;
     }
 
@@ -59,6 +50,18 @@ public class InMemoryJanggiDao implements JanggiDao {
                 .anyMatch(janggiEntity -> janggiEntity.redPlayerName().equals(redPlayerName)
                         && janggiEntity.greenPlayerName().equals(greenPlayerName)
                         && janggiEntity.gameStatus().equals(gameStatus));
+    }
+
+    @Override
+    public Optional<Long> findJanggiIdByRedAndGreenPlayerNameAndGameStatus(final String redPlayerName,
+                                                                           final String greenPlayerName,
+                                                                           final String targetStatus) {
+        return idToJanggi.values().stream()
+                .filter(janggiEntity -> janggiEntity.redPlayerName().equals(redPlayerName)
+                        && janggiEntity.greenPlayerName().equals(greenPlayerName)
+                        && janggiEntity.gameStatus().equals(targetStatus))
+                .map(JanggiEntity::janggiId)
+                .findAny();
     }
 
     public Map<Long, JanggiEntity> getIdToJanggi() {

@@ -23,4 +23,12 @@ public record JanggiEntity(long janggiId,
                 janggiGame.getGameStatus().name(),
                 janggiGame.getTurn().name());
     }
+
+    public static JanggiEntity from(JanggiGame janggiGame) {
+        return from(janggiGame, 0);
+    }
+
+    public JanggiEntity addJanggiId(final Long janggiId) {
+        return new JanggiEntity(janggiId, redPlayerName, greenPlayerName, redScore, greenScore, gameStatus, gameTurn);
+    }
 }

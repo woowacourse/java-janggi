@@ -1,6 +1,5 @@
 package janggi.dao;
 
-import janggi.domain.Position;
 import janggi.entity.BoardEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,23 +11,44 @@ import java.util.List;
 import java.util.Optional;
 
 public class JdbcBoardDao extends AbstractJdbcDao implements BoardDao {
+
     @Override
-    public void save(final BoardEntity boardEntity, final Position departure) {
-        Optional<BoardEntity> boardEntityOptional = findByJanggiIdAndRowAndColumn(boardEntity.janggiId(),
-                departure.getRow(),
-                departure.getColumn());
+    public void save(final BoardEntity boardEntity) {
+        Optional<BoardEntity> boardEntityOptional = findByBoardId(boardEntity.boardId());
         if (boardEntityOptional.isEmpty()) {
             insert(boardEntity);
             return;
         }
-        update(new BoardEntity(boardEntityOptional.get().boardId(),
-                        boardEntity.janggiId(),
-                        boardEntity.pieceType(),
-                        boardEntity.team(),
-                        boardEntity.row(),
-                        boardEntity.column(),
-                        boardEntity.isAlive()),
-                departure);
+        update(boardEntity);
+    }
+
+    @Override
+    public Optional<BoardEntity> findByBoardId(long boardId) {
+        final String query = """
+                SELECT * 
+                FROM board 
+                where board_id = ?
+                """;
+
+        try (final Connection connection = getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, boardId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return Optional.of(new BoardEntity(resultSet.getLong("board_id"),
+                        resultSet.getLong("janggi_id"),
+                        resultSet.getString("piece_type"),
+                        resultSet.getString("team"),
+                        resultSet.getInt("row_num"),
+                        resultSet.getInt("column_num"),
+                        resultSet.getBoolean("is_alive")));
+            }
+            return Optional.empty();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void insert(final BoardEntity boardEntity) {
@@ -53,22 +73,18 @@ public class JdbcBoardDao extends AbstractJdbcDao implements BoardDao {
         }
     }
 
-    private void update(final BoardEntity boardEntity, final Position before) {
+    private void update(final BoardEntity boardEntity) {
         final String query = """
                 UPDATE board 
                 SET row_num = ?, column_num = ?, is_alive = ? 
-                WHERE janggi_id = ? AND row_num = ? AND column_num = ?""";
+                WHERE board_id = ?""";
 
         try (final Connection connection = getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, boardEntity.row());
             preparedStatement.setInt(2, boardEntity.column());
             preparedStatement.setBoolean(3, boardEntity.isAlive());
-
-            preparedStatement.setLong(4, boardEntity.janggiId());
-            preparedStatement.setInt(5, before.getRow());
-            preparedStatement.setInt(6, before.getColumn());
-
+            preparedStatement.setLong(4, boardEntity.boardId());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -76,9 +92,7 @@ public class JdbcBoardDao extends AbstractJdbcDao implements BoardDao {
     }
 
     @Override
-    public Optional<BoardEntity> findByJanggiIdAndRowAndColumn(final long janggiId,
-                                                               final int row,
-                                                               final int column) {
+    public Optional<BoardEntity> findByJanggiIdAndRowAndColumn(final long janggiId, final int row, final int column) {
         final String query = """
                 SELECT * 
                 FROM board

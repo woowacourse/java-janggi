@@ -1,21 +1,78 @@
 package janggi.repository;
 
+import janggi.dao.BoardDao;
+import janggi.dao.JanggiDao;
 import janggi.domain.GameStatus;
 import janggi.domain.JanggiGame;
+import janggi.domain.Player;
+import janggi.domain.Team;
+import janggi.entity.BoardEntity;
+import janggi.entity.JanggiEntity;
+import java.util.List;
 import java.util.Optional;
 
-public interface JanggiRepository {
-    void save(JanggiGame janggiGame, GameStatus gameStatus);
+public class JanggiRepository {
 
-    boolean existsByRedAndGreenPlayerNameAndGameStatus(String redPlayerName,
-                                                       String greenPlayerName,
-                                                       GameStatus gameStatus);
+    private final JanggiDao janggiDao;
+    private final BoardDao boardDao;
 
-    Optional<JanggiGame> findByRedAndGreenPlayerNameAndGameStatus(String redPlayerName,
-                                                                  String greenPlayerName,
-                                                                  GameStatus gameStatus);
+    public JanggiRepository(final JanggiDao janggiDao, final BoardDao boardDao) {
+        this.janggiDao = janggiDao;
+        this.boardDao = boardDao;
+    }
 
-    Optional<Long> findJanggiIdByRedAndGreenPlayerNameAndGameStatus(String redPlayerName,
-                                                                    String greenPlayerName,
-                                                                    GameStatus gameStatus);
+    public void save(final JanggiGame janggiGame) {
+        JanggiEntity janggiEntity = JanggiEntity.from(janggiGame);
+        Optional<Long> janggiIdOptional = janggiDao.findJanggiIdByRedAndGreenPlayerNameAndGameStatus(
+                janggiGame.getRedPlayer().getName(),
+                janggiGame.getGreenPlayer().getName(),
+                GameStatus.CONTINUE.name());
+        if (janggiIdOptional.isPresent()) {
+            janggiDao.save(janggiEntity.addJanggiId(janggiIdOptional.get()));
+            return;
+        }
+        janggiDao.save(janggiEntity);
+    }
+
+    public boolean existsByRedAndGreenPlayerNameAndGameStatus(final String redPlayerName,
+                                                              final String greenPlayerName,
+                                                              final GameStatus gameStatus) {
+        return janggiDao.existsByRedAndGreenPlayerNameAndGameStatus(redPlayerName,
+                greenPlayerName,
+                gameStatus.name());
+    }
+
+    public Optional<JanggiGame> findByRedAndGreenPlayerNameAndGameStatus(final String redPlayerName,
+                                                                         final String greenPlayerName,
+                                                                         final GameStatus gameStatus) {
+        Optional<JanggiEntity> janggiEntityOptional = janggiDao.findByRedAndGreenPlayerNameAndGameStatus(
+                redPlayerName,
+                greenPlayerName,
+                gameStatus.name());
+        if (janggiEntityOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        JanggiEntity janggiEntity = janggiEntityOptional.get();
+        Player redPlayer = new Player(janggiEntity.redPlayerName(), Team.RED, janggiEntity.redScore());
+        Player greenPlayer = new Player(janggiEntity.greenPlayerName(), Team.GREEN, janggiEntity.greenScore());
+        List<BoardEntity> boardEntities = findAllAlive(janggiEntity.janggiId());
+
+        return Optional.of(new JanggiGame(BoardEntity.convertToBoard(boardEntities),
+                redPlayer,
+                greenPlayer,
+                Team.convert(janggiEntity.gameTurn()),
+                GameStatus.convert(janggiEntity.gameStatus())));
+    }
+
+    public Optional<Long> findJanggiIdByRedAndGreenPlayerNameAndGameStatus(final String redPlayerName,
+                                                                           final String greenPlayerName,
+                                                                           final GameStatus gameStatus) {
+        return janggiDao.findJanggiIdByRedAndGreenPlayerNameAndGameStatus(redPlayerName,
+                greenPlayerName,
+                gameStatus.name());
+    }
+
+    private List<BoardEntity> findAllAlive(long janggiId) {
+        return boardDao.findAllByJanggiIdAndIsAlive(janggiId, true);
+    }
 }

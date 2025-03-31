@@ -1,6 +1,5 @@
 package janggi.dao;
 
-import janggi.domain.Position;
 import janggi.entity.BoardEntity;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,28 +18,15 @@ public class InMemoryBoardDao implements BoardDao {
     }
 
     @Override
-    public void save(final BoardEntity boardEntity, Position departure) {
-        Optional<BoardEntity> boardEntityOptional = findByJanggiIdAndRowAndColumn(boardEntity.janggiId(),
-                departure.getRow(), departure.getColumn());
+    public void save(final BoardEntity boardEntity) {
+        Optional<BoardEntity> boardEntityOptional = findByBoardId(boardEntity.boardId());
         if (boardEntityOptional.isPresent()) {
             BoardEntity exist = boardEntityOptional.get();
-            idToBoard.put(exist.boardId(), new BoardEntity(exist.boardId(),
-                    boardEntity.janggiId(),
-                    boardEntity.pieceType(),
-                    boardEntity.team(),
-                    boardEntity.row(),
-                    boardEntity.column(),
-                    boardEntity.isAlive()));
+            idToBoard.put(exist.boardId(), boardEntity);
             return;
         }
         long targetId = ++id;
-        BoardEntity saved = new BoardEntity(targetId,
-                boardEntity.janggiId(),
-                boardEntity.pieceType(),
-                boardEntity.team(),
-                boardEntity.row(),
-                boardEntity.column(),
-                boardEntity.isAlive());
+        BoardEntity saved = boardEntity.addBoardId(targetId);
         idToBoard.put(targetId, saved);
     }
 
@@ -53,6 +39,11 @@ public class InMemoryBoardDao implements BoardDao {
                         && boardEntity.row() == row
                         && boardEntity.column() == column)
                 .findAny();
+    }
+
+    @Override
+    public Optional<BoardEntity> findByBoardId(final long boardId) {
+        return Optional.ofNullable(idToBoard.get(boardId));
     }
 
     @Override

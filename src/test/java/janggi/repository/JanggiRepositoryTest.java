@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-class JanggiRepositoryImplTest {
+class JanggiRepositoryTest {
 
     @Test
     @DisplayName("JanggiGame 도메인을 저장한다")
@@ -24,7 +24,7 @@ class JanggiRepositoryImplTest {
         //given
         InMemoryJanggiDao janggiDao = new InMemoryJanggiDao();
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        JanggiRepository janggiRepository = new JanggiRepositoryImpl(janggiDao, boardDao);
+        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao);
         JanggiGame janggiGame = new JanggiGame(new Board(Map.of()),
                 new Player("test1", Team.RED, 0),
                 new Player("test2", Team.GREEN, 0),
@@ -32,7 +32,7 @@ class JanggiRepositoryImplTest {
                 GameStatus.DRAW);
 
         //when
-        janggiRepository.save(janggiGame, GameStatus.DRAW);
+        janggiRepository.save(janggiGame);
 
         //then
         JanggiEntity expected = new JanggiEntity(1L,
@@ -52,7 +52,7 @@ class JanggiRepositoryImplTest {
         //given
         InMemoryJanggiDao janggiDao = new InMemoryJanggiDao();
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        JanggiRepository janggiRepository = new JanggiRepositoryImpl(janggiDao, boardDao);
+        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao);
         JanggiGame janggiGame = new JanggiGame(new Board(Map.of()),
                 new Player("test1", Team.RED, 0),
                 new Player("test2", Team.GREEN, 0),
@@ -74,13 +74,13 @@ class JanggiRepositoryImplTest {
         //given
         InMemoryJanggiDao janggiDao = new InMemoryJanggiDao();
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        JanggiRepository janggiRepository = new JanggiRepositoryImpl(janggiDao, boardDao);
+        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao);
         JanggiGame janggiGame = new JanggiGame(new Board(Map.of()),
                 new Player("test1", Team.RED, 0),
                 new Player("test2", Team.GREEN, 0),
                 Team.GREEN,
                 GameStatus.DRAW);
-        janggiRepository.save(janggiGame, GameStatus.DRAW);
+        janggiRepository.save(janggiGame);
 
         //when
         boolean actual = janggiRepository.existsByRedAndGreenPlayerNameAndGameStatus("test1",
@@ -97,7 +97,7 @@ class JanggiRepositoryImplTest {
         //given
         InMemoryJanggiDao janggiDao = new InMemoryJanggiDao();
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        JanggiRepository janggiRepository = new JanggiRepositoryImpl(janggiDao, boardDao);
+        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao);
         Player red = new Player("test1", Team.RED, 0);
         Player green = new Player("test2", Team.GREEN, 0);
         JanggiGame janggiGame = new JanggiGame(new Board(Map.of()),
@@ -105,7 +105,7 @@ class JanggiRepositoryImplTest {
                 green,
                 Team.GREEN,
                 GameStatus.DRAW);
-        janggiRepository.save(janggiGame, GameStatus.DRAW);
+        janggiRepository.save(janggiGame);
 
         //when
         Optional<JanggiGame> janggiGameOptional = janggiRepository.findByRedAndGreenPlayerNameAndGameStatus(
@@ -129,7 +129,7 @@ class JanggiRepositoryImplTest {
         //given
         InMemoryJanggiDao janggiDao = new InMemoryJanggiDao();
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        JanggiRepository janggiRepository = new JanggiRepositoryImpl(janggiDao, boardDao);
+        JanggiRepository janggiRepository = new JanggiRepository(janggiDao, boardDao);
         Player red = new Player("test1", Team.RED, 0);
         Player green = new Player("test2", Team.GREEN, 0);
         JanggiGame janggiGame = new JanggiGame(new Board(Map.of()),
@@ -137,7 +137,7 @@ class JanggiRepositoryImplTest {
                 green,
                 Team.GREEN,
                 GameStatus.DRAW);
-        janggiRepository.save(janggiGame, GameStatus.DRAW);
+        janggiRepository.save(janggiGame);
 
         //when
         Optional<Long> janggiIdOptional = janggiRepository.findJanggiIdByRedAndGreenPlayerNameAndGameStatus(

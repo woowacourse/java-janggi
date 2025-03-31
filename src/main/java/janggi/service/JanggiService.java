@@ -9,6 +9,7 @@ import janggi.domain.SetupType;
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
+import janggi.entity.BoardEntity;
 import janggi.repository.BoardRepository;
 import janggi.repository.JanggiRepository;
 
@@ -39,11 +40,10 @@ public class JanggiService {
                                      final String greenPlayerName,
                                      final SetupType redSetupType,
                                      final SetupType greenSetupType) {
-        JanggiGame janggiGame = new JanggiGame(
-                new Board(Pieces.createPieces(redSetupType, greenSetupType).getPieces()),
+        JanggiGame janggiGame = new JanggiGame(new Board(Pieces.createPieces(redSetupType, greenSetupType).getPieces()),
                 new Player(redPlayerName, Team.RED),
                 new Player(greenPlayerName, Team.GREEN));
-        janggiRepository.save(janggiGame, GameStatus.CONTINUE);
+        janggiRepository.save(janggiGame);
         long janggiId = findJanggiId(redPlayerName, greenPlayerName);
         boardRepository.saveAll(janggiId, janggiGame.getBoard());
         return janggiGame;
@@ -56,7 +56,7 @@ public class JanggiService {
                           final Piece piece,
                           final boolean isAlive) {
         long janggiId = findJanggiId(redPlayerName, greenPlayerName);
-        boardRepository.save(janggiId, departure, destination, piece, isAlive);
+        boardRepository.save(BoardEntity.of(janggiId, piece, destination, isAlive), departure);
     }
 
     public void updateDiedPiece(final String redPlayerName,
@@ -64,11 +64,11 @@ public class JanggiService {
                                 final Position destination,
                                 final Piece removed) {
         long janggiId = findJanggiId(redPlayerName, greenPlayerName);
-        boardRepository.save(janggiId, destination, destination, removed, false);
+        boardRepository.save(BoardEntity.of(janggiId, removed, destination, false), destination);
     }
 
     public void saveJanggiGame(final JanggiGame janggiGame) {
-        janggiRepository.save(janggiGame, GameStatus.CONTINUE);
+        janggiRepository.save(janggiGame);
     }
 
     private long findJanggiId(final String redPlayerName, final String greenPlayerName) {

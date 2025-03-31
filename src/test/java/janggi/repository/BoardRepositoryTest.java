@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BoardRepositoryImplTest {
+class BoardRepositoryTest {
 
     @Test
     @DisplayName("대상 위치의 boardEntity가 DB에 존재하지 않을 경우, 새로 저장한다")
@@ -23,11 +23,11 @@ class BoardRepositoryImplTest {
         //given
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
         Piece piece = new General(Team.GREEN);
-        BoardEntity target = new BoardEntity(1, 1, piece.getPieceType().name(), piece.getTeam().name(), 1, 1, true);
-        BoardRepository boardRepository = new BoardRepositoryImpl(boardDao);
+        BoardEntity target = BoardEntity.of(1, piece, Position.of(1, 1), true);
+        BoardRepository boardRepository = new BoardRepository(boardDao);
 
         //when
-        boardRepository.save(target.janggiId(), Position.of(1, 1), Position.of(1, 1), piece, true);
+        boardRepository.save(target, Position.of(1, 1));
 
         //then
         BoardEntity expected = boardDao.getIdToBoard().get(1L);
@@ -41,12 +41,17 @@ class BoardRepositoryImplTest {
         //given
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
         Piece piece = new General(Team.GREEN);
-        BoardEntity target = new BoardEntity(1, 1, piece.getPieceType().name(), piece.getTeam().name(), 1, 1, true);
-        boardDao.save(target, Position.of(1, 1));
-        BoardRepository boardRepository = new BoardRepositoryImpl(boardDao);
+        BoardEntity target = BoardEntity.of(1, piece, Position.of(1, 1), true);
+        boardDao.save(target);
+        BoardRepository boardRepository = new BoardRepository(boardDao);
 
         //when
-        boardRepository.save(target.janggiId(), Position.of(1, 1), Position.of(2, 2), piece, true);
+        boardRepository.save(BoardEntity.of(target.boardId(),
+                        target.janggiId(),
+                        piece,
+                        Position.of(2, 2),
+                        true),
+                Position.of(1, 1));
 
         //then
         BoardEntity expected = boardDao.getIdToBoard().get(1L);
@@ -59,7 +64,7 @@ class BoardRepositoryImplTest {
     void saveAll() {
         //given
         InMemoryBoardDao boardDao = new InMemoryBoardDao();
-        BoardRepository boardRepository = new BoardRepositoryImpl(boardDao);
+        BoardRepository boardRepository = new BoardRepository(boardDao);
 
         Map<Position, Piece> positionToPiece = new HashMap<>();
         positionToPiece.put(Position.of(1, 1), new General(Team.RED));

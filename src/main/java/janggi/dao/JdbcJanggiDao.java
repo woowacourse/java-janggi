@@ -1,6 +1,5 @@
 package janggi.dao;
 
-import janggi.domain.GameStatus;
 import janggi.entity.JanggiEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,25 +9,20 @@ import java.sql.Statement;
 import java.util.Optional;
 
 public class JdbcJanggiDao extends AbstractJdbcDao implements JanggiDao {
+
     @Override
-    public JanggiEntity save(final JanggiEntity janggiEntity, final GameStatus targetStatus) {
-        Optional<JanggiEntity> janggiEntityOptional = findByRedAndGreenPlayerNameAndGameStatus(
-                janggiEntity.redPlayerName(), janggiEntity.greenPlayerName(), targetStatus.name());
-        if (janggiEntityOptional.isEmpty()) {
-            insert(janggiEntity);
-            return findByRedAndGreenPlayerNameAndGameStatus(
-                    janggiEntity.redPlayerName(), janggiEntity.greenPlayerName(),
-                    janggiEntity.gameStatus())
-                    .orElseThrow(() -> new IllegalStateException("insert 오류: " + janggiEntity));
-        }
-        update(new JanggiEntity(janggiEntityOptional.get().janggiId(),
-                janggiEntity.redPlayerName(),
+    public JanggiEntity save(final JanggiEntity janggiEntity) {
+        if (existsByRedAndGreenPlayerNameAndGameStatus(janggiEntity.redPlayerName(),
                 janggiEntity.greenPlayerName(),
-                janggiEntity.redScore(),
-                janggiEntity.greenScore(),
-                janggiEntity.gameStatus(),
-                janggiEntity.gameTurn()));
-        return janggiEntityOptional.get();
+                janggiEntity.gameStatus())) {
+            update(janggiEntity);
+            return janggiEntity;
+        }
+        insert(janggiEntity);
+        return findByRedAndGreenPlayerNameAndGameStatus(janggiEntity.redPlayerName(),
+                janggiEntity.greenPlayerName(),
+                janggiEntity.gameStatus())
+                .orElseThrow(() -> new IllegalStateException("insert 오류: " + janggiEntity));
     }
 
     private void insert(final JanggiEntity janggiEntity) {
@@ -112,5 +106,29 @@ public class JdbcJanggiDao extends AbstractJdbcDao implements JanggiDao {
                                                               final String gameStatus) {
         return findByRedAndGreenPlayerNameAndGameStatus(redPlayerName, greenPlayerName, gameStatus)
                 .isPresent();
+    }
+
+    @Override
+    public Optional<Long> findJanggiIdByRedAndGreenPlayerNameAndGameStatus(final String redPlayerName,
+                                                                           final String greenPlayerName,
+                                                                           final String targetStatus) {
+        final String query = """
+                SELECT janggi_id 
+                FROM janggi
+                where red_player_name = ? AND green_player_name = ? AND game_status = ?""";
+
+        try (final Connection connection = getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, redPlayerName);
+            preparedStatement.setString(2, greenPlayerName);
+            preparedStatement.setString(3, targetStatus);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(resultSet.getLong("janggi_id"));
+            }
+            return Optional.empty();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
