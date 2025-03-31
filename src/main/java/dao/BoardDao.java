@@ -90,9 +90,9 @@ public class BoardDao {
         try (final var connection = janggiConnection.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, String.valueOf(pieceId));
-            preparedStatement.setString(2, String.valueOf(boardPoint.row()));
-            preparedStatement.setString(3, String.valueOf(boardPoint.column()));
+            preparedStatement.setLong(1, pieceId);
+            preparedStatement.setInt(2, boardPoint.row());
+            preparedStatement.setInt(3, boardPoint.column());
             preparedStatement.executeUpdate();
 
         } catch (final SQLException e) {
