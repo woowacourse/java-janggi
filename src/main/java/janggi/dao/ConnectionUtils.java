@@ -1,16 +1,17 @@
 package janggi.dao;
 
+import janggi.util.PropertiesUtil;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionUtils {
 
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private static final String SERVER = PropertiesUtil.get("db.server");
+    private static final String DATABASE = PropertiesUtil.get("db.database");
+    private static final String OPTION = PropertiesUtil.get("db.option");
+    private static final String USERNAME = PropertiesUtil.get("db.username");
+    private static final String PASSWORD = PropertiesUtil.get("db.password");
 
     public static Connection getConnection() {
         try {
