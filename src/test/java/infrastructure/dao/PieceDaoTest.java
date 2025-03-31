@@ -29,7 +29,7 @@ class PieceDaoTest {
         pieceDao = new PieceDao(dbConnector);
 
         String createGameTable = """
-                CREATE TABLE games (
+                CREATE TABLE IF NOT EXISTS games (
                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(64) NOT NULL UNIQUE,
                     current_turn VARCHAR(64) NOT NULL

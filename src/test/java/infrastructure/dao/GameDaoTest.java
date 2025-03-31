@@ -25,7 +25,7 @@ class GameDaoTest {
     @BeforeAll
     static void setUpDatabase() throws SQLException {
         gameDao = new GameDao(dbConnector);
-
+        
         String ddl = """
                 CREATE TABLE games (
                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
