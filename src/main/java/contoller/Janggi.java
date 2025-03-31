@@ -41,13 +41,14 @@ public class Janggi {
     private void loadGame() {
         int gameId = selectLoadGameId();
         List<PieceDto> loadPieceDto = janggiBoardDao.findByGameId(gameId);
+        boolean choTurn = janggiBoardDao.getTurnByGameId(gameId);
         Map<Point, Piece> loadMap = new HashMap<>();
         for (PieceDto pieceDto : loadPieceDto) {
             Piece piece = PieceInfo.createPieceWithName(pieceDto.pieceName(), pieceDto.team());
             loadMap.put(Point.of(pieceDto.x(), pieceDto.y()), piece);
         }
         JanggiBoard janggiBoard = new JanggiBoard(loadMap);
-        playGame(gameId, janggiBoard, true);
+        playGame(gameId, janggiBoard, choTurn);
     }
 
     private int selectLoadGameId() {
@@ -104,7 +105,7 @@ public class Janggi {
                 continue;
             }
             if (userInput.equals("wq")) {
-                saveGame(gameId, janggiBoard);
+                saveGame(gameId, janggiBoard, turn);
                 return;
             }
             List<Point> movePoints = getTargetPointInput(team, userInput);
@@ -122,8 +123,8 @@ public class Janggi {
 
     }
 
-    private void saveGame(int gameId, JanggiBoard janggiBoard) {
-        janggiBoardDao.updateJanggiGame(gameId, janggiBoard.getAlivePieces());
+    private void saveGame(int gameId, JanggiBoard janggiBoard, boolean turn) {
+        janggiBoardDao.updateJanggiGame(gameId, janggiBoard.getAlivePieces(), turn);
     }
 
     private Team decideTeam(boolean choTurn) {

@@ -180,7 +180,7 @@
     - [x] janggi DB를 연결한다.
     - [x] 게임 시작 시, 이전 게임을 id를 통해 불러올 것인지 새로운 게임을 만들 것인지 선택한다.
         - [x] 이전 게임을 불러올 경우, 선택한 id의 게임 정보를 불러와 장기판을 초기화 한다.
-        - [ ] 해당 게임의 턴을 확인한다.
+        - [X] 해당 게임의 턴을 확인한다.
     - [x] 입력 턴에 wq를 누르면 현재 상태를 저장 후 종료한다.
         - [x] 모든 살아있는 기물의 위치를 저장한다.
     - [x] 입력 턴에 아무것도 입력하지 않고 엔터를 누르면 턴을 넘긴다.
@@ -202,7 +202,8 @@ CREATE TABLE JanggiBoard
     x_pos      INT        NOT NULL,
     y_pos      INT        NOT NULL,
     team_name  VARCHAR(1) NOT NULL,
-    piece_type VARCHAR(1) NOT NULL
+    piece_type VARCHAR(1) NOT NULL,
+    turn       BOOLEAN    NOT NULL
 );
 ```
 
@@ -214,6 +215,7 @@ CREATE TABLE JanggiBoard
     - y_pos : INT
     - team_name : VARCHAR(1)
     - piece_type : VARCHAR(1)
+    - turn : BOOLEAN
 
 
 

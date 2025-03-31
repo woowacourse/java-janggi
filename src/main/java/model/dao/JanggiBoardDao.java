@@ -43,10 +43,9 @@ public final class JanggiBoardDao {
         connection.rollback();
     }
 
-    public void updateJanggiGame(int gameId, List<PieceDto> pieces) {
+    public void updateJanggiGame(int gameId, List<PieceDto> pieces, boolean turn) {
         final var deleteGameQuery = "DELETE FROM JanggiBoard WHERE game_id = ?";
-        final var insertGameQuery = "INSERT INTO JanggiBoard (game_id, x_pos, y_pos, team_name, piece_type)VALUES(?, ?, ?, ?, ?)";
-
+        final var insertGameQuery = "INSERT INTO JanggiBoard (game_id, x_pos, y_pos, team_name, piece_type, turn)VALUES(?, ?, ?, ?, ?, ?)";
         try (final var deleteStatement = connection.prepareStatement(deleteGameQuery)) {
             deleteStatement.setInt(1, gameId);
             deleteStatement.executeUpdate();
@@ -62,22 +61,25 @@ public final class JanggiBoardDao {
                 preparedStatement.setInt(3, piece.y());
                 preparedStatement.setString(4, piece.team());
                 preparedStatement.setString(5, piece.pieceName());
+                preparedStatement.setBoolean(6, turn);
 
                 preparedStatement.addBatch();
             }
             preparedStatement.executeBatch();
+            connection.commit();
         } catch (SQLException sqlException) {
             System.out.println("[ERROR] DB 추가 오류");
             sqlException.printStackTrace();
         }
+
     }
 
     public void deleteJanggiGame(int gameId) {
         final var deleteGameQuery = "DELETE FROM JanggiBoard WHERE game_id = ?";
-
         try (final var deleteStatement = connection.prepareStatement(deleteGameQuery)) {
             deleteStatement.setInt(1, gameId);
             deleteStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException sqlException) {
             System.out.println("[ERROR] DB 삭제 오류");
             sqlException.printStackTrace();
@@ -119,6 +121,22 @@ public final class JanggiBoardDao {
             sqlException.printStackTrace();
         }
         return results;
+    }
+
+    public boolean getTurnByGameId(int gameId) {
+        final var query = "SELECT turn FROM JanggiBoard WHERE game_id = ?";
+        boolean turn = false;
+        try (final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, gameId);
+            try (final var resultSet = preparedStatement.executeQuery()) {
+                resultSet.next();
+                turn = resultSet.getBoolean("turn");
+            }
+        } catch (SQLException sqlException) {
+            System.out.println("[ERROR] DB 데이터 탐색 오류");
+            sqlException.printStackTrace();
+        }
+        return turn;
     }
 
 }

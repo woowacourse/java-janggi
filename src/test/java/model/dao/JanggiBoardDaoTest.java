@@ -38,7 +38,7 @@ class JanggiBoardDaoTest {
     void updateJanggiGameTest() {
         JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardSetUp.DEFAULT_SETUP);
 
-        janggiboardDao.updateJanggiGame(TEST_GAME_ID, janggiBoard.getAlivePieces());
+        janggiboardDao.updateJanggiGame(TEST_GAME_ID, janggiBoard.getAlivePieces(), true);
         assertThat(janggiboardDao.existJanggiGame(TEST_GAME_ID)).isTrue();
     }
 
@@ -47,7 +47,8 @@ class JanggiBoardDaoTest {
     void existJanggiGameTest() {
         assertThat(janggiboardDao.existJanggiGame(TEST_GAME_ID)).isFalse();
 
-        janggiboardDao.updateJanggiGame(TEST_GAME_ID, new JanggiBoard(JanggiBoardSetUp.DEFAULT_SETUP).getAlivePieces());
+        janggiboardDao.updateJanggiGame(TEST_GAME_ID, new JanggiBoard(JanggiBoardSetUp.DEFAULT_SETUP).getAlivePieces(),
+                true);
 
         assertThat(janggiboardDao.existJanggiGame(TEST_GAME_ID)).isTrue();
     }
@@ -58,6 +59,15 @@ class JanggiBoardDaoTest {
         janggiboardDao.deleteJanggiGame(TEST_GAME_ID);
 
         assertThat(janggiboardDao.existJanggiGame(TEST_GAME_ID)).isFalse();
+    }
+
+    @Test
+    @DisplayName("턴 정보 반환 테스트")
+    void getTurnOFJanggiGameTest() {
+        janggiboardDao.updateJanggiGame(TEST_GAME_ID, new JanggiBoard(JanggiBoardSetUp.DEFAULT_SETUP).getAlivePieces(),
+                true);
+
+        assertThat(janggiboardDao.getTurnByGameId(TEST_GAME_ID)).isTrue();
     }
 
 }
