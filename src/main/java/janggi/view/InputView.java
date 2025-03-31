@@ -6,6 +6,14 @@ import java.util.Scanner;
 public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
+    public String readChoice() {
+        System.out.println("선택지를 입력해주세요");
+        System.out.println("1. 기물 이동");
+        System.out.println("2. 게임 저장");
+        System.out.println("3. 게임 종료");
+        return scanner.nextLine();
+    }
+
     public String readPosition(Team team) {
         System.out.println("현재 차례: " + teamToName(team));
         System.out.println(ConsoleColors.RESET_COLOR + "이동할 장기의 위치를 column, row 형태로 선택해 주세요. (ex. 8, 0)");
@@ -26,13 +34,5 @@ public class InputView {
 
     public void close() {
         scanner.close();
-    }
-
-    public String readChoice() {
-        System.out.println("선택지를 입력해주세요");
-        System.out.println("1. 기물 이동");
-        System.out.println("2. 게임 저장");
-        System.out.println("3. 게임 종료");
-        return scanner.nextLine();
     }
 }

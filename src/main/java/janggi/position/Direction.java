@@ -1,6 +1,5 @@
 package janggi.position;
 
-import janggi.piece.Team;
 import java.util.List;
 
 public enum Direction {

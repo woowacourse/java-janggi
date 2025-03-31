@@ -1,6 +1,5 @@
 package janggi.view;
 
-import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.piece.pieces.Piece;
 import janggi.position.Position;
@@ -43,34 +42,9 @@ public class OutputView {
             Arrays.fill(board[i], ".");
         }
         units.forEach((position, piece) ->
-                board[position.getRow()][position.getColumn()] = typeToName(piece.getType()));
+                board[position.getRow()][position.getColumn()] = piece.getType().getName());
 
         return board;
-    }
-
-    private String typeToName(PieceType type) {
-        if (type == PieceType.GENERAL) {
-            return "K";
-        }
-        if (type == PieceType.SCHOLAR) {
-            return "S";
-        }
-        if (type == PieceType.CHARIOT) {
-            return "C";
-        }
-        if (type == PieceType.HORSE) {
-            return "H";
-        }
-        if (type == PieceType.ELEPHANT) {
-            return "E";
-        }
-        if (type == PieceType.CANNON) {
-            return "B";
-        }
-        if (type == PieceType.SOLDIER) {
-            return "J";
-        }
-        return "N";
     }
 
     private String[][] initialTeamBoard(Map<Position, Piece> pieces) {
@@ -80,15 +54,8 @@ public class OutputView {
             Arrays.fill(board[i], ".");
         }
         pieces.forEach(
-                (position, piece) -> board[position.getRow()][position.getColumn()] = teamToName(piece.getTeam()));
+                (position, piece) -> board[position.getRow()][position.getColumn()] = piece.getTeam().getName());
         return board;
-    }
-
-    private String teamToName(Team team) {
-        if (team == Team.HAN) {
-            return "한나라";
-        }
-        return "초나라";
     }
 
     private void printBoard(String[][] board, String[][] teamInfo) {
@@ -110,7 +77,7 @@ public class OutputView {
 
     public void printWinner(Team team, double choScore, double hanScore) {
         System.out.println(System.lineSeparator() + "게임 종료");
-        System.out.println("승자: " + teamToName(team));
+        System.out.println("승자: " + team.getName());
         printScore(choScore, hanScore);
     }
 
