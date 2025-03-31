@@ -4,7 +4,6 @@ import janggi.board.Board;
 import janggi.board.Pieces;
 import janggi.dao.BoardDao;
 import janggi.dao.PieceDao;
-import janggi.dao.connection.MysqlConnection;
 import janggi.piece.Team;
 import janggi.piece.pieces.Piece;
 import janggi.position.Position;
@@ -73,6 +72,8 @@ public class Game {
 
         moveAndCaptureIfEnemyExists(board, routes, position);
         if (board.isNoneEnemyGeneralUnit()) {
+            pieceDao.deleteAllPieces();
+            boardDao.deleteAllBoards();
             return GameState.QUIT;
         }
         board.changeTurn();
@@ -94,6 +95,9 @@ public class Game {
 
     private GameState gameOver(Board board) {
         outputView.printPieces(board.getPieces());
+
+        pieceDao.deleteAllPieces();
+        boardDao.deleteAllBoards();
 
         return GameState.QUIT;
     }
