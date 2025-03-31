@@ -2,14 +2,18 @@ package view;
 
 import java.util.List;
 import java.util.Optional;
-import model.piece.Piece;
-
 import java.util.Scanner;
+import model.piece.Piece;
+import model.piece.Team;
 import model.position.Position;
 
-public class InputView {
+public class GameProgressView {
 
-    private final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public void printCurrentTurnOfTeam(Team currentTurn) {
+        System.out.println("현재 %s의 턴입니다.".formatted(currentTurn.getValue()));
+    }
 
     public Optional<Position> choiceDeparture() {
         System.out.println("이동할 말을 선택해주세요. ex) 1,4 / 결과 계산을 하고 싶다면, 종료를 입력해주세요.");
@@ -36,5 +40,9 @@ public class InputView {
         return splitResult.stream()
             .map(Integer::parseInt)
             .toList();
+    }
+
+    public void printErrorMessage(String message) {
+        System.out.println(message);
     }
 }
