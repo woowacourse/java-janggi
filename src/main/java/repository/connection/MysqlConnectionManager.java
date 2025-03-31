@@ -17,9 +17,7 @@ public class MysqlConnectionManager implements ConnectionManager {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            System.err.println("DB연결 오류 :" + e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("DB연결 오류", e);
         }
     }
 }
