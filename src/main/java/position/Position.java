@@ -9,15 +9,29 @@ public record Position(int x, int y) {
     private static final int Y_MAX_RANGE = 10;
 
     public Position {
-        if (x <= POSITION_MIN_RANGE || x > X_MAX_RANGE || y <= POSITION_MIN_RANGE || y > Y_MAX_RANGE) {
-            throw new IllegalArgumentException("존재할 수 없는 위치의 값입니다.");
-        }
+        validateRange(x, y);
     }
 
     public double calculateDistance(final Position destPosition) {
         int dx = this.x - destPosition.x;
         int dy = this.y - destPosition.y;
         return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    private void validateRange(int x, int y) {
+        if (!isCoordinate(x, y)) {
+            throw new IllegalArgumentException("존재할 수 없는 위치의 값입니다.");
+        }
+    }
+
+    private boolean isCoordinate(int x, int y) {
+        return x <= POSITION_MIN_RANGE || x > X_MAX_RANGE || y <= POSITION_MIN_RANGE || y > Y_MAX_RANGE;
+    }
+
+    public boolean canMove(Movement movement) {
+        int nextX = x + movement.x();
+        int nextY = y + movement.y();
+        return isCoordinate(nextX, nextY);
     }
 
     public Position move(Movement movement) {

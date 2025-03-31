@@ -10,6 +10,7 @@ import validator.ObstructionCheckable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Elephant extends Piece implements DistanceCheckable, ObstructionCheckable {
 
@@ -18,7 +19,7 @@ public class Elephant extends Piece implements DistanceCheckable, ObstructionChe
     private static final double DISTANCE;
 
     static {
-        movePaths = new MovePaths(List.of(
+        movePaths = new MovePaths(Set.of(
                 new MovePath(Movement.UP, Movement.LEFT_UP, Movement.LEFT_UP),
                 new MovePath(Movement.UP, Movement.RIGHT_UP, Movement.RIGHT_UP),
                 new MovePath(Movement.DOWN, Movement.LEFT_DOWN, Movement.LEFT_DOWN),
