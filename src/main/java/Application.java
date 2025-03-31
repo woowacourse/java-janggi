@@ -19,6 +19,7 @@ public class Application {
                 new PieceDao(),
                 new EntityMapper()
         );
+        transactionManager.createTable();
         JanggiController janggiController = new JanggiController(consoleView, transactionManager);
         janggiController.start();
     }

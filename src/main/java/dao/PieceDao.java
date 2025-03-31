@@ -14,7 +14,7 @@ public class PieceDao {
 
     public void createTable(Connection connection) throws SQLException {
         final var createTableQuery = """
-                CREATE TABLE piece (
+                CREATE TABLE IF NOT EXISTS piece (
                     id BIGINT PRIMARY KEY AUTO_INCREMENT,
                     x INTEGER NOT NULL,
                     y INTEGER NOT NULL,
@@ -27,15 +27,6 @@ public class PieceDao {
                 """;
         try (final var statement = connection.createStatement()) {
             statement.execute(createTableQuery);
-        }
-    }
-
-    public void dropTable(Connection connection) throws SQLException {
-        final var dropIfExistQuery = """
-                DROP TABLE IF EXISTS piece;
-                """;
-        try (final var statement = connection.createStatement()) {
-            statement.execute(dropIfExistQuery);
         }
     }
 

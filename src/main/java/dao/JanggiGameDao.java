@@ -12,22 +12,13 @@ public class JanggiGameDao {
 
     public void createTable(Connection connection) throws SQLException {
         final var createTableQuery = """
-                CREATE TABLE janggi_game (
+                CREATE TABLE IF NOT EXISTS janggi_game (
                     id BIGINT PRIMARY KEY AUTO_INCREMENT,
                     turn VARCHAR(20)
                 );
                 """;
         try (final var statement = connection.createStatement()) {
             statement.execute(createTableQuery);
-        }
-    }
-
-    public void dropTable(Connection connection) throws SQLException {
-        final var dropIfExistQuery = """
-                DROP TABLE IF EXISTS janggi_game;
-                """;
-        try (final var statement = connection.createStatement()) {
-            statement.execute(dropIfExistQuery);
         }
     }
 

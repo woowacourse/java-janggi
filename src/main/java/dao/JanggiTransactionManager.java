@@ -33,8 +33,6 @@ public class JanggiTransactionManager {
             connection.setAutoCommit(false);
 
             try {
-                pieceDao.dropTable(connection);
-                janggiGameDao.dropTable(connection);
                 janggiGameDao.createTable(connection);
                 pieceDao.createTable(connection);
                 connection.commit();
@@ -83,6 +81,7 @@ public class JanggiTransactionManager {
 
     public Optional<JanggiGame> findById(Long id) {
         try (Connection connection = dataBaseConnector.getConnection()) {
+            connection.setAutoCommit(false);
 
             try {
                 Optional<JanggiGameEntity> janggiGameEntity = janggiGameDao.findById(connection, id);

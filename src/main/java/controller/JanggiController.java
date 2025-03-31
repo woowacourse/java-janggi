@@ -57,7 +57,6 @@ public class JanggiController {
         Board board = Board.createWithPieces(placements);
         Turn turn = Turn.getStartingTurn();
         JanggiGame janggiGame = new JanggiGame(board, turn);
-        transactionManager.createTable();
         transactionManager.create(janggiGame);
         return janggiGame;
     }
