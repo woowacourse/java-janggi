@@ -8,13 +8,13 @@ import repository.connection.ConnectDatabase;
 
 public class ConnectDataBaseTest {
 
-    private final ConnectDatabase connectMysql = new ConnectH2();
+    private final ConnectDatabase connectH2 = new ConnectH2();
 
     @Test
     public void connection() {
-        try (final var connection = connectMysql.create()) {
+        try (final var connection = connectH2.create()) {
             assertThat(connection).isNotNull();
-            connectMysql.close(connection);
+            connectH2.close(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
