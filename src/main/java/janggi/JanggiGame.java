@@ -42,24 +42,22 @@ public class JanggiGame {
             int newGameId = gameService.makeNewGame();
             pieceService.initializePieceTable();
 
-            board = JanggiBoard.initializeWithPieces();
-            boardPieceService.initializeBoardPieces(board.getBoard(), newGameId);
+            board = boardPieceService.initializeBoardPieces(newGameId);
         } else {
-            Map<Position, Piece> positionPieces = boardPieceService.findAllBoardPieces();
-            board = JanggiBoard.fillEmptyPiece(positionPieces);
+            board = boardPieceService.loadBoardPieces();
         }
         return board;
     }
 
     private void playTurns(JanggiBoard board) {
-        List<GameState> turns = getTurns();
+        List<GameState> turns = gameService.getTurns();
         if (turns.contains(GameState.ENDED)) {
             outputView.printAlreadyEnded();
             return ;
         }
         while (true) {
             for (GameState turn : turns) {
-                gameService.updateGameState(getGameId(), turn);
+                gameService.updateGameState(turn);
 
                 Side side = Side.getSideByName(turn.getName());
                 Piece catchedPiece = playTurn(side, board);
@@ -67,19 +65,14 @@ public class JanggiGame {
                 if (board.checkGameIsOver(side)) {
                     outputView.printEndMessage(side, catchedPiece);
                     printTotalScores(board);
-                    gameService.updateGameState(getGameId(), GameState.ENDED);
+                    gameService.updateGameState(GameState.ENDED);
                     return ;
                 }
             }
         }
     }
 
-    private List<GameState> getTurns() {
-        GameState turn = gameService.getState(getGameId());
-        return turn.getTurnsByState();
-    }
-
-    private Piece playTurn(final Side side, JanggiBoard board) {
+    private Piece playTurn(final Side side, final JanggiBoard board) {
         while (true) {
             try {
                 outputView.printBoard(board);
@@ -95,7 +88,7 @@ public class JanggiGame {
     }
 
     private List<Position> computeReachableDestinations(final Side side, final JanggiBoard board, final Position selectedPiecePosition) {
-        List<Position> reachablePositions = board.computeReachableDestination(side, selectedPiecePosition);
+        List<Position> reachablePositions = boardPieceService.computeReachableDestination(board, side, selectedPiecePosition);
         outputView.printReachableDestinations(reachablePositions);
         return reachablePositions;
     }
@@ -104,29 +97,19 @@ public class JanggiGame {
         Position destination = inputView.askMoveDestination();
         validateSelectedDestination(destination, reachableDestinations);
 
-        Piece catchedPiece = board.moveOrCatchPiece(selectedPiecePosition, destination);
-        boardPieceService.updatePiecePosition(selectedPiecePosition, destination);
+        Piece catchedPiece = boardPieceService.moveOrCatchPiece(board, selectedPiecePosition, destination);
         outputView.printMoveResult(catchedPiece);
         return catchedPiece;
     }
 
     private void printTotalScores(final JanggiBoard board) {
-        int choTotalScore = board.sumSideTotalScore(Side.CHO);
-        int hanTotalScore = board.sumSideTotalScore(Side.HAN);
-        outputView.printTotalScores(choTotalScore, hanTotalScore);
+        Map<Side, Integer> sideTotalScores = boardPieceService.sumTotalPoints(board);
+        outputView.printTotalScores(sideTotalScores.get(Side.CHO), sideTotalScores.get(Side.HAN));
     }
 
     private void validateSelectedDestination(final Position destination, final List<Position> reachableDestinations) {
         if (!reachableDestinations.contains(destination)) {
             throw new IllegalArgumentException("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
         }
-    }
-
-    private int getGameId() {
-        Map<Integer, String> allGames = gameService.findAllGames();
-        return allGames.keySet().stream()
-                .mapToInt(Integer::intValue)
-                .max()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] 진행 중인 게임을 찾을 수 없습니다."));
     }
 }

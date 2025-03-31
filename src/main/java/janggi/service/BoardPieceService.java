@@ -2,6 +2,7 @@ package janggi.service;
 
 import janggi.dao.BoardPieceDao;
 import janggi.dao.dto.BoardPieceFindDto;
+import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
@@ -19,6 +20,21 @@ public class BoardPieceService {
         this.boardPieceDao = new BoardPieceDao();
     }
 
+    public JanggiBoard initializeBoardPieces(int newGameId) {
+        JanggiBoard board = JanggiBoard.initializeWithPieces();
+        Map<Position, Piece> positionPieces = board.getBoard();
+        for (Map.Entry<Position, Piece> positionPieceEntry : positionPieces.entrySet()) {
+            addBoardPiece(newGameId, positionPieceEntry.getKey(), positionPieceEntry.getValue());
+        }
+
+        return new JanggiBoard(positionPieces);
+    }
+
+    public JanggiBoard loadBoardPieces() {
+        Map<Position, Piece> positionPieces = findAllBoardPieces();
+        return JanggiBoard.fillEmptyPiece(positionPieces);
+    }
+
     public Map<Position, Piece> findAllBoardPieces() {
         List<BoardPieceFindDto> boardPieces = boardPieceDao.findAllPieces();
 
@@ -34,12 +50,6 @@ public class BoardPieceService {
         return positionPieces;
     }
 
-    public void initializeBoardPieces(Map<Position, Piece> positionPieces, int newGameId) {
-        for (Map.Entry<Position, Piece> positionPieceEntry : positionPieces.entrySet()) {
-            addBoardPiece(newGameId, positionPieceEntry.getKey(), positionPieceEntry.getValue());
-        }
-    }
-
     public void addBoardPiece(final int gameId, final Position position, final Piece piece) {
         boardPieceDao.addPositionPiece(gameId, position.getX(), position.getY(), piece);
     }
@@ -48,5 +58,24 @@ public class BoardPieceService {
         boardPieceDao.deletePositionIfExists(destination);
         int boardId = boardPieceDao.findBoardPieceIdByPosition(selectedPiecePosition);
         boardPieceDao.updatePiecePosition(boardId, destination);
+    }
+
+    public Piece moveOrCatchPiece(final JanggiBoard board, final Position selectedPiecePosition, final Position destination) {
+        Piece catchedPiece = board.moveOrCatchPiece(selectedPiecePosition, destination);
+        updatePiecePosition(selectedPiecePosition, destination);
+
+        return catchedPiece;
+    }
+
+    public List<Position> computeReachableDestination(final JanggiBoard board, final Side side, final Position selectedPiecePosition) {
+        return board.computeReachableDestination(side, selectedPiecePosition);
+    }
+
+    public Map<Side, Integer> sumTotalPoints(JanggiBoard board) {
+        Map<Side, Integer> sideTotalScores = new HashMap<>();
+        for (Side side : Side.getSides()) {
+            sideTotalScores.put(side, board.sumSideTotalScore(side));
+        }
+        return sideTotalScores;
     }
 }

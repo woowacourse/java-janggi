@@ -4,6 +4,7 @@ import janggi.dao.GameDao;
 import janggi.domain.GameState;
 import janggi.domain.piece.Side;
 
+import java.util.List;
 import java.util.Map;
 
 public class GameService {
@@ -27,12 +28,25 @@ public class GameService {
         return gameDao.findAllGames();
     }
 
-    public void updateGameState(int gameId, GameState gameState) {
-        gameDao.updateState(gameId, gameState);
+    public void updateGameState(GameState gameState) {
+        gameDao.updateState(getGameId(), gameState);
     }
 
-    public GameState getState(int gameId) {
-        String state = gameDao.findStateById(gameId);
+    public GameState getState() {
+        String state = gameDao.findStateById(getGameId());
         return GameState.getStateByName(state);
+    }
+
+    public List<GameState> getTurns() {
+        GameState turn = getState();
+        return turn.getTurnsByState();
+    }
+
+    private int getGameId() {
+        Map<Integer, String> allGames = findAllGames();
+        return allGames.keySet().stream()
+                .mapToInt(Integer::intValue)
+                .max()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 진행 중인 게임을 찾을 수 없습니다."));
     }
 }
