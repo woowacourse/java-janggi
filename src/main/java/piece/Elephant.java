@@ -39,6 +39,7 @@ public class Elephant extends Piece implements DistanceCheckable, ObstructionChe
 
     @Override
     public void validateMoveCondition(Position src, Position dest, Board board) {
+        validateDistance(src, dest);
         List<Position> internalPositions = getInternalPositions(getInternalMovePaths(findCorrectMovePath(dest)));
         validateNonObstruction(board, internalPositions);
     }

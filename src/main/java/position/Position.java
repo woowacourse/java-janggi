@@ -24,14 +24,14 @@ public record Position(int x, int y) {
         }
     }
 
-    private boolean isCoordinate(int x, int y) {
-        return x <= POSITION_MIN_RANGE || x > X_MAX_RANGE || y <= POSITION_MIN_RANGE || y > Y_MAX_RANGE;
-    }
-
     public boolean canMove(Movement movement) {
         int nextX = x + movement.x();
         int nextY = y + movement.y();
         return isCoordinate(nextX, nextY);
+    }
+
+    private boolean isCoordinate(int x, int y) {
+        return POSITION_MIN_RANGE < x && x <= X_MAX_RANGE && POSITION_MIN_RANGE < y && y <= Y_MAX_RANGE;
     }
 
     public Position move(Movement movement) {
