@@ -51,7 +51,6 @@ public record Cannon(Team getTeam) implements Piece {
         for (Direction direction : Direction.getDiagonal()) {
             List<Position> positions = new ArrayList<>();
             createDiagonalRoute(direction, start, positions, routes);
-
         }
         return routes;
     }
