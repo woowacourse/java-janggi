@@ -150,7 +150,7 @@ class ElephantTest {
             // when & then
             assertThatThrownBy(() -> elephant.validateMovementConditions(obstacles, destination))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 말은 장애물을 넘을 수 앖습니다.");
+                .hasMessage("해당 말은 장애물을 넘을 수 없습니다.");
         }
     }
 }

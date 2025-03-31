@@ -40,7 +40,7 @@ class InMemoryBoardRepositoryTest {
             InMemoryBoardRepository repository = new InMemoryBoardRepository();
 
             // when & then
-            assertThat(repository.load().getPieces()).isEmpty();
+            assertThat(repository.hasAnyPiece()).isFalse();
         }
 
         @Test
