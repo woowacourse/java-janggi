@@ -53,7 +53,7 @@ import repository.converter.TurnConverter;
 
 class Initializer {
     private final PieceDao pieceDao = new PieceDao(new ConnectMysql());
-    private final TurnDao turnDao = new TurnDao();
+    private final TurnDao turnDao = new TurnDao(new ConnectMysql());
 
     public Set<Piece> generate() {
         Set<Piece> byPiece = pieceDao.findAll();

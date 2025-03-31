@@ -97,7 +97,7 @@ public final class Board {
         }
         pieceDao.addAll(pieceConverters);
 
-        TurnDao turnDao = new TurnDao();
+        TurnDao turnDao = new TurnDao(new ConnectMysql());
         Team nextTurn = nextTurn();
         turnDao.updateTurn(TurnConverter.toEntity(nextTurn));
 

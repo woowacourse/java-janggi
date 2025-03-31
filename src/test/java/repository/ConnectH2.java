@@ -3,6 +3,8 @@ package repository;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import repository.connection.ConnectDatabase;
 
 public class ConnectH2 implements ConnectDatabase {
@@ -29,4 +31,5 @@ public class ConnectH2 implements ConnectDatabase {
             throw new RuntimeException("[ERROR] 테스트 DB 연결 닫기 오류");
         }
     }
+
 }
