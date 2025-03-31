@@ -65,4 +65,20 @@ public class OutputView {
         System.out.printf(result, TextColor.specifyTeamColor(thisTurnPlayer), thisTurnPlayer.getTeam(), TextColor.exit,
                 thisTurnPlayer.getName());
     }
+
+    public void displayJanggiScore(Map<Player, Integer> score) {
+        for (Map.Entry<Player, Integer> entry : score.entrySet()) {
+            String color = entry.getKey().getTeam() == Team.RED ? TextColor.red : TextColor.blue;
+            System.out.println(color + entry.getKey().getName() + "'s Score: " + entry.getValue() + TextColor.exit);
+        }
+    }
+
+    public void startExistedGame(int gameId) {
+        System.out.printf("%d방 게임에 입장했습니다. 장기를 시작합니다.\n", gameId);
+    }
+
+    public void startNewGame(int gameId) {
+        System.out.printf("%d방을 만들었습니다. 장기를 시작합니다.\n", gameId);
+
+    }
 }
