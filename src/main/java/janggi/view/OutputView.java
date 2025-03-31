@@ -86,7 +86,7 @@ public class OutputView {
         System.out.println("축하합니다.");
         System.out.print("우승한 국가는 ");
 
-        if(Double.compare(scoreOfHan.value(), scoreOfCho.value()) > 0){
+        if(Double.compare(scoreOfHan.value() - 1.5, scoreOfCho.value()) > 0){
             System.out.println("한나라 입니다!");
             System.out.println("점수 : " + scoreOfHan.value());
             return;
