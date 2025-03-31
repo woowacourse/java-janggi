@@ -25,8 +25,9 @@ public abstract class PalacePiece extends Piece {
         Set<Position> positions = routes.possibleRoutes(position, board);
         Set<Position> palacePositions = possiblePalacePositions(board);
 
+        Positions positionsForValidate = new Positions();
         return Stream.concat(positions.stream(), palacePositions.stream())
-                .filter(new Positions()::isInPalace)
+                .filter(positionsForValidate::isInPalace)
                 .collect(Collectors.toSet());
     }
 
