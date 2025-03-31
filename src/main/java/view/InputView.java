@@ -22,11 +22,6 @@ public class InputView {
         return new Position(parse(tokens[0]), parse(tokens[1]));
     }
 
-    public boolean inputExitGame() {
-        System.out.println("게임을 종료하시겠습니까?(y/n)");
-        return scanner.nextLine().equals("y");
-    }
-
     private int parse(final String number) {
         try {
             if (number.equals("0")) {

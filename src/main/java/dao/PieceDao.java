@@ -104,6 +104,18 @@ public class PieceDao {
         }
     }
 
+    public void removeAll() {
+        String sql = "DELETE FROM piece;";
+        try (
+                final Connection connection = getConnection();
+                final PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Connection getConnection() {
         try {
             return DriverManager.getConnection(

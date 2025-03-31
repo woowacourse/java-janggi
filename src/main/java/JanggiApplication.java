@@ -46,7 +46,9 @@ public class JanggiApplication {
         outputView.printBoard(board.getPieces());
         outputView.printTeamScore(board.calculateTotalScore());
         turn.increaseRound();
-        if (inputView.inputExitGame()) {
+        if (board.isFinish()) {
+            outputView.printWinner(board.findWinnerTeam());
+            pieceDao.removeAll();
             return;
         }
         playGame(board, turn);
@@ -70,7 +72,7 @@ public class JanggiApplication {
             try {
                 return supplier.get();
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                outputView.printError(e.getMessage());
             }
         }
     }

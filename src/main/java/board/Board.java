@@ -2,7 +2,10 @@ package board;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import game.Turn;
 import piece.Piece;
@@ -11,6 +14,7 @@ import piece.Team;
 
 public class Board {
 
+    private static final int TOTAL_KING_COUNT = 2;
     private final Map<Position, Piece> pieces;
 
     public Board(final Map<Position, Piece> pieces) {
@@ -72,6 +76,25 @@ public class Board {
                     .forEach(team -> scoreBoard.computeIfPresent(team, (key, value) -> value + piece.getScore()));
         }
         return scoreBoard;
+    }
+
+    public boolean isFinish() {
+        return TOTAL_KING_COUNT != (int) pieces.values()
+                .stream()
+                .filter(piece -> piece.getType() == PieceType.KING)
+                .count();
+    }
+
+    public Team findWinnerTeam() {
+        List<Team> winnerTeam = pieces.values().stream()
+                .filter(piece -> piece.getType() == PieceType.KING)
+                .map(Piece::getTeam)
+                .toList();
+        if (winnerTeam.size() == TOTAL_KING_COUNT) {
+            throw new IllegalStateException("양팀의 궁이 모두 살아있어 승자가 존재하지 않습니다.");
+        }
+        return winnerTeam.getFirst();
+
     }
 
     public Map<Position, Piece> getPieces() {

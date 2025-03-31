@@ -73,4 +73,8 @@ public class OutputView {
         return (char) (c + 0xfee0);
     }
 
+    public void printWinner(final Team winnerTeam) {
+        System.out.printf("%s의 승리입니다.%n", winnerTeam.name());
+    }
+
 }
