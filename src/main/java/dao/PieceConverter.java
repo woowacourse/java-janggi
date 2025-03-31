@@ -24,7 +24,7 @@ public class PieceConverter {
     public static Map<Position, Piece> toPieces(final List<PieceEntity> pieceEntities) {
         Map<Position, Piece> pieces = new HashMap<>();
         for (PieceEntity pieceEntity : pieceEntities) {
-            pieces.put(new Position(pieceEntity.rowIndex(), pieceEntity.columnIndex()), toPiece(pieceEntity));
+            pieces.put(new Position(pieceEntity.rowValue(), pieceEntity.columnValue()), toPiece(pieceEntity));
         }
         return pieces;
     }

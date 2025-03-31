@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import board.Position;
 import piece.PieceType;
 import piece.Team;
 
@@ -30,8 +31,8 @@ public class PieceDao {
                 final PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
             for (PieceEntity pieceEntity : pieceEntities) {
-                preparedStatement.setInt(1, pieceEntity.rowIndex());
-                preparedStatement.setInt(2, pieceEntity.columnIndex());
+                preparedStatement.setInt(1, pieceEntity.rowValue());
+                preparedStatement.setInt(2, pieceEntity.columnValue());
                 preparedStatement.setString(3, pieceEntity.pieceType().name());
                 preparedStatement.setString(4, pieceEntity.team().name());
 
@@ -59,6 +60,45 @@ public class PieceDao {
                         PieceType.valueOf(resultSet.getString(3)), Team.valueOf(resultSet.getString(4))));
             }
             return pieceEntities;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removePieceByPosition(final Position position) {
+        String sql = """
+                DELETE FROM piece
+                WHERE row_value = ? AND column_value = ?;
+                """;
+        try (
+                final Connection connection = getConnection();
+                final PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ) {
+            preparedStatement.setInt(1, position.getRow());
+            preparedStatement.setInt(2, position.getColumn());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    public void updatePieceByOriginPosition(final Position originPosition, final Position updatePosition) {
+        String sql = """
+                UPDATE piece
+                SET row_value = ?, column_value = ?
+                WHERE row_value = ? AND column_value = ?;
+                """;
+        try (
+                final Connection connection = getConnection();
+                final PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ) {
+            preparedStatement.setInt(1, updatePosition.getRow());
+            preparedStatement.setInt(2, updatePosition.getColumn());
+            preparedStatement.setInt(3, originPosition.getRow());
+            preparedStatement.setInt(4, originPosition.getColumn());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

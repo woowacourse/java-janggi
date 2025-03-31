@@ -61,6 +61,8 @@ public class JanggiApplication {
     private static void movePosition(final Board board, final Position startPosition) {
         Position destinationPosition = inputView.readDestinationPosition();
         board.move(startPosition, destinationPosition);
+        pieceDao.removePieceByPosition(destinationPosition);
+        pieceDao.updatePieceByOriginPosition(startPosition, destinationPosition);
     }
 
     private static <T> T retry(final Supplier<T> supplier) {
