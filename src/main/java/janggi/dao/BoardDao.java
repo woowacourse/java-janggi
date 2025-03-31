@@ -1,8 +1,10 @@
 package janggi.dao;
 
 import janggi.board.Board;
+import janggi.board.Pieces;
 import janggi.dao.connection.MysqlConnection;
 import janggi.piece.Team;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -47,5 +49,35 @@ public class BoardDao {
         } catch (SQLException e) {
             throw new RuntimeException("장기판 삭제에 실패했습니다.");
         }
+    }
+
+    public boolean isExistAnyBoard() {
+        final var query = "SELECT count(board_id) as board_count FROM board";
+        try (final var connection = DbConnection.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int boardCount = resultSet.getInt("board_count");
+                return boardCount >= 1;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("장기판 조회에 실패했습니다.");
+        }
+        return false;
+    }
+
+    public Board find(Pieces pieces) {
+        final var query = "SELECT turn FROM board";
+        try (final var connection = DbConnection.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                String turn = resultSet.getString("turn");
+                return new Board(pieces, Team.fromString(turn));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("장기판 조회에 실패했습니다.");
+        }
+        return null;
     }
 }

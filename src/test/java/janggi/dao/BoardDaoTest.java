@@ -41,4 +41,24 @@ class BoardDaoTest {
         Assertions.assertThatCode(() -> boardDao.updateBoardTurn(boardId, Team.HAN))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    @DisplayName("board 테이블에 레코드가 있는지 확인한다.")
+    void test3() {
+        // given
+        boardDao.addBoard(new Board(new Pieces(), Team.CHO));
+
+        // when
+        boolean existAnyBoard = boardDao.isExistAnyBoard();
+
+        // then
+        Assertions.assertThat(existAnyBoard).isTrue();
+    }
+
+    @Test
+    @DisplayName("board 테이블에 레코드가 없는지 확인한다.")
+    void test4() {
+        boolean existAnyBoard = boardDao.isExistAnyBoard();
+        Assertions.assertThat(existAnyBoard).isFalse();
+    }
 }

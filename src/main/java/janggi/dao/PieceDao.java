@@ -1,8 +1,14 @@
 package janggi.dao;
 
 import janggi.dao.connection.DatabaseConnection;
+import janggi.piece.PieceType;
+import janggi.piece.Team;
 import janggi.piece.pieces.Piece;
+import janggi.position.Position;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class PieceDao {
@@ -40,5 +46,26 @@ public class PieceDao {
         } catch (SQLException e) {
             throw new RuntimeException("기물 삭제에 실패했습니다.");
         }
+    }
+
+    public Map<Position, Piece> findAll() {
+        final var query = "SELECT * FROM piece";
+        Map<Position, Piece> pieces = new HashMap<>();
+
+        try (final var connection = dbConnection.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int x = resultSet.getInt("x");
+                int y = resultSet.getInt("y");
+                Team team = Team.fromString(resultSet.getString("team"));
+                PieceType pieceType = PieceType.fromString(resultSet.getString("piece_type"));
+
+                pieces.put(new Position(x, y), pieceType.createPiece(team));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("기물 전체 조회에 실패했습니다.");
+        }
+        return pieces;
     }
 }

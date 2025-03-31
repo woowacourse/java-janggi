@@ -2,10 +2,8 @@ package janggi.game;
 
 import janggi.board.Board;
 import janggi.board.Pieces;
-import janggi.dao.BoardDao;
-import janggi.dao.PieceDao;
+import janggi.dao.DatabaseManager;
 import janggi.piece.Team;
-import janggi.piece.pieces.Piece;
 import janggi.position.Position;
 import janggi.position.Route;
 import janggi.view.InputView;
@@ -14,7 +12,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -26,20 +23,17 @@ public class Game {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final BoardDao boardDao;
-    private final PieceDao pieceDao;
+    private final DatabaseManager databaseManager;
 
-    public Game(InputView inputView, OutputView outputView, BoardDao boardDao, PieceDao pieceDao) {
+    public Game(InputView inputView, OutputView outputView, DatabaseManager databaseManager) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.boardDao = boardDao;
-        this.pieceDao = pieceDao;
+        this.databaseManager = databaseManager;
     }
 
     public void play() {
-        // todo: 만약 DB에 board가 존재한다면 해당 board의 정보로 초기화한다.
         GameState gameState = GameState.PLAY;
-        Board board = new Board(new Pieces(), Team.CHO);
+        Board board = databaseManager.loadOrCreateBoard();
         Map<String, Function<Board, GameState>> command = initCommand();
 
         while (gameState == GameState.PLAY) {
@@ -72,8 +66,7 @@ public class Game {
 
         moveAndCaptureIfEnemyExists(board, routes, position);
         if (board.isNoneEnemyGeneralUnit()) {
-            pieceDao.deleteAllPieces();
-            boardDao.deleteAllBoards();
+            databaseManager.deleteAll();
             return GameState.QUIT;
         }
         board.changeTurn();
@@ -83,22 +76,15 @@ public class Game {
     private GameState saveGame(Board board) {
         outputView.printPieces(board.getPieces());
 
-        pieceDao.deleteAllPieces();
-        boardDao.deleteAllBoards();
-        String boardId = boardDao.addBoard(board);
-        for (Entry<Position, Piece> entry : board.getPieces().entrySet()) {
-            pieceDao.addPiece(entry.getValue(), entry.getKey().getColumn(), entry.getKey().getRow(), boardId);
-        }
+        databaseManager.deleteAll();
+        databaseManager.saveGame(board);
         outputView.printSuccessSave();
         return GameState.PLAY;
     }
 
     private GameState gameOver(Board board) {
         outputView.printPieces(board.getPieces());
-
-        pieceDao.deleteAllPieces();
-        boardDao.deleteAllBoards();
-
+        databaseManager.deleteAll();
         return GameState.QUIT;
     }
 
@@ -114,7 +100,7 @@ public class Game {
 
     private Position getPosition(Board board) {
         List<Integer> positionValue = handleInputException(() ->
-                inputView.readPosition(board.getTurn()), Game::getPosition);
+                inputView.readPosition(board.getTurn()), this::getPosition);
         if (positionValue == null) {
             return null;
         }
@@ -124,7 +110,7 @@ public class Game {
         return new Position(positionValue.get(INPUT_COLUMN_INDEX), positionValue.get(INPUT_ROW_INDEX));
     }
 
-    private static List<Integer> getPosition(String rawPosition) {
+    private List<Integer> getPosition(String rawPosition) {
         try {
             if (rawPosition.equalsIgnoreCase("end")) {
                 return null;
