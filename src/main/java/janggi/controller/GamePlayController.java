@@ -17,14 +17,14 @@ public class GamePlayController {
         gameRunningView.printBoard(janggiService.getBoard());
 
         while (!janggiService.isGameFinished()) {
-            processWithRetry(this::handleUserCommand);
+            processWithRetry(this::playSingleTurn);
         }
 
         gameRunningView.printGameResult(janggiService.getGameResult());
         janggiService.finishGame();
     }
 
-    private void handleUserCommand() {
+    private void playSingleTurn() {
         gameRunningView.printTurnNotice(janggiService.getCurrentTurn());
         String input = gameRunningView.readCommand();
         GameCommand command = GameCommand.from(input);
