@@ -8,6 +8,7 @@ import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.PieceType;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public final class Soldier implements PieceBehavior {
@@ -39,20 +40,21 @@ public final class Soldier implements PieceBehavior {
     }
 
     private Set<Position> getAvailableStandardMovePositions(Board board, Position position, Team team) {
-        return STANDARD_MOVEMENTS.stream()
+        return getAvailableMovePositions(board, position, team, STANDARD_MOVEMENTS, p -> true);
+    }
+
+    private Set<Position> getAvailableCrossMovePositions(Board board, Position position, Team team) {
+        return getAvailableMovePositions(board, position, team, CROSS_MOVEMENTS, Position::isPalace);
+    }
+
+    private Set<Position> getAvailableMovePositions(Board board, Position position, Team team,
+                                                    Set<Movement> movements, Predicate<Position> positionCondition) {
+        return movements.stream()
                 .map(Movement::getVector)
                 .map(vector -> position.getValidNextPosition(vector.side(team)))
                 .flatMap(Optional::stream)
                 .filter(availablePosition -> board.canMoveToPosition(team, availablePosition))
-                .collect(Collectors.toSet());
-    }
-
-    private Set<Position> getAvailableCrossMovePositions(Board board, Position position, Team team) {
-        return CROSS_MOVEMENTS.stream().map(Movement::getVector)
-                .map(vector -> position.getValidNextPosition(vector.side(team)))
-                .flatMap(Optional::stream)
-                .filter(availablePosition -> board.canMoveToPosition(team, availablePosition))
-                .filter(Position::isPalace)
+                .filter(positionCondition)
                 .collect(Collectors.toSet());
     }
 }
