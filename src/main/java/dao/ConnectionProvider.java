@@ -14,6 +14,9 @@ public class ConnectionProvider {
 
     private static Connection connection;
 
+    private ConnectionProvider() {
+    }
+
     public static Connection getConnection() {
         if (connection == null) {
             try {
