@@ -19,4 +19,8 @@ public class PlayerService {
         Player redPlayer = playerDao.insertPlayer(playerNames.getLast(), gameId, Team.RED);
         return new Players(List.of(bluePlayer, redPlayer));
     }
+
+    public Players getPlayersByGameId(int gameId) {
+        return playerDao.selectPlayersByGameId(gameId);
+    }
 }
