@@ -59,10 +59,10 @@ public final class Board {
         if (isTeam1Turn) {
             team1.move(fromPosition, tagetPosition, team2);
             nextTurn();
-        } else {
-            team2.move(fromPosition, tagetPosition, team1);
-            nextTurn();
+            return;
         }
+        team2.move(fromPosition, tagetPosition, team1);
+        nextTurn();
     }
 
     private void nextTurn() {
