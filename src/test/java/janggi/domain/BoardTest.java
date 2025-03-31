@@ -10,7 +10,7 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.Soldier;
 import janggi.domain.piece.behavior.palace.General;
 import janggi.factory.PieceInitFactory;
-import janggi.factory.masang.HorseElephantFactory;
+import janggi.factory.horse_elephant.HorseElephantFactory;
 import janggi.util.BoardFixture;
 import janggi.view.horseElephantPosition;
 import java.util.Map;

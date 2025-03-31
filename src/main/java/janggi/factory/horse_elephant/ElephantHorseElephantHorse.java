@@ -1,4 +1,4 @@
-package janggi.factory.masang;
+package janggi.factory.horse_elephant;
 
 import janggi.domain.move.Position;
 import java.util.Set;

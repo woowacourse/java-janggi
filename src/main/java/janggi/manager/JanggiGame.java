@@ -57,12 +57,12 @@ public class JanggiGame {
         String gameRoomName = viewer.readGameRoomName();
         janggiService.validateNewGameRoomName(gameRoomName);
 
-        TeamHorseElephantPositionDto maSangPositionByCho = RecoveryUtil.executeWithRetry(
+        TeamHorseElephantPositionDto horseElephantPositionByCho = RecoveryUtil.executeWithRetry(
                 () -> viewer.settingMaSangPlacement(Team.CHO));
-        TeamHorseElephantPositionDto maSangPositionByHan = RecoveryUtil.executeWithRetry(
+        TeamHorseElephantPositionDto horseElephantPositionByHan = RecoveryUtil.executeWithRetry(
                 () -> viewer.settingMaSangPlacement(Team.HAN));
 
-        return janggiService.newGameRoom(gameRoomName, maSangPositionByCho, maSangPositionByHan);
+        return janggiService.newGameRoom(gameRoomName, horseElephantPositionByCho, horseElephantPositionByHan);
     }
 
     private boolean repeatGameTurns(GameRoom gameRoom) {

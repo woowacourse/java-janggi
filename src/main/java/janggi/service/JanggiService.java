@@ -9,7 +9,7 @@ import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.TeamHorseElephantPositionDto;
 import janggi.factory.PieceInitFactory;
-import janggi.factory.masang.HorseElephantFactory;
+import janggi.factory.horse_elephant.HorseElephantFactory;
 import java.util.List;
 import java.util.Map;
 

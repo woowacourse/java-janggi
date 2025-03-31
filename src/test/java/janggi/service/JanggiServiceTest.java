@@ -148,15 +148,15 @@ class JanggiServiceTest {
         void test1() {
             // given
             String gameRoomName = "꾹";
-            TeamHorseElephantPositionDto teamMaSangPositionByCho = new TeamHorseElephantPositionDto(Team.CHO,
+            TeamHorseElephantPositionDto horseElephantPositionByCho = new TeamHorseElephantPositionDto(Team.CHO,
                     horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE);
 
-            TeamHorseElephantPositionDto teamMaSangPositionByHan = new TeamHorseElephantPositionDto(Team.HAN,
+            TeamHorseElephantPositionDto horseElephantPositionByHan = new TeamHorseElephantPositionDto(Team.HAN,
                     horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE);
 
             // when
-            GameRoom result = janggiService.newGameRoom(gameRoomName, teamMaSangPositionByCho,
-                    teamMaSangPositionByHan);
+            GameRoom result = janggiService.newGameRoom(gameRoomName, horseElephantPositionByCho,
+                    horseElephantPositionByHan);
 
             assertThat(result.turn()).isEqualTo(Team.CHO);
         }

@@ -1,9 +1,9 @@
-package janggi.factory.masang;
+package janggi.factory.horse_elephant;
 
 import janggi.domain.move.Position;
 import java.util.Set;
 
-public class ElePhantHorseHorseElephant extends HorseElephantPlacement {
+public class ElephantHorseHorseElephant extends HorseElephantPlacement {
 
     @Override
     protected Set<Position> getHorsePositionByCho() {
