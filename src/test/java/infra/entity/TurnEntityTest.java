@@ -1,10 +1,14 @@
 package infra.entity;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class TurnEntityTest {
 
@@ -27,6 +31,26 @@ class TurnEntityTest {
                 softly.assertThat(turn1).isNotEqualTo(turn3);
                 softly.assertThat(turn1.hashCode()).isNotEqualTo(turn3.hashCode());
             });
+        }
+    }
+
+    @Nested
+    class InvalidCases {
+
+        @ParameterizedTest
+        @DisplayName("TurnEntity는 team이 null 또는 공백일 수 없다.")
+        @ValueSource(
+            strings = {
+                "",
+                " "
+            }
+        )
+        @NullSource
+        void validateNotBlank(String team) {
+            // when & then
+            assertThatThrownBy(() -> new TurnEntity(team))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("team은 null이거나 공백일 수 없습니다.");
         }
     }
 }

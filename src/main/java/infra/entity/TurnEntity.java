@@ -8,17 +8,24 @@ public class TurnEntity {
     private final String team;
 
     public TurnEntity(
+        final String team
+    ) {
+        this(null, team);
+    }
+
+    public TurnEntity(
         final Long id,
         final String team
     ) {
+        validateNotBlank(team);
         this.id = id;
         this.team = team;
     }
 
-    public TurnEntity(
-        final String team
-    ) {
-        this(null, team);
+    private void validateNotBlank(final String team) {
+        if (team == null || team.isBlank()) {
+            throw new IllegalArgumentException("TurnEntity의 team은 null이거나 공백일 수 없습니다.");
+        }
     }
 
     public Long getId() {

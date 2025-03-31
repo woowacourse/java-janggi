@@ -11,12 +11,23 @@ public class PieceEntity {
     private final int rowIndex;
 
     public PieceEntity(
+        final String dtype,
+        final String team,
+        final int columnIndex,
+        final int rowIndex
+    ) {
+        this(null, dtype, team, columnIndex, rowIndex);
+    }
+
+    public PieceEntity(
         final Long id,
         final String dtype,
         final String team,
         final int columnIndex,
         final int rowIndex
     ) {
+        validateNotBlank(dtype, team);
+        validateNonNegative(columnIndex, rowIndex);
         this.id = id;
         this.dtype = dtype;
         this.team = team;
@@ -24,13 +35,22 @@ public class PieceEntity {
         this.rowIndex = rowIndex;
     }
 
-    public PieceEntity(
+    private void validateNotBlank(
         final String dtype,
-        final String team,
+        final String team
+    ) {
+        if (dtype == null || dtype.isBlank() || team == null || team.isBlank()) {
+            throw new IllegalArgumentException("PieceEntity의 dtype과 team은 null이거나 공백일 수 없습니다.");
+        }
+    }
+
+    private void validateNonNegative(
         final int columnIndex,
         final int rowIndex
     ) {
-        this(null, dtype, team, columnIndex, rowIndex);
+        if (columnIndex < 0 || rowIndex < 0) {
+            throw new IllegalArgumentException("columnIndex와 rowIndex는 0 이상이어야 합니다.");
+        }
     }
 
     public Long getId() {
