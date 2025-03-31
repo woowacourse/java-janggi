@@ -1,7 +1,7 @@
 package service;
 
 import dao.GameRoomDao;
-import dao.GameRoomEntity;
+import dao.GameRoomDto;
 import dao.PieceDao;
 import dao.converter.BoardConverter;
 import dao.init.ConnectionGenerator;
@@ -37,7 +37,7 @@ public class GameService {
 
     public boolean existsGameRoom(final String gameRoomName) {
         try {
-            Optional<GameRoomEntity> gameRoomEntity = gameRoomDao.findByName(getConnection(), gameRoomName);
+            Optional<GameRoomDto> gameRoomEntity = gameRoomDao.findByName(getConnection(), gameRoomName);
             return gameRoomEntity.isPresent();
         } catch (RuntimeException e) {
             return false;
@@ -58,7 +58,7 @@ public class GameService {
                 boardGenerator.generateInitialBoard(choSangMaOrderCommand, hanSangMaOrderCommand),
                 firstTurn
         );
-        gameRoomDao.insert(new GameRoomEntity(gameRoomName, firstTurn));
+        gameRoomDao.insert(new GameRoomDto(gameRoomName, firstTurn));
         pieceDao.insertAll(BoardConverter.convertToPieceEntities(newGame.getPieceByPoint(), gameRoomName));
 
         executeDelayedQueries();
@@ -104,12 +104,12 @@ public class GameService {
     }
 
     private JanggiGame loadGameByGameRoomName(String gameRoomName) {
-        GameRoomEntity gameRoom = findGameRoomEntityByName(gameRoomName);
+        GameRoomDto gameRoom = findGameRoomEntityByName(gameRoomName);
         return new JanggiGame(gameRoom.name(), loadBoardByGameRoomName(gameRoomName), gameRoom.turn());
     }
 
-    private GameRoomEntity findGameRoomEntityByName(String name) {
-        Optional<GameRoomEntity> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
+    private GameRoomDto findGameRoomEntityByName(String name) {
+        Optional<GameRoomDto> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
         if (maybeGameRoom.isEmpty()) {
             throw new IllegalStateException("[ERROR] '" + name + "' 방이 존재 하지 않습니다.");
         }

@@ -1,6 +1,6 @@
 package dao.converter;
 
-import dao.PieceEntity;
+import dao.PieceDto;
 import domain.board.Board;
 import domain.board.PathFinder;
 import domain.board.PathFinderFactory;
@@ -22,19 +22,19 @@ import java.util.stream.Collectors;
 
 public class BoardConverter {
 
-    public static List<PieceEntity> convertToPieceEntities(Map<Point, Piece> pieceByPoint, String gameRoomName) {
+    public static List<PieceDto> convertToPieceEntities(Map<Point, Piece> pieceByPoint, String gameRoomName) {
         return pieceByPoint.entrySet().stream()
                 .map(entry -> convertToPieceEntity(entry, gameRoomName))
                 .toList();
     }
 
-    private static PieceEntity convertToPieceEntity(Map.Entry<Point, Piece> pieceByPoint, String gameRoomName) {
+    private static PieceDto convertToPieceEntity(Map.Entry<Point, Piece> pieceByPoint, String gameRoomName) {
         Point point = pieceByPoint.getKey();
         Piece piece = pieceByPoint.getValue();
-        return new PieceEntity(null, point.row(), point.column(), piece.type(), piece.team(), gameRoomName);
+        return new PieceDto(null, point.row(), point.column(), piece.type(), piece.team(), gameRoomName);
     }
 
-    public static Board convertToBoard(List<PieceEntity> pieceEntities) {
+    public static Board convertToBoard(List<PieceDto> pieceEntities) {
         PathFinderFactory pathFinderFactory = new PathFinderFactory();
         PathFinder pathFinder = pathFinderFactory.createDefaultPathFinder();
 
@@ -42,7 +42,7 @@ public class BoardConverter {
         return new Board(boardPieces, pathFinder);
     }
 
-    private static Map<Point, Piece> convertToPieceByPoint(List<PieceEntity> pointPieces) {
+    private static Map<Point, Piece> convertToPieceByPoint(List<PieceDto> pointPieces) {
         return pointPieces.stream()
                 .collect(Collectors.toMap(
                         pointPiece -> Point.of(pointPiece.rowIndex(), pointPiece.columnIndex()),

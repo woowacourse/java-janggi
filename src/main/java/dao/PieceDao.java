@@ -14,7 +14,7 @@ import queue.MessageQueue;
 
 public class PieceDao {
 
-    public void insert(PieceEntity piece) {
+    public void insert(PieceDto piece) {
         String sql = """
                 INSERT INTO piece (row_index, column_index, piece_type_name, team_name, game_room_name)
                 VALUES (?, ?, ?, ?, ?);
@@ -23,7 +23,7 @@ public class PieceDao {
                 piece.pieceType().name(), piece.team().name(), piece.gameRoomName()));
     }
 
-    public void insertAll(List<PieceEntity> pieceEntities) {
+    public void insertAll(List<PieceDto> pieceEntities) {
         pieceEntities.forEach(this::insert);
     }
 
@@ -46,19 +46,19 @@ public class PieceDao {
         addToMessageQueue(sql, List.of(gameRoomName, point.row(), point.column()));
     }
 
-    public List<PieceEntity> findByGameRoomName(Connection connection, String gameRoomName) {
+    public List<PieceDto> findByGameRoomName(Connection connection, String gameRoomName) {
         String sql = """               
                 SELECT row_index, column_index, piece_type_name, team_name, game_room_name
                 FROM piece p
                 WHERE p.game_room_name = ?;
                 """;
-        List<PieceEntity> pieces = new ArrayList<>();
+        List<PieceDto> pieces = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, gameRoomName);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    pieces.add(new PieceEntity(
+                    pieces.add(new PieceDto(
                             null,
                             resultSet.getInt("row_index"),
                             resultSet.getInt("column_index"),

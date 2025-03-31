@@ -12,7 +12,7 @@ import queue.MessageQueue;
 
 public class GameRoomDao {
 
-    public void insert(GameRoomEntity gameRoom) {
+    public void insert(GameRoomDto gameRoom) {
         String sql = "INSERT INTO game_room VALUES(?, ?)";
         addToMessageQueue(sql, List.of(gameRoom.name(), gameRoom.turn().name()));
     }
@@ -34,7 +34,7 @@ public class GameRoomDao {
         addToMessageQueue(sql, List.of(gameRoomName));
     }
 
-    public Optional<GameRoomEntity> findByName(Connection connection, String gameRoomName) {
+    public Optional<GameRoomDto> findByName(Connection connection, String gameRoomName) {
         String sql = """               
                 SELECT name, turn
                 FROM game_room gr
@@ -46,7 +46,7 @@ public class GameRoomDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    GameRoomEntity gameRoom = new GameRoomEntity(
+                    GameRoomDto gameRoom = new GameRoomDto(
                             resultSet.getString("name"),
                             Team.valueOf(resultSet.getString("turn"))
                     );
