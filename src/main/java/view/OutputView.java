@@ -77,7 +77,7 @@ public class OutputView {
 
     private static String emptyPointToString(Point point) {
         if (point.isInPalace()) {
-            return "△";
+            return "ㅇ";
         }
         return "ㅁ";
     }
