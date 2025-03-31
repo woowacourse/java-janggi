@@ -3,9 +3,11 @@ package model;
 public class Game {
 
     private Integer id;
+    private String name;
     private Team turn;
 
-    public Game(Team turn) {
+    public Game(String name, Team turn) {
+        this.name = name;
         this.turn = turn;
     }
 
@@ -15,6 +17,10 @@ public class Game {
 
     public Integer getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Team getTurn() {

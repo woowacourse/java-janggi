@@ -1,8 +1,11 @@
 package view;
 
+import java.util.List;
 import java.util.Scanner;
 
+import constant.JanggiConstant;
 import dto.CommandDto;
+import dto.GameDto;
 import dto.TableSettingDto;
 import dto.TeamDto;
 import view.util.Color;
@@ -28,5 +31,18 @@ public class InputView {
             """, Color.apply(dto, dto.getDisplayName()));
 
         return TableSettingDto.from(scanner.nextLine());
+    }
+
+    public int selectGameRoom(List<GameDto> games) {
+        System.out.printf("참여할 방 id를 입력해주세요. (새로운 방을 만들려면 %d를 입력해주세요)%n", JanggiConstant.NEW_GAME_ROOM_ID);
+        games.stream()
+            .map(game -> String.format("%,d: %20s (현재 턴: %s)", game.id(), game.name(), game.turn().getDisplayName()))
+            .forEach(System.out::println);
+        return Integer.parseInt(scanner.nextLine());
+    }
+
+    public String gameName() {
+        System.out.println("생성할 방 이름을 입력해주세요.");
+        return scanner.nextLine();
     }
 }

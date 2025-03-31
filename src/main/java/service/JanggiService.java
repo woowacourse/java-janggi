@@ -1,7 +1,10 @@
 package service;
 
+import java.util.List;
+
 import dto.BoardDto;
 import dto.FinalScoreDto;
+import dto.GameDto;
 import dto.TeamDto;
 import model.Game;
 import model.Position;
@@ -16,15 +19,15 @@ public class JanggiService {
     private final GameRepository gameRepository = new GameRepository();
     private final BoardRepository boardRepository = new BoardRepository();
 
-/*
-    public void startGame() {
-        board = new Board();
-        currentTurn = Team.CHO;
+    public List<GameDto> gameList() {
+        List<Game> games = gameRepository.findAll();
+        return games.stream()
+            .map(game -> GameDto.from(game))
+            .toList();
     }
-*/
 
-    public int newGame() {
-        Game savedGame = gameRepository.save(new Game(Team.CHO));
+    public int newGame(String gameName) {
+        Game savedGame = gameRepository.save(new Game(gameName, Team.CHO));
         return savedGame.getId();
     }
 

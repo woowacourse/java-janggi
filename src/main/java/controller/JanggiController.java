@@ -2,6 +2,7 @@ package controller;
 
 import java.util.function.Supplier;
 
+import constant.JanggiConstant;
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;
@@ -14,19 +15,22 @@ public class JanggiController {
 
     public int startGame() {
         return process(() -> {
-            int gameId = service.newGame();
             outputView.startGame();
+            Integer gameId = inputView.selectGameRoom(service.gameList());
+            if (gameId == JanggiConstant.NEW_GAME_ROOM_ID) {
+                gameId = service.newGame(inputView.gameName());
+                setTableSetting(gameId);
+            }
             return gameId;
         });
     }
 
-    public void setTableSetting(int gameId) {
+    private void setTableSetting(int gameId) {
         process(() -> {
             teamTableSetting(gameId);
             service.nextTurn(gameId);
             teamTableSetting(gameId);
             service.nextTurn(gameId);
-            outputView.board(service.getBoard(gameId));
         });
     }
 
@@ -37,6 +41,7 @@ public class JanggiController {
 
     public void playTurn(int gameId) {
         process(() -> {
+            outputView.board(service.getBoard(gameId));
             outputView.turn(service.currentTurn(gameId));
             var response = inputView.command();
             if (response.abstain()) {
@@ -44,7 +49,6 @@ public class JanggiController {
                 return;
             }
             service.move(gameId, response.source(), response.destination());
-            outputView.board(service.getBoard(gameId));
         });
     }
 

@@ -6,7 +6,6 @@ public class Application {
 
     public static void main(String[] args) {
         int gameId = controller.startGame();
-        controller.setTableSetting(gameId);
         while (controller.isPlaying(gameId)) {
             controller.playTurn(gameId);
             controller.nextTurn(gameId);
