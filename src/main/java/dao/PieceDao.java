@@ -13,33 +13,15 @@ import domain.piece.category.Horse;
 import domain.piece.category.Soldier;
 import domain.player.Player;
 import domain.player.Team;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PieceDao {
 
-    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "user"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "password"; // MySQL 서버 비밀번호
-
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public void save(final Piece piece, final Player player) {
         final var query = "INSERT INTO piece(`row`, `column`, team, piece_type) VALUES(?, ?, ?, ?)";
-        try (final var connection = this.getConnection();
+        try (final var connection = DatabaseConnectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, piece.getPosition().getRow());
             preparedStatement.setInt(2, piece.getPosition().getColumn());
@@ -55,7 +37,7 @@ public class PieceDao {
         List<Piece> pieces = new ArrayList<>();
 
         final var query = "SELECT * FROM piece WHERE team = ?";
-        try (final var connection = getConnection();
+        try (final var connection = DatabaseConnectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, team.name());
             final var resultSet = preparedStatement.executeQuery();
@@ -76,7 +58,7 @@ public class PieceDao {
     public void updatePosition(final Piece piece, final Position targetPosition) {
         final var query = "UPDATE piece SET `row` = ?, `column` = ? "
                 + "WHERE `row` = ? AND `column` = ?";
-        try (final var connection = getConnection();
+        try (final var connection = DatabaseConnectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, targetPosition.getRow());
             preparedStatement.setInt(2, targetPosition.getColumn());
@@ -90,7 +72,7 @@ public class PieceDao {
 
     public void delete(final Piece piece, final Team team) {
         final var query = "DELETE FROM piece WHERE `row` = ? AND `column` = ? AND piece_type = ? AND team = ?";
-        try (final var connection = getConnection();
+        try (final var connection = DatabaseConnectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, piece.getPosition().getRow());
             preparedStatement.setInt(2, piece.getPosition().getColumn());
@@ -104,7 +86,7 @@ public class PieceDao {
 
     public void clear() {
         final var query = "DELETE FROM Piece";
-        try (final var connection = getConnection();
+        try (final var connection = DatabaseConnectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
@@ -131,10 +113,10 @@ public class PieceDao {
         if (type == PieceType.HORSE) {
             return new Horse(position, PieceDirections.HORSE.get());
         }
-        if (type == PieceType.SOLDIER) {
-            if (team == Team.HAN) {
-                return new Soldier(position, PieceDirections.HAN_SOLDIER.get());
-            }
+        if (type == PieceType.SOLDIER && team == Team.HAN) {
+            return new Soldier(position, PieceDirections.HAN_SOLDIER.get());
+        }
+        if (type == PieceType.SOLDIER && team == Team.CHO) {
             return new Soldier(position, PieceDirections.CHO_SOLDIER.get());
         }
         throw new IllegalArgumentException("[ERROR] 데이터베이스에 존재하지 않는 기물입니다.");
