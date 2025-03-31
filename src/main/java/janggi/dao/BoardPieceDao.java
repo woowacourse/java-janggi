@@ -1,9 +1,5 @@
 package janggi.dao;
 
-import janggi.domain.board.Position;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
-import janggi.domain.piece.TeamColor;
 import janggi.entity.BoardPieceEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,21 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 public final class BoardPieceDao {
     private final Connection connection;
 
     public BoardPieceDao(Connection connection) {
         this.connection = connection;
-    }
-
-    public void save(int roomId, Map<Position, Piece> board) {
-        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
-            Position position = entry.getKey();
-            Piece piece = entry.getValue();
-            insert(roomId, position, piece);
-        }
     }
 
     public List<BoardPieceEntity> selectById(int roomId) {
@@ -53,16 +41,41 @@ public final class BoardPieceDao {
         }
     }
 
-    public void insert(int roomId, Position position, Piece piece) {
-        final String query = "INSERT INTO BoardPiece (gameroom_id, position_row, position_col, piece_type, piece_color) VALUES (?, ?, ?, ?, ?)";
+    public Optional<BoardPieceEntity> selectByPosition(int roomId, int positionRow, int positionCol) {
+        final String query = "SELECT id, gameroom_id, position_row, position_col, piece_type, piece_color FROM BoardPiece WHERE gameroom_id = ? AND position_row = ? AND position_col = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, roomId);
+            preparedStatement.setInt(2, positionRow);
+            preparedStatement.setInt(3, positionCol);
 
-            preparedStatement.setInt(2, position.rowValue());
-            preparedStatement.setInt(3, position.columnValue());
-            preparedStatement.setString(4, piece.getType().name());
-            preparedStatement.setString(5, piece.getColor().name());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(new BoardPieceEntity(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("gameroom_id"),
+                        resultSet.getInt("position_row"),
+                        resultSet.getInt("position_col"),
+                        resultSet.getString("piece_type"),
+                        resultSet.getString("piece_color")
+                ));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException("Board 데이터 가져오기 실패", e);
+        }
+    }
+
+    public void insert(BoardPieceEntity entity) {
+        final String query = "INSERT INTO BoardPiece (gameroom_id, position_row, position_col, piece_type, piece_color) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1,entity.getGameRoomId());
+
+            preparedStatement.setInt(2, entity.getPositionRow());
+            preparedStatement.setInt(3, entity.getPositionCol());
+            preparedStatement.setString(4, entity.getPieceType());
+            preparedStatement.setString(5, entity.getPieceColor());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -70,43 +83,29 @@ public final class BoardPieceDao {
         }
     }
 
-    public void update(int roomId, Position source, Position destination, PieceType pieceType,
-                       TeamColor teamColor) {
-        String deleteSourceQuery = "DELETE FROM BoardPiece WHERE gameroom_id = ? AND position_row = ? AND position_col = ?";
-        String insertDestinationQuery = "INSERT INTO BoardPiece (gameroom_id, position_row, position_col, piece_type, piece_color) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            connection.setAutoCommit(false);  // 트랜잭션 시작
-
-            // 1. destination 위치에서 기물 삭제
-            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteSourceQuery)) {
-                preparedStatement.setInt(1, roomId);
-                preparedStatement.setInt(2, destination.rowValue());
-                preparedStatement.setInt(3, destination.columnValue());
-                preparedStatement.executeUpdate();
-            }
-
-            // 2. destination 위치에 새로운 기물 추가
-            try (PreparedStatement preparedStatement = connection.prepareStatement(insertDestinationQuery)) {
-                preparedStatement.setInt(1, roomId);
-                preparedStatement.setInt(2, destination.rowValue());
-                preparedStatement.setInt(3, destination.columnValue());
-                preparedStatement.setString(4, pieceType.name());
-                preparedStatement.setString(5, teamColor.name());
-                preparedStatement.executeUpdate();
-            }
-
-            // 3. source 위치에서 기물 삭제
-            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteSourceQuery)) {
-                preparedStatement.setInt(1, roomId);
-                preparedStatement.setInt(2, source.rowValue());
-                preparedStatement.setInt(3, source.columnValue());
-                preparedStatement.executeUpdate();
-            }
-
-            connection.commit();  // 커밋
+    public void deleteByPosition(int roomId, int row, int col) {
+        String query = "DELETE FROM BoardPiece WHERE gameroom_id = ? AND position_row = ? AND position_col = ?";
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, roomId);
+            ps.setInt(2, row);
+            ps.setInt(3, col);
+            ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Piece Position update 실패", e);
+            throw new RuntimeException("BoardPieceEntity 삭제 실패", e);
+        }
+    }
+
+    public void update(BoardPieceEntity entity) {
+        String query = "UPDATE BoardPiece SET position_row = ?, position_col = ? WHERE id = ?";
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, entity.getPositionRow());
+            ps.setInt(2, entity.getPositionCol());
+            ps.setLong(3, entity.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("BoardPieceEntity 업데이트 실패", e);
         }
     }
 }

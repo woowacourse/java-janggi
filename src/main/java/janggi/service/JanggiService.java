@@ -10,6 +10,7 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
 import janggi.dto.GameResultDto;
 import janggi.dto.MoveCommandDto;
+import janggi.entity.BoardPieceEntity;
 import janggi.entity.GameRoomEntity;
 import janggi.view.PieceTypeName;
 import java.sql.Connection;
@@ -33,10 +34,9 @@ public class JanggiService {
         Position source = createPosition(commandDto.sourceRow(), commandDto.sourceCol());
         Position destination = createPosition(commandDto.destinationRow(), commandDto.destinationCol());
         PieceType pieceType = PieceTypeName.getTypeFrom(commandDto.pieceName());
-        TeamColor teamColor = janggiGame.getTurnColor();
 
         janggiGame.move(pieceType, source, destination);
-        updateMoveResult(source, destination, pieceType, teamColor);
+        updateMoveResult(source, destination);
         updateGameRoom(janggiGame.getTurnColor(), janggiGame.getTeamScore());
     }
 
@@ -47,8 +47,14 @@ public class JanggiService {
         return Position.of(rowInt, colInt);
     }
 
-    public void updateMoveResult(Position source, Position destination, PieceType pieceType, TeamColor teamColor) {
-        boardPieceDao.update(roomId, source, destination, pieceType, teamColor);
+    public void updateMoveResult(Position source, Position destination) {
+        boardPieceDao.deleteByPosition(roomId, destination.rowValue(), destination.columnValue());
+
+        BoardPieceEntity sourcePieceEntity = boardPieceDao.selectByPosition(roomId, source.rowValue(), source.columnValue())
+                .orElseThrow(() -> new IllegalArgumentException("해당 위치에 있는 기물이 없습니다."));
+        sourcePieceEntity.setPositionRow(destination.rowValue());
+        sourcePieceEntity.setPositionCol(destination.columnValue());
+        boardPieceDao.update(sourcePieceEntity);
     }
 
     public void updateGameRoom(TeamColor teamColor, Map<TeamColor, Integer> teamScore) {

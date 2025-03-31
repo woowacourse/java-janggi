@@ -31,7 +31,6 @@ public class GameSetService {
     }
 
     public List<GameRoomDto> getAllPlayingRooms() {
-
         List<GameRoomEntity> playingGameRooms = gameRoomDao.findPlayingGameRooms();
         return playingGameRooms.stream()
                 .map(entity -> GameRoomDto.createForShowRooms(
@@ -60,7 +59,14 @@ public class GameSetService {
     }
 
     public void saveInitialBoard(int roomId, Map<Position, Piece> board) {
-        boardPieceDao.save(roomId, board);
+        for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            Position position = entry.getKey();
+            Piece piece = entry.getValue();
+
+            BoardPieceEntity entity = new BoardPieceEntity(0, roomId, position.rowValue(), position.columnValue(),
+                    piece.getType().name(), piece.getColor().name());
+            boardPieceDao.insert(entity);
+        }
     }
 
     public JanggiGame getGameByRoomId(int gameRoomId) {
@@ -69,8 +75,8 @@ public class GameSetService {
 
         TeamColor teamColor = TeamColor.valueOf(TeamColor.class, gameRoomEntity.getTurnColor());
         PlayingBoard playingBoard = getBoardById(gameRoomId);
-
         State gameState = State.from(teamColor, playingBoard);
+
         Map<TeamColor, Integer> teamScore = new HashMap<>();
         teamScore.put(TeamColor.RED, gameRoomEntity.getRedScore());
         teamScore.put(TeamColor.BLUE, gameRoomEntity.getBlueScore());
