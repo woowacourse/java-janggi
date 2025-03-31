@@ -1,6 +1,9 @@
 package domain.game;
 
+import database.DbConnection;
 import domain.player.Players;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class GameService {
 
@@ -9,8 +12,9 @@ public class GameService {
     private final GameDao gameDao;
 
 
-    public GameService() {
-        this.gameDao = new GameDao();
+    public GameService() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        this.gameDao = new GameDao(connection);
     }
 
     public Games createGame(int gameId) {
