@@ -78,4 +78,16 @@ public class PieceDao {
             throw new RuntimeException(e);
         }
     }
+
+    public void deletePieceByPoint(Point point) {
+        final var query = "DELETE FROM piece WHERE pos_x = ? AND pos_y = ?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, point.getX());
+            preparedStatement.setInt(2, point.getY());
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

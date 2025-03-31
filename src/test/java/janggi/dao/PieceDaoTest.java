@@ -44,4 +44,11 @@ public class PieceDaoTest {
         testPieceDao.updatePieceByPoint(point, cannon);
         assertThat(testPieceDao.findByPoint(point).getPieceType()).isEqualTo(cannon.getPieceType());
     }
+
+    @Test
+    void deletePiece() {
+        Point point = new Point(0, 0);
+        testPieceDao.deletePieceByPoint(point);
+        assertThat(testPieceDao.findByPoint(point)).isNull();
+    }
 }
