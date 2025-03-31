@@ -1,6 +1,7 @@
-package domain;
-
 import db.JanggiDao;
+import domain.Board;
+import domain.Score;
+import domain.Team;
 import domain.piece.PieceType;
 import domain.position.Point;
 import domain.position.PointValue;

@@ -2,7 +2,6 @@ import db.JanggiDao;
 import domain.Board;
 import domain.BoardFactory;
 import domain.GameState;
-import domain.JanggiGame;
 import domain.Team;
 import domain.position.Position;
 import java.util.List;
