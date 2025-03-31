@@ -10,8 +10,6 @@ public enum PalacePosition {
             new Position(10,4),
             new Position(10,6),
             new Position(3,4),
-            new Position(3,6),
-            new Position(3,4),
             new Position(3,6))),
     CENTER_POSITION(List.of(
             new Position(9,5),
