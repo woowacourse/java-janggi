@@ -30,7 +30,8 @@ public class JanggiController {
         );
     }
 
-    public void selectOption(int option) {
+    public void selectOption() {
+        int option = inputView.getTurnOption(gameService.getGame().getCurrentDynasty());
         Runnable action = options.get(option);
         if (action == null) {
             throw new IllegalArgumentException("[ERROR] 알맞은 옵션이 아닙니다.");
@@ -54,5 +55,9 @@ public class JanggiController {
     public void printGameResult() {
         GameResult result = gameService.getGame().getGameResult();
         outputView.printGameResult(result);
+    }
+
+    public void printBoard() {
+        outputView.printBoard(gameService.getGame().getPieces());
     }
 }
