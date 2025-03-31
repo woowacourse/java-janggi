@@ -57,7 +57,7 @@ public class JanggiManager {
                 connection.rollback();
                 connection.setAutoCommit(true);
             } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
+                return janggiSnapshot;
             }
             return janggiSnapshot;
         }
@@ -68,9 +68,8 @@ public class JanggiManager {
             final Connection connection = ConnectionProvider.getConnection();
             return janggiDao.findAllJanggiDtos(connection);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("장기 게임을 불러오는 중 문제 발생");
         }
-        throw new RuntimeException("장기 게임을 불러오는 중 문제 발생");
     }
 
     public Janggi createJanggi(
@@ -88,7 +87,6 @@ public class JanggiManager {
             connection.setAutoCommit(true);
             return initaialJanggi;
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 connection.rollback();
             } catch (SQLException rollbackException) {
@@ -120,9 +118,8 @@ public class JanggiManager {
                     janggiDto.turn()
             );
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("장기 게임 로드 중 문제 발생");
         }
-        throw new RuntimeException("장기 게임 로드 중 문제 발생");
     }
 
     public Score findScore(
