@@ -12,7 +12,7 @@ public enum PieceSymbol {
     CHARIOT("차", PieceType.CHARIOT),
     PAO("포", PieceType.CANNON),
     HANPAWN("병", PieceType.HANPAWN),
-    CHOPAWN("병", PieceType.CHOPAWN),
+    CHOPAWN("졸", PieceType.CHOPAWN),
     EMPTY("＿", PieceType.BLANK);
 
     private final String name;
