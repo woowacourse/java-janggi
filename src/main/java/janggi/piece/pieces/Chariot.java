@@ -32,7 +32,7 @@ public record Chariot(Team getTeam) implements Piece {
     }
 
     private List<Position> calculateEndPoints(Position start) {
-        List<Position> parallelPositions = start.creatParallelPosition(0, Position.COLUMN_MAX);
+        List<Position> parallelPositions = start.createParallelPosition(0, Position.COLUMN_MAX);
         List<Position> verticalPositions = start.createVerticalPosition(0, Position.ROW_MAX);
         return Stream.concat(parallelPositions.stream(), verticalPositions.stream())
                 .toList();
@@ -40,7 +40,7 @@ public record Chariot(Team getTeam) implements Piece {
 
     private Route calculateStraightRoute(Position start, Position end) {
         if (start.isParallel(end)) {
-            return Route.of(start.creatParallelPosition(start.getColumn(), end.getColumn()));
+            return Route.of(start.createParallelPosition(start.getColumn(), end.getColumn()));
         }
         return Route.of(start.createVerticalPosition(start.getRow(), end.getRow()));
     }

@@ -47,7 +47,7 @@ public class Position {
         return this.row == end.row;
     }
 
-    public List<Position> creatParallelPosition(int startColumn, int endColumn) {
+    public List<Position> createParallelPosition(int startColumn, int endColumn) {
         int minColumn = Math.min(startColumn, endColumn);
         int maxColumn = Math.max(startColumn, endColumn);
 
