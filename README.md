@@ -67,6 +67,31 @@
 
 # 사용 방법
 
+## DB 연결 & 실행 가이드
+
+1. docker 실행
+  - OS에 맞게 [Docker](https://docs.docker.com/get-started/get-docker/)를 설치하세요.
+  - docker 폴더로 이동한 후 docker-compose 파일을 실행하세요.
+    ```shell
+    cd docker
+    docker-compose -p janggi up -d 
+    ```
+
+2. MySQL DataSource를 생성해주세요.
+<br>
+  <img src="/image/db-guide1.png">
+   <br>
+  <img src="/image/db-guide2.png">
+   <br>
+  <img src="/image/db-guide3.png">
+<br>
+
+3. ```docker/mysql/init/init.sql```를 실행해주세요.
+  - 실행을 완료하면 테이블이 생성됩니다.
+
+4. `JanggiApplication.java`를 실행해주세요.
+
+## 콘솔 가이드
 ```text
    １  ２  ３  ４  ５  ６  ７  ８  ９  
 1  차  상  마  사  ㅁ  사  상  마  차  
@@ -87,8 +112,8 @@
 3  ㅁ  포  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  포  ㅁ  
 4  졸  ㅁ  졸  ㅁ  졸  ㅁ  졸  ㅁ  졸  
 5  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  
-6  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  
-7  졸  ㅁ  졸  ㅁ  졸  ㅁ  졸  ㅁ  졸  
+6  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  -> 왼쪽 끝 (6,1) 이동
+7  졸  ㅁ  졸  ㅁ  졸  ㅁ  졸  ㅁ  졸  -> 왼쪽 끝 졸 (7,1)을
 8  ㅁ  포  ㅁ  ㅁ  ㅁ  ㅁ  ㅁ  포  ㅁ  
 9  ㅁ  ㅁ  ㅁ  ㅁ  궁  ㅁ  ㅁ  ㅁ  ㅁ  
 0  차  상  마  사  ㅁ  사  상  마  차 
