@@ -51,7 +51,7 @@ public class TurnDao {
                 String country = resultSet.getString("country_name");
                 return new TurnDto(country);
             } else {
-                throw new RuntimeException("저장된 턴 정보가 없습니다.");
+                throw new RuntimeException("저장된 게임 정보가 없습니다.");
             }
 
         } catch (final SQLException e) {

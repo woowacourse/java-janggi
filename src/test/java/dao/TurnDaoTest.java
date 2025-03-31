@@ -33,5 +33,6 @@ class TurnDaoTest {
         TurnDto loaded = turnDao.loadTurnCountry();
 
         assertThat(loaded.country()).isEqualTo("HAN");
+        turnDao.deleteAll();
     }
 }

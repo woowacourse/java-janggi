@@ -42,6 +42,7 @@ class BoardDaoTest {
         assertThat(loaded).extracting(PieceDto::row).containsExactly("1", "2");
         assertThat(loaded).extracting(PieceDto::country).containsExactly("CHO", "HAN");
         assertThat(loaded).extracting(PieceDto::pieceType).containsExactly("SOLDIER", "ELEPHANT");
+        boardDao.deleteAll();
     }
 
 
