@@ -2,57 +2,64 @@ package janggi.game;
 
 import janggi.board.Board;
 import janggi.board.Pieces;
+import janggi.dao.BoardDao;
+import janggi.dao.PieceDao;
+import janggi.dao.connection.MysqlConnection;
 import janggi.piece.Team;
+import janggi.piece.pieces.Piece;
 import janggi.position.Position;
 import janggi.position.Route;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Game {
-    private static final int MAX_PLAY_TIME = 900_000;
     private static final int POSITION_INPUT_SIZE = 2;
     private static final int INPUT_COLUMN_INDEX = 0;
     private static final int INPUT_ROW_INDEX = 1;
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final BoardDao boardDao;
+    private final PieceDao pieceDao;
 
-    public Game(InputView inputView, OutputView outputView) {
+    public Game(InputView inputView, OutputView outputView, BoardDao boardDao, PieceDao pieceDao) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.boardDao = boardDao;
+        this.pieceDao = pieceDao;
     }
 
     public void play() {
+        // todo: 만약 DB에 board가 존재한다면 해당 board의 정보로 초기화한다.
         GameState gameState = GameState.PLAY;
         Board board = new Board(new Pieces(), Team.CHO);
-        long playTime = System.currentTimeMillis();
+        Map<String, Function<Board, GameState>> command = initCommand();
 
-        while (gameState == GameState.PLAY && !isTimeOver(playTime)) {
-            gameState = handleGameState(() -> controlGame(board));
+        while (gameState == GameState.PLAY) {
+            String inputChoice = inputView.readChoice();
+            gameState = command.get(inputChoice).apply(board);
         }
         determineWinner(board);
         inputView.close();
     }
 
-    private boolean isTimeOver(long playTime) {
-        return System.currentTimeMillis() - playTime > MAX_PLAY_TIME;
+    private Map<String, Function<Board, GameState>> initCommand() {
+        HashMap<String, Function<Board, GameState>> command = new HashMap<>();
+        command.put("1", this::movePiece);
+        command.put("2", this::saveGame);
+        command.put("3", this::gameOver);
+        return command;
     }
 
-    private GameState handleGameState(Supplier<GameState> game) {
-        try {
-            return game.get();
-        } catch (IllegalArgumentException exception) {
-            outputView.printError(exception.getMessage());
-            return GameState.PLAY;
-        }
-    }
-
-    private GameState controlGame(Board board) {
+    private GameState movePiece(Board board) {
         outputView.printPieces(board.getPieces());
 
         Position position = getPosition(board);
@@ -70,6 +77,25 @@ public class Game {
         }
         board.changeTurn();
         return GameState.PLAY;
+    }
+
+    private GameState saveGame(Board board) {
+        outputView.printPieces(board.getPieces());
+
+        pieceDao.deleteAllPieces();
+        boardDao.deleteAllBoards();
+        String boardId = boardDao.addBoard(board);
+        for (Entry<Position, Piece> entry : board.getPieces().entrySet()) {
+            pieceDao.addPiece(entry.getValue(), entry.getKey().getColumn(), entry.getKey().getRow(), boardId);
+        }
+        outputView.printSuccessSave();
+        return GameState.PLAY;
+    }
+
+    private GameState gameOver(Board board) {
+        outputView.printPieces(board.getPieces());
+
+        return GameState.QUIT;
     }
 
     private void determineWinner(Board board) {
