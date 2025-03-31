@@ -7,11 +7,9 @@ import java.util.List;
 
 public abstract class Piece {
 
-    protected final Player player;  // Player 객체만 필드로 추가
-
+    protected final Player player;
     protected final int point;
 
-    // Player 객체를 생성자로 받도록 수정
     public Piece(Player player, int point) {
         this.player = player;
         this.point = point;
@@ -27,6 +25,10 @@ public abstract class Piece {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public int getPoint() {
+        return point;
     }
 
     public boolean comparePlayer(Piece otherPiece) {

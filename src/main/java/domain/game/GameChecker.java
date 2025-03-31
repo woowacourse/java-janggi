@@ -1,4 +1,4 @@
-package gameloader;
+package domain.game;
 
 import database.DbConnection;
 import java.sql.Connection;
@@ -14,7 +14,6 @@ public class GameChecker {
         this.dbConnection = DbConnection.getInstance();
     }
 
-    // 게임이 존재하는지 확인
     public boolean checkIfGameExists(int gameId) throws SQLException {
         String sql = "SELECT COUNT(*) FROM games WHERE game_id = ?";
 
