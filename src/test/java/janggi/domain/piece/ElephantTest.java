@@ -3,6 +3,9 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
+import janggi.domain.piece.impl.Elephant;
+import janggi.domain.piece.impl.None;
+import janggi.domain.piece.impl.Soldier;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;

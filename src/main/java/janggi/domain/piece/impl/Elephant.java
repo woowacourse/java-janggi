@@ -1,7 +1,12 @@
-package janggi.domain.piece;
+package janggi.domain.piece.impl;
 
-import janggi.domain.piece.movement.ElephantPathMovement;
-import janggi.domain.piece.movement.Movement;
+import janggi.domain.piece.HorseSide;
+import janggi.domain.piece.Team;
+import janggi.domain.movement.ElephantPathMovement;
+import janggi.domain.movement.Movement;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 import java.util.List;
 import java.util.function.Consumer;
 

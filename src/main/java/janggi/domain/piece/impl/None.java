@@ -1,5 +1,9 @@
-package janggi.domain.piece;
+package janggi.domain.piece.impl;
 
+import janggi.domain.piece.Team;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Position;
 import java.util.function.Consumer;
 
 public class None extends Piece {

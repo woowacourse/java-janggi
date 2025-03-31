@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.piece.movement.Movement;
+import janggi.domain.movement.Movement;
 
 public record Position(int x, int y) {
     public Position {

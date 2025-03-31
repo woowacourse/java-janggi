@@ -1,10 +1,11 @@
-package janggi.domain;
+package janggi.domain.board;
 
-import janggi.domain.piece.None;
+import janggi.domain.piece.Team;
+import janggi.domain.Turn;
+import janggi.domain.piece.impl.None;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
 import janggi.domain.piece.Position;
-import janggi.domain.piece.Team;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;

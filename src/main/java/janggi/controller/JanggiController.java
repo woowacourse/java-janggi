@@ -1,7 +1,7 @@
 package janggi.controller;
 
-import janggi.domain.Board;
-import janggi.domain.BoardFactory;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardFactory;
 import janggi.domain.Turn;
 import janggi.domain.piece.HorseSide;
 import janggi.domain.piece.Position;

@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.piece.movement.Movement;
+import janggi.domain.movement.Movement;
 
 final public class CommonValidator {
 

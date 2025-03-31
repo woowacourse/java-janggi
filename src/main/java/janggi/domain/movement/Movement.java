@@ -1,4 +1,4 @@
-package janggi.domain.piece.movement;
+package janggi.domain.movement;
 
 import java.util.List;
 

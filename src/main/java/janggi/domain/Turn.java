@@ -15,6 +15,11 @@ public class Turn {
         return new Turn(team);
     }
 
+    public Team now() {
+        switchTurn();
+        return turn;
+    }
+
     public Team next() {
         switchTurn();
         return turn;
