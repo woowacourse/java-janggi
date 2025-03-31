@@ -19,6 +19,13 @@
     - [x] 현재 점수를 출력한다.
     - [x] 왕이 잡히면 게임을 종료한다.
 
+## DB 구성 방법
+
+1. [Docker Download](https://docs.docker.com/get-started/get-docker/)를 통해 각 OS에 맞게 Docker를 설치합니다.
+2. 프로젝트 루트 디렉토리에서 `docker-compose up -d` 명령어를 실행합니다.
+3. `docker-compose ps` 명령어를 통해 컨테이너가 정상적으로 실행되었는지 확인합니다.
+4. 종료할 때는 `docker-compose down` 명령어를 실행합니다.
+
 ## 게임 모드
 
 - [x] 오프라인 모드
