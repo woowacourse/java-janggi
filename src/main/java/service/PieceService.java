@@ -21,7 +21,7 @@ public class PieceService {
         return pieceDao.findByAllAlivePieces();
     }
 
-    public void pieceMove(BoardLocation current, BoardLocation destination){
+    public void pieceMove(BoardLocation current, BoardLocation destination) {
         pieceDao.deleteBoard(destination);
         pieceDao.updateBoard(current, destination);
     }
