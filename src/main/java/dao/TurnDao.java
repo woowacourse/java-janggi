@@ -38,6 +38,18 @@ public class TurnDao {
         }
     }
 
+    public void removeAll() {
+        String sql = "DELETE FROM turn";
+
+        try (Connection connection = JdbcConnection.getConnection()){
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("[ERROR] 해당 팀의 플레이어를 찾을 수 없습니다.");
+            e.printStackTrace();
+        }
+    }
+
     public String getTurn() {
         String sql = "SELECT current_turn FROM turn";
 

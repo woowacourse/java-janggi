@@ -2,6 +2,7 @@ package game;
 
 import board.GameBoard;
 import direction.Point;
+import java.util.List;
 import java.util.Objects;
 import piece.Pieces;
 import team.Player;
@@ -39,7 +40,7 @@ public class JanggiGame {
 
     public void run() {
         while (!isGameOver()) {
-            OutputView.printBoard(gameBoard);
+            OutputView.printBoard(gameBoard, List.of(gameBoard.findPlayer(Team.CHO), gameBoard.findPlayer(Team.HAN)));
             Player player = gameBoard.findPlayer(currentTurn);
             Player oppositePlayer = gameBoard.findPlayer(currentTurn.oppsite());
             try {
@@ -55,6 +56,8 @@ public class JanggiGame {
                 System.err.println(e.getMessage());
             }
         }
+
+        gameBoard.resetGame();
     }
 
     private boolean isGameOver() {

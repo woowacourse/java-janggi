@@ -117,6 +117,13 @@ public class JdbcGameBoard implements GameBoard {
     }
 
     @Override
+    public void resetGame() {
+        pieceDao.removeAll();
+        playerDao.removeAll();
+        turnDao.removeAll();
+    }
+
+    @Override
     public Player findPlayer(Team team) {
         return players.stream()
                 .filter(player -> player.isTeam(team))

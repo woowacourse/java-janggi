@@ -22,4 +22,6 @@ public interface GameBoard {
     Pieces findAllPieces();
 
     Pieces findTeamPieces(Team team);
+
+    void resetGame();
 }

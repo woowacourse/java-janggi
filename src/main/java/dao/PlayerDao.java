@@ -33,7 +33,7 @@ public class PlayerDao {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, player.getScore());
+            preparedStatement.setDouble(1, player.getScore());
             preparedStatement.setString(2, player.getTeam().name());
 
             preparedStatement.executeUpdate();
@@ -60,22 +60,15 @@ public class PlayerDao {
         return 0;
     }
 
-    public int getPlayerIdByTeam(Team team) {
-        String sql = "SELECT id FROM player WHERE team = ?";
+    public void removeAll() {
+        String sql = "DELETE FROM player";
 
-        try (Connection connection = JdbcConnection.getConnection()) {
+        try (Connection connection = JdbcConnection.getConnection()){
             PreparedStatement pstmt = connection.prepareStatement(sql);
-
-            pstmt.setString(1, team.name());
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("id");
-            }
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("[ERROR] 해당 팀의 플레이어를 찾을 수 없습니다.");
             e.printStackTrace();
         }
-
-        return -1;
     }
 }
