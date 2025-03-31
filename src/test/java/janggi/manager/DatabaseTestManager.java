@@ -21,8 +21,8 @@ public final class DatabaseTestManager {
         Connection connection = databaseManager.getConnection();
 
         try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("DELETE FROM piece");
             stmt.executeUpdate("DELETE FROM game_room");
+            stmt.executeUpdate("TRUNCATE TABLE board");
         }
     }
 }

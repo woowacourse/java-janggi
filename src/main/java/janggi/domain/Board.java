@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.w3c.dom.ls.LSResourceResolver;
 
 public class Board {
 
@@ -64,10 +63,6 @@ public class Board {
     }
 
     public Piece getPiece(Position position) {
-        System.out.println(position);
-        System.out.println("board 클래스" + board);
-        System.out.println(board.containsKey(position));
-
         if (!board.containsKey(position)) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_BOARD_POSITION.getMessage());
         }

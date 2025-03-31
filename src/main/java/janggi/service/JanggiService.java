@@ -101,7 +101,6 @@ public class JanggiService {
 
     public void movePiece(GameRoom gameRoom, Position currentPosition, Position targetPosition) {
         Board board = gameRoom.board();
-        System.out.println(board);
         String gameRoomName = gameRoom.name();
 
         board.movePiece(currentPosition, targetPosition);

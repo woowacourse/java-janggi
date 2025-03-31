@@ -8,12 +8,9 @@ import janggi.dao.impl.GameRoomDAOImpl;
 import janggi.domain.Team;
 import janggi.manager.DatabaseManager;
 import janggi.manager.DatabaseTestManager;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -22,27 +19,14 @@ import org.junit.jupiter.api.Test;
 @Disabled
 class GameRoomDAOTest {
 
-    static DatabaseManager databaseManager = DatabaseTestManager.create();
-    static GameRoomDAO gameRoomDAOImpl;
+    DatabaseManager databaseManager = DatabaseTestManager.create();
+    GameRoomDAO gameRoomDAOImpl;
     String roomName = "room1";
 
-    @BeforeAll
-    static void setUpDataBase() {
-        gameRoomDAOImpl = new GameRoomDAOImpl(databaseManager);
-    }
-
-    @AfterAll
-    static void clearAll() throws SQLException {
-        DatabaseTestManager.resetDatabase();
-    }
-
     @BeforeEach
-    void clear() throws SQLException {
-        Connection connection = databaseManager.getConnection();
-
-        try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("DELETE FROM game_room");
-        }
+    void init() {
+        databaseManager.createTableIfNotExist();
+        gameRoomDAOImpl = new GameRoomDAOImpl(databaseManager);
     }
 
     @DisplayName("게임 룸을 생성한다.")
@@ -131,4 +115,8 @@ class GameRoomDAOTest {
 
     }
 
+    @AfterEach
+    void clearAll() throws SQLException {
+        DatabaseTestManager.resetDatabase();
+    }
 }

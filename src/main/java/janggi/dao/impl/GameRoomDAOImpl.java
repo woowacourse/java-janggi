@@ -16,7 +16,7 @@ public class GameRoomDAOImpl implements GameRoomDAO {
     private static final String EXIST_QUERY = "SELECT NAME FROM game_room WHERE NAME = ?";
     private static final String INSERT_QUERY = "INSERT INTO game_room(name, turn) VALUES (?, ?)";
     private static final String UPDATE_QUERY = "UPDATE game_room SET TURN = ? WHERE NAME = ?";
-    private static final String DELETE_QUERY = "DELETE FROM game_room WHERE  NAME = ?";
+    private static final String DELETE_QUERY = "DELETE FROM game_room WHERE NAME = ?";
     private static final String FIND_TURN_QUERY = "SELECT TURN FROM game_room WHERE NAME = ?";
 
     private final DatabaseManager databaseManager;

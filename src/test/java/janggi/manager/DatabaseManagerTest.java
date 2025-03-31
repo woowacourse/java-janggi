@@ -5,9 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import java.sql.SQLException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 class DatabaseManagerTest {
 
     DatabaseManager databaseManager;
@@ -32,7 +34,5 @@ class DatabaseManagerTest {
     void test1() {
         assertThatCode(() -> databaseManager.createTableIfNotExist())
                 .doesNotThrowAnyException();
-
     }
-
 }

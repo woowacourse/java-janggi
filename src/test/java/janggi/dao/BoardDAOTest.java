@@ -10,12 +10,8 @@ import janggi.domain.move.Position;
 import janggi.manager.DatabaseManager;
 import janggi.manager.DatabaseTestManager;
 import janggi.util.BoardFixture;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,22 +24,11 @@ class BoardDAOTest {
     static GameRoomDAO gameRoomDAOImpl = new GameRoomDAOImpl(databaseManager);
     BoardDAO boardDAOImpl = new BoardDAOImpl(databaseManager);
 
-    @BeforeAll
-    static void setupDatabase() throws SQLException {
-
-        databaseManager.createTableIfNotExist();
-        Connection connection = databaseManager.getConnection();
-
-        try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("DELETE FROM game_room");
-        }
-
-        gameRoomDAOImpl.create(GAME_ROOM_NAME);
-    }
-
-    @AfterAll
-    static void clearAll() throws SQLException {
+    @BeforeEach
+    void setup() throws SQLException {
         DatabaseTestManager.resetDatabase();
+        databaseManager.createTableIfNotExist();
+        gameRoomDAOImpl.create(GAME_ROOM_NAME);
     }
 
     @DisplayName("보드를 게임에 저장한다.")
@@ -87,13 +72,4 @@ class BoardDAOTest {
         assertThatCode(() -> domain.getPiece(targetPosition))
                 .doesNotThrowAnyException();
     }
-
-    @AfterEach
-    void clearDatabase() throws SQLException {
-        Connection connection = databaseManager.getConnection();
-        try (Statement stmt = connection.createStatement()) {
-            stmt.executeUpdate("DELETE FROM BOARD");
-        }
-    }
-
 }

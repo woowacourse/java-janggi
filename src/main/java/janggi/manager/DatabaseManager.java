@@ -41,7 +41,8 @@ public final class DatabaseManager {
 
     private String createGameRoomTable() {
         return createTableIfNotExist(GAME_ROOM_TABLE) +
-                "NAME VARCHAR(10) PRIMARY KEY," +
+                "ID INT PRIMARY KEY AUTO_INCREMENT,"+
+                "NAME VARCHAR(10) UNIQUE," +
                 "TURN VARCHAR(10) NOT NULL CHECK(TURN IN ('HAN', 'CHO')));";
     }
 
