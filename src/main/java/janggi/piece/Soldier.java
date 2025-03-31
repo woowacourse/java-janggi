@@ -82,8 +82,8 @@ public class Soldier implements Piece {
     private List<List<Movement>> generateMovements() {
         if (PalacePosition.isContains(position)) {
             List<List<Movement>> totalMovements = new ArrayList<>();
-            movements.addAll(movements);
-            movements.addAll(palaceMovements);
+            totalMovements.addAll(movements);
+            totalMovements.addAll(palaceMovements);
             return totalMovements;
         }
         return movements;
