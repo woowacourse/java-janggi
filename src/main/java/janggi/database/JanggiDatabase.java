@@ -20,6 +20,11 @@ public class JanggiDatabase {
     private static final String USERNAME = "user"; //  MySQL 서버 아이디
     private static final String PASSWORD = "password"; // MySQL 서버 비밀번호
 
+    private static final int X = 2;
+    private static final int Y = 3;
+    private static final int TYPE = 4;
+    private static final int COUNTRY = 5;
+
     public JanggiDatabase() {
     }
 
@@ -81,10 +86,11 @@ public class JanggiDatabase {
 
     private void readPiece(final ResultSet rs, final Map<JanggiPosition, Piece> janggiBoard)
             throws SQLException {
-        final int x = rs.getInt(2);
-        final int y = rs.getInt(3);
-        final String pieceName = rs.getString(4);
-        final String countryText = rs.getString(5);
+        // read할때는 2부터 시작
+        final int x = rs.getInt(X );
+        final int y = rs.getInt(Y);
+        final String pieceName = rs.getString(TYPE);
+        final String countryText = rs.getString(COUNTRY);
 
         final JanggiPosition janggiPosition = new JanggiPosition(x, y);
         final Country country = Country.StringToCountry(countryText);
