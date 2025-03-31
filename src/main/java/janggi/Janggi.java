@@ -42,6 +42,7 @@ public class Janggi {
 
                 checkWinner(players);
             } catch (final GameOverException e) {
+            } catch (final GameQuitException e) {
                 outputView.display(e.getMessage());
                 return;
             } catch (final IllegalArgumentException e) {
