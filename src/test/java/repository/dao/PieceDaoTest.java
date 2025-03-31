@@ -75,4 +75,20 @@ public class PieceDaoTest {
         assertThat(pieces.size()).isEqualTo(2);
     }
 
+    @Test
+    @DisplayName("기물들을 삭제할 수 있다.")
+    public void deleteAllTest(){
+        // given
+        Piece king1 = new King(CHO, E1);
+        Piece king2 = new King(HAN, E8);
+        Set<PieceConverter> pieceConverters = new HashSet<>();
+        pieceConverters.add(PieceConverter.toEntity(king1));
+        pieceConverters.add(PieceConverter.toEntity(king2));
+        pieceDao.addAll(pieceConverters);
+
+        // when - then
+        assertThatCode(() -> pieceDao.deleteAll())
+                .doesNotThrowAnyException();
+    }
+
 }
