@@ -41,6 +41,10 @@ public class Position {
         return GUNGSUNG_POSITION.contains(position);
     }
 
+    public static boolean isMovingInOnlyGungSung(Position currentPosition, Position arrivalPosition) {
+        return isInGungSung(currentPosition) && isInGungSung(arrivalPosition);
+    }
+
     public static boolean isAbleToDiagonalMoveInGungSung(Position position) {
         return CAN_DIAGONAL_POSITION.contains(position);
     }
