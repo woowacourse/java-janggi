@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.board.Point;
 import janggi.camp.Camp;
+import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Piece;
 import java.sql.Connection;
@@ -25,7 +26,7 @@ public class PieceDaoTest {
     void addPiece() {
         Piece chariot = new Chariot(Camp.CHU);
         Point point = new Point(0, 0);
-        testPieceDao.add(chariot, point);
+        testPieceDao.addPiece(chariot, point);
     }
 
     @Test
@@ -34,5 +35,13 @@ public class PieceDaoTest {
         Piece chariot = new Chariot(Camp.CHU);
         Piece piece = testPieceDao.findByPoint(point);
         assertThat(piece.getPieceType()).isEqualTo(chariot.getPieceType());
+    }
+
+    @Test
+    void updatePiece() {
+        Point point = new Point(0, 0);
+        Piece cannon = new Cannon(Camp.HAN);
+        testPieceDao.updatePieceByPoint(point, cannon);
+        assertThat(testPieceDao.findByPoint(point).getPieceType()).isEqualTo(cannon.getPieceType());
     }
 }

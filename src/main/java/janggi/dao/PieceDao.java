@@ -62,4 +62,20 @@ public class PieceDao {
         }
         return null;
     }
+
+    public void updatePieceByPoint(Point point, Piece piece) {
+        final var query = "UPDATE piece SET type = ?, camp = ? WHERE pos_x = ? AND pos_y = ?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            Camp camp = piece.getCamp();
+            preparedStatement.setString(1, piece.getPieceType().getName(camp));
+            preparedStatement.setString(2, camp.getName());
+            preparedStatement.setInt(3, point.getX());
+            preparedStatement.setInt(4, point.getY());
+
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
