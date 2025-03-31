@@ -23,33 +23,37 @@ public class BoardPieceDao {
 
     public void saveAll(Map<Position, Piece> board) {
         String query = "insert into board_piece(game_id, column_value, row_value, piece_type, team) values(?, ?, ?, ?, ?);";
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ) {
             for (Entry<Position, Piece> entry : board.entrySet()) {
-                Position position = entry.getKey();
-                Piece piece = entry.getValue();
-                PieceType pieceType = PieceType.from(piece);
-                Row row = position.getRow();
-                Column column = position.getColumn();
-                preparedStatement.setInt(1, 1);
-                preparedStatement.setInt(2, column.getValue());
-                preparedStatement.setInt(3, row.getValue());
-                preparedStatement.setString(4, pieceType.name());
-                preparedStatement.setString(5, piece.getTeam().name());
-                preparedStatement.executeUpdate();
+                save(entry, preparedStatement);
             }
         } catch (SQLException e) {
             throw new RuntimeException("DB 오류 발생");
         }
     }
 
+    private void save(Entry<Position, Piece> entry, PreparedStatement preparedStatement) throws SQLException {
+        Position position = entry.getKey();
+        Piece piece = entry.getValue();
+        PieceType pieceType = PieceType.from(piece);
+        Row row = position.getRow();
+        Column column = position.getColumn();
+        preparedStatement.setInt(1, 1);
+        preparedStatement.setInt(2, column.getValue());
+        preparedStatement.setInt(3, row.getValue());
+        preparedStatement.setString(4, pieceType.name());
+        preparedStatement.setString(5, piece.getTeam().name());
+        preparedStatement.executeUpdate();
+    }
+
     public Board loadBoard() {
         String query = "select * from board_piece;";
-        try {
-            Connection connection = getConnection();
+        try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery()
+        ) {
             Map<Position, Piece> board = new HashMap<>();
             while (resultSet.next()) {
                 int column = resultSet.getInt("column_value");
@@ -69,9 +73,9 @@ public class BoardPieceDao {
 
     public void delete(Position goalPosition) {
         String query = "delete from board_piece where column_value = ? and row_value = ?;";
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ) {
             Column column = goalPosition.getColumn();
             Row row = goalPosition.getRow();
             preparedStatement.setInt(1, column.getValue());
@@ -82,15 +86,11 @@ public class BoardPieceDao {
         }
     }
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, username, password);
-    }
-
     public void updatePiecePosition(Position startPosition, Position goalPosition) {
         String query = "update board_piece set column_value = ?, row_value = ? where column_value = ? and row_value = ?;";
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ) {
             Column startColumn = startPosition.getColumn();
             Row startRow = startPosition.getRow();
             Column goalColumn = goalPosition.getColumn();
@@ -107,12 +107,16 @@ public class BoardPieceDao {
 
     public void deleteAll() {
         String query = "delete from board_piece where game_id = 1";
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("DB 오류 발생");
         }
+    }
+
+    private Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(url, username, password);
     }
 }

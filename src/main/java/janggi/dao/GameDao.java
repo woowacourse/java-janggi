@@ -16,9 +16,9 @@ public class GameDao {
 
     public void create() {
         String sql = "insert into game(id, turn) values (1, 'GREEN');";
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ) {
             preparedStatement.executeUpdate();
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new AlreadyGameExistsException("이미 진행중인 게임이 있습니다");
@@ -29,10 +29,10 @@ public class GameDao {
 
     public Team readTurn() {
         String sql = "select turn from game where id = 1;";
-        try {
-            Connection connection = getConnection();
+        try (Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery()
+        ) {
             if (resultSet.next()) {
                 return Team.valueOf(resultSet.getString("turn"));
             }
@@ -44,10 +44,21 @@ public class GameDao {
 
     public void updateTurn(Team team) {
         String sql = "update game set turn = ? where id = 1;";
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        ) {
             preparedStatement.setString(1, team.name());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("DB 오류 발생");
+        }
+    }
+
+    public void delete() {
+        String query = "delete from game where id = 1";
+        try (Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("DB 오류 발생");
@@ -56,16 +67,5 @@ public class GameDao {
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
-    }
-
-    public void delete() {
-        String query = "delete from game where id = 1";
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("DB 오류 발생");
-        }
     }
 }
