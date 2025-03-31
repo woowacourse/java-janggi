@@ -46,9 +46,7 @@ public class JanggiController {
                 BoardLocation destination = consoleView.requestDestination();
 
                 janggiGame.process(current, destination);
-                pieceDao.deleteBoard(destination);
-                pieceDao.updateBoard(current, destination);
-                gameDao.saveTurn(janggiGame.getTurn());
+                processOneTurn(destination, current, janggiGame);
                 isGameStopped = janggiGame.isGameStopped();
                 consoleView.showBoard(janggiGame.getBoard().getPieces());
             } catch (RuntimeException e) {
@@ -56,6 +54,12 @@ public class JanggiController {
             }
         }
         consoleView.showWinner(janggiGame.getTurn());
+    }
+
+    private void processOneTurn(BoardLocation destination, BoardLocation current, JanggiGame janggiGame) {
+        pieceDao.deleteBoard(destination);
+        pieceDao.updateBoard(current, destination);
+        gameDao.saveTurn(janggiGame.getTurn());
     }
 
     private JanggiGame initializeJanggiGame() {
