@@ -11,10 +11,12 @@ import java.util.stream.Collectors;
 
 public class Janggi {
 
+    private final Long id;
     private final Board board;
     private Turn turn;
 
-    public Janggi(final Board board, final Turn turn) {
+    public Janggi(final Long id, final Board board, final Turn turn) {
+        this.id = id;
         this.board = board;
         this.turn = turn;
     }
@@ -52,5 +54,9 @@ public class Janggi {
                         chessPiece -> chessPiece,
                         (newValue, oldValue) -> newValue
                 ));
+    }
+
+    public Long getId() {
+        return id;
     }
 }
