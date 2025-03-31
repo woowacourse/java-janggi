@@ -2,7 +2,7 @@ use Janggi;
 
 CREATE TABLE player (
     id  INT NOT NULL AUTO_INCREMENT,
-    score INT NOT NULL,
+    score DOUBLE NOT NULL,
     team ENUM ('HAN', 'CHO') NOT NULL,
     PRIMARY KEY (id)
 );

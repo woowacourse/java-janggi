@@ -9,13 +9,17 @@ import piece.Pieces;
 public class Player {
 
     private Pieces pieces;
-    private int score;
+    private double score;
     private final Team team;
 
-    public Player(Pieces pieces, int score, Team team) {
+    public Player(Pieces pieces, double score, Team team) {
         this.pieces = pieces;
         this.score = score;
         this.team = team;
+    }
+
+    public void updatePieceStatus(final Pieces oppositeTeamPieces) {
+        pieces = oppositeTeamPieces;
     }
 
     public Pieces move(Pieces oppositeTeamPieces, Point start, Point end) {
@@ -60,15 +64,11 @@ public class Player {
         return pieces.getPieces();
     }
 
-    public void updatePieceStatus(final Pieces oppositeTeamPieces) {
-        pieces = oppositeTeamPieces;
-    }
-
     public Team getTeam() {
         return team;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 }
