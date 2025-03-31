@@ -3,13 +3,14 @@ package view;
 import java.util.Scanner;
 
 import board.Position;
+import game.Turn;
 
 public class InputView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public Position readStartPosition() {
-        System.out.println("이동하고자 하는 기물의 위치를 입력해주세요.");
+    public Position readStartPosition(final Turn turn) {
+        System.out.printf("이동하고자 하는 기물의 위치를 입력해주세요. 현재 턴: %s%n", turn.getCurrentTurnTeam().name());
         String[] tokens = scanner.nextLine()
                 .split(",");
         return new Position(parse(tokens[0]), parse(tokens[1]));

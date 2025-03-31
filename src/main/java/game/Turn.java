@@ -4,7 +4,15 @@ import piece.Team;
 
 public class Turn {
 
-    private int value = 1;
+    private int value;
+
+    public Turn() {
+        this.value = 1;
+    }
+
+    public Turn(final int value) {
+        this.value = value;
+    }
 
     public Team getCurrentTurnTeam() {
         if (value % 2 == 0) {
@@ -15,6 +23,10 @@ public class Turn {
 
     public void increaseRound() {
         ++value;
+    }
+
+    public int getValue() {
+        return value;
     }
 
 }

@@ -18,3 +18,9 @@ CREATE TABLE IF NOT EXISTS piece
 
     UNIQUE (row_value, column_value)
 );
+
+CREATE TABLE IF NOT EXISTS turn
+(
+    id    BIGINT AUTO_INCREMENT PRIMARY KEY,
+    value INT NOT NULL
+);

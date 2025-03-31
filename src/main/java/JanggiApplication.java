@@ -7,6 +7,8 @@ import board.Position;
 import dao.PieceConverter;
 import dao.PieceDao;
 import dao.PieceEntity;
+import dao.TurnConverter;
+import dao.TurnDao;
 import game.Turn;
 import view.InputView;
 import view.OutputView;
@@ -16,10 +18,11 @@ public class JanggiApplication {
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
     private static final PieceDao pieceDao = new PieceDao();
+    private static final TurnDao turnDao = new TurnDao();
 
     public static void main(String[] args) {
         Board board = createBoard();
-        Turn turn = new Turn();
+        Turn turn = createTurn();
 
         outputView.printBoard(board.getPieces());
         outputView.printTeamScore(board.calculateTotalScore());
@@ -40,22 +43,33 @@ public class JanggiApplication {
         return new Board(PieceConverter.toPieces(pieceEntities));
     }
 
+    private static Turn createTurn() {
+        if (turnDao.exists()) {
+            return TurnConverter.toTurn(turnDao.find());
+        }
+        Turn turn = new Turn();
+        turnDao.save(TurnConverter.toEntity(turn));
+        return turn;
+    }
+
     private static void playGame(final Board board, final Turn turn) {
         Position startPosition = retry(() -> readStartPosition(board, turn));
         retry(() -> movePosition(board, startPosition));
         outputView.printBoard(board.getPieces());
         outputView.printTeamScore(board.calculateTotalScore());
         turn.increaseRound();
+        turnDao.update(TurnConverter.toEntity(turn));
         if (board.isFinish()) {
             outputView.printWinner(board.findWinnerTeam());
             pieceDao.removeAll();
+            turnDao.removeAll();
             return;
         }
         playGame(board, turn);
     }
 
     private static Position readStartPosition(final Board board, final Turn turn) {
-        Position startPosition = inputView.readStartPosition();
+        Position startPosition = inputView.readStartPosition(turn);
         board.isValidTurn(startPosition, turn);
         return startPosition;
     }
