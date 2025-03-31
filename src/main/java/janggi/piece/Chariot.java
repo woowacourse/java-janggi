@@ -60,12 +60,7 @@ public class Chariot implements Piece {
 
     private List<List<Movement>> generateMovements() {
         List<List<Movement>> totalMovements = new ArrayList<>();
-        if (PalacePosition.isContains(position) && PalacePosition.CENTER_POSITION.contains(position)) {
-            totalMovements.addAll(MOVEMENTS);
-            totalMovements.addAll(PALACE_MOVEMENTS);
-            return totalMovements;
-        }
-        if (PalacePosition.isContains(position) && !PalacePosition.CENTER_POSITION.contains(position)) {
+        if (PalacePosition.isContains(position)) {
             totalMovements.addAll(MOVEMENTS);
             totalMovements.addAll(PALACE_MOVEMENTS);
             return totalMovements;
