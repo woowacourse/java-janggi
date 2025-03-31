@@ -1,15 +1,16 @@
 package piece;
 
 import board.Board;
+import movement.MovePath;
 import movement.MovePaths;
 import movement.Movement;
-import movement.MovePath;
 import position.Position;
 import validator.DistanceCheckable;
 import validator.ObstructionCheckable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class Horse extends Piece implements DistanceCheckable, ObstructionCheckable {
 
@@ -18,7 +19,7 @@ public class Horse extends Piece implements DistanceCheckable, ObstructionChecka
     private static final double DISTANCE;
 
     static {
-        movePaths = new MovePaths(List.of(
+        movePaths = new MovePaths(Set.of(
                 new MovePath(Movement.UP, Movement.RIGHT_UP),
                 new MovePath(Movement.UP, Movement.LEFT_UP),
                 new MovePath(Movement.DOWN, Movement.LEFT_DOWN),

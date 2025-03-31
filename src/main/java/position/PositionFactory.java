@@ -10,7 +10,7 @@ public class PositionFactory {
     private static final int[] DIAGONAL_DX = {1, -1, 1, -1};
     private static final int[] DIAGONAL_DY = {1, -1, -1, 1};
 
-    /// TODO 2025. 3. 29. 17:06: CACHE를 어떻게 Position과 연결?
+
     private static final Set<Position> CACHE = new HashSet<>();
     private static final Map<Position, Set<Position>> graph = new HashMap<>();
 
