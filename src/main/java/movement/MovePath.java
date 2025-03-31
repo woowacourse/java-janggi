@@ -56,7 +56,7 @@ public class MovePath {
     }
 
     public List<Movement> getMovements() {
-        return movements;
+        return List.copyOf(movements);
     }
 
     @Override
