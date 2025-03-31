@@ -37,4 +37,9 @@ public abstract class Started implements State {
                 .map(Piece::getPieceScore)
                 .reduce(handicap, Double::sum);
     }
+
+    @Override
+    public State startGame(Board board) {
+        throw new UnsupportedOperationException("게임이 이미 진행중입니다.");
+    }
 }

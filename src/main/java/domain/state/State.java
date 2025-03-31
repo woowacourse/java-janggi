@@ -19,4 +19,6 @@ public interface State {
     PieceColor determineWinner();
 
     Board getBoard();
+
+    State startGame(Board board);
 }
