@@ -15,6 +15,10 @@ public enum PieceType {
         this.displayName = displayName;
     }
 
+    public static PieceType of(final String pieceType) {
+        return valueOf(pieceType);
+    }
+
     public String getDisplayName() {
         return displayName;
     }

@@ -26,9 +26,14 @@ public class InputView {
     }
 
     public List<String> readMoveCommand() {
-        System.out.println("이동할 말을 입력하세요 (예: move 가1 자8):");
-        final String input = scanner.nextLine();
+        System.out.println("이동할 말을 입력하세요 (예: move 가1 자8) 또는 종료하려면 'quit' 입력:");
+        final String input = scanner.nextLine().trim();
         final String pattern = "move [A-I][0-9] [A-I][0-9]";
+        if (input.equalsIgnoreCase("quit")) {
+            List<String> quitCommand = new ArrayList<>();
+            quitCommand.add("quit");
+            return quitCommand;
+        }
 
         if (!input.matches(pattern)) {
             throw new IllegalArgumentException("올바른 형식으로 입력해주세요. (예: move 가1 자8)");
@@ -42,11 +47,18 @@ public class InputView {
         return moveInfo;
     }
 
+
     private String convertRankChar(char ch) {
         if (ch == '0') {
             return "10";
         }
         return String.valueOf(ch);
+    }
+
+    public boolean askLoadSavedGame() {
+        System.out.print("이전 저장된 게임을 불러오시겠습니까? (y/n): ");
+        String input = scanner.nextLine().trim().toLowerCase();
+        return input.equals("y");
     }
 
 }

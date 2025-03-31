@@ -1,6 +1,8 @@
 package game;
 
+import dto.PieceDto;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import piece.Country;
@@ -24,7 +26,18 @@ public class Board {
         this.board = board;
     }
 
-    public void movePiece(Position fromPosition, Position toPosition,Country country) {
+    public static Board toBoard(List<PieceDto> pieces) {
+        Map<Position, Piece> board = new HashMap<>();
+        for (PieceDto dto : pieces) {
+            Position pos = Position.of(dto.column(), dto.row());
+            Piece piece = Piece.of(dto.pieceType(), dto.country());
+            board.put(pos, piece);
+        }
+        return new Board(board);
+    }
+
+
+    public void movePiece(Position fromPosition, Position toPosition, Country country) {
         if (!board.containsKey(fromPosition)) {
             throw new IllegalArgumentException("해당 위치에 기물이 없습니다.");
         }
@@ -46,6 +59,7 @@ public class Board {
         return board.values().stream()
                 .noneMatch(piece -> piece.getPieceType() == PieceType.GENERAL && piece.getCountry() == Country.CHO);
     }
+
     private boolean isHanGeneralDead() {
         return board.values().stream()
                 .noneMatch(piece -> piece.getPieceType() == PieceType.GENERAL && piece.getCountry() == Country.HAN);
@@ -57,10 +71,12 @@ public class Board {
         }
         return board.get(position).getPieceType();
     }
+
     public Optional<Country> findCountryByPosition(final Position position) {
         return Optional.ofNullable(board.get(position))
                 .map(Piece::getCountry);
     }
+
     public boolean hasPieceAt(final Position position) {
         return board.containsKey(position);
     }

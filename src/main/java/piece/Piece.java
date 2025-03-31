@@ -13,6 +13,23 @@ public abstract class Piece {
         this.country = country;
     }
 
+    public static Piece of(final String pieceType, final String country) {
+        PieceType type = PieceType.valueOf(pieceType);
+        Country team = Country.valueOf(country);
+
+        return switch (type) {
+            case SOLDIER -> new Soldier(team);
+            case ELEPHANT -> new Elephant(team);
+            case GENERAL -> new General(team);
+            case HORSE -> new Horse(team);
+            case ROOK -> new Rook(team);
+            case CANNON -> new Cannon(team);
+            case GUARD -> new Guard(team);
+            default -> throw new IllegalArgumentException("존재하지 않는 기물 타입입니다: " + pieceType);
+        };
+    }
+
+
     public void validateMove(final Position fromPosition, final Position toPosition, Board board) {
         Path path = findPathForMove(fromPosition, toPosition);
         validateTarget(toPosition, board);
@@ -32,7 +49,8 @@ public abstract class Piece {
         });
     }
 
-    public void validateTargetSpecialRule(Position toPosition, Board board) {}
+    public void validateTargetSpecialRule(Position toPosition, Board board) {
+    }
 
     public PieceType getPieceType() {
         return pieceType;
