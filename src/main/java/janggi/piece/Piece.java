@@ -1,10 +1,10 @@
 package janggi.piece;
 
 import janggi.board.Board;
-import janggi.player.Score;
-import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.piece.rule.movement.MovementRule;
+import janggi.player.Score;
+import janggi.player.Team;
 
 public abstract class Piece {
 
@@ -16,6 +16,10 @@ public abstract class Piece {
         this.position = position;
         this.team = team;
         this.movementRule = movementRule;
+    }
+
+    public static Piece of(final int row, final int column, final String pieceType, final String team) {
+        return PieceFactory.of(row, column, PieceType.from(pieceType), Team.from(team));
     }
 
     public Piece move(final Board board, final Position destination) {
