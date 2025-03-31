@@ -20,7 +20,7 @@ public class PieceDao {
         this.dbConnector = dbConnector;
     }
 
-    public void save(List<PieceEntity> boardEntities, GameEntity gameEntity) {
+    public void save(List<PieceEntity> pieceEntities, GameEntity gameEntity) {
         Long gameId = gameEntity.getId();
         String query =
                 "INSERT INTO " + TABLE + " (piece_name, x, y, country, game_id) VALUES(?, ?, ?, ?, " + gameId + ")";
@@ -28,7 +28,7 @@ public class PieceDao {
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
-            for (PieceEntity pieceEntity : boardEntities) {
+            for (PieceEntity pieceEntity : pieceEntities) {
                 preparedStatement.setString(1, pieceEntity.getPieceName());
                 preparedStatement.setInt(2, pieceEntity.getX());
                 preparedStatement.setInt(3, pieceEntity.getY());

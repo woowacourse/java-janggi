@@ -76,7 +76,6 @@ public class Janggi {
 
     private Board newBoard() {
         Board board = settingUp();
-        System.out.println("gameid" + game.getId());
         pieceRepository.savePieces(board.getBoard(), game);
         outputView.printNewGameMessage();
         return board;

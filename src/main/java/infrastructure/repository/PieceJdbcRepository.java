@@ -23,7 +23,6 @@ public class PieceJdbcRepository implements PieceRepository {
     public void savePieces(Map<Coordinate, Piece> pieces, Game game) {
         List<PieceEntity> pieceEntities = PieceEntity.from(pieces);
         GameEntity gameEntity = GameEntity.from(game);
-        System.out.println("game id" + gameEntity.getId());
 
         pieceDao.save(pieceEntities, gameEntity);
     }

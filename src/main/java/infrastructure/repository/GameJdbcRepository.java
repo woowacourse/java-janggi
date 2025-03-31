@@ -17,7 +17,7 @@ public class GameJdbcRepository implements GameRepository {
     @Override
     public void updateGame(Game game) {
         GameEntity gameEntity = GameEntity.from(game);
-        gameDao.updateTurn(gameEntity);
+        gameDao.updateGame(gameEntity);
     }
 
     @Override

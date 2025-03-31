@@ -19,7 +19,7 @@ public class GameDao {
         this.dbConnector = dbConnector;
     }
 
-    public void updateTurn(GameEntity gameEntity) {
+    public void updateGame(GameEntity gameEntity) {
         String query = "UPDATE " + TABLE + " SET current_turn = ? WHERE id = " + gameEntity.getId();
 
         try (Connection connection = dbConnector.getConnection();
