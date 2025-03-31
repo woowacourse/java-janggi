@@ -24,6 +24,10 @@ public class JanggiBoard {
         return new JanggiBoard(board, BoardStatus.CHO_TURN);
     }
 
+    public static JanggiBoard loadBoard(final Map<Position, Piece> board, final BoardStatus status) {
+        return new JanggiBoard(board, status);
+    }
+
     public List<Position> computeReachableDestination(final Position position) {
         Piece piece = board.get(position);
         validatePositionHasPiece(piece);
@@ -135,4 +139,5 @@ public class JanggiBoard {
     public BoardStatus getStatus() {
         return status;
     }
+
 }
