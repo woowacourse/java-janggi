@@ -15,7 +15,6 @@ public class Games {
         this.redPlayerId = redPlayerId;
     }
 
-    // Getter 메서드들
     public int getGameId() {
         return gameId;
     }
@@ -35,12 +34,5 @@ public class Games {
     public int getRedPlayerId() {
         return redPlayerId;
     }
-
-    public void setGameStatus(String gameStatus) {
-        this.gameStatus = gameStatus;
-    }
-
-    public void setCurrentTurn(int currentTurn) {
-        this.currentTurn = currentTurn;
-    }
+    
 }
