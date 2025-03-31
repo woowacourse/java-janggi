@@ -37,7 +37,7 @@ public class PieceDao {
         }
     }
 
-    public Set<Piece> findByPiece() {
+    public Set<Piece> findAll() {
         Set<Piece> pieces = new HashSet<>();
 
         final var query = "SELECT * FROM PIECE";

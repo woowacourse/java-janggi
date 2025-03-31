@@ -56,7 +56,7 @@ class Initializer {
     private final TurnDao turnDao = new TurnDao();
 
     public Set<Piece> generate() {
-        Set<Piece> byPiece = pieceDao.findByPiece();
+        Set<Piece> byPiece = pieceDao.findAll();
         if(!byPiece.isEmpty()){
             return byPiece;
         }
