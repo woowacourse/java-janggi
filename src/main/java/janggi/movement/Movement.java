@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.movement;
 
 import janggi.position.Position;
 

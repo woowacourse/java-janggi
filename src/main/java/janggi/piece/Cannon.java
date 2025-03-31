@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.dto.BoardPieceDto;
+import janggi.movement.Movement;
 import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -70,7 +71,13 @@ public class Cannon implements Piece {
     public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
         List<List<Movement>> totalMovements = generateMovements();
         return totalMovements.stream()
-                .filter(movement -> !arrivedPosition.isOutOfBoards() && step(movement, arrivedPosition).equals(arrivedPosition))
+                .filter(movement -> {
+                    Position step = step(movement, arrivedPosition);
+                    if (step.isOutOfPalace() && position.isCrossFromPosition(arrivedPosition)) {
+                        return false;
+                    }
+                    return  !arrivedPosition.isOutOfBoards() && step.equals(arrivedPosition);
+                })
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }

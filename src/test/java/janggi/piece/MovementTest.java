@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.movement.Movement;
 import janggi.position.Position;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,7 @@ public class MovementTest {
     @ParameterizedTest
     @MethodSource("makeMovementTestData")
     @DisplayName("이동 방향에 따른 Position 변화 확인")
-    void movementTest(List<Movement> movements,List<Position> expected) {
+    void movementTest(List<Movement> movements, List<Position> expected) {
         //given
 
         //when

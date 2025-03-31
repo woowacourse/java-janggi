@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.dto.BoardPieceDto;
+import janggi.movement.Movement;
 import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;

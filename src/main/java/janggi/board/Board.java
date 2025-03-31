@@ -1,7 +1,7 @@
 package janggi.board;
 
 import janggi.dao.BoardDao;
-import janggi.piece.Movement;
+import janggi.movement.Movement;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 

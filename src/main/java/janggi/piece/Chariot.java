@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.dto.BoardPieceDto;
+import janggi.movement.Movement;
 import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -12,6 +13,7 @@ import java.util.Objects;
 
 public class Chariot implements Piece {
     private static final int POSSIBLE_MOVEMENT_COUNT = 10;
+
     private static final List<List<Movement>> MOVEMENTS = List.of(
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.UP),
             Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.DOWN),
