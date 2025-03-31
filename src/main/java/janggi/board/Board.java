@@ -83,4 +83,8 @@ public class Board {
     public Map<Position, Piece> getPositionToPiece() {
         return Collections.unmodifiableMap(positionToPiece);
     }
+
+    public Pieces getAlivePieces() {
+        return Pieces.from(positionToPiece.values());
+    }
 }

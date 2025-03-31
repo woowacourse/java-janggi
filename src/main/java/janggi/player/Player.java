@@ -39,6 +39,10 @@ public class Player {
         return new Player(team, new Pieces(pieces), new Score(0));
     }
 
+    public static Player of(final Team team, final Pieces pieces, final Score score) {
+        return new Player(team, pieces, score);
+    }
+
     public void addScore(final Score score) {
         this.score = this.score.add(score);
     }

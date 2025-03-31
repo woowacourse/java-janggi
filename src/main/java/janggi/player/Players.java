@@ -22,6 +22,13 @@ public class Players {
         return new Players(cho, han, turn);
     }
 
+    public static Players of(final Pieces pieces, final Turn turn, final Score choScore, final Score hanScore) {
+        final Player cho = Player.of(Team.CHO, pieces.getByTeam(Team.CHO), choScore);
+        final Player han = Player.of(Team.HAN, pieces.getByTeam(Team.HAN), hanScore);
+
+        return new Players(cho, han, turn);
+    }
+
     public Board createBoard() {
         return Board.from(getBothPieces());
     }

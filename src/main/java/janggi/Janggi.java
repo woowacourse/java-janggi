@@ -3,29 +3,75 @@ package janggi;
 import janggi.board.Board;
 import janggi.player.Player;
 import janggi.player.Players;
-import janggi.player.Score;
-import janggi.player.Team;
 import janggi.player.Turn;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
-import janggi.view.MoveCommand;
 import janggi.view.OutputView;
+import janggi.view.StartOption;
+import janggi.view.command.Command;
+import janggi.view.command.MoveCommand;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Janggi {
 
-    private static final Score WIN = Score.win();
-
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
-    public Janggi(final InputView inputView, final OutputView outputView) {
+    public Janggi(final InputView inputView,
+                  final OutputView outputView,
+                  final JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = janggiService;
     }
 
-    public void play() {
-        final Turn turn = Turn.start();
-        final Players players = Players.create(turn);
-        final Board board = players.createBoard();
+    public void run() {
+        while (true) {
+            try {
+                final GameContext context = prepareGameContext();
+                runGameLoop(context);
+            } catch (final GameQuitException e) {
+                outputView.display(e.getMessage());
+                return;
+            } catch (final IllegalArgumentException | NoSuchElementException e) {
+                outputView.displayError(e.getMessage());
+            } catch (final RuntimeException e) {
+                outputView.displayError();
+            }
+        }
+    }
+
+    private GameContext prepareGameContext() {
+        final StartOption select = inputView.inputStartOption();
+
+        if (select.isNew()) {
+            return janggiService.createNewContext();
+        }
+
+        if (select.isLoad()) {
+            return janggiService.loadSavedContext(selectSavedGameId());
+        }
+
+        if (select.isQuit()) {
+            throw new GameQuitException("게임 종료를 선택했습니다");
+        }
+
+        throw new RuntimeException();
+    }
+
+    private long selectSavedGameId() {
+        final List<Integer> runningGameIds = janggiService.getRunningGameIds();
+        return inputView.inputSelectedSavedGameId(runningGameIds);
+    }
+
+    private void runGameLoop(final GameContext context) {
+        final Long gameId = context.getGameId();
+        final Board board = context.getBoard();
+        final Players players = context.getPlayers();
+        final Turn turn = context.getTurn();
 
         while (true) {
             outputView.displayBoard(board);
@@ -33,15 +79,29 @@ public class Janggi {
 
             try {
                 final Player player = players.getCurrentPlayer();
-                final MoveCommand moveCommand = inputView.inputMoveCommand(player);
+                final Command command = inputView.inputCommand(player);
 
-                board.movePiece(
-                        player,
-                        moveCommand.getDeparturePosition(),
-                        moveCommand.getDestinationPosition());
+                if (command.getType().isMove()) {
+                    janggiService.movePiece(
+                            board,
+                            player,
+                            (MoveCommand) command);
+                    checkWinner(players);
+                }
 
-                checkWinner(players);
-            } catch (final GameOverException e) {
+                if (command.getType().isSave()) {
+                    janggiService.saveGame(
+                            gameId,
+                            players,
+                            turn,
+                            board.getAlivePieces().getPieces());
+                    return;
+                }
+
+                if (command.getType().isQuit()) {
+                    throw new GameQuitException();
+                }
+
             } catch (final GameQuitException e) {
                 outputView.display(e.getMessage());
                 return;
@@ -58,12 +118,9 @@ public class Janggi {
     }
 
     private void checkWinner(final Players players) {
-        for (final Team team : Team.values()) {
-            if (players.getScore(team).isLessThan(WIN)) {
-                continue;
-            }
-            outputView.displayWinner(players.getPlayer(team));
-            throw new GameOverException();
+        if (janggiService.isGameOver(players)) {
+            outputView.displayWinner(players.getCurrentPlayer());
+            throw new GameQuitException();
         }
     }
 }

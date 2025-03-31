@@ -1,6 +1,9 @@
 package janggi.piece;
 
+import janggi.player.Team;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,6 +13,10 @@ public class Pieces {
 
     public Pieces(final List<Piece> elements) {
         this.elements = Collections.unmodifiableList(elements);
+    }
+
+    public static Pieces from(final Collection<Piece> elements) {
+        return new Pieces(elements.stream().toList());
     }
 
     public static Pieces empty() {
@@ -30,6 +37,12 @@ public class Pieces {
 
     public Pieces addAll(final Pieces pieces) {
         return addAll(pieces.getPieces());
+    }
+
+    public Pieces getByTeam(final Team team) {
+        return new Pieces(elements.stream()
+                .filter(piece -> piece.isAlly(team))
+                .toList());
     }
 
     public List<Piece> getPieces() {
