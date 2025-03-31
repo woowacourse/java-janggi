@@ -10,6 +10,8 @@ public final class Point {
     private final int y;
 
     private Point(final int x, final int y) {
+        validateRange(x, MAX_X);
+        validateRange(y, MAX_Y);
         this.x = x;
         this.y = y;
     }
@@ -17,8 +19,6 @@ public final class Point {
     public static Point of(final String x, final String y) {
         final int parsedX = parseInt(x);
         final int parsedY = parseInt(y);
-        validateRange(parsedX, MAX_X);
-        validateRange(parsedY, MAX_Y);
         return new Point(parsedX, parsedY);
     }
 
