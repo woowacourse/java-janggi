@@ -7,7 +7,7 @@ import movement.Movement;
 import position.Position;
 import validator.DirectionCheckable;
 
-import java.util.List;
+import java.util.Set;
 import java.util.function.BiPredicate;
 
 public class Soldier extends Piece implements DirectionCheckable {
@@ -17,7 +17,7 @@ public class Soldier extends Piece implements DirectionCheckable {
     private final MovePaths moveActions;
 
     static {
-        basicMoveActions = new MovePaths(List.of(
+        basicMoveActions = new MovePaths(Set.of(
                 new MovePath(Movement.RIGHT),
                 new MovePath(Movement.LEFT)
         ));
