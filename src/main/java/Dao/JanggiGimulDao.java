@@ -9,6 +9,7 @@ import piece.Piece;
 import pieceProperty.PieceType;
 import pieceProperty.Position;
 import player.JanggiPan;
+import player.Nation;
 
 public class JanggiGimulDao {
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
@@ -27,28 +28,28 @@ public class JanggiGimulDao {
         }
     }
 
-    public void updateAttackGimul(Position currentPosition, Position destination, int playerId) {
-        var query = "UPDATE piece SET row_position = ?, col_position = ? WHERE row_position = ? AND col_position = ? AND player_id = ?";
+    public void updateAttackGimul(Position currentPosition, Position destination, Nation attackNation) {
+        var query = "UPDATE piece SET row_position = ?, col_position = ? WHERE row_position = ? AND col_position = ? AND country = ?";
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, destination.getRow());
             preparedStatement.setInt(2, destination.getCol());
             preparedStatement.setInt(3, currentPosition.getRow());
             preparedStatement.setInt(4, currentPosition.getCol());
-            preparedStatement.setInt(5, playerId);
+            preparedStatement.setString(5, attackNation.toString());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateDefenceGimul(Position destination, int playerId) {
-        var query = "UPDATE piece SET is_alive = false WHERE row_position = ? AND col_position = ? AND player_id = ?";
+    public void updateDefenceGimul(Position destination, Nation defenseNation) {
+        var query = "UPDATE piece SET is_alive = false WHERE row_position = ? AND col_position = ? AND country = ?";
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, destination.getRow());
             preparedStatement.setInt(2, destination.getCol());
-            preparedStatement.setInt(3, playerId);
+            preparedStatement.setString(3, defenseNation.toString());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -57,18 +58,19 @@ public class JanggiGimulDao {
     }
 
     public void insertChoPieces(JanggiPan janggiPan, int playerId) {
-        final var query = "INSERT INTO piece (player_id, type, row_position, col_position, is_alive) VALUES (?, ?, ?, ?, ?)";
+        final var query = "INSERT INTO piece (type, row_position, col_position, is_alive, score, country) VALUES (?, ?, ?, ?, ?, ?)";
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             for (Map.Entry<Position, Piece> entry : janggiPan.getPieces().entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
 
-                preparedStatement.setInt(1, playerId);
-                preparedStatement.setString(2, piece.getPieceType().toString());
-                preparedStatement.setInt(3, position.getRow());
-                preparedStatement.setInt(4, position.getCol());
-                preparedStatement.setBoolean(5, true);
+                preparedStatement.setString(1, piece.getPieceType().toString());
+                preparedStatement.setInt(2, position.getRow());
+                preparedStatement.setInt(3, position.getCol());
+                preparedStatement.setBoolean(4, true);
+                preparedStatement.setInt(5, piece.getScore());
+                preparedStatement.setString(6, "CHO");
                 preparedStatement.executeUpdate();
             }
         } catch (final SQLException e) {
@@ -77,24 +79,58 @@ public class JanggiGimulDao {
     }
 
     public void insertHanPieces(JanggiPan janggiPan, int playerId) {
-        final var query = "INSERT INTO piece (player_id, type, row_position, col_position, is_alive) VALUES (?, ?, ?, ?, ?)";
+        final var query = "INSERT INTO piece (type, row_position, col_position, is_alive, score, country) VALUES (?, ?, ?, ?, ?, ?)";
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             for (Map.Entry<Position, Piece> entry : janggiPan.getPieces().entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
 
-                preparedStatement.setInt(1, playerId);
-                preparedStatement.setString(2, piece.getPieceType().toString());
-                preparedStatement.setInt(3, position.getRow());
-                preparedStatement.setInt(4, position.getCol());
-                preparedStatement.setBoolean(5, true);
+                preparedStatement.setString(1, piece.getPieceType().toString());
+                preparedStatement.setInt(2, position.getRow());
+                preparedStatement.setInt(3, position.getCol());
+                preparedStatement.setBoolean(4, true);
+                preparedStatement.setInt(5, piece.getScore());
+                preparedStatement.setString(6, "HAN");
                 preparedStatement.executeUpdate();
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public int calculateChoSum() {
+        String query = "SELECT * FROM piece WHERE country = 'CHO' AND is_alive = true";
+        int sum = 0;
+        try (var connection = getConnection();
+             var preparedStatement = connection.prepareStatement(query)) {
+            try (var resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    sum += resultSet.getInt("score");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 기물 조회 중 오류가 발생하였습니다.", e);
+        }
+        return sum;
+    }
+
+    public int calculateHanSum() {
+        String query = "SELECT * FROM piece WHERE country = 'HAN' AND is_alive = true";
+        int sum = 0;
+        try (var connection = getConnection();
+             var preparedStatement = connection.prepareStatement(query)) {
+            try (var resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    sum += resultSet.getInt("score");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 기물 조회 중 오류가 발생하였습니다.", e);
+        }
+        return sum;
+    }
+
 
     public void deleteAllPieces() {
         var query = "TRUNCATE TABLE piece";
@@ -108,7 +144,7 @@ public class JanggiGimulDao {
 
     public Map<Position, PieceType> findChoAllGimul() {
         Map<Position, PieceType> pieces = new HashMap<>();
-        String query = "SELECT * FROM piece WHERE player_id = 2 AND is_alive = true";
+        String query = "SELECT * FROM piece WHERE country = 'CHO' AND is_alive = true";
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             try (var resultSet = preparedStatement.executeQuery()) {
@@ -129,7 +165,7 @@ public class JanggiGimulDao {
 
     public Map<Position, PieceType> findHanAllGimul() {
         Map<Position, PieceType> pieces = new HashMap<>();
-        String query = "SELECT * FROM piece WHERE player_id = 1 AND is_alive = true";
+        String query = "SELECT * FROM piece WHERE country = 'HAN' AND is_alive = true";
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             try (var resultSet = preparedStatement.executeQuery()) {
