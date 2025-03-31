@@ -51,7 +51,6 @@ public class JanggiDao {
         }
 
         return janggiDtos;
-
     }
 
     public JanggiDto findJanggiDtoById(
