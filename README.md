@@ -2,6 +2,36 @@
 
 장기 미션 저장소
 
+## 데이터베이스 세팅
+1. 로컬 데이터베이스(mysql)에 chess 스키마를 생성한다.
+
+
+2. 생성한 스키마 내부에서 다음 쿼리들을 순차적으로 실행해 테이블을 생성한다.
+    ```
+    create table game (
+        id int NOT NULL,
+        turn ENUM('GREEN', 'RED') NOT NULL,
+        CONSTRAINT game_pk PRIMARY KEY(id)
+    );
+    
+    create table board_piece (
+        id int NOT NULL AUTO_INCREMENT,
+        game_id int NOT NULL,
+        column_value int NOT NULL,
+        row_value int NOT NULL,
+        piece_type ENUM('SOLDIER', 'GUARD', 'ELEPHANT', 'HORSE', 'CANON', 'CHARIOT', 'GENERAL') NOT NULL,
+        team ENUM('GREEN', 'RED') NOT NULL,
+        CONSTRAINT board_piece_pk PRIMARY KEY(id),
+        CONSTRAINT game_board_piecefk foreign key (game_id) references game (id)
+    );
+    ```
+3. IDEA에서 다음과 같이 Application 환경 변수를 설정한다.
+    ```
+   DB_USERNAME='개인 username';
+   DB_PASSWORD='개인 비밀번호';
+   DB_URL=jdbc:mysql://localhost:'포트번호'/chess?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    ```
+
 ## 기능 목록
 - 게임 준비
   - [x] 이미 진행중인 게임이 존재하면 정보를 불러오고 이어서 진행한다.
