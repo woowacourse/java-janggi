@@ -22,8 +22,8 @@ public class Horse implements Piece {
 
     private final Team team;
     private final Position position;
-    private boolean isLive;
-    private PieceType pieceType;
+    private final boolean isLive;
+    private final PieceType pieceType;
 
     public Horse(Team team, Position position) {
         this.team = team;

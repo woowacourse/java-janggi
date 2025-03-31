@@ -13,6 +13,7 @@ import java.util.List;
 public class Board {
 
     private final List<Piece> locatedPieces;
+    private static final int GAME_PROGRESS_CONDITION = 2;
 
     public Board(List<Piece> locatedPieces) {
         this.locatedPieces = locatedPieces;
@@ -106,7 +107,7 @@ public class Board {
         long liveKingCount = locatedPieces.stream()
                 .filter(piece -> piece.isLive() && piece.getPieceType() == PieceType.KING)
                 .count();
-        return liveKingCount < 2;
+        return liveKingCount < GAME_PROGRESS_CONDITION;
     }
 
     public Piece extractWinnerKing() {

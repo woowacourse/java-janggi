@@ -26,8 +26,8 @@ public class King implements Piece {
 
     private final Team team;
     private final Position position;
-    private boolean isLive;
-    private PieceType pieceType;
+    private final boolean isLive;
+    private final PieceType pieceType;
 
     public King(Team team, Position position) {
         this.team = team;

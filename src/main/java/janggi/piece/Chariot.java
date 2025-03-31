@@ -28,8 +28,8 @@ public class Chariot implements Piece {
 
     private final Team team;
     private final Position position;
-    private boolean isLive;
-    private PieceType pieceType;
+    private final boolean isLive;
+    private final PieceType pieceType;
 
     public Chariot(Team team, Position position) {
         this.team = team;
@@ -179,7 +179,6 @@ public class Chariot implements Piece {
 
     @Override
     public Piece receiveAttack() {
-        isLive = false;
         return new Chariot(team, position, false);
     }
 
