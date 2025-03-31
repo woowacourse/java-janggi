@@ -26,6 +26,10 @@ public abstract class Piece {
         return type.equals(piece.type);
     }
 
+    public boolean isSameType(final PieceType pieceType) {
+        return type.equals(pieceType);
+    }
+
     public abstract int score();
 
     public PieceType type() {
