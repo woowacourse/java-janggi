@@ -15,6 +15,7 @@ public class ConnectMysqlTest {
     public void connection() {
         try (final var connection = connectMysql.create()) {
             assertThat(connection).isNotNull();
+            connectMysql.close(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

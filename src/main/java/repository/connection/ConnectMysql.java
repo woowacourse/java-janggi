@@ -19,4 +19,13 @@ public class ConnectMysql implements ConnectDatabase {
             throw new RuntimeException("[ERROR] DB 연결 오류");
         }
     }
+
+    @Override
+    public void close(Connection connection) {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] DB 연결 닫기 오류");
+        }
+    }
 }

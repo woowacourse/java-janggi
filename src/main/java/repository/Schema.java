@@ -2,6 +2,8 @@ package repository;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import repository.connection.ConnectDatabase;
+import repository.connection.ConnectMysql;
 
 public class Schema {
     public static final String CREATE_TEAM = """
@@ -51,7 +53,9 @@ public class Schema {
     public static final String CREATE_TABLE = CREATE_TEAM + CREATE_PIECE_TYPE
             + CREATE_PIECE + CREATE_TURN;
 
-    public static void setTable(Connection connection) {
+    public static void setTable() {
+        ConnectDatabase connectDatabase = new ConnectMysql();
+        Connection connection = connectDatabase.create();
         try {
             final var statements = CREATE_TABLE.split(";");
             final var statement = connection.createStatement();
@@ -60,6 +64,8 @@ public class Schema {
                 statement.executeUpdate(singleQuery);
             }
             statement.close();
+            connectDatabase.close(connection);
+
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

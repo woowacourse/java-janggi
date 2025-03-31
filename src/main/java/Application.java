@@ -18,7 +18,7 @@ public class Application {
     }
 
     private void start() {
-        Schema.setTable(new ConnectMysql().create());
+        Schema.setTable();
         Board board = Board.generate();
 
         console.startGame();
