@@ -190,5 +190,4 @@ public class KingTest {
                 Arguments.arguments(new King(Team.HAN, new Position(1, 6)), new Position(2, 7))
         );
     }
-
 }

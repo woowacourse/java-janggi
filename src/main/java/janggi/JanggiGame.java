@@ -74,5 +74,4 @@ public class JanggiGame {
         boardDao.deleteAll();
         turnDao.deleteAll();
     }
-
 }

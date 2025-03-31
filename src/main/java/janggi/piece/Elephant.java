@@ -139,5 +139,4 @@ public class Elephant implements Piece {
     public int hashCode() {
         return Objects.hash(team, position);
     }
-
 }

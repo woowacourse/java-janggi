@@ -4,6 +4,7 @@ import janggi.dao.BoardDao;
 import janggi.piece.Movement;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
+
 import janggi.position.Position;
 import janggi.team.Team;
 
