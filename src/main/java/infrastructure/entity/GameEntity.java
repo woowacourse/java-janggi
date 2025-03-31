@@ -15,6 +15,10 @@ public class GameEntity {
         this.currentTurn = currentTurn;
     }
 
+    public GameEntity(String name, String currentTurn) {
+        this(null, name, currentTurn);
+    }
+
     public static GameEntity from(Game joinGame) {
         return new GameEntity(
                 joinGame.getId(),
