@@ -6,15 +6,19 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 import repository.connection.ConnectDatabase;
-import repository.connection.ConnectMysql;
 import repository.converter.PieceConverter;
 
 public class PieceDao {
 
+    private final ConnectDatabase connectDatabase;
+
+    public PieceDao(ConnectDatabase connectDatabase) {
+        this.connectDatabase = connectDatabase;
+    }
+
     public void addAll(final Set<PieceConverter> pieceConverters) {
         final var query = "INSERT INTO PIECE (row_index, column_index, piece_type_name, team_name) VALUES(?, ?, ?, ?)";
 
-        ConnectDatabase connectDatabase = new ConnectMysql();
         try (Connection connection = connectDatabase.create();
              final var preparedStatement = connection.prepareStatement(query)) {
 
@@ -38,7 +42,6 @@ public class PieceDao {
 
         final var query = "SELECT * FROM PIECE";
 
-        ConnectDatabase connectDatabase = new ConnectMysql();
         try (Connection connection = connectDatabase.create();
              final var preparedStatement = connection.prepareStatement(query)) {
 
@@ -63,7 +66,6 @@ public class PieceDao {
     public void deleteAll() {
         final var query = "DELETE FROM PIECE";
 
-        ConnectDatabase connectDatabase = new ConnectMysql();
         try (Connection connection = connectDatabase.create();
              final var preparedStatement = connection.prepareStatement(query)) {
 

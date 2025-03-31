@@ -10,6 +10,7 @@ import janggi.piece.normalPiece.Blank;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import repository.connection.ConnectMysql;
 import repository.dao.PieceDao;
 import repository.dao.TurnDao;
 import repository.converter.PieceConverter;
@@ -87,7 +88,7 @@ public final class Board {
         movePiece(destination, pieces, piece);
         catchPiece(destination, piece, pieces);
 
-        PieceDao pieceDao = new PieceDao();
+        PieceDao pieceDao = new PieceDao(new ConnectMysql());
         pieceDao.deleteAll();
 
         Set<PieceConverter> pieceConverters = new HashSet<>();

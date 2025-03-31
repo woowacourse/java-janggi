@@ -45,13 +45,14 @@ import janggi.piece.palacePiece.Soldier;
 import janggi.piece.straightPiece.Chariot;
 import java.util.HashSet;
 import java.util.Set;
+import repository.connection.ConnectMysql;
 import repository.dao.PieceDao;
 import repository.dao.TurnDao;
 import repository.converter.PieceConverter;
 import repository.converter.TurnConverter;
 
 class Initializer {
-    private final PieceDao pieceDao = new PieceDao();
+    private final PieceDao pieceDao = new PieceDao(new ConnectMysql());
     private final TurnDao turnDao = new TurnDao();
 
     public Set<Piece> generate() {
