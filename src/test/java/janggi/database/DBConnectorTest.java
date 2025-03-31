@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class TestDBConnector implements DBConnector{
+public class DBConnectorTest implements DBConnector{
     private static final String SERVER = "localhost:3306";
     private static final String DATABASE = "janggi_test";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";

@@ -2,7 +2,6 @@ package janggi.board.dao;
 
 import janggi.board.JanggiBoard;
 import janggi.database.DBConnector;
-import janggi.database.MySQLDBConnector;
 import janggi.piece.Byeong;
 import janggi.piece.Cha;
 import janggi.piece.Gung;
@@ -22,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class JanggiBoardDAO {
+public class JanggiBoardDAOImp implements JanggiBoardDao {
     private static final String INSERT_PIECES = "INSERT INTO pieces(team_id, piece_type, x, y) values(?, ?, ?, ?)";
     private static final String DROP_PIECES_TABLE = "DROP TABLE IF EXISTS pieces";
     private static final String UPDATE_QUERY = "UPDATE pieces SET x = ?, y = ? WHERE team_id = ? AND x = ? AND y = ?";
@@ -31,10 +30,11 @@ public class JanggiBoardDAO {
 
     private final DBConnector connector;
 
-    public JanggiBoardDAO(DBConnector connector) {
+    public JanggiBoardDAOImp(DBConnector connector) {
         this.connector = connector;
     }
 
+    @Override
     public void insertPieces(final JanggiBoard janggiBoard) {
         try (final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(INSERT_PIECES)) {
             List<Piece> choPieces = janggiBoard.getChoPieces();
@@ -62,6 +62,7 @@ public class JanggiBoardDAO {
         }
     }
 
+    @Override
     public void dropTables() {
         try (final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(DROP_PIECES_TABLE)) {
             preparedStatement.executeUpdate();
@@ -70,6 +71,7 @@ public class JanggiBoardDAO {
         }
     }
 
+    @Override
     public void updateRecords(JanggiPosition current, JanggiPosition destination, int teamId) {
         try (final PreparedStatement preparedStatement = connector.getConnection().prepareStatement(UPDATE_QUERY)) {
             preparedStatement.setInt(1, destination.x());
@@ -84,6 +86,7 @@ public class JanggiBoardDAO {
         }
     }
 
+    @Override
     public void deleteRecords(JanggiPosition destination, int teamId) {
         try (final PreparedStatement deleteStmt = connector.getConnection().prepareStatement(DELETE_QUERY)) {
             deleteStmt.setInt(1, destination.x());
@@ -136,10 +139,12 @@ public class JanggiBoardDAO {
         return PIECE_FACTORY.getOrDefault(pieceType, pos -> null).apply(position);
     }
 
+    @Override
     public List<Piece> selectChoRecords() {
         return selectRecords(1);
     }
 
+    @Override
     public List<Piece> selectHanRecords() {
         return selectRecords(2);
     }
