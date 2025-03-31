@@ -51,8 +51,10 @@ public class JanggiService {
     }
 
     private Janggi loadGame() {
-        final Board board = boardRepository.load();
-        final Turn turn = turnRepository.findLast();
+        final Board board = boardRepository.load().orElseThrow(
+            () -> new IllegalStateException("저장된 보드가 없습니다."));
+        final Turn turn = turnRepository.findLast().orElseThrow(
+            () -> new IllegalStateException("저장된 턴이 없습니다."));
 
         return new Janggi(board, turn);
     }

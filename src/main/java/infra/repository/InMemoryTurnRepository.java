@@ -2,6 +2,7 @@ package infra.repository;
 
 import domain.turn.Turn;
 import domain.turn.repository.TurnRepository;
+import java.util.Optional;
 
 public class InMemoryTurnRepository implements TurnRepository {
 
@@ -18,8 +19,12 @@ public class InMemoryTurnRepository implements TurnRepository {
     }
 
     @Override
-    public Turn findLast() {
-        return turn;
+    public Optional<Turn> findLast() {
+        if (turn == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(turn);
     }
 
     @Override

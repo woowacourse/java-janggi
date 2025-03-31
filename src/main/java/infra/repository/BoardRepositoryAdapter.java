@@ -11,6 +11,7 @@ import infra.entity.PieceEntity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class BoardRepositoryAdapter implements BoardRepository {
 
@@ -38,8 +39,12 @@ public class BoardRepositoryAdapter implements BoardRepository {
     }
 
     @Override
-    public Board load() {
+    public Optional<Board> load() {
         final List<PieceEntity> pieceEntities = pieceDao.findAll();
+        if (pieceEntities.isEmpty()) {
+            return Optional.empty();
+        }
+
         final Map<BoardPosition, Piece> pieces = new HashMap<>();
         pieceEntities.forEach(pieceEntity -> {
             final BoardPosition boardPosition = new BoardPosition(
@@ -49,7 +54,7 @@ public class BoardRepositoryAdapter implements BoardRepository {
             pieces.put(boardPosition, piece);
         });
 
-        return new Board(pieces);
+        return Optional.of(new Board(pieces));
     }
 
     @Override

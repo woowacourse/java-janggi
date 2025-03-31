@@ -27,7 +27,7 @@ class InMemoryBoardRepositoryTest {
             repository.save(board);
 
             // when
-            Board loadedBoard = repository.load();
+            Board loadedBoard = repository.load().get();
 
             // then
             assertThat(loadedBoard.getPieces()).isEqualTo(board.getPieces());
@@ -54,7 +54,8 @@ class InMemoryBoardRepositoryTest {
             repository.save(board);
 
             // when
-            Board loadedBoard = repository.load();
+            Board loadedBoard = repository.load().get();
+            ;
 
             // then
             assertThat(loadedBoard.getPieces()).isEqualTo(board.getPieces());
@@ -74,7 +75,7 @@ class InMemoryBoardRepositoryTest {
             repository.deleteAll();
 
             // then
-            assertThat(repository.load().getPieces()).isEmpty();
+            assertThat(repository.load()).isEmpty();
         }
     }
 }

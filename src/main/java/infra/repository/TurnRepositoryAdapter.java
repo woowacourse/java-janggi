@@ -5,6 +5,7 @@ import domain.turn.Turn;
 import domain.turn.repository.TurnRepository;
 import infra.dao.TurnDao;
 import infra.entity.TurnEntity;
+import java.util.Optional;
 
 public class TurnRepositoryAdapter implements TurnRepository {
 
@@ -27,11 +28,15 @@ public class TurnRepositoryAdapter implements TurnRepository {
     }
 
     @Override
-    public Turn findLast() {
+    public Optional<Turn> findLast() {
         final TurnEntity turnEntity = turnDao.findLast();
+        if (turnEntity == null) {
+            return Optional.empty();
+        }
+
         final Team team = Team.valueOf(turnEntity.getTeam());
 
-        return new Turn(team);
+        return Optional.of(new Turn(team));
     }
 
     @Override

@@ -34,12 +34,15 @@ class JanggiServiceTest {
         void startGame_noSavedGame() {
             // given
             JanggiService janggiService = new JanggiService(boardRepository, turnRepository);
+
+            // when
             janggiService.startGame();
 
-            // when & then
+            // then
             assertSoftly(softly -> {
-                softly.assertThat(turnRepository.findLast().getCurrentTeam()).isEqualTo(Team.GREEN);
-                softly.assertThat(boardRepository.load().getPieces()).isNotEmpty();
+                softly.assertThat(turnRepository.findLast().get().getCurrentTeam()).isEqualTo(
+                    Team.GREEN);
+                softly.assertThat(boardRepository.load().get().getPieces()).isNotEmpty();
             });
         }
 
@@ -61,8 +64,9 @@ class JanggiServiceTest {
 
             // then
             assertSoftly(softly -> {
-                softly.assertThat(turnRepository.findLast().getCurrentTeam()).isEqualTo(Team.RED);
-                softly.assertThat(boardRepository.load().getPieces()).isEqualTo(
+                softly.assertThat(turnRepository.findLast().get().getCurrentTeam()).isEqualTo(
+                    Team.RED);
+                softly.assertThat(boardRepository.load().get().getPieces()).isEqualTo(
                     savedBoard.getPieces());
             });
         }
@@ -82,8 +86,9 @@ class JanggiServiceTest {
 
             // then
             assertSoftly(softly -> {
-                softly.assertThat(boardRepository.load().getPieces()).containsKey(to);
-                softly.assertThat(turnRepository.findLast().getCurrentTeam()).isEqualTo(Team.RED);
+                softly.assertThat(boardRepository.load().get().getPieces()).containsKey(to);
+                softly.assertThat(turnRepository.findLast().get().getCurrentTeam()).isEqualTo(
+                    Team.RED);
             });
         }
 

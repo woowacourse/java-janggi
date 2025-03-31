@@ -8,6 +8,7 @@ import domain.piece.Chariot;
 import domain.piece.Team;
 import infra.dao.PieceDao;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -36,7 +37,7 @@ class BoardRepositoryAdapterTest {
             repository.save(board);
 
             // when
-            Board loadedBoard = repository.load();
+            Board loadedBoard = repository.load().get();
 
             // then
             assertThat(loadedBoard.getPieces()).isEqualTo(board.getPieces());
@@ -54,7 +55,7 @@ class BoardRepositoryAdapterTest {
 
         @Test
         @DisplayName("저장된 기물을 가져온다.")
-        void load() {
+        void load_savedBoard() {
             // given
             BoardRepositoryAdapter repository = new BoardRepositoryAdapter(pieceDao);
             Board board = new Board(Map.of(
@@ -63,10 +64,23 @@ class BoardRepositoryAdapterTest {
             repository.save(board);
 
             // when
-            Board loadedBoard = repository.load();
+            Board loadedBoard = repository.load().get();
 
             // then
             assertThat(loadedBoard.getPieces()).isEqualTo(board.getPieces());
+        }
+
+        @Test
+        @DisplayName("저장된 기물이 없다면 가져오지 못한다.")
+        void load_noSavedBoard() {
+            // given
+            BoardRepositoryAdapter repository = new BoardRepositoryAdapter(pieceDao);
+
+            // when
+            Optional<Board> loadedBoard = repository.load();
+
+            // then
+            assertThat(loadedBoard).isEmpty();
         }
 
         @Test
@@ -83,7 +97,7 @@ class BoardRepositoryAdapterTest {
             repository.deleteAll();
 
             // then
-            assertThat(repository.load().getPieces()).isEmpty();
+            assertThat(repository.load()).isEmpty();
         }
     }
 }

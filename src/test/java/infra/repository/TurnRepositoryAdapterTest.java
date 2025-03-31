@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import domain.piece.Team;
 import domain.turn.Turn;
 import infra.dao.TurnDao;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -31,7 +32,7 @@ class TurnRepositoryAdapterTest {
             repository.save(turn);
 
             // when
-            Turn loadedTurn = repository.findLast();
+            Turn loadedTurn = repository.findLast().get();
 
             // then
             assertThat(loadedTurn).isEqualTo(turn);
@@ -49,17 +50,30 @@ class TurnRepositoryAdapterTest {
 
         @Test
         @DisplayName("저장된 턴을 가져올 수 있다.")
-        void findLast() {
+        void findLast_savedTurn() {
             // given
             TurnRepositoryAdapter repository = new TurnRepositoryAdapter(turnDao);
             Turn turn = new Turn(Team.RED);
             repository.save(turn);
 
             // when
-            Turn loadedTurn = repository.findLast();
+            Turn loadedTurn = repository.findLast().get();
 
             // then
             assertThat(loadedTurn).isEqualTo(turn);
+        }
+
+        @Test
+        @DisplayName("저장된 턴이 없으면 가져올 수 없다.")
+        void findLast_noSavedTurn() {
+            // given
+            TurnRepositoryAdapter repository = new TurnRepositoryAdapter(turnDao);
+
+            // when
+            Optional<Turn> savedTurn = repository.findLast();
+
+            // when & then
+            assertThat(savedTurn).isEmpty();
         }
 
         @Test

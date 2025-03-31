@@ -6,6 +6,7 @@ import domain.board.repository.BoardRepository;
 import domain.piece.Piece;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class InMemoryBoardRepository implements BoardRepository {
 
@@ -22,8 +23,12 @@ public class InMemoryBoardRepository implements BoardRepository {
     }
 
     @Override
-    public Board load() {
-        return new Board(new HashMap<>(pieces));
+    public Optional<Board> load() {
+        if (pieces.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(new Board(pieces));
     }
 
     @Override

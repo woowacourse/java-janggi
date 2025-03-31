@@ -23,7 +23,7 @@ class InMemoryTurnRepositoryTest {
             repository.save(turn);
 
             // when & then
-            assertThat(repository.findLast()).isEqualTo(turn);
+            assertThat(repository.findLast().get()).isEqualTo(turn);
         }
 
         @Test
@@ -49,7 +49,7 @@ class InMemoryTurnRepositoryTest {
             repository.save(turn);
 
             // when & then
-            assertThat(repository.findLast()).isEqualTo(turn);
+            assertThat(repository.findLast().get()).isEqualTo(turn);
         }
 
         @Test

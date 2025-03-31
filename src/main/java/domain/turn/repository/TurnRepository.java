@@ -1,6 +1,7 @@
 package domain.turn.repository;
 
 import domain.turn.Turn;
+import java.util.Optional;
 
 public interface TurnRepository {
 
@@ -8,7 +9,7 @@ public interface TurnRepository {
 
     boolean exists();
 
-    Turn findLast();
+    Optional<Turn> findLast();
 
     void deleteAll();
 }

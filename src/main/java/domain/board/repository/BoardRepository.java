@@ -1,6 +1,7 @@
 package domain.board.repository;
 
 import domain.board.Board;
+import java.util.Optional;
 
 public interface BoardRepository {
 
@@ -8,7 +9,7 @@ public interface BoardRepository {
 
     boolean hasAnyPiece();
 
-    Board load();
+    Optional<Board> load();
 
     void deleteAll();
 }
