@@ -54,6 +54,10 @@ public record Vectors(List<Vector> vectors) {
         return accumulateVector;
     }
 
+    public int size() {
+        return vectors().size();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

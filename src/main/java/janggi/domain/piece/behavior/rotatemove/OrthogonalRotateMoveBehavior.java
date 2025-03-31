@@ -39,7 +39,7 @@ public abstract class OrthogonalRotateMoveBehavior implements PieceBehavior {
                                                 Vectors vectors);
 
     protected boolean canNotMove(Vectors vectors, Position currentPosition) {
-        int size = vectors.vectors().size();
+        int size = vectors.size();
 
         List<Vector> accumulateVectors = IntStream.range(0, size)
                 .mapToObj(vectors::accumulate)
