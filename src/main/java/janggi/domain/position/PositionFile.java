@@ -26,13 +26,13 @@ public enum PositionFile {
         return Arrays.stream(values()).toList();
     }
 
-    public PositionFile add(final int i) {
-        return findByAmount(amount + i);
+    public PositionFile add(final int fileAmount) {
+        return findByAmount(amount + fileAmount);
     }
 
-    public static PositionFile findByAmount(final int i) {
+    public static PositionFile findByAmount(final int fileAmount) {
         return Arrays.stream(PositionFile.values())
-                .filter(file -> file.amount == i)
+                .filter(file -> file.amount == fileAmount)
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("해당 파일을 찾을 수 없습니다."));
     }

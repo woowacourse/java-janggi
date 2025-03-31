@@ -54,8 +54,8 @@ public enum PositionRank {
         return Arrays.stream(values()).toList();
     }
 
-    public PositionRank add(final int i) {
-        return findByAmount(amount + i);
+    public PositionRank add(final int rankAmount) {
+        return findByAmount(amount + rankAmount);
     }
 
     public boolean isValidToAdd(final int rankAmount) {

@@ -25,9 +25,9 @@ public class OutputView {
         insertPieces(board, boardValue);
 
         final StringBuilder sb = new StringBuilder();
-        for (int i = BOARD_RANK_SIZE - 1; i >= 0; i--) {
-            for (int j = 0; j < BOARD_FILE_SIZE; j++) {
-                sb.append(boardValue[i][j]);
+        for (int rankIndex = BOARD_RANK_SIZE - 1; rankIndex >= 0; rankIndex--) {
+            for (int fileIndex = 0; fileIndex < BOARD_FILE_SIZE; fileIndex++) {
+                sb.append(boardValue[rankIndex][fileIndex]);
             }
             sb.append("\n");
         }
@@ -36,9 +36,9 @@ public class OutputView {
 
     private static String[][] initializeBoard() {
         final String[][] boardValue = new String[BOARD_RANK_SIZE][BOARD_FILE_SIZE];
-        for (int i = 0; i < BOARD_RANK_SIZE; i++) {
-            for (int j = 0; j < BOARD_FILE_SIZE; j++) {
-                boardValue[i][j] = "\t";
+        for (int rankIndex = 0; rankIndex < BOARD_RANK_SIZE; rankIndex++) {
+            for (int fileIndex = 0; fileIndex < BOARD_FILE_SIZE; fileIndex++) {
+                boardValue[rankIndex][fileIndex] = "\t";
             }
         }
         for (PositionRank rank : PositionRank.values()) {
