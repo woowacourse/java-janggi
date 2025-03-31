@@ -30,3 +30,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Docker MySQL Mount ##
+**/db/mysql/**
+!**/db/mysql/init/
+!**/db/mysql/init/*.sql

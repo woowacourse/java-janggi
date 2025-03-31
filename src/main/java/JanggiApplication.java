@@ -1,4 +1,7 @@
+import dao.PieceDao;
+import dao.RoomDao;
 import gameflow.JanggiGameFlow;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
@@ -7,9 +10,15 @@ public class JanggiApplication {
     public static void main(String[] args) {
         final InputView inputView = new InputView();
         final OutputView outputView = new OutputView();
-        final JanggiGameFlow janggiGameFlow = new JanggiGameFlow(inputView, outputView);
 
-        janggiGameFlow.playGame();
+        final PieceDao pieceDao = new PieceDao();
+        final RoomDao roomDao = new RoomDao();
+        final JanggiService janggiService = new JanggiService(pieceDao, roomDao);
+
+        final JanggiGameFlow janggiGameFlow = new JanggiGameFlow(janggiService, inputView, outputView);
+
+        janggiGameFlow.selectGameRoom();
+        janggiGameFlow.play();
         janggiGameFlow.endGame();
     }
 }

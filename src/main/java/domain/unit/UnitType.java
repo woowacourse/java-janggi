@@ -49,6 +49,10 @@ public enum UnitType {
                         pos -> Unit.of(team, position.rule.get(), position)));
     }
 
+    public Unit createUnit(Team team) { // TODO: 설계 수정
+        return Unit.of(team, this.rule.get(), this);
+    }
+
     public boolean canNotMoveOutOfPalace() {
         return (this == GENERAL || this == GUARD);
     }

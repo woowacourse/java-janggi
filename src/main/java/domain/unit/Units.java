@@ -20,6 +20,10 @@ public class Units {
         return new Units(units);
     }
 
+    public static Units of(Map<Position, Unit> units) {
+        return new Units(units);
+    }
+
     public void moveUnit(Position source, Position destination) {
         if (isEmptyPosition(source)) {
             return;

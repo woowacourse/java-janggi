@@ -4,77 +4,84 @@ import domain.Janggi;
 import domain.position.Position;
 import domain.position.Routes;
 import domain.unit.Team;
-import domain.unit.Unit;
-import domain.unit.UnitType;
-import domain.unit.Units;
+import entity.Room;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiGameFlow {
 
     private static final String SURRENDER_COMMAND = "GG";
-    private final Janggi janggi;
+    public static final String CREATE_ROOM_COMMAND = "0";
+
+    private final JanggiService janggiService;
     private final InputView inputView;
     private final OutputView outputView;
 
-    public JanggiGameFlow(InputView inputView, OutputView outputView) {
-        this.janggi = initGame();
+    private String roomId;
+
+    public JanggiGameFlow(JanggiService janggiService, InputView inputView, OutputView outputView) {
+        this.janggiService = janggiService;
         this.inputView = inputView;
         this.outputView = outputView;
     }
 
-    private Janggi initGame() {
-        Map<Position, Unit> hanUnits = settingUnits(Team.HAN);
-        Map<Position, Unit> choUnits = settingUnits(Team.CHO);
-        Units totalUnits = Units.of(hanUnits, choUnits);
-        return Janggi.of(totalUnits);
-    }
-
-    private Map<Position, Unit> settingUnits(Team team) {
-        Map<Position, Unit> units = new HashMap<>();
-        for (UnitType value : UnitType.values()) {
-            units.putAll(UnitType.createDefaultUnits(value, team));
+    public void selectGameRoom() {
+        List<Room> allPlayingRoom = janggiService.findAllPlayingRoom();
+        outputView.printPlayingRoom(allPlayingRoom);
+        String rawRoomIdNumber = inputView.readRoomId(allPlayingRoom);
+        if (rawRoomIdNumber.equals(CREATE_ROOM_COMMAND)) {
+            createRoom();
+            return;
         }
-        return units;
+        int roomIdNumber = Integer.parseInt(rawRoomIdNumber);
+        roomId = allPlayingRoom.get(roomIdNumber - 1).roomId();
     }
 
-    public void playGame() {
+    private void createRoom() {
+        String roomId = inputView.readRoomIdToCreate();
+        janggiService.createJanggiGame(roomId); // TODO: validate duplicated id
+        this.roomId = roomId;
+    }
+
+    public void play() {
+        while (!janggiService.isGameEnd(roomId)) {
+            processTurn();
+        }
+    }
+
+    private void processTurn() {
+        Janggi janggi = janggiService.loadJanggiGame(roomId);
         outputView.printJanggiUnits(janggi.getUnits());
-        while (isPlaying()) {
-            String rawPosition = inputView.readUnitPosition(janggi.getTurn());
-            if (rawPosition.equals(SURRENDER_COMMAND)) {
-                janggi.surrender();
-                break;
-            }
-            Position position = parsePosition(rawPosition);
-            processTurn(position);
+        String rawPosition = inputView.readUnitPosition(janggi.getTurn());
+        if (rawPosition.equals(SURRENDER_COMMAND)) {
+            janggiService.surrender(roomId, janggi.getTurn().getOpposite());
+            return;
         }
+        Position current = parsePosition(rawPosition);
+        handleMove(janggi, current);
     }
 
-    private boolean isPlaying() {
-        return !janggi.isEnd();
-    }
-
-    private void processTurn(Position pick) {
-        Routes routes = janggi.findMovableRoutesFrom(pick);
-        outputView.printAvailableRoute(pick, routes);
+    private void handleMove(Janggi janggi, Position position) {
+        Routes routes = janggiService.findAllRoute(roomId, position.getX(), position.getY());
+        outputView.printAvailableRoute(position, routes);
 
         Position destination = parsePosition(inputView.readDestinationPosition(janggi.getTurn()));
-
-        janggi.doTurn(pick, destination);
-        outputView.printJanggiUnits(janggi.getUnits());
+        if (routes.hasRouteTo(position, destination)) {
+            janggiService.moveTo(roomId, position, destination);
+        }
     }
 
     public void endGame() {
-        Team winner = janggi.getWinner();
-        outputView.printWinner(winner, janggi.getScoreOf(Team.CHO), janggi.getScoreOf(Team.HAN));
+        Team winner = janggiService.getWinner(roomId);
+        double han = janggiService.calculateScoreOf(roomId, Team.HAN);
+        double cho = janggiService.calculateScoreOf(roomId, Team.CHO);
+        outputView.printWinner(winner, cho, han);
     }
 
-    private List<Integer> parseInteger(String rawPosition) {
+    private List<Integer> parseIntegers(String rawPosition) {
         return Arrays.stream(rawPosition.split(","))
                 .map(String::trim)
                 .map(Integer::parseInt)
@@ -82,7 +89,7 @@ public class JanggiGameFlow {
     }
 
     private Position parsePosition(String rawPosition) {
-        List<Integer> positionValue = parseInteger(rawPosition);
+        List<Integer> positionValue = parseIntegers(rawPosition);
         return Position.of(positionValue.get(0), positionValue.get(1));
     }
 }

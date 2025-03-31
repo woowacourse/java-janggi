@@ -1,11 +1,26 @@
 package view;
 
 import domain.unit.Team;
+import entity.Room;
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
+
+    public String readRoomId(List<Room> rooms) {
+        for (int i = 0; i < rooms.size(); i++) {
+            Room room = rooms.get(i);
+            System.out.printf("%d : %s\n", i + 1, room.roomId());
+        }
+        return scanner.nextLine();
+    }
+
+    public String readRoomIdToCreate() {
+        System.out.println("생성할 방의 이름을 정해주세요");
+        return scanner.nextLine();
+    }
 
     public String readUnitPosition(Team team) {
         System.out.println(teamToName(team) + ":: 이동할 장기의 위치를 선택해 주세요.");
