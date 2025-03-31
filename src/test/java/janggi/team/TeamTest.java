@@ -147,13 +147,19 @@ public class TeamTest {
         assertThat(teamHan.isKingCaught()).isTrue();
     }
 
+    @DisplayName("정상: 팀 점수를 계산하는지 확인 (초)")
+    @Test
+    void trackTeamScoreCho() {
+        Team teamCho = TeamFactory.createTeam(BoardSetup.of(List.of("초", "EHHE")));
+
+        assertThat(teamCho.checkTeamScore()).isEqualTo(72);
+    }
+
     @DisplayName("정상: 팀 점수를 계산하는지 확인")
     @Test
-    void trackTeamScore() {
+    void trackTeamScoreHan() {
         Team teamHan = TeamFactory.createTeam(BoardSetup.of(List.of("한", "EHHE")));
 
-        teamHan.trackTeamScore(TeamName.HAN);
-
-        assertThat(teamHan.getTeamScore()).isEqualTo(73.5);
+        assertThat(teamHan.checkTeamScore()).isEqualTo(73.5);
     }
 }

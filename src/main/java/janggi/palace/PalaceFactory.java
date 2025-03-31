@@ -4,9 +4,10 @@ import janggi.board.Position;
 import janggi.team.TeamName;
 import java.util.List;
 
-public class PalaceFactory {
-    public static Palace createPalace(TeamName teamName) {
-        if (teamName.matchTeamName("초")) {
+public enum PalaceFactory {
+    TEAM_CHO {
+        @Override
+        public Palace createTeamPalace(TeamName teamName) {
             return new Palace(List.of(
                     new Position(3, 0),
                     new Position(4, 0),
@@ -19,16 +20,30 @@ public class PalaceFactory {
                     new Position(5, 2)
             ));
         }
-        return new Palace(List.of(
-                new Position(3, 7),
-                new Position(4, 7),
-                new Position(5, 7),
-                new Position(3, 8),
-                new Position(4, 8),
-                new Position(5, 8),
-                new Position(3, 9),
-                new Position(4, 9),
-                new Position(5, 9)
-        ));
+    },
+    TEAM_HAN {
+        @Override
+        public Palace createTeamPalace(TeamName teamName) {
+            return new Palace(List.of(
+                    new Position(3, 7),
+                    new Position(4, 7),
+                    new Position(5, 7),
+                    new Position(3, 8),
+                    new Position(4, 8),
+                    new Position(5, 8),
+                    new Position(3, 9),
+                    new Position(4, 9),
+                    new Position(5, 9)
+            ));
+        }
+    };
+
+    public abstract Palace createTeamPalace(TeamName teamName);
+
+    public static Palace createPalace(TeamName teamName) {
+        if (teamName.equals(TeamName.CHO)) {
+            return TEAM_CHO.createTeamPalace(teamName);
+        }
+        return TEAM_HAN.createTeamPalace(teamName);
     }
 }

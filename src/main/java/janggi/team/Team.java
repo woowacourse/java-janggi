@@ -30,7 +30,7 @@ public class Team {
         this.pieces = pieces;
         this.palace = palace;
         this.teamName = teamName;
-        this.teamScore = new TeamScore();
+        this.teamScore = TeamScore.from(teamName);
     }
 
     public void validatePieceMovement(String pieceName, Position currentPosition, Position destination) {
@@ -131,16 +131,12 @@ public class Team {
                         && piece.matchStatus(PieceStatus.CAUGHT));
     }
 
-    public void trackTeamScore(TeamName teamName) {
-        teamScore.calculateTeamScore(teamName, pieces);
+    public double checkTeamScore() {
+        return teamScore.calculateScore(pieces);
     }
 
     public List<Piece> getBoard() {
         return pieces;
-    }
-
-    public double getTeamScore() {
-        return teamScore.getScore();
     }
 
     public TeamName getTeamName() {
