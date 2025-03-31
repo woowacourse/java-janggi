@@ -2,6 +2,7 @@ package repository.dao;
 
 import static janggi.piece.Team.CHO;
 import static janggi.piece.Team.HAN;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static position.PositionFixtures.E8;
 
@@ -49,7 +50,24 @@ public class TurnDaoTest {
     @Test
     @DisplayName("현재 턴을 찾을 수 있다.")
     void findTurnTest(){
+        // given
+        turnDao.addTurn(TurnConverter.toEntity(CHO));
 
+        // when - then
+        assertThat(turnDao.findTurn()).isEqualTo("CHO");
+    }
+
+    @Test
+    @DisplayName("턴을 업데이트할 수 있다.")
+    void updateTurnTest(){
+        // given
+        turnDao.addTurn(TurnConverter.toEntity(CHO));
+
+        // when
+        turnDao.updateTurn(TurnConverter.toEntity(HAN));
+
+        // then
+        assertThat(turnDao.findTurn()).isEqualTo("HAN");
     }
 
 
