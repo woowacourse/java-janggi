@@ -12,6 +12,5 @@ public class Application {
             controller.nextTurn(gameId);
         }
         controller.endGame(gameId);
-        controller.showFinalScore(gameId);
     }
 }

@@ -57,12 +57,10 @@ public class JanggiController {
     }
 
     public void endGame(int gameId) {
-        process(() -> outputView.result(service.getWinner(gameId)));
-    }
-
-    public void showFinalScore(int gameId) {
         process(() -> {
+            outputView.result(service.getWinner(gameId));
             outputView.finalScore(service.finalScore(gameId));
+            service.endGame(gameId);
         });
     }
 

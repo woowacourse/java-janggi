@@ -81,6 +81,9 @@ public class JanggiService {
     }
 
     public void endGame(int gameId) {
-
+        Game game = gameRepository.findById(gameId);
+        Board board = boardRepository.findByGameId(gameId);
+        gameRepository.remove(game);
+        boardRepository.removeAllByGameId(gameId);
     }
 }

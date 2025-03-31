@@ -110,7 +110,6 @@ public class PieceDao {
             return;
         }
         String query = "DELETE FROM pieces WHERE id IN " + piecesIdToQueryCondition(pieces);
-        // String query = "DELETE FROM pieces WHERE game_id=" + piecesIdToQueryCondition(pieces);
         DBConnectionManager.useDBConnection(preparedStatement -> {
             try {
                 preparedStatement.executeUpdate();
@@ -122,9 +121,21 @@ public class PieceDao {
 
     private String piecesIdToQueryCondition(List<Piece> pieces) {
         String query = pieces.stream()
-            .map(piece -> piece.getId())
+            .map(Piece::getId)
             .map(id -> String.format("\"%d\"", id))
             .collect(Collectors.joining(","));
         return "(" + query + ")";
+    }
+
+    public void deleteAllInGame(int gameId) {
+        String query = "DELETE FROM pieces WHERE game_id=?";
+        DBConnectionManager.useDBConnection(preparedStatement -> {
+            try {
+                preparedStatement.setInt(1, gameId);
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new IllegalStateException("DB 쿼리 실행 중 오류가 발생했습니다." + e.getMessage());
+            }
+        }, query);
     }
 }

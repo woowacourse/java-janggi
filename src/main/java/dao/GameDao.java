@@ -55,4 +55,17 @@ public class GameDao {
             }
         }, query);
     }
+
+    public void delete(Game game) {
+        String query = "DELETE FROM games WHERE id=?";
+        DBConnectionManager.useDBConnection(preparedStatement -> {
+            try {
+                preparedStatement.setInt(1, game.getId());
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new IllegalStateException("DB 쿼리 실행 중 오류가 발생했습니다." + e.getMessage());
+            }
+        }, query);
+
+    }
 }

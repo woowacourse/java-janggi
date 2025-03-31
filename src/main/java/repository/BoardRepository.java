@@ -22,5 +22,8 @@ public class BoardRepository {
         List<Piece> pieces = pieceDao.selectAllByGameId(gameId);
         return new Board(pieces);
     }
+
+    public void removeAllByGameId(int gameId) {
+        pieceDao.deleteAllInGame(gameId);
+    }
 }
- // TODO: 왕이 직진하면 에러남

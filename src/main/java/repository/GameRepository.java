@@ -20,4 +20,8 @@ public class GameRepository {
         }
         return game;
     }
+
+    public void remove(Game game) {
+        gameDao.delete(game);
+    }
 }
