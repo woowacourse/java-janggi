@@ -23,8 +23,6 @@ public class JanggiGame {
         BoardDao boardDao = new BoardDao(connector);
         TurnDao turnDao = new TurnDao(connector);
 
-        // todo 해당 게임의 턴에 따라서 게임을 진행한다.
-
         List<Piece> initialPieces;
 
         Team turn;

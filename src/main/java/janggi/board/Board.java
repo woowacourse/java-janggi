@@ -28,18 +28,15 @@ public class Board {
         move(attackerPiece, arrivedPosition, boardDao);
     }
 
-    // todo 공격 성공 시 디비에 존재하는 공격 받은 기물 상태 변경
     private Piece attackToTarget(Piece attackerPiece, Position arrivedPosition, BoardDao boardDao) {
         Piece targetPiece = findByPosition(arrivedPosition);
         validateAttackingSameTeam(attackerPiece, targetPiece);
-        // todo targetPiece 업데이트
         Piece updatedPiece = targetPiece.receiveAttack();
         updatePiece(targetPiece,updatedPiece,boardDao);
         return move(attackerPiece, arrivedPosition, boardDao);
     }
 
     private Piece move(Piece attackerPiece, Position arrivedPosition, BoardDao boardDao) {
-        // todo attackerPiece
         validateObstacle(attackerPiece, arrivedPosition);
         Piece movedPiece = attackerPiece.move(arrivedPosition);
         updatePiece(attackerPiece, movedPiece, boardDao);
@@ -58,7 +55,6 @@ public class Board {
         }
     }
 
-    // todo 이동 경로 관련 검증은 각 피스들에게 다시 부여하기
     private void validateObstacle(Piece attackerPiece, Position arrivedPosition) {
         List<Movement> availableMovement = attackerPiece.findAvailableMovementByArrivedPosition(arrivedPosition);
         List<Position> pathPositions = attackerPiece.extractPathPositions(availableMovement, arrivedPosition);
