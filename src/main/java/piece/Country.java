@@ -30,7 +30,7 @@ public enum Country {
     }
 
     public static Map<Country, LineDirection> getDirectionByCountry() {
-        return directionByCountry;
+        return Map.copyOf(directionByCountry);
     }
 
     public static Country getDefaultTeam() {
