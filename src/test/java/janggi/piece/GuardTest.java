@@ -115,7 +115,7 @@ class GuardTest {
 
     @DisplayName("한나라_사가_두칸_이동_시_예외를_발생한다")
     @CsvSource(value = {"3:9:5:7", "3:9:5:9", "3:9:3:7", "3:7:5:9", "3:7:3:9", "3:7:5:7", "5:9:3:7", "5:9:3:9",
-            "5:9:5:7", "5:7:3:9", "5:7:3:2", "5:7:5:9"}, delimiterString = ":")
+            "5:9:5:7", "5:7:3:9", "5:7:3:7", "5:7:5:9"}, delimiterString = ":")
     @ParameterizedTest
     void validateMovable22(int startColumn, int startRow, int goalColumn, int goalRow) {
         // given
