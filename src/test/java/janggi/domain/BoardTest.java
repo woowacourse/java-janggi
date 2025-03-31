@@ -12,7 +12,7 @@ import janggi.domain.piece.behavior.palace.General;
 import janggi.factory.PieceInitFactory;
 import janggi.factory.horse_elephant.HorseElephantFactory;
 import janggi.util.BoardFixture;
-import janggi.view.horseElephantPosition;
+import janggi.view.HorseElephantPosition;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,8 +25,8 @@ class BoardTest {
     @BeforeEach
     void init() {
         Map<Position, Piece> initialize = PieceInitFactory.initialize();
-        initialize.putAll(HorseElephantFactory.create(horseElephantPosition.HORSE_ELEPHANT_HORSE_ELEPHANT, Team.CHO));
-        initialize.putAll(HorseElephantFactory.create(horseElephantPosition.HORSE_ELEPHANT_HORSE_ELEPHANT, Team.HAN));
+        initialize.putAll(HorseElephantFactory.create(HorseElephantPosition.HORSE_ELEPHANT_HORSE_ELEPHANT, Team.CHO));
+        initialize.putAll(HorseElephantFactory.create(HorseElephantPosition.HORSE_ELEPHANT_HORSE_ELEPHANT, Team.HAN));
 
         board = new Board(initialize);
     }

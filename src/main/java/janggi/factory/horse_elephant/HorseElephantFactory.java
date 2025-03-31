@@ -3,25 +3,26 @@ package janggi.factory.horse_elephant;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
+import janggi.view.HorseElephantPosition;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Supplier;
 
 public enum HorseElephantFactory {
-    ELEPHANT_HORSE_ELEPHANT_HORSE(janggi.view.horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE, ElephantHorseElephantHorse::new),
-    HORSE_ELEPHANT_HORSE_ELEPHANT(janggi.view.horseElephantPosition.HORSE_ELEPHANT_HORSE_ELEPHANT, HorseElephantHorseElephant::new),
-    HORSE_ELEPHANT_ELEPHANT_HORSE(janggi.view.horseElephantPosition.HORSE_ELEPHANT_ELEPHANT_HORSE, HorseElephantElephantHorse::new),
-    ELEPHANT_HORSE_HORSE_ELEPHANT(janggi.view.horseElephantPosition.ELEPHANT_HORSE_HORSE_ELEPHANT, ElephantHorseHorseElephant::new);
+    ELEPHANT_HORSE_ELEPHANT_HORSE(HorseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE, ElephantHorseElephantHorse::new),
+    HORSE_ELEPHANT_HORSE_ELEPHANT(HorseElephantPosition.HORSE_ELEPHANT_HORSE_ELEPHANT, HorseElephantHorseElephant::new),
+    HORSE_ELEPHANT_ELEPHANT_HORSE(HorseElephantPosition.HORSE_ELEPHANT_ELEPHANT_HORSE, HorseElephantElephantHorse::new),
+    ELEPHANT_HORSE_HORSE_ELEPHANT(HorseElephantPosition.ELEPHANT_HORSE_HORSE_ELEPHANT, ElephantHorseHorseElephant::new);
 
-    private final janggi.view.horseElephantPosition horseElephantPosition;
+    private final HorseElephantPosition horseElephantPosition;
     private final Supplier<HorseElephantPlacement> supplier;
 
-    HorseElephantFactory(janggi.view.horseElephantPosition horseElephantPosition, Supplier<HorseElephantPlacement> supplier) {
+    HorseElephantFactory(HorseElephantPosition horseElephantPosition, Supplier<HorseElephantPlacement> supplier) {
         this.horseElephantPosition = horseElephantPosition;
         this.supplier = supplier;
     }
 
-    public static Map<Position, Piece> create(janggi.view.horseElephantPosition horseElephantPosition, Team team) {
+    public static Map<Position, Piece> create(HorseElephantPosition horseElephantPosition, Team team) {
         return Arrays.stream(values())
                 .filter(value -> value.horseElephantPosition.equals(horseElephantPosition))
                 .findFirst()

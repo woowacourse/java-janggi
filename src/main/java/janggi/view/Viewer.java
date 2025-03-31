@@ -68,7 +68,7 @@ public class Viewer {
         System.out.println("3. 마상상마");
         System.out.println("4. 상마마상");
 
-        return new TeamHorseElephantPositionDto(team, horseElephantPosition.find(scanner.nextLine()));
+        return new TeamHorseElephantPositionDto(team, HorseElephantPosition.find(scanner.nextLine()));
     }
 
     public void printBoard(Board board) {

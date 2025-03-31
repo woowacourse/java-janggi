@@ -1,8 +1,8 @@
 package janggi.dto;
 
 import janggi.domain.Team;
-import janggi.view.horseElephantPosition;
+import janggi.view.HorseElephantPosition;
 
-public record TeamHorseElephantPositionDto(Team team, horseElephantPosition horseElephantPosition) {
+public record TeamHorseElephantPositionDto(Team team, HorseElephantPosition horseElephantPosition) {
 
 }
