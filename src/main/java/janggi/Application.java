@@ -4,6 +4,7 @@ import janggi.board.Board;
 import janggi.board.BoardGenerator;
 import janggi.board.Point;
 import janggi.camp.Camp;
+import janggi.dao.PieceDao;
 import janggi.piece.Piece;
 import janggi.view.View;
 
@@ -13,15 +14,16 @@ public class Application {
 
     public static void main(String[] args) {
         View view = new View();
+        PieceDao pieceDao = new PieceDao();
         view.displayStartBanner();
         boolean startGame = view.readStartGame();
         if (startGame) {
-            playGame(view);
+            playGame(view, pieceDao);
         }
     }
 
-    private static void playGame(View view) {
-        Board board = BoardGenerator.generate();
+    private static void playGame(View view, PieceDao pieceDao) {
+        Board board = BoardGenerator.generate(pieceDao);
         Camp currentTurnCamp = FIRST_TURN_CAMP;
         while (!board.isGameOver()) {
             view.displayBoard(board.getPieceDao());
@@ -60,5 +62,6 @@ public class Application {
         Camp winningCamp = board.findWinningCamp();
         view.displayBoard(board.getPieceDao());
         view.displayEndingMessage(winningCamp);
+        board.resetBoard();
     }
 }

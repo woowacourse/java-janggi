@@ -145,4 +145,32 @@ public class PieceDao {
         }
         return hanPieces;
     }
+
+    public void resetPiece() {
+        String query = "TRUNCATE TABLE piece";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.executeQuery();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean isPieceEmpty() {
+        String query = "SELECT EXISTS (SELECT 1 FROM piece)";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1) == 0;
+            }
+            return true;
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

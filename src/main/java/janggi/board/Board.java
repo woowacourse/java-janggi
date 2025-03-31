@@ -123,6 +123,10 @@ public class Board {
                 .sum();
     }
 
+    public void resetBoard() {
+        pieceDao.resetPiece();
+    }
+
     public PieceDao getPieceDao() {
         return pieceDao;
     }
