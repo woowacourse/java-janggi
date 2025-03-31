@@ -30,4 +30,4 @@ services:
       MYSQL_ROOT_PASSWORD: test
       TZ: Asia/Seoul
     volumes:
-      - ./db/mysql/init:/docker-entrypoint-initdb.d
+      - ./db/mysql/init/test-init.sql:/docker-entrypoint-initdb.d/init.sql

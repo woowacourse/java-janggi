@@ -24,6 +24,13 @@ public enum Camp {
 
     public abstract Camp reverse();
 
+    public static Camp from(String name) {
+        if (name.equals("한")) {
+            return Camp.HAN;
+        }
+        return Camp.CHU;
+    }
+
     public String getName() {
         return name;
     }

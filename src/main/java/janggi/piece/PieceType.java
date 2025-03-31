@@ -61,4 +61,22 @@ public enum PieceType {
     public int getScore() {
         return score;
     }
+
+    public static Piece toPiece(String name, Camp camp) {
+        for (PieceType type : values()) {
+            if (type.getName(camp).equals(name)) {
+                return switch (type.getName(camp)) {
+                    case "왕" -> new General(camp);
+                    case "차" -> new Chariot(camp);
+                    case "포" -> new Cannon(camp);
+                    case "마" -> new Horse(camp);
+                    case "상" -> new Elephant(camp);
+                    case "사" -> new Guard(camp);
+                    case "졸", "병" -> new Soldier(camp);
+                    default -> throw new IllegalStateException("일치하는 PieceType이 없습니다.");
+                };
+            }
+        }
+        throw new IllegalArgumentException("일치하는 Piece가 없습니다.");
+    }
 }

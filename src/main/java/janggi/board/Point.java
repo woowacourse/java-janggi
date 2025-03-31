@@ -143,6 +143,14 @@ public final class Point {
         return new Point((this.x + other.x) / 2, (this.y + other.y) / 2);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {
