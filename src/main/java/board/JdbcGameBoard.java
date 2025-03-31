@@ -42,7 +42,7 @@ public class JdbcGameBoard implements GameBoard {
 
             while (playerResults.next()) {
                 int playerId = playerResults.getInt("id");
-                int score = playerResults.getInt("score");
+                double score = playerResults.getDouble("score");
                 Team team = Team.valueOf(playerResults.getString("team"));
 
                 List<Piece> pieces = pieceDao.findPieces(playerId, team, connection);
@@ -56,50 +56,45 @@ public class JdbcGameBoard implements GameBoard {
     }
 
     public void startNewGame(Team turn) {
-        try (Connection connection = JdbcConnection.getConnection()) {
-            connection.setAutoCommit(false);
+        PiecesInitializer piecesInitializer = new PiecesInitializer();
+        List<Piece> choPieces = piecesInitializer.makeChoPieces();
+        List<Piece> hanPieces = piecesInitializer.makeHanPieces();
 
-            MemoryGameBoard memoryGameBoard = new MemoryGameBoard();
-            players.add(memoryGameBoard.findPlayer(Team.CHO));
-            players.add(memoryGameBoard.findPlayer(Team.HAN));
+        Player choPlayer = new Player(new Pieces(choPieces), 0, Team.CHO);
+        Player hanPlayer = new Player(new Pieces(hanPieces), 1.5, Team.HAN);
+        players.add(choPlayer);
+        players.add(hanPlayer);
 
-            playerDao.addPlayer(memoryGameBoard.findPlayer(Team.CHO));
-            int cho = playerDao.getPlayerIdByTeam(Team.CHO);
-
-            for (Piece piece : memoryGameBoard.findPlayer(Team.CHO).getPieces()) {
-                pieceDao.savePiece(cho, piece.type(), piece.column(), piece.row());
-            }
-
-            playerDao.addPlayer(memoryGameBoard.findPlayer(Team.HAN));
-            int han = playerDao.getPlayerIdByTeam(Team.HAN);
-
-            for (Piece piece : memoryGameBoard.findPlayer(Team.HAN).getPieces()) {
-                pieceDao.savePiece(han, piece.type(), piece.column(), piece.row());
-            }
-
-            turnDao.addTurn(turn);
-
-            connection.commit();
-            System.out.println("새 게임이 시작되었습니다!");
-        } catch (SQLException e) {
-            e.printStackTrace();
+        int choPlayerId = playerDao.addPlayer(choPlayer);
+        for (Piece piece : choPlayer.getPieces()) {
+            pieceDao.savePiece(choPlayerId, piece.type(), piece.column(), piece.row());
         }
+
+        int hanPlayerId = playerDao.addPlayer(hanPlayer);
+        for (Piece piece : hanPlayer.getPieces()) {
+            pieceDao.savePiece(hanPlayerId, piece.type(), piece.column(), piece.row());
+        }
+
+        turnDao.addTurn(turn);
     }
 
     @Override
     public void saveGame(Point start, Point end, Team turn) {
         try (Connection conn = JdbcConnection.getConnection()) {
             conn.setAutoCommit(false);
-            playerDao.updatePlayer(conn, findPlayer(Team.HAN));
 
-            for (Piece piece : findPlayer(Team.HAN).getPieces()) {
+            Player hanPlayer = findPlayer(Team.HAN);
+            playerDao.updatePlayer(conn, hanPlayer);
+
+            for (Piece piece : hanPlayer.getPieces()) {
                 int pieceId = pieceDao.getPieceIdByPoint(conn, start.column(), start.row());
                 pieceDao.updatePiece(conn, pieceId, end.column(), end.row());
             }
 
-            playerDao.updatePlayer(conn, findPlayer(Team.CHO));
+            Player choPlayer = findPlayer(Team.CHO);
+            playerDao.updatePlayer(conn, choPlayer);
 
-            for (Piece piece : findPlayer(Team.CHO).getPieces()) {
+            for (Piece piece : choPlayer.getPieces()) {
                 int pieceId = pieceDao.getPieceIdByPoint(conn, start.column(), start.row());
                 pieceDao.updatePiece(conn, pieceId, end.column(), end.row());
             }
@@ -108,6 +103,7 @@ public class JdbcGameBoard implements GameBoard {
 
             conn.commit();
         } catch (SQLException e) {
+            System.err.println("[ERROR] 게임을 저장하는데 실패했습니다.");
             e.printStackTrace();
         }
     }

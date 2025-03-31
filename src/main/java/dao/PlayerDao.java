@@ -4,27 +4,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import team.Player;
-import team.Team;
 
 public class PlayerDao {
 
-    public void addPlayer(Player player) {
+    public int addPlayer(Player player) {
         String sql = "INSERT INTO player (score, team) VALUES (?, ?)";
+        int autoIncrementId = -1;
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            preparedStatement.setInt(1, player.getScore());
+            preparedStatement.setDouble(1, player.getScore());
             preparedStatement.setString(2, player.getTeam().name());
 
             preparedStatement.executeUpdate();
+
+            ResultSet keyResult = preparedStatement.getGeneratedKeys();
+            if (keyResult.next()) {
+                autoIncrementId = keyResult.getInt(1);
+            }
 
             preparedStatement.close();
         } catch (SQLException e) {
             System.err.println("[ERROR] 플레이어 정보를 저장하지 못했습니다.");
             e.printStackTrace();
         }
+
+        return autoIncrementId;
     }
 
     public void updatePlayer(Connection connection, Player player) {
