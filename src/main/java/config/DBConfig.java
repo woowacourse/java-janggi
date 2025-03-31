@@ -7,6 +7,9 @@ import java.util.Properties;
 
 public final class DBConfig {
 
+    public static final String DB_URL_PROPERTY = "db.url";
+    public static final String DB_USERNAME_PROPERTY = "db.username";
+    public static final String DB_PASSWORD_PROPERTY = "db.password";
     private static final Properties properties = new Properties();
 
     static {
@@ -26,14 +29,29 @@ public final class DBConfig {
     }
 
     public static String getUrl() {
-        return properties.getProperty("db.url");
+        final String url = properties.getProperty(DB_URL_PROPERTY);
+        if (url == null) {
+            throw new IllegalStateException("url 속성이 설정되지 않았습니다.");
+        }
+
+        return url;
     }
 
     public static String getUsername() {
-        return properties.getProperty("db.username");
+        final String username = properties.getProperty(DB_USERNAME_PROPERTY);
+        if (username == null) {
+            throw new IllegalStateException("username 속성이 설정되지 않았습니다.");
+        }
+
+        return username;
     }
 
     public static String getPassword() {
-        return properties.getProperty("db.password");
+        final String password = properties.getProperty(DB_PASSWORD_PROPERTY);
+        if (password == null) {
+            throw new IllegalStateException("password 속성이 설정되지 않았습니다.");
+        }
+
+        return password;
     }
 }
