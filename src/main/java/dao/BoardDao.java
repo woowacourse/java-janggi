@@ -19,7 +19,8 @@ public class BoardDao {
     private static final String INSERT_PIECE = "INSERT INTO board (position_row, position_column, piece_type, piece_color) VALUES (?, ?, ?, ?)";
     private static final String SELECT_BOARD = "SELECT position_row, position_column, piece_type, piece_color FROM board";
     private static final String DELETE_PIECE = "DELETE FROM board WHERE position_row = ? AND position_column = ?";
-    public static final String UPDATE_POSITION = "UPDATE board SET position_row = ?, position_column = ? WHERE position_row = ? AND position_column = ?";
+    private static final String UPDATE_POSITION = "UPDATE board SET position_row = ?, position_column = ? WHERE position_row = ? AND position_column = ?";
+    private static final String DELETE_BOARD = "DELETE FROM board";
 
     private final UserDao userDao;
 
@@ -92,6 +93,15 @@ public class BoardDao {
             } finally {
                 connection.setAutoCommit(true);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteBoard() {
+        try (Connection connection = userDao.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BOARD)) {
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

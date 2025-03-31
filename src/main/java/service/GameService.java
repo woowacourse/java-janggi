@@ -25,20 +25,20 @@ public class GameService {
         janggiGame = new JanggiGame(new SetUp());
     }
 
-    private Board loadOrCreateBoard() {
-        // 1. DB에서 저장된 보드를 불러옴
+    private Board loadOrCreateBoard(boolean loadGame) {
         Map<Position, Piece> boardData = boardDao.loadBoard();
 
-        if (boardData.isEmpty()) {
+        if (boardData.isEmpty() || !loadGame) {
             boardData = new BoardFactory().createBoard().getBoard();
+            boardDao.deleteBoard();
             boardDao.saveBoard(boardData);
         }
 
         return new Board(boardData);
     }
 
-    public void startGame() {
-        Board board = loadOrCreateBoard();
+    public void startGame(boolean loadGame) {
+        Board board = loadOrCreateBoard(loadGame);
         janggiGame.startGame(board);
     }
 

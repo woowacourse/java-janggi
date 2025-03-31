@@ -29,4 +29,11 @@ public class InputView {
         return MoveCommandDTO.from(commands.get(SOURCE_POSITION_INDEX), commands.get(MOVE_PIECE_INDEX),
                 commands.get(DESTINATION_POSITION_INDEX));
     }
+
+    public boolean readLoadOrCreateGame() {
+        System.out.println("기존의 게임을 이어서 하시겠습니다? (Y/N)");
+        String input = scanner.nextLine();
+
+        return input.equalsIgnoreCase("y");
+    }
 }
