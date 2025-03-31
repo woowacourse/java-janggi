@@ -1,8 +1,6 @@
 package dao;
 
-import dao.dto.CreatePieceDto;
 import domain.entity.PieceEntity;
-import domain.game.JanggiGame;
 import domain.piece.PieceType;
 import domain.piece.Score;
 import domain.piece.Team;
@@ -31,18 +29,18 @@ public class PieceDao {
         }
     }
 
-    public void createAll(Connection connection, List<CreatePieceDto> createPieceDtos) throws SQLException {
+    public void createAll(Connection connection, List<PieceEntity> pieceEntities) throws SQLException {
         final var createQuery = """
                 INSERT INTO piece (x, y, type, team, score, janggi_game_id) VALUES (?, ?, ?, ?, ?, ?)
                 """;
         try (final var prepareStatement = connection.prepareStatement(createQuery)) {
-            for (CreatePieceDto createPieceDto : createPieceDtos) {
-                prepareStatement.setInt(1, createPieceDto.x());
-                prepareStatement.setInt(2, createPieceDto.y());
-                prepareStatement.setString(3, createPieceDto.type());
-                prepareStatement.setString(4, createPieceDto.team());
-                prepareStatement.setDouble(5, createPieceDto.score());
-                prepareStatement.setLong(6, createPieceDto.janggiGameId());
+            for (PieceEntity pieceEntity : pieceEntities) {
+                prepareStatement.setInt(1, pieceEntity.getX());
+                prepareStatement.setInt(2, pieceEntity.getY());
+                prepareStatement.setString(3, pieceEntity.getType().name());
+                prepareStatement.setString(4, pieceEntity.getTeam().name());
+                prepareStatement.setDouble(5, pieceEntity.getScore().score());
+                prepareStatement.setLong(6, pieceEntity.getJanggiGameId());
 
                 prepareStatement.addBatch();
             }
@@ -50,8 +48,23 @@ public class PieceDao {
         }
     }
 
-    public void update(JanggiGame janggiGame) {
+    public void updateAll(Connection connection, Long janggiGameId, List<PieceEntity> updatePieceEntities) throws SQLException {
+        final var updateQuery = """
+                UPDATE piece SET x = ?, y = ?, type = ?, team = ?, score = ? WHERE janggi_game_id = ?;
+                """;
+        try (final var preparedStatement = connection.prepareStatement(updateQuery)) {
+            for (PieceEntity pieceEntity : updatePieceEntities) {
+                preparedStatement.setInt(1, pieceEntity.getX());
+                preparedStatement.setInt(2, pieceEntity.getY());
+                preparedStatement.setString(3, pieceEntity.getType().name());
+                preparedStatement.setString(4, pieceEntity.getTeam().name());
+                preparedStatement.setDouble(5, pieceEntity.getScore().score());
+                preparedStatement.setLong(6, janggiGameId);
 
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+        }
     }
 
     public List<PieceEntity> findAllByJanggiGameId(Connection connection, Long id) throws SQLException {

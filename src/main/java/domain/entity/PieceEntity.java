@@ -30,6 +30,14 @@ public class PieceEntity {
         this.janggiGameId = janggiGameId;
     }
 
+    public PieceEntity(int x, int y, PieceType type, Team team, Score score, Long janggiGameId) {
+        this(-1L, x, y, type, team, score, janggiGameId);
+    }
+
+    public PieceEntity(int x, int y, PieceType type, Team team, Score score) {
+        this(-1L, x, y, type, team, score, -1L);
+    }
+
     public int getX() {
         return x;
     }
@@ -48,5 +56,9 @@ public class PieceEntity {
 
     public Score getScore() {
         return score;
+    }
+
+    public Long getJanggiGameId() {
+        return janggiGameId;
     }
 }

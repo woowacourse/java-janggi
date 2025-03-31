@@ -1,7 +1,6 @@
 package dao;
 
 import domain.entity.JanggiGameEntity;
-import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.piece.Team;
 import java.sql.Connection;
@@ -23,12 +22,12 @@ public class JanggiGameDao {
         }
     }
 
-    public Long create(Connection connection, Team startingTurn) throws SQLException {
+    public Long create(Connection connection, JanggiGameEntity entity) throws SQLException {
         final var createQuery = """
                 INSERT INTO janggi_game (turn) VALUES (?)
                 """;
         try (final var preparedStatement = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS)) {
-            preparedStatement.setString(1, startingTurn.name());
+            preparedStatement.setString(1, entity.getTurn().getTeam().name());
             preparedStatement.executeUpdate();
             try (final var generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -39,8 +38,15 @@ public class JanggiGameDao {
         }
     }
 
-    public void update(JanggiGame janggiGame) {
-
+    public void update(Connection connection, Long janggiGameId, JanggiGameEntity entity) throws SQLException{
+        final var updateQuery = """
+                UPDATE janggi_game SET turn = ? WHERE janggi_game_id = ?;
+                """;
+        try (final var preparedStatement = connection.prepareStatement(updateQuery)) {
+            preparedStatement.setString(1, entity.getTurn().getTeam().name());
+            preparedStatement.setLong(2, janggiGameId);
+            preparedStatement.executeUpdate();
+        }
     }
 
     public Optional<JanggiGameEntity> findById(Connection connection, Long id) throws SQLException {

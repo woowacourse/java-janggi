@@ -1,4 +1,5 @@
 import controller.JanggiController;
+import dao.EntityMapper;
 import dao.JanggiGameDao;
 import dao.JanggiTransactionManager;
 import dao.MySqlConnector;
@@ -17,9 +18,10 @@ public class Application {
         TransactionManager<JanggiGame> transactionManager = new JanggiTransactionManager(
                 new MySqlConnector(),
                 new JanggiGameDao(),
-                new PieceDao()
+                new PieceDao(),
+                new EntityMapper()
         );
-
+        transactionManager.createTable();
         JanggiController janggiController = new JanggiController(consoleView, transactionManager);
         janggiController.start();
     }

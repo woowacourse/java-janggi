@@ -13,6 +13,10 @@ public class JanggiGameEntity {
         this.turn = turn;
     }
 
+    public JanggiGameEntity(Turn turn) {
+        this(-1L, turn);
+    }
+
     public Turn getTurn() {
         return turn;
     }

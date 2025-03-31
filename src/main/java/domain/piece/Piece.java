@@ -57,15 +57,15 @@ public abstract class Piece {
         return score;
     }
 
+    public boolean isStoppedGameIfDie() {
+        return false;
+    }
+
     private boolean isNotEqualTeam(Team team) {
         return this.team != team;
     }
 
     private boolean isEqualTeam(Piece piece) {
         return this.team == piece.team;
-    }
-
-    public boolean isStoppedGameIfDie() {
-        return false;
     }
 }
