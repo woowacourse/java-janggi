@@ -32,21 +32,6 @@ import java.util.Map;
 
 public class BoardInitializer {
 
-    private final BoardPieceService boardPieceService;
-
-    public BoardInitializer(final BoardPieceService boardPieceService) {
-        this.boardPieceService = boardPieceService;
-    }
-
-    public void initializeBoard(final int gameId, final JanggiBoard board) {
-        Map<Position, Piece> initialPositionPieces = board.getBoard();
-        for (Map.Entry<Position, Piece> entry : initialPositionPieces.entrySet()) {
-            Position position = entry.getKey();
-            Piece piece = entry.getValue();
-            savePieceToDatabase(gameId, position, piece);
-        }
-    }
-
     public static Map<Position, Piece> initialPieces(final int xLimit, final int yLimit) {
         Map<Position, Piece> board = new HashMap<>();
 
@@ -63,12 +48,6 @@ public class BoardInitializer {
         initializeGuard(board);
         initializeKing(board);
         return board;
-    }
-
-    private void savePieceToDatabase(final int gameId, final Position position, final Piece piece) {
-        if (piece.isOccupied()) {
-            boardPieceService.addBoardPiece(gameId, position, piece);
-        }
     }
 
     private static void initializeSoldier(final Map<Position, Piece> board) {

@@ -34,6 +34,12 @@ public class BoardPieceService {
         return positionPieces;
     }
 
+    public void initializeBoardPieces(Map<Position, Piece> positionPieces, int newGameId) {
+        for (Map.Entry<Position, Piece> positionPieceEntry : positionPieces.entrySet()) {
+            addBoardPiece(newGameId, positionPieceEntry.getKey(), positionPieceEntry.getValue());
+        }
+    }
+
     public void addBoardPiece(final int gameId, final Position position, final Piece piece) {
         Side side = Side.NONE;
         if(piece.isCho()) {

@@ -43,8 +43,7 @@ public class JanggiGame {
             pieceService.initializePieceTable();
 
             board = JanggiBoard.initializeWithPieces();
-            BoardInitializer boardInitializer = new BoardInitializer(boardPieceService);
-            boardInitializer.initializeBoard(newGameId, board);
+            boardPieceService.initializeBoardPieces(board.getBoard(), newGameId);
         } else {
             Map<Position, Piece> positionPieces = boardPieceService.findAllBoardPieces();
             board = JanggiBoard.fillEmptyPiece(positionPieces);
