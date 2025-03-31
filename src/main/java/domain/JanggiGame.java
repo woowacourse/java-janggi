@@ -5,12 +5,14 @@ import domain.palace.Palace;
 import domain.piece.Piece;
 import domain.player.Player;
 import domain.player.Players;
+import java.util.HashMap;
 import java.util.Map;
 
 public class JanggiGame {
 
     public static final int SEQUENCE_ZERO = 0;
     public static final int SEQUENCE_ONE = 1;
+
 
     private final JanggiBoard janggiBoard;
     private final Players players;
@@ -23,14 +25,15 @@ public class JanggiGame {
     }
 
 
-    public void move(Position startPosition, Position targetPosition) {
+    public Map<Position, Piece> move(Position startPosition, Position targetPosition) {
         validateMovePiece(startPosition, targetPosition);
-        janggiBoard.move(startPosition, targetPosition);
+        Map<Position, Piece> startAndTargetPieces = janggiBoard.move(startPosition, targetPosition);
         if (sequence == SEQUENCE_ZERO) {
             sequence = SEQUENCE_ONE;
-            return;
+            return startAndTargetPieces;
         }
         sequence = SEQUENCE_ZERO;
+        return startAndTargetPieces;
     }
 
     private void validateMovePiece(Position startPosition, Position targetPosition) {
@@ -55,5 +58,31 @@ public class JanggiGame {
 
     public boolean checkKingIsDead() {
         return janggiBoard.checkKingIsDead();
+    }
+
+    public Map<Player, Integer> calculateScore() {
+        Map<Player, Integer> score = new HashMap<>();
+        score.put(players.getPlayerByTeam(Team.RED), 0);
+        score.put(players.getPlayerByTeam(Team.BLUE), 0);
+
+        Map<Position, Piece> board = janggiBoard.getBoard();
+        for (Piece piece : board.values()) {
+            Player player = piece.getPlayer();
+            score.put(player, score.get(player) + piece.getPoint());
+        }
+
+        return score;
+    }
+
+    public boolean isTargetPositionIsEmpty(Position position) {
+        return janggiBoard.isPositionEmpty(position);
+    }
+
+    public int getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(int currentTurn) {
+        this.sequence = currentTurn;
     }
 }
