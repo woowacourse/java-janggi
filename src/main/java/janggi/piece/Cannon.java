@@ -40,7 +40,7 @@ public class Cannon implements Piece {
     public Cannon(Team team, Position position, boolean isLive) {
         this.team = team;
         this.position = position;
-        this.isLive = true;
+        this.isLive = isLive;
         this.pieceType = PieceType.CANNON;
     }
 
