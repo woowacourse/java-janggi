@@ -30,7 +30,7 @@ public class JdbcPieceDao implements PieceDao {
 
             preparedStatement.executeBatch();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseSQLException(e);
         }
     }
 
@@ -55,7 +55,7 @@ public class JdbcPieceDao implements PieceDao {
             }
             return pieceEntities;
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseSQLException(e);
         }
     }
 
@@ -71,7 +71,7 @@ public class JdbcPieceDao implements PieceDao {
             preparedStatement.setLong(5, gameId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseSQLException(e);
         }
     }
 
@@ -85,7 +85,7 @@ public class JdbcPieceDao implements PieceDao {
             preparedStatement.setLong(3, gameId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseSQLException(e);
         }
     }
 }

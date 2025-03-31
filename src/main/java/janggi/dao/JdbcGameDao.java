@@ -25,7 +25,7 @@ public class JdbcGameDao implements GameDao {
                 );
             }
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseSQLException(e);
         }
         return null;
     }
@@ -46,7 +46,7 @@ public class JdbcGameDao implements GameDao {
                 );
             }
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseSQLException(e);
         }
         return null;
     }
@@ -60,7 +60,7 @@ public class JdbcGameDao implements GameDao {
             preparedStatement.setString(2, gameEntity.getCurrentTurn().name());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseSQLException(e);
         }
     }
 
@@ -73,7 +73,7 @@ public class JdbcGameDao implements GameDao {
             preparedStatement.setLong(2, gameId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseSQLException(e);
         }
     }
 
@@ -86,7 +86,7 @@ public class JdbcGameDao implements GameDao {
             preparedStatement.setLong(2, gameId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseSQLException(e);
         }
     }
 }
