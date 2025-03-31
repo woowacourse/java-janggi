@@ -1,7 +1,5 @@
 package domain;
 
-import dao.JanggiConnection;
-import dao.PieceDao;
 import domain.board.Board;
 import domain.board.BoardPoint;
 import domain.board.Score;
@@ -13,8 +11,12 @@ import domain.pieces.Guard;
 import domain.pieces.Horse;
 import domain.pieces.Piece;
 import domain.pieces.Soldier;
-import dto.MovementResponseDto;
 import dto.SwitchPlayerTurnRequestDto;
+import entity.BoardEntity;
+import entity.BoardRepository;
+import entity.PlayerRepository;
+import entity.TeamEntity;
+import entity.TeamRepository;
 import execptions.JanggiArgumentException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,13 +27,18 @@ public final class JanggiGame {
 
     private final Board board;
     private final List<Player> players;
+    private final BoardRepository boardRepository;
+    private final PlayerRepository playerRepository;
+    private final TeamRepository teamRepository;
 
-    private final PieceDao gameDao;
-
-    public JanggiGame(Board board, List<Player> players) {
-        this.gameDao = new PieceDao(new JanggiConnection());
+    public JanggiGame(Board board, List<Player> players, BoardRepository boardRepository,
+                      PlayerRepository playerRepository,
+                      TeamRepository teamRepository) {
         this.board = board;
         this.players = players;
+        this.boardRepository = boardRepository;
+        this.playerRepository = playerRepository;
+        this.teamRepository = teamRepository;
     }
 
     public Map<BoardPoint, Piece> getBoard() {
@@ -45,19 +52,37 @@ public final class JanggiGame {
                 .orElseThrow(() -> new JanggiArgumentException("턴을 가진 플레이어가 존재하지 않습니다."));
 
         board.movePiece(startBoardPoint, arrivalBoardPoint, currentPlayer.getTeam());
-        gameDao.saveMovementResult(new MovementResponseDto(startBoardPoint, arrivalBoardPoint));
+
+        BoardEntity boardEntity = boardRepository.findByBoardPoint(startBoardPoint);
+        long pieceId = boardEntity.getPieceId();
+        boardRepository.delete(boardEntity);
+        if (boardRepository.findByBoardPoint(arrivalBoardPoint) == null) {
+            boardRepository.save(arrivalBoardPoint, pieceId);
+        } else {
+            boardRepository.updatePiece(arrivalBoardPoint, pieceId);
+        }
 
         List<SwitchPlayerTurnRequestDto> switchPlayerTurnRequestDtos = switchTurn();
-        gameDao.saveSwitchedTurn(switchPlayerTurnRequestDtos);
+        playerRepository.updateTurn(switchPlayerTurnRequestDtos);
     }
 
     private List<SwitchPlayerTurnRequestDto> switchTurn() {
         List<SwitchPlayerTurnRequestDto> switchPlayerTurnRequestDtos = new ArrayList<>();
         for (Player player : players) {
             player.switchTurn();
-            switchPlayerTurnRequestDtos.add(new SwitchPlayerTurnRequestDto(player.getTeam(), player.isTurn()));
+            Team team = player.getTeam();
+            TeamEntity teamEntity = teamRepository.findByName(team.name());
+            switchPlayerTurnRequestDtos.add(new SwitchPlayerTurnRequestDto(teamEntity.getId(), player.isTurn()));
         }
         return switchPlayerTurnRequestDtos;
+    }
+
+    public boolean isGeneralDied() {
+        return board.isGeneralDied();
+    }
+
+    public Score calculateScore() {
+        return new Score(board.calculateScoreOf(Team.HAN), board.calculateScoreOf(Team.CHO));
     }
 
     private Board generateBoard() {
@@ -67,14 +92,6 @@ public final class JanggiGame {
         locations.putAll(generateLocationsForCho());
 
         return new Board(locations);
-    }
-
-    public boolean isGeneralDied() {
-        return board.isGeneralDied();
-    }
-
-    public Score calculateScore() {
-        return new Score(board.calculateScoreOf(Team.HAN), board.calculateScoreOf(Team.CHO));
     }
 
     private Map<BoardPoint, Piece> generateLocationsForHan() {

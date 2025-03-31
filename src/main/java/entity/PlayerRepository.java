@@ -1,6 +1,7 @@
 package entity;
 
 import dao.PlayerDao;
+import dto.SwitchPlayerTurnRequestDto;
 import java.util.List;
 
 public class PlayerRepository {
@@ -12,5 +13,9 @@ public class PlayerRepository {
 
     public List<PlayerEntity> getAllPlayers() {
         return playerDao.getAllPlayers();
+    }
+
+    public void updateTurn(final List<SwitchPlayerTurnRequestDto> switchPlayerTurnRequestDtos) {
+        playerDao.saveSwitchedTurn(switchPlayerTurnRequestDtos);
     }
 }

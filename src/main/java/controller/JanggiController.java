@@ -29,17 +29,21 @@ public class JanggiController {
     }
 
     public void run() {
+        BoardRepository boardRepository = new BoardRepository(new BoardDao(new JanggiConnection()));
+        PlayerRepository playerRepository = new PlayerRepository(new PlayerDao(new JanggiConnection()));
+        TeamRepository teamRepository = new TeamRepository(new TeamDao(new JanggiConnection()));
+
         GameInitializer gameInitializer = new GameInitializer(
-                new BoardRepository(new BoardDao(new JanggiConnection())),
+                boardRepository,
                 new PieceRepository(new PieceDao(new JanggiConnection())),
-                new TeamRepository(new TeamDao(new JanggiConnection())),
-                new PlayerRepository(new PlayerDao(new JanggiConnection()))
+                teamRepository,
+                playerRepository
         );
 
         Board board = gameInitializer.createBoard();
         List<Player> players = gameInitializer.getAllPlayers();
 
-        final JanggiGame game = new JanggiGame(board, players);
+        final JanggiGame game = new JanggiGame(board, players, boardRepository, playerRepository, teamRepository);
 
         outputView.printBoard(game.getBoard());
         while (true) {

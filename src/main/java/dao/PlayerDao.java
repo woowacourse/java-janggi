@@ -1,5 +1,6 @@
 package dao;
 
+import dto.SwitchPlayerTurnRequestDto;
 import entity.PlayerEntity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +34,23 @@ public class PlayerDao {
 
             return players;
 
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void saveSwitchedTurn(final List<SwitchPlayerTurnRequestDto> requestDtos) {
+        final var query = "UPDATE player SET is_turn = ? WHERE team_id = ?";
+
+        try (final var connection = janggiConnection.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+
+            for (SwitchPlayerTurnRequestDto requestDto : requestDtos) {
+                preparedStatement.setBoolean(1, requestDto.isTurn());
+                preparedStatement.setLong(2, requestDto.teamId());
+
+                preparedStatement.executeUpdate();
+            }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

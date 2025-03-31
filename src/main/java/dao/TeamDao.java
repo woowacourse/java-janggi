@@ -33,4 +33,27 @@ public class TeamDao {
 
         return null;
     }
+
+    public TeamEntity findByName(String comparedNamed) {
+        final var query = "SELECT * FROM team WHERE name = ?";
+
+        try (final var connection = janggiConnection.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, comparedNamed);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String name = resultSet.getString("name");
+
+                return new TeamEntity(id, name);
+            }
+
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
 }

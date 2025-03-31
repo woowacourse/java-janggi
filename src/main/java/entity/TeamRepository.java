@@ -13,4 +13,7 @@ public class TeamRepository {
         return teamDao.findByid(teamId);
     }
 
+    public TeamEntity findByName(String name) {
+        return teamDao.findByName(name);
+    }
 }
