@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public record BoardLocations(List<BoardLocation> locations) implements Iterable<BoardLocation> {
-    public BoardLocations(Map<Point, Piece> board) {
+    public BoardLocations(final Map<Point, Piece> board) {
         this(convertToLocations(board));
     }
 

@@ -32,7 +32,7 @@ public final class JanggiController {
     }
 
     public void run() {
-        List<Integer> activeGameIds = daoService.findAllActivateGames();
+        final List<Integer> activeGameIds = daoService.findAllActivateGames();
         if (activeGameIds.isEmpty()) {
             initNewGame();
             return;
@@ -117,7 +117,7 @@ public final class JanggiController {
         return true;
     }
 
-    private void handleMove(JanggiGame game, Point start, Point arrival) {
+    private void handleMove(final JanggiGame game, final Point start, final Point arrival) {
         game.movePieceOnBoard(start, arrival);
         daoService.changeLocation(start, arrival, game.getId());
 
@@ -133,7 +133,7 @@ public final class JanggiController {
         outputView.printWinner(team);
     }
 
-    private <T> T handleInput(Supplier<T> inputSupplier) {
+    private <T> T handleInput(final Supplier<T> inputSupplier) {
         try {
             return inputSupplier.get();
         } catch (JanggiGameRuleWarningException e) {

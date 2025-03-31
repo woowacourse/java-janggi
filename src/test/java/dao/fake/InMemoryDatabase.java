@@ -35,7 +35,7 @@ public final class InMemoryDatabase {
     }
 
     public void createGame() {
-        int id = games.size() + 1;
+        final int id = games.size() + 1;
         games.put(id, true);
     }
 
@@ -60,7 +60,7 @@ public final class InMemoryDatabase {
             final boolean isTurn,
             final int gameId
     ) {
-        int id = players.size() + 1;
+        final int id = players.size() + 1;
         final Player player = new Player(id, Team.valueOf(team), new Score(score), isTurn);
         players.put(id, player);
         playerGameId.put(player, gameId);
@@ -78,7 +78,7 @@ public final class InMemoryDatabase {
         return id;
     }
 
-    public List<Player> findAllPlayersByGameId(int gameId) {
+    public List<Player> findAllPlayersByGameId(final int gameId) {
         return playerGameId.entrySet().stream()
                 .filter(entry -> entry.getValue().equals(gameId))
                 .map(Map.Entry::getKey)

@@ -70,26 +70,26 @@ public final class BoardLocationDAO {
         }
     }
 
-    public BoardLocations findAllByGameId(int gameId) {
+    public BoardLocations findAllByGameId(final int gameId) {
         final String query = "SELECT l.*, p.*, g.id FROM board_location l "
                 + "JOIN player p ON l.player_id = p.id "
                 + "JOIN game g ON p.game_id = g.id "
                 + "WHERE g.id = ?";
-        try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (final Connection connection = connector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setInt(1, gameId);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            final ResultSet resultSet = preparedStatement.executeQuery();
             return convertResultSetToLocations(resultSet);
         } catch (final SQLException e) {
             throw new RuntimeException("데이터베이스에서 위치 정보를 조회하는 데 실패했습니다: " + e);
         }
     }
 
-    private BoardLocations convertResultSetToLocations(ResultSet resultSet) throws SQLException {
+    private BoardLocations convertResultSetToLocations(final ResultSet resultSet) throws SQLException {
         final List<BoardLocation> locations = new ArrayList<>();
         while (resultSet.next()) {
-            BoardLocation location = convertResultSetToLocation(resultSet);
+            final BoardLocation location = convertResultSetToLocation(resultSet);
             locations.add(location);
         }
         return new BoardLocations(locations);

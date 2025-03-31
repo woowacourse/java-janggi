@@ -16,7 +16,7 @@ public final class InputView {
         System.out.println("""
                 불러올 게임 방의 번호를 입력해 주세요.
                 활성화된 방이 아닐 경우 새로운 게임을 시작합니다.""");
-        int input = parseToInt(scanner.nextLine());
+        final int input = parseToInt(scanner.nextLine());
         return new Choice(input);
     }
 
@@ -29,7 +29,7 @@ public final class InputView {
                 3. 왼상 차림(상마상마)
                 4. 오른상 차림(마상마상)
                 """);
-        int input = parseToInt(scanner.nextLine());
+        final int input = parseToInt(scanner.nextLine());
         return new Choice(input);
     }
 

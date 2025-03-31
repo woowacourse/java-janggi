@@ -17,7 +17,7 @@ public enum PieceDefinition {
     private final String nameForCho;
     private final Function<Player, Piece> pieceFactory;
 
-    PieceDefinition(final String nameForHan, final String nameForCho, Function<Player, Piece> pieceFactory) {
+    PieceDefinition(final String nameForHan, final String nameForCho, final Function<Player, Piece> pieceFactory) {
         this.nameForHan = nameForHan;
         this.nameForCho = nameForCho;
         this.pieceFactory = pieceFactory;
@@ -30,7 +30,7 @@ public enum PieceDefinition {
         return this.nameForCho;
     }
 
-    public Piece apply(Player player) {
+    public Piece apply(final Player player) {
         return pieceFactory.apply(player);
     }
 }

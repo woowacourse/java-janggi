@@ -196,7 +196,7 @@ public final class FakePreparedStatement implements PreparedStatement {
 
         final List<Map<String, Object>> values = new ArrayList<>();
         for (final Integer gameId : activateGameIds) {
-            Map<String, Object> value = new HashMap<>();
+            final Map<String, Object> value = new HashMap<>();
             value.put("id", gameId);
             values.add(value);
         }

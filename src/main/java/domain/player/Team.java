@@ -8,7 +8,7 @@ public enum Team {
     private final int initialRow;
     private final String name;
 
-    Team(final boolean isFirst, int initialRow, final String name) {
+    Team(final boolean isFirst, final int initialRow, final String name) {
         this.isFirst = isFirst;
         this.initialRow = initialRow;
         this.name = name;
@@ -19,7 +19,7 @@ public enum Team {
         return name;
     }
 
-    public int calculateRowForPiece(int row) {
+    public int calculateRowForPiece(final int row) {
         if (this.equals(HAN)) {
             return getInitialRow() - row;
         }

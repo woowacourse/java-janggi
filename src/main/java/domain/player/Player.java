@@ -24,7 +24,7 @@ public final class Player {
         this.score = Score.generateInitialScoreByTeam(team);
     }
 
-    public static int validateId(int value) {
+    public static int validateId(final int value) {
         if (value <= 0) {
             throw new IllegalArgumentException("Player ID는 음수일 수 없습니다.");
         }
@@ -39,7 +39,7 @@ public final class Player {
         this.isTurn = !isTurn;
     }
 
-    public void addScore(Score other) {
+    public void addScore(final Score other) {
         this.score = score.add(other);
     }
 

@@ -23,7 +23,7 @@ public final class Cannon implements Piece {
         this.movement = new StraightLineMovement();
     }
 
-    public Cannon(Player player, PieceMovement movement) {
+    public Cannon(final Player player, final PieceMovement movement) {
         this.player = player;
         this.movement = movement;
     }

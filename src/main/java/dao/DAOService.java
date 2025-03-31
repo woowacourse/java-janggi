@@ -30,7 +30,7 @@ public final class DAOService {
         return gameDAO.create();
     }
 
-    public void deactivateGame(int id) {
+    public void deactivateGame(final int id) {
         gameDAO.deactivate(id);
     }
 
@@ -39,7 +39,7 @@ public final class DAOService {
         return playerDAO.findById(id);
     }
 
-    public void switchTurn(List<Player> players) {
+    public void switchTurn(final List<Player> players) {
         playerDAO.updateBatch(players);
     }
 
@@ -48,11 +48,11 @@ public final class DAOService {
         return playerDAO.findAllByGameId(choice.value());
     }
 
-    public void registerLocations(BoardLocations boardLocations) {
+    public void registerLocations(final BoardLocations boardLocations) {
         boardLocationDAO.createBatch(boardLocations);
     }
 
-    public void changeLocation(Point start, Point arrival, int gameId) {
+    public void changeLocation(final Point start, final Point arrival, final int gameId) {
         boardLocationDAO.deleteLocationAt(arrival, gameId);
         boardLocationDAO.updateLocation(start, arrival, gameId);
     }

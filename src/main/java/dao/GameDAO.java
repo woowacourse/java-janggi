@@ -41,9 +41,10 @@ public final class GameDAO {
     }
 
     private void getNextId() {
-        try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT MAX(id) AS last_id FROM game");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (final Connection connection = connector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(
+                     "SELECT MAX(id) AS last_id FROM game");
+             final ResultSet resultSet = preparedStatement.executeQuery()) {
             incrementLastId(resultSet);
         } catch (final SQLException e) {
             throw new RuntimeException("데이터베이스에서 게임 ID를 초기화하는 데 실패했습니다: " + e);
@@ -58,16 +59,16 @@ public final class GameDAO {
 
     public List<Integer> findAllActivateGames() {
         final String query = "SELECT game.id FROM game WHERE is_activate=true";
-        try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (final Connection connection = connector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            final ResultSet resultSet = preparedStatement.executeQuery();
             return convertResultSetToGameIds(resultSet);
         } catch (final SQLException e) {
             throw new RuntimeException("데이터베이스에서 복수의 플레이어를 조회하는 데 실패했습니다: " + e);
         }
     }
 
-    private List<Integer> convertResultSetToGameIds(ResultSet resultSet) throws SQLException {
+    private List<Integer> convertResultSetToGameIds(final ResultSet resultSet) throws SQLException {
         final List<Integer> gameIds = new ArrayList<>();
         while (resultSet.next()) {
             gameIds.add(resultSet.getInt("id"));

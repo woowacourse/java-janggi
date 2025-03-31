@@ -29,7 +29,7 @@ public final class OutputView {
         System.out.println(message);
     }
 
-    public void printActivateGames(List<Integer> gameIds) {
+    public void printActivateGames(final List<Integer> gameIds) {
         final StringBuilder builder = new StringBuilder();
         for (Integer gameId : gameIds) {
             builder.append(gameId)

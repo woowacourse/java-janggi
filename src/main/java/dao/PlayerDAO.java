@@ -77,11 +77,11 @@ public final class PlayerDAO {
 
     public List<Player> findAllByGameId(final int gameId) {
         final String query = "SELECT * FROM player WHERE game_id = ?";
-        try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (final Connection connection = connector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setInt(1, gameId);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            final ResultSet resultSet = preparedStatement.executeQuery();
             return convertResultSetToPlayers(resultSet);
         } catch (final SQLException e) {
             throw new RuntimeException("데이터베이스에서 복수의 플레이어를 조회하는 데 실패했습니다: " + e);
@@ -89,9 +89,10 @@ public final class PlayerDAO {
     }
 
     private void getNextId() {
-        try (Connection connection = connector.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT MAX(id) AS last_id FROM player");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (final Connection connection = connector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(
+                     "SELECT MAX(id) AS last_id FROM player");
+             final ResultSet resultSet = preparedStatement.executeQuery()) {
             incrementLastId(resultSet);
         } catch (final SQLException e) {
             throw new RuntimeException("데이터베이스에서 플레이어의 Id를 조회하는 데 실패했습니다: " + e);
@@ -104,7 +105,7 @@ public final class PlayerDAO {
         }
     }
 
-    private List<Player> convertResultSetToPlayers(ResultSet resultSet) throws SQLException {
+    private List<Player> convertResultSetToPlayers(final ResultSet resultSet) throws SQLException {
         final List<Player> players = new ArrayList<>();
         while (resultSet.next()) {
             final Player player = new Player(
