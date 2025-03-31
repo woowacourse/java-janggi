@@ -15,4 +15,6 @@ public interface GameDao {
     void updateCurrentTurn(Long gameId, Dynasty currentTurn);
 
     void updateStatus(Long gameId, Status status);
+
+    Optional<GameEntity> findByName(String name);
 }

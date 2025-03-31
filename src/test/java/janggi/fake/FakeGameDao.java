@@ -50,4 +50,11 @@ public class FakeGameDao implements GameDao {
         GameEntity gameEntity = findById(gameId).orElseThrow(IllegalArgumentException::new);
         gameEntity.setStatus(status);
     }
+
+    @Override
+    public Optional<GameEntity> findByName(String name) {
+        return gameEntities.stream()
+                .filter(gameEntity -> gameEntity.getName().equals(name))
+                .findFirst();
+    }
 }

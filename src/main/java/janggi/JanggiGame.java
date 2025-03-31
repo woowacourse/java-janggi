@@ -24,18 +24,19 @@ public class JanggiGame {
 
     public void start() {
         try {
-            GameEntity gameEntity = janggiService.findRunningGame().orElseGet(this::initializeGame);
+            String gameName = initializeView.readGameName();
+            if (gameName.equals("new")) {
+                gameName = initializeView.readNewGameName();
+                janggiService.createGame(
+                        gameName,
+                        initializeView.readBoardSetUp(Dynasty.CHU),
+                        initializeView.readBoardSetUp(Dynasty.HAN));
+            }
+            GameEntity gameEntity = janggiService.findRunningGameByNameOrThrow(gameName);
             play(gameEntity);
         } catch (IllegalArgumentException e) {
             System.out.println("[ERROR] " + e.getMessage());
         }
-    }
-
-    private GameEntity initializeGame() {
-        janggiService.createGame(
-                initializeView.readBoardSetUp(Dynasty.CHU),
-                initializeView.readBoardSetUp(Dynasty.HAN));
-        return janggiService.findRunningGame().orElseThrow();
     }
 
     private void play(GameEntity gameEntity) {

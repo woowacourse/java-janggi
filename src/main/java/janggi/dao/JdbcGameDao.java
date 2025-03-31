@@ -21,6 +21,7 @@ public class JdbcGameDao implements GameDao {
             if (resultSet.next()) {
                 return Optional.of(new GameEntity(
                         resultSet.getLong("id"),
+                        resultSet.getString("name"),
                         Status.from(resultSet.getInt("status")),
                         Dynasty.valueOf(resultSet.getString("current_turn"))
                 ));
@@ -42,6 +43,7 @@ public class JdbcGameDao implements GameDao {
             if (resultSet.next()) {
                 return Optional.of(new GameEntity(
                         resultSet.getLong("id"),
+                        resultSet.getString("name"),
                         Status.from(resultSet.getInt("status")),
                         Dynasty.valueOf(resultSet.getString("current_turn"))
                 ));
@@ -54,11 +56,12 @@ public class JdbcGameDao implements GameDao {
 
     @Override
     public void addGame(GameEntity gameEntity) {
-        final var query = "INSERT INTO game (status, current_turn) VALUES(?, ?)";
+        final var query = "INSERT INTO game (name, status, current_turn) VALUES(?, ?, ?)";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, gameEntity.getStatus().getSymbol());
-            preparedStatement.setString(2, gameEntity.getCurrentTurn().name());
+            preparedStatement.setString(1, gameEntity.getName());
+            preparedStatement.setInt(2, gameEntity.getStatus().getSymbol());
+            preparedStatement.setString(3, gameEntity.getCurrentTurn().name());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new DatabaseSQLException(e);
@@ -86,6 +89,28 @@ public class JdbcGameDao implements GameDao {
             preparedStatement.setInt(1, status.getSymbol());
             preparedStatement.setLong(2, gameId);
             preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new DatabaseSQLException(e);
+        }
+    }
+
+    @Override
+    public Optional<GameEntity> findByName(String name) {
+        final var query = "SELECT * FROM game WHERE name = ?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, name);
+
+            final var resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return Optional.of(new GameEntity(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        Status.from(resultSet.getInt("status")),
+                        Dynasty.valueOf(resultSet.getString("current_turn"))
+                ));
+            }
+            return Optional.empty();
         } catch (final SQLException e) {
             throw new DatabaseSQLException(e);
         }

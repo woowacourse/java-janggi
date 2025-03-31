@@ -10,12 +10,8 @@ public class InitializeView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public String readPlayerNickname(Dynasty dynasty) {
-        if (dynasty == Dynasty.HAN) {
-            System.out.println("\n한나라를 플레이 할 닉네임을 입력해주세요.");
-            return readLine();
-        }
-        System.out.println("\n초나라를 플레이 할 닉네임을 입력해주세요.");
+    public String readGameName() {
+        System.out.println("참여하고 싶은 게임방의 이름을 입력하세요. 새로운 게임을 만들려면 new를 입력해주세요.");
         return readLine();
     }
 
@@ -65,5 +61,14 @@ public class InitializeView {
 
     private String readLine() {
         return scanner.nextLine().trim();
+    }
+
+    public String readNewGameName() {
+        System.out.println("새로 만들 게임방의 이름을 입력하세요.");
+        String name = readLine();
+        if (name.equals("new")) {
+            throw new IllegalArgumentException("게임이름은 new가 될 수 없습니다.");
+        }
+        return name;
     }
 }

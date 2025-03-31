@@ -24,7 +24,6 @@ import janggi.fake.FakeGameDao;
 import janggi.fake.FakePieceDao;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -34,14 +33,14 @@ class JanggiServiceTest {
     @Test
     void findRunningGame() {
         //given
-        GameEntity gameEntity = new GameEntity(1L, Status.RUN, Dynasty.HAN);
+        GameEntity gameEntity = new GameEntity(1L, "abc", Status.RUN, Dynasty.HAN);
         JanggiService janggiService = new JanggiService(new FakeGameDao(gameEntity), new FakePieceDao());
 
         //when
-        Optional<GameEntity> runningGame = janggiService.findRunningGame();
+        GameEntity runningGame = janggiService.findRunningGameByNameOrThrow("abc");
 
         //then
-        assertThat(runningGame).hasValue(gameEntity);
+        assertThat(runningGame).isEqualTo(gameEntity);
     }
 
     @DisplayName("게임을 만든다.")
@@ -53,10 +52,10 @@ class JanggiServiceTest {
         JanggiService janggiService = new JanggiService(gameDao, pieceDao);
 
         //when
-        janggiService.createGame(HanBoardSetUp.INNER_ELEPHANT, ChuBoardSetUp.INNER_ELEPHANT);
+        janggiService.createGame("abc", HanBoardSetUp.INNER_ELEPHANT, ChuBoardSetUp.INNER_ELEPHANT);
 
         //then
-        assertThat(gameDao.findById(1L)).hasValue(new GameEntity(1L, Status.RUN, Dynasty.CHU));
+        assertThat(gameDao.findById(1L)).hasValue(new GameEntity(1L, "abc", Status.RUN, Dynasty.CHU));
         assertThat(pieceDao.findAllByGameId(1L))
                 .extracting("point", "dynasty", "pieceType", "gameId")
                 .containsExactlyInAnyOrder(
@@ -113,7 +112,7 @@ class JanggiServiceTest {
     void findJanggiStatusByGameId() {
         //given
         GameDao gameDao = new FakeGameDao(
-                new GameEntity(1L, Status.RUN, Dynasty.HAN)
+                new GameEntity(1L, "abc", Status.RUN, Dynasty.HAN)
         );
         PieceDao pieceDao = new FakePieceDao(
                 new PieceEntity(1L, new Point(1, 1), Dynasty.HAN, PieceType.GENERAL, 1L),
@@ -136,7 +135,7 @@ class JanggiServiceTest {
     void move() {
         //given
         GameDao gameDao = new FakeGameDao(
-                new GameEntity(1L, Status.RUN, Dynasty.HAN)
+                new GameEntity(1L, "abc", Status.RUN, Dynasty.HAN)
         );
         PieceDao pieceDao = new FakePieceDao(
                 new PieceEntity(1L, new Point(1, 4), Dynasty.HAN, PieceType.GENERAL, 1L),
@@ -156,7 +155,7 @@ class JanggiServiceTest {
                 new PieceEntity(1L, new Point(1, 5), Dynasty.HAN, PieceType.GENERAL, 1L),
                 new PieceEntity(2L, new Point(10, 4), Dynasty.CHU, PieceType.GENERAL, 1L)
         ));
-        assertThat(gameDao.findById(1L)).hasValue(new GameEntity(1L, Status.RUN, Dynasty.CHU));
+        assertThat(gameDao.findById(1L)).hasValue(new GameEntity(1L, "abc", Status.RUN, Dynasty.CHU));
     }
 
     @DisplayName("기물을 움직이고 상대편 말이 죽었다면 게임이 끝난다.")
@@ -164,7 +163,7 @@ class JanggiServiceTest {
     void move_gameEnd() {
         //given
         GameDao gameDao = new FakeGameDao(
-                new GameEntity(1L, Status.RUN, Dynasty.CHU)
+                new GameEntity(1L, "abc", Status.RUN, Dynasty.CHU)
         );
         PieceDao pieceDao = new FakePieceDao(
                 new PieceEntity(1L, new Point(1, 4), Dynasty.HAN, PieceType.GENERAL, 1L),
@@ -185,7 +184,7 @@ class JanggiServiceTest {
                 new PieceEntity(2L, new Point(10, 4), Dynasty.CHU, PieceType.GENERAL, 1L),
                 new PieceEntity(3L, new Point(1, 4), Dynasty.CHU, PieceType.CHARIOT, 1L)
         ));
-        assertThat(gameDao.findById(1L)).hasValue(new GameEntity(1L, Status.END, Dynasty.CHU));
+        assertThat(gameDao.findById(1L)).hasValue(new GameEntity(1L, "abc", Status.END, Dynasty.CHU));
     }
 
     @DisplayName("게임 id에 해당하는 장기판을 가져온다.")
@@ -193,7 +192,7 @@ class JanggiServiceTest {
     void findJanggiBoardByGameId() {
         //given
         GameDao gameDao = new FakeGameDao(
-                new GameEntity(1L, Status.RUN, Dynasty.CHU)
+                new GameEntity(1L, "abc", Status.RUN, Dynasty.CHU)
         );
         PieceDao pieceDao = new FakePieceDao(
                 new PieceEntity(1L, new Point(1, 4), Dynasty.HAN, PieceType.GENERAL, 1L),
