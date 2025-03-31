@@ -11,6 +11,11 @@ import view.ErrorMessage;
 public class Ma implements PieceRule {
 
     @Override
+    public int getScore() {
+        return 5;
+    }
+
+    @Override
     public boolean isPo() {
         return false;
     }

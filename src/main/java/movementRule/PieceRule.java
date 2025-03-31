@@ -16,4 +16,6 @@ public interface PieceRule {
 
     Positions makeRoute(final Position startPosition, final Position destination);
 
+    int getScore();
+
 }

@@ -11,6 +11,11 @@ import view.ErrorMessage;
 public class Byeong implements PieceRule {
 
     @Override
+    public int getScore() {
+        return 1;
+    }
+
+    @Override
     public void canMoveTo(final Position startPosition, final Position destination) {
         if (isInvalidByeongMove(startPosition, destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("기물이 움직일 수 없는 위치입니다."));

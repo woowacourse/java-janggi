@@ -15,6 +15,11 @@ public abstract sealed class LinearMover
     private final Position CHO_CENTER = new Position(8, 4);
 
     @Override
+    public int getScore() {
+        return 7;
+    }
+
+    @Override
     public void canMoveTo(final Position startPosition, Position destination) {
         if (isInvalidLinearMove(startPosition, destination)) {
             throw new IllegalArgumentException(ErrorMessage.formatMessage("기물이 움직일 수 없는 위치입니다."));

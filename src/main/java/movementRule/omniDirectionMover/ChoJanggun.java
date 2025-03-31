@@ -7,6 +7,11 @@ import pieceProperty.PieceType;
 public class ChoJanggun extends ChoOmniDirectionalMover{
 
     @Override
+    public int getScore() {
+        return 10;
+    }
+
+    @Override
     public boolean isPo() {
         return false;
     }

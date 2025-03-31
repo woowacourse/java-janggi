@@ -34,6 +34,8 @@ public class Piece {
         return pieceRule.getPieceType();
     }
 
+    public int getScore() { return pieceRule.getScore(); }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

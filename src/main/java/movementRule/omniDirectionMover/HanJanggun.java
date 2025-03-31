@@ -7,6 +7,11 @@ import pieceProperty.PieceType;
 public class HanJanggun extends HanOmniDirectionalMover {
 
     @Override
+    public int getScore() {
+        return 10;
+    }
+
+    @Override
     public boolean isPo() {
         return false;
     }
