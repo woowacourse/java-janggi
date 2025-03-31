@@ -24,4 +24,8 @@ public class Turn {
     public void next() {
         accumulatedCount++;
     }
+
+    public int getAccumulatedCount() {
+        return accumulatedCount;
+    }
 }
