@@ -1,10 +1,10 @@
 package dao;
 
-import static dao.DatabaseConfig.DATABASE;
-import static dao.DatabaseConfig.OPTION;
-import static dao.DatabaseConfig.PASSWORD;
-import static dao.DatabaseConfig.SERVER;
-import static dao.DatabaseConfig.USERNAME;
+import static dao.DatabaseConfig.getDatabase;
+import static dao.DatabaseConfig.getOption;
+import static dao.DatabaseConfig.getPassword;
+import static dao.DatabaseConfig.getServer;
+import static dao.DatabaseConfig.getUsername;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,10 +22,10 @@ public class ConnectionProvider {
             try {
                 connection = DriverManager.getConnection(
                         "jdbc:mysql://"
-                                + SERVER
+                                + getServer()
                                 + "/"
-                                + DATABASE
-                                + OPTION, USERNAME, PASSWORD);
+                                + getDatabase()
+                                + getOption(), getUsername(), getPassword());
             } catch (final SQLException e) {
                 throw new RuntimeException("DB 커넥션 실패");
             }

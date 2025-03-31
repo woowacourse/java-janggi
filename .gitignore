@@ -1,10 +1,12 @@
 HELP.md
 .gradle
-build/
+/build
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**
-!**/src/test/**
-src/main/java/dao.DatabaseConfig.java
+src/main/resources/database.properties
+src/main/**
+src/test/**
+!src/main/java/**
+!src/test/java/**
 
 ### STS ###
 .apt_generated

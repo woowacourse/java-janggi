@@ -1,9 +1,9 @@
 package dao;
 
-import static dao.DatabaseConfig.OPTION;
-import static dao.DatabaseConfig.PASSWORD;
-import static dao.DatabaseConfig.SERVER;
-import static dao.DatabaseConfig.USERNAME;
+import static dao.DatabaseConfig.getOption;
+import static dao.DatabaseConfig.getPassword;
+import static dao.DatabaseConfig.getServer;
+import static dao.DatabaseConfig.getUsername;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import domain.janggi.JanggiStatus;
@@ -28,8 +28,10 @@ class JanggiDaoTest {
 
     @BeforeEach
     void setUp() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + "janggi_test" + OPTION, USERNAME,
-                PASSWORD);
+        connection = DriverManager.getConnection("jdbc:mysql://"
+                + getServer()
+                + "/" + "janggi_test"
+                + getOption(), getUsername(), getPassword());
         janggiDao.deleteAll(connection);
     }
 
