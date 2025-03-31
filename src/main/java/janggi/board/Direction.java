@@ -30,14 +30,6 @@ public enum Direction {
         return List.of(UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT);
     }
 
-    public boolean isStraight() {
-        return this == LEFT || this == RIGHT || this == UP || this == DOWN;
-    }
-
-    public boolean isDiagonal() {
-        return this == UP_LEFT || this == UP_RIGHT || this == DOWN_LEFT || this == DOWN_RIGHT;
-    }
-
     public int getDx() {
         return dx;
     }
