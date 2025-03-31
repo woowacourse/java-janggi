@@ -57,70 +57,6 @@ public class Position {
         return row.canDown(rowAmount);
     }
 
-    public Position moveUp() {
-        return new Position(column.down(), row);
-    }
-
-    public boolean canMoveUp() {
-        return column.canDown();
-    }
-
-    public Position moveDown() {
-        return new Position(column.up(), row);
-    }
-
-    public boolean canMoveDown() {
-        return column.canUp();
-    }
-
-    public Position moveLeft() {
-        return new Position(column, row.down());
-    }
-
-    public boolean canMoveLeft() {
-        return row.canDown();
-    }
-
-    public Position moveRight() {
-        return new Position(column, row.up());
-    }
-
-    public boolean canMoveRight() {
-        return row.canUp();
-    }
-
-    public Position moveUpRight() {
-        return new Position(column.down(), row.up());
-    }
-
-    public boolean canMoveUpRight() {
-        return column.canDown() && row.canUp();
-    }
-
-    public Position moveUpLeft() {
-        return new Position(column.down(), row.down());
-    }
-
-    public boolean canMoveUpLeft() {
-        return column.canDown() && row.canDown();
-    }
-
-    public Position moveDownRight() {
-        return new Position(column.up(), row.up());
-    }
-
-    public boolean canMoveDownRight() {
-        return column.canUp() && row.canUp();
-    }
-
-    public Position moveDownLeft() {
-        return new Position(column.up(), row.down());
-    }
-
-    public boolean canMoveDownLeft() {
-        return column.canUp() && row.canDown();
-    }
-
     public Column getColumn() {
         return column;
     }
@@ -149,9 +85,5 @@ public class Position {
             "column=" + column +
             ", row=" + row +
             '}';
-    }
-
-    public Position copyOf() {
-        return new Position(this.column, this.row);
     }
 }

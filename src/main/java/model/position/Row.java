@@ -37,10 +37,6 @@ public enum Row {
         return findRowFrom(this.value - Math.abs(decreaseAmount));
     }
 
-    public boolean canDown() {
-        return this.value > MIN_VALUE;
-    }
-
     public boolean canDown(int decreaseAmount) {
         return this.value - Math.abs(decreaseAmount) >= MIN_VALUE;
     }
@@ -51,10 +47,6 @@ public enum Row {
 
     public Row up(int increaseAmount) {
         return findRowFrom(this.value + increaseAmount);
-    }
-
-    public boolean canUp() {
-        return this.value < MAX_VALUE;
     }
 
     public boolean canUp(int increaseAmount) {
