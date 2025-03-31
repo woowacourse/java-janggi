@@ -81,6 +81,10 @@ public abstract class Piece {
         return false;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
     protected abstract PossibleMovements getPossibleMovements(Board board, Position start);
     protected abstract void validatePath(Board board, Path path);
     protected abstract void validatePieceOnGoal(Board board, Position goal);

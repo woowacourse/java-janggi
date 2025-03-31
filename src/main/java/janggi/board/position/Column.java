@@ -61,4 +61,8 @@ public enum Column {
     public int subtract(Column column) {
         return value - column.value;
     }
+
+    public int getValue() {
+        return value;
+    }
 }
