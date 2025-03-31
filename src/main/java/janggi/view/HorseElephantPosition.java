@@ -17,7 +17,8 @@ public enum HorseElephantPosition {
     }
 
     public static HorseElephantPosition find(String input) {
-        return Arrays.stream(HorseElephantPosition.values()).filter(value -> value.input.equals(input))
+        return Arrays.stream(HorseElephantPosition.values())
+                .filter(value -> value.input.equals(input))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_MASANG_INPUT.getMessage()));
     }
