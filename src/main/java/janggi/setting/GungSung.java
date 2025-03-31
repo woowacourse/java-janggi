@@ -23,7 +23,7 @@ public enum GungSung {
         return gungSungs.stream().anyMatch(gungSung -> gungSung.isInGungSung(position));
     }
 
-    public boolean isInGungSung(Position position) {
+    private boolean isInGungSung(Position position) {
         boolean isXInOfRange = position.x() >= minX && position.x() <= maxX;
         boolean isYInOfRange = position.y() >= minY && position.y() <= maxY;
         return isXInOfRange && isYInOfRange;
