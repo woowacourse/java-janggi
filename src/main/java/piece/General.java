@@ -9,11 +9,8 @@ public class General extends Piece  {
     private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP, Movement.DOWN,
             Movement.LEFT_UP, Movement.LEFT_DOWN, Movement.RIGHT_UP, Movement.RIGHT_DOWN);
 
-    public General() {
-    }
-
     public General(final Point current) {
-        super(current);
+        super(PieceType.GENERAL, current);
     }
 
     @Override

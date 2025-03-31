@@ -29,7 +29,7 @@ public class Pieces {
 
     public boolean isKingDead() {
         return pieces.stream()
-                .noneMatch(piece -> piece.isSameType(new General()));
+                .noneMatch(piece -> PieceType.GENERAL.equals(piece.type()));
     }
 
     public int diePieceInPoint(Point point) {

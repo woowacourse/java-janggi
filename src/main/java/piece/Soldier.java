@@ -12,12 +12,8 @@ public class Soldier extends Piece {
 
     private final Team team;
 
-    public Soldier(Team team) {
-        this.team = team;
-    }
-
     public Soldier(final Point current, final Team team) {
-        super(current);
+        super(PieceType.SOLDIER, current);
         this.team = team;
     }
 

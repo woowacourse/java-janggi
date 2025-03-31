@@ -8,11 +8,8 @@ public class Chariot extends Piece {
 
     private static final List<Movement> PATH = List.of(Movement.LEFT, Movement.RIGHT, Movement.UP, Movement.DOWN);
 
-    public Chariot() {
-    }
-
     public Chariot(final Point current) {
-        super(current);
+        super(PieceType.CHARIOT, current);
     }
 
     @Override

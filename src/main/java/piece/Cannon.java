@@ -5,11 +5,8 @@ import direction.Point;
 
 public class Cannon extends Piece {
 
-    public Cannon() {
-    }
-
-    public Cannon(final Point current) {
-        super(current);
+    public Cannon(Point current) {
+        super(PieceType.CANNON, current);
     }
 
     @Override
@@ -56,7 +53,7 @@ public class Cannon extends Piece {
     }
 
     private void validateIsNotCannon(final Piece piece) {
-        if (piece.isSameType(this)) {
+        if (isSameType(piece)) {
             throw new IllegalArgumentException("[ERROR] 포가 존재하여 움직일 수 없습니다.");
         }
     }

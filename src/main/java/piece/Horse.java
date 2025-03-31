@@ -18,11 +18,8 @@ public class Horse extends Piece {
             Movement.LEFT_LEFT_DOWN, List.of(Movement.LEFT)
     );
 
-    public Horse() {
-    }
-
     public Horse(final Point current) {
-        super(current);
+        super(PieceType.HORSE, current);
     }
 
     @Override
