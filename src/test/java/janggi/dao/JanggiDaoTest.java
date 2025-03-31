@@ -31,12 +31,14 @@ class JanggiDaoTest {
 
         @Test
         void 초기_장기_기물_종류를_추가한다() {
-            janggiDao.insertInitialPieceType();
+            assertThatNoException()
+                    .isThrownBy(() -> janggiDao.insertInitialPieceType());
         }
 
         @Test
         void 초기_팀을_추가한다() {
-            janggiDao.insertInitialTeam(TeamType.CHO);
+            assertThatNoException()
+                    .isThrownBy(() -> janggiDao.insertInitialTeam(TeamType.CHO));
         }
 
         @Test
