@@ -1,13 +1,11 @@
 package model;
 
-import java.util.List;
 import java.util.Map;
 import model.piece.Piece;
 import model.piece.PieceInitializer;
 import model.piece.Team;
 import model.position.Position;
 import model.piece.Score;
-import utils.InputParser;
 
 public class JanggiGame {
 
@@ -45,17 +43,6 @@ public class JanggiGame {
 
     public boolean isEnd() {
         return !pieces.isGeneralAlive();
-    }
-
-    public Position createPosition(String choiceDeparture) {
-        return createPositionFrom(choiceDeparture);
-    }
-
-    private Position createPositionFrom(String choiceDeparture) {
-        List<Integer> columnAndRowOfDeparture = InputParser.splitAndConvert(choiceDeparture);
-        int column = columnAndRowOfDeparture.get(0);
-        int row = columnAndRowOfDeparture.get(1);
-        return new Position(column, row);
     }
 
     public Piece findPieceBy(Position departure) {

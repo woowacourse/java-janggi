@@ -39,8 +39,7 @@ public class Application {
     private static void createArrivalAndMove(Position departure) {
         retryOnInvalidInput(() -> {
             Piece pieceOfDeparture = janggiService.findPieceBy(departure);
-            String choiceArrival = inputView.choiceArrivalOf(pieceOfDeparture);
-            Position arrival = janggiService.createPosition(choiceArrival);
+            Position arrival = inputView.choiceArrivalOf(pieceOfDeparture);
             janggiService.move(departure, arrival);
             return null;
         });
@@ -48,13 +47,14 @@ public class Application {
 
     private static Optional<Position> createDeparture() {
         return retryOnInvalidInput(() -> {
-            String choiceDeparture = inputView.choiceDeparture();
-            if (choiceDeparture.equals("종료")) {
+            Optional<Position> departure = inputView.choiceDeparture();
+            if (departure.isEmpty()) {
                 Score score = janggiService.showGameResult();
                 outputView.printGameResult(score);
-                return Optional.empty();
+                return departure;
             }
-            return Optional.ofNullable(janggiService.createPosition(choiceDeparture));
+            janggiService.findPieceBy(departure.get()); // 해당 위치에 기물이 있는지 검증한다.
+            return departure;
         });
     }
 

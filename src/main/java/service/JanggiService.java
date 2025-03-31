@@ -45,10 +45,6 @@ public class JanggiService {
         return janggiGame.isEnd();
     }
 
-    public Position createPosition(String choiceDeparture) {
-        return janggiGame.createPosition(choiceDeparture);
-    }
-
     public Piece findPieceBy(Position departure) {
         return janggiGame.findPieceBy(departure);
     }
