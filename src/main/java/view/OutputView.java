@@ -13,10 +13,10 @@ import java.util.Optional;
 
 public class OutputView {
 
-    public static final String red = "\u001B[31m";
-    public static final String green = "\u001B[32m";
-    public static final String white = "\u001B[37m";
-    public static final String exit = "\u001B[0m";
+    public static final String RED = "\u001B[31m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String WHITE = "\u001B[37m";
+    public static final String EXIT = "\u001B[0m";
 
     public void printJanggiBoard(JanggiGame game) {
         JanggiBoard board = game.getBoard();
@@ -25,15 +25,15 @@ public class OutputView {
             for (int j = 0; j < 9; j++) {
                 Optional<Piece> optionalPiece = board.findPiece(new Position(i + 1, j + 1));
                 if (optionalPiece.isEmpty()) {
-                    stringBuilder.append(white + "ㅁ" + exit);
+                    stringBuilder.append(WHITE + "ㅁ" + EXIT);
                     continue;
                 }
                 Piece piece = optionalPiece.get();
                 if (piece.getTeam() == Team.HAN) {
-                    stringBuilder.append(convertToString(red, piece));
+                    stringBuilder.append(convertToString(RED, piece));
                 }
                 if (piece.getTeam() == Team.CHO) {
-                    stringBuilder.append(convertToString(green, piece));
+                    stringBuilder.append(convertToString(GREEN, piece));
                 }
             }
             stringBuilder.append("\n");
@@ -70,7 +70,7 @@ public class OutputView {
                 result = "포";
                 break;
         }
-        return color + result + exit;
+        return color + result + EXIT;
     }
 
     public void printErrorMessage(Exception exception) {
