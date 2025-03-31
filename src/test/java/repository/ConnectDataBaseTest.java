@@ -5,11 +5,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 import repository.connection.ConnectDatabase;
-import repository.connection.ConnectMysql;
 
-public class ConnectMysqlTest {
+public class ConnectDataBaseTest {
 
-    private final ConnectDatabase connectMysql = new ConnectMysql();
+    private final ConnectDatabase connectMysql = new ConnectH2();
 
     @Test
     public void connection() {
