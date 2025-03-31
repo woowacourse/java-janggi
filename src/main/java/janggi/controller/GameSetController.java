@@ -8,6 +8,7 @@ import janggi.dto.SetInfoDto;
 import janggi.service.GameSetService;
 import janggi.view.GameSettingView;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class GameSetController {
     private final GameSettingView gameSettingView;
@@ -19,8 +20,8 @@ public class GameSetController {
     }
 
     public SetInfoDto setJanggiGame() {
-        return RetryUtil.getWithRetry(() -> {
-            MainOption mainOption = RetryUtil.getWithRetry(gameSettingView::readMainOption);
+        return getWithRetry(() -> {
+            MainOption mainOption = getWithRetry(gameSettingView::readMainOption);
 
             if (mainOption == MainOption.NEW_GAME) {
                 return setNewGame();
@@ -37,7 +38,7 @@ public class GameSetController {
     }
 
     private BoardSetup readBoardSetup(TeamColor teamColor) {
-        return RetryUtil.getWithRetry(() -> {
+        return getWithRetry(() -> {
             int setNumber = gameSettingView.readBoardSetup(teamColor);
                     return BoardSetup.from(setNumber);
         });
@@ -47,7 +48,7 @@ public class GameSetController {
         List<GameRoomDto> allPlayingRooms = getGameRoomDtos();
         gameSettingView.printRooms(allPlayingRooms);
 
-        int selectedIndex = RetryUtil.getWithRetry(() -> getSelectedIndexFromUser(allPlayingRooms));
+        int selectedIndex = getWithRetry(() -> getSelectedIndexFromUser(allPlayingRooms));
         int roomId = allPlayingRooms.get(selectedIndex).roomId();
 
         JanggiGame game = gameSetService.getGameByRoomId(roomId);
@@ -70,5 +71,18 @@ public class GameSetController {
             throw new IllegalArgumentException("잘못된 입력입니다.");
         }
         return selectedIndex;
+    }
+
+    private static <T> T getWithRetry(Supplier<T> task) {
+        int attempts = 0;
+        while (attempts < 100) {
+            try {
+                return task.get();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                attempts++;
+            }
+        }
+        throw new IllegalStateException("최대 재시도 횟수(100)를 초과했습니다. 프로그램을 종료합니다.");
     }
 }

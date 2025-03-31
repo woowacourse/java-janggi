@@ -17,7 +17,7 @@ public class GamePlayController {
         gameRunningView.printBoard(janggiService.getBoard());
 
         while (!janggiService.isGameFinished()) {
-            RetryUtil.processWithRetry(this::handleUserCommand);
+            processWithRetry(this::handleUserCommand);
         }
 
         gameRunningView.printGameResult(janggiService.getGameResult());
@@ -46,5 +46,19 @@ public class GamePlayController {
     private void gameQuit() {
         System.out.println("게임 종료");
         System.exit(0);
+    }
+
+    private static void processWithRetry(Runnable runnable) {
+        int attempts = 0;
+        while (attempts < 100) {
+            try {
+                runnable.run();
+                return;
+            } catch (IllegalArgumentException e) {
+                System.out.println("[Error] " + e.getMessage() + "\n");
+                attempts++;
+            }
+        }
+        throw new IllegalStateException("최대 재시도 횟수(100)를 초과했습니다. 프로그램을 종료합니다.");
     }
 }
