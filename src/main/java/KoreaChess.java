@@ -6,9 +6,9 @@ import domain.game.SetUp;
 import domain.piece.Piece;
 import domain.piece.PieceInitializer;
 import domain.piece.Pieces;
-import domain.position.Position;
 import domain.player.Player;
 import domain.player.Team;
+import domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,7 +120,7 @@ public class KoreaChess {
         return new Board(boardElements);
     }
 
-    public Optional<Board> findBoard(final Player han, final Player cho) {
+    private Optional<Board> findBoard(final Player han, final Player cho) {
         BoardDao boardDao = new BoardDao();
         if (boardDao.findCurrentTurn().isPresent()) {
             PieceDao pieceDao = new PieceDao();
