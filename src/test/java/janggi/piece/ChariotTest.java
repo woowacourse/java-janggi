@@ -96,5 +96,18 @@ class ChariotTest {
         // then
         assertThat(chariot.canMove(start, end, board)).isFalse();
     }
+
+    @DisplayName("차가 궁안에서 대각선으로 움직일 때 가운데를 안지나치면 못움직인다.")
+    @Test
+    void testDiagonalMoveNotThroughCenter() {
+        // given
+        final Board board = TestBoardGenerator.generateEmpty();
+        final Position start = new Position(Row.EIGHT, Column.FIVE);
+        final Position end = new Position(Row.NINE, Column.FOUR);
+        final Chariot chariot = Chariot.of(Team.HAN);
+        // when
+        // then
+        assertThat(chariot.canMove(start, end, board)).isFalse();
+    }
 }
 

@@ -1,17 +1,19 @@
 package janggi.piece;
 
+import janggi.moveStrategy.MoveStrategy;
+import janggi.moveStrategy.SlidePalaceStrategy;
 import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
 
 public final class Chariot extends Piece {
 
-    private Chariot(final Team team, final MovingRules movingRules) {
-        super(team, movingRules);
+    private Chariot(final Team team, final MoveStrategy moveStrategy) {
+        super(team, moveStrategy);
     }
 
     public static Chariot of(final Team team) {
         final MovingRules movingRules = MovingRulesGenerator.cannonOrChariot();
-        return new Chariot(team, movingRules);
+        return new Chariot(team, new SlidePalaceStrategy(movingRules));
     }
 
     @Override

@@ -1,17 +1,19 @@
 package janggi.piece;
 
+import janggi.moveStrategy.MoveStrategy;
+import janggi.moveStrategy.SlideStrategy;
 import janggi.rule.MovingRules;
 import janggi.rule.MovingRulesGenerator;
 
 public final class Elephant extends Piece {
 
-    private Elephant(final Team team, final MovingRules movingRules) {
-        super(team, movingRules);
+    private Elephant(final Team team, final MoveStrategy moveStrategy) {
+        super(team, moveStrategy);
     }
 
     public static Elephant of(final Team team) {
         final MovingRules movingRules = MovingRulesGenerator.elephant();
-        return new Elephant(team, movingRules);
+        return new Elephant(team, new SlideStrategy(movingRules));
     }
 
     @Override

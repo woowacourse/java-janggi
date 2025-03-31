@@ -1,45 +1,21 @@
 package janggi.piece;
 
 import janggi.board.Board;
+import janggi.moveStrategy.MoveStrategy;
 import janggi.position.Position;
-import janggi.rule.MoveVector;
-import janggi.rule.MovingRule;
-import janggi.rule.MovingRules;
 
 public sealed abstract class Piece permits Cannon, Chariot, Elephant, General, Guard, Horse, Soldier {
 
     protected final Team team;
-    protected final MovingRules movingRules;
+    protected final MoveStrategy moveStrategy;
 
-    public Piece(final Team team, final MovingRules movingRules) {
+    protected Piece(final Team team, final MoveStrategy moveStrategy) {
         this.team = team;
-        this.movingRules = movingRules;
+        this.moveStrategy = moveStrategy;
     }
 
     public boolean canMove(final Position start, final Position end, final Board board) {
-        if (!movingRules.findRule(start, end)) {
-            return false;
-        }
-        if (cannotMoveThrough(start, end, board)) {
-            return false;
-        }
-        return isValidDestination(end, board);
-    }
-
-    protected boolean cannotMoveThrough(final Position start, final Position end, final Board board) {
-        final MovingRule matchRule = movingRules.getMatchedRule();
-        Position route = start;
-        for (MoveVector vector : matchRule.getVectorsWithoutLast()) {
-            route = route.add(vector);
-            if (board.isPresent(route)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected boolean isValidDestination(final Position end, final Board board) {
-        return !board.isPresentSameTeam(team, end);
+        return moveStrategy.canMove(start, end, team, board);
     }
 
     public boolean isSameTeam(final Team team) {
