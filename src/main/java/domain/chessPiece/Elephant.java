@@ -23,10 +23,6 @@ public class Elephant extends LimitedMoveChessPiece {
     );
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
-    public Elephant(final ChessTeam team) {
-        super(team, directions);
-    }
-
     public Elephant(final ChessPosition position, final ChessTeam team) {
         super(position, team, directions);
     }

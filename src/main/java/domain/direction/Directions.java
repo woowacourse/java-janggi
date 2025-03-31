@@ -33,6 +33,7 @@ public class Directions {
                 continue;
             }
             positions.add(newPosition);
+            currentPosition = newPosition;
         }
         return new Path(positions);
     }
