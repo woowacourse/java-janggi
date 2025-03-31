@@ -1,12 +1,13 @@
 package janggi.service;
 
-import janggi.domain.piece.Side;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
+import janggi.domain.piece.Side;
 import janggi.domain.position.Position;
 import janggi.repository.JanggiConnection;
 import janggi.repository.JanggiDao;
+import janggi.repository.JanggiTableCreator;
 
 import java.sql.Connection;
 import java.util.List;
@@ -19,11 +20,15 @@ public class JanggiBoardService {
         this.janggiDao = janggiDao;
     }
 
+    public void createJanggiTables() {
+        Connection connection = JanggiConnection.getConnection();
+        JanggiTableCreator.createPieceTable(connection);
+        JanggiTableCreator.createTurnTable(connection);
+        JanggiConnection.commit(connection);
+    }
+
     public void saveInitialBoard(JanggiBoard janggiBoard) {
         Connection connection = JanggiConnection.getConnection();
-        janggiDao.createPieceTable(connection);
-        janggiDao.createTurnTable(connection);
-
         Pieces pieces = janggiBoard.getPieces();
         List<Piece> allPieces = pieces.getPieces();
         for (Piece piece : allPieces) {

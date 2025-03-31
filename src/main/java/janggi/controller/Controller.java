@@ -31,6 +31,7 @@ public class Controller {
     public void run() {
         JanggiBoard janggiBoard = makeJanggiBoard();
         outputView.printJanggiBoard(janggiBoard);
+        janggiBoardService.createJanggiTables();
         playGame(janggiBoard);
     }
 
