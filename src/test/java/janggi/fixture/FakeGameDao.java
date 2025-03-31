@@ -1,5 +1,6 @@
-package janggi.dao;
+package janggi.fixture;
 
+import janggi.dao.GameDao;
 import janggi.domain.game.Team;
 import janggi.dto.GameDto;
 import java.time.LocalDateTime;

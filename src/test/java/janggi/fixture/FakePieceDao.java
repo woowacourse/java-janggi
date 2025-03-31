@@ -1,5 +1,6 @@
-package janggi.dao;
+package janggi.fixture;
 
+import janggi.dao.PieceDao;
 import janggi.dto.PieceDto;
 import java.util.HashMap;
 import java.util.List;

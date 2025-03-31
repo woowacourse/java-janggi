@@ -3,8 +3,6 @@ package janggi.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.dao.FakeGameDao;
-import janggi.dao.FakePieceDao;
 import janggi.domain.game.Board;
 import janggi.domain.game.Game;
 import janggi.domain.game.Team;
@@ -14,6 +12,8 @@ import janggi.domain.position.Position;
 import janggi.domain.position.Row;
 import janggi.dto.GameDto;
 import janggi.dto.PieceDto;
+import janggi.fixture.FakeGameDao;
+import janggi.fixture.FakePieceDao;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
