@@ -26,10 +26,10 @@ public class Soldier extends Piece {
             throw new IllegalArgumentException(INVALID_MOVEMENT);
         }
 
-        if (palaceArea.equals(PalaceArea.OUTSIDE) && isValidMoveOutsidePalace(offsetX, offsetY)) {
+        if (palaceArea.isOutside() && isValidMoveOutsidePalace(offsetX, offsetY)) {
             return;
         }
-        if (palaceArea.equals(PalaceArea.INSIDE) && isValidMoveInsidePalace(offsetX, offsetY)) {
+        if (palaceArea.isInside() && isValidMoveInsidePalace(offsetX, offsetY)) {
             return;
         }
         throw new IllegalArgumentException(INVALID_MOVEMENT);

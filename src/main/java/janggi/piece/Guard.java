@@ -22,10 +22,10 @@ public class Guard extends Piece {
         int offsetX = currentPosition.distanceX(destination);
         int offsetY = currentPosition.distanceY(destination);
 
-        if (palaceArea.equals(PalaceArea.OUTSIDE) && isValidMoveOutsidePalace(offsetX, offsetY)) {
+        if (palaceArea.isOutside() && isValidMoveOutsidePalace(offsetX, offsetY)) {
             return;
         }
-        if (palaceArea.equals(PalaceArea.INSIDE) && isValidMoveInsidePalace(offsetX, offsetY)) {
+        if (palaceArea.isInside() && isValidMoveInsidePalace(offsetX, offsetY)) {
             return;
         }
         throw new IllegalArgumentException(INVALID_MOVEMENT);

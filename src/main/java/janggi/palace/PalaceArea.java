@@ -13,4 +13,12 @@ public enum PalaceArea {
         }
         return OUTSIDE;
     }
+
+    public boolean isInside() {
+        return this == INSIDE;
+    }
+
+    public boolean isOutside() {
+        return this == OUTSIDE;
+    }
 }
