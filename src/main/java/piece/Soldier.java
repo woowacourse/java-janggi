@@ -7,6 +7,7 @@ import movement.Movement;
 import position.Position;
 import validator.DirectionCheckable;
 
+import java.util.IntSummaryStatistics;
 import java.util.Set;
 import java.util.function.BiPredicate;
 
@@ -39,27 +40,15 @@ public class Soldier extends Piece implements DirectionCheckable {
         return (src, dest) -> canCorrectDiff(dest);
     }
 
-    // TODO 2025. 3. 30. 13:37: 하드코딩
     private boolean canCorrectDiff(Position destination) {
         int diffX = position.x() - destination.x();
         int diffY = position.y() - destination.y();
 
-        int minRangeX = Integer.MAX_VALUE;
-        int maxRangeX = Integer.MIN_VALUE;
-        int minRangeY = Integer.MAX_VALUE;
-        int maxRangeY = Integer.MIN_VALUE;
+        IntSummaryStatistics xStats = moveActions.xRange();
+        IntSummaryStatistics yStats = moveActions.yRange();
 
-        for (MovePath movePath : moveActions.getMovePaths()) {
-            minRangeX = Math.min(minRangeX, movePath.getMovements().getFirst().x());
-            maxRangeX = Math.max(maxRangeX, movePath.getMovements().getFirst().x());
-            minRangeY = Math.min(minRangeY, movePath.getMovements().getFirst().y());
-            maxRangeY = Math.max(maxRangeY, movePath.getMovements().getFirst().y());
-        }
-
-        if (minRangeX <= diffX && diffX <= maxRangeX && minRangeY <= diffY && diffY <= maxRangeY) {
-            return true;
-        }
-        return false;
+        return xStats.getMin() <= diffX && diffX <= xStats.getMax()
+                && yStats.getMin() <= diffY && diffY <= yStats.getMax();
     }
 
     @Override
