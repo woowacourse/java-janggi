@@ -17,9 +17,9 @@ public class Board {
         this.locatedPieces = locatedPieces;
     }
 
-    public void dropPiece(Team turn, Position startPosition, Position arrivedPosition, BoardDao boardDao) {
+    public void dropPiece(Turn turn, Position startPosition, Position arrivedPosition, BoardDao boardDao) {
         Piece attackerPiece = findByPosition(startPosition);
-        checkTurn(turn, attackerPiece);
+        turn.checkTurn(attackerPiece);
         boolean isOccupy = isOccupiedPosition(arrivedPosition);
         if (isOccupy) {
             attackToTarget(attackerPiece, arrivedPosition ,boardDao);
@@ -87,13 +87,6 @@ public class Board {
             return true;
         }
         return false;
-    }
-
-    private void checkTurn(Team turn, Piece attackerPiece) {
-        if (attackerPiece.isSameTeam(turn)) {
-            return;
-        }
-        throw new IllegalArgumentException("순서를 확인하세요");
     }
 
     private Piece findByPosition(Position startPosition) {

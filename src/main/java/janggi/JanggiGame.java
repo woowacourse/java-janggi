@@ -2,6 +2,7 @@ package janggi;
 
 import janggi.board.Board;
 import janggi.board.TableOption;
+import janggi.board.Turn;
 import janggi.dao.BoardDao;
 import janggi.dao.DatabaseConnector;
 import janggi.dao.TurnDao;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class JanggiGame {
+
     public static void main(String[] args) {
         Input input = new Input();
         Output output = new Output();
@@ -24,50 +26,53 @@ public class JanggiGame {
         TurnDao turnDao = new TurnDao(connector);
 
         List<Piece> initialPieces;
+        Turn turn;
 
-        Team turn;
         if (boardDao.existsBoardPiece()) {
             System.out.println("진행 중인 게임 데이터를 불러옵니다");
             initialPieces = boardDao.findAllBoardPiece();
-            turn = turnDao.findCurrentTurn();
+            turn = new Turn(turnDao.findCurrentTurn());
         } else {
             initialPieces = generateInitialPieces(input);
             boardDao.saveAllBoardPiece(initialPieces);
-            turn = Team.CHO;
-            turnDao.saveTurn(turn);
+            turn = new Turn();
+            turnDao.saveTurn(turn.getTurn());
         }
 
         Board board = new Board(initialPieces);
         output.printBoard(board.extractLocatedLivePicecs());
         while (board.isGameOver()) {
-            try {
-                output.printScore(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
-                Map.Entry<Position, Position> moveableInfo = input.readMoveablePiece();
-                board.dropPiece(turn, moveableInfo.getKey(), moveableInfo.getValue(), boardDao);
-                output.printBoard(board.extractLocatedLivePicecs());
-                turn = changeTurn(turn, turnDao);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+            turn = dropPiece(output, input, board, turn, boardDao, turnDao);
         }
-        output.printGameResult(board.extractWinnerKing());
-        boardDao.deleteAll();
-        turnDao.deleteAll();
+        endGame(output, board, boardDao, turnDao);
     }
 
-    public static Team changeTurn(Team turn, TurnDao turnDao) {
-        if (turn == Team.CHO) {
-            turnDao.updateTurn(turn, Team.HAN);
-            return Team.HAN;
-        }
-        turnDao.updateTurn(turn, Team.CHO);
-        return Team.CHO;
-    }
-
-    public static List<Piece> generateInitialPieces(Input input) {
+    private static List<Piece> generateInitialPieces(Input input) {
         TableOption choTableOption = input.readTableOption(Team.CHO);
         TableOption hanTableOption = input.readTableOption(Team.HAN);
         return new PieceGenerator().generateInitialPieces(hanTableOption, choTableOption);
+    }
+
+    private static Turn dropPiece(Output output, Input input, Board board, Turn turn, BoardDao boardDao, TurnDao turnDao) {
+        try {
+            output.printTurn(turn);
+            output.printScore(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
+            Map.Entry<Position, Position> moveableInfo = input.readMoveablePiece();
+            board.dropPiece(turn, moveableInfo.getKey(), moveableInfo.getValue(), boardDao);
+            output.printBoard(board.extractLocatedLivePicecs());
+            Turn nextTurn = turn.turnOver();
+            turnDao.updateTurn(turn.getTurn(), nextTurn.getTurn());
+            return nextTurn;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return turn;
+        }
+    }
+
+    private static void endGame(Output output, Board board, BoardDao boardDao, TurnDao turnDao) {
+        output.printGameResult(board.extractWinnerKing());
+        boardDao.deleteAll();
+        turnDao.deleteAll();
     }
 
 }

@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.board.Turn;
 import janggi.piece.*;
 import janggi.team.Team;
 
@@ -64,6 +65,12 @@ public class Output {
         System.out.printf("초 진영 : %s점" ,choScore);
         System.out.println();
         System.out.printf("한 진영 : %s점" ,hanScore);
+        System.out.println();
+    }
+
+    public void printTurn(Turn turn) {
+        System.out.println();
+        System.out.printf("순서 : %s 진영%n", TEAMS.get(turn.getTurn()));
         System.out.println();
     }
 }
