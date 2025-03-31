@@ -1,7 +1,7 @@
 package view;
 
-import java.util.Scanner;
 import direction.Point;
+import java.util.Scanner;
 
 public class InputView {
 

@@ -2,14 +2,10 @@ package view;
 
 import board.GameBoard;
 import direction.Point;
-import piece.Cannon;
-import piece.Chariot;
-import piece.Elephant;
-import piece.General;
-import piece.Guard;
-import piece.Horse;
 import piece.Piece;
+import piece.PieceType;
 import piece.Pieces;
+import team.Team;
 
 public class OutputView {
 
@@ -17,6 +13,18 @@ public class OutputView {
     private static final int ROW_END = 10;
     private static final int COLUMN_START = 1;
     private static final int COLUMN_END = 9;
+
+    public static void printNowTurn(Team turn) {
+        System.out.printf("%s 턴 입니다.%n", turnToDynasty(turn));
+    }
+
+    private static String turnToDynasty(Team turn) {
+        if (turn.equals(Team.HAN)) {
+            return "한나라";
+        }
+
+        return "초나라";
+    }
 
     public static void printBoard(final GameBoard gameBoard) {
         Pieces pieces = gameBoard.findAllPieces();
@@ -51,35 +59,35 @@ public class OutputView {
         System.out.print(".");
     }
 
+    public static void displayWrongPoint() {
+        System.out.println("본인의 기물이 아닙니다. 다시 선택해 주세요.");
+    }
+
     private static String pieceToString(Piece findPiece) {
-        if (findPiece.isSameType(new Chariot())) {
+        if (findPiece.isSameType(PieceType.CHARIOT)) {
             return "c";
         }
 
-        if (findPiece.isSameType(new Cannon())) {
+        if (findPiece.isSameType(PieceType.CANNON)) {
             return "n";
         }
 
-        if (findPiece.isSameType(new Horse())) {
+        if (findPiece.isSameType(PieceType.HORSE)) {
             return "h";
         }
 
-        if (findPiece.isSameType(new Elephant())) {
+        if (findPiece.isSameType(PieceType.ELEPHANT)) {
             return "e";
         }
 
-        if (findPiece.isSameType(new Guard())) {
+        if (findPiece.isSameType(PieceType.GUARD)) {
             return "u";
         }
 
-        if (findPiece.isSameType(new General())) {
+        if (findPiece.isSameType(PieceType.GENERAL)) {
             return "g";
         }
 
         return "s";
-    }
-
-    public static void displayWrongPoint() {
-        System.out.println("본인의 기물이 아닙니다. 다시 선택해 주세요.");
     }
 }
