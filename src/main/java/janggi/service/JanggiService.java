@@ -11,7 +11,6 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.Pieces;
 import janggi.repository.BoardRepository;
 import janggi.repository.JanggiRepository;
-import java.util.Optional;
 
 public class JanggiService {
 
@@ -30,10 +29,10 @@ public class JanggiService {
     }
 
     public JanggiGame loadJanggiGame(final String redPlayerName, final String greenPlayerName) {
-        Optional<JanggiGame> janggiGameOptional = janggiRepository.findByRedAndGreenPlayerNameAndGameStatus(
-                redPlayerName, greenPlayerName, GameStatus.CONTINUE);
-        validateExistJanggiGame(redPlayerName, greenPlayerName, janggiGameOptional);
-        return janggiGameOptional.get();
+        return janggiRepository.findByRedAndGreenPlayerNameAndGameStatus(
+                        redPlayerName, greenPlayerName, GameStatus.CONTINUE)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 게임입니다: " + redPlayerName + " vs " + greenPlayerName));
     }
 
     public JanggiGame initJanggiGame(final String redPlayerName,
@@ -73,17 +72,9 @@ public class JanggiService {
     }
 
     private long findJanggiId(final String redPlayerName, final String greenPlayerName) {
-        Optional<Long> janggiIdOptional = janggiRepository.findJanggiIdByRedAndGreenPlayerNameAndGameStatus(
-                redPlayerName, greenPlayerName, GameStatus.CONTINUE);
-        validateExistJanggiGame(redPlayerName, greenPlayerName, janggiIdOptional);
-        return janggiIdOptional.get();
-    }
-
-    private <T> void validateExistJanggiGame(final String redPlayerName,
-                                             final String greenPlayerName,
-                                             final Optional<T> gameOptional) {
-        if (gameOptional.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 게임입니다: " + redPlayerName + " vs " + greenPlayerName);
-        }
+        return janggiRepository.findJanggiIdByRedAndGreenPlayerNameAndGameStatus(
+                        redPlayerName, greenPlayerName, GameStatus.CONTINUE)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 게임입니다: " + redPlayerName + " vs " + greenPlayerName));
     }
 }
