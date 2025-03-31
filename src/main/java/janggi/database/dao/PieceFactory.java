@@ -1,4 +1,4 @@
-package janggi.dao;
+package janggi.database.dao;
 
 import janggi.domain.Team;
 import janggi.domain.piece.Cannon;

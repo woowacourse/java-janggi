@@ -1,4 +1,4 @@
-package janggi.dao;
+package janggi.database.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,6 @@ public class DatabaseConnection {
     private static DatabaseConnection instance;
     private static boolean isTestMode = false;
 
-    // DB 연결 정보
     private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";
     private static final String TEST_DATABASE = "janggi_test";

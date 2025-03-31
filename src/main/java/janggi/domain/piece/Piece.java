@@ -18,7 +18,6 @@ public abstract class Piece {
         this.team = team;
     }
 
-
     public abstract Set<Route> calculateIndependentRoutes();
 
     public abstract boolean isValidRoute(final Route route, final List<Piece> otherPieces);

@@ -1,7 +1,8 @@
-package janggi.dao;
+package janggi.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.database.dao.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import org.junit.jupiter.api.AfterAll;
