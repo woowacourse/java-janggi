@@ -22,7 +22,7 @@ public final class MysqlGameDao implements GameDao {
     @Override
     public List<GameDto> findAllGames() {
         String selectQuery = "SELECT id, turn, created_at FROM game ORDER BY created_at";
-        
+
         try (Connection connection = mysqlConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);) {
 
@@ -32,11 +32,10 @@ public final class MysqlGameDao implements GameDao {
             while (resultSet.next()) {
                 games.add(toGameDto(resultSet));
             }
+            return games;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-        return games;
     }
 
     @Override
