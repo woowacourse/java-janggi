@@ -305,4 +305,49 @@ class JanggiBoardTest {
         assertThat(janggiBoard.calculateScore(Side.HAN)).isEqualTo(59);
     }
 
+    @Test
+    @DisplayName("왕이 잡혔을 시 게임이 종료된다. - 초나라")
+    void test23() {
+        JanggiBoard board = JanggiBoard.initialize();
+        Piece catchedPiece = new King(Side.CHO);
+
+        board.checkGameIsOver(catchedPiece);
+
+        assertThat(board.getStatus()).isEqualTo(BoardStatus.HAN_WIN);
+    }
+
+    @Test
+    @DisplayName("왕이 잡혔을 시 게임이 종료된다. - 한나라")
+    void test24() {
+        JanggiBoard board = JanggiBoard.initialize();
+        Piece catchedPiece = new King(Side.HAN);
+
+        board.checkGameIsOver(catchedPiece);
+
+        assertThat(board.getStatus()).isEqualTo(BoardStatus.CHO_WIN);
+    }
+
+    @Test
+    @DisplayName("각자의 차례가 끝난 뒤 차례를 넘긴다")
+    void test25() {
+        JanggiBoard board = JanggiBoard.initialize();
+
+        board.passTurnToOpponent();
+        assertThat(board.getStatus()).isEqualTo(BoardStatus.HAN_TURN);
+
+        board.passTurnToOpponent();
+        assertThat(board.getStatus()).isEqualTo(BoardStatus.CHO_TURN);
+    }
+
+    @Test
+    @DisplayName("이동 불가능한 지역으로 이동시 예외를 발생시킨다.")
+    void test26() {
+        JanggiBoard board = JanggiBoard.initialize();
+        List<Position> reachableDestinations = board.computeReachableDestination(new Position(0, 6));
+
+        assertThatThrownBy(() -> board.checkPieceCanMoveTo(new Position(1, 1), reachableDestinations))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 선택한 목적지로 이동할 수 없습니다.");
+    }
+
 }
