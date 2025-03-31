@@ -29,7 +29,7 @@ public class JanggiController {
     public void run() {
         try {
             ConnectionProvider.getConnection();
-        } catch (RuntimeException e) {
+        } catch (IllegalStateException e) {
             outputView.printExceptionMessage(e);
             return;
         }
@@ -50,7 +50,7 @@ public class JanggiController {
                 return;
             }
             throw new IllegalArgumentException("잘못된 입력입니다. 재입력해주세요.");
-        } catch (RuntimeException e) {
+        } catch (IllegalStateException e) {
             outputView.printInputExceptionMessage(e);
             selectJanggiGame();
         }
@@ -69,7 +69,7 @@ public class JanggiController {
                         selectBoardPosition,
                         destinationBoardPosition
                 );
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | IllegalStateException e) {
                 outputView.printInputExceptionMessage(e);
             }
         }

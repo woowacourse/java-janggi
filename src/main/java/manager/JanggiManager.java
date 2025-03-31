@@ -72,7 +72,7 @@ public class JanggiManager {
                             entity.id(), entity.title(), new Turn(entity.team()), entity.status()))
                     .toList();
         } catch (SQLException e) {
-            throw new RuntimeException("장기 게임을 불러오는 중 문제 발생");
+            throw new IllegalStateException("장기 게임을 불러오는 중 문제 발생");
         }
     }
 
@@ -94,16 +94,16 @@ public class JanggiManager {
             try {
                 connection.rollback();
             } catch (SQLException rollbackException) {
-                throw new RuntimeException("장기 게임 생성 중 문제 후 롤백 실패");
+                throw new IllegalStateException("장기 게임 생성 중 문제 후 롤백 실패");
             }
         } finally {
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException e) {
-                throw new RuntimeException("AutoCommit 설정 복구 실패");
+                throw new IllegalStateException("AutoCommit 설정 복구 실패");
             }
         }
-        throw new RuntimeException("장기 게임 생성 중 문제 발생");
+        throw new IllegalStateException("장기 게임 생성 중 문제 발생");
     }
 
     public Janggi loadJanggi(final int janggiId) {
@@ -118,7 +118,7 @@ public class JanggiManager {
 
             return janggiEntity.toJanggi(board);
         } catch (SQLException e) {
-            throw new RuntimeException("장기 게임 로드 중 문제 발생");
+            throw new IllegalStateException("장기 게임 로드 중 문제 발생");
         }
     }
 

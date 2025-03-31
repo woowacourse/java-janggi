@@ -27,7 +27,7 @@ public class ConnectionProvider {
                                 + getDatabase()
                                 + getOption(), getUsername(), getPassword());
             } catch (final SQLException e) {
-                throw new RuntimeException("DB 커넥션 실패");
+                throw new IllegalStateException("DB 커넥션 실패");
             }
         }
         return connection;

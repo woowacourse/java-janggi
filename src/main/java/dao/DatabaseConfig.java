@@ -11,7 +11,7 @@ public class DatabaseConfig {
         try {
             properties.load(DatabaseConfig.class.getResourceAsStream("/database.properties"));
         } catch (IOException e) {
-            throw new RuntimeException("데이터베이스 설정 파일을 불러오는데 실패했습니다.", e);
+            throw new IllegalStateException("데이터베이스 설정 파일을 불러오는데 실패했습니다.", e);
         }
     }
 
