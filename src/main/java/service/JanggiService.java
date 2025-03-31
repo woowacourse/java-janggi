@@ -62,9 +62,9 @@ public class JanggiService {
         Piece source = pieceDao.findBoardByPosition(roomId, before);
         Piece destination = pieceDao.findBoardByPosition(roomId, after);
         if (destination != null && destination.team().getOpposite() == source.team()) {
-            pieceDao.delete(destination.boardId());
+            pieceDao.delete(destination.pieceId());
         }
-        pieceDao.updatePosition(source.boardId(), after);
+        pieceDao.updatePosition(source.pieceId(), after);
         Room room = roomDao.findRoomById(roomId);
         roomDao.updateTurn(roomId, room.turn().getOpposite());
     }

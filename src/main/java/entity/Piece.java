@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public record Piece(Long boardId, int positionX, int positionY, UnitType unitType, Team team) {
+public record Piece(Long pieceId, int positionX, int positionY, UnitType unitType, Team team) {
 
     public static List<Piece> from(Janggi janggi) {
         List<Piece> pieces = new ArrayList<>();
