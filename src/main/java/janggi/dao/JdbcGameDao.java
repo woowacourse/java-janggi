@@ -6,11 +6,12 @@ import janggi.dao.entity.GameEntity;
 import janggi.dao.entity.Status;
 import janggi.domain.piece.Dynasty;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class JdbcGameDao implements GameDao {
 
     @Override
-    public GameEntity findByStatus(Status status) {
+    public Optional<GameEntity> findByStatus(Status status) {
         final var query = "SELECT * FROM game WHERE status = ?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
@@ -18,20 +19,20 @@ public class JdbcGameDao implements GameDao {
 
             final var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return new GameEntity(
+                return Optional.of(new GameEntity(
                         resultSet.getLong("id"),
                         Status.from(resultSet.getInt("status")),
                         Dynasty.valueOf(resultSet.getString("current_turn"))
-                );
+                ));
             }
+            return Optional.empty();
         } catch (final SQLException e) {
             throw new DatabaseSQLException(e);
         }
-        return null;
     }
 
     @Override
-    public GameEntity findById(Long gameId) {
+    public Optional<GameEntity> findById(Long gameId) {
         final var query = "SELECT * FROM game WHERE id = ?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
@@ -39,16 +40,16 @@ public class JdbcGameDao implements GameDao {
 
             final var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return new GameEntity(
+                return Optional.of(new GameEntity(
                         resultSet.getLong("id"),
                         Status.from(resultSet.getInt("status")),
                         Dynasty.valueOf(resultSet.getString("current_turn"))
-                );
+                ));
             }
+            return Optional.empty();
         } catch (final SQLException e) {
             throw new DatabaseSQLException(e);
         }
-        return null;
     }
 
     @Override

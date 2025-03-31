@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class JanggiService {
 
@@ -36,13 +37,13 @@ public class JanggiService {
         this.pieceDao = pieceDao;
     }
 
-    public GameEntity findRunningGame() {
+    public Optional<GameEntity> findRunningGame() {
         return gameDao.findByStatus(Status.RUN);
     }
 
     public void createGame(BoardSetUp hanBoardSetUp, BoardSetUp chuBoardSetUp) {
         gameDao.addGame(new GameEntity(Status.RUN, Dynasty.CHU));
-        GameEntity gameEntity = gameDao.findByStatus(Status.RUN);
+        GameEntity gameEntity = findGameByStatusOrThrow(Status.RUN);
         JanggiBoard janggiBoard = JanggiBoard.of(hanBoardSetUp, chuBoardSetUp);
         pieceDao.addPieces(createPieceEntities(gameEntity, janggiBoard));
     }
@@ -120,10 +121,12 @@ public class JanggiService {
     }
 
     private GameEntity findByIdOrThrow(Long gameId) {
-        GameEntity gameEntity = gameDao.findById(gameId);
-        if (gameEntity == null) {
-            throw new IllegalArgumentException("id에 해당하는 게임이 존재하지 않습니다.");
-        }
-        return gameEntity;
+        return gameDao.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("id에 해당하는 게임이 존재하지 않습니다."));
+    }
+
+    private GameEntity findGameByStatusOrThrow(Status status) {
+        return gameDao.findByStatus(status)
+                .orElseThrow(() -> new IllegalArgumentException("status에 해당하는 게임이 존재하지 않습니다."));
     }
 }

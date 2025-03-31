@@ -24,6 +24,7 @@ import janggi.fake.FakeGameDao;
 import janggi.fake.FakePieceDao;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,10 +38,10 @@ class JanggiServiceTest {
         JanggiService janggiService = new JanggiService(new FakeGameDao(gameEntity), new FakePieceDao());
 
         //when
-        GameEntity runningGame = janggiService.findRunningGame();
+        Optional<GameEntity> runningGame = janggiService.findRunningGame();
 
         //then
-        assertThat(runningGame).isEqualTo(gameEntity);
+        assertThat(runningGame).hasValue(gameEntity);
     }
 
     @DisplayName("게임을 만든다.")
@@ -55,7 +56,7 @@ class JanggiServiceTest {
         janggiService.createGame(HanBoardSetUp.INNER_ELEPHANT, ChuBoardSetUp.INNER_ELEPHANT);
 
         //then
-        assertThat(gameDao.findById(1L)).isEqualTo(new GameEntity(1L, Status.RUN, Dynasty.CHU));
+        assertThat(gameDao.findById(1L)).hasValue(new GameEntity(1L, Status.RUN, Dynasty.CHU));
         assertThat(pieceDao.findAllByGameId(1L))
                 .extracting("point", "dynasty", "pieceType", "gameId")
                 .containsExactlyInAnyOrder(
@@ -155,7 +156,7 @@ class JanggiServiceTest {
                 new PieceEntity(1L, new Point(1, 5), Dynasty.HAN, PieceType.GENERAL, 1L),
                 new PieceEntity(2L, new Point(10, 4), Dynasty.CHU, PieceType.GENERAL, 1L)
         ));
-        assertThat(gameDao.findById(1L)).isEqualTo(new GameEntity(1L, Status.RUN, Dynasty.CHU));
+        assertThat(gameDao.findById(1L)).hasValue(new GameEntity(1L, Status.RUN, Dynasty.CHU));
     }
 
     @DisplayName("기물을 움직이고 상대편 말이 죽었다면 게임이 끝난다.")
@@ -184,7 +185,7 @@ class JanggiServiceTest {
                 new PieceEntity(2L, new Point(10, 4), Dynasty.CHU, PieceType.GENERAL, 1L),
                 new PieceEntity(3L, new Point(1, 4), Dynasty.CHU, PieceType.CHARIOT, 1L)
         ));
-        assertThat(gameDao.findById(1L)).isEqualTo(new GameEntity(1L, Status.END, Dynasty.CHU));
+        assertThat(gameDao.findById(1L)).hasValue(new GameEntity(1L, Status.END, Dynasty.CHU));
     }
 
     @DisplayName("게임 id에 해당하는 장기판을 가져온다.")

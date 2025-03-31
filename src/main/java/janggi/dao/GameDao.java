@@ -3,11 +3,12 @@ package janggi.dao;
 import janggi.dao.entity.GameEntity;
 import janggi.dao.entity.Status;
 import janggi.domain.piece.Dynasty;
+import java.util.Optional;
 
 public interface GameDao {
-    GameEntity findByStatus(Status status);
+    Optional<GameEntity> findByStatus(Status status);
 
-    GameEntity findById(Long gameId);
+    Optional<GameEntity> findById(Long gameId);
 
     void addGame(GameEntity gameEntity);
 
