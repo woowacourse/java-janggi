@@ -75,18 +75,18 @@ public final class Gungsung {
 
         final List<Position> diagonalPositions = new ArrayList<>();
         final List<Position> reverseDiagonalPositions = new ArrayList<>();
-        for (int i = 1; i <= 3; i++) {
+        for (int fileAmount = 1; fileAmount <= 3; fileAmount++) {
             final List<Position> verticalPositions = new ArrayList<>();
             final List<Position> horizontalPositions = new ArrayList<>();
-            for (int j = 1; j <= 3; j++) {
-                verticalPositions.add(new Position(PositionFile.findByAmount(i), PositionRank.findByAmount(j)));
-                horizontalPositions.add(new Position(PositionFile.findByAmount(j), PositionRank.findByAmount(i)));
+            for (int rankAmount = 1; rankAmount <= 3; rankAmount++) {
+                verticalPositions.add(new Position(PositionFile.findByAmount(fileAmount), PositionRank.findByAmount(rankAmount)));
+                horizontalPositions.add(new Position(PositionFile.findByAmount(rankAmount), PositionRank.findByAmount(fileAmount)));
             }
             paths.addAll(new Path(verticalPositions).subPathAndReverse());
             paths.addAll(new Path(horizontalPositions).subPathAndReverse());
 
-            diagonalPositions.add(new Position(PositionFile.findByAmount(i), PositionRank.findByAmount(i)));
-            reverseDiagonalPositions.add(new Position(PositionFile.findByAmount(i), PositionRank.findByAmount(4 - i)));
+            diagonalPositions.add(new Position(PositionFile.findByAmount(fileAmount), PositionRank.findByAmount(fileAmount)));
+            reverseDiagonalPositions.add(new Position(PositionFile.findByAmount(fileAmount), PositionRank.findByAmount(4 - fileAmount)));
         }
         paths.addAll(new Path(diagonalPositions).subPathAndReverse());
         paths.addAll(new Path(reverseDiagonalPositions).subPathAndReverse());
