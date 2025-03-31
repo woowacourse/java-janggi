@@ -13,7 +13,7 @@ public class BoardDao {
     private static final String USERNAME = "user";
     private static final String PASSWORD = "password";
 
-    private Connection getConnection() throws SQLException {
+    protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 

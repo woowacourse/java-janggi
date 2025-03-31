@@ -82,4 +82,12 @@ public final class OutputView {
     public void displayGameFinished() {
         System.out.println("게임이 종료되었습니다.");
     }
+
+    public void displayGameOver() {
+        System.out.println("게임을 저장하고 종료하였습니다.");
+    }
+
+    public void displayError(final String message) {
+        System.out.println("[ERROR] " + message);
+    }
 }

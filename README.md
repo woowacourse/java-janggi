@@ -72,3 +72,12 @@ CREATE TABLE piece
     piece_type  VARCHAR(10) NOT NULL
 );
 ```
+
+```sql
+
+CREATE TABLE turn
+(
+    id           BIGINT AUTO_INCREMENT PRIMARY KEY,
+    country_name VARCHAR(3) NOT NULL
+);
+```

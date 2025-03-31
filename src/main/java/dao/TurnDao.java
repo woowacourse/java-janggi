@@ -22,7 +22,7 @@ public class TurnDao {
 
             try (var preparedStatement = connection.prepareStatement(insertSQL)) {
                 preparedStatement.setString(1, turnDto.country());
-                preparedStatement.executeBatch();
+                preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException("DB 저장 중 오류 발생", e);
