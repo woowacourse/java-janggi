@@ -35,15 +35,6 @@ public class BoardPieceService {
         return positionPieces;
     }
 
-    public Piece findBoardPieceByPosition(final Position position) {
-        PieceFindResponse pieceByPosition = boardPieceDao.findPieceByPosition(position.getX(), position.getY());
-
-        String pieceType = pieceByPosition.pieceType();
-        String side = pieceByPosition.side();
-
-        return PieceType.createPiece(pieceType, Side.getSideByName(side));
-    }
-
     public void addBoardPiece(final int gameId, final Position position, final Piece piece) {
         Side side = Side.NONE;
         if(piece.isCho()) {
