@@ -8,7 +8,6 @@ import java.util.List;
 
 public class FakeTurnDao implements TurnDao {
 
-    private final Turn turn = Turn.initialize(Team.CHO);
     private final List<TurnDto> dtos = new ArrayList<>();
 
     @Override

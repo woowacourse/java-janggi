@@ -30,7 +30,6 @@ public class PieceMoveRule {
             final Movement movement = movements.findMovements(currentPosition, arrivalPosition, pieceType);
             obstacleMoveStrategy.checkObstacle(currentPosition, arrivalPosition, movement, board);
             optionalMovements.ifPresent(this::deleteMovement);
-
             return;
         }
         final Movement movement = movements.findMovements(currentPosition, arrivalPosition, pieceType);
