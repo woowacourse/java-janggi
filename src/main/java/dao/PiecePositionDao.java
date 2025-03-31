@@ -5,6 +5,8 @@ import domain.janggi.Team;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +19,8 @@ public class PiecePositionDao {
             final int janggiId,
             final Map<BoardPosition, Piece> board
     ) throws SQLException {
-        final var query = "INSERT INTO piece_position (janggi_id, position_x, position_y, piece, team) VALUES (?, ?, ?, ?, ?)";
-        final var preparedStatement = connection.prepareStatement(query);
+        final String query = "INSERT INTO piece_position (janggi_id, position_x, position_y, piece, team) VALUES (?, ?, ?, ?, ?)";
+        final PreparedStatement preparedStatement = connection.prepareStatement(query);
         for (final Entry<BoardPosition, Piece> entry : board.entrySet()) {
 
             final BoardPosition position = entry.getKey();
@@ -42,10 +44,10 @@ public class PiecePositionDao {
             final Connection connection,
             final int janggiId
     ) throws SQLException {
-        final var query = "SELECT * FROM piece_position WHERE janggi_id = ?";
-        final var preparedStatement = connection.prepareStatement(query);
+        final String query = "SELECT * FROM piece_position WHERE janggi_id = ?";
+        final PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, janggiId);
-        final var resultSet = preparedStatement.executeQuery();
+        final ResultSet resultSet = preparedStatement.executeQuery();
         final Map<BoardPosition, Piece> piecePositions = new HashMap<>();
 
         while (resultSet.next()) {
@@ -69,8 +71,8 @@ public class PiecePositionDao {
             final BoardPosition selectPosition,
             final BoardPosition destinationPosition
     ) throws SQLException {
-        final var query = "UPDATE piece_position SET position_x = ?, position_y = ? WHERE janggi_id = ? AND position_x = ? AND position_y = ?";
-        final var preparedStatement = connection.prepareStatement(query);
+        final String query = "UPDATE piece_position SET position_x = ?, position_y = ? WHERE janggi_id = ? AND position_x = ? AND position_y = ?";
+        final PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, destinationPosition.x());
         preparedStatement.setInt(2, destinationPosition.y());
         preparedStatement.setInt(3, janggiId);
@@ -84,8 +86,8 @@ public class PiecePositionDao {
             final int janggiId,
             final BoardPosition boardPosition
     ) throws SQLException {
-        final var query = "DELETE FROM piece_position WHERE janggi_id = ? AND position_x = ? AND position_y = ?";
-        final var preparedStatement = connection.prepareStatement(query);
+        final String query = "DELETE FROM piece_position WHERE janggi_id = ? AND position_x = ? AND position_y = ?";
+        final PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, janggiId);
         preparedStatement.setInt(2, boardPosition.x());
         preparedStatement.setInt(3, boardPosition.y());
@@ -93,8 +95,8 @@ public class PiecePositionDao {
     }
 
     public void deleteAll(final Connection connection) throws SQLException {
-        final var query = "DELETE FROM piece_position WHERE TRUE";
-        final var preparedStatement = connection.prepareStatement(query);
+        final String query = "DELETE FROM piece_position WHERE TRUE";
+        final PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.executeUpdate();
     }
 }

@@ -5,6 +5,8 @@ import domain.janggi.Team;
 import domain.janggi.Turn;
 import dto.JanggiDto;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -18,15 +20,15 @@ public class JanggiDao {
             final JanggiStatus status,
             final Turn turn
     ) throws SQLException {
-        final var query = "INSERT INTO janggi (title, status, turn) VALUES (?, ?, ?)";
-        final var preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        final String query = "INSERT INTO janggi (title, status, turn) VALUES (?, ?, ?)";
+        final PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, title);
         preparedStatement.setString(2, status.name());
         preparedStatement.setString(3, turn.currentTeam().name());
 
         preparedStatement.executeUpdate();
 
-        final var generatedKeys = preparedStatement.getGeneratedKeys();
+        final ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         if (generatedKeys.next()) {
             return (int) generatedKeys.getLong(1);
         }
@@ -34,10 +36,10 @@ public class JanggiDao {
     }
 
     public List<JanggiDto> findAllJanggiDtos(final Connection connection) throws SQLException {
-        final var query = "SELECT * FROM janggi";
-        final var preparedStatement = connection.prepareStatement(query);
+        final String query = "SELECT * FROM janggi";
+        final PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-        final var resultSet = preparedStatement.executeQuery();
+        final ResultSet resultSet = preparedStatement.executeQuery();
 
         final List<JanggiDto> janggiDtos = new ArrayList<>();
         while (resultSet.next()) {
@@ -57,10 +59,10 @@ public class JanggiDao {
             final Connection connection,
             final int id
     ) throws SQLException {
-        final var query = "SELECT * FROM janggi WHERE id = ?";
-        final var preparedStatement = connection.prepareStatement(query);
+        final String query = "SELECT * FROM janggi WHERE id = ?";
+        final PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, id);
-        final var resultSet = preparedStatement.executeQuery();
+        final ResultSet resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next()) {
             return new JanggiDto(
@@ -78,16 +80,16 @@ public class JanggiDao {
             final int janggiId,
             final Team changedTeam
     ) throws SQLException {
-        final var query = "UPDATE janggi SET turn = ? WHERE id = ?";
-        final var preparedStatement = connection.prepareStatement(query);
+        final String query = "UPDATE janggi SET turn = ? WHERE id = ?";
+        final PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, changedTeam.name());
         preparedStatement.setInt(2, janggiId);
         preparedStatement.executeUpdate();
     }
 
     public void deleteAll(final Connection connection) throws SQLException {
-        final var query = "DELETE FROM janggi WHERE TRUE";
-        final var preparedStatement = connection.prepareStatement(query);
+        final String query = "DELETE FROM janggi WHERE TRUE";
+        final PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.executeUpdate();
     }
 }
