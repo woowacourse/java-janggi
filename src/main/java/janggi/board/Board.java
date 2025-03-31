@@ -106,7 +106,7 @@ public class Board {
         long liveKingCount = locatedPieces.stream()
                 .filter(piece -> piece.isLive() && piece.getPieceType() == PieceType.KING)
                 .count();
-        return liveKingCount == 2;
+        return liveKingCount < 2;
     }
 
     public Piece extractWinnerKing() {

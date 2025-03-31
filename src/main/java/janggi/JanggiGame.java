@@ -41,7 +41,7 @@ public class JanggiGame {
 
         Board board = new Board(initialPieces);
         output.printBoard(board.extractLocatedLivePieces());
-        while (board.isGameOver()) {
+        while (!board.isGameOver()) {
             turn = dropPiece(output, input, board, turn, boardDao, turnDao);
         }
         endGame(output, board, boardDao, turnDao);
