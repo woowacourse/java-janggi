@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.dto.BoardPieceDto;
+import janggi.movement.Movement;
 import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -78,7 +79,6 @@ public class Soldier implements Piece {
         return new Soldier(team, step(availableMovement), isLive);
     }
 
-    // todo 졸/병 궁성 내 움직임 확인
     private List<List<Movement>> generateMovements() {
         if (PalacePosition.isContains(position)) {
             List<List<Movement>> totalMovements = new ArrayList<>();
