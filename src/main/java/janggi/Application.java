@@ -10,9 +10,8 @@ import janggi.piece.Team;
 import janggi.view.InputParser;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import repository.connection.MysqlConnectionManager;
-import repository.dao.BoardDAO;
 import repository.dao.AttackTurnDAO;
+import repository.dao.BoardDAO;
 
 import java.util.Map;
 
@@ -20,8 +19,8 @@ public class Application {
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
     private static final InputParser parser = new InputParser();
-    private static final BoardDAO BOARD_DAO = new BoardDAO(new MysqlConnectionManager());
-    private static final AttackTurnDAO ATTACK_TURN_DAO = new AttackTurnDAO(new MysqlConnectionManager());
+    private static final BoardDAO BOARD_DAO = new BoardDAO();
+    private static final AttackTurnDAO ATTACK_TURN_DAO = new AttackTurnDAO();
 
     public static void main(String[] args) {
         Board board;

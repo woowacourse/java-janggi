@@ -10,7 +10,7 @@ import janggi.piece.Horse;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
 import janggi.piece.Team;
-import repository.connection.ConnectionManager;
+import repository.connection.MysqlConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,11 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BoardDAO {
-    private final Connection connection;
-
-    public BoardDAO(ConnectionManager manager) {
-        this.connection = manager.getConnection();
-    }
 
     public void saveInitialBoard(Map<Position, Piece> initialBoard) {
         String query = """
@@ -33,7 +28,8 @@ public class BoardDAO {
                 VALUES (?, ?, ?, ?)
                 """;
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = new MysqlConnectionManager().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
             for (Map.Entry<Position, Piece> entry : initialBoard.entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
@@ -57,7 +53,8 @@ public class BoardDAO {
                 FROM piece
                 """;
 
-        try (Statement statement = connection.createStatement();
+        try (Connection connection = new MysqlConnectionManager().getConnection();
+             Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
@@ -77,16 +74,17 @@ public class BoardDAO {
     }
 
     public void updatePiecePosition(Position start, Position goal) {
+        Connection connection = new MysqlConnectionManager().getConnection();
         String deleteExistingPieceQuery = """
-            DELETE FROM piece 
-            WHERE position_column = ? AND position_row = ?
-            """;
+                DELETE FROM piece 
+                WHERE position_column = ? AND position_row = ?
+                """;
 
         String updateQuery = """
-            UPDATE piece
-            SET position_column = ?, position_row = ?
-            WHERE position_column = ? AND position_row = ?
-            """;
+                UPDATE piece
+                SET position_column = ?, position_row = ?
+                WHERE position_column = ? AND position_row = ?
+                """;
 
         try {
             connection.setAutoCommit(false);
@@ -129,7 +127,8 @@ public class BoardDAO {
     public void deleteAll() {
         String query = "DELETE FROM PIECE";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = new MysqlConnectionManager().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException("보드 리셋 실패", e);
