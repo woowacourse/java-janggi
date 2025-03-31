@@ -19,16 +19,24 @@ public class JanggiApplication {
         OutputView.printIntroduce();
         createTablesIfNotExistsJanggiTables();
         final Board board = readTablesIfExistsJanggiTable();
-        startJanggi(board);
+        final Country type = readCurrentTurnIfExistsTurnTable();
+        startJanggi(board, type);
+    }
+
+    private static Country readCurrentTurnIfExistsTurnTable() {
+        if(janggiDatabase.existsJanggiTable()){
+            return janggiDatabase.readCurrentTurn();
+        }
+        return Country.getFirstTurnCountry();
     }
 
     private static Board readTablesIfExistsJanggiTable() {
-        if (!janggiDatabase.existsJanggiRows()) {
-            final Board board = Board.createInitializedJanggiBoard();
-            janggiDatabase.saveBoard(board);
-            return board;
+        if (janggiDatabase.existsJanggiRows()) {
+            return janggiDatabase.readBoard();
         }
-        return janggiDatabase.readBoard();
+        final Board board = Board.createInitializedJanggiBoard();
+        janggiDatabase.saveBoard(board);
+        return board;
     }
 
     private static void createTablesIfNotExistsJanggiTables() {
@@ -37,15 +45,14 @@ public class JanggiApplication {
         }
     }
 
-    private static void startJanggi(final Board board) {
-        Country type = Country.getFirstTurnCountry();
-
+    private static void startJanggi(final Board board, Country type) {
         while (board.isAliveAllGenerals()) {
             OutputView.printBoard(board, type);
             final List<JanggiPosition> janggiPositions = InputView.readPositions();
             board.updatePosition(janggiPositions.get(MOVE_SOURCE), janggiPositions.get(MOVE_DESTINATION), type);
             type = type.toggleCountry();
             updateMoveForDatabase(janggiPositions.get(MOVE_SOURCE), janggiPositions.get(MOVE_DESTINATION), board);
+            janggiDatabase.updateTurn(type);
         }
 
         OutputView.printJanggiWinner(board);

@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class JanggiDatabase {
-
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
     private static final String DATABASE = "chess"; // MySQL DATABASE 이름
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -27,10 +26,14 @@ public class JanggiDatabase {
             + "TYPE VARCHAR(20) NOT NULL,"
             + "COUNTRY VARCHAR(20) NOT NULL"
             + ")";
+    private static final String TURN_TABLE = "CREATE TABLE TURN ("
+            + "ID INT AUTO_INCREMENT PRIMARY KEY,"
+            + "COUNTRY VARCHAR(20) NOT NULL"
+            + ")";
     private static final String EXISTS_TABLES_QUERY = "SELECT COUNT(*) "
             + "FROM INFORMATION_SCHEMA.TABLES "
             + "WHERE TABLE_SCHEMA='" + DATABASE + "' "
-            + "AND (TABLE_NAME='PIECE')";
+            + "AND (TABLE_NAME='PIECE' OR TABLE_NAME='TURN') ";
 
 
     public Connection getConnection() {
@@ -44,13 +47,23 @@ public class JanggiDatabase {
 
     public void createJanggiTables() {
         try (final Connection connection = getConnection()) {
-            if(existsJanggiTable()){
+            if (existsJanggiTable()) {
                 return;
             }
+            final String insertFirstTurnCountry = "INSERT INTO TURN VALUES(DEFAULT, ?)";
 
             final PreparedStatement pieceTable = connection.prepareStatement(PIECE_TABLE);
+            final PreparedStatement turnTable = connection.prepareStatement(TURN_TABLE);
+
             pieceTable.execute();
+            turnTable.execute();
+
+            final PreparedStatement insertTurn = connection.prepareStatement(insertFirstTurnCountry);
+            insertTurn.setString(1, Country.getFirstTurnCountry().name());
+
+            insertTurn.execute();
         } catch (final SQLException e) {
+            e.printStackTrace();
             throw new IllegalStateException();
         }
     }
@@ -61,7 +74,7 @@ public class JanggiDatabase {
 
             final ResultSet rs = tableExists.executeQuery();
             rs.next();
-            return rs.getInt(1) == 1;
+            return rs.getInt(1) == 2;
         } catch (final SQLException e) {
             e.printStackTrace();
             return false;
@@ -104,7 +117,7 @@ public class JanggiDatabase {
             final ResultSet rs = preparedStatement.executeQuery();
             final Map<JanggiPosition, Piece> janggiBoard = new HashMap<>();
 
-            while(rs.next()){
+            while (rs.next()) {
                 readPiece(rs, janggiBoard);
             }
 
@@ -121,7 +134,6 @@ public class JanggiDatabase {
         final int y = rs.getInt(3);
         final String pieceName = rs.getString(4);
         final String countryText = rs.getString(5);
-
 
         final JanggiPosition janggiPosition = new JanggiPosition(x, y);
         final Country country = Country.StringToCountry(countryText);
@@ -186,6 +198,39 @@ public class JanggiDatabase {
         } catch (final SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public boolean updateTurn(final Country country) {
+        try (final Connection connection = getConnection()) {
+            final String updateTurn = "UPDATE TURN SET COUNTRY=? WHERE COUNTRY=?";
+            final PreparedStatement preparedStatement = connection.prepareStatement(updateTurn);
+
+            preparedStatement.setString(1, country.name());
+            preparedStatement.setString(2, country.toggleCountry().name());
+
+            return preparedStatement.executeUpdate() == 1;
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public Country readCurrentTurn() {
+        try (final Connection connection = getConnection()) {
+            final String readQuery = "SELECT * FROM TURN";
+            final PreparedStatement preparedStatement = connection.prepareStatement(readQuery);
+
+            final ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+
+            final Country country = Country.StringToCountry(rs.getString(2));
+
+            return country;
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
         }
     }
 }

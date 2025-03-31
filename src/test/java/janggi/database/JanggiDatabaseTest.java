@@ -21,12 +21,12 @@ public class JanggiDatabaseTest {
     private static final JanggiDatabase database = new JanggiDatabase();
 
     @BeforeEach
-    void initDatabase(){
+    void initDatabase() {
         database.removeAllJanggiRows();
     }
 
     @AfterAll
-    static void initDatabaseForEndTest(){
+    static void initDatabaseForEndTest() {
         database.removeAllJanggiRows();
     }
 
@@ -65,7 +65,7 @@ public class JanggiDatabaseTest {
     private void createTablesForTest() {
         try {
             database.createJanggiTables();
-        } catch (final IllegalStateException e){
+        } catch (final IllegalStateException e) {
         }
     }
 
@@ -93,7 +93,7 @@ public class JanggiDatabaseTest {
 
     @DisplayName("Board 정보를 불러온다.")
     @Test
-    void readBoard(){
+    void readBoard() {
         // given
         final Board board = createBoard();
         database.saveBoard(board);
@@ -104,7 +104,7 @@ public class JanggiDatabaseTest {
         // then
         assertThat(actual.getJanggiBoard()).hasSize(3);
     }
-    
+
     @DisplayName("장기 데이터가 존재하는지를 반환한다.")
     @Test
     void existsJanggiRows() {
@@ -164,4 +164,26 @@ public class JanggiDatabaseTest {
         // then
         assertThat(actual).isTrue();
     }
+
+    @DisplayName("turn을 수정한다.")
+    @Test
+    void updateTurn() {
+        // given
+        final Country country = Country.HAN;
+
+        // when & then
+        assertThatCode(() -> {
+            database.updateTurn(country);
+        });
+    }
+
+    @DisplayName("trun을 읽어온다.")
+    @Test
+    void readTurn() {
+        // given & when & then
+        assertThatCode(() -> {
+            final Country actual = database.readCurrentTurn();
+        });
+    }
+
 }
