@@ -1,12 +1,19 @@
 package janggi.piece;
 
 import janggi.position.Direction;
+import java.util.Arrays;
 import java.util.List;
 
 public enum Team {
-    HAN,
-    CHO,
+    HAN("한나라"),
+    CHO("초나라"),
     ;
+
+    private final String name;
+
+    Team(String name) {
+        this.name = name;
+    }
 
     public Team getOpposite() {
         if (this == HAN) {
@@ -28,5 +35,12 @@ public enum Team {
             return "한나라";
         }
         return "초나라";
+    }
+
+    public static Team fromString(String value) {
+        return Arrays.stream(values())
+                .filter(team -> team.name.equalsIgnoreCase(value))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("팀 정보가 없습니다."));
     }
 }

@@ -19,6 +19,10 @@ public class Pieces {
         settingPieces(Team.CHO);
     }
 
+    public Pieces(Map<Position, Piece> pieces) {
+        this.pieces = pieces;
+    }
+
     private void settingPieces(Team team) {
         for (DefaultPosition value : DefaultPosition.values()) {
             pieces.putAll(DefaultPosition.createDefaultPieces(value, team));
