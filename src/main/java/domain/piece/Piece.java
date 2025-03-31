@@ -34,14 +34,11 @@ public abstract class Piece {
     public abstract PieceType getType();
 
     public List<Position> getPath(final Position targetPosition) {
-        List<Position> path = directions.getPath(position, targetPosition); // 일단 기본 이동 방향들로 먼저 경로 찾기
-        // 궁성을 이동할 수 있는 기물이고, 궁성이 목적지일 경우
+        List<Position> path = directions.getPath(position, targetPosition);
         if (canMoveInPalace() && position.isInPalace() && targetPosition.isInPalace()) {
-            // 해당 위치에서 궁성 내 갈 수 있는 곳을 따로 path 찾아주기
             List<Position> palacePath = directions.getPalacePath(position, targetPosition);
             path.addAll(palacePath);
         }
-
         return path;
     }
 
