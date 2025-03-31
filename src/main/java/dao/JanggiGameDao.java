@@ -12,13 +12,22 @@ public class JanggiGameDao {
 
     public void createTable(Connection connection) throws SQLException {
         final var createTableQuery = """
-                CREATE TABLE IF NOT EXISTS janggi_game (
+                CREATE TABLE janggi_game (
                     id BIGINT PRIMARY KEY AUTO_INCREMENT,
                     turn VARCHAR(20)
                 );
                 """;
         try (final var statement = connection.createStatement()) {
             statement.execute(createTableQuery);
+        }
+    }
+
+    public void dropTable(Connection connection) throws SQLException {
+        final var dropIfExistQuery = """
+                DROP TABLE IF EXISTS janggi_game;
+                """;
+        try (final var statement = connection.createStatement()) {
+            statement.execute(dropIfExistQuery);
         }
     }
 
@@ -40,7 +49,7 @@ public class JanggiGameDao {
 
     public void update(Connection connection, Long janggiGameId, JanggiGameEntity entity) throws SQLException{
         final var updateQuery = """
-                UPDATE janggi_game SET turn = ? WHERE janggi_game_id = ?;
+                UPDATE janggi_game SET turn = ? WHERE id = ?;
                 """;
         try (final var preparedStatement = connection.prepareStatement(updateQuery)) {
             preparedStatement.setString(1, entity.getTurn().getTeam().name());

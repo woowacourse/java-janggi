@@ -1,5 +1,6 @@
 package dao;
 
+import dao.dto.UpdatePieceRequest;
 import domain.entity.JanggiGameEntity;
 import domain.entity.PieceEntity;
 import domain.game.JanggiGame;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class JanggiTransactionManager implements TransactionManager<JanggiGame> {
+public class JanggiTransactionManager {
 
     private final DataBaseConnector dataBaseConnector;
     private final JanggiGameDao janggiGameDao;
@@ -32,6 +33,8 @@ public class JanggiTransactionManager implements TransactionManager<JanggiGame> 
             connection.setAutoCommit(false);
 
             try {
+                pieceDao.dropTable(connection);
+                janggiGameDao.dropTable(connection);
                 janggiGameDao.createTable(connection);
                 pieceDao.createTable(connection);
                 connection.commit();
@@ -40,7 +43,7 @@ public class JanggiTransactionManager implements TransactionManager<JanggiGame> 
                 throw new RuntimeException("[ERROR] 테이블 생성 중 오류 발생하였습니다");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결 중 오류 발생하였습니다");
+            throw new RuntimeException("[ERROR] DB 연결 중 오류 발생하였습니다", e);
         }
     }
 
@@ -61,17 +64,17 @@ public class JanggiTransactionManager implements TransactionManager<JanggiGame> 
         }
     }
 
-    public void update(Long janggiGameId, JanggiGame updatedJanggiGame) {
+    public void update(Long janggiGameId, JanggiGame updatedJanggiGame, UpdatePieceRequest updatePieceRequest) {
         try (Connection connection = dataBaseConnector.getConnection()) {
             connection.setAutoCommit(false);
 
             try {
                 janggiGameDao.update(connection, janggiGameId, entityMapper.mapToUpdateJanggiGameEntity(updatedJanggiGame));
-                pieceDao.updateAll(connection, janggiGameId, entityMapper.mapToUpdatePieceEntities(updatedJanggiGame.getBoard()));
+                pieceDao.update(connection, updatePieceRequest.originLocation(), updatePieceRequest.updateLocation());
                 connection.commit();
             } catch (SQLException e) {
                 connection.rollback();
-                throw new RuntimeException("[ERROR] 엔터티 수정 중 오류 발생하였습니다");
+                throw new RuntimeException("[ERROR] 엔터티 수정 중 오류 발생하였습니다", e);
             }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] DB 연결 중 오류 발생하였습니다");

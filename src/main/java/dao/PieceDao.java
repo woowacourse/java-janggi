@@ -1,5 +1,6 @@
 package dao;
 
+import domain.board.BoardLocation;
 import domain.entity.PieceEntity;
 import domain.piece.PieceType;
 import domain.piece.Score;
@@ -12,8 +13,8 @@ import java.util.List;
 public class PieceDao {
 
     public void createTable(Connection connection) throws SQLException {
-        final var createTableQuery = """                
-                CREATE TABLE IF NOT EXISTS piece (
+        final var createTableQuery = """
+                CREATE TABLE piece (
                     id BIGINT PRIMARY KEY AUTO_INCREMENT,
                     x INTEGER NOT NULL,
                     y INTEGER NOT NULL,
@@ -26,6 +27,15 @@ public class PieceDao {
                 """;
         try (final var statement = connection.createStatement()) {
             statement.execute(createTableQuery);
+        }
+    }
+
+    public void dropTable(Connection connection) throws SQLException {
+        final var dropIfExistQuery = """
+                DROP TABLE IF EXISTS piece;
+                """;
+        try (final var statement = connection.createStatement()) {
+            statement.execute(dropIfExistQuery);
         }
     }
 
@@ -48,22 +58,16 @@ public class PieceDao {
         }
     }
 
-    public void updateAll(Connection connection, Long janggiGameId, List<PieceEntity> updatePieceEntities) throws SQLException {
+    public void update(Connection connection, BoardLocation originLocation, BoardLocation updateLocation) throws SQLException {
         final var updateQuery = """
-                UPDATE piece SET x = ?, y = ?, type = ?, team = ?, score = ? WHERE janggi_game_id = ?;
+                UPDATE piece SET x = ?, y = ? WHERE x = ? AND y = ?;
                 """;
         try (final var preparedStatement = connection.prepareStatement(updateQuery)) {
-            for (PieceEntity pieceEntity : updatePieceEntities) {
-                preparedStatement.setInt(1, pieceEntity.getX());
-                preparedStatement.setInt(2, pieceEntity.getY());
-                preparedStatement.setString(3, pieceEntity.getType().name());
-                preparedStatement.setString(4, pieceEntity.getTeam().name());
-                preparedStatement.setDouble(5, pieceEntity.getScore().score());
-                preparedStatement.setLong(6, janggiGameId);
-
-                preparedStatement.addBatch();
-            }
-            preparedStatement.executeBatch();
+            preparedStatement.setInt(1, updateLocation.x());
+            preparedStatement.setInt(2, updateLocation.y());
+            preparedStatement.setInt(3, originLocation.x());
+            preparedStatement.setInt(4, originLocation.y());
+            preparedStatement.executeUpdate();
         }
     }
 

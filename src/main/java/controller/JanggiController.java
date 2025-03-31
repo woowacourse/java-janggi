@@ -1,6 +1,7 @@
 package controller;
 
-import dao.TransactionManager;
+import dao.JanggiTransactionManager;
+import dao.dto.UpdatePieceRequest;
 import domain.board.Board;
 import domain.board.BoardLocation;
 import domain.game.JanggiGame;
@@ -13,9 +14,9 @@ import view.ConsoleView;
 public class JanggiController {
 
     private final ConsoleView consoleView;
-    private final TransactionManager<JanggiGame> transactionManager;
+    private final JanggiTransactionManager transactionManager;
 
-    public JanggiController(ConsoleView consoleView, TransactionManager<JanggiGame> transactionManager) {
+    public JanggiController(ConsoleView consoleView, JanggiTransactionManager transactionManager) {
         this.consoleView = consoleView;
         this.transactionManager = transactionManager;
     }
@@ -38,7 +39,7 @@ public class JanggiController {
                 isGameStopped = janggiGame.isGameStopped();
 
                 consoleView.showBoard(janggiGame.getBoard().getPieces());
-                transactionManager.update(janggiGameId, janggiGame);
+                transactionManager.update(janggiGameId, janggiGame, new UpdatePieceRequest(current, destination));
             } catch (RuntimeException e) {
                 consoleView.showMessage(e.getMessage());
             }

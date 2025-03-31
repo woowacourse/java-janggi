@@ -40,18 +40,6 @@ public class EntityMapper {
         return new JanggiGameEntity(janggiGame.getTurn());
     }
 
-    public List<PieceEntity> mapToUpdatePieceEntities(Board board) {
-        Map<BoardLocation, Piece> pieces = board.getPieces();
-        return pieces.entrySet().stream()
-                .map(entry -> {
-                    BoardLocation location = entry.getKey();
-                    Piece piece = entry.getValue();
-                    return new PieceEntity(location.x(), location.y(), piece.getType(), piece.getTeam(),
-                            piece.getScore());
-                })
-                .toList();
-    }
-
     public JanggiGame mapToJanggiGame(JanggiGameEntity janggiGameEntity, List<PieceEntity> pieceEntities) {
         Turn turn = janggiGameEntity.getTurn();
         Board board = mapToBoard(pieceEntities);
