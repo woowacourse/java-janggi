@@ -28,19 +28,18 @@ public class Board {
         move(attackerPiece, arrivedPosition, boardDao);
     }
 
-    private Piece attackToTarget(Piece attackerPiece, Position arrivedPosition, BoardDao boardDao) {
+    private void attackToTarget(Piece attackerPiece, Position arrivedPosition, BoardDao boardDao) {
         Piece targetPiece = findByPosition(arrivedPosition);
         validateAttackingSameTeam(attackerPiece, targetPiece);
         Piece updatedPiece = targetPiece.receiveAttack();
         updatePiece(targetPiece,updatedPiece,boardDao);
-        return move(attackerPiece, arrivedPosition, boardDao);
+        move(attackerPiece, arrivedPosition, boardDao);
     }
 
-    private Piece move(Piece attackerPiece, Position arrivedPosition, BoardDao boardDao) {
+    private void move(Piece attackerPiece, Position arrivedPosition, BoardDao boardDao) {
         validateObstacle(attackerPiece, arrivedPosition);
         Piece movedPiece = attackerPiece.move(arrivedPosition);
         updatePiece(attackerPiece, movedPiece, boardDao);
-        return movedPiece;
     }
 
     private void updatePiece(Piece previousPiece, Piece updatePiece,  BoardDao boardDao) {
@@ -96,7 +95,7 @@ public class Board {
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다"));
     }
 
-    public List<Piece> extractLocatedLivePicecs() {
+    public List<Piece> extractLocatedLivePieces() {
         return locatedPieces.stream()
                 .filter(Piece::isLive)
                 .toList();

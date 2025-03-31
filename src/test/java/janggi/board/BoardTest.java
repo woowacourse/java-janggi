@@ -32,7 +32,7 @@ public class BoardTest {
         Position arrivedPosition = new Position(8, 1);
         //when
         board.dropPiece(new Turn(Team.CHO), startPosition, arrivedPosition, boardDao);
-        List<Piece> positionedPieces = board.extractLocatedLivePicecs();
+        List<Piece> positionedPieces = board.extractLocatedLivePieces();
         Piece findPiece = positionedPieces.stream()
                 .filter(piece -> piece.matchesPosition(arrivedPosition))
                 .findFirst()

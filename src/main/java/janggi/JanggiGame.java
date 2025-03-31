@@ -40,7 +40,7 @@ public class JanggiGame {
         }
 
         Board board = new Board(initialPieces);
-        output.printBoard(board.extractLocatedLivePicecs());
+        output.printBoard(board.extractLocatedLivePieces());
         while (board.isGameOver()) {
             turn = dropPiece(output, input, board, turn, boardDao, turnDao);
         }
@@ -59,7 +59,7 @@ public class JanggiGame {
             output.printScore(board.calculateScore(Team.CHO), board.calculateScore(Team.HAN));
             Map.Entry<Position, Position> moveableInfo = input.readMoveablePiece();
             board.dropPiece(turn, moveableInfo.getKey(), moveableInfo.getValue(), boardDao);
-            output.printBoard(board.extractLocatedLivePicecs());
+            output.printBoard(board.extractLocatedLivePieces());
             Turn nextTurn = turn.turnOver();
             turnDao.updateTurn(turn.getTurn(), nextTurn.getTurn());
             return nextTurn;
