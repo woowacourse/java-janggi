@@ -1,11 +1,23 @@
-package janggi.view;
+package janggi.view.command;
 
 import janggi.coordinate.Position;
 
-public record MoveCommand(int departureRow,
-                          int departureColumn,
-                          int destinationRow,
-                          int destinationColumn) {
+public class MoveCommand implements Command {
+
+    private final int departureRow;
+    private final int departureColumn;
+    private final int destinationRow;
+    private final int destinationColumn;
+
+    public MoveCommand(final int departureRow,
+                       final int departureColumn,
+                       final int destinationRow,
+                       final int destinationColumn) {
+        this.departureRow = departureRow;
+        this.departureColumn = departureColumn;
+        this.destinationRow = destinationRow;
+        this.destinationColumn = destinationColumn;
+    }
 
     public static MoveCommand of(final String departureRow,
                                  final String departureColumn,
@@ -29,5 +41,10 @@ public record MoveCommand(int departureRow,
 
     public Position getDestinationPosition() {
         return Position.of(destinationRow, destinationColumn);
+    }
+
+    @Override
+    public CommandType getType() {
+        return CommandType.MOVE;
     }
 }
