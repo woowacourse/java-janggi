@@ -2,9 +2,7 @@ package movement;
 
 import position.Position;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class MovePath {
 
@@ -37,7 +35,7 @@ public class MovePath {
     }
 
     public MovePaths getInternalMovements() {
-        List<MovePath> moveActions = new ArrayList<>();
+        Set<MovePath> moveActions = new HashSet<>();
         List<Movement> buffer = new ArrayList<>();
 
         for (int i = 0; i < movements.size() - 1; i++) {
@@ -48,13 +46,10 @@ public class MovePath {
         return new MovePaths(moveActions);
     }
 
-    // TODO 2025. 3. 30. 11:56: try - catch -> boolean
     public boolean canReachDestination(Position src, Position destination) {
         for (Movement movement : movements) {
-            try {
+            if (src.canMove(movement)) {
                 src = src.move(movement);
-            } catch (IllegalArgumentException e) {
-                return false;
             }
         }
         return src.equals(destination);
