@@ -10,7 +10,7 @@ public class Empty implements Piece {
     public Empty() {
     }
 
-    public Empty(Side side) { //FIXME: 피스 타입에서 생성자를 위한 Side를 받는 생성자입니다.
+    public Empty(Side side) {
     }
 
     @Override

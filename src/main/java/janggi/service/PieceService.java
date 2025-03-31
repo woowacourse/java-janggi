@@ -32,10 +32,10 @@ public class PieceService {
     }
 
     public List<Piece> findAllPieces() {
-        List<PieceFindDto> pieceFindRespons = pieceDao.findAllPieces();
+        List<PieceFindDto> pieceFindResponse = pieceDao.findAllPieces();
 
         List<Piece> pieces = new ArrayList<>();
-        for (PieceFindDto pieceFindDto : pieceFindRespons) {
+        for (PieceFindDto pieceFindDto : pieceFindResponse) {
             pieces.add(createPiece(pieceFindDto.pieceType(), pieceFindDto.side()));
         }
         return pieces;

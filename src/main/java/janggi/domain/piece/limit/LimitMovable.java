@@ -21,17 +21,20 @@ public abstract class LimitMovable implements Piece {
         List<Route> candidateRoutes = computeCandidatePositions(position);
 
         List<Position> reachablePositions = new ArrayList<>();
-
         for (Route route : candidateRoutes) {
-            if (isInvalidRoute(route, board)) {
-                continue;
-            }
-            reachablePositions.add(route.getLastPosition());
+            reachablePositions.addAll(getReachablePositionIfValid(board, route));
         }
         return reachablePositions;
     }
 
     abstract List<Route> computeCandidatePositions(final Position position);
+
+    private List<Position> getReachablePositionIfValid(final Map<Position, Piece> board, final Route route) {
+        if (isInvalidRoute(route, board)) {
+            return List.of();
+        }
+        return List.of(route.getLastPosition());
+    }
 
     private boolean isInvalidRoute(final Route route, final Map<Position, Piece> board) {
         Position destination = route.getLastPosition();
@@ -42,13 +45,9 @@ public abstract class LimitMovable implements Piece {
     }
 
     private boolean checkInvalidIntermediatePositions(final Route route, final Map<Position, Piece> board) {
-        for (Position position : route.getIntermediatePositions()) {
-            Piece targetPiece = board.get(position);
-            if (targetPiece.isOccupied()) {
-                return true;
-            }
-        }
-        return false;
+        return route.getIntermediatePositions().stream()
+                .map(board::get)
+                .anyMatch(Piece::isOccupied);
     }
 
     @Override

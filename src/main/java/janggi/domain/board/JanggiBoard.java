@@ -25,11 +25,9 @@ public class JanggiBoard {
     }
 
     public static JanggiBoard fillEmptyPiece(Map<Position, Piece> positionPieces) {
-        for (int i = 0; i < X_LIMIT; i++) {
-            for (int j = 0; j < Y_LIMIT; j++) {
-                Position position = new Position(i, j);
-                positionPieces.putIfAbsent(position, new Empty());
-            }
+        for (int i = 0; i < X_LIMIT * Y_LIMIT; i++) {
+            Position position = new Position(i / Y_LIMIT, i % Y_LIMIT);
+            positionPieces.putIfAbsent(position, new Empty());
         }
         return new JanggiBoard(positionPieces);
     }
