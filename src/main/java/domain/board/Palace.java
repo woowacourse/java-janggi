@@ -50,11 +50,11 @@ public enum Palace {
 
     public void validateInPalace(BoardLocation current, BoardLocation destination) {
         if (isNotInPalace(current) || isNotInPalace(destination)) {
-            throw new IllegalArgumentException("[ERROR] 킹은 궁성 안에서 움직여야 합니다.");
+            throw new IllegalArgumentException("[ERROR] 궁성 안에서 움직여야 합니다.");
         }
     }
 
-    public boolean isNotInPalace(BoardLocation location) {
+    private boolean isNotInPalace(BoardLocation location) {
         return startLocation.x() > location.x()
                 || startLocation.y() > location.y()
                 || endLocation.x() < location.x()

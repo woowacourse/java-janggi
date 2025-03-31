@@ -12,7 +12,6 @@ import domain.piece.Piece;
 import domain.piece.Scholar;
 import domain.piece.Score;
 import domain.piece.Team;
-import dto.BoardDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +23,12 @@ import java.util.Map.Entry;
 import java.util.Optional;
 
 public class PieceDao {
-    private final Connection connection = JdbcConnection.getInstance();
+
+    private final JdbcConnection jdbcConnection;
+
+    public PieceDao(JdbcConnection jdbcConnection) {
+        this.jdbcConnection = jdbcConnection;
+    }
 
     public void initializePieceIfNotExists(Board board) {
         Map<BoardLocation, Piece> pieces = board.getPieces();
@@ -34,7 +38,8 @@ public class PieceDao {
                 + "location_x,"
                 + "location_y) " +
                 "VALUES (?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
             for (Entry<BoardLocation, Piece> entry : pieces.entrySet()) {
                 stmt.setString(1, entry.getValue().getType().name());
                 stmt.setString(2, entry.getValue().getTeam().name());
@@ -47,11 +52,12 @@ public class PieceDao {
         }
     }
 
-    public Optional<BoardDto> findByAllAlivePieces() {
+    public Optional<Board> findByAllAlivePieces() {
         createPieceTableIfNotExists();
         String query = "SELECT piece_type, team, location_x, location_y FROM piece";
         Map<BoardLocation, Piece> pieces = new HashMap<>();
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     String pieceType = rs.getString("piece_type");
@@ -61,7 +67,7 @@ public class PieceDao {
                     pieces.put(new BoardLocation(locationX, locationY), createPieceByType(pieceType, team));
                 }
             }
-            return Optional.of(new BoardDto(pieces));
+            return Optional.of(new Board(pieces));
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
@@ -70,7 +76,8 @@ public class PieceDao {
     public void updateBoard(BoardLocation current, BoardLocation destination) {
         String updatePieceQuery = "UPDATE piece SET location_x = ?, location_y = ? " +
                 "WHERE location_x = ? AND location_y = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(updatePieceQuery)) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(updatePieceQuery)) {
             stmt.setInt(1, destination.x());
             stmt.setInt(2, destination.y());
             stmt.setInt(3, current.x());
@@ -83,7 +90,8 @@ public class PieceDao {
 
     public void deleteBoard(BoardLocation destination) {
         String deletePieceQuery = "DELETE FROM piece WHERE location_x = ? AND location_y = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(deletePieceQuery)) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(deletePieceQuery)) {
             stmt.setInt(1, destination.x());
             stmt.setInt(2, destination.y());
             stmt.executeUpdate();
@@ -100,7 +108,8 @@ public class PieceDao {
                 "location_x INT NOT NULL, " +
                 "location_y INT NOT NULL" +
                 ")";
-        try (Statement stmt = connection.createStatement()) {
+        try (Connection connection = jdbcConnection.getConnection();
+             Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(query);
         } catch (SQLException e) {
             throw new RuntimeException(e);

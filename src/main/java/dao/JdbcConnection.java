@@ -12,18 +12,22 @@ public class JdbcConnection {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    private static final Connection connection = getConnection();
-
-    public static Connection getInstance() {
-        return connection;
-    }
-
-    public static Connection getConnection() {
+    public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
             System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            StringBuilder filteredStackTrace = new StringBuilder();
+
+            for (StackTraceElement element : stackTrace) {
+                filteredStackTrace.append("Class: ").append(element.getClassName())
+                        .append(", Method: ").append(element.getMethodName())
+                        .append(", Line: ").append(element.getLineNumber())
+                        .append("\n");
+            }
+
+            System.err.println("Filtered StackTrace: " + filteredStackTrace);
             return null;
         }
     }
