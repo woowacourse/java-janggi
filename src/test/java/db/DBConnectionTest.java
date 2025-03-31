@@ -20,5 +20,4 @@ class DBConnectionTest {
             throw new RuntimeException(e);
         }
     }
-
 }

@@ -1,8 +1,8 @@
 package janggiGame.arrangement;
 
-import janggiGame.position.Position;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
+import janggiGame.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,4 +18,3 @@ public abstract class ArrangementStrategy {
     public abstract Map<Position, Piece> arrangeCho(Dynasty dynasty);
 
 }
-

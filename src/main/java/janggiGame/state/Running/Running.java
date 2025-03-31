@@ -5,6 +5,7 @@ import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.Type;
 import janggiGame.position.Position;
+import janggiGame.state.Finished.Draw;
 import janggiGame.state.GameResult;
 import janggiGame.state.GameScore;
 import janggiGame.state.State;
@@ -28,21 +29,6 @@ public abstract class Running implements State {
     }
 
     @Override
-    public State arrangePieces(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
-        throw new IllegalStateException("[ERROR] 이미 배치 초기화가 이루어진 상태입니다.");
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public GameResult getGameResult() {
-        throw new IllegalStateException("[ERROR] 아직 게임 결과를 알 수 없습니다.");
-    }
-
-    @Override
     public GameScore getGameScore() {
         double hanScore = calculateScore(Dynasty.HAN) + DEOM_FOR_HAN;
         double choScore = calculateScore(Dynasty.CHO);
@@ -56,6 +42,25 @@ public abstract class Running implements State {
                 .filter(piece -> piece.getType() != Type.KING)
                 .mapToInt(Piece::getPoint)
                 .sum();
+    }
+
+    @Override
+    public State takeTurn(Position origin, Position destination) {
+        validateOrigin(origin, getTurnOwner());
+
+        Piece originPiece = pieces.get(origin);
+        List<Position> route = originPiece.getRoute(origin, destination);
+        Map<Position, Piece> routeWithPiece = getPiecesOn(route);
+        Piece destinationPiece = pieces.getOrDefault(destination, null);
+
+        originPiece.validateMove(routeWithPiece, destinationPiece);
+        Map<Position, Piece> nextTurnPieces = movePiece(origin, destination, originPiece);
+
+        if (destinationPiece != null && destinationPiece.getType() == Type.KING) {
+            return createWinState();
+        }
+
+        return createNextTurnState(nextTurnPieces, false);
     }
 
     protected void validateOrigin(Position origin, Dynasty dynasty) {
@@ -75,6 +80,10 @@ public abstract class Running implements State {
         }
     }
 
+    protected abstract Dynasty getTurnOwner();
+
+    protected abstract State createWinState();
+
     protected Map<Position, Piece> getPiecesOn(List<Position> route) {
         Map<Position, Piece> routeWithPiece = new HashMap<>();
 
@@ -93,7 +102,34 @@ public abstract class Running implements State {
     }
 
     @Override
+    public State skipTurn() {
+        if (wasLastTurnPassed) {
+            return new Draw();
+        }
+        return createNextTurnState(pieces, true);
+    }
+
+    protected abstract State createNextTurnState(Map<Position, Piece> nextTurnPieces, boolean wasLastTurnPassed);
+
+
+    @Override
     public boolean wasLastTurnPassed() {
         return wasLastTurnPassed;
     }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
+    public State arrangePieces(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
+        throw new IllegalStateException("[ERROR] 이미 배치 초기화가 이루어진 상태입니다.");
+    }
+
+    @Override
+    public GameResult getGameResult() {
+        throw new IllegalStateException("[ERROR] 아직 게임 결과를 알 수 없습니다.");
+    }
+
 }

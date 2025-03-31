@@ -73,7 +73,9 @@ public class InputView {
     public int readStartOption() {
         System.out.println("1. 이전 게임 불러오기");
         System.out.println("2. 새 게임 시작하기");
-        return Integer.parseInt(scanner.nextLine()); // 기본적인 int 입력
+        int option = Integer.parseInt(scanner.nextLine());
+        validateOption(option);
+        return option;
     }
 
     public Long readSavedGameId(List<GameEntity> games) {
@@ -86,6 +88,13 @@ public class InputView {
         }
         System.out.println("==========================\n");
         System.out.println("불러올 게임 ID를 입력하세요");
+
         return Long.parseLong(scanner.nextLine());
+    }
+
+    private void validateOption(Integer option) {
+        if (option != 1 && option != 2) {
+            throw new IllegalArgumentException("[ERROR] 존재하지 않는 옵션입니다.");
+        }
     }
 }

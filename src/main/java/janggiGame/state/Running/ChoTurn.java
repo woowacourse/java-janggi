@@ -2,12 +2,9 @@ package janggiGame.state.Running;
 
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
-import janggiGame.piece.Type;
 import janggiGame.position.Position;
 import janggiGame.state.Finished.ChoWin;
-import janggiGame.state.Finished.Draw;
 import janggiGame.state.State;
-import java.util.List;
 import java.util.Map;
 
 public class ChoTurn extends Running {
@@ -17,34 +14,22 @@ public class ChoTurn extends Running {
     }
 
     @Override
-    public State skipTurn() {
-        if (wasLastTurnPassed) {
-            return new Draw();
-        }
-        return new HanTurn(pieces, true);
-    }
-
-    @Override
-    public State takeTurn(Position origin, Position destination) {
-        validateOrigin(origin, Dynasty.CHO);
-
-        Piece originPiece = pieces.get(origin);
-        List<Position> route = originPiece.getRoute(origin, destination);
-        Map<Position, Piece> routeWithPiece = getPiecesOn(route);
-        Piece destinationPiece = pieces.getOrDefault(destination, null);
-
-        originPiece.validateMove(routeWithPiece, destinationPiece);
-        Map<Position, Piece> nextTurnPieces = movePiece(origin, destination, originPiece);
-
-        if (destinationPiece != null && destinationPiece.getType() == Type.KING) {
-            return new ChoWin();
-        }
-
-        return new HanTurn(nextTurnPieces, false);
-    }
-
-    @Override
     public Dynasty getCurrentDynasty() {
         return Dynasty.CHO;
+    }
+
+    @Override
+    protected Dynasty getTurnOwner() {
+        return Dynasty.CHO;
+    }
+
+    @Override
+    protected State createNextTurnState(Map<Position, Piece> nextTurnPieces, boolean wasLastTurnPassed) {
+        return new HanTurn(nextTurnPieces, wasLastTurnPassed);
+    }
+
+    @Override
+    protected State createWinState() {
+        return new ChoWin();
     }
 }

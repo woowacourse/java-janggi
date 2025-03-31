@@ -69,6 +69,4 @@ class StartedTest {
         // then
         assertThat(actual).isInstanceOf(ChoTurn.class);
     }
-
-
 }

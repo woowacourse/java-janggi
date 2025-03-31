@@ -38,5 +38,4 @@ class JanggiGameTest {
                 .hasMessageStartingWith("[ERROR]");
 
     }
-
 }
