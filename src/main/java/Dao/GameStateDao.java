@@ -3,8 +3,6 @@ package Dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import pieceProperty.PieceType;
-import pieceProperty.Position;
 import player.Nation;
 
 public class GameStateDao {
@@ -62,4 +60,15 @@ public class GameStateDao {
         }
         throw new IllegalArgumentException("[ERROR] 조회 중 오류가 발생하였습니다.");
     }
+
+    public void deleteAllGameState() {
+        var query = "TRUNCATE TABLE game_state";
+        try (var connection = getConnection();
+             var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
