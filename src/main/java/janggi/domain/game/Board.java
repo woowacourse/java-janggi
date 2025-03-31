@@ -8,6 +8,8 @@ import java.util.Map;
 
 public final class Board {
 
+    private static final double DUM = 1.5;
+    
     private final Map<Position, Piece> pieces;
 
     public Board(final Map<Position, Piece> pieces) {
@@ -26,7 +28,7 @@ public final class Board {
             int point = piece.point();
             teamPoints.put(team, teamPoints.getOrDefault(team, 0.0) + point);
         }
-        teamPoints.put(Team.HAN, teamPoints.get(Team.HAN) + 1.5);
+        teamPoints.put(Team.HAN, teamPoints.get(Team.HAN) + DUM);
         return teamPoints;
     }
 
