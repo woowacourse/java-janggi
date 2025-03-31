@@ -101,8 +101,12 @@ public abstract class Piece {
         return symbol == Symbol.EMPTY;
     }
 
-    public String getSymbol() {
-        return symbol.getSymbol();
+    public Symbol getSymbol() {
+        return symbol;
+    }
+
+    public Side getSide() {
+        return side;
     }
 
     public int getScore() {

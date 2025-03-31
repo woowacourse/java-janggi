@@ -24,18 +24,18 @@ public class OutputView {
                 Position position = new Position(x, y);
                 Piece piece = board.get(position);
                 if (piece.isCho()) {
-                    System.out.print(ANSI_GREEN + piece.getSymbol() + ANSI_RESET + "  ");
+                    System.out.print(ANSI_GREEN + piece.getSymbol().getSymbol() + ANSI_RESET + "  ");
                     continue;
                 }
                 if (piece.isHan()) {
-                    System.out.print(ANSI_RED + piece.getSymbol() + ANSI_RESET + "  ");
+                    System.out.print(ANSI_RED + piece.getSymbol().getSymbol() + ANSI_RESET + "  ");
                     continue;
                 }
                 if (position.isPalace()) {
                     System.out.print(ANSI_ORANGE + "ˣ" + ANSI_RESET + "  ");
                     continue;
                 }
-                System.out.print(piece.getSymbol() + "  ");
+                System.out.print(piece.getSymbol().getSymbol() + "  ");
             }
             System.out.println();
         }
@@ -65,10 +65,10 @@ public class OutputView {
 
     public void printMoveResult(final Piece piece) {
         if (piece.isCho()) {
-            System.out.println(ANSI_GREEN + piece.getSymbol() + ANSI_RESET + " 를 잡았습니다.");
+            System.out.println(ANSI_GREEN + piece.getSymbol().getSymbol() + ANSI_RESET + " 를 잡았습니다.");
         }
         if (piece.isHan()) {
-            System.out.println(ANSI_RED + piece.getSymbol() + ANSI_RESET + " 를 잡았습니다.");
+            System.out.println(ANSI_RED + piece.getSymbol().getSymbol() + ANSI_RESET + " 를 잡았습니다.");
         }
         System.out.println();
     }
