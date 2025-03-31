@@ -10,8 +10,8 @@ public class Pawn extends Piece implements FixedMoveStrategyChangeable {
 
     private FixedMoveStrategy moveStrategy;
 
-    public Pawn(Player player, FixedMoveStrategy moveStrategy) {
-        super(player);
+    public Pawn(Player player, FixedMoveStrategy moveStrategy, int point) {
+        super(player, point);
         this.moveStrategy = moveStrategy;
     }
 

@@ -10,8 +10,8 @@ public class Cannon extends Piece implements RangeMoveStrategyChangeable {
 
     private RangeMoveStrategy moveStrategy;
 
-    public Cannon(Player player, RangeMoveStrategy moveStrategy) {
-        super(player);
+    public Cannon(Player player, RangeMoveStrategy moveStrategy, int point) {
+        super(player, point);
         this.moveStrategy = moveStrategy;
     }
 

@@ -22,7 +22,7 @@ public class KingTest {
 
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        King king = new King(player);
+        King king = new King(player, 0);
         Position startPosition = new Position(2, 5);
         Position targetPosition = new Position(row, column);
 
@@ -42,7 +42,7 @@ public class KingTest {
 
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        King king = new King(player);
+        King king = new King(player, 0);
         Position startPosition = new Position(3, 6);
         Position targetPosition = new Position(row, column);
 
@@ -59,7 +59,7 @@ public class KingTest {
 
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        King king = new King(player);
+        King king = new King(player, 0);
         // when & then
         Assertions.assertThatThrownBy(() -> king.calculatePath(new Position(3, 5), new Position(2, 6)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -73,7 +73,7 @@ public class KingTest {
 
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        King king = new King(player);
+        King king = new King(player, 0);
 
         // when & then
         Assertions.assertThatThrownBy(() -> king.calculatePath(new Position(4, 1), new Position(4, 3)))

@@ -20,7 +20,7 @@ class ElephantTest {
     void test1(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
         Player player = new Player(1, "짱구", Team.RED);
-        Elephant elephant = new Elephant(player);
+        Elephant elephant = new Elephant(player, 3);
 
         // when
         List<Position> moves = elephant.calculatePath(startPosition, targetPosition);
@@ -58,7 +58,7 @@ class ElephantTest {
     @Test
     void test2() {
         Player player = new Player(1, "짱구", Team.RED);
-        Elephant elephant = new Elephant(player);
+        Elephant elephant = new Elephant(player, 3);
 
         Assertions.assertThatThrownBy(() -> elephant.calculatePath(new Position(4, 4), new Position(4, 5)))
                 .isInstanceOf(IllegalArgumentException.class)

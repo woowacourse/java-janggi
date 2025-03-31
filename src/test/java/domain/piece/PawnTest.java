@@ -23,7 +23,7 @@ class PawnTest {
 
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy());
+        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy(), 2);
 
         //when
         List<Position> move = pawn.calculatePath(startPosition, targetPosition);
@@ -59,7 +59,7 @@ class PawnTest {
 
         //given
         Player player = new Player(1, "짱구", Team.BLUE);
-        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy());
+        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy(), 2);
 
         //when
         List<Position> move = pawn.calculatePath(startPosition, targetPosition);
@@ -95,7 +95,7 @@ class PawnTest {
 
         //given
         Player player = new Player(1, "짱구", Team.BLUE);
-        Pawn pawn = new Pawn(player, new PalaceFixedMoveStrategy());
+        Pawn pawn = new Pawn(player, new PalaceFixedMoveStrategy(), 2);
 
         //when
         List<Position> move = pawn.calculatePath(startPosition, targetPosition);
@@ -131,7 +131,7 @@ class PawnTest {
 
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        Pawn pawn = new Pawn(player, new PalaceFixedMoveStrategy());
+        Pawn pawn = new Pawn(player, new PalaceFixedMoveStrategy(), 2);
 
         //when
         List<Position> move = pawn.calculatePath(startPosition, targetPosition);
@@ -166,7 +166,7 @@ class PawnTest {
 
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy());
+        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy(), 2);
 
         // when & then
         Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 1), new Position(4, 3)))
@@ -180,7 +180,7 @@ class PawnTest {
 
         //given
         Player player = new Player(1, "짱구", Team.BLUE);
-        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy());
+        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy(), 2);
 
         // when & then
         Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(7, 5), new Position(8, 5)))
@@ -194,7 +194,7 @@ class PawnTest {
 
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy());
+        Pawn pawn = new Pawn(player, new BasicFixedMoveStrategy(), 2);
 
         // when & then
         Assertions.assertThatThrownBy(() -> pawn.calculatePath(new Position(4, 5), new Position(3, 5)))

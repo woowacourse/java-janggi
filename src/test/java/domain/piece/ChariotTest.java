@@ -24,7 +24,7 @@ public class ChariotTest {
     void test1(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
         Player player = new Player(1, "짱구", Team.RED);
-        Chariot chariot = new Chariot(player, new BasicRangeMoveStrategy());
+        Chariot chariot = new Chariot(player, new BasicRangeMoveStrategy(), 13);
 
         // when
         List<Position> moves = chariot.calculatePath(startPosition, targetPosition);
@@ -64,7 +64,7 @@ public class ChariotTest {
     void test2(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
         Player player = new Player(1, "짱구", Team.RED);
-        Chariot chariot = new Chariot(player, new PalaceRangeMoveStrategy());
+        Chariot chariot = new Chariot(player, new PalaceRangeMoveStrategy(), 13);
 
         // when
         List<Position> moves = chariot.calculatePath(startPosition, targetPosition);
@@ -98,7 +98,7 @@ public class ChariotTest {
     void test2() {
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        Chariot chariot = new Chariot(player, new BasicRangeMoveStrategy());
+        Chariot chariot = new Chariot(player, new BasicRangeMoveStrategy(), 13);
 
         // when & then
         assertThatThrownBy(() -> chariot.calculatePath(new Position(1, 1), new Position(2, 2)))

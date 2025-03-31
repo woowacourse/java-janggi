@@ -22,7 +22,7 @@ class GuardTest {
 
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        Guard guard = new Guard(player);
+        Guard guard = new Guard(player, 3);
         Position startPosition = new Position(2, 5);
         Position targetPosition = new Position(row, column);
 

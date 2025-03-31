@@ -10,8 +10,8 @@ import java.util.List;
 
 public class King extends PalaceFixedMovePiece {
 
-    public King(Player player) {
-        super(player);
+    public King(Player player, int point) {
+        super(player, point);
     }
 
     @Override

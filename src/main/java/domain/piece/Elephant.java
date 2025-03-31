@@ -18,8 +18,8 @@ public class Elephant extends FixedMovePiece {
             Moves.createMoves(Move.LEFT, Move.BACK_LEFT, Move.BACK_LEFT)
     );
 
-    public Elephant(Player player) {
-        super(player);
+    public Elephant(Player player, int point) {
+        super(player, point);
     }
 
     @Override

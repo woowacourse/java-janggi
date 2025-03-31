@@ -24,7 +24,7 @@ class CannonTest {
     void test1(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
         Player player = new Player(1, "짱구", Team.RED);
-        Cannon cannon = new Cannon(player, new BasicRangeMoveStrategy());
+        Cannon cannon = new Cannon(player, new BasicRangeMoveStrategy(), 7);
 
         // when
         List<Position> moves = cannon.calculatePath(startPosition, targetPosition);
@@ -64,7 +64,7 @@ class CannonTest {
     void test2(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
         Player player = new Player(1, "짱구", Team.RED);
-        Cannon cannon = new Cannon(player, new PalaceRangeMoveStrategy());
+        Cannon cannon = new Cannon(player, new PalaceRangeMoveStrategy(), 7);
 
         // when
         List<Position> moves = cannon.calculatePath(startPosition, targetPosition);
@@ -98,7 +98,7 @@ class CannonTest {
     void test3() {
         //given
         Player player = new Player(1, "짱구", Team.RED);
-        Cannon cannon = new Cannon(player, new BasicRangeMoveStrategy());
+        Cannon cannon = new Cannon(player, new BasicRangeMoveStrategy(), 7);
 
         // when & then
         assertThatThrownBy(() -> cannon.calculatePath(new Position(1, 1), new Position(2, 2)))

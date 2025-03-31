@@ -7,8 +7,8 @@ import java.util.List;
 
 public abstract class PalaceFixedMovePiece extends Piece {
 
-    public PalaceFixedMovePiece(Player player) {
-        super(player);
+    public PalaceFixedMovePiece(Player player, int point) {
+        super(player, point);
     }
 
     public abstract List<Moves> getMoveList(Position startPosition);

@@ -10,8 +10,8 @@ public class Chariot extends Piece implements RangeMoveStrategyChangeable {
 
     private RangeMoveStrategy moveStrategy;
 
-    public Chariot(Player player, RangeMoveStrategy moveStrategy) {
-        super(player);
+    public Chariot(Player player, RangeMoveStrategy moveStrategy, int point) {
+        super(player, point);
         this.moveStrategy = moveStrategy;
     }
 

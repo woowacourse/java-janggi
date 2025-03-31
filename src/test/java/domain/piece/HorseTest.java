@@ -20,7 +20,7 @@ public class HorseTest {
     void test1(Position startPosition, Position targetPosition, List<Position> expected) {
         // given
         Player player = new Player(1, "짱구", Team.RED);
-        Horse horse = new Horse(player);
+        Horse horse = new Horse(player, 5);
 
         // when
         List<Position> moves = horse.calculatePath(startPosition, targetPosition);
@@ -58,7 +58,7 @@ public class HorseTest {
     @Test
     void test2() {
         Player player = new Player(1, "짱구", Team.RED);
-        Horse horse = new Horse(player);
+        Horse horse = new Horse(player, 5);
 
         Assertions.assertThatThrownBy(() -> horse.calculatePath(new Position(4, 4), new Position(4, 5)))
                 .isInstanceOf(IllegalArgumentException.class)

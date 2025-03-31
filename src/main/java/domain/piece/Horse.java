@@ -18,8 +18,8 @@ public class Horse extends FixedMovePiece {
                     Moves.createMoves(Move.LEFT, Move.FRONT_LEFT),
                     Moves.createMoves(Move.LEFT, Move.BACK_LEFT));
 
-    public Horse(Player player) {
-        super(player);
+    public Horse(Player player, int point) {
+        super(player, point);
     }
 
     @Override

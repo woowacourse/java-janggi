@@ -9,9 +9,12 @@ public abstract class Piece {
 
     protected final Player player;  // Player 객체만 필드로 추가
 
+    protected final int point;
+
     // Player 객체를 생성자로 받도록 수정
-    public Piece(Player player) {
+    public Piece(Player player, int point) {
         this.player = player;
+        this.point = point;
     }
 
     public abstract List<Position> calculatePath(Position startPosition, Position targetPosition);

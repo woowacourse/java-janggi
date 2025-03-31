@@ -14,7 +14,7 @@ class PlayerTest {
     void test() {
         // given
         Player player = new Player(1, "짱구", Team.RED);
-        Piece piece = new Horse(player);
+        Piece piece = new Horse(player, 5);
         // when
         boolean result = player.isTeam(piece);
         // then

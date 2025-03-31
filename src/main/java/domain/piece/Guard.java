@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Guard extends PalaceFixedMovePiece {
 
-    public Guard(Player player) {
-        super(player);
+    public Guard(Player player, int point) {
+        super(player, point);
     }
 
     @Override

@@ -14,8 +14,8 @@ public class PieceTest {
         // given
         Player player = new Player(1, "짱구", Team.RED);
 
-        Piece piece1 = new Horse(player);
-        Piece piece2 = new Horse(player);
+        Piece piece1 = new Horse(player, 5);
+        Piece piece2 = new Horse(player, 5);
 
         // when
         boolean actual = piece1.comparePlayer(piece2);
