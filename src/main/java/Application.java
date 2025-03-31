@@ -1,9 +1,12 @@
+import config.DatabaseConfig;
 import java.util.Scanner;
 import view.InputView;
 import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
+        DatabaseConfig.setUp();
+
         OutputView outputView = new OutputView();
         InputView inputView = new InputView(new Scanner(System.in));
 
