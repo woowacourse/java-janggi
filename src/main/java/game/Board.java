@@ -13,6 +13,7 @@ import position.Position;
 public class Board {
 
     private final Map<Position, Piece> board;
+    private final double secondMovePoint = 1.5;
 
     public Board(final Map<Position, Piece> board) {
         this.board = board;
@@ -83,5 +84,18 @@ public class Board {
 
     public Map<Position, Piece> getBoard() {
         return board;
+    }
+
+    public double getCountryScore(Country country) {
+
+        double totalPoint = board.values().stream()
+                .filter(piece -> piece.getCountry() == country)
+                .mapToInt(Piece::getPieceScore)
+                .sum();
+        if (country == Country.HAN) {
+            totalPoint = 1.5;
+        }
+        return totalPoint;
+
     }
 }

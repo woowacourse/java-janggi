@@ -14,7 +14,7 @@ public record PieceDto(
         String pieceType
 ) {
 
-    public static List<PieceDto> toDtoList(Board board) {
+    public static List<PieceDto> toDtoFromBoard(Board board) {
         List<PieceDto> list = new ArrayList<>();
         for (Map.Entry<Position, Piece> entry : board.getBoard().entrySet()) {
             Position pos = entry.getKey();

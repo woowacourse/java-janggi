@@ -59,4 +59,8 @@ public abstract class Piece {
     public Country getCountry() {
         return country;
     }
+
+    public int getPieceScore() {
+        return pieceType.getPieceScore();
+    }
 }
