@@ -1,13 +1,12 @@
 package view;
 
 import game.Board;
+import java.util.Map;
 import piece.Country;
 import piece.Piece;
 import position.Column;
 import position.Position;
 import position.Row;
-
-import java.util.Map;
 
 public final class OutputView {
     private static final String BLUE = "\u001B[34m";  // 초나라 (파란색)
@@ -16,11 +15,11 @@ public final class OutputView {
 
     public void displayBoard(Board board) {
         System.out.println();
-        Map<Position, Piece> boardMap = board.getBoard();
+        Map<Position, Piece> positionOfPiece = board.getBoard();
 
         Row[] rows = Row.values();
         for (int i = rows.length - 1; i >= 0; i--) {
-            displayRow(boardMap, rows[i]);
+            displayRow(positionOfPiece, rows[i]);
         }
 
         System.out.print("  ");
@@ -33,16 +32,16 @@ public final class OutputView {
     private static void displayColumnName(final Column column) {
         String name = column.name();
         char ch = name.charAt(0);
-        char fullWidthChar = (char)(ch - 0x20 + 0xFF00);
+        char fullWidthChar = (char) (ch - 0x20 + 0xFF00);
         System.out.print(fullWidthChar);
     }
 
-    private void displayRow(Map<Position, Piece> boardMap, Row row) {
+    private void displayRow(Map<Position, Piece> positionOfPiece, Row row) {
         System.out.print(formatRow(row) + " ");
 
         for (Column column : Column.values()) {
             Position position = new Position(column, row);
-            displayPosition(boardMap, position);
+            displayPosition(positionOfPiece, position);
         }
 
         System.out.println();
@@ -53,9 +52,9 @@ public final class OutputView {
         return rowIndex == 10 ? "0" : String.valueOf(rowIndex);
     }
 
-    private void displayPosition(Map<Position, Piece> boardMap, Position position) {
-        if (boardMap.containsKey(position)) {
-            Piece piece = boardMap.get(position);
+    private void displayPosition(Map<Position, Piece> positionOfPiece, Position position) {
+        if (positionOfPiece.containsKey(position)) {
+            Piece piece = positionOfPiece.get(position);
             displayPiece(piece);
         } else {
             System.out.print("ㅡ");
@@ -68,11 +67,15 @@ public final class OutputView {
     }
 
 
-    public void printTurn(Country country) {
+    public void displayTurnCountry(Country country) {
         if (country == Country.CHO) {
             System.out.println("\n[초나라 턴입니다.]");
         } else {
             System.out.println("\n[한나라 턴입니다.]");
         }
+    }
+
+    public void displayCountryScore(final Country turnCountry, final double countryScore) {
+        System.out.println(turnCountry + " 점수 : " + countryScore);
     }
 }

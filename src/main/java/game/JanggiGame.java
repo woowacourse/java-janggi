@@ -13,7 +13,6 @@ public class JanggiGame {
     private final InputView inputView;
     private final OutputView outputView;
     private final BoardDao boardDao = new BoardDao(); // 추가
-
     private Country turnCountry = Country.CHO;
 
     public JanggiGame(InputView inputView, OutputView outputView) {
@@ -33,7 +32,8 @@ public class JanggiGame {
 
     private boolean playTurn(final Board board) {
         try {
-            outputView.printTurn(turnCountry);
+            outputView.displayTurnCountry(turnCountry);
+            outputView.displayCountryScore(turnCountry, board.getCountryScore(turnCountry));
             List<String> moveInfo = inputView.readMoveCommand();
 
             if (moveInfo.get(0).equalsIgnoreCase("quit")) {
@@ -71,7 +71,7 @@ public class JanggiGame {
     }
 
     private void saveBoard(Board board) {
-        List<PieceDto> dtoList = PieceDto.toDtoList(board);
+        List<PieceDto> dtoList = PieceDto.toDtoFromBoard(board);
         boardDao.saveAll(dtoList);
     }
 

@@ -93,7 +93,7 @@ public class Board {
                 .mapToInt(Piece::getPieceScore)
                 .sum();
         if (country == Country.HAN) {
-            totalPoint = 1.5;
+            totalPoint += 1.5;
         }
         return totalPoint;
 
