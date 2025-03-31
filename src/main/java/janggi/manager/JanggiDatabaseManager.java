@@ -11,12 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JanggiManager {
+public class JanggiDatabaseManager {
 
     private final JanggiDao janggiDao;
     private final JanggiMapper janggiMapper;
 
-    public JanggiManager(JanggiDao janggiDao, JanggiMapper janggiMapper) {
+    public JanggiDatabaseManager(JanggiDao janggiDao, JanggiMapper janggiMapper) {
         this.janggiDao = janggiDao;
         this.janggiMapper = janggiMapper;
     }
@@ -35,7 +35,7 @@ public class JanggiManager {
         List<TeamTypeDto> teamTypeDtos = janggiDao.findTeams();
 
         return teamTypeDtos.stream()
-                .map(teamTypeDto -> TeamType.of(teamTypeDto.name()))
+                .map(teamTypeDto -> TeamType.of(teamTypeDto.getName()))
                 .toList();
     }
 

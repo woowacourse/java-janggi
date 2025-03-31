@@ -2,7 +2,7 @@ package janggi;
 
 import janggi.dao.JanggiDao;
 import janggi.manager.ConnectionManager;
-import janggi.manager.JanggiManager;
+import janggi.manager.JanggiDatabaseManager;
 import janggi.manager.JanggiMapper;
 import janggi.view.InputView;
 import janggi.view.ResultView;
@@ -15,9 +15,9 @@ public class JanggiApplication {
         final ConnectionManager connectionManager = new ConnectionManager();
         final JanggiMapper janggiMapper = new JanggiMapper();
         final JanggiDao janggiDao = new JanggiDao(connectionManager);
-        final JanggiManager janggiManager = new JanggiManager(janggiDao, janggiMapper);
+        final JanggiDatabaseManager janggiDatabaseManager = new JanggiDatabaseManager(janggiDao, janggiMapper);
 
-        JanggiConsole janggiConsole = new JanggiConsole(inputView, resultView, janggiManager);
+        JanggiConsole janggiConsole = new JanggiConsole(inputView, resultView, janggiDatabaseManager);
         janggiConsole.start();
     }
 }

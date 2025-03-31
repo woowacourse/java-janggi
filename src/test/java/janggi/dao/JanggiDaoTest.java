@@ -42,7 +42,7 @@ class JanggiDaoTest {
         }
 
         @Test
-        void 팀_ID를_조회한다() {
+        void ID로_팀을_조회한다() {
             final int id = 1;
             final var team = janggiDao.findTeamById(id);
 
@@ -51,7 +51,7 @@ class JanggiDaoTest {
         }
 
         @Test
-        void 기물_타입_ID를_조회한다() {
+        void ID로_기물_타입을_조회한다() {
             final int id = 1;
             final var pieceType = janggiDao.findPieceTypeById(id);
 
@@ -107,7 +107,7 @@ class JanggiDaoTest {
             janggiDao.updateTeamOrder(currentTeam);
 
             // Then
-            assertThat(janggiDao.findTeamById(2).current())
+            assertThat(janggiDao.findTeamById(2).isCurrent())
                     .isTrue();
         }
     }

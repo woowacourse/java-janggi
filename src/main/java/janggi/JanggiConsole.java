@@ -3,7 +3,7 @@ package janggi;
 import janggi.board.Board;
 import janggi.board.BoardFactory;
 import janggi.board.SangSetting;
-import janggi.manager.JanggiManager;
+import janggi.manager.JanggiDatabaseManager;
 import janggi.piece.Piece;
 import janggi.position.Position;
 import janggi.team.TeamType;
@@ -18,12 +18,12 @@ public class JanggiConsole {
 
     private final InputView inputView;
     private final ResultView resultView;
-    private final JanggiManager janggiManager;
+    private final JanggiDatabaseManager janggiDatabaseManager;
 
-    public JanggiConsole(InputView inputView, ResultView resultView, JanggiManager janggiManager) {
+    public JanggiConsole(InputView inputView, ResultView resultView, JanggiDatabaseManager janggiDatabaseManager) {
         this.inputView = inputView;
         this.resultView = resultView;
-        this.janggiManager = janggiManager;
+        this.janggiDatabaseManager = janggiDatabaseManager;
     }
 
     public void start() {
@@ -48,11 +48,11 @@ public class JanggiConsole {
 
         resultView.printCatchingGungMessage();
         resultView.printJanggiResult(janggiGame.getWinningTeam());
-        janggiManager.endGame();
+        janggiDatabaseManager.endGame();
     }
 
     private JanggiGame createJanggiGame() {
-        Map<Position, Piece> piecesForProgressingGame = janggiManager.loadPiecesForProgressingGame();
+        Map<Position, Piece> piecesForProgressingGame = janggiDatabaseManager.loadPiecesForProgressingGame();
 
         if (piecesForProgressingGame.isEmpty()) {
             return createInitialGame();
@@ -78,7 +78,7 @@ public class JanggiConsole {
 
     private JanggiGame loadProgressingGame(Map<Position, Piece> piecesForProgressingGame) {
         final BoardFactory boardFactory = new BoardFactory();
-        final Turn turn = new Turn(janggiManager.loadOrdersForProgressingGame());
+        final Turn turn = new Turn(janggiDatabaseManager.loadOrdersForProgressingGame());
         final Board board;
 
         board = boardFactory.loadProgressingBoard(piecesForProgressingGame);
@@ -95,13 +95,13 @@ public class JanggiConsole {
     }
 
     private void save(JanggiGame janggiGame) {
-        janggiManager.saveGame(janggiGame.getCurrentTeam(), janggiGame.getPieces());
+        janggiDatabaseManager.saveGame(janggiGame.getCurrentTeam(), janggiGame.getPieces());
     }
 
     private void quit(JanggiGame janggiGame) {
         resultView.printScoreBoard(janggiGame.getScoreEachTeam());
         resultView.printJanggiResult(janggiGame.getWinningTeam());
-        janggiManager.endGame();
+        janggiDatabaseManager.endGame();
     }
 
     private void printGameState(JanggiGame janggiGame) {

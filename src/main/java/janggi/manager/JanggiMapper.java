@@ -24,6 +24,6 @@ public class JanggiMapper {
     }
 
     private TeamType toTeamType(TeamTypeDto teamTypeDto) {
-        return TeamType.of(teamTypeDto.name());
+        return TeamType.of(teamTypeDto.getName());
     }
 }
