@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
-import janggi.factory.masang.HorseElephantFactory;
+import janggi.factory.horse_elephant.HorseElephantFactory;
 import janggi.view.horseElephantPosition;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;

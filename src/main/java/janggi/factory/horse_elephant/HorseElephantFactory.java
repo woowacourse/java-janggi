@@ -1,4 +1,4 @@
-package janggi.factory.masang;
+package janggi.factory.horse_elephant;
 
 import janggi.domain.Team;
 import janggi.domain.move.Position;
@@ -11,7 +11,7 @@ public enum HorseElephantFactory {
     ELEPHANT_HORSE_ELEPHANT_HORSE(janggi.view.horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE, ElephantHorseElephantHorse::new),
     HORSE_ELEPHANT_HORSE_ELEPHANT(janggi.view.horseElephantPosition.HORSE_ELEPHANT_HORSE_ELEPHANT, HorseElephantHorseElephant::new),
     HORSE_ELEPHANT_ELEPHANT_HORSE(janggi.view.horseElephantPosition.HORSE_ELEPHANT_ELEPHANT_HORSE, HorseElephantElephantHorse::new),
-    ELEPHANT_HORSE_HORSE_ELEPHANT(janggi.view.horseElephantPosition.ELEPHANT_HORSE_HORSE_ELEPHANT, ElePhantHorseHorseElephant::new);
+    ELEPHANT_HORSE_HORSE_ELEPHANT(janggi.view.horseElephantPosition.ELEPHANT_HORSE_HORSE_ELEPHANT, ElephantHorseHorseElephant::new);
 
     private final janggi.view.horseElephantPosition horseElephantPosition;
     private final Supplier<HorseElephantPlacement> supplier;
