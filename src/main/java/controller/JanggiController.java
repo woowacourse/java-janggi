@@ -1,7 +1,6 @@
 package controller;
 
 import dao.GameDao;
-import dao.PieceDao;
 import domain.board.Board;
 import domain.board.BoardLocation;
 import domain.game.JanggiGame;
@@ -10,24 +9,25 @@ import domain.piece.Piece;
 import domain.piece.Team;
 import java.util.Map;
 import java.util.Optional;
+import service.PieceService;
 import view.ConsoleView;
 
 public class JanggiController {
 
     private final ConsoleView consoleView;
     private final GameDao gameDao;
-    private final PieceDao pieceDao;
+    private final PieceService pieceService;
 
     private static final int GAME_ID = 1;
 
-    public JanggiController(ConsoleView consoleView, GameDao gameDao, PieceDao pieceDao) {
+    public JanggiController(ConsoleView consoleView, GameDao gameDao, PieceService pieceService) {
         this.consoleView = consoleView;
         this.gameDao = gameDao;
-        this.pieceDao = pieceDao;
+        this.pieceService = pieceService;
     }
 
     public void start() {
-        Optional<Board> board = pieceDao.findByAllAlivePieces();
+        Optional<Board> board = pieceService.findInitializeBoard();
         Optional<Turn> turn = gameDao.findTurnByGameId(GAME_ID);
         JanggiGame janggiGame;
         if (board.isEmpty() || turn.isEmpty()) {
@@ -57,15 +57,14 @@ public class JanggiController {
     }
 
     private void processOneTurn(BoardLocation destination, BoardLocation current, JanggiGame janggiGame) {
-        pieceDao.deleteBoard(destination);
-        pieceDao.updateBoard(current, destination);
+        pieceService.pieceMove(current, destination);
         gameDao.saveTurn(janggiGame.getTurn());
     }
 
     private JanggiGame initializeJanggiGame() {
         JanggiGame janggiGame = createJanggiGame();
         gameDao.insertGameTurn(Team.CHO);
-        pieceDao.initializePieceIfNotExists(janggiGame.getBoard());
+        pieceService.initializePieceIfNotExists(janggiGame);
         return janggiGame;
     }
 
