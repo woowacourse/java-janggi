@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class JanggiGame {
 
+    public static final double HAN_TEAM_BONUS_SCORE = 1.5;
+
     private final GameDao gameDao;
     private final JanggiBoard janggiBoard;
 
@@ -59,7 +61,7 @@ public class JanggiGame {
                         team -> team,
                         team -> (double) janggiBoard.calculateTeamScore(team)
                 ));
-        scores.put(Team.HAN, scores.get(Team.HAN) + 1.5);
+        scores.put(Team.HAN, scores.get(Team.HAN) + HAN_TEAM_BONUS_SCORE);
 
         return scores;
     }

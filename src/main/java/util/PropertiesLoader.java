@@ -27,6 +27,3 @@ public class PropertiesLoader {
 
     ;
 }
-
-//PropertiesLoader.load();
-//            properties.getProperty("app.env", "default");
