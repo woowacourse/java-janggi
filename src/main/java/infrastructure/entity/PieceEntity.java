@@ -29,6 +29,10 @@ public class PieceEntity {
         this.country = country;
     }
 
+    public PieceEntity(String pieceName, int x, int y, String country) {
+        this(null, pieceName, x, y, country);
+    }
+
     public static List<PieceEntity> from(Map<Coordinate, Piece> pieces) {
         return pieces.entrySet().stream()
                 .map(entry -> new PieceEntity(
