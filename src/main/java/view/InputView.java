@@ -4,11 +4,9 @@ import piece.Country;
 import position.LineDirection;
 import position.Position;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class InputView {
 
@@ -30,47 +28,78 @@ public class InputView {
     );
 
     public static List<Position> readPositions() {
-        System.out.println("move <scrPosition> <destPosition> 형식으로 입력해주세요");
-        System.out.println("ex) move 일사 십구 => (1, 4) -> (10, 9)");
-        final String input = sc.nextLine();
+        return retryUntilValid("move <scrPosition> <destPosition> 형식으로 입력해주세요\nex) move 일사 이사 => (1, 4) -> (2, 4)", () -> {
+            System.out.print("> ");
+            final String input = sc.nextLine();
 
-        if (!input.startsWith("move ")) {
-            throw new IllegalArgumentException("잘못된 형식의 입력입니다.");
-        }
+            exitCheck(input);
 
-        final String parsedInput = input.substring(5);
-        final String[] positionTexts = parsedInput.split(" ", -1);
-        final List<Position> positions = new ArrayList<>();
-        for (final String positionText : positionTexts) {
-            final int x = NumberFormat.findNumber(positionText.charAt(0) + "");
-            final int y = NumberFormat.findNumber(positionText.charAt(1) + "");
-            positions.add(new Position(x, y));
+            if (!input.startsWith("move ")) {
+                throw new IllegalArgumentException("잘못된 형식의 입력입니다. 'move'로 시작해야 합니다.");
+            }
+
+            final String parsedInput = input.substring(5);
+            final String[] positionTexts = parsedInput.split(" ", -1);
+            if (positionTexts.length != 2) {
+                throw new IllegalArgumentException("출발지와 도착지 좌표를 모두 입력해주세요.");
+            }
+
+            final List<Position> positions = new ArrayList<>();
+            for (final String positionText : positionTexts) {
+                if (positionText.length() != 2) {
+                    throw new IllegalArgumentException("좌표 형식이 잘못되었습니다: " + positionText);
+                }
+                final int x = NumberFormat.findNumber(positionText.charAt(0) + "");
+                final int y = NumberFormat.findNumber(positionText.charAt(1) + "");
+                positions.add(new Position(x, y));
+            }
+            return positions;
+        });
+    }
+
+    private static void exitCheck(String input) {
+        if (input.equals("exit")) {
+            System.out.println("게임이 종료됩니다.");
+            System.exit(0);
         }
-        return positions;
     }
 
     public static LineSettingDto readLineSettingByCountry() {
-        System.out.println("한 나라가 어느 위치에 배정받을 지를 정해주세요. (위, 아래)");
-        System.out.println("ex) 위");
-        String input = sc.nextLine();
-        LineDirection lineDirection = getInputByPattern(input, LINE_DIRECTION_FORMAT);
-        return new LineSettingDto(Country.HAN, lineDirection);
+        return retryUntilValid("한 나라가 어느 위치에 배정받을 지를 정해주세요. (위, 아래)\nex) 위", () -> {
+            System.out.print("> ");
+            String input = sc.nextLine();
+            LineDirection lineDirection = getInputByPattern(input, LINE_DIRECTION_FORMAT);
+            return new LineSettingDto(Country.HAN, lineDirection);
+        });
     }
 
     public static boolean readClientIntent() {
-        System.out.println("데이터베이스에 저장된 정보가 존재합니다.");
-        System.out.println("데이터 베이스에 저장된 정보를 불러올까요? (y, n)");
-
-        String input = sc.nextLine();
-        Boolean intent = getInputByPattern(input, INTENT_FORMAT);
-        INTENT_ACTIONS.get(intent);
-        return intent;
+        return retryUntilValid("데이터베이스에 저장된 정보가 존재합니다.\n데이터 베이스에 저장된 정보를 불러올까요? (y, n)", () -> {
+            System.out.print("> ");
+            String input = sc.nextLine();
+            Boolean intent = getInputByPattern(input, INTENT_FORMAT);
+            INTENT_ACTIONS.get(intent).accept(null);
+            return intent;
+        });
     }
 
     private static <T> T getInputByPattern(String input, Map<String, T> patternFormat) {
+        exitCheck(input);
         if (!patternFormat.containsKey(input)) {
-            throw new IllegalArgumentException("잘못된 입력입니다: " + input);
+            throw new IllegalArgumentException("잘못된 입력입니다: " + input + " (가능한 입력: " + patternFormat.keySet() + ")");
         }
         return patternFormat.get(input);
+    }
+
+    private static <T> T retryUntilValid(String message, Supplier<T> action) {
+        while (true) {
+            try {
+                System.out.println(message);
+                return action.get();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                System.out.println("다시 입력해주세요.\n");
+            }
+        }
     }
 }
