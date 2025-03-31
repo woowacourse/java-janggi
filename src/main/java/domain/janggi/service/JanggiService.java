@@ -1,9 +1,9 @@
-package service;
+package domain.janggi.service;
 
-import domain.Janggi;
 import domain.board.Board;
 import domain.board.BoardPosition;
 import domain.board.repository.BoardRepository;
+import domain.janggi.Janggi;
 import domain.turn.Turn;
 import domain.turn.repository.TurnRepository;
 

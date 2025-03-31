@@ -1,4 +1,4 @@
-package service;
+package domain.janggi.service;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 

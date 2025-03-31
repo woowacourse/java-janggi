@@ -1,11 +1,11 @@
 package controller;
 
-import domain.Janggi;
 import domain.board.Board;
 import domain.board.BoardPosition;
+import domain.janggi.Janggi;
+import domain.janggi.service.JanggiService;
 import domain.turn.Turn;
 import java.util.List;
-import service.JanggiService;
 import view.InputView;
 import view.OutputView;
 
