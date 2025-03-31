@@ -4,10 +4,7 @@ import piece.Country;
 import piece.Piece;
 import position.Position;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Board {
 
@@ -41,10 +38,6 @@ public class Board {
         return pieces.get(position);
     }
 
-    public Map<Position, Piece> getPieces() {
-        return new HashMap<>(pieces);
-    }
-
     public void updatePosition(Position src, Position dest, Country country) {
         validate(src, country);
         Piece piece = pieces.get(src);
@@ -65,16 +58,24 @@ public class Board {
         }
     }
 
-    public Map<Country, Integer> getScoreByCountry() {
-        return scoreByCountry;
+    public boolean equalsTeamTypeByPosition(Position position, Country country) {
+        Piece piece = pieces.get(position);
+        return piece.equalsCountry(country);
     }
 
     public boolean existPieceByPosition(Position position) {
         return pieces.containsKey(position);
     }
 
-    public boolean equalsTeamTypeByPosition(Position position, Country country) {
-        Piece piece = pieces.get(position);
-        return piece.equalsCountry(country);
+    public List<Piece> getPieceList() {
+        return new ArrayList<>(pieces.values());
+    }
+
+    public Map<Position, Piece> getPieceMap() {
+        return Collections.unmodifiableMap(pieces);
+    }
+
+    public Map<Country, Integer> getScoreByCountry() {
+        return scoreByCountry;
     }
 }

@@ -28,7 +28,11 @@ public abstract class Piece {
         return this.country.equals(country);
     }
 
-    public Country getTeamType() {
+    public Position getPosition() {
+        return position;
+    }
+
+    public Country getCountry() {
         return country;
     }
 

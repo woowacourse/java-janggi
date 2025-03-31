@@ -29,6 +29,10 @@ public enum Country {
         return this == CHO ? HAN : CHO;
     }
 
+    public static Map<Country, LineDirection> getDirectionByCountry() {
+        return directionByCountry;
+    }
+
     public static Country getDefaultTeam() {
         return CHO;
     }
