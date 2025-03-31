@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 
 public class Cannon extends Piece {
 
-    public static final double SCORE = 7.0;
+    private static final double SCORE = 7.0;
 
     public Cannon(Side side, int x, int y) {
         super(side, x, y);

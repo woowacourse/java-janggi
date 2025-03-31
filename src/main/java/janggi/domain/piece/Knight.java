@@ -12,7 +12,7 @@ public class Knight extends Piece {
     private static final List<Vector> HORIZONTAL_MOVEMENT_VECTORS = List.of(
         new Vector(1, 0), new Vector(2, 1));
 
-    public static final double SCORE = 5.0;
+    private static final double SCORE = 5.0;
 
     public Knight(Side side, int x, int y) {
         super(side, x, y);

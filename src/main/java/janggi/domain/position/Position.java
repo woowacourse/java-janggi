@@ -13,8 +13,6 @@ public final class Position {
     public static final int PALACE_BOTTOM_Y_END = 2;
     public static final int PALACE_TOP_Y_START = 7;
     public static final int PALACE_TOP_Y_END = 9;
-    private static final Predicate<Integer> IS_PALACE_X = x -> PALACE_X_START <= x && x <= PALACE_X_END;
-    private static final Predicate<Integer> IS_PALACE_Y = y -> (PALACE_BOTTOM_Y_START <= y && y <= PALACE_BOTTOM_Y_END) || (PALACE_TOP_Y_START <= y && y <= PALACE_TOP_Y_END);
 
     private final int x;
     private final int y;
@@ -32,12 +30,15 @@ public final class Position {
     }
 
     public boolean isPalace() {
-        return IS_PALACE_X.test(x) && IS_PALACE_Y.test(y);
+        return PALACE_X_START <= x && x <= PALACE_X_END
+            && (PALACE_BOTTOM_Y_START <= y && y <= PALACE_BOTTOM_Y_END
+            || PALACE_TOP_Y_START <= y && y <= PALACE_TOP_Y_END);
     }
 
     public boolean isPalaceCorner() {
         return (x == PALACE_X_START|| x == PALACE_X_END)
-            && (y == PALACE_BOTTOM_Y_START || y == PALACE_BOTTOM_Y_END || y == PALACE_TOP_Y_START || y == PALACE_TOP_Y_END);
+            && (y == PALACE_BOTTOM_Y_START || y == PALACE_BOTTOM_Y_END
+            || y == PALACE_TOP_Y_START || y == PALACE_TOP_Y_END);
     }
 
     public boolean isDiagnose(Position destination) {

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Guard extends Piece {
 
-    public static final double SCORE = 3.0;
+    private static final double SCORE = 3.0;
 
     public Guard(Side side, int x, int y) {
         super(side, x, y);

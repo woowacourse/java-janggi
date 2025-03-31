@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Rook extends Piece {
 
-    public static final double SCORE = 13.0;
+    private static final double SCORE = 13.0;
 
     public Rook(Side side, int x, int y) {
         super(side, x, y);

@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class Pawn extends Piece {
 
-    public static final double SCORE = 2.0;
+    private static final double SCORE = 2.0;
 
     public Pawn(Side side, int x, int y) {
         super(side, x, y);
