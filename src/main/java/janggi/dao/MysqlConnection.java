@@ -9,8 +9,8 @@ public final class MysqlConnection {
     private static final String SERVER = "localhost:3306"; // MySQL 서버 주소
     private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul";
-    private static final String USERNAME = "root"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "11111111"; // MySQL 서버 비밀번호
+    private static final String USERNAME = "root"; //  MySQL 유저 아이디
+    private static final String PASSWORD = "11111111"; // MySQL 유저 비밀번호
 
     private final String url;
 

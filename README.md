@@ -1,5 +1,71 @@
 # java-janggi
 
+---
+
+# 데이터베이스 연결 가이드
+
+## MySQL 서버 주소, 유저 설정
+
+- 필요에 따라 `src/main/java/janggi/dao/MysqlConnection.java`파일을 수정해서 사용할 수 있습니다.
+- `SERVER`, `USERNAME`, `PASSWORD`는 필요에 따라 수정할 수 있습니다.
+- `DATABASE`, `OPTION`은 수정할 수 없습니다.
+
+## 어플리케이션 DB 생성하기
+
+다음과 같이 DB를 생성한 후 어플리케이션을 실행할 수 있습니다.
+
+```mysql
+CREATE DATABASE janggi_test DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+USE janggi_test;
+
+CREATE TABLE game
+(
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    turn       ENUM ('CHO', 'HAN') NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE piece
+(
+    game_id   INT,
+    pieceType ENUM ('CANNON', 'CHARIOT', 'ELEPHANT', 'GENERAL', 'GUARD', 'HORSE', 'SOLDIER') NOT NULL,
+    team      ENUM ('CHO', 'HAN')                                                            NOT NULL,
+    col_num   INT                                                                            NOT NULL,
+    row_num   INT                                                                            NOT NULL,
+    FOREIGN KEY (game_id) REFERENCES game (id)
+);
+```
+
+## 테스트용 DB 생성하기
+
+다음과 같이 DB를 생성한 후 테스트를 실행할 수 있습니다.
+
+```mysql
+CREATE DATABASE janggi_test DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+USE janggi_test;
+
+CREATE TABLE game
+(
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    turn       ENUM ('CHO', 'HAN') NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE piece
+(
+    game_id   INT,
+    pieceType ENUM ('CANNON', 'CHARIOT', 'ELEPHANT', 'GENERAL', 'GUARD', 'HORSE', 'SOLDIER') NOT NULL,
+    team      ENUM ('CHO', 'HAN')                                                            NOT NULL,
+    col_num   INT                                                                            NOT NULL,
+    row_num   INT                                                                            NOT NULL,
+    FOREIGN KEY (game_id) REFERENCES game (id)
+);
+```
+
+---
+
 ## 게임 룰
 
 - [x] 상대의 궁을 잡으면 승리한다.
