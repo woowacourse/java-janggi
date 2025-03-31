@@ -22,7 +22,7 @@ public final class DatabaseTestManager {
 
         try (Statement stmt = connection.createStatement()) {
             stmt.executeUpdate("DELETE FROM game_room");
-            stmt.executeUpdate("TRUNCATE TABLE board");
+            stmt.executeUpdate("DELETE FROM board");
         }
     }
 }

@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
 @Disabled
 class BoardDAOTest {
 
-    static final String GAME_ROOM_NAME = "room1";
-    static DatabaseManager databaseManager = DatabaseTestManager.create();
-    static GameRoomDAO gameRoomDAOImpl = new GameRoomDAOImpl(databaseManager);
-    BoardDAO boardDAOImpl = new BoardDAOImpl(databaseManager);
+    private static final String GAME_ROOM_NAME = "room1";
+    private final DatabaseManager databaseManager = DatabaseTestManager.create();
+    private final GameRoomDAO gameRoomDAOImpl = new GameRoomDAOImpl(databaseManager);
+    private final BoardDAO boardDAOImpl = new BoardDAOImpl(databaseManager);
 
     @BeforeEach
     void setup() throws SQLException {

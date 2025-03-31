@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 @Disabled
 class DatabaseManagerTest {
 
-    DatabaseManager databaseManager;
+    private DatabaseManager databaseManager;
 
     @BeforeEach
     void init() {

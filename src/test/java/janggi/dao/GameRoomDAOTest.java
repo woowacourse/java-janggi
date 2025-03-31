@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 @Disabled
 class GameRoomDAOTest {
 
-    DatabaseManager databaseManager = DatabaseTestManager.create();
-    GameRoomDAO gameRoomDAOImpl;
-    String roomName = "room1";
+    private final DatabaseManager databaseManager = DatabaseTestManager.create();
+    private GameRoomDAO gameRoomDAOImpl;
+    private final String roomName = "room1";
 
     @BeforeEach
     void init() {
