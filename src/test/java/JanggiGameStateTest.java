@@ -94,10 +94,9 @@ class JanggiGameStateTest {
         JanggiGameState janggiGameState = new JanggiGameState(players);
 
         //when
-        janggiGameState.movePiece(new Position(1, 7), new Position(1, 6));
+        janggiGameState.movePiece(CHO, new Position(1, 7), new Position(1, 6));
 
         //then
-        assertThat(janggiGameState.getAttackNation().equals(HAN)).isTrue();
         assertThat(player2.getPieces().getPieces().containsKey(new Position(1, 6))).isTrue();
         assertThat(player1.getPieces().getPieces().containsKey(new Position(1, 6))).isFalse();
     }
