@@ -31,7 +31,7 @@ public class JdbcBoardDao extends AbstractJdbcDao implements BoardDao {
                 departure);
     }
 
-    public void insert(final BoardEntity boardEntity) {
+    private void insert(final BoardEntity boardEntity) {
         final String query = """
                 INSERT INTO board(janggi_id, piece_type, row_num, column_num, team, is_alive)
                 VALUES (?, ?, ?, ?, ?, ?)""";
@@ -53,7 +53,7 @@ public class JdbcBoardDao extends AbstractJdbcDao implements BoardDao {
         }
     }
 
-    public void update(final BoardEntity boardEntity, final Position before) {
+    private void update(final BoardEntity boardEntity, final Position before) {
         final String query = """
                 UPDATE board 
                 SET row_num = ?, column_num = ?, is_alive = ? 
