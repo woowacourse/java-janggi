@@ -63,4 +63,12 @@ public class Player {
     public void updatePieceStatus(final Pieces oppositeTeamPieces) {
         pieces = oppositeTeamPieces;
     }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public int getScore() {
+        return score;
+    }
 }
