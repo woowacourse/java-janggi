@@ -1,6 +1,7 @@
 package domain;
 
-import dao.GameDao;
+import dao.JanggiConnection;
+import dao.PieceDao;
 import domain.board.Board;
 import domain.board.BoardPoint;
 import domain.board.Score;
@@ -24,12 +25,13 @@ public final class JanggiGame {
 
     private final Board board;
     private final List<Player> players;
-    private final GameDao gameDao;
 
-    public JanggiGame() {
-        this.gameDao = new GameDao();
-        this.board = gameDao.getBoard();
-        this.players = gameDao.getPlayers();
+    private final PieceDao gameDao;
+
+    public JanggiGame(Board board, List<Player> players) {
+        this.gameDao = new PieceDao(new JanggiConnection());
+        this.board = board;
+        this.players = players;
     }
 
     public Map<BoardPoint, Piece> getBoard() {

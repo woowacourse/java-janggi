@@ -1,8 +1,21 @@
 package controller;
 
+import dao.BoardDao;
+import dao.JanggiConnection;
+import dao.PieceDao;
+import dao.PlayerDao;
+import dao.TeamDao;
 import domain.JanggiGame;
+import domain.Player;
+import domain.board.Board;
 import domain.board.Score;
 import dto.MovementRequestDto;
+import entity.BoardRepository;
+import entity.GameInitializer;
+import entity.PieceRepository;
+import entity.PlayerRepository;
+import entity.TeamRepository;
+import java.util.List;
 import view.InputView;
 import view.OutputView;
 
@@ -16,7 +29,17 @@ public class JanggiController {
     }
 
     public void run() {
-        final JanggiGame game = new JanggiGame();
+        GameInitializer gameInitializer = new GameInitializer(
+                new BoardRepository(new BoardDao(new JanggiConnection())),
+                new PieceRepository(new PieceDao(new JanggiConnection())),
+                new TeamRepository(new TeamDao(new JanggiConnection())),
+                new PlayerRepository(new PlayerDao(new JanggiConnection()))
+        );
+
+        Board board = gameInitializer.createBoard();
+        List<Player> players = gameInitializer.getAllPlayers();
+
+        final JanggiGame game = new JanggiGame(board, players);
 
         outputView.printBoard(game.getBoard());
         while (true) {
