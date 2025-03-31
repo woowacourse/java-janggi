@@ -89,9 +89,12 @@ public final class Board {
 
         PieceDao pieceDao = new PieceDao();
         pieceDao.deleteAll();
+
+        Set<PieceConverter> pieceConverters = new HashSet<>();
         for (Piece pieceForDB : pieces) {
-            pieceDao.addPiece(PieceConverter.toEntity(pieceForDB));
+            pieceConverters.add(PieceConverter.toEntity(pieceForDB));
         }
+        pieceDao.addAll(pieceConverters);
 
         TurnDao turnDao = new TurnDao();
         Team nextTurn = nextTurn();

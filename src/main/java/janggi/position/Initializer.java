@@ -100,9 +100,11 @@ class Initializer {
         pieces.add(new ChoPawn(G3));
         pieces.add(new ChoPawn(I3));
 
+        Set<PieceConverter> pieceConverters = new HashSet<>();
         for (Piece piece : pieces) {
-            pieceDao.addPiece(PieceConverter.toEntity(piece));
+            pieceConverters.add(PieceConverter.toEntity(piece));
         }
+        pieceDao.addAll(pieceConverters);
 
         return pieces;
     }
