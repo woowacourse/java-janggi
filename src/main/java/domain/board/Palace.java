@@ -54,7 +54,7 @@ public enum Palace {
         }
     }
 
-    public boolean isNotInPalace(BoardLocation location) {
+    private boolean isNotInPalace(BoardLocation location) {
         return startLocation.x() > location.x()
                 || startLocation.y() > location.y()
                 || endLocation.x() < location.x()
