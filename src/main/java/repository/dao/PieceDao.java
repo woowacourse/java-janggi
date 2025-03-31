@@ -11,25 +11,6 @@ import repository.converter.PieceConverter;
 
 public class PieceDao {
 
-//    public void addPiece(final PieceConverter pieceConverter) {
-//        final var query = "INSERT INTO PIECE (row_index, column_index, piece_type_name, team_name) VALUES(?, ?, ?, ?)";
-//
-//        ConnectDatabase connectDatabase = new ConnectMysql();
-//        try (Connection connection = connectDatabase.create();
-//             final var preparedStatement = connection.prepareStatement(query)) {
-//
-//            preparedStatement.setString(1, pieceConverter.rowIndex());
-//            preparedStatement.setString(2, pieceConverter.columnIndex());
-//            preparedStatement.setString(3, pieceConverter.pieceTypeName());
-//            preparedStatement.setString(4, pieceConverter.teamName());
-//            preparedStatement.executeUpdate();
-//
-//            connectDatabase.close(connection);
-//        } catch (final SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     public void addAll(final Set<PieceConverter> pieceConverters) {
         final var query = "INSERT INTO PIECE (row_index, column_index, piece_type_name, team_name) VALUES(?, ?, ?, ?)";
 
