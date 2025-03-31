@@ -1,9 +1,9 @@
-import application.JanggiGame;
+import application.Janggi;
 import infrastructure.MysqlConnector;
 import infrastructure.dao.BoardDao;
-import infrastructure.dao.TurnDao;
+import infrastructure.dao.GameDao;
 import infrastructure.repository.BoardJdbcRepository;
-import infrastructure.repository.TurnJdbcRepository;
+import infrastructure.repository.GameJdbcRepository;
 import view.InputView;
 import view.OutputView;
 
@@ -12,12 +12,12 @@ public class Application {
     public static void main(String[] args) {
         MysqlConnector mysqlConnector = new MysqlConnector();
 
-        JanggiGame janggiGame = new JanggiGame(
+        Janggi janggi = new Janggi(
                 new InputView(),
                 new OutputView(),
                 new BoardJdbcRepository(new BoardDao(mysqlConnector)),
-                new TurnJdbcRepository(new TurnDao(mysqlConnector))
+                new GameJdbcRepository(new GameDao(mysqlConnector))
         );
-        janggiGame.play();
+        janggi.play();
     }
 }

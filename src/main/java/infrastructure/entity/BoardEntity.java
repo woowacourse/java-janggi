@@ -10,17 +10,20 @@ import java.util.Map;
 
 public class BoardEntity {
 
+    private final Long id;
     private final int x;
     private final int y;
     private final String pieceName;
     private final String country;
 
     public BoardEntity(
+            Long id,
             String pieceName,
             int x,
             int y,
             String country
     ) {
+        this.id = id;
         this.pieceName = pieceName;
         this.x = x;
         this.y = y;
@@ -30,6 +33,7 @@ public class BoardEntity {
     public static List<BoardEntity> from(Board board) {
         return board.getBoard().entrySet().stream()
                 .map(entry -> new BoardEntity(
+                        null,
                         entry.getValue().getType().name(),
                         entry.getKey().row(),
                         entry.getKey().col(),

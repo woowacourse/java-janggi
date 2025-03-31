@@ -5,7 +5,9 @@ import static domain.Coordinate.MAX_ROW;
 
 import domain.Coordinate;
 import domain.board.Board;
+import domain.game.Game;
 import domain.piece.Country;
+import java.util.List;
 
 public class OutputView {
 
@@ -71,5 +73,12 @@ public class OutputView {
 
     public void printNewGameMessage() {
         System.out.println("새로운 게임을 시작합니다.");
+    }
+
+    public void printAllGames(List<Game> janggiGames) {
+        System.out.println("저장된 게임 목록");
+        for (int i = 0; i < janggiGames.size(); i++) {
+            System.out.println(i + 1 + ". " + janggiGames.get(i).getName());
+        }
     }
 }

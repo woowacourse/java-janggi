@@ -52,4 +52,10 @@ public class InputView {
                 + MaSangMaSang.MA_SANG_MA_SANG + "]");
         return scanner.nextLine();
     }
+
+    public String readJoinGame() {
+        System.out.println("참여하실 게임방 이름을 입력해주세요.");
+        System.out.println("(새로운 게임을 시작하려면 생성할 방 이름을 입력해주세요.)");
+        return scanner.nextLine();
+    }
 }

@@ -6,16 +6,16 @@ import domain.piece.Country;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class TurnTest {
+public class GameTest {
 
     @DisplayName("턴을 교체한다.")
     @Test
     void turnTest1() {
-        Turn turn = new Turn(Country.CHO);
+        Game game = new Game("game1", Country.CHO);
 
-        turn.next();
+        game.next();
 
-        assertThat(turn.getCountry()).isEqualTo(Country.HAN);
+        assertThat(game.getCountry()).isEqualTo(Country.HAN);
     }
-    
+
 }

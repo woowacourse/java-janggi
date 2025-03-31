@@ -74,7 +74,7 @@
 - 저장이 필요한 값: 기물의 좌표, 어떤 기물인지, 어떤 나라인지, 현재 턴
     - DB: board 테이블
     - `piece_name`, `x`, `y`, `country`
-    - DB: turn 테이블
+    - DB: game 테이블
     - `current_turn`
 
 ### 보드판
