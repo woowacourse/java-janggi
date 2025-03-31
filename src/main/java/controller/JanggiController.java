@@ -1,7 +1,6 @@
 package controller;
 
 import dao.GameDao;
-import dao.JdbcConnection;
 import dao.PieceDao;
 import domain.board.Board;
 import domain.board.BoardLocation;
@@ -9,12 +8,8 @@ import domain.game.JanggiGame;
 import domain.game.Turn;
 import domain.piece.Piece;
 import domain.piece.Team;
-import dto.BoardDto;
-import dto.TurnDto;
 import java.util.Map;
 import java.util.Optional;
-import service.GameService;
-import service.PieceService;
 import view.ConsoleView;
 
 public class JanggiController {
@@ -32,13 +27,13 @@ public class JanggiController {
     }
 
     public void start() {
-        Optional<BoardDto> boardDto = pieceDao.findByAllAlivePieces();
-        Optional<TurnDto> turnDto = gameDao.findTurnByGameId(GAME_ID);
+        Optional<Board> board = pieceDao.findByAllAlivePieces();
+        Optional<Turn> turn = gameDao.findTurnByGameId(GAME_ID);
         JanggiGame janggiGame;
-        if (boardDto.isEmpty() || turnDto.isEmpty()) {
+        if (board.isEmpty() || turn.isEmpty()) {
             janggiGame = initializeJanggiGame();
         } else {
-            janggiGame = new JanggiGame(boardDto.get().toBoard(), turnDto.get().toTurn());
+            janggiGame = new JanggiGame(board.get(), turn.get());
         }
 
         consoleView.showBoard(janggiGame.getBoard().getPieces());

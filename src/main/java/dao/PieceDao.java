@@ -53,7 +53,7 @@ public class PieceDao {
         }
     }
 
-    public Optional<BoardDto> findByAllAlivePieces() {
+    public Optional<Board> findByAllAlivePieces() {
         createPieceTableIfNotExists();
         String query = "SELECT piece_type, team, location_x, location_y FROM piece";
         Map<BoardLocation, Piece> pieces = new HashMap<>();
@@ -68,7 +68,7 @@ public class PieceDao {
                     pieces.put(new BoardLocation(locationX, locationY), createPieceByType(pieceType, team));
                 }
             }
-            return Optional.of(new BoardDto(pieces));
+            return Optional.of(new Board(pieces));
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

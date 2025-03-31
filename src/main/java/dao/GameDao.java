@@ -29,7 +29,7 @@ public class GameDao {
         }
     }
 
-    public Optional<TurnDto> findTurnByGameId(int gameId) {
+    public Optional<Turn> findTurnByGameId(int gameId) {
         createGameTableIfNotExists();
         final var query = "SELECT turn FROM game WHERE game_id = ?";
 
@@ -41,9 +41,9 @@ public class GameDao {
                 if (!rs.next()) {
                     return Optional.empty();
                 }
-                String turn = rs.getString("turn");
-                TurnDto turnDto = new TurnDto(Team.getTeamByName(turn));
-                return Optional.of(turnDto);
+                String turnName = rs.getString("turn");
+                Turn turn = new Turn(Team.getTeamByName(turnName));
+                return Optional.of(turn);
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
