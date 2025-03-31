@@ -74,7 +74,12 @@
   - docker 폴더로 이동한 후 docker-compose 파일을 실행하세요.
     ```shell
     cd docker
-    docker-compose -p janggi up -d 
+
+    docker-compose -p janggi up -d
+    ```
+  - docker 컨테이너를 종료하려면 아래와 같이 입력하세요.
+    ```shell
+    docker-compose -p janggi down
     ```
 
 2. MySQL DataSource를 생성해주세요.
