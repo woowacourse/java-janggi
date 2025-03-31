@@ -60,4 +60,8 @@ public abstract class LimitMovable implements Piece {
         return side == Side.HAN;
     }
 
+    @Override
+    public Side getSide() {
+        return side;
+    }
 }

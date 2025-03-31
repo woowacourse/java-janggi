@@ -14,14 +14,10 @@ public interface Piece {
 
     boolean isCho();
 
+    Side getSide();
+
     default boolean isAlly(Piece piece) {
-        if (isCho()) {
-            return piece.isCho();
-        }
-        if (isHan()) {
-            return piece.isHan();
-        }
-        return false;
+        return getSide() == piece.getSide();
     }
 
     default boolean isOccupied() {
@@ -37,12 +33,6 @@ public interface Piece {
     }
 
     default boolean isSameSide(final Side side) {
-        if (side == Side.CHO) {
-            return isCho();
-        }
-        if (side == Side.HAN) {
-            return isHan();
-        }
-        return false;
+        return side == getSide();
     }
 }

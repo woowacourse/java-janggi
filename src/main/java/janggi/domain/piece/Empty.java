@@ -32,4 +32,9 @@ public class Empty implements Piece {
     public boolean isHan() {
         return false;
     }
+
+    @Override
+    public Side getSide() {
+        return Side.NONE;
+    }
 }

@@ -41,14 +41,7 @@ public class BoardPieceService {
     }
 
     public void addBoardPiece(final int gameId, final Position position, final Piece piece) {
-        Side side = Side.NONE;
-        if(piece.isCho()) {
-            side = Side.CHO;
-        }
-        if(piece.isHan()) {
-            side = Side.HAN;
-        }
-        boardPieceDao.addPositionPiece(gameId, position.getX(), position.getY(), piece, side);
+        boardPieceDao.addPositionPiece(gameId, position.getX(), position.getY(), piece);
     }
 
     public void updatePiecePosition(final Position selectedPiecePosition, final Position destination) {

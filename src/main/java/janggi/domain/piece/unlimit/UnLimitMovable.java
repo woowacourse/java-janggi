@@ -90,4 +90,9 @@ public abstract class UnLimitMovable implements Piece {
     public boolean isHan() {
         return side == Side.HAN;
     }
+
+    @Override
+    public Side getSide() {
+        return side;
+    }
 }
