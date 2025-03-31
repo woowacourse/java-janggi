@@ -56,24 +56,32 @@ public class JanggiGame {
         try {
             outputView.displayTurnCountry(turnCountry);
             outputView.displayCountryScore(turnCountry, board.getCountryScore(turnCountry));
-            List<String> moveInfo = inputView.readMoveCommand();
-
-            if (moveInfo.get(0).equals("quit")) {
-                loadOrSaveManager.save(board, turnCountry);
-                outputView.displayGameOver();
-                return false;
+            if (!movePieceOrQuit(board)) {
+                return saveBoard(board);
             }
-
-            Position from = Position.of(moveInfo.get(0), moveInfo.get(1));
-            Position to = Position.of(moveInfo.get(2), moveInfo.get(3));
-
-            board.movePiece(from, to, turnCountry);
-            outputView.displayBoard(board);
             turnCountry = turnCountry.reverseCountry();
+            outputView.displayBoard(board);
 
         } catch (IllegalArgumentException e) {
             System.out.println("ERROR: " + e.getMessage());
         }
         return true;
+    }
+
+    private boolean movePieceOrQuit(final Board board) {
+        List<String> moveInfo = inputView.readMoveCommand();
+        if (moveInfo.get(0).equals("quit")) {
+            return false;
+        }
+        Position from = Position.of(moveInfo.get(0), moveInfo.get(1));
+        Position to = Position.of(moveInfo.get(2), moveInfo.get(3));
+        board.movePiece(from, to, turnCountry);
+        return true;
+    }
+
+    private boolean saveBoard(final Board board) {
+        loadOrSaveManager.save(board, turnCountry);
+        outputView.displayGameOver();
+        return false;
     }
 }
