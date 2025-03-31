@@ -24,13 +24,12 @@ public class Application {
         Board board = BoardGenerator.generate();
         Camp currentTurnCamp = FIRST_TURN_CAMP;
         while (!board.isGameOver()) {
-            view.displayBoard(board.getPlacedPieces());
+            view.displayBoard(board.getPieceDao());
             currentTurnCamp = tryPlayTurn(view, currentTurnCamp, board);
         }
         handleGameEnd(view, board);
         view.displayScore(Camp.CHU, board.calculateChuScore());
         view.displayScore(Camp.HAN, board.calculateHanScore());
-
     }
 
     private static Camp tryPlayTurn(View view, Camp currentTurnCamp, Board board) {
@@ -59,7 +58,7 @@ public class Application {
 
     private static void handleGameEnd(View view, Board board) {
         Camp winningCamp = board.findWinningCamp();
-        view.displayBoard(board.getPlacedPieces());
+        view.displayBoard(board.getPieceDao());
         view.displayEndingMessage(winningCamp);
     }
 }

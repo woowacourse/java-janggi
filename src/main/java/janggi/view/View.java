@@ -2,9 +2,9 @@ package janggi.view;
 
 import janggi.board.Point;
 import janggi.camp.Camp;
+import janggi.dao.PieceDao;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
-import java.util.Map;
 import java.util.Scanner;
 
 public class View {
@@ -63,10 +63,10 @@ public class View {
         return input.trim();
     }
 
-    public void displayBoard(Map<Point, Piece> placedPieces) {
+    public void displayBoard(PieceDao pieceDao) {
         System.out.println();
         for (int i = ROW - 1; i >= 0; i--) {
-            displayRow(placedPieces, i);
+            displayRow(pieceDao, i);
         }
         System.out.print("  ");
         for (int i = 0; i < COLUMN; i++) {
@@ -74,20 +74,20 @@ public class View {
         }
     }
 
-    private void displayRow(Map<Point, Piece> placedPieces, int i) {
+    private void displayRow(PieceDao pieceDao, int i) {
         System.out.print(i);
         for (int j = 0; j < COLUMN; j++) {
-            displayPiece(placedPieces, i, j);
+            displayPiece(pieceDao, i, j);
         }
         System.out.println(BOARD_DELIMITER_LINE);
     }
 
-    private void displayPiece(Map<Point, Piece> placedPieces, int i, int j) {
-        if (placedPieces.get(new Point(j, i)) == null) {
+    private void displayPiece(PieceDao pieceDao, int i, int j) {
+        if (pieceDao.findByPoint(new Point(j, i)) == null) {
             System.out.print(BOARD_DELIMITER_LINE + EMPTY_SPACE);
             return;
         }
-        System.out.print(BOARD_DELIMITER_LINE + formatPiece(placedPieces.get(new Point(j, i))));
+        System.out.print(BOARD_DELIMITER_LINE + formatPiece(pieceDao.findByPoint(new Point(j, i))));
     }
 
     private String formatPiece(Piece piece) {
