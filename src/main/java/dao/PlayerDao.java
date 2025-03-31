@@ -15,7 +15,7 @@ public class PlayerDao {
             preparedStatement.setString(2, player.team().name());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 플레이어를 DB에 추가하는 도중 에러가 발생했습니다.");
         }
     }
 
@@ -33,7 +33,7 @@ public class PlayerDao {
                 );
             }
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 해당 팀에 대한 플레이어가 존재하지 않습니다.");
         }
 
         return Optional.empty();
@@ -45,7 +45,7 @@ public class PlayerDao {
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 플레이어 정보 삭제 도중 에러가 발생했습니다.");
         }
     }
 }
