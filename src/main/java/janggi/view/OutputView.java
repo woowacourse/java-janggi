@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class OutputView {
-    private static final int MAX_ROW = 10;
-    private static final int MAX_COLUM = 9;
-
     public void printError(String message) {
         System.err.println("[ERROR] " + message);
     }
@@ -36,9 +33,9 @@ public class OutputView {
     }
 
     private String[][] initialBoard(Map<Position, Piece> units) {
-        String[][] board = new String[MAX_ROW][MAX_COLUM];
+        String[][] board = new String[Position.ROW_MAX][Position.COLUMN_MAX];
 
-        for (int i = 0; i < MAX_ROW; i++) {
+        for (int i = 0; i < Position.ROW_MAX; i++) {
             Arrays.fill(board[i], ".");
         }
         units.forEach((position, piece) ->
@@ -48,9 +45,9 @@ public class OutputView {
     }
 
     private String[][] initialTeamBoard(Map<Position, Piece> pieces) {
-        String[][] board = new String[MAX_ROW][MAX_COLUM];
+        String[][] board = new String[Position.ROW_MAX][Position.COLUMN_MAX];
 
-        for (int i = 0; i < MAX_ROW; i++) {
+        for (int i = 0; i < Position.ROW_MAX; i++) {
             Arrays.fill(board[i], ".");
         }
         pieces.forEach(
@@ -59,9 +56,9 @@ public class OutputView {
     }
 
     private void printBoard(String[][] board, String[][] teamInfo) {
-        for (int i = 0; i < MAX_ROW; i++) {
+        for (int i = 0; i < Position.ROW_MAX; i++) {
             System.out.printf("%2d | ", i);
-            for (int j = 0; j < MAX_COLUM; j++) {
+            for (int j = 0; j < Position.COLUMN_MAX; j++) {
                 String cell = board[i][j];
                 String team = teamInfo[i][j];
                 if (!cell.equals(".")) {
