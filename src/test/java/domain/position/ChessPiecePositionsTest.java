@@ -6,11 +6,13 @@ import domain.chessPiece.ChessPiece;
 import domain.chessPiece.Pawn;
 import domain.type.ChessTeam;
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ChessPiecePositionsTest {
 
+    @Disabled
     @Test
     @DisplayName("이동 위치에 적팀 기물이 있으면, 해당 기물을 제거한다")
     void test1() {

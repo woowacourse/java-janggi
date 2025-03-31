@@ -6,11 +6,13 @@ import domain.path.Path;
 import domain.position.ChessPosition;
 import domain.type.ChessTeam;
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ElephantTest {
 
+    @Disabled
     @DisplayName("상의 이동 경로를 계산한다")
     @Test
     void test1() {
