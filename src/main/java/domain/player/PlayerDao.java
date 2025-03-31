@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerDao {
 
@@ -26,7 +28,6 @@ public class PlayerDao {
             preparedStatement.setString(3, team.name());
             preparedStatement.executeUpdate();
 
-            // 새로 생성된 ID를 받아서 Player 객체에 설정
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             int generatedId = 0;
             if (generatedKeys.next()) {
@@ -37,4 +38,32 @@ public class PlayerDao {
             throw new IllegalArgumentException("플레이어 저장 오류");
         }
     }
+
+    public Players selectPlayersByGameId(int gameId) {
+        final String query = "SELECT * FROM player WHERE game_id = ? ORDER BY player_id ASC";
+
+        try (
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, gameId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Player> playerList = new ArrayList<>();
+            while (resultSet.next()) {
+                playerList.add(new Player(
+                        resultSet.getInt("player_id"),
+                        resultSet.getString("name"),
+                        Team.fromString(resultSet.getString("team_color"))
+                ));
+            }
+
+            if (playerList.size() == 2) {
+                return new Players(List.of(playerList.getFirst(), playerList.getLast()));
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("플레이어 정보 조회 오류", e);
+        }
+        return null;
+    }
+
 }
