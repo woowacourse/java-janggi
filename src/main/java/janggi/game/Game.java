@@ -19,6 +19,9 @@ public class Game {
     private static final int POSITION_INPUT_SIZE = 2;
     private static final int INPUT_COLUMN_INDEX = 0;
     private static final int INPUT_ROW_INDEX = 1;
+    public static final String MOVE_COMMAND = "1";
+    public static final String SAVE_COMMAND = "2";
+    public static final String GAMEOVER_COMMAND = "3";
 
     private final InputView inputView;
     private final OutputView outputView;
@@ -45,9 +48,9 @@ public class Game {
 
     private Map<String, Function<Board, GameState>> initCommand() {
         HashMap<String, Function<Board, GameState>> command = new HashMap<>();
-        command.put("1", this::movePiece);
-        command.put("2", this::saveGame);
-        command.put("3", this::gameOver);
+        command.put(MOVE_COMMAND, this::movePiece);
+        command.put(SAVE_COMMAND, this::saveGame);
+        command.put(GAMEOVER_COMMAND, this::gameOver);
         return command;
     }
 
