@@ -12,6 +12,7 @@ import domain.janggi.Team;
 import domain.janggi.Turn;
 import domain.piece.Piece;
 import dto.JanggiDto;
+import entity.JanggiEntity;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -66,7 +67,10 @@ public class JanggiManager {
     public List<JanggiDto> findAllJanggiDtos() {
         try {
             final Connection connection = ConnectionProvider.getConnection();
-            return janggiDao.findAllJanggiDtos(connection);
+            return janggiDao.findAllJanggiEntities(connection).stream()
+                    .map(entity -> new JanggiDto(
+                            entity.id(), entity.title(), new Turn(entity.team()), entity.status()))
+                    .toList();
         } catch (SQLException e) {
             throw new RuntimeException("장기 게임을 불러오는 중 문제 발생");
         }
@@ -105,18 +109,14 @@ public class JanggiManager {
     public Janggi loadJanggi(final int janggiId) {
         final Connection connection = ConnectionProvider.getConnection();
         try {
-            final JanggiDto janggiDto = janggiDao.findJanggiDtoById(connection, janggiId);
+            final JanggiEntity janggiEntity = janggiDao.findJanggiEntityById(connection, janggiId);
 
-            if (janggiDto.id() == 0) {
+            if (janggiEntity.id() == 0) {
                 throw new IllegalArgumentException("해당하는 게임이 없습니다.");
             }
+            final Board board = new Board(piecePositionDao.findAllByJanggiId(connection, janggiId));
 
-            return new Janggi(
-                    janggiId,
-                    janggiDto.title(),
-                    new Board(piecePositionDao.findAllByJanggiId(connection, janggiId)),
-                    janggiDto.turn()
-            );
+            return janggiEntity.toJanggi(board);
         } catch (SQLException e) {
             throw new RuntimeException("장기 게임 로드 중 문제 발생");
         }

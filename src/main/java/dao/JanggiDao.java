@@ -3,7 +3,7 @@ package dao;
 import domain.janggi.JanggiStatus;
 import domain.janggi.Team;
 import domain.janggi.Turn;
-import dto.JanggiDto;
+import entity.JanggiEntity;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +27,6 @@ public class JanggiDao {
         preparedStatement.setString(3, turn.currentTeam().name());
 
         preparedStatement.executeUpdate();
-
         final ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         if (generatedKeys.next()) {
             return (int) generatedKeys.getLong(1);
@@ -35,27 +34,27 @@ public class JanggiDao {
         throw new SQLException("생성된 키가 없습니다.");
     }
 
-    public List<JanggiDto> findAllJanggiDtos(final Connection connection) throws SQLException {
+    public List<JanggiEntity> findAllJanggiEntities(final Connection connection) throws SQLException {
         final String query = "SELECT * FROM janggi";
         final PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         final ResultSet resultSet = preparedStatement.executeQuery();
 
-        final List<JanggiDto> janggiDtos = new ArrayList<>();
+        final List<JanggiEntity> janggiEntities = new ArrayList<>();
         while (resultSet.next()) {
-            final JanggiDto janggiDto = new JanggiDto(
+            final JanggiEntity janggiEntity = new JanggiEntity(
                     resultSet.getInt("id"),
                     resultSet.getString("title"),
-                    new Turn(Team.from(resultSet.getString("turn"))),
+                    Team.from(resultSet.getString("turn")),
                     JanggiStatus.from(resultSet.getString("status"))
             );
-            janggiDtos.add(janggiDto);
+            janggiEntities.add(janggiEntity);
         }
 
-        return janggiDtos;
+        return janggiEntities;
     }
 
-    public JanggiDto findJanggiDtoById(
+    public JanggiEntity findJanggiEntityById(
             final Connection connection,
             final int id
     ) throws SQLException {
@@ -65,10 +64,10 @@ public class JanggiDao {
         final ResultSet resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next()) {
-            return new JanggiDto(
+            return new JanggiEntity(
                     resultSet.getInt("id"),
                     resultSet.getString("title"),
-                    new Turn(Team.from(resultSet.getString("turn"))),
+                    Team.from(resultSet.getString("turn")),
                     JanggiStatus.from(resultSet.getString("status"))
             );
         }

@@ -10,6 +10,7 @@ import domain.janggi.JanggiStatus;
 import domain.janggi.Team;
 import domain.janggi.Turn;
 import dto.JanggiDto;
+import entity.JanggiEntity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -56,42 +57,42 @@ class JanggiDaoTest {
             int janggiId = janggiDao.create(connection, title, status, turn);
 
             // then
-            JanggiDto expected = new JanggiDto(janggiId, title, turn, status);
-            assertThat(janggiDao.findJanggiDtoById(connection, janggiId))
+            JanggiEntity expected = new JanggiEntity(janggiId, title, turn.currentTeam(), status);
+            assertThat(janggiDao.findJanggiEntityById(connection, janggiId))
                     .isEqualTo(expected);
         }
 
         @DisplayName("저장된 모든 장기 게임을 조회한다.")
         @Test
-        void findAllJanggiDtos() throws SQLException {
+        void findAllJanggiEntities() throws SQLException {
             // given
             int firstId = janggiDao.create(connection, "first title", JanggiStatus.PROCESS, new Turn(Team.RED));
             int secondId = janggiDao.create(connection, "second title", JanggiStatus.FINISH, new Turn(Team.GREEN));
             int thirdId = janggiDao.create(connection, "third title", JanggiStatus.PROCESS, new Turn(Team.GREEN));
 
             // when
-            List<JanggiDto> result = janggiDao.findAllJanggiDtos(connection);
+            List<JanggiEntity> result = janggiDao.findAllJanggiEntities(connection);
 
             // then
             assertThat(result).containsExactlyInAnyOrder(
-                    new JanggiDto(firstId, "first title", new Turn(Team.RED), JanggiStatus.PROCESS),
-                    new JanggiDto(secondId, "second title", new Turn(Team.GREEN), JanggiStatus.FINISH),
-                    new JanggiDto(thirdId, "third title", new Turn(Team.GREEN), JanggiStatus.PROCESS)
+                    new JanggiEntity(firstId, "first title", Team.RED, JanggiStatus.PROCESS),
+                    new JanggiEntity(secondId, "second title", Team.GREEN, JanggiStatus.FINISH),
+                    new JanggiEntity(thirdId, "third title", Team.GREEN, JanggiStatus.PROCESS)
             );
         }
 
         @DisplayName("장기 게임 번호를 통해 해당 장기 게임을 조회한다.")
         @Test
-        void findJanggiDtoById() throws SQLException {
+        void findJanggiEntityById() throws SQLException {
             // given
             String title = "title";
             JanggiStatus status = JanggiStatus.PROCESS;
-            Turn turn = new Turn(Team.GREEN);
-            int janggiId = janggiDao.create(connection, title, status, turn);
+            Team team = Team.GREEN;
+            int janggiId = janggiDao.create(connection, title, status, new Turn(team));
 
             // when & then
-            JanggiDto expected = new JanggiDto(janggiId, title, turn, status);
-            assertThat(janggiDao.findJanggiDtoById(connection, janggiId))
+            JanggiEntity expected = new JanggiEntity(janggiId, title, team, status);
+            assertThat(janggiDao.findJanggiEntityById(connection, janggiId))
                     .isEqualTo(expected);
         }
 
@@ -105,8 +106,8 @@ class JanggiDaoTest {
             janggiDao.updateTurnByJanggiId(connection, janggiId, Team.GREEN);
 
             // then
-            assertThat(janggiDao.findJanggiDtoById(connection, janggiId).turn())
-                    .isEqualTo(new Turn(Team.GREEN));
+            assertThat(janggiDao.findJanggiEntityById(connection, janggiId).team())
+                    .isEqualTo(Team.GREEN);
         }
 
         @DisplayName("데이터베이스의 모든 장기 게임을 삭제한다.")
@@ -121,7 +122,7 @@ class JanggiDaoTest {
             janggiDao.deleteAll(connection);
 
             // then
-            assertThat(janggiDao.findAllJanggiDtos(connection)).isEmpty();
+            assertThat(janggiDao.findAllJanggiEntities(connection)).isEmpty();
         }
     }
 }

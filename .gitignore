@@ -3,8 +3,6 @@ HELP.md
 /build
 !gradle/wrapper/gradle-wrapper.jar
 src/main/resources/database.properties
-src/main/**
-src/test/**
 !src/main/java/**
 !src/test/java/**
 
