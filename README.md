@@ -1,3 +1,29 @@
+## DB 연결
+
+docker-compose.yml 을 도커로 실행 후 아래의 테이블들을 추가한다.
+
+```sql
+use
+janggi
+CREATE TABLE piece
+(
+    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
+    column_name VARCHAR(1)  NOT NULL,
+    row_name    VARCHAR(1)  NOT NULL,
+    country     VARCHAR(3)  NOT NULL,
+    piece_type  VARCHAR(10) NOT NULL
+);
+```
+
+```sql
+
+CREATE TABLE turn
+(
+    id           BIGINT AUTO_INCREMENT PRIMARY KEY,
+    country_name VARCHAR(3) NOT NULL
+);
+```
+
 # 기능 요구 사항
 
 ## 위치
@@ -60,24 +86,3 @@
 - 왕, 사는 정가운데를 포함한 궁성 영역의 양 꼭짓점에서 대각선 이동이 가능하다.
 - 포, 차는 정가운데를 포함한 궁성 영역의 양 꼭짓점에서 대각선 이동이 가능하다.
 
-## DB 연결
-
-```sql
-CREATE TABLE piece
-(
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    column_name VARCHAR(1)  NOT NULL,
-    row_name    VARCHAR(1)  NOT NULL,
-    country     VARCHAR(3)  NOT NULL,
-    piece_type  VARCHAR(10) NOT NULL
-);
-```
-
-```sql
-
-CREATE TABLE turn
-(
-    id           BIGINT AUTO_INCREMENT PRIMARY KEY,
-    country_name VARCHAR(3) NOT NULL
-);
-```
