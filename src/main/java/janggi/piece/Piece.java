@@ -15,8 +15,15 @@ public abstract class Piece {
         this.pieceType = pieceType;
         this.teamType = teamType;
     }
+    
+    public Path makePath(Position currentPosition, Position arrivalPosition) {
+        int differenceForY = arrivalPosition.calculateDifferenceForY(currentPosition);
+        int differenceForX = arrivalPosition.calculateDifferenceForX(currentPosition);
 
-    abstract public Path makePath(Position currentPosition, Position arrivalPosition);
+        validateDistanceAndDirection(differenceForY, differenceForX);
+
+        return new Path(calculateMovingPositions(currentPosition, arrivalPosition, differenceForY, differenceForX));
+    }
 
     public void validateExistPieceInPath(List<Piece> pieces, boolean hasPieceInArrivalPosition) {
         if ((hasPieceInArrivalPosition && pieces.size() > 1) || (!hasPieceInArrivalPosition && !pieces.isEmpty())) {
