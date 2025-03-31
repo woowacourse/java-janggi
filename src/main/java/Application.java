@@ -78,7 +78,7 @@ public class Application {
 
         PositionFactory positionFactory = new PositionFactory();
         positionFactory.basicSettingGraph();
-        positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
+        positionFactory.diagonalSettingGraph(Palace.getAllPositions());
     }
 
     private static void saveGameState(PieceDao pieceDao, BoardDao boardDao, Board board) {

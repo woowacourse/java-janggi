@@ -117,7 +117,7 @@ class CannonTest {
         // given
         PositionFactory positionFactory = new PositionFactory();
         positionFactory.basicSettingGraph();
-        positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
+        positionFactory.diagonalSettingGraph(Palace.getAllPositions());
 
         Country turnCountry = Country.HAN;
         Country.assignDirection(turnCountry, LineDirection.UP);
