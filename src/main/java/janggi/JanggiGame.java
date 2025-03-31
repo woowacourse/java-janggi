@@ -30,7 +30,12 @@ public class JanggiGame {
         this.gameService = new GameService();
     }
 
-    public JanggiBoard setUpGame() {
+    public void playGame() {
+        JanggiBoard board = setUpGame();
+        playTurns(board);
+    }
+
+    private JanggiBoard setUpGame() {
         Map<Integer, String> games = gameService.findAllGames();
         JanggiBoard board;
         if (games.isEmpty()) {
@@ -47,7 +52,7 @@ public class JanggiGame {
         return board;
     }
 
-    public void play(JanggiBoard board) {
+    private void playTurns(JanggiBoard board) {
         List<Side> turns = getTurns();
         if (turns.contains(Side.NONE)) {
             outputView.printAlreadyEnded();
@@ -104,7 +109,7 @@ public class JanggiGame {
         return catchedPiece;
     }
 
-    public void printTotalScores(final JanggiBoard board) {
+    private void printTotalScores(final JanggiBoard board) {
         int choTotalScore = board.sumSideTotalScore(Side.CHO);
         int hanTotalScore = board.sumSideTotalScore(Side.HAN);
         outputView.printTotalScores(choTotalScore, hanTotalScore);

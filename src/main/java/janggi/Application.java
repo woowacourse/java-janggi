@@ -11,8 +11,6 @@ public class Application {
         OutputView outputView = new OutputView();
         JanggiGame janggiGame = new JanggiGame(inputView, outputView);
 
-        JanggiBoard board = janggiGame.setUpGame();
-        janggiGame.play(board);
-
+        janggiGame.playGame();
     }
 }
