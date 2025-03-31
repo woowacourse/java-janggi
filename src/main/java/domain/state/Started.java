@@ -6,6 +6,7 @@ import domain.piece.PieceColor;
 import java.util.List;
 
 public abstract class Started implements State {
+
     public static final double RED_HANDICAP = 1.5;
     public static final double BLUE_HANDICAP = 0;
 

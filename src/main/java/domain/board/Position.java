@@ -3,6 +3,7 @@ package domain.board;
 import java.util.Objects;
 
 public class Position {
+
     private final Row row;
     private final Column column;
 

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DefaultMoveRule implements MoveRule {
 
-    public static final int DEFAULT_OBSTACLE_COUNT = 0;
+    private static final int DEFAULT_OBSTACLE_COUNT = 0;
     private static final DefaultMoveRule INSTANCE = new DefaultMoveRule();
 
     public static DefaultMoveRule getInstance() {

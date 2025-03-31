@@ -1,6 +1,6 @@
 import controller.JanggiController;
 import dao.BoardDao;
-import dao.UserDao;
+import dao.DatabaseConnection;
 import service.GameService;
 import view.InputView;
 import view.OutputView;
@@ -9,8 +9,8 @@ public class Application {
     public static void main(String[] args) {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
-        UserDao userDao = new UserDao();
-        BoardDao boardDao = new BoardDao(userDao);
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        BoardDao boardDao = new BoardDao(databaseConnection);
         GameService gameService = new GameService(boardDao);
 
         JanggiController controller = new JanggiController(gameService, inputView, outputView);

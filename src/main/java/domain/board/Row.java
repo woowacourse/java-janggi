@@ -3,6 +3,7 @@ package domain.board;
 import java.util.Arrays;
 
 public enum Row {
+
     ONE(1, true, false),
     TWO(2, true, true),
     THREE(3, true, false),

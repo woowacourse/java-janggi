@@ -25,6 +25,11 @@ public class GameService {
         janggiGame = new JanggiGame(new SetUp());
     }
 
+    public void startGame(boolean loadGame) {
+        Board board = loadOrCreateBoard(loadGame);
+        janggiGame.startGame(board);
+    }
+
     private Board loadOrCreateBoard(boolean loadGame) {
         Map<Position, Piece> boardData = boardDao.loadBoard();
 
@@ -35,11 +40,6 @@ public class GameService {
         }
 
         return new Board(boardData);
-    }
-
-    public void startGame(boolean loadGame) {
-        Board board = loadOrCreateBoard(loadGame);
-        janggiGame.startGame(board);
     }
 
     public void playTurn(MoveCommandDTO commands) {

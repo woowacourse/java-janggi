@@ -22,14 +22,14 @@ public class BoardDao {
     private static final String UPDATE_POSITION = "UPDATE board SET position_row = ?, position_column = ? WHERE position_row = ? AND position_column = ?";
     private static final String DELETE_BOARD = "DELETE FROM board";
 
-    private final UserDao userDao;
+    private final DatabaseConnection databaseConnection;
 
-    public BoardDao(UserDao userDao) {
-        this.userDao = userDao;
+    public BoardDao(DatabaseConnection databaseConnection) {
+        this.databaseConnection = databaseConnection;
     }
 
     public void saveBoard(Map<Position, Piece> board) {
-        try (Connection connection = userDao.getConnection();
+        try (Connection connection = databaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT_PIECE)) {
             for (Map.Entry<Position, Piece> entry : board.entrySet()) {
                 Position position = entry.getKey();
@@ -48,7 +48,7 @@ public class BoardDao {
 
     public Map<Position, Piece> loadBoard() {
         Map<Position, Piece> board = new HashMap<>();
-        try (Connection connection = userDao.getConnection();
+        try (Connection connection = databaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BOARD);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -70,7 +70,7 @@ public class BoardDao {
     }
 
     public void updatePosition(Position source, Position destination) {
-        try (Connection connection = userDao.getConnection()) {
+        try (Connection connection = databaseConnection.getConnection()) {
             connection.setAutoCommit(false);
             try {
                 try (PreparedStatement deleteDestination = connection.prepareStatement(DELETE_PIECE)) {
@@ -99,7 +99,7 @@ public class BoardDao {
     }
 
     public void deleteBoard() {
-        try (Connection connection = userDao.getConnection();
+        try (Connection connection = databaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_BOARD)) {
             statement.executeUpdate();
         } catch (SQLException e) {
