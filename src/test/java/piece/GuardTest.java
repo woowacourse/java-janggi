@@ -51,7 +51,7 @@ class GuardTest {
         // given
         PositionFactory positionFactory = new PositionFactory();
         positionFactory.basicSettingGraph();
-        positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
+        positionFactory.diagonalSettingGraph(Palace.getAllPositions());
 
         Country dumyCountry = Country.HAN;
         Country.assignDirection(dumyCountry, LineDirection.UP);
@@ -82,7 +82,7 @@ class GuardTest {
         // given
         PositionFactory positionFactory = new PositionFactory();
         positionFactory.basicSettingGraph();
-        positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
+        positionFactory.diagonalSettingGraph(Palace.getAllPositions());
 
         Country dumyCountry = Country.HAN;
         Country.assignDirection(dumyCountry, LineDirection.UP);

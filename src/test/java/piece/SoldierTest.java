@@ -62,7 +62,7 @@ class SoldierTest {
         // given
         PositionFactory positionFactory = new PositionFactory();
         positionFactory.basicSettingGraph();
-        positionFactory.diagonalSettingGraph(Palace.getCenterPositions());
+        positionFactory.diagonalSettingGraph(Palace.getAllPositions());
 
         final Country country = Country.HAN;
         Country.assignDirection(country, LineDirection.UP);
