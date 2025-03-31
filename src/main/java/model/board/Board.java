@@ -90,6 +90,12 @@ public class Board implements BoardSearcher {
         takePieceIfExists(target);
     }
 
+    public List<Piece> getPieces(Team team) {
+        return pieces.stream()
+            .filter(piece -> piece.getTeam() == team)
+            .toList();
+    }
+
     private void takePieceIfExists(Piece target) {
         if (target != null) {
             take(target);

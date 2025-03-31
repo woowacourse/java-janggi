@@ -36,8 +36,10 @@ public class Palace {
 
     public boolean isInPalace(Team team, Position position) {
         Position center = initialPositionForTeam(team);
-        return position.x() <= center.x() - 1 && position.x() >= center.x() + 1
-            && position.y() <= center.y() - 1 && position.y() >= center.y() + 1;
+        return position.x() >= center.x() - 1
+            && position.x() <= center.x() + 1
+            && position.y() >= center.y() - 1
+            && position.y() <= center.y() + 1;
     }
 
     private record Line(

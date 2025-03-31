@@ -3,54 +3,84 @@ package service;
 import dto.BoardDto;
 import dto.FinalScoreDto;
 import dto.TeamDto;
+import model.Game;
 import model.Position;
 import model.Team;
 import model.board.Board;
 import model.board.TableSetting;
+import repository.BoardRepository;
+import repository.GameRepository;
 
 public class JanggiService {
 
-    private Board board;
-    private Team currentTurn;
+    private final GameRepository gameRepository = new GameRepository();
+    private final BoardRepository boardRepository = new BoardRepository();
 
+/*
     public void startGame() {
         board = new Board();
         currentTurn = Team.CHO;
     }
+*/
 
-    public void tableSettingForCurrentTurn(TableSetting tableSetting) {
-        board.addTeamPieces(currentTurn, tableSetting);
+    public int newGame() {
+        Game savedGame = gameRepository.save(new Game(Team.CHO));
+        return savedGame.getId();
     }
 
-    public BoardDto getBoard() {
+    public void tableSettingForCurrentTurn(int gameId, TableSetting tableSetting) {
+        Game game = gameRepository.findById(gameId);
+        Board board = boardRepository.findByGameId(gameId);
+        board.addTeamPieces(game.getTurn(), tableSetting);
+        boardRepository.setUpTeam(gameId, board.getPieces(game.getTurn()));
+    }
+
+    public BoardDto getBoard(int gameId) {
+        Board board = boardRepository.findByGameId(gameId);
         return BoardDto.from(board);
     }
 
-    public TeamDto currentTurn() {
-        return TeamDto.from(currentTurn);
+    public TeamDto currentTurn(int gameId) {
+        Game game = gameRepository.findById(gameId);
+        return TeamDto.from(game.getTurn());
     }
 
-    public void move(Position source, Position destination) {
-        board.movePiece(source, destination, currentTurn);
+    public void move(int gameId, Position source, Position destination) {
+        Game game = gameRepository.findById(gameId);
+        Board board = boardRepository.findByGameId(gameId);
+        board.movePiece(source, destination, game.getTurn());
+        boardRepository.save(gameId, board);
     }
 
-    public boolean isPlaying() {
+    public boolean isPlaying(int gameId) {
+        Board board = boardRepository.findByGameId(gameId);
         return board.getWinnerIfGameOver() == null;
     }
 
-    public void nextTurn() {
-        currentTurn = currentTurn.nextTurn();
+    public void nextTurn(int gameId) {
+        Game game = gameRepository.findById(gameId);
+        game.nextTurn();
+        gameRepository.save(game);
     }
 
-    public TeamDto getWinner() {
+    public TeamDto getWinner(int gameId) {
+        Board board = boardRepository.findByGameId(gameId);
         return TeamDto.from(board.getWinnerIfGameOver());
     }
 
-    public void abstain() {
-        board.abstain(currentTurn);
+    public void abstain(int gameId) {
+        Game game = gameRepository.findById(gameId);
+        Board board = boardRepository.findByGameId(gameId);
+        board.abstain(game.getTurn());
+        boardRepository.save(gameId, board);
     }
 
-    public FinalScoreDto finalScore() {
+    public FinalScoreDto finalScore(int gameId) {
+        Board board = boardRepository.findByGameId(gameId);
         return FinalScoreDto.of(board.getPieceScore());
+    }
+
+    public void endGame(int gameId) {
+
     }
 }

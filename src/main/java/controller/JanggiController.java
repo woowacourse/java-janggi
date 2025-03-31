@@ -1,6 +1,6 @@
 package controller;
 
-import java.util.function.BooleanSupplier;
+import java.util.function.Supplier;
 
 import service.JanggiService;
 import view.InputView;
@@ -12,56 +12,57 @@ public class JanggiController {
     private final OutputView outputView = new OutputView();
     private final JanggiService service = new JanggiService();
 
-    public void startGame() {
-        process(() -> {
-            service.startGame();
+    public int startGame() {
+        return process(() -> {
+            int gameId = service.newGame();
             outputView.startGame();
+            return gameId;
         });
     }
 
-    public void setTableSetting() {
+    public void setTableSetting(int gameId) {
         process(() -> {
-            teamTableSetting();
-            service.nextTurn();
-            teamTableSetting();
-            service.nextTurn();
-            outputView.board(service.getBoard());
+            teamTableSetting(gameId);
+            service.nextTurn(gameId);
+            teamTableSetting(gameId);
+            service.nextTurn(gameId);
+            outputView.board(service.getBoard(gameId));
         });
     }
 
-    private void teamTableSetting() {
-        var response = inputView.tableSetting(service.currentTurn());
-        service.tableSettingForCurrentTurn(response.tableSetting());
+    private void teamTableSetting(int gameId) {
+        var response = inputView.tableSetting(service.currentTurn(gameId));
+        service.tableSettingForCurrentTurn(gameId, response.tableSetting());
     }
 
-    public void playTurn() {
+    public void playTurn(int gameId) {
         process(() -> {
-            outputView.turn(service.currentTurn());
+            outputView.turn(service.currentTurn(gameId));
             var response = inputView.command();
             if (response.abstain()) {
-                service.abstain();
+                service.abstain(gameId);
                 return;
             }
-            service.move(response.source(), response.destination());
-            outputView.board(service.getBoard());
+            service.move(gameId, response.source(), response.destination());
+            outputView.board(service.getBoard(gameId));
         });
     }
 
-    public boolean isPlaying() {
-        return process(service::isPlaying);
+    public boolean isPlaying(int gameId) {
+        return process(() -> service.isPlaying(gameId));
     }
 
-    public void nextTurn() {
-        process(service::nextTurn);
+    public void nextTurn(int gameId) {
+        process(() -> service.nextTurn(gameId));
     }
 
-    public void endGame() {
-        process(() -> outputView.result(service.getWinner()));
+    public void endGame(int gameId) {
+        process(() -> outputView.result(service.getWinner(gameId)));
     }
 
-    public void showFinalScore() {
+    public void showFinalScore(int gameId) {
         process(() -> {
-            outputView.finalScore(service.finalScore());
+            outputView.finalScore(service.finalScore(gameId));
         });
     }
 
@@ -74,9 +75,9 @@ public class JanggiController {
         }
     }
 
-    private boolean process(BooleanSupplier action) {
+    private <T> T process(Supplier<T> action) {
         try {
-            return action.getAsBoolean();
+            return action.get();
         } catch (IllegalArgumentException e) {
             outputView.retry(e);
             return process(action);
