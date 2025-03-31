@@ -1,5 +1,6 @@
 package gameloader;
 
+import domain.game.GameChecker;
 import java.sql.SQLException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

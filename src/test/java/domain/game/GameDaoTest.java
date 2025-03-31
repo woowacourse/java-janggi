@@ -23,7 +23,7 @@ class GameDaoTest {
         String status = "STARTED";
 
         //when
-        Games games = gameDao.insertGame(gameId, status);
+        Games games = gameDao.insertGame(gameId);
         // then
         Assertions.assertThat(games.getGameId()).isEqualTo(100);
         Assertions.assertThat(games.getGameStatus()).isEqualTo("STARTED");

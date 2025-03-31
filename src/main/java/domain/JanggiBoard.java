@@ -4,6 +4,7 @@ import domain.boardgenerator.BoardGenerator;
 import domain.palace.Palace;
 import domain.piece.Piece;
 import domain.piece.PieceType;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,15 +18,22 @@ public class JanggiBoard {
         this.palace = palace;
     }
 
-    public void move(Position startPosition, Position targetPosition) {
+    public Map<Position, Piece> move(Position startPosition, Position targetPosition) {
         Piece startPiece = findPiece(startPosition);
-        Piece targetPositionPiece = findPiece(targetPosition);
+        Piece targetPiece = findPiece(targetPosition);
+
         palace.checkAndChangeStrategy(startPosition, targetPosition, startPiece);
         List<Position> path = startPiece.calculatePath(startPosition, targetPosition);
-        validateMovePiece(startPiece, path, targetPositionPiece);
+        validateMovePiece(startPiece, path, targetPiece);
 
         board.remove(startPosition);
         board.put(targetPosition, startPiece);
+
+        Map<Position, Piece> resultMap = new HashMap<>();
+        resultMap.put(startPosition, startPiece);
+        resultMap.put(targetPosition, targetPiece);
+
+        return resultMap;
     }
 
     private void validateMovePiece(Piece startPiece, List<Position> path, Piece targetPositionPiece) {
@@ -90,8 +98,8 @@ public class JanggiBoard {
         return findPiece(position) == null;
     }
 
-    public Piece findPiece(Position startPosition) {
-        return board.get(startPosition);
+    public Piece findPiece(Position position) {
+        return board.get(position);
     }
 
     public Map<Position, Piece> getBoard() {

@@ -47,7 +47,6 @@ public class PlayerDaoTest {
         connection.close();
     }
 
-    // AUTO_INCREMENT 값 리셋하는 메서드
     private void resetAutoIncrement() throws SQLException {
         String resetAutoIncrementSql = "ALTER TABLE player AUTO_INCREMENT = 1";
         try (PreparedStatement preparedStatement = connection.prepareStatement(resetAutoIncrementSql)) {

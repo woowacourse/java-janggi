@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class JanggiBoardGenerator implements BoardGenerator {
 
-    private final Players players;  // Players 객체를 추가
+    private final Players players;
 
     public JanggiBoardGenerator(Players players) {
         this.players = players;

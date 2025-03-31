@@ -22,6 +22,14 @@ public class Players {
         return players.get(sequence);
     }
 
+    public Player getBluePlayer() {
+        return players.getFirst();
+    }
+
+    public Player getRedPlayer() {
+        return players.getLast();
+    }
+
     public Player getPlayerByTeam(Team team) {
         return players.stream()
                 .filter(player -> player.getTeam() == team)
