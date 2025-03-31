@@ -1,21 +1,23 @@
 package janggi.domain.piece.movepath;
 
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Palace;
 import janggi.domain.piece.Point;
+import janggi.domain.piece.palace.Palace;
 import java.util.List;
 
 public class PalaceMovePath implements MovePath {
 
+    private final Palace palace;
     private final Direction direction;
 
-    public PalaceMovePath(Direction direction) {
+    public PalaceMovePath(Palace palace, Direction direction) {
+        this.palace = palace;
         this.direction = direction;
     }
 
     @Override
     public boolean canMove(Point from, Point to) {
-        if (!Palace.canMoveInPalace(from, to, direction)) {
+        if (!palace.canMoveInPalace(from, to, direction)) {
             return false;
         }
 

@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.Fixtures;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Point;
+import janggi.domain.piece.palace.ChuPalace;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ class EndlessPalaceMovePathTest {
     @Test
     void cannotMoveInPalace() {
         //given
-        EndlessPalaceMovePath endlessPalaceMovePath = new EndlessPalaceMovePath(Direction.RIGHT);
+        EndlessPalaceMovePath endlessPalaceMovePath = new EndlessPalaceMovePath(new ChuPalace(), Direction.RIGHT);
 
         //when
         boolean result = endlessPalaceMovePath.canMove(Fixtures.TEN_SEVEN, Fixtures.THREE_NINE);
@@ -28,7 +29,7 @@ class EndlessPalaceMovePathTest {
     @Test
     void cannotMoveDirection() {
         //given
-        EndlessPalaceMovePath endlessPalaceMovePath = new EndlessPalaceMovePath(Direction.LEFT);
+        EndlessPalaceMovePath endlessPalaceMovePath = new EndlessPalaceMovePath(new ChuPalace(), Direction.LEFT);
 
         //when
         boolean result = endlessPalaceMovePath.canMove(Fixtures.TEN_FIVE, Fixtures.TEN_SIX);
@@ -41,7 +42,8 @@ class EndlessPalaceMovePathTest {
     @Test
     void movePoints() {
         //given
-        EndlessPalaceMovePath endlessPalaceMovePath = new EndlessPalaceMovePath(Direction.UP_RIGHT_DIAGONAL);
+        EndlessPalaceMovePath endlessPalaceMovePath = new EndlessPalaceMovePath(new ChuPalace(),
+                Direction.UP_RIGHT_DIAGONAL);
 
         //when
         List<Point> points = endlessPalaceMovePath.movePoints(Fixtures.TEN_FOUR, Fixtures.EIGHT_SIX);

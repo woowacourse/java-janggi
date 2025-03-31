@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.Fixtures;
 import janggi.domain.piece.Direction;
 import janggi.domain.piece.Point;
+import janggi.domain.piece.palace.HanPalace;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +17,7 @@ class PalaceMovePathTest {
     @Test
     void cannotMoveDirection() {
         //given
-        PalaceMovePath palaceMovePath = new PalaceMovePath(Direction.RIGHT);
+        PalaceMovePath palaceMovePath = new PalaceMovePath(new HanPalace(), Direction.RIGHT);
 
         // when
         boolean result = palaceMovePath.canMove(Fixtures.ONE_FOUR, Fixtures.TWO_FOUR);
@@ -29,7 +30,7 @@ class PalaceMovePathTest {
     @Test
     void movePoints() {
         //given
-        PalaceMovePath palaceMovePath = new PalaceMovePath(Direction.UP_RIGHT_DIAGONAL);
+        PalaceMovePath palaceMovePath = new PalaceMovePath(new HanPalace(), Direction.UP_RIGHT_DIAGONAL);
 
         // when
         List<Point> points = palaceMovePath.movePoints(Fixtures.THREE_FOUR, Fixtures.TWO_FIVE);

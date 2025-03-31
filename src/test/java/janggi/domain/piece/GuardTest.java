@@ -61,11 +61,7 @@ class GuardTest {
                 Arguments.of(Fixtures.THREE_SIX, Fixtures.TWO_FIVE, List.of(Fixtures.TWO_FIVE)),
                 Arguments.of(Fixtures.THREE_FOUR, Fixtures.TWO_FIVE, List.of(Fixtures.TWO_FIVE)),
                 Arguments.of(Fixtures.TWO_FIVE, Fixtures.ONE_SIX, List.of(Fixtures.ONE_SIX)),
-                Arguments.of(Fixtures.TWO_FIVE, Fixtures.ONE_FOUR, List.of(Fixtures.ONE_FOUR)),
-                Arguments.of(Fixtures.EIGHT_FOUR, Fixtures.NINE_FIVE, List.of(Fixtures.NINE_FIVE)),
-                Arguments.of(Fixtures.EIGHT_SIX, Fixtures.NINE_FIVE, List.of(Fixtures.NINE_FIVE)),
-                Arguments.of(Fixtures.NINE_FIVE, Fixtures.TEN_FOUR, List.of(Fixtures.TEN_FOUR)),
-                Arguments.of(Fixtures.NINE_FIVE, Fixtures.TEN_SIX, List.of(Fixtures.TEN_SIX))
+                Arguments.of(Fixtures.TWO_FIVE, Fixtures.ONE_FOUR, List.of(Fixtures.ONE_FOUR))
         );
     }
 

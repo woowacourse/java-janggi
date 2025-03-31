@@ -1,27 +1,29 @@
 package janggi.domain.piece.movepath;
 
 import janggi.domain.piece.Direction;
-import janggi.domain.piece.Palace;
 import janggi.domain.piece.Point;
+import janggi.domain.piece.palace.Palace;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EndlessPalaceMovePath implements MovePath {
 
+    private final Palace palace;
     private final Direction direction;
 
-    public EndlessPalaceMovePath(Direction direction) {
+    public EndlessPalaceMovePath(Palace palace, Direction direction) {
+        this.palace = palace;
         this.direction = direction;
     }
 
     @Override
     public boolean canMove(Point from, Point to) {
-        if (!Palace.canMoveInPalace(from, to, direction)) {
+        if (!palace.canMoveInPalace(from, to, direction)) {
             return false;
         }
 
         Point current = from;
-        while (Palace.isInPalace(current) && current.canMove(direction) && !current.equals(to)) {
+        while (palace.isInPalace(current) && current.canMove(direction) && !current.equals(to)) {
             current = current.move(direction);
         }
         return current.equals(to);
@@ -35,7 +37,7 @@ public class EndlessPalaceMovePath implements MovePath {
 
         Point current = from;
         List<Point> movePath = new ArrayList<>();
-        while (Palace.isInPalace(current) && !current.equals(to)) {
+        while (palace.isInPalace(current) && !current.equals(to)) {
             current = current.move(direction);
             movePath.add(current);
         }
