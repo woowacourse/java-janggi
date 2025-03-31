@@ -1,14 +1,16 @@
 package application;
 
-import application.persistence.BoardRepository;
 import application.persistence.GameRepository;
+import application.persistence.PieceRepository;
 import domain.Coordinate;
 import domain.board.Board;
 import domain.board.setting.ChoSettingUpStrategy;
 import domain.board.setting.HanSettingUpStrategy;
 import domain.game.Game;
 import domain.piece.Country;
+import domain.piece.Piece;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import view.InputView;
@@ -18,17 +20,17 @@ public class Janggi {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final BoardRepository boardRepository;
+    private final PieceRepository pieceRepository;
     private final GameRepository gameRepository;
     private Game game;
 
     public Janggi(
             InputView inputView, OutputView outputView,
-            BoardRepository boardRepository, GameRepository gameRepository
+            PieceRepository pieceRepository, GameRepository gameRepository
     ) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.boardRepository = boardRepository;
+        this.pieceRepository = pieceRepository;
         this.gameRepository = gameRepository;
     }
 
@@ -37,9 +39,9 @@ public class Janggi {
         outputView.printAllGames(janggiGames);
 
         String gameName = inputView.readJoinGame();
-        game = initGame(janggiGames, gameName);
+        game = startGame(janggiGames, gameName);
 
-        Board board = start();
+        Board board = setUp();
 
         while (!isEndGame(board)) {
             takeTurn(board, this::movePiece);
@@ -48,39 +50,37 @@ public class Janggi {
         }
     }
 
-    private Game initGame(List<Game> janggiGames, String gameName) {
+    private Game startGame(List<Game> janggiGames, String gameName) {
         return janggiGames.stream()
                 .filter(janggiGame -> janggiGame.getName().equals(gameName))
                 .findFirst()
-                .orElse(createGame(gameName));
+                .orElseGet(() -> createGame(gameName));
     }
 
     private Game createGame(String gameName) {
         Game newGame = new Game(gameName, Country.CHO);
-        gameRepository.save(newGame);
-        return newGame;
+        return gameRepository.save(newGame);
     }
 
-    private Board start() {
-        Board stored = boardRepository.findAll();
+    private Board setUp() {
+        Map<Coordinate, Piece> stored = pieceRepository.findByGame(game);
         if (stored.isEmpty()) {
-            return newGame();
+            return newBoard();
         }
-        return previousGame(stored);
+        return previousBoard(stored);
     }
 
-    private Board newGame() {
+    private Board newBoard() {
         Board board = settingUp();
-        boardRepository.saveAll(board);
-        gameRepository.save(game);
+        System.out.println("gameid" + game.getId());
+        pieceRepository.savePieces(board.getBoard(), game);
         outputView.printNewGameMessage();
         return board;
     }
 
-    private Board previousGame(Board savedBoard) {
-        game = gameRepository.findTurn();
+    private Board previousBoard(Map<Coordinate, Piece> savedPieces) {
         outputView.printPreviousGameMessage();
-        return savedBoard;
+        return new Board(savedPieces);
     }
 
     public void takeTurn(Board board, Consumer<Board> consumer) {
@@ -117,16 +117,16 @@ public class Janggi {
     }
 
     private void updateBoard(Board board) {
-        boardRepository.deleteAll();
-        boardRepository.saveAll(board);
+        pieceRepository.deleteByGame(game);
+        pieceRepository.savePieces(board.getBoard(), game);
     }
 
     private boolean isEndGame(Board board) {
         boolean isChoGungDead = board.isChoGungDead();
         boolean isHanGungDead = board.isHanGungDead();
         if (isChoGungDead || isHanGungDead) {
-            boardRepository.deleteAll();
-            gameRepository.delete();
+            pieceRepository.deleteByGame(game);
+            gameRepository.deleteGame(game);
             outputView.printEndGame(isChoGungDead, isHanGungDead);
             return true;
         }
@@ -142,7 +142,7 @@ public class Janggi {
 
     private void nextTurn() {
         game.next();
-        gameRepository.updateTurn(game);
+        gameRepository.updateGame(game);
     }
 
     private <T> T retryUntilValid(Supplier<T> supplier) {

@@ -11,7 +11,7 @@ import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
-public class Board implements ReadableBoard, WritableBoard {
+public class Board implements ReadableBoard {
 
     private final Map<Coordinate, Piece> board;
 
@@ -25,8 +25,7 @@ public class Board implements ReadableBoard, WritableBoard {
     public Board(Map<Coordinate, Piece> board) {
         this.board = board;
     }
-
-    @Override
+    
     public void movePiece(Coordinate from, Coordinate to) {
         Piece piece = findPieceByCoordinate(from);
 

@@ -5,13 +5,11 @@ import java.util.List;
 
 public interface GameRepository {
 
-    Game findTurn();
+    void updateGame(Game game);
 
-    void updateTurn(Game current);
+    Game save(Game game);
 
-    void save(Game current);
-
-    void delete();
+    void deleteGame(Game game);
 
     List<Game> findAll();
 }

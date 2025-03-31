@@ -15,26 +15,21 @@ public class GameJdbcRepository implements GameRepository {
     }
 
     @Override
-    public Game findTurn() {
-        GameEntity gameEntity = gameDao.findTurn();
-        return gameEntity.toDomain();
-    }
-
-    @Override
-    public void updateTurn(Game game) {
+    public void updateGame(Game game) {
         GameEntity gameEntity = GameEntity.from(game);
         gameDao.updateTurn(gameEntity);
     }
 
     @Override
-    public void save(Game game) {
+    public Game save(Game game) {
         GameEntity gameEntity = GameEntity.from(game);
-        gameDao.save(gameEntity);
+        return gameDao.save(gameEntity).toDomain();
     }
 
     @Override
-    public void delete() {
-        gameDao.delete();
+    public void deleteGame(Game game) {
+        GameEntity gameEntity = GameEntity.from(game);
+        gameDao.deleteGame(gameEntity);
     }
 
     @Override

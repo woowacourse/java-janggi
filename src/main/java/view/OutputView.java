@@ -77,8 +77,10 @@ public class OutputView {
 
     public void printAllGames(List<Game> janggiGames) {
         System.out.println("저장된 게임 목록");
-        for (int i = 0; i < janggiGames.size(); i++) {
-            System.out.println(i + 1 + ". " + janggiGames.get(i).getName());
+        for (Game game : janggiGames) {
+            System.out.println("게임방 id: " + game.getId() +
+                    ", 게임방 이름: " + game.getName() +
+                    ", 차례: " + game.getCurrentName());
         }
     }
 }

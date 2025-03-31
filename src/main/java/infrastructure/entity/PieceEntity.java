@@ -1,14 +1,13 @@
 package infrastructure.entity;
 
 import domain.Coordinate;
-import domain.board.Board;
 import domain.piece.Country;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import java.util.List;
 import java.util.Map;
 
-public class BoardEntity {
+public class PieceEntity {
 
     private final Long id;
     private final int x;
@@ -16,7 +15,7 @@ public class BoardEntity {
     private final String pieceName;
     private final String country;
 
-    public BoardEntity(
+    public PieceEntity(
             Long id,
             String pieceName,
             int x,
@@ -30,9 +29,9 @@ public class BoardEntity {
         this.country = country;
     }
 
-    public static List<BoardEntity> from(Board board) {
-        return board.getBoard().entrySet().stream()
-                .map(entry -> new BoardEntity(
+    public static List<PieceEntity> from(Map<Coordinate, Piece> pieces) {
+        return pieces.entrySet().stream()
+                .map(entry -> new PieceEntity(
                         null,
                         entry.getValue().getType().name(),
                         entry.getKey().row(),

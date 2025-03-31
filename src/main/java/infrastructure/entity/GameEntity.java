@@ -17,7 +17,7 @@ public class GameEntity {
 
     public static GameEntity from(Game joinGame) {
         return new GameEntity(
-                null,
+                joinGame.getId(),
                 joinGame.getName(),
                 joinGame.getCurrentName()
         );
@@ -25,6 +25,7 @@ public class GameEntity {
 
     public Game toDomain() {
         return new Game(
+                id,
                 name,
                 Country.valueOf(currentTurn)
         );
