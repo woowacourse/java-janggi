@@ -7,9 +7,9 @@ import janggi.domain.GameRoom;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
-import janggi.dto.TeamMaSangPositionDto;
+import janggi.dto.TeamHorseElephantPositionDto;
 import janggi.factory.PieceInitFactory;
-import janggi.factory.masang.MaSangFactory;
+import janggi.factory.masang.HorseElephantFactory;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +35,8 @@ public class JanggiService {
         }
     }
 
-    public GameRoom newGameRoom(String gameRoomName, TeamMaSangPositionDto maSangPositionByCho,
-                                TeamMaSangPositionDto maSangPositionByHan) {
+    public GameRoom newGameRoom(String gameRoomName, TeamHorseElephantPositionDto maSangPositionByCho,
+                                TeamHorseElephantPositionDto maSangPositionByHan) {
         if (gameRoomDAO.exist(gameRoomName)) {
             throw new IllegalArgumentException("이미 존재하는 방입니다. 다시 입력해주세요!");
         }
@@ -50,8 +50,8 @@ public class JanggiService {
         return new GameRoom(gameRoomName, board, Team.CHO);
     }
 
-    private void validateTeamPositionDto(TeamMaSangPositionDto maSangPositionByCho,
-                                         TeamMaSangPositionDto maSangPositionByHan) {
+    private void validateTeamPositionDto(TeamHorseElephantPositionDto maSangPositionByCho,
+                                         TeamHorseElephantPositionDto maSangPositionByHan) {
         if (!maSangPositionByCho.team().isSameSide(Team.CHO)) {
             throw new IllegalArgumentException("초나라의 포지션 정보를 가져와야 합니다!");
         }
@@ -71,12 +71,12 @@ public class JanggiService {
         return new GameRoom(gameRoomName, board, turn);
     }
 
-    private Board initializeBoard(TeamMaSangPositionDto maSangPositionByCho,
-                                  TeamMaSangPositionDto maSangPositionByHan) {
+    private Board initializeBoard(TeamHorseElephantPositionDto maSangPositionByCho,
+                                  TeamHorseElephantPositionDto maSangPositionByHan) {
         Map<Position, Piece> initializeBoard = PieceInitFactory.initialize();
 
-        initializeBoard.putAll(MaSangFactory.create(maSangPositionByCho.maSangPosition(), maSangPositionByCho.team()));
-        initializeBoard.putAll(MaSangFactory.create(maSangPositionByHan.maSangPosition(), maSangPositionByHan.team()));
+        initializeBoard.putAll(HorseElephantFactory.create(maSangPositionByCho.horseElephantPosition(), maSangPositionByCho.team()));
+        initializeBoard.putAll(HorseElephantFactory.create(maSangPositionByHan.horseElephantPosition(), maSangPositionByHan.team()));
 
         return new Board(initializeBoard);
     }

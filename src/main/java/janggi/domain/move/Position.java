@@ -130,17 +130,17 @@ public class Position {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Position position = (Position) o;
         return row == position.row && column == position.column;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(row, column);
     }
 
     @Override

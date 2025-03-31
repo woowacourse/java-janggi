@@ -3,7 +3,7 @@ package janggi.factory.masang;
 import janggi.domain.move.Position;
 import java.util.Set;
 
-public class SangMaSangMa extends MaSangPlacement {
+public class ElephantHorseElephantHorse extends HorseElephantPlacement {
 
     @Override
     protected Set<Position> getHorsePositionByCho() {

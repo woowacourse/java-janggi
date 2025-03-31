@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public abstract class MaSangPlacement {
+public abstract class HorseElephantPlacement {
 
     public Map<Position, Piece> generate(Team team) {
         Map<Position, Piece> pieceMap = new HashMap<>();

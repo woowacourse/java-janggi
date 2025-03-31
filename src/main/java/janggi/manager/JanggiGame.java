@@ -5,7 +5,7 @@ import janggi.domain.GameRoom;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.dto.PositionDto;
-import janggi.dto.TeamMaSangPositionDto;
+import janggi.dto.TeamHorseElephantPositionDto;
 import janggi.service.JanggiService;
 import janggi.util.RecoveryUtil;
 import janggi.view.GameModeOption;
@@ -57,9 +57,9 @@ public class JanggiGame {
         String gameRoomName = viewer.readGameRoomName();
         janggiService.validateNewGameRoomName(gameRoomName);
 
-        TeamMaSangPositionDto maSangPositionByCho = RecoveryUtil.executeWithRetry(
+        TeamHorseElephantPositionDto maSangPositionByCho = RecoveryUtil.executeWithRetry(
                 () -> viewer.settingMaSangPlacement(Team.CHO));
-        TeamMaSangPositionDto maSangPositionByHan = RecoveryUtil.executeWithRetry(
+        TeamHorseElephantPositionDto maSangPositionByHan = RecoveryUtil.executeWithRetry(
                 () -> viewer.settingMaSangPlacement(Team.HAN));
 
         return janggiService.newGameRoom(gameRoomName, maSangPositionByCho, maSangPositionByHan);

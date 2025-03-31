@@ -3,15 +3,15 @@ package janggi.factory.masang;
 import janggi.domain.move.Position;
 import java.util.Set;
 
-public class MaSangMaSang extends MaSangPlacement {
+public class ElePhantHorseHorseElephant extends HorseElephantPlacement {
 
     @Override
     protected Set<Position> getHorsePositionByCho() {
-        return Set.of(Position.of(10, 2), Position.of(10, 7));
+        return Set.of(Position.of(10, 3), Position.of(10, 7));
     }
 
     @Override
     protected Set<Position> getElephantPositionByCho() {
-        return Set.of(Position.of(10, 3), Position.of(10, 8));
+        return Set.of(Position.of(10, 2), Position.of(10, 8));
     }
 }

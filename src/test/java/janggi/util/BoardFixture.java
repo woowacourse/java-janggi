@@ -5,8 +5,8 @@ import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.piece.Piece;
 import janggi.factory.PieceInitFactory;
-import janggi.factory.masang.MaSangFactory;
-import janggi.view.MaSangPosition;
+import janggi.factory.masang.HorseElephantFactory;
+import janggi.view.horseElephantPosition;
 import java.util.Map;
 
 public final class BoardFixture {
@@ -16,8 +16,8 @@ public final class BoardFixture {
 
     public static Board sangMaSangMa() {
         Map<Position, Piece> initialize = PieceInitFactory.initialize();
-        Map<Position, Piece> maSangByHan = MaSangFactory.create(MaSangPosition.SANG_MA_SANG_MA, Team.HAN);
-        Map<Position, Piece> maSangByCho = MaSangFactory.create(MaSangPosition.SANG_MA_SANG_MA, Team.CHO);
+        Map<Position, Piece> maSangByHan = HorseElephantFactory.create(horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE, Team.HAN);
+        Map<Position, Piece> maSangByCho = HorseElephantFactory.create(horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE, Team.CHO);
 
         initialize.putAll(maSangByCho);
         initialize.putAll(maSangByHan);

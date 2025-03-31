@@ -13,9 +13,9 @@ import janggi.domain.Board;
 import janggi.domain.GameRoom;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
-import janggi.dto.TeamMaSangPositionDto;
+import janggi.dto.TeamHorseElephantPositionDto;
 import janggi.util.BoardFixture;
-import janggi.view.MaSangPosition;
+import janggi.view.horseElephantPosition;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -148,11 +148,11 @@ class JanggiServiceTest {
         void test1() {
             // given
             String gameRoomName = "꾹";
-            TeamMaSangPositionDto teamMaSangPositionByCho = new TeamMaSangPositionDto(Team.CHO,
-                    MaSangPosition.SANG_MA_SANG_MA);
+            TeamHorseElephantPositionDto teamMaSangPositionByCho = new TeamHorseElephantPositionDto(Team.CHO,
+                    horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE);
 
-            TeamMaSangPositionDto teamMaSangPositionByHan = new TeamMaSangPositionDto(Team.HAN,
-                    MaSangPosition.SANG_MA_SANG_MA);
+            TeamHorseElephantPositionDto teamMaSangPositionByHan = new TeamHorseElephantPositionDto(Team.HAN,
+                    horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE);
 
             // when
             GameRoom result = janggiService.newGameRoom(gameRoomName, teamMaSangPositionByCho,
@@ -166,11 +166,11 @@ class JanggiServiceTest {
         void test2() {
             // given
             String gameRoomName = "꾹";
-            TeamMaSangPositionDto teamMaSangPositionByCho = new TeamMaSangPositionDto(Team.CHO,
-                    MaSangPosition.SANG_MA_SANG_MA);
+            TeamHorseElephantPositionDto teamMaSangPositionByCho = new TeamHorseElephantPositionDto(Team.CHO,
+                    horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE);
 
-            TeamMaSangPositionDto teamMaSangPositionByHan = new TeamMaSangPositionDto(Team.HAN,
-                    MaSangPosition.SANG_MA_SANG_MA);
+            TeamHorseElephantPositionDto teamMaSangPositionByHan = new TeamHorseElephantPositionDto(Team.HAN,
+                    horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE);
 
             gameRoomDAO.create(gameRoomName);
 
@@ -184,8 +184,8 @@ class JanggiServiceTest {
         @Test
         void test3() {
             String gameRoomName = "꾹";
-            TeamMaSangPositionDto teamMaSangPositionByCho = new TeamMaSangPositionDto(Team.CHO,
-                    MaSangPosition.SANG_MA_SANG_MA);
+            TeamHorseElephantPositionDto teamMaSangPositionByCho = new TeamHorseElephantPositionDto(Team.CHO,
+                    horseElephantPosition.ELEPHANT_HORSE_ELEPHANT_HORSE);
 
             assertThatThrownBy(
                     () -> janggiService.newGameRoom(gameRoomName, teamMaSangPositionByCho, teamMaSangPositionByCho))
