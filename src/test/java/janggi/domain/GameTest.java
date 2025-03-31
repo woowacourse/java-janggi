@@ -109,7 +109,7 @@ class GameTest {
         final Turn nextTurn = game.getTurn();
 
         assertAll(() -> {
-            assertThat(nextTurn.getCurrentTurn()).isEqualTo(RED);
+            assertThat(nextTurn.getTurn()).isEqualTo(RED);
         });
     }
 

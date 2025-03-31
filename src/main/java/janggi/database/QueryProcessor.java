@@ -17,7 +17,7 @@ public class QueryProcessor {
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query,
                      Statement.RETURN_GENERATED_KEYS)) {
-            
+
             setParameters(preparedStatement, parameters);
             preparedStatement.executeUpdate();
             try (final ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
@@ -60,6 +60,22 @@ public class QueryProcessor {
         return null;
     }
 
+    public static <T> T executeQuery(final String query, final ResultSetMapper<T> resultSetMapper) {
+        try (final Connection connection = databaseConnection.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            try (final ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSetMapper.map(resultSet);
+                }
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException("데이터베이스 작업 중 오류 발생: " + query, e);
+        }
+
+        return null;
+    }
+
 
     public static <T> List<T> executeQueryList(final String query, final ResultSetMapper<T> resultSetMapper,
                                                final Object... params) {
@@ -85,8 +101,8 @@ public class QueryProcessor {
 
     private static void setParameters(final PreparedStatement preparedStatement, final Object... params)
             throws SQLException {
-        for (int parameterIndex = 1; parameterIndex <= params.length; parameterIndex++) {
-            preparedStatement.setObject(parameterIndex, params[parameterIndex]);
+        for (int i = 0; i < params.length; i++) {
+            preparedStatement.setObject(i + 1, params[i]);
         }
     }
 }

@@ -7,8 +7,8 @@ import static janggi.domain.Input.Y;
 import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 
-import janggi.dao.PieceDao;
-import janggi.dao.TurnDao;
+import janggi.database.dao.PieceDao;
+import janggi.database.dao.TurnDao;
 import janggi.domain.BoardSetup;
 import janggi.domain.Function;
 import janggi.domain.Game;
@@ -19,6 +19,10 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PiecesInitializer;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
+import janggi.repository.JdbcPieceRepository;
+import janggi.repository.JdbcTurnRepository;
+import janggi.service.PieceService;
+import janggi.service.TurnService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -28,8 +32,8 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final PieceDao pieceDao = new PieceDao();
-    private final TurnDao turnDao = new TurnDao();
+    private final PieceService pieceService = new PieceService(new JdbcPieceRepository(new PieceDao()));
+    private final TurnService turnService = new TurnService(new JdbcTurnRepository(new TurnDao()));
 
     public JanggiController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;
@@ -51,24 +55,29 @@ public class JanggiController {
     }
 
     private Game generateBoard() {
-        final List<Piece> pieces = pieceDao.findAllPieces();
+        final List<Piece> pieces = pieceService.findAll();
         if (pieces.isEmpty()) {
             return setNewGame();
         }
-        if (inputView.inputNewGame() == Y) {
-            return setNewGame();
+        try {
+            if (inputView.inputNewGame() == Y) {
+                return setNewGame();
+            }
+        } catch (IllegalArgumentException e) {
+            outputView.printErrorMessage(e.getMessage());
+            generateBoard();
         }
-        return new Game(new Pieces(pieces), turnDao.findTurn());
+        return new Game(new Pieces(pieces), turnService.find());
     }
 
     private Game setNewGame() {
-        pieceDao.deleteAllPieces();
-        turnDao.deleteTurn();
+        pieceService.deleteAll();
+        turnService.delete();
         return generateNewBoard();
     }
 
     private boolean startGame(final Game game, final List<Piece> pieces) {
-        displayGameState(game.getTurn().getCurrentTurn(), pieces);
+        displayGameState(game.getTurn().getTurn(), pieces);
         final Function input = inputView.inputSelectFunction();
         if (input == MOVE) {
             final Piece selectedPiece = selectPieceToMove(game);
@@ -107,12 +116,12 @@ public class JanggiController {
         final Position destination = inputView.inputDestination();
 
         if (canMove(possibleRoutes, destination)) {
-            pieceDao.deletePieceByPosition(selectedPiece.getPosition());
-            pieceDao.deletePieceByPosition(destination);
+            pieceService.delete(selectedPiece.getPosition());
+            pieceService.delete(destination);
             game.movePiece(destination, selectedPiece);
-            pieceDao.addPiece(selectedPiece);
+            pieceService.add(selectedPiece);
             game.changeTurn();
-            turnDao.updateTurn(game.getTurn());
+            turnService.updateTurn(game.getTurn());
             return;
         }
         throw new IllegalArgumentException("해당 위치로 갈 수 없습니다.");
@@ -130,8 +139,8 @@ public class JanggiController {
                 final BoardSetup blueBoardSetup = inputView.inputBoardSetup(BLUE);
                 final List<Piece> pieces = PiecesInitializer.initializePieces(redBoardSetup, blueBoardSetup);
                 final Turn turn = new Turn(BLUE);
-                pieceDao.addPieces(pieces);
-                turnDao.addTurn(turn);
+                pieceService.addAll(pieces);
+                turnService.add(turn);
                 return new Game(new Pieces(pieces), new Turn(BLUE));
             } catch (final IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
@@ -141,8 +150,8 @@ public class JanggiController {
 
     private boolean stopGameIfAgreeEachOther() {
         if (inputView.inputStopGame() == Y & inputView.inputStopGame() == Y) {
-            pieceDao.deleteAllPieces();
-            turnDao.deleteTurn();
+            pieceService.deleteAll();
+            turnService.delete();
             return false;
         }
         return true;

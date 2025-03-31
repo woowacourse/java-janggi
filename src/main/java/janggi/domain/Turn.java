@@ -17,7 +17,7 @@ public class Turn {
     }
 
 
-    public Team getCurrentTurn() {
+    public Team getTurn() {
         return team;
     }
 

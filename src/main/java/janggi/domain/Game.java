@@ -19,7 +19,7 @@ public class Game {
     }
 
     public Piece selectPiece(final Position position) {
-        final Team team = turn.getCurrentTurn();
+        final Team team = turn.getTurn();
         return pieces.findPieceByPositionAndTeam(position, team);
     }
 
@@ -48,7 +48,7 @@ public class Game {
     }
 
     private double plusScoreByTurn(final Team team) {
-        if (turn.getCurrentTurn().equals(team)) {
+        if (turn.getTurn().equals(team)) {
             return pieces.calculatePiecesScoreByTeam(team) + PLUS_SCORE;
         }
         return pieces.calculatePiecesScoreByTeam(team);
