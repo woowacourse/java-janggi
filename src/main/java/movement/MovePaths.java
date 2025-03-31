@@ -3,6 +3,7 @@ package movement;
 import position.Position;
 
 import java.util.HashSet;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Set;
 
@@ -46,6 +47,18 @@ public class MovePaths {
                 .filter(mp -> mp.canReachDestination(src, destination))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("목적지에 도착할 수 있는 경로가 존재하지 않습니다."));
+    }
+
+    public IntSummaryStatistics xRange() {
+        return movePaths.stream()
+                .mapToInt(path -> path.getMovements().getFirst().x())
+                .summaryStatistics();
+    }
+
+    public IntSummaryStatistics yRange() {
+        return movePaths.stream()
+                .mapToInt(path -> path.getMovements().getFirst().y())
+                .summaryStatistics();
     }
 
     public List<MovePath> getMovePaths() {

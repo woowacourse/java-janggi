@@ -11,7 +11,6 @@ public class General extends Piece implements PalaceCheckable {
         super(position, country);
     }
 
-    // TODO 2025. 3. 29. 17:35: PositionFactory에 Position들을 넘기는 게 올바른 책임인가?
     @Override
     public void validateMoveCondition(Position src, Position dest, Board board) {
         validateBound(dest);
