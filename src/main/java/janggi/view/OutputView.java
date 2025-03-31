@@ -124,4 +124,8 @@ public class OutputView {
         System.out.println("한나라: " + hanScore);
         System.out.println("초나라: " + choScore);
     }
+
+    public void printSuccessSave() {
+        System.out.println("게임이 저장되었습니다." + System.lineSeparator());
+    }
 }

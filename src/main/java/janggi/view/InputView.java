@@ -27,4 +27,12 @@ public class InputView {
     public void close() {
         scanner.close();
     }
+
+    public String readChoice() {
+        System.out.println("선택지를 입력해주세요");
+        System.out.println("1. 기물 이동");
+        System.out.println("2. 게임 저장");
+        System.out.println("3. 게임 종료");
+        return scanner.nextLine();
+    }
 }
