@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.Set;
 import repository.dao.PieceDao;
 import repository.dao.TurnDao;
-import repository.entity.PieceEntity;
-import repository.entity.TurnEntity;
+import repository.converter.PieceConverter;
+import repository.converter.TurnConverter;
 
 public final class Board {
     private static final double AFTER_TURN_BONUS_SCORE = 1.5;
@@ -90,12 +90,12 @@ public final class Board {
         PieceDao pieceDao = new PieceDao();
         pieceDao.deleteAll();
         for (Piece pieceForDB : pieces) {
-            pieceDao.addPiece(PieceEntity.toEntity(pieceForDB));
+            pieceDao.addPiece(PieceConverter.toEntity(pieceForDB));
         }
 
         TurnDao turnDao = new TurnDao();
         Team nextTurn = nextTurn();
-        turnDao.updateTurn(TurnEntity.toEntity(nextTurn));
+        turnDao.updateTurn(TurnConverter.toEntity(nextTurn));
 
         return new Board(pieces, nextTurn);
     }

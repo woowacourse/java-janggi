@@ -7,21 +7,21 @@ import java.util.HashSet;
 import java.util.Set;
 import repository.connection.ConnectDatabase;
 import repository.connection.ConnectMysql;
-import repository.entity.PieceEntity;
+import repository.converter.PieceConverter;
 
 public class PieceDao {
 
-    public void addPiece(final PieceEntity pieceEntity) {
+    public void addPiece(final PieceConverter pieceConverter) {
         final var query = "INSERT INTO PIECE (row_index, column_index, piece_type_name, team_name) VALUES(?, ?, ?, ?)";
 
         ConnectDatabase connectDatabase = new ConnectMysql();
         try (Connection connection = connectDatabase.create();
              final var preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, pieceEntity.rowIndex());
-            preparedStatement.setString(2, pieceEntity.columnIndex());
-            preparedStatement.setString(3, pieceEntity.pieceTypeName());
-            preparedStatement.setString(4, pieceEntity.teamName());
+            preparedStatement.setString(1, pieceConverter.rowIndex());
+            preparedStatement.setString(2, pieceConverter.columnIndex());
+            preparedStatement.setString(3, pieceConverter.pieceTypeName());
+            preparedStatement.setString(4, pieceConverter.teamName());
             preparedStatement.executeUpdate();
 
             connectDatabase.close(connection);
@@ -41,7 +41,7 @@ public class PieceDao {
 
             final var resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                pieces.add(PieceEntity.from(
+                pieces.add(PieceConverter.from(
                         resultSet.getString("row_index"),
                         resultSet.getString("column_index"),
                         resultSet.getString("piece_type_name"),

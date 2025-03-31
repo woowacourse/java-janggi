@@ -1,4 +1,4 @@
-package repository.entity;
+package repository.converter;
 
 import janggi.piece.Piece;
 import janggi.piece.Team;
@@ -13,15 +13,15 @@ import janggi.piece.pawnPiece.HanPawn;
 import janggi.piece.straightPiece.Chariot;
 import janggi.position.Position;
 
-public record PieceEntity(
+public record PieceConverter(
         String rowIndex,
         String columnIndex,
         String pieceTypeName,
         String teamName
 ) {
 
-    public static PieceEntity toEntity(final Piece piece) {
-        return new PieceEntity(
+    public static PieceConverter toEntity(final Piece piece) {
+        return new PieceConverter(
                 piece.row().ordinal() + "",
                 piece.column().ordinal() + "",
                 piece.type().toString(),

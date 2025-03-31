@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import repository.connection.ConnectDatabase;
 import repository.connection.ConnectMysql;
-import repository.entity.TurnEntity;
+import repository.converter.TurnConverter;
 
 public class TurnDao {
 
@@ -27,14 +27,14 @@ public class TurnDao {
         return null;
     }
 
-    public void addTurn(TurnEntity turnEntity) {
+    public void addTurn(TurnConverter turnConverter) {
         final var query = "INSERT INTO TURN (turn) VALUES(?)";
 
         ConnectDatabase connectDatabase = new ConnectMysql();
         try (Connection connection = connectDatabase.create();
              final var preparedStatement = connection.prepareStatement(query)) {
 
-            preparedStatement.setString(1, turnEntity.turn());
+            preparedStatement.setString(1, turnConverter.turn());
             preparedStatement.executeUpdate();
 
             connectDatabase.close(connection);
@@ -43,7 +43,7 @@ public class TurnDao {
         }
     }
 
-    public void updateTurn(TurnEntity nextTurn) {
+    public void updateTurn(TurnConverter nextTurn) {
         final var query = "UPDATE TURN SET turn=(?)";
 
         ConnectDatabase connectDatabase = new ConnectMysql();

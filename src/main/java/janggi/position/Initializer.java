@@ -47,8 +47,8 @@ import java.util.HashSet;
 import java.util.Set;
 import repository.dao.PieceDao;
 import repository.dao.TurnDao;
-import repository.entity.PieceEntity;
-import repository.entity.TurnEntity;
+import repository.converter.PieceConverter;
+import repository.converter.TurnConverter;
 
 class Initializer {
     private final PieceDao pieceDao = new PieceDao();
@@ -101,7 +101,7 @@ class Initializer {
         pieces.add(new ChoPawn(I3));
 
         for (Piece piece : pieces) {
-            pieceDao.addPiece(PieceEntity.toEntity(piece));
+            pieceDao.addPiece(PieceConverter.toEntity(piece));
         }
 
         return pieces;
@@ -110,7 +110,7 @@ class Initializer {
     public Team setTurn() {
         String turn = turnDao.findTurn();
         if(turn==null){
-            turnDao.addTurn(TurnEntity.toEntity(Team.CHO));
+            turnDao.addTurn(TurnConverter.toEntity(Team.CHO));
             return Team.CHO;
         }
         return Team.convert(turn);
