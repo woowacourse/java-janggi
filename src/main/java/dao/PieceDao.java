@@ -12,7 +12,6 @@ import domain.piece.Piece;
 import domain.piece.Scholar;
 import domain.piece.Score;
 import domain.piece.Team;
-import dto.BoardDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

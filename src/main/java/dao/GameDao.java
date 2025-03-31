@@ -2,7 +2,6 @@ package dao;
 
 import domain.game.Turn;
 import domain.piece.Team;
-import dto.TurnDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
