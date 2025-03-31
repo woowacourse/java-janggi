@@ -1,7 +1,7 @@
 package janggi.controller;
 
-import janggi.domain.Board;
-import janggi.domain.BoardFactory;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardFactory;
 import janggi.domain.Turn;
 import janggi.domain.piece.HorseSide;
 import janggi.domain.piece.Position;
@@ -29,7 +29,20 @@ public class JanggiController {
             outputView.printBoard(board);
             String pieceMovement = inputView.readPieceMovement(nowTeam);
             movePieceByPieceMovement(nowTeam, pieceMovement, board);
+
+            if (board.checkGameOver()) {
+                printResult(board);
+                break;
+            }
         }
+    }
+
+    private void printResult(final Board board) {
+        Team winner = board.getWinner();
+
+        outputView.printWinner(winner);
+        outputView.printScore(Team.RED, board.calculateScoreByTeam(Team.RED, turn));
+        outputView.printScore(Team.BLUE, board.calculateScoreByTeam(Team.BLUE, turn));
     }
 
     private Board getInitializedBoardByInput() {

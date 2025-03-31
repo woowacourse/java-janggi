@@ -2,6 +2,7 @@ package janggi.domain.piece;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+import janggi.domain.piece.impl.None;
 import java.util.HashMap;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

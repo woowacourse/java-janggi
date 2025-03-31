@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.piece.movement.Movement;
+import janggi.domain.movement.Movement;
 
 public record Position(int x, int y) {
     public Position {
@@ -11,7 +11,7 @@ public record Position(int x, int y) {
         return new Position(this.x + x, this.y + y);
     }
 
-    public Movement subtract(final Position other) {
+    public Movement getMovementTo(final Position other) {
         return new Movement(this.x - other.x, this.y - other.y);
     }
 

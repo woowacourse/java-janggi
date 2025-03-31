@@ -3,6 +3,9 @@ package janggi.domain.piece;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
+import janggi.domain.piece.impl.Chariot;
+import janggi.domain.piece.impl.None;
+import janggi.domain.piece.impl.Soldier;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +16,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class ChariotTest {
     Map<Position, Piece> map;
+    Chariot chariot = new Chariot(Team.BLUE);
     Position beforePosition = new Position(5, 5);
 
     @BeforeEach
@@ -28,7 +32,6 @@ class ChariotTest {
     @DisplayName("이동 위치 값을 입력 받아 이동한다.")
     @Test
     void move() {
-        Chariot chariot = new Chariot(Team.BLUE);
         Position afterPosition = new Position(5, 8);
 
         assertThatCode(() ->
@@ -40,7 +43,6 @@ class ChariotTest {
     @CsvSource(value = {"7,7", "4,4"})
     @ParameterizedTest
     void move2(final int x, final int y) {
-        Chariot chariot = new Chariot(Team.BLUE);
         Position afterPosition = new Position(x, y);
 
         assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
@@ -50,7 +52,6 @@ class ChariotTest {
     @DisplayName("차의 초기 위치와 이동 위치 사이에 말이 존재하는 경우 예외를 던진다.")
     @Test
     void move3() {
-        Chariot chariot = new Chariot(Team.BLUE);
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(2, 5);
         map.put(new Position(3, 5), otherSoldier);
@@ -62,8 +63,6 @@ class ChariotTest {
     @DisplayName("원래 위치로 이동하려 하는 경우 예외를 던진다.")
     @Test
     void move33() {
-        Chariot chariot = new Chariot(Team.BLUE);
-
         assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, beforePosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalStateException.class);
     }
@@ -71,12 +70,22 @@ class ChariotTest {
     @DisplayName("차의 이동 위치에 같은 편 기물이 있으면 예외를 던진다")
     @Test
     void move4() {
-        Chariot chariot = new Chariot(Team.BLUE);
         Soldier otherSoldier = new Soldier(Team.BLUE);
         Position afterPosition = new Position(2, 5);
         map.put(afterPosition, otherSoldier);
 
         assertThatThrownBy(() -> chariot.getMovableValidator(beforePosition, afterPosition).accept(new Pieces(map)))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("차는 궁성 내에서 대각선으로 이동이 가능하다.")
+    @Test
+    void palaceMove() {
+        Position palaceBeforePosition = new Position(8, 5);
+        Position afterPosition = new Position(10, 7);
+
+        assertThatCode(() ->
+                chariot.getPalaceMovableValidator(palaceBeforePosition, afterPosition).accept(new Pieces(map)))
+                .doesNotThrowAnyException();
     }
 }
