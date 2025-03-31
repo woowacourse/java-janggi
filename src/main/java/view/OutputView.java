@@ -78,4 +78,8 @@ public final class OutputView {
     public void displayCountryScore(final Country turnCountry, final double countryScore) {
         System.out.println(turnCountry + " 점수 : " + countryScore);
     }
+
+    public void displayGameFinished() {
+        System.out.println("게임이 종료되었습니다.");
+    }
 }

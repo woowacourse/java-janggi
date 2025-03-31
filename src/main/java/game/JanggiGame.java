@@ -23,7 +23,12 @@ public class JanggiGame {
     public void run() {
         Board board = setGame();
         outputView.displayBoard(board);
-        while (!isGameFinished(board)) {
+        while (true) {
+            if (isGameFinished(board)) {
+                boardDao.deleteAll();
+                outputView.displayGameFinished();
+                break;
+            }
             if (!playTurn(board)) {
                 break;
             }

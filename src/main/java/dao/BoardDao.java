@@ -19,11 +19,8 @@ public class BoardDao {
 
     public void saveAll(List<PieceDto> pieces) {
         final var insertSQL = "INSERT INTO piece (column_name, row_name, country, piece_type) VALUES (?, ?, ?, ?)";
-
+        deleteAll();
         try (var connection = getConnection()) {
-            try (var statement = connection.prepareStatement("DELETE FROM piece")) {
-                statement.executeUpdate();
-            }
 
             try (var preparedStatement = connection.prepareStatement(insertSQL)) {
                 for (PieceDto piece : pieces) {
@@ -46,14 +43,14 @@ public class BoardDao {
 
         try (var connection = getConnection();
              var statement = connection.prepareStatement(selectSQL);
-             var rs = statement.executeQuery()) {
+             var record = statement.executeQuery()) {
 
-            while (rs.next()) {
+            while (record.next()) {
                 pieces.add(new PieceDto(
-                        rs.getString("column_name"),
-                        rs.getString("row_name"),
-                        rs.getString("country"),
-                        rs.getString("piece_type")
+                        record.getString("column_name"),
+                        record.getString("row_name"),
+                        record.getString("country"),
+                        record.getString("piece_type")
                 ));
             }
 
@@ -62,4 +59,16 @@ public class BoardDao {
             throw new RuntimeException("DB 불러오기 중 오류 발생", e);
         }
     }
+
+    public void deleteAll() {
+        final var deleteSQL = "DELETE FROM piece";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(deleteSQL)) {
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException("DB 삭제 중 오류 발생", e);
+        }
+
+    }
+
 }
