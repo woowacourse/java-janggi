@@ -20,4 +20,30 @@ public enum PieceType {
     public double getScore() {
         return this.score;
     }
+
+    @Override
+    public String toString() {
+        if (this == PieceType.GENERAL) {
+            return "K";
+        }
+        if (this == PieceType.SCHOLAR) {
+            return "S";
+        }
+        if (this == PieceType.CHARIOT) {
+            return "C";
+        }
+        if (this == PieceType.HORSE) {
+            return "H";
+        }
+        if (this == PieceType.ELEPHANT) {
+            return "E";
+        }
+        if (this == PieceType.CANNON) {
+            return "B";
+        }
+        if (this == PieceType.SOLDIER) {
+            return "J";
+        }
+        return "N";
+    }
 }

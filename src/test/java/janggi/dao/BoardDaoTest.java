@@ -41,5 +41,4 @@ class BoardDaoTest {
         Assertions.assertThatCode(() -> boardDao.updateBoardTurn(boardId, Team.HAN))
                 .doesNotThrowAnyException();
     }
-
 }
