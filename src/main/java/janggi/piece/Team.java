@@ -26,4 +26,11 @@ public enum Team {
         }
         return GREEN;
     }
+
+    public static Team convert(String teamName) {
+        if (teamName.equals("GREEN")) {
+            return Team.GREEN;
+        }
+        return Team.RED;
+    }
 }
