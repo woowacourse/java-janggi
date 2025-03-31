@@ -19,6 +19,8 @@ public final class BoardStatus {
     private static final String PASSWORD = "pazz4321";
 
     private static final String INVALID_DB_CONNECTION = "[DB 연결 오류] ";
+    private static final int EMPTY_BOARD_STATUS = 0;
+    private static final int BOARD_STATUS_COUNT_INDEX = 1;
 
     public Connection getConnection() {
         try {
@@ -29,36 +31,15 @@ public final class BoardStatus {
         }
     }
 
-    public void createBoardStatus() {
-        String sql = """
-                CREATE TABLE IF NOT EXISTS board_status (
-                      piece_id INT AUTO_INCREMENT,
-                      piece_name VARCHAR(20),
-                      team_name VARCHAR(10),
-                      piece_status VARCHAR(10),
-                      position_x INT,
-                      position_y INT,
-                      PRIMARY KEY (piece_id, position_x, position_y)
-                  );
-                """;
-
-        try (final var conn = getConnection();
-             PreparedStatement psmt = conn.prepareStatement(sql)) {
-            psmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public boolean isBoardStatusEmpty() {
         String sql = "SELECT COUNT(*) FROM board_status";
 
-        try (final var conn = getConnection();
-             PreparedStatement psmt = conn.prepareStatement(sql);
-             ResultSet rs = psmt.executeQuery()) {
+        try (final var connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            if (rs.next()) {
-                return rs.getInt(1) == 0;
+            if (resultSet.next()) {
+                return resultSet.getInt(BOARD_STATUS_COUNT_INDEX) == EMPTY_BOARD_STATUS;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -69,16 +50,16 @@ public final class BoardStatus {
     public void saveBoardStatus(List<Piece> allPieces) {
         String sql = "INSERT INTO board_status (piece_name, team_name, piece_status, position_x, position_y) VALUES (?, ?, ?, ?, ?)";
 
-        try (final var conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (final var connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             for (Piece piece : allPieces) {
-                pstmt.setString(1, piece.getName());
-                pstmt.setString(2, piece.getTeamName());
-                pstmt.setString(3, piece.getStatus().name());
-                pstmt.setInt(4, piece.getPosition().x());
-                pstmt.setInt(5, piece.getPosition().y());
-                pstmt.executeUpdate();
+                preparedStatement.setString(BoardStatusColumn.NAME_PIECE.getIndex(), piece.getName());
+                preparedStatement.setString(BoardStatusColumn.NAME_TEAM.getIndex(), piece.getTeamName());
+                preparedStatement.setString(BoardStatusColumn.NAME_STATUS.getIndex(), piece.getStatus().name());
+                preparedStatement.setInt(BoardStatusColumn.POSITION_X.getIndex(), piece.getPosition().x());
+                preparedStatement.setInt(BoardStatusColumn.POSITION_Y.getIndex(), piece.getPosition().y());
+                preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -89,21 +70,21 @@ public final class BoardStatus {
         String sql = "SELECT piece_name, team_name, piece_status, position_x, position_y FROM board_status";
 
         List<Piece> pieces = new ArrayList<>();
-        try (final var conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (final var connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                String pieceName = rs.getString("piece_name");
-                String teamName = rs.getString("team_name");
-                String pieceStatus = rs.getString("piece_status");
-                int positionX = rs.getInt("position_x");
-                int positionY = rs.getInt("position_y");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String pieceName = resultSet.getString("piece_name");
+                String teamName = resultSet.getString("team_name");
+                String pieceStatus = resultSet.getString("piece_status");
+                int positionX = resultSet.getInt("position_x");
+                int positionY = resultSet.getInt("position_y");
 
                 pieces.add(PieceFactory.createPiece(pieceName, teamName, pieceStatus, positionX, positionY));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         return pieces;
     }
@@ -111,11 +92,11 @@ public final class BoardStatus {
     public void clearBoardStatus() {
         String sql = "TRUNCATE TABLE board_status";
 
-        try (final var conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.executeUpdate();
+        try (final var connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

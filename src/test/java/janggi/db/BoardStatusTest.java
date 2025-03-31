@@ -20,7 +20,6 @@ class BoardStatusTest {
 
     @BeforeEach
     public void setUp() {
-        boardStatus.createBoardStatus();
         boardStatus.clearBoardStatus();
     }
 
@@ -30,12 +29,6 @@ class BoardStatusTest {
         try (final var connection = boardStatus.getConnection()) {
             assertThat(connection).isNotNull();
         }
-    }
-
-    @DisplayName("정상: 보드 상태 테이블 생성 확인")
-    @Test
-    public void createBoardStatus() {
-        assertThatCode(boardStatus::createBoardStatus).doesNotThrowAnyException();
     }
 
     @DisplayName("정상: 보드 상태 비어있음 확인")
