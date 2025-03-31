@@ -29,4 +29,6 @@ public interface PiecesView {
     List<Side> findAllByPieceType(PieceType pieceType);
 
     boolean containsPieceType(PieceType pieceType);
+
+    boolean isAllyOnDestination(Side side, Position destination);
 }

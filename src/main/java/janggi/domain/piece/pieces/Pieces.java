@@ -121,6 +121,13 @@ public class Pieces implements PiecesView, Cloneable {
     }
 
     @Override
+    public boolean isAllyOnDestination(Side side, Position destination) {
+        return values.values().stream()
+            .filter(onPathPiece -> onPathPiece.isSamePosition(destination))
+            .anyMatch(piece -> piece.getSide() == side);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof Pieces pieces)) {
             return false;

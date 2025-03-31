@@ -1,6 +1,6 @@
 package janggi.domain.piece;
 
-import janggi.domain.piece.movement.MovementStrategy;
+import janggi.domain.piece.movement.MovementStrategyContext;
 import janggi.domain.piece.pieces.PiecesView;
 import java.util.Objects;
 
@@ -8,14 +8,14 @@ public class Piece implements PieceView {
 
     private final PieceType pieceType;
     private final Side side;
-    private final MovementStrategy movementStrategy;
+    private final MovementStrategyContext movementStrategyContext;
     private Position position;
 
-    public Piece(PieceType pieceType, MovementStrategy movementStrategy, Side side, int x, int y) {
+    public Piece(PieceType pieceType, MovementStrategyContext movementStrategyContext, Side side, int x, int y) {
         this.pieceType = pieceType;
         this.side = side;
-        this.movementStrategy = movementStrategy;
         this.position = new Position(x, y);
+        this.movementStrategyContext = movementStrategyContext;
     }
 
     public void move(PiecesView map, int x, int y) {
@@ -25,7 +25,7 @@ public class Piece implements PieceView {
     }
 
     private void validateMovable(PiecesView map, Position destination) {
-        if (!movementStrategy.isMoveable(map, position, side, destination)) {
+        if (!movementStrategyContext.isMoveable(map, position, side, destination)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
     }

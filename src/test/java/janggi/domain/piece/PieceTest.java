@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import janggi.domain.ReplaceUnderBar;
-import janggi.domain.piece.movement.MovementStrategy;
+import janggi.domain.piece.movement.MovementStrategyContext;
 import janggi.domain.piece.pieces.Pieces;
 import janggi.domain.piece.pieces.PiecesView;
 import java.util.Map;
@@ -55,11 +55,12 @@ class PieceTest {
         assertThat(piece.isSamePosition(new Position(compareX, compareY))).isEqualTo(expected);
     }
 
-    private static class FakeMovementStrategy implements MovementStrategy {
+    private static class FakeMovementStrategy extends MovementStrategyContext {
 
         private boolean isMoveable;
 
         public FakeMovementStrategy(boolean isMoveable) {
+            super(null, null);
             this.isMoveable = isMoveable;
         }
 

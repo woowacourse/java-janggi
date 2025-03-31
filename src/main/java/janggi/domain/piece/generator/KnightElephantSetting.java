@@ -4,8 +4,11 @@ import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
-import janggi.domain.piece.movement.fixed.ElephantMovementStrategy;
-import janggi.domain.piece.movement.fixed.KnightMovementStrategy;
+import janggi.domain.piece.movement.MovementStrategyContext;
+import janggi.domain.piece.movement.normal.fixed.ElephantMovementStrategy;
+import janggi.domain.piece.movement.normal.fixed.KnightMovementStrategy;
+import janggi.domain.piece.movement.palace.ElephantPalaceMovementStrategy;
+import janggi.domain.piece.movement.palace.KnightPalaceMovementStrategy;
 import java.util.List;
 import java.util.function.BiFunction;
 
@@ -59,11 +62,13 @@ public enum KnightElephantSetting {
     }
 
     private static Piece makeKnight(Side side, Position position) {
-        return new Piece(PieceType.KNIGHT, new KnightMovementStrategy(), side, position.x(), position.y());
+        return new Piece(PieceType.KNIGHT, new MovementStrategyContext(new KnightMovementStrategy(),
+            new KnightPalaceMovementStrategy(new KnightMovementStrategy())), side, position.x(), position.y());
     }
 
     private static Piece makeElephant(Side side, Position position) {
-        return new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), side, position.x(), position.y());
+        return new Piece(PieceType.ELEPHANT, new MovementStrategyContext(new ElephantMovementStrategy(),
+            new ElephantPalaceMovementStrategy(new ElephantMovementStrategy())), side, position.x(), position.y());
     }
 
     public List<Piece> make(Side side, List<Position> positions) {

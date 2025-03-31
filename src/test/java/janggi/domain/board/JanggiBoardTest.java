@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceMaker;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
@@ -12,9 +13,6 @@ import janggi.domain.piece.generator.DefaultChoPieceGenerator;
 import janggi.domain.piece.generator.DefaultHanPieceGenerator;
 import janggi.domain.piece.generator.HanPieceGenerator;
 import janggi.domain.piece.generator.KnightElephantSetting;
-import janggi.domain.piece.movement.dynamic.RookMovementStrategy;
-import janggi.domain.piece.movement.fixed.ElephantMovementStrategy;
-import janggi.domain.piece.movement.fixed.KingMovementStrategy;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -56,7 +54,7 @@ class JanggiBoardTest {
         janggiBoard.move(1, 0, 3, 3);
         Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces().getValues();
         assertThat(pieceMap.get(new Position(3, 3))).isEqualTo(
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), Side.HAN, 3, 3));
+            PieceMaker.createPiece(PieceType.ELEPHANT, Side.HAN, new Position(3, 3)));
         assertThat(pieceMap.get(new Position(1, 0))).isNull();
     }
 
@@ -64,7 +62,7 @@ class JanggiBoardTest {
     void 움직인_위치에_적_기물이_있으면_적_기물을_잡을_수_있다() {
         JanggiBoard janggiBoard = new JanggiBoard(
             HAN_PIECE_GENERATOR,
-            (setting) -> List.of(new Piece(PieceType.ROOK, new RookMovementStrategy(), Side.CHO, 4, 4)),
+            (setting) -> List.of(PieceMaker.createPiece(PieceType.ROOK, Side.CHO, new Position(4, 4))),
             DEFAULT_HAN_KNIGHTELEPHANTSETTING,
             DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
@@ -73,7 +71,7 @@ class JanggiBoardTest {
 
         Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces().getValues();
         assertThat(pieceMap.get(new Position(4, 3))).isEqualTo(
-            new Piece(PieceType.ROOK, new RookMovementStrategy(), Side.CHO, 4, 3));
+            PieceMaker.createPiece(PieceType.ROOK, Side.CHO, new Position(4, 3)));
         assertThat(pieceMap.get(new Position(4, 4))).isNull();
     }
 
@@ -81,7 +79,7 @@ class JanggiBoardTest {
     void 왕이_없다면_게임이_끝난_것이다() {
         JanggiBoard janggiBoard = new JanggiBoard(
             (setting) -> List.of(),
-            (setting) -> List.of(new Piece(PieceType.KING, new KingMovementStrategy(), Side.CHO, 4, 4)),
+            (setting) -> List.of(PieceMaker.createPiece(PieceType.KING, Side.CHO, new Position(4, 4))),
             DEFAULT_HAN_KNIGHTELEPHANTSETTING,
             DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
@@ -93,7 +91,7 @@ class JanggiBoardTest {
     void 왕이_하나만_남은_경우_해당_왕의_진영이_승리한다() {
         JanggiBoard janggiBoard = new JanggiBoard(
             (setting) -> List.of(),
-            (setting) -> List.of(new Piece(PieceType.KING, new KingMovementStrategy(), Side.CHO, 4, 4)),
+            (setting) -> List.of(PieceMaker.createPiece(PieceType.KING, Side.CHO, new Position(4, 4))),
             DEFAULT_HAN_KNIGHTELEPHANTSETTING,
             DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );

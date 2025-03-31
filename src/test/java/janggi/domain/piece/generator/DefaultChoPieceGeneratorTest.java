@@ -6,14 +6,24 @@ import janggi.domain.ReplaceUnderBar;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Side;
-import janggi.domain.piece.movement.dynamic.CannonMovementStrategy;
-import janggi.domain.piece.movement.dynamic.PawnMovementStrategy;
-import janggi.domain.piece.movement.dynamic.RookMovementStrategy;
-import janggi.domain.piece.movement.fixed.ElephantMovementStrategy;
-import janggi.domain.piece.movement.fixed.GuardMovementStrategy;
-import janggi.domain.piece.movement.fixed.KingMovementStrategy;
+import janggi.domain.piece.movement.MovementStrategyContext;
+import janggi.domain.piece.movement.normal.dynamic.CannonMovementStrategy;
+import janggi.domain.piece.movement.normal.dynamic.PawnMovementStrategy;
+import janggi.domain.piece.movement.normal.dynamic.RookMovementStrategy;
+import janggi.domain.piece.movement.normal.fixed.ElephantMovementStrategy;
+import janggi.domain.piece.movement.normal.fixed.GuardMovementStrategy;
+import janggi.domain.piece.movement.normal.fixed.KingMovementStrategy;
+import janggi.domain.piece.movement.normal.fixed.KnightMovementStrategy;
+import janggi.domain.piece.movement.palace.CannonPalaceMovementStrategy;
+import janggi.domain.piece.movement.palace.ElephantPalaceMovementStrategy;
+import janggi.domain.piece.movement.palace.GuardPalaceMovementStrategy;
+import janggi.domain.piece.movement.palace.KingPalaceMovementStrategy;
+import janggi.domain.piece.movement.palace.PawnPalaceMovementStrategy;
+import janggi.domain.piece.movement.palace.RookPalaceMovementStrategy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,23 +32,63 @@ public class DefaultChoPieceGeneratorTest {
 
     private static final Side SIDE = Side.CHO;
     private static List<Piece> PIECES;
+    private static Map<PieceType, MovementStrategyContext> MOVEMENT_STRATEGY_MAP;
     private final ChoPieceGenerator choPieceGenerator = new DefaultChoPieceGenerator();
+
+    @BeforeAll
+    static void setUpMovementStrategyMap() {
+        MOVEMENT_STRATEGY_MAP = Map.of(
+            PieceType.PAWN, new MovementStrategyContext(
+                new PawnMovementStrategy(),
+                new PawnPalaceMovementStrategy(new PawnMovementStrategy())
+            ),
+            PieceType.CANNON,
+            new MovementStrategyContext(
+                new CannonMovementStrategy(),
+                new CannonPalaceMovementStrategy(new CannonMovementStrategy())
+            ),
+            PieceType.ROOK, new MovementStrategyContext(
+                new RookMovementStrategy(),
+                new RookPalaceMovementStrategy(new RookMovementStrategy())
+            ),
+            PieceType.GUARD, new MovementStrategyContext(
+                new GuardMovementStrategy(),
+                new GuardPalaceMovementStrategy(new GuardMovementStrategy())
+            ),
+            PieceType.KING, new MovementStrategyContext(
+                new KingMovementStrategy(),
+                new KingPalaceMovementStrategy(new KingMovementStrategy())
+            ),
+            PieceType.ELEPHANT, new MovementStrategyContext(
+                new ElephantMovementStrategy(),
+                new ElephantPalaceMovementStrategy(new ElephantMovementStrategy())
+            ),
+            PieceType.KNIGHT, new MovementStrategyContext(
+                new KnightMovementStrategy(),
+                new KingPalaceMovementStrategy(new KnightMovementStrategy())
+            )
+        );
+    }
 
     @BeforeEach
     void setUpDefaultPieces() {
         PIECES = new ArrayList<>();
-        PIECES.add(new Piece(PieceType.PAWN, new PawnMovementStrategy(), SIDE, 0, 6));
-        PIECES.add(new Piece(PieceType.PAWN, new PawnMovementStrategy(), SIDE, 2, 6));
-        PIECES.add(new Piece(PieceType.PAWN, new PawnMovementStrategy(), SIDE, 4, 6));
-        PIECES.add(new Piece(PieceType.PAWN, new PawnMovementStrategy(), SIDE, 6, 6));
-        PIECES.add(new Piece(PieceType.PAWN, new PawnMovementStrategy(), SIDE, 8, 6));
-        PIECES.add(new Piece(PieceType.CANNON, new CannonMovementStrategy(), SIDE, 1, 7));
-        PIECES.add(new Piece(PieceType.CANNON, new CannonMovementStrategy(), SIDE, 7, 7));
-        PIECES.add(new Piece(PieceType.ROOK, new RookMovementStrategy(), SIDE, 0, 9));
-        PIECES.add(new Piece(PieceType.ROOK, new RookMovementStrategy(), SIDE, 8, 9));
-        PIECES.add(new Piece(PieceType.GUARD, new GuardMovementStrategy(), SIDE, 3, 9));
-        PIECES.add(new Piece(PieceType.GUARD, new GuardMovementStrategy(), SIDE, 5, 9));
-        PIECES.add(new Piece(PieceType.KING, new KingMovementStrategy(), SIDE, 4, 8));
+        PIECES.add(new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, 0, 6));
+        PIECES.add(new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, 2, 6));
+        PIECES.add(new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, 4, 6));
+        PIECES.add(new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, 6, 6));
+        PIECES.add(new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, 8, 6));
+
+        PIECES.add(new Piece(PieceType.CANNON, MOVEMENT_STRATEGY_MAP.get(PieceType.CANNON), SIDE, 1, 7));
+        PIECES.add(new Piece(PieceType.CANNON, MOVEMENT_STRATEGY_MAP.get(PieceType.CANNON), SIDE, 7, 7));
+
+        PIECES.add(new Piece(PieceType.ROOK, MOVEMENT_STRATEGY_MAP.get(PieceType.ROOK), SIDE, 0, 9));
+        PIECES.add(new Piece(PieceType.ROOK, MOVEMENT_STRATEGY_MAP.get(PieceType.ROOK), SIDE, 8, 9));
+
+        PIECES.add(new Piece(PieceType.GUARD, MOVEMENT_STRATEGY_MAP.get(PieceType.GUARD), SIDE, 3, 9));
+        PIECES.add(new Piece(PieceType.GUARD, MOVEMENT_STRATEGY_MAP.get(PieceType.GUARD), SIDE, 5, 9));
+
+        PIECES.add(new Piece(PieceType.KING, MOVEMENT_STRATEGY_MAP.get(PieceType.KING), SIDE, 4, 8));
     }
 
     @Test
@@ -46,10 +96,10 @@ public class DefaultChoPieceGeneratorTest {
         List<Piece> generatedPieces = choPieceGenerator.generate(KnightElephantSetting.KNIGHT_ELEPHANT_KNIGHT_ELEPHANT);
 
         PIECES.addAll(List.of(
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 1, 9),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 2, 9),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 6, 9),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 7, 9)
+            new Piece(PieceType.KNIGHT, MOVEMENT_STRATEGY_MAP.get(PieceType.KNIGHT), SIDE, 1, 9),
+            new Piece(PieceType.ELEPHANT, MOVEMENT_STRATEGY_MAP.get(PieceType.ELEPHANT), SIDE, 2, 9),
+            new Piece(PieceType.KNIGHT, MOVEMENT_STRATEGY_MAP.get(PieceType.KNIGHT), SIDE, 6, 9),
+            new Piece(PieceType.ELEPHANT, MOVEMENT_STRATEGY_MAP.get(PieceType.ELEPHANT), SIDE, 7, 9)
         ));
 
         assertThat(generatedPieces).containsExactlyInAnyOrderElementsOf(PIECES);
@@ -60,10 +110,10 @@ public class DefaultChoPieceGeneratorTest {
         List<Piece> generatedPieces = choPieceGenerator.generate(KnightElephantSetting.KNIGHT_ELEPHANT_ELEPHANT_KNIGHT);
 
         PIECES.addAll(List.of(
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 1, 9),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 2, 9),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 6, 9),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 7, 9)
+            new Piece(PieceType.KNIGHT, MOVEMENT_STRATEGY_MAP.get(PieceType.KNIGHT), SIDE, 1, 9),
+            new Piece(PieceType.ELEPHANT, MOVEMENT_STRATEGY_MAP.get(PieceType.ELEPHANT), SIDE, 2, 9),
+            new Piece(PieceType.ELEPHANT, MOVEMENT_STRATEGY_MAP.get(PieceType.ELEPHANT), SIDE, 6, 9),
+            new Piece(PieceType.KNIGHT, MOVEMENT_STRATEGY_MAP.get(PieceType.KNIGHT), SIDE, 7, 9)
         ));
 
         assertThat(generatedPieces).containsExactlyInAnyOrderElementsOf(PIECES);
@@ -74,10 +124,10 @@ public class DefaultChoPieceGeneratorTest {
         List<Piece> generatedPieces = choPieceGenerator.generate(KnightElephantSetting.ELEPHANT_KNIGHT_KNIGHT_ELEPHANT);
 
         PIECES.addAll(List.of(
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 1, 9),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 2, 9),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 6, 9),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 7, 9)
+            new Piece(PieceType.ELEPHANT, MOVEMENT_STRATEGY_MAP.get(PieceType.ELEPHANT), SIDE, 1, 9),
+            new Piece(PieceType.KNIGHT, MOVEMENT_STRATEGY_MAP.get(PieceType.KNIGHT), SIDE, 2, 9),
+            new Piece(PieceType.KNIGHT, MOVEMENT_STRATEGY_MAP.get(PieceType.KNIGHT), SIDE, 6, 9),
+            new Piece(PieceType.ELEPHANT, MOVEMENT_STRATEGY_MAP.get(PieceType.ELEPHANT), SIDE, 7, 9)
         ));
 
         assertThat(generatedPieces).containsExactlyInAnyOrderElementsOf(PIECES);
@@ -88,10 +138,10 @@ public class DefaultChoPieceGeneratorTest {
         List<Piece> generatedPieces = choPieceGenerator.generate(KnightElephantSetting.ELEPHANT_KNIGHT_ELEPHANT_KNIGHT);
 
         PIECES.addAll(List.of(
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 1, 9),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 2, 9),
-            new Piece(PieceType.ELEPHANT, new ElephantMovementStrategy(), SIDE, 6, 9),
-            new Piece(PieceType.KNIGHT, new KingMovementStrategy(), SIDE, 7, 9)
+            new Piece(PieceType.ELEPHANT, MOVEMENT_STRATEGY_MAP.get(PieceType.ELEPHANT), SIDE, 1, 9),
+            new Piece(PieceType.KNIGHT, MOVEMENT_STRATEGY_MAP.get(PieceType.KNIGHT), SIDE, 2, 9),
+            new Piece(PieceType.ELEPHANT, MOVEMENT_STRATEGY_MAP.get(PieceType.ELEPHANT), SIDE, 6, 9),
+            new Piece(PieceType.KNIGHT, MOVEMENT_STRATEGY_MAP.get(PieceType.KNIGHT), SIDE, 7, 9)
         ));
 
         assertThat(generatedPieces).containsExactlyInAnyOrderElementsOf(PIECES);
