@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class PalaceMovement implements PieceMovement {
-
     private final List<Route> routes;
 
     public PalaceMovement() {

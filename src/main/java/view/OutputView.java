@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import java.util.Optional;
 
 public final class OutputView {
-
     private static final List<Integer> BOARD_LINE_FEED_COLUMNS = List.of(2, 5);
 
     private static final String NEW_LINE = System.lineSeparator();

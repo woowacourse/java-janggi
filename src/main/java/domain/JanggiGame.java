@@ -15,7 +15,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class JanggiGame {
-
     private final int id;
 
     private final Board board;

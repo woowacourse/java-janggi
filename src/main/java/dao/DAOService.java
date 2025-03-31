@@ -8,7 +8,6 @@ import dto.Choice;
 import java.util.List;
 
 public final class DAOService {
-
     private final GameDAO gameDAO;
     private final BoardLocationDAO boardLocationDAO;
     private final PlayerDAO playerDAO;
@@ -42,8 +41,7 @@ public final class DAOService {
     public void switchTurn(final List<Player> players) {
         playerDAO.updateBatch(players);
     }
-
-
+    
     public List<Player> findPlayersByGameId(final Choice choice) {
         return playerDAO.findAllByGameId(choice.value());
     }

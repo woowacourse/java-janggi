@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Route {
-
     private final List<Direction> directions;
 
     public Route(final List<Direction> directions) {

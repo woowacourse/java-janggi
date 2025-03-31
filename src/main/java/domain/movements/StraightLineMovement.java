@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 
 public final class StraightLineMovement implements PieceMovement {
-
     private static final int MAX_DIRECTION_COUNT = 10;
 
     public StraightLineMovement(List<Route> routes) {

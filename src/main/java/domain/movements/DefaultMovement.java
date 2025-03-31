@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 public final class DefaultMovement implements PieceMovement {
-
     private final List<Route> routes;
 
     public DefaultMovement(final List<Route> routes) {

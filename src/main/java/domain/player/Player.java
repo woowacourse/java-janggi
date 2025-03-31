@@ -3,7 +3,6 @@ package domain.player;
 import java.util.Objects;
 
 public final class Player {
-
     private final Team team;
     private final int id;
 
