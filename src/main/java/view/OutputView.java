@@ -2,9 +2,11 @@ package view;
 
 import board.GameBoard;
 import direction.Point;
+import java.util.List;
 import piece.Piece;
 import piece.PieceType;
 import piece.Pieces;
+import team.Player;
 import team.Team;
 
 public class OutputView {
@@ -15,20 +17,24 @@ public class OutputView {
     private static final int COLUMN_END = 9;
 
     public static void printNowTurn(Team turn) {
-        System.out.printf("%s 턴 입니다.%n", turnToDynasty(turn));
+        System.out.printf("%s 턴 입니다.%n", teamToKorean(turn));
     }
 
-    private static String turnToDynasty(Team turn) {
-        if (turn.equals(Team.HAN)) {
+    private static String teamToKorean(Team team) {
+        if (team.equals(Team.HAN)) {
             return "한나라";
         }
 
         return "초나라";
     }
 
-    public static void printBoard(final GameBoard gameBoard) {
+    public static void printBoard(final GameBoard gameBoard, final List<Player> players) {
         Pieces pieces = gameBoard.findAllPieces();
 
+        System.out.println();
+        for (Player player : players) {
+            System.out.printf("%s: %.1f점 ", teamToKorean(player.getTeam()), player.getScore());
+        }
         System.out.println();
         printPiecesInBoard(pieces);
         System.out.println("123456789");
