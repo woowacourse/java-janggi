@@ -32,7 +32,7 @@ class JanggiRepositoryImplTest {
                 GameStatus.DRAW);
 
         //when
-        janggiRepository.save(janggiGame);
+        janggiRepository.save(janggiGame, GameStatus.DRAW);
 
         //then
         JanggiEntity expected = new JanggiEntity(1L,
@@ -80,7 +80,7 @@ class JanggiRepositoryImplTest {
                 new Player("test2", Team.GREEN, 0),
                 Team.GREEN,
                 GameStatus.DRAW);
-        janggiRepository.save(janggiGame);
+        janggiRepository.save(janggiGame, GameStatus.DRAW);
 
         //when
         boolean actual = janggiRepository.existsByRedAndGreenPlayerNameAndGameStatus("test1",
@@ -105,7 +105,7 @@ class JanggiRepositoryImplTest {
                 green,
                 Team.GREEN,
                 GameStatus.DRAW);
-        janggiRepository.save(janggiGame);
+        janggiRepository.save(janggiGame, GameStatus.DRAW);
 
         //when
         Optional<JanggiGame> janggiGameOptional = janggiRepository.findByRedAndGreenPlayerNameAndGameStatus(
@@ -137,7 +137,7 @@ class JanggiRepositoryImplTest {
                 green,
                 Team.GREEN,
                 GameStatus.DRAW);
-        janggiRepository.save(janggiGame);
+        janggiRepository.save(janggiGame, GameStatus.DRAW);
 
         //when
         Optional<Long> janggiIdOptional = janggiRepository.findJanggiIdByRedAndGreenPlayerNameAndGameStatus(
