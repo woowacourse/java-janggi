@@ -18,13 +18,14 @@ public final class MysqlPieceDao implements PieceDao {
 
     @Override
     public List<PieceDto> findPiecesByGameId(final int gameId) {
-        final String selectQuery = "SELECT pieceType, team, col_num, row_num FROM piece WHERE game_id = ?";
+        String selectQuery = "SELECT pieceType, team, col_num, row_num FROM piece WHERE game_id = ?";
 
-        try (final Connection connection = mysqlConnection.getConnection();
+        try (Connection connection = mysqlConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
             preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
+
             List<PieceDto> pieceDtos = new ArrayList<>();
             while (resultSet.next()) {
                 PieceDto pieceDto = toPieceDto(resultSet);
@@ -38,7 +39,7 @@ public final class MysqlPieceDao implements PieceDao {
 
     @Override
     public void addPieces(final int gameId, final List<PieceDto> pieceDtos) {
-        final String insertPieceQuery = "INSERT INTO piece (game_id, pieceType, team, col_num, row_num) VALUES (?, ?, ?, ?, ?)";
+        String insertPieceQuery = "INSERT INTO piece (game_id, pieceType, team, col_num, row_num) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = mysqlConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(insertPieceQuery)) {
@@ -59,7 +60,7 @@ public final class MysqlPieceDao implements PieceDao {
 
     @Override
     public void deletePiecesByGameId(final int gameId) {
-        final String deleteQuery = "DELETE FROM piece WHERE game_id = ?";
+        String deleteQuery = "DELETE FROM piece WHERE game_id = ?";
 
         try (Connection connection = mysqlConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {

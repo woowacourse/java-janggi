@@ -21,13 +21,14 @@ public final class MysqlGameDao implements GameDao {
 
     @Override
     public List<GameDto> findAllGames() {
-        String query = "SELECT id, turn, created_at FROM game ORDER BY created_at";
-        List<GameDto> games = new ArrayList<>();
-
+        String selectQuery = "SELECT id, turn, created_at FROM game ORDER BY created_at";
+        
         try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);) {
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<GameDto> games = new ArrayList<>();
             while (resultSet.next()) {
                 games.add(toGameDto(resultSet));
             }
@@ -40,13 +41,14 @@ public final class MysqlGameDao implements GameDao {
 
     @Override
     public GameDto findGameById(final int gameId) {
-        String query = "SELECT id, turn, created_at FROM game WHERE id = ?";
+        String selectQuery = "SELECT id, turn, created_at FROM game WHERE id = ?";
 
         try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
             preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
                 return toGameDto(resultSet);
             }
@@ -58,10 +60,10 @@ public final class MysqlGameDao implements GameDao {
 
     @Override
     public int addGame(final Team turn) {
-        String insertGameQuery = "INSERT INTO game (turn) VALUES(?)";
+        String insertQuery = "INSERT INTO game (turn) VALUES(?)";
 
         try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(insertGameQuery,
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery,
                      Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, turn.name());
