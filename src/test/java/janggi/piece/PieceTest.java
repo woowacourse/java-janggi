@@ -1,10 +1,11 @@
 package janggi.piece;
 
 import janggi.board.Board;
-import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
+import janggi.player.Team;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,8 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class PieceTest {
 
@@ -87,5 +90,20 @@ class PieceTest {
         assertThatCode(() -> piece.move(board, movedPosition))
                 .doesNotThrowAnyException();
 
+    }
+
+    @Test
+    @DisplayName("원시 타입의 정보들로 기물을 생성할 수 있다")
+    void of() {
+        // given
+        // when
+        final Piece piece = Piece.of(1, 1, "SOLDIER", "CHO");
+
+        // then
+        assertAll(() -> {
+            assertThat(piece.getPosition()).isEqualTo(Position.of(1, 1));
+            assertThat(piece.getType()).isEqualTo(PieceType.SOLDIER);
+            assertThat(piece.getTeam()).isEqualTo(Team.CHO);
+        });
     }
 }

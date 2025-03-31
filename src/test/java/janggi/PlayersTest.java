@@ -1,6 +1,8 @@
 package janggi;
 
+import fixture.PieceFixture;
 import janggi.board.Board;
+import janggi.piece.PieceType;
 import janggi.piece.Pieces;
 import janggi.player.Player;
 import janggi.player.Players;
@@ -10,7 +12,10 @@ import janggi.player.Turn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class PlayersTest {
 
@@ -92,5 +97,35 @@ class PlayersTest {
         // then
         assertThat(boardByPlayers.getPositionToPiece())
                 .isEqualTo(board.getPositionToPiece());
+    }
+
+    @Test
+    @DisplayName("기물들, 턴, 초/한의 점수로 Players 객체를 만들 수 있다")
+    void of() {
+        // given
+        final Pieces pieces = Pieces.from(List.of(
+                PieceFixture.createPiece(1, 1, PieceType.SOLDIER, Team.CHO),
+                PieceFixture.createPiece(2, 2, PieceType.SOLDIER, Team.CHO),
+                PieceFixture.createPiece(3, 3, PieceType.SOLDIER, Team.HAN),
+                PieceFixture.createPiece(4, 4, PieceType.SOLDIER, Team.HAN)));
+
+        final Turn turn = Turn.start(); // han
+        turn.next(); // cho
+
+        final Score choScore = Score.cannon().add(Score.cannon());
+        final Score hanScore = Score.soldier().add(Score.soldier());
+
+        // when
+        final Players players = Players.of(pieces, turn, choScore, hanScore);
+
+        // then
+        assertAll(() -> {
+            assertThat(players.getBothPieces().getPieces())
+                    .containsExactlyElementsOf(pieces.getPieces());
+
+            assertThat(players.getCurrentPlayer().getTeam()).isEqualTo(Team.CHO);
+            assertThat(players.getScore(Team.CHO)).isEqualTo(choScore);
+            assertThat(players.getScore(Team.HAN)).isEqualTo(hanScore);
+        });
     }
 }

@@ -9,8 +9,10 @@ import janggi.piece.PieceType;
 import janggi.piece.Pieces;
 import janggi.piece.Soldier;
 import janggi.player.Player;
+import janggi.player.Players;
 import janggi.player.Score;
 import janggi.player.Team;
+import janggi.player.Turn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -135,6 +137,33 @@ class BoardTest {
         assertThatThrownBy(() -> board.movePiece(cho, enemyPosition, enemyPosition.add(new Vector(0, 1))))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("자신의 기물만을 움직일 수 있습니다.");
+    }
+
+    @Test
+    @DisplayName("살아남은 기물들만을 조회할 수 있다")
+    void canGetAlivePieces() {
+        // given
+        final Turn turn = Turn.start();
+        final Players players = Players.create(turn);
+        final Board board = players.createBoard();
+
+        final int sizeBeforeDie = board.getAlivePieces().getPieces().size();
+
+        board.movePiece(players.getCurrentPlayer(), Position.of(4, 1), Position.of(5, 1));
+        turn.next();
+
+        board.movePiece(players.getCurrentPlayer(), Position.of(7, 1), Position.of(6, 1));
+        turn.next();
+
+        // 병이 졸을 잡음
+        board.movePiece(players.getCurrentPlayer(), Position.of(5, 1), Position.of(6, 1));
+
+        // when
+        final int sizeAfterDie = board.getAlivePieces().getPieces().size();
+
+        // then
+        assertThat(sizeBeforeDie).isEqualTo(32);
+        assertThat(sizeAfterDie).isEqualTo(31);
     }
 }
 
