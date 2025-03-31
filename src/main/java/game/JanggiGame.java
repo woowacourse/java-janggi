@@ -16,6 +16,7 @@ public class JanggiGame {
     private static final int VERTICAL_END = 10;
 
     private final GameBoard gameBoard;
+    private Team currentTurn;
 
     public JanggiGame(final GameBoard gameBoard) {
         if (Objects.isNull(gameBoard)) {
@@ -24,19 +25,32 @@ public class JanggiGame {
         this.gameBoard = gameBoard;
     }
 
+    public void initialize() {
+        if (gameBoard.isGameExist()) {
+            gameBoard.loadGame();
+            currentTurn = gameBoard.loadCurrentTurn();
+            return;
+        }
+
+        Team firstTurnTeam = Team.getFirstTurnTeam();
+        gameBoard.startNewGame(firstTurnTeam);
+        currentTurn = firstTurnTeam;
+    }
+
     public void run() {
-        Team currentTeam = Team.getFirstTurnTeam();
         while (!isGameOver()) {
             OutputView.printBoard(gameBoard);
-            Player player = gameBoard.findPlayer(currentTeam);
-            Player oppositePlayer = gameBoard.findPlayer(currentTeam.oppsite());
+            Player player = gameBoard.findPlayer(currentTurn);
+            Player oppositePlayer = gameBoard.findPlayer(currentTurn.oppsite());
             try {
+                OutputView.printNowTurn(currentTurn);
                 Point start = requestMoveStartPosition(player);
                 Point end = requestMoveEndPosition(start);
 
-                Pieces oppositeTeamPieces = player.move(gameBoard.findTeamPieces(currentTeam.oppsite()), start, end);
+                Pieces oppositeTeamPieces = player.move(gameBoard.findTeamPieces(currentTurn.oppsite()), start, end);
                 oppositePlayer.updatePieceStatus(oppositeTeamPieces);
-                currentTeam = currentTeam.oppsite();
+                currentTurn = currentTurn.oppsite();
+                gameBoard.saveGame(start, end, currentTurn);
             } catch (IllegalArgumentException e) {
                 System.err.println(e.getMessage());
             }

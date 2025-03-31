@@ -177,4 +177,29 @@ public class MemoryGameBoard implements GameBoard {
 
         return new Pieces(pieces);
     }
+
+    @Override
+    public void saveGame(Point start, Point end, Team turn) {
+
+    }
+
+    @Override
+    public void loadGame() {
+
+    }
+
+    @Override
+    public Team loadCurrentTurn() {
+        return null;
+    }
+
+    @Override
+    public boolean isGameExist() {
+        return false;
+    }
+
+    @Override
+    public void startNewGame(Team turn) {
+
+    }
 }
