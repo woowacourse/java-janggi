@@ -20,8 +20,8 @@ class PiecesFactoryTest {
         // When
         final BoardOrder hanBoardOrder = BoardOrder.ELEPHANT_HORSE_ELEPHANT_HORSE;
         final BoardOrder choBoardOrder = BoardOrder.ELEPHANT_HORSE_ELEPHANT_HORSE;
-        final Board hanBoard = piecesFactory.makeHanPieces(hanBoardOrder);
-        final Board choBoard = piecesFactory.makeChoPieces(choBoardOrder);
+        final Board hanBoard = piecesFactory.initializeHanPieces(hanBoardOrder);
+        final Board choBoard = piecesFactory.initializeChoPieces(choBoardOrder);
 
         // Then
         assertAll(
@@ -53,8 +53,8 @@ class PiecesFactoryTest {
         // When
         final BoardOrder hanBoardOrder = BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
         final BoardOrder choBoardOrder = BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
-        final Board hanBoard = piecesFactory.makeHanPieces(hanBoardOrder);
-        final Board choBoard = piecesFactory.makeChoPieces(choBoardOrder);
+        final Board hanBoard = piecesFactory.initializeHanPieces(hanBoardOrder);
+        final Board choBoard = piecesFactory.initializeChoPieces(choBoardOrder);
 
         // Then
         assertAll(
@@ -86,8 +86,8 @@ class PiecesFactoryTest {
         // When
         final BoardOrder hanBoardOrder = BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
         final BoardOrder choBoardOrder = BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
-        final Board hanBoard = piecesFactory.makeHanPieces(hanBoardOrder);
-        final Board choBoard = piecesFactory.makeChoPieces(choBoardOrder);
+        final Board hanBoard = piecesFactory.initializeHanPieces(hanBoardOrder);
+        final Board choBoard = piecesFactory.initializeChoPieces(choBoardOrder);
 
         // Then
         assertAll(
@@ -119,8 +119,8 @@ class PiecesFactoryTest {
         // When
         final BoardOrder hanBoardOrder = BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
         final BoardOrder choBoardOrder = BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
-        final Board hanBoard = piecesFactory.makeHanPieces(hanBoardOrder);
-        final Board choBoard = piecesFactory.makeChoPieces(choBoardOrder);
+        final Board hanBoard = piecesFactory.initializeHanPieces(hanBoardOrder);
+        final Board choBoard = piecesFactory.initializeChoPieces(choBoardOrder);
 
         // Then
         assertAll(

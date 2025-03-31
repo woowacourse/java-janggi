@@ -50,10 +50,10 @@ public class Board {
     }
 
     public void updatePiece(final Position currentPosition, final Position arrivalPosition) {
-        final Piece targetPiece = findPieceByPosition(currentPosition);
-        targetPiece.updatePosition(arrivalPosition);
+        final Piece currentPiece = findPieceByPosition(currentPosition);
+        currentPiece.updatePosition(arrivalPosition);
         pieces.remove(currentPosition);
-        pieces.put(arrivalPosition, targetPiece);
+        pieces.put(arrivalPosition, currentPiece);
     }
 
     public void swapPieces(final Position firstPosition, final Position secondPosition) {

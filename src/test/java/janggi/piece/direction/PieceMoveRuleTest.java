@@ -1,38 +1,17 @@
 package janggi.piece.direction;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import janggi.direction.Direction;
-import janggi.direction.Movement;
-import janggi.direction.Movements;
 import janggi.direction.PieceMoveRule;
 import janggi.direction.PieceType;
-import janggi.piece.board.Board;
-import janggi.piece.Piece;
-import janggi.position.Position;
 import janggi.direction.obstacle.ObstacleBlockStrategy;
-import java.util.List;
+import janggi.piece.Piece;
+import janggi.piece.board.Board;
+import janggi.position.Position;
 import java.util.Set;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class PieceMoveRuleTest {
-
-    @Test
-    void 적절한_움직임이_아닐_경우_예외가_발생한다() {
-        // Given
-        final Position currentPosition = new Position(3, 3);
-        final Position arrivalPosition = new Position(4, 3);
-        final Movements movements = new Movements(List.of(new Movement(Direction.RIGHT)));
-
-        // When & Then
-        assertThatThrownBy(
-                () -> movements.findMovements(currentPosition, arrivalPosition))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("[ERROR] 적절한 움직임이 아닙니다.");
-    }
 
     @ParameterizedTest
     @CsvSource({

@@ -12,10 +12,11 @@ public class Movements {
         this.movements = new ArrayList<>(movements);
     }
 
-    public Movement findMovements(final Position startPosition, final Position arrivalPosition) {
+    public Movement findMovements(final Position startPosition, final Position arrivalPosition,
+                                  final PieceType pieceType) {
         int dy = arrivalPosition.calculateDifferenceForY(startPosition);
         int dx = arrivalPosition.calculateDifferenceForX(startPosition);
-        if (dy == 0 || dx == 0) {
+        if (pieceType == PieceType.CHARIOT && (dy == 0 || dx == 0)) {
             dy = calculateUnit(dy);
             dx = calculateUnit(dx);
         }

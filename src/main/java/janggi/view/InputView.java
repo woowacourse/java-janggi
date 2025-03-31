@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class InputView {
 
     private static final String LINE = System.lineSeparator();
+    private static final String TITLE_INITIALIZE = "게임을 초기화하시겠습니까? (y/n)";
     private static final String BOARD_ORDER_TITLE = """
             장기 게임을 시작하겠습니다!  \s
              \s
@@ -26,11 +27,22 @@ public class InputView {
             (세로를 10의 자리, 가로를 1의 자리로 보아 좌표를 입력해주세요. 예를 들어 초기 초나라의 왕의 좌표는 95입니다.)
             (종료를 원할 경우 exit을 입력해주세요.)
             ex) 71 72""";
+    private static final String YES = "y";
+    private static final String NO = "n";
 
     private final Scanner scanner;
 
     public InputView() {
         scanner = new Scanner(System.in);
+    }
+
+    public boolean readInitialize() {
+        System.out.println(LINE + TITLE_INITIALIZE);
+        final String input = readLine();
+        if (input.equals(YES) || input.equals(NO)) {
+            return input.equals(YES);
+        }
+        throw new IllegalArgumentException("[ERROR] 적절하지 않은 입력입니다");
     }
 
     public String readMovingPosition() {

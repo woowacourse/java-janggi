@@ -1,5 +1,7 @@
 package janggi.piece.players;
 
+import java.util.Objects;
+
 public class Turn {
 
     private final Team team;
@@ -12,8 +14,8 @@ public class Turn {
         this.choWantExit = choWantExit;
     }
 
-    public static Turn initialize() {
-        return new Turn(Team.CHO, false, false);
+    public static Turn initialize(final Team team) {
+        return new Turn(team, false, false);
     }
 
     public Turn moveNextTurn() {
@@ -23,16 +25,30 @@ public class Turn {
         return new Turn(Team.HAN, hanWantExit, choWantExit);
     }
 
-    public void wantExit() {
+    public Turn wantExit() {
         if (team == Team.HAN) {
             hanWantExit = true;
-            return;
+            return new Turn(team.getOppositeTeam(), hanWantExit, choWantExit);
         }
         choWantExit = true;
+        return new Turn(team.getOppositeTeam(), hanWantExit, choWantExit);
     }
 
     public boolean canExit() {
         return hanWantExit && choWantExit;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final Turn turn)) {
+            return false;
+        }
+        return hanWantExit == turn.hanWantExit && choWantExit == turn.choWantExit && getTeam() == turn.getTeam();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTeam(), hanWantExit, choWantExit);
     }
 
     public Team getTeam() {

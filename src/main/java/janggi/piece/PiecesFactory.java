@@ -4,14 +4,14 @@ import static janggi.piece.board.BoardOrder.ELEPHANT_HORSE_HORSE_ELEPHANT;
 import static janggi.piece.board.BoardOrder.HORSE_ELEPHANT_ELEPHANT_HORSE;
 import static janggi.piece.board.BoardOrder.HORSE_ELEPHANT_HORSE_ELEPHANT;
 
+import janggi.direction.PieceMoveRule;
+import janggi.direction.PieceType;
+import janggi.direction.obstacle.ObstacleBlockStrategy;
+import janggi.direction.obstacle.ObstacleJumpingObstacle;
 import janggi.piece.board.Board;
 import janggi.piece.board.BoardOrder;
-import janggi.direction.PieceType;
 import janggi.piece.players.Team;
 import janggi.position.Position;
-import janggi.direction.obstacle.ObstacleJumpingObstacle;
-import janggi.direction.PieceMoveRule;
-import janggi.direction.obstacle.ObstacleBlockStrategy;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,19 +22,19 @@ public class PiecesFactory {
     private static final int FIRST_CHANGE_X = 2;
     private static final int SECOND_CHANGE_X = 7;
 
-    public Board makeChoPieces(final BoardOrder choBoardOrder) {
-        final Board choBoard = makeChoPieces();
+    public Board initializeChoPieces(final BoardOrder choBoardOrder) {
+        final Board choBoard = initializeChoPieces();
         changePieces(choBoardOrder, getYByTeam(Team.CHO), choBoard);
         return choBoard;
     }
 
-    public Board makeHanPieces(final BoardOrder hanBoardOrder) {
-        final Board hanBoard = makeHanPieces();
+    public Board initializeHanPieces(final BoardOrder hanBoardOrder) {
+        final Board hanBoard = initializeHanPieces();
         changePieces(hanBoardOrder, getYByTeam(Team.HAN), hanBoard);
         return hanBoard;
     }
 
-    private Board makeChoPieces() {
+    private Board initializeChoPieces() {
         final Set<Piece> choPieces = new HashSet<>();
         choPieces.add(
                 new Piece(new PieceMoveRule(PieceType.CHARIOT, new ObstacleBlockStrategy()), new Position(CHO_Y, 1)));
@@ -72,7 +72,7 @@ public class PiecesFactory {
         return Board.from(choPieces);
     }
 
-    private Board makeHanPieces() {
+    private Board initializeHanPieces() {
         final Set<Piece> pieces = new HashSet<>();
         pieces.add(
                 new Piece(new PieceMoveRule(PieceType.CHARIOT, new ObstacleBlockStrategy()), new Position(HAN_Y, 1)));

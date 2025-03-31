@@ -1,5 +1,7 @@
 package janggi.piece.players;
 
+import java.util.Arrays;
+
 public enum Team {
 
     HAN("한"),
@@ -17,6 +19,13 @@ public enum Team {
             return CHO;
         }
         return HAN;
+    }
+
+    public static Team from(final String name) {
+        return Arrays.stream(values())
+                .filter(team -> team.name().equals(name))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] Team을 찾을 수 없습니다."));
     }
 
     public String getTitle() {

@@ -7,6 +7,9 @@ public class StringParser {
 
     private static final String BLANK = " ";
 
+    private StringParser() {
+    }
+
     public static int parseInt(final String input) {
         try {
             return Integer.parseInt(input);

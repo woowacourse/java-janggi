@@ -4,6 +4,9 @@ import java.util.function.Supplier;
 
 public class ExceptionHandler {
 
+    private ExceptionHandler() {
+    }
+
     public static <T> T retry(final Supplier<T> action) {
         try {
             return action.get();

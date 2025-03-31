@@ -27,13 +27,13 @@ public class PieceMoveRule {
             final Optional<Movements> optionalMovements = PalaceMovement.getMovements(currentPosition);
 
             optionalMovements.ifPresent(this::addMovement);
-            final Movement movement = movements.findMovements(currentPosition, arrivalPosition);
+            final Movement movement = movements.findMovements(currentPosition, arrivalPosition, pieceType);
             obstacleMoveStrategy.checkObstacle(currentPosition, arrivalPosition, movement, board);
             optionalMovements.ifPresent(this::deleteMovement);
 
             return;
         }
-        final Movement movement = movements.findMovements(currentPosition, arrivalPosition);
+        final Movement movement = movements.findMovements(currentPosition, arrivalPosition, pieceType);
         obstacleMoveStrategy.checkObstacle(currentPosition, arrivalPosition, movement, board);
     }
 

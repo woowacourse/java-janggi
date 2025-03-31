@@ -9,6 +9,7 @@ import static janggi.direction.Direction.UP;
 import static janggi.direction.Direction.UP_LEFT;
 import static janggi.direction.Direction.UP_RIGHT;
 
+import java.util.Arrays;
 import java.util.List;
 
 public enum PieceType {
@@ -76,12 +77,23 @@ public enum PieceType {
         this.score = score;
     }
 
+    public static PieceType from(final String name) {
+        return Arrays.stream(values())
+                .filter(pieceType -> pieceType.name().equals(name))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] PieceType을 찾을 수 없습니다."));
+    }
+
     public boolean doesLiveInPalace() {
         return this == KING || this == GUARD;
     }
 
     public boolean canNotMoveDiagonal() {
         return !(this == PieceType.HORSE || this == PieceType.ELEPHANT);
+    }
+
+    public boolean isKing() {
+        return this == PieceType.KING;
     }
 
     public Movements getMovements() {

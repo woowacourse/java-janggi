@@ -1,5 +1,6 @@
 package janggi.piece.players;
 
+import janggi.dto.PieceMove;
 import janggi.piece.Piece;
 import janggi.piece.board.Board;
 import janggi.position.Position;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,19 +23,26 @@ public class Players {
         this.players = new HashMap<>(players);
     }
 
-    // 가운데 경로에는 기물이 없어야함
-    // 도착 위치에는 다른 팀의 기물이어야함
-    // 도착 위치에 자신의 팀 기물일 경우 움직일 수 없음
-    public final void move(final Position currentPosition, final Position arrivalPosition,
-                           final Team currentTeam) {
+    public final PieceMove move(final Position currentPosition, final Position arrivalPosition,
+                                final Team currentTeam) {
         validateSamePosition(currentPosition, arrivalPosition);
 
         final Board currrentTeamBoard = players.get(currentTeam);
         final Board opponentBoard = players.get(currentTeam.getOppositeTeam());
 
-        currrentTeamBoard.validatePath(currentPosition, arrivalPosition, getTotalPieces());
-        catchPiece(arrivalPosition, currrentTeamBoard, opponentBoard);
+        final Board totalPieces = getTotalPieces();
+        currrentTeamBoard.validatePath(currentPosition, arrivalPosition, totalPieces);
+        final Optional<Piece> caughtPieceOptional = catchPiece(arrivalPosition, currrentTeamBoard, opponentBoard);
         currrentTeamBoard.updatePiece(currentPosition, arrivalPosition);
+        final Piece currentPiece = currrentTeamBoard.findPieceByPosition(arrivalPosition);
+
+        if (caughtPieceOptional.isPresent()) {
+            final Piece caughtPiece = caughtPieceOptional.get();
+            return new PieceMove(true, currentTeam, currentPiece.getPieceType(), caughtPiece.getPieceType(),
+                    currentPosition, arrivalPosition, true);
+        }
+        return new PieceMove(true, currentTeam, currentPiece.getPieceType(), null, currentPosition, arrivalPosition,
+                false);
     }
 
     public boolean canContinue() {
@@ -85,13 +94,16 @@ public class Players {
         return Team.HAN;
     }
 
-    private void catchPiece(final Position arrivalPosition,
-                            final Board currentTeamBoard,
-                            final Board oppositeBoard) {
+    private Optional<Piece> catchPiece(final Position arrivalPosition,
+                                       final Board currentTeamBoard,
+                                       final Board oppositeBoard) {
         validateNotCatchingCurrentTeamPiece(currentTeamBoard, arrivalPosition);
         if (oppositeBoard.hasPiece(arrivalPosition)) {
+            final Piece targetPiece = oppositeBoard.findPieceByPosition(arrivalPosition);
             oppositeBoard.removePiece(arrivalPosition);
+            return Optional.of(targetPiece);
         }
+        return Optional.empty();
     }
 
     private void validateNotCatchingCurrentTeamPiece(final Board currentTeamBoard, final Position arrivalPosition) {

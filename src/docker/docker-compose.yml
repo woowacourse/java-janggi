@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   db:
+    container_name: janggi
     image: mysql:8.0.28
     platform: linux/amd64
     restart: always
@@ -16,3 +17,21 @@ services:
       - ./db/mysql/data:/var/lib/mysql
       - ./db/mysql/config:/etc/mysql/conf.d
       - ./db/mysql/init:/docker-entrypoint-initdb.d
+
+  test-db:
+    container_name: janggi-test
+    image: mysql:8.0.28
+    platform: linux/amd64
+    restart: "no"
+    ports:
+      - "13307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: janggi_test
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      TZ: Asia/Seoul
+    volumes:
+      - ./test/mysql/data:/var/lib/mysql
+      - ./test/mysql/config:/etc/mysql/conf.d
+      - ./test/mysql/init:/docker-entrypoint-initdb.d
