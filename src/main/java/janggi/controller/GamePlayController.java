@@ -1,85 +1,46 @@
 package janggi.controller;
 
-import janggi.domain.JanggiGame;
-import janggi.domain.board.Column;
-import janggi.domain.board.PlayingBoard;
-import janggi.domain.board.Position;
-import janggi.domain.board.Row;
-import janggi.domain.piece.PieceType;
-import janggi.domain.piece.TeamColor;
 import janggi.dto.MoveCommandDto;
 import janggi.service.JanggiService;
 import janggi.view.GameRunningView;
-import janggi.view.PieceTypeName;
-import java.util.Map;
 
 public class GamePlayController {
     private final GameRunningView gameRunningView;
     private final JanggiService janggiService;
-    private final JanggiGame janggiGame;
-    private final PlayingBoard playingBoard;
 
-    public GamePlayController(GameRunningView gameRunningView,
-                              JanggiService janggiService, JanggiGame janggiGame) {
+    public GamePlayController(GameRunningView gameRunningView, JanggiService janggiService) {
         this.gameRunningView = gameRunningView;
         this.janggiService = janggiService;
-        this.janggiGame = janggiGame;
-        this.playingBoard = janggiGame.getPlayingBoard();
     }
 
     public void run() {
-        gameRunningView.printBoard(playingBoard);
+        gameRunningView.printBoard(janggiService.getBoard());
 
-        while (!janggiGame.isFinished()) {
-            RetryUtil.processWithRetry(() -> playSingleCommand(janggiGame));
+        while (!janggiService.isGameFinished()) {
+            RetryUtil.processWithRetry(this::handleUserCommand);
         }
-        displayGameResult(janggiGame);
 
-        janggiService.finishGame(janggiGame.getTurnColor());
+        gameRunningView.printGameResult(janggiService.getGameResult());
+        janggiService.finishGame();
     }
 
-    private void playSingleCommand(JanggiGame janggiGame) {
-        gameRunningView.printTurnNotice(janggiGame.getTurnColor());
+    private void handleUserCommand() {
+        gameRunningView.printTurnNotice(janggiService.getCurrentTurn());
         String input = gameRunningView.readCommand();
         GameCommand command = GameCommand.from(input);
 
-        Map<GameCommand, Runnable> commands = Map.of(
-                GameCommand.MOVE, () -> playTurn(MoveCommandDto.from(input), janggiGame),
-                GameCommand.QUIT, this::gameQuit
-        );
-        Runnable action = commands.get(command);
-        action.run();
+        if(command == GameCommand.MOVE) {
+            MoveCommandDto moveDto = MoveCommandDto.from(input);
+            playTurn(moveDto);
+        }
+        if(command == GameCommand.QUIT) {
+            gameQuit();
+        }
     }
 
-    private void playTurn(MoveCommandDto commandDto, JanggiGame janggiGame) {
-        TeamColor turnColor = janggiGame.getTurnColor();
-        Position source = createPosition(commandDto.sourceRow(), commandDto.sourceCol());
-        Position destination = createPosition(commandDto.destinationRow(), commandDto.destinationCol());
-        PieceType pieceType = PieceTypeName.getTypeFrom(commandDto.pieceName());
-
-        janggiGame.move(pieceType, source, destination);
-
-        gameRunningView.printBoard(playingBoard);
-
-        janggiService.updateMoveResult(source, destination, pieceType, turnColor);
-        janggiService.updateGameRoom(janggiGame.getTurnColor(), janggiGame.getTeamScore());
-    }
-
-    private Position createPosition(char rowInput, char colInput) {
-        int rowInt = Character.getNumericValue(rowInput);
-        Row row = Row.from(rowInt);
-
-        int colInt = Character.getNumericValue(colInput);
-        Column column = Column.from(colInt);
-
-        return new Position(row, column);
-    }
-
-    private void displayGameResult(JanggiGame janggiGame) {
-        gameRunningView.printWinner(janggiGame.getTurnColor());
-
-        Map<TeamColor, Integer> teamScore = janggiGame.getTeamScore();
-        gameRunningView.printGameResult(teamScore);
+    private void playTurn(MoveCommandDto commandDto) {
+        janggiService.movePiece(commandDto);
+        gameRunningView.printBoard(janggiService.getBoard());
     }
 
     private void gameQuit() {

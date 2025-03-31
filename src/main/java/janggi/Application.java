@@ -21,9 +21,9 @@ public class Application {
         GameSetController gameSetController = new GameSetController(gameSettingView, gameSetService);
         SetInfoDto setInfoDto = gameSetController.setJanggiGame();
 
-        JanggiService janggiService = new JanggiService(connection, setInfoDto.roomId());
+        JanggiService janggiService = new JanggiService(connection, setInfoDto.janggiGame(), setInfoDto.roomId());
 
-        GamePlayController controller = new GamePlayController(gameRunningView, janggiService, setInfoDto.janggiGame());
+        GamePlayController controller = new GamePlayController(gameRunningView, janggiService);
         controller.run();
     }
 }

@@ -2,15 +2,11 @@ package janggi.controller;
 
 import janggi.domain.JanggiGame;
 import janggi.domain.board.BoardSetup;
-import janggi.domain.board.InitialBoard;
-import janggi.domain.board.PlayingBoard;
-import janggi.domain.gameState.BlueTurn;
 import janggi.domain.piece.TeamColor;
 import janggi.dto.GameRoomDto;
 import janggi.dto.SetInfoDto;
 import janggi.service.GameSetService;
 import janggi.view.GameSettingView;
-import java.util.HashMap;
 import java.util.List;
 
 public class GameSetController {
@@ -34,26 +30,17 @@ public class GameSetController {
     }
 
     private SetInfoDto setNewGame() {
-        InitialBoard initialBoard = RetryUtil.getWithRetry(this::setupBoard);
-        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
-        JanggiGame newGame = new JanggiGame(new BlueTurn(playingBoard), new HashMap<>());
+        BoardSetup redSetup = readBoardSetup(TeamColor.RED);
+        BoardSetup blueSetup = readBoardSetup(TeamColor.BLUE);
 
-        int roomId = gameSetService.createNewGameRoomAndGetId(TeamColor.BLUE);
-
-        gameSetService.saveInitialBoard(roomId, initialBoard.getInitialBoard());
-
-        return new SetInfoDto(newGame, roomId);
+        return gameSetService.createNewGame(redSetup, blueSetup);
     }
 
-    private InitialBoard setupBoard() {
-        BoardSetup redSetup = getBoardSetup(TeamColor.RED);
-        BoardSetup blueSetup = getBoardSetup(TeamColor.BLUE);
-        return InitialBoard.createBoard(redSetup, blueSetup);
-    }
-
-    private BoardSetup getBoardSetup(TeamColor teamColor) {
-        int setNumber = gameSettingView.readBoardSetup(teamColor);
-        return BoardSetup.from(setNumber);
+    private BoardSetup readBoardSetup(TeamColor teamColor) {
+        return RetryUtil.getWithRetry(() -> {
+            int setNumber = gameSettingView.readBoardSetup(teamColor);
+                    return BoardSetup.from(setNumber);
+        });
     }
 
     private SetInfoDto setPlayedGame() {
@@ -61,10 +48,10 @@ public class GameSetController {
         gameSettingView.printRooms(allPlayingRooms);
 
         int selectedIndex = RetryUtil.getWithRetry(() -> getSelectedIndexFromUser(allPlayingRooms));
-        int selectedRoomId = allPlayingRooms.get(selectedIndex).roomId();
-        JanggiGame game = gameSetService.getGameByRoomId(selectedRoomId);
+        int roomId = allPlayingRooms.get(selectedIndex).roomId();
 
-        return new SetInfoDto(game, selectedRoomId);
+        JanggiGame game = gameSetService.getGameByRoomId(roomId);
+        return new SetInfoDto(game, roomId);
     }
 
     private List<GameRoomDto> getGameRoomDtos() {

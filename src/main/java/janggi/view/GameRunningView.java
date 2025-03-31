@@ -7,8 +7,7 @@ import janggi.domain.board.Row;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
-import java.util.Map;
-import java.util.Map.Entry;
+import janggi.dto.GameResultDto;
 import java.util.Scanner;
 
 public class GameRunningView {
@@ -59,24 +58,24 @@ public class GameRunningView {
         System.out.println(sb);
     }
 
-    public void printWinner(TeamColor turnColor) {
+    public void printGameResult(GameResultDto gameResultDto) {
+        printWinner(gameResultDto.winColor());
+        printScoreReport(gameResultDto.blueScore(), gameResultDto.redScore());
+    }
+
+    private void printWinner(String winColor) {
         StringBuilder sb = new StringBuilder();
 
-        String teamName = TeamColorName.getNameFrom(turnColor);
-        sb.append(setColorBy(turnColor) + teamName);
+        sb.append(setColorBy(TeamColor.valueOf(winColor)) + winColor);
         sb.append(setDefaultColor() + " 승리!\n");
 
         System.out.println(sb);
     }
 
-    public void printGameResult(Map<TeamColor, Integer> teamScore) {
+    private void printScoreReport(int blueScore, int redScore) {
         System.out.println("-------게임 결과-------");
-        for (Entry<TeamColor, Integer> entry : teamScore.entrySet()) {
-            TeamColor teamColor = entry.getKey();
-            String teamName = setColorBy(teamColor) + TeamColorName.getNameFrom(teamColor);
-            int score = entry.getValue();
-            System.out.printf(setDefaultColor() + "%s 점수: %d\n", teamName, score);
-        }
+        System.out.printf(setDefaultColor() + "초나라 점수: %d\n", blueScore);
+        System.out.printf(setDefaultColor() + "한나라 점수: %d\n", redScore);
     }
 
     private String setDefaultColor() {

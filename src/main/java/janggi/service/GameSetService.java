@@ -3,13 +3,17 @@ package janggi.service;
 import janggi.dao.BoardPieceDao;
 import janggi.dao.GameRoomDao;
 import janggi.domain.JanggiGame;
+import janggi.domain.board.BoardSetup;
+import janggi.domain.board.InitialBoard;
 import janggi.domain.board.PlayingBoard;
 import janggi.domain.board.Position;
+import janggi.domain.gameState.BlueTurn;
 import janggi.domain.gameState.State;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.TeamColor;
 import janggi.dto.GameRoomDto;
+import janggi.dto.SetInfoDto;
 import janggi.entity.BoardPieceEntity;
 import janggi.entity.GameRoomEntity;
 import java.sql.Connection;
@@ -34,6 +38,18 @@ public class GameSetService {
                         entity.getId(), entity.getTurnColor(), entity.getStartTime(), entity.getLastUpdated()
                 ))
                 .toList();
+    }
+
+    public SetInfoDto createNewGame(BoardSetup redSetup, BoardSetup blueSetup) {
+        InitialBoard initialBoard = InitialBoard.createBoard(redSetup, blueSetup);
+        PlayingBoard playingBoard = new PlayingBoard(initialBoard.getInitialBoard());
+        JanggiGame newGame = new JanggiGame(new BlueTurn(playingBoard), new HashMap<>());
+
+        int roomId = createNewGameRoomAndGetId(TeamColor.BLUE);
+
+        saveInitialBoard(roomId, initialBoard.getInitialBoard());
+
+        return new SetInfoDto(newGame, roomId);
     }
 
     public int createNewGameRoomAndGetId(TeamColor turnColor) {
