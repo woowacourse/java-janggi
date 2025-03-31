@@ -36,7 +36,7 @@ public class KoreanChessApplication {
         try {
             janggiPersistenceService = new JanggiPersistenceService(new MySQLConnection());
         } catch (PersistenceFailException e) {
-            gameView.printCanNotApplySave();
+            gameView.printCanNotApplySave(e.getMessage());
         }
     }
 
@@ -79,7 +79,8 @@ public class KoreanChessApplication {
         while (loseTeam == Team.EMPTY) {
             TurnResult turnResult = playKoreanChess(playerPieces, gameView, turn);
 
-            saveJanggi(playerPieces, turn, gameView);
+            boolean isNextTurn = turnResult.nextTurn() != turn;
+            saveJanggi(playerPieces, turn, gameView, isNextTurn);
 
             loseTeam = turnResult.loseTeam();
             turn = turnResult.nextTurn();
@@ -98,7 +99,10 @@ public class KoreanChessApplication {
         }
     }
 
-    private static void saveJanggi(PlayerPieces playerPieces, int turn, GameView gameView) {
+    private static void saveJanggi(PlayerPieces playerPieces, int turn, GameView gameView, boolean isNextTurn) {
+        if (!isNextTurn) {
+            return;
+        }
         if (janggiPersistenceService == null) {
             return;
         }

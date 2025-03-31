@@ -18,7 +18,6 @@ public class PlayerPieces {
     private final Pieces redTeamPieces;
 
     private final PlayerScores playerScores;
-    ;
 
     public PlayerPieces(Map<Team, Pieces> teamBoard) {
         if (teamBoard.get(Team.BLUE) == null || teamBoard.get(Team.RED) == null) {

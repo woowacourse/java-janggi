@@ -6,12 +6,13 @@ import piece.player.Team;
 
 public class MySQLJanggiTurnDao implements JanggiTurnDao {
 
-    private static final String CANNOT_CREATE_TABLE = "테이블을 생성하는데 실패하였습니다";
-
     private final DatabaseConnection connection;
 
-    public MySQLJanggiTurnDao(DatabaseConnection mySQConnection) {
-        this.connection = mySQConnection;
+    public MySQLJanggiTurnDao(DatabaseConnection mySQLConnection) {
+        if (!(mySQLConnection instanceof MySQLConnection)) {
+            throw new InvalidConnection("MySQL 커넥션만 지원합니다.");
+        }
+        this.connection = mySQLConnection;
     }
 
     public void addTurnScore(Team team, int turn, int score) {

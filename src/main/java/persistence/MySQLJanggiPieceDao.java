@@ -10,12 +10,13 @@ import piece.position.JanggiPosition;
 
 public class MySQLJanggiPieceDao implements JanggiPieceDao {
 
-    private static final String CANNOT_CREATE_TABLE = "테이블을 생성하는데 실패하였습니다";
-
     private final DatabaseConnection connection;
 
-    public MySQLJanggiPieceDao(DatabaseConnection mySQConnection) {
-        this.connection = mySQConnection;
+    public MySQLJanggiPieceDao(DatabaseConnection mySQLConnection) {
+        if (!(mySQLConnection instanceof MySQLConnection)) {
+            throw new InvalidConnection("MySQL 커넥션만 지원합니다.");
+        }
+        this.connection = mySQLConnection;
     }
 
     public void savePiece(Piece piece, int turn) {

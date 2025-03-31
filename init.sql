@@ -17,9 +17,13 @@ CREATE TABLE IF NOT EXISTS piece
     `column`       INT          NOT NULL,
     type           VARCHAR(255) NOT NULL,
     team           VARCHAR(255) NOT NULL,
-    janggi_turn_fk INT,
+    janggi_turn_fk INT          NOT NULL,
     FOREIGN KEY (janggi_turn_fk) REFERENCES janggi_turn (id)
-);
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    KEY piece_janggi_turn_fk (janggi_turn_fk)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
 
 
 CREATE DATABASE IF NOT EXISTS test_janggi;
@@ -41,6 +45,10 @@ CREATE TABLE IF NOT EXISTS piece
     `column`       INT          NOT NULL,
     type           VARCHAR(255) NOT NULL,
     team           VARCHAR(255) NOT NULL,
-    janggi_turn_fk INT,
+    janggi_turn_fk INT          NOT NULL,
     FOREIGN KEY (janggi_turn_fk) REFERENCES janggi_turn (id)
-);
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    KEY piece_janggi_turn_fk (janggi_turn_fk)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;

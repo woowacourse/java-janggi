@@ -140,8 +140,8 @@ public class GameView {
         System.out.printf("%d 번째 수입니다 ", turn);
     }
 
-    public void printCanNotApplySave() {
-        System.out.println("장기 저장 기능이 동작하지 않습니다. 여전히 게임은 진행하실 수 있습니다!");
+    public void printCanNotApplySave(String errorMessage) {
+        System.out.printf("에러 메시지 : %s 장기 저장 기능이 동작하지 않습니다. 여전히 게임은 진행하실 수 있습니다!", errorMessage);
     }
 
     public void printStartFromUserInput() {
