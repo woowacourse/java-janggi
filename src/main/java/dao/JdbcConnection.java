@@ -21,7 +21,6 @@ public class JdbcConnection {
             StringBuilder filteredStackTrace = new StringBuilder();
 
             for (StackTraceElement element : stackTrace) {
-                // 중요한 정보만 로깅: 클래스명, 메서드명, 파일명, 라인번호
                 filteredStackTrace.append("Class: ").append(element.getClassName())
                         .append(", Method: ").append(element.getMethodName())
                         .append(", Line: ").append(element.getLineNumber())
