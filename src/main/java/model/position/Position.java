@@ -13,8 +13,8 @@ public class Position {
     }
 
     public Position(int column, int row) {
-        this.column = Column.getColumnBy(column);
-        this.row = Row.getRowBy(row);
+        this.column = Column.findColumnFrom(column);
+        this.row = Row.findRowFrom(row);
     }
 
     public boolean canMove(final Movement movement) {

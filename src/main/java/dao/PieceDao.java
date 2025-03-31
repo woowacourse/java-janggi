@@ -39,8 +39,8 @@ public class PieceDao {
                 String team = result.getString("team");
                 String type = result.getString("type");
                 Position position = new Position(
-                    Column.getColumnFromString(column),
-                    Row.getRowFromString(row));
+                    Column.createFrom(column),
+                    Row.createFrom(row));
                 createAndAddPiece(type, pieces, position, team);
             }
             return pieces;
