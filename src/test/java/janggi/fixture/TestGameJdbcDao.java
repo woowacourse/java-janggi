@@ -1,7 +1,6 @@
 package janggi.fixture;
 
-import janggi.dao.JanggiDao;
-import janggi.dto.MoveDto;
+import janggi.dao.GameDao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestJanggiJdbcDao implements JanggiDao {
+public class TestGameJdbcDao implements GameDao {
     private static final String SERVER = "localhost:13307"; // MySQL 서버 주소
     private static final String DATABASE = "janggiTest"; // MySQL DATABASE 이름
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -18,7 +17,7 @@ public class TestJanggiJdbcDao implements JanggiDao {
 
     private final Connection connection;
 
-    public TestJanggiJdbcDao() {
+    public TestGameJdbcDao() {
         this.connection = getConnection();
     }
 
@@ -102,37 +101,6 @@ public class TestJanggiJdbcDao implements JanggiDao {
     }
 
     @Override
-    public List<MoveDto> selectAllHistory(final int gameId) {
-        final String selectAllQuery = "SELECT start_row, start_column, end_row, end_column FROM testMoveHistory WHERE game_id = ?";
-        final List<MoveDto> moveDtos = new ArrayList<>();
-        try (final var preparedStatement = connection.prepareStatement(selectAllQuery)) {
-            preparedStatement.setInt(1, gameId);
-            final ResultSet historyResult = preparedStatement.executeQuery();
-            while (historyResult.next()) {
-                moveDtos.add(makeHistory(historyResult));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return moveDtos;
-    }
-
-    @Override
-    public void saveHistory(final MoveDto moveDto, final int gameId) {
-        final String historySaveQuery = "INSERT INTO testMoveHistory(game_id, start_row, start_column, end_row, end_column) VALUES (?,?,?,?,?)";
-        try (final var preparedStatement = connection.prepareStatement(historySaveQuery)) {
-            preparedStatement.setInt(1, gameId);
-            preparedStatement.setString(2, moveDto.getStartRow());
-            preparedStatement.setString(3, moveDto.getStartColumn());
-            preparedStatement.setString(4, moveDto.getEndRow());
-            preparedStatement.setString(5, moveDto.getEndColumn());
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public void setGameFinished(final int gameId) {
         final String gameSetFinishedQuery = "UPDATE testGame SET finished = true WHERE id = ?";
         try (final var preparedStatement = connection.prepareStatement(gameSetFinishedQuery)) {
@@ -146,13 +114,5 @@ public class TestJanggiJdbcDao implements JanggiDao {
     public void rollBack() throws SQLException {
         connection.rollback();
         connection.close();
-    }
-
-    private MoveDto makeHistory(final ResultSet historyResult) throws SQLException {
-        final String startRow = historyResult.getString("start_row");
-        final String startColumn = historyResult.getString("start_column");
-        final String endRow = historyResult.getString("end_row");
-        final String endColumn = historyResult.getString("end_column");
-        return MoveDto.of(startRow, startColumn, endRow, endColumn);
     }
 }

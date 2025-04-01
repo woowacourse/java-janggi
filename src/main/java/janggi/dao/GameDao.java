@@ -1,9 +1,8 @@
 package janggi.dao;
 
-import janggi.dto.MoveDto;
 import java.util.List;
 
-public interface JanggiDao {
+public interface GameDao {
 
     void saveInitialGame(int setupOption);
 
@@ -15,9 +14,9 @@ public interface JanggiDao {
 
     int findGameSetup(int gameId);
 
-    List<MoveDto> selectAllHistory(int gameId);
-
-    void saveHistory(MoveDto moveDto, int gameId);
+//    List<MoveDto> selectAllHistory(int gameId);
+//
+//    void saveHistory(MoveDto moveDto, int gameId);
 
     void setGameFinished(int gameId);
 }

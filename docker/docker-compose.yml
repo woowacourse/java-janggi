@@ -15,7 +15,8 @@ services:
     volumes:
       - ./db/mysql/data:/var/lib/mysql
       - ./db/mysql/config:/etc/mysql/conf.d
-      - ./db/mysql/init:/docker-entrypoint-initdb.d
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
   db-test:
     image: mysql:8.0.28
     platform: linux/x86_64
@@ -31,4 +32,4 @@ services:
     volumes:
       - ./db-test/mysql/data:/var/lib/mysql
       - ./db-test/mysql/config:/etc/mysql/conf.d
-      - ./db-test/mysql/init:/docker-entrypoint-initdb.d
+      - ./init-test.sql:/docker-entrypoint-initdb.d/init.sql
