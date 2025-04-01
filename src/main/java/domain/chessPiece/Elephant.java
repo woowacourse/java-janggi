@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Elephant extends LimitedMoveChessPiece {
-    private static final List<Directions> directions = List.of(
+    private static final List<Directions> DIRECTIONS = List.of(
             new Directions(List.of(Direction.UP, Direction.RIGHT_UP, Direction.RIGHT_UP)),
             new Directions(List.of(Direction.UP, Direction.LEFT_UP, Direction.LEFT_UP)),
             new Directions(List.of(Direction.LEFT, Direction.LEFT_UP, Direction.LEFT_UP)),
@@ -24,7 +24,7 @@ public class Elephant extends LimitedMoveChessPiece {
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
     public Elephant(final ChessPosition position, final ChessTeam team) {
-        super(position, team, directions);
+        super(position, team, DIRECTIONS);
     }
 
     @Override

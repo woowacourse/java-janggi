@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class Chariot extends UnlimitedMoveChessPiece {
 
-    private static final List<Direction> directions = List.of(
+    private static final List<Direction> DIRECTIONS = List.of(
             Direction.UP,
             Direction.DOWN,
             Direction.LEFT,
@@ -25,11 +25,11 @@ public class Chariot extends UnlimitedMoveChessPiece {
     private final HurdlePolicy hurdlePolicy = new StopAtHurdlePolicy();
 
     public Chariot(final ChessTeam team) {
-        super(team, directions);
+        super(team, DIRECTIONS);
     }
 
     public Chariot(final ChessTeam team, final ChessPosition position) {
-        super(team, position, directions);
+        super(team, position, DIRECTIONS);
     }
 
     @Override

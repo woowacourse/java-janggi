@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Horse extends LimitedMoveChessPiece {
-        private static final List<Directions> directions = List.of(
+        private static final List<Directions> DIRECTIONS = List.of(
             new Directions(List.of(Direction.UP, Direction.RIGHT_UP)),
             new Directions(List.of(Direction.UP, Direction.LEFT_UP)),
             new Directions(List.of(Direction.LEFT, Direction.LEFT_UP)),
@@ -25,11 +25,11 @@ public class Horse extends LimitedMoveChessPiece {
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
     public Horse(final ChessTeam team) {
-        super(team, directions);
+        super(team, DIRECTIONS);
     }
 
     public Horse(final ChessPosition position, final ChessTeam team) {
-        super(position, team, directions);
+        super(position, team, DIRECTIONS);
     }
 
     public static List<ChessPiece> initPieces() {
