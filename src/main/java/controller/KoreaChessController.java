@@ -1,15 +1,11 @@
 package controller;
 
-import db.JanggiConnectionProvider;
 import domain.Board;
 import domain.Game;
 import domain.Player;
 import domain.piece.Piece;
 import domain.spatial.Position;
 import java.util.List;
-import repository.GameRepositoryImpl;
-import repository.PieceRepositoryImpl;
-import repository.PlayerRepositoryImpl;
 import service.GameInitializerService;
 import service.GameLoadService;
 import service.GameService;
@@ -21,16 +17,28 @@ public class KoreaChessController {
 
     private final OutputView outputView;
     private final InputView inputView;
+    private final GameInitializerService gameInitializerService;
+    private final GameLoadService gameLoadService;
+    private final GameService gameService;
+    private final PieceService pieceService;
 
-    public KoreaChessController(final OutputView outputView, final InputView inputView) {
+    public KoreaChessController(final OutputView outputView, final InputView inputView,
+                                final GameInitializerService gameInitializerService,
+                                final GameLoadService gameLoadService,
+                                final GameService gameService,
+                                final PieceService pieceService) {
         this.outputView = outputView;
         this.inputView = inputView;
+        this.gameInitializerService = gameInitializerService;
+        this.gameLoadService = gameLoadService;
+        this.gameService = gameService;
+        this.pieceService = pieceService;
     }
 
     public void run() {
         outputView.printGameStart();
 
-        if (new GameService(new GameRepositoryImpl(new JanggiConnectionProvider())).hasPlayingGame()) {
+        if (gameService.hasPlayingGame()) {
             handleExistingGame();
             return;
         }
@@ -47,8 +55,7 @@ public class KoreaChessController {
     }
 
     private String selectGame() {
-        List<String> gameNames = new GameService(
-                new GameRepositoryImpl(new JanggiConnectionProvider())).findGameNameAll();
+        List<String> gameNames = gameService.findGameNameAll();
         outputView.printGameList(gameNames);
         String gameName = inputView.readGameName();
 
@@ -59,17 +66,12 @@ public class KoreaChessController {
     }
 
     private void loadSelectedGame(final String gameName) {
-        Game game = new GameLoadService(new PlayerRepositoryImpl(new JanggiConnectionProvider()),
-                new PieceRepositoryImpl(new JanggiConnectionProvider()))
-                .loadGame(gameName);
+        Game game = gameLoadService.loadGame(gameName);
         playGame(game);
     }
 
     private void startNewGame() {
-        Game game = new GameInitializerService(outputView, inputView,
-                new GameRepositoryImpl(new JanggiConnectionProvider()),
-                new PlayerRepositoryImpl(new JanggiConnectionProvider()),
-                new PieceRepositoryImpl(new JanggiConnectionProvider())).initializeGame();
+        Game game = gameInitializerService.initializeGame();
         playGame(game);
     }
 
@@ -96,10 +98,10 @@ public class KoreaChessController {
                 Position start = parseToPosition(inputView.readMovingPiecePosition(player));
                 Position target = parseToPosition(inputView.readTargetPiecePosition());
                 Piece moved = board.moveAndCapture(player, start, target);
-                new PieceService(new PieceRepositoryImpl(new JanggiConnectionProvider())).delete(game.getName(),
-                        player.getTeam(), target);
-                new PieceService(new PieceRepositoryImpl(new JanggiConnectionProvider())).update(game.getName(),
-                        player.getTeam(), start, moved);
+
+                pieceService.delete(game.getName(), player.getTeam(), target);
+                pieceService.update(game.getName(), player.getTeam(), start, moved);
+
                 outputView.printBoard(board);
                 return;
             } catch (Exception e) {
