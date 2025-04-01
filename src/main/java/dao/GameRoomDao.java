@@ -26,7 +26,7 @@ public class GameRoomDao {
         addToMessageQueue(sql, List.of(turn.name(), gameRoomName));
     }
 
-    public void deleteByGameRoomName(Connection connection, String gameRoomName) {
+    public void deleteByGameRoomName(String gameRoomName) {
         String sql = """
                 DELETE FROM game_room
                 WHERE name = ?
@@ -60,6 +60,6 @@ public class GameRoomDao {
     }
 
     private void addToMessageQueue(String sql, List<Object> params) {
-        MessageQueue.addLast(new DelayedQuery(sql, params));
+        MessageQueue.getInstance().addLast(new DelayedQuery(sql, params));
     }
 }

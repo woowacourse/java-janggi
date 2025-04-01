@@ -38,8 +38,8 @@ public class GameService {
 
     public boolean existsGameRoom(final String gameRoomName) {
         try {
-            final Optional<GameRoomDto> gameRoomEntity = gameRoomDao.findByName(getConnection(), gameRoomName);
-            return gameRoomEntity.isPresent();
+            final Optional<GameRoomDto> gameRoomDto = gameRoomDao.findByName(getConnection(), gameRoomName);
+            return gameRoomDto.isPresent();
         } catch (RuntimeException e) {
             return false;
         }
@@ -81,7 +81,7 @@ public class GameService {
     }
 
     public void endGame() {
-        gameRoomDao.deleteByGameRoomName(getConnection(), getGameOrThrow().getGameRoomName());
+        gameRoomDao.deleteByGameRoomName(getGameOrThrow().getGameRoomName());
 
         executeDelayedQueries();
     }
@@ -107,11 +107,11 @@ public class GameService {
     }
 
     private JanggiGame loadGameByGameRoomName(final String gameRoomName) {
-        final GameRoomDto gameRoom = findGameRoomEntityByName(gameRoomName);
+        final GameRoomDto gameRoom = findGameRoomDtoByName(gameRoomName);
         return new JanggiGame(gameRoom.name(), loadBoardByGameRoomName(gameRoomName), gameRoom.turn());
     }
 
-    private GameRoomDto findGameRoomEntityByName(final String name) {
+    private GameRoomDto findGameRoomDtoByName(final String name) {
         final Optional<GameRoomDto> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
         if (maybeGameRoom.isEmpty()) {
             throw new IllegalStateException("[ERROR] '" + name + "' 방이 존재 하지 않습니다.");

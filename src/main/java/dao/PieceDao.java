@@ -23,8 +23,8 @@ public class PieceDao {
                 piece.pieceType().name(), piece.team().name(), piece.gameRoomName()));
     }
 
-    public void insertAll(List<PieceDto> pieceEntities) {
-        pieceEntities.forEach(this::insert);
+    public void insertAll(List<PieceDto> pieceDtos) {
+        pieceDtos.forEach(this::insert);
     }
 
     public void updatePointByGameRoomNameAndPoint(String gameRoomName,
@@ -75,6 +75,6 @@ public class PieceDao {
     }
 
     private void addToMessageQueue(String sql, List<Object> params) {
-        MessageQueue.addLast(new DelayedQuery(sql, params));
+        MessageQueue.getInstance().addLast(new DelayedQuery(sql, params));
     }
 }

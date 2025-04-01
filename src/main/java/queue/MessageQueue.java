@@ -10,16 +10,22 @@ import java.util.List;
 
 public class MessageQueue {
 
+    private static final MessageQueue INSTANCE = new MessageQueue();
+
     private static final Deque<DelayedQuery> delayedQueries = new ArrayDeque<>();
 
     private MessageQueue() {
     }
 
-    public static void addLast(DelayedQuery delayedQuery) {
+    public static MessageQueue getInstance() {
+        return INSTANCE;
+    }
+
+    public void addLast(DelayedQuery delayedQuery) {
         delayedQueries.addLast(delayedQuery);
     }
 
-    public static void executeDelayedQueries(Connection connection) {
+    public void executeDelayedQueries(Connection connection) {
         while (!delayedQueries.isEmpty()) {
             var delayedQuery = delayedQueries.getFirst();
 
@@ -32,7 +38,7 @@ public class MessageQueue {
         }
     }
 
-    private static void executeQuery(Connection connection, String sql, List<Object> params) {
+    private void executeQuery(Connection connection, String sql, List<Object> params) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             for (int i = 0; i < params.size(); i++) {
                 preparedStatement.setObject(i + 1, params.get(i));
@@ -45,11 +51,11 @@ public class MessageQueue {
         }
     }
 
-    public static int size() {
+    public int size() {
         return delayedQueries.size();
     }
 
-    public static void clear() {
+    public void clear() {
         delayedQueries.clear();
     }
 }

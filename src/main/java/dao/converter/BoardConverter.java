@@ -33,8 +33,8 @@ public class BoardConverter {
         return new PieceDto(null, point.row(), point.column(), piece.type(), piece.team(), gameRoomName);
     }
 
-    public static Board convertToBoard(List<PieceDto> pieceEntities, PathFinderFactory pathFinderFactory) {
-        Map<Point, Piece> boardPieces = convertToPieceByPoint(pieceEntities);
+    public static Board convertToBoard(List<PieceDto> pieceDtos, PathFinderFactory pathFinderFactory) {
+        Map<Point, Piece> boardPieces = convertToPieceByPoint(pieceDtos);
         PathFinder pathFinder = pathFinderFactory.createPathFinder();
         return new Board(boardPieces, pathFinder);
     }
