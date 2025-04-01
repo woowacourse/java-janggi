@@ -38,7 +38,7 @@ public class JanggiJdbcDao implements JanggiDao {
             preparedStatement.setInt(1, setupOption);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("초기 게임 상태가 저장되지 않았습니다.");
         }
     }
 
@@ -49,7 +49,7 @@ public class JanggiJdbcDao implements JanggiDao {
             final ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("게임 기록을 조회하지 못했습니다.");
         }
     }
 
@@ -63,7 +63,7 @@ public class JanggiJdbcDao implements JanggiDao {
             }
             throw new IllegalStateException();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("가장 최근 게임 기록을 조회하지 못했습니다.");
         }
     }
 
@@ -78,7 +78,7 @@ public class JanggiJdbcDao implements JanggiDao {
             }
             return ids;
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("게임 기록을 조회하지 못했습니다.");
         }
     }
 
@@ -91,9 +91,9 @@ public class JanggiJdbcDao implements JanggiDao {
             if (resultSet.next()) {
                 return resultSet.getInt("setup_option");
             }
-            throw new IllegalStateException();
+            throw new IllegalStateException("게임 기록이 없습니다.");
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("해당 id로 게임을 찾지 못했습니다.");
         }
     }
 
@@ -108,7 +108,7 @@ public class JanggiJdbcDao implements JanggiDao {
                 moveDtos.add(makeHistory(historyResult));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("해당 게임의 움직인 기록들을 불러외지 못했습니다.");
         }
         return moveDtos;
     }
@@ -124,7 +124,7 @@ public class JanggiJdbcDao implements JanggiDao {
             preparedStatement.setString(5, moveDto.getEndColumn());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("움직인 기록을 저장하지 못했습니다.");
         }
     }
 
@@ -135,7 +135,7 @@ public class JanggiJdbcDao implements JanggiDao {
             preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("새로운 게임 기록을 추가하지 못했습니다.");
         }
     }
 
