@@ -45,8 +45,8 @@ public class Board {
         }
     }
 
-    public Score calculateTotalScore() {
-        return chessPiecePositions.calucalScore();
+    public Score calculateScoreByTeam(final ChessTeam team) {
+        return chessPiecePositions.calculateScoreByTeam(team);
     }
 
     public void validateToPosition(final List<ChessPosition> chessPositions, final ChessPosition to) {
