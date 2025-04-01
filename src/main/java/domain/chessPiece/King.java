@@ -28,6 +28,13 @@ public class King extends LimitedMoveChessPiece{
         super(position, team, DIRECTIONS);
     }
 
+    public static List<King> initPieces() {
+        return List.of(
+                new King(new ChessPosition(1,4 ), ChessTeam.RED),
+                new King(new ChessPosition(8,4 ), ChessTeam.BLUE)
+        );
+    }
+
     @Override
     protected boolean canMove(final ChessPosition position, final Directions directions) {
         final Direction direction = directions.getFirstDirection();

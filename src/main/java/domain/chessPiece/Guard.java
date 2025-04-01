@@ -28,6 +28,15 @@ public class Guard extends LimitedMoveChessPiece {
         super(position, team, DIRECTIONS);
     }
 
+    public static List<Guard> initPieces() {
+        return List.of(
+                new Guard(new ChessPosition(0,3), ChessTeam.RED),
+                new Guard(new ChessPosition(0,5), ChessTeam.RED),
+                new Guard(new ChessPosition(9,3), ChessTeam.BLUE),
+                new Guard(new ChessPosition(9,5), ChessTeam.BLUE)
+        );
+    }
+
     @Override
     protected boolean canMove(final ChessPosition position, final Directions directions) {
         final Direction direction = directions.getFirstDirection();
@@ -36,7 +45,7 @@ public class Guard extends LimitedMoveChessPiece {
 
     @Override
     public ChessPieceType getChessPieceType() {
-        return ChessPieceType.KING;
+        return ChessPieceType.GUARD;
     }
 
     @Override
