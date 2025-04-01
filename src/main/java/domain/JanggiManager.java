@@ -104,7 +104,7 @@ public class JanggiManager {
         return transactionManager.execute(connection -> findJanggiGameById(gameId, connection).isFinishedByCheckmate());
     }
 
-    public Map<Player, Double> calculatePlayerScore(Long gameId) {
+    public Map<String, Double> calculatePlayerScore(Long gameId) {
         return transactionManager.execute(connection -> findJanggiGameById(gameId, connection).calculatePlayerScore());
     }
 

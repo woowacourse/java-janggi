@@ -27,7 +27,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -233,18 +232,9 @@ class JanggiManagerTest {
         JanggiGameTestFixture.saveBoardPieces(factory, gameId, pieces);
 
         // when
-        Map<Player, Double> playerScores = janggiManager.calculatePlayerScore(gameId);
-        double choPlayerScore = playerScores.entrySet().stream()
-                .filter(entry -> entry.getKey().isSameTeam(TeamType.CHO))
-                .map(Entry::getValue)
-                .findFirst()
-                .get();
-
-        double hanPlayerScore = playerScores.entrySet().stream()
-                .filter(entry -> entry.getKey().isSameTeam(TeamType.HAN))
-                .map(Entry::getValue)
-                .findFirst()
-                .get();
+        Map<String, Double> playerScores = janggiManager.calculatePlayerScore(gameId);
+        double choPlayerScore = playerScores.get("테스트1");
+        double hanPlayerScore = playerScores.get("테스트2");
 
         // then
         assertAll(

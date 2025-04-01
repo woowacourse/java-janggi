@@ -75,7 +75,7 @@ public class JanggiRunner {
             outputView.printWinner(winner);
             return;
         }
-        Map<Player, Double> playerScore = janggiManager.calculatePlayerScore(gameId);
+        Map<String, Double> playerScore = janggiManager.calculatePlayerScore(gameId);
         outputView.printScoreWinner(winner, playerScore);
     }
 

@@ -3,8 +3,8 @@ package domain.turn;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.piece.Board;
 import domain.TeamType;
+import domain.piece.Board;
 import domain.piece.Chariot;
 import domain.piece.King;
 import domain.piece.Piece;

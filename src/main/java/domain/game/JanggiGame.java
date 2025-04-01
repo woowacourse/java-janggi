@@ -66,15 +66,14 @@ public class JanggiGame {
         return players.getTeamPlayer(playerTeam);
     }
 
-    public Map<Player, Double> calculatePlayerScore() {
-        Map<Player, Double> playerScore = new HashMap<>();
+    public Map<String, Double> calculatePlayerScore() {
+        Map<String, Double> playerNameScore = new HashMap<>();
         Map<TeamType, Double> teamScore = turn.calculateTeamScore();
 
-        for (TeamType team : teamScore.keySet()) {
-            playerScore.put(players.getTeamPlayer(team), teamScore.get(team));
-        }
+        playerNameScore.put(players.getChoPlayerName(), teamScore.get(TeamType.CHO));
+        playerNameScore.put(players.getHanPlayerName(), teamScore.get(TeamType.HAN));
 
-        return playerScore;
+        return playerNameScore;
     }
 
     public boolean isFinishedByCheckmate() {
