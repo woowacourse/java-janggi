@@ -1,9 +1,9 @@
 package janggi.controller;
 
+import janggi.domain.Piece;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardBuilder;
-import janggi.domain.board.PlayingTurn;
 import janggi.domain.board.maSangStrategy.MaSangMaSang;
 import janggi.domain.board.maSangStrategy.MaSangSangMa;
 import janggi.domain.board.maSangStrategy.MaSangStrategy;
@@ -13,6 +13,7 @@ import janggi.repository.GameRepository;
 import janggi.repository.MemoryGameRepository;
 import janggi.repository.Repository;
 import janggi.view.BoardInitiliazeView;
+import java.util.Collection;
 import java.util.Map;
 
 public class ApplicationConfigurer {
@@ -49,12 +50,10 @@ public class ApplicationConfigurer {
         }
 
         repository.clear();
-        repository.updateTurn(new PlayingTurn());
 
         Board board = createBoard();
-        board.getPieces()
-            .values()
-            .forEach(repository::save);
+        Collection<Piece> pieces = board.getPieces().values();
+        repository.saveAll(pieces);
     }
 
     private Board createBoard() {

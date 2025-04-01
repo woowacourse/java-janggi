@@ -1,6 +1,5 @@
 package janggi.controller;
 
-import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardGame;
 import janggi.domain.board.PlayingTurn;
@@ -24,12 +23,13 @@ public class GameController {
     }
 
     public void play() {
-        BoardGame boardGame = new BoardGame(new Board(repository.allPieces()), repository.getTurn());
-        retryingWhileCondition(() -> {
-            outputView.printBoard(boardGame.allPieces());
+        BoardGame boardGame = new BoardGame(new Board(repository.allPieces()), repository.getPlayingTurn());
+        final PlayingTurn playingTurn = boardGame.playingTurn();
 
-            Team currentTurn = boardGame.currentTeam();
-            UserInput userInput = inputView.readMoveOrder(currentTurn);
+        retryingWhileBoolean(() -> {
+            outputView.printBoard(boardGame.allPieces());
+            UserInput userInput = inputView.readMoveOrder(playingTurn.currentTeam());
+
             if (userInput.wantsToQuit) {
                 outputView.printScore(boardGame.scoreTeams());
                 outputView.printSaveAndQuit();
@@ -37,21 +37,22 @@ public class GameController {
             }
 
             boardGame.movePiece(userInput.departure, userInput.arrival);
-            repository.update(userInput.departure, userInput.arrival);
-            repository.updateTurn(new PlayingTurn(boardGame.currentTeam(), boardGame.currentRound()));
-
-            if (boardGame.isGameOver()) {
-                repository.clear();
-                repository.updateTurn(new PlayingTurn());
-                outputView.printScore(boardGame.scoreTeams());
-                outputView.printFinished(boardGame.higherScoreTeam());
-                return false;
-            }
-            return true;
+            repository.update(userInput.departure, userInput.arrival, playingTurn);
+            return processAfterMoved(boardGame);
         });
     }
 
-    private void retryingWhileCondition(Supplier<Boolean> keepRunningSupplier) {
+    private boolean processAfterMoved(final BoardGame boardGame) {
+        if (boardGame.isGameOver()) {
+            repository.clear();
+            outputView.printScore(boardGame.scoreTeams());
+            outputView.printFinished(boardGame.higherScoreTeam());
+            return false;
+        }
+        return true;
+    }
+
+    private void retryingWhileBoolean(Supplier<Boolean> keepRunningSupplier) {
         boolean keepRunning = true;
         do {
             try {

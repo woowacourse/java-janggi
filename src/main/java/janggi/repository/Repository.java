@@ -3,23 +3,20 @@ package janggi.repository;
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
 import janggi.domain.board.PlayingTurn;
+import java.util.Collection;
 import java.util.Set;
 
 public interface Repository {
 
     boolean isConnectable();
 
-    void save(Piece piece);
+    void saveAll(Collection<Piece> pieces);
 
-    void update(Coordinate from, Coordinate to);
+    void update(Coordinate from, Coordinate to, final PlayingTurn playingTurn);
 
     Set<Piece> allPieces();
 
-    void deleteByCoordinate(Coordinate coordinate);
-
     void clear();
 
-    void updateTurn(PlayingTurn playingTurn);
-
-    PlayingTurn getTurn();
+    PlayingTurn getPlayingTurn();
 }

@@ -4,6 +4,7 @@ import janggi.domain.Coordinate;
 import janggi.domain.Piece;
 import janggi.domain.board.Board;
 import janggi.domain.board.PlayingTurn;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -28,26 +29,22 @@ public class MemoryGameRepository implements Repository {
     }
 
     @Override
-    public void save(final Piece piece) {
-        pieces.put(piece.coordinate(), piece);
+    public void saveAll(final Collection<Piece> pieces) {
+        pieces.forEach(piece -> this.pieces.put(piece.coordinate(), piece));
     }
 
     @Override
-    public void update(final Coordinate from, final Coordinate to) {
+    public void update(final Coordinate from, final Coordinate to, final PlayingTurn playingTurn) {
         final var beforePiece = pieces.remove(from);
 
         final var afterPiece = beforePiece.moveTo(to);
         pieces.put(afterPiece.coordinate(), afterPiece);
+        this.playingTurn = playingTurn;
     }
 
     @Override
     public Set<Piece> allPieces() {
         return new HashSet<>(pieces.values());
-    }
-
-    @Override
-    public void deleteByCoordinate(final Coordinate coordinate) {
-        pieces.remove(coordinate);
     }
 
     @Override
@@ -57,12 +54,7 @@ public class MemoryGameRepository implements Repository {
     }
 
     @Override
-    public void updateTurn(final PlayingTurn playingTurn) {
-        this.playingTurn = playingTurn;
-    }
-
-    @Override
-    public PlayingTurn getTurn() {
+    public PlayingTurn getPlayingTurn() {
         return playingTurn;
     }
 }

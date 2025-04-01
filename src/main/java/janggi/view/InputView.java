@@ -44,7 +44,7 @@ public class InputView {
         return new Coordinate(Integer.parseInt(parts[0].trim()), Integer.parseInt(parts[1].trim()));
     }
 
-    public class UserInput {
+    public static class UserInput {
         public final boolean wantsToQuit;
         public Coordinate departure;
         public Coordinate arrival;

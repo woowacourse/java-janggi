@@ -43,12 +43,8 @@ public class BoardGame {
             .orElse(true);
     }
 
-    public Team currentTeam() {
-        return playingTurn.currentTeam();
-    }
-
-    public int currentRound() {
-        return playingTurn.currentRound();
+    public PlayingTurn playingTurn() {
+        return playingTurn;
     }
 
     public Team higherScoreTeam() {

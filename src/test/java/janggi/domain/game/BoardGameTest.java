@@ -29,8 +29,8 @@ class BoardGameTest {
         boardGame.movePiece(new Coordinate(1, 1), new Coordinate(1, 5));
 
         assertAll(
-            () -> assertThat(boardGame.currentTeam()).isEqualTo(Team.HAN),
-            () -> assertThat(boardGame.currentRound()).isEqualTo(2)
+            () -> assertThat(playingTurn.currentTeam()).isEqualTo(Team.HAN),
+            () -> assertThat(playingTurn.currentRound()).isEqualTo(2)
         );
     }
 

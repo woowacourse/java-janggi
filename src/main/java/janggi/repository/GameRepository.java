@@ -7,7 +7,9 @@ import janggi.domain.Team;
 import janggi.domain.board.PlayingTurn;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,33 +42,50 @@ public class GameRepository implements Repository {
         return false;
     }
 
-    public void save(final Piece piece) {
+    public void saveAll(final Collection<Piece> pieces) {
         String query = "INSERT INTO piece (x_coordinate, y_coordinate, piece_type, team) VALUES (?, ?, ?, ?)";
 
         try (final var connection = getConnection()) {
             final var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, piece.coordinate().x());
-            preparedStatement.setInt(2, piece.coordinate().y());
-            preparedStatement.setString(3, piece.pieceType().name());
-            preparedStatement.setString(4, piece.team().name());
+            for (final var piece : pieces) {
+                preparedStatement.setInt(1, piece.coordinate().x());
+                preparedStatement.setInt(2, piece.coordinate().y());
+                preparedStatement.setString(3, piece.pieceType().name());
+                preparedStatement.setString(4, piece.team().name());
+                preparedStatement.addBatch();
+                preparedStatement.clearParameters();
+            }
 
-            preparedStatement.executeUpdate();
+            preparedStatement.executeBatch();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void update(Coordinate from, Coordinate to) {
-        String query = "UPDATE piece SET x_coordinate = ?, y_coordinate = ? WHERE x_coordinate = ? AND y_coordinate = ?";
-
+    public void update(Coordinate from, Coordinate to, final PlayingTurn playingTurn) {
         try (final var connection = getConnection()) {
-            final var preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                "DELETE FROM piece WHERE x_coordinate = ? AND y_coordinate = ?"
+            );
+            preparedStatement.setInt(1, to.x());
+            preparedStatement.setInt(2, to.y());
+            preparedStatement.executeUpdate();
+
+            preparedStatement = connection.prepareStatement(
+                "UPDATE piece SET x_coordinate = ?, y_coordinate = ? WHERE x_coordinate = ? AND y_coordinate = ?"
+            );
             preparedStatement.setInt(1, to.x());
             preparedStatement.setInt(2, to.y());
             preparedStatement.setInt(3, from.x());
             preparedStatement.setInt(4, from.y());
+            preparedStatement.executeUpdate();
 
+            preparedStatement = connection.prepareStatement(
+                "UPDATE turn SET team = ?, round = ? WHERE team in ('HAN', 'CHO')"
+            );
+            preparedStatement.setString(1, playingTurn.currentTeam().name());
+            preparedStatement.setInt(2, playingTurn.currentRound());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -94,45 +113,19 @@ public class GameRepository implements Repository {
         }
     }
 
-    public void deleteByCoordinate(final Coordinate coordinate) {
-        try (final var connection = getConnection()) {
-            final String query = "DELETE FROM piece WHERE x_coordinate = ? AND y_coordinate = ?";
-            final var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, coordinate.x());
-            preparedStatement.setInt(2, coordinate.y());
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void clear() {
         try (final var connection = getConnection()) {
-            final String query = "TRUNCATE TABLE piece";
-            final var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.executeUpdate();
+            connection.createStatement().executeUpdate("TRUNCATE TABLE piece");
+            connection.createStatement().executeUpdate(
+                "UPDATE turn SET team = 'CHO', round = 1 WHERE team in ('HAN', 'CHO')"
+            );
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateTurn(PlayingTurn playingTurn) {
-        String query = "UPDATE turn SET team = ?, round = ? WHERE team in ('HAN', 'CHO');";
-
-        try (final var connection = getConnection()) {
-            final var preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, playingTurn.currentTeam().name());
-            preparedStatement.setInt(2, playingTurn.currentRound());
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public PlayingTurn getTurn() {
+    public PlayingTurn getPlayingTurn() {
         String query = "SELECT team, round FROM turn";
 
         try (final var connection = getConnection()) {
