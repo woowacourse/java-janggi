@@ -41,7 +41,10 @@ public class Application {
         while (true) {
             outputView.printBoard(board);
             outputView.printGameScore(board);
-            if (!playTurn(board, attackTeam)) {
+            try {
+                playTurn(board, attackTeam);
+            } catch (GameOverException e) {
+                endGame(board, attackTeam);
                 break;
             }
             attackTeam = attackTeam.convertTeam();
@@ -49,7 +52,7 @@ public class Application {
         }
     }
 
-    private static boolean playTurn(Board board, Team team) {
+    private static void playTurn(Board board, Team team) throws GameOverException {
         try {
             String startAndGoal = inputView.readStartAndGoalPosition(team);
             Position startPosition = parser.splitStartPosition(startAndGoal);
@@ -58,12 +61,8 @@ public class Application {
             BOARD_DAO.updatePiecePosition(startPosition, goalPosition);
         } catch (IllegalArgumentException e) {
             outputView.printErrorMessage(e);
-            return playTurn(board, team);
-        } catch (GameOverException e) {
-            endGame(board, team);
-            return false;
+            playTurn(board, team);
         }
-        return true;
     }
 
     private static void endGame(Board board, Team team) {
