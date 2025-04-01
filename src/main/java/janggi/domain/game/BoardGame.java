@@ -1,4 +1,4 @@
-package janggi.domain.board;
+package janggi.domain.game;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
@@ -6,6 +6,7 @@ import static java.util.stream.Collectors.toMap;
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
 import janggi.domain.Team;
+import janggi.domain.board.Board;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;

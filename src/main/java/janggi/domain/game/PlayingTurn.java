@@ -1,4 +1,4 @@
-package janggi.domain.board;
+package janggi.domain.game;
 
 import janggi.domain.Team;
 

@@ -1,8 +1,8 @@
 package janggi.controller;
 
 import janggi.domain.board.Board;
-import janggi.domain.board.BoardGame;
-import janggi.domain.board.PlayingTurn;
+import janggi.domain.game.BoardGame;
+import janggi.domain.game.PlayingTurn;
 import janggi.repository.Repository;
 import janggi.view.InputView;
 import janggi.view.InputView.UserInput;

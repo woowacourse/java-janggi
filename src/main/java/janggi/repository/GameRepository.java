@@ -4,7 +4,7 @@ import janggi.domain.Coordinate;
 import janggi.domain.Piece;
 import janggi.domain.PieceType;
 import janggi.domain.Team;
-import janggi.domain.board.PlayingTurn;
+import janggi.domain.game.PlayingTurn;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

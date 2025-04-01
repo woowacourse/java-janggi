@@ -7,8 +7,6 @@ import janggi.domain.BoardFixture;
 import janggi.domain.Coordinate;
 import janggi.domain.PieceType;
 import janggi.domain.Team;
-import janggi.domain.board.BoardGame;
-import janggi.domain.board.PlayingTurn;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
