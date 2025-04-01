@@ -24,7 +24,7 @@ class ElephantTest {
 
         //when
         final Elephant elephant = new Elephant(chessPosition, ChessTeam.RED);
-        final List<Path> coordinatePaths = elephant.getCoordinatePaths(chessPosition);
+        final List<Path> coordinatePaths = elephant.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).contains(expected);

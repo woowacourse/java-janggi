@@ -29,7 +29,7 @@ class GuardTest {
 
         //when
         final Guard guard = new Guard(chessPosition, ChessTeam.RED);
-        final List<Path> coordinatePaths = guard.getCoordinatePaths(chessPosition);
+        final List<Path> coordinatePaths = guard.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).containsExactlyInAnyOrderElementsOf(expected);
@@ -49,7 +49,7 @@ class GuardTest {
 
         //when
         final Guard guard = new Guard(chessPosition, ChessTeam.RED);
-        final List<Path> coordinatePaths = guard.getCoordinatePaths(chessPosition);
+        final List<Path> coordinatePaths = guard.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).containsExactlyInAnyOrderElementsOf(expected);

@@ -22,7 +22,7 @@ public class PawnTest {
 
         //when
         final Pawn pawn = new Pawn(chessPosition, ChessTeam.BLUE);
-        final List<Path> coordinatePaths = pawn.getCoordinatePaths(chessPosition);
+        final List<Path> coordinatePaths = pawn.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).contains(expected);

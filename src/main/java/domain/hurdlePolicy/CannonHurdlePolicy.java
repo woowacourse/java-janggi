@@ -14,13 +14,13 @@ public class CannonHurdlePolicy implements HurdlePolicy {
     public List<ChessPosition> pickDestinations(ChessTeam team, List<Path> coordinates, ChessPiecePositions positions) {
         final List<ChessPosition> destinations = new ArrayList<>();
         for (Path path : coordinates) {
-            List<ChessPosition> overHurdlePaths = getOverHurdlePaths(path, positions);
+            List<ChessPosition> overHurdlePaths = calculateOverHurdlePaths(path, positions);
             destinations.addAll(getOverHurdleDestinations(team, overHurdlePaths, positions));
         }
         return destinations;
     }
 
-    private List<ChessPosition> getOverHurdlePaths(Path path, ChessPiecePositions positions) {
+    private List<ChessPosition> calculateOverHurdlePaths(Path path, ChessPiecePositions positions) {
         List<ChessPosition> pathPositions = path.path();
         for (int i = 0; i < pathPositions.size(); i++) {
             ChessPosition currentPosition = pathPositions.get(i);

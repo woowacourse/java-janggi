@@ -27,7 +27,7 @@ public class Board {
     }
 
     public List<ChessPosition> getAvailableDestinations(final ChessPosition from, final ChessPiece chessPiece) {
-        final List<Path> coordinatePaths = chessPiece.getCoordinatePaths(from);
+        final List<Path> coordinatePaths = chessPiece.calculateCoordinatePaths(from);
         final HurdlePolicy hurdlePolicy = chessPiece.getHurdlePolicy();
         return hurdlePolicy.pickDestinations(chessPiece.getTeam(), coordinatePaths, chessPiecePositions);
     }

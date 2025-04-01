@@ -23,7 +23,7 @@ class HorseTest {
 
         //when
         final Horse horse = new Horse(chessPosition, ChessTeam.RED);
-        final List<Path> coordinatePaths = horse.getCoordinatePaths(chessPosition);
+        final List<Path> coordinatePaths = horse.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).contains(expected);

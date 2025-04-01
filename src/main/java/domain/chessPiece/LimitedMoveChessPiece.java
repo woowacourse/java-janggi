@@ -22,7 +22,7 @@ public abstract class LimitedMoveChessPiece extends JanggiChessPiece {
     }
 
     @Override
-    public final List<Path> getCoordinatePaths(ChessPosition startPosition) {
+    public final List<Path> calculateCoordinatePaths(ChessPosition startPosition) {
         List<Path> result = new ArrayList<>();
         for (Directions direction : directions) {
             if (direction.canApplyFrom(startPosition) && canMove(startPosition, direction)) {

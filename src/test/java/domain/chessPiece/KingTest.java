@@ -29,7 +29,7 @@ class KingTest {
 
         //when
         final King king = new King(chessPosition, ChessTeam.RED);
-        final List<Path> coordinatePaths = king.getCoordinatePaths(chessPosition);
+        final List<Path> coordinatePaths = king.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).containsExactlyInAnyOrderElementsOf(expected);
@@ -49,7 +49,7 @@ class KingTest {
 
         //when
         final King king = new King(chessPosition, ChessTeam.RED);
-        final List<Path> coordinatePaths = king.getCoordinatePaths(chessPosition);
+        final List<Path> coordinatePaths = king.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).containsExactlyInAnyOrderElementsOf(expected);

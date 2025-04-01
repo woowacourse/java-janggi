@@ -13,12 +13,12 @@ public class StopAtHurdlePolicy implements HurdlePolicy {
     public List<ChessPosition> pickDestinations(ChessTeam team, List<Path> coordinates, ChessPiecePositions positions) {
         List<ChessPosition> destinations = new ArrayList<>();
         for (Path path : coordinates) {
-             destinations.addAll(getAvailablePosition(team, positions, path));
+             destinations.addAll(calculateAvailablePosition(team, positions, path));
         }
         return destinations;
     }
 
-    private List<ChessPosition> getAvailablePosition(
+    private List<ChessPosition> calculateAvailablePosition(
             final ChessTeam team,
             final ChessPiecePositions positions,
             final Path path

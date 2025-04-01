@@ -12,7 +12,7 @@ public interface ChessPiece {
     ChessPieceType getChessPieceType();
     ChessTeam getTeam();
     Score getScore();
-    List<Path> getCoordinatePaths(final ChessPosition startPosition);
+    List<Path> calculateCoordinatePaths(final ChessPosition startPosition);
     HurdlePolicy getHurdlePolicy();
     ChessPiece from(final ChessPosition position);
     boolean matchPosition(final ChessPosition position);

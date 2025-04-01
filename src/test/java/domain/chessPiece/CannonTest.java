@@ -24,7 +24,7 @@ class CannonTest {
 
         //when
         final Cannon cannon = new Cannon(ChessTeam.RED, chessPosition);
-        final List<Path> coordinatePaths = cannon.getCoordinatePaths(chessPosition);
+        final List<Path> coordinatePaths = cannon.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).contains(expected);

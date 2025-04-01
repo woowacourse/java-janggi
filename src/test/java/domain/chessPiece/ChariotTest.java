@@ -29,7 +29,7 @@ class ChariotTest {
 
         //when
         final Chariot chariot = new Chariot(ChessTeam.RED, chessPosition);
-        final List<Path> coordinatePaths = chariot.getCoordinatePaths(chessPosition);
+        final List<Path> coordinatePaths = chariot.calculateCoordinatePaths(chessPosition);
 
         //then
         assertThat(coordinatePaths).contains(expected);
