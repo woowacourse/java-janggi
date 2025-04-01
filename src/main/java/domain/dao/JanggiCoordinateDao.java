@@ -4,7 +4,10 @@ import domain.Country;
 import domain.JanggiCoordinate;
 import domain.piece.*;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,26 +16,6 @@ public class JanggiCoordinateDao {
 
     public JanggiCoordinateDao(Connection connection) {
         this.connection = connection;
-    }
-
-    public void createCoordinateTableIfNotExist() {
-        String createTableSQL = """
-                CREATE TABLE if not exists coordinate(
-                coordinate_id INT AUTO_INCREMENT PRIMARY KEY,
-                piece_id INT NOT NULL,
-                game_id INT NOT NULL,
-                row_coordinate INT NOT NULL,
-                col_coordinate INT NOT NULL,
-                CONSTRAINT fk_coordinate_game_id FOREIGN KEY (game_id) REFERENCES game(game_id) on delete cascade,
-                CONSTRAINT fk_coordinate_piece_id FOREIGN KEY (piece_id) REFERENCES piece(piece_id) on delete cascade
-                );
-                """;
-
-        try (final Statement statement = connection.createStatement()) {
-            statement.execute(createTableSQL);
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] COORDINATE 테이블을 생성할 수 없음");
-        }
     }
 
     public void insertPieceToCoordinate(int pieceId, JanggiCoordinate coordinate, int gameId) {

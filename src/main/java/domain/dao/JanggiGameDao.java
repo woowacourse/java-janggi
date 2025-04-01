@@ -19,23 +19,6 @@ public class JanggiGameDao {
         this.connection = connection;
     }
 
-    public void createGameTableIfNotExist() {
-        String createGameTableSQL = """
-                CREATE TABLE if not exists game(
-                game_id INT AUTO_INCREMENT PRIMARY KEY,
-                room_name VARCHAR(20) NOT NULL,
-                curr_turn VARCHAR(20) NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                );
-                """;
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(createGameTableSQL);
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] GAME TABLE 생성 실패");
-        }
-    }
-
     public int createGame(String roomName, Country country) {
         String createGameSQL = "INSERT INTO game(room_name,curr_turn) VALUES (?,?);";
         try (PreparedStatement statement = connection.prepareStatement(createGameSQL, Statement.RETURN_GENERATED_KEYS)) {

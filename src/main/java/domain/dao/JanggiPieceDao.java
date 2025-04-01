@@ -12,24 +12,6 @@ public class JanggiPieceDao {
         this.connection = connection;
     }
 
-    public void createPieceTableIfNotExist() {
-        String createPieceTableSQL = """
-                CREATE TABLE if not exists piece(
-                piece_id INT AUTO_INCREMENT PRIMARY KEY,
-                country VARCHAR(5) NOT NULL,
-                piece_type VARCHAR(10) NOT NULL,
-                game_id INT,
-                CONSTRAINT fk_game_id FOREIGN KEY (game_id) REFERENCES game(game_id) ON DELETE CASCADE
-                );
-                """;
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(createPieceTableSQL);
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] PIECE TABLE 생성 실패");
-        }
-    }
-
     public int addPiece(int gameId, Piece piece) {
         String insertPieceSQL = "INSERT INTO piece(country, piece_type, game_id) values(?,?,?);";
 
