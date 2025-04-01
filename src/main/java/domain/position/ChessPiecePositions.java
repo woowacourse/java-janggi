@@ -2,6 +2,7 @@ package domain.position;
 
 import domain.chessPiece.ChessPiece;
 import domain.score.Score;
+import domain.type.ChessTeam;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,10 +37,11 @@ public class ChessPiecePositions {
         chessPieces.add(chessPiece.from(to));
     }
 
-    public Score calucalScore() {
+    public Score calculateScoreByTeam(final ChessTeam team) {
         return chessPieces.stream()
+                .filter(chessPiece -> chessPiece.getTeam() == team)
                 .map(ChessPiece::getScore)
-                .reduce(Score.zero(), Score::add);
+                .reduce(Score.initScore(team), Score::add);
     }
 
     public List<ChessPiece> getChessPieces() {
@@ -47,6 +49,8 @@ public class ChessPiecePositions {
     }
 
     private void killChessPiece(final ChessPosition to) {
-        chessPieces.remove(findPieceByPosition(to));
+        if (existPieceByPosition(to)) {
+            chessPieces.remove(findPieceByPosition(to));
+        }
     }
 }
