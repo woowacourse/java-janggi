@@ -1,7 +1,6 @@
 package janggi.board;
 
 import janggi.camp.Camp;
-import janggi.dao.PieceDao;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
 import janggi.piece.Elephant;
@@ -12,17 +11,11 @@ import janggi.piece.Soldier;
 
 public class BoardGenerator {
 
-    public static Board generate(PieceDao pieceDao) {
+    public static Board generate() {
         Board board = new Board();
-        if (isNewGame(pieceDao)) {
-            placeChuPieces(board);
-            placeHanPieces(board);
-        }
+        placeChuPieces(board);
+        placeHanPieces(board);
         return board;
-    }
-
-    private static boolean isNewGame(PieceDao pieceDao) {
-        return pieceDao.isPieceEmpty();
     }
 
     private static void placeHanPieces(Board board) {
