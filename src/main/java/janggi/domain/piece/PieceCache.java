@@ -16,19 +16,19 @@ public class PieceCache {
 
     static {
         for (Team team : Team.values()) {
-            pieceCache.put(generateKey("General", team), new General(team));
-            pieceCache.put(generateKey("Guard", team), new Guard(team));
-            pieceCache.put(generateKey("Chariot", team), new Chariot(team));
-            pieceCache.put(generateKey("Cannon", team), new Cannon(team));
-            pieceCache.put(generateKey("Soldier", team), new Soldier(team));
-            pieceCache.put(generateKey("Horse", team), new Horse(team));
-            pieceCache.put(generateKey("Elephant", team), new Elephant(team));
-            pieceCache.put(generateKey("None", team), new None());
+            pieceCache.put(generateKey("궁", team), new General(team));
+            pieceCache.put(generateKey("사", team), new Guard(team));
+            pieceCache.put(generateKey("차", team), new Chariot(team));
+            pieceCache.put(generateKey("포", team), new Cannon(team));
+            pieceCache.put(generateKey("졸", team), new Soldier(team));
+            pieceCache.put(generateKey("마", team), new Horse(team));
+            pieceCache.put(generateKey("상", team), new Elephant(team));
+            pieceCache.put(generateKey("ㅁ", team), new None());
         }
     }
 
     private static String generateKey(final String pieceName, final Team team) {
-        return team.name() + "_" + pieceName;
+        return team + "_" + pieceName;
     }
 
     public static Piece getPiece(final String pieceName, final Team team) {

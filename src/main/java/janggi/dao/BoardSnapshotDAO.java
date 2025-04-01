@@ -2,10 +2,13 @@ package janggi.dao;
 
 import janggi.DBConnection;
 import janggi.domain.board.Board;
-
 import janggi.domain.piece.Team;
 import janggi.entity.BoardSnapshot;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class BoardSnapshotDAO {
 
@@ -15,8 +18,8 @@ public class BoardSnapshotDAO {
         this.pieceDAO = pieceDAO;
     }
 
-    public BoardSnapshot loadLatestSnapshot(final int gameId) {
-        String sql = "SELECT snapshot_id, game_id, turn, snapshot_time FROM BoardSnapshot WHERE game_id = ? ORDER BY snapshot_time DESC LIMIT 1";
+    public BoardSnapshot loadLatestSnapshotOrNull(final int gameId) {
+        String sql = "SELECT snapshot_id, game_id, turn, created_at FROM BoardSnapshot WHERE game_id = ? ORDER BY created_at DESC LIMIT 1";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -28,7 +31,7 @@ public class BoardSnapshotDAO {
                         rs.getInt("snapshot_id"),
                         rs.getInt("game_id"),
                         rs.getString("turn"),
-                        rs.getTimestamp("snapshot_time").toLocalDateTime()
+                        rs.getTimestamp("created_at").toLocalDateTime()
                 );
             }
         } catch (SQLException e) {
@@ -37,7 +40,7 @@ public class BoardSnapshotDAO {
         return null;
     }
 
-    public void saveBoardSnapshot(final Board board, final Team turn, final int gameId) {
+    public void saveBoardSnapshot(final int gameId, final Board board, final Team turn) {
         String sql = "INSERT INTO BoardSnapshot (game_id, turn) VALUES (?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -48,7 +51,6 @@ public class BoardSnapshotDAO {
             ResultSet rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 int snapshotId = rs.getInt(1);
-
                 pieceDAO.savePieces(snapshotId, board.getBoard());
             }
         } catch (SQLException e) {

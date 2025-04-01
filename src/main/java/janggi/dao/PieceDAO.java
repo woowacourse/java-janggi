@@ -9,14 +9,14 @@ import java.sql.*;
 import java.util.*;
 
 public class PieceDAO {
-    public void savePieces(final int snapshotId, final Map<Position, Piece> board) {
+    public void savePieces(final int snapshotId, final Map<Position, Piece> pieces) {
         String sql = "INSERT INTO Piece (snapshot_id, piece_name, position_x, position_y, team) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            for (Map.Entry<Position, Piece> entry : board.entrySet()) {
+            for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {
                 Position pos = entry.getKey();
                 Piece piece = entry.getValue();
 
@@ -24,7 +24,7 @@ public class PieceDAO {
                 pstmt.setString(2, piece.getName());
                 pstmt.setInt(3, pos.x());
                 pstmt.setInt(4, pos.y());
-                pstmt.setString(5, piece.getTeam().name());
+                pstmt.setString(5, piece.getTeam().toString());
 
                 pstmt.addBatch();
             }

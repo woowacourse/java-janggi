@@ -16,7 +16,6 @@ public class Turn {
     }
 
     public Team now() {
-        switchTurn();
         return turn;
     }
 

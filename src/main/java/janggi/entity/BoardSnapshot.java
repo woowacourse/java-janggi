@@ -6,6 +6,6 @@ public record BoardSnapshot(
         int snapshotId,
         int gameId,
         String turn,
-        LocalDateTime snapshotTime
+        LocalDateTime createdAt
 ) {
 }

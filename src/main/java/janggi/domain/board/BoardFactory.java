@@ -1,6 +1,9 @@
 package janggi.domain.board;
 
 import janggi.domain.piece.HorseSide;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.PieceCache;
+import janggi.domain.piece.Position;
 import janggi.domain.piece.Team;
 import janggi.domain.piece.impl.Cannon;
 import janggi.domain.piece.impl.Chariot;
@@ -8,9 +11,6 @@ import janggi.domain.piece.impl.Elephant;
 import janggi.domain.piece.impl.General;
 import janggi.domain.piece.impl.Guard;
 import janggi.domain.piece.impl.Horse;
-import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceCache;
-import janggi.domain.piece.Position;
 import janggi.domain.piece.impl.Soldier;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,10 +39,23 @@ public class BoardFactory {
         return new Board(pieces, getPalacePositions());
     }
 
+    public static Board getBoardWithPieces(
+            final Map<Position, Piece> pieces
+    ) {
+        for (int i = 1; i <= 10; i++) {
+            for (int j = 1; j <= 9; j++) {
+                if (!pieces.containsKey(new Position(i, j))) {
+                    pieces.put(new Position(i, j), PieceCache.getPiece("ㅁ", Team.NONE));
+                }
+            }
+        }
+        return new Board(pieces, getPalacePositions());
+    }
+
     private static void initializeWithNones(final Map<Position, Piece> pieces) {
         for (int i = 1; i <= 10; i++) {
             for (int j = 1; j <= 9; j++) {
-                pieces.put(new Position(i, j), PieceCache.getPiece("None", Team.NONE));
+                pieces.put(new Position(i, j), PieceCache.getPiece("ㅁ", Team.NONE));
             }
         }
     }
@@ -54,23 +67,23 @@ public class BoardFactory {
             final HorseSide redLeftHorsePosition,
             final HorseSide redRightHorsePosition
     ) {
-        initializePieces(pieces, General.INITIAL_POSITIONS_BLUE, General.INITIAL_POSITIONS_RED, "General");
-        initializePieces(pieces, Guard.INITIAL_POSITIONS_BLUE, Guard.INITIAL_POSITIONS_RED, "Guard");
-        initializePieces(pieces, Chariot.INITIAL_POSITIONS_BLUE, Chariot.INITIAL_POSITIONS_RED, "Chariot");
-        initializePieces(pieces, Cannon.INITIAL_POSITIONS_BLUE, Cannon.INITIAL_POSITIONS_RED, "Cannon");
-        initializePieces(pieces, Soldier.INITIAL_POSITIONS_BLUE, Soldier.INITIAL_POSITIONS_RED, "Soldier");
+        initializePieces(pieces, General.INITIAL_POSITIONS_BLUE, General.INITIAL_POSITIONS_RED, "궁");
+        initializePieces(pieces, Guard.INITIAL_POSITIONS_BLUE, Guard.INITIAL_POSITIONS_RED, "사");
+        initializePieces(pieces, Chariot.INITIAL_POSITIONS_BLUE, Chariot.INITIAL_POSITIONS_RED, "차");
+        initializePieces(pieces, Cannon.INITIAL_POSITIONS_BLUE, Cannon.INITIAL_POSITIONS_RED, "포");
+        initializePieces(pieces, Soldier.INITIAL_POSITIONS_BLUE, Soldier.INITIAL_POSITIONS_RED, "졸");
 
         initializePieces(
                 pieces,
                 Horse.getInitialPositions(Team.BLUE, blueLeftHorsePosition, blueRightHorsePosition),
                 Horse.getInitialPositions(Team.RED, redLeftHorsePosition, redRightHorsePosition),
-                "Horse"
+                "마"
         );
         initializePieces(
                 pieces,
                 Elephant.getInitialPositions(Team.BLUE, blueLeftHorsePosition, blueRightHorsePosition),
                 Elephant.getInitialPositions(Team.RED, redLeftHorsePosition, redRightHorsePosition),
-                "Elephant"
+                "상"
         );
     }
 
@@ -86,7 +99,7 @@ public class BoardFactory {
         }
     }
 
-    public static Set<Position> getPalacePositions() {
+    private static Set<Position> getPalacePositions() {
         Set<Position> palacePositions = new HashSet<>();
         for (int x : new int[]{1, 2, 3, 8, 9, 10}) {
             for (int y : new int[]{4, 5, 6}) {

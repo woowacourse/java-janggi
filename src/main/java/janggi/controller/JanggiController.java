@@ -1,28 +1,43 @@
 package janggi.controller;
 
+import janggi.DBConnection;
+import janggi.domain.Turn;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
-import janggi.domain.Turn;
 import janggi.domain.piece.HorseSide;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Team;
+import janggi.service.JanggiService;
 import janggi.view.InputConverter;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import java.sql.Connection;
+import java.util.Map;
 
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final Turn turn;
+    private final JanggiService janggiService;
 
-    public JanggiController(final InputView inputView, final OutputView outputView, final Turn turn) {
+    public JanggiController(final InputView inputView, final OutputView outputView, final JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.turn = turn;
+        this.janggiService = janggiService;
     }
 
     public void startJanggi() {
+        Connection connection = DBConnection.getConnection();
+        if (connection == null) {
+            startJanggiWithoutSave();
+            return;
+        }
+        startJanggiWithSave();
+    }
+
+    public void startJanggiWithoutSave() {
         Board board = getInitializedBoardByInput();
+        Turn turn = Turn.startWith(Team.BLUE);
 
         while (true) {
             Team nowTeam = turn.next();
@@ -31,13 +46,46 @@ public class JanggiController {
             movePieceByPieceMovement(nowTeam, pieceMovement, board);
 
             if (board.checkGameOver()) {
-                printResult(board);
+                printResult(board,turn);
                 break;
             }
         }
     }
 
-    private void printResult(final Board board) {
+    public void startJanggiWithSave() {
+        Board board = loadOrInitializeBoard();
+        int gameId = janggiService.getLatestGameId();
+        Turn turn = Turn.startWith(janggiService.getTurn(gameId));
+        janggiService.saveGame(gameId, board, turn.now());
+
+        while (true) {
+            Team nowTeam = turn.next();
+            outputView.printBoard(board);
+            String pieceMovement = inputView.readPieceMovement(nowTeam);
+            movePieceByPieceMovement(nowTeam, pieceMovement, board);
+            janggiService.saveGame(gameId, board, turn.now());
+
+            if (board.checkGameOver()) {
+                printResult(board, turn);
+                janggiService.deleteGame(gameId);
+                break;
+            }
+        }
+    }
+
+    private Board loadOrInitializeBoard() {
+        Map<Position, Piece> pieces = janggiService.getLatestPiecesOrNull();
+        if (pieces != null) {
+            outputView.announceLoadGame();
+            return BoardFactory.getBoardWithPieces(pieces);
+        }
+        outputView.announceNewGame();
+        Board board = getInitializedBoardByInput();
+        janggiService.createNewGame();
+        return board;
+    }
+
+    private void printResult(final Board board, final Turn turn) {
         Team winner = board.getWinner();
 
         outputView.printWinner(winner);

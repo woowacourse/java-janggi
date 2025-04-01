@@ -63,4 +63,12 @@ public class OutputView {
     public void printScore(final Team team, final double score) {
         System.out.println(team.getName() + "팀: " + score + "점");
     }
+
+    public void announceLoadGame() {
+        System.out.println("기존 게임이 존재하여 불러옵니다.");
+    }
+
+    public void announceNewGame() {
+        System.out.println("기존 게임이 존재하지 않습니다. 게임을 새로 생성합니다.");
+    }
 }

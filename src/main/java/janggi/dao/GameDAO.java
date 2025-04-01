@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class GameDAO {
 
-    public Game loadLatestActiveGame() {
+    public Game loadLatestGameOrNull() {
         String sql = "SELECT game_id, created_at FROM Game WHERE deleted_at IS NULL ORDER BY created_at DESC LIMIT 1";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -47,7 +47,7 @@ public class GameDAO {
         return null;
     }
 
-    public void softDeleteGame(int gameId) {
+    public void softDeleteGame(final int gameId) {
         String sql = "UPDATE Game SET deleted_at = CURRENT_TIMESTAMP WHERE game_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
