@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.board.pathfinder.PathFinder;
 import domain.piece.Piece;
 import domain.piece.character.PieceType;
 import domain.piece.character.Team;
@@ -96,7 +97,7 @@ public class Board implements PieceVisibleBoard {
         return pathFinder.getPointMovedByPath(point, path);
     }
 
-    public double calculateScore(Team team) {
+    public double calculateScore(final Team team) {
         double sum = 0;
         final double HAN_HANDICAP_SCORE = 1.5;
         if (team == Team.HAN) {

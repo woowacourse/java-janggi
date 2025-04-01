@@ -7,17 +7,17 @@ import domain.point.Point;
 
 public interface PieceVisibleBoard {
 
-    boolean existsPiece(Point point);
+    boolean existsPiece(final Point point);
 
-    boolean existsNextPoint(Point point, Direction direction);
+    boolean existsNextPoint(final Point point, final Direction direction);
 
-    Point getNextPoint(Point point, Direction direction);
+    Point getNextPoint(final Point point, final Direction direction);
 
-    boolean existsPo(Point point);
+    boolean existsPo(final Point point);
 
-    boolean canMoveByPath(Point point, Path path);
+    boolean canMoveByPath(final Point point, final Path path);
 
-    Point getPointMovedByPath(Point point, Path path);
+    Point getPointMovedByPath(final Point point, final Path path);
 
-    boolean matchTeam(Point point, Team team);
+    boolean matchTeam(final Point point, final Team team);
 }

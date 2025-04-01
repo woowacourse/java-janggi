@@ -8,6 +8,7 @@ import dao.init.ConnectionGenerator;
 import domain.JanggiGame;
 import domain.board.Board;
 import domain.board.BoardFactory;
+import domain.board.pathfinder.DefaultPathFinderFactory;
 import domain.piece.Piece;
 import domain.piece.character.Team;
 import domain.point.Point;
@@ -37,7 +38,7 @@ public class GameService {
 
     public boolean existsGameRoom(final String gameRoomName) {
         try {
-            Optional<GameRoomDto> gameRoomEntity = gameRoomDao.findByName(getConnection(), gameRoomName);
+            final Optional<GameRoomDto> gameRoomEntity = gameRoomDao.findByName(getConnection(), gameRoomName);
             return gameRoomEntity.isPresent();
         } catch (RuntimeException e) {
             return false;
@@ -53,9 +54,11 @@ public class GameService {
                               SangMaOrderCommand choSangMaOrderCommand,
                               SangMaOrderCommand hanSangMaOrderCommand) {
         final Team firstTurn = Team.CHO;
-        JanggiGame newGame = new JanggiGame(
+        final JanggiGame newGame = new JanggiGame(
                 gameRoomName,
-                boardFactory.generateInitialBoard(choSangMaOrderCommand, hanSangMaOrderCommand),
+                boardFactory.createBoard(
+                        DefaultPathFinderFactory.getInstance(), choSangMaOrderCommand, hanSangMaOrderCommand
+                ),
                 firstTurn
         );
         gameRoomDao.insert(new GameRoomDto(gameRoomName, firstTurn));
@@ -87,7 +90,7 @@ public class GameService {
         return isGameLoaded() && janggiGame.isPlaying();
     }
 
-    public double calculateScore(Team team) {
+    public double calculateScore(final Team team) {
         return getGameOrThrow().calculateScore(team);
     }
 
@@ -103,21 +106,24 @@ public class GameService {
         return getGameOrThrow().currentTurn();
     }
 
-    private JanggiGame loadGameByGameRoomName(String gameRoomName) {
-        GameRoomDto gameRoom = findGameRoomEntityByName(gameRoomName);
+    private JanggiGame loadGameByGameRoomName(final String gameRoomName) {
+        final GameRoomDto gameRoom = findGameRoomEntityByName(gameRoomName);
         return new JanggiGame(gameRoom.name(), loadBoardByGameRoomName(gameRoomName), gameRoom.turn());
     }
 
-    private GameRoomDto findGameRoomEntityByName(String name) {
-        Optional<GameRoomDto> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
+    private GameRoomDto findGameRoomEntityByName(final String name) {
+        final Optional<GameRoomDto> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
         if (maybeGameRoom.isEmpty()) {
             throw new IllegalStateException("[ERROR] '" + name + "' 방이 존재 하지 않습니다.");
         }
         return maybeGameRoom.get();
     }
 
-    private Board loadBoardByGameRoomName(String gameRoomName) {
-        return BoardConverter.convertToBoard(pieceDao.findByGameRoomName(getConnection(), gameRoomName));
+    private Board loadBoardByGameRoomName(final String gameRoomName) {
+        return BoardConverter.convertToBoard(
+                pieceDao.findByGameRoomName(getConnection(), gameRoomName),
+                DefaultPathFinderFactory.getInstance()
+        );
     }
 
     private Connection getConnection() {

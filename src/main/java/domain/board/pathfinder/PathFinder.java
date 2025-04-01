@@ -1,4 +1,4 @@
-package domain.board;
+package domain.board.pathfinder;
 
 import domain.point.Direction;
 import domain.point.Node;
@@ -26,23 +26,23 @@ public class PathFinder {
         return pointByNode.containsKey(node);
     }
 
-    public boolean hasNextPoint(Point point, Direction direction) {
+    public boolean hasNextPoint(final Point point, final Direction direction) {
         Node node = getNodeByPoint(point);
         return node.hasNextNode(direction);
     }
 
-    public Point getNextPoint(Point point, Direction direction) {
+    public Point getNextPoint(final Point point, final Direction direction) {
         Node node = getNodeByPoint(point);
         Node nextNode = node.getNextNodeByDirection(direction);
         return getPointByNode(nextNode);
     }
 
-    public boolean canMoveByPath(Point point, Path path) {
+    public boolean canMoveByPath(final Point point, final Path path) {
         Node node = getNodeByPoint(point);
         return node.canMoveByPath(path);
     }
 
-    public Point getPointMovedByPath(Point point, Path path) {
+    public Point getPointMovedByPath(final Point point, final Path path) {
         Node node = getNodeByPoint(point);
         return getPointByNode(node.getNodeMovedByPath(path));
     }

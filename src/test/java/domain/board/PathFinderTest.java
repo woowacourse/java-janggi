@@ -1,5 +1,6 @@
 package domain.board;
 
+import domain.board.pathfinder.PathFinder;
 import domain.point.Direction;
 import domain.point.Path;
 import domain.point.Point;

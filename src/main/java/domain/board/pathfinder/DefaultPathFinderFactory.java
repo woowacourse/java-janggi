@@ -1,4 +1,4 @@
-package domain.board;
+package domain.board.pathfinder;
 
 import static domain.point.Point.MAX_COLUMN_INDEX;
 import static domain.point.Point.MAX_ROW_INDEX;
@@ -14,11 +14,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PathFinderFactory {
+public class DefaultPathFinderFactory implements PathFinderFactory {
+
+    private static final DefaultPathFinderFactory INSTANCE = new DefaultPathFinderFactory();
 
     private static Map<Point, Node> nodeByPoint;
 
-    public PathFinder createDefaultPathFinder() {
+    private DefaultPathFinderFactory() {
+    }
+
+    public static DefaultPathFinderFactory getInstance() {
+        return INSTANCE;
+    }
+
+    @Override
+    public PathFinder createPathFinder() {
         if (nodeByPoint != null) {
             return new PathFinder(nodeByPoint);
         }
