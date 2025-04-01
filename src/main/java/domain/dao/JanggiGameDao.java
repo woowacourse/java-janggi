@@ -84,8 +84,8 @@ public class JanggiGameDao {
     }
 
     public void saveGame(int gameId, Map<JanggiCoordinate, Piece> board) {
-        JanggiCoordinateDao janggiCoordinateDao = new JanggiCoordinateDao(JanggiDao.getConnection());
-        JanggiPieceDao janggiPieceDao = new JanggiPieceDao(JanggiDao.getConnection());
+        JanggiCoordinateDao janggiCoordinateDao = new JanggiCoordinateDao(JanggiDBConnect.getConnection());
+        JanggiPieceDao janggiPieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
 
         for (Map.Entry<JanggiCoordinate, Piece> entry : board.entrySet()) {
             JanggiCoordinate coordinate = entry.getKey();

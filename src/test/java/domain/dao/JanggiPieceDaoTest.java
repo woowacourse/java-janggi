@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 class JanggiPieceDaoTest {
 
-    private JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDao.getConnection());
+    private JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
 
     @Nested
     class createTest {
@@ -24,7 +24,7 @@ class JanggiPieceDaoTest {
 
         @Test
         void insertPieceTest() {
-            JanggiGameDao gameDao = new JanggiGameDao(JanggiDao.getConnection());
+            JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
             Piece piece = new Cha(Country.HAN);
             int num = gameDao.createGame("Test", Country.HAN);
             pieceDao.addPiece(num, piece);

@@ -13,7 +13,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class JanggiGameDaoTest {
-    JanggiGameDao gameDao = new JanggiGameDao(JanggiDao.getConnection());
+    JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
 
     @Nested
     class createTest {

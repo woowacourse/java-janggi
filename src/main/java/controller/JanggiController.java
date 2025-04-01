@@ -2,7 +2,7 @@ package controller;
 
 import domain.*;
 import domain.dao.JanggiCoordinateDao;
-import domain.dao.JanggiDao;
+import domain.dao.JanggiDBConnect;
 import domain.dao.JanggiGameDao;
 import domain.dao.JanggiPieceDao;
 import domain.dto.GameIdDto;
@@ -19,9 +19,9 @@ import static domain.JanggiBoard.ROW_SIZE;
 public class JanggiController {
     public final static JanggiCoordinate GAME_STOP_COORDINATE = new JanggiCoordinate(-1, -1);
 
-    private final static JanggiGameDao gameDao = new JanggiGameDao(JanggiDao.getConnection());
-    private final static JanggiCoordinateDao coordinateDao = new JanggiCoordinateDao(JanggiDao.getConnection());
-    private final static JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDao.getConnection());
+    private final static JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
+    private final static JanggiCoordinateDao coordinateDao = new JanggiCoordinateDao(JanggiDBConnect.getConnection());
+    private final static JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
 
     private final InputView inputView;
     private final OutputView outputView;

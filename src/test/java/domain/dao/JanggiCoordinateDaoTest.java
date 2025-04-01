@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class JanggiCoordinateDaoTest {
 
-    private final JanggiCoordinateDao coordinateDao = new JanggiCoordinateDao(JanggiDao.getConnection());
+    private final JanggiCoordinateDao coordinateDao = new JanggiCoordinateDao(JanggiDBConnect.getConnection());
 
     @Nested
     class createTest {
@@ -33,8 +33,8 @@ class JanggiCoordinateDaoTest {
             JanggiCoordinate coordinate = new JanggiCoordinate(3, 4);
             Piece piece = new Cha(Country.HAN);
 
-            JanggiGameDao gameDao = new JanggiGameDao(JanggiDao.getConnection());
-            JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDao.getConnection());
+            JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
+            JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
             int gameId = gameDao.createGame("TEST", Country.HAN);
             int pieceId = pieceDao.addPiece(gameId, piece);
 
@@ -51,8 +51,8 @@ class JanggiCoordinateDaoTest {
             Piece piece1 = new Cha(Country.HAN);
             Piece piece2 = new Cha(Country.HAN);
 
-            JanggiGameDao gameDao = new JanggiGameDao(JanggiDao.getConnection());
-            JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDao.getConnection());
+            JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
+            JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
             int gameId = gameDao.createGame("TEST1", Country.HAN);
             int pieceId1 = pieceDao.addPiece(gameId, piece1);
             int pieceId2 = pieceDao.addPiece(gameId, piece2);
