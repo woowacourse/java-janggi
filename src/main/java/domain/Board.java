@@ -46,7 +46,7 @@ public record Board(
         return gamePlayers.get(opposite);
     }
 
-    private static void validatePlayerPieceCapture(final Position target, final Pieces current) {
+    private void validatePlayerPieceCapture(final Position target, final Pieces current) {
         if (current.existByPosition(target)) {
             throw new IllegalArgumentException("도착 위치에 아군의 기물이 존재해 이동할 수 없습니다.");
         }
