@@ -27,11 +27,12 @@ public class PieceDao {
     public Map<Position, Piece> findBoardPiecesByGameId(Long gameId, Connection connection) {
         String query = "SELECT * FROM pieces WHERE game_id = ?";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            return mapPiecesResultSet(resultSet);
+            Map<Position, Piece> result = mapPiecesResultSet(resultSet);
+            resultSet.close();
+            return result;
         } catch (SQLException e) {
             throw new RuntimeException("DB 접근 도중 예외가 발생했습니다.");
         }
@@ -40,8 +41,7 @@ public class PieceDao {
     public int updatePiecePosition(Long gameId, Position from, Position to, Connection connection) {
         String query = "UPDATE pieces SET position_row = ?, position_column = ? WHERE game_id = ? AND position_row = ? AND position_column = ?";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, to.getRow().getValue());
             preparedStatement.setInt(2, to.getColumn().getValue());
             preparedStatement.setLong(3, gameId);
@@ -56,8 +56,7 @@ public class PieceDao {
     public int removePiece(Long gameId, Position position, Connection connection) {
         String query = "DELETE FROM pieces WHERE game_id = ? AND position_row = ? AND position_column = ?";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setLong(1, gameId);
             preparedStatement.setInt(2, position.getRow().getValue());
             preparedStatement.setInt(3, position.getColumn().getValue());
@@ -70,8 +69,8 @@ public class PieceDao {
     private long savePiece(Piece piece, Position position, Long gameId, Connection connection) {
         String query = "INSERT INTO pieces (game_id, position_row, position_column, team_type, piece_type) VALUES (?, ?, ?, ?, ?)";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query,
+                Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setLong(1, gameId);
             preparedStatement.setInt(2, position.getRow().getValue());
             preparedStatement.setInt(3, position.getColumn().getValue());
