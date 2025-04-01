@@ -1,18 +1,18 @@
 package janggi.view;
 
+import static janggi.controller.JanggiFunction.GIVE_UP;
+import static janggi.controller.JanggiFunction.MOVE;
+import static janggi.controller.JanggiFunction.STOP;
 import static janggi.domain.BoardSetup.INNER_ELEPHANT_SETUP;
 import static janggi.domain.BoardSetup.LEFT_ELEPHANT_SETUP;
 import static janggi.domain.BoardSetup.OUTER_ELEPHANT_SETUP;
 import static janggi.domain.BoardSetup.RIGHT_ELEPHANT_SETUP;
-import static janggi.domain.Function.GIVE_UP;
-import static janggi.domain.Function.MOVE;
-import static janggi.domain.Function.STOP;
 import static janggi.domain.Input.N;
 import static janggi.domain.Input.Y;
 import static janggi.domain.Team.RED;
 
+import janggi.controller.JanggiFunction;
 import janggi.domain.BoardSetup;
-import janggi.domain.Function;
 import janggi.domain.Input;
 import janggi.domain.Team;
 import janggi.domain.piece.direction.Position;
@@ -69,14 +69,14 @@ public class InputView {
         };
     }
 
-    public Function inputSelectFunction() {
+    public JanggiFunction inputSelectFunction() {
         System.out.println("1. 기물 움직이기");
         System.out.println("2. 게임 포기하기");
         System.out.println("3. 게임 종료하기(이후 가능)");
         return getFunction(scanner.nextLine());
     }
 
-    private Function getFunction(final String input) {
+    private JanggiFunction getFunction(final String input) {
         return switch (input) {
             case "1" -> MOVE;
             case "2" -> GIVE_UP;

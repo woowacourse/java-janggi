@@ -1,7 +1,7 @@
 package janggi.controller;
 
-import static janggi.domain.Function.GIVE_UP;
-import static janggi.domain.Function.MOVE;
+import static janggi.controller.JanggiFunction.GIVE_UP;
+import static janggi.controller.JanggiFunction.MOVE;
 import static janggi.domain.GameStatus.PROGRESS;
 import static janggi.domain.Input.Y;
 import static janggi.domain.Team.BLUE;
@@ -12,7 +12,6 @@ import janggi.database.QueryProcessor;
 import janggi.database.dao.PieceDao;
 import janggi.database.dao.TurnDao;
 import janggi.domain.BoardSetup;
-import janggi.domain.Function;
 import janggi.domain.Game;
 import janggi.domain.Pieces;
 import janggi.domain.Team;
@@ -82,7 +81,7 @@ public class JanggiController {
 
     private boolean startGame(final Game game, final List<Piece> pieces) {
         displayGameState(game.getTurn().getTurn(), pieces);
-        final Function input = inputView.inputSelectFunction();
+        final JanggiFunction input = inputView.inputSelectFunction();
         if (input == MOVE) {
             final Piece selectedPiece = selectPieceToMove(game);
             final Set<Route> possibleRoutes = findPossibleRoutesForPiece(game, selectedPiece);
