@@ -8,5 +8,5 @@ CREATE TABLE Piece (
 
 CREATE TABLE Turn (
                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                      team VARCHAR(10)
+                      team VARCHAR(10) NOT NULL CHECK(team IN ('RED', 'BLUE'))
 );
