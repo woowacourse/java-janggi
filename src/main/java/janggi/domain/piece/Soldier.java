@@ -6,6 +6,16 @@ public abstract class Soldier extends Piece {
         super(dynasty);
     }
 
+    public static Soldier from(Dynasty dynasty) {
+        if (dynasty == Dynasty.HAN) {
+            return new HanSoldier();
+        }
+        if (dynasty == Dynasty.CHU) {
+            return new ChuSoldier();
+        }
+        throw new IllegalArgumentException("생성할 수 없는 dynasty입니다.");
+    }
+
     @Override
     public boolean canMove(PiecesOnPath piecesOnPath) {
         if (piecesOnPath.isDestinationOfDynasty(dynasty)) {

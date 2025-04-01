@@ -8,19 +8,9 @@ import janggi.dao.entity.Status;
 import janggi.domain.board.BoardSetUp;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.gamestatus.GameStatus;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.ChuSoldier;
 import janggi.domain.piece.Dynasty;
-import janggi.domain.piece.Elephant;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.HanSoldier;
-import janggi.domain.piece.Horse;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Point;
-import janggi.domain.piece.Soldier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,36 +82,9 @@ public class JanggiService {
     private JanggiBoard toJanggiBoard(List<PieceEntity> pieceEntities) {
         Map<Point, Piece> pieces = new HashMap<>();
         for (PieceEntity pieceEntity : pieceEntities) {
-            if (pieceEntity.getPieceType() == PieceType.GENERAL) {
-                pieces.put(pieceEntity.getPoint(), new General(pieceEntity.getDynasty()));
-            }
-            if (pieceEntity.getPieceType() == PieceType.CANNON) {
-                pieces.put(pieceEntity.getPoint(), new Cannon(pieceEntity.getDynasty()));
-            }
-            if (pieceEntity.getPieceType() == PieceType.CHARIOT) {
-                pieces.put(pieceEntity.getPoint(), new Chariot(pieceEntity.getDynasty()));
-            }
-            if (pieceEntity.getPieceType() == PieceType.ELEPHANT) {
-                pieces.put(pieceEntity.getPoint(), new Elephant(pieceEntity.getDynasty()));
-            }
-            if (pieceEntity.getPieceType() == PieceType.GUARD) {
-                pieces.put(pieceEntity.getPoint(), new Guard(pieceEntity.getDynasty()));
-            }
-            if (pieceEntity.getPieceType() == PieceType.HORSE) {
-                pieces.put(pieceEntity.getPoint(), new Horse(pieceEntity.getDynasty()));
-            }
-            if (pieceEntity.getPieceType() == PieceType.SOLDIER) {
-                pieces.put(pieceEntity.getPoint(), toSoldier(pieceEntity));
-            }
+            pieces.put(pieceEntity.getPoint(), pieceEntity.createPiece());
         }
         return new JanggiBoard(pieces);
-    }
-
-    private Soldier toSoldier(PieceEntity pieceEntity) {
-        if (pieceEntity.getDynasty() == Dynasty.HAN) {
-            return new HanSoldier();
-        }
-        return new ChuSoldier();
     }
 
     private GameEntity findByIdOrThrow(Long gameId) {

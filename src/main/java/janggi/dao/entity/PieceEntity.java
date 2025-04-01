@@ -1,6 +1,7 @@
 package janggi.dao.entity;
 
 import janggi.domain.piece.Dynasty;
+import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Point;
 import java.util.Objects;
@@ -27,6 +28,10 @@ public class PieceEntity {
 
     public Long getId() {
         return id;
+    }
+
+    public Piece createPiece() {
+        return getPieceType().createPiece(dynasty);
     }
 
     public Point getPoint() {
