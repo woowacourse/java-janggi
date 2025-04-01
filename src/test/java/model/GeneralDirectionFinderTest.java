@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import model.piece.type.General;
+import model.piece.Piece;
+import model.piece.PieceType;
+import model.piece.movement.GeneralDirectionFinder;
 import model.piece.Team;
 import model.position.Column;
 import model.position.Position;
@@ -13,14 +15,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class GeneralTest {
+class GeneralDirectionFinderTest {
 
-    private final General general = new General(Team.RED);
+    private final Piece piece = new Piece(Team.RED, PieceType.GENERAL);
     private final Position departure = new Position(Column.TWO, Row.FIVE);
 
     @Nested
     @DisplayName("General의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfGeneral {
+    class FindDirectionOfGeneralDirectionFinder {
 
         @Test
         @DisplayName("Up 인 경우")
@@ -51,7 +53,7 @@ class GeneralTest {
         }
 
         private void assertValidDirection(Position departure, Position arrival) {
-            List<Position> findDirection = general.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             assertThat(findDirection).containsExactly(arrival);
         }
     }
@@ -60,7 +62,7 @@ class GeneralTest {
     @Test
     void cannot_go_position_then_throw_exception() {
         Position arrival = new Position(Column.FOUR, Row.THREE);
-        assertThatThrownBy(() -> general.calculateAllDirection(departure, arrival))
+        assertThatThrownBy(() -> piece.calculateAllDirection(departure, arrival))
             .isInstanceOf(IllegalArgumentException.class);
     }
 }

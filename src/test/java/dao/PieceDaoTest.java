@@ -3,9 +3,10 @@ package dao;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
+import model.piece.PieceType;
 import model.piece.Team;
-import model.piece.type.Cannon;
-import model.piece.type.Chariot;
+import model.piece.movement.CannonDirectionFinder;
+import model.piece.movement.ChariotDirectionFinder;
 import model.piece.Piece;
 import model.position.Column;
 import model.position.Position;
@@ -28,7 +29,7 @@ public class PieceDaoTest {
     @Test
     void addPiece() {
         Position position = new Position(Column.ONE, Row.TWO);
-        Piece piece = new Cannon(Team.RED);
+        Piece piece = new Piece(Team.RED, PieceType.CANNON);
         pieceDao.addPiece(position, piece);
         Map<Position, Piece> allPieces = pieceDao.getAllPieces();
         assertThat(allPieces.get(position)).isEqualTo(piece);
@@ -39,11 +40,11 @@ public class PieceDaoTest {
     void deleteAllPiece() {
         //given
         Position position1 = new Position(Column.ONE, Row.TWO);
-        Piece piece1 = new Cannon(Team.RED);
+        Piece piece1 = new Piece(Team.RED, PieceType.CANNON);
         pieceDao.addPiece(position1, piece1);
 
         Position position2 = new Position(Column.TWO, Row.THREE);
-        Piece piece2 = new Cannon(Team.RED);
+        Piece piece2 = new Piece(Team.RED, PieceType.CANNON);
         pieceDao.addPiece(position2, piece2);
 
         //when
@@ -58,7 +59,7 @@ public class PieceDaoTest {
     public void updatePiece() {
         //given
         Position position = new Position(Column.ONE, Row.TWO);
-        Piece piece = new Chariot(Team.RED);
+        Piece piece = new Piece(Team.RED, PieceType.CHARIOT);
         pieceDao.addPiece(position, piece);
 
         Position departure = new Position(Column.ONE, Row.TWO);

@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import model.piece.type.Elephant;
+import model.piece.Piece;
+import model.piece.PieceType;
+import model.piece.movement.ElephantDirectionFinder;
 import model.piece.Team;
 import model.position.Column;
 import model.position.Position;
@@ -13,20 +15,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class ElephantTest {
+public class ElephantDirectionFinderTest {
 
-    private final Elephant elephant = new Elephant(Team.RED);
+    private final Piece piece = new Piece(Team.RED, PieceType.ELEPHANT);
     private final Position departure = new Position(Column.FIVE, Row.FIVE);
 
     @Nested
     @DisplayName("horse의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfHorse {
+    class FindDirectionOfHorseDirectionFinder {
 
         @Test
         @DisplayName("위 + (우측 상단 대각x2)인 경우")
         void up_and_up_right_up_right() {
             Position arrival = new Position(Column.TWO, Row.SEVEN);
-            List<Position> findDirection = elephant.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.FOUR, Row.FIVE),
                 new Position(Column.THREE, Row.SIX),
@@ -38,7 +40,7 @@ public class ElephantTest {
         @DisplayName("위 + (좌측 상단 대각x2)인 경우 ")
         void up_and_up_left_up_left() {
             Position arrival = new Position(Column.TWO, Row.THREE);
-            List<Position> findDirection = elephant.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.FOUR, Row.FIVE),
                 new Position(Column.THREE, Row.FOUR),
@@ -50,7 +52,7 @@ public class ElephantTest {
         @DisplayName("아래 + (우측 하단 대각x2)인 경우")
         void down_and_down_right_down_right() {
             Position arrival = new Position(Column.EIGHT, Row.SEVEN);
-            List<Position> findDirection = elephant.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.SIX, Row.FIVE),
                 new Position(Column.SEVEN, Row.SIX),
@@ -62,7 +64,7 @@ public class ElephantTest {
         @DisplayName("아래 + (좌측 하단 대각x2)인 경우")
         void down_and_down_left_down_left() {
             Position arrival = new Position(Column.EIGHT, Row.THREE);
-            List<Position> findDirection = elephant.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.SIX, Row.FIVE),
                 new Position(Column.SEVEN, Row.FOUR),
@@ -74,7 +76,7 @@ public class ElephantTest {
         @DisplayName("좌측 + (좌측 상단 대각x2)인 경우")
         void left_and_up_left_up_left() {
             Position arrival = new Position(Column.THREE, Row.TWO);
-            List<Position> findDirection = elephant.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.FIVE, Row.FOUR),
                 new Position(Column.FOUR, Row.THREE),
@@ -86,7 +88,7 @@ public class ElephantTest {
         @DisplayName("좌측 + (좌측 하단 대각x2)인 경우")
         void left_and_down_left_down_left() {
             Position arrival = new Position(Column.SEVEN, Row.TWO);
-            List<Position> findDirection = elephant.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.FIVE, Row.FOUR),
                 new Position(Column.SIX, Row.THREE),
@@ -98,7 +100,7 @@ public class ElephantTest {
         @DisplayName("우측 + (우측 상단 대각x2)인 경우")
         void right_and_up_right_up_right() {
             Position arrival = new Position(Column.THREE, Row.EIGHT);
-            List<Position> findDirection = elephant.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.FIVE, Row.SIX),
                 new Position(Column.FOUR, Row.SEVEN),
@@ -110,7 +112,7 @@ public class ElephantTest {
         @DisplayName("우측 + (우측 하단 대각x2)인 경우")
         void right_and_down_right() {
             Position arrival = new Position(Column.SEVEN, Row.EIGHT);
-            List<Position> findDirection = elephant.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.FIVE, Row.SIX),
                 new Position(Column.SIX, Row.SEVEN),
@@ -123,7 +125,7 @@ public class ElephantTest {
     @Test
     void cannot_go_position_then_throw_exception() {
         Position arrival = new Position(Column.FIVE, Row.TWO);
-        assertThatThrownBy(() -> elephant.calculateAllDirection(departure, arrival))
+        assertThatThrownBy(() -> piece.calculateAllDirection(departure, arrival))
             .isInstanceOf(IllegalArgumentException.class);
     }
 

@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import model.piece.type.Chariot;
+import model.piece.Piece;
+import model.piece.PieceType;
+import model.piece.movement.ChariotDirectionFinder;
 import model.piece.Team;
 import model.position.Column;
 import model.position.Position;
@@ -13,20 +15,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class ChariotTest {
+public class ChariotDirectionFinderTest {
 
-    private final Chariot chariot = new Chariot(Team.GREEN);
+    private final Piece piece = new Piece(Team.GREEN, PieceType.CHARIOT);
 
     @Nested
     @DisplayName("Chariot의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfChariot {
+    class FindDirectionOfChariotDirectionFinder {
 
         @Test
         @DisplayName("Up 인 경우")
         void case_up() {
             Position departure = new Position(Column.TEN, Row.ONE);
             Position arrival = new Position(Column.FIVE, Row.ONE);
-            List<Position> findDirection = chariot.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.NINE, Row.ONE),
                 new Position(Column.EIGHT, Row.ONE),
@@ -41,7 +43,7 @@ public class ChariotTest {
         void case_down() {
             Position departure = new Position(Column.FIVE, Row.FIVE);
             Position arrival = new Position(Column.TEN, Row.FIVE);
-            List<Position> findDirection = chariot.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.TEN, Row.FIVE),
                 new Position(Column.NINE, Row.FIVE),
@@ -56,7 +58,7 @@ public class ChariotTest {
         void case_left() {
             Position departure = new Position(Column.FIVE, Row.FIVE);
             Position arrival = new Position(Column.FIVE, Row.ONE);
-            List<Position> findDirection = chariot.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.FIVE, Row.FOUR),
                 new Position(Column.FIVE, Row.THREE),
@@ -70,7 +72,7 @@ public class ChariotTest {
         void case_right() {
             Position departure = new Position(Column.FIVE, Row.FIVE);
             Position arrival = new Position(Column.FIVE, Row.NINE);
-            List<Position> findDirection = chariot.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.FIVE, Row.SIX),
                 new Position(Column.FIVE, Row.SEVEN),
@@ -85,7 +87,7 @@ public class ChariotTest {
     void cannot_go_position_then_throw_exception() {
         Position departure = new Position(Column.FIVE, Row.FIVE);
         Position arrival = new Position(Column.SIX, Row.SIX);
-        assertThatThrownBy(() -> chariot.calculateAllDirection(departure, arrival))
+        assertThatThrownBy(() -> piece.calculateAllDirection(departure, arrival))
             .isInstanceOf(IllegalArgumentException.class);
     }
 }

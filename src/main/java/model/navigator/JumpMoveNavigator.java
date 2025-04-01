@@ -4,7 +4,7 @@ import java.util.List;
 import model.position.Movement;
 import model.position.Position;
 
-public class JumpMoveNavigator {
+public class JumpMoveNavigator{
 
     private static final JumpMoveNavigator INSTANCE = new JumpMoveNavigator();
 

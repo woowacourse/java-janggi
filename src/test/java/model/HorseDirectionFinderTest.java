@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import model.piece.type.Horse;
+import model.piece.Piece;
+import model.piece.PieceType;
+import model.piece.movement.HorseDirectionFinder;
 import model.piece.Team;
 import model.position.Column;
 import model.position.Position;
@@ -13,20 +15,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class HorseTest {
+public class HorseDirectionFinderTest {
 
-    private final Horse horse = new Horse(Team.RED);
+    private final Piece piece = new Piece(Team.RED, PieceType.HORSE);
     private final Position departure = new Position(Column.THREE, Row.THREE);
 
     @Nested
     @DisplayName("horse의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfHorse {
+    class FindDirectionOfHorseDirectionFinder {
 
         @Test
         @DisplayName("위 + 우측 상단 대각인 경우")
         void up_and_up_right() {
             Position arrival = new Position(Column.ONE, Row.FOUR);
-            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.TWO, Row.THREE),
                 new Position(Column.ONE, Row.FOUR));
@@ -37,7 +39,7 @@ public class HorseTest {
         @DisplayName("위 + 좌측 상단 대각인 경우 ")
         void up_and_up_left() {
             Position arrival = new Position(Column.ONE, Row.TWO);
-            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.TWO, Row.THREE),
                 new Position(Column.ONE, Row.TWO));
@@ -48,7 +50,7 @@ public class HorseTest {
         @DisplayName("아래 + 우측 하단 대각인 경우")
         void down_and_down_right() {
             Position arrival = new Position(Column.FIVE, Row.FOUR);
-            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.FOUR, Row.THREE),
                 new Position(Column.FIVE, Row.FOUR));
@@ -59,7 +61,7 @@ public class HorseTest {
         @DisplayName("아래 + 좌측 하단 대각인 경우")
         void down_and_down_left() {
             Position arrival = new Position(Column.FIVE, Row.TWO);
-            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.FOUR, Row.THREE),
                 new Position(Column.FIVE, Row.TWO));
@@ -70,7 +72,7 @@ public class HorseTest {
         @DisplayName("좌측 + 좌측 상단 대각인 경우")
         void left_and_up_left() {
             Position arrival = new Position(Column.TWO, Row.ONE);
-            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.THREE, Row.TWO),
                 new Position(Column.TWO, Row.ONE));
@@ -81,7 +83,7 @@ public class HorseTest {
         @DisplayName("좌측 + 좌측 하단 대각인 경우")
         void left_and_down_left() {
             Position arrival = new Position(Column.FOUR, Row.ONE);
-            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.THREE, Row.TWO),
                 new Position(Column.FOUR, Row.ONE));
@@ -92,7 +94,7 @@ public class HorseTest {
         @DisplayName("우측 + 우측 상단 대각인 경우")
         void right_and_up_right() {
             Position arrival = new Position(Column.FOUR, Row.FIVE);
-            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.THREE, Row.FOUR),
                 new Position(Column.FOUR, Row.FIVE));
@@ -103,7 +105,7 @@ public class HorseTest {
         @DisplayName("우측 + 우측 하단 대각인 경우")
         void right_and_down_right() {
             Position arrival = new Position(Column.TWO, Row.FIVE);
-            List<Position> findDirection = horse.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = piece.calculateAllDirection(departure, arrival);
             List<Position> expectedPosition = List.of(
                 new Position(Column.THREE, Row.FOUR),
                 new Position(Column.TWO, Row.FIVE));
@@ -115,7 +117,7 @@ public class HorseTest {
     @Test
     void cannot_go_position_then_throw_exception() {
         Position arrival = new Position(Column.THREE, Row.FIVE);
-        assertThatThrownBy(() -> horse.calculateAllDirection(departure, arrival))
+        assertThatThrownBy(() -> piece.calculateAllDirection(departure, arrival))
             .isInstanceOf(IllegalArgumentException.class);
     }
 }

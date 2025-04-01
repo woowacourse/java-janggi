@@ -6,13 +6,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.HashMap;
 import java.util.Map;
-import model.piece.type.Byeong;
-import model.piece.type.Cannon;
-import model.piece.type.Chariot;
-import model.piece.type.General;
-import model.piece.type.Guard;
-import model.piece.type.Horse;
-import model.piece.type.Jol;
+import model.piece.PieceType;
+import model.piece.movement.ByeongDirectionFinder;
+import model.piece.movement.CannonDirectionFinder;
+import model.piece.movement.ChariotDirectionFinder;
+import model.piece.movement.GeneralDirectionFinder;
+import model.piece.movement.GuardDirectionFinder;
+import model.piece.movement.HorseDirectionFinder;
+import model.piece.movement.JolDirectionFinder;
 import model.piece.Piece;
 import model.piece.PieceInitializer;
 import model.piece.Team;
@@ -39,7 +40,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Chariot의 움직임을 테스트 한다.")
-        class ChariotMove {
+        class ChariotDirectionFinderMove {
 
             @Test
             @DisplayName("기본 위치 1,1 에서 3,1로 이동할 수 있어야 한다.")
@@ -53,7 +54,7 @@ class PiecesTest {
 
                 //then
                 assertThat(pieces.findPieceOfNullable(departure)).isEmpty();
-                assertThat(pieces.findPieceOfNullable(arrival).get()).isInstanceOf(Chariot.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.CHARIOT.name());
             }
 
             @Test
@@ -69,7 +70,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Chariot.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.CHARIOT.name());
             }
 
             @Test
@@ -89,7 +90,7 @@ class PiecesTest {
             void when_chariot_inside_castle_can_move_diagonal_in_8_4_only_one() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Chariot(Team.RED));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Piece(Team.RED, PieceType.CHARIOT));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
                 Position arrival = new Position(Column.NINE, Row.FIVE);
@@ -98,7 +99,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Chariot.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.CHARIOT.name());
             }
 
             @Test
@@ -106,7 +107,7 @@ class PiecesTest {
             void when_chariot_inside_castle_can_move_diagonal_in_8_4_two_step() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Chariot(Team.RED));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Piece(Team.RED, PieceType.CHARIOT));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
                 Position arrival = new Position(Column.TEN, Row.SIX);
@@ -115,7 +116,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Chariot.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.CHARIOT.name());
             }
 
             @Test
@@ -123,7 +124,7 @@ class PiecesTest {
             void when_chariot_inside_castle_can_move_diagonal_in_8_6_only_one() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Chariot(Team.RED));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Piece(Team.RED, PieceType.CHARIOT));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.SIX);
                 Position arrival = new Position(Column.NINE, Row.FIVE);
@@ -132,7 +133,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Chariot.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.CHARIOT.name());
             }
 
             @Test
@@ -140,7 +141,7 @@ class PiecesTest {
             void when_chariot_inside_castle_can_move_diagonal_in_8_6_two_step() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Chariot(Team.RED));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Piece(Team.RED, PieceType.CHARIOT));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.SIX);
                 Position arrival = new Position(Column.TEN, Row.FOUR);
@@ -149,16 +150,13 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Chariot.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.CHARIOT.name());
             }
-            /***
-             * 리버스도 테스트 코드 적기 + 모든 경로에 대해서 검증 추가해보기
-             */
         }
 
         @Nested
         @DisplayName("Cannon의 움직임을 테스트 한다.")
-        class CannonMove {
+        class CannonDirectionFinderMove {
 
             @Test
             @DisplayName("뛰어넘는 기물이 같은 Cannon 이라면, 예외를 발생시켜야 한다.")
@@ -200,7 +198,7 @@ class PiecesTest {
 
                 //when, then
                 pieces.move(departure, arrival);
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Cannon.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.CANNON.name());
             }
 
             @Test
@@ -233,7 +231,7 @@ class PiecesTest {
             void when_cannon_inside_castle_can_move_diagonal_but_other_piece_not_exist() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Piece(Team.RED, PieceType.CANNON));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
                 Position arrival = new Position(Column.TEN, Row.SIX);
@@ -248,8 +246,8 @@ class PiecesTest {
             void when_cannon_inside_castle_can_move_diagonal_and_other_piece_exist() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
-                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Horse(Team.RED));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Piece(Team.RED, PieceType.CANNON));
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Piece(Team.RED, PieceType.HORSE));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
                 Position arrival = new Position(Column.TEN, Row.SIX);
@@ -258,7 +256,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Cannon.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.CANNON.name());
             }
 
             @Test
@@ -266,8 +264,8 @@ class PiecesTest {
             void when_cannon_inside_castle_can_move_diagonal_but_other_cannon_exist() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
-                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Cannon(Team.RED));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Piece(Team.RED, PieceType.CANNON));
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Piece(Team.RED, PieceType.CANNON));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
                 Position arrival = new Position(Column.TEN, Row.SIX);
@@ -282,9 +280,9 @@ class PiecesTest {
             void when_cannon_inside_castle_can_move_diagonal_but_other_piece_exist_but_arrival_same_team() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
-                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new General(Team.RED));
-                temporaryPieces.put(new Position(Column.TEN, Row.SIX), new Horse(Team.RED));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Piece(Team.RED, PieceType.CANNON));
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Piece(Team.RED, PieceType.GENERAL));
+                temporaryPieces.put(new Position(Column.TEN, Row.SIX), new Piece(Team.RED, PieceType.HORSE));
 
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
@@ -300,9 +298,9 @@ class PiecesTest {
             void when_cannon_inside_castle_can_move_diagonal_but_other_piece_exist_and_arrival_other_team() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
-                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new General(Team.RED));
-                temporaryPieces.put(new Position(Column.TEN, Row.SIX), new Horse(Team.GREEN));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Piece(Team.RED, PieceType.CANNON));
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Piece(Team.RED, PieceType.GENERAL));
+                temporaryPieces.put(new Position(Column.TEN, Row.SIX), new Piece(Team.GREEN, PieceType.HORSE));
 
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
@@ -310,7 +308,7 @@ class PiecesTest {
 
                 //when
                 pieces.move(departure, arrival);
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Cannon.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.CANNON.name());
             }
 
             @Test
@@ -318,9 +316,9 @@ class PiecesTest {
             void when_cannon_inside_castle_can_move_diagonal_but_other_piece_exist_and_arrival_other_team_of_cannon() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Cannon(Team.RED));
-                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new General(Team.RED));
-                temporaryPieces.put(new Position(Column.TEN, Row.SIX), new Cannon(Team.GREEN));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Piece(Team.RED, PieceType.CANNON));
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Piece(Team.RED, PieceType.GENERAL));
+                temporaryPieces.put(new Position(Column.TEN, Row.SIX), new Piece(Team.GREEN, PieceType.CANNON));
 
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
@@ -336,8 +334,8 @@ class PiecesTest {
             void when_cannon_inside_castle_and_cannot_move_diagonal_then_throw_exception() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.NINE, Row.FOUR), new Cannon(Team.RED));
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FIVE), new Chariot(Team.RED));
+                temporaryPieces.put(new Position(Column.NINE, Row.FOUR), new Piece(Team.RED, PieceType.CANNON));
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FIVE), new Piece(Team.RED, PieceType.CHARIOT));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.NINE, Row.FOUR);
                 Position arrival = new Position(Column.SEVEN, Row.SIX);
@@ -350,7 +348,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Horse의 움직임을 테스트 한다.")
-        class HorseMove {
+        class HorseDirectionFinderMove {
 
             /***
              * 이 부분 부터 시작하기
@@ -366,7 +364,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Horse.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.HORSE.name());
             }
 
             @Test
@@ -388,7 +386,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Elephant의 움직임을 테스트 한다.")
-        class ElephantMove {
+        class ElephantDirectionFinderMove {
 
             @Test
             @DisplayName("Elephant의 도착 지점에 이동 경로에 다른 기물이 존재한다면, 예외가 발생해야 한다.")
@@ -435,7 +433,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Geneal의 움직임을 테스트 한다")
-        class GeneralMove {
+        class GeneralDirectionFinderMove {
 
             @Test
             @DisplayName("움직이려는 경로에 장애물이 있을 경우, 예외가 발생해야 한다.")
@@ -462,14 +460,14 @@ class PiecesTest {
 
                 //when
                 pieces.move(departure, arrival);
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(General.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.GENERAL.name());
             }
 
             @Test
             @DisplayName("General이 궁성을 나가려고 한다면, 예외가 발생해야 한다.")
             void when_general_arrival_out_of_castle_then_throw_exception() {
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new General(Team.RED));
+                temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new Piece(Team.RED, PieceType.GENERAL));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.ONE, Row.FOUR);
                 Position arrival = new Position(Column.ONE, Row.THREE);
@@ -482,31 +480,31 @@ class PiecesTest {
             @DisplayName("General이 대각 움직임이 가능한 위치라면, 대각선으로 움직일 수 있어야 한다. - 1, 4")
             void when_general_can_move_diagonal_1_4() {
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new General(Team.RED));
+                temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new Piece(Team.RED, PieceType.GENERAL));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.ONE, Row.FOUR);
                 Position arrival = new Position(Column.TWO, Row.FIVE);
                 pieces.move(departure, arrival);
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(General.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.GENERAL.name());
             }
 
             @Test
             @DisplayName("General이 대각 움직임이 가능한 위치라면, 대각선으로 움직일 수 있어야 한다. - 2, 5")
             void when_general_can_move_diagonal_2_5() {
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new General(Team.RED));
+                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Piece(Team.RED, PieceType.GENERAL));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FIVE);
                 Position arrival = new Position(Column.ONE, Row.FOUR);
                 pieces.move(departure, arrival);
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(General.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.GENERAL.name());
             }
 
             @Test
             @DisplayName("General이 대각 불가능한 위치에서 대각 움직임을 요구한다면, 예외를 발생시켜야 한다.")
             void when_general_cannot_move_diagonal_then_throw_exception() {
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.TWO, Row.FOUR), new General(Team.RED));
+                temporaryPieces.put(new Position(Column.TWO, Row.FOUR), new Piece(Team.RED, PieceType.GENERAL));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FOUR);
                 Position arrival = new Position(Column.ONE, Row.FIVE);
@@ -517,7 +515,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Byeong의 움직임을 테스트 한다")
-        class ByeongMove {
+        class ByeongDirectionFinderMove {
 
             @Test
             @DisplayName("Byeong은 이동 위치에 상대방 기물이 있다면, 제거 후 움직일 수 있어야 한다.")
@@ -537,7 +535,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Byeong.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.BYEONG.name());
             }
 
             @Test
@@ -561,7 +559,7 @@ class PiecesTest {
             void when_byeong_inside_castle_can_move_diagonal_in_8_4() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Byeong());
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Piece(Team.RED, PieceType.BYEONG));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
                 Position arrival = new Position(Column.NINE, Row.FIVE);
@@ -570,7 +568,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Byeong.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.BYEONG.name());
             }
 
             @Test
@@ -578,7 +576,7 @@ class PiecesTest {
             void when_byeong_inside_castle_can_move_diagonal_in_8_6() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Byeong());
+                temporaryPieces.put(new Position(Column.EIGHT, Row.SIX), new Piece(Team.RED, PieceType.BYEONG));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.SIX);
                 Position arrival = new Position(Column.NINE, Row.FIVE);
@@ -587,7 +585,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Byeong.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.BYEONG.name());
             }
 
             @Test
@@ -595,7 +593,7 @@ class PiecesTest {
             void when_byeong_inside_castle_can_move_diagonal_in_9_5_and_diagonal_right() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Byeong());
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Piece(Team.RED, PieceType.BYEONG));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.NINE, Row.FIVE);
                 Position arrival = new Position(Column.TEN, Row.SIX);
@@ -604,7 +602,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Byeong.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.BYEONG.name());
             }
 
             @Test
@@ -612,7 +610,7 @@ class PiecesTest {
             void when_byeong_inside_castle_can_move_diagonal_in_9_5_and_diagonal_left() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Byeong());
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Piece(Team.RED, PieceType.BYEONG));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.NINE, Row.FIVE);
                 Position arrival = new Position(Column.TEN, Row.FOUR);
@@ -621,7 +619,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Byeong.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.BYEONG.name());
             }
 
             @Test
@@ -629,7 +627,7 @@ class PiecesTest {
             void byeong_inside_castle_but_only_move_castle() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Byeong());
+                temporaryPieces.put(new Position(Column.EIGHT, Row.FOUR), new Piece(Team.RED, PieceType.BYEONG));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.EIGHT, Row.FOUR);
                 Position arrival = new Position(Column.NINE, Row.THREE);
@@ -643,7 +641,7 @@ class PiecesTest {
             @DisplayName("병이 궁성 안에 있을 경우, 뒤로 움직일 수는 없어야 한다.")
             void when_byeong_inside_castle_then_cannot_move_back() {
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Byeong());
+                temporaryPieces.put(new Position(Column.NINE, Row.FIVE), new Piece(Team.RED, PieceType.BYEONG));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.NINE, Row.FIVE);
                 Position arrival = new Position(Column.EIGHT, Row.FOUR);
@@ -656,7 +654,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Jol 움직임을 테스트 한다")
-        class JolMove {
+        class JolDirectionFinderMove {
 
             @Test
             @DisplayName("Jol은 이동 위치에 상대방 기물이 있다면, 제거 후 움직일 수 있어야 한다.")
@@ -676,7 +674,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Jol.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.JOL.name());
             }
 
             @Test
@@ -700,7 +698,7 @@ class PiecesTest {
             void when_jol_inside_castle_can_move_diagonal_in_3_4() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.THREE, Row.FOUR), new Jol());
+                temporaryPieces.put(new Position(Column.THREE, Row.FOUR), new Piece(Team.GREEN, PieceType.JOL));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.THREE, Row.FOUR);
                 Position arrival = new Position(Column.TWO, Row.FIVE);
@@ -709,7 +707,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Jol.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.JOL.name());
             }
 
             @Test
@@ -717,7 +715,7 @@ class PiecesTest {
             void when_jol_inside_castle_can_move_diagonal_in_3_6() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.THREE, Row.SIX), new Jol());
+                temporaryPieces.put(new Position(Column.THREE, Row.SIX), new Piece(Team.GREEN, PieceType.JOL));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.THREE, Row.SIX);
                 Position arrival = new Position(Column.TWO, Row.FIVE);
@@ -726,7 +724,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Jol.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.JOL.name());
             }
 
             @Test
@@ -734,7 +732,7 @@ class PiecesTest {
             void when_jol_inside_castle_can_move_diagonal_in_2_5_and_diagonal_right() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Jol());
+                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Piece(Team.GREEN, PieceType.JOL));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FIVE);
                 Position arrival = new Position(Column.ONE, Row.SIX);
@@ -743,7 +741,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Jol.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.JOL.name());
             }
 
             @Test
@@ -751,7 +749,7 @@ class PiecesTest {
             void when_jol_inside_castle_can_move_diagonal_in_2_5_and_diagonal_left() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Jol());
+                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Piece(Team.GREEN, PieceType.JOL));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FIVE);
                 Position arrival = new Position(Column.ONE, Row.FOUR);
@@ -760,7 +758,7 @@ class PiecesTest {
                 pieces.move(departure, arrival);
 
                 //then
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Jol.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.JOL.name());
             }
 
             @Test
@@ -768,7 +766,7 @@ class PiecesTest {
             void jol_inside_castle_but_only_move_castle() {
                 //given
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.THREE, Row.FOUR), new Jol());
+                temporaryPieces.put(new Position(Column.THREE, Row.FOUR), new Piece(Team.GREEN, PieceType.JOL));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.THREE, Row.FOUR);
                 Position arrival = new Position(Column.TWO, Row.THREE);
@@ -782,7 +780,7 @@ class PiecesTest {
             @DisplayName("졸이 궁성 안에 있을 경우, 뒤로 움직일 수는 없어야 한다.")
             void when_jol_inside_castle_then_cannot_move_back() {
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Jol());
+                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Piece(Team.GREEN, PieceType.JOL));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FIVE);
                 Position arrival = new Position(Column.THREE, Row.FOUR);
@@ -795,7 +793,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Guard 움직임을 테스트 한다")
-        class GuardMove {
+        class GuardDirectionFinderMove {
 
             @Test
             @DisplayName("움직이려는 경로에 같은 팀 기물이 있다면, 예외가 발생해야 한다")
@@ -817,7 +815,7 @@ class PiecesTest {
             @DisplayName("Guard가 궁성을 나가려고 한다면, 예외가 발생해야 한다.")
             void when_guard_arrival_out_of_castle_then_throw_exception() {
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new Guard(Team.RED));
+                temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new Piece(Team.RED, PieceType.GUARD));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.ONE, Row.FOUR);
                 Position arrival = new Position(Column.ONE, Row.THREE);
@@ -830,31 +828,31 @@ class PiecesTest {
             @DisplayName("Guard가 대각 움직임이 가능한 위치라면, 대각선으로 움직일 수 있어야 한다. - 1, 4")
             void when_guard_can_move_diagonal_1_4() {
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new Guard(Team.RED));
+                temporaryPieces.put(new Position(Column.ONE, Row.FOUR), new Piece(Team.RED, PieceType.GUARD));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.ONE, Row.FOUR);
                 Position arrival = new Position(Column.TWO, Row.FIVE);
                 pieces.move(departure, arrival);
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Guard.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.GUARD.name());
             }
 
             @Test
             @DisplayName("Guard가 대각 움직임이 가능한 위치라면, 대각선으로 움직일 수 있어야 한다. - 2, 5")
             void when_general_can_move_diagonal_2_5() {
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Guard(Team.RED));
+                temporaryPieces.put(new Position(Column.TWO, Row.FIVE), new Piece(Team.RED, PieceType.GUARD));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FIVE);
                 Position arrival = new Position(Column.ONE, Row.FOUR);
                 pieces.move(departure, arrival);
-                assertThat(pieces.findPieceBy(arrival)).isInstanceOf(Guard.class);
+                assertThat(pieces.findPieceBy(arrival).getType()).isEqualTo(PieceType.GUARD.name());
             }
 
             @Test
             @DisplayName("Guard가 대각 불가능한 위치에서 대각 움직임을 요구한다면, 예외를 발생시켜야 한다.")
             void when_general_cannot_move_diagonal_then_throw_exception() {
                 Map<Position, Piece> temporaryPieces = new HashMap<>();
-                temporaryPieces.put(new Position(Column.TWO, Row.FOUR), new Guard(Team.RED));
+                temporaryPieces.put(new Position(Column.TWO, Row.FOUR), new Piece(Team.RED, PieceType.GUARD));
                 Pieces pieces = new Pieces(temporaryPieces);
                 Position departure = new Position(Column.TWO, Row.FOUR);
                 Position arrival = new Position(Column.ONE, Row.FIVE);

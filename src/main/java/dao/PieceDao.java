@@ -4,15 +4,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import model.piece.PieceType;
 import model.piece.Team;
-import model.piece.type.Byeong;
-import model.piece.type.Cannon;
-import model.piece.type.Chariot;
-import model.piece.type.Elephant;
-import model.piece.type.General;
-import model.piece.type.Guard;
-import model.piece.type.Horse;
-import model.piece.type.Jol;
+import model.piece.movement.ByeongDirectionFinder;
+import model.piece.movement.CannonDirectionFinder;
+import model.piece.movement.ChariotDirectionFinder;
+import model.piece.movement.ElephantDirectionFinder;
+import model.piece.movement.GeneralDirectionFinder;
+import model.piece.movement.GuardDirectionFinder;
+import model.piece.movement.HorseDirectionFinder;
+import model.piece.movement.JolDirectionFinder;
 import model.piece.Piece;
 import model.position.Column;
 import model.position.Position;
@@ -33,7 +34,6 @@ public class PieceDao {
             ResultSet result = preparedStatement.executeQuery();
             Map<Position, Piece> pieces = new HashMap<>();
             while (result.next()) {
-
                 String column = result.getString("column");
                 String row = result.getString("row");
                 String team = result.getString("team");
@@ -50,32 +50,7 @@ public class PieceDao {
     }
 
     private void createAndAddPiece(String type, Map<Position, Piece> pieces, Position position, String team) {
-        switch (type) {
-            case "CHARIOT":
-                pieces.put(position, new Chariot(Team.getTeamFromString(team)));
-                break;
-            case "CANNON":
-                pieces.put(position, new Cannon(Team.getTeamFromString(team)));
-                break;
-            case "BYEONG" :
-                pieces.put(position, new Byeong());
-                break;
-            case "JOL" :
-                pieces.put(position, new Jol());
-                break;
-            case "ELEPHANT" :
-                pieces.put(position, new Elephant(Team.getTeamFromString(team)));
-                break;
-            case "GENERAL" :
-                pieces.put(position, new General(Team.getTeamFromString(team)));
-                break;
-            case "GUARD" :
-                pieces.put(position, new Guard(Team.getTeamFromString(team)));
-                break;
-            case "HORSE" :
-                pieces.put(position, new Horse(Team.getTeamFromString(team)));
-                break;
-        }
+        pieces.put(position, new Piece(Team.getTeamFromString(team), PieceType.createPieceBy(type)));
     }
 
     public void addPieces(Map<Position, Piece> pieces) {

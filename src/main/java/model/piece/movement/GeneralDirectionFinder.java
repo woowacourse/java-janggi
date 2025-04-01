@@ -1,8 +1,9 @@
-package model.piece.type;
+package model.piece.movement;
 
 import static model.position.Movement.*;
 
 import java.util.List;
+import model.piece.PieceType;
 import model.position.Movement;
 import model.navigator.LimitedBasicMoveNavigator;
 import model.piece.Castle;
@@ -10,30 +11,14 @@ import model.piece.Piece;
 import model.piece.Team;
 import model.position.Position;
 
-public class Guard extends Piece {
+public class GeneralDirectionFinder implements DirectionFindable {
 
-    private static final int SCORE = 3;
-    private static final String TYPE = "GUARD";
-    private final Castle castle;
+    private final Castle castle = Castle.getInstance();
+    private final LimitedBasicMoveNavigator limitedBasicMoveNavigator = LimitedBasicMoveNavigator.getInstance();
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(
         DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT,
         DIAGONAL_DOWN_LEFT, DIAGONAL_DOWN_RIGHT);
-    private final LimitedBasicMoveNavigator limitedBasicMoveNavigator;
-
-    public Guard(Team team) {
-        super(team, SCORE, TYPE);
-        this.castle = Castle.getInstance();
-        this.limitedBasicMoveNavigator = LimitedBasicMoveNavigator.getInstance();
-    }
-
-    @Override
-    public String getName() {
-        if (getTeam() == Team.RED) {
-            return "士";
-        }
-        return "사";
-    }
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
