@@ -86,4 +86,19 @@ class PositionTest {
         // then
         assertThat(result).isEqualTo(expected);
     }
+
+    @Test
+    void 이동_방향을_반환한다() {
+        // given
+        Position start = new Position(5, 4);
+        Position target = new Position(6, 5);
+
+        Vector expected = new Vector(1, 1);
+
+        // when
+        Vector result = start.calculateVector(target);
+
+        // then
+        assertThat(result).isEqualTo(expected);
+    }
 }
