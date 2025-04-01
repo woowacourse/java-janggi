@@ -113,10 +113,10 @@ public class Board implements PieceVisibleBoard {
             return determineWinTeamByScore();
         }
         Set<Team> foundTeam = findTeamsOfWang();
-        if (foundTeam.contains(Team.CHO)) {
-            return Team.CHO;
+        if (foundTeam.size() != 1) {
+            throw new IllegalStateException("[ERROR] 한 팀의 왕만 존재해야 승패를 판단할 수 있습니다.");
         }
-        return Team.HAN;
+        return foundTeam.iterator().next();
     }
 
     private boolean existsPoint(final Point point) {
