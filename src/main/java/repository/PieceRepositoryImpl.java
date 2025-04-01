@@ -1,5 +1,6 @@
 package repository;
 
+import db.ConnectionProvider;
 import domain.Team;
 import domain.direction.Directions;
 import domain.direction.PieceDirection;
@@ -15,7 +16,6 @@ import domain.piece.category.PieceCategory;
 import domain.piece.category.Soldier;
 import domain.spatial.Position;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,11 +23,11 @@ import java.util.List;
 
 public class PieceRepositoryImpl implements PieceRepository {
 
-    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
+    private final ConnectionProvider connectionProvider;
+
+    public PieceRepositoryImpl(final ConnectionProvider connectionProvider) {
+        this.connectionProvider = connectionProvider;
+    }
 
     @Override
     public void saveAll(final String gameName, final Team team, final Pieces pieces) {
@@ -39,7 +39,7 @@ public class PieceRepositoryImpl implements PieceRepository {
     @Override
     public void save(final String gameName, final Team team, final Piece piece) {
         final String query = "INSERT INTO piece (game_name, player_team, piece_type, row_value, column_value) VALUES (?, ?, ?, ?, ?)";
-        try (final Connection connection = getConnection();
+        try (final Connection connection = connectionProvider.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, gameName);
             preparedStatement.setString(2, team.name());
@@ -55,7 +55,7 @@ public class PieceRepositoryImpl implements PieceRepository {
     @Override
     public Pieces findAllByGameNameAndTeam(final String gameName, final Team team) {
         final String query = "SELECT piece_type, row_value, column_value FROM piece WHERE game_name = ? AND player_team = ?";
-        try (final Connection connection = getConnection();
+        try (final Connection connection = connectionProvider.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, gameName);
             preparedStatement.setString(2, team.name());
@@ -69,7 +69,7 @@ public class PieceRepositoryImpl implements PieceRepository {
     @Override
     public void deleteByPosition(final String gameName, final Team team, final Position position) {
         final String query = "DELETE FROM piece WHERE game_name = ? AND player_team = ? AND row_value = ? AND column_value = ?";
-        try (final Connection connection = getConnection();
+        try (final Connection connection = connectionProvider.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, gameName);
             preparedStatement.setString(2, team.name());
@@ -119,14 +119,5 @@ public class PieceRepositoryImpl implements PieceRepository {
             return team == Team.HAN ? PieceDirection.HAN_SOLDIER.get() : PieceDirection.CHO_SOLDIER.get();
         }
         return PieceDirection.valueOf(category.name()).get();
-    }
-
-    private Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            return null;
-        }
     }
 }

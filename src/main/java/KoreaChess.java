@@ -1,3 +1,4 @@
+import db.JanggiConnectionProvider;
 import domain.Board;
 import domain.Game;
 import domain.Player;
@@ -27,7 +28,7 @@ public class KoreaChess {
     public void run() {
         outputView.printGameStart();
 
-        if (new GameService(new GameRepositoryImpl()).hasPlayingGame()) {
+        if (new GameService(new GameRepositoryImpl(new JanggiConnectionProvider())).hasPlayingGame()) {
             handleExistingGame();
             return;
         }
@@ -44,7 +45,8 @@ public class KoreaChess {
     }
 
     private String selectGame() {
-        List<String> gameNames = new GameService(new GameRepositoryImpl()).findGameNameAll();
+        List<String> gameNames = new GameService(
+                new GameRepositoryImpl(new JanggiConnectionProvider())).findGameNameAll();
         outputView.printGameList(gameNames);
         String gameName = inputView.readGameName();
 
@@ -55,14 +57,17 @@ public class KoreaChess {
     }
 
     private void loadSelectedGame(final String gameName) {
-        Game game = new GameLoadService(new PlayerRepositoryImpl(), new PieceRepositoryImpl())
+        Game game = new GameLoadService(new PlayerRepositoryImpl(new JanggiConnectionProvider()),
+                new PieceRepositoryImpl(new JanggiConnectionProvider()))
                 .loadGame(gameName);
         playGame(game);
     }
 
     private void startNewGame() {
-        Game game = new GameInitializerService(outputView, inputView, new GameRepositoryImpl(),
-                new PlayerRepositoryImpl(), new PieceRepositoryImpl()).initializeGame();
+        Game game = new GameInitializerService(outputView, inputView,
+                new GameRepositoryImpl(new JanggiConnectionProvider()),
+                new PlayerRepositoryImpl(new JanggiConnectionProvider()),
+                new PieceRepositoryImpl(new JanggiConnectionProvider())).initializeGame();
         playGame(game);
     }
 
@@ -89,8 +94,10 @@ public class KoreaChess {
                 Position start = parseToPosition(inputView.readMovingPiecePosition(player));
                 Position target = parseToPosition(inputView.readTargetPiecePosition());
                 Piece moved = board.moveAndCapture(player, start, target);
-                new PieceService(new PieceRepositoryImpl()).delete(game.getName(), player.getTeam(), target);
-                new PieceService(new PieceRepositoryImpl()).update(game.getName(), player.getTeam(), start, moved);
+                new PieceService(new PieceRepositoryImpl(new JanggiConnectionProvider())).delete(game.getName(),
+                        player.getTeam(), target);
+                new PieceService(new PieceRepositoryImpl(new JanggiConnectionProvider())).update(game.getName(),
+                        player.getTeam(), start, moved);
                 outputView.printBoard(board);
                 return;
             } catch (Exception e) {
