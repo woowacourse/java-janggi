@@ -1,6 +1,7 @@
 package manager;
 
 import domain.board.BoardGenerator;
+import domain.board.PathFinderFactory;
 import domain.piece.character.Team;
 import service.GameService;
 import util.ErrorHandler;
@@ -72,7 +73,7 @@ public class GameManager {
         }
 
         OutputView.printCreatingNewGame(gameRoomName);
-        gameService.setNewGame(gameRoomName, new BoardGenerator(),
+        gameService.setNewGame(gameRoomName, new BoardGenerator(new PathFinderFactory()),
                 InputView.inputSangMaOrder(Team.CHO),
                 InputView.inputSangMaOrder(Team.HAN));
     }

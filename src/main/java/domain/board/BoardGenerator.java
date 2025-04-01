@@ -20,7 +20,11 @@ import view.SangMaOrderCommand;
 
 public class BoardGenerator {
 
-    private final PathFinderFactory pathFinderFactory = new PathFinderFactory();
+    private final PathFinderFactory pathFinderFactory;
+
+    public BoardGenerator(PathFinderFactory pathFinderFactory) {
+        this.pathFinderFactory = pathFinderFactory;
+    }
 
     public Board generateInitialBoard(final SangMaOrderCommand choSangMaOrderCommand,
                                       final SangMaOrderCommand hanSangMaOrderCommand) {
