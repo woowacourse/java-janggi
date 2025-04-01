@@ -1,7 +1,5 @@
 package janggi.domain.piece.behavior.straightmove;
 
-import janggi.domain.Board;
-import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.move.Vector;
 import janggi.domain.piece.BoardPositionInfo;
@@ -34,8 +32,6 @@ public final class Cannon extends StraightMoveBehavior {
     public void searchAvailableMoves(Set<Position> result, BoardPositionInfo boardPositionInfo, Vector vector,
                                      boolean hasPassed) {
         Position currentPosition = boardPositionInfo.position();
-        Board board = boardPositionInfo.board();
-        Team team = boardPositionInfo.team();
 
         if (currentPosition.canNotMove(vector) || boardPositionInfo.isCannon()) {
             return;
