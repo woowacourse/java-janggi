@@ -18,7 +18,7 @@ public interface PiecesView {
 
     PiecesView getMapWithoutPosition(int x, int y);
 
-    Optional<? extends PieceView> findByPosition(Position position);
+    Optional<PieceView> findByPosition(Position position);
 
     int size();
 

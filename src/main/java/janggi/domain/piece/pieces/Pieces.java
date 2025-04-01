@@ -31,7 +31,7 @@ public class Pieces implements PiecesView, Cloneable {
         return new Pieces(pieces.stream().collect(Collectors.toMap(Piece::getPosition, Function.identity())));
     }
 
-    public static PiecesView fromPieceViews(Collection<? extends PieceView> pieces) {
+    public static PiecesView fromPieceViews(Collection<PieceView> pieces) {
         return from(pieces.stream().map(piece -> (Piece) piece).collect(Collectors.toList()));
     }
 
@@ -83,7 +83,7 @@ public class Pieces implements PiecesView, Cloneable {
     }
 
     @Override
-    public Optional<? extends PieceView> findByPosition(Position position) {
+    public Optional<PieceView> findByPosition(Position position) {
         return Optional.ofNullable(values.get(position));
     }
 

@@ -17,8 +17,9 @@ public abstract class PalaceMovementStrategy implements MovementStrategy {
     @Override
     public final boolean isMoveable(PiecesView map, Position origin, Side side, Position destination) {
         if (Palace.isInPalace(origin)) {
-            return isMovableInPalace(map, origin, side, destination) ||
-                defaultMovementStrategy.isMoveable(map, origin, side, destination);
+            return defaultMovementStrategy.isMoveable(map, origin, side, destination) ||
+                isMovableInPalace(map, origin, side, destination);
+
         }
         return defaultMovementStrategy.isMoveable(map, origin, side, destination);
     }

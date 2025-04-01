@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public enum Palace {
+public enum
+Palace {
     HAN_DOWN_LEFT(new Position(3, 0)),
     HAN_DOWN_MIDDLE(new Position(4, 0)),
     HAN_DOWN_RIGHT(new Position(5, 0)),
