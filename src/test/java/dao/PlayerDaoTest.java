@@ -17,19 +17,23 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import util.H2ConnectionUtil;
+import util.ConnectionFactory;
+import util.H2ConnectionFactory;
 
 class PlayerDaoTest {
 
     private PlayerDao playerDao;
     private Connection connection;
+    private ConnectionFactory factory;
 
     @BeforeEach
     void setup() throws SQLException {
-        connection = H2ConnectionUtil.getConnection();
-        H2ConnectionUtil.initializeTable(connection);
+        H2ConnectionFactory h2Connection = new H2ConnectionFactory();
+        h2Connection.initializeTable();
+        factory = h2Connection;
+        connection = factory.getConnection();
         connection.setAutoCommit(false);
-        playerDao = new PlayerDao(connection);
+        playerDao = new PlayerDao();
     }
 
     @AfterEach
@@ -42,22 +46,23 @@ class PlayerDaoTest {
     @DisplayName("플레이어 데이터를 저장한다")
     void savePlayerTest() throws SQLException {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
         Username name = new Username("루키");
         TeamType team = TeamType.HAN;
         Player player = new Player(name, team);
 
         // when & then
-        assertThatCode(() -> playerDao.savePlayer(player, gameId))
+        assertThatCode(() -> playerDao.savePlayer(player, gameId, connection))
                 .doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("게임에 해당하는 플레이어들의 데이터를 조회한다")
-    void findPlayersByGameIdTest() throws SQLException {
+    void findPlayersByGameIdTest() {
         // given
-        JanggiGameDao janggiGameDao = new JanggiGameDao(connection);
-        long gameId = janggiGameDao.saveJanggiGame(new TurnState(false, TeamType.CHO), GameState.IN_PROGRESS);
+        JanggiGameDao janggiGameDao = new JanggiGameDao();
+        long gameId = janggiGameDao.saveJanggiGame(new TurnState(false, TeamType.CHO), GameState.IN_PROGRESS,
+                connection);
 
         Username choPlayerName = new Username("루키");
         TeamType choPlayerTeam = TeamType.CHO;
@@ -67,11 +72,11 @@ class PlayerDaoTest {
         TeamType hanPlayerTeam = TeamType.HAN;
         Player hanPlayer = new Player(hanPlayerName, hanPlayerTeam);
 
-        playerDao.savePlayer(choPlayer, gameId);
-        playerDao.savePlayer(hanPlayer, gameId);
+        playerDao.savePlayer(choPlayer, gameId, connection);
+        playerDao.savePlayer(hanPlayer, gameId, connection);
 
         // when
-        List<Player> players = playerDao.findPlayersByGameId(gameId);
+        List<Player> players = playerDao.findPlayersByGameId(gameId, connection);
 
         //then
         Player findChoPlayer = players.getFirst();

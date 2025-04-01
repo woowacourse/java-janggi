@@ -11,13 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerDao {
-    private final Connection connection;
 
-    public PlayerDao(Connection connection) {
-        this.connection = connection;
-    }
-
-    public long savePlayer(Player player, Long gameId) {
+    public long savePlayer(Player player, Long gameId, Connection connection) {
         String query = "INSERT INTO players (game_id, name, team_type) VALUES (?, ?, ?)";
 
         try {
@@ -36,7 +31,7 @@ public class PlayerDao {
         }
     }
 
-    public List<Player> findPlayersByGameId(Long gameId) {
+    public List<Player> findPlayersByGameId(Long gameId, Connection connection) {
         String query = "SELECT * FROM players WHERE game_id = ?";
 
         try {

@@ -14,19 +14,23 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import util.H2ConnectionUtil;
+import util.ConnectionFactory;
+import util.H2ConnectionFactory;
 
 class JanggiGameDaoTest {
 
     private JanggiGameDao janggiGameDao;
     private Connection connection;
+    private ConnectionFactory factory;
 
     @BeforeEach
     void setup() throws SQLException {
-        connection = H2ConnectionUtil.getConnection();
-        H2ConnectionUtil.initializeTable(connection);
+        H2ConnectionFactory h2Connection = new H2ConnectionFactory();
+        h2Connection.initializeTable();
+        factory = h2Connection;
+        connection = factory.getConnection();
         connection.setAutoCommit(false);
-        janggiGameDao = new JanggiGameDao(connection);
+        janggiGameDao = new JanggiGameDao();
     }
 
     @AfterEach
@@ -43,7 +47,7 @@ class JanggiGameDaoTest {
         GameState gameState = GameState.IN_PROGRESS;
 
         // when & then
-        assertThatCode(() -> janggiGameDao.saveJanggiGame(turnState, gameState))
+        assertThatCode(() -> janggiGameDao.saveJanggiGame(turnState, gameState, connection))
                 .doesNotThrowAnyException();
     }
 
@@ -51,14 +55,14 @@ class JanggiGameDaoTest {
     @DisplayName("진행중인 게임의 정보들을 반환한다")
     void findInProgressGamesTest() {
         // given
-        int savedCount = janggiGameDao.findInProgressGameIds().size();
+        int savedCount = janggiGameDao.findInProgressGameIds(connection).size();
         int newGameCount = 3;
         for (int i = 0; i < newGameCount; i++) {
             saveNewGame();
         }
 
         // when
-        List<Long> inProgressGames = janggiGameDao.findInProgressGameIds();
+        List<Long> inProgressGames = janggiGameDao.findInProgressGameIds(connection);
 
         // then
         assertThat(inProgressGames).hasSize(savedCount + 3);
@@ -71,7 +75,7 @@ class JanggiGameDaoTest {
         long gameId = saveNewGame();
 
         // when
-        TurnState turnState = janggiGameDao.findTurnStateById(gameId).get();
+        TurnState turnState = janggiGameDao.findTurnStateById(gameId, connection).get();
 
         // then
         assertAll(
@@ -88,7 +92,7 @@ class JanggiGameDaoTest {
 
         // when
         GameState gameState = GameState.FINISHED_SCORE;
-        int resultRowCount = janggiGameDao.updateGameState(gameId, gameState);
+        int resultRowCount = janggiGameDao.updateGameState(gameId, gameState, connection);
 
         // then
         assertThat(resultRowCount).isEqualTo(1);
@@ -102,7 +106,7 @@ class JanggiGameDaoTest {
 
         // when
         TurnState turnState = new TurnState(true, TeamType.HAN);
-        int resultRowCount = janggiGameDao.updateTurnState(gameId, turnState);
+        int resultRowCount = janggiGameDao.updateTurnState(gameId, turnState, connection);
 
         // then
         assertThat(resultRowCount).isEqualTo(1);
@@ -115,7 +119,7 @@ class JanggiGameDaoTest {
         long gameId = saveNewGame();
 
         // when
-        GameState actual = janggiGameDao.findGameStateById(gameId).get();
+        GameState actual = janggiGameDao.findGameStateById(gameId, connection).get();
 
         // then
         GameState expected = GameState.IN_PROGRESS;
@@ -126,6 +130,6 @@ class JanggiGameDaoTest {
         TurnState turnState = new TurnState(false, TeamType.CHO);
         GameState gameState = GameState.IN_PROGRESS;
 
-        return janggiGameDao.saveJanggiGame(turnState, gameState);
+        return janggiGameDao.saveJanggiGame(turnState, gameState, connection);
     }
 }

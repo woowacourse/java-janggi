@@ -13,13 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class JanggiGameDao {
-    private final Connection connection;
 
-    public JanggiGameDao(Connection connection) {
-        this.connection = connection;
-    }
-
-    public List<Long> findInProgressGameIds() {
+    public List<Long> findInProgressGameIds(Connection connection) {
         String query = "SELECT game_id FROM janggi_games WHERE game_status = ?";
 
         try {
@@ -32,7 +27,7 @@ public class JanggiGameDao {
         }
     }
 
-    public Optional<TurnState> findTurnStateById(Long gameId) {
+    public Optional<TurnState> findTurnStateById(Long gameId, Connection connection) {
         String query = "SELECT undo_last, turn FROM janggi_games WHERE game_id = ?";
 
         try {
@@ -45,7 +40,7 @@ public class JanggiGameDao {
         }
     }
 
-    public Optional<GameState> findGameStateById(Long gameId) {
+    public Optional<GameState> findGameStateById(Long gameId, Connection connection) {
         String query = "SELECT game_status FROM janggi_games WHERE game_id = ?";
 
         try {
@@ -58,7 +53,7 @@ public class JanggiGameDao {
         }
     }
 
-    public long saveJanggiGame(TurnState turnState, GameState gameState) {
+    public long saveJanggiGame(TurnState turnState, GameState gameState, Connection connection) {
         String query = "INSERT INTO janggi_games (game_status, turn, undo_last) VALUES (?, ?, ?)";
 
         try {
@@ -76,7 +71,7 @@ public class JanggiGameDao {
         }
     }
 
-    public int updateGameState(Long gameId, GameState gameState) {
+    public int updateGameState(Long gameId, GameState gameState, Connection connection) {
         String query = "UPDATE janggi_games SET game_status = ? WHERE game_id = ?";
 
         try {
@@ -89,7 +84,7 @@ public class JanggiGameDao {
         }
     }
 
-    public int updateTurnState(Long gameId, TurnState turnState) {
+    public int updateTurnState(Long gameId, TurnState turnState, Connection connection) {
         String query = "UPDATE janggi_games SET turn = ?, undo_last = ? WHERE game_id = ?";
 
         try {

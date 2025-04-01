@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import dao.JanggiGameDao;
+import dao.PieceDao;
 import dao.fixture.JanggiGameTestFixture;
 import domain.game.dto.JanggiGameResponseDto;
 import domain.piece.Cannon;
@@ -35,33 +36,31 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import util.H2ConnectionUtil;
+import util.H2ConnectionFactory;
 
 class JanggiManagerTest {
 
     private JanggiManager janggiManager;
-    private Connection connection;
+    private H2ConnectionFactory factory;
 
     @BeforeEach
-    void setup() throws SQLException {
-        connection = H2ConnectionUtil.getConnection();
-        H2ConnectionUtil.initializeTable(connection);
-        connection.setAutoCommit(false);
-        janggiManager = new JanggiManager(connection);
+    void setup() {
+        this.factory = new H2ConnectionFactory();
+        factory.initializeTable();
+        janggiManager = new JanggiManager(new H2ConnectionFactory());
     }
 
     @AfterEach
-    void rollback() throws SQLException {
-        connection.rollback();
-        connection.close();
+    void clearTable() {
+        factory.initializeTable();
     }
 
     @Test
     @DisplayName("진행중인 게임의 정보들을 반환한다")
     void findInProgressGamesTest() throws SQLException {
         // given
-        long savedGameId1 = JanggiGameTestFixture.saveNewJanggiGame(connection);
-        long savedGameId2 = JanggiGameTestFixture.saveNewJanggiGame(connection);
+        long savedGameId1 = JanggiGameTestFixture.saveNewJanggiGame(factory);
+        long savedGameId2 = JanggiGameTestFixture.saveNewJanggiGame(factory);
 
         // when
         List<JanggiGameResponseDto> inProgressGames = janggiManager.findInProgressGames();
@@ -70,8 +69,10 @@ class JanggiManagerTest {
         Player choPlayer = new Player(new Username("테스트1"), TeamType.CHO);
         Player hanPlayer = new Player(new Username("테스트2"), TeamType.HAN);
         assertAll(
-                () -> assertThat(inProgressGames).contains(new JanggiGameResponseDto(savedGameId1, choPlayer, hanPlayer)),
-                () -> assertThat(inProgressGames).contains(new JanggiGameResponseDto(savedGameId2, choPlayer, hanPlayer))
+                () -> assertThat(inProgressGames).contains(
+                        new JanggiGameResponseDto(savedGameId1, choPlayer, hanPlayer)),
+                () -> assertThat(inProgressGames).contains(
+                        new JanggiGameResponseDto(savedGameId2, choPlayer, hanPlayer))
         );
     }
 
@@ -103,15 +104,17 @@ class JanggiManagerTest {
     @DisplayName("정상적으로 무르기가 실행되면 변경된 정보가 저장된다")
     void undoTest(TurnState turnState, TurnState expectedTurnState, boolean expectedInProgress) throws SQLException {
         // given
-        JanggiGameDao janggiGameDao = new JanggiGameDao(connection);
+        Connection connection = factory.getConnection();
+        JanggiGameDao janggiGameDao = new JanggiGameDao();
         GameState gameState = GameState.IN_PROGRESS;
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection, turnState, gameState);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory, turnState, gameState);
+        connection.commit();
 
         // when
         janggiManager.undo(gameId);
 
         // then
-        TurnState actualTurnState = janggiGameDao.findTurnStateById(gameId).get();
+        TurnState actualTurnState = janggiGameDao.findTurnStateById(gameId, connection).get();
         boolean actualInProgress = janggiManager.isInProgress(gameId);
         assertAll(
                 () -> assertThat(actualTurnState).isEqualTo(expectedTurnState),
@@ -123,14 +126,17 @@ class JanggiManagerTest {
     @DisplayName("기물을 이동하면 이동한 좌표가 저장된다")
     void movePieceTest() throws SQLException {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
+        Connection connection = factory.getConnection();
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
         Position from = Position.of(4, 3);
         Position to = Position.of(5, 5);
         Map<Position, Piece> pieces = Map.of(
                 from, new Horse(TeamType.CHO)
         );
 
-        JanggiGameTestFixture.saveBoardPieces(connection, gameId, pieces);
+        new PieceDao().savePieces(pieces, gameId, connection);
+        connection.commit();
+        connection.close();
 
         // when
         janggiManager.movePiece(gameId, from, to);
@@ -148,7 +154,7 @@ class JanggiManagerTest {
     @DisplayName("기물을 이동하여 잡힌 말은 데이터에서 제거된다")
     void movePieceRemoveTest() throws SQLException {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
         Position from = Position.of(4, 3);
         Position to = Position.of(5, 5);
         Map<Position, Piece> pieces = Map.of(
@@ -156,7 +162,7 @@ class JanggiManagerTest {
                 to, new Soldier(TeamType.HAN)
         );
 
-        JanggiGameTestFixture.saveBoardPieces(connection, gameId, pieces);
+        JanggiGameTestFixture.saveBoardPieces(factory, gameId, pieces);
 
         // when
         janggiManager.movePiece(gameId, from, to);
@@ -174,7 +180,7 @@ class JanggiManagerTest {
     @DisplayName("현재 턴을 진행하는 플레이어를 반환한다")
     void getCurrentPlayerTest() throws SQLException {
         // given
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory);
 
         // when
         Player currentPlayer = janggiManager.getCurrentPlayer(gameId);
@@ -190,7 +196,7 @@ class JanggiManagerTest {
         // given
         TurnState turnState = new TurnState(true, TeamType.HAN);
         GameState gameState = GameState.FINISHED_SCORE;
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection, turnState, gameState);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory, turnState, gameState);
         Map<Position, Piece> pieces = Map.of(
                 Position.of(3, 4), new Chariot(TeamType.HAN),
                 Position.of(1, 2), new Soldier(TeamType.CHO),
@@ -199,7 +205,7 @@ class JanggiManagerTest {
                 Position.of(1, 4), new King(TeamType.CHO)
         );
 
-        JanggiGameTestFixture.saveBoardPieces(connection, gameId, pieces);
+        JanggiGameTestFixture.saveBoardPieces(factory, gameId, pieces);
 
         // when
         Player actual = janggiManager.findWinner(gameId);
@@ -214,7 +220,7 @@ class JanggiManagerTest {
         // given
         TurnState turnState = new TurnState(true, TeamType.HAN);
         GameState gameState = GameState.FINISHED_SCORE;
-        long gameId = JanggiGameTestFixture.saveNewJanggiGame(connection, turnState, gameState);
+        long gameId = JanggiGameTestFixture.saveNewJanggiGame(factory, turnState, gameState);
         Map<Position, Piece> pieces = Map.of(
                 Position.of(3, 4), new Chariot(TeamType.HAN),
                 Position.of(1, 2), new Soldier(TeamType.CHO),
@@ -224,7 +230,7 @@ class JanggiManagerTest {
                 Position.of(1, 4), new King(TeamType.CHO)
         );
 
-        JanggiGameTestFixture.saveBoardPieces(connection, gameId, pieces);
+        JanggiGameTestFixture.saveBoardPieces(factory, gameId, pieces);
 
         // when
         Map<Player, Double> playerScores = janggiManager.calculatePlayerScore(gameId);
