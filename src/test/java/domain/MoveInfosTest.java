@@ -36,6 +36,27 @@ class MoveInfosTest {
 
     @ParameterizedTest
     @CsvSource({
+            "5, 2, true",
+            "1, 3, false"
+    })
+    void 마지막_좌표가_궁성인지_확인한다(int row, int column, boolean expected) {
+        // given
+        List<MoveInfo> elements = List.of(
+                new MoveInfo(DUMMY, PieceCategory.NONE),
+                new MoveInfo(new Position(row, column), PieceCategory.NONE)
+        );
+
+        MoveInfos moveInfos = new MoveInfos(elements);
+
+        // when
+        boolean result = moveInfos.isLastPathWithinPalace();
+
+        // then
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
             "NONE, 0",
             "CANNON, 1"
     })
