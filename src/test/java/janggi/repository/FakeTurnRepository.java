@@ -8,7 +8,7 @@ import java.util.Optional;
 public class FakeTurnRepository implements TurnRepository {
 
     private TurnEntity turnEntity = null;
-    Long autoIncrement = 1L;
+    private Long autoIncrement = 1L;
 
     @Override
     public Long add(final Turn turn) {
