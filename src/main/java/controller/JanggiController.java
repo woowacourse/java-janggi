@@ -6,7 +6,7 @@ import domain.dao.JanggiDBConnect;
 import domain.dao.JanggiGameDao;
 import domain.dao.JanggiPieceDao;
 import domain.dto.GameIdDto;
-import domain.dto.GameRoomDTO;
+import domain.dto.GameRoomDto;
 import domain.piece.Piece;
 import view.InputView;
 import view.OutputView;
@@ -85,7 +85,7 @@ public class JanggiController {
     private GameIdDto loadGame() {
         while (true) {
             try {
-                List<GameRoomDTO> gameRooms = gameDao.findAllGames();
+                List<GameRoomDto> gameRooms = gameDao.findAllGames();
                 String gameName = inputView.getGameName(gameRooms);
                 int gameId = gameDao.getGameIdByName(gameName);
                 String currentTurn = gameDao.getCurrTurnById(gameId);
@@ -102,7 +102,7 @@ public class JanggiController {
 
     private GameCommand getCreateGameCommand() {
         gameDao.createGameTableIfNotExist();
-        List<GameRoomDTO> gameRooms = gameDao.findAllGames();
+        List<GameRoomDto> gameRooms = gameDao.findAllGames();
         if (gameRooms.size() == 0) {
             return GameCommand.CREATE_NEW_GAME_COMMAND;
         }

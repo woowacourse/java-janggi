@@ -3,7 +3,7 @@ package view;
 import domain.Country;
 import domain.JanggiBoard;
 import domain.JanggiCoordinate;
-import domain.dto.GameRoomDTO;
+import domain.dto.GameRoomDto;
 import domain.piece.Piece;
 
 import java.time.format.DateTimeFormatter;
@@ -81,10 +81,10 @@ public class OutputView {
         return String.valueOf(score);
     }
 
-    public void printGameNames(List<GameRoomDTO> allGames) {
+    public void printGameNames(List<GameRoomDto> allGames) {
         System.out.println("현재 세이브 되어있는 게임 목록입니다.");
         System.out.println();
-        for (GameRoomDTO dto : allGames) {
+        for (GameRoomDto dto : allGames) {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h시 m분");
             String creationTime = dto.creationDate().format(dateTimeFormatter);
             System.out.println("게임 이름 : " + dto.gameRoomName());

@@ -3,7 +3,7 @@ package domain.dao;
 
 import domain.Country;
 import domain.JanggiCoordinate;
-import domain.dto.GameRoomDTO;
+import domain.dto.GameRoomDto;
 import domain.piece.Piece;
 
 import java.sql.*;
@@ -65,17 +65,17 @@ public class JanggiGameDao {
         }
     }
 
-    public List<GameRoomDTO> findAllGames() {
+    public List<GameRoomDto> findAllGames() {
         String findAllGamesSQL = "SELECT room_name, curr_turn, created_at from game;";
 
         try (Statement statement = connection.createStatement()) {
             final ResultSet resultSet = statement.executeQuery(findAllGamesSQL);
-            List<GameRoomDTO> dtos = new ArrayList<>();
+            List<GameRoomDto> dtos = new ArrayList<>();
             while (resultSet.next()) {
                 String roomName = resultSet.getString("room_name");
                 String currTurn = resultSet.getString("curr_turn");
                 LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-                dtos.add(new GameRoomDTO(roomName, currTurn, createdAt));
+                dtos.add(new GameRoomDto(roomName, currTurn, createdAt));
             }
             return dtos;
         } catch (SQLException e) {

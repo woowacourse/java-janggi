@@ -3,7 +3,7 @@ package view;
 import controller.GameCommand;
 import controller.JanggiController;
 import domain.JanggiCoordinate;
-import domain.dto.GameRoomDTO;
+import domain.dto.GameRoomDto;
 
 import java.util.List;
 import java.util.Scanner;
@@ -66,7 +66,7 @@ public class InputView {
         throw new IllegalArgumentException("[ERROR] 유효하지 않은 커맨드 입니다.");
     }
 
-    public String getGameName(List<GameRoomDTO> gameRoomDTOs) {
+    public String getGameName(List<GameRoomDto> gameRoomDTOs) {
         try {
             System.out.println("불러올 게임 이름을 입력해주세요.");
             String input = scanner.nextLine();
