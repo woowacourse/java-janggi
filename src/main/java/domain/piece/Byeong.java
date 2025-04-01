@@ -36,7 +36,7 @@ public class Byeong extends SlidingPiece {
     }
 
     @Override
-    List<Direction> movableDirections() {
+    public List<Direction> movableDirections() {
         return switch (team()) {
             case CHO -> List.of(LEFT, UP_LEFT, UP, UP_RIGHT, RIGHT);
             case HAN -> List.of(LEFT, DOWN_LEFT, DOWN, DOWN_RIGHT, RIGHT);
@@ -44,7 +44,7 @@ public class Byeong extends SlidingPiece {
     }
 
     @Override
-    int maxStep() {
+    public int maxStep() {
         return 1;
     }
 }
