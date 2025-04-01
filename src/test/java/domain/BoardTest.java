@@ -31,7 +31,7 @@ class BoardTest {
         // when & then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new Board(boardElements))
-                .withMessage("플레이어는 2명이어야 합니다.");
+                .withMessage("게임 플레이어는 두 명이어야 합니다.");
     }
 
     @Test

@@ -11,6 +11,10 @@ public record Board(
         Map<Player, Pieces> gamePlayers
 ) {
 
+    public Board {
+        validatePlayerSize(gamePlayers);
+    }
+
     public Piece moveAndCapture(final Player current, final Position start, final Position target) {
         Pieces player = gamePlayers.get(current);
         Pieces opponent = getOppositePieces(current);
@@ -35,6 +39,12 @@ public record Board(
 
     public GameResult getGameResult() {
         return new GameResult(gamePlayers);
+    }
+
+    private void validatePlayerSize(final Map<Player, Pieces> gamePlayers) {
+        if (gamePlayers.size() != 2) {
+            throw new IllegalArgumentException("게임 플레이어는 두 명이어야 합니다.");
+        }
     }
 
     private Pieces getOppositePieces(final Player current) {
