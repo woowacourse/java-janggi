@@ -13,59 +13,61 @@ public class Direction {
         this.direction = direction;
     }
 
-    public boolean canReach(final Position start, final Position target, final boolean repeatable) {
-        if (repeatable) {
+    public boolean canReach(final Position start, final Position target, final boolean isRepeatable) {
+        if (isRepeatable) {
             return canReachWithRepeat(start, target);
         }
         return canReachWithoutRepeat(start, target);
     }
 
-    public List<Position> createPath(final Position start, final Position target, final boolean repeatable) {
-        if (repeatable) {
-            return createPathWithRepeat(start, target);
+    public List<Position> createPath(final Position start, final Position target, final boolean isRepeatable) {
+        List<Position> paths = new ArrayList<>();
+        paths.add(start);
+
+        if (isRepeatable) {
+            addPathWithRepetition(paths, start, target);
+            return paths;
         }
-        return createPathWithoutRepeat(start);
+
+        addPathWithoutRepetition(paths, start);
+        return paths;
     }
 
     private boolean canReachWithRepeat(final Position start, final Position target) {
         Position current = start;
-        Vector vector = direction.getFirst();
-        while (current.isMoveValid(vector) && !current.equals(target)) {
-            current = current.moveBy(vector);
+        Vector repeat = direction.getFirst();
+
+        while (current.isMoveValid(repeat) && !current.equals(target)) {
+            current = current.moveBy(repeat);
         }
         return current.equals(target);
     }
 
     private boolean canReachWithoutRepeat(final Position start, final Position target) {
         Position current = start;
-        for (Vector vector : direction) {
-            if (!current.isMoveValid(vector)) {
-                continue;
+
+        for (Vector move : direction) {
+            if (!current.isMoveValid(move)) {
+                break;
             }
-            current = current.moveBy(vector);
+            current = current.moveBy(move);
         }
         return current.equals(target);
     }
 
-    private List<Position> createPathWithRepeat(final Position start, final Position target) {
-        List<Position> paths = new ArrayList<>();
-
-        Position path = start;
-        while (!path.equals(target)) {
-            path = path.moveBy(direction.getFirst());
-            paths.add(path);
+    private void addPathWithRepetition(final List<Position> paths, final Position start, final Position target) {
+        Position current = start;
+        while (!current.equals(target)) {
+            current = current.moveBy(direction.getFirst());
+            paths.add(current);
         }
-        return paths.subList(0, paths.size());
     }
 
-    private List<Position> createPathWithoutRepeat(final Position start) {
-        List<Position> paths = new ArrayList<>();
-
-        Position path = start;
+    private void addPathWithoutRepetition(final List<Position> paths, final Position start) {
+        Position current = start;
         for (Vector vector : direction) {
-            path = path.moveBy(vector);
-            paths.add(path);
+            current = current.moveBy(vector);
+            paths.add(current);
         }
-        return paths.subList(0, paths.size());
     }
 }
