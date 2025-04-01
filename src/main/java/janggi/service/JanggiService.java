@@ -26,7 +26,7 @@ public class JanggiService {
         this.pieceDao = pieceDao;
     }
 
-    public GameEntity findRunningGameByNameOrThrow(String name) {
+    public GameEntity getRunningGameByName(String name) {
         GameEntity gameEntity = gameDao.findByName(name)
                 .orElseThrow(() -> new IllegalArgumentException(name + "에 해당하는 게임이 존재하지 않습니다."));
         if (gameEntity.isEnd()) {
@@ -40,18 +40,18 @@ public class JanggiService {
             throw new IllegalArgumentException("이미 존재하는 게임 이름입니다.");
         }
         gameDao.addGame(new GameEntity(gameName, Status.RUN, Dynasty.CHU));
-        GameEntity gameEntity = findRunningGameByNameOrThrow(gameName);
+        GameEntity gameEntity = getRunningGameByName(gameName);
         JanggiBoard janggiBoard = JanggiBoard.of(hanBoardSetUp, chuBoardSetUp);
         pieceDao.addPieces(createPieceEntities(gameEntity, janggiBoard));
     }
 
     public GameStatus findJanggiStatusByGameId(Long gameId) {
-        GameEntity gameEntity = findByIdOrThrow(gameId);
+        GameEntity gameEntity = getGameById(gameId);
         return GameStatus.of(gameEntity.getCurrentTurn(), findJanggiBoardByGameId(gameEntity.getId()));
     }
 
     public GameStatus move(Long gameId, Point from, Point to) {
-        GameEntity gameEntity = findByIdOrThrow(gameId);
+        GameEntity gameEntity = getGameById(gameId);
         JanggiBoard janggiBoard = findJanggiBoardByGameId(gameId);
 
         GameStatus gameStatus = GameStatus.of(gameEntity.getCurrentTurn(), janggiBoard).move(from, to);
@@ -90,7 +90,7 @@ public class JanggiService {
         return new JanggiBoard(pieces);
     }
 
-    private GameEntity findByIdOrThrow(Long gameId) {
+    private GameEntity getGameById(Long gameId) {
         return gameDao.findById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("id에 해당하는 게임이 존재하지 않습니다."));
     }

@@ -38,7 +38,7 @@ class JanggiServiceTest {
         JanggiService janggiService = new JanggiService(new FakeGameDao(gameEntity), new FakePieceDao());
 
         //when
-        GameEntity runningGame = janggiService.findRunningGameByNameOrThrow("abc");
+        GameEntity runningGame = janggiService.getRunningGameByName("abc");
 
         //then
         assertThat(runningGame).isEqualTo(gameEntity);

@@ -32,7 +32,7 @@ public class JanggiGame {
                         initializeView.readBoardSetUp(Dynasty.CHU),
                         initializeView.readBoardSetUp(Dynasty.HAN));
             }
-            GameEntity gameEntity = janggiService.findRunningGameByNameOrThrow(gameName);
+            GameEntity gameEntity = janggiService.getRunningGameByName(gameName);
             play(gameEntity);
         } catch (IllegalArgumentException e) {
             System.out.println("[ERROR] " + e.getMessage());
