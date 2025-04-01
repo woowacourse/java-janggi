@@ -87,13 +87,22 @@ class PositionTest {
         assertThat(result).isEqualTo(expected);
     }
 
-    @Test
-    void 이동_방향을_반환한다() {
+    @ParameterizedTest
+    @CsvSource(value = {
+            "6, 5, 1, 1",
+            "6, 4, 1, 0",
+            "5, 5, 0, 1",
+            "5, 4, 0, 0",
+            "4, 3, -1, -1",
+            "4, 4, -1, 0",
+            "5, 3, 0, -1",
+    })
+    void 이동_방향을_반환한다(int targetRow, int targetColumn, int moveRow, int moveColumn) {
         // given
         Position start = new Position(5, 4);
-        Position target = new Position(6, 5);
+        Position target = new Position(targetRow, targetColumn);
 
-        Vector expected = new Vector(1, 1);
+        Vector expected = new Vector(moveRow, moveColumn);
 
         // when
         Vector result = start.calculateVector(target);
