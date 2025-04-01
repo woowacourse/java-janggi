@@ -101,7 +101,6 @@ public class JanggiController {
     }
 
     private GameCommand getCreateGameCommand() {
-        gameDao.createGameTableIfNotExist();
         List<GameRoomDto> gameRooms = gameDao.findAllGames();
         if (gameRooms.size() == 0) {
             return GameCommand.CREATE_NEW_GAME_COMMAND;
@@ -119,9 +118,6 @@ public class JanggiController {
     }
 
     private void saveGame(JanggiBoard board, Country currTurn, int gameId) {
-        pieceDao.createPieceTableIfNotExist();
-        coordinateDao.createCoordinateTableIfNotExist();
-
         coordinateDao.deleteCoordinatesByGameId(gameId);
         pieceDao.deletePiecesByGameId(gameId);
         gameDao.updateTurn(gameId, currTurn.getName());
