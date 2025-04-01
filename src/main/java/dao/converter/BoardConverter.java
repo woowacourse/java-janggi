@@ -4,9 +4,8 @@ import dao.PieceDto;
 import domain.board.Board;
 import domain.board.PathFinder;
 import domain.board.PathFinderFactory;
+import domain.piece.Byeong;
 import domain.piece.Cha;
-import domain.piece.ChoByeong;
-import domain.piece.HanByeong;
 import domain.piece.Ma;
 import domain.piece.Piece;
 import domain.piece.Po;
@@ -53,10 +52,7 @@ public class BoardConverter {
     private static Piece convertToPiece(PieceType pieceType, Team team) {
         return switch (pieceType) {
             case MA -> new Ma(team);
-            case BYEONG -> switch (team) {
-                case CHO -> new ChoByeong();
-                case HAN -> new HanByeong();
-            };
+            case BYEONG -> new Byeong(team);
             case PO -> new Po(team);
             case SA -> new Sa(team);
             case CHA -> new Cha(team);
