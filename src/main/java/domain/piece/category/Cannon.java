@@ -20,11 +20,7 @@ public class Cannon extends Piece {
     public List<Position> getPaths(final Position target) {
         List<Position> paths = directions.getPaths(position, target);
         if (position.isWithinPalace()) {
-            paths = PieceDirection.REPEATED_DIAGONAL.get().getPaths(position, target);
-        }
-        validatePaths(paths);
-        if (position.isWithinPalace()) {
-            validateDiagonalPaths(paths);
+            return PieceDirection.REPEATED_DIAGONAL.get().getPaths(position, target);
         }
         return paths;
     }
@@ -41,6 +37,9 @@ public class Cannon extends Piece {
     }
 
     private void validateMove(final MoveInfos moveInfos) {
+        if (moveInfos.isDiagonalPath()) {
+            validateLastPathWithinPalace(moveInfos);
+        }
         validateIntermediatePieceCount(moveInfos);
         validateTargetPieceIsCannon(moveInfos);
         validateCannonInIntermediatePath(moveInfos);

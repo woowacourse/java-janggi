@@ -21,10 +21,6 @@ public class Guard extends Piece {
         if (position.isWithinPalace()) {
             paths = PieceDirection.DIAGONAL.get().getPaths(position, target);
         }
-        validatePaths(paths);
-        if (position.isWithinPalace()) {
-            validateDiagonalPaths(paths);
-        }
         return paths;
     }
 

@@ -22,10 +22,6 @@ public class Chariot extends Piece {
         if (position.isWithinPalace()) {
             paths = PieceDirection.REPEATED_DIAGONAL.get().getPaths(position, target);
         }
-        validatePaths(paths);
-        if (position.isWithinPalace()) {
-            validateDiagonalPaths(paths);
-        }
         return paths;
     }
 
@@ -41,6 +37,9 @@ public class Chariot extends Piece {
     }
 
     private void validateMove(final MoveInfos moveInfos) {
+        if (moveInfos.isDiagonalPath()) {
+            validateLastPathWithinPalace(moveInfos);
+        }
         if (moveInfos.countPiecesInIntermediatePath() != PIECES_TO_PASS) {
             throw new IllegalArgumentException("차는 중간에 기물이 " + PIECES_TO_PASS + "개여야 합니다.");
         }

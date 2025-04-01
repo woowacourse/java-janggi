@@ -37,8 +37,8 @@ public abstract class Piece {
         }
     }
 
-    protected void validateDiagonalPaths(List<Position> paths) {
-        if (!paths.getLast().isWithinPalace()) {
+    protected void validateLastPathWithinPalace(final MoveInfos moveInfos) {
+        if (!moveInfos.isLastPathWithinPalace()) {
             throw new IllegalArgumentException("궁성 이동의 경우 밖으로 이동할 수 없습니다.");
         }
     }

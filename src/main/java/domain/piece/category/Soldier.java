@@ -21,16 +21,19 @@ public class Soldier extends Piece {
         if (position.isWithinPalace()) {
             paths = getPalacePaths(target, paths);
         }
-        validatePaths(paths);
-        if (position.isWithinPalace()) {
-            validateDiagonalPaths(paths);
-        }
         return paths;
     }
 
     @Override
     public Soldier move(final Position target, final MoveInfos moveInfos) {
+        validateMove(moveInfos);
         return new Soldier(target, directions);
+    }
+
+    private void validateMove(final MoveInfos moveInfos) {
+        if (moveInfos.isDiagonalPath()) {
+            validateLastPathWithinPalace(moveInfos);
+        }
     }
 
     @Override
