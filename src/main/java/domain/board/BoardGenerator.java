@@ -97,12 +97,12 @@ public class BoardGenerator {
         List<PieceType> pieceTypes = sangMaOrderCommand.getPieceTypes();
         Deque<Piece> pieces = new ArrayDeque<>();
         for (PieceType pieceType : pieceTypes) {
-            pieces.addLast(createMovablePiece(pieceType, team));
+            pieces.addLast(createPieceByTypeAndTeam(pieceType, team));
         }
         return pieces;
     }
 
-    private Piece createMovablePiece(final PieceType pieceType, final Team team) {
+    private Piece createPieceByTypeAndTeam(final PieceType pieceType, final Team team) {
         return switch (pieceType) {
             case SANG -> new Sang(team);
             case MA -> new Ma(team);
