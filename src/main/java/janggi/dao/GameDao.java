@@ -17,7 +17,7 @@ public class GameDao {
             preparedStatement.setString(2, firstTurnCamp.getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("보드 초기화 실패", e);
+            throw new RuntimeException("게임 초기화 중 오류가 발생했습니다.", e);
         }
     }
 
@@ -32,7 +32,7 @@ public class GameDao {
                 return Camp.from(resultSet.getString("turn"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("현재 턴 조회 실패", e);
+            throw new RuntimeException("현재 게임의 턴 조회 중 오류가 발생했습니다.", e);
         }
         return null;
     }
@@ -46,7 +46,7 @@ public class GameDao {
                 return resultSet.getInt("id");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("진행 중인 보드 조회 실패", e);
+            throw new RuntimeException("진행 중인 게임 ID 조회 중 오류가 발생했습니다.", e);
         }
         return 0;
     }
@@ -60,7 +60,7 @@ public class GameDao {
             preparedStatement.setInt(2, gameId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("게임 종료 처리 실패", e);
+            throw new RuntimeException("게임 종료 처리 중 오류가 발생했습니다.", e);
         }
     }
 
@@ -73,7 +73,7 @@ public class GameDao {
             preparedStatement.setInt(2, gameId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("진행 중인 보드의 턴 업데이트 실패", e);
+            throw new RuntimeException("턴 정보 업데이트 중 오류가 발생했습니다.", e);
         }
     }
 
@@ -87,7 +87,7 @@ public class GameDao {
             }
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException("새 게임 확인 실패", e);
+            throw new RuntimeException("새 게임 여부 확인 중 오류가 발생했습니다.", e);
         }
     }
 }

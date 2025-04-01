@@ -25,7 +25,7 @@ public class PieceDao {
             preparedStatement.setInt(4, point.getY());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("기물 추가 중 오류가 발생했습니다.", e);
         }
     }
 
@@ -42,7 +42,7 @@ public class PieceDao {
                 return PieceType.toPiece(type, camp);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("좌표에 해당하는 기물 조회 중 오류가 발생했습니다.", e);
         }
         return null;
     }
@@ -58,19 +58,19 @@ public class PieceDao {
             preparedStatement.setInt(4, point.getY());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("기물 정보 업데이트 중 오류가 발생했습니다.", e);
         }
     }
 
     public void deletePieceByPoint(Point point) {
         String query = "DELETE FROM piece WHERE pos_x = ? AND pos_y = ?";
         try (Connection connection = DatabaseConnector.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, point.getX());
             preparedStatement.setInt(2, point.getY());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("기물 삭제 중 오류가 발생했습니다.", e);
         }
     }
 
@@ -84,7 +84,7 @@ public class PieceDao {
                 return Camp.from(resultSet.getString("camp"));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("승리한 캠프 조회 중 오류가 발생했습니다.", e);
         }
         return null;
     }
@@ -97,10 +97,10 @@ public class PieceDao {
             preparedStatement.setString(1, PieceType.GENERAL.getName(null));
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                generalCount += 1;
+                generalCount++;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("장군 기물 수 조회 중 오류가 발생했습니다.", e);
         }
         return generalCount;
     }
@@ -117,7 +117,7 @@ public class PieceDao {
                 campPieces.add(PieceType.toPiece(type, camp));
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("캠프별 기물 전체 조회 중 오류가 발생했습니다.", e);
         }
         return campPieces;
     }
@@ -128,7 +128,7 @@ public class PieceDao {
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("기물 테이블 초기화 중 오류가 발생했습니다.", e);
         }
     }
 }
