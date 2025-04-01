@@ -40,16 +40,20 @@ public record Position(int x, int y) {
         return this.y == other.y;
     }
 
-    public int getXDistance(Position destination) {
+    public boolean hasXDistance(Position other, int xDistance) {
+        return getXDistance(other) == xDistance;
+    }
+
+    public boolean hasYDistance(Position other, int yDistance) {
+        return getYDistance(other) == yDistance;
+    }
+
+    private int getXDistance(Position destination) {
         return Math.abs(destination.x - x);
     }
 
-    public int getYDistance(Position destination) {
+    private int getYDistance(Position destination) {
         return Math.abs(destination.y - y);
-    }
-
-    public boolean hasRelativeOffsetFrom(Position destination, int x, int y) {
-        return getXDistance(destination) == x && getYDistance(destination) == y;
     }
 
     @Override

@@ -41,14 +41,14 @@ public class GuardPalaceMovementStrategy extends PalaceMovementStrategy {
     }
 
     private boolean isOneDiagonalMove(Position origin, Position destination) {
-        return origin.getXDistance(destination) == 1 && origin.getYDistance(destination) == 1;
+        return origin.hasXDistance(destination, 1) && origin.hasYDistance(destination, 1);
     }
 
     private boolean isOneVerticalMove(Position origin, Position destination) {
-        return origin.getXDistance(destination) == 0 && origin.getYDistance(destination) == 1;
+        return origin.hasXDistance(destination, 0) && origin.hasYDistance(destination, 1);
     }
 
     private boolean isOneHorizontalMove(Position origin, Position destination) {
-        return origin.getXDistance(destination) == 1 && origin.getYDistance(destination) == 0;
+        return origin.hasXDistance(destination, 1) && origin.hasYDistance(destination, 0);
     }
 }

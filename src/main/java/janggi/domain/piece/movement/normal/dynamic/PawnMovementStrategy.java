@@ -12,7 +12,7 @@ public class PawnMovementStrategy extends DynamicMovementStrategy {
     @Override
     public boolean isLegalDestination(Side side, Position origin, Position destination) {
         if (!isVerticalMove(origin, destination)) {
-            return destination.getXDistance(origin) == MOVABLE_DISTANCE && origin.getYDistance(destination) == 0;
+            return origin.hasXDistance(destination, MOVABLE_DISTANCE) && origin.hasYDistance(destination, 0);
         }
         if (side == Side.HAN) {
             return origin.hasSameX(destination) && origin.plusY(MOVABLE_DISTANCE).equals(destination);

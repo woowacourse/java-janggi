@@ -43,7 +43,7 @@ public class PawnPalaceMovementStrategy extends PalaceMovementStrategy {
 
     private List<Position> getOneDistanceDiagonalPositions(Palace palace, Position destination) {
         return palace.getDiagonalPositions().stream()
-            .filter(position -> position.getXDistance(destination) == 1 && position.getYDistance(destination) == 1)
+            .filter(position -> position.hasXDistance(destination, 1) && position.hasYDistance(destination, 1))
             .toList();
     }
 }
