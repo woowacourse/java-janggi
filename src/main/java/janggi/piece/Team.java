@@ -31,6 +31,11 @@ public enum Team {
         if (teamName.equals("GREEN")) {
             return Team.GREEN;
         }
-        return Team.RED;
+
+        if (teamName.equals("RED")) {
+            return Team.RED;
+        }
+
+        throw new IllegalArgumentException("[ERROR] 유효하지 않은 팀 이름입니다.: " + teamName);
     }
 }
