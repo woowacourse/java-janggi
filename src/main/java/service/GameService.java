@@ -7,7 +7,7 @@ import dao.converter.BoardConverter;
 import dao.init.ConnectionGenerator;
 import domain.JanggiGame;
 import domain.board.Board;
-import domain.board.BoardGenerator;
+import domain.board.BoardFactory;
 import domain.piece.Piece;
 import domain.piece.character.Team;
 import domain.point.Point;
@@ -49,13 +49,13 @@ public class GameService {
     }
 
     public void setNewGame(String gameRoomName,
-                           BoardGenerator boardGenerator,
+                           BoardFactory boardFactory,
                            SangMaOrderCommand choSangMaOrderCommand,
                            SangMaOrderCommand hanSangMaOrderCommand) {
         final Team firstTurn = Team.CHO;
         JanggiGame newGame = new JanggiGame(
                 gameRoomName,
-                boardGenerator.generateInitialBoard(choSangMaOrderCommand, hanSangMaOrderCommand),
+                boardFactory.generateInitialBoard(choSangMaOrderCommand, hanSangMaOrderCommand),
                 firstTurn
         );
         gameRoomDao.insert(new GameRoomDto(gameRoomName, firstTurn));

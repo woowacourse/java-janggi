@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.Map;
 import view.SangMaOrderCommand;
 
-public class BoardGenerator {
+public class BoardFactory {
 
     private final PathFinderFactory pathFinderFactory;
 
-    public BoardGenerator(PathFinderFactory pathFinderFactory) {
+    public BoardFactory(PathFinderFactory pathFinderFactory) {
         this.pathFinderFactory = pathFinderFactory;
     }
 
