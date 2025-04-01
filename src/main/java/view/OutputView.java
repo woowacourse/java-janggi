@@ -2,6 +2,7 @@ package view;
 
 import domain.chessPiece.ChessPiece;
 import domain.position.ChessPosition;
+import domain.score.Score;
 import domain.type.ChessPieceType;
 import domain.type.ChessTeam;
 
@@ -41,6 +42,7 @@ public class OutputView {
     }
 
     public void printCurrentTeam(ChessTeam currentTeam) {
+        printNewLine();
         String color = getTeamColor(currentTeam);
         System.out.print(color);
         System.out.printf("%s의 차례입니다.", getTeamText(currentTeam));
@@ -48,19 +50,41 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printNotExistPieceAt(ChessPosition position) {
-        System.out.print(YELLOW);
-        System.out.printf("(%d, %d) 위치에는 기물이 존재하지 않습니다.\n", position.row(), position.column());
+    public void printWinner(final ChessTeam chessTeam) {
+        String color = getTeamColor(chessTeam);
+        System.out.print(color);
+        System.out.printf("%s의 승리입니다.", getTeamText(chessTeam));
         System.out.print(EXIT);
         printNewLine();
     }
 
-    public void printNotExistPath() {
-        System.out.print(YELLOW);
-        System.out.println("해당 기물은 움직일 수 없습니다.");
+    public void printCurrentScore(final Score blueScore, final Score redScore) {
+        System.out.print(getTeamColor(ChessTeam.BLUE));
+        System.out.printf("초나라 점수: %.1f", blueScore.value());
         System.out.print(EXIT);
+
+        System.out.print("   ");
+
+        System.out.print(getTeamColor(ChessTeam.RED));
+        System.out.printf("한나라 점수: %.1f", redScore.value());
+        System.out.print(EXIT);
+
         printNewLine();
     }
+
+//    public void printNotExistPieceAt(ChessPosition position) {
+//        System.out.print(YELLOW);
+//        System.out.printf("(%d, %d) 위치에는 기물이 존재하지 않습니다.\n", position.row(), position.column());
+//        System.out.print(EXIT);
+//        printNewLine();
+//    }
+//
+//    public void printNotExistPath() {
+//        System.out.print(YELLOW);
+//        System.out.println("해당 기물은 움직일 수 없습니다.");
+//        System.out.print(EXIT);
+//        printNewLine();
+//    }
 
     public void printAvailableDestinations(List<ChessPosition> destinations) {
         printNewLine();
@@ -74,13 +98,13 @@ public class OutputView {
         printNewLine();
     }
 
-    public void printInvalidDestination(ChessPosition destinationPosition) {
-        printNewLine();
-        System.out.print(YELLOW);
-        System.out.printf("%s 는 이동할 수 없는 위치입니다. 이동 가능한 위치 중에서 선택해주세요.\n", getFormattedPosition(destinationPosition));
-        System.out.print(EXIT);
-        printNewLine();
-    }
+//    public void printInvalidDestination(ChessPosition destinationPosition) {
+//        printNewLine();
+//        System.out.print(YELLOW);
+//        System.out.printf("%s 는 이동할 수 없는 위치입니다. 이동 가능한 위치 중에서 선택해주세요.\n", getFormattedPosition(destinationPosition));
+//        System.out.print(EXIT);
+//        printNewLine();
+//    }
 
     private String getFormattedPosition(ChessPosition position) {
         return String.format("(%d, %d)", position.row(), position.column());
