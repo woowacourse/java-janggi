@@ -1,13 +1,14 @@
 import domain.JanggiManager;
 import domain.JanggiRunner;
-import util.MysqlConnectionUtil;
+import util.MysqlConnectionFactory;
 import view.InputView;
 import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
+
         JanggiRunner janggiRunner = new JanggiRunner(new InputView(), new OutputView(), new JanggiManager(
-                MysqlConnectionUtil.getConnection()));
+                new MysqlConnectionFactory()));
         janggiRunner.run();
     }
 }

@@ -10,13 +10,14 @@ import java.sql.SQLException;
 import java.util.Properties;
 import org.h2.tools.RunScript;
 
-public class H2ConnectionUtil {
+public class H2ConnectionFactory implements ConnectionFactory {
     private static final String FILE_PATH_IN_RESOURCES = "/db-test.properties";
 
-    public static Connection getConnection() {
+    @Override
+    public Connection getConnection() {
         Properties properties = new Properties();
 
-        try (InputStream input = H2ConnectionUtil.class.getResourceAsStream(FILE_PATH_IN_RESOURCES)) {
+        try (InputStream input = H2ConnectionFactory.class.getResourceAsStream(FILE_PATH_IN_RESOURCES)) {
             properties.load(input);
 
             String url = properties.getProperty("test.db.url");
@@ -32,8 +33,8 @@ public class H2ConnectionUtil {
         }
     }
 
-    public static void initializeTable(Connection connection) {
-        try {
+    public void initializeTable() {
+        try (Connection connection = getConnection()) {
             RunScript.execute(connection, new FileReader("src/test/resources/schema.sql"));
         } catch (SQLException e) {
             throw new RuntimeException("테이블 초기화에 실패했습니다.");

@@ -7,13 +7,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class MysqlConnectionUtil {
+public class MysqlConnectionFactory implements ConnectionFactory {
     private static final String FILE_PATH_IN_RESOURCES = "/db.properties";
 
-    public static Connection getConnection() {
+    @Override
+    public Connection getConnection() {
         Properties properties = new Properties();
 
-        try (InputStream input = MysqlConnectionUtil.class.getResourceAsStream(FILE_PATH_IN_RESOURCES)) {
+        try (InputStream input = MysqlConnectionFactory.class.getResourceAsStream(FILE_PATH_IN_RESOURCES)) {
             properties.load(input);
 
             String server = properties.getProperty("mysql.server");
