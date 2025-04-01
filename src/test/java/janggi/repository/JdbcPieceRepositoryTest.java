@@ -3,6 +3,9 @@ package janggi.repository;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import janggi.database.QueryProcessor;
+import janggi.database.TestMySQLDatabaseConnection;
+import janggi.database.dao.PieceDao;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -12,9 +15,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class FakePieceRepositoryTest {
-
-    private final PieceRepository pieceRepository = new FakePieceRepository();
+class JdbcPieceRepositoryTest {
+    
+    private final PieceRepository pieceRepository = new JdbcPieceRepository(
+            new PieceDao(new QueryProcessor(TestMySQLDatabaseConnection.getInstance())));
 
     @BeforeEach
     void setUp() {
@@ -96,4 +100,5 @@ public class FakePieceRepositoryTest {
         // then
         assertThat(size).isEqualTo(2);
     }
+
 }

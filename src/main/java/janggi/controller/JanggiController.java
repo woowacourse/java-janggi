@@ -7,6 +7,8 @@ import static janggi.domain.Input.Y;
 import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 
+import janggi.database.MySQLDatabaseConnection;
+import janggi.database.QueryProcessor;
 import janggi.database.dao.PieceDao;
 import janggi.database.dao.TurnDao;
 import janggi.domain.BoardSetup;
@@ -32,8 +34,10 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final PieceService pieceService = new PieceService(new JdbcPieceRepository(new PieceDao()));
-    private final TurnService turnService = new TurnService(new JdbcTurnRepository(new TurnDao()));
+    private final PieceService pieceService = new PieceService(new JdbcPieceRepository(new PieceDao(new QueryProcessor(
+            MySQLDatabaseConnection.getInstance()))));
+    private final TurnService turnService = new TurnService(
+            new JdbcTurnRepository(new TurnDao(new QueryProcessor(MySQLDatabaseConnection.getInstance()))));
 
     public JanggiController(final InputView inputView, final OutputView outputView) {
         this.inputView = inputView;

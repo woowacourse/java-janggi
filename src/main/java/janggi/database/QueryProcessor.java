@@ -10,9 +10,13 @@ import java.util.List;
 
 public class QueryProcessor {
 
-    private static final DatabaseConnection databaseConnection = MySQLDatabaseConnection.getInstance();
+    private final DatabaseConnection databaseConnection;
 
-    public static long executeInsert(final String query, final Object... parameters) {
+    public QueryProcessor(final DatabaseConnection databaseConnection) {
+        this.databaseConnection = databaseConnection;
+    }
+
+    public long executeInsert(final String query, final Object... parameters) {
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query,
                      Statement.RETURN_GENERATED_KEYS)) {
@@ -30,7 +34,7 @@ public class QueryProcessor {
         }
     }
 
-    public static void executeUpdate(final String query, final Object... parameters) {
+    public void executeUpdate(final String query, final Object... parameters) {
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -41,8 +45,8 @@ public class QueryProcessor {
         }
     }
 
-    public static <T> T executeQuery(final String query, final ResultSetMapper<T> resultSetMapper,
-                                     final Object... params) {
+    public <T> T executeQuery(final String query, final ResultSetMapper<T> resultSetMapper,
+                              final Object... params) {
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -59,7 +63,7 @@ public class QueryProcessor {
         return null;
     }
 
-    public static <T> T executeQuery(final String query, final ResultSetMapper<T> resultSetMapper) {
+    public <T> T executeQuery(final String query, final ResultSetMapper<T> resultSetMapper) {
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -76,8 +80,8 @@ public class QueryProcessor {
     }
 
 
-    public static <T> List<T> executeQueryList(final String query, final ResultSetMapper<T> resultSetMapper,
-                                               final Object... params) {
+    public <T> List<T> executeQueryList(final String query, final ResultSetMapper<T> resultSetMapper,
+                                        final Object... params) {
         try (final Connection connection = databaseConnection.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
