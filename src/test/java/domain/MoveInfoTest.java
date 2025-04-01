@@ -12,6 +12,25 @@ public class MoveInfoTest {
 
     @ParameterizedTest
     @CsvSource({
+            "2, 3, 0, 1",
+            "3, 3, 1, 1",
+            "1, 2, -1, 0"
+    })
+    void 기준_위치에서_다른_위치로의_벡터를_반환한다(int row, int column, int expectedRow, int expectedColumn) {
+        // given
+        MoveInfo current = new MoveInfo(new Position(2, 2), PieceCategory.CANNON);
+        MoveInfo other = new MoveInfo(new Position(row, column), PieceCategory.CANNON);
+
+        // when
+        Vector result = current.calculateDirection(other);
+
+        // then
+        assertThat(result)
+                .isEqualTo(new Vector(expectedRow, expectedColumn));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
             "CANNON, true",
             "NONE, false"
     })
@@ -42,24 +61,5 @@ public class MoveInfoTest {
         // then
         assertThat(result)
                 .isEqualTo(expected);
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "2, 3, 0, 1",
-            "3, 3, 1, 1",
-            "1, 2, -1, 0"
-    })
-    void 기준_위치에서_다른_위치로의_벡터를_반환한다(int row, int column, int expectedRow, int expectedColumn) {
-        // given
-        MoveInfo current = new MoveInfo(new Position(2, 2), PieceCategory.CANNON);
-        MoveInfo other = new MoveInfo(new Position(row, column), PieceCategory.CANNON);
-
-        // when
-        Vector result = current.calculateDirection(other);
-
-        // then
-        assertThat(result)
-                .isEqualTo(new Vector(expectedRow, expectedColumn));
     }
 }

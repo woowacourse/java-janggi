@@ -15,6 +15,27 @@ class MoveInfosTest {
 
     @ParameterizedTest
     @CsvSource({
+            "1, 1, 2, 2, true",
+            "1, 1, 1, 2, false"
+    })
+    void 대각선_경로인지_확인한다(int startX, int startY, int nextX, int nextY, boolean expected) {
+        // given
+        List<MoveInfo> elements = List.of(
+                new MoveInfo(new Position(startX, startY), PieceCategory.NONE),
+                new MoveInfo(new Position(nextX, nextY), PieceCategory.NONE)
+        );
+
+        MoveInfos moveInfos = new MoveInfos(elements);
+
+        // when
+        boolean result = moveInfos.isDiagonalPath();
+
+        // then
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
             "NONE, 0",
             "CANNON, 1"
     })
