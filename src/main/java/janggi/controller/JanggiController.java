@@ -87,7 +87,7 @@ public class JanggiController {
             final Piece selectedPiece = selectPieceToMove(game);
             final Set<Route> possibleRoutes = findPossibleRoutesForPiece(game, selectedPiece);
             movePieceIfValid(game, selectedPiece, possibleRoutes);
-            return checkGameOver(game);
+            return isGameOver(game);
         }
         if (input == GIVE_UP) {
             return stopGameIfAgreeEachOther();
@@ -96,7 +96,7 @@ public class JanggiController {
 
     }
 
-    private boolean checkGameOver(final Game game) {
+    private boolean isGameOver(final Game game) {
         return game.getStatus() == PROGRESS;
     }
 
