@@ -2,6 +2,8 @@ package janggi.rule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.moveStrategy.rule.MoveVector;
+import janggi.moveStrategy.rule.MovingRule;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

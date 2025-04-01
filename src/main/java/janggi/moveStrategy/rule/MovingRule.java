@@ -1,4 +1,4 @@
-package janggi.rule;
+package janggi.moveStrategy.rule;
 
 import java.util.ArrayList;
 import java.util.List;

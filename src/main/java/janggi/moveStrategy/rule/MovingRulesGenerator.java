@@ -1,4 +1,4 @@
-package janggi.rule;
+package janggi.moveStrategy.rule;
 
 import janggi.position.Column;
 import janggi.position.Row;

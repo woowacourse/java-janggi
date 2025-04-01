@@ -2,8 +2,8 @@ package janggi.piece;
 
 import janggi.moveStrategy.MoveStrategy;
 import janggi.moveStrategy.OnlyPalaceStrategy;
-import janggi.rule.MovingRules;
-import janggi.rule.MovingRulesGenerator;
+import janggi.moveStrategy.rule.MovingRules;
+import janggi.moveStrategy.rule.MovingRulesGenerator;
 
 public final class Guard extends Piece {
 

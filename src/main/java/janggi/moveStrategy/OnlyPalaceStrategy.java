@@ -1,10 +1,10 @@
 package janggi.moveStrategy;
 
 import janggi.board.Board;
+import janggi.moveStrategy.rule.MovingRule;
+import janggi.moveStrategy.rule.MovingRules;
 import janggi.piece.Team;
 import janggi.position.Position;
-import janggi.rule.MovingRule;
-import janggi.rule.MovingRules;
 
 public class OnlyPalaceStrategy implements MoveStrategy {
 

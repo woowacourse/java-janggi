@@ -2,7 +2,7 @@ package janggi.piece;
 
 import janggi.moveStrategy.MoveStrategy;
 import janggi.moveStrategy.SlidePalaceStrategy;
-import janggi.rule.MovingRulesGenerator;
+import janggi.moveStrategy.rule.MovingRulesGenerator;
 
 public final class Soldier extends Piece {
 

@@ -1,4 +1,4 @@
-package janggi.rule;
+package janggi.moveStrategy.rule;
 
 public record MoveVector(int dy, int dx) {
 

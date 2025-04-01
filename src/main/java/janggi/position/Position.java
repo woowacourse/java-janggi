@@ -1,6 +1,6 @@
 package janggi.position;
 
-import janggi.rule.MoveVector;
+import janggi.moveStrategy.rule.MoveVector;
 import java.util.Objects;
 
 public final class Position {
