@@ -1,3 +1,5 @@
+package controller;
+
 import db.JanggiConnectionProvider;
 import domain.Board;
 import domain.Game;
@@ -15,12 +17,12 @@ import service.PieceService;
 import view.InputView;
 import view.OutputView;
 
-public class KoreaChess {
+public class KoreaChessController {
 
     private final OutputView outputView;
     private final InputView inputView;
 
-    public KoreaChess(final OutputView outputView, final InputView inputView) {
+    public KoreaChessController(final OutputView outputView, final InputView inputView) {
         this.outputView = outputView;
         this.inputView = inputView;
     }

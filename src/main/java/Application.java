@@ -1,3 +1,4 @@
+import controller.KoreaChessController;
 import java.util.Scanner;
 import view.InputView;
 import view.OutputView;
@@ -8,7 +9,7 @@ public class Application {
         InputView inputView = new InputView(new Scanner(System.in));
 
         try {
-            KoreaChess koreaChess = new KoreaChess(
+            KoreaChessController koreaChess = new KoreaChessController(
                     outputView,
                     inputView
             );
