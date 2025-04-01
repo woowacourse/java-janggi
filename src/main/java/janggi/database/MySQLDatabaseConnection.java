@@ -31,7 +31,7 @@ public class MySQLDatabaseConnection implements DatabaseConnection {
             final String url = "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION;
             return DriverManager.getConnection(url, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            throw new RuntimeException("오류가 발생했습니다.");
+            throw new RuntimeException("데이터 베이스 연결에 실패했습니다.", e);
         }
     }
 }
