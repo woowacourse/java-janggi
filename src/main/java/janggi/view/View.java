@@ -48,8 +48,7 @@ public class View {
         throw new IllegalArgumentException("y 또는 n을 입력해야 합니다.");
     }
 
-    public String readFromPoint(Camp camp) {
-        System.out.printf("%n[%s의 차례입니다.]%n", ColorFormatter.getColoredCampName(camp));
+    public String readFromPoint() {
         System.out.println("이동시킬 기물의 출발 좌표를 입력해 주세요. 예) 03");
         String input = scanner.nextLine();
         validateInput(input);
@@ -116,7 +115,8 @@ public class View {
         System.out.printf("%s나라의 점수는 %.1f점 입니다.%n", ColorFormatter.getColoredCampName(camp), score);
     }
 
-    public String readGameCommand() {
+    public String readGameCommand(Camp camp) {
+        System.out.printf("%n[%s의 차례입니다.]%n", ColorFormatter.getColoredCampName(camp));
         System.out.printf("%n기물을 이동하려면 move, 게임을 종료하려면 end를 입력해주세요.%n");
         String input = scanner.nextLine();
         if (!input.equals("move") && !input.equals("end")) {

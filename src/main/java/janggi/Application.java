@@ -24,15 +24,16 @@ public class Application {
 
     private static void playGame(View view, BoardDao boardDao) {
         Board board = initializeIfNewGame(boardDao);
+        Camp currentTurnCamp = boardDao.findLatestTurn();
         while (!board.isGameOver()) {
             view.displayBoard(board.getPieceDao());
-            if (view.readGameCommand().equals("end")) {
+            if (view.readGameCommand(currentTurnCamp).equals("end")) {
                 break;
             }
-            tryPlayTurn(view, board, boardDao);
+            currentTurnCamp = handleTurn(view, boardDao, board, currentTurnCamp);
         }
         if (board.isGameOver()) {
-            handleGameEnd(view, board, boardDao);
+            endGame(view, board, boardDao);
         }
     }
 
@@ -45,16 +46,25 @@ public class Application {
         return new Board();
     }
 
-    private static void tryPlayTurn(View view, Board board, BoardDao boardDao) {
-        Camp currentTurnCamp = boardDao.findLatestTurn();
+    private static Camp handleTurn(View view, BoardDao boardDao, Board board, Camp currentTurnCamp) {
+        boolean turnPlayed = tryPlayTurn(view, board, currentTurnCamp);
+        if (!turnPlayed) {
+            return currentTurnCamp;
+        }
+        Camp nextTurn = currentTurnCamp.reverse();
+        boardDao.updateTurn(nextTurn);
+        return nextTurn;
+    }
+
+    private static boolean tryPlayTurn(View view, Board board, Camp currentTurnCamp) {
         try {
-            String fromPointInput = view.readFromPoint(currentTurnCamp);
+            String fromPointInput = view.readFromPoint();
             String toPointInput = view.readToPoint();
             executeTurn(fromPointInput, toPointInput, currentTurnCamp, board);
-            boardDao.updateTurn(currentTurnCamp.reverse());
+            return true;
         } catch (IllegalArgumentException e) {
             view.displayErrorMessage(e.getMessage());
-            boardDao.updateTurn(currentTurnCamp);
+            return false;
         }
     }
 
@@ -70,13 +80,17 @@ public class Application {
         piece.validateSelect(baseCamp);
     }
 
-    private static void handleGameEnd(View view, Board board, BoardDao boardDao) {
-        Camp winningCamp = board.findWinningCamp();
+    private static void endGame(View view, Board board, BoardDao boardDao) {
+        displayEndingResult(view, board);
+        boardDao.endBoard();
+        board.resetBoard();
+    }
+
+    private static void displayEndingResult(View view, Board board) {
         view.displayBoard(board.getPieceDao());
+        Camp winningCamp = board.findWinningCamp();
         view.displayEndingMessage(winningCamp);
         view.displayScore(Camp.CHU, board.calculateChuScore());
         view.displayScore(Camp.HAN, board.calculateHanScore());
-        boardDao.endBoard();
-        board.resetBoard();
     }
 }
