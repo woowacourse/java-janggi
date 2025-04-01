@@ -13,7 +13,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import repository.ConnectH2;
@@ -22,14 +24,18 @@ import repository.converter.PieceConverter;
 
 public class PieceDaoTest {
 
-    private static final ConnectDatabase connectDatabase = new ConnectH2();
-    private static final Connection connection = connectDatabase.create();
-    PieceDao pieceDao = new PieceDao(connectDatabase);
+    private static ConnectDatabase connectDatabase;
+    private static PieceDao pieceDao;
+    private static Connection connection;
 
-    @BeforeAll
-    static void setUpDatabase() throws SQLException {
+    @BeforeEach
+    void setUpDatabase() throws SQLException {
+        connectDatabase = new ConnectH2();
+        connection = connectDatabase.create();
+        pieceDao = new PieceDao(connectDatabase);
+
         String createPieceTable = """
-                CREATE TABLE PIECE (
+                CREATE TABLE IF NOT EXISTS PIECE (
                     piece_id BIGINT AUTO_INCREMENT PRIMARY KEY,
                     row_index INT NOT NULL,
                     column_index INT NOT NULL,
@@ -89,6 +95,15 @@ public class PieceDaoTest {
         // when - then
         assertThatCode(() -> pieceDao.deleteAll())
                 .doesNotThrowAnyException();
+    }
+
+    @AfterEach
+    void closeConnection() throws SQLException {
+        String clearTable = "DELETE FROM PIECE;";
+
+        connection.prepareStatement(clearTable).execute();
+
+        connectDatabase.close(connection);
     }
 
 }
