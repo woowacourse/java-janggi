@@ -2,7 +2,7 @@ package janggi.repository;
 
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
-import janggi.service.PlayingTurn;
+import janggi.domain.board.PlayingTurn;
 import java.util.Set;
 
 public interface Repository {

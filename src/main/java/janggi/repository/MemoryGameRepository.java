@@ -3,7 +3,7 @@ package janggi.repository;
 import janggi.domain.Coordinate;
 import janggi.domain.Piece;
 import janggi.domain.board.Board;
-import janggi.service.PlayingTurn;
+import janggi.domain.board.PlayingTurn;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

@@ -3,6 +3,7 @@ package janggi.controller;
 import janggi.domain.Team;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardBuilder;
+import janggi.domain.board.PlayingTurn;
 import janggi.domain.board.maSangStrategy.MaSangMaSang;
 import janggi.domain.board.maSangStrategy.MaSangSangMa;
 import janggi.domain.board.maSangStrategy.MaSangStrategy;
@@ -11,8 +12,6 @@ import janggi.domain.board.maSangStrategy.SangMaSangMa;
 import janggi.repository.GameRepository;
 import janggi.repository.MemoryGameRepository;
 import janggi.repository.Repository;
-import janggi.service.GameService;
-import janggi.service.PlayingTurn;
 import janggi.view.BoardInitiliazeView;
 import java.util.Map;
 
@@ -31,19 +30,19 @@ public class ApplicationConfigurer {
         this.boardInitiliazeView = view;
     }
 
-    public GameService configureGameService() {
+    public Repository configureRepository() {
         Repository repository = new GameRepository();
         if (repository.isConnectable()) {
             configureRemoteRepository(repository);
-            return new GameService(repository);
+            return repository;
         }
 
         boardInitiliazeView.printConnectionFailed();
-        return new GameService(new MemoryGameRepository(createBoard()));
+        return new MemoryGameRepository(createBoard());
     }
 
     private void configureRemoteRepository(Repository repository) {
-        final var continuePreviousGame = boardInitiliazeView.readRenewGame();
+        boolean continuePreviousGame = boardInitiliazeView.readRenewGame();
         if (continuePreviousGame) {
             boardInitiliazeView.printContinueGame();
             return;

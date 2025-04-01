@@ -7,7 +7,7 @@ import janggi.domain.Coordinate;
 import janggi.domain.Piece;
 import janggi.domain.PieceType;
 import janggi.domain.Team;
-import janggi.service.PlayingTurn;
+import janggi.domain.board.PlayingTurn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

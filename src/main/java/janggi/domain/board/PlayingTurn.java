@@ -1,4 +1,4 @@
-package janggi.service;
+package janggi.domain.board;
 
 import janggi.domain.Team;
 
