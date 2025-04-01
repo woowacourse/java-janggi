@@ -2,6 +2,7 @@ package domain;
 
 import domain.piece.category.PieceCategory;
 import domain.spatial.Position;
+import domain.spatial.Vector;
 
 public class MoveInfo {
 
@@ -19,5 +20,9 @@ public class MoveInfo {
 
     public boolean isSamePieceCategory(final PieceCategory other) {
         return this.pieceCategory == other;
+    }
+
+    public Vector calculateDirection(final MoveInfo other) {
+        return this.position.calculateVector(other.position);
     }
 }
