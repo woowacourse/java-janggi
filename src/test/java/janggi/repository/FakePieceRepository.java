@@ -43,4 +43,9 @@ class FakePieceRepository implements PieceRepository {
     public void delete(final Position position) {
         pieceEntities.removeIf(pieceEntity -> new Position(pieceEntity.getX(), pieceEntity.getY()).equals(position));
     }
+
+    @Override
+    public boolean exist() {
+        return !pieceEntities.isEmpty();
+    }
 }

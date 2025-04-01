@@ -47,4 +47,9 @@ public class JdbcPieceRepository implements PieceRepository {
     public void delete(final Position position) {
         pieceDao.delete(position.x(), position.y());
     }
+
+    @Override
+    public boolean exist() {
+        return pieceDao.exist();
+    }
 }

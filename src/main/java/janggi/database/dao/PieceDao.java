@@ -36,4 +36,9 @@ public class PieceDao {
                 resultSet.getInt("y")
         ));
     }
+
+    public boolean exist() {
+        final String query = "SELECT 1 FROM piece LIMIT 1";
+        return queryProcessor.executeQuery(query, resultSet -> true) != null;
+    }
 }

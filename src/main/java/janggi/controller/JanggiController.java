@@ -7,23 +7,13 @@ import static janggi.domain.Input.Y;
 import static janggi.domain.Team.BLUE;
 import static janggi.domain.Team.RED;
 
-import janggi.database.MySQLDatabaseConnection;
-import janggi.database.QueryProcessor;
-import janggi.database.dao.PieceDao;
-import janggi.database.dao.TurnDao;
 import janggi.domain.BoardSetup;
 import janggi.domain.Game;
-import janggi.domain.Pieces;
 import janggi.domain.Team;
-import janggi.domain.Turn;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PiecesInitializer;
 import janggi.domain.piece.direction.Position;
 import janggi.domain.piece.direction.Route;
-import janggi.repository.JdbcPieceRepository;
-import janggi.repository.JdbcTurnRepository;
-import janggi.service.PieceService;
-import janggi.service.TurnService;
+import janggi.service.GameService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.util.List;
@@ -33,14 +23,12 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final PieceService pieceService = new PieceService(new JdbcPieceRepository(new PieceDao(new QueryProcessor(
-            MySQLDatabaseConnection.getInstance()))));
-    private final TurnService turnService = new TurnService(
-            new JdbcTurnRepository(new TurnDao(new QueryProcessor(MySQLDatabaseConnection.getInstance()))));
+    private final GameService gameService;
 
-    public JanggiController(final InputView inputView, final OutputView outputView) {
+    public JanggiController(final InputView inputView, final OutputView outputView, final GameService gameService) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameService = gameService;
     }
 
     public void run() {
@@ -58,24 +46,17 @@ public class JanggiController {
     }
 
     private Game generateBoard() {
-        final List<Piece> pieces = pieceService.findAll();
-        if (pieces.isEmpty()) {
-            return setNewGame();
-        }
-        try {
-            if (inputView.inputNewGame() == Y) {
-                return setNewGame();
+        if (gameService.existGame()) {
+            try {
+                if (inputView.inputNewGame() == Y) {
+                    return generateNewBoard();
+                }
+                return gameService.loadGame();
+            } catch (final IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+                generateBoard();
             }
-        } catch (IllegalArgumentException e) {
-            outputView.printErrorMessage(e.getMessage());
-            generateBoard();
         }
-        return new Game(new Pieces(pieces), turnService.find());
-    }
-
-    private Game setNewGame() {
-        pieceService.deleteAll();
-        turnService.delete();
         return generateNewBoard();
     }
 
@@ -89,10 +70,9 @@ public class JanggiController {
             return isGameProgress(game);
         }
         if (input == GIVE_UP) {
-            return stopGameIfAgreeEachOther();
+            return !stopGameIfAgreeEachOther();
         }
         return false;
-
     }
 
     private boolean isGameProgress(final Game game) {
@@ -119,12 +99,12 @@ public class JanggiController {
         final Position destination = inputView.inputDestination();
 
         if (canMove(possibleRoutes, destination)) {
-            pieceService.delete(selectedPiece.getPosition());
-            pieceService.delete(destination);
+            gameService.deletePiece(selectedPiece);
+            gameService.deletePieceByPosition(destination);
             game.movePiece(destination, selectedPiece);
-            pieceService.add(selectedPiece);
+            gameService.addPiece(selectedPiece);
             game.changeTurn();
-            turnService.updateTurn(game.getTurn());
+            gameService.updateTurn(game.getTurn());
             return;
         }
         throw new IllegalArgumentException("해당 위치로 갈 수 없습니다.");
@@ -140,11 +120,7 @@ public class JanggiController {
             try {
                 final BoardSetup redBoardSetup = inputView.inputBoardSetup(RED);
                 final BoardSetup blueBoardSetup = inputView.inputBoardSetup(BLUE);
-                final List<Piece> pieces = PiecesInitializer.initializePieces(redBoardSetup, blueBoardSetup);
-                final Turn turn = new Turn(BLUE);
-                pieceService.addAll(pieces);
-                turnService.add(turn);
-                return new Game(new Pieces(pieces), new Turn(BLUE));
+                return gameService.setNewGame(redBoardSetup, blueBoardSetup);
             } catch (final IllegalArgumentException e) {
                 outputView.printErrorMessage(e.getMessage());
             }
@@ -153,10 +129,9 @@ public class JanggiController {
 
     private boolean stopGameIfAgreeEachOther() {
         if (inputView.inputStopGame() == Y & inputView.inputStopGame() == Y) {
-            pieceService.deleteAll();
-            turnService.delete();
-            return false;
+            gameService.deleteGame();
+            return true;
         }
-        return true;
+        return false;
     }
 }

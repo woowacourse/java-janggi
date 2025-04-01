@@ -15,4 +15,6 @@ public interface PieceRepository {
     void deleteAll();
 
     void delete(Position position);
+
+    boolean exist();
 }
