@@ -18,12 +18,10 @@ public class BoardInitiliazeView {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public void printConnectionFailed() {
-        System.err.println("-----------------------------");
-        System.err.println(" 데이터베이스가 연결되지 않았습니다.");
-        System.err.println("게임을 불러오거나 저장하지 않습니다.");
-        System.err.println("-----------------------------");
-        System.err.println();
+    public void printContinueGame() {
+        System.out.println("------------------------------");
+        System.out.println("진행중인 게임이 있어 이어서 진행합니다.");
+        System.out.println("------------------------------");
     }
 
     public boolean readRenewGame() {
@@ -36,12 +34,6 @@ public class BoardInitiliazeView {
             return false;
         }
         throw new IllegalArgumentException("잘못 입력하셨습니다.");
-    }
-
-    public void printContinueGame() {
-        System.out.println("------------------------------");
-        System.out.println("진행중인 게임이 있어 이어서 진행합니다.");
-        System.out.println("------------------------------");
     }
 
     public int readTableSetting(Team team) {

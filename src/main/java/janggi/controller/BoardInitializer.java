@@ -9,14 +9,12 @@ import janggi.domain.board.maSangStrategy.MaSangSangMa;
 import janggi.domain.board.maSangStrategy.MaSangStrategy;
 import janggi.domain.board.maSangStrategy.SangMaMaSang;
 import janggi.domain.board.maSangStrategy.SangMaSangMa;
-import janggi.repository.GameRepository;
-import janggi.repository.MemoryGameRepository;
 import janggi.repository.Repository;
 import janggi.view.BoardInitiliazeView;
 import java.util.Collection;
 import java.util.Map;
 
-public class ApplicationConfigurer {
+public class BoardInitializer {
 
     private final Map<Integer, MaSangStrategy> boardCreateStrategy = Map.of(
         1, new MaSangSangMa(),
@@ -27,29 +25,11 @@ public class ApplicationConfigurer {
 
     private final BoardInitiliazeView boardInitiliazeView;
 
-    public ApplicationConfigurer(final BoardInitiliazeView view) {
+    public BoardInitializer(final BoardInitiliazeView view) {
         this.boardInitiliazeView = view;
     }
 
-    public Repository loadRepository(int tryCount) {
-        Repository repository = new GameRepository();
-        for (int i = 0; i < tryCount; i++) {
-            if (repository.isConnectable()) {
-                return repository;
-            }
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        boardInitiliazeView.printConnectionFailed();
-        return new MemoryGameRepository(createBoard());
-    }
-
-    public void configureRepository(Repository repository) {
+    public void initializeRepository(Repository repository) {
         boolean remainingPieces = repository.allPieces().isEmpty();
         if (!remainingPieces && boardInitiliazeView.readRenewGame()) {
             boardInitiliazeView.printContinueGame();

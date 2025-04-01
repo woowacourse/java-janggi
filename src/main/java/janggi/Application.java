@@ -1,9 +1,12 @@
 package janggi;
 
-import janggi.controller.ApplicationConfigurer;
+import janggi.controller.BoardInitializer;
 import janggi.controller.GameController;
+import janggi.repository.GameRepository;
+import janggi.repository.MemoryGameRepository;
 import janggi.repository.Repository;
 import janggi.view.BoardInitiliazeView;
+import janggi.view.ConfigurationView;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.io.IOException;
@@ -11,27 +14,65 @@ import java.io.IOException;
 public class Application {
 
     private static final int RETRY_COUNT = 12;
+    private static final ConfigurationView configurationView = new ConfigurationView();
+
+    private static final GameRepository ONLINE_REPOSITORY = new GameRepository();
+    private static final MemoryGameRepository MEMORY_REPOSITORY = new MemoryGameRepository();
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        boolean launchWithServer = false;
+
         try {
-            launchDocker();
-            runApplication();
+            launchWithServer = configurationView.readOnlineOrLocal(RETRY_COUNT);
+            Repository repository = decideRepository(launchWithServer);
+
+            runApplicationWith(repository);
         } finally {
-            stopDocker();
+            if (launchWithServer) {
+                stopServer();
+            }
         }
     }
 
-    private static void launchDocker() throws IOException, InterruptedException {
-        System.out.println("docker-compose 실행중입니다..");
-        System.out.printf("처음 실행의 경우 최대 %s초 가량 소요됩니다.%n", RETRY_COUNT);
-        System.out.println("! 강제 종료 시 docker 프로세스가 유지될 수 있습니다 !%n");
-        ShellExecutor.executeShellCommand("cd ./docker\ndocker-compose -p janggi up -d", 5);
+    private static Repository decideRepository(final boolean launchOnline) throws IOException, InterruptedException {
+        if (launchOnline) {
+            return tryConnectAndDecideRepository();
+        }
+
+        configurationView.printConnectionFailed();
+        return MEMORY_REPOSITORY;
     }
 
-    private static void runApplication() {
-        ApplicationConfigurer applicationConfigurer = new ApplicationConfigurer(new BoardInitiliazeView());
-        Repository repository = applicationConfigurer.loadRepository(RETRY_COUNT);
-        applicationConfigurer.configureRepository(repository);
+    private static Repository tryConnectAndDecideRepository() throws IOException, InterruptedException {
+        configurationView.printConnectingServer();
+        ShellExecutor.executeShellCommand("cd ./docker\ndocker-compose -p janggi up -d", 5);
+
+        if (isServerConnectable()) {
+            return ONLINE_REPOSITORY;
+        }
+
+        configurationView.printConnectionFailed();
+        return MEMORY_REPOSITORY;
+    }
+
+    private static boolean isServerConnectable() {
+        for (int i = 0; i < Application.RETRY_COUNT; i++) {
+            if (Application.ONLINE_REPOSITORY.isConnectable()) {
+                return true;
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private static void runApplicationWith(Repository repository) {
+        BoardInitializer boardInitializer = new BoardInitializer(new BoardInitiliazeView());
+        boardInitializer.initializeRepository(repository);
 
         GameController gameController = new GameController(
             new InputView(),
@@ -41,8 +82,8 @@ public class Application {
         gameController.play();
     }
 
-    private static void stopDocker() throws IOException, InterruptedException {
-        System.out.println("docker-compose 중지중입니다.. (약 2초 소요)");
+    private static void stopServer() throws IOException, InterruptedException {
+        configurationView.printStoppingServer();
         ShellExecutor.executeShellCommand("cd ./docker\ndocker-compose -p janggi down", 5);
     }
 }
