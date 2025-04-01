@@ -45,7 +45,7 @@ public class Po extends Piece {
                 return currentPoint;
             }
         }
-        throw new IllegalStateException("허들을 찾을 수 없습니다.");
+        throw new IllegalStateException("[ERROR] 뛰어넘을 기물(허들)을 찾을 수 없습니다.");
     }
 
     private List<Point> findCandidates(final Point point, final Direction direction, final PieceVisibleBoard board) {
