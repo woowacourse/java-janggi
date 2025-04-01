@@ -9,7 +9,7 @@ public interface JanggiDao {
 
     boolean existNotFinishedGame();
 
-    int findNotFinishedGameId();
+    int findRecentNotFinishedGameId();
 
     List<Integer> findNotFinishedGameIds();
 

@@ -58,7 +58,7 @@ public class TestJanggiJdbcDao implements JanggiDao {
     }
 
     @Override
-    public int findNotFinishedGameId() {
+    public int findRecentNotFinishedGameId() {
         final String notFinishedGameQuery = "SELECT * FROM testGame WHERE finished = 0 ORDER BY id DESC";
         try (final var preparedStatement = connection.prepareStatement(notFinishedGameQuery)) {
             final ResultSet resultSet = preparedStatement.executeQuery();

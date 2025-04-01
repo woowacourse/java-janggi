@@ -55,7 +55,7 @@ class JanggiJdbcDaoTest {
         // given
         // when
         // then
-        assertThat(janggiJdbcDao.findNotFinishedGameId()).isEqualTo(2);
+        assertThat(janggiJdbcDao.findRecentNotFinishedGameId()).isEqualTo(2);
     }
 
     @DisplayName("끝나지 않은 게임들을 찾는다.")

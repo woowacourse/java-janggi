@@ -59,7 +59,7 @@ public class JanggiGame {
         }
         final Board board = BoardGenerator.generateOriginalSetup(setupOption);
         janggiDao.saveInitialGame(board.getSetupOption());
-        this.gameId = janggiDao.findNotFinishedGameId();
+        this.gameId = janggiDao.findRecentNotFinishedGameId();
         return board;
     }
 
