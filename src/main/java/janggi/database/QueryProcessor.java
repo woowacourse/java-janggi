@@ -30,7 +30,7 @@ public class QueryProcessor {
             }
             throw new SQLException("키 생성에 실패했습니다.");
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스 작업 중 오류 발생: " + query, e);
+            throw new DatabaseException(query, e);
         }
     }
 
@@ -41,7 +41,7 @@ public class QueryProcessor {
             setParameters(preparedStatement, parameters);
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스 작업 중 오류 발생: " + query, e);
+            throw new DatabaseException(query, e);
         }
     }
 
@@ -57,7 +57,7 @@ public class QueryProcessor {
                 }
             }
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스 작업 중 오류 발생: " + query, e);
+            throw new DatabaseException(query, e);
         }
 
         return null;
@@ -73,7 +73,7 @@ public class QueryProcessor {
                 }
             }
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스 작업 중 오류 발생: " + query, e);
+            throw new DatabaseException(query, e);
         }
 
         return null;
@@ -94,7 +94,7 @@ public class QueryProcessor {
                 return result;
             }
         } catch (final SQLException e) {
-            throw new RuntimeException("데이터베이스 작업 중 오류 발생: " + query, e);
+            throw new DatabaseException(query, e);
         }
     }
 
