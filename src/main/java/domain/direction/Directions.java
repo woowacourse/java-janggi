@@ -7,18 +7,18 @@ import java.util.Objects;
 public class Directions {
 
     private final List<Direction> directions;
-    private final boolean repeatable;
+    private final boolean isRepeatable;
 
-    public Directions(final List<Direction> directions, final boolean repeatable) {
+    public Directions(final List<Direction> directions, final boolean isRepeatable) {
         this.directions = directions;
-        this.repeatable = repeatable;
+        this.isRepeatable = isRepeatable;
     }
 
     public List<Position> getPaths(final Position start, final Position target) {
         return directions.stream()
-                .filter(element -> element.canReach(start, target, repeatable))
+                .filter(element -> element.canReach(start, target, isRepeatable))
                 .findFirst()
-                .map(element -> element.createPath(start, target, repeatable))
+                .map(element -> element.createPath(start, target, isRepeatable))
                 .orElse(List.of());
     }
 
