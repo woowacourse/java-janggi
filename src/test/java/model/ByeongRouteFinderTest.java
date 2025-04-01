@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
-import model.piece.movement.ByeongDirectionFinder;
+import model.piece.movement.ByeongRouteFinder;
 import model.position.Column;
 import model.position.Position;
 import model.position.Row;
@@ -12,20 +12,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class ByeongDirectionFinderTest {
+public class ByeongRouteFinderTest {
 
-    private final ByeongDirectionFinder byeongDirectionFinder = new ByeongDirectionFinder();
+    private final ByeongRouteFinder byeongRouteFinder = new ByeongRouteFinder();
     private final Position departure = new Position(Column.THREE, Row.THREE);
 
     @Nested
     @DisplayName("Byeong의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfByeongDirectionFinder {
+    class FindDirectionOfByeongRouteFinder {
 
         @Test
         @DisplayName("Up - Byeong은 Up이 없기에, 위로 움직인다면 예외가 발생해야 한다")
         void case_up() {
             Position arrival = new Position(Column.TWO, Row.THREE);
-            assertThatThrownBy(() -> byeongDirectionFinder.calculateAllDirection(departure, arrival))
+            assertThatThrownBy(() -> byeongRouteFinder.calculateAllRoute(departure, arrival))
                 .isInstanceOf(IllegalArgumentException.class);
         }
 
@@ -51,7 +51,7 @@ public class ByeongDirectionFinderTest {
         }
 
         private void assertValidDirection(Position departure, Position arrival) {
-            List<Position> findDirection = byeongDirectionFinder.calculateAllDirection(departure, arrival);
+            List<Position> findDirection = byeongRouteFinder.calculateAllRoute(departure, arrival);
             assertThat(findDirection).containsExactly(arrival);
         }
     }
@@ -60,7 +60,7 @@ public class ByeongDirectionFinderTest {
     @Test
     void cannot_go_position_then_throw_exception() {
         Position arrival = new Position(Column.THREE, Row.FIVE);
-        assertThatThrownBy(() -> byeongDirectionFinder.calculateAllDirection(departure, arrival))
+        assertThatThrownBy(() -> byeongRouteFinder.calculateAllRoute(departure, arrival))
             .isInstanceOf(IllegalArgumentException.class);
     }
 }

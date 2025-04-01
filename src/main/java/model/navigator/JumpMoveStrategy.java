@@ -14,7 +14,7 @@ public class JumpMoveStrategy {
         return INSTANCE;
     }
 
-    public List<Position> find(Position departure, Position arrival, List<List<Movement>> movements) {
+    public List<Position> findRoute(Position departure, Position arrival, List<List<Movement>> movements) {
         List<Movement> canArriveMovements = findCanArriveMovements(departure, arrival, movements);
         return findDirectionOfArrival(departure, canArriveMovements, movements);
     }

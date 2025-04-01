@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 import model.piece.Piece;
 import model.piece.PieceType;
-import model.piece.movement.GeneralDirectionFinder;
 import model.piece.Team;
 import model.position.Column;
 import model.position.Position;
@@ -15,14 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-class GeneralDirectionFinderTest {
-
-    private final Piece piece = new Piece(Team.RED, PieceType.GENERAL);
+public class GuardRouteFinderTest {
+    private final Piece piece = new Piece(Team.RED, PieceType.GUARD);
     private final Position departure = new Position(Column.TWO, Row.FIVE);
 
     @Nested
-    @DisplayName("General의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfGeneralDirectionFinder {
+    @DisplayName("Guard의 이동 가능한 경로를 구한다.")
+    class FindDirectionOfGuardRouteFinder {
 
         @Test
         @DisplayName("Up 인 경우")
@@ -58,7 +56,7 @@ class GeneralDirectionFinderTest {
         }
     }
 
-    @DisplayName("General이 갈 수 없는 경로라면, 예외를 던져야 한다")
+    @DisplayName("Guard가 갈 수 없는 경로라면, 예외를 던져야 한다")
     @Test
     void cannot_go_position_then_throw_exception() {
         Position arrival = new Position(Column.FOUR, Row.THREE);

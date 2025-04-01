@@ -12,7 +12,7 @@ import model.navigator.LimitedBasicMoveStrategy;
 import model.piece.Castle;
 import model.position.Position;
 
-public class JolDirectionFinder implements DirectionFinder {
+public class JolRouteFinder implements RouteFinder {
 
     private final Castle castle = Castle.getInstance();
     private final LimitedBasicMoveStrategy limitedBasicMoveStrategy = LimitedBasicMoveStrategy.getInstance();
@@ -20,9 +20,9 @@ public class JolDirectionFinder implements DirectionFinder {
     private final List<Movement> movementsInCastle = List.of(DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT);
 
     @Override
-    public List<Position> calculateAllDirection(Position departure, Position arrival) {
+    public List<Position> calculateAllRoute(Position departure, Position arrival) {
         List<Movement> decidedMovements = castle.decideMovements(movements, movementsInCastle,
             departure, arrival);
-        return limitedBasicMoveStrategy.find(departure, arrival, decidedMovements);
+        return limitedBasicMoveStrategy.findRoute(departure, arrival, decidedMovements);
     }
 }

@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 import model.piece.Piece;
 import model.piece.PieceType;
-import model.piece.movement.ElephantDirectionFinder;
 import model.piece.Team;
 import model.position.Column;
 import model.position.Position;
@@ -15,14 +14,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class ElephantDirectionFinderTest {
+public class ElephantRouteFinderTest {
 
     private final Piece piece = new Piece(Team.RED, PieceType.ELEPHANT);
     private final Position departure = new Position(Column.FIVE, Row.FIVE);
 
     @Nested
     @DisplayName("horse의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfHorseDirectionFinder {
+    class FindDirectionOfHorseRouteFinder {
 
         @Test
         @DisplayName("위 + (우측 상단 대각x2)인 경우")

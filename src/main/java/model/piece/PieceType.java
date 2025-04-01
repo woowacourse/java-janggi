@@ -3,34 +3,34 @@ package model.piece;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
-import model.piece.movement.ByeongDirectionFinder;
-import model.piece.movement.CannonDirectionFinder;
-import model.piece.movement.ChariotDirectionFinder;
-import model.piece.movement.DirectionFinder;
-import model.piece.movement.ElephantDirectionFinder;
-import model.piece.movement.GeneralDirectionFinder;
-import model.piece.movement.GuardDirectionFinder;
-import model.piece.movement.HorseDirectionFinder;
-import model.piece.movement.JolDirectionFinder;
+import model.piece.movement.ByeongRouteFinder;
+import model.piece.movement.CannonRouteFinder;
+import model.piece.movement.ChariotRouteFinder;
+import model.piece.movement.RouteFinder;
+import model.piece.movement.ElephantRouteFinder;
+import model.piece.movement.GeneralRouteFinder;
+import model.piece.movement.GuardRouteFinder;
+import model.piece.movement.HorseRouteFinder;
+import model.piece.movement.JolRouteFinder;
 import model.position.Position;
 
 public enum PieceType {
 
-    CHARIOT("차",13, ChariotDirectionFinder::new),
-    JOL("졸", 2, JolDirectionFinder::new),
-    BYEONG("병", 2, ByeongDirectionFinder::new),
-    CANNON("포", 7, CannonDirectionFinder::new),
-    ELEPHANT("상",3, ElephantDirectionFinder::new),
-    GENERAL("왕",0, GeneralDirectionFinder::new),
-    GUARD("사", 3, GuardDirectionFinder::new),
-    HORSE("마", 5, HorseDirectionFinder::new),
+    CHARIOT("차",13, ChariotRouteFinder::new),
+    JOL("졸", 2, JolRouteFinder::new),
+    BYEONG("병", 2, ByeongRouteFinder::new),
+    CANNON("포", 7, CannonRouteFinder::new),
+    ELEPHANT("상",3, ElephantRouteFinder::new),
+    GENERAL("왕",0, GeneralRouteFinder::new),
+    GUARD("사", 3, GuardRouteFinder::new),
+    HORSE("마", 5, HorseRouteFinder::new),
     ;
 
     private final String name;
     private final int score;
-    private final Supplier<DirectionFinder> directionFindable;
+    private final Supplier<RouteFinder> directionFindable;
 
-    PieceType(String name, int score, Supplier<DirectionFinder> directionFindable) {
+    PieceType(String name, int score, Supplier<RouteFinder> directionFindable) {
         this.name = name;
         this.score = score;
         this.directionFindable = directionFindable;
@@ -45,8 +45,8 @@ public enum PieceType {
     }
 
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        DirectionFinder directionFinder = directionFindable.get();
-        return directionFinder.calculateAllDirection(departure, arrival);
+        RouteFinder routeFinder = directionFindable.get();
+        return routeFinder.calculateAllRoute(departure, arrival);
     }
 
     public static PieceType createPieceBy(String value) {

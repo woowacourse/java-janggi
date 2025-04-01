@@ -8,7 +8,7 @@ import model.navigator.LimitedBasicMoveStrategy;
 import model.piece.Castle;
 import model.position.Position;
 
-public class GeneralDirectionFinder implements DirectionFinder {
+public class GeneralRouteFinder implements RouteFinder {
 
     private final Castle castle = Castle.getInstance();
     private final LimitedBasicMoveStrategy limitedBasicMoveStrategy = LimitedBasicMoveStrategy.getInstance();
@@ -18,10 +18,10 @@ public class GeneralDirectionFinder implements DirectionFinder {
         DIAGONAL_DOWN_LEFT, DIAGONAL_DOWN_RIGHT);
 
     @Override
-    public List<Position> calculateAllDirection(Position departure, Position arrival) {
+    public List<Position> calculateAllRoute(Position departure, Position arrival) {
         validateOutOfCastle(arrival);
         List<Movement> decidedMovements = castle.decideMovements(movements, movementsInCastle, departure, arrival);
-        return limitedBasicMoveStrategy.find(departure, arrival, decidedMovements);
+        return limitedBasicMoveStrategy.findRoute(departure, arrival, decidedMovements);
     }
 
     private void validateOutOfCastle(Position arrival) {

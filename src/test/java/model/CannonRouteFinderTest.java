@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.List;
 import model.piece.Piece;
 import model.piece.PieceType;
-import model.piece.movement.CannonDirectionFinder;
 import model.piece.Team;
 import model.position.Column;
 import model.position.Position;
@@ -15,13 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class CannonDirectionFinderTest {
+public class CannonRouteFinderTest {
 
     private final Piece piece = new Piece(Team.GREEN, PieceType.CANNON);
 
     @Nested
     @DisplayName("Cannon의 이동 가능한 경로를 구한다.")
-    class FindDirectionOfCannonDirectionFinder {
+    class FindDirectionOfCannonRouteFinder {
 
         @Test
         @DisplayName("Up 인 경우")

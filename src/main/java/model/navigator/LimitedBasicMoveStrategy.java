@@ -18,7 +18,7 @@ public class LimitedBasicMoveStrategy {
         return INSTANCE;
     }
 
-    public List<Position> find(Position departure, Position arrival, List<Movement> movements) {
+    public List<Position> findRoute(Position departure, Position arrival, List<Movement> movements) {
         List<Position> arrivedDirection = findDirectionOfArrival(departure, arrival, movements);
         if (arrivedDirection.isEmpty()) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");

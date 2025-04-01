@@ -8,7 +8,7 @@ import model.navigator.LimitedBasicMoveStrategy;
 import model.piece.Castle;
 import model.position.Position;
 
-public class ByeongDirectionFinder implements DirectionFinder {
+public class ByeongRouteFinder implements RouteFinder {
 
     private final List<Movement> movements = List.of(DOWN, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(DIAGONAL_DOWN_LEFT, DIAGONAL_DOWN_RIGHT);
@@ -16,9 +16,9 @@ public class ByeongDirectionFinder implements DirectionFinder {
     private final LimitedBasicMoveStrategy limitedBasicMoveStrategy = LimitedBasicMoveStrategy.getInstance();
 
     @Override
-    public List<Position> calculateAllDirection(Position departure, Position arrival) {
+    public List<Position> calculateAllRoute(Position departure, Position arrival) {
         List<Movement> decidedMovements = castle.decideMovements(movements,
             movementsInCastle, departure, arrival);
-        return limitedBasicMoveStrategy.find(departure, arrival, decidedMovements);
+        return limitedBasicMoveStrategy.findRoute(departure, arrival, decidedMovements);
     }
 }

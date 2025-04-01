@@ -7,7 +7,7 @@ import model.position.Movement;
 import model.navigator.JumpMoveStrategy;
 import model.position.Position;
 
-public class ElephantDirectionFinder implements DirectionFinder {
+public class ElephantRouteFinder implements RouteFinder {
 
     private final JumpMoveStrategy jumpMoveStrategy = JumpMoveStrategy.getInstance();
     private final List<List<Movement>> movements = List.of(
@@ -21,7 +21,7 @@ public class ElephantDirectionFinder implements DirectionFinder {
         List.of(RIGHT, RIGHT_AND_DIAGONAL_UP_RIGHT, RIGHT_AND_DOUBLE_DIAGONAL_UP_RIGHT));
 
     @Override
-    public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        return jumpMoveStrategy.find(departure, arrival, movements);
+    public List<Position> calculateAllRoute(Position departure, Position arrival) {
+        return jumpMoveStrategy.findRoute(departure, arrival, movements);
     }
 }

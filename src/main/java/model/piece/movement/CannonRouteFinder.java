@@ -8,7 +8,7 @@ import model.navigator.UnlimitedBasicMoveStrategy;
 import model.piece.Castle;
 import model.position.Position;
 
-public class CannonDirectionFinder implements DirectionFinder {
+public class CannonRouteFinder implements RouteFinder {
 
     private final Castle castle = Castle.getInstance();
     private final UnlimitedBasicMoveStrategy unlimitedBasicMoveStrategy = UnlimitedBasicMoveStrategy.getInstance();
@@ -18,9 +18,9 @@ public class CannonDirectionFinder implements DirectionFinder {
         DIAGONAL_DOWN_LEFT, DIAGONAL_DOWN_RIGHT);
 
     @Override
-    public List<Position> calculateAllDirection(Position departure, Position arrival) {
+    public List<Position> calculateAllRoute(Position departure, Position arrival) {
         List<Movement> decidedMovements = castle.decideMovements(movements,
             movementsInCastle, departure, arrival);
-        return unlimitedBasicMoveStrategy.find(departure, arrival, decidedMovements);
+        return unlimitedBasicMoveStrategy.findRoute(departure, arrival, decidedMovements);
     }
 }

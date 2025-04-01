@@ -7,7 +7,7 @@ import model.position.Movement;
 import model.navigator.JumpMoveStrategy;
 import model.position.Position;
 
-public class HorseDirectionFinder implements DirectionFinder {
+public class HorseRouteFinder implements RouteFinder {
 
     private final List<List<Movement>> movements = List.of(
         List.of(UP, UP_AND_DIAGONAL_UP_LEFT), List.of(UP, UP_AND_DIAGONAL_UP_RIGHT),
@@ -17,7 +17,9 @@ public class HorseDirectionFinder implements DirectionFinder {
     private final JumpMoveStrategy jumpMoveStrategy = JumpMoveStrategy.getInstance();
 
     @Override
-    public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        return jumpMoveStrategy.find(departure, arrival, movements);
+    public List<Position> calculateAllRoute(Position departure, Position arrival) {
+        return jumpMoveStrategy.findRoute(departure, arrival, movements);
     }
+
+
 }

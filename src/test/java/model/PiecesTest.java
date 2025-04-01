@@ -7,13 +7,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.HashMap;
 import java.util.Map;
 import model.piece.PieceType;
-import model.piece.movement.ByeongDirectionFinder;
-import model.piece.movement.CannonDirectionFinder;
-import model.piece.movement.ChariotDirectionFinder;
-import model.piece.movement.GeneralDirectionFinder;
-import model.piece.movement.GuardDirectionFinder;
-import model.piece.movement.HorseDirectionFinder;
-import model.piece.movement.JolDirectionFinder;
 import model.piece.Piece;
 import model.piece.PieceInitializer;
 import model.piece.Team;
@@ -40,7 +33,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Chariot의 움직임을 테스트 한다.")
-        class ChariotDirectionFinderMove {
+        class ChariotRouteFinderMove {
 
             @Test
             @DisplayName("기본 위치 1,1 에서 3,1로 이동할 수 있어야 한다.")
@@ -156,7 +149,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Cannon의 움직임을 테스트 한다.")
-        class CannonDirectionFinderMove {
+        class CannonRouteFinderMove {
 
             @Test
             @DisplayName("뛰어넘는 기물이 같은 Cannon 이라면, 예외를 발생시켜야 한다.")
@@ -348,7 +341,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Horse의 움직임을 테스트 한다.")
-        class HorseDirectionFinderMove {
+        class HorseRouteFinderMove {
 
             /***
              * 이 부분 부터 시작하기
@@ -386,7 +379,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Elephant의 움직임을 테스트 한다.")
-        class ElephantDirectionFinderMove {
+        class ElephantRouteFinderMove {
 
             @Test
             @DisplayName("Elephant의 도착 지점에 이동 경로에 다른 기물이 존재한다면, 예외가 발생해야 한다.")
@@ -433,7 +426,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Geneal의 움직임을 테스트 한다")
-        class GeneralDirectionFinderMove {
+        class GeneralRouteFinderMove {
 
             @Test
             @DisplayName("움직이려는 경로에 장애물이 있을 경우, 예외가 발생해야 한다.")
@@ -515,7 +508,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Byeong의 움직임을 테스트 한다")
-        class ByeongDirectionFinderMove {
+        class ByeongRouteFinderMove {
 
             @Test
             @DisplayName("Byeong은 이동 위치에 상대방 기물이 있다면, 제거 후 움직일 수 있어야 한다.")
@@ -654,7 +647,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Jol 움직임을 테스트 한다")
-        class JolDirectionFinderMove {
+        class JolRouteFinderMove {
 
             @Test
             @DisplayName("Jol은 이동 위치에 상대방 기물이 있다면, 제거 후 움직일 수 있어야 한다.")
@@ -793,7 +786,7 @@ class PiecesTest {
 
         @Nested
         @DisplayName("Guard 움직임을 테스트 한다")
-        class GuardDirectionFinderMove {
+        class GuardRouteFinderMove {
 
             @Test
             @DisplayName("움직이려는 경로에 같은 팀 기물이 있다면, 예외가 발생해야 한다")

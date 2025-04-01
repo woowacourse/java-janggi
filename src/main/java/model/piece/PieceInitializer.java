@@ -2,14 +2,6 @@ package model.piece;
 
 import java.util.HashMap;
 import java.util.Map;
-import model.piece.movement.ByeongDirectionFinder;
-import model.piece.movement.CannonDirectionFinder;
-import model.piece.movement.ChariotDirectionFinder;
-import model.piece.movement.ElephantDirectionFinder;
-import model.piece.movement.GeneralDirectionFinder;
-import model.piece.movement.GuardDirectionFinder;
-import model.piece.movement.HorseDirectionFinder;
-import model.piece.movement.JolDirectionFinder;
 import model.position.Column;
 import model.position.Position;
 import model.position.Row;

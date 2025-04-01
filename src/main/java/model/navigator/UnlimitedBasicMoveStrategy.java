@@ -15,7 +15,7 @@ public class UnlimitedBasicMoveStrategy {
         return INSTANCE;
     }
 
-    public List<Position> find(Position departure, Position arrival, List<Movement> movements) {
+    public List<Position> findRoute(Position departure, Position arrival, List<Movement> movements) {
         return movements.stream()
             .map(movement -> findDirectionByMovement(departure, arrival, movement))
             .filter(moveDirections -> moveDirections.contains(arrival))

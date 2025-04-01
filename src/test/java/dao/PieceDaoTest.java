@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Map;
 import model.piece.PieceType;
 import model.piece.Team;
-import model.piece.movement.CannonDirectionFinder;
-import model.piece.movement.ChariotDirectionFinder;
 import model.piece.Piece;
 import model.position.Column;
 import model.position.Position;
