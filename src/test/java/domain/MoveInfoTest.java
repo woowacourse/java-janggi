@@ -3,7 +3,6 @@ package domain;
 import domain.piece.category.PieceCategory;
 import domain.spatial.Position;
 import domain.spatial.Vector;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -45,17 +44,22 @@ public class MoveInfoTest {
                 .isEqualTo(expected);
     }
 
-    @Test
-    void 기준_위치에서_다른_위치로의_벡터를_반환한다() {
+    @ParameterizedTest
+    @CsvSource({
+            "2, 3, 0, 1",
+            "3, 3, 1, 1",
+            "1, 2, -1, 0"
+    })
+    void 기준_위치에서_다른_위치로의_벡터를_반환한다(int row, int column, int expectedRow, int expectedColumn) {
         // given
         MoveInfo current = new MoveInfo(new Position(2, 2), PieceCategory.CANNON);
-        MoveInfo other = new MoveInfo(new Position(2, 3), PieceCategory.CANNON);
+        MoveInfo other = new MoveInfo(new Position(row, column), PieceCategory.CANNON);
 
         // when
-        Vector vector = current.calculateDirection(other);
+        Vector result = current.calculateDirection(other);
 
         // then
-        assertThat(vector)
-                .isEqualTo(new Vector(0, 1));
+        assertThat(result)
+                .isEqualTo(new Vector(expectedRow, expectedColumn));
     }
 }
