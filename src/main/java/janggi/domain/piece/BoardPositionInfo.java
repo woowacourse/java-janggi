@@ -3,6 +3,7 @@ package janggi.domain.piece;
 import janggi.domain.Board;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
+import janggi.domain.move.Vector;
 
 public record BoardPositionInfo(Board board, Position position, Team team) {
 
@@ -14,11 +15,15 @@ public record BoardPositionInfo(Board board, Position position, Team team) {
         return board.hasPiece(position);
     }
 
-    public boolean isCannon(){
+    public boolean isCannon() {
         return board.isCannon(position);
     }
 
-    public boolean isNotSameSide(){
+    public boolean isNotSameSide() {
         return !board.isSameSide(team, position);
+    }
+
+    public boolean canNotMove(Vector vector) {
+        return position.canNotMove(vector);
     }
 }
