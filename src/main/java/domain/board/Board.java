@@ -41,7 +41,7 @@ public class Board implements PieceVisibleBoard {
         }
 
         pieceByPoint.put(destination, sourcePiece);
-        removePiece(source);
+        pieceByPoint.remove(source);
     }
 
     public boolean existsPiece(final Point point) {
@@ -57,14 +57,6 @@ public class Board implements PieceVisibleBoard {
         return piece.type() == PieceType.PO;
     }
 
-    public void removePiece(final Point point) {
-        if (!existsPiece(point)) {
-            return;
-        }
-        Piece piece = getPiece(point);
-        pieceByPoint.remove(point, piece);
-    }
-
     public boolean matchTeam(final Point point, final Team team) {
         if (!existsPiece(point)) {
             return false;
@@ -73,28 +65,28 @@ public class Board implements PieceVisibleBoard {
         return piece.team() == team;
     }
 
-    public boolean existsNextPoint(final Point point, final Direction direction) {
-        if (!existsPoint(point)) {
+    public boolean existsNextPoint(final Point source, final Direction direction) {
+        if (!existsPoint(source)) {
             return false;
         }
-        return pathFinder.hasNextPoint(point, direction);
+        return pathFinder.hasNextPoint(source, direction);
     }
 
-    public Point getNextPoint(final Point point, final Direction direction) {
-        validatePoint(point);
-        return pathFinder.getNextPoint(point, direction);
+    public Point getNextPoint(final Point source, final Direction direction) {
+        validatePoint(source);
+        return pathFinder.getNextPoint(source, direction);
     }
 
-    public boolean canMoveByPath(final Point point, final Path path) {
-        if (!existsPoint(point)) {
+    public boolean canMoveByPath(final Point source, final Path path) {
+        if (!existsPoint(source)) {
             return false;
         }
-        return pathFinder.canMoveByPath(point, path);
+        return pathFinder.canMoveByPath(source, path);
     }
 
-    public Point getPointMovedByPath(final Point point, final Path path) {
-        validatePoint(point);
-        return pathFinder.getPointMovedByPath(point, path);
+    public Point getPointMovedByPath(final Point source, final Path path) {
+        validatePoint(source);
+        return pathFinder.getPointMovedByPath(source, path);
     }
 
     public double calculateScore(final Team team) {

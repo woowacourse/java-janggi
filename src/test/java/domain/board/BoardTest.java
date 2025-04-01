@@ -53,22 +53,6 @@ class BoardTest {
         }
 
         @Test
-        void 특정_위치에_존재하는_기물을_제거한다() {
-            // given
-            Point point = Point.of(1, 1);
-            Map<Point, Piece> pieceByPoint = new HashMap<>();
-            pieceByPoint.put(point, new Cha(Team.CHO));
-            Board board = BoardFixture.createTestBoard(pieceByPoint);
-
-            // when
-            board.removePiece(point);
-            final boolean actual = board.existsPiece(point);
-
-            // then
-            Assertions.assertThat(actual).isFalse();
-        }
-
-        @Test
         void 특정_위치에_특정_팀인_기물이_존재하면_true를_반환한다() {
             // given
             Team team = Team.CHO;
