@@ -19,7 +19,7 @@ class DirectionTest {
         List<Position> expected = List.of(new Position(5, 4));
 
         List<Vector> vectors = List.of(new Vector(0, -1), new Vector(1, -1));
-        Direction direction = new Direction(vectors, false);
+        Direction direction = new Direction(vectors);
 
         // when
         List<Position> result = direction.createPath(start, target, false);
@@ -36,7 +36,7 @@ class DirectionTest {
         List<Position> expected = List.of(new Position(5, 6), new Position(5, 7), new Position(5, 8));
 
         List<Vector> vectors = List.of(new Vector(0, 1));
-        Direction direction = new Direction(vectors, true);
+        Direction direction = new Direction(vectors);
 
         // when
         List<Position> result = direction.createPath(start, target, true);
@@ -56,7 +56,7 @@ class DirectionTest {
         Position target = new Position(row, column);
 
         List<Vector> vectors = List.of(new Vector(0, -1), new Vector(1, -1));
-        Direction direction = new Direction(vectors, false);
+        Direction direction = new Direction(vectors);
 
         // when
         boolean result = direction.canReach(start, target, false);
@@ -76,7 +76,7 @@ class DirectionTest {
         Position target = new Position(row, column);
 
         List<Vector> vectors = List.of(new Vector(0, 1));
-        Direction direction = new Direction(vectors, true);
+        Direction direction = new Direction(vectors);
 
         // when
         boolean result = direction.canReach(start, target, true);

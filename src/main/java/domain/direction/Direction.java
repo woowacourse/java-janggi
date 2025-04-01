@@ -8,11 +8,9 @@ import java.util.List;
 public class Direction {
 
     private final List<Vector> direction;
-    private final boolean isPalaceCoordinate;
 
-    public Direction(final List<Vector> direction, final boolean isPalaceCoordinate) {
+    public Direction(final List<Vector> direction) {
         this.direction = direction;
-        this.isPalaceCoordinate = isPalaceCoordinate;
     }
 
     public boolean canReach(final Position start, final Position target, final boolean repeatable) {

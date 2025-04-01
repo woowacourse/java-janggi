@@ -17,7 +17,7 @@ class DirectionsTest {
         List<Position> expected = List.of(new Position(5, 4));
 
         List<Vector> vectors = List.of(new Vector(0, -1), new Vector(1, -1));
-        List<Direction> directionElements = List.of(new Direction(vectors, false));
+        List<Direction> directionElements = List.of(new Direction(vectors));
         Directions directions = new Directions(directionElements, false);
 
         // when
@@ -35,7 +35,7 @@ class DirectionsTest {
         List<Position> expected = List.of(new Position(6, 5), new Position(7, 5), new Position(8, 5));
 
         List<Vector> vectors = List.of(new Vector(1, 0));
-        List<Direction> directionElements = List.of(new Direction(vectors, true));
+        List<Direction> directionElements = List.of(new Direction(vectors));
         Directions directions = new Directions(directionElements, true);
 
         // when
