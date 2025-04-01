@@ -52,8 +52,8 @@ public class JanggiService {
 
         BoardPieceEntity sourcePieceEntity = boardPieceDao.selectByPosition(roomId, source.rowValue(), source.columnValue())
                 .orElseThrow(() -> new IllegalArgumentException("해당 위치에 있는 기물이 없습니다."));
-        sourcePieceEntity.setPositionRow(destination.rowValue());
-        sourcePieceEntity.setPositionCol(destination.columnValue());
+
+        sourcePieceEntity.updatePosition(destination.rowValue(), destination.columnValue());
         boardPieceDao.update(sourcePieceEntity);
     }
 
@@ -64,11 +64,9 @@ public class JanggiService {
         GameRoomEntity gameRoomEntity = gameRoomDao.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 id의 GameRoom이 존재하지 않습니다, roomId: " + roomId));
 
-        gameRoomEntity.setTurnColor(teamColor.name());
-        gameRoomEntity.setRedScore(redScore);
-        gameRoomEntity.setBlueScore(blueScore);
-        gameRoomEntity.setLastUpdated(LocalDateTime.now());
-
+        String turnColor = teamColor.name();
+        LocalDateTime lastUpdatedTime = LocalDateTime.now();
+        gameRoomEntity.updateRoom(turnColor, redScore, blueScore, lastUpdatedTime);
         gameRoomDao.updateGameRoom(gameRoomEntity);
     }
 
@@ -76,9 +74,9 @@ public class JanggiService {
         GameRoomEntity gameRoomEntity = gameRoomDao.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 id의 GameRoom이 존재하지 않습니다, roomId: " + roomId));
 
-        gameRoomEntity.setFinished(true);
-        gameRoomEntity.setWinner(janggiGame.getTurnColor().name());
-        gameRoomEntity.setEndTime(LocalDateTime.now());
+        String winColor = janggiGame.getTurnColor().name();
+        LocalDateTime endTime = LocalDateTime.now();
+        gameRoomEntity.updateToFinish(true, winColor, endTime);
         gameRoomDao.finishGame(gameRoomEntity);
     }
 

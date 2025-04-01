@@ -37,75 +37,52 @@ public class GameRoomEntity {
                 false, null, null, 0, 0);
     }
 
-    public int getId() {
-        return id;
+    public void updateRoom(String turnColor, int redScore, int blueScore, LocalDateTime lastUpdatedTime) {
+        this.turnColor = turnColor;
+        this.redScore = redScore;
+        this.blueScore = blueScore;
+        this.lastUpdated = lastUpdatedTime;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void updateToFinish(boolean isFinished, String winColor, LocalDateTime endTime) {
+        this.isFinished = isFinished;
+        this.winner = winColor;
+        this.endTime = endTime;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getTurnColor() {
         return turnColor;
     }
 
-    public void setTurnColor(String turnColor) {
-        this.turnColor = turnColor;
-    }
-
     public LocalDateTime getStartTime() {
         return startTime;
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
     }
 
     public LocalDateTime getLastUpdated() {
         return lastUpdated;
     }
 
-    public void setLastUpdated(LocalDateTime lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
     public boolean isFinished() {
         return isFinished;
-    }
-
-    public void setFinished(boolean finished) {
-        isFinished = finished;
     }
 
     public String getWinner() {
         return winner;
     }
 
-    public void setWinner(String winner) {
-        this.winner = winner;
-    }
-
     public LocalDateTime getEndTime() {
         return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
     }
 
     public int getRedScore() {
         return redScore;
     }
 
-    public void setRedScore(int redScore) {
-        this.redScore = redScore;
-    }
-
     public int getBlueScore() {
         return blueScore;
-    }
-
-    public void setBlueScore(int blueScore) {
-        this.blueScore = blueScore;
     }
 }

@@ -18,51 +18,32 @@ public class BoardPieceEntity {
         this.pieceColor = pieceColor;
     }
 
-    public int getId() {
-        return id;
+    public void updatePosition(int row, int col) {
+        this.positionRow = row;
+        this.positionCol = col;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getId() {
+        return id;
     }
 
     public int getPositionRow() {
         return positionRow;
     }
 
-    public void setPositionRow(int positionRow) {
-        this.positionRow = positionRow;
-    }
-
     public int getPositionCol() {
         return positionCol;
-    }
-
-    public void setPositionCol(int positionCol) {
-        this.positionCol = positionCol;
     }
 
     public String getPieceType() {
         return pieceType;
     }
 
-    public void setPieceType(String pieceType) {
-        this.pieceType = pieceType;
-    }
-
     public String getPieceColor() {
         return pieceColor;
     }
 
-    public void setPieceColor(String pieceColor) {
-        this.pieceColor = pieceColor;
-    }
-
     public int getGameRoomId() {
         return gameRoomId;
-    }
-
-    public void setGameRoomId(int gameRoomId) {
-        this.gameRoomId = gameRoomId;
     }
 }
