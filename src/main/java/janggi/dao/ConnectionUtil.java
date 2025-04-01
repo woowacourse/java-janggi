@@ -1,24 +1,40 @@
 package janggi.dao;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class ConnectionUtil {
-    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul";
-    private static final String USERNAME = "root"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
+    private static final String PROPERTIES_FILE = "db.properties";
+    private static final Properties properties = new Properties();
+
+    static {
+        try (InputStream input = ConnectionUtil.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+            if (input == null) {
+                throw new IllegalStateException("파일을 찾을 수 없는 오류 발생: " + PROPERTIES_FILE);
+            }
+            properties.load(input);
+        } catch (IOException e) {
+            throw new IllegalStateException("파일 읽는 중 오류 발생: " + PROPERTIES_FILE, e);
+        }
+    }
 
     public static Connection getConnection() {
-        // 드라이버 연결
+        String server = properties.getProperty("server");
+        String database = properties.getProperty("database");
+        String option = properties.getProperty("option");
+        String username = properties.getProperty("username");
+        String password = properties.getProperty("password");
+
+        String url = "jdbc:mysql://" + server + "/" + database + option;
+
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
+            return DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            throw new IllegalStateException("DB 연결 오류:" + e.getMessage());
         }
     }
 }
