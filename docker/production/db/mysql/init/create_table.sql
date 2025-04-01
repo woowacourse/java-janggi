@@ -1,12 +1,12 @@
 CREATE TABLE IF NOT EXISTS game_room
 (
-    name VARCHAR(100) UNIQUE NOT NULL PRIMARY KEY,
-    turn VARCHAR(20)         NOT NULL
+    name VARCHAR(100) PRIMARY KEY,
+    turn VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS piece
 (
-    id           BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id           BIGINT AUTO_INCREMENT PRIMARY KEY,
     row_index    INT          NOT NULL,
     column_index INT          NOT NULL,
     piece_type   VARCHAR(20)  NOT NULL,
