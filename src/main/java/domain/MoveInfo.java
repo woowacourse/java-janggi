@@ -1,12 +1,15 @@
 package domain;
 
 import domain.piece.category.PieceCategory;
+import domain.spatial.Position;
 
 public class MoveInfo {
 
+    private final Position position;
     private final PieceCategory pieceCategory;
 
-    public MoveInfo(final PieceCategory pieceCategory) {
+    public MoveInfo(final Position position, final PieceCategory pieceCategory) {
+        this.position = position;
         this.pieceCategory = pieceCategory;
     }
 

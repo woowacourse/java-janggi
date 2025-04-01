@@ -54,7 +54,7 @@ public record Board(
 
     private MoveInfos createMoveInfos(final List<Position> paths) {
         List<MoveInfo> moveInfos = paths.stream()
-                .map(path -> new MoveInfo(getPieceCategoryAtPosition(path)))
+                .map(path -> new MoveInfo(path, getPieceCategoryAtPosition(path)))
                 .toList();
         return new MoveInfos(moveInfos);
     }
