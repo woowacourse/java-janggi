@@ -16,7 +16,7 @@ public class PieceDao {
 
     public void insert(PieceDto piece) {
         String sql = """
-                INSERT INTO piece (row_index, column_index, piece_type_name, team_name, game_room_name)
+                INSERT INTO piece (row_index, column_index, piece_type, team, game_room)
                 VALUES (?, ?, ?, ?, ?);
                 """;
         addToMessageQueue(sql, List.of(piece.rowIndex(), piece.columnIndex(),
@@ -32,7 +32,7 @@ public class PieceDao {
         String sql = """
                 UPDATE piece
                 SET row_index = ?, column_index = ?
-                WHERE row_index = ? AND column_index = ? AND game_room_name = ?
+                WHERE row_index = ? AND column_index = ? AND game_room = ?
                 """;
         addToMessageQueue(sql,
                 List.of(newPoint.row(), newPoint.column(), oldPoint.row(), oldPoint.column(), gameRoomName));
@@ -41,16 +41,16 @@ public class PieceDao {
     public void deleteByGameRoomNameAndPoint(String gameRoomName, Point point) {
         String sql = """
                 DELETE FROM piece
-                WHERE game_room_name = ? AND row_index = ? AND column_index = ?
+                WHERE game_room = ? AND row_index = ? AND column_index = ?
                 """;
         addToMessageQueue(sql, List.of(gameRoomName, point.row(), point.column()));
     }
 
     public List<PieceDto> findByGameRoomName(Connection connection, String gameRoomName) {
         String sql = """               
-                SELECT row_index, column_index, piece_type_name, team_name, game_room_name
+                SELECT row_index, column_index, piece_type, team, game_room
                 FROM piece p
-                WHERE p.game_room_name = ?;
+                WHERE p.game_room = ?;
                 """;
         List<PieceDto> pieces = new ArrayList<>();
 
@@ -62,9 +62,9 @@ public class PieceDao {
                             null,
                             resultSet.getInt("row_index"),
                             resultSet.getInt("column_index"),
-                            PieceType.valueOf(resultSet.getString("piece_type_name")),
-                            Team.valueOf(resultSet.getString("team_name")),
-                            resultSet.getString("game_room_name")
+                            PieceType.valueOf(resultSet.getString("piece_type")),
+                            Team.valueOf(resultSet.getString("team")),
+                            resultSet.getString("game_room")
                     ));
                 }
             }
