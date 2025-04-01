@@ -37,7 +37,7 @@ public class GameRepository implements Repository {
             if (getConnection() != null) {
                 return true;
             }
-        } catch (RuntimeException ignored) {
+        } catch (RuntimeException e) {
         }
         return false;
     }
