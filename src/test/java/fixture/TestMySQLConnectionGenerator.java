@@ -15,7 +15,7 @@ public class TestMySQLConnectionGenerator implements ConnectionGenerator {
     private static final String PASSWORD = "root";
     private static final String TEST_DATABASE_NAME = "janggi";
 
-    private static String joinURL(String ip, String port) {
+    private String joinURL(String ip, String port) {
         return String.join(":", List.of(ip, port));
     }
 
@@ -26,7 +26,7 @@ public class TestMySQLConnectionGenerator implements ConnectionGenerator {
                     "jdbc:mysql://" + joinURL(IP, TEST_PORT) + "/" + TEST_DATABASE_NAME
                             + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결 오류: " + e.getMessage());
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다. : " + e.getMessage());
         }
     }
 }
