@@ -21,6 +21,20 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class BoardTest {
 
     @Test
+    void 플레이어가_2명이_아닌_경우_예외가_발생한다() {
+        // given
+        Player test = new Player(Team.HAN, new Score(0));
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(test, new Pieces(List.of()));
+
+        // when & then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new Board(boardElements))
+                .withMessage("플레이어는 2명이어야 합니다.");
+    }
+
+    @Test
     void 플레이어의_기물을_이동한다() {
         // given
         Position startPosition = new Position(1, 4);
