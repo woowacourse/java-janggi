@@ -2,7 +2,6 @@ package janggi.domain.movement;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public record Directions(List<Direction> directions) {
 
@@ -19,17 +18,5 @@ public record Directions(List<Direction> directions) {
                 )
                 .map(Directions::new)
                 .toList();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Directions that = (Directions) o;
-        return Objects.equals(directions, that.directions);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(directions);
     }
 }
