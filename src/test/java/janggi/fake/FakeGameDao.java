@@ -20,13 +20,6 @@ public class FakeGameDao implements GameDao {
     }
 
     @Override
-    public Optional<GameEntity> findByStatus(Status status) {
-        return gameEntities.stream()
-                .filter(gameEntity -> gameEntity.getStatus() == status)
-                .findFirst();
-    }
-
-    @Override
     public Optional<GameEntity> findById(Long gameId) {
         return gameEntities.stream()
                 .filter(gameEntity -> Objects.equals(gameEntity.getId(), gameId))

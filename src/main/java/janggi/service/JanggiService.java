@@ -36,6 +36,9 @@ public class JanggiService {
     }
 
     public void createGame(String gameName, BoardSetUp hanBoardSetUp, BoardSetUp chuBoardSetUp) {
+        if (gameDao.findByName(gameName).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 게임 이름입니다.");
+        }
         gameDao.addGame(new GameEntity(gameName, Status.RUN, Dynasty.CHU));
         GameEntity gameEntity = findRunningGameByNameOrThrow(gameName);
         JanggiBoard janggiBoard = JanggiBoard.of(hanBoardSetUp, chuBoardSetUp);

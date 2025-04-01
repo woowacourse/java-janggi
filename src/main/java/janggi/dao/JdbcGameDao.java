@@ -11,28 +11,6 @@ import java.util.Optional;
 public class JdbcGameDao implements GameDao {
 
     @Override
-    public Optional<GameEntity> findByStatus(Status status) {
-        final var query = "SELECT * FROM game WHERE status = ?";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, status.getSymbol());
-
-            final var resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return Optional.of(new GameEntity(
-                        resultSet.getLong("id"),
-                        resultSet.getString("name"),
-                        Status.from(resultSet.getInt("status")),
-                        Dynasty.valueOf(resultSet.getString("current_turn"))
-                ));
-            }
-            return Optional.empty();
-        } catch (final SQLException e) {
-            throw new DatabaseSQLException(e);
-        }
-    }
-
-    @Override
     public Optional<GameEntity> findById(Long gameId) {
         final var query = "SELECT * FROM game WHERE id = ?";
         try (final var connection = getConnection();

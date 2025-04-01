@@ -6,7 +6,6 @@ import janggi.domain.piece.Dynasty;
 import java.util.Optional;
 
 public interface GameDao {
-    Optional<GameEntity> findByStatus(Status status);
 
     Optional<GameEntity> findById(Long gameId);
 

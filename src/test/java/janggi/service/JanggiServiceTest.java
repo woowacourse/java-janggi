@@ -24,6 +24,7 @@ import janggi.fake.FakeGameDao;
 import janggi.fake.FakePieceDao;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -41,6 +42,21 @@ class JanggiServiceTest {
 
         //then
         assertThat(runningGame).isEqualTo(gameEntity);
+    }
+
+    @DisplayName("게임 생성시 이미 존재하는 이름의 게임이라면 예외가 발생한다.")
+    @Test
+    void createGame_isAlreadyExistName_throwException() {
+        //given
+        GameDao gameDao = new FakeGameDao(new GameEntity(1L, "abc", Status.END, Dynasty.HAN));
+        PieceDao pieceDao = new FakePieceDao();
+        JanggiService janggiService = new JanggiService(gameDao, pieceDao);
+
+        //when & then
+        Assertions.assertThatThrownBy(
+                        () -> janggiService.createGame("abc", HanBoardSetUp.INNER_ELEPHANT, ChuBoardSetUp.INNER_ELEPHANT))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이미 존재하는 게임 이름입니다.");
     }
 
     @DisplayName("게임을 만든다.")
