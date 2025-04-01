@@ -13,7 +13,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import repository.ConnectH2;
@@ -23,12 +25,16 @@ import repository.converter.TurnConverter;
 
 public class TurnDaoTest {
 
-    private static final ConnectDatabase connectDatabase = new ConnectH2();
-    private static final Connection connection = connectDatabase.create();
-    TurnDao turnDao = new TurnDao(new ConnectH2());
+    private static ConnectDatabase connectDatabase;
+    private static Connection connection;
+    TurnDao turnDao;
 
-    @BeforeAll
-    static void setUpDatabase() throws SQLException {
+    @BeforeEach
+    void setUpDatabase() throws SQLException {
+        connectDatabase = new ConnectH2();
+        connection = connectDatabase.create();
+        turnDao = new TurnDao(connectDatabase);
+
         String createTurnTable = """
             CREATE TABLE IF NOT EXISTS TURN (
                 turn VARCHAR(20) UNIQUE NOT NULL PRIMARY KEY
@@ -68,6 +74,15 @@ public class TurnDaoTest {
 
         // then
         assertThat(turnDao.findTurn()).isEqualTo("HAN");
+    }
+
+    @AfterEach
+    void closeConnection() throws SQLException {
+        String clearTable = "DELETE FROM TURN;";
+
+        connection.prepareStatement(clearTable).execute();
+
+        connectDatabase.close(connection);
     }
 
 
