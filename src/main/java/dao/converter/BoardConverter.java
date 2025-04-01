@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
 
 public class BoardConverter {
 
-    public static List<PieceDto> convertToPieceEntities(Map<Point, Piece> pieceByPoint, String gameRoomName) {
+    public static List<PieceDto> convertToPieceDtos(Map<Point, Piece> pieceByPoint, String gameRoomName) {
         return pieceByPoint.entrySet().stream()
-                .map(entry -> convertToPieceEntity(entry, gameRoomName))
+                .map(entry -> convertToPieceDto(entry, gameRoomName))
                 .toList();
     }
 
-    private static PieceDto convertToPieceEntity(Map.Entry<Point, Piece> pieceByPoint, String gameRoomName) {
+    private static PieceDto convertToPieceDto(Map.Entry<Point, Piece> pieceByPoint, String gameRoomName) {
         Point point = pieceByPoint.getKey();
         Piece piece = pieceByPoint.getValue();
         return new PieceDto(null, point.row(), point.column(), piece.type(), piece.team(), gameRoomName);
