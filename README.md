@@ -1,3 +1,20 @@
+# 장기 미션 애플리케이션 실행 방법
+
+본 애플리케이션은 MySQL 데이터베이스를 활용합니다. MySQL 데이터베이스에 연결하기 위해 아래 절차를 따라 Docker 컨테이너를 실행시킨 후에 애플리케이션을 사용해야 합니다.
+
+1. 프로젝트의 ./docker 디렉터리에서 Docker 컨테이너 실행: `docker-compose -p janggi up -d`
+2. 애플리케이션 실행
+
+참고: Docker 컨테이너를 실행할 땐 외부 터미널을 사용합니다. IDE 내부 터미널에서 실행할 경우 "Can't connect to local MySQL server through socket '
+/var/run/mysqld/mysqld.sock'" 오류가 발생할 수 있습니다.
+
+애플리케이션을 처음 사용할 경우 초기 데이터베이스 테이블을 생성해야 합니다.
+
+1. Docker 컨테이너 실행: `docker-compose -p janggi up -d`
+2. 컨테이너의 shell에 접근: `docker exec -it $컨테이너_ID /bin/bash` ($컨테이너_ID는 `docker ps`로 확인)
+3. MySQL에 접속: `mysql -u root -p` (비밀번호: root)
+4. `./docker/db/mysql/init/init.sql`에 기재된 쿼리문 실행
+
 # 장기 미션 구현 기능 목록
 
 ## 장기 기물
