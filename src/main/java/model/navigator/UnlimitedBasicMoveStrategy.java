@@ -5,13 +5,13 @@ import java.util.List;
 import model.position.Movement;
 import model.position.Position;
 
-public class UnlimitedBasicMoveNavigator {
+public class UnlimitedBasicMoveStrategy {
 
-    private static final UnlimitedBasicMoveNavigator INSTANCE = new UnlimitedBasicMoveNavigator();
+    private static final UnlimitedBasicMoveStrategy INSTANCE = new UnlimitedBasicMoveStrategy();
 
-    private UnlimitedBasicMoveNavigator() {}
+    private UnlimitedBasicMoveStrategy() {}
 
-    public static UnlimitedBasicMoveNavigator getInstance() {
+    public static UnlimitedBasicMoveStrategy getInstance() {
         return INSTANCE;
     }
 

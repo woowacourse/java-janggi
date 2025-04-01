@@ -8,13 +8,13 @@ import model.position.Position;
  * Byeong, Jol, General, Guard가 사용한다.
  * 한 칸씩 움직이는 기물들이 사용한다.
  */
-public class LimitedBasicMoveNavigator{
+public class LimitedBasicMoveStrategy {
 
-    private static final LimitedBasicMoveNavigator INSTANCE = new LimitedBasicMoveNavigator();
+    private static final LimitedBasicMoveStrategy INSTANCE = new LimitedBasicMoveStrategy();
 
-    private LimitedBasicMoveNavigator() {}
+    private LimitedBasicMoveStrategy() {}
 
-    public static LimitedBasicMoveNavigator getInstance() {
+    public static LimitedBasicMoveStrategy getInstance() {
         return INSTANCE;
     }
 

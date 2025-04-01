@@ -4,13 +4,13 @@ import java.util.List;
 import model.position.Movement;
 import model.position.Position;
 
-public class JumpMoveNavigator{
+public class JumpMoveStrategy {
 
-    private static final JumpMoveNavigator INSTANCE = new JumpMoveNavigator();
+    private static final JumpMoveStrategy INSTANCE = new JumpMoveStrategy();
 
-    private JumpMoveNavigator() {}
+    private JumpMoveStrategy() {}
 
-    public static JumpMoveNavigator getInstance() {
+    public static JumpMoveStrategy getInstance() {
         return INSTANCE;
     }
 

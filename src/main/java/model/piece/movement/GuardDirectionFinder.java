@@ -3,18 +3,15 @@ package model.piece.movement;
 import static model.position.Movement.*;
 
 import java.util.List;
-import model.piece.PieceType;
 import model.position.Movement;
-import model.navigator.LimitedBasicMoveNavigator;
+import model.navigator.LimitedBasicMoveStrategy;
 import model.piece.Castle;
-import model.piece.Piece;
-import model.piece.Team;
 import model.position.Position;
 
-public class GuardDirectionFinder implements DirectionFindable {
+public class GuardDirectionFinder implements DirectionFinder {
 
     private final Castle castle = Castle.getInstance();
-    private final LimitedBasicMoveNavigator limitedBasicMoveNavigator = LimitedBasicMoveNavigator.getInstance();
+    private final LimitedBasicMoveStrategy limitedBasicMoveStrategy = LimitedBasicMoveStrategy.getInstance();
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(
         DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT,
@@ -24,7 +21,7 @@ public class GuardDirectionFinder implements DirectionFindable {
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
         validateOutOfCastle(arrival);
         List<Movement> decidedMovements = castle.decideMovements(movements, movementsInCastle, departure, arrival);
-        return limitedBasicMoveNavigator.find(departure, arrival, decidedMovements);
+        return limitedBasicMoveStrategy.find(departure, arrival, decidedMovements);
     }
 
     private void validateOutOfCastle(Position arrival) {

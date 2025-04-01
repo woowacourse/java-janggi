@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import model.piece.movement.ByeongDirectionFinder;
 import model.piece.movement.CannonDirectionFinder;
 import model.piece.movement.ChariotDirectionFinder;
-import model.piece.movement.DirectionFindable;
+import model.piece.movement.DirectionFinder;
 import model.piece.movement.ElephantDirectionFinder;
 import model.piece.movement.GeneralDirectionFinder;
 import model.piece.movement.GuardDirectionFinder;
@@ -28,9 +28,9 @@ public enum PieceType {
 
     private final String name;
     private final int score;
-    private final Supplier<DirectionFindable> directionFindable;
+    private final Supplier<DirectionFinder> directionFindable;
 
-    PieceType(String name, int score, Supplier<DirectionFindable> directionFindable) {
+    PieceType(String name, int score, Supplier<DirectionFinder> directionFindable) {
         this.name = name;
         this.score = score;
         this.directionFindable = directionFindable;
@@ -45,7 +45,7 @@ public enum PieceType {
     }
 
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        DirectionFindable directionFinder = directionFindable.get();
+        DirectionFinder directionFinder = directionFindable.get();
         return directionFinder.calculateAllDirection(departure, arrival);
     }
 

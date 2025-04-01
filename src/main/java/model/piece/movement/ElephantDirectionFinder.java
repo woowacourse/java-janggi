@@ -3,16 +3,13 @@ package model.piece.movement;
 import static model.position.Movement.*;
 
 import java.util.List;
-import model.piece.PieceType;
 import model.position.Movement;
-import model.navigator.JumpMoveNavigator;
-import model.piece.Piece;
-import model.piece.Team;
+import model.navigator.JumpMoveStrategy;
 import model.position.Position;
 
-public class ElephantDirectionFinder implements DirectionFindable {
+public class ElephantDirectionFinder implements DirectionFinder {
 
-    private final JumpMoveNavigator jumpMoveNavigator = JumpMoveNavigator.getInstance();
+    private final JumpMoveStrategy jumpMoveStrategy = JumpMoveStrategy.getInstance();
     private final List<List<Movement>> movements = List.of(
         List.of(UP, UP_AND_DIAGONAL_UP_LEFT, UP_AND_DOUBLE_DIAGONAL_UP_LEFT),
         List.of(UP, UP_AND_DIAGONAL_UP_RIGHT, UP_AND_DOUBLE_DIAGONAL_UP_RIGHT),
@@ -25,6 +22,6 @@ public class ElephantDirectionFinder implements DirectionFindable {
 
     @Override
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
-        return jumpMoveNavigator.find(departure, arrival, movements);
+        return jumpMoveStrategy.find(departure, arrival, movements);
     }
 }

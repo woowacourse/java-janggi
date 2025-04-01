@@ -3,18 +3,15 @@ package model.piece.movement;
 import static model.position.Movement.*;
 
 import java.util.List;
-import model.piece.PieceType;
 import model.position.Movement;
-import model.navigator.UnlimitedBasicMoveNavigator;
+import model.navigator.UnlimitedBasicMoveStrategy;
 import model.piece.Castle;
-import model.piece.Piece;
-import model.piece.Team;
 import model.position.Position;
 
-public class ChariotDirectionFinder implements DirectionFindable {
+public class ChariotDirectionFinder implements DirectionFinder {
 
     private final Castle castle = Castle.getInstance();
-    private final UnlimitedBasicMoveNavigator unlimitedBasicMoveNavigator = UnlimitedBasicMoveNavigator.getInstance();
+    private final UnlimitedBasicMoveStrategy unlimitedBasicMoveStrategy = UnlimitedBasicMoveStrategy.getInstance();
     private final List<Movement> movements = List.of(UP, DOWN, LEFT, RIGHT);
     private final List<Movement> movementsInCastle = List.of(
         DIAGONAL_UP_LEFT, DIAGONAL_UP_RIGHT,
@@ -24,6 +21,6 @@ public class ChariotDirectionFinder implements DirectionFindable {
     public List<Position> calculateAllDirection(Position departure, Position arrival) {
         List<Movement> decidedMovements = castle.decideMovements(movements,
             movementsInCastle, departure, arrival);
-        return unlimitedBasicMoveNavigator.find(departure, arrival, decidedMovements);
+        return unlimitedBasicMoveStrategy.find(departure, arrival, decidedMovements);
     }
 }

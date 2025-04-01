@@ -3,6 +3,6 @@ package model.piece.movement;
 import java.util.List;
 import model.position.Position;
 
-public interface DirectionFindable {
+public interface DirectionFinder {
     List<Position> calculateAllDirection(Position departure, Position arrival);
 }
