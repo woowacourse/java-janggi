@@ -60,7 +60,7 @@ class JanggiCoordinateDaoTest {
             coordinateDao.insertPieceToCoordinate(pieceId1, new JanggiCoordinate(1, 2), gameId);
             coordinateDao.insertPieceToCoordinate(pieceId2, new JanggiCoordinate(2, 3), gameId);
 
-            Map<JanggiCoordinate, Piece> map = coordinateDao.finaAllPieces(gameId);
+            Map<JanggiCoordinate, Piece> map = coordinateDao.findAllPieces(gameId);
 
             Assertions.assertAll(
                     () -> assertThat(map.get(new JanggiCoordinate(1, 2))).isEqualTo(new Cha(Country.HAN)),

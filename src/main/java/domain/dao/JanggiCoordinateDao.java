@@ -50,7 +50,7 @@ public class JanggiCoordinateDao {
         }
     }
 
-    public Map<JanggiCoordinate, Piece> finaAllPieces(int gameId) {
+    public Map<JanggiCoordinate, Piece> findAllPieces(int gameId) {
         String findAllPieceSQL = """
                 SELECT c.row_coordinate, c.col_coordinate, p.country, p.piece_type
                 FROM coordinate c

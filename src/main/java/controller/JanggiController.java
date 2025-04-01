@@ -92,7 +92,7 @@ public class JanggiController {
 
                 return new GameIdDto(
                         gameDao.getGameIdByName(gameName),
-                        new JanggiGame(coordinateDao.finaAllPieces(gameId), Country.fromName(currentTurn))
+                        new JanggiGame(coordinateDao.findAllPieces(gameId), Country.fromName(currentTurn))
                 );
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
