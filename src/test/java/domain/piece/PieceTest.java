@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.MoveInfo;
 import domain.MoveInfos;
 import domain.direction.Directions;
 import domain.piece.category.Cannon;
@@ -47,15 +48,20 @@ class PieceTest {
     @Test
     void 위치를_변경한다() {
         // given
-        final Position position = new Position(2, 2);
+        final Position target = new Position(2, 2);
         final Piece piece = new TestPiece(new Position(1, 2), new Directions(List.of(), false));
 
         // when
-        Piece result = piece.move(position, new MoveInfos(List.of()));
+        MoveInfos dummy = new MoveInfos(List.of(
+                new MoveInfo(new Position(1, 1), PieceCategory.NONE),
+                new MoveInfo(new Position(1, 2), PieceCategory.NONE))
+        );
+
+        Piece result = piece.move(target, dummy);
 
         // then
         assertThat(result.getPosition())
-                .isEqualTo(position);
+                .isEqualTo(target);
     }
 
     @Test

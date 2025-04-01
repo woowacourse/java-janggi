@@ -18,6 +18,8 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 class CannonTest {
 
+    private static final Position DUMMY_POSITION = new Position(1, 1);
+
     @Test
     void 이동_경로가_아닌_경우_예외가_발생한다() {
         // given
@@ -71,41 +73,49 @@ class CannonTest {
 
     private static Stream<Arguments> 포는_경로에_기물이_1개가_아닌_경우_예외가_발생한다() {
         return Stream.of(
-                Arguments.of(new MoveInfos(List.of(new MoveInfo(PieceCategory.NONE)))),
-                Arguments.of(new MoveInfos(List.of(new MoveInfo(PieceCategory.HORSE), new MoveInfo(PieceCategory.HORSE),
-                        new MoveInfo(PieceCategory.HORSE))))
+                Arguments.of(new MoveInfos(List.of( // 중간 기물 0개
+                        new MoveInfo(DUMMY_POSITION, PieceCategory.HORSE),
+                        new MoveInfo(DUMMY_POSITION, PieceCategory.NONE)
+                ))),
+                Arguments.of(new MoveInfos(List.of( // 중간 기물 2개
+                        new MoveInfo(DUMMY_POSITION, PieceCategory.HORSE),
+                        new MoveInfo(DUMMY_POSITION, PieceCategory.HORSE),
+                        new MoveInfo(DUMMY_POSITION, PieceCategory.HORSE),
+                        new MoveInfo(DUMMY_POSITION, PieceCategory.HORSE))))
         );
     }
 
     @Test
     void 포는_도착지에_상대_포가_있는_경우_예외가_발생한다() {
         // given
-        MoveInfos moveInfos = new MoveInfos(
-                List.of(new MoveInfo(PieceCategory.GUARD), new MoveInfo(PieceCategory.CANNON)));
+        MoveInfos moveInfos = new MoveInfos(List.of(
+                new MoveInfo(DUMMY_POSITION, PieceCategory.HORSE),
+                new MoveInfo(DUMMY_POSITION, PieceCategory.GUARD),
+                new MoveInfo(DUMMY_POSITION, PieceCategory.CANNON)
+        ));
 
         Piece piece = new Cannon(new Position(1, 2), PieceDirection.CANNON.get());
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
+                .isThrownBy(() -> piece.move(new Position(1, 4), moveInfos))
                 .withMessage("포는 상대 포를 잡을 수 없습니다.");
     }
 
     @Test
     void 포는_경로에_포가_있는_경우_예외가_발생한다() {
         // given
-        MoveInfos moveInfos = new MoveInfos(
-                List.of(
-                        new MoveInfo(PieceCategory.CANNON),
-                        new MoveInfo(PieceCategory.NONE)
-                )
-        );
+        MoveInfos moveInfos = new MoveInfos(List.of(
+                new MoveInfo(DUMMY_POSITION, PieceCategory.CANNON),
+                new MoveInfo(DUMMY_POSITION, PieceCategory.CANNON),
+                new MoveInfo(DUMMY_POSITION, PieceCategory.NONE)
+        ));
 
         Piece piece = new Cannon(new Position(1, 2), PieceDirection.CANNON.get());
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
+                .isThrownBy(() -> piece.move(new Position(1, 4), moveInfos))
                 .withMessage("포는 다른 포를 지나칠 수 없습니다.");
     }
 }

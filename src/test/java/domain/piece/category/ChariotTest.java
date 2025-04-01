@@ -14,17 +14,24 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 class ChariotTest {
 
+    private static final Position DUMMY_POSITION = new Position(1, 1);
+
     @Test
     void 차는_경로에_기물이_있는_경우_예외가_발생한다() {
         // given
-        MoveInfos moveInfos = new MoveInfos(
-                List.of(new MoveInfo(PieceCategory.GUARD), new MoveInfo(PieceCategory.GUARD)));
+        Position start = new Position(1, 2);
+        Position target = new Position(1, 3);
+        Piece piece = new Chariot(start, PieceDirection.CHARIOT.get());
 
-        Piece piece = new Chariot(new Position(1, 2), PieceDirection.CHARIOT.get());
+        MoveInfos moveInfos = new MoveInfos(List.of(
+                new MoveInfo(start, PieceCategory.CHARIOT),
+                new MoveInfo(DUMMY_POSITION, PieceCategory.GUARD),
+                new MoveInfo(target, PieceCategory.GUARD)
+        ));
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
+                .isThrownBy(() -> piece.move(target, moveInfos))
                 .withMessage("차는 중간에 기물이 0개여야 합니다.");
     }
 

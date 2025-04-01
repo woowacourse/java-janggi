@@ -1,5 +1,6 @@
 package domain.piece.category;
 
+import domain.MoveInfo;
 import domain.MoveInfos;
 import domain.direction.Directions;
 import domain.direction.PieceDirection;
@@ -13,16 +14,24 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 class KingTest {
 
+    private static final Position DUMMY_POSITION = new Position(1, 1);
+
     @Test
     void 궁성_외부로_이동한_경우_예외가_발생한다() {
         // given
-        King king = new King(new Position(4, 1), PieceDirection.KING.get());
-
+        Position start = new Position(4, 1);
         Position target = new Position(3, 1);
+        King king = new King(start, PieceDirection.KING.get());
+
+        MoveInfos moveInfos = new MoveInfos(List.of(
+                new MoveInfo(start, PieceCategory.GUARD),
+                new MoveInfo(DUMMY_POSITION, PieceCategory.NONE),
+                new MoveInfo(target, PieceCategory.GUARD)
+        ));
 
         // when && then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> king.move(target, new MoveInfos(List.of())))
+                .isThrownBy(() -> king.move(target, moveInfos))
                 .withMessage("왕은 궁성 밖으로 이동할 수 없습니다.");
     }
 

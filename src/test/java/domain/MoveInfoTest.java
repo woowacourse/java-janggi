@@ -1,6 +1,7 @@
 package domain;
 
 import domain.piece.category.PieceCategory;
+import domain.spatial.Position;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -15,7 +16,7 @@ public class MoveInfoTest {
     })
     void 기물이_존재하는지_판단한다(PieceCategory pieceCategory, boolean expected) {
         // given
-        MoveInfo moveInfo = new MoveInfo(pieceCategory);
+        MoveInfo moveInfo = new MoveInfo(new Position(2, 2), pieceCategory);
 
         // when
         boolean result = moveInfo.hasPieceInPath();
@@ -32,7 +33,7 @@ public class MoveInfoTest {
     })
     void 같은_기물인지_판단한다(PieceCategory pieceCategory, PieceCategory otherPieceCategory, boolean expected) {
         // given
-        MoveInfo moveInfo = new MoveInfo(pieceCategory);
+        MoveInfo moveInfo = new MoveInfo(new Position(2, 2), pieceCategory);
 
         // when
         boolean result = moveInfo.isSamePieceCategory(otherPieceCategory);

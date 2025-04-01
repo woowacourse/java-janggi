@@ -12,17 +12,24 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 class ElephantTest {
 
+    private static final Position DUMMY_POSITION = new Position(1, 1);
+
     @Test
     void 상은_경로에_기물이_있는_경우_예외가_발생한다() {
         // given
-        MoveInfos moveInfos = new MoveInfos(
-                List.of(new MoveInfo(PieceCategory.GUARD), new MoveInfo(PieceCategory.GUARD)));
+        Position start = new Position(1, 2);
+        Position target = new Position(1, 3);
+        Piece piece = new Elephant(target, PieceDirection.ELEPHANT.get());
 
-        Piece piece = new Elephant(new Position(1, 2), PieceDirection.ELEPHANT.get());
+        MoveInfos moveInfos = new MoveInfos(List.of(
+                new MoveInfo(start, PieceCategory.GUARD),
+                new MoveInfo(DUMMY_POSITION, PieceCategory.GUARD),
+                new MoveInfo(target, PieceCategory.GUARD)
+        ));
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.move(new Position(1, 3), moveInfos))
+                .isThrownBy(() -> piece.move(target, moveInfos))
                 .withMessage("상은 중간에 기물이 0개여야 합니다.");
     }
 
