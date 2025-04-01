@@ -1,10 +1,9 @@
 package janggi.domain.piece.behavior.straightmove;
 
-import janggi.domain.Board;
-import janggi.domain.Team;
 import janggi.domain.move.Movement;
 import janggi.domain.move.Position;
 import janggi.domain.move.Vector;
+import janggi.domain.piece.BoardPositionInfo;
 import janggi.domain.piece.PieceBehavior;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,10 +19,13 @@ public abstract class StraightMoveBehavior implements PieceBehavior {
             Movement.LEFT_DOWN, Movement.LEFT_UP, Movement.RIGHT_DOWN, Movement.RIGHT_UP
     );
 
-    public final Set<Position> generateAvailableMovePositions(Board board, Team team, Position position) {
-        Set<Position> result = getPositions(STANDARD_MOVEMENTS, position, board, team);
+    @Override
+    public final Set<Position> generateAvailableMovePositions(BoardPositionInfo boardPositionInfo) {
+        Position position = boardPositionInfo.position();
+
+        Set<Position> result = getPositions(STANDARD_MOVEMENTS, boardPositionInfo);
         if (position.canCrossMove()) {
-            Set<Position> crossMovePositions = getPositions(CROSS_MOVEMENTS, position, board, team)
+            Set<Position> crossMovePositions = getPositions(CROSS_MOVEMENTS, boardPositionInfo)
                     .stream()
                     .filter(Position::isPalace)
                     .collect(Collectors.toUnmodifiableSet());
@@ -34,22 +36,23 @@ public abstract class StraightMoveBehavior implements PieceBehavior {
         return result;
     }
 
-    private Set<Position> getPositions(Set<Movement> movements, Position position, Board board, Team team) {
+    private Set<Position> getPositions(Set<Movement> movements, BoardPositionInfo boardPositionInfo) {
         Set<Position> result = new HashSet<>();
 
         for (Vector vector : getVectors(movements)) {
-            searchMove(position, board, team, vector, result);
+            searchMove(boardPositionInfo, vector, result);
         }
         return result;
     }
 
-    private void searchMove(Position position, Board board, Team team, Vector vector, Set<Position> result) {
+    private void searchMove(BoardPositionInfo boardPositionInfo, Vector vector, Set<Position> result) {
+        Position position = boardPositionInfo.position();
         if (position.canNotMove(vector)) {
             return;
         }
 
         Position movePosition = position.moveToNextPosition(vector);
-        searchAvailableMoves(result, board, movePosition, vector, team);
+        searchAvailableMoves(result, boardPositionInfo.movePosition(movePosition), vector);
     }
 
     private Set<Vector> getVectors(Set<Movement> movements) {
@@ -58,7 +61,6 @@ public abstract class StraightMoveBehavior implements PieceBehavior {
                 .collect(Collectors.toUnmodifiableSet());
     }
 
-    protected abstract void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition,
-                                                 Vector vector,
-                                                 Team team);
+    protected abstract void searchAvailableMoves(Set<Position> result, BoardPositionInfo boardPositionInfo,
+                                                 Vector vector);
 }

@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface PieceBehavior {
 
-    Set<Position> generateAvailableMovePositions(Board board, Team team, Position position);
+    Set<Position> generateAvailableMovePositions(BoardPositionInfo boardPositionInfo);
 
     String toName();
 

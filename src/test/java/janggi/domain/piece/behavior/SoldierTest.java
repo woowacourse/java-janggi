@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.Board;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
+import janggi.domain.piece.BoardPositionInfo;
 import janggi.domain.piece.Piece;
 import janggi.factory.PieceInitFactory;
 import java.util.List;
@@ -38,9 +39,10 @@ class SoldierTest {
         // given
         Board board = new Board(PieceInitFactory.initialize());
         Soldier soldier = new Soldier();
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, startingPosition, team);
 
         // when
-        Set<Position> actual = soldier.generateAvailableMovePositions(board, team, startingPosition);
+        Set<Position> actual = soldier.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
@@ -55,8 +57,9 @@ class SoldierTest {
         Piece piece = new Piece(Team.HAN, soldier);
 
         Board board = new Board(Map.of(position, piece));
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
 
-        Set<Position> positions = soldier.generateAvailableMovePositions(board, Team.HAN, position);
+        Set<Position> positions = soldier.generateAvailableMovePositions(boardPositionInfo);
 
         assertThat(positions).doesNotContain(Position.of(2, 5), Position.of(2, 7));
     }
@@ -71,8 +74,9 @@ class SoldierTest {
         Piece piece = new Piece(Team.HAN, soldier);
 
         Board board = new Board(Map.of(position, piece));
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
 
-        Set<Position> positions = soldier.generateAvailableMovePositions(board, Team.HAN, position);
+        Set<Position> positions = soldier.generateAvailableMovePositions(boardPositionInfo);
 
         assertThat(positions).contains(Position.of(10, 4), Position.of(10, 6)).hasSize(5);
     }

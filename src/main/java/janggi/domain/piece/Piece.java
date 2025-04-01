@@ -33,7 +33,9 @@ public class Piece {
     }
 
     public Set<Position> getAvailableMovePositions(Board board, Position currentPosition) {
-        return pieceBehavior.generateAvailableMovePositions(board, team, currentPosition);
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, currentPosition, team);
+
+        return pieceBehavior.generateAvailableMovePositions(boardPositionInfo);
     }
 
     public String toName() {

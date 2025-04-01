@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.Board;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
+import janggi.domain.piece.BoardPositionInfo;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.Soldier;
 import java.util.Map;
@@ -26,10 +27,11 @@ class CannonTest {
         Piece soldierPiece = new Piece(Team.HAN, soldier);
 
         Map<Position, Piece> map = Map.of(position, cannonPiece, soldierPosition, soldierPiece);
+        Board board = new Board(map);
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
 
         // when
-        Board board = new Board(map);
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Team.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).containsExactlyInAnyOrder(Position.of(4, 5),
@@ -55,10 +57,12 @@ class CannonTest {
 
         Map<Position, Piece> map = Map.of(position, cannonPiece, soldierPosition1, soldierPiece1,
                 soldierPosition2, soldierPiece2);
+        Board board = new Board(map);
+
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
 
         // when
-        Board board = new Board(map);
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Team.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).hasSize(3);
@@ -80,10 +84,12 @@ class CannonTest {
 
         Map<Position, Piece> map = Map.of(position, piece, soldierPosition1, soldierPiece1,
                 soldierPosition2, soldierPiece2);
+        Board board = new Board(map);
+
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
 
         // when
-        Board board = new Board(map);
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Team.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).hasSize(5);
@@ -101,10 +107,11 @@ class CannonTest {
         Piece cannon2Piece = new Piece(Team.HAN, cannon2);
 
         Map<Position, Piece> map = Map.of(position, piece, cannon2Position, cannon2Piece);
+        Board board = new Board(map);
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
 
         // when
-        Board board = new Board(map);
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Team.HAN, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).isEmpty();
@@ -129,9 +136,10 @@ class CannonTest {
         Map<Position, Piece> map = Map.of(position, piece, cannonPosition2, cannonPiece2,
                 soldierPosition, soldierPiece);
         Board board = new Board(map);
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.CHO);
 
         // when
-        Set<Position> actual = cannon.generateAvailableMovePositions(board, Team.CHO, position);
+        Set<Position> actual = cannon.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).hasSize(4);
@@ -151,9 +159,10 @@ class CannonTest {
 
         Map<Position, Piece> map = Map.of(position, piece, soldierPosition, soldierPiece);
         Board board = new Board(map);
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.CHO);
 
         // when
-        Set<Position> positions = cannon.generateAvailableMovePositions(board, Team.CHO, position);
+        Set<Position> positions = cannon.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(positions).containsExactlyInAnyOrder(Position.of(8, 4));

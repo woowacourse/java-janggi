@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import janggi.domain.Board;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
+import janggi.domain.piece.BoardPositionInfo;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.Soldier;
 import java.util.Map;
@@ -23,10 +24,11 @@ class ElephantTest {
         Position position = Position.of(4, 5);
         Elephant elephant = new Elephant();
         Piece elephantPiece = new Piece(Team.HAN, elephant);
+        Board board = new Board(Map.of(position, elephantPiece));
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
 
         // when
-        Board board = new Board(Map.of(position, elephantPiece));
-        Set<Position> actual = elephant.generateAvailableMovePositions(board, Team.HAN, position);
+        Set<Position> actual = elephant.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).containsExactlyInAnyOrder(
@@ -52,10 +54,11 @@ class ElephantTest {
         Soldier soldier = new Soldier();
         Piece elephantPiece = new Piece(Team.HAN, elephant);
         Piece soldierPiece = new Piece(Team.HAN, soldier);
+        Board board = new Board(Map.of(position, elephantPiece, soldierPosition, soldierPiece));
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
 
         // when
-        Board board = new Board(Map.of(position, elephantPiece, soldierPosition, soldierPiece));
-        Set<Position> actual = elephant.generateAvailableMovePositions(board, Team.HAN, position);
+        Set<Position> actual = elephant.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).hasSize(expected);
@@ -71,10 +74,11 @@ class ElephantTest {
         Soldier soldier = new Soldier();
         Piece elephantPiece = new Piece(Team.HAN, elephant);
         Piece soldierPiece = new Piece(Team.CHO, soldier);
+        Board board = new Board(Map.of(position, elephantPiece, soldierPosition, soldierPiece));
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
 
         // when
-        Board board = new Board(Map.of(position, elephantPiece, soldierPosition, soldierPiece));
-        Set<Position> actual = elephant.generateAvailableMovePositions(board, Team.HAN, position);
+        Set<Position> actual = elephant.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).hasSize(8);

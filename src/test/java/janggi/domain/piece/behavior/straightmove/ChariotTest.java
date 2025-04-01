@@ -3,8 +3,9 @@ package janggi.domain.piece.behavior.straightmove;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.domain.Board;
-import janggi.domain.move.Position;
 import janggi.domain.Team;
+import janggi.domain.move.Position;
+import janggi.domain.piece.BoardPositionInfo;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.behavior.Soldier;
 import java.util.HashMap;
@@ -27,11 +28,12 @@ class ChariotTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = chariot.generateAvailableMovePositions(board, Team.HAN, position);
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
+        Set<Position> actual = chariot.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).hasSize(17)
-                .contains(Position.of(1,1), Position.of(10,9));
+                .contains(Position.of(1, 1), Position.of(10, 9));
     }
 
     @DisplayName("차 앞에 팀의 기물이 있다면 갈 수 없다.")
@@ -49,7 +51,8 @@ class ChariotTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = chariot.generateAvailableMovePositions(board, Team.HAN, position);
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
+        Set<Position> actual = chariot.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).hasSize(8);
@@ -70,7 +73,8 @@ class ChariotTest {
 
         // when
         Board board = new Board(new HashMap<>(map));
-        Set<Position> actual = chariot.generateAvailableMovePositions(board, Team.HAN, position);
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.HAN);
+        Set<Position> actual = chariot.generateAvailableMovePositions(boardPositionInfo);
 
         // then
         assertThat(actual).hasSize(9);
@@ -78,16 +82,17 @@ class ChariotTest {
 
     @DisplayName("궁성 내에서의 대각선 움직임을 허용한다.")
     @Test
-    void test6(){
+    void test6() {
         Position position = Position.of(10, 6);
         Chariot chariot = new Chariot();
         Piece piece = new Piece(Team.CHO, chariot);
 
         Board board = new Board(Map.of(position, piece));
 
-        Set<Position> actual = chariot.generateAvailableMovePositions(board, Team.CHO, position);
+        BoardPositionInfo boardPositionInfo = new BoardPositionInfo(board, position, Team.CHO);
+        Set<Position> actual = chariot.generateAvailableMovePositions(boardPositionInfo);
 
-        assertThat(actual).contains(Position.of(9,5), Position.of(8,4))
+        assertThat(actual).contains(Position.of(9, 5), Position.of(8, 4))
                 .hasSize(19);
     }
 }

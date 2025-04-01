@@ -4,14 +4,18 @@ import janggi.domain.Board;
 import janggi.domain.Team;
 import janggi.domain.move.Position;
 import janggi.domain.move.Vector;
+import janggi.domain.piece.BoardPositionInfo;
 import janggi.domain.piece.PieceType;
 import java.util.Set;
 
 public final class Chariot extends StraightMoveBehavior {
 
     @Override
-    protected void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition, Vector vector,
-                                        Team team) {
+    protected void searchAvailableMoves(Set<Position> result, BoardPositionInfo boardPositionInfo, Vector vector) {
+        Board board = boardPositionInfo.board();
+        Position currentPosition = boardPositionInfo.position();
+        Team team = boardPositionInfo.team();
+
         if (board.hasPiece(currentPosition)) {
             addPositionIfNotSameSide(result, board, currentPosition, team);
             return;
@@ -23,7 +27,7 @@ public final class Chariot extends StraightMoveBehavior {
         }
         Position nextPosition = currentPosition.moveToNextPosition(vector);
 
-        searchAvailableMoves(result, board, nextPosition, vector, team);
+        searchAvailableMoves(result, boardPositionInfo.movePosition(nextPosition), vector);
     }
 
     @Override

@@ -4,6 +4,7 @@ import janggi.domain.Board;
 import janggi.domain.Team;
 import janggi.domain.move.Movement;
 import janggi.domain.move.Position;
+import janggi.domain.piece.BoardPositionInfo;
 import janggi.domain.piece.PieceBehavior;
 import janggi.domain.piece.PieceType;
 import java.util.Optional;
@@ -18,11 +19,13 @@ public final class Soldier implements PieceBehavior {
     private static final Set<Movement> CROSS_MOVEMENTS = Set.of(Movement.LEFT_DOWN, Movement.RIGHT_DOWN);
 
     @Override
-    public Set<Position> generateAvailableMovePositions(Board board, Team team, Position position) {
-        Set<Position> positions = getAvailableStandardMovePositions(board, position, team);
+    public Set<Position> generateAvailableMovePositions(BoardPositionInfo boardPositionInfo) {
+        Position position = boardPositionInfo.position();
+
+        Set<Position> positions = getAvailableStandardMovePositions(boardPositionInfo);
 
         if (position.canCrossMove()) {
-            Set<Position> crossMovePositions = getAvailableCrossMovePositions(board, position, team);
+            Set<Position> crossMovePositions = getAvailableCrossMovePositions(boardPositionInfo);
             positions.addAll(crossMovePositions);
         }
 
@@ -39,16 +42,20 @@ public final class Soldier implements PieceBehavior {
         return PieceType.SOLDIER.getScore();
     }
 
-    private Set<Position> getAvailableStandardMovePositions(Board board, Position position, Team team) {
-        return getAvailableMovePositions(board, position, team, STANDARD_MOVEMENTS, p -> true);
+    private Set<Position> getAvailableStandardMovePositions(BoardPositionInfo boardPositionInfo) {
+        return getAvailableMovePositions(boardPositionInfo, STANDARD_MOVEMENTS, p -> true);
     }
 
-    private Set<Position> getAvailableCrossMovePositions(Board board, Position position, Team team) {
-        return getAvailableMovePositions(board, position, team, CROSS_MOVEMENTS, Position::isPalace);
+    private Set<Position> getAvailableCrossMovePositions(BoardPositionInfo boardPositionInfo) {
+        return getAvailableMovePositions(boardPositionInfo, CROSS_MOVEMENTS, Position::isPalace);
     }
 
-    private Set<Position> getAvailableMovePositions(Board board, Position position, Team team,
-                                                    Set<Movement> movements, Predicate<Position> positionCondition) {
+    private Set<Position> getAvailableMovePositions(BoardPositionInfo boardPositionInfo, Set<Movement> movements,
+                                                    Predicate<Position> positionCondition) {
+        Board board = boardPositionInfo.board();
+        Position position = boardPositionInfo.position();
+        Team team = boardPositionInfo.team();
+
         return movements.stream()
                 .map(Movement::getVector)
                 .map(vector -> position.getValidNextPosition(vector.side(team)))

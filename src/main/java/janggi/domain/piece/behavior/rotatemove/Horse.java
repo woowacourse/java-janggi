@@ -5,6 +5,7 @@ import janggi.domain.Team;
 import janggi.domain.move.Movement;
 import janggi.domain.move.Position;
 import janggi.domain.move.Vectors;
+import janggi.domain.piece.BoardPositionInfo;
 import janggi.domain.piece.PieceType;
 import java.util.List;
 import java.util.Set;
@@ -17,17 +18,20 @@ public final class Horse extends OrthogonalRotateMoveBehavior {
     }
 
     @Override
-    protected void searchAvailableMoves(Set<Position> result, Board board, Position currentPosition,
-                                        List<Vectors> vectorsList,
-                                        Team team) {
+    protected void searchAvailableMoves(Set<Position> result, BoardPositionInfo boardPositionInfo,
+                                        List<Vectors> vectorsList) {
         for (Vectors vectors : vectorsList) {
-            searchAvailableMove(result, board, currentPosition, team, vectors);
+            searchAvailableMove(result, boardPositionInfo, vectors);
         }
     }
 
     @Override
-    protected void searchAvailableMove(Set<Position> result, Board board, Position currentPosition, Team team,
+    protected void searchAvailableMove(Set<Position> result, BoardPositionInfo boardPositionInfo,
                                        Vectors vectors) {
+        Board board = boardPositionInfo.board();
+        Position currentPosition = boardPositionInfo.position();
+        Team team = boardPositionInfo.team();
+
         if (canNotMove(vectors, currentPosition)) {
             return;
         }

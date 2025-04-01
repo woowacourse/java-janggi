@@ -4,6 +4,7 @@ import janggi.domain.Board;
 import janggi.domain.Team;
 import janggi.domain.move.Movement;
 import janggi.domain.move.Position;
+import janggi.domain.piece.BoardPositionInfo;
 import janggi.domain.piece.PieceBehavior;
 import java.util.Optional;
 import java.util.Set;
@@ -26,10 +27,14 @@ public abstract class PalaceBehavior implements PieceBehavior {
     );
 
     @Override
-    public final Set<Position> generateAvailableMovePositions(Board board, Team team, Position position) {
-        return Movement.getAvailableMovements(position, STANDARD_MOVEMENTS, CROSS_MOVEMENTS).stream()
+    public final Set<Position> generateAvailableMovePositions(BoardPositionInfo boardPositionInfo) {
+        Board board = boardPositionInfo.board();
+        Position currentPosition = boardPositionInfo.position();
+        Team team = boardPositionInfo.team();
+
+        return Movement.getAvailableMovements(currentPosition, STANDARD_MOVEMENTS, CROSS_MOVEMENTS).stream()
                 .map(Movement::getVector)
-                .map(vector -> position.getValidNextPosition(vector.side(team)))
+                .map(vector -> currentPosition.getValidNextPosition(vector.side(team)))
                 .flatMap(Optional::stream)
                 .filter(availablePosition -> board.canMoveToPosition(team, availablePosition))
                 .filter(Position::isPalace)
