@@ -73,7 +73,7 @@ public class GameManager {
         }
 
         OutputView.printCreatingNewGame(gameRoomName);
-        gameService.setNewGame(gameRoomName, new BoardFactory(new PathFinderFactory()),
+        gameService.createNewGame(gameRoomName, new BoardFactory(new PathFinderFactory()),
                 InputView.inputSangMaOrder(Team.CHO),
                 InputView.inputSangMaOrder(Team.HAN));
     }

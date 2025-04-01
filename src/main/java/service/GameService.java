@@ -48,10 +48,10 @@ public class GameService {
         janggiGame = loadGameByGameRoomName(gameRoomName);
     }
 
-    public void setNewGame(String gameRoomName,
-                           BoardFactory boardFactory,
-                           SangMaOrderCommand choSangMaOrderCommand,
-                           SangMaOrderCommand hanSangMaOrderCommand) {
+    public void createNewGame(String gameRoomName,
+                              BoardFactory boardFactory,
+                              SangMaOrderCommand choSangMaOrderCommand,
+                              SangMaOrderCommand hanSangMaOrderCommand) {
         final Team firstTurn = Team.CHO;
         JanggiGame newGame = new JanggiGame(
                 gameRoomName,
