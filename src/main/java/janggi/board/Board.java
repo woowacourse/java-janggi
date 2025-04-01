@@ -124,7 +124,7 @@ public class Board {
     }
 
     public void resetBoard() {
-        pieceDao.resetPiece();
+        pieceDao.clearTable();
     }
 
     public PieceDao getPieceDao() {
