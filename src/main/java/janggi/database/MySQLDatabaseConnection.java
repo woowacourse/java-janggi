@@ -28,8 +28,7 @@ public class MySQLDatabaseConnection implements DatabaseConnection {
     @Override
     public Connection getConnection() {
         try {
-            final String url = "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION;
-            return DriverManager.getConnection(url, USERNAME, PASSWORD);
+            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (final SQLException e) {
             throw new RuntimeException("데이터 베이스 연결에 실패했습니다.", e);
         }
