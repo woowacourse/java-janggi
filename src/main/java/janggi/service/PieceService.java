@@ -18,7 +18,7 @@ public class PieceService {
     }
 
     public void addAll(final List<Piece> pieces) {
-        pieces.forEach(this::add);
+        pieceRepository.addAll(pieces);
     }
 
     public List<Piece> findAll() {

@@ -3,6 +3,7 @@ package janggi.repository;
 import janggi.database.dao.TurnDao;
 import janggi.domain.Team;
 import janggi.domain.Turn;
+import java.util.Optional;
 
 public class JdbcTurnRepository implements TurnRepository {
 
@@ -18,8 +19,9 @@ public class JdbcTurnRepository implements TurnRepository {
     }
 
     @Override
-    public Turn find() {
-        return new Turn(Team.valueOf(turnDao.find().getTeam()));
+    public Optional<Turn> find() {
+        return turnDao.find()
+                .map(turnEntity -> new Turn(Team.valueOf(turnEntity.getTeam())));
     }
 
     @Override

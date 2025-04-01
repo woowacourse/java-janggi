@@ -2,6 +2,7 @@ package janggi.database.dao;
 
 import janggi.database.QueryProcessor;
 import janggi.database.entity.TurnEntity;
+import java.util.Optional;
 
 public class TurnDao {
 
@@ -10,12 +11,11 @@ public class TurnDao {
         return QueryProcessor.executeInsert(query, turn);
     }
 
-    public TurnEntity find() {
+    public Optional<TurnEntity> find() {
         final String query = "SELECT * FROM turn";
-        return QueryProcessor.executeQuery(query, resultSet -> new TurnEntity(
+        return Optional.ofNullable(QueryProcessor.executeQuery(query, resultSet -> new TurnEntity(
                 resultSet.getLong("id"),
-                resultSet.getString("team")
-        ));
+                resultSet.getString("team"))));
     }
 
     public void update(final String turn) {

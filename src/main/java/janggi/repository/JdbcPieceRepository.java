@@ -3,9 +3,7 @@ package janggi.repository;
 import janggi.database.dao.PieceDao;
 import janggi.database.dao.PieceFactory;
 import janggi.database.entity.PieceEntity;
-import janggi.domain.Team;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.PieceType;
 import janggi.domain.piece.direction.Position;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +33,7 @@ public class JdbcPieceRepository implements PieceRepository {
         final List<PieceEntity> pieceEntities = pieceDao.findAll();
         final List<Piece> pieces = new ArrayList<>();
         for (final PieceEntity pieceEntity : pieceEntities) {
-            pieces.add(PieceFactory.createPiece(new Position(pieceEntity.getX(), pieceEntity.getY()),
-                    Team.valueOf(pieceEntity.getTeam()), PieceType.valueOf(pieceEntity.getType())));
+            pieces.add(PieceFactory.createPiece(pieceEntity));
         }
         return pieces;
     }

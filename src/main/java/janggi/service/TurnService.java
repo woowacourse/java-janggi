@@ -16,7 +16,8 @@ public class TurnService {
     }
 
     public Turn find() {
-        return turnRepository.find();
+        return turnRepository.find()
+                .orElseThrow(() -> new IllegalStateException("턴 정보를 찾을 수 없습니다."));
     }
 
     public void updateTurn(final Turn turn) {

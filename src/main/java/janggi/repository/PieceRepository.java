@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PieceRepository {
 
-    Long add(Piece selectedPiece);
+    Long add(Piece Piece);
 
     void addAll(List<Piece> pieces);
 
