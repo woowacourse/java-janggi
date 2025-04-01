@@ -3,9 +3,6 @@ package janggi.repository;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.database.QueryProcessor;
-import janggi.database.TestMySQLDatabaseConnection;
-import janggi.database.dao.TurnDao;
 import janggi.domain.Turn;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,8 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class JdbcTurnRepositoryTest {
 
-    private final TurnRepository turnRepository = new JdbcTurnRepository(new TurnDao(new QueryProcessor(
-            TestMySQLDatabaseConnection.getInstance())));
+    private final TurnRepository turnRepository = TestFixture.getTurnRepository();
 
     @BeforeEach
     void setUp() {

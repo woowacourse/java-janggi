@@ -3,9 +3,6 @@ package janggi.repository;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-import janggi.database.QueryProcessor;
-import janggi.database.TestMySQLDatabaseConnection;
-import janggi.database.dao.PieceDao;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -16,9 +13,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JdbcPieceRepositoryTest {
-    
-    private final PieceRepository pieceRepository = new JdbcPieceRepository(
-            new PieceDao(new QueryProcessor(TestMySQLDatabaseConnection.getInstance())));
+
+    private final PieceRepository pieceRepository = TestFixture.getPieceRepository();
 
     @BeforeEach
     void setUp() {
