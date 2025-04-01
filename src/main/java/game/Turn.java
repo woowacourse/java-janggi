@@ -10,6 +10,10 @@ public class Turn {
         this.team = team;
     }
 
+    public static Turn create() {
+        return new Turn(ChessTeam.BLUE);
+    }
+
     public Turn change() {
         if (this.team == ChessTeam.BLUE) {
             return new Turn(ChessTeam.RED);
