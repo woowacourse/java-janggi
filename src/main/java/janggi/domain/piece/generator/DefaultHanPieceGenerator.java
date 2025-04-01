@@ -67,22 +67,22 @@ public class DefaultHanPieceGenerator implements HanPieceGenerator {
 
     private List<Piece> generateDefaultPieces() {
         return List.of(
-            new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, 0, 3),
-            new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, 2, 3),
-            new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, 4, 3),
-            new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, 6, 3),
-            new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, 8, 3),
+            new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, new Position(0, 3)),
+            new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, new Position(2, 3)),
+            new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, new Position(4, 3)),
+            new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, new Position(6, 3)),
+            new Piece(PieceType.PAWN, MOVEMENT_STRATEGY_MAP.get(PieceType.PAWN), SIDE, new Position(8, 3)),
 
-            new Piece(PieceType.CANNON, MOVEMENT_STRATEGY_MAP.get(PieceType.CANNON), SIDE, 1, 2),
-            new Piece(PieceType.CANNON, MOVEMENT_STRATEGY_MAP.get(PieceType.CANNON), SIDE, 7, 2),
+            new Piece(PieceType.CANNON, MOVEMENT_STRATEGY_MAP.get(PieceType.CANNON), SIDE, new Position(1, 2)),
+            new Piece(PieceType.CANNON, MOVEMENT_STRATEGY_MAP.get(PieceType.CANNON), SIDE, new Position(7, 2)),
 
-            new Piece(PieceType.ROOK, MOVEMENT_STRATEGY_MAP.get(PieceType.ROOK), SIDE, 0, 0),
-            new Piece(PieceType.ROOK, MOVEMENT_STRATEGY_MAP.get(PieceType.ROOK), SIDE, 8, 0),
+            new Piece(PieceType.ROOK, MOVEMENT_STRATEGY_MAP.get(PieceType.ROOK), SIDE, new Position(0, 0)),
+            new Piece(PieceType.ROOK, MOVEMENT_STRATEGY_MAP.get(PieceType.ROOK), SIDE, new Position(8, 0)),
 
-            new Piece(PieceType.GUARD, MOVEMENT_STRATEGY_MAP.get(PieceType.GUARD), SIDE, 3, 0),
-            new Piece(PieceType.GUARD, MOVEMENT_STRATEGY_MAP.get(PieceType.GUARD), SIDE, 5, 0),
+            new Piece(PieceType.GUARD, MOVEMENT_STRATEGY_MAP.get(PieceType.GUARD), SIDE, new Position(3, 0)),
+            new Piece(PieceType.GUARD, MOVEMENT_STRATEGY_MAP.get(PieceType.GUARD), SIDE, new Position(5, 0)),
 
-            new Piece(PieceType.KING, MOVEMENT_STRATEGY_MAP.get(PieceType.KING), SIDE, 4, 1)
+            new Piece(PieceType.KING, MOVEMENT_STRATEGY_MAP.get(PieceType.KING), SIDE, new Position(4, 1))
         );
     }
 }

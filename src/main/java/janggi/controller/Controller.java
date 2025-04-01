@@ -63,7 +63,7 @@ public class Controller {
         try {
             Position source = inputView.inputHanMoveSource();
             Position destination = inputView.inputHanMoveDestination();
-            janggiBoard.move(source.x(), source.y(), destination.x(), destination.y());
+            janggiBoard.move(source, destination);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             moveHan(janggiBoard);
@@ -74,7 +74,7 @@ public class Controller {
         try {
             Position source = inputView.inputChoMoveSource();
             Position destination = inputView.inputChoMoveDestination();
-            janggiBoard.move(source.x(), source.y(), destination.x(), destination.y());
+            janggiBoard.move(source, destination);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             moveCho(janggiBoard);

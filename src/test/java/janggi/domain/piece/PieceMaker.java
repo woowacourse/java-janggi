@@ -30,8 +30,7 @@ public final class PieceMaker {
             pieceType,
             createMovementStrategyContext(pieceType),
             side,
-            position.x(),
-            position.y()
+            position
         );
     }
 

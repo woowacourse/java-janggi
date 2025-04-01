@@ -39,7 +39,7 @@ class JanggiBoardTest {
         );
 
         assertThatIllegalArgumentException()
-            .isThrownBy(() -> janggiBoard.move(x, y, destinationX, destinationY));
+            .isThrownBy(() -> janggiBoard.move(new Position(x, y), new Position(destinationX, destinationY)));
     }
 
     @Test
@@ -51,7 +51,7 @@ class JanggiBoardTest {
             DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
 
-        janggiBoard.move(1, 0, 3, 3);
+        janggiBoard.move(new Position(1, 0), new Position(3, 3));
         Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces().getValues();
         assertThat(pieceMap.get(new Position(3, 3))).isEqualTo(
             PieceMaker.createPiece(PieceType.ELEPHANT, Side.HAN, new Position(3, 3)));
@@ -62,16 +62,16 @@ class JanggiBoardTest {
     void 움직인_위치에_적_기물이_있으면_적_기물을_잡을_수_있다() {
         JanggiBoard janggiBoard = new JanggiBoard(
             HAN_PIECE_GENERATOR,
-            (setting) -> List.of(PieceMaker.createPiece(PieceType.ROOK, Side.CHO, new Position(4, 4))),
+            (setting) -> List.of(PieceMaker.createPiece(PieceType.ROOK, Side.HAN, new Position(4, 4))),
             DEFAULT_HAN_KNIGHTELEPHANTSETTING,
             DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
 
-        janggiBoard.move(4, 4, 4, 3);
+        janggiBoard.move(new Position(4, 4), new Position(4, 3));
 
         Map<Position, Piece> pieceMap = janggiBoard.getPlacedPieces().getValues();
         assertThat(pieceMap.get(new Position(4, 3))).isEqualTo(
-            PieceMaker.createPiece(PieceType.ROOK, Side.CHO, new Position(4, 3)));
+            PieceMaker.createPiece(PieceType.ROOK, Side.HAN, new Position(4, 3)));
         assertThat(pieceMap.get(new Position(4, 4))).isNull();
     }
 

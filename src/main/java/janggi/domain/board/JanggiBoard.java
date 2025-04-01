@@ -2,6 +2,7 @@ package janggi.domain.board;
 
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
+import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.generator.ChoPieceGenerator;
 import janggi.domain.piece.generator.HanPieceGenerator;
@@ -29,14 +30,14 @@ public class JanggiBoard {
         turn = Turn.start();
     }
 
-    public void move(int x, int y, int destinationX, int destinationY) {
-        Piece sourcePiece = placedPieces.findExistingByPosition(x, y);
+    public void move(Position source, Position destination) {
+        Piece sourcePiece = placedPieces.findExistingByPosition(source);
         validateTurn(sourcePiece);
-        validateSamePosition(x, y, destinationX, destinationY);
-        Pieces map = placedPieces.getMapWithoutPosition(x, y);
+        validateSamePosition(source, destination);
+        Pieces map = placedPieces.getMapWithoutPosition(source);
 
-        sourcePiece.move(map, destinationX, destinationY);
-        placedPieces.removeByPosition(x, y);
+        sourcePiece.move(map, destination);
+        placedPieces.removeByPosition(source);
         placedPieces.put(sourcePiece);
         turn = turn.next();
     }
@@ -47,8 +48,8 @@ public class JanggiBoard {
         }
     }
 
-    private void validateSamePosition(int x, int y, int destinationX, int destinationY) {
-        if (x == destinationX && y == destinationY) {
+    private void validateSamePosition(Position source, Position destination) {
+        if (source.equals(destination)) {
             throw new IllegalArgumentException("현재 위치로 이동할 수 없습니다.");
         }
     }

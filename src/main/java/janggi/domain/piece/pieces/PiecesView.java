@@ -16,7 +16,7 @@ public interface PiecesView {
 
     boolean hasOnlyOnePiece();
 
-    PiecesView getMapWithoutPosition(int x, int y);
+    PiecesView getMapWithoutPosition(Position position);
 
     Optional<PieceView> findByPosition(Position position);
 

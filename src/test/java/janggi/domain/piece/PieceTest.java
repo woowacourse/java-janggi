@@ -24,33 +24,31 @@ class PieceTest {
     @ParameterizedTest
     @EnumSource(value = Side.class)
     void 진영을_가진다(Side side) {
-        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, side, DEFAULT_POSITION.x(), DEFAULT_POSITION.y());
+        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, side, DEFAULT_POSITION);
         assertThat(piece.getSide()).isEqualTo(side);
     }
 
     @Test
     void 위치를_가진다() {
-        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, DEFAULT_POSITION.x(),
-            DEFAULT_POSITION.y());
+        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, DEFAULT_POSITION);
         assertThat(piece.getPosition()).isEqualTo(new Position(1, 2));
     }
 
     @Test
     void 움직일_수_없는_위치로_움직일_수_없다() {
-        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, DEFAULT_POSITION.x(),
-            DEFAULT_POSITION.y());
+        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, DEFAULT_POSITION);
         MOVEMENT_STRATEGY.setIsMoveable(false);
 
         assertThatIllegalArgumentException()
             .isThrownBy(
-                () -> piece.move(new Pieces(Map.of()), DEFAULT_POSITION.x() + 1, DEFAULT_POSITION.y() + 1))
+                () -> piece.move(new Pieces(Map.of()), DEFAULT_POSITION.plus(1, 1)))
             .withMessage("해당 위치로 이동할 수 없습니다.");
     }
 
     @ParameterizedTest
     @CsvSource(value = {"1,2,1,2,true", "1,4,1,2,false"})
     void 같은_위치인지_판별한다(int x, int y, int compareX, int compareY, boolean expected) {
-        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, x, y);
+        Piece piece = new Piece(PIECE_TYPE, MOVEMENT_STRATEGY, ALLY_SIDE, new Position(x, y));
 
         assertThat(piece.isSamePosition(new Position(compareX, compareY))).isEqualTo(expected);
     }

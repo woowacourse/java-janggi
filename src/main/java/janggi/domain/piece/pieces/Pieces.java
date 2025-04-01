@@ -35,9 +35,9 @@ public class Pieces implements PiecesView, Cloneable {
         return from(pieces.stream().map(piece -> (Piece) piece).collect(Collectors.toList()));
     }
 
-    public Pieces getMapWithoutPosition(int x, int y) {
+    public Pieces getMapWithoutPosition(Position position) {
         Pieces map = new Pieces(this);
-        map.removeByPosition(x, y);
+        map.removeByPosition(position);
         return map;
     }
 
@@ -45,12 +45,11 @@ public class Pieces implements PiecesView, Cloneable {
         values.put(piece.getPosition(), piece);
     }
 
-    public void removeByPosition(int x, int y) {
-        values.remove(new Position(x, y));
+    public void removeByPosition(Position position) {
+        values.remove(position);
     }
 
-    public Piece findExistingByPosition(int x, int y) {
-        Position position = new Position(x, y);
+    public Piece findExistingByPosition(Position position) {
         if (!values.containsKey(position)) {
             throw new IllegalArgumentException("해당 위치엔 기물이 존재하지 않습니다.");
         }

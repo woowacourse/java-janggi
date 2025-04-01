@@ -11,15 +11,14 @@ public class Piece implements PieceView {
     private final MovementStrategyContext movementStrategyContext;
     private Position position;
 
-    public Piece(PieceType pieceType, MovementStrategyContext movementStrategyContext, Side side, int x, int y) {
+    public Piece(PieceType pieceType, MovementStrategyContext movementStrategyContext, Side side, Position position) {
         this.pieceType = pieceType;
         this.side = side;
-        this.position = new Position(x, y);
+        this.position = position;
         this.movementStrategyContext = movementStrategyContext;
     }
 
-    public void move(PiecesView map, int x, int y) {
-        Position destination = new Position(x, y);
+    public void move(PiecesView map, Position destination) {
         validateMovable(map, destination);
         position = destination;
     }

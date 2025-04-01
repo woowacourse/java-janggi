@@ -63,12 +63,12 @@ public enum KnightElephantSetting {
 
     private static Piece makeKnight(Side side, Position position) {
         return new Piece(PieceType.KNIGHT, new MovementStrategyContext(new KnightMovementStrategy(),
-            new KnightPalaceMovementStrategy(new KnightMovementStrategy())), side, position.x(), position.y());
+            new KnightPalaceMovementStrategy(new KnightMovementStrategy())), side, position);
     }
 
     private static Piece makeElephant(Side side, Position position) {
         return new Piece(PieceType.ELEPHANT, new MovementStrategyContext(new ElephantMovementStrategy(),
-            new ElephantPalaceMovementStrategy(new ElephantMovementStrategy())), side, position.x(), position.y());
+            new ElephantPalaceMovementStrategy(new ElephantMovementStrategy())), side, position);
     }
 
     public List<Piece> make(Side side, List<Position> positions) {
