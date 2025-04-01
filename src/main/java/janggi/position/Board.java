@@ -10,6 +10,7 @@ import janggi.piece.normalPiece.Blank;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import repository.connection.ConnectDatabase;
 import repository.connection.ConnectMysql;
 import repository.dao.PieceDao;
 import repository.dao.TurnDao;
@@ -78,7 +79,7 @@ public final class Board {
         return Team.next(currentTeam);
     }
 
-    public Board move(Position source, Position destination) {
+    public Board move(Position source, Position destination, ConnectDatabase connectDatabase) {
         Piece piece = get(source);
         Set<Piece> pieces = toSet();
         Set<Position> positions = piece.possibleRoutes(this);
@@ -88,7 +89,7 @@ public final class Board {
         movePiece(destination, pieces, piece);
         catchPiece(destination, piece, pieces);
 
-        PieceDao pieceDao = new PieceDao(new ConnectMysql());
+        PieceDao pieceDao = new PieceDao(connectDatabase);
         pieceDao.deleteAll();
 
         Set<PieceConverter> pieceConverters = new HashSet<>();
@@ -97,7 +98,7 @@ public final class Board {
         }
         pieceDao.addAll(pieceConverters);
 
-        TurnDao turnDao = new TurnDao(new ConnectMysql());
+        TurnDao turnDao = new TurnDao(connectDatabase);
         Team nextTurn = nextTurn();
         turnDao.updateTurn(TurnConverter.toEntity(nextTurn));
 

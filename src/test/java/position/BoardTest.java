@@ -26,6 +26,7 @@ import janggi.position.Board;
 import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import repository.ConnectH2;
 
 public class BoardTest {
 
@@ -72,7 +73,7 @@ public class BoardTest {
         Board board = new Board(Set.of(king));
 
         // when - then
-        assertThatThrownBy(() -> board.move(E1, E5))
+        assertThatThrownBy(() -> board.move(E1, E5, new ConnectH2()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("[ERROR] 잘못된 좌표입니다.");
     }
@@ -85,7 +86,7 @@ public class BoardTest {
         Board board = new Board(Set.of(king));
 
         // when
-        Board movedBoard = board.move(E1, E2);
+        Board movedBoard = board.move(E1, E2, new ConnectH2());
 
         // then
         assertThat(movedBoard.get(E2).type()).isEqualTo(PieceType.KING);

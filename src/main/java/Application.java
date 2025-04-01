@@ -52,7 +52,7 @@ public class Application {
     }
 
     public Board move(Position source, Position destination, Board board) {
-        return board.move(source, destination);
+        return board.move(source, destination, new ConnectMysql());
     }
 
     public Board process(Supplier<Board> action) {
