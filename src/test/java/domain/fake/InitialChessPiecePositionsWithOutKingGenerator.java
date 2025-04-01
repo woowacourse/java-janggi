@@ -1,4 +1,4 @@
-package domain.position;
+package domain.fake;
 
 import domain.chessPiece.Cannon;
 import domain.chessPiece.Chariot;
@@ -6,12 +6,12 @@ import domain.chessPiece.ChessPiece;
 import domain.chessPiece.Elephant;
 import domain.chessPiece.Guard;
 import domain.chessPiece.Horse;
-import domain.chessPiece.King;
 import domain.chessPiece.Pawn;
+import domain.position.ChessPiecePositionsGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InitialChessPiecePositionsGenerator implements ChessPiecePositionsGenerator {
+public class InitialChessPiecePositionsWithOutKingGenerator implements ChessPiecePositionsGenerator {
     @Override
     public List<ChessPiece> generate() {
         final List<ChessPiece> chessPieces = new ArrayList<>();
@@ -20,7 +20,6 @@ public class InitialChessPiecePositionsGenerator implements ChessPiecePositionsG
         chessPieces.addAll(Elephant.initPieces());
         chessPieces.addAll(Horse.initPieces());
         chessPieces.addAll(Pawn.initPieces());
-        chessPieces.addAll(King.initPieces());
         chessPieces.addAll(Guard.initPieces());
         return chessPieces;
     }
