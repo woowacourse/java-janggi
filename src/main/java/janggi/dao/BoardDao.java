@@ -51,19 +51,18 @@ public class BoardDao {
         }
     }
 
-    public boolean isExistAnyBoard() {
+    public int countBoard() {
         final var query = "SELECT count(board_id) as board_count FROM board";
         try (final var connection = DbConnection.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                int boardCount = resultSet.getInt("board_count");
-                return boardCount >= 1;
+                return resultSet.getInt("board_count");
             }
         } catch (SQLException e) {
             throw new RuntimeException("장기판 조회에 실패했습니다.");
         }
-        return false;
+        return 0;
     }
 
     public Board find(Pieces pieces) {

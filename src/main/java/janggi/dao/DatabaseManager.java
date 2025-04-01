@@ -18,7 +18,7 @@ public class DatabaseManager {
     }
 
     public Board loadOrCreateBoard() {
-        if (boardDao.isExistAnyBoard()) {
+        if (boardDao.countBoard() >= 1) {
             Map<Position, Piece> pieces = pieceDao.findAll();
             return boardDao.find(new Pieces(pieces));
         }

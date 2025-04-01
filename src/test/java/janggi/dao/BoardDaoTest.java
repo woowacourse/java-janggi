@@ -43,22 +43,22 @@ class BoardDaoTest {
     }
 
     @Test
-    @DisplayName("board 테이블에 레코드가 있는지 확인한다.")
+    @DisplayName("board 테이블에 레코드가 한개인지 확인한다.")
     void test3() {
         // given
         boardDao.addBoard(new Board(new Pieces(), Team.CHO));
 
         // when
-        boolean existAnyBoard = boardDao.isExistAnyBoard();
+        int boardSize = boardDao.countBoard();
 
         // then
-        Assertions.assertThat(existAnyBoard).isTrue();
+        Assertions.assertThat(boardSize).isEqualTo(1);
     }
 
     @Test
     @DisplayName("board 테이블에 레코드가 없는지 확인한다.")
     void test4() {
-        boolean existAnyBoard = boardDao.isExistAnyBoard();
-        Assertions.assertThat(existAnyBoard).isFalse();
+        int countBoard = boardDao.countBoard();
+        Assertions.assertThat(countBoard).isEqualTo(0);
     }
 }
