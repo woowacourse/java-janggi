@@ -32,12 +32,11 @@ public final class JanggiView {
     private static final String COLOR_YELLOW = "\u001B[33m";
     private static final String COLOR_RED = "\u001B[31m";
     private static final String COLOR_BLUE = "\u001B[34m";
-    private static final String COLOR_END = "\u001B[0m";
+    private static final String COLOR_END_FORMAT = "\u001B[0m";
     private static final String HEADER_SCOREBOARD = "===== 점수판 =====";
     private static final String SCORE_FORMAT = " : %.1f점";
     private static final String HEADER_END = "게임을 종료합니다.";
-    private static final String WINNER_FORMAT_FRONT = "승자는 ";
-    private static final String WINNER_FORMAT_END = "입니다!";
+    private static final String WINNER_FORMAT_FRONT = "승자는%s %s%s입니다!";
 
     public String read() {
         return scanner.nextLine();
@@ -73,7 +72,7 @@ public final class JanggiView {
 
     private static void displayPosition(final Board board, final Position position) {
         if (!board.isPresent(position) && position.isPalace()) {
-            System.out.print(COLOR_YELLOW + "＿ " + COLOR_END);
+            System.out.print(COLOR_YELLOW + "＿ " + COLOR_END_FORMAT);
             return;
         }
         if (!board.isPresent(position)) {
@@ -86,26 +85,28 @@ public final class JanggiView {
     private static void displayPiece(final Piece piece) {
         final String notation = PIECE_NOTATION_KOREAN.get(piece.getType());
         if (piece.isSameTeam(Team.HAN)) {
-            System.out.print(COLOR_RED + notation + " " + COLOR_END);
+            System.out.print(COLOR_RED + notation + " " + COLOR_END_FORMAT);
             return;
         }
-        System.out.print(COLOR_BLUE + notation + " " + COLOR_END);
+        System.out.print(COLOR_BLUE + notation + " " + COLOR_END_FORMAT);
     }
 
     public void displayTurn(final Board board) {
         final Team team = board.getTurn();
         final String teamName = TEAM_NOTATION_KOREAN.get(team);
         if (teamName.equals("한")) {
-            System.out.println(COLOR_RED + teamName + COLOR_END + PLAY_TURN_FORMAT);
+            System.out.println(COLOR_RED + teamName + COLOR_END_FORMAT + PLAY_TURN_FORMAT);
             return;
         }
-        System.out.println(COLOR_BLUE + teamName + COLOR_END + PLAY_TURN_FORMAT);
+        System.out.println(COLOR_BLUE + teamName + COLOR_END_FORMAT + PLAY_TURN_FORMAT);
     }
 
     public void displayScore(final ScoreBoard scoreBoard) {
         System.out.println(HEADER_SCOREBOARD);
-        System.out.println(String.format(COLOR_RED + "한" + COLOR_END + SCORE_FORMAT, scoreBoard.getScore(Team.HAN)));
-        System.out.println(String.format(COLOR_BLUE + "초" + COLOR_END + SCORE_FORMAT, scoreBoard.getScore(Team.CHO)));
+        System.out.println(
+                String.format(COLOR_RED + "한" + COLOR_END_FORMAT + SCORE_FORMAT, scoreBoard.getScore(Team.HAN)));
+        System.out.println(
+                String.format(COLOR_BLUE + "초" + COLOR_END_FORMAT + SCORE_FORMAT, scoreBoard.getScore(Team.CHO)));
         System.out.println();
     }
 
@@ -115,13 +116,11 @@ public final class JanggiView {
         System.out.println(HEADER_END);
         if (winner == Team.HAN) {
             System.out.println(
-                    String.format(WINNER_FORMAT_FRONT + COLOR_RED + "%s" + COLOR_END + WINNER_FORMAT_END,
-                            TEAM_NOTATION_KOREAN.get(winner)));
+                    String.format(WINNER_FORMAT_FRONT, COLOR_RED, TEAM_NOTATION_KOREAN.get(winner), COLOR_END_FORMAT));
             return;
         }
         System.out.println(
-                String.format(WINNER_FORMAT_FRONT + COLOR_BLUE + "%s" + COLOR_END + WINNER_FORMAT_END,
-                        TEAM_NOTATION_KOREAN.get(winner)));
+                String.format(WINNER_FORMAT_FRONT, COLOR_BLUE, TEAM_NOTATION_KOREAN.get(winner), COLOR_END_FORMAT));
 
     }
 
