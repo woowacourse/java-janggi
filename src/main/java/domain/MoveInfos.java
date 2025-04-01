@@ -8,15 +8,15 @@ public class MoveInfos {
     private final List<MoveInfo> moveInfos;
 
     public MoveInfos(final List<MoveInfo> moveInfos) {
+        validateMoveInfos(moveInfos);
         this.moveInfos = moveInfos;
     }
 
     public int countPiecesInIntermediatePath() {
-        if (moveInfos.size() <= 1) { // 마지막 경로는 도착 지점
-            return 0;
-        }
-        List<MoveInfo> intermediatePaths = moveInfos.subList(0, moveInfos.size() - 1);
-        return (int) intermediatePaths.stream().filter(MoveInfo::hasPieceInPath).count();
+        List<MoveInfo> intermediatePaths = moveInfos.subList(1, moveInfos.size() - 1);
+        return (int) intermediatePaths.stream()
+                .filter(MoveInfo::hasPieceInPath)
+                .count();
     }
 
     public boolean isSameAsTargetPiece(final PieceCategory start) {
@@ -25,6 +25,14 @@ public class MoveInfos {
     }
 
     public boolean hasSamePieceCategoryInPath(final PieceCategory category) {
-        return moveInfos.stream().anyMatch(moveInfo -> moveInfo.isSamePieceCategory(category));
+        List<MoveInfo> intermediatePaths = moveInfos.subList(1, moveInfos.size() - 1);
+        return intermediatePaths.stream()
+                .anyMatch(moveInfo -> moveInfo.isSamePieceCategory(category));
+    }
+
+    private void validateMoveInfos(final List<MoveInfo> moveInfos) {
+        if (moveInfos.isEmpty() || moveInfos.size() < 2) {
+            throw new IllegalArgumentException("이동할 수 없는 좌표입니다. 다시 확인해주세요.");
+        }
     }
 }
