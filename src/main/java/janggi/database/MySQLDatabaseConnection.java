@@ -34,15 +34,4 @@ public class MySQLDatabaseConnection implements DatabaseConnection {
             throw new RuntimeException("오류가 발생했습니다.");
         }
     }
-
-    @Override
-    public void closeConnection(final Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (final SQLException e) {
-                throw new RuntimeException("오류가 발생했습니다.");
-            }
-        }
-    }
 }

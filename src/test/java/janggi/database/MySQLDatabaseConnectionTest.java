@@ -24,18 +24,4 @@ class MySQLDatabaseConnectionTest {
             assertThat(connection.isValid(1)).isTrue();
         }
     }
-
-    @DisplayName("커넥션 닫기 테스트")
-    @Test
-    void connectionCloseTest() throws SQLException {
-
-        // given
-        final Connection connection = mySQLDatabaseConnection.getConnection();
-
-        // when
-        mySQLDatabaseConnection.closeConnection(connection);
-
-        // then
-        assertThat(connection.isClosed()).isTrue();
-    }
 }
