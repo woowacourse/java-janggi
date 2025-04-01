@@ -4,7 +4,7 @@ import janggi.board.Board;
 import janggi.board.BoardGenerator;
 import janggi.board.Point;
 import janggi.camp.Camp;
-import janggi.dao.BoardDao;
+import janggi.dao.GameDao;
 import janggi.piece.Piece;
 import janggi.view.View;
 
@@ -14,45 +14,45 @@ public class Application {
 
     public static void main(String[] args) {
         View view = new View();
-        BoardDao boardDao = new BoardDao();
+        GameDao gameDao = new GameDao();
         view.displayStartBanner();
         boolean startGame = view.readStartGame();
         if (startGame) {
-            playGame(view, boardDao);
+            playGame(view, gameDao);
         }
     }
 
-    private static void playGame(View view, BoardDao boardDao) {
-        Board board = initializeIfNewGame(boardDao);
-        Camp currentTurnCamp = boardDao.findLatestTurn();
+    private static void playGame(View view, GameDao gameDao) {
+        Board board = initializeIfNewGame(gameDao);
+        Camp currentTurnCamp = gameDao.findLatestTurn();
         while (!board.isGameOver()) {
             view.displayBoard(board.getPieceDao());
             if (view.readGameCommand(currentTurnCamp).equals("end")) {
                 break;
             }
-            currentTurnCamp = handleTurn(view, boardDao, board, currentTurnCamp);
+            currentTurnCamp = handleTurn(view, gameDao, board, currentTurnCamp);
         }
         if (board.isGameOver()) {
-            endGame(view, board, boardDao);
+            endGame(view, board, gameDao);
         }
     }
 
-    private static Board initializeIfNewGame(BoardDao boardDao) {
-        if (boardDao.isNewGame()) {
+    private static Board initializeIfNewGame(GameDao gameDao) {
+        if (gameDao.isNewGame()) {
             Board board = BoardGenerator.generate();
-            boardDao.initializeBoard(FIRST_TURN_CAMP);
+            gameDao.initializeGame(FIRST_TURN_CAMP);
             return board;
         }
         return new Board();
     }
 
-    private static Camp handleTurn(View view, BoardDao boardDao, Board board, Camp currentTurnCamp) {
+    private static Camp handleTurn(View view, GameDao gameDao, Board board, Camp currentTurnCamp) {
         boolean turnPlayed = tryPlayTurn(view, board, currentTurnCamp);
         if (!turnPlayed) {
             return currentTurnCamp;
         }
         Camp nextTurn = currentTurnCamp.reverse();
-        boardDao.updateTurn(nextTurn);
+        gameDao.updateTurn(nextTurn);
         return nextTurn;
     }
 
@@ -80,9 +80,9 @@ public class Application {
         piece.validateSelect(baseCamp);
     }
 
-    private static void endGame(View view, Board board, BoardDao boardDao) {
+    private static void endGame(View view, Board board, GameDao gameDao) {
         displayEndingResult(view, board);
-        boardDao.endBoard();
+        gameDao.endGame();
         board.resetBoard();
     }
 
