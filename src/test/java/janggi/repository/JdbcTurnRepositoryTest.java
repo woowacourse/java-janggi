@@ -3,6 +3,7 @@ package janggi.repository;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import janggi.TestFixture;
 import janggi.domain.Turn;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,5 +78,4 @@ class JdbcTurnRepositoryTest {
         // then
         assertThat(turnRepository.find()).isEmpty();
     }
-
 }

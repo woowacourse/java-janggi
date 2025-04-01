@@ -3,6 +3,7 @@ package janggi.repository;
 import static janggi.domain.Team.RED;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+import janggi.TestFixture;
 import janggi.domain.piece.Cannon;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.Soldier;
@@ -96,5 +97,4 @@ class JdbcPieceRepositoryTest {
         // then
         assertThat(size).isEqualTo(2);
     }
-
 }

@@ -1,9 +1,13 @@
-package janggi.repository;
+package janggi;
 
 import janggi.database.QueryProcessor;
 import janggi.database.TestMySQLDatabaseConnection;
 import janggi.database.dao.PieceDao;
 import janggi.database.dao.TurnDao;
+import janggi.repository.JdbcPieceRepository;
+import janggi.repository.JdbcTurnRepository;
+import janggi.repository.PieceRepository;
+import janggi.repository.TurnRepository;
 
 public class TestFixture {
 
@@ -22,5 +26,13 @@ public class TestFixture {
 
     public static TurnRepository getTurnRepository() {
         return turnRepository;
+    }
+
+    public static PieceDao getPieceDao() {
+        return pieceDao;
+    }
+
+    public static TurnDao getTurnDao() {
+        return turnDao;
     }
 }
