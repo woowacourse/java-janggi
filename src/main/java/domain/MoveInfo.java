@@ -25,4 +25,8 @@ public class MoveInfo {
     public boolean isSamePieceCategory(final PieceCategory other) {
         return this.pieceCategory == other;
     }
+
+    public boolean isInsidePalace() {
+        return position.isWithinPalace();
+    }
 }

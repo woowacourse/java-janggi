@@ -21,6 +21,11 @@ public class MoveInfos {
         return direction.isDiagonal();
     }
 
+    public boolean isLastPathWithinPalace() {
+        MoveInfo last = moveInfos.getLast();
+        return last.isInsidePalace();
+    }
+
     public int countPiecesInIntermediatePath() {
         List<MoveInfo> intermediatePaths = moveInfos.subList(1, moveInfos.size() - 1);
         return (int) intermediatePaths.stream()
