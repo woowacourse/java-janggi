@@ -65,6 +65,13 @@ public class OutputView {
         System.out.printf("%n%s나라의 승리입니다.", teamToString(winTeam));
     }
 
+    private static String paintPieceByTeam(Team team, PieceType pieceType) {
+        if (team == Team.CHO) {
+            return Painter.paintGreen(pieceTypeToString(pieceType));
+        }
+        return Painter.paintRed(pieceTypeToString(pieceType));
+    }
+
     private static void pieceToString(Map<Point, Piece> pieces, Point point, List<String> rowString) {
         if (!pieces.containsKey(point)) {
             String emptyPoint = emptyPointToString(point);
@@ -80,13 +87,6 @@ public class OutputView {
             return "ㅇ";
         }
         return "ㅁ";
-    }
-
-    private static String paintPieceByTeam(Team team, PieceType pieceType) {
-        if (team == Team.CHO) {
-            return Painter.paintGreen(pieceTypeToString(pieceType));
-        }
-        return Painter.paintRed(pieceTypeToString(pieceType));
     }
 
     private static String teamToString(Team team) {
