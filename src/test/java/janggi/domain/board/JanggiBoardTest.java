@@ -9,8 +9,6 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.piece.Position;
 import janggi.domain.piece.Side;
 import janggi.domain.piece.generator.ChoPieceGenerator;
-import janggi.domain.piece.generator.DefaultChoPieceGenerator;
-import janggi.domain.piece.generator.DefaultHanPieceGenerator;
 import janggi.domain.piece.generator.HanPieceGenerator;
 import janggi.domain.piece.generator.KnightElephantSetting;
 import java.util.List;
@@ -25,8 +23,8 @@ class JanggiBoardTest {
         KnightElephantSetting.ELEPHANT_KNIGHT_KNIGHT_ELEPHANT;
     private static final KnightElephantSetting DEFAULT_HAN_KNIGHTELEPHANTSETTING =
         KnightElephantSetting.ELEPHANT_KNIGHT_KNIGHT_ELEPHANT;
-    private static final ChoPieceGenerator CHO_PIECE_GENERATOR = new DefaultChoPieceGenerator();
-    private static final HanPieceGenerator HAN_PIECE_GENERATOR = new DefaultHanPieceGenerator();
+    private static final ChoPieceGenerator CHO_PIECE_GENERATOR = new ChoPieceGenerator();
+    private static final HanPieceGenerator HAN_PIECE_GENERATOR = new HanPieceGenerator();
 
     @ParameterizedTest
     @CsvSource(value = {"4,4,5,5", "0,1,1,1", "2,1,1,1"})
@@ -62,7 +60,7 @@ class JanggiBoardTest {
     void 움직인_위치에_적_기물이_있으면_적_기물을_잡을_수_있다() {
         JanggiBoard janggiBoard = new JanggiBoard(
             HAN_PIECE_GENERATOR,
-            (setting) -> List.of(PieceMaker.createPiece(PieceType.ROOK, Side.HAN, new Position(4, 4))),
+            new FakeChoPieceGenerator(List.of(PieceMaker.createPiece(PieceType.ROOK, Side.HAN, new Position(4, 4)))),
             DEFAULT_HAN_KNIGHTELEPHANTSETTING,
             DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
@@ -78,8 +76,8 @@ class JanggiBoardTest {
     @Test
     void 왕이_없다면_게임이_끝난_것이다() {
         JanggiBoard janggiBoard = new JanggiBoard(
-            (setting) -> List.of(),
-            (setting) -> List.of(PieceMaker.createPiece(PieceType.KING, Side.CHO, new Position(4, 4))),
+            new FakeHanPieceGenerator(List.of()),
+            new FakeChoPieceGenerator(List.of(PieceMaker.createPiece(PieceType.KING, Side.CHO, new Position(4, 4)))),
             DEFAULT_HAN_KNIGHTELEPHANTSETTING,
             DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
@@ -90,12 +88,40 @@ class JanggiBoardTest {
     @Test
     void 왕이_하나만_남은_경우_해당_왕의_진영이_승리한다() {
         JanggiBoard janggiBoard = new JanggiBoard(
-            (setting) -> List.of(),
-            (setting) -> List.of(PieceMaker.createPiece(PieceType.KING, Side.CHO, new Position(4, 4))),
+            new FakeHanPieceGenerator(List.of()),
+            new FakeChoPieceGenerator(List.of(PieceMaker.createPiece(PieceType.KING, Side.CHO, new Position(4, 4)))),
             DEFAULT_HAN_KNIGHTELEPHANTSETTING,
             DEFAULT_CHO_KNIGHTELEPHANTSETTING
         );
 
         assertThat(janggiBoard.getWinner()).isEqualTo(Side.CHO);
+    }
+
+    private static class FakeHanPieceGenerator extends HanPieceGenerator {
+
+        private final List<Piece> piecesToGenerate;
+
+        public FakeHanPieceGenerator(List<Piece> piecesToGenerate) {
+            this.piecesToGenerate = piecesToGenerate;
+        }
+
+        @Override
+        public List<Piece> generate(KnightElephantSetting knightElephantSetting) {
+            return piecesToGenerate;
+        }
+    }
+
+    private static class FakeChoPieceGenerator extends ChoPieceGenerator {
+
+        private final List<Piece> piecesToGenerate;
+
+        public FakeChoPieceGenerator(List<Piece> piecesToGenerate) {
+            this.piecesToGenerate = piecesToGenerate;
+        }
+
+        @Override
+        public List<Piece> generate(KnightElephantSetting knightElephantSetting) {
+            return piecesToGenerate;
+        }
     }
 }

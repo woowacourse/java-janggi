@@ -29,12 +29,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @ReplaceUnderBar
-public class DefaultChoPieceGeneratorTest {
+public class ChoPieceGeneratorTest {
 
     private static final Side SIDE = Side.CHO;
     private static List<Piece> PIECES;
     private static Map<PieceType, MovementStrategyContext> MOVEMENT_STRATEGY_MAP;
-    private final ChoPieceGenerator choPieceGenerator = new DefaultChoPieceGenerator();
+    private final ChoPieceGenerator choPieceGenerator = new ChoPieceGenerator();
 
     @BeforeAll
     static void setUpMovementStrategyMap() {

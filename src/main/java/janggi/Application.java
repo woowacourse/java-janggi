@@ -1,8 +1,8 @@
 package janggi;
 
 import janggi.controller.Controller;
-import janggi.domain.piece.generator.DefaultChoPieceGenerator;
-import janggi.domain.piece.generator.DefaultHanPieceGenerator;
+import janggi.domain.piece.generator.ChoPieceGenerator;
+import janggi.domain.piece.generator.HanPieceGenerator;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 
@@ -12,8 +12,8 @@ public class Application {
         Controller controller = new Controller(
             new InputView(),
             new OutputView(),
-            new DefaultHanPieceGenerator(),
-            new DefaultChoPieceGenerator()
+            new HanPieceGenerator(),
+            new ChoPieceGenerator()
         );
 
         controller.run();

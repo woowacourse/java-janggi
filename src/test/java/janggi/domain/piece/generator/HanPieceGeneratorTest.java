@@ -29,12 +29,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @ReplaceUnderBar
-class DefaultHanPieceGeneratorTest {
+class HanPieceGeneratorTest {
 
     private static final Side SIDE = Side.HAN;
     private static List<Piece> PIECES;
     private static Map<PieceType, MovementStrategyContext> MOVEMENT_STRATEGY_MAP;
-    private final HanPieceGenerator hanPieceGenerator = new DefaultHanPieceGenerator();
+    private final HanPieceGenerator hanPieceGenerator = new HanPieceGenerator();
 
     @BeforeAll
     static void setUpMovementStrategyMap() {
