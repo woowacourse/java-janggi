@@ -69,7 +69,7 @@ public class PieceDao {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 조회에 실패했습니다");
+            throw new RuntimeException("[ERROR] DB 조회에 실패했습니다 : " + e.getMessage());
         }
         return pieces;
     }
