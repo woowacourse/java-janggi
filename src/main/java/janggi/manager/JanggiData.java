@@ -35,7 +35,7 @@ public class JanggiData {
             Position position = entry.getKey();
             PositionDto positionDto = new PositionDto(position.getRow(), position.getColumn());
             Piece piece = entry.getValue();
-            PieceDto pieceDto = new PieceDto(PieceName.getDatabaseName(piece), piece.getSide().toString(), positionDto.row(), positionDto.column());
+            PieceDto pieceDto = new PieceDto(PieceName.getName(piece), piece.getSide().toString(), positionDto.row(), positionDto.column());
             pieceDtos.add(pieceDto);
         }
         return pieceDtos;
@@ -60,7 +60,7 @@ public class JanggiData {
 
     public void update(Position position, Piece piece) {
         PositionDto positionDto = new PositionDto(position.getRow(), position.getColumn());
-        PieceDto pieceDto = new PieceDto(PieceName.getDatabaseName(piece), piece.getSide().toString(), positionDto.row(), positionDto.column());
+        PieceDto pieceDto = new PieceDto(PieceName.getName(piece), piece.getSide().toString(), positionDto.row(), positionDto.column());
         janggiDao.updatePiece(positionDto, pieceDto);
     }
 

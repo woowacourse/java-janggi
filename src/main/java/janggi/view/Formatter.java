@@ -33,8 +33,8 @@ public final class Formatter {
 
     public static String formatPieceName(Piece piece) {
         if (piece.isSameSide(Side.CHO)) {
-            return "\u001B[32m" + PieceName.getDisplayName(piece) + "\u001B[0m";
+            return "\u001B[32m" + PieceName.getName(piece) + "\u001B[0m";
         }
-        return "\u001B[31m" + PieceName.getDisplayName(piece) + "\u001B[0m";
+        return "\u001B[31m" + PieceName.getName(piece) + "\u001B[0m";
     }
 }
