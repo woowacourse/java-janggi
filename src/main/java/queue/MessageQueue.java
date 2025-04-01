@@ -12,6 +12,9 @@ public class MessageQueue {
 
     private static final Deque<DelayedQuery> delayedQueries = new ArrayDeque<>();
 
+    private MessageQueue() {
+    }
+
     public static void addLast(DelayedQuery delayedQuery) {
         delayedQueries.addLast(delayedQuery);
     }
