@@ -29,7 +29,7 @@ class MessageQueueTest {
 
     @BeforeEach
     void resetQueue() {
-        MessageQueue.clear();
+        MessageQueue.getInstance().clear();
     }
 
     @Test
@@ -42,15 +42,15 @@ class MessageQueueTest {
 
         final DelayedQuery delayedQuery = new DelayedQuery(sql, params);
         final DelayedQuery delayedQuery2 = new DelayedQuery(sql2, params2);
-        MessageQueue.addLast(delayedQuery);
-        MessageQueue.addLast(delayedQuery2);
+        MessageQueue.getInstance().addLast(delayedQuery);
+        MessageQueue.getInstance().addLast(delayedQuery2);
 
         when(testConnection.prepareStatement(sql)).thenReturn(testPreparedStatement);
         final int rowAffected = 1;
         when(testPreparedStatement.executeUpdate()).thenReturn(rowAffected);
 
         // when
-        MessageQueue.executeDelayedQueries(testConnection);
+        MessageQueue.getInstance().executeDelayedQueries(testConnection);
 
         // then
         verify(testConnection, times(2)).prepareStatement(sql);
@@ -67,14 +67,14 @@ class MessageQueueTest {
         final String sql = "SYNTAX ERROR";
         final List<Object> params = List.of("room1", Team.CHO.name());
         final DelayedQuery delayedQuery = new DelayedQuery(sql, params);
-        MessageQueue.addLast(delayedQuery);
+        MessageQueue.getInstance().addLast(delayedQuery);
 
         when(testConnection.prepareStatement(sql)).thenReturn(testPreparedStatement);
         doThrow(new SQLSyntaxErrorException())
                 .when(testPreparedStatement).executeUpdate();
 
         // when
-        MessageQueue.executeDelayedQueries(testConnection);
+        MessageQueue.getInstance().executeDelayedQueries(testConnection);
 
         // then
         verify(testConnection).prepareStatement(sql);
@@ -90,14 +90,14 @@ class MessageQueueTest {
         final String sql = "INSERT INTO game_room VALUES (?, ?)";
         final List<Object> params = List.of("room1", Team.CHO.name());
         final DelayedQuery delayedQuery = new DelayedQuery(sql, params);
-        MessageQueue.addLast(delayedQuery);
+        MessageQueue.getInstance().addLast(delayedQuery);
 
         when(testConnection.prepareStatement(sql)).thenReturn(testPreparedStatement);
         doThrow(new SQLException())
                 .when(testPreparedStatement).executeUpdate();
 
         // when
-        MessageQueue.executeDelayedQueries(testConnection);
+        MessageQueue.getInstance().executeDelayedQueries(testConnection);
 
         // then
         verify(testConnection).prepareStatement(sql);

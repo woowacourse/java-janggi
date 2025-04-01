@@ -33,7 +33,7 @@ public class GameService {
     }
 
     public void executeDelayedQueries() {
-        MessageQueue.executeDelayedQueries(getConnection());
+        MessageQueue.getInstance().executeDelayedQueries(getConnection());
     }
 
     public boolean existsGameRoom(final String gameRoomName) {
