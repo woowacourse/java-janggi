@@ -31,20 +31,27 @@ public class ApplicationConfigurer {
         this.boardInitiliazeView = view;
     }
 
-    public Repository configureRepository() {
+    public Repository loadRepository(int tryCount) {
         Repository repository = new GameRepository();
-        if (repository.isConnectable()) {
-            configureRemoteRepository(repository);
-            return repository;
+        for (int i = 0; i < tryCount; i++) {
+            if (repository.isConnectable()) {
+                return repository;
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         boardInitiliazeView.printConnectionFailed();
         return new MemoryGameRepository(createBoard());
     }
 
-    private void configureRemoteRepository(Repository repository) {
-        boolean continuePreviousGame = boardInitiliazeView.readRenewGame();
-        if (continuePreviousGame) {
+    public void configureRepository(Repository repository) {
+        boolean remainingPieces = repository.allPieces().isEmpty();
+        if (!remainingPieces && boardInitiliazeView.readRenewGame()) {
             boardInitiliazeView.printContinueGame();
             return;
         }
