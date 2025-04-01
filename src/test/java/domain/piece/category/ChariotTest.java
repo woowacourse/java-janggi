@@ -36,18 +36,6 @@ class ChariotTest {
     }
 
     @Test
-    void 이동_경로가_아닌_경우_예외가_발생한다() {
-        // given
-        Piece piece = new Chariot(new Position(1, 2), PieceDirection.CHARIOT.get());
-        Position target = new Position(2, 3);
-
-        // when & then
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.getPaths(target))
-                .withMessage("이동할 수 없는 좌표입니다. 다시 확인해주세요.");
-    }
-
-    @Test
     void 궁성_내부_대각선_이동이_가능하다() {
         // given
         Piece piece = new Chariot(new Position(4, 3), new Directions(List.of(), false));
@@ -64,13 +52,18 @@ class ChariotTest {
     @Test
     void 궁성_대각선_이동인_경우에_외부로_이동할_경우_예외가_발생한다() {
         // given
-        Piece piece = new Chariot(new Position(5, 3), new Directions(List.of(), false));
-
+        Position start = new Position(5, 3);
         Position target = new Position(6, 4);
+        Piece piece = new Chariot(start, new Directions(List.of(), false));
+
+        MoveInfos moveInfos = new MoveInfos(List.of(
+                new MoveInfo(start, PieceCategory.CHARIOT),
+                new MoveInfo(target, PieceCategory.NONE)
+        ));
 
         // when & then
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> piece.getPaths(target))
+                .isThrownBy(() -> piece.move(target, moveInfos))
                 .withMessage("궁성 이동의 경우 밖으로 이동할 수 없습니다.");
     }
 }
