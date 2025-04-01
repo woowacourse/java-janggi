@@ -2,6 +2,8 @@ package domain;
 
 import domain.piece.category.PieceCategory;
 import domain.spatial.Position;
+import domain.spatial.Vector;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -41,5 +43,19 @@ public class MoveInfoTest {
         // then
         assertThat(result)
                 .isEqualTo(expected);
+    }
+
+    @Test
+    void 기준_위치에서_다른_위치로의_벡터를_반환한다() {
+        // given
+        MoveInfo current = new MoveInfo(new Position(2, 2), PieceCategory.CANNON);
+        MoveInfo other = new MoveInfo(new Position(2, 3), PieceCategory.CANNON);
+
+        // when
+        Vector vector = current.calculateDirection(other);
+
+        // then
+        assertThat(vector)
+                .isEqualTo(new Vector(0, 1));
     }
 }
