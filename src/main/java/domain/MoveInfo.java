@@ -14,15 +14,15 @@ public class MoveInfo {
         this.pieceCategory = pieceCategory;
     }
 
+    public Vector calculateDirection(final MoveInfo other) {
+        return this.position.calculateVector(other.position);
+    }
+
     public boolean hasPieceInPath() {
         return pieceCategory != PieceCategory.NONE;
     }
 
     public boolean isSamePieceCategory(final PieceCategory other) {
         return this.pieceCategory == other;
-    }
-
-    public Vector calculateDirection(final MoveInfo other) {
-        return this.position.calculateVector(other.position);
     }
 }

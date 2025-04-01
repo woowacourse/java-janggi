@@ -1,6 +1,7 @@
 package domain;
 
 import domain.piece.category.PieceCategory;
+import domain.spatial.Vector;
 import java.util.List;
 
 public class MoveInfos {
@@ -10,6 +11,14 @@ public class MoveInfos {
     public MoveInfos(final List<MoveInfo> moveInfos) {
         validateMoveInfos(moveInfos);
         this.moveInfos = moveInfos;
+    }
+
+    public boolean isDiagonalPath() {
+        MoveInfo start = moveInfos.getFirst();
+        MoveInfo next = moveInfos.get(1);
+        Vector direction = start.calculateDirection(next);
+
+        return direction.isDiagonal();
     }
 
     public int countPiecesInIntermediatePath() {
