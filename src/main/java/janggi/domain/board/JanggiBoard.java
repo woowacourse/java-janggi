@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 public class JanggiBoard {
 
     private final Pieces placedPieces;
+    private Turn turn;
 
     public JanggiBoard(
         HanPieceGenerator hanPieceGenerator,
@@ -25,16 +26,25 @@ public class JanggiBoard {
         List<Piece> choPieces = choPieceGenerator.generate(choKnightElephantSetting);
 
         placedPieces = Pieces.from(Stream.concat(hanPieces.stream(), choPieces.stream()).collect(Collectors.toList()));
+        turn = Turn.start();
     }
 
     public void move(int x, int y, int destinationX, int destinationY) {
-        validateSamePosition(x, y, destinationX, destinationY);
         Piece sourcePiece = placedPieces.findExistingByPosition(x, y);
+        validateTurn(sourcePiece);
+        validateSamePosition(x, y, destinationX, destinationY);
         Pieces map = placedPieces.getMapWithoutPosition(x, y);
 
         sourcePiece.move(map, destinationX, destinationY);
         placedPieces.removeByPosition(x, y);
         placedPieces.put(sourcePiece);
+        turn = turn.next();
+    }
+
+    private void validateTurn(Piece piece) {
+        if (!turn.isTurn(piece.getSide())) {
+            throw new IllegalArgumentException("현재 당신의 턴이 아닙니다.");
+        }
     }
 
     private void validateSamePosition(int x, int y, int destinationX, int destinationY) {
