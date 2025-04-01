@@ -74,6 +74,16 @@ public class PiecePath {
         return 0;
     }
 
+    public boolean matchesMovementStep( int targetDistance1, int targetDistance2) {
+        if(rowDifference() == targetDistance1 && columnDifference() == targetDistance2) {
+            return true;
+        }
+        if(rowDifference() == targetDistance2 && columnDifference() == targetDistance1) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean isInPalacePath() {
         return source.inPalace() && destination.inPalace();
     }
