@@ -112,7 +112,7 @@ class BoardTest {
 
     @CsvSource(value = {"3:7", "4:7", "5:7", "3:8", "4:8", "5:8", "3:9", "4:9", "5:9"}, delimiterString = ":")
     @ParameterizedTest
-    void 출발지가_상단부_궁성_외부인지_확인한다(int column, int row) {
+    void 출발지가_상단부_궁성_내부인지_확인한다(int column, int row) {
         // given
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(column, row);
