@@ -2,12 +2,11 @@ package janggi;
 
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
-import janggi.dao.GameDao;
-import janggi.dao.MoveDao;
 import janggi.dto.MoveDto;
 import janggi.position.Column;
 import janggi.position.Position;
 import janggi.position.Row;
+import janggi.repository.Repository;
 import janggi.util.CommandParser;
 import janggi.view.JanggiView;
 import janggi.view.SetupOption;
@@ -16,14 +15,12 @@ import java.util.List;
 public class JanggiGame {
 
     private final JanggiView janggiView;
-    private final GameDao gameDao;
-    private final MoveDao moveDao;
+    private final Repository repository;
     private int gameId;
 
-    public JanggiGame(final GameDao gameDao, final MoveDao moveDao) {
+    public JanggiGame(final Repository repository) {
         this.janggiView = new JanggiView();
-        this.gameDao = gameDao;
-        this.moveDao = moveDao;
+        this.repository = repository;
     }
 
     public void run() {
@@ -34,7 +31,7 @@ public class JanggiGame {
             command = executeCommand(command, board);
         } while (!command.equals(Command.STOP) && !board.isGeneralDead());
         if (board.isGeneralDead()) {
-            gameDao.setGameFinished(gameId);
+            repository.setGameFinished(gameId);
         }
         janggiView.displayEnd(board);
     }
@@ -61,21 +58,20 @@ public class JanggiGame {
             return findUnfinishedBoard();
         }
         final Board board = BoardGenerator.generateOriginalSetup(setupOption);
-        gameDao.saveInitialGame(board.getSetupOption());
-        this.gameId = gameDao.findRecentNotFinishedGameId();
+        repository.saveInitialGame(board.getSetupOption());
+        this.gameId = repository.findRecentOngoingGameId();
         return board;
     }
 
     private Board findUnfinishedBoard() {
-        if (!gameDao.existNotFinishedGame()) {
+        if (!repository.isExistOngoingGame()) {
             janggiView.displayError("게임 기록이 없습니다.");
             return generateBoard();
         }
-        final List<Integer> notFinishedGameIds = gameDao.findNotFinishedGameIds();
+        final List<Integer> notFinishedGameIds = repository.findOngoingGameIds();
         janggiView.displayUnfinishedGame(notFinishedGameIds);
         this.gameId = readUnfinishedGame(notFinishedGameIds);
-        return BoardGenerator.generateExistSetup(gameDao.findGameSetup(gameId),
-                moveDao.selectAllHistory(gameId));
+        return BoardGenerator.generateExistSetup(repository.findGameSetup(gameId), repository.selectAllHistory(gameId));
     }
 
     private int readUnfinishedGame(final List<Integer> notFinishedGameIds) {
@@ -120,7 +116,7 @@ public class JanggiGame {
             final Position start = new Position(Row.of(moveCommand.get(0)), Column.of(moveCommand.get(1)));
             final Position end = new Position(Row.of(moveCommand.get(2)), Column.of(moveCommand.get(3)));
             move(board, start, end);
-            moveDao.saveHistory(new MoveDto(start, end), gameId);
+            repository.saveHistory(new MoveDto(start, end), gameId);
         }
     }
 

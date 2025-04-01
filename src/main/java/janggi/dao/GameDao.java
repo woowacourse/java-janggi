@@ -14,9 +14,5 @@ public interface GameDao {
 
     int findGameSetup(int gameId);
 
-//    List<MoveDto> selectAllHistory(int gameId);
-//
-//    void saveHistory(MoveDto moveDto, int gameId);
-
     void setGameFinished(int gameId);
 }
