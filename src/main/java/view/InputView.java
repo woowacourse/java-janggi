@@ -3,7 +3,7 @@ package view;
 import domain.CommandOption;
 import domain.SetupOption;
 import domain.TeamType;
-import domain.game.dto.JanggiGameResponseDto;
+import domain.game.dto.JanggiGameDto;
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.player.Player;
 import domain.player.Username;
@@ -79,34 +79,34 @@ public class InputView {
         return parseBoolean(nextLine());
     }
 
-    public long getInProgressGameId(List<JanggiGameResponseDto> inProgressGames) {
+    public long getInProgressGameId(List<JanggiGameDto> inProgressGames) {
         System.out.printf("진행중인 게임이 %d개 있습니다. 계속 진행할 게임의 번호를 입력해주세요.%n", inProgressGames.size());
-        for (JanggiGameResponseDto inProgressGame : inProgressGames) {
+        for (JanggiGameDto inProgressGame : inProgressGames) {
             System.out.printf("%d. %s : %s %n",
                     inProgressGame.gameId(),
-                    getPlayerTeamDescription(inProgressGame.choPlayer()),
-                    getPlayerTeamDescription(inProgressGame.hanPlayer()));
+                    getPlayerTeamDescription(inProgressGame.choPlayerName(), TeamType.CHO),
+                    getPlayerTeamDescription(inProgressGame.hanPlayerName(), TeamType.HAN));
         }
         int gameId = parseInt(nextLine());
         validateGameId(inProgressGames, gameId);
         return gameId;
     }
 
-    private String getPlayerTeamDescription(Player player) {
+    private String getPlayerTeamDescription(String playerName, TeamType teamType) {
         String format = "%s (%s나라)";
-        if (player.getTeamType() == TeamType.HAN) {
-            return String.format(format, player.getName(), "한");
+        if (teamType == TeamType.HAN) {
+            return String.format(format, playerName, "한");
         }
-        if (player.getTeamType() == TeamType.CHO) {
-            return String.format(format, player.getName(), "초");
+        if (teamType == TeamType.CHO) {
+            return String.format(format, playerName, "초");
         }
         throw new IllegalStateException("알 수 없는 팀입니다.");
     }
 
-    private void validateGameId(List<JanggiGameResponseDto> inProgressGames, int inputGameId) {
+    private void validateGameId(List<JanggiGameDto> inProgressGames, int inputGameId) {
         try {
             inProgressGames.stream()
-                    .map(JanggiGameResponseDto::gameId)
+                    .map(JanggiGameDto::gameId)
                     .filter(gameId -> gameId == inputGameId)
                     .findAny()
                     .orElseThrow(() -> new IllegalArgumentException("해당하는 게임 번호가 없습니다. 다시 입력해주세요."));

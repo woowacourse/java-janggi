@@ -4,7 +4,7 @@ import dao.JanggiGameDao;
 import dao.PieceDao;
 import dao.PlayerDao;
 import domain.game.JanggiGame;
-import domain.game.dto.JanggiGameResponseDto;
+import domain.game.dto.JanggiGameDto;
 import domain.piece.Board;
 import domain.piece.Piece;
 import domain.piece.strategy.HorseElephantSetupStrategy;
@@ -37,7 +37,7 @@ public class JanggiManager {
         this.transactionManager = new TransactionManager(connectionFactory);
     }
 
-    public List<JanggiGameResponseDto> findInProgressGames() {
+    public List<JanggiGameDto> findInProgressGames() {
         return transactionManager.execute((connection) -> {
             List<Long> inProgressGameIds = janggiGameDao.findInProgressGameIds(connection);
 
@@ -146,13 +146,13 @@ public class JanggiManager {
         return Players.createFrom(usernames, choPlayerName);
     }
 
-    private JanggiGameResponseDto getInProgressGameInfo(Long gameId, Connection connection) {
+    private JanggiGameDto getInProgressGameInfo(Long gameId, Connection connection) {
         List<Player> players = playerDao.findPlayersByGameId(gameId, connection);
 
-        Player choPlayer = getTeamPlayer(players, TeamType.CHO);
-        Player hanPlayer = getTeamPlayer(players, TeamType.HAN);
+        String choPlayerName = getTeamPlayer(players, TeamType.CHO).getName();
+        String hanPlayerName = getTeamPlayer(players, TeamType.HAN).getName();
 
-        return new JanggiGameResponseDto(gameId, choPlayer, hanPlayer);
+        return new JanggiGameDto(gameId, choPlayerName, hanPlayerName);
     }
 
     private Player getTeamPlayer(List<Player> players, TeamType teamType) {

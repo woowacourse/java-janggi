@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import dao.JanggiGameDao;
 import dao.PieceDao;
 import dao.fixture.JanggiGameTestFixture;
-import domain.game.dto.JanggiGameResponseDto;
+import domain.game.dto.JanggiGameDto;
 import domain.piece.Cannon;
 import domain.piece.Chariot;
 import domain.piece.Horse;
@@ -62,16 +62,16 @@ class JanggiManagerTest {
         long savedGameId2 = JanggiGameTestFixture.saveNewJanggiGame(factory);
 
         // when
-        List<JanggiGameResponseDto> inProgressGames = janggiManager.findInProgressGames();
+        List<JanggiGameDto> inProgressGames = janggiManager.findInProgressGames();
 
         // then
-        Player choPlayer = new Player(new Username("테스트1"), TeamType.CHO);
-        Player hanPlayer = new Player(new Username("테스트2"), TeamType.HAN);
+        String choPlayerName = "테스트1";
+        String hanPlayerName = "테스트2";
         assertAll(
                 () -> assertThat(inProgressGames).contains(
-                        new JanggiGameResponseDto(savedGameId1, choPlayer, hanPlayer)),
+                        new JanggiGameDto(savedGameId1, choPlayerName, hanPlayerName)),
                 () -> assertThat(inProgressGames).contains(
-                        new JanggiGameResponseDto(savedGameId2, choPlayer, hanPlayer))
+                        new JanggiGameDto(savedGameId2, choPlayerName, hanPlayerName))
         );
     }
 

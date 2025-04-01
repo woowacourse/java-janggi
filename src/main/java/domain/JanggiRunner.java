@@ -1,6 +1,6 @@
 package domain;
 
-import domain.game.dto.JanggiGameResponseDto;
+import domain.game.dto.JanggiGameDto;
 import domain.piece.Piece;
 import domain.piece.strategy.HorseElephantSetupStrategy;
 import domain.player.Player;
@@ -80,7 +80,7 @@ public class JanggiRunner {
     }
 
     private long getPlayingGameId() {
-        List<JanggiGameResponseDto> inProgressGames = janggiManager.findInProgressGames();
+        List<JanggiGameDto> inProgressGames = janggiManager.findInProgressGames();
         if (isInProgressGameResumed(inProgressGames)) {
             return inputView.getInProgressGameId(inProgressGames);
         }
@@ -97,7 +97,7 @@ public class JanggiRunner {
         return janggiManager.saveNewGame(players, choPlayerStrategy, hanPlayerStrategy);
     }
 
-    private boolean isInProgressGameResumed(List<JanggiGameResponseDto> inProgressGames) {
+    private boolean isInProgressGameResumed(List<JanggiGameDto> inProgressGames) {
         return !inProgressGames.isEmpty() && inputView.askToPlayInProgressGame();
     }
 
