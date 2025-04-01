@@ -45,18 +45,18 @@ Y
 루키
 
 코기의 배치를 선택해주세요.
-1. Inner Elephant Setup
-2. Outer Elephant Setup
-3. Right Elephant Setup
-4. Left Elephant Setup
+1. 안상 배치
+2. 바깥상 배치
+3. 좌상 배치
+4. 우상 배치
 
 2
 
 루키의 배치를 선택해주세요.
-1. Inner Elephant Setup
-2. Outer Elephant Setup
-3. Right Elephant Setup
-4. Left Elephant Setup
+1. 안상 배치
+2. 바깥상 배치
+3. 좌상 배치
+4. 우상 배치 
 
     a b c d e f g h i
  9  R H E G - G H E R 

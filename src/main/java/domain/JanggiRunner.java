@@ -90,8 +90,10 @@ public class JanggiRunner {
 
     private long getNewGameId() {
         Players players = handleError(this::createPlayers);
-        HorseElephantSetupStrategy choPlayerStrategy = chooseStrategy(players.getChoPlayerName());
-        HorseElephantSetupStrategy hanPlayerStrategy = chooseStrategy(players.getHanPlayerName());
+        HorseElephantSetupStrategy choPlayerStrategy = handleError(
+                () -> inputView.getSetupStrategy(players.getChoPlayerName()));
+        HorseElephantSetupStrategy hanPlayerStrategy = handleError(
+                () -> inputView.getSetupStrategy(players.getHanPlayerName()));
         return janggiManager.saveNewGame(players, choPlayerStrategy, hanPlayerStrategy);
     }
 
@@ -99,23 +101,19 @@ public class JanggiRunner {
         return !inProgressGames.isEmpty() && inputView.askToPlayInProgressGame();
     }
 
-
-    private HorseElephantSetupStrategy chooseStrategy(String players) {
-        return handleError(() -> {
-            String playerOption = inputView.getSetupNumber(players);
-            return SetupOption.findSetupStrategy(playerOption);
-        });
-    }
-
     private Players createPlayers() {
         Usernames usernames = createUsernames();
-        Username startPlayerName = new Username(inputView.getStartPlayerName());
+        return handleError(() -> createPlayersFromStartPlayer(usernames));
+    }
+
+    private Players createPlayersFromStartPlayer(Usernames usernames) {
+        Username startPlayerName = inputView.getStartPlayerName();
         return Players.createFrom(usernames, startPlayerName);
     }
 
     private Usernames createUsernames() {
-        Username firstPlayerName = handleError(() -> new Username(inputView.getFirstPlayerName()));
-        Username secondPlayerName = handleError(() -> new Username(inputView.getSecondPlayerName()));
+        Username firstPlayerName = handleError(inputView::getFirstPlayerName);
+        Username secondPlayerName = handleError(inputView::getSecondPlayerName);
         return new Usernames(firstPlayerName, secondPlayerName);
     }
 
