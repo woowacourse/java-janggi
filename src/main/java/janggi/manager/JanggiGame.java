@@ -2,6 +2,7 @@ package janggi.manager;
 
 import janggi.domain.Round;
 import janggi.domain.movement.Position;
+import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
 import janggi.util.RecoveryUtil;
 import janggi.view.Viewer;
@@ -36,7 +37,9 @@ public class JanggiGame {
         Position selectedPosition = getSelectedPosition();
         Position targetPosition = getTargetPosition();
 
-        round.commence(selectedPosition, targetPosition, janggiData::update);
+        round.commence(selectedPosition, targetPosition);
+
+        updateDatabase(selectedPosition, targetPosition);
     }
 
     private Position getSelectedPosition() {
@@ -47,6 +50,11 @@ public class JanggiGame {
     private Position getTargetPosition() {
         PositionDto positionDto = viewer.readMove();
         return Position.of(positionDto.row(), positionDto.column());
+    }
+
+    private void updateDatabase(Position oldPosition, Position newPosition) {
+        Piece targetPiece = round.getPiece(newPosition);
+        janggiData.update(oldPosition, newPosition, targetPiece);
     }
 
     public void finish() {

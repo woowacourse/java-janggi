@@ -3,7 +3,6 @@ package janggi.domain;
 import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 public class Round {
 
@@ -17,12 +16,11 @@ public class Round {
         this.currentTurn = side;
     }
 
-    public void commence(Position selectedPosition, Position targetPosition, BiConsumer<Position, Piece> dataConsumer) {
+    public void commence(Position selectedPosition, Position targetPosition) {
         board.makeMove(currentTurn, selectedPosition, targetPosition);
         if (board.hasBothGenerals()) {
             changeTurn();
         }
-        dataConsumer.accept(selectedPosition, board.getPiece(targetPosition));
     }
 
     private void changeTurn() {
@@ -45,5 +43,9 @@ public class Round {
         double choPoints = board.getTotalPoints(Side.CHO);
         double hanPoints = board.getTotalPoints(Side.HAN) + HANDICAP_POINTS;
         return Map.of(Side.CHO, choPoints, Side.HAN, hanPoints);
+    }
+
+    public Piece getPiece(Position position) {
+        return board.getPiece(position);
     }
 }

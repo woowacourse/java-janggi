@@ -32,10 +32,7 @@ public class JanggiData {
     public List<PieceDto> convertToDto(Map<Position, Piece> pieces) {
         List<PieceDto> pieceDtos = new ArrayList<>();
         for (Map.Entry<Position, Piece> entry : pieces.entrySet()) {
-            Position position = entry.getKey();
-            PositionDto positionDto = new PositionDto(position.getRow(), position.getColumn());
-            Piece piece = entry.getValue();
-            PieceDto pieceDto = new PieceDto(PieceName.getName(piece), piece.getSide().toString(), positionDto.row(), positionDto.column());
+            PieceDto pieceDto = createPieceDto(entry.getKey(), entry.getValue());
             pieceDtos.add(pieceDto);
         }
         return pieceDtos;
@@ -58,13 +55,17 @@ public class JanggiData {
         return lastTurn.reverse();
     }
 
-    public void update(Position position, Piece piece) {
-        PositionDto positionDto = new PositionDto(position.getRow(), position.getColumn());
-        PieceDto pieceDto = new PieceDto(PieceName.getName(piece), piece.getSide().toString(), positionDto.row(), positionDto.column());
+    public void update(Position oldPosition, Position newPosition, Piece piece) {
+        PositionDto positionDto = new PositionDto(oldPosition.getRow(), oldPosition.getColumn());
+        PieceDto pieceDto = createPieceDto(newPosition, piece);
         janggiDao.updatePiece(positionDto, pieceDto);
     }
 
     public void resetDatabase() {
         janggiDao.deleteAllPieces();
+    }
+
+    private PieceDto createPieceDto(Position position, Piece piece) {
+        return new PieceDto(PieceName.getName(piece), piece.getSide().toString(), position.getRow(), position.getColumn());
     }
 }
