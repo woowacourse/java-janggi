@@ -6,11 +6,11 @@ import janggi.piece.players.Turn;
 
 public interface TurnDao {
 
+    void initialize(TurnDto turnDto);
+
     Turn selectCurrentTeam();
 
-    void insert(TurnDto turnDto);
-
-    void updateTurn(Team team, boolean isCurrentTeam);
+    void updateTurn(Team team);
 
     void deleteAll();
 }

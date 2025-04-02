@@ -52,7 +52,8 @@ public class PieceHistoryManager {
     private void initializeChoPieces(final Board choPieces) {
         for (final Piece piece : choPieces.getPieces()) {
             final Position position = piece.getPosition();
-            pieceDao.insert(new PieceDto(Team.CHO, piece.getPieceType(), position.getY(), position.getX()));
+            final PieceDto pieceDto = new PieceDto(Team.CHO, piece.getPieceType(), position.getY(), position.getX());
+            pieceDao.insert(pieceDto);
         }
     }
 

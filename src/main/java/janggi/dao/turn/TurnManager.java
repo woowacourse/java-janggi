@@ -13,9 +13,7 @@ public class TurnManager {
     }
 
     public void initialize() {
-        turnDao.deleteAll();
-        turnDao.insert(new TurnDto(Team.CHO, true));
-        turnDao.insert(new TurnDto(Team.HAN, false));
+        turnDao.initialize(new TurnDto(Team.CHO));
     }
 
     public Turn findCurrentTurn() {
@@ -24,7 +22,6 @@ public class TurnManager {
 
     public void updateCurrentTurn(final Turn turn) {
         final Team currentTeam = turn.getTeam();
-        turnDao.updateTurn(currentTeam, true);
-        turnDao.updateTurn(currentTeam.getOppositeTeam(), false);
+        turnDao.updateTurn(currentTeam);
     }
 }

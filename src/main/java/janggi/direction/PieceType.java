@@ -9,6 +9,7 @@ import static janggi.direction.Direction.UP;
 import static janggi.direction.Direction.UP_LEFT;
 import static janggi.direction.Direction.UP_RIGHT;
 
+import janggi.piece.players.Team;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,6 +70,8 @@ public enum PieceType {
             new Movement(DOWN)
     )), 0);
 
+    private static final String SOLDIER = "SOLDIER";
+
     private final Movements movements;
     private final int score;
 
@@ -77,7 +80,13 @@ public enum PieceType {
         this.score = score;
     }
 
-    public static PieceType from(final String name) {
+    public static PieceType from(final String name, final Team team) {
+        if (name.equals(SOLDIER)) {
+            if (team == Team.CHO) {
+                return CHO_SOLDIER;
+            }
+            return HAN_SOLDIER;
+        }
         return Arrays.stream(values())
                 .filter(pieceType -> pieceType.name().equals(name))
                 .findAny()
@@ -94,6 +103,10 @@ public enum PieceType {
 
     public boolean isKing() {
         return this == PieceType.KING;
+    }
+
+    public boolean isSoldier() {
+        return this == CHO_SOLDIER || this == HAN_SOLDIER;
     }
 
     public Movements getMovements() {
