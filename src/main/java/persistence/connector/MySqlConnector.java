@@ -1,4 +1,4 @@
-package persistence.transaction;
+package persistence.connector;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

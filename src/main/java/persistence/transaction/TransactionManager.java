@@ -2,6 +2,7 @@ package persistence.transaction;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import persistence.connector.DataBaseConnector;
 
 public class TransactionManager {
 

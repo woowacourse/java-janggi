@@ -3,7 +3,7 @@ import persistence.mapper.EntityMapper;
 import persistence.dao.JanggiGameDao;
 import persistence.JanggiPersistenceManager;
 import persistence.transaction.TransactionManager;
-import persistence.transaction.MySqlConnector;
+import persistence.connector.MySqlConnector;
 import persistence.dao.PieceDao;
 import view.ConsoleView;
 import view.InputView;
