@@ -4,6 +4,9 @@ import janggi.game.GameInformation;
 import janggi.setting.CampType;
 import janggi.setting.PieceAssignType;
 import janggi.value.Position;
+import janggi.view.answer.GameMenuAnswer;
+import janggi.view.answer.PieceAssignTypeAnswer;
+import janggi.view.answer.TurnMenuAnswer;
 import java.util.List;
 import java.util.Scanner;
 

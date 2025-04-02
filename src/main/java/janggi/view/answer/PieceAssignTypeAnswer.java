@@ -1,4 +1,4 @@
-package janggi.view;
+package janggi.view.answer;
 
 import janggi.setting.PieceAssignType;
 import java.util.Arrays;
