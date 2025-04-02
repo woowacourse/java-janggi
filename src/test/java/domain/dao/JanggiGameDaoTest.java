@@ -3,6 +3,7 @@ package domain.dao;
 import domain.Country;
 import domain.JanggiCoordinate;
 import domain.PieceInitializer;
+import domain.dto.GameFindDto;
 import domain.piece.Piece;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
@@ -40,10 +41,10 @@ class JanggiGameDaoTest {
         @Test
         void findGameIdByGameName() {
             int id = gameDao.createGame("roomName", Country.HAN);
-            int findId = gameDao.getGameIdByName("roomName");
+            GameFindDto findDto = gameDao.getGameByName("roomName");
             gameDao.deleteGameRoom(id);
 
-            assertThat(findId).isEqualTo(id);
+            assertThat(findDto.gameId()).isEqualTo(id);
         }
     }
 
