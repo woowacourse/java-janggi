@@ -1,6 +1,5 @@
 package domain.dao;
 
-import static util.DBConnectionUtil.close;
 import static util.DBConnectionUtil.getConnection;
 
 import domain.GameStatus;
@@ -15,122 +14,99 @@ public class GameStatusDao {
 
     public void save(GameStatus gameStatus) {
         String sql = "insert into game(room_name,turn) values(?,?)";
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, gameStatus.getRoomName());
             preparedStatement.setString(2, gameStatus.getTurn().name());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            close(connection, preparedStatement, null);
         }
     }
 
     public Optional<GameStatus> findGameStatusByRoomName(String roomName) {
         String sql = "select * from game where room_name = ?";
-        Connection connection = getConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, roomName);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return Optional.of(new GameStatus(resultSet.getString("room_name"),
-                        TeamType.valueOf(resultSet.getString("turn"))));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(new GameStatus(resultSet.getString("room_name"),
+                            TeamType.valueOf(resultSet.getString("turn"))));
+                }
             }
             return Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            close(connection, preparedStatement, resultSet);
         }
     }
 
     public void updateTurn(String roomName, TeamType turn) {
-        Connection connection = getConnection();
-        safeModeQuit(connection);
-        updateGameStatus(connection, roomName, turn);
-        safeModeSet(connection);
-        close(connection, null, null);
+        try (Connection connection = getConnection()) {
+            safeModeQuit(connection);
+            updateGameStatus(connection, roomName, turn);
+            safeModeSet(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteGame() {
-        Connection connection = getConnection();
-        try {
-            connection.setAutoCommit(false);
-            safeModeQuit(connection);
-            deleteAll(connection);
-            safeModeSet(connection);
-            connection.commit();
-            connection.setAutoCommit(true);
-        } catch (SQLException e) {
+        try (Connection connection = getConnection()) {
             try {
-                connection.rollback();
+                connection.setAutoCommit(false);
+                safeModeQuit(connection);
+                deleteAll(connection);
+                safeModeSet(connection);
+                connection.commit();
             } catch (SQLException ex) {
+                connection.rollback();
                 throw new RuntimeException(ex);
+            } finally {
+                connection.setAutoCommit(true);
             }
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        close(connection, null, null);
     }
 
     private void deleteAll(Connection connection) {
         String sql = "delete from game";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            close(null, preparedStatement, null);
         }
     }
 
     private void updateGameStatus(Connection connection, String roomName, TeamType turn) {
         String sql = "update game set turn = ? where room_name = ?";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, turn.name());
             preparedStatement.setString(2, roomName);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            close(null, preparedStatement, null);
         }
     }
 
     private void safeModeQuit(Connection connection) {
-        String safeModeQuit = "SET SQL_SAFE_UPDATES = ?";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(safeModeQuit);
+        String sql = "SET SQL_SAFE_UPDATES = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, 0);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            close(null, preparedStatement, null);
         }
     }
 
     private void safeModeSet(Connection connection) {
-        String safeModeSet = "SET SQL_SAFE_UPDATES = ?";
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = connection.prepareStatement(safeModeSet);
+        String sql = "SET SQL_SAFE_UPDATES = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, 1);
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            close(null, preparedStatement, null);
         }
     }
 }
