@@ -10,6 +10,9 @@ repositories {
 
 dependencies {
     runtimeOnly("com.mysql:mysql-connector-j:9.2.0")
+    // H2 데이터베이스 (테스트용)
+    testImplementation 'com.h2database:h2:2.2.224'
+
     testImplementation platform('org.junit:junit-bom:5.11.4')
     testImplementation platform('org.assertj:assertj-bom:3.27.3')
     testImplementation('org.junit.jupiter:junit-jupiter')
