@@ -31,11 +31,15 @@ public class JanggiController {
 
     private JanggiGame loadJanggiGame() {
         String isNewGame = inputView.inputIsNewGame();
-        if (isNewGame.equals("new")) {
+        if (isNewGame.equalsIgnoreCase("new")) {
             outputView.printNewGame();
             return startNewGame();
         }
-        outputView.printContinueGame();
+        if (isNewGame.equalsIgnoreCase("continue")) {
+            outputView.printContinueGame();
+            return startContinueGame();
+        }
+        outputView.printLoadJanngiIllegalInput();
         return startContinueGame();
     }
 

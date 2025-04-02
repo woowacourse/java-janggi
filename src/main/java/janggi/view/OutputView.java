@@ -57,4 +57,8 @@ public class OutputView {
     public void printContinueGame() {
         System.out.println("이전 게임을 이어서 진행합니다");
     }
+
+    public void printLoadJanngiIllegalInput() {
+        System.out.println("잘못된 입력입니다. 이전 게임을 이어서 진행합니다. 새로운 게임을 시작하려면 프로그램을 재시작 후 'new' 입력하세요.");
+    }
 }
