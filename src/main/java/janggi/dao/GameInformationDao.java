@@ -4,7 +4,6 @@ import janggi.game.GameInformation;
 import janggi.setting.GameState;
 import janggi.setting.PieceAssignType;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,72 +14,81 @@ import java.util.List;
 
 public class GameInformationDao {
 
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private static final String GAME_ID_FIELD = "gameId";
+    private static final String GAME_TITLE_FIELD = "gameTitle";
+    private static final String CHO_ASSIGN_FIELD = "choAssignType";
+    private static final String HAN_ASSIGN_FIELD = "hanAssignType";
+    private static final String GAME_STATE_FIELD = "gameState";
 
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            return null;
-        }
+    private final DatabaseConnector databaseConnector;
+
+    public GameInformationDao(DatabaseConnector databaseConnector) {
+        this.databaseConnector = databaseConnector;
     }
 
-    public int addNewGameInformation(String title, PieceAssignType choAssignType, PieceAssignType hanAssignType) {
+    public int addNew(String title, PieceAssignType choAssignType, PieceAssignType hanAssignType) {
         String query = "INSERT INTO games (gameTitle, choAssignType, hanAssignType, gameState) VALUES(?, ?, ?, ?)";
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, title);
-            preparedStatement.setString(2, choAssignType.toString());
-            preparedStatement.setString(3, hanAssignType.toString());
-            preparedStatement.setString(4, GameState.PLAY.toString());
-            preparedStatement.executeUpdate();
-            ResultSet queryResult = preparedStatement.getGeneratedKeys();
+        try (
+                Connection connection = databaseConnector.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            statement.setString(1, title);
+            statement.setString(2, choAssignType.toString());
+            statement.setString(3, hanAssignType.toString());
+            statement.setString(4, GameState.PLAY.toString());
+            statement.executeUpdate();
+            ResultSet queryResult = statement.getGeneratedKeys();
             queryResult.next();
             return queryResult.getInt(1);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
-    public List<GameInformation> findAllGameInformation() {
-        String query = "select * from games where games.gameState = 'PLAY';";
+    public List<GameInformation> findAllInPlaying() {
+        String query = "select * from games where games.gameState = ?";
+        try (
+                Connection connection = databaseConnector.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        ) {
+            statement.setString(1, GameState.PLAY.toString());
+            ResultSet resultSet = statement.executeQuery();
+            return parseGameInformation(resultSet);
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public void updateGameStateToEnd(int gameId) {
+        String query = "UPDATE games SET gameState = ? WHERE gameId = ?;";
+        try (
+                Connection connection = databaseConnector.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        ) {
+            statement.setString(1, GameState.END.toString());
+            statement.setInt(2, gameId);
+            statement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    private List<GameInformation> parseGameInformation(ResultSet resultSet) {
+        List<GameInformation> informations = new ArrayList<>();
         try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<GameInformation> queryResult = new ArrayList<>();
             while (resultSet.next()) {
                 GameInformation gameInformation = new GameInformation(
-                        resultSet.getInt("gameId"),
-                        resultSet.getString("gameTitle"),
-                        PieceAssignType.valueOf(resultSet.getString("choAssignType")),
-                        PieceAssignType.valueOf(resultSet.getString("hanAssignType")),
-                        GameState.valueOf(resultSet.getString("gameState"))
+                        resultSet.getInt(GAME_ID_FIELD),
+                        resultSet.getString(GAME_TITLE_FIELD),
+                        PieceAssignType.valueOf(resultSet.getString(CHO_ASSIGN_FIELD)),
+                        PieceAssignType.valueOf(resultSet.getString(HAN_ASSIGN_FIELD)),
+                        GameState.valueOf(resultSet.getString(GAME_STATE_FIELD))
                 );
-                queryResult.add(gameInformation);
+                informations.add(gameInformation);
             }
-            return Collections.unmodifiableList(queryResult);
+            return Collections.unmodifiableList(informations);
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void updateGameInformationToEnd(int gameId) {
-        String query = "UPDATE games SET gameState = ? WHERE gameId = ?;";
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, GameState.END.toString());
-            preparedStatement.setInt(2, gameId);
-            preparedStatement.executeUpdate();
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 }

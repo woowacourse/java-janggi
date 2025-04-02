@@ -53,12 +53,12 @@ public class JanggiGame {
         gameInputOutput.printStartMessage();
         PieceAssignType choAnswer = gameInputOutput.readPieceAssignType(CampType.CHO);
         PieceAssignType hanAnswer = gameInputOutput.readPieceAssignType(CampType.HAN);
-        int gameId = gameInformationDao.addNewGameInformation(gameTitle, choAnswer, hanAnswer);
+        int gameId = gameInformationDao.addNew(gameTitle, choAnswer, hanAnswer);
         return new GameInformation(gameId, gameTitle, choAnswer, hanAnswer, GameState.PLAY);
     }
 
     private Optional<GameInformation> registerExistingGameInformation() {
-        List<GameInformation> allGameInformation = gameInformationDao.findAllGameInformation();
+        List<GameInformation> allGameInformation = gameInformationDao.findAllInPlaying();
         return gameInputOutput.selectGame(allGameInformation);
     }
 
@@ -117,6 +117,6 @@ public class JanggiGame {
     }
 
     private void endGame(int gameId) {
-        gameInformationDao.updateGameInformationToEnd(gameId);
+        gameInformationDao.updateGameStateToEnd(gameId);
     }
 }

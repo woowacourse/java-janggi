@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS movePieceRecords;
+DROP TABLE IF EXISTS games;
+
 CREATE TABLE IF NOT EXISTS games (
        gameId INT PRIMARY KEY AUTO_INCREMENT,
        gameTitle VARCHAR(50),
@@ -10,10 +13,10 @@ CREATE TABLE IF NOT EXISTS movePieceRecords (
       recordId INT PRIMARY KEY AUTO_INCREMENT,
       gameId Int,
       campType VARCHAR(10),
-      targetPieceXPostion INT,
-      targetPieceYPostion INT,
-      destinationXPostion INT,
-      destinationYPostion INT,
+      targetPieceXPosition INT,
+      targetPieceYPosition INT,
+      destinationXPosition INT,
+      destinationYPosition INT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (gameId) REFERENCES games(gameId)
 );

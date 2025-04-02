@@ -1,5 +1,6 @@
 package janggi;
 
+import janggi.dao.DatabaseConnector;
 import janggi.dao.GameInformationDao;
 import janggi.dao.MovePieceCommandDao;
 import janggi.game.JanggiGame;
@@ -11,7 +12,10 @@ public class Application {
 
     public static void main(String[] args) {
         GameInputOutput gameInputOutput = new GameInputOutput(new InputView(), new OutputView());
-        JanggiGame janggiGame = new JanggiGame(gameInputOutput, new GameInformationDao(), new MovePieceCommandDao());
+        DatabaseConnector databaseConnector = new DatabaseConnector();
+        GameInformationDao gameInformationDao = new GameInformationDao(databaseConnector);
+        MovePieceCommandDao movePieceCommandDao = new MovePieceCommandDao(databaseConnector);
+        JanggiGame janggiGame = new JanggiGame(gameInputOutput, gameInformationDao, movePieceCommandDao);
         janggiGame.start();
     }
 }
