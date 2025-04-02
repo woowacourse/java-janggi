@@ -13,7 +13,7 @@ public class TurnDao {
                 if (resultSet.next()) {
                     return resultSet.getInt("turn");
                 }
-                throw new SQLException("Turn 테이블에서 데이터를 찾을 수 없습니다.");
+                throw new SQLException("[ERROR] Turn 테이블에서 데이터를 찾을 수 없습니다.");
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -27,7 +27,7 @@ public class TurnDao {
             try (final var statement = connection.createStatement()) {
                 int rowsAffected = statement.executeUpdate(query);
                 if (rowsAffected == 0) {
-                    throw new SQLException("Turn 테이블에서 값을 리셋할 수 없습니다.");
+                    throw new SQLException("[ERROR] Turn 테이블에서 값을 리셋할 수 없습니다.");
                 }
             }
         } catch (final SQLException e) {
@@ -42,7 +42,7 @@ public class TurnDao {
             try (final var statement = connection.createStatement()) {
                 int rowsAffected = statement.executeUpdate(query);
                 if (rowsAffected == 0) {
-                    throw new SQLException("Turn 테이블에서 값을 증가시킬 수 없습니다.");
+                    throw new SQLException("[ERROR] Turn 테이블에서 값을 증가시킬 수 없습니다.");
                 }
             }
         } catch (final SQLException e) {
