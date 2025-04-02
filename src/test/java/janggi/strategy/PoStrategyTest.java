@@ -2,7 +2,7 @@ package janggi.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.fixture.GungsungPositionFixture;
+import janggi.data.fixture.GungsungPositionFixture;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.value.Position;

@@ -1,12 +1,14 @@
-package janggi.rule;
+package janggi.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.fixture.ChoPiecePositionFixture;
-import janggi.fixture.HanPiecePositionFixture;
+import janggi.data.fixture.ChoPiecePositionFixture;
+import janggi.data.fixture.HanPiecePositionFixture;
 import janggi.game.PieceAssigner;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
+import janggi.rule.CampType;
+import janggi.rule.PieceAssignType;
 import janggi.value.Position;
 import java.util.List;
 import java.util.stream.Stream;

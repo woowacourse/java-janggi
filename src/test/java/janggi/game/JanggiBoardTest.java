@@ -1,13 +1,11 @@
-package janggi;
+package janggi.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import janggi.fixture.ChoPiecePositionFixture;
-import janggi.fixture.HanPiecePositionFixture;
-import janggi.game.JanggiBoard;
-import janggi.game.MovePieceCommand;
+import janggi.data.fixture.ChoPiecePositionFixture;
+import janggi.data.fixture.HanPiecePositionFixture;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.rule.CampType;

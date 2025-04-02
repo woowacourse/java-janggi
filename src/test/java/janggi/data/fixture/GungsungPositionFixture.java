@@ -1,4 +1,4 @@
-package janggi.fixture;
+package janggi.data.fixture;
 
 import janggi.value.Position;
 
