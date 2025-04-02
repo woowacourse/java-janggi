@@ -1,6 +1,5 @@
 package domain.direction;
 
-import domain.position.Palace;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,19 +25,17 @@ public class Directions {
         return direction.map(value -> value.createPath(start, target, repeatable)).orElse(new ArrayList<>());
     }
 
-    public List<Position> getPalacePath(final Position start, final Position target) {
-        Optional<Direction> direction = Palace.getMovableDirectionInPalace(start).stream()
-                .filter(element -> element.canReach(start, target, repeatable))
-                .findFirst();
-
-        return direction.map(value -> value.createPath(start, target, repeatable)).orElse(new ArrayList<>());
-    }
-
     public boolean canReachToTarget(final Position start, final Position target) {
         Optional<Direction> direction = directions.stream()
                 .filter(element -> element.canReach(start, target, repeatable))
                 .findFirst();
         return direction.isPresent();
+    }
+
+    public Directions addDirection(Set<Direction> directionElements) {
+        Set<Direction> copiedDirections = new HashSet<>(Set.copyOf(directions));
+        copiedDirections.addAll(directionElements);
+        return new Directions(copiedDirections, repeatable);
     }
 
     @Override
@@ -53,11 +50,5 @@ public class Directions {
     @Override
     public int hashCode() {
         return Objects.hashCode(directions);
-    }
-
-    public Directions addDirection(Set<Direction> directionElements) {
-        Set<Direction> copiedDirections = new HashSet<>(Set.copyOf(directions));
-        copiedDirections.addAll(directionElements);
-        return new Directions(copiedDirections, repeatable);
     }
 }

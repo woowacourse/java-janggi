@@ -95,23 +95,21 @@ public enum MovementRule {
 
     public abstract boolean isInRangePosition(final Position position);
 
-    public boolean canMoveInPalace() {
-        return canMoveInPalace;
-    }
-
     public List<Position> getPath(final Position start, final Position target) {
-        return directions.get().getPath(start, target);
+        Directions movableDirections = getMovableDirections(start, target);
+        return movableDirections.getPath(start, target);
     }
 
     public boolean canMoveToTargetPosition(final Position start, final Position target) {
+        Directions movableDirections = getMovableDirections(start, target);
+        return movableDirections.canReachToTarget(start, target);
+    }
+
+    private Directions getMovableDirections(Position start, Position target) {
         Directions movableDirections = directions.get();
         if (canMoveInPalace && Palace.isInPalace(start) && Palace.isInPalace(target)) {
             movableDirections = movableDirections.addDirection(Palace.getMovableDirectionInPalace(start));
         }
-        return movableDirections.canReachToTarget(start, target);
-    }
-
-    public List<Position> getPalacePath(final Position start, final Position target) {
-        return directions.get().getPalacePath(start, target);
+        return movableDirections;
     }
 }

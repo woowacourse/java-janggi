@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.position.Palace;
 import domain.position.Position;
 import java.util.List;
 import java.util.Objects;
@@ -34,12 +33,7 @@ public class Piece {
     }
 
     public List<Position> getPath(final Position targetPosition) {
-        List<Position> path = rule.getPath(position, targetPosition);
-        if (rule.canMoveInPalace() && Palace.isInPalace(position) && Palace.isInPalace(targetPosition)) {
-            List<Position> palacePath = rule.getPalacePath(position, targetPosition);
-            path.addAll(palacePath);
-        }
-        return path;
+        return rule.getPath(position, targetPosition);
     }
 
     public void validateMovablePosition(final Position target) {
