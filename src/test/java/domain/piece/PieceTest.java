@@ -6,14 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import domain.direction.Direction;
 import domain.direction.Directions;
 import domain.direction.Vector;
-import domain.piece.category.Cannon;
-import domain.piece.category.Chariot;
-import domain.piece.category.Elephant;
-import domain.piece.category.General;
-import domain.piece.category.Guard;
-import domain.piece.category.Horse;
 import domain.piece.category.PieceType;
-import domain.piece.category.Soldier;
 import domain.position.Position;
 import java.util.List;
 import java.util.Set;
@@ -111,7 +104,7 @@ class PieceTest {
         }
 
         public TestPiece(final Position position, final Directions directions) {
-            super(position, directions);
+            super(position, , directions);
         }
 
         @Override

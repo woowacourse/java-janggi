@@ -5,12 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.direction.Directions;
 import domain.direction.PieceDirections;
-import domain.piece.category.Cannon;
-import domain.piece.category.Elephant;
-import domain.piece.category.General;
-import domain.piece.category.Guard;
-import domain.piece.category.Horse;
-import domain.piece.category.Soldier;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.ArrayList;

@@ -1,18 +1,11 @@
 package dao;
 
-import domain.direction.PieceDirections;
+import domain.piece.MovementRule;
 import domain.piece.Piece;
 import domain.piece.category.PieceType;
-import domain.position.Position;
-import domain.piece.category.Cannon;
-import domain.piece.category.Chariot;
-import domain.piece.category.Elephant;
-import domain.piece.category.General;
-import domain.piece.category.Guard;
-import domain.piece.category.Horse;
-import domain.piece.category.Soldier;
 import domain.player.Player;
 import domain.player.Team;
+import domain.position.Position;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,28 +89,34 @@ public class PieceDao {
 
     private Piece getPiece(final Position position, final PieceType type, final Team team) {
         if (type == PieceType.CANNON) {
-            return new Cannon(position, PieceDirections.CANNON.get());
+            return new Piece(position, type, MovementRule.CANNON);
         }
         if (type == PieceType.CHARIOT) {
-            return new Chariot(position, PieceDirections.CHARIOT.get());
+            return new Piece(position, type, MovementRule.CHARIOT);
         }
         if (type == PieceType.ELEPHANT) {
-            return new Elephant(position, PieceDirections.ELEPHANT.get());
+            return new Piece(position, type, MovementRule.ELEPHANT);
         }
-        if (type == PieceType.GENERAL) {
-            return new General(position, PieceDirections.GENERAL.get());
+        if (type == PieceType.GENERAL && team == Team.HAN) {
+            return new Piece(position, type, MovementRule.HAN_GENERAL);
         }
-        if (type == PieceType.GUARD) {
-            return new Guard(position, PieceDirections.GUARD.get());
+        if (type == PieceType.GENERAL && team == Team.CHO) {
+            return new Piece(position, type, MovementRule.CHO_GENERAL);
+        }
+        if (type == PieceType.GUARD && team == Team.HAN) {
+            return new Piece(position, type, MovementRule.HAN_GUARD);
+        }
+        if (type == PieceType.GUARD && team == Team.CHO) {
+            return new Piece(position, type, MovementRule.CHO_GUARD);
         }
         if (type == PieceType.HORSE) {
-            return new Horse(position, PieceDirections.HORSE.get());
+            return new Piece(position, type, MovementRule.HORSE);
         }
         if (type == PieceType.SOLDIER && team == Team.HAN) {
-            return new Soldier(position, PieceDirections.HAN_SOLDIER.get());
+            return new Piece(position, type, MovementRule.HAN_SOLDIER);
         }
         if (type == PieceType.SOLDIER && team == Team.CHO) {
-            return new Soldier(position, PieceDirections.CHO_SOLDIER.get());
+            return new Piece(position, type, MovementRule.CHO_SOLDIER);
         }
         throw new IllegalArgumentException("[ERROR] 데이터베이스에 존재하지 않는 기물입니다.");
     }

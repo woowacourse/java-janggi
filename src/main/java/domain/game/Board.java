@@ -1,10 +1,10 @@
 package domain.game;
 
 import domain.piece.Piece;
-import domain.piece.category.PieceType;
 import domain.piece.Pieces;
-import domain.position.Position;
+import domain.piece.category.PieceType;
 import domain.player.Player;
+import domain.position.Position;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +45,8 @@ public record Board(
     }
 
     private void validatePieceMovingPath(final Player player, final Position targetPosition, final Piece piece) {
-        piece.validateInRangePosition(targetPosition);
+        piece.validateMovablePosition(targetPosition);
+
         List<Position> path = piece.getPath(targetPosition);
         if (piece.isEqualType(PieceType.CANNON)) {
             validateCannonMoving(player, targetPosition, path);

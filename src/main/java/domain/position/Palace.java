@@ -42,4 +42,12 @@ public class Palace {
         }
         return new HashSet<>(); // 이 중에서도 없으면 아무것도 추가 안해도 됨
     }
+
+    public static boolean isInPalace(final Position position) {
+        int row = position.getRow();
+        int column = position.getColumn();
+        return (Palace.MIN_ROW <= row && row <= Palace.MAX_ROW) &&
+                ((Palace.HAN_MIN_COLUMN <= column && column <= Palace.HAN_MAX_COLUMN) ||
+                        (Palace.CHO_MIN_COLUMN <= column && column <= Palace.CHO_MAX_COLUMN));
+    }
 }

@@ -41,12 +41,6 @@ public class Position {
         return !(row < MIN_ROW || column < MIN_COLUMN || row > MAX_ROW || column > MAX_COLUMN);
     }
 
-    public boolean isInPalace() {
-        return (Palace.MIN_ROW <= row && row <= Palace.MAX_ROW) &&
-                ((Palace.HAN_MIN_COLUMN <= column && column <= Palace.HAN_MAX_COLUMN) ||
-                        (Palace.CHO_MIN_COLUMN <= column && column <= Palace.CHO_MAX_COLUMN));
-    }
-
     public Position flipLeftRight() {
         return Position.of(MAX_ROW - this.row + MIN_ROW, this.column);
     }

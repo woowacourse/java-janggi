@@ -1,10 +1,9 @@
 package domain.game;
 
-import domain.direction.PieceDirections;
+import domain.piece.MovementRule;
 import domain.piece.Piece;
+import domain.piece.category.PieceType;
 import domain.position.Position;
-import domain.piece.category.Elephant;
-import domain.piece.category.Horse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,11 +76,10 @@ public enum SetUp {
     private List<Piece> getPieces(Function<Position, Position> teamSide, Position hanHorsePosition,
                                   Position hanElephantPosition) {
         List<Piece> pieces = new ArrayList<>();
-        pieces.add(new Horse(teamSide.apply(this.hanHorsePosition), PieceDirections.HORSE.get()));
-        pieces.add(new Horse(teamSide.apply(hanHorsePosition), PieceDirections.HORSE.get()));
-        pieces.add(new Elephant(teamSide.apply(this.hanElephantPosition), PieceDirections.ELEPHANT.get()));
-        pieces.add(new Elephant(teamSide.apply(hanElephantPosition),
-                PieceDirections.ELEPHANT.get()));
+        pieces.add(new Piece(teamSide.apply(this.hanHorsePosition), PieceType.HORSE, MovementRule.HORSE));
+        pieces.add(new Piece(teamSide.apply(hanHorsePosition), PieceType.HORSE, MovementRule.HORSE));
+        pieces.add(new Piece(teamSide.apply(this.hanElephantPosition), PieceType.ELEPHANT, MovementRule.ELEPHANT));
+        pieces.add(new Piece(teamSide.apply(hanElephantPosition), PieceType.ELEPHANT, MovementRule.ELEPHANT));
         return pieces;
     }
 }

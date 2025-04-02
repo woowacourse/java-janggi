@@ -1,51 +1,50 @@
 package domain.piece;
 
-import domain.direction.Directions;
 import domain.piece.category.PieceType;
+import domain.position.Palace;
 import domain.position.Position;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Piece {
+public class Piece {
 
-    protected final Directions directions;
-    protected final Position position;
+    private final Position position;
+    private final PieceType type;
+    private final MovementRule rule;
 
-    public Piece(final int row, final int column, final Directions directions) {
-        this.position = Position.of(row, column);
-        this.directions = directions;
-    }
-
-    public Piece(final Position position, final Directions directions) {
+    public Piece(final Position position, PieceType type, final MovementRule rule) {
         this.position = position;
-        this.directions = directions;
+        this.type = type;
+        this.rule = rule;
     }
 
-    public abstract Piece updatePosition(final Position position);
+    public Piece updatePosition(final Position position) {
+        return new Piece(position, type, rule);
+    }
 
-    public abstract String getName();
+    public String getName() {
+        return type.getName();
+    }
 
-    public abstract boolean isEqualType(final PieceType type);
+    public boolean isEqualType(final PieceType type) {
+        return this.type == type;
+    }
 
-    public abstract int getScore();
-
-    public abstract boolean isValidPosition(final Position position);
-
-    public abstract boolean canMoveInPalace();
-
-    public abstract PieceType getType();
+    public int getScore() {
+        return type.getScore();
+    }
 
     public List<Position> getPath(final Position targetPosition) {
-        List<Position> path = directions.getPath(position, targetPosition);
-        if (canMoveInPalace() && position.isInPalace() && targetPosition.isInPalace()) {
-            List<Position> palacePath = directions.getPalacePath(position, targetPosition);
+        List<Position> path = rule.getPath(position, targetPosition);
+        if (rule.canMoveInPalace() && Palace.isInPalace(position) && Palace.isInPalace(targetPosition)) {
+            List<Position> palacePath = rule.getPalacePath(position, targetPosition);
             path.addAll(palacePath);
         }
         return path;
     }
 
-    public void validateInRangePosition(Position targetPosition) {
-        if (!isValidPosition(targetPosition)) {
+    public void validateMovablePosition(final Position targetPosition) {
+        if (!rule.isMovablePosition(targetPosition)) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없는 위치입니다.");
         }
     }
@@ -55,24 +54,27 @@ public abstract class Piece {
     }
 
     @Override
-    public boolean equals(final Object object) {
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
         Piece piece = (Piece) object;
-        return Objects.equals(directions, piece.directions) && Objects.equals(position, piece.position);
+        return Objects.equals(position, piece.position) && Objects.equals(rule, piece.rule);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(directions, position);
-    }
-
-    public Directions getDirections() {
-        return directions;
+        return Objects.hash(position, rule);
     }
 
     public Position getPosition() {
         return position;
+    }
+
+    public PieceType getType() {
+        return type;
     }
 }

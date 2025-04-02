@@ -1,12 +1,7 @@
 package domain.piece;
 
-import domain.direction.PieceDirections;
 import domain.game.SetUp;
-import domain.piece.category.Cannon;
-import domain.piece.category.Chariot;
-import domain.piece.category.General;
-import domain.piece.category.Guard;
-import domain.piece.category.Soldier;
+import domain.piece.category.PieceType;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.ArrayList;
@@ -39,54 +34,71 @@ public class PieceInitializer {
     private static List<Piece> createPieces(final Function<Position, Position> teamSide, final SetUp setUp,
                                             final Team team) {
         List<Piece> pieces = new ArrayList<>();
-        addGeneral(teamSide, pieces);
+        addGeneral(teamSide, pieces, team);
         addChariots(teamSide, pieces);
         addCannons(teamSide, pieces);
-        addGuards(teamSide, pieces);
+        addGuards(teamSide, pieces, team);
         addSoldiers(teamSide, pieces, team);
         addSetUpPieces(teamSide, pieces, setUp);
         return pieces;
     }
 
     private static void addSetUpPieces(final Function<Position, Position> teamSide, final List<Piece> pieces,
-                                       SetUp setUp) {
+                                       final SetUp setUp) {
         pieces.addAll(setUp.initializeHorseAndElephant(teamSide));
     }
 
-    private static void addGeneral(final Function<Position, Position> teamSide, final List<Piece> pieces) {
-        pieces.add(new General(teamSide.apply(HAN_GENERAL_POSITION), PieceDirections.GENERAL.get()));
+    private static void addGeneral(final Function<Position, Position> teamSide, final List<Piece> pieces,
+                                   final Team team) {
+        if (team == Team.HAN) {
+            pieces.add(new Piece(teamSide.apply(HAN_GENERAL_POSITION), PieceType.GENERAL, MovementRule.HAN_GENERAL));
+            return;
+        }
+        pieces.add(new Piece(teamSide.apply(HAN_GENERAL_POSITION), PieceType.GENERAL, MovementRule.CHO_GENERAL));
     }
 
     private static void addChariots(final Function<Position, Position> teamSide, final List<Piece> pieces) {
-        pieces.add(new Chariot(teamSide.apply(HAN_CHARIOT_POSITION), PieceDirections.CHARIOT.get()));
-        pieces.add(new Chariot(teamSide.apply(HAN_CHARIOT_POSITION.flipLeftRight()), PieceDirections.CHARIOT.get()));
+        pieces.add(new Piece(
+                teamSide.apply(HAN_CHARIOT_POSITION), PieceType.CHARIOT, MovementRule.CHARIOT));
+        pieces.add(new Piece(
+                teamSide.apply(HAN_CHARIOT_POSITION.flipLeftRight()), PieceType.CHARIOT, MovementRule.CHARIOT));
     }
 
     private static void addCannons(final Function<Position, Position> teamSide, final List<Piece> pieces) {
-        pieces.add(new Cannon(teamSide.apply(HAN_CANNON_POSITION), PieceDirections.CANNON.get()));
-        pieces.add(new Cannon(teamSide.apply(HAN_CANNON_POSITION.flipLeftRight()), PieceDirections.CANNON.get()));
+        pieces.add(new Piece(
+                teamSide.apply(HAN_CANNON_POSITION), PieceType.CANNON, MovementRule.CANNON));
+        pieces.add(new Piece(
+                teamSide.apply(HAN_CANNON_POSITION.flipLeftRight()), PieceType.CANNON, MovementRule.CANNON));
     }
 
-    private static void addGuards(final Function<Position, Position> teamSide, final List<Piece> pieces) {
-        pieces.add(new Guard(teamSide.apply(HAN_GUARD_POSITION), PieceDirections.GUARD.get()));
-        pieces.add(new Guard(teamSide.apply(HAN_GUARD_POSITION.flipLeftRight()), PieceDirections.GUARD.get()));
+    private static void addGuards(final Function<Position, Position> teamSide, final List<Piece> pieces,
+                                  final Team team) {
+        if (team == Team.HAN) {
+            pieces.add(new Piece(
+                    teamSide.apply(HAN_GUARD_POSITION), PieceType.GUARD, MovementRule.HAN_GUARD));
+            pieces.add(new Piece(
+                    teamSide.apply(HAN_GUARD_POSITION.flipLeftRight()), PieceType.GUARD, MovementRule.HAN_GUARD));
+            return;
+        }
+        pieces.add(new Piece(
+                teamSide.apply(HAN_GUARD_POSITION), PieceType.GUARD, MovementRule.CHO_GUARD));
+        pieces.add(new Piece(
+                teamSide.apply(HAN_GUARD_POSITION.flipLeftRight()), PieceType.GUARD, MovementRule.CHO_GUARD));
     }
 
     private static void addSoldiers(final Function<Position, Position> teamSide, final List<Piece> pieces,
                                     final Team team) {
         if (team == Team.HAN) {
-            createSoldiers(teamSide, pieces, PieceDirections.HAN_SOLDIER);
+            createSoldiers(teamSide, pieces, MovementRule.HAN_SOLDIER);
             return;
         }
-        createSoldiers(teamSide, pieces, PieceDirections.CHO_SOLDIER);
+        createSoldiers(teamSide, pieces, MovementRule.CHO_SOLDIER);
     }
 
     private static void createSoldiers(Function<Position, Position> teamSide, List<Piece> pieces,
-                                       PieceDirections directions) {
+                                       final MovementRule rule) {
         for (int step = 0; step < 10; step += 2) {
-            pieces.add(
-                    new Soldier(teamSide.apply(HAN_SOLDIER_POSITION.moveRow(step)),
-                            directions.get()));
+            pieces.add(new Piece(teamSide.apply(HAN_SOLDIER_POSITION.moveRow(step)), PieceType.SOLDIER, rule));
         }
     }
 }
