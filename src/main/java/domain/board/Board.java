@@ -51,7 +51,7 @@ public class Board {
 
     public Score calculateScoreByTeam(Team team) {
         return pieces.keySet().stream()
-                .filter(location -> pieces.get(location).getTeam() == team)
+                .filter(location -> pieces.get(location).isEqualTeam(team))
                 .map(location -> pieces.get(location).getScore())
                 .reduce(Score::plus)
                 .orElse(new Score(0));

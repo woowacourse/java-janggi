@@ -61,11 +61,11 @@ public abstract class Piece {
         return false;
     }
 
-    private boolean isNotEqualTeam(Team team) {
-        return this.team != team;
+    public boolean isEqualTeam(Team team) {
+        return this.team == team;
     }
 
-    private boolean isEqualTeam(Piece piece) {
-        return this.team == piece.team;
+    private boolean isNotEqualTeam(Team team) {
+        return this.team != team;
     }
 }
