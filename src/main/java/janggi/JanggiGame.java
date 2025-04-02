@@ -35,6 +35,7 @@ public class JanggiGame {
     }
 
     private JanggiBoard setUpGame() {
+        gameService.createInitialTablesIfNotExists();
         Map<Integer, String> games = gameService.findAllGames();
         JanggiBoard board;
         if (games.isEmpty()) {

@@ -1,5 +1,8 @@
 package janggi.dao;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,6 +25,25 @@ public class DatabaseManager {
             throw new IllegalStateException("[ERROR] 데이터베이스 연결에 문제가 발생했습니다.");
         }
         return connection;
+    }
+
+    public static void createInitialTable() {
+        StringBuilder createTableQueryBuilder = new StringBuilder();
+        try(BufferedReader reader = new BufferedReader(new FileReader("src/main/resources/janggi.sql"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                createTableQueryBuilder.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String[] createTableQueries = String.valueOf(createTableQueryBuilder).split(";");
+        for (String createTableQuery : createTableQueries) {
+            createTableQuery = createTableQuery.trim();
+            if (!createTableQuery.isEmpty()) {
+                executePreparedStatement(createTableQuery, PreparedStatement::executeUpdate);
+            }
+        }
     }
 
     @FunctionalInterface

@@ -1,5 +1,6 @@
 package janggi.service;
 
+import janggi.dao.DatabaseManager;
 import janggi.dao.GameDao;
 import janggi.domain.Turn;
 
@@ -12,6 +13,10 @@ public class GameService {
 
     public GameService() {
         this.gameDao = new GameDao();
+    }
+
+    public void createInitialTablesIfNotExists() {
+        DatabaseManager.createInitialTable();
     }
 
     public int makeNewGame() {
