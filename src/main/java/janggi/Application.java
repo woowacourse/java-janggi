@@ -3,7 +3,7 @@ package janggi;
 import janggi.board.Board;
 import janggi.board.BoardInitializer;
 import janggi.board.GameOverException;
-import janggi.board.position.StartAndGoalPosition;
+import janggi.view.StartAndGoalPosition;
 import janggi.board.position.Position;
 import janggi.dao.BoardPieceDao;
 import janggi.dao.GameDao;

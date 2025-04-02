@@ -3,7 +3,6 @@ package janggi.view;
 import janggi.Team;
 
 import janggi.board.position.Position;
-import janggi.board.position.StartAndGoalPosition;
 import java.util.Scanner;
 
 public class InputView {

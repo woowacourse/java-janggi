@@ -1,4 +1,6 @@
-package janggi.board.position;
+package janggi.view;
+
+import janggi.board.position.Position;
 
 public class StartAndGoalPosition {
     private final Position start;
