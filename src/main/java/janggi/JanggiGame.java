@@ -37,8 +37,8 @@ public class JanggiGame {
                 Position destination = inputView.askMovableDestination();
                 board.checkPieceCanMoveTo(destination, reachablePositions);
 
-                Piece catchedPiece = processMove(selectedPiecePosition, destination);
-                board.checkGameIsOver(catchedPiece);
+                processMove(selectedPiecePosition, destination);
+                board.checkGameIsOver();
 
                 saveBoard();
             } catch (IllegalArgumentException | IllegalStateException e) {

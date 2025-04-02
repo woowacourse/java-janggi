@@ -3,6 +3,7 @@ package janggi.board;
 import janggi.piece.Empty;
 import janggi.piece.Piece;
 import janggi.piece.Side;
+import janggi.piece.Symbol;
 import java.util.List;
 import java.util.Map;
 
@@ -56,12 +57,15 @@ public class JanggiBoard {
                 .sum();
     }
 
-    public void checkGameIsOver(final Piece catchedPiece) {
-        if (catchedPiece.isKing() && catchedPiece.isHan()) {
-            status = BoardStatus.CHO_WIN;
-        }
-        if (catchedPiece.isKing() && catchedPiece.isCho()) {
+    public void checkGameIsOver() {
+        Piece choKing = findPiece(Symbol.KING, Side.CHO);
+        Piece hanKing = findPiece(Symbol.KING, Side.HAN);
+
+        if (choKing == null) {
             status = BoardStatus.HAN_WIN;
+        }
+        if (hanKing == null) {
+            status = BoardStatus.CHO_WIN;
         }
     }
 
@@ -108,6 +112,13 @@ public class JanggiBoard {
 
     public Piece findPieceBy(final Position position) {
         return board.get(position);
+    }
+
+    private Piece findPiece(final Symbol symbol, final Side side) {
+        return board.values().stream()
+                .filter(piece -> piece.getSymbol() == symbol && piece.getSide() == side)
+                .findFirst()
+                .orElse(null);
     }
 
     private boolean isPositionEmpty(final Position position) {
