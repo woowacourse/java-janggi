@@ -15,7 +15,7 @@ public class BaseDao {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
@@ -23,7 +23,7 @@ public class BaseDao {
         }
     }
 
-    public static <T> List<T> executeQuery(String query,
+    public <T> List<T> executeQuery(String query,
                                            SqlConsumer<PreparedStatement> parameterBinder,
                                            SqlFunction<ResultSet, T> RowMapper) {
         List<T> result = new ArrayList<>();
@@ -40,7 +40,7 @@ public class BaseDao {
         });
     }
 
-    public static <T> T executeQuery(String query, SqlFunction<PreparedStatement, T> function) {
+    public <T> T executeQuery(String query, SqlFunction<PreparedStatement, T> function) {
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             return function.apply(preparedStatement);
@@ -50,7 +50,7 @@ public class BaseDao {
         }
     }
 
-    public static void executeUpdate(String query, SqlConsumer<PreparedStatement> consumer) {
+    public void executeUpdate(String query, SqlConsumer<PreparedStatement> consumer) {
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             consumer.accept(preparedStatement);

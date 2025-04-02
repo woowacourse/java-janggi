@@ -4,22 +4,22 @@ import game.Team;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class BoardDao {
+public class BoardDao extends BaseDao {
 
     public Team findCurrentTeam() {
         String query = "SELECT * FROM board WHERE board_id = 1";
-        return BaseDao.executeQuery(query, this::mapResultSetToTeam);
+        return executeQuery(query, this::mapResultSetToTeam);
     }
 
     public void resetCurrentTeam() {
         var query = "UPDATE board SET current_team_id = 1 WHERE board_id = 1";
-        BaseDao.executeUpdate(query, preparedStatement -> {
+        executeUpdate(query, preparedStatement -> {
         });
     }
 
     public void updateCurrentTeam(Team team) {
         var query = "UPDATE board SET current_team_id = ? WHERE board_id = 1";
-        BaseDao.executeUpdate(query, preparedStatement ->
+        executeUpdate(query, preparedStatement ->
                 preparedStatement.setInt(1, team.getId())
         );
     }

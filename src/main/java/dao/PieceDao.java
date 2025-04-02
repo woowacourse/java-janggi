@@ -9,11 +9,11 @@ import piece.Piece;
 import piece.PieceType;
 import piece.Pieces;
 
-public class PieceDao {
+public class PieceDao extends BaseDao {
 
     public void add(Piece piece) {
         var query = "INSERT INTO piece(piece_id, x, y, team_id, is_catch, piece_type_id) VALUES(?, ?, ?, ?, ?, ?)";
-        BaseDao.executeUpdate(query, preparedStatement -> {
+        executeUpdate(query, preparedStatement -> {
             preparedStatement.setInt(1, piece.getId());
             preparedStatement.setInt(2, piece.getCurrentPosition().x());
             preparedStatement.setInt(3, piece.getCurrentPosition().y());
@@ -25,7 +25,7 @@ public class PieceDao {
 
     public Pieces findByTeam(Team team) {
         String query = "SELECT * FROM piece WHERE team_id = ?";
-        List<Piece> pieces = BaseDao.executeQuery(query,
+        List<Piece> pieces = executeQuery(query,
                 preparedStatement -> preparedStatement.setInt(1, team.getId()),
                 this::mapResultSetToPiece
         );
@@ -34,7 +34,7 @@ public class PieceDao {
 
     public Pieces findCatchAllBy(Team team) {
         String query = "SELECT * FROM piece WHERE team_id = ? AND is_catch = true";
-        List<Piece> pieces = BaseDao.executeQuery(query,
+        List<Piece> pieces = executeQuery(query,
                 preparedStatement -> preparedStatement.setInt(1, team.getId()),
                 this::mapResultSetToPiece
         );
@@ -43,7 +43,7 @@ public class PieceDao {
 
     public Pieces findAll() {
         String query = "SELECT * FROM piece";
-        List<Piece> pieces = BaseDao.executeQuery(query,
+        List<Piece> pieces = executeQuery(query,
                 preparedStatement -> {
                 },
                 this::mapResultSetToPiece
@@ -53,7 +53,7 @@ public class PieceDao {
 
     public void update(Piece piece, Position destination) {
         var query = "UPDATE piece SET x = ?, y = ? WHERE piece_id = ?";
-        BaseDao.executeUpdate(query, preparedStatement -> {
+        executeUpdate(query, preparedStatement -> {
             preparedStatement.setInt(1, destination.x());
             preparedStatement.setInt(2, destination.y());
             preparedStatement.setInt(3, piece.getId());
@@ -62,7 +62,7 @@ public class PieceDao {
 
     public void deleteAllPieces() {
         var query = "TRUNCATE TABLE piece";
-        BaseDao.executeUpdate(query, preparedStatement -> {
+        executeUpdate(query, preparedStatement -> {
         });
     }
 
