@@ -34,7 +34,7 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalStateException("데이터 삽입에 실패했습니다.");
+            throw new IllegalStateException("데이터 삭제에 실패했습니다.");
         }
     }
 
@@ -53,7 +53,7 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
             }
             return positions;
         } catch (SQLException e) {
-            throw new IllegalStateException("데이터 삽입에 실패했습니다.");
+            throw new IllegalStateException("데이터 탐색에 실패했습니다.");
         }
     }
 }

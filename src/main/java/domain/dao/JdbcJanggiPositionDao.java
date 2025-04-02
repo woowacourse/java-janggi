@@ -1,9 +1,10 @@
 package domain.dao;
 
 import domain.position.JanggiPosition;
+import util.DatabaseConnector;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import util.DatabaseConnector;
 
 public class JdbcJanggiPositionDao implements JanggiPositionDao {
 
@@ -34,8 +35,7 @@ public class JdbcJanggiPositionDao implements JanggiPositionDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("position_id");
-            }
-            else {
+            } else {
                 addPosition(janggiPosition);
                 return findByPosition(janggiPosition);
             }
@@ -67,7 +67,7 @@ public class JdbcJanggiPositionDao implements JanggiPositionDao {
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new IllegalStateException("데이터 삽입에 실패했습니다.");
+            throw new IllegalStateException("데이터 삭제에 실패했습니다.");
         }
     }
 }
