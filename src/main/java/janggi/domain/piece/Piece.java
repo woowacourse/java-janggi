@@ -1,8 +1,8 @@
-package janggi.piece;
+package janggi.domain.piece;
 
-import janggi.board.Board;
+import janggi.domain.board.Board;
 import janggi.exception.ErrorException;
-import janggi.position.Movement;
+import janggi.domain.position.Movement;
 
 public abstract class Piece {
 

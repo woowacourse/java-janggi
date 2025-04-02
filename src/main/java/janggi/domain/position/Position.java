@@ -1,6 +1,6 @@
-package janggi.position;
+package janggi.domain.position;
 
-import janggi.board.Board;
+import janggi.domain.board.Board;
 import janggi.exception.ErrorException;
 import java.util.HashMap;
 import java.util.Map;

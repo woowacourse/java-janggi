@@ -1,10 +1,10 @@
 package janggi.controller;
 
-import janggi.board.Board;
+import janggi.domain.board.Board;
 import janggi.exception.ErrorException;
-import janggi.piece.Camp;
-import janggi.position.Movement;
-import janggi.position.Position;
+import janggi.domain.piece.Camp;
+import janggi.domain.position.Movement;
+import janggi.domain.position.Position;
 import janggi.service.BoardService;
 import janggi.view.Command;
 import janggi.view.InputView;

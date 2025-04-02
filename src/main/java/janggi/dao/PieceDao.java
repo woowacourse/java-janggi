@@ -1,8 +1,8 @@
 package janggi.dao;
 
 import janggi.exception.DataAccessException;
-import janggi.piece.Piece;
-import janggi.position.Position;
+import janggi.domain.piece.Piece;
+import janggi.domain.position.Position;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

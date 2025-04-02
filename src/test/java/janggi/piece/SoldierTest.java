@@ -3,10 +3,13 @@ package janggi.piece;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import janggi.BoardFactory;
-import janggi.board.Board;
+import janggi.domain.board.Board;
+import janggi.domain.piece.Camp;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
 import janggi.exception.ErrorException;
-import janggi.position.Movement;
-import janggi.position.Position;
+import janggi.domain.position.Movement;
+import janggi.domain.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

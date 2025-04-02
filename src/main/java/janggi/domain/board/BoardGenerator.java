@@ -1,6 +1,6 @@
-package janggi.board;
+package janggi.domain.board;
 
-import janggi.piece.Camp;
+import janggi.domain.piece.Camp;
 
 public interface BoardGenerator {
 

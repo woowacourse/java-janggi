@@ -1,12 +1,12 @@
-package janggi.board;
+package janggi.domain.board;
 
 import janggi.exception.ErrorException;
-import janggi.piece.Camp;
-import janggi.piece.Empty;
-import janggi.piece.Piece;
-import janggi.piece.Type;
-import janggi.position.Movement;
-import janggi.position.Position;
+import janggi.domain.piece.Camp;
+import janggi.domain.piece.Empty;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Type;
+import janggi.domain.position.Movement;
+import janggi.domain.position.Position;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;

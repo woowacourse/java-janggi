@@ -2,16 +2,16 @@ package janggi.service;
 
 import static janggi.controller.JanggiGameController.FIRST_TURN;
 
-import janggi.board.Board;
-import janggi.board.InitialBoardGenerator;
+import janggi.domain.board.Board;
+import janggi.domain.board.InitialBoardGenerator;
 import janggi.dao.BoardDao;
 import janggi.dao.BoardVO;
 import janggi.dao.PieceDao;
 import janggi.db.TransactionManager;
 import janggi.exception.DataAccessException;
-import janggi.piece.Piece;
-import janggi.position.Movement;
-import janggi.position.Position;
+import janggi.domain.piece.Piece;
+import janggi.domain.position.Movement;
+import janggi.domain.position.Position;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -43,7 +43,7 @@ public class BoardService {
 
     public Long getLastCreatedBoardId() {
         if (lastCreatedBoardId == null) {
-            throw new IllegalStateException("아직 생성된 board가 없습니다.");
+            throw new DataAccessException("아직 생성된 board가 없습니다.");
         }
         return lastCreatedBoardId;
     }

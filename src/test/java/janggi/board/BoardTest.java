@@ -5,12 +5,13 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import janggi.BoardFactory;
+import janggi.domain.board.Board;
 import janggi.exception.ErrorException;
-import janggi.piece.Camp;
-import janggi.piece.Piece;
-import janggi.piece.Soldier;
-import janggi.position.Movement;
-import janggi.position.Position;
+import janggi.domain.piece.Camp;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
+import janggi.domain.position.Movement;
+import janggi.domain.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,9 @@
 package janggi.dao;
 
-import janggi.piece.Camp;
-import janggi.piece.Piece;
-import janggi.piece.Type;
-import janggi.position.Position;
+import janggi.domain.piece.Camp;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Type;
+import janggi.domain.position.Position;
 
 public record PieceVO(Long id, Long boardId, String type, String camp, Integer x, Integer y) {
 

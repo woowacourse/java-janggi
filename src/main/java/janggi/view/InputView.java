@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.exception.ErrorException;
-import janggi.piece.Camp;
+import janggi.domain.piece.Camp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -1,7 +1,6 @@
 package janggi.db;
 
 import janggi.exception.DataAccessException;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Supplier;
@@ -32,7 +31,6 @@ public class TransactionManager {
         try {
             connection.rollback();
         } catch (SQLException e) {
-            // 로그로 대체 가능
             System.err.println("롤백 실패: " + e.getMessage());
         }
     }

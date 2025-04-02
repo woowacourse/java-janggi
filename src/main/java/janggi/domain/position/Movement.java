@@ -1,4 +1,4 @@
-package janggi.position;
+package janggi.domain.position;
 
 import janggi.exception.ErrorException;
 import java.util.HashSet;

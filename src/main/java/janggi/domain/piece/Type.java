@@ -1,4 +1,4 @@
-package janggi.piece;
+package janggi.domain.piece;
 
 import janggi.util.ColorConvertor;
 import java.util.function.Function;

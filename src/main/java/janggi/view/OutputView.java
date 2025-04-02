@@ -1,12 +1,12 @@
 package janggi.view;
 
-import static janggi.board.Board.MAX_COLUMN;
-import static janggi.board.Board.MAX_ROW;
+import static janggi.domain.board.Board.MAX_COLUMN;
+import static janggi.domain.board.Board.MAX_ROW;
 
-import janggi.piece.Camp;
-import janggi.piece.Piece;
-import janggi.piece.Type;
-import janggi.position.Position;
+import janggi.domain.piece.Camp;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Type;
+import janggi.domain.position.Position;
 import java.util.List;
 import java.util.Map;
 

@@ -1,13 +1,13 @@
 package janggi;
 
-import static janggi.board.Board.MAX_COLUMN;
-import static janggi.board.Board.MAX_ROW;
+import static janggi.domain.board.Board.MAX_COLUMN;
+import static janggi.domain.board.Board.MAX_ROW;
 
-import janggi.board.Board;
-import janggi.piece.Camp;
-import janggi.piece.Empty;
-import janggi.piece.Piece;
-import janggi.position.Position;
+import janggi.domain.board.Board;
+import janggi.domain.piece.Camp;
+import janggi.domain.piece.Empty;
+import janggi.domain.piece.Piece;
+import janggi.domain.position.Position;
 import java.util.HashMap;
 import java.util.Map;
 

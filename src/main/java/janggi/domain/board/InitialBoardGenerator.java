@@ -1,21 +1,21 @@
-package janggi.board;
+package janggi.domain.board;
 
-import static janggi.board.Board.MAX_COLUMN;
-import static janggi.board.Board.MAX_ROW;
-import static janggi.board.Board.MIN_COLUMN;
-import static janggi.board.Board.MIN_ROW;
+import static janggi.domain.board.Board.MAX_COLUMN;
+import static janggi.domain.board.Board.MAX_ROW;
+import static janggi.domain.board.Board.MIN_COLUMN;
+import static janggi.domain.board.Board.MIN_ROW;
 
-import janggi.piece.Camp;
-import janggi.piece.Cannon;
-import janggi.piece.Chariot;
-import janggi.piece.Elephant;
-import janggi.piece.Empty;
-import janggi.piece.General;
-import janggi.piece.Guard;
-import janggi.piece.Horse;
-import janggi.piece.Piece;
-import janggi.piece.Soldier;
-import janggi.position.Position;
+import janggi.domain.piece.Camp;
+import janggi.domain.piece.Cannon;
+import janggi.domain.piece.Chariot;
+import janggi.domain.piece.Elephant;
+import janggi.domain.piece.Empty;
+import janggi.domain.piece.General;
+import janggi.domain.piece.Guard;
+import janggi.domain.piece.Horse;
+import janggi.domain.piece.Piece;
+import janggi.domain.piece.Soldier;
+import janggi.domain.position.Position;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
