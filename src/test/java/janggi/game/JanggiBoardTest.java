@@ -152,7 +152,17 @@ public class JanggiBoardTest {
         janggiBoard.movePiece(new MovePieceCommand(1, CampType.CHO, new Position(3, 8), new Position(3, 1)));
         janggiBoard.movePiece(new MovePieceCommand(1, CampType.CHO, new Position(3, 1), new Position(4, 1)));
 
-        assertThat(janggiBoard.isGameEnd()).isTrue();
+        assertThat(janggiBoard.canContinueGame()).isFalse();
+    }
+
+    @Test
+    @DisplayName("궁이 아무도 잡히지 않아 게임이 게속 이어지는 것을 확인할 수 있다.")
+    void checkGameContinueBecauseAllGungAlive() {
+        JanggiBoard janggiBoard = new JanggiBoard(PieceAssignType.LEFT_SANG, PieceAssignType.LEFT_SANG);
+        janggiBoard.movePiece(new MovePieceCommand(1, CampType.CHO, new Position(0, 9), new Position(0, 8)));
+        janggiBoard.movePiece(new MovePieceCommand(1, CampType.CHO, new Position(0, 8), new Position(3, 8)));
+
+        assertThat(janggiBoard.canContinueGame()).isTrue();
     }
 
     @Test

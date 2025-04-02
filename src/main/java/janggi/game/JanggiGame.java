@@ -86,7 +86,7 @@ public class JanggiGame {
     private void playTurns(int gameId, JanggiBoard janggiBoard, CampType campTypeInLastTurn) {
         gameInputOutput.printJanggiBoardState(janggiBoard);
         CampType campTypeInTurn = campTypeInLastTurn;
-        while (janggiBoard.isGameEnd()) {
+        while (janggiBoard.canContinueGame()) {
             campTypeInTurn = campTypeInTurn.getEnemyCampType();
             TurnMenuAnswer turnMenuAnswer = gameInputOutput.readTurnMenuAnswer(campTypeInTurn);
             if (turnMenuAnswer == TurnMenuAnswer.MOVE_PIECE) {

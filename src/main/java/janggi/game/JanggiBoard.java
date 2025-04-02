@@ -30,9 +30,9 @@ public class JanggiBoard {
         enemyPieces.removeDyingPiece(command.getDestination());
     }
 
-    public boolean isGameEnd() {
+    public boolean canContinueGame() {
         Optional<CampType> winnerByKillingGung = checkWiningByKillingGung();
-        return winnerByKillingGung.isPresent();
+        return winnerByKillingGung.isEmpty();
     }
 
     public CampType whoWin() {
@@ -63,13 +63,15 @@ public class JanggiBoard {
     }
 
     private Optional<CampType> checkWiningByKillingGung() {
-        if (findPieces(CampType.CHO).checkEnemyGungKilling()) {
+        boolean choKillingGung = findPieces(CampType.CHO).checkEnemyGungKilling();
+        boolean hanKillingGung = findPieces(CampType.HAN).checkEnemyGungKilling();
+        if (!choKillingGung && !hanKillingGung) {
+            return Optional.empty();
+        }
+        if (choKillingGung) {
             return Optional.of(CampType.CHO);
         }
-        if (findPieces(CampType.HAN).checkEnemyGungKilling()) {
-            return Optional.of(CampType.HAN);
-        }
-        return Optional.empty();
+        return Optional.of(CampType.HAN);
     }
 
     private CampType checkWiningByScore() {
