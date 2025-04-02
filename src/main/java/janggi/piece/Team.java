@@ -1,5 +1,7 @@
 package janggi.piece;
 
+import java.util.Arrays;
+
 public enum Team {
 
     HAN("한나라(RED)") {
@@ -19,6 +21,13 @@ public enum Team {
 
     Team(final String description) {
         this.description = description;
+    }
+
+    public static Team from(final String value) {
+        return Arrays.stream(values())
+                .filter(team -> team.description.equals(value))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 일치하는 팀이 없습니다."));
     }
 
     public abstract Team changeTeam();

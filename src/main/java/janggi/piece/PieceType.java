@@ -1,5 +1,7 @@
 package janggi.piece;
 
+import java.util.Arrays;
+
 public enum PieceType {
 
     SOLDIER("병", new Score(2)),
@@ -18,6 +20,13 @@ public enum PieceType {
     PieceType(final String name, final Score score) {
         this.name = name;
         this.score = score;
+    }
+
+    public static PieceType from(final String value) {
+        return Arrays.stream(values())
+                .filter(type -> type.name.equals(value))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 일치하는 타입이 존재하지 않습니다."));
     }
 
     public static boolean isKing(final PieceType pieceType) {
