@@ -61,7 +61,7 @@ public class GameService {
                 ),
                 firstTurn
         );
-        gameRoomDao.insert(new GameRoomDto(gameRoomName, firstTurn));
+        gameRoomDao.insert(new GameRoomDto(null, gameRoomName, firstTurn));
         pieceDao.insertAll(BoardConverter.convertToPieceDtos(newGame.getPieceByPoint(), gameRoomName));
 
         executeDelayedQueries();

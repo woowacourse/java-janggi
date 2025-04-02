@@ -13,7 +13,10 @@ import queue.MessageQueue;
 public class GameRoomDao {
 
     public void insert(GameRoomDto gameRoom) {
-        String sql = "INSERT INTO game_room VALUES(?, ?)";
+        String sql = """
+                INSERT INTO game_room (name, turn)
+                VALUES(?, ?);
+                """;
         addToMessageQueue(sql, List.of(gameRoom.name(), gameRoom.turn().name()));
     }
 
@@ -47,6 +50,7 @@ public class GameRoomDao {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     GameRoomDto gameRoom = new GameRoomDto(
+                            null,
                             resultSet.getString("name"),
                             Team.valueOf(resultSet.getString("turn"))
                     );
