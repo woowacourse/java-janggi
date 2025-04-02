@@ -27,12 +27,10 @@ public enum JanggiPieceRoute {
 
     public Route getRoute(JanggiSide side, JanggiPosition origin, JanggiPosition destination) {
         List<Route> route = new ArrayList<>();
-        for (RouteSelector routeSelector : routeSelectors) {
-            Route findedRoute = routeSelector.getRoute(side, origin, destination);
-            if (!findedRoute.isEmpty()) {
-                route.add(findedRoute);
-            }
-        }
+        routeSelectors.stream()
+                .map(selector -> selector.getRoute(side, origin, destination))
+                .filter(selectedRoute -> !selectedRoute.isEmpty())
+                .forEach(route::add);
 
         if (route.isEmpty()) {
             throw new InvalidPathException();
