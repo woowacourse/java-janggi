@@ -29,7 +29,7 @@ public class GameService {
 
     public Game setNewGame(final BoardSetup redBoardSetup, final BoardSetup blueBoardSetup) {
         pieceRepository.deleteAll();
-        turnRepository.delete();
+        turnRepository.deleteCurrent();
         return generateNewGame(redBoardSetup, blueBoardSetup);
     }
 
@@ -42,8 +42,8 @@ public class GameService {
     }
 
     public Game loadGame() {
-        if (turnRepository.find().isPresent()) {
-            return new Game(new Pieces(pieceRepository.findAll()), turnRepository.find().get());
+        if (turnRepository.findCurrent().isPresent()) {
+            return new Game(new Pieces(pieceRepository.findAll()), turnRepository.findCurrent().get());
         }
         throw new IllegalArgumentException("턴 정보가 없습니다. 새로운 게임으로 진행해주세요.");
     }
@@ -61,11 +61,11 @@ public class GameService {
     }
 
     public void updateTurn(final Turn turn) {
-        turnRepository.update(turn);
+        turnRepository.change(turn);
     }
 
     public void deleteGame() {
         pieceRepository.deleteAll();
-        turnRepository.delete();
+        turnRepository.deleteCurrent();
     }
 }

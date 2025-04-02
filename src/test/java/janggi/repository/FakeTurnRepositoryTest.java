@@ -15,7 +15,7 @@ public class FakeTurnRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        turnRepository.delete();
+        turnRepository.deleteCurrent();
     }
 
     @DisplayName("턴을 추가한다.")
@@ -29,12 +29,12 @@ public class FakeTurnRepositoryTest {
         turnRepository.add(turn);
 
         // then
-        assertThat(turnRepository.find().get()).isEqualTo(turn);
+        assertThat(turnRepository.findCurrent().get()).isEqualTo(turn);
     }
 
     @DisplayName("턴을 수정한다.")
     @Test
-    void updateTurnTest() {
+    void changeTurnTest() {
 
         // given
         final Turn turn = new Turn(RED);
@@ -42,22 +42,22 @@ public class FakeTurnRepositoryTest {
 
         // when
         turn.changeTurn();
-        turnRepository.update(turn);
+        turnRepository.change(turn);
 
         // then
-        assertThat(turnRepository.find().get()).isEqualTo(turn);
+        assertThat(turnRepository.findCurrent().get()).isEqualTo(turn);
     }
 
     @DisplayName("턴을 찾는다.")
     @Test
-    void findTest() {
+    void findCurrentTest() {
 
         // given
         final Turn turn = new Turn(RED);
         turnRepository.add(turn);
 
         // when
-        final Optional<Turn> findTurn = turnRepository.find();
+        final Optional<Turn> findTurn = turnRepository.findCurrent();
 
         // then
         assertThat(turn).isEqualTo(findTurn.get());
@@ -65,16 +65,16 @@ public class FakeTurnRepositoryTest {
 
     @DisplayName("턴을 삭제한다.")
     @Test
-    void deleteTest() {
+    void deleteCurrentTest() {
 
         // given
         final Turn turn = new Turn(RED);
         turnRepository.add(turn);
 
         // when
-        turnRepository.delete();
+        turnRepository.deleteCurrent();
 
         // then
-        assertThat(turnRepository.find()).isEmpty();
+        assertThat(turnRepository.findCurrent()).isEmpty();
     }
 }

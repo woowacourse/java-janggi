@@ -19,18 +19,18 @@ public class DefaultTurnRepository implements TurnRepository {
     }
 
     @Override
-    public Optional<Turn> find() {
+    public Optional<Turn> findCurrent() {
         return turnDao.find()
                 .map(turnEntity -> new Turn(Team.valueOf(turnEntity.getTeam())));
     }
 
     @Override
-    public void update(final Turn turn) {
+    public void change(final Turn turn) {
         turnDao.update(turn.getTurn().name());
     }
 
     @Override
-    public void delete() {
+    public void deleteCurrent() {
         turnDao.delete();
     }
 }

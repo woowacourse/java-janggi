@@ -6,9 +6,9 @@ import java.util.Optional;
 public interface TurnRepository {
     Long add(Turn turn);
 
-    Optional<Turn> find();
+    Optional<Turn> findCurrent();
 
-    void update(Turn turn);
+    void change(Turn turn);
 
-    void delete();
+    void deleteCurrent();
 }

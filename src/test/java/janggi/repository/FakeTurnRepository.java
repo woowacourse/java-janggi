@@ -17,7 +17,7 @@ public class FakeTurnRepository implements TurnRepository {
     }
 
     @Override
-    public Optional<Turn> find() {
+    public Optional<Turn> findCurrent() {
         if (turnEntity == null) {
             return Optional.empty();
         }
@@ -25,12 +25,12 @@ public class FakeTurnRepository implements TurnRepository {
     }
 
     @Override
-    public void update(final Turn turn) {
+    public void change(final Turn turn) {
         turnEntity = new TurnEntity(turnEntity.getId(), turn.getTurn().name());
     }
 
     @Override
-    public void delete() {
+    public void deleteCurrent() {
         turnEntity = null;
     }
 }
