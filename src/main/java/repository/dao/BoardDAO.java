@@ -124,7 +124,7 @@ public class BoardDAO {
         }
     }
 
-    public void deleteAll() {
+    public void resetPieces() {
         String query = "DELETE FROM PIECE";
 
         try (Connection connection = new MysqlConnectionManager().getConnection();

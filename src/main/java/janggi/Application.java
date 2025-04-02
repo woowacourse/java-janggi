@@ -68,7 +68,7 @@ public class Application {
     private static void endGame(Board board, Team team) {
         outputView.printBoard(board);
         outputView.printGameOver(team);
-        BOARD_DAO.deleteAll();
+        BOARD_DAO.resetPieces();
         ATTACK_TURN_DAO.resetTurn();
     }
 }
