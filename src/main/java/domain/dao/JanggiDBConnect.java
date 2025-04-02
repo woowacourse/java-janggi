@@ -7,14 +7,13 @@ import java.sql.SQLException;
 public class JanggiDBConnect {
     private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String OPTION = "?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
     private static Connection connect = null;
 
     private JanggiDBConnect() {
-
     }
 
     public static Connection getConnection() {
