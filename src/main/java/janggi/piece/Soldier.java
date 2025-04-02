@@ -1,7 +1,9 @@
 package janggi.piece;
 
 import janggi.dto.BoardPieceDto;
+import janggi.movement.LimitedRoute;
 import janggi.movement.Movement;
+import janggi.movement.Route;
 import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -15,8 +17,8 @@ public class Soldier implements Piece {
     private final Position position;
     private final boolean isLive;
     private final PieceType pieceType;
-    private final List<List<Movement>> movements;
-    private final List<List<Movement>> palaceMovements;
+    private final List<Route> movements;
+    private final List<Route> palaceMovements;
 
     public Soldier(Team team, Position position) {
         this.team = team;
@@ -45,43 +47,43 @@ public class Soldier implements Piece {
         this.palaceMovements = choicePalaceMovementsByTeam(team);
     }
 
-    private List<List<Movement>> choiceMovementsByTeam(Team team) {
+    private List<Route> choiceMovementsByTeam(Team team) {
         if (team == Team.CHO) {
             return List.of(
-                    List.of(Movement.UP),
-                    List.of(Movement.RIGHT),
-                    List.of(Movement.LEFT)
+                    new LimitedRoute(List.of(Movement.UP)),
+                    new LimitedRoute(List.of(Movement.RIGHT)),
+                    new LimitedRoute(List.of(Movement.LEFT))
             );
         }
         return List.of(
-                List.of(Movement.DOWN),
-                List.of(Movement.RIGHT),
-                List.of(Movement.LEFT)
+                new LimitedRoute(List.of(Movement.DOWN)),
+                new LimitedRoute(List.of(Movement.RIGHT)),
+                new LimitedRoute(List.of(Movement.LEFT))
         );
     }
 
-    private List<List<Movement>> choicePalaceMovementsByTeam(Team team) {
+    private List<Route> choicePalaceMovementsByTeam(Team team) {
         if (team == Team.CHO) {
             return List.of(
-                    List.of(Movement.RIGHT_UP),
-                    List.of(Movement.LEFT_UP)
+                    new LimitedRoute(List.of(Movement.RIGHT_UP)),
+                    new LimitedRoute(List.of(Movement.LEFT_UP))
             );
         }
         return List.of(
-                List.of(Movement.RIGHT_DOWN),
-                List.of(Movement.LEFT_DOWN)
+                new LimitedRoute(List.of(Movement.RIGHT_DOWN)),
+                new LimitedRoute(List.of(Movement.LEFT_DOWN))
         );
     }
 
     @Override
     public Piece move(Position arrivedPosition) {
-        List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        return new Soldier(team, step(availableMovement), isLive);
+        Route availableRoute = findAvailableMovementByArrivedPosition(arrivedPosition);
+        return new Soldier(team, availableRoute.step(position, arrivedPosition), isLive);
     }
 
-    private List<List<Movement>> generateMovements() {
+    private List<Route> generateMovements() {
         if (PalacePosition.isContains(position)) {
-            List<List<Movement>> totalMovements = new ArrayList<>();
+            List<Route> totalMovements = new ArrayList<>();
             totalMovements.addAll(movements);
             totalMovements.addAll(palaceMovements);
             return totalMovements;
@@ -89,12 +91,12 @@ public class Soldier implements Piece {
         return movements;
     }
 
-    public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        List<List<Movement>> totalMovements = generateMovements();
+    public Route findAvailableMovementByArrivedPosition(Position arrivedPosition) {
+        List<Route> totalMovements = generateMovements();
         return totalMovements.stream()
-                .filter(movement ->
+                .filter(route ->
                 {
-                    Position step = step(movement);
+                    Position step = route.step(position, arrivedPosition);
                     if (step.isOutOfPalace() && position.isCrossFromPosition(arrivedPosition)) {
                         return false;
                     }
@@ -105,16 +107,8 @@ public class Soldier implements Piece {
     }
 
     @Override
-    public List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
+    public List<Position> extractPathPositions(Route availableRoute, Position arrivedPosition) {
         return List.of();
-    }
-
-    private Position step(List<Movement> movements) {
-        Position reachablePosition = position;
-        for (Movement movement : movements) {
-            reachablePosition = movement.move(reachablePosition);
-        }
-        return reachablePosition;
     }
 
     @Override

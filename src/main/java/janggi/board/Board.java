@@ -2,6 +2,7 @@ package janggi.board;
 
 import janggi.dao.BoardDao;
 import janggi.movement.Movement;
+import janggi.movement.Route;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 
@@ -57,8 +58,8 @@ public class Board {
     }
 
     private void validateObstacle(Piece attackerPiece, Position arrivedPosition) {
-        List<Movement> availableMovement = attackerPiece.findAvailableMovementByArrivedPosition(arrivedPosition);
-        List<Position> pathPositions = attackerPiece.extractPathPositions(availableMovement, arrivedPosition);
+        Route availableRoute = attackerPiece.findAvailableMovementByArrivedPosition(arrivedPosition);
+        List<Position> pathPositions = attackerPiece.extractPathPositions(availableRoute, arrivedPosition);
         if (isExistObstacleOfPath(attackerPiece, pathPositions, locatedPieces)) {
             throw new IllegalArgumentException("이동할 수 없는 경로입니다");
         };
@@ -79,15 +80,9 @@ public class Board {
             }
             Piece obstacle = obstacles.getFirst();
 
-            if (obstacle.canNotJumpingOver()) {
-                return true;
-            }
-            return false;
+            return obstacle.canNotJumpingOver();
         }
-        if (obstacles.size() >= 1) {
-            return true;
-        }
-        return false;
+        return !obstacles.isEmpty();
     }
 
     private Piece findByPosition(Position startPosition) {

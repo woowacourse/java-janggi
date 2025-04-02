@@ -2,6 +2,8 @@ package janggi.piece;
 
 import janggi.dto.BoardPieceDto;
 import janggi.movement.Movement;
+import janggi.movement.Route;
+import janggi.movement.UnLimitedRoute;
 import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -12,18 +14,18 @@ import java.util.List;
 import java.util.Objects;
 
 public class Cannon implements Piece {
-    private static final List<List<Movement>> MOVEMENTS = List.of(
-            Collections.nCopies(10, Movement.UP),
-            Collections.nCopies(10, Movement.DOWN),
-            Collections.nCopies(10, Movement.RIGHT),
-            Collections.nCopies(10, Movement.LEFT)
+    private static final List<Route> MOVEMENTS = List.of(
+            new UnLimitedRoute(Collections.nCopies(10, Movement.UP)),
+            new UnLimitedRoute(Collections.nCopies(10, Movement.DOWN)),
+            new UnLimitedRoute(Collections.nCopies(10, Movement.RIGHT)),
+            new UnLimitedRoute(Collections.nCopies(10, Movement.LEFT))
     );
 
-    private static final List<List<Movement>> PALACE_MOVEMENTS = List.of(
-            Collections.nCopies(2, Movement.RIGHT_UP),
-            Collections.nCopies(2, Movement.RIGHT_DOWN),
-            Collections.nCopies(2, Movement.LEFT_UP),
-            Collections.nCopies(2, Movement.LEFT_DOWN)
+    private static final List<Route> PALACE_MOVEMENTS = List.of(
+            new UnLimitedRoute(Collections.nCopies(2, Movement.RIGHT_UP)),
+            new UnLimitedRoute(Collections.nCopies(2, Movement.RIGHT_DOWN)),
+            new UnLimitedRoute(Collections.nCopies(2, Movement.LEFT_UP)),
+            new UnLimitedRoute(Collections.nCopies(2, Movement.LEFT_DOWN))
     );
 
     private final Team team;
@@ -54,13 +56,13 @@ public class Cannon implements Piece {
 
     @Override
     public Piece move(Position arrivedPosition) {
-        List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        return new Cannon(team, step(availableMovement, arrivedPosition), isLive);
+        Route availableRoute = findAvailableMovementByArrivedPosition(arrivedPosition);
+        return new Cannon(team, availableRoute.step(position, arrivedPosition), isLive);
     }
 
-    private List<List<Movement>> generateMovements() {
+    private List<Route> generateMovements() {
         if (PalacePosition.isContains(position) && !PalacePosition.CENTER_POSITION.contains(position)) {
-            List<List<Movement>> totalMovements = new ArrayList<>();
+            List<Route> totalMovements = new ArrayList<>();
             totalMovements.addAll(MOVEMENTS);
             totalMovements.addAll(PALACE_MOVEMENTS);
             return totalMovements;
@@ -68,11 +70,11 @@ public class Cannon implements Piece {
         return MOVEMENTS;
     }
 
-    public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        List<List<Movement>> totalMovements = generateMovements();
-        return totalMovements.stream()
-                .filter(movement -> {
-                    Position step = step(movement, arrivedPosition);
+    public Route findAvailableMovementByArrivedPosition(Position arrivedPosition) {
+        List<Route> totalRoutes = generateMovements();
+        return totalRoutes.stream()
+                .filter(route -> {
+                    Position step = route.step(position, arrivedPosition);
                     if (step.isOutOfPalace() && position.isCrossFromPosition(arrivedPosition)) {
                         return false;
                     }
@@ -82,55 +84,9 @@ public class Cannon implements Piece {
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }
 
-    public List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
-        List<Position> pathPositions = new ArrayList<>();
-        int arrivedValue = 0;
-        if (position.isHorizontalFromPosition(arrivedPosition)) {
-            arrivedValue = position.calculateColumnDistance(arrivedPosition);
-        }
-        if (position.isVerticalFromPosition(arrivedPosition)) {
-            arrivedValue = position.calculateRowDistance(arrivedPosition);
-        }
-        if (position.isCrossFromPosition(arrivedPosition)) {
-            arrivedValue = position.calculateRowDistance(arrivedPosition);
-        }
-        for (int i = 0; i < arrivedValue; i++) {
-            Position pathPosition = position;
-            for (int j = 0; j <= i; j++) {
-                Movement movement = availableMovements.get(j);
-                pathPosition = movement.move(pathPosition);
-            }
-            pathPositions.add(pathPosition);
-        }
-        return pathPositions.stream()
-                .filter(position -> !position.equals(arrivedPosition))
-                .toList();
-    }
-
-    private Position step(List<Movement> movements, Position arrivedPosition) {
-        Position reachablePosition = position;
-        if (position.isHorizontalFromPosition(arrivedPosition)) {
-            for (Movement movement : movements) {
-                reachablePosition = movement.move(reachablePosition);
-                if (reachablePosition.isSameColumn(arrivedPosition)) {
-                    return reachablePosition;
-                }
-            }
-        }
-
-        if (position.isVerticalFromPosition(arrivedPosition)) {
-            for (Movement movement : movements) {
-                reachablePosition = movement.move(reachablePosition);
-                if (reachablePosition.isSameRow(arrivedPosition)) {
-                    return reachablePosition;
-                }
-            }
-        }
-
-        for (Movement movement : movements) {
-            reachablePosition = movement.move(reachablePosition);
-        }
-        return reachablePosition;
+    @Override
+    public List<Position> extractPathPositions(Route availableRoute, Position arrivedPosition) {
+        return availableRoute.extractPathPositions(position, arrivedPosition);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package janggi.piece;
 
 import janggi.movement.Movement;
+import janggi.movement.Route;
 import janggi.position.Position;
 import janggi.team.Team;
 
@@ -9,9 +10,9 @@ import java.util.List;
 public interface Piece {
     Piece move(Position arrivedPosition);
 
-    List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition);
+    Route findAvailableMovementByArrivedPosition(Position arrivedPosition);
 
-    List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition);
+    List<Position> extractPathPositions(Route availableMovements, Position arrivedPosition);
 
     boolean isSameTeam(Team team);
 

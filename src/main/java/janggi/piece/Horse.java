@@ -1,7 +1,9 @@
 package janggi.piece;
 
 import janggi.dto.BoardPieceDto;
+import janggi.movement.LimitedRoute;
 import janggi.movement.Movement;
+import janggi.movement.Route;
 import janggi.position.Position;
 import janggi.team.Team;
 
@@ -10,15 +12,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class Horse implements Piece {
-    private static final List<List<Movement>> MOVEMENTS = List.of(
-            List.of(Movement.UP, Movement.RIGHT_UP),
-            List.of(Movement.UP, Movement.LEFT_UP),
-            List.of(Movement.LEFT, Movement.LEFT_UP),
-            List.of(Movement.LEFT, Movement.LEFT_DOWN),
-            List.of(Movement.RIGHT, Movement.RIGHT_UP),
-            List.of(Movement.RIGHT, Movement.RIGHT_DOWN),
-            List.of(Movement.DOWN, Movement.RIGHT_DOWN),
-            List.of(Movement.DOWN, Movement.LEFT_DOWN)
+    private static final List<Route> MOVEMENTS = List.of(
+            new LimitedRoute(List.of(Movement.UP, Movement.RIGHT_UP)),
+            new LimitedRoute(List.of(Movement.UP, Movement.LEFT_UP)),
+            new LimitedRoute(List.of(Movement.LEFT, Movement.LEFT_UP)),
+            new LimitedRoute(List.of(Movement.LEFT, Movement.LEFT_DOWN)),
+            new LimitedRoute(List.of(Movement.RIGHT, Movement.RIGHT_UP)),
+            new LimitedRoute(List.of(Movement.RIGHT, Movement.RIGHT_DOWN)),
+            new LimitedRoute(List.of(Movement.DOWN, Movement.RIGHT_DOWN)),
+            new LimitedRoute(List.of(Movement.DOWN, Movement.LEFT_DOWN))
     );
 
     private final Team team;
@@ -49,38 +51,19 @@ public class Horse implements Piece {
 
     @Override
     public Piece move(Position arrivedPosition) {
-        List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        return new Horse(team, step(availableMovement), isLive);
+        Route availableRoute = findAvailableMovementByArrivedPosition(arrivedPosition);
+        return new Horse(team, availableRoute.step(position,arrivedPosition), isLive);
     }
 
-    public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
+    public Route findAvailableMovementByArrivedPosition(Position arrivedPosition) {
         return MOVEMENTS.stream()
-                .filter(movements -> !arrivedPosition.isOutOfBoards() && step(movements).equals(arrivedPosition))
+                .filter(route -> !arrivedPosition.isOutOfBoards() && route.step(position, arrivedPosition).equals(arrivedPosition))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }
 
-    public List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
-        List<Position> pathPositions = new ArrayList<>();
-        for (int i = 0; i < availableMovements.size(); i++) {
-            Position pathPosition = position;
-            for (int j = 0; j <= i; j++) {
-                Movement movement = availableMovements.get(j);
-                pathPosition = movement.move(pathPosition);
-            }
-            pathPositions.add(pathPosition);
-        }
-        return pathPositions.stream()
-                .filter(position -> !position.equals(arrivedPosition))
-                .toList();
-    }
-
-    private Position step(List<Movement> movements) {
-        Position arrivedPosition = position;
-        for (Movement movement : movements) {
-            arrivedPosition = movement.move(arrivedPosition);
-        }
-        return arrivedPosition;
+    public List<Position> extractPathPositions(Route availableRoute, Position arrivedPosition) {
+        return availableRoute.extractPathPositions(position, arrivedPosition);
     }
 
     @Override

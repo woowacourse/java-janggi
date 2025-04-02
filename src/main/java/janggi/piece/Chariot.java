@@ -2,6 +2,8 @@ package janggi.piece;
 
 import janggi.dto.BoardPieceDto;
 import janggi.movement.Movement;
+import janggi.movement.Route;
+import janggi.movement.UnLimitedRoute;
 import janggi.position.PalacePosition;
 import janggi.position.Position;
 import janggi.team.Team;
@@ -14,18 +16,22 @@ import java.util.Objects;
 public class Chariot implements Piece {
     private static final int POSSIBLE_MOVEMENT_COUNT = 10;
 
-    private static final List<List<Movement>> MOVEMENTS = List.of(
-            Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.UP),
-            Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.DOWN),
-            Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.RIGHT),
-            Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.LEFT)
+    private static final List<Route> MOVEMENTS = List.of(
+            new UnLimitedRoute(Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.UP)),
+            new UnLimitedRoute(Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.DOWN)),
+            new UnLimitedRoute(Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.RIGHT)),
+            new UnLimitedRoute(Collections.nCopies(POSSIBLE_MOVEMENT_COUNT, Movement.LEFT))
     );
 
-    private static final List<List<Movement>> PALACE_MOVEMENTS = List.of(
-            List.of(Movement.RIGHT_UP),
-            List.of(Movement.RIGHT_DOWN),
-            List.of(Movement.LEFT_UP),
-            List.of(Movement.LEFT_DOWN)
+    private static final List<Route> PALACE_MOVEMENTS = List.of(
+            new UnLimitedRoute(Collections.nCopies(2, Movement.RIGHT_UP)),
+            new UnLimitedRoute(Collections.nCopies(2, Movement.RIGHT_DOWN)),
+            new UnLimitedRoute(Collections.nCopies(2, Movement.LEFT_UP)),
+            new UnLimitedRoute(Collections.nCopies(2, Movement.LEFT_DOWN)),
+            new UnLimitedRoute(List.of(Movement.RIGHT_UP)),
+            new UnLimitedRoute(List.of(Movement.RIGHT_DOWN)),
+            new UnLimitedRoute(List.of(Movement.LEFT_UP)),
+            new UnLimitedRoute(List.of(Movement.LEFT_DOWN))
     );
 
     private final Team team;
@@ -56,12 +62,12 @@ public class Chariot implements Piece {
 
     @Override
     public Piece move(Position arrivedPosition) {
-        List<Movement> availableMovement = findAvailableMovementByArrivedPosition(arrivedPosition);
-        return new Chariot(team, step(availableMovement, arrivedPosition), isLive);
+        Route availableRoute = findAvailableMovementByArrivedPosition(arrivedPosition);
+        return new Chariot(team, availableRoute.step(position, arrivedPosition), isLive);
     }
 
-    private List<List<Movement>> generateMovements() {
-        List<List<Movement>> totalMovements = new ArrayList<>();
+    private List<Route> generateMovements() {
+        List<Route> totalMovements = new ArrayList<>();
         if (PalacePosition.isContains(position)) {
             totalMovements.addAll(MOVEMENTS);
             totalMovements.addAll(PALACE_MOVEMENTS);
@@ -70,11 +76,11 @@ public class Chariot implements Piece {
         return MOVEMENTS;
     }
 
-    public List<Movement> findAvailableMovementByArrivedPosition(Position arrivedPosition) {
-        List<List<Movement>> totalMovements = generateMovements();
+    public Route findAvailableMovementByArrivedPosition(Position arrivedPosition) {
+        List<Route> totalMovements = generateMovements();
         return totalMovements.stream()
-                .filter(movement -> {
-                    Position step = step(movement, arrivedPosition);
+                .filter(route -> {
+                    Position step = route.step(position, arrivedPosition);
                     if (step.isOutOfPalace() && position.isCrossFromPosition(arrivedPosition)) {
                         return false;
                     }
@@ -85,62 +91,8 @@ public class Chariot implements Piece {
                 .orElseThrow(() -> new IllegalArgumentException("도착 위치로 이동할 수 없습니다"));
     }
 
-    public List<Position> extractPathPositions(List<Movement> availableMovements, Position arrivedPosition) {
-        List<Position> pathPositions = new ArrayList<>();
-        int arrivedValue = 0;
-        if (position.isHorizontalFromPosition(arrivedPosition)) {
-            arrivedValue = Math.abs(position.calculateColumnDistance(arrivedPosition));
-        }
-        if (position.isVerticalFromPosition(arrivedPosition)) {
-            arrivedValue = Math.abs(position.calculateRowDistance(arrivedPosition));
-        }
-        for (int i = 0; i < arrivedValue; i++) {
-            Position pathPosition = position;
-            for (int j = 0; j <= i; j++) {
-                Movement movement = availableMovements.get(j);
-                pathPosition = movement.move(pathPosition);
-            }
-            pathPositions.add(pathPosition);
-        }
-        return pathPositions.stream()
-                .filter(position -> !position.equals(arrivedPosition))
-                .toList();
-    }
-
-    private Position step(List<Movement> movements, Position arrivedPosition) {
-        Position reachablePosition = position;
-
-        if (position.isHorizontalFromPosition(arrivedPosition)) {
-            for (Movement movement : movements) {
-                reachablePosition = movement.move(reachablePosition);
-                if (reachablePosition.isSameColumn(arrivedPosition)) {
-                    return reachablePosition;
-                }
-            }
-        }
-
-        if (position.isVerticalFromPosition(arrivedPosition)) {
-            for (Movement movement : movements) {
-                reachablePosition = movement.move(reachablePosition);
-                if (reachablePosition.isSameRow(arrivedPosition)) {
-                    return reachablePosition;
-                }
-            }
-        }
-
-        if (position.isCrossFromPosition(arrivedPosition)) {
-            for (Movement movement : movements) {
-                reachablePosition = movement.move(reachablePosition);
-                if (reachablePosition.isSameRow(arrivedPosition)) {
-                    return reachablePosition;
-                }
-            }
-        }
-
-        for (Movement movement : movements) {
-            reachablePosition = movement.move(reachablePosition);
-        }
-        return reachablePosition;
+    public List<Position> extractPathPositions(Route availableRoute, Position arrivedPosition) {
+        return availableRoute.extractPathPositions(position,arrivedPosition);
     }
 
     @Override
