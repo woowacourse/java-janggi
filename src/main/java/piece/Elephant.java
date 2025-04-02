@@ -32,14 +32,24 @@ public class Elephant extends Piece {
 
     private Position currentPosition;
 
-    public Elephant(int pieceId, Team team, Position currentPosition) {
-        super(pieceId, team, PieceType.ELEPHANT);
+    public Elephant(int id, Team team, Position currentPosition) {
+        super(id, team);
         this.currentPosition = currentPosition;
     }
 
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.ELEPHANT;
+    }
+
+    @Override
+    public int getScore() {
+        return 3;
     }
 
     @Override

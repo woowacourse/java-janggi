@@ -1,18 +1,18 @@
 package game;
 
-import java.util.Arrays;
+import java.util.EnumSet;
 import piece.Pieces;
 
 public enum Team {
-    RED(1, 73.5),
-    GREEN(2, 72),
-    NONE(3, 0);
+    RED("red", 73.5),
+    GREEN("green", 72),
+    NONE("none", 0);
 
-    private final int id;
+    private final String expression;
     private final double initialScore;
 
-    Team(int id, double initialScore) {
-        this.id = id;
+    Team(String expression, double initialScore) {
+        this.expression = expression;
         this.initialScore = initialScore;
     }
 
@@ -26,19 +26,19 @@ public enum Team {
         throw new IllegalStateException("[ERROR] 유효하지 않은 팀입니다.");
     }
 
-    public static Team findById(int id) {
-        return Arrays.stream(Team.values())
-                .filter(team -> team.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("[ERROR] id에 해당하는 팀이 없습니다."));
+    public static Team findByExpression(String expression) {
+        return EnumSet.allOf(Team.class).stream()
+                .filter(team -> team.getExpression().equals(expression))
+                .findAny()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 해당하는 팀이 없습니다."));
     }
 
-    public static double calculateFinalScore(Team team, Pieces catchPieces) {
-        return team.initialScore - catchPieces.calculateTotalScore();
+    public double calculateFinalScore(Pieces catchPieces) {
+        return initialScore - catchPieces.calculateTotalScore();
     }
 
-    public int getId() {
-        return id;
+    public String getExpression() {
+        return expression;
     }
 
     public boolean isNotDecided() {

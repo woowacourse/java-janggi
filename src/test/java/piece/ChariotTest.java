@@ -5,18 +5,22 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import game.Team;
 import java.util.List;
+import location.PathManager;
+import location.PathManagerImpl;
 import location.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class ChariotTest {
+    PathManager pathManager = new PathManagerImpl();
+
     @Test
     @DisplayName("수평 방향으로 이동할 수 있다.")
     void test1() {
         //given
         Position from = new Position(2, 3);
         Position to = new Position(3, 3);
-        Chariot chariot = new Chariot(1, Team.GREEN, from);
+        Chariot chariot = new Chariot(1, Team.GREEN, pathManager, from);
 
         //when
 
@@ -31,7 +35,7 @@ public class ChariotTest {
         //given
         Position from = new Position(2, 3);
         Position to = new Position(2, 10);
-        Chariot chariot = new Chariot(1, Team.GREEN, from);
+        Chariot chariot = new Chariot(1, Team.GREEN, pathManager, from);
 
         //when
 
@@ -46,7 +50,7 @@ public class ChariotTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(3, 3);
-        Chariot chariot = new Chariot(1, Team.GREEN, from);
+        Chariot chariot = new Chariot(1, Team.GREEN, pathManager, from);
 
         //when
         //then
@@ -60,10 +64,10 @@ public class ChariotTest {
         //given
         Position from = new Position(2, 2);
         Position to = new Position(2, 8);
-        Chariot chariot = new Chariot(1, Team.GREEN, from);
+        Chariot chariot = new Chariot(1, Team.GREEN, pathManager, from);
         Pieces pieces = new Pieces(List.of(
                 chariot,
-                new Guard(2, Team.GREEN, new Position(2, 4))));
+                new Guard(2, Team.GREEN, pathManager, new Position(2, 4))));
 
         //when
         //then
@@ -77,7 +81,7 @@ public class ChariotTest {
         //given
         Position from = new Position(4, 1);
         Position to = new Position(6, 3);
-        Chariot chariot = new Chariot(1, Team.GREEN, from);
+        Chariot chariot = new Chariot(1, Team.GREEN, pathManager, from);
 
         //when
 
@@ -92,10 +96,10 @@ public class ChariotTest {
         //given
         Position from = new Position(4, 1);
         Position to = new Position(6, 3);
-        Chariot chariot = new Chariot(1, Team.GREEN, from);
+        Chariot chariot = new Chariot(1, Team.GREEN, pathManager, from);
         Pieces pieces = new Pieces(List.of(
                 chariot,
-                new Guard(2, Team.GREEN, new Position(5, 2))));
+                new Guard(1, Team.GREEN, pathManager, new Position(5, 2))));
 
         //when
         //then

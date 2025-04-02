@@ -22,10 +22,10 @@ public class JanggiGame {
     private final PieceDao pieceDao;
     private final BoardInitializer boardInitializer;
 
-    public JanggiGame(BoardDao boardDao, PieceDao pieceDao) {
+    public JanggiGame(BoardDao boardDao, PieceDao pieceDao, BoardInitializer boardInitializer) {
         this.boardDao = boardDao;
         this.pieceDao = pieceDao;
-        this.boardInitializer = new BoardInitializer(pieceDao);
+        this.boardInitializer = boardInitializer;
     }
 
     public void showInitialBoard() {
@@ -35,32 +35,25 @@ public class JanggiGame {
     public void run() {
         Team winTeam = play();
 
-        Pieces catchPiecesByGreen = pieceDao.findCatchAllBy(Team.GREEN);
-        Pieces catchPiecesByRed = pieceDao.findCatchAllBy(Team.RED);
-        double greenPlayerTotalScore = Team.calculateFinalScore(Team.GREEN, catchPiecesByGreen);
-        double redPlayerTotalScore = Team.calculateFinalScore(Team.RED, catchPiecesByRed);
-
         if (winTeam.isNotDecided()) {
-            winTeam = decideWinTeam(greenPlayerTotalScore, redPlayerTotalScore);
-            OutputView.displayResult(winTeam, greenPlayerTotalScore, redPlayerTotalScore);
+            showInterimResult();
             return;
         }
-        boardInitializer.initialize();
-        boardDao.resetCurrentTeam();
+        initializeBoard();
     }
 
     private Team play() {
         while (true) {
             Team currentTeam = boardDao.findCurrentTeam();
-            Pieces currentPieces = pieceDao.findByTeam(currentTeam);
+            Pieces currentTeamPieces = pieceDao.findByTeam(currentTeam);
 
             if (requestEndGame().isPositive()) {
                 return Team.NONE;
             }
-            Position start = requestMovementStartPosition(currentPieces);
+            Position start = requestMovementStartPosition(currentTeamPieces);
             Position end = requestMovementEndPosition();
 
-            move(currentPieces, start, end);
+            move(currentTeamPieces, start, end);
 
             Team opponent = Team.findOpponentBy(currentTeam);
             boolean isGeneralCatch = catchPiece(opponent, end);
@@ -103,8 +96,7 @@ public class JanggiGame {
         Piece piece = currentPieces.getByPosition(start);
 
         piece.move(allPieces, end);
-
-        pieceDao.update(piece, end);
+        pieceDao.updatePosition(piece);
     }
 
     private boolean catchPiece(Team opponent, Position end) {
@@ -112,6 +104,7 @@ public class JanggiGame {
         if (opponentPieces.isContainedPieceAtPosition(end)) {
             Piece opponentPiece = opponentPieces.getByPosition(end);
             opponentPiece.catchByOpponent();
+            pieceDao.updateCatch(opponentPiece);
             return PieceType.isGeneral(opponentPiece);
         }
         return false;
@@ -129,5 +122,22 @@ public class JanggiGame {
                 position.y() < VERTICAL_START || position.y() > VERTICAL_END) {
             throw new IllegalArgumentException("[ERROR] 위치할 수 없는 좌표입니다.");
         }
+    }
+
+    private void showInterimResult() {
+        Team winTeam;
+        Pieces catchPiecesByGreen = pieceDao.findCatchAllBy(Team.GREEN);
+        Pieces catchPiecesByRed = pieceDao.findCatchAllBy(Team.RED);
+
+        double greenPlayerTotalScore = Team.GREEN.calculateFinalScore(catchPiecesByGreen);
+        double redPlayerTotalScore = Team.RED.calculateFinalScore(catchPiecesByRed);
+
+        winTeam = decideWinTeam(greenPlayerTotalScore, redPlayerTotalScore);
+        OutputView.displayResult(winTeam, greenPlayerTotalScore, redPlayerTotalScore);
+    }
+
+    private void initializeBoard() {
+        boardInitializer.initialize();
+        boardDao.resetCurrentTeam();
     }
 }

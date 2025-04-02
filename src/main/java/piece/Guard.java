@@ -9,8 +9,8 @@ public class Guard extends Piece {
     private final PathManager pathManager;
     private Position currentPosition;
 
-    public Guard(int pieceId, Team team, PathManager pathManager, Position currentPosition) {
-        super(pieceId, team, PieceType.GUARD);
+    public Guard(int id, Team team, PathManager pathManager, Position currentPosition) {
+        super(id, team);
         this.pathManager = pathManager;
         this.currentPosition = currentPosition;
     }
@@ -18,6 +18,16 @@ public class Guard extends Piece {
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.GUARD;
+    }
+
+    @Override
+    public int getScore() {
+        return 3;
     }
 
     @Override

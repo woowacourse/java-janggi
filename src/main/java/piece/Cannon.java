@@ -10,8 +10,8 @@ public class Cannon extends Piece {
     private final PathManager pathManager;
     private Position currentPosition;
 
-    public Cannon(int pieceId, Team team, PathManager pathManager, Position currentPosition) {
-        super(pieceId, team, PieceType.CANNON);
+    public Cannon(int id, Team team, PathManager pathManager, Position currentPosition) {
+        super(id, team);
         this.currentPosition = currentPosition;
         this.pathManager = pathManager;
     }
@@ -19,6 +19,16 @@ public class Cannon extends Piece {
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.CANNON;
+    }
+
+    @Override
+    public int getScore() {
+        return 7;
     }
 
     @Override

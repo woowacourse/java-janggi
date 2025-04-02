@@ -4,32 +4,22 @@ import game.Team;
 import location.Position;
 
 public abstract class Piece {
-    private final Integer pieceId;
+    private final int id;
     private final Team team;
-    private final PieceType pieceType;
     private boolean isCatch;
 
-    protected Piece(Integer pieceId, Team team, PieceType pieceType) {
-        this.pieceId = pieceId;
+    protected Piece(int id, Team team) {
+        this.id = id;
         this.team = team;
-        this.pieceType = pieceType;
         this.isCatch = false;
     }
 
     public int getId() {
-        return pieceId;
+        return id;
     }
 
     public Team getTeam() {
         return team;
-    }
-
-    public PieceType getPieceType() {
-        return pieceType;
-    }
-
-    public int getScore() {
-        return pieceType.getScore();
     }
 
     public void move(Pieces pieces, Position destination) {
@@ -47,6 +37,10 @@ public abstract class Piece {
     }
 
     public abstract Position getCurrentPosition();
+
+    public abstract PieceType getPieceType();
+
+    public abstract int getScore();
 
     public abstract boolean isPlacedAt(Position targetPosition);
 

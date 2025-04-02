@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import game.Team;
+import location.PathManagerImpl;
 import location.Position;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -155,7 +156,7 @@ class HorseTest {
         Horse horse = new Horse(1, Team.GREEN, from);
         Pieces pieces = new Pieces(List.of(
                 horse,
-                new Guard(2, Team.GREEN, new Position(3, 2))));
+                new Guard(2, Team.GREEN, new PathManagerImpl(), new Position(3, 2))));
 
         //when
 

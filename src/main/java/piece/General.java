@@ -10,8 +10,8 @@ public class General extends Piece {
     private final PathManager pathManager;
     private Position currentPosition;
 
-    public General(int pieceId, Team team, PathManager pathManager, Position currentPosition) {
-        super(pieceId, team, PieceType.GENERAL);
+    public General(int id, Team team, PathManager pathManager, Position currentPosition) {
+        super(id, team);
         this.pathManager = pathManager;
         this.currentPosition = currentPosition;
     }
@@ -19,6 +19,16 @@ public class General extends Piece {
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.GENERAL;
+    }
+
+    @Override
+    public int getScore() {
+        return 0;
     }
 
     @Override

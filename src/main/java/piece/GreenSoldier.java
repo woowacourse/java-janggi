@@ -18,14 +18,24 @@ public class GreenSoldier extends Piece {
 
     private Position currentPosition;
 
-    public GreenSoldier(int pieceId, Team team, Position currentPosition) {
-        super(pieceId, team, PieceType.SOLDIER);
+    public GreenSoldier(int id, Team team, Position currentPosition) {
+        super(id, team);
         this.currentPosition = currentPosition;
     }
 
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.SOLDIER;
+    }
+
+    @Override
+    public int getScore() {
+        return 2;
     }
 
     @Override

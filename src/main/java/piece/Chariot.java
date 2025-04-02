@@ -10,8 +10,8 @@ public class Chariot extends Piece {
     private final PathManager pathManager;
     private Position currentPosition;
 
-    public Chariot(int pieceId, Team team, PathManager pathManager, Position currentPosition) {
-        super(pieceId, team, PieceType.CHARIOT);
+    public Chariot(int id, Team team, PathManager pathManager, Position currentPosition) {
+        super(id, team);
         this.pathManager = pathManager;
         this.currentPosition = currentPosition;
     }
@@ -19,6 +19,16 @@ public class Chariot extends Piece {
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.CHARIOT;
+    }
+
+    @Override
+    public int getScore() {
+        return 13;
     }
 
     @Override

@@ -28,14 +28,24 @@ public class Horse extends Piece {
 
     private Position currentPosition;
 
-    public Horse(int pieceId, Team team, Position currentPosition) {
-        super(pieceId, team, PieceType.HORSE);
+    public Horse(int id, Team team, Position currentPosition) {
+        super(id, team);
         this.currentPosition = currentPosition;
     }
 
     @Override
     public Position getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public PieceType getPieceType() {
+        return PieceType.HORSE;
+    }
+
+    @Override
+    public int getScore() {
+        return 5;
     }
 
     @Override
