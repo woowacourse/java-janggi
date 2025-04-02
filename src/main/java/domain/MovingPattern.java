@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.List;
+
 public enum MovingPattern {
     RIGHT(0, 1),
     DOWN(1, 0),
@@ -11,6 +13,12 @@ public enum MovingPattern {
     DIAGONAL_DOWN_LEFT(1, -1),
     DIAGONAL_UP_LEFT(-1, -1);
 
+    private static final List<MovingPattern> DIAGONAL_MOVES = List.of(
+            DIAGONAL_UP_LEFT,
+            DIAGONAL_DOWN_LEFT,
+            DIAGONAL_DOWN_RIGHT,
+            DIAGONAL_UP_RIGHT
+    );
     private int x;
     private int y;
 
@@ -28,9 +36,6 @@ public enum MovingPattern {
     }
 
     public boolean isDiagonalPattern() {
-        return this == DIAGONAL_DOWN_LEFT ||
-                this == DIAGONAL_UP_LEFT ||
-                this == DIAGONAL_DOWN_RIGHT ||
-                this == DIAGONAL_UP_RIGHT;
+        return DIAGONAL_MOVES.contains(this);
     }
 }
