@@ -1,22 +1,21 @@
 package janggi.piece.direction;
 
 import janggi.value.JanggiPosition;
-import janggi.value.RelativePosition;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public enum FourDirection {
-    LEFT(new RelativePosition(-1, 0)),
-    RIGHT(new RelativePosition(1, 0)),
-    UP(new RelativePosition(0, 1)),
-    DOWN(new RelativePosition(0, -1)),
+    LEFT(new DirectionVector(-1, 0)),
+    RIGHT(new DirectionVector(1, 0)),
+    UP(new DirectionVector(0, 1)),
+    DOWN(new DirectionVector(0, -1)),
     ;
 
-    private final RelativePosition relativePosition;
+    private final DirectionVector directionVector;
 
-    FourDirection(final RelativePosition relativePosition) {
-        this.relativePosition = relativePosition;
+    FourDirection(final DirectionVector directionVector) {
+        this.directionVector = directionVector;
     }
 
     public static List<JanggiPosition> from(JanggiPosition destination, JanggiPosition position) {
@@ -24,17 +23,17 @@ public enum FourDirection {
         int dy = Integer.compare(destination.y(), position.y());
         FourDirection fourDirection = findDirection(dx, dy);
 
-        return generatePositions(position, destination, fourDirection.relativePosition);
+        return generatePositions(position, destination, fourDirection.directionVector);
     }
 
     private static FourDirection findDirection(int dx, int dy) {
         return Arrays.stream(values())
-                .filter(direction -> direction.relativePosition.x() == dx && direction.relativePosition.y() == dy)
+                .filter(direction -> direction.directionVector.x() == dx && direction.directionVector.y() == dy)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 이동 가능한 방향이 없습니다."));
     }
 
-    private static List<JanggiPosition> generatePositions(JanggiPosition start, JanggiPosition end, RelativePosition step) {
+    private static List<JanggiPosition> generatePositions(JanggiPosition start, JanggiPosition end, DirectionVector step) {
         List<JanggiPosition> positions = new ArrayList<>();
         int x = start.x();
         int y = start.y();

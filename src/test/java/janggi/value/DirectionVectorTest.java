@@ -1,10 +1,11 @@
 package janggi.value;
 
+import janggi.piece.direction.DirectionVector;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
-class RelativePositionTest {
+class DirectionVectorTest {
 
     //생성 확인
     @Test
@@ -14,10 +15,10 @@ class RelativePositionTest {
         int y = 10;
 
         //when
-        RelativePosition relativePosition = new RelativePosition(x, y);
+        DirectionVector directionVector = new DirectionVector(x, y);
 
         //then
-        Assertions.assertThat(relativePosition).isInstanceOf(RelativePosition.class);
+        Assertions.assertThat(directionVector).isInstanceOf(DirectionVector.class);
     }
 
 

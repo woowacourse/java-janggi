@@ -1,7 +1,6 @@
 package janggi.piece.direction;
 
 import janggi.value.JanggiPosition;
-import janggi.value.RelativePosition;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +12,10 @@ public enum GungDirection {
     DOWN(0, -1),
 
     // 2칸 직선 이동 (경로 포함)
-    RIGHT_RIGHT(2, 0, new RelativePosition(1, 0)),
-    LEFT_LEFT(-2, 0, new RelativePosition(-1, 0)),
-    UP_UP(0, 2, new RelativePosition(0, 1)),
-    DOWN_DOWN(0, -2, new RelativePosition(0, -1)),
+    RIGHT_RIGHT(2, 0, new DirectionVector(1, 0)),
+    LEFT_LEFT(-2, 0, new DirectionVector(-1, 0)),
+    UP_UP(0, 2, new DirectionVector(0, 1)),
+    DOWN_DOWN(0, -2, new DirectionVector(0, -1)),
 
     // 1칸 대각선 이동
     UP_RIGHT(1, 1),
@@ -25,28 +24,28 @@ public enum GungDirection {
     DOWN_LEFT(-1, -1),
 
     // 2칸 대각선 이동 (경로 포함)
-    UP_RIGHT_TWO(2, 2, new RelativePosition(1, 1)),
-    UP_LEFT_TWO(-2, 2, new RelativePosition(-1, 1)),
-    DOWN_RIGHT_TWO(2, -2, new RelativePosition(1, -1)),
-    DOWN_LEFT_TWO(-2, -2, new RelativePosition(-1, -1));
+    UP_RIGHT_TWO(2, 2, new DirectionVector(1, 1)),
+    UP_LEFT_TWO(-2, 2, new DirectionVector(-1, 1)),
+    DOWN_RIGHT_TWO(2, -2, new DirectionVector(1, -1)),
+    DOWN_LEFT_TWO(-2, -2, new DirectionVector(-1, -1));
 
-    private final RelativePosition destination;
-    private final List<RelativePosition> intermediates;
+    private final DirectionVector destination;
+    private final List<DirectionVector> intermediates;
 
     GungDirection(final int dx, final int dy) {
-        this.destination = new RelativePosition(dx, dy);
+        this.destination = new DirectionVector(dx, dy);
         this.intermediates = List.of();
     }
 
-    GungDirection(final int dx, final int dy, final RelativePosition intermediate) {
-        this.destination = new RelativePosition(dx, dy);
+    GungDirection(final int dx, final int dy, final DirectionVector intermediate) {
+        this.destination = new DirectionVector(dx, dy);
         this.intermediates = List.of(intermediate);
     }
 
     public static List<JanggiPosition> of(JanggiPosition start, JanggiPosition end) {
         int dx = end.x() - start.x();
         int dy = end.y() - start.y();
-        RelativePosition difference = new RelativePosition(dx, dy);
+        DirectionVector difference = new DirectionVector(dx, dy);
 
         for (GungDirection gungDirection : values()) {
             if (gungDirection.destination.equals(difference)) {
@@ -60,7 +59,7 @@ public enum GungDirection {
         List<JanggiPosition> path = new ArrayList<>();
 
         // 중간 위치 추가
-        for (RelativePosition pos : dir.intermediates) {
+        for (DirectionVector pos : dir.intermediates) {
             path.add(new JanggiPosition(start.x() + pos.x(), start.y() + pos.y()));
         }
 
