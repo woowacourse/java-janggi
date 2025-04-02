@@ -39,16 +39,16 @@ public class JanggiGameDao {
         }
     }
 
-    public List<GameEntity> findNotFinishedGames() {
+    public List<GameDto> findNotFinishedGames() {
         String sql = "SELECT * FROM janggi_game WHERE is_finished = FALSE ORDER BY updated_at DESC";
-        List<GameEntity> result = new ArrayList<>();
+        List<GameDto> result = new ArrayList<>();
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                result.add(mapToEntity(resultSet));
+                result.add(mapToDto(resultSet));
             }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
@@ -56,7 +56,7 @@ public class JanggiGameDao {
         return result;
     }
 
-    public Optional<GameEntity> findById(Long id) {
+    public Optional<GameDto> findById(Long id) {
         String sql = "SELECT * FROM janggi_game WHERE id = ?";
 
         try (Connection connection = dbConnection.getConnection();
@@ -65,7 +65,7 @@ public class JanggiGameDao {
             preparedStatement.setLong(1, id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return Optional.of(mapToEntity(resultSet));
+                    return Optional.of(mapToDto(resultSet));
                 }
             }
         } catch (SQLException e) {
@@ -104,14 +104,14 @@ public class JanggiGameDao {
         }
     }
 
-    private GameEntity mapToEntity(ResultSet resultSet) throws SQLException {
+    private GameDto mapToDto(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong("id");
         String currentDynasty = resultSet.getString("current_dynasty");
         boolean wasLastPassed = resultSet.getBoolean("was_last_passed");
         Timestamp updatedAt = resultSet.getTimestamp("updated_at");
-        return new GameEntity(id, currentDynasty, wasLastPassed, updatedAt);
+        return new GameDto(id, currentDynasty, wasLastPassed, updatedAt);
     }
 
-    public record GameEntity(Long id, String currentDynasty, boolean wasLastPassed, Timestamp updatedAt) {
+    public record GameDto(Long id, String currentDynasty, boolean wasLastPassed, Timestamp updatedAt) {
     }
 }
