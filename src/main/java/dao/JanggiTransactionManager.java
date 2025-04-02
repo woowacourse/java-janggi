@@ -28,23 +28,6 @@ public class JanggiTransactionManager {
         this.entityMapper = entityMapper;
     }
 
-    public void createTable() {
-        try (Connection connection = dataBaseConnector.getConnection()) {
-            connection.setAutoCommit(false);
-
-            try {
-                janggiGameDao.createTable(connection);
-                pieceDao.createTable(connection);
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new RuntimeException("[ERROR] 테이블 생성 중 오류 발생하였습니다");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결 중 오류 발생하였습니다", e);
-        }
-    }
-
     public void create(JanggiGame janggiGame) {
         try (Connection connection = dataBaseConnector.getConnection()) {
             connection.setAutoCommit(false);

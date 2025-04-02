@@ -12,24 +12,6 @@ import java.util.List;
 
 public class PieceDao {
 
-    public void createTable(Connection connection) throws SQLException {
-        final var createTableQuery = """
-                CREATE TABLE IF NOT EXISTS piece (
-                    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                    x INTEGER NOT NULL,
-                    y INTEGER NOT NULL,
-                    type VARCHAR(20),
-                    team VARCHAR(20),
-                    score DOUBLE NOT NULL,
-                    janggi_game_id BIGINT,
-                    FOREIGN KEY (janggi_game_id) REFERENCES janggi_game (id)
-                )
-                """;
-        try (final var statement = connection.createStatement()) {
-            statement.execute(createTableQuery);
-        }
-    }
-
     public void createAll(Connection connection, List<PieceEntity> pieceEntities) throws SQLException {
         final var createQuery = """
                 INSERT INTO piece (x, y, type, team, score, janggi_game_id) VALUES (?, ?, ?, ?, ?, ?)

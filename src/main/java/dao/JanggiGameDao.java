@@ -10,18 +10,6 @@ import java.util.Optional;
 
 public class JanggiGameDao {
 
-    public void createTable(Connection connection) throws SQLException {
-        final var createTableQuery = """
-                CREATE TABLE IF NOT EXISTS janggi_game (
-                    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                    turn VARCHAR(20)
-                );
-                """;
-        try (final var statement = connection.createStatement()) {
-            statement.execute(createTableQuery);
-        }
-    }
-
     public Long create(Connection connection, JanggiGameEntity entity) throws SQLException {
         final var createQuery = """
                 INSERT INTO janggi_game (turn) VALUES (?)
