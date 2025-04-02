@@ -2,6 +2,7 @@ import dao.BoardDao;
 import dao.PieceEntity;
 import dao.TurnDao;
 import dao.converter.BoardConverter;
+import dao.converter.DBConverter;
 import janggiGame.Board;
 import janggiGame.Position;
 import janggiGame.arrangement.ArrangementOption;
@@ -68,7 +69,7 @@ public class Application {
             boardDao.createBoardEntity(settingPieces);
             return newBoard;
         }
-        return BoardConverter.convertToBoard(pieceEntities);
+        return DBConverter.convertToBoard(pieceEntities);
     }
 
     private static Board settingJanggiGame(InputView inputView) {
