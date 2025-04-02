@@ -21,11 +21,11 @@ public class DatabaseInitializer {
 
     private static final String CREATE_BOARD_TABLE = """
             CREATE TABLE IF NOT EXISTS board (
+                piece_id INTEGER PRIMARY KEY,
                 x INTEGER NOT NULL,
                 y INTEGER NOT NULL,
                 piece TEXT NOT NULL,
-                side TEXT NOT NULL,
-                PRIMARY KEY (x, y)
+                side TEXT NOT NULL
             );
             """;
 
@@ -39,5 +39,4 @@ public class DatabaseInitializer {
             INSERT INTO board_status (status) VALUES ('CHO_TURN')
             ON CONFLICT DO NOTHING;
             """;
-
 }

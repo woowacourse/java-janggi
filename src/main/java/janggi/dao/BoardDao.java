@@ -27,17 +27,18 @@ public class BoardDao {
     }
 
     public void saveBoard(JanggiBoard board) {
-        final String query = "INSERT INTO board (x, y, piece, side) VALUES (?, ?, ?, ?) " +
-                "ON CONFLICT(x, y) DO UPDATE SET piece = excluded.piece, side = excluded.side";
+        final String query = "INSERT INTO board (piece_id, x, y, piece, side) VALUES (?, ?, ?, ?, ?) " +
+                "ON CONFLICT(piece_id) DO UPDATE SET x = excluded.x, y = excluded.y, piece = excluded.piece, side = excluded.side";
 
         try (final Connection connection = getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             for (Map.Entry<Position, Piece> entry : board.getBoard().entrySet()) {
-                preparedStatement.setInt(1, entry.getKey().getX());
-                preparedStatement.setInt(2, entry.getKey().getY());
-                preparedStatement.setString(3, entry.getValue().getSymbol().toString());
-                preparedStatement.setString(4, entry.getValue().getSide().toString());
+                preparedStatement.setInt(1, entry.getKey().hashCode());
+                preparedStatement.setInt(2, entry.getKey().getX());
+                preparedStatement.setInt(3, entry.getKey().getY());
+                preparedStatement.setString(4, entry.getValue().getSymbol().toString());
+                preparedStatement.setString(5, entry.getValue().getSide().toString());
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -55,7 +56,7 @@ public class BoardDao {
             preparedStatement.setString(1, status);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("장기판 저장 중 오류 발생", e);
+            throw new RuntimeException("장기판 상태 저장 중 오류 발생", e);
         }
     }
 
@@ -77,7 +78,6 @@ public class BoardDao {
                 Piece piece = PieceFactory.createPiece(pieceSymbol, side);
                 boardMap.put(position, piece);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException("장기판 불러오기 중 오류 발생", e);
         }
@@ -98,10 +98,9 @@ public class BoardDao {
                 boardStatus = BoardStatus.valueOf(status);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("장기판 상태 불러오기 중 오류 발생", e);
         }
 
         return boardStatus;
     }
-
 }
