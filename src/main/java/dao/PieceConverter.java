@@ -14,6 +14,7 @@ import piece.King;
 import piece.Piece;
 import piece.PieceType;
 import piece.Soldier;
+import piece.Team;
 
 public class PieceConverter {
 
@@ -30,25 +31,27 @@ public class PieceConverter {
     }
 
     private static Piece toPiece(final PieceEntity pieceEntity) {
-        if (pieceEntity.pieceType() == PieceType.KING) {
-            return new King(pieceEntity.team());
+        PieceType pieceType = pieceEntity.pieceType();
+        Team team = pieceEntity.team();
+        if (pieceType == PieceType.KING) {
+            return new King(team);
         }
-        if (pieceEntity.pieceType() == PieceType.CANNON) {
-            return new Cannon(pieceEntity.team());
+        if (pieceType == PieceType.CANNON) {
+            return new Cannon(team);
         }
-        if (pieceEntity.pieceType() == PieceType.CHARIOT) {
-            return new Chariot(pieceEntity.team());
+        if (pieceType == PieceType.CHARIOT) {
+            return new Chariot(team);
         }
-        if (pieceEntity.pieceType() == PieceType.ELEPHANT) {
-            return new Elephant(pieceEntity.team());
+        if (pieceType == PieceType.ELEPHANT) {
+            return new Elephant(team);
         }
-        if (pieceEntity.pieceType() == PieceType.GUARD) {
-            return new Guard(pieceEntity.team());
+        if (pieceType == PieceType.GUARD) {
+            return new Guard(team);
         }
-        if (pieceEntity.pieceType() == PieceType.HORSE) {
-            return new Horse(pieceEntity.team());
+        if (pieceType == PieceType.HORSE) {
+            return new Horse(team);
         }
-        return new Soldier(pieceEntity.team());
+        return new Soldier(team);
     }
 
 }

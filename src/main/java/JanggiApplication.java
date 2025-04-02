@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import board.Board;
@@ -10,6 +11,7 @@ import dao.PieceEntity;
 import dao.TurnConverter;
 import dao.TurnDao;
 import game.Turn;
+import piece.Piece;
 import view.InputView;
 import view.OutputView;
 
@@ -34,13 +36,18 @@ public class JanggiApplication {
         if (pieceEntities.isEmpty()) {
             BoardInitializer boardInitializer = new BoardInitializer();
             Board board = new Board(boardInitializer.init());
-            pieceDao.saveAll(board.getPieces().entrySet()
-                    .stream()
-                    .map(entry -> PieceConverter.toEntity(entry.getKey(), entry.getValue()))
-                    .toList());
+            List<PieceEntity> entitiesToSave = createPieceEntities(board.getPieces());
+            pieceDao.saveAll(entitiesToSave);
             return board;
         }
         return new Board(PieceConverter.toPieces(pieceEntities));
+    }
+
+    private static List<PieceEntity> createPieceEntities(final Map<Position, Piece> pieces) {
+        return pieces.entrySet()
+                .stream()
+                .map(entry -> PieceConverter.toEntity(entry.getKey(), entry.getValue()))
+                .toList();
     }
 
     private static Turn createTurn() {
