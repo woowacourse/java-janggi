@@ -25,6 +25,6 @@ public final class Guard extends Piece {
     }
 
     private boolean isGuardMove(int xDistance, int yDistance) {
-        return xDistance == MOVE_DISTANCE || yDistance == MOVE_DISTANCE;
+        return xDistance <= MOVE_DISTANCE && yDistance <= MOVE_DISTANCE && !(xDistance == 0 && yDistance == 0);
     }
 }
