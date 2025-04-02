@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Arrays;
+
 public enum Team {
     RED(73.5),
     GREEN(72),
@@ -12,12 +14,10 @@ public enum Team {
     }
 
     public static Team fromName(String teamName) {
-        for (Team team : Team.values()) {
-            if (team.name().equalsIgnoreCase(teamName)) {
-                return team;
-            }
-        }
-        throw new IllegalStateException("[ERROR] 해당 이름의 팀이 존재하지 않습니다.");
+        return Arrays.stream(Team.values())
+                .filter(team -> team.name().equalsIgnoreCase(teamName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("[ERROR] 해당 이름의 팀이 존재하지 않습니다."));
     }
 
     public Team findOpponent() {

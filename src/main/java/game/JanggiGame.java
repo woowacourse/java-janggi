@@ -2,6 +2,7 @@ package game;
 
 import dao.BoardDao;
 import dao.PieceDao;
+import java.util.List;
 import piece.Piece;
 import piece.PieceType;
 import location.Position;
@@ -27,8 +28,10 @@ public class JanggiGame {
         this.boardInitializer = boardInitializer;
     }
 
-    public void showInitialBoard() {
-        OutputView.displayBoard(pieceDao);
+    public void showBoard() {
+        List<Piece> greenPieces = pieceDao.findByTeam(Team.GREEN).getPieces();
+        List<Piece> redPieces = pieceDao.findByTeam(Team.RED).getPieces();
+        OutputView.displayBoard(greenPieces, redPieces);
     }
 
     public void run() {
@@ -53,15 +56,11 @@ public class JanggiGame {
             Position end = requestMovementEndPosition();
 
             move(currentTeamPieces, start, end);
-
-            Team opponent = currentTeam.findOpponent();
-            boolean isGeneralCatch = catchPiece(opponent, end);
-            boardDao.updateCurrentTeam(opponent);
-
+            boolean isGeneralCatch = catchOpponentPiece(currentTeam, end);
             if (isGeneralCatch) {
                 return currentTeam;
             }
-            OutputView.displayBoard(pieceDao);
+            showBoard();
         }
     }
 
@@ -98,6 +97,13 @@ public class JanggiGame {
         pieceDao.updatePosition(piece);
     }
 
+    private boolean catchOpponentPiece(Team currentTeam, Position end) {
+        Team opponent = currentTeam.findOpponent();
+        boolean isGeneralCatch = catchPiece(opponent, end);
+        boardDao.updateCurrentTeam(opponent);
+        return isGeneralCatch;
+    }
+
     private boolean catchPiece(Team opponent, Position end) {
         Pieces opponentPieces = pieceDao.findByTeam(opponent);
         if (opponentPieces.isContainedPieceAtPosition(end)) {
@@ -124,14 +130,13 @@ public class JanggiGame {
     }
 
     private void showInterimResult() {
-        Team winTeam;
         Pieces catchPiecesByGreen = pieceDao.findCatchAllBy(Team.GREEN);
         Pieces catchPiecesByRed = pieceDao.findCatchAllBy(Team.RED);
 
         double greenPlayerTotalScore = Team.GREEN.calculateFinalScore(catchPiecesByGreen.calculateTotalScore());
         double redPlayerTotalScore = Team.RED.calculateFinalScore(catchPiecesByRed.calculateTotalScore());
 
-        winTeam = decideWinTeam(greenPlayerTotalScore, redPlayerTotalScore);
+        Team winTeam = decideWinTeam(greenPlayerTotalScore, redPlayerTotalScore);
         OutputView.displayResult(winTeam, greenPlayerTotalScore, redPlayerTotalScore);
     }
 

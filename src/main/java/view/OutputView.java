@@ -9,10 +9,7 @@ import piece.PieceType;
 
 public class OutputView {
 
-    public static void displayBoard(PieceDao pieceDao) {
-        List<Piece> greenPieces = pieceDao.findByTeam(Team.GREEN).getPieces();
-        List<Piece> redPieces = pieceDao.findByTeam(Team.RED).getPieces();
-
+    public static void displayBoard(List<Piece> greenPieces, List<Piece> redPieces) {
         String[][] pieceName = new String[11][10];
 
         for (int i = 1; i <= 10; i++) {

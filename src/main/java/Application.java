@@ -14,7 +14,7 @@ public class Application {
         BoardInitializer boardInitializer = new BoardInitializer(pathManager, pieceDao);
         JanggiGame janggiGame = new JanggiGame(boardDao, pieceDao, boardInitializer);
 
-        janggiGame.showInitialBoard();
+        janggiGame.showBoard();
         janggiGame.run();
     }
 }
