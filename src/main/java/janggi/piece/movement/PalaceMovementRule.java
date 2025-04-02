@@ -2,7 +2,6 @@ package janggi.piece.movement;
 
 import janggi.position.Direction;
 import janggi.position.Position;
-import java.util.List;
 import java.util.Set;
 
 public class PalaceMovementRule implements MovementRule {
@@ -16,11 +15,6 @@ public class PalaceMovementRule implements MovementRule {
             new Position(4, 9), new Position(5, 9), new Position(6, 9),
             new Position(4, 10), new Position(5, 10), new Position(6, 10)
     );
-
-    @Override
-    public List<Position> calculatePath(final Position start, final Position end) {
-        return List.of();
-    }
 
     @Override
     public void validateMovementRule(final Position start, final Position end) {
