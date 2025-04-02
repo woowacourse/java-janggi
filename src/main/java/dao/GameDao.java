@@ -61,9 +61,11 @@ public class GameDao {
     }
 
     private void createGameTableIfNotExists() {
-        final var query = "CREATE TABLE IF NOT EXISTS game ("
-                + "game_id INT AUTO_INCREMENT PRIMARY KEY, "
-                + "turn VARCHAR(64) NOT NULL)";
+        final var query = """
+                CREATE TABLE IF NOT EXISTS game (
+                game_id INT AUTO_INCREMENT PRIMARY KEY,
+                turn VARCHAR(64) NOT NULL)
+                """;
 
         try (Connection connection = jdbcConnection.getConnection();
              Statement stmt = connection.createStatement()) {

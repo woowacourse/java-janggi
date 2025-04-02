@@ -32,12 +32,10 @@ public class PieceDao {
 
     public void initializePieceIfNotExists(Board board) {
         Map<BoardLocation, Piece> pieces = board.getPieces();
-        String query = "INSERT INTO piece ("
-                + "piece_type,"
-                + "team,"
-                + "location_x,"
-                + "location_y) " +
-                "VALUES (?, ?, ?, ?)";
+        String query = """
+                INSERT INTO piece (piece_type, team, location_x, location_y) 
+                VALUES (?, ?, ?, ?)
+                """;
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(query)) {
             for (Entry<BoardLocation, Piece> entry : pieces.entrySet()) {
@@ -74,8 +72,10 @@ public class PieceDao {
     }
 
     public void updateBoard(BoardLocation current, BoardLocation destination) {
-        String updatePieceQuery = "UPDATE piece SET location_x = ?, location_y = ? " +
-                "WHERE location_x = ? AND location_y = ?";
+        String updatePieceQuery = """
+                UPDATE piece SET location_x = ?, location_y = ?
+                WHERE location_x = ? AND location_y = ?
+                """;
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(updatePieceQuery)) {
             stmt.setInt(1, destination.x());
@@ -101,13 +101,11 @@ public class PieceDao {
     }
 
     private void createPieceTableIfNotExists() {
-        String query = "CREATE TABLE IF NOT EXISTS piece (" +
-                "piece_id INT AUTO_INCREMENT PRIMARY KEY, " +
-                "piece_type VARCHAR(50) NOT NULL, " +
-                "team VARCHAR(10) NOT NULL, " +
-                "location_x INT NOT NULL, " +
-                "location_y INT NOT NULL" +
-                ")";
+        String query = """
+                CREATE TABLE IF NOT EXISTS piece (
+                piece_id INT AUTO_INCREMENT PRIMARY KEY,"piece_type VARCHAR(50) NOT NULL,
+                team VARCHAR(10) NOT NULL, location_x INT NOT NULL, location_y INT NOT NULL)
+                """;
         try (Connection connection = jdbcConnection.getConnection();
              Statement stmt = connection.createStatement()) {
             stmt.executeUpdate(query);
