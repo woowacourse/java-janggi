@@ -1,12 +1,13 @@
 package janggi;
 
-import janggi.board.Board;
-import janggi.piece.Byeong;
-import janggi.piece.Cha;
-import janggi.piece.Jol;
-import janggi.position.Position;
-import janggi.team.TeamType;
-import janggi.team.Turn;
+import janggi.domain.JanggiGame;
+import janggi.domain.board.Board;
+import janggi.domain.piece.Byeong;
+import janggi.domain.piece.Cha;
+import janggi.domain.piece.Jol;
+import janggi.domain.position.Position;
+import janggi.domain.team.TeamType;
+import janggi.domain.team.Turn;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

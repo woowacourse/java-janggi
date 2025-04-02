@@ -1,9 +1,11 @@
 package janggi;
 
-import janggi.dao.JanggiDao;
-import janggi.manager.ConnectionManager;
-import janggi.manager.JanggiDatabaseManager;
-import janggi.manager.JanggiMapper;
+import janggi.dao.ConnectionManager;
+import janggi.dao.JanggiDatabaseManager;
+import janggi.dao.PieceDao;
+import janggi.dao.PieceTypeDao;
+import janggi.dao.TeamDao;
+import janggi.dao.utils.JanggiMapper;
 import janggi.view.InputView;
 import janggi.view.ResultView;
 
@@ -14,8 +16,11 @@ public class JanggiApplication {
 
         final ConnectionManager connectionManager = new ConnectionManager();
         final JanggiMapper janggiMapper = new JanggiMapper();
-        final JanggiDao janggiDao = new JanggiDao(connectionManager);
-        final JanggiDatabaseManager janggiDatabaseManager = new JanggiDatabaseManager(janggiDao, janggiMapper);
+        final PieceDao pieceDao = new PieceDao(connectionManager);
+        final PieceTypeDao pieceTypeDao = new PieceTypeDao(connectionManager);
+        final TeamDao teamDao = new TeamDao(connectionManager);
+        final JanggiDatabaseManager janggiDatabaseManager = new JanggiDatabaseManager(pieceDao, pieceTypeDao,
+                teamDao, janggiMapper);
 
         JanggiConsole janggiConsole = new JanggiConsole(inputView, resultView, janggiDatabaseManager);
         janggiConsole.start();

@@ -1,13 +1,14 @@
 package janggi;
 
-import janggi.board.Board;
-import janggi.board.BoardFactory;
-import janggi.board.SangSetting;
-import janggi.manager.JanggiDatabaseManager;
-import janggi.piece.Piece;
-import janggi.position.Position;
-import janggi.team.TeamType;
-import janggi.team.Turn;
+import janggi.dao.JanggiDatabaseManager;
+import janggi.domain.JanggiGame;
+import janggi.domain.board.Board;
+import janggi.domain.board.BoardFactory;
+import janggi.domain.board.SangSetting;
+import janggi.domain.piece.Piece;
+import janggi.domain.position.Position;
+import janggi.domain.team.TeamType;
+import janggi.domain.team.Turn;
 import janggi.utils.ExceptionHandler;
 import janggi.view.InputView;
 import janggi.view.Menu;
