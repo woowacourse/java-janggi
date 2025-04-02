@@ -1,31 +1,43 @@
 import controller.InitializerController;
 import controller.JanggiController;
-import db.MySQLConnection;
-import db.dao.JanggiGameDao;
-import service.JanggiGameService;
-import service.initializer.JanggiGameInitializer;
+import db.connection.DBConnection;
+import db.connection.MySQLConnection;
+import db.repository.JanggiGameRepository;
+import service.JanggiGameProgressService;
+import service.JanggiGameStartService;
 import view.InputView;
 import view.OutputView;
 
 public class Application {
     public static void main(String[] args) {
+        // 뷰 생성
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
-        JanggiGameService gameService;
-        InitializerController initializerController = new InitializerController(inputView, new JanggiGameInitializer(),
-                new JanggiGameDao(MySQLConnection.getInstance()));
 
+        // DB 연결체 생성
+        DBConnection dbConnection = new MySQLConnection();
+
+        // repository 생성
+        JanggiGameRepository janggiGameRepository = new JanggiGameRepository(dbConnection);
+
+        // startService 및 서비스 기반 초기화 컨트롤러 생성
+        JanggiGameStartService janggiGameStartService = new JanggiGameStartService(janggiGameRepository);
+        InitializerController initializerController = new InitializerController(inputView, janggiGameStartService);
+
+        // 게임 id 기반 게임 진행 서비스 생성
         Long gameId = initializerController.getGameId();
-        gameService = new JanggiGameService(gameId);
+        JanggiGameProgressService janggiGameProgressService = new JanggiGameProgressService(gameId,
+                janggiGameRepository);
 
-        JanggiController controller = new JanggiController(gameService, inputView, outputView);
+        // 장기 게임 진행 컨트롤러 생성
+        JanggiController controller = new JanggiController(janggiGameProgressService, inputView, outputView);
 
-        while (!gameService.isFinished()) {
+        while (!controller.isGameFinished()) {
             try {
                 controller.printBoard();
                 controller.selectOption();
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                outputView.printErrorMessage(e);
             }
         }
 

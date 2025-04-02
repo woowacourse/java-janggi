@@ -1,6 +1,6 @@
 package view;
 
-import db.dao.JanggiGameDao.GameEntity;
+import db.dao.JanggiGameDao.GameDto;
 import janggiGame.piece.Dynasty;
 import janggiGame.position.Position;
 import java.util.List;
@@ -78,11 +78,11 @@ public class InputView {
         return option;
     }
 
-    public Long readSavedGameId(List<GameEntity> games) {
+    public Long readSavedGameId(List<GameDto> games) {
         if (games.isEmpty()) {
             throw new IllegalStateException("[ERROR] 저장된 게임이 없습니다.");
         }
-        for (GameEntity game : games) {
+        for (GameDto game : games) {
             System.out.printf("게임 ID: %d | 마지막 턴: %s | 저장 시간: %s\n",
                     game.id(), game.currentDynasty(), game.updatedAt());
         }
@@ -92,7 +92,7 @@ public class InputView {
         return Long.parseLong(scanner.nextLine());
     }
 
-    private void validateOption(Integer option) {
+    private void validateOption(int option) {
         if (option != 1 && option != 2) {
             throw new IllegalArgumentException("[ERROR] 존재하지 않는 옵션입니다.");
         }

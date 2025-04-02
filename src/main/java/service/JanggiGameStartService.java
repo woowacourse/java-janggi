@@ -1,29 +1,35 @@
-package service.initializer;
+package service;
 
-import db.MySQLConnection;
-import db.dao.JanggiGameDao;
-import db.dao.JanggiPieceDao;
+import db.dao.JanggiGameDao.GameDto;
+import db.repository.JanggiGameRepository;
 import janggiGame.JanggiGame;
 import janggiGame.arrangement.ArrangementStrategy;
 import janggiGame.piece.Piece;
 import janggiGame.position.Position;
+import java.util.List;
 import java.util.Map;
 
-public class JanggiGameInitializer {
+public class JanggiGameStartService {
+    private final JanggiGameRepository repository;
 
-    private final JanggiGameDao janggiGameDao = new JanggiGameDao(MySQLConnection.getInstance());
-    private final JanggiPieceDao janggiPieceDao = new JanggiPieceDao(MySQLConnection.getInstance());
+    public JanggiGameStartService(JanggiGameRepository repository) {
+        this.repository = repository;
+    }
 
     public Long getNewGameId(ArrangementStrategy hanStrategy, ArrangementStrategy choStrategy) {
         JanggiGame janggiGame = new JanggiGame();
         janggiGame.arrangePieces(hanStrategy, choStrategy);
 
         String currentDynasty = janggiGame.getCurrentDynasty().name();
-        Long gameId = janggiGameDao.save(currentDynasty);
+        Long gameId = repository.saveGame(currentDynasty);
 
         Map<Position, Piece> pieces = janggiGame.getPieces();
-        janggiPieceDao.saveAll(gameId, pieces);
+        repository.saveAllPieces(gameId, pieces);
 
         return gameId;
+    }
+
+    public List<GameDto> getSavedGames() {
+        return repository.findNotFinishedGames();
     }
 }

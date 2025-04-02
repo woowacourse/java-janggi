@@ -5,19 +5,19 @@ import janggiGame.state.GameResult;
 import janggiGame.state.GameScore;
 import java.util.List;
 import java.util.Map;
-import service.JanggiGameService;
+import service.JanggiGameProgressService;
 import view.InputView;
 import view.OutputView;
 
 public class JanggiController {
 
-    private final JanggiGameService gameService;
+    private final JanggiGameProgressService gameService;
     private final InputView inputView;
     private final OutputView outputView;
 
     private final Map<Integer, Runnable> options;
 
-    public JanggiController(JanggiGameService gameService, InputView inputView, OutputView outputView) {
+    public JanggiController(JanggiGameProgressService gameService, InputView inputView, OutputView outputView) {
         this.gameService = gameService;
         this.inputView = inputView;
         this.outputView = outputView;
@@ -59,5 +59,9 @@ public class JanggiController {
 
     public void printBoard() {
         outputView.printBoard(gameService.getGame().getPieces());
+    }
+
+    public boolean isGameFinished() {
+        return gameService.isFinished();
     }
 }

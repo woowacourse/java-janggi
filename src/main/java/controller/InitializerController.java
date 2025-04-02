@@ -1,39 +1,31 @@
 package controller;
 
-import db.dao.JanggiGameDao;
-import db.dao.JanggiGameDao.GameEntity;
+import db.dao.JanggiGameDao.GameDto;
 import janggiGame.arrangement.ArrangementOption;
 import java.util.List;
-import service.initializer.JanggiGameInitializer;
+import service.JanggiGameStartService;
 import view.InputView;
 
 public class InitializerController {
     private final InputView inputView;
-    private final JanggiGameInitializer janggiGameInitializer;
-    private final JanggiGameDao janggiGameDao;
+    private final JanggiGameStartService janggiGameStartService;
 
-    public InitializerController(InputView inputView, JanggiGameInitializer janggiGameInitializer,
-                                 JanggiGameDao janggiGameDao) {
+    public InitializerController(InputView inputView, JanggiGameStartService janggiGameStartService) {
         this.inputView = inputView;
-        this.janggiGameInitializer = janggiGameInitializer;
-        this.janggiGameDao = janggiGameDao;
+        this.janggiGameStartService = janggiGameStartService;
     }
 
     public Long getGameId() {
-        Long gameId;
+        int option = inputView.readStartOption();
 
-        if (inputView.readStartOption() == 1) {
-            List<GameEntity> games = janggiGameDao.findNotFinishedGames();
-            gameId = inputView.readSavedGameId(games);
-            return gameId;
+        if (option == 1) {
+            List<GameDto> games = janggiGameStartService.getSavedGames();
+            return inputView.readSavedGameId(games);
         }
 
-        gameId = janggiGameInitializer.getNewGameId(
+        return janggiGameStartService.getNewGameId(
                 ArrangementOption.findBy(inputView.readHanArrangement()).getArrangementStrategy(),
                 ArrangementOption.findBy(inputView.readChoArrangement()).getArrangementStrategy()
         );
-
-        return gameId;
     }
 }
-
