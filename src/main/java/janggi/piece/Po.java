@@ -64,21 +64,41 @@ public class Po extends Piece {
         if (pathPositions.isEmpty()) {
             return false;
         }
+
         JanggiPosition start = pathPositions.getFirst();
         JanggiPosition end = pathPositions.getLast();
 
         int dx = Math.abs(end.x() - start.x());
         int dy = Math.abs(end.y() - start.y());
 
-        boolean isTwoStepStraight = (dx == 1 && dy == 0 && (enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start)) &&
-                enemy.isNotBlockedBy(end))
-                || (dx == 0 && dy == 1 && (enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start)) &&
-                enemy.isNotBlockedBy(end));
+        return isValidStraightMove(dx, dy, start, end, enemy, allies) || isValidDiagonalMove(dx, dy, start, end, enemy, allies);
+    }
 
-        boolean isTwoStepDiagonal = (dx == 1 && dy == 1 && (enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start)) &&
-                enemy.isNotBlockedBy(end));
+    private boolean isValidStraightMove(int dx, int dy, JanggiPosition start, JanggiPosition end,
+                                        Pieces enemy, Pieces allies) {
+        boolean isHorizontalMove = dx == 1 && dy == 0;
+        boolean isVerticalMove = dx == 0 && dy == 1;
 
-        return  isTwoStepStraight || isTwoStepDiagonal;
+        if (!(isHorizontalMove || isVerticalMove)) {
+            return false;
+        }
+
+        boolean isStartNotBlocked = enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start);
+        boolean isEndNotBlockedByEnemy = enemy.isNotBlockedBy(end);
+
+        return isStartNotBlocked && isEndNotBlockedByEnemy;
+    }
+
+    private boolean isValidDiagonalMove(int dx, int dy, JanggiPosition start, JanggiPosition end,
+                                        Pieces enemy, Pieces allies) {
+        if (!(dx == 1 && dy == 1)) {
+            return false;
+        }
+
+        boolean isStartNotBlocked = enemy.isNotBlockedBy(start) || allies.isNotBlockedBy(start);
+        boolean isEndNotBlockedByEnemy = enemy.isNotBlockedBy(end);
+
+        return isStartNotBlocked && isEndNotBlockedByEnemy;
     }
 
     private boolean isValidMove(JanggiPosition destination) {
