@@ -3,6 +3,7 @@ package domain.dao;
 
 import domain.Country;
 import domain.JanggiCoordinate;
+import domain.dto.GameFindDto;
 import domain.dto.GameRoomDto;
 import domain.piece.Piece;
 
@@ -49,14 +50,14 @@ public class JanggiGameDao {
     }
 
     public List<GameRoomDto> findGames(int offset, int pageSize) {
-        String findAllGamesSQL = "SELECT room_name, curr_turn, created_at " +
+        String findGamesSQL = "SELECT room_name, curr_turn, created_at " +
                 "FROM game " +
                 "ORDER BY created_at " +
                 "LIMIT " + pageSize + " OFFSET " + offset;
 
 
         try (Statement statement = connection.createStatement()) {
-            final ResultSet resultSet = statement.executeQuery(findAllGamesSQL);
+            final ResultSet resultSet = statement.executeQuery(findGamesSQL);
             List<GameRoomDto> dtos = new ArrayList<>();
             while (resultSet.next()) {
                 String roomName = resultSet.getString("room_name");
@@ -83,15 +84,17 @@ public class JanggiGameDao {
         }
     }
 
-    public int getGameIdByName(String gameName) {
-        String findGameIdSQL = "SELECT game_id FROM game WHERE room_name = ?";
+    public GameFindDto getGameByName(String gameName) {
+        String findGameIdSQL = "SELECT game_id, curr_turn FROM game WHERE room_name = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(findGameIdSQL)) {
             preparedStatement.setString(1, gameName);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getInt(1);
+                int gameId = resultSet.getInt("game_id");
+                String currTurn = resultSet.getString("curr_turn");
+                return new GameFindDto(gameId, Country.fromName(currTurn));
             }
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] GAME 조회 실패");
@@ -99,22 +102,22 @@ public class JanggiGameDao {
         throw new IllegalStateException("[ERROR] GAME 조회 실패");
     }
 
-    public String getCurrTurnById(int gameId) {
-        String findCurrTurnSQL = "SELECT curr_turn FROM game WHERE game_id = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(findCurrTurnSQL)) {
-            preparedStatement.setInt(1, gameId);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getString(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IllegalStateException("[ERROR] CURRENT TURN 조회 실패!");
-        }
-        throw new IllegalStateException("[ERROR] CURRENT TURN 조회 실패!");
-    }
+//    public String getCurrTurnById(int gameId) {
+//        String findCurrTurnSQL = "SELECT curr_turn FROM game WHERE game_id = ?";
+//
+//        try (PreparedStatement preparedStatement = connection.prepareStatement(findCurrTurnSQL)) {
+//            preparedStatement.setInt(1, gameId);
+//
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            if (resultSet.next()) {
+//                return resultSet.getString(1);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw new IllegalStateException("[ERROR] CURRENT TURN 조회 실패!");
+//        }
+//        throw new IllegalStateException("[ERROR] CURRENT TURN 조회 실패!");
+//    }
 
     public void updateTurn(int gameId, String newTurn) {
         String updateTurnSQL = "UPDATE game SET curr_turn = ? WHERE game_id = ?;";

@@ -5,6 +5,7 @@ import domain.dao.JanggiCoordinateDao;
 import domain.dao.JanggiDBConnect;
 import domain.dao.JanggiGameDao;
 import domain.dao.JanggiPieceDao;
+import domain.dto.GameFindDto;
 import domain.dto.GameIdDto;
 import domain.dto.GameRoomDto;
 import domain.piece.Piece;
@@ -101,11 +102,16 @@ public class JanggiController {
                 Page page = getGameRoomPage();
                 List<GameRoomDto> gameRooms = page.getCurrPageGames(gameDao);
                 String gameName = inputView.getGameName(gameRooms);
-                int gameId = gameDao.getGameIdByName(gameName);
-                String currentTurn = gameDao.getCurrTurnById(gameId);
+
+                GameFindDto findDto = gameDao.getGameByName(gameName);
+                int gameId = findDto.gameId();
+                Country currentTurn = findDto.currTurn();
+
                 return new GameIdDto(
-                        gameDao.getGameIdByName(gameName),
-                        new JanggiGame(coordinateDao.findAllPieces(gameId), Country.fromName(currentTurn)));
+                        gameId,
+                        new JanggiGame(
+                                coordinateDao.findAllPieces(gameId),
+                                currentTurn));
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
