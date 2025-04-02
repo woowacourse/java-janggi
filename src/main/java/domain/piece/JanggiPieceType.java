@@ -4,34 +4,36 @@ import domain.piece.movementrule.CannonMovementRule;
 import domain.piece.movementrule.GeneralMovementRule;
 import domain.piece.movementrule.JanggiPieceMovementRule;
 import domain.piece.movementrule.NoneMovementRule;
-import domain.piece.route.JanggiPieceRoute;
 import domain.piece.route.Route;
+import domain.piece.route.routeselector.*;
 import domain.position.JanggiPosition;
+import janggiexception.InvalidPathException;
 
-import static domain.piece.route.JanggiPieceRoute.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public enum JanggiPieceType {
 
-    KING(0, KING_ROUTE, new GeneralMovementRule()),
-    HORSE(5, HORSE_ROUTE, new GeneralMovementRule()),
-    ADVISOR(3, ADVISOR_ROUTE, new GeneralMovementRule()),
-    ELEPHANT(3, ELEPHANT_ROUTE, new GeneralMovementRule()),
-    SOLDIER(2, SOLDIER_ROUTE, new GeneralMovementRule()),
-    CHARIOT(13, CHARIOT_ROUTE, new GeneralMovementRule()),
-    CANNON(7, CANNON_ROUTE, new CannonMovementRule()),
-    EMPTY(0, EMPTY_ROUTE, new NoneMovementRule());
+    KING(0, List.of(new InsideOnlyPalaceRouteSelector()), new GeneralMovementRule()),
+    HORSE(5, List.of(new HorseRouteSelector()), new GeneralMovementRule()),
+    ADVISOR(3, List.of(new InsideOnlyPalaceRouteSelector()), new GeneralMovementRule()),
+    ELEPHANT(3, List.of(new ElephantRouteSelector()), new GeneralMovementRule()),
+    SOLDIER(2, List.of(new SoldierRouteSelector(), new PalaceForwardRouteSelector()), new GeneralMovementRule()),
+    CHARIOT(13, List.of(new LinearRouteSelector(), new PalaceLinearRouteSelector()), new GeneralMovementRule()),
+    CANNON(7, List.of(new LinearRouteSelector(), new PalaceLinearRouteSelector()), new CannonMovementRule()),
+    EMPTY(0, List.of(), new NoneMovementRule());
 
     private final int score;
-    private final JanggiPieceRoute route;
+    private final List<RouteSelector> routeSelectors;
     private final JanggiPieceMovementRule movementRule;
 
     JanggiPieceType(
             int score,
-            JanggiPieceRoute route,
+            List<RouteSelector> routeSelectors,
             JanggiPieceMovementRule movementRule
     ) {
         this.score = score;
-        this.route = route;
+        this.routeSelectors = routeSelectors;
         this.movementRule = movementRule;
     }
 
@@ -40,7 +42,16 @@ public enum JanggiPieceType {
             JanggiPosition origin,
             JanggiPosition destination
     ) {
-        return route.getRoute(side, origin, destination);
+        List<Route> route = new ArrayList<>();
+        routeSelectors.stream()
+                .map(selector -> selector.getRoute(side, origin, destination))
+                .filter(selectedRoute -> !selectedRoute.isEmpty())
+                .forEach(route::add);
+
+        if (route.isEmpty()) {
+            throw new InvalidPathException();
+        }
+        return route.getFirst();
     }
 
     public void validateCanMove(JanggiSide side, JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
