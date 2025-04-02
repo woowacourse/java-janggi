@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class BoardDao {
-    public void deleteBoardEntity() {
+    public void deleteBoardDB() {
         final var query = "DELETE FROM Board";
 
         try (final var connection = Connector.getConnection()) {
@@ -17,19 +17,19 @@ public final class BoardDao {
         }
     }
 
-    public void createBoardEntity(final List<PieceEntity> pieceEntities) {
-        pieceEntities.forEach(this::addPieceEntityToBoardEntity);
+    public void createBoardDB(final List<PieceInfo> pieceEntities) {
+        pieceEntities.forEach(this::insertPieceInfoToBoardDB);
     }
 
-    private void addPieceEntityToBoardEntity(final PieceEntity pieceEntity) {
+    private void insertPieceInfoToBoardDB(final PieceInfo pieceInfo) {
         final var query = "INSERT INTO Board VALUES(?, ?, ?, ?)";
 
         try (final var connection = Connector.getConnection()) {
             try (final var preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setInt(1, pieceEntity.row());
-                preparedStatement.setInt(2, pieceEntity.column());
-                preparedStatement.setString(3, pieceEntity.type());
-                preparedStatement.setString(4, pieceEntity.dynasty());
+                preparedStatement.setInt(1, pieceInfo.row());
+                preparedStatement.setInt(2, pieceInfo.column());
+                preparedStatement.setString(3, pieceInfo.type());
+                preparedStatement.setString(4, pieceInfo.dynasty());
 
                 preparedStatement.executeUpdate();
             }
@@ -38,9 +38,9 @@ public final class BoardDao {
         }
     }
 
-    public List<PieceEntity> readBoardEntity() {
+    public List<PieceInfo> readBoardDB() {
         final var query = "SELECT row_value, column_value, type, dynasty FROM Board";
-        final List<PieceEntity> pieceEntities = new ArrayList<>();
+        final List<PieceInfo> pieceEntities = new ArrayList<>();
 
         try (final var connection = Connector.getConnection()) {
             try (final var statement = connection.createStatement();
@@ -52,7 +52,7 @@ public final class BoardDao {
                     final String type = resultSet.getString("type");
                     final String dynasty = resultSet.getString("dynasty");
 
-                    pieceEntities.add(new PieceEntity(row, column, type, dynasty));
+                    pieceEntities.add(new PieceInfo(row, column, type, dynasty));
                 }
             }
         } catch (final SQLException e) {

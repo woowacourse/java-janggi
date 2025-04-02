@@ -1,6 +1,6 @@
 package dao.converter;
 
-import dao.PieceEntity;
+import dao.PieceInfo;
 import janggiGame.Board;
 import janggiGame.Position;
 import janggiGame.piece.Advisor;
@@ -18,16 +18,17 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DBConverter {
-    public static Board convertToBoard(List<PieceEntity> pieceEntities) {
-        Map<Position, Piece> survivedPieces = convertToPieceEntities(pieceEntities);
+    public static Board convertToBoard(List<PieceInfo> information) {
+        Map<Position, Piece> survivedPieces = convertToPieces(information);
+
         return new Board(survivedPieces);
     }
 
-    private static Map<Position, Piece> convertToPieceEntities(List<PieceEntity> pieceEntities) {
-        return pieceEntities.stream()
+    private static Map<Position, Piece> convertToPieces(List<PieceInfo> information) {
+        return information.stream()
                 .collect(Collectors.toMap(
-                        pieceEntity -> Position.of(pieceEntity.row(), pieceEntity.column()),
-                        pieceEntity -> DBConverter.convertToPiece(pieceEntity.type(), pieceEntity.dynasty())
+                        pieceInfo -> Position.of(pieceInfo.row(), pieceInfo.column()),
+                        pieceInfo -> DBConverter.convertToPiece(pieceInfo.type(), pieceInfo.dynasty())
                 ));
     }
 

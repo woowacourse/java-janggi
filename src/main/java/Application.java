@@ -1,5 +1,5 @@
 import dao.BoardDao;
-import dao.PieceEntity;
+import dao.PieceInfo;
 import dao.TurnDao;
 import dao.converter.BoardConverter;
 import dao.converter.DBConverter;
@@ -22,7 +22,7 @@ public class Application {
         Board board = createBoard(boardDao, inputView);
 
         Dynasty[] dynasties = Dynasty.values();
-        int turn = turnDao.readTurnEntity();
+        int turn = turnDao.readTurnDB();
 
         while (true) {
             outputView.printBoard(board.getSurvivedPieces());
@@ -48,12 +48,12 @@ public class Application {
                     break;
                 }
 
-                List<PieceEntity> survivedPiece = BoardConverter.convertToPieceEntities(board.getSurvivedPieces());
-                boardDao.deleteBoardEntity(); // 전체 삭제
-                boardDao.createBoardEntity(survivedPiece); // 전체 추가
+                List<PieceInfo> survivedPiece = BoardConverter.convertToPieceInfos(board.getSurvivedPieces());
+                boardDao.deleteBoardDB(); // 전체 삭제
+                boardDao.createBoardDB(survivedPiece); // 전체 추가
 
-                turnDao.incrementTurn();
-                turn = turnDao.readTurnEntity();
+                turnDao.incrementTurnDB();
+                turn = turnDao.readTurnDB();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -61,12 +61,12 @@ public class Application {
     }
 
     private static Board createBoard(BoardDao boardDao, InputView inputView) {
-        List<PieceEntity> pieceEntities = boardDao.readBoardEntity();
+        List<PieceInfo> pieceEntities = boardDao.readBoardDB();
 
         if (pieceEntities.isEmpty()) {
             Board newBoard = settingJanggiGame(inputView);
-            List<PieceEntity> settingPieces = BoardConverter.convertToPieceEntities(newBoard.getSurvivedPieces());
-            boardDao.createBoardEntity(settingPieces);
+            List<PieceInfo> settingPieces = BoardConverter.convertToPieceInfos(newBoard.getSurvivedPieces());
+            boardDao.createBoardDB(settingPieces);
             return newBoard;
         }
         return DBConverter.convertToBoard(pieceEntities);
@@ -91,7 +91,7 @@ public class Application {
     }
 
     private static void resetGameStatus(BoardDao boardDao, TurnDao turnDao) {
-        boardDao.deleteBoardEntity();
-        turnDao.resetTurnEntity();
+        boardDao.deleteBoardDB();
+        turnDao.resetTurnDB();
     }
 }
