@@ -61,13 +61,13 @@ public record Position(int x, int y) {
 
     private void validateInXLine(Position start, Position end) {
         if (start.y != end.y) {
-            throw new IllegalArgumentException("시작점과 도착점이 같은 X축 선에 존재하지 않습니다.");
+            throw new IllegalArgumentException("동일한 X축 선에 시작점과 도착점이 존재하지 않습니다.");
         }
     }
 
     private void validateInYLine(Position start, Position end) {
         if (start.x != end.x) {
-            throw new IllegalArgumentException("시작점과 도착점이 같은 y축 선에 존재하지 않습니다.");
+            throw new IllegalArgumentException("동일한 y축 선에 시작점과 도착점이 존재하지 않습니다.");
         }
     }
 
@@ -76,7 +76,7 @@ public record Position(int x, int y) {
             return;
         }
         if ((end.y - start.y) == 0 || (end.x - start.x) / (end.y - start.y) != 1) {
-            throw new IllegalArgumentException("시작점과 도착점이 같은 기울기 1 대각선에 존재하지 않습니다.");
+            throw new IllegalArgumentException("시작점과 도착점이 기울기 1 대각선을 이루지 않습니다.");
         }
     }
 
@@ -85,7 +85,7 @@ public record Position(int x, int y) {
             return;
         }
         if ((end.y - start.y) == 0 || (end.x - start.x) / (end.y - start.y) != -1) {
-            throw new IllegalArgumentException("시작점과 도착점이 같은 기울기 -1 대각선에 존재하지 않습니다.");
+            throw new IllegalArgumentException("시작점과 도착점이 기울기 -1 대각선을 이루지 않습니다.");
         }
     }
 }

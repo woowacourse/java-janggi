@@ -42,7 +42,7 @@ class PositionTest {
         );
     }
 
-    @DisplayName("출발지에서 목적지가 동일한 X축선 내에 존재하지 않을 경우 예외를 발생시킨다.")
+    @DisplayName("동일한 X축선 내에 출발지에서 목적지가 존재하지 않을 경우 예외를 발생시킨다.")
     @Test
     void canNotMakePositionsOutOfXLine() {
         Position start = new Position(3, 2);
@@ -50,7 +50,7 @@ class PositionTest {
 
         assertThatThrownBy(() -> start.makeInXLine(end))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("시작점과 도착점이 같은 X축 선에 존재하지 않습니다.");
+                .hasMessage("동일한 X축 선에 시작점과 도착점이 존재하지 않습니다.");
     }
 
     @DisplayName("동일한 y축선에 존재하는 출발지에서 목적지까지의 위치값들을 구할 수 있다.")
@@ -72,7 +72,7 @@ class PositionTest {
         );
     }
 
-    @DisplayName("출발지에서 목적지가 동일한 Y축선 내에 존재하지 않을 경우 예외를 발생시킨다.")
+    @DisplayName("동일한 Y축선 내에 출발지에서 목적지가 존재하지 않을 경우 예외를 발생시킨다.")
     @Test
     void canNotMakePositionsOutOfYLine() {
         Position start = new Position(3, 5);
@@ -80,7 +80,7 @@ class PositionTest {
 
         assertThatThrownBy(() -> start.makeInYLine(end))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("시작점과 도착점이 같은 y축 선에 존재하지 않습니다.");
+                .hasMessage("동일한 y축 선에 시작점과 도착점이 존재하지 않습니다.");
     }
 
     @DisplayName("기울기가 1인 대각선에 존재하는 출발지에서 목적지까지의 위치값들을 구할 수 있다.")
@@ -102,7 +102,7 @@ class PositionTest {
         );
     }
 
-    @DisplayName("출발지에서 목적지가 동일한 기울기 1 대각선 내에 존재하지 않을 경우 예외를 발생시킨다.")
+    @DisplayName("시작점과 도착점이 기울기 1 대각선을 이루지 않을 경우 예외를 발생시킨다.")
     @Test
     void canNotMakePositionsOutOfPlusOneSlopDiagonal() {
         Position start = new Position(0, 1);
@@ -110,7 +110,7 @@ class PositionTest {
 
         assertThatThrownBy(() -> start.makeInDiagonalWithPlusOneSlop(end))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("시작점과 도착점이 같은 기울기 1 대각선에 존재하지 않습니다.");
+                .hasMessage("시작점과 도착점이 기울기 1 대각선을 이루지 않습니다.");
     }
 
     @DisplayName("기울기가 -1인 대각선에 존재하는 출발지에서 목적지까지의 위치값들을 구할 수 있다.")
@@ -132,7 +132,7 @@ class PositionTest {
         );
     }
 
-    @DisplayName("출발지에서 목적지가 동일한 기울기 -1 대각선 내에 존재하지 않을 경우 예외를 발생시킨다.")
+    @DisplayName("시작점과 도착점이 기울기 -1 대각선을 이루지 않을 경우 예외를 발생시킨다.")
     @Test
     void canNotMakePositionsOutOfMinusOneSlopDiagonal() {
         Position start = new Position(0, 1);
@@ -140,6 +140,6 @@ class PositionTest {
 
         assertThatThrownBy(() -> start.makeInDiagonalWithMinusOneSlop(end))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("시작점과 도착점이 같은 기울기 -1 대각선에 존재하지 않습니다.");
+                .hasMessage("시작점과 도착점이 기울기 -1 대각선을 이루지 않습니다.");
     }
 }
