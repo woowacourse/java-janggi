@@ -40,7 +40,7 @@ public class JanggiGame {
     }
 
     public ScoreCalculator getScoreInfo() {
-        return board.getScoreResult();
+        return board.createScoreCalculator();
     }
 
     public boolean isFinished() {
