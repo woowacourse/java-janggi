@@ -23,7 +23,7 @@ public final class Piece {
         return new Piece(type, destination);
     }
 
-    public boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
+    private boolean ableToMove(Position destination, List<Piece> enemy, List<Piece> allies) {
         MoveStrategy moveStrategy = type.getMoveStrategy();
         return moveStrategy.ableToMove(position, destination, enemy, allies);
     }
