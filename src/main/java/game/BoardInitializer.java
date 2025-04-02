@@ -52,7 +52,6 @@ public class BoardInitializer {
                         new GreenSoldier(15, Team.GREEN, new Position(7, 7)),
                         new GreenSoldier(16, Team.GREEN, new Position(9, 7)),
 
-
                         new Chariot(17, Team.RED, pathManager, new Position(1, 1)),
                         new Chariot(18, Team.RED, pathManager, new Position(9, 1)),
 

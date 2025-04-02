@@ -24,8 +24,8 @@ public class BaseDao {
     }
 
     public <T> List<T> executeQuery(String query,
-                                           SqlConsumer<PreparedStatement> parameterBinder,
-                                           SqlFunction<ResultSet, T> RowMapper) {
+                                    SqlConsumer<PreparedStatement> parameterBinder,
+                                    SqlFunction<ResultSet, T> RowMapper) {
         List<T> result = new ArrayList<>();
 
         return executeQuery(query, preparedStatement -> {

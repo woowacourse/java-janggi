@@ -3,7 +3,6 @@ package piece;
 import game.Team;
 import location.Direction;
 import location.PathManager;
-import location.PathManagerImpl;
 import location.Position;
 
 public class General extends Piece {

@@ -2,7 +2,6 @@ package piece;
 
 import game.Team;
 import location.PathManager;
-import location.PathManagerImpl;
 import location.Position;
 import java.util.List;
 

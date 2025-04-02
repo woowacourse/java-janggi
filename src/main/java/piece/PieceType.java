@@ -53,7 +53,7 @@ public enum PieceType {
 
     public static PieceType fromName(String pieceTypeName) {
         for (PieceType pieceType : PieceType.values()) {
-            if(pieceType.name().equalsIgnoreCase(pieceTypeName)) {
+            if (pieceType.name().equalsIgnoreCase(pieceTypeName)) {
                 return pieceType;
             }
         }
