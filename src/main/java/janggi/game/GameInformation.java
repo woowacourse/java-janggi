@@ -2,6 +2,7 @@ package janggi.game;
 
 import janggi.rule.GameState;
 import janggi.rule.PieceAssignType;
+import java.util.Objects;
 
 public final class GameInformation {
 
@@ -43,5 +44,24 @@ public final class GameInformation {
 
     public GameState getGameState() {
         return gameState;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        GameInformation that = (GameInformation) object;
+        return gameId == that.gameId && Objects.equals(gameTitle, that.gameTitle)
+                && choAssignType == that.choAssignType && hanAssignType == that.hanAssignType
+                && gameState == that.gameState;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(gameId, gameTitle, choAssignType, hanAssignType, gameState);
     }
 }

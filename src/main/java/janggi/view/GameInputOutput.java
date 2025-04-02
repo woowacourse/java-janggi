@@ -2,7 +2,6 @@ package janggi.view;
 
 import janggi.game.GameInformation;
 import janggi.game.JanggiBoard;
-import janggi.game.MovePieceCommand;
 import janggi.rule.CampType;
 import janggi.rule.PieceAssignType;
 import janggi.value.Position;
@@ -76,12 +75,20 @@ public class GameInputOutput {
         }
     }
 
-    public MovePieceCommand readMoveInformation(CampType campType) {
+    public Position readTargetPiecePosition() {
         while (true) {
             try {
-                Position movedPiecePosition = inputView.readMovedPiecePosition();
-                Position destination = inputView.readDestinationPosition();
-                return new MovePieceCommand(campType, movedPiecePosition, destination);
+                return inputView.readMovedPiecePosition();
+            } catch (IllegalArgumentException exception) {
+                outputView.printExceptionMessage(exception.getMessage());
+            }
+        }
+    }
+
+    public Position readDestination() {
+        while (true) {
+            try {
+                return inputView.readDestinationPosition();
             } catch (IllegalArgumentException exception) {
                 outputView.printExceptionMessage(exception.getMessage());
             }

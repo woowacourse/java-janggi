@@ -27,7 +27,7 @@ public class GameInformationDao {
         this.DBConnectorImpl = DBConnectorImpl;
     }
 
-    public int addNew(String title, PieceAssignType choAssignType, PieceAssignType hanAssignType) {
+    public GameInformation addNew(String title, PieceAssignType choAssignType, PieceAssignType hanAssignType) {
         String query = "INSERT INTO games (title, cho_assign_type, han_assign_type, game_state) VALUES(?, ?, ?, ?)";
         try (
                 Connection connection = DBConnectorImpl.getConnection();
@@ -40,7 +40,22 @@ public class GameInformationDao {
             statement.executeUpdate();
             ResultSet queryResult = statement.getGeneratedKeys();
             queryResult.next();
-            return queryResult.getInt(1);
+            int gameId = queryResult.getInt(1);
+            return new GameInformation(gameId, title, choAssignType, hanAssignType, GameState.PLAY);
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public GameInformation findById(int gameId) {
+        String query = "SELECT * FROM games WHERE games.game_id = ?";
+        try (
+                Connection connection = DBConnectorImpl.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)
+        ) {
+            statement.setInt(1, gameId);
+            ResultSet resultSet = statement.executeQuery();
+            return parseGameInformation(resultSet).getFirst();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

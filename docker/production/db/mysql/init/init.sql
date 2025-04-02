@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS move_piece_records;
+DROP TABLE IF EXISTS move_piece_commands;
 DROP TABLE IF EXISTS games;
 
 CREATE TABLE IF NOT EXISTS games (
@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS games (
        game_state VARCHAR(50)
 );
 
-CREATE TABLE IF NOT EXISTS move_piece_records (
-      record_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS move_piece_commands (
+      command_id INT PRIMARY KEY AUTO_INCREMENT,
       game_id Int,
       camp_type VARCHAR(10),
       target_piece_x_position INT,

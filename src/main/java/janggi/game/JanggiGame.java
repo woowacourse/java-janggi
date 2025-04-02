@@ -3,8 +3,8 @@ package janggi.game;
 import janggi.dao.GameInformationDao;
 import janggi.dao.MovePieceCommandDao;
 import janggi.rule.CampType;
-import janggi.rule.GameState;
 import janggi.rule.PieceAssignType;
+import janggi.value.Position;
 import janggi.view.GameInputOutput;
 import janggi.view.answer.GameMenuAnswer;
 import janggi.view.answer.TurnMenuAnswer;
@@ -49,8 +49,8 @@ public class JanggiGame {
         gameInputOutput.printStartMessage();
         PieceAssignType choAnswer = gameInputOutput.readPieceAssignType(CampType.CHO);
         PieceAssignType hanAnswer = gameInputOutput.readPieceAssignType(CampType.HAN);
-        int gameId = gameInformationDao.addNew(gameTitle, choAnswer, hanAnswer);
-        return new GameInformation(gameId, gameTitle, choAnswer, hanAnswer, GameState.PLAY);
+        GameInformation gameInformation = gameInformationDao.addNew(gameTitle, choAnswer, hanAnswer);
+        return gameInformation;
     }
 
     private Optional<GameInformation> selectGameInformationInPlaying() {
@@ -67,7 +67,7 @@ public class JanggiGame {
     }
 
     private List<MovePieceCommand> loadMovePieceCommand(int gameId) {
-        return movePieceCommandDao.finaAllMovePieceCommand(gameId);
+        return movePieceCommandDao.findAllInGameId(gameId);
     }
 
     private CampType calculateLastTurn(List<MovePieceCommand> commands) {
@@ -106,9 +106,11 @@ public class JanggiGame {
         while (true) {
             try {
                 gameInputOutput.printTurn(campType);
-                MovePieceCommand movePieceCommand = gameInputOutput.readMoveInformation(campType);
-                janggiBoard.movePiece(movePieceCommand);
-                movePieceCommandDao.addMovePieceCommand(gameId, movePieceCommand);
+                Position targetPiecePosition = gameInputOutput.readTargetPiecePosition();
+                Position destination = gameInputOutput.readDestination();
+                MovePieceCommand command =
+                        movePieceCommandDao.addNew(gameId, campType, targetPiecePosition, destination);
+                janggiBoard.movePiece(command);
                 gameInputOutput.printJanggiBoardState(janggiBoard);
                 return;
             } catch (IllegalArgumentException exception) {
