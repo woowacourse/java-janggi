@@ -59,16 +59,16 @@ public enum SetUp {
         throw new IllegalArgumentException("[ERROR] 잘못된 선택입니다.");
     }
 
-    public List<Piece> innerOuterPieces(Function<Position, Position> teamSide) {
+    private List<Piece> innerOuterPieces(Function<Position, Position> teamSide) {
         return getPieces(teamSide, hanHorsePosition.flipLeftRight(), hanElephantPosition.flipLeftRight());
     }
 
-    public List<Piece> rightElephant(Function<Position, Position> teamSide) {
+    private List<Piece> rightElephant(Function<Position, Position> teamSide) {
         return getPieces(teamSide, hanHorsePosition.flipLeftRight().moveRow(-1),
                 hanElephantPosition.flipLeftRight().moveRow(1));
     }
 
-    public List<Piece> leftElephant(Function<Position, Position> teamSide) {
+    private List<Piece> leftElephant(Function<Position, Position> teamSide) {
         return getPieces(teamSide, hanHorsePosition.flipLeftRight().moveRow(1),
                 hanElephantPosition.flipLeftRight().moveRow(-1));
     }
