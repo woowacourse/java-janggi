@@ -49,7 +49,7 @@ public class JanggiGameDao {
     }
 
     public List<GameRoomDto> findAllGames() {
-        String findAllGamesSQL = "SELECT room_name, curr_turn, created_at from game;";
+        String findAllGamesSQL = "SELECT room_name, curr_turn, created_at FROM game ORDER BY created_at;";
 
         try (Statement statement = connection.createStatement()) {
             final ResultSet resultSet = statement.executeQuery(findAllGamesSQL);
