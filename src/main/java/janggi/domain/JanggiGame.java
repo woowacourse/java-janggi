@@ -4,14 +4,14 @@ import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
 import java.util.Map;
 
-public class Round {
+public class JanggiGame {
 
     private final static double HANDICAP_POINTS = 1.5;
 
     private final Board board;
     private Side currentTurn;
 
-    public Round(Board board, Side side) {
+    public JanggiGame(Board board, Side side) {
         this.board = board;
         this.currentTurn = side;
     }

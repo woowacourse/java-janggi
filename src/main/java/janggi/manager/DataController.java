@@ -12,11 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JanggiData {
+public class DataController {
 
     private final JanggiDao janggiDao;
 
-    public JanggiData(JanggiDao janggiDao) {
+    public DataController(JanggiDao janggiDao) {
         this.janggiDao = janggiDao;
     }
 

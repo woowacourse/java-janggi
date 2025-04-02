@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RoundTest {
+class JanggiGameTest {
 
     @DisplayName("한나라의 경우 기본 기물 점수에 덤으로 인한 추가 점수 1.5점을 더한다.")
     @Test
@@ -14,10 +14,10 @@ class RoundTest {
         // given
         Board board = new Board(Map.of());
         Side hanSide = Side.HAN;
-        Round round = new Round(board, hanSide);
+        JanggiGame janggiGame = new JanggiGame(board, hanSide);
 
         // when
-        Map<Side, Double> actual = round.getCurrentPoints();
+        Map<Side, Double> actual = janggiGame.getCurrentPoints();
         double expected = 1.5;
 
         // then

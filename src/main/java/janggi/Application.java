@@ -3,14 +3,14 @@ package janggi;
 import janggi.dao.DaoSettings;
 import janggi.dao.JanggiDao;
 import janggi.domain.Board;
+import janggi.domain.JanggiGame;
 import janggi.domain.PieceFactory;
-import janggi.domain.Round;
 import janggi.domain.Side;
 import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.PieceDto;
-import janggi.manager.JanggiData;
-import janggi.manager.JanggiGame;
+import janggi.manager.DataController;
+import janggi.manager.GameController;
 import janggi.view.Viewer;
 import java.util.List;
 import java.util.Map;
@@ -20,40 +20,40 @@ public class Application {
     public static void main(String[] args) {
         DaoSettings daoSettings = new DaoSettings("localhost:13306", "janggi", "root", "root");
         JanggiDao janggiDao = new JanggiDao(daoSettings);
-        JanggiData janggiData = new JanggiData(janggiDao);
+        DataController dataController = new DataController(janggiDao);
 
-        JanggiGame janggiGame = setGame(janggiData);
+        GameController gameController = setGame(dataController);
 
-        janggiGame.start();
-        janggiGame.finish();
+        gameController.start();
+        gameController.finish();
     }
 
-    private static JanggiGame setGame(JanggiData janggiData) {
-        List<PieceDto> pieceDtos = janggiData.loadFromDatabase();
+    private static GameController setGame(DataController dataController) {
+        List<PieceDto> pieceDtos = dataController.loadFromDatabase();
 
         if (pieceDtos.isEmpty()) {
-            return setNewGame(janggiData);
+            return setNewGame(dataController);
         }
-        return loadGame(janggiData, pieceDtos);
+        return loadGame(dataController, pieceDtos);
     }
 
-    private static JanggiGame setNewGame(JanggiData janggiData) {
+    private static GameController setNewGame(DataController dataController) {
         Map<Position, Piece> initialPieces = PieceFactory.initialize();
         Viewer viewer = new Viewer();
         Board board = new Board(initialPieces);
-        Round round = new Round(board, Side.CHO);
+        JanggiGame janggiGame = new JanggiGame(board, Side.CHO);
 
-        janggiData.setupDatabase(initialPieces);
+        dataController.setupDatabase(initialPieces);
 
-        return new JanggiGame(janggiData, viewer, round);
+        return new GameController(dataController, viewer, janggiGame);
     }
 
-    private static JanggiGame loadGame(JanggiData janggiData, List<PieceDto> loadedData) {
+    private static GameController loadGame(DataController dataController, List<PieceDto> loadedData) {
         Viewer viewer = new Viewer();
-        Board board = new Board(janggiData.convertFromDto(loadedData));
-        Side currentTurn = janggiData.loadCurrentTurn();
-        Round round = new Round(board, currentTurn);
+        Board board = new Board(dataController.convertFromDto(loadedData));
+        Side currentTurn = dataController.loadCurrentTurn();
+        JanggiGame janggiGame = new JanggiGame(board, currentTurn);
 
-        return new JanggiGame(janggiData, viewer, round);
+        return new GameController(dataController, viewer, janggiGame);
     }
 }

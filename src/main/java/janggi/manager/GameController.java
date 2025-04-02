@@ -1,22 +1,22 @@
 package janggi.manager;
 
-import janggi.domain.Round;
+import janggi.domain.JanggiGame;
 import janggi.domain.movement.Position;
 import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
 import janggi.util.RecoveryUtil;
 import janggi.view.Viewer;
 
-public class JanggiGame {
+public class GameController {
 
-    private final JanggiData janggiData;
+    private final DataController dataController;
     private final Viewer viewer;
-    private final Round round;
+    private final JanggiGame janggiGame;
 
-    public JanggiGame(JanggiData janggiData, Viewer viewer, Round round) {
-        this.janggiData = janggiData;
+    public GameController(DataController dataController, Viewer viewer, JanggiGame janggiGame) {
+        this.dataController = dataController;
         this.viewer = viewer;
-        this.round = round;
+        this.janggiGame = janggiGame;
     }
 
     public void start() {
@@ -24,10 +24,10 @@ public class JanggiGame {
     }
 
     private void repeatGameTurns() {
-        while (round.hasBothGenerals()) {
-            viewer.printBoard(round.getCurrentPieces());
-            viewer.printPoints(round.getCurrentPoints());
-            viewer.printTurnInfo(round.getCurrentTurn());
+        while (janggiGame.hasBothGenerals()) {
+            viewer.printBoard(janggiGame.getCurrentPieces());
+            viewer.printPoints(janggiGame.getCurrentPoints());
+            viewer.printTurnInfo(janggiGame.getCurrentTurn());
 
             RecoveryUtil.executeWithRetry(this::commenceTurn);
         }
@@ -37,7 +37,7 @@ public class JanggiGame {
         Position selectedPosition = getSelectedPosition();
         Position targetPosition = getTargetPosition();
 
-        round.commence(selectedPosition, targetPosition);
+        janggiGame.commence(selectedPosition, targetPosition);
 
         updateDatabase(selectedPosition, targetPosition);
     }
@@ -53,14 +53,14 @@ public class JanggiGame {
     }
 
     private void updateDatabase(Position oldPosition, Position newPosition) {
-        Piece targetPiece = round.getPiece(newPosition);
-        janggiData.update(oldPosition, newPosition, targetPiece);
+        Piece targetPiece = janggiGame.getPiece(newPosition);
+        dataController.update(oldPosition, newPosition, targetPiece);
     }
 
     public void finish() {
-        viewer.printBoard(round.getCurrentPieces());
-        viewer.printWinner(round.getCurrentTurn());
+        viewer.printBoard(janggiGame.getCurrentPieces());
+        viewer.printWinner(janggiGame.getCurrentTurn());
 
-        janggiData.resetDatabase();
+        dataController.resetDatabase();
     }
 }
