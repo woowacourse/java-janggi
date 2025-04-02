@@ -3,8 +3,11 @@ package domain.dao;
 import domain.Country;
 import domain.piece.Cha;
 import domain.piece.Piece;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 class JanggiPieceDaoTest {
 
@@ -17,10 +20,10 @@ class JanggiPieceDaoTest {
         void insertPieceTest() {
             JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
             Piece piece = new Cha(Country.HAN);
-            int num = gameDao.createGame("Test", Country.HAN);
-            pieceDao.addPiece(num, piece);
+            int id = gameDao.createGame("Test", Country.HAN);
+            Assertions.assertDoesNotThrow(() -> pieceDao.addPiecesBatch(id, List.of(piece)));
 
-            gameDao.deleteGameRoom(num);
+            gameDao.deleteGameRoom(id);
         }
     }
 }

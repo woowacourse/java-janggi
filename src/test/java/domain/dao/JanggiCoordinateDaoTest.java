@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,9 +28,9 @@ class JanggiCoordinateDaoTest {
             JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
             JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
             int gameId = gameDao.createGame("TEST", Country.HAN);
-            int pieceId = pieceDao.addPiece(gameId, piece);
+            List<Integer> pieceIds = pieceDao.addPiecesBatch(gameId, List.of(piece));
 
-            Assertions.assertDoesNotThrow(() -> coordinateDao.insertPieceToCoordinate(pieceId, coordinate, gameId));
+            Assertions.assertDoesNotThrow(() -> coordinateDao.addPieceToCoordinateBatch(pieceIds, List.of(coordinate), gameId));
             gameDao.deleteGameRoom(gameId);
         }
     }
@@ -45,11 +46,12 @@ class JanggiCoordinateDaoTest {
             JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
             JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
             int gameId = gameDao.createGame("TEST1", Country.HAN);
-            int pieceId1 = pieceDao.addPiece(gameId, piece1);
-            int pieceId2 = pieceDao.addPiece(gameId, piece2);
 
-            coordinateDao.insertPieceToCoordinate(pieceId1, new JanggiCoordinate(1, 2), gameId);
-            coordinateDao.insertPieceToCoordinate(pieceId2, new JanggiCoordinate(2, 3), gameId);
+            List<Integer> pieceIds = pieceDao.addPiecesBatch(gameId, List.of(piece1, piece2));
+            coordinateDao.addPieceToCoordinateBatch(
+                    pieceIds,
+                    List.of(new JanggiCoordinate(1, 2), new JanggiCoordinate(2, 3)),
+                    gameId);
 
             Map<JanggiCoordinate, Piece> map = coordinateDao.findAllPieces(gameId);
 
