@@ -1,11 +1,12 @@
 package piece;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import board.Board;
 import board.Position;
-import piece.movement.PalaceMovement;
 
 public class King extends Piece {
 
@@ -18,9 +19,20 @@ public class King extends Piece {
         if (!startPosition.isPalacePosition()) {
             throw new IllegalStateException("궁은 궁성 영역 밖에 존재할 수 없습니다.");
         }
-        return PalaceMovement.applyMovement(startPosition)
-                .stream()
-                .filter(candidatePosition -> isMovable(candidatePosition, board))
+        Set<Position> movablePositions = new HashSet<>();
+        if (startPosition.hasDiagonalDirectionInPosition()) {
+            movablePositions.addAll(findMovablePositions(Direction.getDiagonalDirection(), startPosition, board));
+        }
+        movablePositions.addAll(findMovablePositions(Direction.getStraightDirection(), startPosition, board));
+        return movablePositions;
+    }
+
+    private Set<Position> findMovablePositions(
+            final List<Direction> directions, final Position startPosition, final Board board
+    ) {
+        return directions.stream()
+                .map(startPosition::moveByDirection)
+                .filter(movedPosition -> isMovable(movedPosition, board))
                 .collect(Collectors.toSet());
     }
 
