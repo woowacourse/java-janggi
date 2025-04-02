@@ -1,7 +1,7 @@
 package controller;
 
-import dao.JanggiTransactionManager;
-import dao.dto.UpdatePieceRequest;
+import persistence.JanggiPersistenceManager;
+import persistence.dto.UpdatePieceRequest;
 import domain.board.Board;
 import domain.board.BoardLocation;
 import domain.game.JanggiGame;
@@ -15,11 +15,11 @@ import view.ConsoleView;
 public class JanggiController {
 
     private final ConsoleView consoleView;
-    private final JanggiTransactionManager transactionManager;
+    private final JanggiPersistenceManager janggiPersistenceManager;
 
-    public JanggiController(ConsoleView consoleView, JanggiTransactionManager transactionManager) {
+    public JanggiController(ConsoleView consoleView, JanggiPersistenceManager janggiPersistenceManager) {
         this.consoleView = consoleView;
-        this.transactionManager = transactionManager;
+        this.janggiPersistenceManager = janggiPersistenceManager;
     }
 
     public void start() {
@@ -38,7 +38,7 @@ public class JanggiController {
                 isGameStopped = janggiGame.isGameStopped();
 
                 consoleView.showBoard(janggiGame.getBoard().getPieces());
-                transactionManager.update(janggiGameId, janggiGame, new UpdatePieceRequest(current, destination));
+                janggiPersistenceManager.update(janggiGameId, janggiGame, new UpdatePieceRequest(current, destination));
             } catch (RuntimeException e) {
                 consoleView.showMessage(e.getMessage());
             }
@@ -48,7 +48,7 @@ public class JanggiController {
     }
 
     private JanggiGame prepareGame(Long janggiGameId) {
-        Optional<JanggiGame> janggiGame = transactionManager.findById(janggiGameId);
+        Optional<JanggiGame> janggiGame = janggiPersistenceManager.findById(janggiGameId);
         return janggiGame.orElseGet(this::createJanggiGame);
     }
 
@@ -57,7 +57,7 @@ public class JanggiController {
         Board board = Board.createWithPieces(placements);
         Turn turn = Turn.getStartingTurn();
         JanggiGame janggiGame = new JanggiGame(board, turn);
-        transactionManager.create(janggiGame);
+        janggiPersistenceManager.create(janggiGame);
         return janggiGame;
     }
 }

@@ -1,9 +1,10 @@
 import controller.JanggiController;
-import dao.EntityMapper;
-import dao.JanggiGameDao;
-import dao.JanggiTransactionManager;
-import dao.MySqlConnector;
-import dao.PieceDao;
+import persistence.mapper.EntityMapper;
+import persistence.dao.JanggiGameDao;
+import persistence.JanggiPersistenceManager;
+import persistence.transaction.TransactionManager;
+import persistence.transaction.MySqlConnector;
+import persistence.dao.PieceDao;
 import view.ConsoleView;
 import view.InputView;
 import view.OutputView;
@@ -13,13 +14,13 @@ public class Application {
 
     public static void main(String[] args) {
         ConsoleView consoleView = new ConsoleView(new InputView(), new OutputView(new OutputSupporter()));
-        JanggiTransactionManager transactionManager = new JanggiTransactionManager(
-                new MySqlConnector(),
+        JanggiPersistenceManager janggiPersistenceManager = new JanggiPersistenceManager(
+                new TransactionManager(new MySqlConnector()),
                 new JanggiGameDao(),
                 new PieceDao(),
                 new EntityMapper()
         );
-        JanggiController janggiController = new JanggiController(consoleView, transactionManager);
+        JanggiController janggiController = new JanggiController(consoleView, janggiPersistenceManager);
         janggiController.start();
     }
 }

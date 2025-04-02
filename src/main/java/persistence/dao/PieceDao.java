@@ -1,4 +1,4 @@
-package dao;
+package persistence.dao;
 
 import domain.board.BoardLocation;
 import domain.entity.PieceEntity;

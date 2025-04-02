@@ -1,4 +1,4 @@
-package dao;
+package persistence.dao;
 
 import domain.entity.JanggiGameEntity;
 import domain.game.Turn;

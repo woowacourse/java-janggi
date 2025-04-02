@@ -1,4 +1,4 @@
-package dao.dto;
+package persistence.dto;
 
 import domain.board.BoardLocation;
 

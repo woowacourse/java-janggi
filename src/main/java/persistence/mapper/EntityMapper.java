@@ -1,4 +1,4 @@
-package dao;
+package persistence.mapper;
 
 import domain.board.Board;
 import domain.board.BoardLocation;
