@@ -2,7 +2,8 @@ package domain.dao;
 
 import domain.Country;
 import domain.JanggiCoordinate;
-import domain.piece.*;
+import domain.PieceType;
+import domain.piece.Piece;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -69,28 +70,11 @@ public class JanggiCoordinateDao {
         return board;
     }
 
-
-    private Piece createPiece(String pieceType, String countryString) {
+    private Piece createPiece(String stringPieceType, String countryString) {
         Country country = Country.fromName(countryString);
+        PieceType pieceType = PieceType.convertToPieceType(stringPieceType);
 
-        switch (pieceType) {
-            case "차":
-                return new Cha(country);
-            case "마":
-                return new Ma(country);
-            case "상":
-                return new Sang(country);
-            case "포":
-                return new Pho(country);
-            case "사":
-                return new Sa(country);
-            case "궁":
-                return new Gung(country);
-            case "병":
-                return new Byeong(country);
-            default:
-                throw new IllegalArgumentException("알 수 없는 기물 타입: " + pieceType);
-        }
+        return pieceType.createPiece(country);
     }
 
     public void deleteCoordinatesByGameId(int gameId) {
