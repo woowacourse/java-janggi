@@ -2,6 +2,11 @@
 
 장기 미션 저장소
 
+### 실행 전 해야할 것
+1. docker 폴더의 하위에 docker-compose.yml 가 있습니다.
+2. 터미널에서 docker 폴더로 이동해 'docker-compose -p janggi up -d' 로 데이터베이스를 띄운다.
+3. mysql 서버가 실행되면 애플리케이션을 실행한다.
+
 ## 출력 포맷
 
 ```
@@ -225,4 +230,5 @@ game_id INT AUTO_INCREMENT NOT NULL,
 state VARCHAR(10) NOT NULL,
 PRIMARY KEY (game_id)
 );
+
 ```
