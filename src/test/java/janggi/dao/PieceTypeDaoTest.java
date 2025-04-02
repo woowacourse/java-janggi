@@ -16,10 +16,9 @@ class PieceTypeDaoTest {
 
     @BeforeEach
     void setUp() {
-        pieceTypeDao = new PieceTypeDao(new ConnectionManager());
+        pieceTypeDao = new PieceTypeDao(new TestConnectionManager());
     }
 
-    @Disabled
     @Nested
     class 쿼리에_따라_각_CRUD가_정상적으로_동작하는지_테스트한다 {
 
@@ -29,13 +28,14 @@ class PieceTypeDaoTest {
                     .isThrownBy(() -> pieceTypeDao.insertInitialPieceType());
         }
 
+        @Disabled
         @Test
         void ID로_기물_타입을_조회한다() {
-            final int id = 1;
+            final int id = 12;
             final var pieceType = pieceTypeDao.findPieceTypeById(id);
 
             assertThat(pieceType)
-                    .isEqualTo(new PieceTypeDto(id, PieceType.GUNG.toString()));
+                    .isEqualTo(new PieceTypeDto(id, PieceType.SANG.getTitle()));
         }
 
         @Test

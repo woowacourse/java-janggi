@@ -4,7 +4,6 @@ import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.board.SangSetting;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +15,9 @@ class PieceDaoTest {
 
     @BeforeEach
     void setUp() {
-        pieceDao = new PieceDao(new ConnectionManager());
+        pieceDao = new PieceDao(new TestConnectionManager());
     }
 
-    @Disabled
     @Nested
     class 쿼리에_따라_각_CRUD가_정상적으로_동작하는지_테스트한다 {
 
