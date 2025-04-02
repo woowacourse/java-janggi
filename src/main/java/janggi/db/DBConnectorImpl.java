@@ -1,10 +1,10 @@
-package janggi.dao;
+package janggi.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DatabaseConnector {
+public class DBConnectorImpl implements DBConnector {
 
     private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";
@@ -12,6 +12,7 @@ public class DatabaseConnector {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
+    @Override
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);

@@ -1,5 +1,6 @@
 package janggi.dao;
 
+import janggi.db.DBConnector;
 import janggi.game.GameInformation;
 import janggi.rule.GameState;
 import janggi.rule.PieceAssignType;
@@ -20,16 +21,16 @@ public class GameInformationDao {
     private static final String HAN_ASSIGN_COLUMN = "han_assign_type";
     private static final String GAME_STATE_COLUMN = "game_state";
 
-    private final DatabaseConnector databaseConnector;
+    private final DBConnector DBConnectorImpl;
 
-    public GameInformationDao(DatabaseConnector databaseConnector) {
-        this.databaseConnector = databaseConnector;
+    public GameInformationDao(DBConnector DBConnectorImpl) {
+        this.DBConnectorImpl = DBConnectorImpl;
     }
 
     public int addNew(String title, PieceAssignType choAssignType, PieceAssignType hanAssignType) {
         String query = "INSERT INTO games (title, cho_assign_type, han_assign_type, game_state) VALUES(?, ?, ?, ?)";
         try (
-                Connection connection = databaseConnector.getConnection();
+                Connection connection = DBConnectorImpl.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setString(1, title);
@@ -48,7 +49,7 @@ public class GameInformationDao {
     public List<GameInformation> findAllInPlaying() {
         String query = "select * from games where games.game_state = ?";
         try (
-                Connection connection = databaseConnector.getConnection();
+                Connection connection = DBConnectorImpl.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         ) {
             statement.setString(1, GameState.PLAY.toString());
@@ -62,7 +63,7 @@ public class GameInformationDao {
     public void updateGameStateToEnd(int gameId) {
         String query = "UPDATE games SET game_state = ? WHERE game_id = ?;";
         try (
-                Connection connection = databaseConnector.getConnection();
+                Connection connection = DBConnectorImpl.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         ) {
             statement.setString(1, GameState.END.toString());

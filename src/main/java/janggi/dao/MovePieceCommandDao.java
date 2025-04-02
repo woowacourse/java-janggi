@@ -1,5 +1,6 @@
 package janggi.dao;
 
+import janggi.db.DBConnector;
 import janggi.game.MovePieceCommand;
 import janggi.rule.CampType;
 import janggi.value.Position;
@@ -19,10 +20,10 @@ public class MovePieceCommandDao {
     private static final String DESTINATION_X_POSITION_COLUMN = "destination_x_position";
     private static final String DESTINATION_Y_POSITION_COLUMN = "destination_y_position";
 
-    private final DatabaseConnector databaseConnector;
+    private final DBConnector DBConnectorImpl;
 
-    public MovePieceCommandDao(DatabaseConnector databaseConnector) {
-        this.databaseConnector = databaseConnector;
+    public MovePieceCommandDao(DBConnector DBConnectorImpl) {
+        this.DBConnectorImpl = DBConnectorImpl;
     }
 
     public void addMovePieceCommand(int gameId, MovePieceCommand movePieceCommand) {
@@ -30,7 +31,7 @@ public class MovePieceCommandDao {
                 + "(game_id, camp_type, target_piece_x_position, target_piece_y_position, destination_x_position, destination_y_position) "
                 + "VALUES(?, ?, ?, ?, ?, ?)";
         try (
-                Connection connection = databaseConnector.getConnection();
+                Connection connection = DBConnectorImpl.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query);
         ) {
             statement.setInt(1, gameId);
@@ -48,7 +49,7 @@ public class MovePieceCommandDao {
     public List<MovePieceCommand> finaAllMovePieceCommand(int gameId) {
         String query = "select * from move_piece_records WHERE move_piece_records.game_id = ? ORDER BY move_piece_records.created_at ASC;";
         try (
-                Connection connection = databaseConnector.getConnection();
+                Connection connection = DBConnectorImpl.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query);
         ) {
             statement.setInt(1, gameId);
