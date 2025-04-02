@@ -4,10 +4,10 @@ import janggi.setting.PieceAssignType;
 import java.util.Arrays;
 
 public enum PieceAssignTypeAnswer {
-    ONE("1", PieceAssignType.LEFT_SANG),
-    TWO("2", PieceAssignType.RIGHT_SANG),
-    THREE("3", PieceAssignType.IN_SANG),
-    FOUR("4", PieceAssignType.OUT_SANG);
+    LEFT_SANG("1", PieceAssignType.LEFT_SANG),
+    RIGHT_SANG("2", PieceAssignType.RIGHT_SANG),
+    IN_SANG("3", PieceAssignType.IN_SANG),
+    OUT_SANG("4", PieceAssignType.OUT_SANG);
 
     private final String command;
     private final PieceAssignType pieceAssignType;

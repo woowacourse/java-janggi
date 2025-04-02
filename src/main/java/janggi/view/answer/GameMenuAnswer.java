@@ -3,8 +3,8 @@ package janggi.view.answer;
 import java.util.Arrays;
 
 public enum GameMenuAnswer {
-    ONE("1"),
-    TWO("2"),
+    New_GAME("1"),
+    CONTINUED_GAME("2"),
     QUIT("q");
 
     private final String command;

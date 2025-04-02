@@ -3,9 +3,9 @@ package janggi.view.answer;
 import java.util.Arrays;
 
 public enum TurnMenuAnswer {
-    ONE("1"),
-    TWO("2"),
-    THREE("3");
+    MOVE_PIECE("1"),
+    REST_TURN("2"),
+    GAME_OVER("3");
 
     private final String command;
 

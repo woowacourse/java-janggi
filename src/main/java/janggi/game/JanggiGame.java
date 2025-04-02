@@ -27,11 +27,11 @@ public class JanggiGame {
     public void start() {
         while (true) {
             GameMenuAnswer gameMenuAnswer = gameInputOutput.readGameMenuAnswer();
-            if (gameMenuAnswer == GameMenuAnswer.ONE) {
+            if (gameMenuAnswer == GameMenuAnswer.New_GAME) {
                 GameInformation gameInformation = registerNewGameInformation();
                 playGame(gameInformation);
             }
-            if (gameMenuAnswer == GameMenuAnswer.TWO) {
+            if (gameMenuAnswer == GameMenuAnswer.CONTINUED_GAME) {
                 Optional<GameInformation> optionalGameInformation = registerContinuedGameInformation();
                 if (optionalGameInformation.isEmpty()) {
                     continue;
@@ -89,16 +89,16 @@ public class JanggiGame {
         while (true) {
             campTypeInTurn = campTypeInTurn.getEnemyCampType();
             TurnMenuAnswer turnMenuAnswer = gameInputOutput.readTurnMenuAnswer(campTypeInTurn);
-            if (turnMenuAnswer == TurnMenuAnswer.ONE) {
+            if (turnMenuAnswer == TurnMenuAnswer.MOVE_PIECE) {
                 movePiece(gameId, janggiBoard, campTypeInTurn);
                 if (janggiBoard.isGameEnd()) {
                     break;
                 }
             }
-            if (turnMenuAnswer == TurnMenuAnswer.TWO) {
+            if (turnMenuAnswer == TurnMenuAnswer.REST_TURN) {
                 continue;
             }
-            if (turnMenuAnswer == TurnMenuAnswer.THREE) {
+            if (turnMenuAnswer == TurnMenuAnswer.GAME_OVER) {
                 break;
             }
         }
