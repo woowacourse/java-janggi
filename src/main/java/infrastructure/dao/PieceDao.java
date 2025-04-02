@@ -37,7 +37,7 @@ public class PieceDao {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 기물 데이터 저장에 실패했습니다.", e);
         }
     }
 
@@ -48,7 +48,7 @@ public class PieceDao {
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 기물 데이터 삭제에 실패했습니다.", e);
         }
     }
 
@@ -71,7 +71,7 @@ public class PieceDao {
             }
             return pieceEntities;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 기물 데이터 조회에 실패했습니다.", e);
         }
 
     }

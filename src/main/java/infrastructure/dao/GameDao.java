@@ -27,7 +27,7 @@ public class GameDao {
             preparedStatement.setString(1, gameEntity.getCurrentTurn());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 게임 데이터 업데이트에 실패했습니다.", e);
         }
     }
 
@@ -51,7 +51,7 @@ public class GameDao {
                     gameEntity.getCurrentTurn()
             );
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 게임 데이터 저장에 실패했습니다.", e);
         }
     }
 
@@ -62,7 +62,7 @@ public class GameDao {
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 게임 데이터 삭제에 실패했습니다.", e);
         }
     }
 
@@ -83,7 +83,7 @@ public class GameDao {
             }
             return gameEntities;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("[ERROR] 게임 데이터 조회에 실패했습니다.", e);
         }
     }
 }

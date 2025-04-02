@@ -1,6 +1,6 @@
 import application.Janggi;
-import infrastructure.MysqlConnector;
 import infrastructure.dao.GameDao;
+import infrastructure.dao.MysqlConnector;
 import infrastructure.dao.PieceDao;
 import infrastructure.repository.GameRepositoryImpl;
 import infrastructure.repository.PieceRepositoryImpl;

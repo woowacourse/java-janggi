@@ -1,4 +1,4 @@
-package infrastructure;
+package infrastructure.dao;
 
 import application.persistence.DbConnector;
 import java.sql.Connection;
@@ -17,8 +17,8 @@ public class MysqlConnector implements DbConnector {
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 데이터베이스 연결에 실패했습니다.", e);
         }
     }
 }
