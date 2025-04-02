@@ -1,5 +1,6 @@
 package dao;
 
+import db.DatabaseConnector;
 import domain.board.Point;
 import domain.piece.Piece;
 import domain.piece.PieceType;
@@ -13,16 +14,17 @@ import java.util.Map;
 
 public class BoardDaoImpl implements BoardDao {
 
-    private final Connection connection;
+    private final DatabaseConnector databaseConnector;
 
-    public BoardDaoImpl(Connection connection) {
-        this.connection = connection;
+    public BoardDaoImpl(DatabaseConnector databaseConnector) {
+        this.databaseConnector = databaseConnector;
     }
 
     @Override
     public boolean hasRecords() {
         final String query = "SELECT COUNT(*) FROM board";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (final Connection connection = databaseConnector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int count = resultSet.getInt(1);
@@ -38,7 +40,8 @@ public class BoardDaoImpl implements BoardDao {
     public Map<Point, Piece> load() {
         Map<Point, Piece> board = new HashMap<>();
         final String query = "SELECT * FROM board";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (final Connection connection = databaseConnector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int row = resultSet.getInt("point_row");
@@ -56,7 +59,8 @@ public class BoardDaoImpl implements BoardDao {
     @Override
     public void save(final Point point, final Piece piece) {
         final String query = "INSERT INTO board (point_row, point_column, team, piece_type) VALUES(?, ?, ?, ?)";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (final Connection connection = databaseConnector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, point.row());
             preparedStatement.setInt(2, point.column());
             preparedStatement.setString(3, piece.team().name());
@@ -70,7 +74,8 @@ public class BoardDaoImpl implements BoardDao {
     @Override
     public void removeAll() {
         final String query = "DELETE FROM board";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (final Connection connection = databaseConnector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 보드 기록 삭제 중 오류가 발생했습니다" + e.getMessage(), e);

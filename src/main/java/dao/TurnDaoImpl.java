@@ -1,5 +1,6 @@
 package dao;
 
+import db.DatabaseConnector;
 import domain.piece.Team;
 
 import java.sql.Connection;
@@ -9,16 +10,17 @@ import java.sql.SQLException;
 
 public class TurnDaoImpl implements TurnDao {
 
-    private final Connection connection;
+    private final DatabaseConnector databaseConnector;
 
-    public TurnDaoImpl(final Connection connection) {
-        this.connection = connection;
+    public TurnDaoImpl(final DatabaseConnector databaseConnector) {
+        this.databaseConnector = databaseConnector;
     }
 
     @Override
     public Team load() {
-        final String query = "SELECT turn FROM turn LIMIT 1";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        final String query = "SELECT turn FROM turn ORDER BY turn DESC LIMIT 1";
+        try (final Connection connection = databaseConnector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             final ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 String turn = resultSet.getString("turn");
@@ -33,7 +35,8 @@ public class TurnDaoImpl implements TurnDao {
     @Override
     public void save(Team turn) {
         final String query = "INSERT INTO turn (turn) VALUES(?)";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (final Connection connection = databaseConnector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, turn.name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -44,7 +47,8 @@ public class TurnDaoImpl implements TurnDao {
     @Override
     public void remove() {
         final String query = "DELETE FROM turn";
-        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (final Connection connection = databaseConnector.getConnection();
+             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 턴 기록 삭제 중 오류가 발생했습니다" + e.getMessage(), e);

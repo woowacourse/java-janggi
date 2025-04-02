@@ -1,11 +1,12 @@
-package dao;
+package fake;
 
+import dao.TurnDao;
 import domain.piece.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class FakeTurnDao implements TurnDao {
+public class FakeTurnDao implements TurnDao {
 
     private final List<Team> turns = new ArrayList<>(List.of(Team.CHO));
 

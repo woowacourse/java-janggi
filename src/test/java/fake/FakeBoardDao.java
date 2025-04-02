@@ -1,5 +1,6 @@
-package dao;
+package fake;
 
+import dao.BoardDao;
 import domain.board.Point;
 import domain.piece.Piece;
 import domain.piece.Team;

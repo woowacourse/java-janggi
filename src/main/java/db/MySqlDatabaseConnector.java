@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ProductionDatabaseConnector implements DatabaseConnector {
+public class MySqlDatabaseConnector implements DatabaseConnector {
 
     private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";
@@ -16,7 +16,7 @@ public class ProductionDatabaseConnector implements DatabaseConnector {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            throw new RuntimeException("[ERROR] DB 연결 오류: " + e.getMessage(), e);
+            throw new RuntimeException("[ERROR] MySql DB 연결 오류: " + e.getMessage(), e);
         }
     }
 }
