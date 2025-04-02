@@ -75,6 +75,7 @@ public class JanggiService {
         transaction.execute(connectionProvider.getConnection(), connection -> {
             final GameId id = saveGame(gameContext, connection);
 
+            pieceRepository.deleteByGameId(connection, id);
             pieceRepository.saveAll(connection, id, gameContext.getAlivePieces().getPieces());
         });
     }

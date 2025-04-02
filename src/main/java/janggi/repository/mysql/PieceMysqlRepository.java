@@ -61,4 +61,18 @@ public class PieceMysqlRepository implements PieceRepository {
             throw new RuntimeException("기물 조회 중 오류 발생", e);
         }
     }
+
+    @Override
+    public void deleteByGameId(final Connection connection, final GameId gameId) {
+        final String sql = """
+                DELETE FROM piece WHERE game_id = ?
+                """;
+
+        try (final PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setLong(1, gameId.getValue());
+            ps.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException("기물 삭제 중 오류 발생", e);
+        }
+    }
 }
