@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
+    public final static JanggiCoordinate GAME_STOP_COORDINATE = new JanggiCoordinate(-1, -1);
 
     private static final int ROW_IDX = 0;
     private static final int COL_IDX = 1;
