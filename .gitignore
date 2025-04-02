@@ -32,4 +32,4 @@ out/
 .vscode/
 
 ### DB ###
-/db/mysql/
+db/mysql/data
