@@ -15,10 +15,14 @@ public class MysqlConnectionProvider implements ConnectionProvider {
     private static final String PASSWORD = "root";
 
     @Override
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() {
+        try {
             return DriverManager.getConnection(
                     "jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION,
                     USERNAME,
                     PASSWORD);
+        } catch (final SQLException e) {
+            throw new IllegalStateException("DB 연결에 실패했습니다.", e);
+        }
     }
 }

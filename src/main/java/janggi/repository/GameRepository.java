@@ -1,25 +1,23 @@
 package janggi.repository;
 
-import janggi.GameStatus;
+import janggi.GameId;
 import janggi.player.Score;
 import janggi.player.Turn;
+import janggi.repository.dto.GameDto;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
 public interface GameRepository {
 
-    Long save(Turn turn, Score choScore, Score hanScore);
+    GameId save(Connection connection, Turn turn, Score choScore, Score hanScore);
 
-    Long save(long gameId, Turn turn, Score choScore, Score hanScore);
+    GameId save(Connection connection, GameId gameId, Turn turn, Score choScore, Score hanScore);
 
-    List<Integer> findIdsByStatus(GameStatus status);
+    Optional<GameDto> findById(Connection connection, GameId id);
 
-    Optional<Turn> findTurnByGameId(Long select);
-
-    Optional<Score> findChoScoreByGameId(long gameId);
-
-    Optional<Score> findHanScoreByGameId(long gameId);
+    List<GameDto> findAllRunning(Connection connection);
 }
 
 

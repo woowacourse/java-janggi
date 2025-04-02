@@ -1,12 +1,14 @@
 package janggi.repository;
 
+import janggi.GameId;
 import janggi.piece.Piece;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface PieceRepository {
 
-    void saveAll(long gameId, List<Piece> pieces);
+    void saveAll(Connection connection, GameId gameId, List<Piece> pieces);
 
-    List<Piece> findAllByGameId(long gameId);
+    List<Piece> findAllByGameId(Connection connection, GameId gameId);
 }

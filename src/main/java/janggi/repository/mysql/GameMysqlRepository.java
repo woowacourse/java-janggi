@@ -1,31 +1,31 @@
 package janggi.repository.mysql;
 
+import janggi.GameId;
 import janggi.GameStatus;
 import janggi.player.Score;
 import janggi.player.Turn;
 import janggi.repository.GameRepository;
+import janggi.repository.dto.GameDto;
+import janggi.repository.util.ResultSetReader;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class GameMysqlRepository implements GameRepository {
 
-    private final Connection connection;
-
-    public GameMysqlRepository(final Connection connection) {
-        this.connection = connection;
-    }
-
     @Override
-    public Long save(final Turn turn, final Score choScore, final Score hanScore) {
+    public GameId save(final Connection connection,
+                       final Turn turn,
+                       final Score choScore,
+                       final Score hanScore) {
+
         final String sql = """
-                INSERT INTO game (status, turn, cho_score, han_score) 
+                INSERT INTO game (status, turn, cho_score, han_score)
                 VALUES (?, ?, ?, ?)
                 """;
 
@@ -36,13 +36,7 @@ public class GameMysqlRepository implements GameRepository {
             ps.setInt(4, hanScore.value());
             ps.executeUpdate();
 
-            try (final ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getLong(1); // 생성된 gameId 반환
-                } else {
-                    throw new SQLException("게임 ID 생성 실패");
-                }
-            }
+            return extractGeneratedId(ps);
 
         } catch (final SQLException e) {
             throw new RuntimeException("게임 저장 중 오류 발생", e);
@@ -50,11 +44,16 @@ public class GameMysqlRepository implements GameRepository {
     }
 
     @Override
-    public Long save(final long gameId, final Turn turn, final Score choScore, final Score hanScore) {
+    public GameId save(final Connection connection,
+                       final GameId id,
+                       final Turn turn,
+                       final Score choScore,
+                       final Score hanScore) {
+
         final String sql = """
                 INSERT INTO game (id, status, turn, cho_score, han_score)
                 VALUES (?, ?, ?, ?, ?)
-                ON DUPLICATE KEY UPDATE\s
+                ON DUPLICATE KEY UPDATE
                     status = VALUES(status),
                     turn = VALUES(turn),
                     cho_score = VALUES(cho_score),
@@ -62,107 +61,84 @@ public class GameMysqlRepository implements GameRepository {
                 """;
 
         try (final PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, gameId);
+            ps.setLong(1, id.getValue());
             ps.setString(2, GameStatus.RUNNING.name());
             ps.setInt(3, turn.getAccumulatedCount());
             ps.setInt(4, choScore.value());
             ps.setInt(5, hanScore.value());
             ps.executeUpdate();
-            return gameId;
+
+            return id;
         } catch (final SQLException e) {
             throw new RuntimeException("게임 저장 중 오류 발생", e);
         }
     }
 
     @Override
-    public List<Integer> findIdsByStatus(final GameStatus status) {
+    public Optional<GameDto> findById(final Connection connection,
+                                      final GameId id) {
         final String sql = """
-                SELECT id
+                SELECT id, status, turn, cho_score, han_score, start_at, last_saved_at
+                FROM game
+                WHERE id = ?
+                """;
+
+        try (final PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setLong(1, id.getValue());
+
+            try (final ResultSet resultSet = ps.executeQuery()) {
+                if (!resultSet.next()) {
+                    return Optional.empty();
+                }
+
+                return Optional.of(new GameDto(
+                        resultSet.getInt("id"),
+                        resultSet.getString("status"),
+                        resultSet.getInt("turn"),
+                        resultSet.getInt("cho_score"),
+                        resultSet.getInt("han_score"),
+                        resultSet.getTimestamp("start_at").toLocalDateTime(),
+                        resultSet.getTimestamp("last_saved_at").toLocalDateTime()
+                ));
+            }
+        } catch (final SQLException e) {
+            throw new RuntimeException("게임 조회 중 오류 발생", e);
+        }
+    }
+
+    @Override
+    public List<GameDto> findAllRunning(final Connection connection) {
+        final String sql = """
+                SELECT id, status, turn, cho_score, han_score, start_at, last_saved_at
                 FROM game
                 WHERE status = ?
                 """;
-        final List<Integer> gameIds = new ArrayList<>();
 
         try (final PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, status.name());
-            try (final ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    gameIds.add(rs.getInt("id"));
-                }
+            ps.setString(1, GameStatus.RUNNING.name());
+
+            try (final ResultSet resultSet = ps.executeQuery()) {
+                return ResultSetReader.toList(resultSet,
+                        result -> new GameDto(
+                                resultSet.getInt("id"),
+                                resultSet.getString("status"),
+                                resultSet.getInt("turn"),
+                                resultSet.getInt("cho_score"),
+                                resultSet.getInt("han_score"),
+                                resultSet.getTimestamp("start_at").toLocalDateTime(),
+                                resultSet.getTimestamp("last_saved_at").toLocalDateTime()));
             }
         } catch (final SQLException e) {
-            throw new RuntimeException("게임 ID 조회 중 오류 발생", e);
+            throw new RuntimeException("게임 조회 중 오류 발생", e);
         }
-
-        return gameIds;
     }
 
-    @Override
-    public Optional<Turn> findTurnByGameId(final Long gameId) {
-        final String sql = """
-                SELECT turn
-                FROM game
-                WHERE id = ?
-                """;
-
-        try (final PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, gameId);
-            try (final ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    final int turnValue = rs.getInt("turn");
-                    return Optional.of(new Turn(turnValue));
-                }
+    private GameId extractGeneratedId(final PreparedStatement ps) throws SQLException {
+        try (final ResultSet rs = ps.getGeneratedKeys()) {
+            if (rs.next()) {
+                return GameId.from(rs.getLong(1));
             }
-        } catch (final SQLException e) {
-            throw new RuntimeException("게임 턴 조회 중 오류 발생", e);
+            throw new SQLException("게임 ID 생성 실패");
         }
-
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Score> findChoScoreByGameId(final long gameId) {
-        final String sql = """
-                SELECT cho_score
-                FROM game
-                WHERE id = ?
-                """;
-
-        try (final PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, gameId);
-            try (final ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    final int choScore = rs.getInt("cho_score");
-                    return Optional.of(new Score(choScore));
-                }
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException("점수 조회 중 오류 발생", e);
-        }
-
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Score> findHanScoreByGameId(final long gameId) {
-        final String sql = """
-                SELECT han_score
-                FROM game
-                WHERE id = ?
-                """;
-
-        try (final PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setLong(1, gameId);
-            try (final ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    final int hanScore = rs.getInt("han_score");
-                    return Optional.of(new Score(hanScore));
-                }
-            }
-        } catch (final SQLException e) {
-            throw new RuntimeException("점수 조회 중 오류 발생", e);
-        }
-
-        return Optional.empty();
     }
 }
