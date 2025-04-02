@@ -18,24 +18,21 @@ public class Palace {
     public static final int CHO_MAX_COLUMN = 10;
 
     public static Set<Direction> getMovableDirectionInPalace(final Position position) {
-        if (position.getRow() == MAX_ROW && (position.getColumn() == HAN_MIN_COLUMN
-                || position.getColumn() == CHO_MIN_COLUMN)) {
+        int row = position.getRow();
+        int column = position.getColumn();
+        if (row == MAX_ROW && (column == HAN_MIN_COLUMN || column == CHO_MIN_COLUMN)) {
             return Set.of(new Direction(List.of(Vector.DOWN_LEFT)));
         }
-        if (position.getRow() == MIN_ROW && (position.getColumn() == HAN_MIN_COLUMN
-                || position.getColumn() == CHO_MIN_COLUMN)) {
+        if (row == MIN_ROW && (column == HAN_MIN_COLUMN || column == CHO_MIN_COLUMN)) {
             return Set.of(new Direction(List.of(Vector.DOWN_RIGHT)));
         }
-        if (position.getRow() == MAX_ROW && (position.getColumn() == HAN_MAX_COLUMN
-                || position.getColumn() == CHO_MAX_COLUMN)) {
+        if (row == MAX_ROW && (column == HAN_MAX_COLUMN || column == CHO_MAX_COLUMN)) {
             return Set.of(new Direction(List.of(Vector.UP_LEFT)));
         }
-        if (position.getRow() == MIN_ROW && (position.getColumn() == HAN_MAX_COLUMN
-                || position.getColumn() == CHO_MAX_COLUMN)) {
+        if (row == MIN_ROW && (column == HAN_MAX_COLUMN || column == CHO_MAX_COLUMN)) {
             return Set.of(new Direction(List.of(Vector.UP_RIGHT)));
         }
-        if (position.getRow() == (MAX_ROW - 1) && (position.getColumn() == (HAN_MAX_COLUMN - 1)
-                || position.getColumn() == (CHO_MAX_COLUMN - 1))) {
+        if (row == (MAX_ROW - 1) && (column == (HAN_MAX_COLUMN - 1) || column == (CHO_MAX_COLUMN - 1))) {
             return Vector.getDiagonals().stream()
                     .map(vector -> new Direction(List.of(vector)))
                     .collect(Collectors.toSet());
