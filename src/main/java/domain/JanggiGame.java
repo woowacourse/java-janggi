@@ -26,8 +26,19 @@ public class JanggiGame {
     }
 
     public JanggiGame(final Map<Point, Piece> savedBoard, final Team savedTurn) {
+        validateBoardAndTurn(savedBoard, savedTurn);
         this.board = new BoardGenerator().loadBoard(savedBoard);
         this.team = savedTurn;
+    }
+
+    private void validateBoardAndTurn(final Map<Point, Piece> savedBoard, final Team savedTurn) {
+        if (savedBoard == null || savedBoard.isEmpty()) {
+            throw new IllegalArgumentException("[ERROR] 저장된 보드 정보가 없습니다.");
+        }
+
+        if (savedTurn == null) {
+            throw new IllegalArgumentException("[ERROR] 저장된 턴 정보가 없습니다.");
+        }
     }
 
     public void movePiece(final MoveCommand moveCommand) {
