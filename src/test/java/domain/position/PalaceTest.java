@@ -1,13 +1,15 @@
 package domain.position;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import domain.direction.Direction;
 import domain.direction.Vector;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class PalaceTest {
@@ -19,7 +21,25 @@ class PalaceTest {
         Set<Direction> result = Palace.getMovableDirectionInPalace(start);
 
         // then
-        Assertions.assertThat(result).containsAll(expected);
+        assertThat(result).containsAll(expected);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {
+            "6,10,true",
+            "4,1,true",
+            "3,4,false",
+            "7,7,false",
+    })
+    void 현재_위치가_궁성_내인지_판단한다(final int row, final int column, final boolean expected) {
+        // given
+        Position positon = Position.of(row, column);
+
+        // when
+        boolean result = Palace.isInPalace(positon);
+
+        // then
+        assertThat(result).isEqualTo(expected);
     }
 
     private static Stream<Arguments> positionAndResult() {
