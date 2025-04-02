@@ -2,16 +2,13 @@ package domain.dao;
 
 
 import domain.Country;
-import domain.JanggiCoordinate;
 import domain.dto.GameFindDto;
 import domain.dto.GameRoomDto;
-import domain.piece.Piece;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class JanggiGameDao {
     private final Connection connection;
@@ -71,19 +68,6 @@ public class JanggiGameDao {
         }
     }
 
-    public void saveGame(int gameId, Map<JanggiCoordinate, Piece> board) {
-        JanggiCoordinateDao janggiCoordinateDao = new JanggiCoordinateDao(JanggiDBConnect.getConnection());
-        JanggiPieceDao janggiPieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
-
-        for (Map.Entry<JanggiCoordinate, Piece> entry : board.entrySet()) {
-            JanggiCoordinate coordinate = entry.getKey();
-            Piece piece = entry.getValue();
-
-            int pieceId = janggiPieceDao.addPiece(gameId, piece);
-            janggiCoordinateDao.insertPieceToCoordinate(pieceId, coordinate, gameId);
-        }
-    }
-
     public GameFindDto getGameByName(String gameName) {
         String findGameIdSQL = "SELECT game_id, curr_turn FROM game WHERE room_name = ?";
 
@@ -101,23 +85,6 @@ public class JanggiGameDao {
         }
         throw new IllegalStateException("[ERROR] GAME 조회 실패");
     }
-
-//    public String getCurrTurnById(int gameId) {
-//        String findCurrTurnSQL = "SELECT curr_turn FROM game WHERE game_id = ?";
-//
-//        try (PreparedStatement preparedStatement = connection.prepareStatement(findCurrTurnSQL)) {
-//            preparedStatement.setInt(1, gameId);
-//
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            if (resultSet.next()) {
-//                return resultSet.getString(1);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw new IllegalStateException("[ERROR] CURRENT TURN 조회 실패!");
-//        }
-//        throw new IllegalStateException("[ERROR] CURRENT TURN 조회 실패!");
-//    }
 
     public void updateTurn(int gameId, String newTurn) {
         String updateTurnSQL = "UPDATE game SET curr_turn = ? WHERE game_id = ?;";

@@ -111,6 +111,14 @@ public class JanggiBoard {
         return castleDirection.getOrDefault(coordinate, new ArrayList<>());
     }
 
+    public List<JanggiCoordinate> getOccupiedCoordinates() {
+        return board.keySet().stream().toList();
+    }
+
+    public List<Piece> getPieces() {
+        return board.values().stream().toList();
+    }
+
     public Map<JanggiCoordinate, Piece> getBoard() {
         return board;
     }

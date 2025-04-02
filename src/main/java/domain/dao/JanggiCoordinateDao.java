@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JanggiCoordinateDao {
@@ -18,16 +19,21 @@ public class JanggiCoordinateDao {
         this.connection = connection;
     }
 
-    public void insertPieceToCoordinate(int pieceId, JanggiCoordinate coordinate, int gameId) {
+    public void addPieceToCoordinateBatch(List<Integer> pieceIds, List<JanggiCoordinate> coordinates, int gameId) {
         String insertCoordinateSQL = "INSERT INTO coordinate (row_coordinate, col_coordinate, piece_id, game_id) values(?,?,?,?)";
 
         try (final PreparedStatement preparedStatement = connection.prepareStatement(insertCoordinateSQL)) {
-            preparedStatement.setInt(1, coordinate.row());
-            preparedStatement.setInt(2, coordinate.col());
-            preparedStatement.setInt(3, pieceId);
-            preparedStatement.setInt(4, gameId);
+            for (int i = 0; i < pieceIds.size(); i++) {
+                JanggiCoordinate coordinate = coordinates.get(i);
 
-            preparedStatement.executeUpdate();
+                preparedStatement.setInt(1, coordinate.row());
+                preparedStatement.setInt(2, coordinate.col());
+                preparedStatement.setInt(3, pieceIds.get(i));
+                preparedStatement.setInt(4, gameId);
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] COORDINATE INSERT 실패");
         }

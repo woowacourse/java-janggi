@@ -8,16 +8,12 @@ import domain.dao.JanggiPieceDao;
 import domain.dto.GameFindDto;
 import domain.dto.GameIdDto;
 import domain.dto.GameRoomDto;
-import domain.piece.Piece;
 import view.GameCommand;
 import view.InputView;
 import view.OutputView;
 import view.PageCommand;
 
 import java.util.List;
-
-import static domain.JanggiBoard.COL_SIZE;
-import static domain.JanggiBoard.ROW_SIZE;
 
 public class JanggiController {
 
@@ -153,16 +149,16 @@ public class JanggiController {
         pieceDao.deletePiecesByGameId(gameId);
         gameDao.updateTurn(gameId, currTurn.getName());
 
-        for (int row = board.BOUNDARY_START; row <= ROW_SIZE; row++) {
-            for (int col = board.BOUNDARY_START; col <= COL_SIZE; col++) {
-                JanggiCoordinate coordinate = new JanggiCoordinate(row, col);
-                if (board.isOccupied(coordinate)) {
-                    Piece piece = board.findPieceByCoordinate(coordinate);
-                    int pieceId = pieceDao.addPiece(gameId, piece);
+        List<Integer> piecesId = pieceDao.addPiecesBatch(gameId, board.getPieces());
+        List<JanggiCoordinate> occupiedCoordinate = board.getOccupiedCoordinates();
 
-                    coordinateDao.insertPieceToCoordinate(pieceId, coordinate, gameId);
-                }
-            }
-        }
+        coordinateDao.addPieceToCoordinateBatch(piecesId, occupiedCoordinate, gameId);
+
+//        for (JanggiCoordinate coordinate : board.getOccupiedCoordinates()) {
+//            Piece piece = board.findPieceByCoordinate(coordinate);
+//            int pieceId = pieceDao.addPiece(gameId, piece);
+//
+//            coordinateDao.insertPieceToCoordinate(pieceId, coordinate, gameId);
+//        }
     }
 }
