@@ -1,10 +1,11 @@
 package domain.dao;
 
+import util.DatabaseConnector;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import util.DatabaseConnector;
 
 public class JdbcMoveHistoryDao implements MoveHistoryDao {
 
@@ -15,7 +16,7 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
     }
 
     public void addHistory(final int gameId, final int originId, final int destinationId) {
-        final String query = "INSERT INTO history(game, origin, destination) VALUES(?, ?, ?)";
+        final String query = "INSERT INTO move_history(game, origin, destination) VALUES(?, ?, ?)";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, gameId);
@@ -28,7 +29,7 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
     }
 
     public void deleteAll() {
-        final String query = "DELETE FROM history";
+        final String query = "DELETE FROM move_history";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
@@ -38,7 +39,7 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
     }
 
     public List<List<Integer>> getAllHistory(final int gameId) {
-        final String query = "SELECT * FROM history WHERE game = ?";
+        final String query = "SELECT * FROM move_history WHERE game = ?";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             List<List<Integer>> positions = new ArrayList<>();

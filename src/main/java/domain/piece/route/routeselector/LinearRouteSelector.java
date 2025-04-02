@@ -3,20 +3,28 @@ package domain.piece.route.routeselector;
 import domain.piece.JanggiSide;
 import domain.piece.route.Route;
 import domain.position.JanggiPosition;
-import janggiexception.InvalidPathException;
 
 import java.util.List;
 
+import static domain.MovingPattern.*;
+
 public class LinearRouteSelector implements RouteSelector {
 
+    private final List<Route> movableDirections = List.of(
+            new Route(RIGHT),
+            new Route(DOWN),
+            new Route(LEFT),
+            new Route(UP)
+    );
+
     @Override
-    public Route getRoute(final JanggiSide side, final List<Route> directions, final JanggiPosition origin, final JanggiPosition destination) {
-        for (Route route : directions) {
+    public Route getRoute(final JanggiSide side, final JanggiPosition origin, final JanggiPosition destination) {
+        for (Route route : movableDirections) {
             if (route.isSameDirectionWith(origin, destination)) {
                 int moveCount = route.getMoveCount(origin, destination);
                 return route.createNewRouteOf(moveCount);
             }
         }
-        throw new InvalidPathException();
+        return Route.createEmptyRoute();
     }
 }

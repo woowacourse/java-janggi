@@ -152,7 +152,7 @@ public class JanggiPieceTest {
             // when & then
             assertThatThrownBy(
                     () -> CHO_궁.getRoute(beforePosition, afterPosition))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(InvalidPathException.class);
         }
     }
 
@@ -403,7 +403,7 @@ public class JanggiPieceTest {
 
             // when & then
             assertThatThrownBy(() -> CHO_사.getRoute(beforePosition, afterPosition))
-                    .isInstanceOf(IllegalStateException.class);
+                    .isInstanceOf(InvalidPathException.class);
         }
 
         @Test

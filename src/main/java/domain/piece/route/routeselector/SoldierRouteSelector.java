@@ -1,49 +1,40 @@
 package domain.piece.route.routeselector;
 
-import domain.MovingPattern;
 import domain.piece.JanggiSide;
 import domain.piece.route.Route;
 import domain.position.JanggiPosition;
-import janggiexception.InvalidPathException;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static domain.MovingPattern.*;
 
 public class SoldierRouteSelector implements RouteSelector {
 
-    private static final List<MovingPattern> SOLDIER_OF_CHO_DIRECTIONS = List.of(
-            MovingPattern.RIGHT,
-            MovingPattern.LEFT,
-            MovingPattern.UP,
-            MovingPattern.DIAGONAL_UP_RIGHT,
-            MovingPattern.DIAGONAL_UP_LEFT
+    private static final List<Route> SOLDIER_OF_CHO_DIRECTIONS = List.of(
+            new Route(RIGHT),
+            new Route(LEFT),
+            new Route(UP)
     );
-    private static final List<MovingPattern> SOLDIER_OF_HAN_DIRECTIONS = List.of(
-            MovingPattern.RIGHT,
-            MovingPattern.LEFT,
-            MovingPattern.DOWN,
-            MovingPattern.DIAGONAL_DOWN_LEFT,
-            MovingPattern.DIAGONAL_DOWN_RIGHT
+    private static final List<Route> SOLDIER_OF_HAN_DIRECTIONS = List.of(
+            new Route(RIGHT),
+            new Route(LEFT),
+            new Route(DOWN)
     );
 
     @Override
-    public Route getRoute(final JanggiSide side, final List<Route> routes, final JanggiPosition origin, final JanggiPosition destination) {
-        Route moveDirections = routes.stream()
+    public Route getRoute(final JanggiSide side, final JanggiPosition origin, final JanggiPosition destination) {
+        List<Route> routes = new ArrayList<>();
+        if (side == JanggiSide.CHO) {
+            routes = SOLDIER_OF_CHO_DIRECTIONS;
+        }
+        if (side == JanggiSide.HAN) {
+            routes = SOLDIER_OF_HAN_DIRECTIONS;
+        }
+
+        return routes.stream()
                 .filter(route -> route.isReachableByRoute(origin, destination))
                 .findFirst()
-                .orElseThrow(InvalidPathException::new);
-
-        checkValidRouteOfSide(side, moveDirections);
-        return moveDirections;
-    }
-
-
-    private void checkValidRouteOfSide(final JanggiSide side, final Route route) {
-        if (side == JanggiSide.CHO && !route.isDirectionContainsIn(SOLDIER_OF_CHO_DIRECTIONS)) {
-            throw new InvalidPathException();
-        }
-
-        if (side == JanggiSide.HAN && !route.isDirectionContainsIn(SOLDIER_OF_HAN_DIRECTIONS)) {
-            throw new InvalidPathException();
-        }
+                .orElse(Route.createEmptyRoute());
     }
 }
