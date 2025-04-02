@@ -1,6 +1,6 @@
 package application.persistence;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.game.Game;
 import domain.piece.Piece;
 import java.util.Map;

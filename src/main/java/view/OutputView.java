@@ -1,9 +1,9 @@
 package view;
 
-import static domain.Coordinate.MAX_COL;
-import static domain.Coordinate.MAX_ROW;
+import static domain.piece.coordiante.Coordinate.MAX_COL;
+import static domain.piece.coordiante.Coordinate.MAX_ROW;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.board.Board;
 import domain.game.Game;
 import domain.piece.Country;

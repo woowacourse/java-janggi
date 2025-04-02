@@ -1,6 +1,6 @@
 package view;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.board.setting.strategy.MaSangMaSang;
 import domain.board.setting.strategy.MaSangSangMa;
 import domain.board.setting.strategy.SangMaMaSang;

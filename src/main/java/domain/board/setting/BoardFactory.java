@@ -3,7 +3,7 @@ package domain.board.setting;
 import static domain.piece.Country.CHO;
 import static domain.piece.Country.HAN;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Gung;

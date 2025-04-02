@@ -3,7 +3,7 @@ package domain.board.setting.strategy;
 import static domain.piece.Country.CHO;
 import static domain.piece.Country.HAN;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.board.setting.ChoSettingUpStrategy;
 import domain.board.setting.HanSettingUpStrategy;
 import domain.piece.Ma;

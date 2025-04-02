@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.piece.Byeong;
 import domain.piece.Cha;
 import domain.piece.Country;

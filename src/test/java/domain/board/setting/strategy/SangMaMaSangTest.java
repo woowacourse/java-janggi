@@ -2,7 +2,7 @@ package domain.board.setting.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.board.Board;
 import domain.piece.PieceType;
 import org.junit.jupiter.api.DisplayName;

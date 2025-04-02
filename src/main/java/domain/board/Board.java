@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.board.setting.BoardFactory;
 import domain.board.setting.ChoSettingUpStrategy;
 import domain.board.setting.HanSettingUpStrategy;
@@ -25,7 +25,7 @@ public class Board implements ReadableBoard {
     public Board(Map<Coordinate, Piece> board) {
         this.board = board;
     }
-    
+
     public void movePiece(Coordinate from, Coordinate to) {
         Piece piece = findPieceByCoordinate(from);
 

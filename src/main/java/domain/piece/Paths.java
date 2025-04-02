@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import java.util.List;
 
 public class Paths {

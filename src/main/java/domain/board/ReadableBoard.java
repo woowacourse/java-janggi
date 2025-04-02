@@ -1,6 +1,6 @@
 package domain.board;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.piece.Country;
 import domain.piece.PieceType;
 

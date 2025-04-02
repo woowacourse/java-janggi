@@ -2,7 +2,7 @@ package application;
 
 import application.persistence.GameRepository;
 import application.persistence.PieceRepository;
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.board.Board;
 import domain.board.setting.ChoSettingUpStrategy;
 import domain.board.setting.HanSettingUpStrategy;

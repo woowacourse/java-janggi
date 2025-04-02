@@ -1,6 +1,6 @@
 package infrastructure.entity;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.piece.Country;
 import domain.piece.Piece;
 import domain.piece.PieceType;

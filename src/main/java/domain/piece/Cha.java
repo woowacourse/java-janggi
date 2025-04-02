@@ -2,7 +2,7 @@ package domain.piece;
 
 import static domain.piece.PieceType.CHA;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.board.ReadableBoard;
 import domain.piece.movement.Movement;
 import domain.piece.movement.Movements;

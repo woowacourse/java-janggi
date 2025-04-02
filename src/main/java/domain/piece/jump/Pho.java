@@ -2,7 +2,7 @@ package domain.piece.jump;
 
 import static domain.piece.PieceType.PHO;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.board.ReadableBoard;
 import domain.piece.Country;
 import domain.piece.Piece;

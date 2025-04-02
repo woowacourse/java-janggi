@@ -1,6 +1,6 @@
 package domain.piece.movement;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 
 public enum Movement {
 
@@ -37,8 +37,12 @@ public enum Movement {
         this.direction = direction;
     }
 
-    public Coordinate getDirection() {
-        return direction;
+    public int getRow() {
+        return direction.row();
+    }
+
+    public int getCol() {
+        return direction.col();
     }
 
     public boolean isDiagonal() {

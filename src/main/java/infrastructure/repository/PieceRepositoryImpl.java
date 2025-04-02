@@ -1,7 +1,7 @@
 package infrastructure.repository;
 
 import application.persistence.PieceRepository;
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.game.Game;
 import domain.piece.Piece;
 import infrastructure.dao.PieceDao;

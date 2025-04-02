@@ -1,6 +1,6 @@
 package domain.piece.movement;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import java.util.ArrayList;
 import java.util.List;
 

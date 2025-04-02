@@ -1,6 +1,6 @@
 package domain.piece;
 
-import domain.Coordinate;
+import domain.piece.coordiante.Coordinate;
 import domain.board.ReadableBoard;
 import domain.piece.movement.Movement;
 import domain.piece.movement.Movements;
