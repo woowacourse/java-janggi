@@ -65,42 +65,32 @@ public class PieceDao {
         }
     }
 
-    public void removePieceByPosition(final Position position) {
-        String sql = """
+    public void removeAndUpdatePosition(final Position originPosition, final Position updatePosition) {
+        String deleteSql = """
                 DELETE FROM piece
                 WHERE row_value = ? AND column_value = ?;
                 """;
-        try (
-                final Connection connection = getConnection();
-                final PreparedStatement preparedStatement = connection.prepareStatement(sql)
-        ) {
-            preparedStatement.setInt(1, position.getRow());
-            preparedStatement.setInt(2, position.getColumn());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-
-    }
-
-    public void updatePieceByOriginPosition(final Position originPosition, final Position updatePosition) {
-        String sql = """
+        String updateSql = """
                 UPDATE piece
                 SET row_value = ?, column_value = ?
                 WHERE row_value = ? AND column_value = ?;
                 """;
         try (
                 final Connection connection = getConnection();
-                final PreparedStatement preparedStatement = connection.prepareStatement(sql)
+                final PreparedStatement deleteStmt = connection.prepareStatement(deleteSql);
+                final PreparedStatement updateStmt = connection.prepareStatement(updateSql)
         ) {
-            preparedStatement.setInt(1, updatePosition.getRow());
-            preparedStatement.setInt(2, updatePosition.getColumn());
-            preparedStatement.setInt(3, originPosition.getRow());
-            preparedStatement.setInt(4, originPosition.getColumn());
-            preparedStatement.executeUpdate();
+            deleteStmt.setInt(1, updatePosition.getRow());
+            deleteStmt.setInt(2, updatePosition.getColumn());
+            deleteStmt.executeUpdate();
+
+            updateStmt.setInt(1, updatePosition.getRow());
+            updateStmt.setInt(2, updatePosition.getColumn());
+            updateStmt.setInt(3, originPosition.getRow());
+            updateStmt.setInt(4, originPosition.getColumn());
+            updateStmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("DB 업데이트 실패", e);
         }
     }
 
