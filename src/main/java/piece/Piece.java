@@ -25,7 +25,6 @@ public abstract class Piece {
             case ROOK -> new Rook(team);
             case CANNON -> new Cannon(team);
             case GUARD -> new Guard(team);
-            default -> throw new IllegalArgumentException("존재하지 않는 기물 타입입니다: " + pieceType);
         };
     }
 
