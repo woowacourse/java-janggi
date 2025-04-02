@@ -20,4 +20,15 @@ class PositionTest {
         assertThat(positionAppliedDirection.x()).isEqualTo(position.x() + direction.getX());
         assertThat(positionAppliedDirection.y()).isEqualTo(position.y() + direction.getY());
     }
+
+    @Test
+    @DisplayName("출발지와 목적지가 동일한 좌표일 경우 예외가 발생한다.")
+    void test2() {
+        //given
+        Position from = new Position(2, 2);
+        Position to = new Position(2, 2);
+
+        //when & then
+        assertThatThrownBy(() -> from.validateNotSame(to)).isInstanceOf(IllegalArgumentException.class);
+    }
 }

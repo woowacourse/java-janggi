@@ -128,8 +128,8 @@ public class JanggiGame {
         Pieces catchPiecesByGreen = pieceDao.findCatchAllBy(Team.GREEN);
         Pieces catchPiecesByRed = pieceDao.findCatchAllBy(Team.RED);
 
-        double greenPlayerTotalScore = Team.GREEN.calculateFinalScore(catchPiecesByGreen);
-        double redPlayerTotalScore = Team.RED.calculateFinalScore(catchPiecesByRed);
+        double greenPlayerTotalScore = Team.GREEN.calculateFinalScore(catchPiecesByGreen.calculateTotalScore());
+        double redPlayerTotalScore = Team.RED.calculateFinalScore(catchPiecesByRed.calculateTotalScore());
 
         winTeam = decideWinTeam(greenPlayerTotalScore, redPlayerTotalScore);
         OutputView.displayResult(winTeam, greenPlayerTotalScore, redPlayerTotalScore);

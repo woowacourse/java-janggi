@@ -1,8 +1,5 @@
 package game;
 
-import piece.PieceType;
-import piece.Pieces;
-
 public enum Team {
     RED(73.5),
     GREEN(72),
@@ -16,13 +13,12 @@ public enum Team {
 
     public static Team fromName(String teamName) {
         for (Team team : Team.values()) {
-            if(team.name().equalsIgnoreCase(teamName)) {
+            if (team.name().equalsIgnoreCase(teamName)) {
                 return team;
             }
         }
         throw new IllegalStateException("[ERROR] 해당 이름의 팀이 존재하지 않습니다.");
     }
-
 
     public Team findOpponent() {
         if (this == RED) {
@@ -34,8 +30,8 @@ public enum Team {
         throw new IllegalStateException("[ERROR] 유효하지 않은 팀입니다.");
     }
 
-    public double calculateFinalScore(Pieces catchPieces) {
-        return initialScore - catchPieces.calculateTotalScore();
+    public double calculateFinalScore(int catchScore) {
+        return initialScore - catchScore;
     }
 
     public boolean isNotDecided() {
