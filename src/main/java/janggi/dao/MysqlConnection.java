@@ -26,8 +26,7 @@ public final class MysqlConnection {
         try {
             return DriverManager.getConnection(url, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            return null;
+            throw new RuntimeException(e);
         }
     }
 }
