@@ -26,10 +26,10 @@ public class RowTest {
         assertAll(
                 () -> assertThatThrownBy(() -> Row.ONE.move(-1))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessageContaining("이동할 수 없는 열입니다."),
+                        .hasMessageContaining("이동할 수 없는 행입니다."),
                 () -> assertThatThrownBy(() -> Row.TEN.move(1))
                         .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessageContaining("이동할 수 없는 열입니다.")
+                        .hasMessageContaining("이동할 수 없는 행입니다.")
         );
     }
 }

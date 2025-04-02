@@ -16,12 +16,12 @@ public enum Row {
     TEN;
 
     public static Row of(final String row) {
-        return values()[Integer.parseInt(row)-1];
+        return values()[Integer.parseInt(row) - 1];
     }
 
     public Row move(int amount) {
         if (!canMove(amount)) {
-            throw new IllegalArgumentException("이동할 수 없는 열입니다.");
+            throw new IllegalArgumentException("이동할 수 없는 행입니다.");
         }
         return values()[ordinal() + amount];
     }
