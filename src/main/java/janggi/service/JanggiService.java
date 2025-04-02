@@ -1,82 +1,95 @@
 package janggi.service;
 
 import janggi.GameContext;
-import janggi.GameStatus;
+import janggi.GameId;
 import janggi.board.Board;
-import janggi.piece.Piece;
+import janggi.coordinate.Position;
 import janggi.piece.Pieces;
 import janggi.player.Player;
 import janggi.player.Players;
 import janggi.player.Score;
 import janggi.player.Team;
 import janggi.player.Turn;
+import janggi.repository.ConnectionProvider;
 import janggi.repository.GameRepository;
 import janggi.repository.PieceRepository;
-import janggi.view.command.MoveCommand;
+import janggi.repository.dto.GameDto;
 
-import java.time.LocalDateTime;
+import java.sql.Connection;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public class JanggiService {
 
+    private final ConnectionProvider connectionProvider;
+    private final Transaction transaction;
     private final GameRepository gameRepository;
     private final PieceRepository pieceRepository;
 
-    public JanggiService(final GameRepository gameRepository, final PieceRepository pieceRepository) {
+    public JanggiService(final ConnectionProvider connectionProvider,
+                         final Transaction transaction,
+                         final GameRepository gameRepository,
+                         final PieceRepository pieceRepository) {
+        this.connectionProvider = connectionProvider;
+        this.transaction = transaction;
         this.gameRepository = gameRepository;
         this.pieceRepository = pieceRepository;
     }
 
-    public List<Integer> getRunningGameIds() {
-        return gameRepository.findIdsByStatus(GameStatus.RUNNING);
+    public List<GameDto> getRunningGames() {
+        return gameRepository.findAllRunning(connectionProvider.getConnection());
     }
 
     public GameContext createNewContext() {
-        final LocalDateTime startAt = LocalDateTime.now();
-        final Turn turn = Turn.start();
-        final Players players = Players.create(turn);
-        final Board board = players.createBoard();
-
-        return new GameContext(null, startAt, players, board, turn);
+        return GameContext.newGame(
+                Players.create(Turn.start()));
     }
 
-    public GameContext loadSavedContext(final Long selectGameId) {
-        final List<Piece> piecesList = pieceRepository.findAllByGameId(selectGameId);
-        final Pieces pieces = Pieces.from(piecesList);
-        final Turn turn = gameRepository.findTurnByGameId(selectGameId)
-                .orElseThrow(() -> new NoSuchElementException("저장된 게임이 없습니다"));
-        final LocalDateTime startAt = null;
-        final Score choScore = gameRepository.findChoScoreByGameId(selectGameId).orElseThrow();
-        final Score hanScore = gameRepository.findHanScoreByGameId(selectGameId).orElseThrow();
-        final Players players = Players.of(pieces, turn, choScore, hanScore);
-        final Board board = Board.from(pieces);
+    public GameContext loadSavedContext(final GameId selectedId) {
+        final Pieces pieces = Pieces.from(
+                pieceRepository.findAllByGameId(connectionProvider.getConnection(), selectedId));
 
-        return new GameContext(selectGameId, startAt, players, board, turn);
+        final GameDto game = gameRepository.findById(connectionProvider.getConnection(), selectedId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 아이디로 저장된 게임이 없습니다"));
+
+        final Players players = Players.of(
+                pieces,
+                Turn.from(game.turn()),
+                Score.from(game.choScore()),
+                Score.from(game.hanScore()));
+
+        return GameContext.loadGame(game, players);
     }
 
     public void movePiece(final Board board,
                           final Player player,
-                          final MoveCommand command) {
-        board.movePiece(player, command.getDeparturePosition(), command.getDestinationPosition());
+                          final Position departure,
+                          final Position destination) {
+        board.movePiece(player, departure, destination);
     }
 
-    public boolean isGameOver(final Players players) {
-        for (final Team team : Team.values()) {
-            if (players.getScore(team).isGreaterThan(Score.win())) {
-                return true;
-            }
+    public void saveGameContext(final GameContext gameContext) {
+        transaction.execute(connectionProvider.getConnection(), connection -> {
+            final GameId id = saveGame(gameContext, connection);
+
+            pieceRepository.saveAll(connection, id, gameContext.getAlivePieces().getPieces());
+        });
+    }
+
+    private GameId saveGame(final GameContext gameContext, final Connection connection) {
+        if (gameContext.isSaved()) {
+            return gameRepository.save(
+                    connection,
+                    gameContext.getGameId(),
+                    gameContext.getTurn(),
+                    gameContext.getScore(Team.CHO),
+                    gameContext.getScore(Team.HAN));
         }
-        return false;
+        return gameRepository.save(
+                connection,
+                gameContext.getTurn(),
+                gameContext.getScore(Team.CHO),
+                gameContext.getScore(Team.HAN)
+        );
     }
 
-    public void saveGame(Long gameId, final Players players, final Turn turn, final List<Piece> pieces) {
-        if (gameId == null) {
-            gameId = gameRepository.save(turn, players.getScore(Team.CHO), players.getScore(Team.HAN));
-        } else {
-            gameId = gameRepository.save(gameId, turn, players.getScore(Team.CHO), players.getScore(Team.HAN));
-        }
-
-        pieceRepository.saveAll(gameId, pieces);
-    }
 }
