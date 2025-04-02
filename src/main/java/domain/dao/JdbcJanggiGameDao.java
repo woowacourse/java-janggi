@@ -1,14 +1,11 @@
 package domain.dao;
 
-import domain.janggiboard.customstrategy.BoardArrangementStrategy;
-import domain.janggiboard.customstrategy.InnerBoardArrangementStrategy;
-import domain.janggiboard.customstrategy.LeftBoardArrangementStrategy;
-import domain.janggiboard.customstrategy.OuterBoardArrangementStrategy;
-import domain.janggiboard.customstrategy.RightBoardArrangementStrategy;
+import domain.janggiboard.customstrategy.*;
 import domain.piece.JanggiSide;
+import util.DatabaseConnector;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import util.DatabaseConnector;
 
 public class JdbcJanggiGameDao implements JanggiGameDao {
 
@@ -31,7 +28,7 @@ public class JdbcJanggiGameDao implements JanggiGameDao {
     }
 
     public int getGame() {
-        final String query = "SELECT game_id FROM janggi_game LIMIT 1";
+        final String query = "SELECT game_id FROM janggi_game";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -74,6 +71,16 @@ public class JdbcJanggiGameDao implements JanggiGameDao {
         throw new IllegalStateException("게임이 존재하지 않습니다.");
     }
 
+    public void deleteAll() {
+        final String query = "DELETE FROM janggi_game";
+        try (final var connection = connector.getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new IllegalStateException("데이터 삽입에 실패했습니다.");
+        }
+    }
+
     private BoardArrangementStrategy parseStrategy(int option, JanggiSide side) {
         if (option == 1) {
             return new LeftBoardArrangementStrategy(side);
@@ -104,15 +111,5 @@ public class JdbcJanggiGameDao implements JanggiGameDao {
             return 4;
         }
         throw new IllegalArgumentException("상차림 입력이 올바르지 않습니다.");
-    }
-
-    public void deleteAll() {
-        final String query = "DELETE FROM janggi_game";
-        try (final var connection = connector.getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new IllegalStateException("데이터 삽입에 실패했습니다.");
-        }
     }
 }
