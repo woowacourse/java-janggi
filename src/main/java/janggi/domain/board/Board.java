@@ -40,7 +40,7 @@ public class Board {
     public void move(Movement movement) {
         validateTurn(movement);
         validateMove(movement);
-        updateBoard(movement);
+        updateCellsAfterMove(movement);
         currentCamp = currentCamp.switchTurn();
     }
 
@@ -58,7 +58,7 @@ public class Board {
         originPiece.validateMove(movement, this);
     }
 
-    private void updateBoard(Movement movement) {
+    private void updateCellsAfterMove(Movement movement) {
         cells.put(movement.target(), getOriginPiece(movement));
         cells.put(movement.origin(), Empty.INSTANCE);
     }
