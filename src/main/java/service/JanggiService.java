@@ -93,8 +93,12 @@ public class JanggiService {
         if (!board.isSameTeam(origin, side)) {
             throw new IllegalArgumentException("차례에 맞는 말을 선택하세요.");
         }
-        board.movePiece(origin, destination);
-        addHistory(origin, destination);
+        try {
+            board.movePiece(origin, destination);
+            addHistory(origin, destination);
+        } catch (IllegalStateException e) {
+            board.movePiece(destination, origin);
+        }
     }
 
     public void addHistory(JanggiPosition origin, JanggiPosition destination) {
