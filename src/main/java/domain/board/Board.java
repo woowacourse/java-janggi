@@ -54,7 +54,7 @@ public class Board {
                 .filter(piece -> piece.isEqualTeam(team))
                 .map(Piece::getScore)
                 .reduce(Score::plus)
-                .orElse(new Score(0));
+                .orElse(Score.ZERO);
     }
 
     public boolean isGameStopped() {

@@ -3,6 +3,7 @@ package domain.piece;
 public record Score(
         double score
 ) {
+    public static final Score ZERO = new Score(0);
 
     public Score {
         validatePositive(score);
