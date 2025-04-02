@@ -275,8 +275,8 @@ class JanggiBoardTest {
 
         Position destination = new Position(4, 1);
 
-        Piece catchedPiece = janggiBoard.moveOrCatchPiece(position, destination);
-        janggiBoard.checkGameIsOver(catchedPiece);
+        janggiBoard.moveOrCatchPiece(position, destination);
+        janggiBoard.checkGameIsOver();
 
         assertThat(janggiBoard.isGameProgress()).isFalse();
     }
@@ -303,28 +303,6 @@ class JanggiBoardTest {
 
         assertThat(janggiBoard.calculateScore(Side.CHO)).isEqualTo(70);
         assertThat(janggiBoard.calculateScore(Side.HAN)).isEqualTo(59);
-    }
-
-    @Test
-    @DisplayName("왕이 잡혔을 시 게임이 종료된다. - 초나라")
-    void test23() {
-        JanggiBoard board = JanggiBoard.initialize();
-        Piece catchedPiece = new King(Side.CHO);
-
-        board.checkGameIsOver(catchedPiece);
-
-        assertThat(board.getStatus()).isEqualTo(BoardStatus.HAN_WIN);
-    }
-
-    @Test
-    @DisplayName("왕이 잡혔을 시 게임이 종료된다. - 한나라")
-    void test24() {
-        JanggiBoard board = JanggiBoard.initialize();
-        Piece catchedPiece = new King(Side.HAN);
-
-        board.checkGameIsOver(catchedPiece);
-
-        assertThat(board.getStatus()).isEqualTo(BoardStatus.CHO_WIN);
     }
 
     @Test
