@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +21,7 @@ import org.junit.jupiter.api.Test;
 class MysqlGameDaoTest {
 
     private final MysqlConnection mysqlConnection = new MysqlConnection("janggi_test");
-    private final MysqlGameDao mysqlGameDao = new MysqlGameDao(mysqlConnection);
+    private final MysqlGameDao mysqlGameDao = new MysqlGameDao();
 
     @BeforeEach
     void setUp() {
@@ -37,7 +39,7 @@ class MysqlGameDaoTest {
         // given
         setupGame();
         // when
-        List<GameDto> allGames = mysqlGameDao.findAllGames();
+        List<GameDto> allGames = executeWithConnectionFunction(mysqlGameDao::findAllGames);
         // then
         assertAll(
                 () -> assertThat(allGames).hasSize(1),
@@ -53,7 +55,7 @@ class MysqlGameDaoTest {
         setupGame();
         int gameId = 1;
         // when
-        GameDto gameDto = mysqlGameDao.findGameById(gameId);
+        GameDto gameDto = executeWithConnectionFunction(connection -> mysqlGameDao.findGameById(connection, gameId));
         // then
         assertAll(
                 () -> assertThat(gameDto).isNotNull(),
@@ -68,7 +70,7 @@ class MysqlGameDaoTest {
         // given
         Team turn = Team.CHO;
         // when
-        int savedGameId = mysqlGameDao.addGame(turn);
+        int savedGameId = executeWithConnectionFunction(connection -> mysqlGameDao.addGame(connection, turn));
         // then
         String selectQuery = "SELECT * FROM game WHERE id = ?";
         try (Connection connection = mysqlConnection.getConnection();
@@ -91,7 +93,10 @@ class MysqlGameDaoTest {
         setupGame();
         // when
         int gameId = 1;
-        mysqlGameDao.updateGameById(gameId, Team.HAN);
+        executeWithConnectionConsumer(connection -> {
+            mysqlGameDao.updateGameById(connection, gameId, Team.HAN);
+            mysqlGameDao.updateGameById(connection, gameId, Team.HAN);
+        });
         // then
         String selectQuery = "SELECT * FROM game WHERE id = ?";
         try (Connection connection = mysqlConnection.getConnection();
@@ -113,7 +118,7 @@ class MysqlGameDaoTest {
         // given
         setupGame();
         // when
-        mysqlGameDao.deleteGameById(1);
+        executeWithConnectionConsumer(connection -> mysqlGameDao.deleteGameById(connection, 1));
         // then
         String selectQuery = "SELECT COUNT(*) FROM game";
         try (Connection connection = mysqlConnection.getConnection();
@@ -123,6 +128,22 @@ class MysqlGameDaoTest {
                     () -> assertThat(resultSet.next()).isTrue(),
                     () -> assertThat(resultSet.getInt(1)).isEqualTo(0)
             );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void executeWithConnectionConsumer(final Consumer<Connection> block) {
+        try (Connection connection = mysqlConnection.getConnection()) {
+            block.accept(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private <T> T executeWithConnectionFunction(final Function<Connection, T> block) {
+        try (Connection connection = mysqlConnection.getConnection()) {
+            return block.apply(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -10,18 +10,11 @@ import java.util.List;
 
 public final class MysqlPieceDao implements PieceDao {
 
-    private final MysqlConnection mysqlConnection;
-
-    public MysqlPieceDao(final MysqlConnection mysqlConnection) {
-        this.mysqlConnection = mysqlConnection;
-    }
-
     @Override
-    public List<PieceDto> findPiecesByGameId(final int gameId) {
+    public List<PieceDto> findPiecesByGameId(final Connection connection, final int gameId) {
         String selectQuery = "SELECT pieceType, team, col_num, row_num FROM piece WHERE game_id = ?";
 
-        try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
             preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -38,11 +31,10 @@ public final class MysqlPieceDao implements PieceDao {
     }
 
     @Override
-    public void addPieces(final int gameId, final List<PieceDto> pieceDtos) {
+    public void addPieces(final Connection connection, final int gameId, final List<PieceDto> pieceDtos) {
         String insertPieceQuery = "INSERT INTO piece (game_id, pieceType, team, col_num, row_num) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(insertPieceQuery)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertPieceQuery)) {
 
             for (PieceDto pieceDto : pieceDtos) {
                 preparedStatement.setInt(1, gameId);
@@ -59,11 +51,10 @@ public final class MysqlPieceDao implements PieceDao {
     }
 
     @Override
-    public void deletePiecesByGameId(final int gameId) {
+    public void deletePiecesByGameId(final Connection connection, final int gameId) {
         String deleteQuery = "DELETE FROM piece WHERE game_id = ?";
 
-        try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
 
             preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();

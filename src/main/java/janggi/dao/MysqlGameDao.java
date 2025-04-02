@@ -12,19 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class MysqlGameDao implements GameDao {
-
-    private final MysqlConnection mysqlConnection;
-
-    public MysqlGameDao(final MysqlConnection mysqlConnection) {
-        this.mysqlConnection = mysqlConnection;
-    }
-
+    
     @Override
-    public List<GameDto> findAllGames() {
+    public List<GameDto> findAllGames(final Connection connection) {
         String selectQuery = "SELECT id, turn, created_at FROM game ORDER BY created_at";
 
-        try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery);) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -39,11 +32,10 @@ public final class MysqlGameDao implements GameDao {
     }
 
     @Override
-    public GameDto findGameById(final int gameId) {
+    public GameDto findGameById(final Connection connection, final int gameId) {
         String selectQuery = "SELECT id, turn, created_at FROM game WHERE id = ?";
 
-        try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
 
             preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -58,12 +50,11 @@ public final class MysqlGameDao implements GameDao {
     }
 
     @Override
-    public int addGame(final Team turn) {
+    public int addGame(final Connection connection, final Team turn) {
         String insertQuery = "INSERT INTO game (turn) VALUES(?)";
 
-        try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery,
-                     Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery,
+                Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, turn.name());
             preparedStatement.executeUpdate();
@@ -79,11 +70,10 @@ public final class MysqlGameDao implements GameDao {
     }
 
     @Override
-    public void updateGameById(final int gameId, final Team turn) {
+    public void updateGameById(final Connection connection, final int gameId, final Team turn) {
         String updateQuery = "UPDATE game SET turn = ? WHERE id = ?";
 
-        try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
 
             preparedStatement.setString(1, turn.name());
             preparedStatement.setInt(2, gameId);
@@ -94,11 +84,10 @@ public final class MysqlGameDao implements GameDao {
     }
 
     @Override
-    public void deleteGameById(final int id) {
+    public void deleteGameById(final Connection connection, final int id) {
         String deleteQuery = "DELETE FROM game WHERE id = ?";
 
-        try (Connection connection = mysqlConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
 
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();

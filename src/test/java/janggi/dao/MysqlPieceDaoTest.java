@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +20,7 @@ import org.junit.jupiter.api.Test;
 class MysqlPieceDaoTest {
 
     private final MysqlConnection mysqlConnection = new MysqlConnection("janggi_test");
-    private final MysqlPieceDao mysqlPieceDao = new MysqlPieceDao(mysqlConnection);
+    private final MysqlPieceDao mysqlPieceDao = new MysqlPieceDao();
 
     @BeforeEach
     void setUp() {
@@ -38,7 +40,8 @@ class MysqlPieceDaoTest {
         setupPieces();
         int gameId = 1;
         // when
-        List<PieceDto> pieceDtos = mysqlPieceDao.findPiecesByGameId(gameId);
+        List<PieceDto> pieceDtos = executeWithConnectionFunction(
+                connection -> mysqlPieceDao.findPiecesByGameId(connection, gameId));
         // then
         assertAll(
                 () -> assertThat(pieceDtos).hasSize(2),
@@ -57,7 +60,7 @@ class MysqlPieceDaoTest {
                 new PieceDto("GENERAL", "HAN", 3, 7)
         );
         // when
-        mysqlPieceDao.addPieces(gameId, pieceDtos);
+        executeWithConnectionConsumer(connection -> mysqlPieceDao.addPieces(connection, gameId, pieceDtos));
         // then
         String selectQuery = "SELECT * FROM piece WHERE game_id = ?";
         try (Connection connection = mysqlConnection.getConnection();
@@ -81,7 +84,7 @@ class MysqlPieceDaoTest {
         setupPieces();
         int gameId = 1;
         // when
-        mysqlPieceDao.deletePiecesByGameId(gameId);
+        executeWithConnectionConsumer(connection -> mysqlPieceDao.deletePiecesByGameId(connection, gameId));
         // then
         String selectQuery = "SELECT COUNT(*) FROM piece WHERE game_id = ?";
         try (Connection connection = mysqlConnection.getConnection();
@@ -92,6 +95,22 @@ class MysqlPieceDaoTest {
                     () -> assertThat(resultSet.next()).isTrue(),
                     () -> assertThat(resultSet.getInt(1)).isEqualTo(0)
             );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void executeWithConnectionConsumer(final Consumer<Connection> block) {
+        try (Connection connection = mysqlConnection.getConnection()) {
+            block.accept(connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private <T> T executeWithConnectionFunction(final Function<Connection, T> block) {
+        try (Connection connection = mysqlConnection.getConnection()) {
+            return block.apply(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
