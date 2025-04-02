@@ -65,6 +65,10 @@ public abstract class Piece {
         return this.team == team;
     }
 
+    private boolean isEqualTeam(Piece piece) {
+        return this.team == piece.team;
+    }
+
     private boolean isNotEqualTeam(Team team) {
         return this.team != team;
     }
