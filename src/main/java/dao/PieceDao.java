@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import model.Team;
 import model.piece.Piece;
@@ -40,42 +39,18 @@ public class PieceDao {
         }, query, Statement.RETURN_GENERATED_KEYS);
     }
 
-    public void updateAllByGameId(int gameId, List<Piece> pieces) {
-        List<Piece> dbPieces = selectAllByGameId(gameId);
-        List<Piece> updateTarget = new ArrayList<>();
-        List<Piece> deleteTarget = new ArrayList<>();
-        for (var piece : pieces) {
-            int dbPieceIndex = dbPieces.indexOf(piece);
-            if (dbPieceIndex != -1) {
-                if (!dbPieces.get(dbPieceIndex).getPosition().equals(piece.getPosition())) {
-                    updateTarget.add(piece);
-                }
-            } else {
-                deleteTarget.add(piece);
-            }
-        }
-        deleteTarget.addAll(
-            dbPieces.stream()
-                .filter(piece -> !pieces.contains(piece))
-                .toList());
-        updateAll(updateTarget);
-        deleteAll(deleteTarget);
-    }
-
-    private void updateAll(List<Piece> pieces) {
+    public void update(Piece piece) {
         String query = "UPDATE pieces SET x=?, y=?, type=?, team=? WHERE id=?";
         DBConnectionManager.useDBConnection(preparedStatement -> {
-            for (var piece : pieces) {
-                try {
-                    preparedStatement.setInt(1, piece.getPosition().x());
-                    preparedStatement.setInt(2, piece.getPosition().y());
-                    preparedStatement.setString(3, piece.type().name());
-                    preparedStatement.setString(4, piece.getTeam().name());
-                    preparedStatement.setInt(5, piece.getId());
-                    preparedStatement.executeUpdate();
-                } catch (SQLException e) {
-                    throw new IllegalStateException("DB 쿼리 실행 중 오류가 발생했습니다." + e.getMessage());
-                }
+            try {
+                preparedStatement.setInt(1, piece.getPosition().x());
+                preparedStatement.setInt(2, piece.getPosition().y());
+                preparedStatement.setString(3, piece.type().name());
+                preparedStatement.setString(4, piece.getTeam().name());
+                preparedStatement.setInt(5, piece.getId());
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                throw new IllegalStateException("DB 쿼리 실행 중 오류가 발생했습니다." + e.getMessage());
             }
         }, query);
     }
@@ -105,26 +80,16 @@ public class PieceDao {
         }, query);
     }
 
-    private void deleteAll(List<Piece> pieces) {
-        if (pieces.isEmpty()) {
-            return;
-        }
-        String query = "DELETE FROM pieces WHERE id IN " + piecesIdToQueryCondition(pieces);
+    public void delete(Piece piece) {
+        String query = "DELETE FROM pieces WHERE id=?";
         DBConnectionManager.useDBConnection(preparedStatement -> {
             try {
+                preparedStatement.setInt(1, piece.getId());
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 throw new IllegalStateException("DB 쿼리 실행 중 오류가 발생했습니다." + e.getMessage());
             }
         }, query);
-    }
-
-    private String piecesIdToQueryCondition(List<Piece> pieces) {
-        String query = pieces.stream()
-            .map(Piece::getId)
-            .map(id -> String.format("\"%d\"", id))
-            .collect(Collectors.joining(","));
-        return "(" + query + ")";
     }
 
     public void deleteAllInGame(int gameId) {

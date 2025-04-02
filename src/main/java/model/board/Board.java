@@ -64,13 +64,14 @@ public class Board implements BoardSearcher {
         return new ArrayList<>(pieces);
     }
 
-    public void abstain(Team team) {
+    public Piece abstain(Team team) {
         Piece palace = getPalaces().stream()
             .filter(piece -> piece.equalsTeam(team))
             .findAny()
             .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 팀이 기권했습니다."));
 
         pieces.remove(palace);
+        return palace;
     }
 
     private List<Piece> getPalaces() {
