@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import game.Turn;
 import piece.Piece;
@@ -78,6 +76,7 @@ public class Board {
         return scoreBoard;
     }
 
+    // TODO: 테스트 작성
     public boolean isFinish() {
         return TOTAL_KING_COUNT != (int) pieces.values()
                 .stream()
@@ -85,6 +84,7 @@ public class Board {
                 .count();
     }
 
+    // TODO: 테스트 작성
     public Team findWinnerTeam() {
         List<Team> winnerTeam = pieces.values().stream()
                 .filter(piece -> piece.getType() == PieceType.KING)
