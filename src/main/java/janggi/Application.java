@@ -1,6 +1,5 @@
 package janggi;
 
-import janggi.dao.DaoSettings;
 import janggi.dao.JanggiDao;
 import janggi.domain.Board;
 import janggi.domain.JanggiGame;
@@ -18,8 +17,7 @@ import java.util.Map;
 public class Application {
 
     public static void main(String[] args) {
-        DaoSettings daoSettings = new DaoSettings("localhost:13306", "janggi", "root", "root");
-        JanggiDao janggiDao = new JanggiDao(daoSettings);
+        JanggiDao janggiDao = new JanggiDao();
         DataController dataController = new DataController(janggiDao);
 
         GameController gameController = setGame(dataController);

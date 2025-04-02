@@ -3,7 +3,6 @@ package janggi.dao;
 import janggi.dto.PieceDto;
 import janggi.dto.PositionDto;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,25 +13,10 @@ import java.util.function.Function;
 
 public class JanggiDao {
 
-    private final DaoSettings daoSettings;
-
-    public JanggiDao(DaoSettings daoSettings) {
-        this.daoSettings = daoSettings;
-    }
-
-    public Connection getConnection() {
-        String url = "jdbc:mysql://" + daoSettings.server + "/" + daoSettings.database + daoSettings.option;
-        try {
-            return DriverManager.getConnection(url, daoSettings.username, daoSettings.password);
-        } catch (SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-    }
+    private static final String DATABASE_NAME = "janggi";
 
     private void executeQuery(String query, Consumer<PreparedStatement> queryHandler) {
-        try (Connection connection = getConnection();
+        try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             queryHandler.accept(preparedStatement);
         } catch (SQLException e) {
@@ -41,7 +25,7 @@ public class JanggiDao {
     }
 
     private <T> T executeQuery(String query, Function<PreparedStatement, T> queryHandler) {
-        try (Connection connection = getConnection();
+        try (Connection connection = DatabaseConnector.getConnection(DATABASE_NAME);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             return queryHandler.apply(preparedStatement);
         } catch (SQLException e) {
@@ -97,7 +81,7 @@ public class JanggiDao {
     public void addPieces(List<PieceDto> piece) {
         String query = "INSERT INTO pieces(name, side, position_row, position_column) VALUES(?, ?, ?, ?)";
 
-        Connection connection = getConnection();
+        Connection connection = DatabaseConnector.getConnection(DATABASE_NAME);
         try {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -125,7 +109,7 @@ public class JanggiDao {
         String deleteQuery = "DELETE FROM pieces WHERE position_row = ? AND position_column = ?";
         String insertQuery = "INSERT INTO pieces(name, side, position_row, position_column) VALUES(?, ?, ?, ?)";
 
-        Connection connection = getConnection();
+        Connection connection = DatabaseConnector.getConnection(DATABASE_NAME);
         try {
             connection.setAutoCommit(false);
 
