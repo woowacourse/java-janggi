@@ -19,7 +19,7 @@ public class BoardDao {
     }
 
     public void saveAllBoardPiece(List<Piece> pieces) {
-        String query = "INSERT INTO board_piece (`piece_type`, `live_status`, `team`, `column_position`, `row_position`) VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO board_piece (piece_type, live_status, team, column_position, row_position) VALUES(?, ?, ?, ?, ?)";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
