@@ -40,9 +40,9 @@ public final class BoardDao {
         String sql = "SELECT * FROM board WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, boardId);
-            try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
-                    return Optional.of(mapToBoardVO(rs));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return Optional.of(mapToBoardVO(resultSet));
                 }
                 return Optional.empty();
             }
@@ -67,10 +67,10 @@ public final class BoardDao {
 
     public void updateCurrentCamp(Long boardId, String currentCamp) {
         String sql = "UPDATE board SET current_camp = ? WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, currentCamp);
-            stmt.setLong(2, boardId);
-            stmt.executeUpdate();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, currentCamp);
+            statement.setLong(2, boardId);
+            statement.executeUpdate();
         } catch (SQLException e) {
             throw new DataAccessException("현재 차례를 업데이트하는데 실패했습니다.", e);
         }

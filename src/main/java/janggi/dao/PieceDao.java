@@ -41,15 +41,15 @@ public class PieceDao {
         Map<Position, Piece> result = new HashMap<>();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, boardId);
-            try (ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
                     PieceVO vo = new PieceVO(
-                            rs.getLong("id"),
-                            rs.getLong("board_id"),
-                            rs.getString("type"),
-                            rs.getString("camp"),
-                            rs.getInt("x"),
-                            rs.getInt("y")
+                            resultSet.getLong("id"),
+                            resultSet.getLong("board_id"),
+                            resultSet.getString("type"),
+                            resultSet.getString("camp"),
+                            resultSet.getInt("x"),
+                            resultSet.getInt("y")
                     );
                     result.put(vo.toPosition(), vo.toPiece());
                 }

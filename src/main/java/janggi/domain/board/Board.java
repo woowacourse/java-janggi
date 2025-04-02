@@ -56,7 +56,6 @@ public class Board {
         Piece targetPiece = getTargetPiece(movement);
         originPiece.validateCatch(targetPiece);
         originPiece.validateMove(movement, this);
-
     }
 
     private void updateBoard(Movement movement) {
