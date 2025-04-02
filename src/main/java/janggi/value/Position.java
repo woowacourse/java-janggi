@@ -5,12 +5,6 @@ import java.util.stream.IntStream;
 
 public record Position(int x, int y) {
 
-    public Position calculateDifference(Position other) {
-        int xDifference = x - other.x();
-        int yDifference = y - other.y();
-        return new Position(xDifference, yDifference);
-    }
-
     public Position calculateSum(Position other) {
         int xSum = x + other.x();
         int ySum = y + other.y();
@@ -27,8 +21,8 @@ public record Position(int x, int y) {
         return makeYValue(this.y, end.y).stream().map(newY -> new Position(this.x, newY)).toList();
     }
 
-    public List<Position> makeInXYDiagonal(Position end) {
-        validateXYDiagonal(this, end);
+    public List<Position> makeInDiagonalWithPlusOneSlop(Position end) {
+        validateDiagonalWithPlusOneSlop(this, end);
         List<Integer> xValues = makeXValue(this.x, end.x);
         List<Integer> yValues = makeYValue(this.y, end.y);
         return IntStream.range(0, xValues.size())
@@ -36,8 +30,8 @@ public record Position(int x, int y) {
                 .toList();
     }
 
-    public List<Position> makeInYXDiagonal(Position end) {
-        validateYXDiagonal(this, end);
+    public List<Position> makeInDiagonalWithMinusOneSlop(Position end) {
+        validateDiagonalWithMinusOneSlop(this, end);
         List<Integer> xValues = makeXValue(this.x, end.x);
         List<Integer> yValues = makeYValue(this.y, end.y);
         return IntStream.range(0, xValues.size())
@@ -77,19 +71,21 @@ public record Position(int x, int y) {
         }
     }
 
-    private void validateXYDiagonal(Position start, Position end) {
-        boolean existEndAfterStart = start.x <= end.x && start.y <= end.y;
-        boolean isInvalidSlop = (end.x - start.x) / (end.y - start.y) == 1;
-        if (existEndAfterStart && isInvalidSlop) {
-            throw new IllegalArgumentException("시작점과 도착점이 같은 xy 대각선축 선에 존재하지 않습니다.");
+    private void validateDiagonalWithPlusOneSlop(Position start, Position end) {
+        if (start.equals(end)) {
+            return;
+        }
+        if ((end.y - start.y) == 0 || (end.x - start.x) / (end.y - start.y) != 1) {
+            throw new IllegalArgumentException("시작점과 도착점이 같은 기울기 1 대각선에 존재하지 않습니다.");
         }
     }
 
-    private void validateYXDiagonal(Position start, Position end) {
-        boolean existEndAfterStart = start.x <= end.x && start.y >= end.y;
-        boolean isInvalidSlop = (end.x - start.x) / (end.y - start.y) == -1;
-        if (existEndAfterStart && isInvalidSlop) {
-            throw new IllegalArgumentException("시작점과 도착점이 같은 yx 대각선축 선에 존재하지 않습니다.");
+    private void validateDiagonalWithMinusOneSlop(Position start, Position end) {
+        if (start.equals(end)) {
+            return;
+        }
+        if ((end.y - start.y) == 0 || (end.x - start.x) / (end.y - start.y) != -1) {
+            throw new IllegalArgumentException("시작점과 도착점이 같은 기울기 -1 대각선에 존재하지 않습니다.");
         }
     }
 }

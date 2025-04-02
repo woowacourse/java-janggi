@@ -36,9 +36,9 @@ public enum Direction {
         } else if (this == Direction.UP || this == Direction.DOWN) {
             return start.makeInYLine(end);
         } else if (this == Direction.UP_LEFT || this == Direction.DOWN_RIGHT) {
-            return start.makeInYXDiagonal(end);
+            return start.makeInDiagonalWithMinusOneSlop(end);
         } else if (this == Direction.UP_RIGHT || this == Direction.DOWN_LEFT) {
-            return start.makeInXYDiagonal(end);
+            return start.makeInDiagonalWithPlusOneSlop(end);
         }
         return List.of();
     }
