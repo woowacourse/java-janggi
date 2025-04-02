@@ -4,11 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import domain.direction.PieceDirections;
 import domain.game.Board;
 import domain.game.SetUp;
+import domain.piece.MovementRule;
+import domain.piece.Piece;
 import domain.piece.PieceInitializer;
 import domain.piece.Pieces;
+import domain.piece.category.PieceType;
 import domain.player.Player;
 import domain.player.Team;
 import domain.position.Position;
@@ -25,7 +27,7 @@ class BoardTest {
         Position startPosition = Position.of(1, 4);
         Position targetPosition = Position.of(1, 5);
 
-        Piece expected = new Soldier(Position.of(1, 5), PieceDirections.HAN_SOLDIER.get());
+        Piece expected = new Piece(Position.of(1, 5), PieceType.SOLDIER, MovementRule.HAN_SOLDIER);
 
         Player han = new Player("한", Team.HAN);
         Player cho = new Player("초", Team.CHO);
@@ -83,8 +85,8 @@ class BoardTest {
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
         List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
 
-        hanPieces.add(new Soldier(Position.of(5, 3), PieceDirections.HAN_SOLDIER.get()));
-        hanPieces.add(new Soldier(Position.of(6, 3), PieceDirections.HAN_SOLDIER.get()));
+        hanPieces.add(new Piece(Position.of(5, 3), PieceType.SOLDIER, MovementRule.HAN_SOLDIER));
+        hanPieces.add(new Piece(Position.of(6, 3), PieceType.SOLDIER, MovementRule.HAN_SOLDIER));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -115,7 +117,7 @@ class BoardTest {
         List<Piece> hanPieces = PieceInitializer.createTeamPieces(Team.HAN, SetUp.INNER_ELEPHANT);
         List<Piece> choPieces = PieceInitializer.createTeamPieces(Team.CHO, SetUp.INNER_ELEPHANT);
 
-        hanPieces.add(new Soldier(Position.of(2, 5), PieceDirections.HAN_SOLDIER.get()));
+        hanPieces.add(new Piece(Position.of(2, 5), PieceType.SOLDIER, MovementRule.HAN_SOLDIER));
 
         Map<Player, Pieces> boardElements = new HashMap<>();
         boardElements.put(han, new Pieces(hanPieces));
@@ -179,7 +181,8 @@ class BoardTest {
         // then
         assertAll(() -> {
             assertThat(choPieces).hasSize(15);
-            assertThat(choPieces).doesNotContain(new Soldier(Position.of(1, 7), PieceDirections.CHO_SOLDIER.get()));
+            assertThat(choPieces).doesNotContain(
+                    new Piece(Position.of(1, 7), PieceType.SOLDIER, MovementRule.CHO_SOLDIER));
         });
     }
 

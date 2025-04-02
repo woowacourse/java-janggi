@@ -20,7 +20,7 @@ class PieceTest {
         final Position position = Position.of(1, 2);
 
         // when
-        final TestPiece piece = new TestPiece(1, 2, new Directions(Set.of(), true));
+        final Piece piece = new Piece(position, PieceType.HORSE, MovementRule.HORSE);
 
         // then
         assertThat(piece.getPosition()).isEqualTo(position);
@@ -37,7 +37,7 @@ class PieceTest {
         Set<Direction> directionElements = Set.of(new Direction(vectors));
         Directions directions = new Directions(directionElements, false);
 
-        Piece piece = new TestPiece(4, 7, directions);
+        Piece piece = new Piece(Position.of(4, 7), PieceType.HORSE, MovementRule.HORSE);
 
         // when
         List<Position> result = piece.getPath(targetPosition);
@@ -50,7 +50,7 @@ class PieceTest {
     void 위치가_같은지_판단한다() {
         // given
         final Position position = Position.of(1, 2);
-        final Piece piece = new TestPiece(1, 2, new Directions(Set.of(), true));
+        final Piece piece = new Piece(position, PieceType.HORSE, MovementRule.HORSE);
 
         // when
         boolean result = piece.isSamePosition(position);
@@ -63,7 +63,7 @@ class PieceTest {
     void 위치를_변경한다() {
         // given
         final Position position = Position.of(2, 2);
-        final Piece piece = new TestPiece(1, 2, new Directions(Set.of(), true));
+        final Piece piece = new Piece(position, PieceType.CHARIOT, MovementRule.CHARIOT);
 
         // when
         Piece result = piece.updatePosition(position);
@@ -76,70 +76,13 @@ class PieceTest {
     @Test
     void 입력받은_타입의_기물인지_판단한다() {
         // given
-        final Piece cannon = new Cannon(Position.of(1, 2), new Directions(Set.of(), true));
-        final Piece king = new General(Position.of(1, 2), new Directions(Set.of(), true));
-        final Piece advisor = new Guard(Position.of(1, 2), new Directions(Set.of(), true));
-        final Piece elephant = new Elephant(Position.of(1, 2), new Directions(Set.of(), true));
-        final Piece horse = new Horse(Position.of(1, 2), new Directions(Set.of(), true));
-        final Piece pawn = new Soldier(Position.of(1, 2), new Directions(Set.of(), true));
-        final Piece rook = new Chariot(Position.of(1, 2), new Directions(Set.of(), true));
-        final Piece piece = new TestPiece(Position.of(1, 2), new Directions(Set.of(), true));
+        final Piece cannon = new Piece(Position.of(1, 2), PieceType.CANNON, MovementRule.CANNON);
+        final Piece horse = new Piece(Position.of(1, 2), PieceType.HORSE, MovementRule.HORSE);
 
         // when & then
         assertAll(
                 () -> assertThat(cannon.isEqualType(PieceType.CANNON)).isTrue(),
-                () -> assertThat(king.isEqualType(PieceType.CANNON)).isFalse(),
-                () -> assertThat(advisor.isEqualType(PieceType.CANNON)).isFalse(),
-                () -> assertThat(elephant.isEqualType(PieceType.CANNON)).isFalse(),
-                () -> assertThat(horse.isEqualType(PieceType.CANNON)).isFalse(),
-                () -> assertThat(pawn.isEqualType(PieceType.CANNON)).isFalse(),
-                () -> assertThat(rook.isEqualType(PieceType.CANNON)).isFalse(),
-                () -> assertThat(piece.isEqualType(PieceType.CANNON)).isFalse()
+                () -> assertThat(horse.isEqualType(PieceType.CANNON)).isFalse()
         );
-    }
-
-    static class TestPiece extends Piece {
-        public TestPiece(int row, int column, Directions directions) {
-            super(row, column, directions);
-        }
-
-        public TestPiece(final Position position, final Directions directions) {
-            super(position, , directions);
-        }
-
-        @Override
-        public TestPiece updatePosition(final Position position) {
-            return new TestPiece(position, directions);
-        }
-
-        @Override
-        public boolean isEqualType(final PieceType type) {
-            return PieceType.GENERAL == type;
-        }
-
-        @Override
-        public int getScore() {
-            return 0;
-        }
-
-        @Override
-        public boolean isValidPosition(Position position) {
-            return false;
-        }
-
-        @Override
-        public boolean canMoveInPalace() {
-            return false;
-        }
-
-        @Override
-        public PieceType getType() {
-            return PieceType.GENERAL;
-        }
-
-        @Override
-        public String getName() {
-            return "";
-        }
     }
 }
