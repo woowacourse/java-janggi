@@ -4,22 +4,22 @@ import janggi.piece.Piece;
 import janggi.piece.Pieces;
 import janggi.rule.CampType;
 import janggi.rule.PieceAssignType;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class JanggiBoard {
 
-    private final List<Pieces> piecesInCamp;
+    private final Map<CampType, Pieces> piecesInCamp;
 
     public JanggiBoard(PieceAssignType choPieceAssignType, PieceAssignType hanPieceAssignType) {
         PieceAssigner assigner = new PieceAssigner();
-        piecesInCamp = new ArrayList<>();
         List<Piece> chaInitialPieces = assigner.assignPieces(CampType.CHO, choPieceAssignType);
-        piecesInCamp.add(new Pieces(CampType.CHO, chaInitialPieces));
         List<Piece> hanInitialPieces = assigner.assignPieces(CampType.HAN, hanPieceAssignType);
-        piecesInCamp.add(new Pieces(CampType.HAN, hanInitialPieces));
+        piecesInCamp = new EnumMap<>(CampType.class);
+        piecesInCamp.put(CampType.CHO, new Pieces(chaInitialPieces));
+        piecesInCamp.put(CampType.HAN, new Pieces(hanInitialPieces));
     }
 
     public void movePiece(MovePieceCommand command) {
@@ -31,12 +31,13 @@ public class JanggiBoard {
     }
 
     public boolean isGameEnd() {
-        return piecesInCamp.stream().anyMatch(pieces -> !pieces.existGung());
+        Optional<CampType> winnerByKillingGung = checkWiningByKillingGung();
+        return winnerByKillingGung.isPresent();
     }
 
     public CampType whoWin() {
-        Optional<CampType> winningCampByGung = checkWiningByGung();
-        return winningCampByGung.orElseGet(this::checkWiningByScore);
+        Optional<CampType> winnerByKillingGung = checkWiningByKillingGung();
+        return winnerByKillingGung.orElseGet(this::checkWiningByScore);
     }
 
     public List<Piece> getPieces(CampType campType) {
@@ -50,29 +51,33 @@ public class JanggiBoard {
     }
 
     public double getScore(CampType campType) {
-        Pieces alliesPieces = findPieces(campType);
-        return alliesPieces.getScore();
+        double score = findPieces(campType).getScore();
+        return campType.addCampDefaultScore(score);
     }
 
     private Pieces findPieces(CampType campType) {
-        return piecesInCamp.stream()
-                .filter(pieces -> pieces.checkCamp(campType))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("진영에 해당하는 장기물 세트가 존재하지 않습니다."));
+        if (!piecesInCamp.containsKey(campType)) {
+            throw new IllegalArgumentException("진영에 해당하는 장기물 세트가 존재하지 않습니다.");
+        }
+        return piecesInCamp.get(campType);
     }
 
-    private Optional<CampType> checkWiningByGung() {
-        Optional<Pieces> optionalPieces = piecesInCamp.stream()
-                .filter(pieces -> !pieces.existGung())
-                .findFirst();
-        return optionalPieces.map(pieces -> pieces.getCampType().getEnemyCampType());
+    private Optional<CampType> checkWiningByKillingGung() {
+        if (findPieces(CampType.CHO).checkEnemyGungKilling()) {
+            return Optional.of(CampType.CHO);
+        }
+        if (findPieces(CampType.HAN).checkEnemyGungKilling()) {
+            return Optional.of(CampType.HAN);
+        }
+        return Optional.empty();
     }
 
     private CampType checkWiningByScore() {
-        Pieces piecesInWinningCamp = piecesInCamp.stream()
-                .sorted(Comparator.comparing(Pieces::getScore).reversed())
-                .toList()
-                .getFirst();
-        return piecesInWinningCamp.getCampType();
+        double choScore = getScore(CampType.CHO);
+        double hanScore = getScore(CampType.HAN);
+        if (choScore > hanScore) {
+            return CampType.CHO;
+        }
+        return CampType.HAN;
     }
 }

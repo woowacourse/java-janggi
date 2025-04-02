@@ -21,6 +21,10 @@ public enum CampType {
         return CampType.CHO;
     }
 
+    public double addCampDefaultScore(double originScore) {
+        return originScore + this.getDefaultScore();
+    }
+
     public int getStartYPosition() {
         return startYPosition;
     }

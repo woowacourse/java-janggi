@@ -1,7 +1,6 @@
 package janggi.piece;
 
 import janggi.rule.BoardPositionRange;
-import janggi.rule.CampType;
 import janggi.value.Position;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,12 +9,10 @@ import java.util.Optional;
 
 public class Pieces {
 
-    private final CampType campType;
     private final List<Piece> pieces;
     private final List<Piece> dyingEnemy;
 
-    public Pieces(CampType campType, List<Piece> pieces) {
-        this.campType = campType;
+    public Pieces(List<Piece> pieces) {
         this.pieces = new ArrayList<>(pieces);
         this.dyingEnemy = new ArrayList<>();
     }
@@ -40,21 +37,13 @@ public class Pieces {
         dyingEnemy.ifPresent(this.dyingEnemy::add);
     }
 
-    public boolean existGung() {
-        return pieces.stream().anyMatch(piece -> piece.checkPieceType(PieceType.GUNG));
+    public boolean checkEnemyGungKilling() {
+        return dyingEnemy.stream().anyMatch(piece -> piece.checkPieceType(PieceType.GUNG));
     }
 
     public Optional<Piece> searchPiece(Position targetPiecePosition) {
         return pieces.stream().filter(piece -> piece.getPosition().equals(targetPiecePosition))
                 .findFirst();
-    }
-
-    public boolean checkCamp(CampType campType) {
-        return this.campType == campType;
-    }
-
-    public CampType getCampType() {
-        return campType;
     }
 
     public Piece getPiece(Position targetPiecePosition) {
@@ -72,6 +61,6 @@ public class Pieces {
     }
 
     public double getScore() {
-        return dyingEnemy.stream().mapToInt(Piece::getScore).sum() + campType.getDefaultScore();
+        return dyingEnemy.stream().mapToInt(Piece::getScore).sum();
     }
 }
