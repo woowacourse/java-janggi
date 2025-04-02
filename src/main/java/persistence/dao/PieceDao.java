@@ -27,7 +27,12 @@ public class PieceDao {
 
                 prepareStatement.addBatch();
             }
-            prepareStatement.executeBatch();
+            int[] rowsCreated = prepareStatement.executeBatch();
+            for (int rowCreated : rowsCreated) {
+                if (rowCreated == 0) {
+                    throw new SQLException("[ERROR] Piece 생성에 실패하였습니다!");
+                }
+            }
         }
     }
 
@@ -40,7 +45,11 @@ public class PieceDao {
             preparedStatement.setInt(2, updateLocation.y());
             preparedStatement.setInt(3, originLocation.x());
             preparedStatement.setInt(4, originLocation.y());
-            preparedStatement.executeUpdate();
+            int rowUpdated = preparedStatement.executeUpdate();
+
+            if (rowUpdated == 0) {
+                throw new SQLException("[ERROR] Piece 수정에 실패하였습니다");
+            }
         }
     }
 

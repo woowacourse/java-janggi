@@ -16,7 +16,10 @@ public class JanggiGameDao {
                 """;
         try (final var preparedStatement = connection.prepareStatement(createQuery, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, entity.getTurn().getTeam().name());
-            preparedStatement.executeUpdate();
+            int rowCreated = preparedStatement.executeUpdate();
+            if (rowCreated == 0) {
+                throw new SQLException("[ERROR] 게임 생성에 실패하였습니다");
+            }
             try (final var generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     return generatedKeys.getLong(1);
@@ -33,7 +36,10 @@ public class JanggiGameDao {
         try (final var preparedStatement = connection.prepareStatement(updateQuery)) {
             preparedStatement.setString(1, entity.getTurn().getTeam().name());
             preparedStatement.setLong(2, janggiGameId);
-            preparedStatement.executeUpdate();
+            int rowUpdated = preparedStatement.executeUpdate();
+            if (rowUpdated == 0) {
+                throw new SQLException("[ERROR] 게임 생성에 실패하였습니다");
+            }
         }
     }
 
