@@ -8,7 +8,7 @@ import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObstacleJumpingObstacle implements ObstacleMoveStrategy {
+public class ObstacleJumpingObstacle implements ObstacleStrategy {
 
     @Override
     public void checkObstacle(final Position currentPosition, final Position arrivalPosition,
