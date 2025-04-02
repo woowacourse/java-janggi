@@ -50,16 +50,16 @@ public class Board {
     }
 
     public Score calculateScoreByTeam(Team team) {
-        return pieces.keySet().stream()
-                .filter(location -> pieces.get(location).isEqualTeam(team))
-                .map(location -> pieces.get(location).getScore())
+        return pieces.values().stream()
+                .filter(piece -> piece.isEqualTeam(team))
+                .map(Piece::getScore)
                 .reduce(Score::plus)
                 .orElse(new Score(0));
     }
 
     public boolean isGameStopped() {
-        long requiredAliveCount = pieces.keySet().stream()
-                .filter(location -> pieces.get(location).isStoppedGameIfDie())
+        long requiredAliveCount = pieces.values().stream()
+                .filter(Piece::isStoppedGameIfDie)
                 .count();
 
         return requiredAliveCount != REQUIRED_ALIVE_COUNT;
