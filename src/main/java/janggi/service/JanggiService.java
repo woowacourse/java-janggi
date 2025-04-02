@@ -36,7 +36,11 @@ public class JanggiService {
     }
 
     public List<GameDto> getRunningGames() {
-        return gameRepository.findAllRunning(connectionProvider.getConnection());
+        final List<GameDto> runningGames = gameRepository.findAllRunning(connectionProvider.getConnection());
+        if (runningGames.isEmpty()) {
+            throw new IllegalStateException("저장된 게임이 없습니다");
+        }
+        return runningGames;
     }
 
     public GameContext createNewContext() {

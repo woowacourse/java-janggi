@@ -38,7 +38,7 @@ public class Janggi {
 
                 final GameContext context = prepareGameContext(option);
                 runGameLoop(context);
-            } catch (final IllegalArgumentException e) {
+            } catch (final IllegalArgumentException | IllegalStateException e) {
                 outputView.displayError(e.getMessage());
             } catch (final RuntimeException e) {
                 outputView.displayError();

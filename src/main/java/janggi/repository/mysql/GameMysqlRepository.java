@@ -78,7 +78,7 @@ public class GameMysqlRepository implements GameRepository {
     public Optional<GameDto> findById(final Connection connection,
                                       final GameId id) {
         final String sql = """
-                SELECT id, status, turn, cho_score, han_score, start_at, last_saved_at
+                SELECT id, status, turn, cho_score, han_score, started_at, last_saved_at
                 FROM game
                 WHERE id = ?
                 """;
@@ -97,7 +97,7 @@ public class GameMysqlRepository implements GameRepository {
                         resultSet.getInt("turn"),
                         resultSet.getInt("cho_score"),
                         resultSet.getInt("han_score"),
-                        resultSet.getTimestamp("start_at").toLocalDateTime(),
+                        resultSet.getTimestamp("started_at").toLocalDateTime(),
                         resultSet.getTimestamp("last_saved_at").toLocalDateTime()
                 ));
             }
@@ -109,7 +109,7 @@ public class GameMysqlRepository implements GameRepository {
     @Override
     public List<GameDto> findAllRunning(final Connection connection) {
         final String sql = """
-                SELECT id, status, turn, cho_score, han_score, start_at, last_saved_at
+                SELECT id, status, turn, cho_score, han_score, started_at, last_saved_at
                 FROM game
                 WHERE status = ?
                 """;
@@ -125,7 +125,7 @@ public class GameMysqlRepository implements GameRepository {
                                 resultSet.getInt("turn"),
                                 resultSet.getInt("cho_score"),
                                 resultSet.getInt("han_score"),
-                                resultSet.getTimestamp("start_at").toLocalDateTime(),
+                                resultSet.getTimestamp("started_at").toLocalDateTime(),
                                 resultSet.getTimestamp("last_saved_at").toLocalDateTime()));
             }
         } catch (final SQLException e) {
