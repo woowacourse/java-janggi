@@ -14,7 +14,9 @@ public class FakePieceDao implements PieceDao {
 
     @Override
     public List<PieceDto> select(final Team team) {
-        return List.of();
+        return dtos.stream()
+                .filter(dto -> dto.team().equals(team))
+                .toList();
     }
 
     @Override
