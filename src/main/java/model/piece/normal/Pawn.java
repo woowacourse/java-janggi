@@ -5,15 +5,18 @@ import java.util.List;
 
 import model.Position;
 import model.Team;
+import model.piece.Piece;
 import model.piece.PieceType;
+import model.piece.movement.PalaceMovement;
 
-public class Pawn extends NormalPiece {
+public class Pawn extends Piece {
 
     public Pawn(int x, int y, Team team) {
         super(x, y, team);
         routes.add(new Route(List.of(new Position(-1, 0))));
         routes.add(new Route(List.of(new Position(1, 0))));
         routes.add(PositionSide.getRouteFor(team, new Position(0, 1)));
+        movement.addMovement(new PalaceMovement(true, false));
     }
 
     @Override

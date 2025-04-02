@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 import model.Position;
 import model.Team;
 import model.piece.Chariot;
+import model.piece.King;
 import model.piece.Pao;
 import model.piece.Piece;
 import model.piece.normal.Pawn;
-import model.piece.palace.King;
 
 class BoardTest {
 

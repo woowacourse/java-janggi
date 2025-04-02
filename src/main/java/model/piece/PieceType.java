@@ -5,8 +5,6 @@ import java.util.Arrays;
 import model.piece.normal.Elephant;
 import model.piece.normal.Horse;
 import model.piece.normal.Pawn;
-import model.piece.palace.King;
-import model.piece.palace.Soldier;
 
 public enum PieceType {
     PALACE(King::new, 0),

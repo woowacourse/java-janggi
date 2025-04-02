@@ -6,13 +6,13 @@ import java.util.List;
 import model.Position;
 import model.Team;
 import model.piece.Chariot;
+import model.piece.King;
 import model.piece.Pao;
 import model.piece.Piece;
+import model.piece.Soldier;
 import model.piece.normal.Elephant;
 import model.piece.normal.Horse;
 import model.piece.normal.Pawn;
-import model.piece.palace.King;
-import model.piece.palace.Soldier;
 
 final class Initializer {
 

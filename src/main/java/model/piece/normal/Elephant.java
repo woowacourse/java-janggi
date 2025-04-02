@@ -4,9 +4,10 @@ import java.util.List;
 
 import model.Position;
 import model.Team;
+import model.piece.Piece;
 import model.piece.PieceType;
 
-public class Elephant extends NormalPiece {
+public class Elephant extends Piece {
 
     public Elephant(int x, int y, Team team) {
         super(x, y, team);

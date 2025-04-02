@@ -6,6 +6,7 @@ import java.util.function.ToIntFunction;
 
 import model.Position;
 import model.Team;
+import model.piece.movement.DefaultMovement;
 
 public abstract class Piece {
 
@@ -13,17 +14,22 @@ public abstract class Piece {
     protected Position position;
     protected final Team team;
     protected final List<Route> routes = new ArrayList<>();
+    protected final DefaultMovement movement = new DefaultMovement();
 
     protected Piece(int x, int y, Team team) {
         this.team = team;
         position = new Position(x, y);
     }
 
-    protected abstract Route findMovableRoute(BoardSearcher boardSearcher, Position difference);
-
-    protected abstract void validateRoute(BoardSearcher boardSearcher, Route route, Position difference);
-
     public abstract PieceType type();
+
+    protected Route findMovableRoute(BoardSearcher boardSearcher, Position difference) {
+        return movement.findMovableRoute(boardSearcher, routes, team, position, difference);
+    }
+
+    protected void validateRoute(BoardSearcher boardSearcher, Route route, Position difference) {
+        movement.validateRoute(boardSearcher, route, position, difference);
+    }
 
     public void move(BoardSearcher boardSearcher, Team currentTurn, Position difference) {
         validateTeam(currentTurn);
@@ -53,10 +59,10 @@ public abstract class Piece {
     public boolean onPosition(Position nextPos) {
         return position.equals(nextPos);
     }
+
     public record Route(
         List<Position> positions
     ) {
-
 
         public Position sum() {
             return new Position(sumOf(Position::x), sumOf(Position::y));
@@ -66,7 +72,6 @@ public abstract class Piece {
                 .mapToInt(function)
                 .sum();
         }
-
     }
 
     public Team getTeam() {

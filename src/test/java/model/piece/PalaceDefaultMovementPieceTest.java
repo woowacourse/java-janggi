@@ -11,9 +11,8 @@ import org.junit.jupiter.api.Test;
 import model.Position;
 import model.Team;
 import model.board.Board;
-import model.piece.palace.King;
 
-class PalacePieceTest {
+class PalaceDefaultMovementPieceTest {
 
     @Test
     @DisplayName("궁은 궁성에서 사전 정의된 대각선 이동이 가능하다")

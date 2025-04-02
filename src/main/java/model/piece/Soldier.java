@@ -1,14 +1,14 @@
-package model.piece.palace;
+package model.piece;
 
 import java.util.List;
 
 import model.Position;
 import model.Team;
-import model.piece.PieceType;
+import model.piece.movement.PalaceMovement;
 
-public class King extends PalacePiece {
+public class Soldier extends Piece {
 
-    public King(int x, int y, Team team) {
+    public Soldier(int x, int y, Team team) {
         super(x, y, team);
         routes.addAll(List.of(
             new Route(List.of(new Position(-1, 0))),
@@ -16,10 +16,11 @@ public class King extends PalacePiece {
             new Route(List.of(new Position(1, 0))),
             new Route(List.of(new Position(0, -1)))
         ));
+        movement.addMovement(new PalaceMovement(false, false));
     }
 
     @Override
     public PieceType type() {
-        return PieceType.PALACE;
+        return PieceType.SOLDIER;
     }
 }
