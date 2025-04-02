@@ -54,16 +54,15 @@ public class BoardDao {
     }
 
     public boolean existsBoardPiece() {
-        String query = "SELECT COUNT(*) FROM board_piece";
+        String query = "SELECT EXISTS (SELECT 1 FROM board_piece)";
         try (Connection connection = connector.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
         ) {
             ResultSet result = preparedStatement.executeQuery();
-            int count = 0;
             if (result.next()) {
-                count = result.getInt(1);
+                return result.getBoolean(1);
             }
-            return count != 0;
+            return false;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
