@@ -1,4 +1,8 @@
 import controller.JanggiController;
+import domain.dao.JanggiCoordinateDao;
+import domain.dao.JanggiDBConnect;
+import domain.dao.JanggiGameDao;
+import domain.dao.JanggiPieceDao;
 import view.InputView;
 import view.OutputView;
 
@@ -13,7 +17,17 @@ public class Application {
 
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
-        JanggiController controller = new JanggiController(inputView, outputView);
+        JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
+        JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
+        JanggiCoordinateDao coordinateDao = new JanggiCoordinateDao(JanggiDBConnect.getConnection());
+
+        JanggiController controller = new JanggiController(
+                inputView,
+                outputView,
+                gameDao,
+                coordinateDao,
+                pieceDao
+        );
 
         controller.startJanggiGame();
     }

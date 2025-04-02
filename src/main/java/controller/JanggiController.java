@@ -2,7 +2,6 @@ package controller;
 
 import domain.*;
 import domain.dao.JanggiCoordinateDao;
-import domain.dao.JanggiDBConnect;
 import domain.dao.JanggiGameDao;
 import domain.dao.JanggiPieceDao;
 import domain.dto.GameFindDto;
@@ -17,16 +16,22 @@ import java.util.List;
 
 public class JanggiController {
 
-    private final static JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
-    private final static JanggiCoordinateDao coordinateDao = new JanggiCoordinateDao(JanggiDBConnect.getConnection());
-    private final static JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
-
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiGameDao gameDao;
+    private final JanggiCoordinateDao coordinateDao;
+    private final JanggiPieceDao pieceDao;
 
-    public JanggiController(InputView inputView, OutputView outputView) {
+    public JanggiController(InputView inputView,
+                            OutputView outputView,
+                            JanggiGameDao gameDao,
+                            JanggiCoordinateDao coordinateDao,
+                            JanggiPieceDao pieceDao) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.gameDao = gameDao;
+        this.coordinateDao = coordinateDao;
+        this.pieceDao = pieceDao;
     }
 
     public void startJanggiGame() {
@@ -153,12 +158,5 @@ public class JanggiController {
         List<JanggiCoordinate> occupiedCoordinate = board.getOccupiedCoordinates();
 
         coordinateDao.addPieceToCoordinateBatch(piecesId, occupiedCoordinate, gameId);
-
-//        for (JanggiCoordinate coordinate : board.getOccupiedCoordinates()) {
-//            Piece piece = board.findPieceByCoordinate(coordinate);
-//            int pieceId = pieceDao.addPiece(gameId, piece);
-//
-//            coordinateDao.insertPieceToCoordinate(pieceId, coordinate, gameId);
-//        }
     }
 }
