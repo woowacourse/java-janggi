@@ -1,7 +1,7 @@
 package janggi.piece;
 
+import janggi.piece.movement.GuardMovementRule;
 import janggi.piece.movement.MovementRule;
-import janggi.piece.movement.PalaceMovementRule;
 import janggi.piece.path.OneBlockMovementPathCalculator;
 import janggi.piece.path.PathCalculator;
 import janggi.position.Position;
@@ -16,7 +16,7 @@ public class Guard extends Piece {
     public Guard(final Color color) {
         super(color);
         this.pathCalculator = new OneBlockMovementPathCalculator();
-        this.movementRule = new PalaceMovementRule();
+        this.movementRule = new GuardMovementRule();
     }
 
     @Override
