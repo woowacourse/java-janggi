@@ -51,13 +51,13 @@ public class Pho extends Piece {
 
     public StepDecision decide(ReadableBoard readableBoard, Coordinate to, boolean isJumped) {
         if (!isJumped) {
-            if (readableBoard.hasPiece(to)) {
-                if (readableBoard.findPieceTypeByCoordinate(to) == PHO) {
-                    return StepDecision.stop();
-                }
-                return StepDecision.jump();
+            if (!readableBoard.hasPiece(to)) {
+                return StepDecision.skip();
             }
-            return StepDecision.skip();
+            if (readableBoard.findPieceTypeByCoordinate(to) == PHO) {
+                return StepDecision.stop();
+            }
+            return StepDecision.jump();
         }
 
         if (!readableBoard.hasPiece(to)) {
