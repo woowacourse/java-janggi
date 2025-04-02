@@ -3,6 +3,7 @@ package domain.direction;
 import domain.position.Palace;
 import domain.position.Position;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,6 +34,13 @@ public class Directions {
         return direction.map(value -> value.createPath(start, target, repeatable)).orElse(new ArrayList<>());
     }
 
+    public boolean canReachToTarget(final Position start, final Position target) {
+        Optional<Direction> direction = directions.stream()
+                .filter(element -> element.canReach(start, target, repeatable))
+                .findFirst();
+        return direction.isPresent();
+    }
+
     @Override
     public boolean equals(final Object object) {
         if (object == null || getClass() != object.getClass()) {
@@ -45,5 +53,11 @@ public class Directions {
     @Override
     public int hashCode() {
         return Objects.hashCode(directions);
+    }
+
+    public Directions addDirection(Set<Direction> directionElements) {
+        Set<Direction> copiedDirections = new HashSet<>(Set.copyOf(directions));
+        copiedDirections.addAll(directionElements);
+        return new Directions(copiedDirections, repeatable);
     }
 }

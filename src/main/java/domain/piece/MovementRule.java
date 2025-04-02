@@ -1,5 +1,6 @@
 package domain.piece;
 
+import domain.direction.Directions;
 import domain.direction.PieceDirections;
 import domain.position.Palace;
 import domain.position.Position;
@@ -9,61 +10,61 @@ public enum MovementRule {
     // 이동 방향성, 궁성 이동 가능한지, 이동 가능한 최대 최소 영역
     HAN_GENERAL(PieceDirections.GENERAL, true) {
         @Override
-        public boolean isMovablePosition(final Position position) {
+        public boolean isInRangePosition(final Position position) {
             return isInHanPalace(position.getRow(), position.getColumn());
         }
     },
     CHO_GENERAL(PieceDirections.GENERAL, true) {
         @Override
-        public boolean isMovablePosition(final Position position) {
+        public boolean isInRangePosition(final Position position) {
             return isInChoPalace(position.getRow(), position.getColumn());
         }
     },
     CANNON(PieceDirections.CANNON, true) {
         @Override
-        public boolean isMovablePosition(final Position position) {
+        public boolean isInRangePosition(final Position position) {
             return isInBoard(position.getRow(), position.getColumn());
         }
     },
     CHARIOT(PieceDirections.CHARIOT, false) {
         @Override
-        public boolean isMovablePosition(final Position position) {
+        public boolean isInRangePosition(final Position position) {
             return isInBoard(position.getRow(), position.getColumn());
         }
     },
     ELEPHANT(PieceDirections.ELEPHANT, false) {
         @Override
-        public boolean isMovablePosition(final Position position) {
+        public boolean isInRangePosition(final Position position) {
             return isInBoard(position.getRow(), position.getColumn());
         }
     },
     HAN_GUARD(PieceDirections.GUARD, true) {
         @Override
-        public boolean isMovablePosition(final Position position) {
+        public boolean isInRangePosition(final Position position) {
             return isInHanPalace(position.getRow(), position.getColumn());
         }
     },
     CHO_GUARD(PieceDirections.GUARD, true) {
         @Override
-        public boolean isMovablePosition(final Position position) {
+        public boolean isInRangePosition(final Position position) {
             return isInChoPalace(position.getRow(), position.getColumn());
         }
     },
     HORSE(PieceDirections.HORSE, false) {
         @Override
-        public boolean isMovablePosition(final Position position) {
+        public boolean isInRangePosition(final Position position) {
             return isInBoard(position.getRow(), position.getColumn());
         }
     },
     HAN_SOLDIER(PieceDirections.HAN_SOLDIER, true) {
         @Override
-        public boolean isMovablePosition(final Position position) {
+        public boolean isInRangePosition(final Position position) {
             return isInBoard(position.getRow(), position.getColumn());
         }
     },
     CHO_SOLDIER(PieceDirections.CHO_SOLDIER, true) {
         @Override
-        public boolean isMovablePosition(final Position position) {
+        public boolean isInRangePosition(final Position position) {
             return isInBoard(position.getRow(), position.getColumn());
         }
     },
@@ -92,7 +93,7 @@ public enum MovementRule {
                 column >= Palace.CHO_MIN_COLUMN && column <= Palace.CHO_MAX_COLUMN;
     }
 
-    public abstract boolean isMovablePosition(final Position position);
+    public abstract boolean isInRangePosition(final Position position);
 
     public boolean canMoveInPalace() {
         return canMoveInPalace;
@@ -100,6 +101,14 @@ public enum MovementRule {
 
     public List<Position> getPath(final Position start, final Position target) {
         return directions.get().getPath(start, target);
+    }
+
+    public boolean canMoveToTargetPosition(final Position start, final Position target) {
+        Directions movableDirections = directions.get();
+        if (canMoveInPalace && Palace.isInPalace(start) && Palace.isInPalace(target)) {
+            movableDirections = movableDirections.addDirection(Palace.getMovableDirectionInPalace(start));
+        }
+        return movableDirections.canReachToTarget(start, target);
     }
 
     public List<Position> getPalacePath(final Position start, final Position target) {

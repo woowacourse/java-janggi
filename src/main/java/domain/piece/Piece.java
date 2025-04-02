@@ -42,8 +42,8 @@ public class Piece {
         return path;
     }
 
-    public void validateMovablePosition(final Position targetPosition) {
-        if (!rule.isMovablePosition(targetPosition)) {
+    public void validateMovablePosition(final Position target) {
+        if (!rule.isInRangePosition(target) || !rule.canMoveToTargetPosition(position, target)) {
             throw new IllegalArgumentException("[ERROR] 이동할 수 없는 위치입니다.");
         }
     }
