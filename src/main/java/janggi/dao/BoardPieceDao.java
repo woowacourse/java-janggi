@@ -27,12 +27,15 @@ public class BoardPieceDao {
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)
         ) {
-            preparedStatement.setInt(1, gameId);
+            connection.setAutoCommit(false);
             for (Entry<Position, Piece> entry : board.entrySet()) {
+                preparedStatement.setInt(1, gameId);
                 save(entry, preparedStatement);
+                preparedStatement.clearParameters();
             }
+            connection.commit();
         } catch (SQLException e) {
-            throw new RuntimeException("DB 오류 발생");
+            throw new RuntimeException(e);
         }
     }
 
