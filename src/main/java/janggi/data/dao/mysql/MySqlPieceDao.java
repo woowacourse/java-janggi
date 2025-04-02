@@ -6,6 +6,7 @@ import janggi.data.dao.BoardDao;
 import janggi.data.dao.CampDao;
 import janggi.data.dao.PieceDao;
 import janggi.data.dao.PieceSymbolDao;
+import janggi.data.exception.DatabaseQueryException;
 import janggi.piece.Piece;
 import java.sql.SQLException;
 
@@ -39,7 +40,7 @@ public final class MySqlPieceDao implements PieceDao {
             preparedStatement.setInt(5, point.y());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseQueryException("기물 정보를 저장하는 도중 오류가 발생했습니다. %s".formatted(e.getMessage()));
         }
     }
 
@@ -59,7 +60,7 @@ public final class MySqlPieceDao implements PieceDao {
             preparedStatement.setInt(5, boardDao.findCurrentBoardId());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseQueryException("기물 이동 정보를 저장하는 도중 오류가 발생했습니다. %s".formatted(e.getMessage()));
         }
     }
 
@@ -76,7 +77,7 @@ public final class MySqlPieceDao implements PieceDao {
             preparedStatement.setInt(3, boardDao.findCurrentBoardId());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseQueryException("기물 정보를 삭제하는 도중 오류가 발생했습니다. %s".formatted(e.getMessage()));
         }
     }
 }
