@@ -1,12 +1,12 @@
 package piece;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import board.Board;
 import board.Position;
-import piece.movement.PalaceMovement;
 
 public class Soldier extends Piece {
 
@@ -16,14 +16,23 @@ public class Soldier extends Piece {
 
     @Override
     protected Set<Position> getMovablePositions(final Position position, final Board board) {
+        Set<Position> movablePositions = new HashSet<>();
         if (position.isPalacePosition()) {
-            return PalaceMovement.applyMovement(position)
-                    .stream()
-                    .filter(candidatePosition -> isMovable(candidatePosition, board)
-                            && !sameUnmovableDirectionMovePositions(position, candidatePosition)
-                    ).collect(Collectors.toSet());
+            Set<Position> movablePositionsInPalace =
+                    findMovablePositions(Direction.getDiagonalDirection(), position, board)
+                            .stream()
+                            .filter(Position::isPalacePosition)
+                            .collect(Collectors.toSet());
+            movablePositions.addAll(movablePositionsInPalace);
         }
-        return Direction.getStraightDirection().stream()
+        movablePositions.addAll(findMovablePositions(Direction.getStraightDirection(), position, board));
+        return movablePositions;
+    }
+
+    private Set<Position> findMovablePositions(
+            final List<Direction> directions, final Position position, final Board board
+    ) {
+        return directions.stream()
                 .filter(direction -> !getUnmovableDirections().contains(direction))
                 .map(position::moveByDirection)
                 .filter(movePosition -> isMovable(movePosition, board))
