@@ -20,15 +20,10 @@ public enum Direction {
         this.column = column;
     }
 
-    public static Direction find(Position from, Position to) {
+    public static Direction findBy(Position from, Position to) {
         return Direction.findBy(
                 Integer.signum(to.x() - from.x()),
                 Integer.signum(to.y() - from.y()));
-    }
-
-    public static boolean isDiagonal(Position from, Position to) {
-        Direction direction = Direction.find(from, to);
-        return direction.getX() != 0 && direction.getY() != 0;
     }
 
     private static Direction findBy(int compareRow, int compareColumn) {
@@ -36,6 +31,11 @@ public enum Direction {
                 .filter(direction -> direction.row == compareRow && direction.column == compareColumn)
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 방향이 존재하지 않습니다."));
+    }
+
+    public static boolean isDiagonal(Position from, Position to) {
+        Direction direction = Direction.findBy(from, to);
+        return direction.getX() != 0 && direction.getY() != 0;
     }
 
     public int getX() {

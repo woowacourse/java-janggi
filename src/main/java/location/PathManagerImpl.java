@@ -35,7 +35,7 @@ public class PathManagerImpl implements PathManager {
     }
 
     public List<Position> calculateOneDirectionPaths(Position from, Position to) {
-        Direction direction = Direction.find(from, to);
+        Direction direction = Direction.findBy(from, to);
         List<Position> paths = new ArrayList<>();
         Position current = from.apply(direction);
 
