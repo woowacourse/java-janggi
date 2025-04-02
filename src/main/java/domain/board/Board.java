@@ -1,15 +1,16 @@
 package domain.board;
 
-import domain.score.Score;
-import domain.score.ScoreCalculator;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Team;
+import domain.score.Score;
+import domain.score.ScoreCalculator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Board {
 
@@ -132,13 +133,11 @@ public class Board {
     }
 
     private List<Point> getPoints() {
-        List<Point> points = new ArrayList<>();
-        for (int i = START_ROW_INDEX; i <= END_ROW_INDEX; i++) {
-            for (int j = START_COLUMN_INDEX; j <= END_COLUMN_INDEX; j++) {
-                points.add(Point.of(i, j));
-            }
-        }
-        return points;
+        return IntStream.rangeClosed(START_ROW_INDEX, END_ROW_INDEX)
+                .boxed()
+                .flatMap(i -> IntStream.rangeClosed(START_COLUMN_INDEX, END_COLUMN_INDEX)
+                        .mapToObj(j -> Point.of(i, j)))
+                .collect(Collectors.toList());
     }
 
     private List<Piece> getPiecesByTeam(List<Point> points, Team team) {
@@ -150,11 +149,10 @@ public class Board {
     }
 
     public Map<Point, Piece> currentBoard() {
-        Map<Point, Piece> pieceByPoint = new HashMap<>();
-        for (Node node : board.keySet()) {
-            Point point = node.point();
-            pieceByPoint.put(point, board.get(node));
-        }
-        return pieceByPoint;
+        return board.keySet().stream()
+                .collect(Collectors.toMap(
+                        Node::point,
+                        board::get
+                ));
     }
 }
