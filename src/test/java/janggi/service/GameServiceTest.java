@@ -34,7 +34,6 @@ class GameServiceTest {
     @Test
     void testLoadGameByGameId() {
         // given
-        int gameId = 1;
         // when
         Game game = gameService.loadGameByGameId(1);
         // then
