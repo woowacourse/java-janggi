@@ -1,5 +1,6 @@
 package janggi.view;
 
+import janggi.GameContext;
 import janggi.board.Board;
 import janggi.coordinate.Column;
 import janggi.coordinate.Position;
@@ -7,7 +8,6 @@ import janggi.coordinate.Row;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.player.Player;
-import janggi.player.Players;
 import janggi.player.Team;
 
 import java.util.List;
@@ -58,11 +58,11 @@ public class OutputView {
         System.out.println(stringBuilder);
     }
 
-    public void displayScore(final Players players) {
+    public void displayScore(final GameContext context) {
         for (final Team team : Team.values()) {
             display(String.format("%s나라 점수: %d",
                     team.getDescription(),
-                    players.getPlayer(team).getScore().value()));
+                    context.getScore(team).value()));
         }
     }
 

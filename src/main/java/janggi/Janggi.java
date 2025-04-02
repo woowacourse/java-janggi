@@ -3,8 +3,6 @@ package janggi;
 import janggi.board.Board;
 import janggi.command.Command;
 import janggi.player.Player;
-import janggi.player.Players;
-import janggi.player.Turn;
 import janggi.repository.dto.GameDto;
 import janggi.service.JanggiService;
 import janggi.view.InputView;
@@ -59,16 +57,14 @@ public class Janggi {
     }
 
     private void runGameLoop(final GameContext context) {
-        final Board board = context.getBoard();
-        final Players players = context.getPlayers();
-        final Turn turn = context.getTurn();
+        final Board board = context.createBoard();
 
         while (true) {
             outputView.displayBoard(board);
-            outputView.displayScore(players);
+            outputView.displayScore(context);
 
             try {
-                final Player player = players.getCurrentPlayer();
+                final Player player = context.getCurrentPlayer();
 
                 final Command command = inputView.inputCommand(player);
                 command.execute(context, outputView, janggiService);
@@ -86,7 +82,7 @@ public class Janggi {
                 outputView.displayError();
             }
 
-            turn.next();
+            context.nextTurn();
         }
     }
 }

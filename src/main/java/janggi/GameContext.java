@@ -2,69 +2,63 @@ package janggi;
 
 import janggi.board.Board;
 import janggi.piece.Pieces;
+import janggi.player.Player;
 import janggi.player.Players;
 import janggi.player.Score;
 import janggi.player.Team;
 import janggi.player.Turn;
 import janggi.repository.dto.GameDto;
 
-import java.time.LocalDateTime;
-
 public class GameContext {
 
     private final GameId gameId;
-    private final LocalDateTime startedAt;
-    private final LocalDateTime lastSavedAt;
     private final Players players;
     private final Board board;
-    private final Turn turn;
 
     private GameContext(final GameId gameId,
-                        final LocalDateTime startedAt,
-                        final LocalDateTime lastSavedAt,
                         final Players players,
-                        final Board board,
-                        final Turn turn) {
+                        final Board board) {
         this.gameId = gameId;
-        this.startedAt = startedAt;
-        this.lastSavedAt = lastSavedAt;
         this.players = players;
         this.board = board;
-        this.turn = turn;
     }
 
     public static GameContext newGame(final Players players) {
         return new GameContext(
                 GameId.unset(),
-                LocalDateTime.now(),
-                LocalDateTime.MIN,
                 players,
-                players.createBoard(),
-                players.getTurn());
+                players.createBoard());
     }
 
     public static GameContext loadGame(final GameDto gameDto,
                                        final Players players) {
         return new GameContext(
                 GameId.from(gameDto.id()),
-                gameDto.startAt(),
-                gameDto.lastSavedAt(),
                 players,
-                players.createBoard(),
-                players.getTurn());
+                players.createBoard());
     }
 
     public GameContext update(final Players players) {
         return new GameContext(
                 gameId,
-                startedAt, lastSavedAt,
                 players,
-                players.createBoard(),
-                players.getTurn());
+                players.createBoard());
     }
 
     public boolean isSaved() {
         return gameId.isSet();
+    }
+
+    public Board createBoard() {
+        return players.createBoard();
+    }
+
+    public void nextTurn() {
+        getTurn().next();
+    }
+
+    public Player getCurrentPlayer() {
+        return players.getCurrentPlayer();
     }
 
     public Score getScore(final Team team) {
@@ -88,6 +82,6 @@ public class GameContext {
     }
 
     public Turn getTurn() {
-        return turn;
+        return players.getTurn();
     }
 }

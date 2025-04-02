@@ -43,7 +43,7 @@ public class MoveCommand implements Command {
     @Override
     public void execute(final GameContext context, final OutputView outputView, final JanggiService service) {
         final Board board = context.getBoard();
-        final Player player = context.getPlayers().getCurrentPlayer();
+        final Player player = context.getCurrentPlayer();
         service.movePiece(board, player, getDeparturePosition(), getDestinationPosition());
     }
 
