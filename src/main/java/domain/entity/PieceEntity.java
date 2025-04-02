@@ -6,19 +6,19 @@ import domain.piece.Team;
 
 public class PieceEntity {
 
-    private Long id;
+    private final Long id;
 
-    private int x;
+    private final int x;
 
-    private int y;
+    private final int y;
 
-    private PieceType type;
+    private final PieceType type;
 
-    private Team team;
+    private final Team team;
 
-    private Score score;
+    private final Score score;
 
-    private Long janggiGameId;
+    private final Long janggiGameId;
 
     public PieceEntity(Long id, int x, int y, PieceType type, Team team, Score score, Long janggiGameId) {
         this.id = id;

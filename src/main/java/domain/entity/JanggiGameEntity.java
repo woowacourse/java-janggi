@@ -4,9 +4,9 @@ import domain.game.Turn;
 
 public class JanggiGameEntity {
 
-    private Long id;
+    private final Long id;
 
-    private Turn turn;
+    private final Turn turn;
 
     public JanggiGameEntity(Long id, Turn turn) {
         this.id = id;
