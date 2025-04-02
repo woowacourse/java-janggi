@@ -22,25 +22,21 @@ public class GameController {
 
     public void run() {
         Teams teams = gameProcessManager.initializeTeams();
-        Team teamCho = teams.getTeamCho();
-        Team teamHan = teams.getTeamHan();
-        Team oldTeam = teamHan;
         do {
-            output.printBoard(teamHan, teamCho);
-            Team currentTeam = teams.switchTurn(oldTeam);
-            oldTeam = currentTeam;
+            output.printBoard(teams);
+            Team currentTeam = teams.getCurrentTeam();
 
-            Piece currentPiece = gameRequestValidator.requestAndValidateStartPoint(currentTeam);
-            Position destination = gameRequestValidator.requestAndValidateDestination(currentTeam, currentPiece);
-            String pieceName = currentPiece.getName();
-            Position currentPosition = currentPiece.getPosition();
+            Piece currentPiece = gameRequestValidator.requestValidatedStartPoint(currentTeam);
+            Position destination = gameRequestValidator.requestValidatedDestination(currentTeam, currentPiece);
 
-            currentTeam.move(pieceName, currentPosition, destination);
-            Team opponentTeam = teams.checkOpponent(currentTeam);
+            currentTeam.move(currentPiece, destination);
+            Team opponentTeam = teams.getOpponentTeam();
             opponentTeam.updateStatusIfCaught(destination);
-        } while (gameProcessManager.isContinue(teamHan, teamCho));
 
-        output.printTeamScore(teamCho.checkTeamScore(), teamHan.checkTeamScore());
-        gameProcessManager.saveTeams(teamCho, teamHan);
+            teams.switchTurn();
+        } while (gameProcessManager.isContinue(teams));
+
+        output.printTeamScore(teams);
+        gameProcessManager.saveTeams(teams);
     }
 }

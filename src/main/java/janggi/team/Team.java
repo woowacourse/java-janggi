@@ -112,7 +112,9 @@ public class Team {
         }
     }
 
-    public void move(String pieceName, Position startPosition, Position endPosition) {
+    public void move(Piece currentPiece, Position endPosition) {
+        String pieceName = currentPiece.getName();
+        Position startPosition = currentPiece.getPosition();
         Piece targetPiece = findPieceByName(pieceName, startPosition);
         targetPiece.move(endPosition);
     }

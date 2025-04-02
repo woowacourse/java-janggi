@@ -7,6 +7,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import janggi.board.BoardSetup;
 import janggi.board.Position;
 import janggi.palace.PalaceArea;
+import janggi.piece.Guard;
+import janggi.piece.Soldier;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,8 +77,9 @@ public class TeamTest {
     @Test
     void validateDestinationIsNotOccupiedBySameTeam() {
         Team teamCho = TeamFactory.createTeam(BoardSetup.of(List.of("초", "HEEH")));
+        Guard guard = new Guard(TeamName.CHO, new Position(3, 0));
 
-        teamCho.move("G", new Position(3, 0), new Position(3, 1));
+        teamCho.move(guard, new Position(3, 1));
 
         assertThatThrownBy(() -> teamCho.validateDestinationIsNotOccupiedBySameTeam(new Position(3, 1)))
                 .isInstanceOf(IllegalArgumentException.class);
@@ -120,8 +123,9 @@ public class TeamTest {
     @Test
     void move() {
         Team teamCho = TeamFactory.createTeam(BoardSetup.of(List.of("초", "HEEH")));
+        Soldier soldier = new Soldier(TeamName.CHO, new Position(2, 3));
 
-        teamCho.move("S", new Position(2, 3), new Position(3, 3));
+        teamCho.move(soldier, new Position(3, 3));
 
         assertThatCode(() -> teamCho.validatePiece("S", new Position(3, 3))).doesNotThrowAnyException();
     }

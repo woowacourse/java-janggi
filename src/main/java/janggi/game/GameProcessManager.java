@@ -31,20 +31,20 @@ public class GameProcessManager {
         return loadOrResetTeams();
     }
 
-    public void saveTeams(Team teamCho, Team teamHan) {
+    public void saveTeams(Teams teams) {
         boardStatus.clearBoardStatus();
         List<Piece> allPieces = new ArrayList<>();
-        allPieces.addAll(teamCho.getBoard());
-        allPieces.addAll(teamHan.getBoard());
+        allPieces.addAll(teams.getTeamCho().getBoard());
+        allPieces.addAll(teams.getTeamHan().getBoard());
         boardStatus.saveBoardStatus(allPieces);
     }
 
-    public boolean isContinue(Team teamHan, Team teamCho) {
-        return !isGameOver(teamHan, teamCho) && input.readGameContinue().equalsIgnoreCase(ANSWER_POSITIVE);
+    public boolean isContinue(Teams teams) {
+        return !isGameOver(teams) && input.readGameContinue().equalsIgnoreCase(ANSWER_POSITIVE);
     }
 
-    private boolean isGameOver(Team teamHan, Team teamCho) {
-        return teamHan.isKingCaught() || teamCho.isKingCaught();
+    private boolean isGameOver(Teams teams) {
+        return teams.getTeamHan().isKingCaught() || teams.getTeamCho().isKingCaught();
     }
 
     private Teams createNewTeams() {
@@ -63,8 +63,8 @@ public class GameProcessManager {
 
     private Teams loadTeamsFromBoardStatus() {
         List<Piece> allPieces = boardStatus.loadBoardStatus();
-        List<Piece> choPieces = allPieces.stream().filter(piece -> piece.getTeamName().equals("초")).toList();
-        List<Piece> hanPieces = allPieces.stream().filter(piece -> piece.getTeamName().equals("한")).toList();
+        List<Piece> choPieces = allPieces.stream().filter(piece -> piece.matchTeam(TeamName.CHO)).toList();
+        List<Piece> hanPieces = allPieces.stream().filter(piece -> piece.matchTeam(TeamName.HAN)).toList();
 
         Team teamCho = new Team(choPieces, PalaceFactory.createPalace(TeamName.CHO), TeamName.CHO);
         Team teamHan = new Team(hanPieces, PalaceFactory.createPalace(TeamName.HAN), TeamName.HAN);
