@@ -17,13 +17,19 @@ public record JanggiPosition(int x, int y) {
     }
 
     public boolean isPositionInCastle() {
-        return x >= 3 && x <= 5 && ((y >= 0 && y <= 2) || (y >= 7 && y <= 9));
+        boolean isInHorizontalRange = x >= 3 && x <= 5;
+        boolean isInHanPalace = y >= 0 && y <= 2;
+        boolean isInChoPalace = y >= 7 && y <= 9;
+
+        return isInHorizontalRange && (isInHanPalace || isInChoPalace);
     }
+
     public boolean isDiagonalPositionInCastle() {
-        if ((x == 3 || x == 5) && ((y == 0) || (y == 2) || (y == 7) || (y == 9))) {
-            return true;
-        }
-        return x == 4 &&( (y == 1) || (y == 8));
+        boolean isCornerPosition = (x == 3 || x == 5) && (y == 0 || y == 2 || y == 7 || y == 9);
+
+        boolean isCenterDiagonal = x == 4 && (y == 1 || y == 8);
+
+        return isCornerPosition || isCenterDiagonal;
     }
 
     @Override
