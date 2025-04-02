@@ -10,6 +10,9 @@ public class InputView {
 
     private final Scanner scanner = new Scanner(System.in);
 
+    private static final String moveCommandPattern = "move [A-I][0-9] [A-I][0-9]";
+
+
     public StartSet getStartingPosition(Country country) {
         System.out.print(country.name());
         System.out.println("상차림을 입력하세요.\n"
@@ -26,17 +29,16 @@ public class InputView {
     }
 
     public List<String> readMoveCommand() {
-        System.out.println("이동할 말을 입력하세요 (예: move 가1 자8) 또는 종료하려면 'quit' 입력:");
+        System.out.println("이동할 말을 입력하세요 (예: move A1 I8) 또는 종료하려면 'quit' 입력:");
         final String input = scanner.nextLine().trim();
-        final String pattern = "move [A-I][0-9] [A-I][0-9]";
         if (input.equalsIgnoreCase("quit")) {
             List<String> quitCommand = new ArrayList<>();
             quitCommand.add("quit");
             return quitCommand;
         }
 
-        if (!input.matches(pattern)) {
-            throw new IllegalArgumentException("올바른 형식으로 입력해주세요. (예: move 가1 자8)");
+        if (!input.matches(moveCommandPattern)) {
+            throw new IllegalArgumentException("올바른 형식으로 입력해주세요. (예: move A1 C2)");
         }
 
         List<String> moveInfo = new ArrayList<>();
