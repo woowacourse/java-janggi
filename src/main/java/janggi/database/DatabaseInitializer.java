@@ -13,7 +13,6 @@ public class DatabaseInitializer {
 
             statement.execute(CREATE_BOARD_TABLE);
             statement.execute(CREATE_BOARD_STATUS_TABLE);
-            statement.execute(INSERT_INITIAL_BOARD_STATUS);
         } catch (SQLException e) {
             throw new RuntimeException("데이터베이스 초기화 중 오류 발생", e);
         }
@@ -35,8 +34,4 @@ public class DatabaseInitializer {
             );
             """;
 
-    private static final String INSERT_INITIAL_BOARD_STATUS = """
-            INSERT INTO board_status (status) VALUES ('CHO_TURN')
-            ON CONFLICT DO NOTHING;
-            """;
 }
