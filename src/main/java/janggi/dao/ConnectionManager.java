@@ -16,7 +16,7 @@ public class ConnectionManager {
         try {
             return DriverManager.getConnection(BASE_URL + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            throw new IllegalArgumentException("[ERROR] 데이터베이스 연결에 실패하였습니다.");
+            throw new RuntimeException("[ERROR] 데이터베이스 연결에 실패하였습니다.");
         }
     }
 }
