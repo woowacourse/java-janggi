@@ -7,13 +7,13 @@ import piece.Direction;
 
 public class Position {
 
-    private static final Set<Position> PALACE_POSITIONS = Set.of(
-            new Position(1, 4), new Position(1, 5), new Position(1, 6),
-            new Position(2, 4), new Position(2, 5), new Position(2, 6),
-            new Position(3, 4), new Position(3, 5), new Position(3, 6),
-            new Position(8, 4), new Position(8, 5), new Position(8, 6),
-            new Position(9, 4), new Position(9, 5), new Position(9, 6),
-            new Position(10, 4), new Position(10, 5), new Position(10, 6)
+    private static final Set<Position> PALACE_ALL_DIRECTION_POSITIONS = Set.of(
+            new Position(1, 4), new Position(1, 6), new Position(2, 5), new Position(3, 4), new Position(3, 6),
+            new Position(8, 4), new Position(8, 6), new Position(9, 5), new Position(10, 4), new Position(10, 6)
+    );
+    private static final Set<Position> PALACE_STRAIGHT_DIRECTION_POSITIONS = Set.of(
+            new Position(1, 5), new Position(2, 4), new Position(2, 6), new Position(3, 5),
+            new Position(8, 5), new Position(9, 4), new Position(9, 6), new Position(10, 5)
     );
 
     private static final int MIN_ROW = 1;
@@ -31,7 +31,7 @@ public class Position {
 
     public boolean isInValidPosition() {
         return (row < MIN_ROW || row > MAX_ROW) ||
-                (column < MIN_COLUMN || column > MAX_COLUMN);
+               (column < MIN_COLUMN || column > MAX_COLUMN);
     }
 
     public Position moveByDirection(final Direction direction) {
@@ -42,7 +42,11 @@ public class Position {
     }
 
     public boolean isPalacePosition() {
-        return PALACE_POSITIONS.contains(this);
+        return PALACE_ALL_DIRECTION_POSITIONS.contains(this) || PALACE_STRAIGHT_DIRECTION_POSITIONS.contains(this);
+    }
+
+    public boolean hasDiagonalDirectionInPosition() {
+        return PALACE_ALL_DIRECTION_POSITIONS.contains(this);
     }
 
     public int getRow() {
@@ -72,9 +76,9 @@ public class Position {
     @Override
     public String toString() {
         return "Position{" +
-                "row=" + row +
-                ", column=" + column +
-                '}';
+               "row=" + row +
+               ", column=" + column +
+               '}';
     }
 
 }
