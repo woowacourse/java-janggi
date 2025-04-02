@@ -18,16 +18,14 @@ public final class BoardStatus {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "pazz4321";
 
-    private static final String INVALID_DB_CONNECTION = "[DB 연결 오류] ";
     private static final int EMPTY_BOARD_STATUS = 0;
     private static final int BOARD_STATUS_COUNT_INDEX = 1;
 
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.out.println(INVALID_DB_CONNECTION + e.getMessage());
-            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

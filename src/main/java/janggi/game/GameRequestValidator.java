@@ -15,7 +15,7 @@ public class GameRequestValidator {
         this.input = input;
     }
 
-    public Piece requestAndValidateStartPoint(Team currentTeam) {
+    public Piece requestValidatedStartPoint(Team currentTeam) {
         while (true) {
             try {
                 Map<String, Position> pieceStartingPoint = input.readPieceStartPoint(currentTeam);
@@ -30,7 +30,7 @@ public class GameRequestValidator {
         }
     }
 
-    public Position requestAndValidateDestination(Team currentTeam, Piece currentPiece) {
+    public Position requestValidatedDestination(Team currentTeam, Piece currentPiece) {
         BoardNavigator boardNavigator = new BoardNavigator();
         String pieceName = currentPiece.getName();
         Position currentPosition = currentPiece.getPosition();
