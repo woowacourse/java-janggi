@@ -1,27 +1,28 @@
 package game;
 
-import java.util.EnumSet;
+import piece.PieceType;
 import piece.Pieces;
 
 public enum Team {
-    RED("red", 73.5),
-    GREEN("green", 72),
-    NONE("none", 0);
+    RED(73.5),
+    GREEN(72),
+    NONE(0);
 
-    private final String expression;
     private final double initialScore;
 
-    Team(String expression, double initialScore) {
-        this.expression = expression;
+    Team(double initialScore) {
         this.initialScore = initialScore;
     }
 
-    public static Team findByExpression(String expression) {
-        return EnumSet.allOf(Team.class).stream()
-                .filter(team -> team.getExpression().equals(expression))
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] 해당하는 팀이 없습니다."));
+    public static Team fromName(String teamName) {
+        for (Team team : Team.values()) {
+            if(team.name().equalsIgnoreCase(teamName)) {
+                return team;
+            }
+        }
+        throw new IllegalStateException("[ERROR] 해당 이름의 팀이 존재하지 않습니다.");
     }
+
 
     public Team findOpponent() {
         if (this == RED) {
@@ -35,10 +36,6 @@ public enum Team {
 
     public double calculateFinalScore(Pieces catchPieces) {
         return initialScore - catchPieces.calculateTotalScore();
-    }
-
-    public String getExpression() {
-        return expression;
     }
 
     public boolean isNotDecided() {

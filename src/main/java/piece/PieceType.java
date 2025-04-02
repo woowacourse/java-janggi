@@ -1,36 +1,35 @@
 package piece;
 
 import game.Team;
-import java.util.EnumSet;
 import location.PathManagerImpl;
 import location.Position;
 
 public enum PieceType {
-    CANNON("cannon") {
+    CANNON {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
             return new Cannon(pieceId, team, new PathManagerImpl(), currentPosition);
         }
     },
-    CHARIOT("chariot") {
+    CHARIOT {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
             return new Chariot(pieceId, team, new PathManagerImpl(), currentPosition);
         }
     },
-    ELEPHANT("elephant") {
+    ELEPHANT {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
             return new Elephant(pieceId, team, currentPosition);
         }
     },
-    GENERAL("general") {
+    GENERAL {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
             return new General(pieceId, team, new PathManagerImpl(), currentPosition);
         }
     },
-    SOLDIER("soldier") {
+    SOLDIER {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
             if (team == Team.GREEN) {
@@ -39,30 +38,26 @@ public enum PieceType {
             return new RedSoldier(pieceId, team, currentPosition);
         }
     },
-    GUARD("guard") {
+    GUARD {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
             return new Guard(pieceId, team, new PathManagerImpl(), currentPosition);
         }
     },
-    HORSE("horse") {
+    HORSE {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
             return new Horse(pieceId, team, currentPosition);
         }
     };
 
-    private final String expression;
-
-    PieceType(String expression) {
-        this.expression = expression;
-    }
-
-    public static PieceType findByExpression(String expression) {
-        return EnumSet.allOf(PieceType.class).stream()
-                .filter(pieceType -> pieceType.getExpression().equals(expression))
-                .findAny()
-                .orElseThrow(() -> new IllegalStateException("[ERROR] 해당하는 기물이 없습니다."));
+    public static PieceType fromName(String pieceTypeName) {
+        for (PieceType pieceType : PieceType.values()) {
+            if(pieceType.name().equalsIgnoreCase(pieceTypeName)) {
+                return pieceType;
+            }
+        }
+        throw new IllegalStateException("[ERROR] 해당 이름의 기물이 존재하지 않습니다.");
     }
 
     public static boolean isCannon(Piece piece) {
@@ -78,8 +73,4 @@ public enum PieceType {
     }
 
     public abstract Piece createPiece(int pieceId, Team team, Position currentPosition);
-
-    public String getExpression() {
-        return expression;
-    }
 }

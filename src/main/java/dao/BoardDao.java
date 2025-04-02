@@ -20,7 +20,7 @@ public class BoardDao extends BaseDao {
     public void updateCurrentTeam(Team team) {
         var query = "UPDATE board SET current_team = ? WHERE board_id = 1";
         executeUpdate(query, preparedStatement ->
-                preparedStatement.setString(1, team.getExpression())
+                preparedStatement.setString(1, team.name().toLowerCase())
         );
     }
 
@@ -28,7 +28,7 @@ public class BoardDao extends BaseDao {
         var resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             String currentTeam = resultSet.getString("current_team");
-            return Team.findByExpression(currentTeam);
+            return Team.fromName(currentTeam);
         }
         throw new IllegalArgumentException("[ERROR] 보드가 유효하지 않습니다.");
     }

@@ -17,9 +17,9 @@ public class PieceDao extends BaseDao {
             preparedStatement.setInt(1, piece.getId());
             preparedStatement.setInt(2, piece.getCurrentPosition().x());
             preparedStatement.setInt(3, piece.getCurrentPosition().y());
-            preparedStatement.setString(4, piece.getTeam().getExpression());
+            preparedStatement.setString(4, piece.getTeam().name().toLowerCase());
             preparedStatement.setBoolean(5, piece.isCatch());
-            preparedStatement.setString(6, piece.getPieceType().getExpression());
+            preparedStatement.setString(6, piece.getPieceType().name().toLowerCase());
         });
     }
 
@@ -32,7 +32,7 @@ public class PieceDao extends BaseDao {
     public Pieces findByTeam(Team team) {
         var query = "SELECT * FROM piece WHERE team = ?";
         List<Piece> pieces = executeQuery(query,
-                preparedStatement -> preparedStatement.setString(1, team.getExpression()),
+                preparedStatement -> preparedStatement.setString(1, team.name().toLowerCase()),
                 this::mapResultSetToPiece
         );
         return new Pieces(pieces);
@@ -41,7 +41,7 @@ public class PieceDao extends BaseDao {
     public Pieces findCatchAllBy(Team team) {
         var query = "SELECT * FROM piece WHERE team = ? AND is_catch = true";
         List<Piece> pieces = executeQuery(query,
-                preparedStatement -> preparedStatement.setString(1, team.getExpression()),
+                preparedStatement -> preparedStatement.setString(1, team.name().toLowerCase()),
                 this::mapResultSetToPiece
         );
         return new Pieces(pieces);
@@ -82,8 +82,8 @@ public class PieceDao extends BaseDao {
 
     private Piece mapResultSetToPiece(ResultSet resultSet) throws SQLException {
         int pieceId = resultSet.getInt("piece_id");
-        Team team = Team.findByExpression(resultSet.getString("team"));
-        PieceType pieceType = PieceType.findByExpression(resultSet.getString("piece_type"));
+        Team team = Team.fromName(resultSet.getString("team"));
+        PieceType pieceType = PieceType.fromName(resultSet.getString("piece_type"));
         Position position = new Position(resultSet.getInt("x"), resultSet.getInt("y"));
 
         return pieceType.createPiece(pieceId, team, position);
