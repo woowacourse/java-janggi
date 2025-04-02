@@ -1,4 +1,4 @@
-package janggi.starategy;
+package janggi.strategy;
 
 import janggi.piece.Piece;
 import janggi.value.Direction;
@@ -8,19 +8,17 @@ import janggi.value.RelativePath;
 import java.util.List;
 import java.util.Optional;
 
-public class MaStrategy implements MoveStrategy {
+public class SangStrategy implements MoveStrategy {
 
     private static final List<RelativePath> RELATIVE_PATH = List.of(
-            new RelativePath(List.of(Direction.ORIGIN, Direction.LEFT, Direction.UP_LEFT)),
-            new RelativePath(List.of(Direction.ORIGIN, Direction.LEFT, Direction.DOWN_LEFT)),
-            new RelativePath(List.of(Direction.ORIGIN, Direction.RIGHT, Direction.UP_RIGHT)),
-            new RelativePath(List.of(Direction.ORIGIN, Direction.RIGHT, Direction.DOWN_RIGHT)),
-            new RelativePath(List.of(Direction.ORIGIN, Direction.UP, Direction.UP_LEFT)),
-            new RelativePath(List.of(Direction.ORIGIN, Direction.UP, Direction.UP_RIGHT)),
-            new RelativePath(List.of(Direction.ORIGIN, Direction.DOWN, Direction.DOWN_LEFT)),
-            new RelativePath(List.of(Direction.ORIGIN, Direction.DOWN, Direction.DOWN_RIGHT))
-    );
-
+            new RelativePath(List.of(Direction.ORIGIN, Direction.LEFT, Direction.UP_LEFT, Direction.UP_LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.LEFT, Direction.DOWN_LEFT, Direction.DOWN_LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.RIGHT, Direction.UP_RIGHT, Direction.UP_RIGHT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.RIGHT, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.UP, Direction.UP_LEFT, Direction.UP_LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.UP, Direction.UP_RIGHT, Direction.UP_RIGHT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.DOWN, Direction.DOWN_LEFT, Direction.DOWN_LEFT)),
+            new RelativePath(List.of(Direction.ORIGIN, Direction.DOWN, Direction.DOWN_RIGHT, Direction.DOWN_RIGHT)));
 
     @Override
     public boolean ableToMove(Position start, Position destination, List<Piece> enemy, List<Piece> allies) {
@@ -31,7 +29,7 @@ public class MaStrategy implements MoveStrategy {
         Path path = optionalPath.get();
         boolean existEnemyInPath = existPieceInPath(path, enemy);
         boolean existAlliesInPath = existPieceInPath(path, allies);
-        boolean existAllieInDestination = existPieceInPosition(destination, allies);
+        boolean existAllieInDestination = existPieceInPosition(path.getEnd(), allies);
         return !existEnemyInPath && !existAlliesInPath && !existAllieInDestination;
     }
 

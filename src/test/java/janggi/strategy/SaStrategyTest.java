@@ -1,4 +1,4 @@
-package janggi.starategy;
+package janggi.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

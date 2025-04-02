@@ -1,14 +1,14 @@
 package janggi.piece;
 
-import janggi.starategy.ByungStrategy;
-import janggi.starategy.ChaStrategy;
-import janggi.starategy.GungStrategy;
-import janggi.starategy.JolStrategy;
-import janggi.starategy.MaStrategy;
-import janggi.starategy.MoveStrategy;
-import janggi.starategy.PoStrategy;
-import janggi.starategy.SaStrategy;
-import janggi.starategy.SangStrategy;
+import janggi.strategy.ByungStrategy;
+import janggi.strategy.ChaStrategy;
+import janggi.strategy.GungStrategy;
+import janggi.strategy.JolStrategy;
+import janggi.strategy.MaStrategy;
+import janggi.strategy.MoveStrategy;
+import janggi.strategy.PoStrategy;
+import janggi.strategy.SaStrategy;
+import janggi.strategy.SangStrategy;
 
 public enum PieceType {
     GUNG("궁", 0, new GungStrategy()),

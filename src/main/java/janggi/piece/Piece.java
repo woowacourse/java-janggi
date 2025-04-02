@@ -1,6 +1,6 @@
 package janggi.piece;
 
-import janggi.starategy.MoveStrategy;
+import janggi.strategy.MoveStrategy;
 import janggi.value.Position;
 import java.util.List;
 import java.util.Objects;

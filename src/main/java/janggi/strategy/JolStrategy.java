@@ -1,4 +1,4 @@
-package janggi.starategy;
+package janggi.strategy;
 
 import janggi.piece.Piece;
 import janggi.setting.GungSung;

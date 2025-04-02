@@ -1,4 +1,4 @@
-package janggi.starategy;
+package janggi.strategy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,26 +13,26 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ByungStrategyTest {
+class JolStrategyTest {
 
     static final Position START_POSITION = new Position(4, 4);
     static final Position DESTINATION_POSITION = new Position(5, 4);
     static final Position GUNSUNG_CENTER = new Position(4, 1);
-    ByungStrategy strategy = new ByungStrategy();
+    JolStrategy strategy = new JolStrategy();
 
     @DisplayName("궁성 밖에서는 앞과 양옆으로 1칸씩 이동 가능하다.")
     @ParameterizedTest
     @MethodSource()
-    void canMove(Position destination) {
+    void canMoveOutGungSung(Position destination) {
         boolean canMove = strategy.ableToMove(START_POSITION, destination, List.of(), List.of());
         assertThat(canMove).isTrue();
     }
 
-    static Stream<Arguments> canMove() {
+    static Stream<Arguments> canMoveOutGungSung() {
         return Stream.of(
                 Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y())),
                 Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y())),
-                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() + 1))
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 1))
         );
     }
 
@@ -46,11 +46,11 @@ class ByungStrategyTest {
 
     static Stream<Arguments> canMoveInGungSung() {
         return Stream.of(
-                Arguments.of(new Position(GUNSUNG_CENTER.x(), GUNSUNG_CENTER.y() + 1)),
                 Arguments.of(new Position(GUNSUNG_CENTER.x() + 1, GUNSUNG_CENTER.y())),
                 Arguments.of(new Position(GUNSUNG_CENTER.x() - 1, GUNSUNG_CENTER.y())),
-                Arguments.of(new Position(GUNSUNG_CENTER.x() + 1, GUNSUNG_CENTER.y() + 1)),
-                Arguments.of(new Position(GUNSUNG_CENTER.x() - 1, GUNSUNG_CENTER.y() + 1))
+                Arguments.of(new Position(GUNSUNG_CENTER.x(), GUNSUNG_CENTER.y() - 1)),
+                Arguments.of(new Position(GUNSUNG_CENTER.x() + 1, GUNSUNG_CENTER.y() - 1)),
+                Arguments.of(new Position(GUNSUNG_CENTER.x() - 1, GUNSUNG_CENTER.y() - 1))
         );
     }
 
@@ -64,12 +64,12 @@ class ByungStrategyTest {
 
     static Stream<Arguments> canNotMoveToBackPosition() {
         return Stream.of(
-                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() - 1)),
-                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() - 1)),
-                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() - 1)),
-                Arguments.of(new Position(GUNSUNG_CENTER.x(), GUNSUNG_CENTER.y() - 1)),
-                Arguments.of(new Position(GUNSUNG_CENTER.x() + 1, GUNSUNG_CENTER.y() - 1)),
-                Arguments.of(new Position(GUNSUNG_CENTER.x() - 1, GUNSUNG_CENTER.y() - 1))
+                Arguments.of(new Position(START_POSITION.x(), START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() + 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(START_POSITION.x() - 1, START_POSITION.y() + 1)),
+                Arguments.of(new Position(GUNSUNG_CENTER.x(), GUNSUNG_CENTER.y() + 1)),
+                Arguments.of(new Position(GUNSUNG_CENTER.x() + 1, GUNSUNG_CENTER.y() + 1)),
+                Arguments.of(new Position(GUNSUNG_CENTER.x() - 1, GUNSUNG_CENTER.y() + 1))
         );
     }
 
