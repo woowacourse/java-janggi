@@ -25,25 +25,21 @@ public class JanggiGame {
     }
 
     public void start() {
-        GameInformation gameInformation = registerGameInformation();
-        List<MovePieceCommand> existingCommands = loadMovePieceCommand(gameInformation.getGameId());
-        CampType campTypeInInitialTurn = calculateLastTurn(existingCommands);
-        JanggiBoard board = prepareBoard(gameInformation, existingCommands);
-        playGame(gameInformation.getGameId(), board, campTypeInInitialTurn);
-        endGame(gameInformation.getGameId());
-    }
-
-    private GameInformation registerGameInformation() {
         while (true) {
             GameMenuAnswer gameMenuAnswer = gameInputOutput.readGameMenuAnswer();
             if (gameMenuAnswer == GameMenuAnswer.ONE) {
-                return registerNewGameInformation();
+                GameInformation gameInformation = registerNewGameInformation();
+                playGame(gameInformation);
             }
             if (gameMenuAnswer == GameMenuAnswer.TWO) {
-                Optional<GameInformation> optionalGameInformation = registerExistingGameInformation();
-                if (optionalGameInformation.isPresent()) {
-                    return optionalGameInformation.get();
+                Optional<GameInformation> optionalGameInformation = registerContinuedGameInformation();
+                if (optionalGameInformation.isEmpty()) {
+                    continue;
                 }
+                playGame(optionalGameInformation.get());
+            }
+            if (gameMenuAnswer == GameMenuAnswer.QUIT) {
+                return;
             }
         }
     }
@@ -57,19 +53,21 @@ public class JanggiGame {
         return new GameInformation(gameId, gameTitle, choAnswer, hanAnswer, GameState.PLAY);
     }
 
-    private Optional<GameInformation> registerExistingGameInformation() {
+    private Optional<GameInformation> registerContinuedGameInformation() {
         List<GameInformation> allGameInformation = gameInformationDao.findAllInPlaying();
         return gameInputOutput.selectGame(allGameInformation);
     }
 
-    private List<MovePieceCommand> loadMovePieceCommand(int gameId) {
-        return movePieceCommandDao.finaAllMovePieceCommand(gameId);
+    public void playGame(GameInformation gameInformation) {
+        List<MovePieceCommand> existingCommands = loadMovePieceCommand(gameInformation.getGameId());
+        CampType campTypeInInitialTurn = calculateLastTurn(existingCommands);
+        JanggiBoard board = prepareBoard(gameInformation, existingCommands);
+        playTurns(gameInformation.getGameId(), board, campTypeInInitialTurn);
+        endGame(gameInformation.getGameId());
     }
 
-    private JanggiBoard prepareBoard(GameInformation gameInformation, List<MovePieceCommand> commands) {
-        JanggiBoard board = new JanggiBoard(gameInformation.getChoAssignType(), gameInformation.getHanAssignType());
-        commands.forEach(board::movePiece);
-        return board;
+    private List<MovePieceCommand> loadMovePieceCommand(int gameId) {
+        return movePieceCommandDao.finaAllMovePieceCommand(gameId);
     }
 
     private CampType calculateLastTurn(List<MovePieceCommand> commands) {
@@ -79,7 +77,13 @@ public class JanggiGame {
         return commands.getLast().getCampType();
     }
 
-    private void playGame(int gameId, JanggiBoard janggiBoard, CampType campTypeInLastTurn) {
+    private JanggiBoard prepareBoard(GameInformation gameInformation, List<MovePieceCommand> commands) {
+        JanggiBoard board = new JanggiBoard(gameInformation.getChoAssignType(), gameInformation.getHanAssignType());
+        commands.forEach(board::movePiece);
+        return board;
+    }
+
+    private void playTurns(int gameId, JanggiBoard janggiBoard, CampType campTypeInLastTurn) {
         gameInputOutput.printJanggiBoardState(janggiBoard);
         CampType campTypeInTurn = campTypeInLastTurn;
         while (true) {
