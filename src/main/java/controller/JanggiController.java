@@ -15,6 +15,8 @@ import java.util.Map;
 
 public class JanggiController {
 
+    private static final int BOARD_ID = 1;
+
     private final InputView inputView;
     private final OutputView outputView;
     private final JanggiService janggiService;
@@ -33,7 +35,7 @@ public class JanggiController {
 
     private JanggiGame initializeJanggiGame() {
         if (janggiService.hasSavedGame() && inputView.selectLoadGame()) {
-            return new JanggiGame(janggiService.findBoard(), janggiService.findTurn());
+            return new JanggiGame(janggiService.findBoard(BOARD_ID), janggiService.findTurn());
         }
         final SangMaOrderCommand hanSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.HAN);
         final SangMaOrderCommand choSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.CHO);
@@ -80,7 +82,7 @@ public class JanggiController {
         if (janggiGame.isStop()) {
             outputView.printBoard(janggiGame.board());
             outputView.printMatchResult(janggiGame.turnTeam());
-            janggiService.removeAllData();
+            janggiService.removeAllData(BOARD_ID);
             return false;
         }
         janggiGame.changeTurn();
@@ -94,13 +96,13 @@ public class JanggiController {
 
     private void executeSave(final JanggiGame janggiGame) {
         outputView.printSaveResult();
-        janggiService.saveAllData(janggiGame.board(), janggiGame.turnTeam());
+        janggiService.saveAllData(janggiGame.board(), janggiGame.turnTeam(), BOARD_ID);
     }
 
     private void executeExit(final JanggiGame janggiGame) {
         printScore(janggiGame);
         outputView.printMatchResult(janggiGame.findWinTeam());
         outputView.printExit();
-        janggiService.removeAllData();
+        janggiService.removeAllData(BOARD_ID);
     }
 }

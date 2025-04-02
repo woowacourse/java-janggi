@@ -29,22 +29,22 @@ public class JanggiService {
         return boardDao.hasRecords();
     }
 
-    public Map<Point, Piece> findBoard() {
-        return boardDao.load();
+    public Map<Point, Piece> findBoard(final int boardId) {
+        return boardDao.load(boardId);
     }
 
     public Team findTurn() {
         return turnDao.load();
     }
 
-    public void saveAllData(final Map<Point, Piece> board, final Team turn) {
+    public void saveAllData(final Map<Point, Piece> board, final Team turn, final int boardId) {
         try (Connection connection = databaseConnector.getConnection()) {
             connection.setAutoCommit(false);
 
-            removeAllData();
+            removeAllData(boardId);
             turnDao.save(connection, turn);
             for (Point point : board.keySet()) {
-                boardDao.save(connection, point, board.get(point));
+                boardDao.save(connection, point, board.get(point), boardId);
             }
 
             connection.commit();
@@ -53,12 +53,12 @@ public class JanggiService {
         }
     }
 
-    public void removeAllData() {
+    public void removeAllData(final int boardId) {
         try (Connection connection = databaseConnector.getConnection()) {
             connection.setAutoCommit(false);
 
             turnDao.remove(connection);
-            boardDao.removeAll(connection);
+            boardDao.remove(connection, boardId);
 
             connection.commit();
         } catch (SQLException e) {

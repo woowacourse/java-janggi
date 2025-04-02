@@ -10,9 +10,11 @@ public interface BoardDao {
 
     boolean hasRecords();
 
-    Map<Point, Piece> load();
+    Map<Point, Piece> load(final int boardId);
 
-    void save(final Connection connection, final Point point, final Piece piece);
+    void save(final Connection connection, final Point point, final Piece piece, final int boardId);
+
+    void remove(final Connection connection, final int boardId);
 
     void removeAll(final Connection connection);
 }

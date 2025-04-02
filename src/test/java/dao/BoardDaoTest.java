@@ -17,6 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class BoardDaoTest {
 
+    private static final int DEFAULT_BOARD_ID = 1;
+
     private BoardDao boardDao;
 
     @BeforeEach
@@ -37,23 +39,23 @@ class BoardDaoTest {
     }
 
     @Test
-    void 보드를_조회할_수_있다() {
-        assertThat(boardDao.load()).hasSize(2);
+    void 보드번호로_보드를_조회할_수_있다() {
+        assertThat(boardDao.load(DEFAULT_BOARD_ID)).hasSize(2);
     }
 
     @Test
-    void 보드에_피스를_저장할_수_있다() {
+    void 보드를_저장할_수_있다() {
         Point point = Point.of(1, 1);
         Piece sa = new Sa(Team.HAN);
-        boardDao.save(null, point, sa);
+        boardDao.save(null, point, sa, DEFAULT_BOARD_ID);
 
-        assertThat(boardDao.load().get(point)).isEqualTo(sa);
+        assertThat(boardDao.load(DEFAULT_BOARD_ID).get(point)).isEqualTo(sa);
     }
 
     @Test
-    void 보드_전체를_삭제할_수_있다() {
-        boardDao.removeAll(null);
+    void 보드번호로_보드를_삭제할_수_있다() {
+        boardDao.remove(null, DEFAULT_BOARD_ID);
 
-        assertThat(boardDao.load()).hasSize(0);
+        assertThat(boardDao.load(DEFAULT_BOARD_ID)).hasSize(0);
     }
 }

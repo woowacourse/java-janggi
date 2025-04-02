@@ -37,11 +37,12 @@ public class BoardDaoImpl implements BoardDao {
     }
 
     @Override
-    public Map<Point, Piece> load() {
+    public Map<Point, Piece> load(int boardId) {
         Map<Point, Piece> board = new HashMap<>();
-        final String query = "SELECT * FROM board";
+        final String query = "SELECT point_row, point_column, team, piece_type FROM board WHERE board_id = ?";
         try (final Connection connection = databaseConnector.getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, boardId);
             final ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int row = resultSet.getInt("point_row");
@@ -57,16 +58,28 @@ public class BoardDaoImpl implements BoardDao {
     }
 
     @Override
-    public void save(final Connection connection, final Point point, final Piece piece) {
-        final String query = "INSERT INTO board (point_row, point_column, team, piece_type) VALUES(?, ?, ?, ?)";
+    public void save(final Connection connection, final Point point, final Piece piece, final int boardId) {
+        final String query = "INSERT INTO board (board_id, point_row, point_column, team, piece_type) VALUES(?, ?, ?, ?, ?)";
         try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, point.row());
-            preparedStatement.setInt(2, point.column());
-            preparedStatement.setString(3, piece.team().name());
-            preparedStatement.setString(4, piece.type().name());
+            preparedStatement.setInt(1, boardId);
+            preparedStatement.setInt(2, point.row());
+            preparedStatement.setInt(3, point.column());
+            preparedStatement.setString(4, piece.team().name());
+            preparedStatement.setString(5, piece.type().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 보드 기록 저장 중 오류가 발생했습니다. " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void remove(final Connection connection, final int boardId) {
+        final String query = "DELETE FROM board WHERE board_id = ?";
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, boardId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 보드 기록 삭제 중 오류가 발생했습니다. " + e.getMessage(), e);
         }
     }
 

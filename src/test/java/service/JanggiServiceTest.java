@@ -25,6 +25,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class JanggiServiceTest {
 
+    private static final int DEFAULT_BOARD_ID = 1;
+
     private JanggiService janggiService;
 
     @BeforeEach
@@ -45,11 +47,12 @@ class JanggiServiceTest {
     private void createBoardTable() {
         String query = """
                     CREATE TABLE IF NOT EXISTS `board` (
+                        board_id        INT NOT NULL,
                     	point_row       INT NOT NULL,
                     	point_column    INT NOT NULL,
                     	team            VARCHAR(3) NOT NULL,
                     	piece_type       VARCHAR(6) NOT NULL,
-                    	PRIMARY KEY (point_row, point_column)
+                    	PRIMARY KEY (board_id, point_row, point_column)
                     );
                     """;
         try (final Connection connection = new H2DatabaseConnector().getConnection();
@@ -61,7 +64,7 @@ class JanggiServiceTest {
     }
 
     private void insertBoard() {
-        String query = "INSERT INTO board (point_row, point_column, team, piece_type) VALUES(1, 1, 'CHO', 'PO')";
+        String query = "INSERT INTO board (board_id, point_row, point_column, team, piece_type) VALUES(1, 1, 1, 'CHO', 'PO')";
         try (final Connection connection = new H2DatabaseConnector().getConnection();
              final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
@@ -121,13 +124,13 @@ class JanggiServiceTest {
 
     @Test
     void 저장된_데이터가_없다면_false를_반환한다() {
-        janggiService.removeAllData();
+        janggiService.removeAllData(DEFAULT_BOARD_ID);
         assertThat(janggiService.hasSavedGame()).isFalse();
     }
 
     @Test
     void 보드를_조회할_수_있다() {
-        assertThat(janggiService.findBoard()).hasSize(1);
+        assertThat(janggiService.findBoard(DEFAULT_BOARD_ID)).hasSize(1);
     }
 
     @Test
@@ -142,13 +145,13 @@ class JanggiServiceTest {
                 Point.of(1, 2), new Byeong(Team.CHO)
         );
 
-        assertThatCode(() -> janggiService.saveAllData(board, turn))
+        assertThatCode(() -> janggiService.saveAllData(board, turn, DEFAULT_BOARD_ID))
                 .doesNotThrowAnyException();
     }
 
     @Test
     void 보드와_턴을_삭제할_수_있다() {
-        assertThatCode(() -> janggiService.removeAllData())
+        assertThatCode(() -> janggiService.removeAllData(DEFAULT_BOARD_ID))
                 .doesNotThrowAnyException();
     }
 }
