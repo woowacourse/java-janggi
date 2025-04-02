@@ -1,8 +1,8 @@
 package domain.piece;
 
+import domain.board.Board;
 import domain.piece.character.PieceType;
 import domain.piece.character.Team;
-import domain.board.Board;
 import domain.point.Point;
 import fixture.BoardFixture;
 import java.util.HashMap;
