@@ -2,6 +2,22 @@
 
 웹 백엔드 7기 레벨1 장기 미션을 구현한 프로젝트입니다.
 
+# :dart: 프로그램 실행 방법
+
+- docker를 활용해 DB 실행
+
+    ```
+    cd docker/production
+    docker-compose up
+    ```
+
+- 프로그램 실행 및 활용
+
+- 프로그램 종료 후에는 생성했던 DB 정리
+    ```
+    docker-compose down
+    ```
+
 # :dart: 구현 기능 목록
 
 ## :rocket: 게임 메뉴
