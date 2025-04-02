@@ -1,12 +1,10 @@
-package model.piece.normal;
+package model.piece;
 
 import java.util.Arrays;
 import java.util.List;
 
 import model.Position;
 import model.Team;
-import model.piece.Piece;
-import model.piece.PieceType;
 import model.piece.movement.PalaceMovement;
 
 public class Pawn extends Piece {

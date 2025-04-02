@@ -1,6 +1,7 @@
-package model.piece;
+package model.board;
 
 import model.Position;
+import model.piece.Piece;
 
 public interface BoardSearcher {
 

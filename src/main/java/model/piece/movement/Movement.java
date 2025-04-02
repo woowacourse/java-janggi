@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import model.Position;
 import model.Team;
-import model.piece.BoardSearcher;
+import model.board.BoardSearcher;
 import model.piece.Piece;
 
 public interface Movement {

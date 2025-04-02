@@ -6,6 +6,7 @@ import java.util.function.ToIntFunction;
 
 import model.Position;
 import model.Team;
+import model.board.BoardSearcher;
 import model.piece.movement.DefaultMovement;
 
 public abstract class Piece {

@@ -13,8 +13,8 @@ import model.Team;
 import model.piece.Chariot;
 import model.piece.King;
 import model.piece.Pao;
+import model.piece.Pawn;
 import model.piece.Piece;
-import model.piece.normal.Pawn;
 
 class BoardTest {
 

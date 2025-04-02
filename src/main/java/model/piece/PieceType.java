@@ -2,10 +2,6 @@ package model.piece;
 
 import java.util.Arrays;
 
-import model.piece.normal.Elephant;
-import model.piece.normal.Horse;
-import model.piece.normal.Pawn;
-
 public enum PieceType {
     PALACE(King::new, 0),
     CHARIOT(Chariot::new, 13),

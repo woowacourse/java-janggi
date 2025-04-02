@@ -4,7 +4,7 @@ import java.util.List;
 
 import model.Position;
 import model.Team;
-import model.piece.BoardSearcher;
+import model.board.BoardSearcher;
 import model.piece.Piece;
 import model.piece.PieceType;
 

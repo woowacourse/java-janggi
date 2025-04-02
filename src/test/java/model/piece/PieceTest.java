@@ -11,9 +11,6 @@ import org.junit.jupiter.api.Test;
 import model.Position;
 import model.Team;
 import model.board.Board;
-import model.piece.normal.Elephant;
-import model.piece.normal.Horse;
-import model.piece.normal.Pawn;
 
 class PieceTest {
 

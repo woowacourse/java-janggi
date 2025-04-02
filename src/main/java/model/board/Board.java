@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 import model.Position;
 import model.Team;
-import model.piece.BoardSearcher;
 import model.piece.Piece;
 import model.piece.PieceType;
 
