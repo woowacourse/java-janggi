@@ -6,6 +6,7 @@ import domain.piece.Piece;
 import domain.piece.Team;
 import domain.piece.Wang;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,12 +29,12 @@ public class FakeBoardDao implements BoardDao {
     }
 
     @Override
-    public void save(final Point point, final Piece piece) {
+    public void save(final Connection connection, final Point point, final Piece piece) {
         pieces.put(point, piece);
     }
 
     @Override
-    public void removeAll() {
+    public void removeAll(final Connection connection) {
         pieces.clear();
     }
 }

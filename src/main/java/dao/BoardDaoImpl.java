@@ -32,7 +32,7 @@ public class BoardDaoImpl implements BoardDao {
             }
             return false;
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 보드 기록 조회 중 오류가 발생했습니다" + e.getMessage(), e);
+            throw new RuntimeException("[ERROR] 보드 기록 조회 중 오류가 발생했습니다. " + e.getMessage(), e);
         }
     }
 
@@ -52,33 +52,31 @@ public class BoardDaoImpl implements BoardDao {
             }
             return board;
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 보드 기록 조회 중 오류가 발생했습니다" + e.getMessage(), e);
+            throw new RuntimeException("[ERROR] 보드 기록 조회 중 오류가 발생했습니다. " + e.getMessage(), e);
         }
     }
 
     @Override
-    public void save(final Point point, final Piece piece) {
+    public void save(final Connection connection, final Point point, final Piece piece) {
         final String query = "INSERT INTO board (point_row, point_column, team, piece_type) VALUES(?, ?, ?, ?)";
-        try (final Connection connection = databaseConnector.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, point.row());
             preparedStatement.setInt(2, point.column());
             preparedStatement.setString(3, piece.team().name());
             preparedStatement.setString(4, piece.type().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 보드 기록 저장 중 오류가 발생했습니다" + e.getMessage(), e);
+            throw new RuntimeException("[ERROR] 보드 기록 저장 중 오류가 발생했습니다. " + e.getMessage(), e);
         }
     }
 
     @Override
-    public void removeAll() {
+    public void removeAll(final Connection connection) {
         final String query = "DELETE FROM board";
-        try (final Connection connection = databaseConnector.getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("[ERROR] 보드 기록 삭제 중 오류가 발생했습니다" + e.getMessage(), e);
+            throw new RuntimeException("[ERROR] 보드 기록 삭제 중 오류가 발생했습니다. " + e.getMessage(), e);
         }
     }
 }
