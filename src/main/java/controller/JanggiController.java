@@ -17,7 +17,6 @@ import java.util.List;
 
 import static domain.JanggiBoard.COL_SIZE;
 import static domain.JanggiBoard.ROW_SIZE;
-import static domain.Page.PAGE_INTERVAL;
 
 public class JanggiController {
 
@@ -100,7 +99,7 @@ public class JanggiController {
         while (true) {
             try {
                 Page page = getGameRoomPage();
-                List<GameRoomDto> gameRooms = gameDao.findGames(page.getCurrPage(), PAGE_INTERVAL);
+                List<GameRoomDto> gameRooms = page.getCurrPageGames(gameDao);
                 String gameName = inputView.getGameName(gameRooms);
                 int gameId = gameDao.getGameIdByName(gameName);
                 String currentTurn = gameDao.getCurrTurnById(gameId);
@@ -118,9 +117,7 @@ public class JanggiController {
         int pageCount = gameDao.countGameRooms() / Page.PAGE_INTERVAL + 1;
 
         while (true) {
-            List<GameRoomDto> gameRoomDtos = gameDao.findGames(
-                    currPage.getCurrPage() * PAGE_INTERVAL,
-                    Page.PAGE_INTERVAL);
+            List<GameRoomDto> gameRoomDtos = currPage.getCurrPageGames(gameDao);
             outputView.printGameNames(gameRoomDtos);
             PageCommand pageCommand = getPageCommand();
 
