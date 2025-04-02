@@ -19,7 +19,6 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 class JanggiBoardTest {
 
@@ -108,12 +107,7 @@ class JanggiBoardTest {
 
         List<Position> positions = janggiBoard.computeReachableDestination(Side.CHO, position);
 
-        assertAll(
-                () -> assertThat(positions.size()).isEqualTo(3),
-                () -> assertThat(positions).contains(new Position(1, 6)),
-                () -> assertThat(positions).contains(new Position(2, 5)),
-                () -> assertThat(positions).contains(new Position(3, 6))
-        );
+        assertThat(positions).contains(new Position(1, 6), new Position(2, 5), new Position(3, 6));
     }
 
     @Test
@@ -124,11 +118,7 @@ class JanggiBoardTest {
 
         List<Position> positions = janggiBoard.computeReachableDestination(Side.HAN, position);
 
-        assertAll(
-                () -> assertThat(positions.size()).isEqualTo(2),
-                () -> assertThat(positions).contains(new Position(7, 3)),
-                () -> assertThat(positions).contains(new Position(8, 4))
-        );
+        assertThat(positions).contains(new Position(7, 3), new Position(8, 4));
     }
 
     @Test
@@ -150,11 +140,7 @@ class JanggiBoardTest {
 
         List<Position> positions = janggiBoard.computeReachableDestination(Side.CHO, position);
 
-        assertAll(
-                () -> assertThat(positions.size()).isEqualTo(2),
-                () -> assertThat(positions).contains(new Position(0, 7)),
-                () -> assertThat(positions).contains(new Position(2, 7))
-        );
+        assertThat(positions).contains(new Position(0, 7), new Position(2, 7));
     }
 
     @Test
@@ -165,11 +151,7 @@ class JanggiBoardTest {
 
         List<Position> positions = janggiBoard.computeReachableDestination(Side.CHO, position);
 
-        assertAll(
-                () -> assertThat(positions.size()).isEqualTo(2),
-                () -> assertThat(positions).contains(new Position(0, 8)),
-                () -> assertThat(positions).contains(new Position(0, 7))
-        );
+        assertThat(positions).contains(new Position(0, 8), new Position(0, 7));
     }
 
     @Test
@@ -182,21 +164,18 @@ class JanggiBoardTest {
 
         List<Position> positions = modifiedJanggiBoard.computeReachableDestination(side, position);
 
-        assertAll(
-                () -> assertThat(positions.size()).isEqualTo(12),
-                () -> assertThat(positions).contains(new Position(5, 8)),
-                () -> assertThat(positions).contains(new Position(5, 6)),
-                () -> assertThat(positions).contains(new Position(5, 5)),
-                () -> assertThat(positions).contains(new Position(5, 4)),
-                () -> assertThat(positions).contains(new Position(5, 3)),
-                () -> assertThat(positions).contains(new Position(5, 2)),
-                () -> assertThat(positions).contains(new Position(5, 1)),
-                () -> assertThat(positions).contains(new Position(5, 0)),
-                () -> assertThat(positions).contains(new Position(6, 7)),
-                () -> assertThat(positions).contains(new Position(4, 7)),
-                () -> assertThat(positions).contains(new Position(3, 7)),
-                () -> assertThat(positions).contains(new Position(2, 7))
-        );
+        assertThat(positions).contains(new Position(5, 8),
+                                        new Position(5, 6),
+                                        new Position(5, 5),
+                                        new Position(5, 4),
+                                        new Position(5, 3),
+                                        new Position(5, 2),
+                                        new Position(5, 1),
+                                        new Position(5, 0),
+                                        new Position(6, 7),
+                                        new Position(4, 7),
+                                        new Position(3, 7),
+                                        new Position(2, 7));
     }
 
     @Test
@@ -220,13 +199,7 @@ class JanggiBoardTest {
 
         List<Position> positions = modifiedBoard.computeReachableDestination(side, position);
 
-        assertAll(
-                () -> assertThat(positions.size()).isEqualTo(4),
-                () -> assertThat(positions).contains(new Position(4, 9)),
-                () -> assertThat(positions).contains(new Position(4, 5)),
-                () -> assertThat(positions).contains(new Position(4, 4)),
-                () -> assertThat(positions).contains(new Position(4, 3))
-        );
+        assertThat(positions).contains(new Position(4, 9), new Position(4, 5), new Position(4, 4), new Position(4, 3));
     }
 
     @Test
@@ -283,7 +256,6 @@ class JanggiBoardTest {
     @Test
     @DisplayName("포 이동 테스트 - 초기 배치에서 궁성의 중앙 (4, 8)에 포 배치 + 양 옆에 기물 배치")
     void test23() {
-        //테스트할 기물
         Position position = new Position(4, 8);
         Side side = Side.CHO;
         Piece piece = new Cannon(side);
@@ -298,17 +270,12 @@ class JanggiBoardTest {
 
         List<Position> positions = modifiedBoard.computeReachableDestination(side, position);
 
-        assertAll(
-                () -> assertThat(positions).contains(new Position(4, 5)),
-                () -> assertThat(positions).contains(new Position(2, 8)),
-                () -> assertThat(positions).contains(new Position(6, 8))
-        );
+        assertThat(positions).contains(new Position(4, 5), new Position(2, 8), new Position(6, 8));
     }
 
     @Test
     @DisplayName("포 이동 테스트 - 초기 배치에서 궁성의 중앙 (4, 8)에 포 배치 + 왼쪽 대각선에 기물 배치 - 대각선 이동 불가")
     void test24() {
-        //테스트할 기물
         Position position = new Position(4, 8);
         Side side = Side.CHO;
         Piece piece = new Cannon(side);
@@ -323,10 +290,8 @@ class JanggiBoardTest {
 
         List<Position> positions = modifiedBoard.computeReachableDestination(side, position);
 
-        assertAll(
-                () -> assertThat(positions).contains(new Position(4, 5)),
-                () -> assertThat(positions).doesNotContain(new Position(2, 6))
-        );
+        assertThat(positions).contains(new Position(4, 5))
+                            .doesNotContain(new Position(2, 6));
     }
 
     @Test
