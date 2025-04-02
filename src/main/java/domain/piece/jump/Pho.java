@@ -55,17 +55,17 @@ public class Pho extends Piece {
                 if (readableBoard.findPieceTypeByCoordinate(to) == PHO) {
                     return StepDecision.stop();
                 }
-                return StepDecision.of(false, false, true);
+                return StepDecision.jump();
             }
             return StepDecision.skip();
         }
 
         if (!readableBoard.hasPiece(to)) {
-            return StepDecision.addStep();
+            return StepDecision.step();
         }
 
         if (!readableBoard.isMyTeam(country, to) && readableBoard.findPieceTypeByCoordinate(to) != PHO) {
-            return StepDecision.of(true, true, false);
+            return StepDecision.capture();
         }
 
         return StepDecision.stop();
