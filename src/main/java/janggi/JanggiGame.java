@@ -1,10 +1,9 @@
 package janggi;
 
-import janggi.domain.GameState;
+import janggi.domain.Turn;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Side;
 import janggi.service.BoardPieceService;
 import janggi.service.GameService;
 import janggi.service.PieceService;
@@ -50,29 +49,29 @@ public class JanggiGame {
     }
 
     private void playTurns(JanggiBoard board) {
-        List<GameState> turns = gameService.getTurns();
-        if (turns.contains(GameState.ENDED)) {
+        List<Turn> turns = gameService.getTurns();
+        if (turns.contains(Turn.ENDED)) {
             outputView.printAlreadyEnded();
             return ;
         }
         while (true) {
-            for (GameState turn : turns) {
+            for (Turn turn : turns) {
                 gameService.updateGameState(turn);
 
-                Side side = Side.getSideByName(turn.getName());
+                Turn side = Turn.getStateByName(turn.getName());
                 Piece catchedPiece = playTurn(side, board);
 
                 if (board.checkGameIsOver(side)) {
-                    outputView.printEndMessage(side, catchedPiece);
+                    outputView.printEndMessage(turn, catchedPiece);
                     printTotalScores(board);
-                    gameService.updateGameState(GameState.ENDED);
+                    gameService.updateGameState(Turn.ENDED);
                     return ;
                 }
             }
         }
     }
 
-    private Piece playTurn(final Side side, final JanggiBoard board) {
+    private Piece playTurn(final Turn side, final JanggiBoard board) {
         while (true) {
             try {
                 outputView.printBoard(board);
@@ -87,8 +86,8 @@ public class JanggiGame {
         }
     }
 
-    private List<Position> computeReachableDestinations(final Side side, final JanggiBoard board, final Position selectedPiecePosition) {
-        List<Position> reachablePositions = boardPieceService.computeReachableDestination(board, side, selectedPiecePosition);
+    private List<Position> computeReachableDestinations(final Turn turn, final JanggiBoard board, final Position selectedPiecePosition) {
+        List<Position> reachablePositions = boardPieceService.computeReachableDestination(board, turn, selectedPiecePosition);
         outputView.printReachableDestinations(reachablePositions);
         return reachablePositions;
     }
@@ -103,8 +102,8 @@ public class JanggiGame {
     }
 
     private void printTotalScores(final JanggiBoard board) {
-        Map<Side, Integer> sideTotalScores = boardPieceService.sumTotalPoints(board);
-        outputView.printTotalScores(sideTotalScores.get(Side.CHO), sideTotalScores.get(Side.HAN));
+        Map<Turn, Integer> sideTotalScores = boardPieceService.sumTotalPoints(board);
+        outputView.printTotalScores(sideTotalScores.get(Turn.CHO), sideTotalScores.get(Turn.HAN));
     }
 
     private void validateSelectedDestination(final Position destination, final List<Position> reachableDestinations) {

@@ -1,8 +1,8 @@
 package janggi.dao;
 
 import janggi.dao.dto.PieceFindDto;
+import janggi.domain.Turn;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Side;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -26,20 +26,20 @@ public class PieceDao {
         });
     }
 
-    public void addPiece(PieceType pieceType, Side side) {
+    public void addPiece(PieceType pieceType, Turn turn) {
         final String query = "INSERT INTO Piece (type, side) VALUES (?, ?)";
         executePreparedStatement(query, preparedStatement -> {
             preparedStatement.setString(1, pieceType.getSymbol());
-            preparedStatement.setString(2, side.getName());
+            preparedStatement.setString(2, turn.getName());
             return preparedStatement.executeUpdate();
         });
     }
 
-    public int findPieceByTypeAndSide(final PieceType pieceType, final Side side) {
+    public int findPieceByTypeAndSide(final PieceType pieceType, final Turn turn) {
         final String selectPieceIdQuery = "SELECT piece_id FROM Piece WHERE type = ? AND side = ?";
         return executePreparedStatement(selectPieceIdQuery, preparedStatement -> {
             preparedStatement.setString(1, pieceType.getSymbol());
-            preparedStatement.setString(2, side.getName());
+            preparedStatement.setString(2, turn.getName());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
                 throw new IllegalArgumentException("[ERROR] 기물 조회 중 오류가 발생했습니다.");

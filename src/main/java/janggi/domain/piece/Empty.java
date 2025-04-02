@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Turn;
 import janggi.domain.board.Position;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class Empty implements Piece {
     public Empty() {
     }
 
-    public Empty(Side side) {
+    public Empty(Turn side) {
     }
 
     @Override
@@ -34,7 +35,7 @@ public class Empty implements Piece {
     }
 
     @Override
-    public Side getSide() {
-        return Side.NONE;
+    public Turn getTurn() {
+        return Turn.NONE;
     }
 }

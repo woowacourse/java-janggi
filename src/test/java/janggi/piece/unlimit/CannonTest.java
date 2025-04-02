@@ -1,8 +1,8 @@
 package janggi.piece.unlimit;
 
+import janggi.domain.Turn;
 import janggi.domain.board.Position;
 import janggi.domain.move.Route;
-import janggi.domain.piece.Side;
 import janggi.domain.piece.unlimit.Cannon;
 import janggi.domain.piece.unlimit.Chariot;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +18,7 @@ class CannonTest {
     @Test
     @DisplayName("포 이동 가능 후보군 리턴 테스트")
     void test1() {
-        Cannon cannon = new Cannon(Side.CHO);
+        Cannon cannon = new Cannon(Turn.CHO);
 
         List<Route> candidatePositions = cannon.computeCandidateDirections(new Position(1, 7));
 
@@ -36,7 +36,7 @@ class CannonTest {
     @Test
     @DisplayName("궁성에 위치하면, 총 4개의 이동 가능 방향 리스트 반환 테스트")
     void test2() {
-        Cannon cannon = new Cannon(Side.CHO);
+        Cannon cannon = new Cannon(Turn.CHO);
         List<Route> candidateDirections = cannon.computeCandidateDirections(new Position(5, 9));
 
         assertAll(
@@ -56,7 +56,7 @@ class CannonTest {
     @Test
     @DisplayName("궁성의 중앙에 위치하면, 총 4개의 이동 가능 방향 리스트 반환 테스트 (대각선 이동 불가)")
     void test3() {
-        Chariot chariot = new Chariot(Side.CHO);
+        Chariot chariot = new Chariot(Turn.CHO);
         List<Route> candidateDirections = chariot.computeCandidateDirections(new Position(4, 8));
 
         assertAll(

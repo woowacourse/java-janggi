@@ -1,8 +1,8 @@
 package janggi.piece.unlimit;
 
+import janggi.domain.Turn;
 import janggi.domain.board.Position;
 import janggi.domain.move.Route;
-import janggi.domain.piece.Side;
 import janggi.domain.piece.unlimit.Chariot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class ChariotTest {
     @Test
     @DisplayName("이동 가능 후보군 리턴 테스트")
     void test1() {
-        Chariot chariot = new Chariot(Side.CHO);
+        Chariot chariot = new Chariot(Turn.CHO);
 
         List<Route> candidatePositions = chariot.computeCandidateDirections(new Position(2, 9));
 
@@ -35,7 +35,7 @@ class ChariotTest {
     @Test
     @DisplayName("궁성의 꼭지점에 위치하면, 대각선 이동 포함 총 4개의 이동 가능 방향 리스트 반환 테스트")
     void test2() {
-        Chariot chariot = new Chariot(Side.CHO);
+        Chariot chariot = new Chariot(Turn.CHO);
         List<Route> candidateDirections = chariot.computeCandidateDirections(new Position(5, 9));
 
         assertAll(
@@ -55,7 +55,7 @@ class ChariotTest {
     @Test
     @DisplayName("궁성의 중앙에 위치하면, 대각선 이동 포함 총 8개의 이동 가능 방향 리스트 반환 테스트")
     void test3() {
-        Chariot chariot = new Chariot(Side.CHO);
+        Chariot chariot = new Chariot(Turn.CHO);
         List<Route> candidateDirections = chariot.computeCandidateDirections(new Position(4, 8));
 
         assertAll(

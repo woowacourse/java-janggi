@@ -1,8 +1,8 @@
 package janggi.domain.board;
 
+import janggi.domain.Turn;
 import janggi.domain.piece.Empty;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Side;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +32,8 @@ public class JanggiBoard {
         return new JanggiBoard(positionPieces);
     }
 
-    public List<Position> computeReachableDestination(final Side side, final Position position) {
-        validatePieceSelect(side, position);
+    public List<Position> computeReachableDestination(final Turn turn, final Position position) {
+        validatePieceSelect(turn, position);
 
         Piece piece = board.get(position);
         List<Position> reachableDestinations = piece.computeReachableDestinations(position, board);
@@ -51,31 +51,31 @@ public class JanggiBoard {
         return destinationPiece;
     }
 
-    public boolean checkGameIsOver(final Side side) {
-        Side enemySide = side.getEnemySide();
+    public boolean checkGameIsOver(final Turn turn) {
+        Turn enemySide = turn.getEnemySide();
         return board.values().stream()
                 .filter(piece -> piece.isSameSide(enemySide))
                 .noneMatch(Piece::isKing);
     }
 
-    public int sumSideTotalScore(Side side) {
+    public int sumSideTotalScore(final Turn turn) {
         return board.values().stream()
-                .filter(piece -> piece.isSameSide(side))
+                .filter(piece -> piece.isSameSide(turn))
                 .mapToInt(piece -> piece.getType().getScore())
                 .sum();
     }
 
-    private void validatePieceSelect(final Side side, final Position position) {
-        validateSideSelectedPiece(side, position);
+    private void validatePieceSelect(final Turn turn, final Position position) {
+        validateSideSelectedPiece(turn, position);
         validatePositionHasPiece(position);
     }
 
-    private void validateSideSelectedPiece(final Side side, final Position position) {
+    private void validateSideSelectedPiece(final Turn turn, final Position position) {
         Piece piece = board.get(position);
-        if (side == Side.HAN && piece.isCho()) {
+        if (turn == Turn.HAN && piece.isCho()) {
             throw new IllegalArgumentException("[ERROR] 상대편의 기물을 선택하셨습니다. 다시 선택하세요.");
         }
-        if (side == Side.CHO && piece.isHan()) {
+        if (turn == Turn.CHO && piece.isHan()) {
             throw new IllegalArgumentException("[ERROR] 상대편의 기물을 선택하셨습니다. 다시 선택하세요.");
         }
     }

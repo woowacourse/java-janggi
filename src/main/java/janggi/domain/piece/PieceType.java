@@ -1,5 +1,6 @@
 package janggi.domain.piece;
 
+import janggi.domain.Turn;
 import janggi.domain.piece.limit.*;
 import janggi.domain.piece.unlimit.Cannon;
 import janggi.domain.piece.unlimit.Chariot;
@@ -21,15 +22,15 @@ public enum PieceType {
 
     private final String symbol;
     private final int score;
-    private final Function<Side, Piece> constructor;
+    private final Function<Turn, Piece> constructor;
 
-    PieceType(final String symbol, final int score, final Function<Side, Piece> constructor) {
+    PieceType(final String symbol, final int score, final Function<Turn, Piece> constructor) {
         this.symbol = symbol;
         this.score = score;
         this.constructor = constructor;
     }
 
-    public static Piece createPiece(final String symbol, final Side side) {
+    public static Piece createPiece(final String symbol, final Turn side) {
         PieceType pieceType = findPieceTypeBySymbol(symbol);
         return pieceType.constructor.apply(side);
     }

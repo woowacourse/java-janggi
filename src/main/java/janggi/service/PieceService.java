@@ -2,9 +2,9 @@ package janggi.service;
 
 import janggi.dao.PieceDao;
 import janggi.dao.dto.PieceFindDto;
+import janggi.domain.Turn;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Side;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class PieceService {
     public void initializePieceTable() {
         if (findAllPieces().isEmpty()) {
             for (PieceType pieceType : PieceType.valuesNotEmpty()) {
-                for (Side side : Side.getSides()) {
+                for (Turn side : Turn.getSides()) {
                     pieceDao.addPiece(pieceType, side);
                 }
             }
@@ -28,7 +28,7 @@ public class PieceService {
     }
 
     public Piece createPiece(String pieceSymbol, String side) {
-        return PieceType.createPiece(pieceSymbol, Side.getSideByName(side));
+        return PieceType.createPiece(pieceSymbol, Turn.getStateByName(side));
     }
 
     public List<Piece> findAllPieces() {
@@ -42,6 +42,6 @@ public class PieceService {
     }
 
     public int findPieceIdByPosition(final Piece piece) {
-        return pieceDao.findPieceByTypeAndSide(piece.getType(), piece.getSide());
+        return pieceDao.findPieceByTypeAndSide(piece.getType(), piece.getTurn());
     }
 }

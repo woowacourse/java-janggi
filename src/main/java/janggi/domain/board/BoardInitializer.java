@@ -1,34 +1,16 @@
 package janggi.domain.board;
 
-import static janggi.domain.board.InitialPositions.CHO_CANNON_POSITIONS;
-import static janggi.domain.board.InitialPositions.CHO_CHARIOT_POSITIONS;
-import static janggi.domain.board.InitialPositions.CHO_ELEPHANT_POSITIONS;
-import static janggi.domain.board.InitialPositions.CHO_GUARD_POSITIONS;
-import static janggi.domain.board.InitialPositions.CHO_HORSE_POSITIONS;
-import static janggi.domain.board.InitialPositions.CHO_KING_POSITIONS;
-import static janggi.domain.board.InitialPositions.CHO_SOLDIER_POSITIONS;
-import static janggi.domain.board.InitialPositions.HAN_CANNON_POSITIONS;
-import static janggi.domain.board.InitialPositions.HAN_CHARIOT_POSITIONS;
-import static janggi.domain.board.InitialPositions.HAN_ELEPHANT_POSITIONS;
-import static janggi.domain.board.InitialPositions.HAN_GUARD_POSITIONS;
-import static janggi.domain.board.InitialPositions.HAN_HORSE_POSITIONS;
-import static janggi.domain.board.InitialPositions.HAN_KING_POSITIONS;
-import static janggi.domain.board.InitialPositions.HAN_SOLDIER_POSITIONS;
-
+import janggi.domain.Turn;
 import janggi.domain.piece.Empty;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Side;
-import janggi.domain.piece.limit.Elephant;
-import janggi.domain.piece.limit.Guard;
-import janggi.domain.piece.limit.Horse;
-import janggi.domain.piece.limit.King;
-import janggi.domain.piece.limit.Soldier;
+import janggi.domain.piece.limit.*;
 import janggi.domain.piece.unlimit.Cannon;
 import janggi.domain.piece.unlimit.Chariot;
-import janggi.service.BoardPieceService;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static janggi.domain.board.InitialPositions.*;
 
 public class BoardInitializer {
 
@@ -52,64 +34,64 @@ public class BoardInitializer {
 
     private static void initializeSoldier(final Map<Position, Piece> board) {
         for (Position choSoldierPosition : CHO_SOLDIER_POSITIONS.getPositions()) {
-            board.put(choSoldierPosition, new Soldier(Side.CHO));
+            board.put(choSoldierPosition, new Soldier(Turn.CHO));
         }
         for (Position hanSoldierPosition : HAN_SOLDIER_POSITIONS.getPositions()) {
-            board.put(hanSoldierPosition, new Soldier(Side.HAN));
+            board.put(hanSoldierPosition, new Soldier(Turn.HAN));
         }
     }
 
     private static void initializeElephant(final Map<Position, Piece> board) {
         for (Position choElephantPosition : CHO_ELEPHANT_POSITIONS.getPositions()) {
-            board.put(choElephantPosition, new Elephant(Side.CHO));
+            board.put(choElephantPosition, new Elephant(Turn.CHO));
         }
         for (Position hanElephantPosition : HAN_ELEPHANT_POSITIONS.getPositions()) {
-            board.put(hanElephantPosition, new Elephant(Side.HAN));
+            board.put(hanElephantPosition, new Elephant(Turn.HAN));
         }
     }
 
     private static void initializeHorse(final Map<Position, Piece> board) {
         for (Position choHorsePosition : CHO_HORSE_POSITIONS.getPositions()) {
-            board.put(choHorsePosition, new Horse(Side.CHO));
+            board.put(choHorsePosition, new Horse(Turn.CHO));
         }
         for (Position hanHorsePosition : HAN_HORSE_POSITIONS.getPositions()) {
-            board.put(hanHorsePosition, new Horse(Side.HAN));
+            board.put(hanHorsePosition, new Horse(Turn.HAN));
         }
     }
 
     private static void initializeCannon(final Map<Position, Piece> board) {
         for (Position choCannonPosition : CHO_CANNON_POSITIONS.getPositions()) {
-            board.put(choCannonPosition, new Cannon(Side.CHO));
+            board.put(choCannonPosition, new Cannon(Turn.CHO));
         }
         for (Position hanCannonPosition : HAN_CANNON_POSITIONS.getPositions()) {
-            board.put(hanCannonPosition, new Cannon(Side.HAN));
+            board.put(hanCannonPosition, new Cannon(Turn.HAN));
         }
     }
 
     private static void initializeChariot(final Map<Position, Piece> board) {
         for (Position choChariotPosition : CHO_CHARIOT_POSITIONS.getPositions()) {
-            board.put(choChariotPosition, new Chariot(Side.CHO));
+            board.put(choChariotPosition, new Chariot(Turn.CHO));
         }
         for (Position hanChariotPosition : HAN_CHARIOT_POSITIONS.getPositions()) {
-            board.put(hanChariotPosition, new Chariot(Side.HAN));
+            board.put(hanChariotPosition, new Chariot(Turn.HAN));
         }
     }
 
     private static void initializeGuard(final Map<Position, Piece> board) {
         for (Position choGuardPosition : CHO_GUARD_POSITIONS.getPositions()) {
-            board.put(choGuardPosition, new Guard(Side.CHO));
+            board.put(choGuardPosition, new Guard(Turn.CHO));
         }
         for (Position hanGuardPosition : HAN_GUARD_POSITIONS.getPositions()) {
-            board.put(hanGuardPosition, new Guard(Side.HAN));
+            board.put(hanGuardPosition, new Guard(Turn.HAN));
         }
     }
 
     private static void initializeKing(final Map<Position, Piece> board) {
         for (Position choKingPosition : CHO_KING_POSITIONS.getPositions()) {
-            board.put(choKingPosition, new King(Side.CHO));
+            board.put(choKingPosition, new King(Turn.CHO));
         }
         for (Position hanKingPosition : HAN_KING_POSITIONS.getPositions()) {
-            board.put(hanKingPosition, new King(Side.HAN));
+            board.put(hanKingPosition, new King(Turn.HAN));
         }
     }
 

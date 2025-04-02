@@ -1,10 +1,11 @@
 package janggi.domain.piece.unlimit;
 
+import janggi.domain.Turn;
 import janggi.domain.board.Position;
 import janggi.domain.move.Direction;
 import janggi.domain.move.Route;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Side;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,9 +14,9 @@ import java.util.Map;
 public abstract class UnLimitMovable implements Piece {
     private static final int MOVE_LIMIT = 10;
 
-    private final Side side;
+    private final Turn side;
 
-    public UnLimitMovable(Side side) {
+    public UnLimitMovable(Turn side) {
         this.side = side;
     }
 
@@ -83,16 +84,16 @@ public abstract class UnLimitMovable implements Piece {
 
     @Override
     public boolean isCho() {
-        return side == Side.CHO;
+        return side == Turn.CHO;
     }
 
     @Override
     public boolean isHan() {
-        return side == Side.HAN;
+        return side == Turn.HAN;
     }
 
     @Override
-    public Side getSide() {
+    public Turn getTurn() {
         return side;
     }
 }

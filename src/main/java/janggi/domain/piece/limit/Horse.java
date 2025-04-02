@@ -1,17 +1,17 @@
 package janggi.domain.piece.limit;
 
+import janggi.domain.Turn;
 import janggi.domain.board.Position;
 import janggi.domain.move.Direction;
 import janggi.domain.move.Route;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Side;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Horse extends LimitMovable {
 
-    public Horse(final Side side) {
+    public Horse(final Turn side) {
         super(side);
     }
 

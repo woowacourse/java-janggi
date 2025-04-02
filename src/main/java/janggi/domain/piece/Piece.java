@@ -1,6 +1,8 @@
 package janggi.domain.piece;
 
+import janggi.domain.Turn;
 import janggi.domain.board.Position;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +16,10 @@ public interface Piece {
 
     boolean isCho();
 
-    Side getSide();
+    Turn getTurn();
 
     default boolean isAlly(Piece piece) {
-        return getSide() == piece.getSide();
+        return getTurn() == piece.getTurn();
     }
 
     default boolean isOccupied() {
@@ -32,7 +34,7 @@ public interface Piece {
         return getType() == PieceType.KING;
     }
 
-    default boolean isSameSide(final Side side) {
-        return side == getSide();
+    default boolean isSameSide(final Turn turn) {
+        return turn == getTurn();
     }
 }

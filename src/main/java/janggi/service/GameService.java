@@ -1,8 +1,7 @@
 package janggi.service;
 
 import janggi.dao.GameDao;
-import janggi.domain.GameState;
-import janggi.domain.piece.Side;
+import janggi.domain.Turn;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,7 @@ public class GameService {
     }
 
     public int makeNewGame() {
-        gameDao.addGame(Side.CHO);
+        gameDao.addGame(Turn.CHO);
 
         Map<Integer, String> games = findAllGames();
         return games.keySet().stream()
@@ -28,17 +27,17 @@ public class GameService {
         return gameDao.findAllGames();
     }
 
-    public void updateGameState(GameState gameState) {
-        gameDao.updateState(getGameId(), gameState);
+    public void updateGameState(Turn turn) {
+        gameDao.updateState(getGameId(), turn);
     }
 
-    public GameState getState() {
+    public Turn getState() {
         String state = gameDao.findStateById(getGameId());
-        return GameState.getStateByName(state);
+        return Turn.getStateByName(state);
     }
 
-    public List<GameState> getTurns() {
-        GameState turn = getState();
+    public List<Turn> getTurns() {
+        Turn turn = getState();
         return turn.getTurnsByState();
     }
 

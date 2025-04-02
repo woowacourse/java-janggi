@@ -1,9 +1,9 @@
 package janggi.view;
 
+import janggi.domain.Turn;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
-import janggi.domain.piece.Side;
 import janggi.view.util.PositionFormatter;
 
 import java.util.List;
@@ -38,8 +38,8 @@ public class OutputView {
         System.out.println("\n G: 궁, S: 사, C: 차, P: 포, M: 마, E: 상, J: 졸(병) \n");
     }
 
-    public void printTurn(final Side side) {
-        System.out.println(side.getName() + "의 차례입니다.");
+    public void printTurn(final Turn turn) {
+        System.out.println(turn.getName() + "의 차례입니다.");
     }
 
     public void printReachableDestinations(final List<Position> positions) {
@@ -60,8 +60,9 @@ public class OutputView {
         }
     }
 
-    public void printEndMessage(final Side side, final Piece piece) {
-        System.out.println(side.getName() + "가 " + side.getEnemySide().getName() + "의 " + piece.getType().getSymbol() + "을 잡아 게임을 종료합니다.\n" + side.getName() + "의 승리입니다.");
+    public void printEndMessage(final Turn turn, final Piece piece) {
+        System.out.println(turn.getName() + "가 " + turn.getEnemySide().getName() + "의 "
+                + piece.getType().getSymbol() + "을 잡아 게임을 종료합니다.\n" + turn.getName() + "의 승리입니다.");
     }
 
     public void printExceptionMessage(final Exception e) {

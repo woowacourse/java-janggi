@@ -1,7 +1,6 @@
 package janggi.dao;
 
-import janggi.domain.GameState;
-import janggi.domain.piece.Side;
+import janggi.domain.Turn;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public class GameDao {
         });
     }
 
-    public void addGame(Side side) {
+    public void addGame(Turn side) {
         final String query = "INSERT INTO Game(state) VALUES(?)";
         executePreparedStatement(query, preparedStatement -> {
             preparedStatement.setString(1, side.getName());
@@ -46,10 +45,10 @@ public class GameDao {
         });
     }
 
-    public void updateState(int gameId, GameState gameState) {
+    public void updateState(int gameId, Turn turn) {
         final String query = "UPDATE Game SET state = ? WHERE game_id = ?";
         executePreparedStatement(query, preparedStatement -> {
-            preparedStatement.setString(1, gameState.getName());
+            preparedStatement.setString(1, turn.getName());
             preparedStatement.setInt(2, gameId);
 
             return preparedStatement.executeUpdate();

@@ -2,11 +2,11 @@ package janggi.service;
 
 import janggi.dao.BoardPieceDao;
 import janggi.dao.dto.BoardPieceFindDto;
+import janggi.domain.Turn;
 import janggi.domain.board.JanggiBoard;
 import janggi.domain.board.Position;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
-import janggi.domain.piece.Side;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +44,7 @@ public class BoardPieceService {
             Position position = new Position(boardPiece.x(), boardPiece.y());
             String pieceType = boardPiece.pieceType();
             String side = boardPiece.side();
-            Piece piece = PieceType.createPiece(pieceType, Side.getSideByName(side));
+            Piece piece = PieceType.createPiece(pieceType, Turn.getStateByName(side));
 
             positionPieces.put(position, piece);
         }
@@ -69,13 +69,13 @@ public class BoardPieceService {
         return catchedPiece;
     }
 
-    public List<Position> computeReachableDestination(final JanggiBoard board, final Side side, final Position selectedPiecePosition) {
-        return board.computeReachableDestination(side, selectedPiecePosition);
+    public List<Position> computeReachableDestination(final JanggiBoard board, final Turn turn, final Position selectedPiecePosition) {
+        return board.computeReachableDestination(turn, selectedPiecePosition);
     }
 
-    public Map<Side, Integer> sumTotalPoints(JanggiBoard board) {
-        Map<Side, Integer> sideTotalScores = new HashMap<>();
-        for (Side side : Side.getSides()) {
+    public Map<Turn, Integer> sumTotalPoints(JanggiBoard board) {
+        Map<Turn, Integer> sideTotalScores = new HashMap<>();
+        for (Turn side : Turn.getSides()) {
             sideTotalScores.put(side, board.sumSideTotalScore(side));
         }
         return sideTotalScores;
