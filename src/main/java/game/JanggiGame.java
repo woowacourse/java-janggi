@@ -5,7 +5,6 @@ import dao.PieceDao;
 import piece.Piece;
 import piece.PieceType;
 import location.Position;
-import location.PathManagerImpl;
 import piece.Pieces;
 import view.AnswerType;
 import view.InputView;
@@ -55,7 +54,7 @@ public class JanggiGame {
 
             move(currentTeamPieces, start, end);
 
-            Team opponent = Team.findOpponentBy(currentTeam);
+            Team opponent = currentTeam.findOpponent();
             boolean isGeneralCatch = catchPiece(opponent, end);
             boardDao.updateCurrentTeam(opponent);
 

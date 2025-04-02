@@ -16,21 +16,21 @@ public enum Team {
         this.initialScore = initialScore;
     }
 
-    public static Team findOpponentBy(Team team) {
-        if (team == RED) {
-            return GREEN;
-        }
-        if (team == GREEN) {
-            return RED;
-        }
-        throw new IllegalStateException("[ERROR] 유효하지 않은 팀입니다.");
-    }
-
     public static Team findByExpression(String expression) {
         return EnumSet.allOf(Team.class).stream()
                 .filter(team -> team.getExpression().equals(expression))
                 .findAny()
                 .orElseThrow(() -> new IllegalStateException("[ERROR] 해당하는 팀이 없습니다."));
+    }
+
+    public Team findOpponent() {
+        if (this == RED) {
+            return GREEN;
+        }
+        if (this == GREEN) {
+            return RED;
+        }
+        throw new IllegalStateException("[ERROR] 유효하지 않은 팀입니다.");
     }
 
     public double calculateFinalScore(Pieces catchPieces) {
