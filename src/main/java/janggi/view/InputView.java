@@ -69,7 +69,8 @@ public class InputView {
         System.out.println(campType.getName() + "의 턴입니다. 이번턴에 진행할 행동을 정해주세요!");
         System.out.println("1. 기물 움직이기");
         System.out.println("2. 한수 쉬어주기");
-        System.out.println("3. 게임 종료하기");
+        System.out.println("3. 나중에 이어서 하기");
+        System.out.println("4. 승패를 가르고 종료하기");
 
         TurnMenuAnswer turnMenuAnswer = TurnMenuAnswer.parse(scanner.nextLine());
         System.out.println();

@@ -62,8 +62,7 @@ public class JanggiGame {
         List<MovePieceCommand> existingCommands = loadMovePieceCommand(gameInformation.getGameId());
         CampType campTypeInInitialTurn = calculateLastTurn(existingCommands);
         JanggiBoard board = prepareBoard(gameInformation, existingCommands);
-        playTurns(gameInformation.getGameId(), board, campTypeInInitialTurn);
-        endGame(gameInformation.getGameId());
+        playTurns(gameInformation, board, campTypeInInitialTurn);
     }
 
     private List<MovePieceCommand> loadMovePieceCommand(int gameId) {
@@ -83,23 +82,28 @@ public class JanggiGame {
         return board;
     }
 
-    private void playTurns(int gameId, JanggiBoard janggiBoard, CampType campTypeInLastTurn) {
+    private void playTurns(GameInformation gameInformation, JanggiBoard janggiBoard, CampType campTypeInLastTurn) {
         gameInputOutput.printJanggiBoardState(janggiBoard);
         CampType campTypeInTurn = campTypeInLastTurn;
         while (janggiBoard.canContinueGame()) {
             campTypeInTurn = campTypeInTurn.getEnemyCampType();
             TurnMenuAnswer turnMenuAnswer = gameInputOutput.readTurnMenuAnswer(campTypeInTurn);
             if (turnMenuAnswer == TurnMenuAnswer.MOVE_PIECE) {
-                movePiece(gameId, janggiBoard, campTypeInTurn);
+                movePiece(gameInformation.getGameId(), janggiBoard, campTypeInTurn);
             }
             if (turnMenuAnswer == TurnMenuAnswer.REST_TURN) {
                 continue;
             }
-            if (turnMenuAnswer == TurnMenuAnswer.GAME_OVER) {
+            if (turnMenuAnswer == TurnMenuAnswer.GAME_STOP) {
+                gameInputOutput.printGameStopMessage(gameInformation.getGameTitle());
+                break;
+            }
+            if (turnMenuAnswer == TurnMenuAnswer.GAME_END) {
+                endGame(gameInformation.getGameId());
+                gameInputOutput.printGameResult(janggiBoard);
                 break;
             }
         }
-        gameInputOutput.printGameResult(janggiBoard);
     }
 
     private void movePiece(int gameId, JanggiBoard janggiBoard, CampType campType) {

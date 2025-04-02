@@ -56,6 +56,13 @@ public class OutputView {
     public void writeWinning(CampType campType) {
         String content = String.format("%s의 승리입니다.", campType.getName());
         System.out.println(content);
+        System.out.println();
+    }
+
+    public void writeGameStopMessage(String gameTitle) {
+        String content = String.format("'%s' 게임을 저장하고 종료합니다. 나중에 이어서 하실 수 있습니다.", gameTitle);
+        System.out.println(content);
+        System.out.println();
     }
 
     public void printExceptionMessage(String message) {

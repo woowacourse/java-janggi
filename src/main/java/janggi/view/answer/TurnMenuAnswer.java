@@ -5,7 +5,8 @@ import java.util.Arrays;
 public enum TurnMenuAnswer {
     MOVE_PIECE("1"),
     REST_TURN("2"),
-    GAME_OVER("3");
+    GAME_STOP("3"),
+    GAME_END("4");
 
     private final String command;
 

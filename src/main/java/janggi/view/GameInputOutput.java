@@ -116,4 +116,8 @@ public class GameInputOutput {
         outputView.writeGameEndMessage();
         outputView.writeWinning(board.whoWin());
     }
+
+    public void printGameStopMessage(String gameTitle) {
+        outputView.writeGameStopMessage(gameTitle);
+    }
 }
