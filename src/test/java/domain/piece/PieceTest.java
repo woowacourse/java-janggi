@@ -1,6 +1,7 @@
 package domain.piece;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.direction.Direction;
@@ -83,5 +84,18 @@ class PieceTest {
                 () -> assertThat(cannon.isEqualType(PieceType.CANNON)).isTrue(),
                 () -> assertThat(horse.isEqualType(PieceType.CANNON)).isFalse()
         );
+    }
+
+    @Test
+    void 이동할_수_없는_위치일_경우_예외를_발생한다() {
+        // given
+        final Piece piece = new Piece(Position.of(8, 1), PieceType.HORSE, MovementRule.HORSE);
+        final Position target = Position.of(7, 2);
+
+        // when & then
+        assertThatThrownBy(() -> piece.validateMovablePosition(target))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("[ERROR] 이동할 수 없는 위치입니다.");
+
     }
 }
