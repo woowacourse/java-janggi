@@ -1,11 +1,12 @@
 CREATE TABLE game
 (
-    id        BIGINT AUTO_INCREMENT        NOT NULL,
-    status    ENUM ('RUNNING', 'FINISHED') NOT NULL,
-    turn      INT                          NOT NULL,
-    cho_score INT                          NOT NULL,
-    han_score INT                          NOT NULL,
-    start_at  TIMESTAMP                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id            BIGINT AUTO_INCREMENT        NOT NULL,
+    status        ENUM ('RUNNING', 'FINISHED') NOT NULL,
+    turn          INT                          NOT NULL,
+    cho_score     INT                          NOT NULL,
+    han_score     INT                          NOT NULL,
+    start_at      TIMESTAMP                    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_saved_at TIMESTAMP                    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     PRIMARY KEY (id)
 );
