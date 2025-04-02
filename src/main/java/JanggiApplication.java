@@ -2,7 +2,7 @@ import game.JanggiGame;
 import view.InputView;
 import view.OutputView;
 
-public class JanggiApplicaiton {
+public class JanggiApplication {
 
     public static void main(String[] args) {
         InputView inputView = new InputView();
