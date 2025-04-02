@@ -2,14 +2,8 @@ package dao;
 
 import domain.board.Board;
 import domain.board.BoardLocation;
-import domain.piece.Cannon;
-import domain.piece.Chariot;
-import domain.piece.Elephant;
-import domain.piece.Horse;
-import domain.piece.King;
-import domain.piece.Pawn;
 import domain.piece.Piece;
-import domain.piece.Scholar;
+import domain.piece.PieceType;
 import domain.piece.Score;
 import domain.piece.Team;
 import java.sql.Connection;
@@ -115,31 +109,7 @@ public class PieceDao {
     }
 
     private Piece createPieceByType(String pieceType, String teamName) throws SQLException {
-        Piece piece;
         Team team = Team.getTeamByName(teamName);
-        if (team == Team.HAN) {
-            switch (pieceType) {
-                case "CANNON" -> piece = new Cannon(team);
-                case "ELEPHANT" -> piece = new Elephant(team);
-                case "SCHOLAR" -> piece = new Scholar(team);
-                case "HORSE" -> piece = new Horse(team);
-                case "KING" -> piece = new King(team, new Score(1.5));
-                case "PAWN" -> piece = new Pawn(team);
-                case "CHARIOT" -> piece = new Chariot(team);
-                default -> throw new IllegalArgumentException("유효하지 않은 타입입니다.");
-            }
-        } else {
-            switch (pieceType) {
-                case "CANNON" -> piece = new Cannon(team);
-                case "ELEPHANT" -> piece = new Elephant(team);
-                case "SCHOLAR" -> piece = new Scholar(team);
-                case "HORSE" -> piece = new Horse(team);
-                case "KING" -> piece = new King(team, new Score(0));
-                case "PAWN" -> piece = new Pawn(team);
-                case "CHARIOT" -> piece = new Chariot(team);
-                default -> throw new IllegalArgumentException("유효하지 않은 타입입니다.");
-            }
-        }
-        return piece;
+        return PieceType.valueOf(pieceType).createPiece(team);
     }
 }
