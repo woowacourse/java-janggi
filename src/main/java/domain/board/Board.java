@@ -18,8 +18,6 @@ public class Board {
     public static final int START_COLUMN_INDEX = 1;
     public static final int END_COLUMN_INDEX = 9;
 
-    public static final Score HAN_BONUS_SCORE = new Score(1.5);
-
     private static final int HAN_PALACE_START_ROW_INDEX = 1;
     private static final int HAN_PALACE_END_ROW_INDEX = 3;
     private static final int PALACE_START_COLUMN_INDEX = 4;
@@ -130,11 +128,7 @@ public class Board {
         List<Point> points = getPoints();
         List<Piece> piecesOfCho = getPiecesByTeam(points, Team.CHO);
         List<Piece> piecesOfHan = getPiecesByTeam(points, Team.HAN);
-
-        Map<Team, Score> totalScoreByTeam = new HashMap<>();
-        totalScoreByTeam.put(Team.CHO, scoreCalculator.calculateTotalScoreOfPieces(piecesOfCho));
-        totalScoreByTeam.put(Team.HAN, scoreCalculator.calculateTotalScoreOfPieces(piecesOfHan).plus(HAN_BONUS_SCORE));
-        return totalScoreByTeam;
+        return scoreCalculator.calculateTotalScoreByTeam(piecesOfCho, piecesOfHan);
     }
 
     private List<Point> getPoints() {

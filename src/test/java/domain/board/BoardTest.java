@@ -225,7 +225,7 @@ class BoardTest {
 
             // then
             assertThat(actual).isEqualTo(Map.ofEntries(
-                    Map.entry(Team.HAN, PieceType.PO.score().plus(Board.HAN_BONUS_SCORE)),
+                    Map.entry(Team.HAN, PieceType.PO.score().plus(ScoreCalculator.HAN_BONUS_SCORE)),
                     Map.entry(Team.CHO, PieceType.SANG.score())
             ));
         }
