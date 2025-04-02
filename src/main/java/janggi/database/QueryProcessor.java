@@ -78,8 +78,7 @@ public class QueryProcessor {
 
         return null;
     }
-
-
+    
     public <T> List<T> executeQueryList(final String query, final ResultSetMapper<T> resultSetMapper,
                                         final Object... params) {
         try (final Connection connection = databaseConnection.getConnection();

@@ -5,11 +5,11 @@ import janggi.domain.Team;
 import janggi.domain.Turn;
 import java.util.Optional;
 
-public class JdbcTurnRepository implements TurnRepository {
+public class DefaultTurnRepository implements TurnRepository {
 
     private final TurnDao turnDao;
 
-    public JdbcTurnRepository(final TurnDao turnDao) {
+    public DefaultTurnRepository(final TurnDao turnDao) {
         this.turnDao = turnDao;
     }
 

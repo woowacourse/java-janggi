@@ -8,11 +8,11 @@ import janggi.domain.piece.direction.Position;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcPieceRepository implements PieceRepository {
+public class DefaultPieceRepository implements PieceRepository {
 
     private final PieceDao pieceDao;
 
-    public JdbcPieceRepository(final PieceDao pieceDao) {
+    public DefaultPieceRepository(final PieceDao pieceDao) {
         this.pieceDao = pieceDao;
     }
 

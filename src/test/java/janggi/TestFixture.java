@@ -4,8 +4,8 @@ import janggi.database.QueryProcessor;
 import janggi.database.TestMySQLDatabaseConnection;
 import janggi.database.dao.PieceDao;
 import janggi.database.dao.TurnDao;
-import janggi.repository.JdbcPieceRepository;
-import janggi.repository.JdbcTurnRepository;
+import janggi.repository.DefaultPieceRepository;
+import janggi.repository.DefaultTurnRepository;
 import janggi.repository.PieceRepository;
 import janggi.repository.TurnRepository;
 
@@ -17,8 +17,8 @@ public class TestFixture {
     private static final PieceDao pieceDao = new PieceDao(queryProcessor);
     private static final TurnDao turnDao = new TurnDao(queryProcessor);
 
-    private static final PieceRepository pieceRepository = new JdbcPieceRepository(pieceDao);
-    private static final TurnRepository turnRepository = new JdbcTurnRepository(turnDao);
+    private static final PieceRepository pieceRepository = new DefaultPieceRepository(pieceDao);
+    private static final TurnRepository turnRepository = new DefaultTurnRepository(turnDao);
 
     public static PieceRepository getPieceRepository() {
         return pieceRepository;
