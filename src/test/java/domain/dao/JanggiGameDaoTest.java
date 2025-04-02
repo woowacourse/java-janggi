@@ -34,7 +34,7 @@ class JanggiGameDaoTest {
 
         @Test
         void findAllGamesTest() {
-            Assertions.assertDoesNotThrow(() -> gameDao.findAllGames());
+            Assertions.assertDoesNotThrow(() -> gameDao.findGames(0, 10));
         }
 
         @Test

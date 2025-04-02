@@ -60,6 +60,13 @@ public class InputView {
         return GameCommand.convertToCommand(input);
     }
 
+    public PageCommand getPageMoveCommand() {
+        System.out.println("이전 페이지를 불러오려면 1, 다음 페이지를 불러오려면 2, 게임을 불러오려면 3을 입력하세요.");
+        String input = scanner.nextLine();
+
+        return PageCommand.convertToCommand(input);
+    }
+
     public String getGameName(List<GameRoomDto> gameRoomDTOs) {
         try {
             System.out.println("불러올 게임 이름을 입력해주세요.");

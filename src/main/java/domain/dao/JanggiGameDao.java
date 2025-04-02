@@ -48,8 +48,12 @@ public class JanggiGameDao {
         }
     }
 
-    public List<GameRoomDto> findAllGames() {
-        String findAllGamesSQL = "SELECT room_name, curr_turn, created_at FROM game ORDER BY created_at;";
+    public List<GameRoomDto> findGames(int offset, int pageSize) {
+        String findAllGamesSQL = "SELECT room_name, curr_turn, created_at " +
+                "FROM game " +
+                "ORDER BY created_at " +
+                "LIMIT " + pageSize + " OFFSET " + offset;
+
 
         try (Statement statement = connection.createStatement()) {
             final ResultSet resultSet = statement.executeQuery(findAllGamesSQL);
@@ -122,5 +126,21 @@ public class JanggiGameDao {
         } catch (SQLException e) {
             throw new IllegalStateException("[ERROR] TURN 업데이트 실패");
         }
+    }
+
+    public int countGameRooms() {
+        String countGameSQL = "SELECT COUNT(*) FROM game;";
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(countGameSQL)) {
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("[ERROR] 게임방 개수 조회 실패");
+        }
+
+        throw new IllegalStateException("[ERROR] 게임방 개수 조회 실패");
     }
 }

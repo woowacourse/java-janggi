@@ -11,11 +11,13 @@ import domain.piece.Piece;
 import view.GameCommand;
 import view.InputView;
 import view.OutputView;
+import view.PageCommand;
 
 import java.util.List;
 
 import static domain.JanggiBoard.COL_SIZE;
 import static domain.JanggiBoard.ROW_SIZE;
+import static domain.Page.PAGE_INTERVAL;
 
 public class JanggiController {
 
@@ -33,7 +35,6 @@ public class JanggiController {
 
     public void startJanggiGame() {
         GameCommand command = getCreateGameCommand();
-
         GameIdDto gameIdDto = createGame(command);
         JanggiGame game = gameIdDto.game();
         int gameId = gameIdDto.gameId();
@@ -61,6 +62,19 @@ public class JanggiController {
         gameDao.deleteGameRoom(gameId);
     }
 
+    private GameCommand getCreateGameCommand() {
+        if (gameDao.countGameRooms() == 0) {
+            return GameCommand.CREATE_NEW_GAME_COMMAND;
+        }
+        while (true) {
+            try {
+                return inputView.getCreateCommand();
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+    }
+
     private GameIdDto createGame(GameCommand command) {
         if (command == GameCommand.CREATE_NEW_GAME_COMMAND) {
             return createNewGame();
@@ -85,32 +99,46 @@ public class JanggiController {
     private GameIdDto loadGame() {
         while (true) {
             try {
-                List<GameRoomDto> gameRooms = gameDao.findAllGames();
+                Page page = getGameRoomPage();
+                List<GameRoomDto> gameRooms = gameDao.findGames(page.getCurrPage(), PAGE_INTERVAL);
                 String gameName = inputView.getGameName(gameRooms);
                 int gameId = gameDao.getGameIdByName(gameName);
                 String currentTurn = gameDao.getCurrTurnById(gameId);
-
                 return new GameIdDto(
                         gameDao.getGameIdByName(gameName),
-                        new JanggiGame(coordinateDao.findAllPieces(gameId), Country.fromName(currentTurn))
-                );
+                        new JanggiGame(coordinateDao.findAllPieces(gameId), Country.fromName(currentTurn)));
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
     }
 
-    private GameCommand getCreateGameCommand() {
-        List<GameRoomDto> gameRooms = gameDao.findAllGames();
-        if (gameRooms.size() == 0) {
-            return GameCommand.CREATE_NEW_GAME_COMMAND;
-        }
-
-        outputView.printGameNames(gameRooms);
+    private Page getGameRoomPage() {
+        Page currPage = new Page(Page.START_PAGE);
+        int pageCount = gameDao.countGameRooms() / Page.PAGE_INTERVAL + 1;
 
         while (true) {
+            List<GameRoomDto> gameRoomDtos = gameDao.findGames(
+                    currPage.getCurrPage() * PAGE_INTERVAL,
+                    Page.PAGE_INTERVAL);
+            outputView.printGameNames(gameRoomDtos);
+            PageCommand pageCommand = getPageCommand();
+
+            Page nextPage = currPage.movePage(pageCommand);
+            if (pageCommand == PageCommand.CURR_PAGE) {
+                break;
+            }
+            if (nextPage.getCurrPage() < pageCount) {
+                currPage = nextPage;
+            }
+        }
+        return currPage;
+    }
+
+    private PageCommand getPageCommand() {
+        while (true) {
             try {
-                return inputView.getCreateCommand();
+                return inputView.getPageMoveCommand();
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
