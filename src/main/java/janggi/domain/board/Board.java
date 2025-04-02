@@ -20,6 +20,8 @@ public class Board {
     public static final int MAX_COLUMN = 9;
     public static final int MIN_ROW = 0;
     public static final int MAX_ROW = 10;
+    private static final Double FIRST_TURN_SCORE = 0.0;
+    private static final Double SECOND_TURN_SCORE = 1.5;
     private static final Map<Camp, Position> PALACE_POSITIONS = Map.of(
             Camp.CHO, Position.of(4, 1),
             Camp.HAN, Position.of(4, 8)
@@ -138,8 +140,8 @@ public class Board {
     }
 
     private void initializeScores(Map<Camp, Double> scores, Camp firstTurn) {
-        scores.put(firstTurn, 0.0);
-        scores.put(firstTurn.switchTurn(), 1.5);
+        scores.put(firstTurn, FIRST_TURN_SCORE);
+        scores.put(firstTurn.switchTurn(), SECOND_TURN_SCORE);
     }
 
     private void calculateScores(Map<Camp, Double> scores) {
