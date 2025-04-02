@@ -88,7 +88,6 @@ public class Board {
                 .count();
     }
 
-    // TODO: 테스트 작성
     public Team findWinnerTeam() {
         List<Team> winnerTeam = pieces.values().stream()
                 .filter(piece -> piece.getType() == PieceType.KING)

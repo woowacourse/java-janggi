@@ -237,4 +237,22 @@ class BoardTest {
                 ));
     }
 
+    @MethodSource
+    @ParameterizedTest
+    void 장기_게임의_승자를_알려준다(Map<Position, Piece> pieces, Team expected) {
+        Board board = new Board(pieces);
+
+        assertThat(board.findWinnerTeam()).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> 장기_게임의_승자를_알려준다() {
+        return Stream.of(
+                Arguments.of(Map.of(
+                        new Position(9, 5), new King(Team.BLUE)), Team.BLUE
+                ),
+                Arguments.of(Map.of(
+                        new Position(9, 5), new King(Team.RED)), Team.RED
+                ));
+    }
+
 }
