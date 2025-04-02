@@ -3,7 +3,7 @@ package controller;
 import domain.JanggiGame;
 import domain.piece.Team;
 import domain.score.Score;
-import service.JanggiDaoService;
+import service.JanggiService;
 import util.ErrorHandler;
 import view.InputView;
 import view.command.MoveCommand;
@@ -17,12 +17,12 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
-    private final JanggiDaoService janggiDaoService;
+    private final JanggiService janggiService;
 
-    public JanggiController(InputView inputView, OutputView outputView, JanggiDaoService janggiDaoService) {
+    public JanggiController(InputView inputView, OutputView outputView, JanggiService janggiService) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.janggiDaoService = janggiDaoService;
+        this.janggiService = janggiService;
     }
 
     public void run() {
@@ -32,8 +32,8 @@ public class JanggiController {
     }
 
     private JanggiGame initializeJanggiGame() {
-        if (janggiDaoService.hasSavedGame() && inputView.selectLoadGame()) {
-            return new JanggiGame(janggiDaoService.findBoard(), janggiDaoService.findTurn());
+        if (janggiService.hasSavedGame() && inputView.selectLoadGame()) {
+            return new JanggiGame(janggiService.findBoard(), janggiService.findTurn());
         }
         final SangMaOrderCommand hanSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.HAN);
         final SangMaOrderCommand choSangMaOrderCommand = createSangMaOrderCommandByTeam(Team.CHO);
@@ -80,7 +80,7 @@ public class JanggiController {
         if (janggiGame.isStop()) {
             outputView.printBoard(janggiGame.board());
             outputView.printMatchResult(janggiGame.turnTeam());
-            janggiDaoService.removeAllData();
+            janggiService.removeAllData();
             return false;
         }
         janggiGame.changeTurn();
@@ -94,13 +94,13 @@ public class JanggiController {
 
     private void executeSave(final JanggiGame janggiGame) {
         outputView.printSaveResult();
-        janggiDaoService.saveAllData(janggiGame.board(), janggiGame.turnTeam());
+        janggiService.saveAllData(janggiGame.board(), janggiGame.turnTeam());
     }
 
     private void executeExit(final JanggiGame janggiGame) {
         printScore(janggiGame);
         outputView.printMatchResult(janggiGame.findWinTeam());
         outputView.printExit();
-        janggiDaoService.removeAllData();
+        janggiService.removeAllData();
     }
 }

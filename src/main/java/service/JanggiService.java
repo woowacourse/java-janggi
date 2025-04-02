@@ -8,12 +8,12 @@ import domain.piece.Team;
 
 import java.util.Map;
 
-public class JanggiDaoService {
+public class JanggiService {
 
     private final TurnDao turnDao;
     private final BoardDao boardDao;
 
-    public JanggiDaoService(TurnDao turnDao, BoardDao boardDao) {
+    public JanggiService(TurnDao turnDao, BoardDao boardDao) {
         this.turnDao = turnDao;
         this.boardDao = boardDao;
     }
