@@ -14,6 +14,8 @@ import util.DBConnectionManager;
 
 public class PieceDao {
 
+    private static final String QUERY_EXECUTION_ERROR_MESSAGE = "DB 쿼리 실행 중 오류가 발생했습니다.";
+
     public void insertAll(int gameId, List<Piece> pieces) {
         for (var piece : pieces) {
             insert(gameId, piece);
@@ -34,7 +36,7 @@ public class PieceDao {
                 resultSet.next();
                 return resultSet.getInt(1);
             } catch (SQLException e) {
-                throw new IllegalStateException("DB 쿼리 실행 중 오류가 발생했습니다." + e.getMessage());
+                throw new IllegalStateException(QUERY_EXECUTION_ERROR_MESSAGE + e.getMessage());
             }
         }, query, Statement.RETURN_GENERATED_KEYS);
     }
@@ -50,7 +52,7 @@ public class PieceDao {
                 preparedStatement.setInt(5, piece.getId());
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
-                throw new IllegalStateException("DB 쿼리 실행 중 오류가 발생했습니다." + e.getMessage());
+                throw new IllegalStateException(QUERY_EXECUTION_ERROR_MESSAGE + e.getMessage());
             }
         }, query);
     }
@@ -75,7 +77,7 @@ public class PieceDao {
                 }
                 return result;
             } catch (SQLException e) {
-                throw new IllegalStateException("DB 쿼리 실행 중 오류가 발생했습니다." + e.getMessage());
+                throw new IllegalStateException(QUERY_EXECUTION_ERROR_MESSAGE + e.getMessage());
             }
         }, query);
     }
@@ -87,7 +89,7 @@ public class PieceDao {
                 preparedStatement.setInt(1, piece.getId());
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
-                throw new IllegalStateException("DB 쿼리 실행 중 오류가 발생했습니다." + e.getMessage());
+                throw new IllegalStateException(QUERY_EXECUTION_ERROR_MESSAGE + e.getMessage());
             }
         }, query);
     }
@@ -99,7 +101,7 @@ public class PieceDao {
                 preparedStatement.setInt(1, gameId);
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
-                throw new IllegalStateException("DB 쿼리 실행 중 오류가 발생했습니다." + e.getMessage());
+                throw new IllegalStateException(QUERY_EXECUTION_ERROR_MESSAGE + e.getMessage());
             }
         }, query);
     }
