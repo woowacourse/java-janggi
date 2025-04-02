@@ -11,6 +11,7 @@ import static domain.MovingPattern.*;
 
 public class ElephantRouteSelector implements RouteSelector {
 
+    private static final ElephantRouteSelector INSTANCE = new ElephantRouteSelector();
     private final List<Route> routes = List.of(
             new Route(UP, DIAGONAL_UP_RIGHT, DIAGONAL_UP_RIGHT),
             new Route(RIGHT, DIAGONAL_UP_RIGHT, DIAGONAL_UP_RIGHT),
@@ -21,6 +22,13 @@ public class ElephantRouteSelector implements RouteSelector {
             new Route(LEFT, DIAGONAL_UP_LEFT, DIAGONAL_UP_LEFT),
             new Route(UP, DIAGONAL_UP_LEFT, DIAGONAL_UP_LEFT)
     );
+
+    private ElephantRouteSelector() {
+    }
+
+    public static RouteSelector getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public Route getRoute(final JanggiSide side, final JanggiPosition origin, final JanggiPosition destination) {

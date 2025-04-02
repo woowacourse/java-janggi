@@ -7,6 +7,15 @@ import janggiexception.HurdleExistException;
 
 public class GeneralMovementRule implements JanggiPieceMovementRule {
 
+    private static final GeneralMovementRule INSTANCE = new GeneralMovementRule();
+
+    private GeneralMovementRule() {
+    }
+
+    public static GeneralMovementRule getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void checkPieceCanMove(JanggiSide mySide, JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
         if (targetPiece.isTeamOf(mySide)) {

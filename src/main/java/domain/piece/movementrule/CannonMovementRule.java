@@ -10,6 +10,15 @@ import janggiexception.NotExistOnlyOneHurdleException;
 
 public class CannonMovementRule implements JanggiPieceMovementRule {
 
+    private static final CannonMovementRule INSTANCE = new CannonMovementRule();
+
+    private CannonMovementRule() {
+    }
+
+    public static CannonMovementRule getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void checkPieceCanMove(JanggiSide mySide, JanggiPiece hurdlePiece, int hurdleCount, JanggiPiece targetPiece) {
         if (hurdleCount != 1) {

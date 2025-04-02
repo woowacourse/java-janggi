@@ -11,6 +11,8 @@ import static domain.MovingPattern.*;
 
 public class SoldierRouteSelector implements RouteSelector {
 
+    private static final SoldierRouteSelector INSTANCE = new SoldierRouteSelector();
+
     private static final List<Route> SOLDIER_OF_CHO_DIRECTIONS = List.of(
             new Route(RIGHT),
             new Route(LEFT),
@@ -21,6 +23,13 @@ public class SoldierRouteSelector implements RouteSelector {
             new Route(LEFT),
             new Route(DOWN)
     );
+
+    private SoldierRouteSelector() {
+    }
+
+    public static SoldierRouteSelector getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public Route getRoute(final JanggiSide side, final JanggiPosition origin, final JanggiPosition destination) {

@@ -11,6 +11,8 @@ import static domain.MovingPattern.*;
 
 public class HorseRouteSelector implements RouteSelector {
 
+    private static final HorseRouteSelector INSTANCE = new HorseRouteSelector();
+
     private final List<Route> routes = List.of(
             new Route(UP, DIAGONAL_UP_RIGHT),
             new Route(RIGHT, DIAGONAL_UP_RIGHT),
@@ -21,6 +23,13 @@ public class HorseRouteSelector implements RouteSelector {
             new Route(LEFT, DIAGONAL_UP_LEFT),
             new Route(UP, DIAGONAL_UP_LEFT)
     );
+
+    private HorseRouteSelector() {
+    }
+
+    public static HorseRouteSelector getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public Route getRoute(final JanggiSide side, final JanggiPosition origin, final JanggiPosition destination) {

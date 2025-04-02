@@ -10,12 +10,20 @@ import static domain.MovingPattern.*;
 
 public class LinearRouteSelector implements RouteSelector {
 
+    public static final LinearRouteSelector INSTANCE = new LinearRouteSelector();
     private final List<Route> movableDirections = List.of(
             new Route(RIGHT),
             new Route(DOWN),
             new Route(LEFT),
             new Route(UP)
     );
+
+    private LinearRouteSelector() {
+    }
+
+    public static LinearRouteSelector getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public Route getRoute(final JanggiSide side, final JanggiPosition origin, final JanggiPosition destination) {

@@ -10,6 +10,8 @@ import static domain.MovingPattern.*;
 
 public class PalaceForwardRouteSelector implements RouteSelector {
 
+    private static final PalaceForwardRouteSelector INSTANCE = new PalaceForwardRouteSelector();
+
     private final List<Route> movableDirectionsOfChoInPalace = List.of(
             new Route(DIAGONAL_UP_RIGHT),
             new Route(DIAGONAL_UP_LEFT)
@@ -19,6 +21,13 @@ public class PalaceForwardRouteSelector implements RouteSelector {
             new Route(DIAGONAL_DOWN_LEFT),
             new Route(DIAGONAL_DOWN_RIGHT)
     );
+
+    private PalaceForwardRouteSelector() {
+    }
+
+    public static PalaceForwardRouteSelector getInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public Route getRoute(final JanggiSide side, final JanggiPosition origin, final JanggiPosition destination) {
