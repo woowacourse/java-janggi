@@ -8,7 +8,7 @@ public class SaveCommand implements Command {
 
     @Override
     public void execute(final GameContext context, final OutputView outputView, final JanggiService service) {
-        service.saveGameContext(context.update(context.getPlayers()));
+        service.saveGameWithPieces(context);
         displayMessage(outputView);
     }
 

@@ -38,13 +38,6 @@ public class GameContext {
                 players.createBoard());
     }
 
-    public GameContext update(final Players players) {
-        return new GameContext(
-                gameId,
-                players,
-                players.createBoard());
-    }
-
     public boolean isSaved() {
         return gameId.isSet();
     }

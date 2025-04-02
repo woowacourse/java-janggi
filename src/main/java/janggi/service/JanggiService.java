@@ -71,16 +71,16 @@ public class JanggiService {
         board.movePiece(player, departure, destination);
     }
 
-    public void saveGameContext(final GameContext gameContext) {
+    public void saveGameWithPieces(final GameContext gameContext) {
         transaction.execute(connectionProvider.getConnection(), connection -> {
-            final GameId id = saveGame(gameContext, connection);
+            final GameId id = saveGameInfo(gameContext, connection);
 
             pieceRepository.deleteByGameId(connection, id);
             pieceRepository.saveAll(connection, id, gameContext.getAlivePieces().getPieces());
         });
     }
 
-    private GameId saveGame(final GameContext gameContext, final Connection connection) {
+    private GameId saveGameInfo(final GameContext gameContext, final Connection connection) {
         if (gameContext.isSaved()) {
             return gameRepository.save(
                     connection,
