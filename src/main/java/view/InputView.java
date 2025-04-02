@@ -1,6 +1,5 @@
 package view;
 
-import controller.GameCommand;
 import domain.JanggiCoordinate;
 import domain.dto.GameRoomDto;
 
@@ -57,13 +56,8 @@ public class InputView {
     public GameCommand getCreateCommand() {
         System.out.println("게임을 새로 만드시려면 1, 게임을 불러오려면 2를 입력하세요");
         String input = scanner.nextLine();
-        if (input.equals("1")) {
-            return GameCommand.CREATE_NEW_GAME_COMMAND;
-        }
-        if (input.equals("2")) {
-            return GameCommand.LOAD_GAME_COMMAND;
-        }
-        throw new IllegalArgumentException("[ERROR] 유효하지 않은 커맨드 입니다.");
+
+        return GameCommand.convertToCommand(input);
     }
 
     public String getGameName(List<GameRoomDto> gameRoomDTOs) {

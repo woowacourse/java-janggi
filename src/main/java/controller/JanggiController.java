@@ -8,6 +8,7 @@ import domain.dao.JanggiPieceDao;
 import domain.dto.GameIdDto;
 import domain.dto.GameRoomDto;
 import domain.piece.Piece;
+import view.GameCommand;
 import view.InputView;
 import view.OutputView;
 
