@@ -12,9 +12,9 @@ import janggi.team.Team;
 import java.util.List;
 
 public class Board {
+    private static final int GAME_PROGRESS_CONDITION = 2;
 
     private final List<Piece> locatedPieces;
-    private static final int GAME_PROGRESS_CONDITION = 2;
 
     public Board(List<Piece> locatedPieces) {
         this.locatedPieces = locatedPieces;
