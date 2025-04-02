@@ -67,13 +67,18 @@ public class Board {
 
     public Map<Team, Double> calculateTotalScore() {
         Map<Team, Double> scoreBoard = Team.initializeScoreBoard();
-        for (Piece piece : pieces.values()) {
-            scoreBoard.keySet()
-                    .stream()
-                    .filter(piece::isSameTeam)
-                    .forEach(team -> scoreBoard.computeIfPresent(team, (key, value) -> value + piece.getScore()));
-        }
+        Team teamRed = Team.RED;
+        Team teamBlue = Team.BLUE;
+        scoreBoard.put(teamRed, calculateTeamScore(teamRed, scoreBoard.get(teamRed)));
+        scoreBoard.put(teamBlue, calculateTeamScore(teamBlue, scoreBoard.get(teamBlue)));
         return scoreBoard;
+    }
+
+    private double calculateTeamScore(final Team team, final Double bonusScore) {
+        return bonusScore + pieces.values().stream()
+                .filter(piece -> piece.isSameTeam(team))
+                .mapToDouble(Piece::getScore)
+                .sum();
     }
 
     // TODO: 테스트 작성
