@@ -1,5 +1,6 @@
 package domain.dao;
 
+import domain.dto.HistoryDto;
 import util.DatabaseConnector;
 
 import java.sql.ResultSet;
@@ -38,18 +39,18 @@ public class JdbcMoveHistoryDao implements MoveHistoryDao {
         }
     }
 
-    public List<List<Integer>> getAllHistory(final int gameId) {
+    public List<HistoryDto> getAllHistory(final int gameId) {
         final String query = "SELECT * FROM move_history WHERE game = ?";
         try (final var connection = connector.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
-            List<List<Integer>> positions = new ArrayList<>();
+            List<HistoryDto> positions = new ArrayList<>();
             preparedStatement.setInt(1, gameId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int originId = resultSet.getInt("origin");
                 int destinationId = resultSet.getInt("destination");
 
-                positions.add(List.of(originId, destinationId));
+                positions.add(new HistoryDto(originId, destinationId));
             }
             return positions;
         } catch (SQLException e) {

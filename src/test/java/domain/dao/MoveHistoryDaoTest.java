@@ -1,14 +1,14 @@
 package domain.dao;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
+import domain.dto.HistoryDto;
 import domain.janggiboard.customstrategy.InnerBoardArrangementStrategy;
 import domain.piece.JanggiSide;
 import domain.position.JanggiPosition;
-import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class MoveHistoryDaoTest {
 
@@ -20,7 +20,8 @@ public class MoveHistoryDaoTest {
     void initializeDatabase() {
         historyDao.deleteAll();
         gameDao.deleteAll();
-        positionDao.deleteAll();;
+        positionDao.deleteAll();
+        ;
     }
 
     @Test
@@ -69,6 +70,6 @@ public class MoveHistoryDaoTest {
 
         // then
         Assertions.assertThat(historyDao.getAllHistory(gameId))
-                .containsExactly(List.of(origin1Id, destination1Id), List.of(origin2Id, destination2Id));
+                .containsExactly(new HistoryDto(origin1Id, destination1Id), new HistoryDto(origin2Id, destination2Id));
     }
 }

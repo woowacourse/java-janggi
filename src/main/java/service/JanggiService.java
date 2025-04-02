@@ -3,6 +3,7 @@ package service;
 import domain.dao.JdbcJanggiGameDao;
 import domain.dao.JdbcJanggiPositionDao;
 import domain.dao.JdbcMoveHistoryDao;
+import domain.dto.HistoryDto;
 import domain.janggiboard.JanggiBoard;
 import domain.janggiboard.JanggiBoardBasicInitializer;
 import domain.janggiboard.customstrategy.BoardArrangementStrategy;
@@ -55,14 +56,14 @@ public class JanggiService {
         }
     }
 
-    public List<List<JanggiPosition>> getHistories() {
+    private List<List<JanggiPosition>> getHistories() {
         int gameId = gameDao.getGame();
-        List<List<Integer>> histories = historyDao.getAllHistory(gameId);
+        List<HistoryDto> histories = historyDao.getAllHistory(gameId);
         List<List<JanggiPosition>> parsedHistories = new ArrayList<>();
 
-        for (List<Integer> history : histories) {
-            JanggiPosition origin = positionDao.findPositionById(history.get(0));
-            JanggiPosition destination = positionDao.findPositionById(history.get(1));
+        for (HistoryDto history : histories) {
+            JanggiPosition origin = positionDao.findPositionById(history.originId());
+            JanggiPosition destination = positionDao.findPositionById(history.destinationId());
             parsedHistories.add(List.of(origin, destination));
         }
 
