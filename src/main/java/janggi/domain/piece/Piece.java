@@ -24,7 +24,7 @@ public class Piece implements PieceView {
     }
 
     private void validateMovable(PiecesView map, Position destination) {
-        if (!movementStrategyContext.isMoveable(map, position, side, destination)) {
+        if (!movementStrategyContext.getMovementStrategy(position).isMoveable(map, position, side, destination)) {
             throw new IllegalArgumentException("해당 위치로 이동할 수 없습니다.");
         }
     }
