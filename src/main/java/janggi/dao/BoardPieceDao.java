@@ -2,7 +2,6 @@ package janggi.dao;
 
 import janggi.dao.dto.BoardPieceFindDto;
 import janggi.domain.board.Position;
-import janggi.domain.piece.Piece;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -29,18 +28,7 @@ public class BoardPieceDao {
         });
     }
 
-    public void addPositionPiece(final int gameId, final int x, final int y, final Piece piece) {
-        final String selectPieceIdQuery = "SELECT piece_id FROM Piece WHERE type = ? AND side = ?";
-        int pieceId = executePreparedStatement(selectPieceIdQuery, preparedStatement -> {
-            preparedStatement.setString(1, piece.getType().getSymbol());
-            preparedStatement.setString(2, piece.getSide().getName());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (!resultSet.next()) {
-                throw new IllegalArgumentException("[ERROR] 기물 조회 중 오류가 발생했습니다.");
-            }
-            return resultSet.getInt("piece_id");
-        });
-
+    public void addPositionPiece(final int gameId, final int x, final int y, final int pieceId) {
         final String insertPieceQuery = "INSERT INTO BoardPiece(x, y, piece_id, game_id) VALUES(?,?,?,?)";
         executePreparedStatement(insertPieceQuery, preparedStatement -> {
             preparedStatement.setInt(1, x);

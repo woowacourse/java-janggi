@@ -15,9 +15,11 @@ import java.util.Map;
 public class BoardPieceService {
 
     private final BoardPieceDao boardPieceDao;
+    private final PieceService pieceService;
 
     public BoardPieceService() {
         this.boardPieceDao = new BoardPieceDao();
+        this.pieceService = new PieceService();
     }
 
     public JanggiBoard initializeBoardPieces(int newGameId) {
@@ -50,7 +52,8 @@ public class BoardPieceService {
     }
 
     public void addBoardPiece(final int gameId, final Position position, final Piece piece) {
-        boardPieceDao.addPositionPiece(gameId, position.getX(), position.getY(), piece);
+        int pieceId = pieceService.findPieceIdByPosition(piece);
+        boardPieceDao.addPositionPiece(gameId, position.getX(), position.getY(), pieceId);
     }
 
     public void updatePiecePosition(final Position selectedPiecePosition, final Position destination) {

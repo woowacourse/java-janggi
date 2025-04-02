@@ -41,4 +41,7 @@ public class PieceService {
         return pieces;
     }
 
+    public int findPieceIdByPosition(final Piece piece) {
+        return pieceDao.findPieceByTypeAndSide(piece.getType(), piece.getSide());
+    }
 }

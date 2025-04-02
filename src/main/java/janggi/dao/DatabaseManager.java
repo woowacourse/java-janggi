@@ -19,7 +19,7 @@ public class DatabaseManager {
         try {
             connection =  DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            throw new IllegalArgumentException("[ERROR] 데이터베이스 연결에 문제가 발생했습니다.");
+            throw new IllegalStateException("[ERROR] 데이터베이스 연결에 문제가 발생했습니다.");
         }
         return connection;
     }

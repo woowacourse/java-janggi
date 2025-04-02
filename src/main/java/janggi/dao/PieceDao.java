@@ -34,4 +34,17 @@ public class PieceDao {
             return preparedStatement.executeUpdate();
         });
     }
+
+    public int findPieceByTypeAndSide(final PieceType pieceType, final Side side) {
+        final String selectPieceIdQuery = "SELECT piece_id FROM Piece WHERE type = ? AND side = ?";
+        return executePreparedStatement(selectPieceIdQuery, preparedStatement -> {
+            preparedStatement.setString(1, pieceType.getSymbol());
+            preparedStatement.setString(2, side.getName());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                throw new IllegalArgumentException("[ERROR] 기물 조회 중 오류가 발생했습니다.");
+            }
+            return resultSet.getInt("piece_id");
+        });
+    }
 }
