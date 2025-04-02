@@ -5,6 +5,7 @@ import janggi.position.Position;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Movement {
 
@@ -50,5 +51,18 @@ public class Movement {
         return directions.stream()
                 .mapToInt(Direction::getY)
                 .sum();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (!(o instanceof final Movement movement)) {
+            return false;
+        }
+        return Objects.equals(directions, movement.directions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(directions);
     }
 }

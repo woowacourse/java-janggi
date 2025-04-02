@@ -1,11 +1,9 @@
 package janggi.piece;
 
-import janggi.piece.board.Board;
-import janggi.direction.Movements;
-import janggi.direction.PieceType;
-import janggi.position.Position;
 import janggi.direction.PieceMoveRule;
-import java.util.Optional;
+import janggi.direction.PieceType;
+import janggi.piece.board.Board;
+import janggi.position.Position;
 
 public class Piece {
 
@@ -27,13 +25,6 @@ public class Piece {
 
     public void validateMovement(final Position currentPosition, final Position arrivalPosition,
                                  final Board board) {
-        if (getPieceType().canNotMoveDiagonal()) {
-            final Optional<Movements> optionalMovements = PalaceMovement.getMovements(currentPosition);
-            optionalMovements.ifPresent(pieceMoveRule::addMovement);
-            pieceMoveRule.validatePath(currentPosition, arrivalPosition, board);
-            optionalMovements.ifPresent(pieceMoveRule::deleteMovement);
-            return;
-        }
         pieceMoveRule.validatePath(currentPosition, arrivalPosition, board);
     }
 

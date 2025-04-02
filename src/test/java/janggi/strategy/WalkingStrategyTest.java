@@ -4,9 +4,10 @@ import janggi.direction.Direction;
 import janggi.direction.Movement;
 import janggi.direction.PieceMoveRule;
 import janggi.direction.PieceType;
+import janggi.direction.move.RelativeMoveStrategy;
 import janggi.direction.obstacle.ObstacleBlockStrategy;
-import janggi.piece.board.Board;
 import janggi.piece.Piece;
+import janggi.piece.board.Board;
 import janggi.position.Position;
 import java.util.Set;
 import org.assertj.core.api.Assertions;
@@ -21,7 +22,8 @@ class WalkingStrategyTest {
         // Given
         final Position currentPosition = new Position(3, 3);
         final Position arrivalPosition = new Position(6, 5);
-        final Piece piece = new Piece(new PieceMoveRule(PieceType.ELEPHANT, walkingStrategy), currentPosition);
+        final Piece piece = new Piece(
+                new PieceMoveRule(PieceType.ELEPHANT, new RelativeMoveStrategy(), walkingStrategy), currentPosition);
 
         // When & Then
         Assertions.assertThatCode(() ->

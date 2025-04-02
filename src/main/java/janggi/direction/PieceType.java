@@ -88,7 +88,7 @@ public enum PieceType {
         return this == KING || this == GUARD;
     }
 
-    public boolean canNotMoveDiagonal() {
+    public boolean isEdgeMove() {
         return !(this == PieceType.HORSE || this == PieceType.ELEPHANT);
     }
 

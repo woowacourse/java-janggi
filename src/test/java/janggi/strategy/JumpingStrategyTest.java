@@ -6,6 +6,7 @@ import janggi.direction.Direction;
 import janggi.direction.Movement;
 import janggi.direction.PieceMoveRule;
 import janggi.direction.PieceType;
+import janggi.direction.move.EdgeMoveStrategy;
 import janggi.direction.obstacle.ObstacleBlockStrategy;
 import janggi.direction.obstacle.ObstacleJumpingObstacle;
 import janggi.piece.board.Board;
@@ -24,8 +25,8 @@ class JumpingStrategyTest {
     void 이동_경로_중간에_기물이_존재하는_경우에만_움직인다() {
         // Given
         final Position currentPosition = new Position(8, 1);
-        final Piece cannon = new Piece(new PieceMoveRule(PieceType.CANNON, jumpingStrategy), currentPosition);
-        final Piece soldier = new Piece(new PieceMoveRule(PieceType.HAN_SOLDIER, walkingStrategy),
+        final Piece cannon = new Piece(new PieceMoveRule(PieceType.CANNON, new EdgeMoveStrategy(),jumpingStrategy), currentPosition);
+        final Piece soldier = new Piece(new PieceMoveRule(PieceType.HAN_SOLDIER, new EdgeMoveStrategy(),walkingStrategy),
                 new Position(7, 1));
 
         final Position arrivalPosition = new Position(6, 1);
@@ -41,10 +42,10 @@ class JumpingStrategyTest {
     void 경로상에_두개_이상의_기물이_존재하는_경우_움직일_수_없다() {
         // Given
         final Position currentPosition = new Position(8, 1);
-        final Piece cannon = new Piece(new PieceMoveRule(PieceType.CANNON, jumpingStrategy), currentPosition);
-        final Piece soldier = new Piece(new PieceMoveRule(PieceType.HAN_SOLDIER, walkingStrategy),
+        final Piece cannon = new Piece(new PieceMoveRule(PieceType.CANNON, new EdgeMoveStrategy(),jumpingStrategy), currentPosition);
+        final Piece soldier = new Piece(new PieceMoveRule(PieceType.HAN_SOLDIER, new EdgeMoveStrategy(),walkingStrategy),
                 new Position(7, 1));
-        final Piece guard = new Piece(new PieceMoveRule(PieceType.GUARD, walkingStrategy), new Position(6, 1));
+        final Piece guard = new Piece(new PieceMoveRule(PieceType.GUARD, new EdgeMoveStrategy(),walkingStrategy), new Position(6, 1));
 
         final Position arrivalPosition = new Position(5, 1);
 
@@ -61,8 +62,8 @@ class JumpingStrategyTest {
     void 같은_전략의_기물을_뛰어넘을_수_없다() {
         // Given
         final Position currentPosition = new Position(8, 1);
-        final Piece cannon = new Piece(new PieceMoveRule(PieceType.CANNON, jumpingStrategy), currentPosition);
-        final Piece cannon2 = new Piece(new PieceMoveRule(PieceType.CANNON, jumpingStrategy),
+        final Piece cannon = new Piece(new PieceMoveRule(PieceType.CANNON, new EdgeMoveStrategy(),jumpingStrategy), currentPosition);
+        final Piece cannon2 = new Piece(new PieceMoveRule(PieceType.CANNON, new EdgeMoveStrategy(),jumpingStrategy),
                 new Position(7, 1));
         final Position arrivalPosition = new Position(6, 1);
 
@@ -79,8 +80,8 @@ class JumpingStrategyTest {
     void 같은_전략의_기물을_잡을_수_없다() {
         // Given
         final Position currentPosition = new Position(8, 1);
-        final Piece cannon = new Piece(new PieceMoveRule(PieceType.CANNON, jumpingStrategy), currentPosition);
-        final Piece cannon2 = new Piece(new PieceMoveRule(PieceType.CANNON, jumpingStrategy),
+        final Piece cannon = new Piece(new PieceMoveRule(PieceType.CANNON, new EdgeMoveStrategy(),jumpingStrategy), currentPosition);
+        final Piece cannon2 = new Piece(new PieceMoveRule(PieceType.CANNON, new EdgeMoveStrategy(),jumpingStrategy),
                 new Position(7, 1));
         final Position arrivalPosition = new Position(6, 1);
 

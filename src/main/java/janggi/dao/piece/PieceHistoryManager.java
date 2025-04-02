@@ -2,6 +2,8 @@ package janggi.dao.piece;
 
 import janggi.direction.PieceMoveRule;
 import janggi.direction.PieceType;
+import janggi.direction.move.EdgeMoveStrategy;
+import janggi.direction.move.RelativeMoveStrategy;
 import janggi.direction.obstacle.ObstacleBlockStrategy;
 import janggi.direction.obstacle.ObstacleJumpingObstacle;
 import janggi.dto.PieceDto;
@@ -79,10 +81,13 @@ public class PieceHistoryManager {
     }
 
     private PieceMoveRule makePieceMoveRule(final PieceType pieceType) {
-        if (pieceType == PieceType.CANNON) {
-            return new PieceMoveRule(pieceType, new ObstacleJumpingObstacle());
+        if (pieceType.isEdgeMove()) {
+            if (pieceType == PieceType.CANNON) {
+                return new PieceMoveRule(pieceType, new EdgeMoveStrategy(), new ObstacleJumpingObstacle());
+            }
+            return new PieceMoveRule(pieceType, new EdgeMoveStrategy(), new ObstacleBlockStrategy());
         }
-        return new PieceMoveRule(pieceType, new ObstacleBlockStrategy());
+        return new PieceMoveRule(pieceType, new RelativeMoveStrategy(), new ObstacleBlockStrategy());
     }
 
     private Position makePosition(final int y, final int x) {
