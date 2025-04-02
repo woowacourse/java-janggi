@@ -2,8 +2,8 @@ import application.Janggi;
 import infrastructure.MysqlConnector;
 import infrastructure.dao.GameDao;
 import infrastructure.dao.PieceDao;
-import infrastructure.repository.GameJdbcRepository;
-import infrastructure.repository.PieceJdbcRepository;
+import infrastructure.repository.GameRepositoryImpl;
+import infrastructure.repository.PieceRepositoryImpl;
 import view.InputView;
 import view.OutputView;
 
@@ -15,8 +15,8 @@ public class Application {
         Janggi janggi = new Janggi(
                 new InputView(),
                 new OutputView(),
-                new PieceJdbcRepository(new PieceDao(mysqlConnector)),
-                new GameJdbcRepository(new GameDao(mysqlConnector))
+                new PieceRepositoryImpl(new PieceDao(mysqlConnector)),
+                new GameRepositoryImpl(new GameDao(mysqlConnector))
         );
         janggi.play();
     }

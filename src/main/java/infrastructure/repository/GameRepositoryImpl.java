@@ -6,11 +6,11 @@ import infrastructure.dao.GameDao;
 import infrastructure.entity.GameEntity;
 import java.util.List;
 
-public class GameJdbcRepository implements GameRepository {
+public class GameRepositoryImpl implements GameRepository {
 
     private final GameDao gameDao;
 
-    public GameJdbcRepository(GameDao gameDao) {
+    public GameRepositoryImpl(GameDao gameDao) {
         this.gameDao = gameDao;
     }
 

@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class PieceJdbcRepository implements PieceRepository {
+public class PieceRepositoryImpl implements PieceRepository {
 
     private final PieceDao pieceDao;
 
-    public PieceJdbcRepository(PieceDao pieceDao) {
+    public PieceRepositoryImpl(PieceDao pieceDao) {
         this.pieceDao = pieceDao;
     }
 
