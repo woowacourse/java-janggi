@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import org.junit.jupiter.api.Test;
 
-class BoardDaoTest {
+class ConnectorTest {
     @Test
-    void connection() {
+    void connectionTest() {
         assertThatCode(() -> {
             try (final var connection = Connector.getConnection()) {
             }
