@@ -30,7 +30,7 @@ public enum PieceType {
         return Arrays.stream(values())
             .filter(pieceType -> pieceType.name().equals(name))
             .findAny()
-            .orElse(null);
+            .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 기물 종류입니다."));
     }
 
     public PieceConstructor getConstructor() {

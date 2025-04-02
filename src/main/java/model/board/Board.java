@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.Nullable;
+
 import model.Position;
 import model.Team;
 import model.piece.BoardSearcher;
@@ -41,6 +43,7 @@ public class Board implements BoardSearcher {
         return piece;
     }
 
+    @Nullable
     public Piece find(Position position) {
         return pieces.stream()
             .filter(piece -> piece.onPosition(position))
@@ -52,6 +55,7 @@ public class Board implements BoardSearcher {
         pieces.remove(target);
     }
 
+    @Nullable
     public Team getWinnerIfGameOver() {
         List<Piece> palaces = getPalaces();
         if (palaces.size() == 1) {

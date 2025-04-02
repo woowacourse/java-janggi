@@ -23,7 +23,7 @@ public enum Team {
         return Arrays.stream(values())
             .filter(team -> team.name().equals(name))
             .findAny()
-            .orElse(null);
+            .orElseThrow(() -> new IllegalStateException("[ERROR] 존재하지 않는 팀입니다."));
     }
 
     public Team nextTurn() {

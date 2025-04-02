@@ -34,6 +34,6 @@ class InitializerTest {
         return pieces.stream()
             .filter(piece -> piece.type() == PieceType.HORSE)
             .min(Comparator.comparing(a -> a.getPosition().x()))
-            .orElse(null);
+            .orElseThrow(() -> new IllegalArgumentException("[ERROR] HORSE 기물이 존재하지 않습니다."));
     }
 }

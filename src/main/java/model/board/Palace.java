@@ -2,6 +2,8 @@ package model.board;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import model.Position;
 import model.Team;
 import model.piece.Piece;
@@ -20,6 +22,7 @@ public class Palace {
         );
     }
 
+    @Nullable
     public Piece.Route findMovableRouteInPalace(Team team, Position start, Position target) {
         if (getMovableLinesForTeam(team).contains(new Line(start, target))) {
             return new Piece.Route(List.of(target.difference(start)));
