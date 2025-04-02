@@ -1,45 +1,18 @@
 package janggi.view;
 
 import janggi.board.Board;
-import janggi.player.Player;
-import janggi.player.Players;
-import janggi.player.Team;
 import janggi.coordinate.Column;
 import janggi.coordinate.Position;
 import janggi.coordinate.Row;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
+import janggi.player.Player;
+import janggi.player.Players;
+import janggi.player.Team;
 
 import java.util.List;
 
 public class OutputView {
-
-    private static String getPieceName(final Piece piece) {
-        String pieceName = piece.getType().getDescription();
-
-        if (piece.getTeam().isHan()) {
-            if (piece.getType() == PieceType.SOLDIER) {
-                pieceName = "병";
-            }
-            pieceName = processRedColorString(pieceName);
-        }
-
-        if (piece.getTeam().isCho()) {
-            if (piece.getType() == PieceType.SOLDIER) {
-                pieceName = "졸";
-            }
-            pieceName = processGreenColorString(pieceName);
-        }
-        return pieceName;
-    }
-
-    private static String processRedColorString(final String pieceName) {
-        return "\u001B[31m" + pieceName + "\u001B[0m";
-    }
-
-    private static String processGreenColorString(final String pieceName) {
-        return "\u001B[32m" + pieceName + "\u001B[0m";
-    }
 
     public void displayBoard(final Board board) {
         final StringBuilder stringBuilder = new StringBuilder();
@@ -105,8 +78,44 @@ public class OutputView {
         displayError("올바른 입력이 필요합니다.");
     }
 
-    public void display(final String message) {
+    public void displayQuit() {
+        display("게임을 종료합니다.");
+    }
+
+    public void displaySave() {
+        display("게임을 저장합니다.");
+    }
+
+    private void display(final String message) {
         System.out.println(message);
         System.out.println();
     }
+
+    private String getPieceName(final Piece piece) {
+        String pieceName = piece.getType().getDescription();
+
+        if (piece.getTeam().isHan()) {
+            if (piece.getType() == PieceType.SOLDIER) {
+                pieceName = "병";
+            }
+            pieceName = processRedColorString(pieceName);
+        }
+
+        if (piece.getTeam().isCho()) {
+            if (piece.getType() == PieceType.SOLDIER) {
+                pieceName = "졸";
+            }
+            pieceName = processGreenColorString(pieceName);
+        }
+        return pieceName;
+    }
+
+    private String processRedColorString(final String pieceName) {
+        return "\u001B[31m" + pieceName + "\u001B[0m";
+    }
+
+    private String processGreenColorString(final String pieceName) {
+        return "\u001B[32m" + pieceName + "\u001B[0m";
+    }
+
 }

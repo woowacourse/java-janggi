@@ -47,6 +47,10 @@ public class Player {
         this.score = this.score.add(score);
     }
 
+    public boolean isWin() {
+        return score.isGreaterThan(Score.win());
+    }
+
     public Team getTeam() {
         return team;
     }

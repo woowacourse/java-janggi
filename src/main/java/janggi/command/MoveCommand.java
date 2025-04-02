@@ -1,6 +1,11 @@
-package janggi.view.command;
+package janggi.command;
 
+import janggi.GameContext;
+import janggi.board.Board;
 import janggi.coordinate.Position;
+import janggi.player.Player;
+import janggi.service.JanggiService;
+import janggi.view.OutputView;
 
 public class MoveCommand implements Command {
 
@@ -9,7 +14,7 @@ public class MoveCommand implements Command {
     private final int destinationRow;
     private final int destinationColumn;
 
-    public MoveCommand(final int departureRow,
+    private MoveCommand(final int departureRow,
                        final int departureColumn,
                        final int destinationRow,
                        final int destinationColumn) {
@@ -35,16 +40,23 @@ public class MoveCommand implements Command {
         }
     }
 
-    public Position getDeparturePosition() {
-        return Position.of(departureRow, departureColumn);
-    }
-
-    public Position getDestinationPosition() {
-        return Position.of(destinationRow, destinationColumn);
+    @Override
+    public void execute(final GameContext context, final OutputView outputView, final JanggiService service) {
+        final Board board = context.getBoard();
+        final Player player = context.getPlayers().getCurrentPlayer();
+        service.movePiece(board, player, getDeparturePosition(), getDestinationPosition());
     }
 
     @Override
-    public CommandType getType() {
-        return CommandType.MOVE;
+    public boolean isExitCommand() {
+        return false;
+    }
+
+    private Position getDeparturePosition() {
+        return Position.of(departureRow, departureColumn);
+    }
+
+    private Position getDestinationPosition() {
+        return Position.of(destinationRow, destinationColumn);
     }
 }

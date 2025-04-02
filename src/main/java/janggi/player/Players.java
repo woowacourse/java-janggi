@@ -51,10 +51,18 @@ public class Players {
         return han;
     }
 
+    public boolean isWin(final Player player) {
+        return player.isWin();
+    }
+
     public Score getScore(final Team team) {
         if (team.isCho()) {
             return cho.getScore();
         }
         return han.getScore();
+    }
+
+    public Turn getTurn() {
+        return turn;
     }
 }
