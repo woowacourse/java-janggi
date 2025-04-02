@@ -32,7 +32,7 @@ public class JanggiGame {
                 playGame(gameInformation);
             }
             if (gameMenuAnswer == GameMenuAnswer.CONTINUED_GAME) {
-                Optional<GameInformation> optionalGameInformation = registerContinuedGameInformation();
+                Optional<GameInformation> optionalGameInformation = selectGameInformationInPlaying();
                 if (optionalGameInformation.isEmpty()) {
                     continue;
                 }
@@ -53,7 +53,7 @@ public class JanggiGame {
         return new GameInformation(gameId, gameTitle, choAnswer, hanAnswer, GameState.PLAY);
     }
 
-    private Optional<GameInformation> registerContinuedGameInformation() {
+    private Optional<GameInformation> selectGameInformationInPlaying() {
         List<GameInformation> allGameInformation = gameInformationDao.findAllInPlaying();
         return gameInputOutput.selectGame(allGameInformation);
     }
@@ -86,14 +86,11 @@ public class JanggiGame {
     private void playTurns(int gameId, JanggiBoard janggiBoard, CampType campTypeInLastTurn) {
         gameInputOutput.printJanggiBoardState(janggiBoard);
         CampType campTypeInTurn = campTypeInLastTurn;
-        while (true) {
+        while (janggiBoard.isGameEnd()) {
             campTypeInTurn = campTypeInTurn.getEnemyCampType();
             TurnMenuAnswer turnMenuAnswer = gameInputOutput.readTurnMenuAnswer(campTypeInTurn);
             if (turnMenuAnswer == TurnMenuAnswer.MOVE_PIECE) {
                 movePiece(gameId, janggiBoard, campTypeInTurn);
-                if (janggiBoard.isGameEnd()) {
-                    break;
-                }
             }
             if (turnMenuAnswer == TurnMenuAnswer.REST_TURN) {
                 continue;
