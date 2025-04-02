@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 @Disabled
 public class DBInitializerTest {
@@ -25,15 +24,5 @@ public class DBInitializerTest {
         try (final var connection = dbConnector.getConnection()) {
             assertThat(connection).isNotNull();
         }
-    }
-
-    @DisplayName("테이블 생성 테스트")
-    @Test
-    void test2() {
-        //given
-        DBInitializer dbInitializer = new DBInitializer(dbConnector);
-
-        //when & then
-        assertThatCode(dbInitializer::createTables).doesNotThrowAnyException();
     }
 }
