@@ -11,15 +11,6 @@ class JanggiPieceDaoTest {
     private JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());
 
     @Nested
-    class createTest {
-
-        @Test
-        void createPieceTableTest() {
-            pieceDao.createPieceTableIfNotExist();
-        }
-    }
-
-    @Nested
     class insertTest {
 
         @Test

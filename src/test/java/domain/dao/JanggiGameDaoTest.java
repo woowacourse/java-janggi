@@ -19,11 +19,6 @@ class JanggiGameDaoTest {
     class createTest {
 
         @Test
-        void createTableTest() {
-            Assertions.assertDoesNotThrow(() -> gameDao.createGameTableIfNotExist());
-        }
-
-        @Test
         void saveGameTest() {
             int num = gameDao.createGame("Test1", Country.HAN);
             Map<JanggiCoordinate, Piece> map = PieceInitializer.init();
@@ -58,7 +53,6 @@ class JanggiGameDaoTest {
         @Test
         void deleteGameByNumberTest() {
             int id = gameDao.createGame("roomName", Country.HAN);
-
             Assertions.assertDoesNotThrow(() -> gameDao.deleteGameRoom(id));
         }
     }

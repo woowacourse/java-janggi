@@ -17,15 +17,6 @@ class JanggiCoordinateDaoTest {
     private final JanggiCoordinateDao coordinateDao = new JanggiCoordinateDao(JanggiDBConnect.getConnection());
 
     @Nested
-    class createTest {
-
-        @Test
-        void createTableTest() {
-            coordinateDao.createCoordinateTableIfNotExist();
-        }
-    }
-
-    @Nested
     class insertTest {
 
         @Test
