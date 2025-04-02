@@ -22,6 +22,18 @@ import static domain.board.Board.*;
 
 public class BoardGenerator {
 
+    private static final Point HAN_WANG = Point.of(2, 5);
+    private static final Point HAN_WANG_UP_LEFT = Point.of(1, 4);
+    private static final Point HAN_WANG_UP_RIGHT = Point.of(1, 6);
+    private static final Point HAN_WANG_DOWN_LEFT = Point.of(3, 4);
+    private static final Point HAN_WANG_DOWN_RIGHT = Point.of(3, 6);
+
+    private static final Point CHO_WANG = Point.of(9, 5);
+    private static final Point CHO_WANG_UP_LEFT = Point.of(8, 4);
+    private static final Point CHO_WANG_UP_RIGHT = Point.of(8, 6);
+    private static final Point CHO_WANG_DOWN_LEFT = Point.of(10, 4);
+    private static final Point CHO_WANG_DOWN_RIGHT = Point.of(10, 6);
+
     public Board generateBoard(final SangMaOrderCommand hanSangMaOrderCommand,
                                final SangMaOrderCommand choSangMaOrderCommand) {
         Map<Point, Node> nodeByPoint = initializeNodesAndEdges();
@@ -73,25 +85,42 @@ public class BoardGenerator {
     }
 
     private void addPalaceEdges(Point point, Map<Point, Node> nodeByPoint, List<Edge> edges) {
-        if (point.equals(Point.of(2, 5)) || point.equals(Point.of(9, 5))) {
+        addWangPointEdges(point, nodeByPoint, edges);
+
+        addWangUpLeftPointEdges(point, nodeByPoint, edges);
+        addWangUpRightPointEdges(point, nodeByPoint, edges);
+        addWangDownLeftPointEdges(point, nodeByPoint, edges);
+        addWangDownRightPointEdges(point, nodeByPoint, edges);
+    }
+
+    private void addWangPointEdges(Point point, Map<Point, Node> nodeByPoint, List<Edge> edges) {
+        if (point.equals(HAN_WANG) || point.equals(CHO_WANG)) {
             for (Direction direction : Direction.DIAGONAL_DIRECTIONS) {
                 addDiagonal(point, nodeByPoint, edges, direction);
             }
         }
+    }
 
-        if (point.equals(Point.of(1, 4)) || point.equals(Point.of(8, 4))) {
+    private void addWangUpLeftPointEdges(Point point, Map<Point, Node> nodeByPoint, List<Edge> edges) {
+        if (point.equals(HAN_WANG_UP_LEFT) || point.equals(CHO_WANG_UP_LEFT)) {
             addDiagonal(point, nodeByPoint, edges, Direction.DOWN_RIGHT);
         }
+    }
 
-        if (point.equals(Point.of(1, 6)) || point.equals(Point.of(8, 6))) {
+    private void addWangUpRightPointEdges(Point point, Map<Point, Node> nodeByPoint, List<Edge> edges) {
+        if (point.equals(HAN_WANG_UP_RIGHT) || point.equals(CHO_WANG_UP_RIGHT)) {
             addDiagonal(point, nodeByPoint, edges, Direction.DOWN_LEFT);
         }
+    }
 
-        if (point.equals(Point.of(3, 4)) || point.equals(Point.of(10, 4))) {
+    private void addWangDownLeftPointEdges(Point point, Map<Point, Node> nodeByPoint, List<Edge> edges) {
+        if (point.equals(HAN_WANG_DOWN_LEFT) || point.equals(CHO_WANG_DOWN_LEFT)) {
             addDiagonal(point, nodeByPoint, edges, Direction.UP_RIGHT);
         }
+    }
 
-        if (point.equals(Point.of(3, 6)) || point.equals(Point.of(10, 6))) {
+    private void addWangDownRightPointEdges(Point point, Map<Point, Node> nodeByPoint, List<Edge> edges) {
+        if (point.equals(HAN_WANG_DOWN_RIGHT) || point.equals(CHO_WANG_DOWN_RIGHT)) {
             addDiagonal(point, nodeByPoint, edges, Direction.UP_LEFT);
         }
     }
