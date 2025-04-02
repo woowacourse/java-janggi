@@ -11,16 +11,13 @@ import domain.piece.Piece;
 import view.InputView;
 import view.OutputView;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
 
 import static domain.JanggiBoard.COL_SIZE;
 import static domain.JanggiBoard.ROW_SIZE;
 
 public class JanggiController {
-    private final static Map<GameCommand, Supplier> GAME_CREATE_COMMAND_MAP = new HashMap<>();
+
     private final static JanggiGameDao gameDao = new JanggiGameDao(JanggiDBConnect.getConnection());
     private final static JanggiCoordinateDao coordinateDao = new JanggiCoordinateDao(JanggiDBConnect.getConnection());
     private final static JanggiPieceDao pieceDao = new JanggiPieceDao(JanggiDBConnect.getConnection());

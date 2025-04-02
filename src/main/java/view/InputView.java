@@ -1,7 +1,6 @@
 package view;
 
 import controller.GameCommand;
-import controller.JanggiController;
 import domain.JanggiCoordinate;
 import domain.dto.GameRoomDto;
 
@@ -21,7 +20,7 @@ public class InputView {
         String coordinate = scanner.nextLine();
 
         if (coordinate.equals("-1")) {
-            return JanggiController.GAME_STOP_COORDINATE;
+            return GAME_STOP_COORDINATE;
         }
 
         validateInput(coordinate);
