@@ -55,7 +55,7 @@ public class MovePieceCommandDao {
             ResultSet resultSet = statement.executeQuery();
             return parseMovePieceCommands(resultSet);
         } catch (final SQLException e) {
-            throw new IllegalArgumentException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -75,7 +75,7 @@ public class MovePieceCommandDao {
             }
             return Collections.unmodifiableList(commands);
         } catch (final SQLException e) {
-            throw new IllegalArgumentException(e);
+            throw new RuntimeException(e);
         }
     }
 }

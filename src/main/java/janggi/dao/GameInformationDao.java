@@ -41,7 +41,7 @@ public class GameInformationDao {
             queryResult.next();
             return queryResult.getInt(1);
         } catch (final SQLException e) {
-            throw new IllegalArgumentException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -55,7 +55,7 @@ public class GameInformationDao {
             ResultSet resultSet = statement.executeQuery();
             return parseGameInformation(resultSet);
         } catch (final SQLException e) {
-            throw new IllegalArgumentException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -69,7 +69,7 @@ public class GameInformationDao {
             statement.setInt(2, gameId);
             statement.executeUpdate();
         } catch (final SQLException e) {
-            throw new IllegalArgumentException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -88,7 +88,7 @@ public class GameInformationDao {
             }
             return Collections.unmodifiableList(informations);
         } catch (final SQLException e) {
-            throw new IllegalArgumentException(e);
+            throw new RuntimeException(e);
         }
     }
 }
