@@ -1,11 +1,11 @@
 package janggi.board;
 
+import janggi.PieceType;
 import janggi.Team;
 import janggi.board.position.Position;
 import janggi.fixture.BoardFixture;
-import janggi.piece.Chariot;
-import janggi.piece.General;
 import janggi.piece.Piece;
+import janggi.piece.PieceCreator;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -90,8 +90,8 @@ class BoardTest {
         Position redGeneralPosition = createPosition(4, 8);
         Position greenChariotPosition = createPosition(4, 2);
 
-        initialBoard.put(redGeneralPosition, new General(Team.RED));
-        initialBoard.put(greenChariotPosition, new Chariot(Team.GREEN));
+        initialBoard.put(redGeneralPosition, PieceCreator.create(Team.RED, PieceType.GENERAL));
+        initialBoard.put(greenChariotPosition, PieceCreator.create(Team.GREEN, PieceType.CHARIOT));
         Board board = new Board(initialBoard);
 
         // when

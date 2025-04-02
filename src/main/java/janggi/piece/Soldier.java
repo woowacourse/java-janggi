@@ -9,6 +9,7 @@ import static janggi.moving.Movement.RIGHT_DOWN;
 import static janggi.moving.Movement.RIGHT_UP;
 import static janggi.moving.Movement.UP;
 
+import janggi.PieceType;
 import janggi.moving.Movements;
 import janggi.moving.Path;
 import janggi.moving.PossibleMovements;
@@ -18,7 +19,6 @@ import janggi.board.position.Position;
 import java.util.List;
 
 public class Soldier extends Piece {
-    private static final String NAME = "졸";
     private static final PossibleMovements GREEN_POSSIBLE_MOVEMENTS = new PossibleMovements(
             List.of(new Movements(UP), new Movements(LEFT), new Movements(RIGHT)));
 
@@ -33,8 +33,8 @@ public class Soldier extends Piece {
             List.of(new Movements(LEFT), new Movements(RIGHT), new Movements(DOWN), new Movements(RIGHT_DOWN),
                     new Movements(LEFT_DOWN)));
 
-    public Soldier(Team team) {
-        super(team);
+    protected Soldier(Team team, PieceType pieceType) {
+        super(team, pieceType);
     }
 
     @Override
@@ -45,11 +45,6 @@ public class Soldier extends Piece {
     @Override
     protected void validatePieceOnGoal(Board board, Position goal) {
         validateSameTeamOnGoal(board, goal);
-    }
-
-    @Override
-    public boolean isSoldier() {
-        return true;
     }
 
     @Override
@@ -64,11 +59,6 @@ public class Soldier extends Piece {
             return GREEN_POSSIBLE_CASTLE_MOVEMENTS;
         }
         return GREEN_POSSIBLE_MOVEMENTS;
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 
     @Override

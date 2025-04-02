@@ -9,6 +9,7 @@ import static janggi.moving.Movement.RIGHT_STRAIGHT;
 import static janggi.moving.Movement.RIGHT_UP;
 import static janggi.moving.Movement.UP_STRAIGHT;
 
+import janggi.PieceType;
 import janggi.moving.Movements;
 import janggi.moving.Path;
 import janggi.moving.PossibleMovements;
@@ -18,7 +19,6 @@ import janggi.board.position.Position;
 import java.util.List;
 
 public class Canon extends Piece {
-    protected static final String NAME = "포";
     private static final PossibleMovements POSSIBLE_MOVEMENTS = new PossibleMovements(
             List.of(new Movements(UP_STRAIGHT), new Movements(DOWN_STRAIGHT), new Movements(LEFT_STRAIGHT),
                     new Movements(RIGHT_STRAIGHT)));
@@ -29,8 +29,8 @@ public class Canon extends Piece {
                     new Movements(RIGHT_DOWN, RIGHT_DOWN), new Movements(LEFT_DOWN),
                     new Movements(LEFT_DOWN, LEFT_DOWN)));
 
-    public Canon(Team team) {
-        super(team);
+    protected Canon(Team team, PieceType pieceType) {
+        super(team, pieceType);
     }
 
     @Override
@@ -67,21 +67,11 @@ public class Canon extends Piece {
     }
 
     @Override
-    public boolean isCanon() {
-        return true;
-    }
-
-    @Override
     protected PossibleMovements getPossibleMovements(Board board, Position start) {
         if (board.isInCastle(start)) {
             return POSSIBLE_CASTLE_MOVEMENTS;
         }
         return POSSIBLE_MOVEMENTS;
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 
     @Override

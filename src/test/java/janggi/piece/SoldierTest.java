@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.PieceType;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
@@ -24,7 +25,7 @@ class SoldierTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 4);
         Position goal = createPosition(column, row);
-        Soldier piece = new Soldier(team);
+        Piece piece = PieceCreator.create(team, PieceType.SOLDIER);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -42,7 +43,7 @@ class SoldierTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 4);
         Position goal = createPosition(column, row);
-        Soldier piece = new Soldier(team);
+        Piece piece = PieceCreator.create(team, PieceType.SOLDIER);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -68,7 +69,7 @@ class SoldierTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);
         Position goal = createPosition(goalColumn, goalRow);
-        Soldier piece = new Soldier(team);
+        Piece piece = PieceCreator.create(team, PieceType.SOLDIER);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -94,7 +95,7 @@ class SoldierTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);
         Position goal = createPosition(goalColumn, goalRow);
-        Soldier piece = new Soldier(team);
+        Piece piece = PieceCreator.create(team, PieceType.SOLDIER);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -111,7 +112,7 @@ class SoldierTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 4);
         Position goal = createPosition(5, 5);
-        Soldier piece = new Soldier(Team.GREEN);
+        Piece piece = PieceCreator.create(Team.GREEN, PieceType.SOLDIER);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);

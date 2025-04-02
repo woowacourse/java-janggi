@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.PieceType;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
@@ -23,7 +24,7 @@ class ElephantTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 4);
         Position goal = createPosition(column, row);
-        Elephant piece = new Elephant(Team.GREEN);
+        Piece piece = new Elephant(Team.GREEN, PieceType.ELEPHANT);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -43,10 +44,10 @@ class ElephantTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 4);
         Position goal = createPosition(6, 7);
-        Elephant piece = new Elephant(Team.GREEN);
+        Piece piece = new Elephant(Team.GREEN, PieceType.ELEPHANT);
 
         initialBoard.put(start, piece);
-        initialBoard.put(createPosition(4,5), new Soldier(Team.GREEN));
+        initialBoard.put(createPosition(4,5), PieceCreator.create(Team.GREEN, PieceType.SOLDIER));
         Board board = new Board(initialBoard);
 
         // when

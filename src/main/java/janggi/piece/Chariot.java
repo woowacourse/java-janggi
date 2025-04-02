@@ -9,6 +9,7 @@ import static janggi.moving.Movement.RIGHT_STRAIGHT;
 import static janggi.moving.Movement.RIGHT_UP;
 import static janggi.moving.Movement.UP_STRAIGHT;
 
+import janggi.PieceType;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
@@ -18,7 +19,6 @@ import janggi.moving.PossibleMovements;
 import java.util.List;
 
 public class Chariot extends Piece {
-    protected static final String NAME = "차";
     private static final PossibleMovements POSSIBLE_MOVEMENTS = new PossibleMovements(
             List.of(new Movements(UP_STRAIGHT), new Movements(DOWN_STRAIGHT), new Movements(LEFT_STRAIGHT),
                     new Movements(RIGHT_STRAIGHT)));
@@ -29,8 +29,8 @@ public class Chariot extends Piece {
                     new Movements(RIGHT_DOWN, RIGHT_DOWN), new Movements(LEFT_DOWN),
                     new Movements(LEFT_DOWN, LEFT_DOWN)));
 
-    public Chariot(Team team) {
-        super(team);
+    protected Chariot(Team team, PieceType pieceType) {
+        super(team, pieceType);
     }
 
     @Override
@@ -44,21 +44,11 @@ public class Chariot extends Piece {
     }
 
     @Override
-    public boolean isChariot() {
-        return true;
-    }
-
-    @Override
     protected PossibleMovements getPossibleMovements(Board board, Position start) {
         if (board.isInCastle(start)) {
             return POSSIBLE_CASTLE_MOVEMENTS;
         }
         return POSSIBLE_MOVEMENTS;
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 
     @Override

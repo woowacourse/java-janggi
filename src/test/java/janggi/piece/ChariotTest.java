@@ -3,6 +3,7 @@ package janggi.piece;
 import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import janggi.PieceType;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
@@ -27,7 +28,7 @@ class ChariotTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);
         Position goal = createPosition(goalColumn, goalRow);
-        Chariot piece = new Chariot(Team.GREEN);
+        Piece piece = PieceCreator.create(Team.GREEN, PieceType.CHARIOT);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);

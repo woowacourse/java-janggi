@@ -4,12 +4,11 @@ import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.PieceType;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
-import janggi.moving.Path;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +19,7 @@ class PieceTest {
     @ParameterizedTest
     void 같은_팀인지_여부를_반환한다(Team team, boolean expected) {
         // given
-        Soldier soldier = new Soldier(Team.RED);
+        Piece soldier = PieceCreator.create(Team.RED, PieceType.SOLDIER);
 
         // when
         boolean result = soldier.isSameTeam(team);
@@ -33,7 +32,7 @@ class PieceTest {
     @ParameterizedTest
     void 다른_팀인지_여부를_반환한다(Team team, boolean expected) {
         // given
-        Soldier soldier = new Soldier(Team.RED);
+        Piece soldier = PieceCreator.create(Team.RED, PieceType.SOLDIER);
 
         // when
         boolean result = soldier.isDifferentTeam(team);
@@ -59,7 +58,7 @@ class PieceTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);
         Position goal = createPosition(goalColumn, goalRow);
-        Guard piece = new Guard(team);
+        Piece piece = PieceCreator.create(team, PieceType.GUARD);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);

@@ -9,6 +9,7 @@ import static janggi.moving.Movement.RIGHT_DOWN;
 import static janggi.moving.Movement.RIGHT_UP;
 import static janggi.moving.Movement.UP;
 
+import janggi.PieceType;
 import janggi.moving.Movements;
 import janggi.moving.Path;
 import janggi.moving.PossibleMovements;
@@ -18,15 +19,14 @@ import janggi.board.position.Position;
 import java.util.List;
 
 public class Elephant extends Piece {
-    private static final String NAME = "상";
     private static final PossibleMovements possibleMovements = new PossibleMovements(
             List.of(new Movements(UP, LEFT_UP, LEFT_UP), new Movements(UP, RIGHT_UP, RIGHT_UP),
                     new Movements(RIGHT, RIGHT_UP, RIGHT_UP), new Movements(RIGHT, RIGHT_DOWN, RIGHT_DOWN),
                     new Movements(DOWN, RIGHT_DOWN, RIGHT_DOWN), new Movements(DOWN, LEFT_DOWN, LEFT_DOWN),
                     new Movements(LEFT, LEFT_UP, LEFT_UP), new Movements(LEFT, LEFT_DOWN, LEFT_DOWN)));
 
-    public Elephant(Team team) {
-        super(team);
+    protected Elephant(Team team, PieceType pieceType) {
+        super(team, pieceType);
     }
 
     @Override
@@ -40,18 +40,8 @@ public class Elephant extends Piece {
     }
 
     @Override
-    public boolean isElephant() {
-        return true;
-    }
-
-    @Override
     protected PossibleMovements getPossibleMovements(Board board, Position start) {
         return possibleMovements;
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 
     @Override

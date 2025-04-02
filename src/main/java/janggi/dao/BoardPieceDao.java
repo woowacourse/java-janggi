@@ -1,5 +1,6 @@
 package janggi.dao;
 
+import janggi.piece.PieceCreator;
 import janggi.PieceType;
 import janggi.Team;
 import janggi.board.Board;
@@ -38,7 +39,7 @@ public class BoardPieceDao {
     private void save(Entry<Position, Piece> entry, PreparedStatement preparedStatement) throws SQLException {
         Position position = entry.getKey();
         Piece piece = entry.getValue();
-        PieceType pieceType = PieceType.from(piece);
+        PieceType pieceType = piece.getType();
         Row row = position.getRow();
         Column column = position.getColumn();
         preparedStatement.setInt(2, column.getValue());
@@ -62,8 +63,7 @@ public class BoardPieceDao {
                     PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
                     Team team = Enum.valueOf(Team.class, resultSet.getString("team"));
                     Position position = new Position(Column.from(column), Row.from(row));
-
-                    Piece piece = pieceType.toPiece(team);
+                    Piece piece = PieceCreator.create(team, pieceType);
                     board.putIfAbsent(position, piece);
                 }
                 return new Board(board);

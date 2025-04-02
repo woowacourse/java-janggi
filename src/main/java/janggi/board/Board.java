@@ -1,5 +1,8 @@
 package janggi.board;
 
+import static janggi.PieceType.CANON;
+import static janggi.PieceType.GENERAL;
+
 import janggi.Team;
 import janggi.board.position.Column;
 import janggi.board.position.Position;
@@ -12,10 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
-    /**
-     * TODO
-     * List? Set?
-     */
     public static final List<Position> RED_CASTLE = List.of(new Position(Row.SEVEN, Column.THREE),
             new Position(Row.SEVEN, Column.FOUR), new Position(Row.SEVEN, Column.FIVE),
             new Position(Row.EIGHT, Column.THREE), new Position(Row.EIGHT, Column.FOUR),
@@ -52,7 +51,7 @@ public class Board {
         }
         piece.validateMovable(this, start, goal);
         Piece attacked = move(start, goal);
-        if (attacked != null && attacked.isGeneral()) {
+        if (attacked != null && attacked.isSameType(GENERAL)) {
             throw new GameOverException();
         }
     }
@@ -79,7 +78,7 @@ public class Board {
             return false;
         }
         Piece piece = board.get(position);
-        return piece.isCanon();
+        return piece.isSameType(CANON);
     }
 
     private boolean isPieceNotExists(Position position) {

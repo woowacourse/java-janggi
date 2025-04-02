@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.PieceType;
 import janggi.moving.Path;
 import janggi.Team;
 import janggi.board.Board;
@@ -8,9 +9,11 @@ import janggi.moving.PossibleMovements;
 
 public abstract class Piece {
     protected final Team team;
+    protected final PieceType type;
 
-    public Piece(Team team) {
+    protected Piece(Team team, PieceType type) {
         this.team = team;
+        this.type = type;
     }
 
     public boolean isSameTeam(Team team) {
@@ -19,6 +22,10 @@ public abstract class Piece {
 
     public boolean isDifferentTeam(Team team) {
         return !isSameTeam(team);
+    }
+
+    public boolean isSameType(PieceType type) {
+        return this.type == type;
     }
 
     public void validateMovable(Board board, Position start, Position goal) {
@@ -38,6 +45,25 @@ public abstract class Piece {
         }
     }
 
+    protected void validateSameTeamOnGoal(Board board, Position goal) {
+        boolean isSameTeamExists = board.isSameTeamExists(goal, team);
+        if (isSameTeamExists) {
+            throw new IllegalArgumentException("[ERROR] 목적지에 같은 진영의 기물이 있어 이동할 수 없습니다.");
+        }
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public PieceType getType() {
+        return type;
+    }
+
+    public String getDisplayName() {
+        return type.getDisplayName();
+    }
+
     protected void validateNonPieceOnPath(Board board, Path path) {
         for (Position position : path.getIntermediatePath()) {
             boolean isPieceExists = board.isPieceExists(position);
@@ -47,47 +73,8 @@ public abstract class Piece {
         }
     }
 
-    protected void validateSameTeamOnGoal(Board board, Position goal) {
-        boolean isSameTeamExists = board.isSameTeamExists(goal, team);
-        if (isSameTeamExists) {
-            throw new IllegalArgumentException("[ERROR] 목적지에 같은 진영의 기물이 있어 이동할 수 없습니다.");
-        }
-    }
-
-    public boolean isGeneral() {
-        return false;
-    }
-
-    public boolean isCanon() {
-        return false;
-    }
-    public boolean isGuard() {
-        return false;
-    }
-
-    public boolean isSoldier() {
-        return false;
-    }
-
-    public boolean isChariot() {
-        return false;
-    }
-
-    public boolean isElephant() {
-        return false;
-    }
-
-    public boolean isHorse() {
-        return false;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
     protected abstract PossibleMovements getPossibleMovements(Board board, Position start);
     protected abstract void validatePath(Board board, Path path);
     protected abstract void validatePieceOnGoal(Board board, Position goal);
-    public abstract String getName();
     public abstract int getScore();
 }

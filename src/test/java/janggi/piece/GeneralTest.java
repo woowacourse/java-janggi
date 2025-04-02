@@ -4,6 +4,7 @@ import static janggi.fixture.PositionFixture.createPosition;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.PieceType;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
@@ -25,7 +26,7 @@ class GeneralTest {
         Position start = createPosition(4, 2);
         Position goal = createPosition(4, 3);
         Path path = new Path(List.of(start, goal));
-        General piece = new General(Team.GREEN);
+        Piece piece = PieceCreator.create(Team.GREEN, PieceType.GENERAL);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -44,7 +45,7 @@ class GeneralTest {
         Position start = createPosition(3, 7);
         Position goal = createPosition(2, 7);
         Path path = new Path(List.of(start, goal));
-        General piece = new General(Team.RED);
+        Piece piece = new General(Team.RED, PieceType.GENERAL);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -64,7 +65,7 @@ class GeneralTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);
         Position goal = createPosition(goalColumn, goalRow);
-        General piece = new General(Team.GREEN);
+        Piece piece = new General(Team.GREEN, PieceType.GENERAL);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -83,7 +84,7 @@ class GeneralTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);
         Position goal = createPosition(goalColumn, goalRow);
-        General piece = new General(Team.GREEN);
+        Piece piece = new General(Team.GREEN, PieceType.GENERAL);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -103,7 +104,7 @@ class GeneralTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);
         Position goal = createPosition(goalColumn, goalRow);
-        General piece = new General(Team.RED);
+        Piece piece = new General(Team.RED, PieceType.GENERAL);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -122,7 +123,7 @@ class GeneralTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);
         Position goal = createPosition(goalColumn, goalRow);
-        General piece = new General(Team.RED);
+        Piece piece = new General(Team.RED, PieceType.GENERAL);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);

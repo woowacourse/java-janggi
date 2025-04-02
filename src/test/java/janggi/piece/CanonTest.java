@@ -1,5 +1,6 @@
 package janggi.piece;
 
+import janggi.PieceType;
 import janggi.Team;
 import janggi.board.Board;
 import janggi.board.position.Position;
@@ -24,10 +25,10 @@ class CanonTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 3);
         Position goal = createPosition(4, 5);
-        Canon piece = new Canon(Team.GREEN);
+        Canon piece = new Canon(Team.GREEN, PieceType.CANON);
 
         initialBoard.put(start, piece);
-        initialBoard.put(createPosition(4,4), new Canon(Team.GREEN));
+        initialBoard.put(createPosition(4,4), new Canon(Team.GREEN, PieceType.CANON));
         Board board = new Board(initialBoard);
 
         // when
@@ -43,11 +44,11 @@ class CanonTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 3);
         Position goal = createPosition(4, 6);
-        Canon piece = new Canon(Team.GREEN);
+        Canon piece = new Canon(Team.GREEN, PieceType.CANON);
 
         initialBoard.put(start, piece);
-        initialBoard.put(createPosition(4,4), new Soldier(Team.GREEN));
-        initialBoard.put(createPosition(4,5), new Soldier(Team.GREEN));
+        initialBoard.put(createPosition(4,4), new Soldier(Team.GREEN, PieceType.SOLDIER));
+        initialBoard.put(createPosition(4,5), new Soldier(Team.GREEN, PieceType.SOLDIER));
         Board board = new Board(initialBoard);
 
         // when
@@ -63,7 +64,7 @@ class CanonTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 3);
         Position goal = createPosition(4, 6);
-        Canon piece = new Canon(Team.GREEN);
+        Canon piece = new Canon(Team.GREEN, PieceType.CANON);
 
         initialBoard.put(start, piece);
         Board board = new Board(initialBoard);
@@ -81,11 +82,11 @@ class CanonTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 3);
         Position goal = createPosition(4, 6);
-        Canon piece = new Canon(Team.GREEN);
+        Canon piece = new Canon(Team.GREEN, PieceType.CANON);
 
         initialBoard.put(start, piece);
-        initialBoard.put(createPosition(4,4), new Soldier(Team.GREEN));
-        initialBoard.put(createPosition(4,6), new Canon(Team.RED));
+        initialBoard.put(createPosition(4,4), new Soldier(Team.GREEN, PieceType.SOLDIER));
+        initialBoard.put(createPosition(4,6), new Canon(Team.RED, PieceType.CANON));
         Board board = new Board(initialBoard);
 
         // when
@@ -102,13 +103,13 @@ class CanonTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(4, 4);
         Position goal = createPosition(column, row);
-        Canon piece = new Canon(Team.GREEN);
+        Canon piece = new Canon(Team.GREEN, PieceType.CANON);
 
         initialBoard.put(start, piece);
-        initialBoard.put(createPosition(4,5), new Soldier(Team.GREEN));
-        initialBoard.put(createPosition(4,3), new Soldier(Team.GREEN));
-        initialBoard.put(createPosition(3,4), new Soldier(Team.GREEN));
-        initialBoard.put(createPosition(5,4), new Soldier(Team.GREEN));
+        initialBoard.put(createPosition(4,5), PieceCreator.create(Team.GREEN, PieceType.SOLDIER));
+        initialBoard.put(createPosition(4,3), PieceCreator.create(Team.GREEN, PieceType.SOLDIER));
+        initialBoard.put(createPosition(3,4), PieceCreator.create(Team.GREEN, PieceType.SOLDIER));
+        initialBoard.put(createPosition(5,4), PieceCreator.create(Team.GREEN, PieceType.SOLDIER));
         Board board = new Board(initialBoard);
 
         // when
@@ -134,10 +135,10 @@ class CanonTest {
         Map<Position, Piece> initialBoard = new HashMap<>();
         Position start = createPosition(startColumn, startRow);
         Position goal = createPosition(goalColumn, goalRow);
-        Canon piece = new Canon(Team.GREEN);
+        Piece piece = PieceCreator.create(Team.GREEN, PieceType.CANON);
 
         initialBoard.put(start, piece);
-        initialBoard.put(createPosition(4, 1), new Soldier(Team.GREEN)); // 포가 뛰어넘을 기물
+        initialBoard.put(createPosition(4, 1), PieceCreator.create(Team.GREEN, PieceType.SOLDIER)); // 포가 뛰어넘을 기물
         Board board = new Board(initialBoard);
 
         // then
