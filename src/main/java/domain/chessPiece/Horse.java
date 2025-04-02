@@ -24,10 +24,6 @@ public class Horse extends LimitedMoveChessPiece {
 
     private final HurdlePolicy hurdlePolicy = new UnpassableHurdlePolicy();
 
-    public Horse(final ChessTeam team) {
-        super(team, DIRECTIONS);
-    }
-
     public Horse(final ChessPosition position, final ChessTeam team) {
         super(position, team, DIRECTIONS);
     }

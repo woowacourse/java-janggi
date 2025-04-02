@@ -10,11 +10,6 @@ import java.util.List;
 public abstract class LimitedMoveChessPiece extends JanggiChessPiece {
     private final List<Directions> directions;
 
-    protected LimitedMoveChessPiece(ChessTeam team, List<Directions> directions) {
-        super(team);
-        this.directions = directions;
-    }
-
     protected LimitedMoveChessPiece(final ChessPosition position, final ChessTeam team,
                                  final List<Directions> directions) {
         super(position, team);

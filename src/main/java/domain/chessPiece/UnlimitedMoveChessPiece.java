@@ -11,12 +11,9 @@ import java.util.List;
 public abstract class UnlimitedMoveChessPiece extends JanggiChessPiece {
     private final List<Direction> directions;
 
-    protected UnlimitedMoveChessPiece(ChessTeam team, List<Direction> directions) {
-        super(team);
-        this.directions = directions;
-    }
 
-    protected UnlimitedMoveChessPiece(final ChessTeam team, final ChessPosition position, final List<Direction> directions) {
+    protected UnlimitedMoveChessPiece(final ChessTeam team, final ChessPosition position,
+                                      final List<Direction> directions) {
         super(position, team);
         this.directions = directions;
     }

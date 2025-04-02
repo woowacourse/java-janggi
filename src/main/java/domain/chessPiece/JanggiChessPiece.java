@@ -16,11 +16,6 @@ public abstract class JanggiChessPiece implements ChessPiece {
         this.team = team;
     }
 
-    protected JanggiChessPiece(final ChessTeam team) {
-        this.team = team;
-        this.position = null;
-    }
-
     @Override
     public final ChessTeam getTeam() {
         return team;
