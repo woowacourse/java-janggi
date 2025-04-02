@@ -86,4 +86,8 @@ public class OutputView {
             case null, default -> throw new RuntimeException();
         }
     }
+
+    public void printErrorMessage(Exception e) {
+        System.out.println(e.getMessage());
+    }
 }

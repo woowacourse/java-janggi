@@ -2,7 +2,7 @@ package db.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import db.dao.JanggiGameDao.GameEntity;
+import db.dao.JanggiGameDao.GameDto;
 import fixture.TestDBConnectionFixture;
 import janggiGame.piece.Dynasty;
 import java.sql.Connection;
@@ -54,7 +54,7 @@ class JanggiGameDaoTest {
         janggiGameDao.updateGame(gameId, "CHO", true);
 
         // then
-        Optional<JanggiGameDao.GameEntity> result = janggiGameDao.findById(gameId);
+        Optional<GameDto> result = janggiGameDao.findById(gameId);
         assertThat(result).isPresent();
         assertThat(result.get().currentDynasty()).isEqualTo("CHO");
         assertThat(result.get().wasLastPassed()).isTrue();
@@ -70,7 +70,7 @@ class JanggiGameDaoTest {
         janggiGameDao.markAsFinished(gameId);
 
         // then
-        List<JanggiGameDao.GameEntity> result = janggiGameDao.findNotFinishedGames();
+        List<GameDto> result = janggiGameDao.findNotFinishedGames();
         assertThat(result).noneMatch(game -> game.id().equals(gameId));
     }
 
@@ -86,10 +86,10 @@ class JanggiGameDaoTest {
         janggiGameDao.markAsFinished(gameId2);
 
         // when
-        List<JanggiGameDao.GameEntity> result = janggiGameDao.findNotFinishedGames();
+        List<GameDto> result = janggiGameDao.findNotFinishedGames();
 
         List<Long> gameIds = result.stream()
-                .map(GameEntity::id)
+                .map(GameDto::id)
                 .toList();
 
         // then
@@ -105,7 +105,7 @@ class JanggiGameDaoTest {
         Long gameId = janggiGameDao.save("HAN");
 
         // when
-        Optional<JanggiGameDao.GameEntity> result = janggiGameDao.findById(gameId);
+        Optional<GameDto> result = janggiGameDao.findById(gameId);
 
         // then
         assertThat(result).isPresent();

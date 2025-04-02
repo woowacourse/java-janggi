@@ -1,6 +1,6 @@
 package db.dao;
 
-import db.DBConnection;
+import db.connection.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,10 +32,11 @@ public class JanggiGameDao {
                     return resultSet.getLong(1);
                 }
             }
+            throw new RuntimeException("[ERROR] 생성된 게임 ID를 조회하지 못했습니다.");
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
         }
-        return null;
     }
 
     public List<GameEntity> findNotFinishedGames() {
@@ -50,7 +51,7 @@ public class JanggiGameDao {
                 result.add(mapToEntity(resultSet));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
         }
         return result;
     }
@@ -68,7 +69,7 @@ public class JanggiGameDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
         }
         return Optional.empty();
     }
@@ -85,7 +86,7 @@ public class JanggiGameDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
         }
     }
 
@@ -99,7 +100,7 @@ public class JanggiGameDao {
             preparedStatement.setLong(1, gameId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
         }
     }
 

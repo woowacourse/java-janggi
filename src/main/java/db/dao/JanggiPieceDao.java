@@ -1,6 +1,6 @@
 package db.dao;
 
-import db.DBConnection;
+import db.connection.DBConnection;
 import janggiGame.piece.Dynasty;
 import janggiGame.piece.Piece;
 import janggiGame.piece.PieceFactory;
@@ -40,7 +40,7 @@ public class JanggiPieceDao {
             preparedStatement.executeBatch();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
         }
     }
 
@@ -65,7 +65,7 @@ public class JanggiPieceDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
         }
         return pieces;
     }
@@ -84,7 +84,7 @@ public class JanggiPieceDao {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
         }
     }
 
@@ -100,7 +100,7 @@ public class JanggiPieceDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("[ERROR] DB 연결에 실패했습니다.");
         }
     }
 }

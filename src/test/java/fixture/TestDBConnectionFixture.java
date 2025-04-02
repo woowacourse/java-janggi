@@ -1,6 +1,6 @@
 package fixture;
 
-import db.DBConnection;
+import db.connection.DBConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,9 +22,7 @@ public class TestDBConnectionFixture implements DBConnection {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            System.err.println("[ERROR] DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("[ERROR] 테스트 DB 연결에 실패하였습니다.");
         }
     }
 

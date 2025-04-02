@@ -2,6 +2,8 @@ package db;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import db.connection.DBConnection;
+import db.connection.MySQLConnection;
 import java.sql.SQLException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +13,7 @@ class DBConnectionTest {
     @Test
     void getConnection() {
         //given
-        DBConnection dbConnection = MySQLConnection.getInstance();
+        DBConnection dbConnection = new MySQLConnection();
 
         // when // then
         try (final var connection = dbConnection.getConnection()) {
