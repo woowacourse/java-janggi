@@ -2,19 +2,20 @@ package piece;
 
 import game.Team;
 import java.util.Arrays;
+import location.PathManagerImpl;
 import location.Position;
 
 public enum PieceType {
     CANNON(1, 7) {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
-            return new Cannon(pieceId, team, currentPosition);
+            return new Cannon(pieceId, team, new PathManagerImpl(), currentPosition);
         }
     },
     CHARIOT(2, 13) {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
-            return new Chariot(pieceId, team, currentPosition);
+            return new Chariot(pieceId, team, new PathManagerImpl(), currentPosition);
         }
     },
     ELEPHANT(3, 3) {
@@ -26,7 +27,7 @@ public enum PieceType {
     GENERAL(4, 0) {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
-            return new General(pieceId, team, currentPosition);
+            return new General(pieceId, team, new PathManagerImpl(), currentPosition);
         }
     },
     SOLDIER(5, 2) {
@@ -41,7 +42,7 @@ public enum PieceType {
     GUARD(6, 3) {
         @Override
         public Piece createPiece(int pieceId, Team team, Position currentPosition) {
-            return new Guard(pieceId, team, currentPosition);
+            return new Guard(pieceId, team, new PathManagerImpl(), currentPosition);
         }
     },
     HORSE(7, 5) {

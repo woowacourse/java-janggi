@@ -1,16 +1,19 @@
 package piece;
 
 import game.Team;
-import location.PathUtility;
+import location.PathManager;
+import location.PathManagerImpl;
 import location.Position;
 import java.util.List;
 
 public class Cannon extends Piece {
+    private final PathManager pathManager;
     private Position currentPosition;
 
-    public Cannon(int pieceId, Team team, Position currentPosition) {
+    public Cannon(int pieceId, Team team, PathManager pathManager, Position currentPosition) {
         super(pieceId, team, PieceType.CANNON);
         this.currentPosition = currentPosition;
+        this.pathManager = pathManager;
     }
 
     @Override
@@ -20,7 +23,7 @@ public class Cannon extends Piece {
 
     @Override
     public void validateDestination(Position destination) {
-        PathUtility.checkStraightMovement(currentPosition, destination);
+        pathManager.checkStraightMovement(currentPosition, destination);
     }
 
     @Override
@@ -44,7 +47,7 @@ public class Cannon extends Piece {
     }
 
     private int calculateNotCannonCountInPaths(Pieces pieces, Position destination) {
-        List<Position> paths = PathUtility.calculateOneDirectionPaths(currentPosition, destination);
+        List<Position> paths = pathManager.calculateOneDirectionPaths(currentPosition, destination);
         return (int) paths.stream()
                 .filter(pieces::isContainedPieceAtPosition)
                 .map(pieces::getByPosition)
@@ -53,7 +56,7 @@ public class Cannon extends Piece {
     }
 
     private int calculateCannonCountInPaths(Pieces pieces, Position destination) {
-        List<Position> paths = PathUtility.calculateOneDirectionPaths(currentPosition, destination);
+        List<Position> paths = pathManager.calculateOneDirectionPaths(currentPosition, destination);
         return (int) paths.stream()
                 .filter(pieces::isContainedPieceAtPosition)
                 .map(pieces::getByPosition)

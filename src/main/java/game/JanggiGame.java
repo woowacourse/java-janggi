@@ -5,7 +5,7 @@ import dao.PieceDao;
 import piece.Piece;
 import piece.PieceType;
 import location.Position;
-import location.PathUtility;
+import location.PathManagerImpl;
 import piece.Pieces;
 import view.AnswerType;
 import view.InputView;
@@ -97,7 +97,7 @@ public class JanggiGame {
 
     private void move(Pieces currentPieces, Position start, Position end) {
         currentPieces.checkNotExistedPieceInPosition(end);
-        PathUtility.checkNotSameStartWithEnd(start, end);
+        start.validateNotSame(end);
 
         Pieces allPieces = pieceDao.findAll();
         Piece piece = currentPieces.getByPosition(start);

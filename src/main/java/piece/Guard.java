@@ -2,14 +2,16 @@ package piece;
 
 import game.Team;
 import location.Direction;
-import location.PathUtility;
+import location.PathManager;
 import location.Position;
 
 public class Guard extends Piece {
+    private final PathManager pathManager;
     private Position currentPosition;
 
-    public Guard(int pieceId, Team team, Position currentPosition) {
+    public Guard(int pieceId, Team team, PathManager pathManager, Position currentPosition) {
         super(pieceId, team, PieceType.GUARD);
+        this.pathManager = pathManager;
         this.currentPosition = currentPosition;
     }
 
@@ -20,14 +22,14 @@ public class Guard extends Piece {
 
     @Override
     public void validateDestination(Position destination) {
-        PathUtility.checkOneMovement(currentPosition, destination);
+        pathManager.checkOneMovement(currentPosition, destination);
 
-        if (PathUtility.isPalacePosition(currentPosition)
+        if (pathManager.isPalacePosition(currentPosition)
                 && Direction.isDiagonal(currentPosition, destination)) {
-            PathUtility.checkValidOneDiagonalMovementInPalace(currentPosition, destination);
+            pathManager.checkValidOneDiagonalMovementInPalace(currentPosition, destination);
             return;
         }
-        PathUtility.checkStraightMovement(currentPosition, destination);
+        pathManager.checkStraightMovement(currentPosition, destination);
     }
 
     @Override

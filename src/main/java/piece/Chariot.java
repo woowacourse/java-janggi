@@ -2,15 +2,17 @@ package piece;
 
 import game.Team;
 import location.Direction;
-import location.PathUtility;
+import location.PathManager;
 import location.Position;
 import java.util.List;
 
 public class Chariot extends Piece {
+    private final PathManager pathManager;
     private Position currentPosition;
 
-    public Chariot(int pieceId, Team team, Position currentPosition) {
+    public Chariot(int pieceId, Team team, PathManager pathManager, Position currentPosition) {
         super(pieceId, team, PieceType.CHARIOT);
+        this.pathManager = pathManager;
         this.currentPosition = currentPosition;
     }
 
@@ -21,17 +23,17 @@ public class Chariot extends Piece {
 
     @Override
     public void validateDestination(Position destination) {
-        if (PathUtility.isPalacePosition(currentPosition)
+        if (pathManager.isPalacePosition(currentPosition)
                 && Direction.isDiagonal(currentPosition, destination)) {
-            PathUtility.checkValidTwoDiagonalMovementInPalace(currentPosition, destination);
+            pathManager.checkValidTwoDiagonalMovementInPalace(currentPosition, destination);
             return;
         }
-        PathUtility.checkStraightMovement(currentPosition, destination);
+        pathManager.checkStraightMovement(currentPosition, destination);
     }
 
     @Override
     public void validatePaths(Pieces pieces, Position destination) {
-        List<Position> paths = PathUtility.calculateOneDirectionPaths(currentPosition, destination);
+        List<Position> paths = pathManager.calculateOneDirectionPaths(currentPosition, destination);
         paths.forEach(pieces::checkNotExistedPieceInPosition);
     }
 

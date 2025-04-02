@@ -2,14 +2,17 @@ package piece;
 
 import game.Team;
 import location.Direction;
-import location.PathUtility;
+import location.PathManager;
+import location.PathManagerImpl;
 import location.Position;
 
 public class General extends Piece {
+    private final PathManager pathManager;
     private Position currentPosition;
 
-    public General(int pieceId, Team team, Position currentPosition) {
+    public General(int pieceId, Team team, PathManager pathManager, Position currentPosition) {
         super(pieceId, team, PieceType.GENERAL);
+        this.pathManager = pathManager;
         this.currentPosition = currentPosition;
     }
 
@@ -21,10 +24,10 @@ public class General extends Piece {
     @Override
     public void validateDestination(Position destination) {
         checkInPalace(destination);
-        PathUtility.checkOneMovement(currentPosition, destination);
+        pathManager.checkOneMovement(currentPosition, destination);
 
         if (Direction.isDiagonal(currentPosition, destination)) {
-            PathUtility.checkValidOneDiagonalMovementInPalace(currentPosition, destination);
+            pathManager.checkValidOneDiagonalMovementInPalace(currentPosition, destination);
         }
     }
 
@@ -43,8 +46,8 @@ public class General extends Piece {
         return currentPosition.equals(targetPosition);
     }
 
-    private static void checkInPalace(Position destination) {
-        if (!PathUtility.isPalacePosition(destination)) {
+    private void checkInPalace(Position destination) {
+        if (!pathManager.isPalacePosition(destination)) {
             throw new IllegalArgumentException("[ERROR] 궁성 외 좌표입니다.");
         }
     }

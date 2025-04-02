@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class PathUtility {
+public class PathManagerImpl implements PathManager {
     private static final Map<Position, List<Position>> PALACE_DIAGONAL_MOVEMENT = Map.of(
             new Position(5, 2), List.of(new Position(4, 1), new Position(6, 1),
                     new Position(4, 3), new Position(6, 3)),
@@ -21,26 +21,20 @@ public class PathUtility {
             new Position(4, 8), List.of(new Position(5, 9))
     );
 
-    public static void checkStraightMovement(Position from, Position to) {
+    public void checkStraightMovement(Position from, Position to) {
         if (from.x() != to.x() && from.y() != to.y()) {
             throw new IllegalArgumentException("[ERROR] 직선 이동만 가능합니다.");
         }
     }
 
-    public static void checkOneMovement(Position from, Position to) {
+    public void checkOneMovement(Position from, Position to) {
         if (from.x() + 1 < to.x() || from.x() - 1 > to.x()
                 || from.y() + 1 < to.y() || from.y() - 1 > to.y()) {
             throw new IllegalArgumentException("[ERROR] 1칸만 이동 가능합니다.");
         }
     }
 
-    public static void checkNotSameStartWithEnd(Position from, Position to) {
-        if (from.equals(to)) {
-            throw new IllegalArgumentException("[ERROR] 출발지와 목적지는 달라야 합니다.");
-        }
-    }
-
-    public static List<Position> calculateOneDirectionPaths(Position from, Position to) {
+    public List<Position> calculateOneDirectionPaths(Position from, Position to) {
         Direction direction = Direction.find(from, to);
         List<Position> paths = new ArrayList<>();
         Position current = from.apply(direction);
@@ -52,7 +46,7 @@ public class PathUtility {
         return paths;
     }
 
-    public static boolean isPalacePosition(Position destination) {
+    public boolean isPalacePosition(Position destination) {
         if (destination.x() < 4 || 6 < destination.x()) {
             return false;
         }
@@ -62,7 +56,7 @@ public class PathUtility {
         return true;
     }
 
-    public static void checkValidOneDiagonalMovementInPalace(Position from, Position to) {
+    public void checkValidOneDiagonalMovementInPalace(Position from, Position to) {
         List<Position> validDiagonalDestinations = PALACE_DIAGONAL_MOVEMENT.getOrDefault(from, Collections.emptyList());
 
         if (validDiagonalDestinations.isEmpty() || !validDiagonalDestinations.contains(to)) {
@@ -70,7 +64,7 @@ public class PathUtility {
         }
     }
 
-    public static void checkValidTwoDiagonalMovementInPalace(Position from, Position to) {
+    public void checkValidTwoDiagonalMovementInPalace(Position from, Position to) {
         List<Position> validDiagonalPaths = PALACE_DIAGONAL_MOVEMENT.getOrDefault(from, Collections.emptyList());
 
         if (validDiagonalPaths.isEmpty()) {

@@ -5,7 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class PathUtilityTest {
+public class PathManagerImplTest {
+
+    PathManager pathManager = new PathManagerImpl();
+
     @Test
     @DisplayName("자신이 있는 위치로 이동할 수 없다.")
     void test10() {
@@ -15,7 +18,7 @@ public class PathUtilityTest {
 
         //when
         //then
-        assertThatThrownBy(() -> PathUtility.checkNotSameStartWithEnd(from, to))
+        assertThatThrownBy(() -> pathManager.checkNotSameStartWithEnd(from, to))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
