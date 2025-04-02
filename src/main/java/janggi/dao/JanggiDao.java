@@ -107,7 +107,7 @@ public class JanggiDao {
 
     public void updatePiece(PositionDto oldPosition, PieceDto pieceDto) {
         String deleteQuery = "DELETE FROM pieces WHERE position_row = ? AND position_column = ?";
-        String insertQuery = "INSERT INTO pieces(name, side, position_row, position_column) VALUES(?, ?, ?, ?)";
+        String updateQuery = "UPDATE pieces SET name = ?, side = ?, position_row = ?, position_column = ? WHERE position_row = ? AND position_column = ?";
 
         Connection connection = DatabaseConnector.getConnection(DATABASE_NAME);
         try {
@@ -115,17 +115,19 @@ public class JanggiDao {
 
             PreparedStatement preparedDeleteStatement = connection.prepareStatement(deleteQuery);
 
-            preparedDeleteStatement.setInt(1, oldPosition.row());
-            preparedDeleteStatement.setInt(2, oldPosition.column());
+            preparedDeleteStatement.setInt(1, pieceDto.row());
+            preparedDeleteStatement.setInt(2, pieceDto.column());
 
             preparedDeleteStatement.executeUpdate();
 
-            PreparedStatement preparedInsertStatement = connection.prepareStatement(insertQuery);
+            PreparedStatement preparedInsertStatement = connection.prepareStatement(updateQuery);
 
             preparedInsertStatement.setString(1, pieceDto.name());
             preparedInsertStatement.setString(2, pieceDto.side());
             preparedInsertStatement.setInt(3, pieceDto.row());
             preparedInsertStatement.setInt(4, pieceDto.column());
+            preparedInsertStatement.setInt(5, oldPosition.row());
+            preparedInsertStatement.setInt(6, oldPosition.column());
 
             preparedInsertStatement.executeUpdate();
 
