@@ -20,18 +20,23 @@ public class KoreaChess {
 
     private final OutputView outputView;
     private final InputView inputView;
+    private final PieceDao pieceDao;
+    private final PlayerDao playerDao;
+    private final BoardDao boardDao;
 
-    public KoreaChess(final OutputView outputView, final InputView inputView) {
+    public KoreaChess(final OutputView outputView, final InputView inputView,
+                      final PieceDao pieceDao, final PlayerDao playerDao, final BoardDao boardDao) {
         this.outputView = outputView;
         this.inputView = inputView;
+        this.pieceDao = pieceDao;
+        this.playerDao = playerDao;
+        this.boardDao = boardDao;
     }
 
     public void run() {
         Player han = getPlayer(Team.HAN);
         Player cho = getPlayer(Team.CHO);
-
         Board board = getBoard(han, cho);
-
         process(board, han, cho);
 
         Player winner = board.getWinner();
@@ -43,8 +48,6 @@ public class KoreaChess {
     }
 
     private Player getPlayer(final Team team) {
-        PlayerDao playerDao = new PlayerDao();
-
         Optional<Player> optionalPlayer = playerDao.findPlayerByTeam(team);
         if (optionalPlayer.isEmpty()) {
             String name = inputView.getName(team);
@@ -56,24 +59,54 @@ public class KoreaChess {
         return optionalPlayer.get();
     }
 
-    private Board getBoard(Player han, Player cho) {
+    private Board getBoard(final Player han, final Player cho) {
         Board board;
         Optional<Board> optionalBoard = findBoard(han, cho);
+
         if (optionalBoard.isEmpty()) {
             SetUp hanSetUp = inputView.readSetUp(Team.HAN);
             SetUp choSetUp = inputView.readSetUp(Team.CHO);
             board = createBoard(han, cho, hanSetUp, choSetUp);
             outputView.printGameStart();
             outputView.printBoard(board);
-        } else {
-            board = optionalBoard.get();
-            outputView.printBoard(board);
+            return board;
         }
+
+        board = optionalBoard.get();
+        outputView.printBoard(board);
         return board;
     }
 
+    private Optional<Board> findBoard(final Player han, final Player cho) {
+        if (boardDao.findCurrentTurn().isPresent()) {
+            List<Piece> hanPieces = pieceDao.findAllByTeam(Team.HAN);
+            List<Piece> choPieces = pieceDao.findAllByTeam(Team.CHO);
+
+            Map<Player, Pieces> boardElements = new HashMap<>();
+            boardElements.put(han, new Pieces(hanPieces));
+            boardElements.put(cho, new Pieces(choPieces));
+
+            return Optional.of(new Board(boardElements));
+        }
+
+        return Optional.empty();
+    }
+
+    private Board createBoard(final Player han, final Player cho, final SetUp hanSetUp, final SetUp choSetUp) {
+        List<Piece> hanPiecesElements = PieceInitializer.createTeamPieces(Team.HAN, hanSetUp);
+        List<Piece> choPiecesElements = PieceInitializer.createTeamPieces(Team.CHO, choSetUp);
+        hanPiecesElements.forEach(piece -> pieceDao.save(piece, han));
+        choPiecesElements.forEach(piece -> pieceDao.save(piece, cho));
+
+        Map<Player, Pieces> boardElements = new HashMap<>();
+        boardElements.put(han, new Pieces(hanPiecesElements));
+        boardElements.put(cho, new Pieces(choPiecesElements));
+
+        boardDao.addBoard(Team.CHO);
+        return new Board(boardElements);
+    }
+
     private void process(final Board board, final Player han, final Player cho) {
-        BoardDao boardDao = new BoardDao();
         Team team = boardDao.findCurrentTurn()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 잘못된 턴 정보입니다."));
         while (!board.isFinish()) {
@@ -81,12 +114,6 @@ public class KoreaChess {
             processTurn(currentPlayer, board);
             team = switchTurn(team, boardDao);
         }
-    }
-
-    private Team switchTurn(final Team team, final BoardDao boardDao) {
-        Team other = Team.getOtherTeam(team);
-        boardDao.updateCurrentTurn(other);
-        return other;
     }
 
     private Player getCurrentTurn(final Player han, final Player cho, final Team team) {
@@ -103,46 +130,13 @@ public class KoreaChess {
         outputView.printBoard(board);
     }
 
-    private Board createBoard(final Player han, final Player cho, final SetUp hanSetUp, final SetUp choSetUp) {
-        BoardDao boardDao = new BoardDao();
-        PieceDao pieceDao = new PieceDao();
-
-        List<Piece> hanPiecesElements = PieceInitializer.createTeamPieces(Team.HAN, hanSetUp);
-        hanPiecesElements.forEach(piece -> pieceDao.save(piece, han));
-        List<Piece> choPiecesElements = PieceInitializer.createTeamPieces(Team.CHO, choSetUp);
-        choPiecesElements.forEach(piece -> pieceDao.save(piece, cho));
-
-        Map<Player, Pieces> boardElements = new HashMap<>();
-        boardElements.put(han, new Pieces(hanPiecesElements));
-        boardElements.put(cho, new Pieces(choPiecesElements));
-
-        boardDao.addBoard(Team.CHO);
-        return new Board(boardElements);
-    }
-
-    private Optional<Board> findBoard(final Player han, final Player cho) {
-        BoardDao boardDao = new BoardDao();
-        if (boardDao.findCurrentTurn().isPresent()) {
-            PieceDao pieceDao = new PieceDao();
-
-            List<Piece> hanPieces = pieceDao.findAllByTeam(Team.HAN);
-            List<Piece> choPieces = pieceDao.findAllByTeam(Team.CHO);
-
-            Map<Player, Pieces> boardElements = new HashMap<>();
-            boardElements.put(han, new Pieces(hanPieces));
-            boardElements.put(cho, new Pieces(choPieces));
-
-            return Optional.of(new Board(boardElements));
-        }
-
-        return Optional.empty();
+    private Team switchTurn(final Team team, final BoardDao boardDao) {
+        Team other = Team.getOtherTeam(team);
+        boardDao.updateCurrentTurn(other);
+        return other;
     }
 
     private void end() {
-        BoardDao boardDao = new BoardDao();
-        PlayerDao playerDao = new PlayerDao();
-        PieceDao pieceDao = new PieceDao();
-
         boardDao.clear();
         playerDao.clear();
         pieceDao.clear();
