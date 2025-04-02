@@ -55,10 +55,10 @@ public class DataController {
         return lastTurn.reverse();
     }
 
-    public void update(Position oldPosition, Position newPosition, Piece piece) {
-        PositionDto positionDto = new PositionDto(oldPosition.getRow(), oldPosition.getColumn());
-        PieceDto pieceDto = createPieceDto(newPosition, piece);
-        janggiDao.updatePiece(positionDto, pieceDto);
+    public void update(Position oldPosition, Position newPosition) {
+        PositionDto oldPositionDto = new PositionDto(oldPosition.getRow(), oldPosition.getColumn());
+        PositionDto newPositionDto = new PositionDto(newPosition.getRow(), newPosition.getColumn());
+        janggiDao.updatePiece(oldPositionDto, newPositionDto);
     }
 
     public void resetDatabase() {

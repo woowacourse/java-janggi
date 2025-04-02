@@ -2,7 +2,6 @@ package janggi.manager;
 
 import janggi.domain.JanggiGame;
 import janggi.domain.movement.Position;
-import janggi.domain.piece.Piece;
 import janggi.dto.PositionDto;
 import janggi.util.RecoveryUtil;
 import janggi.view.Viewer;
@@ -53,8 +52,7 @@ public class GameController {
     }
 
     private void updateDatabase(Position oldPosition, Position newPosition) {
-        Piece targetPiece = janggiGame.getPiece(newPosition);
-        dataController.update(oldPosition, newPosition, targetPiece);
+        dataController.update(oldPosition, newPosition);
     }
 
     public void finish() {
