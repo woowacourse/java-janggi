@@ -4,7 +4,6 @@ import domain.board.Board;
 import domain.board.BoardLocation;
 import domain.piece.Piece;
 import domain.piece.PieceType;
-import domain.piece.Score;
 import domain.piece.Team;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
