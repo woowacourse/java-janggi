@@ -81,7 +81,6 @@ public class Board {
                 .sum();
     }
 
-    // TODO: 테스트 작성
     public boolean isFinish() {
         return TOTAL_KING_COUNT != (int) pieces.values()
                 .stream()

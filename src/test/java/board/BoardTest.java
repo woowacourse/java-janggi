@@ -218,4 +218,23 @@ class BoardTest {
         );
     }
 
+    @MethodSource
+    @ParameterizedTest
+    void 궁의_생존_상태에_따라_게임이_끝났는지_알려준다(Map<Position, Piece> pieces, boolean expected) {
+        Board board = new Board(pieces);
+
+        assertThat(board.isFinish()).isEqualTo(expected);
+    }
+
+    private static Stream<Arguments> 궁의_생존_상태에_따라_게임이_끝났는지_알려준다() {
+        return Stream.of(
+                Arguments.of(Map.of(
+                        new Position(9, 5), new King(Team.BLUE)), true
+                ),
+                Arguments.of(Map.of(
+                        new Position(2, 5), new King(Team.RED),
+                        new Position(9, 5), new King(Team.BLUE)), false
+                ));
+    }
+
 }
