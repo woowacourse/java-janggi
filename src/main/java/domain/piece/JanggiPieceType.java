@@ -3,7 +3,7 @@ package domain.piece;
 import domain.piece.movementrule.CannonMovementRule;
 import domain.piece.movementrule.GeneralMovementRule;
 import domain.piece.movementrule.JanggiPieceMovementRule;
-import domain.piece.movementrule.NoneMovementStrategy;
+import domain.piece.movementrule.NoneMovementRule;
 import domain.piece.route.JanggiPieceRoute;
 import domain.piece.route.Route;
 import domain.position.JanggiPosition;
@@ -19,7 +19,7 @@ public enum JanggiPieceType {
     SOLDIER(2, SOLDIER_ROUTE, new GeneralMovementRule()),
     CHARIOT(13, CHARIOT_ROUTE, new GeneralMovementRule()),
     CANNON(7, CANNON_ROUTE, new CannonMovementRule()),
-    EMPTY(0, EMPTY_ROUTE, new NoneMovementStrategy());
+    EMPTY(0, EMPTY_ROUTE, new NoneMovementRule());
 
     private final int score;
     private final JanggiPieceRoute route;
