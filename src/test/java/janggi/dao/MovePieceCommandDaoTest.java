@@ -1,0 +1,70 @@
+package janggi.dao;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
+import janggi.data.fixture.DBFixture;
+import janggi.data.spy.TestDBConnector;
+import janggi.db.DBConnector;
+import janggi.game.GameInformation;
+import janggi.game.MovePieceCommand;
+import janggi.rule.CampType;
+import janggi.rule.PieceAssignType;
+import janggi.value.Position;
+import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+class MovePieceCommandDaoTest {
+
+    DBConnector dbConnector;
+    GameInformationDao gameInformationDao;
+    MovePieceCommandDao movePieceCommandDao;
+
+    @BeforeEach
+    void beforeEach() {
+        dbConnector = new TestDBConnector();
+        gameInformationDao = new GameInformationDao(dbConnector);
+        movePieceCommandDao = new MovePieceCommandDao(dbConnector);
+        DBFixture.resetTable(dbConnector, "move_piece_commands");
+        DBFixture.resetTable(dbConnector, "games");
+    }
+
+    @AfterEach
+    void afterEach() {
+        DBFixture.resetTable(dbConnector, "move_piece_commands");
+        DBFixture.resetTable(dbConnector, "games");
+    }
+
+    @DisplayName("새로운 장기말 이동 명령을 삽입할 수 있다.")
+    @Test
+    void canAddNew() {
+        GameInformation gameInformation = gameInformationDao.addNew("newGame", PieceAssignType.IN_SANG,
+                PieceAssignType.IN_SANG);
+        MovePieceCommand savedCommand = movePieceCommandDao.addNew(
+                gameInformation.getGameId(), CampType.CHO, new Position(4, 4), new Position(5, 5));
+
+        assertAll(
+                () -> assertThat(savedCommand.getCampType()).isEqualTo(CampType.CHO),
+                () -> assertThat(savedCommand.getTargetPiecePosition()).isEqualTo(new Position(4, 4)),
+                () -> assertThat(savedCommand.getDestination()).isEqualTo(new Position(5, 5))
+        );
+    }
+
+    @DisplayName("게임의 장기말 이동 명령들을 조회할 수 있다.")
+    @Test
+    void canFinaAllMovePieceCommand() {
+        GameInformation gameInformation =
+                gameInformationDao.addNew("newGame", PieceAssignType.IN_SANG, PieceAssignType.IN_SANG);
+        MovePieceCommand firstCommand = movePieceCommandDao.addNew(
+                gameInformation.getGameId(), CampType.CHO, new Position(4, 4), new Position(5, 5));
+        MovePieceCommand secondCommand = movePieceCommandDao.addNew(
+                gameInformation.getGameId(), CampType.HAN, new Position(4, 4), new Position(5, 5));
+
+        List<MovePieceCommand> commandsInGame = movePieceCommandDao.findAllInGameId(gameInformation.getGameId());
+        assertThat(commandsInGame).containsExactly(firstCommand, secondCommand);
+
+    }
+}
