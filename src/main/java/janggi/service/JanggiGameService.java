@@ -5,7 +5,6 @@ import janggi.board.dao.JanggiBoardDAO;
 import janggi.board.dao.TeamDAO;
 import janggi.board.dao.TurnDAO;
 import janggi.board.dao.utils.DatabaseUtils;
-import janggi.database.DBConnector;
 import janggi.piece.Piece;
 import janggi.setting.AssignType;
 import janggi.setting.CampType;
