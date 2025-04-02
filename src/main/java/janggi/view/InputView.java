@@ -54,7 +54,7 @@ public class InputView {
 
     private void validateStartOrRecordCommand(Command command) {
         if (command != Command.START && command != Command.RESUME) {
-            throw new ErrorException("게임을 시작하지 않은 상태에서 START 또는 RECORD를 입력해야 합니다.");
+            throw new ErrorException("게임을 시작하지 않은 상태에서 START 또는 RESUME 명령어만 입력해야 합니다.");
         }
     }
 
