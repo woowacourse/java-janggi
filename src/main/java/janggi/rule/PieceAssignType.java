@@ -1,4 +1,4 @@
-package janggi.setting;
+package janggi.rule;
 
 import java.util.List;
 

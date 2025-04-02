@@ -1,9 +1,10 @@
-package janggi.setting;
+package janggi.rule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.fixture.ChoPiecePositionFixture;
 import janggi.fixture.HanPiecePositionFixture;
+import janggi.game.PieceAssigner;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.value.Position;

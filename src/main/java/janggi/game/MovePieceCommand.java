@@ -1,6 +1,6 @@
 package janggi.game;
 
-import janggi.setting.CampType;
+import janggi.rule.CampType;
 import janggi.value.Position;
 
 public final class MovePieceCommand {

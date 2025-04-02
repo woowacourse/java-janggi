@@ -1,8 +1,8 @@
 package janggi.dao;
 
 import janggi.game.GameInformation;
-import janggi.setting.GameState;
-import janggi.setting.PieceAssignType;
+import janggi.rule.GameState;
+import janggi.rule.PieceAssignType;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

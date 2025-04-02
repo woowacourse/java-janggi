@@ -1,7 +1,7 @@
 package janggi.strategy;
 
 import janggi.piece.Piece;
-import janggi.setting.GungSung;
+import janggi.rule.GungSungRange;
 import janggi.value.Direction;
 import janggi.value.Position;
 import janggi.value.RelativePath;
@@ -38,8 +38,8 @@ public class ByungStrategy implements MoveStrategy {
     }
 
     private boolean isPathInGungSung(Position start, Position destination) {
-        boolean isStartInRange = GungSung.isInAnyGungSung(start);
-        boolean isEndInRange = GungSung.isInAnyGungSung(destination);
+        boolean isStartInRange = GungSungRange.isInAnyGungSung(start);
+        boolean isEndInRange = GungSungRange.isInAnyGungSung(destination);
         return isStartInRange && isEndInRange;
     }
 

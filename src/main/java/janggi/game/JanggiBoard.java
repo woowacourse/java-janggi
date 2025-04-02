@@ -2,9 +2,8 @@ package janggi.game;
 
 import janggi.piece.Piece;
 import janggi.piece.Pieces;
-import janggi.setting.CampType;
-import janggi.setting.PieceAssignType;
-import janggi.setting.PieceAssigner;
+import janggi.rule.CampType;
+import janggi.rule.PieceAssignType;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

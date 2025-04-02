@@ -1,6 +1,6 @@
 package janggi.view.answer;
 
-import janggi.setting.PieceAssignType;
+import janggi.rule.PieceAssignType;
 import java.util.Arrays;
 
 public enum PieceAssignTypeAnswer {

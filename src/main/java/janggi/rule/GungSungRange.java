@@ -1,9 +1,9 @@
-package janggi.setting;
+package janggi.rule;
 
 import janggi.value.Position;
 import java.util.List;
 
-public enum GungSung {
+public enum GungSungRange {
     TOP_GUNGSUNG(3, 5, 0, 2),
     BOTTOM_GUNGSUNG(3, 5, 7, 9);
     private final int minX;
@@ -11,7 +11,7 @@ public enum GungSung {
     private final int minY;
     private final int maxY;
 
-    GungSung(int minX, int maxX, int minY, int maxY) {
+    GungSungRange(int minX, int maxX, int minY, int maxY) {
         this.minX = minX;
         this.maxX = maxX;
         this.minY = minY;
@@ -19,8 +19,8 @@ public enum GungSung {
     }
 
     public static boolean isInAnyGungSung(Position position) {
-        List<GungSung> gungSungs = List.of(GungSung.values());
-        return gungSungs.stream().anyMatch(gungSung -> gungSung.isInGungSung(position));
+        List<GungSungRange> gungSungRanges = List.of(GungSungRange.values());
+        return gungSungRanges.stream().anyMatch(gungSung -> gungSung.isInGungSung(position));
     }
 
     private boolean isInGungSung(Position position) {

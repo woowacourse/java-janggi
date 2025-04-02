@@ -1,8 +1,8 @@
 package janggi.view;
 
 import janggi.game.GameInformation;
-import janggi.setting.CampType;
-import janggi.setting.PieceAssignType;
+import janggi.rule.CampType;
+import janggi.rule.PieceAssignType;
 import janggi.value.Position;
 import janggi.view.answer.GameMenuAnswer;
 import janggi.view.answer.PieceAssignTypeAnswer;

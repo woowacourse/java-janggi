@@ -1,4 +1,4 @@
-package janggi.setting;
+package janggi.rule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,13 +9,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class BoardCoordinateTest {
+class BoardPositionRangeTest {
 
     @DisplayName("정해진 보드의 좌표 내에 있는 위치값인지 확인할 수 있다.")
     @ParameterizedTest
     @MethodSource()
     void canCheckRange(Position position, boolean ExpectedIsInGungsung) {
-        boolean isInGungSung = GungSung.isInAnyGungSung(position);
+        boolean isInGungSung = GungSungRange.isInAnyGungSung(position);
         assertThat(isInGungSung).isEqualTo(ExpectedIsInGungsung);
     }
 

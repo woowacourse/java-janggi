@@ -1,7 +1,7 @@
 package janggi.dao;
 
 import janggi.game.MovePieceCommand;
-import janggi.setting.CampType;
+import janggi.rule.CampType;
 import janggi.value.Position;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

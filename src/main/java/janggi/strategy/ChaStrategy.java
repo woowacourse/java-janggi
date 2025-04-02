@@ -1,7 +1,7 @@
 package janggi.strategy;
 
 import janggi.piece.Piece;
-import janggi.setting.GungSung;
+import janggi.rule.GungSungRange;
 import janggi.value.Direction;
 import janggi.value.Path;
 import janggi.value.Position;
@@ -48,7 +48,7 @@ public class ChaStrategy implements MoveStrategy {
     }
 
     private boolean isPathInGungsung(Position start, Position destination) {
-        return GungSung.isInAnyGungSung(start) && GungSung.isInAnyGungSung(destination);
+        return GungSungRange.isInAnyGungSung(start) && GungSungRange.isInAnyGungSung(destination);
     }
 
     private boolean isPossibleDirection(Direction direction, boolean isPathInGungsung) {

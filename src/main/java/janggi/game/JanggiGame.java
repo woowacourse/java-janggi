@@ -2,9 +2,9 @@ package janggi.game;
 
 import janggi.dao.GameInformationDao;
 import janggi.dao.MovePieceCommandDao;
-import janggi.setting.CampType;
-import janggi.setting.GameState;
-import janggi.setting.PieceAssignType;
+import janggi.rule.CampType;
+import janggi.rule.GameState;
+import janggi.rule.PieceAssignType;
 import janggi.view.GameInputOutput;
 import janggi.view.answer.GameMenuAnswer;
 import janggi.view.answer.TurnMenuAnswer;

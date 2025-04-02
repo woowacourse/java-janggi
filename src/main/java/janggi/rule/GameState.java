@@ -1,4 +1,4 @@
-package janggi.setting;
+package janggi.rule;
 
 public enum GameState {
     PLAY, END

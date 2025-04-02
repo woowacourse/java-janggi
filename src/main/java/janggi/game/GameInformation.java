@@ -1,7 +1,7 @@
 package janggi.game;
 
-import janggi.setting.GameState;
-import janggi.setting.PieceAssignType;
+import janggi.rule.GameState;
+import janggi.rule.PieceAssignType;
 
 public final class GameInformation {
 

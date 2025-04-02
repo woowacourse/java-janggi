@@ -1,7 +1,7 @@
 package janggi.view;
 
 import janggi.piece.Piece;
-import janggi.setting.CampType;
+import janggi.rule.CampType;
 import java.util.ArrayList;
 import java.util.List;
 
