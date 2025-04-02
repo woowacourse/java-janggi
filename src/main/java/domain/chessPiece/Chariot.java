@@ -24,10 +24,6 @@ public class Chariot extends UnlimitedMoveChessPiece {
 
     private final HurdlePolicy hurdlePolicy = new StopAtHurdlePolicy();
 
-    public Chariot(final ChessTeam team) {
-        super(team, DIRECTIONS);
-    }
-
     public Chariot(final ChessTeam team, final ChessPosition position) {
         super(team, position, DIRECTIONS);
     }

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 class StopAtHurdlePolicyTest {
     
     @Test
-    @DisplayName("적팀 장애물을 만났을때 멈추는 정책을 테스트 한다")
+    @DisplayName("적팀 장애물을 만나기전까지 이동하는 정책을 테스트 한다")
     void test1() {
         //given
         final ChessPiecePositions chessPiecePositions = new ChessPiecePositions(
@@ -35,7 +35,7 @@ class StopAtHurdlePolicyTest {
     }
 
     @Test
-    @DisplayName("아군 장애물을 만났을때 멈추는 정책을 테스트 한다")
+    @DisplayName("아군 장애물을 만나기전까지 이동하는 정책을 테스트 한다")
     void test2() {
         //given
         final ChessPiecePositions chessPiecePositions = new ChessPiecePositions(
