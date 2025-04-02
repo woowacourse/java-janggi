@@ -2,6 +2,7 @@ package janggi.piece;
 
 import janggi.piece.movement.MovementRule;
 import janggi.piece.movement.OneBlockMovementRule;
+import janggi.piece.movement.SoldierMovementRule;
 import janggi.piece.path.OneBlockMovementPathCalculator;
 import janggi.piece.path.PathCalculator;
 import janggi.position.Direction;
@@ -17,7 +18,7 @@ public class Soldier extends Piece {
     public Soldier(final Color color) {
         super(color);
         this.pathCalculator = new OneBlockMovementPathCalculator();
-        this.movementRule = new OneBlockMovementRule();
+        this.movementRule = new SoldierMovementRule();
     }
 
     @Override
