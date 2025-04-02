@@ -51,7 +51,7 @@ public class JanggiGame {
     private void attemptLoadSavedGame() {
         UserAction userAction = inputView.askLoadSavedGame();
         if (userAction == UserAction.YES) {
-            board = JanggiBoard.loadBoard(boardDao.loadBoard(), boardDao.loadBoardStatus());
+            board = boardDao.loadBoard();
         }
     }
 
@@ -70,7 +70,6 @@ public class JanggiGame {
 
     private void saveBoard() {
         boardDao.saveBoard(board);
-        boardDao.saveBoardStatus(board);
     }
 
 }

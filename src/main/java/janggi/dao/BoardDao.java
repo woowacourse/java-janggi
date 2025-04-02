@@ -27,80 +27,63 @@ public class BoardDao {
     }
 
     public void saveBoard(JanggiBoard board) {
-        final String query = "INSERT INTO board (piece_id, x, y, piece, side) VALUES (?, ?, ?, ?, ?) " +
+        final String boardQuery = "INSERT INTO board (piece_id, x, y, piece, side) VALUES (?, ?, ?, ?, ?) " +
                 "ON CONFLICT(piece_id) DO UPDATE SET x = excluded.x, y = excluded.y, piece = excluded.piece, side = excluded.side";
+        final String statusQuery = "UPDATE board_status SET status = ?";
 
         try (final Connection connection = getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+             final PreparedStatement boardStatement = connection.prepareStatement(boardQuery);
+             final PreparedStatement statusStatement = connection.prepareStatement(statusQuery)) {
 
             for (Map.Entry<Position, Piece> entry : board.getBoard().entrySet()) {
-                preparedStatement.setInt(1, entry.getKey().hashCode());
-                preparedStatement.setInt(2, entry.getKey().getX());
-                preparedStatement.setInt(3, entry.getKey().getY());
-                preparedStatement.setString(4, entry.getValue().getSymbol().toString());
-                preparedStatement.setString(5, entry.getValue().getSide().toString());
-                preparedStatement.executeUpdate();
+                boardStatement.setInt(1, entry.getKey().hashCode());
+                boardStatement.setInt(2, entry.getKey().getX());
+                boardStatement.setInt(3, entry.getKey().getY());
+                boardStatement.setString(4, entry.getValue().getSymbol().toString());
+                boardStatement.setString(5, entry.getValue().getSide().toString());
+                boardStatement.executeUpdate();
             }
+
+            statusStatement.setString(1, board.getStatus().toString());
+            statusStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("장기판 저장 중 오류 발생", e);
         }
     }
 
-    public void saveBoardStatus(JanggiBoard board) {
-        final String query = "UPDATE board_status SET status = ?";
+    public JanggiBoard loadBoard() {
+        final String boardQuery = "SELECT x, y, piece, side FROM board";
+        final String statusQuery = "SELECT status FROM board_status";
 
-        try (final Connection connection = getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            String status = board.getStatus().toString();
-            preparedStatement.setString(1, status);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("장기판 상태 저장 중 오류 발생", e);
-        }
-    }
-
-    public Map<Position, Piece> loadBoard() {
-        final String query = "SELECT x, y, piece, side FROM board";
         Map<Position, Piece> boardMap = new HashMap<>();
+        BoardStatus boardStatus = null;
 
         try (final Connection connection = getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query);
-             final ResultSet resultSet = preparedStatement.executeQuery()) {
+             final PreparedStatement boardStatement = connection.prepareStatement(boardQuery);
+             final PreparedStatement statusStatement = connection.prepareStatement(statusQuery);
+             final ResultSet boardResultSet = boardStatement.executeQuery();
+             final ResultSet statusResultSet = statusStatement.executeQuery()) {
 
-            while (resultSet.next()) {
-                int x = resultSet.getInt("x");
-                int y = resultSet.getInt("y");
-                String pieceSymbol = resultSet.getString("piece");
-                String side = resultSet.getString("side");
+            while (boardResultSet.next()) {
+                int x = boardResultSet.getInt("x");
+                int y = boardResultSet.getInt("y");
+                String pieceSymbol = boardResultSet.getString("piece");
+                String side = boardResultSet.getString("side");
 
                 Position position = new Position(x, y);
                 Piece piece = PieceFactory.createPiece(pieceSymbol, side);
                 boardMap.put(position, piece);
             }
+
+            if (statusResultSet.next()) {
+                boardStatus = BoardStatus.valueOf(statusResultSet.getString("status"));
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException("장기판 불러오기 중 오류 발생", e);
         }
 
-        return boardMap;
+        return JanggiBoard.loadBoard(boardMap, boardStatus);
     }
 
-    public BoardStatus loadBoardStatus() {
-        final String query = "SELECT status FROM board_status";
-        BoardStatus boardStatus = null;
-
-        try (final Connection connection = getConnection();
-             final PreparedStatement preparedStatement = connection.prepareStatement(query);
-             final ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            if (resultSet.next()) {
-                String status = resultSet.getString("status");
-                boardStatus = BoardStatus.valueOf(status);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("장기판 상태 불러오기 중 오류 발생", e);
-        }
-
-        return boardStatus;
-    }
 }
