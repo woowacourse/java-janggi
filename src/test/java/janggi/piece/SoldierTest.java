@@ -25,7 +25,7 @@ class SoldierTest {
         board = BoardFactory.emptyBoard(Camp.CHO);
     }
 
-    @DisplayName("군인이 뒤로 움직일 경우 예외가 발생한다.")
+    @DisplayName("졸병이 뒤로 움직일 경우 예외가 발생한다.")
     @ParameterizedTest
     @CsvSource({
             "HAN,2",
@@ -42,10 +42,10 @@ class SoldierTest {
         // when & then
         assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
-                .hasMessageContaining("군인은 뒤로 갈 수 없습니다.");
+                .hasMessageContaining("졸병은 뒤로 갈 수 없습니다.");
     }
 
-    @DisplayName("군인은 앞 또는 양 옆으로 한 칸만 움직일 수 있다.")
+    @DisplayName("졸병은 앞 또는 양 옆으로 한 칸만 움직일 수 있다.")
     @ParameterizedTest
     @CsvSource({
             "HAN,0,1",
@@ -68,7 +68,7 @@ class SoldierTest {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("군인은 앞 또는 양 옆으로 한 칸만 움직일 수 있다.")
+    @DisplayName("졸병은 앞 또는 양 옆으로 한 칸만 움직일 수 있다.")
     @ParameterizedTest
     @CsvSource({
             "HAN,3,1",
@@ -85,7 +85,7 @@ class SoldierTest {
         // when & then
         assertThatCode(() -> piece.validateMove(movement, board))
                 .isInstanceOf(ErrorException.class)
-                .hasMessageContaining("군인은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
+                .hasMessageContaining("졸병은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
     }
 
     @DisplayName("같은 진영의 기물을 잡을 경우 예외가 발생한다.")

@@ -20,7 +20,7 @@ public final class Soldier extends Piece {
     @Override
     public void validateMove(Movement movement, Board board) {
         if (checkBackwardMove(movement.origin(), movement.target())) {
-            throw new ErrorException("군인은 뒤로 갈 수 없습니다.");
+            throw new ErrorException("졸병은 뒤로 갈 수 없습니다.");
         }
         validateSoldierMove(movement.origin(), movement.target());
     }
@@ -34,7 +34,7 @@ public final class Soldier extends Piece {
 
     private void validateSoldierMove(Position origin, Position target) {
         if (Math.abs(target.y() - origin.y() + origin.x() - target.x()) != MOVE_DISTANCE) {
-            throw new ErrorException("군인은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
+            throw new ErrorException("졸병은 앞 또는 양 옆으로 한 칸만 움직일 수 있습니다.");
         }
     }
 }
