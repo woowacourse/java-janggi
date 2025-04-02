@@ -2,7 +2,6 @@ import controller.JanggiController;
 import dao.GameDao;
 import dao.JdbcConnection;
 import dao.PieceDao;
-import service.PieceService;
 import view.ConsoleView;
 import view.InputView;
 import view.OutputView;
@@ -14,8 +13,8 @@ public class Application {
         ConsoleView consoleView = new ConsoleView(new InputView(), new OutputView(new OutputSupporter()));
         JdbcConnection jdbcConnection = new JdbcConnection();
         GameDao gameDao = new GameDao(jdbcConnection);
-        PieceService pieceService = new PieceService(new PieceDao(jdbcConnection));
-        JanggiController janggiController = new JanggiController(consoleView, gameDao, pieceService);
+        PieceDao pieceDao = new PieceDao(jdbcConnection);
+        JanggiController janggiController = new JanggiController(consoleView, gameDao, pieceDao);
         janggiController.start();
     }
 }
