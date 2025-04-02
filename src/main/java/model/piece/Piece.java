@@ -2,7 +2,6 @@ package model.piece;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.ToIntFunction;
 
 import model.Position;
@@ -84,19 +83,5 @@ public abstract class Piece {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof Piece piece))
-            return false;
-        return Objects.equals(id, piece.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 }
