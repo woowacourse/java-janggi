@@ -18,9 +18,9 @@ public class BoardConverter {
         Position position = survivedPieces.getKey();
         Piece piece = survivedPieces.getValue();
 
-        String dynasty = "CHO";
+        String dynasty = Dynasty.CHO.name();
         if (piece.hasDynasty(Dynasty.HAN)) {
-            dynasty = "HAN";
+            dynasty = Dynasty.HAN.name();
         }
 
         return new PieceEntity(position.getRow(), position.getColumn(),
