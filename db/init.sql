@@ -24,3 +24,14 @@ CREATE TABLE turn (
     team_id INT NOT NULL PRIMARY KEY,
     foreign key (team_id) references team(id)
 );
+
+INSERT INTO team (name) VALUES ('BLUE'), ('RED');
+
+INSERT INTO piece_type (name) VALUES
+                                  ('CANNON'),
+                                  ('CHARIOT'),
+                                  ('HORSE'),
+                                  ('ELEPHANT'),
+                                  ('GUARD'),
+                                  ('PAWN'),
+                                  ('KING');
