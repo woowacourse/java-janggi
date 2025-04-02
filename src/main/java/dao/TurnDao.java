@@ -7,9 +7,6 @@ public class TurnDao {
         final var query = "SELECT turn FROM Turn";
 
         try (final var connection = Connector.getConnection()) {
-            if (connection == null) {
-                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
-            }
             try (final var statement = connection.createStatement();
                  final var resultSet = statement.executeQuery(query)) {
 
@@ -27,9 +24,6 @@ public class TurnDao {
         final var query = "UPDATE Turn SET turn = 0";
 
         try (final var connection = Connector.getConnection()) {
-            if (connection == null) {
-                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
-            }
             try (final var statement = connection.createStatement()) {
                 int rowsAffected = statement.executeUpdate(query);
                 if (rowsAffected == 0) {
@@ -45,9 +39,6 @@ public class TurnDao {
         final var query = "UPDATE Turn SET turn = turn + 1";
 
         try (final var connection = Connector.getConnection()) {
-            if (connection == null) {
-                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
-            }
             try (final var statement = connection.createStatement()) {
                 int rowsAffected = statement.executeUpdate(query);
                 if (rowsAffected == 0) {

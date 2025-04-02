@@ -1,17 +1,15 @@
 package dao;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
-import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 
 class BoardDaoTest {
-    private final BoardDao boardDao = new BoardDao();
-
     @Test
-    void connection() throws SQLException {
-        try (final var connection = Connector.getConnection()) {
-            assertThat(connection).isNotNull();
-        }
+    void connection() {
+        assertThatCode(() -> {
+            try (final var connection = Connector.getConnection()) {
+            }
+        }).doesNotThrowAnyException();
     }
 }

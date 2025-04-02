@@ -9,9 +9,6 @@ public final class BoardDao {
         final var query = "DELETE FROM Board";
 
         try (final var connection = Connector.getConnection()) {
-            if (connection == null) {
-                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
-            }
             try (final var statement = connection.createStatement()) {
                 statement.executeUpdate(query);
             }
@@ -28,9 +25,6 @@ public final class BoardDao {
         final var query = "INSERT INTO Board VALUES(?, ?, ?, ?)";
 
         try (final var connection = Connector.getConnection()) {
-            if (connection == null) {
-                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
-            }
             try (final var preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setInt(1, pieceEntity.row());
                 preparedStatement.setInt(2, pieceEntity.column());
@@ -49,9 +43,6 @@ public final class BoardDao {
         final List<PieceEntity> pieceEntities = new ArrayList<>();
 
         try (final var connection = Connector.getConnection()) {
-            if (connection == null) {
-                throw new SQLException("데이터 베이스 연결에 실패했습니다.");
-            }
             try (final var statement = connection.createStatement();
                  final var resultSet = statement.executeQuery(query)) {
 
