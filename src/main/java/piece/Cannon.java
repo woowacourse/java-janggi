@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import board.Board;
 import board.Position;
-import piece.movement.PalaceMovement;
 
 public class Cannon extends Piece {
 
@@ -33,21 +32,23 @@ public class Cannon extends Piece {
 
     private Map<Direction, Position> findHurdlePositions(final Position position, final Board board) {
         Map<Direction, Position> hurdlePositions = new EnumMap<>(Direction.class);
-        if (position.isPalacePosition() && PalaceMovement.hasDiagonalDirectionPosition(position)) {
-            PalaceMovement.getMatchedDiagonalDirections(position).forEach(diagonalDirection -> {
-                Position hurdlePosition = findHurdlePosition(position, board, diagonalDirection);
-                if (hasHurdle(position, hurdlePosition)) {
-                    hurdlePositions.put(diagonalDirection, hurdlePosition);
-                }
-            });
-        }
-        Direction.getStraightDirection().forEach(straightDirection -> {
-            Position hurdlePosition = findHurdlePosition(position, board, straightDirection);
-            if (hasHurdle(position, hurdlePosition)) {
-                hurdlePositions.put(straightDirection, hurdlePosition);
+        for (Direction direction : Direction.values()) {
+            Position hurdlePosition = findHurdlePosition(position, board, direction);
+            if (hasHurdleInDiagonalDirection(position, hurdlePosition, direction)) {
+                hurdlePositions.put(direction, hurdlePosition);
             }
-        });
+            if (hasHurdle(position, hurdlePosition)) {
+                hurdlePositions.put(direction, hurdlePosition);
+            }
+        }
         return hurdlePositions;
+    }
+
+    private boolean hasHurdleInDiagonalDirection(
+            final Position position, final Position hurdlePosition, final Direction direction
+    ) {
+        return hasHurdle(position, hurdlePosition) && direction.isDiagonal()
+               && position.isPalacePosition() && hurdlePosition.isPalacePosition();
     }
 
     private boolean hasHurdle(final Position position, final Position hurdlePosition) {

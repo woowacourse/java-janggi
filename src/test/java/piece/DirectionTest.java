@@ -29,7 +29,7 @@ class DirectionTest {
             "BOTTOM,false"
     })
     @ParameterizedTest
-    void 대각선_방향을_반환한다(Direction direction, boolean expected) {
+    void 대각선_방향인지_알려준다(Direction direction, boolean expected) {
         assertThat(direction.isDiagonal()).isEqualTo(expected);
     }
 
