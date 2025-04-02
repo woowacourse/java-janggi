@@ -1,9 +1,9 @@
 package janggi.piece;
 
-import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.piece.rule.movement.MovementRule;
 import janggi.piece.rule.movement.StraightMovementRule;
+import janggi.player.Team;
 
 import java.util.List;
 

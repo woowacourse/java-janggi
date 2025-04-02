@@ -27,8 +27,8 @@ class TeamTest {
     @DisplayName("문자열 'CHO', 'HAN'을 Team enum 값으로 변환할 수 있다")
     void TeamFrom() {
         // given
-        String cho = "CHO";
-        String han = "HAN";
+        final String cho = "CHO";
+        final String han = "HAN";
 
         // when
         final Team choTeam = Team.from(cho);

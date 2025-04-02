@@ -1,11 +1,11 @@
 package janggi.piece;
 
 import janggi.board.Board;
-import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Route;
 import janggi.piece.rule.movement.MovementRule;
 import janggi.piece.rule.movement.StraightMovementRule;
+import janggi.player.Team;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package fixture;
 
-import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.piece.Cannon;
 import janggi.piece.Chariot;
@@ -11,6 +10,7 @@ import janggi.piece.Horse;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Soldier;
+import janggi.player.Team;
 
 public class PieceFixture {
 

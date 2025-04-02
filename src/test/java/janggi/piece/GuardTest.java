@@ -1,9 +1,9 @@
 package janggi.piece;
 
 import janggi.board.Board;
-import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
+import janggi.player.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

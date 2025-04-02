@@ -2,11 +2,11 @@ package janggi.piece.rule.block;
 
 import fixture.PieceFixture;
 import janggi.board.Board;
-import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Pieces;
+import janggi.player.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

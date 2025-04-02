@@ -1,10 +1,10 @@
 package janggi.piece;
 
 import janggi.board.Board;
-import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.piece.rule.movement.MovementRule;
 import janggi.piece.rule.movement.SingleMovementRule;
+import janggi.player.Team;
 
 public class General extends Piece {
 
