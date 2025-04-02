@@ -14,11 +14,11 @@ import java.util.List;
 
 public class GameInformationDao {
 
-    private static final String GAME_ID_FIELD = "gameId";
-    private static final String GAME_TITLE_FIELD = "gameTitle";
-    private static final String CHO_ASSIGN_FIELD = "choAssignType";
-    private static final String HAN_ASSIGN_FIELD = "hanAssignType";
-    private static final String GAME_STATE_FIELD = "gameState";
+    private static final String GAME_ID_COLUMN = "game_id";
+    private static final String GAME_TITLE_COLUMN = "title";
+    private static final String CHO_ASSIGN_COLUMN = "cho_assign_type";
+    private static final String HAN_ASSIGN_COLUMN = "han_assign_type";
+    private static final String GAME_STATE_COLUMN = "game_state";
 
     private final DatabaseConnector databaseConnector;
 
@@ -27,7 +27,7 @@ public class GameInformationDao {
     }
 
     public int addNew(String title, PieceAssignType choAssignType, PieceAssignType hanAssignType) {
-        String query = "INSERT INTO games (gameTitle, choAssignType, hanAssignType, gameState) VALUES(?, ?, ?, ?)";
+        String query = "INSERT INTO games (title, cho_assign_type, han_assign_type, game_state) VALUES(?, ?, ?, ?)";
         try (
                 Connection connection = databaseConnector.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)
@@ -46,7 +46,7 @@ public class GameInformationDao {
     }
 
     public List<GameInformation> findAllInPlaying() {
-        String query = "select * from games where games.gameState = ?";
+        String query = "select * from games where games.game_state = ?";
         try (
                 Connection connection = databaseConnector.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -60,7 +60,7 @@ public class GameInformationDao {
     }
 
     public void updateGameStateToEnd(int gameId) {
-        String query = "UPDATE games SET gameState = ? WHERE gameId = ?;";
+        String query = "UPDATE games SET game_state = ? WHERE game_id = ?;";
         try (
                 Connection connection = databaseConnector.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -78,11 +78,11 @@ public class GameInformationDao {
         try {
             while (resultSet.next()) {
                 GameInformation gameInformation = new GameInformation(
-                        resultSet.getInt(GAME_ID_FIELD),
-                        resultSet.getString(GAME_TITLE_FIELD),
-                        PieceAssignType.valueOf(resultSet.getString(CHO_ASSIGN_FIELD)),
-                        PieceAssignType.valueOf(resultSet.getString(HAN_ASSIGN_FIELD)),
-                        GameState.valueOf(resultSet.getString(GAME_STATE_FIELD))
+                        resultSet.getInt(GAME_ID_COLUMN),
+                        resultSet.getString(GAME_TITLE_COLUMN),
+                        PieceAssignType.valueOf(resultSet.getString(CHO_ASSIGN_COLUMN)),
+                        PieceAssignType.valueOf(resultSet.getString(HAN_ASSIGN_COLUMN)),
+                        GameState.valueOf(resultSet.getString(GAME_STATE_COLUMN))
                 );
                 informations.add(gameInformation);
             }

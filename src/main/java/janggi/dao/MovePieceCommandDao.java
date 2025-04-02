@@ -13,11 +13,11 @@ import java.util.List;
 
 public class MovePieceCommandDao {
 
-    private static final String CAMP_TYPE_FIELD = "campType";
-    private static final String TARGET_X_POSITION_FIELD = "targetPieceXPosition";
-    private static final String TARGET_Y_POSITION_FIELD = "targetPieceYPosition";
-    private static final String DESTINATION_X_POSITION_FIELD = "destinationXPosition";
-    private static final String DESTINATION_Y_POSITION_FIELD = "destinationYPosition";
+    private static final String CAMP_TYPE_COLUMN = "camp_type";
+    private static final String TARGET_X_POSITION_COLUMN = "target_piece_x_position";
+    private static final String TARGET_Y_POSITION_COLUMN = "target_piece_y_position";
+    private static final String DESTINATION_X_POSITION_COLUMN = "destination_x_position";
+    private static final String DESTINATION_Y_POSITION_COLUMN = "destination_y_position";
 
     private final DatabaseConnector databaseConnector;
 
@@ -26,8 +26,8 @@ public class MovePieceCommandDao {
     }
 
     public void addMovePieceCommand(int gameId, MovePieceCommand movePieceCommand) {
-        String query = "INSERT INTO movePieceRecords "
-                + "(gameId, campType, targetPieceXPosition, targetPieceYPosition, destinationXPosition, destinationYPosition) "
+        String query = "INSERT INTO move_piece_records "
+                + "(game_id, camp_type, target_piece_x_position, target_piece_y_position, destination_x_position, destination_y_position) "
                 + "VALUES(?, ?, ?, ?, ?, ?)";
         try (
                 Connection connection = databaseConnector.getConnection();
@@ -46,7 +46,7 @@ public class MovePieceCommandDao {
     }
 
     public List<MovePieceCommand> finaAllMovePieceCommand(int gameId) {
-        String query = "select * from movePieceRecords WHERE movePieceRecords.gameId = ? ORDER BY movePieceRecords.created_at ASC;";
+        String query = "select * from move_piece_records WHERE move_piece_records.game_id = ? ORDER BY move_piece_records.created_at ASC;";
         try (
                 Connection connection = databaseConnector.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query);
@@ -63,13 +63,13 @@ public class MovePieceCommandDao {
         List<MovePieceCommand> commands = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                CampType campType = CampType.valueOf(resultSet.getString(CAMP_TYPE_FIELD));
+                CampType campType = CampType.valueOf(resultSet.getString(CAMP_TYPE_COLUMN));
                 Position targetPiecePosition = new Position(
-                        resultSet.getInt(TARGET_X_POSITION_FIELD),
-                        resultSet.getInt(TARGET_Y_POSITION_FIELD));
+                        resultSet.getInt(TARGET_X_POSITION_COLUMN),
+                        resultSet.getInt(TARGET_Y_POSITION_COLUMN));
                 Position destination = new Position(
-                        resultSet.getInt(DESTINATION_X_POSITION_FIELD),
-                        resultSet.getInt(DESTINATION_Y_POSITION_FIELD));
+                        resultSet.getInt(DESTINATION_X_POSITION_COLUMN),
+                        resultSet.getInt(DESTINATION_Y_POSITION_COLUMN));
                 MovePieceCommand command = new MovePieceCommand(campType, targetPiecePosition, destination);
                 commands.add(command);
             }
