@@ -2,6 +2,10 @@ package janggi.player;
 
 public record Score(int value) {
 
+    public static Score from(final int value) {
+        return new Score(value);
+    }
+
     public static Score soldier() {
         return new Score(2);
     }
