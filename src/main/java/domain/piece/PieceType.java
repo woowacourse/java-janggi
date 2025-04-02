@@ -1,4 +1,4 @@
-package domain.piece.category;
+package domain.piece;
 
 import java.util.Arrays;
 

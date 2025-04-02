@@ -1,6 +1,5 @@
 package domain.piece;
 
-import domain.piece.category.PieceType;
 import domain.position.Palace;
 import domain.position.Position;
 import java.util.List;

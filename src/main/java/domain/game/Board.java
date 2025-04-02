@@ -1,8 +1,8 @@
 package domain.game;
 
 import domain.piece.Piece;
+import domain.piece.PieceType;
 import domain.piece.Pieces;
-import domain.piece.category.PieceType;
 import domain.player.Player;
 import domain.position.Position;
 import java.util.List;

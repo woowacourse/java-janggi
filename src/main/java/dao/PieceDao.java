@@ -2,7 +2,7 @@ package dao;
 
 import domain.piece.MovementRule;
 import domain.piece.Piece;
-import domain.piece.category.PieceType;
+import domain.piece.PieceType;
 import domain.player.Player;
 import domain.player.Team;
 import domain.position.Position;

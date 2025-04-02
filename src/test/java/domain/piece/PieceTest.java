@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import domain.direction.Direction;
 import domain.direction.Directions;
 import domain.direction.Vector;
-import domain.piece.category.PieceType;
 import domain.position.Position;
 import java.util.List;
 import java.util.Set;

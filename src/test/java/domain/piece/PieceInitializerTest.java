@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import domain.game.SetUp;
-import domain.piece.category.PieceType;
 import domain.player.Team;
 import java.util.List;
 import org.junit.jupiter.api.Test;

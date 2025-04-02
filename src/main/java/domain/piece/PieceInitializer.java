@@ -1,7 +1,6 @@
 package domain.piece;
 
 import domain.game.SetUp;
-import domain.piece.category.PieceType;
 import domain.player.Team;
 import domain.position.Position;
 import java.util.ArrayList;

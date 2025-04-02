@@ -2,7 +2,7 @@ package domain.game;
 
 import domain.piece.MovementRule;
 import domain.piece.Piece;
-import domain.piece.category.PieceType;
+import domain.piece.PieceType;
 import domain.position.Position;
 import java.util.ArrayList;
 import java.util.Arrays;
