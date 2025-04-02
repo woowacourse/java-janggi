@@ -1,4 +1,4 @@
-package dao.converter;
+package service.converter;
 
 import dao.PieceInfo;
 import janggiGame.Board;

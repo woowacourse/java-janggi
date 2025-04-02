@@ -1,14 +1,14 @@
 import dao.BoardDao;
 import dao.PieceInfo;
 import dao.TurnDao;
-import dao.converter.BoardConverter;
-import dao.converter.DBConverter;
 import janggiGame.Board;
 import janggiGame.Position;
 import janggiGame.arrangement.ArrangementOption;
 import janggiGame.arrangement.ArrangementStrategy;
 import janggiGame.piece.character.Dynasty;
 import java.util.List;
+import service.converter.BoardConverter;
+import service.converter.DBConverter;
 import view.InputView;
 import view.OutputView;
 
