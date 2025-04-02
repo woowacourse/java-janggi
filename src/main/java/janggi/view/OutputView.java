@@ -38,7 +38,7 @@ public class OutputView {
         OccupiedPositions occupiedPositions = board.generateOccupiedPositions();
         if (occupiedPositions.existPosition(position)) {
             PieceIdentity pieceIdentity = occupiedPositions.getPieceIdentity(position);
-            return convertContentColor(pieceIdentity.getColor(), pieceIdentity.getPieceType().getName());
+            return convertContentColor(pieceIdentity.color(), pieceIdentity.getPieceType().getName());
         }
         return BLANK_CELL;
     }

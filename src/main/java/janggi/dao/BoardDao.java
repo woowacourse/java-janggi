@@ -22,36 +22,40 @@ import java.sql.SQLException;
 import java.util.Map.Entry;
 
 public class BoardDao {
+    public static final String ROW_INDEX = "rowIndex";
+    public static final String COLUMN_INDEX = "columnIndex";
+    public static final String TEAM_COLOR = "teamColor";
+    public static final String PIECE_TYPE = "pieceType";
     private final DBConnection dbConnection;
 
     public BoardDao(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
     }
 
-    public void updateBoard(OccupiedPositions occupiedPositions) {
-        try (Connection janggiConnection = dbConnection.getJanggiConnection()) {
-            janggiConnection.prepareStatement("DELETE FROM board").executeUpdate();
-            for (Entry<Position, PieceIdentity> entry : occupiedPositions.getPositions().entrySet()) {
-                PreparedStatement statement = janggiConnection.prepareStatement("INSERT INTO board VALUES (?, ?, ?, ?)");
-                statement.setString(1, String.valueOf(entry.getKey().row()));
-                statement.setString(2, String.valueOf(entry.getKey().column()));
-                statement.setString(3, String.valueOf(entry.getValue().getColor()));
-                statement.setString(4, String.valueOf(entry.getValue().getPieceType()));
-                statement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public void updateOccupiedPositions(OccupiedPositions occupiedPositions) {
+        dbConnection.executeUpdate("DELETE FROM board");
+        for (Entry<Position, PieceIdentity> entry : occupiedPositions.getPositions().entrySet()) {
+            dbConnection.executeUpdate("INSERT INTO board VALUES (?, ?, ?, ?)",
+                    String.valueOf(entry.getKey().row()),
+                    String.valueOf(entry.getKey().column()),
+                    String.valueOf(entry.getValue().color()),
+                    String.valueOf(entry.getValue().getPieceType())
+            );
         }
     }
 
     public Board findBoard() {
         Board board = new Board();
-        try (Connection janggiConnection = dbConnection.getJanggiConnection()) {
-            ResultSet resultSet = janggiConnection.prepareStatement("SELECT * FROM board").executeQuery();
-            while(resultSet.next()) {
-                Position position = new Position(resultSet.getInt("rowIndex"), resultSet.getInt("columnIndex"));
-                Color color = Color.from(resultSet.getString("teamColor"));
-                PieceType pieceType = PieceType.from(resultSet.getString("pieceType"));
+        try (PreparedStatement statement = dbConnection.generatePreparedStatement("SELECT * FROM board");
+             ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet.next()) {
+                Position position = new Position(
+                        resultSet.getInt(ROW_INDEX),
+                        resultSet.getInt(COLUMN_INDEX)
+                );
+                Color color = Color.from(resultSet.getString(TEAM_COLOR));
+                PieceType pieceType = PieceType.from(resultSet.getString(PIECE_TYPE));
                 board.putPiece(position, convertPiece(pieceType, color));
             }
             return board;
@@ -69,7 +73,6 @@ public class BoardDao {
             case KING -> new King(color);
             case GUARD -> new Guard(color);
             case SOLDIER -> new Soldier(color);
-            default -> throw new IllegalArgumentException("존재하지 않는 기물 형식입니다." + pieceType);
         };
     }
 

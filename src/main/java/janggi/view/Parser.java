@@ -9,6 +9,9 @@ public class Parser {
         String[] positions = content.split(", ");
         String[] startPosition = positions[0].split("");
         String[] endPosition = positions[1].split("");
+        if (positions.length != 2) {
+            throw new IllegalArgumentException("입력 형식을 확인해주세요.");
+        }
         return List.of(
                 new Position(parseInt(startPosition[0]), parseInt(startPosition[1])),
                 new Position(parseInt(endPosition[0]), parseInt(endPosition[1]))

@@ -1,22 +1,19 @@
 package janggi.controller;
 
-import janggi.dao.BoardDao;
-import janggi.dao.TurnDao;
 import janggi.db.DBConnection;
+import janggi.db.DBInitializer;
 import janggi.model.Color;
 import janggi.model.JanggiGame;
-import janggi.view.Parser;
 import janggi.model.Position;
-import janggi.model.Turn;
 import janggi.view.InputView;
 import janggi.view.OutputView;
+import janggi.view.Parser;
 import java.util.List;
 
 public class JanggiController {
     private final InputView inputView;
     private final OutputView outputView;
-    private final BoardDao boardDao = new BoardDao(new DBConnection());
-    private final TurnDao turnDao = new TurnDao(new DBConnection());
+    private final DBInitializer dbInitializer = new DBInitializer(new DBConnection());
 
     public JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
@@ -24,26 +21,32 @@ public class JanggiController {
     }
 
     public void run() {
-        Turn turn = new Turn(turnDao.findCurrentTurn());
-        JanggiGame janggiGame = new JanggiGame(boardDao.findBoard(), turn);
-        outputView.printBoard(janggiGame.getBoard());
+        if (!dbInitializer.existDb()) {
+            dbInitializer.init();
+        }
+        JanggiGame janggiGame = new JanggiGame();
         retry(() -> playGame(janggiGame));
     }
 
     private void playGame(final JanggiGame janggiGame) {
-        String command = inputView.inputMovePositions(janggiGame.getCurrentTurn().name());
+        double redTeamScore = janggiGame.calculateScore(Color.RED);
+        double blueTeamScore = janggiGame.calculateScore(Color.BLUE);
+        outputView.printBoard(janggiGame.getBoard());
+        outputView.printRedTeamScore(redTeamScore);
+        outputView.printBlueTeamScore(blueTeamScore);
+        Color currentTurnColor = janggiGame.getCurrentTurn();
+        String command = inputView.inputMovePositions(currentTurnColor);
         if (command.equals("Q")) {
-            boardDao.updateBoard(janggiGame.getBoard().generateOccupiedPositions());
-            turnDao.updateCurrentTurn(janggiGame.getCurrentTurn());
             return;
+        }
+        if (command.equals("C")) {
+            dbInitializer.init();
+            playGame(janggiGame);
         }
         List<Position> positions = Parser.parsePositions(command);
         Position startPosition = positions.get(0);
         Position endPosition = positions.get(1);
-        janggiGame.move(startPosition, endPosition);
-        outputView.printBoard(janggiGame.getBoard());
-        outputView.printRedTeamScore(janggiGame.calculateScore(Color.RED));
-        outputView.printBlueTeamScore(janggiGame.calculateScore(Color.BLUE));
+        janggiGame.playTurn(startPosition, endPosition);
         playGame(janggiGame);
     }
 

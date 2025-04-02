@@ -19,11 +19,11 @@ public abstract class Piece {
     }
 
     public Color getColor() {
-        return pieceIdentity.getColor();
+        return pieceIdentity.color();
     }
 
     public boolean isEqualsColor(Color color) {
-        return pieceIdentity.getColor() == color;
+        return pieceIdentity.color() == color;
     }
 
     public abstract Set<Position> calculateMovablePositions(Position start, OccupiedPositions occupied);

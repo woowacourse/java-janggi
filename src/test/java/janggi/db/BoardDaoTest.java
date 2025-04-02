@@ -23,7 +23,24 @@ class BoardDaoTest extends DbTest {
                 new Position(2, 4), new PieceIdentity(Color.BLUE, PieceType.SOLDIER),
                 new Position(1, 4), new PieceIdentity(Color.RED, PieceType.CANNON)
         ));
-        boardDao.updateBoard(occupiedPositions);
+        boardDao.updateOccupiedPositions(occupiedPositions);
+        assertThat(boardDao.findBoard().generateOccupiedPositions().getPositions()).containsAllEntriesOf(Map.of(
+                new Position(4, 4), new PieceIdentity(Color.RED, PieceType.CANNON),
+                new Position(3, 4), new PieceIdentity(Color.BLUE, PieceType.CHARIOT),
+                new Position(2, 4), new PieceIdentity(Color.BLUE, PieceType.SOLDIER),
+                new Position(1, 4), new PieceIdentity(Color.RED, PieceType.CANNON)
+        ));
+    }
+
+    @Test
+    void 보드테이블을_조회한다() {
+        OccupiedPositions occupiedPositions = new OccupiedPositions(Map.of(
+                new Position(4, 4), new PieceIdentity(Color.RED, PieceType.CANNON),
+                new Position(3, 4), new PieceIdentity(Color.BLUE, PieceType.CHARIOT),
+                new Position(2, 4), new PieceIdentity(Color.BLUE, PieceType.SOLDIER),
+                new Position(1, 4), new PieceIdentity(Color.RED, PieceType.CANNON)
+        ));
+        boardDao.updateOccupiedPositions(occupiedPositions);
         assertThat(boardDao.findBoard().generateOccupiedPositions().getPositions()).containsAllEntriesOf(Map.of(
                 new Position(4, 4), new PieceIdentity(Color.RED, PieceType.CANNON),
                 new Position(3, 4), new PieceIdentity(Color.BLUE, PieceType.CHARIOT),

@@ -3,14 +3,7 @@ package janggi.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import janggi.model.Board;
-import janggi.model.Color;
-import janggi.model.OccupiedPositions;
-import janggi.model.PieceIdentity;
-import janggi.model.PieceType;
-import janggi.model.Position;
 import janggi.model.piece.Chariot;
-import janggi.model.piece.King;
 import java.util.Map;
 import java.util.Set;
 import janggi.model.piece.Guard;
@@ -84,9 +77,9 @@ class GuardTest {
         Piece guard = new Chariot(Color.BLUE);
         board.putPiece(position, guard);
 
-        janggiGame.move(position, new Position(10, 6));
+        janggiGame.playTurn(position, new Position(10, 6));
 
-        assertThatThrownBy(() ->janggiGame.move(position, new Position(10, 6)))
+        assertThatThrownBy(() ->janggiGame.playTurn(position, new Position(10, 6)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

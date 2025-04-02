@@ -2,6 +2,7 @@ package janggi.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBConnection {
@@ -11,25 +12,46 @@ public class DBConnection {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "gustn346!@";
 
+    private static Connection janggiConnection;
+    private static Connection dbConnection;
+
     public Connection getJanggiConnection() {
-        String url =  String.format("jdbc:mysql://%s/%s%s", SERVER, DATABASE, OPTION);
         try {
-            return DriverManager.getConnection(url, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
+            if (janggiConnection == null || janggiConnection.isClosed()) {
+                String url = String.format("jdbc:mysql://%s/%s%s", SERVER, DATABASE, OPTION);
+                janggiConnection = DriverManager.getConnection(url, USERNAME, PASSWORD);
+            }
+            return janggiConnection;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
     public Connection getConnection() {
-        String url =  String.format("jdbc:mysql://%s/%s", SERVER, OPTION);
         try {
-            return DriverManager.getConnection(url, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
+            if (dbConnection == null || dbConnection.isClosed()) {
+                String url = String.format("jdbc:mysql://%s/%s", SERVER, OPTION);
+                dbConnection = DriverManager.getConnection(url, USERNAME, PASSWORD);
+            }
+            return dbConnection;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    public void executeUpdate(String sql, String... values) {
+        try (PreparedStatement statement = generatePreparedStatement(sql, values)) {
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public PreparedStatement generatePreparedStatement(String sql, String... values) throws SQLException {
+        PreparedStatement statement = getJanggiConnection().prepareStatement(sql);
+        for (int i = 0; i < values.length; ++i) {
+            statement.setString(i + 1, values[i]);
+        }
+        return statement;
     }
 }

@@ -5,32 +5,39 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MockConnection extends DBConnection {
-    private static final String SERVER = "localhost:3306";
-    private static final String DATABASE = "janggiTest";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "gustn346!@";
+    private static final String JDBC_URL_BASE = "jdbc:h2:mem:";
+    private static final String JANGGI_DB = "janggiTest";
+    private static final String DEFAULT_DB = "defaultTest";
+    private static final String OPTIONS = ";MODE=MySQL;DB_CLOSE_DELAY=-1";
+    private static final String USERNAME = "sa";
+    private static final String PASSWORD = "";
 
     @Override
     public Connection getJanggiConnection() {
-        String url =  String.format("jdbc:mysql://%s/%s%s", SERVER, DATABASE, OPTION);
         try {
+            Class.forName("org.h2.Driver");
+            String url = JDBC_URL_BASE + JANGGI_DB + OPTIONS;
             return DriverManager.getConnection(url, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
+            System.err.println("장기 DB 연결 오류: " + e.getMessage());
+            return null;
+        } catch (ClassNotFoundException e) {
+            System.err.println("H2 드라이버를 찾을 수 없습니다: " + e.getMessage());
             return null;
         }
     }
 
     @Override
     public Connection getConnection() {
-        String url =  String.format("jdbc:mysql://%s/%s", SERVER, OPTION);
         try {
+            Class.forName("org.h2.Driver");
+            String url = JDBC_URL_BASE + DEFAULT_DB + OPTIONS;
             return DriverManager.getConnection(url, USERNAME, PASSWORD);
         } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
+            System.err.println("기본 DB 연결 오류: " + e.getMessage());
+            return null;
+        } catch (ClassNotFoundException e) {
+            System.err.println("H2 드라이버를 찾을 수 없습니다: " + e.getMessage());
             return null;
         }
     }

@@ -36,7 +36,7 @@ public class Board {
     }
 
     private void validateSameColorPiece(Color color, Piece piece) {
-        if (piece.identity().getColor() != color) {
+        if (piece.identity().color() != color) {
             throw new IllegalArgumentException("같은 팀의 기물이 아닙니다.");
         }
     }

@@ -24,13 +24,13 @@ public class King extends Piece {
 
     @Override
     public double getScore() {
-        if (identity().getColor() == Color.BLUE) {
+        if (identity().color() == Color.BLUE) {
             return 0;
         }
         return 1.5;
     }
 
     private boolean destinationIsNotSameColor(OccupiedPositions occupied, Position destination) {
-        return !occupied.existSameColor(destination, identity().getColor());
+        return !occupied.existSameColor(destination, identity().color());
     }
 }

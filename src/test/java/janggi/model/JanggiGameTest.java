@@ -5,11 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.model.piece.Cannon;
 import janggi.model.piece.Chariot;
-import janggi.model.piece.Elephant;
-import janggi.model.piece.Guard;
-import janggi.model.piece.Horse;
-import janggi.model.piece.King;
-import janggi.model.piece.Soldier;
 import org.junit.jupiter.api.Test;
 
 class JanggiGameTest {
@@ -34,7 +29,7 @@ class JanggiGameTest {
         board.putPiece(new Position(5, 4), new Chariot(Color.BLUE));
         JanggiGame janggiGame = new JanggiGame(board, new Turn(Color.BLUE));
 
-        janggiGame.move(position, new Position(4, 5));
+        janggiGame.playTurn(position, new Position(4, 5));
 
         OccupiedPositions occupiedPositions = board.generateOccupiedPositions();
 
@@ -47,7 +42,7 @@ class JanggiGameTest {
         Board board = new Board();
         JanggiGame janggiGame = new JanggiGame(board, new Turn(Color.BLUE));
 
-        assertThatThrownBy(() -> janggiGame.move(
+        assertThatThrownBy(() -> janggiGame.playTurn(
                 new Position(1, 1),
                 new Position(1, 4)
         )).isInstanceOf(IllegalArgumentException.class);
@@ -64,7 +59,7 @@ class JanggiGameTest {
         board.putPiece(position, chariot);
         board.putPiece(new Position(5, 4), new Chariot(Color.BLUE));
 
-        assertThatThrownBy(() -> janggiGame.move(
+        assertThatThrownBy(() -> janggiGame.playTurn(
                 position,
                 new Position(5, 4)
         ));

@@ -28,6 +28,6 @@ public class Guard extends Piece {
     }
 
     private boolean destinationIsNotSameColor(OccupiedPositions occupied, Position destination) {
-        return !occupied.existSameColor(destination, identity().getColor());
+        return !occupied.existSameColor(destination, identity().color());
     }
 }

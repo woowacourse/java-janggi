@@ -46,6 +46,6 @@ public class Elephant extends Piece {
     }
 
     private boolean destinationIsNotSameColor(Position destination, OccupiedPositions occupied) {
-        return !occupied.existSameColor(destination, identity().getColor());
+        return !occupied.existSameColor(destination, identity().color());
     }
 }

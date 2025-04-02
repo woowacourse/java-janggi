@@ -32,7 +32,7 @@ public class OccupiedPositions {
         if (!existPosition(position)) {
             return false;
         }
-        return positions.get(position).getColor() == color;
+        return positions.get(position).color() == color;
     }
 
     public Map<Position, PieceIdentity> getPositions() {

@@ -44,10 +44,10 @@ public class Soldier extends Piece {
     }
 
     private boolean isNotBack(Direction direction) {
-        return !Direction.calculateBackDirection(identity().getColor()).contains(direction);
+        return !Direction.calculateBackDirection(identity().color()).contains(direction);
     }
 
     private boolean destinationIsNotSameColor(OccupiedPositions occupied, Position destination) {
-        return !occupied.existSameColor(destination, identity().getColor());
+        return !occupied.existSameColor(destination, identity().color());
     }
 }
