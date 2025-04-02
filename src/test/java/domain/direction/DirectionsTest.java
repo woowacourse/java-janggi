@@ -44,4 +44,32 @@ class DirectionsTest {
         // then
         assertThat(result).containsAll(expected);
     }
+
+    @Test
+    void 현재_방향들에_새로운_방향을_추가한다() {
+        // given
+        List<Vector> vectors = List.of(Vector.RIGHT);
+        Set<Direction> directionElements = Set.of(new Direction(vectors));
+        Directions directions = new Directions(directionElements, true);
+        Set<Direction> targetDirections = Set.of(
+                new Direction(List.of(Vector.UP_RIGHT)),
+                new Direction(List.of(Vector.UP)),
+                new Direction(List.of(Vector.UP_LEFT))
+        );
+
+        Directions expect = new Directions(
+                Set.of(
+                        new Direction(List.of(Vector.UP_RIGHT)),
+                        new Direction(List.of(Vector.UP)),
+                        new Direction(List.of(Vector.UP_LEFT)),
+                        new Direction(List.of(Vector.RIGHT))
+                ), true
+        );
+
+        // when
+        Directions result = directions.addDirection(targetDirections);
+
+        // then
+        assertThat(result).isEqualTo(expect);
+    }
 }
