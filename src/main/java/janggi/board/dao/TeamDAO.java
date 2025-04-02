@@ -9,7 +9,7 @@ public class TeamDAO {
     private final DatabaseUtils databaseUtils;
     private static final String INSERT_TEAM = "INSERT INTO team(name) values(?)";
     private static final String DROP_TEAM = "DROP TABLE IF EXISTS team";
-    private static final int INDEX_ONE = 1;
+    private static final int NAME = 1;
 
     public TeamDAO(final DatabaseUtils databaseUtils) {
         this.databaseUtils = databaseUtils;
@@ -17,10 +17,10 @@ public class TeamDAO {
 
     public void insertTeam() {
         try (final PreparedStatement preparedStatement = databaseUtils.prepareStatement(INSERT_TEAM)) {
-            preparedStatement.setString(INDEX_ONE, CampType.CHO.getName());
+            preparedStatement.setString(NAME, CampType.CHO.getName());
             preparedStatement.addBatch();
 
-            preparedStatement.setString(INDEX_ONE, CampType.HAN.getName());
+            preparedStatement.setString(NAME, CampType.HAN.getName());
             preparedStatement.addBatch();
 
             preparedStatement.executeBatch();

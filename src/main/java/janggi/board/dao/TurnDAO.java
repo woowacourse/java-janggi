@@ -11,7 +11,7 @@ public class TurnDAO {
     private static final String SELECT_QUERY = "SELECT current_turn from turn";
     private static final String UPDATE_QUERY = "UPDATE turn SET current_turn = ?";
     private static final String DROP_QUERY = "DROP TABLE IF EXISTS turn";
-    private static final int INDEX_ONE = 1;
+    private static final int CURRENT_TURN = 1;
 
     private final DatabaseUtils databaseUtils;
 
@@ -22,7 +22,7 @@ public class TurnDAO {
     public void insertQuery(final CampType campType) {
         try(final PreparedStatement preparedStatement = databaseUtils.prepareStatement(INSERT_QUERY)) {
             String turnName = campType.getName();
-            preparedStatement.setString(INDEX_ONE, turnName);
+            preparedStatement.setString(CURRENT_TURN, turnName);
 
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
@@ -33,7 +33,7 @@ public class TurnDAO {
     public void updateQuery(final CampType campType) {
         try(final PreparedStatement preparedStatement = databaseUtils.prepareStatement(UPDATE_QUERY)) {
             String turnName = campType.getName();
-            preparedStatement.setString(INDEX_ONE, turnName);
+            preparedStatement.setString(CURRENT_TURN, turnName);
 
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {

@@ -18,11 +18,19 @@ public class JanggiBoardDAO {
     private static final String UPDATE_QUERY = "UPDATE pieces SET x = ?, y = ? WHERE team_id = ? AND x = ? AND y = ?";
     private static final String DELETE_QUERY = "DELETE FROM pieces WHERE x = ? AND y = ? AND team_id = ?";
     private static final String SELECT_QUERY = "SELECT piece_type, x, y FROM pieces WHERE team_id = ?";
-    private static final int INDEX_ONE = 1;
-    private static final int INDEX_TWO = 2;
-    private static final int INDEX_THREE = 3;
-    private static final int INDEX_FOUR = 4;
-    private static final int INDEX_FIVE = 5;
+    private static final int INSERT_TEAM_ID = 1;
+    private static final int INSERT_PIECE_TYPE = 2;
+    private static final int INSERT_X = 3;
+    private static final int INSERT_Y = 4;
+    private static final int UPDATE_X = 1;
+    private static final int UPDATE_Y = 2;
+    private static final int UPDATE_TEAM_ID = 3;
+    private static final int BEFORE_X = 4;
+    private static final int BEFORE_Y = 5;
+    private static final int CURRENT_X = 1;
+    private static final int CURRENT_Y = 2;
+    private static final int CURRENT_TEAM_ID = 3;
+    private static final int SELECT_TEAM_ID = 1;
 
     private final DatabaseUtils databaseUtils;
 
@@ -34,20 +42,20 @@ public class JanggiBoardDAO {
         try (final PreparedStatement preparedStatement = databaseUtils.prepareStatement(INSERT_PIECES)) {
             List<Piece> choPieces = janggiBoard.getChoPieces();
             for (Piece piece : choPieces) {
-                preparedStatement.setInt(INDEX_ONE, 1);
-                preparedStatement.setString(INDEX_TWO, piece.getPieceType().getName());
-                preparedStatement.setInt(INDEX_THREE, piece.getPosition().x());
-                preparedStatement.setInt(INDEX_FOUR, piece.getPosition().y());
+                preparedStatement.setInt(INSERT_TEAM_ID, 1);
+                preparedStatement.setString(INSERT_PIECE_TYPE, piece.getPieceType().getName());
+                preparedStatement.setInt(INSERT_X, piece.getPosition().x());
+                preparedStatement.setInt(INSERT_Y, piece.getPosition().y());
 
                 preparedStatement.addBatch();
             }
 
             List<Piece> hanPieces = janggiBoard.getHanPieces();
             for (Piece piece : hanPieces) {
-                preparedStatement.setInt(INDEX_ONE, 2);
-                preparedStatement.setString(INDEX_TWO, piece.getPieceType().getName());
-                preparedStatement.setInt(INDEX_THREE, piece.getPosition().x());
-                preparedStatement.setInt(INDEX_FOUR, piece.getPosition().y());
+                preparedStatement.setInt(INSERT_TEAM_ID, 2);
+                preparedStatement.setString(INSERT_PIECE_TYPE, piece.getPieceType().getName());
+                preparedStatement.setInt(INSERT_X, piece.getPosition().x());
+                preparedStatement.setInt(INSERT_Y, piece.getPosition().y());
 
                 preparedStatement.addBatch();
             }
@@ -68,11 +76,11 @@ public class JanggiBoardDAO {
 
     public void updateRecords(JanggiPosition current, JanggiPosition destination, int teamId) {
         try (final PreparedStatement preparedStatement = databaseUtils.prepareStatement(UPDATE_QUERY)) {
-            preparedStatement.setInt(INDEX_ONE, destination.x());
-            preparedStatement.setInt(INDEX_TWO, destination.y());
-            preparedStatement.setInt(INDEX_THREE, teamId);
-            preparedStatement.setInt(INDEX_FOUR, current.x());
-            preparedStatement.setInt(INDEX_FIVE, current.y());
+            preparedStatement.setInt(UPDATE_X, destination.x());
+            preparedStatement.setInt(UPDATE_Y, destination.y());
+            preparedStatement.setInt(UPDATE_TEAM_ID, teamId);
+            preparedStatement.setInt(BEFORE_X, current.x());
+            preparedStatement.setInt(BEFORE_Y, current.y());
 
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
@@ -82,9 +90,9 @@ public class JanggiBoardDAO {
 
     public void deleteRecords(JanggiPosition destination, int teamId) {
         try (final PreparedStatement deleteStmt = databaseUtils.prepareStatement(DELETE_QUERY)) {
-            deleteStmt.setInt(INDEX_ONE, destination.x());
-            deleteStmt.setInt(INDEX_TWO, destination.y());
-            deleteStmt.setInt(INDEX_THREE, teamId);
+            deleteStmt.setInt(CURRENT_X, destination.x());
+            deleteStmt.setInt(CURRENT_Y, destination.y());
+            deleteStmt.setInt(CURRENT_TEAM_ID, teamId);
             deleteStmt.executeUpdate();
         } catch (final SQLException e) {
             throw new IllegalArgumentException("[ERROR] 레코드 삭제 중 에러가 발생했습니다.");
@@ -95,7 +103,7 @@ public class JanggiBoardDAO {
         List<Piece> pieces = new ArrayList<>();
 
         try (final PreparedStatement preparedStatement = databaseUtils.prepareStatement(SELECT_QUERY)) {
-            preparedStatement.setInt(1, teamId);
+            preparedStatement.setInt(SELECT_TEAM_ID, teamId);
 
             try (final ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
