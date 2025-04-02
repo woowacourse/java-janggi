@@ -1,10 +1,9 @@
 package janggi.board;
 
-import janggi.player.Team;
 import janggi.coordinate.Position;
 import janggi.coordinate.Vector;
+import janggi.player.Team;
 
-import java.util.Collections;
 import java.util.List;
 
 public class Palace {
@@ -56,9 +55,5 @@ public class Palace {
 
     public boolean isSameTeam(final Team team) {
         return this.team == team;
-    }
-
-    public List<Position> getPositions() {
-        return Collections.unmodifiableList(positions);
     }
 }
