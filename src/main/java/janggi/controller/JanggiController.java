@@ -100,20 +100,15 @@ public class JanggiController {
     }
 
     private void endJanggi(Board board) throws SQLException {
-        if (board.isGameEnd()) {
-            outputView.printWinner(board);
-        }
         piecesDao.deletePieces();
         turnDao.deleteTurn();
-        saveBoardIfGameNotEnd(board);
-    }
-
-    private void saveBoardIfGameNotEnd(Board board) throws SQLException {
-        if (board.isGameNotEnd()) {
-            piecesDao.savePieces(board.getPieces());
-            turnDao.saveTurn(board.getTurn());
-            outputView.printSaved();
+        if (board.isGameEnd()) {
+            outputView.printWinner(board);
+            return;
         }
+        piecesDao.savePieces(board.getPieces());
+        turnDao.saveTurn(board.getTurn());
+        outputView.printSaved();
     }
 
     private HorseSide getPositionSide(final String position) {
