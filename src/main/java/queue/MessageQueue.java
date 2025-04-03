@@ -2,6 +2,7 @@ package queue;
 
 import dao.init.ConnectionGenerator;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -28,7 +29,7 @@ public class MessageQueue {
             try {
                 delayedTransaction.executeTransaction(connection);
                 delayedTransactions.removeFirst();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 break;
             }
         }
