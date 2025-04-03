@@ -2,7 +2,6 @@ package janggi.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import janggi.piece.Country;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -45,27 +44,6 @@ public class JanggiScoreTest {
 
             // then
             assertThat(actual).isEqualTo(expected);
-        }
-
-        @DisplayName("나라의 최대 점수에서 현재 점수를 뺀 값을 반환한다.")
-        @ParameterizedTest
-        @MethodSource
-        void calculateScoreByCountry(final Country country, final JanggiScore expected) {
-            // given
-            final JanggiScore janggiScore = new JanggiScore(0);
-
-            // when
-            final JanggiScore actual = janggiScore.calculateScoreByCountry(country);
-
-            // then
-            assertThat(actual).isEqualTo(expected);
-        }
-
-        static Stream<Arguments> calculateScoreByCountry(){
-            return Stream.of(
-                    Arguments.of(Country.CHO, new JanggiScore(72)),
-                    Arguments.of(Country.HAN, new JanggiScore(73.5))
-            );
         }
 
         @DisplayName("더 크다면, true 아니라면 false를 반환한다.")

@@ -69,7 +69,9 @@ public class Board implements VisibleBoard {
     }
 
     public JanggiScore calculateScore(final Country country) {
-        final Pieces piecesByCountry = findAllByCountry(country.toggleCountry());
+        final Country countryOfEnemy = country.toggleCountry();
+
+        final Pieces piecesByCountry = findAllByCountry(countryOfEnemy);
         return piecesByCountry.calculateAllScoreByCountry(country);
     }
 
