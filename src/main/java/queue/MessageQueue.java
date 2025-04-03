@@ -1,61 +1,44 @@
 package queue;
 
+import dao.init.ConnectionGenerator;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.List;
 
 public class MessageQueue {
 
-    private static final MessageQueue INSTANCE = new MessageQueue();
+    private final Deque<Transaction> delayedTransactions;
+    private final ConnectionGenerator connectionGenerator;
 
-    private static final Deque<DelayedQuery> delayedQueries = new ArrayDeque<>();
-
-    private MessageQueue() {
+    public MessageQueue(ConnectionGenerator connectionGenerator) {
+        this.connectionGenerator = connectionGenerator;
+        this.delayedTransactions = new ArrayDeque<>();
     }
 
-    public static MessageQueue getInstance() {
-        return INSTANCE;
+    public void addLast(Transaction transaction) {
+        delayedTransactions.addLast(transaction);
     }
 
-    public void addLast(DelayedQuery delayedQuery) {
-        delayedQueries.addLast(delayedQuery);
-    }
+    public void executeTransactions() {
+        Connection connection = connectionGenerator.createConnection();
 
-    public void executeDelayedQueries(Connection connection) {
-        while (!delayedQueries.isEmpty()) {
-            var delayedQuery = delayedQueries.getFirst();
+        while (!delayedTransactions.isEmpty()) {
+            var delayedTransaction = delayedTransactions.getFirst();
 
             try {
-                executeQuery(connection, delayedQuery.sql(), delayedQuery.params());
-                delayedQueries.removeFirst();
+                delayedTransaction.executeTransaction(connection);
+                delayedTransactions.removeFirst();
             } catch (Exception e) {
                 break;
             }
         }
     }
 
-    private void executeQuery(Connection connection, String sql, List<Object> params) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            for (int i = 0; i < params.size(); i++) {
-                preparedStatement.setObject(i + 1, params.get(i));
-            }
-            preparedStatement.executeUpdate();
-        } catch (SQLSyntaxErrorException e) {
-            throw new IllegalArgumentException("[ERROR]: 잘못된 형식의 쿼리문입니다. " + sql);
-        } catch (SQLException e) {
-            throw new IllegalStateException("[ERROR] DB 연결이 끊어졌습니다.");
-        }
-    }
-
     public int size() {
-        return delayedQueries.size();
+        return delayedTransactions.size();
     }
 
     public void clear() {
-        delayedQueries.clear();
+        delayedTransactions.clear();
     }
 }

@@ -1,41 +1,14 @@
-package dao;
+package dao.gameroom;
 
+import dao.converter.GameRoomDto;
 import domain.piece.character.Team;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
-import queue.DelayedQuery;
-import queue.MessageQueue;
 
-public class GameRoomDao {
-
-    public void insert(GameRoomDto gameRoom) {
-        String sql = """
-                INSERT INTO game_room (name, turn)
-                VALUES(?, ?);
-                """;
-        addToMessageQueue(sql, List.of(gameRoom.name(), gameRoom.turn().name()));
-    }
-
-    public void updateTurnByGameRoomName(String gameRoomName, Team turn) {
-        String sql = """
-                UPDATE game_room
-                SET turn = ?
-                WHERE name = ?
-                """;
-        addToMessageQueue(sql, List.of(turn.name(), gameRoomName));
-    }
-
-    public void deleteByGameRoomName(String gameRoomName) {
-        String sql = """
-                DELETE FROM game_room
-                WHERE name = ?
-                """;
-        addToMessageQueue(sql, List.of(gameRoomName));
-    }
+public class GameRoomQueryDaoImpl implements GameRoomQueryDao {
 
     public Optional<GameRoomDto> findByName(Connection connection, String gameRoomName) {
         String sql = """               
@@ -61,9 +34,5 @@ public class GameRoomDao {
             throw new RuntimeException("[ERROR] DB 조회에 실패했습니다 : " + e.getMessage());
         }
         return Optional.empty();
-    }
-
-    private void addToMessageQueue(String sql, List<Object> params) {
-        MessageQueue.getInstance().addLast(new DelayedQuery(sql, params));
     }
 }

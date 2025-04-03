@@ -1,10 +1,12 @@
 package service;
 
-import dao.GameRoomDao;
-import dao.GameRoomDto;
-import dao.PieceDao;
 import dao.converter.BoardConverter;
+import dao.converter.GameRoomDto;
+import dao.gameroom.GameRoomCommandDao;
+import dao.gameroom.GameRoomQueryDao;
 import dao.init.ConnectionGenerator;
+import dao.piece.PieceCommandDao;
+import dao.piece.PieceQueryDao;
 import domain.JanggiGame;
 import domain.board.Board;
 import domain.board.BoardFactory;
@@ -16,32 +18,42 @@ import java.sql.Connection;
 import java.util.Map;
 import java.util.Optional;
 import queue.MessageQueue;
+import queue.Transaction;
 import view.SangMaOrderCommand;
 
 public class GameService {
 
-    private final GameRoomDao gameRoomDao;
-    private final PieceDao pieceDao;
+    private final PieceQueryDao pieceQueryDao;
+    private final PieceCommandDao pieceCommandDao;
+    private final GameRoomQueryDao gameRoomQueryDao;
+    private final GameRoomCommandDao gameRoomCommandDao;
+
     private final ConnectionGenerator connectionGenerator;
+    private final MessageQueue messageQueue;
 
     private JanggiGame janggiGame;
 
-    public GameService(GameRoomDao gameRoomDao, PieceDao pieceDao, ConnectionGenerator connectionGenerator) {
-        this.gameRoomDao = gameRoomDao;
-        this.pieceDao = pieceDao;
+    public GameService(PieceQueryDao pieceQueryDao, PieceCommandDao pieceCommandDao,
+                       GameRoomQueryDao gameRoomQueryDao, GameRoomCommandDao gameRoomCommandDao,
+                       ConnectionGenerator connectionGenerator) {
+        this.pieceQueryDao = pieceQueryDao;
+        this.pieceCommandDao = pieceCommandDao;
+        this.gameRoomQueryDao = gameRoomQueryDao;
+        this.gameRoomCommandDao = gameRoomCommandDao;
         this.connectionGenerator = connectionGenerator;
+        this.messageQueue = new MessageQueue(connectionGenerator);
     }
 
     public void executeDelayedQueries() {
-        MessageQueue.getInstance().executeDelayedQueries(getConnection());
+        messageQueue.executeTransactions();
     }
 
     public boolean existsGameRoom(final String gameRoomName) {
         try {
-            final Optional<GameRoomDto> gameRoomDto = gameRoomDao.findByName(getConnection(), gameRoomName);
+            final Optional<GameRoomDto> gameRoomDto = gameRoomQueryDao.findByName(getConnection(), gameRoomName);
             return gameRoomDto.isPresent();
         } catch (RuntimeException e) {
-            return false;
+            throw new RuntimeException("[ERROR] DB로부터 게임방 정보를 불러오는데 실패했습니다.");
         }
     }
 
@@ -61,27 +73,39 @@ public class GameService {
                 ),
                 firstTurn
         );
-        gameRoomDao.insert(new GameRoomDto(null, gameRoomName, firstTurn));
-        pieceDao.insertAll(BoardConverter.convertToPieceDtos(newGame.getPieceByPoint(), gameRoomName));
+
+        final Transaction transaction = new Transaction();
+        gameRoomCommandDao.insert(transaction, new GameRoomDto(null, gameRoomName, firstTurn));
+        pieceCommandDao.insertAll(transaction,
+                BoardConverter.convertToPieceDtos(newGame.getPieceByPoint(), gameRoomName));
+        messageQueue.addLast(transaction);
 
         executeDelayedQueries();
         janggiGame = newGame;
     }
 
     public void movePiece(final Point source, final Point destination) {
-        getGameOrThrow().movePiece(source, destination);
+        JanggiGame game = getGameOrThrow();
+        game.movePiece(source, destination);
 
-        final String gameRoomName = getGameOrThrow().getGameRoomName();
+        final String gameRoomName = game.getGameRoomName();
         final Team turn = janggiGame.currentTurn();
-        pieceDao.deleteByGameRoomNameAndPoint(gameRoomName, destination);
-        pieceDao.updatePointByGameRoomNameAndPoint(gameRoomName, source, destination);
-        gameRoomDao.updateTurnByGameRoomName(gameRoomName, turn.inverse());
+
+        final Transaction transaction = new Transaction();
+        pieceCommandDao.deleteByGameRoomNameAndPoint(transaction, gameRoomName, destination);
+        pieceCommandDao.updatePointByGameRoomNameAndPoint(transaction, gameRoomName, source, destination);
+        gameRoomCommandDao.updateTurnByGameRoomName(transaction, gameRoomName, turn.inverse());
+        messageQueue.addLast(transaction);
 
         executeDelayedQueries();
     }
 
     public void endGame() {
-        gameRoomDao.deleteByGameRoomName(getGameOrThrow().getGameRoomName());
+        JanggiGame game = getGameOrThrow();
+
+        final Transaction transaction = new Transaction();
+        gameRoomCommandDao.deleteByGameRoomName(transaction, game.getGameRoomName());
+        messageQueue.addLast(transaction);
 
         executeDelayedQueries();
     }
@@ -91,19 +115,23 @@ public class GameService {
     }
 
     public double calculateScore(final Team team) {
-        return getGameOrThrow().calculateScore(team);
+        JanggiGame game = getGameOrThrow();
+        return game.calculateScore(team);
     }
 
     public Team findWinTeam() {
-        return getGameOrThrow().findWinTeam();
+        JanggiGame game = getGameOrThrow();
+        return game.findWinTeam();
     }
 
     public Map<Point, Piece> findPieceByPoint() {
-        return getGameOrThrow().getPieceByPoint();
+        JanggiGame game = getGameOrThrow();
+        return game.getPieceByPoint();
     }
 
     public Team currentTurn() {
-        return getGameOrThrow().currentTurn();
+        JanggiGame game = getGameOrThrow();
+        return game.currentTurn();
     }
 
     private JanggiGame loadGameByGameRoomName(final String gameRoomName) {
@@ -112,16 +140,16 @@ public class GameService {
     }
 
     private GameRoomDto findGameRoomDtoByName(final String name) {
-        final Optional<GameRoomDto> maybeGameRoom = gameRoomDao.findByName(getConnection(), name);
+        final Optional<GameRoomDto> maybeGameRoom = gameRoomQueryDao.findByName(getConnection(), name);
         if (maybeGameRoom.isEmpty()) {
-            throw new IllegalStateException("[ERROR] '" + name + "' 방이 존재 하지 않습니다.");
+            throw new IllegalStateException("[ERROR] '" + name + "' 방이 존재하지 않습니다.");
         }
         return maybeGameRoom.get();
     }
 
     private Board loadBoardByGameRoomName(final String gameRoomName) {
         return BoardConverter.convertToBoard(
-                pieceDao.findByGameRoomName(getConnection(), gameRoomName),
+                pieceQueryDao.findByGameRoomName(getConnection(), gameRoomName),
                 DefaultPathFinderFactory.getInstance()
         );
     }

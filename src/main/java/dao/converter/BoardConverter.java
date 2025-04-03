@@ -1,6 +1,5 @@
 package dao.converter;
 
-import dao.PieceDto;
 import domain.board.Board;
 import domain.board.pathfinder.PathFinder;
 import domain.board.pathfinder.PathFinderFactory;

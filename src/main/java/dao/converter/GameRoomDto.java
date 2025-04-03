@@ -1,4 +1,4 @@
-package dao;
+package dao.converter;
 
 import domain.piece.character.Team;
 
