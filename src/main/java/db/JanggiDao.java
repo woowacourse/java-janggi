@@ -67,7 +67,7 @@ public class JanggiDao {
 
     public void updatePoint(final PointValue fromPoint, final PointValue toPoint) {
         final var findPointSql = "SELECT id FROM point WHERE x = ? AND y = ?";
-        final var updatePointSql = "update point set x = ?, y = ? where id = ?";
+        final var updatePointSql = "UPDATE point SET x = ?, y = ? WHERE id = ?";
 
         try (final var connection = getConnection();
              final var findPointStmt = connection.prepareStatement(findPointSql);
@@ -91,9 +91,9 @@ public class JanggiDao {
 
     public void deletePosition(final PointValue pointValue) {
 
-        final var findPointSql = "select id from point where x = ? and y = ?";
-        final var deletePieceSql = "delete from piece where pointId = ?";
-        final var deletePointSql = "delete from point where id = ?";
+        final var findPointSql = "SELECT id FROM point WHERE x = ? AND y = ?";
+        final var deletePieceSql = "DELETE FROM piece WHERE pointId = ?";
+        final var deletePointSql = "DELETE FROM point WHERE id = ?";
 
         try (final var connection = getConnection();
              final var findPointStmt = connection.prepareStatement(findPointSql);
@@ -116,7 +116,7 @@ public class JanggiDao {
     }
 
     public void changeTurn(final Team team) {
-        final var updateTurnSql = "update turn set team = ?";
+        final var updateTurnSql = "UPDATE turn SET team = ?";
 
         try (final var connection = getConnection();
              final var turnStmt = connection.prepareStatement(updateTurnSql)) {
@@ -128,7 +128,7 @@ public class JanggiDao {
     }
 
     public Team getTurn() {
-        final var getTurnSql = "select team from turn";
+        final var getTurnSql = "SELECT team FROM turn";
 
         try (final var connection = getConnection();
              final var turnStmt = connection.prepareStatement(getTurnSql);
@@ -147,9 +147,9 @@ public class JanggiDao {
 
     public List<Position> getPositions() {
         final List<Position> positions = new ArrayList<>();
-        final var positionSql = "select p.pieceType, p.team, pt.x, pt.y "
-                + "from piece p "
-                + "join point pt on p.pointId = pt.id";
+        final var positionSql = "SELECT p.pieceType, p.team, pt.x, pt.y "
+                + "FROM piece p "
+                + "JOIN point pt ON p.pointId = pt.id";
 
         try (final var connection = getConnection();
              final var positionStmt = connection.prepareStatement(positionSql);
@@ -172,7 +172,7 @@ public class JanggiDao {
 
     public GameState getGameState() {
 
-        final var gameStateSql = "select state from game_state where id = 1";
+        final var gameStateSql = "SELECT state FROM game_state WHERE id = 1";
 
         try (final var connection = getConnection();
              final var gameState = connection.prepareStatement(gameStateSql);
@@ -190,7 +190,7 @@ public class JanggiDao {
 
     public void updateGameState(final GameState gameState) {
 
-        final var gameStateSql = "update game_state SET state = ? where id = 1";
+        final var gameStateSql = "UPDATE game_state SET state = ? WHERE id = 1";
 
         try (final var connection = getConnection();
              final var gameStateStmt = connection.prepareStatement(gameStateSql)) {
@@ -202,8 +202,8 @@ public class JanggiDao {
     }
 
     public void deleteAllPosition() {
-        final var deletePieceSql = "delete from piece";
-        final var deletePointSql = "delete from point";
+        final var deletePieceSql = "DELETE FROM piece";
+        final var deletePointSql = "DELETE FROM point";
 
         try (final var connection = getConnection();
              final var deletePieceStmt = connection.prepareStatement(deletePieceSql);
