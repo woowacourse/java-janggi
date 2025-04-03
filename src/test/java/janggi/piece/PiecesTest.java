@@ -195,6 +195,22 @@ class PiecesTest {
     }
 
     @Test
+    @DisplayName("장기말이 같은지 확인하는 과정에 시작점에 장기말이 없는 경우 false 반환한다")
+    void should_return_false_when_start_position_piece_empty() {
+        // given
+        Position start = new Position(5, 5);
+        Position end = new Position(5, 6);
+        Piece redCannon = new Cannon(Color.RED);
+        Pieces pieces = new Pieces(Map.of(end, redCannon));
+
+        // when
+        boolean isSamePieceType = pieces.isSamePieceType(start, end);
+
+        // then
+        assertThat(isSamePieceType).isEqualTo(false);
+    }
+
+    @Test
     @DisplayName("장기말이 같은지 확인하는 과정에 도착점에 장기말이 없는 경우 false 반환한다")
     void should_return_false_when_end_position_piece_empty() {
         // given
