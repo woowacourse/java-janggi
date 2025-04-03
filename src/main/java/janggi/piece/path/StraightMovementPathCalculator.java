@@ -17,7 +17,7 @@ public class StraightMovementPathCalculator implements PathCalculator {
 
     @Override
     public List<Position> calculatePath(final Position start, final Position end) {
-        final Direction direction = start.calculateDirection(end);
+        final Direction direction = Direction.calculateDirection(start, end);
         final List<Position> result = new ArrayList<>();
         for (Position path = start.move(direction);
              !path.equals(end);

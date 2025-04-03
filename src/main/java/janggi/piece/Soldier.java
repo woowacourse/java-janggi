@@ -42,7 +42,7 @@ public class Soldier extends Piece {
     }
 
     private void validateDirection(final Position start, final Position end) {
-        final Direction direction = start.calculateDirection(end);
+        final Direction direction = Direction.calculateDirection(start, end);
         if (color.isReverseFrontVerticalDirection(direction)) {
             throw new IllegalArgumentException("말의 이동 규칙과 어긋납니다.");
         }

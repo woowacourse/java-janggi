@@ -36,10 +36,6 @@ public record Position(int x, int y) {
         return new Position(x + direction.x(), y + direction.y());
     }
 
-    public Direction calculateDirection(final Position end) {
-        return Direction.calculateDirection(this, end);
-    }
-
     public int calculateAbsoluteDifferenceX(final Position end) {
         return Math.abs(end.x() - x);
     }

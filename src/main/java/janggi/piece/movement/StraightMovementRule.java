@@ -11,7 +11,7 @@ public class StraightMovementRule implements MovementRule {
     }
 
     private void validateDirection(final Position start, final Position end) {
-        final Direction direction = start.calculateDirection(end);
+        final Direction direction = Direction.calculateDirection(start, end);
         if (start.hasDirection(direction)) {
             return;
         }
