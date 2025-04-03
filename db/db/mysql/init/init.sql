@@ -1,20 +1,12 @@
 use Janggi;
 
-CREATE TABLE player (
-    id  INT NOT NULL AUTO_INCREMENT,
-    score DOUBLE NOT NULL,
-    team ENUM ('HAN', 'CHO') NOT NULL,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE piece (
     id INT NOT NULL AUTO_INCREMENT,
-    player_id INT NOT NULL,
     type ENUM ('CANNON', 'CHARIOT', 'ELEPHANT', 'GENERAL', 'GUARD', 'HORSE', 'SOLDIER'),
+    team ENUM('HAN', 'CHO'),
     x INT NOT NULL,
     y INT NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (player_id) REFERENCES player (id) ON DELETE CASCADE
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE turn (
