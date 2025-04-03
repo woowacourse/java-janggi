@@ -36,7 +36,7 @@ class HorseTest {
         Piece horse = new Horse(TeamType.CHO);
 
         assertThatNoException()
-                .isThrownBy(() -> horse.validateCanMove(startPosition, movePosition, Map.of()));
+                .isThrownBy(() -> horse.validateCanMove(TeamType.CHO,startPosition, movePosition, Map.of()));
     }
 
     @Test
@@ -46,7 +46,7 @@ class HorseTest {
         Position movePosition = D4;
         Piece horse = new Horse(TeamType.CHO);
 
-        assertThatThrownBy(() -> horse.validateCanMove(startPosition, movePosition, Map.of()))
+        assertThatThrownBy(() -> horse.validateCanMove(TeamType.CHO,startPosition, movePosition, Map.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -61,7 +61,7 @@ class HorseTest {
         Position otherPosition = D2;
         Piece soldier = new Soldier(TeamType.HAN);
 
-        assertThatThrownBy(() -> horse.validateCanMove(startPosition, expectedPosition, Map.of(otherPosition,soldier)))
+        assertThatThrownBy(() -> horse.validateCanMove(TeamType.HAN,startPosition, expectedPosition, Map.of(otherPosition,soldier)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -76,7 +76,7 @@ class HorseTest {
         Position otherPosition = E3;
         Piece soldier = new Soldier(TeamType.HAN);
 
-        assertThatThrownBy(() -> horse.validateCanMove(startPosition, expectedPosition, Map.of(otherPosition,soldier)))
+        assertThatThrownBy(() -> horse.validateCanMove(TeamType.HAN,startPosition, expectedPosition, Map.of(otherPosition,soldier)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -92,6 +92,6 @@ class HorseTest {
         Piece soldier = new Soldier(TeamType.CHO);
 
         assertThatNoException()
-                .isThrownBy(() -> horse.validateCanMove(startPosition, expectedPosition, Map.of(otherPosition,soldier)));
+                .isThrownBy(() -> horse.validateCanMove(TeamType.HAN,startPosition, expectedPosition, Map.of(otherPosition,soldier)));
     }
 }

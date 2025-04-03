@@ -21,8 +21,7 @@ public class Board {
     public void movePiece(Position startPosition, Position endPosition, TeamType team) {
         Piece findPiece = findPieceByPosition(startPosition);
 
-        validateOwnPiece(team, findPiece);
-        findPiece.validateCanMove(startPosition, endPosition, alivePieces);
+        findPiece.validateCanMove(team,startPosition, endPosition, alivePieces);
 
         changePiecePosition(startPosition, findPiece, endPosition);
     }
@@ -50,10 +49,6 @@ public class Board {
         alivePieces.put(endPosition, piece);
     }
 
-    private boolean isNotSameTeam(TeamType team, Piece findPiece) {
-        return !findPiece.isSameTeam(team);
-    }
-
     private Piece findPieceByPosition(Position startPosition) {
         return alivePieces.computeIfAbsent(startPosition, key -> {
             throw new IllegalArgumentException("해당 좌표에는 말이 존재하지 않습니다.");
@@ -68,12 +63,6 @@ public class Board {
             throw new IllegalStateException("아직 게임이 끝나지 않았습니다.");
         }
         return aliveKings.get(0);
-    }
-
-    private void validateOwnPiece(TeamType team, Piece findPiece) {
-        if (isNotSameTeam(team, findPiece)) {
-            throw new IllegalArgumentException("본인 말만 움직일 수 있습니다.");
-        }
     }
 
     public Map<Position, Piece> getAlivePieces() {

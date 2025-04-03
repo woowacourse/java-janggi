@@ -29,10 +29,17 @@ public abstract class Piece {
         return teamType;
     }
 
-    public void validateCanMove(Position from, Position to, Map<Position, Piece> alivePieces) {
+    public void validateCanMove(TeamType turn, Position from, Position to, Map<Position, Piece> alivePieces) {
+        validateOwnPiece(turn);
         List<Position> intermediatePositions = pathFinder.findIntermediatePositions(from, to);
         pathValidator.validatePath(teamType, to, intermediatePositions, alivePieces);
     }
 
     public abstract PieceType getType();
+
+    private void validateOwnPiece(TeamType turn) {
+        if (!isSameTeam(turn)) {
+            throw new IllegalArgumentException("본인 말만 움직일 수 있습니다.");
+        }
+    }
 }

@@ -50,7 +50,7 @@ class ChariotTest {
         Piece chariot = new Chariot(TeamType.CHO);
 
         assertThatNoException()
-                .isThrownBy(()->chariot.validateCanMove(startPosition,movePosition, Map.of()));
+                .isThrownBy(()->chariot.validateCanMove(TeamType.CHO,startPosition,movePosition, Map.of()));
     }
 
     @ParameterizedTest
@@ -60,7 +60,7 @@ class ChariotTest {
         Position startPosition = D3;
         Piece chariot = new Chariot(TeamType.CHO);
 
-        assertThatThrownBy(()->chariot.validateCanMove(startPosition,movePosition, Map.of()))
+        assertThatThrownBy(()->chariot.validateCanMove(TeamType.CHO,startPosition,movePosition, Map.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -76,7 +76,7 @@ class ChariotTest {
         Position otherPosition = C3;
         Piece soldier = new Soldier(TeamType.HAN);
 
-        assertThatThrownBy(()->chariot.validateCanMove(startPosition,expectedPosition, Map.of(otherPosition,soldier)))
+        assertThatThrownBy(()->chariot.validateCanMove(TeamType.HAN,startPosition,expectedPosition, Map.of(otherPosition,soldier)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -91,7 +91,7 @@ class ChariotTest {
         Position otherPosition = C4;
         Piece soldier = new Soldier(TeamType.HAN);
 
-        assertThatThrownBy(()->chariot.validateCanMove(startPosition,expectedPosition, Map.of(otherPosition,soldier)))
+        assertThatThrownBy(()->chariot.validateCanMove(TeamType.HAN,startPosition,expectedPosition, Map.of(otherPosition,soldier)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -108,7 +108,7 @@ class ChariotTest {
 
 
         assertThatNoException()
-                .isThrownBy(()->chariot.validateCanMove(startPosition,expectedPosition, Map.of(otherPosition,soldier)));
+                .isThrownBy(()->chariot.validateCanMove(TeamType.HAN,startPosition,expectedPosition, Map.of(otherPosition,soldier)));
     }
 
     @ParameterizedTest
@@ -117,7 +117,7 @@ class ChariotTest {
     void canMoveChariot5(Position from, Position to){
         Piece chariot = new Chariot(TeamType.HAN);
         assertThatNoException()
-                .isThrownBy(() -> chariot.validateCanMove(from, to, Map.of()));
+                .isThrownBy(() -> chariot.validateCanMove(TeamType.HAN,from, to, Map.of()));
     }
 
     private static Stream<Arguments> canMoveChariot5(){

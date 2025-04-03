@@ -73,7 +73,7 @@ class GuardTest {
         Piece guard = new Guard(TeamType.CHO);
 
         assertThatNoException()
-                .isThrownBy(() -> guard.validateCanMove(startPosition, movePosition, Map.of()));
+                .isThrownBy(() -> guard.validateCanMove(TeamType.CHO,startPosition, movePosition, Map.of()));
     }
 
     @ParameterizedTest
@@ -83,7 +83,7 @@ class GuardTest {
         Position startPosition = D2;
         Piece guard = new Guard(TeamType.CHO);
 
-        assertThatThrownBy(() -> guard.validateCanMove(startPosition, movePosition, Map.of()))
+        assertThatThrownBy(() -> guard.validateCanMove(TeamType.CHO,startPosition, movePosition, Map.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -98,7 +98,7 @@ class GuardTest {
         Position currentPosition = E9;
         Piece solider = new Soldier(TeamType.HAN);
 
-        assertThatThrownBy(() -> guard.validateCanMove(startPosition, movePosition, Map.of(currentPosition, solider)))
+        assertThatThrownBy(() -> guard.validateCanMove(TeamType.HAN,startPosition, movePosition, Map.of(currentPosition, solider)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -115,7 +115,7 @@ class GuardTest {
         Piece solider = new Soldier(TeamType.CHO);
 
         assertThatNoException()
-                .isThrownBy(() -> guard.validateCanMove(startPosition, movePosition, Map.of(currentPosition, solider)));
+                .isThrownBy(() -> guard.validateCanMove(TeamType.HAN,startPosition, movePosition, Map.of(currentPosition, solider)));
     }
 
     @ParameterizedTest
@@ -124,7 +124,7 @@ class GuardTest {
     void canMoveGuardExceptionWhenPalace(Position from, Position to){
         Piece guard = new Guard(TeamType.HAN);
 
-        assertThatThrownBy(() -> guard.validateCanMove(from, to, Map.of()))
+        assertThatThrownBy(() -> guard.validateCanMove(TeamType.HAN,from, to, Map.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }

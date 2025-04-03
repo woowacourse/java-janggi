@@ -63,7 +63,7 @@ class SoldierTest {
         Piece solider = new Soldier(TeamType.CHO);
 
         assertThatNoException()
-                .isThrownBy(() -> solider.validateCanMove(currentPosition, movePosition, Map.of()));
+                .isThrownBy(() -> solider.validateCanMove(TeamType.CHO,currentPosition, movePosition, Map.of()));
     }
 
     @ParameterizedTest
@@ -73,7 +73,7 @@ class SoldierTest {
         Position currentPosition = B1;
         Piece solider = new Soldier(TeamType.CHO);
 
-        assertThatThrownBy(() -> solider.validateCanMove(currentPosition, movePosition, Map.of()))
+        assertThatThrownBy(() -> solider.validateCanMove(TeamType.CHO,currentPosition, movePosition, Map.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -86,7 +86,7 @@ class SoldierTest {
         Piece solider = new Soldier(TeamType.HAN);
 
         assertThatNoException()
-                .isThrownBy(() -> solider.validateCanMove(currentPosition, movePosition, Map.of()));
+                .isThrownBy(() -> solider.validateCanMove(TeamType.HAN,currentPosition, movePosition, Map.of()));
     }
 
     @ParameterizedTest
@@ -96,7 +96,7 @@ class SoldierTest {
         Position currentPosition = B1;
         Piece solider = new Soldier(TeamType.HAN);
 
-        assertThatThrownBy(() -> solider.validateCanMove(currentPosition, movePosition, Map.of()))
+        assertThatThrownBy(() -> solider.validateCanMove(TeamType.HAN,currentPosition, movePosition, Map.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -111,7 +111,7 @@ class SoldierTest {
         Position currentPosition = B1;
         Piece solider2 = new Soldier(TeamType.CHO);
 
-        assertThatThrownBy(() -> solider2.validateCanMove(currentPosition, movePosition, Map.of(position,solider1)))
+        assertThatThrownBy(() -> solider2.validateCanMove(TeamType.CHO,currentPosition, movePosition, Map.of(position,solider1)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -127,7 +127,7 @@ class SoldierTest {
         Piece solider2 = new Soldier(TeamType.HAN);
 
         assertThatNoException()
-                .isThrownBy(() -> solider1.validateCanMove(position, movePosition, Map.of(currentPosition,solider2)));
+                .isThrownBy(() -> solider1.validateCanMove(TeamType.CHO,position, movePosition, Map.of(currentPosition,solider2)));
     }
 
     @ParameterizedTest
@@ -136,7 +136,7 @@ class SoldierTest {
     void canMoveSoldier4(TeamType teamType,Position from, Position to){
         Piece solider1 = new Soldier(teamType);
         assertThatNoException()
-                .isThrownBy(() -> solider1.validateCanMove(from, to, Map.of()));
+                .isThrownBy(() -> solider1.validateCanMove(teamType,from, to, Map.of()));
     }
 
     private static Stream<Arguments> canMoveSoldier4(){

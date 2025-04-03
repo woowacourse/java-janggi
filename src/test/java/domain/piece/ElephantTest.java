@@ -36,7 +36,7 @@ class ElephantTest {
         Piece elephant = new Elephant(TeamType.CHO);
 
         assertThatNoException()
-                .isThrownBy(()->elephant.validateCanMove(startPosition,movePosition, Map.of()));
+                .isThrownBy(()->elephant.validateCanMove(TeamType.CHO,startPosition,movePosition, Map.of()));
     }
 
     @Test
@@ -46,7 +46,7 @@ class ElephantTest {
         Position movePosition = C3;
         Piece elephant = new Elephant(TeamType.CHO);
 
-        assertThatThrownBy(()->elephant.validateCanMove(startPosition,movePosition, Map.of()))
+        assertThatThrownBy(()->elephant.validateCanMove(TeamType.CHO,startPosition,movePosition, Map.of()))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -61,7 +61,7 @@ class ElephantTest {
         Position otherPosition = D4;
         Piece soldier = new Soldier(TeamType.HAN);
 
-        assertThatThrownBy(()->elephant.validateCanMove(startPosition,expectedPosition, Map.of(otherPosition,soldier)))
+        assertThatThrownBy(()->elephant.validateCanMove(TeamType.HAN,startPosition,expectedPosition, Map.of(otherPosition,soldier)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -76,7 +76,7 @@ class ElephantTest {
         Position otherPosition = E5;
         Piece soldier = new Soldier(TeamType.HAN);
 
-        assertThatThrownBy(()->elephant.validateCanMove(startPosition,expectedPosition, Map.of(otherPosition,soldier)))
+        assertThatThrownBy(()->elephant.validateCanMove(TeamType.HAN,startPosition,expectedPosition, Map.of(otherPosition,soldier)))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("해당 좌표로 이동시킬 수 없습니다.");
     }
@@ -92,6 +92,6 @@ class ElephantTest {
         Piece soldier = new Soldier(TeamType.CHO);
 
         assertThatNoException()
-                .isThrownBy(()->elephant.validateCanMove(startPosition,expectedPosition, Map.of(otherPosition,soldier)));
+                .isThrownBy(()->elephant.validateCanMove(TeamType.HAN,startPosition,expectedPosition, Map.of(otherPosition,soldier)));
     }
 }
