@@ -12,6 +12,8 @@ services:
       MYSQL_USER: sa
       MYSQL_PASSWORD: password
       TZ: Asia/Seoul
+    command:
+      - bind-address=0.0.0.0
     volumes:
       - ./db/mysql/data:/var/lib/mysql
       - ./db/mysql/config:/etc/mysql/conf.d
