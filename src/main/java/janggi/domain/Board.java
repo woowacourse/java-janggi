@@ -16,24 +16,23 @@ public final class Board {
 
     private boolean isTeam1Turn = true;
 
-    private Board(final Team team1, final Team team2, final boolean isTeam1Turn) {
+    private Board(final Team team1, final Team team2) {
         validateTeamIsNotNull(team1, team2);
         validateCountryIsNotSame(team1, team2);
         this.team1 = Team.getFirstTeam(team1, team2);
         this.team2 = Team.getSecondTeam(team1, team2);
-        this.isTeam1Turn = isTeam1Turn;
     }
 
     public static Board start(final StartingPosition startingPosition1, final StartingPosition startingPosition2) {
         final Team team1 = new Team(startingPosition1, new StaticPieceInitializer(), Country.CHO);
         final Team team2 = new Team(startingPosition2, new StaticPieceInitializer(), Country.HAN);
-        return new Board(team1, team2, true);
+        return new Board(team1, team2);
     }
 
     public static Board continueWith(final Map<Country, List<Piece>> pieces, final Country turn) {
         final Team team1 = new Team(pieces.get(turn), turn);
         final Team team2 = new Team(pieces.get(turn.opponent()), turn.opponent());
-        return new Board(team1, team2, true);
+        return new Board(team1, team2);
     }
 
     private void validateTeamIsNotNull(final Team team1, final Team team2) {
