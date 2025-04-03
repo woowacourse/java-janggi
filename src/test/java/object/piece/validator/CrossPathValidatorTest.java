@@ -5,11 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import object.board.Board;
 import object.board.BoardFixture;
 import object.coordinate.Coordinate;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import object.piece.Piece;
 import object.piece.PieceType;
 import object.team.Country;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class CrossPathValidatorTest {
 
@@ -18,8 +18,8 @@ class CrossPathValidatorTest {
     void test1() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Country.HAN, PieceType.차))
-                .addPiece(6, 5, new Piece(Country.CHO, PieceType.포))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.CHA))
+                .addPiece(6, 5, new Piece(Country.CHO, PieceType.PO))
                 .build();
         CrossPathValidator validator = new CrossPathValidator();
 
@@ -35,7 +35,7 @@ class CrossPathValidatorTest {
     void test2() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Country.HAN, PieceType.차))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.CHA))
                 .build();
         CrossPathValidator validator = new CrossPathValidator();
 

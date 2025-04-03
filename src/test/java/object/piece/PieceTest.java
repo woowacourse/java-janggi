@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import object.board.Board;
 import object.board.BoardFixture;
 import object.coordinate.Coordinate;
+import object.team.Country;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import object.team.Country;
 
 public class PieceTest {
 
@@ -21,7 +21,7 @@ public class PieceTest {
         @DisplayName("궁의 출발 좌표가 (5,2)일 때 이동 가능한지 여부를 판단한다.")
         void test1() {
             // given
-            Piece goong = new Piece(Country.HAN, PieceType.궁);
+            Piece goong = new Piece(Country.HAN, PieceType.GOONG);
             Board board = new BoardFixture()
                     .addPiece(5, 2, goong)
                     .build();
@@ -53,7 +53,7 @@ public class PieceTest {
         @DisplayName("궁의 출발 좌표가 (4,1)일 때 보드판이나 궁성을 벗어난 좌표는 이동할 수 없다.")
         void test2() {
             // given
-            Piece goong = new Piece(Country.HAN, PieceType.궁);
+            Piece goong = new Piece(Country.HAN, PieceType.GOONG);
             Board board = new BoardFixture()
                     .addPiece(4, 1, goong)
                     .build();
@@ -80,16 +80,16 @@ public class PieceTest {
         @DisplayName("궁은 장애물을 고려하지 않아도 된다.")
         void test3() {
             // given
-            Piece goong = new Piece(Country.HAN, PieceType.궁);
+            Piece goong = new Piece(Country.HAN, PieceType.GOONG);
             Board board = new BoardFixture()
-                    .addPiece(4, 1, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(5, 1, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(6, 1, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(4, 2, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(6, 2, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(4, 3, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(5, 3, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(6, 3, new Piece(Country.HAN, PieceType.상))
+                    .addPiece(4, 1, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(5, 1, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(6, 1, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(4, 2, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(6, 2, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(4, 3, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(5, 3, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(6, 3, new Piece(Country.HAN, PieceType.SANG))
                     .build();
 
             // when
@@ -108,7 +108,7 @@ public class PieceTest {
         @DisplayName("졸의 출발 좌표가 (5,5)일 때 이동 가능한지 여부를 판단한다.")
         void test1() {
             // given
-            Piece jol = new Piece(Country.CHO, PieceType.졸);
+            Piece jol = new Piece(Country.CHO, PieceType.JOL);
             Board board = new BoardFixture()
                     .addPiece(5, 5, jol)
                     .build();
@@ -130,7 +130,7 @@ public class PieceTest {
         @DisplayName("졸의 출발 좌표가 (1,7)일 때 보드판을 벗어난 좌표는 이동할 수 없다.")
         void test2() {
             // given
-            Piece jol = new Piece(Country.CHO, PieceType.졸);
+            Piece jol = new Piece(Country.CHO, PieceType.JOL);
             Board board = new BoardFixture()
                     .addPiece(1, 7, jol)
                     .build();
@@ -150,7 +150,7 @@ public class PieceTest {
         @DisplayName("졸의 좌표가 (4,3)으로 궁성으로 진입했을 때 대각선 좌표까지 이동할 수 있다.")
         void test3() {
             // given
-            Piece jol = new Piece(Country.CHO, PieceType.졸);
+            Piece jol = new Piece(Country.CHO, PieceType.JOL);
             Board board = new BoardFixture()
                     .addPiece(4, 3, jol)
                     .build();
@@ -174,12 +174,12 @@ public class PieceTest {
         @DisplayName("졸은 장애물을 고려하지 않아도 된다.")
         void test4() {
             // given
-            Piece jol = new Piece(Country.CHO, PieceType.졸);
+            Piece jol = new Piece(Country.CHO, PieceType.JOL);
             Board board = new BoardFixture()
                     .addPiece(5, 5, jol)
-                    .addPiece(4, 5, new Piece(Country.CHO, PieceType.상))
-                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.상))
-                    .addPiece(5, 4, new Piece(Country.CHO, PieceType.상))
+                    .addPiece(4, 5, new Piece(Country.CHO, PieceType.SANG))
+                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.SANG))
+                    .addPiece(5, 4, new Piece(Country.CHO, PieceType.SANG))
                     .build();
 
             // when
@@ -198,7 +198,7 @@ public class PieceTest {
         @DisplayName("병의 출발 좌표가 (5,5)일 때 이동 가능한지 여부를 판단한다.")
         void test1() {
             // given
-            Piece byeong = new Piece(Country.HAN, PieceType.병);
+            Piece byeong = new Piece(Country.HAN, PieceType.BYEONG);
             Board board = new BoardFixture()
                     .addPiece(5, 5, byeong)
                     .build();
@@ -220,7 +220,7 @@ public class PieceTest {
         @DisplayName("병의 출발 좌표가 (1,4)일 때 보드판을 벗어난 좌표는 이동할 수 없다.")
         void test2() {
             // given
-            Piece byeong = new Piece(Country.HAN, PieceType.병);
+            Piece byeong = new Piece(Country.HAN, PieceType.BYEONG);
             Board board = new BoardFixture()
                     .addPiece(1, 4, byeong)
                     .build();
@@ -239,7 +239,7 @@ public class PieceTest {
         @DisplayName("병의 좌표가 (4,8)으로 궁성으로 진입했을 때 대각선 좌표까지 이동할 수 있다.")
         void test3() {
             // given
-            Piece byeong = new Piece(Country.HAN, PieceType.병);
+            Piece byeong = new Piece(Country.HAN, PieceType.BYEONG);
             Board board = new BoardFixture()
                     .addPiece(4, 8, byeong)
                     .build();
@@ -263,12 +263,12 @@ public class PieceTest {
         @DisplayName("병은 장애물을 고려하지 않아도 된다.")
         void test4() {
             // given
-            Piece byeong = new Piece(Country.HAN, PieceType.병);
+            Piece byeong = new Piece(Country.HAN, PieceType.BYEONG);
             Board board = new BoardFixture()
                     .addPiece(5, 5, byeong)
-                    .addPiece(4, 5, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(6, 5, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(5, 6, new Piece(Country.HAN, PieceType.상))
+                    .addPiece(4, 5, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(6, 5, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(5, 6, new Piece(Country.HAN, PieceType.SANG))
                     .build();
 
             // when
@@ -287,7 +287,7 @@ public class PieceTest {
         @DisplayName("사의 출발 좌표가 (5,2)일 때 이동 가능한지 여부를 판단한다.")
         void test1() {
             // given
-            Piece sa = new Piece(Country.HAN, PieceType.사);
+            Piece sa = new Piece(Country.HAN, PieceType.SA);
             Board board = new BoardFixture()
                     .addPiece(5, 2, sa)
                     .build();
@@ -319,7 +319,7 @@ public class PieceTest {
         @DisplayName("사의 출발 좌표가 (4,1)일 때 보드판이나 궁성을 벗어난 좌표는 이동할 수 없다.")
         void test2() {
             // given
-            Piece sa = new Piece(Country.HAN, PieceType.사);
+            Piece sa = new Piece(Country.HAN, PieceType.SA);
             Board board = new BoardFixture()
                     .addPiece(4, 1, sa)
                     .build();
@@ -347,16 +347,16 @@ public class PieceTest {
         @DisplayName("사는 장애물을 고려하지 않아도 된다.")
         void test3() {
             // given
-            Piece sa = new Piece(Country.CHO, PieceType.사);
+            Piece sa = new Piece(Country.CHO, PieceType.SA);
             Board board = new BoardFixture()
-                    .addPiece(4, 1, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(5, 1, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(6, 1, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(4, 2, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(6, 2, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(4, 3, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(5, 3, new Piece(Country.HAN, PieceType.상))
-                    .addPiece(6, 3, new Piece(Country.HAN, PieceType.상))
+                    .addPiece(4, 1, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(5, 1, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(6, 1, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(4, 2, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(6, 2, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(4, 3, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(5, 3, new Piece(Country.HAN, PieceType.SANG))
+                    .addPiece(6, 3, new Piece(Country.HAN, PieceType.SANG))
                     .build();
 
             // when
@@ -375,7 +375,7 @@ public class PieceTest {
         @DisplayName("상의 출발 좌표가 (5,5)일 때 이동 가능한지 여부를 판단한다.")
         void test1() {
             // given
-            Piece sang = new Piece(Country.HAN, PieceType.상);
+            Piece sang = new Piece(Country.HAN, PieceType.SANG);
             Board board = new BoardFixture()
                     .addPiece(5, 5, sang)
                     .build();
@@ -407,7 +407,7 @@ public class PieceTest {
         @DisplayName("상의 출발 좌표가 (3,1)일 때 보드판을 벗어난 좌표는 이동할 수 없다.")
         void test2() {
             // given
-            Piece sang = new Piece(Country.HAN, PieceType.상);
+            Piece sang = new Piece(Country.HAN, PieceType.SANG);
             Board board = new BoardFixture()
                     .addPiece(3, 1, sang)
                     .build();
@@ -429,10 +429,10 @@ public class PieceTest {
         @DisplayName("상이 (5,5) -> (3,2) 으로 이동할 때 (5,4)를 거치기 때문에 이동할 수 없다.")
         void test3() {
             // given
-            Piece sang = new Piece(Country.HAN, PieceType.상);
+            Piece sang = new Piece(Country.HAN, PieceType.SANG);
             Board board = new BoardFixture()
                     .addPiece(5, 5, sang)
-                    .addPiece(5, 4, new Piece(Country.CHO, PieceType.상))
+                    .addPiece(5, 4, new Piece(Country.CHO, PieceType.SANG))
                     .build();
 
             // when
@@ -446,7 +446,7 @@ public class PieceTest {
         @DisplayName("상이 (5,5) -> (3,2) 으로 이동할 때 장애물이 하나도 없을 경우 이동할 수 있다.")
         void test4() {
             // given
-            Piece sang = new Piece(Country.HAN, PieceType.상);
+            Piece sang = new Piece(Country.HAN, PieceType.SANG);
             Board board = new BoardFixture()
                     .addPiece(5, 5, sang)
                     .build();
@@ -467,7 +467,7 @@ public class PieceTest {
         @DisplayName("마의 출발 좌표가 (5,5)일 때 이동 가능한지 여부를 판단한다.")
         void test1() {
             // given
-            Piece ma = new Piece(Country.HAN, PieceType.마);
+            Piece ma = new Piece(Country.HAN, PieceType.MA);
             Board board = new BoardFixture()
                     .addPiece(5, 5, ma)
                     .build();
@@ -499,7 +499,7 @@ public class PieceTest {
         @DisplayName("마의 출발 좌표가 (2,1)일 때 보드판을 벗어난 좌표는 이동할 수 없다.")
         void test2() {
             // given
-            Piece ma = new Piece(Country.HAN, PieceType.마);
+            Piece ma = new Piece(Country.HAN, PieceType.MA);
             Board board = new BoardFixture()
                     .addPiece(2, 1, ma)
                     .build();
@@ -521,10 +521,10 @@ public class PieceTest {
         @DisplayName("마가 (5,5) -> (4,3) 으로 이동할 때 (5,4)를 거치기 때문에 이동할 수 없다.")
         void test3() {
             // given
-            Piece ma = new Piece(Country.HAN, PieceType.마);
+            Piece ma = new Piece(Country.HAN, PieceType.MA);
             Board board = new BoardFixture()
                     .addPiece(5, 5, ma)
-                    .addPiece(5, 4, new Piece(Country.CHO, PieceType.상))
+                    .addPiece(5, 4, new Piece(Country.CHO, PieceType.SANG))
                     .build();
 
             // when
@@ -538,7 +538,7 @@ public class PieceTest {
         @DisplayName("마가 (5,5) -> (4,3) 으로 이동할 때 장애물이 하나도 없을 경우 이동할 수 있다.")
         void test4() {
             // given
-            Piece ma = new Piece(Country.CHO, PieceType.마);
+            Piece ma = new Piece(Country.CHO, PieceType.MA);
             Board board = new BoardFixture()
                     .addPiece(5, 5, ma)
                     .build();
@@ -559,13 +559,13 @@ public class PieceTest {
         @DisplayName("포의 출발 좌표가 (5,5)일 때 이동 가능한지 여부를 판단한다.")
         void test1() {
             // given
-            Piece po = new Piece(Country.HAN, PieceType.포);
+            Piece po = new Piece(Country.HAN, PieceType.PO);
             Board board = new BoardFixture()
                     .addPiece(5, 5, po)
-                    .addPiece(4, 5, new Piece(Country.HAN, PieceType.마))
-                    .addPiece(6, 5, new Piece(Country.HAN, PieceType.마))
-                    .addPiece(5, 4, new Piece(Country.HAN, PieceType.마))
-                    .addPiece(5, 6, new Piece(Country.HAN, PieceType.마))
+                    .addPiece(4, 5, new Piece(Country.HAN, PieceType.MA))
+                    .addPiece(6, 5, new Piece(Country.HAN, PieceType.MA))
+                    .addPiece(5, 4, new Piece(Country.HAN, PieceType.MA))
+                    .addPiece(5, 6, new Piece(Country.HAN, PieceType.MA))
                     .build();
 
             // when
@@ -605,7 +605,7 @@ public class PieceTest {
         @DisplayName("포가 (5,5) -> (6,5) 으로 이동할 때 장애물이 없을 경우 이동할 수 없다.")
         void test2() {
             // given
-            Piece po = new Piece(Country.HAN, PieceType.포);
+            Piece po = new Piece(Country.HAN, PieceType.PO);
             Board board = new BoardFixture()
                     .addPiece(5, 5, po)
                     .build();
@@ -621,11 +621,11 @@ public class PieceTest {
         @DisplayName("포가 (5,5) -> (8,5) 으로 이동할 때 장애물이 하나가 아닐 경우 이동할 수 없다.")
         void test3() {
             // given
-            Piece po = new Piece(Country.HAN, PieceType.포);
+            Piece po = new Piece(Country.HAN, PieceType.PO);
             Board board = new BoardFixture()
                     .addPiece(5, 5, po)
-                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.마))
-                    .addPiece(7, 5, new Piece(Country.CHO, PieceType.상))
+                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.MA))
+                    .addPiece(7, 5, new Piece(Country.CHO, PieceType.SANG))
                     .build();
 
             // when
@@ -639,10 +639,10 @@ public class PieceTest {
         @DisplayName("포가 (5,5) -> (8,5) 으로 이동할 때 장애물이 하나이면서 그 장애물이 포인 경우 이동할 수 없다.")
         void test4() {
             // given
-            Piece po = new Piece(Country.HAN, PieceType.포);
+            Piece po = new Piece(Country.HAN, PieceType.PO);
             Board board = new BoardFixture()
                     .addPiece(5, 5, po)
-                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.포))
+                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.PO))
                     .build();
 
             // when
@@ -656,11 +656,11 @@ public class PieceTest {
         @DisplayName("포가 (5,5) -> (8,5) 으로 이동할 때 장애물이 하나이면서 그 장애물이 포가 아니면서 도착 좌표에 포가 있으면 이동할 수 없다.")
         void test5() {
             // given
-            Piece po = new Piece(Country.HAN, PieceType.포);
+            Piece po = new Piece(Country.HAN, PieceType.PO);
             Board board = new BoardFixture()
                     .addPiece(5, 5, po)
-                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.마))
-                    .addPiece(8, 5, new Piece(Country.CHO, PieceType.포))
+                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.MA))
+                    .addPiece(8, 5, new Piece(Country.CHO, PieceType.PO))
                     .build();
 
             // when
@@ -674,11 +674,11 @@ public class PieceTest {
         @DisplayName("포가 (5,5) -> (8,5) 으로 이동할 때 장애물이 하나이면서 그 장애물이 포가 아니면서 도착 좌표에 포가 없을 경우 이동할 수 있다.")
         void test6() {
             // given
-            Piece po = new Piece(Country.HAN, PieceType.포);
+            Piece po = new Piece(Country.HAN, PieceType.PO);
             Board board = new BoardFixture()
                     .addPiece(5, 5, po)
-                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.마))
-                    .addPiece(8, 5, new Piece(Country.CHO, PieceType.상))
+                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.MA))
+                    .addPiece(8, 5, new Piece(Country.CHO, PieceType.SANG))
                     .build();
 
             // when
@@ -692,10 +692,10 @@ public class PieceTest {
         @DisplayName("포가 (5,5) -> (8,5) 으로 이동할 때 장애물이 하나이면서 그 장애물이 포가 아니면서 도착 좌표에 피스가 없을 경우 이동할 수 있다.")
         void test7() {
             // given
-            Piece po = new Piece(Country.HAN, PieceType.포);
+            Piece po = new Piece(Country.HAN, PieceType.PO);
             Board board = new BoardFixture()
                     .addPiece(5, 5, po)
-                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.상))
+                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.SANG))
                     .build();
 
             // when
@@ -714,7 +714,7 @@ public class PieceTest {
         @DisplayName("차의 출발 좌표가 (5,5)일 때 이동 가능한지 여부를 판단한다.")
         void test1() {
             // given
-            Piece cha = new Piece(Country.HAN, PieceType.차);
+            Piece cha = new Piece(Country.HAN, PieceType.CHA);
             Board board = new BoardFixture()
                     .addPiece(5, 5, cha)
                     .build();
@@ -764,10 +764,10 @@ public class PieceTest {
         @DisplayName("차가 (5,5) -> (8,5) 으로 이동할 때 장애물이 하나 이상 있을 경우 이동할 수 없다.")
         void test2() {
             // given
-            Piece cha = new Piece(Country.HAN, PieceType.차);
+            Piece cha = new Piece(Country.HAN, PieceType.CHA);
             Board board = new BoardFixture()
                     .addPiece(5, 5, cha)
-                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.포))
+                    .addPiece(6, 5, new Piece(Country.CHO, PieceType.PO))
                     .build();
 
             // when
@@ -781,7 +781,7 @@ public class PieceTest {
         @DisplayName("차가 (5,5) -> (8,5) 으로 이동할 때 장애물이 하나도 없을 경우 이동할 수 있다.")
         void test3() {
             // given
-            Piece cha = new Piece(Country.HAN, PieceType.차);
+            Piece cha = new Piece(Country.HAN, PieceType.CHA);
             Board board = new BoardFixture()
                     .addPiece(5, 5, cha)
                     .build();
@@ -802,7 +802,7 @@ public class PieceTest {
         @DisplayName("기물이 포라면 true를 반환한다.")
         void test1() {
             // given
-            Piece po = new Piece(Country.CHO, PieceType.포);
+            Piece po = new Piece(Country.CHO, PieceType.PO);
 
             // when
             boolean result = po.isPo();
@@ -815,7 +815,7 @@ public class PieceTest {
         @DisplayName("기물이 포가 아니라면 false를 반환한다.")
         void test2() {
             // given
-            Piece sa = new Piece(Country.CHO, PieceType.사);
+            Piece sa = new Piece(Country.CHO, PieceType.SA);
 
             // when
             boolean result = sa.isPo();
@@ -833,7 +833,7 @@ public class PieceTest {
         @DisplayName("기물이 궁이라면 true를 반환한다.")
         void test1() {
             // given
-            Piece goong = new Piece(Country.CHO, PieceType.궁);
+            Piece goong = new Piece(Country.CHO, PieceType.GOONG);
 
             // when
             boolean result = goong.isGoong();
@@ -846,7 +846,7 @@ public class PieceTest {
         @DisplayName("기물이 궁이 아니라면 false를 반환한다.")
         void test2() {
             // given
-            Piece sa = new Piece(Country.CHO, PieceType.사);
+            Piece sa = new Piece(Country.CHO, PieceType.SA);
 
             // when
             boolean result = sa.isPo();

@@ -5,11 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import object.board.Board;
 import object.board.BoardFixture;
 import object.coordinate.Coordinate;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import object.piece.Piece;
 import object.piece.PieceType;
 import object.team.Country;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 class MaPathValidatorTest {
 
@@ -18,8 +18,8 @@ class MaPathValidatorTest {
     void test1() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Country.HAN, PieceType.마))
-                .addPiece(5, 4, new Piece(Country.CHO, PieceType.상))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.MA))
+                .addPiece(5, 4, new Piece(Country.CHO, PieceType.SANG))
                 .build();
         MaPathValidator validator = new MaPathValidator();
 
@@ -35,7 +35,7 @@ class MaPathValidatorTest {
     void test2() {
         // given
         Board board = new BoardFixture()
-                .addPiece(5, 5, new Piece(Country.HAN, PieceType.마))
+                .addPiece(5, 5, new Piece(Country.HAN, PieceType.MA))
                 .build();
         MaPathValidator validator = new MaPathValidator();
 

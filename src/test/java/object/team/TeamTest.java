@@ -20,9 +20,9 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 Map.of(
-                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 ),
                 new Score(0)
         );
@@ -41,9 +41,9 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 Map.of(
-                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 ),
                 new Score(0)
         );
@@ -59,13 +59,13 @@ class TeamTest {
     @DisplayName("좌표에 있는 기물을 가져온다.")
     void test3() {
         // given
-        Piece jol = new Piece(Country.CHO, PieceType.졸);
+        Piece jol = new Piece(Country.CHO, PieceType.JOL);
         Team team = new Team(
                 Country.CHO,
                 Map.of(
                         new Coordinate(5, 7), jol,
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 ),
                 new Score(0)
         );
@@ -84,9 +84,9 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 Map.of(
-                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 ),
                 new Score(0)
         );
@@ -104,9 +104,9 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 )),
                 new Score(0)
         );
@@ -127,9 +127,9 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.궁),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.GOONG),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 )),
                 new Score(0)
         );
@@ -148,15 +148,15 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.궁),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.GOONG),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 )),
                 new Score(0)
         );
 
         // when
-        Piece piece = new Piece(Country.CHO, PieceType.사);
+        Piece piece = new Piece(Country.CHO, PieceType.SA);
         team.putPiece(new Coordinate(7, 8), piece);
 
         // then
@@ -171,9 +171,9 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.궁),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.GOONG),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 )),
                 new Score(0)
         );
@@ -192,9 +192,9 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.궁),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.GOONG),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 )),
                 new Score(0)
         );
@@ -213,9 +213,9 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.궁),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.GOONG),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 )),
                 new Score(0)
         );
@@ -234,9 +234,9 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.궁),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.GOONG),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 )),
                 new Score(0)
         );
@@ -255,9 +255,9 @@ class TeamTest {
         Team team = new Team(
                 Country.CHO,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.궁),
-                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 9), new Piece(Country.CHO, PieceType.GOONG),
+                        new Coordinate(3, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(7, 7), new Piece(Country.CHO, PieceType.JOL)
                 )),
                 new Score(0)
         );

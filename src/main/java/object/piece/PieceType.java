@@ -24,27 +24,32 @@ import object.piece.validator.PoPathValidator;
 import object.piece.validator.SangPathValidator;
 
 public enum PieceType {
-    궁(0,
+    GOONG("궁",
+            0,
             List.of(new CrossOneInCastlePathGenerator(),
                     new DiagonalOneInCastlePathGenerator()),
             List.of()
     ),
-    사(3,
+    SA("사",
+            3,
             List.of(new CrossOneInCastlePathGenerator(),
                     new DiagonalOneInCastlePathGenerator()),
             List.of()
     ),
-    졸(2,
+    JOL("졸",
+            2,
             List.of(new SpecificOnePathGenerator(List.of(UP, RIGHT, LEFT)),
                     new DiagonalOneInCastlePathGenerator()),
             List.of()
     ),
-    병(2,
+    BYEONG("병",
+            2,
             List.of(new SpecificOnePathGenerator(List.of(DOWN, RIGHT, LEFT)),
                     new DiagonalOneInCastlePathGenerator()),
             List.of()
     ),
-    상(3,
+    SANG("상",
+            3,
             List.of(new SpecificPathGenerator(List.of(
                     List.of(UP, RIGHT_UP, RIGHT_UP),
                     List.of(UP, LEFT_UP, LEFT_UP),
@@ -57,7 +62,8 @@ public enum PieceType {
             ))),
             List.of(new SangPathValidator())
     ),
-    마(5,
+    MA("마",
+            5,
             List.of(new SpecificPathGenerator(List.of(
                     List.of(UP, RIGHT_UP),
                     List.of(UP, LEFT_UP),
@@ -69,26 +75,34 @@ public enum PieceType {
                     List.of(LEFT, LEFT_DOWN)))),
             List.of(new MaPathValidator())
     ),
-    포(7,
+    PO("포",
+            7,
             List.of(new CrossPathGenerator(),
                     new DiagonalInCastlePathGenerator()),
             List.of(new PoPathValidator())
     ),
-    차(13,
+    CHA("차",
+            13,
             List.of(new CrossPathGenerator(),
                     new DiagonalInCastlePathGenerator()),
             List.of(new CrossPathValidator())
     ),
     ;
 
+    private final String name;
     private final int score;
     private final List<PathGenerator> pathGenerators;
     private final List<PathValidator> pathValidators;
 
-    PieceType(int score, List<PathGenerator> pathGenerators, List<PathValidator> pathValidators) {
+    PieceType(String name, int score, List<PathGenerator> pathGenerators, List<PathValidator> pathValidators) {
+        this.name = name;
         this.score = score;
         this.pathGenerators = pathGenerators;
         this.pathValidators = pathValidators;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public int getScore() {

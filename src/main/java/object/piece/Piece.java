@@ -32,11 +32,11 @@ public class Piece {
     }
 
     public boolean isPo() {
-        return pieceType.equals(PieceType.포);
+        return pieceType.equals(PieceType.PO);
     }
 
     public boolean isGoong() {
-        return pieceType.equals(PieceType.궁);
+        return pieceType.equals(PieceType.GOONG);
     }
 
     public int getScore() {
@@ -52,6 +52,6 @@ public class Piece {
     }
 
     public String colorName() {
-        return this.country.applyColor(this.pieceType.name());
+        return this.country.applyColor(this.pieceType.getName());
     }
 }

@@ -25,7 +25,7 @@ class TeamsTest {
         Team cho = new Team(
                 Country.CHO,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.JOL)
                 )),
                 new Score(0)
         );
@@ -65,7 +65,7 @@ class TeamsTest {
     @DisplayName("기물을 찾는다.")
     void test3() {
         // given
-        Piece jol = new Piece(Country.CHO, PieceType.졸);
+        Piece jol = new Piece(Country.CHO, PieceType.JOL);
         Team han = new Team(
                 Country.HAN,
                 Map.of(),
@@ -91,7 +91,7 @@ class TeamsTest {
     @DisplayName("좌표에 기물이 없으면 예외가 발생한다.")
     void test4() {
         // given
-        Piece jol = new Piece(Country.CHO, PieceType.졸);
+        Piece jol = new Piece(Country.CHO, PieceType.JOL);
         Team han = new Team(
                 Country.HAN,
                 Map.of(),
@@ -115,7 +115,7 @@ class TeamsTest {
     @DisplayName("도착 좌표에 기물이 없는 경우 기물을 움직인다.")
     void test5() {
         // given
-        Piece jol = new Piece(Country.CHO, PieceType.졸);
+        Piece jol = new Piece(Country.CHO, PieceType.JOL);
         Team han = new Team(
                 Country.HAN,
                 Map.of(),
@@ -142,11 +142,11 @@ class TeamsTest {
     @DisplayName("도착 좌표에 상대 기물이 있는 경우 기물을 움직이면, 도착 좌표의 기물은 제거되고 해당 좌표에는 움직인 기물이 남는다.")
     void test6() {
         // given
-        Piece jol = new Piece(Country.CHO, PieceType.졸);
+        Piece jol = new Piece(Country.CHO, PieceType.JOL);
         Team han = new Team(
                 Country.HAN,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 6), new Piece(Country.HAN, PieceType.졸)
+                        new Coordinate(5, 6), new Piece(Country.HAN, PieceType.JOL)
                 )),
                 new Score(0)
         );
@@ -175,11 +175,11 @@ class TeamsTest {
     @DisplayName("도착 좌표에 상대 기물이 있는 경우 기물을 움직이면, 점수를 얻는다.")
     void test7() {
         // given
-        Piece jol = new Piece(Country.CHO, PieceType.졸);
+        Piece jol = new Piece(Country.CHO, PieceType.JOL);
         Team han = new Team(
                 Country.HAN,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 6), new Piece(Country.HAN, PieceType.졸)
+                        new Coordinate(5, 6), new Piece(Country.HAN, PieceType.JOL)
                 )),
                 new Score(0)
         );
@@ -196,14 +196,14 @@ class TeamsTest {
         teams.movePiece(Country.CHO, jol, new Coordinate(5, 7), new Coordinate(5, 6));
 
         // then
-        assertThat(cho.getScore()).isEqualTo(PieceType.졸.getScore());
+        assertThat(cho.getScore()).isEqualTo(PieceType.JOL.getScore());
     }
 
     @Test
     @DisplayName("다른 팀의 기물을 움직이려고 시도하면 예외가 발생한다.")
     void test8() {
         // given
-        Piece jol = new Piece(Country.CHO, PieceType.졸);
+        Piece jol = new Piece(Country.CHO, PieceType.JOL);
         Team han = new Team(
                 Country.HAN,
                 Map.of(),
@@ -228,7 +228,7 @@ class TeamsTest {
     @DisplayName("도착 좌표에 같은 팀 말이 있으면 예외가 발생한다.")
     void test9() {
         // given
-        Piece jol = new Piece(Country.CHO, PieceType.졸);
+        Piece jol = new Piece(Country.CHO, PieceType.JOL);
         Team han = new Team(
                 Country.HAN,
                 Map.of(),
@@ -237,8 +237,8 @@ class TeamsTest {
         Team cho = new Team(
                 Country.CHO,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.졸),
-                        new Coordinate(5, 6), new Piece(Country.CHO, PieceType.졸)
+                        new Coordinate(5, 7), new Piece(Country.CHO, PieceType.JOL),
+                        new Coordinate(5, 6), new Piece(Country.CHO, PieceType.JOL)
                 )),
                 new Score(0)
         );
@@ -254,11 +254,11 @@ class TeamsTest {
     @DisplayName("궁이 죽은 경우 게임이 끝난다.")
     void test10() {
         // given
-        Piece jol = new Piece(Country.CHO, PieceType.졸);
+        Piece jol = new Piece(Country.CHO, PieceType.JOL);
         Team han = new Team(
                 Country.HAN,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 9), new Piece(Country.HAN, PieceType.궁)
+                        new Coordinate(5, 9), new Piece(Country.HAN, PieceType.GOONG)
                 )),
                 new Score(0)
         );
@@ -283,11 +283,11 @@ class TeamsTest {
     @DisplayName("점수가 높은 나라가 이긴다.")
     void test11() {
         // given
-        Piece jol = new Piece(Country.CHO, PieceType.졸);
+        Piece jol = new Piece(Country.CHO, PieceType.JOL);
         Team han = new Team(
                 Country.HAN,
                 new HashMap<>(Map.of(
-                        new Coordinate(5, 9), new Piece(Country.HAN, PieceType.졸)
+                        new Coordinate(5, 9), new Piece(Country.HAN, PieceType.JOL)
                 )),
                 new Score(0)
         );
