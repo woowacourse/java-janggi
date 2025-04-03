@@ -84,7 +84,7 @@ public class PieceDao {
     }
 
     public void clear() {
-        final var query = "DELETE FROM Piece";
+        final var query = "DELETE FROM piece";
         try (final var connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
