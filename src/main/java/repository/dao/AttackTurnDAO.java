@@ -61,25 +61,13 @@ public class AttackTurnDAO {
     }
 
     public void resetTurn() {
-        Connection connection = new MysqlConnectionManager().getConnection();
         String query = "DELETE FROM attack_turn";
 
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            connection.setAutoCommit(false);
+        try (Connection connection = new MysqlConnectionManager().getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.executeUpdate();
         } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException rollbackEx) {
-                rollbackEx.printStackTrace();
-            }
             throw new RuntimeException("리셋 실패", e);
-        } finally {
-            try {
-                connection.setAutoCommit(true);
-            } catch (SQLException autoCommitEx) {
-                autoCommitEx.printStackTrace();
-            }
         }
     }
 }
