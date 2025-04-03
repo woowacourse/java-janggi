@@ -119,7 +119,7 @@ public class Board {
     }
 
     public Map<PieceType, Integer> countPieces(final Team team) {
-        if (team == Team.GREEN) {
+        if (team.isGreenTeam()) {
             return countPieceType(Position::isGreenTeam);
         }
         return countPieceType(position -> !position.isGreenTeam());
