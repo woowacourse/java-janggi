@@ -77,7 +77,7 @@ public class Board {
                 .mapToInt(Piece::getScore)
                 .sum();
 
-        if (turn.isFirstTurn(team)) {
+        if (turn.startedBy(team)) {
             return sum;
         }
         return sum + SCORE_SECOND_TURN_BENEFIT;

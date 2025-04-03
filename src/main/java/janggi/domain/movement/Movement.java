@@ -17,19 +17,6 @@ public record Movement(
             DOWN_RIGHT);
 
     public static Movement findUnitMovement(final int x, final int y) {
-        if (x < 0 && y == 0) {
-            return UP;
-        }
-        if (x > 0 && y == 0) {
-            return DOWN;
-        }
-        if (x == 0 && y < 0) {
-            return LEFT;
-        }
-        if (x == 0 && y > 0) {
-            return RIGHT;
-        }
-
         if (x < 0 && y < 0) {
             return UP_LEFT;
         }
@@ -42,14 +29,10 @@ public record Movement(
         if (x > 0 && y > 0) {
             return DOWN_RIGHT;
         }
-
-        throw new IllegalStateException("원래 위치로 이동할 수 없거나, 방향을 특정할 수 없습니다.");
+        return findStraightUnitMovement(x, y);
     }
 
     public static Movement findStraightUnitMovement(final int x, final int y) {
-        if (x != 0 && y != 0) {
-            throw new IllegalArgumentException("해당 기물은 대각선 방향으로 이동할 수 없습니다.");
-        }
         if (x < 0 && y == 0) {
             return UP;
         }

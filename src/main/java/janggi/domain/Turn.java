@@ -15,7 +15,7 @@ public class Turn {
         return new Turn(team);
     }
 
-    public Team now() {
+    public Team current() {
         return turn;
     }
 
@@ -34,7 +34,7 @@ public class Turn {
         }
     }
 
-    public boolean isFirstTurn(final Team team) {
+    public boolean startedBy(final Team team) {
         return firstTurn == team;
     }
 }

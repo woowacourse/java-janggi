@@ -48,7 +48,7 @@ public class JanggiService {
         gameDAO.softDeleteGame(gameId);
     }
 
-    public Team getTurn(final int gameId) {
+    public Team loadTurn(final int gameId) {
         BoardSnapshot boardSnapshot = boardSnapshotDAO.loadLatestSnapshotOrNull(gameId);
         return Team.findByName(boardSnapshot.turn());
     }

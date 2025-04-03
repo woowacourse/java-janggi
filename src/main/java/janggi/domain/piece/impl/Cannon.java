@@ -53,14 +53,14 @@ public class Cannon extends PalacePiece {
             final Position beforePosition,
             final Position afterPosition) {
 
-        int obstaclesCount = countObstaclesOnStraightPath(pieces, beforePosition, afterPosition);
+        int obstaclesCount = countObstaclesOnPath(pieces, beforePosition, afterPosition);
 
         if (obstaclesCount != 1) {
             throw new IllegalArgumentException("포는 반드시 하나의 장애물을 넘어야 합니다.");
         }
     }
 
-    private int countObstaclesOnStraightPath(
+    private int countObstaclesOnPath(
             final Pieces pieces,
             final Position beforePosition,
             final Position afterPosition) {
@@ -86,14 +86,14 @@ public class Cannon extends PalacePiece {
             final Position beforePosition,
             final Position afterPosition) {
 
-        int obstaclesCount = countObstaclesOnPath(pieces, beforePosition, afterPosition);
+        int obstaclesCount = countObstaclesOnPalacePath(pieces, beforePosition, afterPosition);
 
         if (obstaclesCount != 1) {
             throw new IllegalArgumentException("포는 반드시 하나의 장애물을 넘어야 합니다.");
         }
     }
 
-    private int countObstaclesOnPath(
+    private int countObstaclesOnPalacePath(
             final Pieces pieces,
             final Position beforePosition,
             final Position afterPosition) {

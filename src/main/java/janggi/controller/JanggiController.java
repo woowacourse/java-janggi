@@ -55,15 +55,15 @@ public class JanggiController {
     public void startJanggiWithSave() {
         Board board = loadOrInitializeBoard();
         int gameId = janggiService.getLatestGameId();
-        Turn turn = Turn.startWith(janggiService.getTurn(gameId));
-        janggiService.saveGame(gameId, board, turn.now());
+        Turn turn = Turn.startWith(janggiService.loadTurn(gameId));
+        janggiService.saveGame(gameId, board, turn.current());
 
         while (true) {
             Team nowTeam = turn.next();
             outputView.printBoard(board);
             String pieceMovement = inputView.readPieceMovement(nowTeam);
             movePieceByPieceMovement(nowTeam, pieceMovement, board);
-            janggiService.saveGame(gameId, board, turn.now());
+            janggiService.saveGame(gameId, board, turn.current());
 
             if (board.checkGameOver()) {
                 printResult(board, turn);

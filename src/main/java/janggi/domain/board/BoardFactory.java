@@ -19,8 +19,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class BoardFactory {
-
-
     public static Board getInitializedBoard(
             final HorseSide blueLeftHorsePosition,
             final HorseSide blueRightHorsePosition,
