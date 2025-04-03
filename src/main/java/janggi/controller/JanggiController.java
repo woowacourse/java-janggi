@@ -1,13 +1,12 @@
 package janggi.controller;
 
 import janggi.db.Connection;
+import janggi.db.DatabaseInitializer;
 import janggi.db.PieceDao;
 import janggi.db.Table;
 import janggi.db.TurnDao;
 import janggi.domain.Board;
-import janggi.domain.InitialElephantSetting;
 import janggi.domain.Pieces;
-import janggi.domain.PiecesInitializer;
 import janggi.domain.Team;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
@@ -15,7 +14,6 @@ import janggi.view.InputView;
 import janggi.view.OutputView;
 import janggi.view.UserContinueResponse;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Set;
 
 public class JanggiController {
@@ -36,7 +34,8 @@ public class JanggiController {
 
     public void run() throws SQLException {
         Table table = new Table(connection);
-        initializeDatabase(table);
+        DatabaseInitializer databaseInitializer = new DatabaseInitializer(table);
+        databaseInitializer.initialize(pieceDao, turnDao);
 
         while (true) {
             Board board = readBoardFromDatabase();
@@ -64,7 +63,6 @@ public class JanggiController {
                 table.dropTable("turn");
                 break;
             }
-
             updateDatabase(board);
         }
     }
@@ -88,30 +86,6 @@ public class JanggiController {
             pieceDao.addPiece(piece);
         }
         turnDao.updateTeam(board.getTurn());
-    }
-
-    private void initializeDatabase(final Table table) throws SQLException {
-        if (!table.isTableExist("piece") ||
-                !table.isTableExist("turn")) {
-            if (table.isTableExist("piece")) {
-                table.dropTable("piece");
-            }
-            if (table.isTableExist("turn")) {
-                table.dropTable("turn");
-            }
-
-            table.createPieceTable();
-            table.createTurnTable();
-
-            List<Piece> initialPieces = PiecesInitializer.initializePieces(InitialElephantSetting.INNER_ELEPHANT)
-                    .getPieces();
-
-            for (Piece initialPiece : initialPieces) {
-                pieceDao.addPiece(initialPiece);
-            }
-
-            turnDao.addTeam(Team.BLUE);
-        }
     }
 
     private void move(final Set<Position> possibleDestinations, final Board board, final Piece selectedPiece) {

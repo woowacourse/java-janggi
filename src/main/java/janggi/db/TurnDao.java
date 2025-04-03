@@ -25,7 +25,6 @@ public class TurnDao {
         final var query = "SELECT * FROM turn";
         try (final var conn = connection.getConnection();
              final var preparedStatement = conn.prepareStatement(query)) {
-
             final var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return Team.valueOf(resultSet.getString("team"));
