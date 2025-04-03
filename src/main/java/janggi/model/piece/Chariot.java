@@ -27,7 +27,7 @@ public class Chariot extends Piece {
 
     @Override
     public double getScore() {
-        return 13;
+        return identity().score();
     }
 
     private Set<Position> calculateMovableOneSide(Direction direction, Position start, OccupiedPositions occupied) {

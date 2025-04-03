@@ -27,7 +27,7 @@ public class Cannon extends Piece {
 
     @Override
     public double getScore() {
-        return 7;
+        return identity().score();
     }
 
     private Set<Position> calculateMovableOneSide(Direction direction, Position start, OccupiedPositions occupied) {

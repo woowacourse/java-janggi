@@ -31,7 +31,7 @@ public class Elephant extends Piece {
 
     @Override
     public double getScore() {
-        return 3;
+        return identity().score();
     }
 
     private static List<Directions> elephantDirections() {

@@ -33,7 +33,7 @@ public class Soldier extends Piece {
 
     @Override
     public double getScore() {
-        return 2;
+        return identity().score();
     }
 
     private List<Direction> calculateCastleCrossDirection(Position start) {

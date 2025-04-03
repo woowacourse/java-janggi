@@ -3,6 +3,8 @@ package janggi.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.db.DbTest;
+import janggi.db.MockConnection;
 import janggi.model.piece.Chariot;
 import java.util.Map;
 import java.util.Set;
@@ -10,7 +12,7 @@ import janggi.model.piece.Guard;
 import janggi.model.piece.Piece;
 import org.junit.jupiter.api.Test;
 
-class GuardTest {
+class GuardTest extends DbTest {
 
     Position position = new Position(9, 5);
 
@@ -72,7 +74,7 @@ class GuardTest {
     @Test
     void 사는_궁성영역_밖으로_이동할_수_없다() {
         Board board = new Board();
-        JanggiGame janggiGame = new JanggiGame(board, new Turn(Color.BLUE));
+        JanggiGame janggiGame = new JanggiGame(board, new Turn(Color.BLUE), mockConnection());
 
         Piece guard = new Chariot(Color.BLUE);
         board.putPiece(position, guard);

@@ -21,9 +21,6 @@ public class JanggiController {
     }
 
     public void run() {
-        if (!dbInitializer.existDb()) {
-            dbInitializer.init();
-        }
         JanggiGame janggiGame = new JanggiGame();
         retry(() -> playGame(janggiGame));
     }

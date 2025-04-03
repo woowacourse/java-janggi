@@ -1,7 +1,5 @@
 package janggi.db;
 
-import janggi.dao.BoardDao;
-import janggi.model.BoardInitializer;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,19 +26,15 @@ public class DBInitializer {
             connection.prepareStatement("DROP DATABASE IF EXISTS janggi;").executeUpdate();
             connection.prepareStatement("CREATE DATABASE IF NOT EXISTS janggi;").executeUpdate();
             connection.prepareStatement("USE janggi;").executeUpdate();
-            connection.prepareStatement("CREATE TABLE turn(currentTeamColor VARCHAR(30));").executeUpdate();
-            connection.prepareStatement("INSERT INTO turn(currentTeamColor) VALUES ('BLUE')").executeUpdate();
+            connection.prepareStatement("CREATE TABLE turn(currentTeamColor VARCHAR(10));").executeUpdate();
             connection.prepareStatement("""
                     CREATE TABLE board(
                         rowIndex int,
                         columnIndex int,
-                        teamColor VARCHAR(30),
-                        pieceType VARCHAR(30)
+                        teamColor VARCHAR(10),
+                        pieceType VARCHAR(10)
                     );
                     """).executeUpdate();
-            BoardDao boardDao = new BoardDao(dbConnection);
-            BoardInitializer boardInitializer = new BoardInitializer();
-            boardDao.updateOccupiedPositions(boardInitializer.init().generateOccupiedPositions());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -32,7 +32,8 @@ public class BoardDao {
         this.dbConnection = dbConnection;
     }
 
-    public void updateOccupiedPositions(OccupiedPositions occupiedPositions) {
+    public void updateOccupiedPositions(Board board) {
+        OccupiedPositions occupiedPositions = board.generateOccupiedPositions();
         dbConnection.executeUpdate("DELETE FROM board");
         for (Entry<Position, PieceIdentity> entry : occupiedPositions.getPositions().entrySet()) {
             dbConnection.executeUpdate("INSERT INTO board VALUES (?, ?, ?, ?)",

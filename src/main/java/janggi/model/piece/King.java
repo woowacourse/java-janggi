@@ -24,10 +24,7 @@ public class King extends Piece {
 
     @Override
     public double getScore() {
-        if (identity().color() == Color.BLUE) {
-            return 0;
-        }
-        return 1.5;
+        return identity().score();
     }
 
     private boolean destinationIsNotSameColor(OccupiedPositions occupied, Position destination) {

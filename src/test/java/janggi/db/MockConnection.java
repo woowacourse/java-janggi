@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class MockConnection extends DBConnection {
     private static final String JDBC_URL_BASE = "jdbc:h2:mem:";
-    private static final String JANGGI_DB = "janggiTest";
+    private static final String JANGGI_DB = "janggi";
     private static final String DEFAULT_DB = "defaultTest";
     private static final String OPTIONS = ";MODE=MySQL;DB_CLOSE_DELAY=-1";
     private static final String USERNAME = "sa";

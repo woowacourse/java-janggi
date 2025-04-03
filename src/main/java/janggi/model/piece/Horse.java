@@ -31,7 +31,7 @@ public class Horse extends Piece {
 
     @Override
     public double getScore() {
-        return 5;
+        return identity().score();
     }
 
     private static List<Directions> horseDirections() {

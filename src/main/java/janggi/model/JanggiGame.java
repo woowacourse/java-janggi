@@ -3,23 +3,36 @@ package janggi.model;
 import janggi.dao.BoardDao;
 import janggi.dao.TurnDao;
 import janggi.db.DBConnection;
+import janggi.db.DBInitializer;
 import janggi.model.piece.Piece;
 import java.util.Set;
 
 public class JanggiGame {
     private final Board board;
     private final Turn turn;
-    private final BoardDao boardDao = new BoardDao(new DBConnection());
-    private final TurnDao turnDao = new TurnDao(new DBConnection());
+
+    private final BoardDao boardDao;
+    private final TurnDao turnDao;
+    private final DBInitializer dbInitializer;
 
     public JanggiGame() {
+        DBConnection dbConnection = new DBConnection();
+        boardDao = new BoardDao(dbConnection);
+        turnDao = new TurnDao(dbConnection);
+        dbInitializer = new DBInitializer(dbConnection);
+        if (!dbInitializer.existDb()) {
+            initializeDb();
+        }
         board = boardDao.findBoard();
         turn = new Turn(turnDao.findCurrentTurn());
     }
 
-    public JanggiGame(Board board, Turn turn) {
+    public JanggiGame(Board board, Turn turn, DBConnection dbConnection) {
         this.board = board;
         this.turn = turn;
+        boardDao = new BoardDao(dbConnection);
+        turnDao = new TurnDao(dbConnection);
+        dbInitializer = new DBInitializer(dbConnection);
     }
 
     public boolean existCatchablePiece(Color ourColor, Position destination) {
@@ -36,7 +49,7 @@ public class JanggiGame {
         }
         board.move(departure, destination);
         turn.nextTurn();
-        boardDao.updateOccupiedPositions(board.generateOccupiedPositions());
+        boardDao.updateOccupiedPositions(board);
         turnDao.updateCurrentTurn(turn.getCurrentTurn());
     }
 
@@ -50,5 +63,14 @@ public class JanggiGame {
 
     public double calculateScore(Color color) {
         return board.calculateScore(color);
+    }
+
+    private void initializeDb() {
+        GameInitializer gameInitializer = new GameInitializer();
+        dbInitializer.init();
+        Board generatedBoard = gameInitializer.generateBoard();
+        Turn generatedTurn = gameInitializer.generateTurn();
+        boardDao.updateOccupiedPositions(generatedBoard);
+        turnDao.updateCurrentTurn(generatedTurn.getCurrentTurn());
     }
 }

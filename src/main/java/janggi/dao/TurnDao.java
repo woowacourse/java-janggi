@@ -30,7 +30,8 @@ public class TurnDao {
     }
 
     public void updateCurrentTurn(Color color) {
-        dbConnection.executeUpdate("UPDATE turn set currentTeamColor = ?", color.name());
+        dbConnection.executeUpdate("DELETE FROM turn");
+        dbConnection.executeUpdate("INSERT INTO turn VALUES (?)", color.name());
     }
 
     public Color findCurrentTurn() {

@@ -6,11 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String SERVER = "localhost:3306";
+    private static final String SERVER = "localhost:13306";
     private static final String DATABASE = "janggi";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "gustn346!@";
+    private static final String PASSWORD = "1234";
 
     private static Connection janggiConnection;
     private static Connection dbConnection;

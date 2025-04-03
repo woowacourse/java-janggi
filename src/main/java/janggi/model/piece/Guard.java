@@ -24,7 +24,7 @@ public class Guard extends Piece {
 
     @Override
     public double getScore() {
-        return 3;
+        return identity().score();
     }
 
     private boolean destinationIsNotSameColor(OccupiedPositions occupied, Position destination) {

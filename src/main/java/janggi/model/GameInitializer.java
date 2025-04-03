@@ -10,7 +10,7 @@ import janggi.model.piece.Soldier;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class BoardInitializer {
+public class GameInitializer {
 
     public static final int FIRST_HORSE_COLUMN_INDEX = 3;
     public static final int SECOND_HORSE_COLUMN_INDEX = 8;
@@ -24,7 +24,7 @@ public class BoardInitializer {
     public static final int FIRST_CANNON_COLUMN_INDEX = 2;
     public static final int SECOND_CANNON_COLUMN_INDEX = 8;
 
-    public Board init() {
+    public Board generateBoard() {
         Board board = new Board();
         Arrays.stream(Color.values()).forEach(team -> {
             putSoldiers(team, board);
@@ -36,6 +36,10 @@ public class BoardInitializer {
             putHorse(team, board);
         });
         return board;
+    }
+
+    public Turn generateTurn() {
+        return new Turn(Color.BLUE);
     }
 
     private void putHorse(final Color color, final Board board) {
@@ -70,7 +74,7 @@ public class BoardInitializer {
 
     private void putSoldiers(final Color color, final Board board) {
         IntStream.range(1, 10)
-                        .filter(BoardInitializer::isSoldierColumn)
+                        .filter(GameInitializer::isSoldierColumn)
                         .forEach(column -> board.putPiece(
                                 new Position(calculateRow(color, 3), column),
                                 new Soldier(color))

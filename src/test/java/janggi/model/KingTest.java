@@ -3,13 +3,14 @@ package janggi.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import janggi.db.DbTest;
 import java.util.Map;
 import java.util.Set;
 import janggi.model.piece.King;
 import janggi.model.piece.Piece;
 import org.junit.jupiter.api.Test;
 
-class KingTest {
+class KingTest extends DbTest {
 
     Position position = new Position(9, 5);
 
@@ -78,12 +79,12 @@ class KingTest {
     void 왕은_궁성영역_밖으로_이동할_수_없다() {
 
         Board board = new Board();
-        JanggiGame janggiGame = new JanggiGame();
+        JanggiGame janggiGame = new JanggiGame(board, new Turn(Color.BLUE), mockConnection());
 
         Piece king = new King(Color.BLUE);
         board.putPiece(position, king);
 
-        assertThatThrownBy(() ->janggiGame.playTurn(position, new Position(10, 7)))
+        assertThatThrownBy(() -> janggiGame.playTurn(position, new Position(10, 7)))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -36,7 +36,6 @@ class BoardTest {
     @Test
     void 홍팀의_점수를_계산한다() {
         Board board = new Board();
-        JanggiGame janggiGame = new JanggiGame();
 
         board.putPiece(new Position(4, 4), new Horse(Color.RED));
         board.putPiece(new Position(5, 4), new Cannon(Color.RED));
@@ -52,7 +51,6 @@ class BoardTest {
     @Test
     void 청팀의_점수를_계산한다() {
         Board board = new Board();
-        JanggiGame janggiGame = new JanggiGame();
 
         board.putPiece(new Position(4, 4), new Horse(Color.BLUE));
         board.putPiece(new Position(5, 4), new Cannon(Color.BLUE));
