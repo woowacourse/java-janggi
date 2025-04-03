@@ -6,13 +6,12 @@ import model.Moving;
 import model.Point;
 import model.Team;
 
-public class Pho extends PalaceMovablePieces {
+public class Po extends PalaceMovablePieces {
 
     private static final int PO_SCORE = 7;
 
-    public Pho(Team team) {
-        super(team, PieceName.PO);
-        score = PO_SCORE;
+    public Po(Team team) {
+        super(team, PieceName.PO, Score.PO);
     }
 
     @Override
@@ -23,7 +22,7 @@ public class Pho extends PalaceMovablePieces {
         if (piecesOnPathWithTargetOrNot.size() == 1) {
             if (piecesOnPathWithTargetOrNot.values()
                     .stream().findFirst().get() || piecesOnPathWithTargetOrNot.keySet()
-                    .stream().findFirst().get() instanceof Pho) {
+                    .stream().findFirst().get() instanceof Po) {
                 return false;
             }
             return true;
@@ -33,7 +32,7 @@ public class Pho extends PalaceMovablePieces {
             if (piecesOnPathWithTargetOrNot
                     .keySet()
                     .stream()
-                    .anyMatch(piece -> piece instanceof Pho)) {
+                    .anyMatch(piece -> piece instanceof Po)) {
                 return false;
             }
 
@@ -48,7 +47,7 @@ public class Pho extends PalaceMovablePieces {
                     .findFirst()
                     .get()
                     .getKey()
-                    .getTeam() == this.team) {
+                    .getTeam() == getTeam()) {
                 return false;
             }
             return true;

@@ -7,11 +7,8 @@ import model.Team;
 
 public class Cha extends PalaceMovablePieces {
 
-    private static final int CHA_SCORE = 13;
-
     public Cha(Team team) {
-        super(team,PieceName.CHA);
-        score = CHA_SCORE;
+        super(team, PieceName.CHA, Score.CHA);
     }
 
     @Override
@@ -31,7 +28,7 @@ public class Cha extends PalaceMovablePieces {
                     .stream()
                     .findFirst()
                     .get()
-                    .getTeam() != this.team;
+                    .getTeam() != getTeam();
         }
         return false;
     }

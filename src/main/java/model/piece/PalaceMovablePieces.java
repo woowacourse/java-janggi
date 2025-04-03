@@ -5,8 +5,8 @@ import model.Team;
 
 public abstract class PalaceMovablePieces extends Piece {
 
-    protected PalaceMovablePieces(Team team, PieceName pieceName) {
-        super(team, pieceName);
+    protected PalaceMovablePieces(Team team, PieceName pieceName,Score score) {
+        super(team, pieceName,score);
     }
 
     @Override

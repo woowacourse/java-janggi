@@ -1,19 +1,21 @@
 package model.piece;
 
 import java.util.Map;
+import model.Moving;
 import model.Path;
 import model.Point;
 import model.Team;
-import model.Moving;
 
 public abstract class Piece {
-    Team team;
-    PieceName pieceName;
-    int score;
 
-    protected Piece(Team team, PieceName pieceName) {
+    private final Team team;
+    private final PieceName pieceName;
+    private final Score score;
+
+    protected Piece(Team team, PieceName pieceName, Score score) {
         this.team = team;
         this.pieceName = pieceName;
+        this.score = score;
     }
 
     public Team getTeam() {
@@ -41,6 +43,10 @@ public abstract class Piece {
     }
 
     public int getScore() {
-        return score;
+        return score.getScore();
+    }
+
+    public boolean isEnemy(Piece piece) {
+        return piece.team != team;
     }
 }

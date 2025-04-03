@@ -9,7 +9,7 @@ import model.piece.Byeong;
 import model.piece.Cha;
 import model.piece.Jang;
 import model.piece.Ma;
-import model.piece.Pho;
+import model.piece.Po;
 import model.piece.Piece;
 import model.piece.Sa;
 import model.piece.Sang;
@@ -74,8 +74,8 @@ public enum JanggiBoardSetUp {
             Map.entry(Point.of(6, 3), new Byeong(BLUE)),
             Map.entry(Point.of(8, 3), new Byeong(BLUE)),
 
-            Map.entry(Point.of(1, 2), new Pho(BLUE)),
-            Map.entry(Point.of(7, 2), new Pho(BLUE)),
+            Map.entry(Point.of(1, 2), new Po(BLUE)),
+            Map.entry(Point.of(7, 2), new Po(BLUE)),
 
             Map.entry(Point.of(4, 1), new Jang(BLUE)),
 
@@ -91,8 +91,8 @@ public enum JanggiBoardSetUp {
             Map.entry(Point.of(6, 6), new Byeong(RED)),
             Map.entry(Point.of(8, 6), new Byeong(RED)),
 
-            Map.entry(Point.of(1, 7), new Pho(RED)),
-            Map.entry(Point.of(7, 7), new Pho(RED)),
+            Map.entry(Point.of(1, 7), new Po(RED)),
+            Map.entry(Point.of(7, 7), new Po(RED)),
 
             Map.entry(Point.of(4, 8), new Jang(RED)),
 

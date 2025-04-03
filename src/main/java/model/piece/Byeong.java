@@ -7,11 +7,8 @@ import model.Team;
 
 public class Byeong extends PalaceMovablePieces {
 
-    private static final int BYEONG_SCORE = 2;
-
     public Byeong(Team team) {
-        super(team, PieceName.BYEONG);
-        score = BYEONG_SCORE;
+        super(team, PieceName.BYEONG,Score.BYEONG);
     }
 
 
@@ -21,7 +18,7 @@ public class Byeong extends PalaceMovablePieces {
             return piecesOnPathWithTargetOrNot.keySet().stream()
                     .findFirst()
                     .get()
-                    .getTeam() != this.team;
+                    .getTeam() != getTeam();
         }
         return true;
     }
@@ -33,7 +30,7 @@ public class Byeong extends PalaceMovablePieces {
         }
         int moveForward = 1;
 
-        if (team.isRed()) {
+        if (getTeam().isRed()) {
             moveForward = -1;
         }
         Moving moving = new Moving(beforePoint, targetPoint);
@@ -55,7 +52,7 @@ public class Byeong extends PalaceMovablePieces {
         Moving moving = new Moving(beforePoint, targetPoint);
         int moveForward = 1;
 
-        if (team.isRed()) {
+        if (getTeam().isRed()) {
             moveForward = -1;
         }
 

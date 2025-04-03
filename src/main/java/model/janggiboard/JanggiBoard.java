@@ -19,13 +19,14 @@ public class JanggiBoard {
     private static final int HORIZONTAL_MINIMUM_SIZE = 0;
     private static final int VERTICAL_MINIMUM_SIZE = 0;
     private final List<List<Dot>> janggiBoard;
-    private JanggiDao janggiDao;
+    private final JanggiDao janggiDao;
 
     public JanggiBoard(JanggiBoardSetUp elephantSetup, JanggiDao janggiDao) {
         janggiBoard = initializeJanggiBoard();
         this.janggiDao = janggiDao;
         placePiece(elephantSetup);
         placePiece(DEFAULT_SETUP);
+        janggiDao.settingNewJanggiBoard(janggiBoard);
     }
 
     public JanggiBoard(JanggiDao janggiDao) {

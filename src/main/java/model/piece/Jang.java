@@ -10,7 +10,7 @@ public class Jang extends FixedPalacePieces {
     private static final int JANG_DISTANCE = 1;
 
     public Jang(Team team) {
-        super(team, PieceName.JANG);
+        super(team, PieceName.JANG, Score.JANG);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class Jang extends FixedPalacePieces {
                     .stream()
                     .findFirst()
                     .get()
-                    .getTeam() != this.team;
+                    .getTeam() != getTeam();
         }
         return true;
     }

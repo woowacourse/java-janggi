@@ -8,17 +8,14 @@ import model.Team;
 public class Ma extends Piece {
 
     private static final int MA_DISTANCE = 5;
-    private static final int MA_SCORE = 5;
 
     public Ma(Team team) {
-        super(team, PieceName.MA);
-        score = MA_SCORE;
+        super(team, PieceName.MA,Score.MA);
     }
 
     @Override
     public boolean isValidPoint(Point beforePoint, Point targetPoint) {
         Moving moving = new Moving(beforePoint, targetPoint);
-
         return moving.isDistance(MA_DISTANCE);
     }
 
@@ -39,7 +36,7 @@ public class Ma extends Piece {
                     .stream()
                     .findFirst()
                     .get()
-                    .getTeam() != this.team;
+                    .getTeam() != getTeam();
         }
         return true;
     }

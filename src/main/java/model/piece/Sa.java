@@ -7,12 +7,10 @@ import model.Team;
 
 public class Sa extends FixedPalacePieces {
 
-    private static final int SA_SCORE = 3;
     private static final int SA_DISTANCE = 1;
 
     public Sa(Team team) {
-        super(team,PieceName.SA);
-        score = SA_SCORE;
+        super(team,PieceName.SA,Score.SA);
     }
 
     @Override
@@ -22,7 +20,7 @@ public class Sa extends FixedPalacePieces {
                     .stream()
                     .findFirst()
                     .get()
-                    .getTeam() != this.team;
+                    .getTeam() != getTeam();
         }
         return true;
     }

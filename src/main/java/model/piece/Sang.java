@@ -1,18 +1,16 @@
 package model.piece;
 
 import java.util.Map;
+import model.Moving;
 import model.Point;
 import model.Team;
-import model.Moving;
 
 public class Sang extends Piece {
 
-    private static final int SANG_SCORE = 3;
     private static final int SNG_DISTANCE = 13;
 
     public Sang(Team team) {
-        super(team, PieceName.SANG);
-        score = SANG_SCORE;
+        super(team, PieceName.SANG, Score.SANG);
     }
 
     @Override
@@ -34,11 +32,10 @@ public class Sang extends Piece {
                     .get()) {
                 return false;
             }
-            return piecesOnPathWithTargetOrNot.keySet()
+            return isEnemy(piecesOnPathWithTargetOrNot.keySet()
                     .stream()
                     .findFirst()
-                    .get()
-                    .getTeam() != this.team;
+                    .get());
         }
         return true;
     }
