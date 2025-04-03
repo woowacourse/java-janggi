@@ -13,7 +13,6 @@ public class PlayerDao {
         this.connectionManager = connectionManager;
     }
 
-
     public void addPlayer(final Player player) {
         final var query = "INSERT INTO player (name, team) VALUES(?, ?)";
         try (final var connection = connectionManager.getConnection();
