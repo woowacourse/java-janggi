@@ -39,12 +39,12 @@ class GameInformationDaoTest {
         GameInformation gameInformation =
                 gameInformationDao.addNew("newGame", PieceAssignType.IN_SANG, PieceAssignType.IN_SANG);
 
-        GameInformation savedGameInformation = gameInformationDao.findById(gameInformation.getGameId());
+        GameInformation savedGameInformation = gameInformationDao.findById(gameInformation.gameId());
         assertAll(
-                () -> assertThat(savedGameInformation.getGameTitle()).isEqualTo("newGame"),
-                () -> assertThat(savedGameInformation.getChoAssignType()).isEqualTo(PieceAssignType.IN_SANG),
-                () -> assertThat(savedGameInformation.getHanAssignType()).isEqualTo(PieceAssignType.IN_SANG),
-                () -> assertThat(savedGameInformation.getGameState()).isEqualTo(GameState.PLAY)
+                () -> assertThat(savedGameInformation.gameTitle()).isEqualTo("newGame"),
+                () -> assertThat(savedGameInformation.choAssignType()).isEqualTo(PieceAssignType.IN_SANG),
+                () -> assertThat(savedGameInformation.hanAssignType()).isEqualTo(PieceAssignType.IN_SANG),
+                () -> assertThat(savedGameInformation.gameState()).isEqualTo(GameState.PLAY)
         );
     }
 
@@ -53,12 +53,12 @@ class GameInformationDaoTest {
     void canChangeGameStateToEnd() {
         GameInformation newGameInformation =
                 gameInformationDao.addNew("endGame", PieceAssignType.IN_SANG, PieceAssignType.IN_SANG);
-        gameInformationDao.updateGameStateToEnd(newGameInformation.getGameId());
+        gameInformationDao.updateGameStateToEnd(newGameInformation.gameId());
 
-        GameInformation savedGameInformation = gameInformationDao.findById(newGameInformation.getGameId());
+        GameInformation savedGameInformation = gameInformationDao.findById(newGameInformation.gameId());
         assertAll(
-                () -> assertThat(savedGameInformation.getGameId()).isEqualTo(newGameInformation.getGameId()),
-                () -> assertThat(savedGameInformation.getGameState()).isEqualTo(GameState.END)
+                () -> assertThat(savedGameInformation.gameId()).isEqualTo(newGameInformation.gameId()),
+                () -> assertThat(savedGameInformation.gameState()).isEqualTo(GameState.END)
         );
     }
 
@@ -67,7 +67,7 @@ class GameInformationDaoTest {
     void findAllInPlaying() {
         GameInformation endGame =
                 gameInformationDao.addNew("endGame", PieceAssignType.IN_SANG, PieceAssignType.IN_SANG);
-        gameInformationDao.updateGameStateToEnd(endGame.getGameId());
+        gameInformationDao.updateGameStateToEnd(endGame.gameId());
         GameInformation firstContinuedGame =
                 gameInformationDao.addNew("continuedGame1", PieceAssignType.IN_SANG, PieceAssignType.IN_SANG);
         GameInformation secondContinuedGame =

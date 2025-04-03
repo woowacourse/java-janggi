@@ -4,35 +4,7 @@ import janggi.rule.CampType;
 import janggi.value.Position;
 import java.util.Objects;
 
-public final class MovePieceCommand {
-
-    private final int commandId;
-    private final CampType campType;
-    private final Position targetPiecePosition;
-    private final Position destination;
-
-    public MovePieceCommand(int commandId, CampType campType, Position targetPiecePosition, Position destination) {
-        this.commandId = commandId;
-        this.campType = campType;
-        this.targetPiecePosition = targetPiecePosition;
-        this.destination = destination;
-    }
-
-    public int getCommandId() {
-        return commandId;
-    }
-
-    public CampType getCampType() {
-        return campType;
-    }
-
-    public Position getTargetPiecePosition() {
-        return targetPiecePosition;
-    }
-
-    public Position getDestination() {
-        return destination;
-    }
+public record MovePieceCommand(int commandId, CampType campType, Position targetPiecePosition, Position destination) {
 
     @Override
     public boolean equals(Object object) {
@@ -48,8 +20,4 @@ public final class MovePieceCommand {
                 command.destination);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(commandId, campType, targetPiecePosition, destination);
-    }
 }

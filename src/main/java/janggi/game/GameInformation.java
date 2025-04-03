@@ -4,47 +4,8 @@ import janggi.rule.GameState;
 import janggi.rule.PieceAssignType;
 import java.util.Objects;
 
-public final class GameInformation {
-
-    private final int gameId;
-    private final String gameTitle;
-    private final PieceAssignType choAssignType;
-    private final PieceAssignType hanAssignType;
-    private final GameState gameState;
-
-    public GameInformation(
-            int gameId,
-            String gameTitle,
-            PieceAssignType choAssignType,
-            PieceAssignType hanAssignType,
-            GameState gameState
-    ) {
-        this.gameId = gameId;
-        this.gameTitle = gameTitle;
-        this.choAssignType = choAssignType;
-        this.hanAssignType = hanAssignType;
-        this.gameState = gameState;
-    }
-
-    public int getGameId() {
-        return gameId;
-    }
-
-    public String getGameTitle() {
-        return gameTitle;
-    }
-
-    public PieceAssignType getChoAssignType() {
-        return choAssignType;
-    }
-
-    public PieceAssignType getHanAssignType() {
-        return hanAssignType;
-    }
-
-    public GameState getGameState() {
-        return gameState;
-    }
+public record GameInformation(int gameId, String gameTitle, PieceAssignType choAssignType,
+                              PieceAssignType hanAssignType, GameState gameState) {
 
     @Override
     public boolean equals(Object object) {
@@ -60,8 +21,4 @@ public final class GameInformation {
                 && gameState == that.gameState;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(gameId, gameTitle, choAssignType, hanAssignType, gameState);
-    }
 }

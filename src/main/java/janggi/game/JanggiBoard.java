@@ -23,11 +23,11 @@ public class JanggiBoard {
     }
 
     public void movePiece(MovePieceCommand command) {
-        Pieces alliesPieces = findPieces(command.getCampType());
-        Pieces enemyPieces = findPieces(command.getCampType().getEnemyCampType());
-        alliesPieces.movePiece(enemyPieces.getPieces(), command.getTargetPiecePosition(), command.getDestination());
-        alliesPieces.killEnemyPiece(enemyPieces.getPieces(), command.getDestination());
-        enemyPieces.removeDyingPiece(command.getDestination());
+        Pieces alliesPieces = findPieces(command.campType());
+        Pieces enemyPieces = findPieces(command.campType().getEnemyCampType());
+        alliesPieces.movePiece(enemyPieces.getPieces(), command.targetPiecePosition(), command.destination());
+        alliesPieces.killEnemyPiece(enemyPieces.getPieces(), command.destination());
+        enemyPieces.removeDyingPiece(command.destination());
     }
 
     public boolean canContinueGame() {

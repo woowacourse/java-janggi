@@ -29,7 +29,7 @@ public class InputView {
         System.out.println("이어서 할 게임을 선택해주세요.");
         int index;
         for (index = 0; index < gameInformations.size(); index++) {
-            String content = String.format("%d. %s", index, gameInformations.get(index).getGameTitle());
+            String content = String.format("%d. %s", index, gameInformations.get(index).gameTitle());
             System.out.println(content);
         }
         System.out.println(index + ". 뒤로가기");

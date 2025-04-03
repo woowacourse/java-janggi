@@ -44,12 +44,12 @@ class MovePieceCommandDaoTest {
         GameInformation gameInformation = gameInformationDao.addNew("newGame", PieceAssignType.IN_SANG,
                 PieceAssignType.IN_SANG);
         MovePieceCommand savedCommand = movePieceCommandDao.addNew(
-                gameInformation.getGameId(), CampType.CHO, new Position(4, 4), new Position(5, 5));
+                gameInformation.gameId(), CampType.CHO, new Position(4, 4), new Position(5, 5));
 
         assertAll(
-                () -> assertThat(savedCommand.getCampType()).isEqualTo(CampType.CHO),
-                () -> assertThat(savedCommand.getTargetPiecePosition()).isEqualTo(new Position(4, 4)),
-                () -> assertThat(savedCommand.getDestination()).isEqualTo(new Position(5, 5))
+                () -> assertThat(savedCommand.campType()).isEqualTo(CampType.CHO),
+                () -> assertThat(savedCommand.targetPiecePosition()).isEqualTo(new Position(4, 4)),
+                () -> assertThat(savedCommand.destination()).isEqualTo(new Position(5, 5))
         );
     }
 
@@ -59,11 +59,11 @@ class MovePieceCommandDaoTest {
         GameInformation gameInformation =
                 gameInformationDao.addNew("newGame", PieceAssignType.IN_SANG, PieceAssignType.IN_SANG);
         MovePieceCommand firstCommand = movePieceCommandDao.addNew(
-                gameInformation.getGameId(), CampType.CHO, new Position(4, 4), new Position(5, 5));
+                gameInformation.gameId(), CampType.CHO, new Position(4, 4), new Position(5, 5));
         MovePieceCommand secondCommand = movePieceCommandDao.addNew(
-                gameInformation.getGameId(), CampType.HAN, new Position(4, 4), new Position(5, 5));
+                gameInformation.gameId(), CampType.HAN, new Position(4, 4), new Position(5, 5));
 
-        List<MovePieceCommand> commandsInGame = movePieceCommandDao.findAllInGameId(gameInformation.getGameId());
+        List<MovePieceCommand> commandsInGame = movePieceCommandDao.findAllInGameId(gameInformation.gameId());
         assertThat(commandsInGame).containsExactly(firstCommand, secondCommand);
 
     }

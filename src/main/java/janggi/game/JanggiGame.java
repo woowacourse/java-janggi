@@ -59,7 +59,7 @@ public class JanggiGame {
     }
 
     public void playGame(GameInformation gameInformation) {
-        List<MovePieceCommand> existingCommands = loadMovePieceCommand(gameInformation.getGameId());
+        List<MovePieceCommand> existingCommands = loadMovePieceCommand(gameInformation.gameId());
         CampType campTypeInInitialTurn = calculateLastTurn(existingCommands);
         JanggiBoard board = prepareBoard(gameInformation, existingCommands);
         playTurns(gameInformation, board, campTypeInInitialTurn);
@@ -73,11 +73,11 @@ public class JanggiGame {
         if (commands.isEmpty()) {
             return CampType.HAN;
         }
-        return commands.getLast().getCampType();
+        return commands.getLast().campType();
     }
 
     private JanggiBoard prepareBoard(GameInformation gameInformation, List<MovePieceCommand> commands) {
-        JanggiBoard board = new JanggiBoard(gameInformation.getChoAssignType(), gameInformation.getHanAssignType());
+        JanggiBoard board = new JanggiBoard(gameInformation.choAssignType(), gameInformation.hanAssignType());
         commands.forEach(board::movePiece);
         return board;
     }
@@ -89,17 +89,17 @@ public class JanggiGame {
             campTypeInTurn = campTypeInTurn.getEnemyCampType();
             TurnMenuAnswer turnMenuAnswer = gameInputOutput.readTurnMenuAnswer(campTypeInTurn);
             if (turnMenuAnswer == TurnMenuAnswer.MOVE_PIECE) {
-                movePiece(gameInformation.getGameId(), janggiBoard, campTypeInTurn);
+                movePiece(gameInformation.gameId(), janggiBoard, campTypeInTurn);
             }
             if (turnMenuAnswer == TurnMenuAnswer.REST_TURN) {
                 continue;
             }
             if (turnMenuAnswer == TurnMenuAnswer.GAME_STOP) {
-                gameInputOutput.printGameStopMessage(gameInformation.getGameTitle());
+                gameInputOutput.printGameStopMessage(gameInformation.gameTitle());
                 break;
             }
             if (turnMenuAnswer == TurnMenuAnswer.GAME_END) {
-                endGame(gameInformation.getGameId());
+                endGame(gameInformation.gameId());
                 gameInputOutput.printGameResult(janggiBoard);
                 break;
             }
