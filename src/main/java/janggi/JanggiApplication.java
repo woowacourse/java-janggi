@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
+import service.JanggiService;
 
 public class JanggiApplication {
 
@@ -27,11 +28,11 @@ public class JanggiApplication {
             }
             PiecesDao piecesDao = new PiecesDao(connection);
             TurnDao turnDao = new TurnDao(connection);
+            JanggiService janggiService = new JanggiService(piecesDao, turnDao);
             JanggiController janggiController = new JanggiController(
                 inputView,
                 outputView,
-                piecesDao,
-                turnDao
+                janggiService
             );
             janggiController.startJanggi();
         } catch (SQLException e) {

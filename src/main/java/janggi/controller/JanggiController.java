@@ -1,16 +1,13 @@
 package janggi.controller;
 
-import janggi.dao.PiecesDao;
-import janggi.dao.TurnDao;
 import janggi.domain.Board;
 import janggi.domain.BoardFactory;
 import janggi.domain.HorseSide;
-import janggi.domain.piece.Piece;
 import janggi.domain.piece.Position;
 import janggi.view.InputView;
 import janggi.view.OutputView;
 import java.sql.SQLException;
-import java.util.Map;
+import service.JanggiService;
 
 public class JanggiController {
 
@@ -18,8 +15,7 @@ public class JanggiController {
     public static final String NEW_GAME_MENU_SELECTION = "2";
     private final InputView inputView;
     private final OutputView outputView;
-    private final PiecesDao piecesDao;
-    private final TurnDao turnDao;
+    private final JanggiService janggiService;
 
     public static final int FIRST_INPUT_START_INDEX = 0;
     public static final int FIRST_INPUT_END_INDEX = 2;
@@ -29,13 +25,11 @@ public class JanggiController {
     public JanggiController(
         InputView inputView,
         OutputView outputView,
-        PiecesDao piecesDao,
-        TurnDao turnDao
+        JanggiService janggiService
     ) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.piecesDao = piecesDao;
-        this.turnDao = turnDao;
+        this.janggiService = janggiService;
     }
 
     public void startJanggi() throws SQLException {
@@ -54,20 +48,12 @@ public class JanggiController {
     private Board loadOrCreateBoard() throws SQLException {
         String loadOrCreate = inputView.getLoadOrCreate();
         if (loadOrCreate.equals(SAVED_MENU_SELECTION)) {
-            return getSavedBoard();
+            return janggiService.loadBoard();
         }
         if (loadOrCreate.equals(NEW_GAME_MENU_SELECTION)) {
             return getInitializedBoardByInput();
         }
         throw new IllegalArgumentException("1, 2 만 입력 가능합니다");
-    }
-
-    private Board getSavedBoard() throws SQLException {
-        Map<Position, Piece> savedBoard = piecesDao.loadPieces();
-        if (savedBoard.isEmpty()) {
-            throw new IllegalArgumentException("저장된 게임이 없습니다");
-        }
-        return new Board(savedBoard, turnDao.loadTurn());
     }
 
     private Board getInitializedBoardByInput() {
@@ -100,14 +86,11 @@ public class JanggiController {
     }
 
     private void endJanggi(Board board) throws SQLException {
-        piecesDao.deletePieces();
-        turnDao.deleteTurn();
         if (board.isGameEnd()) {
             outputView.printWinner(board);
             return;
         }
-        piecesDao.savePieces(board.getPieces());
-        turnDao.saveTurn(board.getTurn());
+        janggiService.saveBoard(board);
         outputView.printSaved();
     }
 
