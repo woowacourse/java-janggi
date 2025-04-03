@@ -1,17 +1,40 @@
 package db;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class JanggiDaoTest {
-    private final JanggiDao janggiDao = new JanggiDao();
+
+    @Mock
+    DataSource mockDataSource;
+
+    @Mock
+    Connection mockConnection;
+
+    JanggiDao janggiDao;
+
+    @BeforeEach
+    void setUp() throws SQLException {
+        when(mockDataSource.getConnection()).thenReturn(mockConnection);
+        janggiDao = new JanggiDao(mockDataSource);
+    }
 
     @Test
-    public void connection() throws SQLException {
-        try (final var connection = janggiDao.getConnection()) {
-            assertThat(connection).isNotNull();
-        }
+    void getConnection_shouldReturnMockConnection() throws SQLException {
+        Connection connection = janggiDao.getConnection();
+        assertThat(connection).isNotNull();
+        verify(mockDataSource).getConnection();
     }
 }
+

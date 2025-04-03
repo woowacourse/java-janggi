@@ -1,3 +1,4 @@
+import db.DataSourceFactory;
 import db.JanggiDao;
 import domain.Board;
 import domain.BoardFactory;
@@ -9,7 +10,7 @@ import java.util.List;
 public class Application {
 
     public static void main(final String[] args) {
-        final JanggiDao janggiDao = new JanggiDao();
+        final JanggiDao janggiDao = new JanggiDao(DataSourceFactory.getDataSource());
         final GameState gameState = janggiDao.getGameState();
         if (gameState.isRunning()) {
             final JanggiGame janggiGame = new JanggiGame(new Board(janggiDao.getPositions()), janggiDao.getTurn());

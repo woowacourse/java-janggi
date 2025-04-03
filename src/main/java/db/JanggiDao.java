@@ -7,23 +7,24 @@ import domain.position.Point;
 import domain.position.PointValue;
 import domain.position.Position;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
 
 public class JanggiDao {
-    private static final String SERVER = "localhost:13307"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
+
+    private final DataSource dataSource;
+
+    public JanggiDao(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+            return dataSource.getConnection();
         } catch (final SQLException e) {
             System.err.println("DB 연결 오류:" + e.getMessage());
             e.printStackTrace();
@@ -151,8 +152,8 @@ public class JanggiDao {
     public List<Position> getPositions() {
         final List<Position> positions = new ArrayList<>();
         final var positionSql = "SELECT p.pieceType, p.team, pt.x, pt.y "
-                + "FROM piece p "
-                + "JOIN point pt ON p.pointId = pt.id";
+                                + "FROM piece p "
+                                + "JOIN point pt ON p.pointId = pt.id";
 
         try (final var connection = getConnection();
              final var positionStmt = connection.prepareStatement(positionSql);

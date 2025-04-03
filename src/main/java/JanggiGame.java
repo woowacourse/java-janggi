@@ -1,3 +1,4 @@
+import db.DataSourceFactory;
 import db.JanggiDao;
 import domain.Board;
 import domain.Score;
@@ -23,7 +24,7 @@ public class JanggiGame {
     }
 
     public void start() {
-        final JanggiDao janggiDao = new JanggiDao();
+        final JanggiDao janggiDao = new JanggiDao(DataSourceFactory.getDataSource());
 
         Loop.run(() -> {
             OutputView.printBoard(board);
