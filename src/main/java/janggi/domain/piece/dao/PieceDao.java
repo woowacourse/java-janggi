@@ -9,6 +9,7 @@ import janggi.domain.piece.movement.PieceMovementStrategyMap;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 public final class PieceDao {
@@ -18,7 +19,7 @@ public final class PieceDao {
         try (PreparedStatement preparedStatement = DatabaseConnection.getPreparedStatement(query)) {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                Map<Position, Piece> result = new java.util.HashMap<>();
+                Map<Position, Piece> result = new HashMap<>();
                 while (resultSet.next()) {
                     Side side = Side.valueOf(resultSet.getString("side"));
                     PieceType pieceType = PieceType.valueOf(resultSet.getString("piece_type"));
