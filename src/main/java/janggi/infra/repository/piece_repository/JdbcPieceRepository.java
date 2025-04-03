@@ -60,7 +60,7 @@ public class JdbcPieceRepository implements PieceRepository {
     @Override
     @SuppressWarnings("SqlNoDataSourceInspection")
     public Map<Country, List<Piece>> findAllPieces(final int number) {
-        final Map<Country, List<Piece>> pieces = new HashMap<>();
+        final Map<Country, List<Piece>> pieces = new EnumMap<>(Country.class);
         pieces.putIfAbsent(Country.CHO, new ArrayList<>());
         pieces.putIfAbsent(Country.HAN, new ArrayList<>());
 

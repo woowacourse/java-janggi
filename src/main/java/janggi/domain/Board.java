@@ -5,7 +5,7 @@ import janggi.domain.piece_initiaizer.StaticPieceInitializer;
 import janggi.domain.position.Position;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +48,7 @@ public final class Board {
     }
 
     public Map<Country, List<Piece>> getBoard() {
-        final Map<Country, List<Piece>> board = new HashMap<>();
+        final Map<Country, List<Piece>> board = new EnumMap<>(Country.class);
         board.put(team1.getCountry(), team1.getPieces());
         board.put(team2.getCountry(), team2.getPieces());
         return Collections.unmodifiableMap(board);
