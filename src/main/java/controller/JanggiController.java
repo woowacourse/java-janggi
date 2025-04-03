@@ -20,7 +20,7 @@ public class JanggiController {
     }
 
     public void run() {
-        boolean loadGame = inputView.readLoadOrCreateGame();
+        boolean loadGame = inputView.readLoadGameSelected();
         gameService.startGame(loadGame);
         Board board = gameService.getBoard();
         outputView.printBorad(board);

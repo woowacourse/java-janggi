@@ -10,6 +10,7 @@ public class InputView {
     private static final int SOURCE_POSITION_INDEX = 0;
     private static final int MOVE_PIECE_INDEX = 1;
     private static final int DESTINATION_POSITION_INDEX = 2;
+    private static final String LOAD_GAME_CONFIRM = "y";
 
 
     private final Scanner scanner = new Scanner(System.in);
@@ -30,10 +31,10 @@ public class InputView {
                 commands.get(DESTINATION_POSITION_INDEX));
     }
 
-    public boolean readLoadOrCreateGame() {
+    public boolean readLoadGameSelected() {
         System.out.println("기존의 게임을 이어서 하시겠습니다? (Y/N)");
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
 
-        return input.equalsIgnoreCase("y");
+        return input.equalsIgnoreCase(LOAD_GAME_CONFIRM);
     }
 }
