@@ -1,6 +1,7 @@
 package janggi.repository.mysql;
 
 import fixture.TestContainer;
+import fixture.TestContainerSupport;
 import janggi.GameId;
 import janggi.GameStatus;
 import janggi.player.Score;
@@ -18,7 +19,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
-class GameMysqlRepositoryTest {
+class GameMysqlRepositoryTest extends TestContainerSupport {
 
     private final GameMysqlRepository repository = new GameMysqlRepository();
     private Connection conn;
@@ -26,7 +27,6 @@ class GameMysqlRepositoryTest {
     @BeforeEach
     void setUp() throws Exception {
         conn = TestContainer.getConnection();
-        TestContainer.truncateAll();
     }
 
     @Test

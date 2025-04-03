@@ -1,5 +1,7 @@
 package janggi;
 
+import java.util.Objects;
+
 public class GameId {
 
     private static final long UNSET = -1;
@@ -34,5 +36,17 @@ public class GameId {
 
     public boolean isSet() {
         return this.value != UNSET;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        final GameId gameId = (GameId) o;
+        return value == gameId.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 }
