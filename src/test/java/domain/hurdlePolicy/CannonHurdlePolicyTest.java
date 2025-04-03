@@ -1,13 +1,13 @@
 package domain.hurdlePolicy;
 
-import dao.EmptyJanggiBoardDao;
-import domain.janggiPiece.*;
+import domain.janggiPiece.Cannon;
+import domain.janggiPiece.Chariot;
+import domain.janggiPiece.Elephant;
+import domain.janggiPiece.King;
 import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
 import domain.position.JanggiPositions;
-import domain.position.generator.DefaultPositionsGenerator;
-import domain.position.generator.EmptyPositionsGenerator;
 import domain.type.JanggiTeam;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,23 +52,13 @@ class CannonHurdlePolicyTest {
                         JanggiPositionFactory.of(9, 4)
                 ))
         );
-        JanggiPositions positions = new JanggiPositions(new EmptyPositionsGenerator(), new EmptyJanggiBoardDao());
+        JanggiPositions positions = new JanggiPositions(Map.of());
 
         // when
         List<JanggiPosition> destinations = policy.pickDestinations(JanggiTeam.BLUE, coordinates, positions);
 
         // then
         assertThat(destinations).isEmpty();
-    }
-
-    private class ExistOtherCannonGenerator implements DefaultPositionsGenerator {
-        @Override
-        public Map<JanggiPosition, JanggiChessPiece> generate() {
-            return Map.of(
-                    startPosition, new Cannon(JanggiTeam.BLUE),
-                    JanggiPositionFactory.of(0, 2), new Cannon(JanggiTeam.RED)
-            );
-        }
     }
 
     @DisplayName("포는 포를 뛰어넘을 수 없다.")
@@ -104,24 +94,16 @@ class CannonHurdlePolicyTest {
                         JanggiPositionFactory.of(2, 5)
                 ))
         );
-        JanggiPositions positions = new JanggiPositions(new ExistOtherCannonGenerator(), new EmptyJanggiBoardDao());
+        JanggiPositions positions = new JanggiPositions(Map.of(
+                startPosition, new Cannon(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(0, 2), new Cannon(JanggiTeam.RED)
+        ));
 
         // when
         List<JanggiPosition> destinations = policy.pickDestinations(JanggiTeam.BLUE, coordinates, positions);
 
         // then
         assertThat(destinations).isEmpty();
-    }
-
-
-    private class ExistInCastleDiagonalPositionsGenerator implements DefaultPositionsGenerator {
-        @Override
-        public Map<JanggiPosition, JanggiChessPiece> generate() {
-            return Map.of(
-                    startPosition, new Cannon(JanggiTeam.BLUE),
-                    JanggiPositionFactory.of(1, 4), new King(JanggiTeam.RED)
-            );
-        }
     }
 
     @DisplayName("궁성에서 시작할 때, 대각선 방향으로 장애물이 있는 경우 이를 넘을 수 있다.")
@@ -157,7 +139,10 @@ class CannonHurdlePolicyTest {
                         JanggiPositionFactory.of(2, 5)
                 ))
         );
-        JanggiPositions positions = new JanggiPositions(new ExistInCastleDiagonalPositionsGenerator(), new EmptyJanggiBoardDao());
+        JanggiPositions positions = new JanggiPositions(Map.of(
+                startPosition, new Cannon(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(1, 4), new King(JanggiTeam.RED)
+        ));
         final List<JanggiPosition> expected = List.of(
                 JanggiPositionFactory.of(2, 5)
         );
@@ -167,18 +152,6 @@ class CannonHurdlePolicyTest {
 
         // then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
-    }
-
-
-    private class ExistEnemyPositionsGenerator implements DefaultPositionsGenerator {
-        @Override
-        public Map<JanggiPosition, JanggiChessPiece> generate() {
-            return Map.of(
-                    startPosition, new Cannon(JanggiTeam.BLUE),
-                    JanggiPositionFactory.of(5, 3), new Chariot(JanggiTeam.BLUE),
-                    JanggiPositionFactory.of(8, 3), new Elephant(JanggiTeam.RED)
-            );
-        }
     }
 
     @DisplayName("다른 기물이 존재하는 경우, 다른 팀의 기물을 만날 때까지 이동할 수 있다.")
@@ -214,7 +187,11 @@ class CannonHurdlePolicyTest {
                         JanggiPositionFactory.of(2, 5)
                 ))
         );
-        JanggiPositions positions = new JanggiPositions(new ExistEnemyPositionsGenerator(), new EmptyJanggiBoardDao());
+        JanggiPositions positions = new JanggiPositions(Map.of(
+                startPosition, new Cannon(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(5, 3), new Chariot(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(8, 3), new Elephant(JanggiTeam.RED)
+        ));
         final List<JanggiPosition> expected = List.of(
                 JanggiPositionFactory.of(6, 3),
                 JanggiPositionFactory.of(7, 3),
@@ -226,17 +203,6 @@ class CannonHurdlePolicyTest {
 
         // then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
-    }
-
-    private class ExistSameTeamPositionsGenerator implements DefaultPositionsGenerator {
-        @Override
-        public Map<JanggiPosition, JanggiChessPiece> generate() {
-            return Map.of(
-                    startPosition, new Cannon(JanggiTeam.BLUE),
-                    JanggiPositionFactory.of(5, 3), new Chariot(JanggiTeam.BLUE),
-                    JanggiPositionFactory.of(8, 3), new Elephant(JanggiTeam.BLUE)
-            );
-        }
     }
 
     @DisplayName("다른 기물이 존재하는 경우, 같은 팀의 기물을 만나기 전 위치까지 이동할 수 있다.")
@@ -272,7 +238,11 @@ class CannonHurdlePolicyTest {
                         JanggiPositionFactory.of(2, 5)
                 ))
         );
-        JanggiPositions positions = new JanggiPositions(new ExistSameTeamPositionsGenerator(), new EmptyJanggiBoardDao());
+        JanggiPositions positions = new JanggiPositions(Map.of(
+                startPosition, new Cannon(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(5, 3), new Chariot(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(8, 3), new Elephant(JanggiTeam.BLUE)
+        ));
         final List<JanggiPosition> expected = List.of(
                 JanggiPositionFactory.of(6, 3),
                 JanggiPositionFactory.of(7, 3)

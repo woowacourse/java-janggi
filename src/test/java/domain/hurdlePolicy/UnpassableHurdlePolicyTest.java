@@ -1,15 +1,12 @@
 package domain.hurdlePolicy;
 
-import dao.EmptyJanggiBoardDao;
 import domain.janggiPiece.Elephant;
 import domain.janggiPiece.Horse;
-import domain.janggiPiece.JanggiChessPiece;
 import domain.janggiPiece.Pawn;
 import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
 import domain.position.JanggiPositions;
-import domain.position.generator.DefaultPositionsGenerator;
 import domain.type.JanggiTeam;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,17 +20,6 @@ class UnpassableHurdlePolicyTest {
     private final HurdlePolicy policy = new UnpassableHurdlePolicy();
     private final JanggiPosition startPosition = JanggiPositionFactory.of(3, 4);
     private final JanggiTeam team = JanggiTeam.BLUE;
-
-    private class ExistOtherPiecesInPathGenerator implements DefaultPositionsGenerator {
-        @Override
-        public Map<JanggiPosition, JanggiChessPiece> generate() {
-            return Map.of(
-                    startPosition, new Elephant(team),
-                    JanggiPositionFactory.of(2, 3), new Elephant(JanggiTeam.BLUE),
-                    JanggiPositionFactory.of(2, 5), new Pawn(JanggiTeam.RED)
-            );
-        }
-    }
 
     @DisplayName("경로상에 다른 기물이 존재하는 경우, 움직일 수 없다.")
     @Test
@@ -89,25 +75,17 @@ class UnpassableHurdlePolicyTest {
                 JanggiPositionFactory.of(2, 7),
                 JanggiPositionFactory.of(6, 7)
         );
-        JanggiPositions positions = new JanggiPositions(new ExistOtherPiecesInPathGenerator(), new EmptyJanggiBoardDao());
+        JanggiPositions positions = new JanggiPositions(Map.of(
+                startPosition, new Elephant(team),
+                JanggiPositionFactory.of(2, 3), new Elephant(JanggiTeam.BLUE),
+                JanggiPositionFactory.of(2, 5), new Pawn(JanggiTeam.RED)
+        ));
 
         // when
         List<JanggiPosition> destinations = policy.pickDestinations(team, coordinates, positions);
 
         // then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
-    }
-
-    private class ExistEnemyPiecesAtDestGenerator implements DefaultPositionsGenerator {
-        @Override
-        public Map<JanggiPosition, JanggiChessPiece> generate() {
-            return Map.of(
-                    JanggiPositionFactory.of(4, 4), new Horse(team),
-                    JanggiPositionFactory.of(2, 3), new Elephant(JanggiTeam.RED),
-                    JanggiPositionFactory.of(3, 2), new Pawn(JanggiTeam.RED),
-                    JanggiPositionFactory.of(6, 5), new Pawn(JanggiTeam.RED)
-            );
-        }
     }
 
     @DisplayName("목적지에 적군의 기물이 존재하는 경우, 해당 위치까지 움직일 수 있다.")
@@ -158,7 +136,12 @@ class UnpassableHurdlePolicyTest {
                 JanggiPositionFactory.of(3, 6),
                 JanggiPositionFactory.of(5, 6)
         );
-        JanggiPositions positions = new JanggiPositions(new ExistEnemyPiecesAtDestGenerator(), new EmptyJanggiBoardDao());
+        JanggiPositions positions = new JanggiPositions(Map.of(
+                JanggiPositionFactory.of(4, 4), new Horse(team),
+                JanggiPositionFactory.of(2, 3), new Elephant(JanggiTeam.RED),
+                JanggiPositionFactory.of(3, 2), new Pawn(JanggiTeam.RED),
+                JanggiPositionFactory.of(6, 5), new Pawn(JanggiTeam.RED)
+        ));
 
         // when
         List<JanggiPosition> destinations = policy.pickDestinations(team, coordinates, positions);

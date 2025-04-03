@@ -1,6 +1,5 @@
 package domain.hurdlePolicy;
 
-import dao.EmptyJanggiBoardDao;
 import domain.janggiPiece.Chariot;
 import domain.janggiPiece.Elephant;
 import domain.janggiPiece.JanggiChessPiece;
@@ -8,7 +7,6 @@ import domain.path.Path;
 import domain.position.JanggiPosition;
 import domain.position.JanggiPositionFactory;
 import domain.position.JanggiPositions;
-import domain.position.generator.DefaultPositionsGenerator;
 import domain.type.JanggiTeam;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,16 +21,6 @@ class StopAtHurdlePolicyTest {
     private final JanggiPosition startPosition = JanggiPositionFactory.of(5, 3);
     private final JanggiTeam team = JanggiTeam.BLUE;
     private final JanggiChessPiece chariot = new Chariot(team);
-
-    private class ExistSameTeamPieces implements DefaultPositionsGenerator {
-        @Override
-        public Map<JanggiPosition, JanggiChessPiece> generate() {
-            return Map.of(
-                    startPosition, chariot,
-                    JanggiPositionFactory.of(8, 3), new Elephant(JanggiTeam.BLUE)
-            );
-        }
-    }
 
     @DisplayName("경로 사이에 아군이 존재하는 경우, 해당 위치 직전까지 움직일 수 있다.")
     @Test
@@ -65,7 +53,10 @@ class StopAtHurdlePolicyTest {
                         JanggiPositionFactory.of(5, 8)
                 ))
         );
-        JanggiPositions positions = new JanggiPositions(new ExistSameTeamPieces(), new EmptyJanggiBoardDao());
+        JanggiPositions positions = new JanggiPositions(Map.of(
+                startPosition, chariot,
+                JanggiPositionFactory.of(8, 3), new Elephant(JanggiTeam.BLUE)
+        ));
         List<JanggiPosition> expected = List.of(
                 JanggiPositionFactory.of(6, 3),
                 JanggiPositionFactory.of(7, 3),
@@ -92,16 +83,6 @@ class StopAtHurdlePolicyTest {
 
         // then
         assertThat(destinations).containsExactlyInAnyOrderElementsOf(expected);
-    }
-
-    private class ExistEnemyPieces implements DefaultPositionsGenerator {
-        @Override
-        public Map<JanggiPosition, JanggiChessPiece> generate() {
-            return Map.of(
-                    startPosition, chariot,
-                    JanggiPositionFactory.of(8, 3), new Elephant(JanggiTeam.RED)
-            );
-        }
     }
 
     @DisplayName("경로 사이에 적군이 존재하는 경우, 해당 위치까지 움직일 수 있다.")
@@ -135,7 +116,10 @@ class StopAtHurdlePolicyTest {
                         JanggiPositionFactory.of(5, 8)
                 ))
         );
-        JanggiPositions positions = new JanggiPositions(new ExistEnemyPieces(), new EmptyJanggiBoardDao());
+        JanggiPositions positions = new JanggiPositions(Map.of(
+                startPosition, chariot,
+                JanggiPositionFactory.of(8, 3), new Elephant(JanggiTeam.RED)
+        ));
         List<JanggiPosition> expected = List.of(
                 JanggiPositionFactory.of(6, 3),
                 JanggiPositionFactory.of(7, 3),
