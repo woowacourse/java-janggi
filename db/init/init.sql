@@ -3,7 +3,7 @@ USE janggi;
 CREATE TABLE IF NOT EXISTS game (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     current_turn VARCHAR(10) NOT NULL,
-    status VARCHAR(20) NOT NULL
+    status VARCHAR(20) NOT NULL,
     chu_score DOUBLE DEFAULT 72,
     han_score DOUBLE DEFAULT 73.5
 );
