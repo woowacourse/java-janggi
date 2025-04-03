@@ -25,9 +25,6 @@ public class JanggiDatabase {
     private static final int TYPE = 4;
     private static final int COUNTRY = 5;
 
-    public JanggiDatabase() {
-    }
-
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
