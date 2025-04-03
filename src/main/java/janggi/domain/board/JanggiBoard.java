@@ -1,12 +1,5 @@
 package janggi.domain.board;
 
-import janggi.data.PointDao;
-import janggi.domain.piece.Cannon;
-import janggi.domain.piece.Chariot;
-import janggi.domain.piece.ChuSoldier;
-import janggi.domain.piece.General;
-import janggi.domain.piece.Guard;
-import janggi.domain.piece.HanSoldier;
 import janggi.domain.piece.Piece;
 import janggi.domain.piece.PieceType;
 import java.util.Collections;
@@ -17,30 +10,6 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 public class JanggiBoard {
-
-    private static final List<Point> HAN_PALACE = List.of(
-            new Point(1, 4),
-            new Point(1, 5),
-            new Point(1, 6),
-            new Point(2, 4),
-            new Point(2, 5),
-            new Point(2, 6),
-            new Point(3, 4),
-            new Point(3, 5),
-            new Point(3, 6)
-    );
-
-    private static final List<Point> CHU_PALACE = List.of(
-            new Point(8, 4),
-            new Point(8, 5),
-            new Point(8, 6),
-            new Point(9, 4),
-            new Point(9, 5),
-            new Point(9, 6),
-            new Point(10, 4),
-            new Point(10, 5),
-            new Point(10, 6)
-    );
 
     private final Map<Point, Piece> boardPieces;
 
@@ -177,12 +146,5 @@ public class JanggiBoard {
 
     public Map<Point, Piece> getBoardPieces() {
         return Collections.unmodifiableMap(boardPieces);
-    }
-
-    public List<Point> getPalaceArea(Dynasty dynasty) {
-        if (dynasty.equals(Dynasty.HAN)) {
-            return HAN_PALACE;
-        }
-        return CHU_PALACE;
     }
 }
