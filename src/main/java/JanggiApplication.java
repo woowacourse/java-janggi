@@ -17,8 +17,8 @@ public class JanggiApplication {
 
         final JanggiGameFlow janggiGameFlow = new JanggiGameFlow(janggiService, inputView, outputView);
 
-        janggiGameFlow.selectGameRoom();
-        janggiGameFlow.play();
-        janggiGameFlow.endGame();
+        String roomId = janggiGameFlow.selectGameRoom();
+        janggiGameFlow.play(roomId);
+        janggiGameFlow.endGame(roomId);
     }
 }

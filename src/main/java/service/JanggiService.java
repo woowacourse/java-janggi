@@ -12,7 +12,6 @@ import domain.unit.UnitType;
 import domain.unit.Units;
 import entity.Piece;
 import entity.Room;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,18 +38,10 @@ public class JanggiService {
     }
 
     private Janggi initGame() {
-        Map<Position, Unit> hanUnits = settingUnits(Team.HAN);
-        Map<Position, Unit> choUnits = settingUnits(Team.CHO);
+        Map<Position, Unit> hanUnits = UnitType.createTotalUnits(Team.HAN);
+        Map<Position, Unit> choUnits = UnitType.createTotalUnits(Team.CHO);
         Units totalUnits = Units.of(hanUnits, choUnits);
         return Janggi.of(totalUnits);
-    }
-
-    private Map<Position, Unit> settingUnits(Team team) {
-        Map<Position, Unit> units = new HashMap<>();
-        for (UnitType value : UnitType.values()) {
-            units.putAll(UnitType.createDefaultUnits(value, team));
-        }
-        return units;
     }
 
     public Janggi loadJanggiGame(String roomId) {

@@ -89,3 +89,21 @@
     - [X] 궁이 잡히면 승/패를 계산한다
     - [X] 게임이 끝나지 않을 경우 자동 종료시킨다.(궁성 밖으로 빠져나올 수 없는 장기말만 존재하는 경우)
     - [X] 사용자가 직접 게임을 종료할 수 있도록 구현한다
+
+### 2단계 피드백
+
+- [x] Janggi Service에서 장기 기물들을 생성하는 부분 UnitType으로 이동
+- [x] Janggi 클래스의 상수 private로
+- [x] JanggiGameFlow에서 RoomId 파라미터로 전달하기
+- [ ] PieceDao의 printStackTrace 제거
+- [ ] Database connection을 얻지 못한 경우에 대해서 바로 예외를 던지기
+- [ ] DAO의 주석 제거
+- [ ] executeUpdate()의 반환값을 체크하면 업데이트가 실패했음을 알 수 있음
+- [ ] 기존에 Entity에서 Janggi 객체를 만들어주는 생성 로직을 분리
+- [ ] UnitType 책임 분리
+- [ ] Piece 객체의 필요성 고민
+
+> findBoardsByRoomId, findBoardByPosition 두 개의 메서드에서 resultSet을 통해서 Piece 객체를 생성하고있는데요.
+> 이를 메서드로 추출해서 재사용해보면 어떨까요? 😃
+> 또한 Dao 객체들은 대부분 ResultSet으로 Entity를 만들고있는 것 같은데요.
+> 그렇다면 Dao 객체들이 공통의 인터페이스를 구현하도록 만들어서 parsing 메서드를 정의해줄 수도 있지 않을까요? 🤔

@@ -16,8 +16,8 @@ public class Janggi {
     public static final String PICK_OPPOSITE_UNIT_EXCEPTION = "상대팀 말은 고를 수 없습니다.";
     public static final String CANNOT_MOVE_EXCEPTION = "이동할 수 없는 도착지입니다.";
 
-    public static final Team FIRST_ATTACK_TEAM = Team.CHO;
-    public static final double AFTER_ATTACK_HANDICAP = 1.5;
+    private static final Team FIRST_ATTACK_TEAM = Team.CHO;
+    private static final double AFTER_ATTACK_HANDICAP = 1.5;
 
     private final Units totalUnits;
     private Team turn;

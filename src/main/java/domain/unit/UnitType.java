@@ -6,6 +6,7 @@ import domain.unit.move.HorseMovingStrategy;
 import domain.unit.move.MovingStrategy;
 import domain.unit.move.OneStepMovingStrategy;
 import domain.unit.move.StraightMovingStrategy;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -36,7 +37,15 @@ public enum UnitType {
         this.rule = rule;
     }
 
-    public static Map<Position, Unit> createDefaultUnits(UnitType position, Team team) {
+    public static Map<Position, Unit> createTotalUnits(Team team) {
+        Map<Position, Unit> units = new HashMap<>();
+        for (UnitType value : UnitType.values()) {
+            units.putAll(UnitType.createDefaultUnits(value, team));
+        }
+        return units;
+    }
+
+    private static Map<Position, Unit> createDefaultUnits(UnitType position, Team team) {
         if (team == Team.CHO) {
             return position.xPositions.stream()
                     .map(x -> Position.of(x, position.choY))

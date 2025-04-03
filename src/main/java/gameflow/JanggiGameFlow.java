@@ -14,13 +14,11 @@ import view.OutputView;
 public class JanggiGameFlow {
 
     private static final String SURRENDER_COMMAND = "GG";
-    public static final String CREATE_ROOM_COMMAND = "0";
+    private static final String CREATE_ROOM_COMMAND = "0";
 
     private final JanggiService janggiService;
     private final InputView inputView;
     private final OutputView outputView;
-
-    private String roomId;
 
     public JanggiGameFlow(JanggiService janggiService, InputView inputView, OutputView outputView) {
         this.janggiService = janggiService;
@@ -28,31 +26,30 @@ public class JanggiGameFlow {
         this.outputView = outputView;
     }
 
-    public void selectGameRoom() {
+    public String selectGameRoom() {
         List<Room> allPlayingRoom = janggiService.findAllPlayingRoom();
         outputView.printPlayingRoom(allPlayingRoom);
         String rawRoomIdNumber = inputView.readRoomId(allPlayingRoom);
         if (rawRoomIdNumber.equals(CREATE_ROOM_COMMAND)) {
-            createRoom();
-            return;
+            return createRoom();
         }
         int roomIdNumber = Integer.parseInt(rawRoomIdNumber);
-        roomId = allPlayingRoom.get(roomIdNumber - 1).roomId();
+        return allPlayingRoom.get(roomIdNumber - 1).roomId();
     }
 
-    private void createRoom() {
+    private String createRoom() {
         String roomId = inputView.readRoomIdToCreate();
         janggiService.createJanggiGame(roomId); // TODO: validate duplicated id
-        this.roomId = roomId;
+        return roomId;
     }
 
-    public void play() {
+    public void play(String roomId) {
         while (!janggiService.isGameEnd(roomId)) {
-            processTurn();
+            processTurn(roomId);
         }
     }
 
-    private void processTurn() {
+    private void processTurn(String roomId) {
         Janggi janggi = janggiService.loadJanggiGame(roomId);
         outputView.printJanggiUnits(janggi.getUnits());
         String rawPosition = inputView.readUnitPosition(janggi.getTurn());
@@ -61,10 +58,10 @@ public class JanggiGameFlow {
             return;
         }
         Position current = parsePosition(rawPosition);
-        handleMove(janggi, current);
+        handleMove(roomId, janggi, current);
     }
 
-    private void handleMove(Janggi janggi, Position position) {
+    private void handleMove(String roomId, Janggi janggi, Position position) {
         Routes routes = janggiService.findAllRoute(roomId, position.getX(), position.getY());
         outputView.printAvailableRoute(position, routes);
 
@@ -74,7 +71,7 @@ public class JanggiGameFlow {
         }
     }
 
-    public void endGame() {
+    public void endGame(String roomId) {
         Team winner = janggiService.getWinner(roomId);
         double han = janggiService.calculateScoreOf(roomId, Team.HAN);
         double cho = janggiService.calculateScoreOf(roomId, Team.CHO);
