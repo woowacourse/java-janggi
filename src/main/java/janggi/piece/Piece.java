@@ -12,7 +12,7 @@ public abstract class Piece {
     protected final Team team;
     protected final MovementRule movementRule;
 
-    public Piece(final Position position, final Team team, final MovementRule movementRule) {
+    protected Piece(final Position position, final Team team, final MovementRule movementRule) {
         this.position = position;
         this.team = team;
         this.movementRule = movementRule;
