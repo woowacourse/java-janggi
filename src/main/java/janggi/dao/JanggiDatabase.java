@@ -12,7 +12,7 @@ public class JanggiDatabase {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {

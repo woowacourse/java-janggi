@@ -11,13 +11,11 @@ import java.sql.SQLException;
 
 public class GameDaoImpl implements GameDao {
 
-    private final JanggiDatabase janggiDatabase = new JanggiDatabase();
-
     @Override
     public GameEntity findByStatus(final GameState gameStatus) {
         final var query = "SELECT * FROM game WHERE status = ?";
 
-        try (final var connection = janggiDatabase.getConnection();
+        try (final var connection = JanggiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, gameStatus.name());
 
@@ -41,7 +39,7 @@ public class GameDaoImpl implements GameDao {
     public void addGame() {
         final String query = "INSERT INTO game (current_turn, status, chu_score, han_score) VALUES (?, ?, 72, 73.5)";
 
-        try (final Connection conn = janggiDatabase.getConnection();
+        try (final Connection conn = JanggiDatabase.getConnection();
              final PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, Team.CHU.getDescription());
@@ -58,7 +56,7 @@ public class GameDaoImpl implements GameDao {
                                  final double hanScore) {
         final String query = "UPDATE game SET current_turn = ?, chu_score = ?, han_score = ? WHERE id = ?";
 
-        try (final Connection conn = janggiDatabase.getConnection();
+        try (final Connection conn = JanggiDatabase.getConnection();
              final PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, turnTeam.getDescription());
@@ -76,7 +74,7 @@ public class GameDaoImpl implements GameDao {
     public void deleteGameBy(final Long gameId) {
         final String query = "DELETE FROM game WHERE id = ?";
 
-        try (final Connection conn = janggiDatabase.getConnection();
+        try (final Connection conn = JanggiDatabase.getConnection();
              final PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setLong(1, gameId);

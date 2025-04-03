@@ -13,13 +13,11 @@ import java.util.List;
 
 public class PieceDaoImpl implements PieceDao {
 
-    private final JanggiDatabase janggiDatabase = new JanggiDatabase();
-
     @Override
     public void addPieces(final List<PieceEntity> pieceEntities) {
         final String query = "INSERT INTO piece (piece_type, team, row_index, col_index, game_id ) VALUES (?, ?, ?, ?, ?)";
 
-        try (final Connection conn = janggiDatabase.getConnection();
+        try (final Connection conn = JanggiDatabase.getConnection();
              final PreparedStatement stmt = conn.prepareStatement(query)) {
 
             for (final PieceEntity pieceEntity : pieceEntities) {
@@ -42,7 +40,7 @@ public class PieceDaoImpl implements PieceDao {
         final String query = "SELECT * FROM piece WHERE game_id = ?";
         final List<PieceEntity> pieces = new ArrayList<>();
 
-        try (final var connection = janggiDatabase.getConnection();
+        try (final var connection = JanggiDatabase.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setLong(1, gameId);
@@ -70,7 +68,7 @@ public class PieceDaoImpl implements PieceDao {
     public void removePieceByPosition(final Long gameId, final Position position) {
         final String query = "DELETE FROM piece WHERE game_id = ? AND row_index = ? AND col_index = ?";
 
-        try (final Connection conn = janggiDatabase.getConnection();
+        try (final Connection conn = JanggiDatabase.getConnection();
              final PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setLong(1, gameId);
@@ -87,7 +85,7 @@ public class PieceDaoImpl implements PieceDao {
     public void updatePiece(final PieceEntity pieceEntity) {
         final String query = "INSERT INTO piece (piece_type, team, row_index, col_index, game_id) VALUES (?, ?, ?, ?, ?)";
 
-        try (final Connection conn = janggiDatabase.getConnection();
+        try (final Connection conn = JanggiDatabase.getConnection();
              final PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setString(1, pieceEntity.getPieceType().getValue());
             stmt.setString(2, pieceEntity.getTeam().getDescription());
@@ -105,7 +103,7 @@ public class PieceDaoImpl implements PieceDao {
     public void deletePiecesBy(final Long gameId) {
         final String query = "DELETE FROM piece WHERE game_id = ?";
 
-        try (final Connection conn = janggiDatabase.getConnection();
+        try (final Connection conn = JanggiDatabase.getConnection();
              final PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setLong(1, gameId);
