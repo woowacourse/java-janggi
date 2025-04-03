@@ -1,5 +1,7 @@
 package janggi.board;
 
+import janggi.dao.entity.PieceEntity;
+import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.piece.multiplemovepiece.Cannon;
 import janggi.piece.multiplemovepiece.Chariot;
@@ -10,6 +12,7 @@ import janggi.piece.onemovepiece.King;
 import janggi.piece.onemovepiece.Pawn;
 import janggi.piece.onemovepiece.Soldier;
 import janggi.position.Position;
+import java.util.List;
 
 public class BoardGenerator {
 
@@ -62,6 +65,61 @@ public class BoardGenerator {
         board.deployPiece(new Position(6, 6), new Pawn());
         board.deployPiece(new Position(6, 8), new Pawn());
 
+        return board;
+    }
+
+    public Board generate(final List<PieceEntity> pieceEntities) {
+        final Board board = new Board();
+        for (final PieceEntity pieceEntity : pieceEntities) {
+            if (PieceType.KING.equals(pieceEntity.getPieceType())) {
+                board.deployPiece(
+                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
+                        new King(pieceEntity.getTeam())
+                );
+            }
+            if (PieceType.GUARD.equals(pieceEntity.getPieceType())) {
+                board.deployPiece(
+                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
+                        new Guard(pieceEntity.getTeam())
+                );
+            }
+            if (PieceType.HORSE.equals(pieceEntity.getPieceType())) {
+                board.deployPiece(
+                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
+                        new Horse(pieceEntity.getTeam())
+                );
+            }
+            if (PieceType.ELEPHANT.equals(pieceEntity.getPieceType())) {
+                board.deployPiece(
+                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
+                        new Elephant(pieceEntity.getTeam())
+                );
+            }
+            if (PieceType.CANNON.equals(pieceEntity.getPieceType())) {
+                board.deployPiece(
+                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
+                        new Cannon(pieceEntity.getTeam())
+                );
+            }
+            if (PieceType.CHARIOT.equals(pieceEntity.getPieceType())) {
+                board.deployPiece(
+                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
+                        new Chariot(pieceEntity.getTeam())
+                );
+            }
+            if (PieceType.PAWN.equals(pieceEntity.getPieceType())) {
+                board.deployPiece(
+                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
+                        new Pawn()
+                );
+            }
+            if (PieceType.SOLDIER.equals(pieceEntity.getPieceType())) {
+                board.deployPiece(
+                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
+                        new Soldier()
+                );
+            }
+        }
         return board;
     }
 }

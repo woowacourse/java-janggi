@@ -98,4 +98,8 @@ public class OutputView {
     public void printErrorMessage(final String message) {
         System.out.println(message);
     }
+
+    public void printCallInGame() {
+        System.out.println("이전의 게임을 불러 왔습니다.");
+    }
 }

@@ -2,54 +2,36 @@ package janggi;
 
 import janggi.board.Board;
 import janggi.board.BoardGenerator;
-import janggi.dao.GameDao;
-import janggi.dao.PieceDao;
 import janggi.dao.entity.GameEntity;
-import janggi.dao.entity.PieceEntity;
 import janggi.piece.Piece;
-import janggi.piece.PieceType;
 import janggi.piece.Team;
-import janggi.piece.multiplemovepiece.Cannon;
-import janggi.piece.multiplemovepiece.Chariot;
-import janggi.piece.multiplemovepiece.Elephant;
-import janggi.piece.multiplemovepiece.Horse;
-import janggi.piece.onemovepiece.Guard;
-import janggi.piece.onemovepiece.King;
-import janggi.piece.onemovepiece.Pawn;
-import janggi.piece.onemovepiece.Soldier;
 import janggi.position.Position;
+import janggi.service.JanggiService;
 import janggi.view.InputView;
 import janggi.view.OutputView;
-import java.util.List;
 
 public class JanggiGame {
 
-    private static final Team FIRST_TURN_TEAM = Team.CHU;
-
     private final OutputView outputView;
     private final InputView inputView;
+    private final JanggiService janggiService;
     private GameState gameState;
-    private final GameDao gameDao;
-    private final PieceDao pieceDao;
 
-    public JanggiGame(final OutputView outputView, final InputView inputView, final GameDao gameDao,
-                      final PieceDao pieceDao) {
+    public JanggiGame(final OutputView outputView, final InputView inputView, final JanggiService janggiService) {
         this.outputView = outputView;
         this.inputView = inputView;
-        this.gameDao = gameDao;
-        this.pieceDao = pieceDao;
+        this.janggiService = janggiService;
         this.gameState = GameState.IN_PROGRESS;
     }
 
     public void startGame() {
-        GameEntity gameEntity = gameDao.findByStatus(GameState.IN_PROGRESS);
+        GameEntity gameEntity = janggiService.findInProgressGame(GameState.IN_PROGRESS);
+        outputView.printCallInGame();
         if (gameEntity == null) {
-            gameDao.addGame(FIRST_TURN_TEAM, GameState.IN_PROGRESS);
-            gameEntity = gameDao.findByStatus(GameState.IN_PROGRESS);
             final Board board = setJanggiBoard();
-            pieceDao.addPieces(pieceDao.createPieceEntities(board.getJanggiBoard(), gameEntity.getId()));
+            gameEntity = janggiService.creatGame(board, GameState.IN_PROGRESS);
         }
-        playJanggi(gameEntity);
+        playGame(gameEntity);
     }
 
     private Board setJanggiBoard() {
@@ -57,112 +39,35 @@ public class JanggiGame {
         return boardGenerator.generate();
     }
 
-    private void playJanggi(final GameEntity gameEntity) {
+    private void playGame(final GameEntity gameEntity) {
         Team currentTurnTeam = gameEntity.getCurrentTeam();
 
         while (isNotEnd()) {
-            final List<PieceEntity> pieceEntities = pieceDao.findPiecesById(gameEntity.getId());
-            final Board board = createJanggiBoardBy(pieceEntities);
+            final Board board = janggiService.getBoardById(gameEntity.getId());
 
             outputView.printJanggiBoard(board.getJanggiBoard());
             showScore(board);
 
             playTurn(board, currentTurnTeam, gameEntity);
             currentTurnTeam = changeTurn(currentTurnTeam);
-
-            final double chuScore = board.calculateTotalScore(Team.CHU);
-            final double hanScore = board.calculateTotalScore(Team.HAN);
-
             gameEntity.updateGameTurn(currentTurnTeam);
-            gameDao.updateGameStatus(gameEntity.getId(), currentTurnTeam, chuScore, hanScore);
+            janggiService.updateGameStatue(gameEntity.getId(), currentTurnTeam, board);
         }
-
-        final List<PieceEntity> pieceEntities = pieceDao.findPiecesById(gameEntity.getId());
-        final Board board = createJanggiBoardBy(pieceEntities);
-        showGameResult(board, currentTurnTeam);
-
-        pieceDao.deletePiecesBy(gameEntity.getId());
-        gameDao.deleteGameBy(gameEntity.getId());
+        endGame(gameEntity, currentTurnTeam);
     }
 
-    private Board createJanggiBoardBy(final List<PieceEntity> pieceEntities) {
-        final Board board = new Board();
-        for (final PieceEntity pieceEntity : pieceEntities) {
-            if (PieceType.KING.equals(pieceEntity.getPieceType())) {
-                board.deployPiece(
-                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
-                        new King(pieceEntity.getTeam())
-                );
-            }
-            if (PieceType.GUARD.equals(pieceEntity.getPieceType())) {
-                board.deployPiece(
-                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
-                        new Guard(pieceEntity.getTeam())
-                );
-            }
-            if (PieceType.HORSE.equals(pieceEntity.getPieceType())) {
-                board.deployPiece(
-                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
-                        new Horse(pieceEntity.getTeam())
-                );
-            }
-            if (PieceType.ELEPHANT.equals(pieceEntity.getPieceType())) {
-                board.deployPiece(
-                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
-                        new Elephant(pieceEntity.getTeam())
-                );
-            }
-            if (PieceType.CANNON.equals(pieceEntity.getPieceType())) {
-                board.deployPiece(
-                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
-                        new Cannon(pieceEntity.getTeam())
-                );
-            }
-            if (PieceType.CHARIOT.equals(pieceEntity.getPieceType())) {
-                board.deployPiece(
-                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
-                        new Chariot(pieceEntity.getTeam())
-                );
-            }
-            if (PieceType.PAWN.equals(pieceEntity.getPieceType())) {
-                board.deployPiece(
-                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
-                        new Pawn()
-                );
-            }
-            if (PieceType.SOLDIER.equals(pieceEntity.getPieceType())) {
-                board.deployPiece(
-                        new Position(pieceEntity.getRowIndex(), pieceEntity.getColIndex()),
-                        new Soldier()
-                );
-            }
-        }
-        return board;
+    private void endGame(final GameEntity gameEntity, final Team currentTurnTeam) {
+        final Board board = janggiService.getBoardById(gameEntity.getId());
+        showGameResult(board, currentTurnTeam);
+        janggiService.deleteGame(gameEntity.getId());
     }
 
     private void playTurn(final Board janggiBoard, final Team currentTurnTeam, final GameEntity gameEntity) {
         try {
-            final Position currentPosition = readCurrentPosition(currentTurnTeam.getDescription());
-            janggiBoard.validateEmptyPieceBy(currentPosition);
-            validateCurrentTeamBy(janggiBoard, currentPosition, currentTurnTeam);
-
+            final Position currentPosition = getReadCurrentPosition(janggiBoard, currentTurnTeam);
             final Position targetPosition = readTargetPosition();
 
-            pieceMove(janggiBoard, currentPosition, targetPosition);
-
-            final Piece movedPiece = janggiBoard.getJanggiBoard().get(targetPosition);
-
-            pieceDao.removePieceByPosition(gameEntity.getId(), currentPosition);
-            pieceDao.removePieceByPosition(gameEntity.getId(), targetPosition);
-            pieceDao.updatePiece(new PieceEntity(
-                    null,
-                    movedPiece.getPieceType(),
-                    movedPiece.getTeam(),
-                    targetPosition.row(),
-                    targetPosition.col(),
-                    gameEntity.getId()
-            ));
-
+            pieceMove(janggiBoard, currentPosition, targetPosition, gameEntity);
             if (isNotEnd()) {
                 outputView.printSuccessMove();
             }
@@ -172,8 +77,21 @@ public class JanggiGame {
         }
     }
 
-    private void pieceMove(final Board janggiBoard, final Position currentPosition, final Position targetPosition) {
+    private Position getReadCurrentPosition(final Board janggiBoard, final Team currentTurnTeam) {
+        final Position currentPosition = readCurrentPosition(currentTurnTeam.getDescription());
+        janggiBoard.validateEmptyPieceBy(currentPosition);
+        validateCurrentTeamBy(janggiBoard, currentPosition, currentTurnTeam);
+        return currentPosition;
+    }
+
+    private void pieceMove(final Board janggiBoard, final Position currentPosition, final Position targetPosition,
+                           final GameEntity gameEntity) {
         gameState = janggiBoard.pieceMove(currentPosition, targetPosition);
+
+        final Piece movedPiece = janggiBoard.getJanggiBoard().get(targetPosition);
+        janggiService.deletePiece(gameEntity.getId(), currentPosition);
+        janggiService.deletePiece(gameEntity.getId(), targetPosition);
+        janggiService.updatePiece(gameEntity, movedPiece, targetPosition);
     }
 
     private boolean isNotEnd() {

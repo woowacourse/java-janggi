@@ -35,14 +35,14 @@ public class GameDao {
         return null;
     }
 
-    public void addGame(final Team currentTurn, final GameState gameState) {
+    public void addGame() {
         final String query = "INSERT INTO game (current_turn, status, chu_score, han_score) VALUES (?, ?, 72, 73.5)";
 
         try (final Connection conn = janggiDatabase.getConnection();
              final PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, currentTurn.getDescription());
-            stmt.setString(2, gameState.name());
+            stmt.setString(1, Team.CHU.getDescription());
+            stmt.setString(2, GameState.IN_PROGRESS.name());
 
             stmt.executeUpdate();
         } catch (final SQLException e) {
