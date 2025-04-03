@@ -1,12 +1,9 @@
 package view;
 
-import board.GameBoard;
 import direction.Point;
-import java.util.List;
 import piece.Piece;
 import piece.PieceType;
 import piece.Pieces;
-import team.Player;
 import team.Team;
 
 public class OutputView {
@@ -28,12 +25,10 @@ public class OutputView {
         return "초나라";
     }
 
-    public static void printBoard(final GameBoard gameBoard, final List<Player> players) {
-        Pieces pieces = gameBoard.findAllPieces();
-
+    public static void printBoard(final Pieces pieces) {
         System.out.println();
-        for (Player player : players) {
-            System.out.printf("%s: %.1f점 ", teamToKorean(player.getTeam()), player.getScore());
+        for (Team team : Team.values()) {
+            System.out.printf("%s: %f점 ", teamToKorean(team), pieces.calculateScore(team));
         }
         System.out.println();
         printPiecesInBoard(pieces);
@@ -56,7 +51,7 @@ public class OutputView {
     }
 
     private static void printPieceInPosition(final Pieces pieces, final Point point) {
-        if (pieces.isExistPieceIn(point)) {
+        if (pieces.isExistPieceInPoint(point)) {
             Piece findPiece = pieces.findByPoint(point);
             System.out.print(pieceToString(findPiece));
             return;
