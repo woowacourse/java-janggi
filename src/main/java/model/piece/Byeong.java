@@ -15,7 +15,8 @@ public class Byeong extends PalaceMovablePieces {
     @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
         if (piecesOnPathWithTargetOrNot.size() == 1) {
-            return piecesOnPathWithTargetOrNot.keySet().stream()
+            return piecesOnPathWithTargetOrNot.keySet()
+                    .stream()
                     .findFirst()
                     .get()
                     .getTeam() != getTeam();
@@ -25,7 +26,7 @@ public class Byeong extends PalaceMovablePieces {
 
     @Override
     public void validateGungCross(Point beforePoint, Point targetPoint) {
-        if (!Palace.ALL_PALACE.getPoints().contains(targetPoint)) {
+        if (!Palace.ALL_PALACE.isInPalace(targetPoint)) {
             return;
         }
         int moveForward = 1;

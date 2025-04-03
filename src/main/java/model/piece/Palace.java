@@ -27,4 +27,8 @@ public enum Palace {
     public List<Point> getPoints() {
         return points;
     }
+
+    public boolean isInPalace(Point point) {
+        return points.contains(point);
+    }
 }
