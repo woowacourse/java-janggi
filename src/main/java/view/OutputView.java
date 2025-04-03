@@ -3,10 +3,10 @@ package view;
 import static domain.piece.coordiante.Coordinate.MAX_COL;
 import static domain.piece.coordiante.Coordinate.MAX_ROW;
 
-import domain.piece.coordiante.Coordinate;
 import domain.board.Board;
 import domain.game.Game;
 import domain.piece.Country;
+import domain.piece.coordiante.Coordinate;
 import java.util.List;
 
 public class OutputView {
@@ -45,7 +45,7 @@ public class OutputView {
         System.out.println(builder);
     }
 
-    private static void convertRowEdgeValue(int row, StringBuilder builder) {
+    private void convertRowEdgeValue(int row, StringBuilder builder) {
         if (row == 10) {
             builder.append(0);
         } else {
