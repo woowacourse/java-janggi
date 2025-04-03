@@ -38,9 +38,7 @@ public final class PieceDao {
     public void removeAll() {
         String query = "DELETE FROM piece";
         try (PreparedStatement preparedStatement = DatabaseConnection.getPreparedStatement(query)) {
-            if (preparedStatement.executeUpdate() == 0) {
-                throw new RuntimeException("삭제에 실패했습니다.");
-            }
+            preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
