@@ -18,9 +18,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class BoardPieceDao {
-    private static final String url = System.getenv("DB_URL");
-    private static final String username = System.getenv("DB_USERNAME");
-    private static final String password = System.getenv("DB_PASSWORD");
+    private static final String url = "jdbc:mysql://localhost:13306/chess?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String username = "root";
+    private static final String password = "root";
 
     public void saveAll(int gameId, Map<Position, Piece> board) {
         String query = "insert into board_piece(game_id, column_value, row_value, piece_type, team) values(?, ?, ?, ?, ?);";

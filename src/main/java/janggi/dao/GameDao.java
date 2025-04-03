@@ -10,9 +10,9 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 public class GameDao {
-    private static final String url = System.getenv("DB_URL");
-    private static final String username = System.getenv("DB_USERNAME");
-    private static final String password = System.getenv("DB_PASSWORD");
+    private static final String url = "jdbc:mysql://localhost:13306/chess?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String username = "root";
+    private static final String password = "root";
 
     public void create(int id) {
         String sql = "insert into game(id, turn) values (?, 'GREEN');";

@@ -3,34 +3,18 @@
 장기 미션 저장소
 
 ## 데이터베이스 세팅
-1. 로컬 데이터베이스(mysql)에 chess 스키마를 생성한다.
+1. 터미널 상에서 `java-janggi/docker` 디렉토리로 이동한다.
 
 
-2. 생성한 스키마 내부에서 다음 쿼리들을 순차적으로 실행해 테이블을 생성한다.
-    ```
-    create table game (
-        id int NOT NULL,
-        turn ENUM('GREEN', 'RED') NOT NULL,
-        CONSTRAINT game_pk PRIMARY KEY(id)
-    );
-    
-    create table board_piece (
-        id int NOT NULL AUTO_INCREMENT,
-        game_id int NOT NULL,
-        column_value int NOT NULL,
-        row_value int NOT NULL,
-        piece_type ENUM('SOLDIER', 'GUARD', 'ELEPHANT', 'HORSE', 'CANON', 'CHARIOT', 'GENERAL') NOT NULL,
-        team ENUM('GREEN', 'RED') NOT NULL,
-        CONSTRAINT board_piece_pk PRIMARY KEY(id),
-        CONSTRAINT game_board_piecefk foreign key (game_id) references game (id)
-    );
-    ```
-3. IDEA에서 다음과 같이 Application 환경 변수를 설정한다.
-    ```
-   DB_USERNAME='개인 username';
-   DB_PASSWORD='개인 비밀번호';
-   DB_URL=jdbc:mysql://localhost:'포트번호'/chess?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    ```
+2. 다음 명령을 실행해 DB 컨테이너를 실행한다.  
+`docker-compose -p chess up -d`
+
+
+3. 장기 게임을 실행한다.
+
+
+4. 게임을 끝낸 이후 컨테이너를 종료할 때는 다음 명령을 실행한다.  
+`docker-compose -p chess down`
 
 ## 기능 목록
 - 게임 준비
