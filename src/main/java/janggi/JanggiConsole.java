@@ -13,6 +13,7 @@ import janggi.utils.ExceptionHandler;
 import janggi.view.InputView;
 import janggi.view.Menu;
 import janggi.view.ResultView;
+import java.util.List;
 import java.util.Map;
 
 public class JanggiConsole {
@@ -38,7 +39,6 @@ public class JanggiConsole {
                 move(janggiGame);
             }
             if (menu == Menu.SAVE) {
-                save(janggiGame);
                 return;
             }
             if (menu == Menu.QUIT) {
@@ -74,6 +74,7 @@ public class JanggiConsole {
         final Turn turn = new Turn();
         final Board board = boardFactory.makeBoard(choSangSetting, hanSangSetting);
 
+        janggiDatabaseManager.saveInitialGame(turn.getCurrentTeam(), board.getPieces());
         return new JanggiGame(board, turn);
     }
 
@@ -91,12 +92,12 @@ public class JanggiConsole {
     private void move(JanggiGame janggiGame) {
         final TeamType currentTeamType = janggiGame.getCurrentTeam();
         resultView.printOrder(currentTeamType);
-        ExceptionHandler.retry(() -> janggiGame.move(inputView.readMovingPosition()));
+        ExceptionHandler.retry(() -> {
+            List<Position> positions = ExceptionHandler.repeat(inputView::readMovingPosition);
+            janggiGame.move(positions);
+            janggiDatabaseManager.movePiece(positions.getFirst(), positions.getLast(), janggiGame.getCurrentTeam());
+        });
         printGameState(janggiGame);
-    }
-
-    private void save(JanggiGame janggiGame) {
-        janggiDatabaseManager.saveGame(janggiGame.getCurrentTeam(), janggiGame.getPieces());
     }
 
     private void quit(JanggiGame janggiGame) {

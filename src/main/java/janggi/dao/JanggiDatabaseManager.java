@@ -1,12 +1,12 @@
 package janggi.dao;
 
 import janggi.dao.utils.JanggiMapper;
-import janggi.dto.PieceDto;
-import janggi.dto.PieceTypeDto;
-import janggi.dto.TeamTypeDto;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
 import janggi.domain.team.TeamType;
+import janggi.dto.PieceDto;
+import janggi.dto.PieceTypeDto;
+import janggi.dto.TeamTypeDto;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class JanggiDatabaseManager {
     }
 
     public Map<Position, Piece> loadPiecesForProgressingGame() {
-        List<PieceDto> pieceDtos = pieceDao.findPieces();
+        List<PieceDto> pieceDtos = pieceDao.findAllPiece();
         Map<Position, Piece> pieces = new HashMap<>();
 
         if (isExistProgressingGame(pieceDtos)) {
@@ -44,14 +44,16 @@ public class JanggiDatabaseManager {
                 .toList();
     }
 
-    public void saveGame(TeamType currentTeam, Map<Position, Piece> pieces) {
-        pieceDao.deleteAllPieceIfExists();
-        pieceTypeDao.deleteAllPieceTypeIfExists();
-        teamDao.deleteAllTeamIfExists();
-
+    public void saveInitialGame(TeamType currentTeam, Map<Position, Piece> pieces) {
         teamDao.insertInitialTeam(currentTeam);
         pieceTypeDao.insertInitialPieceType();
         pieceDao.insertPieces(pieces);
+    }
+
+    public void movePiece(Position currentPosition, Position arrivalPosition, TeamType currentTeam) {
+        pieceDao.deletePieceByPositionIfExists(arrivalPosition);
+        pieceDao.updatePiece(currentPosition, arrivalPosition);
+        teamDao.updateTeamOrder(currentTeam);
     }
 
     public void endGame() {

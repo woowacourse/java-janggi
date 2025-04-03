@@ -3,6 +3,7 @@ package janggi.dao;
 import janggi.domain.board.Board;
 import janggi.domain.board.BoardFactory;
 import janggi.domain.board.SangSetting;
+import janggi.domain.position.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,19 @@ class PieceDaoTest {
         @Test
         void 저장된_기물을_불러온다() {
             assertThatNoException()
-                    .isThrownBy(pieceDao::findPieces);
+                    .isThrownBy(pieceDao::findAllPiece);
+        }
+
+        @Test
+        void 좌표에_기물이_존재한다면_삭제한다() {
+            assertThatNoException()
+                    .isThrownBy(() -> pieceDao.deletePieceByPositionIfExists(new Position(3, 7)));
+        }
+
+        @Test
+        void 기물을_이동한다() {
+            assertThatNoException()
+                    .isThrownBy(() -> pieceDao.updatePiece(new Position(3, 7), new Position(1, 2)));
         }
     }
 }

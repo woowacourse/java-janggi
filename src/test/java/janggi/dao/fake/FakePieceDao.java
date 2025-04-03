@@ -29,13 +29,35 @@ public class FakePieceDao extends PieceDao {
     }
 
     @Override
-    public List<PieceDto> findPieces() {
+    public List<PieceDto> findAllPiece() {
         return getPieces();
+    }
+
+    @Override
+    public void deletePieceByPositionIfExists(Position arrivalPosition) {
+        PieceDto pieceDto = findPieceByPosition(arrivalPosition);
+        pieces.remove(pieceDto);
+    }
+
+    @Override
+    public void updatePiece(Position currentPosition, Position arrivalPosition) {
+        PieceDto pieceDto = findPieceByPosition(currentPosition);
+        pieces.remove(pieceDto);
+        PieceDto newPieceDto = new PieceDto(pieceDto.id(), pieceDto.teamId(), pieceDto.pieceTypeId(),
+                arrivalPosition.getX(), arrivalPosition.getY());
+        pieces.add(newPieceDto);
     }
 
     @Override
     public void deleteAllPieceIfExists() {
         pieces.clear();
+    }
+
+    private PieceDto findPieceByPosition(Position position) {
+        return pieces.stream()
+                .filter(piece -> piece.x() == position.getX() && piece.y() == position.getY())
+                .findFirst()
+                .orElse(null);
     }
 
     public List<PieceDto> getPieces() {

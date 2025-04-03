@@ -1,9 +1,10 @@
 package janggi.dao;
 
-import janggi.dto.PieceDto;
 import janggi.domain.piece.Piece;
 import janggi.domain.position.Position;
+import janggi.dto.PieceDto;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class PieceDao {
         }
     }
 
-    public List<PieceDto> findPieces() {
+    public List<PieceDto> findAllPiece() {
         final String query = "SELECT * FROM piece";
 
         try (final Connection connection = connectionManager.getConnection();
@@ -68,6 +69,44 @@ public class PieceDao {
             return pieces;
         } catch (final SQLException e) {
             throw new RuntimeException("[ERROR] 데이터 조회에 실패하였습니다.");
+        }
+    }
+
+    public void deletePieceByPositionIfExists(Position arrivalPosition) {
+        final String existsQuery = "SELECT 1 FROM piece WHERE x = ? AND y = ? LIMIT 1";
+        final String deleteQuery = "DELETE FROM piece WHERE x = ? AND y = ?";
+
+        try (final Connection connection = connectionManager.getConnection();
+             final var existsPreparedStatement = connection.prepareStatement(existsQuery);
+             final var deletePreparedStatement = connection.prepareStatement(deleteQuery)) {
+
+            existsPreparedStatement.setInt(1, arrivalPosition.getX());
+            existsPreparedStatement.setInt(2, arrivalPosition.getY());
+            ResultSet rs = existsPreparedStatement.executeQuery();
+
+            if (rs.next()) {
+                deletePreparedStatement.setInt(1, arrivalPosition.getX());
+                deletePreparedStatement.setInt(2, arrivalPosition.getY());
+                deletePreparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 잡힌 기물 삭제에 실패했습니다.", e);
+        }
+    }
+
+    public void updatePiece(Position currentPosition, Position arrivalPosition) {
+        final String updateQuery = "UPDATE piece SET x = ?, y = ? WHERE x = ? AND y = ?";
+
+        try (final Connection connection = connectionManager.getConnection();
+             final var preparedStatement = connection.prepareStatement(updateQuery)) {
+            preparedStatement.setInt(1, arrivalPosition.getX());
+            preparedStatement.setInt(2, arrivalPosition.getY());
+            preparedStatement.setInt(3, currentPosition.getX());
+            preparedStatement.setInt(4, currentPosition.getY());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 기물 이동 중 오류가 발생하였습니다.", e);
         }
     }
 

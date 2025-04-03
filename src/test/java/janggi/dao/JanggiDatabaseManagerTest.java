@@ -15,21 +15,45 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 class JanggiDatabaseManagerTest {
 
     private JanggiDatabaseManager janggiDatabaseManager;
-    private FakePieceDao fakeJanggiDao;
+    private FakePieceDao fakePieceDao;
     private FakePieceTypeDao fakePieceTypeDao;
     private FakeTeamDao fakeTeamDao;
 
     @BeforeEach
     void setUp() {
-        fakeJanggiDao = new FakePieceDao();
+        fakePieceDao = new FakePieceDao();
         fakePieceTypeDao = new FakePieceTypeDao();
         fakeTeamDao = new FakeTeamDao();
-        janggiDatabaseManager = new JanggiDatabaseManager(fakeJanggiDao, fakePieceTypeDao, fakeTeamDao,
+        janggiDatabaseManager = new JanggiDatabaseManager(fakePieceDao, fakePieceTypeDao, fakeTeamDao,
                 new JanggiMapper());
+    }
+
+    @Test
+    void 초기_게임을_저장한다() {
+        // Given
+        Map<Position, Piece> pieces = Map.of(
+                new Position(1, 1), new Byeong(),
+                new Position(2, 1), new Byeong(),
+                new Position(3, 1), new Jol()
+        );
+
+        // When
+        janggiDatabaseManager.saveInitialGame(TeamType.CHO, pieces);
+
+        // Then
+        SoftAssertions.assertSoftly(softAssertions -> {
+            softAssertions.assertThat(fakeTeamDao.findTeams())
+                    .isNotEmpty();
+            softAssertions.assertThat(fakePieceDao.findAllPiece())
+                    .isNotEmpty();
+            softAssertions.assertThat(fakePieceTypeDao.getPieceTypes())
+                    .isNotEmpty();
+        });
     }
 
     @Test
@@ -42,7 +66,7 @@ class JanggiDatabaseManagerTest {
         );
         fakeTeamDao.insertInitialTeam(TeamType.CHO);
         fakePieceTypeDao.insertInitialPieceType();
-        fakeJanggiDao.insertPieces(pieces);
+        fakePieceDao.insertPieces(pieces);
 
         // When & Then
         assertThat(janggiDatabaseManager.loadPiecesForProgressingGame().size())
@@ -62,29 +86,21 @@ class JanggiDatabaseManagerTest {
     }
 
     @Test
-    void 진행_중인_게임을_저장한다() {
+    void 기물을_이동한다() {
         // Given
+        final Position current = new Position(2, 1);
+        final Position target = new Position(3, 1);
+
         Map<Position, Piece> pieces = Map.of(
                 new Position(1, 1), new Byeong(),
-                new Position(2, 1), new Byeong(),
-                new Position(3, 1), new Jol()
+                current, new Byeong(),
+                target, new Jol()
         );
-        fakeTeamDao.insertInitialTeam(TeamType.CHO);
-        fakePieceTypeDao.insertInitialPieceType();
-        fakeJanggiDao.insertPieces(pieces);
+        janggiDatabaseManager.saveInitialGame(TeamType.CHO, pieces);
 
-        // When
-        janggiDatabaseManager.saveGame(TeamType.CHO, pieces);
-
-        // Then
-        SoftAssertions.assertSoftly(softAssertions -> {
-            softAssertions.assertThat(fakeTeamDao.findTeams())
-                    .isNotEmpty();
-            softAssertions.assertThat(fakeJanggiDao.findPieces())
-                    .isNotEmpty();
-            softAssertions.assertThat(fakePieceTypeDao.getPieceTypes())
-                    .isNotEmpty();
-        });
+        // When & Then
+        assertThatNoException()
+                .isThrownBy(() -> janggiDatabaseManager.movePiece(current, target, TeamType.CHO));
     }
 
     @Test
@@ -95,9 +111,7 @@ class JanggiDatabaseManagerTest {
                 new Position(2, 1), new Byeong(),
                 new Position(3, 1), new Jol()
         );
-        fakeTeamDao.insertInitialTeam(TeamType.CHO);
-        fakePieceTypeDao.insertInitialPieceType();
-        fakeJanggiDao.insertPieces(pieces);
+        janggiDatabaseManager.saveInitialGame(TeamType.CHO, pieces);
 
         // When
         janggiDatabaseManager.endGame();
@@ -106,7 +120,7 @@ class JanggiDatabaseManagerTest {
         SoftAssertions.assertSoftly(softAssertions -> {
             softAssertions.assertThat(fakeTeamDao.findTeams())
                     .isEmpty();
-            softAssertions.assertThat(fakeJanggiDao.findPieces())
+            softAssertions.assertThat(fakePieceDao.findAllPiece())
                     .isEmpty();
             softAssertions.assertThat(fakePieceTypeDao.getPieceTypes())
                     .isEmpty();
