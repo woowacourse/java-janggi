@@ -12,25 +12,25 @@ public class TurnDao {
         String sql = "INSERT INTO turn (current_turn) VALUES (?)";
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, turn.name());
 
-            preparedStatement.setString(1, turn.name());
-
-            preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 턴 정보를 저장하지 못했습니다.");
         }
     }
 
-    public void updateTurn(Connection connection, Team turn) {
+    public void updateTurn(Team turn) {
         String sql = "UPDATE turn SET current_turn=?";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection connection = JdbcConnection.getConnection()){
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, turn.name());
 
-            preparedStatement.setString(1, turn.name());
-
-            preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 턴 정보를 업데이트하지 못했습니다.");
         }
@@ -40,8 +40,9 @@ public class TurnDao {
         String sql = "DELETE FROM turn";
 
         try (Connection connection = JdbcConnection.getConnection()){
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.executeUpdate();
+            try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                pstmt.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 턴 정보를 삭제하지 못했습니다.");
         }
@@ -51,11 +52,12 @@ public class TurnDao {
         String sql = "SELECT current_turn FROM turn";
 
         try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            ResultSet turn = preparedStatement.executeQuery();
-            while (turn.next()) {
-                return turn.getString("current_turn");
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                try (ResultSet turnResult = preparedStatement.executeQuery()) {
+                    if (turnResult.next()) {
+                        return turnResult.getString("current_turn");
+                    }
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 턴 정보를 조회하는데 문제가 발생했습니다.");

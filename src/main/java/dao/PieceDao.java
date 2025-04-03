@@ -15,59 +15,65 @@ import piece.Guard;
 import piece.Horse;
 import piece.Piece;
 import piece.PieceType;
+import piece.Pieces;
 import piece.Soldier;
 import team.Team;
 
 public class PieceDao {
 
-    public void savePiece(int playerId, PieceType type, int x, int y) {
-        String sql = "INSERT INTO piece (player_id, type, x, y) VALUES (?, ?, ?, ?)";
+    public void addAllPieces(Pieces pieces) {
+        String sql = "INSERT INTO piece (type, team, x, y) VALUES (?, ?, ?, ?)";
 
-        try (Connection connection = JdbcConnection.getConnection()) {
-            PreparedStatement pstmt = connection.prepareStatement(sql);
+        try (Connection connection = JdbcConnection.getConnection();
+            PreparedStatement pieceStmt = connection.prepareStatement(sql)) {
+                for (Piece piece : pieces.getPieces()) {
+                    pieceStmt.setString(1, piece.type().name());
+                    pieceStmt.setString(2, piece.team().name());
+                    pieceStmt.setInt(3, piece.column());
+                    pieceStmt.setInt(4, piece.row());
 
-            pstmt.setInt(1, playerId);
-            pstmt.setString(2, type.name());
-            pstmt.setInt(3, x);
-            pstmt.setInt(4, y);
-            pstmt.executeUpdate();
+                    pieceStmt.addBatch();
+                    pieceStmt.clearParameters();
+                }
+
+                pieceStmt.executeBatch();
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 기물들을 저장하는데 실패했습니다.");
         }
     }
 
-    public void updatePiece(Connection connection, int pieceId, int column, int row) {
+    public void updatePiece(int pieceId, int column, int row) {
         String sql = "UPDATE piece SET x = ?, y = ? WHERE id = ?";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, column);
-            preparedStatement.setInt(2, row);
-            preparedStatement.setInt(3, pieceId);
+        try (Connection connection = JdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, column);
+                preparedStatement.setInt(2, row);
+                preparedStatement.setInt(3, pieceId);
 
-            preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 기물 정보 업데이트에 실패했습니다.");
         }
     }
 
-    public List<Piece> findPieces(int playerId, Team team, Connection connection) {
-        String sql = "SELECT type, x, y FROM Piece WHERE player_id = ?";
+    public List<Piece> findAllPieces() {
+        String sql = "SELECT type, team, x, y FROM piece";
 
         List<Piece> pieces = new ArrayList<>();
-        try {
+        try (Connection connection = JdbcConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, playerId);
+            ResultSet pieceResults = preparedStatement.executeQuery()) {
+                while (pieceResults.next()) {
+                    PieceType pieceType = PieceType.valueOf(pieceResults.getString("type"));
+                    Team team = Team.valueOf(pieceResults.getString("team"));
+                    int column = pieceResults.getInt("x");
+                    int row = pieceResults.getInt("y");
 
-            ResultSet pieceResults = preparedStatement.executeQuery();
-            while (pieceResults.next()) {
-                int column = pieceResults.getInt("x");
-                int row = pieceResults.getInt("y");
-                PieceType pieceType  = PieceType.valueOf(pieceResults.getString("type"));
-                Piece piece = pieceToTypePiece(pieceType, column, row, team);
+                    Piece piece = pieceToTypePiece(pieceType, team, column, row);
 
-                pieces.add(piece);
-            }
+                    pieces.add(piece);
+                }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 기물 정보들을 읽어올 수 없습니다.");
         }
@@ -78,26 +84,27 @@ public class PieceDao {
     public void removeAll() {
         String sql = "DELETE FROM piece";
 
-        try (Connection connection = JdbcConnection.getConnection()){
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.executeUpdate();
+        try (Connection connection = JdbcConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 모든 기물을 삭제하는 데 실패했습니다.");
         }
     }
 
-    public int getPieceIdByPoint(Connection connection, int column, int row) {
+    public int getPieceIdByPoint(int column, int row) {
         String sql = "SELECT id FROM piece WHERE x = ? AND y = ?";
 
-        try {
-            PreparedStatement pstmt = connection.prepareStatement(sql);
+        try (Connection connection = JdbcConnection.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+                pstmt.setInt(1, column);
+                pstmt.setInt(2, row);
 
-            pstmt.setInt(1, column);
-            pstmt.setInt(2, row);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("id");
-            }
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("id");
+                    }
+                }
         } catch (SQLException e) {
             throw new RuntimeException("[ERROR] 데이터베이스 조회 중 예외가 발생했습니다.");
         }
@@ -105,31 +112,51 @@ public class PieceDao {
         throw new IllegalArgumentException("[ERROR] 위치에서 기물을 찾을 수 없습니다.");
     }
 
-    private Piece pieceToTypePiece(PieceType pieceType, int column, int row, Team team) {
+    public boolean existPiece() {
+        String query = """ 
+                        SELECT EXISTS (
+                              SELECT 1 FROM piece
+                            )
+                """;
+
+        try (Connection connection = JdbcConnection.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getBoolean(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("[ERROR] 플레이어 목록을 읽어올 수 없습니다.");
+        }
+
+        return false;
+    }
+
+    private Piece pieceToTypePiece(PieceType pieceType, Team team, int column, int row) {
         if (pieceType.equals(PieceType.CANNON)) {
-            return new Cannon(new Point(column, row));
+            return new Cannon(team, new Point(column, row));
         }
 
         if (pieceType.equals(PieceType.CHARIOT)) {
-            return new Chariot(new Point(column, row));
+            return new Chariot(team, new Point(column, row));
         }
 
         if (pieceType.equals(PieceType.ELEPHANT)) {
-            return new Elephant(new Point(column, row));
+            return new Elephant(team, new Point(column, row));
         }
 
         if (pieceType.equals(PieceType.GENERAL)) {
-            return new General(new Point(column, row));
+            return new General(team, new Point(column, row));
         }
 
         if (pieceType.equals(PieceType.GUARD)) {
-            return new Guard(new Point(column, row));
+            return new Guard(team, new Point(column, row));
         }
 
         if (pieceType.equals(PieceType.HORSE)) {
-            return new Horse(new Point(column, row));
+            return new Horse(team, new Point(column, row));
         }
 
-        return new Soldier(new Point(column, row), team);
+        return new Soldier(team, new Point(column, row));
     }
 }
