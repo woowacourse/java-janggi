@@ -18,14 +18,14 @@ public class BoardDao {
     private static final String UPDATE_POSITION = "UPDATE board SET position_row = ?, position_column = ? WHERE position_row = ? AND position_column = ?";
     private static final String DELETE_BOARD = "DELETE FROM board";
 
-    private final Executor executor;
+    private final Executor databaseExecutor;
 
-    public BoardDao(Executor executor) {
-        this.executor = executor;
+    public BoardDao(Executor databaseExecutor) {
+        this.databaseExecutor = databaseExecutor;
     }
 
     public void saveBoard(Map<Position, Piece> board) {
-        executor.executeBatch(INSERT_PIECE, statement -> {
+        databaseExecutor.executeBatch(INSERT_PIECE, statement -> {
             for (Map.Entry<Position, Piece> entry : board.entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
@@ -39,7 +39,7 @@ public class BoardDao {
     }
 
     public Map<Position, Piece> loadBoard() {
-        return executor.executeQuery(SELECT_BOARD, (statement, resultSet) -> {
+        return databaseExecutor.executeQuery(SELECT_BOARD, (statement, resultSet) -> {
             Map<Position, Piece> board = new HashMap<>();
             while (resultSet.next()) {
                 int row = resultSet.getInt("position_row");
@@ -58,12 +58,12 @@ public class BoardDao {
     }
 
     public void updatePosition(Position source, Position destination) {
-        executor.executeTransaction(connection -> {
-            executor.executeUpdate(DELETE_PIECE, statement -> {
+        databaseExecutor.executeTransaction(connection -> {
+            databaseExecutor.executeUpdate(DELETE_PIECE, statement -> {
                 statement.setInt(1, destination.rowValue());
                 statement.setInt(2, destination.columnValue());
             });
-            executor.executeUpdate(UPDATE_POSITION, statement -> {
+            databaseExecutor.executeUpdate(UPDATE_POSITION, statement -> {
                 statement.setInt(1, destination.rowValue());
                 statement.setInt(2, destination.columnValue());
                 statement.setInt(3, source.rowValue());
@@ -73,7 +73,7 @@ public class BoardDao {
     }
 
     public void deleteBoard() {
-        executor.executeUpdate(DELETE_BOARD, (statement) -> {
+        databaseExecutor.executeUpdate(DELETE_BOARD, (statement) -> {
         });
     }
 }

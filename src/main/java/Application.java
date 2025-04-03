@@ -1,7 +1,7 @@
 import controller.JanggiController;
 import dao.BoardDao;
 import dao.DatabaseConnection;
-import dao.Executor;
+import dao.DatabaseExecutor;
 import dao.GameStateDao;
 import service.GameService;
 import view.InputView;
@@ -12,9 +12,9 @@ public class Application {
         InputView inputView = new InputView();
         OutputView outputView = new OutputView();
         DatabaseConnection databaseConnection = new DatabaseConnection();
-        Executor executor = new Executor(databaseConnection);
-        BoardDao boardDao = new BoardDao(executor);
-        GameStateDao gameStateDao = new GameStateDao(executor);
+        DatabaseExecutor databaseExecutor = new DatabaseExecutor(databaseConnection);
+        BoardDao boardDao = new BoardDao(databaseExecutor);
+        GameStateDao gameStateDao = new GameStateDao(databaseExecutor);
         GameService gameService = new GameService(boardDao, gameStateDao);
 
         JanggiController controller = new JanggiController(gameService, inputView, outputView);
