@@ -83,8 +83,7 @@ public class JanggiDatabase {
 
     private void readPiece(final ResultSet rs, final Map<JanggiPosition, Piece> janggiBoard)
             throws SQLException {
-        // read할때는 2부터 시작
-        final int x = rs.getInt(X );
+        final int x = rs.getInt(X);
         final int y = rs.getInt(Y);
         final String pieceName = rs.getString(TYPE);
         final String countryText = rs.getString(COUNTRY);
