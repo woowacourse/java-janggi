@@ -39,8 +39,13 @@ public class JanggiGame {
             return false;
         }
         pieces.moveForward(start, end);
-        janggiDao.deleteAllPiece();
-        janggiDao.saveAllPiece(pieces.getPieces());
+
+        // 시작점, 도착점에 있는 장기말을 삭제한다
+        janggiDao.deleteByPosition(start);
+        janggiDao.deleteByPosition(end);
+
+        // 이동한 장기말을 저장한다
+        janggiDao.savePiece(end, pieces.getPieceByPosition(end));
         return true;
     }
 
