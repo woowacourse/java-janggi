@@ -11,4 +11,3 @@ CREATE TABLE IF NOT EXISTS board (
 CREATE TABLE IF NOT EXISTS game_state (
     current_turn VARCHAR(10) NOT NULL DEFAULT 'BLUE'
 );
-
