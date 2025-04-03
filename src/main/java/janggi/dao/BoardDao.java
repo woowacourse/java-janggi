@@ -59,6 +59,7 @@ public class BoardDao {
             if (resultSet.next()) {
                 return resultSet.getInt("board_count");
             }
+            resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException("장기판 조회에 실패했습니다.");
         }
@@ -74,6 +75,7 @@ public class BoardDao {
                 String turn = resultSet.getString("turn");
                 return new Board(pieces, Team.fromString(turn));
             }
+            resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException("장기판 조회에 실패했습니다.");
         }

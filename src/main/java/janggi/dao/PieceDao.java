@@ -63,6 +63,7 @@ public class PieceDao {
 
                 pieces.put(new Position(x, y), pieceType.createPiece(team));
             }
+            resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException("기물 전체 조회에 실패했습니다.");
         }
