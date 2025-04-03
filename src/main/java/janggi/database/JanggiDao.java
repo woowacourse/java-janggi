@@ -15,18 +15,12 @@ public class JanggiDao {
     private static final String USERNAME = "root"; //  MySQL 서버 아이디
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
 
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
         // 드라이버 연결
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
+        return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
     }
 
-    public void deleteByPosition(final Position position) {
+    public boolean deleteByPosition(final Position position) {
         final String query = """
                 DELETE 
                 FROM piece 
@@ -40,11 +34,12 @@ public class JanggiDao {
 
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            return false;
         }
+        return true;
     }
 
-    public void savePiece(final Position position, final Piece piece) {
+    public boolean savePiece(final Position position, final Piece piece) {
         final String query = """
                 INSERT INTO piece (x, y, piece_type, color) 
                 VALUES (?, ?, ?, ?)
@@ -61,11 +56,12 @@ public class JanggiDao {
 
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            return false;
         }
+        return true;
     }
 
-    public void saveAllPiece(final Map<Position, Piece> pieces) {
+    public boolean saveAllPiece(final Map<Position, Piece> pieces) {
         final String query = """
                 INSERT INTO piece (x, y, piece_type, color)
                 VALUES (?, ?, ?, ?)
@@ -88,11 +84,12 @@ public class JanggiDao {
             }
             preparedStatement.executeBatch();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            return false;
         }
+        return true;
     }
 
-    public Pieces findAllPiece() {
+    public Pieces findAllPiece() throws SQLException {
         final String query = """
                 SELECT * 
                 FROM piece
@@ -102,12 +99,10 @@ public class JanggiDao {
              final var preparedStatement = connection.prepareStatement(query);
              final var resultSet = preparedStatement.executeQuery()) {
             return PieceConverter.convertToPieces(resultSet);
-        } catch (final SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
-    public void deleteAllPiece() {
+    public boolean deleteAllPiece() {
         final String query = """
                 DELETE 
                 FROM piece
@@ -117,7 +112,8 @@ public class JanggiDao {
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            return false;
         }
+        return true;
     }
 }
