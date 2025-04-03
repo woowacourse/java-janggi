@@ -3,26 +3,12 @@ package dao;
 import domain.GameState;
 import domain.unit.Team;
 import entity.Room;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomDao {
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
-
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            throw new RuntimeException("DB 연결 오류:" + e.getMessage());
-        }
-    }
+public class RoomDao extends DefaultDao implements EntityMapper<Room> {
 
     public void save(Room room) {
         final var query = """
@@ -51,11 +37,7 @@ public class RoomDao {
              final var ppst = connection.prepareStatement(query)) {
             final var resultSet = ppst.executeQuery();
             while (resultSet.next()) {
-                rooms.add(new Room(
-                        resultSet.getString("room_id"),
-                        GameState.valueOf(resultSet.getString("status")),
-                        Team.valueOf(resultSet.getString("turn"))
-                ));
+                rooms.add(mapFromResultSet(resultSet));
             }
             return rooms;
         } catch (final SQLException e) {
@@ -73,11 +55,7 @@ public class RoomDao {
             ppst.setString(1, roomId);
             final var resultSet = ppst.executeQuery();
             if (resultSet.next()) {
-                return new Room(
-                        resultSet.getString("room_id"),
-                        GameState.valueOf(resultSet.getString("status")),
-                        Team.valueOf(resultSet.getString("turn"))
-                );
+                return mapFromResultSet(resultSet);
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -115,5 +93,14 @@ public class RoomDao {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Room mapFromResultSet(ResultSet resultSet) throws SQLException {
+        return new Room(
+                resultSet.getString("room_id"),
+                GameState.valueOf(resultSet.getString("status")),
+                Team.valueOf(resultSet.getString("turn"))
+        );
     }
 }

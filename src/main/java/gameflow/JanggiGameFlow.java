@@ -3,10 +3,14 @@ package gameflow;
 import domain.Janggi;
 import domain.position.Position;
 import domain.position.Routes;
+import domain.unit.DefaultUnitPosition;
 import domain.unit.Team;
+import domain.unit.Unit;
+import domain.unit.Units;
 import entity.Room;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import service.JanggiService;
 import view.InputView;
 import view.OutputView;
@@ -39,14 +43,27 @@ public class JanggiGameFlow {
 
     private String createRoom() {
         String roomId = inputView.readRoomIdToCreate();
-        janggiService.createJanggiGame(roomId); // TODO: validate duplicated id
+        Janggi janggi = initGame();
+        janggiService.createJanggiRoom(roomId, janggi);
         return roomId;
     }
 
+    private Janggi initGame() {
+        Map<Position, Unit> hanUnits = DefaultUnitPosition.createTotalUnits(Team.HAN);
+        Map<Position, Unit> choUnits = DefaultUnitPosition.createTotalUnits(Team.CHO);
+        Units totalUnits = Units.of(hanUnits, choUnits);
+        return Janggi.of(totalUnits);
+    }
+
     public void play(String roomId) {
-        while (!janggiService.isGameEnd(roomId)) {
+        Janggi janggi = janggiService.loadJanggiGame(roomId);
+        while (isPlaying(janggi)) {
             processTurn(roomId);
         }
+    }
+
+    private boolean isPlaying(Janggi janggi) {
+        return !janggi.isEnd();
     }
 
     private void processTurn(String roomId) {
@@ -54,7 +71,8 @@ public class JanggiGameFlow {
         outputView.printJanggiUnits(janggi.getUnits());
         String rawPosition = inputView.readUnitPosition(janggi.getTurn());
         if (rawPosition.equals(SURRENDER_COMMAND)) {
-            janggiService.surrender(roomId, janggi.getTurn().getOpposite());
+            janggi.surrender();
+            janggiService.endGame(roomId, janggi.getTurn().getOpposite());
             return;
         }
         Position current = parsePosition(rawPosition);
@@ -67,7 +85,8 @@ public class JanggiGameFlow {
 
         Position destination = parsePosition(inputView.readDestinationPosition(janggi.getTurn()));
         if (routes.hasRouteTo(position, destination)) {
-            janggiService.moveTo(roomId, position, destination);
+            janggi.doTurn(position, destination);
+            janggiService.movePiece(roomId, position, destination);
         }
     }
 

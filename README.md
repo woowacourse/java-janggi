@@ -97,11 +97,13 @@
 - [x] PieceDao의 printStackTrace 제거
 - [x] Database connection을 얻지 못한 경우에 대해서 바로 예외를 던지기
 - [x] DAO의 주석 제거
-- [ ] 기존에 Entity에서 Janggi 객체를 만들어주는 생성 로직을 분리
-- [ ] UnitType 책임 분리
-- [ ] Piece 객체의 필요성 고민
+- [X] UnitType 책임 분리
+- [x] Piece 객체의 필요성 고민
+- [x] 인터페이스 및 공통 로직 분리
 
 > findBoardsByRoomId, findBoardByPosition 두 개의 메서드에서 resultSet을 통해서 Piece 객체를 생성하고있는데요.
 > 이를 메서드로 추출해서 재사용해보면 어떨까요? 😃
 > 또한 Dao 객체들은 대부분 ResultSet으로 Entity를 만들고있는 것 같은데요.
 > 그렇다면 Dao 객체들이 공통의 인터페이스를 구현하도록 만들어서 parsing 메서드를 정의해줄 수도 있지 않을까요? 🤔
+
+- [ ] 기존에 Entity에서 Janggi 객체를 만들어주는 생성 로직을 분리

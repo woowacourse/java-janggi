@@ -4,26 +4,12 @@ import domain.position.Position;
 import domain.unit.Team;
 import domain.unit.UnitType;
 import entity.Piece;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PieceDao {
-    private static final String SERVER = "localhost:13306";
-    private static final String DATABASE = "janggi";
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
-
-    public Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
-        } catch (final SQLException e) {
-            throw new RuntimeException("DB 연결 오류:" + e.getMessage());
-        }
-    }
+public class PieceDao extends DefaultDao implements EntityMapper<Piece> {
 
     public void save(final Piece piece, final String roomId) {
         final var query = """
@@ -48,24 +34,18 @@ public class PieceDao {
                 SELECT * FROM piece
                 WHERE room_id = ?
                 """;
-        final List<Piece> piece = new ArrayList<>();
+        final List<Piece> pieces = new ArrayList<>();
         try (final var connection = getConnection();
              final var ppst = connection.prepareStatement(query)) {
             ppst.setString(1, roomId);
             final var resultSet = ppst.executeQuery();
             while (resultSet.next()) {
-                piece.add(new Piece(
-                        resultSet.getLong("piece_id"),
-                        resultSet.getInt("position_x"),
-                        resultSet.getInt("position_y"),
-                        UnitType.valueOf(resultSet.getString("piece_type")),
-                        Team.valueOf(resultSet.getString("team"))
-                ));
+                pieces.add(mapFromResultSet(resultSet));
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
-        return piece;
+        return pieces;
     }
 
     public Piece findBoardByPosition(String roomId, Position position) {
@@ -80,13 +60,7 @@ public class PieceDao {
             ppst.setInt(3, position.getY());
             final var resultSet = ppst.executeQuery();
             if (resultSet.next()) {
-                return new Piece(
-                        resultSet.getLong("piece_id"),
-                        resultSet.getInt("position_x"),
-                        resultSet.getInt("position_y"),
-                        UnitType.valueOf(resultSet.getString("piece_type")),
-                        Team.valueOf(resultSet.getString("team"))
-                );
+                return mapFromResultSet(resultSet);
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
@@ -123,5 +97,16 @@ public class PieceDao {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Piece mapFromResultSet(ResultSet resultSet) throws SQLException {
+        return new Piece(
+                resultSet.getLong("piece_id"),
+                resultSet.getInt("position_x"),
+                resultSet.getInt("position_y"),
+                UnitType.valueOf(resultSet.getString("piece_type")),
+                Team.valueOf(resultSet.getString("team"))
+        );
     }
 }

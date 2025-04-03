@@ -7,13 +7,9 @@ import domain.Janggi;
 import domain.position.Position;
 import domain.position.Routes;
 import domain.unit.Team;
-import domain.unit.Unit;
-import domain.unit.UnitType;
-import domain.unit.Units;
 import entity.Piece;
 import entity.Room;
 import java.util.List;
-import java.util.Map;
 
 public class JanggiService {
     private final PieceDao pieceDao;
@@ -28,20 +24,12 @@ public class JanggiService {
         return roomDao.findAllPlayingRoom();
     }
 
-    public void createJanggiGame(String roomId) {
+    public void createJanggiRoom(String roomId, Janggi janggi) {
         roomDao.save(new Room(roomId, GameState.PLAYING, Team.CHO));
-        Janggi janggi = initGame();
         List<Piece> pieces = Piece.from(janggi);
         for (Piece piece : pieces) {
             pieceDao.save(piece, roomId);
         }
-    }
-
-    private Janggi initGame() {
-        Map<Position, Unit> hanUnits = UnitType.createTotalUnits(Team.HAN);
-        Map<Position, Unit> choUnits = UnitType.createTotalUnits(Team.CHO);
-        Units totalUnits = Units.of(hanUnits, choUnits);
-        return Janggi.of(totalUnits);
     }
 
     public Janggi loadJanggiGame(String roomId) {
@@ -49,7 +37,7 @@ public class JanggiService {
         return Piece.toDomain(boardsByRoomId);
     }
 
-    public void moveTo(String roomId, Position before, Position after) {
+    public void movePiece(String roomId, Position before, Position after) {
         Piece source = pieceDao.findBoardByPosition(roomId, before);
         Piece destination = pieceDao.findBoardByPosition(roomId, after);
         if (destination != null && destination.team().getOpposite() == source.team()) {
@@ -65,17 +53,12 @@ public class JanggiService {
         return janggi.findMovableRoutesFrom(Position.of(positionX, positionY));
     }
 
-    public void surrender(String roomId, Team winner) {
+    public void endGame(String roomId, Team winner) {
         GameState status = GameState.CHO_WIN;
         if (winner == Team.HAN) {
             status = GameState.HAN_WIN;
         }
         roomDao.updateStatus(roomId, status);
-    }
-
-    public boolean isGameEnd(String roomId) {
-        Room room = roomDao.findRoomById(roomId);
-        return room.status() != GameState.PLAYING;
     }
 
     public Team getWinner(String roomId) {
