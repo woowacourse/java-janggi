@@ -6,6 +6,7 @@ import janggi.domain.piece.PieceType;
 import janggi.domain.position.Position;
 import janggi.domain.position.PositionFile;
 import janggi.domain.position.PositionRank;
+import janggi.exception.DatabaseQueryException;
 import janggi.infra.connector.DatabaseConnector;
 
 import java.sql.ResultSet;
@@ -38,7 +39,7 @@ public class JdbcPieceRepository implements PieceRepository {
         ) {
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseQueryException();
         }
     }
 
@@ -53,7 +54,7 @@ public class JdbcPieceRepository implements PieceRepository {
         ) {
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseQueryException();
         }
     }
 
@@ -86,7 +87,7 @@ public class JdbcPieceRepository implements PieceRepository {
                 pieces.get(country).add(new Piece(type, new Position(file, rank)));
             }
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseQueryException();
         }
 
         return pieces;
@@ -126,7 +127,7 @@ public class JdbcPieceRepository implements PieceRepository {
 
                 preparedStatement.executeUpdate();
             } catch (final SQLException e) {
-                throw new RuntimeException(e);
+                throw new DatabaseQueryException();
             }
         }
     }

@@ -1,6 +1,7 @@
 package janggi.infra.repository.turn_repository;
 
 import janggi.domain.Country;
+import janggi.exception.DatabaseQueryException;
 import janggi.infra.connector.DatabaseConnector;
 
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ public class JdbcTurnRepository implements TurnRepository {
         ) {
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseQueryException();
         }
     }
 
@@ -44,7 +45,7 @@ public class JdbcTurnRepository implements TurnRepository {
         ) {
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseQueryException();
         }
     }
 
@@ -59,12 +60,12 @@ public class JdbcTurnRepository implements TurnRepository {
             preparedStatement.setInt(1, number);
             final ResultSet result = preparedStatement.executeQuery();
 
-            while (result.next()) {
+            if (result.next()) {
                 final String countryString = result.getString("country");
                 return convertToCountry(countryString);
             }
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseQueryException();
         }
 
         return null;
@@ -82,7 +83,7 @@ public class JdbcTurnRepository implements TurnRepository {
             preparedStatement.setString(2, country.name());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
-            throw new RuntimeException(e);
+            throw new DatabaseQueryException();
         }
     }
 
