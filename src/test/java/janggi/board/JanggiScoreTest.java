@@ -68,5 +68,27 @@ public class JanggiScoreTest {
             );
         }
 
+        @DisplayName("더 크다면, true 아니라면 false를 반환한다.")
+        @ParameterizedTest
+        @MethodSource
+        void isGreaterThan(final JanggiScore scoreOfComparison, final boolean expected) {
+            // given
+            final JanggiScore janggiScore = new JanggiScore(10);
+
+            // when
+            final boolean actual = janggiScore.isGreaterThan(scoreOfComparison);
+
+            // then
+            assertThat(actual).isEqualTo(expected);
+        }
+
+        static Stream<Arguments> isGreaterThan(){
+            return Stream.of(
+                    Arguments.of(new JanggiScore(9), true),
+                    Arguments.of(new JanggiScore(10), true),
+                    Arguments.of(new JanggiScore(11), false)
+            );
+        }
+
     }
 }

@@ -22,4 +22,8 @@ public record JanggiScore(double value) {
         }
         return MAX_JANGGI_SCORE_OF_CHO.minus(this);
     }
+
+    public boolean isGreaterThan(final JanggiScore scoreOfComparison) {
+        return this.value >= scoreOfComparison.value;
+    }
 }

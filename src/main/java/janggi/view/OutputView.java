@@ -58,7 +58,8 @@ public class OutputView {
         sb.append(System.lineSeparator());
     }
 
-    private static void appendPiece(final StringBuilder sb, final Map<JanggiPosition, Piece> map, final JanggiPosition now) {
+    private static void appendPiece(final StringBuilder sb, final Map<JanggiPosition, Piece> map,
+                                    final JanggiPosition now) {
         if (map.containsKey(now)) {
             final Piece piece = map.get(now);
             sb.append(TEAM_FORMAT.get(piece.getCountry()));
@@ -79,20 +80,20 @@ public class OutputView {
         sb.append(System.lineSeparator());
     }
 
-    public static void printJanggiWinner(final Board board){
-        final JanggiScore scoreOfHan = board.calculateScoreByCountry(Country.HAN);
-        final JanggiScore scoreOfCho = board.calculateScoreByCountry(Country.CHO);
+    public static void printJanggiWinner(final Board board) {
+        final Country winnerCountry = board.findWinnerCountry();
 
         System.out.println("축하합니다.");
         System.out.print("우승한 국가는 ");
 
-        if(Double.compare(scoreOfHan.value() - 1.5, scoreOfCho.value()) > 0){
+        final JanggiScore janggiScore = board.calculateScore(winnerCountry);
+        if (winnerCountry == Country.HAN) {
             System.out.println("한나라 입니다!");
-            System.out.println("점수 : " + scoreOfHan.value());
+            System.out.println("점수 : " + janggiScore.value());
             return;
         }
 
         System.out.println("초나라 입니다!");
-        System.out.println("점수 : " + scoreOfCho.value());
+        System.out.println("점수 : " + janggiScore.value());
     }
 }

@@ -310,7 +310,7 @@ public class BoardTest {
             final Board board = new Board(janggiBoard);
 
             // when
-            final JanggiScore actual = board.calculateScoreByCountry(country);
+            final JanggiScore actual = board.calculateScore(country);
 
             // then
             assertThat(actual).isEqualTo(expected);

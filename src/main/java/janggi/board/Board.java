@@ -68,9 +68,21 @@ public class Board implements VisibleBoard {
                 .count() == ALL_GENERAL_COUNT;
     }
 
-    public JanggiScore calculateScoreByCountry(final Country country) {
+    public JanggiScore calculateScore(final Country country) {
         final Pieces piecesByCountry = findAllByCountry(country.toggleCountry());
         return piecesByCountry.calculateAllScoreByCountry(country);
+    }
+
+    public Country findWinnerCountry(){
+        final Pieces piecesOfHan = findAllByCountry(Country.HAN);
+        final Pieces piecesOfCho = findAllByCountry(Country.CHO);
+        final JanggiScore scoreOfHan = piecesOfHan.calculateAllScoreByCountry(Country.HAN);
+        final JanggiScore scoreOfCho = piecesOfCho.calculateAllScoreByCountry(Country.CHO);
+
+        if(scoreOfHan.isGreaterThan(scoreOfCho)){
+            return Country.HAN;
+        }
+        return Country.CHO;
     }
 
     private Pieces findAllByCountry(final Country country) {
