@@ -7,6 +7,7 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import team.Team;
 
 class ElephantTest {
 
@@ -17,7 +18,7 @@ class ElephantTest {
         Point start = new Point(3, 5);
         Point destination = new Point(1, 2);
 
-        Elephant elephant = new Elephant(start);
+        Elephant elephant = new Elephant(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(elephant));
 
         //when
@@ -35,7 +36,7 @@ class ElephantTest {
         Point start = new Point(2, 4);
         Point destination = new Point(4, 1);
 
-        Elephant elephant = new Elephant(start);
+        Elephant elephant = new Elephant(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(elephant));
 
         //when
@@ -53,7 +54,7 @@ class ElephantTest {
         Point start = new Point(4, 4);
         Point destination = new Point(1, 2);
 
-        Elephant elephant = new Elephant(start);
+        Elephant elephant = new Elephant(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(elephant));
 
         //when
@@ -71,7 +72,7 @@ class ElephantTest {
         Point start = new Point(4, 4);
         Point destination = new Point(1, 6);
 
-        Elephant elephant = new Elephant(start);
+        Elephant elephant = new Elephant(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(elephant));
 
         //when
@@ -89,7 +90,7 @@ class ElephantTest {
         Point start = new Point(3, 3);
         Point destination = new Point(1, 6);
 
-        Elephant elephant = new Elephant(start);
+        Elephant elephant = new Elephant(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(elephant));
 
         //when
@@ -107,7 +108,7 @@ class ElephantTest {
         Point start = new Point(2, 2);
         Point destination = new Point(4, 5);
 
-        Elephant elephant = new Elephant(start);
+        Elephant elephant = new Elephant(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(elephant));
 
         //when
@@ -125,7 +126,7 @@ class ElephantTest {
         Point start = new Point(2, 2);
         Point destination = new Point(5, 0);
 
-        Elephant elephant = new Elephant(start);
+        Elephant elephant = new Elephant(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(elephant));
 
         //when
@@ -143,7 +144,7 @@ class ElephantTest {
         Point start = new Point(2, 2);
         Point destination = new Point(5, 4);
 
-        Elephant elephant = new Elephant(start);
+        Elephant elephant = new Elephant(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(elephant));
 
         //when
@@ -158,8 +159,8 @@ class ElephantTest {
     @DisplayName("직선 1칸, 대각선 2칸을 제외하고 움직일 수 없다.")
     void only_can_move_one_straight_and_twice_diagonal() {
         //given
-        Elephant elephant = new Elephant(new Point(2, 2));
-        Pieces pieces = new Pieces(List.of(elephant, new Horse(new Point(2, 3))));
+        Elephant elephant = new Elephant(Team.CHO, new Point(2, 2));
+        Pieces pieces = new Pieces(List.of(elephant, new Horse(Team.CHO, new Point(2, 3))));
         Point destination = new Point(8, 3);
 
         //when
@@ -172,8 +173,8 @@ class ElephantTest {
     @DisplayName("경로 상 기물이 있으면 움직일 수 없다.")
     void dont_move_to_exist_piece_in_path() {
         // given
-        Elephant elephant = new Elephant(new Point(2, 2));
-        Pieces pieces = new Pieces(List.of(elephant, new Horse(new Point(2, 3))));
+        Elephant elephant = new Elephant(Team.CHO, new Point(2, 2));
+        Pieces pieces = new Pieces(List.of(elephant, new Horse(Team.CHO, new Point(2, 3))));
         Point destination = new Point(4, 5);
 
         //when

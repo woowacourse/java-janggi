@@ -7,6 +7,7 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import team.Team;
 
 class HorseTest {
 
@@ -17,7 +18,7 @@ class HorseTest {
         Point start = new Point(3, 3);
         Point destination = new Point(2, 1);
 
-        Horse horse = new Horse(start);
+        Horse horse = new Horse(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(horse));
 
         //when
@@ -35,7 +36,7 @@ class HorseTest {
         Point start = new Point(3, 3);
         Point destination = new Point(4, 1);
 
-        Horse horse = new Horse(start);
+        Horse horse = new Horse(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(horse));
 
         //when
@@ -53,7 +54,7 @@ class HorseTest {
         Point start = new Point(3, 3);
         Point destination = new Point(1, 2);
 
-        Horse horse = new Horse(start);
+        Horse horse = new Horse(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(horse));
 
         //when
@@ -71,7 +72,7 @@ class HorseTest {
         Point start = new Point(3, 3);
         Point destination = new Point(1, 4);
 
-        Horse horse = new Horse(start);
+        Horse horse = new Horse(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(horse));
 
         //when
@@ -89,7 +90,7 @@ class HorseTest {
         Point start = new Point(3, 3);
         Point destination = new Point(2, 5);
 
-        Horse horse = new Horse(start);
+        Horse horse = new Horse(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(horse));
 
         //when
@@ -107,7 +108,7 @@ class HorseTest {
         Point start = new Point(3, 3);
         Point destination = new Point(4, 5);
 
-        Horse horse = new Horse(start);
+        Horse horse = new Horse(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(horse));
 
         //when
@@ -125,7 +126,7 @@ class HorseTest {
         Point start = new Point(3, 3);
         Point destination = new Point(5, 2);
 
-        Horse horse = new Horse(start);
+        Horse horse = new Horse(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(horse));
 
         //when
@@ -143,7 +144,7 @@ class HorseTest {
         Point start = new Point(3, 3);
         Point destination = new Point(5, 4);
 
-        Horse horse = new Horse(start);
+        Horse horse = new Horse(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(horse));
 
         //when
@@ -161,7 +162,7 @@ class HorseTest {
         Point start = new Point(3, 3);
         Point destination = new Point(7, 5);
 
-        Horse horse = new Horse(start);
+        Horse horse = new Horse(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(horse));
 
         //when
@@ -174,8 +175,8 @@ class HorseTest {
     @DisplayName("경로 상 기물이 있으면 움직일 수 없다.")
     void dont_move_to_exist_piece_in_path() {
         // given
-        Horse horse = new Horse(new Point(2, 2));
-        Pieces pieces = new Pieces(List.of(horse, new Horse(new Point(2, 3))));
+        Horse horse = new Horse(Team.CHO, new Point(2, 2));
+        Pieces pieces = new Pieces(List.of(horse, new Horse(Team.CHO, new Point(2, 3))));
         Point destination = new Point(1, 4);
 
         //when

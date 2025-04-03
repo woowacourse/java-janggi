@@ -5,10 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import direction.Point;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import team.Player;
 import team.Team;
 
 class SoldierTest {
@@ -19,7 +17,7 @@ class SoldierTest {
         Point start = new Point(3, 3);
         Point destination = new Point(3, 2);
 
-        Soldier soldier = new Soldier(start, Team.CHO);
+        Soldier soldier = new Soldier(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
@@ -36,7 +34,7 @@ class SoldierTest {
         Point start = new Point(3, 3);
         Point destination = new Point(3, 4);
 
-        Soldier soldier = new Soldier(start, Team.HAN);
+        Soldier soldier = new Soldier(Team.HAN, start);
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
@@ -54,7 +52,7 @@ class SoldierTest {
         Point start = new Point(3, 3);
         Point destination = new Point(3, 5);
 
-        Soldier soldier = new Soldier(start, Team.HAN);
+        Soldier soldier = new Soldier(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
@@ -70,7 +68,7 @@ class SoldierTest {
         Point start = new Point(3, 3);
         Point destination = new Point(3, 4);
 
-        Soldier soldier = new Soldier(start, Team.CHO);
+        Soldier soldier = new Soldier(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
@@ -86,7 +84,7 @@ class SoldierTest {
         Point start = new Point(3, 3);
         Point destination = new Point(3, 2);
 
-        Soldier soldier = new Soldier(start, Team.HAN);
+        Soldier soldier = new Soldier(Team.HAN, start);
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
@@ -102,7 +100,7 @@ class SoldierTest {
         Point start = new Point(3, 3);
         Point destination = new Point(2, 3);
 
-        Soldier soldier = new Soldier(start, Team.HAN);
+        Soldier soldier = new Soldier(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
@@ -120,7 +118,7 @@ class SoldierTest {
         Point start = new Point(3, 3);
         Point destination = new Point(1, 3);
 
-        Soldier soldier = new Soldier(start, Team.HAN);
+        Soldier soldier = new Soldier(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
@@ -136,7 +134,7 @@ class SoldierTest {
         Point start = new Point(3, 3);
         Point destination = new Point(4, 3);
 
-        Soldier soldier = new Soldier(start, Team.HAN);
+        Soldier soldier = new Soldier(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
@@ -154,7 +152,7 @@ class SoldierTest {
         Point start = new Point(3, 3);
         Point destination = new Point(5, 3);
 
-        Soldier soldier = new Soldier(start, Team.HAN);
+        Soldier soldier = new Soldier(Team.CHO, start);
         Pieces pieces = new Pieces(List.of(soldier));
 
         // when
