@@ -71,6 +71,7 @@ public class JanggiGimulDaoTest {
 
         //then
         assertThat(hanPieces.containsKey(new Position(1, 0))).isTrue();
+        janggiGimulDao.deleteAllPieces();
     }
 
     @Test
@@ -87,6 +88,7 @@ public class JanggiGimulDaoTest {
 
         //then
         assertThat(hanPieces.containsKey(new Position(0, 0))).isFalse();
+        janggiGimulDao.deleteAllPieces();
     }
 
 }
