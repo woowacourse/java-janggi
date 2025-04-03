@@ -3,8 +3,6 @@ package domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import domain.dao.MemoryGameDao;
-import domain.dao.MemoryPieceDao;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
@@ -24,8 +22,8 @@ public class JanggiGameTest {
         List<Piece> beforeBoard = new ArrayList<>();
         Piece choCha = new Piece(Team.CHO, PieceType.CHA, new Position(1, 1));
         beforeBoard.add(choCha);
-        JanggiBoard board = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
-        JanggiGame game = new JanggiGame(new MemoryGameDao(), board);
+        JanggiBoard board = JanggiBoard.create(beforeBoard);
+        JanggiGame game = JanggiGame.init(1L, board);
 
         List<Piece> afterBoard = new ArrayList<>();
         afterBoard.add(new Piece(Team.CHO, PieceType.CHA, new Position(2, 1)));
@@ -43,8 +41,8 @@ public class JanggiGameTest {
         List<Piece> beforeBoard = new ArrayList<>();
         Piece choCha = new Piece(Team.CHO, PieceType.CHA, new Position(1, 1));
         beforeBoard.add(choCha);
-        JanggiBoard board = JanggiBoard.of(new MemoryPieceDao(beforeBoard));
-        JanggiGame game = new JanggiGame(new MemoryGameDao(), board);
+        JanggiBoard board = JanggiBoard.create(beforeBoard);
+        JanggiGame game = JanggiGame.init(1L, board);
 
         assertThatThrownBy(() -> game.move(List.of(1, 1), List.of(1, 1)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -58,8 +56,8 @@ public class JanggiGameTest {
         List<Piece> pieces = new ArrayList<>();
         pieces.add(new Piece(Team.HAN, PieceType.GUNG, new Position(1, 1)));
         pieces.add(new Piece(Team.CHO, PieceType.GUNG, new Position(1, 2)));
-        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(pieces));
-        JanggiGame game = new JanggiGame(new MemoryGameDao(), janggiBoard);
+        JanggiBoard janggiBoard = JanggiBoard.create(pieces);
+        JanggiGame game = JanggiGame.init(1L, janggiBoard);
 
         // when
         boolean actual = game.isEnd();
@@ -74,8 +72,8 @@ public class JanggiGameTest {
         // given
         List<Piece> pieces = new ArrayList<>();
         pieces.add(new Piece(Team.HAN, PieceType.GUNG, new Position(1, 1)));
-        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(pieces));
-        JanggiGame game = new JanggiGame(new MemoryGameDao(), janggiBoard);
+        JanggiBoard janggiBoard = JanggiBoard.create(pieces);
+        JanggiGame game = JanggiGame.init(1L, janggiBoard);
 
         // when
         boolean actual = game.isEnd();
@@ -94,8 +92,8 @@ public class JanggiGameTest {
         pieces.add(new Piece(Team.HAN, PieceType.PAWN, new Position(2, 1)));
         pieces.add(new Piece(Team.HAN, PieceType.GUNG, new Position(2, 2)));
         pieces.add(new Piece(Team.HAN, PieceType.SANG, new Position(2, 3)));
-        JanggiBoard janggiBoard = JanggiBoard.of(new MemoryPieceDao(pieces));
-        JanggiGame game = new JanggiGame(new MemoryGameDao(), janggiBoard);
+        JanggiBoard janggiBoard = JanggiBoard.create(pieces);
+        JanggiGame game = JanggiGame.init(1L, janggiBoard);
 
         // when
         Map<Team, Double> teamDoubleMap = game.calculateScore();
