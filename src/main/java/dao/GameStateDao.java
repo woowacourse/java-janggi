@@ -1,4 +1,4 @@
-package Dao;
+package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,19 +7,18 @@ import player.Nation;
 
 public class GameStateDao {
 
-    private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
-    private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
-    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root"; //  MySQL 서버 아이디
-    private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
+    public static final String SERVER = "localhost:13306"; // MySQL 서버 주소
+    public static final String DATABASE = "janggi"; // MySQL DATABASE 이름
+    public static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    public static final String USERNAME = "root"; //  MySQL 서버 아이디
+    public static final String PASSWORD = "root"; // MySQL 서버 비밀번호
 
     public Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (final SQLException e) {
             System.err.println("DB 연결 오류:" + e.getMessage());
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -47,7 +46,7 @@ public class GameStateDao {
     }
 
     public Nation getCurrentTurn() {
-        String query = "SELECT * FROM game_state";
+        String query = "SELECT current_turn FROM game_state";
         try (var connection = getConnection();
              var preparedStatement = connection.prepareStatement(query)) {
             try (var resultSet = preparedStatement.executeQuery()) {
