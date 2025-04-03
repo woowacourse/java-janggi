@@ -94,19 +94,19 @@ public class JanggiGame {
     }
 
     private void processGameResult() {
-        final Team team = board.determineWinTeam();
-        final Map<PieceType, Integer> winnerPieceCounts = board.countPieces(team);
+        final Team winnerTeam = board.determineWinTeam();
+        final Map<PieceType, Integer> winnerPieceCounts = board.countPieces(winnerTeam);
         double winnerScore = Score.calculate(winnerPieceCounts);
-        final Map<PieceType, Integer> loserPieceCounts = board.countPieces(team.opposite());
+        final Map<PieceType, Integer> loserPieceCounts = board.countPieces(winnerTeam.opposite());
         double loserScore = Score.calculate(loserPieceCounts);
 
-        if (team.isRedTeam()) {
+        if (winnerTeam.isRedTeam()) {
             winnerScore = Score.adjustScore(winnerScore);
         }
-        if (team.isGreenTeam()) {
+        if (winnerTeam.isGreenTeam()) {
             loserScore = Score.adjustScore(loserScore);
         }
-        OutputView.printWinnerTeam(team, winnerScore, loserScore);
+        OutputView.printWinnerTeam(winnerTeam, winnerScore, loserScore);
     }
 
     private void changeTurn(final JanggiDao janggiDao) {
