@@ -8,7 +8,9 @@ import model.Team;
 
 public class Po extends PalaceMovablePieces {
 
-    private static final int PO_SCORE = 7;
+    private static final int MINIMUM_PIECES_COUNT_IN_PATH = 1;
+    private static final int PO_DISTANCE = 8;
+    private static final int MAXIMUM_PIECES_COUNT_IN_PATH = 2;
 
     public Po(Team team) {
         super(team, PieceName.PO, Score.PO);
@@ -16,10 +18,10 @@ public class Po extends PalaceMovablePieces {
 
     @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
-        if (piecesOnPathWithTargetOrNot.size() >= 3) {
+        if (piecesOnPathWithTargetOrNot.size() > MAXIMUM_PIECES_COUNT_IN_PATH) {
             return false;
         }
-        if (piecesOnPathWithTargetOrNot.size() == 1) {
+        if (piecesOnPathWithTargetOrNot.size() == MINIMUM_PIECES_COUNT_IN_PATH) {
             if (piecesOnPathWithTargetOrNot.values()
                     .stream().findFirst().get() || piecesOnPathWithTargetOrNot.keySet()
                     .stream().findFirst().get() instanceof Po) {
@@ -28,7 +30,7 @@ public class Po extends PalaceMovablePieces {
             return true;
         }
 
-        if (piecesOnPathWithTargetOrNot.size() == 2) {
+        if (piecesOnPathWithTargetOrNot.size() == MAXIMUM_PIECES_COUNT_IN_PATH) {
             if (piecesOnPathWithTargetOrNot
                     .keySet()
                     .stream()
@@ -60,7 +62,7 @@ public class Po extends PalaceMovablePieces {
         Moving moving = new Moving(beforePoint, targetPoint);
         Palace palace = Palace.wherePalace(beforePoint);
         if (palace.getPoints().contains(targetPoint)) {
-            if (moving.isDistance(8)) {
+            if (moving.isDistance(PO_DISTANCE)) {
                 return;
             }
         }

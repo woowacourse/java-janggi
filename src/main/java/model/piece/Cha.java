@@ -7,6 +7,9 @@ import model.Team;
 
 public class Cha extends PalaceMovablePieces {
 
+    private static final int CHA_DISTANCE = 8;
+    private static final int MINIMUM_PIECES_COUNT_IN_PATH = 1;
+
     public Cha(Team team) {
         super(team, PieceName.CHA, Score.CHA);
     }
@@ -17,7 +20,7 @@ public class Cha extends PalaceMovablePieces {
             return true;
         }
 
-        if (piecesOnPathWithTargetOrNot.size() == 1) {
+        if (piecesOnPathWithTargetOrNot.size() == MINIMUM_PIECES_COUNT_IN_PATH) {
             if (!piecesOnPathWithTargetOrNot.values()
                     .stream()
                     .findFirst()
@@ -38,7 +41,7 @@ public class Cha extends PalaceMovablePieces {
         Moving moving = new Moving(beforePoint, targetPoint);
 
         if (Palace.ALL_PALACE.getPoints().contains(targetPoint)) {
-            if (moving.isDistanceLessThanOrEqualTo(8)) {
+            if (moving.isDistanceLessThanOrEqualTo(CHA_DISTANCE)) {
                 return;
             }
             throw new IllegalArgumentException("잘못 된 이동입니다.");

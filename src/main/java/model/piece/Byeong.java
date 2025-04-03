@@ -7,6 +7,10 @@ import model.Team;
 
 public class Byeong extends PalaceMovablePieces {
 
+    private static final int MINIMUM_PIECES_COUNT_IN_PATH = 1;
+    private static final int BLUE_TEAM_MOVE_FORWARD = 1;
+    private static final int RED_TEAM_MOVE_FORWARD = -1;
+
     public Byeong(Team team) {
         super(team, PieceName.BYEONG,Score.BYEONG);
     }
@@ -14,7 +18,7 @@ public class Byeong extends PalaceMovablePieces {
 
     @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
-        if (piecesOnPathWithTargetOrNot.size() == 1) {
+        if (piecesOnPathWithTargetOrNot.size() == MINIMUM_PIECES_COUNT_IN_PATH) {
             return piecesOnPathWithTargetOrNot.keySet()
                     .stream()
                     .findFirst()
@@ -29,10 +33,10 @@ public class Byeong extends PalaceMovablePieces {
         if (!Palace.ALL_PALACE.isInPalace(targetPoint)) {
             return;
         }
-        int moveForward = 1;
+        int moveForward = BLUE_TEAM_MOVE_FORWARD;
 
         if (getTeam().isRed()) {
-            moveForward = -1;
+            moveForward = RED_TEAM_MOVE_FORWARD;
         }
         Moving moving = new Moving(beforePoint, targetPoint);
 
@@ -51,10 +55,10 @@ public class Byeong extends PalaceMovablePieces {
     public void validateMovement(Point beforePoint, Point targetPoint) {
 
         Moving moving = new Moving(beforePoint, targetPoint);
-        int moveForward = 1;
+        int moveForward = BLUE_TEAM_MOVE_FORWARD;
 
         if (getTeam().isRed()) {
-            moveForward = -1;
+            moveForward = RED_TEAM_MOVE_FORWARD;
         }
 
         if (!((moving.getVectorY() == moveForward || moving.getVectorY() == 0) && (moving.isDistance(1)))) {

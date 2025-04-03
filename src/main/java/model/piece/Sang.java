@@ -8,6 +8,7 @@ import model.Team;
 public class Sang extends Piece {
 
     private static final int SNG_DISTANCE = 13;
+    private static final int MINIMUM_PIECES_COUNT_IN_PATH = 1;
 
     public Sang(Team team) {
         super(team, PieceName.SANG, Score.SANG);
@@ -22,10 +23,10 @@ public class Sang extends Piece {
 
     @Override
     public boolean canMove(Map<Piece, Boolean> piecesOnPathWithTargetOrNot) {
-        if (piecesOnPathWithTargetOrNot.size() >= 2) {
+        if (piecesOnPathWithTargetOrNot.size() > MINIMUM_PIECES_COUNT_IN_PATH) {
             return false;
         }
-        if (piecesOnPathWithTargetOrNot.size() == 1) {
+        if (piecesOnPathWithTargetOrNot.size() == MINIMUM_PIECES_COUNT_IN_PATH) {
             if (!piecesOnPathWithTargetOrNot.values()
                     .stream()
                     .findFirst()
