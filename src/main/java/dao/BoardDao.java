@@ -24,7 +24,7 @@ public class BoardDao {
 
             pstmt.executeBatch();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("점수를 저장하는 데에 오류가 생겼습니다.");
         }
     }
 
@@ -42,7 +42,7 @@ public class BoardDao {
                 scoreMap.put(country, score);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("점수를 불러오는 데에 오류가 생겼습니다.");
         }
 
         return scoreMap;

@@ -24,7 +24,7 @@ public class CountryDao {
             }
             pstmt.executeBatch();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("나라를 저장하는 데에 오류가 생겼습니다.");
         }
     }
 
@@ -42,7 +42,7 @@ public class CountryDao {
                 map.put(country, direction);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("나라를 불러오는 데에 오류가 생겼습니다.");
         }
 
         return map;

@@ -31,7 +31,7 @@ public final class PieceDao {
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("기물을 저장하는 데에 오류가 생겼습니다.");
         }
     }
 
@@ -56,7 +56,7 @@ public final class PieceDao {
                 pieces.add(piece);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("기물을 불러오는 데에 오류가 생겼습니다.");
         }
 
         return pieces;
@@ -68,7 +68,7 @@ public final class PieceDao {
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException("기물을 삭제하는 데에 오류가 생겼습니다.");
         }
     }
 }
