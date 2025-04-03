@@ -12,9 +12,15 @@ import java.util.List;
 
 public class PieceDao {
 
+    private final ConnectionManager connectionManager;
+
+    public PieceDao(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
     public void save(final Piece piece, final Player player) {
         final var query = "INSERT INTO piece(`row`, `column`, team, piece_type) VALUES(?, ?, ?, ?)";
-        try (final var connection = DatabaseConnectionManager.getConnection();
+        try (final var connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, piece.getPosition().getRow());
             preparedStatement.setInt(2, piece.getPosition().getColumn());
@@ -30,7 +36,7 @@ public class PieceDao {
         List<Piece> pieces = new ArrayList<>();
 
         final var query = "SELECT * FROM piece WHERE team = ?";
-        try (final var connection = DatabaseConnectionManager.getConnection();
+        try (final var connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, team.name());
             final var resultSet = preparedStatement.executeQuery();
@@ -51,7 +57,7 @@ public class PieceDao {
     public void updatePosition(final Piece piece, final Position targetPosition) {
         final var query = "UPDATE piece SET `row` = ?, `column` = ? "
                 + "WHERE `row` = ? AND `column` = ?";
-        try (final var connection = DatabaseConnectionManager.getConnection();
+        try (final var connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, targetPosition.getRow());
             preparedStatement.setInt(2, targetPosition.getColumn());
@@ -65,7 +71,7 @@ public class PieceDao {
 
     public void delete(final Piece piece, final Team team) {
         final var query = "DELETE FROM piece WHERE `row` = ? AND `column` = ? AND piece_type = ? AND team = ?";
-        try (final var connection = DatabaseConnectionManager.getConnection();
+        try (final var connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, piece.getPosition().getRow());
             preparedStatement.setInt(2, piece.getPosition().getColumn());
@@ -79,7 +85,7 @@ public class PieceDao {
 
     public void clear() {
         final var query = "DELETE FROM Piece";
-        try (final var connection = DatabaseConnectionManager.getConnection();
+        try (final var connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {

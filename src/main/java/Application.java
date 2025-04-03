@@ -1,4 +1,5 @@
 import dao.BoardDao;
+import dao.DatabaseConnectionManager;
 import dao.PieceDao;
 import dao.PlayerDao;
 import java.util.Scanner;
@@ -9,9 +10,10 @@ public class Application {
     public static void main(String[] args) {
         OutputView outputView = new OutputView();
         InputView inputView = new InputView(new Scanner(System.in));
-        PlayerDao playerDao = new PlayerDao();
-        PieceDao pieceDao = new PieceDao();
-        BoardDao boardDao = new BoardDao();
+        DatabaseConnectionManager databaseManager = new DatabaseConnectionManager();
+        PlayerDao playerDao = new PlayerDao(databaseManager);
+        PieceDao pieceDao = new PieceDao(databaseManager);
+        BoardDao boardDao = new BoardDao(databaseManager);
 
         KoreaChess koreaChess = new KoreaChess(
                 outputView, inputView,

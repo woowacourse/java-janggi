@@ -7,9 +7,16 @@ import java.util.Optional;
 
 public class PlayerDao {
 
+    private final ConnectionManager connectionManager;
+
+    public PlayerDao(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
+
     public void addPlayer(final Player player) {
         final var query = "INSERT INTO player (name, team) VALUES(?, ?)";
-        try (final var connection = DatabaseConnectionManager.getConnection();
+        try (final var connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, player.name());
             preparedStatement.setString(2, player.team().name());
@@ -21,7 +28,7 @@ public class PlayerDao {
 
     public Optional<Player> findPlayerByTeam(final Team team) {
         final var query = "SELECT * FROM player WHERE team = ?";
-        try (final var connection = DatabaseConnectionManager.getConnection();
+        try (final var connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, team.name());
 
@@ -41,7 +48,7 @@ public class PlayerDao {
 
     public void clear() {
         final var query = "DELETE FROM player";
-        try (final var connection = DatabaseConnectionManager.getConnection();
+        try (final var connection = connectionManager.getConnection();
              final var preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
