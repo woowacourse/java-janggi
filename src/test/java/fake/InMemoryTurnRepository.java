@@ -1,4 +1,4 @@
-package infra.repository;
+package fake;
 
 import domain.turn.Turn;
 import domain.turn.repository.TurnRepository;

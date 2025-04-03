@@ -6,6 +6,7 @@ import domain.board.Board;
 import domain.board.BoardPosition;
 import domain.piece.Chariot;
 import domain.piece.Team;
+import fake.InMemoryBoardRepository;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -1,4 +1,4 @@
-package infra.repository;
+package fake;
 
 import domain.board.Board;
 import domain.board.BoardPosition;
