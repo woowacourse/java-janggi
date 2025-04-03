@@ -1,7 +1,7 @@
 package repository.dao;
 
 import janggi.piece.Team;
-import repository.connection.MysqlConnectionManager;
+import repository.connection.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +10,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class AttackTurnDAO {
+
+    private final Connection connection;
+
+    public AttackTurnDAO(ConnectionManager manager) {
+        this.connection = manager.getConnection();
+    }
 
     public void saveTurn(Team team) {
         String query = """
@@ -20,8 +26,7 @@ public class AttackTurnDAO {
 
         int TEAM_INDEX = 1;
 
-        try (Connection connection = new MysqlConnectionManager().getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(TEAM_INDEX, team.name());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -34,8 +39,7 @@ public class AttackTurnDAO {
                 SELECT team_name FROM attack_turn 
                 """;
 
-        try (Connection connection = new MysqlConnectionManager().getConnection();
-             Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
             if (resultSet.next()) {
                 return Team.convert(resultSet.getString("team_name"));
@@ -53,8 +57,7 @@ public class AttackTurnDAO {
 
         int TEAM_INDEX = 1;
 
-        try (Connection connection = new MysqlConnectionManager().getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(TEAM_INDEX, team.name());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -65,8 +68,7 @@ public class AttackTurnDAO {
     public void resetTurn() {
         String query = "DELETE FROM attack_turn";
 
-        try (Connection connection = new MysqlConnectionManager().getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("리셋 실패", e);

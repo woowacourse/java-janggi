@@ -10,7 +10,7 @@ import janggi.piece.Horse;
 import janggi.piece.Piece;
 import janggi.piece.Soldier;
 import janggi.piece.Team;
-import repository.connection.MysqlConnectionManager;
+import repository.connection.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,6 +21,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BoardDAO {
+
+    private final Connection connection;
+
+    public BoardDAO(ConnectionManager manager) {
+        this.connection = manager.getConnection();
+    }
 
     public void saveInitialBoard(Map<Position, Piece> initialBoard) {
         String query = """
@@ -33,8 +39,7 @@ public class BoardDAO {
         int COLUMN_INDEX = 3;
         int ROW_INDEX = 4;
 
-        try (Connection connection = new MysqlConnectionManager().getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             for (Map.Entry<Position, Piece> entry : initialBoard.entrySet()) {
                 Position position = entry.getKey();
                 Piece piece = entry.getValue();
@@ -58,8 +63,7 @@ public class BoardDAO {
                 FROM piece
                 """;
 
-        try (Connection connection = new MysqlConnectionManager().getConnection();
-             Statement statement = connection.createStatement();
+        try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
@@ -79,7 +83,6 @@ public class BoardDAO {
     }
 
     public void updatePiecePosition(Position start, Position goal) {
-        Connection connection = new MysqlConnectionManager().getConnection();
         String deleteExistingPieceQuery = """
                 DELETE FROM piece 
                 WHERE position_column = ? AND position_row = ?
@@ -137,8 +140,7 @@ public class BoardDAO {
     public void resetPieces() {
         String query = "DELETE FROM PIECE";
 
-        try (Connection connection = new MysqlConnectionManager().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
             throw new RuntimeException("보드 리셋 실패", e);
