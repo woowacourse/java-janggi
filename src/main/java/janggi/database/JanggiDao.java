@@ -98,7 +98,7 @@ public class JanggiDao {
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query);
              final var resultSet = preparedStatement.executeQuery()) {
-            return PieceConverter.convertToPieces(resultSet);
+            return PieceConverter.convertToPieces(PieceResultSetMapper.mapToDtos(resultSet));
         }
     }
 

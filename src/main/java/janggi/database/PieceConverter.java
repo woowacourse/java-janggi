@@ -7,23 +7,21 @@ import janggi.piece.Guard;
 import janggi.piece.Horse;
 import janggi.piece.King;
 import janggi.piece.Piece;
+import janggi.piece.PieceDto;
 import janggi.piece.Pieces;
 import janggi.piece.Soldier;
 import janggi.piece.Tank;
 import janggi.position.Position;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PieceConverter {
 
-    public static Piece convertToPiece(final ResultSet resultSet) throws SQLException {
-        final String pieceType = resultSet.getString("piece_type");
-        final String color = resultSet.getString("color");
-        final Color pieceColor = getColor(color);
+    public static Piece convertToPiece(final PieceDto pieceDto) {
+        final Color pieceColor = getColor(pieceDto.getColor());
 
-        switch (pieceType) {
+        switch (pieceDto.getPieceType()) {
             case "TANK":
                 return new Tank(pieceColor);
             case "CANNON":
@@ -43,20 +41,18 @@ public class PieceConverter {
         }
     }
 
-    public static Pieces convertToPieces(final ResultSet resultSet) throws SQLException {
+    public static Pieces convertToPieces(final List<PieceDto> pieceDtos) {
         final Map<Position, Piece> pieces = new HashMap<>();
-        while(resultSet.next()) {
-            final int x = resultSet.getInt("x");
-            final int y = resultSet.getInt("y");
-            final Position position = new Position(x, y);
-            final Piece piece = convertToPiece(resultSet);
+        for (PieceDto pieceDto : pieceDtos) {
+            Position position = new Position(pieceDto.getX(), pieceDto.getY());
+            Piece piece = convertToPiece(pieceDto);
             pieces.put(position, piece);
         }
         return new Pieces(pieces);
     }
 
     private static Color getColor(final String color) {
-        if(color.equals("RED")) {
+        if (color.equals("RED")) {
             return Color.RED;
         }
         return Color.BLUE;
