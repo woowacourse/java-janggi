@@ -31,10 +31,6 @@ public abstract class Piece {
 
     public abstract int getScore();
 
-    public boolean isCannon() {
-        return false;
-    }
-
     public String getColorMessage() {
         if (color == Color.RED) {
             return "RED";

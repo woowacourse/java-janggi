@@ -112,25 +112,10 @@ public class Pieces {
         return Collections.unmodifiableMap(pieces);
     }
 
-    public boolean isEachCannonPiece(final Position start, final Position end) {
-        if (!pieces.containsKey(start) || !pieces.containsKey(end)) {
-            return false;
-        }
-        Piece startPiece = pieces.get(start);
-        Piece endPiece = pieces.get(end);
-        return startPiece.isCannon() && endPiece.isCannon();
-    }
-
     public long countPieceOnPath(final List<Position> path) {
         return path.stream()
                 .filter(pieces::containsKey)
                 .count();
-    }
-
-    public boolean isCannonPieceOnPath(final List<Position> path) {
-        return path.stream()
-                .anyMatch(position -> pieces.containsKey(position) &&
-                        pieces.get(position).isCannon());
     }
 
     public int calculatePieceScore(final Color color) {

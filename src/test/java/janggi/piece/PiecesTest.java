@@ -159,8 +159,8 @@ class PiecesTest {
     }
 
     @Test
-    @DisplayName("시작점과 끝점에 있는 두 장기말이 둘 다 포라면 true 반환한다")
-    void should_return_true_when_start_and_end_position_piece_is_cannon() {
+    @DisplayName("시작점과 도착점에 있는 장기말이 같은 타입이라면 true 반환한다")
+    void should_return_true_when_start_and_end_position_piece_is_same_piece_type() {
         // given
         Position start = new Position(5, 5);
         Position end = new Position(5, 6);
@@ -170,15 +170,15 @@ class PiecesTest {
                 end, blueCannon));
 
         // when
-        boolean isEachCannon = pieces.isEachCannonPiece(start, end);
+        boolean isSamePieceType = pieces.isSamePieceType(start, end);
 
         // then
-        assertThat(isEachCannon).isEqualTo(true);
+        assertThat(isSamePieceType).isEqualTo(true);
     }
 
     @Test
-    @DisplayName("끝점에 있는 장기말이 포가 아니라면 false 반환한다")
-    void should_return_false_when_end_position_piece_is_not_cannon() {
+    @DisplayName("시작점과 도착점에 있는 장기말이 다른 타입이라면 false 반환한다")
+    void should_return_false_when_end_position_piece_is_not_same_piece_type() {
         // given
         Position start = new Position(5, 5);
         Position end = new Position(5, 6);
@@ -188,28 +188,26 @@ class PiecesTest {
                 end, tank));
 
         // when
-        boolean isEachCannon = pieces.isEachCannonPiece(start, end);
+        boolean isSamePieceType = pieces.isSamePieceType(start, end);
 
         // then
-        assertThat(isEachCannon).isEqualTo(false);
+        assertThat(isSamePieceType).isEqualTo(false);
     }
 
     @Test
-    @DisplayName("시작점에 있는 장기말이 포가 아니라면 false 반환한다")
-    void should_return_false_when_start_position_piece_is_not_cannon() {
+    @DisplayName("장기말이 같은지 확인하는 과정에 도착점에 장기말이 없는 경우 false 반환한다")
+    void should_return_false_when_end_position_piece_empty() {
         // given
         Position start = new Position(5, 5);
         Position end = new Position(5, 6);
-        Piece tank = new Tank(Color.RED);
-        Piece blueCannon = new Cannon(Color.BLUE);
-        Pieces pieces = new Pieces(Map.of(start, tank,
-                end, blueCannon));
+        Piece redCannon = new Cannon(Color.RED);
+        Pieces pieces = new Pieces(Map.of(start, redCannon));
 
         // when
-        boolean isEachCannon = pieces.isEachCannonPiece(start, end);
+        boolean isSamePieceType = pieces.isSamePieceType(start, end);
 
         // then
-        assertThat(isEachCannon).isEqualTo(false);
+        assertThat(isSamePieceType).isEqualTo(false);
     }
 
     @Test
@@ -232,40 +230,39 @@ class PiecesTest {
     }
 
     @Test
-    @DisplayName("Position 목록이 주어질 때 경로상에 캐논이 있으면 true 반환한다")
-    void should_return_true_when_cannon_exist_on_path() {
+    @DisplayName("경로상에 주어진 장기말과 같은 타입의 장기말이 있는 경우 true 반환한다")
+    void should_return_true_when_exist_same_piece_type_on_path() {
         // given
         Position firstPosition = new Position(5, 5);
-        Position secondPosition = new Position(5, 6);
-        Piece tank = new Tank(Color.RED);
         Piece cannon = new Cannon(Color.RED);
-        Pieces pieces = new Pieces(Map.of(firstPosition, tank,
-                secondPosition, cannon));
-        List<Position> positions = List.of(firstPosition, secondPosition);
+        Pieces pieces = new Pieces(Map.of(firstPosition, cannon));
+        List<Position> path = List.of(firstPosition);
+        Piece targetCannon = new Cannon(Color.BLUE);
 
         // when
-        boolean isCannonOnPath = pieces.isCannonPieceOnPath(positions);
+        boolean isSamePieceTypeOnPath = pieces.isSamePieceTypeOnPath(path, targetCannon);
 
         // then
-        assertThat(isCannonOnPath).isEqualTo(true);
+        assertThat(isSamePieceTypeOnPath).isEqualTo(true);
     }
 
     @Test
-    @DisplayName("Position 목록이 주어질 때 경로상에 캐논이 없으면 false 반환한다")
+    @DisplayName("장기말의 이동 경로에 같은 타입의 장기말이 없는 경우 false 반환한다")
     void should_return_false_when_cannon_not_exist_on_path() {
         // given
         Position firstPosition = new Position(5, 5);
         Position secondPosition = new Position(5, 6);
         Piece tank = new Tank(Color.RED);
         Piece horse = new Horse(Color.RED);
+        Piece otherPiece = new Cannon(Color.RED);
         Pieces pieces = new Pieces(Map.of(firstPosition, tank, secondPosition, horse));
         List<Position> positions = List.of(firstPosition, secondPosition);
 
         // when
-        boolean isCannonOnPath = pieces.isCannonPieceOnPath(positions);
+        boolean isSamePieceTypeOnPath = pieces.isSamePieceTypeOnPath(positions, otherPiece);
 
         // then
-        assertThat(isCannonOnPath).isEqualTo(false);
+        assertThat(isSamePieceTypeOnPath).isEqualTo(false);
     }
 
     @Test
