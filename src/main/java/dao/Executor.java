@@ -41,11 +41,10 @@ public class Executor {
                 connection.commit();
             } catch (SQLException e) {
                 connection.rollback();
-            } finally {
-                connection.setAutoCommit(true);
+                throw new RuntimeException("트랜잭션 롤백됨", e);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("트랜잭션 실패", e);
+            throw new RuntimeException("트랜잭션 시작 실패", e);
         }
     }
 
