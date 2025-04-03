@@ -140,4 +140,13 @@ public class Pieces {
                 .mapToInt(Piece::getScore)
                 .sum();
     }
+
+    public boolean isSamePieceType(final Position start, final Position end) {
+        if (!pieces.containsKey(start) || !pieces.containsKey(end)) {
+            return false;
+        }
+        final Piece startPiece = pieces.get(start);
+        final Piece endPiece = pieces.get(end);
+        return startPiece.isSamePieceType(endPiece);
+    }
 }

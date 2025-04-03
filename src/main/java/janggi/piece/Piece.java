@@ -39,4 +39,8 @@ public abstract class Piece {
         }
         return "BLUE";
     }
+
+    public boolean isSamePieceType(final Piece other) {
+        return this.getPieceType() == other.getPieceType();
+    }
 }
