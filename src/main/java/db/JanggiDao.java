@@ -166,18 +166,22 @@ public class JanggiDao {
              final ResultSet rs = positionStmt.executeQuery()) {
 
             while (rs.next()) {
-                final PieceType pieceType = PieceType.valueOf(rs.getString("pieceType"));
-                final int x = rs.getInt("x");
-                final int y = rs.getInt("y");
-                final Team team = Team.valueOf(rs.getString("team").toUpperCase());
-                final Position position = Position.newInstance(Point.newInstance(x, y),
-                        PieceType.find(pieceType, team));
-                positions.add(position);
+                positions.add(mapToPosition(rs));
             }
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
         return positions;
+    }
+
+    private static Position mapToPosition(final ResultSet rs) throws SQLException {
+        final PieceType pieceType = PieceType.valueOf(rs.getString("pieceType"));
+        final int x = rs.getInt("x");
+        final int y = rs.getInt("y");
+        final Team team = Team.valueOf(rs.getString("team").toUpperCase());
+        final Position position = Position.newInstance(Point.newInstance(x, y),
+                PieceType.find(pieceType, team));
+        return position;
     }
 
     public GameState getGameState() {
