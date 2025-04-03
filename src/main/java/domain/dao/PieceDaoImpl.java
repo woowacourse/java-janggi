@@ -14,17 +14,14 @@ import util.DBConnectionUtil;
 
 public class PieceDaoImpl implements PieceDao {
 
-    private final Long gameId;
-
-    public PieceDaoImpl(Long gameId) {
-        this.gameId = gameId;
+    public PieceDaoImpl() {
     }
 
-    public void addAll(final List<Piece> pieces) {
-        pieces.forEach(this::add);
+    public void addAll(Long gameId, final List<Piece> pieces) {
+        pieces.forEach(piece -> add(gameId, piece));
     }
 
-    public void add(final Piece piece) {
+    public void add(Long gameId, final Piece piece) {
         final var query = "INSERT INTO piece (y, x, type, team, game_id) VALUES(?, ?, ?, ?, ?)";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)
@@ -40,7 +37,7 @@ public class PieceDaoImpl implements PieceDao {
         }
     }
 
-    public void removeByPosition(final Position position) {
+    public void removeByPosition(Long gameId, final Position position) {
         final var query = "DELETE FROM piece WHERE y = ? AND x = ? AND game_id = ?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)
@@ -54,7 +51,7 @@ public class PieceDaoImpl implements PieceDao {
         }
     }
 
-    public Optional<Piece> findByPosition(final Position position) {
+    public Optional<Piece> findByPosition(Long gameId, final Position position) {
         final var query = "SELECT * FROM piece WHERE y = ? AND x = ? AND game_id = ?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)
@@ -77,7 +74,7 @@ public class PieceDaoImpl implements PieceDao {
         }
     }
 
-    public List<Piece> findAll() {
+    public List<Piece> findAll(Long gameId) {
         final var query = "SELECT * FROM piece WHERE game_id = ?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)
@@ -98,8 +95,20 @@ public class PieceDaoImpl implements PieceDao {
         }
     }
 
+    @Override
+    public void removeAll(Long gameId) {
+        final var query = "DELETE FROM piece WHERE game_id = ?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)
+        ) {
+            preparedStatement.setLong(1, gameId);
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    public void changePosition(final Position position, final Position newPosition) {
+    public void changePosition(Long gameId, final Position position, final Position newPosition) {
         final var query = "UPDATE piece SET y = ?, x = ? WHERE y = ? AND x = ? AND game_id = ?";
         try (final var connection = getConnection();
              final var preparedStatement = connection.prepareStatement(query)

@@ -1,8 +1,10 @@
 package controller;
 
-import domain.GameRooms;
+import domain.JanggiBoard;
 import domain.JanggiGame;
-import domain.dao.GamesDaoImpl;
+import domain.JanggiService;
+import domain.dao.GameDaoImpl;
+import domain.dao.PieceDaoImpl;
 import java.util.function.Supplier;
 import view.InputView;
 import view.OutputView;
@@ -11,19 +13,22 @@ public class JanggiController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private final JanggiService janggiService;
 
     public JanggiController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.janggiService = new JanggiService(new GameDaoImpl(), new PieceDaoImpl());
     }
 
     public void run() {
-        GameRooms gameRooms = new GameRooms(new GamesDaoImpl());
-        JanggiGame game = retry(() -> startGame(gameRooms));
+        JanggiGame game = retry(this::startGame);
         outputView.printJanggiBoard(game);
         while (!game.isEnd()) {
             Command command = retry(() -> Command.find(inputView.readCommand(game.getThisTurnTeam())));
             if (command == Command.QUIT) {
+                JanggiBoard board = game.getBoard();
+                janggiService.saveGame(game, board.getPieces());
                 break;
             }
             if (command == Command.SCORE) {
@@ -38,16 +43,16 @@ public class JanggiController {
         }
     }
 
-    private JanggiGame startGame(GameRooms gameRooms) {
-        if (gameRooms.isEmpty()) {
-            return gameRooms.createRoom(inputView.readNewRoomName());
+    private JanggiGame startGame() {
+        if (janggiService.isEmpty()) {
+            return janggiService.addGame(inputView.readNewRoomName());
         }
         NewOrContinue newOrContinue = NewOrContinue.find(inputView.readNewOrContinueGame());
         if (newOrContinue == NewOrContinue.NEW) {
-            return gameRooms.createRoom(inputView.readNewRoomName());
+            return janggiService.addGame(inputView.readNewRoomName());
         }
-        outputView.printAllRoomNames(gameRooms.findAllRoomNames());
-        return gameRooms.findByName(inputView.readRoomName());
+        outputView.printAllRoomNames(janggiService.findAllRoomNames());
+        return janggiService.findGameByName(inputView.readRoomName());
     }
 
     private <T> T retry(Supplier<T> supplier) {

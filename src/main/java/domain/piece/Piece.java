@@ -30,16 +30,16 @@ public class Piece {
         type.applyRule(path, piecesInPath, this, targetPiece);
     }
 
-    public void moveTo(Position position) {
-        this.position = position;
-    }
-
     public boolean isTeam(Piece otherPiece) {
         return isTeam(otherPiece.team);
     }
 
     public boolean isTeam(Team team) {
         return this.team == team;
+    }
+
+    public boolean isSamePosition(Position position) {
+        return this.position.equals(position);
     }
 
     public boolean isType(PieceType type) {
@@ -79,11 +79,11 @@ public class Piece {
             return false;
         }
         Piece piece = (Piece) o;
-        return team == piece.team && Objects.equals(position, piece.position);
+        return team == piece.team && type == piece.type && Objects.equals(position, piece.position);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(team, position);
+        return Objects.hash(team, type, position);
     }
 }

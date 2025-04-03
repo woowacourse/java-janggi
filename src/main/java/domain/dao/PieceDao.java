@@ -7,15 +7,17 @@ import java.util.Optional;
 
 public interface PieceDao {
 
-    void addAll(final List<Piece> pieces);
+    void addAll(Long gameId, final List<Piece> pieces);
 
-    void add(final Piece piece);
+    void add(Long gameId, final Piece piece);
 
-    void removeByPosition(final Position position);
+    void removeByPosition(Long gameId, final Position position);
 
-    Optional<Piece> findByPosition(final Position position);
+    Optional<Piece> findByPosition(Long gameId, final Position position);
 
-    List<Piece> findAll();
+    List<Piece> findAll(Long gameId);
 
-    void changePosition(final Position position, final Position newPosition);
+    void removeAll(Long gameId);
+
+    void changePosition(Long gameId, final Position position, final Position newPosition);
 }

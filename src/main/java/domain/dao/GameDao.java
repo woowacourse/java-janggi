@@ -1,10 +1,19 @@
 package domain.dao;
 
 import domain.piece.Team;
+import java.util.List;
 
 public interface GameDao {
 
-    Team findTurn();
+    Long add(final String name, final Team team);
 
-    void changeTurn(final Team turn);
+    Long findIdByName(final String name);
+
+    List<String> findAllName();
+
+    Long countAll();
+
+    Team findTurn(Long gameId);
+
+    void changeTurn(Long gameId, final Team turn);
 }

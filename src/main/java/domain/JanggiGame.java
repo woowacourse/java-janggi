@@ -1,25 +1,36 @@
 package domain;
 
-import domain.dao.GameDao;
 import domain.piece.Piece;
 import domain.piece.Position;
 import domain.piece.Team;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class JanggiGame {
 
     public static final double HAN_TEAM_BONUS_SCORE = 1.5;
 
-    private final GameDao gameDao;
     private final JanggiBoard janggiBoard;
+    private final Long gameId;
+    private Team turn = Team.CHO;
 
-    public JanggiGame(GameDao gamesDao, JanggiBoard board) {
+    private JanggiGame(Long gameId, JanggiBoard board, Team turn) {
         this.janggiBoard = board;
-        this.gameDao = gamesDao;
+        this.gameId = gameId;
+        this.turn = turn;
     }
+
+    public static JanggiGame init(Long gameId, JanggiBoard board) {
+        return new JanggiGame(gameId, board, Team.getFirstTeam());
+    }
+
+    public static JanggiGame create(Long gameId, JanggiBoard board, Team turn) {
+        return new JanggiGame(gameId, board, turn);
+    }
+
 
     public void move(List<Integer> startRowAndColumn, List<Integer> targetRowAndColumn) {
         Position startPosition = new Position(startRowAndColumn.getFirst(), startRowAndColumn.getLast());
@@ -30,8 +41,7 @@ public class JanggiGame {
     }
 
     private void nextTurn() {
-        Team thisTurn = gameDao.findTurn();
-        gameDao.changeTurn(thisTurn.getEnemy());
+        this.turn = turn.getEnemy();
     }
 
     public boolean isEnd() {
@@ -52,7 +62,7 @@ public class JanggiGame {
     }
 
     public Team getThisTurnTeam() {
-        return gameDao.findTurn();
+        return turn;
     }
 
     public Map<Team, Double> calculateScore() {
@@ -66,7 +76,29 @@ public class JanggiGame {
         return scores;
     }
 
+    public Long getGameId() {
+        return gameId;
+    }
+
     public JanggiBoard getBoard() {
         return janggiBoard;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        JanggiGame game = (JanggiGame) o;
+        return Objects.equals(janggiBoard, game.janggiBoard) && Objects.equals(gameId, game.gameId)
+                && turn == game.turn;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(janggiBoard, gameId, turn);
     }
 }

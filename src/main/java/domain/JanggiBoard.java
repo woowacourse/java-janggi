@@ -1,29 +1,29 @@
 package domain;
 
-import domain.boardgenerator.JanggiBoardGenerator;
-import domain.dao.PieceDao;
+import domain.boardgenerator.BoardGenerator;
 import domain.piece.Piece;
 import domain.piece.PieceType;
 import domain.piece.Position;
 import domain.piece.Team;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class JanggiBoard {
 
-    private final PieceDao pieceDao;
+    private final List<Piece> pieces;
 
-    private JanggiBoard(PieceDao pieceDao) {
-        this.pieceDao = pieceDao;
+    private JanggiBoard(List<Piece> pieces) {
+        this.pieces = pieces;
     }
 
-    public static JanggiBoard of(PieceDao pieceDao) {
-        return new JanggiBoard(pieceDao);
+    public static JanggiBoard init(BoardGenerator boardGenerator) {
+        List<Piece> pieces = boardGenerator.generateBoard();
+        return new JanggiBoard(pieces);
     }
 
-    public static JanggiBoard init(PieceDao pieceDao) {
-        pieceDao.addAll(new JanggiBoardGenerator().generateBoard());
-        return new JanggiBoard(pieceDao);
+    public static JanggiBoard create(List<Piece> pieces) {
+        return new JanggiBoard(pieces);
     }
 
     public void move(final Position startPosition, final Position targetPosition) {
@@ -33,9 +33,8 @@ public class JanggiBoard {
         List<Piece> piecesInPath = findPiecesInPath(path);
         selectedPiece.applyRule(path, piecesInPath, targetPiece);
 
-        targetPiece.ifPresent((piece) -> pieceDao.removeByPosition(targetPosition));
-        pieceDao.changePosition(startPosition, targetPosition);
-        selectedPiece.moveTo(targetPosition);
+        targetPiece.ifPresent((piece) -> pieces.remove(targetPiece.get()));
+        selectedPiece.changePosition(targetPosition);
     }
 
     private List<Piece> findPiecesInPath(List<Position> path) {
@@ -47,7 +46,7 @@ public class JanggiBoard {
     }
 
     public int calculateTeamScore(Team team) {
-        return pieceDao.findAll().stream().filter(piece -> piece.isTeam(team)).mapToInt(Piece::getScore).sum();
+        return pieces.stream().filter(piece -> piece.isTeam(team)).mapToInt(Piece::getScore).sum();
     }
 
     public Piece findSelectedPiece(Position startPosition) {
@@ -56,10 +55,38 @@ public class JanggiBoard {
     }
 
     public boolean existGung(Team team) {
-        return pieceDao.findAll().stream().anyMatch(piece -> piece.isType(PieceType.GUNG) && piece.isTeam(team));
+        return pieces.stream().anyMatch(piece -> piece.isType(PieceType.GUNG) && piece.isTeam(team));
     }
 
     public Optional<Piece> findPiece(Position position) {
-        return pieceDao.findByPosition(position);
+        return pieces.stream().filter(piece -> piece.isSamePosition(position)).findFirst();
+    }
+
+    public List<Piece> getPieces() {
+        return pieces;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        JanggiBoard that = (JanggiBoard) o;
+        return Objects.equals(pieces, that.pieces);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(pieces);
+    }
+
+    @Override
+    public String toString() {
+        return "JanggiBoard{" +
+                "pieces=" + pieces +
+                '}';
     }
 }
