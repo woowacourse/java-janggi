@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.board.palace.Palace;
-import janggi.board.palace.PalaceGenerator;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
@@ -40,7 +39,7 @@ class ChariotTest {
         //given
         final Chariot chariot = new Chariot(Team.HAN);
 
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         //when
         final Position currnetPosition = new Position(0, 0);
@@ -65,7 +64,7 @@ class ChariotTest {
     }
 
     private static Stream<Arguments> chariotCanMoveByPositionProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(0, 0), new Position(0, 1), palace),
@@ -199,7 +198,7 @@ class ChariotTest {
     }
 
     private static Stream<Arguments> chariotPalaceMovePositionProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(9, 5), new Position(8, 5), palace),
@@ -231,7 +230,7 @@ class ChariotTest {
     }
 
     private static Stream<Arguments> chariotNonMoveObstacleInPalacePositionProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(9, 5), new Position(7, 3), palace),

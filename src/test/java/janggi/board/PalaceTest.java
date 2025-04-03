@@ -3,7 +3,6 @@ package janggi.board;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import janggi.board.palace.Palace;
-import janggi.board.palace.PalaceGenerator;
 import janggi.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,11 +12,8 @@ class PalaceTest {
     @DisplayName("궁성 영역을 가진다.")
     @Test
     void palaceArea() {
-        //given
-        final PalaceGenerator palaceGenerator = new PalaceGenerator();
-
-        //when
-        final Palace actual = palaceGenerator.generate();
+        //given //when
+        final Palace actual = Palace.AREA;
 
         //then
         assertThat(actual.getArea()).hasSize(18);
@@ -27,8 +23,7 @@ class PalaceTest {
     @Test
     void isInPalaceByPosition() {
         //given
-        final PalaceGenerator palaceGenerator = new PalaceGenerator();
-        final Palace palace = palaceGenerator.generate();
+        final Palace palace = Palace.AREA;
 
         final Position currentPosition = new Position(0, 3);
 
@@ -43,8 +38,7 @@ class PalaceTest {
     @Test
     void isOutPalaceByPosition() {
         //given
-        final PalaceGenerator palaceGenerator = new PalaceGenerator();
-        final Palace palace = palaceGenerator.generate();
+        final Palace palace = Palace.AREA;
 
         final Position currentPosition = new Position(3, 3);
 

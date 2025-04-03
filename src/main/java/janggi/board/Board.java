@@ -2,7 +2,6 @@ package janggi.board;
 
 import janggi.GameState;
 import janggi.board.palace.Palace;
-import janggi.board.palace.PalaceGenerator;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
@@ -17,7 +16,7 @@ public class Board {
     private final Palace palace;
 
     public Board() {
-        this.palace = new PalaceGenerator().generate();
+        this.palace = Palace.AREA;
         this.janggiBoard = new HashMap<>();
     }
 

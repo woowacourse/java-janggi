@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.board.palace.Palace;
-import janggi.board.palace.PalaceGenerator;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
 import janggi.position.Position;
@@ -44,7 +43,7 @@ class PawnTest {
     }
 
     private static Stream<Arguments> pawnNonCanMoveByPositionProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(4, 5), new Position(5, 5), palace),
@@ -66,7 +65,7 @@ class PawnTest {
     }
 
     private static Stream<Arguments> pawnCanMoveByPositionProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(4, 5), new Position(3, 5), palace),
@@ -87,7 +86,7 @@ class PawnTest {
     }
 
     private static Stream<Arguments> pawnPalaceMovePositionProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(1, 4), new Position(1, 3), palace),
@@ -112,7 +111,7 @@ class PawnTest {
     }
 
     private static Stream<Arguments> pawnPalaceBehindMovePositionProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(1, 4), new Position(2, 3), palace),

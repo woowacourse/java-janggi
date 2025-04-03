@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import janggi.board.Board;
 import janggi.board.palace.Palace;
-import janggi.board.palace.PalaceGenerator;
 import janggi.piece.Piece;
 import janggi.piece.PieceType;
 import janggi.piece.Team;
@@ -42,7 +41,7 @@ class CannonTest {
         //given
         final Cannon cannon = new Cannon(Team.HAN);
 
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         //when
         final Position currentPosition = new Position(0, 0);
@@ -67,7 +66,7 @@ class CannonTest {
     }
 
     private static Stream<Arguments> cannonCanMoveByPositionProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(0, 0), new Position(0, 1), palace),
@@ -302,7 +301,7 @@ class CannonTest {
     }
 
     private static Stream<Arguments> cannonPalaceMovePositionProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(0, 3), new Position(2, 5), palace),
@@ -325,7 +324,7 @@ class CannonTest {
         final Position currentPosition = new Position(0, 3);
         final Position targetPosition = new Position(2, 5);
 
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         //when //then
         assertThatCode(() -> cannon.moveTo(currentPosition, targetPosition, janggiBoard, palace))
@@ -350,7 +349,7 @@ class CannonTest {
     }
 
     private static Stream<Arguments> cannonNonMovePalacePositionProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(0, 3), new Position(2, 5), palace),
@@ -378,7 +377,7 @@ class CannonTest {
     }
 
     private static Stream<Arguments> cannonNonMovePositionInFrontFoProvider() {
-        final Palace palace = new PalaceGenerator().generate();
+        final Palace palace = Palace.AREA;
 
         return Stream.of(
                 Arguments.of(new Position(0, 3), new Position(2, 5), palace),
