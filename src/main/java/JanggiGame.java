@@ -35,6 +35,10 @@ public class JanggiGame {
             }
 
             final Point nextPoint = readEndPoint();
+            if (isSamePoint(prevPosition, nextPoint)) {
+                throw new IllegalArgumentException("아무 행동을 하지 않고 턴을 넘길 수 없습니다.");
+            }
+
             if (isInvalidEndPoint(prevPosition, nextPoint)) {
                 return processTurnChange(janggiDao, OutputView::printInvalidEndPoint);
             }
@@ -123,6 +127,10 @@ public class JanggiGame {
     private void changeTurn(final JanggiDao janggiDao) {
         turn = turn.opposite();
         janggiDao.changeTurn(turn);
+    }
+
+    private boolean isSamePoint(final Position prevPosition, final Point nextPoint) {
+        return prevPosition.isSame(nextPoint);
     }
 
     private boolean isInvalidEndPoint(final Position prevPosition, final Point nextPoint) {
