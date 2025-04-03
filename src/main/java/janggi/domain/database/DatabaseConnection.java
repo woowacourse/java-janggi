@@ -7,11 +7,12 @@ import java.sql.SQLException;
 
 public final class DatabaseConnection {
 
-    private static final String SERVER = "localhost:13306";
+    private static final String SERVER = "localhost:03306";
     private static final String DATABASE = "janggi";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "user";
     private static final String PASSWORD = "password";
+
 
     private static Connection getConnection() {
         try {
