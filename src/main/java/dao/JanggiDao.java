@@ -1,8 +1,5 @@
 package dao;
 
-import static model.janggiboard.JanggiBoard.HORIZONTAL_SIZE;
-import static model.janggiboard.JanggiBoard.VERTICAL_SIZE;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,39 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import model.Point;
-import model.Team;
-import model.janggiboard.Dot;
-import model.piece.Byeong;
-import model.piece.Cha;
-import model.piece.Jang;
-import model.piece.Ma;
 import model.piece.Piece;
-import model.piece.Po;
-import model.piece.Sa;
-import model.piece.Sang;
+import vo.PieceVo;
 
-public final class JanggiDao {
+public final class JanggiDao implements JanggiRepository {
 
     private static final String SERVER = "localhost:13306"; // MySQL 서버 주소
     private static final String DATABASE = "janggi"; // MySQL DATABASE 이름
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root"; //  MySQL 서버 아이디
     private static final String PASSWORD = "root"; // MySQL 서버 비밀번호
-
-    private static final Map<String, Function<Team, Piece>> PIECE_FACTORY = new HashMap<>() {{
-        put("漢", Jang::new);
-        put("士", Sa::new);
-        put("象", Sang::new);
-        put("馬", Ma::new);
-        put("車", Cha::new);
-        put("包", Po::new);
-        put("兵", Byeong::new);
-    }};
 
     public Connection getConnection() {
         try {
@@ -54,7 +30,8 @@ public final class JanggiDao {
         }
     }
 
-    public int settingNewJanggiBoard(List<List<Dot>> janggiBoard) {
+    @Override
+    public int settingNewJanggiBoard(List<PieceVo> janggiBoard) {
         final var insertGameStateQuery = "INSERT INTO game_state VALUES(null,0)";
         final var insertPieceQuery = "INSERT INTO pieces VALUES(null, ?, ?, ?, ?, ?)";
 
@@ -71,22 +48,18 @@ public final class JanggiDao {
                 } else {
                     throw new SQLException("game_state의 자동 생성된 키를 가져오지 못했습니다.");
                 }
-                for (int i = 0; i < janggiBoard.size(); i++) {
-                    for (int j = 0; j < 9; j++) {
-                        if (janggiBoard.get(i).get(j).isPlaced()) {
-                                Piece piece = janggiBoard.get(i).get(j).getPiece();
-                                String pieceName = piece.getPieceName().getName();
-                                String pieceTeam = piece.getTeam().getTeam();
+                for (PieceVo pieceVo : janggiBoard) {
 
-                                preparedStatementPiece.setInt(1, gameStateId);
-                                preparedStatementPiece.setString(2, pieceName);
-                                preparedStatementPiece.setString(3, pieceTeam);
-                                preparedStatementPiece.setInt(4, j);
-                                preparedStatementPiece.setInt(5, i);
-                                preparedStatementPiece.addBatch();
-                            }
-                        }
-                    }
+                    String pieceName = pieceVo.getPieceName();
+                    String pieceTeam = pieceVo.getTeam();
+
+                    preparedStatementPiece.setInt(1, gameStateId);
+                    preparedStatementPiece.setString(2, pieceName);
+                    preparedStatementPiece.setString(3, pieceTeam);
+                    preparedStatementPiece.setInt(4, pieceVo.getPointX());
+                    preparedStatementPiece.setInt(5, pieceVo.getPointY());
+                    preparedStatementPiece.addBatch();
+                }
                     preparedStatementPiece.executeBatch();
                     return gameStateId;
             }
@@ -95,10 +68,11 @@ public final class JanggiDao {
         }
     }
 
-    public List<List<Dot>> settingBeforeJanggiBoard() {
+    @Override
+    public List<PieceVo> settingBeforeJanggiBoard() {
         final String getPiecesQuery = "SELECT * FROM pieces WHERE game_id = ?";
         final int beforeGameId = getLatestGameId();
-        List<List<Dot>> board = initializeJanggiBoard();
+        List<PieceVo> pieceVos = new ArrayList<>();
 
         try (Connection connection = getConnection();
              PreparedStatement stmt = connection.prepareStatement(getPiecesQuery)) {
@@ -106,26 +80,23 @@ public final class JanggiDao {
             stmt.setInt(1, beforeGameId);
 
             try (ResultSet rs = stmt.executeQuery()) {
-                placePiecesOnBoard(board, rs);
+                placePiecesOnBoard(pieceVos, rs);
             }
         } catch (SQLException e) {
             throw new IllegalArgumentException("기존 게임을 불러오는 중 오류 발생", e);
         }
-        return board;
+        return pieceVos;
     }
 
-    private void placePiecesOnBoard(List<List<Dot>> board, ResultSet rs) throws SQLException {
+    private void placePiecesOnBoard(List<PieceVo> pieceVos, ResultSet rs) throws SQLException {
         while (rs.next()) {
-            int x = rs.getInt("x_position");
-            int y = rs.getInt("y_position");
-            Piece piece = createPiece(rs.getString("piece_name"), rs.getString("team"));
-            board.get(y).set(x, new Dot(piece));
-        }
-    }
+            int pointX = rs.getInt("x_position");
+            int pointY = rs.getInt("y_position");
+            String pieceName = rs.getString("piece_name");
+            String pieceTeam = rs.getString("team");
 
-    private Piece createPiece(String pieceName, String teamName) {
-        Team team = Team.findTeamByName(teamName);
-        return PIECE_FACTORY.getOrDefault(pieceName, t -> null).apply(team);
+            pieceVos.add(new PieceVo(pieceName, pointX, pointY, pieceTeam));
+        }
     }
 
     private int getLatestGameId() {
@@ -145,23 +116,8 @@ public final class JanggiDao {
         }
     }
 
-    private List<List<Dot>> initializeJanggiBoard() {
-        List<List<Dot>> dots = new ArrayList<>();
-        for (int i = 0; i < VERTICAL_SIZE; i++) {
-            List<Dot> dotLine = getHorizontalDotsLine();
-            dots.add(dotLine);
-        }
-        return dots;
-    }
 
-    private static List<Dot> getHorizontalDotsLine() {
-        List<Dot> dotLine = new ArrayList<>();
-        for (int i = 0; i < HORIZONTAL_SIZE; i++) {
-            dotLine.add(new Dot());
-        }
-        return dotLine;
-    }
-
+    @Override
     public void deletePiece(Point targetPoint) {
         final String deletePieceQuery = "DELETE FROM pieces WHERE x_position = ? AND y_position = ? AND game_id=?";
         try (final var connection = getConnection();
@@ -176,6 +132,7 @@ public final class JanggiDao {
         }
     }
 
+    @Override
     public void changePieceLocation(Piece beforePiece, Point targetPoint) {
         final String updatePieceLocationQuery = "UPDATE pieces SET x_position = ?, y_position = ? WHERE piece_name = ? AND team = ? AND game_id=?";
         try (Connection connection = getConnection();
@@ -193,6 +150,7 @@ public final class JanggiDao {
         }
     }
 
+    @Override
     public void updateTurn() {
         final String updateTurnQuery = "UPDATE game_state SET turn= turn+1 WHERE game_id=?";
         try (Connection connection = getConnection();
@@ -206,6 +164,7 @@ public final class JanggiDao {
         }
     }
 
+    @Override
     public int getGameTurn() {
         final String query = "SELECT turn FROM game_state ORDER BY game_id DESC LIMIT 1";
         try (Connection connection = getConnection();

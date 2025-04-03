@@ -11,7 +11,9 @@ import model.Path;
 import model.Point;
 import model.Team;
 import model.piece.Piece;
+import model.piece.PieceFactory;
 import model.piece.PieceName;
+import vo.PieceVo;
 
 public class JanggiBoard {
     public static final int VERTICAL_SIZE = 10;
@@ -26,12 +28,47 @@ public class JanggiBoard {
         this.janggiDao = janggiDao;
         placePiece(elephantSetup);
         placePiece(DEFAULT_SETUP);
-        janggiDao.settingNewJanggiBoard(janggiBoard);
+
+        List<PieceVo> pieceVo = pieceToPieceVo();
+        janggiDao.settingNewJanggiBoard(pieceVo);
+    }
+
+    private List<PieceVo> pieceToPieceVo() {
+        List<PieceVo> pieceVos = new ArrayList<>();
+        for (int i = 0; i < VERTICAL_SIZE; i++) {
+            for (int j = 0; j < HORIZONTAL_SIZE; j++) {
+                if (janggiBoard.get(i).get(j).isPlaced()) {
+                    Piece piece = janggiBoard.get(i).get(j).getPiece();
+                    String pieceName = piece.getPieceName().getName();
+                    String pieceTeam = piece.getTeam().getTeam();
+
+                    PieceVo pieceVo = new PieceVo(pieceName, j, i, pieceTeam);
+                    pieceVos.add(pieceVo);
+                }
+            }
+        }
+        return pieceVos;
     }
 
     public JanggiBoard(JanggiDao janggiDao) {
         this.janggiDao = janggiDao;
-        janggiBoard = janggiDao.settingBeforeJanggiBoard();
+        janggiBoard = initializeJanggiBoard();
+        settingJanggiBoard(janggiDao);
+    }
+
+    private void settingJanggiBoard(JanggiDao janggiDao) {
+        List<PieceVo> pieceVos = janggiDao.settingBeforeJanggiBoard();
+        for (PieceVo pieceVo : pieceVos) {
+            Team team = Team.findTeamByName(pieceVo.getTeam());
+            String pieceName = pieceVo.getPieceName();
+
+            int x = pieceVo.getPointX();
+            int y = pieceVo.getPointY();
+
+            Piece piece = PieceFactory.createPiece(pieceName, team);
+            Dot dot = new Dot(piece);
+            janggiBoard.get(y).set(x, dot);
+        }
     }
 
     private List<List<Dot>> initializeJanggiBoard() {

@@ -28,19 +28,19 @@ public class Jang extends FixedPalacePieces {
     @Override
     public void validateGungMove(Point beforePoint, Point targetPoint) {
         Moving moving = new Moving(beforePoint, targetPoint);
-        Palace palace = Palace.wherePalace(beforePoint);
-        if ((palace.getPoints().contains(beforePoint))) {
-            if (moving.getVectorXSize() == JANG_DISTANCE && moving.getVectorYSize() == JANG_DISTANCE) {
-                return;
-            }
-            if (moving.isDistance(JANG_DISTANCE)) {
-                return;
-            }
-        }
 
-        if (moving.isDistance(JANG_DISTANCE)) {
+        if (isValidGungMove(moving, beforePoint)) {
             return;
         }
+
         throw new IllegalArgumentException("잘못된 이동입니다.");
+    }
+
+    private boolean isValidGungMove(Moving moving, Point beforePoint) {
+        if (Palace.wherePalace(beforePoint).getPoints().contains(beforePoint)) {
+            return moving.isDistance(JANG_DISTANCE) ||
+                    (moving.getVectorXSize() == JANG_DISTANCE && moving.getVectorYSize() == JANG_DISTANCE);
+        }
+        return moving.isDistance(JANG_DISTANCE);
     }
 }

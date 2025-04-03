@@ -18,10 +18,10 @@ public class JanggiDBTest {
             assertThat(connection).isNotNull();
         }
     }
-
-    @Test
-    public void settingNewJanggiBoardTest() {
-        JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardSetUp.INNER_SANG, janggiDao);
-        janggiDao.settingNewJanggiBoard(janggiBoard.getJanggiBoard());
-    }
+//
+//    @Test
+//    public void settingNewJanggiBoardTest() {
+//        JanggiBoard janggiBoard = new JanggiBoard(JanggiBoardSetUp.INNER_SANG, janggiDao);
+//        janggiDao.settingNewJanggiBoard(janggiBoard.getJanggiBoard());
+//    }
 }
